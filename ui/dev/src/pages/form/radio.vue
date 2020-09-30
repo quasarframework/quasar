@@ -134,9 +134,9 @@
             <template v-slot:control="{ id, value, emitValue }">
               <q-radio
                 :for="id"
-                :value="value"
+                :model-value="value"
                 val="opt1"
-                @input="emitValue"
+                @update:modelValue="emitValue"
                 color="orange"
                 :dark="dark"
                 :dense="dense"
@@ -147,9 +147,9 @@
           <q-field v-model="option" label="Radio Opt 2 field" stack-label :dark="dark" :dense="dense" class="col">
             <template v-slot:control="{ value, emitValue }">
               <q-radio
-                :value="value"
+                :model-value="value"
                 val="opt2"
-                @input="emitValue"
+                @update:modelValue="emitValue"
                 color="orange"
                 :dark="dark"
                 :dense="dense"

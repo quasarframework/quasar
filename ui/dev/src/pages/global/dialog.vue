@@ -58,7 +58,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog attr="test" :value="alert" content-class="test-class" no-esc-dismiss seamless position="bottom">
+    <q-dialog attr="test" :model-value="alert" content-class="test-class" no-esc-dismiss seamless position="bottom">
       <q-card>
         <q-card-section>
           <div class="text-h6">

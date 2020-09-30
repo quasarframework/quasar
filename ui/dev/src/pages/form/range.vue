@@ -19,7 +19,7 @@
 
       <div class="row justify-around">
         <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50" />
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label :left-label-value="labelLeftValue(standalone.min)" :right-label-value="labelRightValue(standalone.max)" />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @update:modelValue="onInput" :model-value="standalone" :min="0" :max="50" label :left-label-value="labelLeftValue(standalone.min)" :right-label-value="labelRightValue(standalone.max)" />
         <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
         <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" label-color="orange" label-text-color="black" :min="0" :max="50" label :left-label-value="labelLeftValue(standalone.min)" :right-label-value="labelRightValue(standalone.max)" />
       </div>
@@ -113,7 +113,7 @@
 
       <div class="row justify-around">
         <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @input="onInput" v-model="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { range = val; onChange(val); }" @input="onInput" :value="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { range = val; onChange(val); }" @update:modelValue="onInput" :model-value="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
       </div>
 
       <p class="caption">
@@ -133,7 +133,7 @@
 
       <div class="row justify-around">
         <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="onlyRange" :min="0" :max="100" :step="5" drag-only-range label :left-label-value="labelLeftValue(onlyRange.min)" :right-label-value="labelRightValue(onlyRange.max)" />
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" :value="onlyRange" @change="val => { onlyRange = val }" :min="0" :max="100" :step="5" drag-only-range label :left-label-value="labelLeftValue(onlyRange.min)" :right-label-value="labelRightValue(onlyRange.max)" />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" :model-value="onlyRange" @change="val => { onlyRange = val }" :min="0" :max="100" :step="5" drag-only-range label :left-label-value="labelLeftValue(onlyRange.min)" :right-label-value="labelRightValue(onlyRange.max)" />
       </div>
 
       <p class="caption">

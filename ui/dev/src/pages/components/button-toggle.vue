@@ -107,8 +107,8 @@
     />
 
     <q-btn-toggle
-      :value="modelD"
-      @input="updateD"
+      :model-value="modelD"
+      @update:modelValue="updateD"
       toggle-color="primary"
       unelevated
       rounded

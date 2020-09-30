@@ -45,12 +45,12 @@
           <div class="q-pa-md">
             <q-input
               type="number"
-              :value="virtualListIndex2"
+              :model-value="virtualListIndex2"
               :min="0"
               :max="99999"
               label="Scroll to index"
               input-class="text-right"
-              @input="onIndexChange"
+              @update:modelValue="onIndexChange"
             />
           </div>
 

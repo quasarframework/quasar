@@ -224,7 +224,7 @@
         </q-popup-proxy>
       </q-field>
 
-      <q-field filled :value="tickedValue" label="Tree Select - Multiple" tabindex="2">
+      <q-field filled :model-value="tickedValue" label="Tree Select - Multiple" tabindex="2">
         <template v-slot:control>
           <div class="no-outline full-width">
             {{ tickedValue }}

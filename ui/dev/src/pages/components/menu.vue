@@ -33,7 +33,7 @@
 
         <q-btn color="primary" label="Decoupled">
           <q-menu
-            :value="toggle"
+            :model-value="toggle"
             ref="popover11"
             persistent
             transition-show="jump-up"

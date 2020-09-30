@@ -200,12 +200,12 @@
                   <q-input
                     autofocus
                     dense
-                    :value="value"
+                    :model-value="value"
                     hint="Sodium level (>10)"
                     :rules="[
                       val => validate(value) || 'Please enter more than 10'
                     ]"
-                    @input="emitValue"
+                    @update:modelValue="emitValue"
                   >
                     <template v-slot:after>
                       <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />

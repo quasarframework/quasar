@@ -187,8 +187,8 @@
         <q-field v-model="checked" label="Checkbox field" stack-label :dark="dark" :dense="dense">
           <template v-slot:control="{ value, emitValue }">
             <q-checkbox
-              :value="value"
-              @input="emitValue"
+              :model-value="value"
+              @update:modelValue="emitValue"
               color="orange"
               :dark="dark"
               :dense="dense"

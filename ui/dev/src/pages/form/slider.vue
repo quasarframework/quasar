@@ -18,7 +18,7 @@
 
       <div class="row justify-around">
         <q-slider :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50" />
-        <q-slider :vertical="vertical" :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
+        <q-slider :vertical="vertical" :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @update:modelValue="onInput" :model-value="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
         <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
         <q-slider :vertical="vertical" :dark="dark" :dense="dense" label-color="orange" label-text-color="black" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
       </div>

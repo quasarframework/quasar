@@ -8,7 +8,7 @@ import Ripple from '../../directives/Ripple.js'
 import BtnMixin from '../../mixins/btn.js'
 
 import { mergeSlot } from '../../utils/slot.js'
-import { stop, prevent, stopAndPrevent, listenOpts, noop } from '../../utils/event.js'
+import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { getTouchTarget } from '../../utils/touch.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 
@@ -145,11 +145,8 @@ export default defineComponent({
       }
 
       const go = () => {
-        // vue-router now throwing error if navigating
-        // to the same route that the user is currently at
-        // https://github.com/vuejs/vue-router/issues/2872
-        // TODO vue3 - review replace() / push(); 2nd & 3rd param??
-        this.$router[this.replace === true ? 'replace' : 'push'](this.to, void 0, noop)
+        this.$router[this.replace === true ? 'replace' : 'push'](this.to)
+          .catch(() => {})
       }
 
       this.$emit('click', e, go)

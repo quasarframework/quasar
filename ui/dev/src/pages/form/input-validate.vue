@@ -107,7 +107,7 @@
         v-bind="{[type]: true}"
         label="Slider - >= 10, Lazy"
         stack-label
-        :value="num"
+        :model-value="num"
         :rules="[
           val => val >= 10 || 'Select at least 10',
         ]"
@@ -128,7 +128,7 @@
         v-bind="{[type]: true}"
         label="Date - required, Lazy"
         stack-label
-        :value="date"
+        :model-value="date"
         :rules="[
           val => !!val || '* Required',
         ]"
@@ -145,7 +145,7 @@
         v-bind="{[type]: true}"
         label="Time - required, Lazy"
         stack-label
-        :value="time"
+        :model-value="time"
         :rules="[
           val => !!val || '* Required',
         ]"
@@ -162,7 +162,7 @@
         v-bind="{[type]: true}"
         label="Knob - >= 10, Lazy"
         stack-label
-        :value="num"
+        :model-value="num"
         :rules="[
           val => val >= 10 || 'Select at least 10',
         ]"

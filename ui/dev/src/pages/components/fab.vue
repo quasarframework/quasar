@@ -30,7 +30,7 @@
 
         <br>
 
-        <q-fab :value="toggle" color="secondary" push :icon="mdiMenu" direction="right">
+        <q-fab :model-value="toggle" color="secondary" push :icon="mdiMenu" direction="right">
           <q-fab-action color="primary" @click="notify('mail')" icon="ion-aperture" disable />
           <q-fab-action color="primary" @click="notify('alarm')" icon="mdi-map" />
           <q-fab-action color="primary" @click="notify('alarm')" icon="fas fa-address-book" />

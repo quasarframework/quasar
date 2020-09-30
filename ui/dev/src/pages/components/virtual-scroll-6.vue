@@ -64,13 +64,13 @@
           <div class="col">
             <q-input
               type="number"
-              :value="listIndex"
+              :model-value="listIndex"
               :min="0"
               :max="listSize"
               :debounce="3000"
               label="Scroll to index"
               input-class="text-right"
-              @input="onIndexChange"
+              @update:modelValue="onIndexChange"
             />
           </div>
           <q-toggle v-model="setSize" label="Preset size" />

@@ -24,12 +24,12 @@
           @change="onChange"
         />
         <q-knob
-          :value="model"
+          :model-value="model"
           :min="min"
           :max="max"
           :angle="90"
+          @update:modelValue="onInput"
           @change="val => { model = val; onChange(val) }"
-          @input="onInput"
         />
       </div>
 

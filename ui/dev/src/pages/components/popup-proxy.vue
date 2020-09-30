@@ -202,7 +202,7 @@
           </q-popup-proxy>
         </q-btn>
         <q-btn push color="primary" label="Decoupled (small screen)">
-          <q-popup-proxy :value="model" seamless position="bottom">
+          <q-popup-proxy :model-value="model" seamless position="bottom">
             <q-banner>
               <template v-slot:avatar>
                 <q-icon name="signal_wifi_off" color="primary" />

@@ -15,7 +15,7 @@
       </div>
 
       <q-select
-        :value="model"
+        :model-value="model"
         label="Text autocomplete"
         :options="filteredOptions"
         :behavior="behavior"

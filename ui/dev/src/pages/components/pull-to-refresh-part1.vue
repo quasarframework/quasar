@@ -1,12 +1,12 @@
 <template>
   <q-layout view="lHh lpr fFf">
-    <q-header :value="header">
+    <q-header :model-value="header">
       <q-toolbar>
         <q-toolbar-title>Pull To Refresh - Header</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
-    <q-footer :value="footer">
+    <q-footer :model-value="footer">
       <q-toolbar>
         <q-toolbar-title>Pull To Refresh - Footer</q-toolbar-title>
       </q-toolbar>

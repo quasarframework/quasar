@@ -45,7 +45,7 @@
 
         <q-toggle v-model="toggleOn" />
         <q-btn color="indigo" label="External Model">
-          <q-tooltip :value="toggleOn" :no-parent-event="true" anchor="top middle" self="bottom middle" :offset="[18, 18]" transition-show="flip-right" transition-hide="flip-left">
+          <q-tooltip :model-value="toggleOn" :no-parent-event="true" anchor="top middle" self="bottom middle" :offset="[18, 18]" transition-show="flip-right" transition-hide="flip-left">
             <strong>Tooltip</strong> on <em>top</em> (<q-icon name="keyboard_arrow_up" />)
           </q-tooltip>
         </q-btn>

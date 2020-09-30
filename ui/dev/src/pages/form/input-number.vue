@@ -8,7 +8,7 @@
     <div class="q-mt-lg">
       Update if &lt; 4 and set on blur 1: {{ num1 }} {{ typeof num1 }}
     </div>
-    <q-input type="number" :value="num1" @input="setNum1" @blur="num1 = 1" input-class="text-right" class="q-ml-md col" />
+    <q-input type="number" :model-value="num1" @update:modelValue="setNum1" @blur="num1 = 1" input-class="text-right" class="q-ml-md col" />
 
     <div class="q-mt-lg">
       Big debounce (3000): {{ num2 }} {{ typeof num2 }}

@@ -12,7 +12,7 @@
       @change="onXChange"
     />
     <q-slider
-      :value="modelXSimple"
+      :model-value="modelXSimple"
       :min="0"
       :max="50"
       label
@@ -37,7 +37,7 @@
       @change="onXChange"
     />
     <q-range
-      :value="modelX"
+      :model-value="modelX"
       :min="0"
       :max="50"
       label

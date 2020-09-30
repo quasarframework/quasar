@@ -331,9 +331,11 @@
       <q-carousel-slide :name="10" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
       <q-carousel-slide :name="11" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
 
-      <q-carousel-control slot="control" position="bottom" :offset="[0, 0]">
-        <q-linear-progress :value="(slide2 - 1) / 11" height="6px" stripe color="amber" />
-      </q-carousel-control>
+      <template v-slot:control>
+        <q-carousel-control position="bottom" :offset="[0, 0]">
+          <q-linear-progress :value="(slide2 - 1) / 11" height="6px" stripe color="amber" />
+        </q-carousel-control>
+      </template>
     </q-carousel>
   </div>
 </template>

@@ -401,8 +401,8 @@
         <q-input
           class="col-2"
           v-bind="props"
-          :value="stringSingle"
-          @input="val => stringSingle = val === null ? '' : val"
+          :model-value="stringSingle"
+          @update:modelValue="val => stringSingle = val === null ? '' : val"
           label="Input"
         />
       </div>
@@ -418,8 +418,8 @@
 
         <q-input
           v-bind="props"
-          :value="stringSingle"
-          @input="val => stringSingle = val === null ? '' : val"
+          :model-value="stringSingle"
+          @update:modelValue="val => stringSingle = val === null ? '' : val"
           label="Input"
           prefix="A"
         />
@@ -469,8 +469,8 @@
 
         <q-input
           v-bind="props"
-          :value="stringSingle"
-          @input="val => stringSingle = val === null ? '' : val"
+          :model-value="stringSingle"
+          @update:modelValue="val => stringSingle = val === null ? '' : val"
           prefix="A"
         />
 

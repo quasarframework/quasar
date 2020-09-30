@@ -11,8 +11,8 @@
           input-class="text-right"
           style="width: 10em;"
           label="List size"
-          :value="size"
-          @input="val => { size = Math.max(0, Math.min(maxSize, parseInt(val, 10))); }"
+          :model-value="size"
+          @update:modelValue="val => { size = Math.max(0, Math.min(maxSize, parseInt(val, 10))); }"
         />
         <div class="text-h6 q-mt-lg">
           Heavy test - Different components ({{ size.toLocaleString() }} items)
@@ -60,8 +60,8 @@
             :max="maxSize - 1"
             input-class="text-right"
             label="Scroll to index"
-            :value="scrollTo"
-            @input="val => { scrollTo = Math.max(0, Math.min(maxSize - 1, parseInt(val, 10))); }"
+            :model-value="scrollTo"
+            @update:modelValue="val => { scrollTo = Math.max(0, Math.min(maxSize - 1, parseInt(val, 10))); }"
             @change="$refs.vList.scrollTo(scrollTo)"
           />
         </div>
@@ -99,8 +99,8 @@
             :max="maxSize - 1"
             input-class="text-right"
             label="Scroll to index"
-            :value="scrollToH"
-            @input="val => { scrollToH = Math.max(0, Math.min(maxSize - 1, parseInt(val, 10))); }"
+            :model-value="scrollToH"
+            @update:modelValue="val => { scrollToH = Math.max(0, Math.min(maxSize - 1, parseInt(val, 10))); }"
             @change="$refs.vListH.scrollTo(scrollToH)"
           />
         </div>
