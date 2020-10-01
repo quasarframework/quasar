@@ -141,7 +141,7 @@ export default Vue.extend({
       }, [
         h('div', {
           staticClass: 'q-carousel__navigation-inner flex flex-center no-wrap'
-        }, this.__getAvailablePanels().map(mapping))
+        }, this.__getEnabledPanels().map(mapping))
       ])
     },
 
