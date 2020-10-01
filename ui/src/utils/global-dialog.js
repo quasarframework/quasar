@@ -33,6 +33,11 @@ export default function (DefaultComponent) {
     klass !== void 0 && (props.cardClass = klass)
     style !== void 0 && (props.cardStyle = style)
 
+    const isCustom = component !== void 0
+    const DialogComponent = isCustom === true
+      ? component
+      : DefaultComponent
+
     const
       okFns = [],
       cancelFns = [],
@@ -59,7 +64,13 @@ export default function (DefaultComponent) {
             klass !== void 0 && (cfg.cardClass = klass)
             style !== void 0 && (cfg.cardStyle = style)
 
-            merge(props, cfg)
+            if (isCustom === true) {
+              Object.assign(props, cfg)
+            }
+            else {
+              merge(props, cfg)
+            }
+
             vm.$forceUpdate()
           }
 
@@ -87,10 +98,6 @@ export default function (DefaultComponent) {
         cancelFns.forEach(fn => { fn() })
       }
     }
-
-    const DialogComponent = component !== void 0
-      ? component
-      : DefaultComponent
 
     let app = createApp({
       name: 'QGlobalDialog',
