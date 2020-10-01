@@ -437,10 +437,7 @@ export default {
     __updateVirtualScrollSizes (from) {
       const contentEl = this.$refs.content
 
-      if (
-        contentEl !== void 0 &&
-        contentEl !== null // TODO vue3 - temp, remove after portal transition is ready
-      ) {
+      if (contentEl) {
         const
           children = slice.call(contentEl.children)
             .filter(el => el.classList.contains('q-virtual-scroll--skip') === false),

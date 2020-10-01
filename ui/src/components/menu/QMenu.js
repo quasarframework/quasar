@@ -256,15 +256,11 @@ export default defineComponent({
     },
 
     updatePosition () {
-      if (
-        this.anchorEl === void 0 ||
-        this.$refs.inner === void 0 ||
-        this.$refs.inner === null // TODO vue3 - temp, remove after portal transition is ready
-      ) {
+      const el = this.$refs.inner
+
+      if (this.anchorEl === void 0 || !el) {
         return
       }
-
-      const el = this.$refs.inner
 
       if (el.nodeType === 8) { // IE replaces the comment with delay
         setTimeout(this.updatePosition, 25)

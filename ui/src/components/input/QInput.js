@@ -278,10 +278,7 @@ export default defineComponent({
       delete this.temp.value
 
       this.type !== 'file' && this.$nextTick(() => {
-        if (
-          this.$refs.input !== void 0 &&
-          this.$refs.input !== null // TODO vue3 - temp, remove after portal transition is ready
-        ) {
+        if (this.$refs.input) {
           this.$refs.input.value = this.innerValue !== void 0 ? this.innerValue : ''
         }
       })

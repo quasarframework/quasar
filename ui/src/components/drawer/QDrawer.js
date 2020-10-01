@@ -378,7 +378,7 @@ export default defineComponent({
     },
 
     __applyBackdrop (x, retry) {
-      if (this.$refs.backdrop !== void 0) {
+      if (this.$refs.backdrop) {
         this.$refs.backdrop.style.backgroundColor =
           this.lastBackdropBg = `rgba(0,0,0,${x * 0.4})`
       }
@@ -393,7 +393,7 @@ export default defineComponent({
     },
 
     __setBackdropVisible (v) {
-      if (this.$refs.backdrop !== void 0) {
+      if (this.$refs.backdrop) {
         this.$refs.backdrop.classList[v === true ? 'remove' : 'add']('hidden')
       }
     },
@@ -645,6 +645,8 @@ export default defineComponent({
   },
 
   created () {
+    this.lastBackdropBg = void 0
+
     this.layout.instances[this.side] = this
     this.__updateSizeOnLayout(this.miniToOverlay, this.size)
     this.__update('space', this.onLayout)
