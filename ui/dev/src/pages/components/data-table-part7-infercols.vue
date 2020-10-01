@@ -2,7 +2,7 @@
   <div class="q-layout-padding">
     <q-table
       bordered
-      :records="rows"
+      :rows="rows"
       selection="multiple"
       v-model:selected="selected"
       row-key="name"

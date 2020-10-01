@@ -1,7 +1,7 @@
 <template>
   <div class="q-layout-padding q-gutter-md" style="max-width: 1400px;">
     <q-table
-      :records="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
       title="Inner expanded"
@@ -51,7 +51,7 @@
     </q-table>
 
     <q-table
-      :records="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
       v-model:expanded="expanded"

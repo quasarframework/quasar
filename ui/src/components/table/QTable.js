@@ -44,7 +44,7 @@ export default defineComponent({
   ],
 
   props: {
-    records: {
+    rows: {
       type: Array,
       default: () => []
     },
@@ -146,7 +146,7 @@ export default defineComponent({
     },
 
     filteredSortedRows () {
-      let rows = this.records
+      let rows = this.rows
 
       if (this.isServerSide === true || rows.length === 0) {
         return rows
@@ -160,7 +160,7 @@ export default defineComponent({
 
       if (this.columnToSort !== void 0) {
         rows = this.sortMethod(
-          this.records === rows ? rows.slice() : rows,
+          this.rows === rows ? rows.slice() : rows,
           sortBy,
           descending
         )
@@ -183,7 +183,7 @@ export default defineComponent({
       const { rowsPerPage } = this.computedPagination
 
       if (rowsPerPage !== 0) {
-        if (this.firstRowIndex === 0 && this.records !== rows) {
+        if (this.firstRowIndex === 0 && this.rows !== rows) {
           if (rows.length > this.lastRowIndex) {
             rows = rows.slice(0, this.lastRowIndex)
           }

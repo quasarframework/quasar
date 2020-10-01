@@ -3,7 +3,7 @@
     <q-responsive :ratio="4/3" style="max-width: 700px">
       <q-table
         title="Treats; ratio 4/3"
-        :records="data"
+        :rows="data"
         :columns="columns"
         row-key="index"
         no-hover

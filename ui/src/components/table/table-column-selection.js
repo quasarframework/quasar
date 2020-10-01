@@ -12,7 +12,7 @@ export default {
       }
 
       // we infer columns from first row
-      const row = this.records[0]
+      const row = this.rows[0]
 
       return row !== void 0
         ? Object.keys(row).map(name => ({

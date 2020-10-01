@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table
       title="Treats"
-      :records="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
       selection="multiple"
@@ -20,7 +20,7 @@
     <q-table
       class="q-mt-md"
       title="Treats"
-      :records="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
       selection="multiple"

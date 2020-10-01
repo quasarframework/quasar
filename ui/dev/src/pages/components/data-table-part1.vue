@@ -135,7 +135,7 @@
         Click on Dessert or Calories cells.
       </p>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -233,7 +233,7 @@
         grid
         :grid-header="gridHeader"
         :loading="gridLoading"
-        :records="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :selection="selection"
@@ -290,7 +290,7 @@
       <h2>Emulate server-side</h2>
       <q-table
         ref="server"
-        :records="serverData"
+        :rows="serverData"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -317,7 +317,7 @@
         color="orange"
         bordered
         :separator="separator"
-        :records="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -329,7 +329,7 @@
 
       <h2>body-cell-[name] template</h2>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -386,7 +386,7 @@
 
       <h2>no-top, no-bottom</h2>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -399,7 +399,7 @@
 
       <h2>top-left template</h2>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -427,7 +427,7 @@
 
       <h2>top template</h2>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -444,7 +444,7 @@
 
       <h2>header-cell</h2>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -459,7 +459,7 @@
 
       <h2>header-cell-[name] template</h2>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -481,7 +481,7 @@
 
       <h2>header</h2>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -498,7 +498,7 @@
 
       <h2>header 2</h2>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -535,7 +535,7 @@
       </q-table>
       <h2>body template - cell button with loading</h2>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -575,7 +575,7 @@
 
       <h2>body template 2</h2>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -592,7 +592,7 @@
 
       <h2>body-cell template</h2>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -607,7 +607,7 @@
 
       <h2>before/after header/footer template</h2>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -640,7 +640,7 @@
       <h2>selection template</h2>
       <q-toggle v-model="selectionToggle" />
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :color="color"
@@ -706,7 +706,7 @@
         </template>
       </q-table>
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :color="color"
@@ -740,7 +740,7 @@
       </q-table>
 
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :color="color"
@@ -764,7 +764,7 @@
       </q-table>
 
       <q-table
-        :records="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :color="color"

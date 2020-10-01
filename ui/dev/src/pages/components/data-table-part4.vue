@@ -10,7 +10,7 @@
 
     <q-table
       title="Treats"
-      :records="rows"
+      :rows="rows"
       :columns="columns"
       row-key="name"
       selection="multiple"
@@ -46,7 +46,7 @@
         <q-tr v-show="props.expand" :props="props" no-hover>
           <q-td colspan="100%">
             <q-table
-              :records="rows"
+              :rows="rows"
               :columns="columns"
             >
               <q-tr :props="props" />
