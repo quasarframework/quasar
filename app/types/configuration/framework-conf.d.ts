@@ -8,6 +8,7 @@ import Vue from "vue";
 
 interface QuasarMobileFrameworkInnerConfiguration {
   iosStatusBarPadding: boolean;
+  backButton: boolean;
   backButtonExit: boolean | "*" | string[];
 }
 
