@@ -261,7 +261,7 @@ export default Vue.extend({
           actualVal = val + offset,
           disable = inSel !== void 0 && inSel(actualVal) === false,
           label = this.view === 'Hour' && val === 0
-            ? (this.format24h === true ? '00' : '12')
+            ? (this.computedFormat24h === true ? '00' : '12')
             : val
 
         pos.push({ val: actualVal, index, disable, label })

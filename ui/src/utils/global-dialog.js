@@ -31,6 +31,17 @@ export default function (DefaultComponent) {
     klass !== void 0 && (props.cardClass = klass)
     style !== void 0 && (props.cardStyle = style)
 
+    const isCustom = component !== void 0
+    let DialogComponent, attrs
+
+    if (isCustom === true) {
+      DialogComponent = component
+    }
+    else {
+      DialogComponent = DefaultComponent
+      attrs = props
+    }
+
     const
       okFns = [],
       cancelFns = [],
@@ -57,12 +68,15 @@ export default function (DefaultComponent) {
             klass !== void 0 && (cfg.cardClass = klass)
             style !== void 0 && (cfg.cardStyle = style)
 
-            merge(props, cfg)
+            if (isCustom === true) {
+              Object.assign(props, cfg)
+            }
+            else {
+              merge(props, cfg)
 
-            // need to change "attrs" reference to
-            // actually reflect it in underlying component
-            // when we force update it
-            if (attrs !== void 0) {
+              // need to change "attrs" reference to
+              // actually reflect it in underlying component
+              // when we force update it
               attrs = { ...props }
             }
 
@@ -94,14 +108,6 @@ export default function (DefaultComponent) {
         }
       }
     }
-
-    const DialogComponent = component !== void 0
-      ? component
-      : DefaultComponent
-
-    let attrs = component === void 0
-      ? props
-      : void 0
 
     let vm = new Vue({
       name: 'QGlobalDialog',

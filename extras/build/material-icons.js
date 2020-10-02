@@ -18,7 +18,7 @@ const themeMap = {
   baseline: '', // filled
   outlined: '_outlined',
   round: '_round',
-  sharp: '_sharp',
+  sharp: '_sharp'
 }
 
 function downloadIcon(icon) {
@@ -60,7 +60,7 @@ function downloadIcon(icon) {
   )
 }
 
-async function run() {
+async function run () {
   try {
     const response = await fetch('https://fonts.google.com/metadata/icons')
     const text = await response.text()
@@ -99,10 +99,10 @@ async function run() {
 
     Object.keys(themeMap).map(async (theme) => {
       svgExports[theme].sort((a, b) => {
-        return ('' + a).localeCompare(b);
+        return ('' + a).localeCompare(b)
       })
       typeExports[theme].sort((a, b) => {
-        return ('' + a).localeCompare(b);
+        return ('' + a).localeCompare(b)
       })
 
       console.log((`Updating SVG for ../material-icons${themeMap[theme]}`).replace(/_/g, '-'))

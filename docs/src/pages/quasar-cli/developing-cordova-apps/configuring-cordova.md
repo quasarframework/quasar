@@ -31,9 +31,14 @@ return {
         // add the dynamic top padding on iOS mobile devices
         iosStatusBarPadding: true/false,
 
-        // Quasar handles app exit on mobile phone back button
+        // Quasar handles app exit on mobile phone back button.
         // Requires Quasar v1.9.3+ for true/false, v1.12.6+ for '*' wildcard and array values
-        backButtonExit: true/false/'*'/['/login', '/home', '/my-page']
+        backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
+
+        // On the other hand, the following completely
+        // disables Quasar's back button management.
+        // Requires Quasar v1.14.1+
+        backButton: true/false
       }
     }
   }
