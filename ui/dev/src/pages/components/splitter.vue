@@ -3,12 +3,12 @@
     <div class="row q-gutter-sm items-center">
       <q-toggle v-model="horizontal" label="Horizontal" />
       <q-toggle v-model="modelReverse" label="Reverse" />
-      <!-- <q-select dense filled v-model="modelUnit" :options="[ '%', 'px', 'em' ]" prefix="Unit:" /> -->
+      <q-select dense filled v-model="modelUnit" :options="[ '%', 'px', 'em' ]" prefix="Unit:" />
       <q-toggle v-model="disable" label="Disable" />
       <q-toggle v-model="funkyLimits" label="Funky limits" />
       <q-toggle v-model="showSeparator" label="Show separator" />
       <q-toggle v-model="emitImmediately" label="Emit immediately" />
-      <!-- <q-input
+      <q-input
         v-model="model"
         standout
         dense
@@ -24,7 +24,7 @@
         <template v-slot:append>
           <q-btn color="primary" flat round dense icon="clear" @click="model = 50" />
         </template>
-      </q-input> -->
+      </q-input>
     </div>
 
     <q-splitter
@@ -113,6 +113,7 @@
           >
             <template v-slot:before>
               <div class="q-layout-padding">
+                <q-input outline v-model="text" dense />
                 <div v-for="n in 20" :key="n" class="q-my-md">
                   {{ n }}. Lorem ipsum dolor sit.
                 </div>
@@ -143,6 +144,7 @@
               <div class="text-h1 q-mb-md">
                 After - Before
               </div>
+              <q-input outline v-model="text" dense />
               <div v-for="n in 20" :key="n" class="q-my-md">
                 {{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.
               </div>
@@ -154,7 +156,6 @@
               color="primary"
               unelevated
               class="q-px-sm test-separator"
-              slot="separator"
               icon="touch_app"
               @click="separatorLog"
             />
@@ -189,7 +190,9 @@ export default {
       funkyLimits: false,
       disable: false,
       showSeparator: true,
-      emitImmediately: false
+      emitImmediately: false,
+
+      text: ''
     }
   },
 

@@ -8,7 +8,7 @@ import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from './ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { create, stop, position, stopAndPrevent } from '../../utils/event.js'
+import { create, position, stopAndPrevent } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 
 import { slot } from '../../utils/slot.js'
@@ -105,18 +105,9 @@ export default defineComponent({
     },
 
     onEvents () {
-      const evt = {
-        // stop propagating these events from children
-        'onUpdate:modelValue': stop,
-        'onPopup-show': stop,
-        'onPopup-hide': stop
-      }
-
-      if (this.autoClose === true) {
-        evt.onClick = this.__onAutoClose
-      }
-
-      return evt
+      return this.autoClose === true
+        ? { onClick: this.__onAutoClose }
+        : {}
     }
   },
 

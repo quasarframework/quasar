@@ -6,7 +6,6 @@ import DarkMixin from '../../mixins/dark.js'
 import { PanelParentMixin } from '../../mixins/panel.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
 
 export default defineComponent({
   name: 'QStepper',
@@ -62,10 +61,7 @@ export default defineComponent({
         this.__isValidPanelName(this.modelValue) && this.__updatePanelIndex()
 
         const content = h('div', {
-          class: 'q-stepper__content',
-          // stop propagation of content emitted @input
-          // which would tamper with Panel's model
-          'onUpdate:modelValue': stop
+          class: 'q-stepper__content'
         }, slot(this, 'default'))
 
         return top === void 0

@@ -2,7 +2,6 @@ import { h, defineComponent, Transition, KeepAlive } from 'vue'
 
 import TouchSwipe from '../directives/TouchSwipe.js'
 
-import { stop } from '../utils/event.js'
 import { slot } from '../utils/slot.js'
 
 const PanelWrapper = defineComponent({
@@ -11,10 +10,7 @@ const PanelWrapper = defineComponent({
   render () {
     return h('div', {
       class: 'q-panel scroll',
-      role: 'tabpanel',
-      // stop propagation of content emitted @input
-      // which would tamper with Panel's model
-      'onUpdate:modelValue': stop
+      role: 'tabpanel'
     }, slot(this, 'default'))
   }
 })
@@ -199,10 +195,7 @@ export const PanelParentMixin = {
           h('div', {
             class: 'q-panel scroll',
             key: this.contentKey,
-            role: 'tabpanel',
-            // stop propagation of content emitted @input
-            // which would tamper with Panel's model
-            'onUpdate:modelValue': stop
+            role: 'tabpanel'
           }, [ panel ])
         ]
     },

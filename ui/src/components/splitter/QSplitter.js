@@ -5,7 +5,6 @@ import TouchPan from '../../directives/TouchPan.js'
 import DarkMixin from '../../mixins/dark.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
 
 export default defineComponent({
   name: 'QSplitter',
@@ -178,8 +177,7 @@ export default defineComponent({
           'q-splitter__panel q-splitter__before' + (this.reverse === true ? ' col' : ''),
           this.beforeClass
         ],
-        style: this.styles.before,
-        'onUpdate:modelValue': stop
+        style: this.styles.before
       }, slot(this, 'before')),
 
       h('div', {
@@ -199,8 +197,7 @@ export default defineComponent({
           'q-splitter__panel q-splitter__after' + (this.reverse === true ? '' : ' col'),
           this.afterClass
         ],
-        style: this.styles.after,
-        'onUpdate:modelValue': stop
+        style: this.styles.after
       }, slot(this, 'after'))
     ]
 

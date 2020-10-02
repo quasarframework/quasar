@@ -5,7 +5,6 @@ import QIcon from '../icon/QIcon.js'
 import RippleMixin from '../../mixins/ripple.js'
 import Ripple from '../../directives/Ripple.js'
 
-import { stop } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/slot.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 
@@ -152,7 +151,6 @@ export default defineComponent({
         role: 'tab',
         'aria-selected': this.isActive,
         ...this.attrs,
-        'onUpdate:modelValue': stop,
         onClick: this.__activate,
         onKeyup: this.__onKeyup,
         ...props

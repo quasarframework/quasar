@@ -5,7 +5,7 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import TimeoutMixin from '../../mixins/timeout.js'
 
-import { stop, noop } from '../../utils/event.js'
+import { noop } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
 
 function getIndicatorClass (color, top, vertical) {
@@ -430,8 +430,7 @@ export default defineComponent({
 
     return h('div', {
       class: this.classes,
-      role: 'tablist',
-      'onUpdate:modelValue': stop
+      role: 'tablist'
     }, child)
   }
 })

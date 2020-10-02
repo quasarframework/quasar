@@ -5,7 +5,6 @@ import { onSSR } from '../../plugins/Platform.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import { mergeSlot } from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
 
 export default defineComponent({
   name: 'QFooter',
@@ -148,8 +147,7 @@ export default defineComponent({
     return h('footer', {
       class: this.classes,
       style: this.style,
-      onFocusin: this.__onFocusin,
-      'onUpdate:modelValue': stop
+      onFocusin: this.__onFocusin
     }, child)
   },
 

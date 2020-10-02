@@ -8,7 +8,6 @@ import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
 import { slot } from '../../utils/slot.js'
-import { create, stop } from '../../utils/event.js'
 import { addFocusout, removeFocusout } from '../../utils/prevent-focusout.js'
 
 let maximizedModals = 0
@@ -132,18 +131,9 @@ export default defineComponent({
     },
 
     onEvents () {
-      const evt = {
-        // stop propagating these events from children
-        'onUpdate:modelValue': stop,
-        'onPopup-show': stop,
-        'onPopup-hide': stop
-      }
-
-      if (this.autoClose === true) {
-        evt.onClick = this.__onAutoClose
-      }
-
-      return evt
+      return this.autoClose === true
+        ? { onClick: this.__onAutoClose }
+        : {}
     }
   },
 
@@ -183,8 +173,6 @@ export default defineComponent({
         ? document.activeElement
         : void 0
 
-      // TODO vue3 - popup-show
-      // this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
       this.__updateMaximized(this.maximized)
 
       EscapeKey.register(this, () => {
@@ -255,9 +243,6 @@ export default defineComponent({
       if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
         this.__refocusTarget.focus()
       }
-
-      // TODO vue3 - dispatchEvent
-      // this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
       this.__setTimeout(() => {
         this.__hidePortal()

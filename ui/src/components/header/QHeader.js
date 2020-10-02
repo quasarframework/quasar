@@ -3,7 +3,6 @@ import { h, defineComponent } from 'vue'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import { uniqueSlot } from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
 
 export default defineComponent({
   name: 'QHeader',
@@ -142,8 +141,7 @@ export default defineComponent({
     return h('header', {
       class: this.classes,
       style: this.style,
-      onFocusin: this.__onFocusin,
-      'onUpdate:modelValue': stop
+      onFocusin: this.__onFocusin
     }, child)
   },
 
