@@ -9,6 +9,7 @@ import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
 import { slot } from '../../utils/slot.js'
 import { create, stop } from '../../utils/event.js'
+import { addFocusout, removeFocusout } from '../../utils/prevent-focusout.js'
 
 let maximizedModals = 0
 
@@ -299,8 +300,8 @@ export default defineComponent({
 
     __preventFocusout (state) {
       if (this.$q.platform.is.desktop === true) {
-        const action = `${state === true ? 'add' : 'remove'}EventListener`
-        document.body[action]('focusin', this.__onFocusChange)
+        const fn = state === true ? addFocusout : removeFocusout
+        fn(this.__onFocusChange)
       }
     },
 
