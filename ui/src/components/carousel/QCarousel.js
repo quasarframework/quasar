@@ -239,7 +239,7 @@ export default defineComponent({
         class: this.classes,
         style: this.style
       }, [
-        this.withDirectives(node, this.panelDirectives)
+        withDirectives(node, this.panelDirectives)
       ].concat(this.__getContent()))
     }
   },
