@@ -6,9 +6,9 @@ import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
 import { childHasFocus } from '../../utils/dom.js'
-import EscapeKey from '../../utils/escape-key.js'
 import { slot } from '../../utils/slot.js'
-import { addFocusout, removeFocusout } from '../../utils/prevent-focusout.js'
+import { addEscapeKey, removeEscapeKey } from '../../utils/escape-key.js'
+import { addFocusout, removeFocusout } from '../../utils/focusout.js'
 
 let maximizedModals = 0
 
@@ -90,9 +90,17 @@ export default defineComponent({
       this.showing === true && this.__updateMaximized(state)
     },
 
-    useBackdrop (v) {
-      this.__preventScroll(v)
-      this.__preventFocusout(v)
+    useBackdrop (val) {
+      this.__preventScroll(val)
+
+      if (val === true) {
+        addFocusout(this.__onFocusChange)
+        addEscapeKey(this.__onEscapeKey)
+      }
+      else {
+        removeFocusout(this.__onFocusChange)
+        removeEscapeKey(this.__onEscapeKey)
+      }
     }
   },
 
@@ -165,6 +173,18 @@ export default defineComponent({
       }
     },
 
+    __onEscapeKey () {
+      if (this.seamless !== true) {
+        if (this.persistent === true || this.noEscDismiss === true) {
+          this.maximized !== true && this.shake()
+        }
+        else {
+          this.$emit('escape-key')
+          this.hide()
+        }
+      }
+    },
+
     __show (evt) {
       this.__addHistory()
 
@@ -174,19 +194,6 @@ export default defineComponent({
         : void 0
 
       this.__updateMaximized(this.maximized)
-
-      EscapeKey.register(this, () => {
-        if (this.seamless !== true) {
-          if (this.persistent === true || this.noEscDismiss === true) {
-            this.maximized !== true && this.shake()
-          }
-          else {
-            this.$emit('escape-key')
-            this.hide()
-          }
-        }
-      })
-
       this.__showPortal()
 
       if (this.noFocus !== true) {
@@ -254,12 +261,12 @@ export default defineComponent({
       clearTimeout(this.shakeTimeout)
 
       if (hiding === true || this.showing === true) {
-        EscapeKey.pop(this)
+        removeEscapeKey(this.__onEscapeKey)
         this.__updateMaximized(false)
 
         if (this.seamless !== true) {
           this.__preventScroll(false)
-          this.__preventFocusout(false)
+          removeFocusout(this.__onFocusChange)
         }
       }
     },
@@ -280,13 +287,6 @@ export default defineComponent({
 
         maximizedModals--
         this.isMaximized = false
-      }
-    },
-
-    __preventFocusout (state) {
-      if (this.$q.platform.is.desktop === true) {
-        const fn = state === true ? addFocusout : removeFocusout
-        fn(this.__onFocusChange)
       }
     },
 

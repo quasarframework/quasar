@@ -8,10 +8,10 @@ import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from './ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { create, position, stopAndPrevent } from '../../utils/event.js'
-import EscapeKey from '../../utils/escape-key.js'
-
+import { position, stopAndPrevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
+import { addEscapeKey, removeEscapeKey } from '../../utils/escape-key.js'
+import { addFocusout, removeFocusout } from '../../utils/focusout.js'
 
 import {
   validatePosition, validateOffset, setPosition, parsePosition
@@ -75,6 +75,13 @@ export default defineComponent({
 
   emits: [ 'click', 'escape-key' ],
 
+  watch: {
+    listenToEscapeKey (val) {
+      const fn = val === true ? addEscapeKey : removeEscapeKey
+      fn(this.__onEscapeKey)
+    }
+  },
+
   computed: {
     horizSide () {
       return this.$q.lang.rtl === true ? 'right' : 'left'
@@ -108,6 +115,10 @@ export default defineComponent({
       return this.autoClose === true
         ? { onClick: this.__onAutoClose }
         : {}
+    },
+
+    listenToEscapeKey () {
+      return this.showing === true && this.persistent !== true
     }
   },
 
@@ -127,12 +138,7 @@ export default defineComponent({
         ? document.activeElement
         : void 0
 
-      EscapeKey.register(this, () => {
-        if (this.persistent !== true) {
-          this.$emit('escape-key')
-          this.hide()
-        }
-      })
+      addFocusout(this.__onFocusout)
 
       this.__showPortal()
       this.__configureScrollTarget()
@@ -154,9 +160,6 @@ export default defineComponent({
           this.updatePosition
         )
       }
-
-      // TODO vue3 - dispatchEvent
-      // this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
 
       // IE can have null document.activeElement
       if (this.noFocus !== true && document.activeElement !== null) {
@@ -199,9 +202,6 @@ export default defineComponent({
         this.__refocusTarget.focus()
       }
 
-      // TODO vue3 - dispatchEvent
-      // this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
-
       this.__setTimeout(() => {
         this.__hidePortal()
         this.$emit('hide', evt)
@@ -217,8 +217,9 @@ export default defineComponent({
       }
 
       if (hiding === true || this.showing === true) {
-        EscapeKey.pop(this)
+        removeFocusout(this.__onFocusout)
         this.__unconfigureScrollTarget()
+        this.persistent !== true && removeEscapeKey(this.__onEscapeKey)
       }
     },
 
@@ -246,6 +247,14 @@ export default defineComponent({
       else {
         this.__avoidAutoClose = false
       }
+    },
+
+    // filler for escape-key (needs unique ref)
+    __onFocusout () {},
+
+    __onEscapeKey (evt) {
+      this.$emit('escape-key')
+      this.hide(evt)
     },
 
     updatePosition () {
@@ -321,14 +330,5 @@ export default defineComponent({
 
   mounted () {
     this.__processModelChange(this.modelValue)
-  },
-
-  beforeUnmount () {
-    // When the menu is destroyed while open we can only emit the event on anchorEl
-    if (this.showing === true && this.anchorEl !== void 0) {
-      this.anchorEl.dispatchEvent(
-        create('popup-hide', { bubbles: true })
-      )
-    }
   }
 })
