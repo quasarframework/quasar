@@ -29,38 +29,38 @@
 for $space, $value in $spaces
 
   .q-pa-{$space}
-    padding: $value.y $value.x
+    padding: $value.y $value.x !important
   .q-pl-{$space}
-    padding-left: $value.x
+    padding-left: $value.x !important
   .q-pr-{$space}
-    padding-right: $value.x
+    padding-right: $value.x !important
   .q-pt-{$space}
-    padding-top: $value.y
+    padding-top: $value.y !important
   .q-pb-{$space}
-    padding-bottom: $value.y
+    padding-bottom: $value.y !important
   .q-px-{$space}
     @extends .q-pl-{$space}, .q-pr-{$space}
   .q-py-{$space}
     @extends .q-pt-{$space}, .q-pb-{$space}
 
   .q-ma-{$space}
-    margin: $value.y $value.x
+    margin: $value.y $value.x !important
   .q-ml-{$space}
-    margin-left: $value.x
+    margin-left: $value.x !important
   .q-mr-{$space}
-    margin-right: $value.x
+    margin-right: $value.x !important
   .q-mt-{$space}
-    margin-top: $value.y
+    margin-top: $value.y !important
   .q-mb-{$space}
-    margin-bottom: $value.y
+    margin-bottom: $value.y !important
   .q-mx-{$space}
     @extends .q-ml-{$space}, .q-mr-{$space}
   .q-my-{$space}
     @extends .q-mt-{$space}, .q-mb-{$space}
 
 .q-ml-auto
-  margin-left auto
+  margin-left auto !important
 .q-mr-auto
-  margin-right auto
+  margin-right auto !important
 .q-mx-auto
   @extends .q-ml-auto, .q-mr-auto
