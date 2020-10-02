@@ -3,6 +3,7 @@ import { h, Teleport } from 'vue'
 import { isSSR } from '../plugins/Platform.js'
 import { createGlobalNode, removeGlobalNode } from '../utils/global-nodes.js'
 import { noop } from '../utils/event.js'
+import { getParentVm } from '../utils/vm.js'
 
 export function closePortalMenus (vm, evt) {
   do {
@@ -10,23 +11,26 @@ export function closePortalMenus (vm, evt) {
       vm.hide(evt)
 
       // is this a point of separation?
-      if (vm.separateClosePopup === true) {
-        return vm.$parent
+      if (vm.$props.separateClosePopup === true) {
+        return getParentVm(vm)
       }
     }
     else if (vm.__renderPortal !== void 0) {
       // treat it as point of separation if parent is QPopupProxy
       // (so mobile matches desktop behavior)
       // and hide it too
-      if (vm.$parent !== void 0 && vm.$parent.$options.name === 'QPopupProxy') {
+      const parent = getParentVm(vm)
+
+      if (parent !== void 0 && parent.$options.name === 'QPopupProxy') {
         vm.hide(evt)
-        return vm.$parent
+        return parent
       }
       else {
         return vm
       }
     }
-    vm = vm.$parent
+
+    vm = getParentVm(vm)
   } while (vm !== void 0 && vm !== null)
 }
 
@@ -43,12 +47,13 @@ export function closePortals (vm, evt, depth) {
       vm.hide(evt)
     }
 
-    vm = vm.$parent
+    vm = getParentVm(vm)
   }
 }
 
 const Portal = {
-  inheritAttrs: false,
+  // inheritAttrs in mixins is not inherited
+  // so specify "inheritAttrs: false" in your component,
 
   props: {
     contentClass: [ Array, String, Object ],
@@ -59,9 +64,7 @@ const Portal = {
 if (isSSR === false) {
   Object.assign(Portal, {
     data () {
-      return {
-        usePortal: false
-      }
+      return { usePortal: false }
     },
 
     methods: {
@@ -76,8 +79,9 @@ if (isSSR === false) {
       __hidePortal () {
         this.usePortal = false
 
-        if (this.__onGlobalDialog === false) {
+        if (this.__portalEl !== null) {
           removeGlobalNode(this.__portalEl)
+          this.__portalEl = null
         }
       }
     },
@@ -85,19 +89,20 @@ if (isSSR === false) {
     render () {
       return this.__onGlobalDialog === true
         ? this.__renderPortal()
-        : (this.usePortal === true
-          ? h(Teleport, { to: this.__portalEl }, this.__renderPortal())
-          : void 0)
+        : (
+          this.usePortal === true
+            ? [ h(Teleport, { to: this.__portalEl }, this.__renderPortal()) ]
+            : void 0
+        )
     },
 
     created () {
+      this.__portalEl = null
       this.__onGlobalDialog = this.$root.$.type.name === 'QGlobalDialog'
     },
 
     unmounted () {
-      if (this.usePortal === true && this.__onGlobalDialog === false) {
-        removeGlobalNode(this.__portalEl)
-      }
+      this.__hidePortal()
     }
   })
 }

@@ -20,6 +20,8 @@ import {
 export default defineComponent({
   name: 'QMenu',
 
+  inheritAttrs: false,
+
   mixins: [
     DarkMixin,
     AnchorMixin,
@@ -299,32 +301,30 @@ export default defineComponent({
     },
 
     __renderPortal () {
-      // TODO vue3 - wait on Transition.$parent bug to be solved
-      // return h(Transition, {
-      //   name: this.transition,
-      //   appear: true
-      // }, {
-      //   default: () => [
-      return this.showing === true ? withDirectives(
-        h('div', {
-          ref: 'inner',
-          class: [
-            'q-menu q-position-engine scroll' + this.menuClass,
-            this.contentClass
-          ],
-          style: this.contentStyle,
-          tabindex: -1,
-          ...this.$attrs,
-          ...this.onEvents
-        }, slot(this, 'default')),
-        [[
-          ClickOutside,
-          this.__onClickOutside,
-          this.anchorEl
-        ]]
-      ) : null
-      //   ]
-      // })
+      return h(
+        Transition,
+        { name: this.transition, appear: true },
+        () => this.showing === true
+          ? withDirectives(
+            h('div', {
+              ref: 'inner',
+              tabindex: -1,
+              ...this.$attrs,
+              class: [
+                'q-menu q-position-engine scroll' + this.menuClass,
+                this.contentClass
+              ],
+              style: this.contentStyle,
+              ...this.onEvents
+            }, slot(this, 'default')),
+            [[
+              ClickOutside,
+              this.__onClickOutside,
+              this.anchorEl
+            ]]
+          )
+          : null
+      )
     }
   },
 

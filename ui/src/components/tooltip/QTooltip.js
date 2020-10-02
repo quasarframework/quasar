@@ -17,7 +17,14 @@ import {
 export default defineComponent({
   name: 'QTooltip',
 
-  mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
+  inheritAttrs: false,
+
+  mixins: [
+    AnchorMixin,
+    ModelToggleMixin,
+    PortalMixin,
+    TransitionMixin
+  ],
 
   props: {
     maxHeight: {

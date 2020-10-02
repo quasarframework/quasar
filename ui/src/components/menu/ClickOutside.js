@@ -63,7 +63,6 @@ export default {
           // mark the event as being processed by clickOutside
           // used to prevent refocus after menu close
           evt.qClickOutside = true
-
           return ctx.trigger(evt)
         }
       }

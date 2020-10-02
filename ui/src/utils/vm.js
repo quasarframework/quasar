@@ -6,8 +6,24 @@ export function getVmOfNode (el) {
   }
 }
 
+export function getParentVm (vm) {
+  if (vm.$parent !== void 0 && vm.$parent !== null) {
+    return vm.$parent
+  }
+
+  vm = vm.$.parent
+
+  while (vm !== void 0 && vm !== null) {
+    if (vm.proxy !== void 0 && vm.proxy !== null) {
+      return vm.proxy
+    }
+
+    vm = vm.parent
+  }
+}
+
 export function isVmChildOf (childVm, parentVm) {
-  for (let vm = childVm; vm !== void 0 && vm !== null; vm = vm.$parent) {
+  for (let vm = childVm; vm !== void 0 && vm !== null; vm = getParentVm(vm)) {
     if (vm === parentVm) {
       return true
     }

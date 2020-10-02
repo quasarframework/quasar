@@ -31,6 +31,8 @@ const transitions = {
 export default defineComponent({
   name: 'QDialog',
 
+  inheritAttrs: false,
+
   mixins: [
     HistoryMixin,
     ModelToggleMixin,
@@ -329,12 +331,12 @@ export default defineComponent({
 
     __renderPortal () {
       return h('div', {
+        ...this.$attrs,
         class: [
           'q-dialog fullscreen no-pointer-events',
           this.contentClass
         ],
-        style: this.contentStyle,
-        ...this.$attrs
+        style: this.contentStyle
       }, [
         h(Transition, {
           name: 'q-transition--fade',
@@ -349,20 +351,18 @@ export default defineComponent({
             : null
         )),
 
-        // TODO vue3 - wait on Transition.$parent bug to be solved
-        // h(Transition, {
-        //   name: this.transition,
-        //   appear: true
-        // }, {
-        //   default: () => [
-        this.showing === true ? h('div', {
-          ref: 'inner',
-          class: this.classes,
-          tabindex: -1,
-          ...this.onEvents
-        }, slot(this, 'default')) : null
-        //   ]
-        // })
+        h(
+          Transition,
+          { name: this.transition, appear: true },
+          () => this.showing === true
+            ? h('div', {
+              ref: 'inner',
+              class: this.classes,
+              tabindex: -1,
+              ...this.onEvents
+            }, slot(this, 'default'))
+            : null
+        )
       ])
     }
   },
