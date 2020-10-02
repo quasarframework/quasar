@@ -62,7 +62,7 @@ interface BaseQuasarConfiguration {
    * except for theme files, which are included by default.
    */
   css?: string[];
-  /** Enable [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature). */
+  /** Enable [PreFetch Feature](/quasar-cli/prefetch-feature). */
   preFetch?: boolean;
   /**
    * What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package.
