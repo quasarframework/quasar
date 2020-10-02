@@ -3,6 +3,7 @@ import { h, createApp } from 'vue'
 import { appInstance } from '../install.js'
 import { isSSR } from '../plugins/Platform.js'
 import { getAppVm } from '../utils/vm.js'
+import { createGlobalNode, removeGlobalNode } from './global-nodes.js'
 
 const ssrAPI = {
   onOk: () => ssrAPI,
@@ -78,8 +79,7 @@ export default function (DefaultComponent) {
         }
       }
 
-    const node = document.createElement('div')
-    document.body.appendChild(node)
+    const el = createGlobalNode()
 
     let emittedOK = false
 
@@ -89,8 +89,8 @@ export default function (DefaultComponent) {
     }
 
     const onHide = () => {
-      app.unmount(node)
-      node.remove()
+      app.unmount(el)
+      removeGlobalNode(el)
       app = null
       vm = null
 
@@ -112,7 +112,7 @@ export default function (DefaultComponent) {
     })
 
     app.config.globalProperties = appInstance.config.globalProperties
-    app.mount(node)
+    app.mount(el)
 
     let vm = getAppVm(app)
     vm.$refs.dialog.show()

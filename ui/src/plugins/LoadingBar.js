@@ -4,6 +4,7 @@ import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { isSSR } from './Platform.js'
 import { noop } from '../utils/event.js'
 import { getAppVm } from '../utils/vm.js'
+import { createGlobalNode } from '../utils/global-nodes.js'
 
 import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
 
@@ -27,9 +28,7 @@ export default defineReactivePlugin({
 
     props.ref = 'bar'
 
-    const el = document.createElement('div')
-    el.id = 'q-loading-bar'
-    document.body.appendChild(el)
+    const el = createGlobalNode('q-loading-bar')
 
     const app = createApp({
       name: 'LoadingBar',

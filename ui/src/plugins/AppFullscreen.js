@@ -1,7 +1,17 @@
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { isSSR } from './Platform.js'
+import { changeGlobalNodesTarget } from '../utils/global-nodes.js'
 
 const prefixes = {}
+
+function getFullscreenElement () {
+  return (
+    document.fullscreenElement ||
+    document.mozFullScreenElement ||
+    document.webkitFullscreenElement ||
+    document.msFullscreenElement
+  )
+}
 
 // needed for consistency across browsers,
 // including IE11 which does not return anything
@@ -26,9 +36,7 @@ const Plugin = defineReactivePlugin({
   request (target) {
     if (Plugin.isCapable === true && Plugin.isActive === false) {
       const el = target || document.documentElement
-      return promisify(el, prefixes.request).then(() => {
-        Plugin.activeEl = el
-      })
+      return promisify(el, prefixes.request)
     }
 
     return Plugin.__getErr()
@@ -71,10 +79,7 @@ const Plugin = defineReactivePlugin({
       'msExitFullscreen', 'mozCancelFullScreen', 'webkitExitFullscreen'
     ].find(exit => document[exit])
 
-    this.isActive = !!(document.fullscreenElement ||
-      document.mozFullScreenElement ||
-      document.webkitFullscreenElement ||
-      document.msFullscreenElement)
+    this.isActive = !!getFullscreenElement()
 
     ;[
       'onfullscreenchange',
@@ -85,6 +90,15 @@ const Plugin = defineReactivePlugin({
 
         if (this.isActive === false) {
           this.activeEl = null
+          changeGlobalNodesTarget(document.body)
+        }
+        else {
+          this.activeEl = getFullscreenElement()
+          changeGlobalNodesTarget(
+            this.activeEl === document.documentElement
+              ? document.body
+              : this.activeEl
+          )
         }
       }
     })

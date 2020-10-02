@@ -61,18 +61,6 @@ export function childHasFocus (el, focusedEl) {
   return false
 }
 
-// internal
-export function getBodyFullscreenElement (isFullscreen, activeEl) {
-  return isFullscreen === true
-    ? (
-      // when a video tag enters fullscreen activeEl is null
-      activeEl === document.documentElement || activeEl === null
-        ? document.body
-        : activeEl
-    )
-    : document.body
-}
-
 export default {
   offset,
   style,

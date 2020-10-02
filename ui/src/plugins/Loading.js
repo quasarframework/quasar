@@ -4,7 +4,7 @@ import QSpinner from '../components/spinner/QSpinner.js'
 
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { isSSR } from './Platform.js'
-import { noop } from '../utils/event.js'
+import { createGlobalNode, removeGlobalNode } from '../utils/global-nodes.js'
 import { getAppVm } from '../utils/vm.js'
 import { preventScroll } from '../mixins/prevent-scroll.js'
 
@@ -51,9 +51,7 @@ const Plugin = defineReactivePlugin({
     timeout = setTimeout(() => {
       timeout = void 0
 
-      const el = document.createElement('div')
-      el.id = 'q-loading'
-      document.body.appendChild(el)
+      const el = createGlobalNode('q-loading')
 
       vm = createApp({
         name: 'QLoading',
@@ -69,7 +67,7 @@ const Plugin = defineReactivePlugin({
             if (Plugin.isActive !== true && vm !== void 0) {
               preventScroll(false)
               vm.unmount(el)
-              el.remove()
+              removeGlobalNode(el)
               vm = void 0
             }
           },

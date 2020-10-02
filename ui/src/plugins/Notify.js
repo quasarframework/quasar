@@ -7,7 +7,7 @@ import QSpinner from '../components/spinner/QSpinner.js'
 
 import { noop } from '../utils/event.js'
 import { getAppVm } from '../utils/vm.js'
-import { getBodyFullscreenElement } from '../utils/dom.js'
+import { createGlobalNode } from '../utils/global-nodes.js'
 import { isSSR } from './Platform.js'
 
 let uid = 0
@@ -476,31 +476,6 @@ const Notifications = {
         ])
       }))
     }))
-  },
-
-  mounted () {
-    if (this.$q.fullscreen !== void 0 && this.$q.fullscreen.isCapable === true) {
-      const append = isFullscreen => {
-        const newParent = getBodyFullscreenElement(
-          isFullscreen,
-          this.$q.fullscreen.activeEl
-        )
-
-        if (this.$el.parentElement !== newParent) {
-          newParent.appendChild(this.$el)
-        }
-      }
-
-      this.unwatchFullscreen = this.$watch('$q.fullscreen.isActive', append)
-
-      if (this.$q.fullscreen.isActive === true) {
-        append(true)
-      }
-    }
-  },
-
-  beforeUnmount () {
-    this.unwatchFullscreen !== void 0 && this.unwatchFullscreen()
   }
 }
 
@@ -531,9 +506,7 @@ export default {
     $q.notify.setDefaults = this.setDefaults
     $q.notify.registerType = this.registerType
 
-    const el = document.createElement('div')
-    el.id = 'q-notify'
-    document.body.appendChild(el)
+    const el = createGlobalNode('q-notify')
 
     const app = createApp(Notifications)
 
