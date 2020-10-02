@@ -49,20 +49,6 @@ export function closePortals (vm, evt, depth) {
   }
 }
 
-function isOnGlobalDialog (vm) {
-  while (vm !== null) {
-    if (vm.$options.name === 'QGlobalDialog') {
-      return true
-    }
-    if (vm.$options.name === 'QDialog') {
-      return false
-    }
-
-    vm = vm.$parent
-  }
-  return false
-}
-
 const Portal = {
   inheritAttrs: false,
 
@@ -132,9 +118,11 @@ const Portal = {
   },
 
   render () {
-    if (this.__portal === true) {
-      return h(Teleport, { to: '#q-portal' }, this.__renderPortal())
-    }
+    return this.__onGlobalDialog === true
+      ? this.__renderPortal()
+      : (this.__portal === true
+        ? h(Teleport, { to: '#q-portal' }, this.__renderPortal())
+        : void 0)
   }
 }
 
@@ -143,10 +131,9 @@ if (isSSR === false) {
   portalEl.id = 'q-portal'
   document.body.appendChild(portalEl)
 
-  // TODO vue3 - Portal.created()
-  // Portal.created = function () {
-  //   this.__onGlobalDialog = isOnGlobalDialog(this.$parent)
-  // }
+  Portal.created = function () {
+    this.__onGlobalDialog = this.$root.$.type.name === 'QGlobalDialog'
+  }
 }
 
 export default Portal
