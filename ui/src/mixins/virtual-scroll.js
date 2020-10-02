@@ -613,6 +613,9 @@ export default {
   },
 
   created () {
+    this.virtualScrollPaddingBefore = 0
+    this.virtualScrollPaddingAfter = 0
+
     this.__setVirtualScrollSize()
   },
 
