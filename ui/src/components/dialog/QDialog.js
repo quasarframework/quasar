@@ -261,12 +261,12 @@ export default defineComponent({
       clearTimeout(this.shakeTimeout)
 
       if (hiding === true || this.showing === true) {
-        removeEscapeKey(this.__onEscapeKey)
         this.__updateMaximized(false)
 
         if (this.seamless !== true) {
           this.__preventScroll(false)
           removeFocusout(this.__onFocusChange)
+          removeEscapeKey(this.__onEscapeKey)
         }
       }
     },
