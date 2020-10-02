@@ -28,6 +28,7 @@ function update (action) {
   window[action]('keydown', onKeydown)
   window[action]('blur', onBlur)
   window[action]('keyup', onKeyup)
+  escDown = false
 }
 
 export function addEscapeKey (fn) {
@@ -36,7 +37,6 @@ export function addEscapeKey (fn) {
 
     if (handlers.length === 1) {
       update('addEventListener')
-      escDown = false
     }
   }
 }
@@ -48,7 +48,6 @@ export function removeEscapeKey (fn) {
 
     if (handlers.length === 0) {
       update('removeEventListener')
-      escDown = false
     }
   }
 }
