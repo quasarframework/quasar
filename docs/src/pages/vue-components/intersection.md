@@ -44,7 +44,7 @@ There are edge cases where the default viewport won't work. For instance, when y
 
 In the example below we used a Quasar transition. For a full list, please head to [Transitions](/options/transitions) page.
 
-<doc-example title="With transition" file="QIntersection/Transition" scrollable no-edit no-edit />
+<doc-example title="With transition" file="QIntersection/Transition" scrollable no-edit />
 
 <doc-example title="A list with transition" file="QIntersection/List" scrollable no-edit />
 
