@@ -133,15 +133,30 @@ export default {
       let el = document.activeElement
 
       if (!el || el === document.body || el.tagName.toUpperCase() === 'INPUT') {
-        this.focus(document.querySelector('.q-item'))
+        let nextEl
+        if (op === 'nextSibling') {
+          nextEl = document.querySelector('.q-item')
+        }
+        else {
+          const nodes = document.querySelectorAll('.q-item')
+          if (nodes.length > 0) {
+            nextEl = nodes[nodes.length - 1]
+          }
+        }
+
+        if (nextEl) {
+          this.focus(nextEl)
+        }
         return
       }
 
       if (el[op]) {
-        do { el = el[op] }
-        while (el && el.tagName.toUpperCase() !== 'A')
+        do {
+          el = el[op]
+        }
+        while (el && (el.nodeType === 3 || el.tagName.toUpperCase() !== 'A'))
 
-        if (!el) {
+        if (!el || el.nodeType === 3) {
           this.focus(this.$refs.filter.$el)
         }
         else if (el.tagName.toUpperCase() === 'A') {
