@@ -219,7 +219,7 @@ export default {
 
     return h('div', {
       class: this.classes,
-      attrs: this.attrs,
+      ...this.attrs,
       onClick: this.toggle,
       onKeydown: this.__onKeydown,
       onKeyup: this.__onKeyup

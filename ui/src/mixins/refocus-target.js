@@ -6,8 +6,8 @@ export default {
       if (this.disable !== true) {
         return h('span', {
           ref: 'refocusTarget',
-          staticClass: 'no-outline',
-          attrs: { tabindex: -1 }
+          class: 'no-outline',
+          tabindex: -1
         })
       }
     }
