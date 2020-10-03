@@ -42,7 +42,7 @@
 
         <my-comp />
 
-        <q-select
+        <!-- TODO vue3 <q-select
           ref="title"
           name="title"
           v-model="title"
@@ -53,7 +53,7 @@
           label="Title"
           :rules="[ val => !!val ]"
           :autofocus="autofocusEl === 4"
-        />
+        /> -->
 
         <q-input
           ref="name"
@@ -176,7 +176,7 @@
 
 <script>
 import { h } from 'vue'
-import { QField, QCard, QCardSection } from 'quasar'
+import { QField, QCard, QCardSection, QFormChildBase } from 'quasar'
 
 export default {
   components: {
@@ -184,7 +184,7 @@ export default {
       props: [ 'modelValue' ],
       render () {
         return h(QField, {
-          modelValue: this.value
+          modelValue: this.modelValue
         }, {
           control: () => this.modelValue
         })
@@ -192,17 +192,15 @@ export default {
     },
 
     myComp: {
+      mixins: [ QFormChildBase ],
+
       render () {
-        return h('div', {
-          class: 'q-validation-component'
-        }, [
+        return h('div', {}, [
           h(QCard, {
             class: 'text-subtitle2',
             bordered: true,
             flat: true
-          }, () => [
-            h(QCardSection, () => [ 'a custom component' ])
-          ])
+          }, () => h(QCardSection, () => [ 'a custom component' ]))
         ])
       },
 

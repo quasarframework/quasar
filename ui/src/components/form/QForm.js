@@ -2,10 +2,15 @@ import { h, defineComponent } from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
-import { getVmOfNode } from '../../utils/vm.js'
 
 export default defineComponent({
   name: 'QForm',
+
+  provide () {
+    return {
+      __qForm: this
+    }
+  },
 
   props: {
     autofocus: Boolean,
@@ -15,11 +20,6 @@ export default defineComponent({
   },
 
   emits: [ 'submit', 'reset', 'validation-success', 'validation-error' ],
-
-  mounted () {
-    this.validateIndex = 0
-    this.autofocus === true && this.focus()
-  },
 
   methods: {
     validate (shouldFocus) {
@@ -142,10 +142,18 @@ export default defineComponent({
     },
 
     getValidationComponents () {
-      return Array.prototype.map.call(
-        this.$el.getElementsByClassName('q-validation-component'),
-        getVmOfNode
-      ).filter(c => c !== void 0 && typeof c.validate === 'function')
+      return this.instances
+    },
+
+    bindComponent (instance) {
+      this.instances.push(instance)
+    },
+
+    unbindComponent (instance) {
+      const index = this.instances.indexOf(instance)
+      if (index > -1) {
+        this.instances.splice(index, 1)
+      }
     }
   },
 
@@ -155,5 +163,14 @@ export default defineComponent({
       onSubmit: this.submit,
       onReset: this.reset
     }, slot(this, 'default'))
+  },
+
+  created () {
+    this.instances = []
+  },
+
+  mounted () {
+    this.validateIndex = 0
+    this.autofocus === true && this.focus()
   }
 })

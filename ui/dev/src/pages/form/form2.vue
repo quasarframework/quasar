@@ -46,7 +46,7 @@
 
     <div class="q-pa-md" style="max-width: 400px">
       <h5>
-        Form with that clears after submit
+        Form that clears after submit
       </h5>
 
       <q-toggle v-model="autofocus" label="Autofocus form" />

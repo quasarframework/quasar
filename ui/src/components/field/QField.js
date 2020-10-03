@@ -146,7 +146,7 @@ export default defineComponent({
 
     classes () {
       return {
-        [`q-field q-validation-component row no-wrap items-start q-field--${this.styleType}`]: true,
+        [`q-field row no-wrap items-start q-field--${this.styleType}`]: true,
         [this.fieldClass]: this.fieldClass !== void 0,
 
         'q-field--rounded': this.rounded,
@@ -291,7 +291,6 @@ export default defineComponent({
       if (this.loading === true || this.innerLoading === true) {
         node.push(
           this.__getInnerAppendNode(
-            h,
             'inner-loading-append',
             this.$slots.loading !== void 0
               ? this.$slots.loading()

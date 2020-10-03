@@ -22,15 +22,6 @@ export function getParentVm (vm) {
   }
 }
 
-export function isVmChildOf (childVm, parentVm) {
-  for (let vm = childVm; vm !== void 0 && vm !== null; vm = getParentVm(vm)) {
-    if (vm === parentVm) {
-      return true
-    }
-  }
-  return false
-}
-
 export function getAppVm (VueApp) {
   return VueApp._container._vnode.component.ctx
 }

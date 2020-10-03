@@ -1,8 +1,11 @@
+import QFormChildBase from '../components/form/QFormChildBase.js'
 import { testPattern } from '../utils/patterns.js'
 
 const lazyRulesValues = [ true, false, 'ondemand' ]
 
 export default {
+  mixins: [ QFormChildBase ],
+
   props: {
     modelValue: {},
 
@@ -82,14 +85,6 @@ export default {
         ? this.errorMessage
         : this.innerErrorMessage
     }
-  },
-
-  mounted () {
-    this.validateIndex = 0
-  },
-
-  beforeUnmount () {
-    this.unwatchRules !== void 0 && this.unwatchRules()
   },
 
   methods: {
@@ -203,5 +198,13 @@ export default {
         this.validate()
       }
     }
+  },
+
+  mounted () {
+    this.validateIndex = 0
+  },
+
+  beforeUnmount () {
+    this.unwatchRules !== void 0 && this.unwatchRules()
   }
 }

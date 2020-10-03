@@ -3,6 +3,7 @@
     <div class="q-layout-padding">
       <q-toggle label="Vertical" v-model="vertical" />
       <q-toggle label="Animated" v-model="animated" />
+      <q-toggle label="Swipeable" v-model="swipeable" />
       <q-toggle label="Alternative Labels" v-model="alt" />
       <q-toggle label="Contracted" v-model="contracted" />
       <q-toggle label="Header Navigation" v-model="headerNav" />
@@ -29,6 +30,7 @@
         :class="'q-mt-lg' + (dark ? ' bg-black' : '')"
         :vertical="vertical"
         :animated="animated"
+        :swipeable="swipeable"
         :dark="dark"
         :flat="flat"
         :bordered="bordered"
@@ -208,6 +210,7 @@ export default {
       step: 1,
       vertical: false,
       animated: true,
+      swipeable: true,
       alt: false,
       contracted: false,
       headerNav: true,
