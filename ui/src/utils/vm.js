@@ -1,9 +1,5 @@
-export function getVmOfNode (el) {
-  for (let node = el; node !== null; node = node.parentNode) {
-    if (node.__vueParentComponent !== void 0 && node.__vueParentComponent.proxy !== void 0) {
-      return node.__vueParentComponent.proxy
-    }
-  }
+export function getAppVm (VueApp) {
+  return VueApp._container._vnode.component.ctx
 }
 
 export function getParentVm (vm) {
@@ -20,8 +16,4 @@ export function getParentVm (vm) {
 
     vm = vm.parent
   }
-}
-
-export function getAppVm (VueApp) {
-  return VueApp._container._vnode.component.ctx
 }
