@@ -13,23 +13,10 @@ function update (ctx, { value, oldValue }) {
   }
 }
 
-function destroy (el) {
-  const ctx = el.__qscroll
-  if (ctx !== void 0) {
-    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
-    delete el.__qscroll
-  }
-}
-
 export default {
   name: 'scroll',
 
   mounted (el, binding) {
-    if (el.__qscroll !== void 0) {
-      destroy(el)
-      el.__qscroll_destroyed = true
-    }
-
     const ctx = {
       scrollTarget: getScrollTarget(el),
       scroll () {
@@ -52,11 +39,8 @@ export default {
   },
 
   beforeUnmount (el) {
-    if (el.__qscroll_destroyed === void 0) {
-      destroy(el)
-    }
-    else {
-      delete el.__qscroll_destroyed
-    }
+    const ctx = el.__qscroll
+    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
+    delete el.__qscroll
   }
 }

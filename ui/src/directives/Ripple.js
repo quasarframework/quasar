@@ -72,24 +72,10 @@ function updateModifiers (ctx, { modifiers, value, arg }) {
   }
 }
 
-function destroy (el) {
-  const ctx = el.__qripple
-  if (ctx !== void 0) {
-    ctx.abort.forEach(fn => { fn() })
-    cleanEvt(ctx, 'main')
-    delete el._qripple
-  }
-}
-
 export default {
   name: 'ripple',
 
   mounted (el, binding) {
-    if (el.__qripple !== void 0) {
-      destroy(el)
-      el.__qripple_destroyed = true
-    }
-
     const ctx = {
       enabled: binding.value !== false,
       modifiers: {},
@@ -137,8 +123,8 @@ export default {
   },
 
   updated (el, binding) {
-    const ctx = el.__qripple
-    if (ctx !== void 0 && binding.oldValue !== binding.value) {
+    if (binding.oldValue !== binding.value) {
+      const ctx = el.__qripple
       ctx.enabled = binding.value !== false
 
       if (ctx.enabled === true && Object(binding.value) === binding.value) {
@@ -148,11 +134,9 @@ export default {
   },
 
   beforeUnmount (el) {
-    if (el.__qripple_destroyed === void 0) {
-      destroy(el)
-    }
-    else {
-      delete el.__qripple_destroyed
-    }
+    const ctx = el.__qripple
+    ctx.abort.forEach(fn => { fn() })
+    cleanEvt(ctx, 'main')
+    delete el._qripple
   }
 }

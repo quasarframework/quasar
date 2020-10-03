@@ -16,23 +16,10 @@ function update (ctx, { value, oldValue }) {
   }
 }
 
-function destroy (el) {
-  const ctx = el.__qscrollfire
-  if (ctx !== void 0) {
-    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
-    delete el.__qscrollfire
-  }
-}
-
 export default {
   name: 'scroll-fire',
 
   mounted (el, binding) {
-    if (el.__qscrollfire !== void 0) {
-      destroy(el)
-      el.__qscrollfire_destroyed = true
-    }
-
     const ctx = {
       scrollTarget: getScrollTarget(el),
       scroll: debounce(() => {
@@ -60,17 +47,14 @@ export default {
   },
 
   updated (el, binding) {
-    if (el.__qscrollfire !== void 0 && binding.value !== binding.oldValue) {
+    if (binding.value !== binding.oldValue) {
       update(el.__qscrollfire, binding)
     }
   },
 
   beforeUnmount (el) {
-    if (el.__qscrollfire_destroyed === void 0) {
-      destroy(el)
-    }
-    else {
-      delete el.__qscrollfire_destroyed
-    }
+    const ctx = el.__qscrollfire
+    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
+    delete el.__qscrollfire
   }
 }

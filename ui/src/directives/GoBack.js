@@ -1,24 +1,10 @@
 import { client } from '../plugins/Platform.js'
 import { isKeyCode } from '../utils/key-composition.js'
 
-function destroy (el) {
-  const ctx = el.__qgoback
-  if (ctx !== void 0) {
-    el.removeEventListener('click', ctx.goBack)
-    el.removeEventListener('keyup', ctx.goBackKey)
-    delete el.__qgoback
-  }
-}
-
 export default {
   name: 'go-back',
 
   beforeMount (el, { value, modifiers }, vnode) {
-    if (el.__qgoback !== void 0) {
-      destroy(el)
-      el.__qgoback_destroyed = true
-    }
-
     const ctx = {
       value,
 
@@ -52,19 +38,15 @@ export default {
   },
 
   updated (el, { value, oldValue }) {
-    const ctx = el.__qgoback
-
-    if (ctx !== void 0 && value !== oldValue) {
-      ctx.value = value
+    if (value !== oldValue) {
+      el.__qgoback.value = value
     }
   },
 
   beforeUnmount (el) {
-    if (el.__qgoback_destroyed === void 0) {
-      destroy(el)
-    }
-    else {
-      delete el.__qgoback_destroyed
-    }
+    const ctx = el.__qgoback
+    el.removeEventListener('click', ctx.goBack)
+    el.removeEventListener('keyup', ctx.goBackKey)
+    delete el.__qgoback
   }
 }

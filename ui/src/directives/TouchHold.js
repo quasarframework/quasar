@@ -3,28 +3,10 @@ import { getTouchTarget } from '../utils/touch.js'
 import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
-function destroy (el) {
-  const ctx = el.__qtouchhold
-  if (ctx !== void 0) {
-    cleanEvt(ctx, 'main')
-    cleanEvt(ctx, 'temp')
-
-    clearTimeout(ctx.timer)
-    ctx.styleCleanup !== void 0 && ctx.styleCleanup()
-
-    delete el.__qtouchhold
-  }
-}
-
 export default {
   name: 'touch-hold',
 
   beforeMount (el, binding) {
-    if (el.__qtouchhold !== void 0) {
-      destroy(el)
-      el.__qtouchhold_destroyed = true
-    }
-
     const { modifiers } = binding
 
     // early return, we don't need to do anything
@@ -152,6 +134,7 @@ export default {
 
   updated (el, binding) {
     const ctx = el.__qtouchhold
+
     if (ctx !== void 0 && binding.oldValue !== binding.value) {
       typeof binding.value !== 'function' && ctx.end()
       ctx.handler = binding.value
@@ -159,11 +142,16 @@ export default {
   },
 
   beforeUnmount (el) {
-    if (el.__qtouchhold_destroyed === void 0) {
-      destroy(el)
-    }
-    else {
-      delete el.__qtouchhold_destroyed
+    const ctx = el.__qtouchhold
+
+    if (ctx !== void 0) {
+      cleanEvt(ctx, 'main')
+      cleanEvt(ctx, 'temp')
+
+      clearTimeout(ctx.timer)
+      ctx.styleCleanup !== void 0 && ctx.styleCleanup()
+
+      delete el.__qtouchhold
     }
   }
 }

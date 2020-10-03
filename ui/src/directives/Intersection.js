@@ -70,11 +70,6 @@ export default {
   name: 'intersection',
 
   mounted (el, { modifiers, value }) {
-    if (el.__qvisible !== void 0) {
-      destroy(el)
-      el.__qvisible_destroyed = true
-    }
-
     const ctx = {
       once: modifiers.once === true
     }
@@ -89,12 +84,5 @@ export default {
     ctx !== void 0 && update(el, ctx, binding.value)
   },
 
-  beforeUnmount (el) {
-    if (el.__qvisible_destroyed === void 0) {
-      destroy(el)
-    }
-    else {
-      delete el.__qvisible_destroyed
-    }
-  }
+  beforeUnmount: destroy
 }

@@ -36,11 +36,6 @@ export default {
   name: 'mutation',
 
   mounted (el, { modifiers: { once, ...mod }, value }) {
-    if (el.__qmutation !== void 0) {
-      destroy(el)
-      el.__qmutation_destroyed = true
-    }
-
     const ctx = {
       once,
       opts: Object.keys(mod).length === 0
@@ -60,12 +55,5 @@ export default {
     }
   },
 
-  beforeUnmount (el) {
-    if (el.__qmutation_destroyed === void 0) {
-      destroy(el)
-    }
-    else {
-      delete el.__qmutation_destroyed
-    }
-  }
+  beforeUnmount: destroy
 }

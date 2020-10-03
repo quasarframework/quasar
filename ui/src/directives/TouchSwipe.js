@@ -19,29 +19,10 @@ function parseArg (arg) {
   return data
 }
 
-function destroy (el) {
-  const ctx = el.__qtouchswipe
-
-  if (ctx !== void 0) {
-    cleanEvt(ctx, 'main')
-    cleanEvt(ctx, 'temp')
-
-    client.is.firefox === true && preventDraggable(el, false)
-    ctx.styleCleanup !== void 0 && ctx.styleCleanup()
-
-    delete el.__qtouchswipe
-  }
-}
-
 export default {
   name: 'touch-swipe',
 
   beforeMount (el, { value, arg, modifiers }) {
-    if (el.__qtouchswipe !== void 0) {
-      destroy(el)
-      el.__qtouchswipe_destroyed = true
-    }
-
     // early return, we don't need to do anything
     if (modifiers.mouse !== true && client.has.touch !== true) {
       return
@@ -263,11 +244,16 @@ export default {
   },
 
   beforeUnmount (el) {
-    if (el.__qtouchswipe_destroyed === void 0) {
-      destroy(el)
-    }
-    else {
-      delete el.__qtouchswipe_destroyed
+    const ctx = el.__qtouchswipe
+
+    if (ctx !== void 0) {
+      cleanEvt(ctx, 'main')
+      cleanEvt(ctx, 'temp')
+
+      client.is.firefox === true && preventDraggable(el, false)
+      ctx.styleCleanup !== void 0 && ctx.styleCleanup()
+
+      delete el.__qtouchswipe
     }
   }
 }

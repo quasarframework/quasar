@@ -25,29 +25,10 @@ function shouldEnd (evt, origin) {
     Math.abs(top - origin.top) >= 7
 }
 
-function destroy (el) {
-  const ctx = el.__qtouchrepeat
-  if (ctx !== void 0) {
-    clearTimeout(ctx.timer)
-
-    cleanEvt(ctx, 'main')
-    cleanEvt(ctx, 'temp')
-
-    ctx.styleCleanup !== void 0 && ctx.styleCleanup()
-
-    delete el.__qtouchrepeat
-  }
-}
-
 export default {
   name: 'touch-repeat',
 
   beforeMount (el, { modifiers, value, arg }) {
-    if (el.__qtouchrepeat !== void 0) {
-      destroy(el)
-      el.__qtouchrepeat_destroyed = true
-    }
-
     const keyboard = Object.keys(modifiers).reduce((acc, key) => {
       if (keyRegex.test(key) === true) {
         const keyCode = isNaN(parseInt(key, 10)) ? keyCodes[key.toLowerCase()] : parseInt(key, 10)
@@ -234,6 +215,7 @@ export default {
 
   updated (el, { oldValue, value }) {
     const ctx = el.__qtouchrepeat
+
     if (ctx !== void 0 && oldValue !== value) {
       typeof value !== 'function' && ctx.end()
       ctx.handler = value
@@ -241,11 +223,17 @@ export default {
   },
 
   beforeUnmount (el) {
-    if (el.__qtouchrepeat_destroyed === void 0) {
-      destroy(el)
-    }
-    else {
-      delete el.__qtouchrepeat_destroyed
+    const ctx = el.__qtouchrepeat
+
+    if (ctx !== void 0) {
+      clearTimeout(ctx.timer)
+
+      cleanEvt(ctx, 'main')
+      cleanEvt(ctx, 'temp')
+
+      ctx.styleCleanup !== void 0 && ctx.styleCleanup()
+
+      delete el.__qtouchrepeat
     }
   }
 }

@@ -160,10 +160,30 @@ function updateValue (ctx, value) {
   }
 }
 
-function destroy (el) {
-  const ctx = el.__qmorph
+export default {
+  name: 'morph',
 
-  if (ctx !== void 0) {
+  mounted (el, binding) {
+    const ctx = {
+      el,
+      animating: false,
+      opts: {}
+    }
+
+    updateModifiers(binding.modifiers, ctx)
+    insertArgs(binding.arg, ctx)
+    updateValue(ctx, binding.value)
+
+    el.__qmorph = ctx
+  },
+
+  updated (el, binding) {
+    updateValue(el.__qmorph, binding.value)
+  },
+
+  beforeUnmount (el) {
+    const ctx = el.__qmorph
+
     const group = morphGroups[ctx.group]
 
     if (group !== void 0) {
@@ -184,42 +204,5 @@ function destroy (el) {
     }
 
     delete el.__qmorph
-  }
-}
-
-export default {
-  name: 'morph',
-
-  mounted (el, binding) {
-    if (el.__qmorph !== void 0) {
-      destroy(el)
-      el.__qmorph_destroyed = true
-    }
-
-    const ctx = {
-      el,
-      animating: false,
-      opts: {}
-    }
-
-    updateModifiers(binding.modifiers, ctx)
-    insertArgs(binding.arg, ctx)
-    updateValue(ctx, binding.value)
-
-    el.__qmorph = ctx
-  },
-
-  updated (el, binding) {
-    const ctx = el.__qmorph
-    ctx !== void 0 && updateValue(ctx, binding.value)
-  },
-
-  beforeUnmount (el) {
-    if (el.__qmorph_destroyed === void 0) {
-      destroy(el)
-    }
-    else {
-      delete el.__qmorph_destroyed
-    }
   }
 }

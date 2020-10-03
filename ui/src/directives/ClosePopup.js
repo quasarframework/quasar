@@ -20,24 +20,11 @@ function getDepth (value) {
   return isNaN(depth) ? 0 : depth
 }
 
-function destroy (el) {
-  const ctx = el.__qclosepopup
-  if (ctx !== void 0) {
-    el.removeEventListener('click', ctx.handler)
-    el.removeEventListener('keyup', ctx.handlerKey)
-    delete el.__qclosepopup
-  }
-}
-
 export default {
   name: 'close-popup',
 
   mounted (el, { value }) {
-    if (el.__qclosepopup !== void 0) {
-      destroy(el)
-      el.__qclosepopup_destroyed = true
-    }
-
+    // TODO vue3 - not available in PROD!
     const vm = el.__vueParentComponent.proxy
 
     const ctx = {
@@ -62,17 +49,15 @@ export default {
   },
 
   updated (el, { value, oldValue }) {
-    if (el.__qclosepopup !== void 0 && value !== oldValue) {
+    if (value !== oldValue) {
       el.__qclosepopup.depth = getDepth(value)
     }
   },
 
   beforeUnmount (el) {
-    if (el.__qclosepopup_destroyed === void 0) {
-      destroy(el)
-    }
-    else {
-      delete el.__qclosepopup_destroyed
-    }
+    const ctx = el.__qclosepopup
+    el.removeEventListener('click', ctx.handler)
+    el.removeEventListener('keyup', ctx.handlerKey)
+    delete el.__qclosepopup
   }
 }
