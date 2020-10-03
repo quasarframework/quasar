@@ -1,4 +1,4 @@
-import { h, defineComponent, Transition, withDirectives } from 'vue'
+import { h, defineComponent, Transition } from 'vue'
 
 import AnchorMixin from '../../mixins/anchor.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
@@ -6,12 +6,13 @@ import DarkMixin from '../../mixins/dark.js'
 import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
-import ClickOutside from './ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
 import { addEscapeKey, removeEscapeKey } from '../../utils/escape-key.js'
 import { addFocusout, removeFocusout } from '../../utils/focusout.js'
+import { childHasFocus } from '../../utils/dom.js'
+import { addClickOutside, removeClickOutside } from '../../utils/click-outside.js'
 
 import {
   validatePosition, validateOffset, setPosition, parsePosition
@@ -76,9 +77,15 @@ export default defineComponent({
   emits: [ 'click', 'escape-key' ],
 
   watch: {
-    listenToEscapeKey (val) {
-      const fn = val === true ? addEscapeKey : removeEscapeKey
-      fn(this.__onEscapeKey)
+    handlesFocus (val) {
+      if (val === true) {
+        addEscapeKey(this.__onEscapeKey)
+        addClickOutside(this.__getClickOutsideVm)
+      }
+      else {
+        removeEscapeKey(this.__onEscapeKey)
+        removeClickOutside(this.__getClickOutsideVm)
+      }
     }
   },
 
@@ -117,7 +124,7 @@ export default defineComponent({
         : {}
     },
 
-    listenToEscapeKey () {
+    handlesFocus () {
       return this.showing === true && this.persistent !== true
     }
   },
@@ -219,7 +226,10 @@ export default defineComponent({
       if (hiding === true || this.showing === true) {
         removeFocusout(this.__onFocusout)
         this.__unconfigureScrollTarget()
-        this.persistent !== true && removeEscapeKey(this.__onEscapeKey)
+        if (this.persistent !== true) {
+          removeClickOutside(this.__getClickOutsideVm)
+          removeEscapeKey(this.__onEscapeKey)
+        }
       }
     },
 
@@ -249,8 +259,15 @@ export default defineComponent({
       }
     },
 
-    // filler for escape-key (needs unique ref)
-    __onFocusout () {},
+    __onFocusout (evt) {
+      // the focus is not in a vue child component
+      if (
+        this.handlesFocus === true &&
+        childHasFocus(this.$refs.inner, evt.target) !== true
+      ) {
+        this.focus()
+      }
+    },
 
     __onEscapeKey (evt) {
       this.$emit('escape-key')
@@ -300,29 +317,28 @@ export default defineComponent({
       }
     },
 
+    // we use a reference that won't change between
+    // re-renders for the click-outside management
+    __getClickOutsideVm () {
+      return this
+    },
+
     __renderPortal () {
       return h(
         Transition,
         { name: this.transition, appear: true },
         () => this.showing === true
-          ? withDirectives(
-            h('div', {
-              ref: 'inner',
-              tabindex: -1,
-              ...this.$attrs,
-              class: [
-                'q-menu q-position-engine scroll' + this.menuClass,
-                this.contentClass
-              ],
-              style: this.contentStyle,
-              ...this.onEvents
-            }, slot(this, 'default')),
-            [[
-              ClickOutside,
-              this.__onClickOutside,
-              this.anchorEl
-            ]]
-          )
+          ? h('div', {
+            ref: 'inner',
+            tabindex: -1,
+            ...this.$attrs,
+            class: [
+              'q-menu q-position-engine scroll' + this.menuClass,
+              this.contentClass
+            ],
+            style: this.contentStyle,
+            ...this.onEvents
+          }, slot(this, 'default'))
           : null
       )
     }

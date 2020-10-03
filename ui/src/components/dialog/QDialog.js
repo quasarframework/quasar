@@ -304,12 +304,12 @@ export default defineComponent({
       }
     },
 
-    __onFocusChange (e) {
+    __onFocusChange (evt) {
       // the focus is not in a vue child component
       if (
         this.showing === true &&
         this.usePortal === true &&
-        childHasFocus(this.$refs.inner, e.target) !== true
+        childHasFocus(this.$refs.inner, evt.target) !== true
       ) {
         this.focus()
       }
