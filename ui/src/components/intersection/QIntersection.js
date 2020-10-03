@@ -22,6 +22,10 @@ export default defineComponent({
 
     margin: String,
     threshold: [ Number, Array ],
+    root: {
+      type: Element,
+      default: null
+    },
 
     disable: Boolean
   },
@@ -40,6 +44,7 @@ export default defineComponent({
         ? {
           handler: this.__trigger,
           cfg: {
+            root: this.root,
             rootMargin: this.margin,
             threshold: this.threshold
           }
