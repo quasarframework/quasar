@@ -1,5 +1,4 @@
 import { listenOpts } from '../../utils/event.js'
-import { getVmOfNode, isVmChildOf } from '../../utils/vm.js'
 
 let timer
 
@@ -36,8 +35,6 @@ export default {
   name: 'click-outside',
 
   mounted (el, { value, arg }) {
-    const vm = el.__vueParentComponent.proxy
-
     const ctx = {
       trigger: value,
       toggleEl: arg,
@@ -48,7 +45,7 @@ export default {
         if (
           target !== void 0 &&
           target.nodeType !== 8 &&
-          // directives that prevent click by using pointer-events none generate click on html element
+          // directives that prevent click by using pointer-events:none generate click on html element
           target !== document.documentElement &&
           target.classList.contains('no-pointer-events') === false &&
           (
@@ -57,7 +54,7 @@ export default {
           ) &&
           (
             target === document.body ||
-            isVmChildOf(getVmOfNode(target), vm) === false
+            el.contains(target) === false
           )
         ) {
           // mark the event as being processed by clickOutside
