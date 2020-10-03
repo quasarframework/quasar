@@ -89,7 +89,7 @@ function apply (action) {
     hasViewport = window.visualViewport !== void 0
 
   if (action === 'add') {
-    const overflowY = window.getComputedStyle(body).overflowY
+    const { overflowY, overflowX } = window.getComputedStyle(body)
 
     scrollPositionX = getHorizontalScrollPosition(window)
     scrollPositionY = getScrollPosition(window)
@@ -98,8 +98,12 @@ function apply (action) {
 
     body.style.left = `-${scrollPositionX}px`
     body.style.top = `-${scrollPositionY}px`
+
+    if (overflowX !== 'hidden' && (overflowX === 'scroll' || body.scrollWidth > window.innerWidth)) {
+      body.classList.add('q-body--force-scrollbar-x')
+    }
     if (overflowY !== 'hidden' && (overflowY === 'scroll' || body.scrollHeight > window.innerHeight)) {
-      body.classList.add('q-body--force-scrollbar')
+      body.classList.add('q-body--force-scrollbar-y')
     }
 
     body.classList.add('q-body--prevent-scroll')
@@ -134,7 +138,9 @@ function apply (action) {
     }
 
     body.classList.remove('q-body--prevent-scroll')
-    body.classList.remove('q-body--force-scrollbar')
+    body.classList.remove('q-body--force-scrollbar-x')
+    body.classList.remove('q-body--force-scrollbar-y')
+
     document.qScrollPrevented = false
 
     body.style.left = bodyLeft
