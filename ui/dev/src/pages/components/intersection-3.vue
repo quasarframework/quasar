@@ -5,7 +5,7 @@
       <q-toggle v-model="once" label="Once" />
       <q-select v-model="transition" :options="['', 'fade', 'scale', 'flip-right']" style="min-width: 250px" />
     </div>
-    <table v-if="visible">
+    <table v-if="visible" ref="table">
       <tr
         v-for="index in 10"
         :key="index"
@@ -16,6 +16,7 @@
           :once="once"
           :transition="transition"
           tag="td"
+          :root="tableEl"
           class="int-example-item"
         >
           <q-card class="q-ma-sm">
@@ -43,6 +44,11 @@ export default {
       visible: true,
       once: false,
       transition: 'scale'
+    }
+  },
+  computed: {
+    tableEl () {
+      return this.$refs.table ? this.$refs.table.$el : null
     }
   }
 }
