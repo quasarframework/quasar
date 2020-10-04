@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 
 const separatorValues = [ 'horizontal', 'vertical', 'cell', 'none' ]
 

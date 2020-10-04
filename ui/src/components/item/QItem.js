@@ -3,7 +3,7 @@ import { h, defineComponent, resolveComponent } from 'vue'
 import DarkMixin from '../../mixins/dark.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 
-import { uniqueSlot } from '../../utils/slot.js'
+import { uniqueSlot } from '../../utils/render.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 

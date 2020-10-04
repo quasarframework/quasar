@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import { slot, uniqueSlot } from '../../utils/slot.js'
+import { slot, uniqueSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QTimelineEntry',

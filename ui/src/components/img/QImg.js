@@ -4,7 +4,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import RatioMixin from '../../mixins/ratio.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QImg',

@@ -8,7 +8,7 @@ import VirtualScroll from '../../mixins/virtual-scroll.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/render.js'
 
 const comps = {
   list: QList,

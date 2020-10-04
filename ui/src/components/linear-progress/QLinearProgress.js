@@ -3,7 +3,7 @@ import { h, defineComponent } from 'vue'
 import DarkMixin from '../../mixins/dark.js'
 import { getSizeMixin } from '../../mixins/size.js'
 
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/render.js'
 
 function width (val, reverse) {
   return {

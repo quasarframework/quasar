@@ -4,6 +4,7 @@ import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
 import { stop } from '../../utils/event.js'
 import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
+import { hDir } from '../../utils/render.js'
 
 import CacheMixin from '../../mixins/cache.js'
 import DarkMixin from '../../mixins/dark.js'
@@ -205,7 +206,17 @@ export default defineComponent({
       if (this.readonly === true) {
         return { 'aria-readonly': 'true' }
       }
-    }
+    },
+
+    spectrumDirective () {
+      // if this.editable === true
+      return [[
+        TouchPan,
+        this.__spectrumPan,
+        void 0,
+        { prevent: true, stop: true, mouse: true }
+      ]]
+    },
   },
 
   created () {
@@ -355,7 +366,7 @@ export default defineComponent({
     },
 
     __getSpectrumTab () {
-      const spectrumNode = h('div', {
+      const data = {
         ref: 'spectrum',
         class: 'q-color-picker__spectrum non-selectable relative-position cursor-pointer' +
           (this.editable !== true ? ' readonly' : ''),
@@ -367,7 +378,9 @@ export default defineComponent({
           }
           : {}
         )
-      }, [
+      }
+
+      const child = [
         h('div', { style: { paddingBottom: '100%' } }),
         h('div', { class: 'q-color-picker__spectrum-white absolute-full' }),
         h('div', { class: 'q-color-picker__spectrum-black absolute-full' }),
@@ -379,52 +392,45 @@ export default defineComponent({
             ? h('div', { class: 'q-color-picker__spectrum-circle' })
             : null
         ])
-      ])
+      ]
+
+      const sliders = [
+        h('div', { class: 'q-color-picker__hue non-selectable' }, [
+          h(QSlider, {
+            modelValue: this.model.h,
+            min: 0,
+            max: 360,
+            fillHandleAlways: true,
+            readonly: this.editable !== true,
+            thumbPath,
+            'onUpdate:modelValue': this.__onHueChange
+            // TODO vue3 - handle lazy update
+            // change: val => this.__onHueChange(val, true)
+          })
+        ])
+      ]
+
+      this.hasAlpha === true && sliders.push(
+        h('div', { class: 'q-color-picker__alpha non-selectable' }, [
+          h(QSlider, {
+            modelValue: this.model.a,
+            min: 0,
+            max: 100,
+            fillHandleAlways: true,
+            readonly: this.editable !== true,
+            thumbPath,
+            ...this.__getCache('alphaSlide', {
+              'onUpdate:modelValue': value => this.__onNumericChange(value, 'a', 100)
+              // TODO vue3 - handle lazy update
+              // change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
+            })
+          })
+        ])
+      )
 
       return [
-        this.editable === true
-          ? withDirectives(spectrumNode, [[
-            TouchPan,
-            this.__spectrumPan,
-            void 0,
-            { prevent: true, stop: true, mouse: true }
-          ]])
-          : spectrumNode,
-
-        h('div', {
-          class: 'q-color-picker__sliders'
-        }, [
-          h('div', { class: 'q-color-picker__hue non-selectable' }, [
-            h(QSlider, {
-              modelValue: this.model.h,
-              min: 0,
-              max: 360,
-              fillHandleAlways: true,
-              readonly: this.editable !== true,
-              thumbPath,
-              'onUpdate:modelValue': this.__onHueChange
-              // TODO vue3 - handle lazy update
-              // change: val => this.__onHueChange(val, true)
-            })
-          ]),
-          this.hasAlpha === true
-            ? h('div', { class: 'q-color-picker__alpha non-selectable' }, [
-              h(QSlider, {
-                modelValue: this.model.a,
-                min: 0,
-                max: 100,
-                fillHandleAlways: true,
-                readonly: this.editable !== true,
-                thumbPath,
-                ...this.__getCache('alphaSlide', {
-                  'onUpdate:modelValue': value => this.__onNumericChange(value, 'a', 100)
-                  // TODO vue3 - handle lazy update
-                  // change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
-                })
-              })
-            ])
-            : null
-        ])
+        hDir('div', data, child, 'spec', this.editable, () => this.spectrumDirective),
+        h('div', { class: 'q-color-picker__sliders' }, sliders)
       ]
     },
 

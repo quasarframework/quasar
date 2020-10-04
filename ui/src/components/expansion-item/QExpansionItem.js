@@ -12,7 +12,7 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import DarkMixin from '../../mixins/dark.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 import uid from '../../utils/uid.js'
 
 const itemGroups = shallowReactive({})
@@ -270,6 +270,7 @@ export default defineComponent({
     __getTransitionChild () {
       return withDirectives(
         h('div', {
+          key: 'e-content',
           class: 'q-expansion-item__content relative-position',
           style: this.contentStyle
         }, slot(this, 'default')),

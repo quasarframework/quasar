@@ -8,7 +8,7 @@ import QSpinner from '../spinner/QSpinner.js'
 import ValidateMixin from '../../mixins/validate.js'
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 import uid from '../../utils/uid.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 

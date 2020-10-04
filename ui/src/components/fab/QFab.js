@@ -6,7 +6,7 @@ import QIcon from '../icon/QIcon.js'
 import FabMixin from '../../mixins/fab.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 
-import { slot, mergeSlot } from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/render.js'
 
 const directions = ['up', 'right', 'down', 'left']
 const alignValues = [ 'left', 'center', 'right' ]

@@ -1,10 +1,10 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot, mergeSlot } from '../../utils/slot.js'
+import { slot, mergeSlot, hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QSplitter',
@@ -94,21 +94,20 @@ export default defineComponent({
       }
     },
 
-    separatorDirectives () {
-      return this.disable !== true
-        ? [[
-          TouchPan,
-          this.__pan,
-          void 0,
-          {
-            [ this.horizontal === true ? 'vertical' : 'horizontal' ]: true,
-            prevent: true,
-            stop: true,
-            mouse: true,
-            mouseAllDir: true
-          }
-        ]]
-        : []
+    sepDirective () {
+      // if this.disable !== true
+      return [[
+        TouchPan,
+        this.__pan,
+        void 0,
+        {
+          [ this.horizontal === true ? 'vertical' : 'horizontal' ]: true,
+          prevent: true,
+          stop: true,
+          mouse: true,
+          mouseAllDir: true
+        }
+      ]]
     }
   },
 
@@ -166,10 +165,6 @@ export default defineComponent({
   },
 
   render () {
-    const separator = h('div', {
-      class: 'q-splitter__separator-area absolute-full'
-    }, slot(this, 'separator'))
-
     const child = [
       h('div', {
         ref: 'before',
@@ -188,7 +183,14 @@ export default defineComponent({
         style: this.separatorStyle,
         'aria-disabled': this.disable === true ? 'true' : void 0
       }, [
-        withDirectives(separator, this.separatorDirectives)
+        hDir(
+          'div',
+          { class: 'q-splitter__separator-area absolute-full' },
+          slot(this, 'separator'),
+          'sep',
+          this.disable !== true,
+          () => this.sepDirective
+        )
       ]),
 
       h('div', {

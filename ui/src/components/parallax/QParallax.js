@@ -3,7 +3,7 @@ import { h, defineComponent } from 'vue'
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 import { listenOpts } from '../../utils/event.js'
 
 const { passive } = listenOpts

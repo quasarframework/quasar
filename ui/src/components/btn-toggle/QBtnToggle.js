@@ -6,7 +6,7 @@ import QBtnGroup from '../btn-group/QBtnGroup.js'
 import FormMixin from '../../mixins/form.js'
 import RippleMixin from '../../mixins/ripple.js'
 
-import { slot, mergeSlot } from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QBtnToggle',

@@ -6,7 +6,7 @@ import FormMixin from '../../mixins/form.js'
 import RefocusTargetMixin from '../../mixins/refocus-target.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { slot, mergeSlot } from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/render.js'
 
 const svg = h('svg', {
   class: 'q-radio__bg absolute non-selectable',

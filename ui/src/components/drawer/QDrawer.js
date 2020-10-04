@@ -8,7 +8,7 @@ import DarkMixin from '../../mixins/dark.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
-import { slot } from '../../utils/slot.js'
+import { slot, hDir } from '../../utils/render.js'
 
 const duration = 150
 
@@ -299,6 +299,7 @@ export default defineComponent({
     },
 
     openDirective () {
+      // if this.noSwipeOpen !== true
       const dir = this.$q.lang.rtl === true ? this.side : this.otherSide
 
       return [[
@@ -313,36 +314,34 @@ export default defineComponent({
     },
 
     contentCloseDirective () {
-      if (this.noSwipeClose !== true) {
-        const dir = this.$q.lang.rtl === true ? this.otherSide : this.side
+      // if this.belowBreakpoint === true && this.noSwipeClose !== true
+      const dir = this.$q.lang.rtl === true ? this.otherSide : this.side
 
-        return [[
-          TouchPan,
-          this.__closeByTouch,
-          void 0,
-          {
-            [ dir ]: true,
-            mouse: true
-          }
-        ]]
-      }
+      return [[
+        TouchPan,
+        this.__closeByTouch,
+        void 0,
+        {
+          [ dir ]: true,
+          mouse: true
+        }
+      ]]
     },
 
     backdropCloseDirective () {
-      if (this.noSwipeBackdrop !== true) {
-        const dir = this.$q.lang.rtl === true ? this.otherSide : this.side
+      // if this.showing === true && this.noSwipeBackdrop !== true
+      const dir = this.$q.lang.rtl === true ? this.otherSide : this.side
 
-        return [[
-          TouchPan,
-          this.__closeByTouch,
-          void 0,
-          {
-            [ dir ]: true,
-            mouse: true,
-            mouseAllDir: true
-          }
-        ]]
-      }
+      return [[
+        TouchPan,
+        this.__closeByTouch,
+        void 0,
+        {
+          [ dir ]: true,
+          mouse: true,
+          mouseAllDir: true
+        }
+      ]]
     }
   },
 
@@ -577,9 +576,10 @@ export default defineComponent({
     const child = []
 
     if (this.belowBreakpoint === true) {
-      this.noSwipeOpen !== true && child.push(
+      this.noSwipeOpen === false && child.push(
         withDirectives(
           h('div', {
+            key: 'open',
             class: `q-drawer__opener fixed-${this.side}`,
             'aria-hidden': 'true'
           }),
@@ -588,8 +588,9 @@ export default defineComponent({
       )
 
       child.push(
-        withDirectives(
-          h('div', {
+        hDir(
+          'div',
+          {
             ref: 'backdrop',
             class: this.backdropClass,
             'aria-hidden': 'true',
@@ -597,10 +598,11 @@ export default defineComponent({
               ? { backgroundColor: this.lastBackdropBg }
               : null,
             onClick: this.hide
-          }),
-          this.showing === true && this.backdropCloseDirective !== void 0
-            ? this.backdropCloseDirective
-            : []
+          },
+          void 0,
+          'backdrop',
+          this.showing === true && this.noSwipeBackdrop !== true,
+          () => this.backdropCloseDirective
         )
       )
     }
@@ -627,17 +629,19 @@ export default defineComponent({
     }
 
     child.push(
-      withDirectives(
-        h('aside', {
+      hDir(
+        'aside',
+        {
           ref: 'content',
           class: this.classes,
           style: this.style,
           ...this.$attrs,
           ...this.onNativeEvents
-        }, content),
-        this.belowBreakpoint === true && this.contentCloseDirective !== void 0
-          ? this.contentCloseDirective
-          : []
+        },
+        content,
+        'contentclose',
+        this.belowBreakpoint === true && this.noSwipeClose !== true,
+        () => this.contentCloseDirective
       )
     )
 

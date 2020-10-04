@@ -5,7 +5,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import CacheMixin from '../../mixins/cache.js'
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 
 const slotsDef = [
   ['left', 'center', 'start', 'width'],
@@ -25,6 +25,8 @@ export default defineComponent({
     topColor: String,
     bottomColor: String
   },
+
+  emits: [ 'action', 'top', 'right', 'bottom', 'left' ],
 
   directives: {
     TouchPan
@@ -122,7 +124,7 @@ export default defineComponent({
 
       if (this.__dir !== dir) {
         ['left', 'right', 'top', 'bottom'].forEach(d => {
-          if (this.$refs[d] !== void 0) {
+          if (this.$refs[d] !== void 0 && this.$refs[d] !== null) {
             this.$refs[d].style.visibility = showing === d
               ? 'visible'
               : 'hidden'
@@ -173,26 +175,24 @@ export default defineComponent({
     }, slot(this, 'default'))
 
     content.push(
-      dirs.length > 0
-        ? withDirectives(node, this.__getCacheWithFn('dir#' + dirs.join(''), () => {
-          const modifiers = {
-            prevent: true,
-            stop: true,
-            mouse: true
-          }
+      withDirectives(node, this.__getCacheWithFn('dir#' + dirs.join(''), () => {
+        const modifiers = {
+          prevent: true,
+          stop: true,
+          mouse: true
+        }
 
-          dirs.forEach(dir => {
-            modifiers[dir] = true
-          })
+        dirs.forEach(dir => {
+          modifiers[dir] = true
+        })
 
-          return [[
-            TouchPan,
-            this.__pan,
-            void 0,
-            modifiers
-          ]]
-        }))
-        : node
+        return [[
+          TouchPan,
+          this.__pan,
+          void 0,
+          modifiers
+        ]]
+      }))
     )
 
     return h('div', { class: this.classes }, content)

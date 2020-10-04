@@ -576,7 +576,8 @@ export default defineComponent({
             onHide: this.__onHide
           }, () => withDirectives(
             h('div', {
-              class: 'q-tree__node-collapsible' + this.textColorClass
+              class: 'q-tree__node-collapsible' + this.textColorClass,
+              key: `${key}____q`
             }, [
               body,
               h('div', {

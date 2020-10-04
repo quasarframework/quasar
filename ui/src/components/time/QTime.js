@@ -3,7 +3,7 @@ import { h, defineComponent, withDirectives, Transition } from 'vue'
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { pad } from '../../utils/format.js'
@@ -264,6 +264,19 @@ export default defineComponent({
       }
 
       return pos
+    },
+
+    clockDirectives () {
+      return [[
+        TouchPan,
+        this.__drag,
+        void 0,
+        {
+          stop: true,
+          prevent: true,
+          mouse: true
+        }
+      ]]
     }
   },
 
@@ -647,16 +660,7 @@ export default defineComponent({
                   }, [ h('span', pos.label) ]))
                 ])
               ]),
-              [[
-                TouchPan,
-                this.__drag,
-                void 0,
-                {
-                  stop: true,
-                  prevent: true,
-                  mouse: true
-                }
-              ]]
+              this.clockDirectives
             )
           ])
         ])),

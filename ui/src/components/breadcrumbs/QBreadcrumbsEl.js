@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/render.js'
 
 import QIcon from '../icon/QIcon.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'

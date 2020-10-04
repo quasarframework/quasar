@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import { uniqueSlot } from '../../utils/slot.js'
+import { uniqueSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QHeader',

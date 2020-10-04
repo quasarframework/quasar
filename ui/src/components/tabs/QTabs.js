@@ -6,7 +6,7 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import TimeoutMixin from '../../mixins/timeout.js'
 
 import { noop } from '../../utils/event.js'
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true

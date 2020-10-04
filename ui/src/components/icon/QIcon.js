@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
 
-import { slot, mergeSlot } from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QIcon',

@@ -126,6 +126,15 @@ export default defineComponent({
         props[name] = this.$props[name]
       })
       return props
+    },
+
+    directives () {
+      return [[
+        TouchPan,
+        this.__pan,
+        void 0,
+        { prevent: true, stop: true, mouse: true }
+      ]]
     }
   },
 
@@ -276,16 +285,7 @@ export default defineComponent({
 
       return withDirectives(
         h(QCircularProgress, data, child),
-        [[
-          TouchPan,
-          this.__pan,
-          void 0,
-          {
-            prevent: true,
-            stop: true,
-            mouse: true
-          }
-        ]]
+        this.directives
       )
     }
 

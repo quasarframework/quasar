@@ -1,4 +1,4 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent } from 'vue'
 
 import {
   getRatio,
@@ -9,6 +9,7 @@ import {
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
+import { hDir } from '../../utils/render.js'
 
 const dragType = {
   MIN: 0,
@@ -499,7 +500,7 @@ export default defineComponent({
       this.__injectFormInput(child, 'push')
     }
 
-    const node = h('div', {
+    const data = {
       class: this.classes + (
         this.modelValue.min === null || this.modelValue.max === null
           ? ' q-slider--no-value'
@@ -511,9 +512,9 @@ export default defineComponent({
         ? this.computedTabindex
         : null,
       ...this.events
-    }, child)
+    }
 
-    return withDirectives(node, this.panDirective)
+    return hDir('div', data, child, 'slide', this.editable, () => this.panDirective)
   },
 
   created () {

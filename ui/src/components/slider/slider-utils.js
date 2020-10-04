@@ -169,20 +169,19 @@ export const SliderMixin = {
     },
 
     panDirective () {
-      return this.editable === true
-        ? [[
-          TouchPan,
-          this.__pan,
-          void 0,
-          {
-            [ this.orientation ]: true,
-            prevent: true,
-            stop: true,
-            mouse: true,
-            mouseAllDir: true
-          }
-        ]]
-        : []
+      // if this.editable === true
+      return [[
+        TouchPan,
+        this.__pan,
+        void 0,
+        {
+          [ this.orientation ]: true,
+          prevent: true,
+          stop: true,
+          mouse: true,
+          mouseAllDir: true
+        }
+      ]]
     }
   },
 

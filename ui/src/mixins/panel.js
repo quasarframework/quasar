@@ -2,7 +2,7 @@ import { h, defineComponent, Transition, KeepAlive } from 'vue'
 
 import TouchSwipe from '../directives/TouchSwipe.js'
 
-import { slot } from '../utils/slot.js'
+import { slot } from '../utils/render.js'
 
 const PanelWrapper = defineComponent({
   name: 'QTabPanelWrapper',
@@ -43,18 +43,17 @@ export const PanelParentMixin = {
 
   computed: {
     panelDirectives () {
-      return this.swipeable === true
-        ? [[
-          TouchSwipe,
-          this.__swipe,
-          void 0,
-          {
-            horizontal: this.vertical !== true,
-            vertical: this.vertical,
-            mouse: true
-          }
-        ]]
-        : []
+      // if this.swipeable
+      return [[
+        TouchSwipe,
+        this.__swipe,
+        void 0,
+        {
+          horizontal: this.vertical !== true,
+          vertical: this.vertical,
+          mouse: true
+        }
+      ]]
     },
 
     contentKey () {

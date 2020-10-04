@@ -1,4 +1,4 @@
-import { h, defineComponent, withDirectives, Transition } from 'vue'
+import { h, defineComponent, Transition } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
@@ -7,7 +7,7 @@ import Ripple from '../../directives/Ripple.js'
 
 import BtnMixin from '../../mixins/btn.js'
 
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot, hDir } from '../../utils/render.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { getTouchTarget } from '../../utils/touch.js'
 import { isKeyCode } from '../../utils/key-composition.js'
@@ -82,14 +82,13 @@ export default defineComponent({
     },
 
     directives () {
-      return this.disable !== true && this.ripple !== false
-        ? [[
-          Ripple,
-          this.computedRipple,
-          void 0,
-          { center: this.round }
-        ]]
-        : []
+      // if this.disable !== true && this.ripple !== false
+      return [[
+        Ripple,
+        this.computedRipple,
+        void 0,
+        { center: this.round }
+      ]]
     }
   },
 
@@ -347,13 +346,18 @@ export default defineComponent({
       ] : void 0)
     )
 
-    const node = h(this.isLink === true ? 'a' : 'button', {
-      class: 'q-btn q-btn-item non-selectable no-outline ' + this.classes,
-      style: this.style,
-      ...this.attrs,
-      ...this.onEvents
-    }, child)
-
-    return withDirectives(node, this.directives)
+    return hDir(
+      this.isLink === true ? 'a' : 'button',
+      {
+        class: 'q-btn q-btn-item non-selectable no-outline ' + this.classes,
+        style: this.style,
+        ...this.attrs,
+        ...this.onEvents
+      },
+      child,
+      'ripple',
+      this.disable !== true && this.ripple !== false,
+      () => this.directives
+    )
   }
 })

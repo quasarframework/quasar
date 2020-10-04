@@ -4,7 +4,7 @@ import QIcon from '../icon/QIcon.js'
 
 import SizeMixin from '../../mixins/size.js'
 
-import { mergeSlotSafely } from '../../utils/slot.js'
+import { mergeSlotSafely } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QAvatar',

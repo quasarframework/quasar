@@ -5,7 +5,7 @@ import QBtn from '../btn/QBtn.js'
 
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/is.js'
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 
 export default defineComponent({

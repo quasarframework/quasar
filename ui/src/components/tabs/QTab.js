@@ -1,11 +1,11 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
 import RippleMixin from '../../mixins/ripple.js'
 import Ripple from '../../directives/Ripple.js'
 
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot, hDir } from '../../utils/render.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 
 let uid = 0
@@ -156,10 +156,14 @@ export default defineComponent({
         ...props
       }
 
-      const node = h(tag, data, content)
-      return this.ripple !== false && this.disable === false
-        ? withDirectives(node, [[ Ripple, this.ripple ]])
-        : node
+      return hDir(
+        tag,
+        data,
+        content,
+        'main',
+        this.ripple !== false && this.disable === false,
+        () => [[ Ripple, this.ripple ]]
+      )
     }
   },
 

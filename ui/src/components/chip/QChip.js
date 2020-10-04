@@ -1,4 +1,4 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -9,7 +9,7 @@ import RippleMixin from '../../mixins/ripple.js'
 import { getSizeMixin } from '../../mixins/size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { mergeSlotSafely } from '../../utils/slot.js'
+import { mergeSlotSafely, hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QChip',
@@ -87,12 +87,6 @@ export default defineComponent({
       return this.disable === true
         ? { tabindex: -1, 'aria-disabled': 'true' }
         : { tabindex: this.tabindex || 0 }
-    },
-
-    directives () {
-      return this.ripple !== false
-        ? [[ Ripple, this.ripple ]]
-        : []
     }
   },
 
@@ -177,9 +171,13 @@ export default defineComponent({
       { onClick: this.__onClick, onKeyup: this.__onKeyup }
     )
 
-    return withDirectives(
-      h('div', data, this.__getContent()),
-      this.directives
+    return hDir(
+      'div',
+      data,
+      this.__getContent(),
+      'ripple',
+      this.ripple !== false,
+      () => [[ Ripple, this.ripple ]]
     )
   }
 })

@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import RatioMixin from '../../mixins/ratio.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QResponsive',

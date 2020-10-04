@@ -1,7 +1,9 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/Ripple.js'
+
+import { hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'StepHeader',
@@ -151,10 +153,13 @@ export default defineComponent({
       )
     }
 
-    const node = h('div', data, child)
-
-    return this.stepper.headerNav === true
-      ? withDirectives(node, [[ Ripple, this.headerNav ]])
-      : node
+    return hDir(
+      'div',
+      data,
+      child,
+      'head',
+      this.stepper.headerNav === true && this.headerNav !== false,
+      () => [[ Ripple, this.headerNav ]]
+    )
   }
 })

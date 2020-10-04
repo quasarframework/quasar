@@ -1,7 +1,7 @@
 import { h, defineComponent } from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QForm',

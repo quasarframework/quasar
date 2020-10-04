@@ -1,11 +1,11 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent } from 'vue'
 
 import StepHeader from './StepHeader.js'
 
 import DarkMixin from '../../mixins/dark.js'
 import { PanelParentMixin } from '../../mixins/panel.js'
 
-import { slot, mergeSlot } from '../../utils/slot.js'
+import { slot, mergeSlot, hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QStepper',
@@ -69,10 +69,6 @@ export default defineComponent({
           : top.concat(content)
       }
 
-      const node = h('div', {
-        class: 'q-stepper__content q-panel-parent'
-      }, this.__getPanelContent())
-
       return [
         h('div', { class: this.headerClasses }, this.panels.map(panel => {
           const step = panel.props
@@ -85,7 +81,14 @@ export default defineComponent({
         }))
       ].concat(
         top,
-        withDirectives(node, this.panelDirectives)
+        hDir(
+          'div',
+          { class: 'q-stepper__content q-panel-parent' },
+          this.__getPanelContent(),
+          'cont',
+          this.swipeable,
+          () => this.panelDirectives
+        )
       )
     },
 

@@ -1,4 +1,4 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent } from 'vue'
 
 import {
   getRatio,
@@ -9,6 +9,7 @@ import {
 
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
+import { hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QSlider',
@@ -215,13 +216,7 @@ export default defineComponent({
       })
     )
 
-    const node = h('div', {
-      class: this.classes + (this.modelValue === null ? ' q-slider--no-value' : ''),
-      ...this.attrs,
-      'aria-valuenow': this.modelValue,
-      tabindex: this.computedTabindex,
-      ...this.events
-    }, [
+    const content = [
       h('div', {
         class: `q-slider__track-container q-slider__track-container${this.axis} absolute`
       }, track),
@@ -230,8 +225,16 @@ export default defineComponent({
         class: `q-slider__thumb-container q-slider__thumb-container${this.axis} absolute non-selectable` + this.thumbClass,
         style: this.thumbStyle
       }, child)
-    ])
+    ]
 
-    return withDirectives(node, this.panDirective)
+    const data = {
+      class: this.classes + (this.modelValue === null ? ' q-slider--no-value' : ''),
+      ...this.attrs,
+      'aria-valuenow': this.modelValue,
+      tabindex: this.computedTabindex,
+      ...this.events
+    }
+
+    return hDir('div', data, content, 'slide', this.editable, () => this.panDirective)
   }
 })

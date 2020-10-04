@@ -1,10 +1,10 @@
-import { h, defineComponent, withDirectives, Transition } from 'vue'
+import { h, defineComponent, Transition } from 'vue'
 
 import { onSSR } from '../../plugins/Platform.js'
 
 import Intersection from '../../directives/Intersection.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot, hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QIntersection',
@@ -52,15 +52,18 @@ export default defineComponent({
         : this.__trigger
     },
 
-    directives () {
+    hasDirective () {
       return this.disable !== true && (onSSR !== true || this.once !== true || this.ssrPrerender !== true)
-        ? [[
-          Intersection,
-          this.value,
-          void 0,
-          { once: this.once }
-        ]]
-        : []
+    },
+
+    directives () {
+      // if this.hasDirective === true
+      return [[
+        Intersection,
+        this.value,
+        void 0,
+        { once: this.once }
+      ]]
     }
   },
 
@@ -80,17 +83,21 @@ export default defineComponent({
   },
 
   render () {
-    const node = h(this.tag, {
-      class: 'q-intersection'
-    }, this.transition
+    const child = this.transition
       ? [
         h(Transition, {
           name: 'q-transition--' + this.transition
         }, this.__getContent)
       ]
       : this.__getContent()
-    )
 
-    return withDirectives(node, this.directives)
+    return hDir(
+      this.tag,
+      { class: 'q-intersection' },
+      child,
+      'main',
+      this.hasDirective,
+      () => this.directives
+    )
   }
 })

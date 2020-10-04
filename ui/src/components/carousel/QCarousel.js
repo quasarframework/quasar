@@ -1,4 +1,4 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 
@@ -7,7 +7,7 @@ import { PanelParentMixin } from '../../mixins/panel.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
 import { isNumber } from '../../utils/is.js'
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot, hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QCarousel',
@@ -151,11 +151,11 @@ export default defineComponent({
         const fn = this.$slots['navigation-icon'] !== void 0
           ? this.$slots['navigation-icon']
           : opts => h(QBtn, {
-              key: 'nav' + opts.name,
-              class: `q-carousel__navigation-icon q-carousel__navigation-icon--${opts.active === true ? '' : 'in'}active`,
-              ...opts.btnProps,
-              onClick: opts.onClick
-            })
+            key: 'nav' + opts.name,
+            class: `q-carousel__navigation-icon q-carousel__navigation-icon--${opts.active === true ? '' : 'in'}active`,
+            ...opts.btnProps,
+            onClick: opts.onClick
+          })
 
         const maxIndex = this.panels.length - 1
         node.push(
@@ -215,7 +215,8 @@ export default defineComponent({
           node.push(
             h('div', {
               key: 'next',
-              class: `q-carousel__control q-carousel__arrow q-carousel__next-arrow q-carousel__next-arrow--${this.direction} absolute flex flex-center`
+              class: `q-carousel__control q-carousel__arrow q-carousel__next-arrow` +
+                ` q-carousel__next-arrow--${this.direction} absolute flex flex-center`
             }, [
               h(QBtn, {
                 icon: this.arrowIcons[1],
@@ -231,15 +232,18 @@ export default defineComponent({
     },
 
     __renderPanels () {
-      const node = h('div', {
-        class: 'q-carousel__slides-container'
-      }, this.__getPanelContent())
-
       return h('div', {
         class: this.classes,
         style: this.style
       }, [
-        withDirectives(node, this.panelDirectives)
+        hDir(
+          'div',
+          { class: 'q-carousel__slides-container' },
+          this.__getPanelContent(),
+          'sl-cont',
+          this.swipeable,
+          () => this.panelDirectives
+        )
       ].concat(this.__getContent()))
     }
   },

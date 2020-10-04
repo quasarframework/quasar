@@ -1,7 +1,9 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import { PanelParentMixin } from '../../mixins/panel.js'
+
+import { hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QTabPanels',
@@ -17,9 +19,13 @@ export default defineComponent({
 
   methods: {
     __renderPanels () {
-      return withDirectives(
-        h('div', { class: this.classes }, this.__getPanelContent()),
-        this.panelDirectives
+      return hDir(
+        'div',
+        { class: this.classes },
+        this.__getPanelContent(),
+        'pan',
+        this.swipeable,
+        () => this.panelDirectives
       )
     }
   }

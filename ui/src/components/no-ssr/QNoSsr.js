@@ -1,7 +1,7 @@
 import { h, defineComponent } from 'vue'
 
 import CanRenderMixin from '../../mixins/can-render.js'
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QNoSsr',

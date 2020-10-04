@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 
 const alignValues = [ 'top', 'middle', 'bottom' ]
 

@@ -1,4 +1,4 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
@@ -7,7 +7,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
-import { slot } from '../../utils/slot.js'
+import { slot, hDir } from '../../utils/render.js'
 
 const
   PULLER_HEIGHT = 40,
@@ -56,25 +56,22 @@ export default defineComponent({
     },
 
     directives () {
-      if (this.disable !== true) {
-        const modifiers = {
-          down: true,
-          mightPrevent: true
-        }
-
-        if (this.noMouse !== true) {
-          modifiers.mouse = true
-        }
-
-        return [[
-          TouchPan,
-          this.__pull,
-          void 0,
-          modifiers
-        ]]
+      // if this.disable === false
+      const modifiers = {
+        down: true,
+        mightPrevent: true
       }
 
-      return []
+      if (this.noMouse !== true) {
+        modifiers.mouse = true
+      }
+
+      return [[
+        TouchPan,
+        this.__pull,
+        void 0,
+        modifiers
+      ]]
     },
 
     contentClass () {
@@ -180,9 +177,7 @@ export default defineComponent({
   },
 
   render () {
-    const node = h('div', {
-      class: 'q-pull-to-refresh'
-    }, [
+    const child = [
       h('div', { class: this.contentClass }, slot(this, 'default')),
 
       h('div', {
@@ -205,8 +200,15 @@ export default defineComponent({
             })
         ])
       ])
-    ])
+    ]
 
-    return withDirectives(node, this.directives)
+    return hDir(
+      'div',
+      { class: 'q-pull-to-refresh' },
+      child,
+      'main',
+      this.disable === false,
+      () => this.directives
+    )
   }
 })

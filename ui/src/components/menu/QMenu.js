@@ -8,7 +8,7 @@ import TransitionMixin from '../../mixins/transition.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/render.js'
 import { addEscapeKey, removeEscapeKey } from '../../utils/escape-key.js'
 import { addFocusout, removeFocusout } from '../../utils/focusout.js'
 import { childHasFocus } from '../../utils/dom.js'

@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { uniqueSlot } from '../../utils/slot.js'
+import { uniqueSlot } from '../../utils/render.js'
 import { noop } from '../../utils/event.js'
 
 export default defineComponent({

@@ -6,7 +6,7 @@ import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import { getScrollbarWidth } from '../../utils/scroll.js'
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QLayout',

@@ -7,7 +7,7 @@ import FormMixin from './form.js'
 import OptionSizeMixin from './option-size.js'
 import RefocusTargetMixin from './refocus-target.js'
 
-import { slot, mergeSlot } from '../utils/slot.js'
+import { slot, mergeSlot } from '../utils/render.js'
 
 export default {
   mixins: [ DarkMixin, OptionSizeMixin, FormMixin, RefocusTargetMixin ],

@@ -1,7 +1,7 @@
 import { h, defineComponent } from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
-import { mergeSlotSafely } from '../../utils/slot.js'
+import { mergeSlotSafely } from '../../utils/render.js'
 import { between } from '../../utils/format.js'
 
 const

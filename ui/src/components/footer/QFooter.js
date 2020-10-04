@@ -4,7 +4,7 @@ import { onSSR } from '../../plugins/Platform.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QFooter',
