@@ -2,17 +2,25 @@ const listenerRE = /^on[A-Z]/
 
 export default {
   computed: {
-    qSplit () {
-      const acc = {
-        attrs: {},
-        listeners: {}
-      }
+    qAttrs () {
+      const acc = {}
 
       Object.keys(this.$attrs).forEach(key => {
-        const group = listenerRE.test(key) === true
-          ? 'listeners' : 'attrs'
+        if (listenerRE.test(key) === false) {
+          acc[key] = this.$attrs[key]
+        }
+      })
 
-        acc[group][key] = this.$attrs[key]
+      return acc
+    },
+
+    qListeners () {
+      const acc = {}
+
+      Object.keys(this.$attrs).forEach(key => {
+        if (listenerRE.test(key) === true) {
+          acc[key] = this.$attrs[key]
+        }
       })
 
       return acc
