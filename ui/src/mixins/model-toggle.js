@@ -1,9 +1,10 @@
 import { isSSR } from '../plugins/Platform.js'
 
 import TimeoutMixin from './timeout.js'
+import EmitListenersMixins from './emit-listeners.js'
 
 export default {
-  mixins: [ TimeoutMixin ],
+  mixins: [ TimeoutMixin, EmitListenersMixins ],
 
   props: {
     modelValue: {
@@ -40,8 +41,7 @@ export default {
         return
       }
 
-      const listener = this.$.vnode.props !== null &&
-        this.$.vnode.props['onUpdate:modelValue'] !== void 0
+      const listener = this.emitListeners['onUpdate:modelValue'] === true
 
       if (listener === true && isSSR === false) {
         this.$emit('update:modelValue', true)
@@ -82,8 +82,7 @@ export default {
         return
       }
 
-      const listener = this.$.vnode.props !== null &&
-        this.$.vnode.props['onUpdate:modelValue'] !== void 0
+      const listener = this.emitListeners['onUpdate:modelValue'] === true
 
       if (listener === true && isSSR === false) {
         this.$emit('update:modelValue', false)
@@ -121,7 +120,9 @@ export default {
 
     __processModelChange (val) {
       if (this.disable === true && val === true) {
-        this.$.vnode.props['onUpdate:modelValue'] !== void 0 && this.$emit('update:modelValue', false)
+        if (this.emitListeners['onUpdate:modelValue'] === true) {
+          this.$emit('update:modelValue', false)
+        }
       }
       else if ((val === true) !== this.showing) {
         this[`__process${val === true ? 'Show' : 'Hide'}`](this.payload)

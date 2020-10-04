@@ -1,5 +1,7 @@
 import { h, defineComponent } from 'vue'
 
+import EmitListenersMixin from '../../mixins/emit-listeners.js'
+
 import { stopAndPrevent } from '../../utils/event.js'
 import { hSlot } from '../../utils/render.js'
 
@@ -11,6 +13,8 @@ export default defineComponent({
       __qForm: this
     }
   },
+
+  mixins: [ EmitListenersMixin ],
 
   props: {
     autofocus: Boolean,
@@ -111,7 +115,7 @@ export default defineComponent({
 
       this.validate().then(val => {
         if (val === true) {
-          if (this.$.vnode.props.onSubmit !== void 0) {
+          if (this.emitListeners.onSubmit === true) {
             this.$emit('submit', evt)
           }
           else if (evt !== void 0 && evt.target !== void 0 && typeof evt.target.submit === 'function') {

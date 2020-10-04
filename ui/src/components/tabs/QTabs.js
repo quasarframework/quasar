@@ -4,6 +4,7 @@ import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import TimeoutMixin from '../../mixins/timeout.js'
+import EmitListenersMixin from '../../mixins/emit-listeners.js'
 
 import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/render.js'
@@ -46,7 +47,7 @@ const alignValues = [ 'left', 'center', 'right', 'justify' ]
 export default defineComponent({
   name: 'QTabs',
 
-  mixins: [ TimeoutMixin ],
+  mixins: [ TimeoutMixin, EmitListenersMixin ],
 
   provide () {
     return {
@@ -178,7 +179,7 @@ export default defineComponent({
         skipEmit !== true && this.$emit('update:modelValue', name)
         if (
           setCurrent === true ||
-          this.$.vnode.props['onUpdate:modelValue'] === void 0
+          this.emitListeners['onUpdate:modelValue'] === void 0
         ) {
           this.__animate(this.currentModel, name)
           this.currentModel = name

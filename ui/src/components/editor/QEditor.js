@@ -345,23 +345,17 @@ export default defineComponent({
 
     __onMouseup (e) {
       this.caret.save()
-      if (this.$.vnode.props.onMouseup !== void 0) {
-        this.$emit('mouseup', e)
-      }
+      this.$emit('mouseup', e)
     },
 
     __onKeyup (e) {
       this.caret.save()
-      if (this.$.vnode.props.onKeyup !== void 0) {
-        this.$emit('keyup', e)
-      }
+      this.$emit('keyup', e)
     },
 
     __onTouchend (e) {
       this.caret.save()
-      if (this.$.vnode.props.onTouchend !== void 0) {
-        this.$emit('touchend', e)
-      }
+      this.$emit('touchend', e)
     },
 
     runCmd (cmd, param, update = true) {

@@ -1,5 +1,7 @@
 import { h, defineComponent, withDirectives } from 'vue'
 
+import EmitListenersMixin from '../../mixins/emit-listeners.js'
+
 import { between } from '../../utils/format.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import { hMergeSlot } from '../../utils/render.js'
@@ -13,7 +15,7 @@ import DarkMixin from '../../mixins/dark.js'
 export default defineComponent({
   name: 'QScrollArea',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, EmitListenersMixin ],
 
   props: {
     barStyle: [ Array, String, Object ],
@@ -312,7 +314,7 @@ export default defineComponent({
     // ensure we're not emitting same info
     // multiple times
     this.__emitScroll = debounce(() => {
-      if (this.$.vnode.props.onScroll !== void 0) {
+      if (this.emitListeners.onScroll === true) {
         const info = { ref: this }
         const prefix = this.dirProps.prefix
 

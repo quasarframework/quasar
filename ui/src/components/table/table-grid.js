@@ -63,18 +63,18 @@ export default {
           }
 
           if (
-            this.$.vnode.props['onRow-click'] !== void 0 ||
-            this.$.vnode.props['onRow-dblclick'] !== void 0
+            this.emitListeners['onRow-click'] === true ||
+            this.emitListeners['onRow-dblclick'] === true
           ) {
             data.class[0] += ' cursor-pointer'
 
-            if (this.$.vnode.props['onRow-click'] !== void 0) {
+            if (this.emitListeners['onRow-click'] === true) {
               data.onClick = evt => {
                 this.$emit('row-click', evt, scope.row, scope.pageIndex)
               }
             }
 
-            if (this.$.vnode.props['onRow-dblclick'] !== void 0) {
+            if (this.emitListeners['onRow-dblclick'] === true) {
               data.onDblclick = evt => {
                 this.$emit('row-dblclick', evt, scope.row, scope.pageIndex)
               }

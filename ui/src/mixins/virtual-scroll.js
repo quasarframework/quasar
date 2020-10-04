@@ -1,5 +1,7 @@
 import { h } from 'vue'
 
+import EmitListenersMixin from '../../mixins/emit-listeners.js'
+
 import debounce from '../utils/debounce.js'
 
 const aggBucketSize = 1000
@@ -199,6 +201,8 @@ const commonVirtScrollProps = {
 export const commonVirtPropsList = Object.keys(commonVirtScrollProps)
 
 export default {
+  mixins: [ EmitListenersMixin ],
+
   props: {
     virtualScrollHorizontal: Boolean,
     ...commonVirtScrollProps
@@ -599,7 +603,7 @@ export default {
 
     __emitScroll (index) {
       if (this.prevToIndex !== index) {
-        this.$.vnode.props['onVirtual-scroll'] !== void 0 && this.$emit('virtual-scroll', {
+        this.emitListeners['onVirtual-scroll'] === true && this.$emit('virtual-scroll', {
           index,
           from: this.virtualScrollSliceRange.from,
           to: this.virtualScrollSliceRange.to - 1,

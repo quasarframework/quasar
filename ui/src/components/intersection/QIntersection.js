@@ -2,12 +2,16 @@ import { h, defineComponent, Transition } from 'vue'
 
 import { onSSR } from '../../plugins/Platform.js'
 
+import EmitListenersMixin from '../../mixins/emit-listeners.js'
+
 import Intersection from '../../directives/Intersection.js'
 
 import { hSlot, hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QIntersection',
+
+  mixins: [ EmitListenersMixin ],
 
   props: {
     tag: {
@@ -71,7 +75,7 @@ export default defineComponent({
     __trigger (entry) {
       if (this.showing !== entry.isIntersecting) {
         this.showing = entry.isIntersecting
-        this.$.vnode.props.onVisibility !== void 0 && this.$emit('visibility', this.showing)
+        this.emitListeners.onVisibility === true && this.$emit('visibility', this.showing)
       }
     },
 

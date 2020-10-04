@@ -11,11 +11,15 @@
           @click="toggleLeft"
         />
 
+        <div class="q-ml-sm">
+          {{ leftDrawerOpen }}
+        </div>
         <q-toolbar-title>
           Quasar App
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div class="q-mx-sm">Quasar v{{ $q.version }}</div>
+        <div class="q-mr-sm">{{ rightDrawerOpen }}</div>
 
         <q-btn
           flat

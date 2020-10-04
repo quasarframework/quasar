@@ -11,6 +11,7 @@ import getTableMiddle from './get-table-middle.js'
 
 import { commonVirtPropsList } from '../../mixins/virtual-scroll.js'
 import DarkMixin from '../../mixins/dark.js'
+import EmitListenersMixin from '../../mixins/emit-listeners.js'
 
 import Sort from './table-sort.js'
 import Filter from './table-filter.js'
@@ -28,6 +29,7 @@ export default defineComponent({
 
   mixins: [
     DarkMixin,
+    EmitListenersMixin,
 
     FullscreenMixin,
     Top,

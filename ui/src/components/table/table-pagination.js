@@ -30,7 +30,7 @@ export default {
 
   computed: {
     computedPagination () {
-      const pag = this.$.vnode.props['onUpdate:pagination'] !== void 0
+      const pag = this.emitListeners['onUpdate:pagination'] === true
         ? { ...this.innerPagination, ...this.pagination }
         : this.innerPagination
 
@@ -122,7 +122,7 @@ export default {
 
       if (
         this.pagination !== void 0 &&
-        this.$.vnode.props['onUpdate:pagination'] !== void 0
+        this.emitListeners['onUpdate:pagination'] === true
       ) {
         this.$emit('update:pagination', newPagination)
       }
@@ -155,7 +155,7 @@ export default {
   },
 
   created () {
-    if (this.$.vnode.props['onUpdate:pagination'] !== void 0) {
+    if (this.emitListeners['onUpdate:pagination'] === true) {
       this.$emit('update:pagination', { ...this.computedPagination })
     }
   }

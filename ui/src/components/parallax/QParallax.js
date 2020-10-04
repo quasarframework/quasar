@@ -1,5 +1,7 @@
 import { h, defineComponent } from 'vue'
 
+import EmitListenersMixin from '../../mixins/emit-listeners.js'
+
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
@@ -10,6 +12,8 @@ const { passive } = listenOpts
 
 export default defineComponent({
   name: 'QParallax',
+
+  mixins: [ EmitListenersMixin ],
 
   props: {
     src: String,
@@ -53,7 +57,7 @@ export default defineComponent({
   methods: {
     __update (percentage) {
       this.percentScrolled = percentage
-      this.$.vnode.props.onScroll !== void 0 && this.$emit('scroll', percentage)
+      this.emitListeners.onScroll === true && this.$emit('scroll', percentage)
     },
 
     __updatePos () {

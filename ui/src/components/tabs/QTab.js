@@ -3,6 +3,8 @@ import { h, defineComponent } from 'vue'
 import QIcon from '../icon/QIcon.js'
 
 import RippleMixin from '../../mixins/ripple.js'
+import EmitListenersMixin from '../../mixins/emit-listeners.js'
+
 import Ripple from '../../directives/Ripple.js'
 
 import { hMergeSlot, hDir } from '../../utils/render.js'
@@ -13,7 +15,7 @@ let uid = 0
 export default defineComponent({
   name: 'QTab',
 
-  mixins: [ RippleMixin ],
+  mixins: [ RippleMixin, EmitListenersMixin ],
 
   inject: {
     __qTabs: {
@@ -88,7 +90,7 @@ export default defineComponent({
       keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
 
       if (this.disable !== true) {
-        this.$.vnode.props.onClick !== void 0 && this.$emit('click', e)
+        this.emitListeners.onClick === true && this.$emit('click', e)
         this.__qTabs.__activateTab({ name: this.name })
       }
     },

@@ -2,6 +2,8 @@ import { h, defineComponent } from 'vue'
 
 import { onSSR } from '../../plugins/Platform.js'
 
+import EmitListenersMixin from '../../mixins/emit-listeners.js'
+
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
@@ -16,6 +18,8 @@ export default defineComponent({
       layout: this
     }
   },
+
+  mixins: [ EmitListenersMixin ],
 
   props: {
     container: Boolean,
@@ -127,7 +131,7 @@ export default defineComponent({
       if (this.container === true || document.qScrollPrevented !== true) {
         this.scroll = data
       }
-      this.$.vnode.props.onScroll !== void 0 && this.$emit('scroll', data)
+      this.emitListeners.onScroll === true && this.$emit('scroll', data)
     },
 
     __onPageResize ({ height, width }) {
@@ -136,7 +140,7 @@ export default defineComponent({
       if (this.height !== height) {
         resized = true
         this.height = height
-        this.$.vnode.props['onScroll-height'] !== void 0 && this.$emit('scroll-height', height)
+        this.emitListeners['onScroll-height'] === true && this.$emit('scroll-height', height)
         this.__updateScrollbarWidth()
       }
       if (this.width !== width) {
@@ -145,7 +149,7 @@ export default defineComponent({
       }
 
       if (resized === true) {
-        this.$.vnode.props.onResize !== void 0 && this.$emit('resize', { height, width })
+        this.emitListeners.onResize === true && this.$emit('resize', { height, width })
       }
     },
 

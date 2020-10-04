@@ -660,7 +660,7 @@ export default defineComponent({
       this.showIfAbove === true &&
       this.modelValue !== true &&
       this.showing === true &&
-      this.$.vnode.props['onUpdate:modelValue'] !== void 0
+      this.emitListeners['onUpdate:modelValue'] === true
     ) {
       this.$emit('update:modelValue', true)
     }
