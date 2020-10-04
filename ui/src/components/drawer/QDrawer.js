@@ -60,8 +60,8 @@ export default defineComponent({
 
     bordered: Boolean,
     elevated: Boolean,
-    contentStyle: [String, Object, Array],
-    contentClass: [String, Object, Array],
+    contentStyle: [ String, Object, Array ],
+    contentClass: [ String, Object, Array ],
 
     overlay: Boolean,
     persistent: Boolean,
@@ -71,7 +71,7 @@ export default defineComponent({
   },
 
   emits: [
-    'update:modelValue', 'on-layout', 'mini-state', 'click'
+    'on-layout', 'mini-state', 'click'
   ],
 
   data () {
@@ -353,7 +353,7 @@ export default defineComponent({
           this.__applyPosition(this.stateDirection * position)
         })
       }
-      else if (this.$refs.content !== void 0) {
+      else if (this.$refs.content !== void 0 && this.$refs.content !== null) {
         if (
           this.layout.container === true &&
           this.rightSide === true &&
@@ -660,7 +660,7 @@ export default defineComponent({
       this.showIfAbove === true &&
       this.modelValue !== true &&
       this.showing === true &&
-      this.$attrs['onUpdate:modelValue'] !== void 0
+      this.$.vnode.props['onUpdate:modelValue'] !== void 0
     ) {
       this.$emit('update:modelValue', true)
     }

@@ -71,7 +71,7 @@ export default defineComponent({
     __trigger (entry) {
       if (this.showing !== entry.isIntersecting) {
         this.showing = entry.isIntersecting
-        this.$attrs.onVisibility !== void 0 && this.$emit('visibility', this.showing)
+        this.$.vnode.props.onVisibility !== void 0 && this.$emit('visibility', this.showing)
       }
     },
 

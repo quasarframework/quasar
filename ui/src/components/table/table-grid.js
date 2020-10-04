@@ -62,19 +62,22 @@ export default {
             style: this.cardStyle
           }
 
-          if (this.$attrs['onRow-click'] !== void 0 || this.$attrs['onRow-dblclick'] !== void 0) {
+          if (
+            this.$.vnode.props['onRow-click'] !== void 0 ||
+            this.$.vnode.props['onRow-dblclick'] !== void 0
+          ) {
             data.class[0] += ' cursor-pointer'
-          }
 
-          if (this.$attrs['onRow-click'] !== void 0) {
-            data.onClick = evt => {
-              this.$emit('row-click', evt, scope.row, scope.pageIndex)
+            if (this.$.vnode.props['onRow-click'] !== void 0) {
+              data.onClick = evt => {
+                this.$emit('row-click', evt, scope.row, scope.pageIndex)
+              }
             }
-          }
 
-          if (this.$attrs['onRow-dblclick'] !== void 0) {
-            data.onDblclick = evt => {
-              this.$emit('row-dblclick', evt, scope.row, scope.pageIndex)
+            if (this.$.vnode.props['onRow-dblclick'] !== void 0) {
+              data.onDblclick = evt => {
+                this.$emit('row-dblclick', evt, scope.row, scope.pageIndex)
+              }
             }
           }
 

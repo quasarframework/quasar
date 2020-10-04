@@ -312,7 +312,7 @@ export default defineComponent({
     // ensure we're not emitting same info
     // multiple times
     this.__emitScroll = debounce(() => {
-      if (this.$attrs.onScroll !== void 0) {
+      if (this.$.vnode.props.onScroll !== void 0) {
         const info = { ref: this }
         const prefix = this.dirProps.prefix
 

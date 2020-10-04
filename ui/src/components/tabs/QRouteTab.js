@@ -60,7 +60,7 @@ export default defineComponent({
             )
           }
 
-          this.$attrs.onClick !== void 0 && this.$emit('click', e, go)
+          this.$.vnode.props.onClick !== void 0 && this.$emit('click', e, go)
           e.navigate !== false && go()
         }
       }

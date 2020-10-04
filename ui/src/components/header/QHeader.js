@@ -16,7 +16,7 @@ export default defineComponent({
   },
 
   props: {
-    value: {
+    modelValue: {
       type: Boolean,
       default: true
     },
@@ -44,7 +44,7 @@ export default defineComponent({
   },
 
   watch: {
-    value (val) {
+    modelValue (val) {
       this.__update('space', val)
       this.__updateLocal('revealed', true)
       this.layout.__animate()
@@ -55,7 +55,7 @@ export default defineComponent({
     },
 
     reveal (val) {
-      val === false && this.__updateLocal('revealed', this.value)
+      val === false && this.__updateLocal('revealed', this.modelValue)
     },
 
     revealed (val) {
@@ -80,7 +80,7 @@ export default defineComponent({
     },
 
     offset () {
-      if (this.value !== true) {
+      if (this.modelValue !== true) {
         return 0
       }
       if (this.fixed === true) {
@@ -91,11 +91,11 @@ export default defineComponent({
     },
 
     hidden () {
-      return this.value !== true || (this.fixed === true && this.revealed !== true)
+      return this.modelValue !== true || (this.fixed === true && this.revealed !== true)
     },
 
     revealOnFocus () {
-      return this.value === true && this.hidden === true && this.reveal === true
+      return this.modelValue === true && this.hidden === true && this.reveal === true
     },
 
     classes () {
@@ -103,7 +103,7 @@ export default defineComponent({
         (this.fixed === true ? 'fixed' : 'absolute') + '-top' +
         (this.bordered === true ? ' q-header--bordered' : '') +
         (this.hidden === true ? ' q-header--hidden' : '') +
-        (this.value !== true ? ' q-layout--prevent-focus' : '')
+        (this.modelValue !== true ? ' q-layout--prevent-focus' : '')
     },
 
     style () {
@@ -147,8 +147,8 @@ export default defineComponent({
 
   created () {
     this.layout.instances.header = this
-    this.value === true && this.__update('size', this.size)
-    this.__update('space', this.value)
+    this.modelValue === true && this.__update('size', this.size)
+    this.__update('space', this.modelValue)
     this.__update('offset', this.offset)
   },
 

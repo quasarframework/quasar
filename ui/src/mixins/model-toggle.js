@@ -36,11 +36,13 @@ export default {
     },
 
     show (evt) {
-      if (isSSR === true || this.disable === true || (this.__showCondition !== void 0 && this.__showCondition(evt) !== true)) {
+      if (this.disable === true || (this.__showCondition !== void 0 && this.__showCondition(evt) !== true)) {
         return
       }
 
-      if (this.modelValue === false) {
+      const listener = this.$.vnode.props['onUpdate:modelValue'] !== void 0
+
+      if (listener === true && isSSR === false) {
         this.$emit('update:modelValue', true)
         this.payload = evt
         this.$nextTick(() => {
@@ -49,7 +51,8 @@ export default {
           }
         })
       }
-      else if (this.modelValue === null) {
+
+      if (this.modelValue === null || listener === false || isSSR === true) {
         this.__processShow(evt)
       }
     },
@@ -78,7 +81,9 @@ export default {
         return
       }
 
-      if (this.modelValue === true) {
+      const listener = this.$.vnode.props['onUpdate:modelValue'] !== void 0
+
+      if (listener === true && isSSR === false) {
         this.$emit('update:modelValue', false)
         this.payload = evt
         this.$nextTick(() => {
@@ -87,7 +92,8 @@ export default {
           }
         })
       }
-      else if (this.modelValue === null) {
+
+      if (this.modelValue === null || listener === false || isSSR === true) {
         this.__processHide(evt)
       }
     },
@@ -113,7 +119,7 @@ export default {
 
     __processModelChange (val) {
       if (this.disable === true && val === true) {
-        this.modelValue !== null && this.$emit('update:modelValue', false)
+        this.$.vnode.props['onUpdate:modelValue'] !== void 0 && this.$emit('update:modelValue', false)
       }
       else if ((val === true) !== this.showing) {
         this[`__process${val === true ? 'Show' : 'Hide'}`](this.payload)

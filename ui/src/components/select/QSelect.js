@@ -614,7 +614,7 @@ export default defineComponent({
       }
 
       const newValueModeValid = this.inputValue.length > 0 &&
-        (this.newValueMode !== void 0 || this.$attrs['onNew-value'] !== void 0)
+        (this.newValueMode !== void 0 || this.$.vnode.props['onNew-value'] !== void 0)
       const tabShouldSelect = e.shiftKey !== true &&
         this.multiple !== true &&
         (this.optionIndex > -1 || newValueModeValid === true)
@@ -760,7 +760,7 @@ export default defineComponent({
           }
         }
 
-        if (this.$attrs['onNew-value'] !== void 0) {
+        if (this.$.vnode.props['onNew-value'] !== void 0) {
           this.$emit('new-value', this.inputValue, done)
         }
         else {
@@ -919,7 +919,7 @@ export default defineComponent({
         this.__focus()
       }
 
-      if (this.$attrs.onFilter !== void 0) {
+      if (this.$.vnode.props.onFilter !== void 0) {
         this.inputTimer = setTimeout(() => {
           this.filter(this.inputValue)
         }, this.inputDebounce)
@@ -948,7 +948,7 @@ export default defineComponent({
     },
 
     filter (val) {
-      if (this.$attrs.onFilter === void 0 || this.focused !== true) {
+      if (this.$.vnode.props.onFilter === void 0 || this.focused !== true) {
         return
       }
 
@@ -1215,7 +1215,7 @@ export default defineComponent({
         this.__focus()
       }
 
-      if (this.$attrs.onFilter !== void 0) {
+      if (this.$.vnode.props.onFilter !== void 0) {
         this.filter(this.inputValue)
       }
       else if (this.noOptions !== true || this.$slots['no-option'] !== void 0) {
@@ -1265,7 +1265,7 @@ export default defineComponent({
           ? false
           : this.behavior !== 'menu' && (
             this.useInput === true
-              ? this.$slots['no-option'] !== void 0 || this.$attrs.onFilter !== void 0 || this.noOptions === false
+              ? this.$slots['no-option'] !== void 0 || this.$.vnode.props.onFilter !== void 0 || this.noOptions === false
               : true
           )
 

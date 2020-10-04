@@ -176,7 +176,10 @@ export default defineComponent({
     __activateTab ({ name, setCurrent, skipEmit }) {
       if (this.currentModel !== name) {
         skipEmit !== true && this.$emit('update:modelValue', name)
-        if (setCurrent === true || this.$attrs['onUpdate:modelValue'] === void 0) {
+        if (
+          setCurrent === true ||
+          this.$.vnode.props['onUpdate:modelValue'] === void 0
+        ) {
           this.__animate(this.currentModel, name)
           this.currentModel = name
         }

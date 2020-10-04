@@ -58,14 +58,14 @@ export default {
 
       const data = { key, class: { selected } }
 
-      if (this.$attrs['onRow-click'] !== void 0) {
+      if (this.$.vnode.props['onRow-click'] !== void 0) {
         data.class['cursor-pointer'] = true
         data.onClick = evt => {
           this.$emit('row-click', evt, row, pageIndex)
         }
       }
 
-      if (this.$attrs['onRow-dblclick'] !== void 0) {
+      if (this.$.vnode.props['onRow-dblclick'] !== void 0) {
         data.class['cursor-pointer'] = true
         data.onDblclick = evt => {
           this.$emit('row-dblclick', evt, row, pageIndex)

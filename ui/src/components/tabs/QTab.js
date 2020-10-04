@@ -43,6 +43,8 @@ export default defineComponent({
     contentClass: String
   },
 
+  emits: [ 'click' ],
+
   computed: {
     isActive () {
       return this.__qTabs.currentModel === this.name
@@ -86,7 +88,7 @@ export default defineComponent({
       keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
 
       if (this.disable !== true) {
-        this.$attrs.onClick !== void 0 && this.$emit('click', e)
+        this.$.vnode.props.onClick !== void 0 && this.$emit('click', e)
         this.__qTabs.__activateTab({ name: this.name })
       }
     },

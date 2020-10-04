@@ -82,26 +82,26 @@ export default defineComponent({
     },
 
     style () {
-      if (this.container === true) {
-        return { minHeight: this.$q.screen.height + 'px' }
-      }
+      return this.container === false
+        ? { minHeight: this.$q.screen.height + 'px' }
+        : null
     },
 
     // used by container only
     targetStyle () {
-      if (this.scrollbarWidth !== 0) {
-        return { [this.$q.lang.rtl === true ? 'left' : 'right']: `${this.scrollbarWidth}px` }
-      }
+      return this.scrollbarWidth !== 0
+        ? { [this.$q.lang.rtl === true ? 'left' : 'right']: `${this.scrollbarWidth}px` }
+        : null
     },
 
     targetChildStyle () {
-      if (this.scrollbarWidth !== 0) {
-        return {
+      return this.scrollbarWidth !== 0
+        ? {
           [this.$q.lang.rtl === true ? 'right' : 'left']: 0,
           [this.$q.lang.rtl === true ? 'left' : 'right']: `-${this.scrollbarWidth}px`,
           width: `calc(100% + ${this.scrollbarWidth}px)`
         }
-      }
+        : null
     },
 
     totalWidth () {
@@ -127,7 +127,7 @@ export default defineComponent({
       if (this.container === true || document.qScrollPrevented !== true) {
         this.scroll = data
       }
-      this.$attrs.onScroll !== void 0 && this.$emit('scroll', data)
+      this.$.vnode.props.onScroll !== void 0 && this.$emit('scroll', data)
     },
 
     __onPageResize ({ height, width }) {
@@ -136,7 +136,7 @@ export default defineComponent({
       if (this.height !== height) {
         resized = true
         this.height = height
-        this.$attrs['onScroll-height'] !== void 0 && this.$emit('scroll-height', height)
+        this.$.vnode.props['onScroll-height'] !== void 0 && this.$emit('scroll-height', height)
         this.__updateScrollbarWidth()
       }
       if (this.width !== width) {
@@ -145,7 +145,7 @@ export default defineComponent({
       }
 
       if (resized === true) {
-        this.$attrs.onResize !== void 0 && this.$emit('resize', { height, width })
+        this.$.vnode.props.onResize !== void 0 && this.$emit('resize', { height, width })
       }
     },
 

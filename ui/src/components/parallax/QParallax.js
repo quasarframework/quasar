@@ -53,7 +53,7 @@ export default defineComponent({
   methods: {
     __update (percentage) {
       this.percentScrolled = percentage
-      this.$attrs.onScroll !== void 0 && this.$emit('scroll', percentage)
+      this.$.vnode.props.onScroll !== void 0 && this.$emit('scroll', percentage)
     },
 
     __updatePos () {
