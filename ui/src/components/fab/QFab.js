@@ -6,7 +6,7 @@ import QIcon from '../icon/QIcon.js'
 import FabMixin from '../../mixins/fab.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 
-import { slot, mergeSlot } from '../../utils/render.js'
+import { hSlot, hMergeSlot } from '../../utils/render.js'
 
 const directions = ['up', 'right', 'down', 'left']
 const alignValues = [ 'left', 'center', 'right' ]
@@ -99,7 +99,7 @@ export default defineComponent({
         h('div', this.labelProps.data, [ this.label ])
       )
 
-      return mergeSlot(child, this, 'tooltip')
+      return hMergeSlot(child, this, 'tooltip')
     }
   },
 
@@ -123,7 +123,7 @@ export default defineComponent({
         onClick: this.toggle
       }, this.__getTriggerContent),
 
-      h('div', { class: this.actionClass }, slot(this, 'default'))
+      h('div', { class: this.actionClass }, hSlot(this, 'default'))
     ])
   }
 })

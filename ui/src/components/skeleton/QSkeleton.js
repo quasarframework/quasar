@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export const skeletonTypes = [
   'text', 'rect', 'circle',
@@ -66,6 +66,6 @@ export default defineComponent({
     return h(this.tag, {
       class: this.classes,
       style: this.style
-    }, slot(this, 'default'))
+    }, hSlot(this, 'default'))
   }
 })

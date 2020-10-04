@@ -1,7 +1,7 @@
 import { h, defineComponent } from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
-import { mergeSlotSafely } from '../../utils/render.js'
+import { hMergeSlotSafely } from '../../utils/render.js'
 import { between } from '../../utils/format.js'
 
 const
@@ -172,6 +172,6 @@ export default defineComponent({
       'aria-valuemin': this.min,
       'aria-valuemax': this.max,
       'aria-valuenow': this.indeterminate === true ? void 0 : this.normalizedValue
-    }, mergeSlotSafely(child, this, 'internal'))
+    }, hMergeSlotSafely(child, this, 'internal'))
   }
 })

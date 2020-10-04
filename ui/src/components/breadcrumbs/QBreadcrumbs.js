@@ -1,7 +1,8 @@
 import { h, defineComponent } from 'vue'
 
 import AlignMixin from '../../mixins/align.js'
-import { slot } from '../../utils/render.js'
+
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QBreadcrumbs',
@@ -44,7 +45,7 @@ export default defineComponent({
   },
 
   render () {
-    const nodes = slot(this, 'default')
+    const nodes = hSlot(this, 'default')
     if (nodes === void 0) { return }
 
     let els = 1

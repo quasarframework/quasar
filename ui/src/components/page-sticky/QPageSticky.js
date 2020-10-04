@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QPageSticky',
@@ -116,7 +116,7 @@ export default defineComponent({
   },
 
   render () {
-    const content = slot(this, 'default')
+    const content = hSlot(this, 'default')
 
     return h('div', {
       class: this.classes,

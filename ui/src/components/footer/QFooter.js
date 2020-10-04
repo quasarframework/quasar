@@ -4,7 +4,7 @@ import { onSSR } from '../../plugins/Platform.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import { mergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QFooter',
@@ -131,7 +131,7 @@ export default defineComponent({
   },
 
   render () {
-    const child = mergeSlot([
+    const child = hMergeSlot([
       h(QResizeObserver, {
         debounce: 0,
         onResize: this.__onResize

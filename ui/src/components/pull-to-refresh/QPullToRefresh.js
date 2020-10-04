@@ -7,7 +7,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
-import { slot, hDir } from '../../utils/render.js'
+import { hSlot, hDir } from '../../utils/render.js'
 
 const
   PULLER_HEIGHT = 40,
@@ -178,7 +178,7 @@ export default defineComponent({
 
   render () {
     const child = [
-      h('div', { class: this.contentClass }, slot(this, 'default')),
+      h('div', { class: this.contentClass }, hSlot(this, 'default')),
 
       h('div', {
         class: 'q-pull-to-refresh__puller-container fixed row flex-center no-pointer-events z-top',

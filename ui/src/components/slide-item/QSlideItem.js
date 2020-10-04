@@ -5,7 +5,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import CacheMixin from '../../mixins/cache.js'
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 const slotsDef = [
   ['left', 'center', 'start', 'width'],
@@ -172,7 +172,7 @@ export default defineComponent({
       ref: 'content',
       key: 'content',
       class: 'q-slide-item__content'
-    }, slot(this, 'default'))
+    }, hSlot(this, 'default'))
 
     content.push(
       withDirectives(node, this.__getCacheWithFn('dir#' + dirs.join(''), () => {

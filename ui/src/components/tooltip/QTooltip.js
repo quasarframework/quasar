@@ -9,7 +9,7 @@ import { getScrollTarget } from '../../utils/scroll.js'
 import { getTouchTarget } from '../../utils/touch.js'
 import { addEvt, cleanEvt } from '../../utils/event.js'
 import { clearSelection } from '../../utils/selection.js'
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/position-engine.js'
@@ -223,7 +223,7 @@ export default defineComponent({
           ],
           style: this.contentStyle,
           role: 'complementary'
-        }, slot(this, 'default'))
+        }, hSlot(this, 'default'))
         : null
     },
 

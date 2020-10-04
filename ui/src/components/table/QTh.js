@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import { slot, uniqueSlot } from '../../utils/render.js'
+import { hSlot, hUniqueSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QTh',
@@ -18,7 +18,7 @@ export default defineComponent({
     if (this.props === void 0) {
       return h('th', {
         class: this.autoWidth === true ? 'q-table--col-auto-width' : ''
-      }, slot(this, 'default'))
+      }, hSlot(this, 'default'))
     }
 
     let col, child
@@ -37,7 +37,7 @@ export default defineComponent({
         ? 'unshift'
         : 'push'
 
-      child = uniqueSlot(this, 'default', [])
+      child = hUniqueSlot(this, 'default', [])
       child[action](
         h(QIcon, {
           class: col.__iconClass,
@@ -46,7 +46,7 @@ export default defineComponent({
       )
     }
     else {
-      child = slot(this, 'default')
+      child = hSlot(this, 'default')
     }
 
     const data = {

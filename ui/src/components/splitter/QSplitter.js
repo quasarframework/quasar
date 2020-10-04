@@ -4,7 +4,7 @@ import TouchPan from '../../directives/TouchPan.js'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot, mergeSlot, hDir } from '../../utils/render.js'
+import { hSlot, hMergeSlot, hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QSplitter',
@@ -173,7 +173,7 @@ export default defineComponent({
           this.beforeClass
         ],
         style: this.styles.before
-      }, slot(this, 'before')),
+      }, hSlot(this, 'before')),
 
       h('div', {
         class: [
@@ -186,7 +186,7 @@ export default defineComponent({
         hDir(
           'div',
           { class: 'q-splitter__separator-area absolute-full' },
-          slot(this, 'separator'),
+          hSlot(this, 'separator'),
           'sep',
           this.disable !== true,
           () => this.sepDirective
@@ -200,11 +200,11 @@ export default defineComponent({
           this.afterClass
         ],
         style: this.styles.after
-      }, slot(this, 'after'))
+      }, hSlot(this, 'after'))
     ]
 
     return h('div', {
       class: this.classes
-    }, mergeSlot(child, this, 'default'))
+    }, hMergeSlot(child, this, 'default'))
   }
 })

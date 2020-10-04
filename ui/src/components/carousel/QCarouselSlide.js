@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import { PanelChildMixin } from '../../mixins/panel.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QCarouselSlide',
@@ -27,6 +27,6 @@ export default defineComponent({
     return h('div', {
       class: 'q-carousel__slide',
       style: this.style
-    }, slot(this, 'default'))
+    }, hSlot(this, 'default'))
   }
 })

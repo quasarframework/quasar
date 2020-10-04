@@ -7,7 +7,7 @@ import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QBtnDropdown',
@@ -161,7 +161,7 @@ export default defineComponent({
         round: false,
         ...this.attrs,
         onClick: this.__onClick
-      }, () => slot(this, 'label', []).concat(Arrow))
+      }, () => hSlot(this, 'label', []).concat(Arrow))
     }
 
     return h(QBtnGroup, {

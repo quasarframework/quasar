@@ -6,7 +6,7 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import TimeoutMixin from '../../mixins/timeout.js'
 
 import { noop } from '../../utils/event.js'
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -401,7 +401,7 @@ export default defineComponent({
       h('div', {
         ref: 'content',
         class: this.innerClass
-      }, slot(this, 'default'))
+      }, hSlot(this, 'default'))
     ]
 
     this.arrowsEnabled === true && child.push(

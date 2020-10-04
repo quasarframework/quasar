@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QTr',
@@ -19,6 +19,6 @@ export default defineComponent({
   },
 
   render () {
-    return h('tr', { class: this.classes }, slot(this, 'default'))
+    return h('tr', { class: this.classes }, hSlot(this, 'default'))
   }
 })

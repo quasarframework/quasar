@@ -4,7 +4,7 @@ import debounce from '../../utils/debounce.js'
 import { height } from '../../utils/dom.js'
 import { getScrollTarget, getScrollHeight, getScrollPosition, setScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
-import { slot, uniqueSlot } from '../../utils/render.js'
+import { hSlot, hUniqueSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QInfiniteScroll',
@@ -191,11 +191,11 @@ export default defineComponent({
   },
 
   render () {
-    const child = uniqueSlot(this, 'default', [])
+    const child = hUniqueSlot(this, 'default', [])
 
     if (this.disable !== true && this.working === true) {
       child[this.reverse === false ? 'push' : 'unshift'](
-        h('div', { class: this.classes }, slot(this, 'loading'))
+        h('div', { class: this.classes }, hSlot(this, 'loading'))
       )
     }
 

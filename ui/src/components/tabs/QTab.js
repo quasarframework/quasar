@@ -5,7 +5,7 @@ import QIcon from '../icon/QIcon.js'
 import RippleMixin from '../../mixins/ripple.js'
 import Ripple from '../../directives/Ripple.js'
 
-import { mergeSlot, hDir } from '../../utils/render.js'
+import { hMergeSlot, hDir } from '../../utils/render.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 
 let uid = 0
@@ -136,7 +136,7 @@ export default defineComponent({
 
       const node = [
         h('div', { class: 'q-focus-helper', tabindex: -1, ref: 'blurTarget' }),
-        h('div', { class: this.innerClass }, mergeSlot(content, this, 'default'))
+        h('div', { class: this.innerClass }, hMergeSlot(content, this, 'default'))
       ]
 
       narrow === false && node.push(indicator)

@@ -8,7 +8,7 @@ import DarkMixin from '../../mixins/dark.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
-import { slot, hDir } from '../../utils/render.js'
+import { hSlot, hDir } from '../../utils/render.js'
 
 const duration = 150
 
@@ -616,7 +616,7 @@ export default defineComponent({
         style: this.contentStyle
       }, this.isMini === true && this.$slots.mini !== void 0
         ? this.$slots.mini()
-        : slot(this, 'default')
+        : hSlot(this, 'default')
       )
     ]
 

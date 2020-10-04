@@ -4,7 +4,7 @@ import { onSSR } from '../../plugins/Platform.js'
 
 import Intersection from '../../directives/Intersection.js'
 
-import { slot, hDir } from '../../utils/render.js'
+import { hSlot, hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QIntersection',
@@ -77,7 +77,7 @@ export default defineComponent({
 
     __getContent () {
       return this.showing === true
-        ? [ h('div', { key: 'content' }, slot(this, 'default')) ]
+        ? [ h('div', { key: 'content' }, hSlot(this, 'default')) ]
         : void 0
     }
   },

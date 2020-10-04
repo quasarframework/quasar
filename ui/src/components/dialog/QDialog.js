@@ -6,7 +6,7 @@ import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
 import { childHasFocus } from '../../utils/dom.js'
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 import { addEscapeKey, removeEscapeKey } from '../../utils/escape-key.js'
 import { addFocusout, removeFocusout } from '../../utils/focusout.js'
 
@@ -346,7 +346,7 @@ export default defineComponent({
               class: this.classes,
               tabindex: -1,
               ...this.onEvents
-            }, slot(this, 'default'))
+            }, hSlot(this, 'default'))
             : null
         )
       ])

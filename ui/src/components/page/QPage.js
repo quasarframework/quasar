@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QPage',
@@ -54,6 +54,6 @@ export default defineComponent({
     return h('main', {
       class: this.classes,
       style: this.style
-    }, slot(this, 'default'))
+    }, hSlot(this, 'default'))
   }
 })

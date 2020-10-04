@@ -3,7 +3,7 @@ import { h, defineComponent, withDirectives, Transition } from 'vue'
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { pad } from '../../utils/format.js'
@@ -780,7 +780,7 @@ export default defineComponent({
       this.__getClock()
     ]
 
-    const def = slot(this, 'default')
+    const def = hSlot(this, 'default')
     def !== void 0 && child.push(
       h('div', { class: 'q-time__actions' }, def)
     )

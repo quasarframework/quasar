@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QBar',
@@ -25,6 +25,6 @@ export default defineComponent({
     return h('div', {
       class: this.classes,
       role: 'toolbar'
-    }, slot(this, 'default'))
+    }, hSlot(this, 'default'))
   }
 })

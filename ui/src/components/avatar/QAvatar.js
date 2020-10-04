@@ -4,7 +4,7 @@ import QIcon from '../icon/QIcon.js'
 
 import SizeMixin from '../../mixins/size.js'
 
-import { mergeSlotSafely } from '../../utils/render.js'
+import { hMergeSlotSafely } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QAvatar',
@@ -53,7 +53,7 @@ export default defineComponent({
       h('div', {
         class: 'q-avatar__content row flex-center overflow-hidden',
         style: this.contentStyle
-      }, mergeSlotSafely(icon, this, 'default'))
+      }, hMergeSlotSafely(icon, this, 'default'))
     ])
   }
 })

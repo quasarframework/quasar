@@ -5,12 +5,11 @@ import QBtnDropdown from '../btn-dropdown/QBtnDropdown.js'
 import QInput from '../input/QInput.js'
 import QIcon from '../icon/QIcon.js'
 import QTooltip from '../tooltip/QTooltip.js'
-import QList from '../item/QList.js'
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
 import { prevent } from '../../utils/event.js'
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 import { shouldIgnoreKey } from '../../utils/key-composition.js'
 
 function run (e, btn, vm) {
@@ -175,7 +174,7 @@ export function getToolbar (vm) {
           }
 
           if (btn.type === 'slot') {
-            return slot(vm, btn.slot)
+            return hSlot(vm, btn.slot)
           }
 
           if (btn.type === 'dropdown') {

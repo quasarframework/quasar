@@ -8,7 +8,7 @@ import QSpinner from '../spinner/QSpinner.js'
 import ValidateMixin from '../../mixins/validate.js'
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 import uid from '../../utils/uid.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 
@@ -360,7 +360,7 @@ export default defineComponent({
       this.hasLabel === true && node.push(
         h('div', {
           class: this.labelClass
-        }, slot(this, 'label', this.label))
+        }, hSlot(this, 'label', this.label))
       )
 
       this.suffix !== void 0 && this.suffix !== null && node.push(
@@ -369,7 +369,7 @@ export default defineComponent({
         }, this.suffix)
       )
 
-      return node.concat(slot(this, 'default'))
+      return node.concat(hSlot(this, 'default'))
     },
 
     __getBottom () {
@@ -381,7 +381,7 @@ export default defineComponent({
           key = this.computedErrorMessage
         }
         else {
-          msg = slot(this, 'error')
+          msg = hSlot(this, 'error')
           key = 'q--slot-error'
         }
       }
@@ -391,7 +391,7 @@ export default defineComponent({
           key = this.hint
         }
         else {
-          msg = slot(this, 'hint')
+          msg = hSlot(this, 'hint')
           key = 'q--slot-hint'
         }
       }

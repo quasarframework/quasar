@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QList',
@@ -28,6 +28,6 @@ export default defineComponent({
   },
 
   render () {
-    return h('div', { class: this.classes }, slot(this, 'default'))
+    return h('div', { class: this.classes }, hSlot(this, 'default'))
   }
 })

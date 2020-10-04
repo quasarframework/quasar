@@ -5,7 +5,7 @@ import StepHeader from './StepHeader.js'
 
 import { PanelChildMixin } from '../../mixins/panel.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 const StepWrapper = defineComponent({
   name: 'QStepWrapper',
@@ -16,7 +16,7 @@ const StepWrapper = defineComponent({
     }, [
       h('div', {
         class: 'q-stepper__step-inner'
-      }, slot(this, 'default'))
+      }, hSlot(this, 'default'))
     ])
   }
 })

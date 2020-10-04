@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 const separatorValues = [ 'horizontal', 'vertical', 'cell', 'none' ]
 
@@ -41,7 +41,7 @@ export default defineComponent({
     return h('div', {
       class: this.classes
     }, [
-      h('table', { class: 'q-table' }, slot(this, 'default'))
+      h('table', { class: 'q-table' }, hSlot(this, 'default'))
     ])
   }
 })

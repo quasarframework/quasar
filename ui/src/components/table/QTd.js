@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QTd',
@@ -20,7 +20,7 @@ export default defineComponent({
 
   render () {
     if (this.props === void 0) {
-      return h('td', { class: this.classes }, slot(this, 'default'))
+      return h('td', { class: this.classes }, hSlot(this, 'default'))
     }
 
     const name = this.$.vnode.key
@@ -34,6 +34,6 @@ export default defineComponent({
     return h('td', {
       class: this.classes + ' ' + col.__tdClass,
       style: col.style
-    }, slot(this, 'default'))
+    }, hSlot(this, 'default'))
   }
 })

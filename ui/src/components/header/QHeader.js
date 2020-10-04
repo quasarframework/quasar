@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import { uniqueSlot } from '../../utils/render.js'
+import { hUniqueSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QHeader',
@@ -123,7 +123,7 @@ export default defineComponent({
   },
 
   render () {
-    const child = uniqueSlot(this, 'default', [])
+    const child = hUniqueSlot(this, 'default', [])
 
     this.elevated === true && child.push(
       h('div', {

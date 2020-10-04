@@ -5,7 +5,7 @@ import QIcon from '../icon/QIcon.js'
 
 import FabMixin from '../../mixins/fab.js'
 
-import { mergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/render.js'
 
 const anchorMap = {
   start: 'self-end',
@@ -73,7 +73,7 @@ export default defineComponent({
         h('div', this.labelProps.data, [ this.label ])
       )
 
-      return mergeSlot(child, this, 'default')
+      return hMergeSlot(child, this, 'default')
     }
   },
 

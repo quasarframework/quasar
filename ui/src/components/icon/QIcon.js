@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
 
-import { slot, mergeSlot } from '../../utils/render.js'
+import { hSlot, hMergeSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QIcon',
@@ -157,7 +157,7 @@ export default defineComponent({
     }
 
     if (this.type.none === true) {
-      return h(this.tag, data, slot(this, 'default'))
+      return h(this.tag, data, hSlot(this, 'default'))
     }
 
     if (this.type.img === true) {
@@ -169,21 +169,21 @@ export default defineComponent({
       data.focusable = 'false' /* needed for IE11 */
       data.viewBox = this.type.viewBox
 
-      return h('svg', data, mergeSlot(this.type.nodes, this, 'default'))
+      return h('svg', data, hMergeSlot(this.type.nodes, this, 'default'))
     }
 
     if (this.type.svguse === true) {
       data.focusable = 'false' /* needed for IE11 */
       data.viewBox = this.type.viewBox
 
-      return h('svg', data, mergeSlot(
+      return h('svg', data, hMergeSlot(
         [ h('use', { 'xlink:href': this.type.src }) ],
         this,
         'default')
       )
     }
 
-    return h(this.tag, data, mergeSlot([
+    return h(this.tag, data, hMergeSlot([
       this.type.content
     ], this, 'default'))
   }

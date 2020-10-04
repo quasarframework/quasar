@@ -7,7 +7,7 @@ import FormMixin from './form.js'
 import OptionSizeMixin from './option-size.js'
 import RefocusTargetMixin from './refocus-target.js'
 
-import { slot, mergeSlot } from '../utils/render.js'
+import { hSlot, hMergeSlot } from '../utils/render.js'
 
 export default {
   mixins: [ DarkMixin, OptionSizeMixin, FormMixin, RefocusTargetMixin ],
@@ -208,8 +208,8 @@ export default {
     }
 
     const label = this.label !== void 0
-      ? mergeSlot([ this.label ], this, 'default')
-      : slot(this, 'default')
+      ? hMergeSlot([ this.label ], this, 'default')
+      : hSlot(this, 'default')
 
     label !== void 0 && child.push(
       h('div', {

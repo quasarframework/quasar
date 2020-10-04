@@ -5,7 +5,7 @@ import QBtn from '../btn/QBtn.js'
 
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/is.js'
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 
 export default defineComponent({
@@ -121,7 +121,7 @@ export default defineComponent({
 
     __getContent () {
       const
-        title = slot(this, 'title', this.title),
+        title = hSlot(this, 'title', this.title),
         child = this.$slots.default === void 0
           ? []
           : this.$slots.default(this.defaultSlotScope).slice()

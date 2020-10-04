@@ -1,7 +1,7 @@
 import { h, defineComponent } from 'vue'
 
 import { PanelChildMixin } from '../../mixins/panel.js'
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QTabPanel',
@@ -9,6 +9,6 @@ export default defineComponent({
   mixins: [ PanelChildMixin ],
 
   render () {
-    return h('div', { class: 'q-tab-panel' }, slot(this, 'default'))
+    return h('div', { class: 'q-tab-panel' }, hSlot(this, 'default'))
   }
 })

@@ -2,7 +2,7 @@ import { h, defineComponent, Transition, KeepAlive } from 'vue'
 
 import TouchSwipe from '../directives/TouchSwipe.js'
 
-import { slot } from '../utils/render.js'
+import { hSlot } from '../utils/render.js'
 
 const PanelWrapper = defineComponent({
   name: 'QTabPanelWrapper',
@@ -11,7 +11,7 @@ const PanelWrapper = defineComponent({
     return h('div', {
       class: 'q-panel scroll',
       role: 'tabpanel'
-    }, slot(this, 'default'))
+    }, hSlot(this, 'default'))
   }
 })
 
@@ -215,7 +215,7 @@ export const PanelParentMixin = {
   },
 
   render () {
-    this.panels = slot(this, 'default', []).filter(
+    this.panels = hSlot(this, 'default', []).filter(
       panel => panel.props !== null &&
         panel.props.slot === void 0 &&
         this.__isValidPanelName(panel.props.name)

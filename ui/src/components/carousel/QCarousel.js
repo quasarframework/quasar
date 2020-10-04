@@ -7,7 +7,7 @@ import { PanelParentMixin } from '../../mixins/panel.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
 import { isNumber } from '../../utils/is.js'
-import { mergeSlot, hDir } from '../../utils/render.js'
+import { hMergeSlot, hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QCarousel',
@@ -228,7 +228,7 @@ export default defineComponent({
         }
       }
 
-      return mergeSlot(node, this, 'control')
+      return hMergeSlot(node, this, 'control')
     },
 
     __renderPanels () {

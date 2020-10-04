@@ -7,7 +7,7 @@ import Ripple from '../../directives/Ripple.js'
 
 import BtnMixin from '../../mixins/btn.js'
 
-import { mergeSlot, hDir } from '../../utils/render.js'
+import { hMergeSlot, hDir } from '../../utils/render.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { getTouchTarget } from '../../utils/touch.js'
 import { isKeyCode } from '../../utils/key-composition.js'
@@ -291,7 +291,7 @@ export default defineComponent({
       h('span', { class: 'block' }, [ this.label ])
     )
 
-    inner = mergeSlot(inner, this, 'default')
+    inner = hMergeSlot(inner, this, 'default')
 
     if (this.iconRight !== void 0 && this.round === false) {
       inner.push(

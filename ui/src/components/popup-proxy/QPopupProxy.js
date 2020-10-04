@@ -4,7 +4,7 @@ import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
 
 import AnchorMixin from '../../mixins/anchor.js'
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QPopupProxy',
@@ -77,7 +77,7 @@ export default defineComponent({
   },
 
   render () {
-    const def = slot(this, 'default')
+    const def = hSlot(this, 'default')
 
     const props = (
       this.type === 'menu' &&

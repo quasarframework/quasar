@@ -1,12 +1,12 @@
 import { h, withDirectives } from 'vue'
 
-export function slot (vm, slotName, otherwise) {
+export function hSlot (vm, slotName, otherwise) {
   return vm.$slots[slotName] !== void 0
     ? vm.$slots[slotName]()
     : otherwise
 }
 
-export function uniqueSlot (vm, slotName, otherwise) {
+export function hUniqueSlot (vm, slotName, otherwise) {
   return vm.$slots[slotName] !== void 0
     ? vm.$slots[slotName]().slice()
     : otherwise
@@ -16,7 +16,7 @@ export function uniqueSlot (vm, slotName, otherwise) {
  * Source definitely exists,
  * so it's merged with the possible slot
  */
-export function mergeSlot (source, vm, slotName) {
+export function hMergeSlot (source, vm, slotName) {
   return vm.$slots[slotName] !== void 0
     ? source.concat(vm.$slots[slotName]())
     : source
@@ -26,7 +26,7 @@ export function mergeSlot (source, vm, slotName) {
  * Merge with possible slot,
  * even if source might not exist
  */
-export function mergeSlotSafely (source, vm, slotName) {
+export function hMergeSlotSafely (source, vm, slotName) {
   if (vm.$slots[slotName] === void 0) {
     return source
   }

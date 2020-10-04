@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import { slot, uniqueSlot } from '../../utils/render.js'
+import { hSlot, hUniqueSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QTimelineEntry',
@@ -53,7 +53,7 @@ export default defineComponent({
   },
 
   render () {
-    const child = uniqueSlot(this, 'default', [])
+    const child = hUniqueSlot(this, 'default', [])
 
     if (this.body !== void 0) {
       child.unshift(this.body)
@@ -96,7 +96,7 @@ export default defineComponent({
 
     const content = [
       h('div', { class: 'q-timeline__subtitle' }, [
-        h('span', {}, slot(this, 'subtitle', [ this.subtitle ]))
+        h('span', {}, hSlot(this, 'subtitle', [ this.subtitle ]))
       ]),
 
       h('div', {
@@ -104,7 +104,7 @@ export default defineComponent({
       }, dot),
 
       h('div', { class: 'q-timeline__content' }, [
-        h('h6', { class: 'q-timeline__title' }, slot(this, 'title', [ this.title ]))
+        h('h6', { class: 'q-timeline__title' }, hSlot(this, 'title', [ this.title ]))
       ].concat(child))
     ]
 

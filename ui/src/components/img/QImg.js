@@ -4,7 +4,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import RatioMixin from '../../mixins/ratio.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QImg',
@@ -241,7 +241,7 @@ export default defineComponent({
     },
 
     __getContentSlot () {
-      return slot(this, this.hasError === true ? 'error' : 'default')
+      return hSlot(this, this.hasError === true ? 'error' : 'default')
     },
 
     __getContent () {

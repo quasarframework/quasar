@@ -9,7 +9,7 @@ import RippleMixin from '../../mixins/ripple.js'
 import { getSizeMixin } from '../../mixins/size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { mergeSlotSafely, hDir } from '../../utils/render.js'
+import { hMergeSlotSafely, hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QChip',
@@ -133,7 +133,7 @@ export default defineComponent({
       child.push(
         h('div', {
           class: 'q-chip__content col row no-wrap items-center q-anchor--skip'
-        }, mergeSlotSafely(label, this, 'default'))
+        }, hMergeSlotSafely(label, this, 'default'))
       )
 
       this.iconRight && child.push(

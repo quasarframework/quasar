@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QBanner',
@@ -33,14 +33,14 @@ export default defineComponent({
     const child = [
       h('div', {
         class: 'q-banner__avatar col-auto row items-center self-start'
-      }, slot(this, 'avatar')),
+      }, hSlot(this, 'avatar')),
 
       h('div', {
         class: 'q-banner__content col text-body2'
-      }, slot(this, 'default'))
+      }, hSlot(this, 'default'))
     ]
 
-    const actions = slot(this, 'action')
+    const actions = hSlot(this, 'action')
     actions !== void 0 && child.push(
       h('div', { class: this.actionClass }, actions)
     )

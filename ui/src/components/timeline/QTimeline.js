@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QTimeline',
@@ -42,6 +42,6 @@ export default defineComponent({
   render () {
     return h('ul', {
       class: this.classes
-    }, slot(this, 'default'))
+    }, hSlot(this, 'default'))
   }
 })

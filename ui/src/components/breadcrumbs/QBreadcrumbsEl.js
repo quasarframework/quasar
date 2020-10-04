@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { mergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/render.js'
 
 import QIcon from '../icon/QIcon.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
@@ -30,6 +30,6 @@ export default defineComponent({
     return h(this.hasRouterLink === true ? 'router-link' : 'span', {
       class: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
       ...(this.hasRouterLink === true ? this.routerLinkProps : {})
-    }, mergeSlot(child, this, 'default'))
+    }, hMergeSlot(child, this, 'default'))
   }
 })

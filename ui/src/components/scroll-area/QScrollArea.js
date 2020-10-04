@@ -2,7 +2,7 @@ import { h, defineComponent, withDirectives } from 'vue'
 
 import { between } from '../../utils/format.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
-import { mergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/render.js'
 import debounce from '../../utils/debounce.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
@@ -272,7 +272,7 @@ export default defineComponent({
         h('div', {
           class: `absolute full-${this.horizontal === true ? 'height' : 'width'}`,
           style: this.mainStyle
-        }, mergeSlot([
+        }, hMergeSlot([
           h(QResizeObserver, {
             onResize: this.__updateScrollSize
           })

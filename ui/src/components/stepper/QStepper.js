@@ -5,7 +5,7 @@ import StepHeader from './StepHeader.js'
 import DarkMixin from '../../mixins/dark.js'
 import { PanelParentMixin } from '../../mixins/panel.js'
 
-import { slot, mergeSlot, hDir } from '../../utils/render.js'
+import { hSlot, hMergeSlot, hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QStepper',
@@ -55,14 +55,14 @@ export default defineComponent({
 
   methods: {
     __getContent () {
-      const top = slot(this, 'message', [])
+      const top = hSlot(this, 'message', [])
 
       if (this.vertical === true) {
         this.__isValidPanelName(this.modelValue) && this.__updatePanelIndex()
 
         const content = h('div', {
           class: 'q-stepper__content'
-        }, slot(this, 'default'))
+        }, hSlot(this, 'default'))
 
         return top === void 0
           ? [ content ]
@@ -95,7 +95,7 @@ export default defineComponent({
     __renderPanels () {
       return h('div', {
         class: this.classes
-      }, mergeSlot(this.__getContent(), this, 'navigation'))
+      }, hMergeSlot(this.__getContent(), this, 'navigation'))
     }
   }
 })

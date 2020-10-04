@@ -3,7 +3,7 @@ import { h, defineComponent, resolveComponent } from 'vue'
 import DarkMixin from '../../mixins/dark.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 
-import { uniqueSlot } from '../../utils/render.js'
+import { hUniqueSlot } from '../../utils/render.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 
@@ -79,7 +79,7 @@ export default defineComponent({
 
   methods: {
     __getContent () {
-      const child = uniqueSlot(this, 'default', [])
+      const child = hUniqueSlot(this, 'default', [])
 
       this.isClickable === true && child.unshift(
         h('div', { class: 'q-focus-helper', tabindex: -1, ref: 'blurTarget' })

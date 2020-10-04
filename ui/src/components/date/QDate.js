@@ -4,7 +4,7 @@ import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from '../../mixins/datetime.js'
 import CacheMixin from '../../mixins/cache.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 import { formatDate, __splitDate, getDateDiff } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
@@ -1370,7 +1370,7 @@ export default defineComponent({
       ])
     ]
 
-    const def = slot(this, 'default')
+    const def = hSlot(this, 'default')
     def !== void 0 && content.push(
       h('div', { class: 'q-date__actions' }, def)
     )

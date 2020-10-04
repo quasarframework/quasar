@@ -8,7 +8,7 @@ import VirtualScroll from '../../mixins/virtual-scroll.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
-import { mergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/render.js'
 
 const comps = {
   list: QList,
@@ -116,7 +116,7 @@ export default defineComponent({
         child = this.$slots.before().concat(child)
       }
 
-      return mergeSlot(child, this, 'after')
+      return hMergeSlot(child, this, 'after')
     }
   },
 

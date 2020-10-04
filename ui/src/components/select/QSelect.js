@@ -15,7 +15,7 @@ import { isDeepEqual } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition.js'
-import { mergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/render.js'
 
 import { FormFieldMixin } from '../../mixins/form.js'
 import VirtualScroll from '../../mixins/virtual-scroll.js'
@@ -858,7 +858,7 @@ export default defineComponent({
         options = this.$slots['before-options']().concat(options)
       }
 
-      return mergeSlot(options, this, 'after-options')
+      return hMergeSlot(options, this, 'after-options')
     },
 
     __getInput (fromDialog) {

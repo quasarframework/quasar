@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import RatioMixin from '../../mixins/ratio.js'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QResponsive',
@@ -21,7 +21,7 @@ export default defineComponent({
 
       h('div', {
         class: 'q-responsive__content absolute-full fit'
-      }, slot(this, 'default'))
+      }, hSlot(this, 'default'))
     ])
   }
 })

@@ -3,7 +3,7 @@ import { h, defineComponent } from 'vue'
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 import { listenOpts } from '../../utils/event.js'
 
 const { passive } = listenOpts
@@ -128,7 +128,7 @@ export default defineComponent({
         { class: 'q-parallax__content absolute-full column flex-center' },
         this.$slots.content !== void 0
           ? this.$slots.content({ percentScrolled: this.percentScrolled })
-          : slot(this, 'default')
+          : hSlot(this, 'default')
       )
     ])
   },

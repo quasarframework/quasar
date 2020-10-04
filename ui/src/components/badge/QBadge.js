@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 const alignValues = [ 'top', 'middle', 'bottom' ]
 
@@ -54,6 +54,6 @@ export default defineComponent({
       style: this.style,
       role: 'alert',
       'aria-label': this.label
-    }, this.label !== void 0 ? [ this.label ] : slot(this, 'default'))
+    }, this.label !== void 0 ? [ this.label ] : hSlot(this, 'default'))
   }
 })

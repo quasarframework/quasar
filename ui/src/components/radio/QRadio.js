@@ -6,7 +6,7 @@ import FormMixin from '../../mixins/form.js'
 import RefocusTargetMixin from '../../mixins/refocus-target.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { slot, mergeSlot } from '../../utils/render.js'
+import { hSlot, hMergeSlot } from '../../utils/render.js'
 
 const svg = h('svg', {
   class: 'q-radio__bg absolute non-selectable',
@@ -143,8 +143,8 @@ export default defineComponent({
     }
 
     const label = this.label !== void 0
-      ? mergeSlot([ this.label ], this, 'default')
-      : slot(this, 'default')
+      ? hMergeSlot([ this.label ], this, 'default')
+      : hSlot(this, 'default')
 
     label !== void 0 && child.push(
       h('div', {

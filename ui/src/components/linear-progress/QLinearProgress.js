@@ -3,7 +3,7 @@ import { h, defineComponent } from 'vue'
 import DarkMixin from '../../mixins/dark.js'
 import { getSizeMixin } from '../../mixins/size.js'
 
-import { mergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/render.js'
 
 function width (val, reverse) {
   return {
@@ -113,6 +113,6 @@ export default defineComponent({
       'aria-valuenow': this.indeterminate === true
         ? void 0
         : this.value
-    }, mergeSlot(child, this, 'default'))
+    }, hMergeSlot(child, this, 'default'))
   }
 })

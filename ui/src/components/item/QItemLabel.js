@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QItemLabel',
@@ -41,6 +41,6 @@ export default defineComponent({
     return h('div', {
       style: this.style,
       class: this.classes
-    }, slot(this, 'default'))
+    }, hSlot(this, 'default'))
   }
 })

@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { slot } from '../../utils/render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QCardSection',
@@ -22,6 +22,6 @@ export default defineComponent({
   },
 
   render () {
-    return h(this.tag, { class: this.classes }, slot(this, 'default'))
+    return h(this.tag, { class: this.classes }, hSlot(this, 'default'))
   }
 })

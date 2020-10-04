@@ -1,7 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { uniqueSlot } from '../../utils/render.js'
-import { noop } from '../../utils/event.js'
+import { hUniqueSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QChatMessage',
@@ -85,7 +84,7 @@ export default defineComponent({
     },
 
     __getMessage () {
-      const content = uniqueSlot(this, 'default', [])
+      const content = hUniqueSlot(this, 'default', [])
 
       this.stamp !== void 0 && content.push(
         h('div', {

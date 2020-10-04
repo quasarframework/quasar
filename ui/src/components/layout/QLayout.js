@@ -6,7 +6,7 @@ import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import { getScrollbarWidth } from '../../utils/scroll.js'
-import { mergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QLayout',
@@ -173,7 +173,7 @@ export default defineComponent({
     const layout = h('div', {
       class: this.classes,
       style: this.style
-    }, mergeSlot([
+    }, hMergeSlot([
       h(QScrollObserver, {
         onScroll: this.__onPageScroll
       }),
