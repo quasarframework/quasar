@@ -1,4 +1,4 @@
-import { closePortals } from '../mixins/portal.js'
+import { closePortals, getPortalVm } from '../mixins/portal.js'
 import { isKeyCode } from '../utils/key-composition.js'
 
 /*
@@ -24,16 +24,16 @@ export default {
   name: 'close-popup',
 
   mounted (el, { value }) {
-    // TODO vue3 - not available in PROD!
-    const vm = el.__vueParentComponent.proxy
-
     const ctx = {
       depth: getDepth(value),
 
       handler (evt) {
         // allow @click to be emitted
         ctx.depth !== 0 && setTimeout(() => {
-          closePortals(vm, evt, ctx.depth)
+          const vm = getPortalVm(el)
+          if (vm !== void 0) {
+            closePortals(vm, evt, ctx.depth)
+          }
         })
       },
 

@@ -5,6 +5,14 @@ import { createGlobalNode, removeGlobalNode } from '../utils/global-nodes.js'
 import { noop } from '../utils/event.js'
 import { getParentVm } from '../utils/vm.js'
 
+const portalList = []
+
+export function getPortalVm (el) {
+  return portalList
+    .map(fn => fn())
+    .find(vm => vm.$refs && vm.$refs.inner && vm.$refs.inner.contains(el))
+}
+
 export function closePortalMenus (vm, evt) {
   do {
     if (vm.$options.name === 'QMenu') {
@@ -74,15 +82,30 @@ if (isSSR === false) {
         }
 
         this.usePortal = true
+
+        // register portal
+        portalList.push(this.__getPortalVm)
       },
 
       __hidePortal () {
         this.usePortal = false
 
+        // unregister portal
+        const index = portalList.indexOf(this.__getPortalVm)
+        if (index > -1) {
+          portalList.splice(index, 1)
+        }
+
         if (this.__portalEl !== null) {
           removeGlobalNode(this.__portalEl)
           this.__portalEl = null
         }
+      },
+
+      // we use a reference that won't change between
+      // re-renders for the click-outside management
+      __getPortalVm () {
+        return this
       }
     },
 

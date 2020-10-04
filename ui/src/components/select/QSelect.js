@@ -1140,7 +1140,6 @@ export default defineComponent({
       return h(QDialog, {
         ref: 'dialog',
         modelValue: this.dialog,
-        dark: this.isOptionsDark,
         position: this.useInput === true ? 'top' : void 0,
         transitionShow: this.transitionShowComputed,
         transitionHide: this.transitionHide,

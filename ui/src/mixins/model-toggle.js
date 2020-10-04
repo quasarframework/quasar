@@ -40,7 +40,8 @@ export default {
         return
       }
 
-      const listener = this.$.vnode.props['onUpdate:modelValue'] !== void 0
+      const listener = this.$.vnode.props !== null &&
+        this.$.vnode.props['onUpdate:modelValue'] !== void 0
 
       if (listener === true && isSSR === false) {
         this.$emit('update:modelValue', true)
@@ -81,7 +82,8 @@ export default {
         return
       }
 
-      const listener = this.$.vnode.props['onUpdate:modelValue'] !== void 0
+      const listener = this.$.vnode.props !== null &&
+        this.$.vnode.props['onUpdate:modelValue'] !== void 0
 
       if (listener === true && isSSR === false) {
         this.$emit('update:modelValue', false)

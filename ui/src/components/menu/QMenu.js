@@ -80,11 +80,11 @@ export default defineComponent({
     handlesFocus (val) {
       if (val === true) {
         addEscapeKey(this.__onEscapeKey)
-        addClickOutside(this.__getClickOutsideVm)
+        addClickOutside(this.__getPortalVm)
       }
       else {
         removeEscapeKey(this.__onEscapeKey)
-        removeClickOutside(this.__getClickOutsideVm)
+        removeClickOutside(this.__getPortalVm)
       }
     }
   },
@@ -227,7 +227,7 @@ export default defineComponent({
         removeFocusout(this.__onFocusout)
         this.__unconfigureScrollTarget()
         if (this.persistent !== true) {
-          removeClickOutside(this.__getClickOutsideVm)
+          removeClickOutside(this.__getPortalVm)
           removeEscapeKey(this.__onEscapeKey)
         }
       }
@@ -315,12 +315,6 @@ export default defineComponent({
         }
         return true
       }
-    },
-
-    // we use a reference that won't change between
-    // re-renders for the click-outside management
-    __getClickOutsideVm () {
-      return this
     },
 
     __renderPortal () {
