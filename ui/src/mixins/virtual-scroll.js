@@ -1,6 +1,6 @@
 import { h } from 'vue'
 
-import EmitListenersMixin from '../../mixins/emit-listeners.js'
+import EmitListenersMixin from './emit-listeners.js'
 
 import debounce from '../utils/debounce.js'
 
