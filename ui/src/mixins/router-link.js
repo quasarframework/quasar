@@ -71,7 +71,7 @@ export default {
     linkTag () {
       return this.hasLink === true
         ? 'a'
-        : (this.tag || 'div')
+        : (this.$props.tag || 'div')
     },
 
     linkRoute () {

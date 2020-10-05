@@ -3,7 +3,6 @@ import { h, defineComponent } from 'vue'
 import QIcon from '../icon/QIcon.js'
 
 import RippleMixin from '../../mixins/ripple.js'
-import EmitListenersMixin from '../../mixins/emit-listeners.js'
 
 import Ripple from '../../directives/Ripple.js'
 
@@ -15,7 +14,7 @@ let uid = 0
 export default defineComponent({
   name: 'QTab',
 
-  mixins: [ RippleMixin, EmitListenersMixin ],
+  mixins: [ RippleMixin ],
 
   inject: {
     __qTabs: {
@@ -45,7 +44,7 @@ export default defineComponent({
     contentClass: String
   },
 
-  emits: [ 'click' ],
+  emits: [ 'click', 'keyup' ],
 
   computed: {
     isActive () {
@@ -86,17 +85,18 @@ export default defineComponent({
   },
 
   methods: {
-    __activate (e, keyboard) {
+    __onClick (e, keyboard) {
       keyboard !== true && this.$refs.blurTarget && this.$refs.blurTarget.focus()
 
       if (this.disable !== true) {
-        this.emitListeners.onClick === true && this.$emit('click', e)
+        this.$emit('click', e)
         this.__qTabs.__activateTab({ name: this.name })
       }
     },
 
     __onKeyup (e) {
-      isKeyCode(e, 13) === true && this.__activate(e, true)
+      isKeyCode(e, 13) === true && this.__onClick(e, true)
+      this.$emit('keyup', e)
     },
 
     __getContent () {
@@ -154,8 +154,8 @@ export default defineComponent({
         tabindex: this.computedTabIndex,
         role: 'tab',
         'aria-selected': this.isActive,
-        ...this.attrs,
-        onClick: this.__activate,
+        'aria-disabled': this.disable === true ? 'true' : void 0,
+        onClick: this.__onClick,
         onKeyup: this.__onKeyup,
         ...props
       }
@@ -168,24 +168,24 @@ export default defineComponent({
         this.ripple !== false && this.disable === false,
         () => [[ Ripple, this.ripple ]]
       )
+    },
+
+    __getInstance () {
+      return this
     }
   },
 
+  render () {
+    return this.__renderTab('div', {}, this.__getContent())
+  },
+
   mounted () {
-    this.__qTabs.__registerTab(this)
+    this.__qTabs.__registerTab(this.__getInstance)
     this.__qTabs.__recalculateScroll()
   },
 
   beforeUnmount () {
-    this.__qTabs.__unregisterTab(this)
+    this.__qTabs.__unregisterTab(this.__getInstance)
     this.__qTabs.__recalculateScroll()
-  },
-
-  render () {
-    return this.__renderTab(
-      'div',
-      { onClick: this.__activate },
-      this.__getContent()
-    )
   }
 })

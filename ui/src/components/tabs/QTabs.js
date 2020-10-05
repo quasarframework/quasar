@@ -17,31 +17,6 @@ function getIndicatorClass (color, top, vertical) {
   return `absolute-${top === true ? pos[0] : pos[1]}${color ? ` text-${color}` : ''}`
 }
 
-function bufferPrioritySort (t1, t2) {
-  if (t1.priorityMatched === t2.priorityMatched) {
-    return t2.priorityHref - t1.priorityHref
-  }
-  return t2.priorityMatched - t1.priorityMatched
-}
-
-function bufferCleanSelected (t) {
-  t.selected = false
-  return t
-}
-
-const
-  bufferFilters = [
-    t => t.selected === true && t.exact === true && t.redirected !== true,
-    t => t.selected === true && t.exact === true,
-    t => t.selected === true && t.redirected !== true,
-    t => t.selected === true,
-    t => t.exact === true && t.redirected !== true,
-    t => t.redirected !== true,
-    t => t.exact === true,
-    t => true
-  ],
-  bufferFiltersLen = bufferFilters.length
-
 const alignValues = [ 'left', 'center', 'right', 'justify' ]
 
 export default defineComponent({
@@ -187,42 +162,6 @@ export default defineComponent({
       }
     },
 
-    __activateRoute (params) {
-      if (this.bufferRoute !== this.$route && this.buffer.length > 0) {
-        clearTimeout(this.bufferTimer)
-        this.bufferTimer = void 0
-        this.buffer.length = 0
-      }
-      this.bufferRoute = this.$route
-
-      if (params !== void 0) {
-        if (params.remove === true) {
-          this.buffer = this.buffer.filter(t => t.name !== params.name)
-        }
-        else {
-          this.buffer.push(params)
-        }
-      }
-
-      if (this.bufferTimer === void 0) {
-        this.bufferTimer = setTimeout(() => {
-          let tabs = []
-
-          for (let i = 0; i < bufferFiltersLen && tabs.length === 0; i++) {
-            tabs = this.buffer.filter(bufferFilters[i])
-          }
-
-          tabs.sort(bufferPrioritySort)
-          this.__activateTab({
-            name: tabs.length === 0 ? null : tabs[0].name,
-            setCurrent: true
-          })
-          this.buffer = this.buffer.map(bufferCleanSelected)
-          this.bufferTimer = void 0
-        }, 1)
-      }
-    },
-
     __recalculateScroll () {
       this.__nextTick(() => {
         if (this.$.isDeactivated !== true && this.$.isUnmounted !== true) {
@@ -258,11 +197,12 @@ export default defineComponent({
 
     __animate (oldName, newName) {
       const
+        tabList = this.tabList.map(tab => tab()),
         oldTab = oldName !== void 0 && oldName !== null && oldName !== ''
-          ? this.tabList.find(tab => tab.name === oldName)
+          ? tabList.find(tab => tab.name === oldName)
           : null,
         newTab = newName !== void 0 && newName !== null && newName !== ''
-          ? this.tabList.find(tab => tab.name === newName)
+          ? tabList.find(tab => tab.name === newName)
           : null
 
       if (oldTab && newTab) {
@@ -377,25 +317,49 @@ export default defineComponent({
 
     __registerTab (tab) {
       this.tabList.push(tab)
+
+      if (tab.$options.name === 'QRouteTab') {
+        this.routeTabList.push(tab)
+
+        if (this.routeTabList.length === 1) {
+          this.unwatchRoute = this.$watch('$route', () => {
+            let href = '', name
+            const tabList = this.routeTabList.map(tab => tab())
+
+            tabList.forEach(tab => {
+              if (
+                (tab.exact === true ? tab.linkIsExactActive : tab.linkIsActive) === true &&
+                tab.linkRoute.href.length > href.length
+              ) {
+                href = tab.linkRoute.href
+                name = tab.name
+              }
+            })
+
+            if (name !== void 0) {
+              this.__activateTab({ name, setCurrent: true })
+            }
+          })
+        }
+      }
     },
 
     __unregisterTab (tab) {
       const index = this.tabList.indexOf(tab)
-      index !== -1 && this.tabList.splice(index, 1)
+
+      if (index > -1) {
+        this.tabList.splice(index, 1)
+
+        if (tab.$options.name === 'QRouteTab') {
+          this.routeTabList.splice(this.routeTabList.index(tab), 1)
+
+          if (this.routeTabList.length === 0) {
+            this.unwatchRoute()
+            this.unwatchRoute = void 0
+          }
+        }
+      }
     }
-  },
-
-  created () {
-    this.tabList = []
-    this.buffer = []
-    this.__updateArrows = this.arrowsEnabled === true
-      ? this.__updateArrowsFn
-      : noop
-  },
-
-  beforeUnmount () {
-    clearTimeout(this.bufferTimer)
-    clearTimeout(this.animateTimer)
   },
 
   render () {
@@ -436,5 +400,18 @@ export default defineComponent({
       class: this.classes,
       role: 'tablist'
     }, child)
+  },
+
+  created () {
+    this.tabList = []
+    this.routeTabList = []
+    this.__updateArrows = this.arrowsEnabled === true
+      ? this.__updateArrowsFn
+      : noop
+  },
+
+  beforeUnmount () {
+    clearTimeout(this.animateTimer)
+    this.unwatchRoute !== void 0 && this.unwatchRoute()
   }
 })

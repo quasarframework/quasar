@@ -1,9 +1,7 @@
-import { defineComponent, resolveComponent } from 'vue'
+import { defineComponent } from 'vue'
 
 import QTab from './QTab.js'
 import RouterLinkMixin from '../../mixins/router-link.js'
-import { isSameRoute, isIncludedRoute } from '../../utils/router.js'
-import { stopAndPrevent, noop } from '../../utils/event.js'
 
 export default defineComponent({
   name: 'QRouteTab',
@@ -14,121 +12,25 @@ export default defineComponent({
     to: { required: true }
   },
 
-  watch: {
-    $route () {
-      this.__checkActivation()
-    }
-  },
-
   methods: {
-    __activate (e, keyboard) {
+    __onClick (e, keyboard) {
+      keyboard !== true && this.$refs.blurTarget && this.$refs.blurTarget.focus()
+
       if (this.disable !== true) {
-        if (
-          e !== void 0 && (
-            e.ctrlKey === true ||
-            e.shiftKey === true ||
-            e.altKey === true ||
-            e.metaKey === true
-          )
-        ) {
-          // if it has meta keys, let vue-router link
-          // handle this by its own
-          this.__checkActivation(true)
-        }
-        else {
-          // we use programatic navigation instead of letting vue-router handle it
-          // so we can check for activation when the navigation is complete
-          e !== void 0 && stopAndPrevent(e)
-
-          const go = (to = this.to, append = this.append, replace = this.replace) => {
-            const { route } = this.$router.resolve(to, this.$route, append)
-            const checkFn = to === this.to && append === this.append && replace === this.replace
-              ? this.__checkActivation
-              : noop
-
-            // vue-router now throwing error if navigating
-            // to the same route that the user is currently at
-            // https://github.com/vuejs/vue-router/issues/2872
-            this.$router[replace === true ? 'replace' : 'push'](
-              route,
-              () => { checkFn(true) },
-              err => {
-                if (err && err.name === 'NavigationDuplicated') {
-                  checkFn(true)
-                }
-              }
-            )
-          }
-
-          this.emitListeners.onClick === true && this.$emit('click', e, go)
-          e.navigate !== false && go()
-        }
-      }
-
-      if (keyboard === true) {
-        this.$el.focus(e)
-      }
-      else {
-        this.$refs.blurTarget && this.$refs.blurTarget.focus(e)
-      }
-    },
-
-    __checkActivation (selected = false) {
-      const
-        current = this.$route,
-        { href, location, route } = this.$router.resolve(this.to, current, this.append),
-        redirected = route.redirectedFrom !== void 0,
-        isSameRouteCheck = isSameRoute(current, route),
-        checkFunction = this.exact === true ? isSameRoute : isIncludedRoute,
-        params = {
-          name: this.name,
-          selected,
-          exact: this.exact,
-          priorityMatched: route.matched.length,
-          priorityHref: href.length
+        const go = () => {
+          this.navigateToLink(e)
         }
 
-      if (isSameRouteCheck === true || (this.exact !== true && isIncludedRoute(current, route) === true)) {
-        this.__qTabs.__activateRoute({
-          ...params,
-          redirected,
-          // if it's an exact match give higher priority
-          // even if the tab is not marked as exact
-          exact: this.exact === true || isSameRouteCheck === true
-        })
+        this.$emit('click', e, go)
+        this.hasLink === true && e.navigate !== false && go()
       }
-
-      if (
-        redirected === true &&
-        checkFunction(current, {
-          path: route.redirectedFrom,
-          ...location
-        }) === true
-      ) {
-        this.__qTabs.__activateRoute(params)
-      }
-
-      this.isActive === true && this.__qTabs.__activateRoute()
     }
-  },
-
-  mounted () {
-    this.__qTabs.__recalculateScroll()
-    this.$router !== void 0 && this.__checkActivation()
-  },
-
-  beforeUnmount () {
-    this.__qTabs.__recalculateScroll()
-    this.__qTabs.__activateRoute({ remove: true, name: this.name })
   },
 
   render () {
     return this.__renderTab(
-      resolveComponent('router-link'),
-      {
-        ...this.linkProps,
-        onClickCapture: this.__activate // we need capture to intercept before vue-router
-      },
+      this.linkTag,
+      this.linkProps,
       this.__getContent
     )
   }
