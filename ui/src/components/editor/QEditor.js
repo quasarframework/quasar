@@ -290,10 +290,9 @@ export default defineComponent({
 
   methods: {
     __onInput () {
-      if (this.$refs.content !== void 0) {
-        const val = this.isViewingSource === true
-          ? this.$refs.content.innerText
-          : this.$refs.content.innerHTML
+      if (this.$refs.content) {
+        const prop = `inner${this.isViewingSource === true ? 'Text' : 'HTML'}`
+        const val = this.$refs.content[prop]
 
         if (val !== this.modelValue) {
           this.lastEmit = val
@@ -326,7 +325,7 @@ export default defineComponent({
     },
 
     __onBlur (e) {
-      if (this.$refs.content !== void 0) {
+      if (this.$refs.content) {
         const { scrollTop, scrollHeight } = this.$refs.content
         this.__offsetBottom = scrollHeight - scrollTop
       }
@@ -336,7 +335,7 @@ export default defineComponent({
 
     __onFocus (e) {
       this.$nextTick(() => {
-        if (this.$refs.content !== void 0 && this.__offsetBottom !== void 0) {
+        if (this.$refs.content && this.__offsetBottom !== void 0) {
           this.$refs.content.scrollTop = this.$refs.content.scrollHeight - this.__offsetBottom
         }
       })
@@ -381,7 +380,7 @@ export default defineComponent({
     },
 
     focus () {
-      this.$refs.content !== void 0 && this.$refs.content.focus()
+      this.$refs.content && this.$refs.content.focus()
     },
 
     getContentEl () {
@@ -389,7 +388,7 @@ export default defineComponent({
     },
 
     __setContent (v, restorePosition) {
-      if (this.$refs.content !== void 0) {
+      if (this.$refs.content) {
         if (restorePosition === true) {
           this.caret.savePosition()
         }

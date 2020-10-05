@@ -76,9 +76,8 @@ export default defineComponent({
         this.$nextTick(this.__adjustHeight)
       }
       // if it has a number of rows set respect it
-      else if (this.$refs.input !== void 0 && this.$attrs.rows > 0) {
-        const inp = this.$refs.input
-        inp.style.height = 'auto'
+      else if (this.$refs.input && this.$attrs.rows > 0) {
+        this.$refs.input.style.height = 'auto'
       }
     },
 
@@ -163,7 +162,7 @@ export default defineComponent({
     focus () {
       const el = document.activeElement
       if (
-        this.$refs.input !== void 0 &&
+        this.$refs.input &&
         this.$refs.input !== el &&
         // IE can have null document.activeElement
         (el === null || el.id !== this.targetUid)
@@ -173,7 +172,7 @@ export default defineComponent({
     },
 
     select () {
-      this.$refs.input !== void 0 && this.$refs.input.select()
+      this.$refs.input && this.$refs.input.select()
     },
 
     __onPaste (e) {

@@ -149,7 +149,7 @@ export default defineComponent({
     focus () {
       let node = this.$refs.inner
 
-      if (node === void 0 || node.contains(document.activeElement) === true) {
+      if (!node || node.contains(document.activeElement) === true) {
         return
       }
 
@@ -163,7 +163,7 @@ export default defineComponent({
 
       const node = this.$refs.inner
 
-      if (node !== void 0) {
+      if (node) {
         node.classList.remove('q-animate--scale')
         node.classList.add('q-animate--scale')
         clearTimeout(this.shakeTimeout)

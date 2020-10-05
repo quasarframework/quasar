@@ -20,7 +20,7 @@ export default {
           this.$el.focus()
         }
       }
-      else if ((e === void 0 || this.$el.contains(e.target) === true) && this.$refs.refocusTarget !== void 0) {
+      else if ((e === void 0 || this.$el.contains(e.target) === true) && this.$refs.refocusTarget) {
         this.$refs.refocusTarget.focus()
       }
     }

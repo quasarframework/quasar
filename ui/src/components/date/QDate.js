@@ -101,7 +101,7 @@ export default defineComponent({
     },
 
     view () {
-      this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+      this.$refs.blurTarget && this.$refs.blurTarget.focus()
     },
 
     'viewModel.year' (year) {

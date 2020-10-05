@@ -112,7 +112,7 @@ export default defineComponent({
     },
 
     __toggleIcon (e, keyboard) {
-      keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+      keyboard !== true && this.$refs.blurTarget && this.$refs.blurTarget.focus()
       this.toggle(e)
       stopAndPrevent(e)
     },

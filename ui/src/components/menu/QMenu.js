@@ -133,7 +133,7 @@ export default defineComponent({
     focus () {
       let node = this.$refs.inner
 
-      if (node !== void 0 && node.contains(document.activeElement) !== true) {
+      if (node && node.contains(document.activeElement) !== true) {
         node = node.querySelector('[autofocus], [data-autofocus]') || node
         node.focus()
       }

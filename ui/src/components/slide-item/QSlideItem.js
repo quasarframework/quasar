@@ -124,7 +124,7 @@ export default defineComponent({
 
       if (this.__dir !== dir) {
         ['left', 'right', 'top', 'bottom'].forEach(d => {
-          if (this.$refs[d] !== void 0 && this.$refs[d] !== null) {
+          if (this.$refs[d]) {
             this.$refs[d].style.visibility = showing === d
               ? 'visible'
               : 'hidden'

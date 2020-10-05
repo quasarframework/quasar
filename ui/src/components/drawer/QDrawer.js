@@ -353,7 +353,7 @@ export default defineComponent({
           this.__applyPosition(this.stateDirection * position)
         })
       }
-      else if (this.$refs.content !== void 0 && this.$refs.content !== null) {
+      else if (this.$refs.content) {
         if (
           this.layout.container === true &&
           this.rightSide === true &&

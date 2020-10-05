@@ -69,7 +69,7 @@ export default defineComponent({
         this.$el.focus(e)
       }
       else {
-        this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus(e)
+        this.$refs.blurTarget && this.$refs.blurTarget.focus(e)
       }
     },
 

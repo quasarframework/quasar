@@ -230,7 +230,7 @@ export default defineComponent({
         this.__setScroll(pos / this.containerSize * this.scrollSize)
 
         // activate thumb pan
-        if (this.$refs.thumb !== void 0) {
+        if (this.$refs.thumb) {
           this.$refs.thumb.dispatchEvent(new MouseEvent(evt.type, evt))
         }
       }

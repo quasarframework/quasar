@@ -775,7 +775,7 @@ export default defineComponent({
     __updateErrorIcon (val) {
       // we MUST avoid vue triggering a render,
       // so manually changing this
-      if (this.$refs.errorIcon !== void 0) {
+      if (this.$refs.errorIcon) {
         this.$refs.errorIcon.$el.style.opacity = val ? 1 : 0
       }
     },

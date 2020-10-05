@@ -53,7 +53,7 @@ export default defineComponent({
 
   watch: {
     modelValue (val) {
-      this.$refs.menu !== void 0 && this.$refs.menu[val ? 'show' : 'hide']()
+      this.$refs.menu && this.$refs.menu[val ? 'show' : 'hide']()
     }
   },
 

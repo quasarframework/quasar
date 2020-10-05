@@ -89,7 +89,7 @@ export default defineComponent({
 
     __onClick (e) {
       if (this.isClickable === true) {
-        if (this.$refs.blurTarget !== void 0) {
+        if (this.$refs.blurTarget) {
           if (e.qKeyEvent !== true && document.activeElement === this.$el) {
             this.$refs.blurTarget.focus()
           }

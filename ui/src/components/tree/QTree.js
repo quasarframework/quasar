@@ -593,7 +593,7 @@ export default defineComponent({
 
     __blur (key) {
       const blurTarget = this.$refs[`blurTarget_${key}`]
-      blurTarget !== void 0 && blurTarget.focus()
+      blurTarget && blurTarget.focus()
     },
 
     __onClick (node, meta, e, keyboard) {

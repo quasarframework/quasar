@@ -98,7 +98,7 @@ export default defineComponent({
 
   methods: {
     activate () {
-      this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+      this.$refs.blurTarget && this.$refs.blurTarget.focus()
       this.isActive === false && this.stepper.goTo(this.step.name)
     },
 

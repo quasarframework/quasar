@@ -127,7 +127,7 @@ export default defineComponent({
 
   watch: {
     needsReset () {
-      this.hasVirtScroll === true && this.$refs.virtScroll !== void 0 && this.$refs.virtScroll.reset()
+      this.hasVirtScroll === true && this.$refs.virtScroll && this.$refs.virtScroll.reset()
     }
   },
 
@@ -322,7 +322,7 @@ export default defineComponent({
     },
 
     scrollTo (toIndex) {
-      if (this.$refs.virtScroll !== void 0) {
+      if (this.$refs.virtScroll) {
         this.$refs.virtScroll.scrollTo(toIndex)
         return
       }

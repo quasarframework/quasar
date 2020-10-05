@@ -91,11 +91,11 @@ export default defineComponent({
     },
 
     show (e) {
-      this.$refs.menu !== void 0 && this.$refs.menu.show(e)
+      this.$refs.menu && this.$refs.menu.show(e)
     },
 
     hide (e) {
-      this.$refs.menu !== void 0 && this.$refs.menu.hide(e)
+      this.$refs.menu && this.$refs.menu.hide(e)
     },
 
     __hasChanged () {

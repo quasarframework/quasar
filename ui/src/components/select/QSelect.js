@@ -452,7 +452,7 @@ export default defineComponent({
           this.hidePopup()
         }
 
-        this.$refs.target !== void 0 && this.$refs.target.focus()
+        this.$refs.target && this.$refs.target.focus()
 
         if (isDeepEqual(this.getOptionValue(this.innerValue[0]), optValue) !== true) {
           this.$emit('update:modelValue', this.emitValue === true ? optValue : opt)
@@ -553,7 +553,7 @@ export default defineComponent({
     },
 
     __selectInputText () {
-      if (this.useInput === true && this.$refs.target !== void 0) {
+      if (this.useInput === true && this.$refs.target) {
         this.$refs.target.select()
       }
     },
@@ -755,7 +755,7 @@ export default defineComponent({
           )
 
           if (this.multiple !== true) {
-            this.$refs.target !== void 0 && this.$refs.target.focus()
+            this.$refs.target && this.$refs.target.focus()
             this.hidePopup()
           }
         }
@@ -784,7 +784,7 @@ export default defineComponent({
       return this.hasDialog === true
         ? this.$refs.menuContent
         : (
-          this.$refs.menu !== void 0 && this.$refs.menu.$refs.inner !== void 0
+          this.$refs.menu && this.$refs.menu.$refs.inner
             ? this.$refs.menu.$refs.inner
             : void 0
         )
@@ -1040,7 +1040,7 @@ export default defineComponent({
 
             if (this.menu === true) {
               this.__closeMenu()
-              this.$refs.target !== void 0 && this.$refs.target.focus()
+              this.$refs.target && this.$refs.target.focus()
               return
             }
           }
@@ -1084,7 +1084,7 @@ export default defineComponent({
 
     __onDialogFieldFocus (e) {
       stop(e)
-      this.$refs.target !== void 0 && this.$refs.target.focus()
+      this.$refs.target && this.$refs.target.focus()
       this.dialogFieldFocused = true
       window.scrollTo(window.pageXOffset || window.scrollX || document.body.scrollLeft || 0, 0)
     },
@@ -1170,7 +1170,7 @@ export default defineComponent({
       if (
         (el === null || el.id !== this.targetUid) &&
         this.$refs.target !== el &&
-        this.$refs.target !== void 0
+        this.$refs.target
       ) {
         this.$refs.target.focus()
       }
@@ -1274,7 +1274,7 @@ export default defineComponent({
       },
 
       onPostRender: () => {
-        if (this.dialog === false && this.$refs.menu !== void 0) {
+        if (this.dialog === false && this.$refs.menu) {
           this.$refs.menu.updatePosition()
         }
       },

@@ -251,9 +251,9 @@ export default defineComponent({
       const el = document.activeElement
       let target = this.$refs.target
       // IE can have null document.activeElement
-      if (target !== void 0 && (el === null || el.id !== this.targetUid)) {
+      if (target && (el === null || el.id !== this.targetUid)) {
         target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
-        target !== null && target !== el && target.focus()
+        target && target !== el && target.focus()
       }
     },
 
