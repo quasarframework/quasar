@@ -27,7 +27,6 @@ export default Vue.extend({
     margin: String,
     threshold: [ Number, Array ],
     root: {
-      type: Element,
       default: null
     },
 
