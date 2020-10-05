@@ -81,7 +81,7 @@ export default defineComponent({
 
   watch: {
     modelValue (name) {
-      this.__activateTab({ name, setCurrent: true, skipEmit: true })
+      this.__updateModel({ name, setCurrent: true, skipEmit: true })
     },
 
     outsideArrows () {
@@ -149,7 +149,7 @@ export default defineComponent({
   },
 
   methods: {
-    __activateTab ({ name, setCurrent, skipEmit }) {
+    __updateModel ({ name, setCurrent, skipEmit, fromRoute }) {
       if (this.currentModel !== name) {
         skipEmit !== true && this.$emit('update:modelValue', name)
         if (
@@ -159,6 +159,10 @@ export default defineComponent({
           this.__animate(this.currentModel, name)
           this.currentModel = name
         }
+      }
+
+      if (fromRoute !== void 0) {
+        this.fromRoute = fromRoute
       }
     },
 
@@ -315,49 +319,71 @@ export default defineComponent({
       return done
     },
 
-    __registerTab (tab) {
-      this.tabList.push(tab)
+    __getRouteList () {
+      return this.tabList.filter(tab => tab().hasLink === true)
+    },
 
-      if (tab.$options.name === 'QRouteTab') {
-        this.routeTabList.push(tab)
+    // do not use directly; use __verifyRouteModel() instead
+    __updateActiveRoute () {
+      let href = '', name = null, wasActive = this.fromRoute
 
-        if (this.routeTabList.length === 1) {
-          this.unwatchRoute = this.$watch('$route', () => {
-            let href = '', name
-            const tabList = this.routeTabList.map(tab => tab())
+      this.__getRouteList().map(getTab => {
+        const tab = getTab()
 
-            tabList.forEach(tab => {
-              if (
-                (tab.exact === true ? tab.linkIsExactActive : tab.linkIsActive) === true &&
-                tab.linkRoute.href.length > href.length
-              ) {
-                href = tab.linkRoute.href
-                name = tab.name
-              }
-            })
-
-            if (name !== void 0) {
-              this.__activateTab({ name, setCurrent: true })
-            }
-          })
+        if (
+          (tab.exact === true ? tab.linkIsExactActive : tab.linkIsActive) === true &&
+          tab.linkRoute.href.length > href.length
+        ) {
+          href = tab.linkRoute.href
+          name = tab.name
         }
+        else if (this.currentModel === tab.name) {
+          wasActive = true
+        }
+      })
+
+      if (wasActive === true || name !== null) {
+        this.__updateModel({ name, setCurrent: true, fromRoute: true })
       }
     },
 
-    __unregisterTab (tab) {
-      const index = this.tabList.indexOf(tab)
+    __verifyRouteModel () {
+      this.__setTimeout(this.__updateActiveRoute)
+    },
 
-      if (index > -1) {
-        this.tabList.splice(index, 1)
+    __registerTab (getTab) {
+      this.tabList.push(getTab)
 
-        if (tab.$options.name === 'QRouteTab') {
-          this.routeTabList.splice(this.routeTabList.index(tab), 1)
+      const routeList = this.__getRouteList()
 
-          if (this.routeTabList.length === 0) {
-            this.unwatchRoute()
-            this.unwatchRoute = void 0
-          }
+      if (routeList.length > 0) {
+        if (this.unwatchRoute === void 0) {
+          this.unwatchRoute = this.$watch('$route', this.__verifyRouteModel)
         }
+
+        this.__verifyRouteModel()
+      }
+    },
+
+    /*
+     * Vue has an aggressive diff (in-place replacement) so we cannot
+     * ensure that the instance getting destroyed is the actual tab
+     * reported here. As a result, we cannot use its name or check
+     * if it's a route one to make the necessary updates. We need to
+     * always check the existing list again and infer the changes.
+     */
+    __unregisterTab (getTab) {
+      this.tabList.splice(this.tabList.indexOf(getTab), 1)
+
+      if (this.unwatchRoute !== void 0) {
+        const routeList = this.__getRouteList()
+
+        if (routeList.length === 0) {
+          this.unwatchRoute()
+          this.unwatchRoute = void 0
+        }
+
+        this.__verifyRouteModel()
       }
     }
   },
@@ -404,7 +430,7 @@ export default defineComponent({
 
   created () {
     this.tabList = []
-    this.routeTabList = []
+    this.fromRoute = false
     this.__updateArrows = this.arrowsEnabled === true
       ? this.__updateArrowsFn
       : noop

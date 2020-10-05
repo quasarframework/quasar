@@ -1,3 +1,11 @@
+/*
+ * Usage of nextTick:
+ *    this.__nextTick(fn)
+ *    this.__nextTick(fn)
+ *    ....
+ *    this.__prepareTick()
+ */
+
 export default {
   methods: {
     __nextTick (fn) {

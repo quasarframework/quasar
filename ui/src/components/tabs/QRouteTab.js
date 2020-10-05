@@ -12,6 +12,12 @@ export default defineComponent({
     to: { required: true }
   },
 
+  watch: {
+    name: '__pingQTabs',
+    'linkRoute.href': '__pingQTabs',
+    exact: '__pingQTabs'
+  },
+
   methods: {
     __onClick (e, keyboard) {
       keyboard !== true && this.$refs.blurTarget && this.$refs.blurTarget.focus()
@@ -24,6 +30,10 @@ export default defineComponent({
         this.$emit('click', e, go)
         this.hasLink === true && e.navigate !== false && go()
       }
+    },
+
+    __pingQTabs () {
+      this.__qTabs.__verifyRouteModel()
     }
   },
 
@@ -31,7 +41,7 @@ export default defineComponent({
     return this.__renderTab(
       this.linkTag,
       this.linkProps,
-      this.__getContent
+      this.__getContent()
     )
   }
 })

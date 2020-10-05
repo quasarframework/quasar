@@ -90,7 +90,7 @@ export default defineComponent({
 
       if (this.disable !== true) {
         this.$emit('click', e)
-        this.__qTabs.__activateTab({ name: this.name })
+        this.__qTabs.__updateModel({ name: this.name, fromRoute: false })
       }
     },
 
