@@ -92,7 +92,7 @@
         </q-expansion-item>
 
         <q-expansion-item expand-separator>
-          <template slot="header">
+          <template v-slot:header>
             <q-item-section avatar>
               <q-avatar icon="bluetooth" color="primary" text-color="white" />
             </q-item-section>
@@ -125,7 +125,7 @@
         </q-expansion-item>
 
         <q-expansion-item expand-separator>
-          <template slot="header">
+          <template v-slot:header>
             <q-item-section avatar>
               <q-avatar>
                 <img src="https://cdn.quasar.dev/img/boy-avatar.png">

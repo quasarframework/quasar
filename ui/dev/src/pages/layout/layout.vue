@@ -203,7 +203,6 @@
               Folders
             </q-item-label>
 
-            <!-- TODO vue3
             <q-item to="/layout-quick/a" replace>
               <q-item-section side>
                 <q-avatar icon="folder" color="primary" text-color="white" />
@@ -258,7 +257,7 @@
             <q-separator spaced />
             <q-item-label header>
               Files
-            </q-item-label> -->
+            </q-item-label>
 
             <q-item clickable>
               <q-item-section side>

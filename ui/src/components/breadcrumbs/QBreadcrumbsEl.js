@@ -3,7 +3,7 @@ import { h, defineComponent } from 'vue'
 import { hMergeSlot } from '../../utils/render.js'
 
 import QIcon from '../icon/QIcon.js'
-import { RouterLinkMixin } from '../../mixins/router-link.js'
+import RouterLinkMixin from '../../mixins/router-link.js'
 
 export default defineComponent({
   name: 'QBreadcrumbsEl',
@@ -27,9 +27,9 @@ export default defineComponent({
 
     this.label && child.push(this.label)
 
-    return h(this.hasRouterLink === true ? 'router-link' : 'span', {
+    return h(this.hasLink === true ? 'router-link' : 'span', {
       class: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
-      ...(this.hasRouterLink === true ? this.routerLinkProps : {})
+      ...(this.hasLink === true ? this.linkProps : {})
     }, hMergeSlot(child, this, 'default'))
   }
 })

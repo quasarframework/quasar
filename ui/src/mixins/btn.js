@@ -1,5 +1,6 @@
 import AlignMixin from './align.js'
 import RippleMixin from './ripple.js'
+import RouterLinkMixin from './router-link.js'
 import { getSizeMixin } from './size.js'
 
 const padding = {
@@ -15,6 +16,7 @@ export default {
   mixins: [
     RippleMixin,
     AlignMixin,
+    RouterLinkMixin,
     getSizeMixin({
       xs: 8,
       sm: 10,
@@ -25,10 +27,10 @@ export default {
   ],
 
   props: {
-    type: String,
-
-    to: [ Object, String ],
-    replace: Boolean,
+    type: {
+      type: String,
+      default: 'button'
+    },
 
     label: [ Number, String ],
     icon: String,
@@ -84,12 +86,8 @@ export default {
       return this.isActionable === true ? this.tabindex || 0 : -1
     },
 
-    hasRouterLink () {
-      return this.disable !== true && this.to !== void 0 && this.to !== null && this.to !== ''
-    },
-
     isLink () {
-      return this.type === 'a' || this.hasRouterLink === true
+      return this.type === 'a' || this.hasLink === true
     },
 
     design () {
@@ -100,25 +98,15 @@ export default {
       return 'standard'
     },
 
-    currentLocation () {
-      if (this.hasRouterLink === true) {
-        // we protect from accessing this.$route without
-        // actually needing it so that we won't trigger
-        // unnecessary updates
-        return this.$router.resolve(this.to)
-      }
-    },
-
     attrs () {
       const attrs = { tabindex: this.computedTabIndex }
 
       if (this.type !== 'a') {
-        attrs.type = this.type || 'button'
+        attrs.type = this.type
       }
 
-      if (this.hasRouterLink === true) {
-        attrs.href = this.currentLocation.href
-        attrs.role = 'link'
+      if (this.hasLink === true) {
+        Object.assign(attrs, this.linkProps)
       }
       else {
         attrs.role = this.type === 'a' ? 'link' : 'button'

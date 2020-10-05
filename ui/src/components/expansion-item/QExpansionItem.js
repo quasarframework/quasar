@@ -7,7 +7,7 @@ import QIcon from '../icon/QIcon.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
-import { RouterLinkMixin } from '../../mixins/router-link.js'
+import { routerLinkProps } from '../../mixins/router-link.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import DarkMixin from '../../mixins/dark.js'
 
@@ -16,11 +16,16 @@ import { hSlot } from '../../utils/render.js'
 import uid from '../../utils/uid.js'
 
 const itemGroups = shallowReactive({})
+const LINK_PROPS = Object.keys(routerLinkProps)
 
 export default defineComponent({
   name: 'QExpansionItem',
 
-  mixins: [ DarkMixin, RouterLinkMixin, ModelToggleMixin ],
+  mixins: [
+    DarkMixin,
+    ModelToggleMixin,
+    { props: routerLinkProps }
+  ],
 
   props: {
     icon: String,
@@ -87,7 +92,7 @@ export default defineComponent({
     },
 
     isClickable () {
-      return this.hasRouterLink === true || this.expandIconToggle !== true
+      return this.hasLink === true || this.expandIconToggle !== true
     },
 
     expansionIcon () {
@@ -97,13 +102,25 @@ export default defineComponent({
     },
 
     activeToggleIcon () {
-      return this.disable !== true && (this.hasRouterLink === true || this.expandIconToggle === true)
+      return this.disable !== true && (this.hasLink === true || this.expandIconToggle === true)
+    },
+
+    hasLink () {
+      return this.disable !== true && this.to !== void 0 && this.to !== null && this.to !== ''
+    },
+
+    linkProps () {
+      const props = {}
+      LINK_PROPS.forEach(key => {
+        props[key] = this[key]
+      })
+      return props
     }
   },
 
   methods: {
     __onHeaderClick (e) {
-      this.hasRouterLink !== true && this.toggle(e)
+      this.hasLink !== true && this.toggle(e)
       this.$emit('click', e)
     },
 
@@ -170,7 +187,8 @@ export default defineComponent({
     __getToggleIcon () {
       const data = {
         class: [
-          `q-focusable relative-position cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
+          `q-focusable relative-position cursor-pointer` +
+            `${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
           this.expandIconClass
         ],
         side: this.switchToggleSide !== true,
@@ -253,14 +271,9 @@ export default defineComponent({
         data.clickable = true
         data.onClick = this.__onHeaderClick
 
-        // TODO vue3
-        // data[evtProp] = {
-        //   ...this.qListeners,
-        // }
-
-        this.hasRouterLink === true && Object.assign(
+        this.hasLink === true && Object.assign(
           data,
-          this.routerLinkProps
+          this.linkProps
         )
       }
 
@@ -287,8 +300,8 @@ export default defineComponent({
 
         h(QSlideTransition, {
           duration: this.duration,
-          show: this.__onShow,
-          hide: this.__onHide
+          onShow: this.__onShow,
+          onHide: this.__onHide
         }, this.__getTransitionChild)
       ]
 

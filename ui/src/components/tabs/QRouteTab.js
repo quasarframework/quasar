@@ -1,7 +1,7 @@
 import { defineComponent, resolveComponent } from 'vue'
 
 import QTab from './QTab.js'
-import { RouterLinkMixin } from '../../mixins/router-link.js'
+import RouterLinkMixin from '../../mixins/router-link.js'
 import { isSameRoute, isIncludedRoute } from '../../utils/router.js'
 import { stopAndPrevent, noop } from '../../utils/event.js'
 
@@ -126,7 +126,7 @@ export default defineComponent({
     return this.__renderTab(
       resolveComponent('router-link'),
       {
-        ...this.routerLinkProps,
+        ...this.linkProps,
         onClickCapture: this.__activate // we need capture to intercept before vue-router
       },
       this.__getContent

@@ -1,7 +1,7 @@
-import { h, defineComponent, resolveComponent } from 'vue'
+import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
-import { RouterLinkMixin } from '../../mixins/router-link.js'
+import RouterLinkMixin from '../../mixins/router-link.js'
 
 import { hUniqueSlot } from '../../utils/render.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -35,7 +35,7 @@ export default defineComponent({
   computed: {
     isActionable () {
       return this.clickable === true ||
-        this.hasRouterLink === true ||
+        this.hasLink === true ||
         this.tag === 'a' ||
         this.tag === 'label'
     },
@@ -49,13 +49,13 @@ export default defineComponent({
         (this.dense === true ? ' q-item--dense' : '') +
         (this.isDark === true ? ' q-item--dark' : '') +
         (
-          this.active === true
-            ? ' q-item--active' + (
-              this.hasRouterLink !== true && this.activeClass !== void 0
-                ? ` ${this.activeClass}`
+          this.hasLink === true
+            ? this.linkClass
+            : (
+              this.active === true
+                ? ' q-item--active'
                 : ''
             )
-            : ''
         ) +
         (this.disable === true ? ' disabled' : '') +
         (
@@ -98,6 +98,7 @@ export default defineComponent({
           }
         }
 
+        this.hasLink === true && this.navigateToLink(e)
         this.$emit('click', e)
       }
     },
@@ -123,28 +124,22 @@ export default defineComponent({
     const data = {
       class: this.classes,
       style: this.style,
-      // TODO vue3 - interferes with router-link:
-      // onClick: this.__onClick,
+      onClick: this.__onClick,
       onKeyup: this.__onKeyup
     }
 
     if (this.isClickable === true) {
       data.tabindex = this.tabindex || '0'
+      Object.assign(data, this.linkProps)
     }
     else if (this.isActionable === true) {
       data['aria-disabled'] = 'true'
     }
 
-    return this.hasRouterLink === true
-      ? h(
-        resolveComponent('router-link'),
-        { ...data, ...this.routerLinkProps },
-        this.__getContent
-      )
-      : h(
-        this.tag,
-        data,
-        this.__getContent()
-      )
+    return h(
+      this.linkTag,
+      data,
+      this.__getContent()
+    )
   }
 })

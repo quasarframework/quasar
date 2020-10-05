@@ -150,75 +150,121 @@
 
       <div class="q-gutter-md q-py-md">
         <q-btn color="primary" :type="tag" :loading="!!loading[0]" @click="simulateProgress(0)" label="Button">
-          <q-spinner-oval slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-oval />
+          </template>
         </q-btn>
         <q-btn color="primary" :type="tag" :loading="!!loading[1]" @click="simulateProgress(1)" label="Button">
-          <span slot="loading">Loading...</span>
+          <template v-slot:loading>
+            <span>Loading...</span>
+          </template>
         </q-btn>
         <q-btn push color="primary" :type="tag" :loading="!!loading[0]" @click="simulateProgress(0)" label="Button">
-          <q-spinner-oval slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-oval />
+          </template>
         </q-btn>
         <q-btn push color="primary" :type="tag" :loading="!!loading[1]" @click="simulateProgress(1)" label="Button">
-          <span slot="loading">Loading...</span>
+          <template v-slot:loading>
+            <span>Loading...</span>
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[2]" color="orange" @click="simulateProgress(2)" label="Button">
-          <q-spinner-bars slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-bars />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[3]" color="secondary" @click="simulateProgress(3)" label="Button">
-          <q-spinner-circles slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-cube />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[4]" color="amber" @click="simulateProgress(4)" label="Button">
-          <q-spinner-comment slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-comment />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[5]" color="primary" size="xs" @click="simulateProgress(5)" label="Button">
-          <q-spinner-cube slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-cube />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[6]" color="primary" size="sm" @click="simulateProgress(6)" label="Button">
-          <q-spinner-dots slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-dots />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[7]" color="primary" size="md" @click="simulateProgress(7)" label="Button">
-          <q-spinner-facebook slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[8]" color="primary" size="lg" @click="simulateProgress(8)" label="Button">
-          <q-spinner-grid slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-grid />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[9]" color="primary" size="xl" @click="simulateProgress(9)" label="Button">
-          <q-spinner-hearts slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-hearts />
+          </template>
         </q-btn>
         <q-btn :type="tag" size="xs" round :loading="!!loading[10]" @click="simulateProgress(10)" color="primary" icon="mail">
-          <q-spinner-hourglass slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-hourglass />
+          </template>
         </q-btn>
         <q-btn :type="tag" size="sm" round :loading="!!loading[11]" @click="simulateProgress(11)" color="primary" icon="mail">
-          <q-spinner-infinity slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-infinity />
+          </template>
         </q-btn>
         <q-btn :type="tag" round :loading="!!loading[12]" @click="simulateProgress(12)" color="primary" icon="mail">
-          <q-spinner-pie slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-pie />
+          </template>
         </q-btn>
         <q-btn :type="tag" size="lg" round :loading="!!loading[13]" @click="simulateProgress(13)" color="primary" icon="mail">
-          <q-spinner-puff slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-puff />
+          </template>
         </q-btn>
         <q-btn :type="tag" size="xl" round :loading="!!loading[14]" @click="simulateProgress(14)" color="primary" icon="mail">
-          <q-spinner-gears slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-gears />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[15]" color="orange" @click="simulateProgress(15)" label="Button">
-          <q-spinner-radio slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-radio />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[16]" color="orange" @click="simulateProgress(16)" label="Button">
-          <q-spinner-rings slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-rings />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[17]" color="orange" @click="simulateProgress(17)" label="Button">
-          <q-spinner-tail slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-tail />
+          </template>
         </q-btn>
 
         <q-btn :type="tag" color="primary" :loading="!!loading[18]" size="sm" @click="simulateProgress(18)" icon-right="alarm" label="Button">
-          <q-spinner-audio slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-audio />
+          </template>
         </q-btn>
         <q-btn :type="tag" round :loading="!!loading[19]" @click="simulateProgress(19)" color="primary" size="lg" icon="alarm">
-          <q-spinner-ball slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-ball />
+          </template>
         </q-btn>
 
         <q-btn :type="tag" round :loading="!!loading[20]" color="black" @click="simulateProgress(20)" icon="camera_rear">
-          <q-spinner-gears slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-gears />
+          </template>
         </q-btn>
 
         <br>
@@ -288,18 +334,22 @@
       <div class="q-gutter-md q-py-md">
         <q-btn :type="tag" :loading="loading2" :percentage="percentage" color="primary" @click="startProgress">
           Btn with progress
-          <span slot="loading" class="row items-center">
-            <q-spinner class="on-left" />
-            Computing...
-          </span>
+          <template v-slot:loading>
+            <span class="row items-center">
+              <q-spinner class="on-left" />
+              Computing...
+            </span>
+          </template>
         </q-btn>
 
         <q-btn push :type="tag" :loading="loading2" :percentage="percentage" color="primary" @click="startProgress">
           Btn with progress
-          <span slot="loading" class="row items-center">
-            <q-spinner class="on-left" />
-            Computing...
-          </span>
+          <template v-slot:loading>
+            <span class="row items-center">
+              <q-spinner class="on-left" />
+              Computing...
+            </span>
+          </template>
         </q-btn>
 
         <q-btn :type="tag" round :loading="loading2" :percentage="percentage" color="primary" @click="startProgress" icon="wifi" />

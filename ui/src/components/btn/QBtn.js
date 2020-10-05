@@ -126,30 +126,14 @@ export default defineComponent({
           document.addEventListener('keyup', onClickCleanup, passiveCapture)
           this.$el.addEventListener('blur', onClickCleanup, passiveCapture)
         }
-
-        if (this.hasRouterLink === true) {
-          if (
-            e.ctrlKey === true ||
-            e.shiftKey === true ||
-            e.altKey === true ||
-            e.metaKey === true
-          ) {
-            // if it has meta keys, let vue-router link
-            // handle this by its own
-            return
-          }
-
-          stopAndPrevent(e)
-        }
       }
 
       const go = () => {
-        this.$router[this.replace === true ? 'replace' : 'push'](this.to)
-          .catch(() => {})
+        this.navigateToLink(e)
       }
 
       this.$emit('click', e, go)
-      this.hasRouterLink === true && e.navigate !== false && go()
+      this.hasLink === true && e.navigate !== false && go()
     },
 
     __onKeydown (e) {
