@@ -13,22 +13,28 @@ Before we dive in to the actual development, we need to do some preparation work
 
 * Make sure that after you install the Android SDK you then accept its licenses. Open the terminal and go to the folder where the SDK was installed, in tools/bin and call `sdkmanager --licenses`.
 
+::: warning
+The environmental variable `ANDROID_HOME` has been deprecated and replaced with `ANDROID_SDK_ROOT`. Depending on your version of Android Studio you may need one or the other. It doesn't hurt to have both set.
+:::
+
 * Add Android installation to your path:
 
 #### Unix (macOS, linux)
 
 ```bash
 export ANDROID_HOME="$HOME/Android/Sdk"
-PATH=$PATH:$ANDROID_HOME/tools; PATH=$PATH:$ANDROID_HOME/platform-tools
+export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+PATH=$PATH:$ANDROID_SDK_ROOT/tools; PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 ```
 
-> Please note that sometimes the `/Android/Sdk` folder is added inside `/Library/` inside your user folder. Check your user folder and if the `/Android/` folder is only inside `/Library/` do: `export ANDROID_HOME="$HOME/Library/Android/Sdk"` instead.
+> Please note that sometimes the `/Android/Sdk` folder is added inside `/Library/` inside your user folder. Check your user folder and if the `/Android/` folder is only inside `/Library/` do: `export ANDROID_SDK_ROOT="$HOME/Library/Android/Sdk"` or `export ANDROID_HOME="$HOME/Library/Android/Sdk"` instead.
 
 #### Windows
 
 ```bash
 setx ANDROID_HOME "%USERPROFILE%\AppData\Local\Android\Sdk"
-setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools"
+setx ANDROID_SDK_ROOT "%USERPROFILE%\AppData\Local\Android\Sdk"
+setx path "%path%;%ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools"
 ```
 
 - Start Android studio (check the executable in the folder that you installed it in). Next step is to install the individual SDKs:
