@@ -1,6 +1,5 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, toRaw } from 'vue'
 
-import clone from '../../utils/clone.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 
 import QDialog from '../dialog/QDialog.js'
@@ -171,7 +170,7 @@ export default defineComponent({
     },
 
     onOk () {
-      this.$emit('ok', clone(this.model))
+      this.$emit('ok', toRaw(this.model))
       this.hide()
     },
 
