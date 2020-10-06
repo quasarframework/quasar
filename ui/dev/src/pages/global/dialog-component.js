@@ -40,8 +40,7 @@ export default defineComponent({
       }
     }, () => [
       h(QCard, {
-        class: 'q-dialog-plugin' +
-          (this.dark === true ? ' q-dialog-plugin--dark' : '')
+        class: 'q-dialog-plugin'
       }, () => [
         h(QCardSection, {}, () => [ 'Custooom: ' + this.text ]),
 
