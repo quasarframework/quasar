@@ -397,7 +397,7 @@ export default defineComponent({
         this.$refs.content[prop] = v
 
         if (restorePosition === true) {
-          this.caret.restorePosition()
+          this.caret.restorePosition(this.$refs.content[prop].length)
           this.refreshToolbar()
         }
       }
