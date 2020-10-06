@@ -168,9 +168,13 @@ export default defineComponent({
     },
 
     __update (prop, val) {
-      if (this.layout.header[prop] !== val) {
-        this.layout.header[prop] = val
-      }
+      // ensure state update is caught correctly by Vue diffing
+      // on all layout components, so nextTicking:
+      this.$nextTick(() => {
+        if (this.layout.header[prop] !== val) {
+          this.layout.header[prop] = val
+        }
+      })
     },
 
     __updateLocal (prop, val) {

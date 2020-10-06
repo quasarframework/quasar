@@ -87,11 +87,11 @@ export default defineComponent({
         : this.modelValue === true,
 
       flagBackdropBg: 0,
+      flagPanning: false,
       flagContentPosition: ( // starting with "hidden" for SSR
         this.size *
         /* this.stateDirection */ (this.$q.lang.rtl === true ? -1 : 1) * (this.side === 'right' ? 1 : -1)
-      ),
-      flagPanning: false
+      )
     }
   },
 
@@ -545,9 +545,13 @@ export default defineComponent({
     },
 
     __update (prop, val) {
-      if (this.layout[this.side][prop] !== val) {
-        this.layout[this.side][prop] = val
-      }
+      // ensure state update is caught correctly by Vue diffing
+      // on all layout components, so nextTicking:
+      this.$nextTick(() => {
+        if (this.layout[this.side][prop] !== val) {
+          this.layout[this.side][prop] = val
+        }
+      })
     },
 
     __updateLocal (prop, val) {

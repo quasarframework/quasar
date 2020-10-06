@@ -177,9 +177,13 @@ export default defineComponent({
     },
 
     __update (prop, val) {
-      if (this.layout.footer[prop] !== val) {
-        this.layout.footer[prop] = val
-      }
+      // ensure state update is caught correctly by Vue diffing
+      // on all layout components, so nextTicking:
+      this.$nextTick(() => {
+        if (this.layout.footer[prop] !== val) {
+          this.layout.footer[prop] = val
+        }
+      })
     },
 
     __updateLocal (prop, val) {
