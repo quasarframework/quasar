@@ -16,12 +16,6 @@
       "category": "behavior"
     },
 
-    "append": {
-      "type": "Boolean",
-      "desc": "Equivalent to Vue Router <router-link> 'append' property",
-      "category": "behavior"
-    },
-
     "replace": {
       "type": "Boolean",
       "desc": "Equivalent to Vue Router <router-link> 'replace' property",
