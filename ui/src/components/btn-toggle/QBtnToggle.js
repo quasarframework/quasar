@@ -6,7 +6,7 @@ import QBtnGroup from '../btn-group/QBtnGroup.js'
 import FormMixin from '../../mixins/form.js'
 import RippleMixin from '../../mixins/ripple.js'
 
-import { hSlot, hMergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QBtnToggle',
@@ -141,7 +141,7 @@ export default defineComponent({
 
     __getContent () {
       const child = this.btnOptions.map(opt => {
-        return h(QBtn, opt.props, opt.slot !== void 0 ? hSlot(this, opt.slot) : void 0)
+        return h(QBtn, opt.props, opt.slot !== void 0 ? this.$slots[opt.slot] : void 0)
       })
 
       if (this.name !== void 0 && this.disable !== true && this.hasActiveValue === true) {
