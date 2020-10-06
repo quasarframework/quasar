@@ -15,10 +15,10 @@ export default defineComponent({
     text: Array,
     stamp: String,
     size: String,
-    labelSanitize: Boolean,
-    nameSanitize: Boolean,
-    textSanitize: Boolean,
-    stampSanitize: Boolean
+    labelHtml: Boolean,
+    nameHtml: Boolean,
+    textHtml: Boolean,
+    stampHtml: Boolean
   },
 
   computed: {
@@ -49,10 +49,10 @@ export default defineComponent({
 
     domProps () {
       return {
-        msg: this.textSanitize === true ? 'textContent' : 'innerHTML',
-        stamp: this.stampSanitize === true ? 'textContent' : 'innerHTML',
-        name: this.nameSanitize === true ? 'textContent' : 'innerHTML',
-        label: this.labelSanitize === true ? 'textContent' : 'innerHTML'
+        msg: this.textHtml === true ? 'innerHTML' : 'textContent',
+        stamp: this.stampHtml === true ? 'innerHTML' : 'textContent',
+        name: this.nameHtml === true ? 'innerHTML' : 'textContent',
+        label: this.labelHtml === true ? 'innerHTML' : 'textContent'
       }
     }
   },

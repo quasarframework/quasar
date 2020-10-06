@@ -27,9 +27,9 @@
       "category": "selection"
     },
 
-    "display-value-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render selected option(s); Use it when the selected option(s) might be unsafe (from user input); Does NOT apply when using 'selected' or 'selected-item' slots!",
+    "display-value-html": {
+      "extends": "html",
+      "desc": "Force render the selected option(s) as HTML; This can lead to XSS attacks so make sure that you sanitize the content; Does NOT apply when using 'selected' or 'selected-item' slots!",
       "category": "selection"
     },
 
@@ -119,9 +119,9 @@
       "category": "options"
     },
 
-    "options-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT apply when using 'option' slot!",
+    "options-html": {
+      "extends": "html",
+      "desc": "Force render the options as HTML; This can lead to XSS attacks so make sure that you sanitize the content; Does NOT apply when using 'option' slot!",
       "category": "options"
     },
 

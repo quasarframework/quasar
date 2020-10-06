@@ -100,7 +100,7 @@
       "category": "model"
     },
 
-    "sanitize": {
+    "html": {
       "type": "Boolean",
       "default": "false",
       "desc": "Force use of textContent instead of innerHTML to render text; Use it when the text might be unsafe (from user input)",

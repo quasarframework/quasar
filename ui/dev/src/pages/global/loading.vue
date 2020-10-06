@@ -8,26 +8,26 @@
         {{ state }}
       </div>
       <div class="q-gutter-sm">
-        <q-btn push color="secondary" @click="noMessage()">
+        <q-btn push color="secondary" @click="noMessage">
           Show
         </q-btn>
-        <q-btn push color="primary" @click="withMessage()">
-          Show With Message
+        <q-btn push color="primary" @click="withHtmlMessage">
+          Show With HTML Message
         </q-btn>
-        <q-btn push color="primary" @click="withMessageSanitized()">
+        <q-btn push color="primary" @click="withMessageSanitized">
           Show With Message (Sanitized)
         </q-btn>
       </div>
       <p class="caption">
         ...with a custom spinner, colors and size.
       </p>
-      <q-btn push color="secondary" @click="customLoading()">
+      <q-btn push color="secondary" @click="customLoading">
         Show custom Loading
       </q-btn>
       <p class="caption">
         Change Message while Being Displayed
       </p>
-      <q-btn push color="secondary" @click="changeMessage()">
+      <q-btn push color="secondary" @click="changeMessage">
         Show & Change
       </q-btn>
       <p class="caption">
@@ -35,7 +35,7 @@
       </p>
       <div>
         <q-input v-model.number="showCount" type="number" min="1" max="10" style="max-width: 150px;" filled />
-        <q-btn class="q-mt-md" push color="secondary" @click="showMultiple()">
+        <q-btn class="q-mt-md" push color="secondary" @click="showMultiple">
           Show Multiple Times
         </q-btn>
       </div>
@@ -141,11 +141,16 @@ export default {
         messageColor: 'orange'
       })
     },
-    withMessage () {
-      show({ message: 'Some <b class="text-negative">important</b> process is in progress. Hang on...' })
+    withHtmlMessage () {
+      show({
+        message: 'Some <b class="text-orange">important</b> process is in progress. Hang on...',
+        html: true
+      })
     },
     withMessageSanitized () {
-      show({ message: 'Some <b class="text-negative">important</b> process is in progress. Hang on...', sanitize: true })
+      show({
+        message: 'Some <b class="text-orange">important</b> process is in progress. Hang on...'
+      })
     },
     changeMessage () {
       Loading.show({ message: 'First message. Gonna change it in 3 seconds...' })

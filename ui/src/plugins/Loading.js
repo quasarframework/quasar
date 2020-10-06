@@ -18,6 +18,7 @@ const
   originalDefaults = {
     delay: 0,
     message: false,
+    html: false,
     spinnerSize: 80,
     spinnerColor: 'white',
     messageColor: 'white',
@@ -87,7 +88,7 @@ const Plugin = defineReactivePlugin({
             props.message && content.push(
               h('div', {
                 class: `text-${props.messageColor}`,
-                [props.sanitize === true ? 'textContent' : 'innerHTML']: props.message
+                [ props.html === true ? 'innerHTML' : 'textContent' ]: props.message
               })
             )
 

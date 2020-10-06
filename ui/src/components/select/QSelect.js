@@ -42,7 +42,7 @@ export default defineComponent({
     multiple: Boolean,
 
     displayValue: [ String, Number ],
-    displayValueSanitize: Boolean,
+    displayValueHtml: Boolean,
     dropdownIcon: String,
 
     options: {
@@ -66,7 +66,7 @@ export default defineComponent({
       default: null
     },
     optionsSelectedClass: String,
-    optionsSanitize: Boolean,
+    optionsHtml: Boolean,
 
     optionsCover: Boolean,
 
@@ -225,17 +225,17 @@ export default defineComponent({
         .join(', ')
     },
 
-    sanitizeFn () {
-      return this.optionsSanitize === true
-        ? () => true
-        : opt => opt !== void 0 && opt !== null && opt.sanitize === true
+    needsHtmlFn () {
+      return this.optionsHtml === true
+        ? opt => opt !== void 0 && opt !== null && opt.html === true
+        : () => true
     },
 
-    displayAsText () {
-      return this.displayValueSanitize === true || (
+    valueAsHtml () {
+      return this.displayValueHtml === true || (
         this.displayValue === void 0 && (
-          this.optionsSanitize === true ||
-          this.innerValue.some(this.sanitizeFn)
+          this.optionsHtml === true ||
+          this.innerValue.some(this.needsHtmlFn)
         )
       )
     },
@@ -248,7 +248,7 @@ export default defineComponent({
       return this.innerValue.map((opt, i) => ({
         index: i,
         opt,
-        sanitize: this.sanitizeFn(opt),
+        html: this.needsHtmlFn(opt),
         selected: true,
         removeAtIndex: this.__removeAtIndexAndFocus,
         toggleOption: this.toggleOption,
@@ -298,7 +298,7 @@ export default defineComponent({
         return {
           index,
           opt,
-          sanitize: this.sanitizeFn(opt),
+          html: this.needsHtmlFn(opt),
           selected: itemProps.active,
           focused: itemProps.focused,
           toggleOption: this.toggleOption,
@@ -821,13 +821,13 @@ export default defineComponent({
           onRemove () { scope.removeAtIndex(i) }
         }, () => h('span', {
           class: 'ellipsis',
-          [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
+          [ scope.html === true ? 'innerHTML' : 'textContent' ]: this.getOptionLabel(scope.opt)
         })))
       }
 
       return [
         h('span', {
-          [this.displayAsText ? 'textContent' : 'innerHTML']: this.displayValue !== void 0
+          [ this.valueAsHtml === true ? 'innerHTML' : 'textContent' ]: this.displayValue !== void 0
             ? this.displayValue
             : this.selectedString
         })
@@ -846,7 +846,7 @@ export default defineComponent({
             return h(
               QItemSection,
               () => h(QItemLabel, {
-                [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
+                [ scope.html === true ? 'innerHTML' : 'textContent' ]: this.getOptionLabel(scope.opt)
               })
             )
           })

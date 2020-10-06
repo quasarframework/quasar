@@ -73,25 +73,28 @@ export default {
       },
       {
         name: '<strong class="text-uppercase">Trusted Vladimir</strong>',
+        nameHtml: true,
         text: ['I\'m also fine, thank you. <span class="text-primary">But I feel like writing a very long text here too test the avatar.</span>'],
+        textHtml: true,
         avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
         stamp: 'Yesterday 13:34'
       },
       {
         name: '<strong class="text-uppercase">Untrusted Vladimir</strong>',
         text: ['I\'m also fine, thank you. <span class="text-primary">But I feel like writing a very long text here too test the avatar.</span>'],
-        textSanitize: true,
         avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
         stamp: 'Yesterday 13:34'
       },
       {
         name: 'Vladimir',
         text: ['I\'m also fine, thank you. <span class="text-primary">But I feel like writing a very long text here too test the avatar.</span>'],
+        textHtml: true,
         avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
         stamp: 'Yesterday 13:34'
       },
       {
-        label: '<span class="bg-primary text-white q-pa-sm rounded-borders">Sunday, 19th</span>'
+        label: '<span class="bg-primary text-white q-pa-sm rounded-borders">Sunday, 19th (labelHtml: true)</span>',
+        labelHtml: true
       },
       {
         name: 'Vladimir',
