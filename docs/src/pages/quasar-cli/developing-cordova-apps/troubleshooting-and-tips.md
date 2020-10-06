@@ -25,11 +25,16 @@ If you are having problems getting Android builds to finish and you see a messag
 
 If this is the case you need to accept ALL the licenses. Thankfully there is a tool for this:
 
-Linux: `sdkmanager --licenses`
-macOS: `~/Library/Android/sdk/tools/bin/sdkmanager --licenses`
-Windows: `%ANDROID_HOME%/tools/bin/sdkmanager --licenses`
+- Linux: `sdkmanager --licenses`
+- macOS: `~/Library/Android/sdk/tools/bin/sdkmanager --licenses`
+- Windows: `%ANDROID_SDK_ROOT%/tools/bin/sdkmanager --licenses`
 
 ### Android SDK not found after installation of the SDK
+
+::: warning
+The environmental variable `ANDROID_HOME` has been deprecated and replaced with `ANDROID_SDK_ROOT`. Depending on your version of Android Studio you may need one or the other. It doesn't hurt to have both set.
+:::
+
 Some newer Debian-based OS (e.g. ubuntu, elementary OS) might leave you with a `Android SDK not found.` after you installed and (correctly) configured the environment. The output might look similar to this:
 
 ``` bash
@@ -39,7 +44,7 @@ Requirements check results for android:
 Java JDK: installed 1.8.0
 Android SDK: installed true
 Android target: not installed
-Android SDK not found. Make sure that it is installed. If it is not at the default location, set the ANDROID_HOME environment variable.
+Android SDK not found. Make sure that it is installed. If it is not at the default location, set the ANDROID_HOME (or ANDROID_SDK_ROOT) environment variable.
 Gradle: not installed
 Could not find gradle wrapper within Android SDK. Might need to update your Android SDK.
 Looked here: /home/your_user/Android/Sdk/tools/templates/gradle/wrapper
@@ -50,6 +55,10 @@ This could have two different reasons: Usually the paths aren't configured corre
 
 ``` bash
 $ echo $ANDROID_HOME
+
+# or
+
+$ echo $ANDROID_SDK_ROOT
 ```
 
 The expected output should be a path similar to this `$HOME/Android/Sdk`. After this run:
@@ -57,6 +66,10 @@ The expected output should be a path similar to this `$HOME/Android/Sdk`. After 
 
 ``` bash
 $ ls -la $ANDROID_HOME
+
+# or
+
+$ ls -la $ANDROID_SDK_ROOT
 ```
 
 To ensure the folder contains the SDK. The expected output should contain folders like 'tools', 'sources', 'platform-tools', etc.
