@@ -69,7 +69,7 @@ export default defineComponent({
     readonly: Boolean
   },
 
-  emits: [ 'update:modelValue' ],
+  emits: [ 'update:modelValue', 'change' ],
 
   data () {
     return {
@@ -290,8 +290,7 @@ export default defineComponent({
                 'onUpdate:modelValue': evt => {
                   this.__updateErrorIcon(this.__onEditorChange(evt) === true)
                 },
-                // TODO vue3 - handle lazy update
-                // change: stop,
+                onChange: stop,
                 onBlur: evt => {
                   this.__onEditorChange(evt, true) === true && this.$forceUpdate()
                   this.__updateErrorIcon(false)
@@ -403,9 +402,10 @@ export default defineComponent({
             fillHandleAlways: true,
             readonly: this.editable !== true,
             thumbPath,
-            'onUpdate:modelValue': this.__onHueChange
-            // TODO vue3 - handle lazy update
-            // change: val => this.__onHueChange(val, true)
+            'onUpdate:modelValue': this.__onHueChange,
+            ...this.__getCache('lazyhue', {
+              onChange: val => this.__onHueChange(val, true)
+            })
           })
         ])
       ]
@@ -420,9 +420,8 @@ export default defineComponent({
             readonly: this.editable !== true,
             thumbPath,
             ...this.__getCache('alphaSlide', {
-              'onUpdate:modelValue': value => this.__onNumericChange(value, 'a', 100)
-              // TODO vue3 - handle lazy update
-              // change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
+              'onUpdate:modelValue': value => this.__onNumericChange(value, 'a', 100),
+              onChange: value => this.__onNumericChange(value, 'a', 100, void 0, true)
             })
           })
         ])
@@ -446,9 +445,8 @@ export default defineComponent({
             dark: this.isDark,
             readonly: this.editable !== true,
             ...this.__getCache('rSlide', {
-              'onUpdate:modelValue': value => this.__onNumericChange(value, 'r', 255)
-              // TODO vue3 - handle lazy update
-              // change: value => this.__onNumericChange(value, 'r', 255, void 0, true)
+              'onUpdate:modelValue': value => this.__onNumericChange(value, 'r', 255),
+              onChange: value => this.__onNumericChange(value, 'r', 255, void 0, true)
             })
           }),
           h('input', {
@@ -473,9 +471,8 @@ export default defineComponent({
             dark: this.isDark,
             readonly: this.editable !== true,
             ...this.__getCache('gSlide', {
-              'onUpdate:modelValue': value => this.__onNumericChange(value, 'g', 255)
-              // TODO vue3 - handle lazy update
-              // change: value => this.__onNumericChange(value, 'g', 255, void 0, true)
+              'onUpdate:modelValue': value => this.__onNumericChange(value, 'g', 255),
+              onChange: value => this.__onNumericChange(value, 'g', 255, void 0, true)
             })
           }),
           h('input', {
@@ -500,9 +497,8 @@ export default defineComponent({
             readonly: this.editable !== true,
             dark: this.isDark,
             ...this.__getCache('bSlide', {
-              'onUpdate:modelValue': value => this.__onNumericChange(value, 'b', 255)
-              // TODO vue3 - handle lazy update
-              // change: value => this.__onNumericChange(value, 'b', 255, void 0, true)
+              'onUpdate:modelValue': value => this.__onNumericChange(value, 'b', 255),
+              onChange: value => this.__onNumericChange(value, 'b', 255, void 0, true)
             })
           }),
           h('input', {
@@ -525,9 +521,8 @@ export default defineComponent({
             readonly: this.editable !== true,
             dark: this.isDark,
             ...this.__getCache('aSlide', {
-              'onUpdate:modelValue': value => this.__onNumericChange(value, 'a', 100)
-              // TODO vue3 - handle lazy update
-              // change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
+              'onUpdate:modelValue': value => this.__onNumericChange(value, 'a', 100),
+              onChange: value => this.__onNumericChange(value, 'a', 100, void 0, true)
             })
           }),
           h('input', {
@@ -768,8 +763,7 @@ export default defineComponent({
 
       // emit new value
       this.$emit('update:modelValue', value)
-      // TODO vue3 - handle lazy update
-      // change === true && this.$emit('change', value)
+      change === true && this.$emit('change', value)
     },
 
     __updateErrorIcon (val) {

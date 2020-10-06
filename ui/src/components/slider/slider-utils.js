@@ -78,7 +78,7 @@ export const SliderMixin = {
     }
   },
 
-  emits: [ 'pan' ],
+  emits: [ 'pan', 'update:modelValue', 'change' ],
 
   data () {
     return {

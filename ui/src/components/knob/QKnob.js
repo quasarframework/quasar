@@ -41,7 +41,7 @@ export default defineComponent({
     ...commonProps
   },
 
-  emits: [ 'update:modelValue', 'drag-value' ],
+  emits: [ 'update:modelValue', 'change', 'drag-value' ],
 
   data () {
     return {
@@ -67,8 +67,7 @@ export default defineComponent({
 
       if (this.model !== this.modelValue) {
         this.$emit('update:modelValue', this.model)
-        // TODO vue3 - handle lazy update
-        // this.$emit('change', this.model)
+        this.$emit('change', this.model)
       }
     }
   },
@@ -251,8 +250,7 @@ export default defineComponent({
 
     __updateValue (change) {
       this.modelValue !== this.model && this.$emit('update:modelValue', this.model)
-      // TODO vue3 - handle lazy update
-      // change === true && this.$emit('change', this.model)
+      change === true && this.$emit('change', this.model)
     },
 
     __getNameInput () {

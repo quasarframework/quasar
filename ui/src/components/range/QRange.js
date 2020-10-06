@@ -48,8 +48,6 @@ export default defineComponent({
     rightLabelValue: [ String, Number ]
   },
 
-  emits: [ 'update:modelValue' ],
-
   data () {
     return {
       model: {
@@ -239,8 +237,7 @@ export default defineComponent({
       if (this.model.min !== this.modelValue.min || this.model.max !== this.modelValue.max) {
         this.$emit('update:modelValue', this.model)
       }
-      // TODO vue3 - handle lazy update
-      // change === true && this.$emit('change', this.model)
+      change === true && this.$emit('change', this.model)
     },
 
     __getDragging (event) {

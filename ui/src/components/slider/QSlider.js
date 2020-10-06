@@ -26,8 +26,6 @@ export default defineComponent({
     labelValue: [ String, Number ]
   },
 
-  emits: [ 'update:modelValue' ],
-
   data () {
     return {
       model: this.modelValue === null ? this.min : this.modelValue,
@@ -121,8 +119,7 @@ export default defineComponent({
       if (this.model !== this.modelValue) {
         this.$emit('update:modelValue', this.model)
       }
-      // TODO vue3 - handle lazy update
-      // change === true && this.$emit('change', this.model)
+      change === true && this.$emit('change', this.model)
     },
 
     __getDragging () {

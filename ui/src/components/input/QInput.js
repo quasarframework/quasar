@@ -38,7 +38,7 @@ export default defineComponent({
     inputStyle: [ Array, String, Object ]
   },
 
-  emits: [ 'paste', /* TODO vue3 - @change */ 'change' ],
+  emits: [ 'paste', 'change' ],
 
   watch: {
     modelValue (v) {
@@ -262,8 +262,7 @@ export default defineComponent({
       clearTimeout(this.emitTimer)
       this.emitValueFn !== void 0 && this.emitValueFn()
 
-      // TODO vue3 - @change
-      this.$emit('change', e)
+      this.$emit('change', e.target.value)
     },
 
     __onFinishEditing (e) {

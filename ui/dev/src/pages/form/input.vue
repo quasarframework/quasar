@@ -19,6 +19,11 @@
       </div>
 
       <div class="text-h6">
+        Lazy (@change)
+      </div>
+      <q-input v-bind="props" outlined :model-value="text" @change="val => { text = val }" label="Label" label-color="green" />
+
+      <div class="text-h6">
         Standard
       </div>
 
