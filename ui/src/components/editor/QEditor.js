@@ -283,6 +283,7 @@ export default defineComponent({
   watch: {
     modelValue (v) {
       if (this.lastEmit !== v) {
+        this.lastEmit = v
         this.__setContent(v, true)
       }
     }
