@@ -84,7 +84,14 @@ export default defineComponent({
       belowBreakpoint,
       showing: this.showIfAbove === true && belowBreakpoint === false
         ? true
-        : this.modelValue === true
+        : this.modelValue === true,
+
+      flagBackdropBg: 0,
+      flagContentPosition: ( // starting with "hidden" for SSR
+        this.size *
+        /* this.stateDirection */ (this.$q.lang.rtl === true ? -1 : 1) * (this.side === 'right' ? 1 : -1)
+      ),
+      flagPanning: false
     }
   },
 
@@ -218,7 +225,13 @@ export default defineComponent({
 
     backdropClass () {
       return 'fullscreen q-drawer__backdrop' +
-        (this.showing === false ? ' hidden' : '')
+        (this.showing === false && this.flagPanning === false ? ' hidden' : '')
+    },
+
+    backdropStyle () {
+      return {
+        backgroundColor: `rgba(0,0,0,${this.flagBackdropBg * 0.4})`
+      }
     },
 
     headerSlot () {
@@ -258,7 +271,11 @@ export default defineComponent({
     },
 
     style () {
-      const style = { width: `${this.size}px` }
+      const style = {
+        width: `${this.size}px`,
+        transform: `translateX(${this.flagContentPosition}px)`
+      }
+
       return this.belowBreakpoint === true
         ? style
         : Object.assign(style, this.aboveStyle)
@@ -268,7 +285,11 @@ export default defineComponent({
       return `q-drawer q-drawer--${this.side}` +
         (this.bordered === true ? ' q-drawer--bordered' : '') +
         (this.isDark === true ? ' q-drawer--dark q-dark' : '') +
-        (this.showing !== true ? ' q-layout--prevent-focus' : '') +
+        (
+          this.flagPanning === true
+            ? ' no-transition'
+            : (this.showing === true ? '' : ' q-layout--prevent-focus')
+        ) +
         (
           this.belowBreakpoint === true
             ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'
@@ -353,7 +374,7 @@ export default defineComponent({
           this.__applyPosition(this.stateDirection * position)
         })
       }
-      else if (this.$refs.content) {
+      else {
         if (
           this.layout.container === true &&
           this.rightSide === true &&
@@ -362,10 +383,7 @@ export default defineComponent({
           position += this.stateDirection * this.layout.scrollbarWidth
         }
 
-        if (this.__lastPosition !== position) {
-          this.$refs.content.style.transform = `translateX(${position}px)`
-          this.__lastPosition = position
-        }
+        this.flagContentPosition = position
       }
     },
 
@@ -376,25 +394,8 @@ export default defineComponent({
       ))
     },
 
-    __applyBackdrop (x, retry) {
-      if (this.$refs.backdrop) {
-        this.$refs.backdrop.style.backgroundColor =
-          this.lastBackdropBg = `rgba(0,0,0,${x * 0.4})`
-      }
-      else {
-        // rendered nodes might not have
-        // picked up this.showing change yet,
-        // so we need one retry
-        retry !== true && this.$nextTick(() => {
-          this.__applyBackdrop(x, true)
-        })
-      }
-    },
-
-    __setBackdropVisible (v) {
-      if (this.$refs.backdrop) {
-        this.$refs.backdrop.classList[v === true ? 'remove' : 'add']('hidden')
-      }
+    __applyBackdrop (x) {
+      this.flagBackdropBg = x
     },
 
     __setScrollable (v) {
@@ -430,11 +431,7 @@ export default defineComponent({
         position = between(evt.distance.x, 0, width)
 
       if (evt.isFinal === true) {
-        const
-          el = this.$refs.content,
-          opened = position >= Math.min(75, width)
-
-        el.classList.remove('no-transition')
+        const opened = position >= Math.min(75, width)
 
         if (opened === true) {
           this.show()
@@ -443,11 +440,9 @@ export default defineComponent({
           this.layout.__animate()
           this.__applyBackdrop(0)
           this.__applyPosition(this.stateDirection * width)
-          el.classList.remove('q-drawer--delimiter')
-          el.classList.add('q-layout--prevent-focus')
-          this.__setBackdropVisible(false)
         }
 
+        this.flagPanning = false
         return
       }
 
@@ -461,11 +456,7 @@ export default defineComponent({
       )
 
       if (evt.isFirst === true) {
-        const el = this.$refs.content
-        el.classList.add('no-transition')
-        el.classList.add('q-drawer--delimiter')
-        el.classList.remove('q-layout--prevent-focus')
-        this.__setBackdropVisible(true)
+        this.flagPanning = true
       }
     },
 
@@ -485,7 +476,6 @@ export default defineComponent({
 
       if (evt.isFinal === true) {
         const opened = Math.abs(position) < Math.min(75, width)
-        this.$refs.content.classList.remove('no-transition')
 
         if (opened === true) {
           this.layout.__animate()
@@ -496,6 +486,7 @@ export default defineComponent({
           this.hide()
         }
 
+        this.flagPanning = false
         return
       }
 
@@ -503,14 +494,13 @@ export default defineComponent({
       this.__applyBackdrop(between(1 - position / width, 0, 1))
 
       if (evt.isFirst === true) {
-        this.$refs.content.classList.add('no-transition')
+        this.flagPanning = true
       }
     },
 
     __show (evt, noEvent) {
       this.__addHistory()
 
-      this.__setBackdropVisible(true)
       evt !== false && this.layout.__animate()
       this.__applyPosition(0)
 
@@ -541,7 +531,6 @@ export default defineComponent({
 
       this.__applyBackdrop(0)
       this.__applyPosition(this.stateDirection * this.size)
-      this.__setBackdropVisible(false)
 
       this.__cleanup()
 
@@ -593,15 +582,13 @@ export default defineComponent({
           {
             ref: 'backdrop',
             class: this.backdropClass,
+            style: this.backdropStyle,
             'aria-hidden': 'true',
-            style: this.lastBackdropBg !== void 0
-              ? { backgroundColor: this.lastBackdropBg }
-              : null,
             onClick: this.hide
           },
           void 0,
           'backdrop',
-          this.showing === true && this.noSwipeBackdrop !== true,
+          this.noSwipeBackdrop !== true && this.showing === true,
           () => this.backdropCloseDirective
         )
       )
@@ -640,7 +627,7 @@ export default defineComponent({
         },
         content,
         'contentclose',
-        this.belowBreakpoint === true && this.noSwipeClose !== true,
+        this.noSwipeClose !== true && this.belowBreakpoint === true,
         () => this.contentCloseDirective
       )
     )

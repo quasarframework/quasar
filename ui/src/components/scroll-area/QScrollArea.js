@@ -314,7 +314,8 @@ export default defineComponent({
     // ensure we're not emitting same info
     // multiple times
     this.__emitScroll = debounce(() => {
-      if (this.emitListeners.onScroll === true) {
+      // TODO vue3 - verify emitListeners below
+      if (this.emitListeners !== void 0 && this.emitListeners.onScroll === true) {
         const info = { ref: this }
         const prefix = this.dirProps.prefix
 
