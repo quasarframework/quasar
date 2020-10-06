@@ -277,6 +277,7 @@ export default Vue.extend({
   watch: {
     value (v) {
       if (this.lastEmit !== v) {
+        this.lastEmit = v
         this.__setContent(v, true)
       }
     }
