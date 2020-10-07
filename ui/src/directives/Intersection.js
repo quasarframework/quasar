@@ -34,8 +34,7 @@ function update (el, ctx, value) {
         // then we need to be careful...
         if (
           entry.rootBounds === null &&
-          // TODO vue3 - el.__vue__._inactive
-          (el.__vue__ !== void 0 ? el.__vue__._inactive !== true : document.body.contains(el) === true)
+          document.body.contains(el) === true
         ) {
           ctx.observer.unobserve(el)
           ctx.observer.observe(el)

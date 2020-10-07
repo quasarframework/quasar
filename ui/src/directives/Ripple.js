@@ -75,7 +75,7 @@ function updateModifiers (ctx, { modifiers, value, arg }) {
 export default {
   name: 'ripple',
 
-  mounted (el, binding) {
+  beforeMount (el, binding) {
     const ctx = {
       enabled: binding.value !== false,
       modifiers: {},

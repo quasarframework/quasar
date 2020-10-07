@@ -23,7 +23,7 @@ function getDepth (value) {
 export default {
   name: 'close-popup',
 
-  mounted (el, { value }) {
+  beforeMount (el, { value }) {
     const ctx = {
       depth: getDepth(value),
 
