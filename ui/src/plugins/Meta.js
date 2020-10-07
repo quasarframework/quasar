@@ -226,7 +226,7 @@ function updateClientMeta () {
     if (active === true) {
       extend(true, data, meta)
 
-      // TODO - is this still possible?
+      // TODO vue3 - is this still possible?
       if (meta.stopPropagation === true) {
         break
       }
@@ -293,10 +293,9 @@ export default {
              * are caught by the reactive vue system (which starts on first nextTick)
              */
             this.$nextTick(() => {
-              // if it's still mounted
               if (this.$.isMounted === true) {
                 this.__qMetaUnwatch = watchEffect(() => {
-                  this.__qMeta.meta = this.$options.meta.call(this)
+                  this.__qMeta.meta = this.$options.meta.call(this) || {}
                   planClientUpdate()
                 })
               }
