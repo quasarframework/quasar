@@ -5,8 +5,8 @@
         <q-toolbar-title>
           First Layout
         </q-toolbar-title>
-        <div>
-          Running on Quasar v{{ $q.version }}
+        <div class="text-caption">
+          Quasar v{{ $q.version }}
         </div>
       </q-toolbar>
     </q-header>

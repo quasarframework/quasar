@@ -1,7 +1,10 @@
+import { watchEffect } from 'vue'
+
 import { isSSR, fromSSR } from './Platform.js'
 import extend from '../utils/extend.js'
 
-let updateId, ssrTakeover
+let updateId, currentClientMeta
+const clientList = []
 
 function normalize (meta) {
   if (meta.title) {
@@ -136,46 +139,6 @@ function apply ({ add, remove }) {
   })
 }
 
-function parseMeta (component, meta) {
-  if (component._inactive === true) { return }
-
-  // if it has meta
-  if (hasMeta(component) === true) {
-    extend(true, meta, component.__qMeta)
-
-    if (component.$options.meta.stopPropagation === true) {
-      return
-    }
-  }
-
-  // TODO vue3 - children traversal
-  // component.$children.forEach(child => {
-  //   parseMeta(child, meta)
-  // })
-}
-
-function updateClient () {
-  if (ssrTakeover === true) {
-    ssrTakeover = false
-    this.$root.__currentMeta = window.__Q_META__
-  }
-
-  const meta = {
-    title: '',
-    titleTemplate: null,
-    meta: {},
-    link: {},
-    script: {},
-    htmlAttr: {},
-    bodyAttr: {}
-  }
-  parseMeta(this.$root, meta)
-  normalize(meta)
-
-  apply(diff(this.$root.__currentMeta, meta))
-  this.$root.__currentMeta = meta
-}
-
 function getAttr (seed) {
   return att => {
     const val = seed[att]
@@ -246,26 +209,38 @@ function getServerMeta (app, html, ctx) {
   return html
 }
 
-function beforeCreate () {
-  if (typeof this.$options.meta === 'function') {
-    if (this.$options.computed === void 0) {
-      this.$options.computed = {}
+function updateClientMeta () {
+  const data = {
+    title: '',
+    titleTemplate: null,
+    meta: {},
+    link: {},
+    script: {},
+    htmlAttr: {},
+    bodyAttr: {}
+  }
+
+  for (let i = 0; i < clientList.length; i++) {
+    const { active, meta } = clientList[i]
+
+    if (active === true) {
+      extend(true, data, meta)
+
+      if (meta.stopPropagation === true) {
+        break
+      }
     }
-    this.$options.computed.__qMeta = this.$options.meta
   }
-  else if (hasMeta(this) === true) {
-    this.__qMeta = this.$options.meta
-  }
+
+  normalize(data)
+
+  apply(diff(currentClientMeta, data))
+  currentClientMeta = data
 }
 
-// needs to be really fast
-function hasMeta (vm) {
-  return vm.$options.meta !== void 0 &&
-    vm.$options.meta !== null
-}
-
-function triggerMeta () {
-  hasMeta(this) === true && this.__qMetaUpdate()
+function planClientUpdate () {
+  clearTimeout(updateId)
+  updateId = setTimeout(updateClientMeta, 50)
 }
 
 export default {
@@ -273,48 +248,73 @@ export default {
     if (isSSR === true) {
       // TODO vue3 - SSR handling
 
-      app.config.globalProperties.$getMetaHTML = app => {
-        return (html, ctx) => getServerMeta(app, html, ctx)
-      }
+      // app.config.globalProperties.$getMetaHTML = app => {
+      //   return (html, ctx) => getServerMeta(app, html, ctx)
+      // }
 
-      app.mixin({ beforeCreate })
+      // app.mixin({ beforeCreate })
 
-      queues.server.push((_, ctx) => {
-        ctx.ssr.Q_HTML_ATTRS += ' %%Q_HTML_ATTRS%%'
-        Object.assign(ctx.ssr, {
-          Q_HEAD_TAGS: '%%Q_HEAD_TAGS%%',
-          Q_BODY_ATTRS: '%%Q_BODY_ATTRS%%',
-          Q_BODY_TAGS: '%%Q_BODY_TAGS%%'
-        })
-      })
+      // queues.server.push((_, ctx) => {
+      //   ctx.ssr.Q_HTML_ATTRS += ' %%Q_HTML_ATTRS%%'
+      //   Object.assign(ctx.ssr, {
+      //     Q_HEAD_TAGS: '%%Q_HEAD_TAGS%%',
+      //     Q_BODY_ATTRS: '%%Q_BODY_ATTRS%%',
+      //     Q_BODY_TAGS: '%%Q_BODY_TAGS%%'
+      //   })
+      // })
     }
     else {
-      ssrTakeover = fromSSR
+      if (fromSSR === true) {
+        currentClientMeta = window.__Q_META__
+      }
 
-      // TODO vue3 - main mixin
-      // app.mixin({
-      //   beforeCreate,
-      //   created () {
-      //     if (hasMeta(this) === true) {
-      //       this.__qMetaUnwatch = this.$watch('__qMeta', this.__qMetaUpdate)
-      //     }
-      //   },
-      //   activated: triggerMeta,
-      //   deactivated: triggerMeta,
-      //   beforeMount: triggerMeta,
-      //   unmounted () {
-      //     if (hasMeta(this) === true) {
-      //       this.__qMetaUnwatch()
-      //       this.__qMetaUpdate()
-      //     }
-      //   },
-      //   methods: {
-      //     __qMetaUpdate () {
-      //       clearTimeout(updateId)
-      //       updateId = setTimeout(updateClient.bind(this), 50)
-      //     }
-      //   }
-      // })
+      app.mixin({
+        activated () {
+          if (this.__qMeta !== void 0) {
+            this.__qMeta.active = true
+            planClientUpdate()
+          }
+        },
+
+        deactivated () {
+          if (this.__qMeta !== void 0) {
+            this.__qMeta.active = false
+            planClientUpdate()
+          }
+        },
+
+        created () {
+          if (typeof this.$options.meta === 'function') {
+            this.__qMeta = { active: true }
+            clientList.push(this.__qMeta)
+            this.__qMetaUnwatch = watchEffect(() => {
+              this.__qMeta.meta = this.$options.meta.call(this)
+              planClientUpdate()
+            })
+          }
+          else if (Object(this.$options.meta) === this.$options.meta) {
+            this.__qMeta = {
+              active: true,
+              meta: this.$options.meta
+            }
+
+            clientList.push(this.__qMeta)
+            planClientUpdate()
+          }
+        },
+
+        unmounted () {
+          if (this.__qMeta !== void 0) {
+            if (this.__qMetaUnwatch !== void 0) {
+              this.__qMetaUnwatch()
+              this.__qMetaUnwatch = void 0
+            }
+
+            clientList.splice(clientList.indexOf(this.__qMeta), 1)
+            planClientUpdate()
+          }
+        }
+      })
     }
   }
 }

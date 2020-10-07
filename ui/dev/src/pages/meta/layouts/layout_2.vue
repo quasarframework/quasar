@@ -3,10 +3,10 @@
     <q-header>
       <q-toolbar color="secondary" glossy>
         <q-toolbar-title>
-          First Layout
+          SECOND Layout
         </q-toolbar-title>
-        <div>
-          Running on Quasar v{{ $q.version }}
+        <div class="text-caption">
+          Quasar v{{ $q.version }}
         </div>
       </q-toolbar>
     </q-header>

@@ -12,7 +12,6 @@ function component (path) {
 }
 
 const metaChildren = [
-  { path: '', redirect: 'first' },
   { path: 'first', component: load('meta/pages/first') },
   { path: 'second', component: load('meta/pages/second') },
   { path: 'third', component: load('meta/pages/third') }
@@ -22,16 +21,16 @@ const routes = [
   { path: '/', component: load('Index') },
   {
     path: '/meta/layout_1',
-    component: load('meta/layout_1'),
+    component: load('meta/layouts/layout_1'),
     children: metaChildren
   },
   {
     path: '/meta/title',
-    component: load('meta/title')
+    component: load('meta/layouts/title')
   },
   {
     path: '/meta/layout_2',
-    component: load('meta/layout_2'),
+    component: load('meta/layouts/layout_2'),
     children: metaChildren
   },
   {

@@ -1,22 +1,31 @@
 <template>
   <q-page padding>
-    <h5 class="text-secondary">
-      Page second
-    </h5>
-    <h3>Layout 1</h3>
-    <q-btn-group>
-      <q-btn color="primary" to="/meta/layout_1/first" label="first" />
-      <q-btn color="secondary" to="/meta/layout_1/second" label="second" />
-      <q-btn color="accent" to="/meta/layout_1/third" label="third" />
-    </q-btn-group>
-    <h3>Layout 2</h3>
-    <q-btn-group>
-      <q-btn color="primary" to="/meta/layout_2/first" label="first" />
-      <q-btn color="secondary" to="/meta/layout_2/second" label="second" />
-      <q-btn color="accent" to="/meta/layout_2/third" label="third" />
-    </q-btn-group>
+    <q-card class="inline-block q-mt-md">
+      <q-card-section class="text-subtitle text-secondary">
+        Current page: second
+      </q-card-section>
+      <q-separator />
+      <q-card-section>
+        <div class="row no-wrap items-center">
+          <div class="text-caption q-mr-sm">Layout 1:</div>
+          <q-btn-group>
+            <q-btn no-caps color="primary" to="/meta/layout_1/first" label="first" />
+            <q-btn no-caps color="secondary" to="/meta/layout_1/second" label="second" />
+            <q-btn no-caps color="orange" to="/meta/layout_1/third" label="third" />
+          </q-btn-group>
+        </div>
+        <div class="row no-wrap items-center q-mt-sm">
+          <div class="text-caption q-mr-sm">Layout 2:</div>
+          <q-btn-group>
+            <q-btn no-caps color="primary" to="/meta/layout_2/first" label="first" />
+            <q-btn no-caps color="secondary" to="/meta/layout_2/second" label="second" />
+            <q-btn no-caps color="orange" to="/meta/layout_2/third" label="third" />
+          </q-btn-group>
+        </div>
+      </q-card-section>
+    </q-card>
 
-    <pre>{{ __qMeta }}</pre>
+    <pre>{{ __qMeta.meta }}</pre>
   </q-page>
 </template>
 
@@ -40,6 +49,12 @@ export default {
     htmlAttr: {
       'third-page': 'w'
     }
+  },
+  created () {
+    console.log('created')
+  },
+  unmounted () {
+    console.log('unmounted')
   }
 }
 </script>

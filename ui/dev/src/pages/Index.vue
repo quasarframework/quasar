@@ -55,6 +55,12 @@ pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
   })
 })
 
+list['Meta'] = [
+  { route: '/meta/layout_1/first', title: 'Meta Layout 1' },
+  { route: '/meta/layout_2/first', title: 'Meta Layout 2' },
+  { route: '/meta/title', title: 'Meta Title page' }
+]
+
 export default {
   created () {
     this.list = list
