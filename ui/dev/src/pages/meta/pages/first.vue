@@ -74,9 +74,24 @@ export default {
         : 'Page 1'
 
       this.$nextTick(() => {
+        // pick up __qMeta change
         this.$forceUpdate()
       })
     }
+  },
+  created () {
+    console.log('created first.vue')
+  },
+  mounted () {
+    console.log('mounted first.vue')
+
+    this.$nextTick(() => {
+      // pick up __qMeta change
+      this.$forceUpdate()
+    })
+  },
+  unmounted () {
+    console.log('unmounted second.vue')
   }
 }
 </script>

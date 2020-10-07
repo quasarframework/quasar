@@ -226,6 +226,7 @@ function updateClientMeta () {
     if (active === true) {
       extend(true, data, meta)
 
+      // TODO - is this still possible?
       if (meta.stopPropagation === true) {
         break
       }
@@ -285,11 +286,20 @@ export default {
 
         created () {
           if (typeof this.$options.meta === 'function') {
-            this.__qMeta = { active: true }
+            this.__qMeta = { active: true, meta: {} }
             clientList.push(this.__qMeta)
-            this.__qMetaUnwatch = watchEffect(() => {
-              this.__qMeta.meta = this.$options.meta.call(this)
-              planClientUpdate()
+            /*
+             * Need to use nextTick() so possible mounted() cases
+             * are caught by the reactive vue system (which starts on first nextTick)
+             */
+            this.$nextTick(() => {
+              // if it's still mounted
+              if (this.$.isMounted === true) {
+                this.__qMetaUnwatch = watchEffect(() => {
+                  this.__qMeta.meta = this.$options.meta.call(this)
+                  planClientUpdate()
+                })
+              }
             })
           }
           else if (Object(this.$options.meta) === this.$options.meta) {

@@ -51,10 +51,13 @@ export default {
     }
   },
   created () {
-    console.log('created')
+    console.log('created second.vue')
+  },
+  mounted () {
+    console.log('mounted second.vue')
   },
   unmounted () {
-    console.log('unmounted')
+    console.log('unmounted second.vue')
   }
 }
 </script>

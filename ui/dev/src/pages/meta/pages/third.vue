@@ -39,6 +39,15 @@ export default {
     htmlAttr: {
       'third-page': ''
     }
+  },
+  created () {
+    console.log('created third.vue')
+  },
+  mounted () {
+    console.log('mounted third.vue')
+  },
+  unmounted () {
+    console.log('unmounted third.vue')
   }
 }
 </script>

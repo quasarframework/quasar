@@ -14,7 +14,7 @@ export default {
   },
 
   mounted () {
-    console.log('mounted')
+    console.log('mounted, triggering title change')
     this.title = 'Test End'
   },
 
