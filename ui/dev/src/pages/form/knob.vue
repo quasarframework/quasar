@@ -163,10 +163,15 @@
           <q-icon name="volume_up" /> {{ model }}
         </q-knob>
 
-        <q-icon slot="before" name="cake" />
-        <div slot="message">
-          Touch to change
-        </div>
+        <template v-slot:before>
+          <q-icon name="cake" />
+        </template>
+
+        <template v-slot:message>
+          <div>
+            Touch to change
+          </div>
+        </template>
       </q-field>
     </div>
   </div>

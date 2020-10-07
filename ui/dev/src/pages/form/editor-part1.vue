@@ -30,17 +30,18 @@
       }"
       placeholder="Some place holder"
     >
-      <q-btn
-        slot="custom_btn"
-        size="sm"
-        dense
-        color="secondary"
-        icon="import_contacts"
-        label="Import"
-        no-wrap
-        unelevated
-        @click="importSomething"
-      />
+      <template v-slot:custom_btn>
+        <q-btn
+          size="sm"
+          dense
+          color="secondary"
+          icon="import_contacts"
+          label="Import"
+          no-wrap
+          unelevated
+          @click="importSomething"
+        />
+      </template>
     </q-editor>
 
     <br><br><br>
@@ -161,25 +162,30 @@
         gogu: {tip: 'Custom', icon: 'account_balance', handler: vm => vm.runCmd('print')}
       }"
     >
-      <q-btn dense color="yellow" slot="custom_btn" no-wrap size="sm">
-        Wow
-      </q-btn>
-      <q-btn-dropdown dense no-caps ref="token" no-wrap slot="token" color="green" label="Token" size="sm">
-        <q-list>
-          <q-item tag="label" clickable @click="add('email')">
-            <q-item-section side>
-              <q-icon name="mail" />
-            </q-item-section>
-            <q-item-section>Email</q-item-section>
-          </q-item>
-          <q-item tag="label" clickable @click="add('title')">
-            <q-item-section side>
-              <q-icon name="title" />
-            </q-item-section>
-            <q-item-section>Title</q-item-section>
-          </q-item>
-        </q-list>
-      </q-btn-dropdown>
+      <template v-slot:custom_btn>
+        <q-btn dense color="yellow" no-wrap size="sm">
+          Wow
+        </q-btn>
+      </template>
+
+      <template v-slot:token>
+        <q-btn-dropdown dense no-caps ref="token" no-wrap color="green" label="Token" size="sm">
+          <q-list>
+            <q-item tag="label" clickable @click="add('email')">
+              <q-item-section side>
+                <q-icon name="mail" />
+              </q-item-section>
+              <q-item-section>Email</q-item-section>
+            </q-item>
+            <q-item tag="label" clickable @click="add('title')">
+              <q-item-section side>
+                <q-icon name="title" />
+              </q-item-section>
+              <q-item-section>Title</q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+      </template>
     </q-editor>
 
     <div class="caption bg-yellow">

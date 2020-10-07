@@ -63,7 +63,9 @@
           val => val.length <= 3 || 'Please use maximum 3 characters'
         ]"
       >
-        <q-icon slot="append" name="close" @click="model2 = ''" class="cursor-pointer" />
+        <template v-slot:append>
+          <q-icon name="close" @click="model2 = ''" class="cursor-pointer" />
+        </template>
       </q-input>
 
       <q-input
@@ -330,12 +332,11 @@
         :error="error"
         style="margin-bottom: 30px"
       >
-        <div slot="error">
-          Slotted error message
-        </div>
-        <div slot="error">
-          Second slotted error message
-        </div>
+        <template v-slot:error>
+          <div>
+            Slotted error message
+          </div>
+        </template>
       </q-input>
     </div>
   </div>

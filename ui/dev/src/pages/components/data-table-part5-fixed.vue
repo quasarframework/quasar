@@ -1,7 +1,9 @@
 <template>
   <div class="q-layout-padding">
     <q-input filled v-model="filter" label="Search" debounce="300">
-      <q-icon slot="append" name="search" />
+      <template v-slot:append>
+        <q-icon name="search" />
+      </template>
     </q-input>
 
     <div>

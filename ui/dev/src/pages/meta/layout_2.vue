@@ -3,11 +3,11 @@
     <q-header>
       <q-toolbar color="secondary" glossy>
         <q-toolbar-title>
-          Second Layout
-          <div slot="subtitle">
-            Running on Quasar v{{ $q.version }}
-          </div>
+          First Layout
         </q-toolbar-title>
+        <div>
+          Running on Quasar v{{ $q.version }}
+        </div>
       </q-toolbar>
     </q-header>
 

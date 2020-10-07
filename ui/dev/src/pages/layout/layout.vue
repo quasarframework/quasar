@@ -168,14 +168,16 @@
           :mini-to-overlay="leftMiniToOverlay"
         >
           <!--
-        <div slot="mini">
-          <q-btn
-            class="q-mini-drawer-hide"
-            icon="keyboard_arrow_right"
-            @click="goMini"
-          />
-          <div>mini</div>
-        </div>
+            <template v-slot:mini>
+              <div>
+                <q-btn
+                  class="q-mini-drawer-hide"
+                  icon="keyboard_arrow_right"
+                  @click="goMini"
+                />
+                <div>mini</div>
+              </div>
+            </template>
         -->
           <q-input v-model="inp" />
           <input v-model="inp">

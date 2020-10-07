@@ -245,7 +245,9 @@
       >
         <template v-slot:top-right>
           <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-            <q-icon slot="append" name="search" />
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
           </q-input>
         </template>
 
@@ -277,7 +279,9 @@
       </q-table>
 
       <q-input filled v-model="filter" label="Search" debounce="300">
-        <q-icon slot="append" name="search" />
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
       </q-input>
 
       <div>
@@ -305,7 +309,9 @@
       >
         <template v-slot:top-right>
           <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-            <q-icon slot="append" name="search" />
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
           </q-input>
         </template>
       </q-table>

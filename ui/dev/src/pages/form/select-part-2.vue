@@ -36,16 +36,18 @@
             @focus="onFocus"
             @blur="onBlur"
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
 
-            <q-icon slot="before" color="green" name="event" />
-            <q-icon slot="prepend" name="event" />
-            <q-icon slot="append" name="delete" />
-            <q-icon slot="after" color="green" name="delete" />
+            <template v-slot:before><q-icon color="green" name="event" /></template>
+            <template v-slot:prepend><q-icon name="event" /></template>
+            <template v-slot:append><q-icon name="delete" /></template>
+            <template v-slot:after><q-icon color="green" name="delete" /></template>
           </q-select>
 
           <q-select
@@ -60,16 +62,18 @@
             @blur="onBlur"
             clearable
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
 
-            <q-icon slot="before" color="green" name="event" />
-            <q-icon slot="prepend" name="event" />
-            <q-icon slot="append" name="delete" />
-            <q-icon slot="after" color="green" name="delete" />
+            <template v-slot:before><q-icon color="green" name="event" /></template>
+            <template v-slot:prepend><q-icon name="event" /></template>
+            <template v-slot:append><q-icon name="delete" /></template>
+            <template v-slot:after><q-icon color="green" name="delete" /></template>
           </q-select>
 
           <q-select
@@ -85,11 +89,13 @@
             @blur="onBlur"
             clearable
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
           </q-select>
 
           <div>Multiple</div>
@@ -103,16 +109,18 @@
             @focus="onFocus"
             @blur="onBlur"
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
 
-            <q-icon slot="before" color="green" name="event" />
-            <q-icon slot="prepend" name="event" />
-            <q-icon slot="append" name="delete" />
-            <q-icon slot="after" color="green" name="delete" />
+            <template v-slot:before><q-icon color="green" name="event" /></template>
+            <template v-slot:prepend><q-icon name="event" /></template>
+            <template v-slot:append><q-icon name="delete" /></template>
+            <template v-slot:after><q-icon color="green" name="delete" /></template>
           </q-select>
 
           <q-select
@@ -128,16 +136,18 @@
             @blur="onBlur"
             clearable
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
 
-            <q-icon slot="before" color="green" name="event" />
-            <q-icon slot="prepend" name="event" />
-            <q-icon slot="append" name="delete" />
-            <q-icon slot="after" color="green" name="delete" />
+            <template v-slot:before><q-icon color="green" name="event" /></template>
+            <template v-slot:prepend><q-icon name="event" /></template>
+            <template v-slot:append><q-icon name="delete" /></template>
+            <template v-slot:after><q-icon color="green" name="delete" /></template>
           </q-select>
 
           <q-select
@@ -154,11 +164,13 @@
             @blur="onBlur"
             clearable
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
           </q-select>
 
           <div>Create new value</div>
@@ -300,11 +312,13 @@
             @focus="onFocus"
             @blur="onBlur"
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
           </q-select>
 
           <q-select
@@ -320,11 +334,13 @@
             @focus="onFocus"
             @blur="onBlur"
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
           </q-select>
 
           <q-select
@@ -339,11 +355,13 @@
             @focus="onFocus"
             @blur="onBlur"
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
           </q-select>
 
           <q-select
@@ -359,11 +377,13 @@
             @focus="onFocus"
             @blur="onBlur"
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
           </q-select>
 
           <q-select

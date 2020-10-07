@@ -263,15 +263,16 @@
       <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
       <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
 
-      <q-carousel-control
-        slot="control"
-        position="top-right"
-        :offset="[18, 18]"
-        class="text-white"
-        style="background: rgba(0, 0, 0, .3); padding: 4px; border-radius: 4px"
-      >
-        <q-toggle dark color="amber" v-model="autoplay" label="Auto Play" />
-      </q-carousel-control>
+      <template v-slot:control>
+        <q-carousel-control
+          position="top-right"
+          :offset="[18, 18]"
+          class="text-white"
+          style="background: rgba(0, 0, 0, .3); padding: 4px; border-radius: 4px"
+        >
+          <q-toggle dark color="amber" v-model="autoplay" label="Auto Play" />
+        </q-carousel-control>
+      </template>
     </q-carousel>
 
     <div class="caption">
