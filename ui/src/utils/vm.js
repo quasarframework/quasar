@@ -1,7 +1,3 @@
-export function getAppVm (VueApp) {
-  return VueApp._container._vnode.component.ctx
-}
-
 export function getParentVm (vm) {
   if (vm.$parent !== void 0 && vm.$parent !== null) {
     return vm.$parent

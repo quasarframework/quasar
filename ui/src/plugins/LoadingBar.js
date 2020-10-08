@@ -3,7 +3,6 @@ import { createApp, h } from 'vue'
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { isSSR } from './Platform.js'
 import { noop } from '../utils/event.js'
-import { getAppVm } from '../utils/vm.js'
 import { createGlobalNode } from '../utils/global-nodes.js'
 
 import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
@@ -36,9 +35,8 @@ export default defineReactivePlugin({
     })
 
     app.config.globalProperties.$q = $q
-    app.mount(el)
 
-    const bar = getAppVm(app).$refs.bar
+    const bar = app.mount(el).$refs.bar
 
     Object.assign(this, {
       start: speed => {

@@ -6,7 +6,6 @@ import QBtn from '../components/btn/QBtn.js'
 import QSpinner from '../components/spinner/QSpinner.js'
 
 import { noop } from '../utils/event.js'
-import { getAppVm } from '../utils/vm.js'
 import { createGlobalNode } from '../utils/global-nodes.js'
 import { isSSR } from './Platform.js'
 
@@ -507,12 +506,10 @@ export default {
     $q.notify.registerType = this.registerType
 
     const el = createGlobalNode('q-notify')
-
     const app = createApp(Notifications)
 
     app.config.globalProperties.$q = $q
-    app.mount(el)
 
-    this.__vm = getAppVm(app)
+    this.__vm = app.mount(el)
   }
 }

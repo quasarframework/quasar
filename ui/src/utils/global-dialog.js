@@ -2,7 +2,6 @@ import { h, createApp } from 'vue'
 
 import { appInstance } from '../install.js'
 import { isSSR } from '../plugins/Platform.js'
-import { getAppVm } from '../utils/vm.js'
 import { createGlobalNode, removeGlobalNode } from './global-nodes.js'
 
 const ssrAPI = {
@@ -112,9 +111,8 @@ export default function (DefaultComponent) {
     })
 
     app.config.globalProperties = appInstance.config.globalProperties
-    app.mount(el)
 
-    let vm = getAppVm(app)
+    let vm = app.mount(el)
     vm.$refs.dialog.show()
 
     return API
