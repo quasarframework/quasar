@@ -14,8 +14,6 @@ function globalHandler (evt) {
   if (
     target === void 0 ||
     target.nodeType === 8 ||
-    // directives that prevent click by using pointer-events:none generate click on html element
-    target === document.documentElement ||
     target.classList.contains('no-pointer-events') === true
   ) {
     return
