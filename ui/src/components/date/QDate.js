@@ -43,6 +43,8 @@ export default defineComponent({
     events: [ Array, Function ],
     eventColor: [ String, Function ],
 
+    emitImmediately: Boolean,
+
     options: [ Array, Function ],
 
     navigationMinYearMonth: {
@@ -132,6 +134,12 @@ export default defineComponent({
         (this.square === true ? ` q-date--square no-border-radius` : '') +
         (this.flat === true ? ` q-date--flat no-shadow` : '') +
         (this.disable === true ? ' disabled' : (this.readonly === true ? ' q-date--readonly' : ''))
+    },
+
+    isImmediate () {
+      return this.emitImmediately === true &&
+        this.multiple !== true &&
+        this.range !== true
     },
 
     normalizedModel () {
@@ -1114,21 +1122,25 @@ export default defineComponent({
       }
 
       this.__updateViewModel(year, month)
+      this.isImmediate === true && this.__emitImmediately('month')
     },
 
     __goToYear (offset) {
       const year = Number(this.viewModel.year) + offset
       this.__updateViewModel(year, this.viewModel.month)
+      this.isImmediate === true && this.__emitImmediately('year')
     },
 
     __setYear (year) {
       this.__updateViewModel(year, this.viewModel.month)
       this.view = this.defaultView === 'Years' ? 'Months' : 'Calendar'
+      this.isImmediate === true && this.__emitImmediately('year')
     },
 
     __setMonth (month) {
       this.__updateViewModel(this.viewModel.year, month)
       this.view = 'Calendar'
+      this.isImmediate === true && this.__emitImmediately('month')
     },
 
     __getMonthHash (date) {
@@ -1259,6 +1271,30 @@ export default defineComponent({
       this.$emit('update:modelValue', value, reason, details)
     },
 
+    __emitImmediately (reason) {
+      const date = this.daysModel[0] !== void 0 && this.daysModel[0].dateHash !== null
+        ? this.daysModel[0]
+        : { ...this.viewModel } // inherit day, hours, minutes, milliseconds...
+
+      // nextTick required because of animation delay in viewModel
+      this.$nextTick(() => {
+        date.year = this.viewModel.year
+        date.month = this.viewModel.month
+
+        const maxDay = this.calendar !== 'persian'
+          ? (new Date(date.year, date.month, 0)).getDate()
+          : jalaaliMonthLength(date.year, date.month)
+
+        date.day = Math.min(Math.max(1, date.day), maxDay)
+
+        const value = this.__encodeEntry(date)
+        this.lastEmitValue = value
+
+        const { details } = this.__getEmitParams('', date)
+        this.$emit('update:modelValue', value, reason, details)
+      })
+    },
+
     __getEmitParams (action, date) {
       return date.from !== void 0
         ? {
@@ -1266,16 +1302,12 @@ export default defineComponent({
           details: {
             ...this.__getShortDate(date.target),
             from: this.__getShortDate(date.from),
-            to: this.__getShortDate(date.to),
-            changed: true // TODO remove in v2; legacy purposes
+            to: this.__getShortDate(date.to)
           }
         }
         : {
           reason: `${action}-day`,
-          details: {
-            ...this.__getShortDate(date),
-            changed: true // TODO remove in v2; legacy purposes
-          }
+          details: this.__getShortDate(date)
         }
     },
 
