@@ -1,23 +1,14 @@
 import { h, defineComponent } from 'vue'
 import { QDialog, QCard, QCardSection, QCardActions, QBtn, QSelect } from 'quasar'
 
-const TestComponent = defineComponent({
-  inject: {
-    providedTest: {
-      default: 'Provide/Inject DOES NOT WORKS'
-    }
-  },
-
-  render () {
-    return h('div', { class: 'text-weight-bold' }, this.providedTest)
-  }
-})
-
 export default defineComponent({
   name: 'CustomDialogComponent',
 
   props: {
-    text: String
+    text: {
+      type: String,
+      default: 'FAILED'
+    }
   },
 
   emits: [ 'hide', 'ok' ],
@@ -57,8 +48,6 @@ export default defineComponent({
         h(QCardSection, {}, () => 'Prop "text": ' + this.text),
 
         h(QCardSection, {}, () => 'Current route: ' + this.$route.path),
-
-        h(QCardSection, {}, () => h(TestComponent)),
 
         h(QCardSection, {}, () => [
           h(QSelect, {

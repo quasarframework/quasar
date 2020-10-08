@@ -69,7 +69,10 @@ const Portal = {
   }
 }
 
-if (isSSR === false) {
+if (isSSR === true) {
+  Portal.render = noop
+}
+else {
   Object.assign(Portal, {
     data () {
       return { usePortal: false }
@@ -128,9 +131,6 @@ if (isSSR === false) {
       this.__hidePortal()
     }
   })
-}
-else {
-  Portal.render = noop
 }
 
 export default Portal

@@ -109,10 +109,6 @@ import { QSpinnerGears, QSpinnerCube } from 'quasar'
 import DialogComponent from './dialog-component.js'
 
 export default {
-  provide: {
-    providedTest: 'Provide/Inject works!'
-  },
-
   data () {
     return {
       dark: null
@@ -508,9 +504,8 @@ export default {
     customComponent () {
       this.dialogHandler = this.$q.dialog({
         component: DialogComponent,
-        componentParent: this,
         componentProps: {
-          text: 'text from props'
+          text: 'Works'
         }
       }).onOk(() => {
         console.log('OK')

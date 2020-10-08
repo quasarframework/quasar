@@ -30,18 +30,15 @@ export default function (DefaultComponent, supportsCustomComponent) {
   return pluginProps => {
     if (isSSR === true) { return ssrAPI }
 
-    let DialogComponent, props, provide
+    let DialogComponent, props
     const isCustom = supportsCustomComponent === true &&
       pluginProps.component !== void 0
 
     if (isCustom === true) {
-      const { component, componentParent: parent, componentProps } = pluginProps
+      const { component, componentProps } = pluginProps
 
       DialogComponent = component
       props = componentProps
-      provide = parent !== void 0 && parent.$ !== void 0 && parent.$.provides !== void 0
-        ? parent.$.provides
-        : void 0
     }
     else {
       const { class: klass, style, ...otherProps } = pluginProps
@@ -115,7 +112,6 @@ export default function (DefaultComponent, supportsCustomComponent) {
 
     let app = createApp({
       name: 'QGlobalDialog',
-      provide,
       render () {
         return h(DialogComponent, {
           ref: 'dialog',
