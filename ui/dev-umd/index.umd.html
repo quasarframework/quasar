@@ -22,7 +22,7 @@
               Quasar App
             </q-toolbar-title>
 
-            <div>Quasar v{{ $q.version }}</div>
+            <div>Quasar v{{ $q.version }} | Vue v{{ vueVersion }}</div>
           </q-toolbar>
         </q-header>
 
@@ -111,47 +111,53 @@
     </div>
 
     <script src="dist/quasar.ie.polyfills.umd.min.js"></script>
-    <script src="https://unpkg.com/vue@^2.0.0/dist/vue.min.js"></script>
-    <script>
-      // optional
-      window.quasarConfig = {
-        brand: {
-          primary: '#ff0000'
-        }
-      }
-    </script>
+    <script src="https://unpkg.com/vue@^3.0.0/dist/vue.global.prod.js"></script>
     <script src="dist/quasar.umd.js"></script>
     <script src="dist/lang/es.umd.min.js"></script>
     <script src="dist/icon-set/fontawesome-v5.umd.min.js"></script>
     <script src="dist/icon-set/svg-fontawesome-v5.umd.min.js"></script>
 
     <script>
-      Quasar.lang.set(Quasar.lang.es)
-      Quasar.iconSet.set(Quasar.iconSet.svgFontawesomeV5)
-
-      console.log('fontawesome-v5 set', Quasar.iconSet.fontawesomeV5)
-      console.log('svg-fontawesome-v5 set', Quasar.iconSet.svgFontawesomeV5)
-
-      Quasar.plugins.Notify.create('Startup notification')
-
-      new Vue({
+      const app = Vue.createApp({
         el: '#q-app',
-        data: function () {
+        data () {
           return {
             version: Quasar.version,
+            vueVersion: Vue.version,
             stars: 5,
             drawerState: false
           }
         },
         methods: {
-          launch: function (url) {
+          launch (url) {
             Quasar.utils.openURL(url)
           },
-          onRefreshClick: function () {
+          onRefreshClick () {
             window.location.reload()
           }
         }
       })
+
+      app.use(Quasar, {
+        // plugins: {
+        //   Notify: Quasar.plugins.Notify
+        // },
+        config: {
+          brand: {
+            primary: '#ff0000'
+          }
+        }
+      })
+
+      Quasar.plugins.Notify.create('Startup notification')
+
+      Quasar.lang.set(Quasar.lang.es)
+      Quasar.iconSet.set(Quasar.iconSet.svgFontawesomeV5)
+
+      app.mount('#q-app')
+
+      console.log('fontawesome-v5 set', Quasar.iconSet.fontawesomeV5)
+      console.log('svg-fontawesome-v5 set', Quasar.iconSet.svgFontawesomeV5)
     </script>
   </body>
 </html>
