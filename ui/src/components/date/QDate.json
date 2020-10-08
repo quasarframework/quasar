@@ -158,7 +158,7 @@
 
     "emit-immediately": {
       "type": "Boolean",
-      "desc": "(DEPRECATED from v1.13) Emit model when user browses month and year too; Only for single selection (non-multiple, non-range)",
+      "desc": "Emit model when user browses month and year too; ONLY for single selection (non-multiple, non-range)",
       "category": "model"
     }
   },
