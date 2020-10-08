@@ -305,17 +305,15 @@ export default {
 
     showSimpleDialog () {
       this.$q.dialog({
-        html: true,
-        parent: this.$refs.panel,
         title: 'Confirmation required',
         message: `Are you sure?`,
         cancel: {
           flat: true,
-          'no-caps': true,
+          noCaps: true,
           label: 'Cancel'
         },
         ok: {
-          'no-caps': true,
+          noCaps: true,
           color: 'negative',
           label: 'Confirm'
         },

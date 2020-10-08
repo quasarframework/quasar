@@ -26,17 +26,31 @@ export function merge (target, source) {
   }
 }
 
-export default function (DefaultComponent) {
-  return ({ class: klass, style, component, ...props }) => {
+export default function (DefaultComponent, supportsCustomComponent) {
+  return pluginProps => {
     if (isSSR === true) { return ssrAPI }
 
-    klass !== void 0 && (props.cardClass = klass)
-    style !== void 0 && (props.cardStyle = style)
+    let DialogComponent, props, provide
+    const isCustom = supportsCustomComponent === true &&
+      pluginProps.component !== void 0
 
-    const isCustom = component !== void 0
-    const DialogComponent = isCustom === true
-      ? component
-      : DefaultComponent
+    if (isCustom === true) {
+      const { component, componentParent: parent, componentProps } = pluginProps
+
+      DialogComponent = component
+      props = componentProps
+      provide = parent !== void 0 && parent.$ !== void 0 && parent.$.provides !== void 0
+        ? parent.$.provides
+        : void 0
+    }
+    else {
+      const { class: klass, style, ...otherProps } = pluginProps
+
+      DialogComponent = DefaultComponent
+      props = otherProps
+      klass !== void 0 && (otherProps.cardClass = klass)
+      style !== void 0 && (otherProps.cardStyle = style)
+    }
 
     const
       okFns = [],
@@ -59,15 +73,16 @@ export default function (DefaultComponent) {
           vm.$refs.dialog.hide()
           return API
         },
-        update ({ class: klass, style, component, ...cfg }) {
+        update (componentProps) {
           if (vm !== null) {
-            klass !== void 0 && (cfg.cardClass = klass)
-            style !== void 0 && (cfg.cardStyle = style)
-
             if (isCustom === true) {
-              Object.assign(props, cfg)
+              Object.assign(props, componentProps)
             }
             else {
+              const { class: klass, style, ...cfg } = componentProps
+
+              klass !== void 0 && (cfg.cardClass = klass)
+              style !== void 0 && (cfg.cardStyle = style)
               merge(props, cfg)
             }
 
@@ -100,6 +115,7 @@ export default function (DefaultComponent) {
 
     let app = createApp({
       name: 'QGlobalDialog',
+      provide,
       render () {
         return h(DialogComponent, {
           ref: 'dialog',

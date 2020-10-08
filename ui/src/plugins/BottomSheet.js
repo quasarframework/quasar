@@ -3,6 +3,6 @@ import globalDialog from '../utils/global-dialog.js'
 
 export default {
   install ({ $q }) {
-    this.create = $q.bottomSheet = globalDialog(BottomSheet)
+    this.create = $q.bottomSheet = globalDialog(BottomSheet, false)
   }
 }

@@ -3,6 +3,6 @@ import globalDialog from '../utils/global-dialog.js'
 
 export default {
   install ({ $q }) {
-    this.create = $q.dialog = globalDialog(DialogPlugin)
+    this.create = $q.dialog = globalDialog(DialogPlugin, true)
   }
 }
