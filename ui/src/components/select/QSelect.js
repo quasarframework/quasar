@@ -472,7 +472,7 @@ export default defineComponent({
       }
 
       const
-        model = this.value.slice(),
+        model = this.modelValue.slice(),
         index = this.innerOptionsValue.findIndex(v => isDeepEqual(v, optValue))
 
       if (index > -1) {
