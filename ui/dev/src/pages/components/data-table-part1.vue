@@ -152,7 +152,7 @@
             <q-td key="desc" :props="props">
               {{ props.row.name }}
               <q-popup-edit
-                content-class="bg-primary text-white"
+                class="bg-primary text-white"
                 buttons
                 color="white"
                 v-model="props.row.name"

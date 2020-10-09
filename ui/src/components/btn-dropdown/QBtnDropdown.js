@@ -145,9 +145,9 @@ export default defineComponent({
         contentClass: this.contentClass,
         contentStyle: this.contentStyle,
         separateClosePopup: true,
-        onBeforeShow: this.__onBeforeShow,
+        'onBefore-show': this.__onBeforeShow,
         onShow: this.__onShow,
-        onBeforeHide: this.__onBeforeHide,
+        'onBefore-hide': this.__onBeforeHide,
         onHide: this.__onHide
       }, this.$slots.default)
     )

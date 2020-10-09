@@ -18,8 +18,6 @@ export default defineComponent({
 
   mixins: [ DarkMixin ],
 
-  inheritAttrs: false,
-
   props: {
     title: String,
     message: String,
@@ -168,7 +166,6 @@ export default defineComponent({
   render () {
     return h(QDialog, {
       ref: 'dialog',
-      ...this.$attrs,
       position: 'bottom',
       onHide: this.onHide
     }, this.__getContent)

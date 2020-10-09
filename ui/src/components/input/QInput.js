@@ -12,6 +12,8 @@ import { stop } from '../../utils/event.js'
 export default defineComponent({
   name: 'QInput',
 
+  inheritAttrs: false,
+
   mixins: [
     QField,
     MaskMixin,
@@ -139,7 +141,6 @@ export default defineComponent({
         rows: this.type === 'textarea' ? 6 : void 0,
         'aria-label': this.label,
         name: this.nameProp,
-        ...this.$attrs, // TODO vue3 - correctly passthrough only needed data
         id: this.targetUid,
         maxlength: this.maxlength,
         disabled: this.disable === true,
@@ -295,8 +296,9 @@ export default defineComponent({
     Object.assign(this.field, {
       getControl: () => {
         return h(this.isTextarea === true ? 'textarea' : 'input', {
-          ref: 'input',
+          ...this.$attrs,
           ...this.inputAttrs,
+          ref: 'input',
           class: [
             'q-field__native q-placeholder',
             this.inputClass

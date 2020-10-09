@@ -19,7 +19,7 @@ export default defineComponent({
   inject: {
     __qTabs: {
       default () {
-        console.error('QTab/QRouteTab components need to be child of QTabs')
+        console.error('QTab/QRouteTab component needs to be child of QTabs')
       }
     }
   },

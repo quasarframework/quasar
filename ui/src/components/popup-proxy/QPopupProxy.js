@@ -92,7 +92,6 @@ export default defineComponent({
     const data = {
       ref: 'popup',
       ...props,
-      ...this.$attrs,
       onHide: this.__onHide
     }
 

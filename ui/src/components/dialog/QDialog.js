@@ -320,9 +320,8 @@ export default defineComponent({
         ...this.$attrs,
         class: [
           'q-dialog fullscreen no-pointer-events',
-          this.contentClass
-        ],
-        style: this.contentStyle
+          this.$attrs.class
+        ]
       }, [
         h(Transition, {
           name: 'q-transition--fade',

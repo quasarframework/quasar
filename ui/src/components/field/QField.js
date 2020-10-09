@@ -507,7 +507,11 @@ export default defineComponent({
     this.field.onPostRender !== void 0 && this.$nextTick(this.field.onPostRender)
 
     return h('label', {
-      class: this.classes,
+      class: [
+        this.classes,
+        this.$attrs.class
+      ],
+      style: this.$attrs.style,
       ...this.attrs
     }, [
       this.$slots.before !== void 0

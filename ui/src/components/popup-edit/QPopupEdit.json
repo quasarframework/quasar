@@ -45,25 +45,6 @@
       "category": "content"
     },
 
-    "content-class": {
-      "type": "String",
-      "desc": "Class definitions to be attributed to the content",
-      "examples": [
-        "my-special-class"
-      ],
-      "category": "style"
-    },
-
-    "content-style": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Style definitions to be attributed to the content",
-      "examples": [
-        "background-color: #ff0000",
-        ":content-style=\"{ color: '#ff0000' }\""
-      ],
-      "category": "style"
-    },
-
     "color": {
       "extends": "color",
       "default": "primary"

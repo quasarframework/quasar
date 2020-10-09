@@ -93,7 +93,7 @@
         </q-btn>
 
         <q-btn color="primary" label="Menu with select">
-          <q-menu cover @show="log('@show cover')" @hide="log('@hide cover')" content-class="q-pa-md">
+          <q-menu cover @show="log('@show cover')" @hide="log('@hide cover')" class="q-pa-md">
             <div class="column q-gutter-md">
               <q-select v-model="selectModelS" :options="selectOptions" behavior="menu" filled label="Select single - menu" />
               <q-select v-model="selectModelM" :options="selectOptions" behavior="menu" filled multiple label="Select multiple - menu" />

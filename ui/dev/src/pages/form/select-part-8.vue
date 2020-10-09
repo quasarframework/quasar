@@ -10,7 +10,7 @@
     -->
     <div class="q-pa-md" style="max-width: 350px">
     <q-btn round dense flas icon="settings" color="black" text-color="white">
-      <q-menu content-class="q-menu-class">
+      <q-menu class="q-menu-class">
         <q-list bordered padding>
           <q-item-label header>User Controls</q-item-label>
 

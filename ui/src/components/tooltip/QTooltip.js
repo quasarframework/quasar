@@ -216,12 +216,12 @@ export default defineComponent({
     __getTooltipContent () {
       return this.showing === true
         ? h('div', {
+          ...this.$attrs,
           ref: 'inner',
           class: [
             'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
-            this.contentClass
+            this.$attrs.class
           ],
-          style: this.contentStyle,
           role: 'complementary'
         }, hSlot(this, 'default'))
         : null

@@ -323,14 +323,13 @@ export default defineComponent({
         { name: this.transition, appear: true },
         () => this.showing === true
           ? h('div', {
+            ...this.$attrs,
             ref: 'inner',
             tabindex: -1,
-            ...this.$attrs,
             class: [
               'q-menu q-position-engine scroll' + this.menuClass,
-              this.contentClass
+              this.$attrs.class
             ],
-            style: this.contentStyle,
             ...this.onEvents
           }, hSlot(this, 'default'))
           : null

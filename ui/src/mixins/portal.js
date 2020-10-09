@@ -59,21 +59,12 @@ export function closePortals (vm, evt, depth) {
   }
 }
 
-const Portal = {
-  // inheritAttrs in mixins is not inherited
-  // so specify "inheritAttrs: false" in your component,
+// inheritAttrs in mixins is not inherited
+// so specify "inheritAttrs: false" in your component
 
-  props: {
-    contentClass: [ Array, String, Object ],
-    contentStyle: [ Array, String, Object ]
-  }
-}
-
-if (isSSR === true) {
-  Portal.render = noop
-}
-else {
-  Object.assign(Portal, {
+export default isSSR === true
+  ? { render: noop }
+  : {
     data () {
       return { usePortal: false }
     },
@@ -130,7 +121,4 @@ else {
     unmounted () {
       this.__hidePortal()
     }
-  })
-}
-
-export default Portal
+  }

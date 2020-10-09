@@ -132,8 +132,8 @@ export default defineComponent({
         this.__getVirtualChildren()
       )
       : h(comps[this.type], {
-        class: this.classes,
         ...this.$attrs,
+        class: [ this.$attrs.class, this.classes ],
         ...this.attrs
       }, this.__getVirtualChildren)
   },

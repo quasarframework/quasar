@@ -60,8 +60,6 @@ export default defineComponent({
 
     bordered: Boolean,
     elevated: Boolean,
-    contentStyle: [ String, Object, Array ],
-    contentClass: [ String, Object, Array ],
 
     overlay: Boolean,
     persistent: Boolean,
@@ -71,7 +69,7 @@ export default defineComponent({
   },
 
   emits: [
-    'on-layout', 'mini-state', 'click'
+    'on-layout', 'mini-state'
   ],
 
   data () {
@@ -88,6 +86,7 @@ export default defineComponent({
 
       flagBackdropBg: 0,
       flagPanning: false,
+      flagMiniAnimate: false,
       flagContentPosition: ( // starting with "hidden" for SSR
         this.size *
         /* this.stateDirection */ (this.$q.lang.rtl === true ? -1 : 1) * (this.side === 'right' ? 1 : -1)
@@ -283,6 +282,7 @@ export default defineComponent({
 
     classes () {
       return `q-drawer q-drawer--${this.side}` +
+        (this.flagMiniAnimate === true ? ' q-drawer--mini-animate' : '') +
         (this.bordered === true ? ' q-drawer--bordered' : '') +
         (this.isDark === true ? ' q-drawer--dark q-dark' : '') +
         (
@@ -306,12 +306,6 @@ export default defineComponent({
 
     isMini () {
       return this.mini === true && this.belowBreakpoint !== true
-    },
-
-    onNativeEvents () {
-      return this.belowBreakpoint !== true
-        ? { onClickCapture: e => { this.$emit('click', e) } }
-        : {}
     },
 
     hideOnRouteChange () {
@@ -407,15 +401,10 @@ export default defineComponent({
     },
 
     __animateMini () {
-      if (this.timerMini !== void 0) {
-        clearTimeout(this.timerMini)
-      }
-      else if (this.$el !== void 0) {
-        this.$el.classList.add('q-drawer--mini-animate')
-      }
+      clearTimeout(this.timerMini)
+      this.flagMiniAnimate = true
       this.timerMini = setTimeout(() => {
-        this.$el !== void 0 && this.$el.classList.remove('q-drawer--mini-animate')
-        this.timerMini = void 0
+        this.flagMiniAnimate = false
       }, 150)
     },
 
@@ -600,11 +589,11 @@ export default defineComponent({
 
     const content = [
       h('div', {
+        ...this.$attrs,
         class: [
           'q-drawer__content fit ' + (this.layout.container === true ? 'overflow-auto' : 'scroll'),
-          this.contentClass
-        ],
-        style: this.contentStyle
+          this.$attrs.class
+        ]
       }, this.isMini === true && this.$slots.mini !== void 0
         ? this.$slots.mini()
         : hSlot(this, 'default')
@@ -622,13 +611,7 @@ export default defineComponent({
     child.push(
       hDir(
         'aside',
-        {
-          ref: 'content',
-          class: this.classes,
-          style: this.style,
-          ...this.$attrs,
-          ...this.onNativeEvents
-        },
+        { ref: 'content', class: this.classes, style: this.style },
         content,
         'contentclose',
         this.noSwipeClose !== true && this.belowBreakpoint === true,

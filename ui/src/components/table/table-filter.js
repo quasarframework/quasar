@@ -19,7 +19,7 @@ export default {
     computedFilterMethod () {
       return this.filterMethod !== void 0
         ? this.filterMethod
-        : (rows, terms, cols = this.computedCols, cellValue = this.getCellValue) => {
+        : (rows, terms, cols, cellValue) => {
           const lowerTerms = terms ? terms.toLowerCase() : ''
           return rows.filter(
             row => cols.some(col => {

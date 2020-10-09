@@ -97,26 +97,6 @@
       "category": "behavior"
     },
 
-    "content-class": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Class definitions to be attributed to the drawer",
-      "examples": [
-        "my-special-class",
-        ":content-class=\"{ 'my-special-class': <condition> }\""
-      ],
-      "category": "style"
-    },
-
-    "content-style": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Style definitions to be attributed to the drawer",
-      "examples": [
-        "background-color: #ff0000",
-        ":content-style=\"{ backgroundColor: '#ff0000' }\""
-      ],
-      "category": "style"
-    },
-
     "no-swipe-open": {
       "type": "Boolean",
       "desc": "Disables the default behavior where drawer can be swiped into view; Useful for iOS platforms where it might interfere with Safari's 'swipe to go to previous/next page' feature",

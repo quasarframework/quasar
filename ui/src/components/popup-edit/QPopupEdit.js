@@ -36,7 +36,6 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
-    contentClass: String,
     /* end of menu props */
 
     disable: Boolean
@@ -54,11 +53,6 @@ export default defineComponent({
   },
 
   computed: {
-    classes () {
-      return 'q-popup-edit' +
-        (this.contentClass !== void 0 ? ` ${this.contentClass}` : '')
-    },
-
     defaultSlotScope () {
       return {
         initialValue: this.initialValue,
@@ -91,6 +85,7 @@ export default defineComponent({
     },
 
     show (e) {
+      this.initialValue = this.modelValue
       this.$refs.menu && this.$refs.menu.show(e)
     },
 
@@ -191,13 +186,13 @@ export default defineComponent({
 
     return h(QMenu, {
       ref: 'menu',
+      class: 'q-popup-edit',
       cover: this.cover,
-      contentClass: this.classes,
-      onBeforeShow: this.__onBeforeShow,
+      'onBefore-show': this.__onBeforeShow,
       onShow: this.__onShow,
-      onBeforeHide: this.__onBeforeHide,
+      'onBefore-hide': this.__onBeforeHide,
       onHide: this.__onHide,
-      onEscapeKey: this.cancel
+      'onEscape-key': this.cancel
     }, this.__getContent)
   }
 })
