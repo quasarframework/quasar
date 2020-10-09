@@ -476,14 +476,15 @@ export default {
         const label = node.label.replace(' - Lazy load', '')
 
         done([
-          { label: `${label}.1` },
-          { label: `${label}.2` },
-          { label: `${label}.3`, lazy: true },
+          { label: `${label}.1`, key: `${label}.1` },
+          { label: `${label}.2`, key: `${label}.2` },
+          { label: `${label}.3`, key: `${label}.3`, lazy: true },
           {
             label: `${label}.4`,
+            key: `${label}.4`,
             subnodes: [
-              { label: `${label}.4.1`, lazy: true },
-              { label: `${label}.4.2`, lazy: true }
+              { label: `${label}.4.1`, key: `${label}.4.1`, lazy: true },
+              { label: `${label}.4.2`, key: `${label}.4.2`, lazy: true }
             ]
           }
         ])

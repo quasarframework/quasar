@@ -157,11 +157,11 @@ export default defineComponent({
       const { sortBy, descending } = this.computedPagination
 
       if (this.filter) {
-        rows = this.filterMethod(rows, this.filter, this.computedCols, this.getCellValue)
+        rows = this.computedFilterMethod(rows, this.filter, this.computedCols, this.getCellValue)
       }
 
       if (this.columnToSort !== void 0) {
-        rows = this.sortMethod(
+        rows = this.computedSortMethod(
           this.rows === rows ? rows.slice() : rows,
           sortBy,
           descending

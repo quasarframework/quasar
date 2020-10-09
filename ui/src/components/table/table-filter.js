@@ -1,19 +1,7 @@
 export default {
   props: {
-    filter: [String, Object],
-    filterMethod: {
-      type: Function,
-      default (rows, terms, cols = this.computedCols, cellValue = this.getCellValue) {
-        const lowerTerms = terms ? terms.toLowerCase() : ''
-        return rows.filter(
-          row => cols.some(col => {
-            const val = cellValue(col, row) + ''
-            const haystack = (val === 'undefined' || val === 'null') ? '' : val.toLowerCase()
-            return haystack.indexOf(lowerTerms) !== -1
-          })
-        )
-      }
-    }
+    filter: [ String, Object ],
+    filterMethod: Function
   },
 
   watch: {
@@ -24,6 +12,23 @@ export default {
         })
       },
       deep: true
+    }
+  },
+
+  computed: {
+    computedFilterMethod () {
+      return this.filterMethod !== void 0
+        ? this.filterMethod
+        : (rows, terms, cols = this.computedCols, cellValue = this.getCellValue) => {
+          const lowerTerms = terms ? terms.toLowerCase() : ''
+          return rows.filter(
+            row => cols.some(col => {
+              const val = cellValue(col, row) + ''
+              const haystack = (val === 'undefined' || val === 'null') ? '' : val.toLowerCase()
+              return haystack.indexOf(lowerTerms) !== -1
+            })
+          )
+        }
     }
   }
 }

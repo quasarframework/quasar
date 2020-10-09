@@ -52,7 +52,6 @@ export default defineComponent({
 
     const
       child = [],
-      // TODO vue3 - verify UMD; is detection correct?
       len = nodes.filter(c => c.type !== void 0 && c.type.name === 'QBreadcrumbsEl').length,
       separator = this.$slots.separator !== void 0
         ? this.$slots.separator

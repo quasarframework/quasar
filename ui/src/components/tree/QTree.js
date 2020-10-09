@@ -52,14 +52,7 @@ export default defineComponent({
     accordion: Boolean,
 
     filter: String,
-    filterMethod: {
-      type: Function,
-      default (node, filter) {
-        const filt = filter.toLowerCase()
-        return node[this.labelKey] &&
-          node[this.labelKey].toLowerCase().indexOf(filt) > -1
-      }
-    },
+    filterMethod: Function,
 
     duration: Number,
     noConnectors: Boolean,
@@ -108,6 +101,16 @@ export default defineComponent({
       return color ? ` text-${color}` : ''
     },
 
+    computedFilterMethod () {
+      return this.filterMethod !== void 0
+        ? this.filterMethod
+        : (node, filter) => {
+          const filt = filter.toLowerCase()
+          return node[this.labelKey] &&
+            node[this.labelKey].toLowerCase().indexOf(filt) > -1
+        }
+    },
+
     meta () {
       const meta = {}
 
@@ -143,7 +146,7 @@ export default defineComponent({
           disabled: node.disabled,
           link: node.disabled !== true && (selectable === true || (expandable === true && (isParent === true || lazy === true))),
           children: [],
-          matchesFilter: this.filter ? this.filterMethod(node, this.filter) : true,
+          matchesFilter: this.filter ? this.computedFilterMethod(node, this.filter) : true,
 
           selected: key === this.selected && selectable === true,
           selectable,
@@ -310,16 +313,14 @@ export default defineComponent({
           return
         }
 
-        // TODO vue3 - this.$set
-        this.$set(this.lazy, key, 'loading')
+        this.lazy[key] = 'loading'
         this.$emit('lazy-load', {
           node,
           key,
           done: children => {
             this.lazy[key] = 'loaded'
             if (children) {
-              // TODO vue3 - this.$set
-              this.$set(node, this.childrenKey, children)
+              node[this.childrenKey] = children
             }
             this.$nextTick(() => {
               const m = this.meta[key]
@@ -329,8 +330,7 @@ export default defineComponent({
             })
           },
           fail: () => {
-            // TODO vue3 - this.$set
-            this.$delete(this.lazy, key)
+            delete this.lazy[key]
           }
         })
       }

@@ -967,11 +967,11 @@ export default {
         let rows = this.data.slice()
 
         if (props.filter) {
-          rows = table.filterMethod(rows, props.filter)
+          rows = table.computedFilterMethod(rows, props.filter)
         }
 
         if (sortBy) {
-          rows = table.sortMethod(rows, sortBy, descending)
+          rows = table.computedSortMethod(rows, sortBy, descending)
         }
 
         this.serverPagination.rowsNumber = rows.length
