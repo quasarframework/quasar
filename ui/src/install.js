@@ -41,7 +41,6 @@ export default function (app, opts = {}) {
   IconSet.install($q, queues, opts.iconSet)
 
   if (isSSR === true) {
-    // TODO vue3 - ensure ALL components inherit this
     app.mixin({
       beforeCreate () {
         this.$q = this.$root.$options.$q

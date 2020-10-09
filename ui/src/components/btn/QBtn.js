@@ -63,19 +63,12 @@ export default defineComponent({
         }
       }
       else if (this.isActionable === true) {
-        const evts = {
-          // TODO vue3 - disable any events if loading (above)
-          // ...this.qListeners,
+        return {
           onClick: this.click,
           onKeydown: this.__onKeydown,
-          onMousedown: this.__onMousedown
+          onMousedown: this.__onMousedown,
+          onTouchstart: this.__onTouchstart
         }
-
-        if (this.$q.platform.has.touch === true) {
-          evts.onTouchstart = this.__onTouchstart
-        }
-
-        return evts
       }
 
       return {}
@@ -89,6 +82,15 @@ export default defineComponent({
         void 0,
         { center: this.round }
       ]]
+    },
+
+    nodeProps () {
+      return {
+        class: 'q-btn q-btn-item non-selectable no-outline ' + this.classes,
+        style: this.style,
+        ...this.attrs,
+        ...this.onEvents
+      }
     }
   },
 
@@ -332,12 +334,7 @@ export default defineComponent({
 
     return hDir(
       this.isLink === true ? 'a' : 'button',
-      {
-        class: 'q-btn q-btn-item non-selectable no-outline ' + this.classes,
-        style: this.style,
-        ...this.attrs,
-        ...this.onEvents
-      },
+      this.nodeProps,
       child,
       'ripple',
       this.disable !== true && this.ripple !== false,
