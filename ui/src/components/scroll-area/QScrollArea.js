@@ -245,7 +245,7 @@ export default defineComponent({
       }
 
       this.timer = setTimeout(() => { this.tempShowing = false }, this.delay)
-      this.__emitScroll()
+      this.emitListeners.onScroll === true && this.__emitScroll()
     },
 
     __setScroll (offset) {
@@ -314,18 +314,15 @@ export default defineComponent({
     // ensure we're not emitting same info
     // multiple times
     this.__emitScroll = debounce(() => {
-      // TODO vue3 - verify emitListeners below
-      if (this.emitListeners !== void 0 && this.emitListeners.onScroll === true) {
-        const info = { ref: this }
-        const prefix = this.dirProps.prefix
+      const info = { ref: this }
+      const prefix = this.dirProps.prefix
 
-        info[prefix + 'Position'] = this.scrollPosition
-        info[prefix + 'Percentage'] = this.scrollPercentage
-        info[prefix + 'Size'] = this.scrollSize
-        info[prefix + 'ContainerSize'] = this.containerSize
+      info[prefix + 'Position'] = this.scrollPosition
+      info[prefix + 'Percentage'] = this.scrollPercentage
+      info[prefix + 'Size'] = this.scrollSize
+      info[prefix + 'ContainerSize'] = this.containerSize
 
-        this.$emit('scroll', info)
-      }
+      this.$emit('scroll', info)
     }, 0)
   }
 })
