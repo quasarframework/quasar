@@ -12,7 +12,7 @@ const NAMES = {
   and_chr: 'Chrome for Android',
   and_ff: 'Firefox for Android',
   and_uc: 'UC for Android',
-  and_qq: 'QQ Browser for Android'
+  and_qq: 'QQ for Android'
 }
 
 let browserListCache, browserBannerCache
