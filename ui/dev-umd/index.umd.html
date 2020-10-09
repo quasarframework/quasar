@@ -34,12 +34,12 @@
         >
           <q-list>
             <q-item-label header>Essential Links</q-item-label>
-            <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
+            <q-item clickable @click="launchUrl">
               <q-item-section avatar>
                 <q-icon name="school"></q-icon>
               </q-item-section>
               <q-item-section>
-                <q-item-label>Docs</q-item-label>
+                <q-item-label>Docs (openURL)</q-item-label>
                 <q-item-label caption>quasar.dev</q-item-label>
               </q-item-section>
             </q-item>
@@ -119,7 +119,6 @@
 
     <script>
       const app = Vue.createApp({
-        el: '#q-app',
         data () {
           return {
             version: Quasar.version,
@@ -128,10 +127,12 @@
             drawerState: false
           }
         },
+
         methods: {
-          launch (url) {
-            Quasar.utils.openURL(url)
+          launchUrl (url) {
+            Quasar.openURL('https://quasar.dev')
           },
+
           onRefreshClick () {
             window.location.reload()
           }
@@ -140,7 +141,7 @@
 
       app.use(Quasar, {
         // plugins: {
-        //   Notify: Quasar.plugins.Notify
+        //   Notify: Quasar.Notify // or Quasar.plugins.Notify
         // },
         config: {
           brand: {
@@ -149,7 +150,7 @@
         }
       })
 
-      Quasar.plugins.Notify.create('Startup notification')
+      Quasar.Notify.create('Startup notification')
 
       Quasar.lang.set(Quasar.lang.es)
       Quasar.iconSet.set(Quasar.iconSet.svgFontawesomeV5)

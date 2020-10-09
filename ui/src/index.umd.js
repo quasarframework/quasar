@@ -20,10 +20,6 @@ export default {
     })
   },
   iconSet,
-  components,
-  directives,
-  plugins,
-  utils,
   ...components,
   ...directives,
   ...plugins,

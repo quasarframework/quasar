@@ -238,12 +238,14 @@ function buildEntry (config) {
 module.exports = function () {
   require('./build.lang-index').generate()
     .then(() => require('./build.svg-icon-sets').generate())
-    .then(() => require('./build.api').generate())
+    // TODO vue3 - re-enable full build
+    // .then(() => require('./build.api').generate())
     .then(data => {
-      require('./build.transforms').generate()
-      require('./build.vetur').generate(data)
-      require('./build.types').generate(data)
-      require('./build.web-types').generate(data)
+      // TODO vue3 - re-enable full build
+      // require('./build.transforms').generate()
+      // require('./build.vetur').generate(data)
+      // require('./build.types').generate(data)
+      // require('./build.web-types').generate(data)
 
       addAssets(builds, 'lang', 'lang')
       addAssets(builds, 'icon-set', 'iconSet')
