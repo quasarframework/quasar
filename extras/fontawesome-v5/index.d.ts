@@ -1,4 +1,4 @@
-/* Fontawesome Free v5.15.0 */
+/* Fontawesome Free v5.15.1 */
 
 export declare const fab500px: string;
 export declare const fabAccessibleIcon: string;
