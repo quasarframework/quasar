@@ -5,6 +5,7 @@ import { Caret } from './editor-caret.js'
 
 import FullscreenMixin from '../../mixins/fullscreen.js'
 import DarkMixin from '../../mixins/dark.js'
+import SplitAttrsMixin from '../../mixins/split-attrs.js'
 
 import { isSSR } from '../../plugins/Platform.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -14,7 +15,7 @@ import { shouldIgnoreKey } from '../../utils/key-composition.js'
 export default defineComponent({
   name: 'QEditor',
 
-  mixins: [ FullscreenMixin, DarkMixin ],
+  mixins: [ FullscreenMixin, DarkMixin, SplitAttrsMixin ],
 
   props: {
     modelValue: {
@@ -462,8 +463,7 @@ export default defineComponent({
         ...(isSSR === true
           ? { innerHTML: this.modelValue }
           : {}),
-        // TODO vue3 - qListeners
-        // ...this.qListeners,
+        ...this.qListeners,
         onIput: this.__onInput,
         onKeydown: this.__onKeydown,
         onClick: this.__onClick,
