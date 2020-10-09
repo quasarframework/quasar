@@ -1,10 +1,8 @@
-import { watchEffect } from 'vue'
-
 import { isSSR, fromSSR } from './Platform.js'
 import extend from '../utils/extend.js'
 
 let updateId, currentClientMeta
-const clientList = []
+export const clientList = []
 
 function normalize (meta) {
   if (meta.title) {
@@ -221,13 +219,13 @@ function updateClientMeta () {
   }
 
   for (let i = 0; i < clientList.length; i++) {
-    const { active, meta } = clientList[i]
+    const { active, val } = clientList[i]
 
     if (active === true) {
-      extend(true, data, meta)
+      extend(true, data, val)
 
       // TODO vue3 - is this still possible?
-      if (meta.stopPropagation === true) {
+      if (val.stopPropagation === true) {
         break
       }
     }
@@ -239,7 +237,7 @@ function updateClientMeta () {
   currentClientMeta = data
 }
 
-function planClientUpdate () {
+export function planClientUpdate () {
   clearTimeout(updateId)
   updateId = setTimeout(updateClientMeta, 50)
 }
@@ -264,66 +262,8 @@ export default {
       //   })
       // })
     }
-    else {
-      if (fromSSR === true) {
-        currentClientMeta = window.__Q_META__
-      }
-
-      app.mixin({
-        activated () {
-          if (this.__qMeta !== void 0) {
-            this.__qMeta.active = true
-            planClientUpdate()
-          }
-        },
-
-        deactivated () {
-          if (this.__qMeta !== void 0) {
-            this.__qMeta.active = false
-            planClientUpdate()
-          }
-        },
-
-        created () {
-          if (typeof this.$options.meta === 'function') {
-            this.__qMeta = { active: true, meta: {} }
-            clientList.push(this.__qMeta)
-            /*
-             * Need to use nextTick() so possible mounted() cases
-             * are caught by the reactive vue system (which starts on first nextTick)
-             */
-            this.$nextTick(() => {
-              if (this.$.isMounted === true) {
-                this.__qMetaUnwatch = watchEffect(() => {
-                  this.__qMeta.meta = this.$options.meta.call(this) || {}
-                  planClientUpdate()
-                })
-              }
-            })
-          }
-          else if (Object(this.$options.meta) === this.$options.meta) {
-            this.__qMeta = {
-              active: true,
-              meta: this.$options.meta
-            }
-
-            clientList.push(this.__qMeta)
-            planClientUpdate()
-          }
-        },
-
-        unmounted () {
-          if (this.__qMeta !== void 0) {
-            if (this.__qMetaUnwatch !== void 0) {
-              this.__qMetaUnwatch()
-              this.__qMetaUnwatch = void 0
-            }
-
-            clientList.splice(clientList.indexOf(this.__qMeta), 1)
-            planClientUpdate()
-          }
-        }
-      })
+    else if (fromSSR === true) {
+      currentClientMeta = window.__Q_META__
     }
   }
 }

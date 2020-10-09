@@ -1,5 +1,3 @@
-import { reactive } from 'vue'
-
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { isSSR, fromSSR } from './Platform.js'
 import { listenOpts, noop } from '../utils/event.js'

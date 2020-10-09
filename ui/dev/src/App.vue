@@ -42,13 +42,11 @@
 
 <script>
 // eslint-disable-next-line no-unused-vars
-import Quasar, { Dark } from 'quasar'
+import Quasar, { Dark, createMetaMixin } from 'quasar'
 import languages from 'quasar/lang/index.json'
 
 export default {
-  meta: {
-    title: 'Quasar Development'
-  },
+  mixins: [ createMetaMixin({ title: 'Quasar Development' }) ],
   data () {
     return {
       lang: this.$q.lang.isoName,

@@ -5,7 +5,18 @@
 </template>
 
 <script>
+import { createMetaMixin } from 'quasar'
+
 export default {
+  mixins: [
+    createMetaMixin(function () {
+      console.log('running meta fn in title.vue', this.title)
+      return {
+        title: this.title
+      }
+    })
+  ],
+
   data () {
     console.log('init')
     return {
@@ -16,13 +27,6 @@ export default {
   mounted () {
     console.log('mounted, triggering title change')
     this.title = 'Test End'
-  },
-
-  meta () {
-    console.log('running meta fn in title.vue', this.title)
-    return {
-      title: this.title
-    }
   }
 }
 </script>

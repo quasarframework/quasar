@@ -29,7 +29,7 @@
       </q-card-section>
     </q-card>
 
-    <pre>{{ __qMeta.meta }}</pre>
+    <pre>{{ __qMetaOptions }}</pre>
   </q-page>
 </template>
 
@@ -37,27 +37,32 @@
 </style>
 
 <script>
+import { createMetaMixin } from 'quasar'
+
 function timeout (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 export default {
   name: 'PageIndex',
-  meta () {
-    console.log('running meta fn in first.vue')
-    return {
-      title: this.title,
-      meta: {
-        description: { name: 'description', content: 'Page 1' }
-      },
-      link: {
-        google: { rel: 'stylesheet', href: 'http://bogus.com/1' }
-      },
-      noscript: {
-        default: `This is for non-JS`
+
+  mixins: [
+    createMetaMixin(function () {
+      console.log('running meta fn in first.vue')
+      return {
+        title: this.title,
+        meta: {
+          description: { name: 'description', content: 'Page 1' }
+        },
+        link: {
+          google: { rel: 'stylesheet', href: 'http://bogus.com/1' }
+        },
+        noscript: {
+          default: `This is for non-JS`
+        }
       }
-    }
-  },
+    })
+  ],
   data () {
     return {
       title: 'Page 1'
@@ -72,23 +77,14 @@ export default {
       this.title = this.title === 'Page 1'
         ? 'Page 1 Extended'
         : 'Page 1'
-
-      this.$nextTick(() => {
-        // pick up __qMeta change
-        this.$forceUpdate()
-      })
     }
   },
   created () {
     console.log('created first.vue')
   },
   mounted () {
+    // this.title = 'beep'
     console.log('mounted first.vue')
-
-    this.$nextTick(() => {
-      // pick up __qMeta change
-      this.$forceUpdate()
-    })
   },
   unmounted () {
     console.log('unmounted second.vue')

@@ -25,7 +25,7 @@
       </q-card-section>
     </q-card>
 
-    <pre>{{ __qMeta.meta }}</pre>
+    <pre>{{ __qMeta.val }}</pre>
   </q-page>
 </template>
 
@@ -33,23 +33,28 @@
 </style>
 
 <script>
+import { createMetaMixin } from 'quasar'
+
 export default {
   name: 'PageSecond',
-  meta: {
-    title: 'PAGE 2',
-    meta: {
-      description: { name: 'description', content: 'Page 2' }
-    },
-    link: {
-      google: { rel: 'stylesheet', href: 'http://bogus.com/2' }
-    },
-    bodyAttr: {
-      some: 'value'
-    },
-    htmlAttr: {
-      'third-page': 'w'
-    }
-  },
+
+  mixins: [
+    createMetaMixin({
+      title: 'PAGE 2',
+      meta: {
+        description: { name: 'description', content: 'Page 2' }
+      },
+      link: {
+        google: { rel: 'stylesheet', href: 'http://bogus.com/2' }
+      },
+      bodyAttr: {
+        some: 'value'
+      },
+      htmlAttr: {
+        'third-page': 'w'
+      }
+    })
+  ],
   created () {
     console.log('created second.vue')
   },

@@ -25,29 +25,40 @@
       </q-card-section>
     </q-card>
 
-    <pre>{{ __qMeta.meta }}</pre>
+    <pre>{{ __qMeta.val }}</pre>
   </q-page>
 </template>
 
 <script>
+import { onMounted, onUnmounted } from 'vue'
+import { createMetaMixin } from 'quasar'
+
 export default {
   name: 'PageThird',
-  meta: {
-    bodyAttr: {
-      some: 'value'
-    },
-    htmlAttr: {
-      'third-page': ''
-    }
-  },
-  created () {
+
+  mixins: [
+    createMetaMixin({
+      bodyAttr: {
+        some: 'value'
+      },
+      htmlAttr: {
+        'third-page': ''
+      }
+    })
+  ],
+
+  setup () {
     console.log('created third.vue')
-  },
-  mounted () {
-    console.log('mounted third.vue')
-  },
-  unmounted () {
-    console.log('unmounted third.vue')
+
+    onMounted(() => {
+      console.log('mounted third.vue')
+    })
+
+    onUnmounted(() => {
+      console.log('unmounted third.vue')
+    })
+
+    return {}
   }
 }
 </script>
