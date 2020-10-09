@@ -175,18 +175,6 @@
           "desc": "Current value",
           "examples": [ 0.241, "Text" ]
         },
-        "emitValue": {
-          "type": "Function",
-          "desc": "Function that emits an @input event in the context of the popup edit",
-          "params": {
-            "value": {
-              "type": "Any",
-              "desc": "Value to be emitted",
-              "examples": [ 0, "Changed text" ]
-            }
-          },
-          "returns": null
-        },
         "validate": {
           "type": "Function",
           "desc": "Function that checks if the value is valid",

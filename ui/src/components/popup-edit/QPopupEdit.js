@@ -48,44 +48,49 @@ export default defineComponent({
 
   data () {
     return {
-      initialValue: ''
+      initialValue: '',
+      currentModel: ''
     }
   },
 
   computed: {
-    defaultSlotScope () {
-      return {
+    scope () {
+      const scope = {
         initialValue: this.initialValue,
-        value: this.modelValue,
-        emitValue: this.__emitValue,
         validate: this.validate,
         set: this.set,
         cancel: this.cancel
       }
+
+      Object.defineProperty(scope, 'value', {
+        get: () => this.currentModel,
+        set: val => { this.currentModel = val }
+      })
+
+      return scope
     }
   },
 
   methods: {
     set () {
       if (this.__hasChanged() === true) {
-        if (this.validate(this.value) === false) {
+        if (this.validate(this.currentModel) === false) {
           return
         }
-        this.$emit('save', this.value, this.initialValue)
+        this.$emit('save', this.currentModel, this.initialValue)
+        this.$emit('update:modelValue', this.currentModel)
       }
       this.__close()
     },
 
     cancel () {
       if (this.__hasChanged() === true) {
-        this.$emit('update:modelValue', this.initialValue)
-        this.$emit('cancel', this.value, this.initialValue)
+        this.$emit('cancel', this.currentModel, this.initialValue)
       }
       this.__close()
     },
 
     show (e) {
-      this.initialValue = this.modelValue
       this.$refs.menu && this.$refs.menu.show(e)
     },
 
@@ -94,13 +99,7 @@ export default defineComponent({
     },
 
     __hasChanged () {
-      return isDeepEqual(this.value, this.initialValue) === false
-    },
-
-    __emitValue (val) {
-      if (this.disable !== true) {
-        this.$emit('update:modelValue', val)
-      }
+      return isDeepEqual(this.currentModel, this.initialValue) === false
     },
 
     __close () {
@@ -115,14 +114,12 @@ export default defineComponent({
     },
 
     __getContent () {
-      const
-        title = hSlot(this, 'title', this.title),
-        child = this.$slots.default === void 0
-          ? []
-          : this.$slots.default(this.defaultSlotScope).slice()
+      const child = this.$slots.default !== void 0
+        ? this.$slots.default(this.scope).slice()
+        : []
 
-      title && child.unshift(
-        h('div', { class: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title ])
+      this.title && child.unshift(
+        h('div', { class: 'q-dialog__title q-mt-sm q-mb-sm' }, this.title)
       )
 
       this.buttons === true && child.push(
@@ -148,7 +145,7 @@ export default defineComponent({
     __onBeforeShow () {
       this.validated = false
       this.initialValue = clone(this.modelValue)
-      this.watcher = this.$watch('modelValue', this.__reposition)
+      this.currentModel = clone(this.modelValue)
       this.$emit('before-show')
     },
 
@@ -157,15 +154,13 @@ export default defineComponent({
     },
 
     __onBeforeHide () {
-      this.watcher()
-
       if (this.validated === false && this.__hasChanged() === true) {
-        if (this.autoSave === true && this.validate(this.modelValue) === true) {
-          this.$emit('save', this.modelValue, this.initialValue)
+        if (this.autoSave === true && this.validate(this.currentModel) === true) {
+          this.$emit('save', this.currentModel, this.initialValue)
+          this.$emit('update:modelValue', this.currentModel)
         }
         else {
-          this.$emit('cancel', this.modelValue, this.initialValue)
-          this.$emit('update:modelValue', this.initialValue)
+          this.$emit('cancel', this.currentModel, this.initialValue)
         }
       }
 
@@ -174,10 +169,6 @@ export default defineComponent({
 
     __onHide () {
       this.$emit('hide')
-    },
-
-    __onKeyup (e) {
-      isKeyCode(e, 13) === true && this.set()
     }
   },
 
