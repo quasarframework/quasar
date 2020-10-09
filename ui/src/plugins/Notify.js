@@ -9,7 +9,7 @@ import { noop } from '../utils/event.js'
 import { createGlobalNode } from '../utils/global-nodes.js'
 import { isSSR } from './Platform.js'
 
-let uid = 0
+let uid = 0, vm
 const defaults = {}
 
 const positionList = [
@@ -481,7 +481,9 @@ const Notifications = {
 export default {
   create (opts) {
     if (isSSR === true) { return noop }
-    return this.__vm.add(opts)
+    if (vm !== void 0) {
+      return vm.add(opts)
+    }
   },
   setDefaults (opts) {
     opts === Object(opts) && Object.assign(defaults, opts)
@@ -501,7 +503,7 @@ export default {
 
     this.setDefaults(cfg.notify)
 
-    $q.notify = this.create.bind(this)
+    $q.notify = function (opts) { return vm.add(opts) }
     $q.notify.setDefaults = this.setDefaults
     $q.notify.registerType = this.registerType
 
@@ -510,6 +512,6 @@ export default {
 
     app.config.globalProperties.$q = $q
 
-    this.__vm = app.mount(el)
+    vm = app.mount(el)
   }
 }
