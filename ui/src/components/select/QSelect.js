@@ -229,8 +229,8 @@ export default defineComponent({
 
     needsHtmlFn () {
       return this.optionsHtml === true
-        ? opt => opt !== void 0 && opt !== null && opt.html === true
-        : () => false
+        ? () => true
+        : opt => opt !== void 0 && opt !== null && opt.html === true
     },
 
     valueAsHtml () {
@@ -278,32 +278,29 @@ export default defineComponent({
           disable,
           tabindex: -1,
           dense: this.optionsDense,
-          dark: this.isOptionsDark
+          dark: this.isOptionsDark,
+          onClick: () => { this.toggleOption(opt) }
         }
 
         if (disable !== true) {
           this.isOptionSelected(opt) === true && (itemProps.active = true)
           this.optionIndex === index && (itemProps.focused = true)
-        }
 
-        const itemEvents = {
-          onClick: () => { this.toggleOption(opt) }
-        }
-
-        if (this.$q.platform.is.desktop === true) {
-          itemEvents.onMousemove = () => { this.setOptionIndex(index) }
+          if (this.$q.platform.is.desktop === true) {
+            itemProps.onMousemove = () => { this.setOptionIndex(index) }
+          }
         }
 
         return {
           index,
           opt,
           html: this.needsHtmlFn(opt),
+          label: this.getOptionLabel(opt),
           selected: itemProps.active,
           focused: itemProps.focused,
           toggleOption: this.toggleOption,
           setOptionIndex: this.setOptionIndex,
-          itemProps,
-          itemEvents
+          itemProps
         }
       })
     },
@@ -839,14 +836,16 @@ export default defineComponent({
         : scope => {
           return h(QItem, {
             key: scope.index,
-            ...scope.itemProps,
-            ...scope.itemEvents
+            ...scope.itemProps
           }, () => {
             return h(
               QItemSection,
-              () => h(QItemLabel, {
-                [ scope.html === true ? 'innerHTML' : 'textContent' ]: this.getOptionLabel(scope.opt)
-              })
+              () => h(
+                QItemLabel,
+                () => h('span', {
+                  [ scope.html === true ? 'innerHTML' : 'textContent' ]: scope.label
+                })
+              )
             )
           })
         }
@@ -1019,13 +1018,6 @@ export default defineComponent({
       return {
         onFocusin: this.__onControlFocusin,
         onFocusout,
-        'onPopup-show': this.__onControlPopupShow,
-        'onPopup-hide': e => {
-          e !== void 0 && stop(e)
-          // this.$emit('popup-hide', e)
-          this.hasPopupOpen = false
-          onFocusout(e)
-        },
         onClick: e => {
           if (this.hasDialog !== true) {
             // label from QField will propagate click on the input (except IE)
@@ -1076,8 +1068,14 @@ export default defineComponent({
         transitionHide: this.transitionHide,
         separateClosePopup: true,
         onScrollPassive: this.__onVirtualScrollEvt,
-        'onBefore-hide': this.__closeMenu
+        'onBefore-show': this.__onControlPopupShow,
+        'onBefore-hide': this.__onMenuBeforeHide
       }, child)
+    },
+
+    __onMenuBeforeHide (e) {
+      this.__onControlPopupHide(e)
+      this.__closeMenu()
     },
 
     __onDialogFieldFocus (e) {
@@ -1140,6 +1138,7 @@ export default defineComponent({
         position: this.useInput === true ? 'top' : void 0,
         transitionShow: this.transitionShowComputed,
         transitionHide: this.transitionHide,
+        'onBefore-show': this.__onControlPopupShow,
         'onBefore-hide': this.__onDialogBeforeHide,
         onHide: this.__onDialogHide,
         onShow: this.__onDialogShow
@@ -1150,8 +1149,11 @@ export default defineComponent({
       }, content))
     },
 
-    __onDialogBeforeHide () {
-      this.$refs.dialog.__refocusTarget = this.$el.querySelector('.q-field__native > [tabindex]:last-child')
+    __onDialogBeforeHide (e) {
+      this.__onControlPopupHide(e)
+      if (this.$refs.dialog) {
+        this.$refs.dialog.__refocusTarget = this.$el.querySelector('.q-field__native > [tabindex]:last-child')
+      }
       this.focused = false
     },
 

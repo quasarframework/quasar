@@ -205,10 +205,7 @@
         options-selected-class="text-deep-orange"
       >
         <template v-slot:option="scope">
-          <q-item
-            v-bind="scope.itemProps"
-            v-on="scope.itemEvents"
-          >
+          <q-item v-bind="scope.itemProps">
             <q-item-section avatar @click.stop>
               <q-icon tabindex="0" :name="scope.opt.icon" />
               <q-menu v-if="scope.opt.disable !== true">
@@ -218,7 +215,10 @@
               </q-menu>
             </q-item-section>
             <q-item-section>
-              <q-item-label v-html="scope.opt.label" />
+              <q-item-label v-if="scope.html" v-html="scope.opt.label" />
+              <q-item-label v-else >
+                {{ scope.opt.label }}
+              </q-item-label>
               <q-item-label caption>
                 {{ scope.opt.description }}
               </q-item-label>
@@ -235,15 +235,15 @@
         multiple
       >
         <template v-slot:option="scope">
-          <q-item
-            v-bind="scope.itemProps"
-            v-on="scope.itemEvents"
-          >
+          <q-item v-bind="scope.itemProps">
             <q-item-section avatar>
               <q-icon tabindex="0" :name="scope.opt.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label v-html="scope.opt.label" />
+              <q-item-label v-if="scope.html" v-html="scope.opt.label" />
+              <q-item-label v-else >
+                {{ scope.opt.label }}
+              </q-item-label>
               <q-item-label caption>
                 {{ scope.opt.description }}
               </q-item-label>
@@ -272,7 +272,10 @@
             text-color="primary"
           >
             <q-avatar color="primary" text-color="white" :icon="scope.opt.icon" />
-            <span v-html="scope.opt.label" />
+            <span v-if="scope.html" v-html="scope.opt.label" />
+            <span v-else>
+              {{ scope.opt.label }}
+            </span>
           </q-chip>
         </template>
       </q-select>
@@ -318,7 +321,10 @@
             color="white"
             text-color="teal"
           >
-            <span v-html="scope.opt.label" />
+            <span v-if="scope.html" v-html="scope.opt.label" />
+            <span v-else>
+              {{ scope.opt.label }}
+            </span>
           </q-chip>
         </template>
       </q-select>
@@ -619,14 +625,14 @@ export default {
           label: '<span class="text-primary">Safe</span> option with <b>HTML</b>',
           value: 'safe_option_with_html',
           description: 'It does not come from user',
-          icon: 'golf_course'
+          icon: 'golf_course',
+          html: true
         },
         {
           label: '<span class="text-negative">Unsafe</span> option with <b>HTML</b>',
           value: 'unsafe_option_with_html',
-          description: 'It comea from user - you should sanitize',
-          icon: 'golf_course',
-          sanitize: true
+          description: 'It comes from user - you should sanitize',
+          icon: 'golf_course'
         }
       ],
 

@@ -541,9 +541,7 @@ export default defineComponent({
       ? this.__getControlEvents()
       : {
         onFocusin: this.__onControlFocusin,
-        onFocusout: this.__onControlFocusout,
-        'onPopup-show': this.__onControlPopupShow,
-        'onPopup-hide': this.__onControlPopupHide
+        onFocusout: this.__onControlFocusout
       }
   },
 

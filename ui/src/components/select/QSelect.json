@@ -417,11 +417,6 @@
           "type": "Object",
           "desc": "Computed properties passed down to QItem",
           "__exemption": [ "examples" ]
-        },
-        "itemEvents": {
-          "type": "Object",
-          "desc": "Computed events passed down to QItem",
-          "__exemption": [ "examples" ]
         }
       }
     }

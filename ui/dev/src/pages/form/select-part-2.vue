@@ -482,7 +482,6 @@
               <div>
                 <q-item
                   v-bind="scope.itemProps"
-                  v-on="scope.itemEvents"
                   :key="scope.index"
                 >
                   <q-item-section>
@@ -528,7 +527,6 @@
               <div>
                 <q-item
                   v-bind="scope.itemProps"
-                  v-on="scope.itemEvents"
                   :key="scope.index"
                 >
                   <q-item-section>
@@ -573,7 +571,6 @@
               <div>
                 <q-item
                   v-bind="scope.itemProps"
-                  v-on="scope.itemEvents"
                   :key="scope.index"
                 >
                   <q-item-section>
@@ -617,7 +614,6 @@
               <div>
                 <q-item
                   v-bind="scope.itemProps"
-                  v-on="scope.itemEvents"
                   :key="scope.index"
                 >
                   <q-item-section>

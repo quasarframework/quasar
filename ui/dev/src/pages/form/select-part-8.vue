@@ -43,10 +43,7 @@
                    emit-value map-options
                 >
                   <template v-slot:option="scope">
-                    <q-item
-                            v-bind="scope.itemProps"
-                            v-on="scope.itemEvents"
-                            >
+                    <q-item v-bind="scope.itemProps">
                       <q-item-section>
                         <q-item-label v-html="scope.opt.label" ></q-item-label>
                       </q-item-section>
@@ -172,9 +169,9 @@
           emit-value map-options
         >
           <template v-slot:option="scope">
-            <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+            <q-item v-bind="scope.itemProps">
               <q-item-section>
-                <q-item-label v-html="scope.opt.label" ></q-item-label>
+                <q-item-label v-html="scope.opt.label" />
               </q-item-section>
               <q-item-section side>
                 <q-toggle v-model="selectedUserColors" :val="scope.opt.value" />
@@ -193,9 +190,9 @@
           emit-value map-options
         >
           <template v-slot:option="scope">
-            <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+            <q-item v-bind="scope.itemProps">
               <q-item-section>
-                <q-item-label v-html="scope.opt.label" ></q-item-label>
+                <q-item-label v-html="scope.opt.label" />
               </q-item-section>
               <q-item-section side>
                 <q-toggle v-model="selectedUserColors" :val="scope.opt.value" />
@@ -224,9 +221,9 @@
           behavior="menu"
         >
           <template v-slot:option="scope">
-            <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
+            <q-item v-bind="scope.itemProps">
               <q-item-section>
-                <q-item-label v-html="scope.opt.label" ></q-item-label>
+                <q-item-label v-html="scope.opt.label" />
               </q-item-section>
               <q-item-section side>
                 <q-toggle v-model="selectedUserColors" :val="scope.opt.value" />
