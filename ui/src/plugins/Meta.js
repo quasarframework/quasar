@@ -223,11 +223,6 @@ function updateClientMeta () {
 
     if (active === true) {
       extend(true, data, val)
-
-      // TODO vue3 - is this still possible?
-      if (val.stopPropagation === true) {
-        break
-      }
     }
   }
 

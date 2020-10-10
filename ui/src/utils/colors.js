@@ -305,9 +305,6 @@ export function getPaletteColor (colorName) {
   return rgbToHex(textToRgb(result))
 }
 
-// TODO: remove in v2
-export const stringToRgb = textToRgb
-
 export default {
   rgbToHex,
   hexToRgb,

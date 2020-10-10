@@ -25,7 +25,6 @@ export default {
 
   mixins: [
     createMetaMixin({
-      // stopPropagation: true,
       title: 'Layout 2',
       link: {
         google: { template: chunk => `${chunk}/addition` }
