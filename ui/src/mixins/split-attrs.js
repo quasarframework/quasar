@@ -1,4 +1,5 @@
 const listenerRE = /^on[A-Z]/
+const nonAttrsRE = /(^on[A-Z]|^class$|^style$)/
 
 export default {
   computed: {
@@ -6,7 +7,7 @@ export default {
       const acc = {}
 
       Object.keys(this.$attrs).forEach(key => {
-        if (listenerRE.test(key) === false) {
+        if (nonAttrsRE.test(key) === false) {
           acc[key] = this.$attrs[key]
         }
       })

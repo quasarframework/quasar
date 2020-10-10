@@ -7,6 +7,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
 import DarkMixin from '../../mixins/dark.js'
+import SplitAttrsMixin from '../../mixins/split-attrs.js'
 
 import { hSlot } from '../../utils/render.js'
 import uid from '../../utils/uid.js'
@@ -19,7 +20,7 @@ function getTargetUid (val) {
 export default defineComponent({
   name: 'QField',
 
-  mixins: [ DarkMixin, ValidateMixin ],
+  mixins: [ DarkMixin, ValidateMixin, SplitAttrsMixin ],
 
   inheritAttrs: false,
 
@@ -145,29 +146,19 @@ export default defineComponent({
     },
 
     classes () {
-      return {
-        [`q-field row no-wrap items-start q-field--${this.styleType}`]: true,
-        [this.fieldClass]: this.fieldClass !== void 0,
-
-        'q-field--rounded': this.rounded,
-        'q-field--square': this.square,
-
-        'q-field--focused': this.focused === true || this.hasError === true,
-        'q-field--float': this.floatingLabel,
-        'q-field--labeled': this.hasLabel,
-
-        'q-field--dense': this.dense,
-        'q-field--item-aligned q-item-type': this.itemAligned,
-        'q-field--dark': this.isDark,
-
-        'q-field--auto-height': this.field.getControl === void 0,
-
-        'q-field--with-bottom': this.hideBottomSpace !== true && this.shouldRenderBottom === true,
-        'q-field--error': this.hasError,
-
-        'q-field--readonly': this.readonly === true && this.disable !== true,
-        'q-field--disabled': this.disable
-      }
+      return `q-field row no-wrap items-start q-field--${this.styleType}` +
+        (this.fieldClass !== void 0 ? ` ${this.fieldClass}` : '') +
+        (this.rounded === true ? ' q-field--rounded' : '') +
+        (this.square === true ? ' q-field--square' : '') +
+        (this.floatingLabel === true ? ' q-field--float' : '') +
+        (this.hasLabel === true ? ' q-field--labeled' : '') +
+        (this.dense === true ? ' q-field--dense' : '') +
+        (this.itemAligned === true ? ' q-field--item-aligned q-item-type' : '') +
+        (this.isDark === true ? ' q-field--dark' : '') +
+        (this.field.getControl === void 0 ? ' q-field--auto-height' : '') +
+        (this.hasError === true ? ' q-field--focused q-field--error' : (this.focused === true ? ' q-field--focused' : '')) +
+        (this.hideBottomSpace !== true && this.shouldRenderBottom === true ? ' q-field--with-bottom' : '') +
+        (this.disable === true ? ' q-field--disabled' : (this.readonly === true ? ' q-field--readonly' : ''))
     },
 
     styleType () {
@@ -351,7 +342,7 @@ export default defineComponent({
           h('div', {
             ref: 'target',
             class: 'q-field__native row',
-            ...this.$attrs,
+            ...this.qAttrs,
             'data-autofocus': this.autofocus
           }, this.$slots.control(this.controlSlotScope))
         )
@@ -413,16 +404,12 @@ export default defineComponent({
       }, [
         this.hideBottomSpace === true
           ? main
-          : h(
-            Transition,
-            { name: 'q-transition--field-message' },
-            () => main
-          ),
+          : h(Transition, { name: 'q-transition--field-message' }, () => main),
 
         hasCounter === true
           ? h('div', {
             class: 'q-field__counter'
-          }, this.$slots.counter !== void 0 ? this.$slots.counter() : [ this.computedCounter ])
+          }, this.$slots.counter !== void 0 ? this.$slots.counter() : this.computedCounter)
           : null
       ])
     },

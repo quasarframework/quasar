@@ -27,6 +27,8 @@ const reEscapeList = '.*+?^${}()|[]\\'
 export default defineComponent({
   name: 'QSelect',
 
+  inheritAttrs: false,
+
   mixins: [
     QField,
     VirtualScroll,
@@ -228,7 +230,7 @@ export default defineComponent({
     needsHtmlFn () {
       return this.optionsHtml === true
         ? opt => opt !== void 0 && opt !== null && opt.html === true
-        : () => true
+        : () => false
     },
 
     valueAsHtml () {
@@ -285,10 +287,7 @@ export default defineComponent({
         }
 
         const itemEvents = {
-          onClick: () => {
-            console.log('toggling')
-            this.toggleOption(opt)
-          }
+          onClick: () => { this.toggleOption(opt) }
         }
 
         if (this.$q.platform.is.desktop === true) {
@@ -870,8 +869,7 @@ export default defineComponent({
         value: this.inputValue !== void 0 ? this.inputValue : '',
         // required for Android in order to show ENTER key when in form
         type: 'search',
-        // TODO vue3 - verify only attributes are passed in
-        ...this.$attrs,
+        ...this.qAttrs,
         id: this.targetUid,
         maxlength: this.maxlength, // this is converted to prop by QField
         tabindex: this.tabindex,
@@ -1107,8 +1105,7 @@ export default defineComponent({
           loading: this.innerLoading,
           filled: true,
           stackLabel: this.inputValue.length > 0,
-          // TODO vue3 - attach only listeners
-          // ...this.qListeners,
+          ...this.qListeners,
           onFocus: this.__onDialogFieldFocus,
           onBlur: this.__onDialogFieldBlur
         }, {
@@ -1313,10 +1310,10 @@ export default defineComponent({
             })
           )
 
-          this.$attrs.autocomplete !== void 0 && child.push(
+          this.qAttrs.autocomplete !== void 0 && child.push(
             h('input', {
               class: 'q-select__autocomplete-input no-outline',
-              autocomplete: this.$attrs.autocomplete,
+              autocomplete: this.qAttrs.autocomplete,
               onKeyup: this.__onTargetAutocomplete
             })
           )
@@ -1336,8 +1333,7 @@ export default defineComponent({
 
         return h('div', {
           class: 'q-field__native row items-center',
-          // TODO vue3 - ensure only attributes are attached
-          ...this.$attrs
+          ...this.qAttrs
         }, child)
       },
 

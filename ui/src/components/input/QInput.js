@@ -110,6 +110,7 @@ export default defineComponent({
 
     onEvents () {
       const evt = {
+        ...this.qListeners,
         onInput: this.__onInput,
         onPaste: this.__onPaste,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
@@ -141,6 +142,7 @@ export default defineComponent({
         rows: this.type === 'textarea' ? 6 : void 0,
         'aria-label': this.label,
         name: this.nameProp,
+        ...this.qAttrs,
         id: this.targetUid,
         maxlength: this.maxlength,
         disabled: this.disable === true,
@@ -244,7 +246,7 @@ export default defineComponent({
     // textarea only
     __adjustHeight () {
       const inp = this.$refs.input
-      if (inp !== void 0) {
+      if (inp) {
         const parentStyle = inp.parentNode.style
 
         // reset height of textarea to a small size to detect the real height
@@ -296,14 +298,13 @@ export default defineComponent({
     Object.assign(this.field, {
       getControl: () => {
         return h(this.isTextarea === true ? 'textarea' : 'input', {
-          ...this.$attrs,
-          ...this.inputAttrs,
           ref: 'input',
           class: [
             'q-field__native q-placeholder',
             this.inputClass
           ],
           style: this.inputStyle,
+          ...this.inputAttrs,
           ...this.onEvents,
           ...(
             this.type !== 'file'
