@@ -256,7 +256,7 @@ public class UploadRest {
 }
 
 // html
-<q-uploader fieldName="file" url="YOUR_URL_BACK/upload" with-credentials />
+<q-uploader field-name="file" url="YOUR_URL_BACK/upload" with-credentials />
 ```
 
 ## Supporting other services
