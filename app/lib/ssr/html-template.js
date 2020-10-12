@@ -48,9 +48,7 @@ function injectSsrInterpolation (html) {
 }
 
 module.exports.getIndexHtml = function (template, cfg) {
-  const compiled = compileTemplate(
-    template.replace('<div id="q-app"></div>', '<!--vue-ssr-outlet-->')
-  )
+  const compiled = compileTemplate(template)
   let html = compiled(cfg.htmlVariables)
 
   const data = { bodyTags: [], headTags: [] }

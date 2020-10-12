@@ -9,6 +9,8 @@
  *
  * Boot files are your "main.js"
  **/
+import { createApp } from 'vue'
+
 <% if (__supportsIE) { %>
 import 'quasar/dist/quasar.ie.polyfills.js'
 <% } %>
@@ -33,7 +35,7 @@ import 'quasar/src/css/flex-addon.<%= __css.quasarSrcExt %>'
 import '<%= asset.path %>'
 <% }) %>
 
-import createApp from './app.js'
+import createQuasarApp from './app.js'
 
 <% if (ctx.mode.pwa) { %>
 import 'app/<%= sourceFiles.registerServiceWorker %>'
@@ -82,7 +84,7 @@ const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 <% } %>
 
 async function start () {
-  const { app, <%= store ? 'store, ' : '' %>router } = await createApp()
+  const { app, <%= store ? 'store, ' : '' %>router } = await createQuasarApp(createApp)
 
   <% if (ctx.mode.ssr && store && ssr.manualHydration !== true) { %>
   // prime the store with server-initialized state.
@@ -97,7 +99,7 @@ async function start () {
   const redirect = url => {
     hasRedirected = true
     const normalized = Object(url) === url
-      ? <%= build.publicPath.length <= 1 ? 'router.resolve(url).route.fullPath' : 'addPublicPath(router.resolve(url).route.fullPath)' %>
+      ? <%= build.publicPath.length <= 1 ? 'router.resolve(url).fullPath' : 'addPublicPath(router.resolve(url).fullPath)' %>
       : url
 
     window.location.href = normalized
@@ -144,7 +146,7 @@ async function start () {
         <% if (preFetch) { %>
         addPreFetchHooks(router<%= store ? ', store' : '' %>)
         <% } %>
-        app.mount('#q-app')
+        app.mount('#q-app', /* isHydrate */ true)
       }
       else {
     <% } %>

@@ -9,6 +9,8 @@
  *
  * Boot files are your "main.js"
  **/
+import { createSSRApp } from 'vue'
+
 <% extras.length > 0 && extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
 <% }) %>
@@ -29,8 +31,8 @@ import 'quasar/src/css/flex-addon.<%= __css.quasarSrcExt %>'
 import '<%= asset.path %>'
 <% }) %>
 
-import createApp from './app.js'
-import Vue from 'vue'
+import createQuasarApp from './app.js'
+
 <% if (preFetch) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
 const appOptions = App.options /* Vue.extend() */ || App
@@ -58,20 +60,19 @@ const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 
 function redirectBrowser (url, router, reject) {
   const normalized = Object(url) === url
-    ? <%= build.publicPath === '/' ? 'router.resolve(url).route.fullPath' : 'addPublicPath(router.resolve(url).route.fullPath)' %>
+    ? <%= build.publicPath === '/' ? 'router.resolve(url).fullPath' : 'addPublicPath(router.resolve(url).fullPath)' %>
     : url
 
   reject({ url: normalized })
 }
 
-// This exported function will be called by `bundleRenderer`.
 // This is where we perform data-prefetching to determine the
 // state of our application before actually rendering it.
 // Since data fetching is async, this function is expected to
 // return a Promise that resolves to the app instance.
-export default context => {
+export default ssrContext => {
   return new Promise(async (resolve, reject) => {
-    const { app, <%= store ? 'store, ' : '' %>router } = await createApp(context)
+    const { app, <%= store ? 'store, ' : '' %>router } = await createQuasarApp(createSSRApp, ssrContext)
 
     <% if (bootNames.length > 0) { %>
     let hasRedirected = false
@@ -92,9 +93,9 @@ export default context => {
           router,
           <%= store ? 'store,' : '' %>
           Vue,
-          ssrContext: context,
+          ssrContext,
           redirect,
-          urlPath: context.url,
+          urlPath: ssrContext.url,
           publicPath
         })
       }
@@ -110,8 +111,8 @@ export default context => {
     <% } %>
 
     const
-      url = context.url<% if (build.publicPath !== '/') { %>.replace(`<%= build.publicPath %>`, '/')<% } %>,
-      { fullPath } = router.resolve(url).route
+      url = ssrContext.url<% if (build.publicPath !== '/') { %>.replace(`<%= build.publicPath %>`, '/')<% } %>,
+      { fullPath } = router.resolve(url)
 
     if (fullPath !== url) {
       return reject({ url: fullPath })
@@ -121,8 +122,9 @@ export default context => {
     router.push(url).catch(() => {})
 
     // wait until router has resolved possible async hooks
-    router.onReady(() => {
-      const matchedComponents = router.getMatchedComponents()
+    router.isReady().then(() => {
+      const matchedComponents = router.currentRoute.value.matched
+        .flatMap(record => Object.values(record.components))
         .map(m => m.options /* Vue.extend() */ || m)
 
       // no matched routes
@@ -149,10 +151,10 @@ export default context => {
       .reduce(
         (promise, c) => promise.then(() => hasRedirected === false && c.preFetch({
           <% if (store) { %>store,<% } %>
-          ssrContext: context,
+          ssrContext,
           currentRoute: router.currentRoute,
           redirect,
-          urlPath: context.url,
+          urlPath: ssrContext.url,
           publicPath
         })),
         Promise.resolve()
@@ -160,31 +162,33 @@ export default context => {
       .then(() => {
         if (hasRedirected === true) { return }
 
-        <% if (store) { %>context.state = store.state<% } %>
+        <% if (store) { %>ssrContext.state = store.state<% } %>
 
-        <% if (__meta) { %>
-        const App = new Vue(app)
-        context.$getMetaHTML = App.$getMetaHTML(App)
-        resolve(App)
-        <% } else { %>
-        resolve(new Vue(app))
-        <% } %>
+        // TODO vue3
+        // <% if (__meta) { %>
+        // const App = new Vue(app)
+        // context.$getMetaHTML = App.$getMetaHTML(App)
+        // resolve(App)
+        // <% } else { %>
+        resolve(app)
+        // <% } %>
       })
       .catch(reject)
 
       <% } else { %>
 
-      <% if (store) { %>context.state = store.state<% } %>
+      <% if (store) { %>ssrContext.state = store.state<% } %>
 
-      <% if (__meta) { %>
-      const App = new Vue(app)
-      context.$getMetaHTML = App.$getMetaHTML(App)
-      resolve(App)
-      <% } else { %>
-      resolve(new Vue(app))
-      <% } %>
+      // TODO vue3
+      // <% if (__meta) { %>
+      // const App = new Vue(app)
+      // context.$getMetaHTML = App.$getMetaHTML(App)
+      // resolve(App)
+      // <% } else { %>
+      resolve(app)
+      // <% } %>
 
       <% } %>
-    }, reject)
+    }).catch(reject)
   })
 }

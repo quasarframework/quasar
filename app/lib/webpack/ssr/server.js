@@ -1,5 +1,5 @@
+const path = require('path')
 const nodeExternals = require('webpack-node-externals')
-const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 
 const appPaths = require('../../app-paths')
 
@@ -14,8 +14,14 @@ module.exports = function (chain, cfg) {
   chain.devtool('#source-map')
 
   chain.output
-    .filename('server-bundle.js')
+    .filename('render-app.js')
+    .chunkFilename(`chunk-[name].js`)
     .libraryTarget('commonjs2')
+
+  if (cfg.ctx.prod) {
+    chain.output
+      .path(path.join(cfg.build.distDir, 'server'))
+  }
 
   chain.plugin('define')
     .tap(args => {
@@ -39,29 +45,4 @@ module.exports = function (chain, cfg) {
       ...cfg.build.transpileDependencies
     ]
   }))
-
-  chain.plugin('vue-ssr-client')
-    .use(VueSSRServerPlugin, [{
-      filename: '../quasar.server-manifest.json'
-    }])
-
-  if (cfg.ctx.prod) {
-    const SsrProdArtifacts = require('./plugin.ssr-prod-artifacts')
-
-    chain.plugin('ssr-artifacts')
-      .use(SsrProdArtifacts, [ cfg ])
-
-    const patterns = [
-      appPaths.resolve.app('.npmrc'),
-      appPaths.resolve.app('.yarnrc')
-    ].map(filename => ({
-      from: filename,
-      to: '..',
-      noErrorOnMissing: true
-    }))
-
-    const CopyWebpackPlugin = require('copy-webpack-plugin')
-    chain.plugin('copy-webpack')
-      .use(CopyWebpackPlugin, [{ patterns }])
-  }
 }

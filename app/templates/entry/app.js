@@ -9,18 +9,21 @@
  *
  * Boot files are your "main.js"
  **/
-import { h, createApp } from 'vue'
+import { defineComponent } from 'vue'
+<% if (__vueDevtools !== false) { %>
+import vueDevtools from '@vue/devtools'
+<% } %>
+<% if (ctx.mode.electron && electron.nodeIntegration === true) { %>
+import electron from 'electron'
+<% } %>
+
 import { Quasar, quasarPluginOptions } from './import-quasar.js'
 
 <% if (ctx.mode.ssr && ctx.mode.pwa) { %>
 import { isRunningOnPWA } from './ssr-pwa'
 <% } %>
 
-<% if (ctx.mode.electron && electron.nodeIntegration === true) { %>
-import electron from 'electron'
-<% } %>
-
-import App from 'app/<%= sourceFiles.rootComponent %>'
+import <%= __needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
 
 <% if (store) { %>
 import createStore from 'app/<%= sourceFiles.store %>'
@@ -32,19 +35,30 @@ import { Plugins } from '@capacitor/core'
 const { SplashScreen } = Plugins
 <% } %>
 
-<% if (__vueDevtools !== false) { %>
-import vueDevtools from '@vue/devtools'
+<% if (__needsAppMountHook === true) { %>
+const RootComponent = defineComponent({
+  mixins: [ AppComponent ],
+  mounted () {
+    <% if (ctx.mode.capacitor && capacitor.hideSplashscreen !== false) { %>
+    SplashScreen.hide()
+    <% } %>
+
+    <% if (__vueDevtools !== false) { %>
+    vueDevtools.connect('<%= __vueDevtools.host %>', <%= __vueDevtools.port %>)
+    <% } %>
+  }
+})
 <% } %>
 
-export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
+export default async function (createAppFn<%= ctx.mode.ssr ? ', ssrContext' : '' %>) {
   // create store and router instances
   <% if (store) { %>
   const store = typeof createStore === 'function'
-    ? await createStore({<%= ctx.mode.ssr ? ', ssrContext' : '' %>})
+    ? await createStore({<%= ctx.mode.ssr ? 'ssrContext' : '' %>})
     : createStore
   <% } %>
   const router = typeof createRouter === 'function'
-    ? await createRouter({<%= ctx.mode.ssr ? ', ssrContext' : '' %><%= store ? ', store' : '' %>})
+    ? await createRouter({<%= ctx.mode.ssr ? 'ssrContext' : '' %><%= store ? ', store' : '' %>})
     : createRouter
   <% if (store) { %>
   // make router instance available in store
@@ -54,18 +68,7 @@ export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // Create the app instantiation Object.
   // Here we inject the router, store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
-  const app = createApp({
-    render: () => h(App)<% if (__needsAppMountHook === true) { %>,
-    mounted () {
-      <% if (ctx.mode.capacitor && capacitor.hideSplashscreen !== false) { %>
-      SplashScreen.hide()
-      <% } %>
-
-      <% if (__vueDevtools !== false) { %>
-      vueDevtools.connect('<%= __vueDevtools.host %>', <%= __vueDevtools.port %>)
-      <% } %>
-    }<% } %>
-  })
+  const app = createAppFn(RootComponent)
 
   <% if (ctx.dev) { %>
   app.config.devtools = true
@@ -85,11 +88,11 @@ export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
 
   <% if (ctx.mode.ssr) { %>
     <% if (ctx.mode.pwa) { %>
-  if (isRunningOnPWA !== true) {
-    Quasar.ssrUpdate({ app, ssr: ssrContext })
-  }
+      if (isRunningOnPWA !== true) {
+        Quasar.ssrUpdate({ app, ssr: ssrContext })
+      }
     <% } else { %>
-  Quasar.ssrUpdate({ app, ssr: ssrContext })
+      Quasar.ssrUpdate({ app, ssr: ssrContext })
     <% } %>
   <% } %>
 

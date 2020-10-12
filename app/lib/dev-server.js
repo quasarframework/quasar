@@ -62,31 +62,11 @@ module.exports = class DevServer {
 
   listenSSR (webpackConf, cfg, resolve) {
     const fs = require('fs')
-    const LRU = require('lru-cache')
     const express = require('express')
     const chokidar = require('chokidar')
-    const { createBundleRenderer } = require('vue-server-renderer')
+    const { renderToString } = require('@vue/server-renderer')
     const ouchInstance = require('./helpers/cli-error-handling').getOuchInstance()
     const SsrExtension = require('./ssr/ssr-extension')
-
-    let renderer
-
-    function createRenderer (bundle, options) {
-      // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
-      return createBundleRenderer(bundle, {
-        ...options,
-        shouldPreload: () => false,
-        shouldPrefetch: () => false,
-
-        // for component caching
-        cache: new LRU({
-          max: 1000,
-          maxAge: 1000 * 60 * 15
-        }),
-        // recommended for performance
-        runInNewContext: false
-      })
-    }
 
     function render (req, res) {
       const startTime = Date.now()
@@ -119,31 +99,15 @@ module.exports = class DevServer {
           handleError(err)
           return
         }
-        if (cfg.__meta) {
-          html = context.$getMetaHTML(html, context)
-        }
+        // if (cfg.__meta) {
+        //   html = context.$getMetaHTML(html, context)
+        // }
         console.log(`${req.url} -> request took: ${Date.now() - startTime}ms`)
         res.send(html)
       })
     }
 
-    let bundle
-    let template
-    let clientManifest
     let pwa
-
-    let ready
-    const readyPromise = new Promise(r => { ready = r })
-    function update () {
-      if (bundle && clientManifest) {
-        renderer = createRenderer(bundle, {
-          template,
-          clientManifest,
-          basedir: appPaths.resolve.app('.')
-        })
-        ready()
-      }
-    }
 
     // read template from disk and watch
     const { getIndexHtml } = require('./ssr/html-template')
@@ -154,11 +118,12 @@ module.exports = class DevServer {
     }
 
     template = getTemplate()
-    const htmlWatcher = chokidar.watch(templatePath).on('change', () => {
-      template = getTemplate()
-      console.log('index.template.html template updated.')
-      update()
-    })
+    // TODO vue3
+    // const htmlWatcher = chokidar.watch(templatePath).on('change', () => {
+    //   template = getTemplate()
+    //   console.log('index.template.html template updated.')
+    //   update()
+    // })
 
     const serverCompiler = webpack(webpackConf.server)
     const clientCompiler = webpack(webpackConf.client)
@@ -166,15 +131,6 @@ module.exports = class DevServer {
     serverCompiler.hooks.done.tapAsync('done-compiling', ({ compilation: { errors, warnings, assets }}, cb) => {
       errors.forEach(err => console.error(err))
       warnings.forEach(err => console.warn(err))
-
-      if (errors.length > 0) {
-        cb()
-        return
-      }
-
-      bundle = JSON.parse(assets['../quasar.server-manifest.json'].source())
-      update()
-
       cb()
     })
 
@@ -193,9 +149,6 @@ module.exports = class DevServer {
           serviceWorker: assets['service-worker.js'].source()
         }
       }
-
-      clientManifest = JSON.parse(assets['../quasar.client-manifest.json'].source())
-      update()
 
       cb()
     })
@@ -264,13 +217,11 @@ module.exports = class DevServer {
       }
     })
 
-    readyPromise.then(() => {
-      server.listen(cfg.devServer.port, cfg.devServer.host, () => {
-        resolve()
-        if (cfg.__devServer.open) {
-          openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
-        }
-      })
+    server.listen(cfg.devServer.port, cfg.devServer.host, () => {
+      resolve()
+      if (cfg.__devServer.open) {
+        openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
+      }
     })
 
     this.__cleanup = () => {

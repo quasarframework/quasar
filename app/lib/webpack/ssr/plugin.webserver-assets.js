@@ -4,20 +4,20 @@ const appPaths = require('../../app-paths')
 const getFixedDeps = require('../../helpers/get-fixed-deps')
 const { getIndexHtml } = require('../../ssr/html-template')
 
-module.exports = class SsrProdArtifacts {
+module.exports = class WebserverAssetsPlugin {
   constructor (cfg = {}) {
     this.cfg = cfg
   }
 
   apply (compiler) {
-    compiler.hooks.emit.tapAsync('ssr-artifacts', (compiler, callback) => {
+    compiler.hooks.emit.tapAsync('webserver-assets-plugin', (compiler, callback) => {
       /*
        * /template.html
        */
       const htmlFile = appPaths.resolve.app(this.cfg.sourceFiles.indexHtmlTemplate)
       const htmlTemplate = getIndexHtml(fs.readFileSync(htmlFile, 'utf-8'), this.cfg)
 
-      compiler.assets['../template.html'] = {
+      compiler.assets['template.html'] = {
         source: () => Buffer.from(htmlTemplate, 'utf8'),
         size: () => Buffer.byteLength(htmlTemplate)
       }
@@ -49,9 +49,8 @@ module.exports = class SsrProdArtifacts {
           {
             'compression': '^1.0.0',
             'express': '^4.0.0',
-            'lru-cache': cliDeps['lru-cache'],
             'vue': cliDeps.vue,
-            'vue-server-renderer': cliDeps['vue-server-renderer'],
+            '@vue/server-renderer': cliDeps['@vue/server-renderer'],
             'vue-router': cliDeps['vue-router']
           },
           this.cfg.build.transpile === true
@@ -72,7 +71,7 @@ module.exports = class SsrProdArtifacts {
       }
 
       pkg = JSON.stringify(pkg, null, 2)
-      compiler.assets['../package.json'] = {
+      compiler.assets['package.json'] = {
         source: () => Buffer.from(pkg, 'utf8'),
         size: () => Buffer.byteLength(pkg)
       }

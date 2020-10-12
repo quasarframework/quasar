@@ -242,7 +242,7 @@ module.exports = function () {
     // .then(() => require('./build.api').generate())
     .then(data => {
       // TODO vue3 - re-enable full build
-      // require('./build.transforms').generate()
+      require('./build.transforms').generate()
       // require('./build.vetur').generate(data)
       // require('./build.types').generate(data)
       // require('./build.web-types').generate(data)

@@ -1,10 +1,12 @@
-const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
-const WebpackProgress = require('../plugin.progress')
 
+const WebpackProgress = require('../plugin.progress')
 const appPaths = require('../../app-paths')
+const WebserverAssetsPlugin = require('./plugin.webserver-assets')
 
 // Used only in production
+
+const ssrConfigFile = appPaths.resolve.app('.quasar/ssr-config.js')
 
 module.exports = function (cfg, configName) {
   const { dependencies:appDeps = {} } = require(appPaths.resolve.app('package.json'))
@@ -29,10 +31,9 @@ module.exports = function (cfg, configName) {
     .path(cfg.build.distDir)
 
   chain.externals([
-    './quasar.server-manifest.json',
-    './quasar.client-manifest.json',
     'compression',
     'express',
+    /server[\\/]render-app.js$/,
     ...Object.keys(cliDeps),
     ...Object.keys(appDeps)
   ])
@@ -43,16 +44,8 @@ module.exports = function (cfg, configName) {
       __filename: false
     })
 
-  const ssrConfigFile = appPaths.resolve.app('.quasar/ssr-config.js')
   chain.resolve.alias
-    .merge({
-      // backward compatibility for
-      // "const ssr = require('../ssr')"
-      '../ssr': ssrConfigFile,
-
-      // new alias instead of "require('../ssr')"
-      'quasar-ssr': ssrConfigFile
-    })
+    .merge({ 'quasar-ssr': ssrConfigFile })
 
   chain.module.rule('node')
     .test(/\.node$/)
@@ -75,6 +68,22 @@ module.exports = function (cfg, configName) {
     chain.plugin('progress')
       .use(WebpackProgress, [{ name: configName }])
   }
+
+  chain.plugin('webserver-assets-plugin')
+    .use(WebserverAssetsPlugin, [ cfg ])
+
+  const patterns = [
+    appPaths.resolve.app('.npmrc'),
+    appPaths.resolve.app('.yarnrc')
+  ].map(filename => ({
+    from: filename,
+    to: '..',
+    noErrorOnMissing: true
+  }))
+
+  const CopyWebpackPlugin = require('copy-webpack-plugin')
+  chain.plugin('copy-webpack')
+    .use(CopyWebpackPlugin, [{ patterns }])
 
   // reset default webpack 4 minimizer
   chain.optimization.minimizers.delete('js')
