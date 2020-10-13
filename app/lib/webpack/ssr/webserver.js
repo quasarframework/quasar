@@ -31,9 +31,10 @@ module.exports = function (cfg, configName) {
     .path(cfg.build.distDir)
 
   chain.externals([
+    './quasar.server-manifest.json',
+    './quasar.client-manifest.json',
     'compression',
     'express',
-    /server[\\/]render-app.js$/,
     ...Object.keys(cliDeps),
     ...Object.keys(appDeps)
   ])

@@ -51,6 +51,7 @@ module.exports = class WebserverAssetsPlugin {
             'express': '^4.0.0',
             'vue': cliDeps.vue,
             '@vue/server-renderer': cliDeps['@vue/server-renderer'],
+            '@quasar/ssr': cliDeps['@quasar/ssr'],
             'vue-router': cliDeps['vue-router']
           },
           this.cfg.build.transpile === true

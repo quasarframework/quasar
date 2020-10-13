@@ -62,20 +62,21 @@ module.exports.getIndexHtml = function (template, cfg) {
     html = HtmlWebpackPlugin.prototype.injectAssetsIntoHtml.call(htmlCtx, html, {}, data)
   }
 
-  html = injectSsrInterpolation(html)
+  // TODO vue3
+  // html = injectSsrInterpolation(html)
 
   if (cfg.build.appBase) {
     html = fillBaseTag(html, cfg.build.appBase)
   }
 
-  if (cfg.build.minify) {
-    const { minify } = require('html-minifier')
-    html = minify(html, {
-      ...cfg.__html.minifyOptions,
-      ignoreCustomComments: [ /vue-ssr-outlet/ ],
-      ignoreCustomFragments: [ /{{ [\s\S]*? }}/ ]
-    })
-  }
+  // TODO vue3
+  // if (cfg.build.minify) {
+  //   const { minify } = require('html-minifier')
+  //   html = minify(html, {
+  //     ...cfg.__html.minifyOptions,
+  //     ignoreCustomFragments: [ /{{ [\s\S]*? }}/, '<div id="q-app></div>' ]
+  //   })
+  // }
 
   return html
 }

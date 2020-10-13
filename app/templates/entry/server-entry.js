@@ -110,9 +110,8 @@ export default ssrContext => {
     }
     <% } %>
 
-    const
-      url = ssrContext.url<% if (build.publicPath !== '/') { %>.replace(`<%= build.publicPath %>`, '/')<% } %>,
-      { fullPath } = router.resolve(url)
+    const url = ssrContext.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '')<% } %>
+    const { fullPath } = router.resolve(url)
 
     if (fullPath !== url) {
       return reject({ url: fullPath })

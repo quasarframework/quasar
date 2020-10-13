@@ -1,4 +1,5 @@
 const path = require('path')
+const QuasarSSRClientPlugin = require('@quasar/ssr/webpack-client-plugin')
 
 const injectClientSpecifics = require('../inject.client-specifics')
 const injectHotUpdate = require('../inject.hot-update')
@@ -28,4 +29,9 @@ module.exports = function (chain, cfg) {
 
   injectClientSpecifics(chain, cfg)
   injectHotUpdate(chain, cfg)
+
+  chain.plugin('quasar-ssr-client')
+    .use(QuasarSSRClientPlugin, [{
+      filename: '../quasar.client-manifest.json'
+    }])
 }
