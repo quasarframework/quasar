@@ -4,10 +4,10 @@
 
 // TODO vue3 - add as deps
 const hash = require('hash-sum')
-const uniq = require('lodash.uniq')
 
 const jsCssRE = /\.(js|css)(\?[^.]+)?$/
 const swRE = /\s\w+$/
+const uniq = arr => [ ...new Set(arr) ]
 
 module.exports = class QuasarSSRClientPlugin {
   constructor (cfg = {}) {
