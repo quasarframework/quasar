@@ -192,7 +192,7 @@ export default {
         // Retrieve JWT token from your store.
         const token = "myToken";
         resolve({
-          url: http://localhost:4444/fileuploader/upload,
+          url: 'http://localhost:4444/fileuploader/upload',
           method: 'POST',
           headers: [
             { name: 'Content-Type', value: 'application/json-patch+json'},
