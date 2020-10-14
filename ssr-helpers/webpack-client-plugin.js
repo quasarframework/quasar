@@ -7,6 +7,8 @@ const hash = require('hash-sum')
 
 const jsCssRE = /\.(js|css)(\?[^.]+)?$/
 const swRE = /\s\w+$/
+const hotUpdateRE = /\.hot-update.js$/
+
 const uniq = arr => [ ...new Set(arr) ]
 
 module.exports = class QuasarSSRClientPlugin {
@@ -18,13 +20,15 @@ module.exports = class QuasarSSRClientPlugin {
     compiler.hooks.emit.tapAsync('quasar-ssr-client-plugin', (compilation, cb) => {
       const stats = compilation.getStats().toJson()
 
-      const allFiles = uniq(stats.assets.map(a => a.name))
+      const allFiles = uniq(
+        stats.assets.map(a => a.name).filter(file => hotUpdateRE.test(file) === false)
+      )
 
       const initialFiles = uniq(
         Object.keys(stats.entrypoints)
           .map(name => stats.entrypoints[name].assets)
           .reduce((assets, all) => all.concat(assets), [])
-          .filter(file => jsCssRE.test(file))
+          .filter(file => jsCssRE.test(file) === true && hotUpdateRE.test(file) === false)
       )
 
       const asyncFiles = allFiles

@@ -51,7 +51,7 @@ function injectSsrInterpolation (html) {
   )
   .replace(
     '<div id="q-app"></div>',
-    '{{ _meta.resourceApp }}{{ _meta.resourceScripts }}'
+    '<div id="q-app">{{ _meta.resourceApp }}</div>{{ _meta.resourceScripts }}'
   )
 }
 
@@ -76,7 +76,6 @@ module.exports.getIndexHtml = function (template, cfg) {
 
   html = injectSsrInterpolation(html)
 
-  // TODO vue3
   if (cfg.build.minify) {
     const { minify } = require('html-minifier')
     html = minify(html, {

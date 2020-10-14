@@ -6,7 +6,6 @@ const jsRE = /\.js(\?[^.]+)?$/
 const jsMapRE = /\.js\.map$/
 const mapRE = /\.map$/
 
-const isJS = file => jsRE.test(file)
 const banner = '@quasar/ssr/webpack-server-plugin'
 
 function warn (msg) {
@@ -47,7 +46,7 @@ module.exports = class QuasarSSRServerPlugin {
         return cb()
       }
 
-      const entryAssets = entryInfo.assets.filter(isJS)
+      const entryAssets = entryInfo.assets.filter(file => jsRE.test(file))
 
       if (entryAssets.length > 1) {
         throw new Error(
@@ -70,7 +69,7 @@ module.exports = class QuasarSSRServerPlugin {
       }
 
       stats.assets.forEach(asset => {
-        if (isJS(asset.name)) {
+        if (jsRE.test(asset.name)) {
           serverManifest.files[asset.name] = compilation.assets[asset.name].source()
         }
         else if (asset.name.match(jsMapRE)) {

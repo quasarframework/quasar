@@ -9,7 +9,7 @@
  *
  * Boot files are your "main.js"
  **/
-import { createSSRApp } from 'vue'
+import { createApp } from 'vue'
 
 <% extras.length > 0 && extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
@@ -72,7 +72,7 @@ function redirectBrowser (url, router, reject) {
 // return a Promise that resolves to the app instance.
 export default ssrContext => {
   return new Promise(async (resolve, reject) => {
-    const { app, <%= store ? 'store, ' : '' %>router } = await createQuasarApp(createSSRApp, ssrContext)
+    const { app, <%= store ? 'store, ' : '' %>router } = await createQuasarApp(createApp, ssrContext)
 
     <% if (bootNames.length > 0) { %>
     let hasRedirected = false

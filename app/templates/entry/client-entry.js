@@ -9,7 +9,9 @@
  *
  * Boot files are your "main.js"
  **/
-import { createApp } from 'vue'
+
+// TODO vue3 - when on SSR+PWA -> createApp
+import { <%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %> } from 'vue'
 
 <% if (__supportsIE) { %>
 import 'quasar/dist/quasar.ie.polyfills.js'
@@ -62,7 +64,6 @@ import <%= importName %> from '<%= asset.path %>'
 import { addPreFetchHooks } from './client-prefetch.js'
 <% } %>
 
-
 <% if (ctx.dev) { %>
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %>.')
 <% if (ctx.mode.pwa) { %>console.info('[Quasar] PWA: Use devtools > Application > "Bypass for network" to not break Hot Module Replacement while developing.')<% } %>
@@ -84,12 +85,13 @@ const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 <% } %>
 
 async function start () {
-  const { app, <%= store ? 'store, ' : '' %>router } = await createQuasarApp(createApp)
+  const { app, <%= store ? 'store, ' : '' %>router } = await createQuasarApp(<%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %>)
 
   <% if (ctx.mode.ssr && store && ssr.manualHydration !== true) { %>
   // prime the store with server-initialized state.
   // the state is determined during SSR and inlined in the page markup.
   if (<% if (ctx.mode.pwa) { %>isRunningOnPWA !== true && <% } %>window.__INITIAL_STATE__) {
+    // TODO vue3
     store.replaceState(window.__INITIAL_STATE__)
   }
   <% } %>
@@ -146,7 +148,7 @@ async function start () {
         <% if (preFetch) { %>
         addPreFetchHooks(router<%= store ? ', store' : '' %>)
         <% } %>
-        app.mount('#q-app', /* isHydrate */ true)
+        app.mount('#q-app')
       }
       else {
     <% } %>
@@ -177,7 +179,6 @@ async function start () {
         })
       }
     <% } else if (ctx.mode.cordova) { %>
-
       document.addEventListener('deviceready', () => {
         app.config.globalProperties.$q.cordova = window.cordova
         app.mount('#q-app')

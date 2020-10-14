@@ -10,9 +10,11 @@
  * Boot files are your "main.js"
  **/
 import { defineComponent } from 'vue'
+
 <% if (__vueDevtools !== false) { %>
 import vueDevtools from '@vue/devtools'
 <% } %>
+
 <% if (ctx.mode.electron && electron.nodeIntegration === true) { %>
 import electron from 'electron'
 <% } %>

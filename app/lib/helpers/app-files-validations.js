@@ -19,23 +19,9 @@ module.exports = function (cfg) {
     error = true
   }
 
-  file = appPaths.resolve.app(cfg.sourceFiles.rootComponent)
-  content = fs.readFileSync(file, 'utf-8')
-  if (content.indexOf('q-app') === -1) {
-    console.log()
-    warn(`Quasar requires a minor change to the root component:
-   ${file}
-
-  Please add: id="q-app" (or write #q-app if using Pug)
-  to the outermost HTML element of the template.
-
-${green('Example:')}
-  <template>
-    <div id="q-app">
-      ...
-    </div>
-  </template>
-`)
+  if (content.indexOf('<div id="q-app') === -1) {
+    warn(`Please add back <div id="q-app"></div> to
+    /src/index.template.html inside of <body>\n`)
     error = true
   }
 
