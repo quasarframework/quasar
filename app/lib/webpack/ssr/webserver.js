@@ -31,9 +31,11 @@ module.exports = function (cfg, configName) {
     .path(cfg.build.distDir)
 
   chain.externals([
+    '@vue/server-renderer',
+    '@quasar/ssr-helpers/create-renderer',
+    './render-template.js',
     './quasar.server-manifest.json',
     './quasar.client-manifest.json',
-    './render-template.js',
     'compression',
     'express',
     ...Object.keys(cliDeps),
