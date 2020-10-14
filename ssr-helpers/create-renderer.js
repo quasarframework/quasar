@@ -3,7 +3,11 @@
  */
 
 const path = require('path')
-const createBundle = require('./helpers/bundle-runner')
+const createBundle = require('./lib/create-bundle')
+
+const jsRE = /\.js(\?[^.]+)?$/
+const cssRE = /\.css(\?[^.]+)?$/
+const queryRE = /\?.*/
 
 /**
  * Creates a mapper that maps components used during a server-side render
@@ -54,16 +58,8 @@ function mapIdToFile (id, clientManifest) {
   return files
 }
 
-function isJS (file) {
-  return /\.js(\?[^.]+)?$/.test(file);
-}
-
-function isCSS (file) {
-  return /\.css(\?[^.]+)?$/.test(file);
-}
-
 function normalizeFile (file) {
-  const fileWithoutQuery = file.replace(/\?.*/, '')
+  const fileWithoutQuery = file.replace(queryRE, '')
   const extension = path.extname(fileWithoutQuery).slice(1)
 
   return {
@@ -100,26 +96,21 @@ function getPreloadType(ext) {
 }
 
 function createRenderContext ({ clientManifest, publicPath }) {
-  const renderContext = { clientManifest, publicPath }
-
-  if (renderContext.clientManifest) {
-    renderContext.publicPath = renderContext.publicPath || renderContext.clientManifest.publicPath
+  return {
+    clientManifest,
+    publicPath: ensureTrailingSlash(publicPath || clientManifest.publicPath || '/'),
     // preload/prefetch directives
-    renderContext.preloadFiles = (renderContext.clientManifest.initial || []).map(normalizeFile)
-    renderContext.prefetchFiles = (renderContext.clientManifest.async || []).map(normalizeFile)
-    // Initial async chunk mapping
-    renderContext.mapFiles = createMapper(renderContext.clientManifest);
+    preloadFiles: (clientManifest.initial || []).map(normalizeFile),
+    prefetchFiles: (clientManifest.async || []).map(normalizeFile),
+    // initial async chunk mapping
+    mapFiles: createMapper(clientManifest)
   }
-
-  renderContext.publicPath = ensureTrailingSlash(renderContext.publicPath || '/')
-
-  return renderContext
 }
 
 function renderStyles (ssrContext, renderContext) {
   const initial = renderContext.preloadFiles || []
   const async = getUsedAsyncFiles(ssrContext, renderContext) || []
-  const cssFiles = initial.concat(async).filter(({ file }) => isCSS(file))
+  const cssFiles = initial.concat(async).filter(({ file }) => cssRE.test(file))
 
   return (
     // render links for css files
@@ -193,8 +184,8 @@ function renderPrefetchLinks (ssrContext, renderContext) {
 
 function renderScripts(ssrContext, renderContext) {
   if (renderContext.clientManifest && renderContext.preloadFiles) {
-    const initial = renderContext.preloadFiles.filter(({ file }) => isJS(file))
-    const async = (getUsedAsyncFiles(ssrContext, renderContext) || []).filter(({ file }) => isJS(file))
+    const initial = renderContext.preloadFiles.filter(({ file }) => jsRE.test(file))
+    const async = (getUsedAsyncFiles(ssrContext, renderContext) || []).filter(({ file }) => jsRE.test(file))
 
     return [ initial[0] ].concat(async, initial.slice(1))
       .map(({ file }) => `<script src="${renderContext.publicPath}${file}" defer></script>`)
@@ -221,13 +212,13 @@ function getUsedAsyncFiles (ssrContext, renderContext) {
   return ssrContext._mappedFiles || []
 }
 
-module.exports = function createBundleRenderer (_bundle, renderOptions) {
-  const renderContext = createRenderContext(renderOptions)
-  const { evaluateEntry, rewriteErrorTrace } = createBundle(_bundle, renderOptions)
+module.exports = function createRenderer (opts) {
+  const renderContext = createRenderContext(opts)
+  const { evaluateEntry, rewriteErrorTrace } = createBundle(opts)
 
-  async function runApp(ssrContext, evalContext) {
+  async function runApp(ssrContext) {
     try {
-      const entry = await evaluateEntry(evalContext)
+      const entry = await evaluateEntry()
       const app = await entry(ssrContext)
       return app
     }
@@ -237,24 +228,27 @@ module.exports = function createBundleRenderer (_bundle, renderOptions) {
     }
   }
 
-  return {
-    async renderToString(ssrContext, evalContext) {
-      try {
-        ssrContext._registeredComponents = []
+  return async function renderToString (ssrContext, renderTemplate) {
+    try {
+      ssrContext._registeredComponents = []
+      ssrContext._meta = {}
 
-        const app = await runApp(ssrContext, evalContext)
-        const html = await renderOptions.vueServerRenderer.renderToString(app, ssrContext)
+      const app = await runApp(ssrContext)
+      const resourceApp = await opts.vueRenderToString(app, ssrContext)
 
-        ssrContext.renderResourceHints = () => renderResourceHints(ssrContext, renderContext)
-        ssrContext.renderStyles = () => renderStyles(ssrContext, renderContext)
-        ssrContext.renderScripts = () => renderScripts(ssrContext, renderContext)
+      Object.assign(ssrContext._meta, {
+        resourceApp,
+        // TODO vue3
+        // resourceHints: renderResourceHints(ssrContext, renderContext),
+        resourceStyles: renderStyles(ssrContext, renderContext),
+        resourceScripts: renderScripts(ssrContext, renderContext)
+      })
 
-        return html
-      }
-      catch (err) {
-        await rewriteErrorTrace(err)
-        throw err
-      }
+      return renderTemplate(ssrContext)
+    }
+    catch (err) {
+      await rewriteErrorTrace(err)
+      throw err
     }
   }
 }

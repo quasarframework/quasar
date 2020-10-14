@@ -1,5 +1,5 @@
 const nodeExternals = require('webpack-node-externals')
-const QuasarSSRServerPlugin = require('@quasar/ssr/webpack-server-plugin')
+const QuasarSSRServerPlugin = require('@quasar/ssr-helpers/webpack-server-plugin')
 
 const appPaths = require('../../app-paths')
 
@@ -18,20 +18,6 @@ module.exports = function (chain, cfg) {
     .chunkFilename(`chunk-[name].js`)
     .libraryTarget('commonjs2')
 
-  chain.plugin('define')
-    .tap(args => {
-      return [{
-        ...args[0],
-        'process.env.CLIENT': false,
-        'process.env.SERVER': true
-      }]
-    })
-
-  chain.plugin('quasar-ssr-server')
-    .use(QuasarSSRServerPlugin, [{
-      filename: '../quasar.server-manifest.json'
-    }])
-
   chain.externals(nodeExternals({
     // do not externalize:
     //  1. vue files
@@ -45,4 +31,18 @@ module.exports = function (chain, cfg) {
       ...cfg.build.transpileDependencies
     ]
   }))
+
+  chain.plugin('define')
+    .tap(args => {
+      return [{
+        ...args[0],
+        'process.env.CLIENT': false,
+        'process.env.SERVER': true
+      }]
+    })
+
+  chain.plugin('quasar-ssr-server')
+    .use(QuasarSSRServerPlugin, [{
+      filename: '../quasar.server-manifest.json'
+    }])
 }

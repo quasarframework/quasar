@@ -15,9 +15,10 @@ module.exports = class WebserverAssetsPlugin {
        * /template.html
        */
       const htmlFile = appPaths.resolve.app(this.cfg.sourceFiles.indexHtmlTemplate)
-      const htmlTemplate = getIndexHtml(fs.readFileSync(htmlFile, 'utf-8'), this.cfg)
+      const renderTemplate = getIndexHtml(fs.readFileSync(htmlFile, 'utf-8'), this.cfg)
+      const htmlTemplate = `module.exports=${renderTemplate.source}`
 
-      compiler.assets['template.html'] = {
+      compiler.assets['render-template.js'] = {
         source: () => Buffer.from(htmlTemplate, 'utf8'),
         size: () => Buffer.byteLength(htmlTemplate)
       }
@@ -51,7 +52,7 @@ module.exports = class WebserverAssetsPlugin {
             'express': '^4.0.0',
             'vue': cliDeps.vue,
             '@vue/server-renderer': cliDeps['@vue/server-renderer'],
-            '@quasar/ssr': cliDeps['@quasar/ssr'],
+            '@quasar/ssr-helpers': cliDeps['@quasar/ssr-helpers'],
             'vue-router': cliDeps['vue-router']
           },
           this.cfg.build.transpile === true

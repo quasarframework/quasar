@@ -3,15 +3,15 @@
  * DO NOT EDIT.
  **/
 
-const fs = require('fs')
-const path = require('path')
-const vueServerRenderer = require('@vue/server-renderer')
-const createBundleRenderer = require('@quasar/ssr/create-bundle-renderer')
+const { join } = require('path')
+const { renderToString } = require('@vue/server-renderer')
+const createRenderer = require('@quasar/ssr-helpers/create-renderer')
 
-const resolve = file => path.join(__dirname, file)
-const template = fs.readFileSync(resolve('template.html'), 'utf-8')
+const renderTemplate = require('./render-template.js')
 const serverManifest = require('./quasar.server-manifest.json')
 const clientManifest = require('./quasar.client-manifest.json')
+
+const resolve = file => join(__dirname, file)
 
 const settings = <%= opts %>
 <% if (opts.publicPath !== '/') { %>
@@ -25,15 +25,13 @@ if (process.env.DEBUG) {
 
 const resolveUrl = url => <% if (opts.publicPath === '/') { %>url || '/'<% } else { %>url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath<% } %>
 
-const rendererOptions = {
-  vueServerRenderer,
+const renderSSR = createRenderer({
+  vueRenderToString: renderToString,
   basedir: __dirname,
+  serverManifest,
   clientManifest,
-  publicPath,
-  runInNewContext: false
-}
-
-let renderer = createBundleRenderer(serverManifest, rendererOptions)
+  publicPath<% if (opts.publicPath === '/') { %>: settings.publicPath<% } %>
+})
 
 module.exports.resolveUrl = resolveUrl
 
@@ -43,16 +41,8 @@ module.exports.renderToString = function (opts, cb) {
     url: opts.req.url
   }
 
-  // TODO vue3 - handle error
-  renderer.renderToString(ssrContext)
-    .then(appHtml => {
-      cb(void 0, template.replace('<div id="q-app"></div>', appHtml))
-      console.log('\n\nSTYLE>>>>>>')
-      console.log(ssrContext.renderStyles())
-      console.log('\nSCRIPTS>>>>>')
-      console.log(ssrContext.renderScripts())
-      console.log()
-    })
+  renderSSR(ssrContext, renderTemplate)
+    .then(html => { cb(void 0, html) })
     .catch(cb)
 
 // TODO vue3
@@ -67,13 +57,6 @@ module.exports.renderToString = function (opts, cb) {
 
 module.exports.resolveWWW = function (file) {
   return resolve('www/' + file)
-}
-
-module.exports.mergeRendererOptions = function (opts) {
-  renderer = createBundleRenderer(
-    serverManifest,
-    Object.assign(rendererOptions, opts)
-  )
 }
 
 module.exports.settings = settings

@@ -1,5 +1,5 @@
 const path = require('path')
-const QuasarSSRClientPlugin = require('@quasar/ssr/webpack-client-plugin')
+const QuasarSSRClientPlugin = require('@quasar/ssr-helpers/webpack-client-plugin')
 
 const injectClientSpecifics = require('../inject.client-specifics')
 const injectHotUpdate = require('../inject.hot-update')

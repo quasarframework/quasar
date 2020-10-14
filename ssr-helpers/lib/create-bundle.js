@@ -2,27 +2,15 @@
  * Forked from bundle-runner v0.0.1 NPM package
  */
 
-const path, { isAbsolute, dirname } = require('path')
+const path = require('path')
 const fs = require('fs')
 const vm = require('vm')
 const NativeModule = require('module')
 const { SourceMapConsumer } = require('source-map')
 
+const { isAbsolute, dirname } = path
 const filenameRE = /\(([^)]+\.js):(\d+):(\d+)\)$/
 const webpackRE = /^webpack:\/\/\//
-
-const _global = {
-  Buffer,
-  URL,
-  console,
-  process,
-  setTimeout,
-  setInterval,
-  setImmediate,
-  clearTimeout,
-  clearInterval,
-  clearImmediate
-}
 
 function createCompile () {
   const _compileCache = {}
@@ -66,7 +54,7 @@ function createRequire (basedir, files, evaluateModule) {
   const _require = function (id) {
     const _resolvedFile = resolveFromFiles(id)
     return _resolvedFile
-      ? evaluateModule(_resolvedFile, {})
+      ? evaluateModule(_resolvedFile)
       : nativeRequire(_resolve(id))
   }
 
@@ -74,21 +62,7 @@ function createRequire (basedir, files, evaluateModule) {
   _require.cache = {}
   _require.main = undefined
 
-  // require.extensions was deprecated since v0.12.0
-  // eslint-disable-next-line node/no-deprecated-api
-  _require.extensions = nativeRequire.extensions
-
   return _require
-}
-
-function createGetSandbox (once) {
-  let _initialContext
-
-  return function getSandbox(context = {}) {
-    return !once
-      ? { ..._global, ...context }
-      : _initialContext || (_initialContext = { ..._global, ...context })
-  }
 }
 
 function createModule (options) {
@@ -104,15 +78,12 @@ function createModule (options) {
   }
 }
 
-function createEvaluateModule (files, { basedir, runInNewContext, runningScriptOptions }) {
+function createEvaluateModule (files, { basedir, runningScriptOptions }) {
   const _evalCache = {}
   const compile = createCompile()
   const require = createRequire(basedir || process.cwd(), files, evaluateModule)
-  const getSandbox = runInNewContext
-    ? createGetSandbox(runInNewContext === 'once')
-    : null
 
-  function evaluateModule (filename, context) {
+  function evaluateModule (filename) {
     if (_evalCache[filename]) {
       return _evalCache[filename]
     }
@@ -120,9 +91,7 @@ function createEvaluateModule (files, { basedir, runInNewContext, runningScriptO
     const code = files[filename]
     const script = compile(filename, code)
 
-    const compiledWrapper = getSandbox
-      ? script.runInNewContext(getSandbox(context), runningScriptOptions)
-      : script.runInThisContext(runningScriptOptions)
+    const compiledWrapper = script.runInThisContext(runningScriptOptions)
 
     const module = createModule({ filename, id: filename, require })
 
@@ -228,7 +197,7 @@ function loadBundle(bundle, basedir) {
       maps: {},
       entry: bundleFile,
       files: {
-        [bundleFile]: bundle
+        [ bundleFile ]: bundle
       }
     }
   }
@@ -253,21 +222,12 @@ function loadBundle(bundle, basedir) {
   return bundle
 }
 
-function createBundle (_bundle, options = {}) {
-  const bundle = loadBundle(_bundle, options.basedir)
-  const { rewriteErrorTrace } = createSourceMap(bundle.maps)
-  const evaluateModule = createEvaluateModule(bundle.files, options)
-
-  function evaluateEntry (context) {
-    return evaluateModule(bundle.entry, context);
-  }
+module.exports = function createBundle (opts) {
+  const bundle = loadBundle(opts.serverManifest, opts.basedir)
+  const evaluateModule = createEvaluateModule(bundle.files, opts)
 
   return {
-    bundle,
-    evaluateModule,
-    evaluateEntry,
-    rewriteErrorTrace
+    evaluateEntry () { return evaluateModule(bundle.entry) },
+    rewriteErrorTrace: createSourceMap(bundle.maps)
   }
 }
-
-export { createBundle, createEvaluateModule }

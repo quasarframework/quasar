@@ -33,6 +33,7 @@ module.exports = function (cfg, configName) {
   chain.externals([
     './quasar.server-manifest.json',
     './quasar.client-manifest.json',
+    './render-template.js',
     'compression',
     'express',
     ...Object.keys(cliDeps),

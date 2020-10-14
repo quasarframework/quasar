@@ -38,7 +38,7 @@ module.exports = class QuasarSSRServerPlugin {
       )
     }
 
-    compiler.hooks.emit.tapAsync('quasar-ssr-server-plugin', function (compilation, cb) {
+    compiler.hooks.emit.tapAsync('quasar-ssr-server-plugin', (compilation, cb) => {
       const stats = compilation.getStats().toJson()
       const entryName = Object.keys(stats.entrypoints)[0]
       const entryInfo = stats.entrypoints[entryName]

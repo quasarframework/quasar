@@ -4,12 +4,12 @@
 > This package contains forks of multiple other packages and is being used and maintained by Quasar Framework.<br>
 > **Used internally by Quasar CLI.**
 
-<img src="https://img.shields.io/npm/v/%40quasar/ssr.svg?label=@quasar/ssr">
+<img src="https://img.shields.io/npm/v/%40quasar/ssr-helpers.svg?label=@quasar/ssr-helpers">
 
 ## Contents
-* @quasar/ssr/webpack-client-plugin
-* @quasar/ssr/webpack-server-plugin
-* @quasar/ssr/create-bundle-renderer
+* @quasar/ssr-helpers/webpack-client-plugin
+* @quasar/ssr-helpers/webpack-server-plugin
+* @quasar/ssr-helpers/create-renderer
 
 ## Credits and collaboration ##
 

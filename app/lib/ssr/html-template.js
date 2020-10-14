@@ -21,17 +21,21 @@ function injectSsrInterpolation (html) {
         start = start.replace(matches[0], '')
       }
 
-      return `${start} {{ Q_HTML_ATTRS }}${end}`
+      return `${start} {{ _meta.htmlAttrs }}${end}`
     }
   )
   .replace(
     /(<head[^>]*)(>)/i,
-    (_, start, end) => `${start}${end}{{ Q_HEAD_TAGS }}`
+    (_, start, end) => `${start}${end}{{ _meta.headTags }}`
+  )
+  .replace(
+    /(<\/head>)/i,
+    (_, tag) => `{{ _meta.resourceStyles }}${tag}`
   )
   .replace(
     /(<body[^>]*)(>)/i,
     (found, start, end) => {
-      let classes = '{{ Q_BODY_CLASSES }}'
+      let classes = '{{ _meta.bodyClasses }}'
 
       const matches = found.match(/\sclass\s*=\s*['"]([^'"]*)['"]/i)
 
@@ -42,8 +46,12 @@ function injectSsrInterpolation (html) {
         start = start.replace(matches[0], '')
       }
 
-      return `${start} class="${classes.trim()}" {{ Q_BODY_ATTRS }}${end}{{ Q_BODY_TAGS }}`
+      return `${start} class="${classes.trim()}" {{ _meta.bodyAttrs }}${end}{{ _meta.bodyTags }}`
     }
+  )
+  .replace(
+    '<div id="q-app"></div>',
+    '{{ _meta.resourceScripts }}{{ _meta.resourceApp }}'
   )
 }
 
@@ -62,21 +70,20 @@ module.exports.getIndexHtml = function (template, cfg) {
     html = HtmlWebpackPlugin.prototype.injectAssetsIntoHtml.call(htmlCtx, html, {}, data)
   }
 
-  // TODO vue3
-  // html = injectSsrInterpolation(html)
-
   if (cfg.build.appBase) {
     html = fillBaseTag(html, cfg.build.appBase)
   }
 
-  // TODO vue3
-  // if (cfg.build.minify) {
-  //   const { minify } = require('html-minifier')
-  //   html = minify(html, {
-  //     ...cfg.__html.minifyOptions,
-  //     ignoreCustomFragments: [ /{{ [\s\S]*? }}/, '<div id="q-app></div>' ]
-  //   })
-  // }
+  html = injectSsrInterpolation(html)
 
-  return html
+  // TODO vue3
+  if (cfg.build.minify) {
+    const { minify } = require('html-minifier')
+    html = minify(html, {
+      ...cfg.__html.minifyOptions,
+      ignoreCustomFragments: [ /{{ [\s\S]*? }}/ ]
+    })
+  }
+
+  return compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g })
 }

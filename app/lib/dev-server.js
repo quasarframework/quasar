@@ -66,30 +66,31 @@ module.exports = class DevServer {
     // const LRU = require('lru-cache')
     const express = require('express')
     const chokidar = require('chokidar')
-    const vueServerRenderer = require('@vue/server-renderer')
-    const createBundleRenderer = require('@quasar/ssr/create-bundle-renderer')
+    const { renderToString } = require('@vue/server-renderer')
+    const createRenderer = require('@quasar/ssr-helpers/create-renderer')
     const ouchInstance = require('./helpers/cli-error-handling').getOuchInstance()
     const SsrExtension = require('./ssr/ssr-extension')
 
-    let renderer, serverManifest, clientManifest, pwa, ready
+    let renderSSR, renderTemplate, serverManifest, clientManifest, pwa, ready
 
-    function createRenderer (serverManifest, options) {
-      // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
-      return createBundleRenderer(serverManifest, {
-        ...options,
-        vueServerRenderer,
-        basedir: appPaths.resolve.app('.'),
-
-        // TODO vue3 - LRU cache
-        // for component caching
-        // cache: new LRU({
-        //   max: 1000,
-        //   maxAge: 1000 * 60 * 15
-        // }),
-        // recommended for performance
-        runInNewContext: false
-      })
+    const renderOptions = {
+      vueRenderToString: renderToString,
+      basedir: appPaths.resolve.app('.')
     }
+
+    // read template from disk and watch
+    const { getIndexHtml } = require('./ssr/html-template')
+    const templatePath = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
+
+    function getTemplate () {
+      return getIndexHtml(fs.readFileSync(templatePath, 'utf-8'), cfg)
+    }
+
+    renderTemplate = getTemplate()
+    const htmlWatcher = chokidar.watch(templatePath).on('change', () => {
+      renderTemplate = getTemplate()
+      console.log('index.template.html template updated.')
+    })
 
     function render (req, res) {
       const startTime = Date.now()
@@ -117,23 +118,12 @@ module.exports = class DevServer {
         res
       }
 
-      renderer.renderToString(ssrContext)
-        .then(appHtml => {
-          const html = template.replace('<div id="q-app"></div>', appHtml)
+      renderSSR(ssrContext, renderTemplate)
+        .then(html => {
           res.send(html)
-          // TODO vue3 - remove debugging statements
-          console.log('\n\nHTML>>>>>>')
-          console.log(html)
-          console.log('\nSTYLE>>>>>>')
-          console.log(ssrContext.renderStyles())
-          console.log('\nSCRIPTS>>>>>')
-          console.log(ssrContext.renderScripts())
-          console.log()
           console.log(`${req.url} -> request took: ${Date.now() - startTime}ms`)
         })
-        .catch(err => {
-          handleError(err)
-        })
+        .catch(handleError)
 
       // TODO vue3
       // if (cfg.__meta) {
@@ -144,24 +134,15 @@ module.exports = class DevServer {
     const readyPromise = new Promise(r => { ready = r })
     function update () {
       if (serverManifest && clientManifest) {
-        renderer = createRenderer(serverManifest, { clientManifest })
+        Object.assign(renderOptions, {
+          serverManifest,
+          clientManifest
+        })
+
+        renderSSR = createRenderer(renderOptions)
         ready()
       }
     }
-
-    // read template from disk and watch
-    const { getIndexHtml } = require('./ssr/html-template')
-    const templatePath = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
-
-    function getTemplate () {
-      return getIndexHtml(fs.readFileSync(templatePath, 'utf-8'), cfg)
-    }
-
-    template = getTemplate()
-    const htmlWatcher = chokidar.watch(templatePath).on('change', () => {
-      template = getTemplate()
-      console.log('index.template.html template updated.')
-    })
 
     const serverCompiler = webpack(webpackConf.server)
     const clientCompiler = webpack(webpackConf.client)
@@ -227,28 +208,9 @@ module.exports = class DevServer {
 
         SsrExtension.getModule().extendApp({
           app,
-
           ssr: {
-            renderToString ({ req, res }, fn) {
-              const context = {
-                url: req.url,
-                req,
-                res
-              }
-
-              renderer.renderToString(context, (err, html) => {
-                if (err) {
-                  handleError(err)
-                  return
-                }
-                if (cfg.__meta) {
-                  html = context.$getMetaHTML(html, context)
-                }
-
-                fn(err, html)
-              })
-            },
-
+            // TODO vue3
+            renderToString () {},
             settings: Object.assign(
               {},
               JSON.parse(cfg.ssr.__templateOpts),
