@@ -51,7 +51,7 @@ function injectSsrInterpolation (html) {
   )
   .replace(
     '<div id="q-app"></div>',
-    '{{ _meta.resourceScripts }}{{ _meta.resourceApp }}'
+    '{{ _meta.resourceApp }}{{ _meta.resourceScripts }}'
   )
 }
 
