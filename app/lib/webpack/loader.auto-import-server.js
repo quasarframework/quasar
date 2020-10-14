@@ -10,11 +10,6 @@ const compRegex = {
   '?combined': new RegExp(data.regex.components, 'g')
 }
 
-// regex to match functional components
-const funcCompRegex = new RegExp(
-  'var\\s+component\\s*=\\s*normalizer\\((?:[^,]+,){3}\\s*true,'
-)
-
 const dirRegex = new RegExp(data.regex.directives, 'g')
 
 function extract (content, ctx) {
@@ -64,21 +59,17 @@ ${installStatements}
 `
 }
 
-module.exports = function (content) {
-  if (!this.resourceQuery && funcCompRegex.test(content) === false) {
+module.exports = function (content, map) {
+  let newContent = content
+
+  if (!this.resourceQuery) {
     const file = this.fs.readFileSync(this.resource, 'utf-8').toString()
     const code = extract(file, this)
 
     if (code !== void 0) {
-      const index = this.mode === 'development'
-        ? content.indexOf('/* hot reload */')
-        : -1
-
-      return index === -1
-        ? content + code
-        : content.slice(0, index) + code + content.slice(index)
+      newContent += code
     }
   }
 
-  return content
+  return this.callback(null, newContent, map)
 }

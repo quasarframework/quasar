@@ -11,11 +11,6 @@ const compRegex = {
   '?combined': new RegExp(data.regex.components, 'g')
 }
 
-// regex to match functional components
-const funcCompRegex = new RegExp(
-  'var\\s+component\\s*=\\s*normalizer\\((?:[^,]+,){3}\\s*true,'
-)
-
 const dirRegex = new RegExp(data.regex.directives, 'g')
 
 function transform (itemArray) {
@@ -74,7 +69,7 @@ ${installStatements}
 module.exports = function (content, map) {
   let newContent = content
 
-  if (!this.resourceQuery && funcCompRegex.test(content) === false) {
+  if (!this.resourceQuery) {
     const file = this.fs.readFileSync(this.resource, 'utf-8').toString()
     const code = extract(file, this)
 
@@ -86,6 +81,11 @@ module.exports = function (content, map) {
       newContent = index === -1
         ? content + code
         : content.slice(0, index) + code + content.slice(index)
+
+      // TODO vue3 - remove when SSR is ready
+      // if (this.resource === '/Users/Razvan/work/test/vue3/src/pages/Index.vue') {
+      //   newContent += `\nconsole.log(QToggle)`
+      // }
     }
   }
 
