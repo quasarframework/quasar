@@ -1,5 +1,5 @@
 <template>
-  <div id="q-app">
+  <div>
     <router-view />
 
     <q-btn to="/" round icon="home" dense size="xs" class="fixed dev-home-btn z-max" color="accent" />

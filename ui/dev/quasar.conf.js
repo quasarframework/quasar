@@ -25,7 +25,23 @@ module.exports = function (ctx) {
     framework: {
       // iconSet: 'svg-mdi-v4',
       // config: { ripple: { early: true } },
-      importStrategy: 'all'
+      plugins: [
+        'AddressbarColor',
+        'AppFullscreen',
+        'AppVisibility',
+        'BottomSheet',
+        'Cookies',
+        'Dark',
+        'Dialog',
+        'Loading',
+        'LoadingBar',
+        'LocalStorage',
+        'Meta',
+        'Notify',
+        'Platform',
+        'Screen',
+        'SessionStorage'
+      ]
     },
 
     build: {

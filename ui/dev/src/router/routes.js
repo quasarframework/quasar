@@ -108,3 +108,6 @@ routes.push({
 })
 
 export default routes
+// export default [
+//   { path: '/', component: load('Index') }
+// ]
