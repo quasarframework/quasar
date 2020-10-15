@@ -118,13 +118,15 @@ module.exports = function (cfg, configName) {
 
   vueRule.use('vue-loader')
     .loader('vue-loader')
-    .options({
-      productionMode: cfg.ctx.prod,
-      compilerOptions: {
-        preserveWhitespace: false
-      },
-      transformAssetUrls: cfg.build.transformAssetUrls
-    })
+    .options(
+      merge(
+        cfg.build.vueLoaderOptions,
+        {
+          productionMode: cfg.ctx.prod,
+          compilerOptions: { ssr: configName === 'Server' }
+        }
+      )
+    )
 
   if (cfg.framework.importStrategy !== 'all' && configName !== 'Server') {
     chain.module.rule('transform-quasar-imports')
