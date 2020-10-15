@@ -54,6 +54,10 @@ function formatRouterBase (publicPath) {
   return formatPublicPath(match[5] || '')
 }
 
+function noopDirectiveTransform () {
+  return { props: [] }
+}
+
 function parseAssetProperty (prefix) {
   return asset => {
     if (typeof asset === 'string') {
@@ -178,6 +182,7 @@ class QuasarConfFile {
       },
       build: {
         transpileDependencies: [],
+        ssrDirectiveTransforms: {},
         vueLoaderOptions: {
           compilerOptions: {},
           transformAssetUrls: {}
@@ -393,6 +398,22 @@ class QuasarConfFile {
     cfg.framework.plugins = getUniqueArray(cfg.framework.plugins)
 
     cfg.build = merge({
+      ssrDirectiveTransforms: {
+        // TODO vue3 - talk with Evan. any better way to declare SSR transforms?
+        // TODO vue3 - move to UI package once JSON API is ready
+        'close-popup': noopDirectiveTransform,
+        intersection: noopDirectiveTransform,
+        morph: noopDirectiveTransform,
+        mutation: noopDirectiveTransform,
+        ripple: noopDirectiveTransform,
+        scroll: noopDirectiveTransform,
+        'scroll-fire': noopDirectiveTransform,
+        'touch-hold': noopDirectiveTransform,
+        'touch-pan': noopDirectiveTransform,
+        'touch-repeat': noopDirectiveTransform,
+        'touch-swipe': noopDirectiveTransform
+      },
+
       vueLoaderOptions: {
         compilerOptions: {},
         // TODO vue3 - revise transformAssetUrls after JSON API is done

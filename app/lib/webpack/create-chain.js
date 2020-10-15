@@ -123,7 +123,9 @@ module.exports = function (cfg, configName) {
         cfg.build.vueLoaderOptions,
         {
           productionMode: cfg.ctx.prod,
-          compilerOptions: { ssr: configName === 'Server' }
+          compilerOptions: configName === 'Server'
+            ? { directiveTransforms: cfg.build.ssrDirectiveTransforms, ssr: true }
+            : {}
         }
       )
     )
