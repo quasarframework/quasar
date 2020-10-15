@@ -1,7 +1,6 @@
-import { isSSR } from '../plugins/Platform.js'
 import { css } from './dom.js'
 
-const scrollTargets = isSSR === false
+const scrollTargets = __QUASAR_SSR__ === false
   ? [ null, document, document.body, document.scrollingElement, document.documentElement ]
   : []
 

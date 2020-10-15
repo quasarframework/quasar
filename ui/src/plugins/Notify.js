@@ -7,7 +7,6 @@ import QSpinner from '../components/spinner/QSpinner.js'
 
 import { noop } from '../utils/event.js'
 import { createGlobalNode } from '../utils/global-nodes.js'
-import { isSSR } from './Platform.js'
 
 let uid = 0, vm
 const defaults = {}
@@ -480,7 +479,7 @@ const Notifications = {
 
 export default {
   create (opts) {
-    if (isSSR === true) { return noop }
+    if (__QUASAR_SSR__) { return noop }
     if (vm !== void 0) {
       return vm.add(opts)
     }
@@ -489,13 +488,13 @@ export default {
     opts === Object(opts) && Object.assign(defaults, opts)
   },
   registerType (typeName, typeOpts) {
-    if (isSSR !== true && typeOpts === Object(typeOpts)) {
+    if (__QUASAR_SSR__ !== true && typeOpts === Object(typeOpts)) {
       notifTypes[typeName] = typeOpts
     }
   },
 
   install ({ cfg, $q }) {
-    if (isSSR === true) {
+    if (__QUASAR_SSR__) {
       $q.notify = noop
       $q.notify.setDefaults = noop
       return

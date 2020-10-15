@@ -1,5 +1,3 @@
-import { isSSR } from './Platform.js'
-
 function encode (string) {
   return encodeURIComponent(string)
 }
@@ -191,7 +189,7 @@ export default {
   },
 
   install ({ $q, queues }) {
-    if (isSSR === true) {
+    if (__QUASAR_SSR__) {
       queues.server.push((q, ctx) => {
         q.cookies = getObject(ctx.ssr)
       })

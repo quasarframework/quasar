@@ -2,9 +2,8 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-mixed-operators */
 
-export const isSSR = typeof window === 'undefined'
 export let fromSSR = false
-export let onSSR = isSSR
+export let onSSR = __QUASAR_SSR__
 
 export let iosEmulated = false
 export let iosCorrection
@@ -51,7 +50,7 @@ function getPlatformMatch (userAgent) {
     []
 }
 
-const hasTouch = isSSR === false
+const hasTouch = __QUASAR_SSR__ === false
   ? 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
   : false
 
@@ -203,7 +202,7 @@ function getPlatform (UA) {
   browser.name = matched.browser
   browser.platform = matched.platform
 
-  if (isSSR === false) {
+  if (__QUASAR_SSR__ === false) {
     if (userAgent.indexOf('electron') > -1) {
       browser.electron = true
     }
@@ -258,7 +257,7 @@ function getPlatform (UA) {
   return browser
 }
 
-const userAgent = isSSR !== true
+const userAgent = __QUASAR_SSR__ !== true
   ? navigator.userAgent || navigator.vendor || window.opera
   : ''
 
@@ -275,7 +274,7 @@ const ssrClient = {
 // for the client takeover;
 // Do NOT import this directly in your app, unless you really know
 // what you are doing.
-export const client = isSSR === false
+export const client = __QUASAR_SSR__ === false
   ? {
     userAgent,
     is: getPlatform(userAgent),
@@ -299,7 +298,7 @@ export const client = isSSR === false
 
 const Platform = {
   install ($q, queues) {
-    if (isSSR === true) {
+    if (__QUASAR_SSR__) {
       // we're on server-side, so we push
       // to the server queue instead of
       // applying directly
@@ -336,7 +335,7 @@ const Platform = {
   }
 }
 
-if (isSSR === true) {
+if (__QUASAR_SSR__) {
   Platform.parseSSR = (/* ssrContext */ ssr) => {
     const userAgent = ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent'] || ''
     return {

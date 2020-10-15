@@ -1,7 +1,6 @@
 import { h, createApp } from 'vue'
 
-import { appInstance } from '../install.js'
-import { isSSR } from '../plugins/Platform.js'
+import { appInstance } from '../install-quasar.js'
 import { createGlobalNode, removeGlobalNode } from './global-nodes.js'
 
 const ssrAPI = {
@@ -28,7 +27,7 @@ export function merge (target, source) {
 
 export default function (DefaultComponent, supportsCustomComponent) {
   return pluginProps => {
-    if (isSSR === true) { return ssrAPI }
+    if (__QUASAR_SSR__) { return ssrAPI }
 
     let DialogComponent, props
     const isCustom = supportsCustomComponent === true &&

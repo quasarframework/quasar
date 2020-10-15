@@ -1,6 +1,5 @@
 import { reactive } from 'vue'
 
-import { isSSR } from './plugins/Platform.js'
 import materialIcons from '../icon-set/material-icons.js'
 
 const state = reactive({
@@ -14,7 +13,7 @@ export default {
     this.set = (setObject, ssrContext) => {
       const def = { ...setObject }
 
-      if (isSSR === true) {
+      if (__QUASAR_SSR__) {
         if (ssrContext === void 0) {
           console.error('SSR ERROR: second param required: Quasar.iconSet.set(iconSet, ssrContext)')
           return
@@ -29,7 +28,7 @@ export default {
       }
     }
 
-    if (isSSR === true) {
+    if (__QUASAR_SSR__) {
       queues.server.push((q, ctx) => {
         q.iconSet = {}
         q.iconSet.set = setObject => {

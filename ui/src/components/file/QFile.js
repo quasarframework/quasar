@@ -6,7 +6,6 @@ import QChip from '../chip/QChip.js'
 import { FormFieldMixin } from '../../mixins/form.js'
 import FileMixin, { FileValueMixin } from '../../mixins/file.js'
 
-import { isSSR } from '../../plugins/Platform'
 import { humanStorageSize } from '../../utils/format.js'
 
 export default defineComponent({
@@ -16,7 +15,7 @@ export default defineComponent({
 
   props: {
     /* SSR does not know about File & FileList */
-    modelValue: isSSR === true
+    modelValue: __QUASAR_SSR__
       ? {}
       : [ File, FileList, Array ],
 

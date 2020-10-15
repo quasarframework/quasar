@@ -1,12 +1,10 @@
-import { isSSR } from '../plugins/Platform.js'
-
 export default {
   created () {
     this.__qCache = {}
   },
 
   methods: {
-    __getCache: isSSR === true
+    __getCache: __QUASAR_SSR__
       ? function (_, obj) { return obj }
       : function (key, obj) {
         return this.__qCache[key] === void 0
@@ -14,7 +12,7 @@ export default {
           : this.__qCache[key]
       },
 
-    __getCacheWithFn: isSSR === true
+    __getCacheWithFn: __QUASAR_SSR__
       ? function (_, fn) { return fn() }
       : function (key, fn) {
         return this.__qCache[key] === void 0

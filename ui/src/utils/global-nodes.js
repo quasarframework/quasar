@@ -1,7 +1,5 @@
-import { isSSR } from '../plugins/Platform.js'
-
 const globalNodes = []
-let target = isSSR === false
+let target = __QUASAR_SSR__ === false
   ? document.body
   : void 0
 

@@ -19,7 +19,8 @@ import vueDevtools from '@vue/devtools'
 import electron from 'electron'
 <% } %>
 
-import { Quasar, quasarPluginOptions } from './import-quasar.js'
+import { Quasar } from 'quasar'
+import quasarUserOptions from './quasar-user-options.js'
 
 <% if (ctx.mode.ssr && ctx.mode.pwa) { %>
 import { isRunningOnPWA } from './ssr-pwa'
@@ -78,7 +79,7 @@ export default async function (createAppFn<%= ctx.mode.ssr ? ', ssrContext' : ''
 
   app.use(router)
   <% if (store) { %>app.use(store)<% } %>
-  app.use(Quasar, quasarPluginOptions)
+  app.use(Quasar, quasarUserOptions)
 
   <% if (ctx.mode.electron && electron.nodeIntegration === true) { %>
   app.config.globalProperties.$q.electron = electron

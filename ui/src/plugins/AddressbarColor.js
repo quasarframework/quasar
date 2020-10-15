@@ -1,4 +1,4 @@
-import Platform, { isSSR } from './Platform.js'
+import Platform from './Platform.js'
 import { noop } from '../utils/event.js'
 import { getBrand } from '../utils/colors.js'
 
@@ -47,7 +47,7 @@ function setColor (hexColor) {
 
 export default {
   install ({ $q, cfg }) {
-    this.set = isSSR === false && Platform.is.mobile === true && (
+    this.set = __QUASAR_SSR__ === false && Platform.is.mobile === true && (
       Platform.is.nativeMobile === true ||
       Platform.is.winphone === true || Platform.is.safari === true ||
       Platform.is.webkit === true || Platform.is.vivaldi === true

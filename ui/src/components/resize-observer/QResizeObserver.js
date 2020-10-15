@@ -2,7 +2,6 @@ import { h, defineComponent } from 'vue'
 
 import { listenOpts } from '../../utils/event.js'
 import CanRenderMixin from '../../mixins/can-render.js'
-import { isSSR } from '../../plugins/Platform.js'
 
 export default defineComponent({
   name: 'QResizeObserver',
@@ -95,7 +94,7 @@ export default defineComponent({
 
   beforeCreate () {
     this.size = { width: -1, height: -1 }
-    if (isSSR === true) { return }
+    if (__QUASAR_SSR__) { return }
 
     this.hasObserver = typeof ResizeObserver !== 'undefined'
 

@@ -326,7 +326,8 @@ class QuasarConfFile {
     // make sure these exist
     cfg.__rootDefines = {
       __VUE_OPTIONS_API__: true,
-      __VUE_PROD_DEVTOOLS__: false
+      __VUE_PROD_DEVTOOLS__: false,
+      __QUASAR_SSR__: false
     }
     cfg.__needsAppMountHook = false
     cfg.__vueDevtools = false

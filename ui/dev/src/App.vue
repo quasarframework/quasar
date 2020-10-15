@@ -42,7 +42,7 @@
 
 <script>
 // eslint-disable-next-line no-unused-vars
-import Quasar, { Dark, createMetaMixin } from 'quasar'
+import { Quasar, Dark, createMetaMixin } from 'quasar'
 import languages from 'quasar/lang/index.json'
 
 export default {

@@ -4,6 +4,9 @@
  * to reference the contents here.
  */
 
-import * as ref from 'quasar'
+import * as components from 'quasar/src/components.js'
+import * as directives from 'quasar/src/directives.js'
+import * as plugins from 'quasar/src/plugins.js'
+import * as utils from 'quasar/src/utils.js'
 
-console.log('Quasar:', ref.default)
+console.log('Quasar:', components, directives, plugins, utils)

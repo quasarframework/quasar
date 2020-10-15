@@ -1,6 +1,6 @@
 import Platform from '../plugins/Platform.js'
 
-import { $q } from '../install.js'
+import { $q } from '../install-quasar.js'
 import { noop } from '../utils/event.js'
 
 function parseFeatures (winFeatures) {

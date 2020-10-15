@@ -3,7 +3,7 @@ import { position, stop, addEvt, cleanEvt } from '../utils/event.js'
 import { isKeyCode } from '../utils/key-composition.js'
 import { client } from '../plugins/Platform.js'
 import throttle from '../utils/throttle.js'
-import { $q } from '../install.js'
+import { $q } from '../install-quasar.js'
 
 function showRipple (evt, el, ctx, forceCenter) {
   ctx.modifiers.stop === true && stop(evt)

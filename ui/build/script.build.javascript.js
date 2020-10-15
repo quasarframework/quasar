@@ -7,6 +7,7 @@ const uglify = require('uglify-es')
 const buble = require('@rollup/plugin-buble')
 const json = require('@rollup/plugin-json')
 const nodeResolve = require('@rollup/plugin-node-resolve')
+const replace = require('@rollup/plugin-replace')
 
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
@@ -31,7 +32,7 @@ const builds = [
   {
     rollup: {
       input: {
-        input: resolve(`src/index.esm.js`)
+        input: resolve(`src/index.all.js`)
       },
       output: {
         file: resolve(`dist/quasar.esm.js`),
@@ -40,27 +41,31 @@ const builds = [
     },
     build: {
       minified: true,
-      minExt: false,
-      modern: true
+      modern: true,
+      replace: {
+        __QUASAR_SSR__: false
+      }
     }
   },
   {
     rollup: {
       input: {
-        input: resolve(`src/index.common.js`)
+        input: resolve(`src/index.all.js`)
       },
       output: {
-        file: resolve(`dist/quasar.common.js`),
+        file: resolve(`dist/quasar.cjs.js`),
         format: 'cjs'
       }
     },
     build: {
       minified: true,
-      minExt: false,
-      modern: true
+      modern: true,
+      replace: {
+        __QUASAR_SSR__: true
+      }
     }
   },
-  {
+  { // TODO vue3 - ie polyfills
     rollup: {
       input: {
         input: resolve('src/ie-compat/ie.js')
@@ -71,8 +76,7 @@ const builds = [
       }
     },
     build: {
-      minified: true,
-      minExt: false
+      minified: true
     }
   },
   {
@@ -101,7 +105,10 @@ const builds = [
     },
     build: {
       unminified: true,
-      minified: true
+      minified: true,
+      replace: {
+        __QUASAR_SSR__: false
+      }
     }
   },
   {
@@ -117,7 +124,10 @@ const builds = [
     build: {
       unminified: true,
       minified: true,
-      modern: true
+      modern: true,
+      replace: {
+        __QUASAR_SSR__: false
+      }
     }
   }
 ]
@@ -155,8 +165,12 @@ function build (builds) {
 
 function genConfig (opts) {
   opts.rollup.input.plugins = opts.build.modern === true
-    ? rollupPluginsModern
-    : rollupPluginsLegacy
+    ? [ ...rollupPluginsModern ]
+    : [ ...rollupPluginsLegacy ]
+
+  if (opts.build.replace !== void 0) {
+    opts.rollup.input.plugins.push(replace(opts.build.replace))
+  }
 
   opts.rollup.input.external = opts.rollup.input.external || []
   opts.rollup.input.external.push('vue')
@@ -170,7 +184,7 @@ function genConfig (opts) {
   return opts
 }
 
-function addExtension (filename, ext = 'min') {
+function addExtension (filename, ext = 'prod') {
   const insertionPoint = filename.lastIndexOf('.')
   return `${filename.slice(0, insertionPoint)}.${ext}${filename.slice(insertionPoint)}`
 }
@@ -222,9 +236,7 @@ function buildEntry (config) {
       }
 
       return buildUtils.writeFile(
-        config.build.minExt !== false
-          ? addExtension(config.rollup.output.file)
-          : config.rollup.output.file,
+        addExtension(config.rollup.output.file),
         buildConf.banner + minified.code,
         true
       )

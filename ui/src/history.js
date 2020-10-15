@@ -1,4 +1,4 @@
-import { isSSR, client } from './plugins/Platform.js'
+import { client } from './plugins/Platform.js'
 import { noop } from './utils/event.js'
 
 const getTrue = () => true
@@ -43,7 +43,7 @@ export default {
   remove: noop,
 
   install (cfg) {
-    if (isSSR === true) {
+    if (__QUASAR_SSR__) {
       return
     }
 

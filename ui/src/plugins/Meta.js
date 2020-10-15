@@ -1,4 +1,4 @@
-import { isSSR, fromSSR } from './Platform.js'
+import { fromSSR } from './Platform.js'
 import extend from '../utils/extend.js'
 
 let updateId, currentClientMeta
@@ -239,7 +239,7 @@ export function planClientUpdate () {
 
 export default {
   install ({ app, queues }) {
-    if (isSSR === true) {
+    if (__QUASAR_SSR__) {
       // TODO vue3 - SSR handling
 
       // app.config.globalProperties.$getMetaHTML = app => {

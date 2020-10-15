@@ -1,4 +1,4 @@
-import { isSSR, fromSSR } from './Platform.js'
+import { fromSSR } from './Platform.js'
 
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { listenOpts, noop } from '../utils/event.js'
@@ -42,7 +42,7 @@ export default defineReactivePlugin({
   setDebounce: noop,
 
   install ($q, queues, cfg) {
-    if (isSSR === true) {
+    if (__QUASAR_SSR__) {
       $q.screen = this
       return
     }

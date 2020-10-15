@@ -1,11 +1,10 @@
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
-import { isSSR } from './Platform.js'
 
 export default defineReactivePlugin({
   appVisible: false
 }, {
   install ({ $q }) {
-    if (isSSR === true) {
+    if (__QUASAR_SSR__) {
       this.appVisible = $q.appVisible = true
       return
     }

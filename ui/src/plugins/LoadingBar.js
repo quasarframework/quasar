@@ -1,7 +1,6 @@
 import { createApp, h } from 'vue'
 
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
-import { isSSR } from './Platform.js'
 import { noop } from '../utils/event.js'
 import { createGlobalNode } from '../utils/global-nodes.js'
 
@@ -16,7 +15,7 @@ export default defineReactivePlugin({
   setDefaults: noop,
 
   install ({ $q, cfg }) {
-    if (isSSR === true) {
+    if (__QUASAR_SSR__) {
       $q.loadingBar = this
       return
     }

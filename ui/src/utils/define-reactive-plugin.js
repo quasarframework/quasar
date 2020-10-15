@@ -1,8 +1,6 @@
 import { reactive } from 'vue'
 
-import { isSSR } from '../plugins/Platform.js'
-
-export default isSSR === true
+export default __QUASAR_SSR__
   ? (state, plugin) => {
     Object.assign(plugin, state)
     return plugin

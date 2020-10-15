@@ -1,4 +1,4 @@
-import { $q, queues } from './install.js'
+import { $q, queues } from './install-quasar.js'
 
 const mixin = {
   mounted () {

@@ -1,4 +1,4 @@
-import { isSSR, client, iosEmulated } from '../plugins/Platform.js'
+import { client, iosEmulated } from '../plugins/Platform.js'
 
 const directions = [ 'left', 'right', 'up', 'down', 'horizontal', 'vertical' ]
 
@@ -44,7 +44,7 @@ export function getModifierDirections (mod) {
   return dir
 }
 
-export const getTouchTarget = isSSR === false && iosEmulated !== true && (
+export const getTouchTarget = __QUASAR_SSR__ === false && iosEmulated !== true && (
   client.is.ios === true ||
   window.navigator.vendor.toLowerCase().indexOf('apple') > -1
 )

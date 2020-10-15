@@ -17,7 +17,7 @@ class Generator {
       'app.js',
       'client-entry.js',
       'client-prefetch.js',
-      'import-quasar.js'
+      'quasar-user-options.js'
     ]
 
     if (ctx.mode.ssr) {

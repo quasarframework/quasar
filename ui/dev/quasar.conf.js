@@ -54,7 +54,7 @@ module.exports = function (ctx) {
         const path = require('path')
 
         chain.resolve.alias
-          .set('quasar$', path.join(__dirname, '../src/index.esm.js'))
+          .set('quasar$', path.join(__dirname, '../src/index.all.js'))
           .set('quasar/dist/quasar.ie.polyfills.js$', path.join(__dirname, '../src/ie-compat/ie.js'))
           .set('quasar/dist/quasar.sass', path.join(__dirname, '../src/css/index.sass'))
           .set('quasar/icon-set', path.join(__dirname, '../icon-set'))

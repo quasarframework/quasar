@@ -1,11 +1,10 @@
 import { h, defineComponent } from 'vue'
 
 import { between } from '../../utils/format.js'
-import { isSSR } from '../../plugins/Platform.js'
 
 const
-  xhr = isSSR ? null : XMLHttpRequest,
-  send = isSSR ? null : xhr.prototype.send,
+  xhr = __QUASAR_SSR__ ? null : XMLHttpRequest,
+  send = __QUASAR_SSR__ ? null : xhr.prototype.send,
   stackStart = [],
   stackStop = []
 

@@ -1,5 +1,4 @@
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
-import { isSSR } from './Platform.js'
 import { changeGlobalNodesTarget } from '../utils/global-nodes.js'
 
 const prefixes = {}
@@ -57,7 +56,7 @@ const Plugin = defineReactivePlugin({
   install ({ $q }) {
     $q.fullscreen = this
 
-    if (isSSR === true) { return }
+    if (__QUASAR_SSR__) { return }
 
     prefixes.request = [
       'requestFullscreen',

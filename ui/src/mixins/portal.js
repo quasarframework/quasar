@@ -1,6 +1,5 @@
 import { h, Teleport } from 'vue'
 
-import { isSSR } from '../plugins/Platform.js'
 import { createGlobalNode, removeGlobalNode } from '../utils/global-nodes.js'
 import { noop } from '../utils/event.js'
 import { getParentVm } from '../utils/vm.js'
@@ -62,7 +61,7 @@ export function closePortals (vm, evt, depth) {
 // inheritAttrs in mixins is not inherited
 // so specify "inheritAttrs: false" in your component
 
-export default isSSR === true
+export default __QUASAR_SSR__
   ? { render: noop }
   : {
     data () {

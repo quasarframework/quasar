@@ -1,5 +1,3 @@
-import { isSSR } from '../plugins/Platform.js'
-
 import TimeoutMixin from './timeout.js'
 import EmitListenersMixins from './emit-listeners.js'
 
@@ -43,7 +41,7 @@ export default {
 
       const listener = this.emitListeners['onUpdate:modelValue'] === true
 
-      if (listener === true && isSSR === false) {
+      if (listener === true && __QUASAR_SSR__ === false) {
         this.$emit('update:modelValue', true)
         this.payload = evt
         this.$nextTick(() => {
@@ -53,7 +51,7 @@ export default {
         })
       }
 
-      if (this.modelValue === null || listener === false || isSSR === true) {
+      if (this.modelValue === null || listener === false || __QUASAR_SSR__) {
         this.__processShow(evt)
       }
     },
@@ -78,13 +76,13 @@ export default {
     },
 
     hide (evt) {
-      if (isSSR === true || this.disable === true) {
+      if (__QUASAR_SSR__ || this.disable === true) {
         return
       }
 
       const listener = this.emitListeners['onUpdate:modelValue'] === true
 
-      if (listener === true && isSSR === false) {
+      if (listener === true && __QUASAR_SSR__ === false) {
         this.$emit('update:modelValue', false)
         this.payload = evt
         this.$nextTick(() => {
@@ -94,7 +92,7 @@ export default {
         })
       }
 
-      if (this.modelValue === null || listener === false || isSSR === true) {
+      if (this.modelValue === null || listener === false || __QUASAR_SSR__) {
         this.__processHide(evt)
       }
     },

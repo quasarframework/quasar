@@ -1,5 +1,5 @@
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
-import { isSSR, fromSSR } from './Platform.js'
+import { fromSSR } from './Platform.js'
 import { noop } from '../utils/event.js'
 
 const Plugin = defineReactivePlugin({
@@ -11,7 +11,7 @@ const Plugin = defineReactivePlugin({
   install ($q, queues, { dark }) {
     this.isActive = dark === true
 
-    if (isSSR === true) {
+    if (__QUASAR_SSR__) {
       queues.server.push((q, ctx) => {
         q.dark = {
           isActive: false,

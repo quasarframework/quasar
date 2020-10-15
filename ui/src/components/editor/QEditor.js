@@ -7,7 +7,6 @@ import FullscreenMixin from '../../mixins/fullscreen.js'
 import DarkMixin from '../../mixins/dark.js'
 import SplitAttrsMixin from '../../mixins/split-attrs.js'
 
-import { isSSR } from '../../plugins/Platform.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'
 import { shouldIgnoreKey } from '../../utils/key-composition.js'
@@ -409,7 +408,7 @@ export default defineComponent({
   created () {
     this.caret = void 0
 
-    if (isSSR === false) {
+    if (__QUASAR_SSR__ === false) {
       document.execCommand('defaultParagraphSeparator', false, 'div')
       this.defaultFont = window.getComputedStyle(document.body).fontFamily
     }
@@ -460,7 +459,7 @@ export default defineComponent({
         class: this.innerClass,
         contenteditable: this.editable,
         placeholder: this.placeholder,
-        ...(isSSR === true
+        ...(__QUASAR_SSR__
           ? { innerHTML: this.modelValue }
           : {}),
         ...this.qListeners,

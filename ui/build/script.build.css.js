@@ -133,7 +133,7 @@ function generateStylusFiles ({ sources, name = '', styl }) {
 function generateUMD (name, code, ext = '') {
   return buildUtils.writeFile(`dist/quasar${name}${ext}.css`, code, true)
     .then(code => nano.process(code, { from: void 0 }))
-    .then(code => buildUtils.writeFile(`dist/quasar${name}${ext}.min.css`, code.css, true))
+    .then(code => buildUtils.writeFile(`dist/quasar${name}${ext}.prod.css`, code.css, true))
 }
 
 function getConcatenatedContent (src, noBanner) {

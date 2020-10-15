@@ -36,13 +36,9 @@ import iconSet from 'quasar/icon-set/<%= framework.iconSet %>'
     }
   })
 
-  importStatement = '{Quasar' + (importStatement.length ? ',' + importStatement.join(',') : '') + '}'
+  if (importStatement.length > 0) {
 %>
-import <%= importStatement %> from 'quasar'
+import <%= '{' + importStatement.join(',') + '}' %> from 'quasar'
+<% } %>
 
-const quasarPluginOptions = { <%= useStatement.join(',') %> }
-
-export {
-  Quasar,
-  quasarPluginOptions
-}
+export default { <%= useStatement.join(',') %> }

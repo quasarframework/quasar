@@ -1,5 +1,5 @@
 import { version } from '../package.json'
-import Platform, { isSSR } from './plugins/Platform.js'
+import Platform from './plugins/Platform.js'
 import Screen from './plugins/Screen.js'
 import Dark from './plugins/Dark.js'
 import History from './history.js'
@@ -21,13 +21,17 @@ export const $q = {
   config: {}
 }
 
+// TODO vue3 - handle SSR
 export let appInstance
 
 export default function (app, opts = {}) {
-  if (this.__qInstalled === true) { return }
-  this.__qInstalled = true
+  if (__QUASAR_SSR__ === false && this.__qInstalled === true) {
+    return
+  }
 
   appInstance = app
+
+  app.config.globalProperties.$q = $q
 
   const cfg = $q.config = Object.freeze(opts.config || {})
 
@@ -39,17 +43,6 @@ export default function (app, opts = {}) {
   History.install(cfg)
   Lang.install($q, queues, opts.lang)
   IconSet.install($q, queues, opts.iconSet)
-
-  if (isSSR === true) {
-    app.mixin({
-      beforeCreate () {
-        this.$q = this.$root.$options.$q
-      }
-    })
-  }
-  else {
-    app.config.globalProperties.$q = $q
-  }
 
   opts.components && Object.keys(opts.components).forEach(key => {
     const c = opts.components[key]
@@ -65,7 +58,7 @@ export default function (app, opts = {}) {
     }
   })
 
-  if (opts.plugins) {
+  if (opts.plugins && (__QUASAR_SSR__ === false || this.__qInstalled !== true)) {
     const param = { app, $q, queues, cfg }
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
@@ -74,4 +67,6 @@ export default function (app, opts = {}) {
       }
     })
   }
+
+  this.__qInstalled = true
 }

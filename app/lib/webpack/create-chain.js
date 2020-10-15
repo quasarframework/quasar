@@ -106,9 +106,11 @@ module.exports = function (cfg, configName) {
   const vueRule = chain.module.rule('vue')
     .test(/\.vue$/)
 
-  vueRule.use('quasar-auto-import')
-    .loader(path.join(__dirname, `loader.auto-import-${configName === 'Server' ? 'server' : 'client'}.js`))
-    .options(cfg.framework.autoImportComponentCase)
+  if (configName !== 'Server') {
+    vueRule.use('quasar-auto-import')
+      .loader(path.join(__dirname, `loader.auto-import.js`))
+      .options(cfg.framework.autoImportComponentCase)
+  }
 
   vueRule.use('vue-loader')
     .loader('vue-loader')
@@ -241,9 +243,13 @@ module.exports = function (cfg, configName) {
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin)
 
+  const rootDefines = configName === 'Server'
+    ? { ...cfg.__rootDefines, __QUASAR_SSR__: true }
+    : cfg.__rootDefines
+
   chain.plugin('define')
     .use(webpack.DefinePlugin, [
-      parseBuildEnv(cfg.build.env, cfg.__rootDefines)
+      parseBuildEnv(cfg.build.env, rootDefines)
     ])
 
   if (cfg.build.showProgress) {

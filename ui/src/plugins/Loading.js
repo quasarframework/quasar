@@ -3,7 +3,6 @@ import { h, createApp, Transition } from 'vue'
 import QSpinner from '../components/spinner/QSpinner.js'
 
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
-import { isSSR } from './Platform.js'
 import { createGlobalNode, removeGlobalNode } from '../utils/global-nodes.js'
 import { preventScroll } from '../mixins/prevent-scroll.js'
 
@@ -32,7 +31,7 @@ const Plugin = defineReactivePlugin({
   isActive: false
 }, {
   show (opts) {
-    if (isSSR === true) { return }
+    if (__QUASAR_SSR__) { return }
 
     props = opts === Object(opts) && opts.ignoreDefaults === true
       ? { ...originalDefaults, ...opts }
