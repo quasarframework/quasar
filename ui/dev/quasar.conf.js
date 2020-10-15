@@ -1,6 +1,7 @@
 module.exports = function (ctx) {
   return {
     boot: [
+      'force-hmr',
       ctx.mode.ssr ? { path: 'ssr-client', server: false } : ''
     ],
 
