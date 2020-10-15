@@ -604,7 +604,17 @@ function fillAPI (apiType) {
 }
 
 function writeTransformAssetUrls (components) {
-  const transformAssetUrls = {}
+  const transformAssetUrls = {
+    base: null,
+    includeAbsolute: false,
+    tags: {
+      video: ['src', 'poster'],
+      source: ['src'],
+      img: ['src'],
+      image: ['xlink:href', 'href'],
+      use: ['xlink:href', 'href']
+    }
+  }
 
   components.forEach(({ name, api }) => {
     if (api.props !== void 0) {
@@ -616,8 +626,8 @@ function writeTransformAssetUrls (components) {
           ? props
           : props[0]
 
-        transformAssetUrls[name] = props
-        transformAssetUrls[kebabCase(name)] = props
+        transformAssetUrls.tags[name] = props
+        transformAssetUrls.tags[kebabCase(name)] = props
       }
     }
   })

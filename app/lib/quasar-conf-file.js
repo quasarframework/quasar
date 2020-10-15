@@ -390,13 +390,18 @@ class QuasarConfFile {
     cfg.framework.plugins = getUniqueArray(cfg.framework.plugins)
 
     cfg.build = merge({
+      // TODO vue3 - revise transformAssetUrls after JSON API is done
       transformAssetUrls: Object.assign({
-        video: ['src', 'poster'],
-        source: 'src',
-        img: 'src',
-        image: ['xlink:href', 'href'],
-        use: ['xlink:href', 'href']
-      }, transformAssetUrls),
+        base: null,
+        includeAbsolute: false,
+        tags: {
+          video: ['src', 'poster'],
+          source: ['src'],
+          img: ['src'],
+          image: ['xlink:href', 'href'],
+          use: ['xlink:href', 'href']
+        }
+      }, transformAssetUrls, cfg.build.transformAssetUrls),
       showProgress: true,
       scopeHoisting: true,
       productName: this.pkg.productName,
