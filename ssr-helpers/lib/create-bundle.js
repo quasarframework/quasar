@@ -225,9 +225,10 @@ function loadBundle(bundle, basedir) {
 module.exports = function createBundle (opts) {
   const bundle = loadBundle(opts.serverManifest, opts.basedir)
   const evaluateModule = createEvaluateModule(bundle.files, opts)
+  const { rewriteErrorTrace } = createSourceMap(bundle.maps)
 
   return {
     evaluateEntry () { return evaluateModule(bundle.entry) },
-    rewriteErrorTrace: createSourceMap(bundle.maps)
+    rewriteErrorTrace
   }
 }
