@@ -1070,7 +1070,7 @@ The structure looks the same, but some functions have been renamed.
 
 - **removed**, use [QMenu](/vue-components/menu) with `context-menu` prop
 
-#### QDatePicker
+#### QDatetimePicker
 
 - **replaced** by [QDate](/vue-components/date)
 
