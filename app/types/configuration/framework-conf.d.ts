@@ -45,29 +45,14 @@ interface QuasarFrameworkInnerConfiguration {
   };
 }
 
-interface QuasarBaseFrameworkObjectConfiguration {
-  plugins?: (keyof QuasarPluginOptions["plugins"])[];
+interface QuasarFrameworkConfiguration {
   config?: DeepPartial<QuasarFrameworkInnerConfiguration>;
   iconSet?: QuasarIconSets;
   lang?: QuasarLanguageCodes;
   cssAddon?: boolean;
-}
-
-interface QuasarAutoFrameworkObjectConfiguration
-  extends QuasarBaseFrameworkObjectConfiguration {
-  importStrategy: "auto";
   /** @default 'kebab' */
   autoImportComponentCase?: "kebab" | "pascal" | "combined";
   components?: (keyof QuasarPluginOptions["components"])[];
   directives?: (keyof QuasarPluginOptions["directives"])[];
+  plugins?: (keyof QuasarPluginOptions["plugins"])[];
 }
-
-interface QuasarAllFrameworkObjectConfiguration
-  extends QuasarBaseFrameworkObjectConfiguration {
-  importStrategy: "all";
-}
-
-export type QuasarFrameworkConfiguration =
-  | "all" // Equal to `{ importStrategy: 'all' }`
-  | QuasarAutoFrameworkObjectConfiguration
-  | QuasarAllFrameworkObjectConfiguration;

@@ -198,6 +198,11 @@ class QuasarConfFile {
         }
       },
       devServer: {},
+      framework: {
+        components: [],
+        directives: [],
+        plugins: []
+      },
       animations: [],
       extras: [],
       sourceFiles: {},
@@ -227,13 +232,6 @@ class QuasarConfFile {
       htmlVariables: {}
     }, initialConf)
 
-    if (cfg.framework === void 0) {
-      cfg.framework = { importStrategy: 'auto' }
-    }
-    else if (cfg.framework === 'all') {
-      cfg.framework = { importStrategy: 'all' }
-    }
-
     if (cfg.animations === 'all') {
       cfg.animations = require('./helpers/animations')
     }
@@ -243,15 +241,6 @@ class QuasarConfFile {
     }
     if (!cfg.framework.config) {
       cfg.framework.config = {}
-    }
-
-    // legacy; left here so it won't break older App Extensions
-    if (!cfg.framework.components) {
-      cfg.framework.components = []
-    }
-    // legacy; left here so it won't break older App Extensions
-    if (!cfg.framework.directives) {
-      cfg.framework.directives = []
     }
 
     if (this.ctx.dev) {
@@ -319,7 +308,7 @@ class QuasarConfFile {
       const newConfigSnapshot = [
         cfg.build ? encode(cfg.build) : '',
         cfg.ssr ? cfg.ssr.pwa : '',
-        cfg.framework ? cfg.framework.importStrategy + cfg.framework.autoImportComponentCase : '',
+        cfg.framework ? cfg.framework.autoImportComponentCase : '',
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
         cfg.electron ? encode(cfg.electron) : '',
@@ -375,17 +364,12 @@ class QuasarConfFile {
       cfg.animations = getUniqueArray(cfg.animations)
     }
 
-    if (['all', 'auto'].includes(cfg.framework.importStrategy) === false) {
-      cfg.framework.importStrategy = 'auto'
-    }
-    if (cfg.framework.importStrategy === 'auto') {
-      if (!['kebab', 'pascal', 'combined'].includes(cfg.framework.autoImportComponentCase)) {
-        cfg.framework.autoImportComponentCase = 'kebab'
-      }
+    if (!['kebab', 'pascal', 'combined'].includes(cfg.framework.autoImportComponentCase)) {
+      cfg.framework.autoImportComponentCase = 'kebab'
     }
 
     // special case where a component can be designated for a framework > config prop
-    if (cfg.framework.importStrategy === 'auto' && cfg.framework.config && cfg.framework.config.loading) {
+    if (cfg.framework.config && cfg.framework.config.loading) {
       const component = cfg.framework.config.loading.spinner
       // Is a component and is a QComponent
       if (component !== void 0 && /^(Q[A-Z]|q-)/.test(component) === true) {
@@ -504,8 +488,8 @@ class QuasarConfFile {
       log(underline('Not transpiling JS'))
     }
 
-    cfg.__loadingBar = cfg.framework.importStrategy === 'all' || cfg.framework.plugins.includes('LoadingBar')
-    cfg.__meta = cfg.framework.importStrategy === 'all' || cfg.framework.plugins.includes('Meta')
+    cfg.__loadingBar = cfg.framework.plugins.includes('LoadingBar')
+    cfg.__meta = cfg.framework.plugins.includes('Meta')
 
     if (this.ctx.dev || this.ctx.debug) {
       Object.assign(cfg.build, {

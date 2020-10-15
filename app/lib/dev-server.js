@@ -148,8 +148,8 @@ module.exports = class DevServer {
     const clientCompiler = webpack(webpackConf.client)
 
     serverCompiler.hooks.done.tapAsync('done-compiling', ({ compilation: { errors, warnings, assets }}, cb) => {
-      errors.forEach(err => console.error(err))
-      warnings.forEach(err => console.warn(err))
+      errors.forEach(err => console.error('[Server]', err))
+      warnings.forEach(err => console.warn('[Server]', err))
 
       if (errors.length === 0) {
         serverManifest = JSON.parse(assets['../quasar.server-manifest.json'].source())
@@ -160,8 +160,8 @@ module.exports = class DevServer {
     })
 
     clientCompiler.hooks.done.tapAsync('done-compiling', ({ compilation: { errors, warnings, assets }}, cb) => {
-      errors.forEach(err => console.error(err))
-      warnings.forEach(err => console.warn(err))
+      errors.forEach(err => console.error('[Client]', err))
+      warnings.forEach(err => console.warn('[Client]', err))
 
       if (errors.length === 0) {
         if (cfg.ctx.mode.pwa) {

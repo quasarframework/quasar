@@ -10,7 +10,7 @@
  * Boot files are your "main.js"
  **/
 <%
-let useStatement = [ `config: ${JSON.stringify(framework.config)}` ]
+const useStatement = [ `config: ${JSON.stringify(framework.config)}` ]
 
 if (framework.lang) { %>
 import lang from 'quasar/lang/<%= framework.lang %>'
@@ -25,9 +25,7 @@ import iconSet from 'quasar/icon-set/<%= framework.iconSet %>'
 }
 %>
 
-<% if (framework.importStrategy === 'all') { %>
-import Quasar from 'quasar'
-<% } else {
+<%
   let importStatement = []
 
   ;['components', 'directives', 'plugins'].forEach(type => {
@@ -41,7 +39,6 @@ import Quasar from 'quasar'
   importStatement = '{Quasar' + (importStatement.length ? ',' + importStatement.join(',') : '') + '}'
 %>
 import <%= importStatement %> from 'quasar'
-<% } %>
 
 const quasarPluginOptions = { <%= useStatement.join(',') %> }
 

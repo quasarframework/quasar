@@ -83,12 +83,8 @@ interface BaseQuasarConfiguration {
   /** Add variables that you can use in index.template.html. */
   htmlVariables?: { [index: string]: string };
   /**
-   * What is the import strategy for Quasar,
-   * what Quasar language pack to use, what Quasar icon
+   * What Quasar language pack to use, what Quasar icon
    * set to use for Quasar components.
-   *
-   * When not specified it's treated as `{ importStrategy: 'auto' }`
-   * When equal to `all` it's treated as `{ importStrategy: 'all' }`
    */
   framework?: QuasarFrameworkConfiguration;
   /**

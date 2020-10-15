@@ -86,10 +86,6 @@ module.exports = function (cfg, configName) {
       'src-bex': appPaths.bexDir // needed for app/templates
     })
 
-  if (cfg.framework.importStrategy === 'all') {
-    chain.resolve.alias.set('quasar$', 'quasar/dist/quasar.esm.js')
-  }
-
   const vueFile = configName === 'Server'
     ? (cfg.ctx.prod ? 'vue.cjs.prod.js' : 'vue.cjs.js')
     : (
@@ -110,11 +106,9 @@ module.exports = function (cfg, configName) {
   const vueRule = chain.module.rule('vue')
     .test(/\.vue$/)
 
-  if (cfg.framework.importStrategy === 'auto') {
-    vueRule.use('quasar-auto-import')
-      .loader(path.join(__dirname, `loader.auto-import-${configName === 'Server' ? 'server' : 'client'}.js`))
-      .options(cfg.framework.autoImportComponentCase)
-  }
+  vueRule.use('quasar-auto-import')
+    .loader(path.join(__dirname, `loader.auto-import-${configName === 'Server' ? 'server' : 'client'}.js`))
+    .options(cfg.framework.autoImportComponentCase)
 
   vueRule.use('vue-loader')
     .loader('vue-loader')
@@ -130,7 +124,7 @@ module.exports = function (cfg, configName) {
       )
     )
 
-  if (cfg.framework.importStrategy !== 'all' && configName !== 'Server') {
+  if (configName !== 'Server') {
     chain.module.rule('transform-quasar-imports')
       .test(/\.(t|j)sx?$/)
       .use('transform-quasar-imports')
