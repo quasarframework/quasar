@@ -126,11 +126,11 @@
 
         <q-expansion-item expand-separator>
           <template v-slot:header>
-            <q-item-section avatar>
+            <!-- TODO vue3 - SSR import _imports_0 from vue-loader issue <q-item-section avatar>
               <q-avatar>
                 <img src="https://cdn.quasar.dev/img/boy-avatar.png">
               </q-avatar>
-            </q-item-section>
+            </q-item-section> -->
 
             <q-item-section>
               With Avatar
@@ -588,7 +588,7 @@
 
         <q-expansion-item icon="shopping_cart" label="Fourth Card">
           <q-card class="q-ma-md" flat>
-            <img src="~assets/map.png">
+            <!-- TODO vue3 - SSR import _imports_0 from vue-loader issue <img src="~assets/map.png"> -->
 
             <q-list>
               <q-item clickable>
