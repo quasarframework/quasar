@@ -62,8 +62,6 @@ module.exports = class DevServer {
 
   listenSSR (webpackConf, cfg, resolve) {
     const fs = require('fs')
-    // TODO vue3 - LRU cache
-    // const LRU = require('lru-cache')
     const express = require('express')
     const chokidar = require('chokidar')
     const { renderToString } = require('@vue/server-renderer')
@@ -124,11 +122,6 @@ module.exports = class DevServer {
           console.log(`${req.url} -> request took: ${Date.now() - startTime}ms`)
         })
         .catch(handleError)
-
-      // TODO vue3
-      // if (cfg.__meta) {
-      //   html = context.$getMetaHTML(html, context)
-      // }
     }
 
     const readyPromise = new Promise(r => { ready = r })

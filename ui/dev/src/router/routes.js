@@ -108,6 +108,10 @@ routes.push({
 })
 
 export default routes
+
+// function load (component) {
+//   return () => import('pages/' + component + '.vue')
+// }
 // export default [
 //   { path: '/', component: load('Index') }
 // ]

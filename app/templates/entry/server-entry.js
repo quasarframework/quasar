@@ -163,14 +163,7 @@ export default ssrContext => {
 
         <% if (store) { %>ssrContext.state = store.state<% } %>
 
-        // TODO vue3
-        // <% if (__meta) { %>
-        // const App = new Vue(app)
-        // context.$getMetaHTML = App.$getMetaHTML(App)
-        // resolve(App)
-        // <% } else { %>
         resolve(app)
-        // <% } %>
       })
       .catch(reject)
 
@@ -178,14 +171,7 @@ export default ssrContext => {
 
       <% if (store) { %>ssrContext.state = store.state<% } %>
 
-      // TODO vue3
-      // <% if (__meta) { %>
-      // const App = new Vue(app)
-      // context.$getMetaHTML = App.$getMetaHTML(App)
-      // resolve(App)
-      // <% } else { %>
       resolve(app)
-      // <% } %>
 
       <% } %>
     }).catch(reject)

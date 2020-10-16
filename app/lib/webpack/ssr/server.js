@@ -1,7 +1,27 @@
+const { existsSync } = require('fs')
+const { join, sep, normalize } = require('path')
 const nodeExternals = require('webpack-node-externals')
 const QuasarSSRServerPlugin = require('@quasar/ssr-helpers/webpack-server-plugin')
 
 const appPaths = require('../../app-paths')
+
+function getModuleDirs () {
+  const folders = []
+  let dir = appPaths.resolve.app('..')
+
+  while (dir.length && dir[dir.length - 1] !== sep) {
+    const newFolder = join(dir, 'node_modules')
+    if (existsSync(newFolder)) {
+      folders.push(newFolder)
+    }
+
+    dir = normalize(join(dir, '..'))
+  }
+
+  return folders
+}
+
+const additionalModuleDirs = getModuleDirs()
 
 module.exports = function (chain, cfg) {
   chain.entry('app')
@@ -29,7 +49,8 @@ module.exports = function (chain, cfg) {
     allowlist: [
       /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^@quasar[\\/]extras[\\/])/,
       ...cfg.build.transpileDependencies
-    ]
+    ],
+    additionalModuleDirs
   }))
 
   chain.plugin('define')

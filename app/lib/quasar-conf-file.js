@@ -326,7 +326,7 @@ class QuasarConfFile {
     // make sure these exist
     cfg.__rootDefines = {
       __VUE_OPTIONS_API__: true,
-      __VUE_PROD_DEVTOOLS__: false,
+      __VUE_PROD_DEVTOOLS__: this.ctx.dev || this.ctx.debug,
       __QUASAR_SSR__: false
     }
     cfg.__needsAppMountHook = false
