@@ -267,8 +267,8 @@ devServer: {
   vueDevtools: true
 }
 ```
-
-**Docker issues with HMR**. If you are using a Docker Container, you may find HMR stops working. HMR relies on the operating system to give notifications about changed files which may not work for your Docker Container. You can change this to polling by adding:
+#### Docker and WSL Issues with HRM
+If you are using a Docker Container, you may find HMR stops working. HMR relies on the operating system to give notifications about changed files which may not work for your Docker Container. You can change this to polling by adding:
 
 ```js
 devServer: {
