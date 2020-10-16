@@ -2,7 +2,7 @@
  * Forked from vue-bundle-runner v0.0.3 NPM package
  */
 
-const path = require('path')
+const { extname } = require('path')
 const createBundle = require('./lib/create-bundle')
 
 const jsRE = /\.js(\?[^.]+)?$/
@@ -15,10 +15,14 @@ const queryRE = /\?.*/
  * directly in the rendered HTML to avoid waterfall requests.
 */
 function createMapper (clientManifest) {
-  const map = createMap(clientManifest)
+  const map = new Map()
+
+  Object.keys(clientManifest.modules).forEach(id => {
+    map.set(id, mapIdToFile(id, clientManifest))
+  })
 
   // map server-side moduleIds to client-side files
-  return function mapper(moduleIds) {
+  return function mapper (moduleIds) {
     const res = new Set()
     for (let i = 0; i < moduleIds.length; i++) {
       const mapped = map.get(moduleIds[i])
@@ -32,24 +36,19 @@ function createMapper (clientManifest) {
   }
 }
 
-function createMap (clientManifest) {
-  const map = new Map()
-  Object.keys(clientManifest.modules).forEach(id => {
-    map.set(id, mapIdToFile(id, clientManifest))
-  })
-  return map
-}
-
 function mapIdToFile (id, clientManifest) {
   const files = []
   const fileIndices = clientManifest.modules[id]
 
-  if (fileIndices) {
+  if (fileIndices !== void 0) {
     fileIndices.forEach(index => {
       const file = clientManifest.all[index]
 
       // only include async files or non-js, non-css assets
-      if (clientManifest.async.includes(file) || !(/\.(js|css)($|\?)/.test(file))) {
+      if (
+        clientManifest.async.includes(file) ||
+        (/\.(js|css)($|\?)/.test(file) === false)
+      ) {
         files.push(file)
       }
     })
@@ -60,13 +59,12 @@ function mapIdToFile (id, clientManifest) {
 
 function normalizeFile (file) {
   const fileWithoutQuery = file.replace(queryRE, '')
-  const extension = path.extname(fileWithoutQuery).slice(1)
+  const extension = extname(fileWithoutQuery).slice(1)
 
   return {
     file,
     extension,
-    fileWithoutQuery,
-    asType: getPreloadType(extension)
+    fileWithoutQuery
   }
 }
 
@@ -76,41 +74,18 @@ function ensureTrailingSlash (path) {
     : path.replace(/([^/])$/, '$1/')
 }
 
-function getPreloadType(ext) {
-  if (ext === 'js') {
-    return 'script'
-  }
-  else if (ext === 'css') {
-    return 'style'
-  }
-  else if (/jpe?g|png|svg|gif|webp|ico/.test(ext)) {
-    return 'image'
-  }
-  else if (/woff2?|ttf|otf|eot/.test(ext)) {
-    return 'font'
-  }
-  else {
-    // not exhausting all possibilities here, but above covers common cases
-    return ''
-  }
-}
-
 function createRenderContext ({ clientManifest, publicPath }) {
   return {
     clientManifest,
     publicPath: ensureTrailingSlash(publicPath || clientManifest.publicPath || '/'),
-    // preload/prefetch directives
     preloadFiles: (clientManifest.initial || []).map(normalizeFile),
-    prefetchFiles: (clientManifest.async || []).map(normalizeFile),
-    // initial async chunk mapping
     mapFiles: createMapper(clientManifest)
   }
 }
 
-function renderStyles (ssrContext, renderContext) {
-  const initial = renderContext.preloadFiles || []
-  const async = getUsedAsyncFiles(ssrContext, renderContext) || []
-  const cssFiles = initial.concat(async).filter(({ file }) => cssRE.test(file))
+function renderStyles (ssrContext, renderContext, usedAsyncFiles) {
+  const initial = renderContext.preloadFiles
+  const cssFiles = initial.concat(usedAsyncFiles).filter(({ file }) => cssRE.test(file))
 
   return (
     // render links for css files
@@ -125,67 +100,10 @@ function renderStyles (ssrContext, renderContext) {
   )
 }
 
-function renderResourceHints (ssrContext, renderContext) {
-  return renderPreloadLinks(ssrContext, renderContext) +
-    renderPrefetchLinks(ssrContext, renderContext)
-}
-
-function renderPreloadLinks (ssrContext, renderContext) {
-  const files = getPreloadFiles(ssrContext, renderContext)
-  const shouldPreload = renderContext.shouldPreload
-
-  if (files.length) {
-    return files.map(({ file, extension, fileWithoutQuery, asType }) => {
-      // by default, we only preload scripts or css
-      if (!shouldPreload && asType !== 'script' && asType !== 'style') {
-        return ''
-      }
-
-      // user wants to explicitly control what to preload
-      if (shouldPreload && !shouldPreload(fileWithoutQuery, asType)) {
-        return ''
-      }
-
-      const href = `${renderContext.publicPath}${file}`
-      const as = asType !== '' ? ` as="${asType}"` : ''
-      const extra = asType === 'font'
-        ? ` type="font/${extension}" crossorigin`
-        : ''
-
-      return `<link rel="preload" href="${href}"${as}${extra}>`
-    }).join('')
-  }
-
-  return ''
-}
-
-function renderPrefetchLinks (ssrContext, renderContext) {
-  const shouldPrefetch = renderContext.shouldPrefetch
-
-  if (renderContext.prefetchFiles) {
-    const usedAsyncFiles = getUsedAsyncFiles(ssrContext, renderContext)
-    const alreadyRendered = (file) => usedAsyncFiles && usedAsyncFiles.some(f => f.file === file)
-
-    return renderContext.prefetchFiles.map(({ file, fileWithoutQuery, asType }) => {
-      if (shouldPrefetch && !shouldPrefetch(fileWithoutQuery, asType)) {
-        return ''
-      }
-
-      if (alreadyRendered(file)) {
-        return ''
-      }
-
-      return `<link rel="prefetch" href="${renderContext.publicPath}${file}">`
-    }).join('')
-  }
-
-  return ''
-}
-
-function renderScripts(ssrContext, renderContext) {
-  if (renderContext.clientManifest && renderContext.preloadFiles) {
+function renderScripts(renderContext, usedAsyncFiles) {
+  if (renderContext.preloadFiles.length > 0) {
     const initial = renderContext.preloadFiles.filter(({ file }) => jsRE.test(file))
-    const async = (getUsedAsyncFiles(ssrContext, renderContext) || []).filter(({ file }) => jsRE.test(file))
+    const async = usedAsyncFiles.filter(({ file }) => jsRE.test(file))
 
     return [ initial[0] ].concat(async, initial.slice(1))
       .map(({ file }) => `<script src="${renderContext.publicPath}${file}" defer></script>`)
@@ -193,23 +111,6 @@ function renderScripts(ssrContext, renderContext) {
   }
 
   return ''
-}
-
-function getPreloadFiles (ssrContext, renderContext) {
-  const usedAsyncFiles = getUsedAsyncFiles(ssrContext, renderContext);
-
-  return renderContext.preloadFiles || usedAsyncFiles
-    ? (renderContext.preloadFiles || []).concat(usedAsyncFiles || [])
-    : []
-}
-
-function getUsedAsyncFiles (ssrContext, renderContext) {
-  if (!ssrContext._mappedFiles && ssrContext._registeredComponents && renderContext.mapFiles) {
-    const registered = Array.from(ssrContext._registeredComponents)
-    ssrContext._mappedFiles = renderContext.mapFiles(registered).map(normalizeFile)
-  }
-
-  return ssrContext._mappedFiles || []
 }
 
 module.exports = function createRenderer (opts) {
@@ -236,12 +137,13 @@ module.exports = function createRenderer (opts) {
       const app = await runApp(ssrContext)
       const resourceApp = await opts.vueRenderToString(app, ssrContext)
 
+      const registered = Array.from(ssrContext._registeredComponents)
+      const usedAsyncFiles = renderContext.mapFiles(registered).map(normalizeFile)
+
       Object.assign(ssrContext._meta, {
         resourceApp,
-        // TODO vue3
-        // resourceHints: renderResourceHints(ssrContext, renderContext),
-        resourceStyles: renderStyles(ssrContext, renderContext),
-        resourceScripts: renderScripts(ssrContext, renderContext)
+        resourceStyles: renderStyles(ssrContext, renderContext, usedAsyncFiles),
+        resourceScripts: renderScripts(renderContext, usedAsyncFiles)
       })
 
       return renderTemplate(ssrContext)

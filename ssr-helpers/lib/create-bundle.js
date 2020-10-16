@@ -3,12 +3,10 @@
  */
 
 const path = require('path')
-const fs = require('fs')
 const vm = require('vm')
 const NativeModule = require('module')
 const { SourceMapConsumer } = require('source-map')
 
-const { isAbsolute, dirname } = path
 const filenameRE = /\(([^)]+\.js):(\d+):(\d+)\)$/
 const webpackRE = /^webpack:\/\/\//
 
@@ -109,7 +107,7 @@ function createEvaluateModule (files, { basedir, runningScriptOptions }) {
   return evaluateModule
 }
 
-function createSourceMap(rawMaps = {}) {
+function getRewriteErrorTrace (rawMaps) {
   const _consumersCache = {}
 
   function getConsumer (source) {
@@ -155,7 +153,7 @@ function createSourceMap(rawMaps = {}) {
     return trace
   }
 
-  async function rewriteErrorTrace (err) {
+  return async function (err) {
     if (err && typeof err.stack === 'string') {
       const stack = err.stack.split('\n')
       const newStack = await Promise.all(stack.map(rewriteTraceLine))
@@ -164,44 +162,9 @@ function createSourceMap(rawMaps = {}) {
 
     return err
   }
-
-  return { rewriteErrorTrace }
 }
 
 function loadBundle(bundle, basedir) {
-  let bundleFile = 'bundle.js'
-
-  // Load bundle if given filepath
-  if (typeof bundle === 'string' && /\.js(on)?$/.test(bundle) && isAbsolute(bundle)) {
-    bundleFile = bundle
-
-    if (!fs.existsSync(bundleFile)) {
-      throw new Error(`Cannot locate bundle file: ${bundleFile}`);
-    }
-
-    bundle = fs.readFileSync(bundleFile, 'utf-8')
-
-    if (/\.json$/.test(bundleFile)) {
-      try {
-        bundle = JSON.parse(bundle)
-      }
-      catch (e) {
-        throw new Error(`Invalid JSON bundle file: ${bundleFile}`)
-      }
-    }
-  }
-
-  if (typeof bundle === 'string') {
-    bundle = {
-      basedir: basedir || dirname(bundleFile),
-      maps: {},
-      entry: bundleFile,
-      files: {
-        [ bundleFile ]: bundle
-      }
-    }
-  }
-
   if (!bundle) {
     throw new Error('Cannot load bundle!')
   }
@@ -210,25 +173,20 @@ function loadBundle(bundle, basedir) {
     throw new Error('Invalid bundle! Entry missing')
   }
 
-  if (!bundle.maps) {
-    bundle.maps = {}
+  return {
+    maps: {},
+    files: {},
+    ...bundle,
+    basedir
   }
-
-  if (!bundle.files) {
-    bundle.files = {}
-  }
-
-  bundle.basedir = basedir || bundle.basedir || dirname(bundleFile)
-  return bundle
 }
 
 module.exports = function createBundle (opts) {
   const bundle = loadBundle(opts.serverManifest, opts.basedir)
   const evaluateModule = createEvaluateModule(bundle.files, opts)
-  const { rewriteErrorTrace } = createSourceMap(bundle.maps)
 
   return {
     evaluateEntry () { return evaluateModule(bundle.entry) },
-    rewriteErrorTrace
+    rewriteErrorTrace: getRewriteErrorTrace(bundle.maps)
   }
 }
