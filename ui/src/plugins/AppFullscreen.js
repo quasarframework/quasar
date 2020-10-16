@@ -56,7 +56,7 @@ const Plugin = defineReactivePlugin({
   install ({ $q }) {
     $q.fullscreen = this
 
-    if (__QUASAR_SSR__) { return }
+    if (__QUASAR_SSR_SERVER__) { return }
 
     prefixes.request = [
       'requestFullscreen',

@@ -1,6 +1,6 @@
 import { h, defineComponent, Transition } from 'vue'
 
-import { onSSR } from '../../plugins/Platform.js'
+import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import EmitListenersMixin from '../../mixins/emit-listeners.js'
 
@@ -37,7 +37,7 @@ export default defineComponent({
 
   data () {
     return {
-      showing: onSSR === true ? this.ssrPrerender : false
+      showing: isRuntimeSsrPreHydration === true ? this.ssrPrerender : false
     }
   },
 
@@ -56,7 +56,7 @@ export default defineComponent({
     },
 
     hasDirective () {
-      return this.disable !== true && (onSSR !== true || this.once !== true || this.ssrPrerender !== true)
+      return this.disable !== true && (isRuntimeSsrPreHydration !== true || this.once !== true || this.ssrPrerender !== true)
     },
 
     directives () {

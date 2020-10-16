@@ -1,4 +1,4 @@
-import { fromSSR } from './Platform.js'
+import { isRuntimeSsrPreHydration } from './Platform.js'
 import extend from '../utils/extend.js'
 
 let updateId, currentClientMeta
@@ -239,7 +239,7 @@ export function planClientUpdate () {
 
 export default {
   install ({ app, queues }) {
-    if (__QUASAR_SSR__) {
+    if (__QUASAR_SSR_SERVER__) {
       // TODO vue3 - SSR handling
 
       // app.config.globalProperties.$getMetaHTML = app => {
@@ -257,7 +257,7 @@ export default {
       //   })
       // })
     }
-    else if (fromSSR === true) {
+    else if (isRuntimeSsrPreHydration === true) {
       currentClientMeta = window.__Q_META__
     }
   }

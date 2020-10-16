@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { onSSR } from '../../plugins/Platform.js'
+import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
@@ -38,7 +38,7 @@ export default defineComponent({
     return {
       size: parseInt(this.heightHint, 10),
       revealed: true,
-      windowHeight: onSSR || this.layout.container ? 0 : window.innerHeight
+      windowHeight: isRuntimeSsrPreHydration === true || this.layout.container ? 0 : window.innerHeight
     }
   },
 

@@ -27,7 +27,7 @@ export function merge (target, source) {
 
 export default function (DefaultComponent, supportsCustomComponent) {
   return pluginProps => {
-    if (__QUASAR_SSR__) { return ssrAPI }
+    if (__QUASAR_SSR_SERVER__) { return ssrAPI }
 
     let DialogComponent, props
     const isCustom = supportsCustomComponent === true &&

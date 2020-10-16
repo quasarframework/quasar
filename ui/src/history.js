@@ -43,7 +43,7 @@ export default {
   remove: noop,
 
   install (cfg) {
-    if (__QUASAR_SSR__) {
+    if (__QUASAR_SSR_SERVER__) {
       return
     }
 

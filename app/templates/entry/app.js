@@ -21,11 +21,6 @@ import electron from 'electron'
 
 import { Quasar } from 'quasar'
 import quasarUserOptions from './quasar-user-options.js'
-
-<% if (ctx.mode.ssr && ctx.mode.pwa) { %>
-import { isRunningOnPWA } from './ssr-pwa'
-<% } %>
-
 import <%= __needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
 
 <% if (store) { %>
@@ -79,7 +74,7 @@ export default async function (createAppFn<%= ctx.mode.ssr ? ', ssrContext' : ''
 
   app.use(router)
   <% if (store) { %>app.use(store)<% } %>
-  app.use(Quasar, quasarUserOptions)
+  app.use(Quasar, quasarUserOptions<%= ctx.mode.ssr ? ', ssrContext' : '' %>)
 
   <% if (ctx.mode.electron && electron.nodeIntegration === true) { %>
   app.config.globalProperties.$q.electron = electron
@@ -87,16 +82,6 @@ export default async function (createAppFn<%= ctx.mode.ssr ? ', ssrContext' : ''
 
   <% if (ctx.mode.capacitor) { %>
   app.config.globalProperties.$q.capacitor = window.Capacitor
-  <% } %>
-
-  <% if (ctx.mode.ssr) { %>
-    <% if (ctx.mode.pwa) { %>
-      if (isRunningOnPWA !== true) {
-        Quasar.ssrUpdate({ app, ssr: ssrContext })
-      }
-    <% } else { %>
-      Quasar.ssrUpdate({ app, ssr: ssrContext })
-    <% } %>
   <% } %>
 
   // expose the app, the router and the store.

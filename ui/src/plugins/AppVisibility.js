@@ -4,7 +4,7 @@ export default defineReactivePlugin({
   appVisible: false
 }, {
   install ({ $q }) {
-    if (__QUASAR_SSR__) {
+    if (__QUASAR_SSR_SERVER__) {
       this.appVisible = $q.appVisible = true
       return
     }

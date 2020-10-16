@@ -408,7 +408,7 @@ export default defineComponent({
   created () {
     this.caret = void 0
 
-    if (__QUASAR_SSR__ === false) {
+    if (__QUASAR_SSR_SERVER__ !== true) {
       document.execCommand('defaultParagraphSeparator', false, 'div')
       this.defaultFont = window.getComputedStyle(document.body).fontFamily
     }
@@ -459,7 +459,7 @@ export default defineComponent({
         class: this.innerClass,
         contenteditable: this.editable,
         placeholder: this.placeholder,
-        ...(__QUASAR_SSR__
+        ...(__QUASAR_SSR_SERVER__
           ? { innerHTML: this.modelValue }
           : {}),
         ...this.qListeners,

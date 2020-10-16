@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { onSSR } from '../../plugins/Platform.js'
+import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import EmitListenersMixin from '../../mixins/emit-listeners.js'
 
@@ -38,7 +38,7 @@ export default defineComponent({
 
       // container only prop
       containerHeight: 0,
-      scrollbarWidth: onSSR === true ? 0 : getScrollbarWidth(),
+      scrollbarWidth: isRuntimeSsrPreHydration === true ? 0 : getScrollbarWidth(),
 
       header: {
         size: 0,

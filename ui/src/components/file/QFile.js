@@ -15,7 +15,7 @@ export default defineComponent({
 
   props: {
     /* SSR does not know about File & FileList */
-    modelValue: __QUASAR_SSR__
+    modelValue: __QUASAR_SSR_SERVER__
       ? {}
       : [ File, FileList, Array ],
 

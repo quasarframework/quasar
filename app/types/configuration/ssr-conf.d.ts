@@ -1,5 +1,4 @@
-import { Options as LruCacheOptions } from "lru-cache";
-
+// TODO vue3 - add directiveTransforms type from vue pkg
 export interface QuasarSsrConfiguration {
   /**
    * If a PWA should take over or just a SPA.
@@ -9,7 +8,6 @@ export interface QuasarSsrConfiguration {
    * @default false
    */
   pwa?: boolean | object;
-  componentCache?: LruCacheOptions<any, any>;
 
   /**
    * @version `@quasar/app` 1.9.6+

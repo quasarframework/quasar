@@ -1,4 +1,4 @@
-import { fromSSR } from './Platform.js'
+import { isRuntimeSsrPreHydration } from './Platform.js'
 
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { listenOpts, noop } from '../utils/event.js'
@@ -42,7 +42,7 @@ export default defineReactivePlugin({
   setDebounce: noop,
 
   install ($q, queues, cfg) {
-    if (__QUASAR_SSR__) {
+    if (__QUASAR_SSR_SERVER__) {
       $q.screen = this
       return
     }
@@ -155,7 +155,7 @@ export default defineReactivePlugin({
         document.body.classList.add(`screen--xs`)
     }
 
-    if (fromSSR === true) {
+    if (isRuntimeSsrPreHydration === true) {
       queues.takeover.push(start)
     }
     else {

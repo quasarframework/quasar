@@ -31,7 +31,7 @@ const Plugin = defineReactivePlugin({
   isActive: false
 }, {
   show (opts) {
-    if (__QUASAR_SSR__) { return }
+    if (__QUASAR_SSR_SERVER__) { return }
 
     props = opts === Object(opts) && opts.ignoreDefaults === true
       ? { ...originalDefaults, ...opts }

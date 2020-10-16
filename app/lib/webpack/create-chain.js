@@ -25,6 +25,18 @@ function getDependenciesRegex (list) {
   return new RegExp(deps.join('|'))
 }
 
+function getRootDefines (rootDefines, configName) {
+  if (configName === 'Server') {
+    return { ...rootDefines, __QUASAR_SSR_SERVER__: true }
+  }
+
+  if (configName === 'Client') {
+    return { ...rootDefines, __QUASAR_SSR_CLIENT__: true }
+  }
+
+  return rootDefines
+}
+
 module.exports = function (cfg, configName) {
   const chain = new WebpackChain()
 
@@ -120,7 +132,7 @@ module.exports = function (cfg, configName) {
         {
           productionMode: cfg.ctx.prod,
           compilerOptions: configName === 'Server'
-            ? { directiveTransforms: cfg.build.ssrDirectiveTransforms, ssr: true }
+            ? { directiveTransforms: cfg.ssr.directiveTransforms, ssr: true }
             : {}
         }
       )
@@ -243,13 +255,9 @@ module.exports = function (cfg, configName) {
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin)
 
-  const rootDefines = configName === 'Server'
-    ? { ...cfg.__rootDefines, __QUASAR_SSR__: true }
-    : cfg.__rootDefines
-
   chain.plugin('define')
     .use(webpack.DefinePlugin, [
-      parseBuildEnv(cfg.build.env, rootDefines)
+      parseBuildEnv(cfg.build.env, getRootDefines(cfg.__rootDefines, configName))
     ])
 
   if (cfg.build.showProgress) {

@@ -1,10 +1,10 @@
 import { reactive } from 'vue'
 
 import langEn from '../lang/en-us.js'
-import { fromSSR } from './plugins/Platform.js'
+import { isRuntimeSsrPreHydration } from './plugins/Platform.js'
 
 function getLocale () {
-  if (__QUASAR_SSR__) { return }
+  if (__QUASAR_SSR_SERVER__) { return }
 
   const val =
     navigator.language ||
@@ -31,7 +31,7 @@ export default {
         getLocale
       }
 
-      if (__QUASAR_SSR__) {
+      if (__QUASAR_SSR_SERVER__) {
         if (ssrContext === void 0) {
           console.error('SSR ERROR: second param required: Quasar.lang.set(lang, ssrContext)')
           return
@@ -50,7 +50,7 @@ export default {
         ssrContext.$q.lang = lang
       }
       else {
-        if (fromSSR === false) {
+        if (isRuntimeSsrPreHydration === false) {
           const el = document.documentElement
           el.setAttribute('dir', lang.rtl === true ? 'rtl' : 'ltr')
           el.setAttribute('lang', lang.isoName)
@@ -63,7 +63,7 @@ export default {
       }
     }
 
-    if (__QUASAR_SSR__) {
+    if (__QUASAR_SSR_SERVER__) {
       queues.server.push((q, ctx) => {
         q.lang = {}
         q.lang.set = langObject => {

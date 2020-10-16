@@ -72,7 +72,7 @@ function redirectBrowser (url, router, reject) {
 // return a Promise that resolves to the app instance.
 export default ssrContext => {
   return new Promise(async (resolve, reject) => {
-    const { app, <%= store ? 'store, ' : '' %>router } = await createQuasarApp(createApp, ssrContext)
+    const { app, router<%= store ? ', store' : '' %> } = await createQuasarApp(createApp, ssrContext)
 
     <% if (bootNames.length > 0) { %>
     let hasRedirected = false

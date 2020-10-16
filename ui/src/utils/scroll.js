@@ -1,8 +1,8 @@
 import { css } from './dom.js'
 
-const scrollTargets = __QUASAR_SSR__ === false
-  ? [ null, document, document.body, document.scrollingElement, document.documentElement ]
-  : []
+const scrollTargets = __QUASAR_SSR_SERVER__
+  ? []
+  : [ null, document, document.body, document.scrollingElement, document.documentElement ]
 
 export function getScrollTarget (el, target) {
   if (typeof target === 'string') {

@@ -182,7 +182,6 @@ class QuasarConfFile {
       },
       build: {
         transpileDependencies: [],
-        ssrDirectiveTransforms: {},
         vueLoaderOptions: {
           compilerOptions: {},
           transformAssetUrls: {}
@@ -207,7 +206,7 @@ class QuasarConfFile {
       extras: [],
       sourceFiles: {},
       ssr: {
-        componentCache: {}
+        directiveTransforms: {}
       },
       pwa: {
         workboxOptions: {},
@@ -302,12 +301,13 @@ class QuasarConfFile {
       await hook.fn(cfg, hook.api)
     })
 
-    // if watching for changes,
-    // then determine the type (webpack related or not)
+    // If watching for changes then determine the type of them (webpack or not).
+    // The snapshot below should only contain webpack config:
     if (this.watch) {
       const newConfigSnapshot = [
         cfg.build ? encode(cfg.build) : '',
-        cfg.ssr ? cfg.ssr.pwa : '',
+        cfg.ssr && cfg.ssr.pwa ? encode(cfg.ssr.pwa) : '',
+        cfg.ssr && cfg.ssr.directiveTransforms ? encode(cfg.ssr.directiveTransforms) : '',
         cfg.framework ? cfg.framework.autoImportComponentCase : '',
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
@@ -326,8 +326,12 @@ class QuasarConfFile {
     // make sure these exist
     cfg.__rootDefines = {
       __VUE_OPTIONS_API__: true,
-      __VUE_PROD_DEVTOOLS__: this.ctx.dev || this.ctx.debug,
-      __QUASAR_SSR__: false
+      __VUE_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true,
+
+      __QUASAR_SSR__: this.ctx.mode.ssr === true,
+      __QUASAR_SSR_SERVER__: false,
+      __QUASAR_SSR_CLIENT__: false,
+      __QUASAR_SSR_PWA__: false
     }
     cfg.__needsAppMountHook = false
     cfg.__vueDevtools = false
@@ -383,22 +387,6 @@ class QuasarConfFile {
     cfg.framework.plugins = getUniqueArray(cfg.framework.plugins)
 
     cfg.build = merge({
-      ssrDirectiveTransforms: {
-        // TODO vue3 - talk with Evan. any better way to declare SSR transforms?
-        // TODO vue3 - move to UI package once JSON API is ready
-        'close-popup': noopDirectiveTransform,
-        intersection: noopDirectiveTransform,
-        morph: noopDirectiveTransform,
-        mutation: noopDirectiveTransform,
-        ripple: noopDirectiveTransform,
-        scroll: noopDirectiveTransform,
-        'scroll-fire': noopDirectiveTransform,
-        'touch-hold': noopDirectiveTransform,
-        'touch-pan': noopDirectiveTransform,
-        'touch-repeat': noopDirectiveTransform,
-        'touch-swipe': noopDirectiveTransform
-      },
-
       vueLoaderOptions: {
         compilerOptions: {},
         // TODO vue3 - revise transformAssetUrls after JSON API is done
@@ -579,9 +567,20 @@ class QuasarConfFile {
       cfg.ssr = merge({
         pwa: false,
         manualHydration: false,
-        componentCache: {
-          max: 1000,
-          maxAge: 1000 * 60 * 15
+        directiveTransforms: {
+          // TODO vue3 - talk with Evan. any better way to declare SSR transforms?
+          // TODO vue3 - move to UI package once JSON API is ready
+          'close-popup': noopDirectiveTransform,
+          intersection: noopDirectiveTransform,
+          morph: noopDirectiveTransform,
+          mutation: noopDirectiveTransform,
+          ripple: noopDirectiveTransform,
+          scroll: noopDirectiveTransform,
+          'scroll-fire': noopDirectiveTransform,
+          'touch-hold': noopDirectiveTransform,
+          'touch-pan': noopDirectiveTransform,
+          'touch-repeat': noopDirectiveTransform,
+          'touch-swipe': noopDirectiveTransform
         }
       }, cfg.ssr)
 
@@ -602,8 +601,10 @@ class QuasarConfFile {
 
       if (cfg.ssr.pwa) {
         await require('./mode/install-missing')('pwa')
+        this.__rootDefines.__QUASAR_SSR_PWA__ = true
       }
-      this.ctx.mode.pwa = cfg.ctx.mode.pwa = cfg.ssr.pwa !== false
+
+      this.ctx.mode.pwa = cfg.ctx.mode.pwa = !!cfg.ssr.pwa
     }
 
     if (this.ctx.dev) {

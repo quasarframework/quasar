@@ -19,13 +19,16 @@ module.exports = {
     'vue'
   ],
   globals: {
-    'cordova': true,
-    '__THEME__': true,
-    '__statics': true,
-    '__QUASAR_SSR__': true
+    cordova: true,
+    __THEME__: true,
+    __statics: true,
+    __QUASAR_SSR__: true,
+    __QUASAR_SSR_SERVER__: true,
+    __QUASAR_SSR_CLIENT__: true,
+    __QUASAR_SSR_PWA__: true
   },
   // add your custom rules here
-  'rules': {
+  rules: {
     'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],
     'prefer-const': 2,
 

@@ -1,6 +1,6 @@
 import { h, defineComponent, Transition } from 'vue'
 
-import { fromSSR } from '../../plugins/Platform.js'
+import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
@@ -546,7 +546,7 @@ export default defineComponent({
   },
 
   mounted () {
-    if (fromSSR === true && this.for === void 0) {
+    if (isRuntimeSsrPreHydration === true && this.for === void 0) {
       this.targetUid = getTargetUid()
     }
 

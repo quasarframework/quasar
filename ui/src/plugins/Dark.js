@@ -1,5 +1,5 @@
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
-import { fromSSR } from './Platform.js'
+import { isRuntimeSsrPreHydration } from './Platform.js'
 import { noop } from '../utils/event.js'
 
 const Plugin = defineReactivePlugin({
@@ -11,7 +11,7 @@ const Plugin = defineReactivePlugin({
   install ($q, queues, { dark }) {
     this.isActive = dark === true
 
-    if (__QUASAR_SSR__) {
+    if (__QUASAR_SSR_SERVER__) {
       queues.server.push((q, ctx) => {
         q.dark = {
           isActive: false,
@@ -40,7 +40,7 @@ const Plugin = defineReactivePlugin({
       ? dark
       : false
 
-    if (fromSSR === true) {
+    if (isRuntimeSsrPreHydration === true) {
       const ssrSet = val => {
         this.__fromSSR = val
       }

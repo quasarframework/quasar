@@ -13,7 +13,7 @@ export default {
     this.set = (setObject, ssrContext) => {
       const def = { ...setObject }
 
-      if (__QUASAR_SSR__) {
+      if (__QUASAR_SSR_SERVER__) {
         if (ssrContext === void 0) {
           console.error('SSR ERROR: second param required: Quasar.iconSet.set(iconSet, ssrContext)')
           return
@@ -28,7 +28,7 @@ export default {
       }
     }
 
-    if (__QUASAR_SSR__) {
+    if (__QUASAR_SSR_SERVER__) {
       queues.server.push((q, ctx) => {
         q.iconSet = {}
         q.iconSet.set = setObject => {

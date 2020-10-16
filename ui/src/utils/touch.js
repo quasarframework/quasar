@@ -44,7 +44,7 @@ export function getModifierDirections (mod) {
   return dir
 }
 
-export const getTouchTarget = __QUASAR_SSR__ === false && iosEmulated !== true && (
+export const getTouchTarget = __QUASAR_SSR_SERVER__ !== true && iosEmulated !== true && (
   client.is.ios === true ||
   window.navigator.vendor.toLowerCase().indexOf('apple') > -1
 )

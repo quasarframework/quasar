@@ -2,8 +2,19 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-mixed-operators */
 
-export let fromSSR = false
-export let onSSR = __QUASAR_SSR__
+/**
+ * __QUASAR_SSR__            -> runs on SSR on client or server
+ * __QUASAR_SSR_SERVER__     -> runs on SSR on server
+ * __QUASAR_SSR_CLIENT__     -> runs on SSR on client
+ * __QUASAR_SSR_PWA__        -> built with SSR+PWA; may run on SSR on client or on PWA client
+ *                              (needs runtime detection)
+ */
+
+export let isRuntimeSsrPreHydration = __QUASAR_SSR_SERVER__ || (
+  __QUASAR_SSR_CLIENT__ && (
+    __QUASAR_SSR_PWA__ ? document.body.getAttribute('data-server-rendered') !== null : true
+  )
+)
 
 export let iosEmulated = false
 export let iosCorrection
@@ -50,9 +61,9 @@ function getPlatformMatch (userAgent) {
     []
 }
 
-const hasTouch = __QUASAR_SSR__ === false
-  ? 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
-  : false
+const hasTouch = __QUASAR_SSR_SERVER__
+  ? false
+  : 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
 
 function applyIosCorrection (is) {
   iosCorrection = { is: { ...is } }
@@ -202,7 +213,7 @@ function getPlatform (UA) {
   browser.name = matched.browser
   browser.platform = matched.platform
 
-  if (__QUASAR_SSR__ === false) {
+  if (__QUASAR_SSR_SERVER__ !== true) {
     if (userAgent.indexOf('electron') > -1) {
       browser.electron = true
     }
@@ -244,22 +255,14 @@ function getPlatform (UA) {
         applyIosCorrection(browser)
       }
     }
-
-    fromSSR = browser.nativeMobile === void 0 &&
-      browser.electron === void 0 &&
-      document.querySelector('[data-server-rendered]') !== null
-
-    if (fromSSR === true) {
-      onSSR = true
-    }
   }
 
   return browser
 }
 
-const userAgent = __QUASAR_SSR__ !== true
-  ? navigator.userAgent || navigator.vendor || window.opera
-  : ''
+const userAgent = __QUASAR_SSR_SERVER__
+  ? ''
+  : navigator.userAgent || navigator.vendor || window.opera
 
 const ssrClient = {
   has: {
@@ -274,8 +277,9 @@ const ssrClient = {
 // for the client takeover;
 // Do NOT import this directly in your app, unless you really know
 // what you are doing.
-export const client = __QUASAR_SSR__ === false
-  ? {
+export const client = __QUASAR_SSR_SERVER__
+  ? ssrClient
+  : {
     userAgent,
     is: getPlatform(userAgent),
     has: {
@@ -294,11 +298,10 @@ export const client = __QUASAR_SSR__ === false
       iframe: window.self !== window.top
     }
   }
-  : ssrClient
 
 const Platform = {
   install ($q, queues) {
-    if (__QUASAR_SSR__) {
+    if (__QUASAR_SSR_SERVER__) {
       // we're on server-side, so we push
       // to the server queue instead of
       // applying directly
@@ -306,7 +309,7 @@ const Platform = {
         q.platform = this.parseSSR(ctx.ssr)
       })
     }
-    else if (fromSSR === true) {
+    else if (isRuntimeSsrPreHydration === true) {
       // must match with server-side before
       // client taking over in order to prevent
       // hydration errors
@@ -316,7 +319,7 @@ const Platform = {
       // the rest of the props; we also avoid
       // hydration errors
       queues.takeover.push(q => {
-        onSSR = fromSSR = false
+        isRuntimeSsrPreHydration = false
         Object.assign(q.platform, client)
         iosCorrection = void 0
       })
@@ -335,7 +338,7 @@ const Platform = {
   }
 }
 
-if (__QUASAR_SSR__) {
+if (__QUASAR_SSR_SERVER__) {
   Platform.parseSSR = (/* ssrContext */ ssr) => {
     const userAgent = ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent'] || ''
     return {

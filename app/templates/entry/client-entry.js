@@ -85,7 +85,7 @@ const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 <% } %>
 
 async function start () {
-  const { app, <%= store ? 'store, ' : '' %>router } = await createQuasarApp(<%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %>)
+  const { app, router<%= store ? ', store' : '' %> } = await createQuasarApp(<%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %>)
 
   <% if (ctx.mode.ssr && store && ssr.manualHydration !== true) { %>
   // prime the store with server-initialized state.

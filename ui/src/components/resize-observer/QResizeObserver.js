@@ -94,7 +94,7 @@ export default defineComponent({
 
   beforeCreate () {
     this.size = { width: -1, height: -1 }
-    if (__QUASAR_SSR__) { return }
+    if (__QUASAR_SSR_SERVER__) { return }
 
     this.hasObserver = typeof ResizeObserver !== 'undefined'
 

@@ -47,7 +47,7 @@ function setColor (hexColor) {
 
 export default {
   install ({ $q, cfg }) {
-    this.set = __QUASAR_SSR__ === false && Platform.is.mobile === true && (
+    this.set = __QUASAR_SSR_SERVER__ !== true && Platform.is.mobile === true && (
       Platform.is.nativeMobile === true ||
       Platform.is.winphone === true || Platform.is.safari === true ||
       Platform.is.webkit === true || Platform.is.vivaldi === true

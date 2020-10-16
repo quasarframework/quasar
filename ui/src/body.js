@@ -1,7 +1,7 @@
 import { setBrand } from './utils/colors.js'
 import { noop } from './utils/event.js'
 import { onKeyDownComposition } from './utils/key-composition.js'
-import { fromSSR, client, iosCorrection } from './plugins/Platform.js'
+import { isRuntimeSsrPreHydration, client, iosCorrection } from './plugins/Platform.js'
 
 function getMobilePlatform (is) {
   if (is.ios === true) return 'ios'
@@ -74,7 +74,7 @@ function setColors (brand) {
 
 export default {
   install (queues, cfg) {
-    if (__QUASAR_SSR__) {
+    if (__QUASAR_SSR_SERVER__) {
       queues.server.push((q, ctx) => {
         const
           cls = getBodyClasses(q.platform, cfg),
@@ -95,7 +95,7 @@ export default {
       return
     }
 
-    if (fromSSR === true) {
+    if (isRuntimeSsrPreHydration === true) {
       clientUpdate()
     }
     else {

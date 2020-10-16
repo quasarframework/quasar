@@ -61,7 +61,7 @@ export function closePortals (vm, evt, depth) {
 // inheritAttrs in mixins is not inherited
 // so specify "inheritAttrs: false" in your component
 
-export default __QUASAR_SSR__
+export default __QUASAR_SSR_SERVER__
   ? { render: noop }
   : {
     data () {

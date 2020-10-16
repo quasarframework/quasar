@@ -41,7 +41,7 @@ export default {
 
       const listener = this.emitListeners['onUpdate:modelValue'] === true
 
-      if (listener === true && __QUASAR_SSR__ === false) {
+      if (listener === true && __QUASAR_SSR_SERVER__ !== true) {
         this.$emit('update:modelValue', true)
         this.payload = evt
         this.$nextTick(() => {
@@ -51,7 +51,7 @@ export default {
         })
       }
 
-      if (this.modelValue === null || listener === false || __QUASAR_SSR__) {
+      if (this.modelValue === null || listener === false || __QUASAR_SSR_SERVER__) {
         this.__processShow(evt)
       }
     },
@@ -76,13 +76,13 @@ export default {
     },
 
     hide (evt) {
-      if (__QUASAR_SSR__ || this.disable === true) {
+      if (__QUASAR_SSR_SERVER__ || this.disable === true) {
         return
       }
 
       const listener = this.emitListeners['onUpdate:modelValue'] === true
 
-      if (listener === true && __QUASAR_SSR__ === false) {
+      if (listener === true && __QUASAR_SSR_SERVER__ !== true) {
         this.$emit('update:modelValue', false)
         this.payload = evt
         this.$nextTick(() => {
@@ -92,7 +92,7 @@ export default {
         })
       }
 
-      if (this.modelValue === null || listener === false || __QUASAR_SSR__) {
+      if (this.modelValue === null || listener === false || __QUASAR_SSR_SERVER__) {
         this.__processHide(evt)
       }
     },

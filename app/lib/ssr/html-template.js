@@ -4,6 +4,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { fillBaseTag } = require('../webpack/plugin.html-addons')
 const { fillPwaTags } = require('../webpack/pwa/plugin.html-pwa')
 
+/*
+ * _meta is initialized from ssr-helpers/create-renderer
+ * _meta.resource[X] is generated from ssr-helpers/create-renderer
+ */
+
 function injectSsrInterpolation (html) {
   return html
   .replace(

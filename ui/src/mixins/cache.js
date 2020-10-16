@@ -4,7 +4,7 @@ export default {
   },
 
   methods: {
-    __getCache: __QUASAR_SSR__
+    __getCache: __QUASAR_SSR_SERVER__
       ? function (_, obj) { return obj }
       : function (key, obj) {
         return this.__qCache[key] === void 0
@@ -12,7 +12,7 @@ export default {
           : this.__qCache[key]
       },
 
-    __getCacheWithFn: __QUASAR_SSR__
+    __getCacheWithFn: __QUASAR_SSR_SERVER__
       ? function (_, fn) { return fn() }
       : function (key, fn) {
         return this.__qCache[key] === void 0

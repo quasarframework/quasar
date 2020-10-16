@@ -1,7 +1,7 @@
 const globalNodes = []
-let target = __QUASAR_SSR__ === false
-  ? document.body
-  : void 0
+let target = __QUASAR_SSR_SERVER__
+  ? void 0
+  : document.body
 
 export function createGlobalNode (id) {
   const el = document.createElement('div')

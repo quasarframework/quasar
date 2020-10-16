@@ -19,8 +19,7 @@ import { isRunningOnPWA } from './ssr-pwa'
 
 <% if (!ctx.mode.ssr || ctx.mode.pwa) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
-let appOptions = App.options /* Vue.extend() */ || App
-let appPrefetch = typeof appOptions.preFetch === 'function'
+let appPrefetch = typeof App.preFetch === 'function'
 <% } %>
 
 function getMatchedComponents (to, router) {
@@ -67,12 +66,12 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>, publicPat
     <% if (!ctx.mode.ssr) { %>
     if (appPrefetch === true) {
       appPrefetch = false
-      preFetchList.unshift(appOptions.preFetch)
+      preFetchList.unshift(App.preFetch)
     }
     <% } else if (ctx.mode.pwa) { %>
     if (isRunningOnPWA === true && appPrefetch === true) {
       appPrefetch = false
-      preFetchList.unshift(appOptions.preFetch)
+      preFetchList.unshift(App.preFetch)
     }
     <% } %>
 

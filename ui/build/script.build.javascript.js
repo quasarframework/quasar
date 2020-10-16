@@ -29,7 +29,7 @@ const rollupPluginsLegacy = [
 ]
 
 const builds = [
-  {
+  { // Generic entry (client-side only; NOT used by Quasar CLI)
     rollup: {
       input: {
         input: resolve(`src/index.all.js`)
@@ -43,11 +43,14 @@ const builds = [
       minified: true,
       modern: true,
       replace: {
-        __QUASAR_SSR__: false
+        __QUASAR_SSR__: false,
+        __QUASAR_SSR_SERVER__: false,
+        __QUASAR_SSR_CLIENT__: false,
+        __QUASAR_SSR_PWA__: false
       }
     }
   },
-  {
+  { // SSR server entry
     rollup: {
       input: {
         input: resolve(`src/index.all.js`)
@@ -61,7 +64,10 @@ const builds = [
       minified: true,
       modern: true,
       replace: {
-        __QUASAR_SSR__: true
+        __QUASAR_SSR__: true,
+        __QUASAR_SSR_SERVER__: true,
+        __QUASAR_SSR_CLIENT__: false,
+        __QUASAR_SSR_PWA__: false
       }
     }
   },
@@ -93,7 +99,7 @@ const builds = [
       minified: true
     }
   },
-  {
+  { // UMD entry
     rollup: {
       input: {
         input: resolve(`src/index.umd.js`)
@@ -107,11 +113,14 @@ const builds = [
       unminified: true,
       minified: true,
       replace: {
-        __QUASAR_SSR__: false
+        __QUASAR_SSR__: true,
+        __QUASAR_SSR_SERVER__: true,
+        __QUASAR_SSR_CLIENT__: false,
+        __QUASAR_SSR_PWA__: false
       }
     }
   },
-  {
+  { // UMD entry (modern build)
     rollup: {
       input: {
         input: resolve(`src/index.umd.js`)
@@ -126,7 +135,10 @@ const builds = [
       minified: true,
       modern: true,
       replace: {
-        __QUASAR_SSR__: false
+        __QUASAR_SSR__: true,
+        __QUASAR_SSR_SERVER__: true,
+        __QUASAR_SSR_CLIENT__: false,
+        __QUASAR_SSR_PWA__: false
       }
     }
   }

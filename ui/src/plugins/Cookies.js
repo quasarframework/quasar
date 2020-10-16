@@ -189,7 +189,7 @@ export default {
   },
 
   install ({ $q, queues }) {
-    if (__QUASAR_SSR__) {
+    if (__QUASAR_SSR_SERVER__) {
       queues.server.push((q, ctx) => {
         q.cookies = getObject(ctx.ssr)
       })

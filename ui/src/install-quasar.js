@@ -21,19 +21,36 @@ export const $q = {
   config: {}
 }
 
-// TODO vue3 - handle SSR
+// to be used by client-side only
 export let appInstance
 
-export default function (app, opts = {}) {
-  if (__QUASAR_SSR__ === false && this.__qInstalled === true) {
-    return
-  }
+export default function (app, opts = {}, ssrContext) {
+  if (__QUASAR_SSR_SERVER__) {
+    if (this.__qInstalled !== true) {
+      $q.config = Object.freeze(opts.config || {})
+    }
 
-  appInstance = app
+    Object.assign(ssrContext._meta, {
+      htmlAttrs: '',
+      headTags: '',
+      bodyClasses: '',
+      bodyAttrs: 'data-server-rendered'
+    })
+
+    app.config.globalProperties.ssrContext = ssrContext
+  }
+  else {
+    if (this.__qInstalled === true) {
+      return
+    }
+
+    appInstance = app
+    $q.config = Object.freeze(opts.config || {})
+  }
 
   app.config.globalProperties.$q = $q
 
-  const cfg = $q.config = Object.freeze(opts.config || {})
+  const cfg = $q.config
 
   // required plugins
   Platform.install($q, queues)
@@ -58,7 +75,7 @@ export default function (app, opts = {}) {
     }
   })
 
-  if (opts.plugins && (__QUASAR_SSR__ === false || this.__qInstalled !== true)) {
+  if (opts.plugins && (__QUASAR_SSR_SERVER__ !== true || this.__qInstalled !== true)) {
     const param = { app, $q, queues, cfg }
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]

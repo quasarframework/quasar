@@ -1,10 +1,10 @@
 // using it to manage SSR rendering with best performance
-import { onSSR } from '../plugins/Platform.js'
+import { isRuntimeSsrPreHydration } from '../plugins/Platform.js'
 
 export default {
   data () {
     return {
-      canRender: !onSSR
+      canRender: !isRuntimeSsrPreHydration
     }
   },
 

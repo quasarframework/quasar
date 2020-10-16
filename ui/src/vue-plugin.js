@@ -6,8 +6,8 @@ import ssrUpdate from './ssr-update.js'
 
 export default {
   version,
-  install (app, opts) {
-    installQuasar.call(this, app, opts)
+  install () {
+    installQuasar.apply(this, arguments)
   },
   lang,
   iconSet,
