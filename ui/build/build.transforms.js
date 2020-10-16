@@ -125,12 +125,12 @@ module.exports.generate = function () {
   addUtils(map)
 
   writeFile(
-    resolvePath(`dist/babel-transforms/imports.js`),
+    resolvePath(`dist/transforms/imports.js`),
     getImportsFile(map)
   )
 
   writeFile(
-    resolvePath(`dist/babel-transforms/auto-import.json`),
+    resolvePath(`dist/transforms/auto-import.json`),
     getAutoImportFile(autoImport)
   )
 }

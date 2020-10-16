@@ -29,7 +29,7 @@ const rollupPluginsLegacy = [
 ]
 
 const builds = [
-  { // Generic entry (client-side only; NOT used by Quasar CLI)
+  { // Generic prod entry (client-side only; NOT used by Quasar CLI)
     rollup: {
       input: {
         input: resolve(`src/index.all.js`)
@@ -50,7 +50,7 @@ const builds = [
       }
     }
   },
-  { // SSR server entry
+  { // SSR server prod entry
     rollup: {
       input: {
         input: resolve(`src/index.all.js`)
@@ -71,35 +71,21 @@ const builds = [
       }
     }
   },
-  { // TODO vue3 - ie polyfills
-    rollup: {
-      input: {
-        input: resolve('src/ie-compat/ie.js')
-      },
-      output: {
-        file: resolve('dist/quasar.ie.polyfills.js'),
-        format: 'es'
-      }
-    },
-    build: {
-      minified: true
-    }
-  },
-  {
-    rollup: {
-      input: {
-        input: resolve('src/ie-compat/ie.js')
-      },
-      output: {
-        file: resolve('dist/quasar.ie.polyfills.umd.js'),
-        format: 'umd'
-      }
-    },
-    build: {
-      minified: true
-    }
-  },
-  { // UMD entry
+  // TODO vue3 - re-enable when vue3 supports IE11 { // TODO vue3 - ie polyfills
+  //   rollup: {
+  //     input: {
+  //       input: resolve('src/ie-compat/ie.js')
+  //     },
+  //     output: {
+  //       file: resolve('dist/quasar.ie.polyfills.js'),
+  //       format: 'es'
+  //     }
+  //   },
+  //   build: {
+  //     minified: true
+  //   }
+  // },
+  { // UMD entry (default; modern build)
     rollup: {
       input: {
         input: resolve(`src/index.umd.js`)
@@ -112,39 +98,39 @@ const builds = [
     build: {
       unminified: true,
       minified: true,
+      modern: true,
       replace: {
-        __QUASAR_SSR__: true,
-        __QUASAR_SSR_SERVER__: true,
+        __QUASAR_SSR__: false,
+        __QUASAR_SSR_SERVER__: false,
         __QUASAR_SSR_CLIENT__: false,
         __QUASAR_SSR_PWA__: false
       }
     }
   },
-  { // UMD entry (modern build)
-    rollup: {
-      input: {
-        input: resolve(`src/index.umd.js`)
-      },
-      output: {
-        file: resolve(`dist/quasar.umd.modern.js`),
-        format: 'umd'
-      }
-    },
-    build: {
-      unminified: true,
-      minified: true,
-      modern: true,
-      replace: {
-        __QUASAR_SSR__: true,
-        __QUASAR_SSR_SERVER__: true,
-        __QUASAR_SSR_CLIENT__: false,
-        __QUASAR_SSR_PWA__: false
-      }
-    }
-  }
+  // TODO vue3 - re-enable when vue3 supports IE11 { // UMD entry (legacy build -- IE11)
+  //   rollup: {
+  //     input: {
+  //       input: TODO! [resolve('src/ie-compat/ie.js'), resolve(`src/index.umd.js`)]
+  //     },
+  //     output: {
+  //       file: resolve(`dist/quasar.ie11.umd.js`),
+  //       format: 'umd'
+  //     }
+  //   },
+  //   build: {
+  //     unminified: true,
+  //     minified: true,
+  //     replace: {
+  //       __QUASAR_SSR__: true,
+  //       __QUASAR_SSR_SERVER__: true,
+  //       __QUASAR_SSR_CLIENT__: false,
+  //       __QUASAR_SSR_PWA__: false
+  //     }
+  //   }
+  // }
 ]
 
-function addAssets (builds, type, injectName) {
+function addUmdAssets (builds, type, injectName) {
   const files = fs.readdirSync(resolve(type))
 
   files
@@ -271,8 +257,9 @@ module.exports = function () {
       // require('./build.types').generate(data)
       // require('./build.web-types').generate(data)
 
-      addAssets(builds, 'lang', 'lang')
-      addAssets(builds, 'icon-set', 'iconSet')
+      addUmdAssets(builds, 'lang', 'lang')
+      addUmdAssets(builds, 'icon-set', 'iconSet')
+
       build(builds)
     })
 }

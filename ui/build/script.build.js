@@ -24,7 +24,7 @@ createFolder('dist')
 if (!type || type === 'js') {
   createFolder('dist/vetur')
   createFolder('dist/api')
-  createFolder('dist/babel-transforms')
+  createFolder('dist/transforms')
   createFolder('dist/lang')
   createFolder('dist/icon-set')
   createFolder('dist/types')

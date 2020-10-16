@@ -1,8 +1,8 @@
 const stringifyRequest = require('loader-utils/lib/stringifyRequest')
 const getDevlandFile = require('../helpers/get-devland-file')
 
-const data = getDevlandFile('quasar/dist/babel-transforms/auto-import.json')
-const importTransform = getDevlandFile('quasar/dist/babel-transforms/imports.js')
+const data = getDevlandFile('quasar/dist/transforms/auto-import.json')
+const importTransform = getDevlandFile('quasar/dist/transforms/imports.js')
 const runtimePath = require.resolve('./runtime.auto-import.js')
 
 const compRegex = {

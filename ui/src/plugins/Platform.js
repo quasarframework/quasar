@@ -3,10 +3,10 @@
 /* eslint-disable no-mixed-operators */
 
 /**
- * __QUASAR_SSR__            -> runs on SSR on client or server
- * __QUASAR_SSR_SERVER__     -> runs on SSR on server
- * __QUASAR_SSR_CLIENT__     -> runs on SSR on client
- * __QUASAR_SSR_PWA__        -> built with SSR+PWA; may run on SSR on client or on PWA client
+ * __ QUASAR_SSR __            -> runs on SSR on client or server
+ * __ QUASAR_SSR_SERVER __     -> runs on SSR on server
+ * __ QUASAR_SSR_CLIENT __     -> runs on SSR on client
+ * __ QUASAR_SSR_PWA __        -> built with SSR+PWA; may run on SSR on client or on PWA client
  *                              (needs runtime detection)
  */
 

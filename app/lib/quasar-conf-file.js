@@ -462,7 +462,8 @@ class QuasarConfFile {
 
     if (cfg.build.transpile === true) {
       cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
-      cfg.__supportsIE = cfg.build.transpile === true && needsAdditionalPolyfills(this.ctx)
+      cfg.__supportsIE = false // TODO vue3 - re-enable when vue3 supports IE11
+      // cfg.build.transpile === true && needsAdditionalPolyfills(this.ctx)
 
       const type = cfg.__supportsIE === true
         ? ' - includes IE11 support'

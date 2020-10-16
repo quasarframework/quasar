@@ -55,7 +55,8 @@ module.exports = function (ctx) {
 
         chain.resolve.alias
           .set('quasar$', path.join(__dirname, '../src/index.all.js'))
-          .set('quasar/dist/quasar.ie.polyfills.js$', path.join(__dirname, '../src/ie-compat/ie.js'))
+          // TODO vue3 - re-enable when vue3 supports IE11
+          // .set('quasar/dist/quasar.ie.polyfills.js$', path.join(__dirname, '../src/ie-compat/ie.js'))
           .set('quasar/dist/quasar.sass', path.join(__dirname, '../src/css/index.sass'))
           .set('quasar/icon-set', path.join(__dirname, '../icon-set'))
           .set('quasar/lang', path.join(__dirname, '../lang'))

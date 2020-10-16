@@ -44,7 +44,7 @@ module.exports.generate = function () {
     try {
       oldLangJson = fs.readFileSync(langFile, 'utf-8')
     }
-    catch (e) { }
+    catch (e) {}
 
     return newLangJson.split(/[\n\r]+/).join('\n') !== oldLangJson.split(/[\n\r]+/).join('\n')
       ? writeFile(langFile, newLangJson)

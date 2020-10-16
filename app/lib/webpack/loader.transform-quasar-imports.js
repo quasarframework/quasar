@@ -1,5 +1,5 @@
 const getDevlandFile = require('../helpers/get-devland-file')
-const importTransform = getDevlandFile('quasar/dist/babel-transforms/imports.js')
+const importTransform = getDevlandFile('quasar/dist/transforms/imports.js')
 
 const regex = /import\s*\{([\w,\s]+)\}\s*from\s*['"]{1}quasar['"]{1}/g
 

@@ -112,7 +112,7 @@ module.exports = function (cfg, configName) {
     .merge(resolveModules)
 
   chain.module.noParse(
-    /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras|quasar)$/
+    /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras|quasar[\\/]dist)$/
   )
 
   const vueRule = chain.module.rule('vue')
@@ -120,7 +120,7 @@ module.exports = function (cfg, configName) {
 
   if (configName !== 'Server') {
     vueRule.use('quasar-auto-import')
-      .loader(path.join(__dirname, `loader.auto-import.js`))
+      .loader(path.join(__dirname, 'loader.auto-import.js'))
       .options(cfg.framework.autoImportComponentCase)
   }
 
@@ -203,7 +203,7 @@ module.exports = function (cfg, configName) {
   }
 
   chain.module.rule('images')
-    .test(/\.(png|jpe?g|gif|svg|webp|avif)(\?.*)?$/)
+    .test(/\.(png|jpe?g|gif|svg|webp|avif|ico)(\?.*)?$/)
     .use('url-loader')
       .loader('url-loader')
       .options({
