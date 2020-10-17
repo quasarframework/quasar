@@ -210,5 +210,8 @@ export default defineComponent({
     // necessary for QField's clearable
     // and FileValueMixin
     this.type = 'file'
-  }
+  },
+
+  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
+  render: QField.render
 })

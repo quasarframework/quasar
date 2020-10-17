@@ -39,5 +39,8 @@ export default defineComponent({
 
   created () {
     this.type = 'checkbox'
-  }
+  },
+
+  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
+  render: CheckboxMixin.render
 })

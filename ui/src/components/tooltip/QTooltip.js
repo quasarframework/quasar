@@ -237,5 +237,8 @@ export default defineComponent({
 
   mounted () {
     this.__processModelChange(this.modelValue)
-  }
+  },
+
+  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
+  render: PortalMixin.render
 })

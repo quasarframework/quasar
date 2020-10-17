@@ -97,5 +97,8 @@ export default defineComponent({
         class: this.classes
       }, hMergeSlot(this.__getContent(), this, 'navigation'))
     }
-  }
+  },
+
+  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
+  render: PanelParentMixin.render
 })

@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import { PanelParentMixin } from '../../mixins/panel.js'
@@ -28,5 +28,8 @@ export default defineComponent({
         () => this.panelDirectives
       )
     }
-  }
+  },
+
+  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
+  render: PanelParentMixin.render
 })

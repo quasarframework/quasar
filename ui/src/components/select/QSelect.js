@@ -1354,5 +1354,8 @@ export default defineComponent({
 
   beforeUnmount () {
     clearTimeout(this.inputTimer)
-  }
+  },
+
+  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
+  render: QField.render
 })

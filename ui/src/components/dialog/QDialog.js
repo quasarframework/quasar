@@ -358,5 +358,8 @@ export default defineComponent({
 
   beforeUnmount () {
     this.__cleanup()
-  }
+  },
+
+  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
+  render: PortalMixin.render
 })

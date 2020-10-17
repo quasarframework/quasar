@@ -254,5 +254,8 @@ export default defineComponent({
 
   beforeUnmount () {
     clearInterval(this.timer)
-  }
+  },
+
+  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
+  render: PanelParentMixin.render
 })
