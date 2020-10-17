@@ -63,9 +63,8 @@ export default async function (createAppFn<%= ctx.mode.ssr ? ', ssrContext' : ''
   store.$router = router
   <% } %>
 
-  // Create the app instantiation Object.
-  // Here we inject the router, store to all child components,
-  // making them available everywhere as `this.$router` and `this.$store`.
+  // Create the app instance.
+  // Here we inject into it the Quasar UI, the router & possibly the store.
   const app = createAppFn(RootComponent)
 
   <% if (ctx.dev) { %>
@@ -84,8 +83,8 @@ export default async function (createAppFn<%= ctx.mode.ssr ? ', ssrContext' : ''
   app.config.globalProperties.$q.capacitor = window.Capacitor
   <% } %>
 
-  // expose the app, the router and the store.
-  // note we are not mounting the app here, since bootstrapping will be
+  // Expose the app, the router and the store.
+  // Note that we are not mounting the app here, since bootstrapping will be
   // different depending on whether we are in a browser or on the server.
   return {
     app,

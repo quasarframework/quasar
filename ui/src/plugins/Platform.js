@@ -2,6 +2,8 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-mixed-operators */
 
+import { reactive } from 'vue'
+
 /**
  * __ QUASAR_SSR __            -> runs on SSR on client or server
  * __ QUASAR_SSR_SERVER __     -> runs on SSR on server
@@ -300,14 +302,11 @@ export const client = __QUASAR_SSR_SERVER__
   }
 
 const Platform = {
-  install ($q, queues) {
+  install (opts) {
+    const { $q } = opts
+
     if (__QUASAR_SSR_SERVER__) {
-      // we're on server-side, so we push
-      // to the server queue instead of
-      // applying directly
-      queues.server.push((q, ctx) => {
-        q.platform = this.parseSSR(ctx.ssr)
-      })
+      $q.platform = this.parseSSR(opts.ssrContext)
     }
     else if (isRuntimeSsrPreHydration === true) {
       // must match with server-side before
@@ -318,16 +317,15 @@ const Platform = {
       // takeover should increase accuracy for
       // the rest of the props; we also avoid
       // hydration errors
-      queues.takeover.push(q => {
+      opts.onSSRHydrated.push(() => {
         isRuntimeSsrPreHydration = false
-        Object.assign(q.platform, client)
+        Object.assign($q.platform, client)
         iosCorrection = void 0
       })
 
       // we need to make platform reactive
       // for the takeover phase
-      // TODO vue3 - $q.platform reactive
-      // $q.platform = this
+      $q.platform = reactive(this)
     }
     else {
       // we don't have any business with SSR, so
@@ -339,8 +337,8 @@ const Platform = {
 }
 
 if (__QUASAR_SSR_SERVER__) {
-  Platform.parseSSR = (/* ssrContext */ ssr) => {
-    const userAgent = ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent'] || ''
+  Platform.parseSSR = (ssrContext) => {
+    const userAgent = ssrContext.req.headers['user-agent'] || ssrContext.req.headers['User-Agent'] || ''
     return {
       ...client,
       userAgent,

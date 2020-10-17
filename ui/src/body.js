@@ -44,8 +44,7 @@ function getBodyClasses ({ is, has, within }, cfg) {
   return cls
 }
 
-// SSR takeover corrections
-function clientUpdate () {
+function applyClientSsrCorrections () {
   const classes = document.body.className
   let newCls = classes
 
@@ -73,34 +72,28 @@ function setColors (brand) {
 }
 
 export default {
-  install (queues, cfg) {
+  install (opts) {
     if (__QUASAR_SSR_SERVER__) {
-      queues.server.push((q, ctx) => {
-        const
-          cls = getBodyClasses(q.platform, cfg),
-          fn = ctx.ssr.setBodyClasses
+      const { cfg, $q, ssrContext } = opts
+      const cls = getBodyClasses($q.platform, cfg)
 
-        if (cfg.screen !== void 0 && cfg.screen.bodyClass === true) {
-          cls.push('screen--xs')
-        }
+      if (cfg.screen !== void 0 && cfg.screen.bodyClass === true) {
+        cls.push('screen--xs')
+      }
 
-        if (typeof fn === 'function') {
-          fn(cls)
-        }
-        else {
-          ctx.ssr.Q_BODY_CLASSES = cls.join(' ')
-        }
-      })
-
+      ssrContext._meta.bodyClasses += cls.join(' ')
       return
     }
 
+    const { cfg } = opts
+
     if (isRuntimeSsrPreHydration === true) {
-      clientUpdate()
+      applyClientSsrCorrections()
     }
     else {
       const cls = getBodyClasses(client, cfg)
 
+      // handle IE11
       if (client.is.ie === true && client.is.versionNumber === 11) {
         cls.forEach(c => document.body.classList.add(c))
       }

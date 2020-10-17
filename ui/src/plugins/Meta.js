@@ -166,8 +166,8 @@ function getHead (meta) {
   return output
 }
 
-function getServerMeta (app, html, ctx) {
-  const meta = {
+function injectServerMeta (ssrContext) {
+  const data = {
     title: '',
     titleTemplate: null,
     meta: {},
@@ -177,34 +177,37 @@ function getServerMeta (app, html, ctx) {
     noscript: {}
   }
 
-  parseMeta(app, meta)
-  normalize(meta)
+  const list = ssrContext.__qMetaList
 
-  const nonce = ctx !== void 0 && ctx.nonce !== void 0
-    ? ` nonce="${ctx.nonce}"`
-    : ''
-
-  const tokens = {
-    '%%Q_HTML_ATTRS%%': Object.keys(meta.htmlAttr)
-      .filter(htmlFilter)
-      .map(getAttr(meta.htmlAttr))
-      .join(' '),
-    '%%Q_HEAD_TAGS%%': getHead(meta),
-    '%%Q_BODY_ATTRS%%': Object.keys(meta.bodyAttr)
-      .filter(bodyFilter)
-      .map(getAttr(meta.bodyAttr))
-      .join(' '),
-    '%%Q_BODY_TAGS%%': Object.keys(meta.noscript)
-      .map(name => `<noscript data-qmeta="${name}">${meta.noscript[name]}</noscript>`)
-      .join('') +
-      `<script${nonce}>window.__Q_META__=${delete meta.noscript && JSON.stringify(meta)}</script>`
+  for (let i = 0; i < list.length; i++) {
+    extend(true, data, list[i])
   }
 
-  Object.keys(tokens).forEach(key => {
-    html = html.replace(key, tokens[key])
-  })
+  normalize(data)
 
-  return html
+  // TODO vue3 - add more options for scripts
+  const nonce = ssrContext.nonce !== void 0
+    ? ` nonce="${ssrContext.nonce}"`
+    : ''
+
+  const ctx = ssrContext._meta
+
+  ctx.htmlAttrs += Object.keys(data.htmlAttr)
+    .filter(htmlFilter)
+    .map(getAttr(data.htmlAttr))
+    .join(' ')
+
+  ctx.headTags += getHead(data)
+
+  ctx.bodyAttrs += Object.keys(data.bodyAttr)
+    .filter(bodyFilter)
+    .map(getAttr(data.bodyAttr))
+    .join(' ')
+
+  ctx.bodyTags += Object.keys(data.noscript)
+    .map(name => `<noscript data-qmeta="${name}">${data.noscript[name]}</noscript>`)
+    .join('') +
+    `<script${nonce} id="qmeta-init">window.__Q_META__=${delete data.noscript && JSON.stringify(data)}</script>`
 }
 
 function updateClientMeta () {
@@ -238,27 +241,18 @@ export function planClientUpdate () {
 }
 
 export default {
-  install ({ app, queues }) {
+  install (opts) {
     if (__QUASAR_SSR_SERVER__) {
-      // TODO vue3 - SSR handling
+      const { ssrContext } = opts
 
-      // app.config.globalProperties.$getMetaHTML = app => {
-      //   return (html, ctx) => getServerMeta(app, html, ctx)
-      // }
-
-      // app.mixin({ beforeCreate })
-
-      // queues.server.push((_, ctx) => {
-      //   ctx.ssr.Q_HTML_ATTRS += ' %%Q_HTML_ATTRS%%'
-      //   Object.assign(ctx.ssr, {
-      //     Q_HEAD_TAGS: '%%Q_HEAD_TAGS%%',
-      //     Q_BODY_ATTRS: '%%Q_BODY_ATTRS%%',
-      //     Q_BODY_TAGS: '%%Q_BODY_TAGS%%'
-      //   })
-      // })
+      ssrContext.__qMetaList = []
+      ssrContext._onRenderedList.push(() => {
+        injectServerMeta(ssrContext)
+      })
     }
     else if (isRuntimeSsrPreHydration === true) {
       currentClientMeta = window.__Q_META__
+      document.getElementById('qmeta-init').remove()
     }
   }
 }

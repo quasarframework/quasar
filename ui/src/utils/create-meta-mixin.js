@@ -1,6 +1,20 @@
 import { clientList, planClientUpdate } from '../plugins/Meta.js'
 
 export default metaOptions => {
+  if (__QUASAR_SSR_SERVER__) {
+    return {
+      created: typeof metaOptions === 'function'
+        ? function () {
+          this.ssrContext.__qMetaList.push(
+            metaOptions.call(this) || {}
+          )
+        }
+        : function () {
+          this.ssrContext.__qMetaList.push(metaOptions)
+        }
+    }
+  }
+
   const mixin = {
     activated () {
       this.__qMeta.active = true

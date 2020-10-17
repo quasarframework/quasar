@@ -479,21 +479,27 @@ const Notifications = {
 
 export default {
   create (opts) {
-    if (__QUASAR_SSR_SERVER__) { return noop }
+    if (__QUASAR_SSR_SERVER__) {
+      return noop
+    }
     if (vm !== void 0) {
       return vm.add(opts)
     }
   },
+
   setDefaults (opts) {
-    opts === Object(opts) && Object.assign(defaults, opts)
+    if (__QUASAR_SSR_SERVER__ !== true) {
+      opts === Object(opts) && Object.assign(defaults, opts)
+    }
   },
+
   registerType (typeName, typeOpts) {
     if (__QUASAR_SSR_SERVER__ !== true && typeOpts === Object(typeOpts)) {
       notifTypes[typeName] = typeOpts
     }
   },
 
-  install ({ cfg, $q }) {
+  install ({ $q, cfg }) {
     if (__QUASAR_SSR_SERVER__) {
       $q.notify = noop
       $q.notify.setDefaults = noop

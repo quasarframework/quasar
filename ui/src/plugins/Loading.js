@@ -113,7 +113,7 @@ const Plugin = defineReactivePlugin({
   },
 
   hide () {
-    if (Plugin.isActive === true) {
+    if (__QUASAR_SSR_SERVER__ !== true && Plugin.isActive === true) {
       if (timeout !== void 0) {
         clearTimeout(timeout)
         timeout = void 0
@@ -124,12 +124,17 @@ const Plugin = defineReactivePlugin({
   },
 
   setDefaults (opts) {
-    opts === Object(opts) && Object.assign(defaults, opts)
+    if (__QUASAR_SSR_SERVER__ !== true) {
+      opts === Object(opts) && Object.assign(defaults, opts)
+    }
   },
 
-  install ({ $q, cfg: { loading } }) {
-    this.setDefaults(loading)
-    $q.loading = this
+  install (opts) {
+    if (__QUASAR_SSR_SERVER__ !== true) {
+      this.setDefaults(opts.cfg.loading)
+    }
+
+    opts.$q.loading = this
   }
 })
 

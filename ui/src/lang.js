@@ -21,64 +21,68 @@ function getLocale () {
 export default {
   getLocale,
 
-  install ($q, queues, lang) {
-    const initialLang = lang || langEn
-
-    this.set = (langObject = langEn, ssrContext) => {
-      const lang = {
-        ...langObject,
-        rtl: langObject.rtl === true,
-        getLocale
-      }
-
-      if (__QUASAR_SSR_SERVER__) {
-        if (ssrContext === void 0) {
-          console.error('SSR ERROR: second param required: Quasar.lang.set(lang, ssrContext)')
-          return
-        }
-
-        const dir = lang.rtl === true ? 'rtl' : 'ltr'
-        const attrs = `lang=${lang.isoName} dir=${dir}`
-
-        lang.set = ssrContext.$q.lang.set
-
-        ssrContext.Q_HTML_ATTRS = ssrContext.Q_PREV_LANG !== void 0
-          ? ssrContext.Q_HTML_ATTRS.replace(ssrContext.Q_PREV_LANG, attrs)
-          : attrs
-
-        ssrContext.Q_PREV_LANG = attrs
-        ssrContext.$q.lang = lang
-      }
-      else {
-        if (isRuntimeSsrPreHydration === false) {
-          const el = document.documentElement
-          el.setAttribute('dir', lang.rtl === true ? 'rtl' : 'ltr')
-          el.setAttribute('lang', lang.isoName)
-        }
-
-        lang.set = this.set
-        $q.lang = this.props = lang
-        this.isoName = lang.isoName
-        this.nativeName = lang.nativeName
-      }
+  set (langObject = langEn, ssrContext) {
+    const lang = {
+      ...langObject,
+      rtl: langObject.rtl === true,
+      getLocale
     }
 
     if (__QUASAR_SSR_SERVER__) {
-      queues.server.push((q, ctx) => {
-        q.lang = {}
-        q.lang.set = langObject => {
-          this.set(langObject, ctx.ssr)
-        }
+      if (ssrContext === void 0) {
+        console.error('SSR ERROR: second param required: Quasar.lang.set(lang, ssrContext)')
+        return
+      }
 
-        q.lang.set(initialLang)
-      })
+      const dir = lang.rtl === true ? 'rtl' : 'ltr'
+      const attrs = `lang=${lang.isoName} dir=${dir}`
 
-      this.isoName = initialLang.isoName
-      this.nativeName = initialLang.nativeName
-      this.props = initialLang
+      lang.set = ssrContext.$q.lang.set
+
+      ssrContext._meta.htmlAttrs = ssrContext.Q_PREV_LANG !== void 0
+        ? ssrContext._meta.htmlAttrs.replace(ssrContext.Q_PREV_LANG, attrs)
+        : attrs
+
+      ssrContext.Q_PREV_LANG = attrs
+      ssrContext.$q.lang = lang
     }
     else {
-      $q.lang = reactive({})
+      if (isRuntimeSsrPreHydration === false) {
+        const el = document.documentElement
+        el.setAttribute('dir', lang.rtl === true ? 'rtl' : 'ltr')
+        el.setAttribute('lang', lang.isoName)
+      }
+
+      lang.set = this.set
+      this.__q.lang = this.props = lang
+      this.isoName = lang.isoName
+      this.nativeName = lang.nativeName
+    }
+  },
+
+  install (opts) {
+    const initialLang = opts.cfg.lang || langEn
+
+    if (__QUASAR_SSR_SERVER__) {
+      const { $q, ssrContext } = opts
+
+      $q.lang = {}
+      $q.lang.set = langObject => {
+        this.set(langObject, ssrContext)
+      }
+
+      $q.lang.set(initialLang)
+
+      // one-time SSR server operation
+      if (this.isoName !== initialLang.isoName) {
+        this.isoName = initialLang.isoName
+        this.nativeName = initialLang.nativeName
+        this.props = initialLang
+      }
+    }
+    else {
+      opts.$q.lang = reactive({})
+      this.__q = opts.$q
       this.set(initialLang)
     }
   }

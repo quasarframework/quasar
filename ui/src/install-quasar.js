@@ -11,79 +11,93 @@ const autoInstalled = [
   Platform, Screen, Dark
 ]
 
-export const queues = {
-  server: [], // on SSR update
-  takeover: [] // on client takeover
-}
-
-export const $q = {
-  version,
-  config: {}
-}
-
 // to be used by client-side only
+export let $q
 export let appInstance
 
-export default function (app, opts = {}, ssrContext) {
-  if (__QUASAR_SSR_SERVER__) {
-    if (this.__qInstalled !== true) {
-      $q.config = Object.freeze(opts.config || {})
-    }
+// to be used by SSR client-side only
+const onSSRHydrated = []
 
-    Object.assign(ssrContext._meta, {
-      htmlAttrs: '',
-      headTags: '',
-      bodyClasses: '',
-      bodyAttrs: 'data-server-rendered'
-    })
+function prepareApp (app, uiOpts, pluginOpts) {
+  app.config.globalProperties.$q = pluginOpts.$q
 
-    app.config.globalProperties.ssrContext = ssrContext
-  }
-  else {
-    if (this.__qInstalled === true) {
-      return
-    }
+  Platform.install(pluginOpts)
+  Body.install(pluginOpts)
+  Dark.install(pluginOpts)
+  Screen.install(pluginOpts)
+  History.install(pluginOpts)
+  Lang.install(pluginOpts)
+  IconSet.install(pluginOpts)
 
-    appInstance = app
-    $q.config = Object.freeze(opts.config || {})
-  }
-
-  app.config.globalProperties.$q = $q
-
-  const cfg = $q.config
-
-  // required plugins
-  Platform.install($q, queues)
-  Body.install(queues, cfg)
-  Dark.install($q, queues, cfg)
-  Screen.install($q, queues, cfg)
-  History.install(cfg)
-  Lang.install($q, queues, opts.lang)
-  IconSet.install($q, queues, opts.iconSet)
-
-  opts.components && Object.keys(opts.components).forEach(key => {
-    const c = opts.components[key]
+  uiOpts.components !== void 0 && Object.keys(uiOpts.components).forEach(key => {
+    const c = uiOpts.components[key]
     if (Object(c) === c && c.name !== void 0) {
       app.component(c.name, c)
     }
   })
 
-  opts.directives && Object.keys(opts.directives).forEach(key => {
-    const d = opts.directives[key]
+  uiOpts.directives !== void 0 && Object.keys(uiOpts.directives).forEach(key => {
+    const d = uiOpts.directives[key]
     if (Object(d) === d && d.name !== void 0) {
       app.directive(d.name, d)
     }
   })
 
-  if (opts.plugins && (__QUASAR_SSR_SERVER__ !== true || this.__qInstalled !== true)) {
-    const param = { app, $q, queues, cfg }
-    Object.keys(opts.plugins).forEach(key => {
-      const p = opts.plugins[key]
-      if (typeof p.install === 'function' && autoInstalled.includes(p) === false) {
-        p.install(param)
-      }
+  uiOpts.plugins !== void 0 && Object.keys(uiOpts.plugins).forEach(key => {
+    const p = uiOpts.plugins[key]
+    if (typeof p.install === 'function' && autoInstalled.includes(p) === false) {
+      p.install(pluginOpts)
+    }
+  })
+}
+
+const installQuasar = __QUASAR_SSR_SERVER__
+  ? function (app, opts = {}, ssrContext) {
+    const $q = {
+      version,
+      config: Object.freeze(opts.config || {})
+    }
+
+    ssrContext.$q = $q
+
+    Object.assign(ssrContext._meta, {
+      htmlAttrs: '',
+      headTags: '',
+      bodyClasses: '',
+      bodyAttrs: 'data-server-rendered',
+      bodyTags: ''
+    })
+
+    app.config.globalProperties.ssrContext = ssrContext
+
+    prepareApp(app, opts, {
+      app,
+      $q,
+      cfg: $q.config,
+      lang: opts.lang,
+      iconSet: opts.iconSet,
+      ssrContext
+    })
+  }
+  : function (app, opts = {}) {
+    if (this.__qInstalled === true) { return }
+    this.__qInstalled = true
+
+    appInstance = app
+
+    $q = {
+      version,
+      config: Object.freeze(opts.config || {})
+    }
+
+    prepareApp(app, opts, {
+      app,
+      $q,
+      cfg: $q.config,
+      lang: opts.lang,
+      iconSet: opts.iconSet,
+      onSSRHydrated
     })
   }
 
-  this.__qInstalled = true
-}
+export default installQuasar

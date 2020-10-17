@@ -41,13 +41,13 @@ export default defineReactivePlugin({
   setSizes: noop,
   setDebounce: noop,
 
-  install ($q, queues, cfg) {
+  install (opts) {
     if (__QUASAR_SSR_SERVER__) {
-      $q.screen = this
+      opts.$q.screen = this
       return
     }
 
-    const classes = cfg.screen !== void 0 && cfg.screen.bodyClasses === true
+    const classes = opts.cfg.screen !== void 0 && opts.cfg.screen.bodyClasses === true
 
     const update = force => {
       const
@@ -156,12 +156,12 @@ export default defineReactivePlugin({
     }
 
     if (isRuntimeSsrPreHydration === true) {
-      queues.takeover.push(start)
+      opts.onSSRHydrated.push(start)
     }
     else {
       start()
     }
 
-    $q.screen = this
+    opts.$q.screen = this
   }
 })

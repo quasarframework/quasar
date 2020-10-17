@@ -42,10 +42,8 @@ export default {
   add: noop,
   remove: noop,
 
-  install (cfg) {
-    if (__QUASAR_SSR_SERVER__) {
-      return
-    }
+  install (opts) {
+    if (__QUASAR_SSR_SERVER__) { return }
 
     const { cordova, capacitor } = client.is
 
@@ -53,7 +51,7 @@ export default {
       return
     }
 
-    const qConf = cfg[cordova === true ? 'cordova' : 'capacitor']
+    const qConf = opts.cfg[cordova === true ? 'cordova' : 'capacitor']
 
     if (qConf !== void 0 && qConf.backButton === false) {
       return

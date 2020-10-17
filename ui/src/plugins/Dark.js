@@ -1,6 +1,5 @@
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { isRuntimeSsrPreHydration } from './Platform.js'
-import { noop } from '../utils/event.js'
 
 const Plugin = defineReactivePlugin({
   isActive: false,
@@ -8,61 +7,9 @@ const Plugin = defineReactivePlugin({
 }, {
   __media: void 0,
 
-  install ($q, queues, { dark }) {
-    this.isActive = dark === true
-
-    if (__QUASAR_SSR_SERVER__) {
-      queues.server.push((q, ctx) => {
-        q.dark = {
-          isActive: false,
-          mode: false,
-          set: val => {
-            ctx.ssr.Q_BODY_CLASSES = ctx.ssr.Q_BODY_CLASSES
-              .replace(' body--light', '')
-              .replace(' body--dark', '') + ` body--${val === true ? 'dark' : 'light'}`
-
-            q.dark.isActive = val === true
-            q.dark.mode = val
-          },
-          toggle: () => {
-            q.dark.set(q.dark.isActive === false)
-          }
-        }
-
-        q.dark.set(dark)
-      })
-
-      this.set = noop
-      return
-    }
-
-    const initialVal = dark !== void 0
-      ? dark
-      : false
-
-    if (isRuntimeSsrPreHydration === true) {
-      const ssrSet = val => {
-        this.__fromSSR = val
-      }
-
-      const originalSet = this.set
-
-      this.set = ssrSet
-      ssrSet(initialVal)
-
-      queues.takeover.push(() => {
-        this.set = originalSet
-        this.set(this.__fromSSR)
-      })
-    }
-    else {
-      this.set(initialVal)
-    }
-
-    $q.dark = this
-  },
-
   set (val) {
+    if (__QUASAR_SSR_SERVER__) { return }
+
     Plugin.mode = val
 
     if (val === 'auto') {
@@ -86,7 +33,59 @@ const Plugin = defineReactivePlugin({
   },
 
   toggle () {
-    Plugin.set(Plugin.isActive === false)
+    if (__QUASAR_SSR_SERVER__ !== true) {
+      Plugin.set(Plugin.isActive === false)
+    }
+  },
+
+  install (opts) {
+    const { dark } = opts.cfg
+    this.isActive = dark === true
+
+    if (__QUASAR_SSR_SERVER__) {
+      const { $q, ssrContext } = opts
+      $q.dark = {
+        isActive: false,
+        mode: false,
+        set: val => {
+          ssrContext._meta.bodyClasses = ssrContext._meta.bodyClasses
+            .replace(' body--light', '')
+            .replace(' body--dark', '') + ` body--${val === true ? 'dark' : 'light'}`
+
+          $q.dark.isActive = val === true
+          $q.dark.mode = val
+        },
+        toggle: () => {
+          $q.dark.set($q.dark.isActive === false)
+        }
+      }
+
+      $q.dark.set(dark)
+      return
+    }
+
+    const initialVal = dark !== void 0 ? dark : false
+
+    if (isRuntimeSsrPreHydration === true) {
+      const ssrSet = val => {
+        this.__fromSSR = val
+      }
+
+      const originalSet = this.set
+
+      this.set = ssrSet
+      ssrSet(initialVal)
+
+      opts.onSSRHydrated.push(() => {
+        this.set = originalSet
+        this.set(this.__fromSSR)
+      })
+    }
+    else {
+      this.set(initialVal)
+    }
+
+    opts.$q.dark = this
   }
 })
 

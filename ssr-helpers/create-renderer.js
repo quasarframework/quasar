@@ -131,14 +131,19 @@ module.exports = function createRenderer (opts) {
 
   return async function renderToString (ssrContext, renderTemplate) {
     try {
-      ssrContext._registeredComponents = []
-      ssrContext._meta = {}
+      Object.assign(ssrContext, {
+        _registeredComponents: [],
+        _meta: {},
+        _onRenderedList: []
+      })
 
       const app = await runApp(ssrContext)
       const resourceApp = await opts.vueRenderToString(app, ssrContext)
 
       const registered = Array.from(ssrContext._registeredComponents)
       const usedAsyncFiles = renderContext.mapFiles(registered).map(normalizeFile)
+
+      ssrContext._onRenderedList.forEach(fn => { fn() })
 
       Object.assign(ssrContext._meta, {
         resourceApp,

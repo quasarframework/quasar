@@ -188,15 +188,13 @@ export default {
       : this
   },
 
-  install ({ $q, queues }) {
+  install (opts) {
     if (__QUASAR_SSR_SERVER__) {
-      queues.server.push((q, ctx) => {
-        q.cookies = getObject(ctx.ssr)
-      })
+      opts.$q.cookies = getObject(opts.ssrContext)
     }
     else {
       Object.assign(this, getObject())
-      $q.cookies = this
+      opts.$q.cookies = this
     }
   }
 }
