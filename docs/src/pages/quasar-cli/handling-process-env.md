@@ -10,14 +10,30 @@ Accessing `process.env` can help you in many ways:
 
 ## Values supplied by Quasar CLI
 
-| Name | Type | Meaning |
-| --- | --- | --- |
-| `process.env.DEV` | Boolean | Code runs in development mode |
-| `process.env.PROD` | Boolean | Code runs in production mode |
-| `process.env.CLIENT` | Boolean | Code runs on client (not on server) |
-| `process.env.SERVER` | Boolean | Code runs on server (not on client) |
-| `process.env.MODE` | String | Quasar CLI mode (`spa`, `pwa`, ...) |
-| `process.env.NODE_ENV` | String | Has two possible values: `production` or `development` |
+
+| Name | Type | Meaning | Added In |
+| --- | --- | --- | --- |
+| `process.env.DEV` | Boolean | Code runs in development mode | |
+| `process.env.PROD` | Boolean | Code runs in production mode | |
+| `process.env.DEBUG` | Boolean | Code runs in development mode or `--debug` flag was set for production mode | @quasar/app v2.2.0+ |
+| `process.env.CLIENT` | Boolean | Code runs on client (not on server) | |
+| `process.env.SERVER` | Boolean | Code runs on server (not on client) | |
+| `process.env.MODE` | String | Quasar CLI mode (`spa`, `pwa`, ...) | |
+| `process.env.NODE_ENV` | String | Has two possible values: `production` or `development` | |
+
+::: tip
+`process.env.DEBUG` was added in `@quasar/app v2.2.0` specifically to allow Vue Devtools to be run with a production build. For older projects, in order to get your Vuex working (if you have a store), you need to manually change this in your `store -> index.js` file:
+```js
+strict: process.env.DEV
+// to
+strict: process.env.DEBUG
+```
+And, for typescript users, you need to manually change this in your `store -> index.ts` file:
+```js
+strict: !!process.env.DEV
+// to
+strict: !!process.env.DEBUG
+:::
 
 ## Example
 
