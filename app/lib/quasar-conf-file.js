@@ -789,6 +789,7 @@ class QuasarConfFile {
       SERVER: false,
       DEV: this.ctx.dev,
       PROD: this.ctx.prod,
+      DEBUG: this.ctx.debug || this.ctx.dev,
       MODE: this.ctx.modeName,
       VUE_ROUTER_MODE: cfg.build.vueRouterMode,
       VUE_ROUTER_BASE: cfg.build.vueRouterBase,
