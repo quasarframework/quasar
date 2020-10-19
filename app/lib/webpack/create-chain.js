@@ -322,7 +322,8 @@ module.exports = function (cfg, configName) {
         '**/.Thumbs.db',
         '**/*.sublime*',
         '**/.idea',
-        '**/.editorconfig'
+        '**/.editorconfig',
+        '**/.vscode'
       ]
 
       // avoid useless files to be copied

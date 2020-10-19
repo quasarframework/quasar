@@ -169,8 +169,8 @@ export class Caret {
     this.savedPos = charCount
   }
 
-  restorePosition () {
-    if (this.savedPos >= 0) {
+  restorePosition (length = 0) {
+    if (this.savedPos > 0 && this.savedPos < length) {
       const
         selection = window.getSelection(),
         range = createRange(this.el, { count: this.savedPos })

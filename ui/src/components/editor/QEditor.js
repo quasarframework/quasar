@@ -277,6 +277,7 @@ export default Vue.extend({
   watch: {
     value (v) {
       if (this.lastEmit !== v) {
+        this.lastEmit = v
         this.__setContent(v, true)
       }
     }
@@ -398,7 +399,7 @@ export default Vue.extend({
         this.$refs.content[prop] = v
 
         if (restorePosition === true) {
-          this.caret.restorePosition()
+          this.caret.restorePosition(this.$refs.content[prop].length)
           this.refreshToolbar()
         }
       }

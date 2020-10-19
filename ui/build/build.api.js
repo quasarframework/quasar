@@ -107,13 +107,13 @@ const objectTypes = {
 
   // special type, not common
   Error: {
-    props: [ 'desc' ],
+    props: [ 'desc', 'category', 'examples', 'addedIn' ],
     required: [ 'desc' ]
   },
 
   // special type, not common
   Component: {
-    props: [ 'desc' ],
+    props: [ 'desc', 'category', 'examples', 'addedIn' ],
     required: [ 'desc' ]
   },
 
@@ -124,19 +124,19 @@ const objectTypes = {
 
   // special type, not common
   Element: {
-    props: [ 'desc', 'examples' ],
+    props: [ 'desc', 'category', 'examples', 'addedIn' ],
     required: [ 'desc' ]
   },
 
   // special type, not common
   File: {
-    props: [ 'desc', 'required' ],
+    props: [ 'desc', 'required', 'category', 'examples', 'addedIn' ],
     required: [ 'desc' ]
   },
 
   // special type, not common
   FileList: {
-    props: [ 'desc', 'required' ],
+    props: [ 'desc', 'required', 'category', 'examples', 'addedIn' ],
     required: [ 'desc' ]
   },
 
