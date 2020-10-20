@@ -319,17 +319,11 @@ export default Vue.extend({
     },
 
     minNav () {
-      if (this.navigationMinYearMonth !== void 0) {
-        const data = this.navigationMinYearMonth.split('/')
-        return { year: parseInt(data[0], 10), month: parseInt(data[1], 10) }
-      }
+      return this.__minNav()
     },
 
     maxNav () {
-      if (this.navigationMaxYearMonth !== void 0) {
-        const data = this.navigationMaxYearMonth.split('/')
-        return { year: parseInt(data[0], 10), month: parseInt(data[1], 10) }
-      }
+      return this.__maxNav()
     },
 
     navBoundaries () {
@@ -759,6 +753,20 @@ export default Vue.extend({
       )
     },
 
+    __minNav () {
+      if (this.navigationMinYearMonth !== void 0) {
+        const data = this.navigationMinYearMonth.split('/')
+        return { year: parseInt(data[0], 10), month: parseInt(data[1], 10) }
+      }
+    },
+
+    __maxNav () {
+      if (this.navigationMaxYearMonth !== void 0) {
+        const data = this.navigationMaxYearMonth.split('/')
+        return { year: parseInt(data[0], 10), month: parseInt(data[1], 10) }
+      }
+    },
+
     __getViewModel (mask, locale) {
       const model = Array.isArray(this.value) === true
         ? this.value
@@ -796,6 +804,32 @@ export default Vue.extend({
 
         year = d.year
         month = d.month
+
+        // check navigation guards
+        const minDate = this.__minNav()
+        const maxDate = this.__maxNav()
+        if (maxDate !== void 0) {
+          if (maxDate.year < year) {
+            year = maxDate.year
+            month = maxDate.month
+          }
+          else if (maxDate.year === year) {
+            if (maxDate.month < month) {
+              month = maxDate.month
+            }
+          }
+        }
+        if (minDate !== void 0) {
+          if (minDate.year > year) {
+            year = minDate.year
+            month = minDate.month
+          }
+          else if (minDate.year === year) {
+            if (minDate.month > month) {
+              month = minDate.month
+            }
+          }
+        }
       }
 
       return {
