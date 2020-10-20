@@ -19,7 +19,7 @@ const doubleSlashRE = /\/\//
 const { publicPath } = settings
 <% } %>
 
-if (process.env.DEBUG) {
+if (process.env.DEBUGGING) {
   settings.debug = true
 }
 
