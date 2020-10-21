@@ -2,13 +2,12 @@ import { h } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QBtnDropdown from '../btn-dropdown/QBtnDropdown.js'
-import QInput from '../input/QInput.js'
 import QIcon from '../icon/QIcon.js'
 import QTooltip from '../tooltip/QTooltip.js'
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
-import { prevent } from '../../utils/event.js'
+import { prevent, stop } from '../../utils/event.js'
 import { hSlot } from '../../utils/render.js'
 import { shouldIgnoreKey } from '../../utils/key-composition.js'
 
@@ -234,26 +233,25 @@ export function getLinkEditor (vm, ie11) {
 
     return [
       h('div', { class: `q-mx-xs text-${color}` }, `${vm.$q.lang.editor.url}: `),
-      h(QInput, {
+      h('input', {
         key: 'qedt_btm_input',
-        class: 'q-ma-none q-pa-none col q-editor-input',
-        modelValue: link,
-        color,
-        autofocus: true,
-        borderless: true,
-        dense: true,
-        'onUpdate:modelValue': val => { link = val },
-        onKeydown: event => {
-          if (shouldIgnoreKey(event) === true) {
+        class: 'col q-editor__link-input',
+        value: link,
+        onInput: evt => {
+          stop(evt)
+          link = evt.target.value
+        },
+        onKeydown: evt => {
+          if (shouldIgnoreKey(evt) === true) {
             return
           }
 
-          switch (event.keyCode) {
+          switch (evt.keyCode) {
             case 13: // ENTER key
-              prevent(event)
+              prevent(evt)
               return updateLink()
             case 27: // ESCAPE key
-              prevent(event)
+              prevent(evt)
               vm.caret.restore()
               if (!vm.editLinkUrl || vm.editLinkUrl === 'https://') {
                 document.execCommand('unlink')
