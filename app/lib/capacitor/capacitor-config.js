@@ -148,8 +148,24 @@ class CapacitorConfig {
     }
   }
 
+  __getIosCapacitorBridgeFile () {
+    // we need to try multiple files because
+    // @capacitor/ios changed the location during its v2
+    const fileList = [
+      'node_modules/@capacitor/ios/ios/Capacitor/Capacitor/CAPBridgeViewController.swift',
+      'node_modules/@capacitor/ios/Capacitor/Capacitor/CAPBridgeViewController.swift'
+    ]
+
+    for (let i = 0; i < fileList.length; i++) {
+      let file = appPaths.resolve.capacitor(fileList[i])
+      if (fs.existsSync(file)) {
+        return file
+      }
+    }
+  }
+
   __handleSSLonIOS (add) {
-    const file = appPaths.resolve.capacitor('node_modules/@capacitor/ios/ios/Capacitor/Capacitor/CAPBridgeViewController.swift')
+    const file = this.__getIosCapacitorBridgeFile()
     const needle = 'public func getWebView() -> WKWebView {'
     const content = `
   // The following part was dynamically added by Quasar.
@@ -171,9 +187,9 @@ class CapacitorConfig {
   }
 
   __injectIntoFile (file, needle, content) {
-    const shortFilename = path.basename(file)
-
     const sslWarn = () => {
+      const shortFilename = path.basename(file)
+
       warn()
       warn()
       warn()
@@ -187,7 +203,7 @@ class CapacitorConfig {
       warn()
     }
 
-    if (!fs.existsSync(file)) {
+    if (!file) {
       sslWarn()
       return
     }
@@ -212,7 +228,7 @@ class CapacitorConfig {
   }
 
   __removeFromFile (file, content) {
-    if (!fs.existsSync(file)) {
+    if (!file) {
       return
     }
 
