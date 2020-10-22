@@ -49,7 +49,7 @@ interface MorphOptions {
   tweenFromOpacity?: number;
   tweenToOpacity?: number;
 
-  onReady?: (end: 'to' | 'from') => void;
+  onEnd?: (direction: 'to' | 'from', aborted: boolean) => void;
 }
 
 export function morph(options: MorphOptions): (abort?: boolean) => boolean;

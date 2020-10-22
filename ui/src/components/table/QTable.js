@@ -99,6 +99,7 @@ export default Vue.extend({
       default: 'grey-8'
     },
 
+    titleClass: [String, Array, Object],
     tableStyle: [String, Array, Object],
     tableClass: [String, Array, Object],
     tableHeaderStyle: [String, Array, Object],
@@ -184,7 +185,7 @@ export default Vue.extend({
       if (rowsPerPage !== 0) {
         if (this.firstRowIndex === 0 && this.data !== rows) {
           if (rows.length > this.lastRowIndex) {
-            rows.length = this.lastRowIndex
+            rows = rows.slice(0, this.lastRowIndex)
           }
         }
         else {
@@ -242,11 +243,11 @@ export default Vue.extend({
   },
 
   render (h) {
-    const child = [ this.getTop(h) ]
+    const child = [ this.__getTopDiv(h) ]
     const data = { staticClass: this.containerClass }
 
     if (this.grid === true) {
-      child.push(this.getGridHeader(h))
+      child.push(this.__getGridHeader(h))
     }
     else {
       Object.assign(data, {
@@ -256,8 +257,8 @@ export default Vue.extend({
     }
 
     child.push(
-      this.getBody(h),
-      this.getBottom(h)
+      this.__getBody(h),
+      this.__getBottomDiv(h)
     )
 
     if (this.loading === true && this.$scopedSlots.loading !== void 0) {
@@ -284,12 +285,12 @@ export default Vue.extend({
       this.hasVirtScroll === true && this.$refs.virtScroll.reset()
     },
 
-    getBody (h) {
+    __getBody (h) {
       if (this.grid === true) {
-        return this.getGridBody(h)
+        return this.__getGridBody(h)
       }
 
-      const header = this.hideHeader !== true ? this.getTableHeader(h) : null
+      const header = this.hideHeader !== true ? this.__getTHead(h) : null
 
       return this.hasVirtScroll === true
         ? h(QVirtualScroll, {
@@ -309,7 +310,7 @@ export default Vue.extend({
             before: header === null
               ? void 0
               : () => header,
-            default: this.getTableRowVirtual(h)
+            default: this.__getVirtualTBodyTR(h)
           }
         })
         : getTableMiddle(h, {
@@ -318,7 +319,7 @@ export default Vue.extend({
           style: this.tableStyle
         }, [
           header,
-          this.getTableBody(h)
+          this.__getTBody(h)
         ])
     },
 

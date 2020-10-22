@@ -75,7 +75,7 @@ export default Vue.extend({
       }
 
       return [
-        h('div', { class: this.headerClasses }, this.__getAllPanels().map(panel => {
+        h('div', { class: this.headerClasses }, this.panels.map(panel => {
           const step = panel.componentOptions.propsData
 
           return h(StepHeader, {

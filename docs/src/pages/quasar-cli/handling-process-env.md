@@ -14,6 +14,7 @@ Accessing `process.env` can help you in many ways:
 | --- | --- | --- |
 | `process.env.DEV` | Boolean | Code runs in development mode |
 | `process.env.PROD` | Boolean | Code runs in production mode |
+| `process.env.DEBUGGING` | Boolean | (**@quasar/app v2.1.3+**) Code runs in development mode or `--debug` flag was set for production mode |
 | `process.env.CLIENT` | Boolean | Code runs on client (not on server) |
 | `process.env.SERVER` | Boolean | Code runs on server (not on client) |
 | `process.env.MODE` | String | Quasar CLI mode (`spa`, `pwa`, ...) |

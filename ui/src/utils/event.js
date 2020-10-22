@@ -130,7 +130,7 @@ export function preventDraggable (el, status) {
 
 export function create (name, { bubbles = false, cancelable = false } = {}) {
   try {
-    return new Event(name, { bubbles, cancelable })
+    return new CustomEvent(name, { bubbles, cancelable })
   }
   catch (e) {
     // IE doesn't support `new Event()`, so...

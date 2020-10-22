@@ -102,7 +102,7 @@ function normalizeOptions (options) {
   }
   else if (typeof options === 'function') {
     options = {
-      onReady: options
+      onEnd: options
     }
   }
 
@@ -463,7 +463,7 @@ export default function morph (_options) {
         document.body.appendChild(elFromTween)
       }
 
-      const commonCleanup = () => {
+      const commonCleanup = aborted => {
         // we put the element back in it's place
         // and restore the styles and classes
         if (elFrom === elTo && endElementTo !== true) {
@@ -488,7 +488,9 @@ export default function morph (_options) {
         elTo.qMorphCancel = void 0
 
         // we are ready
-        typeof options.onReady === 'function' && options.onReady(endElementTo === true ? 'to' : 'from')
+        if (typeof options.onEnd === 'function') {
+          options.onEnd(endElementTo === true ? 'to' : 'from', aborted === true)
+        }
       }
 
       if (options.useCSS !== true && typeof elTo.animate === 'function') {
@@ -628,7 +630,7 @@ export default function morph (_options) {
           delay: options.delay
         })
 
-        const cleanup = () => {
+        const cleanup = abort => {
           animationFromClone !== void 0 && animationFromClone.cancel()
           animationFromTween !== void 0 && animationFromTween.cancel()
           animationToClone !== void 0 && animationToClone.cancel()
@@ -637,7 +639,7 @@ export default function morph (_options) {
           animationTo.removeEventListener('finish', cleanup)
           animationTo.removeEventListener('cancel', cleanup)
 
-          commonCleanup()
+          commonCleanup(abort)
 
           // we clean the animations
           animationFromClone = void 0
@@ -667,8 +669,7 @@ export default function morph (_options) {
           }
 
           if (abort === true) {
-            cleanup()
-
+            cleanup(true)
             return true
           }
 

@@ -81,7 +81,7 @@ export default {
             duration: 400,
             hideFromClone: true,
             style: 'z-index: 1',
-            onReady: end => {
+            onEnd: end => {
               if (end === 'from' && this.indexZoomed === index) {
                 this.indexZoomed = void 0
               }
@@ -101,7 +101,7 @@ export default {
           duration: 200,
           keepToClone: true,
           style: 'z-index: 1',
-          onReady: zoom
+          onEnd: zoom
         })
       }
       else {

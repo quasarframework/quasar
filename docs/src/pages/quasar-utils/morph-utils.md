@@ -45,7 +45,7 @@ The function expects one mandatory Object parameter with the following keys:
 | tween | Boolean | *false* | By default the final element is morphed from the position and aspect of the initial element to the ones of the final element - set this flag to use an opacity tween between the initial and final elements |
 | tweenFromOpacity | Number | 0.6 | If using **tween** it is the initial opacity of the initial element (will be animated to 0) - the initial element is placed on top of the destination element |
 | tweenToOpacity | Number | 0.5 | If using **tween** it is the initial opacity of the destination element (will be animated to 1) |
-| onReady | Function | - | A function that will be called once the morphing is finished - receives a single string parameter ('to' if the morphing was finished in the final state or 'from' if it was finished in the initial state) |
+| onEnd(direction, aborted) | Function | - | A function that will be called once the morphing is finalized - receives two params: "direction" is a string ('to' if the morphing was finished in the final state or 'from' if it was finished in the initial state) and "aborted" is a boolean (true means that the animation was aborted) |
 
 ## Morphing lifecycle
 

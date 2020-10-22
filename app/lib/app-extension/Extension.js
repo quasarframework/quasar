@@ -125,7 +125,7 @@ module.exports = class Extension {
 
   isInstalled () {
     try {
-      require.resolve(this.packageName, {
+      require.resolve(this.packageName  + '/src/index', {
         paths: [ appPaths.appDir ]
       })
     }

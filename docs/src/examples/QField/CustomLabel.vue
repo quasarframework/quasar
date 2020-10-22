@@ -7,7 +7,7 @@
             <q-icon class="q-mr-xs" color="deep-orange" size="24px" name="mail" />
             Email (hover for more info)
 
-            <q-tooltip content-class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">eMail address</q-tooltip>
+            <q-tooltip content-class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">Email address</q-tooltip>
           </div>
         </template>
 

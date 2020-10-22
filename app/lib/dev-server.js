@@ -7,25 +7,25 @@ const { log } = require('./helpers/logger')
 
 let alreadyNotified = false
 module.exports = class DevServer {
-  constructor (quasarConfig) {
-    this.quasarConfig = quasarConfig
+  constructor (quasarConfFile) {
+    this.quasarConfFile = quasarConfFile
   }
 
   async listen () {
-    const webpackConfig = this.quasarConfig.getWebpackConfig()
-    const cfg = this.quasarConfig.getBuildConfig()
+    const cfg = this.quasarConfFile.quasarConf
+    const webpackConf = this.quasarConfFile.webpackConf
 
     log(`Booting up...`)
 
     return new Promise(resolve => (
       cfg.ctx.mode.ssr
-        ? this.listenSSR(webpackConfig, cfg, resolve)
-        : this.listenCSR(webpackConfig, cfg, resolve)
+        ? this.listenSSR(webpackConf, cfg, resolve)
+        : this.listenCSR(webpackConf, cfg, resolve)
     ))
   }
 
-  listenCSR (webpackConfig, cfg, resolve) {
-    const compiler = webpack(webpackConfig.renderer || webpackConfig)
+  listenCSR (webpackConf, cfg, resolve) {
+    const compiler = webpack(webpackConf.renderer || webpackConf)
 
     compiler.hooks.done.tap('done-compiling', compiler => {
       if (this.__started) { return }
@@ -60,7 +60,7 @@ module.exports = class DevServer {
     }
   }
 
-  listenSSR (webpackConfig, cfg, resolve) {
+  listenSSR (webpackConf, cfg, resolve) {
     const fs = require('fs')
     const LRU = require('lru-cache')
     const express = require('express')
@@ -160,8 +160,8 @@ module.exports = class DevServer {
       update()
     })
 
-    const serverCompiler = webpack(webpackConfig.server)
-    const clientCompiler = webpack(webpackConfig.client)
+    const serverCompiler = webpack(webpackConf.server)
+    const clientCompiler = webpack(webpackConf.client)
 
     serverCompiler.hooks.done.tapAsync('done-compiling', ({ compilation: { errors, warnings, assets }}, cb) => {
       errors.forEach(err => console.error(err))
@@ -220,9 +220,11 @@ module.exports = class DevServer {
           })
         }
 
-        app.use(cfg.build.publicPath, express.static(appPaths.resolve.app('public'), {
-          maxAge: 0
-        }))
+        if (cfg.build.ignorePublicFolder !== true) {
+          app.use(cfg.build.publicPath, express.static(appPaths.resolve.app('public'), {
+            maxAge: 0
+          }))
+        }
 
         originalAfter && originalAfter(app)
 

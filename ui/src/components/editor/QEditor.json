@@ -116,7 +116,7 @@
           "examples": [ "insertHTML", "justifyFull" ]
         },
         "param": {
-          "type": [ "String", "Function" ],
+          "type": "String",
           "desc": "Only set a param if using a \"cmd\". This is commonly text or HTML to inject, but is highly dependent upon the specific cmd being called.",
           "examples": [ "<img src=\"://uploads/001.jpg\" alt=\"nice pic\" />" ]
         },

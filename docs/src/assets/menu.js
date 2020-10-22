@@ -763,6 +763,7 @@ const plugins = [
   },
   {
     name: 'Dialog',
+    badge: 'update',
     path: 'dialog'
   },
   {
@@ -783,6 +784,7 @@ const plugins = [
   },
   {
     name: 'Notify',
+    badge: 'update',
     path: 'notify'
   }
 ]
@@ -929,12 +931,14 @@ const components = [
       },
       {
         name: 'Date Picker',
+        badge: 'update',
         path: 'date'
       }
     ]
   },
   {
     name: 'Icon',
+    badge: 'update',
     path: 'icon'
   },
   {

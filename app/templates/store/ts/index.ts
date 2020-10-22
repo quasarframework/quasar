@@ -25,8 +25,8 @@ export default store(function ({ Vue }) {
     },
 
     // enable strict mode (adds overhead!)
-    // for dev mode only
-    strict: !!process.env.DEV
+    // for dev mode and --debug builds only
+    strict: !!process.env.DEBUGGING
   });
 
   return Store;

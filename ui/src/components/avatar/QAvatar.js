@@ -24,11 +24,11 @@ export default Vue.extend({
   },
 
   computed: {
-    contentClass () {
+    classes () {
       return {
         [`bg-${this.color}`]: this.color,
         [`text-${this.textColor} q-chip--colored`]: this.textColor,
-        'q-avatar__content--square': this.square,
+        'q-avatar--square': this.square,
         'rounded-borders': this.rounded
       }
     },
@@ -48,11 +48,11 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-avatar',
       style: this.sizeStyle,
+      class: this.classes,
       on: { ...this.qListeners }
     }, [
       h('div', {
         staticClass: 'q-avatar__content row flex-center overflow-hidden',
-        class: this.contentClass,
         style: this.contentStyle
       }, mergeSlotSafely(icon, this, 'default'))
     ])

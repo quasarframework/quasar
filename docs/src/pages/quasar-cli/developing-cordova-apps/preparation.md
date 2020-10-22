@@ -17,6 +17,10 @@ to "Tools > SDK Manager > SDK Tools" then un-ticking "Hide Obsolete Packages" an
 **The instructions below assume this has been done.**
 :::
 
+::: warning
+The environmental variable `ANDROID_HOME` has been deprecated and replaced with `ANDROID_SDK_ROOT`. Depending on your version of Android Studio you may need one or the other. It doesn't hurt to have both set.
+:::
+
 ### Android setup
 
 * After this step you will need to install the Android platform SDK on your machine. You can [download the Android Studio here](https://developer.android.com/studio/index.html) and follow these [installation steps](https://developer.android.com/studio/install.html) afterwards.
@@ -29,10 +33,11 @@ to "Tools > SDK Manager > SDK Tools" then un-ticking "Hide Obsolete Packages" an
 
 ```bash
 export ANDROID_HOME="$HOME/Android/Sdk"
-export PATH=$PATH:$ANDROID_HOME/tools; PATH=$PATH:$ANDROID_HOME/platform-tools
+export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+export PATH=$PATH:$ANDROID_SDK_ROOT/tools; PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 ```
 
-> Please note that sometimes the `/Android/Sdk` folder is added inside `/Library/` inside your user folder. Check your user folder and if the `/Android/` folder is only inside `/Library/` do: `export ANDROID_HOME="$HOME/Library/Android/Sdk"` instead.
+> Please note that sometimes the `/Android/Sdk` folder is added inside `/Library/` inside your user folder. Check your user folder and if the `/Android/` folder is only inside `/Library/` do: `export ANDROID_SDK_ROOT="$HOME/Library/Android/Sdk"` or `export ANDROID_HOME="$HOME/Library/Android/Sdk"` instead.
 
 #### Windows
 
@@ -41,14 +46,15 @@ After installing Android Studio, you need to install two more pieces of software
 * Gradle. It used to usable from Android Studio but now you have to install it separately. There is a very specific version that cordova requires. You can download it [here](https://downloads.gradle-dn.com/distributions/gradle-4.10.3-all.zip)
 
 Then you will have to set environment variables. You will need to set the following variables. Cordova has a good guide for it already. It can be found [here](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#setting-environment-variables). You need to:
-* add ANDROID_HOME. It can safely be set to: "%USERPROFILE%\AppData\Local\Android\Sdk"
-* add two ANDROID_HOME directories to your path: %ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools
+* add ANDROID_SDK_ROOT. It can safely be set to: "%USERPROFILE%\AppData\Local\Android\Sdk"
+* add two ANDROID_SDK_ROOT directories to your path: %ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools
 * add Gradle to your path. Note that gradle does not have an installer. You just put the binary files where you want them, then add the bin directory to your path.
 
 If you have an init script for your command prompt or powershell, you can try this:
 ```bash
 setx ANDROID_HOME "%USERPROFILE%\AppData\Local\Android\Sdk"
-setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools;<gradle_path>\bin;"
+setx ANDROID_SDK_ROOT "%USERPROFILE%\AppData\Local\Android\Sdk"
+setx path "%path%;%ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools;<gradle_path>\bin;"
 ```
 
 After the tools are installed, setup Android Studio with the correct SDK and create a virtual machine.

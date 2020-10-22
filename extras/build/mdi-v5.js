@@ -55,7 +55,7 @@ webfont.forEach(file => {
 })
 
 copySync(
-  resolve(__dirname, `../node_modules/@mdi/font/license.md`),
+  resolve(__dirname, `../node_modules/@mdi/font/LICENSE`),
   resolve(__dirname, `../mdi-v5/license.md`)
 )
 copySync(

@@ -10,4 +10,4 @@ export type RouteParams<TStore = any> = {
 
 export type RouteCallback<TStore = any> = (
   params: RouteParams<TStore>
-) => VueRouter;
+) => VueRouter | Promise<VueRouter>;

@@ -396,6 +396,7 @@ function writeIndexDTS (apis) {
   quasarTypeContents.forEach(line => write(contents, line))
 
   writeLine(contents, `export const Quasar: PluginObject<Partial<QuasarPluginOptions>>`)
+  writeLine(contents, `export default Quasar`)
   writeLine(contents)
 
   // These imports force TS compiler to evaluate contained declarations

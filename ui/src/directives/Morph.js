@@ -6,7 +6,7 @@ const props = [
   'classes', 'style', 'duration', 'resize',
   'useCSS', 'hideFromClone', 'keepToClone', 'tween',
   'tweenFromOpacity', 'tweenToOpacity',
-  'waitFor', 'onReady'
+  'waitFor', 'onEnd'
 ]
 const mods = [
   'resize', 'useCSS', 'hideFromClone', 'keepToClone', 'tween'
@@ -33,7 +33,7 @@ function trigger (group) {
   changeClass(from, 'remove')
   changeClass(to, 'remove')
 
-  morph({
+  const cancelFn = morph({
     from: from.el,
     to: to.el,
     onToggle () {
@@ -41,18 +41,28 @@ function trigger (group) {
       changeClass(to, 'remove')
     },
     ...to.opts,
-    onReady () {
+    onEnd (dir, aborted) {
+      to.opts.onEnd !== void 0 && to.opts.onEnd(dir, aborted)
+
+      if (aborted === true) {
+        return
+      }
+
       from.animating = false
       to.animating = false
 
       group.animating = false
+      group.cancel = void 0
       group.queue.shift()
-
-      // TODO: call ctx.onReady() if available
 
       trigger(group)
     }
   })
+
+  group.cancel = () => {
+    cancelFn(true) // abort
+    group.cancel = void 0
+  }
 }
 
 function updateModifiers (mod, ctx) {
@@ -163,6 +173,7 @@ function destroy (el) {
         group.queue = group.queue.filter(item => item !== ctx)
 
         if (group.queue.length === 0) {
+          group.cancel !== void 0 && group.cancel()
           delete morphGroups[ctx.group]
         }
       }

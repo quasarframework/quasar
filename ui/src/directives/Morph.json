@@ -113,18 +113,22 @@
         "examples": [ "300", "transitionend" ]
       },
 
-      "onReady": {
+      "onEnd": {
         "type": "Function",
-        "desc": "A function that will be called once the morphing is finished",
+        "desc": "A function that will be called once the morphing is finished; Not called if morphing is aborted",
         "returns": null,
         "params": {
           "direction": {
             "type": "String",
             "desc": "'to' if the morphing was finished in the final state or 'from' if it was finished in the initial state",
             "values": [ "to", "from" ]
+          },
+          "aborted": {
+            "type": "Boolean",
+            "desc": "Was the morphing aborted?"
           }
         },
-        "examples": [ "direction => { if (direction !== 'to') { revertLogic() } }" ]
+        "examples": [ "(direction, aborted) => { if (direction !== 'to') { revertLogic() } }" ]
       }
     },
 

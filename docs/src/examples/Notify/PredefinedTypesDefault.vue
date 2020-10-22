@@ -5,6 +5,7 @@
       <q-btn no-caps unelevated color="negative" @click="triggerNegative" label="Trigger 'negative'" />
       <q-btn no-caps unelevated color="warning" text-color="dark" @click="triggerWarning" label="Trigger 'warning'" />
       <q-btn no-caps unelevated color="info" @click="triggerInfo" label="Trigger 'info'" />
+      <q-btn no-caps unelevated color="grey-8" @click="triggerOngoing" label="Trigger 'ongoing' (v1.14+)" />
     </div>
   </div>
 </template>
@@ -38,6 +39,24 @@ export default {
         type: 'info',
         message: `This is a "info" type notification.`
       })
+    },
+
+    triggerOngoing () {
+      // we need to get the notification reference
+      // otherwise it will never get dismissed ('ongoing' type has timeout 0)
+      const notif = this.$q.notify({
+        type: 'ongoing',
+        message: 'Looking up the search terms...'
+      })
+
+      // simulate delay
+      setTimeout(() => {
+        notif({
+          type: 'positive',
+          message: 'Found the results that you were looking for',
+          timeout: 1000
+        })
+      }, 4000)
     }
   }
 }

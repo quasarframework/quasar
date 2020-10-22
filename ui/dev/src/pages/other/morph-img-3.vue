@@ -39,7 +39,7 @@ export default {
           onToggle: () => { this.indexZoomed = index },
           duration: 500,
           style: 'z-index: 1',
-          onReady: end => {
+          onEnd: end => {
             if (end === 'from' && this.indexZoomed === index) {
               this.indexZoomed = void 0
             }

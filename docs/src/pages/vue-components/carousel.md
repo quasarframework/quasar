@@ -46,6 +46,12 @@ The notion of "control" here refers to the arrows and navigation buttons. Since 
 
 <doc-example title="Navigation position" file="QCarousel/NavigationPosition" />
 
+### Custom navigation <q-badge align="top" label="v1.13.2+" />
+
+For a full list of properties of the `navigation-icon` slot, please consult the API card.
+
+<doc-example title="Custom navigation" file="QCarousel/CustomNavigation" />
+
 ### Auto padding
 
 Below is an example with which you can play with different QCarousel settings so you can see the padding (or lack of) in action:

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import BtnMixin from '../../mixins/btn.js'
+import AttrsMixin from '../../mixins/attrs.js'
 
 import QIcon from '../icon/QIcon.js'
 import QBtn from '../btn/QBtn.js'
@@ -13,18 +14,21 @@ import cache from '../../utils/cache.js'
 export default Vue.extend({
   name: 'QBtnDropdown',
 
-  mixins: [ BtnMixin ],
+  mixins: [ BtnMixin, AttrsMixin ],
+
+  inheritAttrs: false,
 
   props: {
     value: Boolean,
     split: Boolean,
     dropdownIcon: String,
 
-    contentClass: [Array, String, Object],
-    contentStyle: [Array, String, Object],
+    contentClass: [ Array, String, Object ],
+    contentStyle: [ Array, String, Object ],
 
     cover: Boolean,
     persistent: Boolean,
+    noRouteDismiss: Boolean,
     autoClose: Boolean,
 
     menuAnchor: {
@@ -88,6 +92,7 @@ export default Vue.extend({
           cover: this.cover,
           fit: true,
           persistent: this.persistent,
+          noRouteDismiss: this.noRouteDismiss,
           autoClose: this.autoClose,
           anchor: this.menuAnchor,
           self: this.menuSelf,
@@ -126,7 +131,10 @@ export default Vue.extend({
           noWrap: true,
           round: false
         },
-        attrs,
+        attrs: {
+          ...this.qAttrs,
+          ...attrs
+        },
         on: cache(this, 'nonSpl', {
           click: e => {
             this.$emit('click', e)
@@ -144,6 +152,7 @@ export default Vue.extend({
         iconRight: this.iconRight,
         round: false
       },
+      attrs: this.qAttrs,
       on: cache(this, 'spl', {
         click: e => {
           this.hide()

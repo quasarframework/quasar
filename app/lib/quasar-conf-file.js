@@ -84,12 +84,11 @@ function uniqueRegexFilter (value, index, self) {
 }
 
 /*
- * this.buildConfig           - Compiled Object from quasar.conf.js
- * this.webpackConfig         - Webpack config object for main thread
- * this.electronWebpackConfig - Webpack config object for electron main thread
+ * this.quasarConf          - Compiled Object from quasar.conf.js
+ * this.webpackConf         - Webpack config(s)
  */
 
-class QuasarConfig {
+class QuasarConfFile {
   constructor (ctx, opts = {}) {
     this.ctx = ctx
     this.opts = opts
@@ -119,7 +118,7 @@ class QuasarConfig {
 
         await this.compile()
 
-        if (this.webpackConfigChanged) {
+        if (this.webpackConfChanged) {
           opts.onBuildChange()
         }
         else {
@@ -154,9 +153,20 @@ class QuasarConfig {
     }
   }
 
-  // synchronous for build
   async prepare () {
-    this.readConfig()
+    log(`Reading quasar.conf.js`)
+
+    let quasarConfigFunction
+
+    if (fs.existsSync(this.filename)) {
+      delete require.cache[this.filename]
+      quasarConfigFunction = require(this.filename)
+    }
+    else {
+      fatal(`[FAIL] Could not load quasar.conf.js config file`)
+    }
+
+    const initialConf = await quasarConfigFunction(this.ctx)
 
     const cfg = merge({
       ctx: this.ctx,
@@ -199,7 +209,9 @@ class QuasarConfig {
         builder: {}
       },
       cordova: {},
-      capacitor: {},
+      capacitor: {
+        capacitorCliPreparationParams: []
+      },
       bin: {},
       bex: {
         builder: {
@@ -207,7 +219,7 @@ class QuasarConfig {
         }
       },
       htmlVariables: {}
-    }, this.quasarConfigFunction(this.ctx))
+    }, initialConf)
 
     if (cfg.framework === void 0) {
       cfg.framework = { importStrategy: 'auto' }
@@ -284,31 +296,11 @@ class QuasarConfig {
       }
     }
 
-    this.quasarConfig = cfg
-  }
-
-  getBuildConfig () {
-    return this.buildConfig
-  }
-
-  getWebpackConfig () {
-    return this.webpackConfig
-  }
-
-  readConfig () {
-    log(`Reading quasar.conf.js`)
-
-    if (fs.existsSync(this.filename)) {
-      delete require.cache[this.filename]
-      this.quasarConfigFunction = require(this.filename)
-    }
-    else {
-      fatal(`[FAIL] Could not load quasar.conf.js config file`)
-    }
+    this.sourceCfg = cfg
   }
 
   async compile () {
-    let cfg = this.quasarConfig
+    let cfg = this.sourceCfg
 
     await extensionRunner.runHook('extendQuasarConf', async hook => {
       log(`Extension(${hook.api.extId}): Extending quasar.conf...`)
@@ -330,7 +322,7 @@ class QuasarConfig {
       ].join('')
 
       if (this.oldConfigSnapshot) {
-        this.webpackConfigChanged = newConfigSnapshot !== this.oldConfigSnapshot
+        this.webpackConfChanged = newConfigSnapshot !== this.oldConfigSnapshot
       }
 
       this.oldConfigSnapshot = newConfigSnapshot
@@ -564,6 +556,10 @@ class QuasarConfig {
     // make sure we have preFetch in config
     cfg.preFetch = cfg.preFetch || false
 
+    if (this.ctx.mode.capacitor & cfg.capacitor.capacitorCliPreparationParams.length === 0) {
+      cfg.capacitor.capacitorCliPreparationParams = [ 'sync', this.ctx.targetName ]
+    }
+
     if (this.ctx.mode.ssr) {
       cfg.ssr = merge({
         pwa: false,
@@ -627,9 +623,11 @@ class QuasarConfig {
           if (!this.ctx.mode.ssr) {
             const express = require('express')
 
-            app.use((cfg.build.publicPath || '/'), express.static(appPaths.resolve.app('public'), {
-              maxAge: 0
-            }))
+            if (cfg.build.ignorePublicFolder !== true) {
+              app.use((cfg.build.publicPath || '/'), express.static(appPaths.resolve.app('public'), {
+                maxAge: 0
+              }))
+            }
 
             if (this.ctx.mode.cordova) {
               const folder = appPaths.resolve.cordova(`platforms/${this.ctx.targetName}/platform_www`)
@@ -774,6 +772,7 @@ class QuasarConfig {
       SERVER: false,
       DEV: this.ctx.dev,
       PROD: this.ctx.prod,
+      DEBUGGING: this.ctx.debug || this.ctx.dev,
       MODE: this.ctx.modeName,
       VUE_ROUTER_MODE: cfg.build.vueRouterMode,
       VUE_ROUTER_BASE: cfg.build.vueRouterBase,
@@ -790,7 +789,9 @@ class QuasarConfig {
           nodeIntegration: true
         }, cfg.electron)
 
-        cfg.__rootDefines.__statics = `"${appPaths.resolve.app('public').replace(/\\/g, '\\\\')}"`
+        if (cfg.build.ignorePublicFolder !== true) {
+          cfg.__rootDefines.__statics = `"${appPaths.resolve.app('public').replace(/\\/g, '\\\\')}"`
+        }
       }
       else {
         const bundler = require('./electron/bundler')
@@ -923,9 +924,9 @@ class QuasarConfig {
       cfg.__versioning.tsChecker = `v${major}`
     }
 
-    this.webpackConfig = await require('./webpack')(cfg)
-    this.buildConfig = cfg
+    this.quasarConf = cfg
+    this.webpackConf = await require('./webpack')(cfg)
   }
 }
 
-module.exports = QuasarConfig
+module.exports = QuasarConfFile

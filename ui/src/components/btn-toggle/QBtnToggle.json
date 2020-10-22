@@ -188,5 +188,12 @@
       "desc": "When using the 'clearable' property, this event is emitted when the already selected button is clicked",
       "addedIn": "v1.4.4"
     }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestions: QTooltip, QBadge",
+      "addedIn": "v1.13.2"
+    }
   }
 }

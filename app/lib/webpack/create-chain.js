@@ -310,21 +310,33 @@ module.exports = function (cfg, configName) {
         hashDigest: 'hex'
       }])
 
-    if (configName !== 'Server') {
+    if (
+      cfg.build.ignorePublicFolder !== true &&
+      configName !== 'Server'
+    ) {
       // copy /public to dist folder
       const CopyWebpackPlugin = require('copy-webpack-plugin')
 
+      const ignore = [
+        '**/.DS_Store',
+        '**/.Thumbs.db',
+        '**/*.sublime*',
+        '**/.idea',
+        '**/.editorconfig',
+        '**/.vscode'
+      ]
+
+      // avoid useless files to be copied
+      if (['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)) {
+        ignore.push(
+          '**/public/icons', '**/public/favicon.ico'
+        )
+      }
+
       const patterns = [{
         from: appPaths.resolve.app('public'),
-        to: '.',
         noErrorOnMissing: true,
-        globOptions: {
-          dot: false,
-          // avoid useless files to be copied
-          ignore: ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
-            ? [ '**/icons/**', '**/favicon.ico' ]
-            : []
-        }
+        globOptions: { ignore }
       }]
 
       chain.plugin('copy-webpack')
