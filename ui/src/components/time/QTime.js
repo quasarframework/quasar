@@ -180,6 +180,17 @@ export default Vue.extend({
       return this.minLink === true && this.innerModel.minute !== null
     },
 
+    currentInSelection () {
+      switch (this.view) {
+        case 'Hour':
+          return this.hourInSelection
+        case 'Minute':
+          return this.minuteInSelection
+        default:
+          return this.secondInSelection
+      }
+    },
+
     hourInSelection () {
       return this.hourOptions !== void 0
         ? val => this.hourOptions.includes(val)
@@ -285,7 +296,8 @@ export default Vue.extend({
         return
       }
 
-      const snappingGrid = Array.apply(null, { length: count }).map((_, index) => inSel(index))
+      const snappingGrid = Array.apply(null, { length: count })
+        .map((_, index) => inSel(index))
 
       let consecutiveGaps = (count - 1) - snappingGrid.lastIndexOf(true)
       if (consecutiveGaps === -1) {
@@ -464,7 +476,8 @@ export default Vue.extend({
 
       if (
         cacheVal === val ||
-        val === false // snapping said "no!"
+        val === false || // snapping said "no!"
+        this.currentInSelection(val) !== true
       ) {
         return val
       }
