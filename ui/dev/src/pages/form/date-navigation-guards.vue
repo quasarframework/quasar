@@ -18,6 +18,7 @@
           </q-icon>
       </template>
     </q-input>
+    <div>navigation-min-year-month="1989/07", navigation-max-year-month="1990/10"</div>
 
       <q-input filled v-model="date" mask="date" :rules="['date']">
         <template v-slot:append>
@@ -36,6 +37,7 @@
           </q-icon>
       </template>
     </q-input>
+    <div>navigation-min-year-month="2020/01", navigation-max-year-month="2030/07"</div>
 
   </div>
 </div>

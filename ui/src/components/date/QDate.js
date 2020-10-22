@@ -120,6 +120,14 @@ export default Vue.extend({
     computedLocale (val) {
       this.__updateValue(this.innerMask, val, 'locale')
       this.innerLocale = val
+    },
+
+    navigationMaxYearMonth (val) {
+      console.error('QDate navigation guard changed unexpectedly')
+    },
+
+    navigationMinYearMonth (val) {
+      console.error('QDate navigation guard changed unexpectedly')
     }
   },
 
@@ -787,6 +795,30 @@ export default Vue.extend({
         : decoded
     },
 
+    __checkNavigationGuards (y, m) {
+      let year, month
+      const dateCheck = y + '/' + m
+
+      // check navigation guards
+      const maxDate = this.__maxNav()
+      const minDate = this.__minNav()
+      if (maxDate !== void 0) {
+        if (this.navigationMaxYearMonth < dateCheck) {
+          year = maxDate.year
+          month = maxDate.month
+        }
+      }
+      if (minDate !== void 0) {
+        if (this.navigationMinYearMonth > dateCheck) {
+          year = minDate.year
+          month = minDate.month
+        }
+      }
+      if (year !== void 0 && month !== void 0) {
+        return { year, month }
+      }
+    },
+
     __getDefaultViewModel () {
       let year, month
 
@@ -806,29 +838,10 @@ export default Vue.extend({
         month = d.month
 
         // check navigation guards
-        const minDate = this.__minNav()
-        const maxDate = this.__maxNav()
-        if (maxDate !== void 0) {
-          if (maxDate.year < year) {
-            year = maxDate.year
-            month = maxDate.month
-          }
-          else if (maxDate.year === year) {
-            if (maxDate.month < month) {
-              month = maxDate.month
-            }
-          }
-        }
-        if (minDate !== void 0) {
-          if (minDate.year > year) {
-            year = minDate.year
-            month = minDate.month
-          }
-          else if (minDate.year === year) {
-            if (minDate.month > month) {
-              month = minDate.month
-            }
-          }
+        const data = this.__checkNavigationGuards(year, month)
+        if (data !== void 0) {
+          year = data.year
+          month = data.month
         }
       }
 
