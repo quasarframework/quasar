@@ -48,8 +48,7 @@ export default Vue.extend({
       this.value,
       this.__getMask(),
       this.__getLocale(),
-      this.calendar,
-      this.__getDefaultDateModel()
+      this.calendar
     )
 
     let view = 'Hour'
@@ -76,8 +75,7 @@ export default Vue.extend({
         v,
         this.computedMask,
         this.computedLocale,
-        this.calendar,
-        this.defaultDateModel
+        this.calendar
       )
 
       if (
@@ -140,10 +138,6 @@ export default Vue.extend({
           ? '--'
           : pad(time.second)
       }
-    },
-
-    defaultDateModel () {
-      return this.__getDefaultDateModel()
     },
 
     computedFormat24h () {
@@ -345,34 +339,38 @@ export default Vue.extend({
         : `HH:mm${this.withSeconds === true ? ':ss' : ''}`
     },
 
-    __getDefaultDateModel () {
-      if (typeof this.defaultDate !== 'string') {
-        const date = this.__getCurrentDate()
-        date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
-        return date
-      }
-
-      return __splitDate(this.defaultDate, 'YYYY/MM/DD', void 0, this.calendar)
-    },
-
     __click (evt) {
-      if (this._isBeingDestroyed === true || this._isDestroyed === true) {
-        return
-      }
+      if (this.__shouldAbortInteraction() !== true) {
+        // __activate() has already updated the offset
+        // (on desktop only, through mousedown event)
+        if (this.$q.platform.is.desktop !== true) {
+          this.__updateClock(evt, this.__getClockRect())
+        }
 
-      // __activate() has already updated the offset
-      // (on desktop only, through mousedown event)
-      if (this.$q.platform.is.desktop !== true) {
-        this.__updateClock(evt, this.__getClockRect())
+        this.__goToNextView()
       }
-
-      this.__goToNextView()
     },
 
     __activate (evt) {
-      if (this._isBeingDestroyed !== true && this._isDestroyed !== true) {
+      if (this.__shouldAbortInteraction() !== true) {
         this.__updateClock(evt, this.__getClockRect())
       }
+    },
+
+    __shouldAbortInteraction () {
+      return this._isBeingDestroyed === true ||
+        this._isDestroyed === true ||
+        // if we have limited options, can we actually set any?
+        (
+          this.viewValidOptions !== void 0 &&
+          (
+            this.viewValidOptions.values.length === 0 ||
+            (
+              this.view === 'Hour' && this.computedFormat24h !== true &&
+              this.validHours[this.isAM === true ? 'am' : 'pm'].values.length === 0
+            )
+          )
+        )
     },
 
     __getClockRect () {
@@ -398,9 +396,7 @@ export default Vue.extend({
     },
 
     __drag (event) {
-      // cases when on a popup getting closed
-      // on previously emitted value
-      if (this._isBeingDestroyed === true || this._isDestroyed === true) {
+      if (this.__shouldAbortInteraction() === true) {
         return
       }
 
@@ -443,9 +439,13 @@ export default Vue.extend({
         val = angle / 30
 
         if (this.validHours !== void 0) {
-          const am = this.computedFormat24h === true
-            ? distance >= clockRect.dist
-            : this.isAM === true
+          const am = this.computedFormat24h !== true
+            ? this.isAM === true
+            : (
+              this.validHours.am.values.length > 0 && this.validHours.pm.values.length > 0
+                ? distance >= clockRect.dist
+                : this.validHours.am.values.length > 0
+            )
 
           val = this.__getNormalizedClockValue(
             val + (am === true ? 0 : 12),
@@ -488,11 +488,10 @@ export default Vue.extend({
         }
       }
 
-      if (cacheVal === val) {
-        return val
+      if (cacheVal !== val) {
+        this[`__set${this.view}`](val)
       }
 
-      this[`__set${this.view}`](val)
       return val
     },
 
@@ -719,29 +718,30 @@ export default Vue.extend({
     },
 
     __setAm () {
-      if (this.isAM) { return }
+      if (this.isAM === false) {
+        this.isAM = true
 
-      this.isAM = true
-
-      if (this.innerModel.hour === null) { return }
-      this.innerModel.hour -= 12
-      this.__verifyAndUpdate()
+        if (this.innerModel.hour !== null) {
+          this.innerModel.hour -= 12
+          this.__verifyAndUpdate()
+        }
+      }
     },
 
     __setPm () {
-      if (!this.isAM) { return }
+      if (this.isAM === true) {
+        this.isAM = false
 
-      this.isAM = false
-
-      if (this.innerModel.hour === null) { return }
-      this.innerModel.hour += 12
-      this.__verifyAndUpdate()
+        if (this.innerModel.hour !== null) {
+          this.innerModel.hour += 12
+          this.__verifyAndUpdate()
+        }
+      }
     },
 
     __verifyAndUpdate () {
       if (this.hourInSelection !== void 0 && this.hourInSelection(this.innerModel.hour) !== true) {
         this.innerModel = __splitDate()
-        this.isAM = true
         this.view = 'Hour'
         return
       }

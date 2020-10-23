@@ -30,6 +30,23 @@
           format24h
         />
       </div>
+
+      <div>
+        <div>{{ time4 || 'null' }}</div>
+        <q-time
+          v-model="time4"
+          :options="optionsTime4"
+          format24h
+        />
+      </div>
+
+      <div>
+        <div>{{ time5 || 'null' }}</div>
+        <q-time
+          v-model="time5"
+          :options="optionsTime5"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -41,6 +58,8 @@ export default {
       time1: '10:45:40',
       time2: '14:27:20',
       time3: '09:56',
+      time4: null, // '09:56',
+      time5: null, // '09:56',
 
       hourOptionsTime1: [ 9, 10, 11, 13, 15 ],
       minuteOptionsTime1: [ 0, 15, 30, 45 ],
@@ -66,6 +85,26 @@ export default {
       return hr >= 12
         ? hr === 13 || (hr !== 12 && hr % 3 !== 0)
         : hr === 1 || (hr !== 0 && hr % 3 === 0)
+    },
+
+    optionsTime4 (hr) {
+      return hr < 12 && (
+        hr === 1 || (hr !== 0 && hr % 3 === 0)
+      )
+
+      // return hr >= 12 && (
+      //   hr === 13 || (hr !== 12 && hr % 3 === 0)
+      // )
+    },
+
+    optionsTime5 (hr) {
+      // return hr < 12 && (
+      //   hr === 1 || (hr !== 0 && hr % 3 === 0)
+      // )
+
+      return hr >= 12 && (
+        hr === 13 || (hr !== 12 && hr % 3 === 0)
+      )
     }
   }
 }
