@@ -35,15 +35,17 @@ export default {
           ]
 
         return h('div', {
-          staticClass: 'q-table__bottom row items-center q-table__bottom--nodata'
+          staticClass: 'q-table__bottom row items-center q-table__bottom--nodata' + ' ' + this.props.tableBottomClass,
+          style: this.props.tableBottomStyle
         }, children)
       }
-
+      
       const bottom = this.$scopedSlots.bottom
-
+      
       return h('div', {
-        staticClass: 'q-table__bottom row items-center',
+        staticClass: 'q-table__bottom row items-center' + ' ' + this.props.tableBottomClass,
         class: bottom !== void 0 ? null : 'justify-end'
+        style: this.props.tableBottomStyle
       }, bottom !== void 0 ? [ bottom(this.marginalsProps) ] : this.getPaginationRow(h))
     },
 

@@ -288,6 +288,26 @@
       ],
       "category": "style"
     },
+    
+    "table-bottom-style": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS style to apply to bottom of the table",
+      "examples": [
+        "background-color: #ff0000",
+        ":table-bottom-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "table-bottom-class": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS classes to apply to bottom of the table",
+      "examples": [
+        "my-special-class",
+        ":table-bottom-class=\"{ 'my-special-class': [Boolean condition] }\""
+      ],
+      "category": "style"
+    },
 
     "card-container-style": {
       "type": [ "String", "Array", "Object" ],
