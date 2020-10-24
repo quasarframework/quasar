@@ -9,8 +9,11 @@
 //  only when used together with `quasar` module and throw otherwise
 
 import "./shims";
-import "./feature-flag";
 import "./globals";
-import "./boot";
-import "./configuration";
+export * from "./ssr";
+export * from "./store";
+export * from "./prefetch";
+export * from "./boot";
+export * from "./configuration";
+export * from "./route";
 import "./wrappers";

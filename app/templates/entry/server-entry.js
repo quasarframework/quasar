@@ -33,7 +33,7 @@ import createApp from './app.js'
 import Vue from 'vue'
 <% if (preFetch) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
-const appOptions = App.options || App
+const appOptions = App.options /* Vue.extend() */ || App
 <% } %>
 
 <%
@@ -50,6 +50,20 @@ if (boot.length > 0) {
 import <%= importName %> from '<%= asset.path %>'
 <% }) } %>
 
+const publicPath = `<%= build.publicPath %>`
+<% if (build.publicPath !== '/') { %>
+const doubleSlashRE = /\/\//
+const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
+<% } %>
+
+function redirectBrowser (url, router, reject) {
+  const normalized = Object(url) === url
+    ? <%= build.publicPath === '/' ? 'router.resolve(url).route.fullPath' : 'addPublicPath(router.resolve(url).route.fullPath)' %>
+    : url
+
+  reject({ url: normalized })
+}
+
 // This exported function will be called by `bundleRenderer`.
 // This is where we perform data-prefetching to determine the
 // state of our application before actually rendering it.
@@ -60,14 +74,14 @@ export default context => {
     const { app, <%= store ? 'store, ' : '' %>router } = await createApp(context)
 
     <% if (bootNames.length > 0) { %>
-    let routeUnchanged = true
+    let hasRedirected = false
     const redirect = url => {
-      routeUnchanged = false
-      reject({ url })
+      hasRedirected = true
+      redirectBrowser(url, router, reject)
     }
 
     const bootFiles = [<%= bootNames.join(',') %>]
-    for (let i = 0; routeUnchanged === true && i < bootFiles.length; i++) {
+    for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
       if (typeof bootFiles[i] !== 'function') {
         continue
       }
@@ -80,7 +94,8 @@ export default context => {
           Vue,
           ssrContext: context,
           redirect,
-          urlPath: context.url
+          urlPath: context.url,
+          publicPath
         })
       }
       catch (err) {
@@ -89,13 +104,13 @@ export default context => {
       }
     }
 
-    if (routeUnchanged === false) {
+    if (hasRedirected === true) {
       return
     }
     <% } %>
 
     const
-      { url } = context,
+      url = context.url<% if (build.publicPath !== '/') { %>.replace(`<%= build.publicPath %>`, '/')<% } %>,
       { fullPath } = router.resolve(url).route
 
     if (fullPath !== url) {
@@ -103,7 +118,7 @@ export default context => {
     }
 
     // set router's location
-    router.push(url)
+    router.push(url).catch(() => {})
 
     // wait until router has resolved possible async hooks
     router.onReady(() => {
@@ -111,19 +126,19 @@ export default context => {
         .map(m => m.options /* Vue.extend() */ || m)
 
       // no matched routes
-      if (!matchedComponents.length) {
+      if (matchedComponents.length === 0) {
         return reject({ code: 404 })
       }
 
       <% if (preFetch) { %>
 
-      let routeUnchanged = true
+      let hasRedirected = false
       const redirect = url => {
-        routeUnchanged = false
-        reject({ url })
+        hasRedirected = true
+        redirectBrowser(url, router, reject)
       }
 
-      appOptions.preFetch && matchedComponents.unshift(appOptions)
+      appOptions.preFetch !== void 0 && matchedComponents.unshift(appOptions)
 
       // Call preFetch hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,
@@ -132,16 +147,18 @@ export default context => {
       matchedComponents
       .filter(c => c && c.preFetch)
       .reduce(
-        (promise, c) => promise.then(() => routeUnchanged && c.preFetch({
+        (promise, c) => promise.then(() => hasRedirected === false && c.preFetch({
           <% if (store) { %>store,<% } %>
           ssrContext: context,
           currentRoute: router.currentRoute,
-          redirect
+          redirect,
+          urlPath: context.url,
+          publicPath
         })),
         Promise.resolve()
       )
       .then(() => {
-        if (!routeUnchanged) { return }
+        if (hasRedirected === true) { return }
 
         <% if (store) { %>context.state = store.state<% } %>
 

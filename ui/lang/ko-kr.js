@@ -22,7 +22,8 @@ export default {
     months: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
     monthsShort: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: false
+    format24h: false,
+    pluralDay: '일'
   },
   table: {
     noData: '데이터가 없습니다.',

@@ -8,7 +8,7 @@ import { getSizeMixin } from '../../mixins/size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { mergeSlotSafely } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QChip',
@@ -34,6 +34,7 @@ export default Vue.extend({
 
     icon: String,
     iconRight: String,
+    iconRemove: String,
     label: [String, Number],
 
     color: String,
@@ -84,8 +85,10 @@ export default Vue.extend({
       return this.disable === false && (this.clickable === true || this.selected !== null)
     },
 
-    computedTabindex () {
-      return this.disable === true ? -1 : this.tabindex || 0
+    attrs () {
+      return this.disable === true
+        ? { tabindex: -1, 'aria-disabled': 'true' }
+        : { tabindex: this.tabindex || 0 }
     }
   },
 
@@ -139,15 +142,15 @@ export default Vue.extend({
         })
       )
 
-      this.removable && child.push(
+      this.removable === true && child.push(
         h(QIcon, {
           staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
-          props: { name: this.$q.iconSet.chip.remove },
-          attrs: { tabindex: this.computedTabindex },
-          nativeOn: {
+          props: { name: this.iconRemove || this.$q.iconSet.chip.remove },
+          attrs: this.attrs,
+          on: cache(this, 'non', {
             click: this.__onRemove,
             keyup: this.__onRemove
-          }
+          })
         })
       )
 
@@ -165,7 +168,7 @@ export default Vue.extend({
     }
 
     this.isClickable === true && Object.assign(data, {
-      attrs: { tabindex: this.computedTabindex },
+      attrs: this.attrs,
       on: cache(this, 'click', {
         click: this.__onClick,
         keyup: this.__onKeyup

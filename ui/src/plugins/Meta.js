@@ -18,7 +18,7 @@ function normalize (meta) {
       metaType = meta[type[0]],
       metaProp = type[1]
 
-    for (let name in metaType) {
+    for (const name in metaType) {
       const metaLink = metaType[name]
 
       if (metaLink.template) {
@@ -38,7 +38,7 @@ function changed (old, def) {
   if (Object.keys(old).length !== Object.keys(def).length) {
     return true
   }
-  for (let key in old) {
+  for (const key in old) {
     if (old[key] !== def[key]) {
       return true
     }
@@ -54,7 +54,7 @@ function htmlFilter (name) {
 }
 
 function diff (meta, other) {
-  let add = {}, remove = {}
+  const add = {}, remove = {}
 
   if (meta === void 0) {
     return { add: other, remove }
@@ -75,12 +75,12 @@ function diff (meta, other) {
 
     add[type] = {}
 
-    for (let key in old) {
+    for (const key in old) {
       if (cur.hasOwnProperty(key) === false) {
         remove[type].push(key)
       }
     }
-    for (let key in cur) {
+    for (const key in cur) {
       if (old.hasOwnProperty(key) === false) {
         add[type][key] = cur[key]
       }
@@ -116,9 +116,9 @@ function apply ({ add, remove }) {
   ;['meta', 'link', 'script'].forEach(type => {
     const metaType = add[type]
 
-    for (let name in metaType) {
+    for (const name in metaType) {
       const tag = document.createElement(type)
-      for (let att in metaType[name]) {
+      for (const att in metaType[name]) {
         if (att !== 'innerHTML') {
           tag.setAttribute(att, metaType[name][att])
         }
@@ -159,8 +159,6 @@ function updateClient () {
   if (ssrTakeover === true) {
     ssrTakeover = false
     this.$root.__currentMeta = window.__Q_META__
-    document.body.querySelector('script[data-qmeta-init]').remove()
-    return
   }
 
   const meta = {
@@ -194,7 +192,7 @@ function getHead (meta) {
   ;['meta', 'link', 'script'].forEach(type => {
     const metaType = meta[type]
 
-    for (let att in metaType) {
+    for (const att in metaType) {
       const attrs = Object.keys(metaType[att])
         .filter(att => att !== 'innerHTML')
         .map(getAttr(metaType[att]))
@@ -208,7 +206,7 @@ function getHead (meta) {
   return output
 }
 
-function getServerMeta (app, html) {
+function getServerMeta (app, html, ctx) {
   const meta = {
     title: '',
     titleTemplate: null,
@@ -221,6 +219,10 @@ function getServerMeta (app, html) {
 
   parseMeta(app, meta)
   normalize(meta)
+
+  const nonce = ctx !== void 0 && ctx.nonce !== void 0
+    ? ` nonce="${ctx.nonce}"`
+    : ''
 
   const tokens = {
     '%%Q_HTML_ATTRS%%': Object.keys(meta.htmlAttr)
@@ -235,7 +237,7 @@ function getServerMeta (app, html) {
     '%%Q_BODY_TAGS%%': Object.keys(meta.noscript)
       .map(name => `<noscript data-qmeta="${name}">${meta.noscript[name]}</noscript>`)
       .join('') +
-      `<script data-qmeta-init>window.__Q_META__=${delete meta.noscript && JSON.stringify(meta)}</script>`
+      `<script${nonce}>window.__Q_META__=${delete meta.noscript && JSON.stringify(meta)}</script>`
   }
 
   Object.keys(tokens).forEach(key => {
@@ -270,7 +272,10 @@ function triggerMeta () {
 export default {
   install ({ queues }) {
     if (isSSR === true) {
-      Vue.prototype.$getMetaHTML = app => html => getServerMeta(app, html)
+      Vue.prototype.$getMetaHTML = app => {
+        return (html, ctx) => getServerMeta(app, html, ctx)
+      }
+
       Vue.mixin({ beforeCreate })
 
       queues.server.push((_, ctx) => {

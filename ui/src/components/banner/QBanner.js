@@ -1,6 +1,8 @@
 import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot } from '../../utils/slot.js'
 
 const attrs = { role: 'alert' }
@@ -8,7 +10,7 @@ const attrs = { role: 'alert' }
 export default Vue.extend({
   name: 'QBanner',
 
-  mixins: [ DarkMixin ],
+  mixins: [ ListenersMixin, DarkMixin ],
 
   props: {
     inlineActions: Boolean,
@@ -20,7 +22,7 @@ export default Vue.extend({
     const actions = slot(this, 'action')
     const child = [
       h('div', {
-        staticClass: 'q-banner__avatar col-auto row items-center'
+        staticClass: 'q-banner__avatar col-auto row items-center self-start'
       }, slot(this, 'avatar')),
 
       h('div', {
@@ -44,7 +46,7 @@ export default Vue.extend({
         'rounded-borders': this.rounded
       },
       attrs,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, child)
   }
 })

@@ -15,7 +15,7 @@ We have collected some best practices for those of you new to the security theat
 The `v-html` directive is a wonderful way to programmatically render markup, but even the Vue docs come with [this warning](https://vuejs.org/v2/guide/syntax.html#Raw-HTML):
 > "Dynamically rendering arbitrary HTML on your website can be very dangerous because it can easily lead to XSS vulnerabilities. Only use HTML interpolation on trusted content and never on user-provided content."
 
-If you don't know what that means, take a quick look at what OWASP has to say about [XSS (aka cross-site scripting)](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)).
+If you don't know what that means, take a quick look at what OWASP has to say about [XSS (aka cross-site scripting)](https://owasp.org/www-community/attacks/xss/).
 
 To be fair, this *is* good advice, but **DON'T** be all hand-wavy. **DO** think like an attacker who will innovate, social engineer, lie, phish and steal their way into your systems. What if a webpack loader exploit arises and changes your page in an evil way? What if someone makes a dastardly and ill-intentioned PR? What if suddenly a third party API changes and instead of plaintext starts sending the same structure but with different content? What if the systems you thought were safe turn out to actually have been backdoored? What if a junior dev makes an accidental and fundamentally threatening change to the code that isn't reviewed properly? (Yes, idiocy is sometimes as dangerous as bad intentions!) The point is, **DO** anticipate the unexpected by preparing for the absolute worst case scenario and hardening all of your systems.
 

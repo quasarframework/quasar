@@ -2,7 +2,7 @@
   "props": {
     "value": {
       "type": "Any",
-      "desc": "Model of the component defining current panel's name; If used as Number, it does not defines panel index though but slide name's which may be an Integer; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "desc": "Model of the component defining the current panel's name; If a Number is used, it does not define the panel's index, but rather the panel's name which can also be an Integer; Either use this property (along with a listener for 'input' event) OR use the v-model directive.",
       "examples": [ "v-model=\"panelName\"" ],
       "category": "model"
     },

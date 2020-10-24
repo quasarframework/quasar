@@ -3,6 +3,40 @@ import { noop } from './utils/event.js'
 
 const getTrue = () => true
 
+function filterInvalidPath (path) {
+  return typeof path === 'string' &&
+    path !== '' &&
+    path !== '/' &&
+    path !== '#/'
+}
+
+function normalizeExitPath (path) {
+  path.startsWith('#') === true && (path = path.substr(1))
+  path.startsWith('/') === false && (path = '/' + path)
+  path.endsWith('/') === true && (path = path.substr(0, path.length - 1))
+  return '#' + path
+}
+
+function getShouldExitFn (cfg) {
+  if (cfg.backButtonExit === false) {
+    return () => false
+  }
+
+  if (cfg.backButtonExit === '*') {
+    return getTrue
+  }
+
+  // Add default root path
+  const exitPaths = [ '#/' ]
+
+  // Add custom exit paths
+  Array.isArray(cfg.backButtonExit) === true && exitPaths.push(
+    ...cfg.backButtonExit.filter(filterInvalidPath).map(normalizeExitPath)
+  )
+
+  return () => exitPaths.includes(window.location.hash)
+}
+
 export default {
   __history: [],
   add: noop,
@@ -19,12 +53,19 @@ export default {
       return
     }
 
+    const qConf = cfg[cordova === true ? 'cordova' : 'capacitor']
+
+    if (qConf !== void 0 && qConf.backButton === false) {
+      return
+    }
+
     this.add = entry => {
       if (entry.condition === void 0) {
         entry.condition = getTrue
       }
       this.__history.push(entry)
     }
+
     this.remove = entry => {
       const index = this.__history.indexOf(entry)
       if (index >= 0) {
@@ -32,7 +73,14 @@ export default {
       }
     }
 
-    const fn = () => {
+    const shouldExit = getShouldExitFn(
+      Object.assign(
+        { backButtonExit: true },
+        qConf
+      )
+    )
+
+    const backHandler = () => {
       if (this.__history.length) {
         const entry = this.__history[this.__history.length - 1]
 
@@ -41,7 +89,7 @@ export default {
           entry.handler()
         }
       }
-      else if (exit && window.location.hash === '#/') {
+      else if (shouldExit() === true) {
         navigator.app.exitApp()
       }
       else {
@@ -49,16 +97,13 @@ export default {
       }
     }
 
-    const prop = cordova === true ? 'cordova' : 'capacitor'
-    const exit = cfg[prop] === void 0 || cfg[prop].backButtonExit !== false
-
     if (cordova === true) {
       document.addEventListener('deviceready', () => {
-        document.addEventListener('backbutton', fn, false)
+        document.addEventListener('backbutton', backHandler, false)
       })
     }
     else {
-      window.Capacitor.Plugins.App.addListener('backButton', fn)
+      window.Capacitor.Plugins.App.addListener('backButton', backHandler)
     }
   }
 }

@@ -2,9 +2,11 @@ import Vue from 'vue'
 
 import TouchSwipe from '../directives/TouchSwipe.js'
 
+import ListenersMixin from './listeners.js'
+
 import { stop } from '../utils/event.js'
 import { slot } from '../utils/slot.js'
-import { cache } from '../utils/vm.js'
+import cache from '../utils/cache.js'
 
 const PanelWrapper = Vue.extend({
   name: 'QTabPanelWrapper',
@@ -21,6 +23,8 @@ const PanelWrapper = Vue.extend({
 })
 
 export const PanelParentMixin = {
+  mixins: [ ListenersMixin ],
+
   directives: {
     TouchSwipe
   },
@@ -119,28 +123,17 @@ export const PanelParentMixin = {
 
     __getPanelIndex (name) {
       return this.panels.findIndex(panel => {
-        const opt = panel.componentOptions
-        return opt &&
-          opt.propsData.name === name &&
-          opt.propsData.disable !== '' &&
-          opt.propsData.disable !== true
+        const opt = panel.componentOptions.propsData
+        return opt.name === name &&
+          opt.disable !== '' &&
+          opt.disable !== true
       })
     },
 
-    __getAllPanels () {
-      return this.panels.filter(
-        panel => panel.componentOptions !== void 0 &&
-          this.__isValidPanelName(panel.componentOptions.propsData.name)
-      )
-    },
-
-    __getAvailablePanels () {
+    __getEnabledPanels () {
       return this.panels.filter(panel => {
-        const opt = panel.componentOptions
-        return opt &&
-          opt.propsData.name !== void 0 &&
-          opt.propsData.disable !== '' &&
-          opt.propsData.disable !== true
+        const opt = panel.componentOptions.propsData
+        return opt.disable !== '' && opt.disable !== true
       })
     },
 
@@ -239,12 +232,20 @@ export const PanelParentMixin = {
   },
 
   render (h) {
-    this.panels = slot(this, 'default', [])
+    this.panels = slot(this, 'default', []).filter(
+      panel => panel !== void 0 &&
+        panel.componentOptions !== void 0 &&
+        panel.componentOptions.propsData !== void 0 &&
+        this.__isValidPanelName(panel.componentOptions.propsData.name)
+    )
+
     return this.__renderPanels(h)
   }
 }
 
 export const PanelChildMixin = {
+  mixins: [ ListenersMixin ],
+
   props: {
     name: {
       required: true

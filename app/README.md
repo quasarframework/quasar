@@ -2,7 +2,7 @@
 
 # Quasar Framework App CLI (Local)
 
-> Build responsive Single Page Apps, **SSR Apps**, PWAs, Hybrid Mobile Apps and Electron Apps, all using the same codebase!, powered with Vue.
+> Build high-performance VueJS user interfaces in record time: responsive Single Page Apps, SSR Apps, PWAs, Browser extensions, Hybrid Mobile Apps and Electron Apps. If you want, all using the same codebase!
 
 <img src="https://img.shields.io/npm/v/%40quasar/app.svg?label=@quasar/app">
 

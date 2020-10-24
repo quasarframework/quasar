@@ -40,6 +40,21 @@
           <input v-model="native" :autofocus="autofocusEl === 0">
         </div>
 
+        <my-comp />
+
+        <q-select
+          ref="title"
+          name="title"
+          v-model="title"
+          :options="titles"
+          :dark="dark"
+          :color="dark ? 'yellow' : 'primary'"
+          filled
+          label="Title"
+          :rules="[ val => !!val ]"
+          :autofocus="autofocusEl === 4"
+        />
+
         <q-input
           ref="name"
           :dark="dark"
@@ -59,13 +74,27 @@
           filled
           type="number"
           v-model="age"
-          label="Your age *"
+          label="Your age * (lazy)"
           lazy-rules
           :rules="[
             val => val !== null && val !== '' || 'Please type your age',
             val => val > 0 && val < 100 || 'Please type a real age'
           ]"
           :autofocus="autofocusEl === 2"
+        />
+
+        <q-input
+          ref="age"
+          :dark="dark"
+          filled
+          type="number"
+          v-model="age"
+          label="Your age * (lazy ondemand)"
+          lazy-rules="ondemand"
+          :rules="[
+            val => val !== null && val !== '' || 'Please type your age',
+            val => val > 0 && val < 100 || 'Please type a real age'
+          ]"
         />
 
         <q-input
@@ -106,6 +135,16 @@
           <q-badge :label="user || 'N/A'" />
           <q-badge :label="pwd || 'N/A'" />
         </div>
+        <q-select
+          name="title"
+          v-model="title"
+          :options="titles"
+          :dark="dark"
+          :color="dark ? 'yellow' : 'primary'"
+          filled
+          label="Title"
+          :rules="[ val => !!val ]"
+        />
         <q-input
           name="user"
           v-model="user"
@@ -152,6 +191,31 @@ export default {
           }
         })
       }
+    },
+
+    myComp: {
+      render (h) {
+        return h('div', {
+          staticClass: 'q-validation-component'
+        }, [
+          h('q-card', {
+            staticClass: 'text-subtitle2',
+            props: {
+              bordered: true,
+              flat: true
+            }
+          }, [
+            h('q-card-section', [ 'a custom component' ])
+          ])
+        ])
+      },
+
+      methods: {
+        validate () {
+          console.log('called my-comp.validate()')
+          return true
+        }
+      }
     }
   },
   data () {
@@ -170,13 +234,17 @@ export default {
         { value: 0, label: 'Native input' },
         { value: 1, label: 'Name' },
         { value: 2, label: 'Age' },
-        { value: 3, label: 'Toggle' }
+        { value: 3, label: 'Toggle' },
+        { value: 4, label: 'Title' }
       ],
       autofocusEl: 1,
 
       dark: null,
       greedy: false,
 
+      titles: [ 'Mr.', 'Ms.' ],
+
+      title: null,
       user: null,
       pwd: null,
       customValue: '',
@@ -213,7 +281,7 @@ export default {
       this.$q.notify('submit')
       console.log('@submit')
 
-      evt.target.submit()
+      // evt.target.submit()
     },
 
     onReset () {

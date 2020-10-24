@@ -6,15 +6,23 @@ desc: How to manage the app icons for a Quasar hybrid mobile app with Capacitor.
 
 Capacitor is one of the most complicated of all of the build targets as far as icons go, because not only do you need to place the icons in specific folders, you also need to register them in config files for both platforms (Android, iOS).
 
+If you discover one file that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
+
 <img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
 
-## The Icon Genie
+## Icon Genie CLI
 
 ::: tip
-We highly recommend using our official [Icon Genie](https://github.com/quasarframework/app-extension-icon-genie/) app extension, because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When you change this source file (or some of the extension's settings) the icons will be automatically rebuilt on the next dev or build command.
+We highly recommend using the [Icon Genie CLI](/icongenie/introduction), because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When needed, it also tells you what tags you'll need to add to your /src/index.template.html file.
 :::
 
-Note that you will need Icon Genie app extension v1.1+ for Capacitor mode to be picked up.
+Quickly bootstrap the necessary images with Icon Genie CLI. For a complete list of options, please visit the [Icon Genie CLI](/icongenie/command-list) command list page.
+
+```bash
+$ icongenie generate -m capacitor -i /path/to/source/icon.png [-b /path/to/background.png]
+```
+
+Depending on what packager (electron-packager or electron-builder) you will be using, please see their docs on how to hook the icons.
 
 ## Manual instructions
 

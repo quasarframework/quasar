@@ -2,11 +2,12 @@ import Vue from 'vue'
 
 import AlignMixin from '../../mixins/align.js'
 import { slot } from '../../utils/slot.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 export default Vue.extend({
   name: 'QBreadcrumbs',
 
-  mixins: [ AlignMixin ],
+  mixins: [ ListenersMixin, AlignMixin ],
 
   props: {
     separator: {
@@ -79,7 +80,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-breadcrumbs',
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, [
       h('div', {
         staticClass: 'flex items-center',

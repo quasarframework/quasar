@@ -6,7 +6,8 @@ import PortalMixin from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
-import { addEvt, cleanEvt, getTouchTarget } from '../../utils/touch.js'
+import { getTouchTarget } from '../../utils/touch.js'
+import { addEvt, cleanEvt } from '../../utils/event.js'
 import { clearSelection } from '../../utils/selection.js'
 import { slot } from '../../utils/slot.js'
 import {

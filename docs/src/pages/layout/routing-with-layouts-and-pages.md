@@ -71,7 +71,7 @@ export default routes
 ```
 
 ::: tip
-More in-depth analysis of [Lazy loading / code-splitting](/quasar-cli/cli-documentation/lazy-loading).
+More in-depth analysis of [Lazy loading / code-splitting](/quasar-cli/lazy-loading).
 :::
 
 ::: tip

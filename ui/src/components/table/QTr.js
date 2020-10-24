@@ -1,9 +1,13 @@
 import Vue from 'vue'
 
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QTr',
+
+  mixins: [ ListenersMixin ],
 
   props: {
     props: Object,
@@ -19,7 +23,7 @@ export default Vue.extend({
 
   render (h) {
     return h('tr', {
-      on: this.$listeners,
+      on: { ...this.qListeners },
       class: this.classes
     }, slot(this, 'default'))
   }

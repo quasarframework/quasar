@@ -5,10 +5,12 @@
       v-model="slide"
       navigation
       infinite
-      autoplay
+      :autoplay="autoplay"
       arrows
       transition-prev="slide-right"
       transition-next="slide-left"
+      @mouseenter="autoplay = false"
+      @mouseleave="autoplay = true"
     >
       <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
       <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
@@ -22,7 +24,8 @@
 export default {
   data () {
     return {
-      slide: 1
+      slide: 1,
+      autoplay: true
     }
   }
 }

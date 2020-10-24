@@ -1,6 +1,6 @@
 import { client } from '../plugins/Platform.js'
-import { addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
-import { position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
+import { getTouchTarget } from '../utils/touch.js'
+import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 import { isKeyCode } from '../utils/key-composition.js'
 
@@ -25,10 +25,29 @@ function shouldEnd (evt, origin) {
     Math.abs(top - origin.top) >= 7
 }
 
+function destroy (el) {
+  const ctx = el.__qtouchrepeat
+  if (ctx !== void 0) {
+    clearTimeout(ctx.timer)
+
+    cleanEvt(ctx, 'main')
+    cleanEvt(ctx, 'temp')
+
+    ctx.styleCleanup !== void 0 && ctx.styleCleanup()
+
+    delete el.__qtouchrepeat
+  }
+}
+
 export default {
   name: 'touch-repeat',
 
   bind (el, { modifiers, value, arg }) {
+    if (el.__qtouchrepeat !== void 0) {
+      destroy(el)
+      el.__qtouchrepeat_destroyed = true
+    }
+
     const keyboard = Object.keys(modifiers).reduce((acc, key) => {
       if (keyRegex.test(key) === true) {
         const keyCode = isNaN(parseInt(key, 10)) ? keyCodes[key.toLowerCase()] : parseInt(key, 10)
@@ -197,10 +216,6 @@ export default {
       }
     }
 
-    if (el.__qtouchrepeat !== void 0) {
-      el.__qtouchrepeat_old = el.__qtouchrepeat
-    }
-
     el.__qtouchrepeat = ctx
 
     modifiers.mouse === true && addEvt(ctx, 'main', [
@@ -217,27 +232,20 @@ export default {
     ])
   },
 
-  update (el, binding) {
+  update (el, { oldValue, value }) {
     const ctx = el.__qtouchrepeat
-
-    if (ctx !== void 0 && binding.oldValue !== binding.value) {
-      typeof binding.value !== 'function' && ctx.end()
-      ctx.handler = binding.value
+    if (ctx !== void 0 && oldValue !== value) {
+      typeof value !== 'function' && ctx.end()
+      ctx.handler = value
     }
   },
 
   unbind (el) {
-    const ctx = el.__qtouchrepeat_old || el.__qtouchrepeat
-
-    if (ctx !== void 0) {
-      clearTimeout(ctx.timer)
-
-      cleanEvt(ctx, 'main')
-      cleanEvt(ctx, 'temp')
-
-      ctx.styleCleanup !== void 0 && ctx.styleCleanup()
-
-      delete el[el.__qtouchrepeat_old ? '__qtouchrepeat_old' : '__qtouchrepeat']
+    if (el.__qtouchrepeat_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qtouchrepeat_destroyed
     }
   }
 }

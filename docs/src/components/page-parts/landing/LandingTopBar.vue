@@ -23,7 +23,7 @@ import {
 
 import {
   mdiBlogger, mdiChat, mdiForum
-} from '@quasar/extras/mdi-v4'
+} from '@quasar/extras/mdi-v5'
 
 export default {
   name: 'LandingTopBar',

@@ -37,10 +37,10 @@ export default Vue.extend({
     computedRipple () {
       return this.ripple === false
         ? false
-        : Object.assign(
-          { keyCodes: this.isLink === true ? [ 13, 32 ] : [ 13 ] },
-          this.ripple === true ? {} : this.ripple
-        )
+        : {
+          keyCodes: this.isLink === true ? [ 13, 32 ] : [ 13 ],
+          ...(this.ripple === true ? {} : this.ripple)
+        }
     },
 
     percentageStyle () {
@@ -50,13 +50,41 @@ export default Vue.extend({
       }
     },
 
-    onLoadingEvents () {
-      return {
-        mousedown: this.__onLoadingEvt,
-        touchstart: this.__onLoadingEvt,
-        click: this.__onLoadingEvt,
-        keydown: this.__onLoadingEvt,
-        keyup: this.__onLoadingEvt
+    onEvents () {
+      if (this.loading === true) {
+        return {
+          mousedown: this.__onLoadingEvt,
+          touchstart: this.__onLoadingEvt,
+          click: this.__onLoadingEvt,
+          keydown: this.__onLoadingEvt,
+          keyup: this.__onLoadingEvt
+        }
+      }
+      else if (this.isActionable === true) {
+        const on = {
+          ...this.qListeners,
+          click: this.click,
+          keydown: this.__onKeydown,
+          mousedown: this.__onMousedown
+        }
+
+        if (this.$q.platform.has.touch === true) {
+          on.touchstart = this.__onTouchstart
+        }
+
+        return on
+      }
+
+      return {}
+    },
+
+    directives () {
+      if (this.disable !== true && this.ripple !== false) {
+        return [{
+          name: 'ripple',
+          value: this.computedRipple,
+          modifiers: { center: this.round }
+        }]
       }
     }
   },
@@ -113,14 +141,10 @@ export default Vue.extend({
       }
 
       const go = () => {
-        const res = this.$router[this.replace === true ? 'replace' : 'push'](this.to)
-
         // vue-router now throwing error if navigating
         // to the same route that the user is currently at
         // https://github.com/vuejs/vue-router/issues/2872
-        if (res !== void 0 && typeof res.catch === 'function') {
-          res.catch(noop)
-        }
+        this.$router[this.replace === true ? 'replace' : 'push'](this.currentLocation.route, void 0, noop)
       }
 
       this.$emit('click', e, go)
@@ -207,13 +231,16 @@ export default Vue.extend({
     },
 
     __cleanup (destroying) {
+      const blurTarget = this.$refs.blurTarget
+
       if (
         destroying !== true &&
         (touchTarget === this.$el || mouseTarget === this.$el) &&
-        this.$refs.blurTarget !== void 0 &&
-        this.$refs.blurTarget !== document.activeElement
+        blurTarget !== void 0 &&
+        blurTarget !== document.activeElement
       ) {
-        this.$refs.blurTarget.focus()
+        blurTarget.setAttribute('tabindex', -1)
+        blurTarget.focus()
       }
 
       if (touchTarget === this.$el) {
@@ -249,33 +276,6 @@ export default Vue.extend({
 
   render (h) {
     let inner = []
-    const data = {
-      staticClass: 'q-btn q-btn-item non-selectable no-outline',
-      class: this.classes,
-      style: this.style,
-      attrs: this.attrs
-    }
-
-    if (this.isActionable === true) {
-      data.on = {
-        ...this.$listeners,
-        click: this.click,
-        keydown: this.__onKeydown,
-        mousedown: this.__onMousedown
-      }
-
-      if (this.$q.platform.has.touch === true) {
-        data.on.touchstart = this.__onTouchstart
-      }
-    }
-
-    if (this.disable !== true && this.ripple !== false) {
-      data.directives = [{
-        name: 'ripple',
-        value: this.computedRipple,
-        modifiers: { center: this.round }
-      }]
-    }
 
     this.icon !== void 0 && inner.push(
       h(QIcon, {
@@ -285,7 +285,7 @@ export default Vue.extend({
     )
 
     this.hasLabel === true && inner.push(
-      h('div', [ this.label ])
+      h('span', { staticClass: 'block' }, [ this.label ])
     )
 
     inner = mergeSlot(inner, this, 'default')
@@ -300,23 +300,19 @@ export default Vue.extend({
     }
 
     const child = [
-      h('div', {
+      h('span', {
         staticClass: 'q-focus-helper',
-        ref: 'blurTarget',
-        attrs: { tabindex: -1 }
+        ref: 'blurTarget'
       })
     ]
 
-    if (this.loading === true) {
-      // stop propagation and ripple
-      data.on = this.onLoadingEvents
-
-      this.percentage !== void 0 && child.push(
-        h('div', {
+    if (this.loading === true && this.percentage !== void 0) {
+      child.push(
+        h('span', {
           staticClass: 'q-btn__progress absolute-full overflow-hidden'
         }, [
-          h('div', {
-            staticClass: 'q-btn__progress-indicator fit',
+          h('span', {
+            staticClass: 'q-btn__progress-indicator fit block',
             class: this.darkPercentage === true ? 'q-btn__progress--dark' : '',
             style: this.percentageStyle
           })
@@ -325,10 +321,11 @@ export default Vue.extend({
     }
 
     child.push(
-      h('div', {
-        staticClass: 'q-btn__wrapper col row q-anchor--skip'
+      h('span', {
+        staticClass: 'q-btn__wrapper col row q-anchor--skip',
+        style: this.wrapperStyle
       }, [
-        h('div', {
+        h('span', {
           staticClass: 'q-btn__content text-center col items-center q-anchor--skip',
           class: this.innerClasses
         }, inner)
@@ -339,13 +336,20 @@ export default Vue.extend({
       h('transition', {
         props: { name: 'q-transition--fade' }
       }, this.loading === true ? [
-        h('div', {
+        h('span', {
           key: 'loading',
           staticClass: 'absolute-full flex flex-center'
         }, this.$scopedSlots.loading !== void 0 ? this.$scopedSlots.loading() : [ h(QSpinner) ])
       ] : void 0)
     )
 
-    return h(this.isLink === true ? 'a' : 'button', data, child)
+    return h(this.isLink === true ? 'a' : 'button', {
+      staticClass: 'q-btn q-btn-item non-selectable no-outline',
+      class: this.classes,
+      style: this.style,
+      attrs: this.attrs,
+      on: this.onEvents,
+      directives: this.directives
+    }, child)
   }
 })

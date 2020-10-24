@@ -1,8 +1,7 @@
-import Vue, { ComponentOptions } from 'vue'
+import Vue from 'vue'
 
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
-    preFetch?: (options: any) => void | Promise<void>,
-    meta?:  object | ((this: V) => object)
+    meta?: object | ((this: V) => object)
   }
 }

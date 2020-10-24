@@ -1,8 +1,12 @@
 import Vue from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
+
 import DarkMixin from '../../mixins/dark.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot } from '../../utils/slot.js'
+import { cacheWithFn } from '../../utils/cache.js'
 
 const slotsDef = [
   ['left', 'center', 'start', 'width'],
@@ -14,7 +18,7 @@ const slotsDef = [
 export default Vue.extend({
   name: 'QSlideItem',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, ListenersMixin ],
 
   props: {
     leftColor: String,
@@ -134,10 +138,13 @@ export default Vue.extend({
   render (h) {
     const
       content = [],
-      left = this.$scopedSlots[this.langDir.right] !== void 0,
-      right = this.$scopedSlots[this.langDir.left] !== void 0,
-      up = this.$scopedSlots.bottom !== void 0,
-      down = this.$scopedSlots.top !== void 0
+      slots = {
+        left: this.$scopedSlots[this.langDir.right] !== void 0,
+        right: this.$scopedSlots[this.langDir.left] !== void 0,
+        up: this.$scopedSlots.bottom !== void 0,
+        down: this.$scopedSlots.top !== void 0
+      },
+      dirs = Object.keys(slots).filter(key => slots[key] === true)
 
     slotsDef.forEach(slot => {
       const dir = slot[0]
@@ -160,26 +167,32 @@ export default Vue.extend({
         ref: 'content',
         key: 'content',
         staticClass: 'q-slide-item__content',
-        directives: left === true || right === true || up === true || down === true ? [{
-          name: 'touch-pan',
-          value: this.__pan,
-          modifiers: {
-            left,
-            right,
-            up,
-            down,
-            prevent: true,
-            stop: true,
-            mouse: true
-          }
-        }] : null
+        directives: dirs.length > 0
+          ? cacheWithFn(this, 'dir#' + dirs.join(''), () => {
+            const modifiers = {
+              prevent: true,
+              stop: true,
+              mouse: true
+            }
+
+            dirs.forEach(dir => {
+              modifiers[dir] = true
+            })
+
+            return [{
+              name: 'touch-pan',
+              value: this.__pan,
+              modifiers
+            }]
+          })
+          : null
       }, slot(this, 'default'))
     )
 
     return h('div', {
       staticClass: 'q-slide-item q-item-type overflow-hidden',
       class: this.isDark === true ? `q-slide-item--dark q-dark` : '',
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, content)
   },
 

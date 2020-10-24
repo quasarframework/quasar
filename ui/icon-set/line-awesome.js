@@ -87,10 +87,10 @@ export default {
     error: 'las la-exclamation-circle'
   },
   pagination: {
-    first: 'las la-step-backward',
+    first: 'las la-fast-backward',
     prev: 'las la-chevron-left',
     next: 'las la-chevron-right',
-    last: 'las la-step-forward'
+    last: 'las la-fast-forward'
   },
   rating: {
     icon: 'las la-star'
@@ -109,8 +109,10 @@ export default {
   table: {
     arrowUp: 'las la-arrow-up',
     warning: 'las la-exclamation-triangle',
+    firstPage: 'las la-fast-backward',
     prevPage: 'las la-chevron-left',
-    nextPage: 'las la-chevron-right'
+    nextPage: 'las la-chevron-right',
+    lastPage: 'las la-fast-forward'
   },
   tree: {
     icon: 'las la-play'

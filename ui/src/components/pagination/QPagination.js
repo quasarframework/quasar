@@ -4,16 +4,17 @@ import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
 
 import DarkMixin from '../../mixins/dark.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { stop } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 import { isKeyCode } from '../../utils/key-composition.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QPagination',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, ListenersMixin ],
 
   props: {
     value: {
@@ -71,6 +72,11 @@ export default Vue.extend({
       type: Number,
       default: 0,
       validator: v => v >= 0
+    },
+
+    ripple: {
+      type: [Boolean, Object],
+      default: null
     }
   },
 
@@ -138,8 +144,19 @@ export default Vue.extend({
     attrs () {
       if (this.disable === true) {
         return {
-          'aria-disabled': ''
+          'aria-disabled': 'true'
         }
+      }
+    },
+
+    btnProps () {
+      return {
+        color: this.color,
+        flat: true,
+        size: this.size,
+        ripple: this.ripple !== null
+          ? this.ripple
+          : true
       }
     }
   },
@@ -166,9 +183,7 @@ export default Vue.extend({
 
     __getBtn (h, data, props, page) {
       data.props = {
-        color: this.color,
-        flat: true,
-        size: this.size,
+        ...this.btnProps,
         ...props
       }
 
@@ -295,8 +310,7 @@ export default Vue.extend({
           disable: this.disable,
           flat: !active,
           textColor: active ? this.textColor : null,
-          label: this.min,
-          ripple: false
+          label: this.min
         }, this.min))
       }
       if (boundaryEnd) {
@@ -308,8 +322,7 @@ export default Vue.extend({
           disable: this.disable,
           flat: !active,
           textColor: active ? this.textColor : null,
-          label: this.max,
-          ripple: false
+          label: this.max
         }, this.max))
       }
       if (ellipsesStart) {
@@ -318,7 +331,8 @@ export default Vue.extend({
           style
         }, {
           disable: this.disable,
-          label: '…'
+          label: '…',
+          ripple: false
         }, pgFrom - 1))
       }
       if (ellipsesEnd) {
@@ -327,7 +341,8 @@ export default Vue.extend({
           style
         }, {
           disable: this.disable,
-          label: '…'
+          label: '…',
+          ripple: false
         }, pgTo + 1))
       }
       for (let i = pgFrom; i <= pgTo; i++) {
@@ -339,8 +354,7 @@ export default Vue.extend({
           disable: this.disable,
           flat: !active,
           textColor: active ? this.textColor : null,
-          label: i,
-          ripple: false
+          label: i
         }, i))
       }
     }
@@ -349,7 +363,7 @@ export default Vue.extend({
       staticClass: 'q-pagination row no-wrap items-center',
       class: { disabled: this.disable },
       attrs: this.attrs,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, [
       contentStart,
 

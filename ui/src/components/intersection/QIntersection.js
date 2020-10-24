@@ -1,14 +1,18 @@
 import Vue from 'vue'
 
-import Intersection from '../../directives/Intersection.js'
-import TagMixin from '../../mixins/tag.js'
-import { slot } from '../../utils/slot.js'
 import { onSSR } from '../../plugins/Platform.js'
+
+import Intersection from '../../directives/Intersection.js'
+
+import TagMixin from '../../mixins/tag.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QIntersection',
 
-  mixins: [ TagMixin ],
+  mixins: [ TagMixin, ListenersMixin ],
 
   directives: {
     Intersection
@@ -22,6 +26,9 @@ export default Vue.extend({
 
     margin: String,
     threshold: [ Number, Array ],
+    root: {
+      default: null
+    },
 
     disable: Boolean
   },
@@ -38,6 +45,7 @@ export default Vue.extend({
         ? {
           handler: this.__trigger,
           cfg: {
+            root: this.root,
             rootMargin: this.margin,
             threshold: this.threshold
           }
@@ -63,7 +71,7 @@ export default Vue.extend({
       if (this.showing !== entry.isIntersecting) {
         this.showing = entry.isIntersecting
 
-        if (this.$listeners.visibility !== void 0) {
+        if (this.qListeners.visibility !== void 0) {
           this.$emit('visibility', this.showing)
         }
       }
@@ -77,7 +85,7 @@ export default Vue.extend({
 
     return h(this.tag, {
       staticClass: 'q-intersection',
-      on: this.$listeners,
+      on: { ...this.qListeners },
       directives: this.directives
     }, this.transition
       ? [

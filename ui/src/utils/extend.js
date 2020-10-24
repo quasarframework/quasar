@@ -1,4 +1,4 @@
-let
+const
   toString = Object.prototype.toString,
   hasOwn = Object.prototype.hasOwnProperty,
   class2type = {}
@@ -33,8 +33,8 @@ export default function extend () {
     options, name, src, copy, copyIsArray, clone,
     target = arguments[0] || {},
     i = 1,
-    length = arguments.length,
     deep = false
+  const length = arguments.length
 
   if (typeof target === 'boolean') {
     deep = target

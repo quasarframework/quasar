@@ -4,8 +4,8 @@
 
 let
   buf,
-  bufIdx = 0,
-  hexBytes = new Array(256)
+  bufIdx = 0
+const hexBytes = new Array(256)
 
 // Pre-calculate toString(16) for speed
 for (let i = 0; i < 256; i++) {
@@ -57,7 +57,7 @@ export default function () {
     buf = randomBytes(BUFFER_SIZE)
   }
 
-  const b = buf.slice(bufIdx, (bufIdx += 16))
+  const b = Array.prototype.slice.call(buf, bufIdx, (bufIdx += 16))
   b[6] = (b[6] & 0x0f) | 0x40
   b[8] = (b[8] & 0x3f) | 0x80
 

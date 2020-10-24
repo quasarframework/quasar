@@ -19,7 +19,7 @@ UMD is all about adding Quasar style and javascript tags. Please select what you
 :::
 
 ::: tip
-All components, directives and Quasar plugins are ready to be used out of the box. There is no need for additional code to install them. Just make sure that you will be using self-closing tags.
+All components, directives and Quasar plugins are ready to be used out of the box. There is no need for additional code to install them. Just make sure that you will NOT be using self-closing tags.
 :::
 
 ## JsFiddle / Codepen

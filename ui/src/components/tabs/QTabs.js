@@ -2,11 +2,13 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
+
 import TimeoutMixin from '../../mixins/timeout.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { stop, noop } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -30,21 +32,21 @@ function bufferCleanSelected (t) {
 
 const
   bufferFilters = [
-    function (t) { return t.selected === true && t.exact === true && t.redirected !== true },
-    function (t) { return t.selected === true && t.exact === true },
-    function (t) { return t.selected === true && t.redirected !== true },
-    function (t) { return t.selected === true },
-    function (t) { return t.exact === true && t.redirected !== true },
-    function (t) { return t.redirected !== true },
-    function (t) { return t.exact === true },
-    function (t) { return true }
+    t => t.selected === true && t.exact === true && t.redirected !== true,
+    t => t.selected === true && t.exact === true,
+    t => t.selected === true && t.redirected !== true,
+    t => t.selected === true,
+    t => t.exact === true && t.redirected !== true,
+    t => t.redirected !== true,
+    t => t.exact === true,
+    t => true
   ],
   bufferFiltersLen = bufferFilters.length
 
 export default Vue.extend({
   name: 'QTabs',
 
-  mixins: [ TimeoutMixin ],
+  mixins: [ TimeoutMixin, ListenersMixin ],
 
   provide () {
     return {
@@ -78,13 +80,18 @@ export default Vue.extend({
     leftIcon: String,
     rightIcon: String,
 
+    outsideArrows: Boolean,
+    mobileArrows: Boolean,
+
     switchIndicator: Boolean,
 
     narrowIndicator: Boolean,
     inlineLabel: Boolean,
     noCaps: Boolean,
 
-    dense: Boolean
+    dense: Boolean,
+
+    contentClass: String
   },
 
   data () {
@@ -144,10 +151,26 @@ export default Vue.extend({
 
     noCaps (v) {
       this.tabs.noCaps = v
+    },
+
+    outsideArrows () {
+      this.$nextTick(this.__recalculateScroll())
+    },
+
+    arrowsEnabled (v) {
+      this.__updateArrows = v === true
+        ? this.__updateArrowsFn
+        : noop
+
+      this.$nextTick(this.__recalculateScroll())
     }
   },
 
   computed: {
+    arrowsEnabled () {
+      return this.$q.platform.is.desktop === true || this.mobileArrows === true
+    },
+
     alignClass () {
       const align = this.scrollable === true
         ? 'left'
@@ -159,15 +182,27 @@ export default Vue.extend({
     classes () {
       return `q-tabs--${this.scrollable === true ? '' : 'not-'}scrollable` +
         ` q-tabs--${this.vertical === true ? 'vertical' : 'horizontal'}` +
+        ` q-tabs__arrows--${this.arrowsEnabled === true && this.outsideArrows === true ? 'outside' : 'inside'}` +
         (this.dense === true ? ' q-tabs--dense' : '') +
         (this.shrink === true ? ' col-shrink' : '') +
         (this.stretch === true ? ' self-stretch' : '')
+    },
+
+    innerClass () {
+      return this.alignClass + (this.contentClass !== void 0 ? ` ${this.contentClass}` : '')
     },
 
     domProps () {
       return this.vertical === true
         ? { container: 'height', content: 'scrollHeight', posLeft: 'top', posRight: 'bottom' }
         : { container: 'width', content: 'scrollWidth', posLeft: 'left', posRight: 'right' }
+    },
+
+    onEvents () {
+      return {
+        input: stop,
+        ...this.qListeners
+      }
     }
   },
 
@@ -175,7 +210,7 @@ export default Vue.extend({
     __activateTab (name, setCurrent, skipEmit) {
       if (this.tabs.current !== name) {
         skipEmit !== true && this.$emit('input', name)
-        if (setCurrent === true || this.$listeners.input === void 0) {
+        if (setCurrent === true || this.qListeners.input === void 0) {
           this.__animate(this.tabs.current, name)
           this.tabs.current = name
         }
@@ -275,12 +310,12 @@ export default Vue.extend({
           ? `translate3d(0,${oldPos.top - newPos.top}px,0) scale3d(1,${newPos.height ? oldPos.height / newPos.height : 1},1)`
           : `translate3d(${oldPos.left - newPos.left}px,0,0) scale3d(${newPos.width ? oldPos.width / newPos.width : 1},1,1)`
 
-        // allow scope updates to kick in
+        // allow scope updates to kick in (QRouteTab needs more time)
         this.$nextTick(() => {
           this.animateTimer = setTimeout(() => {
             newEl.style.transition = 'transform .25s cubic-bezier(.4, 0, .2, 1)'
             newEl.style.transform = 'none'
-          }, 30)
+          }, 70)
         })
       }
 
@@ -305,7 +340,7 @@ export default Vue.extend({
       }
     },
 
-    __updateArrows () {
+    __updateArrowsFn () {
       const
         content = this.$refs.content,
         rect = content.getBoundingClientRect(),
@@ -341,11 +376,11 @@ export default Vue.extend({
     },
 
     __scrollTowards (value) {
+      const content = this.$refs.content
       let
-        content = this.$refs.content,
         pos = this.vertical === true ? content.scrollTop : content.scrollLeft,
-        direction = value < pos ? -1 : 1,
         done = false
+      const direction = value < pos ? -1 : 1
 
       pos += direction * 5
       if (pos < 0) {
@@ -368,10 +403,9 @@ export default Vue.extend({
 
   created () {
     this.buffer = []
-
-    if (this.$q.platform.is.desktop !== true) {
-      this.__updateArrows = noop
-    }
+    this.__updateArrows = this.arrowsEnabled === true
+      ? this.__updateArrowsFn
+      : noop
   },
 
   beforeDestroy () {
@@ -388,45 +422,42 @@ export default Vue.extend({
       h('div', {
         ref: 'content',
         staticClass: 'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar',
-        class: this.alignClass
+        class: this.innerClass
       }, slot(this, 'default'))
     ]
 
-    this.$q.platform.is.desktop === true && child.push(
+    this.arrowsEnabled === true && child.push(
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon',
         class: this.leftArrow === true ? '' : 'q-tabs__arrow--faded',
         props: { name: this.leftIcon || (this.vertical === true ? this.$q.iconSet.tabs.up : this.$q.iconSet.tabs.left) },
-        nativeOn: {
+        on: cache(this, 'onL', {
           mousedown: this.__scrollToStart,
           touchstart: this.__scrollToStart,
           mouseup: this.__stopAnimScroll,
           mouseleave: this.__stopAnimScroll,
           touchend: this.__stopAnimScroll
-        }
+        })
       }),
 
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--right absolute q-tab__icon',
         class: this.rightArrow === true ? '' : 'q-tabs__arrow--faded',
         props: { name: this.rightIcon || (this.vertical === true ? this.$q.iconSet.tabs.down : this.$q.iconSet.tabs.right) },
-        nativeOn: {
+        on: cache(this, 'onR', {
           mousedown: this.__scrollToEnd,
           touchstart: this.__scrollToEnd,
           mouseup: this.__stopAnimScroll,
           mouseleave: this.__stopAnimScroll,
           touchend: this.__stopAnimScroll
-        }
+        })
       })
     )
 
     return h('div', {
       staticClass: 'q-tabs row no-wrap items-center',
       class: this.classes,
-      on: {
-        input: stop,
-        ...this.$listeners
-      },
+      on: this.onEvents,
       attrs: { role: 'tablist' }
     }, child)
   }

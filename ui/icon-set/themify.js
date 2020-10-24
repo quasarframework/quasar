@@ -1,3 +1,29 @@
+// there are some icons that are needed but not available
+// so we import them from MDI as svgs
+
+import {
+  mdiFormatBold,
+  mdiFormatStrikethroughVariant,
+  mdiFormatSubscript,
+  mdiFormatSuperscript,
+  mdiFormatClear,
+  mdiFormatHeader1,
+  mdiFormatHeader2,
+  mdiFormatHeader3,
+  mdiFormatHeader4,
+  mdiFormatHeader5,
+  mdiFormatHeader6,
+  mdiCodeTags,
+  mdiNumeric1Box,
+  mdiNumeric2Box,
+  mdiNumeric3Box,
+  mdiNumeric4Box,
+  mdiNumeric5Box,
+  mdiNumeric6Box,
+  mdiNumeric7Box,
+  mdiFormatFont
+} from '@quasar/extras/mdi-v5'
+
 export default {
   name: 'themify',
   type: {
@@ -44,14 +70,10 @@ export default {
     today: 'ti-calendar'
   },
   editor: {
-    bold: 'format_bold',
     italic: 'ti-Italic',
-    strikethrough: 'strikethrough_s',
     underline: 'ti-underline',
     unorderedList: 'ti-list',
     orderedList: 'ti-list-ol',
-    subscript: 'vertical_align_bottom',
-    superscript: 'vertical_align_top',
     hyperlink: 'ti-link',
     toggleFullscreen: 'ti-fullscreen',
     quote: 'ti-quote-right',
@@ -62,7 +84,6 @@ export default {
     print: 'ti-printer',
     outdent: 'ti-angle-double-left',
     indent: 'ti-angle-double-right',
-    removeFormat: 'format_clear',
     formatting: 'ti-text',
     fontSize: 'ti-smallcap',
     align: 'ti-align-left',
@@ -70,10 +91,29 @@ export default {
     undo: 'ti-share-alt',
     redo: 'ti-share',
     heading: 'ti-paragraph',
-    code: 'code',
     size: 'ti-smallcap',
-    font: 'font_download',
-    viewSource: 'ti-shortcode'
+    viewSource: 'ti-shortcode',
+
+    bold: mdiFormatBold,
+    strikethrough: mdiFormatStrikethroughVariant,
+    subscript: mdiFormatSubscript,
+    superscript: mdiFormatSuperscript,
+    removeFormat: mdiFormatClear,
+    heading1: mdiFormatHeader1,
+    heading2: mdiFormatHeader2,
+    heading3: mdiFormatHeader3,
+    heading4: mdiFormatHeader4,
+    heading5: mdiFormatHeader5,
+    heading6: mdiFormatHeader6,
+    code: mdiCodeTags,
+    size1: mdiNumeric1Box,
+    size2: mdiNumeric2Box,
+    size3: mdiNumeric3Box,
+    size4: mdiNumeric4Box,
+    size5: mdiNumeric5Box,
+    size6: mdiNumeric6Box,
+    size7: mdiNumeric7Box,
+    font: mdiFormatFont
   },
   expansionItem: {
     icon: 'ti-angle-down',
@@ -110,8 +150,10 @@ export default {
   table: {
     arrowUp: 'ti-arrow-up',
     warning: 'ti-alert',
+    firstPage: 'ti-angle-double-left',
     prevPage: 'ti-angle-left',
-    nextPage: 'ti-angle-right'
+    nextPage: 'ti-angle-right',
+    lastPage: 'ti-angle-double-right'
   },
   tree: {
     icon: 'ti-control-play'

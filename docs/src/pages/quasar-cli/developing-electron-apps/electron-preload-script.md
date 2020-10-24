@@ -24,7 +24,8 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     // ...
     webPreferences: {
-      nodeIntegration: QUASAR_NODE_INTEGRATION,
+      nodeIntegration: process.env.QUASAR_NODE_INTEGRATION,
+      nodeIntegrationInWorker: process.env.QUASAR_NODE_INTEGRATION,
 
       // HERE IS THE MAGIC:
       preload: path.resolve(__dirname, 'electron-preload.js')

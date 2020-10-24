@@ -360,6 +360,104 @@
         </q-select>
       </div>
     </div>
+
+    <div class="column q-gutter-y-md q-mt-lg">
+      <q-select
+        filled
+        v-model="modelK"
+        label="Single - strings - kbd search - option label/value str"
+        :options="optionsK"
+        option-value="value"
+        option-label="label"
+        clearable
+        :behavior="behavior"
+      />
+
+      <q-select
+        filled
+        v-model="modelK"
+        label="Single - strings - kbd search - option label/value str - map"
+        :options="optionsK"
+        option-value="value"
+        option-label="label"
+        emit-value
+        map-options
+        clearable
+        :behavior="behavior"
+      />
+
+      <q-select
+        filled
+        v-model="modelK"
+        label="Single - objs - kbd search - option label/value str - map"
+        :options="objOptionsK"
+        option-value="value"
+        option-label="label"
+        emit-value
+        map-options
+        clearable
+        :behavior="behavior"
+      />
+
+      <q-select
+        filled
+        v-model="modelKO"
+        label="Single - objs - kbd search - option label/value str"
+        :options="objOptionsK"
+        option-value="value"
+        option-label="label"
+        clearable
+        :behavior="behavior"
+      />
+
+      <q-select
+        filled
+        v-model="modelK"
+        label="Single - strings - kbd search - option label/value fn"
+        :options="optionsK"
+        :option-value="kOptionValue"
+        :option-label="kOptionLabel"
+        clearable
+        :behavior="behavior"
+      />
+
+      <q-select
+        filled
+        v-model="modelK"
+        label="Single - strings - kbd search - option label/value fn - map"
+        :options="optionsK"
+        :option-value="kOptionValue"
+        :option-label="kOptionLabel"
+        emit-value
+        map-options
+        clearable
+        :behavior="behavior"
+      />
+
+      <q-select
+        filled
+        v-model="modelK"
+        label="Single - objs - kbd search - option label/value fn - map"
+        :options="objOptionsK"
+        :option-value="kOptionValue"
+        :option-label="kOptionLabel"
+        emit-value
+        map-options
+        clearable
+        :behavior="behavior"
+      />
+
+      <q-select
+        filled
+        v-model="modelKO"
+        label="Single - objs - kbd search - option label/value fn"
+        :options="objOptionsK"
+        :option-value="kOptionValue"
+        :option-label="kOptionLabel"
+        clearable
+        :behavior="behavior"
+      />
+    </div>
   </div>
 </template>
 
@@ -368,9 +466,17 @@ const
   options = [
     'Google 1', 'Facebook 1', 'Twitter 1', 'Apple 1', 'Oracle 1',
     'Google 2', 'Facebook 2', 'Twitter 2', 'Apple 2', 'Oracle 2',
-    'Google 3', 'Facebook 3', 'Twitter 3', 'Apple 3', 'Oracle 3'
+    'Google 3', 'Facebook 3', 'Twitter 3', 'Apple 3', 'Oracle 3',
+    'A very long text of an options that goes over the length limit when you open the debugger'
   ],
-  objOptions = options.map((label, value) => ({ label, value }))
+  objOptions = options.map((label, value) => ({ label, value })),
+
+  optionsK = [
+    'A A label', 'A B label', 'A C label',
+    'B A label', 'B B label', 'B C label',
+    'C A label', 'C B label', 'C C label'
+  ],
+  objOptionsK = optionsK.map((label, value) => ({ label, value }))
 
 export default {
   data () {
@@ -378,8 +484,12 @@ export default {
       modelS: null,
       modelM: null,
       modelO: [3, 4, 5],
+      modelK: null,
+      modelKO: null,
       options,
+      optionsK,
       objOptions,
+      objOptionsK,
       forceMenu: null
     }
   },
@@ -436,6 +546,18 @@ export default {
         const needle = val.toLowerCase()
         this.objOptions = objOptions.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
       })
+    },
+
+    kOptionValue (item) {
+      item === void 0 && console.trace('kOptionValue', item)
+
+      return item === Object(item) ? item.value : item
+    },
+
+    kOptionLabel (item) {
+      item === void 0 && console.trace('kOptionLabel', item)
+
+      return item === Object(item) ? item.label : item
     }
   }
 }

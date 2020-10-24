@@ -105,7 +105,7 @@
             @change="$refs.vListH.scrollTo(scrollToH)"
           />
         </div>
-        <q-virtual-scroll ref="vListH" virtual-scroll-horizontal :items="heavyList" class="q-my-md" style="max-width: 80vw; margin-bottom: 200vh;">
+        <q-virtual-scroll ref="vListH" virtual-scroll-horizontal :virtual-scroll-item-size="165" :items="heavyList" class="q-my-md" style="max-width: 80vw; margin-bottom: 200vh;">
           <template v-slot="{ item, index }">
             <div class="row no-wrap items-center" :key="index">
               <q-avatar square color="warning" text-color="negative">

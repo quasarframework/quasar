@@ -5,27 +5,6 @@
  * Edit that file instead (ionicons-v4.js).
  */
 
-import {
-  matFormatBold,
-  matFormatItalic,
-  matStrikethroughS,
-  matFormatUnderlined,
-  matFormatListBulleted,
-  matFormatListNumbered,
-  matVerticalAlignBottom,
-  matVerticalAlignTop,
-  matFormatAlignLeft,
-  matFormatAlignCenter,
-  matFormatAlignRight,
-  matFormatAlignJustify,
-  matFormatIndentDecrease,
-  matFormatIndentIncrease,
-  matFormatClear,
-  matTextFormat,
-  matFormatSize,
-  matRemove,
-  matFontDownload
-} from '@quasar/extras/material-icons'
 
 import {
   ionMdCheckmark,
@@ -58,17 +37,59 @@ import {
   ionIosCode,
   ionMdAdd,
   ionMdClose,
-  ionMdSkipBackward,
-  ionMdSkipForward,
+  ionIosSkipBackward,
+  ionIosSkipForward,
   ionMdStar,
   ionMdCreate,
   ionMdWarning,
+  ionIosReturnLeft,
+  ionIosReturnRight,
   ionMdPlay,
   ionMdAddCircle,
   ionMdCloudUpload,
   ionMdTrash,
   ionMdDoneAll
 } from '@quasar/extras/ionicons-v4'
+
+// there are some icons that are needed but not available
+// so we import them from MDI as svgs
+
+import {
+  mdiFormatBold,
+  mdiFormatItalic,
+  mdiFormatStrikethroughVariant,
+  mdiFormatUnderline,
+  mdiFormatListBulleted,
+  mdiFormatListNumbered,
+  mdiFormatSubscript,
+  mdiFormatSuperscript,
+  mdiFormatAlignLeft,
+  mdiFormatAlignCenter,
+  mdiFormatAlignRight,
+  mdiFormatAlignJustify,
+  mdiFormatIndentDecrease,
+  mdiFormatIndentIncrease,
+  mdiFormatClear,
+  mdiFormatColorText,
+  mdiFormatSize,
+  mdiMinus,
+  mdiFormatHeader1,
+  mdiFormatHeader2,
+  mdiFormatHeader3,
+  mdiFormatHeader4,
+  mdiFormatHeader5,
+  mdiFormatHeader6,
+  mdiNumeric1Box,
+  mdiNumeric2Box,
+  mdiNumeric3Box,
+  mdiNumeric4Box,
+  mdiNumeric5Box,
+  mdiNumeric6Box,
+  mdiNumeric7Box,
+  mdiFormatFont
+} from '@quasar/extras/mdi-v5'
+
+
 
 export default {
   name: 'svg-ionicons-v4',
@@ -114,37 +135,51 @@ export default {
     now: ionMdTime,
     today: ionMdCalendar
   },
-  editor: { // requires Material icons for some as Ionicons simply does not have everything needed
-    bold: matFormatBold,
-    italic: matFormatItalic,
-    strikethrough: matStrikethroughS,
-    underline: matFormatUnderlined,
-    unorderedList: matFormatListBulleted,
-    orderedList: matFormatListNumbered,
-    subscript: matVerticalAlignBottom,
-    superscript: matVerticalAlignTop,
+  editor: {
     hyperlink: ionMdLink,
     toggleFullscreen: ionMdExpand,
     quote: ionMdQuote,
-    left: matFormatAlignLeft,
-    center: matFormatAlignCenter,
-    right: matFormatAlignRight,
-    justify: matFormatAlignJustify,
     print: ionMdPrint,
-    outdent: matFormatIndentDecrease,
-    indent: matFormatIndentIncrease,
-    removeFormat: matFormatClear,
-    formatting: matTextFormat,
-    fontSize: matFormatSize,
-    align: matFormatAlignLeft,
-    hr: matRemove,
     undo: ionMdUndo,
     redo: ionMdRedo,
-    heading: matFormatSize,
     code: ionMdCode,
-    size: matFormatSize,
-    font: matFontDownload,
-    viewSource: ionIosCode
+    viewSource: ionIosCode,
+
+    bold: mdiFormatBold,
+    italic: mdiFormatItalic,
+    strikethrough: mdiFormatStrikethroughVariant,
+    underline: mdiFormatUnderline,
+    unorderedList: mdiFormatListBulleted,
+    orderedList: mdiFormatListNumbered,
+    subscript: mdiFormatSubscript,
+    superscript: mdiFormatSuperscript,
+    left: mdiFormatAlignLeft,
+    center: mdiFormatAlignCenter,
+    right: mdiFormatAlignRight,
+    justify: mdiFormatAlignJustify,
+    outdent: mdiFormatIndentDecrease,
+    indent: mdiFormatIndentIncrease,
+    removeFormat: mdiFormatClear,
+    formatting: mdiFormatColorText,
+    fontSize: mdiFormatSize,
+    align: mdiFormatAlignLeft,
+    hr: mdiMinus,
+    heading: mdiFormatSize,
+    heading1: mdiFormatHeader1,
+    heading2: mdiFormatHeader2,
+    heading3: mdiFormatHeader3,
+    heading4: mdiFormatHeader4,
+    heading5: mdiFormatHeader5,
+    heading6: mdiFormatHeader6,
+    size: mdiFormatSize,
+    size1: mdiNumeric1Box,
+    size2: mdiNumeric2Box,
+    size3: mdiNumeric3Box,
+    size4: mdiNumeric4Box,
+    size5: mdiNumeric5Box,
+    size6: mdiNumeric6Box,
+    size7: mdiNumeric7Box,
+    font: mdiFormatFont
   },
   expansionItem: {
     icon: ionMdArrowDropdown,
@@ -159,10 +194,10 @@ export default {
     error: ionMdAlert
   },
   pagination: {
-    first: ionMdSkipBackward,
-    prev: ionMdArrowBack,
-    next: ionMdArrowForward,
-    last: ionMdSkipForward
+    first: ionIosSkipBackward,
+    prev: ionIosArrowBack,
+    next: ionIosArrowForward,
+    last: ionIosSkipForward
   },
   rating: {
     icon: ionMdStar
@@ -181,8 +216,10 @@ export default {
   table: {
     arrowUp: ionMdArrowUp,
     warning: ionMdWarning,
+    firstPage: ionIosReturnLeft,
     prevPage: ionIosArrowBack,
-    nextPage: ionIosArrowForward
+    nextPage: ionIosArrowForward,
+    lastPage: ionIosReturnRight
   },
   tree: {
     icon: ionMdPlay

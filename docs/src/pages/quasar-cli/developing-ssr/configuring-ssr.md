@@ -5,21 +5,6 @@ related:
   - /quasar-cli/quasar-conf-js
 ---
 
-We’ll be using Quasar CLI to develop and build a SSR website. The difference between building a SPA, Mobile App, Electron App, PWA or SSR is simply determined by the “mode” parameter in “quasar dev” and “quasar build” commands.
-
-## Installation
-In order to build a SSR website, we first need to add the SSR mode to our Quasar project:
-```bash
-$ quasar mode add ssr
-```
-
-If you want to jump right in and start developing, you can skip the "quasar mode" command and issue:
-```bash
-$ quasar dev -m ssr
-```
-
-This will add SSR mode automatically, if it is missing.
-
 ## Quasar.conf.js
 This is the place where you can configure some SSR options. Like if you want the client side to takeover as a SPA (Single Page Application -- the default behaviour), or as a PWA (Progressive Web App).
 
@@ -30,6 +15,14 @@ return {
     pwa: true/false, // should a PWA take over (default: false), or just a SPA?
     manualHydration: true/false, // (@quasar/app v1.4.2+) Manually hydrate the store
     componentCache: {...} // lru-cache package options,
+
+    // -- @quasar/app v1.9.5+ --
+    // optional; add/remove/change properties
+    // of production generated package.json
+    extendPackageJson (pkg) {
+      // directly change props of pkg;
+      // no need to return anything
+    },
 
     // -- @quasar/app v1.5+ --
     // optional; webpack config Object for
@@ -63,7 +56,7 @@ build: {
 }
 ```
 
-If you want more information, please see this page that goes into more detail about [handling webpack](/quasar-cli/cli-documentation/handling-webpack) in the `quasar.conf.js` file.
+If you want more information, please see this page that goes into more detail about [handling webpack](/quasar-cli/handling-webpack) in the `quasar.conf.js` file.
 
 ## Nodejs Server
 Adding SSR mode to a Quasar project means a new folder will be created: `/src-ssr`, which contains SSR specific files which define your production Node webserver:
@@ -119,7 +112,7 @@ return {
 One of the main reasons when you develop a SSR instead of a SPA is for taking care of the SEO. And SEO can be greatly improved by using the [Quasar Meta Plugin](/quasar-plugins/meta) to manage dynamic html markup required by the search engines.
 
 ## Boot Files
-When running on SSR mode, your application code needs to be isomorphic or "universal", which means that it must run both on a Node context and in the browser. This applies to your [Boot Files](/quasar-cli/cli-documentation/boot-files) too.
+When running on SSR mode, your application code needs to be isomorphic or "universal", which means that it must run both on a Node context and in the browser. This applies to your [Boot Files](/quasar-cli/boot-files) too.
 
 However, there are cases where you only want some boot files to run only on the server or only on the client-side. You can achieve that by specifying:
 
@@ -154,5 +147,5 @@ When you add such references (`someProp` surrounded by brackets in the example a
 
 ```html
 <!-- index.template.html -->
-<% if (htmlWebpackPlugin.options.ctx.mode.ssr) { %>{{ someProp }} <% } %>
+<% if (ctx.mode.ssr) { %>{{ someProp }} <% } %>
 ```

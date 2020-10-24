@@ -8,7 +8,7 @@ related:
 Internationalization is a design process that ensures a product (a website or application) can be adapted to various languages and regions without requiring engineering changes to the source code. Think of internationalization as readiness for localization.
 
 ::: tip
-The recommended package for handling website/app is [vue-i18n](https://github.com/kazupon/vue-i18n). This package should be added through a [Boot File](/quasar-cli/cli-documentation/boot-files). On the Boot File documentation page you can see a specific example for plugging in vue-i18n.
+The recommended package for handling website/app is [vue-i18n](https://github.com/kazupon/vue-i18n). This package should be added through a [Boot File](/quasar-cli/boot-files). On the Boot File documentation page you can see a specific example for plugging in vue-i18n.
 :::
 
 ## Setup manually
@@ -68,7 +68,7 @@ return {
 Now you are ready to use it in your pages.
 
 ## Setting up Translation Blocks in your SFCs
-The following is an example recipe for using **vue-i18n** embedded `<i18n>` template components in your vue files with **vue-i18n-loader**, which you have to add in your `quasar.conf.js`. In this case the translations are stored in yaml format in the block.
+To use embedded `<i18n>` template components in your vue files with **vue-i18n-loader** you must ensure that the `@intlify/vue-i18n-loader` and `yaml-loader` dependencies are added to your project using your package manager of choice. Then in your `quasar.conf.js` file change the webpack build options. In this case the translations are stored in yaml format in the block.
 
 ```js
 // quasar.conf.js
@@ -78,9 +78,10 @@ build: {
   extendWebpack (cfg) {
     cfg.module.rules.push({
       resourceQuery: /blockType=i18n/,
+      type: 'javascript/auto',
       use: [
-        {loader: '@kazupon/vue-i18n-loader'},
-        {loader: 'yaml-loader'}
+        { loader: '@kazupon/vue-i18n-loader' },
+        { loader: 'yaml-loader' }
       ]
     })
     ...

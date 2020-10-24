@@ -1,4 +1,8 @@
 material-icons/update.sh
+material-icons-outlined/update.sh
+material-icons-sharp/update.sh
+material-icons-round/update.sh
 roboto-font/update.sh
 roboto-font-latin-ext/update.sh
 build/
+.vscode

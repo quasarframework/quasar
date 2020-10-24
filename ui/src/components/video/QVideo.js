@@ -1,11 +1,12 @@
 import Vue from 'vue'
 
 import RatioMixin from '../../mixins/ratio.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 export default Vue.extend({
   name: 'QVideo',
 
-  mixins: [ RatioMixin ],
+  mixins: [ RatioMixin, ListenersMixin ],
 
   props: {
     src: {
@@ -35,7 +36,7 @@ export default Vue.extend({
     return h('div', {
       class: this.classes,
       style: this.ratioStyle,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, [
       h('iframe', this.iframeData)
     ])

@@ -5,6 +5,7 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import DarkMixin from '../../mixins/dark.js'
 import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
+import AttrsMixin from '../../mixins/attrs.js'
 
 import ClickOutside from './ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
@@ -20,7 +21,14 @@ import {
 export default Vue.extend({
   name: 'QMenu',
 
-  mixins: [ DarkMixin, AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
+  mixins: [
+    AttrsMixin,
+    DarkMixin,
+    AnchorMixin,
+    ModelToggleMixin,
+    PortalMixin,
+    TransitionMixin
+  ],
 
   directives: {
     ClickOutside
@@ -31,6 +39,7 @@ export default Vue.extend({
     autoClose: Boolean,
     separateClosePopup: Boolean,
 
+    noRouteDismiss: Boolean,
     noRefocus: Boolean,
     noFocus: Boolean,
 
@@ -93,7 +102,31 @@ export default Vue.extend({
     },
 
     hideOnRouteChange () {
-      return this.persistent !== true
+      return this.persistent !== true &&
+        this.noRouteDismiss !== true
+    },
+
+    onEvents () {
+      const on = {
+        ...this.qListeners,
+        // stop propagating these events from children
+        input: stop,
+        'popup-show': stop,
+        'popup-hide': stop
+      }
+
+      if (this.autoClose === true) {
+        on.click = this.__onAutoClose
+      }
+
+      return on
+    },
+
+    attrs () {
+      return {
+        tabindex: -1,
+        ...this.qAttrs
+      }
     }
   },
 
@@ -137,7 +170,10 @@ export default Vue.extend({
       }
 
       if (this.unwatch === void 0) {
-        this.unwatch = this.$watch(() => this.$q.screen.width + '|' + this.$q.screen.height, this.updatePosition)
+        this.unwatch = this.$watch(
+          () => this.$q.screen.width + '|' + this.$q.screen.height + '|' + this.self + '|' + this.anchor,
+          this.updatePosition
+        )
       }
 
       this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
@@ -224,7 +260,7 @@ export default Vue.extend({
       // issues a click should not close the menu
       if (this.__avoidAutoClose !== true) {
         closePortalMenus(this, e)
-        this.$listeners.click !== void 0 && this.$emit('click', e)
+        this.qListeners.click !== void 0 && this.$emit('click', e)
       }
       else {
         this.__avoidAutoClose = false
@@ -275,18 +311,6 @@ export default Vue.extend({
     },
 
     __renderPortal (h) {
-      const on = {
-        ...this.$listeners,
-        // stop propagating these events from children
-        input: stop,
-        'popup-show': stop,
-        'popup-hide': stop
-      }
-
-      if (this.autoClose === true) {
-        on.click = this.__onAutoClose
-      }
-
       return h('transition', {
         props: { name: this.transition }
       }, [
@@ -295,11 +319,8 @@ export default Vue.extend({
           staticClass: 'q-menu q-position-engine scroll' + this.menuClass,
           class: this.contentClass,
           style: this.contentStyle,
-          attrs: {
-            tabindex: -1,
-            ...this.$attrs
-          },
-          on,
+          attrs: this.attrs,
+          on: this.onEvents,
           directives: [{
             name: 'click-outside',
             value: this.__onClickOutside,

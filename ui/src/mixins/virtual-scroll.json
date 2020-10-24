@@ -10,9 +10,7 @@
       "type": "Number",
       "desc": "Number of options to render in the virtual list",
       "default": "30",
-      "examples": [
-        ":virtual-scroll-slice-size=\"60\""
-      ],
+      "examples": [ ":virtual-scroll-slice-size=\"60\"" ],
       "category": "virtual-scroll"
     },
 
@@ -20,9 +18,7 @@
       "type": "Number",
       "desc": "Default size in pixels (height if vertical, width if horizontal) of an option; This value is used for rendering the initial list; Try to use a value close to the minimum size of an item",
       "default": "24",
-      "examples": [
-        ":virtual-scroll-item-size=\"48\""
-      ],
+      "examples": [ ":virtual-scroll-item-size=\"48\"" ],
       "category": "virtual-scroll"
     },
 
@@ -30,9 +26,7 @@
       "type": "Number",
       "desc": "Size in pixels (height if vertical, width if horizontal) of the sticky part (if using one) at the start of the list; A correct value will improve scroll precision",
       "default": "0",
-      "examples": [
-        ":virtual-scroll-sticky-size-start=\"48\""
-      ],
+      "examples": [ ":virtual-scroll-sticky-size-start=\"48\"" ],
       "category": "virtual-scroll"
     },
 
@@ -40,10 +34,16 @@
       "type": "Number",
       "desc": "Size in pixels (height if vertical, width if horizontal) of the sticky part (if using one) at the end of the list; A correct value will improve scroll precision",
       "default": "0",
-      "examples": [
-        ":virtual-scroll-sticky-size-end=\"48\""
-      ],
+      "examples": [ ":virtual-scroll-sticky-size-end=\"48\"" ],
       "category": "virtual-scroll"
+    },
+
+    "table-colspan": {
+      "type": [ "Number", "String" ],
+      "desc": "The number of columns in the table (you need this if you use table-layout: fixed)",
+      "examples": [ "table-colspan=\"12\"" ],
+      "category": "virtual-scroll|content",
+      "addedIn": "v1.13.0"
     }
   },
 
@@ -98,6 +98,12 @@
           "desc": "The index of the list item (0 based)",
           "required": true,
           "examples": [ "1", 23 ]
+        },
+        "edge": {
+          "type": "String",
+          "desc": "The edge to align to if the item is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise); If the '-force' version is used then it always aligns",
+          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ],
+          "addedIn": "v1.13.0"
         }
       }
     },

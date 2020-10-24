@@ -1,7 +1,7 @@
 import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
 
-function updateBinding (ctx, { value, oldValue }) {
+function update (ctx, { value, oldValue }) {
   if (typeof value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
     return
@@ -13,11 +13,25 @@ function updateBinding (ctx, { value, oldValue }) {
   }
 }
 
+function destroy (el) {
+  const ctx = el.__qscroll
+  if (ctx !== void 0) {
+    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
+    delete el.__qscroll
+  }
+}
+
 export default {
   name: 'scroll',
 
-  bind (el) {
-    let ctx = {
+  inserted (el, binding) {
+    if (el.__qscroll !== void 0) {
+      destroy(el)
+      el.__qscroll_destroyed = true
+    }
+
+    const ctx = {
+      scrollTarget: getScrollTarget(el),
       scroll () {
         ctx.handler(
           getScrollPosition(ctx.scrollTarget),
@@ -26,30 +40,23 @@ export default {
       }
     }
 
-    if (el.__qscroll) {
-      el.__qscroll_old = el.__qscroll
-    }
+    update(ctx, binding)
 
     el.__qscroll = ctx
   },
 
-  inserted (el, binding) {
-    let ctx = el.__qscroll
-    ctx.scrollTarget = getScrollTarget(el)
-    updateBinding(ctx, binding)
-  },
-
   update (el, binding) {
     if (el.__qscroll !== void 0 && binding.oldValue !== binding.value) {
-      updateBinding(el.__qscroll, binding)
+      update(el.__qscroll, binding)
     }
   },
 
   unbind (el) {
-    let ctx = el.__qscroll_old || el.__qscroll
-    if (ctx !== void 0) {
-      ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
-      delete el[el.__qscroll_old ? '__qscroll_old' : '__qscroll']
+    if (el.__qscroll_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qscroll_destroyed
     }
   }
 }

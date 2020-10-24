@@ -3,8 +3,7 @@
 
   "props": {
     "icon": {
-      "extends": "icon",
-      "required": true
+      "extends": "icon"
     },
 
     "anchor": {

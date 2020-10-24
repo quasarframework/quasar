@@ -112,6 +112,16 @@
           "__exemption": [ "examples" ]
         }
       }
+    },
+
+    "getValidationComponents": {
+      "desc": "Get array of children vue components that support validation",
+      "returns": {
+        "type": "Array",
+        "desc": "Vue components that support Quasar validation API",
+        "__exemption": [ "examples" ]
+      },
+      "addedIn": "v1.10.0"
     }
   }
 }

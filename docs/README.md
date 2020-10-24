@@ -2,7 +2,7 @@
 
 ## Quasar Framework Documentation
 
-> Build responsive Single Page Apps, **SSR Apps**, PWAs, Hybrid Mobile Apps and Electron Apps, all using the same codebase!, powered with Vue.
+> Build high-performance VueJS user interfaces in record time: responsive Single Page Apps, SSR Apps, PWAs, Browser extensions, Hybrid Mobile Apps and Electron Apps. If you want, all using the same codebase!
 
 [![Join the chat at https://discord.gg/5TDhbDg](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/5TDhbDg)
 <a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
@@ -30,7 +30,7 @@ Ask questions at the official community Discord server: [https://chat.quasar.dev
 Head on to the official community forum: [https://forum.quasar.dev](https://forum.quasar.dev)
 
 ## Semver
-Using [semver 2.0](http://semver.org/) notation for 'quasar-extras' package.
+Quasar is following [Semantic Versioning 2.0](https://semver.org/).
 
 ## License
 

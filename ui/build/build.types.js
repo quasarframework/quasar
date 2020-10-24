@@ -24,13 +24,24 @@ function write (fileContent, text = '') {
 }
 
 const typeMap = new Map([
-  ['Array', 'any[]'],
   ['Any', 'any'],
   ['Component', 'Vue'],
   ['String', 'string'],
   ['Boolean', 'boolean'],
   ['Number', 'number']
 ])
+
+const fallbackComplexTypeMap = new Map([
+  ['Array', 'any[]'],
+  ['Object', 'LooseDictionary']
+])
+
+const dontNarrowValues = [
+  '(Boolean) true',
+  '(Boolean) false',
+  '(CSS selector)',
+  '(DOM Element)'
+]
 
 function convertTypeVal (type, def, required) {
   if (def.tsType !== void 0) {
@@ -39,19 +50,30 @@ function convertTypeVal (type, def, required) {
 
   const t = type.trim()
 
+  if (def.values && t === 'String') {
+    const narrowedValues = def.values.filter(v =>
+      !dontNarrowValues.includes(v) &&
+      typeof v === 'string'
+    ).map(v => `'${v}'`)
+
+    if (narrowedValues.length) {
+      return narrowedValues.join(' | ')
+    }
+  }
+
   if (typeMap.has(t)) {
     return typeMap.get(t)
   }
 
-  if (t === 'Object') {
+  if (fallbackComplexTypeMap.has(t)) {
     if (def.definition) {
       const propDefinitions = getPropDefinitions(def.definition, required, true)
       let lines = []
       propDefinitions.forEach(p => lines.push(...p.split('\n')))
-      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }` : 'LooseDictionary'
+      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }${t === 'Array' ? '[]' : ''}` : fallbackComplexTypeMap.get(t)
     }
 
-    return 'LooseDictionary'
+    return fallbackComplexTypeMap.get(t)
   }
 
   return t
@@ -210,12 +232,11 @@ function writeQuasarPluginProps (contents, nameName, props, isLast) {
 }
 
 function addQuasarPluginOptions (contents, components, directives, plugins) {
-  writeLine(contents, `import { QuasarIconSet } from './extras'`)
-  writeLine(contents, `import { QuasarLanguage } from './lang'`)
+  writeLine(contents, `import { GlobalQuasarLanguage, GlobalQuasarIconSet } from './globals'`)
   writeLine(contents, `export interface QuasarPluginOptions {`)
-  writeLine(contents, `lang: QuasarLanguage,`, 1)
+  writeLine(contents, `lang: GlobalQuasarLanguage,`, 1)
   writeLine(contents, `config: any,`, 1)
-  writeLine(contents, `iconSet: QuasarIconSet,`, 1)
+  writeLine(contents, `iconSet: GlobalQuasarIconSet,`, 1)
   writeQuasarPluginProps(contents, 'components', components)
   writeQuasarPluginProps(contents, 'directives', directives)
   writeQuasarPluginProps(contents, 'plugins', plugins, true)
@@ -246,6 +267,13 @@ function writeIndexDTS (apis) {
 
   addQuasarLangCodes(quasarTypeContents)
 
+  // This line must be BEFORE ANY TS INSTRUCTION,
+  //  or it won't be interpreted as a TS compiler directive
+  //  but as a normal comment
+  // On Vue CLI projects `@quasar/app` isn't available,
+  //  we ignore the "missing package" error because it's the intended behaviour
+  writeLine(contents, `// @ts-ignore`)
+  writeLine(contents, `/// <reference types="@quasar/app" />`)
   writeLine(contents, `import Vue, { VueConstructor, PluginObject } from 'vue'`)
   writeLine(contents, `import { LooseDictionary } from './ts-helpers'`)
   writeLine(contents)
@@ -316,6 +344,12 @@ function writeIndexDTS (apis) {
 
   Object.keys(extraInterfaces).forEach(name => {
     if (extraInterfaces[name] === void 0) {
+      // If we find the symbol as part of the generated Quasar API,
+      //  we don't need to import it from custom TS API patches
+      if (apis.some(definition => definition.name === name)) {
+        return
+      }
+
       writeLine(contents, `import { ${name} } from './api'`)
     }
     else {
@@ -362,16 +396,14 @@ function writeIndexDTS (apis) {
   quasarTypeContents.forEach(line => write(contents, line))
 
   writeLine(contents, `export const Quasar: PluginObject<Partial<QuasarPluginOptions>>`)
+  writeLine(contents, `export default Quasar`)
   writeLine(contents)
 
   // These imports force TS compiler to evaluate contained declarations
   //  which by defaults would be ignored because inside node_modules
   //  and not directly referenced by any file
   writeLine(contents, `import './vue'`)
-  // If `@quasar/app` package is present, this works as "reference" and its types are added to compilation
-  // If it's not (Vue CLI projects) the shim serves as a fallback avoiding TS errors
-  writeLine(contents, `import './shim-quasar-app.d.ts'`)
-  writeLine(contents, `import '@quasar/app'`)
+  writeLine(contents, `import './shim-icon-set'`)
 
   writeFile(resolvePath('index.d.ts'), contents.join(''))
 }

@@ -64,6 +64,13 @@
 
     "rounded": {
       "extends": "rounded"
+    },
+
+    "instant-feedback": {
+      "type": "Boolean",
+      "desc": "No transition when model changes",
+      "category": "behavior",
+      "addedIn": "v1.11.2"
     }
   },
 

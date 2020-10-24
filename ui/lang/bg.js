@@ -8,13 +8,13 @@ export default {
     close: 'Затвори',
     set: 'Задай',
     select: 'Избери',
-    reset: 'Наново',
+    reset: 'Отначало',
     remove: 'Изтрий',
     update: 'Обнови',
     create: 'Създай',
     search: 'Търси',
     filter: 'Филтър',
-    refresh: 'Обнови'
+    refresh: 'Презареди'
   },
   date: {
     days: 'Неделя_Понеделник_Вторник_Сряда_Четвъртък_Петък_Събота'.split('_'),
@@ -22,7 +22,8 @@ export default {
     months: 'Януари_Февруари_Март_Април_Май_Юни_Юли_Август_Септември_Октомври_Ноември_Декември'.split('_'),
     monthsShort: 'Яну_Фев_Мар_Апр_Май_Юни_Юли_Авг_Сеп_Окт_Ное_Дек'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'дни'
   },
   table: {
     noData: 'Няма данни',
@@ -48,9 +49,9 @@ export default {
     underline: 'Подчертан',
     unorderedList: 'Неподреден списък',
     orderedList: 'Номериран списък',
-    subscript: 'Под-редово',
-    superscript: 'Над-редово',
-    hyperlink: 'Линк',
+    subscript: 'Долен индекс',
+    superscript: 'Горен индекс',
+    hyperlink: 'Хипер-линк',
     toggleFullscreen: 'На цял екран',
     quote: 'Цитат',
     left: 'Ляво подравняване',
@@ -74,7 +75,7 @@ export default {
     heading5: 'Заглавие 5',
     heading6: 'Заглавие 6',
     paragraph: 'Параграф',
-    code: 'Код',
+    code: 'Програмен код',
     size1: 'Много малък',
     size2: 'Малък',
     size3: 'Нормален',
@@ -83,7 +84,7 @@ export default {
     size6: 'Много голям',
     size7: 'Огромен',
     defaultFont: 'Шрифт по подразбиране',
-    viewSource: 'Виж източника'
+    viewSource: 'Виж HTML кода'
   },
   tree: {
     noNodes: 'Няма повече възли',

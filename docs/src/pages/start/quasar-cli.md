@@ -7,6 +7,7 @@ Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
 * a SPA (Single Page Application/Website),
 * a SSR (Server-side Rendered App/Website),
 * a PWA (Progressive Web App),
+* a BEX (Browser Extensions),
 * a Mobile App (through Cordova),
 * an Electron App
 

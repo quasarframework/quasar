@@ -1,13 +1,11 @@
-const warn = require('./logger')('app:external-ip')
+const { warn, fatal } = require('./logger')
 
 module.exports = async function () {
   const { getExternalNetworkInterface } = require('./net')
   const interfaces = await getExternalNetworkInterface()
 
   if (interfaces.length === 0) {
-    warn(`⚠️  No external IP detected. Can't run without one. Manually specify one?`)
-    warn()
-    process.exit(1)
+    fatal(`No external IP detected. Can't run without one. Manually specify one?\n`)
   }
 
   if (interfaces.length === 1) {

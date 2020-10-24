@@ -1,12 +1,14 @@
 import Vue from 'vue'
 
 import TagMixin from '../../mixins/tag.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QCardSection',
 
-  mixins: [ TagMixin ],
+  mixins: [ ListenersMixin, TagMixin ],
 
   props: {
     horizontal: Boolean
@@ -22,7 +24,7 @@ export default Vue.extend({
   render (h) {
     return h(this.tag, {
       class: this.classes,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

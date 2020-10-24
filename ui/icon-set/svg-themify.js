@@ -5,15 +5,6 @@
  * Edit that file instead (themify.js).
  */
 
-import {
-  matFormatBold,
-  matStrikethroughS,
-  matVerticalAlignBottom,
-  matVerticalAlignTop,
-  matFormatClear,
-  matCode,
-  matFontDownload
-} from '@quasar/extras/material-icons'
 
 import {
   tiCheck,
@@ -68,6 +59,34 @@ import {
   tiLayoutPlaceholder
 } from '@quasar/extras/themify'
 
+// there are some icons that are needed but not available
+// so we import them from MDI as svgs
+
+import {
+  mdiFormatBold,
+  mdiFormatStrikethroughVariant,
+  mdiFormatSubscript,
+  mdiFormatSuperscript,
+  mdiFormatClear,
+  mdiFormatHeader1,
+  mdiFormatHeader2,
+  mdiFormatHeader3,
+  mdiFormatHeader4,
+  mdiFormatHeader5,
+  mdiFormatHeader6,
+  mdiCodeTags,
+  mdiNumeric1Box,
+  mdiNumeric2Box,
+  mdiNumeric3Box,
+  mdiNumeric4Box,
+  mdiNumeric5Box,
+  mdiNumeric6Box,
+  mdiNumeric7Box,
+  mdiFormatFont
+} from '@quasar/extras/mdi-v5'
+
+
+
 export default {
   name: 'svg-themify',
   type: {
@@ -114,14 +133,10 @@ export default {
     today: tiCalendar
   },
   editor: {
-    bold: matFormatBold,
     italic: tiItalic,
-    strikethrough: matStrikethroughS,
     underline: tiUnderline,
     unorderedList: tiList,
     orderedList: tiListOl,
-    subscript: matVerticalAlignBottom,
-    superscript: matVerticalAlignTop,
     hyperlink: tiLink,
     toggleFullscreen: tiFullscreen,
     quote: tiQuoteRight,
@@ -132,7 +147,6 @@ export default {
     print: tiPrinter,
     outdent: tiAngleDoubleLeft,
     indent: tiAngleDoubleRight,
-    removeFormat: matFormatClear,
     formatting: tiText,
     fontSize: tiSmallcap,
     align: tiAlignLeft,
@@ -140,10 +154,29 @@ export default {
     undo: tiShareAlt,
     redo: tiShare,
     heading: tiParagraph,
-    code: matCode,
     size: tiSmallcap,
-    font: matFontDownload,
-    viewSource: tiShortcode
+    viewSource: tiShortcode,
+
+    bold: mdiFormatBold,
+    strikethrough: mdiFormatStrikethroughVariant,
+    subscript: mdiFormatSubscript,
+    superscript: mdiFormatSuperscript,
+    removeFormat: mdiFormatClear,
+    heading1: mdiFormatHeader1,
+    heading2: mdiFormatHeader2,
+    heading3: mdiFormatHeader3,
+    heading4: mdiFormatHeader4,
+    heading5: mdiFormatHeader5,
+    heading6: mdiFormatHeader6,
+    code: mdiCodeTags,
+    size1: mdiNumeric1Box,
+    size2: mdiNumeric2Box,
+    size3: mdiNumeric3Box,
+    size4: mdiNumeric4Box,
+    size5: mdiNumeric5Box,
+    size6: mdiNumeric6Box,
+    size7: mdiNumeric7Box,
+    font: mdiFormatFont
   },
   expansionItem: {
     icon: tiAngleDown,
@@ -180,8 +213,10 @@ export default {
   table: {
     arrowUp: tiArrowUp,
     warning: tiAlert,
+    firstPage: tiAngleDoubleLeft,
     prevPage: tiAngleLeft,
-    nextPage: tiAngleRight
+    nextPage: tiAngleRight,
+    lastPage: tiAngleDoubleRight
   },
   tree: {
     icon: tiControlPlay

@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import { between } from '../../utils/format.js'
 import { isSSR } from '../../plugins/Platform.js'
+import { ariaHidden } from '../../mixins/attrs'
 
 const
   xhr = isSSR ? null : XMLHttpRequest,
@@ -88,10 +89,7 @@ export default Vue.extend({
       type: String,
       default: '2px'
     },
-    color: {
-      type: String,
-      default: 'red'
-    },
+    color: String,
     skipHijack: Boolean,
     reverse: Boolean
   },
@@ -107,14 +105,15 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-loading-bar q-loading-bar--${this.position} bg-${this.color}` +
+      return `q-loading-bar q-loading-bar--${this.position}` +
+        (this.color !== void 0 ? ` bg-${this.color}` : '') +
         (this.animate === true ? '' : ' no-transition')
     },
 
     style () {
       const active = this.onScreen
 
-      let o = translate({
+      const o = translate({
         p: this.progress,
         pos: this.position,
         active,
@@ -147,9 +146,7 @@ export default Vue.extend({
           'aria-valuemax': 100,
           'aria-valuenow': this.progress
         }
-        : {
-          'aria-hidden': 'true'
-        }
+        : ariaHidden
     }
   },
 
@@ -186,7 +183,9 @@ export default Vue.extend({
     },
 
     increment (amount) {
-      this.calls > 0 && (this.progress = inc(this.progress, amount))
+      if (this.calls > 0) {
+        this.progress = inc(this.progress, amount)
+      }
     },
 
     stop () {
@@ -231,7 +230,7 @@ export default Vue.extend({
 
   beforeDestroy () {
     clearTimeout(this.timer)
-    this.hijacked && restoreAjax(this.start, this.stop)
+    this.hijacked === true && restoreAjax(this.start, this.stop)
   },
 
   render (h) {

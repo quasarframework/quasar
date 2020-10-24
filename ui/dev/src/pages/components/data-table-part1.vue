@@ -139,10 +139,12 @@
         :columns="columns"
         :filter="filter"
         :title="title"
+        title-class="text-h1 text-blue"
         bordered
         flat
         binary-state-sort
-        :rows-per-page-options="[]"
+        :pagination="{rowsPerPage: 3}"
+        :rows-per-page-options="[1, 2, 3, 4, 6]"
         row-key="name"
       >
         <template v-slot:body="props">
@@ -325,7 +327,7 @@
         row-key="name"
       />
 
-      <h2>body-cell-desc template</h2>
+      <h2>body-cell-[name] template</h2>
       <q-table
         :data="data"
         :columns="columns"
@@ -342,10 +344,12 @@
         <template v-slot:top-selection>
           Selection
         </template>
+
         <template v-slot:top-left="props">
           <q-btn size="sm" round flat :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen()" />
           {{ visibleColumns }}
         </template>
+
         <template v-slot:top-right>
           <q-select
             v-model="visibleColumns"
@@ -358,6 +362,12 @@
             dense
             borderless
           />
+        </template>
+
+        <template v-slot:body-cell="props">
+          <q-td :props="props">
+            {{ props.value }} *
+          </q-td>
         </template>
 
         <template v-slot:body-cell-desc="props">
@@ -447,7 +457,7 @@
         </template>
       </q-table>
 
-      <h2>header-cell-[name]</h2>
+      <h2>header-cell-[name] template</h2>
       <q-table
         :data="data"
         :columns="columns"
@@ -455,6 +465,12 @@
         :filter="filter"
         row-key="name"
       >
+        <template v-slot:header-cell="props">
+          <q-th :props="props">
+            {{ props.col.label }} *
+          </q-th>
+        </template>
+
         <template v-slot:header-cell-calories="props">
           <q-th :props="props">
             <q-icon size="1.5em" name="thumb_up" />
@@ -939,10 +955,10 @@ export default {
       setTimeout(() => {
         this.serverPagination = props.pagination
 
-        let
+        const
           table = this.$refs.server,
-          rows = this.data.slice(),
           { page, rowsPerPage, sortBy, descending } = props.pagination
+        let rows = this.data.slice()
 
         if (props.filter) {
           rows = table.filterMethod(rows, props.filter)
@@ -962,8 +978,8 @@ export default {
         this.loading = false
       }, 2000)
     },
-    onSelection (rows, added) {
-      console.log(added ? 'selected' : 'un-selected', rows)
+    onSelection ({ added, ...rest }) {
+      console.log(added ? 'selected' : 'un-selected', rest)
     }
   },
 

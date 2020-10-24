@@ -54,14 +54,18 @@ import matRoundSet from 'quasar/icon-set/material-icons-round.js'
 import matSharpSet from 'quasar/icon-set/material-icons-sharp.js'
 import mdiSet from 'quasar/icon-set/mdi-v5.js'
 import fontawesomeSet from 'quasar/icon-set/fontawesome-v5.js'
-import ioniconsSet from 'quasar/icon-set/ionicons-v4.js'
+import ioniconsV4Set from 'quasar/icon-set/ionicons-v4.js'
 import evaSet from 'quasar/icon-set/eva-icons.js'
 import themifySet from 'quasar/icon-set/themify.js'
 import lineawesomeSet from 'quasar/icon-set/line-awesome.js'
 
 import svgMatSet from 'quasar/icon-set/svg-material-icons.js'
+import svgMatOutlinedSet from 'quasar/icon-set/svg-material-icons-outlined.js'
+import svgMatRoundSet from 'quasar/icon-set/svg-material-icons-round.js'
+import svgMatSharpSet from 'quasar/icon-set/svg-material-icons-sharp.js'
 import svgMdiSet from 'quasar/icon-set/svg-mdi-v5.js'
-import svgIoniconsSet from 'quasar/icon-set/svg-ionicons-v4.js'
+import svgIoniconsV4Set from 'quasar/icon-set/svg-ionicons-v4.js'
+import svgIoniconsSet from 'quasar/icon-set/svg-ionicons-v5.js'
 import svgFontawesomeSet from 'quasar/icon-set/svg-fontawesome-v5.js'
 import svgEvaSet from 'quasar/icon-set/svg-eva-icons.js'
 import svgThemifySet from 'quasar/icon-set/svg-themify.js'
@@ -70,6 +74,7 @@ import svgLineawesomeSet from 'quasar/icon-set/svg-line-awesome.js'
 import { matAddBox } from '@quasar/extras/material-icons'
 import { mdiAirballoon } from '@quasar/extras/mdi-v5'
 import { ionMdAirplane, ionIosAirplane } from '@quasar/extras/ionicons-v4'
+import { ionAirplane } from '@quasar/extras/ionicons-v5'
 import { fabGithub } from '@quasar/extras/fontawesome-v5'
 import { evaPaperPlaneOutline } from '@quasar/extras/eva-icons'
 import { tiFullscreen } from '@quasar/extras/themify'
@@ -105,11 +110,12 @@ export default {
       { value: mdiAirballoon, label: 'A MDI v5 SVG icon' },
       { value: 'fab fa-github', label: 'A Fontawesome icon' },
       { value: fabGithub, label: 'A Fontawesome SVG icon' },
-      { value: 'ion-airplane', label: 'A Ionicon (platform dependent)' },
-      { value: 'ion-md-airplane', label: 'A Ionicon (md)' },
-      { value: 'ion-ios-airplane', label: 'A Ionicon (ios)' },
-      { value: ionMdAirplane, label: 'A SVG Ionicon (md)' },
-      { value: ionIosAirplane, label: 'A SVG Ionicon (ios)' },
+      { value: ionAirplane, label: 'A SVG Ionicon v5' },
+      { value: 'ion-airplane', label: 'A Ionicon v4 (platform dependent)' },
+      { value: 'ion-md-airplane', label: 'A Ionicon v4 (md)' },
+      { value: 'ion-ios-airplane', label: 'A Ionicon v4 (ios)' },
+      { value: ionMdAirplane, label: 'A SVG Ionicon v4 (md)' },
+      { value: ionIosAirplane, label: 'A SVG Ionicon v4 (ios)' },
       { value: 'eva-paper-plane-outline', label: 'A Eva icon' },
       { value: evaPaperPlaneOutline, label: 'A Eva SVG icon' },
       { value: 'ti-fullscreen', label: 'A Themify icon' },
@@ -138,9 +144,10 @@ export default {
     sets () {
       return [
         matSet, matOutlinedSet, matRoundSet, matSharpSet,
-        mdiSet, fontawesomeSet, ioniconsSet, evaSet, themifySet,
+        mdiSet, fontawesomeSet, ioniconsV4Set, evaSet, themifySet,
         lineawesomeSet,
-        svgMatSet, svgMdiSet, svgIoniconsSet, svgFontawesomeSet,
+        svgMatSet, svgMatOutlinedSet, svgMatRoundSet, svgMatSharpSet,
+        svgMdiSet, svgIoniconsV4Set, svgIoniconsSet, svgFontawesomeSet,
         svgEvaSet, svgThemifySet, svgLineawesomeSet
       ].map(({ name, ...set }) => parseSet(name, set))
     }

@@ -92,6 +92,7 @@ export default {
       { label: 'Material Sharp', value: 'material-icons-sharp' },
       { label: 'MDI v5', value: 'mdi-v5' },
       { label: 'SVG MDI v5', value: 'svg-mdi-v5' },
+      { label: 'SVG Ionicons v5', value: 'svg-ionicons-v5' },
       { label: 'Ionicons v4', value: 'ionicons-v4' },
       { label: 'SVG Ionicons v4', value: 'svg-ionicons-v4' },
       { label: 'Fontawesome v5', value: 'fontawesome-v5' },

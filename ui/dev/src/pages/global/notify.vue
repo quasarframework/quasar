@@ -1,7 +1,7 @@
 <template>
-  <div class="q-layout-padding row justify-center" style="width: 500px; max-width: 90vw;">
+  <div ref="fullscreen" class="q-layout-padding row justify-center" style="width: 500px; max-width: 90vw;">
     <div class="fixed-center z-max">
-      <div class="row group">
+      <div class="row justify-center group">
         <div>
           <q-btn round size="sm" color="secondary" @click="alertAsMethod('top-left')">
             <q-icon name="arrow_back" class="rotate-45" />
@@ -18,7 +18,7 @@
           </q-btn>
         </div>
       </div>
-      <div class="row group">
+      <div class="row justify-center group">
         <div>
           <q-btn round size="sm" color="accent" @click="alertAsMethod('left')">
             <q-icon name="arrow_back" />
@@ -35,7 +35,7 @@
           </q-btn>
         </div>
       </div>
-      <div class="row group">
+      <div class="row justify-center group">
         <div>
           <q-btn round size="sm" color="secondary" @click="alertAsMethod('bottom-left')">
             <q-icon name="arrow_forward" class="rotate-135" />
@@ -50,6 +50,27 @@
           <q-btn round size="sm" color="secondary" @click="alertAsMethod('bottom-right')">
             <q-icon name="arrow_forward" class="rotate-45" />
           </q-btn>
+        </div>
+      </div>
+      <div class="row justify-center group q-mt-md">
+        <div>
+          <q-btn
+            icon="aspect_ratio"
+            label="Fullscreen all"
+            flat
+            color="primary"
+            @click="fullscreenEl()"
+          />
+        </div>
+
+        <div>
+          <q-btn
+            icon="aspect_ratio"
+            label="Fullscreen none"
+            flat
+            color="primary"
+            @click="fullscreenNone"
+          />
         </div>
       </div>
     </div>
@@ -77,6 +98,23 @@ export default {
     }
   },
   methods: {
+    fullscreenEl (el = this.$refs.fullscreen) {
+      this.$q.fullscreen
+        .exit()
+        .catch(() => {})
+        .then(() => {
+          setTimeout(() => {
+            this.$q.fullscreen
+              .request(el)
+              .catch(() => {})
+          })
+        })
+    },
+
+    fullscreenNone () {
+      this.$q.fullscreen.exit()
+    },
+
     showGroup1 () {
       this.$q.notify({
         message: 'Grouped message ' + Math.random(),
@@ -119,7 +157,7 @@ export default {
             ? [ { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) } ]
             : null
           ),
-        timeout: Math.random() * 5000 + 3000
+        timeout: Math.random() * 5000 + 8000
       })
       /*
       this.$q.notify({
@@ -212,7 +250,10 @@ export default {
       message: 'You need to know about this!',
       caption: 'This is a caption',
       timeout: 0,
-      avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
+      avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+      attrs: {
+        role: 'alertdialog'
+      }
     })
     this.$q.notify({
       message: 'You need to know about this!',
@@ -222,7 +263,7 @@ export default {
       textColor: 'black',
       multiLine: true,
       avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-      actions: [ { label: 'Reply', handler: () => console.log('wooow') } ]
+      actions: [ { label: 'Reply', handler: () => console.log('wooow'), attrs: { 'aria-label': 'Reply' } } ]
     })
     this.$q.notify({
       html: true,

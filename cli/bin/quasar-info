@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
-const
-  parseArgs = require('minimist'),
-  chalk = require('chalk')
+const parseArgs = require('minimist')
+const chalk = require('chalk')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -23,9 +22,8 @@ if (argv.help) {
   process.exit(0)
 }
 
-const
-  os = require('os'),
-  spawn = require('cross-spawn').sync
+const os = require('os')
+const spawn = require('cross-spawn').sync
 
 function getSpawnOutput (command) {
   try {
@@ -39,17 +37,17 @@ function getSpawnOutput (command) {
   }
 }
 
-const
-  getExternalIPs = require('../lib/net').getExternalNetworkInterface,
-  output = [
-    { key: 'Operating System', value: chalk.green(`${os.type()}(${os.release()}) - ${os.platform()}/${os.arch()}`), section: true },
-    { key: 'NodeJs', value: chalk.green(process.version.slice(1)) },
-    { key: 'Global packages', section: true },
-    { key: '  NPM', value: getSpawnOutput('npm') },
-    { key: '  yarn', value: getSpawnOutput('yarn') },
-    { key: '  @quasar/cli', value: chalk.green(require('../package.json').version) },
-    { key: '  cordova', value: getSpawnOutput('cordova') }
-  ]
+const getExternalIPs = require('../lib/net').getExternalNetworkInterface
+const output = [
+  { key: 'Operating System', value: chalk.green(`${os.type()}(${os.release()}) - ${os.platform()}/${os.arch()}`), section: true },
+  { key: 'NodeJs', value: chalk.green(process.version.slice(1)) },
+  { key: 'Global packages', section: true },
+  { key: '  NPM', value: getSpawnOutput('npm') },
+  { key: '  yarn', value: getSpawnOutput('yarn') },
+  { key: '  @quasar/cli', value: chalk.green(require('../package.json').version) },
+  { key: '  @quasar/icongenie', value: getSpawnOutput('icongenie') },
+  { key: '  cordova', value: getSpawnOutput('cordova') }
+]
 
 output.push(
   { key: 'Networking', section: true },

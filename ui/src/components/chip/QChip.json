@@ -31,6 +31,10 @@
       "extends": "icon"
     },
 
+    "icon-remove": {
+      "extends": "icon"
+    },
+
     "label": {
       "type": [ "String", "Number" ],
       "desc": "Chip's content as string; overrides default slot if specified",

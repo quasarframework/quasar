@@ -1,13 +1,12 @@
 import QBtn from '../btn/QBtn.js'
 import QBtnDropdown from '../btn-dropdown/QBtnDropdown.js'
-import QInput from '../input/QInput.js'
 import QIcon from '../icon/QIcon.js'
 import QTooltip from '../tooltip/QTooltip.js'
 import QList from '../item/QList.js'
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
-import { prevent } from '../../utils/event.js'
+import { prevent, stop } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
 import { shouldIgnoreKey } from '../../utils/key-composition.js'
 
@@ -66,10 +65,10 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
 }
 
 function getDropdown (h, vm, btn) {
+  const onlyIcons = btn.list === 'only-icons'
   let
     label = btn.label,
     icon = btn.icon,
-    onlyIcons = btn.list === 'only-icons',
     contentClass,
     Items
 
@@ -248,18 +247,17 @@ export function getLinkEditor (h, vm, ie11) {
 
     return [
       h('div', { staticClass: 'q-mx-xs', 'class': `text-${color}` }, [`${vm.$q.lang.editor.url}: `]),
-      h(QInput, {
+      h('input', {
         key: 'qedt_btm_input',
-        staticClass: 'q-ma-none q-pa-none col q-editor-input',
-        props: {
-          value: link,
-          color,
-          autofocus: true,
-          borderless: true,
-          dense: true
+        staticClass: 'col q-editor__link-input',
+        domProps: {
+          value: link
         },
         on: {
-          input: val => { link = val },
+          input: e => {
+            stop(e)
+            link = e.target.value
+          },
           keydown: event => {
             if (shouldIgnoreKey(event) === true) {
               return

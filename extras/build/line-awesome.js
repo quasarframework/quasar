@@ -1,4 +1,5 @@
 const packageName = 'line-awesome'
+const iconSetName = 'Line Awesome'
 
 // ------------
 
@@ -8,56 +9,37 @@ const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
 let skipped = []
-const dist = resolve(__dirname, `../line-awesome/index.js`)
-const { parseSvgContent } = require('./utils')
+const distFolder = resolve(__dirname, `../line-awesome`)
+const { defaultNameMapper, extract, writeExports } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svg/`)
+const svgFiles = glob.sync(svgFolder + `/*.svg`)
 const iconNames = new Set()
 
-function extract (file) {
-  const name = ('la-' + basename(file, '.svg')).replace(/(-\w)/g, m => m[1].toUpperCase())
-
-  if (iconNames.has(name)) {
-    return null
-  }
-
-  const content = readFileSync(file, 'utf-8')
-
-  try {
-    const { dPath, viewBox } = parseSvgContent(name, content)
-
-    iconNames.add(name)
-    return `export const ${name} = '${dPath}${viewBox}'`
-  }
-  catch (err) {
-    console.error(err)
-    skipped.push(name)
-    return null
-  }
-}
-
-function getBanner () {
-  const { version } = require(resolve(__dirname, `../node_modules/${packageName}/package.json`))
-  return `/* Line Awesome v${version} */\n\n`
-}
-
 const svgExports = []
-const svgFiles = glob.sync(svgFolder + `/*.svg`)
+const typeExports = []
 
 svgFiles.forEach(file => {
-  svgExports.push(extract(file))
+  const name = defaultNameMapper(file, 'la')
+
+  if (iconNames.has(name)) {
+    return
+  }
+
+  try {
+    const { svgDef, typeDef } = extract(file, name)
+    svgExports.push(svgDef)
+    typeExports.push(typeDef)
+
+    iconNames.add(name)
+  }
+  catch(err) {
+    console.error(err)
+    skipped.push(name)
+  }
 })
 
-if (svgExports.length === 0) {
-  console.log('WARNING. Line Awesome skipped completely')
-}
-else {
-  writeFileSync(dist, getBanner() + svgExports.filter(x => x !== null).join('\n'), 'utf-8')
-
-  if (skipped.length > 0) {
-    console.log(`lineawesome - skipped (${skipped.length}): ${skipped}`)
-  }
-}
+writeExports(iconSetName, packageName, distFolder, svgExports, typeExports, skipped)
 
 // then update webfont files
 

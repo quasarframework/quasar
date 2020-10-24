@@ -23,7 +23,8 @@ export default {
     months: 'يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر'.split('_'),
     monthsShort: 'ينا_فبر_مار_أبر_ماي_يون_يول_أغس_سبت_أكت_نوف_ديس'.split('_'),
     firstDayOfWeek: 6, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: false
+    format24h: false,
+    pluralDay: 'أيام'
   },
   table: {
     noData: 'لا توجد بيانات',

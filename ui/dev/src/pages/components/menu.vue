@@ -574,7 +574,7 @@
 <script>
 export default {
   data () {
-    let list = []
+    const list = []
     for (let i = 0; i < 26 * 30; i += 1) {
       const c = String.fromCharCode(97 + (i % 26))
       const v = `${c}${c}${c}${c}${c}#${i}`

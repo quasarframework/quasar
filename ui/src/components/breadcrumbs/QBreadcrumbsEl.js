@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import { mergeSlot } from '../../utils/slot.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import QIcon from '../icon/QIcon.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
@@ -8,7 +9,7 @@ import { RouterLinkMixin } from '../../mixins/router-link.js'
 export default Vue.extend({
   name: 'QBreadcrumbsEl',
 
-  mixins: [ RouterLinkMixin ],
+  mixins: [ ListenersMixin, RouterLinkMixin ],
 
   props: {
     label: String,
@@ -31,7 +32,7 @@ export default Vue.extend({
     return h(this.hasRouterLink === true ? 'router-link' : 'span', {
       staticClass: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
       props: this.hasRouterLink === true ? this.routerLinkProps : null,
-      [this.hasRouterLink === true ? 'nativeOn' : 'on']: this.$listeners
+      [this.hasRouterLink === true ? 'nativeOn' : 'on']: { ...this.qListeners }
     }, mergeSlot(child, this, 'default'))
   }
 })

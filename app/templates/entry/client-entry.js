@@ -9,7 +9,7 @@
  *
  * Boot files are your "main.js"
  **/
-<% if (supportIE) { %>
+<% if (__supportsIE) { %>
 import 'quasar/dist/quasar.ie.polyfills.js'
 <% } %>
 
@@ -38,6 +38,9 @@ import createApp from './app.js'
 
 <% if (ctx.mode.pwa) { %>
 import 'app/<%= sourceFiles.registerServiceWorker %>'
+<% if (ctx.mode.ssr) { %>
+import { isRunningOnPWA } from './ssr-pwa'
+<% } %>
 <% } %>
 
 <%
@@ -63,14 +66,14 @@ import electron from 'electron'
 Vue.prototype.$q.electron = electron
 <% } %>
 
-<% if (ctx.dev) { %>
+<% if (ctx.dev || ctx.debug) { %>
 Vue.config.devtools = true
 Vue.config.productionTip = false
 <% } %>
 
 <% if (ctx.dev) { %>
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %>.')
-<% if (ctx.mode.pwa) { %>console.info('[Quasar] Forcing PWA into the network-first approach to not break Hot Module Replacement while developing.')<% } %>
+<% if (ctx.mode.pwa) { %>console.info('[Quasar] PWA: Use devtools > Application > "Bypass for network" to not break Hot Module Replacement while developing.')<% } %>
 <% } %>
 
 <% if (ctx.mode.cordova && ctx.target.ios) { %>
@@ -82,28 +85,38 @@ if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.n
 }
 <% } %>
 
+const publicPath = `<%= build.publicPath %>`
+<% if (build.publicPath.length > 1) { %>
+const doubleSlashRE = /\/\//
+const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
+<% } %>
+
 async function start () {
   const { app, <%= store ? 'store, ' : '' %>router } = await createApp()
 
   <% if (ctx.mode.ssr && store && ssr.manualHydration !== true) { %>
   // prime the store with server-initialized state.
   // the state is determined during SSR and inlined in the page markup.
-  if (window.__INITIAL_STATE__) {
+  if (<% if (ctx.mode.pwa) { %>isRunningOnPWA !== true && <% } %>window.__INITIAL_STATE__) {
     store.replaceState(window.__INITIAL_STATE__)
   }
   <% } %>
 
   <% if (bootNames.length > 0) { %>
-  let routeUnchanged = true
+  let hasRedirected = false
   const redirect = url => {
-    routeUnchanged = false
-    window.location.href = url
+    hasRedirected = true
+    const normalized = Object(url) === url
+      ? <%= build.publicPath.length <= 1 ? 'router.resolve(url).route.fullPath' : 'addPublicPath(router.resolve(url).route.fullPath)' %>
+      : url
+
+    window.location.href = normalized
   }
 
   const urlPath = window.location.href.replace(window.location.origin, '')
   const bootFiles = [<%= bootNames.join(',') %>]
 
-  for (let i = 0; routeUnchanged === true && i < bootFiles.length; i++) {
+  for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
     if (typeof bootFiles[i] !== 'function') {
       continue
     }
@@ -116,7 +129,8 @@ async function start () {
         Vue,
         ssrContext: null,
         redirect,
-        urlPath
+        urlPath,
+        publicPath
       })
     }
     catch (err) {
@@ -130,22 +144,34 @@ async function start () {
     }
   }
 
-  if (routeUnchanged === false) {
+  if (hasRedirected === true) {
     return
   }
   <% } %>
 
   <% if (ctx.mode.ssr) { %>
+    <% if (ctx.mode.pwa) { %>
+      if (isRunningOnPWA === true) {
+        <% if (preFetch) { %>
+        addPreFetchHooks(router<%= store ? ', store' : '' %>)
+        <% } %>
+        new Vue(app)
+      }
+      else {
+    <% } %>
     const appInstance = new Vue(app)
 
     // wait until router has resolved all async before hooks
     // and async components...
     router.onReady(() => {
       <% if (preFetch) { %>
-      addPreFetchHooks(router<%= store ? ', store' : '' %>)
+      addPreFetchHooks(router<%= store ? ', store' : '' %>, publicPath)
       <% } %>
       appInstance.$mount('#q-app')
     })
+    <% if (ctx.mode.pwa) { %>
+    }
+    <% } %>
 
   <% } else { // not SSR %>
 
@@ -160,10 +186,23 @@ async function start () {
     Vue.prototype.$q.capacitor = window.Capacitor
     <% } %>
 
-    new Vue(app)
+    <% if (!ctx.mode.bex) { %>
+      new Vue(app)
+    <% } %>
 
     <% if (ctx.mode.cordova) { %>
     }, false) // on deviceready
+    <% } %>
+
+    <% if (ctx.mode.bex) { %>
+      let vApp = null
+      window.QBexInit = function (shell) {
+        shell.connect(bridge => {
+          window.QBexBridge = bridge
+          Vue.prototype.$q.bex = window.QBexBridge
+          vApp = new Vue(app)
+        })
+      }
     <% } %>
 
   <% } // end of Non SSR %>

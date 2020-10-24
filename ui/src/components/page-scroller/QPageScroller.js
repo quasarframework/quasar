@@ -45,6 +45,13 @@ export default Vue.extend({
       return this.layout.container === true
         ? this.layout.containerHeight
         : this.layout.height
+    },
+
+    onEvents () {
+      return {
+        ...this.qListeners,
+        click: this.__onClick
+      }
     }
   },
 
@@ -105,10 +112,7 @@ export default Vue.extend({
       ? [
         h('div', {
           staticClass: 'q-page-scroller',
-          on: {
-            ...this.$listeners,
-            click: this.__onClick
-          }
+          on: this.onEvents
         }, [
           QPageSticky.options.render.call(this, h)
         ])

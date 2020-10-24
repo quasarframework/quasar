@@ -84,6 +84,15 @@
     "error-color": {
       "extends": "color",
       "category": "header"
+    },
+
+    "header-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the header",
+      "examples": [
+        "my-special-class"
+      ],
+      "category": "style"
     }
   },
 

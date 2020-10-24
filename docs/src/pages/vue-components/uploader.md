@@ -165,7 +165,7 @@ app.listen(port, () => {
 QUploader seamlessly integrates with a Microsoft ASP.NET MVC/Core 2.x Web API backend.
 In your Vue file, configure the QUploader component with the desired Web API endpoint:
 
-```vue
+```html
 <q-uploader
   url="http://localhost:4444/fileuploader/upload"
   label="Upload"
@@ -192,7 +192,7 @@ export default {
         // Retrieve JWT token from your store.
         const token = "myToken";
         resolve({
-          url: http://localhost:4444/fileuploader/upload,
+          url: 'http://localhost:4444/fileuploader/upload',
           method: 'POST',
           headers: [
             { name: 'Content-Type', value: 'application/json-patch+json'},
@@ -256,7 +256,7 @@ public class UploadRest {
 }
 
 // html
-<q-uploader fieldName="file" url="YOUR_URL_BACK/upload" with-credentials />
+<q-uploader field-name="file" url="YOUR_URL_BACK/upload" with-credentials />
 ```
 
 ## Supporting other services

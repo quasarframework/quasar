@@ -36,12 +36,13 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
     }
 
     const cssLoaderOptions = {
+      sourceMap: pref.sourceMap,
+      onlyLocals: pref.serverExtract,
       importLoaders:
         (pref.serverExtract ? 0 : 1) + // stylePostLoader injected by vue-loader
         1 + // postCSS loader
         (!pref.extract && pref.minify ? 1 : 0) + // postCSS with cssnano
-        (loader ? (loader === 'stylus-loader' || loader === 'sass-loader' ? 2 : 1) : 0),
-      sourceMap: pref.sourceMap
+        (loader ? (loader === 'stylus-loader' || loader === 'sass-loader' ? 2 : 1) : 0)
     }
 
     if (modules) {

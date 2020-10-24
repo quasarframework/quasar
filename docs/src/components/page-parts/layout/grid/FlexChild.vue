@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mdiClose, mdiCloseCircle } from '@quasar/extras/mdi-v4'
+import { mdiClose, mdiCloseCircle } from '@quasar/extras/mdi-v5'
 
 export default {
   name: 'FlexChild',

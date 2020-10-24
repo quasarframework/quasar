@@ -1,10 +1,14 @@
 import { Configuration as ElectronBuilderConfiguration } from "electron-builder";
-import { ElectronBuilderArchs, ElectronBuilderTargets, ElectronPackagerArchs, ElectronPackagerTargets, QuasarCapacitorTargets, QuasarCordovaTargets, QuasarElectronBundlers } from "quasar";
 import "../shims";
-import "./boot";
-import "./capacitor-conf";
-import "./cordova-conf";
-import "./electron-conf";
+import { QuasarCapacitorTargets } from "./capacitor-conf";
+import {
+  QuasarElectronBundlers,
+  ElectronBuilderTargets,
+  ElectronBuilderArchs,
+  ElectronPackagerTargets,
+  ElectronPackagerArchs
+} from "./electron-conf";
+import { QuasarCordovaTargets } from "./cordova-conf";
 
 type QuasarModes = "spa" | "ssr" | "pwa" | "cordova" | "capacitor" | "electron";
 
@@ -133,13 +137,10 @@ interface SsrQuasarContext extends BaseQuasarContext {
   modeName: "ssr";
 }
 
-declare module "quasar" {
-  type QuasarContext =
-    | SpaQuasarContext
-    | PwaQuasarContext
-    | SsrQuasarContext
-    | CapacitorQuasarContext
-    | CordovaQuasarContext
-    | ElectronQuasarContext;
-}
-
+export type QuasarContext =
+  | SpaQuasarContext
+  | PwaQuasarContext
+  | SsrQuasarContext
+  | CapacitorQuasarContext
+  | CordovaQuasarContext
+  | ElectronQuasarContext;
