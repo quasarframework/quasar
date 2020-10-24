@@ -98,7 +98,7 @@
 
     "navigation-min-year-month": {
       "type": "String",
-      "desc": "Lock user from navigating below a specific year+month (in YYYY/MM format); This prop is not used to correct the model",
+      "desc": "Lock user from navigating below a specific year+month (in YYYY/MM format); This prop is not used to correct the model; You might want to also use 'default-year-month' prop",
       "examples": [ "2020/07" ],
       "category": "selection",
       "addedIn": "v1.13.0"
@@ -106,7 +106,7 @@
 
     "navigation-max-year-month": {
       "type": "String",
-      "desc": "Lock user from navigating above a specific year+month (in YYYY/MM format); This prop is not used to correct the model",
+      "desc": "Lock user from navigating above a specific year+month (in YYYY/MM format); This prop is not used to correct the model; You might want to also use 'default-year-month' prop",
       "examples": [ "2020/10" ],
       "category": "selection",
       "addedIn": "v1.13.0"
