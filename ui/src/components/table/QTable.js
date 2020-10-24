@@ -97,6 +97,8 @@ export default Vue.extend({
     tableClass: [String, Array, Object],
     tableHeaderStyle: [String, Array, Object],
     tableHeaderClass: [String, Array, Object],
+    tableBottomStyle: [String, Array, Object],
+    tableBottomClass: [String, Array, Object],
     cardContainerClass: [String, Array, Object],
     cardContainerStyle: [String, Array, Object],
     cardStyle: [String, Array, Object],

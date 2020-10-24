@@ -35,7 +35,8 @@ export default {
           ]
 
         return h('div', {
-          staticClass: 'q-table__bottom row items-center q-table__bottom--nodata'
+          staticClass: 'q-table__bottom row items-center q-table__bottom--nodata' + ' ' + this.props.tableBottomClass,
+          style: this.props.tableBottomStyle
         }, children)
       }
 
