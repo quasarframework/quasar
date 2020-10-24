@@ -499,16 +499,36 @@ export default Vue.extend({
       if (e.keyCode === 13) { // ENTER
         this.view = 'Hour'
       }
-      else {
-        const
-          wrap = this.computedFormat24h === true ? 24 : 12,
-          offset = this.computedFormat24h !== true && this.isAM === false ? 12 : 0
+      else if ([ 37, 39 ].includes(e.keyCode)) {
+        const payload = e.keyCode === 37 ? -1 : 1
 
-        if (e.keyCode === 37) { // ARROW LEFT
-          this.__setHour(offset + (24 + this.innerModel.hour - 1) % wrap)
+        if (this.validHours !== void 0) {
+          const values = this.computedFormat24h === true
+            ? this.validHours.values
+            : this.validHours[this.isAM === true ? 'am' : 'pm'].values
+
+          if (values.length === 0) { return }
+
+          if (this.innerModel.hour === null) {
+            this.__setHour(values[0])
+          }
+          else {
+            const index = (
+              values.length +
+              values.indexOf(this.innerModel.hour) +
+              payload
+            ) % values.length
+
+            this.__setHour(values[index])
+          }
         }
-        else if (e.keyCode === 39) { // ARROW RIGHT
-          this.__setHour(offset + (24 + this.innerModel.hour + 1) % wrap)
+        else {
+          const
+            wrap = this.computedFormat24h === true ? 24 : 12,
+            offset = this.computedFormat24h !== true && this.isAM === false ? 12 : 0,
+            val = this.innerModel.hour === null ? -payload : this.innerModel.hour
+
+          this.__setHour(offset + (24 + val + payload) % wrap)
         }
       }
     },
@@ -517,11 +537,31 @@ export default Vue.extend({
       if (e.keyCode === 13) { // ENTER
         this.view = 'Minute'
       }
-      else if (e.keyCode === 37) { // ARROW LEFT
-        this.__setMinute((60 + this.innerModel.minute - 1) % 60)
-      }
-      else if (e.keyCode === 39) { // ARROW RIGHT
-        this.__setMinute((60 + this.innerModel.minute + 1) % 60)
+      else if ([ 37, 39 ].includes(e.keyCode)) {
+        const payload = e.keyCode === 37 ? -1 : 1
+
+        if (this.validMinutes !== void 0) {
+          const values = this.validMinutes.values
+
+          if (values.length === 0) { return }
+
+          if (this.innerModel.minute === null) {
+            this.__setMinute(values[0])
+          }
+          else {
+            const index = (
+              values.length +
+              values.indexOf(this.innerModel.minute) +
+              payload
+            ) % values.length
+
+            this.__setMinute(values[index])
+          }
+        }
+        else {
+          const val = this.innerModel.minute === null ? -payload : this.innerModel.minute
+          this.__setMinute((60 + val + payload) % 60)
+        }
       }
     },
 
@@ -529,11 +569,31 @@ export default Vue.extend({
       if (e.keyCode === 13) { // ENTER
         this.view = 'Second'
       }
-      else if (e.keyCode === 37) { // ARROW LEFT
-        this.__setSecond((60 + this.innerModel.second - 1) % 60)
-      }
-      else if (e.keyCode === 39) { // ARROW RIGHT
-        this.__setSecond((60 + this.innerModel.second + 1) % 60)
+      else if ([ 37, 39 ].includes(e.keyCode)) {
+        const payload = e.keyCode === 37 ? -1 : 1
+
+        if (this.validSeconds !== void 0) {
+          const values = this.validSeconds.values
+
+          if (values.length === 0) { return }
+
+          if (this.innerModel.seconds === null) {
+            this.__setSecond(values[0])
+          }
+          else {
+            const index = (
+              values.length +
+              values.indexOf(this.innerModel.second) +
+              payload
+            ) % values.length
+
+            this.__setSecond(values[index])
+          }
+        }
+        else {
+          const val = this.innerModel.second === null ? -payload : this.innerModel.second
+          this.__setSecond((60 + val + payload) % 60)
+        }
       }
     },
 
