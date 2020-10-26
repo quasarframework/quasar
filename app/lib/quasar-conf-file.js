@@ -209,7 +209,9 @@ class QuasarConfFile {
         builder: {}
       },
       cordova: {},
-      capacitor: {},
+      capacitor: {
+        capacitorCliPreparationParams: []
+      },
       bin: {},
       bex: {
         builder: {
@@ -236,12 +238,9 @@ class QuasarConfFile {
     if (!cfg.framework.config) {
       cfg.framework.config = {}
     }
-
-    // legacy; left here so it won't break older App Extensions
     if (!cfg.framework.components) {
       cfg.framework.components = []
     }
-    // legacy; left here so it won't break older App Extensions
     if (!cfg.framework.directives) {
       cfg.framework.directives = []
     }
@@ -553,6 +552,10 @@ class QuasarConfFile {
 
     // make sure we have preFetch in config
     cfg.preFetch = cfg.preFetch || false
+
+    if (this.ctx.mode.capacitor & cfg.capacitor.capacitorCliPreparationParams.length === 0) {
+      cfg.capacitor.capacitorCliPreparationParams = [ 'sync', this.ctx.targetName ]
+    }
 
     if (this.ctx.mode.ssr) {
       cfg.ssr = merge({

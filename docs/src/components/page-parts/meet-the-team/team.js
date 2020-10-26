@@ -53,18 +53,18 @@ export default [
   },
 
   {
-    name: 'Tobias Mesquita',
-    role: 'Senior Developer',
-    avatar: 'tobias_mesquita.jpg',
-    github: 'TobyMosque',
-    desc: 'Help desk'
-  },
-
-  {
     name: 'Aldrin Marquez',
     role: 'Community Staff',
     avatar: 'aldrin_marquez.jpg',
     github: 'metalsadman',
+    desc: 'Help desk'
+  },
+
+  {
+    name: 'Tobias Mesquita',
+    role: 'Senior Developer',
+    avatar: 'tobias_mesquita.jpg',
+    github: 'TobyMosque',
     desc: 'Help desk'
   },
 
@@ -85,22 +85,6 @@ export default [
   },
 
   {
-    name: 'Matyáš Racek',
-    role: 'Community Staff',
-    avatar: 'matyas_panstromek.jpeg',
-    github: 'panstromek',
-    desc: 'Help desk'
-  },
-
-  {
-    name: 'Ben Coughenour',
-    role: 'Community Staff',
-    avatar: 'ben_coughenour.jpg',
-    github: 'sskwrl',
-    desc: 'Help desk'
-  },
-
-  {
     name: 'Heitor Ribeiro',
     role: 'Community Staff',
     avatar: 'heitor_ribeiro.jpg',
@@ -113,15 +97,7 @@ export default [
     role: 'Senior Developer',
     avatar: 'jesus_villanueva.jpg',
     github: 'jesusvilla',
-    desc: 'UI components, App Extensions and Help desk'
-  },
-
-  {
-    name: 'Adam Purdy',
-    role: 'Community Staff',
-    avatar: 'adam_purdy.jpg',
-    github: 'adamkpurdy',
-    desc: 'Firebase Support Owner & Maintainer, Quasar support member.'
+    desc: 'Help desk'
   },
 
   {

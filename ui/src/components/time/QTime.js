@@ -48,8 +48,7 @@ export default Vue.extend({
       this.value,
       this.__getMask(),
       this.__getLocale(),
-      this.calendar,
-      this.__getDefaultDateModel()
+      this.calendar
     )
 
     let view = 'Hour'
@@ -76,8 +75,7 @@ export default Vue.extend({
         v,
         this.computedMask,
         this.computedLocale,
-        this.calendar,
-        this.defaultDateModel
+        this.calendar
       )
 
       if (
@@ -140,10 +138,6 @@ export default Vue.extend({
           ? '--'
           : pad(time.second)
       }
-    },
-
-    defaultDateModel () {
-      return this.__getDefaultDateModel()
     },
 
     computedFormat24h () {
@@ -210,24 +204,44 @@ export default Vue.extend({
         )
     },
 
-    hourSnappingGrid () {
-      return this.__getSnapGrid(this.hourInSelection, 24)
+    validHours () {
+      if (this.hourInSelection !== void 0) {
+        const am = this.__getValidValues(0, 11, this.hourInSelection)
+        const pm = this.__getValidValues(12, 11, this.hourInSelection)
+        return { am, pm, values: am.values.concat(pm.values) }
+      }
     },
 
-    minuteSnappingGrid () {
-      return this.__getSnapGrid(this.minuteInSelection, 60)
+    validMinutes () {
+      if (this.minuteInSelection !== void 0) {
+        return this.__getValidValues(0, 59, this.minuteInSelection)
+      }
     },
 
-    secondSnappingGrid () {
-      return this.__getSnapGrid(this.secondInSelection, 60)
+    validSeconds () {
+      if (this.secondInSelection !== void 0) {
+        return this.__getValidValues(0, 59, this.secondInSelection)
+      }
+    },
+
+    viewValidOptions () {
+      switch (this.view) {
+        case 'Hour':
+          return this.validHours
+        case 'Minute':
+          return this.validMinutes
+        case 'Second':
+          return this.validSeconds
+      }
     },
 
     positions () {
-      let start, end, offset = 0, step = 1, inSel
+      let start, end, offset = 0, step = 1
+      const values = this.viewValidOptions !== void 0
+        ? this.viewValidOptions.values
+        : void 0
 
       if (this.view === 'Hour') {
-        inSel = this.hourInSelection
-
         if (this.computedFormat24h === true) {
           start = 0
           end = 23
@@ -245,13 +259,6 @@ export default Vue.extend({
         start = 0
         end = 55
         step = 5
-
-        if (this.view === 'Minute') {
-          inSel = this.minuteInSelection
-        }
-        else {
-          inSel = this.secondInSelection
-        }
       }
 
       const pos = []
@@ -259,7 +266,7 @@ export default Vue.extend({
       for (let val = start, index = start; val <= end; val += step, index++) {
         const
           actualVal = val + offset,
-          disable = inSel !== void 0 && inSel(actualVal) === false,
+          disable = values !== void 0 && values.includes(actualVal) === false,
           label = this.view === 'Hour' && val === 0
             ? (this.computedFormat24h === true ? '00' : '12')
             : val
@@ -280,51 +287,50 @@ export default Vue.extend({
       this.view = 'Hour'
     },
 
-    __getSnapGrid (inSel, count) {
-      if (inSel === void 0) {
-        return
-      }
-
-      const snappingGrid = Array.apply(null, { length: count }).map((_, index) => inSel(index))
-
-      let consecutiveGaps = (count - 1) - snappingGrid.lastIndexOf(true)
-      if (consecutiveGaps === -1) {
-        return
-      }
-
-      for (let i = 0; i < count; i++) {
-        if (snappingGrid[i] === true) {
-          if (consecutiveGaps > 1) {
-            const sideCount = Math.floor(consecutiveGaps / 2)
-
-            const previousVal = ((i - consecutiveGaps - 1) + count) % count
-            const previousValStart = ((i - consecutiveGaps) + count) % count
-            for (let j = 0, h = previousValStart; j < sideCount; j++, (h = (previousValStart + j + count) % count)) {
-              snappingGrid[h] = previousVal
-            }
-
-            const currentVal = i
-            const currentValStart = ((i - sideCount) + count) % count
-            for (let j = 0, h = currentValStart; j < sideCount; j++, (h = (currentValStart + j + count) % count)) {
-              snappingGrid[h] = currentVal
-            }
-
-            consecutiveGaps = 0
+    __getValidValues (start, count, testFn) {
+      const values = Array.apply(null, { length: count })
+        .map((_, index) => {
+          const i = index + start
+          return {
+            index: i,
+            val: testFn(i) === true // force boolean
           }
-          else if (consecutiveGaps === 1) {
-            const previousPosition = ((i - 1) + count) % count
-            snappingGrid[previousPosition] = previousPosition
-            consecutiveGaps = 0
-          }
+        })
+        .filter(v => v.val === true)
+        .map(v => v.index)
 
-          snappingGrid[i] = i
-        }
-        else if (snappingGrid[i] === false) {
-          consecutiveGaps++
-        }
+      return {
+        min: values[0],
+        max: values[values.length - 1],
+        values,
+        threshold: count + 1
+      }
+    },
+
+    __getWheelDist (a, b, threshold) {
+      const diff = Math.abs(a - b)
+      return Math.min(diff, threshold - diff)
+    },
+
+    __getNormalizedClockValue (val, { min, max, values, threshold }) {
+      if (val === min) {
+        return min
       }
 
-      return snappingGrid
+      if (val < min || val > max) {
+        return this.__getWheelDist(val, min, threshold) <= this.__getWheelDist(val, max, threshold)
+          ? min
+          : max
+      }
+
+      const
+        index = values.findIndex(v => val <= v),
+        before = values[index - 1],
+        after = values[index]
+
+      return val - before <= after - val
+        ? before
+        : after
     },
 
     __getMask () {
@@ -333,34 +339,38 @@ export default Vue.extend({
         : `HH:mm${this.withSeconds === true ? ':ss' : ''}`
     },
 
-    __getDefaultDateModel () {
-      if (typeof this.defaultDate !== 'string') {
-        const date = this.__getCurrentDate()
-        date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
-        return date
-      }
-
-      return __splitDate(this.defaultDate, 'YYYY/MM/DD', void 0, this.calendar)
-    },
-
     __click (evt) {
-      if (this._isBeingDestroyed === true || this._isDestroyed === true) {
-        return
-      }
+      if (this.__shouldAbortInteraction() !== true) {
+        // __activate() has already updated the offset
+        // (on desktop only, through mousedown event)
+        if (this.$q.platform.is.desktop !== true) {
+          this.__updateClock(evt, this.__getClockRect())
+        }
 
-      // __activate() has already updated the offset
-      // (on desktop only, through mousedown event)
-      if (this.$q.platform.is.desktop !== true) {
-        this.__updateClock(evt, this.__getClockRect())
+        this.__goToNextView()
       }
-
-      this.__goToNextView()
     },
 
     __activate (evt) {
-      if (this._isBeingDestroyed !== true && this._isDestroyed !== true) {
+      if (this.__shouldAbortInteraction() !== true) {
         this.__updateClock(evt, this.__getClockRect())
       }
+    },
+
+    __shouldAbortInteraction () {
+      return this._isBeingDestroyed === true ||
+        this._isDestroyed === true ||
+        // if we have limited options, can we actually set any?
+        (
+          this.viewValidOptions !== void 0 &&
+          (
+            this.viewValidOptions.values.length === 0 ||
+            (
+              this.view === 'Hour' && this.computedFormat24h !== true &&
+              this.validHours[this.isAM === true ? 'am' : 'pm'].values.length === 0
+            )
+          )
+        )
     },
 
     __getClockRect () {
@@ -386,9 +396,7 @@ export default Vue.extend({
     },
 
     __drag (event) {
-      // cases when on a popup getting closed
-      // on previously emitted value
-      if (this._isBeingDestroyed === true || this._isDestroyed === true) {
+      if (this.__shouldAbortInteraction() === true) {
         return
       }
 
@@ -415,6 +423,7 @@ export default Vue.extend({
           Math.pow(Math.abs(pos.top - clockRect.top), 2) +
           Math.pow(Math.abs(pos.left - clockRect.left), 2)
         )
+
       let
         val,
         angle = Math.asin(height / distance) * (180 / Math.PI)
@@ -427,49 +436,62 @@ export default Vue.extend({
       }
 
       if (this.view === 'Hour') {
-        val = Math.round(angle / 30)
+        val = angle / 30
 
-        if (this.computedFormat24h === true) {
-          if (distance < clockRect.dist) {
-            if (val < 12) {
-              val += 12
+        if (this.validHours !== void 0) {
+          const am = this.computedFormat24h !== true
+            ? this.isAM === true
+            : (
+              this.validHours.am.values.length > 0 && this.validHours.pm.values.length > 0
+                ? distance >= clockRect.dist
+                : this.validHours.am.values.length > 0
+            )
+
+          val = this.__getNormalizedClockValue(
+            val + (am === true ? 0 : 12),
+            this.validHours[am === true ? 'am' : 'pm']
+          )
+        }
+        else {
+          val = Math.round(val)
+
+          if (this.computedFormat24h === true) {
+            if (distance < clockRect.dist) {
+              if (val < 12) {
+                val += 12
+              }
+            }
+            else if (val === 12) {
+              val = 0
             }
           }
-          else if (val === 12) {
+          else if (this.isAM === true && val === 12) {
             val = 0
           }
-          this.isAM = val < 12
-        }
-        else if (this.isAM === true && val === 12) {
-          val = 0
-        }
-        else if (this.isAM === false && val !== 12) {
-          val += 12
+          else if (this.isAM === false && val !== 12) {
+            val += 12
+          }
         }
 
-        if (this.hourSnappingGrid !== void 0) {
-          val = this.hourSnappingGrid[val]
+        if (this.computedFormat24h === true) {
+          this.isAM = val < 12
         }
       }
       else {
         val = Math.round(angle / 6) % 60
 
-        if (this.view === 'Minute' && this.minuteSnappingGrid !== void 0) {
-          val = this.minuteSnappingGrid[val]
+        if (this.view === 'Minute' && this.validMinutes !== void 0) {
+          val = this.__getNormalizedClockValue(val, this.validMinutes)
         }
-        else if (this.view === 'Second' && this.secondSnappingGrid !== void 0) {
-          val = this.secondSnappingGrid[val]
+        else if (this.view === 'Second' && this.validSeconds !== void 0) {
+          val = this.__getNormalizedClockValue(val, this.validSeconds)
         }
       }
 
-      if (
-        cacheVal === val ||
-        val === false // snapping said "no!"
-      ) {
-        return val
+      if (cacheVal !== val) {
+        this[`__set${this.view}`](val)
       }
 
-      this[`__set${this.view}`](val)
       return val
     },
 
@@ -477,16 +499,36 @@ export default Vue.extend({
       if (e.keyCode === 13) { // ENTER
         this.view = 'Hour'
       }
-      else {
-        const
-          wrap = this.computedFormat24h === true ? 24 : 12,
-          offset = this.computedFormat24h !== true && this.isAM === false ? 12 : 0
+      else if ([ 37, 39 ].includes(e.keyCode)) {
+        const payload = e.keyCode === 37 ? -1 : 1
 
-        if (e.keyCode === 37) { // ARROW LEFT
-          this.__setHour(offset + (24 + this.innerModel.hour - 1) % wrap)
+        if (this.validHours !== void 0) {
+          const values = this.computedFormat24h === true
+            ? this.validHours.values
+            : this.validHours[this.isAM === true ? 'am' : 'pm'].values
+
+          if (values.length === 0) { return }
+
+          if (this.innerModel.hour === null) {
+            this.__setHour(values[0])
+          }
+          else {
+            const index = (
+              values.length +
+              values.indexOf(this.innerModel.hour) +
+              payload
+            ) % values.length
+
+            this.__setHour(values[index])
+          }
         }
-        else if (e.keyCode === 39) { // ARROW RIGHT
-          this.__setHour(offset + (24 + this.innerModel.hour + 1) % wrap)
+        else {
+          const
+            wrap = this.computedFormat24h === true ? 24 : 12,
+            offset = this.computedFormat24h !== true && this.isAM === false ? 12 : 0,
+            val = this.innerModel.hour === null ? -payload : this.innerModel.hour
+
+          this.__setHour(offset + (24 + val + payload) % wrap)
         }
       }
     },
@@ -495,11 +537,31 @@ export default Vue.extend({
       if (e.keyCode === 13) { // ENTER
         this.view = 'Minute'
       }
-      else if (e.keyCode === 37) { // ARROW LEFT
-        this.__setMinute((60 + this.innerModel.minute - 1) % 60)
-      }
-      else if (e.keyCode === 39) { // ARROW RIGHT
-        this.__setMinute((60 + this.innerModel.minute + 1) % 60)
+      else if ([ 37, 39 ].includes(e.keyCode)) {
+        const payload = e.keyCode === 37 ? -1 : 1
+
+        if (this.validMinutes !== void 0) {
+          const values = this.validMinutes.values
+
+          if (values.length === 0) { return }
+
+          if (this.innerModel.minute === null) {
+            this.__setMinute(values[0])
+          }
+          else {
+            const index = (
+              values.length +
+              values.indexOf(this.innerModel.minute) +
+              payload
+            ) % values.length
+
+            this.__setMinute(values[index])
+          }
+        }
+        else {
+          const val = this.innerModel.minute === null ? -payload : this.innerModel.minute
+          this.__setMinute((60 + val + payload) % 60)
+        }
       }
     },
 
@@ -507,11 +569,31 @@ export default Vue.extend({
       if (e.keyCode === 13) { // ENTER
         this.view = 'Second'
       }
-      else if (e.keyCode === 37) { // ARROW LEFT
-        this.__setSecond((60 + this.innerModel.second - 1) % 60)
-      }
-      else if (e.keyCode === 39) { // ARROW RIGHT
-        this.__setSecond((60 + this.innerModel.second + 1) % 60)
+      else if ([ 37, 39 ].includes(e.keyCode)) {
+        const payload = e.keyCode === 37 ? -1 : 1
+
+        if (this.validSeconds !== void 0) {
+          const values = this.validSeconds.values
+
+          if (values.length === 0) { return }
+
+          if (this.innerModel.seconds === null) {
+            this.__setSecond(values[0])
+          }
+          else {
+            const index = (
+              values.length +
+              values.indexOf(this.innerModel.second) +
+              payload
+            ) % values.length
+
+            this.__setSecond(values[index])
+          }
+        }
+        else {
+          const val = this.innerModel.second === null ? -payload : this.innerModel.second
+          this.__setSecond((60 + val + payload) % 60)
+        }
       }
     },
 
@@ -696,29 +778,30 @@ export default Vue.extend({
     },
 
     __setAm () {
-      if (this.isAM) { return }
+      if (this.isAM === false) {
+        this.isAM = true
 
-      this.isAM = true
-
-      if (this.innerModel.hour === null) { return }
-      this.innerModel.hour -= 12
-      this.__verifyAndUpdate()
+        if (this.innerModel.hour !== null) {
+          this.innerModel.hour -= 12
+          this.__verifyAndUpdate()
+        }
+      }
     },
 
     __setPm () {
-      if (!this.isAM) { return }
+      if (this.isAM === true) {
+        this.isAM = false
 
-      this.isAM = false
-
-      if (this.innerModel.hour === null) { return }
-      this.innerModel.hour += 12
-      this.__verifyAndUpdate()
+        if (this.innerModel.hour !== null) {
+          this.innerModel.hour += 12
+          this.__verifyAndUpdate()
+        }
+      }
     },
 
     __verifyAndUpdate () {
       if (this.hourInSelection !== void 0 && this.hourInSelection(this.innerModel.hour) !== true) {
         this.innerModel = __splitDate()
-        this.isAM = true
         this.view = 'Hour'
         return
       }
