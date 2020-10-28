@@ -43,7 +43,7 @@ class CapacitorRunner {
     this.url = url
     this.capacitorConfig.prepare(cfg)
 
-    await this.__runCapacitorCommand(['sync', this.target])
+    await this.__runCapacitorCommand(cfg.capacitor.capacitorCliPreparationParams)
 
     this.capacitorConfig.prepareSSL(cfg.devServer.https, this.target)
 
@@ -55,7 +55,7 @@ class CapacitorRunner {
 
     this.capacitorConfig.prepare(cfg)
 
-    await this.__runCapacitorCommand(['sync', this.target])
+    await this.__runCapacitorCommand(cfg.capacitor.capacitorCliPreparationParams)
 
     this.capacitorConfig.prepareSSL(false, this.target)
 
