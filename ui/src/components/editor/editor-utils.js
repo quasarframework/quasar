@@ -53,7 +53,7 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
   return h(QBtn, {
     props: {
       ...vm.buttonProps,
-      icon: btn.icon,
+      icon: btn.icon !== null ? btn.icon : void 0,
       color: toggled ? btn.toggleColor || vm.toolbarToggleColor : btn.color || vm.toolbarColor,
       textColor: toggled && !vm.toolbarPush ? null : btn.textColor || vm.toolbarTextColor,
       label: btn.label,
@@ -68,7 +68,7 @@ function getDropdown (h, vm, btn) {
   const onlyIcons = btn.list === 'only-icons'
   let
     label = btn.label,
-    icon = btn.icon,
+    icon = btn.icon !== null ? btn.icon : void 0,
     contentClass,
     Items
 
@@ -84,7 +84,7 @@ function getDropdown (h, vm, btn) {
 
       if (active) {
         label = btn.tip
-        icon = btn.icon
+        icon = btn.icon !== null ? btn.icon : void 0
       }
       return getBtn(h, vm, btn, closeDropdown, active)
     })
@@ -109,7 +109,7 @@ function getDropdown (h, vm, btn) {
 
       if (active) {
         label = btn.tip
-        icon = btn.icon
+        icon = btn.icon !== null ? btn.icon : void 0
       }
 
       const htmlTip = btn.htmlTip
@@ -134,7 +134,7 @@ function getDropdown (h, vm, btn) {
               class: active ? activeClass : inactiveClass,
               props: { side: true }
             }, [
-              h(QIcon, { props: { name: btn.icon } })
+              h(QIcon, { props: { name: icon } })
             ]),
 
           h(QItemSection, [
@@ -164,7 +164,7 @@ function getDropdown (h, vm, btn) {
         color: highlight ? vm.toolbarToggleColor : vm.toolbarColor,
         textColor: highlight && !vm.toolbarPush ? null : vm.toolbarTextColor,
         label: btn.fixedLabel ? btn.label : label,
-        icon: btn.fixedIcon ? btn.icon : icon,
+        icon: btn.fixedIcon ? (btn.icon !== null ? btn.icon : void 0) : icon,
         contentClass
       }
     },
