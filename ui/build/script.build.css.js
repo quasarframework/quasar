@@ -1,7 +1,7 @@
 const
   path = require('path'),
   stylus = require('stylus'),
-  sass = require('node-sass'),
+  sass = require('sass'),
   rtl = require('postcss-rtl'),
   postcss = require('postcss'),
   cssnano = require('cssnano'),
