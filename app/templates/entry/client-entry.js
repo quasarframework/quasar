@@ -66,7 +66,7 @@ import electron from 'electron'
 Vue.prototype.$q.electron = electron
 <% } %>
 
-<% if (ctx.dev) { %>
+<% if (ctx.dev || ctx.debug) { %>
 Vue.config.devtools = true
 Vue.config.productionTip = false
 <% } %>

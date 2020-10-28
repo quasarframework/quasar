@@ -288,7 +288,7 @@ async function build () {
           await quasarConf.build.onPublish(opts)
         }
 
-        // run possible beforeBuild hooks
+        // run possible onPublish hooks
         await extensionRunner.runHook('onPublish', async hook => {
           log(`Extension(${hook.api.extId}): Running onPublish hook...`)
           await hook.fn(hook.api, opts)
