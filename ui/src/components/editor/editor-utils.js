@@ -101,6 +101,8 @@ function getDropdown (h, vm, btn) {
       ? `text-${vm.toolbarTextColor}`
       : null
 
+    const noIcons = btn.list === 'no-icons'
+
     Items = btn.options.map(btn => {
       const disable = btn.disable ? btn.disable(vm) : false
       const active = btn.type === void 0
@@ -128,7 +130,7 @@ function getDropdown (h, vm, btn) {
           }
         },
         [
-          btn.list === 'no-icons'
+          noIcons === true
             ? null
             : h(QItemSection, {
               class: active ? activeClass : inactiveClass,
@@ -140,9 +142,14 @@ function getDropdown (h, vm, btn) {
           h(QItemSection, [
             htmlTip
               ? h('div', {
+                staticClass: 'text-no-wrap',
                 domProps: { innerHTML: btn.htmlTip }
               })
-              : (btn.tip ? h('div', [ btn.tip ]) : null)
+              : (
+                btn.tip
+                  ? h('div', { staticClass: 'text-no-wrap' }, [ btn.tip ])
+                  : null
+              )
           ])
         ]
       )
