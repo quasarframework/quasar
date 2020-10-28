@@ -15,7 +15,7 @@
             span rk
         .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
         .q-pt-sm.q-px-sm
-          conf-countdown.landing-countdown.bg-primary.text-white.rounded-borders(
+          survey-countdown.landing-countdown.bg-primary.text-white.rounded-borders(
             color="white"
             text-color="primary"
             align-class="justify-center"
@@ -176,7 +176,7 @@ import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
 import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
 import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
-import ConfCountdown from '../components/ConfCountdown'
+import SurveyCountdown from '../components/SurveyCountdown'
 
 import {
   fabGithub, fabTwitter, fabFacebook, fasMedkit,
@@ -197,7 +197,7 @@ export default {
     SponsorList,
     LandingTopBar,
     IntroductionVideo,
-    ConfCountdown
+    SurveyCountdown
   },
 
   meta: {
