@@ -136,7 +136,7 @@ function getDropdown (h, vm, btn) {
               class: active ? activeClass : inactiveClass,
               props: { side: true }
             }, [
-              h(QIcon, { props: { name: icon } })
+              h(QIcon, { props: { name: btn.icon !== null ? btn.icon : void 0 } })
             ]),
 
           h(QItemSection, [
