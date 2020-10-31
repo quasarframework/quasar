@@ -164,6 +164,7 @@ const Notifications = {
         label: typeof notif.closeBtn === 'string'
           ? notif.closeBtn
           : this.$q.lang.label.close
+do you have time to pr on this?
       })
 
       notif.actions = actions.map(({ handler, noDismiss, attrs, ...item }) => ({
@@ -430,8 +431,10 @@ const Notifications = {
           }
           else if (notif.avatar) {
             mainChild.push(
-              h(QAvatar, { staticClass: 'q-notification__avatar col-auto' }, [
-                h('img', { attrs: { src: notif.avatar, 'aria-hidden': 'true' } })
+              h('div', { staticClass: 'q-pr-sm' }, [
+                h(QAvatar, { staticClass: 'q-notification__avatar col-auto' }, [
+                  h('img', { attrs: { src: notif.avatar, 'aria-hidden': 'true' } })
+                ])
               ])
             )
           }
