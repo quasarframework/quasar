@@ -64,4 +64,6 @@ else {
 
   writeFileSync(join(dist, 'animate-list.js'), getList(`export const `), 'utf-8')
   writeFileSync(join(dist, 'animate-list.common.js'), getList(`module.exports.`), 'utf-8')
+  writeFileSync(join(dist, 'animate-list.d.ts'), getList(`export type `), 'utf-8')
+  writeFileSync(join(dist, 'animate-list.common.d.ts'), getList(`export type `), 'utf-8')
 }
