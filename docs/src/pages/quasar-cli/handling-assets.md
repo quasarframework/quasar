@@ -58,10 +58,10 @@ Please note that whenever you bind "src" to a variable in your Vue scope, it mus
 export default {
   data () {
     return {
-      <!--
+      /*
         Referencing /public.
         Notice string doesn't start with a slash. (/)
-      -->
+      */
       imageSrc: 'logo.png'
     }
   }

@@ -232,11 +232,10 @@ module.exports = class DevServer {
           app,
 
           ssr: {
-            renderToString ({ req, res }, fn) {
+            renderToString (opts, fn) {
               const context = {
-                url: req.url,
-                req,
-                res
+                ...opts,
+                url: opts.req.url
               }
 
               renderer.renderToString(context, (err, html) => {
