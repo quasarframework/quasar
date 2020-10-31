@@ -164,7 +164,6 @@ const Notifications = {
         label: typeof notif.closeBtn === 'string'
           ? notif.closeBtn
           : this.$q.lang.label.close
-do you have time to pr on this?
       })
 
       notif.actions = actions.map(({ handler, noDismiss, attrs, ...item }) => ({
