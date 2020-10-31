@@ -48,6 +48,14 @@ ${prefix}outAnimations = ${JSON.stringify(outAnimations, null, 2)}
 `.replace(/"/g, `'`)
 }
 
+function typeDefinitions () {
+  return `
+  export declare const generalAnimations: string[];
+  export declare const inAnimations: string[];
+  export declare const outAnimations: string[];
+  `
+}
+
 if (cssFiles.length === 0) {
   console.log('WARNING. Animate.css skipped completely')
 }
@@ -64,6 +72,7 @@ else {
 
   writeFileSync(join(dist, 'animate-list.js'), getList(`export const `), 'utf-8')
   writeFileSync(join(dist, 'animate-list.common.js'), getList(`module.exports.`), 'utf-8')
-  writeFileSync(join(dist, 'animate-list.d.ts'), getList(`export type `), 'utf-8')
-  writeFileSync(join(dist, 'animate-list.common.d.ts'), getList(`export type `), 'utf-8')
+
+  writeFileSync(join(dist, 'animate-list.d.ts'), typeDefinitions(), 'utf-8')
+  writeFileSync(join(dist, 'animate-list.common.d.ts'), typeDefinitions(), 'utf-8')
 }
