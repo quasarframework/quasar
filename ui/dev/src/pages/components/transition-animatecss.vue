@@ -67,6 +67,22 @@
 
     <q-card style="margin-top: 25px" class="overflow-hidden">
       <q-card-section class="text-center">
+        <div class="text-h6">Continuous Enter</div>
+      </q-card-section>
+
+      <q-card-section>
+        <transition appear>
+          <div
+            v-if="showContinuous"
+            :class="continuousClasses"
+            v-html="loremipsum"
+          />
+        </transition>
+      </q-card-section>
+    </q-card>
+
+    <q-card style="margin-top: 25px" class="overflow-hidden">
+      <q-card-section class="text-center">
         <div class="text-h6">Single</div>
       </q-card-section>
 
@@ -125,14 +141,25 @@ export default {
       leaveSelectOptions: leave.map(generateOptions),
       durationOptions: ['faster', 'fast', 'default', 'slow', 'slower'],
       delayOptions: ['default', '1s', '2s', '3s', '4s', '5s'],
-      repeatOptions: ['default', 1, 2, 3],
+      repeatOptions: ['default', '1', '2', '3', 'infinite'],
       enter: 'bounceInLeft',
       leave: 'bounceOutRight',
       duration: 'default',
       delay: 'default',
       repeat: 'default',
       show: true,
+      showContinuous: true,
       loremipsum: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+    }
+  },
+  watch: {
+    // v-if hack to trigger animation
+    show () {
+      this.showContinuous = false
+
+      this.$nextTick(() => {
+        this.showContinuous = true
+      })
     }
   },
   computed: {
@@ -147,10 +174,6 @@ export default {
         classes += ` delay-${this.delay}`
       }
 
-      if (this.repeat !== 'default') {
-        classes += ` repeat-${this.repeat}`
-      }
-
       return classes
     },
     enterClass () {
@@ -158,7 +181,16 @@ export default {
     },
     leaveClass () {
       return `${this.baseClasses} ${this.leave}`
-    }
+    },
+    continuousClasses () {
+      let classes = this.baseClasses
+
+      if (this.repeat !== 'default') {
+        classes += this.repeat === 'infinite' ? ' infinite' : ` repeat-${this.repeat}`
+      }
+
+      return `${classes} ${this.enter}`
+    },
   }
 }
 </script>
