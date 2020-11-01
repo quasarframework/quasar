@@ -190,7 +190,7 @@ export default {
       }
 
       return `${classes} ${this.enter}`
-    },
+    }
   }
 }
 </script>
