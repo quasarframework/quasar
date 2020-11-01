@@ -6,9 +6,13 @@
       </q-card-section>
 
       <q-card-section>
-        <div class="caption">(only 4 anims showcased here)</div>
+        <div class="caption text-center text-italic">
+          (only 4 anims showcased here)
+        </div>
+
         <br />
-        <div class="row no-wrap">
+
+        <div class="row no-wrap q-col-gutter-sm">
           <q-select
             class="col"
             v-model="enter"
@@ -17,6 +21,7 @@
             stack-label
             label="CSS Enter Class"
           />
+
           <q-select
             class="col"
             v-model="leave"
@@ -24,6 +29,37 @@
             emit-value
             stack-label
             label="CSS Leave Class"
+          />
+        </div>
+
+        <br />
+
+        <div class="row no-wrap q-col-gutter-sm">
+          <q-select
+            class="col"
+            v-model="duration"
+            :options="durationOptions"
+            emit-value
+            stack-label
+            label="Animation Duration"
+          />
+
+          <q-select
+            class="col"
+            v-model="delay"
+            :options="delayOptions"
+            emit-value
+            stack-label
+            label="Animation Delay"
+          />
+
+          <q-select
+            class="col"
+            v-model="repeat"
+            :options="repeatOptions"
+            emit-value
+            stack-label
+            label="Animation Repeat"
           />
         </div>
       </q-card-section>
@@ -87,18 +123,41 @@ export default {
     return {
       enterSelectOptions: enter.map(generateOptions),
       leaveSelectOptions: leave.map(generateOptions),
+      durationOptions: ['faster', 'fast', 'default', 'slow', 'slower'],
+      delayOptions: ['default', '1s', '2s', '3s', '4s', '5s'],
+      repeatOptions: ['default', 1, 2, 3],
       enter: 'bounceInLeft',
       leave: 'bounceOutRight',
+      duration: 'default',
+      delay: 'default',
+      repeat: 'default',
       show: true,
       loremipsum: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     }
   },
   computed: {
+    baseClasses () {
+      let classes = 'animated'
+
+      if (this.duration !== 'default') {
+        classes += ` ${this.duration}`
+      }
+
+      if (this.delay !== 'default') {
+        classes += ` delay-${this.delay}`
+      }
+
+      if (this.repeat !== 'default') {
+        classes += ` repeat-${this.repeat}`
+      }
+
+      return classes
+    },
     enterClass () {
-      return `animated ${this.enter}`
+      return `${this.baseClasses} ${this.enter}`
     },
     leaveClass () {
-      return `animated ${this.leave}`
+      return `${this.baseClasses} ${this.leave}`
     }
   }
 }
