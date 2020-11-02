@@ -8,14 +8,13 @@
         :color="color"
         :text-color="textColor"
         :icon="mdiFileDocumentEditOutline"
-        label="Go to the survey"
+        label="Open survey"
         no-caps
       )
 
     .q-gutter-xs(:class="paddingClass")
       .row.items-center(:class="alignClass")
-        .text-bold Quasar Community Survey
-        .q-ml-xs closes in...
+        | Quasar Community Survey closes in...
       q-badge.text-bold(v-if="days > 0" :color="color" :text-color="textColor") {{ days }} Days
       q-badge.text-bold(v-if="hours > 0" :color="color" :text-color="textColor") {{ hours }} Hours
       q-badge.text-bold(:color="color" :text-color="textColor") {{ minutes }} Minutes
