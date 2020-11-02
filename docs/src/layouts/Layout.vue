@@ -31,7 +31,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     content-class="doc-left-drawer"
   )
     q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
-      conf-countdown.layout-countdown(
+      survey-countdown.layout-countdown(
         color="primary"
         align-class="justify-start"
         padding-class="q-py-md"
@@ -123,7 +123,7 @@ import {
 
 import AppMenu from 'components/AppMenu'
 import HeaderMenu from 'components/HeaderMenu'
-import ConfCountdown from 'components/ConfCountdown'
+import SurveyCountdown from 'components/SurveyCountdown'
 
 const { setScrollPosition, getScrollPosition } = scroll
 
@@ -141,7 +141,7 @@ export default {
   components: {
     AppMenu,
     HeaderMenu,
-    ConfCountdown
+    SurveyCountdown
   },
 
   data () {
