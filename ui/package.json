@@ -81,7 +81,9 @@
     "recast": "^0.18.5",
     "rimraf": "^3.0.1",
     "rollup": "^1.31.0",
+    "rollup-plugin-typescript2": "^0.29.0",
     "table": "^6.0.4",
+    "tslib": "^2.0.3",
     "uglify-es": "^3.3.9"
   },
   "vetur": {
