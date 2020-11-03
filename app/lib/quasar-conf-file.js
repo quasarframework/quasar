@@ -930,13 +930,6 @@ class QuasarConfFile {
       quasarSrcExt: cssVariables.quasarSrcExt
     }
 
-    cfg.__versioning = {}
-    if (cfg.supportTS !== false) {
-      const { version } = getPackageJson('fork-ts-checker-webpack-plugin')
-      const [, major] = version.match(/^(\d+)\.(\d+)\.(\*|\d+)$/)
-      cfg.__versioning.tsChecker = `v${major}`
-    }
-
     this.quasarConf = cfg
     this.webpackConf = await require('./webpack')(cfg)
   }
