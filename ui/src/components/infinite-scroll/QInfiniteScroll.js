@@ -28,13 +28,15 @@ export default Vue.extend({
       default: void 0
     },
 
+    initialIndex: Number,
+
     disable: Boolean,
     reverse: Boolean
   },
 
   data () {
     return {
-      index: 0,
+      index: this.initialIndex || 0,
       fetching: false,
       working: true
     }
@@ -146,6 +148,10 @@ export default Vue.extend({
       if (this.working === true) {
         this.__scrollTarget.addEventListener('scroll', this.poll, listenOpts.passive)
       }
+    },
+
+    setIndex (index) {
+      this.index = index
     },
 
     __setDebounce (val) {

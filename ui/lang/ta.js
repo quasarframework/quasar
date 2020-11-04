@@ -22,7 +22,8 @@ export default {
     months: 'ஜனவரி_பிப்ரவரி_மார்ச்_ஏப்ரல்_மே_ஜூன்_ஜூலை_ஆகஸ்ட்_செப்டம்பர்_அக்டோபர்_நவம்பர்_டிசம்பர்'.split('_'),
     monthsShort: 'ஜன_பிப்_மார்_ஏப்_மே_ஜூன்_ஜூலை_ஆக_செப்_அக்_நவ_டிச'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: false
+    format24h: false,
+    pluralDay: 'நாட்கள்'
   },
   table: {
     noData: 'தரவு எதுவும் கிடைக்கவில்லை',

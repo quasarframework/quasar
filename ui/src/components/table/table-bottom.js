@@ -27,7 +27,7 @@ export default {
   },
 
   methods: {
-    getBottom (h) {
+    __getBottomDiv (h) {
       if (this.hideBottom === true) {
         return
       }
@@ -60,7 +60,7 @@ export default {
       const bottom = this.$scopedSlots.bottom
 
       if (bottom !== void 0) {
-        return h('div', { staticClass }, [ bottom(this.marginalsProps) ])
+        return h('div', { staticClass }, [ bottom(this.marginalsScope) ])
       }
 
       const child = this.hideSelectedBanner !== true && this.hasSelectionMode === true && this.rowsSelectedNumber > 0
@@ -76,7 +76,7 @@ export default {
       if (this.hidePagination !== true) {
         return h('div', {
           staticClass: staticClass + ' justify-end'
-        }, this.getPaginationRow(h, child))
+        }, this.__getPaginationDiv(h, child))
       }
 
       if (child.length > 0) {
@@ -84,7 +84,7 @@ export default {
       }
     },
 
-    getPaginationRow (h, child) {
+    __getPaginationDiv (h, child) {
       let control
       const
         { rowsPerPage } = this.computedPagination,
@@ -131,7 +131,7 @@ export default {
       }
 
       if (paginationSlot !== void 0) {
-        control = paginationSlot(this.marginalsProps)
+        control = paginationSlot(this.marginalsScope)
       }
       else {
         control = [

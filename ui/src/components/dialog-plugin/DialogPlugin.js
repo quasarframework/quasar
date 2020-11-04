@@ -14,6 +14,8 @@ import QSeparator from '../separator/QSeparator.js'
 import QInput from '../input/QInput.js'
 import QOptionGroup from '../option-group/QOptionGroup.js'
 
+import QSpinner from '../spinner/QSpinner.js'
+
 import DarkMixin from '../../mixins/dark.js'
 import AttrsMixin from '../../mixins/attrs.js'
 
@@ -31,14 +33,15 @@ export default Vue.extend({
     message: String,
     prompt: Object,
     options: Object,
+    progress: [ Boolean, Object ],
 
     html: Boolean,
 
     ok: {
-      type: [String, Object, Boolean],
+      type: [ String, Object, Boolean ],
       default: true
     },
-    cancel: [String, Object, Boolean],
+    cancel: [ String, Object, Boolean ],
     focus: {
       type: String,
       default: 'ok',
@@ -48,11 +51,31 @@ export default Vue.extend({
     stackButtons: Boolean,
     color: String,
 
-    cardClass: [String, Array, Object],
-    cardStyle: [String, Array, Object]
+    cardClass: [ String, Array, Object ],
+    cardStyle: [ String, Array, Object ]
   },
 
   computed: {
+    classes () {
+      return 'q-dialog-plugin' +
+        (this.isDark === true ? ' q-dialog-plugin--dark q-dark' : '') +
+        (this.progress !== false ? ' q-dialog-plugin--progress' : '')
+    },
+
+    spinner () {
+      if (this.progress !== false) {
+        return Object(this.progress) === this.progress
+          ? {
+            component: this.progress.spinner || QSpinner,
+            props: { color: this.progress.color || this.vmColor }
+          }
+          : {
+            component: QSpinner,
+            props: { color: this.vmColor }
+          }
+      }
+    },
+
     hasForm () {
       return this.prompt !== void 0 || this.options !== void 0
     },
@@ -241,6 +264,14 @@ export default Vue.extend({
       this.getSection(h, 'q-dialog__title', this.title)
     )
 
+    this.progress !== false && child.push(
+      h(QCardSection, { staticClass: 'q-dialog__progress' }, [
+        h(this.spinner.component, {
+          props: this.spinner.props
+        })
+      ])
+    )
+
     this.message && child.push(
       this.getSection(h, 'q-dialog__message', this.message)
     )
@@ -285,8 +316,7 @@ export default Vue.extend({
       })
     }, [
       h(QCard, {
-        staticClass: 'q-dialog-plugin' +
-          (this.isDark === true ? ' q-dialog-plugin--dark q-dark' : ''),
+        staticClass: this.classes,
         style: this.cardStyle,
         class: this.cardClass,
         props: { dark: this.isDark }

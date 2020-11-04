@@ -60,7 +60,7 @@ export default {
             isVmChildOf(getVmOfNode(target), vmEl) === false
           )
         ) {
-          // mark the event as beeing processed by clickOutside
+          // mark the event as being processed by clickOutside
           // used to prevent refocus after menu close
           evt.qClickOutside = true
 

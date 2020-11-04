@@ -139,6 +139,7 @@
         :columns="columns"
         :filter="filter"
         :title="title"
+        title-class="text-h1 text-blue"
         bordered
         flat
         binary-state-sort
@@ -954,10 +955,10 @@ export default {
       setTimeout(() => {
         this.serverPagination = props.pagination
 
-        let
+        const
           table = this.$refs.server,
-          rows = this.data.slice(),
           { page, rowsPerPage, sortBy, descending } = props.pagination
+        let rows = this.data.slice()
 
         if (props.filter) {
           rows = table.filterMethod(rows, props.filter)

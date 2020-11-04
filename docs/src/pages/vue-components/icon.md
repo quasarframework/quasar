@@ -108,7 +108,7 @@ The current disadvantage is that it is more tedious to use these icons than thei
 
 ### Svg usage
 
-Notice in the example below that we want to avoid Vue observable wrapping, so we inject icons on the instance through created() hook. It will work if declared in data() too, but... overhead.
+Notice in the example below that we want to avoid the Vue observable wrapping, so we inject icons on the instance through created() hook. It will work if declared in data() too, but... overhead.
 
 ```html
 <template>
@@ -138,16 +138,19 @@ export default {
 If you are only using svg icons (and have configured a [Quasar Icon Set](/options/quasar-icon-sets)) then you don't need the webfont equivalent in your app at all.
 :::
 
-| Vendor | Quasar IconSet name | Import Icons from | Notes |
+| Vendor | Quasar IconSet name | Import Icons from | Requirements |
 | --- | --- | --- | --- |
 | Material Icons (Google) | svg-material-icons | @quasar/extras/material-icons | |
+| Material Icons Outlined (Google) | svg-material-icons-outlined | @quasar/extras/material-icons-outlined | @quasar/extras v1.9+; Quasar v1.13+ |
+| Material Icons Sharp (Google) | svg-material-icons-sharp | @quasar/extras/material-icons-sharp | @quasar/extras v1.9+; Quasar v1.13+ |
+| Material Icons Round (Google) | svg-material-icons-round | @quasar/extras/material-icons-round | @quasar/extras v1.9+; Quasar v1.13+ |
 | MDI (Material Design Icons) | svg-mdi-v5 | @quasar/extras/mdi-v5 | |
 | Font Awesome | svg-fontawesome-v5 | @quasar/extras/fontawesome-v5 | |
-| Ionicons v5 | svg-ionicons-v5 | @quasar/extras/ionicons-v5 | `@quasar/extras` v1.7+ |
+| Ionicons v5 | svg-ionicons-v5 | @quasar/extras/ionicons-v5 | @quasar/extras v1.7+ |
 | Ionicons v4 | svg-ionicons-v4 | @quasar/extras/ionicons-v4 | |
 | Eva Icons | svg-eva-icons | @quasar/extras/eva-icons | |
 | Themify Icons | svg-themify | @quasar/extras/themify | |
-| Line Awesome | svg-line-awesome | @quasar/extras/line-awesome | `@quasar/extras` v1.5+ |
+| Line Awesome | svg-line-awesome | @quasar/extras/line-awesome | @quasar/extras v1.5+ |
 
 ### Import guide
 
@@ -155,13 +158,27 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 
 #### SVG Material Icons (Google)
 
-::: warning
-The SVG format of Material Icons from Google is parsed from **their official repo which is years out of date**. It's best if you choose the MDI svgs instead.
-:::
-
 * Icon names are in camel-case and always begin with "mat" prefix.
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "mat" and camel-case the result (eg. "matAllInbox").
 * Import statement example: `import { matAllInbox } from '@quasar/extras/material-icons'`.
+
+#### SVG Material Icons Outlined (Google) <q-badge align="top" label="Quasar v1.12.13+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.9+" />
+
+* Icon names are in camel-case and always begin with "outlined" prefix.
+* Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "outlined" and camel-case the result (eg. "outlinedAllInbox").
+* Import statement example: `import { outlinedAllInbox } from '@quasar/extras/material-icons-outlined'`.
+
+#### SVG Material Icons Sharp (Google) <q-badge align="top" label="Quasar v1.12.13+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.9+" />
+
+* Icon names are in camel-case and always begin with "sharp" prefix.
+* Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "sharp" and camel-case the result (eg. "sharpAllInbox").
+* Import statement example: `import { sharpAllInbox } from '@quasar/extras/material-icons-sharp'`.
+
+#### SVG Material Icons Round (Google) <q-badge align="top" label="Quasar v1.12.13+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.9+" />
+
+* Icon names are in camel-case and always begin with "round" prefix.
+* Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "round" and camel-case the result (eg. "roundAllInbox").
+* Import statement example: `import { roundAllInbox } from '@quasar/extras/material-icons-round'`.
 
 #### SVG MDI (Material Design Icons)
 
@@ -311,6 +328,46 @@ Examples:
     transform="rotate(5)"
   />
 </svg>
+```
+
+## SVG-use way <q-badge align="top" label="v1.13+" />
+
+This svg method allows you to store the SVG files as static assets and reference them.
+
+```html
+// File: /public/icons.svg
+// (or the old /src/statics/icons.svg for @quasar/app v1)
+
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="icon-1" viewBox="0 0 24 24">
+    <path d="..."></path>
+  </symbol>
+  <symbol id="icon-2" viewBox="0 0 24 24">
+     <path d="..."></path>
+  </symbol>
+</svg>
+```
+
+The standard HTML way is to include the file and specify the icon with the `svg use` tag.
+
+```html
+<svg>
+  <use xlink:href="icons.svg#icon-1"></use>
+</svg>
+```
+
+To use this with Quasar through QIcon (make sure that you are referencing the correct file from your public or statics folder):
+
+```html
+<q-icon name="svguse:icons.svg#icon-1">
+<!-- or -->
+<q-btn-dropdown label="Custom Content" dropdown-icon="svguse:icons.svg#icon-2" />
+```
+
+By default, the parent svg's viewBox is "0 0 24 24". However, you can also specify a custom one:
+
+```html
+<q-icon name="svguse:icons.svg#icon-1|10 15 40 40" />
 ```
 
 ## Inlined svg <q-badge align="top" label="v1.7+" />

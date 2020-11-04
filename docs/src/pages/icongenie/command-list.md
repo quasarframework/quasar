@@ -114,7 +114,7 @@ $ icongenie generate -h
                             10px to bottom, 5px to left side and 5px to rightside
 
     --theme-color         Theme color to use for all generators requiring a color;
-                          It gets overriden if any generator color is also specified;
+                          It gets overridden if any generator color is also specified;
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee
@@ -302,7 +302,7 @@ $ icongenie profile -h
 
     --theme-color         Prefill the params.themeColor property;
                           Theme color to use for all generators requiring a color;
-                          It gets overriden if any generator color is also specified;
+                          It gets overridden if any generator color is also specified;
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee

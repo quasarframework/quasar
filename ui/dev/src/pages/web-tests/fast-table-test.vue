@@ -172,7 +172,7 @@ export default {
   computed: {
     xxl () {
       const rand = () => Math.floor((Math.random() % 450) * 450)
-      let data = clone(this.data)
+      const data = clone(this.data)
       for (let i = 0; i < 500; i++) {
         data.push({
           name: uid(),

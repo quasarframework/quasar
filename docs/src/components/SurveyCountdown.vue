@@ -1,43 +1,29 @@
 <template lang="pug">
-  q-banner(inline-actions).conf-countdown
-    template(v-if="!hasEnded" v-slot:action)
+  q-banner(v-if="!hasEnded" inline-actions).survey-countdown
+    template(v-slot:action)
       q-btn(
         type="a"
-        :href="btn.href"
+        href="https://forms.gle/AGTQqkjCEAuDA8oCA"
         target="_blank"
         :color="color"
         :text-color="textColor"
-        :icon="btn.icon"
-        :label="btn.label"
+        :icon="mdiFileDocumentEditOutline"
+        label="Open survey"
         no-caps
       )
-    q-btn(
-      v-else
-      type="a"
-      :href="btn.href"
-      target="_blank"
-      :color="color"
-      :text-color="textColor"
-      :icon="btn.icon"
-      :label="btn.label"
-      no-caps
-      no-wrap
-    )
 
-    .q-gutter-xs(v-if="!hasEnded" :class="paddingClass")
+    .q-gutter-xs(:class="paddingClass")
       .row.items-center(:class="alignClass")
-        .text-bold Quasar.Conf
-        .q-ml-xs launches in...
+        | Quasar Community Survey closes in...
       q-badge.text-bold(v-if="days > 0" :color="color" :text-color="textColor") {{ days }} Days
       q-badge.text-bold(v-if="hours > 0" :color="color" :text-color="textColor") {{ hours }} Hours
       q-badge.text-bold(:color="color" :text-color="textColor") {{ minutes }} Minutes
 </template>
 
 <script>
-import { mdiYoutube } from '@quasar/extras/mdi-v5'
+import { mdiFileDocumentEditOutline } from '@quasar/extras/mdi-v5'
 
-// July 5, 2020 15:00:00 GMT
-const confDate = 1593961200000
+const confDate = new Date('2020-11-16').getTime()
 
 const oneDay = 1000 * 60 * 60 * 24
 const oneHour = 1000 * 60 * 60
@@ -62,28 +48,13 @@ export default {
     }
   },
 
-  computed: {
-    btn () {
-      return this.hasEnded === true
-        ? {
-          href: 'https://www.youtube.com/watch?v=6ZKBZ3k4Ebk&feature=youtu.be',
-          label: 'View Quasar.Conf on YouTube!',
-          icon: mdiYoutube
-        }
-        : {
-          href: 'https://dev.to/quasar/introducing-quasar-conf-52gg',
-          label: 'About'
-        }
-    }
-  },
-
   mounted () {
     this.interval = setInterval(() => this.calcTimeRemaining, oneMin)
     this.calcTimeRemaining()
   },
 
   created () {
-    this.mdiYoutube = mdiYoutube
+    this.mdiFileDocumentEditOutline = mdiFileDocumentEditOutline
   },
 
   beforeDestroy () {

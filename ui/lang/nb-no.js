@@ -22,7 +22,8 @@ export default {
     months: 'Januar_Februar_Mars_April_Mai_Juni_Juli_August_September_Oktober_November_Desember'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Mai_Jun_Jul_Aug_Sep_Okt_Nov_Des'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dager'
   },
   table: {
     noData: 'Ingen data tilgjengelig',

@@ -33,7 +33,7 @@ You'll notice that changing any of these settings does not require you to manual
 You'll notice that `/quasar.conf.js` exports a function that takes a `ctx` (context) parameter and returns an Object. This allows you to dynamically change your website/app config based on this context:
 
 ```js
-module.exports = function (ctx) {
+module.exports = function (ctx) { // can be async too (@quasar/app v2.1+)
   console.log(ctx)
 
   // Example output on console:
@@ -86,6 +86,28 @@ module.exports = function (ctx) {
       ? 8000
       : (ctx.mode.pwa ? 9000 : 9090)
   }
+}
+```
+
+Also, starting with "@quasar/app" v2.1+, you can now do async work before returning the quasar configuration:
+
+```js
+module.exports = async function (ctx) {
+  const data = await someAsyncFunction()
+  return {
+    // ... use "data"
+  }
+}
+
+// or:
+module.exports = function (ctx) {
+  return new Promise(resolve => {
+    // some async work then:
+    // resolve() with the quasar config
+    resolve({
+      //
+    })
+  })
 }
 ```
 
@@ -245,6 +267,16 @@ devServer: {
   vueDevtools: true
 }
 ```
+#### Docker and WSL Issues with HRM
+If you are using a Docker Container, you may find HMR stops working. HMR relies on the operating system to give notifications about changed files which may not work for your Docker Container. You can change this to polling by adding:
+
+```js
+devServer: {
+  watchOptions: {
+    poll: 1000
+  }
+}
+```
 
 ### Property: build <q-badge align="top" label="@quasar/app v2 specs" />
 | Property | Type | Description |
@@ -268,6 +300,7 @@ devServer: {
 | ssrPwaHtmlFilename | String | (**@quasar/app 1.8+**) Used for SSR+PWA mode. Default is 'offline.html'. |
 | productName | String | Default value is taken from package.json > productName field. |
 | distDir | String | Folder where Quasar CLI should generate the distributables. Relative path to project root directory. Default is 'dist/{ctx.modeName}'. Applies to all Modes except for Cordova (which is forced to `src-cordova/www`). |
+| ignorePublicFolder | Boolean | (**@quasar/app 2.0.7+**) Ignores the /public folder. If you depend on a statics folder then you will need to configure it yourself (outside of Quasar or through the extendWebpack/chainWebpack), so make sure that you know what you are doing. |
 | devtool | String | Source map [strategy](https://webpack.js.org/configuration/devtool/) to use. |
 | env | Object | Add properties to `process.env` that you can use in your website/app JS code. |
 | gzip | Boolean/Object | Gzip the distributables. Useful when the web server with which you are serving the content does not have gzip. If using as Object, it represents the compression-webpack-plugin config Object. |

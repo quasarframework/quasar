@@ -180,7 +180,7 @@ async function goLive () {
   }
 
   const DevServer = require('../lib/dev-server')
-  const QuasarConfig = require('../lib/quasar-config')
+  const QuasarConfFile = require('../lib/quasar-conf-file')
   const Generator = require('../lib/generator')
   const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
   const extensionRunner = require('../lib/app-extension/extensions-runner')
@@ -197,7 +197,7 @@ async function goLive () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
-  const quasarConfig = new QuasarConfig(ctx, {
+  const quasarConfFile = new QuasarConfFile(ctx, {
     port: argv.port,
     host: argv.hostname,
     onAddress: parseAddress,
@@ -212,34 +212,34 @@ async function goLive () {
   })
 
   try {
-    await quasarConfig.prepare()
+    await quasarConfFile.prepare()
   }
   catch (e) {
     console.log(e)
     fatal(`[FAIL] quasar.conf.js has JS errors`)
   }
 
-  await quasarConfig.compile()
+  await quasarConfFile.compile()
 
-  buildConfig = quasarConfig.getBuildConfig()
+  const quasarConf = quasarConfFile.quasarConf
 
-  regenerateTypesFeatureFlags(buildConfig)
+  regenerateTypesFeatureFlags(quasarConf)
 
-  if (buildConfig.__vueDevtools !== false) {
+  if (quasarConf.__vueDevtools !== false) {
     await startVueDevtools()
   }
 
-  if (typeof buildConfig.build.beforeDev === 'function') {
-    await buildConfig.build.beforeDev({ quasarConf: buildConfig })
+  if (typeof quasarConf.build.beforeDev === 'function') {
+    await quasarConf.build.beforeDev({ quasarConf })
   }
 
   // run possible beforeDev hooks
   await extensionRunner.runHook('beforeDev', async hook => {
     log(`Extension(${hook.api.extId}): Running beforeDev hook...`)
-    await hook.fn(hook.api, { quasarConf: buildConfig })
+    await hook.fn(hook.api, { quasarConf })
   })
 
-  const generator = new Generator(quasarConfig)
+  const generator = new Generator(quasarConfFile)
   const ModeRunner = ['cordova', 'capacitor', 'electron', 'bex'].includes(argv.mode)
     ? require('../lib/' + argv.mode)
     : void 0
@@ -257,22 +257,24 @@ async function goLive () {
           oldDevServer.stop()
           oldDevServer = void 0
         }
+
+        generator.build()  // Update generated files
+        devServer = new DevServer(quasarConfFile) // Create new devserver
+
+        return devServer.listen() // Start listening
       })
-      .then(() => { generator.build() }) // Update generated files
-      .then(() => { devServer = new DevServer(quasarConfig) })
-      .then(() => devServer.listen()) // Start listening
-      .then(() => ModeRunner !== void 0 && ModeRunner.run(quasarConfig, argv))
+      .then(() => ModeRunner !== void 0 && ModeRunner.run(quasarConfFile, argv))
       .then(() => devServer) // Pass new builder to watch chain
   }
 
   let dev = startDev().then(async (payload) => {
-    if (typeof buildConfig.build.afterDev === 'function') {
-      await buildConfig.build.afterDev({ quasarConf: buildConfig })
+    if (typeof quasarConf.build.afterDev === 'function') {
+      await quasarConf.build.afterDev({ quasarConf })
     }
     // run possible afterDev hooks
     await extensionRunner.runHook('afterDev', async hook => {
       log(`Extension(${hook.api.extId}): Running afterDev hook...`)
-      await hook.fn(hook.api, { quasarConf: buildConfig })
+      await hook.fn(hook.api, { quasarConf })
     })
 
     return payload

@@ -40,7 +40,7 @@ import { Cookies } from 'quasar'
 var value = Cookies.get('cookie_name')
 ```
 
-When cookie is not set, the return value is `undefined`.
+When cookie is not set, the return value is `null`.
 
 ```js
 // inside of a Vue file

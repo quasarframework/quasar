@@ -462,13 +462,12 @@ export default Vue.extend({
 
       const isParent = children.length > 0 || (meta.lazy && meta.lazy !== 'loaded')
 
-      let
-        body = node.body
-          ? this.$scopedSlots[`body-${node.body}`] || this.$scopedSlots['default-body']
-          : this.$scopedSlots['default-body'],
-        slotScope = header !== void 0 || body !== void 0
-          ? this.__getSlotScope(node, meta, key)
-          : null
+      let body = node.body
+        ? this.$scopedSlots[`body-${node.body}`] || this.$scopedSlots['default-body']
+        : this.$scopedSlots['default-body']
+      const slotScope = header !== void 0 || body !== void 0
+        ? this.__getSlotScope(node, meta, key)
+        : null
 
       if (body !== void 0) {
         body = h('div', { staticClass: 'q-tree__node-body relative-position' }, [

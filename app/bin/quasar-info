@@ -29,6 +29,8 @@ if (argv.help) {
 const os = require('os')
 const spawn = require('cross-spawn').sync
 
+const appPaths = require('../lib/app-paths')
+
 function getSpawnOutput (command) {
   try {
     const child = spawn(command, ['--version'])
@@ -41,8 +43,8 @@ function getSpawnOutput (command) {
   }
 }
 
-function safePkgInfo (pkg) {
-  const json = getPackageJson(pkg)
+function safePkgInfo (pkg, folder) {
+  const json = getPackageJson(pkg, folder)
 
   if (json !== void 0) {
     return {
@@ -68,6 +70,7 @@ print({ key: 'Global packages', section: true })
 print({ key: '  NPM', value: getSpawnOutput('npm') })
 print({ key: '  yarn', value: getSpawnOutput('yarn') })
 print({ key: '  @quasar/cli', value: chalk.green(process.env.QUASAR_CLI_VERSION) })
+print({ key: '  @quasar/icongenie', value: getSpawnOutput('icongenie') })
 print({ key: '  cordova', value: getSpawnOutput('cordova') })
 
 print({ key: 'Important local packages', section: true })
@@ -83,17 +86,20 @@ print({ key: 'Important local packages', section: true })
   'electron',
   'electron-packager',
   'electron-builder',
-  '@capacitor/core',
-  '@capacitor/cli',
-  '@capacitor/android',
-  '@capacitor/ios',
   '@babel/core',
   'webpack',
   'webpack-dev-server',
   'workbox-webpack-plugin',
   'register-service-worker',
   'typescript'
-].forEach(pkg => print(safePkgInfo(pkg)))
+].forEach(pkg => print(safePkgInfo(pkg, appPaths.appDir)))
+
+;[
+  '@capacitor/core',
+  '@capacitor/cli',
+  '@capacitor/android',
+  '@capacitor/ios',
+].forEach(pkg => print(safePkgInfo(pkg, appPaths.capacitorDir)))
 
 print({ key: 'Quasar App Extensions', section: true })
 

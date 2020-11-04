@@ -44,7 +44,7 @@ module.exports.plugin = class HtmlAddonsPlugin {
             makeTag('script', { src: 'cordova.js' }, true)
           )
         }
-        else if (this.cfg.ctx.mode.electron && this.cfg.ctx.prod) {
+        else if (this.cfg.ctx.mode.electron && this.cfg.ctx.prod && this.cfg.electron.nodeIntegration) {
           // set statics path in production;
           // the reason we add this is here is because the folder path
           // needs to be evaluated at runtime

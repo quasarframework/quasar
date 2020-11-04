@@ -48,9 +48,11 @@ export default {
     },
 
     autoClose () {
+      let seconds = 3
+
       const dialog = this.$q.dialog({
         title: 'Alert',
-        message: 'Autoclosing in 3 seconds.'
+        message: `Autoclosing in ${seconds} seconds.`
       }).onOk(() => {
         // console.log('OK')
       }).onCancel(() => {
@@ -60,9 +62,19 @@ export default {
         // console.log('I am triggered on both OK and Cancel')
       })
 
-      const timer = setTimeout(() => {
-        dialog.hide()
-      }, 3000)
+      const timer = setInterval(() => {
+        seconds--
+
+        if (seconds > 0) {
+          dialog.update({
+            message: `Autoclosing in ${seconds} second${seconds > 1 ? 's' : ''}.`
+          })
+        }
+        else {
+          clearInterval(timer)
+          dialog.hide()
+        }
+      }, 1000)
     }
   }
 }

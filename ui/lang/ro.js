@@ -22,7 +22,8 @@ export default {
     months: 'Ianuarie_Februarie_Martie_Aprilie_Mai_Iunie_Iulie_August_Septembrie_Octombrie_Noiembrie_Decembrie'.split('_'),
     monthsShort: 'Ian_Feb_Mar_Apr_Mai_Iun_Iul_Aug_Sep_Oct_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'zile'
   },
   table: {
     noData: 'Nu sunt date disponibile',

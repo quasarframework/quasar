@@ -1,6 +1,6 @@
 export default {
   computed: {
-    marginalsProps () {
+    marginalsScope () {
       return {
         pagination: this.computedPagination,
         pagesNumber: this.pagesNumber,
@@ -18,7 +18,7 @@ export default {
   },
 
   methods: {
-    getTop (h) {
+    __getTopDiv (h) {
       const
         top = this.$scopedSlots.top,
         topLeft = this.$scopedSlots['top-left'],
@@ -30,13 +30,13 @@ export default {
         staticClass = 'q-table__top relative-position row items-center'
 
       if (top !== void 0) {
-        return h('div', { staticClass }, [ top(this.marginalsProps) ])
+        return h('div', { staticClass }, [ top(this.marginalsScope) ])
       }
 
       let child
 
       if (hasSelection === true) {
-        child = topSelection(this.marginalsProps).slice()
+        child = topSelection(this.marginalsScope).slice()
       }
       else {
         child = []
@@ -44,14 +44,14 @@ export default {
         if (topLeft !== void 0) {
           child.push(
             h('div', { staticClass: 'q-table-control' }, [
-              topLeft(this.marginalsProps)
+              topLeft(this.marginalsScope)
             ])
           )
         }
         else if (this.title) {
           child.push(
             h('div', { staticClass: 'q-table__control' }, [
-              h('div', { staticClass: 'q-table__title' }, this.title)
+              h('div', { staticClass: 'q-table__title', class: this.titleClass }, this.title)
             ])
           )
         }
@@ -61,7 +61,7 @@ export default {
         child.push(h('div', { staticClass: 'q-table__separator col' }))
         child.push(
           h('div', { staticClass: 'q-table__control' }, [
-            topRight(this.marginalsProps)
+            topRight(this.marginalsScope)
           ])
         )
       }

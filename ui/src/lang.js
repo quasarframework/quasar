@@ -6,7 +6,7 @@ import { isSSR, fromSSR } from './plugins/Platform.js'
 function getLocale () {
   if (isSSR === true) { return }
 
-  let val =
+  const val =
     navigator.language ||
     navigator.languages[0] ||
     navigator.browserLanguage ||

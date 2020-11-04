@@ -5,7 +5,7 @@ const generatorsList = Object.keys(require('../generators'))
 const modesList = [ 'all' ].concat(Object.keys(require('../modes')))
 const platformsList = [ 'cordova-ios', 'cordova-android' ]
 
-const paramsSchema = Joi.object({
+const baseParamsSchema = {
   include: Joi.array().min(1).items(
     Joi.string().valid(...modesList)
   ),
@@ -21,13 +21,8 @@ const paramsSchema = Joi.object({
     Joi.number().integer().min(0)
   ).min(1).max(2),
 
-  themeColor: Joi.string().pattern(/^#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),
-  pngColor: Joi.string().pattern(/^#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),
-  splashscreenColor: Joi.string().pattern(/^#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),
-  svgColor: Joi.string().pattern(/^#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),
-
   splashscreenIconRatio: Joi.number().integer().min(0).max(100)
-})
+}
 
 const assetsSchema = Joi.array().items({
   generator: Joi.string().required().valid(...generatorsList),
@@ -58,12 +53,33 @@ const assetsSchema = Joi.array().items({
   tag: Joi.string()
 })
 
-const profileSchema = Joi.object({
-  params: paramsSchema,
-  assets: assetsSchema
-})
+/**
+ * When generating the profile file, we don't want to validate with # on the hex color.
+ * When generating the icon, we're expecting a hash on the color (automatically added to user input via the CLI)
+ */
+const getColorParamsSchema = (requireHash) => {
+  const colorPattern = Joi.string().pattern(new RegExp(`^${requireHash ? '#' : ''}[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$`))
+  return {
+    themeColor: colorPattern,
+    pngColor: colorPattern,
+    splashscreenColor: colorPattern,
+    svgColor: colorPattern
+  }
+}
 
-module.exports = function validateProfileObject (profileObject) {
+const getParamsSchema = (isGeneratingProfileFile) => {
+  return {
+    ...baseParamsSchema,
+    ...getColorParamsSchema(isGeneratingProfileFile === false)
+  }
+}
+
+module.exports = function validateProfileObject (profileObject, generatingProfileFile = false) {
+  const profileSchema = Joi.object({
+    params: getParamsSchema(generatingProfileFile),
+    assets: assetsSchema
+  })
+
   const { error } = profileSchema.validate(profileObject)
   if (error) {
     console.error(` ${red('ERROR')}: Input parameters are not valid. Please correct them.`)

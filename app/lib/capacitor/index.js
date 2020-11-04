@@ -28,8 +28,8 @@ class CapacitorRunner {
     }
   }
 
-  async run (quasarConfig) {
-    const cfg = quasarConfig.getBuildConfig()
+  async run (quasarConfFile) {
+    const cfg = quasarConfFile.quasarConf
     const url = cfg.build.APP_URL
 
     if (this.url === url) {
@@ -43,19 +43,19 @@ class CapacitorRunner {
     this.url = url
     this.capacitorConfig.prepare(cfg)
 
-    await this.__runCapacitorCommand(['sync', this.target])
+    await this.__runCapacitorCommand(cfg.capacitor.capacitorCliPreparationParams)
 
     this.capacitorConfig.prepareSSL(cfg.devServer.https, this.target)
 
     await openIde('capacitor', cfg.bin, this.target, true)
   }
 
-  async build (quasarConfig, argv) {
-    const cfg = quasarConfig.getBuildConfig()
+  async build (quasarConfFile, argv) {
+    const cfg = quasarConfFile.quasarConf
 
     this.capacitorConfig.prepare(cfg)
 
-    await this.__runCapacitorCommand(['sync', this.target])
+    await this.__runCapacitorCommand(cfg.capacitor.capacitorCliPreparationParams)
 
     this.capacitorConfig.prepareSSL(false, this.target)
 

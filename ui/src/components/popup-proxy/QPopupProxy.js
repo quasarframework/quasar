@@ -94,7 +94,7 @@ export default Vue.extend({
   render (h) {
     const def = slot(this, 'default')
 
-    let props = (
+    const props = (
       this.type === 'menu' &&
       def !== void 0 &&
       def[0] !== void 0 &&

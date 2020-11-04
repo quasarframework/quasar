@@ -46,13 +46,29 @@ function prompt (data, key, prompt, done) {
     }
   }
 
+  let promptTransformer = prompt.transformer
+  if (typeof prompt.transformer === 'function') {
+    promptTransformer = function (input) {
+      return prompt.transformer.bind(this)(input, data)
+    }
+  }
+  
+  let promptFilter = prompt.filter
+  if (typeof prompt.filter === 'function') {
+    promptFilter = function (input) {
+      return prompt.filter.bind(this)(input, data)
+    }
+  }
+
   inquirer.prompt([{
     type: promptMapping[prompt.type] || prompt.type,
     name: key,
     message: prompt.message || prompt.label || key,
     default: promptDefault,
     choices: prompt.choices || [],
-    validate: prompt.validate || (() => true)
+    validate: prompt.validate || (() => true),
+    transformer: promptTransformer,
+    filter: promptFilter
   }]).then(answers => {
     if (Array.isArray(answers[key])) {
       data[key] = {}

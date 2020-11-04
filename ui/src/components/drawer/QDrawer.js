@@ -10,6 +10,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import { between } from '../../utils/format.js'
 import { slot } from '../../utils/slot.js'
 import cache from '../../utils/cache.js'
+import { ariaHidden } from '../../mixins/attrs'
 
 const duration = 150
 
@@ -653,7 +654,7 @@ export default Vue.extend({
       this.noSwipeOpen !== true && child.push(
         h('div', {
           staticClass: `q-drawer__opener fixed-${this.side}`,
-          attrs: { 'aria-hidden': 'true' },
+          attrs: ariaHidden,
           directives: this.openDirective
         })
       )
@@ -663,12 +664,14 @@ export default Vue.extend({
           ref: 'backdrop',
           staticClass: 'fullscreen q-drawer__backdrop',
           class: this.backdropClass,
-          attrs: { 'aria-hidden': 'true' },
+          attrs: ariaHidden,
           style: this.lastBackdropBg !== void 0
             ? { backgroundColor: this.lastBackdropBg }
             : null,
           on: cache(this, 'bkdrop', { click: this.hide }),
-          directives: this.showing === false ? void 0 : this.backdropCloseDirective
+          directives: this.showing === false
+            ? void 0
+            : this.backdropCloseDirective
         })
       )
     }

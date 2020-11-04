@@ -53,6 +53,12 @@ export default {
       return
     }
 
+    const qConf = cfg[cordova === true ? 'cordova' : 'capacitor']
+
+    if (qConf !== void 0 && qConf.backButton === false) {
+      return
+    }
+
     this.add = entry => {
       if (entry.condition === void 0) {
         entry.condition = getTrue
@@ -70,7 +76,7 @@ export default {
     const shouldExit = getShouldExitFn(
       Object.assign(
         { backButtonExit: true },
-        cfg[cordova === true ? 'cordova' : 'capacitor']
+        qConf
       )
     )
 

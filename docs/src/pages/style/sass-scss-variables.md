@@ -40,7 +40,7 @@ You don't need to necessarily have the `src/css/quasar.variables.sass` or `src/c
 :::
 
 ::: danger
-When creating or deleting any of the `src/css/quasar.variables.*` files, you will need to restart your devserver in order for it to take effect. However, when you change the content of these files it won't be necessary to also restart.
+When creating or deleting any of the `src/css/quasar.variables.*` files, you will need to restart your dev server in order for it to take effect. However, when you change the content of these files it won't be necessary to also restart.
 :::
 
 ## Caveat

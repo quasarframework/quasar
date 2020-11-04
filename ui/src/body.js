@@ -67,7 +67,7 @@ function clientUpdate () {
 }
 
 function setColors (brand) {
-  for (let color in brand) {
+  for (const color in brand) {
     setBrand(color, brand[color])
   }
 }

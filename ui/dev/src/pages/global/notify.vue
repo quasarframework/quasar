@@ -250,7 +250,10 @@ export default {
       message: 'You need to know about this!',
       caption: 'This is a caption',
       timeout: 0,
-      avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
+      avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+      attrs: {
+        role: 'alertdialog'
+      }
     })
     this.$q.notify({
       message: 'You need to know about this!',
@@ -260,7 +263,7 @@ export default {
       textColor: 'black',
       multiLine: true,
       avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-      actions: [ { label: 'Reply', handler: () => console.log('wooow') } ]
+      actions: [ { label: 'Reply', handler: () => console.log('wooow'), attrs: { 'aria-label': 'Reply' } } ]
     })
     this.$q.notify({
       html: true,

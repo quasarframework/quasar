@@ -57,23 +57,25 @@ export default Vue.extend({
 
   methods: {
     __getContent (h) {
-      let top = slot(this, 'message', [])
+      const top = slot(this, 'message', [])
 
       if (this.vertical === true) {
         this.__isValidPanelName(this.value) && this.__updatePanelIndex()
 
-        return (top === void 0 ? [] : top).concat(
-          h('div', {
-            staticClass: 'q-stepper__content',
-            // stop propagation of content emitted @input
-            // which would tamper with Panel's model
-            on: cache(this, 'stop', { input: stop })
-          }, slot(this, 'default'))
-        )
+        const content = h('div', {
+          staticClass: 'q-stepper__content',
+          // stop propagation of content emitted @input
+          // which would tamper with Panel's model
+          on: cache(this, 'stop', { input: stop })
+        }, slot(this, 'default'))
+
+        return top === void 0
+          ? [ content ]
+          : top.concat(content)
       }
 
       return [
-        h('div', { class: this.headerClasses }, this.__getAllPanels().map(panel => {
+        h('div', { class: this.headerClasses }, this.panels.map(panel => {
           const step = panel.componentOptions.propsData
 
           return h(StepHeader, {

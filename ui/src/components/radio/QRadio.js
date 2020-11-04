@@ -87,7 +87,7 @@ export default Vue.extend({
       }
 
       if (this.disable === true) {
-        attrs['aria-disabled'] = ''
+        attrs['aria-disabled'] = 'true'
       }
 
       return attrs
@@ -110,8 +110,8 @@ export default Vue.extend({
   render (h) {
     const content = [
       h('svg', {
-        staticClass: 'q-radio__bg absolute',
-        attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 24 24' }
+        staticClass: 'q-radio__bg absolute non-selectable',
+        attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 24 24', 'aria-hidden': 'true' }
       }, [
         h('path', {
           attrs: {
@@ -131,12 +131,12 @@ export default Vue.extend({
     this.disable !== true && this.__injectFormInput(
       content,
       'unshift',
-      'q-radio__native q-ma-none q-pa-none invisible'
+      'q-radio__native q-ma-none q-pa-none'
     )
 
     const child = [
       h('div', {
-        staticClass: 'q-radio__inner relative-position no-pointer-events',
+        staticClass: 'q-radio__inner relative-position',
         class: this.innerClass,
         style: this.sizeStyle
       }, content)

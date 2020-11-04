@@ -13,8 +13,7 @@
 
     "isActive": {
       "type": "Boolean",
-      "desc": "Is Fullscreen active?",
-      "reactive": true
+      "desc": "Is Fullscreen active?"
     },
 
     "activeEl": {

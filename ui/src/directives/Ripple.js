@@ -8,7 +8,8 @@ import { $q } from '../install.js'
 function showRipple (evt, el, ctx, forceCenter) {
   ctx.modifiers.stop === true && stop(evt)
 
-  let { center, color } = ctx.modifiers
+  const color = ctx.modifiers.color
+  let center = ctx.modifiers.center
   center = center === true || forceCenter === true
 
   const
@@ -60,18 +61,23 @@ function showRipple (evt, el, ctx, forceCenter) {
   }, 50)
 }
 
-function updateCtx (ctx, { value, modifiers, arg }) {
-  ctx.enabled = value !== false
+function updateModifiers (ctx, { modifiers, value, arg }) {
+  const cfg = Object.assign({}, $q.config.ripple, modifiers, value)
+  ctx.modifiers = {
+    early: cfg.early === true,
+    stop: cfg.stop === true,
+    center: cfg.center === true,
+    color: cfg.color || arg,
+    keyCodes: [].concat(cfg.keyCodes || 13)
+  }
+}
 
-  if (ctx.enabled === true) {
-    const cfg = Object.assign({}, $q.config.ripple, modifiers, value)
-    ctx.modifiers = {
-      early: cfg.early === true,
-      stop: cfg.stop === true,
-      center: cfg.center === true,
-      color: cfg.color || arg,
-      keyCodes: [].concat(cfg.keyCodes || 13)
-    }
+function destroy (el) {
+  const ctx = el.__qripple
+  if (ctx !== void 0) {
+    ctx.abort.forEach(fn => { fn() })
+    cleanEvt(ctx, 'main')
+    delete el._qripple
   }
 }
 
@@ -79,7 +85,13 @@ export default {
   name: 'ripple',
 
   inserted (el, binding) {
+    if (el.__qripple !== void 0) {
+      destroy(el)
+      el.__qripple_destroyed = true
+    }
+
     const ctx = {
+      enabled: binding.value !== false,
       modifiers: {},
       abort: [],
 
@@ -111,11 +123,7 @@ export default {
       }, 300)
     }
 
-    updateCtx(ctx, binding)
-
-    if (el.__qripple) {
-      el.__qripple_old = el.__qripple
-    }
+    updateModifiers(ctx, binding)
 
     el.__qripple = ctx
 
@@ -129,15 +137,22 @@ export default {
   },
 
   update (el, binding) {
-    el.__qripple !== void 0 && updateCtx(el.__qripple, binding)
+    const ctx = el.__qripple
+    if (ctx !== void 0 && binding.oldValue !== binding.value) {
+      ctx.enabled = binding.value !== false
+
+      if (ctx.enabled === true && Object(binding.value) === binding.value) {
+        updateModifiers(ctx, binding)
+      }
+    }
   },
 
   unbind (el) {
-    const ctx = el.__qripple_old || el.__qripple
-    if (ctx !== void 0) {
-      ctx.abort.forEach(fn => { fn() })
-      cleanEvt(ctx, 'main')
-      delete el[el.__qripple_old ? '__qripple_old' : '__qripple']
+    if (el.__qripple_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qripple_destroyed
     }
   }
 }

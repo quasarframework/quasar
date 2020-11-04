@@ -37,11 +37,13 @@ If you define any actions, the notification will automatically be dismissed when
 
 <doc-example title="Caption" file="Notify/Caption" />
 
-### With icon or avatar
+### With icon, avatar or spinner
 
 <doc-example title="With icon" file="Notify/Icon" />
 
 <doc-example title="With avatar" file="Notify/Avatar" />
+
+<doc-example title="With spinner" file="Notify/Spinner" />
 
 ### With actions
 
@@ -75,6 +77,14 @@ Should you wish, there is a way to tell the user when the notification will disa
 
 <doc-example title="Timeout progress" file="Notify/TimeoutProgress" />
 
+### Updatable notifications <q-badge align="top" label="v1.14+" />
+
+Should you have an ongoing process and you want to inform the user of its progress without blocking what he is currently doing, then you can generate an updatable notification. It's useful to also show a spinner while at it.
+
+Please note in the example below that we are explicitly setting "group: false" (because only non-grouped notifications can be updated) and "timeout: 0" (because we want to be in full control when the notification will be dismissed).
+
+<doc-example title="Updatable" file="Notify/Updatable" />
+
 ### Predefined types <q-badge align="top" label="v1.9+" />
 
 There are four predefined types out of the box that you can use: "positive", "negative", "warning" and "info":
@@ -103,6 +113,30 @@ Notify.registerType('my-notif', {
 You can use HTML on message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.
 
 <doc-example title="Unsafe HTML message" file="Notify/UnsafeHtml" />
+
+### Setting attributes
+You can set custom HTML attributes on the notification itself or on individual notification actions by setting the `attrs` Object property.
+
+```js
+this.$q.notify({
+  ...
+
+  attrs: {
+    // for the notification itself:
+    role: 'alertdialog'
+  },
+
+  actions: [
+    {
+      icon: 'close',
+      // for individual action (button):
+      attrs: {
+        'aria-label': 'Dismiss'
+      }
+    }
+  ]
+})
+```
 
 ### Programmatically closing
 Notifications are meant to be dismissed only by the user, however for exceptional cases you can do it programmatically. Especially useful when you set indefinite timeout (0).

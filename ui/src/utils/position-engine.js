@@ -4,7 +4,7 @@ import { client } from '../plugins/Platform.js'
 let vpLeft, vpTop
 
 export function validatePosition (pos) {
-  let parts = pos.split(' ')
+  const parts = pos.split(' ')
   if (parts.length !== 2) {
     return false
   }
@@ -29,7 +29,7 @@ export function validateOffset (val) {
 }
 
 export function parsePosition (pos) {
-  let parts = pos.split(' ')
+  const parts = pos.split(' ')
   return { vertical: parts[0], horizontal: parts[1] }
 }
 

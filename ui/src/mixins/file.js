@@ -34,7 +34,8 @@ export default {
           ext = ext.trim()
           if (ext === '*') { // support "*"
             return '*/'
-          } else if (ext.endsWith('/*')) { // support "image/*" or "*/*"
+          }
+          else if (ext.endsWith('/*')) { // support "image/*" or "*/*"
             ext = ext.slice(0, ext.length - 1)
           }
           return ext.toUpperCase()
@@ -157,7 +158,7 @@ export default {
 
     __onDrop (e) {
       stopAndPrevent(e)
-      let files = e.dataTransfer.files
+      const files = e.dataTransfer.files
 
       if (files.length > 0) {
         this.__addFiles(null, files)

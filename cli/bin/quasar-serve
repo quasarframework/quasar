@@ -171,6 +171,20 @@ if (ssrDetected === false) {
     app.use('/service-worker.js', serve('service-worker.js'))
   }
 
+  if (argv.proxy) {
+    let file = argv.proxy = getAbsolutePath(argv.proxy)
+    if (!fs.existsSync(file)) {
+      console.error('Proxy definition file not found! ' + file)
+      process.exit(1)
+    }
+    file = require(file)
+
+    const { createProxyMiddleware } = require('http-proxy-middleware')
+    file.forEach(entry => {
+      app.use(entry.path, createProxyMiddleware(entry.rule))
+    })
+  }
+
   if (argv.history) {
     const history = require('connect-history-api-fallback')
     app.use(
@@ -192,20 +206,6 @@ if (ssrDetected === false) {
         req => req.originalUrl
       )
     )
-  }
-
-  if (argv.proxy) {
-    let file = argv.proxy = getAbsolutePath(argv.proxy)
-    if (!fs.existsSync(file)) {
-      console.error('Proxy definition file not found! ' + file)
-      process.exit(1)
-    }
-    file = require(file)
-
-    const { createProxyMiddleware } = require('http-proxy-middleware')
-    file.forEach(entry => {
-      app.use(entry.path, createProxyMiddleware(entry.rule))
-    })
   }
 
   app.get('*', (req, res) => {

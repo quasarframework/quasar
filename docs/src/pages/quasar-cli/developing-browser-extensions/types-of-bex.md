@@ -41,7 +41,7 @@ You could configure your `manifest.json` file with the following so the options 
 
 ## Web Page
 
-This is where the real power comes in. With a little ingenuity we can inject our Quasar application into a web page and and use it as an overlay making it seem like our Quasar App is part of the page experience.
+This is where the real power comes in. With a little ingenuity we can inject our Quasar application into a web page and use it as an overlay making it seem like our Quasar App is part of the page experience.
 
 Here's a brief rundown of how you could achieve this:
 
@@ -94,7 +94,7 @@ export default function attachContentHooks (bridge) {
 }
 
 /**
- * The code below will get everything going. Initialise the iFrame with defaults and add it to the page.
+ * The code below will get everything going. Initialize the iFrame with defaults and add it to the page.
  * @type {string}
  */
 iFrame.id = 'bex-app-iframe'

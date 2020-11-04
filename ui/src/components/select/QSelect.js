@@ -24,6 +24,7 @@ import CompositionMixin from '../../mixins/composition.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
+const reEscapeList = '.*+?^${}()|[]\\'
 
 export default Vue.extend({
   name: 'QSelect',
@@ -170,7 +171,9 @@ export default Vue.extend({
     },
 
     fieldClass () {
-      return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input q-select--with${this.useChips !== true ? 'out' : ''}-chips`
+      return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input` +
+        ` q-select--with${this.useChips !== true ? 'out' : ''}-chips` +
+        ` q-select--${this.multiple === true ? 'multiple' : 'single'}`
     },
 
     computedInputClass () {
@@ -680,7 +683,7 @@ export default Vue.extend({
           this.searchBuffer += char
         }
 
-        const searchRe = new RegExp('^\\' + this.searchBuffer.split('').join('.*\\'), 'i')
+        const searchRe = new RegExp('^' + this.searchBuffer.split('').map(l => reEscapeList.indexOf(l) > -1 ? '\\' + l : l).join('.*'), 'i')
 
         let index = this.optionIndex
 

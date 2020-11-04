@@ -40,7 +40,7 @@ Notice (in the example below) the custom header and body slots.
 ::: warning
 Clicking or pressing `SPACE` or `ENTER` on the custom header selects the tree item (and the custom header is blurred).
 
-If you don't want this to happen just wrap the content of the custom header in a `<div @click.stop @keyup.13.32.stop>`.
+If you don't want this to happen just wrap the content of the custom header in a `<div @click.stop @keypress.stop>` (or add the listeners to the respective component/element that is emitting them).
 :::
 
 ### Accordion, filtering and selectable

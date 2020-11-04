@@ -26,7 +26,7 @@ export default {
     },
 
     computedCols () {
-      let { sortBy, descending } = this.computedPagination
+      const { sortBy, descending } = this.computedPagination
 
       const cols = this.visibleColumns !== void 0
         ? this.colList.filter(col => col.required === true || this.visibleColumns.includes(col.name) === true)
@@ -54,6 +54,12 @@ export default {
         names[col.name] = col
       })
       return names
+    },
+
+    computedColspan () {
+      return this.tableColspan !== void 0
+        ? this.tableColspan
+        : this.computedCols.length + (this.hasSelectionMode === true ? 1 : 0)
     }
   }
 }

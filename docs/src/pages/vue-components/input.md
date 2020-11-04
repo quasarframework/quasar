@@ -118,7 +118,7 @@ When you need QInput to grow along with its content, then use the `autogrow` pro
 
 <doc-example title="Prefix and suffix" file="QInput/PrefixSuffix" />
 
-### Custom Label
+### Custom Label <q-badge align="top" label="v1.12.9+" />
 
 Using the `label` slot you can customize the aspect of the label or add special features as `QTooltip`.
 

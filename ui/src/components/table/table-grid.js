@@ -3,7 +3,23 @@ import QSeparator from '../separator/QSeparator.js'
 
 export default {
   methods: {
-    getGridBody (h) {
+    __getGridHeader (h) {
+      const child = this.gridHeader === true
+        ? [
+          h('table', { staticClass: 'q-table' }, [
+            this.__getTHead(h)
+          ])
+        ]
+        : (
+          this.loading === true && this.$scopedSlots.loading === void 0
+            ? this.__getProgress(h)
+            : void 0
+        )
+
+      return h('div', { staticClass: 'q-table__middle' }, child)
+    },
+
+    __getGridBody (h) {
       const item = this.$scopedSlots.item !== void 0
         ? this.$scopedSlots.item
         : scope => {
@@ -14,25 +30,31 @@ export default {
             ])
           )
 
-          this.hasSelectionMode === true && child.unshift(
-            h('div', { staticClass: 'q-table__grid-item-row' }, [
-              h(QCheckbox, {
-                props: {
-                  value: scope.selected,
-                  color: this.color,
-                  dark: this.isDark,
-                  dense: true
-                },
-                on: {
-                  input: (adding, evt) => {
-                    this.__updateSelection([ scope.key ], [ scope.row ], adding, evt)
+          if (this.hasSelectionMode === true) {
+            const slot = this.$scopedSlots['body-selection']
+            const content = slot !== void 0
+              ? slot(scope)
+              : [
+                h(QCheckbox, {
+                  props: {
+                    value: scope.selected,
+                    color: this.color,
+                    dark: this.isDark,
+                    dense: this.dense
+                  },
+                  on: {
+                    input: (adding, evt) => {
+                      this.__updateSelection([ scope.key ], [ scope.row ], adding, evt)
+                    }
                   }
-                }
-              })
-            ]),
+                })
+              ]
 
-            h(QSeparator, { props: { dark: this.isDark } })
-          )
+            child.unshift(
+              h('div', { staticClass: 'q-table__grid-item-row' }, content),
+              h(QSeparator, { props: { dark: this.isDark } })
+            )
+          }
 
           const data = {
             staticClass: 'q-table__grid-item-card' + this.cardDefaultClass,
@@ -47,13 +69,13 @@ export default {
 
           if (this.qListeners['row-click'] !== void 0) {
             data.on.click = evt => {
-              this.$emit('row-click', evt, scope.row)
+              this.$emit('row-click', evt, scope.row, scope.pageIndex)
             }
           }
 
           if (this.qListeners['row-dblclick'] !== void 0) {
             data.on.dblclick = evt => {
-              this.$emit('row-dblclick', evt, scope.row)
+              this.$emit('row-dblclick', evt, scope.row, scope.pageIndex)
             }
           }
 
@@ -70,35 +92,12 @@ export default {
         class: this.cardContainerClass,
         style: this.cardContainerStyle
       }, this.computedRows.map((row, pageIndex) => {
-        const
-          key = this.getRowKey(row),
-          selected = this.isRowSelected(key)
-
-        return item(this.addBodyRowMeta({
-          key,
+        return item(this.__getBodyScope({
+          key: this.getRowKey(row),
           row,
-          pageIndex,
-          cols: this.computedCols,
-          colsMap: this.computedColsMap,
-          __trClass: selected ? 'selected' : ''
+          pageIndex
         }))
       }))
-    },
-
-    getGridHeader (h) {
-      const child = this.gridHeader === true
-        ? [
-          h('table', { staticClass: 'q-table' }, [
-            this.getTableHeader(h)
-          ])
-        ]
-        : (
-          this.loading === true && this.$scopedSlots.loading === void 0
-            ? this.__getProgress(h)
-            : void 0
-        )
-
-      return h('div', { staticClass: 'q-table__middle' }, child)
     }
   }
 }

@@ -91,6 +91,12 @@
       "extends": "icon"
     },
 
+    "navigation-active-icon": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention for the active (current slide) navigation icon; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "addedIn": "v1.13.2"
+    },
+
     "thumbnails": {
       "type": "Boolean",
       "desc": "Show thumbnails",
@@ -105,6 +111,52 @@
 
     "control": {
       "desc": "Slot specific for QCarouselControl"
+    }
+  },
+
+  "scopedSlots": {
+    "navigation-icon": {
+      "desc": "Slot for navigation icon/btn; Suggestion: QBtn",
+      "scope": {
+        "index": {
+          "type": "Number",
+          "desc": "The 0-based index of corresponding slide",
+          "__exemption": [ "examples" ]
+        },
+        "maxIndex": {
+          "type": "Number",
+          "desc": "The available number of slides",
+          "__exemption": [ "examples" ]
+        },
+        "name": {
+          "type": "Any",
+          "desc": "The name of the corresponding slide",
+          "__exemption": [ "examples" ]
+        },
+        "active": {
+          "type": "Boolean",
+          "desc": "Is this the current slide?"
+        },
+        "btnProps": {
+          "type": "Object",
+          "desc": "Default QBtn props that can be binded to your own QBtn",
+          "__exemption": [ "examples" ]
+        },
+        "onClick": {
+          "type": "Function",
+          "desc": "Default trigger when clicked/tapped on",
+          "params": {
+            "evt": {
+              "type": "Object",
+              "desc": "JS event object",
+              "required": true,
+              "__exemption": [ "examples" ]
+            }
+          },
+          "returns": null
+        }
+      },
+      "addedIn": "v1.13.2"
     }
   }
 }

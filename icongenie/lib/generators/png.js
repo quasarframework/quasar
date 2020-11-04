@@ -2,6 +2,7 @@ const getSquareIcon = require('../utils/get-square-icon')
 
 module.exports = function (file, opts, done) {
   const img = getSquareIcon({
+    file,
     icon: opts.icon,
     size: file.height,
     padding: opts.padding,

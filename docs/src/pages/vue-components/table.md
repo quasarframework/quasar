@@ -163,6 +163,8 @@ The property `row-key` must be set in order for selection to work properly.
 
 <doc-example title="Multiple selection" file="QTable/MultipleSelection" />
 
+<doc-example title="Selection cell slots (v1.14+)" file="QTable/SelectionSlots" />
+
 <doc-example title="Custom multiple selection" file="QTable/CustomSelection" />
 
 ## Visible columns, custom top, fullscreen
@@ -184,7 +186,7 @@ Below is an example with the user being able to edit “in place” with the hel
 ## Grid style
 
 ::: tip
-You can use the `grid` prop along with `$q.screen` to create a responsive behavior. Example: `:grid="$q.screen.lt.md`. More info: [Screen Plugin](/options/screen-plugin).
+You can use the `grid` prop along with `$q.screen` to create a responsive behavior. Example: `:grid="$q.screen.lt.md"`. More info: [Screen Plugin](/options/screen-plugin).
 :::
 
 In the example below, we let QTable deal with displaying the grid mode (not using the specific slot):
@@ -341,7 +343,11 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 
 Below is an example of a naive csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#Export-file) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.
 
-<doc-example title="Export to csv" file="QTable/ExportCsv" no-edit />
+::: tip
+You could also make use of the `filteredSortedRows` internal computed property of QTable should you want to export the user filtered + sorted data.
+:::
+
+<doc-example title="Export to csv" file="QTable/ExportCsv" />
 
 ## Keyboard navigation
 
