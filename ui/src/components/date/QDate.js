@@ -560,13 +560,15 @@ export default Vue.extend({
       if (this.daysMap[this.viewMonthHash] !== void 0) {
         this.daysMap[this.viewMonthHash].forEach(day => {
           const i = index + day - 1
-          Object.assign(res[i], {
-            selected: true,
-            unelevated: true,
-            flat: false,
-            color: this.computedColor,
-            textColor: this.computedTextColor
-          })
+          if (res[i]) {
+            Object.assign(res[i], {
+              selected: true,
+              unelevated: true,
+              flat: false,
+              color: this.computedColor,
+              textColor: this.computedTextColor
+            })
+          }
         })
       }
 
