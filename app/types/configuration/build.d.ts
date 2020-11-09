@@ -150,6 +150,13 @@ interface QuasarStaticBuildConfiguration {
   stylusLoaderOptions: object;
   /** Options to supply to `less-loader`. */
   lessLoaderOptions: object;
+  /**
+   * RTL options. [Full list](https://github.com/vkalinichev/postcss-rtl).
+   * When providing an object, it is the configuration for postcss-rtl plugin, and if fromRTL is present it will only be used for client styles
+   * When providing a function, the function will receive a boolean that is true for client side styles and false otherwise and the path to the style file
+   *
+   */
+  rtl: boolean | object | ((isClientCSS: boolean, resourcePath: string) => object);
 }
 
 /**
