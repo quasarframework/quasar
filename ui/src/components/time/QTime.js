@@ -288,7 +288,7 @@ export default Vue.extend({
     },
 
     __getValidValues (start, count, testFn) {
-      const values = Array.apply(null, { length: count })
+      const values = Array.apply(null, { length: count + 1 })
         .map((_, index) => {
           const i = index + start
           return {
