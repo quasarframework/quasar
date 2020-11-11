@@ -49,13 +49,21 @@ export default Vue.extend({
 
   data () {
     return {
-      showing: this.value
+      showing: this.value,
+      splitter: this.split
     }
   },
 
   watch: {
     value (val) {
       this.$refs.menu !== void 0 && this.$refs.menu[val ? 'show' : 'hide']()
+    },
+    split () {
+      // if split changes, force menu to hide
+      this.showing = false
+      this.$nextTick(() => {
+        this.splitter = this.split
+      })
     }
   },
 
@@ -69,7 +77,7 @@ export default Vue.extend({
     if (
       this.disable === true ||
       (
-        (this.split === false && this.disableMainBtn === true) ||
+        (this.splitter === false && this.disableMainBtn === true) ||
         this.disableDropdown === true
       )
     ) {
@@ -81,7 +89,7 @@ export default Vue.extend({
         props: { name: this.dropdownIcon || this.$q.iconSet.arrow.dropdown },
         class: 'q-btn-dropdown__arrow' +
           (this.showing === true && this.noIconAnimation === false ? ' rotate-180' : '') +
-          (this.split === false ? ' q-btn-dropdown__arrow-container' : '')
+          (this.splitter === false ? ' q-btn-dropdown__arrow-container' : '')
       })
     ]
 
@@ -122,7 +130,7 @@ export default Vue.extend({
       }, slot(this, 'default'))
     )
 
-    if (this.split === false) {
+    if (this.splitter === false) {
       return h(QBtn, {
         class: 'q-btn-dropdown q-btn-dropdown--simple',
         props: {
