@@ -47,13 +47,21 @@ export default defineComponent({
 
   data () {
     return {
-      showing: this.modelValue
+      showing: this.modelValue,
+      splitter: this.split
     }
   },
 
   watch: {
     modelValue (val) {
       this.$refs.menu && this.$refs.menu[val ? 'show' : 'hide']()
+    },
+    split () {
+      // if split changes, force menu to hide
+      this.showing = false
+      this.$nextTick(() => {
+        this.splitter = this.split
+      })
     }
   },
 
@@ -67,7 +75,7 @@ export default defineComponent({
       if (
         this.disable === true ||
         (
-          (this.split === false && this.disableMainBtn === true) ||
+          (this.splitter === false && this.disableMainBtn === true) ||
           this.disableDropdown === true
         )
       ) {
@@ -126,7 +134,7 @@ export default defineComponent({
       h(QIcon, {
         class: 'q-btn-dropdown__arrow' +
           (this.showing === true && this.noIconAnimation === false ? ' rotate-180' : '') +
-          (this.split === false ? ' q-btn-dropdown__arrow-container' : ''),
+          (this.splitter === false ? ' q-btn-dropdown__arrow-container' : ''),
         name: this.dropdownIcon || this.$q.iconSet.arrow.dropdown
       })
     ]
@@ -152,7 +160,7 @@ export default defineComponent({
       }, this.$slots.default)
     )
 
-    if (this.split === false) {
+    if (this.splitter === false) {
       return h(QBtn, {
         class: 'q-btn-dropdown q-btn-dropdown--simple',
         ...this.$props,
