@@ -50,7 +50,7 @@ export default {
   },
   editor: {
     url: 'آدرس',
-    bold: 'کلفت',
+    bold: 'ضخیم',
     italic: 'کج',
     strikethrough: 'خط‌خورده',
     underline: 'زیرخط',
