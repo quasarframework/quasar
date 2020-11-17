@@ -79,8 +79,8 @@ function convertTypeVal (key, type, def, required) {
 function getTypeVal (key, def, required) {
   if (def.tsType !== void 0) {
     return Array.isArray(def.tsType)
-    ? def.tsType.map(type => type).join(' | ')
-    : def.tsType
+      ? def.tsType.map(type => type).join(' | ')
+      : def.tsType
   }
 
   return Array.isArray(def.type)
@@ -224,8 +224,8 @@ function addToExtraInterfaces (def, required) {
     }
     else if (Array.isArray(def.tsType)) {
       def.tsType.forEach(type => {
-      // eslint-disable-next-line no-prototype-builtins
-      if (!extraInterfaces.hasOwnProperty(type)) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (!extraInterfaces.hasOwnProperty(type)) {
           extraInterfaces[type] = void 0
         }
       })
