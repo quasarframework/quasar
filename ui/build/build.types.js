@@ -368,7 +368,6 @@ function writeIndexDTS (apis) {
       }
 
       importName.push(name)
-      // writeLine(contents, `import { ${name} } from './api'`)
     }
     else {
       writeLine(contents, `export interface ${name} {`)
