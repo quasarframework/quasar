@@ -334,7 +334,7 @@ export default Vue.extend({
 
     __renderPortal (h) {
       return h('div', {
-        staticClass: 'q-dialog fullscreen no-pointer-events',
+        staticClass: 'q-dialog fullscreen no-pointer-events ' + (this.useBackdrop === true ? 'q-dialog--modal' : 'q-dialog--seamless'),
         class: this.contentClass,
         style: this.contentStyle,
         attrs: this.qAttrs
