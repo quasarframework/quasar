@@ -43,6 +43,9 @@ const dontNarrowValues = [
   '(DOM Element)'
 ]
 
+// eslint-disable-next-line
+let typeErrorCount = 0
+
 function convertTypeVal (key, type, def, required) {
   const t = type.trim()
 
@@ -62,13 +65,14 @@ function convertTypeVal (key, type, def, required) {
   }
 
   if (fallbackComplexTypeMap.has(t)) {
-    console.error(`warning: '${key}' missing 'tsType' for complex "type": "${t}"...`)
     if (def.definition) {
       const propDefinitions = getPropDefinitions(def.definition, required, true)
       const lines = []
       propDefinitions.forEach(p => lines.push(...p.split('\n')))
       return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }${t === 'Array' ? '[]' : ''}` : fallbackComplexTypeMap.get(t)
     }
+    // uncomment to find additonal typings that probably should not be 'any[]' or `LooseDefinition`
+    // console.error(`(${++typeErrorCount}) warning: '${key}' missing 'tsType' for complex "type": "${t}"...`)
 
     return fallbackComplexTypeMap.get(t)
   }
@@ -206,7 +210,7 @@ function copyPredefinedTypes (dir, parentDir) {
 }
 
 function addToExtraInterfaces (def, required) {
-  if (def !== void 0 && def.tsType !== void 0) {
+  if (def !== null && def !== void 0 && def.tsType !== void 0) {
     // When a type name is found and it has a definition,
     //  it's added for later usage if a previous definition isn't already there.
     // When the new interface doesn't have a definition, we initialize its key anyway
