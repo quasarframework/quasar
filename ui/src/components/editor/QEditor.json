@@ -216,6 +216,14 @@
       "category": "toolbar|style"
     },
 
+    "paragraph-tag": {
+      "type": "String",
+      "desc": "Paragraph tag to be used",
+      "values": [ "div", "p" ],
+      "category": "behavior",
+      "addedIn": "v1.14.4"
+    },
+
     "content-style": {
       "type": "Object",
       "desc": "Object with CSS properties and values for styling the container of QEditor",
