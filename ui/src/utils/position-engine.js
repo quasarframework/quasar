@@ -1,4 +1,3 @@
-import { getScrollbarWidth } from './scroll.js'
 import { client } from '../plugins/Platform.js'
 
 let vpLeft, vpTop
@@ -20,7 +19,7 @@ export function validatePosition (pos) {
 }
 
 export function validateOffset (val) {
-  if (!val) { return true }
+  if (val !== true) { return true }
   if (val.length !== 2) { return false }
   if (typeof val[0] !== 'number' || typeof val[1] !== 'number') {
     return false
@@ -41,36 +40,55 @@ export function validateCover (val) {
 export function getAnchorProps (el, offset) {
   let { top, left, right, bottom, width, height } = el.getBoundingClientRect()
 
-  if (offset !== void 0) {
-    top -= offset[1]
-    left -= offset[0]
-    bottom += offset[1]
-    right += offset[0]
+  if (width === 0) {
+    width = el.offsetWidth
+  }
+  if (height === 0) {
+    height = el.offsetHeight
+  }
 
-    width += offset[0]
-    height += offset[1]
+  if (offset !== void 0) {
+    left -= offset[0]
+    right += offset[0]
+    top -= offset[1]
+    bottom += offset[1]
   }
 
   return {
-    top,
     left,
-    right,
-    bottom,
-    width,
-    height,
     middle: left + (right - left) / 2,
-    center: top + (bottom - top) / 2
+    right,
+
+    top,
+    center: top + (bottom - top) / 2,
+    bottom,
+
+    leftRev: right,
+    middleRev: left + (right - left) / 2,
+    rightRev: left,
+
+    topRev: bottom,
+    centerRev: top + (bottom - top) / 2,
+    bottomRev: top,
+
+    width,
+    height
   }
 }
 
 export function getTargetProps (el) {
+  let { width, height } = el.getBoundingClientRect()
+
+  if (width === 0) {
+    width = el.offsetWidth
+  }
+  if (height === 0) {
+    height = el.offsetHeight
+  }
+
   return {
-    top: 0,
-    center: el.offsetHeight / 2,
-    bottom: el.offsetHeight,
-    left: 0,
-    middle: el.offsetWidth / 2,
-    right: el.offsetWidth
+    width,
+    height
   }
 }
 
@@ -79,26 +97,31 @@ export function setPosition (cfg) {
   if (client.is.ios === true && window.visualViewport !== void 0) {
     // uses the q-position-engine CSS class
 
-    const el = document.body.style
-    const { offsetLeft: left, offsetTop: top } = window.visualViewport
+    const { style } = document.body
+    const { offsetLeft, offsetTop } = window.visualViewport
 
-    if (left !== vpLeft) {
-      el.setProperty('--q-pe-left', left + 'px')
-      vpLeft = left
+    if (offsetLeft !== vpLeft) {
+      style.setProperty('--q-pe-left', (offsetLeft || 0) + 'px')
+      vpLeft = offsetLeft
     }
-    if (top !== vpTop) {
-      el.setProperty('--q-pe-top', top + 'px')
-      vpTop = top
+    if (offsetTop !== vpTop) {
+      style.setProperty('--q-pe-top', (offsetTop || 0) + 'px')
+      vpTop = offsetTop
     }
   }
 
-  let anchorProps
+  let anchorProps, elStyle
 
   // scroll position might change
   // if max-height/-width changes, so we
   // need to restore it after we calculate
   // the new positioning
-  const { scrollLeft, scrollTop } = cfg.el
+  const
+    extEl = cfg.el,
+    intEl = extEl.children[0],
+    { scrollLeft, scrollTop } = intEl,
+    innerWidth = document.body.clientWidth,
+    innerHeight = document.scrollingElement.clientHeight
 
   if (cfg.absoluteOffset === void 0) {
     anchorProps = getAnchorProps(cfg.anchorEl, cfg.cover === true ? [0, 0] : cfg.offset)
@@ -106,16 +129,38 @@ export function setPosition (cfg) {
   else {
     const
       { top: anchorTop, left: anchorLeft } = cfg.anchorEl.getBoundingClientRect(),
-      top = anchorTop + cfg.absoluteOffset.top,
-      left = anchorLeft + cfg.absoluteOffset.left
+      top = anchorTop + (cfg.cover === true ? 0 : cfg.absoluteOffset.top),
+      left = anchorLeft + (cfg.cover === true || cfg.fit === true ? 0 : cfg.absoluteOffset.left)
 
-    anchorProps = { top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1 }
+    anchorProps = {
+      left,
+      middle: left,
+      right: left,
+
+      top,
+      center: top,
+      bottom: top,
+
+      leftRev: left,
+      middleRev: left,
+      rightRev: left,
+
+      topRev: top,
+      centerRev: top,
+      bottomRev: top,
+
+      width: 0,
+      height: 0
+    }
   }
 
-  let elStyle = {
-    maxHeight: cfg.maxHeight,
-    maxWidth: cfg.maxWidth,
-    visibility: 'visible'
+  elStyle = {
+    position: 'absolute',
+    whiteSpace: 'nowrap',
+    minWidth: null,
+    minHeight: null,
+    maxWidth: cfg.maxWidth || null,
+    maxHeight: cfg.maxHeight || null
   }
 
   if (cfg.fit === true || cfg.cover === true) {
@@ -125,105 +170,136 @@ export function setPosition (cfg) {
     }
   }
 
-  Object.assign(cfg.el.style, elStyle)
+  Object.assign(intEl.style, elStyle)
 
-  const
-    targetProps = getTargetProps(cfg.el),
-    props = {
-      top: anchorProps[cfg.anchorOrigin.vertical] - targetProps[cfg.selfOrigin.vertical],
-      left: anchorProps[cfg.anchorOrigin.horizontal] - targetProps[cfg.selfOrigin.horizontal]
-    }
+  const targetProps = getTargetProps(intEl)
 
-  applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
+  Object.assign(intEl.style, {
+    position: 'static',
+    whiteSpace: null
+  })
 
   elStyle = {
-    top: props.top + 'px',
-    left: props.left + 'px'
+    visibility: 'visible',
+    left: '4px',
+    right: '4px',
+    top: '4px',
+    bottom: '4px',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start'
   }
 
-  if (props.maxHeight !== void 0) {
-    elStyle.maxHeight = props.maxHeight + 'px'
-
-    if (anchorProps.height > props.maxHeight) {
-      elStyle.minHeight = elStyle.maxHeight
+  if (cfg.selfOrigin.horizontal === 'left') {
+    if (
+      targetProps.width + 4 > innerWidth - anchorProps[cfg.anchorOrigin.horizontal] &&
+      anchorProps[cfg.anchorOrigin.horizontal + 'Rev'] > innerWidth - anchorProps[cfg.anchorOrigin.horizontal]
+    ) {
+      elStyle.right = (innerWidth - anchorProps[cfg.anchorOrigin.horizontal + 'Rev']) + 'px'
+      elStyle.alignItems = 'flex-end'
+    }
+    else {
+      elStyle.left = anchorProps[cfg.anchorOrigin.horizontal] + 'px'
     }
   }
-  if (props.maxWidth !== void 0) {
-    elStyle.maxWidth = props.maxWidth + 'px'
+  else if (cfg.selfOrigin.horizontal === 'right') {
+    if (
+      targetProps.width + 4 > anchorProps[cfg.anchorOrigin.horizontal] &&
+      innerWidth - anchorProps[cfg.anchorOrigin.horizontal + 'Rev'] > anchorProps[cfg.anchorOrigin.horizontal]
+    ) {
+      elStyle.left = anchorProps[cfg.anchorOrigin.horizontal + 'Rev'] + 'px'
+    }
+    else {
+      elStyle.right = (innerWidth - anchorProps[cfg.anchorOrigin.horizontal]) + 'px'
+      elStyle.alignItems = 'flex-end'
+    }
+  }
+  else {
+    elStyle.alignItems = 'center'
 
-    if (anchorProps.width > props.maxWidth) {
-      elStyle.minWidth = elStyle.maxWidth
+    const
+      width = Math.min(anchorProps[cfg.anchorOrigin.horizontal], innerWidth - anchorProps[cfg.anchorOrigin.horizontal]),
+      widthRev = Math.min(anchorProps[cfg.anchorOrigin.horizontal + 'Rev'], innerWidth - anchorProps[cfg.anchorOrigin.horizontal + 'Rev']),
+      widthHalf = innerWidth / 2
+
+    if (targetProps.width + 8 > 2 * width) {
+      if (targetProps.width + 8 <= 2 * widthRev) {
+        elStyle.left = (anchorProps[cfg.anchorOrigin.horizontal + 'Rev'] - widthHalf) + 'px'
+        elStyle.right = (widthHalf - anchorProps[cfg.anchorOrigin.horizontal + 'Rev']) + 'px'
+      }
+      else if (anchorProps[cfg.anchorOrigin.horizontal] < widthHalf) {
+        elStyle.left = Math.min(4, width + 4) + 'px'
+        elStyle.alignItems = 'flex-start'
+      }
+      else {
+        elStyle.right = Math.min(4, width + 4) + 'px'
+        elStyle.alignItems = 'flex-end'
+      }
+    }
+    else {
+      elStyle.left = (anchorProps[cfg.anchorOrigin.horizontal] - widthHalf) + 'px'
+      elStyle.right = (widthHalf - anchorProps[cfg.anchorOrigin.horizontal]) + 'px'
     }
   }
 
-  Object.assign(cfg.el.style, elStyle)
+  if (cfg.selfOrigin.vertical === 'top') {
+    if (
+      targetProps.height + 4 > innerHeight - anchorProps[cfg.anchorOrigin.vertical] &&
+      anchorProps[cfg.anchorOrigin.vertical + 'Rev'] > innerHeight - anchorProps[cfg.anchorOrigin.vertical]
+    ) {
+      elStyle.bottom = (innerHeight - anchorProps[cfg.anchorOrigin.vertical + 'Rev']) + 'px'
+      elStyle.justifyContent = 'flex-end'
+    }
+    else {
+      elStyle.top = anchorProps[cfg.anchorOrigin.vertical] + 'px'
+    }
+  }
+  else if (cfg.selfOrigin.vertical === 'bottom') {
+    if (
+      targetProps.height + 4 > anchorProps[cfg.anchorOrigin.vertical] &&
+      innerHeight - anchorProps[cfg.anchorOrigin.vertical + 'Rev'] > anchorProps[cfg.anchorOrigin.vertical]
+    ) {
+      elStyle.top = anchorProps[cfg.anchorOrigin.vertical + 'Rev'] + 'px'
+    }
+    else {
+      elStyle.bottom = (innerHeight - anchorProps[cfg.anchorOrigin.vertical]) + 'px'
+      elStyle.justifyContent = 'flex-end'
+    }
+  }
+  else {
+    elStyle.justifyContent = 'center'
+
+    const
+      height = Math.min(anchorProps[cfg.anchorOrigin.vertical], innerHeight - anchorProps[cfg.anchorOrigin.vertical]),
+      heightRev = Math.min(anchorProps[cfg.anchorOrigin.vertical + 'Rev'], innerHeight - anchorProps[cfg.anchorOrigin.vertical + 'Rev']),
+      heightHalf = innerHeight / 2
+
+    if (targetProps.height + 8 > 2 * height) {
+      if (targetProps.height + 8 <= 2 * heightRev) {
+        elStyle.top = (anchorProps[cfg.anchorOrigin.vertical + 'Rev'] - heightHalf) + 'px'
+        elStyle.bottom = (heightHalf - anchorProps[cfg.anchorOrigin.vertical + 'Rev']) + 'px'
+      }
+      else if (anchorProps[cfg.anchorOrigin.vertical] < heightHalf) {
+        elStyle.top = Math.min(4, height + 4) + 'px'
+        elStyle.justifyContent = 'flex-start'
+      }
+      else {
+        elStyle.bottom = Math.min(4, height + 4) + 'px'
+        elStyle.justifyContent = 'flex-end'
+      }
+    }
+    else {
+      elStyle.top = (anchorProps[cfg.anchorOrigin.vertical] - heightHalf) + 'px'
+      elStyle.bottom = (heightHalf - anchorProps[cfg.anchorOrigin.vertical]) + 'px'
+    }
+  }
+
+  Object.assign(extEl.style, elStyle)
 
   // restore scroll position
-  if (cfg.el.scrollTop !== scrollTop) {
-    cfg.el.scrollTop = scrollTop
+  if (intEl.scrollTop !== scrollTop) {
+    intEl.scrollTop = scrollTop
   }
-  if (cfg.el.scrollLeft !== scrollLeft) {
-    cfg.el.scrollLeft = scrollLeft
-  }
-}
-
-function applyBoundaries (props, anchorProps, targetProps, anchorOrigin, selfOrigin) {
-  const
-    currentHeight = targetProps.bottom,
-    currentWidth = targetProps.right,
-    margin = getScrollbarWidth(),
-    innerHeight = window.innerHeight - margin,
-    innerWidth = document.body.clientWidth
-
-  if (props.top < 0 || props.top + currentHeight > innerHeight) {
-    if (selfOrigin.vertical === 'center') {
-      props.top = anchorProps[anchorOrigin.vertical] > innerHeight / 2
-        ? Math.max(0, innerHeight - currentHeight)
-        : 0
-      props.maxHeight = Math.min(currentHeight, innerHeight)
-    }
-    else if (anchorProps[anchorOrigin.vertical] > innerHeight / 2) {
-      const anchorY = Math.min(
-        innerHeight,
-        anchorOrigin.vertical === 'center'
-          ? anchorProps.center
-          : (anchorOrigin.vertical === selfOrigin.vertical ? anchorProps.bottom : anchorProps.top)
-      )
-      props.maxHeight = Math.min(currentHeight, anchorY)
-      props.top = Math.max(0, anchorY - currentHeight)
-    }
-    else {
-      props.top = Math.max(0, anchorOrigin.vertical === 'center'
-        ? anchorProps.center
-        : (anchorOrigin.vertical === selfOrigin.vertical ? anchorProps.top : anchorProps.bottom)
-      )
-      props.maxHeight = Math.min(currentHeight, innerHeight - props.top)
-    }
-  }
-
-  if (props.left < 0 || props.left + currentWidth > innerWidth) {
-    props.maxWidth = Math.min(currentWidth, innerWidth)
-    if (selfOrigin.horizontal === 'middle') {
-      props.left = anchorProps[anchorOrigin.horizontal] > innerWidth / 2
-        ? Math.max(0, innerWidth - currentWidth)
-        : 0
-    }
-    else if (anchorProps[anchorOrigin.horizontal] > innerWidth / 2) {
-      const anchorX = Math.min(
-        innerWidth,
-        anchorOrigin.horizontal === 'middle'
-          ? anchorProps.middle
-          : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchorProps.right : anchorProps.left)
-      )
-      props.maxWidth = Math.min(currentWidth, anchorX)
-      props.left = Math.max(0, anchorX - props.maxWidth)
-    }
-    else {
-      props.left = Math.max(0, anchorOrigin.horizontal === 'middle'
-        ? anchorProps.middle
-        : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchorProps.left : anchorProps.right)
-      )
-      props.maxWidth = Math.min(currentWidth, innerWidth - props.left)
-    }
+  if (intEl.scrollLeft !== scrollLeft) {
+    intEl.scrollLeft = scrollLeft
   }
 }

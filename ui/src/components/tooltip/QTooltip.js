@@ -207,17 +207,21 @@ export default Vue.extend({
     },
 
     __renderPortal (h) {
-      return h('transition', {
-        props: { name: this.transition }
+      return h('div', {
+        class: 'q-tooltip__container fixed column q-position-engine no-pointer-events',
       }, [
-        this.showing === true ? h('div', {
-          staticClass: 'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
-          class: this.contentClass,
-          style: this.contentStyle,
-          attrs: {
-            role: 'complementary'
-          }
-        }, slot(this, 'default')) : null
+        h('transition', {
+          props: { name: this.transition }
+        }, [
+          this.showing === true ? h('div', {
+            staticClass: 'q-tooltip q-tooltip--style',
+            class: this.contentClass,
+            style: this.contentStyle,
+            attrs: {
+              role: 'complementary'
+            }
+          }, slot(this, 'default')) : null
+        ])
       ])
     }
   },

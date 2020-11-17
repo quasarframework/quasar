@@ -65,7 +65,10 @@ export default Vue.extend({
       default: void 0
     },
 
-    touchPosition: Boolean,
+    touchPosition: {
+      type: Boolean,
+      default: null
+    },
 
     maxHeight: {
       type: String,
@@ -160,7 +163,7 @@ export default Vue.extend({
 
       this.absoluteOffset = void 0
 
-      if (evt !== void 0 && (this.touchPosition || this.contextMenu)) {
+      if (evt !== void 0 && (this.touchPosition === true || (this.touchPosition !== false && this.contextMenu))) {
         const pos = position(evt)
 
         if (pos.left !== void 0) {
@@ -279,6 +282,8 @@ export default Vue.extend({
         return
       }
 
+      const touchPosition = this.touchPosition === true || (this.touchPosition !== false && this.contextMenu)
+
       setPosition({
         el,
         offset: this.offset,
@@ -286,8 +291,8 @@ export default Vue.extend({
         anchorOrigin: this.anchorOrigin,
         selfOrigin: this.selfOrigin,
         absoluteOffset: this.absoluteOffset,
-        fit: this.fit,
-        cover: this.cover,
+        fit: touchPosition !== true && this.fit === true,
+        cover: touchPosition !== true && this.cover === true,
         maxHeight: this.maxHeight,
         maxWidth: this.maxWidth
       })
@@ -302,7 +307,7 @@ export default Vue.extend({
           // always prevent touch event
           e.type === 'touchstart' ||
           // prevent click if it's on a dialog backdrop
-          targetClassList.contains('q-dialog__backdrop')
+          targetClassList.contains('q-dialog__backdrop') === true
         ) {
           stopAndPreventClick(e)
         }
@@ -311,22 +316,26 @@ export default Vue.extend({
     },
 
     __renderPortal (h) {
-      return h('transition', {
-        props: { name: this.transition }
+      return h('div', {
+        class: 'q-menu__container fixed column q-position-engine no-pointer-events',
+        directives: [{
+          name: 'click-outside',
+          value: this.__onClickOutside,
+          arg: this.anchorEl
+        }]
       }, [
-        this.showing === true ? h('div', {
-          ref: 'inner',
-          staticClass: 'q-menu q-position-engine scroll' + this.menuClass,
-          class: this.contentClass,
-          style: this.contentStyle,
-          attrs: this.attrs,
-          on: this.onEvents,
-          directives: [{
-            name: 'click-outside',
-            value: this.__onClickOutside,
-            arg: this.anchorEl
-          }]
-        }, slot(this, 'default')) : null
+        h('transition', {
+          props: { name: this.transition }
+        }, [
+          this.showing === true ? h('div', {
+            ref: 'inner',
+            staticClass: 'q-menu scroll' + this.menuClass,
+            class: this.contentClass,
+            style: this.contentStyle,
+            attrs: this.attrs,
+            on: this.onEvents
+          }, slot(this, 'default')) : null
+        ])
       ])
     }
   },

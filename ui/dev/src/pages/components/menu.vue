@@ -205,6 +205,7 @@
                 :cover="cover"
                 :anchor="anchor"
                 :self="self"
+                :offset="calculatedOffset"
                 auto-close
               >
                 <q-list style="min-width: 400px">
@@ -225,6 +226,7 @@
                 :cover="cover"
                 :anchor="anchor"
                 :self="self"
+                :offset="calculatedOffset"
               >
                 <q-list>
                   <q-item
@@ -266,6 +268,7 @@
           <div class="row flex-center q-my-sm q-gutter-md">
             <q-toggle v-model="fit" label="Fit" />
             <q-toggle v-model="cover" label="Cover" />
+            <q-toggle v-model="offset" label="Offset [50, 50]" />
           </div>
           <q-card-section class="row" :class="cover ? 'justify-center' : ''">
             <div class="column items-center col-6">
@@ -313,12 +316,18 @@
         <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
           <q-card-section>
             <div class="q-gutter-sm">
-              <q-toggle label="touch-position" v-model="touchPosition" />
+              <q-toggle label="touch-position" v-model="touchPosition" toggle-indeterminate :indeterminate-value="null" />
               <q-toggle label="context-menu" v-model="contextMenu" />
             </div>
           </q-card-section>
           <q-img src="https://cdn.quasar.dev/img/material.png" style="height: 100px">
-            <q-menu :touch-position="touchPosition" :context-menu="contextMenu">
+            <q-menu
+              :touch-position="touchPosition"
+              :context-menu="contextMenu"
+              :offset="calculatedOffset"
+              :fit="fit"
+              :cover="cover"
+            >
               <q-list>
                 <q-item
                   v-for="n in 5"
@@ -334,7 +343,14 @@
           </q-img>
           <div>With model: {{ menuModelTouch }}</div>
           <q-img src="https://cdn.quasar.dev/img/material.png" style="height: 100px">
-            <q-menu v-model="menuModelTouch" :touch-position="touchPosition" :context-menu="contextMenu">
+            <q-menu
+              v-model="menuModelTouch"
+              :touch-position="touchPosition"
+              :context-menu="contextMenu"
+              :offset="calculatedOffset"
+              :fit="fit"
+              :cover="cover"
+            >
               <q-list>
                 <q-item
                   v-for="n in 5"
@@ -584,6 +600,7 @@ export default {
       gigi: '',
       fit: false,
       cover: false,
+      offset: false,
       toggle: true,
       anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
       selfOrigin: { vertical: 'top', horizontal: 'left' },
@@ -617,6 +634,9 @@ export default {
     },
     self () {
       return `${this.selfOrigin.vertical} ${this.selfOrigin.horizontal}`
+    },
+    calculatedOffset () {
+      return this.offset === true ? [50, 50] : void 0
     }
   },
   methods: {
