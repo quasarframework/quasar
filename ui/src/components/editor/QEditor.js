@@ -55,7 +55,7 @@ export default Vue.extend({
     toolbarOutline: Boolean,
     toolbarPush: Boolean,
     toolbarRounded: Boolean,
-    
+
     paragraphTag: {
       type: String,
       validator: v => ['div', 'p'].includes(v),
