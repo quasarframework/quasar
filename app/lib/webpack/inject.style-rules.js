@@ -5,6 +5,8 @@ const appPaths = require('../app-paths')
 const cssVariables = require('../helpers/css-variables')
 const postCssConfig = require(appPaths.resolve.app('.postcssrc.js'))
 
+const quasarCssPaths = [ 'node_modules/quasar', 'node_modules/@quasar' ]
+
 function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)
 
@@ -83,8 +85,10 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
       const postcssRTL = require('postcss-rtl')
       const postcssRTLOptions = pref.rtl === true ? {} : pref.rtl
 
-      if (typeof postCssConfig.plugins !== 'function' && (postcssRTLOptions.fromRTL === true || typeof postcssRTLOptions === 'function')) {
-        const quasarCssPaths = [ 'node_modules/quasar', 'node_modules/@quasar' ]
+      if (
+        typeof postCssConfig.plugins !== 'function' &&
+        (postcssRTLOptions.fromRTL === true || typeof postcssRTLOptions === 'function')
+      ) {
         postCssConfig.plugins = postCssConfig.plugins || []
 
         postCssOpts.plugins = ctx => {
