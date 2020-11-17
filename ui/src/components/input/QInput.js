@@ -216,9 +216,15 @@ export default Vue.extend({
           delete this.tempValue
         }
 
-        if (this.value !== val) {
+        if (this.value !== val && this.emitCachedValue !== val) {
+          this.emitCachedValue = val
+
           stopWatcher === true && (this.stopValueWatcher = true)
           this.$emit('input', val)
+
+          this.$nextTick(() => {
+            this.emitCachedValue === val && (this.emitCachedValue = NaN)
+          })
         }
 
         this.emitValueFn = void 0
@@ -309,6 +315,10 @@ export default Vue.extend({
           : this.formDomProps
       })
     }
+  },
+
+  created () {
+    this.emitCachedValue = NaN
   },
 
   mounted () {
