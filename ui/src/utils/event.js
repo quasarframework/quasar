@@ -110,12 +110,12 @@ export function stopAndPrevent (e) {
   e.stopPropagation()
 }
 
-export function stopAndPreventClick (ev) {
+export function stopAndPreventClick (evt) {
   stopAndPrevent(ev)
 
-  if (ev.type === 'mousedown') {
+  if (evt.type === 'mousedown') {
     const handler = e => {
-      e.target === ev.target && stopAndPrevent(e)
+      e.target === evt.target && stopAndPrevent(e)
       document.removeEventListener('click', handler, listenOpts.notPassiveCapture)
     }
 
