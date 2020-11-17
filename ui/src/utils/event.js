@@ -111,7 +111,7 @@ export function stopAndPrevent (e) {
 }
 
 export function stopAndPreventClick (evt) {
-  stopAndPrevent(ev)
+  stopAndPrevent(evt)
 
   if (evt.type === 'mousedown') {
     const handler = e => {
