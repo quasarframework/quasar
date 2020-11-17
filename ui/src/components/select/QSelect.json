@@ -451,6 +451,7 @@
         "details": {
           "type": "Object",
           "desc": "Removal details",
+          "tsType": "QSelectRemoveDetails",
           "definition": {
             "index": {
               "type": "Number",
@@ -473,6 +474,7 @@
         "details": {
           "type": "Object",
           "desc": "Addition details",
+          "tsType": "QSelectAddDetails",
           "definition": {
             "index": {
               "type": "Number",
