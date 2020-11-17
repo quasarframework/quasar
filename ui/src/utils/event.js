@@ -110,6 +110,19 @@ export function stopAndPrevent (e) {
   e.stopPropagation()
 }
 
+export function stopAndPreventClick (ev) {
+  stopAndPrevent(ev)
+
+  if (ev.type === 'mousedown') {
+    const handler = e => {
+      e.target === ev.target && stopAndPrevent(e)
+      document.removeEventListener('click', handler, listenOpts.notPassiveCapture)
+    }
+
+    document.addEventListener('click', handler, listenOpts.notPassiveCapture)
+  }
+}
+
 export function preventDraggable (el, status) {
   if (el === void 0 || (status === true && el.__dragPrevented === true)) {
     return
