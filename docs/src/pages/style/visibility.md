@@ -60,7 +60,7 @@ Visible only on:
 | `mobile-only` | Visible only on mobile |
 | `native-mobile-only` | Visible only on Cordova/Capacitor |
 | `cordova-only` | Visible only on Cordova wrapped Apps |
-| `capacitor-only` | Visible only on Cordova wrapped Apps |
+| `capacitor-only` | Visible only on Capacitor wrapped Apps |
 | `electron-only` | Visible only on Electron wrapped Apps |
 | `touch-only` | Visible only on touch capable platforms |
 | `platform-ios-only` | Visible only on an iOS platform |
