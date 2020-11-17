@@ -55,6 +55,12 @@ export default defineComponent({
     toolbarPush: Boolean,
     toolbarRounded: Boolean,
 
+    paragraphTag: {
+      type: String,
+      validator: v => ['div', 'p'].includes(v),
+      default: 'div'
+    },
+
     contentStyle: Object,
     contentClass: [Object, Array, String],
 
@@ -140,7 +146,7 @@ export default defineComponent({
         h4: { cmd: 'formatBlock', param: 'H4', icon: i.heading4 || i.heading, tip: e.heading4, htmlTip: `<h4 class="q-ma-none">${e.heading4}</h4>` },
         h5: { cmd: 'formatBlock', param: 'H5', icon: i.heading5 || i.heading, tip: e.heading5, htmlTip: `<h5 class="q-ma-none">${e.heading5}</h5>` },
         h6: { cmd: 'formatBlock', param: 'H6', icon: i.heading6 || i.heading, tip: e.heading6, htmlTip: `<h6 class="q-ma-none">${e.heading6}</h6>` },
-        p: { cmd: 'formatBlock', param: 'DIV', icon: i.heading, tip: e.paragraph },
+        p: { cmd: 'formatBlock', param: this.paragraphTag, icon: i.heading, tip: e.paragraph },
         code: { cmd: 'formatBlock', param: 'PRE', icon: i.code, htmlTip: `<code>${e.code}</code>` },
 
         'size-1': { cmd: 'fontSize', param: '1', icon: i.size1 || i.size, tip: e.size1, htmlTip: `<font size="1">${e.size1}</font>` },
@@ -409,7 +415,7 @@ export default defineComponent({
     this.caret = void 0
 
     if (__QUASAR_SSR_SERVER__ !== true) {
-      document.execCommand('defaultParagraphSeparator', false, 'div')
+      document.execCommand('defaultParagraphSeparator', false, this.paragraphTag)
       this.defaultFont = window.getComputedStyle(document.body).fontFamily
     }
   },
