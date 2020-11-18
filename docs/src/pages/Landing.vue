@@ -258,7 +258,7 @@ export default {
 
   &__front
     padding: 130px 16px 100px !important
-    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.9) 15%)
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(0, 0, 0, 0.9) 15%)
     > div
       max-width: 700px !important
 

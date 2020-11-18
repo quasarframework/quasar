@@ -42,7 +42,7 @@ export default {
 
 <style lang="stylus">
 .landing-top-bar
-  background: linear-gradient(to bottom, #000, transparent)
+  background: linear-gradient(to bottom, #000, rgba(255,255,255,0))
   padding: 0 !important
 
   .q-btn
