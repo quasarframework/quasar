@@ -33,7 +33,6 @@ function globalHandler (evt) {
     const vm = vmList[i]()
 
     if (
-      hasModalsAbove(vm.$el) !== true &&
       (
         vm.anchorEl === void 0 ||
         vm.anchorEl.contains(target) === false
@@ -41,7 +40,8 @@ function globalHandler (evt) {
       (
         target === document.body ||
         vm.$refs.inner.contains(target) === false
-      )
+      ) &&
+      hasModalsAbove(vm.$el) !== true
     ) {
       // mark the event as being processed by clickOutside
       // used to prevent refocus after menu close
