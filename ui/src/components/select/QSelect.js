@@ -1101,6 +1101,7 @@ export default defineComponent({
           dark: this.isOptionsDark,
           square: true,
           loading: this.innerLoading,
+          itemAligned: false,
           filled: true,
           stackLabel: this.inputValue.length > 0,
           ...this.qListeners,
