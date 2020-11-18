@@ -220,9 +220,13 @@ export default defineComponent({
           delete this.temp.value
         }
 
-        if (this.modelValue !== val) {
+        if (this.modelValue !== val && this.emitCachedValue !== val) {
           stopWatcher === true && (this.stopValueWatcher = true)
           this.$emit('update:modelValue', val)
+
+          this.$nextTick(() => {
+            this.emitCachedValue === val && (this.emitCachedValue = NaN)
+          })
         }
 
         this.emitValueFn = void 0
@@ -294,6 +298,7 @@ export default defineComponent({
 
   created () {
     this.temp = {}
+    this.emitCachedValue = NaN
 
     Object.assign(this.field, {
       getControl: () => {
