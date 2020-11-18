@@ -173,7 +173,6 @@ export default defineComponent({
     this.__setDebounce(this.debounce)
 
     this.updateScrollTarget()
-    this.immediatePoll()
 
     if (this.reverse === true) {
       const
@@ -182,6 +181,8 @@ export default defineComponent({
 
       setScrollPosition(this.__scrollTarget, scrollHeight - containerHeight)
     }
+
+    this.immediatePoll()
   },
 
   beforeUnmount () {
