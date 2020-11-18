@@ -170,7 +170,6 @@ export default Vue.extend({
     this.__setDebounce(this.debounce)
 
     this.updateScrollTarget()
-    this.immediatePoll()
 
     if (this.reverse === true) {
       const
@@ -179,6 +178,8 @@ export default Vue.extend({
 
       setScrollPosition(this.__scrollTarget, scrollHeight - containerHeight)
     }
+
+    this.immediatePoll()
   },
 
   beforeDestroy () {

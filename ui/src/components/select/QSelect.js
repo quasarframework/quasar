@@ -1200,8 +1200,9 @@ export default Vue.extend({
             for: this.targetUid,
             dark: this.isOptionsDark,
             square: true,
-            loading: this.innerLoadingIndicator,
             filled: true,
+            itemAligned: false,
+            loading: this.innerLoadingIndicator,
             stackLabel: this.inputValue.length > 0
           },
           on: {
