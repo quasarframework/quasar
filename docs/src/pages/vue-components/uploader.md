@@ -258,6 +258,7 @@ public class UploadRest {
 // html
 <q-uploader field-name="file" url="YOUR_URL_BACK/upload" with-credentials />
 ```
+
 ### Python/Flask
 
 ```python
