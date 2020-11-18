@@ -120,11 +120,11 @@ module.exports = function (chain, pref) {
     ...pref.stylusLoaderOptions
   })
   injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader', merge(
-    { sassOptions: { outputStyle: /* required for RTL */ 'nested' } },
+    { sassOptions: {} },
     pref.scssLoaderOptions
   )),
   injectRule(chain, pref, 'sass', /\.sass$/, 'sass-loader', merge(
-    { sassOptions: { indentedSyntax: true, outputStyle: /* required for RTL */ 'nested' } },
+    { sassOptions: { indentedSyntax: true } },
     pref.sassLoaderOptions
   ))
   injectRule(chain, pref, 'less', /\.less$/, 'less-loader', pref.lessLoaderOptions)
