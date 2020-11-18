@@ -7,6 +7,7 @@ import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
+import { stop } from '../../utils/event.js'
 import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
@@ -54,6 +55,10 @@ export default defineComponent({
   watch: {
     modelValue (val) {
       this.$refs.menu && this.$refs.menu[val ? 'show' : 'hide']()
+    },
+
+    split () {
+      this.hide()
     }
   },
 
@@ -104,6 +109,7 @@ export default defineComponent({
     },
 
     __onClickHide (e) {
+      stop(e)
       this.hide()
       this.$emit('click', e)
     },
@@ -185,7 +191,7 @@ export default defineComponent({
       }, this.$slots.label),
 
       h(QBtn, {
-        class: 'q-btn-dropdown__arrow-container',
+        class: 'q-btn-dropdown__arrow-container q-anchor--skip',
         ...this.attrs,
         disable: this.disable === true || this.disableDropdown === true,
         outline: this.outline,
