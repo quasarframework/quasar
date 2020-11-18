@@ -26,7 +26,7 @@
   flex: 1 0 100% !important
   width: 0 !important
 
-$x: 4;
+$x: 4
 
 @for $i from 1 through ($x - 1)
   .example-container > div:nth-child(#{$x}n + #{$i})
