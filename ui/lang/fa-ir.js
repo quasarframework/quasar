@@ -32,7 +32,7 @@ export default {
     },
     firstDayOfWeek: 6,
     format24h: true,
-    pluralDay: 'روزها'
+    pluralDay: 'روز'
   },
   table: {
     noData: 'اطلاعاتی موجود نیست',
@@ -50,7 +50,7 @@ export default {
   },
   editor: {
     url: 'آدرس',
-    bold: 'کلفت',
+    bold: 'ضخیم',
     italic: 'کج',
     strikethrough: 'خط‌خورده',
     underline: 'زیرخط',

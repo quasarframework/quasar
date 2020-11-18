@@ -37,6 +37,7 @@ Following this guide should take you at most 5 minutes to complete.
   - Manually yarn/npm install @quasar/app v2: `yarn add --dev @quasar/app@^2.0.0` (or `npm install --save-dev @quasar/app@^2.0.0`).
   - if you are using PWA (or SSR+PWA) mode, you'll also need to install workbox-webpack-plugin@^5.0.0 (or ^4.0.0 -- v4 came with @quasar/app v1) -- this package is no longer supplied by "@quasar/app": `yarn add --dev workbox-webpack-plugin@^5.0.0` (or `npm install --save-dev workbox-webpack-plugin@^5.0.0`)
   - yarn/npm install core-js v3: `yarn add core-js@^3.0.0` (or `npm install core-js@^3.0.0`)
+  - IMPORTANT: Run `quasar upgrade -i` to ensure the latest versions of all Quasar packages are installed
 
 * Edit your `/quasar.conf.js` file:
   - rename "all" to "importStrategy" (valid values: 'auto' or 'all'; 'auto' is the default)

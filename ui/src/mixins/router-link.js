@@ -24,7 +24,7 @@ export const RouterLinkMixin = {
         replace: this.replace,
         activeClass: this.activeClass || 'q-router-link--active',
         exactActiveClass: this.exactActiveClass || 'q-router-link--exact-active',
-        event: this.disable === true ? '' : void 0
+        event: this.disable === true ? [] : void 0
       }
     }
   }

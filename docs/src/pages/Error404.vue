@@ -39,7 +39,7 @@ export default {
   min-height: 100vh !important
 
   &__topbar
-    display: flex;
+    display: flex
     justify-content: center
 
     > div
