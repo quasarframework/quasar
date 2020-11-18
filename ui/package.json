@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "1.14.4",
+  "version": "1.14.5",
   "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
   "module": "src/index.esm.js",
   "typings": "dist/types/index.d.ts",
@@ -78,12 +78,12 @@
     "friendly-errors-webpack-plugin": "^1.7.0",
     "json-beautify": "^1.1.1",
     "module-alias": "^2.2.2",
+    "node-sass": "^5.0.0",
     "recast": "^0.18.5",
     "rimraf": "^3.0.1",
     "rollup": "^1.31.0",
     "table": "^5.4.6",
-    "uglify-es": "^3.3.9",
-    "sass": "^1.27.0"
+    "uglify-es": "^3.3.9"
   },
   "vetur": {
     "tags": "dist/vetur/quasar-tags.json",
