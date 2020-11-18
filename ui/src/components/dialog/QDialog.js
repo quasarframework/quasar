@@ -319,8 +319,8 @@ export default defineComponent({
       return h('div', {
         ...this.$attrs,
         class: [
-          'q-dialog fullscreen no-pointer-events',
-          `q-dialog--${ this.useBackdrop === true ? 'modal' : 'seamless' }`,
+          `q-dialog fullscreen no-pointer-events ` +
+            `q-dialog--${this.useBackdrop === true ? 'modal' : 'seamless'}`,
           this.$attrs.class
         ]
       }, [
