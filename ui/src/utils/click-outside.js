@@ -6,6 +6,16 @@ const
   { notPassiveCapture } = listenOpts,
   vmList = []
 
+function hasModalsAbove(node) {
+  while ((node = node.nextElementSibling) !== null) {
+    if (node.classList.contains('q-dialog--modal')) {
+      return true
+    }
+  }
+
+  return false
+}
+
 function globalHandler (evt) {
   clearTimeout(timer)
 
@@ -30,7 +40,8 @@ function globalHandler (evt) {
       (
         target === document.body ||
         vm.$refs.inner.contains(target) === false
-      )
+      ) &&
+      hasModalsAbove(vm.$el) !== true
     ) {
       // mark the event as being processed by clickOutside
       // used to prevent refocus after menu close
