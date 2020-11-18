@@ -86,7 +86,7 @@
     background: rgba(255,255,255,.7)
     animation: q-skeleton--fade 1.5s linear .5s infinite
   &--anim-wave:after
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent)
+    background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.5), rgba(255,255,255,0))
     animation: q-skeleton--wave 1.5s linear .5s infinite
 
   &--dark
@@ -96,7 +96,7 @@
       border: 1px solid rgba(255,255,255,.25)
 
     &.q-skeleton--anim-wave:after
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent)
+      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.1), rgba(255,255,255,0))
 
     &.q-skeleton--anim-blink:after
       background: rgba(255,255,255,.2)
