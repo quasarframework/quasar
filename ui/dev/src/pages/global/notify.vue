@@ -178,6 +178,11 @@ export default {
   },
 
   mounted () {
+    this.$q.notify({
+      message: 'Avatar test',
+      avatar: 'https://cdn.quasar.dev/img/mountains.jpg'
+    })
+
     this.$q.notify.registerType('my-error', {
       icon: 'warning',
       color: 'purple',
