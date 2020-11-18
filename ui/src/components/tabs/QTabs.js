@@ -143,8 +143,8 @@ export default defineComponent({
 
     domProps () {
       return this.vertical === true
-        ? { container: 'height', content: 'scrollHeight', posLeft: 'top', posRight: 'bottom' }
-        : { container: 'width', content: 'scrollWidth', posLeft: 'left', posRight: 'right' }
+        ? { container: 'height', content: 'offsetHeight', posLeft: 'top', posRight: 'bottom' }
+        : { container: 'width', content: 'offsetWidth', posLeft: 'left', posRight: 'right' }
     }
   },
 
@@ -182,7 +182,11 @@ export default defineComponent({
     __updateContainer (domSize) {
       const
         size = domSize[this.domProps.container],
-        scrollSize = this.$refs.content[this.domProps.content],
+        scrollSize = Array.prototype.reduce.call(
+          this.$refs.content.children,
+          (acc, el) => acc + el[this.domProps.content],
+          0
+        ),
         scroll = size > 0 && scrollSize > size // when there is no tab, in Chrome, size === 0 and scrollSize === 1
 
       if (this.scrollable !== scroll) {
