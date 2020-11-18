@@ -954,6 +954,7 @@ export default defineComponent({
       }
       else {
         this.innerLoading = true
+        this.innerLoadingIndicator = true
       }
 
       if (
@@ -981,6 +982,9 @@ export default defineComponent({
 
             typeof fn === 'function' && fn()
 
+            // hide indicator to allow arrow to animate
+            this.innerLoadingIndicator = false
+
             this.$nextTick(() => {
               this.innerLoading = false
 
@@ -1001,6 +1005,7 @@ export default defineComponent({
           if (this.focused === true && this.filterId === filterId) {
             clearTimeout(this.filterId)
             this.innerLoading = false
+            this.innerLoadingIndicator = false
           }
           this.menu === true && (this.menu = false)
         }
@@ -1100,7 +1105,7 @@ export default defineComponent({
           for: this.targetUid,
           dark: this.isOptionsDark,
           square: true,
-          loading: this.innerLoading,
+          loading: this.innerLoadingIndicator,
           itemAligned: false,
           filled: true,
           stackLabel: this.inputValue.length > 0,
@@ -1194,6 +1199,7 @@ export default defineComponent({
         if (this.innerLoading === true) {
           this.$emit('filter-abort')
           this.innerLoading = false
+          this.innerLoadingIndicator = false
         }
       }
     },
@@ -1341,10 +1347,10 @@ export default defineComponent({
       },
 
       getInnerAppend: () => {
-        return this.loading !== true && this.innerLoading !== true && this.hideDropdownIcon !== true
+        return this.loading !== true && this.innerLoadingIndicator !== true && this.hideDropdownIcon !== true
           ? [
             h(QIcon, {
-              class: 'q-select__dropdown-icon',
+              class: 'q-select__dropdown-icon' + (this.menu === true ? ' rotate-180' : ''),
               name: this.dropdownArrowIcon
             })
           ]
