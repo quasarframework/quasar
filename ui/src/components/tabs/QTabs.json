@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/tabs"
+    "docsUrl": "https://v2.quasar.dev/vue-components/tabs"
   },
 
   "behavior": {
@@ -8,11 +8,12 @@
   },
 
   "props": {
-    "modelValue":{
+    "model-value":{
+      "extends": "model-value",
       "type": [ "Number", "String" ],
       "desc": "Model of the component defining current panel name; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
-      "examples": [ "v-model=\"selectedTab\"" ],
-      "category": "model"
+      "required": false,
+      "examples": [ "v-model=\"selectedTab\"" ]
     },
 
     "vertical": {

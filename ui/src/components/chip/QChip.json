@@ -2,7 +2,7 @@
   "mixins": [ "mixins/ripple" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/chip"
+    "docsUrl": "https://v2.quasar.dev/vue-components/chip"
   },
 
   "props": {
@@ -50,9 +50,11 @@
       "extends": "text-color"
     },
 
-    "modelValue": {
+    "model-value": {
+      "extends": "model-value",
       "type": "Boolean",
       "desc": "Model of the component determining if QChip should be rendered or not",
+      "required": false,
       "default": true,
       "category": "model"
     },

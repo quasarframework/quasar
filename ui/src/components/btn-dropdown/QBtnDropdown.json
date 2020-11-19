@@ -2,14 +2,15 @@
   "mixins": [ "mixins/btn", "mixins/model-toggle" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/button-dropdown"
+    "docsUrl": "https://v2.quasar.dev/vue-components/button-dropdown"
   },
 
   "props": {
-    "modelValue": {
+    "model-value": {
+      "extends": "model-value",
+      "type": "Boolean",
       "desc": "Controls Menu show/hidden state; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
-      "examples": [ "v-model=\"menuState\"" ],
-      "category": "model"
+      "examples": [ "v-model=\"menuState\"" ]
     },
 
     "split": {

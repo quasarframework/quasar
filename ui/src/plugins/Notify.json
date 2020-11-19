@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/quasar-plugins/notify"
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/notify"
   },
 
   "injection": "$q.notify",

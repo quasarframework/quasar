@@ -12,10 +12,10 @@ export default {
   },
 
   created () {
-    this.__qForm !== void 0 && this.__qForm.bindComponent(this)
+    this.__qForm !== void 0 && this.__qForm.__bindComponent(this)
   },
 
   beforeUnmount () {
-    this.__qForm !== void 0 && this.__qForm.unbindComponent(this)
+    this.__qForm !== void 0 && this.__qForm.__unbindComponent(this)
   }
 }

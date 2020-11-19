@@ -1,8 +1,8 @@
-const
-  glob = require('glob'),
-  path = require('path'),
-  fs = require('fs'),
-  { logError, writeFile } = require('./build.utils')
+const glob = require('glob')
+const path = require('path')
+const fs = require('fs')
+
+const { logError, writeFile } = require('./build.utils')
 
 const
   root = path.resolve(__dirname, '..'),

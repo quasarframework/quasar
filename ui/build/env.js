@@ -1,6 +1,5 @@
-const
-  host = process.env.HOST || '0.0.0.0',
-  port = process.env.PORT || (process.env.QUASAR_SSR ? 8554 : 8080)
+const host = process.env.HOST || '0.0.0.0'
+const port = process.env.PORT || (process.env.QUASAR_SSR ? 8554 : 8080)
 
 const uri = `http://${host}:${port}`
 

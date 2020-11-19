@@ -95,8 +95,9 @@
       "category": "behavior"
     },
 
-    "modelValue": {
+    "model-value": {
       "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "required": true,
       "category": "model"
     },
 
@@ -105,6 +106,13 @@
       "default": "false",
       "desc": "Force use of textContent instead of innerHTML to render text; Use it when the text might be unsafe (from user input)",
       "category": "behavior"
+    },
+
+    "tag": {
+      "type": "String",
+      "desc": "HTML tag to use",
+      "examples": [ "div", "span" ],
+      "category": "content"
     },
 
     "scroll-target": {

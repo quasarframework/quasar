@@ -2,7 +2,7 @@
   "mixins": [ "mixins/form" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/color-picker"
+    "docsUrl": "https://v2.quasar.dev/vue-components/color-picker"
   },
 
   "behavior": {
@@ -10,8 +10,8 @@
   },
 
   "props": {
-    "modelValue": {
-      "extends": "modelValue",
+    "model-value": {
+      "extends": "model-value",
       "type": "String",
       "examples": [ "v-model=\"myColor\"" ]
     },

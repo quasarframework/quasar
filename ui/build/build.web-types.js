@@ -1,7 +1,6 @@
-const
-  path = require('path'),
-  fs = require('fs'),
-  { logError, writeFile, kebabCase } = require('./build.utils')
+const path = require('path')
+const fs = require('fs')
+const { logError, writeFile, kebabCase } = require('./build.utils')
 
 function resolveType ({ type, values }) {
   // TODO transform Object with "values" and arrays Objects with values

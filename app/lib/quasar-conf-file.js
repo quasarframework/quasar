@@ -13,7 +13,7 @@ const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
 const getPackageJson = require('./helpers/get-package-json')
 
-const transformAssetUrls = getDevlandFile('quasar/dist/transform-asset-urls.json')
+const transformAssetUrls = getDevlandFile('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
 
 function encode (obj) {

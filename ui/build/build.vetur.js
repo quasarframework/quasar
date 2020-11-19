@@ -1,9 +1,7 @@
-const
-  path = require('path')
+const path = require('path')
 
-const
-  { logError, writeFile, kebabCase } = require('./build.utils'),
-  resolve = file => path.resolve(__dirname, '../dist/vetur', file)
+const { logError, writeFile, kebabCase } = require('./build.utils')
+const resolve = file => path.resolve(__dirname, '../dist/vetur', file)
 
 function getTags (data) {
   const tags = {}

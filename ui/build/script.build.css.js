@@ -1,12 +1,12 @@
-const
-  path = require('path'),
-  sass = require('sass'),
-  rtl = require('postcss-rtl'),
-  postcss = require('postcss'),
-  cssnano = require('cssnano'),
-  autoprefixer = require('autoprefixer'),
-  buildConf = require('./build.conf'),
-  buildUtils = require('./build.utils')
+const path = require('path')
+const sass = require('sass')
+const rtl = require('postcss-rtl')
+const postcss = require('postcss')
+const cssnano = require('cssnano')
+const autoprefixer = require('autoprefixer')
+
+const buildConf = require('./build.conf')
+const buildUtils = require('./build.utils')
 
 const nano = postcss([
   cssnano({

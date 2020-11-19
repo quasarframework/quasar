@@ -149,11 +149,11 @@ export default defineComponent({
       return this.instances
     },
 
-    bindComponent (instance) {
+    __bindComponent (instance) {
       this.instances.push(instance)
     },
 
-    unbindComponent (instance) {
+    __unbindComponent (instance) {
       const index = this.instances.indexOf(instance)
       if (index > -1) {
         this.instances.splice(index, 1)

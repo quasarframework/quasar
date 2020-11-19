@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/options/platform-detection"
+    "docsUrl": "https://v2.quasar.dev/options/platform-detection"
   },
 
   "injection": "$q.platform",

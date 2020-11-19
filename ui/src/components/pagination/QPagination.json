@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/pagination"
+    "docsUrl": "https://v2.quasar.dev/vue-components/pagination"
   },
 
   "behavior": {
@@ -8,12 +8,11 @@
   },
 
   "props": {
-    "modelValue": {
+    "model-value": {
+      "extends": "model-value",
       "type": "Number",
       "desc": "Current page (must be between min/max)",
-      "required": true,
-      "examples": [ 3 ],
-      "category": "model"
+      "examples": [ 3 ]
     },
 
     "min": {

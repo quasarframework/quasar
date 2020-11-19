@@ -2,7 +2,7 @@
   "mixins": [ "mixins/panel-parent" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/stepper"
+    "docsUrl": "https://v2.quasar.dev/vue-components/stepper"
   },
 
   "behavior": {

@@ -2,7 +2,7 @@
   "mixins": [ "components/uploader/QUploaderBase" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/uploader"
+    "docsUrl": "https://v2.quasar.dev/vue-components/uploader"
   },
 
   "props": {

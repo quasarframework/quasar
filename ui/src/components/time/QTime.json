@@ -2,7 +2,7 @@
   "mixins": [ "mixins/datetime" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/time"
+    "docsUrl": "https://v2.quasar.dev/vue-components/time"
   },
 
   "behavior": {
@@ -10,14 +10,13 @@
   },
 
   "props": {
-    "modelValue": {
-      "extends": "modelValue",
-      "required": true,
+    "model-value": {
+      "extends": "model-value",
+      "type": "String",
       "desc": "Time of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "examples": [
         "v-model=\"currentTime\""
-      ],
-      "category": "model"
+      ]
     },
 
     "format24h": {

@@ -2,16 +2,14 @@
   "mixins": [ "mixins/size", "mixins/form" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/radio"
+    "docsUrl": "https://v2.quasar.dev/vue-components/radio"
   },
 
   "props": {
-    "modelValue": {
-      "extends": "modelValue",
+    "model-value": {
+      "extends": "model-value",
       "type": [ "Number", "String" ],
-      "required": true,
-      "examples": [ "v-model=\"option\"" ],
-      "category": "model"
+      "examples": [ "v-model=\"option\"" ]
     },
 
     "val": {

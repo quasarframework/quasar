@@ -1,16 +1,14 @@
-const
-  glob = require('glob'),
-  path = require('path'),
-  merge = require('webpack-merge'),
-  fs = require('fs')
+const glob = require('glob')
+const path = require('path')
+const merge = require('webpack-merge')
+const fs = require('fs')
 
-const
-  root = path.resolve(__dirname, '..'),
-  resolvePath = file => path.resolve(root, file),
-  dest = path.join(root, 'dist/api'),
-  extendApi = require(resolvePath('src/api.extends.json')),
-  { logError, writeFile, kebabCase } = require('./build.utils'),
-  ast = require('./ast')
+const root = path.resolve(__dirname, '..')
+const resolvePath = file => path.resolve(root, file)
+const dest = path.join(root, 'dist/api')
+const extendApi = require(resolvePath('src/api.extends.json'))
+const { logError, writeFile, kebabCase } = require('./build.utils')
+const ast = require('./ast')
 
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
@@ -217,7 +215,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
 
   const def = objectTypes[type]
 
-  for (let prop in obj) {
+  for (const prop in obj) {
     if ([ 'type', '__exemption' ].includes(prop)) {
       continue
     }
@@ -375,7 +373,7 @@ function parseAPI (file, apiType) {
   }
 
   // "props", "slots", ...
-  for (let type in api) {
+  for (const type in api) {
     if (!topSections[apiType].includes(type)) {
       logError(`${banner} "${type}" is not recognized for a ${apiType}`)
       process.exit(1)
@@ -486,6 +484,7 @@ function arrayHasError (name, key, property, expected, propApi) {
     apiVal.length !== expectedVal.length ||
     !expectedVal.every(t => apiVal.includes(t))
   ) {
+    console.log(key, name, propApi[key], expectedVal)
     logError(`${name}: wrong definition for prop "${key}" on "${property}": expected ${expectedVal} but found ${apiVal}`)
     return true
   }
@@ -633,7 +632,7 @@ function writeTransformAssetUrls (components) {
   })
 
   writeFile(
-    path.join(root, 'dist/transform-asset-urls.json'),
+    path.join(root, 'dist/transforms/loader-asset-urls.json'),
     JSON.stringify(transformAssetUrls, null, 2)
   )
 }

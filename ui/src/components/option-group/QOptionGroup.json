@@ -2,7 +2,7 @@
   "mixins": [ "mixins/size" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/option-group"
+    "docsUrl": "https://v2.quasar.dev/vue-components/option-group"
   },
 
   "behavior": {
@@ -10,11 +10,10 @@
   },
 
   "props": {
-    "modelValue": {
-      "extends": "modelValue",
+    "model-value": {
+      "extends": "model-value",
       "type": "Any",
-      "examples": [ "v-model=\"group\"" ],
-      "category": "model"
+      "examples": [ "v-model=\"group\"" ]
     },
 
     "options": {

@@ -2,11 +2,6 @@
   "mixins": [ "mixins/form" ],
 
   "props": {
-    "value": {
-      "type": "String",
-      "category": "model"
-    },
-
     "landscape": {
       "type": "Boolean",
       "desc": "Display the component in landscape mode",

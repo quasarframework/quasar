@@ -1,15 +1,13 @@
-const
-  fs = require('fs'),
-  path = require('path')
+const fs = require('fs')
+const path = require('path')
 
-const
-  { logError, writeFile } = require('./build.utils'),
-  typeRoot = path.resolve(__dirname, '../types'),
-  distRoot = path.resolve(__dirname, '../dist/types'),
-  resolvePath = file => path.resolve(distRoot, file),
-  extraInterfaces = {},
-  // eslint-disable-next-line no-useless-escape
-  toCamelCase = str => str.replace(/(-\w)/g, m => m[1].toUpperCase())
+const { logError, writeFile } = require('./build.utils')
+const typeRoot = path.resolve(__dirname, '../types')
+const distRoot = path.resolve(__dirname, '../dist/types')
+const resolvePath = file => path.resolve(distRoot, file)
+const extraInterfaces = {}
+// eslint-disable-next-line no-useless-escape
+const toCamelCase = str => str.replace(/(-\w)/g, m => m[1].toUpperCase())
 
 function writeLine (fileContent, line = '', indent = 0) {
   fileContent.push(`${line.padStart(line.length + (indent * 4), ' ')}\n`)

@@ -1,14 +1,13 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/popup-edit"
+    "docsUrl": "https://v2.quasar.dev/vue-components/popup-edit"
   },
 
   "props": {
-    "modelValue": {
-      "extends": "modelValue",
+    "model-value": {
+      "extends": "model-value",
       "type": "Any",
-      "examples": [ "v-model=\"myValue\"" ],
-      "category": "model"
+      "examples": [ "v-model=\"myValue\"" ]
     },
 
     "auto-save": {

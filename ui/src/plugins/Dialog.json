@@ -2,7 +2,7 @@
   "mixins": [ "utils/global-dialog" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/quasar-plugins/dialog"
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/dialog"
   },
 
   "injection": "$q.dialog",

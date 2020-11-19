@@ -2,12 +2,10 @@
   "mixins": [ "mixins/size", "mixins/form" ],
 
   "props": {
-    "value": {
-      "extends": "value",
-      "required": true,
+    "model-value": {
+      "extends": "model-value",
       "type": [ "Any", "Array" ],
-      "examples": [ "false", "['car', 'building']" ],
-      "category": "model"
+      "examples": [ "false", "['car', 'building']" ]
     },
 
     "val": {
@@ -101,7 +99,7 @@
   },
 
   "events": {
-    "input": {
+    "update:modelValue": {
       "desc": "Emitted when the component needs to change the model; Is also used by v-model",
       "params": {
         "value": {

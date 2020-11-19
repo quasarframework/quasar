@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/options/screen-plugin"
+    "docsUrl": "https://v2.quasar.dev/options/screen-plugin"
   },
 
   "injection": "$q.screen",

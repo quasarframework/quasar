@@ -2,7 +2,7 @@
   "mixins": [ "mixins/size" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/linear-progress"
+    "docsUrl": "https://v2.quasar.dev/vue-components/linear-progress"
   },
 
   "behavior": {

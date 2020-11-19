@@ -1,14 +1,12 @@
 // Partly used with babel-plugin-transform-imports
 // and by @quasar/app auto-import feature
 
-const
-  glob = require('glob'),
-  path = require('path')
+const glob = require('glob')
+const path = require('path')
 
-const
-  root = path.resolve(__dirname, '..'),
-  resolvePath = file => path.resolve(root, file),
-  { writeFile, kebabCase } = require('./build.utils')
+const root = path.resolve(__dirname, '..')
+const resolvePath = file => path.resolve(root, file)
+const { writeFile, kebabCase } = require('./build.utils')
 
 function relative (name) {
   return path.relative(root, name).split('\\').join('/')

@@ -2,7 +2,7 @@
   "mixins": [ "mixins/model-toggle", "mixins/portal" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/tooltip"
+    "docsUrl": "https://v2.quasar.dev/vue-components/tooltip"
   },
 
   "props": {

@@ -2,7 +2,7 @@
   "mixins": [ "mixins/size", "mixins/form" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/rating"
+    "docsUrl": "https://v2.quasar.dev/vue-components/rating"
   },
 
   "behavior": {
@@ -10,8 +10,8 @@
   },
 
   "props": {
-    "modelValue": {
-      "extends": "modelValue",
+    "model-value": {
+      "extends": "model-value",
       "type": "Number",
       "examples": [ ":value=\"2\"" ]
     },
