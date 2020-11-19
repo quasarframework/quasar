@@ -92,7 +92,7 @@
     "postcss-rtl": "1.7.3",
     "postcss-safe-parser": "4.0.2",
     "register-service-worker": "1.7.1",
-    "sass": "^1.29.0",
+    "sass": "1.29.0",
     "sass-loader": "10.1.0",
     "semver": "7.3.2",
     "strip-ansi": "6.0.0",

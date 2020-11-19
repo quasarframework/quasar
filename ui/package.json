@@ -78,7 +78,6 @@
     "friendly-errors-webpack-plugin": "^1.7.0",
     "json-beautify": "^1.1.1",
     "module-alias": "^2.2.2",
-    "node-sass": "^5.0.0",
     "recast": "^0.18.5",
     "rimraf": "^3.0.1",
     "rollup": "^1.31.0",
