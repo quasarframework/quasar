@@ -50,7 +50,7 @@
       "extends": "text-color"
     },
 
-    "value": {
+    "modelValue": {
       "type": "Boolean",
       "desc": "Model of the component determining if QChip should be rendered or not",
       "default": true,

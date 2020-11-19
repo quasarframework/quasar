@@ -61,8 +61,8 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:modelValue": {
+      "extends": "update:modelValue"
     },
 
     "click": {
@@ -78,7 +78,7 @@
 
   "methods": {
     "show": {
-     "extends": "show"
+      "extends": "show"
     },
 
     "showNow": {

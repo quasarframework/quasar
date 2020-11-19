@@ -8,7 +8,7 @@
   },
 
   "props": {
-    "value": {
+    "modelValue": {
       "type": "Number",
       "desc": "Current page (must be between min/max)",
       "required": true,
@@ -168,8 +168,8 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input",
+    "update:modelValue": {
+      "extends": "update:modelValue",
       "params": {
         "value": {
           "type": "String"

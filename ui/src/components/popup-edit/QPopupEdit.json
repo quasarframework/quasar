@@ -4,8 +4,8 @@
   },
 
   "props": {
-    "value": {
-      "extends": "value",
+    "modelValue": {
+      "extends": "modelValue",
       "type": "Any",
       "examples": [ "v-model=\"myValue\"" ],
       "category": "model"
@@ -207,8 +207,8 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input",
+    "update:modelValue": {
+      "extends": "update:modelValue",
       "desc": "Emitted when Popup gets cancelled in order to reset model to its initial value; Is also used by v-model"
     },
 

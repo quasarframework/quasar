@@ -62,8 +62,8 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input",
+    "update:modelValue": {
+      "extends": "update:modelValue",
       "desc": "Emitted when the model changes, only when used with 'clearable' or the 'control' scoped slot."
     },
 

@@ -6,8 +6,8 @@
   },
 
   "props": {
-    "value": {
-      "extends": "value",
+    "modelValue": {
+      "extends": "modelValue",
       "type": [ "Number", "String" ],
       "required": true,
       "examples": [ "v-model=\"option\"" ],
@@ -73,7 +73,7 @@
   },
 
   "events": {
-    "input": {
+    "update:modelValue": {
       "desc": "Emitted when the component needs to change the model; Is also used by v-model",
       "params": {
         "value": {

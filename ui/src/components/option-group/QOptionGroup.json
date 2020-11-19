@@ -10,8 +10,8 @@
   },
 
   "props": {
-    "value": {
-      "extends": "value",
+    "modelValue": {
+      "extends": "modelValue",
       "type": "Any",
       "examples": [ "v-model=\"group\"" ],
       "category": "model"
@@ -83,8 +83,8 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:modelValue": {
+      "extends": "update:modelValue"
     }
   }
 }

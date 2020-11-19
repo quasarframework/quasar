@@ -10,10 +10,10 @@
   },
 
   "props": {
-    "value": {
-      "extends": "value",
+    "modelValue": {
+      "extends": "modelValue",
       "required": true,
-      "desc": "Time of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "desc": "Time of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "examples": [
         "v-model=\"currentTime\""
       ],
@@ -118,8 +118,8 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input",
+    "update:modelValue": {
+      "extends": "update:modelValue",
       "params": {
         "value": {
           "type": "String"

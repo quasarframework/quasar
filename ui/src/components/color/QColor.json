@@ -10,8 +10,8 @@
   },
 
   "props": {
-    "value": {
-      "extends": "value",
+    "modelValue": {
+      "extends": "modelValue",
       "type": "String",
       "examples": [ "v-model=\"myColor\"" ]
     },
@@ -91,12 +91,12 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:modelValue": {
+      "extends": "update:modelValue"
     },
 
     "change": {
-      "extends": "input",
+      "extends": "update:modelValue",
       "desc": "Emitted on lazy model value change (after user finishes selecting a color)"
     }
   }

@@ -95,7 +95,7 @@
       "category": "behavior"
     },
 
-    "value": {
+    "modelValue": {
       "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "category": "model"
     },
@@ -134,7 +134,7 @@
   },
 
   "events": {
-    "input": {
+    "update:modelValue": {
       "desc": "Emitted when the component needs to change the model; Is also used by v-model",
       "params": {
         "value": {

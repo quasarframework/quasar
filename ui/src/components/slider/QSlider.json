@@ -6,9 +6,9 @@
   },
 
   "props": {
-    "value": {
+    "modelValue": {
       "type": "Number",
-      "desc": "Model of the component (must be between min/max); Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "desc": "Model of the component (must be between min/max); Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "examples": [ "v-model=\"positionModel\"" ],
       "category": "model"
     },
@@ -128,12 +128,12 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:modelValue": {
+      "extends": "update:modelValue"
     },
 
     "change": {
-      "extends": "input",
+      "extends": "update:modelValue",
       "desc": "Emitted on lazy model value change (after user slides then releases the thumb)"
     },
 
