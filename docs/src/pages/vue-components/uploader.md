@@ -195,7 +195,6 @@ export default {
           url: 'http://localhost:4444/fileuploader/upload',
           method: 'POST',
           headers: [
-            { name: 'Content-Type', value: 'application/json-patch+json'},
             { name: 'Authorization', value: `Bearer ${token}` }
           ]
         })
