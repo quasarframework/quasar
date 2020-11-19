@@ -124,11 +124,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
           ...loaderOptions
         })
 
-      if (loader === 'stylus-loader') {
-        rule.use('quasar-stylus-variables-loader')
-          .loader(cssVariables.loaders.styl)
-      }
-      else if (loader === 'sass-loader') {
+      if (loader === 'sass-loader') {
         if (loaderOptions && loaderOptions.sassOptions && loaderOptions.sassOptions.indentedSyntax) {
           rule.use('quasar-sass-variables-loader')
             .loader(cssVariables.loaders.sass)

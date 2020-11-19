@@ -186,9 +186,9 @@ class QuasarConfFile {
           compilerOptions: {},
           transformAssetUrls: {}
         },
-        stylusLoaderOptions: {},
         sassLoaderOptions: {},
         scssLoaderOptions: {},
+        stylusLoaderOptions: {},
         lessLoaderOptions: {},
         env: {},
         uglifyOptions: {
