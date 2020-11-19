@@ -109,6 +109,8 @@ export default function (DefaultComponent) {
       }
     }
 
+    Vue.observable(props); 
+    
     let vm = new Vue({
       name: 'QGlobalDialog',
 
