@@ -36,19 +36,6 @@ function getBrowsersList () {
   }
 }
 
-function needsAdditionalPolyfills (ctx) {
-  if (
-    ctx.mode.electron ||
-    ctx.mode.cordova ||
-    ctx.mode.capacitor ||
-    ctx.mode.capacitor
-  ) {
-    return false
-  }
-
-  return getBrowsersList().includes('ie 11')
-}
-
 function getSupportData () {
   const browsers = getBrowsersList()
 
@@ -98,5 +85,4 @@ function getBrowsersBanner () {
 }
 
 module.exports.getBrowsersList = getBrowsersList
-module.exports.needsAdditionalPolyfills = needsAdditionalPolyfills
 module.exports.getBrowsersBanner = getBrowsersBanner

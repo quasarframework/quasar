@@ -217,7 +217,7 @@ export function getFonts (defaultFont, defaultFontLabel, defaultFontIcon, fonts 
   return def
 }
 
-export function getLinkEditor (vm, ie11) {
+export function getLinkEditor (vm) {
   if (vm.caret) {
     const color = vm.toolbarColor || vm.toolbarTextColor
     let link = vm.editLinkUrl
@@ -229,8 +229,6 @@ export function getLinkEditor (vm, ie11) {
       }
 
       vm.editLinkUrl = null
-
-      ie11 === true && vm.$nextTick(vm.__onInput)
     }
 
     return [
@@ -274,8 +272,6 @@ export function getLinkEditor (vm, ie11) {
             vm.caret.restore()
             document.execCommand('unlink')
             vm.editLinkUrl = null
-
-            ie11 === true && vm.$nextTick(vm.__onInput)
           }
         }),
         h(QBtn, {

@@ -4,7 +4,6 @@ const path = require('path')
 const fs = require('fs')
 const rollup = require('rollup')
 const uglify = require('uglify-es')
-const buble = require('@rollup/plugin-buble')
 const json = require('@rollup/plugin-json')
 const nodeResolve = require('@rollup/plugin-node-resolve')
 const replace = require('@rollup/plugin-replace')
@@ -19,13 +18,6 @@ function resolve (_path) {
 const rollupPluginsModern = [
   nodeResolve(),
   json()
-]
-
-const rollupPluginsLegacy = [
-  ...rollupPluginsModern,
-  buble({
-    objectAssign: 'Object.assign'
-  })
 ]
 
 const builds = [
@@ -71,21 +63,7 @@ const builds = [
       }
     }
   },
-  // TODO vue3 - re-enable when vue3 supports IE11 { // TODO vue3 - ie polyfills
-  //   rollup: {
-  //     input: {
-  //       input: resolve('src/ie-compat/ie.js')
-  //     },
-  //     output: {
-  //       file: resolve('dist/quasar.ie.polyfills.js'),
-  //       format: 'es'
-  //     }
-  //   },
-  //   build: {
-  //     minified: true
-  //   }
-  // },
-  { // UMD entry (default; modern build)
+  { // UMD entry
     rollup: {
       input: {
         input: resolve(`src/index.umd.js`)
@@ -106,28 +84,7 @@ const builds = [
         __QUASAR_SSR_PWA__: false
       }
     }
-  },
-  // TODO vue3 - re-enable when vue3 supports IE11 { // UMD entry (legacy build -- IE11)
-  //   rollup: {
-  //     input: {
-  //       input: TODO! [resolve('src/ie-compat/ie.js'), resolve(`src/index.umd.js`)]
-  //     },
-  //     output: {
-  //       file: resolve(`dist/quasar.ie11.umd.js`),
-  //       format: 'umd'
-  //     }
-  //   },
-  //   build: {
-  //     unminified: true,
-  //     minified: true,
-  //     replace: {
-  //       __QUASAR_SSR__: true,
-  //       __QUASAR_SSR_SERVER__: true,
-  //       __QUASAR_SSR_CLIENT__: false,
-  //       __QUASAR_SSR_PWA__: false
-  //     }
-  //   }
-  // }
+  }
 ]
 
 function addUmdAssets (builds, type, injectName) {
@@ -162,9 +119,7 @@ function build (builds) {
 }
 
 function genConfig (opts) {
-  opts.rollup.input.plugins = opts.build.modern === true
-    ? [ ...rollupPluginsModern ]
-    : [ ...rollupPluginsLegacy ]
+  opts.rollup.input.plugins = [ ...rollupPluginsModern ]
 
   if (opts.build.replace !== void 0) {
     opts.rollup.input.plugins.push(replace(opts.build.replace))

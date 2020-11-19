@@ -92,14 +92,7 @@ export default {
     }
     else {
       const cls = getBodyClasses(client, cfg)
-
-      // handle IE11
-      if (client.is.ie === true && client.is.versionNumber === 11) {
-        cls.forEach(c => document.body.classList.add(c))
-      }
-      else {
-        document.body.classList.add.apply(document.body.classList, cls)
-      }
+      document.body.classList.add.apply(document.body.classList, cls)
     }
 
     cfg.brand !== void 0 && setColors(cfg.brand)

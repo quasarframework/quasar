@@ -92,7 +92,6 @@ export default defineComponent({
   render () {
     return h('svg', {
       class: this.classes,
-      focusable: 'false' /* needed for IE11 */,
       fill: 'currentColor',
       width: this.cSize,
       height: this.cSize,

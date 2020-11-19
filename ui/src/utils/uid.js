@@ -19,7 +19,7 @@ const randomBytes = (() => {
     ? crypto
     : (
       typeof window !== 'undefined'
-        ? window.msCrypto // IE11
+        ? window.crypto || window.msCrypto
         : void 0
     )
 

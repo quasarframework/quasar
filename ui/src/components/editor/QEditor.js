@@ -443,7 +443,7 @@ export default defineComponent({
           key: 'qedt_btm',
           class: 'q-editor__toolbar row no-wrap items-center scroll-x' +
             this.toolbarBackgroundClass
-        }, getLinkEditor(this, this.$q.platform.is.ie))
+        }, getLinkEditor(this))
       )
 
       toolbars = h('div', {

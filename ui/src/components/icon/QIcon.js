@@ -166,14 +166,12 @@ export default defineComponent({
     }
 
     if (this.type.svg === true) {
-      data.focusable = 'false' /* needed for IE11 */
       data.viewBox = this.type.viewBox
 
       return h('svg', data, hMergeSlot(this.type.nodes, this, 'default'))
     }
 
     if (this.type.svguse === true) {
-      data.focusable = 'false' /* needed for IE11 */
       data.viewBox = this.type.viewBox
 
       return h('svg', data, hMergeSlot(

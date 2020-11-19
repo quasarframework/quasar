@@ -8,12 +8,6 @@ function clean (link) {
 
 export default function (fileName, rawData, mimeType) {
   const blob = new Blob([ rawData ], { type: mimeType || 'text/plain' })
-
-  // IE11 has its own stuff...
-  if (window.navigator.msSaveOrOpenBlob) {
-    return window.navigator.msSaveOrOpenBlob(blob, fileName)
-  }
-
   const link = document.createElement('a')
 
   link.download = fileName

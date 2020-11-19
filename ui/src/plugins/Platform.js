@@ -164,12 +164,6 @@ function getPlatform (UA) {
     browser.webkit = true
   }
 
-  // IE11 has a new token so we will assign it msie to avoid breaking changes
-  if (browser.rv || browser.iemobile) {
-    matched.browser = 'ie'
-    browser.ie = true
-  }
-
   // Blackberry browsers are marked as Safari on BlackBerry
   if (browser.safari && browser.blackberry || browser.bb) {
     matched.browser = 'blackberry'

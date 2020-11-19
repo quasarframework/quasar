@@ -12,8 +12,7 @@ function getFullscreenElement () {
   )
 }
 
-// needed for consistency across browsers,
-// including IE11 which does not return anything
+// needed for consistency across browsers
 function promisify (target, fn) {
   try {
     const res = target[fn]()

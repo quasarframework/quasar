@@ -8,7 +8,6 @@ const { underline, green } = require('chalk')
 const appPaths = require('./app-paths')
 const { log, warn, fatal } = require('./helpers/logger')
 const extensionRunner = require('./app-extension/extensions-runner')
-const { needsAdditionalPolyfills } = require('./helpers/browsers-support')
 const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
@@ -464,18 +463,10 @@ class QuasarConfFile {
 
     if (cfg.build.transpile === true) {
       cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
-      cfg.__supportsIE = false // TODO vue3 - re-enable when vue3 supports IE11
-      // cfg.build.transpile === true && needsAdditionalPolyfills(this.ctx)
-
-      const type = cfg.__supportsIE === true
-        ? ' - includes IE11 support'
-        : ''
-
-      cfg.__transpileBanner = green(`yes (Babel)${type}`)
-      log(`Transpiling JS (Babel active)${type}`)
+      cfg.__transpileBanner = green(`yes (Babel)`)
+      log(`Transpiling JS (Babel active)`)
     }
     else {
-      cfg.__supportsIE = false
       cfg.__transpileBanner = 'no'
       log(underline('Not transpiling JS'))
     }

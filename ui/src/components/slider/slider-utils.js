@@ -189,7 +189,6 @@ export const SliderMixin = {
     __getThumbSvg () {
       return h('svg', {
         class: 'q-slider__thumb absolute',
-        focusable: 'false', /* needed for IE11 */
         viewBox: '0 0 20 20',
         width: '20',
         height: '20',

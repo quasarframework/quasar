@@ -13,11 +13,6 @@
 // TODO vue3 - when on SSR+PWA -> createApp
 import { <%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %> } from 'vue'
 
-<% if (__supportsIE) { %>
-// TODO vue3 - re-enable when vue3 supports IE11
-// import 'quasar/dist/quasar.ie.polyfills.js'
-<% } %>
-
 <% extras.length > 0 && extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
 <% }) %>

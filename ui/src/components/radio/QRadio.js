@@ -10,7 +10,6 @@ import { hSlot, hMergeSlot } from '../../utils/render.js'
 
 const svg = h('svg', {
   class: 'q-radio__bg absolute non-selectable',
-  focusable: 'false' /* needed for IE11 */,
   viewBox: '0 0 24 24',
   'aria-hidden': 'true'
 }, [
