@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QTab from './QTab.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import { isSameRoute, isIncludedRoute } from '../../utils/router.js'
-import { stop, stopAndPrevent, noop } from '../../utils/event.js'
+import { stopAndPrevent, noop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QRouteTab',
