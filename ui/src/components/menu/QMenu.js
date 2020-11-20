@@ -297,7 +297,7 @@ export default Vue.extend({
       if (this.persistent !== true && this.showing === true) {
         const targetClassList = e.target.classList
 
-        this.hide(e)
+        closePortalMenus(this, e)
         if (
           // always prevent touch event
           e.type === 'touchstart' ||
