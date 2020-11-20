@@ -61,6 +61,16 @@
         @focus="onTextFillEvent"
       />
 
+      <q-input
+        v-bind="props"
+        v-model="textFill"
+        placeholder="Fill value and shadow text"
+        hint="Press TAB to autocomplete suggested value or ESC to cancel suggestion"
+        :shadow-text="textFillValue"
+        @keydown="onTextFillEvent"
+        @focus="onTextFillEvent"
+      />
+
       <q-input v-bind="props" v-model="text" required label="Required" placeholder="Write something" color="green" />
 
       <q-field v-bind="props" v-model="text" required label="Required - Custom input">

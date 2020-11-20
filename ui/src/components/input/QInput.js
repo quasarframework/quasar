@@ -321,7 +321,8 @@ export default defineComponent({
 
       getShadowControl: () => {
         return h('div', {
-          class: 'q-field__native q-field__shadow absolute-full no-pointer-events'
+          class: 'q-field__native q-field__shadow absolute-bottom no-pointer-events' +
+            (this.isTextarea === true ? '' : ' text-no-wrap')
         }, [
           h('span', { class: 'invisible' }, this.__getCurValue()),
           h('span', this.shadowText)
