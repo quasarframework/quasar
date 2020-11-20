@@ -95,6 +95,8 @@
                   <q-radio v-model="anchorOrigin.horizontal" val="left" label="Left" />
                   <q-radio v-model="anchorOrigin.horizontal" val="middle" label="Middle" />
                   <q-radio v-model="anchorOrigin.horizontal" val="right" label="Right" />
+                  <q-radio v-model="anchorOrigin.horizontal" val="start" label="Start" />
+                  <q-radio v-model="anchorOrigin.horizontal" val="end" label="End" />
                 </div>
               </div>
             </div>
@@ -115,6 +117,8 @@
                   <q-radio v-model="selfOrigin.horizontal" val="left" label="Left" />
                   <q-radio v-model="selfOrigin.horizontal" val="middle" label="Middle" />
                   <q-radio v-model="selfOrigin.horizontal" val="right" label="Right" />
+                  <q-radio v-model="selfOrigin.horizontal" val="start" label="Start" />
+                  <q-radio v-model="selfOrigin.horizontal" val="end" label="End" />
                 </div>
               </div>
             </div>

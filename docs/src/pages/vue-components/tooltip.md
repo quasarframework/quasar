@@ -41,6 +41,7 @@ The example below shows how to create a re-usable menu that can be shared with d
 ### Positioning
 The position of QTooltip can be customized. It keeps account of the `anchor` and `self` optional props.
 The final position of QTooltip popup is calculated so that it will be displayed on the available screen real estate, switching to the right-side and/or top-side when necessary.
+For horizontal positioning you can use `start` and `end` and they will target that end on both LTR and RTL.
 
 <tooltip-positioning />
 
