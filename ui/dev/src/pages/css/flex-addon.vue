@@ -887,7 +887,7 @@
       color: #ccc
 
     :not(.placeholder)
-      position relative
+      position: relative
       &:hover:before
         content: attr(class)
         position: absolute
