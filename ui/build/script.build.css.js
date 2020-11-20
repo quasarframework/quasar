@@ -41,19 +41,6 @@ function getConcatenatedContent (src, noBanner) {
   })
 }
 
-function validateFile (file) {
-  return new Promise((resolve, reject) => {
-    sass.render({ file }, (err) => {
-      if (err) {
-        reject(err)
-        return
-      }
-
-      resolve(true)
-    })
-  })
-}
-
 function generateUMD (code, middleName, ext = '') {
   return buildUtils.writeFile(`dist/quasar${middleName}${ext}.css`, code, true)
     .then(code => nano.process(code, { from: void 0 }))
@@ -89,7 +76,6 @@ function generateBase (source) {
 
     getConcatenatedContent(depsList)
       .then(code => buildUtils.writeFile(sassDistDest, code))
-      .then(() => validateFile(sassDistDest))
   ])
 }
 

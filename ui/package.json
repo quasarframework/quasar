@@ -92,7 +92,14 @@
   },
   "web-types": "dist/web-types/web-types.json",
   "browserslist": [
-    "last 1 version, not dead, ie >= 11"
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 10 Edge versions",
+    "last 10 Safari versions",
+    "last 10 Android versions",
+    "last 10 ChromeAndroid versions",
+    "last 10 FirefoxAndroid versions",
+    "last 10 iOS versions"
   ],
   "engines": {
     "node": ">= 10.0.0",
