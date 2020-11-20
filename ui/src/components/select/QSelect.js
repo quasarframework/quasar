@@ -1264,6 +1264,8 @@ export default defineComponent({
   },
 
   created () {
+    this.innerLoadingIndicator = false
+
     Object.assign(this.field, {
       onPreRender: () => {
         this.hasDialog = this.$q.platform.is.mobile !== true && this.behavior !== 'dialog'
