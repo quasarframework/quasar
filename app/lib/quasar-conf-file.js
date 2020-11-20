@@ -390,7 +390,6 @@ class QuasarConfFile {
     cfg.build = merge({
       vueLoaderOptions: {
         compilerOptions: {},
-        // TODO vue3 - revise transformAssetUrls after JSON API is done
         transformAssetUrls: merge({
           base: null,
           includeAbsolute: false,
