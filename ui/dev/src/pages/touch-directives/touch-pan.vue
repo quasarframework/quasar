@@ -241,7 +241,7 @@
 </template>
 
 <script>
-import './touch-style.styl'
+import './touch-style.sass'
 
 export default {
   data () {

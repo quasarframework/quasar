@@ -432,19 +432,19 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .grid-rows
   .container
-    padding 15px
-    max-height 1000px
+    padding: 15px
+    max-height: 1000px
   .row > div
-    padding 10px 15px
-    background rgba(86,61,124,.15)
-    border 1px solid rgba(86,61,124,.2)
+    padding: 10px 15px
+    background: rgba(86,61,124,.15)
+    border: 1px solid rgba(86,61,124,.2)
   .row + .row
-    margin-top 1rem
+    margin-top: 1rem
   .example-minheight .row
-    min-height 5rem
-    height 0px
-    background rgba(255,0,0,.1)
+    min-height: 5rem
+    height: 0px
+    background: rgba(255,0,0,.1)
 </style>

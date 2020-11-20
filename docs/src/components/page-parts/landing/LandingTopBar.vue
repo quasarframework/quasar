@@ -40,7 +40,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .landing-top-bar
   background: linear-gradient(to bottom, #000, rgba(255,255,255,0))
   padding: 0 !important

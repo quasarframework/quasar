@@ -468,11 +468,11 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
   .fit-min
-    min-width 100%
-    min-height 100%
-    height 0px
+    min-width: 100%
+    min-height: 100%
+    height: 0px
 </style>
 
 <script>

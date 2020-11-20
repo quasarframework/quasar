@@ -80,18 +80,18 @@
   </q-layout>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .thead-sticky tr > *,
 .tfoot-sticky tr > *
-  position sticky
-  opacity 1
-  z-index 1
-  background-color black
-  color white
+  position: sticky
+  opacity: 1
+  z-index: 1
+  background-color: black
+  color: white
 .thead-sticky tr:last-child > *
-  top 0
+  top: 0
 .tfoot-sticky tr:first-child > *
-  bottom 0
+  bottom: 0
 </style>
 
 <script>

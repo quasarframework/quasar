@@ -54,7 +54,7 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .custom-colored-range
   .q-slider__track-container--h
     background-image: var(--track-bg)

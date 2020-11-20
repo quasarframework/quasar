@@ -560,25 +560,25 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .q-tabs.vertical-tabs
-  margin-bottom 0
+  margin-bottom: 0
 .tabs-demo .q-tabs
-  margin-bottom 24px
+  margin-bottom: 24px
 .tabs-demo .q-toolbar .q-tabs
-  margin-bottom 0
+  margin-bottom: 0
 
 .router-link
-  display block
-  text-align center
-  text-decoration none
-  color black
-  padding 2px
-  border 1px solid black
+  display: block
+  text-align: center
+  text-decoration: none
+  color: black
+  padding: 2px
+  border: 1px solid black
 
   &-active
-    background-color #ee9
+    background-color: #ee9
 
   &-exact-active
-    background-color #9e9
+    background-color: #9e9
 </style>

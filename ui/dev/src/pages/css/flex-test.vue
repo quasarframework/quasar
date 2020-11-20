@@ -48,12 +48,12 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .ex
-  border 1px solid #ccc
-  padding 2px
+  border: 1px solid #ccc
+  padding: 2px
   > div
-    background #ddd
-    border 1px solid #ccc
-    padding 5px
+    background: #ddd
+    border: 1px solid #ccc
+    padding: 5px
 </style>
