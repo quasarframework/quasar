@@ -96,10 +96,17 @@ $field-transition-label-right-up = .324s cubic-bezier(.4,0,.2,1)
       border-radius: inherit
 
   &__shadow
+    top: 8px
     opacity: 0
     overflow: hidden
     white-space: pre-wrap
     transition: opacity $field-transition
+
+    + .q-field__native
+      &::placeholder
+        transition: opacity $field-transition
+      &:focus::placeholder
+        opacity: 0
 
   &__native, &__prefix, &__suffix, &__input
     font-weight: 400
@@ -377,6 +384,9 @@ $field-transition-label-right-up = .324s cubic-bezier(.4,0,.2,1)
       padding-top: 24px
       padding-bottom: 8px
 
+    .q-field__shadow
+      top: 0
+
     &:not(.q-field--float)
       .q-field__prefix, .q-field__suffix
         opacity: 0
@@ -399,6 +409,8 @@ $field-transition-label-right-up = .324s cubic-bezier(.4,0,.2,1)
         padding-bottom: 2px
 
   &--dense
+    .q-field__shadow
+      top: 0
     .q-field__control, .q-field__marginal
       height: 40px
     .q-field__bottom

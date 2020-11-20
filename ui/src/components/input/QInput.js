@@ -295,7 +295,8 @@ export default Vue.extend({
 
     __getShadowControl (h) {
       return h('div', {
-        staticClass: 'q-field__native q-field__shadow absolute-full no-pointer-events'
+        staticClass: 'q-field__native q-field__shadow absolute-bottom no-pointer-events' +
+          (this.isTextarea === true ? '' : ' text-no-wrap')
       }, [
         h('span', { staticClass: 'invisible' }, this.__getCurValue()),
         h('span', this.shadowText)
