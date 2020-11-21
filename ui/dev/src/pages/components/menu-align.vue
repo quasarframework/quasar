@@ -74,6 +74,14 @@ export default {
         {
           label: 'Right',
           value: 'right'
+        },
+        {
+          label: 'Start (left on LTR / right on RTL)',
+          value: 'start'
+        },
+        {
+          label: 'End (right on LTR / left on RTL)',
+          value: 'end'
         }
       ]
     }

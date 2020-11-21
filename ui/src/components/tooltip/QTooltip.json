@@ -34,10 +34,11 @@
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the Tooltip relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom middle", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
+      "default": "bottom middle",
       "examples": [ "top left", "bottom right" ],
       "category": "position"
     },
@@ -46,10 +47,11 @@
       "type": "String",
       "desc": "Two values setting the Tooltip's own position relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom middle", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
+      "default": "top middle",
       "examples": [ "top left", "bottom right" ],
       "category": "position"
     },
