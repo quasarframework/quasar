@@ -74,14 +74,8 @@ export default Vue.extend({
     optionsCover: Boolean,
 
     menuShrink: Boolean,
-    menuAnchor: {
-      type: String,
-      default: 'bottom end'
-    },
-    menuSelf: {
-      type: String,
-      default: 'top end'
-    },
+    menuAnchor: String,
+    menuSelf: String,
     menuOffset: Array,
 
     popupContentClass: String,
