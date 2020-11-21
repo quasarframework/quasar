@@ -146,7 +146,6 @@
         "center left", "center middle", "center right", "center start", "center end",
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
-      "default": "bottom right",
       "examples": [ "top left", "bottom right" ],
       "category": "position",
       "addedIn": "v1.9.2"
@@ -160,7 +159,6 @@
         "center left", "center middle", "center right", "center start", "center end",
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
-      "default": "top right",
       "examples": [ "top left", "bottom right" ],
       "category": "position",
       "addedIn": "v1.9.2"
