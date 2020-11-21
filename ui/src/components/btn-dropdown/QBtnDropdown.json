@@ -95,8 +95,8 @@
         "center left", "center middle", "center right", "center start", "center end",
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
-      "default": "bottom right",
-      "examples": [ "top end", "bottom end" ],
+      "default": "bottom end",
+      "examples": [ "top right", "bottom end" ],
       "category": "position"
     },
 
@@ -108,8 +108,8 @@
         "center left", "center middle", "center right", "center start", "center end",
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
-      "default": "top right",
-      "examples": [ "top end", "bottom end" ],
+      "default": "top end",
+      "examples": [ "top right", "bottom end" ],
       "category": "position"
     },
 
