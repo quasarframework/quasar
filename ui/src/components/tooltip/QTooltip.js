@@ -76,11 +76,11 @@ export default defineComponent({
 
   computed: {
     anchorOrigin () {
-      return parsePosition(this.anchor)
+      return parsePosition(this.anchor, this.$q.lang.rtl)
     },
 
     selfOrigin () {
-      return parsePosition(this.self)
+      return parsePosition(this.self, this.$q.lang.rtl)
     },
 
     hideOnRouteChange () {
@@ -98,6 +98,13 @@ export default defineComponent({
         this.updatePosition()
         this.__configureScrollTarget()
       })
+
+      if (this.unwatch === void 0) {
+        this.unwatch = this.$watch(
+          () => this.$q.screen.width + '|' + this.$q.screen.height + '|' + this.self + '|' + this.anchor + '|' + this.$q.lang.rtl,
+          this.updatePosition
+        )
+      }
 
       this.__setTimeout(() => {
         this.$emit('show', evt)
@@ -117,6 +124,11 @@ export default defineComponent({
       if (this.observer !== void 0) {
         this.observer.disconnect()
         this.observer = void 0
+      }
+
+      if (this.unwatch !== void 0) {
+        this.unwatch()
+        this.unwatch = void 0
       }
 
       this.__unconfigureScrollTarget()

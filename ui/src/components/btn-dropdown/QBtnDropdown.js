@@ -30,11 +30,11 @@ export default defineComponent({
 
     menuAnchor: {
       type: String,
-      default: 'bottom right'
+      default: 'bottom end'
     },
     menuSelf: {
       type: String,
-      default: 'top right'
+      default: 'top end'
     },
     menuOffset: Array,
 

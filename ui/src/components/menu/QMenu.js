@@ -90,22 +90,19 @@ export default defineComponent({
   },
 
   computed: {
-    horizSide () {
-      return this.$q.lang.rtl === true ? 'right' : 'left'
-    },
-
     anchorOrigin () {
       return parsePosition(
         this.anchor || (
-          this.cover === true ? `center middle` : `bottom ${this.horizSide}`
-        )
+          this.cover === true ? 'center middle' : 'bottom start'
+        ),
+        this.$q.lang.rtl
       )
     },
 
     selfOrigin () {
       return this.cover === true
         ? this.anchorOrigin
-        : parsePosition(this.self || `top ${this.horizSide}`)
+        : parsePosition(this.self || 'top start', this.$q.lang.rtl)
     },
 
     menuClass () {
@@ -163,7 +160,7 @@ export default defineComponent({
 
       if (this.unwatch === void 0) {
         this.unwatch = this.$watch(
-          () => this.$q.screen.width + '|' + this.$q.screen.height + '|' + this.self + '|' + this.anchor,
+          () => this.$q.screen.width + '|' + this.$q.screen.height + '|' + this.self + '|' + this.anchor + '|' + this.$q.lang.rtl,
           this.updatePosition
         )
       }
