@@ -1,3 +1,4 @@
+import { client } from '../../plugins/Platform.js'
 import { listenOpts } from '../../utils/event.js'
 import { getVmOfNode, isVmChildOf } from '../../utils/vm.js'
 
@@ -32,10 +33,15 @@ function globalHandler (evt) {
   clearTimeout(timer)
 
   // prevent autofocus on body resulting from blur
-  if (evt.type === 'focusin' && (evt.target === document.body || evt.target.hasAttribute('tabindex') === true)) {
+  if (
+    evt.type === 'focusin' && (
+      (client.is.ie === true && evt.target === document.body) ||
+      evt.target.hasAttribute('tabindex') === true
+    )
+  ) {
     timer = setTimeout(() => {
       execHandlers(handlers.focus, evt)
-    }, 500)
+    }, client.is.ie === true ? 500 : 200)
   }
   else {
     execHandlers(handlers.click, evt)
