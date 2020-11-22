@@ -25,7 +25,7 @@ function getConcatenatedContent (src, noBanner) {
       ? buildConf.banner
       : ''
 
-    src.forEach(function (file) {
+    src.forEach(file => {
       code += buildUtils.readFile(file) + '\n'
     })
 

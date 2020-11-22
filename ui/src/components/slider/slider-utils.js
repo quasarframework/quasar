@@ -206,7 +206,7 @@ export const SliderMixin = {
       const offset = `${Math.ceil(20 * Math.abs(0.5 - ratio))}px`
       return {
         pin: {
-          transformOrigin: `${this.$q.lang.rtl === true ? offset : (this.$q.platform.is.ie === true ? '100%' : `calc(100% - ${offset})`)} 50%`
+          transformOrigin: `${this.$q.lang.rtl === true ? offset : `calc(100% - ${offset})`} 50%`
         },
 
         pinTextContainer: {

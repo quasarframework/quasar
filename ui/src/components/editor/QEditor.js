@@ -313,7 +313,6 @@ export default defineComponent({
 
       if (e.ctrlKey !== true || shouldIgnoreKey(e) === true) {
         this.refreshToolbar()
-        this.$q.platform.is.ie && this.$nextTick(this.__onInput)
         return
       }
 
@@ -336,7 +335,7 @@ export default defineComponent({
         const { scrollTop, scrollHeight } = this.$refs.content
         this.__offsetBottom = scrollHeight - scrollTop
       }
-      this.$q.platform.is.ie !== true && this.caret.save()
+      this.caret.save()
       this.$emit('blur', e)
     },
 
@@ -370,9 +369,6 @@ export default defineComponent({
       this.caret.apply(cmd, param, () => {
         this.focus()
         this.caret.save()
-        if (this.$q.platform.is.ie === true || this.$q.platform.is.edge === true) {
-          this.$nextTick(this.__onInput)
-        }
         if (update) {
           this.refreshToolbar()
         }

@@ -20,7 +20,7 @@ export default defineComponent({
   data () {
     return this.hasObserver === true
       ? {}
-      : { url: this.$q.platform.is.ie === true ? null : 'about:blank' }
+      : { url: 'about:blank' }
   },
 
   methods: {
@@ -99,7 +99,7 @@ export default defineComponent({
     this.hasObserver = typeof ResizeObserver !== 'undefined'
 
     if (this.hasObserver !== true) {
-      this.style = `${this.$q.platform.is.ie ? 'visibility:hidden;' : ''}display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;`
+      this.style = `display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;`
     }
   },
 
@@ -107,12 +107,6 @@ export default defineComponent({
     if (this.hasObserver === true) {
       this.observer = new ResizeObserver(this.trigger)
       this.observer.observe(this.$el.parentNode)
-      this.__onResize()
-      return
-    }
-
-    if (this.$q.platform.is.ie === true) {
-      this.url = 'about:blank'
       this.__onResize()
     }
     else {

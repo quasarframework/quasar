@@ -106,15 +106,10 @@ export default defineComponent({
         // prevent the new submit (already done)
         if (
           this.type === 'submit' &&
-          (
-            (this.$q.platform.is.ie === true && (e.clientX < 0 || e.clientY < 0)) ||
-            (
-              el !== document.body &&
-              this.$el.contains(el) === false &&
-              // required for iOS and desktop Safari
-              el.contains(this.$el) === false
-            )
-          )
+          el !== document.body &&
+          this.$el.contains(el) === false &&
+          // required for iOS and desktop Safari
+          el.contains(this.$el) === false
         ) {
           this.$el.focus()
 

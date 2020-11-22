@@ -85,8 +85,6 @@ export default {
         if (
           ctx.enabled === true &&
           evt.qSkipRipple !== true &&
-          // on ENTER in form IE emits a PointerEvent with negative client cordinates
-          (client.is.ie !== true || evt.clientX >= 0) &&
           (
             ctx.modifiers.early === true
               ? ['mousedown', 'touchstart'].includes(evt.type) === true
