@@ -15,7 +15,7 @@
             .text-capitalize {{ color }}
             div {{ colors[color] }}
 
-          q-menu(anchor="top left", self="top left")
+          q-menu(anchor="top start", self="top start")
             q-color(v-model="colors[color]")
 
       .col(:class="$q.screen.gt.xs ? 'q-pl-md' : ''")
