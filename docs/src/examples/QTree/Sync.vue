@@ -4,9 +4,9 @@
       :nodes="simple"
       node-key="label"
       tick-strategy="leaf"
-      :selected.sync="selected"
-      :ticked.sync="ticked"
-      :expanded.sync="expanded"
+      v-model:selected="selected"
+      v-model:ticked="ticked"
+      v-model:expanded="expanded"
     />
     <div class="col-12 col-sm-6 q-gutter-sm">
       <div class="text-h6">Selected</div>

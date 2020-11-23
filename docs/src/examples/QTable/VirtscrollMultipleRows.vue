@@ -4,7 +4,7 @@
       style="height: 400px"
       ref="table"
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       :table-colspan="9"
       row-key="index"
@@ -159,11 +159,11 @@ const seed = [
 
 const seedSize = seed.length
 
-let data = []
+let rows = []
 for (let i = 0; i < 1000; i++) {
-  data = data.concat(seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 })))
+  rows = rows.concat(seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 })))
 }
-Object.freeze(data)
+Object.freeze(rows)
 
 export default {
   data () {
@@ -191,7 +191,7 @@ export default {
         rowsPerPage: 0
       },
 
-      data
+      rows
     }
   },
 

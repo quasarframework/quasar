@@ -9,7 +9,7 @@
     <q-tree
       :nodes="props"
       default-expand-all
-      :selected.sync="selected"
+      v-model:selected="selected"
       node-key="label"
     />
   </div>

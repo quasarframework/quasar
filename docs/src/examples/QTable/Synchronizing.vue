@@ -2,10 +2,10 @@
   <div class="q-pa-md">
     <q-table
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       row-key="id"
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
       :loading="loading"
       :filter="filter"
       @request="onRequest"
@@ -54,7 +54,7 @@ export default {
         { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
-      data: [],
+      rows: [],
       original: [
         { id: 1, name: 'Frozen Yogurt', calories: 159, fat: 6.0, carbs: 24, protein: 4.0, sodium: 87, calcium: '14%', iron: '1%' },
         { id: 2, name: 'Ice cream sandwich', calories: 237, fat: 9.0, carbs: 37, protein: 4.3, sodium: 129, calcium: '8%', iron: '1%' },
@@ -128,7 +128,7 @@ export default {
         const returnedData = this.fetchFromServer(startRow, fetchCount, filter, sortBy, descending)
 
         // clear out existing data and add new
-        this.data.splice(0, this.data.length, ...returnedData)
+        this.rows.splice(0, this.rows.length, ...returnedData)
 
         // don't forget to update local pagination object
         this.pagination.page = page

@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      :data="rows"
+      :rows="rows"
       row-key="name"
     />
   </div>

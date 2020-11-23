@@ -4,7 +4,7 @@
       grid
       grid-header
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       row-key="name"
       :filter="filter"
@@ -26,6 +26,7 @@ export default {
   data () {
     return {
       filter: '',
+
       columns: [
         {
           name: 'desc',
@@ -39,7 +40,8 @@ export default {
         { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' }
       ],
-      data: [
+
+      rows: [
         {
           name: 'Frozen Yogurt',
           calories: 159,

@@ -4,12 +4,12 @@
       <q-table
         class="my-sticky-table"
         virtual-scroll
-        :pagination.sync="pagination"
+        v-model:pagination="pagination"
         :rows-per-page-options="[0]"
         :virtual-scroll-sticky-size-start="48"
         row-key="index"
         title="Table aspect ratio: 4/3"
-        :data="data"
+        :rows="rows"
         :columns="columns"
       />
     </q-responsive>
@@ -121,23 +121,23 @@ const seed = [
 ]
 
 // we generate lots of rows here
-let data = []
+let rows = []
 for (let i = 0; i < 100; i++) {
-  data = data.concat(seed.slice(0).map(r => ({ ...r })))
+  rows = rows.concat(seed.slice(0).map(r => ({ ...r })))
 }
-data.forEach((row, index) => {
+rows.forEach((row, index) => {
   row.index = index
 })
 
 // we are not going to change this array,
 // so why not freeze it to avoid Vue adding overhead
 // with state change detection
-Object.freeze(data)
+Object.freeze(rows)
 
 export default {
   data () {
     return {
-      data,
+      rows,
 
       pagination: {
         rowsPerPage: 0

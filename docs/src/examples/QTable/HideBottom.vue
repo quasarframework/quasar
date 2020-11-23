@@ -10,11 +10,11 @@
 
     <q-table
       title="Treats"
-      :data="records"
+      :rows="records"
       :columns="columns"
       row-key="name"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
       :hide-bottom="hideBottom"
       :hide-selected-banner="hideSelectedBanner"
       :hide-no-data="hideNoData"

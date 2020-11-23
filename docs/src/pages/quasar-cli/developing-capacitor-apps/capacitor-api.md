@@ -68,7 +68,7 @@ export default {
       this.position = position
     })
   },
-  beforeDestroy () {
+  beforeUnmount () {
     // we do cleanup
     Geolocation.clearWatch(this.geoId)
   }

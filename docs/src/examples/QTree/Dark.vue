@@ -3,7 +3,7 @@
     <q-tree
       :nodes="simple"
       node-key="label"
-      :expanded.sync="expanded"
+      v-model:expanded="expanded"
       dark
     />
   </div>

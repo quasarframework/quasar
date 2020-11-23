@@ -48,7 +48,7 @@ created () {
   this.$root.$on('openLeftDrawer', this.openLeftDrawerCallback)
 },
 
-beforeDestroy () {
+beforeUnmount () {
   // Don't forget to turn the listener off before your component is destroyed
   this.$root.$off('openLeftDrawer', this.openLeftDrawerCallback)
 }

@@ -57,7 +57,7 @@ export default {
     this.mdiFileDocumentEditOutline = mdiFileDocumentEditOutline
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearInterval(this.interval)
   },
 

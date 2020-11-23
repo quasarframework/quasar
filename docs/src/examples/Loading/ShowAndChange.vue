@@ -31,7 +31,7 @@ export default {
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     if (this.timer !== void 0) {
       clearTimeout(this.timer)
       this.$q.loading.hide()

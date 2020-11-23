@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-infinite-scroll @load="onLoad" reverse>
-      <template slot="loading">
+      <template v-slot:loading>
         <div class="row justify-center q-my-md">
           <q-spinner color="primary" name="dots" size="40px" />
         </div>

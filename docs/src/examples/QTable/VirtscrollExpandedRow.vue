@@ -4,7 +4,7 @@
       style="height: 400px"
       ref="table"
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       :table-colspan="9"
       row-key="index"
@@ -12,7 +12,7 @@
       :virtual-scroll-item-size="48"
       :pagination="pagination"
       :rows-per-page-options="[0]"
-      :expanded.sync="expanded"
+      v-model:expanded="expanded"
     >
 
       <template v-slot:header="props">
@@ -160,13 +160,13 @@ const seed = [
 
 const seedSize = seed.length
 
-let data = []
+let rows = []
 for (let i = 0; i < 1000; i++) {
-  data = data.concat(seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 })))
+  rows = rows.concat(seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 })))
 }
-Object.freeze(data)
+Object.freeze(rows)
 
-const expanded = data.filter((r, i) => i % 3 === 0).map(r => r.index)
+const expanded = rows.filter((r, i) => i % 3 === 0).map(r => r.index)
 
 export default {
   data () {
@@ -196,7 +196,7 @@ export default {
         rowsPerPage: 0
       },
 
-      data
+      rows
     }
   },
 

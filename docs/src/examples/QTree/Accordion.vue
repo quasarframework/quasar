@@ -4,7 +4,7 @@
       :nodes="simple"
       accordion
       node-key="label"
-      :expanded.sync="expanded"
+      v-model:expanded="expanded"
     />
   </div>
 </template>

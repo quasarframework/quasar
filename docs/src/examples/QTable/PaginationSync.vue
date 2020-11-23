@@ -2,10 +2,10 @@
   <div class="q-pa-md">
     <q-table
       title="Treats"
-      :data="rows"
+      :rows="rows"
       :columns="columns"
       row-key="name"
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
       hide-pagination
     />
 

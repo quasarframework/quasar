@@ -18,7 +18,7 @@
         :width="200"
         :breakpoint="500"
         bordered
-        content-class="bg-grey-3"
+        class="bg-grey-3"
       >
         <template v-slot:mini>
           <q-scroll-area class="fit mini-slot cursor-pointer">

@@ -104,7 +104,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-white"
+      class="bg-white"
       :width="280"
     >
       <q-scroll-area class="fit">

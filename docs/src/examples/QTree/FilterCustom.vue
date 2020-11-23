@@ -16,7 +16,7 @@
       node-key="label"
       :filter="filter"
       :filter-method="myFilterMethod"
-      :expanded.sync="expanded"
+      v-model:expanded="expanded"
       default-expand-all
     />
   </div>

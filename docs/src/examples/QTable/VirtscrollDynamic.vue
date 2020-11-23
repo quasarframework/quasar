@@ -3,7 +3,7 @@
     <q-table
       class="my-sticky-dynamic"
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       :loading="loading"
       row-key="index"
@@ -122,22 +122,22 @@ const seed = [
 ]
 
 // we generate lots of rows here
-let data = []
+let rows = []
 for (let i = 0; i < 1000; i++) {
-  data = data.concat(seed.slice(0).map(r => ({ ...r })))
+  rows = rows.concat(seed.slice(0).map(r => ({ ...r })))
 }
-data.forEach((row, index) => {
+rows.forEach((row, index) => {
   row.index = index
 })
 
 // we are not going to change this array,
 // so why not freeze it to avoid Vue adding overhead
 // with state change detection
-Object.freeze(data)
+Object.freeze(rows)
 
 const pageSize = 50
 const nextPage = 2
-const lastPage = Math.ceil(data.length / pageSize)
+const lastPage = Math.ceil(rows.length / pageSize)
 
 export default {
   data () {
@@ -148,7 +148,7 @@ export default {
 
       pagination: {
         rowsPerPage: 0,
-        rowsNumber: data.length
+        rowsNumber: rows.length
       },
 
       columns: [
@@ -178,14 +178,14 @@ export default {
   },
 
   computed: {
-    data () {
-      return Object.freeze(data.slice(0, pageSize * (this.nextPage - 1)))
+    rows () {
+      return Object.freeze(rows.slice(0, pageSize * (this.nextPage - 1)))
     }
   },
 
   methods: {
     onScroll ({ to, ref }) {
-      const lastIndex = this.data.length - 1
+      const lastIndex = this.rows.length - 1
 
       if (this.loading !== true && this.nextPage < lastPage && to === lastIndex) {
         this.loading = true

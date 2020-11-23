@@ -2,10 +2,10 @@
   <div class="q-pa-md row q-col-gutter-sm">
     <q-tree class="col-12 col-sm-6"
       :nodes="simple"
+      v-model:ticked="ticked"
+      v-model:expanded="expanded"
       node-key="label"
       :tick-strategy="tickStrategy"
-      :ticked.sync="ticked"
-      :expanded.sync="expanded"
       default-expand-all
     />
     <div class="col-12 col-sm-6">

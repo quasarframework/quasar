@@ -5,7 +5,7 @@
       animated
       arrows
       v-model="slide"
-      :fullscreen.sync="fullscreen"
+      v-model:fullscreen="fullscreen"
       infinite
     >
       <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />

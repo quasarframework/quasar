@@ -12,7 +12,7 @@ module.exports = {
   extends: [
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-    'plugin:vue/essential',
+    'plugin:vue/vue3-essential',
     'standard'
   ],
 
@@ -53,6 +53,8 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
 
     'quasar/check-valid-props': 'warn',
+    'vue/no-mutating-props': 'off',
+    'vue/no-v-model-argument': 'off',
 
     // allow console.log during development only
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',

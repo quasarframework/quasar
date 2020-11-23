@@ -28,7 +28,7 @@
           :target="targetEl"
           anchor="center middle"
           self="center middle"
-          content-class="bg-black"
+          class="bg-black"
         >Quasar Rulz!</q-tooltip>
       </q-img>
     </div>

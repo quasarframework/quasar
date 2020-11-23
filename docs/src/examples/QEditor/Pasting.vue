@@ -8,7 +8,7 @@
     >
       <q-editor
         ref="editor_ref"
-        @paste.native="evt => pasteCapture(evt)"
+        @paste="evt => pasteCapture(evt)"
         v-model="editor"
       />
     </form>

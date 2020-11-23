@@ -4,12 +4,12 @@
       grid
       :card-container-class="cardContainerClass"
       title="Treats"
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
       :filter="filter"
       hide-header
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
     >
       <template v-slot:top-right>

@@ -11,7 +11,7 @@
             :nodes="simple"
             node-key="label"
             selected-color="primary"
-            :selected.sync="selected"
+            v-model:selected="selected"
             default-expand-all
           />
         </div>

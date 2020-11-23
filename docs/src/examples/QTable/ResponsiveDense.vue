@@ -3,7 +3,7 @@
     <q-table
       :dense="$q.screen.lt.md"
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       row-key="name"
     />
@@ -32,7 +32,8 @@ export default {
         { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
-      data: [
+
+      rows: [
         {
           name: 'Frozen Yogurt',
           calories: 159,

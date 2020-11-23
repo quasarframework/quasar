@@ -89,7 +89,7 @@ export default {
     // we register the event like on plugin's doc page
     window.addEventListener('batterystatus', this.updateBatteryStatus, false)
   },
-  beforeDestroy () {
+  beforeUnmount () {
     // we do some cleanup;
     // we need to remove the event listener
     window.removeEventListener('batterystatus', this.updateBatteryStatus, false)

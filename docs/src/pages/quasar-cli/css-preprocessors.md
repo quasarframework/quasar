@@ -3,7 +3,6 @@ title: CSS Preprocessors
 desc: Sass/SCSS/Stylus are the out of the box supported css preprocessors in Quasar
 related:
   - /style/sass-scss-variables
-  - /style/stylus-variables
 ---
 
 **Sass** or **SCSS** (recommending any of the two flavours) and **Stylus** are the out of the box supported css preprocessors through Quasar CLI, should you want to use them.
@@ -57,4 +56,4 @@ div {
 ```
 
 ## Variables
-Quasar also supplies variables (`$primary`, `$grey-3`, ...and many more) and you can directly use them. Read more about [Sass/SCSS variables](/style/sass-scss-variables) and [Stylus variables](/style/stylus-variables).
+Quasar also supplies variables (`$primary`, `$grey-3`, ...and many more) and you can directly use them. Read more about [Sass/SCSS variables](/style/sass-scss-variables).

@@ -3,7 +3,7 @@
     <div class="q-gutter-md">
       <div class="cursor-pointer" style="width: 100px">
         {{ label }}
-        <q-popup-edit v-model="label" content-class="bg-accent text-white">
+        <q-popup-edit v-model="label" class="bg-accent text-white">
           <q-input dark color="white" v-model="label" dense autofocus counter>
             <template v-slot:append>
               <q-icon name="edit" />

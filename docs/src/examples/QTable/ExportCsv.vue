@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       color="primary"
       row-key="name"
@@ -48,7 +48,7 @@ export default {
     exportTable () {
       // naive encoding to csv format
       const content = [ this.columns.map(col => wrapCsvValue(col.label)) ].concat(
-        this.data.map(row => this.columns.map(col => wrapCsvValue(
+        this.rows.map(row => this.columns.map(col => wrapCsvValue(
           typeof col.field === 'function'
             ? col.field(row)
             : row[col.field === void 0 ? col.name : col.field],
@@ -92,7 +92,7 @@ export default {
         { name: 'iron', label: 'Iron (%)', field: 'iron' }
       ],
 
-      data: [
+      rows: [
         {
           name: 'Frozen Yogurt',
           calories: 159,

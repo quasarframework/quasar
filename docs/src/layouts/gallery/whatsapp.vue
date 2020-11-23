@@ -104,7 +104,7 @@
 
         <q-toolbar class="bg-grey-2">
           <q-input rounded outlined dense class="WAL__field full-width" bg-color="white" v-model="search" placeholder="Search or start a new conversation">
-            <template slot="prepend">
+            <template v-slot:prepend>
               <q-icon name="search" />
             </template>
           </q-input>

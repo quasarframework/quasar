@@ -39,7 +39,7 @@ export default {
         }, 300 + Math.random() * 2000)
       },
 
-      beforeDestroy () {
+      beforeUnmount () {
         clearTimeout(this.timer)
       },
 

@@ -52,7 +52,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-grey-3 text-grey-7"
+      class="bg-grey-3 text-grey-7"
       :width="200"
     >
       <q-list>

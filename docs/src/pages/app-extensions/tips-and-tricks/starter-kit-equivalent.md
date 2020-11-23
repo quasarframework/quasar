@@ -64,8 +64,8 @@ module.exports = function (api) {
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
   // package or a minimum version of "@quasar/app" CLI
-  api.compatibleWith('quasar', '^1.0.0')
-  api.compatibleWith('@quasar/app', '^1.0.0')
+  api.compatibleWith('quasar', '^2.0.0')
+  api.compatibleWith('@quasar/app', '^3.0.0')
 
   // We render some files into the hosting project
 
@@ -100,8 +100,8 @@ module.exports = function (api) {
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
   // package or a minimum version of "@quasar/app" CLI
-  api.compatibleWith('quasar', '^1.0.0')
-  api.compatibleWith('@quasar/app', '^1.0.0')
+  api.compatibleWith('quasar', '^2.0.0')
+  api.compatibleWith('@quasar/app', '^3.0.0')
 
   // Here we extend /quasar.conf.js;
   // (extendQuasarConf() will be defined later in this tutorial, continue reading)

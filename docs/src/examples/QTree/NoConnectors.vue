@@ -4,7 +4,7 @@
       :nodes="simple"
       node-key="label"
       no-connectors
-      :expanded.sync="expanded"
+      v-model:expanded="expanded"
     />
   </div>
 </template>

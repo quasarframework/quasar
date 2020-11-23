@@ -19,7 +19,7 @@ Most of the colors that Quasar Components use are strongly linked with these thr
 
 ## Color List
 
-Here's the list of colors provided out of the box. Within your app's `*.vue` files you can use them as CSS classes (in HTML templates) or as [Sass/SCSS variables](/style/sass-scss-variables) or as [Stylus variables](/style/stylus-variables) in `<style lang="...">` tags.
+Here's the list of colors provided out of the box. Within your app's `*.vue` files you can use them as CSS classes (in HTML templates) or as [Sass/SCSS variables](/style/sass-scss-variables) in `<style lang="...">` tags.
 
 <color-list />
 

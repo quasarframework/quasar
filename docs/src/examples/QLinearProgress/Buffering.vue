@@ -41,7 +41,7 @@ export default {
     }, 700)
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearInterval(this.interval)
     clearInterval(this.bufferInterval)
   }

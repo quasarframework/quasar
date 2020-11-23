@@ -384,7 +384,7 @@ export default {
     this.initializeAlgolia()
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearTimeout(this.scrollTimer)
 
     if (this.$q.platform.is.desktop === true) {

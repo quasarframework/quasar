@@ -3,7 +3,7 @@
     <q-table
       class="my-sticky-header-column-table"
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       row-key="name"
     />
@@ -61,7 +61,7 @@ export default {
         }
       ],
 
-      data: [
+      rows: [
         {
           name: 'Frozen Yogurt',
           calories: 159,

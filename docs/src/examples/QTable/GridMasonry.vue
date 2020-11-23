@@ -4,12 +4,12 @@
       grid
       :card-container-class="cardContainerClass"
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       row-key="name"
       :filter="filter"
       hide-header
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
     >
       <template v-slot:top-right>
@@ -52,29 +52,32 @@ const deserts = [
   'Donut',
   'KitKat'
 ]
-const data = []
+const rows = []
 
 deserts.forEach(name => {
   for (let i = 0; i < 24; i++) {
-    data.push({ name: name + ' (' + i + ')', calories: 20 + Math.ceil(50 * Math.random()) })
+    rows.push({ name: name + ' (' + i + ')', calories: 20 + Math.ceil(50 * Math.random()) })
   }
 })
 
-data.sort(() => (-1 + Math.floor(3 * Math.random())))
+rows.sort(() => (-1 + Math.floor(3 * Math.random())))
 
 export default {
   data () {
     return {
       filter: '',
+
       pagination: {
         page: 1,
         rowsPerPage: this.getItemsPerPage()
       },
+
       columns: [
         { name: 'name', label: 'Name', field: 'name' },
         { name: 'calories', label: 'Calories (g)', field: 'calories' }
       ],
-      data
+
+      rows
     }
   },
 

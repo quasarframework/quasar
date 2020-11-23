@@ -40,7 +40,7 @@ export default {
     this.$q.bex.on('bex.tab.opened', this.doOnTabOpened)
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     // Don't forget to clean it up
     this.$q.bex.off('bex.tab.opened', this.doOnTabOpened)
   }

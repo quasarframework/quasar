@@ -40,7 +40,7 @@ export default {
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.stopCounting()
   }
 }
