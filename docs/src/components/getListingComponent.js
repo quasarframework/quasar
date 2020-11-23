@@ -1,4 +1,5 @@
-import { QIcon } from 'quasar'
+import { h, defineComponent } from 'vue'
+import { QIcon, createMetaMixin } from 'quasar'
 
 import { farFileAlt, fasFolderOpen } from '@quasar/extras/fontawesome-v5'
 
@@ -8,43 +9,45 @@ import DocLink from './DocLink.vue'
 import getMeta from 'assets/get-meta.js'
 
 export default function (title, links) {
-  return {
+  return defineComponent({
     name: 'DocListingPage',
 
-    meta: {
-      title: `${title} listing`,
+    mixins: [
+      createMetaMixin({
+        title: `${title} listing`,
 
-      meta: getMeta(
-        `${title} | Quasar Framework`,
-        `List of pages under the '${title}' section`
-      )
-    },
+        meta: getMeta(
+          `${title} | Quasar Framework`,
+          `List of pages under the '${title}' section`
+        )
+      })
+    ],
 
     created () {
       this.$root.store.toc = []
     },
 
-    render (h) {
-      return h(DocPage, {
-        props: {
-          title,
-          noEdit: true
-        }
-      }, links.map(link => {
-        return h('div', { staticClass: 'doc-page-listing' }, [
-          h(QIcon, {
-            props: {
+    methods: {
+      getContent () {
+        return links.map(link => {
+          return h('div', { class: 'doc-page-listing' }, [
+            h(QIcon, {
               name: link.page === true ? farFileAlt : fasFolderOpen
-            }
-          }),
+            }),
 
-          h(DocLink, {
-            props: {
+            h(DocLink, {
               to: link.to
-            }
-          }, [ link.title ])
-        ])
-      }))
+            }, () => link.title)
+          ])
+        })
+      }
+    },
+
+    render () {
+      return h(DocPage, {
+        title,
+        noEdit: true
+      }, this.getContent)
     }
-  }
+  })
 }

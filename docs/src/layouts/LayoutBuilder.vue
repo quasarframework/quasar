@@ -366,6 +366,8 @@
 </template>
 
 <script>
+import { createMetaMixin } from 'quasar'
+
 import {
   mdiMenu, mdiViewDashboard, mdiCog, mdiPlayCircleOutline
 } from '@quasar/extras/mdi-v5'
@@ -373,6 +375,17 @@ import {
 import getMeta from 'assets/get-meta.js'
 
 export default {
+  mixins: [
+    createMetaMixin({
+      title: 'Layout Builder',
+
+      meta: getMeta(
+        'Layout Builder | Quasar Framework',
+        'Tool to build Quasar layouts. Configure the layout parts then export the code.'
+      )
+    })
+  ],
+
   created () {
     this.mdiMenu = mdiMenu
     this.mdiViewDashboard = mdiViewDashboard
@@ -390,15 +403,6 @@ export default {
       { label: 'Elevated', value: 'elevated' },
       { label: 'Bordered', value: 'bordered' }
     ]
-  },
-
-  meta: {
-    title: 'Layout Builder',
-
-    meta: getMeta(
-      'Layout Builder | Quasar Framework',
-      'Tool to build Quasar layouts. Configure the layout parts then export the code.'
-    )
   },
 
   data () {

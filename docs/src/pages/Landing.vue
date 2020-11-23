@@ -172,6 +172,8 @@
 </template>
 
 <script>
+import { createMetaMixin } from 'quasar'
+
 import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
 import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
@@ -192,17 +194,19 @@ import {
 export default {
   name: 'Landing',
 
+  mixins: [
+    createMetaMixin({
+      title: 'Quasar Framework',
+      titleTemplate: ''
+    })
+  ],
+
   components: {
     Sponsor,
     SponsorList,
     LandingTopBar,
     // SurveyCountdown,
     IntroductionVideo
-  },
-
-  meta: {
-    title: 'Quasar Framework',
-    titleTemplate: ''
   },
 
   created () {

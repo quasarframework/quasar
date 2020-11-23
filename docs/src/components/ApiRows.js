@@ -1,4 +1,6 @@
+import { h, defineComponent } from 'vue'
 import { QBadge } from 'quasar'
+
 import './ApiRows.sass'
 
 function getEventParams (event) {
@@ -51,7 +53,7 @@ const NAME_PROP_COLOR = [
   'secondary'
 ]
 
-export default {
+export default defineComponent({
   name: 'ApiRows',
 
   props: {
@@ -61,22 +63,22 @@ export default {
   },
 
   methods: {
-    getDiv (h, col, propName, propValue, slot) {
-      return h('div', { staticClass: `api-row__item col-xs-12 col-sm-${col}` }, [
+    getDiv (col, propName, propValue, slot) {
+      return h('div', { class: `api-row__item col-xs-12 col-sm-${col}` }, [
         h('div', [ propName ]),
         propValue !== void 0
-          ? h('div', { staticClass: 'api-row__value' }, [ propValue ])
+          ? h('div', { class: 'api-row__value' }, [ propValue ])
           : slot
       ])
     },
 
-    getProp (h, prop, propName, level, onlyChildren) {
+    getProp (prop, propName, level, onlyChildren) {
       const type = getStringType(prop.type)
       const child = []
 
       if (propName !== void 0) {
         child.push(
-          this.getDiv(h, 4, 'Name', h(QBadge, {
+          this.getDiv(4, 'Name', h(QBadge, {
             props: {
               color: NAME_PROP_COLOR[level],
               label: propName
@@ -86,67 +88,68 @@ export default {
 
         if (type !== void 0) {
           child.push(
-            this.getDiv(h, 4, 'Type', type)
+            this.getDiv(4, 'Type', type)
           )
         }
 
         if (type !== 'Function' && prop.required === true) {
           child.push(
-            this.getDiv(h, 3, 'Required', 'yes')
+            this.getDiv(3, 'Required', 'yes')
           )
         }
 
         if (prop.reactive === true) {
           child.push(
-            this.getDiv(h, 3, 'Reactive', 'yes')
+            this.getDiv(3, 'Reactive', 'yes')
           )
         }
       }
 
       if (prop.addedIn !== void 0) {
         child.push(
-          this.getDiv(h, 12, 'Added in', prop.addedIn)
+          this.getDiv(12, 'Added in', prop.addedIn)
         )
       }
 
       child.push(
-        this.getDiv(h, 12, 'Description', prop.desc)
+        this.getDiv(12, 'Description', prop.desc)
       )
 
       if (type === 'Function') {
         child.push(
-          this.getDiv(h, 12, 'Function form', getMethodParams(prop, true) + getMethodReturnValue(prop))
+          this.getDiv(12, 'Function form', getMethodParams(prop, true) + getMethodReturnValue(prop))
         )
       }
 
       if (prop.sync === true) {
         child.push(
-          this.getDiv(h, 3, 'Note', '".sync" modifier required!')
+          this.getDiv(3, 'Note', '".sync" modifier required!')
         )
       }
 
       if (prop.default !== void 0) {
         child.push(
-          this.getDiv(h, 3, 'Default value', JSON.stringify(prop.default))
+          this.getDiv(3, 'Default value', JSON.stringify(prop.default))
         )
       }
 
       if (prop.link === true) {
         child.push(
-          this.getDiv(h, 6, 'External link', prop.link)
+          this.getDiv(6, 'External link', prop.link)
         )
       }
 
       if (prop.values !== void 0) {
         child.push(
-          this.getDiv(h, 12,
+          this.getDiv(
+            12,
             `Accepted values`,
             void 0,
             h(
               'div',
-              { staticClass: 'api-row--indent api-row__value' },
+              { class: 'api-row--indent api-row__value' },
               prop.values.map(val => h('div', {
-                staticClass: 'api-row__example'
+                class: 'api-row__example'
               }, [ val ]))
             )
           )
@@ -157,19 +160,16 @@ export default {
         const nodes = []
         for (const propName in prop.definition) {
           nodes.push(
-            this.getProp(h, prop.definition[propName], propName, 2)
+            this.getProp(prop.definition[propName], propName, 2)
           )
         }
 
         child.push(
-          this.getDiv(h, 12,
+          this.getDiv(
+            12,
             'Props',
             void 0,
-            h(
-              'div',
-              { staticClass: 'api-row__subitem' },
-              nodes
-            )
+            h('div', { class: 'api-row__subitem' }, nodes)
           )
         )
       }
@@ -181,32 +181,30 @@ export default {
 
         for (const propName in prop.params) {
           nodes.push(
-            this.getProp(h, prop.params[propName], propName, newLevel)
+            this.getProp(prop.params[propName], propName, newLevel)
           )
         }
 
         child.push(
-          this.getDiv(h, 12,
+          this.getDiv(
+            12,
             'Params',
             void 0,
-            h(
-              'div',
-              { staticClass: 'api-row__subitem' },
-              nodes
-            )
+            h('div', { class: 'api-row__subitem' }, nodes)
           )
         )
       }
 
       if (prop.returns !== void 0 && prop.returns !== null) {
         child.push(
-          this.getDiv(h, 12,
+          this.getDiv(
+            12,
             `Returns <${getStringType(prop.returns.type)}>`,
             void 0,
             h(
               'div',
-              { staticClass: 'api-row__subitem' },
-              [ this.getProp(h, prop.returns, void 0, 0) ]
+              { class: 'api-row__subitem' },
+              [ this.getProp(prop.returns, void 0, 0) ]
             )
           )
         )
@@ -216,33 +214,31 @@ export default {
         const nodes = []
         for (const propName in prop.scope) {
           nodes.push(
-            this.getProp(h, prop.scope[propName], propName, 1)
+            this.getProp(prop.scope[propName], propName, 1)
           )
         }
 
         child.push(
-          this.getDiv(h, 12,
+          this.getDiv(
+            12,
             'Scope',
             void 0,
-            h(
-              'div',
-              { staticClass: 'api-row__subitem' },
-              nodes
-            )
+            h('div', { class: 'api-row__subitem' }, nodes)
           )
         )
       }
 
       if (prop.examples !== void 0) {
         child.push(
-          this.getDiv(h, 12,
+          this.getDiv(
+            12,
             `Example${prop.examples.length > 1 ? 's' : ''}`,
             void 0,
             h(
               'div',
-              { staticClass: 'api-row--indent api-row__value' },
+              { class: 'api-row--indent api-row__value' },
               prop.examples.map(example => h('div', {
-                staticClass: 'api-row__example'
+                class: 'api-row__example'
               }, [ example ]))
             )
           )
@@ -250,35 +246,35 @@ export default {
       }
 
       return onlyChildren !== true
-        ? h('div', { staticClass: 'api-row row' }, child)
+        ? h('div', { class: 'api-row row' }, child)
         : child
     },
 
-    props (h, props) {
+    props (props) {
       const child = []
 
       for (const propName in props) {
         child.push(
-          this.getProp(h, props[propName], propName, 0)
+          this.getProp(props[propName], propName, 0)
         )
       }
 
       return child
     },
 
-    slots (h, slots) {
+    slots (slots) {
       const child = []
 
       for (const slot in slots) {
         child.push(
-          this.getProp(h, slots[slot], slot, 0)
+          this.getProp(slots[slot], slot, 0)
         )
       }
 
       return child
     },
 
-    events (h, events) {
+    events (events) {
       const child = []
 
       if (events === void 0) {
@@ -292,36 +288,32 @@ export default {
         if (event.params !== void 0) {
           for (const paramName in event.params) {
             params.push(
-              this.getProp(h, event.params[paramName], paramName, 1)
+              this.getProp(event.params[paramName], paramName, 1)
             )
           }
         }
         else {
           params.push(
-            h('div', { staticClass: 'text-italic' }, '*None*')
+            h('div', { class: 'text-italic' }, '*None*')
           )
         }
 
         child.push(
-          h('div', { staticClass: 'api-row row' }, [
-            this.getDiv(h, 12, 'Name', h(QBadge, {
+          h('div', { class: 'api-row row' }, [
+            this.getDiv(12, 'Name', h(QBadge, {
               props: {
                 color: NAME_PROP_COLOR[0],
                 label: `@${eventName}${getEventParams(event)}`
               }
             })),
             event.addedIn !== void 0
-              ? this.getDiv(h, 12, 'Added in', event.addedIn)
+              ? this.getDiv(12, 'Added in', event.addedIn)
               : null,
-            this.getDiv(h, 12, 'Description', event.desc),
-            this.getDiv(h, 12,
+            this.getDiv(12, 'Description', event.desc),
+            this.getDiv(12,
               'Parameters',
               void 0,
-              h(
-                'div',
-                { staticClass: 'api-row__subitem' },
-                params
-              )
+              h('div', { class: 'api-row__subitem' }, params)
             )
           ])
         )
@@ -330,83 +322,81 @@ export default {
       return child
     },
 
-    methods (h, methods) {
+    methods (methods) {
       const child = []
 
       for (const methodName in methods) {
         const method = methods[methodName]
 
         const nodes = [
-          this.getDiv(h, 12, 'Name', h(QBadge, {
+          this.getDiv(12, 'Name', h(QBadge, {
             props: {
               color: NAME_PROP_COLOR[0],
               label: `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
             }
           })),
           method.addedIn !== void 0
-            ? this.getDiv(h, 12, 'Added in', method.addedIn)
+            ? this.getDiv(12, 'Added in', method.addedIn)
             : null,
-          this.getDiv(h, 12, 'Description', method.desc)
+          this.getDiv(12, 'Description', method.desc)
         ]
 
         if (method.params !== void 0) {
           const props = []
           for (const paramName in method.params) {
             props.push(
-              this.getProp(h, method.params[paramName], paramName, 1)
+              this.getProp(method.params[paramName], paramName, 1)
             )
           }
           nodes.push(
-            this.getDiv(h, 12,
+            this.getDiv(
+              12,
               'Parameters',
               void 0,
-              h(
-                'div',
-                { staticClass: 'api-row__subitem' },
-                props
-              )
+              h('div', { class: 'api-row__subitem' }, props)
             )
           )
         }
         if (method.returns !== void 0) {
           nodes.push(
-            this.getDiv(h, 12,
+            this.getDiv(
+              12,
               `Returns <${getStringType(method.returns.type)}>`,
               void 0,
               h(
                 'div',
-                { staticClass: 'api-row__subitem' },
-                [ this.getProp(h, method.returns, void 0, 0) ]
+                { class: 'api-row__subitem' },
+                [ this.getProp(method.returns, void 0, 0) ]
               )
             )
           )
         }
 
         child.push(
-          h('div', { staticClass: 'api-row row' }, nodes)
+          h('div', { class: 'api-row row' }, nodes)
         )
       }
 
       return child
     },
 
-    value (h, value) {
+    value (value) {
       return [
-        h('div', { staticClass: 'api-row row' }, [
-          this.getDiv(h, 12, 'Type', getStringType(value.type))
-        ].concat(this.getProp(h, value, void 0, 0, true)))
+        h('div', { class: 'api-row row' }, [
+          this.getDiv(12, 'Type', getStringType(value.type))
+        ].concat(this.getProp(value, void 0, 0, true)))
       ]
     },
 
-    arg (h, arg) {
+    arg (arg) {
       return [
-        h('div', { staticClass: 'api-row row' }, [
-          this.getDiv(h, 12, 'Type', getStringType(arg.type))
-        ].concat(this.getProp(h, arg, void 0, 0, true)))
+        h('div', { class: 'api-row row' }, [
+          this.getDiv(12, 'Type', getStringType(arg.type))
+        ].concat(this.getProp(arg, void 0, 0, true)))
       ]
     },
 
-    modifiers (h, modifiers) {
+    modifiers (modifiers) {
       const child = []
 
       for (const modifierName in modifiers) {
@@ -415,8 +405,8 @@ export default {
         child.push(
           h(
             'div',
-            { staticClass: 'api-row row' },
-            this.getProp(h, modifier, modifierName, 0, true)
+            { class: 'api-row row' },
+            this.getProp(modifier, modifierName, 0, true)
           )
         )
       }
@@ -424,55 +414,52 @@ export default {
       return child
     },
 
-    injection (h, injection) {
+    injection (injection) {
       return [
-        h('div', { staticClass: 'api-row row' }, [
-          this.getDiv(h, 12, 'Name', injection)
+        h('div', { class: 'api-row row' }, [
+          this.getDiv(12, 'Name', injection)
         ])
       ]
     },
 
-    quasarConfOptions (h, conf) {
+    quasarConfOptions (conf) {
       const child = []
 
       for (const def in conf.definition) {
         child.push(
-          this.getProp(h, conf.definition[def], def, 0)
+          this.getProp(conf.definition[def], def, 0)
         )
       }
 
       return [
-        h('div', { staticClass: 'api-row row' }, [
-          this.getDiv(h, 12, 'Property Name', conf.propName),
+        h('div', { class: 'api-row row' }, [
+          this.getDiv(12, 'Property Name', conf.propName),
           conf.addedIn !== void 0
-            ? this.getDiv(h, 12, 'Added in', conf.addedIn)
+            ? this.getDiv(12, 'Added in', conf.addedIn)
             : null,
-          this.getDiv(h, 12,
+          this.getDiv(
+            12,
             'Definition',
             void 0,
-            h(
-              'div',
-              { staticClass: 'api-row__subitem' },
-              child
-            )
+            h('div', { class: 'api-row__subitem' }, child)
           )
         ])
       ]
     }
   },
 
-  render (h) {
+  render () {
     const api = this.api[this.apiKey || this.which]
 
     const content = Object.keys(api).length !== 0
-      ? this[this.which](h, api)
+      ? this[this.which](api)
       : [
-        h('div', { staticClass: 'q-pa-md text-grey-9' }, [
+        h('div', { class: 'q-pa-md text-grey-9' }, [
           h('div', [ 'No matching entries found on this tab.' ]),
           h('div', [ 'Please check the other tabs/subtabs with a number badge on their label or refine the filter.' ])
         ])
       ]
 
-    return h('div', { staticClass: 'api-rows' }, content)
+    return h('div', { class: 'api-rows' }, content)
   }
-}
+})

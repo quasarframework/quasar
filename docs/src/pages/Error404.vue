@@ -16,14 +16,15 @@ q-layout.err404-container
 </template>
 
 <script>
+import { createMetaMixin } from 'quasar'
 import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
 
 export default {
   name: 'Error404',
 
-  meta: {
-    title: 'Oops..'
-  },
+  mixins: [
+    createMetaMixin({ title: 'Oops..' })
+  ],
 
   components: {
     LandingTopBar
