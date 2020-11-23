@@ -5,10 +5,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/inner-loading"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "showing": {
       "type": "Boolean",

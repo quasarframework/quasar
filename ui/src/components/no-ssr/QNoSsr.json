@@ -3,10 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/no-ssr"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "tag": {
       "extends": "tag",

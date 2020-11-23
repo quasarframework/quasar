@@ -33,15 +33,13 @@
       "desc": "The property name of each node object that holds the list of children of the node",
       "default": "children",
       "examples": [ "roles", "relatives" ],
-      "category": "content",
-      "addedIn":"v1.11.3"
+      "category": "content"
     },
 
     "no-connectors": {
       "type": "Boolean",
       "desc": "Do not display the connector lines between nodes",
-      "category": "style",
-      "addedIn": "v1.5.10"
+      "category": "style"
     },
 
     "color": {
@@ -168,7 +166,7 @@
     }
   },
 
-  "scopedSlots": {
+  "slots": {
     "default-header": {
       "desc": "Slot to use for defining the header of a node",
       "scope": {
@@ -405,13 +403,11 @@
     },
 
     "after-show": {
-      "extends": "after-show",
-      "addedIn": "v1.9.0"
+      "extends": "after-show"
     },
 
     "after-hide": {
-      "extends": "after-hide",
-      "addedIn": "v1.9.0"
+      "extends": "after-hide"
     }
   },
 

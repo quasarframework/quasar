@@ -95,7 +95,7 @@ export default defineComponent({
     __renderPanels () {
       return h('div', {
         class: this.classes
-      }, hMergeSlot(this.__getContent(), this, 'navigation'))
+      }, hMergeSlot(this, 'navigation', this.__getContent()))
     }
   },
 

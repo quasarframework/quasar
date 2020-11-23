@@ -3,10 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/layout/page-sticky"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "position": {
       "type": "String",

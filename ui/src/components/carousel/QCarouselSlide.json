@@ -5,10 +5,6 @@
 
   "mixins": [ "mixins/panel-child" ],
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "name": {
       "desc": "Slide name",

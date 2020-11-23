@@ -42,8 +42,7 @@
       "type": [ "Number", "String" ],
       "desc": "The number of columns in the table (you need this if you use table-layout: fixed)",
       "examples": [ "table-colspan=\"12\"" ],
-      "category": "virtual-scroll|content",
-      "addedIn": "v1.13.0"
+      "category": "virtual-scroll|content"
     }
   },
 
@@ -80,8 +79,7 @@
               "desc": "Vue reference to the QVirtualList which triggered the event",
               "__exemption": [
                 "examples"
-              ],
-              "addedIn": "v1.8.4"
+              ]
             }
           }
         }
@@ -102,8 +100,7 @@
         "edge": {
           "type": "String",
           "desc": "The edge to align to if the item is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise); If the '-force' version is used then it always aligns",
-          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ],
-          "addedIn": "v1.13.0"
+          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ]
         }
       }
     },
@@ -120,8 +117,7 @@
           "desc": "The index of the list item to scroll to after refresh (0 based); If it's not specified the scroll position is not changed; Use a negative value to keep scroll position",
           "examples": [ "1", 23, -1 ]
         }
-      },
-      "addedIn": "v1.8.4"
+      }
     }
   }
 }

@@ -80,8 +80,7 @@
         "type": [ "String", "null" ],
         "desc": "Storage key",
         "examples": [ "userId" ]
-      },
-      "addedIn": "v1.9.4"
+      }
     },
 
     "getAll": {
@@ -102,8 +101,7 @@
         "type": "Array",
         "desc": "Storage keys (Array of Strings)",
         "examples": [ "['userId', 'password']" ]
-      },
-      "addedIn": "v1.9.4"
+      }
     },
 
     "set": {

@@ -77,33 +77,28 @@
                 "attrs": {
                   "type": "Object",
                   "desc": "Attributes to pass to prompt control",
-                  "examples": [ "{ autocomplete: 'off' }" ],
-                  "addedIn": "v1.9.12"
+                  "examples": [ "{ autocomplete: 'off' }" ]
                 },
 
                 "label": {
                   "type": "String",
                   "desc": "A text label that will “float” up above the input field, once the field gets focus",
-                  "examples": [ "Username" ],
-                  "addedIn": "v1.9.3"
+                  "examples": [ "Username" ]
                 },
 
                 "stackLabel": {
                   "type": "Boolean",
-                  "desc": "Label will be always shown above the field regardless of field content (if any)",
-                  "addedIn": "v1.9.3"
+                  "desc": "Label will be always shown above the field regardless of field content (if any)"
                 },
 
                 "filled": {
                   "type": "Boolean",
-                  "desc": "Use 'filled' design for the field",
-                  "addedIn": "v1.9.3"
+                  "desc": "Use 'filled' design for the field"
                 },
 
                 "outlined": {
                   "type": "Boolean",
-                  "desc": "Use 'outlined' design for the field",
-                  "addedIn": "v1.9.3"
+                  "desc": "Use 'outlined' design for the field"
                 },
 
                 "standout": {
@@ -112,46 +107,39 @@
                   "examples": [
                     "standout",
                     "standout=\"bg-primary text-white\""
-                  ],
-                  "addedIn": "v1.9.3"
+                  ]
                 },
 
                 "rounded": {
-                  "extends": "rounded",
-                  "addedIn": "v1.12.3"
+                  "extends": "rounded"
                 },
 
                 "square": {
                   "type": "Boolean",
-                  "desc": "Remove border-radius so borders are squared; Overrides 'rounded' prop",
-                  "addedIn": "v1.12.3"
+                  "desc": "Remove border-radius so borders are squared; Overrides 'rounded' prop"
                 },
 
                 "counter": {
                   "type": "Boolean",
-                  "desc": "Show an automatic counter on bottom right",
-                  "addedIn": "v1.12.3"
+                  "desc": "Show an automatic counter on bottom right"
                 },
 
                 "maxlength": {
                   "type": [ "String", "Number" ],
                   "desc": "Specify a max length of model",
-                  "examples": [ "12" ],
-                  "addedIn": "v1.12.3"
+                  "examples": [ "12" ]
                 },
 
                 "prefix": {
                   "type": "String",
                   "desc": "Prefix",
-                  "examples": [ "$" ],
-                  "addedIn": "v1.12.3"
+                  "examples": [ "$" ]
                 },
 
                 "suffix": {
                   "type": "String",
                   "desc": "Suffix",
-                  "examples": [ "@gmail.com" ],
-                  "addedIn": "v1.12.3"
+                  "examples": [ "@gmail.com" ]
                 }
               }
             },
@@ -217,8 +205,7 @@
                 "color": {
                   "extends": "color"
                 }
-              },
-              "addedIn": "v1.14.0"
+              }
             },
 
             "ok": {
@@ -249,8 +236,7 @@
               "type": "String",
               "desc": "What button to focus, unless you also have 'prompt' or 'options'",
               "values": [ "ok", "cancel", "none" ],
-              "default": "ok",
-              "addedIn": "v1.5.0"
+              "default": "ok"
             },
 
             "stackButtons": {

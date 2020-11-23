@@ -34,8 +34,7 @@
     },
 
     "dark": {
-      "extends": "dark",
-      "addedIn": "v1.3.0"
+      "extends": "dark"
     },
 
     "disable": {
@@ -243,8 +242,7 @@
       "type": "String",
       "desc": "Text to display as placeholder",
       "examples": [ "Type your story here ..." ],
-      "category": "content",
-      "addedIn": "v1.9.12"
+      "category": "content"
     }
   },
 

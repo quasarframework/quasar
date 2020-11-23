@@ -19,8 +19,7 @@
       "type": "String",
       "desc": "Optionally, specify that a new file should be captured, and which device should be used to capture that new media of a type defined by the 'accept' prop. Maps to 'capture' attribute of native input type=file element",
       "values": [ "user", "environment" ],
-      "category": "behavior",
-      "addedIn": "v1.12.6"
+      "category": "behavior"
     },
 
     "max-file-size": {
@@ -76,8 +75,7 @@
           "desc": "Array of { failedPropValidation: string, file: File } Objects for files that do not pass the validation",
           "__exemption": ["examples"]
         }
-      },
-      "addedIn": "v1.11.2"
+      }
     }
   },
 

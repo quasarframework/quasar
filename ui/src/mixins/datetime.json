@@ -64,18 +64,15 @@
     },
 
     "square": {
-      "extends": "square",
-      "addedIn": "v1.1.5"
+      "extends": "square"
     },
 
     "flat": {
-      "extends": "flat",
-      "addedIn": "v1.1.5"
+      "extends": "flat"
     },
 
     "bordered": {
-      "extends": "bordered",
-      "addedIn": "v1.1.5"
+      "extends": "bordered"
     },
 
     "readonly": {

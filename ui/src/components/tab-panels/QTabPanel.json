@@ -5,14 +5,9 @@
 
   "mixins": [ "mixins/panel-child" ],
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "dark": {
-      "extends": "dark",
-      "addedIn": "v1.3.0"
+      "extends": "dark"
     }
   },
 

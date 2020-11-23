@@ -5,10 +5,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/avatar"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "font-size": {
       "type": "String",

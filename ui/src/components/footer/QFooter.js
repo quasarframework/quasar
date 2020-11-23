@@ -134,12 +134,12 @@ export default defineComponent({
   },
 
   render () {
-    const child = hMergeSlot([
+    const child = hMergeSlot(this, 'default', [
       h(QResizeObserver, {
         debounce: 0,
         onResize: this.__onResize
       })
-    ], this, 'default')
+    ])
 
     this.elevated === true && child.push(
       h('div', {

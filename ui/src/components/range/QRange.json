@@ -52,15 +52,13 @@
     "reverse": {
       "type": "Boolean",
       "desc": "Work in reverse (changes direction)",
-      "category": "behavior",
-      "addedIn": "v1.5.0"
+      "category": "behavior"
     },
 
     "vertical": {
       "type": "Boolean",
       "desc": "Display in vertical direction",
-      "category": "behavior",
-      "addedIn": "v1.10.0"
+      "category": "behavior"
     },
 
     "drag-range": {
@@ -94,8 +92,7 @@
     "label-text-color": {
       "extends": "color",
       "desc": "Color name for labels text from the Quasar Color Palette; Applies to both labels, unless specific label text color props are used",
-      "category": "labels",
-      "addedIn": "v1.1.0"
+      "category": "labels"
     },
 
     "left-label-color": {
@@ -107,8 +104,7 @@
     "left-label-text-color": {
       "extends": "color",
       "desc": "Color name for left label text from the Quasar Color Palette",
-      "category": "labels",
-      "addedIn": "v1.1.0"
+      "category": "labels"
     },
 
     "right-label-color": {
@@ -120,8 +116,7 @@
     "right-label-text-color": {
       "extends": "color",
       "desc": "Color name for right label text from the Quasar Color Palette",
-      "category": "labels",
-      "addedIn": "v1.1.0"
+      "category": "labels"
     },
 
     "left-label-value": {
@@ -165,8 +160,7 @@
       "desc": "Set custom thumbs svg path",
       "default": "M 4, 10 a 6,6 0 1,0 12,0 a 6,6 0 1,0 -12,0",
       "examples": [ "M5 5 h10 v10 h-10 v-10" ],
-      "category": "style",
-      "addedIn": "v1.5.10"
+      "category": "style"
     },
 
     "dark": {
@@ -208,8 +202,7 @@
           "desc": "Phase of panning",
           "values": [ "start", "end" ]
         }
-      },
-      "addedIn": "v1.14.0"
+      }
     }
   }
 }

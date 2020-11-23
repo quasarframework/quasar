@@ -171,6 +171,6 @@ export default defineComponent({
       'aria-valuemin': this.min,
       'aria-valuemax': this.max,
       'aria-valuenow': this.indeterminate === true ? void 0 : this.normalizedValue
-    }, hMergeSlotSafely(child, this, 'internal'))
+    }, hMergeSlotSafely(this, 'internal', child)) // "__internal" is used by QKnob
   }
 })

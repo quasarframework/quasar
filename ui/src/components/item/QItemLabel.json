@@ -3,10 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/list-and-list-items"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "overline": {
       "type": "Boolean",

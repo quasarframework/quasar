@@ -16,7 +16,7 @@ export function hUniqueSlot (vm, slotName, otherwise) {
  * Source definitely exists,
  * so it's merged with the possible slot
  */
-export function hMergeSlot (source, vm, slotName) {
+export function hMergeSlot (vm, slotName, source) {
   return vm.$slots[slotName] !== void 0
     ? source.concat(vm.$slots[slotName]())
     : source
@@ -26,7 +26,7 @@ export function hMergeSlot (source, vm, slotName) {
  * Merge with possible slot,
  * even if source might not exist
  */
-export function hMergeSlotSafely (source, vm, slotName) {
+export function hMergeSlotSafely (vm, slotName, source) {
   if (vm.$slots[slotName] === void 0) {
     return source
   }

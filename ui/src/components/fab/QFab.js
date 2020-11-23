@@ -99,7 +99,7 @@ export default defineComponent({
         h('div', this.labelProps.data, [ this.label ])
       )
 
-      return hMergeSlot(child, this, 'tooltip')
+      return hMergeSlot(this, 'tooltip', child)
     }
   },
 

@@ -10,6 +10,8 @@ const extendApi = require(resolvePath('src/api.extends.json'))
 const { logError, writeFile, kebabCase } = require('./build.utils')
 const ast = require('./ast')
 
+const slotRegex = /(this\.\$slots\[['`](\S+)['`]\]|this\.\$slots\.([A-Za-z]+)\()|hSlot\(this, '(\S+)'|hUniqueSlot\(this, '(\S+)'|hMergeSlot\(this, '(\S+)'|hMergeSlotSafely\(this, '(\S+)'/g
+
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
     const mixinFile = resolvePath('src/' + mixin + '.json')
@@ -35,84 +37,86 @@ function getMixedInAPI (api, mainFile) {
 
 const topSections = {
   plugin: [ 'meta', 'injection', 'quasarConfOptions', 'addedIn', 'props', 'methods' ],
-  component: [ 'meta', 'behavior', 'quasarConfOptions', 'addedIn', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
+  component: [ 'meta', 'quasarConfOptions', 'addedIn', 'props', 'slots', 'events', 'methods' ],
   directive: [ 'meta', 'quasarConfOptions', 'addedIn', 'value', 'arg', 'modifiers' ]
 }
 
 const objectTypes = {
   Boolean: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category', 'addedIn' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isArray: [ 'examples' ]
   },
 
   String: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'transformAssetUrls' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'transformAssetUrls', 'internal' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'transformAssetUrls' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'transformAssetUrls', 'internal' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Number: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category', 'addedIn' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Object: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
     recursive: [ 'definition' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Array: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Promise: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category', 'addedIn' ],
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples' ]
   },
 
   Function: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples', 'category', 'addedIn' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'params', 'returns' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'params', 'returns' ],
     canBeNull: [ 'params', 'returns' ],
     isArray: [ 'examples' ]
   },
 
   MultipleTypes: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'definition', 'params', 'returns' ],
     isArray: [ 'examples', 'values' ]
   },
 
   // special type, not common
   Error: {
-    props: [ 'desc', 'category', 'examples', 'addedIn' ],
-    required: [ 'desc' ]
+    props: [ 'desc', 'category', 'examples', 'addedIn', 'internal' ],
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ]
   },
 
   // special type, not common
   Component: {
-    props: [ 'desc', 'category', 'examples', 'addedIn' ],
-    required: [ 'desc' ]
+    props: [ 'desc', 'category', 'examples', 'addedIn', 'internal' ],
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ]
   },
 
   meta: {
@@ -122,40 +126,39 @@ const objectTypes = {
 
   // special type, not common
   Element: {
-    props: [ 'desc', 'category', 'examples', 'addedIn' ],
-    required: [ 'desc' ]
+    props: [ 'desc', 'category', 'examples', 'addedIn', 'internal' ],
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ]
   },
 
   // special type, not common
   File: {
-    props: [ 'desc', 'required', 'category', 'examples', 'addedIn' ],
-    required: [ 'desc' ]
+    props: [ 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ]
   },
 
   // special type, not common
   FileList: {
-    props: [ 'desc', 'required', 'category', 'examples', 'addedIn' ],
-    required: [ 'desc' ]
+    props: [ 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ]
   },
 
   // component only
   slots: {
-    props: [ 'desc', 'link', 'addedIn' ],
-    required: [ 'desc' ]
-  },
-
-  // component only
-  scopedSlots: {
-    props: [ 'desc', 'link', 'scope', 'addedIn' ],
-    required: [ 'desc', 'scope' ],
-    isObject: [ 'scope' ]
+    props: [ 'desc', 'link', 'scope', 'addedIn', 'internal' ],
+    required: [ 'desc' ],
+    isObject: [ 'scope' ],
+    isBoolean: [ 'internal' ]
   },
 
   // component only
   events: {
-    props: [ 'desc', 'link', 'params', 'addedIn' ],
+    props: [ 'desc', 'link', 'params', 'addedIn', 'internal' ],
     required: [ 'desc' ],
-    isObject: [ 'params' ]
+    isObject: [ 'params' ],
+    isBoolean: [ 'internal' ]
   },
 
   methods: {
@@ -215,73 +218,75 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
 
   const def = objectTypes[type]
 
-  for (const prop in obj) {
-    if ([ 'type', '__exemption' ].includes(prop)) {
-      continue
-    }
-
-    if (verifyCategory && obj.category === void 0) {
-      logError(`${banner} missing required API prop "category" for its type (${type})`)
-      console.error(obj)
-      console.log()
-      process.exit(1)
-    }
-
-    if (!def.props.includes(prop)) {
-      logError(`${banner} object has unrecognized API prop "${prop}" for its type (${type})`)
-      console.error(obj)
-      console.log()
-      process.exit(1)
-    }
-
-    def.required.forEach(prop => {
-      if (obj.__exemption !== void 0 && obj.__exemption.includes(prop)) {
-        return
-      }
-      if (
-        !prop.examples &&
-        (obj.definition !== void 0 || obj.values !== void 0)
-      ) {
-        return
+  if (obj.internal !== true) {
+    for (const prop in obj) {
+      if ([ 'type', '__exemption' ].includes(prop)) {
+        continue
       }
 
-      if (obj[prop] === void 0) {
-        logError(`${banner} missing required API prop "${prop}" for its type (${type})`)
+      if (verifyCategory && obj.category === void 0) {
+        logError(`${banner} missing required API prop "category" for its type (${type})`)
         console.error(obj)
         console.log()
         process.exit(1)
       }
-    })
 
-    if (obj.__exemption !== void 0) {
-      const { __exemption, ...p } = obj
-      api[itemName] = p
+      if (!def.props.includes(prop)) {
+        logError(`${banner} object has unrecognized API prop "${prop}" for its type (${type})`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+
+      def.required.forEach(prop => {
+        if (obj.__exemption !== void 0 && obj.__exemption.includes(prop)) {
+          return
+        }
+        if (
+          !prop.examples &&
+          (obj.definition !== void 0 || obj.values !== void 0)
+        ) {
+          return
+        }
+
+        if (obj[prop] === void 0) {
+          logError(`${banner} missing required API prop "${prop}" for its type (${type})`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+      })
+
+      if (obj.__exemption !== void 0) {
+        const { __exemption, ...p } = obj
+        api[itemName] = p
+      }
+
+      def.isBoolean && def.isBoolean.forEach(prop => {
+        if (obj[prop] && obj[prop] !== true && obj[prop] !== false) {
+          logError(`${banner}/"${prop}" is not a Boolean`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+      })
+      def.isObject && def.isObject.forEach(prop => {
+        if (obj[prop] && Object(obj[prop]) !== obj[prop]) {
+          logError(`${banner}/"${prop}" is not an Object`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+      })
+      def.isArray && def.isArray.forEach(prop => {
+        if (obj[prop] && !Array.isArray(obj[prop])) {
+          logError(`${banner}/"${prop}" is not an Array`)
+          console.error(obj)
+          console.log()
+          process.exit(1)
+        }
+      })
     }
-
-    def.isBoolean && def.isBoolean.forEach(prop => {
-      if (obj[prop] && obj[prop] !== true && obj[prop] !== false) {
-        logError(`${banner}/"${prop}" is not a Boolean`)
-        console.error(obj)
-        console.log()
-        process.exit(1)
-      }
-    })
-    def.isObject && def.isObject.forEach(prop => {
-      if (obj[prop] && Object(obj[prop]) !== obj[prop]) {
-        logError(`${banner}/"${prop}" is not an Object`)
-        console.error(obj)
-        console.log()
-        process.exit(1)
-      }
-    })
-    def.isArray && def.isArray.forEach(prop => {
-      if (obj[prop] && !Array.isArray(obj[prop])) {
-        logError(`${banner}/"${prop}" is not an Array`)
-        console.error(obj)
-        console.log()
-        process.exit(1)
-      }
-    })
   }
 
   if (obj.returns) {
@@ -337,27 +342,6 @@ function handleAddedIn (api, banner) {
   }
 }
 
-function convertBehavior (api, banner) {
-  const behavior = {}
-
-  if (api.behavior.$listeners !== void 0) {
-    const target = api.behavior.$listeners === true
-      ? ''
-      : ` ${api.behavior.$listeners.target}`
-
-    behavior.$listeners = {
-      desc: `All native events are being propagated${target} (you don't need the '.native' modifier)`
-    }
-  }
-
-  if (Object.keys(behavior).length === 0) {
-    logError(`${banner} "${behavior}" is empty`)
-    process.exit(1)
-  }
-
-  api.behavior = behavior
-}
-
 function parseAPI (file, apiType) {
   let api = require(file)
 
@@ -384,11 +368,6 @@ function parseAPI (file, apiType) {
         logError(`${banner} "${type}"/"injection" invalid content`)
         process.exit(1)
       }
-      continue
-    }
-
-    if (type === 'behavior') {
-      convertBehavior(api, banner)
       continue
     }
 
@@ -454,22 +433,6 @@ function orderAPI (api, apiType) {
   return ordered
 }
 
-const astExceptions = {
-  'QTable.json': {
-    methods: {
-      getBody: true
-    }
-  },
-  'QField.json': {
-    props: {
-      maxValues: true
-    },
-    slots: {
-      rawControl: true
-    }
-  }
-}
-
 function arrayHasError (name, key, property, expected, propApi) {
   const apiVal = propApi[property]
 
@@ -505,35 +468,21 @@ function fillAPI (apiType) {
         encoding: 'utf-8'
       })
 
-      const slotRegex = /(this\.\$scopedSlots\[['`](\S+)['`]\]|slot\(this, '(\S+)'|this\.\$scopedSlots\.([A-Za-z]+)\()/g
       let slotMatch
       while ((slotMatch = slotRegex.exec(definition)) !== null) {
-        const slotName = (slotMatch[2] || slotMatch[3] || slotMatch[4]).replace(/(\${.+})/g, '[name]')
+        const slotName = (slotMatch[2] || slotMatch[3] || slotMatch[4] || slotMatch[5] || slotMatch[6] || slotMatch[7]).replace(/(\${.+})/g, '[name]')
 
-        if (
-          astExceptions[name] !== void 0 &&
-          astExceptions[name].slots !== void 0 &&
-          astExceptions[name].slots[slotName] === true
-        ) {
-          continue
-        }
-
-        if (!(api.slots || {})[slotName] && !(api.scopedSlots || {})[slotName]) {
-          logError(`${name}: missing "slot|scopedSlots" -> "${slotName}" definition`)
+        if (!(api.slots || {})[slotName]) {
+          logError(`${name}: missing "slot" -> "${slotName}" definition`)
           hasError = true // keep looping through to find as many as can be found before exiting
+        }
+        else if (api.slots[slotName].internal === true) {
+          delete api.slots[slotName]
         }
       }
 
       ast.evaluate(definition, topSections[apiType], (prop, key, definition) => {
         if (key.startsWith('__')) {
-          return
-        }
-
-        if (
-          astExceptions[name] !== void 0 &&
-          astExceptions[name][prop] !== void 0 &&
-          astExceptions[name][prop][key] === true
-        ) {
           return
         }
 
@@ -546,6 +495,11 @@ function fillAPI (apiType) {
         if (api[prop] === void 0 || api[prop][key] === void 0) {
           logError(`${name}: missing "${prop}" -> "${key}" definition`)
           hasError = true // keep looping through to find as many as can be found before exiting
+        }
+
+        if (api[prop][key].internal === true) {
+          delete api[prop][key]
+          return
         }
 
         if (definition) {

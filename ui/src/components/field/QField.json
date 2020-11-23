@@ -11,10 +11,16 @@
       "desc": "Specify a max length of model",
       "examples": [ "12" ],
       "category": "model"
+    },
+
+    "max-values": {
+      "type": [ "Number", "String" ],
+      "desc": "Used internally by QSelect",
+      "internal": true
     }
   },
 
-  "scopedSlots": {
+  "slots": {
     "control": {
       "desc": "Slot for controls; Suggestion QSlider, QRange, QKnob, ...",
       "scope": {
@@ -58,6 +64,10 @@
           "returns": null
         }
       }
+    },
+
+    "rawControl": {
+      "internal": true
     }
   },
 

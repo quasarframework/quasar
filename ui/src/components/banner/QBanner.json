@@ -3,10 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/banner"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "inline-actions": {
       "type": "Boolean",
@@ -23,8 +19,7 @@
     },
 
     "dark": {
-      "extends": "dark",
-      "addedIn": "v1.3.0"
+      "extends": "dark"
     }
   },
 

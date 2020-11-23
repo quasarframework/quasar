@@ -3,10 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/badge"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "color": {
       "extends": "color"
@@ -51,8 +47,7 @@
     "outline": {
       "type": "Boolean",
       "desc": "Use 'outline' design (colored text and borders only)",
-      "category": "content",
-      "addedIn": "v1.4.5"
+      "category": "content"
     }
   },
 

@@ -61,14 +61,10 @@
 
     "readonly": {
       "extends": "readonly"
-    },
-
-    "max-files": {
-      "addedIn": "v1.11.2"
     }
   },
 
-  "scopedSlots": {
+  "slots": {
     "header": {
       "desc": "Slot for custom header; Scope is the QUploader instance itself",
       "__exemption": ["scope"]

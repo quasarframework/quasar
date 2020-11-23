@@ -5,8 +5,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/file"
   },
 
-  "addedIn": "v1.8.0",
-
   "props": {
     "model-value": {
       "extends": "model-value",
@@ -18,8 +16,7 @@
     "append": {
       "type": "Boolean",
       "desc": "Append file(s) to current model rather than replacing them; Has effect only when using 'multiple' mode",
-      "category": "behavior",
-      "addedIn": "v1.11.3"
+      "category": "behavior"
     },
 
     "display-value": {
@@ -97,7 +94,7 @@
     }
   },
 
-  "scopedSlots": {
+  "slots": {
     "file": {
       "desc": "Override default node to render a file from the user picked list",
       "scope": {

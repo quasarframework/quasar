@@ -168,21 +168,21 @@ export default defineComponent({
     if (this.type.svg === true) {
       data.viewBox = this.type.viewBox
 
-      return h('svg', data, hMergeSlot(this.type.nodes, this, 'default'))
+      return h('svg', data, hMergeSlot(this, 'default', this.type.nodes))
     }
 
     if (this.type.svguse === true) {
       data.viewBox = this.type.viewBox
 
-      return h('svg', data, hMergeSlot(
-        [ h('use', { 'xlink:href': this.type.src }) ],
-        this,
-        'default')
+      return h(
+        'svg',
+        data,
+        hMergeSlot(this, 'default', [ h('use', { 'xlink:href': this.type.src }) ])
       )
     }
 
-    return h(this.tag, data, hMergeSlot([
+    return h(this.tag, data, hMergeSlot(this, 'default', [
       this.type.content
-    ], this, 'default'))
+    ]))
   }
 })

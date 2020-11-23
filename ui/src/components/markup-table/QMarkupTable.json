@@ -3,10 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/markup-table"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "dense": {
       "extends": "dense"

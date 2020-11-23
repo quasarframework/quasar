@@ -37,6 +37,6 @@ export default defineComponent({
     return h(this.linkTag, {
       class: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
       ...this.linkProps
-    }, hMergeSlot(child, this, 'default'))
+    }, hMergeSlot(this, 'default', child))
   }
 })

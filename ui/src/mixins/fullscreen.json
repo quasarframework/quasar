@@ -13,8 +13,7 @@
     "no-route-fullscreen-exit": {
       "type": "Boolean",
       "desc": "Changing route app won't exit fullscreen",
-      "category": "behavior",
-      "addedIn": "v1.1.7"
+      "category": "behavior"
     }
   },
 

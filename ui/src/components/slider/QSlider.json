@@ -40,15 +40,13 @@
     "reverse": {
       "type": "Boolean",
       "desc": "Work in reverse (changes direction)",
-      "category": "behavior",
-      "addedIn": "v1.5.0"
+      "category": "behavior"
     },
 
     "vertical": {
       "type": "Boolean",
       "desc": "Display in vertical direction",
-      "category": "behavior",
-      "addedIn": "v1.10.0"
+      "category": "behavior"
     },
 
     "color": {
@@ -66,8 +64,7 @@
     },
 
     "label-text-color": {
-      "extends": "color",
-      "addedIn": "v1.1.0"
+      "extends": "color"
     },
 
     "label-value": {
@@ -102,8 +99,7 @@
       "desc": "Set custom thumb svg path",
       "default": "M 4, 10 a 6,6 0 1,0 12,0 a 6,6 0 1,0 -12,0",
       "examples": [ "M5 5 h10 v10 h-10 v-10" ],
-      "category": "style",
-      "addedIn": "v1.5.10"
+      "category": "style"
     },
 
     "dark": {
@@ -145,8 +141,7 @@
           "desc": "Phase of panning",
           "values": [ "start", "end" ]
         }
-      },
-      "addedIn": "v1.14.0"
+      }
     }
   }
 }

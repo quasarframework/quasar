@@ -5,10 +5,6 @@
 
   "mixins": [ "mixins/router-link" ],
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "label": {
       "type": "String",

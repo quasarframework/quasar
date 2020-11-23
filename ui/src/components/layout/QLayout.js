@@ -177,7 +177,7 @@ export default defineComponent({
     const layout = h('div', {
       class: this.classes,
       style: this.style
-    }, hMergeSlot([
+    }, hMergeSlot(this, 'default', [
       h(QScrollObserver, {
         onScroll: this.__onPageScroll
       }),
@@ -185,7 +185,7 @@ export default defineComponent({
       h(QResizeObserver, {
         onResize: this.__onPageResize
       })
-    ], this, 'default'))
+    ]))
 
     if (this.container === true) {
       return h('div', {

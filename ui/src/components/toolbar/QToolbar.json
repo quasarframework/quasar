@@ -3,10 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/toolbar"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "inset": {
       "type": "Boolean",

@@ -5,10 +5,6 @@
 
   "mixins": [ "mixins/ratio" ],
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "src": {
       "type": "String",
@@ -50,8 +46,7 @@
         "280px",
         "70%"
       ],
-      "category": "model",
-      "addedIn": "v1.9.0"
+      "category": "model"
     },
 
     "height": {
@@ -61,8 +56,7 @@
         "280px",
         "70%"
       ],
-      "category": "model",
-      "addedIn": "v1.9.0"
+      "category": "model"
     },
 
     "alt": {
@@ -127,16 +121,14 @@
         "my-special-class",
         ":img-class=\"{ 'my-special-class': <condition> }\""
       ],
-      "category": "style",
-      "addedIn": "v1.4.0"
+      "category": "style"
     },
 
     "img-style": {
       "type": "Object",
       "desc": "Apply CSS to the container of the image; Does not apply to the caption",
       "examples": [ ":img-style=\"{ transform: 'rotate(45deg)' }\" "],
-      "category": "style",
-      "addedIn": "v1.5.11"
+      "category": "style"
     },
 
     "spinner-color": {
@@ -154,15 +146,13 @@
     "no-default-spinner": {
       "type": "Boolean",
       "desc": "Do not display the default spinner when loading images (unless you are specifying one through the 'loading' slot)",
-      "category": "content",
-      "addedIn": "v1.1.0"
+      "category": "content"
     },
 
     "native-context-menu": {
       "type": "Boolean",
       "desc": "Enable the native context menu of the image",
-      "category": "behavior",
-      "addedIn": "v1.8.4"
+      "category": "behavior"
     }
   },
 

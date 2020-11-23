@@ -5,10 +5,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/button"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "round": {
       "type": "Boolean",

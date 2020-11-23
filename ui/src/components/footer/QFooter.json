@@ -3,10 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/layout/header-and-footer"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "model-value": {
       "extends": "model-value",
@@ -40,8 +36,7 @@
       "desc": "When using SSR, you can optionally hint of the height (in pixels) of the QFooter",
       "default": 50,
       "examples": [ "150" ],
-      "category": "behavior",
-      "addedIn": "v1.1.0"
+      "category": "behavior"
     }
   },
 

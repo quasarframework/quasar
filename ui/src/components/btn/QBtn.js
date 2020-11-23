@@ -272,7 +272,7 @@ export default defineComponent({
       h('span', { class: 'block' }, [ this.label ])
     )
 
-    inner = hMergeSlot(inner, this, 'default')
+    inner = hMergeSlot(this, 'default', inner)
 
     if (this.iconRight !== void 0 && this.round === false) {
       inner.push(

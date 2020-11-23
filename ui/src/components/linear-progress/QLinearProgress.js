@@ -113,6 +113,6 @@ export default defineComponent({
       'aria-valuenow': this.indeterminate === true
         ? void 0
         : this.value
-    }, hMergeSlot(child, this, 'default'))
+    }, hMergeSlot(this, 'default', child))
   }
 })

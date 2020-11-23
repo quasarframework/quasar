@@ -18,8 +18,7 @@
     "hide-icon": {
       "type": "Boolean",
       "desc": "Hide the icon (don't use any)",
-      "category": "style|content",
-      "addedIn": "v1.9.14"
+      "category": "style|content"
     },
 
     "direction": {
@@ -36,8 +35,7 @@
       "desc": "The side of the Fab where Fab Actions will expand (only when direction is 'up' or 'down')",
       "default": "center",
       "values": [ "left", "center", "right" ],
-      "category": "style|content",
-      "addedIn": "v1.9.0"
+      "category": "style|content"
     },
 
     "persistent": {

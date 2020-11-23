@@ -67,7 +67,7 @@ export default defineComponent({
     for: String,
 
     maxlength: [ Number, String ],
-    maxValues: [ Number, String ] // private, do not add to JSON; internally needed by QSelect
+    maxValues: [ Number, String ] // used internally by QSelect
   },
 
   emits: [ 'update:modelValue', 'clear', 'focus', 'blur', 'popup-show', 'popup-hide' ],

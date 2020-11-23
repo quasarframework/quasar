@@ -208,7 +208,7 @@ export default {
     }
 
     const label = this.label !== void 0
-      ? hMergeSlot([ this.label ], this, 'default')
+      ? hMergeSlot(this, 'default', [ this.label ])
       : hSlot(this, 'default')
 
     label !== void 0 && child.push(

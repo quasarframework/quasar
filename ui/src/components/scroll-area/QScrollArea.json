@@ -5,16 +5,14 @@
 
   "props": {
     "dark": {
-      "extends": "dark",
-      "addedIn": "v1.9.0"
+      "extends": "dark"
     },
 
     "bar-style": {
       "type": [ "Array", "String", "Object"],
       "desc": "Object with CSS properties and values for styling the custom scrollbar",
       "examples": [ ":bar-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
-      "category": "style",
-      "addedIn": "v1.5.0"
+      "category": "style"
     },
 
     "thumb-style": {
@@ -41,8 +39,7 @@
     "visible": {
       "type": "Boolean",
       "desc": "(Desktop only) Manually control the visibility of the scrollbar; Overrides default mouse over/leave behavior",
-      "category": "behavior",
-      "addedIn": "v1.3.0"
+      "category": "behavior"
     },
 
     "delay": {
@@ -122,8 +119,7 @@
             }
           }
         }
-      },
-      "addedIn": "v1.9.3"
+      }
     }
   },
 
@@ -177,8 +173,7 @@
           "desc": "Duration (in milliseconds) enabling animated scroll",
           "examples": [ 300 ]
         }
-      },
-      "addedIn": "v1.13.2"
+      }
     }
   }
 }

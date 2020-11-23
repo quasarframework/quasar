@@ -114,8 +114,7 @@
               "desc": "Chained Object",
               "tsType": "DialogChainObject",
               "__exemption": [ "examples" ]
-            },
-            "addedIn": "v1.14.0"
+            }
           }
         }
       }

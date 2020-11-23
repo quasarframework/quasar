@@ -14,13 +14,11 @@
       "type": "String",
       "desc": "QChip size name or a CSS unit including unit name",
       "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ],
-      "category": "style",
-      "addedIn": "v1.2.2"
+      "category": "style"
     },
 
     "dark": {
-      "extends": "dark",
-      "addedIn": "v1.3.0"
+      "extends": "dark"
     },
 
     "icon": {

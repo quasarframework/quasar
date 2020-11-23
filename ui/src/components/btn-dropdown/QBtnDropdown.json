@@ -20,8 +20,7 @@
     },
 
     "dropdown-icon": {
-      "extends": "icon",
-      "addedIn": "v1.1.6"
+      "extends": "icon"
     },
 
     "disable-main-btn": {
@@ -39,8 +38,7 @@
     "no-icon-animation": {
       "type": "Boolean",
       "desc": "Disables the rotation of the dropdown icon when state is toggled",
-      "category": "style",
-      "addedIn": "v1.12.0"
+      "category": "style"
     },
 
     "content-style": {
@@ -78,8 +76,7 @@
     "no-route-dismiss": {
       "type": "Boolean",
       "desc": "Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set",
-      "category": "behavior",
-      "addedIn": "v1.13.2"
+      "category": "behavior"
     },
 
     "auto-close": {
@@ -118,8 +115,7 @@
       "type": "Array",
       "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
       "examples": [ "[8, 8]", "[5, 10]" ],
-      "category": "position",
-      "addedIn": "v1.9.2"
+      "category": "position"
     }
   },
 

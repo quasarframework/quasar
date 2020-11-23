@@ -3,10 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/pull-to-refresh"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "color": {
       "desc": "Color name for the icon from the Quasar Color Palette",
@@ -15,8 +11,7 @@
 
     "bg-color": {
       "desc": "Color name for background of the icon container from the Quasar Color Palette",
-      "extends": "color",
-      "addedIn": "v1.9.5"
+      "extends": "color"
     },
 
     "icon": {

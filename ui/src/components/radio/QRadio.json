@@ -43,10 +43,6 @@
       "category": "behavior"
     },
 
-    "size": {
-      "addedIn": "v1.8.0"
-    },
-
     "dark": {
       "extends": "dark"
     },
@@ -84,8 +80,7 @@
           "type": "Object",
           "desc": "JS event object",
           "required": true,
-          "__exemption": [ "examples" ],
-          "addedIn":"v1.11.2"
+          "__exemption": [ "examples" ]
         }
       }
     }

@@ -5,10 +5,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/time"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "model-value": {
       "extends": "model-value",
@@ -33,8 +29,7 @@
       "examples": [
         "1995/02/23"
       ],
-      "category": "model",
-      "addedIn": "v1.9.0"
+      "category": "model"
     },
 
     "mask": {
@@ -111,8 +106,7 @@
 
   "slots": {
     "default": {
-      "desc": "This is where additional buttons can go",
-      "addedIn": "v1.2.8"
+      "desc": "This is where additional buttons can go"
     }
   },
 
@@ -164,8 +158,7 @@
             },
             "changed": {
               "type": "Boolean",
-              "desc": "Did the model change?",
-              "addedIn": "v1.1.1"
+              "desc": "Did the model change?"
             }
           }
         }
@@ -175,8 +168,7 @@
 
   "methods": {
     "setNow": {
-      "desc": "Change model to current moment",
-      "addedIn": "v1.1.7"
+      "desc": "Change model to current moment"
     }
   }
 }

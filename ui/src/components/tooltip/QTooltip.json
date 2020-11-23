@@ -99,8 +99,7 @@
       "desc": "Configure Tooltip to disappear with delay",
       "default": 0,
       "examples": [ ":hide-delay=\"650\"" ],
-      "category": "behavior",
-      "addedIn": "v1.9.5"
+      "category": "behavior"
     }
   },
 

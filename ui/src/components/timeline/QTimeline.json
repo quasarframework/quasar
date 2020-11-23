@@ -3,10 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/timeline"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "color": {
       "extends": "color"

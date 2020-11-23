@@ -205,6 +205,6 @@ export default defineComponent({
 
     return h('div', {
       class: this.classes
-    }, hMergeSlot(child, this, 'default'))
+    }, hMergeSlot(this, 'default', child))
   }
 })

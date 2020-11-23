@@ -5,10 +5,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/date"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "model-value": {
       "extends": "model-value",
@@ -59,8 +55,7 @@
     "years-in-month-view": {
       "type": "Boolean",
       "desc": "Show the years selector in months view",
-      "category": "behavior",
-      "addedIn": "v1.11.2"
+      "category": "behavior"
     },
 
     "events": {
@@ -98,23 +93,20 @@
       "type": "String",
       "desc": "Lock user from navigating below a specific year+month (in YYYY/MM format); This prop is not used to correct the model; You might want to also use 'default-year-month' prop",
       "examples": [ "2020/07" ],
-      "category": "selection",
-      "addedIn": "v1.13.0"
+      "category": "selection"
     },
 
     "navigation-max-year-month": {
       "type": "String",
       "desc": "Lock user from navigating above a specific year+month (in YYYY/MM format); This prop is not used to correct the model; You might want to also use 'default-year-month' prop",
       "examples": [ "2020/10" ],
-      "category": "selection",
-      "addedIn": "v1.13.0"
+      "category": "selection"
     },
 
     "no-unset": {
       "type": "Boolean",
       "desc": "Remove ability to unselect a date; It does not apply to selecting a range over already selected dates",
-      "category": "selection",
-      "addedIn": "v1.13.2"
+      "category": "selection"
     },
 
     "first-day-of-week": {
@@ -143,15 +135,13 @@
     "multiple": {
       "type": "Boolean",
       "desc": "Allow multiple selection; Model must be Array",
-      "category": "model|selection",
-      "addedIn": "v1.13.0"
+      "category": "model|selection"
     },
 
     "range": {
       "type": "Boolean",
       "desc": "Allow range selection; Partial compatibility with 'options' prop: selected ranges might also include 'unselectable' days",
-      "category": "model|selection",
-      "addedIn": "v1.13.0"
+      "category": "model|selection"
     },
 
     "emit-immediately": {
@@ -163,8 +153,7 @@
 
   "slots": {
     "default": {
-      "desc": "This is where additional buttons can go",
-      "addedIn": "v1.2.8"
+      "desc": "This is where additional buttons can go"
     }
   },
 
@@ -218,8 +207,7 @@
                   "desc": "The day of month",
                   "__exemption": [ "examples" ]
                 }
-              },
-              "addedIn": "v1.13.0"
+              }
             },
             "to": {
               "type": "Object",
@@ -240,13 +228,7 @@
                   "desc": "The day of month",
                   "__exemption": [ "examples" ]
                 }
-              },
-              "addedIn": "v1.13.0"
-            },
-            "changed": {
-              "type": "Boolean",
-              "desc": "(DEPRECATED from v1.13) Did the model change?",
-              "addedIn": "v1.1.1"
+              }
             }
           }
         }
@@ -272,8 +254,7 @@
             }
           }
         }
-      },
-      "addedIn": "v1.13.0"
+      }
     },
 
     "range-start": {
@@ -300,8 +281,7 @@
             }
           }
         }
-      },
-      "addedIn": "v1.13.0"
+      }
     },
 
     "range-end": {
@@ -355,15 +335,13 @@
             }
           }
         }
-      },
-      "addedIn": "v1.13.0"
+      }
     }
   },
 
   "methods": {
     "setToday": {
-      "desc": "Change model to today",
-      "addedIn": "v1.1.7"
+      "desc": "Change model to today"
     },
 
     "setView": {
@@ -375,8 +353,7 @@
           "required": true,
           "values": [ "Calendar", "Months", "Years" ]
         }
-      },
-      "addedIn": "v1.1.7"
+      }
     },
 
     "offsetCalendar": {
@@ -392,8 +369,7 @@
           "type": "Boolean",
           "desc": "Decrement?"
         }
-      },
-      "addedIn": "v1.1.7"
+      }
     },
 
     "setCalendarTo": {
@@ -409,8 +385,7 @@
           "desc": "The month",
           "__exemption": [ "examples" ]
         }
-      },
-      "addedIn": "v1.13.0"
+      }
     },
 
     "setEditingRange": {

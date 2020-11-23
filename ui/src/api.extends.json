@@ -124,20 +124,13 @@
         "scroll-target=\"#scroll-target-id\"",
         "scroll-target=\"body\""
       ],
-      "category": "behavior",
-      "addedIn": "v1.8.0"
+      "category": "behavior"
     }
   },
 
   "slots": {
     "default": {
       "desc": "Default slot in the devland unslotted content of the component"
-    }
-  },
-
-  "scopedSlots": {
-    "default": {
-      "desc": "Default scoped slot in the devland content of the component"
     }
   },
 

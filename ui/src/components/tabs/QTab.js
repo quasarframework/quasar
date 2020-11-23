@@ -140,7 +140,7 @@ export default defineComponent({
 
       const node = [
         h('div', { class: 'q-focus-helper', tabindex: -1, ref: 'blurTarget' }),
-        h('div', { class: this.innerClass }, hMergeSlot(content, this, 'default'))
+        h('div', { class: this.innerClass }, hMergeSlot(this, 'default', content))
       ]
 
       narrow === false && node.push(indicator)

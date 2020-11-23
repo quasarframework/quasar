@@ -5,10 +5,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/stepper"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "dark": {
       "extends": "dark"

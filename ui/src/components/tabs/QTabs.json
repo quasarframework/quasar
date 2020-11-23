@@ -3,10 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/tabs"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "model-value":{
       "extends": "model-value",
@@ -25,15 +21,13 @@
     "outside-arrows": {
       "type": "Boolean",
       "desc": "Reserve space for arrows to place them on each side of the tabs (the arrows fade when inactive)",
-      "category": "content",
-      "addedIn": "v1.12.9"
+      "category": "content"
     },
 
     "mobile-arrows": {
       "type": "Boolean",
       "desc": "Force display of arrows (if needed) on mobile",
-      "category": "content",
-      "addedIn": "v1.12.9"
+      "category": "content"
     },
 
     "align": {
@@ -75,8 +69,7 @@
       "type": "String",
       "desc": "Class definitions to be attributed to the content wrapper",
       "examples": [ "my-special-class" ],
-      "category": "style",
-      "addedIn": "v1.12.0"
+      "category": "style"
     },
 
     "left-icon": {

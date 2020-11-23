@@ -5,10 +5,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/rating"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "model-value": {
       "extends": "model-value",
@@ -45,8 +41,7 @@
         "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
         "img:statics/path/to/some_image.png"
       ],
-      "category": "content",
-      "addedIn": "v1.1.0"
+      "category": "content"
     },
 
     "icon-half": {
@@ -58,8 +53,7 @@
         "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
         "img:statics/path/to/some_image.png"
       ],
-      "category": "content",
-      "addedIn": "v1.7.4"
+      "category": "content"
     },
 
     "color": {
@@ -72,22 +66,19 @@
     "color-selected": {
       "extends": "color",
       "type": [ "String", "Array" ],
-      "desc": "Color name from the Quasar Palette for selected icons",
-      "addedIn": "v1.5.0"
+      "desc": "Color name from the Quasar Palette for selected icons"
     },
 
     "color-half": {
       "extends": "color",
       "type": [ "String", "Array" ],
-      "desc": "Color name from the Quasar Palette for half selected icons",
-      "addedIn": "v1.7.4"
+      "desc": "Color name from the Quasar Palette for half selected icons"
     },
 
     "no-dimming": {
       "type": "Boolean",
       "desc": "Does not lower opacity for unselected icons",
-      "category": "style",
-      "addedIn": "v1.7.4"
+      "category": "style"
     },
 
     "no-reset": {
@@ -112,9 +103,8 @@
   },
 
   "slots": {
-    "tip-[index]": {
-      "desc": "Slot to define the tooltip of icon at '[index]' (1-based); Suggestion: QTooltip",
-      "addedIn": "v1.5.0"
+    "tip-[name]": {
+      "desc": "Slot to define the tooltip of icon at '[name]' where name is a 1-based index; Suggestion: QTooltip"
     }
   }
 }

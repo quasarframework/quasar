@@ -5,10 +5,6 @@
 
   "mixins": [ "mixins/ripple" ],
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "icon": {
       "extends": "icon"
@@ -37,8 +33,7 @@
       "examples": [
         "alert-icon=\"alarm_on\""
       ],
-      "category": "content",
-      "addedIn": "v1.9.14"
+      "category": "content"
     },
 
     "name": {
@@ -61,8 +56,7 @@
       "type": "String",
       "desc": "Class definitions to be attributed to the content wrapper",
       "examples": [ "my-special-class" ],
-      "category": "style",
-      "addedIn": "v1.12.0"
+      "category": "style"
     },
 
     "tabindex": {

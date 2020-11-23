@@ -47,12 +47,6 @@
 
     "icon": {
       "desc": "Slot for replacing the default dropdown icon"
-    }
-  },
-
-  "scopedSlots": {
-    "default": {
-      "extends": "default"
     },
 
     "item": {

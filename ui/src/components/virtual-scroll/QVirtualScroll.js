@@ -116,7 +116,7 @@ export default defineComponent({
         child = this.$slots.before().concat(child)
       }
 
-      return hMergeSlot(child, this, 'after')
+      return hMergeSlot(this, 'after', child)
     }
   },
 

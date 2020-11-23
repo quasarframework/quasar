@@ -10,6 +10,7 @@
       </p>
       <div class="q-gutter-sm">
         <q-knob
+          name="test"
           v-model="model"
           :min="min"
           :max="max"

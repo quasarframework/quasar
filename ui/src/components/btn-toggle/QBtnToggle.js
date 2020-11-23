@@ -148,7 +148,7 @@ export default defineComponent({
         this.__injectFormInput(child, 'push')
       }
 
-      return hMergeSlot(child, this, 'default')
+      return hMergeSlot(this, 'default', child)
     }
   },
 

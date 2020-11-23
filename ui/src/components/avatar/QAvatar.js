@@ -53,7 +53,7 @@ export default defineComponent({
       h('div', {
         class: 'q-avatar__content row flex-center overflow-hidden',
         style: this.contentStyle
-      }, hMergeSlotSafely(icon, this, 'default'))
+      }, hMergeSlotSafely(this, 'default', icon))
     ])
   }
 })

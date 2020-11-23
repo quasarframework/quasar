@@ -274,11 +274,11 @@ export default defineComponent({
         h('div', {
           class: `absolute full-${this.horizontal === true ? 'height' : 'width'}`,
           style: this.mainStyle
-        }, hMergeSlot([
+        }, hMergeSlot(this, 'default', [
           h(QResizeObserver, {
             onResize: this.__updateScrollSize
           })
-        ], this, 'default')),
+        ])),
 
         h(QScrollObserver, {
           horizontal: this.horizontal,

@@ -3,12 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/intersection"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
-  "addedIn": "v1.4.0",
-
   "props": {
     "tag": {
       "extends": "tag",
@@ -25,16 +19,14 @@
     "ssr-prerender": {
       "type": "Boolean",
       "desc": "Pre-render content on server side if using SSR (use it to pre-render above the fold content)",
-      "category": "behavior",
-      "addedIn": "v1.9.5"
+      "category": "behavior"
     },
 
     "root": {
       "type": "Element",
       "desc": "[Intersection API root prop] Lets you define an alternative to the viewport as your root (through its DOM element); It is important to keep in mind that root needs to be an ancestor of the observed element",
       "examples": [ "$refs.myTable.$el", "getElementById(\"myTable\")" ],
-      "category": "behavior",
-      "addedIn": "v1.14.2"
+      "category": "behavior"
     },
 
     "margin": {

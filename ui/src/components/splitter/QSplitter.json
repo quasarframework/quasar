@@ -3,10 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/splitter"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "model-value": {
       "extends": "model-value",
@@ -18,8 +14,7 @@
     "reverse": {
       "type": "Boolean",
       "desc": "Apply the model size to the second panel (by default it applies to the first)",
-      "category": "model",
-      "addedIn": "v1.2.6"
+      "category": "model"
     },
 
     "unit": {
@@ -27,8 +22,7 @@
       "desc": "CSS unit for the model",
       "default": "%",
       "values": [ "%", "px" ],
-      "category": "model",
-      "addedIn": "v1.2.6"
+      "category": "model"
     },
 
     "emit-immediately": {

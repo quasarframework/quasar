@@ -271,46 +271,15 @@ export default {
 
       for (const slot in slots) {
         child.push(
-          h('div', { staticClass: 'api-row row' }, [
-            this.getDiv(h, 12, 'Name', h(QBadge, {
-              props: {
-                color: NAME_PROP_COLOR[0],
-                label: slot
-              }
-            })),
-            slots[slot].addedIn !== void 0
-              ? this.getDiv(h, 12, 'Added in', slots[slot].addedIn)
-              : null,
-            this.getDiv(h, 12, 'Description', slots[slot].desc)
-          ])
+          this.getProp(h, slots[slot], slot, 0)
         )
       }
 
       return child
     },
 
-    scopedSlots (h, scopedSlots) {
+    events (h, events) {
       const child = []
-
-      for (const slot in scopedSlots) {
-        child.push(
-          this.getProp(h, scopedSlots[slot], slot, 0)
-        )
-      }
-
-      return child
-    },
-
-    events (h, { $listeners, ...events }) {
-      const child = []
-
-      if ($listeners !== void 0) {
-        child.push(
-          h('div', { staticClass: 'api-row api-row__value api-row--big-padding' }, [
-            $listeners.desc
-          ])
-        )
-      }
 
       if (events === void 0) {
         return child

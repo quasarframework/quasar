@@ -862,7 +862,7 @@ export default defineComponent({
         options = this.$slots['before-options']().concat(options)
       }
 
-      return hMergeSlot(options, this, 'after-options')
+      return hMergeSlot(this, 'after-options', options)
     },
 
     __getInput (fromDialog) {

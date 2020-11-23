@@ -133,7 +133,7 @@ export default defineComponent({
       child.push(
         h('div', {
           class: 'q-chip__content col row no-wrap items-center q-anchor--skip'
-        }, hMergeSlotSafely(label, this, 'default'))
+        }, hMergeSlotSafely(this, 'default', label))
       )
 
       this.iconRight && child.push(

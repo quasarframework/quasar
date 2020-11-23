@@ -24,8 +24,7 @@
     "virtual-scroll": {
       "type": "Boolean",
       "desc": "Display data using QVirtualScroll (for non-grid mode only)",
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-slice-size": {
@@ -33,8 +32,7 @@
       "desc": "Number of rows to render in the virtual list",
       "default": "30",
       "examples": [ ":virtual-scroll-slice-size=\"60\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-item-size": {
@@ -42,8 +40,7 @@
       "desc": "Default size in pixels of a row; This value is used for rendering the initial table; Try to use a value close to the minimum size of a row",
       "default": "48 (24 if dense)",
       "examples": [ ":virtual-scroll-item-size=\"48\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-sticky-size-start": {
@@ -51,8 +48,7 @@
       "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision",
       "default": "0",
       "examples": [ ":virtual-scroll-sticky-size-start=\"48\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-sticky-size-end": {
@@ -60,16 +56,14 @@
       "desc": "Size in pixels of the sticky footer part (if using one); A correct value will improve scroll precision",
       "default": "0",
       "examples": [ ":virtual-scroll-sticky-size-end=\"48\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "category": "virtual-scroll"
     },
 
     "table-colspan": {
       "type": [ "Number", "String" ],
       "desc": "The number of columns in the table (you need this if you use table-layout: fixed)",
       "examples": [ "table-colspan=\"12\"" ],
-      "category": "virtual-scroll|content",
-      "addedIn": "v1.13.0"
+      "category": "virtual-scroll|content"
     },
 
     "color": {
@@ -79,26 +73,22 @@
 
     "icon-first-page": {
       "extends": "icon",
-      "desc": "Icon name following Quasar convention for stepping to first page; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.12.0"
+      "desc": "Icon name following Quasar convention for stepping to first page; Make sure you have the icon library installed unless you are using 'img:' prefix"
     },
 
     "icon-prev-page": {
       "extends": "icon",
-      "desc": "Icon name following Quasar convention for stepping to previous page; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.12.0"
+      "desc": "Icon name following Quasar convention for stepping to previous page; Make sure you have the icon library installed unless you are using 'img:' prefix"
     },
 
     "icon-next-page": {
       "extends": "icon",
-      "desc": "Icon name following Quasar convention for stepping to next page; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.12.0"
+      "desc": "Icon name following Quasar convention for stepping to next page; Make sure you have the icon library installed unless you are using 'img:' prefix"
     },
 
     "icon-last-page": {
       "extends": "icon",
-      "desc": "Icon name following Quasar convention for stepping to last page; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.12.0"
+      "desc": "Icon name following Quasar convention for stepping to last page; Make sure you have the icon library installed unless you are using 'img:' prefix"
     },
 
     "grid": {
@@ -225,14 +215,12 @@
         "headerStyle": {
           "type": "String",
           "desc": "Style to apply on header cells of the column",
-          "examples": [ "width: 500px" ],
-          "addedIn": "v1.3.0"
+          "examples": [ "width: 500px" ]
         },
         "headerClasses": {
           "type": "String",
           "desc": "Classes to add on header cells of the column",
-          "examples": [ "my-special-class" ],
-          "addedIn": "v1.3.0"
+          "examples": [ "my-special-class" ]
         }
       }
     },
@@ -275,22 +263,19 @@
     "hide-selected-banner": {
       "type": "Boolean",
       "desc": "Hide the selected rows banner (if any)",
-      "category": "content",
-      "addedIn": "v1.12.0"
+      "category": "content"
     },
 
     "hide-no-data": {
       "type": "Boolean",
       "desc": "Hide the default no data bottom layer",
-      "category": "content",
-      "addedIn": "v1.12.0"
+      "category": "content"
     },
 
     "hide-pagination": {
       "type": "Boolean",
       "desc": "Hide the pagination controls at the bottom",
-      "category": "content",
-      "addedIn": "v1.12.0"
+      "category": "content"
     },
 
     "dark": {
@@ -453,8 +438,7 @@
         "background-color: #ff0000",
         ":card-container-style=\"{ backgroundColor: '#ff0000' }\""
       ],
-      "category": "style",
-      "addedIn": "v1.4.0"
+      "category": "style"
     },
 
     "card-container-class": {
@@ -465,8 +449,7 @@
         "justify-center",
         ":card-container-class=\"{ 'my-special-class': [Boolean condition] }\""
       ],
-      "category": "style",
-      "addedIn": "v1.4.0"
+      "category": "style"
     },
 
     "card-style": {
@@ -497,8 +480,7 @@
         "text-h1",
         ":title-class=\"{ 'text-h1': [Boolean condition] }\""
       ],
-      "category": "style",
-      "addedIn": "v1.13.2"
+      "category": "style"
     },
 
     "filter": {
@@ -636,8 +618,7 @@
       "examples": [
         ":expanded.sync=\"expanded\""
       ],
-      "category": "expansion",
-      "addedIn": "v1.8.3"
+      "category": "expansion"
     },
 
     "sort-method": {
@@ -674,12 +655,9 @@
 
   "slots": {
     "loading": {
-      "desc": "Override default effect when table is in loading state; Suggestion: QInnerLoading",
-      "addedIn": "v1.8.0"
-    }
-  },
+      "desc": "Override default effect when table is in loading state; Suggestion: QInnerLoading"
+    },
 
-  "scopedSlots": {
     "item": {
       "desc": "Slot to use for defining an item when in 'grid' mode; Suggestion: QCard",
       "scope": {
@@ -724,8 +702,7 @@
               "examples": [ "calories" ]
             }
           },
-          "returns": null,
-          "addedIn": "v1.14.0"
+          "returns": null
         },
         "selected": {
           "type": "Boolean",
@@ -739,16 +716,13 @@
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         }
       }
     },
@@ -797,8 +771,7 @@
               "examples": [ "calories" ]
             }
           },
-          "returns": null,
-          "addedIn": "v1.14.0"
+          "returns": null
         },
         "selected": {
           "type": "Boolean",
@@ -812,16 +785,13 @@
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         },
         "__trClass": {
           "type": "String",
@@ -847,8 +817,7 @@
         "key": {
           "type": "Any",
           "desc": "Row's key",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "__exemption": [ "examples" ]
         },
         "row": {
           "type": "Object",
@@ -868,14 +837,12 @@
         "cols": {
           "type": "Object",
           "desc": "Column definitions",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "__exemption": [ "examples" ]
         },
         "colsMap": {
           "type": "Object",
           "desc": "Column mapping (key is column name, value is column object)",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "__exemption": [ "examples" ]
         },
         "sort": {
           "type": "Function",
@@ -888,8 +855,7 @@
               "examples": [ "calories" ]
             }
           },
-          "returns": null,
-          "addedIn": "v1.14.0"
+          "returns": null
         },
         "selected": {
           "type": "Boolean",
@@ -903,16 +869,13 @@
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         }
       }
     },
@@ -933,8 +896,7 @@
         "key": {
           "type": "Any",
           "desc": "Row's key",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "__exemption": [ "examples" ]
         },
         "row": {
           "type": "Object",
@@ -954,14 +916,12 @@
         "cols": {
           "type": "Object",
           "desc": "Column definitions",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "__exemption": [ "examples" ]
         },
         "colsMap": {
           "type": "Object",
           "desc": "Column mapping (key is column name, value is column object)",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "__exemption": [ "examples" ]
         },
         "sort": {
           "type": "Function",
@@ -974,33 +934,27 @@
               "examples": [ "calories" ]
             }
           },
-          "returns": null,
-          "addedIn": "v1.14.0"
+          "returns": null
         },
         "selected": {
           "type": "Boolean",
           "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         }
       }
     },
@@ -1034,27 +988,22 @@
         "selected": {
           "type": "Boolean",
           "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         },
         "__trClass": {
           "type": "String",
@@ -1102,27 +1051,22 @@
         "selected": {
           "type": "Boolean",
           "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         }
       }
     },
@@ -1161,30 +1105,24 @@
         "selected": {
           "type": "Boolean",
           "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         }
-      },
-      "addedIn": "v1.1.1"
+      }
     },
 
     "body-selection": {
@@ -1253,8 +1191,7 @@
         "dense": {
           "extends": "dense"
         }
-      },
-      "addedIn": "v1.14.0"
+      }
     },
 
     "header-selection": {
@@ -1303,8 +1240,7 @@
         "dense": {
           "extends": "dense"
         }
-      },
-      "addedIn": "v1.14.0"
+      }
     },
 
     "top-row": {
@@ -1374,8 +1310,7 @@
           "type": "Function",
           "desc": "Navigates to first page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "prevPage": {
           "type": "Function",
@@ -1393,8 +1328,7 @@
           "type": "Function",
           "desc": "Navigates to last page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1454,8 +1388,7 @@
           "type": "Function",
           "desc": "Navigates to first page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "prevPage": {
           "type": "Function",
@@ -1473,8 +1406,7 @@
           "type": "Function",
           "desc": "Navigates to last page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1534,8 +1466,7 @@
           "type": "Function",
           "desc": "Navigates to first page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "prevPage": {
           "type": "Function",
@@ -1553,8 +1484,7 @@
           "type": "Function",
           "desc": "Navigates to last page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1614,8 +1544,7 @@
           "type": "Function",
           "desc": "Navigates to first page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "prevPage": {
           "type": "Function",
@@ -1633,8 +1562,7 @@
           "type": "Function",
           "desc": "Navigates to last page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1694,8 +1622,7 @@
           "type": "Function",
           "desc": "Navigates to first page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "prevPage": {
           "type": "Function",
@@ -1713,8 +1640,7 @@
           "type": "Function",
           "desc": "Navigates to last page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1774,8 +1700,7 @@
           "type": "Function",
           "desc": "Navigates to first page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "prevPage": {
           "type": "Function",
@@ -1793,8 +1718,7 @@
           "type": "Function",
           "desc": "Navigates to last page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1846,11 +1770,9 @@
         "index": {
           "type": "Number",
           "desc": "Index of the row in the current page",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.13.0"
+          "__exemption": [ "examples" ]
         }
-      },
-      "addedIn": "v1.2.6"
+      }
     },
 
     "row-dblclick": {
@@ -1872,11 +1794,9 @@
         "index": {
           "type": "Number",
           "desc": "Index of the row in the current page",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.13.0"
+          "__exemption": [ "examples" ]
         }
-      },
-      "addedIn": "v1.5.10"
+      }
     },
 
     "request": {
@@ -2011,8 +1931,7 @@
               "type": "Object",
               "desc": "JS event object",
               "required": true,
-              "__exemption": [ "examples" ],
-              "addedIn":"v1.11.2"
+              "__exemption": [ "examples" ]
             }
           }
         }
@@ -2073,8 +1992,7 @@
             "[ 'row-a', 'row-b' ]"
           ]
         }
-      },
-      "addedIn": "v1.8.3"
+      }
     },
 
     "virtual-scroll": {
@@ -2106,8 +2024,7 @@
             }
           }
         }
-      },
-      "addedIn": "v1.4.1"
+      }
     }
   },
 
@@ -2235,8 +2152,7 @@
     },
 
     "firstPage": {
-      "desc": "Navigates to first page",
-      "addedIn": "v1.12.0"
+      "desc": "Navigates to first page"
     },
 
     "prevPage": {
@@ -2248,8 +2164,7 @@
     },
 
     "lastPage": {
-      "desc": "Navigates to last page",
-      "addedIn": "v1.12.0"
+      "desc": "Navigates to last page"
     },
 
     "isRowSelected": {
@@ -2285,8 +2200,7 @@
       "returns": {
         "type": "Boolean",
         "desc": "Is row expanded or not?"
-      },
-      "addedIn": "v1.8.3"
+      }
     },
 
     "setExpanded": {
@@ -2298,8 +2212,7 @@
           "required": true,
           "examples": [ "[ 'row-a', 'row-b' ]" ]
         }
-      },
-      "addedIn": "v1.8.3"
+      }
     },
 
     "sort": {
@@ -2331,8 +2244,7 @@
           "required": true,
           "examples": [ "1", 23 ]
         }
-      },
-      "addedIn": "v1.7.2"
+      }
     }
   }
 }

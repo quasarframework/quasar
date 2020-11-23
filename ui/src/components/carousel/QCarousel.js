@@ -228,7 +228,7 @@ export default defineComponent({
         }
       }
 
-      return hMergeSlot(node, this, 'control')
+      return hMergeSlot(this, 'control', node)
     },
 
     __renderPanels () {

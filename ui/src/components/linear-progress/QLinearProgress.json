@@ -5,10 +5,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/linear-progress"
   },
 
-  "behavior": {
-    "$listeners": true
-  },
-
   "props": {
     "value": {
       "type": "Number",
@@ -69,8 +65,7 @@
     "instant-feedback": {
       "type": "Boolean",
       "desc": "No transition when model changes",
-      "category": "behavior",
-      "addedIn": "v1.11.2"
+      "category": "behavior"
     }
   },
 

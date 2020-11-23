@@ -228,17 +228,6 @@ export default {
       this.type = `${type === 'plugin' ? 'Quasar' : 'Vue'} ${type.charAt(0).toUpperCase()}${type.substring(1)}`
       this.tabs = Object.keys(api)
 
-      if (
-        behavior !== void 0 &&
-        behavior.$listeners !== void 0
-      ) {
-        !this.tabs.includes('events') && this.tabs.push('events')
-        this.api.events = {
-          $listeners: behavior.$listeners,
-          ...(this.api.events || {})
-        }
-      }
-
       this.currentTab = this.tabs[0]
       this.tabs.forEach(tab => {
         this.tabCount[tab] = this.apiCount(tab)
