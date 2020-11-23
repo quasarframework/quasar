@@ -1,15 +1,16 @@
 import { h, defineComponent } from 'vue'
 
+// TODO vue3 - handle QList + QItem
 import {
   QExpansionItem,
   QItem,
   QItemSection,
   QIcon,
-  QBadge,
-  QList
+  QBadge
+  // QList
 } from 'quasar'
 
-import Menu from 'assets/menu.js'
+// import Menu from 'assets/menu.js'
 import './AppMenu.sass'
 
 export default defineComponent({
@@ -90,9 +91,10 @@ export default defineComponent({
   },
 
   render () {
-    return h(QList, { class: 'app-menu' }, () => Menu.map(
-      item => this.getDrawerMenu(item, '/' + item.path, 0)
-    ))
+    return h('div')
+    // return h(QList, { class: 'app-menu' }, () => Menu.map(
+    //   item => this.getDrawerMenu(item, '/' + item.path, 0)
+    // ))
   },
 
   mounted () {

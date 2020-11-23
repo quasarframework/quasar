@@ -82,6 +82,10 @@ module.exports = function (ctx) {
         }
       },
 
+      components: [
+        'QMarkupTable' // required md-plugin-table
+      ],
+
       plugins: [
         'AddressbarColor',
         'AppFullscreen',

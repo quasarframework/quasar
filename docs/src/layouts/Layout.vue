@@ -103,13 +103,14 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           q-item-section {{ tocItem.title }}
 
   q-page-container
-    transition(
-      enter-active-class="animated fadeIn"
-      leave-active-class="animated fadeOut"
-      mode="out-in"
-      @leave="resetScroll"
-    )
-      router-view
+    router-view(v-slot="{ Component }")
+      transition(
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
+        mode="out-in"
+        @leave="resetScroll"
+      )
+        component(:is="Component")
 
   q-page-scroller
     q-btn(fab-mini, color="primary", glossy, :icon="mdiChevronUp")
@@ -380,6 +381,8 @@ export default {
   },
 
   mounted () {
+    this.scrollingPage = false
+
     this.scrollToCurrentAnchor()
     this.initializeAlgolia()
   },

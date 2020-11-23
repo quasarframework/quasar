@@ -27,39 +27,42 @@ module.exports.getVueComponent = function (rendered, data, toc) {
     </template>
     <script>
     import { copyHeading } from 'assets/page-utils'
+    import { createMetaMixin } from 'quasar'
     ${data.components !== void 0 ? getComponentsImport(data.components) : ''}
     ${data.desc !== void 0 ? `const title = \`${data.title} | Quasar Framework\`, desc = \`${data.desc}\`` : ''}
     export default {
-      meta: {
-        title: \`${data.title}\`${data.desc !== void 0 ? `,
-        meta: {
-          title: {
-            name: 'title',
-            content: title
-          },
-          ogTitle: {
-            name: 'og:title',
-            content: title
-          },
-          twitterTitle: {
-            name: 'twitter:title',
-            content: title
-          },
+      mixins: [
+        createMetaMixin({
+          title: \`${data.title}\`${data.desc !== void 0 ? `,
+          meta: {
+            title: {
+              name: 'title',
+              content: title
+            },
+            ogTitle: {
+              name: 'og:title',
+              content: title
+            },
+            twitterTitle: {
+              name: 'twitter:title',
+              content: title
+            },
 
-          description: {
-            name: 'description',
-            content: desc
-          },
-          ogDesc: {
-            name: 'og:description',
-            content: desc
-          },
-          twitterDesc: {
-            name: 'twitter:description',
-            content: desc
-          }
-        }` : ''}
-      },
+            description: {
+              name: 'description',
+              content: desc
+            },
+            ogDesc: {
+              name: 'og:description',
+              content: desc
+            },
+            twitterDesc: {
+              name: 'twitter:description',
+              content: desc
+            }
+          }` : ''}
+        })
+      ],
       ${data.components !== void 0 ? getComponentsDeclaration(data.components) : ''}
       ${data.related !== void 0 || data.nav !== void 0 ? `
       created () {
