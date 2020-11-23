@@ -1,10 +1,10 @@
 <template lang="pug">
-  .introduction-video.rounded-borders.overflow-hidden
-    .thumbnail-container.relative-position(@click="showVideo")
-      q-img(v-if="!video" src="https://cdn.quasar.dev/img/quasar-app-in-30-min.jpg")
-        q-icon.play-button.absolute-center(color="white" name="play_circle_outline" size="150px")
-    .embed-container(v-if="video")
-      iframe(src="https://www.youtube.com/embed/GV-D85D9KJQ?autoplay=1" frameborder="0" allowfullscreen)
+.introduction-video.rounded-borders.overflow-hidden
+  .thumbnail-container.relative-position(@click="showVideo")
+    q-img(v-if="!video" src="https://cdn.quasar.dev/img/quasar-app-in-30-min.jpg")
+      q-icon.play-button.absolute-center(color="white" name="play_circle_outline" size="150px")
+  .embed-container(v-if="video")
+    iframe(src="https://www.youtube.com/embed/GV-D85D9KJQ?autoplay=1" frameborder="0" allowfullscreen)
 </template>
 
 <script>

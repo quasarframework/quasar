@@ -73,9 +73,7 @@
 
 .custom-colored-range--zoom
   .q-slider__track-container--h
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0%, rgba(0, 0, 0, 0.26) 100%),
-      var(--track-bg),
-      var(--tick-bg)
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0%, rgba(0, 0, 0, 0.26) 100%), var(--track-bg), var(--tick-bg)
     background-repeat: no-repeat
     background-position: 0 9px, 0 9px, var(--tick-bg-pos)
     background-size: 100% 2px, 100% 2px, var(--tick-bg-size)

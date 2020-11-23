@@ -1,12 +1,12 @@
 <template lang="pug">
-  q-card.full-width.column.tutorial-link.cursor-pointer(flat, bordered, @click.native="openWebsite")
-    q-card-section.col.tutorial-link__title
-      .text-subtitle2 {{ name }}
-      .q-mt-sm {{ desc }}
-    q-img(alt="Tutorial logo", :src="imgUrl")
-    q-card-section
-      div Created by: {{ author }}
-      div Language: {{ lang }}
+q-card.full-width.column.tutorial-link.cursor-pointer(flat, bordered, @click.native="openWebsite")
+  q-card-section.col.tutorial-link__title
+    .text-subtitle2 {{ name }}
+    .q-mt-sm {{ desc }}
+  q-img(alt="Tutorial logo", :src="imgUrl")
+  q-card-section
+    div Created by: {{ author }}
+    div Language: {{ lang }}
 </template>
 
 <script>

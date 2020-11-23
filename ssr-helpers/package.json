@@ -1,5 +1,5 @@
 {
-  "name": "@quasar/ssr",
+  "name": "@quasar/ssr-helpers",
   "version": "0.0.1",
   "description": "Quasar Framework helper package for SSR",
   "author": {

@@ -17,10 +17,10 @@
     "core-js": "^3.6.5",
     "docsearch.js": "^2.6.2",
     "prismjs": "^1.15.0",
-    "quasar": "^2.0.0"
+    "quasar": "^2.0.0-alpha.1"
   },
   "devDependencies": {
-    "@quasar/app": "^3.0.0",
+    "@quasar/app": "^3.0.0-alpha.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",

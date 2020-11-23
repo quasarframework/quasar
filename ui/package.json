@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "2.0.0-alpha.0",
+  "version": "2.0.0-alpha.1",
   "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
   "main": "dist/quasar.cjs.prod.js",
   "module": "dist/quasar.esm.prod.js",
@@ -61,7 +61,7 @@
   },
   "homepage": "https://quasar.dev",
   "devDependencies": {
-    "@quasar/app": "/Users/Razvan/work/@quasar/app/",
+    "@quasar/app": "^3.0.0-alpha.1",
     "@quasar/extras": "^1.9.0",
     "@rollup/plugin-json": "^4.0.2",
     "@rollup/plugin-node-resolve": "^7.1.0",

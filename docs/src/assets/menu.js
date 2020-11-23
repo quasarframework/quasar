@@ -604,10 +604,6 @@ const style = [
     path: 'sass-scss-variables'
   },
   {
-    name: 'Stylus Variables',
-    path: 'stylus-variables'
-  },
-  {
     name: 'Other Helper Classes',
     path: 'other-helper-classes'
   }
