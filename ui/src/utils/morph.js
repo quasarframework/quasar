@@ -413,7 +413,8 @@ export default function morph (_options) {
           elTo.style[prop] = options.style[prop]
         }
       }
-
+      // ensure that the element ends up on top while animating
+      elTo.style['zIndex'] = '10000'
       // we position the morphing element
       // if we use fixed position for the final element we need to adjust for scroll
       const documentScroll = elToNeedsFixedPosition === true
