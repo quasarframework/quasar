@@ -1,6 +1,6 @@
 /* global gtag */
 
-import { createRouter, createMemoryHistory, createWebHashHistory } from 'vue-router'
+import { createRouter, createMemoryHistory, createWebHistory } from 'vue-router'
 
 import routes from './routes'
 
@@ -16,7 +16,7 @@ import routes from './routes'
 export default function () {
   const createHistory = process.env.MODE === 'ssr'
     ? createMemoryHistory
-    : createWebHashHistory
+    : createWebHistory
 
   const Router = createRouter({
     scrollBehavior: (_, __, savedPosition) => savedPosition || { x: 0, y: 0 },

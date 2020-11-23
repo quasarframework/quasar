@@ -16,7 +16,7 @@
           'doing fine, how r you?',
           'I just feel like typing a really, really, <strong>REALLY</strong> long message to annoy you...'
         ]"
-        text-sanitize
+        text-html
         size="6"
         stamp="4 minutes ago"
         text-color="white"
@@ -24,10 +24,10 @@
       />
       <q-chat-message
         name="<span class='text-negative'>Jao (untrusted)</span>"
-        name-sanitize
+        name-html
         avatar="https://cdn.quasar.dev/img/avatar5.jpg"
         :text="['<strong>Did it work?</strong>']"
-        text-sanitize
+        text-html
         stamp="1 minutes ago"
         size="8"
         text-color="white"

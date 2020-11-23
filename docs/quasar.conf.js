@@ -80,7 +80,25 @@ module.exports = function (ctx) {
         loadingBar: {
           color: 'amber'
         }
-      }
+      },
+
+      plugins: [
+        'AddressbarColor',
+        'AppFullscreen',
+        'AppVisibility',
+        'BottomSheet',
+        'Cookies',
+        'Dark',
+        'Dialog',
+        'Loading',
+        'LoadingBar',
+        'LocalStorage',
+        'Meta',
+        'Notify',
+        'Platform',
+        'Screen',
+        'SessionStorage'
+      ]
     },
 
     animations: [ 'fadeIn', 'fadeOut' ],

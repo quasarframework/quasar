@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-md column items-start q-gutter-y-md">
     <q-file
-      :value="files"
-      @input="updateFiles"
+      :model-value="files"
+      @update:modelValue="updateFiles"
       label="Pick files"
       outlined
       multiple

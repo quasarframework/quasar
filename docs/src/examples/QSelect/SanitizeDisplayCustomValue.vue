@@ -5,7 +5,7 @@
     </q-badge>
 
     <div class="q-gutter-md">
-      <q-toggle v-model="displayValueSanitize" label="Sanitize display value" />
+      <q-toggle v-model="displayHtml" label="Sanitize display value" />
 
       <q-select
         filled
@@ -14,7 +14,7 @@
         stack-label
         label="Standard"
         :display-value="`Company: ${model ? model.label : '*none*'}`"
-        :display-value-sanitize="displayValueSanitize"
+        :display-value-html="displayHtml"
       >
         <template v-slot:append>
           <q-icon
@@ -45,7 +45,7 @@ export default {
   data () {
     return {
       model: options[0],
-      displayValueSanitize: false,
+      displayHtml: false,
       options
     }
   }

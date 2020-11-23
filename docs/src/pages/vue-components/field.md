@@ -3,7 +3,7 @@ title: Field
 desc: The QField Vue component is used to provide common functionality and aspect to form components.
 ---
 
-The QField component is used to provide common functionality and aspect to form components. It uses `:value` (or `v-model` if you want to use `clearable` property) to have knowledge of the model of the component inside. It has support for labels, hints, errors, validation, and comes in a variety of styles and colors.
+The QField component is used to provide common functionality and aspect to form components. It uses `:model-value` (or `v-model` if you want to use `clearable` property) to have knowledge of the model of the component inside. It has support for labels, hints, errors, validation, and comes in a variety of styles and colors.
 
 QField allows you to display any form control (or almost anything as a matter of fact) inside it. Just place your desired content inside the `control` slot.
 
@@ -77,7 +77,7 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon.
 
 ::: warning
-If using `clearable` you must use `v-model` or listen on `@input` and update the value.
+If using `clearable` you must use `v-model` or listen on `@update:modelValue` and update the value.
 :::
 
 <doc-example title="Clearable" file="QField/Clearable" />

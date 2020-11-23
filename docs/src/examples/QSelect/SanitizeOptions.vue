@@ -7,7 +7,7 @@
     <div class="q-gutter-md">
       <q-toggle v-model="optionsSanitize" label="Sanitize options" />
 
-      <q-select filled v-model="model" :options="options" label="Standard" :options-sanitize="optionsSanitize" />
+      <q-select filled v-model="model" :options="options" label="Standard" options-html />
     </div>
   </div>
 </template>
@@ -17,7 +17,6 @@ export default {
   data () {
     return {
       model: null,
-      optionsSanitize: false,
       options: [
         {
           label: '<span class="text-primary">G</span>oogle',
@@ -26,7 +25,7 @@ export default {
         {
           label: '<span class="text-primary">This is</span> sanitized through option',
           value: 'Facebook',
-          sanitize: true
+          html: true
         }
       ]
     }

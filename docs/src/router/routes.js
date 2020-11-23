@@ -110,7 +110,7 @@ const routes = [
 
   // Always leave this as last one
   {
-    path: '*',
+    path: '/:catchAll(.*)*',
     component: () => import('pages/Error404.vue')
   }
 ]

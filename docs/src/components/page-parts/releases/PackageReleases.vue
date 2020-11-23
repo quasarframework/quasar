@@ -1,5 +1,5 @@
 <template lang="pug">
-q-splitter.release__splitter(:value="20" :limits="[14, 90]")
+q-splitter.release__splitter(:model-value="20" :limits="[14, 90]")
   template(#before)
     q-scroll-area
       q-input(v-model="search" dense square standout color="white" placeholder="Search..." input-class="text-center" clearable)

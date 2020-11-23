@@ -7,12 +7,12 @@
           <q-input
             autofocus
             dense
-            :value="nickname"
+            :model-value="nickname"
             hint="Your nickname"
             :rules="[
               val => validate(value) || 'More than 5 chars required'
             ]"
-            @input="emitValue"
+            @update:modelValue="emitValue"
           >
             <template v-slot:after>
               <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />

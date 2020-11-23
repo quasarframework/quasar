@@ -71,7 +71,7 @@ export default defineComponent({
         target: '_blank'
       })
 
-      return h(QItem, props, [
+      return h(QItem, props, () => [
         menu.icon !== void 0
           ? h(QItemSection, {
             avatar: true

@@ -4,7 +4,7 @@
       <q-list>
         <q-item v-for="item in allTabs" :key="item.tab.name" tag="label" dense v-ripple>
           <q-item-section side>
-            <q-checkbox :value="item.selected" @input="status => { setTabSelected(item.tab, status) }" />
+            <q-checkbox :model-value="item.selected" @update:modelValue="status => { setTabSelected(item.tab, status) }" />
           </q-item-section>
 
           <q-item-section>

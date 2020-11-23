@@ -5,7 +5,7 @@
     </q-badge>
 
     <q-range
-      :value="lazy"
+      :model-value="lazy"
       @change="val => { lazy = val }"
       :min="0"
       :max="50"

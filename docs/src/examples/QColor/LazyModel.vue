@@ -5,7 +5,7 @@
     </q-badge>
 
     <q-color
-      :value="hex"
+      :model-value="hex"
       @change="val => { hex = val }"
       style="max-width: 250px"
     />

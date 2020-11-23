@@ -3,7 +3,7 @@
     <div class="q-gutter-md row">
       <q-select
         filled
-        :value="model"
+        :model-value="model"
         use-input
         hide-selected
         fill-input
