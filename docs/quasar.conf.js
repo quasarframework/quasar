@@ -74,7 +74,6 @@ module.exports = function (ctx) {
     },
 
     framework: {
-      importStrategy: 'all',
       iconSet: 'svg-mdi-v5',
 
       config: {
