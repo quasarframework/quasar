@@ -75,7 +75,7 @@ export default defineComponent({
         menu.icon !== void 0
           ? h(QItemSection, {
             avatar: true
-          }, () => h(QIcon, { props: { name: menu.icon } }))
+          }, () => h(QIcon, { name: menu.icon }))
           : null,
 
         h(QItemSection, () => menu.name),
@@ -83,7 +83,7 @@ export default defineComponent({
         menu.badge !== void 0
           ? h(QItemSection, {
             side: true
-          }, () => h(QBadge, [ menu.badge ]))
+          }, () => h(QBadge, { label: menu.badge }))
           : null
       ])
     }

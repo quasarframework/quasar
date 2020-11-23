@@ -65,9 +65,9 @@ export default defineComponent({
   methods: {
     getDiv (col, propName, propValue, slot) {
       return h('div', { class: `api-row__item col-xs-12 col-sm-${col}` }, [
-        h('div', [ propName ]),
+        h('div', propName),
         propValue !== void 0
-          ? h('div', { class: 'api-row__value' }, [ propValue ])
+          ? h('div', { class: 'api-row__value' }, propValue)
           : slot
       ])
     },
@@ -79,10 +79,8 @@ export default defineComponent({
       if (propName !== void 0) {
         child.push(
           this.getDiv(4, 'Name', h(QBadge, {
-            props: {
-              color: NAME_PROP_COLOR[level],
-              label: propName
-            }
+            color: NAME_PROP_COLOR[level],
+            label: propName
           }))
         )
 
@@ -148,9 +146,7 @@ export default defineComponent({
             h(
               'div',
               { class: 'api-row--indent api-row__value' },
-              prop.values.map(val => h('div', {
-                class: 'api-row__example'
-              }, [ val ]))
+              prop.values.map(val => h('div', { class: 'api-row__example' }, val))
             )
           )
         )
@@ -237,9 +233,7 @@ export default defineComponent({
             h(
               'div',
               { class: 'api-row--indent api-row__value' },
-              prop.examples.map(example => h('div', {
-                class: 'api-row__example'
-              }, [ example ]))
+              prop.examples.map(example => h('div', { class: 'api-row__example' }, example))
             )
           )
         )
@@ -301,10 +295,8 @@ export default defineComponent({
         child.push(
           h('div', { class: 'api-row row' }, [
             this.getDiv(12, 'Name', h(QBadge, {
-              props: {
-                color: NAME_PROP_COLOR[0],
-                label: `@${eventName}${getEventParams(event)}`
-              }
+              color: NAME_PROP_COLOR[0],
+              label: `@${eventName}${getEventParams(event)}`
             })),
             event.addedIn !== void 0
               ? this.getDiv(12, 'Added in', event.addedIn)
@@ -330,10 +322,8 @@ export default defineComponent({
 
         const nodes = [
           this.getDiv(12, 'Name', h(QBadge, {
-            props: {
-              color: NAME_PROP_COLOR[0],
-              label: `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
-            }
+            color: NAME_PROP_COLOR[0],
+            label: `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
           })),
           method.addedIn !== void 0
             ? this.getDiv(12, 'Added in', method.addedIn)
@@ -455,8 +445,8 @@ export default defineComponent({
       ? this[this.which](api)
       : [
         h('div', { class: 'q-pa-md text-grey-9' }, [
-          h('div', [ 'No matching entries found on this tab.' ]),
-          h('div', [ 'Please check the other tabs/subtabs with a number badge on their label or refine the filter.' ])
+          h('div', 'No matching entries found on this tab.'),
+          h('div', 'Please check the other tabs/subtabs with a number badge on their label or refine the filter.')
         ])
       ]
 
