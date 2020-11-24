@@ -260,7 +260,8 @@ public class UploadRest {
 
 ### Python/Flask
 
-```python
+```
+// python
 from flask import Flask, request
 from werkzeug import secure_filename
 from flask_cors import CORS
