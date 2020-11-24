@@ -14,16 +14,16 @@
           emit-value
           map-options
       >
-        <template v-slot:option="scope">
+        <template v-slot:option="{ itemProps, itemEvents, opt, selected, toggleOption }">
           <q-item
-            v-bind="scope.itemProps"
-            v-on="scope.itemEvents"
+            v-bind="itemProps"
+            v-on="itemEvents"
           >
             <q-item-section>
-              <q-item-label v-html="scope.opt.label" ></q-item-label>
+              <q-item-label v-html="opt.label" ></q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-toggle v-model="model" :val="scope.opt.value" />
+              <q-toggle :value="selected" @input="toggleOption(opt)" />
             </q-item-section>
           </q-item>
         </template>
