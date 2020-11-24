@@ -22,6 +22,7 @@
             class="col"
             v-model="color"
             float-label="Quick Pick"
+            emit-value
             :options="colorOptions"
           />
         </div>
@@ -59,9 +60,9 @@ export default {
       size: 36,
       color: 'primary',
       spinners: [
-        'audio', 'ball', 'bars', 'comment',
+        'audio', 'ball', 'bars', 'box', 'clock', 'comment',
         'cube', 'dots', 'facebook', 'gears', 'grid', 'hearts',
-        'hourglass', 'infinity', 'ios', 'oval',
+        'hourglass', 'infinity', 'ios', 'orbit', 'oval',
         'pie', 'puff', 'radio', 'rings', 'tail'
       ],
       colorOptions: [
