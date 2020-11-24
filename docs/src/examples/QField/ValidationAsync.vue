@@ -3,7 +3,7 @@
     <q-field
       ref="slider"
       filled
-      :value="slider"
+      :model-value="slider"
       hint="Pick between 10 and 60"
       :rules="[ myRule ]"
     >

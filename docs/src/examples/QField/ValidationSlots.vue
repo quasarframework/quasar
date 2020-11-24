@@ -2,7 +2,7 @@
   <div class="q-pa-md" style="max-width: 300px">
     <q-field
       filled
-      :value="slider"
+      :model-value="slider"
       label="Move it above 30"
       bottom-slots
       hint="Max value is 30"

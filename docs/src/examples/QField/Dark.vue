@@ -38,7 +38,7 @@
         </template>
       </q-field>
 
-      <q-field dark standout bottom-slots :value="text" label="Label" stack-label counter :readonly="readonly" :disable="disable">
+      <q-field dark standout bottom-slots :model-value="text" label="Label" stack-label counter :readonly="readonly" :disable="disable">
         <template v-slot:prepend>
           <q-icon name="place" />
         </template>

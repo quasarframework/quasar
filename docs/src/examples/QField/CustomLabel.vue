@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
-      <q-field filled :value="email" suffix="@gmail.com" label-slot>
+      <q-field filled :model-value="email" suffix="@gmail.com" label-slot>
         <template v-slot:label>
           <div class="row items-center all-pointer-events">
             <q-icon class="q-mr-xs" color="deep-orange" size="24px" name="mail" />
@@ -16,7 +16,7 @@
         </template>
       </q-field>
 
-      <q-field outlined :value="number" prefix="$" label-slot>
+      <q-field outlined :model-value="number" prefix="$" label-slot>
         <template v-slot:control>
           <div class="self-center full-width no-outline" tabindex="0">{{number}}</div>
         </template>

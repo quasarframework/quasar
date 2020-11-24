@@ -4,7 +4,7 @@
       <q-field
         filled
         :hint="`Slider with value ${ slider }`"
-        :value="slider"
+        :model-value="slider"
         @update:modelValue="val => (val === null && (slider = 50))"
         clearable
       >
@@ -24,7 +24,7 @@
       <q-field
         filled
         :hint="`Range between ${ range.min } and ${ range.max }`"
-        :value="range"
+        :model-value="range"
         @update:modelValue="val => (val === null && (range = { min: 0, max: 100}))"
         clearable
       >
@@ -41,7 +41,7 @@
       <q-field
         filled
         :hint="`Knob with value ${ knob }`"
-        :value="knob"
+        :model-value="knob"
         @update:modelValue="val => (val === null && (knob = 50))"
         clearable
       >

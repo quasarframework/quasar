@@ -239,7 +239,7 @@ Or you can use money component:
   hint="Mask: $ #,###.00 #"
 >
   <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-    <money :id="id" class="q-field__input text-right" :value="value" @update:modelValue="emitValue" v-bind="moneyFormatForComponent" v-show="floatingLabel" />
+    <money :id="id" class="q-field__input text-right" :model-value="value" @update:modelValue="emitValue" v-bind="moneyFormatForComponent" v-show="floatingLabel" />
   </template>
 </q-field>
 ```

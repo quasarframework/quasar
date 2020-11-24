@@ -23,7 +23,7 @@
         </template>
       </q-field>
 
-      <q-field square standout bottom-slots :value="text" label="Label" stack-label counter>
+      <q-field square standout bottom-slots :model-value="text" label="Label" stack-label counter>
         <template v-slot:prepend>
           <q-icon name="place" />
         </template>

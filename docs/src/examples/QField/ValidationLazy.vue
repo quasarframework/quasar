@@ -3,7 +3,7 @@
     <q-field
       ref="slider"
       filled
-      :value="slider"
+      :model-value="slider"
       label="Value must be less than 60"
       hint="Validation starts after first blur"
       :rules="[

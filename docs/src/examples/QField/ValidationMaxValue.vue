@@ -3,7 +3,7 @@
     <q-field
       ref="slider"
       filled
-      :value="slider"
+      :model-value="slider"
       label="Maximum 60"
       stack-label
       :rules="[ val => val <= 60 || 'Please set value to maximum 60' ]"
