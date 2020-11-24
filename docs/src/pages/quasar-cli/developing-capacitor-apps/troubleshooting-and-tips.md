@@ -157,13 +157,13 @@ Quasar has support for these CSS safe-areas by default in QHeader/QFooter and No
 
 In cases you need to manually tweak your CSS you can do so with:
 
-```stylus
+```
 // for your app's header
-padding-top constant(safe-area-inset-top) // for iOS 11.0
-padding-top env(safe-area-inset-top) // for iOS 11.2 +
+padding-top: constant(safe-area-inset-top) // for iOS 11.0
+padding-top: env(safe-area-inset-top) // for iOS 11.2 +
 // for your app's footer
-padding-bottom constant(safe-area-inset-bottom)
-padding-bottom env(safe-area-inset-bottom)
+padding-bottom: constant(safe-area-inset-bottom)
+padding-bottom: env(safe-area-inset-bottom)
 ```
 
 Of course you can also use the above example with `margin` instead of `padding` depending on your app.

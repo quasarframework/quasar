@@ -75,7 +75,6 @@
       q-tabs.text-grey-7(v-model="exportTab", active-color="primary" align="justify")
         q-tab(name="sass", no-caps, label="Sass")
         q-tab(name="scss", no-caps, label="SCSS")
-        q-tab(name="styl", no-caps, label="Stylus")
         q-tab(name="quasar-cli", no-caps, label="Quasar CLI")
         q-tab(name="umd", no-caps, label="UMD")
         q-tab(name="vue-cli", no-caps, label="Vue CLI")
@@ -229,21 +228,8 @@ export default {
         `$warning   : ${this.colors.warning};`
     },
 
-    stylusExport () {
-      return '// src/css/quasar.variables.styl\n\n' +
-        `$primary   = ${this.colors.primary}\n` +
-        `$secondary = ${this.colors.secondary}\n` +
-        `$accent    = ${this.colors.accent}\n\n` +
-        `$dark      = ${this.colors.dark}\n\n` +
-        `$positive  = ${this.colors.positive}\n` +
-        `$negative  = ${this.colors.negative}\n` +
-        `$info      = ${this.colors.info}\n` +
-        `$warning   = ${this.colors.warning}`
-    },
-
     quasarCliExport () {
       return `// quasar.conf.js
-// (will not work for IE11)
 
 return {
   framework: {
@@ -267,7 +253,6 @@ return {
 
     umdExport () {
       return `// place before including Quasar UMD script
-// (will not work for IE11)
 
 window.quasarConfig = {
   brand: {
@@ -287,7 +272,6 @@ window.quasarConfig = {
 
     vueCliExport () {
       return `// main.js
-// (will not work for IE11)
 
 Vue.use(Quasar, {
   config: {

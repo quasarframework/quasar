@@ -1,16 +1,16 @@
 ---
 title: CSS Preprocessors
-desc: Sass/SCSS/Stylus are the out of the box supported css preprocessors in Quasar
+desc: Sass/SCSS are the out of the box supported css preprocessors in Quasar
 related:
   - /style/sass-scss-variables
 ---
 
-**Sass** or **SCSS** (recommending any of the two flavours) and **Stylus** are the out of the box supported css preprocessors through Quasar CLI, should you want to use them.
+**Sass** or **SCSS** (recommending any of the two flavours) are the out of the box supported css preprocessors through Quasar CLI, should you want to use them.
 
 You won't need to install any additional packages or extend the Webpack configuration.
 
 ## How to
-Your Vue files can contain Sass/SCSS/Stylus code through the `<style>` tag.
+Your Vue files can contain Sass/SCSS code through the `<style>` tag.
 
 ```html
 <!-- Notice lang="sass" -->
@@ -28,15 +28,6 @@ div {
   color: #444;
   background-color: #dadada;
 }
-</style>
-```
-
-```html
-<!-- Notice lang="stylus" -->
-<style lang="stylus">
-div
-  color #444
-  background-color #dadada
 </style>
 ```
 

@@ -62,7 +62,7 @@ body.screen--sm {
 }
 ```
 
-Or a sexy variant in Sass or Stylus:
+Or a sexy variant in Sass:
 
 ```css
 .my-div

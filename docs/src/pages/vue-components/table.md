@@ -143,7 +143,7 @@ You can have both virtual scroll and pagination:
 
 <doc-example title="Virtual scroll and pagination" file="QTable/VirtscrollPagination" />
 
-The example below shows how virtual scroll can be used along with a sticky header. Notice the `virtual-scroll-sticky-start` prop which is set to the header height. Also note that this will NOT work in IE11 due to the lack of support for CSS prop "position" with value "sticky".
+The example below shows how virtual scroll can be used along with a sticky header. Notice the `virtual-scroll-sticky-start` prop which is set to the header height.
 
 <doc-example title="Virtual scroll with sticky header" file="QTable/VirtscrollSticky" />
 

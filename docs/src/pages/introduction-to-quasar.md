@@ -104,7 +104,7 @@ We are always attentive to the security of Quasar and the security of apps built
 When developers encounter a problem they can’t solve, they can visit the Quasar [forum](https://forum.quasar.dev/) or our [Discord chat server](https://chat.quasar.dev). The community is always there to help you. You can also get updates on new versions and features by following us on [Twitter](https://twitter.quasar.dev). You can also get special service as a [backer/sponsor](https://donate.quasar.dev) and help make sure Quasar stays relevant for you in the future too!
 
 #### A wide range of platform support
-Google Chrome, Firefox, IE11/Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry, MacOS, Linux, Windows.
+Google Chrome, Firefox, Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry, MacOS, Linux, Windows.
 
 #### Quasar Language Packs
 Quasar comes equipped with over 40 language packs out of the box. On top of that, if your language pack is missing, it takes just 5 minutes to add it.

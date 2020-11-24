@@ -270,19 +270,17 @@ $ yarn lint # or: npm run lint
 
 - `src` - contains the source code, obviously. The codebase is written in ES2015.
 
-  - `components` - JS, Stylus and JSON (API) files for Quasar Vue components
+  - `components` - JS, Sass and JSON (API) files for Quasar Vue components
 
   - `directives` - Vue directives supplied by Quasar
 
   - `plugins` - Quasar plugins
 
-  - `css` - Stylus definitions and core code for Quasar themes
+  - `css` - Sass definitions and core code for Quasar themes
 
   - `mixins` - code for global mixins that are internal to Quasar
 
   - `utils` - utilities used by the framework and exported to the public API
-
-  - `ie-compat` - code for IE11 compatibility
 
 - `lang` - Quasar language packs
 

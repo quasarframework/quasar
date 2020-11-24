@@ -61,13 +61,6 @@ If you need an exception so your CSS code will not add a corresponding RTL rule,
 }
 ```
 
-...or, if you are using Stylus:
-
-```css
-.my-class
-  margin-left 10px /* rtl:ignore */
-```
-
 ...or SCSS with indented form:
 
 ```css

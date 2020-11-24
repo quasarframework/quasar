@@ -5,7 +5,7 @@ components:
   - color-palette/BrandColors
   - color-palette/ColorList
 ---
-Quasar Framework offers a wide selection of colors out of the box. You can use them both as Sass/SCSS/Stylus variables in your CSS code or directly as CSS classes in your HTML templates.
+Quasar Framework offers a wide selection of colors out of the box. You can use them both as Sass/SCSS variables in your CSS code or directly as CSS classes in your HTML templates.
 
 ## Brand Colors
 Most of the colors that Quasar Components use are strongly linked with these three colors that you can change. Choosing these colors is the first step one should take when differentiating the design of an App. You'll notice immediately upon changing their default values that Quasar Components follow these colors as a guideline.
@@ -33,7 +33,8 @@ Use `text-` or `bg-` prefixes as class names to change the color of text or the 
 <p class="bg-positive">...</p>
 ```
 
-## Using Sass/SCSS/Stylus Variables
+## Using Sass/SCSS Variables
+
 In your app's `*.vue` files you can use the colors as `$primary`, `$red-1`, and so on.
 
 ```html
@@ -52,15 +53,6 @@ div {
   color: $red-1;
   background-color: $grey-5;
 }
-</style>
-```
-
-```html
-<!-- Notice lang="stylus" -->
-<style lang="stylus">
-div
-  color $red-1
-  background-color $grey-5
 </style>
 ```
 
@@ -85,11 +77,6 @@ Starting with v1.10+, you can access a custom color value (hex string) in JS con
 
 ## Dynamic Change of Brand Colors (Dynamic Theme Colors)
 
-::: warning
-This is only supported on [browsers that support CSS Variables](https://caniuse.com/#feat=css-variables) (Custom Properties).
-It is not going to work on IE11, but it will fall back to the brand colors from the CSS theme.
-:::
-
 You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
 
 The main color configuration is done using CSS custom properties, stored on the root element (`:root`). Each property has a name of `--q-color-${name}` (example: `--q-color-primary`, `--q-color-secondary`) and should have a valid CSS color as value.
@@ -101,10 +88,6 @@ The recommended workflow is to set your customized color properties on the `html
 More info on CSS custom properties (variables) on [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables).
 
 ### Helper - setBrand
-
-::: danger
-Not supported by IE11
-:::
 
 Quasar offers a helper function for setting custom colors in the `colors` utils: `setBrand(colorName, colorValue[, element])`
 
@@ -133,10 +116,6 @@ document.body.style.setProperty('--q-color-primary', '#0273d4')
 
 ### Helper - getBrand
 
-::: danger
-Not supported by IE11
-:::
-
 Quasar offers a helper function for setting custom colors in the `colors` utils: `getBrand(colorName[, element])`
 
 | Parameter | Type | Required | Description |
@@ -163,11 +142,7 @@ getComputedStyle(document.documentElement)
 
 ### Setting Up Defaults
 
-::: danger
-Not supported by IE11
-:::
-
-Should you wish to set up some brand colors without tampering with the Stylus variables, you can do so in quasar.conf.js:
+Should you wish to set up some brand colors without tampering with the Sass variables, you can do so in quasar.conf.js:
 
 ```
 // quasar.conf.js

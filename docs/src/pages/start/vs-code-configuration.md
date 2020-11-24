@@ -102,7 +102,6 @@ You can now edit files without violating the standard es-lint rules!
 - [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost)
 - [Sass](https://marketplace.visualstudio.com/items?itemName=Syler.sass-indented)
 - [Sass Lint](https://marketplace.visualstudio.com/items?itemName=glen-84.sass-lint)
-- [language-stylus](https://marketplace.visualstudio.com/items?itemName=sysoev.language-stylus)
 - [npm](https://marketplace.visualstudio.com/items?itemName=eg2.vscode-npm-script)
 - [npm Intellisense](https://marketplace.visualstudio.com/items?itemName=christian-kohler.npm-intellisense)
 - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)

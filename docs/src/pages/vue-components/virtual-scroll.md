@@ -23,7 +23,7 @@ There are currently two types of QVirtualScroll: "list" (using QItems) and "tabl
 :::
 
 ::: warning
-* There is a maximum height of the scrolling container, imposed by the browser. In IE11 this is around 1,000,000px, while in the rest of the browsers it's much more, but still limited.
+There is a maximum height of the scrolling container, imposed by each browser. In IE11 this is around 1,000,000px, while in the rest of the browsers it's much more, but still limited.
 :::
 
 Scroll the examples below to see QVirtualScroll in action.
@@ -54,10 +54,6 @@ With header that scrolls along with content (doesn't stay in place).
 <doc-example title="Table with scrolling header/footer" file="QVirtualScroll/TableBasicHeader" />
 
 Notice (in the example below) the CSS required to make the table header and footer "sticky". Also note the additional scoped slots which define the header and footer content.
-
-::: danger
-IE11 does not supports the sticky header/footer.
-:::
 
 <doc-example title="Sticky headers table" file="QVirtualScroll/TableSticky" />
 

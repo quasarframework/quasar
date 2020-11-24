@@ -65,8 +65,6 @@ Following this guide should take you at most 5 minutes to complete.
   ]
   ```
 
-  IE11 support is now enabled only if "browserslist" contains it (`ie 11` or `ie >= 11`) or if any of your queries silently includes it (example: `> 0.5%`).
-
 * Update to the newly `/public` folder (which replaces the old `/src/statics`):
   - do a global search and replace for "statics/" and replace with "" (empty string), including in `/quasar.conf.js`.
   - move `/src/statics/*` to `/public/*`; then move "/public/icons/favicon.ico" directly under "/public"

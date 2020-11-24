@@ -19,9 +19,9 @@ To learn how to use them, please visit the [Visibility](/style/visibility) page.
 
 You might also want to take a look at the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox#Responsive-Design) on the "Responsive Design" section.
 
-### Sass and Stylus
+### Sass
 
-You can also use the breakpoints in Stylus:
+You can also use the breakpoints in Sass:
 
 ```
 @media (max-width: $breakpoint-xs-max)

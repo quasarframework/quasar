@@ -6,7 +6,6 @@
         <q-tabs class="text-grey-7" v-model="exportTab" active-color="primary" align="justify">
           <q-tab name="sass" no-caps label="Sass" />
           <q-tab name="scss" no-caps label="SCSS" />
-          <q-tab name="styl" no-caps label="Stylus" />
           <q-tab name="quasar-cli" no-caps label="Quasar CLI" />
           <q-tab name="umd" no-caps label="UMD" />
           <q-tab name="vue-cli" no-caps label="Vue CLI" />
@@ -21,10 +20,6 @@
 
           <q-tab-panel class="q-pa-none" name="scss">
             <pre>{{ scssExport }}</pre>
-          </q-tab-panel>
-
-          <q-tab-panel class="q-pa-none" name="styl">
-            <pre>{{ stylusExport }}</pre>
           </q-tab-panel>
 
           <q-tab-panel class="q-pa-none" name="quasar-cli">
@@ -153,18 +148,6 @@ export default {
         `$negative  : ${this.colors.negative};\n` +
         `$info      : ${this.colors.info};\n` +
         `$warning   : ${this.colors.warning};`
-    },
-
-    stylusExport () {
-      return '// src/css/quasar.variables.styl\n\n' +
-        `$primary   = ${this.colors.primary}\n` +
-        `$secondary = ${this.colors.secondary}\n` +
-        `$accent    = ${this.colors.accent}\n\n` +
-        `$dark      = ${this.colors.dark}\n\n` +
-        `$positive  = ${this.colors.positive}\n` +
-        `$negative  = ${this.colors.negative}\n` +
-        `$info      = ${this.colors.info}\n` +
-        `$warning   = ${this.colors.warning}`
     },
 
     quasarCliExport () {

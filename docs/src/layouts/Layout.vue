@@ -103,14 +103,16 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           q-item-section {{ tocItem.title }}
 
   q-page-container
-    router-view(v-slot="{ Component }")
-      transition(
-        enter-active-class="animated fadeIn"
-        leave-active-class="animated fadeOut"
-        mode="out-in"
-        @leave="resetScroll"
-      )
-        component(:is="Component")
+    router-view
+    //- TODO vue3 - wait for router-view + transition bugfix
+    //- router-view(v-slot="{ Component }")
+    //-   transition(
+    //-     enter-active-class="animated fadeIn"
+    //-     leave-active-class="animated fadeOut"
+    //-     mode="out-in"
+    //-     @leave="resetScroll"
+    //-   )
+    //-     component(:is="Component")
 
   q-page-scroller
     q-btn(fab-mini, color="primary", glossy, :icon="mdiChevronUp")
@@ -206,6 +208,7 @@ export default {
       if (hash === '') {
         this.$nextTick(() => {
           this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
+          this.resetScroll()
         })
       }
     },
@@ -226,10 +229,10 @@ export default {
       this.rightDrawerState = !this.rightDrawerState
     },
 
-    resetScroll (el, done) {
+    resetScroll (_, done) {
       document.documentElement.scrollTop = 0
       document.body.scrollTop = 0
-      done()
+      done !== void 0 && done()
     },
 
     scrollTo (id) {

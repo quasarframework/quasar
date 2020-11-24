@@ -12,10 +12,9 @@ So what can you configure through `/quasar.conf.js`?
 * Development server port, HTTPS mode, hostname and so on
 * [CSS animations](/options/animations) that you wish to use
 * [Boot Files](/quasar-cli/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
-* Global CSS/Stylus/... files to be included in the bundle
+* Global CSS/Sass/... files to be included in the bundle
 * PWA [manifest](/quasar-cli/developing-pwa/configuring-pwa#Configuring-Manifest-File) and [Workbox options](/quasar-cli/developing-pwa/configuring-pwa#Quasar.conf.js)
 * [Electron Packager](/quasar-cli/developing-electron-apps/configuring-electron#Quasar.conf.js) and/or [Electron Builder](/quasar-cli/developing-electron-apps/configuring-electron#Quasar.conf.js)
-* IE11+ support
 * Extend Webpack config
 
 ::: tip
@@ -130,7 +129,7 @@ Let's take each option one by one:
 
 | Property | Type | Description |
 | --- | --- | --- |
-| css | Array | Global CSS/Stylus/... files from `/src/css/`, except for theme files, which are included by default. |
+| css | Array | Global CSS/Sass/... files from `/src/css/`, except for theme files, which are included by default. |
 | preFetch | Boolean | Enable [PreFetch Feature](/quasar-cli/prefetch-feature). |
 | extras | Array | What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. Example: _['material-icons', 'roboto-font', 'ionicons-v4']_ |
 | vendor | Object | Add/remove files/3rd party libraries to/from vendor chunk: { add: [...], remove: [...] }. |
@@ -148,7 +147,7 @@ Let's take each option one by one:
 | electron | Object | Electron specific [config](/quasar-cli/developing-electron-apps/configuring-electron). |
 
 ### Property: css
-Global CSS/Stylus/... files from `/src/css/`, except for theme files, which are included by default.
+Global CSS/Sass/... files from `/src/css/`, except for theme files, which are included by default.
 
 ```js
 // quasar.conf.js
@@ -186,17 +185,11 @@ Filling "components" and "directives" is required only if "all" is set to `false
 return {
   // a list with all options (all are optional)
   framework: {
-    // Possible values for "importStrategy":
-    // * 'auto' - Auto-import needed Quasar components & directives
-    // * 'all'  - Import everything from Quasar
-    //            (not treeshaking Quasar; biggest bundle size)
-    importStrategy: 'auto',
-
     // is using "auto" import strategy, you can also configure:
     autoImportComponentCase: 'pascal', // or 'kebab' (default) or 'combined'
 
-    // For special cases outside of where auto-import "auto" can have an impact
-    // (like functional components as one of the examples),
+    // For special cases outside of where auto-import can have an impact
+    // (example: vue components written in .js files instead of .vue),
     // you can manually specify Quasar components/directives to be available everywhere:
     //
     // components: [],

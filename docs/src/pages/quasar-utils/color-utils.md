@@ -73,12 +73,6 @@ Returns HEX/A String.
 
 ## Dynamic Change of Brand Colors (Dynamic Theme Colors)
 
-::: warning
-This is only supported on [browsers that support CSS Variables](https://caniuse.com/#feat=css-variables) (Custom Properties).
-
-It is not going to work on IE11, but it will fall back to the brand colors from the CSS theme.
-:::
-
 You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
 
 The main color configuration is done using CSS custom properties, stored on the root element (`:root`). Each property has a name of `--q-color-${name}` (example: `--q-color-primary`, `--q-color-secondary`) and should have a valid CSS color as value.
@@ -140,18 +134,16 @@ getComputedStyle(document.documentElement)
 You can use `setBrand` and `getBrand` to define custom brand colors to use in your application.
 An example of such a new custom color usage:
 
-```stylus
-$primary-darkened = darken($primary, 10%)
+```
+$primary-darkened : scale-color($primary, $lightness: -40%)
 
 :root
-  --q-color-primary-darkened $primary-darkened
+  --q-color-primary-darkened: $primary-darkened
 
 .text-primary-darkened
-  color $primary-darkened !important
-  color var(--q-color-primary-darkened) !important
+  color: var(--q-color-primary-darkened) !important
 .bg-primary-darkened
-  background $primary-darkened !important
-  background var(--q-color-primary-darkened) !important
+  background: var(--q-color-primary-darkened) !important
 ```
 
 ```js

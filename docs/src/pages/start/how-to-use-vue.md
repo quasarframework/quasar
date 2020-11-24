@@ -11,7 +11,7 @@ If you are a total beginner to Vue and reactive UI libraries and want a good tut
 After reading the Vue documentation, let's clear up some of the most frequently asked questions, like *"How can I use Quasar components, Vue properties, methods and events"*.
 
 ## Vue Single File Components (SFC)
-You'll be building your Quasar app using `*.vue` files which contain multiple sections: `template` (HTML), `script` (Javascript) and `style` (CSS/Stylus/SASS/SCSS/Less) all in the same file.
+You'll be building your Quasar app using `*.vue` files which contain multiple sections: `template` (HTML), `script` (Javascript) and `style` (CSS/SASS/SCSS/Stylus/Less) all in the same file.
 
 ```html
 <template>
@@ -35,9 +35,9 @@ export default {
 ```
 
 ### CSS preprocessors
-For the `<style>` tag, you can also use whatever CSS preprocessor you want. [Sass/SCSS](https://sass-lang.com) (recommended) and [Stylus](http://stylus-lang.com/) are available out of the box.
+For the `<style>` tag, you can also use whatever CSS preprocessor you want. [Sass/SCSS](https://sass-lang.com) (recommended) is available out of the box.
 
-You can specify you want your chosen preprocessor to handle the CSS code you're writing:
+You can specify you want your chosen preprocessor to handle the CSS code that you're writing:
 
 ```html
 <!-- notice lang="sass" -->
@@ -51,12 +51,6 @@ You can specify you want your chosen preprocessor to handle the CSS code you're 
 .some-div {
   font-size: 15px;
 }
-</style>
-
-<!-- notice lang="stylus" -->
-<style lang="stylus">
-.some-div
-  font-size 15px
 </style>
 ```
 

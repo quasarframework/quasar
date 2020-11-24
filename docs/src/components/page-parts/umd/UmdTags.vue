@@ -26,7 +26,6 @@ q-card(flat bordered)
     q-toggle(v-model="cfgObject" label="Quasar Configure Object")
     q-toggle(v-model="minified" label="Minified files")
     q-toggle(v-model="rtl" label="RTL CSS support")
-    q-toggle(v-model="ie" label="IE11 support")
 
   q-separator
 
@@ -109,7 +108,6 @@ export default {
       modern: false,
       minified: true,
       rtl: false,
-      ie: false,
       cfgObject: false,
 
       lang: 'en-us',
@@ -172,7 +170,7 @@ export default {
       return `
     <` + `script>
     window.quasarConfig = {
-      brand: { // this will NOT work on IE 11
+      brand: {
         primary: '#e46262',
         // ... or all other brand colors
       },
@@ -223,10 +221,6 @@ export default {
         'cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js',
         `cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.umd.${this.modern === true ? 'modern.' : ''}min.js`
       ]
-
-      if (this.ie === true) {
-        js.unshift(`cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.ie.polyfills.umd.min.js`)
-      }
 
       if (this.lang !== 'en-us') {
         js.push(`cdn.jsdelivr.net/npm/quasar@${this.version}/dist/lang/${this.lang}.umd.min.js`)
