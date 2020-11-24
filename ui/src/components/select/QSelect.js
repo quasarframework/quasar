@@ -74,8 +74,14 @@ export default Vue.extend({
     optionsCover: Boolean,
 
     menuShrink: Boolean,
-    menuAnchor: String,
-    menuSelf: String,
+    menuAnchor: {
+      type: String,
+      default: 'bottom end'
+    },
+    menuSelf: {
+      type: String,
+      default: 'top end'
+    },
     menuOffset: Array,
 
     popupContentClass: String,
@@ -929,10 +935,10 @@ export default Vue.extend({
     },
 
     __getInnerAppend (h) {
-      return this.loading !== true && this.innerLoading !== true && this.hideDropdownIcon !== true
+      return this.loading !== true && this.innerLoadingIndicator !== true && this.hideDropdownIcon !== true
         ? [
           h(QIcon, {
-            staticClass: 'q-select__dropdown-icon',
+            staticClass: 'q-select__dropdown-icon' + (this.menu === true ? ' rotate-180' : ''),
             props: { name: this.dropdownArrowIcon }
           })
         ]
@@ -1031,6 +1037,7 @@ export default Vue.extend({
       }
       else {
         this.innerLoading = true
+        this.innerLoadingIndicator = true
       }
 
       if (
@@ -1058,6 +1065,9 @@ export default Vue.extend({
 
             typeof fn === 'function' && fn()
 
+            // hide indicator to allow arrow to animate
+            this.innerLoadingIndicator = false
+
             this.$nextTick(() => {
               this.innerLoading = false
 
@@ -1078,6 +1088,7 @@ export default Vue.extend({
           if (this.focused === true && this.filterId === filterId) {
             clearTimeout(this.filterId)
             this.innerLoading = false
+            this.innerLoadingIndicator = false
           }
           this.menu === true && (this.menu = false)
         }
@@ -1195,8 +1206,9 @@ export default Vue.extend({
             for: this.targetUid,
             dark: this.isOptionsDark,
             square: true,
-            loading: this.innerLoading,
             filled: true,
+            itemAligned: false,
+            loading: this.innerLoadingIndicator,
             stackLabel: this.inputValue.length > 0
           },
           on: {
@@ -1298,6 +1310,7 @@ export default Vue.extend({
         if (this.innerLoading === true) {
           this.$emit('filter-abort')
           this.innerLoading = false
+          this.innerLoadingIndicator = false
         }
       }
     },

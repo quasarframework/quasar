@@ -16,6 +16,11 @@ function filterFiles (files, rejectedFiles, failedPropValidation, filterFn) {
   return acceptedFiles
 }
 
+function stopAndPreventDrag (e) {
+  e && e.dataTransfer && (e.dataTransfer.dropEffect = 'copy')
+  stopAndPrevent(e)
+}
+
 export default {
   props: {
     multiple: Boolean,
@@ -147,8 +152,8 @@ export default {
     },
 
     __onDragOver (e) {
-      stopAndPrevent(e)
-      this.dnd = true
+      stopAndPreventDrag(e)
+      this.dnd !== true && (this.dnd = true)
     },
 
     __onDragLeave (e) {
@@ -157,7 +162,7 @@ export default {
     },
 
     __onDrop (e) {
-      stopAndPrevent(e)
+      stopAndPreventDrag(e)
       const files = e.dataTransfer.files
 
       if (files.length > 0) {
@@ -172,8 +177,8 @@ export default {
         return h('div', {
           staticClass: `q-${type}__dnd absolute-full`,
           on: cache(this, 'dnd', {
-            dragenter: stopAndPrevent,
-            dragover: stopAndPrevent,
+            dragenter: stopAndPreventDrag,
+            dragover: stopAndPreventDrag,
             dragleave: this.__onDragLeave,
             drop: this.__onDrop
           })

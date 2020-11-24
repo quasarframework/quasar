@@ -9,6 +9,7 @@ import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
 import { slot } from '../../utils/slot.js'
+import { stop } from '../../utils/event.js'
 import cache from '../../utils/cache.js'
 
 export default Vue.extend({
@@ -33,11 +34,11 @@ export default Vue.extend({
 
     menuAnchor: {
       type: String,
-      default: 'bottom right'
+      default: 'bottom end'
     },
     menuSelf: {
       type: String,
-      default: 'top right'
+      default: 'top end'
     },
     menuOffset: Array,
 
@@ -56,6 +57,10 @@ export default Vue.extend({
   watch: {
     value (val) {
       this.$refs.menu !== void 0 && this.$refs.menu[val ? 'show' : 'hide']()
+    },
+
+    split () {
+      this.hide()
     }
   },
 
@@ -155,6 +160,7 @@ export default Vue.extend({
       attrs: this.qAttrs,
       on: cache(this, 'spl', {
         click: e => {
+          stop(e) // prevent showing the menu on click
           this.hide()
           this.$emit('click', e)
         }
@@ -176,7 +182,7 @@ export default Vue.extend({
       Btn,
 
       h(QBtn, {
-        staticClass: 'q-btn-dropdown__arrow-container',
+        staticClass: 'q-btn-dropdown__arrow-container q-anchor--skip',
         attrs,
         props: {
           disable: this.disable === true || this.disableDropdown === true,

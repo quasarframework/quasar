@@ -430,7 +430,7 @@ const Notifications = {
           }
           else if (notif.avatar) {
             mainChild.push(
-              h(QAvatar, { staticClass: 'q-notification__avatar col-auto' }, [
+              h(QAvatar, { staticClass: 'q-notification__avatar' }, [
                 h('img', { attrs: { src: notif.avatar, 'aria-hidden': 'true' } })
               ])
             )

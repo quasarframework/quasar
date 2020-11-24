@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "1.14.3",
+  "version": "1.14.5",
   "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
   "module": "src/index.esm.js",
   "typings": "dist/types/index.d.ts",
@@ -82,8 +82,7 @@
     "rimraf": "^3.0.1",
     "rollup": "^1.31.0",
     "table": "^5.4.6",
-    "uglify-es": "^3.3.9",
-    "vue": "^2.6.11"
+    "uglify-es": "^3.3.9"
   },
   "vetur": {
     "tags": "dist/vetur/quasar-tags.json",

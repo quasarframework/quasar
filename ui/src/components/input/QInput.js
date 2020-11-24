@@ -216,9 +216,15 @@ export default Vue.extend({
           delete this.tempValue
         }
 
-        if (this.value !== val) {
+        if (this.value !== val && this.emitCachedValue !== val) {
+          this.emitCachedValue = val
+
           stopWatcher === true && (this.stopValueWatcher = true)
           this.$emit('input', val)
+
+          this.$nextTick(() => {
+            this.emitCachedValue === val && (this.emitCachedValue = NaN)
+          })
         }
 
         this.emitValueFn = void 0
@@ -289,7 +295,8 @@ export default Vue.extend({
 
     __getShadowControl (h) {
       return h('div', {
-        staticClass: 'q-field__native q-field__shadow absolute-full no-pointer-events'
+        staticClass: 'q-field__native q-field__shadow absolute-bottom no-pointer-events' +
+          (this.isTextarea === true ? '' : ' text-no-wrap')
       }, [
         h('span', { staticClass: 'invisible' }, this.__getCurValue()),
         h('span', this.shadowText)
@@ -309,6 +316,10 @@ export default Vue.extend({
           : this.formDomProps
       })
     }
+  },
+
+  created () {
+    this.emitCachedValue = NaN
   },
 
   mounted () {

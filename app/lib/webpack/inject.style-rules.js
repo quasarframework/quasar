@@ -5,6 +5,8 @@ const appPaths = require('../app-paths')
 const cssVariables = require('../helpers/css-variables')
 const postCssConfig = require(appPaths.resolve.app('.postcssrc.js'))
 
+const quasarCssPaths = [ 'node_modules/quasar', 'node_modules/@quasar' ]
+
 function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)
 
@@ -66,12 +68,12 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
           sourceMap: pref.sourceMap,
           plugins: [
             require('cssnano')({
-              preset: ['default', {
+              preset: [ 'default', {
                 mergeLonghand: false,
                 convertValues: false,
                 cssDeclarationSorter: false,
                 reduceTransforms: false
-              }]
+              } ]
             })
           ]
         })
@@ -79,9 +81,36 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 
     const postCssOpts = { sourceMap: pref.sourceMap, ...postCssConfig }
 
-    pref.rtl && postCssOpts.plugins.push(
-      require('postcss-rtl')(pref.rtl === true ? {} : pref.rtl)
-    )
+    if (pref.rtl) {
+      const postcssRTL = require('postcss-rtl')
+      const postcssRTLOptions = pref.rtl === true ? {} : pref.rtl
+
+      if (
+        typeof postCssConfig.plugins !== 'function' &&
+        (postcssRTLOptions.fromRTL === true || typeof postcssRTLOptions === 'function')
+      ) {
+        postCssConfig.plugins = postCssConfig.plugins || []
+
+        postCssOpts.plugins = ctx => {
+          const plugins = [ ...postCssConfig.plugins ]
+          const isClientCSS = quasarCssPaths.every(item => ctx.resourcePath.indexOf(item) === -1)
+
+          plugins.push(postcssRTL(
+            typeof postcssRTLOptions === 'function'
+              ? postcssRTLOptions(isClientCSS, ctx.resourcePath)
+              : {
+                ...postcssRTLOptions,
+                fromRTL: isClientCSS
+              }
+          ))
+
+          return plugins
+        }
+      }
+      else {
+        postCssOpts.plugins.push(postcssRTL(postcssRTLOptions))
+      }
+    }
 
     rule.use('postcss-loader')
       .loader('postcss-loader')
@@ -120,11 +149,11 @@ module.exports = function (chain, pref) {
     ...pref.stylusLoaderOptions
   })
   injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader', merge(
-    { sassOptions: { outputStyle: /* required for RTL */ 'nested' } },
+    { sassOptions: {} },
     pref.scssLoaderOptions
-  )),
+  ))
   injectRule(chain, pref, 'sass', /\.sass$/, 'sass-loader', merge(
-    { sassOptions: { indentedSyntax: true, outputStyle: /* required for RTL */ 'nested' } },
+    { sassOptions: { indentedSyntax: true } },
     pref.sassLoaderOptions
   ))
   injectRule(chain, pref, 'less', /\.less$/, 'less-loader', pref.lessLoaderOptions)

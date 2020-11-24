@@ -34,6 +34,8 @@ export default {
      * @license MIT
      */
     pasteCapture (evt) {
+      // Let inputs do their thing, so we don't break pasting of links.
+      if (evt.target.nodeName === 'INPUT') return
       let text, onPasteStripFormattingIEPaste
       evt.preventDefault()
       if (evt.originalEvent && evt.originalEvent.clipboardData.getData) {

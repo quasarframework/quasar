@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QTab from './QTab.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import { isSameRoute, isIncludedRoute } from '../../utils/router.js'
-import { stop, stopAndPrevent, noop } from '../../utils/event.js'
+import { stopAndPrevent, noop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QRouteTab',
@@ -26,12 +26,10 @@ export default Vue.extend({
   },
 
   computed: {
-    onEvents () {
+    routerTabLinkProps () {
       return {
-        input: stop,
-        ...this.qListeners,
-        '!click': this.__activate, // we need capture to intercept before vue-router
-        keyup: this.__onKeyup
+        ...this.routerLinkProps,
+        event: []
       }
     }
   },
@@ -77,7 +75,9 @@ export default Vue.extend({
           }
 
           this.qListeners.click !== void 0 && this.$emit('click', e, go)
-          e.navigate !== false && go()
+          if (e === void 0 || e.navigate !== false) {
+            go()
+          }
         }
       }
 
@@ -139,6 +139,6 @@ export default Vue.extend({
   },
 
   render (h) {
-    return this.__renderTab(h, 'router-link', this.routerLinkProps)
+    return this.__renderTab(h, 'router-link', this.routerTabLinkProps)
   }
 })
