@@ -1,16 +1,15 @@
 import { h, defineComponent } from 'vue'
 
-// TODO vue3 - handle QList + QItem
 import {
   QExpansionItem,
   QItem,
   QItemSection,
   QIcon,
-  QBadge
-  // QList
+  QBadge,
+  QList
 } from 'quasar'
 
-// import Menu from 'assets/menu.js'
+import Menu from 'assets/menu.js'
 import './AppMenu.sass'
 
 export default defineComponent({
@@ -25,7 +24,7 @@ export default defineComponent({
   methods: {
     showMenu (comp) {
       if (comp !== void 0 && comp !== this) {
-        this.showMenu(comp.$parent)
+        // this.showMenu(comp.$parent) // TODO vue3
         comp.show !== void 0 && comp.show()
       }
     },
@@ -47,7 +46,6 @@ export default defineComponent({
             denseToggle: level > 0
           },
           () => menu.children.map(item => this.getDrawerMenu(
-            h,
             item,
             path + (item.path !== void 0 ? '/' + item.path : ''),
             level + 1
@@ -91,10 +89,9 @@ export default defineComponent({
   },
 
   render () {
-    return h('div')
-    // return h(QList, { class: 'app-menu' }, () => Menu.map(
-    //   item => this.getDrawerMenu(item, '/' + item.path, 0)
-    // ))
+    return h(QList, { class: 'app-menu' }, () => Menu.map(
+      item => this.getDrawerMenu(item, '/' + item.path, 0)
+    ))
   },
 
   mounted () {

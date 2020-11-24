@@ -84,7 +84,10 @@ module.exports = function (ctx) {
       },
 
       components: [
-        'QMarkupTable' // required md-plugin-table
+        'QMarkupTable', // required md-plugin-table
+        'QBtn', // used directly in some .md files
+        'QBadge', // used directly in some .md files
+        'QSeparator' // used directly in some .md files
       ],
 
       plugins: [

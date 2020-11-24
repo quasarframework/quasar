@@ -28,7 +28,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     v-model="leftDrawerState"
     show-if-above
     bordered
-    content-class="doc-left-drawer"
+    class="doc-left-drawer"
   )
     q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
       //- survey-countdown.layout-countdown(
@@ -82,7 +82,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     side="right"
     v-model="rightDrawerState"
     show-if-above
-    content-class="bg-grey-1"
+    class="bg-grey-1"
     :width="180"
     @on-layout="updateRightDrawerOnLayout"
   )
@@ -137,6 +137,21 @@ export default {
     this.mdiHeartOutline = mdiHeartOutline
     this.mdiMagnify = mdiMagnify
     this.mdiChevronUp = mdiChevronUp
+
+    this.scrollingPage = false
+  },
+
+  mounted () {
+    this.scrollToCurrentAnchor()
+    this.initializeAlgolia()
+  },
+
+  beforeUnmount () {
+    clearTimeout(this.scrollTimer)
+
+    if (this.$q.platform.is.desktop === true) {
+      window.removeEventListener('keypress', this.focusOnSearch)
+    }
   },
 
   components: {
@@ -377,21 +392,6 @@ export default {
           })
         }
       })
-    }
-  },
-
-  mounted () {
-    this.scrollingPage = false
-
-    this.scrollToCurrentAnchor()
-    this.initializeAlgolia()
-  },
-
-  beforeUnmount () {
-    clearTimeout(this.scrollTimer)
-
-    if (this.$q.platform.is.desktop === true) {
-      window.removeEventListener('keypress', this.focusOnSearch)
     }
   }
 }
