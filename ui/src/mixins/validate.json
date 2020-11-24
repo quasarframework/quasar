@@ -3,6 +3,7 @@
     "model-value": {
       "type": "Any",
       "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "__exemption": [ "examples" ],
       "category": "model"
     },
 
