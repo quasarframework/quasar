@@ -58,14 +58,17 @@ In the example below, sibling nodes get contracted when one gets expanded.
 <doc-example title="Lazy loading nodes" file="QTree/LazyLoad" />
 
 ### Selection vs ticking, expansion
+
 * Selection (through QTree `selected` prop) refers to the currently selected node (gets highlighted with different background).
 * Ticking (through QTree `ticked` prop) refers to the checkbox associated with each node.
 * Expansion (through QTree `expanded` prop) refers to the nodes that are expanded.
 
-All properties above require to be dynamically bound using `.sync` modifier in order for them to work correctly (`v-bind:<prop_name>.sync` or `:<prop_name>.sync`).
+All properties above require to be dynamically bound using `v-model:<prop_name>` directive in order for them to work correctly (example: `v-model:expanded`).
+
 <doc-example title="Syncing node properties" file="QTree/Sync" />
 
 ### Tick strategy
+
 There are three ticking strategy: 'leaf', 'leaf-filtered', 'strict' with an additional (and default) 'none' which disables ticking.
 
 | Strategy | Description |

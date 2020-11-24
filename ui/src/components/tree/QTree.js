@@ -44,9 +44,9 @@ export default defineComponent({
       default: 'none',
       validator: v => ['none', 'strict', 'leaf', 'leaf-filtered'].includes(v)
     },
-    ticked: Array, // sync
-    expanded: Array, // sync
-    selected: {}, // sync
+    ticked: Array, // v-model:ticked
+    expanded: Array, // v-model:expanded
+    selected: {}, // v-model:selected
 
     defaultExpandAll: Boolean,
     accordion: Boolean,

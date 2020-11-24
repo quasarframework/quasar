@@ -61,6 +61,9 @@
       "type": "Boolean",
       "sync": true,
       "desc": "Model for QChip if it's selected or not",
+      "examples": [
+        "v-model:selected=\"myState\""
+      ],
       "category": "model"
     },
 
@@ -115,7 +118,7 @@
     },
 
     "update:selected": {
-      "desc": "Used by Vue on 'selected.sync' prop for updating its value",
+      "desc": "Used by Vue on 'v-model:selected' for updating its value",
       "params": {
         "state": {
           "type": "Boolean",

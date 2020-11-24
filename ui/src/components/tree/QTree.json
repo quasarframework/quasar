@@ -81,7 +81,7 @@
       "type": "Array",
       "desc": "Keys of nodes that are ticked",
       "sync": true,
-      "examples": [ ":ticked.sync=\"tickedKeys\"" ],
+      "examples": [ "v-model:ticked=\"tickedKeys\"" ],
       "category": "state"
     },
 
@@ -89,7 +89,7 @@
       "type": "Array",
       "desc": "Keys of nodes that are expanded",
       "sync": true,
-      "examples": [ ":expanded.sync=\"expandedKeys\"" ],
+      "examples": [ "v-model:expanded=\"expandedKeys\"" ],
       "category": "state"
     },
 
@@ -97,7 +97,7 @@
       "type": "Any",
       "desc": "Key of node currently selected",
       "sync": true,
-      "examples": [ ":selected.sync=\"selectedKey\"" ],
+      "examples": [ "v-model:selected=\"selectedKey\"" ],
       "category": "state"
     },
 
@@ -330,7 +330,7 @@
 
   "events": {
     "update:expanded": {
-      "desc": "Triggered when nodes are expanded or collapsed; Used by Vue on 'update' synched prop",
+      "desc": "Triggered when nodes are expanded or collapsed; Used by Vue on 'v-model:update' to update its value",
       "params": {
         "expanded": {
           "type": "Array",
@@ -381,7 +381,7 @@
     },
 
     "update:ticked": {
-      "desc": "Emitted when nodes are ticked/unticked via the checkbox; Used by Vue on 'ticked' synched prop",
+      "desc": "Emitted when nodes are ticked/unticked via the checkbox; Used by Vue on 'v-model:ticked' to update its value",
       "params": {
         "target": {
           "type": "Array",
@@ -392,7 +392,7 @@
     },
 
     "update:selected": {
-      "desc": "Emitted when selected node changes; Used by Vue on 'selected' synched prop",
+      "desc": "Emitted when selected node changes; Used by Vue on 'v-model:selected' to update its value",
       "params": {
         "target": {
           "type": "Any",

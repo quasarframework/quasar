@@ -121,7 +121,7 @@ export default defineComponent({
 
       if (prop.sync === true) {
         child.push(
-          this.getDiv(3, 'Note', '".sync" modifier required!')
+          this.getDiv(3, 'Note', 'Required to be used with v-model!')
         )
       }
 

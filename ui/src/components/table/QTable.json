@@ -547,7 +547,7 @@
 
     "pagination": {
       "type": "Object",
-      "desc": "Pagination object; You can use the '.sync' modifier on it if you want to have access on the current pagination in your components; When not using the .sync modifier it simply initializes the pagination on first render",
+      "desc": "Pagination object; You can also use the 'v-model:pagination' for synching; When not synching it simply initializes the pagination on first render",
       "definition": {
         "sortBy": {
           "type": "String",
@@ -575,7 +575,8 @@
         }
       },
       "examples": [
-        ":pagination.sync=\"myPagination\""
+        ":pagination=\"myInitialPagination\"",
+        "v-model:pagination=\"myPagination\""
       ],
       "category": "pagination"
     },
@@ -602,10 +603,9 @@
     "selected": {
       "type": "Array",
       "desc": "Keeps the user selection array",
-      "sync": true,
       "default": "[]",
       "examples": [
-        ":selected.sync=\"selection\""
+        "v-model:selected=\"selection\""
       ],
       "category": "selection"
     },
@@ -613,10 +613,9 @@
     "expanded": {
       "type": "Array",
       "desc": "Keeps the array with expanded rows keys",
-      "sync": true,
       "default": "[]",
       "examples": [
-        ":expanded.sync=\"expanded\""
+        "v-model:expanded=\"expanded\""
       ],
       "category": "expansion"
     },
@@ -1939,7 +1938,7 @@
     },
 
     "update:pagination": {
-      "desc": "Used by Vue on 'pagination.sync' prop for updating its value",
+      "desc": "Used by Vue on 'v-model:pagination' for updating its value",
       "params": {
         "newPagination": {
           "type": "Object",
@@ -1970,7 +1969,7 @@
     },
 
     "update:selected": {
-      "desc": "Used by Vue on 'selected.sync' prop for updating its value",
+      "desc": "Used by Vue on 'v-model:selected' prop for updating its value",
       "params": {
         "newSelected": {
           "type": "Array",
@@ -1983,7 +1982,7 @@
     },
 
     "update:expanded": {
-      "desc": "Used by Vue on 'expanded.sync' prop for updating its value",
+      "desc": "Used by Vue on 'v-model:expanded' prop for updating its value",
       "params": {
         "newExpanded": {
           "type": "Array",
@@ -2116,7 +2115,7 @@
     },
 
     "setPagination": {
-      "desc": "Unless using an external pagination Object (through 'pagination.sync' prop), you can use this method and force the internal pagination to change",
+      "desc": "Unless using an external pagination Object (through 'v-model:pagination' prop), you can use this method and force the internal pagination to change",
       "params": {
         "pagination": {
           "type": "Object",

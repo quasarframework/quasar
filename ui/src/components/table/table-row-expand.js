@@ -6,7 +6,7 @@ function getVal (val) {
 
 export default {
   props: {
-    expanded: Array // sync
+    expanded: Array // v-model:expanded
   },
 
   emits: [ 'update:expanded' ],

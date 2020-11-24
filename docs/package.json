@@ -34,7 +34,7 @@
     "gray-matter": "^4.0.2",
     "markdown-it": "^10.0.0",
     "markdown-it-container": "^2.0.0",
-    "pug": "^2.0.3",
+    "pug": "^3.0.0",
     "pug-plain-loader": "^1.0.0",
     "raw-loader": "^4.0.0",
     "toml": "^3.0.0",

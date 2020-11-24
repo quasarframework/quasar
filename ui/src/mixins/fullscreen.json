@@ -5,7 +5,7 @@
       "sync": true,
       "desc": "Fullscreen mode",
       "examples": [
-        ":fullscreen.sync=\"isFullscreen\""
+        "v-model:fullscreen=\"isFullscreen\""
       ],
       "category": "behavior"
     },
