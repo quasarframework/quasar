@@ -82,8 +82,8 @@ export default {
             continue
           }
 
-          if (self.packages[packageName] === void 0) {
-            self.packages[packageName] = []
+          if (self.packages[ packageName ] === void 0) {
+            self.packages[ packageName ] = []
           }
 
           const releaseInfo = {
@@ -92,10 +92,10 @@ export default {
             body: release.body,
             label: `${packageName} v${version}`
           }
-          self.packages[packageName].push(releaseInfo)
+          self.packages[ packageName ].push(releaseInfo)
 
-          if (latestVersions[packageName] === void 0) {
-            latestVersions[packageName] = releaseInfo.label
+          if (latestVersions[ packageName ] === void 0) {
+            latestVersions[ packageName ] = releaseInfo.label
           }
         }
 

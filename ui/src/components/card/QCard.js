@@ -7,7 +7,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QCard',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   props: {
     tag: {

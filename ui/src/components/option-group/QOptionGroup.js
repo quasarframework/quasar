@@ -17,7 +17,7 @@ const typeValues = Object.keys(components)
 export default defineComponent({
   name: 'QOptionGroup',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   props: {
     modelValue: {
@@ -48,7 +48,7 @@ export default defineComponent({
     disable: Boolean
   },
 
-  emits: [ 'update:modelValue' ],
+  emits: ['update:modelValue'],
 
   computed: {
     component () {

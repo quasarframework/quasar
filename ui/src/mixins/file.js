@@ -33,7 +33,7 @@ export default {
     filter: Function
   },
 
-  emits: [ 'rejected' ],
+  emits: ['rejected'],
 
   computed: {
     extensions () {
@@ -110,7 +110,7 @@ export default {
       // multiple attribute is not specified. We also normalize drag'n'dropped
       // files here:
       if (this.multiple !== true) {
-        files = [ files[ 0 ] ]
+        files = [files[ 0 ]]
       }
 
       if (this.maxTotalSize !== void 0) {
@@ -207,7 +207,7 @@ export const FileValueMixin = {
         if (Object(this.modelValue) === this.modelValue) {
           ('length' in this.modelValue
             ? Array.from(this.modelValue)
-            : [ this.modelValue ]
+            : [this.modelValue]
           ).forEach(file => {
             dt.items.add(file)
           })

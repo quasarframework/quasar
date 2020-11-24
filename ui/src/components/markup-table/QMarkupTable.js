@@ -9,7 +9,7 @@ const separatorValues = [ 'horizontal', 'vertical', 'cell', 'none' ]
 export default defineComponent({
   name: 'QMarkupTable',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   props: {
     dense: Boolean,

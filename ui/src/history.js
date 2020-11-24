@@ -27,7 +27,7 @@ function getShouldExitFn (cfg) {
   }
 
   // Add default root path
-  const exitPaths = [ '#/' ]
+  const exitPaths = ['#/']
 
   // Add custom exit paths
   Array.isArray(cfg.backButtonExit) === true && exitPaths.push(

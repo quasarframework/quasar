@@ -16,7 +16,7 @@ import DarkMixin from '../../mixins/dark.js'
 export default defineComponent({
   name: 'BottomSheetPlugin',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   props: {
     title: String,

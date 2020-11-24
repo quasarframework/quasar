@@ -9,7 +9,7 @@ import { hSlot, hMergeSlot, hDir } from '../../utils/render.js'
 export default defineComponent({
   name: 'QSplitter',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   props: {
     modelValue: {
@@ -44,7 +44,7 @@ export default defineComponent({
     separatorStyle: [ Array, String, Object ]
   },
 
-  emits: [ 'update:modelValue' ],
+  emits: ['update:modelValue'],
 
   watch: {
     modelValue: {
@@ -96,7 +96,7 @@ export default defineComponent({
 
     sepDirective () {
       // if this.disable !== true
-      return [ [
+      return [[
         TouchPan,
         this.__pan,
         void 0,
@@ -107,7 +107,7 @@ export default defineComponent({
           mouse: true,
           mouseAllDir: true
         }
-      ] ]
+      ]]
     }
   },
 

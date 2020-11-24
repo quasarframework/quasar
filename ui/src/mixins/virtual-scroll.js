@@ -201,14 +201,14 @@ const commonVirtScrollProps = {
 export const commonVirtPropsList = Object.keys(commonVirtScrollProps)
 
 export default {
-  mixins: [ EmitListenersMixin ],
+  mixins: [EmitListenersMixin],
 
   props: {
     virtualScrollHorizontal: Boolean,
     ...commonVirtScrollProps
   },
 
-  emits: [ 'virtual-scroll' ],
+  emits: ['virtual-scroll'],
 
   data () {
     return {

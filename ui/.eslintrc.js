@@ -28,8 +28,28 @@ module.exports = {
   },
   // add your custom rules here
   rules: {
-    'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],
+    'brace-style': [ 2, 'stroustrup', { 'allowSingleLine': true } ],
     'prefer-const': 2,
+    'prefer-promise-reject-errors': 'off',
+    'multiline-ternary': 'off',
+    'array-bracket-spacing': [ 'error', 'always', { singleValue: false } ],
+    'computed-property-spacing': [ 'error', 'always' ],
+    'no-prototype-builtins': 'off',
+    'no-case-declarations': 'off',
+    'generator-star-spacing': 'off',
+    'arrow-parens': 'off',
+    'one-var': 'off',
+    'no-void': 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+
+    'import/first': 0,
+    'import/named': 2,
+    'import/namespace': 2,
+    'import/default': 2,
+    'import/export': 2,
+    'import/extensions': 0,
+    'import/no-unresolved': 0,
+    'import/no-extraneous-dependencies': 'off',
 
     'vue/max-attributes-per-line': 'off',
     'vue/valid-v-for': 'off',
@@ -45,33 +65,6 @@ module.exports = {
     'vue/script-indent': 'off',
     'vue/require-explicit-emits': 'error',
     'vue/no-v-model-argument': 'off',
-    'vue/require-explicit-emits': 'off',
-
-    // allow async-await
-    'generator-star-spacing': 'off',
-
-    // allow paren-less arrow functions
-    'arrow-parens': 'off',
-    'one-var': 'off',
-    'no-void': 'off',
-
-    'import/first': 0,
-    'import/named': 2,
-    'import/namespace': 2,
-    'import/default': 2,
-    'import/export': 2,
-    'import/extensions': 0,
-    'import/no-unresolved': 0,
-    'import/no-extraneous-dependencies': 'off',
-
-    'prefer-promise-reject-errors': 'off',
-    'multiline-ternary': 'off',
-    'array-bracket-spacing': [ 'error', 'always' ],
-    'computed-property-spacing': [ 'error', 'always' ],
-    'no-prototype-builtins': 'off',
-    'no-case-declarations': 'off',
-
-    // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'vue/require-explicit-emits': 'off'
   }
 }

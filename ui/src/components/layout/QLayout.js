@@ -19,7 +19,7 @@ export default defineComponent({
     }
   },
 
-  mixins: [ EmitListenersMixin ],
+  mixins: [EmitListenersMixin],
 
   props: {
     container: Boolean,
@@ -201,7 +201,7 @@ export default defineComponent({
           h('div', {
             class: 'scroll',
             style: this.targetChildStyle
-          }, [ layout ])
+          }, [layout])
         ])
       ])
     }

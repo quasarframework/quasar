@@ -13,9 +13,9 @@ export default {
 
   render (h, ctx) {
     const
-      code = ctx.props.code || ctx.children[0].text,
+      code = ctx.props.code || ctx.children[ 0 ].text,
       language = ctx.props.lang,
-      prismLanguage = Prism.languages[language],
+      prismLanguage = Prism.languages[ language ],
       className = `language-${language}`
 
     return h(

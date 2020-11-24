@@ -31,19 +31,20 @@ module.exports = {
 
   // add your custom rules here
   rules: {
-    // allow async-await
+    'brace-style': [ 2, 'stroustrup', { 'allowSingleLine': true } ],
+    'prefer-const': 2,
+    'prefer-promise-reject-errors': 'off',
+    'multiline-ternary': 'off',
+    'array-bracket-spacing': [ 'error', 'always', { singleValue: false } ],
+    'computed-property-spacing': [ 'error', 'always' ],
+    'no-prototype-builtins': 'off',
+    'no-case-declarations': 'off',
     'generator-star-spacing': 'off',
-    // allow paren-less arrow functions
     'arrow-parens': 'off',
     'one-var': 'off',
-    'prefer-promise-reject-errors': 'off',
-
     'no-void': 'off',
-    'quotes': 'off',
-    'array-bracket-spacing': ['error', 'always'],
-    'brace-style': ['error', 'stroustrup'],
-
-    'multiline-ternary': 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
 
     'import/export': 'off',
     'import/first': 'off',
@@ -55,12 +56,8 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
 
     'quasar/check-valid-props': 'warn',
-    'vue/no-mutating-props': 'off',
-    'vue/no-v-model-argument': 'off',
 
-    // allow console.log during development only
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    // allow debugger during development only
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'vue/no-mutating-props': 'off',
+    'vue/no-v-model-argument': 'off'
   }
 }

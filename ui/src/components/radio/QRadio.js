@@ -47,7 +47,7 @@ export default defineComponent({
     tabindex: [ String, Number ]
   },
 
-  emits: [ 'update:modelValue' ],
+  emits: ['update:modelValue'],
 
   computed: {
     isTrue () {
@@ -122,7 +122,7 @@ export default defineComponent({
   },
 
   render () {
-    const content = [ svg ]
+    const content = [svg]
 
     this.disable !== true && this.__injectFormInput(
       content,
@@ -142,7 +142,7 @@ export default defineComponent({
     }
 
     const label = this.label !== void 0
-      ? hMergeSlot(this, 'default', [ this.label ])
+      ? hMergeSlot(this, 'default', [this.label])
       : hSlot(this, 'default')
 
     label !== void 0 && child.push(

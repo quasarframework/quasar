@@ -43,7 +43,7 @@ export default {
 
         const noData = this.$slots[ 'no-data' ]
         const children = noData !== void 0
-          ? [ noData({ message, icon: this.$q.iconSet.table.warning, filter: this.filter }) ]
+          ? [noData({ message, icon: this.$q.iconSet.table.warning, filter: this.filter })]
           : [
               h(QIcon, {
                 class: 'q-table__bottom-nodata-icon',
@@ -60,7 +60,7 @@ export default {
       const bottom = this.$slots.bottom
 
       if (bottom !== void 0) {
-        return h('div', { class: bottomClass }, [ bottom(this.marginalsScope) ])
+        return h('div', { class: bottomClass }, [bottom(this.marginalsScope)])
       }
 
       const child = this.hideSelectedBanner !== true && this.hasSelectionMode === true && this.rowsSelectedNumber > 0

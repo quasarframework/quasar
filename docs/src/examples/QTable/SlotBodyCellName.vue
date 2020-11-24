@@ -145,7 +145,7 @@ export default {
         },
         {
           name: 'KitKat',
-          details: `A chocolate-covered wafer bar confection created by Rowntree's of York, United Kingdom, and is now produced globally by Nestlé`,
+          details: 'A chocolate-covered wafer bar confection created by Rowntree\'s of York, United Kingdom, and is now produced globally by Nestlé',
           calories: 518,
           fat: 26.0,
           carbs: 65,

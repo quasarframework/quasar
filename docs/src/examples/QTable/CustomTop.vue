@@ -274,7 +274,7 @@ export default {
       setTimeout(() => {
         const
           index = Math.floor(Math.random() * (this.data.length + 1)),
-          row = this.original[Math.floor(Math.random() * this.original.length)]
+          row = this.original[ Math.floor(Math.random() * this.original.length) ]
         if (this.data.length === 0) {
           this.rowCount = 0
         }

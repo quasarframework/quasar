@@ -6,8 +6,8 @@ export default () => {
     const policyUrl = 'https://www.iubenda.com/privacy-policy/40685560/cookie-policy?an=no&s_ck=false&newmarkup=yes'
 
     Notify.create({
-      message: `Our third-party tools use cookies, which are necessary for its functioning` +
-        ` and required to achieve the purposes illustrated in the cookie policy.`,
+      message: 'Our third-party tools use cookies, which are necessary for its functioning' +
+        ' and required to achieve the purposes illustrated in the cookie policy.',
       multiline: true,
       classes: 'doc-gdpr',
       timeout: 0,

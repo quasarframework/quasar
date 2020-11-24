@@ -12,7 +12,7 @@ import { shouldIgnoreKey } from '../../utils/key-composition.js'
 export default defineComponent({
   name: 'QTree',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   props: {
     nodes: {
@@ -372,7 +372,7 @@ export default defineComponent({
           }
         }
 
-        target = target.concat([ key ])
+        target = target.concat([key])
           .filter((key, index, self) => self.indexOf(key) === index)
       }
       else {
@@ -425,7 +425,7 @@ export default defineComponent({
       })
       Object.defineProperty(scope, 'ticked', {
         get: () => { return meta.ticked },
-        set: val => { val !== meta.ticked && this.setTicked([ key ], val) },
+        set: val => { val !== meta.ticked && this.setTicked([key], val) },
         configurable: true,
         enumerable: true
       })
@@ -585,7 +585,7 @@ export default defineComponent({
                   (meta.disabled === true ? ' q-tree__node--disabled' : '')
                 }, children)
               ]),
-              [ [ vShow, meta.expanded ] ]
+              [[ vShow, meta.expanded ]]
             ))
           : body
       ])
@@ -626,7 +626,7 @@ export default defineComponent({
         state = meta.indeterminateNextState
       }
       if (meta.strictTicking) {
-        this.setTicked([ meta.key ], state)
+        this.setTicked([meta.key], state)
       }
       else if (meta.leafTicking) {
         const keys = []

@@ -19,7 +19,7 @@ export const skeletonAnimations = [
 export default defineComponent({
   name: 'QSkeleton',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   props: {
     tag: {

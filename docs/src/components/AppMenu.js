@@ -18,7 +18,7 @@ export default defineComponent({
 
   watch: {
     $route (route) {
-      this.showMenu(this.$refs[route.path])
+      this.showMenu(this.$refs[ route.path ])
     }
   },
 
@@ -98,6 +98,6 @@ export default defineComponent({
   },
 
   mounted () {
-    this.showMenu(this.$refs[this.$route.path])
+    this.showMenu(this.$refs[ this.$route.path ])
   }
 })

@@ -67,7 +67,7 @@ export default defineComponent({
               [ this.domProps.stamp ]: this.stamp
             })
           ]
-        : node => [ node ]
+        : node => [node]
 
       return this.text.map((msg, index) => h('div', {
         key: index,

@@ -7,7 +7,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QTimeline',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   provide () {
     return {

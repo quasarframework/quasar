@@ -130,7 +130,7 @@ export default {
         return
       }
 
-      const currentIndex = this.selected.length > 0 ? computedRows.indexOf(this.selected[0]) : -1
+      const currentIndex = this.selected.length > 0 ? computedRows.indexOf(this.selected[ 0 ]) : -1
       const currentPage = this.pagination.page
       const rowsPerPage = this.pagination.rowsPerPage === 0 ? computedRowsNumber : this.pagination.rowsPerPage
       const lastIndex = computedRows.length - 1
@@ -188,11 +188,11 @@ export default {
 
         this.$nextTick(() => {
           const { computedRows } = this.$refs.myTable
-          this.selected = [ computedRows[Math.min(index, computedRows.length - 1)] ]
+          this.selected = [computedRows[ Math.min(index, computedRows.length - 1) ]]
         })
       }
       else {
-        this.selected = [ computedRows[index] ]
+        this.selected = [computedRows[ index ]]
       }
     }
   }

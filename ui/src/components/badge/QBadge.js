@@ -54,6 +54,6 @@ export default defineComponent({
       style: this.style,
       role: 'alert',
       'aria-label': this.label
-    }, this.label !== void 0 ? [ this.label ] : hSlot(this, 'default'))
+    }, this.label !== void 0 ? [this.label] : hSlot(this, 'default'))
   }
 })

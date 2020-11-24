@@ -96,7 +96,7 @@ export default {
       hideNoData: false,
       hidePagination: false,
 
-      selected: [ records[1] ],
+      selected: [records[ 1 ]],
 
       columns: [
         {

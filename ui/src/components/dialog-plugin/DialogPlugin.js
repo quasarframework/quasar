@@ -20,7 +20,7 @@ import DarkMixin from '../../mixins/dark.js'
 export default defineComponent({
   name: 'DialogPlugin',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   props: {
     title: String,

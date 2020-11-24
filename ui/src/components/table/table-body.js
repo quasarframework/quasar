@@ -46,7 +46,7 @@ export default {
                 dark: this.isDark,
                 dense: this.dense,
                 'onUpdate:modelValue': (adding, evt) => {
-                  this.__updateSelection([ key ], [ row ], adding, evt)
+                  this.__updateSelection([key], [row], adding, evt)
                 }
               })
             ]
@@ -142,7 +142,7 @@ export default {
       this.hasSelectionMode === true && Object.defineProperty(data, 'selected', {
         get: () => this.isRowSelected(data.key),
         set: (adding, evt) => {
-          this.__updateSelection([ data.key ], [ data.row ], adding, evt)
+          this.__updateSelection([data.key], [data.row], adding, evt)
         },
         configurable: true,
         enumerable: true

@@ -117,10 +117,10 @@ window.quasarConfig = {
       const types = [], imports = []
 
       ;[ 'components', 'directives', 'plugins' ].forEach(type => {
-        if (this[type] !== void 0) {
-          imports.push(this.nameAsString(this[type], 2, false))
+        if (this[ type ] !== void 0) {
+          imports.push(this.nameAsString(this[ type ], 2, false))
           types.push(`${type}: {
-    ${this.nameAsString(this[type], 4, false)}
+    ${this.nameAsString(this[ type ], 4, false)}
   }`)
         }
       })

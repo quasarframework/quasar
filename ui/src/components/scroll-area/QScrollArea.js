@@ -36,7 +36,7 @@ export default defineComponent({
     horizontal: Boolean
   },
 
-  emits: [ 'scroll' ],
+  emits: ['scroll'],
 
   data () {
     return {
@@ -126,7 +126,7 @@ export default defineComponent({
     },
 
     thumbDirectives () {
-      return [ [
+      return [[
         TouchPan,
         this.__panThumb,
         void 0,
@@ -136,7 +136,7 @@ export default defineComponent({
           mouse: true,
           mouseAllDir: true
         }
-      ] ]
+      ]]
     }
   },
 

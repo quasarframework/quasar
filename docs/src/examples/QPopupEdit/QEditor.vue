@@ -62,61 +62,61 @@ const columns = [
 const data = [
   {
     name: 'Frozen Yogurt',
-    comment: `<p>It's cold but great and tastes different than normal ice cream, but it's great too!</p><p><strong>Have a taste!</strong></p>`,
+    comment: '<p>It\'s cold but great and tastes different than normal ice cream, but it\'s great too!</p><p><strong>Have a taste!</strong></p>',
     calories: 159,
     fat: 6.0
   },
   {
     name: 'Ice cream sandwich',
-    comment: `<p>It's also cold but great!</p><p><strong>Have a taste!</strong></p>`,
+    comment: '<p>It\'s also cold but great!</p><p><strong>Have a taste!</strong></p>',
     calories: 237,
     fat: 9.0
   },
   {
     name: 'Eclair',
-    comment: `<p>It's not cold and also great!</p><p><strong>Have a taste!</strong></p>`,
+    comment: '<p>It\'s not cold and also great!</p><p><strong>Have a taste!</strong></p>',
     calories: 262,
     fat: 16.0
   },
   {
     name: 'Cupcake',
-    comment: `<p>It could be warm and it's great!</p><p><strong>Have a taste!</strong></p>`,
+    comment: '<p>It could be warm and it\'s great!</p><p><strong>Have a taste!</strong></p>',
     calories: 305,
     fat: 3.7
   },
   {
     name: 'Gingerbread',
-    comment: `<p>It's spicy and great!</p><p><strong>Have a taste!</strong></p>`,
+    comment: '<p>It\'s spicy and great!</p><p><strong>Have a taste!</strong></p>',
     calories: 356,
     fat: 16.0
   },
   {
     name: 'Jelly bean',
-    comment: `<p>It's neither cold or warm, but great!</p><p><strong>Have one or two or several, but not too many!</strong></p>`,
+    comment: '<p>It\'s neither cold or warm, but great!</p><p><strong>Have one or two or several, but not too many!</strong></p>',
     calories: 375,
     fat: 0.0
   },
   {
     name: 'Lollipop',
-    comment: `<p>It's sticky and normally sweet!</p><p><strong>Have a lick!</strong></p>`,
+    comment: '<p>It\'s sticky and normally sweet!</p><p><strong>Have a lick!</strong></p>',
     calories: 392,
     fat: 0.2
   },
   {
     name: 'Honeycomb',
-    comment: `<p>It's special and sweet!</p><p><strong>Have a taste!</strong></p>`,
+    comment: '<p>It\'s special and sweet!</p><p><strong>Have a taste!</strong></p>',
     calories: 408,
     fat: 3.2
   },
   {
     name: 'Donut',
-    comment: `<p>It's an American classic glazed!</p><p><strong>Have one with coffee!</strong></p>`,
+    comment: '<p>It\'s an American classic glazed!</p><p><strong>Have one with coffee!</strong></p>',
     calories: 452,
     fat: 25.0
   },
   {
     name: 'KitKat',
-    comment: `<p>It's good with a break!</p><p><strong>Have a section to perfection!</strong></p>`,
+    comment: '<p>It\'s good with a break!</p><p><strong>Have a section to perfection!</strong></p>',
     calories: 518,
     fat: 26.0
   }

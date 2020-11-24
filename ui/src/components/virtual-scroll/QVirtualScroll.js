@@ -20,7 +20,7 @@ const typeOptions = [ 'list', 'table', '__qtable' ]
 export default defineComponent({
   name: 'QVirtualScroll',
 
-  mixins: [ VirtualScroll ],
+  mixins: [VirtualScroll],
 
   props: {
     type: {

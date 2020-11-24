@@ -7,7 +7,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QCardActions',
 
-  mixins: [ AlignMixin ],
+  mixins: [AlignMixin],
 
   props: {
     vertical: Boolean

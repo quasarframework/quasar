@@ -104,7 +104,7 @@ export default {
     handler1 (mutationRecords) {
       this.status1 = []
       for (const index in mutationRecords) {
-        const record = mutationRecords[index]
+        const record = mutationRecords[ index ]
         const info = `type: ${record.type}, nodes added: ${record.addedNodes.length > 0 ? 'true' : 'false'}, nodes removed: ${record.removedNodes.length > 0 ? 'true' : 'false'}, oldValue: ${record.oldValue}`
         this.status1.push(info)
       }
@@ -113,7 +113,7 @@ export default {
     handler2 (mutationRecords) {
       this.status2 = []
       for (const index in mutationRecords) {
-        const record = mutationRecords[index]
+        const record = mutationRecords[ index ]
         const info = `type: ${record.type}, nodes added: ${record.addedNodes.length > 0 ? 'true' : 'false'}, nodes removed: ${record.removedNodes.length > 0 ? 'true' : 'false'}, oldValue: ${record.oldValue}`
         this.status2.push(info)
       }

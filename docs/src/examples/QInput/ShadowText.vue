@@ -90,7 +90,7 @@ export default {
         empty = typeof this.textareaModel !== 'string' || this.textareaModel.length === 0
 
       if (empty === true) {
-        return t.split('\n')[0]
+        return t.split('\n')[ 0 ]
       }
       else if (t.indexOf(this.textareaModel) !== 0) {
         return ''
@@ -100,7 +100,7 @@ export default {
         .split(this.textareaModel)
         .slice(1)
         .join(this.textareaModel)
-        .split('\n')[0]
+        .split('\n')[ 0 ]
     }
   },
 

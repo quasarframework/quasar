@@ -32,7 +32,7 @@ export default {
         topClass = 'q-table__top relative-position row items-center'
 
       if (top !== void 0) {
-        return h('div', { class: topClass }, [ top(this.marginalsScope) ])
+        return h('div', { class: topClass }, [top(this.marginalsScope)])
       }
 
       let child

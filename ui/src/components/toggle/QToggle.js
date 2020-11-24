@@ -6,7 +6,7 @@ import CheckboxMixin from '../../mixins/checkbox.js'
 export default defineComponent({
   name: 'QToggle',
 
-  mixins: [ CheckboxMixin ],
+  mixins: [CheckboxMixin],
 
   props: {
     icon: String,

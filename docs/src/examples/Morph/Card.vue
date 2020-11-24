@@ -64,7 +64,7 @@ export default {
 
   methods: {
     nextMorph () {
-      this.morphGroupModel = nextMorphStep[this.morphGroupModel]
+      this.morphGroupModel = nextMorphStep[ this.morphGroupModel ]
     }
   }
 }

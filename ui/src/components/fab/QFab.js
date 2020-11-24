@@ -96,7 +96,7 @@ export default defineComponent({
       )
 
       this.label !== '' && child[ this.labelProps.action ](
-        h('div', this.labelProps.data, [ this.label ])
+        h('div', this.labelProps.data, [this.label])
       )
 
       return hMergeSlot(this, 'tooltip', child)

@@ -41,7 +41,7 @@ export default {
     tabindex: [ String, Number ]
   },
 
-  emits: [ 'update:modelValue' ],
+  emits: ['update:modelValue'],
 
   computed: {
     isTrue () {
@@ -152,7 +152,7 @@ export default {
           return val
         }
 
-        return this.modelValue.concat([ this.val ])
+        return this.modelValue.concat([this.val])
       }
 
       if (this.isTrue === true) {
@@ -208,7 +208,7 @@ export default {
     }
 
     const label = this.label !== void 0
-      ? hMergeSlot(this, 'default', [ this.label ])
+      ? hMergeSlot(this, 'default', [this.label])
       : hSlot(this, 'default')
 
     label !== void 0 && child.push(

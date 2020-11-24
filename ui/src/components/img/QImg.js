@@ -9,7 +9,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QImg',
 
-  mixins: [ RatioMixin ],
+  mixins: [RatioMixin],
 
   props: {
     src: String,

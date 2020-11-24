@@ -35,7 +35,7 @@ export default {
 
     optionsFn2 (date) {
       const parts = date.split('/')
-      return parts[2] % 2 === 0
+      return parts[ 2 ] % 2 === 0
     }
   }
 }

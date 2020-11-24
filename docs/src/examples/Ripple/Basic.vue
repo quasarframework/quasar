@@ -19,7 +19,7 @@ const colors = [
 export default {
   data () {
     return {
-      color: colors[0],
+      color: colors[ 0 ],
       index: 0
     }
   },
@@ -33,7 +33,7 @@ export default {
   mounted () {
     this.timer = setInterval(() => {
       this.index = (this.index + 1) % colors.length
-      this.color = colors[this.index]
+      this.color = colors[ this.index ]
     }, 3000)
   },
 

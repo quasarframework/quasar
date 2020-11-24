@@ -156,8 +156,8 @@ export default {
               : (a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
             )
           : (descending
-              ? (a, b) => (parseFloat(b[sortBy]) - parseFloat(a[sortBy]))
-              : (a, b) => (parseFloat(a[sortBy]) - parseFloat(b[sortBy]))
+              ? (a, b) => (parseFloat(b[ sortBy ]) - parseFloat(a[ sortBy ]))
+              : (a, b) => (parseFloat(a[ sortBy ]) - parseFloat(b[ sortBy ]))
             )
         data.sort(sortFn)
       }

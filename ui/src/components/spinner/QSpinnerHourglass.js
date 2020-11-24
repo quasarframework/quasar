@@ -95,7 +95,7 @@ const svg = [
 export default defineComponent({
   name: 'QSpinnerHourglass',
 
-  mixins: [ mixin ],
+  mixins: [mixin],
 
   render () {
     return h('svg', {

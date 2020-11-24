@@ -4,7 +4,7 @@ import { testPattern } from '../utils/patterns.js'
 const lazyRulesValues = [ true, false, 'ondemand' ]
 
 export default {
-  mixins: [ QFormChildBase ],
+  mixins: [QFormChildBase],
 
   props: {
     modelValue: {},

@@ -86,7 +86,7 @@ const svg = [
 export default defineComponent({
   name: 'QSpinnerFacebook',
 
-  mixins: [ mixin ],
+  mixins: [mixin],
 
   render () {
     return h('svg', {

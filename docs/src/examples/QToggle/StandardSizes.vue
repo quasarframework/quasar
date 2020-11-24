@@ -21,7 +21,7 @@
 export default {
   data () {
     return {
-      shape: [ 'line' ]
+      shape: ['line']
     }
   }
 }

@@ -47,7 +47,7 @@
 import { clone, colors } from 'quasar'
 
 const mainColors = [ 'primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning', 'black' ]
-const mainLightColors = [ 'white' ]
+const mainLightColors = ['white']
 let mainColorValuesOrig
 
 export default {

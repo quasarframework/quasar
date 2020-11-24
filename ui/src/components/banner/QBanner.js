@@ -7,7 +7,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QBanner',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   props: {
     inlineActions: Boolean,

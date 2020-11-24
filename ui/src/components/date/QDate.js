@@ -145,7 +145,7 @@ export default defineComponent({
     normalizedModel () {
       return Array.isArray(this.modelValue) === true
         ? this.modelValue
-        : (this.modelValue !== null && this.modelValue !== void 0 ? [ this.modelValue ] : [])
+        : (this.modelValue !== null && this.modelValue !== void 0 ? [this.modelValue] : [])
     },
 
     daysModel () {
@@ -764,7 +764,7 @@ export default defineComponent({
     __getViewModel (mask, locale) {
       const model = Array.isArray(this.modelValue) === true
         ? this.modelValue
-        : (this.modelValue ? [ this.modelValue ] : [])
+        : (this.modelValue ? [this.modelValue] : [])
 
       if (model.length === 0) {
         return this.__getDefaultViewModel()
@@ -832,7 +832,7 @@ export default defineComponent({
               onClick: () => { this.view = 'Years' },
               onKeyup: e => { e.keyCode === 13 && (this.view = 'Years') }
             })
-          }, [ this.headerSubtitle ]))
+          }, [this.headerSubtitle]))
         ]),
 
         h('div', {
@@ -852,7 +852,7 @@ export default defineComponent({
                 onClick: () => { this.view = 'Calendar' },
                 onKeyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
               })
-            }, [ this.headerTitle ]))
+            }, [this.headerTitle]))
           ]),
 
           this.todayBtn === true ? h(QBtn, {
@@ -947,7 +947,7 @@ export default defineComponent({
 
           h('div', {
             class: 'q-date__calendar-weekdays row items-center no-wrap'
-          }, this.daysOfWeek.map(day => h('div', { class: 'q-date__calendar-item' }, [ h('div', day) ]))),
+          }, this.daysOfWeek.map(day => h('div', { class: 'q-date__calendar-item' }, [h('div', day)]))),
 
           h('div', {
             class: 'q-date__calendar-days-container relative-position overflow-hidden'

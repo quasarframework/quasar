@@ -11,7 +11,7 @@ import { isKeyCode } from '../../utils/key-composition.js'
 export default defineComponent({
   name: 'QPagination',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   props: {
     modelValue: {
@@ -77,7 +77,7 @@ export default defineComponent({
     }
   },
 
-  emits: [ 'update:modelValue' ],
+  emits: ['update:modelValue'],
 
   data () {
     return {

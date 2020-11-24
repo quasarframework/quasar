@@ -16,28 +16,28 @@ export default {
     triggerPositive () {
       this.$q.notify({
         type: 'positive',
-        message: `This is a "positive" type notification.`
+        message: 'This is a "positive" type notification.'
       })
     },
 
     triggerNegative () {
       this.$q.notify({
         type: 'negative',
-        message: `This is a "negative" type notification.`
+        message: 'This is a "negative" type notification.'
       })
     },
 
     triggerWarning () {
       this.$q.notify({
         type: 'warning',
-        message: `This is a "warning" type notification.`
+        message: 'This is a "warning" type notification.'
       })
     },
 
     triggerInfo () {
       this.$q.notify({
         type: 'info',
-        message: `This is a "info" type notification.`
+        message: 'This is a "info" type notification.'
       })
     },
 

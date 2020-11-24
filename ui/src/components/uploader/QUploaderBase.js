@@ -207,7 +207,7 @@ export default defineComponent({
         return false
       })
       this.queuedFiles = this.queuedFiles.filter(f => f.name !== file.name)
-      this.$emit('removed', [ file ])
+      this.$emit('removed', [file])
     },
 
     __revokeImgURLs () {
@@ -336,7 +336,7 @@ export default defineComponent({
 
           h('div', { class: 'col column justify-center' }, [
             this.label !== void 0
-              ? h('div', { class: 'q-uploader__title' }, [ this.label ])
+              ? h('div', { class: 'q-uploader__title' }, [this.label])
               : null,
 
             h('div', { class: 'q-uploader__subtitle' }, [
@@ -381,7 +381,7 @@ export default defineComponent({
             : null,
 
           h('div', { class: 'q-uploader__file-header-content col' }, [
-            h('div', { class: 'q-uploader__title' }, [ file.name ]),
+            h('div', { class: 'q-uploader__title' }, [file.name]),
             h('div', {
               class: 'q-uploader__subtitle row items-center no-wrap'
             }, [
@@ -418,7 +418,7 @@ export default defineComponent({
     this.isBusy === true && children.push(
       h('div', {
         class: 'q-uploader__overlay absolute-full flex flex-center'
-      }, [ h(QSpinner) ])
+      }, [h(QSpinner)])
     )
 
     const data = { class: this.classes }

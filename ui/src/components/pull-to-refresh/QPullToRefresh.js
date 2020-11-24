@@ -28,7 +28,7 @@ export default defineComponent({
     }
   },
 
-  emits: [ 'refresh' ],
+  emits: ['refresh'],
 
   data () {
     return {
@@ -66,12 +66,12 @@ export default defineComponent({
         modifiers.mouse = true
       }
 
-      return [ [
+      return [[
         TouchPan,
         this.__pull,
         void 0,
         modifiers
-      ] ]
+      ]]
     },
 
     contentClass () {

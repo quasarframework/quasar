@@ -168,13 +168,13 @@ export default {
     const query = this.$route.query
     for (const param in queryParams) {
       if (param in query) {
-        const paramType = queryParams[param]
+        const paramType = queryParams[ param ]
         switch (paramType) {
           case 'object':
-            this[param] = JSON.parse(query[param])
+            this[ param ] = JSON.parse(query[ param ])
             break
           default:
-            this[param] = query[param]
+            this[ param ] = query[ param ]
         }
       }
     }
@@ -222,7 +222,7 @@ export default {
     },
     onChange (index) {
       this.selectedIndex = index
-      const child = this.$refs['child' + index][0]
+      const child = this.$refs[ 'child' + index ][ 0 ]
       this.childClasses = child.classes
       this.childStyles = child.styles
     },
@@ -235,14 +235,14 @@ export default {
         index = 0
       const paramsCount = Object.keys(queryParams).length
       for (const param in queryParams) {
-        const paramType = queryParams[param]
+        const paramType = queryParams[ param ]
         let value
         switch (paramType) {
           case 'object':
-            value = JSON.stringify(this[param])
+            value = JSON.stringify(this[ param ])
             break
           default:
-            value = this[param]
+            value = this[ param ]
         }
         queryString += `${param}=${encodeURIComponent(value)}`
         index++
@@ -258,8 +258,8 @@ export default {
     },
     editInCodepen () {
       const children = this.children.map((child, index) => {
-        const childRef = this.$refs[`child${index}`]
-        return `<div class="${childRef[0].classes} bg-grey-6" style="${childRef[0].styles}">
+        const childRef = this.$refs[ `child${index}` ]
+        return `<div class="${childRef[ 0 ].classes} bg-grey-6" style="${childRef[ 0 ].styles}">
           <q-card>
             <q-card-section>
               Child #${index}

@@ -38,7 +38,7 @@ export function copyHeading (id) {
     color: 'white',
     textColor: 'primary',
     position: 'top',
-    actions: [ { icon: 'close', color: 'primary', dense: true, round: true } ],
+    actions: [{ icon: 'close', color: 'primary', dense: true, round: true }],
     timeout: 2000
   })
 }

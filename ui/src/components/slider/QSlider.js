@@ -14,7 +14,7 @@ import { hDir } from '../../utils/render.js'
 export default defineComponent({
   name: 'QSlider',
 
-  mixins: [ SliderMixin ],
+  mixins: [SliderMixin],
 
   props: {
     modelValue: {

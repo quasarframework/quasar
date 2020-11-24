@@ -27,8 +27,8 @@ export default {
         : scope => {
           const child = scope.cols.map(
             col => h('div', { class: 'q-table__grid-item-row' }, [
-              h('div', { class: 'q-table__grid-item-title' }, [ col.label ]),
-              h('div', { class: 'q-table__grid-item-value' }, [ col.value ])
+              h('div', { class: 'q-table__grid-item-title' }, [col.label]),
+              h('div', { class: 'q-table__grid-item-value' }, [col.value])
             ])
           )
 
@@ -43,7 +43,7 @@ export default {
                     dark: this.isDark,
                     dense: this.dense,
                     'onUpdate:modelValue': (adding, evt) => {
-                      this.__updateSelection([ scope.key ], [ scope.row ], adding, evt)
+                      this.__updateSelection([scope.key], [scope.row], adding, evt)
                     }
                   })
                 ]

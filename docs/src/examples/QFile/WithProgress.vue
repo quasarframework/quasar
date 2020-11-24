@@ -74,8 +74,8 @@ export default {
 
   methods: {
     cancelFile (index) {
-      this.uploadProgress[index] = {
-        ...this.uploadProgress[index],
+      this.uploadProgress[ index ] = {
+        ...this.uploadProgress[ index ],
         error: true,
         color: 'orange-2'
       }

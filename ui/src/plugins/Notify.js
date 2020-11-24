@@ -399,11 +399,11 @@ const Notifications = {
             : notif.message
         }
         else {
-          const msgNode = [ notif.message ]
+          const msgNode = [notif.message]
           msgChild = notif.caption
             ? [
                 h('div', msgNode),
-                h('div', { class: 'q-notification__caption' }, [ notif.caption ])
+                h('div', { class: 'q-notification__caption' }, [notif.caption])
               ]
             : msgNode
         }
@@ -461,7 +461,7 @@ const Notifications = {
             key: `${meta.uid}|${meta.badge}`,
             class: notif.meta.badgeClass,
             style: notif.badgeStyle
-          }, [ meta.badge ])
+          }, [meta.badge])
         )
 
         return h('div', {

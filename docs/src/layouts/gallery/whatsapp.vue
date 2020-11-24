@@ -211,7 +211,7 @@ export default {
 
   computed: {
     currentConversation () {
-      return this.conversations[this.currentConversationIndex]
+      return this.conversations[ this.currentConversationIndex ]
     },
 
     style () {

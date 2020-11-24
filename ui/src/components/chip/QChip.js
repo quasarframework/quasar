@@ -127,7 +127,7 @@ export default defineComponent({
       )
 
       const label = this.label !== void 0
-        ? [ h('div', { class: 'ellipsis' }, [ this.label ]) ]
+        ? [h('div', { class: 'ellipsis' }, [this.label])]
         : void 0
 
       child.push(
@@ -177,7 +177,7 @@ export default defineComponent({
       this.__getContent(),
       'ripple',
       this.ripple !== false,
-      () => [ [ Ripple, this.ripple ] ]
+      () => [[ Ripple, this.ripple ]]
     )
   }
 })

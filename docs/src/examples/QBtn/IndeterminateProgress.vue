@@ -60,11 +60,11 @@ export default {
   methods: {
     simulateProgress (number) {
       // we set loading state
-      this[`loading${number}`] = true
+      this[ `loading${number}` ] = true
       // simulate a delay
       setTimeout(() => {
         // we're done, we reset loading state
-        this[`loading${number}`] = false
+        this[ `loading${number}` ] = false
       }, 3000)
     }
   }

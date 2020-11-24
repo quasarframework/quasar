@@ -13,7 +13,7 @@ const { passive } = listenOpts
 export default defineComponent({
   name: 'QParallax',
 
-  mixins: [ EmitListenersMixin ],
+  mixins: [EmitListenersMixin],
 
   props: {
     src: String,
@@ -32,7 +32,7 @@ export default defineComponent({
     }
   },
 
-  emits: [ 'scroll' ],
+  emits: ['scroll'],
 
   data () {
     return {

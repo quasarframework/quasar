@@ -64,7 +64,7 @@ const svg = [
 export default defineComponent({
   name: 'QSpinnerPie',
 
-  mixins: [ mixin ],
+  mixins: [mixin],
 
   render () {
     return h('svg', {

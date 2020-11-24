@@ -37,7 +37,7 @@ export default {
   computed: {
     selection () {
       return Object.keys(this.desert)
-        .filter(type => this.desert[type] === true)
+        .filter(type => this.desert[ type ] === true)
         .join(', ')
     }
   }

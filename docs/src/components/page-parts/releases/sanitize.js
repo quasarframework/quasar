@@ -73,7 +73,7 @@ HtmlWhitelistedSanitizer.makeUrlSanitizer = function (allowedUrls) {
       return ''
     }
     for (const i in allowedUrls) {
-      if (str.startsWith(allowedUrls[i])) {
+      if (str.startsWith(allowedUrls[ i ])) {
         return str
       }
     }
@@ -84,8 +84,8 @@ HtmlWhitelistedSanitizer.makeUrlSanitizer = function (allowedUrls) {
 HtmlWhitelistedSanitizer.mergeMap = function (/* ... */) {
   const r = {}
   for (const arg in arguments) {
-    for (const i in arguments[arg]) {
-      r[i] = arguments[arg][i]
+    for (const i in arguments[ arg ]) {
+      r[ i ] = arguments[ arg ][ i ]
     }
   }
   return r
@@ -111,7 +111,7 @@ HtmlWhitelistedSanitizer.prototype.sanitizeNode = function (node) {
     // always strip comments
     return this.doc.createTextNode('')
   }
-  if (this.allowedTags[nodeName] === void 0) {
+  if (this.allowedTags[ nodeName ] === void 0) {
     // this node isn't allowed
     if (this.escape) {
       return this.doc.createTextNode(node.outerHTML)
@@ -125,19 +125,19 @@ HtmlWhitelistedSanitizer.prototype.sanitizeNode = function (node) {
   // copy the whitelist of attributes using the per-attribute sanitizer
   for (let nAttr = 0; nAttr < node.attributes.length; nAttr++) {
     const attr = node.attributes.item(nAttr).name
-    if (this.allowedTags[nodeName][attr] !== void 0) {
-      const sanitizer = this.allowedTags[nodeName][attr]
+    if (this.allowedTags[ nodeName ][ attr ] !== void 0) {
+      const sanitizer = this.allowedTags[ nodeName ][ attr ]
       copy.setAttribute(attr, sanitizer(node.getAttribute(attr)))
     }
   }
   // copy the whitelist of css properties
   for (const css in this.allowedCss) {
-    copy.style[this.allowedCss[css]] = node.style[this.allowedCss[css]]
+    copy.style[ this.allowedCss[ css ] ] = node.style[ this.allowedCss[ css ] ]
   }
 
   // recursively sanitize child nodes
   while (node.childNodes.length > 0) {
-    const child = node.removeChild(node.childNodes[0])
+    const child = node.removeChild(node.childNodes[ 0 ])
     copy.appendChild(this.sanitizeNode(child))
   }
   return copy

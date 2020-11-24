@@ -32,7 +32,7 @@ export default defineComponent({
     }
   },
 
-  mixins: [ PanelChildMixin ],
+  mixins: [PanelChildMixin],
 
   props: {
     icon: String,
@@ -87,7 +87,7 @@ export default defineComponent({
         ? h(
             KeepAlive,
             this.isActive === true
-              ? [ h(StepWrapper, { key: this.name }, this.$slots.default) ]
+              ? [h(StepWrapper, { key: this.name }, this.$slots.default)]
               : void 0
           )
         : (
@@ -113,7 +113,7 @@ export default defineComponent({
               ? h(QSlideTransition, this.__getStepContent)
               : this.__getStepContent()
           ]
-        : [ this.__getStepContent() ]
+        : [this.__getStepContent()]
     )
   }
 })

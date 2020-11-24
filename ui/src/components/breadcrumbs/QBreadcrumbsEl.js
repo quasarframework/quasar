@@ -9,7 +9,7 @@ import RouterLinkMixin from '../../mixins/router-link.js'
 export default defineComponent({
   name: 'QBreadcrumbsEl',
 
-  mixins: [ RouterLinkMixin ],
+  mixins: [RouterLinkMixin],
 
   props: {
     label: String,

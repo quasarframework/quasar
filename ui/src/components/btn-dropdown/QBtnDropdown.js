@@ -13,7 +13,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QBtnDropdown',
 
-  mixins: [ BtnMixin ],
+  mixins: [BtnMixin],
 
   props: {
     modelValue: Boolean,

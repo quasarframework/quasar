@@ -6,7 +6,7 @@ import { getScrollTarget, setScrollPosition } from '../../utils/scroll.js'
 export default defineComponent({
   name: 'QPageScroller',
 
-  mixins: [ QPageSticky ],
+  mixins: [QPageSticky],
 
   props: {
     scrollOffset: {
@@ -26,7 +26,7 @@ export default defineComponent({
     }
   },
 
-  emits: [ 'click' ],
+  emits: ['click'],
 
   inject: {
     layout: {
@@ -99,7 +99,7 @@ export default defineComponent({
         ? h('div', {
             class: 'q-page-scroller',
             onClick: this.__onClick
-          }, [ QPageSticky.render.call(this) ])
+          }, [QPageSticky.render.call(this)])
         : null
     }
   },

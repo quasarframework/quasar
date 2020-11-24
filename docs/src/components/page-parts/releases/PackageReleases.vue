@@ -70,7 +70,7 @@ export default {
       let content = sanitize(body) + '\n'
 
       if (this.search) {
-        content = content.replace(new RegExp(`(${this.search})`, 'ig'), `<span class="bg-accent text-white">$1</span>`)
+        content = content.replace(new RegExp(`(${this.search})`, 'ig'), '<span class="bg-accent text-white">$1</span>')
       }
 
       content = content

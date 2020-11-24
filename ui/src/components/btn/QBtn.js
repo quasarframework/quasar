@@ -22,7 +22,7 @@ let
 export default defineComponent({
   name: 'QBtn',
 
-  mixins: [ BtnMixin ],
+  mixins: [BtnMixin],
 
   props: {
     percentage: Number,
@@ -40,7 +40,7 @@ export default defineComponent({
       return this.ripple === false
         ? false
         : {
-            keyCodes: this.isLink === true ? [ 13, 32 ] : [ 13 ],
+            keyCodes: this.isLink === true ? [ 13, 32 ] : [13],
             ...(this.ripple === true ? {} : this.ripple)
           }
     },
@@ -76,12 +76,12 @@ export default defineComponent({
 
     directives () {
       // if this.disable !== true && this.ripple !== false
-      return [ [
+      return [[
         Ripple,
         this.computedRipple,
         void 0,
         { center: this.round }
-      ] ]
+      ]]
     },
 
     nodeProps () {
@@ -269,7 +269,7 @@ export default defineComponent({
     )
 
     this.hasLabel === true && inner.push(
-      h('span', { class: 'block' }, [ this.label ])
+      h('span', { class: 'block' }, [this.label])
     )
 
     inner = hMergeSlot(this, 'default', inner)
@@ -323,7 +323,7 @@ export default defineComponent({
         h('span', {
           key: 'loading',
           class: 'absolute-full flex flex-center'
-        }, this.$slots.loading !== void 0 ? this.$slots.loading() : [ h(QSpinner) ])
+        }, this.$slots.loading !== void 0 ? this.$slots.loading() : [h(QSpinner)])
       ] : void 0)
     )
 

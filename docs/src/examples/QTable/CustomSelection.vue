@@ -156,7 +156,7 @@ export default {
         return
       }
 
-      const row = rows[0]
+      const row = rows[ 0 ]
       const filteredSortedRows = this.$refs.table.filteredSortedRows
       const rowIndex = filteredSortedRows.indexOf(row)
       const lastIndex = this.lastIndex
@@ -195,7 +195,7 @@ export default {
       const from = lastIndex < rowIndex ? lastIndex : rowIndex
       const to = lastIndex < rowIndex ? rowIndex : lastIndex
       for (let i = from; i <= to; i += 1) {
-        operateSelection(filteredSortedRows[i])
+        operateSelection(filteredSortedRows[ i ])
       }
     }
   }

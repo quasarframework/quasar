@@ -18,7 +18,7 @@ const anchorValues = Object.keys(anchorMap)
 export default defineComponent({
   name: 'QFabAction',
 
-  mixins: [ FabMixin ],
+  mixins: [FabMixin],
 
   props: {
     icon: {
@@ -35,7 +35,7 @@ export default defineComponent({
     replace: Boolean
   },
 
-  emits: [ 'click' ],
+  emits: ['click'],
 
   inject: {
     __qFab: {
@@ -70,7 +70,7 @@ export default defineComponent({
       )
 
       this.label !== '' && child[ this.labelProps.action ](
-        h('div', this.labelProps.data, [ this.label ])
+        h('div', this.labelProps.data, [this.label])
       )
 
       return hMergeSlot(this, 'default', child)

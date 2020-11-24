@@ -159,7 +159,7 @@ export default defineComponent({
       child,
       'head',
       this.stepper.headerNav === true && this.headerNav !== false,
-      () => [ [ Ripple, this.headerNav ] ]
+      () => [[ Ripple, this.headerNav ]]
     )
   }
 })

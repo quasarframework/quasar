@@ -154,7 +154,7 @@ export default {
               { label: 'Dismiss', color: 'yellow', handler: () => console.log('dismiss wooow ' + random) }
             ]
           : (random > 40
-              ? [ { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) } ]
+              ? [{ label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) }]
               : null
             ),
         timeout: Math.random() * 5000 + 8000
@@ -268,7 +268,7 @@ export default {
       textColor: 'black',
       multiLine: true,
       avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-      actions: [ { label: 'Reply', handler: () => console.log('wooow'), attrs: { 'aria-label': 'Reply' } } ]
+      actions: [{ label: 'Reply', handler: () => console.log('wooow'), attrs: { 'aria-label': 'Reply' } }]
     })
     this.$q.notify({
       html: true,
@@ -288,7 +288,7 @@ export default {
       textColor: 'black',
       multiLine: true,
       avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-      actions: [ { label: 'Reply', handler: () => console.log('wooow') } ]
+      actions: [{ label: 'Reply', handler: () => console.log('wooow') }]
     })
   }
 }

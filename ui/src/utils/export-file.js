@@ -7,7 +7,7 @@ function clean (link) {
 }
 
 export default function (fileName, rawData, mimeType) {
-  const blob = new Blob([ rawData ], { type: mimeType || 'text/plain' })
+  const blob = new Blob([rawData], { type: mimeType || 'text/plain' })
   const link = document.createElement('a')
 
   link.download = fileName

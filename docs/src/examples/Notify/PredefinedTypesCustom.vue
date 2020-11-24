@@ -13,7 +13,7 @@ export default {
     triggerCustomRegisteredType1 () {
       this.$q.notify({
         type: 'my-notif',
-        message: `This notification is using a custom type.`
+        message: 'This notification is using a custom type.'
       })
     },
 
@@ -23,8 +23,8 @@ export default {
       this.$q.notify({
         type: 'my-notif',
         icon: 'contactless',
-        message: `This notification is using a custom type.`,
-        caption: `It overrides the type's default icon and color.`,
+        message: 'This notification is using a custom type.',
+        caption: 'It overrides the type\'s default icon and color.',
         color: 'primary'
       })
     }

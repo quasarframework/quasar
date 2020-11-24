@@ -127,7 +127,7 @@ const options = [
 
 const security = [
   {
-    name: `DO's and DON'Ts`,
+    name: 'DO\'s and DON\'Ts',
     path: 'dos-and-donts'
   },
   {

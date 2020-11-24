@@ -111,7 +111,7 @@ export default {
           })
 
           this.cancel = morph({
-            from: this.$refs.refThumb[index].$el,
+            from: this.$refs.refThumb[ index ].$el,
             to: this.$refs.refFull.$el,
             onToggle: () => {
               this.indexZoomed = index
@@ -134,7 +134,7 @@ export default {
       ) {
         morph({
           from: this.$refs.refFull.$el,
-          to: this.$refs.refThumb[indexZoomed].$el,
+          to: this.$refs.refThumb[ indexZoomed ].$el,
           onToggle: () => {
             this.indexZoomed = void 0
           },

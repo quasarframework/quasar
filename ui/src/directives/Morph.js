@@ -114,7 +114,7 @@ function updateModel (name, ctx) {
       morphGroups[ ctx.group ] = {
         name: ctx.group,
         model: name,
-        queue: [ ctx ],
+        queue: [ctx],
         animating: false
       }
 

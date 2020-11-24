@@ -47,11 +47,11 @@ export default {
   methods: {
     exportTable () {
       // naive encoding to csv format
-      const content = [ this.columns.map(col => wrapCsvValue(col.label)) ].concat(
+      const content = [this.columns.map(col => wrapCsvValue(col.label))].concat(
         this.rows.map(row => this.columns.map(col => wrapCsvValue(
           typeof col.field === 'function'
             ? col.field(row)
-            : row[col.field === void 0 ? col.name : col.field],
+            : row[ col.field === void 0 ? col.name : col.field ],
           col.format
         )).join(','))
       ).join('\r\n')
@@ -104,7 +104,7 @@ export default {
           iron: '1%'
         },
         {
-          name: `Ice cream sandwich`,
+          name: 'Ice cream sandwich',
           calories: 237,
           fat: 9.0,
           carbs: 37,

@@ -144,7 +144,7 @@ export default {
       let prev = min
 
       for (let i = 0; i < this.zones.length; i++) {
-        const zone = this.zones[i]
+        const zone = this.zones[ i ]
 
         if (zone.min > prev) {
           colors.push(`transparent ${(prev - min) / range * 100}%`)
@@ -176,7 +176,7 @@ export default {
       const rangeY = 20 // from CSS
 
       for (let i = 0; i < this.ticks.length; i++) {
-        const tick = this.ticks[i]
+        const tick = this.ticks[ i ]
 
         ticksBg.push(`linear-gradient(to right,${tick.color} 0,${tick.color} 100%)`)
         ticksBgPos.push(`${(tick.x - min) / rangeX * 100}% ${tick.y === void 0 ? (rangeY - tick.height) / 2 : tick.y}px`)

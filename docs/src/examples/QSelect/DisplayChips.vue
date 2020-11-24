@@ -40,7 +40,7 @@ export default {
   data () {
     return {
       modelSingle: 'Apple',
-      modelMultiple: [ 'Facebook' ],
+      modelMultiple: ['Facebook'],
 
       options: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'

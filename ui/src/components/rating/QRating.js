@@ -38,7 +38,7 @@ export default defineComponent({
     disable: Boolean
   },
 
-  emits: [ 'update:modelValue' ],
+  emits: ['update:modelValue'],
 
   data () {
     return {

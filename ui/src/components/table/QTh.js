@@ -12,7 +12,7 @@ export default defineComponent({
     autoWidth: Boolean
   },
 
-  emits: [ 'click' ],
+  emits: ['click'],
 
   render () {
     if (this.props === void 0) {

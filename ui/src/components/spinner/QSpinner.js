@@ -5,7 +5,7 @@ import mixin from './spinner-mixin.js'
 export default defineComponent({
   name: 'QSpinner',
 
-  mixins: [ mixin ],
+  mixins: [mixin],
 
   props: {
     thickness: {

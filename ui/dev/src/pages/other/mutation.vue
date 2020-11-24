@@ -81,10 +81,10 @@ export default {
     return {
       nodesNumber: 3,
       nodesNumber2: 3,
-      attrs: [ 'third' ],
-      attrs2: [ 'third' ],
-      char: [ 'wee' ],
-      char2: [ 'wee' ]
+      attrs: ['third'],
+      attrs2: ['third'],
+      char: ['wee'],
+      char2: ['wee']
     }
   },
 

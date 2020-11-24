@@ -65,7 +65,7 @@ export default defineComponent({
         }, hSlot(this, 'default'))
 
         return top === void 0
-          ? [ content ]
+          ? [content]
           : top.concat(content)
       }
 

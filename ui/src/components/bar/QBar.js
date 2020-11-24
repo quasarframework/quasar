@@ -7,7 +7,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QBar',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   props: {
     dense: Boolean

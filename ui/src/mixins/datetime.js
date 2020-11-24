@@ -37,7 +37,7 @@ export default {
     disable: Boolean
   },
 
-  emits: [ 'update:modelValue' ],
+  emits: ['update:modelValue'],
 
   computed: {
     computedMask () {

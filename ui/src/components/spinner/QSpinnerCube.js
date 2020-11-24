@@ -115,7 +115,7 @@ const svg = [
 export default defineComponent({
   name: 'QSpinnerCube',
 
-  mixins: [ mixin ],
+  mixins: [mixin],
 
   render () {
     return h('svg', {

@@ -219,8 +219,8 @@ export default {
   data () {
     return {
       checked: true,
-      group: [ 'op3' ],
-      selection: [ 'two' ],
+      group: ['op3'],
+      selection: ['two'],
       indModel: null,
       dark: null,
       dense: false,

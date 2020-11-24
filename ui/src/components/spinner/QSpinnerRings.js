@@ -89,7 +89,7 @@ const svg = [
 export default defineComponent({
   name: 'QSpinnerRings',
 
-  mixins: [ mixin ],
+  mixins: [mixin],
 
   render () {
     return h('svg', {

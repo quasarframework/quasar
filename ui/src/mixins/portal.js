@@ -107,7 +107,7 @@ export default __QUASAR_SSR_SERVER__
           ? this.__renderPortal()
           : (
               this.usePortal === true
-                ? [ h(Teleport, { to: this.__portalEl }, this.__renderPortal()) ]
+                ? [h(Teleport, { to: this.__portalEl }, this.__renderPortal())]
                 : void 0
             )
       },

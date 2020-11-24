@@ -153,7 +153,7 @@ export default {
         script,
         style
       }
-      this.tabs = [ 'template', 'script', 'style' ].filter(type => this.parts[type])
+      this.tabs = [ 'template', 'script', 'style' ].filter(type => this.parts[ type ])
     },
 
     parseTemplate (target, template) {
@@ -162,7 +162,7 @@ export default {
         regex = new RegExp(string, 'g'),
         parsed = regex.exec(template) || []
 
-      return parsed[1] || ''
+      return parsed[ 1 ] || ''
     },
 
     openGitHub () {

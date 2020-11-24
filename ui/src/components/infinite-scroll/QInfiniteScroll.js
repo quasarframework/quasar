@@ -30,7 +30,7 @@ export default defineComponent({
     reverse: Boolean
   },
 
-  emits: [ 'load' ],
+  emits: ['load'],
 
   data () {
     return {

@@ -44,7 +44,7 @@ const options = [
 export default {
   data () {
     return {
-      model: options[0],
+      model: options[ 0 ],
       displayHtml: false,
       options
     }

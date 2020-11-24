@@ -7,7 +7,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QCarouselSlide',
 
-  mixins: [ PanelChildMixin ],
+  mixins: [PanelChildMixin],
 
   props: {
     imgSrc: String

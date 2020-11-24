@@ -19,7 +19,7 @@ export const margins = {
 export default defineComponent({
   name: 'QSeparator',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   props: {
     spaced: [ Boolean, String ],

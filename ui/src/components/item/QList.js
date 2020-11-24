@@ -7,7 +7,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QList',
 
-  mixins: [ DarkMixin ],
+  mixins: [DarkMixin],
 
   props: {
     bordered: Boolean,

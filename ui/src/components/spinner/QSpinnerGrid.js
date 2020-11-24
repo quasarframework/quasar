@@ -135,7 +135,7 @@ const svg = [
 export default defineComponent({
   name: 'QSpinnerGrid',
 
-  mixins: [ mixin ],
+  mixins: [mixin],
 
   render () {
     return h('svg', {

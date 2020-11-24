@@ -7,7 +7,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QNoSsr',
 
-  mixins: [ CanRenderMixin ],
+  mixins: [CanRenderMixin],
 
   props: {
     tag: {

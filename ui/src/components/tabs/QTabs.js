@@ -67,7 +67,7 @@ export default defineComponent({
     contentClass: String
   },
 
-  emits: [ 'update:modelValue' ],
+  emits: ['update:modelValue'],
 
   data () {
     return {

@@ -285,7 +285,7 @@ export default defineComponent({
             'inner-loading-append',
             this.$slots.loading !== void 0
               ? this.$slots.loading()
-              : [ h(QSpinner, { color: this.color }) ]
+              : [h(QSpinner, { color: this.color })]
           )
         )
       }
@@ -368,7 +368,7 @@ export default defineComponent({
 
       if (this.hasError === true) {
         if (this.computedErrorMessage !== void 0) {
-          msg = [ h('div', this.computedErrorMessage) ]
+          msg = [h('div', this.computedErrorMessage)]
           key = this.computedErrorMessage
         }
         else {
@@ -378,7 +378,7 @@ export default defineComponent({
       }
       else if (this.hideHint !== true || this.focused === true) {
         if (this.hint !== void 0) {
-          msg = [ h('div', this.hint) ]
+          msg = [h('div', this.hint)]
           key = this.hint
         }
         else {

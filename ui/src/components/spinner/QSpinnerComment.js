@@ -67,7 +67,7 @@ const svg = [
 export default defineComponent({
   name: 'QSpinnerComment',
 
-  mixins: [ mixin ],
+  mixins: [mixin],
 
   render () {
     return h('svg', {

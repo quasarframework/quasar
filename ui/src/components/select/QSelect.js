@@ -206,7 +206,7 @@ export default defineComponent({
       const
         mapNull = this.mapOptions === true && this.multiple !== true,
         val = this.modelValue !== void 0 && (this.modelValue !== null || mapNull === true)
-          ? (this.multiple === true && Array.isArray(this.modelValue) ? this.modelValue : [ this.modelValue ])
+          ? (this.multiple === true && Array.isArray(this.modelValue) ? this.modelValue : [this.modelValue])
           : []
 
       if (this.mapOptions === true && Array.isArray(this.options) === true) {
@@ -417,7 +417,7 @@ export default defineComponent({
 
       if (this.innerValue.length === 0) {
         this.$emit('add', { index: 0, value: val })
-        this.$emit('update:modelValue', this.multiple === true ? [ val ] : val)
+        this.$emit('update:modelValue', this.multiple === true ? [val] : val)
         return
       }
 
@@ -469,7 +469,7 @@ export default defineComponent({
       if (this.innerValue.length === 0) {
         const val = this.emitValue === true ? optValue : opt
         this.$emit('add', { index: 0, value: val })
-        this.$emit('update:modelValue', this.multiple === true ? [ val ] : val)
+        this.$emit('update:modelValue', this.multiple === true ? [val] : val)
         return
       }
 

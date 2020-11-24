@@ -20,7 +20,7 @@ const dragType = {
 export default defineComponent({
   name: 'QRange',
 
-  mixins: [ SliderMixin ],
+  mixins: [SliderMixin],
 
   props: {
     modelValue: {

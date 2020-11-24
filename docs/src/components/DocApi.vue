@@ -90,15 +90,15 @@ const groupBy = (list, groupKey, defaultGroupKeyValue) => {
   const res = {}
 
   for (const key in list) {
-    if (list[key] !== void 0) {
-      const value = list[key]
-      const groupKeyValue = (value[groupKey] || defaultGroupKeyValue).split('|')
+    if (list[ key ] !== void 0) {
+      const value = list[ key ]
+      const groupKeyValue = (value[ groupKey ] || defaultGroupKeyValue).split('|')
 
       for (const groupKeyV of groupKeyValue) {
-        if (res[groupKeyV] === void 0) {
-          res[groupKeyV] = {}
+        if (res[ groupKeyV ] === void 0) {
+          res[ groupKeyV ] = {}
         }
-        res[groupKeyV][key] = value
+        res[ groupKeyV ][ key ] = value
       }
     }
   }
@@ -145,7 +145,7 @@ export default {
       if (val === '') {
         this.filteredApi = this.api
         this.tabs.forEach(tab => {
-          this.tabCount[tab] = this.apiCount(tab)
+          this.tabCount[ tab ] = this.apiCount(tab)
         })
         return
       }
@@ -154,7 +154,7 @@ export default {
 
       this.tabs.forEach(tab => {
         if (tab === 'injection') {
-          api[tab] = this.api[tab]
+          api[ tab ] = this.api[ tab ]
           return
         }
 
@@ -164,46 +164,46 @@ export default {
           Object.keys(tabApi).forEach(name => {
             if (
               (name.toLowerCase().indexOf(val) > -1) ||
-              (tabApi[name].desc !== void 0 && tabApi[name].desc.toLowerCase().indexOf(val) > -1)
+              (tabApi[ name ].desc !== void 0 && tabApi[ name ].desc.toLowerCase().indexOf(val) > -1)
             ) {
-              filtered[name] = tabApi[name]
+              filtered[ name ] = tabApi[ name ]
             }
           })
           return filtered
         }
 
-        if (this.aggregationModel[tab]) {
-          api[tab] = {}
+        if (this.aggregationModel[ tab ]) {
+          api[ tab ] = {}
 
-          for (const group in this.api[tab]) {
-            if (this.api[tab][group] !== void 0) {
-              api[tab][group] = filterApi(this.api[tab][group])
+          for (const group in this.api[ tab ]) {
+            if (this.api[ tab ][ group ] !== void 0) {
+              api[ tab ][ group ] = filterApi(this.api[ tab ][ group ])
             }
           }
 
           if (this.currentTab === tab) {
             let apiWithResultsCount = 0,
               lastFoundApiWithResults = null
-            for (const group in this.api[tab]) {
-              if (Object.keys(api[tab][group]).length > 0) {
+            for (const group in this.api[ tab ]) {
+              if (Object.keys(api[ tab ][ group ]).length > 0) {
                 apiWithResultsCount++
                 lastFoundApiWithResults = group
               }
             }
 
             if (apiWithResultsCount === 1) {
-              this.currentInnerTab[tab] = lastFoundApiWithResults
+              this.currentInnerTab[ tab ] = lastFoundApiWithResults
             }
           }
         }
         else {
-          api[tab] = filterApi(this.api[tab])
+          api[ tab ] = filterApi(this.api[ tab ])
         }
       })
 
       this.filteredApi = api
       this.tabs.forEach(tab => {
-        this.tabCount[tab] = this.apiCount(tab)
+        this.tabCount[ tab ] = this.apiCount(tab)
       })
     }
   },
@@ -213,10 +213,10 @@ export default {
       this.aggregationModel = {}
 
       if (type === 'component' && api.props !== void 0) {
-        for (const apiGroup of [ 'props' ]) {
-          api[apiGroup] = groupBy(api[apiGroup], 'category', 'general')
-          this.currentInnerTab[apiGroup] = this.apiTabs(apiGroup, api)[0]
-          this.aggregationModel[apiGroup] = true
+        for (const apiGroup of ['props']) {
+          api[ apiGroup ] = groupBy(api[ apiGroup ], 'category', 'general')
+          this.currentInnerTab[ apiGroup ] = this.apiTabs(apiGroup, api)[ 0 ]
+          this.aggregationModel[ apiGroup ] = true
         }
       }
 
@@ -228,9 +228,9 @@ export default {
       this.type = `${type === 'plugin' ? 'Quasar' : 'Vue'} ${type.charAt(0).toUpperCase()}${type.substring(1)}`
       this.tabs = Object.keys(api)
 
-      this.currentTab = this.tabs[0]
+      this.currentTab = this.tabs[ 0 ]
       this.tabs.forEach(tab => {
-        this.tabCount[tab] = this.apiCount(tab)
+        this.tabCount[ tab ] = this.apiCount(tab)
       })
     },
 
@@ -242,15 +242,15 @@ export default {
     },
 
     apiTabs (tab, api) {
-      return Object.keys((api || this.filteredApi)[tab]).sort()
+      return Object.keys((api || this.filteredApi)[ tab ]).sort()
     },
 
     apiCount (tab) {
       if (this.apiType !== 'plugin' && tab === 'props') {
         let total = 0
 
-        Object.keys(this.filteredApi[tab]).forEach(key => {
-          total += Object.keys(this.filteredApi[tab][key]).length
+        Object.keys(this.filteredApi[ tab ]).forEach(key => {
+          total += Object.keys(this.filteredApi[ tab ][ key ]).length
         })
 
         return total
@@ -260,11 +260,11 @@ export default {
         return 1
       }
 
-      return Object.keys(this.filteredApi[tab]).length
+      return Object.keys(this.filteredApi[ tab ]).length
     },
 
     apiInnerCount (tab, category) {
-      return Object.keys(this.filteredApi[tab][category]).length
+      return Object.keys(this.filteredApi[ tab ][ category ]).length
     },
 
     formattedApiInnerCount (tab, category) {
@@ -274,9 +274,9 @@ export default {
 
   computed: {
     currentTabMaxCategoryPropCount () {
-      if (this.aggregationModel[this.currentTab]) {
+      if (this.aggregationModel[ this.currentTab ]) {
         let max = -1
-        for (const category in this.filteredApi[this.currentTab]) {
+        for (const category in this.filteredApi[ this.currentTab ]) {
           const count = this.apiInnerCount(this.currentTab, category)
           if (count > max) {
             max = count

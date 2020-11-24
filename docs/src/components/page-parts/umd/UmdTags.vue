@@ -81,7 +81,7 @@ const googleMap = {
   'material-icons-sharp': 'Material+Icons+Sharp'
 }
 
-const camelize = str => str.replace(/(-\w)/g, m => m[1].toUpperCase())
+const camelize = str => str.replace(/(-\w)/g, m => m[ 1 ].toUpperCase())
 
 export default {
   data () {
@@ -142,8 +142,8 @@ export default {
 
     googleFonts () {
       const css = Object.keys(googleMap)
-        .filter(key => this.css[key] === true)
-        .map(key => googleMap[key])
+        .filter(key => this.css[ key ] === true)
+        .map(key => googleMap[ key ])
 
       return css.length === 0
         ? ''
@@ -152,15 +152,15 @@ export default {
 
     head () {
       const css = Object.keys(cssMap)
-        .filter(key => this.css[key] === true)
-        .map(key => cssMap[key])
+        .filter(key => this.css[ key ] === true)
+        .map(key => cssMap[ key ])
 
       css.unshift(this.googleFonts)
       css.push(`cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.rtl.min.css`)
 
       return css.filter(url => url)
         .map(url => this.getCssTag(url))
-        .join(`\n    `)
+        .join('\n    ')
     },
 
     configTag () {
@@ -181,7 +181,7 @@ export default {
       loadingBar: { ... }, // settings for LoadingBar Quasar plugin
       // ..and many more (check Installation card on each Quasar component/directive/plugin)
     }
-    <` + `/script>\n`
+    <` + '/script>\n'
     },
 
     finalScriptTag () {
@@ -215,7 +215,7 @@ export default {
     `
 
       // funky form below otherwise vue-loader will crash
-      return `\n    <` + `script>${prepend}${startup}<` + `/script>`
+      return '\n    <' + `script>${prepend}${startup}<` + '/script>'
     },
 
     body () {
@@ -238,7 +238,7 @@ export default {
 
       return js
         .map(url => this.getJsTag(url))
-        .join(`\n    `)
+        .join('\n    ')
     }
   },
 
@@ -255,12 +255,12 @@ export default {
 
     getCssTag (url) {
       // funky form below, otherwise vue-loader will misinterpret
-      return `<` + `link href="https://${this.getUrl(url)}" rel="stylesheet" type="text/css"` + `>`
+      return '<' + `link href="https://${this.getUrl(url)}" rel="stylesheet" type="text/css"` + '>'
     },
 
     getJsTag (url) {
       // funky form below, otherwise vue-loader will crash
-      return `<` + `script src="https://${this.getUrl(url)}"` + `><` + `/script>`
+      return '<' + `script src="https://${this.getUrl(url)}"` + '><' + '/script>'
     }
   },
 

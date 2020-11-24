@@ -7,7 +7,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QResponsive',
 
-  mixins: [ RatioMixin ],
+  mixins: [RatioMixin],
 
   render () {
     return h('div', {

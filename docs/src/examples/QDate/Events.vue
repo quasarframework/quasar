@@ -26,7 +26,7 @@ export default {
   methods: {
     eventsFn (date) {
       const parts = date.split('/')
-      return parts[2] % 2 === 0
+      return parts[ 2 ] % 2 === 0
     }
   }
 }

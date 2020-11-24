@@ -317,7 +317,7 @@ export default defineComponent({
       // if this.noSwipeOpen !== true
       const dir = this.$q.lang.rtl === true ? this.side : this.otherSide
 
-      return [ [
+      return [[
         TouchPan,
         this.__openByTouch,
         void 0,
@@ -325,14 +325,14 @@ export default defineComponent({
           [ dir ]: true,
           mouse: true
         }
-      ] ]
+      ]]
     },
 
     contentCloseDirective () {
       // if this.belowBreakpoint === true && this.noSwipeClose !== true
       const dir = this.$q.lang.rtl === true ? this.otherSide : this.side
 
-      return [ [
+      return [[
         TouchPan,
         this.__closeByTouch,
         void 0,
@@ -340,14 +340,14 @@ export default defineComponent({
           [ dir ]: true,
           mouse: true
         }
-      ] ]
+      ]]
     },
 
     backdropCloseDirective () {
       // if this.showing === true && this.noSwipeBackdrop !== true
       const dir = this.$q.lang.rtl === true ? this.otherSide : this.side
 
-      return [ [
+      return [[
         TouchPan,
         this.__closeByTouch,
         void 0,
@@ -356,7 +356,7 @@ export default defineComponent({
           mouse: true,
           mouseAllDir: true
         }
-      ] ]
+      ]]
     }
   },
 

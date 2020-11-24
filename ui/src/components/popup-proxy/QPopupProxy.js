@@ -9,7 +9,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QPopupProxy',
 
-  mixins: [ AnchorMixin ],
+  mixins: [AnchorMixin],
 
   props: {
     breakpoint: {
@@ -18,7 +18,7 @@ export default defineComponent({
     }
   },
 
-  emits: [ 'hide' ],
+  emits: ['hide'],
 
   data () {
     const breakpoint = parseInt(this.breakpoint, 10)

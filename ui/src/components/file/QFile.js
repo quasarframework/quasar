@@ -48,7 +48,7 @@ export default defineComponent({
 
     innerValue () {
       return Object(this.modelValue) === this.modelValue
-        ? ('length' in this.modelValue ? Array.from(this.modelValue) : [ this.modelValue ])
+        ? ('length' in this.modelValue ? Array.from(this.modelValue) : [this.modelValue])
         : []
     },
 
@@ -203,7 +203,7 @@ export default defineComponent({
           data.onKeyup = this.__onKeyup
         }
 
-        return h('div', data, [ this.__getInput() ].concat(this.__getSelection()))
+        return h('div', data, [this.__getInput()].concat(this.__getSelection()))
       }
     })
 

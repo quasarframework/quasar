@@ -28,7 +28,7 @@ const bgNode = [
 export default defineComponent({
   name: 'QCheckbox',
 
-  mixins: [ CheckboxMixin ],
+  mixins: [CheckboxMixin],
 
   methods: {
     __getInner () {

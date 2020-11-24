@@ -128,12 +128,12 @@ export default defineComponent({
     },
 
     directives () {
-      return [ [
+      return [[
         TouchPan,
         this.__pan,
         void 0,
         { prevent: true, stop: true, mouse: true }
-      ] ]
+      ]]
     }
   },
 

@@ -13,7 +13,7 @@ import DateTimeMixin from '../../mixins/datetime.js'
 export default defineComponent({
   name: 'QTime',
 
-  mixins: [ DateTimeMixin ],
+  mixins: [DateTimeMixin],
 
   props: {
     mask: {
@@ -274,7 +274,7 @@ export default defineComponent({
     },
 
     clockDirectives () {
-      return [ [
+      return [[
         TouchPan,
         this.__drag,
         void 0,
@@ -283,7 +283,7 @@ export default defineComponent({
           prevent: true,
           mouse: true
         }
-      ] ]
+      ]]
     }
   },
 
@@ -739,7 +739,7 @@ export default defineComponent({
                       (pos.val === current
                         ? ' q-time__clock-position--active ' + this.headerClass
                         : (pos.disable === true ? ' q-time__clock-position--disable' : ''))
-                  }, [ h('span', pos.label) ]))
+                  }, [h('span', pos.label)]))
                 ])
               ]),
               this.clockDirectives

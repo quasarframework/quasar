@@ -106,7 +106,7 @@ export default {
       },
 
       render (h) {
-        return h('div', [ 'keep alive test ' + this.name ])
+        return h('div', ['keep alive test ' + this.name])
       }
     }
   },

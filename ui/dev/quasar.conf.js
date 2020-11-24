@@ -62,10 +62,10 @@ module.exports = function (ctx) {
           .set('quasar/src', path.join(__dirname, '../src/'))
 
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [ {
+          .use(ESLintPlugin, [{
             extensions: [ 'js', 'vue' ],
             exclude: 'node_modules'
-          } ])
+          }])
       }
     },
 

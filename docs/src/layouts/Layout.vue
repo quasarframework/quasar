@@ -162,7 +162,7 @@ export default {
     searchPlaceholder () {
       return this.searchFocused === true
         ? 'Type to start searching...'
-        : (this.$q.platform.is.desktop === true ? `Type ' / ' to focus here...` : 'Search...')
+        : (this.$q.platform.is.desktop === true ? 'Type \' / \' to focus here...' : 'Search...')
     },
 
     hasRightDrawer () {
@@ -275,7 +275,7 @@ export default {
       let last
 
       for (const i in toc) {
-        const section = toc[i]
+        const section = toc[ i ]
         const item = document.getElementById(section.id)
 
         if (item === null) {

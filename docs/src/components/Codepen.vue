@@ -48,26 +48,26 @@ export default {
       const lang = /<style.*lang=["'](.*)["'].*>/
         .exec(this.parts.style || '')
 
-      return lang ? lang[1] : 'none'
+      return lang ? lang[ 1 ] : 'none'
     },
 
     js () {
       const importsQ = /import\s+{([^}'\n]+)}\s+from\s+'quasar'/g
       const imports = /import ([^'\n]*) from ([^\n]*)/g
       let component = /export default {([\s\S]*)}/g.exec(this.parts.script || '')
-      component = ((component && component[1]) || '').trim()
+      component = ((component && component[ 1 ]) || '').trim()
       if (component.length > 0) {
         component = ',\n  ' + component
       }
       let script = /<script>([\s\S]*)export default {/g.exec(this.parts.script || '')
-      script = ((script && script[1]) || '')
+      script = ((script && script[ 1 ]) || '')
         .replace(importsQ, function (match, p1) {
           const parts = p1
             .split(',')
             .map(p => p.trim())
             .filter(p => p.length > 0)
             .reduce((acc, p) => {
-              if (p[0] === 'Q') {
+              if (p[ 0 ] === 'Q') {
                 acc.c.push(p)
               }
               else {

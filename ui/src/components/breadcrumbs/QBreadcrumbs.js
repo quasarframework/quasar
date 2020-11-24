@@ -7,7 +7,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QBreadcrumbs',
 
-  mixins: [ AlignMixin ],
+  mixins: [AlignMixin],
 
   props: {
     separator: {
@@ -66,7 +66,7 @@ export default defineComponent({
           h('div', {
             class: 'flex items-center ' +
               (middle === true ? this.activeClass : 'q-breadcrumbs--last')
-          }, [ comp ])
+          }, [comp])
         )
 
         if (middle === true) {

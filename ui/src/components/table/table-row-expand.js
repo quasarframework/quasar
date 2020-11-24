@@ -9,7 +9,7 @@ export default {
     expanded: Array // v-model:expanded
   },
 
-  emits: [ 'update:expanded' ],
+  emits: ['update:expanded'],
 
   data () {
     return {

@@ -92,7 +92,7 @@ export default {
         return this.$q.screen.gt.sm ? [ 3, 6, 9 ] : [ 3, 6 ]
       }
 
-      return [ 3 ]
+      return [3]
     }
   },
 

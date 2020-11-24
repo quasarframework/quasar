@@ -9,7 +9,7 @@ import { hMergeSlotSafely } from '../../utils/render.js'
 export default defineComponent({
   name: 'QAvatar',
 
-  mixins: [ SizeMixin ],
+  mixins: [SizeMixin],
 
   props: {
     fontSize: String,
@@ -43,7 +43,7 @@ export default defineComponent({
 
   render () {
     const icon = this.icon !== void 0
-      ? [ h(QIcon, { name: this.icon }) ]
+      ? [h(QIcon, { name: this.icon })]
       : void 0
 
     return h('div', {

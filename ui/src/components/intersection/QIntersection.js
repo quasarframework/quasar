@@ -11,7 +11,7 @@ import { hSlot, hDir } from '../../utils/render.js'
 export default defineComponent({
   name: 'QIntersection',
 
-  mixins: [ EmitListenersMixin ],
+  mixins: [EmitListenersMixin],
 
   props: {
     tag: {
@@ -33,7 +33,7 @@ export default defineComponent({
     disable: Boolean
   },
 
-  emits: [ 'visibility' ],
+  emits: ['visibility'],
 
   data () {
     return {
@@ -61,12 +61,12 @@ export default defineComponent({
 
     directives () {
       // if this.hasDirective === true
-      return [ [
+      return [[
         Intersection,
         this.value,
         void 0,
         { once: this.once }
-      ] ]
+      ]]
     }
   },
 
@@ -80,7 +80,7 @@ export default defineComponent({
 
     __getContent () {
       return this.showing === true
-        ? [ h('div', { key: 'content' }, hSlot(this, 'default')) ]
+        ? [h('div', { key: 'content' }, hSlot(this, 'default'))]
         : void 0
     }
   },

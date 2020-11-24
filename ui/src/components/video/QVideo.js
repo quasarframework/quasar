@@ -5,7 +5,7 @@ import RatioMixin from '../../mixins/ratio.js'
 export default defineComponent({
   name: 'QVideo',
 
-  mixins: [ RatioMixin ],
+  mixins: [RatioMixin],
 
   props: {
     src: {

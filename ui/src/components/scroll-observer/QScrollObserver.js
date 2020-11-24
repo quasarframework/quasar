@@ -17,7 +17,7 @@ export default defineComponent({
     }
   },
 
-  emits: [ 'scroll' ],
+  emits: ['scroll'],
 
   render: noop, // eslint-disable-line
 

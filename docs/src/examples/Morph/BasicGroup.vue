@@ -64,7 +64,7 @@ export default {
       // pick random box, other than current one
       while (value === this.morphGroupModel) {
         const i = Math.floor(Math.random() * boxValues.length)
-        value = boxValues[i]
+        value = boxValues[ i ]
       }
 
       this.morphGroupModel = value

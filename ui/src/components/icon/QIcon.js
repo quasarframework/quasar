@@ -7,7 +7,7 @@ import { hSlot, hMergeSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QIcon',
 
-  mixins: [ SizeMixin ],
+  mixins: [SizeMixin],
 
   props: {
     tag: {
@@ -177,7 +177,7 @@ export default defineComponent({
       return h(
         'svg',
         data,
-        hMergeSlot(this, 'default', [ h('use', { 'xlink:href': this.type.src }) ])
+        hMergeSlot(this, 'default', [h('use', { 'xlink:href': this.type.src })])
       )
     }
 

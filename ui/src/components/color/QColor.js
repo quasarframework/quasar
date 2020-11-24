@@ -210,12 +210,12 @@ export default defineComponent({
 
     spectrumDirective () {
       // if this.editable === true
-      return [ [
+      return [[
         TouchPan,
         this.__spectrumPan,
         void 0,
         { prevent: true, stop: true, mouse: true }
-      ] ]
+      ]]
     }
   },
 
@@ -224,7 +224,7 @@ export default defineComponent({
   },
 
   render () {
-    const child = [ this.__getContent() ]
+    const child = [this.__getContent()]
 
     if (this.name !== void 0 && this.disable !== true) {
       this.__injectFormInput(child, 'push')

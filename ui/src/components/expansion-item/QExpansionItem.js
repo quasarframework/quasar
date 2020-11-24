@@ -287,10 +287,10 @@ export default defineComponent({
           class: 'q-expansion-item__content relative-position',
           style: this.contentStyle
         }, hSlot(this, 'default')),
-        [ [
+        [[
           vShow,
           this.showing
-        ] ]
+        ]]
       )
     },
 

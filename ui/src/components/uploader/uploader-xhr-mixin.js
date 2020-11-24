@@ -79,7 +79,7 @@ export default {
       }
       else {
         queue.forEach(file => {
-          this.__runFactory([ file ])
+          this.__runFactory([file])
         })
       }
     },

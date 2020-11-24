@@ -6,7 +6,7 @@ import { hSlot } from '../../utils/render.js'
 export default defineComponent({
   name: 'QTabPanel',
 
-  mixins: [ PanelChildMixin ],
+  mixins: [PanelChildMixin],
 
   render () {
     return h('div', { class: 'q-tab-panel' }, hSlot(this, 'default'))

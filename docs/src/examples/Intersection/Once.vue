@@ -34,7 +34,7 @@ export default {
 
     message () {
       return this.visible
-        ? `Visible. We're done.`
+        ? 'Visible. We\'re done.'
         : 'Hidden'
     }
   },

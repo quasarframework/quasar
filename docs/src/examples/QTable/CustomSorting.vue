@@ -141,7 +141,7 @@ export default {
 
   methods: {
     customSort (rows, sortBy, descending) {
-      const data = [ ...rows ]
+      const data = [...rows]
 
       if (sortBy) {
         data.sort((a, b) => {
@@ -150,11 +150,11 @@ export default {
 
           if (sortBy === 'name') {
             // string sort
-            return x[sortBy] > y[sortBy] ? 1 : x[sortBy] < y[sortBy] ? -1 : 0
+            return x[ sortBy ] > y[ sortBy ] ? 1 : x[ sortBy ] < y[ sortBy ] ? -1 : 0
           }
           else {
             // numeric sort
-            return parseFloat(x[sortBy]) - parseFloat(y[sortBy])
+            return parseFloat(x[ sortBy ]) - parseFloat(y[ sortBy ])
           }
         })
       }

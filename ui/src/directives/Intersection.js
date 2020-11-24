@@ -28,7 +28,7 @@ function update (el, ctx, value) {
     ctx.cfg = cfg
     ctx.observer !== void 0 && ctx.observer.unobserve(el)
 
-    ctx.observer = new IntersectionObserver(([ entry ]) => {
+    ctx.observer = new IntersectionObserver(([entry]) => {
       if (typeof ctx.handler === 'function') {
         // if observed element is part of a vue transition
         // then we need to be careful...

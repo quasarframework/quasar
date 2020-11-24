@@ -74,7 +74,7 @@ export default {
       // which will also trigger a @scroll event...
       // and we need to ignore that one
       this.ignoreSource = target
-      this.$refs[target].setScrollPosition(position)
+      this.$refs[ target ].setScrollPosition(position)
     },
 
     onScrollFirst ({ verticalPosition }) {

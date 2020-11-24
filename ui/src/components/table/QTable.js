@@ -245,7 +245,7 @@ export default defineComponent({
   },
 
   render () {
-    const child = [ this.__getTopDiv() ]
+    const child = [this.__getTopDiv()]
     const data = { class: this.containerClass }
 
     if (this.grid === true) {

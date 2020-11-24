@@ -26,7 +26,7 @@ export default {
     }
   },
 
-  emits: [ 'update:pagination' ],
+  emits: ['update:pagination'],
 
   computed: {
     computedPagination () {
@@ -69,7 +69,7 @@ export default {
     computedRowsPerPageOptions () {
       const opts = this.rowsPerPageOptions.includes(this.innerPagination.rowsPerPage)
         ? this.rowsPerPageOptions
-        : [ this.innerPagination.rowsPerPage ].concat(this.rowsPerPageOptions)
+        : [this.innerPagination.rowsPerPage].concat(this.rowsPerPageOptions)
 
       return opts.map(count => ({
         label: count === 0 ? this.$q.lang.table.allRows : '' + count,

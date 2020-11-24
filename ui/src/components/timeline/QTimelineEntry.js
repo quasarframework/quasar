@@ -96,7 +96,7 @@ export default defineComponent({
 
     const content = [
       h('div', { class: 'q-timeline__subtitle' }, [
-        h('span', {}, hSlot(this, 'subtitle', [ this.subtitle ]))
+        h('span', {}, hSlot(this, 'subtitle', [this.subtitle]))
       ]),
 
       h('div', {
@@ -104,7 +104,7 @@ export default defineComponent({
       }, dot),
 
       h('div', { class: 'q-timeline__content' }, [
-        h('h6', { class: 'q-timeline__title' }, hSlot(this, 'title', [ this.title ]))
+        h('h6', { class: 'q-timeline__title' }, hSlot(this, 'title', [this.title]))
       ].concat(child))
     ]
 

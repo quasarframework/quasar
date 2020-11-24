@@ -44,7 +44,7 @@ export const PanelParentMixin = {
   computed: {
     panelDirectives () {
       // if this.swipeable
-      return [ [
+      return [[
         TouchSwipe,
         this.__swipe,
         void 0,
@@ -53,7 +53,7 @@ export const PanelParentMixin = {
           vertical: this.vertical,
           mouse: true
         }
-      ] ]
+      ]]
     },
 
     contentKey () {
@@ -195,7 +195,7 @@ export const PanelParentMixin = {
               class: 'q-panel scroll',
               key: this.contentKey,
               role: 'tabpanel'
-            }, [ panel ])
+            }, [panel])
           ]
     },
 

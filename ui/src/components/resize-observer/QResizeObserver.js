@@ -6,7 +6,7 @@ import CanRenderMixin from '../../mixins/can-render.js'
 export default defineComponent({
   name: 'QResizeObserver',
 
-  mixins: [ CanRenderMixin ],
+  mixins: [CanRenderMixin],
 
   props: {
     debounce: {
@@ -15,7 +15,7 @@ export default defineComponent({
     }
   },
 
-  emits: [ 'resize' ],
+  emits: ['resize'],
 
   data () {
     return this.hasObserver === true

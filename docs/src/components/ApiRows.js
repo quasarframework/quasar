@@ -21,7 +21,7 @@ function getMethodParams (method, noRequired) {
   }
 
   const params = Object.keys(method.params)
-  const optionalIndex = params.findIndex(param => method.params[param].required !== true)
+  const optionalIndex = params.findIndex(param => method.params[ param ].required !== true)
 
   const str = optionalIndex !== -1
     ? params.slice(0, optionalIndex).join(', ') +
@@ -79,7 +79,7 @@ export default defineComponent({
       if (propName !== void 0) {
         child.push(
           this.getDiv(4, 'Name', h(QBadge, {
-            color: NAME_PROP_COLOR[level],
+            color: NAME_PROP_COLOR[ level ],
             label: propName
           }))
         )
@@ -141,7 +141,7 @@ export default defineComponent({
         child.push(
           this.getDiv(
             12,
-            `Accepted values`,
+            'Accepted values',
             void 0,
             h(
               'div',
@@ -156,7 +156,7 @@ export default defineComponent({
         const nodes = []
         for (const propName in prop.definition) {
           nodes.push(
-            this.getProp(prop.definition[propName], propName, 2)
+            this.getProp(prop.definition[ propName ], propName, 2)
           )
         }
 
@@ -177,7 +177,7 @@ export default defineComponent({
 
         for (const propName in prop.params) {
           nodes.push(
-            this.getProp(prop.params[propName], propName, newLevel)
+            this.getProp(prop.params[ propName ], propName, newLevel)
           )
         }
 
@@ -200,7 +200,7 @@ export default defineComponent({
             h(
               'div',
               { class: 'api-row__subitem' },
-              [ this.getProp(prop.returns, void 0, 0) ]
+              [this.getProp(prop.returns, void 0, 0)]
             )
           )
         )
@@ -210,7 +210,7 @@ export default defineComponent({
         const nodes = []
         for (const propName in prop.scope) {
           nodes.push(
-            this.getProp(prop.scope[propName], propName, 1)
+            this.getProp(prop.scope[ propName ], propName, 1)
           )
         }
 
@@ -249,7 +249,7 @@ export default defineComponent({
 
       for (const propName in props) {
         child.push(
-          this.getProp(props[propName], propName, 0)
+          this.getProp(props[ propName ], propName, 0)
         )
       }
 
@@ -261,7 +261,7 @@ export default defineComponent({
 
       for (const slot in slots) {
         child.push(
-          this.getProp(slots[slot], slot, 0)
+          this.getProp(slots[ slot ], slot, 0)
         )
       }
 
@@ -276,13 +276,13 @@ export default defineComponent({
       }
 
       for (const eventName in events) {
-        const event = events[eventName]
+        const event = events[ eventName ]
         const params = []
 
         if (event.params !== void 0) {
           for (const paramName in event.params) {
             params.push(
-              this.getProp(event.params[paramName], paramName, 1)
+              this.getProp(event.params[ paramName ], paramName, 1)
             )
           }
         }
@@ -295,7 +295,7 @@ export default defineComponent({
         child.push(
           h('div', { class: 'api-row row' }, [
             this.getDiv(12, 'Name', h(QBadge, {
-              color: NAME_PROP_COLOR[0],
+              color: NAME_PROP_COLOR[ 0 ],
               label: `@${eventName}${getEventParams(event)}`
             })),
             event.addedIn !== void 0
@@ -318,11 +318,11 @@ export default defineComponent({
       const child = []
 
       for (const methodName in methods) {
-        const method = methods[methodName]
+        const method = methods[ methodName ]
 
         const nodes = [
           this.getDiv(12, 'Name', h(QBadge, {
-            color: NAME_PROP_COLOR[0],
+            color: NAME_PROP_COLOR[ 0 ],
             label: `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
           })),
           method.addedIn !== void 0
@@ -335,7 +335,7 @@ export default defineComponent({
           const props = []
           for (const paramName in method.params) {
             props.push(
-              this.getProp(method.params[paramName], paramName, 1)
+              this.getProp(method.params[ paramName ], paramName, 1)
             )
           }
           nodes.push(
@@ -356,7 +356,7 @@ export default defineComponent({
               h(
                 'div',
                 { class: 'api-row__subitem' },
-                [ this.getProp(method.returns, void 0, 0) ]
+                [this.getProp(method.returns, void 0, 0)]
               )
             )
           )
@@ -390,7 +390,7 @@ export default defineComponent({
       const child = []
 
       for (const modifierName in modifiers) {
-        const modifier = modifiers[modifierName]
+        const modifier = modifiers[ modifierName ]
 
         child.push(
           h(
@@ -417,7 +417,7 @@ export default defineComponent({
 
       for (const def in conf.definition) {
         child.push(
-          this.getProp(conf.definition[def], def, 0)
+          this.getProp(conf.definition[ def ], def, 0)
         )
       }
 
@@ -439,10 +439,10 @@ export default defineComponent({
   },
 
   render () {
-    const api = this.api[this.apiKey || this.which]
+    const api = this.api[ this.apiKey || this.which ]
 
     const content = Object.keys(api).length !== 0
-      ? this[this.which](api)
+      ? this[ this.which ](api)
       : [
           h('div', { class: 'q-pa-md text-grey-9' }, [
             h('div', 'No matching entries found on this tab.'),

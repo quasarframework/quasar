@@ -243,15 +243,15 @@
 export default {
   data () {
     const
-      trueVal = [ true ],
-      falseVal = [ false ]
+      trueVal = [true],
+      falseVal = [false]
 
     return {
       val: true,
       ind: false,
       checked: true,
       orderModel: 'bogus',
-      group: [ 'op2' ],
+      group: ['op2'],
       selection: [ 'one', 'two', 'three' ],
       dark: null,
       dense: false,

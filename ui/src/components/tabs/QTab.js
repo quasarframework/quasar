@@ -14,7 +14,7 @@ let uid = 0
 export default defineComponent({
   name: 'QTab',
 
-  mixins: [ RippleMixin ],
+  mixins: [RippleMixin],
 
   inject: {
     __qTabs: {
@@ -166,7 +166,7 @@ export default defineComponent({
         content,
         'main',
         this.ripple !== false && this.disable === false,
-        () => [ [ Ripple, this.ripple ] ]
+        () => [[ Ripple, this.ripple ]]
       )
     },
 

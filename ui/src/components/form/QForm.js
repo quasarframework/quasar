@@ -14,7 +14,7 @@ export default defineComponent({
     }
   },
 
-  mixins: [ EmitListenersMixin ],
+  mixins: [EmitListenersMixin],
 
   props: {
     autofocus: Boolean,

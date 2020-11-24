@@ -67,7 +67,7 @@ export default {
 
           dialog.update({
             title: 'Done!',
-            message: `Upload completed successfully`,
+            message: 'Upload completed successfully',
             progress: false,
             ok: true
           })
