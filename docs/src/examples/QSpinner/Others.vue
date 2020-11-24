@@ -23,6 +23,20 @@
         <q-tooltip :offset="[0, 8]">QSpinnerBars</q-tooltip>
       </div>
       <div>
+        <q-spinner-box
+          color="primary"
+          size="2em"
+        />
+        <q-tooltip :offset="[0, 8]">QSpinnerBox</q-tooltip>
+      </div>
+      <div>
+        <q-spinner-clock
+          color="primary"
+          size="2em"
+        />
+        <q-tooltip :offset="[0, 8]">QSpinnerClock</q-tooltip>
+      </div>
+      <div>
         <q-spinner-comment
           color="primary"
           size="2em"
@@ -91,6 +105,13 @@
           size="2em"
         />
         <q-tooltip :offset="[0, 8]">QSpinnerIos</q-tooltip>
+      </div>
+      <div>
+        <q-spinner-orbit
+          color="primary"
+          size="2em"
+        />
+        <q-tooltip :offset="[0, 8]">QSpinnerOrbit</q-tooltip>
       </div>
       <div>
         <q-spinner-oval
