@@ -3,6 +3,7 @@ import { h, defineComponent, Transition, KeepAlive } from 'vue'
 import TouchSwipe from '../directives/TouchSwipe.js'
 
 import { hSlot } from '../utils/render.js'
+import { getNormalizedVNodes } from '../utils/vm.js'
 
 const PanelWrapper = defineComponent({
   name: 'QTabPanelWrapper',
@@ -215,7 +216,9 @@ export const PanelParentMixin = {
   },
 
   render () {
-    this.panels = hSlot(this, 'default', []).filter(
+    this.panels = getNormalizedVNodes(
+      hSlot(this, 'default', [])
+    ).filter(
       panel => panel.props !== null &&
         panel.props.slot === void 0 &&
         this.__isValidPanelName(panel.props.name)

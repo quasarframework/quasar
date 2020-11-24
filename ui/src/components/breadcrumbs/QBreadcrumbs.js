@@ -3,6 +3,7 @@ import { h, defineComponent } from 'vue'
 import AlignMixin from '../../mixins/align.js'
 
 import { hSlot } from '../../utils/render.js'
+import { getNormalizedVNodes } from '../../utils/vm.js'
 
 export default defineComponent({
   name: 'QBreadcrumbs',
@@ -45,19 +46,22 @@ export default defineComponent({
   },
 
   render () {
-    const nodes = hSlot(this, 'default')
-    if (nodes === void 0) { return }
+    const vnodes = getNormalizedVNodes(
+      hSlot(this, 'default')
+    )
+
+    if (vnodes === void 0) { return }
 
     let els = 1
 
     const
       child = [],
-      len = nodes.filter(c => c.type !== void 0 && c.type.name === 'QBreadcrumbsEl').length,
+      len = vnodes.filter(c => c.type !== void 0 && c.type.name === 'QBreadcrumbsEl').length,
       separator = this.$slots.separator !== void 0
         ? this.$slots.separator
         : () => this.separator
 
-    nodes.forEach(comp => {
+    vnodes.forEach(comp => {
       if (comp.type !== void 0 && comp.type.name === 'QBreadcrumbsEl') {
         const middle = els < len
         els++
