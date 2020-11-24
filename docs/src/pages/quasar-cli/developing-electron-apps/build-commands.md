@@ -49,7 +49,7 @@ Valid options for `-P` are "onTag", "onTagOrDraft", "always" and "never" which a
 
 A very basic configuration to publish a Windows EXE setup file to Amazon S3 might look like this:
 
-```
+```js
 // quasar.conf.js
 
 electron: {

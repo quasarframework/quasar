@@ -29,7 +29,7 @@ One great benefit of using Electron is the ability to access the user's file sys
 
 We can use the userData directory, which is reserved specifically for our application, so we can have confidence other programs or other user interactions should not tamper with this file space.
 
-```
+```js
 import path from 'path'
 import { remote } from 'electron'
 

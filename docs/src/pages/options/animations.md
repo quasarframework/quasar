@@ -43,7 +43,7 @@ It should be noted that when you import Animate.css through the `<link>` tag, al
 
 ## Usage
 Notice the string "animated" in front of the actual animation name.
-``` html
+```html
 <!-- Example with wrapping only one DOM element / component -->
 <transition
   appear
@@ -62,7 +62,7 @@ Notice the string "animated" in front of the actual animation name.
 ### Wrapping Multiple Elements
 You can also group components or DOM elements in a transition so that the same effects are applied to all of them simultaneously.
 
-``` html
+```html
 <!-- Example with wrapping multiple DOM elements / components -->
 <transition-group
   appear

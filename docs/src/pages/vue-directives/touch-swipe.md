@@ -30,14 +30,14 @@ If your content also has images, you might want to add `draggable="false"` to th
 ### Handling Mouse Events
 When you want to handle mouse events too, use the `mouse` modifier:
 
-``` html
+```html
 <div v-touch-swipe.mouse="userHasSwiped">...</div>
 ```
 
 ### Inhibiting TouchSwipe
 When you want to inhibit TouchSwipe, you can do so by stopping propagation of the `touchstart`/`mousedown` events from the inner content:
 
-``` html
+```html
 <div v-touch-swipe.mouse="userSwiped">
   <!-- ...content -->
   <div @touchstart.stop @mousedown.stop>

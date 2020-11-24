@@ -32,14 +32,14 @@ However, you can change this sensitivity too (notice the directive argument belo
 ### Handling Mouse Events
 When you want to also handle mouse events too, use the `mouse` modifier:
 
-``` html
+```html
 <div v-touch-hold.mouse="userHasHold">...</div>
 ```
 
 ### Inhibiting TouchHold
 When you want to inhibit TouchHold, you can do so by stopping propagation of the `touchstart`/`mousedown` events from the inner content:
 
-``` html
+```html
 <div v-touch-hold.mouse="userHasHold">
   <!-- ...content -->
   <div @touchstart.stop @mousedown.stop>

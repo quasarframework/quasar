@@ -43,7 +43,7 @@ Example on capturing panning on custom directions. For this, use modifiers: `up`
 ### Handling Mouse Events
 When you want to handle mouse events too, use the `mouse` modifier:
 
-``` html
+```html
 <!--
   directive will also be triggered by mouse actions
 -->
@@ -53,14 +53,14 @@ When you want to handle mouse events too, use the `mouse` modifier:
 ### Preventing Scroll (on touch capable devices)
 By default, the directive does not block page scrolling. If you want to prevent scrolling, then use the `prevent` modifier.
 
-``` html
+```html
 <div v-touch-pan.prevent="userHasPanned">...</div>
 ```
 
 ### Inhibiting TouchPan
 When you want to inhibit TouchPan, you can do so by stopping propagation of the `touchstart`/`mousedown` events from the inner content:
 
-``` html
+```html
 <div v-touch-pan.mouse="userHasHold">
   <!-- ...content -->
   <div @touchstart.stop @mousedown.stop>

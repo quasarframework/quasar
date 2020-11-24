@@ -83,13 +83,13 @@ $ quasar mode add cordova
 ## 3. Add Platform
 To switch to the cordova project, type:
 
-```
+```bash
 $ cd src-cordova
 ```
 
 Target platforms get installed on demand by Quasar CLI. However, if you want to add a platform manually, type:
 
-```
+```bash
 $ cordova platform add [android|ios]
 ```
 

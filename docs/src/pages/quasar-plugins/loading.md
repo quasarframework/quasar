@@ -30,7 +30,7 @@ this.$q.loading.hide()
 
 Outside of a Vue component:
 
-``` js
+```js
 import {
   Loading,
 

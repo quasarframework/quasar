@@ -32,7 +32,7 @@ For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
 :::
 
 ## Capitalize
-``` js
+```js
 import { format } from 'quasar'
 const { capitalize } = format
 
@@ -41,7 +41,7 @@ console.log( capitalize('some text') )
 ```
 
 ## Format to Human Readable Size
-``` js
+```js
 import { format } from 'quasar'
 const { humanStorageSize } = format
 
@@ -51,7 +51,7 @@ console.log( humanStorageSize(13087) )
 
 ## Normalize Number to Interval
 
-``` js
+```js
 import { format } from 'quasar'
 const { between } = format
 
@@ -60,7 +60,7 @@ console.log( between(50, 10, 20) )
 // 20
 ```
 
-``` js
+```js
 import { format } from 'quasar'
 const { normalizeToInterval } = format
 
@@ -73,7 +73,7 @@ console.log( normalizeToInterval(5, 10, 16) ) // 12
 ```
 
 ## Pad String
-``` js
+```js
 import { format } from 'quasar'
 const { pad } = format
 

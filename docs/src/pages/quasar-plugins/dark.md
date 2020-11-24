@@ -22,7 +22,7 @@ Do not manually assign a value to `isActive` or `mode` from below. Instead, use 
 
 ### Inside of a Vue file
 
-``` js
+```js
 // get status
 console.log(this.$q.dark.isActive) // true, false
 
@@ -38,7 +38,7 @@ this.$q.dark.toggle()
 
 On a **SSR build**, you can set this from a `created` hook from your `/src/App.vue`:
 
-```
+```js
 export default {
   // ...
 
@@ -50,7 +50,7 @@ export default {
 
 ### Outside of a Vue file
 
-``` js
+```js
 // Warning! This method will not
 // work on SSR builds.
 
@@ -89,7 +89,7 @@ When on a SSR build:
 
 ## Watching for status change
 
-``` vue
+```vue
 <template>...</template>
 
 <script>

@@ -63,14 +63,14 @@ If you need an exception so your CSS code will not add a corresponding RTL rule,
 
 ...or SCSS with indented form:
 
-```css
+```sass
 .my-class
   margin-left: 10px #{"/* rtl:ignore */"}
 ```
 
 ...or default SCSS:
 
-```css
+```sass
 .my-class {
   margin-left: 10px #{"/* rtl:ignore */"};
 }

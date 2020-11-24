@@ -20,7 +20,7 @@ There is one more scrolling-related directive available called [Scroll Fire](/vu
 <doc-installation directives="Scroll" />
 
 ## Usage
-``` vue
+```vue
 <template>
   ...
   <div v-scroll="scrolled">...</div>
@@ -47,7 +47,7 @@ export default {
 Please note that by default the method called is not debounced. For that you have to do it yourself, by wrapping your method with Quasar's debounce util like below.
 As per the example below, you need to use `function (position) {}` or `position => {}.bind(this)` to be able to access the Vue component inside the debounce function.
 
-``` js
+```js
 import { debounce } from 'quasar'
 
 export default {

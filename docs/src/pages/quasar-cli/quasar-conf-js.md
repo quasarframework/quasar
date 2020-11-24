@@ -226,7 +226,7 @@ Most used properties are:
 
 Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open/blob/master/test.js) based on the host OS):
 
-```
+```js
 // quasar.conf.js
 
 devServer: {

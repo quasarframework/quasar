@@ -55,7 +55,7 @@ Consider this situation: We have an App with two pages (so two routes): a login 
 
 How would you handle this situation? Normally, you'd write code like below for the Login and Logout button (we won't go into details of handling the login information and communicating with a server as this is outside of the exercise here):
 
-``` html
+```html
 <!-- Login button -->
 <q-btn to="/list" label="Login" />
 
@@ -64,6 +64,7 @@ How would you handle this situation? Normally, you'd write code like below for t
 ```
 
 Now you build your App and install it on a phone. You open up the App, hit login then logout, then the phone's back button. What you most likely want is for your App to exit at this point... but it doesn't! It goes to the "/list" route instead. It's kind of obvious why. Web history builds up as you hit the buttons:
+
 ```
 # Start App
 --> window.history.length is 1
@@ -83,7 +84,8 @@ Let's rewrite the Logout button to act as we would actually want it to work, whi
 <doc-installation directives="GoBack" />
 
 Then we use it:
-``` html
+
+```html
 <!-- Logout button -->
 <q-btn
   v-go-back=" '/' "

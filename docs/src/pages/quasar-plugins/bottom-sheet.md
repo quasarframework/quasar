@@ -17,7 +17,7 @@ Bottom Sheets can be displayed as a list or as a grid, with icons or with avatar
 
 ## Usage
 
-``` js
+```js
 // outside of a Vue file
 import { BottomSheet } from 'quasar'
 (Object) BottomSheet.create({ ... })

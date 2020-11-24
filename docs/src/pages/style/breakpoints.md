@@ -23,7 +23,7 @@ You might also want to take a look at the [Introduction to Flexbox](/layout/grid
 
 You can also use the breakpoints in Sass:
 
-```
+```sass
 @media (max-width: $breakpoint-xs-max)
   font-size: 10px
 ```
@@ -44,7 +44,7 @@ $sizes.<breakpoint>
 
 [If enabled (only)](/options/screen-plugin#How-to-enable-body-classes), you can also style your content based on a particular set of CSS classes applied to document.body: `screen--xs`, `screen--sm`, ..., `screen--xl`.
 
-```css
+```sass
 .my-div
   body.screen--xs &
     color: #000

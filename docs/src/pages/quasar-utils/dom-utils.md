@@ -30,7 +30,7 @@ For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
 :::
 
 ## Offset on screen viewport
-``` js
+```js
 import { dom } from 'quasar'
 const { offset } = dom
 
@@ -42,7 +42,7 @@ console.log(offset(DomElement))
 ## Get Computed Style
 This applies only when DomElement is visible! It returns the **computed** browser style, so the property you are asking for doesn't necessary has to be applied within a `style` attribute.
 
-``` js
+```js
 import { dom } from 'quasar'
 const { style } = dom
 
@@ -55,7 +55,7 @@ console.log(style(DomElement, 'height'))
 ```
 
 ## Get Height / Width
-``` js
+```js
 import { dom } from 'quasar'
 const { height, width } = dom
 

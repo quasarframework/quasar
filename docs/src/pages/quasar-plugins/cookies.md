@@ -33,7 +33,7 @@ The reason for this is that in a client-only app, every user will be using a fre
 
 ## Read a Cookie
 
-``` js
+```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
@@ -49,7 +49,7 @@ this.$q.cookies.get('cookie_name')
 
 ## Read All Cookies
 
-``` js
+```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
@@ -65,7 +65,7 @@ this.$q.cookies.getAll()
 
 ## Verify if Cookie is Set
 
-``` js
+```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
@@ -79,7 +79,7 @@ this.$q.cookies.has('cookie_name')
 
 ## Write a Cookie
 
-``` js
+```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
@@ -89,7 +89,7 @@ Cookies.set('cookie_name', cookie_value)
 Cookies.set('cookie_name', cookie_value, options)
 ```
 
-``` js
+```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
@@ -111,7 +111,7 @@ The (optional) `options` parameter is an Object which is explained below, proper
 
 ### Option: expires
 
-``` js
+```js
 expires: 10 // in 10 days
 expires: -1 // yesterday
 expires: 'Mon, 06 Jan 2020 12:52:55 GMT'
@@ -125,7 +125,7 @@ Define lifetime of the cookie. Value can be a Number which will be interpreted a
 
 ### Option: path
 
-``` js
+```js
 path: '/'
 ```
 
@@ -133,7 +133,7 @@ Define the path where the cookie is valid. By default the path of the cookie is 
 
 ### Option: domain
 
-``` js
+```js
 domain: 'quasar.dev'
 ```
 
@@ -141,7 +141,7 @@ Define the domain where the cookie is valid. Default: domain of page where the c
 
 ### Option: sameSite
 
-``` js
+```js
 sameSite: 'Strict'
 // or
 sameSite: 'Lax'
@@ -155,7 +155,7 @@ SameSite cookies let servers require that a cookie shouldn't be sent with cross-
 
 ### Option: httpOnly
 
-``` js
+```js
 httpOnly: true
 ```
 
@@ -163,7 +163,7 @@ To help mitigate cross-site scripting (XSS) attacks, HttpOnly cookies are inacce
 
 ### Option: secure
 
-``` js
+```js
 secure: true
 ```
 
@@ -175,14 +175,14 @@ If using Quasar CLI and [on dev mode](/quasar-cli/quasar-conf-js#Property%3A-dev
 
 ### Option: other
 
-``` js
+```js
 other: 'SomeNewProp'
 ```
 
 Raw string for other cookie options. To be used as a last resort for possible newer props that are currently not yet implemented in Quasar.
 
 ## Remove a Cookie
-``` js
+```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
 

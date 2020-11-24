@@ -30,14 +30,14 @@ Below is an example of applying TouchRepeat to QBtn. Notice how we play with the
 ### Handling Mouse Events
 When you want to handle mouse events too, use the `mouse` modifier:
 
-``` html
+```html
 <div v-touch-repeat.mouse="myHandler">...</div>
 ```
 
 ### Handling Key Events
 When you want to handle key events too, use [keycodes](https://keycode.info/) as modifiers:
 
-``` html
+```html
 <div v-touch-repeat.65.70="myHandler">...</div>
 ```
 
@@ -46,7 +46,7 @@ There are some special modifiers that you do not require to write the equivalent
 ### Inhibiting TouchRepeat
 When you want to inhibit TouchRepeat, you can do so by stopping propagation of the `touchstart`/`mousedown`/`keydown` events from the inner content:
 
-``` html
+```html
 <div v-touch-repeat.mouse.enter="userHasHold">
   <!-- ...content -->
   <div @touchstart.stop @mousedown.stop @keydown.stop>

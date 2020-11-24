@@ -8,7 +8,7 @@ Quasar makes use of the Web [Page Visibility API](https://developer.mozilla.org/
 <doc-installation plugins="AppVisibility" scrollable />
 
 ## Usage
-``` js
+```js
 // outside of a Vue file
 import { AppVisibility } from 'quasar'
 
@@ -22,7 +22,7 @@ import { AppVisibility } from 'quasar'
 
 ## Watching for status change
 
-``` vue
+```vue
 <template>...</template>
 
 <script>

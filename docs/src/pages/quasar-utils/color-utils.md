@@ -134,7 +134,7 @@ getComputedStyle(document.documentElement)
 You can use `setBrand` and `getBrand` to define custom brand colors to use in your application.
 An example of such a new custom color usage:
 
-```
+```sass
 $primary-darkened : scale-color($primary, $lightness: -40%)
 
 :root

@@ -9,7 +9,7 @@ For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
 
 ## Open External URL
 
-``` js
+```js
 import { openURL } from 'quasar'
 
 openURL('http://...')
@@ -57,7 +57,7 @@ If you want to open the telephone dialer in a Cordova app, don't use `openURL()`
 
 The following is a helper to copy some text to Clipboard. The method returns a Promise.
 
-``` js
+```js
 import { copyToClipboard } from 'quasar'
 
 copyToClipboard('some text')
@@ -73,7 +73,7 @@ copyToClipboard('some text')
 
 The following is a helper to trigger a file download.
 
-``` js
+```js
 import { exportFile } from 'quasar'
 
 // mimeType is optional;
@@ -83,7 +83,7 @@ import { exportFile } from 'quasar'
 
 The simplest example:
 
-``` js
+```js
 import { exportFile } from 'quasar'
 
 const status = exportFile('important.txt', 'Some important content')
@@ -104,7 +104,7 @@ Debouncing enforces that a function not be called again until a certain amount o
 
 A quick example: you have a resize listener on the window which does some element dimension calculations and (possibly) repositions a few elements. That isn't a heavy task in itself but being repeatedly fired after numerous resizes will really slow your App down. So why not limit the rate at which the function can fire?
 
-``` js
+```js
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
 // N milliseconds. If `immediate` is passed, trigger the function on the
@@ -140,7 +140,7 @@ Debouncing your functions using a method declaration like `myMethod: debounce(fu
 
 There's also a `frameDebounce` available which delays calling your function until next browser frame is scheduled to run (read about `requestAnimationFrame`).
 
-``` js
+```js
 import { frameDebounce } from 'quasar'
 
 (Debounced Function) frameDebounce(Function fn)
@@ -157,7 +157,7 @@ window.addEventListener(
 ## Throttle Function
 Throttling enforces a maximum number of times a function can be called over time. As in "execute this function at most once every X milliseconds."
 
-``` js
+```js
 import { throttle } from 'quasar'
 
 (Throttled Function) throttle(Function fn, Number limit_in_milliseconds)
@@ -190,7 +190,7 @@ Throttling your functions using a method declaration like `myMethod: throttle(fu
 ## (Deep) Copy Objects
 A basic respawn of `jQuery.extend()`. Takes same parameters:
 
-``` js
+```js
 import { extend } from 'quasar'
 
 let newObject = extend([Boolean deepCopy], targetObj, obj, ...)
@@ -201,7 +201,7 @@ Watch out for methods within objects.
 ## Generate UID
 Generate unique identifiers:
 
-``` js
+```js
 import { uid } from 'quasar'
 
 let uid = uid()
@@ -211,7 +211,7 @@ let uid = uid()
 ## Handling event on a DOM event handler
 It's cross-browser.
 
-``` js
+```js
 import { event } from 'quasar'
 
 node.addEventListener('click', evt => {

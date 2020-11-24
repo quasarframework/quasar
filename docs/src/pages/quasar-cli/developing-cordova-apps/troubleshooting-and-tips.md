@@ -102,7 +102,7 @@ You may bump into `?????? no permissions` problem when trying to run your App di
 
 Here's how you fix this:
 
-``` bash
+```bash
 # create the .rules file and insert the content
 # from below this example
 sudo vim /etc/udev/rules.d/51-android.rules
@@ -229,6 +229,6 @@ body.cordova .my-selector {
 ### Disabling iOS rubber band effect
 When building an iOS app with Cordova and you want to [disable the rubber band effect](https://www.youtube.com/watch?v=UjuNGpU29Mk), add this to your `/src-cordova/config.xml`:
 
-``` xml
+```xml
 <preference name="DisallowOverscroll" value="true" />
 ```

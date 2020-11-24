@@ -17,7 +17,7 @@ Please note that the behavior is different depending on the platform the code is
 For an exhaustive list of properties and methods, please check out the API section.
 :::
 
-``` js
+```js
 // outside of a Vue file
 import { AppFullscreen } from 'quasar'
 
@@ -40,7 +40,7 @@ AppFullscreen.exit()
   })
 ```
 
-``` js
+```js
 // inside of a Vue file
 
 // Requesting fullscreen mode:
@@ -76,7 +76,7 @@ It all depends on the Web Fullscreen API support of the platform the code is run
 
 ## Watching for fullscreen changes
 
-``` vue
+```vue
 <template>...</template>
 
 <script>

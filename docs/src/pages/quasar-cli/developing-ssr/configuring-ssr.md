@@ -78,7 +78,7 @@ Notice a few things:
 
 5. The `/src-ssr` is built through a Webpack config for production (only). **You will see this marked as "Webserver" when Quasar App CLI builds your app.** You can chain/extend the Webpack configuration of these files through quasar.conf.js:
 
-```
+```js
 return {
   // ...
   ssr: {

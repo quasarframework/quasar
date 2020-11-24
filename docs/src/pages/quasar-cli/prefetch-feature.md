@@ -86,7 +86,7 @@ Now, let's see how the hooks are called when the user visits these routes in the
 ## Usage
 The hook is defined as a custom static function called `preFetch` on our route components. Note that because this function will be called before the components are instantiated, it doesn't have access to `this`.
 
-``` html
+```html
 <!-- some .vue component used as route -->
 <template>
   <div>{{ item.title }}</div>

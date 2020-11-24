@@ -64,7 +64,7 @@ body.screen--sm {
 
 Or a sexy variant in Sass:
 
-```css
+```sass
 .my-div
   body.screen--xs &
     color: #000
@@ -97,7 +97,8 @@ There are a few methods that can be used to tweak how Screen plugin works:
 | setDebounce(Number) | Change the default 100ms debounce to some other value. | setDebounce(500) // 500ms |
 
 Examples:
-```
+
+```js
 // inside a Vue component:
 this.$q.screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
 

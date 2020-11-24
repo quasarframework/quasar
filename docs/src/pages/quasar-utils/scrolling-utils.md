@@ -112,7 +112,7 @@ console.log( getScrollWidth(el) )
 ## Determining scrollbar width
 Computes the width of scrollbar in pixels.
 
-``` js
+```js
 import { scroll } from 'quasar'
 const { getScrollbarWidth } = scroll
 

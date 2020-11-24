@@ -25,7 +25,7 @@ Here's the list of colors provided out of the box. Within your app's `*.vue` fil
 ## Using as CSS Classes
 Use `text-` or `bg-` prefixes as class names to change the color of text or the color of the background.
 
-``` html
+```html
 <!-- changing text color -->
 <p class="text-primary">....</p>
 
@@ -144,7 +144,7 @@ getComputedStyle(document.documentElement)
 
 Should you wish to set up some brand colors without tampering with the Sass variables, you can do so in quasar.conf.js:
 
-```
+```js
 // quasar.conf.js
 return {
   framework: {

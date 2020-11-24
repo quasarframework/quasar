@@ -57,6 +57,7 @@ export default routes
 ```
 
 Example of `routes.js` using lazy-loading / on-demand loading:
+
 ```js
 // we define our routes in this file
 
@@ -95,6 +96,7 @@ Real app UIs are usually composed of components that are nested multiple levels 
 With Vue Router, it is very simple to express this relationship using nested route configurations. We notice some things: both pages need to be wrapped by a User component. Hey, User component is then a Layout!
 
 Since User layout wraps inner pages, they need an injection point. This is supplied by the `<router-view>` component:
+
 ```html
 <!-- /src/layouts/User.vue -->
 <template>
