@@ -96,14 +96,14 @@ function getScrollDetails (
   if (beforeRef !== void 0) {
     for (let el = beforeRef.previousElementSibling; el !== null; el = el.previousElementSibling) {
       if (el.classList.contains('q-virtual-scroll--skip') === false) {
-        details.offsetStart += el[propElSize]
+        details.offsetStart += el[ propElSize ]
       }
     }
   }
   if (afterRef !== void 0) {
     for (let el = afterRef.nextElementSibling; el !== null; el = el.nextElementSibling) {
       if (el.classList.contains('q-virtual-scroll--skip') === false) {
-        details.offsetEnd += el[propElSize]
+        details.offsetEnd += el[ propElSize ]
       }
     }
   }
@@ -228,8 +228,8 @@ export default {
 
   computed: {
     needsReset () {
-      return ['virtualScrollItemSize', 'virtualScrollHorizontal']
-        .map(p => this[p]).join(';')
+      return [ 'virtualScrollItemSize', 'virtualScrollHorizontal' ]
+        .map(p => this[ p ]).join(';')
     },
 
     colspanAttr () {
@@ -310,7 +310,7 @@ export default {
 
       this.__updateVirtualScrollSizes(this.virtualScrollSliceRange.from)
 
-      const scrollMaxStart = scrollDetails.scrollMaxSize - Math.max(scrollDetails.scrollViewSize, scrollDetails.offsetEnd) - this.virtualScrollSizes[listLastIndex]
+      const scrollMaxStart = scrollDetails.scrollMaxSize - Math.max(scrollDetails.scrollViewSize, scrollDetails.offsetEnd) - this.virtualScrollSizes[ listLastIndex ]
 
       if (scrollMaxStart > 0 && scrollDetails.scrollStart >= scrollMaxStart) {
         this.__setVirtualScrollSliceRange(
@@ -334,20 +334,20 @@ export default {
         offset = listOffset
       }
       else {
-        for (let j = 0; listOffset >= this.virtualScrollSizesAgg[j] && toIndex < listLastIndex; j++) {
-          listOffset -= this.virtualScrollSizesAgg[j]
+        for (let j = 0; listOffset >= this.virtualScrollSizesAgg[ j ] && toIndex < listLastIndex; j++) {
+          listOffset -= this.virtualScrollSizesAgg[ j ]
           toIndex += aggBucketSize
         }
       }
 
       while (listOffset > 0 && toIndex < listLastIndex) {
-        listOffset -= this.virtualScrollSizes[toIndex]
+        listOffset -= this.virtualScrollSizes[ toIndex ]
         if (listOffset > -scrollDetails.scrollViewSize) {
           toIndex++
           offset = listOffset
         }
         else {
-          offset = this.virtualScrollSizes[toIndex] + listOffset
+          offset = this.virtualScrollSizes[ toIndex ] + listOffset
         }
       }
 
@@ -407,7 +407,7 @@ export default {
         const
           sizeAfter = this.virtualScrollSizes.slice(from, toIndex).reduce(sumFn, 0),
           posStart = sizeAfter + scrollDetails.offsetStart + this.virtualScrollPaddingBefore,
-          posEnd = posStart + this.virtualScrollSizes[toIndex],
+          posEnd = posStart + this.virtualScrollSizes[ toIndex ],
           rtl = this.$q.lang.rtl === true
 
         let scrollPosition = posStart + offset
@@ -419,10 +419,10 @@ export default {
           scrollPosition = alignForce !== true && scrollStart < posStart && posEnd < scrollStart + scrollDetails.scrollViewSize
             ? scrollStart
             : (
-              alignEnd === 'end'
-                ? posEnd - scrollDetails.scrollViewSize
-                : posStart - (alignEnd === 'start' ? 0 : Math.round((scrollDetails.scrollViewSize - this.virtualScrollSizes[toIndex]) / 2))
-            )
+                alignEnd === 'end'
+                  ? posEnd - scrollDetails.scrollViewSize
+                  : posStart - (alignEnd === 'start' ? 0 : Math.round((scrollDetails.scrollViewSize - this.virtualScrollSizes[ toIndex ]) / 2))
+              )
         }
 
         this.prevScrollStart = scrollPosition
@@ -455,19 +455,19 @@ export default {
           size, diff
 
         for (let i = 0; i < childrenLength;) {
-          size = sizeFn(children[i])
+          size = sizeFn(children[ i ])
           i++
 
-          while (i < childrenLength && children[i].classList.contains('q-virtual-scroll--with-prev') === true) {
-            size += sizeFn(children[i])
+          while (i < childrenLength && children[ i ].classList.contains('q-virtual-scroll--with-prev') === true) {
+            size += sizeFn(children[ i ])
             i++
           }
 
-          diff = size - this.virtualScrollSizes[index]
+          diff = size - this.virtualScrollSizes[ index ]
 
           if (diff !== 0) {
-            this.virtualScrollSizes[index] += diff
-            this.virtualScrollSizesAgg[Math.floor(index / aggBucketSize)] += diff
+            this.virtualScrollSizes[ index ] += diff
+            this.virtualScrollSizesAgg[ Math.floor(index / aggBucketSize) ] += diff
           }
 
           index++
@@ -487,7 +487,7 @@ export default {
       this.virtualScrollSizes.length = this.virtualScrollLength
 
       for (let i = this.virtualScrollLength - 1; i >= oldVirtualScrollSizesLength; i--) {
-        this.virtualScrollSizes[i] = defaultSize
+        this.virtualScrollSizes[ i ] = defaultSize
       }
 
       const jMax = Math.floor((this.virtualScrollLength - 1) / aggBucketSize)
@@ -496,7 +496,7 @@ export default {
         let size = 0
         const iMax = Math.min((j + 1) * aggBucketSize, this.virtualScrollLength)
         for (let i = j * aggBucketSize; i < iMax; i++) {
-          size += this.virtualScrollSizes[i]
+          size += this.virtualScrollSizes[ i ]
         }
         this.virtualScrollSizesAgg.push(size)
       }
@@ -555,22 +555,22 @@ export default {
       return [
         tag === 'tbody'
           ? h(tag, {
-            class: 'q-virtual-scroll__padding',
-            key: 'before',
-            ref: 'before'
-          }, [
-            h('tr', [
-              h('td', {
-                style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` },
-                colspan: this.colspanAttr
-              })
+              class: 'q-virtual-scroll__padding',
+              key: 'before',
+              ref: 'before'
+            }, [
+              h('tr', [
+                h('td', {
+                  style: { [ paddingSize ]: `${this.virtualScrollPaddingBefore}px` },
+                  colspan: this.colspanAttr
+                })
+              ])
             ])
-          ])
           : h(tag, {
             class: 'q-virtual-scroll__padding',
             key: 'before',
             ref: 'before',
-            style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` }
+            style: { [ paddingSize ]: `${this.virtualScrollPaddingBefore}px` }
           }),
 
         h(tag, {
@@ -581,29 +581,29 @@ export default {
 
         tag === 'tbody'
           ? h(tag, {
-            class: 'q-virtual-scroll__padding',
-            key: 'after',
-            ref: 'after'
-          }, [
-            h('tr', [
-              h('td', {
-                style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` },
-                colspan: this.colspanAttr
-              })
+              class: 'q-virtual-scroll__padding',
+              key: 'after',
+              ref: 'after'
+            }, [
+              h('tr', [
+                h('td', {
+                  style: { [ paddingSize ]: `${this.virtualScrollPaddingAfter}px` },
+                  colspan: this.colspanAttr
+                })
+              ])
             ])
-          ])
           : h(tag, {
             class: 'q-virtual-scroll__padding',
             key: 'after',
             ref: 'after',
-            style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` }
+            style: { [ paddingSize ]: `${this.virtualScrollPaddingAfter}px` }
           })
       ]
     },
 
     __emitScroll (index) {
       if (this.prevToIndex !== index) {
-        this.emitListeners['onVirtual-scroll'] === true && this.$emit('virtual-scroll', {
+        this.emitListeners[ 'onVirtual-scroll' ] === true && this.$emit('virtual-scroll', {
           index,
           from: this.virtualScrollSliceRange.from,
           to: this.virtualScrollSliceRange.to - 1,

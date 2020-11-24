@@ -25,7 +25,7 @@ export default defineComponent({
       const node = hSlot(this, 'default')
       return node === void 0
         ? node
-        : (node.length > 1 ? h(this.tag, data, node) : node[0])
+        : (node.length > 1 ? h(this.tag, data, node) : node[ 0 ])
     }
 
     data.class = 'q-no-ssr-placeholder'
@@ -34,7 +34,7 @@ export default defineComponent({
     if (node !== void 0) {
       return node.length > 1
         ? h(this.tag, data, node)
-        : node[0]
+        : node[ 0 ]
     }
 
     if (this.placeholder !== void 0) {

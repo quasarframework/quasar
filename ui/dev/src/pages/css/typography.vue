@@ -99,7 +99,7 @@ export default {
       ],
       fonts,
       testHeight: false,
-      testFont: fonts[0]
+      testFont: fonts[ 0 ]
     }
   },
   computed: {

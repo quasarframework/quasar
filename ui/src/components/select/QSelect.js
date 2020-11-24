@@ -21,7 +21,7 @@ import { FormFieldMixin } from '../../mixins/form.js'
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 import CompositionMixin from '../../mixins/composition.js'
 
-const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
+const validateNewValueMode = v => [ 'add', 'add-unique', 'toggle' ].includes(v)
 const reEscapeList = '.*+?^${}()|[]\\'
 
 export default defineComponent({
@@ -387,7 +387,7 @@ export default defineComponent({
       if (index > -1 && index < this.innerValue.length) {
         if (this.multiple === true) {
           const model = this.modelValue.slice()
-          this.$emit('remove', { index, value: model.splice(index, 1)[0] })
+          this.$emit('remove', { index, value: model.splice(index, 1)[ 0 ] })
           this.$emit('update:modelValue', model)
         }
         else {
@@ -456,7 +456,7 @@ export default defineComponent({
 
         this.$refs.target && this.$refs.target.focus()
 
-        if (isDeepEqual(this.getOptionValue(this.innerValue[0]), optValue) !== true) {
+        if (isDeepEqual(this.getOptionValue(this.innerValue[ 0 ]), optValue) !== true) {
           this.$emit('update:modelValue', this.emitValue === true ? optValue : opt)
         }
         return
@@ -478,7 +478,7 @@ export default defineComponent({
         index = this.innerOptionsValue.findIndex(v => isDeepEqual(v, optValue))
 
       if (index > -1) {
-        this.$emit('remove', { index, value: model.splice(index, 1)[0] })
+        this.$emit('remove', { index, value: model.splice(index, 1)[ 0 ] })
       }
       else {
         if (this.maxValues !== void 0 && model.length >= this.maxValues) {
@@ -516,7 +516,7 @@ export default defineComponent({
             this.virtualScrollLength - 1
           )
         }
-        while (index !== -1 && index !== this.optionIndex && this.isOptionDisabled(this.options[index]) === true)
+        while (index !== -1 && index !== this.optionIndex && this.isOptionDisabled(this.options[ index ]) === true)
 
         if (this.optionIndex !== index) {
           this.setOptionIndex(index)
@@ -524,7 +524,7 @@ export default defineComponent({
 
           if (skipInputValue !== true && this.useInput === true && this.fillInput === true) {
             this.__setInputValue(index >= 0
-              ? this.getOptionLabel(this.options[index])
+              ? this.getOptionLabel(this.options[ index ])
               : this.defaultInputValue
             )
           }
@@ -538,14 +538,14 @@ export default defineComponent({
     },
 
     __getPropValueFn (propName, defaultVal) {
-      const val = this[propName] !== void 0
-        ? this[propName]
+      const val = this[ propName ] !== void 0
+        ? this[ propName ]
         : defaultVal
 
       return typeof val === 'function'
         ? val
         : opt => Object(opt) === opt && val in opt
-          ? opt[val]
+          ? opt[ val ]
           : opt
     },
 
@@ -616,7 +616,7 @@ export default defineComponent({
       }
 
       const newValueModeValid = this.inputValue.length > 0 &&
-        (this.newValueMode !== void 0 || this.emitListeners['onNew-value'] === true)
+        (this.newValueMode !== void 0 || this.emitListeners[ 'onNew-value' ] === true)
       const tabShouldSelect = e.shiftKey !== true &&
         this.multiple !== true &&
         (this.optionIndex > -1 || newValueModeValid === true)
@@ -683,7 +683,7 @@ export default defineComponent({
 
         const
           char = e.key.toLocaleLowerCase(),
-          keyRepeat = this.searchBuffer.length === 1 && this.searchBuffer[0] === char
+          keyRepeat = this.searchBuffer.length === 1 && this.searchBuffer[ 0 ] === char
 
         this.searchBufferExp = Date.now() + 1500
         if (keyRepeat === false) {
@@ -695,13 +695,13 @@ export default defineComponent({
 
         let index = this.optionIndex
 
-        if (keyRepeat === true || index < 0 || searchRe.test(this.getOptionLabel(this.options[index])) !== true) {
+        if (keyRepeat === true || index < 0 || searchRe.test(this.getOptionLabel(this.options[ index ])) !== true) {
           do {
             index = normalizeToInterval(index + 1, -1, optionsLength - 1)
           }
           while (index !== this.optionIndex && (
-            this.isOptionDisabled(this.options[index]) === true ||
-            searchRe.test(this.getOptionLabel(this.options[index])) !== true
+            this.isOptionDisabled(this.options[ index ]) === true ||
+            searchRe.test(this.getOptionLabel(this.options[ index ])) !== true
           ))
         }
 
@@ -711,7 +711,7 @@ export default defineComponent({
             this.scrollTo(index)
 
             if (index >= 0 && this.useInput === true && this.fillInput === true) {
-              this.__setInputValue(this.getOptionLabel(this.options[index]))
+              this.__setInputValue(this.getOptionLabel(this.options[ index ]))
             }
           })
         }
@@ -730,7 +730,7 @@ export default defineComponent({
       e.keyCode !== 9 && stopAndPrevent(e)
 
       if (this.optionIndex > -1 && this.optionIndex < optionsLength) {
-        this.toggleOption(this.options[this.optionIndex])
+        this.toggleOption(this.options[ this.optionIndex ])
         return
       }
 
@@ -751,7 +751,7 @@ export default defineComponent({
 
           this.updateInputValue('', this.multiple !== true, true)
 
-          this[mode === 'toggle' ? 'toggleOption' : 'add'](
+          this[ mode === 'toggle' ? 'toggleOption' : 'add' ](
             val,
             mode === 'add-unique'
           )
@@ -762,7 +762,7 @@ export default defineComponent({
           }
         }
 
-        if (this.emitListeners['onNew-value'] === true) {
+        if (this.emitListeners[ 'onNew-value' ] === true) {
           this.$emit('new-value', this.inputValue, done)
         }
         else {
@@ -786,10 +786,10 @@ export default defineComponent({
       return this.hasDialog === true
         ? this.$refs.menuContent
         : (
-          this.$refs.menu && this.$refs.menu.$refs.inner
-            ? this.$refs.menu.$refs.inner
-            : void 0
-        )
+            this.$refs.menu && this.$refs.menu.$refs.inner
+              ? this.$refs.menu.$refs.inner
+              : void 0
+          )
     },
 
     __getVirtualScrollTarget () {
@@ -801,12 +801,12 @@ export default defineComponent({
         return fromDialog === true || this.dialog !== true || this.hasDialog !== true
           ? []
           : [
-            h('span', { textContent: this.inputValue })
-          ]
+              h('span', { textContent: this.inputValue })
+            ]
       }
 
-      if (this.$slots['selected-item'] !== void 0) {
-        return this.selectedScope.map(scope => this.$slots['selected-item'](scope)).slice()
+      if (this.$slots[ 'selected-item' ] !== void 0) {
+        return this.selectedScope.map(scope => this.$slots[ 'selected-item' ](scope)).slice()
       }
 
       if (this.$slots.selected !== void 0) {
@@ -858,8 +858,8 @@ export default defineComponent({
 
       let options = this.__padVirtualScroll('div', this.optionScope.map(fn))
 
-      if (this.$slots['before-options'] !== void 0) {
-        options = this.$slots['before-options']().concat(options)
+      if (this.$slots[ 'before-options' ] !== void 0) {
+        options = this.$slots[ 'before-options' ]().concat(options)
       }
 
       return hMergeSlot(this, 'after-options', options)
@@ -888,7 +888,7 @@ export default defineComponent({
         data.readonly = true
 
         if (Array.isArray(data.class) === true) {
-          data.class[0] += ' no-pointer-events'
+          data.class[ 0 ] += ' no-pointer-events'
         }
         else {
           data.class += ' no-pointer-events'
@@ -968,7 +968,7 @@ export default defineComponent({
         this.multiple !== true &&
         this.innerValue.length > 0 &&
         this.userInputValue !== true &&
-        val === this.getOptionLabel(this.innerValue[0])
+        val === this.getOptionLabel(this.innerValue[ 0 ])
       ) {
         val = ''
       }
@@ -1054,10 +1054,10 @@ export default defineComponent({
     __getMenu () {
       const child = this.noOptions === true
         ? (
-          this.$slots['no-option'] !== void 0
-            ? () => this.$slots['no-option']({ inputValue: this.inputValue })
-            : void 0
-        )
+            this.$slots[ 'no-option' ] !== void 0
+              ? () => this.$slots[ 'no-option' ]({ inputValue: this.inputValue })
+              : void 0
+          )
         : this.__getOptions
 
       return h(QMenu, {
@@ -1136,10 +1136,10 @@ export default defineComponent({
         }, (
           this.noOptions === true
             ? (
-              this.$slots['no-option'] !== void 0
-                ? this.$slots['no-option']({ inputValue: this.inputValue })
-                : null
-            )
+                this.$slots[ 'no-option' ] !== void 0
+                  ? this.$slots[ 'no-option' ]({ inputValue: this.inputValue })
+                  : null
+              )
             : this.__getOptions()
         ))
       )
@@ -1229,7 +1229,7 @@ export default defineComponent({
       if (this.emitListeners.onFilter === true) {
         this.filter(this.inputValue)
       }
-      else if (this.noOptions !== true || this.$slots['no-option'] !== void 0) {
+      else if (this.noOptions !== true || this.$slots[ 'no-option' ] !== void 0) {
         this.menu = true
       }
     },
@@ -1242,7 +1242,7 @@ export default defineComponent({
     __resetInputValue () {
       this.useInput === true && this.updateInputValue(
         this.multiple !== true && this.fillInput === true && this.innerValue.length > 0
-          ? this.getOptionLabel(this.innerValue[0]) || ''
+          ? this.getOptionLabel(this.innerValue[ 0 ]) || ''
           : '',
         true,
         true
@@ -1254,7 +1254,7 @@ export default defineComponent({
 
       if (show === true) {
         if (this.innerValue.length > 0) {
-          const val = this.getOptionValue(this.innerValue[0])
+          const val = this.getOptionValue(this.innerValue[ 0 ])
           optionIndex = this.options.findIndex(v => isDeepEqual(this.getOptionValue(v), val))
         }
 
@@ -1278,7 +1278,7 @@ export default defineComponent({
           ? false
           : this.behavior !== 'menu' && (
             this.useInput === true
-              ? this.$slots['no-option'] !== void 0 || this.emitListeners.onFilter === true || this.noOptions === false
+              ? this.$slots[ 'no-option' ] !== void 0 || this.emitListeners.onFilter === true || this.noOptions === false
               : true
           )
 
@@ -1298,10 +1298,10 @@ export default defineComponent({
           this.editable !== false && (
             this.dialog === true || // dialog always has menu displayed, so need to render it
             this.noOptions !== true ||
-            this.$slots['no-option'] !== void 0
+            this.$slots[ 'no-option' ] !== void 0
           )
         ) {
-          return this[`__get${this.hasDialog === true ? 'Dialog' : 'Menu'}`]()
+          return this[ `__get${this.hasDialog === true ? 'Dialog' : 'Menu'}` ]()
         }
       },
 
@@ -1357,11 +1357,11 @@ export default defineComponent({
       getInnerAppend: () => {
         return this.loading !== true && this.innerLoadingIndicator !== true && this.hideDropdownIcon !== true
           ? [
-            h(QIcon, {
-              class: 'q-select__dropdown-icon' + (this.menu === true ? ' rotate-180' : ''),
-              name: this.dropdownArrowIcon
-            })
-          ]
+              h(QIcon, {
+                class: 'q-select__dropdown-icon' + (this.menu === true ? ' rotate-180' : ''),
+                name: this.dropdownArrowIcon
+              })
+            ]
           : null
       }
     })

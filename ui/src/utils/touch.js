@@ -16,8 +16,8 @@ export function getModifierDirections (mod) {
   const dir = {}
 
   directions.forEach(direction => {
-    if (mod[direction]) {
-      dir[direction] = true
+    if (mod[ direction ]) {
+      dir[ direction ] = true
     }
   })
 

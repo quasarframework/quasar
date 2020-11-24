@@ -19,8 +19,8 @@ function getRegexData (mask, dateLocale) {
     days = '(' + dateLocale.days.join('|') + ')',
     key = mask + days
 
-  if (regexStore[key] !== void 0) {
-    return regexStore[key]
+  if (regexStore[ key ] !== void 0) {
+    return regexStore[ key ]
   }
 
   const
@@ -138,7 +138,7 @@ function getRegexData (mask, dateLocale) {
 
       default:
         index--
-        if (match[0] === '[') {
+        if (match[ 0 ] === '[') {
           match = match.substring(1, match.length - 1)
         }
         return match.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -146,7 +146,7 @@ function getRegexData (mask, dateLocale) {
   })
 
   const res = { map, regex: new RegExp('^' + regexText) }
-  regexStore[key] = res
+  regexStore[ key ] = res
 
   return res
 }
@@ -216,7 +216,7 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
   let tzString = ''
 
   if (map.X !== void 0 || map.x !== void 0) {
-    const stamp = parseInt(match[map.X !== void 0 ? map.X : map.x], 10)
+    const stamp = parseInt(match[ map.X !== void 0 ? map.X : map.x ], 10)
 
     if (isNaN(stamp) === true || stamp < 0) {
       return date
@@ -234,28 +234,28 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
   }
   else {
     if (map.YYYY !== void 0) {
-      date.year = parseInt(match[map.YYYY], 10)
+      date.year = parseInt(match[ map.YYYY ], 10)
     }
     else if (map.YY !== void 0) {
-      const y = parseInt(match[map.YY], 10)
+      const y = parseInt(match[ map.YY ], 10)
       date.year = y < 0 ? y : 2000 + y
     }
 
     if (map.M !== void 0) {
-      date.month = parseInt(match[map.M], 10)
+      date.month = parseInt(match[ map.M ], 10)
       if (date.month < 1 || date.month > 12) {
         return date
       }
     }
     else if (map.MMM !== void 0) {
-      date.month = monthsShort.indexOf(match[map.MMM]) + 1
+      date.month = monthsShort.indexOf(match[ map.MMM ]) + 1
     }
     else if (map.MMMM !== void 0) {
-      date.month = months.indexOf(match[map.MMMM]) + 1
+      date.month = months.indexOf(match[ map.MMMM ]) + 1
     }
 
     if (map.D !== void 0) {
-      date.day = parseInt(match[map.D], 10)
+      date.day = parseInt(match[ map.D ], 10)
 
       if (date.year === null || date.month === null || date.day < 1) {
         return date
@@ -271,14 +271,14 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
     }
 
     if (map.H !== void 0) {
-      date.hour = parseInt(match[map.H], 10) % 24
+      date.hour = parseInt(match[ map.H ], 10) % 24
     }
     else if (map.h !== void 0) {
-      date.hour = parseInt(match[map.h], 10) % 12
+      date.hour = parseInt(match[ map.h ], 10) % 12
       if (
-        (map.A && match[map.A] === 'PM') ||
-        (map.a && match[map.a] === 'pm') ||
-        (map.aa && match[map.aa] === 'p.m.')
+        (map.A && match[ map.A ] === 'PM') ||
+        (map.a && match[ map.a ] === 'pm') ||
+        (map.aa && match[ map.aa ] === 'p.m.')
       ) {
         date.hour += 12
       }
@@ -286,20 +286,20 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
     }
 
     if (map.m !== void 0) {
-      date.minute = parseInt(match[map.m], 10) % 60
+      date.minute = parseInt(match[ map.m ], 10) % 60
     }
 
     if (map.s !== void 0) {
-      date.second = parseInt(match[map.s], 10) % 60
+      date.second = parseInt(match[ map.s ], 10) % 60
     }
 
     if (map.S !== void 0) {
-      date.millisecond = parseInt(match[map.S], 10) * 10 ** (3 - match[map.S].length)
+      date.millisecond = parseInt(match[ map.S ], 10) * 10 ** (3 - match[ map.S ].length)
     }
 
     if (map.Z !== void 0 || map.ZZ !== void 0) {
-      tzString = (map.Z !== void 0 ? match[map.Z].replace(':', '') : match[map.ZZ])
-      date.timezoneOffset = (tzString[0] === '+' ? -1 : 1) * (60 * tzString.slice(1, 3) + 1 * tzString.slice(3, 5))
+      tzString = (map.Z !== void 0 ? match[ map.Z ].replace(':', '') : match[ map.ZZ ])
+      date.timezoneOffset = (tzString[ 0 ] === '+' ? -1 : 1) * (60 * tzString.slice(1, 3) + 1 * tzString.slice(3, 5))
     }
   }
 
@@ -341,7 +341,7 @@ function getChange (date, mod, add) {
     const op = key === 'year'
       ? 'FullYear'
       : capitalize(key === 'days' ? 'date' : key)
-    t[`set${op}`](t[`get${op}`]() + sign * mod[key])
+    t[ `set${op}` ](t[ `get${op}` ]() + sign * mod[ key ])
   })
   return t
 }
@@ -423,7 +423,7 @@ export function adjustDate (date, mod, utc) {
     const op = key === 'year'
       ? 'FullYear'
       : key.charAt(0).toUpperCase() + key.slice(1)
-    t[`${prefix}${op}`](mod[key])
+    t[ `${prefix}${op}` ](mod[ key ])
   })
 
   return t
@@ -634,12 +634,12 @@ const formatter = {
 
   // Month Short Name: Jan, Feb, ...
   MMM (date, dateLocale) {
-    return dateLocale.monthsShort[date.getMonth()]
+    return dateLocale.monthsShort[ date.getMonth() ]
   },
 
   // Month Name: January, February, ...
   MMMM (date, dateLocale) {
-    return dateLocale.months[date.getMonth()]
+    return dateLocale.months[ date.getMonth() ]
   },
 
   // Quarter: 1, 2, 3, 4
@@ -689,12 +689,12 @@ const formatter = {
 
   // Day of week: Sun, Mon, ...
   ddd (date, dateLocale) {
-    return dateLocale.daysShort[date.getDay()]
+    return dateLocale.daysShort[ date.getDay() ]
   },
 
   // Day of week: Sunday, Monday, ...
   dddd (date, dateLocale) {
-    return dateLocale.days[date.getDay()]
+    return dateLocale.days[ date.getDay() ]
   },
 
   // Day of ISO week: 1, 2, ..., 7
@@ -844,7 +844,7 @@ export function formatDate (val, mask, dateLocale, __forcedYear, __forcedTimezon
   return mask.replace(
     token,
     (match, text) => match in formatter
-      ? formatter[match](date, locale, __forcedYear, __forcedTimezoneOffset)
+      ? formatter[ match ](date, locale, __forcedYear, __forcedTimezoneOffset)
       : (text === void 0 ? match : text.split('\\]').join(']'))
   )
 }

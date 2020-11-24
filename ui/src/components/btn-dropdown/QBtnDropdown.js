@@ -54,7 +54,7 @@ export default defineComponent({
 
   watch: {
     modelValue (val) {
-      this.$refs.menu && this.$refs.menu[val ? 'show' : 'hide']()
+      this.$refs.menu && this.$refs.menu[ val ? 'show' : 'hide' ]()
     },
 
     split () {
@@ -76,7 +76,7 @@ export default defineComponent({
           this.disableDropdown === true
         )
       ) {
-        attrs['aria-disabled'] = 'true'
+        attrs[ 'aria-disabled' ] = 'true'
       }
 
       return attrs

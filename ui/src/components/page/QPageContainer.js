@@ -25,13 +25,13 @@ export default defineComponent({
         css.paddingTop = `${this.layout.header.size}px`
       }
       if (this.layout.right.space === true) {
-        css[`padding${this.$q.lang.rtl === true ? 'Left' : 'Right'}`] = `${this.layout.right.size}px`
+        css[ `padding${this.$q.lang.rtl === true ? 'Left' : 'Right'}` ] = `${this.layout.right.size}px`
       }
       if (this.layout.footer.space === true) {
         css.paddingBottom = `${this.layout.footer.size}px`
       }
       if (this.layout.left.space === true) {
-        css[`padding${this.$q.lang.rtl === true ? 'Right' : 'Left'}`] = `${this.layout.left.size}px`
+        css[ `padding${this.$q.lang.rtl === true ? 'Right' : 'Left'}` ] = `${this.layout.left.size}px`
       }
 
       return css

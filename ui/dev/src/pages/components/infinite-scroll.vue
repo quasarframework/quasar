@@ -77,9 +77,9 @@
 export default {
   data () {
     return {
-      itemsReverse: [{}, {}, {}, {}, {}],
-      itemsRef: [{}, {}, {}, {}, {}],
-      itemsId: [{}, {}, {}, {}, {}],
+      itemsReverse: [ {}, {}, {}, {}, {} ],
+      itemsRef: [ {}, {}, {}, {}, {} ],
+      itemsId: [ {}, {}, {}, {}, {} ],
       disable: false,
       container: false,
       reverse: false,

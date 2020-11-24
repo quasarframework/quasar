@@ -85,8 +85,8 @@ export default {
       darkMode: false,
       exportDialog: false,
       exportTab: 'sass',
-      list: ['primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning'],
-      sideColors: ['secondary', 'dark', 'positive', 'negative', 'info', 'warning']
+      list: [ 'primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning' ],
+      sideColors: [ 'secondary', 'dark', 'positive', 'negative', 'info', 'warning' ]
     }
   },
 
@@ -132,7 +132,7 @@ export default {
     },
 
     sassExport () {
-      return `// src/css/quasar.variables.sass\n\n` +
+      return '// src/css/quasar.variables.sass\n\n' +
         `$primary   : ${this.colors.primary}\n` +
         `$secondary : ${this.colors.secondary}\n` +
         `$accent    : ${this.colors.accent}\n\n` +
@@ -144,7 +144,7 @@ export default {
     },
 
     scssExport () {
-      return `// src/css/quasar.variables.scss\n\n` +
+      return '// src/css/quasar.variables.scss\n\n' +
         `$primary   : ${this.colors.primary};\n` +
         `$secondary : ${this.colors.secondary};\n` +
         `$accent    : ${this.colors.accent};\n\n` +
@@ -156,7 +156,7 @@ export default {
     },
 
     stylusExport () {
-      return `// src/css/quasar.variables.styl\n\n` +
+      return '// src/css/quasar.variables.styl\n\n' +
         `$primary   = ${this.colors.primary}\n` +
         `$secondary = ${this.colors.secondary}\n` +
         `$accent    = ${this.colors.accent}\n\n` +
@@ -237,7 +237,7 @@ Vue.use(Quasar, {
   methods: {
     update (color, val) {
       setBrand(color, val, document.getElementById('theme-picker'))
-      this.dark[color] = luminosity(val) <= 0.4
+      this.dark[ color ] = luminosity(val) <= 0.4
     }
   }
 }

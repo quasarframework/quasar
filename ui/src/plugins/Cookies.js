@@ -47,10 +47,10 @@ function parseExpireString (str) {
   const minutes = str.match(/(\d+)m/)
   const seconds = str.match(/(\d+)s/)
 
-  if (days) { timestamp += days[1] * 864e+5 }
-  if (hours) { timestamp += hours[1] * 36e+5 }
-  if (minutes) { timestamp += minutes[1] * 6e+4 }
-  if (seconds) { timestamp += seconds[1] * 1000 }
+  if (days) { timestamp += days[ 1 ] * 864e+5 }
+  if (hours) { timestamp += hours[ 1 ] * 36e+5 }
+  if (minutes) { timestamp += minutes[ 1 ] * 6e+4 }
+  if (seconds) { timestamp += seconds[ 1 ] * 1000 }
 
   return timestamp === 0
     ? str
@@ -142,12 +142,12 @@ function get (key, ssr) {
     cookie
 
   for (; i < l; i++) {
-    parts = cookies[i].split('=')
+    parts = cookies[ i ].split('=')
     name = decode(parts.shift())
     cookie = parts.join('=')
 
     if (!key) {
-      result[name] = cookie
+      result[ name ] = cookie
     }
     else if (key === name) {
       result = read(cookie)

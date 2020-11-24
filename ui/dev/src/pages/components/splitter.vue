@@ -199,8 +199,8 @@ export default {
   computed: {
     limits () {
       return this.modelUnit === '%'
-        ? this.funkyLimits === true ? [70, 100] : [10, 90]
-        : this.funkyLimits === true ? [100, 500] : [0, Infinity]
+        ? this.funkyLimits === true ? [ 70, 100 ] : [ 10, 90 ]
+        : this.funkyLimits === true ? [ 100, 500 ] : [ 0, Infinity ]
     }
   },
 

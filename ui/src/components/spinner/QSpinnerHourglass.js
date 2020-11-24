@@ -18,7 +18,7 @@ const svg = [
         x: '15',
         y: '20',
         width: ' 70',
-        height:'25'
+        height: '25'
       }, [
         h('animate', {
           attributeName: 'height',
@@ -47,7 +47,7 @@ const svg = [
         x: '15',
         y: '55',
         width: ' 70',
-        height:'25'
+        height: '25'
       }, [
         h('animate', {
           attributeName: 'height',

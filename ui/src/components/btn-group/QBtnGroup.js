@@ -18,8 +18,8 @@ export default defineComponent({
 
   computed: {
     classes () {
-      const props = ['unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch', 'glossy']
-        .filter(t => this[t] === true)
+      const props = [ 'unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch', 'glossy' ]
+        .filter(t => this[ t ] === true)
         .map(t => `q-btn-group--${t}`).join(' ')
 
       return `q-btn-group row no-wrap${props.length > 0 ? ' ' + props : ''}` +

@@ -204,7 +204,7 @@ export default {
       nullRgb: null,
       nullRgba: null,
 
-      customPalette: ['#ff0000', '#ffff00', '#0000f5', 'rgb(255,0,0)', 'rgb(255,255,0)', 'rgb(0,0,245)', 'rgba(255,0,0,0.5)'],
+      customPalette: [ '#ff0000', '#ffff00', '#0000f5', 'rgb(255,0,0)', 'rgb(255,255,0)', 'rgb(0,0,245)', 'rgba(255,0,0,0.5)' ],
 
       inputModelHex: '#FF00FF'
     }

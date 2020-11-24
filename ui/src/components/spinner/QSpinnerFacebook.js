@@ -10,7 +10,7 @@ const svg = [
       x: '-10',
       y: '-30',
       width: ' 20',
-      height:'60',
+      height: '60',
       fill: 'currentColor',
       opacity: '0.6'
     }, [
@@ -36,7 +36,7 @@ const svg = [
       x: '-10',
       y: '-30',
       width: ' 20',
-      height:'60',
+      height: '60',
       fill: 'currentColor',
       opacity: '0.8'
     }, [
@@ -62,7 +62,7 @@ const svg = [
       x: '-10',
       y: '-30',
       width: ' 20',
-      height:'60',
+      height: '60',
       fill: 'currentColor',
       opacity: '0.9'
     }, [

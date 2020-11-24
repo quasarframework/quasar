@@ -98,7 +98,7 @@ export default defineComponent({
     expansionIcon () {
       return this.expandedIcon !== void 0 && this.showing === true
         ? this.expandedIcon
-        : this.expandIcon || this.$q.iconSet.expansionItem[this.denseToggle === true ? 'denseIcon' : 'icon']
+        : this.expandIcon || this.$q.iconSet.expansionItem[ this.denseToggle === true ? 'denseIcon' : 'icon' ]
     },
 
     activeToggleIcon () {
@@ -112,7 +112,7 @@ export default defineComponent({
     linkProps () {
       const props = {}
       LINK_PROPS.forEach(key => {
-        props[key] = this[key]
+        props[ key ] = this[ key ]
       })
       return props
     }
@@ -148,23 +148,23 @@ export default defineComponent({
       }
 
       if (this.showing === true) {
-        itemGroups[this.group] = this.uid
+        itemGroups[ this.group ] = this.uid
       }
 
       const show = this.$watch(
         'showing',
         val => {
           if (val === true) {
-            itemGroups[this.group] = this.uid
+            itemGroups[ this.group ] = this.uid
           }
-          else if (itemGroups[this.group] === this.uid) {
-            delete itemGroups[this.group]
+          else if (itemGroups[ this.group ] === this.uid) {
+            delete itemGroups[ this.group ]
           }
         }
       )
 
       const group = this.$watch(
-        () => itemGroups[this.group],
+        () => itemGroups[ this.group ],
         (val, oldVal) => {
           if (oldVal === this.uid && val !== void 0 && val !== this.uid) {
             this.hide()
@@ -176,8 +176,8 @@ export default defineComponent({
         show()
         group()
 
-        if (itemGroups[this.group] === this.uid) {
-          delete itemGroups[this.group]
+        if (itemGroups[ this.group ] === this.uid) {
+          delete itemGroups[ this.group ]
         }
 
         this.exitGroup = void 0
@@ -187,7 +187,7 @@ export default defineComponent({
     __getToggleIcon () {
       const data = {
         class: [
-          `q-focusable relative-position cursor-pointer` +
+          'q-focusable relative-position cursor-pointer' +
             `${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
           this.expandIconClass
         ],
@@ -241,7 +241,7 @@ export default defineComponent({
           ])
         ]
 
-        this.icon && child[this.switchToggleSide === true ? 'push' : 'unshift'](
+        this.icon && child[ this.switchToggleSide === true ? 'push' : 'unshift' ](
           h(QItemSection, {
             side: this.switchToggleSide === true,
             avatar: this.switchToggleSide !== true
@@ -249,7 +249,7 @@ export default defineComponent({
         )
       }
 
-      this.disable !== true && child[this.switchToggleSide === true ? 'unshift' : 'push'](
+      this.disable !== true && child[ this.switchToggleSide === true ? 'unshift' : 'push' ](
         this.__getToggleIcon()
       )
 
@@ -287,10 +287,10 @@ export default defineComponent({
           class: 'q-expansion-item__content relative-position',
           style: this.contentStyle
         }, hSlot(this, 'default')),
-        [[
+        [ [
           vShow,
           this.showing
-        ]]
+        ] ]
       )
     },
 

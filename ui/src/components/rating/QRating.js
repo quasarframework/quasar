@@ -74,17 +74,17 @@ export default defineComponent({
 
       return {
         iconLen,
-        icon: iconLen > 0 ? this.icon[iconLen - 1] : this.icon,
+        icon: iconLen > 0 ? this.icon[ iconLen - 1 ] : this.icon,
         selIconLen,
-        selIcon: selIconLen > 0 ? this.iconSelected[selIconLen - 1] : this.iconSelected,
+        selIcon: selIconLen > 0 ? this.iconSelected[ selIconLen - 1 ] : this.iconSelected,
         halfIconLen,
-        halfIcon: halfIconLen > 0 ? this.iconHalf[selIconLen - 1] : this.iconHalf,
+        halfIcon: halfIconLen > 0 ? this.iconHalf[ selIconLen - 1 ] : this.iconHalf,
         colorLen,
-        color: colorLen > 0 ? this.color[colorLen - 1] : this.color,
+        color: colorLen > 0 ? this.color[ colorLen - 1 ] : this.color,
         selColorLen,
-        selColor: selColorLen > 0 ? this.colorSelected[selColorLen - 1] : this.colorSelected,
+        selColor: selColorLen > 0 ? this.colorSelected[ selColorLen - 1 ] : this.colorSelected,
         halfColorLen,
-        halfColor: halfColorLen > 0 ? this.colorHalf[halfColorLen - 1] : this.colorHalf
+        halfColor: halfColorLen > 0 ? this.colorHalf[ halfColorLen - 1 ] : this.colorHalf
       }
     },
 
@@ -124,14 +124,14 @@ export default defineComponent({
           return stopAndPrevent(e)
         case 37: // LEFT ARROW
         case 40: // DOWN ARROW
-          if (this.$refs[`rt${i - 1}`]) {
-            this.$refs[`rt${i - 1}`].focus()
+          if (this.$refs[ `rt${i - 1}` ]) {
+            this.$refs[ `rt${i - 1}` ].focus()
           }
           return stopAndPrevent(e)
         case 39: // RIGHT ARROW
         case 38: // UP ARROW
-          if (this.$refs[`rt${i + 1}`]) {
-            this.$refs[`rt${i + 1}`].focus()
+          if (this.$refs[ `rt${i + 1}` ]) {
+            this.$refs[ `rt${i + 1}` ].focus()
           }
           return stopAndPrevent(e)
       }
@@ -163,19 +163,19 @@ export default defineComponent({
         half = halfIndex === i && this.mouseModel < i,
         exSelected = this.mouseModel > 0 && (half === true ? ceil : this.modelValue) >= i && this.mouseModel < i,
         name = half === true
-          ? (i <= icons.halfIconLen ? this.iconHalf[i - 1] : icons.halfIcon)
+          ? (i <= icons.halfIconLen ? this.iconHalf[ i - 1 ] : icons.halfIcon)
           : (
-            icons.selIcon !== void 0 && (active === true || exSelected === true)
-              ? (i <= icons.selIconLen ? this.iconSelected[i - 1] : icons.selIcon)
-              : (i <= icons.iconLen ? this.icon[i - 1] : icons.icon)
-          ),
+              icons.selIcon !== void 0 && (active === true || exSelected === true)
+                ? (i <= icons.selIconLen ? this.iconSelected[ i - 1 ] : icons.selIcon)
+                : (i <= icons.iconLen ? this.icon[ i - 1 ] : icons.icon)
+            ),
         color = half === true
-          ? (i <= icons.halfColorLen ? this.colorHalf[i - 1] : icons.halfColor)
+          ? (i <= icons.halfColorLen ? this.colorHalf[ i - 1 ] : icons.halfColor)
           : (
-            icons.selColor !== void 0 && active === true
-              ? (i <= icons.selColorLen ? this.colorSelected[i - 1] : icons.selColor)
-              : (i <= icons.colorLen ? this.color[i - 1] : icons.color)
-          ),
+              icons.selColor !== void 0 && active === true
+                ? (i <= icons.selColorLen ? this.colorSelected[ i - 1 ] : icons.selColor)
+                : (i <= icons.colorLen ? this.color[ i - 1 ] : icons.color)
+            ),
         classes = 'q-rating__icon' +
           (active === true || half === true ? ' q-rating__icon--active' : '') +
           (exSelected === true ? ' q-rating__icon--exselected' : '') +
@@ -195,7 +195,7 @@ export default defineComponent({
           onFocus: () => { this.__setHoverValue(i) },
           onBlur: this.__onBlur,
           onKeyup: e => { this.__keyup(e, i) }
-        }, this.$slots[`tip-${i}`])
+        }, this.$slots[ `tip-${i}` ])
       )
     }
 

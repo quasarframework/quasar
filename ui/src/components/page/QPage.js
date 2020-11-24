@@ -37,10 +37,10 @@ export default defineComponent({
         minHeight: this.layout.container === true
           ? (this.layout.containerHeight - offset) + 'px'
           : (
-            this.$q.screen.height === 0
-              ? `calc(100vh - ${offset}px)`
-              : (this.$q.screen.height - offset) + 'px'
-          )
+              this.$q.screen.height === 0
+                ? `calc(100vh - ${offset}px)`
+                : (this.$q.screen.height - offset) + 'px'
+            )
       }
     },
 

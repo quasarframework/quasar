@@ -50,8 +50,8 @@
 export default {
   data () {
     return {
-      bp: ['', '-xs', '-sm', '-md', '-lg', '-xl'],
-      sz: ['xs', 'sm', 'md', 'lg', 'xl']
+      bp: [ '', '-xs', '-sm', '-md', '-lg', '-xl' ],
+      sz: [ 'xs', 'sm', 'md', 'lg', 'xl' ]
     }
   }
 }

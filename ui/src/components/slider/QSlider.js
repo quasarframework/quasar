@@ -93,12 +93,12 @@ export default defineComponent({
         return this.$q.platform.is.mobile === true
           ? { onClick: this.__mobileClick }
           : {
-            onMousedown: this.__activate,
-            onFocus: this.__focus,
-            onBlur: this.__blur,
-            onKeydown: this.__keydown,
-            onKeyup: this.__keyup
-          }
+              onMousedown: this.__activate,
+              onFocus: this.__focus,
+              onBlur: this.__blur,
+              onKeydown: this.__keydown,
+              onKeyup: this.__keyup
+            }
       }
     },
 
@@ -152,8 +152,8 @@ export default defineComponent({
       stopAndPrevent(evt)
 
       const
-        step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
-        offset = [34, 37, 40].includes(evt.keyCode) ? -step : step
+        step = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
+        offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -step : step
 
       this.model = between(
         parseFloat((this.model + offset).toFixed(this.decimals)),

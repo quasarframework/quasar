@@ -15,7 +15,7 @@ function getFullscreenElement () {
 // needed for consistency across browsers
 function promisify (target, fn) {
   try {
-    const res = target[fn]()
+    const res = target[ fn ]()
     return res === void 0
       ? Promise.resolve()
       : res
@@ -60,7 +60,7 @@ const Plugin = defineReactivePlugin({
     prefixes.request = [
       'requestFullscreen',
       'msRequestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'
-    ].find(request => document.documentElement[request] !== void 0)
+    ].find(request => document.documentElement[ request ] !== void 0)
 
     this.isCapable = prefixes.request !== void 0
 
@@ -75,7 +75,7 @@ const Plugin = defineReactivePlugin({
     prefixes.exit = [
       'exitFullscreen',
       'msExitFullscreen', 'mozCancelFullScreen', 'webkitExitFullscreen'
-    ].find(exit => document[exit])
+    ].find(exit => document[ exit ])
 
     this.isActive = !!getFullscreenElement()
 
@@ -83,7 +83,7 @@ const Plugin = defineReactivePlugin({
       'onfullscreenchange',
       'onmsfullscreenchange', 'onwebkitfullscreenchange'
     ].forEach(evt => {
-      document[evt] = () => {
+      document[ evt ] = () => {
         this.isActive = this.isActive === false
 
         if (this.isActive === false) {

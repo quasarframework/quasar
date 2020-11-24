@@ -55,9 +55,9 @@ export default defineComponent({
 
         return action.label === void 0
           ? h(QSeparator, {
-            class: 'col-all',
-            dark: this.isDark
-          })
+              class: 'col-all',
+              dark: this.isDark
+            })
           : h('div', {
             class: [
               'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
@@ -74,13 +74,13 @@ export default defineComponent({
             action.icon
               ? h(QIcon, { name: action.icon, color: action.color })
               : (
-                img
-                  ? h('img', {
-                    class: action.avatar ? 'q-bottom-sheet__avatar' : '',
-                    src: img
-                  })
-                  : h('div', { class: 'q-bottom-sheet__empty-icon' })
-              ),
+                  img
+                    ? h('img', {
+                        class: action.avatar ? 'q-bottom-sheet__avatar' : '',
+                        src: img
+                      })
+                    : h('div', { class: 'q-bottom-sheet__empty-icon' })
+                ),
 
             h('div', action.label)
           ])
@@ -109,13 +109,13 @@ export default defineComponent({
               () => action.icon
                 ? h(QIcon, { name: action.icon, color: action.color })
                 : (
-                  img
-                    ? h('img', {
-                      class: action.avatar ? 'q-bottom-sheet__avatar' : '',
-                      src: img
-                    })
-                    : null
-                )
+                    img
+                      ? h('img', {
+                          class: action.avatar ? 'q-bottom-sheet__avatar' : '',
+                          src: img
+                        })
+                      : null
+                  )
             ),
 
             h(QItemSection, () => action.label)
@@ -141,8 +141,8 @@ export default defineComponent({
       child.push(
         this.grid === true
           ? h('div', {
-            class: 'row items-stretch justify-start'
-          }, this.__getGrid())
+              class: 'row items-stretch justify-start'
+            }, this.__getGrid())
           : h('div', this.__getList())
       )
 

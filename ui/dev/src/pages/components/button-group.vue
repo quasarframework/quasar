@@ -294,7 +294,7 @@ export default {
         { push: false, outline: true, flat: false },
         { push: false, outline: false, flat: true }
       ],
-      sizes: ['sm', 'md', 'lg']
+      sizes: [ 'sm', 'md', 'lg' ]
     }
   }
 }

@@ -122,11 +122,11 @@ export default defineComponent({
         view = this.layout.rows.bottom,
         css = {}
 
-      if (view[0] === 'l' && this.layout.left.space === true) {
-        css[this.$q.lang.rtl === true ? 'right' : 'left'] = `${this.layout.left.size}px`
+      if (view[ 0 ] === 'l' && this.layout.left.space === true) {
+        css[ this.$q.lang.rtl === true ? 'right' : 'left' ] = `${this.layout.left.size}px`
       }
-      if (view[2] === 'r' && this.layout.right.space === true) {
-        css[this.$q.lang.rtl === true ? 'left' : 'right'] = `${this.layout.right.size}px`
+      if (view[ 2 ] === 'r' && this.layout.right.space === true) {
+        css[ this.$q.lang.rtl === true ? 'left' : 'right' ] = `${this.layout.right.size}px`
       }
 
       return css
@@ -180,15 +180,15 @@ export default defineComponent({
       // ensure state update is caught correctly by Vue diffing
       // on all layout components, so nextTicking:
       this.$nextTick(() => {
-        if (this.layout.footer[prop] !== val) {
-          this.layout.footer[prop] = val
+        if (this.layout.footer[ prop ] !== val) {
+          this.layout.footer[ prop ] = val
         }
       })
     },
 
     __updateLocal (prop, val) {
-      if (this[prop] !== val) {
-        this[prop] = val
+      if (this[ prop ] !== val) {
+        this[ prop ] = val
       }
     },
 

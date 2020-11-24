@@ -84,7 +84,7 @@
 export default {
   data () {
     return {
-      items: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+      items: [ {}, {}, {}, {}, {}, {}, {}, {}, {} ],
       guardTop: true,
       guardBottom: true,
       header: true,

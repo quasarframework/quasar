@@ -30,20 +30,20 @@ function shouldPreventScroll (e) {
     delta = shift || scrollY ? e.deltaY : e.deltaX
 
   for (let index = 0; index < path.length; index++) {
-    const el = path[index]
+    const el = path[ index ]
 
     if (hasScrollbar(el, scrollY)) {
       return scrollY
         ? (
-          delta < 0 && el.scrollTop === 0
-            ? true
-            : delta > 0 && el.scrollTop + el.clientHeight === el.scrollHeight
-        )
+            delta < 0 && el.scrollTop === 0
+              ? true
+              : delta > 0 && el.scrollTop + el.clientHeight === el.scrollHeight
+          )
         : (
-          delta < 0 && el.scrollLeft === 0
-            ? true
-            : delta > 0 && el.scrollLeft + el.clientWidth === el.scrollWidth
-        )
+            delta < 0 && el.scrollLeft === 0
+              ? true
+              : delta > 0 && el.scrollLeft + el.clientWidth === el.scrollWidth
+          )
     }
   }
 
@@ -123,7 +123,7 @@ function apply (action) {
 
   if (client.is.desktop === true && client.is.mac === true) {
     // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention
-    window[`${action}EventListener`]('wheel', onWheel, listenOpts.notPassive)
+    window[ `${action}EventListener` ]('wheel', onWheel, listenOpts.notPassive)
   }
 
   if (action === 'remove') {

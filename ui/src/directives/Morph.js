@@ -15,7 +15,7 @@ const mods = [
 function changeClass (ctx, action) {
   if (ctx.clsAction !== action) {
     ctx.clsAction = action
-    ctx.el.classList[action]('q-morph--invisible')
+    ctx.el.classList[ action ]('q-morph--invisible')
   }
 }
 
@@ -69,7 +69,7 @@ function updateModifiers (mod, ctx) {
   const opts = ctx.opts
 
   mods.forEach(name => {
-    opts[name] = mod[name] === true
+    opts[ name ] = mod[ name ] === true
   })
 }
 
@@ -77,14 +77,14 @@ function insertArgs (arg, ctx) {
   const opts = typeof arg === 'string' && arg.length > 0
     ? arg.split(':') : []
 
-  ctx.name = opts[0]
-  ctx.group = opts[1]
+  ctx.name = opts[ 0 ]
+  ctx.group = opts[ 1 ]
 
   Object.assign(ctx.opts, {
-    duration: isNaN(opts[2]) === true
+    duration: isNaN(opts[ 2 ]) === true
       ? 300
-      : parseFloat(opts[2]),
-    waitFor: opts[3]
+      : parseFloat(opts[ 2 ]),
+    waitFor: opts[ 3 ]
   })
 }
 
@@ -99,19 +99,19 @@ function updateArgs (arg, ctx) {
   const opts = ctx.opts
 
   props.forEach(name => {
-    if (arg[name] !== void 0) {
-      opts[name] = arg[name]
+    if (arg[ name ] !== void 0) {
+      opts[ name ] = arg[ name ]
     }
   })
 }
 
 function updateModel (name, ctx) {
   if (ctx.name === name) {
-    const group = morphGroups[ctx.group]
+    const group = morphGroups[ ctx.group ]
 
     // if group is not registered
     if (group === void 0) {
-      morphGroups[ctx.group] = {
+      morphGroups[ ctx.group ] = {
         name: ctx.group,
         model: name,
         queue: [ ctx ],
@@ -156,7 +156,7 @@ function updateValue (ctx, value) {
   }
   else if (ctx.animating === false && ctx.clsAction !== void 0) {
     // ensure HMR
-    ctx.el.classList[ctx.clsAction]('q-morph--invisible')
+    ctx.el.classList[ ctx.clsAction ]('q-morph--invisible')
   }
 }
 
@@ -184,7 +184,7 @@ export default {
   beforeUnmount (el) {
     const ctx = el.__qmorph
 
-    const group = morphGroups[ctx.group]
+    const group = morphGroups[ ctx.group ]
 
     if (group !== void 0) {
       const index = group.queue.indexOf(ctx)
@@ -194,7 +194,7 @@ export default {
 
         if (group.queue.length === 0) {
           group.cancel !== void 0 && group.cancel()
-          delete morphGroups[ctx.group]
+          delete morphGroups[ ctx.group ]
         }
       }
     }

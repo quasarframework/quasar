@@ -24,7 +24,7 @@ export default defineComponent({
     side: {
       type: String,
       default: 'right',
-      validator: v => ['left', 'right'].includes(v)
+      validator: v => [ 'left', 'right' ].includes(v)
     },
 
     icon: String,

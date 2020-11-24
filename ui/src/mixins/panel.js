@@ -44,7 +44,7 @@ export const PanelParentMixin = {
   computed: {
     panelDirectives () {
       // if this.swipeable
-      return [[
+      return [ [
         TouchSwipe,
         this.__swipe,
         void 0,
@@ -53,7 +53,7 @@ export const PanelParentMixin = {
           vertical: this.vertical,
           mouse: true
         }
-      ]]
+      ] ]
     },
 
     contentKey () {
@@ -140,7 +140,7 @@ export const PanelParentMixin = {
       const slots = this.panels
 
       while (index > -1 && index < slots.length) {
-        const opt = slots[index]
+        const opt = slots[ index ]
 
         if (
           opt !== void 0 &&
@@ -182,21 +182,21 @@ export const PanelParentMixin = {
     __getPanelContentChild () {
       const panel = this.__isValidPanelName(this.modelValue) &&
         this.__updatePanelIndex() &&
-        this.panels[this.panelIndex]
+        this.panels[ this.panelIndex ]
 
       return this.keepAlive === true
         ? [
-          h(KeepAlive, [
-            h(PanelWrapper, { key: this.contentKey }, () => panel)
-          ])
-        ]
+            h(KeepAlive, [
+              h(PanelWrapper, { key: this.contentKey }, () => panel)
+            ])
+          ]
         : [
-          h('div', {
-            class: 'q-panel scroll',
-            key: this.contentKey,
-            role: 'tabpanel'
-          }, [ panel ])
-        ]
+            h('div', {
+              class: 'q-panel scroll',
+              key: this.contentKey,
+              role: 'tabpanel'
+            }, [ panel ])
+          ]
     },
 
     __getPanelContent () {
@@ -206,10 +206,10 @@ export const PanelParentMixin = {
 
       return this.animated === true
         ? [
-          h(Transition, {
-            name: this.panelTransition
-          }, this.__getPanelContentChild)
-        ]
+            h(Transition, {
+              name: this.panelTransition
+            }, this.__getPanelContentChild)
+          ]
         : this.__getPanelContentChild()
     }
   },

@@ -99,7 +99,7 @@ export default defineComponent({
     this.hasObserver = typeof ResizeObserver !== 'undefined'
 
     if (this.hasObserver !== true) {
-      this.style = `display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;`
+      this.style = 'display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;'
     }
   },
 

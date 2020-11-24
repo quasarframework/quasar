@@ -101,7 +101,7 @@ const
   listSize = 10000,
   lorem = 'Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sumLorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum Lorem ipsum lorem ipsum lorem ipsum lorem ip sum'
 const getRandomInt = (min, max) => {
-  var x = Math.floor(Math.random() * (max - min + 1)) + min
+  const x = Math.floor(Math.random() * (max - min + 1)) + min
   return Math.ceil(x / 10) * 10
 }
 for (let i = 0; i < 30; i++) {
@@ -110,15 +110,15 @@ for (let i = 0; i < 30; i++) {
 for (let i = 0; i <= listSize; i++) {
   const row = {}
   for (let j = 0; j < columns.length; j++) {
-    row[columns[j]] = '#' + i + ' row ' + (i + 1) + ' / col ' + (j + 1)
+    row[ columns[ j ] ] = '#' + i + ' row ' + (i + 1) + ' / col ' + (j + 1)
     if (j === 2) {
-      row[columns[j]] += ' - ' + lorem
+      row[ columns[ j ] ] += ' - ' + lorem
     }
     else if (j === 1) {
       const
         width = getRandomInt(100, 150),
         height = getRandomInt(150, 350)
-      row[columns[j]] = {
+      row[ columns[ j ] ] = {
         src: 'https://www.fillmurray.com/' + width + '/' + height + '?ver=' + j,
         width,
         height

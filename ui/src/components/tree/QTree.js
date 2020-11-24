@@ -42,7 +42,7 @@ export default defineComponent({
     tickStrategy: {
       type: String,
       default: 'none',
-      validator: v => ['none', 'strict', 'leaf', 'leaf-filtered'].includes(v)
+      validator: v => [ 'none', 'strict', 'leaf', 'leaf-filtered' ].includes(v)
     },
     ticked: Array, // v-model:ticked
     expanded: Array, // v-model:expanded
@@ -72,9 +72,9 @@ export default defineComponent({
 
   computed: {
     classes () {
-      return `q-tree` +
-        (this.noConnectors === true ? ` q-tree--no-connectors` : '') +
-        (this.isDark === true ? ` q-tree--dark` : '') +
+      return 'q-tree' +
+        (this.noConnectors === true ? ' q-tree--no-connectors' : '') +
+        (this.isDark === true ? ' q-tree--dark' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '')
     },
 
@@ -105,10 +105,10 @@ export default defineComponent({
       return this.filterMethod !== void 0
         ? this.filterMethod
         : (node, filter) => {
-          const filt = filter.toLowerCase()
-          return node[this.labelKey] &&
-            node[this.labelKey].toLowerCase().indexOf(filt) > -1
-        }
+            const filt = filter.toLowerCase()
+            return node[ this.labelKey ] &&
+            node[ this.labelKey ].toLowerCase().indexOf(filt) > -1
+          }
     },
 
     meta () {
@@ -117,8 +117,8 @@ export default defineComponent({
       const travel = (node, parent) => {
         const tickStrategy = node.tickStrategy || (parent ? parent.tickStrategy : this.tickStrategy)
         const
-          key = node[this.nodeKey],
-          isParent = node[this.childrenKey] && node[this.childrenKey].length > 0,
+          key = node[ this.nodeKey ],
+          isParent = node[ this.childrenKey ] && node[ this.childrenKey ].length > 0,
           isLeaf = isParent !== true,
           selectable = node.disabled !== true && this.hasSelection === true && node.selectable !== false,
           expandable = node.disabled !== true && node.expandable !== false,
@@ -133,8 +133,8 @@ export default defineComponent({
         }
 
         let lazy = node.lazy
-        if (lazy && this.lazy[key]) {
-          lazy = this.lazy[key]
+        if (lazy && this.lazy[ key ]) {
+          lazy = this.lazy[ key ]
         }
 
         const m = {
@@ -164,10 +164,10 @@ export default defineComponent({
             : (isLeaf === true ? this.innerTicked.includes(key) : false)
         }
 
-        meta[key] = m
+        meta[ key ] = m
 
         if (isParent === true) {
-          m.children = node[this.childrenKey].map(n => travel(n, m))
+          m.children = node[ this.childrenKey ].map(n => travel(n, m))
 
           if (this.filter) {
             if (m.matchesFilter !== true) {
@@ -251,11 +251,11 @@ export default defineComponent({
         if (Array.isArray(node) === true) {
           return reduce.call(Object(node), find, result)
         }
-        if (node[this.nodeKey] === key) {
+        if (node[ this.nodeKey ] === key) {
           return node
         }
-        if (node[this.childrenKey]) {
-          return find(null, node[this.childrenKey])
+        if (node[ this.childrenKey ]) {
+          return find(null, node[ this.childrenKey ])
         }
       }
 
@@ -271,8 +271,8 @@ export default defineComponent({
     },
 
     isExpanded (key) {
-      return key && this.meta[key]
-        ? this.meta[key].expanded
+      return key && this.meta[ key ]
+        ? this.meta[ key ].expanded
         : false
     },
 
@@ -289,10 +289,10 @@ export default defineComponent({
       const
         expanded = this.innerExpanded,
         travel = node => {
-          if (node[this.childrenKey] && node[this.childrenKey].length > 0) {
+          if (node[ this.childrenKey ] && node[ this.childrenKey ].length > 0) {
             if (node.expandable !== false && node.disabled !== true) {
-              expanded.push(node[this.nodeKey])
-              node[this.childrenKey].forEach(travel)
+              expanded.push(node[ this.nodeKey ])
+              node[ this.childrenKey ].forEach(travel)
             }
           }
         }
@@ -307,30 +307,30 @@ export default defineComponent({
       }
     },
 
-    setExpanded (key, state, node = this.getNodeByKey(key), meta = this.meta[key]) {
+    setExpanded (key, state, node = this.getNodeByKey(key), meta = this.meta[ key ]) {
       if (meta.lazy && meta.lazy !== 'loaded') {
         if (meta.lazy === 'loading') {
           return
         }
 
-        this.lazy[key] = 'loading'
+        this.lazy[ key ] = 'loading'
         this.$emit('lazy-load', {
           node,
           key,
           done: children => {
-            this.lazy[key] = 'loaded'
+            this.lazy[ key ] = 'loaded'
             if (children) {
-              node[this.childrenKey] = children
+              node[ this.childrenKey ] = children
             }
             this.$nextTick(() => {
-              const m = this.meta[key]
+              const m = this.meta[ key ]
               if (m && m.isParent === true) {
                 this.__setExpanded(key, true)
               }
             })
           },
           fail: () => {
-            delete this.lazy[key]
+            delete this.lazy[ key ]
           }
         })
       }
@@ -349,10 +349,10 @@ export default defineComponent({
 
       if (state) {
         if (this.accordion) {
-          if (this.meta[key]) {
+          if (this.meta[ key ]) {
             const collapse = []
-            if (this.meta[key].parent) {
-              this.meta[key].parent.children.forEach(m => {
+            if (this.meta[ key ].parent) {
+              this.meta[ key ].parent.children.forEach(m => {
                 if (m.key !== key && m.expandable === true) {
                   collapse.push(m.key)
                 }
@@ -360,7 +360,7 @@ export default defineComponent({
             }
             else {
               this.nodes.forEach(node => {
-                const k = node[this.nodeKey]
+                const k = node[ this.nodeKey ]
                 if (k !== key) {
                   collapse.push(k)
                 }
@@ -388,8 +388,8 @@ export default defineComponent({
     },
 
     isTicked (key) {
-      return key && this.meta[key]
-        ? this.meta[key].ticked
+      return key && this.meta[ key ]
+        ? this.meta[ key ].ticked
         : false
     },
 
@@ -436,7 +436,7 @@ export default defineComponent({
     __getChildren (nodes) {
       return (
         this.filter
-          ? nodes.filter(n => this.meta[n[this.nodeKey]].matchesFilter)
+          ? nodes.filter(n => this.meta[ n[ this.nodeKey ] ].matchesFilter)
           : nodes
       ).map(child => this.__getNode(child))
     },
@@ -444,7 +444,7 @@ export default defineComponent({
     __getNodeMedia (node) {
       if (node.icon !== void 0) {
         return h(QIcon, {
-          class: `q-tree__icon q-mr-sm`,
+          class: 'q-tree__icon q-mr-sm',
           name: node.icon,
           color: node.iconColor
         })
@@ -468,21 +468,21 @@ export default defineComponent({
 
     __getNode (node) {
       const
-        key = node[this.nodeKey],
-        meta = this.meta[key],
+        key = node[ this.nodeKey ],
+        meta = this.meta[ key ],
         header = node.header
-          ? this.$slots[`header-${node.header}`] || this.$slots['default-header']
-          : this.$slots['default-header']
+          ? this.$slots[ `header-${node.header}` ] || this.$slots[ 'default-header' ]
+          : this.$slots[ 'default-header' ]
 
       const children = meta.isParent === true
-        ? this.__getChildren(node[this.childrenKey])
+        ? this.__getChildren(node[ this.childrenKey ])
         : []
 
       const isParent = children.length > 0 || (meta.lazy && meta.lazy !== 'loaded')
 
       let body = node.body
-        ? this.$slots[`body-${node.body}`] || this.$slots['default-body']
-        : this.$slots['default-body']
+        ? this.$slots[ `body-${node.body}` ] || this.$slots[ 'default-body' ]
+        : this.$slots[ 'default-body' ]
       const slotScope = header !== void 0 || body !== void 0
         ? this.__getSlotScope(node, meta, key)
         : null
@@ -524,75 +524,75 @@ export default defineComponent({
 
           meta.lazy === 'loading'
             ? h(QSpinner, {
-              class: 'q-tree__spinner q-mr-xs',
-              color: this.computedControlColor
-            })
+                class: 'q-tree__spinner q-mr-xs',
+                color: this.computedControlColor
+              })
             : (
-              isParent === true
-                ? h(QIcon, {
-                  class: 'q-tree__arrow q-mr-xs' +
+                isParent === true
+                  ? h(QIcon, {
+                      class: 'q-tree__arrow q-mr-xs' +
                     (meta.expanded === true ? ' q-tree__arrow--rotate' : ''),
-                  name: this.computedIcon,
-                  onClick: e => {
-                    this.__onExpandClick(node, meta, e)
-                  }
-                })
-                : null
-            ),
+                      name: this.computedIcon,
+                      onClick: e => {
+                        this.__onExpandClick(node, meta, e)
+                      }
+                    })
+                  : null
+              ),
 
           meta.hasTicking === true && meta.noTick !== true
             ? h(QCheckbox, {
-              class: 'q-mr-xs',
-              modelValue: meta.indeterminate === true ? null : meta.ticked,
-              color: this.computedControlColor,
-              dark: this.isDark,
-              dense: true,
-              keepColor: true,
-              disable: meta.tickable !== true,
-              onKeydown: stopAndPrevent,
-              'onUpdate:modelValue': v => {
-                this.__onTickedClick(meta, v)
-              }
-            })
+                class: 'q-mr-xs',
+                modelValue: meta.indeterminate === true ? null : meta.ticked,
+                color: this.computedControlColor,
+                dark: this.isDark,
+                dense: true,
+                keepColor: true,
+                disable: meta.tickable !== true,
+                onKeydown: stopAndPrevent,
+                'onUpdate:modelValue': v => {
+                  this.__onTickedClick(meta, v)
+                }
+              })
             : null,
 
           h('div', {
             class: 'q-tree__node-header-content col row no-wrap items-center' +
-              (meta.selected === true ? this.selectedColorClass : this.textColorClass),
+              (meta.selected === true ? this.selectedColorClass : this.textColorClass)
           }, [
             header
               ? header(slotScope)
               : [
-                this.__getNodeMedia(node),
-                h('div', node[this.labelKey])
-              ]
+                  this.__getNodeMedia(node),
+                  h('div', node[ this.labelKey ])
+                ]
           ])
         ]),
 
         isParent === true
           ? h(QSlideTransition, {
-            duration: this.duration,
-            onShow: this.__onShow,
-            onHide: this.__onHide
-          }, () => withDirectives(
-            h('div', {
-              class: 'q-tree__node-collapsible' + this.textColorClass,
-              key: `${key}____q`
-            }, [
-              body,
+              duration: this.duration,
+              onShow: this.__onShow,
+              onHide: this.__onHide
+            }, () => withDirectives(
               h('div', {
-                class: 'q-tree__children' +
+                class: 'q-tree__node-collapsible' + this.textColorClass,
+                key: `${key}____q`
+              }, [
+                body,
+                h('div', {
+                  class: 'q-tree__children' +
                   (meta.disabled === true ? ' q-tree__node--disabled' : '')
-              }, children)
-            ]),
-            [[ vShow, meta.expanded ]]
-          ))
+                }, children)
+              ]),
+              [ [ vShow, meta.expanded ] ]
+            ))
           : body
       ])
     },
 
     __blur (key) {
-      const blurTarget = this.$refs[`blurTarget_${key}`]
+      const blurTarget = this.$refs[ `blurTarget_${key}` ]
       blurTarget && blurTarget.focus()
     },
 
@@ -662,10 +662,10 @@ export default defineComponent({
       },
       children.length === 0
         ? (
-          this.filter
-            ? this.noResultsLabel || this.$q.lang.tree.noResults
-            : this.noNodesLabel || this.$q.lang.tree.noNodes
-        )
+            this.filter
+              ? this.noResultsLabel || this.$q.lang.tree.noResults
+              : this.noNodesLabel || this.$q.lang.tree.noNodes
+          )
         : children
     )
   },

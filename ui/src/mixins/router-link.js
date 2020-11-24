@@ -9,10 +9,10 @@ import { prevent } from '../utils/event.js'
 function getOriginalPath (record) {
   return record
     ? (
-      record.aliasOf
-        ? record.aliasOf.path
-        : record.path
-    ) : ''
+        record.aliasOf
+          ? record.aliasOf.path
+          : record.path
+      ) : ''
 }
 
 function isSameRouteRecord (a, b) {
@@ -25,8 +25,8 @@ function isSameRouteRecord (a, b) {
 function includesParams (outer, inner) {
   for (const key in inner) {
     const
-      innerValue = inner[key],
-      outerValue = outer[key]
+      innerValue = inner[ key ],
+      outerValue = outer[ key ]
 
     if (typeof innerValue === 'string') {
       if (innerValue !== outerValue) {
@@ -36,7 +36,7 @@ function includesParams (outer, inner) {
     else if (
       Array.isArray(outerValue) === false ||
       outerValue.length !== innerValue.length ||
-      innerValue.some((value, i) => value !== outerValue[i])
+      innerValue.some((value, i) => value !== outerValue[ i ])
     ) {
       return false
     }
@@ -88,7 +88,7 @@ export default {
       const
         { matched } = this.linkRoute,
         { length } = matched,
-        routeMatched = matched[length - 1]
+        routeMatched = matched[ length - 1 ]
 
       if (routeMatched === void 0) {
         return -1
@@ -109,7 +109,7 @@ export default {
       }
 
       // possible parent record
-      const parentRecordPath = getOriginalPath(matched[length - 2])
+      const parentRecordPath = getOriginalPath(matched[ length - 2 ])
 
       return (
         // we are dealing with nested routes
@@ -119,10 +119,10 @@ export default {
         // child of the same parent
         getOriginalPath(routeMatched) === parentRecordPath &&
         // avoid comparing the child with its parent
-        currentMatched[currentMatched.length - 1].path !== parentRecordPath
+        currentMatched[ currentMatched.length - 1 ].path !== parentRecordPath
           ? currentMatched.findIndex(
-            isSameRouteRecord.bind(null, matched[length - 2])
-          )
+              isSameRouteRecord.bind(null, matched[ length - 2 ])
+            )
           : index
       )
     },
@@ -141,24 +141,24 @@ export default {
     linkClass () {
       return this.hasLink === true
         ? (
-          this.linkIsExactActive === true
-            ? ` ${this.exactActiveClass} ${this.activeClass}`
-            : (
-              this.exact === true
-                ? ''
-                : (this.linkIsActive === true ? ` ${this.activeClass}` : '')
-            )
-        )
+            this.linkIsExactActive === true
+              ? ` ${this.exactActiveClass} ${this.activeClass}`
+              : (
+                  this.exact === true
+                    ? ''
+                    : (this.linkIsActive === true ? ` ${this.activeClass}` : '')
+                )
+          )
         : ''
     },
 
     linkProps () {
       return this.hasLink === true
         ? {
-          href: this.linkRoute.href,
-          target: this.$attrs.target,
-          role: 'link'
-        }
+            href: this.linkRoute.href,
+            target: this.$attrs.target,
+            role: 'link'
+          }
         : {}
     }
   },
@@ -187,7 +187,7 @@ export default {
 
       prevent(e)
 
-      this.$router[this.replace === true ? 'replace' : 'push'](this.to)
+      this.$router[ this.replace === true ? 'replace' : 'push' ](this.to)
         .catch(() => {})
 
       return true

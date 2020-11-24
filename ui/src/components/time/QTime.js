@@ -107,9 +107,9 @@ export default defineComponent({
       return `q-time q-time--${this.landscape === true ? 'landscape' : 'portrait'}` +
         (this.isDark === true ? ' q-time--dark q-dark' : '') +
         (this.disable === true ? ' disabled' : (this.readonly === true ? ' q-time--readonly' : '')) +
-        (this.bordered === true ? ` q-time--bordered` : '') +
-        (this.square === true ? ` q-time--square no-border-radius` : '') +
-        (this.flat === true ? ` q-time--flat no-shadow` : '')
+        (this.bordered === true ? ' q-time--bordered' : '') +
+        (this.square === true ? ' q-time--square no-border-radius' : '') +
+        (this.flat === true ? ' q-time--flat no-shadow' : '')
     },
 
     stringModel () {
@@ -119,14 +119,14 @@ export default defineComponent({
         hour: time.hour === null
           ? '--'
           : (
-            this.computedFormat24h === true
-              ? pad(time.hour)
-              : String(
-                this.isAM === true
-                  ? (time.hour === 0 ? 12 : time.hour)
-                  : (time.hour > 12 ? time.hour - 12 : time.hour)
-              )
-          ),
+              this.computedFormat24h === true
+                ? pad(time.hour)
+                : String(
+                  this.isAM === true
+                    ? (time.hour === 0 ? 12 : time.hour)
+                    : (time.hour > 12 ? time.hour - 12 : time.hour)
+                )
+            ),
         minute: time.minute === null
           ? '--'
           : pad(time.minute),
@@ -146,7 +146,7 @@ export default defineComponent({
       const
         forHour = this.view === 'Hour',
         divider = forHour === true ? 12 : 60,
-        amount = this.innerModel[this.view.toLowerCase()],
+        amount = this.innerModel[ this.view.toLowerCase() ],
         degrees = Math.round(amount * (360 / divider)) - 180
 
       let transform = `rotate(${degrees}deg) translateX(-50%)`
@@ -174,30 +174,30 @@ export default defineComponent({
       return this.hourOptions !== void 0
         ? val => this.hourOptions.includes(val)
         : (
-          this.options !== void 0
-            ? val => this.options(val, null, null)
-            : void 0
-        )
+            this.options !== void 0
+              ? val => this.options(val, null, null)
+              : void 0
+          )
     },
 
     minuteInSelection () {
       return this.minuteOptions !== void 0
         ? val => this.minuteOptions.includes(val)
         : (
-          this.options !== void 0
-            ? val => this.options(this.innerModel.hour, val, null)
-            : void 0
-        )
+            this.options !== void 0
+              ? val => this.options(this.innerModel.hour, val, null)
+              : void 0
+          )
     },
 
     secondInSelection () {
       return this.secondOptions !== void 0
         ? val => this.secondOptions.includes(val)
         : (
-          this.options !== void 0
-            ? val => this.options(this.innerModel.hour, this.innerModel.minute, val)
-            : void 0
-        )
+            this.options !== void 0
+              ? val => this.options(this.innerModel.hour, this.innerModel.minute, val)
+              : void 0
+          )
     },
 
     validHours () {
@@ -274,7 +274,7 @@ export default defineComponent({
     },
 
     clockDirectives () {
-      return [[
+      return [ [
         TouchPan,
         this.__drag,
         void 0,
@@ -283,7 +283,7 @@ export default defineComponent({
           prevent: true,
           mouse: true
         }
-      ]]
+      ] ]
     }
   },
 
@@ -309,8 +309,8 @@ export default defineComponent({
         .map(v => v.index)
 
       return {
-        min: values[0],
-        max: values[values.length - 1],
+        min: values[ 0 ],
+        max: values[ values.length - 1 ],
         values,
         threshold: count + 1
       }
@@ -334,8 +334,8 @@ export default defineComponent({
 
       const
         index = values.findIndex(v => val <= v),
-        before = values[index - 1],
-        after = values[index]
+        before = values[ index - 1 ],
+        after = values[ index ]
 
       return val - before <= after - val
         ? before
@@ -376,7 +376,7 @@ export default defineComponent({
             this.viewValidOptions.values.length === 0 ||
             (
               this.view === 'Hour' && this.computedFormat24h !== true &&
-              this.validHours[this.isAM === true ? 'am' : 'pm'].values.length === 0
+              this.validHours[ this.isAM === true ? 'am' : 'pm' ].values.length === 0
             )
           )
         )
@@ -451,14 +451,14 @@ export default defineComponent({
           const am = this.computedFormat24h !== true
             ? this.isAM === true
             : (
-              this.validHours.am.values.length > 0 && this.validHours.pm.values.length > 0
-                ? distance >= clockRect.dist
-                : this.validHours.am.values.length > 0
-            )
+                this.validHours.am.values.length > 0 && this.validHours.pm.values.length > 0
+                  ? distance >= clockRect.dist
+                  : this.validHours.am.values.length > 0
+              )
 
           val = this.__getNormalizedClockValue(
             val + (am === true ? 0 : 12),
-            this.validHours[am === true ? 'am' : 'pm']
+            this.validHours[ am === true ? 'am' : 'pm' ]
           )
         }
         else {
@@ -498,7 +498,7 @@ export default defineComponent({
       }
 
       if (cacheVal !== val) {
-        this[`__set${this.view}`](val)
+        this[ `__set${this.view}` ](val)
       }
 
       return val
@@ -534,12 +534,12 @@ export default defineComponent({
         if (this.validHours !== void 0) {
           const values = this.computedFormat24h === true
             ? this.validHours.values
-            : this.validHours[this.isAM === true ? 'am' : 'pm'].values
+            : this.validHours[ this.isAM === true ? 'am' : 'pm' ].values
 
           if (values.length === 0) { return }
 
           if (this.innerModel.hour === null) {
-            this.__setHour(values[0])
+            this.__setHour(values[ 0 ])
           }
           else {
             const index = (
@@ -548,7 +548,7 @@ export default defineComponent({
               payload
             ) % values.length
 
-            this.__setHour(values[index])
+            this.__setHour(values[ index ])
           }
         }
         else {
@@ -575,7 +575,7 @@ export default defineComponent({
           if (values.length === 0) { return }
 
           if (this.innerModel.minute === null) {
-            this.__setMinute(values[0])
+            this.__setMinute(values[ 0 ])
           }
           else {
             const index = (
@@ -584,7 +584,7 @@ export default defineComponent({
               payload
             ) % values.length
 
-            this.__setMinute(values[index])
+            this.__setMinute(values[ index ])
           }
         }
         else {
@@ -607,7 +607,7 @@ export default defineComponent({
           if (values.length === 0) { return }
 
           if (this.innerModel.seconds === null) {
-            this.__setSecond(values[0])
+            this.__setSecond(values[ 0 ])
           }
           else {
             const index = (
@@ -616,7 +616,7 @@ export default defineComponent({
               payload
             ) % values.length
 
-            this.__setSecond(values[index])
+            this.__setSecond(values[ index ])
           }
         }
         else {
@@ -642,12 +642,12 @@ export default defineComponent({
           'div',
           this.minLink === true
             ? {
-              class: 'q-time__link ' +
+                class: 'q-time__link ' +
                 (this.view === 'Minute' ? 'q-time__link--active' : 'cursor-pointer'),
-              tabindex: this.computedTabindex,
-              onKeyup: this.__onKeyupMinute,
-              onClick: this.__setMinuteView
-            }
+                tabindex: this.computedTabindex,
+                onKeyup: this.__onKeyupMinute,
+                onClick: this.__setMinuteView
+              }
             : { class: 'q-time__link' },
           this.stringModel.minute
         )
@@ -661,12 +661,12 @@ export default defineComponent({
             'div',
             this.secLink === true
               ? {
-                class: 'q-time__link ' +
+                  class: 'q-time__link ' +
                   (this.view === 'Second' ? 'q-time__link--active' : 'cursor-pointer'),
-                tabindex: this.computedTabindex,
-                onKeyup: this.__onKeyupSecond,
-                onClick: this.__setSecondView
-              }
+                  tabindex: this.computedTabindex,
+                  onKeyup: this.__onKeyupSecond,
+                  onClick: this.__setSecondView
+                }
               : { class: 'q-time__link' },
             this.stringModel.second
           )
@@ -706,7 +706,7 @@ export default defineComponent({
     __getClock () {
       const
         view = this.view.toLowerCase(),
-        current = this.innerModel[view]
+        current = this.innerModel[ view ]
 
       return h('div', {
         class: 'q-time__content col relative-position'
@@ -730,7 +730,7 @@ export default defineComponent({
                 h('div', { class: 'q-time__clock-circle fit' }, [
                   h('div', {
                     class: 'q-time__clock-pointer' +
-                      (this.innerModel[view] === null ? ' hidden' : (this.color !== void 0 ? ` text-${this.color}` : '')),
+                      (this.innerModel[ view ] === null ? ' hidden' : (this.color !== void 0 ? ` text-${this.color}` : '')),
                     style: this.pointerStyle
                   }),
 

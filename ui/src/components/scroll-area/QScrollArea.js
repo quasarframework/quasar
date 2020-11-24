@@ -84,13 +84,13 @@ export default defineComponent({
         this.thumbStyle,
         this.horizontal === true
           ? {
-            left: `${pos}px`,
-            width: `${this.thumbSize}px`
-          }
+              left: `${pos}px`,
+              width: `${this.thumbSize}px`
+            }
           : {
-            top: `${pos}px`,
-            height: `${this.thumbSize}px`
-          }
+              top: `${pos}px`,
+              height: `${this.thumbSize}px`
+            }
       )
     },
 
@@ -106,7 +106,7 @@ export default defineComponent({
     },
 
     containerSize () {
-      return this[`container${this.dirProps.suffix}`]
+      return this[ `container${this.dirProps.suffix}` ]
     },
 
     dirProps () {
@@ -126,7 +126,7 @@ export default defineComponent({
     },
 
     thumbDirectives () {
-      return [[
+      return [ [
         TouchPan,
         this.__panThumb,
         void 0,
@@ -136,7 +136,7 @@ export default defineComponent({
           mouse: true,
           mouseAllDir: true
         }
-      ]]
+      ] ]
     }
   },
 
@@ -218,7 +218,7 @@ export default defineComponent({
       }
 
       const multiplier = (this.scrollSize - this.containerSize) / (this.containerSize - this.thumbSize)
-      const distance = e.distance[this.dirProps.dist]
+      const distance = e.distance[ this.dirProps.dist ]
       const pos = this.refPos + (e.direction === this.dirProps.dir ? 1 : -1) * distance * multiplier
 
       this.__setScroll(pos)
@@ -226,7 +226,7 @@ export default defineComponent({
 
     __mouseDown (evt) {
       if (this.thumbHidden !== true) {
-        const pos = evt[`offset${this.horizontal === true ? 'X' : 'Y'}`] - this.thumbSize / 2
+        const pos = evt[ `offset${this.horizontal === true ? 'X' : 'Y'}` ] - this.thumbSize / 2
         this.__setScroll(pos / this.containerSize * this.scrollSize)
 
         // activate thumb pan
@@ -249,7 +249,7 @@ export default defineComponent({
     },
 
     __setScroll (offset) {
-      this.$refs.target[this.dirProps.scroll] = offset
+      this.$refs.target[ this.dirProps.scroll ] = offset
     },
 
     __onMouseenter () {
@@ -317,10 +317,10 @@ export default defineComponent({
       const info = { ref: this }
       const prefix = this.dirProps.prefix
 
-      info[prefix + 'Position'] = this.scrollPosition
-      info[prefix + 'Percentage'] = this.scrollPercentage
-      info[prefix + 'Size'] = this.scrollSize
-      info[prefix + 'ContainerSize'] = this.containerSize
+      info[ prefix + 'Position' ] = this.scrollPosition
+      info[ prefix + 'Percentage' ] = this.scrollPercentage
+      info[ prefix + 'Size' ] = this.scrollSize
+      info[ prefix + 'ContainerSize' ] = this.containerSize
 
       this.$emit('scroll', info)
     }, 0)

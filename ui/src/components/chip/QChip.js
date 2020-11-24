@@ -32,7 +32,7 @@ export default defineComponent({
     icon: String,
     iconRight: String,
     iconRemove: String,
-    label: [String, Number],
+    label: [ String, Number ],
 
     color: String,
     textColor: String,
@@ -51,7 +51,7 @@ export default defineComponent({
     clickable: Boolean,
     removable: Boolean,
 
-    tabindex: [String, Number],
+    tabindex: [ String, Number ],
     disable: Boolean
   },
 
@@ -177,7 +177,7 @@ export default defineComponent({
       this.__getContent(),
       'ripple',
       this.ripple !== false,
-      () => [[ Ripple, this.ripple ]]
+      () => [ [ Ripple, this.ripple ] ]
     )
   }
 })

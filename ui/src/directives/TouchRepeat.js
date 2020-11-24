@@ -14,7 +14,7 @@ const
     left: 37,
     right: 39,
     down: 40,
-    'delete': [8, 46]
+    delete: [ 8, 46 ]
   },
   keyRegex = new RegExp(`^([\\d+]+|${Object.keys(keyCodes).join('|')})$`, 'i')
 
@@ -31,7 +31,7 @@ export default {
   beforeMount (el, { modifiers, value, arg }) {
     const keyboard = Object.keys(modifiers).reduce((acc, key) => {
       if (keyRegex.test(key) === true) {
-        const keyCode = isNaN(parseInt(key, 10)) ? keyCodes[key.toLowerCase()] : parseInt(key, 10)
+        const keyCode = isNaN(parseInt(key, 10)) ? keyCodes[ key.toLowerCase() ] : parseInt(key, 10)
         keyCode >= 0 && acc.push(keyCode)
       }
       return acc
@@ -48,7 +48,7 @@ export default {
 
     const durations = typeof arg === 'string' && arg.length > 0
       ? arg.split(':').map(val => parseInt(val, 10))
-      : [0, 600, 300]
+      : [ 0, 600, 300 ]
 
     const durationsLast = durations.length - 1
 
@@ -70,7 +70,7 @@ export default {
 
       keyboardStart (evt) {
         if (typeof ctx.handler === 'function' && isKeyCode(evt, keyboard) === true) {
-          if (durations[0] === 0 || ctx.event !== void 0) {
+          if (durations[ 0 ] === 0 || ctx.event !== void 0) {
             stopAndPrevent(evt)
             el.focus()
             if (ctx.event !== void 0) {
@@ -165,14 +165,14 @@ export default {
             ? durationsLast
             : ctx.event.repeatCount
 
-          ctx.timer = setTimeout(fn, durations[index])
+          ctx.timer = setTimeout(fn, durations[ index ])
         }
 
-        if (durations[0] === 0) {
+        if (durations[ 0 ] === 0) {
           fn()
         }
         else {
-          ctx.timer = setTimeout(fn, durations[0])
+          ctx.timer = setTimeout(fn, durations[ 0 ])
         }
       },
 

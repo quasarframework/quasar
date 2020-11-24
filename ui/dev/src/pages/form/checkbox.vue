@@ -243,16 +243,16 @@
 export default {
   data () {
     const
-      trueVal = [true],
-      falseVal = [false]
+      trueVal = [ true ],
+      falseVal = [ false ]
 
     return {
       val: true,
       ind: false,
       checked: true,
       orderModel: 'bogus',
-      group: ['op2'],
-      selection: ['one', 'two', 'three'],
+      group: [ 'op2' ],
+      selection: [ 'one', 'two', 'three' ],
       dark: null,
       dense: false,
       keepColor: false,
@@ -261,7 +261,7 @@ export default {
       trueVal,
       falseVal,
       modelArr: falseVal,
-      modelArrComplex: [falseVal, trueVal]
+      modelArrComplex: [ falseVal, trueVal ]
     }
   },
   watch: {

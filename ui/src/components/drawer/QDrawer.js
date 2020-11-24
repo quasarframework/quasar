@@ -31,7 +31,7 @@ export default defineComponent({
     side: {
       type: String,
       default: 'left',
-      validator: v => ['left', 'right'].includes(v)
+      validator: v => [ 'left', 'right' ].includes(v)
     },
 
     width: {
@@ -54,7 +54,7 @@ export default defineComponent({
 
     behavior: {
       type: String,
-      validator: v => ['default', 'desktop', 'mobile'].includes(v),
+      validator: v => [ 'default', 'desktop', 'mobile' ].includes(v),
       default: 'default'
     },
 
@@ -124,16 +124,16 @@ export default defineComponent({
     },
 
     side (newSide, oldSide) {
-      if (this.layout.instances[oldSide] === this) {
-        this.layout.instances[oldSide] = void 0
-        this.layout[oldSide].space = false
-        this.layout[oldSide].offset = 0
+      if (this.layout.instances[ oldSide ] === this) {
+        this.layout.instances[ oldSide ] = void 0
+        this.layout[ oldSide ].space = false
+        this.layout[ oldSide ].offset = 0
       }
 
-      this.layout.instances[newSide] = this
-      this.layout[newSide].size = this.size
-      this.layout[newSide].space = this.onLayout
-      this.layout[newSide].offset = this.offset
+      this.layout.instances[ newSide ] = this
+      this.layout[ newSide ].size = this.size
+      this.layout[ newSide ].space = this.onLayout
+      this.layout[ newSide ].offset = this.offset
     },
 
     behavior: '__updateBelowBreakpoint',
@@ -235,14 +235,14 @@ export default defineComponent({
 
     headerSlot () {
       return this.rightSide === true
-        ? this.layout.rows.top[2] === 'r'
-        : this.layout.rows.top[0] === 'l'
+        ? this.layout.rows.top[ 2 ] === 'r'
+        : this.layout.rows.top[ 0 ] === 'l'
     },
 
     footerSlot () {
       return this.rightSide === true
-        ? this.layout.rows.bottom[2] === 'r'
-        : this.layout.rows.bottom[0] === 'l'
+        ? this.layout.rows.bottom[ 2 ] === 'r'
+        : this.layout.rows.bottom[ 0 ] === 'l'
     },
 
     aboveStyle () {
@@ -317,7 +317,7 @@ export default defineComponent({
       // if this.noSwipeOpen !== true
       const dir = this.$q.lang.rtl === true ? this.side : this.otherSide
 
-      return [[
+      return [ [
         TouchPan,
         this.__openByTouch,
         void 0,
@@ -325,14 +325,14 @@ export default defineComponent({
           [ dir ]: true,
           mouse: true
         }
-      ]]
+      ] ]
     },
 
     contentCloseDirective () {
       // if this.belowBreakpoint === true && this.noSwipeClose !== true
       const dir = this.$q.lang.rtl === true ? this.otherSide : this.side
 
-      return [[
+      return [ [
         TouchPan,
         this.__closeByTouch,
         void 0,
@@ -340,14 +340,14 @@ export default defineComponent({
           [ dir ]: true,
           mouse: true
         }
-      ]]
+      ] ]
     },
 
     backdropCloseDirective () {
       // if this.showing === true && this.noSwipeBackdrop !== true
       const dir = this.$q.lang.rtl === true ? this.otherSide : this.side
 
-      return [[
+      return [ [
         TouchPan,
         this.__closeByTouch,
         void 0,
@@ -356,7 +356,7 @@ export default defineComponent({
           mouse: true,
           mouseAllDir: true
         }
-      ]]
+      ] ]
     }
   },
 
@@ -397,7 +397,7 @@ export default defineComponent({
         ? 'remove'
         : (this.layout.container !== true ? 'add' : '')
 
-      action !== '' && document.body.classList[action]('q-body--drawer-toggle')
+      action !== '' && document.body.classList[ action ]('q-body--drawer-toggle')
     },
 
     __animateMini () {
@@ -494,7 +494,7 @@ export default defineComponent({
       this.__applyPosition(0)
 
       if (this.belowBreakpoint === true) {
-        const otherSide = this.layout.instances[this.otherSide]
+        const otherSide = this.layout.instances[ this.otherSide ]
         if (otherSide !== void 0 && otherSide.belowBreakpoint === true) {
           otherSide.hide(false)
         }
@@ -537,15 +537,15 @@ export default defineComponent({
       // ensure state update is caught correctly by Vue diffing
       // on all layout components, so nextTicking:
       this.$nextTick(() => {
-        if (this.layout[this.side][prop] !== val) {
-          this.layout[this.side][prop] = val
+        if (this.layout[ this.side ][ prop ] !== val) {
+          this.layout[ this.side ][ prop ] = val
         }
       })
     },
 
     __updateLocal (prop, val) {
-      if (this[prop] !== val) {
-        this[prop] = val
+      if (this[ prop ] !== val) {
+        this[ prop ] = val
       }
     },
 
@@ -625,7 +625,7 @@ export default defineComponent({
   created () {
     this.lastBackdropBg = void 0
 
-    this.layout.instances[this.side] = this
+    this.layout.instances[ this.side ] = this
     this.__updateSizeOnLayout(this.miniToOverlay, this.size)
     this.__update('space', this.onLayout)
     this.__update('offset', this.offset)
@@ -634,7 +634,7 @@ export default defineComponent({
       this.showIfAbove === true &&
       this.modelValue !== true &&
       this.showing === true &&
-      this.emitListeners['onUpdate:modelValue'] === true
+      this.emitListeners[ 'onUpdate:modelValue' ] === true
     ) {
       this.$emit('update:modelValue', true)
     }
@@ -648,7 +648,7 @@ export default defineComponent({
 
     const fn = () => {
       const action = this.showing === true ? 'show' : 'hide'
-      this[`__${action}`](false, true)
+      this[ `__${action}` ](false, true)
     }
 
     if (this.layout.totalWidth !== 0) {
@@ -677,8 +677,8 @@ export default defineComponent({
 
     this.showing === true && this.__cleanup()
 
-    if (this.layout.instances[this.side] === this) {
-      this.layout.instances[this.side] = void 0
+    if (this.layout.instances[ this.side ] === this) {
+      this.layout.instances[ this.side ] = void 0
       this.__update('size', 0)
       this.__update('offset', 0)
       this.__update('space', false)

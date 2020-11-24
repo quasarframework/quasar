@@ -87,9 +87,9 @@ const TOP_ICON = 'add_box'
 function parseSet (setName, set) {
   const icons = []
   Object.keys(set).forEach(key => {
-    const prop = set[key]
+    const prop = set[ key ]
     Object.keys(prop).forEach(name => {
-      const val = prop[name]
+      const val = prop[ name ]
       if (typeof val === 'string') {
         icons.push({ name: `${key}/${name}`, val })
       }

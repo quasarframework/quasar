@@ -83,7 +83,7 @@ export default {
       const randomIndex = Math.floor(Math.random() * this.items.length)
 
       this.items.splice(randomIndex, 1, {
-        ...this.items[randomIndex],
+        ...this.items[ randomIndex ],
         date: new Date()
       })
     }

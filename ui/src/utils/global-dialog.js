@@ -12,15 +12,15 @@ const ssrAPI = {
 
 export function merge (target, source) {
   for (const key in source) {
-    if (key !== 'spinner' && Object(source[key]) === source[key]) {
-      target[key] = Object(target[key]) !== target[key]
+    if (key !== 'spinner' && Object(source[ key ]) === source[ key ]) {
+      target[ key ] = Object(target[ key ]) !== target[ key ]
         ? {}
-        : { ...target[key] }
+        : { ...target[ key ] }
 
-      merge(target[key], source[key])
+      merge(target[ key ], source[ key ])
     }
     else {
-      target[key] = source[key]
+      target[ key ] = source[ key ]
     }
   }
 }

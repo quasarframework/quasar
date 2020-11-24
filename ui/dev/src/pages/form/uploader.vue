@@ -233,13 +233,13 @@ export default {
       console.log(files)
     },
     onFactoryFailed (err) {
-      console.log(`@factory-failed`, err)
+      console.log('@factory-failed', err)
     },
     onStart () {
-      console.log(`@start`)
+      console.log('@start')
     },
     onFinish () {
-      console.log(`@finish`)
+      console.log('@finish')
     },
     onUpload () {
       console.log('@uploaded')
@@ -248,7 +248,7 @@ export default {
       console.log('@failed')
     },
     onRejected (files) {
-      console.log(`@rejected`, files)
+      console.log('@rejected', files)
     },
     promiseFn (files) {
       return new Promise((resolve) => {

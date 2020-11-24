@@ -16,7 +16,7 @@
         ref="carousel"
         swipeable
         animated
-        :fullscreen.sync="fullscreen"
+        v-model:fullscreen="fullscreen"
         v-model="slide"
         control-color="orange"
         navigation
@@ -286,7 +286,7 @@
       thumbnails
       control-color="yellow"
       infinite
-      :fullscreen.sync="full"
+      v-model:fullscreen="full"
     >
       <q-carousel-slide :name="0" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
       <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
@@ -356,7 +356,7 @@ export default {
     padding: true,
     vertical: false,
     navigationPosition: void 0,
-    navigationPositions: [void 0, 'top', 'bottom', 'left', 'right'],
+    navigationPositions: [ void 0, 'top', 'bottom', 'left', 'right' ],
     lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
     colors: [
       'primary',

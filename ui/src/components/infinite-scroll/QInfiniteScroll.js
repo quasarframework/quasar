@@ -195,7 +195,7 @@ export default defineComponent({
     const child = hUniqueSlot(this, 'default', [])
 
     if (this.disable !== true && this.working === true) {
-      child[this.reverse === false ? 'push' : 'unshift'](
+      child[ this.reverse === false ? 'push' : 'unshift' ](
         h('div', { class: this.classes }, hSlot(this, 'loading'))
       )
     }

@@ -753,7 +753,7 @@ export default {
       modelAdd: null,
 
       stringSingle: 'Facebook',
-      stringMultiple: ['Facebook', 'Twitter'],
+      stringMultiple: [ 'Facebook', 'Twitter' ],
       stringOptions,
 
       objectSingle: {
@@ -961,8 +961,8 @@ export default {
     },
 
     prefilter (ref) {
-      this.$refs[ref].updateInputValue('Opt 123')
-      this.$refs[ref].showPopup()
+      this.$refs[ ref ].updateInputValue('Opt 123')
+      this.$refs[ ref ].showPopup()
     },
 
     onSubmit () {
@@ -991,7 +991,7 @@ export default {
   computed: {
     props () {
       return {
-        [this.type]: true,
+        [ this.type ]: true,
         readonly: this.readonly,
         disable: this.disable,
         dense: this.dense,

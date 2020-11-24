@@ -142,9 +142,9 @@ export default {
         xhr = new XMLHttpRequest()
 
       const getProp = (name, arg) => {
-        return factory[name] !== void 0
-          ? getFn(factory[name])(arg)
-          : this.xhrProps[name](arg)
+        return factory[ name ] !== void 0
+          ? getFn(factory[ name ])(arg)
+          : this.xhrProps[ name ](arg)
       }
 
       const url = getProp('url', files)
@@ -178,7 +178,7 @@ export default {
         let size = uploadedSize - uploadIndexSize
         for (let i = uploadIndex; size > 0 && i < files.length; i++) {
           const
-            file = files[i],
+            file = files[ i ],
             uploaded = size > file.size
 
           if (uploaded) {

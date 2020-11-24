@@ -130,9 +130,9 @@ export default defineComponent({
       const type = this.landscape === true ? 'landscape' : 'portrait'
       return `q-date q-date--${type} q-date--${type}-${this.minimal === true ? 'minimal' : 'standard'}` +
         (this.isDark === true ? ' q-date--dark q-dark' : '') +
-        (this.bordered === true ? ` q-date--bordered` : '') +
-        (this.square === true ? ` q-date--square no-border-radius` : '') +
-        (this.flat === true ? ` q-date--flat no-shadow` : '') +
+        (this.bordered === true ? ' q-date--bordered' : '') +
+        (this.square === true ? ' q-date--square no-border-radius' : '') +
+        (this.flat === true ? ' q-date--flat no-shadow' : '') +
         (this.disable === true ? ' disabled' : (this.readonly === true ? ' q-date--readonly' : ''))
     },
 
@@ -176,20 +176,20 @@ export default defineComponent({
       return this.calendar === 'persian'
         ? this.__getDayHash
         : (date, mask, locale) => formatDate(
-          new Date(
+            new Date(
+              date.year,
+              date.month - 1,
+              date.day,
+              date.hour,
+              date.minute,
+              date.second,
+              date.millisecond
+            ),
+            mask === void 0 ? this.innerMask : mask,
+            locale === void 0 ? this.innerLocale : locale,
             date.year,
-            date.month - 1,
-            date.day,
-            date.hour,
-            date.minute,
-            date.second,
-            date.millisecond
-          ),
-          mask === void 0 ? this.innerMask : mask,
-          locale === void 0 ? this.innerLocale : locale,
-          date.year,
-          date.timezoneOffset
-        )
+            date.timezoneOffset
+          )
     },
 
     daysInModel () {
@@ -224,7 +224,7 @@ export default defineComponent({
         return `${this.daysInModel} ${this.innerLocale.pluralDay}`
       }
 
-      const model = this.daysModel[0]
+      const model = this.daysModel[ 0 ]
       const date = this.getNativeDateFn(model)
 
       if (isNaN(date.valueOf()) === true) {
@@ -254,32 +254,32 @@ export default defineComponent({
         const to = this.maxSelectedModel
         const month = this.innerLocale.monthsShort
 
-        return month[from.month - 1] + (
+        return month[ from.month - 1 ] + (
           from.year !== to.year
-            ? ' ' + from.year + lineStr + month[to.month - 1] + ' '
+            ? ' ' + from.year + lineStr + month[ to.month - 1 ] + ' '
             : (
-              from.month !== to.month
-                ? lineStr + month[to.month - 1]
-                : ''
-            )
+                from.month !== to.month
+                  ? lineStr + month[ to.month - 1 ]
+                  : ''
+              )
         ) + ' ' + to.year
       }
 
-      return this.daysModel[0].year
+      return this.daysModel[ 0 ].year
     },
 
     minSelectedModel () {
       const model = this.daysModel.concat(this.rangeModel.map(range => range.from))
         .sort((a, b) => a.year - b.year || a.month - b.month)
 
-      return model[0]
+      return model[ 0 ]
     },
 
     maxSelectedModel () {
       const model = this.daysModel.concat(this.rangeModel.map(range => range.to))
         .sort((a, b) => b.year - a.year || b.month - a.month)
 
-      return model[0]
+      return model[ 0 ]
     },
 
     dateArrow () {
@@ -323,14 +323,14 @@ export default defineComponent({
     minNav () {
       if (this.navigationMinYearMonth !== void 0) {
         const data = this.navigationMinYearMonth.split('/')
-        return { year: parseInt(data[0], 10), month: parseInt(data[1], 10) }
+        return { year: parseInt(data[ 0 ], 10), month: parseInt(data[ 1 ], 10) }
       }
     },
 
     maxNav () {
       if (this.navigationMaxYearMonth !== void 0) {
         const data = this.navigationMaxYearMonth.split('/')
-        return { year: parseInt(data[0], 10), month: parseInt(data[1], 10) }
+        return { year: parseInt(data[ 0 ], 10), month: parseInt(data[ 1 ], 10) }
       }
     },
 
@@ -363,11 +363,11 @@ export default defineComponent({
       this.daysModel.forEach(entry => {
         const hash = this.__getMonthHash(entry)
 
-        if (map[hash] === void 0) {
-          map[hash] = []
+        if (map[ hash ] === void 0) {
+          map[ hash ] = []
         }
 
-        map[hash].push(entry.day)
+        map[ hash ].push(entry.day)
       })
 
       return map
@@ -380,11 +380,11 @@ export default defineComponent({
         const hashFrom = this.__getMonthHash(entry.from)
         const hashTo = this.__getMonthHash(entry.to)
 
-        if (map[hashFrom] === void 0) {
-          map[hashFrom] = []
+        if (map[ hashFrom ] === void 0) {
+          map[ hashFrom ] = []
         }
 
-        map[hashFrom].push({
+        map[ hashFrom ].push({
           from: entry.from.day,
           to: hashFrom === hashTo ? entry.to.day : void 0,
           range: entry
@@ -398,11 +398,11 @@ export default defineComponent({
             : { year: year + 1, month: 1 }
 
           while ((hash = this.__getMonthHash(cur)) <= hashTo) {
-            if (map[hash] === void 0) {
-              map[hash] = []
+            if (map[ hash ] === void 0) {
+              map[ hash ] = []
             }
 
-            map[hash].push({
+            map[ hash ].push({
               from: void 0,
               to: hash === hashTo ? entry.to.day : void 0,
               range: entry
@@ -468,7 +468,7 @@ export default defineComponent({
 
       if (this.options === void 0) {
         for (let i = 1; i <= this.daysInMonth; i++) {
-          map[i] = true
+          map[ i ] = true
         }
 
         return map
@@ -480,7 +480,7 @@ export default defineComponent({
 
       for (let i = 1; i <= this.daysInMonth; i++) {
         const dayHash = this.viewMonthHash + '/' + pad(i)
-        map[i] = fn(dayHash)
+        map[ i ] = fn(dayHash)
       }
 
       return map
@@ -491,7 +491,7 @@ export default defineComponent({
 
       if (this.events === void 0) {
         for (let i = 1; i <= this.daysInMonth; i++) {
-          map[i] = false
+          map[ i ] = false
         }
       }
       else {
@@ -501,7 +501,7 @@ export default defineComponent({
 
         for (let i = 1; i <= this.daysInMonth; i++) {
           const dayHash = this.viewMonthHash + '/' + pad(i)
-          map[i] = fn(dayHash) === true && this.evtColor(dayHash)
+          map[ i ] = fn(dayHash) === true && this.evtColor(dayHash)
         }
       }
 
@@ -548,9 +548,9 @@ export default defineComponent({
       const index = res.length
 
       for (let i = 1; i <= this.daysInMonth; i++) {
-        const day = { i, event: this.eventDaysMap[i], classes: [] }
+        const day = { i, event: this.eventDaysMap[ i ], classes: [] }
 
-        if (this.selectionDaysMap[i] === true) {
+        if (this.selectionDaysMap[ i ] === true) {
           day.in = true
           day.flat = true
         }
@@ -559,10 +559,10 @@ export default defineComponent({
       }
 
       // if current view has days in model
-      if (this.daysMap[this.viewMonthHash] !== void 0) {
-        this.daysMap[this.viewMonthHash].forEach(day => {
+      if (this.daysMap[ this.viewMonthHash ] !== void 0) {
+        this.daysMap[ this.viewMonthHash ].forEach(day => {
           const i = index + day - 1
-          Object.assign(res[i], {
+          Object.assign(res[ i ], {
             selected: true,
             unelevated: true,
             flat: false,
@@ -573,14 +573,14 @@ export default defineComponent({
       }
 
       // if current view has ranges in model
-      if (this.rangeMap[this.viewMonthHash] !== void 0) {
-        this.rangeMap[this.viewMonthHash].forEach(entry => {
+      if (this.rangeMap[ this.viewMonthHash ] !== void 0) {
+        this.rangeMap[ this.viewMonthHash ].forEach(entry => {
           if (entry.from !== void 0) {
             const from = index + entry.from - 1
             const to = index + (entry.to || this.daysInMonth) - 1
 
             for (let day = from; day <= to; day++) {
-              Object.assign(res[day], {
+              Object.assign(res[ day ], {
                 range: entry.range,
                 unelevated: true,
                 color: this.computedColor,
@@ -588,12 +588,12 @@ export default defineComponent({
               })
             }
 
-            Object.assign(res[from], {
+            Object.assign(res[ from ], {
               rangeFrom: true,
               flat: false
             })
 
-            entry.to !== void 0 && Object.assign(res[to], {
+            entry.to !== void 0 && Object.assign(res[ to ], {
               rangeTo: true,
               flat: false
             })
@@ -602,7 +602,7 @@ export default defineComponent({
             const to = index + entry.to - 1
 
             for (let day = index; day <= to; day++) {
-              Object.assign(res[day], {
+              Object.assign(res[ day ], {
                 range: entry.range,
                 unelevated: true,
                 color: this.computedColor,
@@ -610,7 +610,7 @@ export default defineComponent({
               })
             }
 
-            Object.assign(res[to], {
+            Object.assign(res[ to ], {
               flat: false,
               rangeTo: true
             })
@@ -618,7 +618,7 @@ export default defineComponent({
           else {
             const to = index + this.daysInMonth - 1
             for (let day = index; day <= to; day++) {
-              Object.assign(res[day], {
+              Object.assign(res[ day ], {
                 range: entry.range,
                 unelevated: true,
                 color: this.computedColor,
@@ -634,20 +634,20 @@ export default defineComponent({
         const to = index + this.rangeView.to - 1
 
         for (let day = from; day <= to; day++) {
-          res[day].color = this.computedColor
-          res[day].editRange = true
+          res[ day ].color = this.computedColor
+          res[ day ].editRange = true
         }
 
         if (this.rangeView.includeFrom === true) {
-          res[from].editRangeFrom = true
+          res[ from ].editRangeFrom = true
         }
         if (this.rangeView.includeTo === true) {
-          res[to].editRangeTo = true
+          res[ to ].editRangeTo = true
         }
       }
 
       if (this.viewModel.year === this.today.year && this.viewModel.month === this.today.month) {
-        res[index + this.today.day - 1].today = true
+        res[ index + this.today.day - 1 ].today = true
       }
 
       const left = res.length % 7
@@ -659,7 +659,7 @@ export default defineComponent({
       }
 
       res.forEach(day => {
-        let cls = `q-date__calendar-item `
+        let cls = 'q-date__calendar-item '
 
         if (day.fill === true) {
           cls += 'q-date__calendar-item--fill'
@@ -709,8 +709,8 @@ export default defineComponent({
     },
 
     offsetCalendar (type, descending) {
-      if (['month', 'year'].includes(type)) {
-        this[`__goTo${type === 'month' ? 'Month' : 'Year'}`](
+      if ([ 'month', 'year' ].includes(type)) {
+        this[ `__goTo${type === 'month' ? 'Month' : 'Year'}` ](
           descending === true ? -1 : 1
         )
       }
@@ -771,7 +771,7 @@ export default defineComponent({
       }
 
       const decoded = this.__decodeString(
-        model[0].from !== void 0 ? model[0].from : model[0],
+        model[ 0 ].from !== void 0 ? model[ 0 ].from : model[ 0 ],
         mask,
         locale
       )
@@ -786,8 +786,8 @@ export default defineComponent({
 
       if (this.defaultYearMonth !== void 0) {
         const d = this.defaultYearMonth.split('/')
-        year = parseInt(d[0], 10)
-        month = parseInt(d[1], 10)
+        year = parseInt(d[ 0 ], 10)
+        month = parseInt(d[ 1 ], 10)
       }
       else {
         // may come from data() where computed
@@ -878,7 +878,7 @@ export default defineComponent({
             dense: true,
             size: 'sm',
             flat: true,
-            icon: this.dateArrow[0],
+            icon: this.dateArrow[ 0 ],
             tabindex: this.computedTabindex,
             disable: boundaries.prev === false,
             ...this.__getCache('go-#' + view, { onClick () { goTo(-1) } })
@@ -910,7 +910,7 @@ export default defineComponent({
             dense: true,
             size: 'sm',
             flat: true,
-            icon: this.dateArrow[1],
+            icon: this.dateArrow[ 1 ],
             tabindex: this.computedTabindex,
             disable: boundaries.next === false,
             ...this.__getCache('go+#' + view, { onClick () { goTo(1) } })
@@ -960,24 +960,24 @@ export default defineComponent({
             }, this.days.map(day => h('div', { class: day.classes }, [
               day.in === true
                 ? h(
-                  QBtn, {
-                    class: day.today === true ? 'q-date__today' : '',
-                    dense: true,
-                    flat: day.flat,
-                    unelevated: day.unelevated,
-                    color: day.color,
-                    textColor: day.textColor,
-                    label: day.i,
-                    tabindex: this.computedTabindex,
-                    ...this.__getCache('day#' + day.i, {
-                      onClick: () => { this.__onDayClick(day.i) },
-                      onMouseover: () => { this.__onDayMouseover(day.i) }
-                    })
-                  },
-                  day.event !== false
-                    ? () => h('div', { class: 'q-date__event bg-' + day.event })
-                    : null
-                )
+                    QBtn, {
+                      class: day.today === true ? 'q-date__today' : '',
+                      dense: true,
+                      flat: day.flat,
+                      unelevated: day.unelevated,
+                      color: day.color,
+                      textColor: day.textColor,
+                      label: day.i,
+                      tabindex: this.computedTabindex,
+                      ...this.__getCache('day#' + day.i, {
+                        onClick: () => { this.__onDayClick(day.i) },
+                        onMouseover: () => { this.__onDayMouseover(day.i) }
+                      })
+                    },
+                    day.event !== false
+                      ? () => h('div', { class: 'q-date__event bg-' + day.event })
+                      : null
+                  )
                 : h('div', '' + day.i)
             ]))))
           ])
@@ -1081,7 +1081,7 @@ export default defineComponent({
             round: true,
             dense: true,
             flat: true,
-            icon: this.dateArrow[0],
+            icon: this.dateArrow[ 0 ],
             tabindex: this.computedTabindex,
             disable: isDisabled(start),
             ...this.__getCache('y-', { onClick: () => { this.startYear -= yearsInterval } })
@@ -1099,7 +1099,7 @@ export default defineComponent({
             round: true,
             dense: true,
             flat: true,
-            icon: this.dateArrow[1],
+            icon: this.dateArrow[ 1 ],
             tabindex: this.computedTabindex,
             disable: isDisabled(stop),
             ...this.__getCache('y+', { onClick: () => { this.startYear += yearsInterval } })
@@ -1152,7 +1152,7 @@ export default defineComponent({
     },
 
     __toggleDate (date, monthHash) {
-      const month = this.daysMap[monthHash]
+      const month = this.daysMap[ monthHash ]
       const fn = month !== void 0 && month.includes(date.day) === true
         ? this.__removeFromModel
         : this.__addToModel
@@ -1262,7 +1262,7 @@ export default defineComponent({
 
     __emitValue (val, action, date) {
       const value = val !== null && val.length === 1 && this.multiple === false
-        ? val[0]
+        ? val[ 0 ]
         : val
 
       this.lastEmitValue = value
@@ -1272,8 +1272,8 @@ export default defineComponent({
     },
 
     __emitImmediately (reason) {
-      const date = this.daysModel[0] !== void 0 && this.daysModel[0].dateHash !== null
-        ? this.daysModel[0]
+      const date = this.daysModel[ 0 ] !== void 0 && this.daysModel[ 0 ].dateHash !== null
+        ? this.daysModel[ 0 ]
         : { ...this.viewModel } // inherit day, hours, minutes, milliseconds...
 
       // nextTick required because of animation delay in viewModel
@@ -1298,17 +1298,17 @@ export default defineComponent({
     __getEmitParams (action, date) {
       return date.from !== void 0
         ? {
-          reason: `${action}-range`,
-          details: {
-            ...this.__getShortDate(date.target),
-            from: this.__getShortDate(date.from),
-            to: this.__getShortDate(date.to)
+            reason: `${action}-range`,
+            details: {
+              ...this.__getShortDate(date.target),
+              from: this.__getShortDate(date.from),
+              to: this.__getShortDate(date.to)
+            }
           }
-        }
         : {
-          reason: `${action}-day`,
-          details: this.__getShortDate(date)
-        }
+            reason: `${action}-day`,
+            details: this.__getShortDate(date)
+          }
     },
 
     __encodeEntry (date, mask, locale) {
@@ -1387,7 +1387,7 @@ export default defineComponent({
             : entry.dateHash !== null
         })
 
-      this.$emit('update:modelValue', (this.multiple === true ? model : model[0]) || null, reason)
+      this.$emit('update:modelValue', (this.multiple === true ? model : model[ 0 ]) || null, reason)
     }
   },
 
@@ -1398,7 +1398,7 @@ export default defineComponent({
       }, [
         h(Transition, {
           name: 'q-transition--fade'
-        }, this[`__get${this.view}View`])
+        }, this[ `__get${this.view}View` ])
       ])
     ]
 

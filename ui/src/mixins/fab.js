@@ -1,4 +1,4 @@
-const labelPositions = ['top', 'right', 'bottom', 'left']
+const labelPositions = [ 'top', 'right', 'bottom', 'left' ]
 
 export default {
   props: {
@@ -46,7 +46,7 @@ export default {
     },
 
     stacked () {
-      return this.externalLabel === false && ['top', 'bottom'].includes(this.labelPosition)
+      return this.externalLabel === false && [ 'top', 'bottom' ].includes(this.labelPosition)
     },
 
     labelProps () {
@@ -60,7 +60,7 @@ export default {
           data: {
             class: [
               this.labelClass,
-              `q-fab__label q-tooltip--style q-fab__label--external` +
+              'q-fab__label q-tooltip--style q-fab__label--external' +
               ` q-fab__label--external-${this.labelPosition}` +
               (hideLabel === true ? ' q-fab__label--external-hidden' : '')
             ],

@@ -38,9 +38,9 @@ export default defineComponent({
       validator: v => v.length === 0 || v.every(group => group.length),
       default () {
         return [
-          ['left', 'center', 'right', 'justify'],
-          ['bold', 'italic', 'underline', 'strike'],
-          ['undo', 'redo']
+          [ 'left', 'center', 'right', 'justify' ],
+          [ 'bold', 'italic', 'underline', 'strike' ],
+          [ 'undo', 'redo' ]
         ]
       }
     },
@@ -57,12 +57,12 @@ export default defineComponent({
 
     paragraphTag: {
       type: String,
-      validator: v => ['div', 'p'].includes(v),
+      validator: v => [ 'div', 'p' ].includes(v),
       default: 'div'
     },
 
     contentStyle: Object,
-    contentClass: [Object, Array, String],
+    contentClass: [ Object, Array, String ],
 
     square: Boolean,
     flat: Boolean,
@@ -163,17 +163,17 @@ export default defineComponent({
       const userDef = this.definitions || {}
       const def = this.definitions || this.fonts
         ? extend(
-          true,
-          {},
-          this.buttonDef,
-          userDef,
-          getFonts(
-            this.defaultFont,
-            this.$q.lang.editor.defaultFont,
-            this.$q.iconSet.editor.font,
-            this.fonts
+            true,
+            {},
+            this.buttonDef,
+            userDef,
+            getFonts(
+              this.defaultFont,
+              this.$q.lang.editor.defaultFont,
+              this.$q.iconSet.editor.font,
+              this.fonts
+            )
           )
-        )
         : this.buttonDef
 
       return this.toolbar.map(
@@ -189,15 +189,15 @@ export default defineComponent({
               fixedIcon: token.fixedIcon,
               highlight: token.highlight,
               list: token.list,
-              options: token.options.map(item => def[item])
+              options: token.options.map(item => def[ item ])
             }
           }
 
-          const obj = def[token]
+          const obj = def[ token ]
 
           if (obj) {
-            return obj.type === 'no-state' || (userDef[token] && (
-              obj.cmd === void 0 || (this.buttonDef[obj.cmd] && this.buttonDef[obj.cmd].type === 'no-state')
+            return obj.type === 'no-state' || (userDef[ token ] && (
+              obj.cmd === void 0 || (this.buttonDef[ obj.cmd ] && this.buttonDef[ obj.cmd ].type === 'no-state')
             ))
               ? obj
               : Object.assign({ type: 'toggle' }, obj)
@@ -217,7 +217,7 @@ export default defineComponent({
         k = {},
         add = btn => {
           if (btn.key) {
-            k[btn.key] = {
+            k[ btn.key ] = {
               cmd: btn.cmd,
               param: btn.param
             }
@@ -241,13 +241,13 @@ export default defineComponent({
       return this.inFullscreen
         ? this.contentStyle
         : [
-          {
-            minHeight: this.minHeight,
-            height: this.height,
-            maxHeight: this.maxHeight
-          },
-          this.contentStyle
-        ]
+            {
+              minHeight: this.minHeight,
+              height: this.height,
+              maxHeight: this.maxHeight
+            },
+            this.contentStyle
+          ]
     },
 
     classes () {
@@ -299,7 +299,7 @@ export default defineComponent({
     __onInput () {
       if (this.$refs.content) {
         const prop = `inner${this.isViewingSource === true ? 'Text' : 'HTML'}`
-        const val = this.$refs.content[prop]
+        const val = this.$refs.content[ prop ]
 
         if (val !== this.modelValue) {
           this.lastEmit = val
@@ -317,7 +317,7 @@ export default defineComponent({
       }
 
       const key = e.keyCode
-      const target = this.keys[key]
+      const target = this.keys[ key ]
       if (target !== void 0) {
         const { cmd, param } = target
         stopAndPrevent(e)
@@ -397,10 +397,10 @@ export default defineComponent({
         }
 
         const prop = `inner${this.isViewingSource === true ? 'Text' : 'HTML'}`
-        this.$refs.content[prop] = v
+        this.$refs.content[ prop ] = v
 
         if (restorePosition === true) {
-          this.caret.restorePosition(this.$refs.content[prop].length)
+          this.caret.restorePosition(this.$refs.content[ prop ].length)
           this.refreshToolbar()
         }
       }

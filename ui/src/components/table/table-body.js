@@ -21,10 +21,10 @@ export default {
       }
 
       const
-        bodyCell = this.$slots['body-cell'],
+        bodyCell = this.$slots[ 'body-cell' ],
         child = this.computedCols.map(col => {
           const
-            bodyCellCol = this.$slots[`body-cell-${col.name}`],
+            bodyCellCol = this.$slots[ `body-cell-${col.name}` ],
             slot = bodyCellCol !== void 0 ? bodyCellCol : bodyCell
 
           return slot !== void 0
@@ -36,20 +36,20 @@ export default {
         })
 
       if (this.hasSelectionMode === true) {
-        const slot = this.$slots['body-selection']
+        const slot = this.$slots[ 'body-selection' ]
         const content = slot !== void 0
           ? slot(this.__getBodySelectionScope({ key, row, pageIndex }))
           : [
-            h(QCheckbox, {
-              modelValue: selected,
-              color: this.color,
-              dark: this.isDark,
-              dense: this.dense,
-              'onUpdate:modelValue': (adding, evt) => {
-                this.__updateSelection([ key ], [ row ], adding, evt)
-              }
-            })
-          ]
+              h(QCheckbox, {
+                modelValue: selected,
+                color: this.color,
+                dark: this.isDark,
+                dense: this.dense,
+                'onUpdate:modelValue': (adding, evt) => {
+                  this.__updateSelection([ key ], [ row ], adding, evt)
+                }
+              })
+            ]
 
         child.unshift(
           h('td', { class: 'q-table--col-auto-width' }, content)
@@ -58,15 +58,15 @@ export default {
 
       const data = { key, class: { selected } }
 
-      if (this.emitListeners['onRow-click'] === true) {
-        data.class['cursor-pointer'] = true
+      if (this.emitListeners[ 'onRow-click' ] === true) {
+        data.class[ 'cursor-pointer' ] = true
         data.onClick = evt => {
           this.$emit('row-click', evt, row, pageIndex)
         }
       }
 
-      if (this.emitListeners['onRow-dblclick'] === true) {
-        data.class['cursor-pointer'] = true
+      if (this.emitListeners[ 'onRow-dblclick' ] === true) {
+        data.class[ 'cursor-pointer' ] = true
         data.onDblclick = evt => {
           this.$emit('row-dblclick', evt, row, pageIndex)
         }
@@ -78,8 +78,8 @@ export default {
     __getTBody () {
       const
         body = this.$slots.body,
-        topRow = this.$slots['top-row'],
-        bottomRow = this.$slots['bottom-row']
+        topRow = this.$slots[ 'top-row' ],
+        bottomRow = this.$slots[ 'bottom-row' ]
 
       let child = this.computedRows.map(
         (row, pageIndex) => this.__getTBodyTR(row, body, pageIndex)
@@ -159,7 +159,7 @@ export default {
     },
 
     getCellValue (col, row) {
-      const val = typeof col.field === 'function' ? col.field(row) : row[col.field]
+      const val = typeof col.field === 'function' ? col.field(row) : row[ col.field ]
       return col.format !== void 0 ? col.format(val, row) : val
     }
   }

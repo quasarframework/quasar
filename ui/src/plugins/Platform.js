@@ -38,10 +38,10 @@ function getMatch (userAgent, platformMatch) {
     []
 
   return {
-    browser: match[5] || match[3] || match[1] || '',
-    version: match[2] || match[4] || '0',
-    versionNumber: match[4] || match[2] || '0',
-    platform: platformMatch[0] || ''
+    browser: match[ 5 ] || match[ 3 ] || match[ 1 ] || '',
+    version: match[ 2 ] || match[ 4 ] || '0',
+    versionNumber: match[ 4 ] || match[ 2 ] || '0',
+    platform: platformMatch[ 0 ] || ''
   }
 }
 
@@ -93,13 +93,13 @@ function getPlatform (UA) {
     browser = {}
 
   if (matched.browser) {
-    browser[matched.browser] = true
+    browser[ matched.browser ] = true
     browser.version = matched.version
     browser.versionNumber = parseInt(matched.versionNumber, 10)
   }
 
   if (matched.platform) {
-    browser[matched.platform] = true
+    browser[ matched.platform ] = true
   }
 
   const knownMobiles = browser.android ||
@@ -112,7 +112,7 @@ function getPlatform (UA) {
     browser.kindle ||
     browser.playbook ||
     browser.silk ||
-    browser['windows phone']
+    browser[ 'windows phone' ]
 
   // These are all considered mobile platforms, meaning they run a mobile browser
   if (knownMobiles === true || userAgent.indexOf('mobile') > -1) {
@@ -143,9 +143,9 @@ function getPlatform (UA) {
     browser.ios = true
   }
 
-  if (browser['windows phone']) {
+  if (browser[ 'windows phone' ]) {
     browser.winphone = true
-    delete browser['windows phone']
+    delete browser[ 'windows phone' ]
   }
 
   // Chrome, Opera 15+, Vivaldi and Safari are webkit based browsers
@@ -276,24 +276,24 @@ const ssrClient = {
 export const client = __QUASAR_SSR_SERVER__
   ? ssrClient
   : {
-    userAgent,
-    is: getPlatform(userAgent),
-    has: {
-      touch: hasTouch,
-      webStorage: (() => {
-        try {
-          if (window.localStorage) {
-            return true
+      userAgent,
+      is: getPlatform(userAgent),
+      has: {
+        touch: hasTouch,
+        webStorage: (() => {
+          try {
+            if (window.localStorage) {
+              return true
+            }
           }
-        }
-        catch (e) {}
-        return false
-      })()
-    },
-    within: {
-      iframe: window.self !== window.top
+          catch (e) {}
+          return false
+        })()
+      },
+      within: {
+        iframe: window.self !== window.top
+      }
     }
-  }
 
 const Platform = {
   install (opts) {
@@ -332,7 +332,7 @@ const Platform = {
 
 if (__QUASAR_SSR_SERVER__) {
   Platform.parseSSR = (ssrContext) => {
-    const userAgent = ssrContext.req.headers['user-agent'] || ssrContext.req.headers['User-Agent'] || ''
+    const userAgent = ssrContext.req.headers[ 'user-agent' ] || ssrContext.req.headers[ 'User-Agent' ] || ''
     return {
       ...client,
       userAgent,

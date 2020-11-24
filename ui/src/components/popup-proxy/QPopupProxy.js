@@ -82,10 +82,10 @@ export default defineComponent({
     const props = (
       this.type === 'menu' &&
       def !== void 0 &&
-      def[0] !== void 0 &&
-      def[0].type !== void 0 &&
-      ['QDate', 'QTime', 'QCarousel', 'QColor'].includes(
-        def[0].type.name
+      def[ 0 ] !== void 0 &&
+      def[ 0 ].type !== void 0 &&
+      [ 'QDate', 'QTime', 'QCarousel', 'QColor' ].includes(
+        def[ 0 ].type.name
       )
     ) ? { cover: true, maxHeight: '99vh' } : {}
 

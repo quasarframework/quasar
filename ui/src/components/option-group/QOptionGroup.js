@@ -52,7 +52,7 @@ export default defineComponent({
 
   computed: {
     component () {
-      return components[this.type]
+      return components[ this.type ]
     },
 
     model () {
@@ -73,7 +73,7 @@ export default defineComponent({
         }
 
         if (this.disable === true) {
-          attrs['aria-disabled'] = 'true'
+          attrs[ 'aria-disabled' ] = 'true'
         }
 
         return attrs

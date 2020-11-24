@@ -115,7 +115,7 @@ export default defineComponent({
     },
 
     __emitValue (files) {
-      this.$emit('update:modelValue', this.multiple === true ? files : files[0])
+      this.$emit('update:modelValue', this.multiple === true ? files : files[ 0 ])
     },
 
     __onKeyup (e) {

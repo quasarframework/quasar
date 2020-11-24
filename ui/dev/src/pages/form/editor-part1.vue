@@ -214,8 +214,8 @@ export default {
   },
   watch: {
     btnType (val) {
-      ['push', 'outline', 'flat'].forEach(type => {
-        this[type] = type === val
+      [ 'push', 'outline', 'flat' ].forEach(type => {
+        this[ type ] = type === val
       })
     }
   },
@@ -238,13 +238,13 @@ export default {
       this.$q.notify({
         icon: 'spellcheck',
         color: 'secondary',
-        message: `I'll sure run the spellcheck. Later.`
+        message: 'I\'ll sure run the spellcheck. Later.'
       })
     },
     importSomething () {
       this.$q.notify({
         color: 'accent',
-        message: `Importing...`
+        message: 'Importing...'
       })
     },
     add (name) {

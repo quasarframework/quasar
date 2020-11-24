@@ -51,7 +51,7 @@ export default {
       return
     }
 
-    const qConf = opts.cfg[cordova === true ? 'cordova' : 'capacitor']
+    const qConf = opts.cfg[ cordova === true ? 'cordova' : 'capacitor' ]
 
     if (qConf !== void 0 && qConf.backButton === false) {
       return
@@ -80,7 +80,7 @@ export default {
 
     const backHandler = () => {
       if (this.__history.length) {
-        const entry = this.__history[this.__history.length - 1]
+        const entry = this.__history[ this.__history.length - 1 ]
 
         if (entry.condition() === true) {
           this.__history.pop()

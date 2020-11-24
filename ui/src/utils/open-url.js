@@ -7,7 +7,7 @@ function parseFeatures (winFeatures) {
   const cfg = Object.assign({ noopener: true }, winFeatures)
   const feat = []
   Object.keys(cfg).forEach(key => {
-    if (cfg[key] === true) {
+    if (cfg[ key ] === true) {
       feat.push(key)
     }
   })

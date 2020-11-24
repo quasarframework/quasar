@@ -86,7 +86,7 @@ export default defineComponent({
     },
 
     classes () {
-      return `q-stepper__tab col-grow flex items-center no-wrap relative-position` +
+      return 'q-stepper__tab col-grow flex items-center no-wrap relative-position' +
         (this.color !== void 0 ? ` text-${this.color}` : '') +
         (this.isError === true ? ' q-stepper__tab--error' : '') +
         (this.isActive === true ? ' q-stepper__tab--active' : '') +
@@ -159,7 +159,7 @@ export default defineComponent({
       child,
       'head',
       this.stepper.headerNav === true && this.headerNav !== false,
-      () => [[ Ripple, this.headerNav ]]
+      () => [ [ Ripple, this.headerNav ] ]
     )
   }
 })

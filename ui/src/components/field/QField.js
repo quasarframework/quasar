@@ -176,10 +176,10 @@ export default defineComponent({
           this.hasError === true
             ? ' text-negative'
             : (
-              typeof this.standout === 'string' && this.standout.length > 0 && this.focused === true
-                ? ` ${this.standout}`
-                : (this.color !== void 0 ? ` text-${this.color}` : '')
-            )
+                typeof this.standout === 'string' && this.standout.length > 0 && this.focused === true
+                  ? ` ${this.standout}`
+                  : (this.color !== void 0 ? ` text-${this.color}` : '')
+              )
         )
     },
 
@@ -210,10 +210,10 @@ export default defineComponent({
       }
 
       if (this.disable === true) {
-        attrs['aria-disabled'] = 'true'
+        attrs[ 'aria-disabled' ] = 'true'
       }
       else if (this.readonly === true) {
-        attrs['aria-readonly'] = 'true'
+        attrs[ 'aria-readonly' ] = 'true'
       }
 
       return attrs
@@ -408,8 +408,8 @@ export default defineComponent({
 
         hasCounter === true
           ? h('div', {
-            class: 'q-field__counter'
-          }, this.$slots.counter !== void 0 ? this.$slots.counter() : this.computedCounter)
+              class: 'q-field__counter'
+            }, this.$slots.counter !== void 0 ? this.$slots.counter() : this.computedCounter)
           : null
       ])
     },
@@ -503,9 +503,9 @@ export default defineComponent({
     }, [
       this.$slots.before !== void 0
         ? h('div', {
-          class: 'q-field__before q-field__marginal row no-wrap items-center',
-          ...this.slotsEvents
-        }, this.$slots.before())
+            class: 'q-field__before q-field__marginal row no-wrap items-center',
+            ...this.slotsEvents
+          }, this.$slots.before())
         : null,
 
       h('div', {
@@ -525,9 +525,9 @@ export default defineComponent({
 
       this.$slots.after !== void 0
         ? h('div', {
-          class: 'q-field__after q-field__marginal row no-wrap items-center',
-          ...this.slotsEvents
-        }, this.$slots.after())
+            class: 'q-field__after q-field__marginal row no-wrap items-center',
+            ...this.slotsEvents
+          }, this.$slots.after())
         : null
     ])
   },
@@ -540,9 +540,9 @@ export default defineComponent({
     this.controlEvents = this.__getControlEvents !== void 0
       ? this.__getControlEvents()
       : {
-        onFocusin: this.__onControlFocusin,
-        onFocusout: this.__onControlFocusout
-      }
+          onFocusin: this.__onControlFocusin,
+          onFocusout: this.__onControlFocusout
+        }
   },
 
   mounted () {

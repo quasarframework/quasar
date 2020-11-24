@@ -136,12 +136,12 @@ export default defineComponent({
     },
 
     __mergeOpt (opt, key) {
-      return opt[key] === void 0 ? this[key] : opt[key]
+      return opt[ key ] === void 0 ? this[ key ] : opt[ key ]
     },
 
     __getContent () {
       const child = this.btnOptions.map(opt => {
-        return h(QBtn, opt.props, opt.slot !== void 0 ? this.$slots[opt.slot] : void 0)
+        return h(QBtn, opt.props, opt.slot !== void 0 ? this.$slots[ opt.slot ] : void 0)
       })
 
       if (this.name !== void 0 && this.disable !== true && this.hasActiveValue === true) {

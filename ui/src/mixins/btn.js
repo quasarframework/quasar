@@ -114,14 +114,14 @@ export default {
 
       if (this.loading === true && this.percentage !== void 0) {
         attrs.role = 'progressbar'
-        attrs['aria-valuemin'] = 0
-        attrs['aria-valuemax'] = 100
-        attrs['aria-valuenow'] = this.percentage
+        attrs[ 'aria-valuemin' ] = 0
+        attrs[ 'aria-valuemax' ] = 100
+        attrs[ 'aria-valuenow' ] = this.percentage
       }
 
       if (this.disable === true) {
         attrs.disabled = ''
-        attrs['aria-disabled'] = 'true'
+        attrs[ 'aria-disabled' ] = 'true'
       }
 
       return attrs
@@ -164,7 +164,7 @@ export default {
         return {
           padding: this.padding
             .split(/\s+/)
-            .map(v => v in padding ? padding[v] + 'px' : v)
+            .map(v => v in padding ? padding[ v ] + 'px' : v)
             .join(' '),
           minWidth: '0',
           minHeight: '0'

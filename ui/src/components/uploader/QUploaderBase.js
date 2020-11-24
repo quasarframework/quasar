@@ -218,7 +218,7 @@ export default defineComponent({
 
     __getFileInput () {
       return this.$refs.input ||
-        this.$el.getElementsByClassName('q-uploader__input')[0]
+        this.$el.getElementsByClassName('q-uploader__input')[ 0 ]
     },
 
     __getProgressLabel (p) {
@@ -285,7 +285,7 @@ export default defineComponent({
       if (show === true) {
         const data = {
           type: 'a',
-          icon: this.$q.iconSet.uploader[icon],
+          icon: this.$q.iconSet.uploader[ icon ],
           flat: true,
           dense: true
         }
@@ -374,10 +374,10 @@ export default defineComponent({
         }, [
           file.__status === 'failed'
             ? h(QIcon, {
-              class: 'q-uploader__file-status',
-              name: this.$q.iconSet.type.negative,
-              color: 'negative'
-            })
+                class: 'q-uploader__file-status',
+                name: this.$q.iconSet.type.negative,
+                color: 'negative'
+              })
             : null,
 
           h('div', { class: 'q-uploader__file-header-content col' }, [
@@ -391,16 +391,16 @@ export default defineComponent({
 
           file.__status === 'uploading'
             ? h(QCircularProgress, {
-              value: file.__progress,
-              min: 0,
-              max: 1,
-              indeterminate: file.__progress === 0
-            })
+                value: file.__progress,
+                min: 0,
+                max: 1,
+                indeterminate: file.__progress === 0
+              })
             : h(QBtn, {
               round: true,
               dense: true,
               flat: true,
-              icon: this.$q.iconSet.uploader[file.__status === 'uploaded' ? 'done' : 'clear'],
+              icon: this.$q.iconSet.uploader[ file.__status === 'uploaded' ? 'done' : 'clear' ],
               onClick: () => { this.removeFile(file) }
             })
         ])

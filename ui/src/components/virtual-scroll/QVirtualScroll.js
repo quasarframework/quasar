@@ -122,16 +122,16 @@ export default defineComponent({
 
   render () {
     if (this.$slots.default === void 0) {
-      console.error(`QVirtualScroll: default scoped slot is required for rendering`, this)
+      console.error('QVirtualScroll: default scoped slot is required for rendering', this)
       return
     }
 
     return this.type === '__qtable'
       ? getTableMiddle(
-        { class: 'q-table__middle ' + this.classes },
-        this.__getVirtualChildren()
-      )
-      : h(comps[this.type], {
+          { class: 'q-table__middle ' + this.classes },
+          this.__getVirtualChildren()
+        )
+      : h(comps[ this.type ], {
         ...this.$attrs,
         class: [ this.$attrs.class, this.classes ],
         ...this.attrs

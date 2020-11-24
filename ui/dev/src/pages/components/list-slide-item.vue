@@ -3,7 +3,7 @@
     <h1>Pan the items below</h1>
 
     <q-list bordered separator>
-      <q-slide-item @left="onLeft" @right="onRight" @click.native="onClickItem">
+      <q-slide-item @left="onLeft" @right="onRight" @click="onClickItem">
         <template v-slot:left>
           <q-icon name="done" />
         </template>
@@ -19,7 +19,7 @@
         </q-item>
       </q-slide-item>
 
-      <q-slide-item @left="onLeft" @right="onRight" @click.native="onClickItem">
+      <q-slide-item @left="onLeft" @right="onRight" @click="onClickItem">
         <template v-slot:left>
           <q-icon name="done" />
         </template>

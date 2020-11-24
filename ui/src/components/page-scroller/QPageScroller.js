@@ -97,9 +97,9 @@ export default defineComponent({
     __getContent () {
       return this.showing === true
         ? h('div', {
-          class: 'q-page-scroller',
-          onClick: this.__onClick
-        }, [ QPageSticky.render.call(this) ])
+            class: 'q-page-scroller',
+            onClick: this.__onClick
+          }, [ QPageSticky.render.call(this) ])
         : null
     }
   },

@@ -43,53 +43,53 @@ function getComputedStyle (el, props) {
   const style = window.getComputedStyle(el)
   const fixed = {}
   for (let i = 0; i < props.length; i++) {
-    const prop = props[i]
+    const prop = props[ i ]
 
-    if (style[prop] === '') {
+    if (style[ prop ] === '') {
       if (prop === 'cssText') {
         const styleLen = style.length
         let val = ''
 
         for (let i = 0; i < styleLen; i++) {
-          if (reStyleSkipKey.test(style[i]) !== true) {
-            val += style[i] + ': ' + style[style[i]] + '; '
+          if (reStyleSkipKey.test(style[ i ]) !== true) {
+            val += style[ i ] + ': ' + style[ style[ i ] ] + '; '
           }
         }
 
-        fixed[prop] = val
+        fixed[ prop ] = val
       }
       else if ([ 'borderWidth', 'borderStyle', 'borderColor' ].indexOf(prop) > -1) {
         const suffix = prop.replace('border', '')
         let val = ''
         for (let j = 0; j < styleEdges.length; j++) {
-          const subProp = 'border' + styleEdges[j] + suffix
-          val += style[subProp] + ' '
+          const subProp = 'border' + styleEdges[ j ] + suffix
+          val += style[ subProp ] + ' '
         }
-        fixed[prop] = val
+        fixed[ prop ] = val
       }
       else if (prop === 'borderRadius') {
         let val1 = ''
         let val2 = ''
         for (let j = 0; j < styleBorderRadiuses.length; j++) {
-          const val = style[styleBorderRadiuses[j]].split(' ')
-          val1 += val[0] + ' '
-          val2 += (val[1] === void 0 ? val[0] : val[1]) + ' '
+          const val = style[ styleBorderRadiuses[ j ] ].split(' ')
+          val1 += val[ 0 ] + ' '
+          val2 += (val[ 1 ] === void 0 ? val[ 0 ] : val[ 1 ]) + ' '
         }
-        fixed[prop] = val1 + '/ ' + val2
+        fixed[ prop ] = val1 + '/ ' + val2
       }
       else {
-        fixed[prop] = style[prop]
+        fixed[ prop ] = style[ prop ]
       }
     }
     else {
       if (prop === 'cssText') {
-        fixed[prop] = style[prop]
+        fixed[ prop ] = style[ prop ]
           .split(';')
           .filter(val => reStyleSkipRule.test(val) !== true)
           .join(';')
       }
       else {
-        fixed[prop] = style[prop]
+        fixed[ prop ] = style[ prop ]
       }
     }
   }
@@ -97,7 +97,7 @@ function getComputedStyle (el, props) {
   return fixed
 }
 
-const zIndexPositions = ['absolute', 'fixed', 'relative', 'sticky']
+const zIndexPositions = [ 'absolute', 'fixed', 'relative', 'sticky' ]
 
 function getMaxZIndex (elStart) {
   let el = elStart
@@ -168,10 +168,10 @@ function getElement (element) {
   return type === 'function'
     ? element()
     : (
-      type === 'string'
-        ? document.querySelector(element)
-        : element
-    )
+        type === 'string'
+          ? document.querySelector(element)
+          : element
+      )
 }
 
 function isValidElement (element) {
@@ -445,7 +445,7 @@ export default function morph (_options) {
       }
       else if (options.style === Object(options.style)) {
         for (const prop in options.style) {
-          elTo.style[prop] = options.style[prop]
+          elTo.style[ prop ] = options.style[ prop ]
         }
       }
 
@@ -534,34 +534,34 @@ export default function morph (_options) {
       if (options.useCSS !== true && typeof elTo.animate === 'function') {
         const resizeFrom = options.resize === true
           ? {
-            transform: `translate(${deltaX}px, ${deltaY}px)`,
-            width: `${elFromCloneWidth}px`,
-            height: `${elFromCloneHeight}px`
-          }
+              transform: `translate(${deltaX}px, ${deltaY}px)`,
+              width: `${elFromCloneWidth}px`,
+              height: `${elFromCloneHeight}px`
+            }
           : {
-            transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`
-          }
+              transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`
+            }
         const resizeTo = options.resize === true
           ? {
-            width: `${elToCloneWidth}px`,
-            height: `${elToCloneHeight}px`
-          }
+              width: `${elToCloneWidth}px`,
+              height: `${elToCloneHeight}px`
+            }
           : {}
         const resizeFromTween = options.resize === true
           ? {
-            width: `${elFromCloneWidth}px`,
-            height: `${elFromCloneHeight}px`
-          }
+              width: `${elFromCloneWidth}px`,
+              height: `${elFromCloneHeight}px`
+            }
           : {}
         const resizeToTween = options.resize === true
           ? {
-            transform: `translate(${-1 * deltaX}px, ${-1 * deltaY}px)`,
-            width: `${elToCloneWidth}px`,
-            height: `${elToCloneHeight}px`
-          }
+              transform: `translate(${-1 * deltaX}px, ${-1 * deltaY}px)`,
+              width: `${elToCloneWidth}px`,
+              height: `${elToCloneHeight}px`
+            }
           : {
-            transform: `translate(${-1 * deltaX}px, ${-1 * deltaY}px) scale(${1 / scaleX}, ${1 / scaleY})`
-          }
+              transform: `translate(${-1 * deltaX}px, ${-1 * deltaY}px) scale(${1 / scaleX}, ${1 / scaleY})`
+            }
         const tweenFrom = elFromTween !== void 0
           ? { opacity: options.tweenToOpacity }
           : { backgroundColor: elFromBackground }
@@ -651,15 +651,15 @@ export default function morph (_options) {
         animationToClone = options.keepToClone === true ? void 0 : elToClone.animate([
           elSharedSize === true
             ? {
-              margin: `${elFromParentHeightDiff < 0 ? elFromParentHeightDiff / 2 : 0}px ${elFromParentWidthDiff < 0 ? elFromParentWidthDiff / 2 : 0}px`,
-              width: `${elFromCloneWidth + elFromPosition.marginH}px`,
-              height: `${elFromCloneHeight + elFromPosition.marginV}px`
-            }
+                margin: `${elFromParentHeightDiff < 0 ? elFromParentHeightDiff / 2 : 0}px ${elFromParentWidthDiff < 0 ? elFromParentWidthDiff / 2 : 0}px`,
+                width: `${elFromCloneWidth + elFromPosition.marginH}px`,
+                height: `${elFromCloneHeight + elFromPosition.marginV}px`
+              }
             : {
-              margin: 0,
-              width: 0,
-              height: 0
-            },
+                margin: 0,
+                width: 0,
+                height: 0
+              },
           {
             margin: `${elToParentHeightDiff < 0 ? elToParentHeightDiff / 2 : 0}px ${elToParentWidthDiff < 0 ? elToParentWidthDiff / 2 : 0}px`,
             width: `${elToCloneWidth + elToPosition.marginH}px`,
@@ -942,28 +942,28 @@ export default function morph (_options) {
       const delayPromise = options.waitFor > 0
         ? new Promise(resolve => setTimeout(resolve, options.waitFor))
         : (
-          options.waitFor === 'transitionend'
-            ? new Promise(resolve => {
-              const timer = setTimeout(() => {
-                endFn()
-              }, 400)
+            options.waitFor === 'transitionend'
+              ? new Promise(resolve => {
+                  const timer = setTimeout(() => {
+                    endFn()
+                  }, 400)
 
-              const endFn = ev => {
-                clearTimeout(timer)
+                  const endFn = ev => {
+                    clearTimeout(timer)
 
-                if (elTo) {
-                  elTo.removeEventListener('transitionend', endFn)
-                  elTo.removeEventListener('transitioncancel', endFn)
-                }
+                    if (elTo) {
+                      elTo.removeEventListener('transitionend', endFn)
+                      elTo.removeEventListener('transitioncancel', endFn)
+                    }
 
-                resolve()
-              }
+                    resolve()
+                  }
 
-              elTo.addEventListener('transitionend', endFn)
-              elTo.addEventListener('transitioncancel', endFn)
-            })
-            : options.waitFor
-        )
+                  elTo.addEventListener('transitionend', endFn)
+                  elTo.addEventListener('transitioncancel', endFn)
+                })
+              : options.waitFor
+          )
 
       delayPromise
         .then(animate)

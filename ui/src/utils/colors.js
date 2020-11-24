@@ -35,10 +35,10 @@ export function hexToRgb (hex) {
   hex = hex.replace(/^#/, '')
 
   if (hex.length === 3) {
-    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
+    hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ]
   }
   else if (hex.length === 4) {
-    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3]
+    hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] + hex[ 3 ] + hex[ 3 ]
   }
 
   const num = parseInt(hex, 16)
@@ -151,13 +151,13 @@ export function textToRgb (str) {
   }
 
   const rgb = {
-    r: Math.min(255, parseInt(m[2], 10)),
-    g: Math.min(255, parseInt(m[3], 10)),
-    b: Math.min(255, parseInt(m[4], 10))
+    r: Math.min(255, parseInt(m[ 2 ], 10)),
+    g: Math.min(255, parseInt(m[ 3 ], 10)),
+    b: Math.min(255, parseInt(m[ 4 ], 10))
   }
 
-  if (m[1]) {
-    const alpha = parseFloat(m[5])
+  if (m[ 1 ]) {
+    const alpha = parseFloat(m[ 5 ])
     rgb.a = Math.min(1, isNaN(alpha) === true ? 1 : alpha) * 100
   }
 

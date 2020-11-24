@@ -8,7 +8,7 @@ export default {
 
       Object.keys(this.$attrs).forEach(key => {
         if (nonAttrsRE.test(key) === false) {
-          acc[key] = this.$attrs[key]
+          acc[ key ] = this.$attrs[ key ]
         }
       })
 
@@ -20,7 +20,7 @@ export default {
 
       Object.keys(this.$attrs).forEach(key => {
         if (listenerRE.test(key) === true) {
-          acc[key] = this.$attrs[key]
+          acc[ key ] = this.$attrs[ key ]
         }
       })
 

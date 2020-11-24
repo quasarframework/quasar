@@ -320,15 +320,15 @@ export default defineComponent({
         { name: this.transition, appear: true },
         () => this.showing === true
           ? h('div', {
-            ...this.$attrs,
-            ref: 'inner',
-            tabindex: -1,
-            class: [
-              'q-menu q-position-engine scroll' + this.menuClass,
-              this.$attrs.class
-            ],
-            ...this.onEvents
-          }, hSlot(this, 'default'))
+              ...this.$attrs,
+              ref: 'inner',
+              tabindex: -1,
+              class: [
+                'q-menu q-position-engine scroll' + this.menuClass,
+                this.$attrs.class
+              ],
+              ...this.onEvents
+            }, hSlot(this, 'default'))
           : null
       )
     }

@@ -86,15 +86,15 @@ export default defineComponent({
       const css = { transform: `translate(${posX}, ${posY})` }
 
       if (this.offset) {
-        css.margin = `${this.offset[1]}px ${this.offset[0]}px`
+        css.margin = `${this.offset[ 1 ]}px ${this.offset[ 0 ]}px`
       }
 
       if (attach.vertical === true) {
         if (this.left !== 0) {
-          css[this.$q.lang.rtl === true ? 'right' : 'left'] = `${this.left}px`
+          css[ this.$q.lang.rtl === true ? 'right' : 'left' ] = `${this.left}px`
         }
         if (this.right !== 0) {
-          css[this.$q.lang.rtl === true ? 'left' : 'right'] = `${this.right}px`
+          css[ this.$q.lang.rtl === true ? 'left' : 'right' ] = `${this.right}px`
         }
       }
       else if (attach.horizontal === true) {

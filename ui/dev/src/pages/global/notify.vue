@@ -150,13 +150,13 @@ export default {
         progress: true,
         actions: twoActions
           ? [
-            { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) },
-            { label: 'Dismiss', color: 'yellow', handler: () => console.log('dismiss wooow ' + random) }
-          ]
+              { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) },
+              { label: 'Dismiss', color: 'yellow', handler: () => console.log('dismiss wooow ' + random) }
+            ]
           : (random > 40
-            ? [ { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) } ]
-            : null
-          ),
+              ? [ { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) } ]
+              : null
+            ),
         timeout: Math.random() * 5000 + 8000
       })
       /*

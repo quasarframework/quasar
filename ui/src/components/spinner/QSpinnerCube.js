@@ -7,7 +7,7 @@ const svg = [
     x: '0',
     y: '0',
     width: ' 100',
-    height:'100',
+    height: '100',
     fill: 'none'
   }),
   h('g', {
@@ -17,7 +17,7 @@ const svg = [
       x: '-20',
       y: '-20',
       width: ' 40',
-      height:'40',
+      height: '40',
       fill: 'currentColor',
       opacity: '0.9'
     }, [
@@ -42,7 +42,7 @@ const svg = [
       x: '-20',
       y: '-20',
       width: ' 40',
-      height:'40',
+      height: '40',
       fill: 'currentColor',
       opacity: '0.8'
     }, [
@@ -67,7 +67,7 @@ const svg = [
       x: '-20',
       y: '-20',
       width: ' 40',
-      height:'40',
+      height: '40',
       fill: 'currentColor',
       opacity: '0.7'
     }, [
@@ -92,7 +92,7 @@ const svg = [
       x: '-20',
       y: '-20',
       width: ' 40',
-      height:'40',
+      height: '40',
       fill: 'currentColor',
       opacity: '0.6'
     }, [

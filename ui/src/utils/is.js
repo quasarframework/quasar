@@ -23,7 +23,7 @@ export function isDeepEqual (a, b) {
       }
 
       for (i = length; i-- !== 0;) {
-        if (isDeepEqual(a[i], b[i]) !== true) {
+        if (isDeepEqual(a[ i ], b[ i ]) !== true) {
           return false
         }
       }
@@ -38,7 +38,7 @@ export function isDeepEqual (a, b) {
 
       i = a.entries().next()
       while (i.done !== true) {
-        if (b.has(i.value[0]) !== true) {
+        if (b.has(i.value[ 0 ]) !== true) {
           return false
         }
         i = i.next()
@@ -46,7 +46,7 @@ export function isDeepEqual (a, b) {
 
       i = a.entries().next()
       while (i.done !== true) {
-        if (isDeepEqual(i.value[1], b.get(i.value[0])) !== true) {
+        if (isDeepEqual(i.value[ 1 ], b.get(i.value[ 0 ])) !== true) {
           return false
         }
         i = i.next()
@@ -62,7 +62,7 @@ export function isDeepEqual (a, b) {
 
       i = a.entries().next()
       while (i.done !== true) {
-        if (b.has(i.value[0]) !== true) {
+        if (b.has(i.value[ 0 ]) !== true) {
           return false
         }
         i = i.next()
@@ -79,7 +79,7 @@ export function isDeepEqual (a, b) {
       }
 
       for (i = length; i-- !== 0;) {
-        if (a[i] !== b[i]) {
+        if (a[ i ] !== b[ i ]) {
           return false
         }
       }
@@ -107,8 +107,8 @@ export function isDeepEqual (a, b) {
     }
 
     for (i = length; i-- !== 0;) {
-      const key = keys[i]
-      if (isDeepEqual(a[key], b[key]) !== true) {
+      const key = keys[ i ]
+      if (isDeepEqual(a[ key ], b[ key ]) !== true) {
         return false
       }
     }

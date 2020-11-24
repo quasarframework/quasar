@@ -31,7 +31,7 @@ export default {
 
   methods: {
     toggle (evt) {
-      this[this.showing === true ? 'hide' : 'show'](evt)
+      this[ this.showing === true ? 'hide' : 'show' ](evt)
     },
 
     show (evt) {
@@ -39,7 +39,7 @@ export default {
         return
       }
 
-      const listener = this.emitListeners['onUpdate:modelValue'] === true
+      const listener = this.emitListeners[ 'onUpdate:modelValue' ] === true
 
       if (listener === true && __QUASAR_SSR_SERVER__ !== true) {
         this.$emit('update:modelValue', true)
@@ -80,7 +80,7 @@ export default {
         return
       }
 
-      const listener = this.emitListeners['onUpdate:modelValue'] === true
+      const listener = this.emitListeners[ 'onUpdate:modelValue' ] === true
 
       if (listener === true && __QUASAR_SSR_SERVER__ !== true) {
         this.$emit('update:modelValue', false)
@@ -118,12 +118,12 @@ export default {
 
     __processModelChange (val) {
       if (this.disable === true && val === true) {
-        if (this.emitListeners['onUpdate:modelValue'] === true) {
+        if (this.emitListeners[ 'onUpdate:modelValue' ] === true) {
           this.$emit('update:modelValue', false)
         }
       }
       else if ((val === true) !== this.showing) {
-        this[`__process${val === true ? 'Show' : 'Hide'}`](this.payload)
+        this[ `__process${val === true ? 'Show' : 'Hide'}` ](this.payload)
       }
     }
   }

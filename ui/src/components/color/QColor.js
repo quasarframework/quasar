@@ -1,4 +1,4 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
@@ -47,13 +47,13 @@ export default defineComponent({
     defaultView: {
       type: String,
       default: 'spectrum',
-      validator: v => ['spectrum', 'tune', 'palette'].includes(v)
+      validator: v => [ 'spectrum', 'tune', 'palette' ].includes(v)
     },
 
     formatModel: {
       type: String,
       default: 'auto',
-      validator: v => ['auto', 'hex', 'rgb', 'hexa', 'rgba'].includes(v)
+      validator: v => [ 'auto', 'hex', 'rgb', 'hexa', 'rgba' ].includes(v)
     },
 
     palette: Array,
@@ -75,10 +75,10 @@ export default defineComponent({
     return {
       topView: this.formatModel === 'auto'
         ? (
-          (this.modelValue === void 0 || this.modelValue === null || this.modelValue === '' || this.modelValue.startsWith('#'))
-            ? 'hex'
-            : 'rgb'
-        )
+            (this.modelValue === void 0 || this.modelValue === null || this.modelValue === '' || this.modelValue.startsWith('#'))
+              ? 'hex'
+              : 'rgb'
+          )
         : (this.formatModel.startsWith('hex') ? 'hex' : 'rgb'),
       view: this.defaultView,
       model: this.__parseModel(this.modelValue || this.defaultValue)
@@ -172,12 +172,12 @@ export default defineComponent({
     spectrumPointerStyle () {
       return {
         top: `${100 - this.model.v}%`,
-        [this.$q.lang.rtl === true ? 'right' : 'left']: `${this.model.s}%`
+        [ this.$q.lang.rtl === true ? 'right' : 'left' ]: `${this.model.s}%`
       }
     },
 
     inputsArray () {
-      const inp = ['r', 'g', 'b']
+      const inp = [ 'r', 'g', 'b' ]
       if (this.hasAlpha === true) {
         inp.push('a')
       }
@@ -210,13 +210,13 @@ export default defineComponent({
 
     spectrumDirective () {
       // if this.editable === true
-      return [[
+      return [ [
         TouchPan,
         this.__spectrumPan,
         void 0,
         { prevent: true, stop: true, mouse: true }
-      ]]
-    },
+      ] ]
+    }
   },
 
   created () {
@@ -281,7 +281,7 @@ export default defineComponent({
           }, [
             h('input', {
               class: 'fit',
-              value: this.model[this.topView],
+              value: this.model[ this.topView ],
               ...(this.editable !== true
                 ? { readonly: true }
                 : {}
@@ -372,9 +372,9 @@ export default defineComponent({
         style: this.spectrumStyle,
         ...(this.editable === true
           ? {
-            onClick: this.__spectrumClick,
-            onMousedown: this.__activate
-          }
+              onClick: this.__spectrumClick,
+              onMousedown: this.__activate
+            }
           : {}
         )
       }
@@ -684,38 +684,38 @@ export default defineComponent({
           }
 
           for (let i = 0; i < 3; i++) {
-            const v = parseInt(model[i], 10)
+            const v = parseInt(model[ i ], 10)
             if (v < 0 || v > 255) {
               return true
             }
-            model[i] = v
+            model[ i ] = v
           }
 
-          const v = parseFloat(model[3])
+          const v = parseFloat(model[ 3 ])
           if (v < 0 || v > 1) {
             return true
           }
-          model[3] = v
+          model[ 3 ] = v
         }
         else {
           return true
         }
 
         if (
-          model[0] < 0 || model[0] > 255 ||
-          model[1] < 0 || model[1] > 255 ||
-          model[2] < 0 || model[2] > 255 ||
-          (this.hasAlpha === true && (model[3] < 0 || model[3] > 1))
+          model[ 0 ] < 0 || model[ 0 ] > 255 ||
+          model[ 1 ] < 0 || model[ 1 ] > 255 ||
+          model[ 2 ] < 0 || model[ 2 ] > 255 ||
+          (this.hasAlpha === true && (model[ 3 ] < 0 || model[ 3 ] > 1))
         ) {
           return true
         }
 
         rgb = {
-          r: model[0],
-          g: model[1],
-          b: model[2],
+          r: model[ 0 ],
+          g: model[ 1 ],
+          b: model[ 2 ],
           a: this.hasAlpha === true
-            ? model[3] * 100
+            ? model[ 3 ] * 100
             : void 0
         }
       }
@@ -759,7 +759,7 @@ export default defineComponent({
       this.model.b = rgb.b
       this.model.a = rgb.a
 
-      const value = this.model[this.isOutputHex === true ? 'hex' : 'rgb']
+      const value = this.model[ this.isOutputHex === true ? 'hex' : 'rgb' ]
 
       // emit new value
       this.$emit('update:modelValue', value)
@@ -778,10 +778,10 @@ export default defineComponent({
       const forceAlpha = this.forceAlpha !== void 0
         ? this.forceAlpha
         : (
-          this.formatModel === 'auto'
-            ? null
-            : this.formatModel.indexOf('a') > -1
-        )
+            this.formatModel === 'auto'
+              ? null
+              : this.formatModel.indexOf('a') > -1
+          )
 
       if (typeof v !== 'string' || v.length === 0 || testPattern.anyColor(v.replace(/ /g, '')) !== true) {
         return {

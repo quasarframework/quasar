@@ -246,9 +246,9 @@ export default defineComponent({
         sensitivity = this.dragOnlyRange === true
           ? 0
           : (this.vertical === true
-            ? this.$refs.minThumb.offsetHeight / (2 * height)
-            : this.$refs.minThumb.offsetWidth / (2 * width)
-          ),
+              ? this.$refs.minThumb.offsetHeight / (2 * height)
+              : this.$refs.minThumb.offsetWidth / (2 * width)
+            ),
         diff = this.max - this.min
 
       const dragging = {
@@ -393,8 +393,8 @@ export default defineComponent({
       stopAndPrevent(evt)
 
       const
-        step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
-        offset = [34, 37, 40].includes(evt.keyCode) ? -step : step
+        step = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
+        offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -step : step
 
       if (this.dragOnlyRange) {
         const interval = this.dragOnlyRange
@@ -420,8 +420,8 @@ export default defineComponent({
 
         this.model = {
           ...this.model,
-          [which]: between(
-            parseFloat((this.model[which] + offset).toFixed(this.decimals)),
+          [ which ]: between(
+            parseFloat((this.model[ which ] + offset).toFixed(this.decimals)),
             which === 'min' ? this.min : this.model.min,
             which === 'max' ? this.max : this.model.max
           )
@@ -440,30 +440,30 @@ export default defineComponent({
       if (this.label === true || this.labelAlways === true) {
         child.push(
           h('div', {
-            class: `q-slider__pin q-slider__pin${this.axis} absolute` + this[which + 'PinClass'],
-            style: this[which + 'PinStyle'].pin
+            class: `q-slider__pin q-slider__pin${this.axis} absolute` + this[ which + 'PinClass' ],
+            style: this[ which + 'PinStyle' ].pin
           }, [
             h('div', {
               class: `q-slider__pin-text-container q-slider__pin-text-container${this.axis}`,
-              style: this[which + 'PinStyle'].pinTextContainer
+              style: this[ which + 'PinStyle' ].pinTextContainer
             }, [
               h('span', {
-                class: 'q-slider__pin-text' + this[which + 'PinTextClass']
-              }, this[which + 'Label'])
+                class: 'q-slider__pin-text' + this[ which + 'PinTextClass' ]
+              }, this[ which + 'Label' ])
             ])
           ]),
 
           h('div', {
-            class: `q-slider__arrow q-slider__arrow${this.axis}` + this[which + 'PinClass']
+            class: `q-slider__arrow q-slider__arrow${this.axis}` + this[ which + 'PinClass' ]
           })
         )
       }
 
       return h('div', {
         ref: which + 'Thumb',
-        class: `q-slider__thumb-container q-slider__thumb-container${this.axis} absolute non-selectable` + this[which + 'ThumbClass'],
-        style: this[which + 'ThumbStyle'],
-        ...this[which + 'Events'],
+        class: `q-slider__thumb-container q-slider__thumb-container${this.axis} absolute non-selectable` + this[ which + 'ThumbClass' ],
+        style: this[ which + 'ThumbStyle' ],
+        ...this[ which + 'Events' ],
         tabindex: this.dragOnlyRange !== true ? this.computedTabindex : null
       }, child)
     }

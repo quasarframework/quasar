@@ -30,21 +30,21 @@ function prepareApp (app, uiOpts, pluginOpts) {
   IconSet.install(pluginOpts)
 
   uiOpts.components !== void 0 && Object.keys(uiOpts.components).forEach(key => {
-    const c = uiOpts.components[key]
+    const c = uiOpts.components[ key ]
     if (Object(c) === c && c.name !== void 0) {
       app.component(c.name, c)
     }
   })
 
   uiOpts.directives !== void 0 && Object.keys(uiOpts.directives).forEach(key => {
-    const d = uiOpts.directives[key]
+    const d = uiOpts.directives[ key ]
     if (Object(d) === d && d.name !== void 0) {
       app.directive(d.name, d)
     }
   })
 
   uiOpts.plugins !== void 0 && Object.keys(uiOpts.plugins).forEach(key => {
-    const p = uiOpts.plugins[key]
+    const p = uiOpts.plugins[ key ]
     if (typeof p.install === 'function' && autoInstalled.includes(p) === false) {
       p.install(pluginOpts)
     }
@@ -53,32 +53,32 @@ function prepareApp (app, uiOpts, pluginOpts) {
 
 const installQuasar = __QUASAR_SSR_SERVER__
   ? function (app, opts = {}, ssrContext) {
-    const $q = {
-      version,
-      config: Object.freeze(opts.config || {})
+      const $q = {
+        version,
+        config: Object.freeze(opts.config || {})
+      }
+
+      ssrContext.$q = $q
+
+      Object.assign(ssrContext._meta, {
+        htmlAttrs: '',
+        headTags: '',
+        bodyClasses: '',
+        bodyAttrs: 'data-server-rendered',
+        bodyTags: ''
+      })
+
+      app.config.globalProperties.ssrContext = ssrContext
+
+      prepareApp(app, opts, {
+        app,
+        $q,
+        cfg: $q.config,
+        lang: opts.lang,
+        iconSet: opts.iconSet,
+        ssrContext
+      })
     }
-
-    ssrContext.$q = $q
-
-    Object.assign(ssrContext._meta, {
-      htmlAttrs: '',
-      headTags: '',
-      bodyClasses: '',
-      bodyAttrs: 'data-server-rendered',
-      bodyTags: ''
-    })
-
-    app.config.globalProperties.ssrContext = ssrContext
-
-    prepareApp(app, opts, {
-      app,
-      $q,
-      cfg: $q.config,
-      lang: opts.lang,
-      iconSet: opts.iconSet,
-      ssrContext
-    })
-  }
   : function (app, opts = {}) {
     if (this.__qInstalled === true) { return }
     this.__qInstalled = true

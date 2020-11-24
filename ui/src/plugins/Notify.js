@@ -67,14 +67,14 @@ const Notifications = {
     this.notifs = {}
 
     positionList.forEach(pos => {
-      this.notifs[pos] = []
+      this.notifs[ pos ] = []
 
       const
-        vert = ['left', 'center', 'right'].includes(pos) === true ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
+        vert = [ 'left', 'center', 'right' ].includes(pos) === true ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
         align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center'),
-        classes = ['left', 'right'].includes(pos) ? `items-${pos === 'left' ? 'start' : 'end'} justify-center` : (pos === 'center' ? 'flex-center' : `items-${align}`)
+        classes = [ 'left', 'right' ].includes(pos) ? `items-${pos === 'left' ? 'start' : 'end'} justify-center` : (pos === 'center' ? 'flex-center' : `items-${align}`)
 
-      positionClass[pos] = `q-notifications__list q-notifications__list--${vert} fixed column no-wrap ${classes}`
+      positionClass[ pos ] = `q-notifications__list q-notifications__list--${vert} fixed column no-wrap ${classes}`
     })
   },
 
@@ -93,13 +93,13 @@ const Notifications = {
 
       if (Object(config) !== config) {
         if (notif.type) {
-          Object.assign(notif, notifTypes[notif.type])
+          Object.assign(notif, notifTypes[ notif.type ])
         }
 
         config = { message: config }
       }
 
-      Object.assign(notif, notifTypes[config.type || notif.type], config)
+      Object.assign(notif, notifTypes[ config.type || notif.type ], config)
 
       if (typeof notif.icon === 'function') {
         notif.icon = notif.icon.call(this)
@@ -160,8 +160,8 @@ const Notifications = {
           ? defaults.actions
           : []
       ).concat(
-        notifTypes[config.type] !== void 0 && Array.isArray(notifTypes[config.type].actions) === true
-          ? notifTypes[config.type].actions
+        notifTypes[ config.type ] !== void 0 && Array.isArray(notifTypes[ config.type ].actions) === true
+          ? notifTypes[ config.type ].actions
           : []
       )
 
@@ -176,9 +176,9 @@ const Notifications = {
         ...item,
         onClick: typeof handler === 'function'
           ? () => {
-            handler()
-            noDismiss !== true && dismiss()
-          }
+              handler()
+              noDismiss !== true && dismiss()
+            }
           : () => { dismiss() }
       }))
 
@@ -187,7 +187,7 @@ const Notifications = {
       }
 
       Object.assign(notif.meta, {
-        class: `q-notification row items-stretch` +
+        class: 'q-notification row items-stretch' +
           ` q-notification--${notif.multiLine === true ? 'multi-line' : 'standard'}` +
           (notif.color !== void 0 ? ` bg-${notif.color}` : '') +
           (notif.textColor !== void 0 ? ` text-${notif.textColor}` : '') +
@@ -241,31 +241,31 @@ const Notifications = {
         notif.meta.uid = originalApi.notif.meta.uid
 
         // replace notif
-        const index = this.notifs[notif.position].indexOf(originalApi.notif)
-        this.notifs[notif.position][index] = notif
+        const index = this.notifs[ notif.position ].indexOf(originalApi.notif)
+        this.notifs[ notif.position ][ index ] = notif
       }
       else {
-        const original = groups[notif.meta.group]
+        const original = groups[ notif.meta.group ]
 
         // woohoo, it's a new notification
         if (original === void 0) {
           notif.meta.uid = uid++
           notif.meta.badge = 1
 
-          if (['left', 'right', 'center'].indexOf(notif.position) !== -1) {
-            this.notifs[notif.position].splice(
-              Math.floor(this.notifs[notif.position].length / 2),
+          if ([ 'left', 'right', 'center' ].indexOf(notif.position) !== -1) {
+            this.notifs[ notif.position ].splice(
+              Math.floor(this.notifs[ notif.position ].length / 2),
               0,
               notif
             )
           }
           else {
             const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
-            this.notifs[notif.position][action](notif)
+            this.notifs[ notif.position ][ action ](notif)
           }
 
           if (notif.group !== void 0) {
-            groups[notif.meta.group] = notif
+            groups[ notif.meta.group ] = notif
           }
         }
         // ok, so it's NOT a new one
@@ -289,8 +289,8 @@ const Notifications = {
             (notif.badgeTextColor !== void 0 ? ` text-${notif.badgeTextColor}` : '') +
             (notif.badgeClass ? ` ${notif.badgeClass}` : '')
 
-          const index = this.notifs[notif.position].indexOf(original)
-          this.notifs[notif.position][index] = groups[notif.meta.group] = notif
+          const index = this.notifs[ notif.position ].indexOf(original)
+          this.notifs[ notif.position ][ index ] = groups[ notif.meta.group ] = notif
         }
       }
 
@@ -353,13 +353,13 @@ const Notifications = {
     remove (notif) {
       clearTimeout(notif.meta.timer)
 
-      const index = this.notifs[notif.position].indexOf(notif)
+      const index = this.notifs[ notif.position ].indexOf(notif)
       if (index !== -1) {
         if (notif.group !== void 0) {
-          delete groups[notif.meta.group]
+          delete groups[ notif.meta.group ]
         }
 
-        const el = this.$refs[`notif_${notif.meta.uid}`]
+        const el = this.$refs[ `notif_${notif.meta.uid}` ]
 
         if (el) {
           const { width, height } = getComputedStyle(el)
@@ -369,7 +369,7 @@ const Notifications = {
           el.style.height = height
         }
 
-        this.notifs[notif.position].splice(index, 1)
+        this.notifs[ notif.position ].splice(index, 1)
 
         this.$forceUpdate()
 
@@ -384,10 +384,10 @@ const Notifications = {
     return h('div', { class: 'q-notifications' }, positionList.map(pos => {
       return h(TransitionGroup, {
         key: pos,
-        class: positionClass[pos],
+        class: positionClass[ pos ],
         tag: 'div',
         name: `q-notification--${pos}`
-      }, () => this.notifs[pos].map(notif => {
+      }, () => this.notifs[ pos ].map(notif => {
         let msgChild
 
         const meta = notif.meta
@@ -402,9 +402,9 @@ const Notifications = {
           const msgNode = [ notif.message ]
           msgChild = notif.caption
             ? [
-              h('div', msgNode),
-              h('div', { class: 'q-notification__caption' }, [ notif.caption ])
-            ]
+                h('div', msgNode),
+                h('div', { class: 'q-notification__caption' }, [ notif.caption ])
+              ]
             : msgNode
         }
 
@@ -495,7 +495,7 @@ export default {
 
   registerType (typeName, typeOpts) {
     if (__QUASAR_SSR_SERVER__ !== true && typeOpts === Object(typeOpts)) {
-      notifTypes[typeName] = typeOpts
+      notifTypes[ typeName ] = typeOpts
     }
   },
 

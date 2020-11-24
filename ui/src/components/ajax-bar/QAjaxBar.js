@@ -118,13 +118,13 @@ export default defineComponent({
         pos: this.position,
         active,
         horiz: this.horizontal,
-        reverse: this.$q.lang.rtl === true && ['top', 'bottom'].includes(this.position)
+        reverse: this.$q.lang.rtl === true && [ 'top', 'bottom' ].includes(this.position)
           ? !this.reverse
           : this.reverse,
         dir: this.$q.lang.rtl === true ? -1 : 1
       })
 
-      o[this.sizeProp] = this.size
+      o[ this.sizeProp ] = this.size
       o.opacity = active ? 1 : 0
 
       return o
@@ -141,11 +141,11 @@ export default defineComponent({
     attrs () {
       return this.onScreen === true
         ? {
-          role: 'progressbar',
-          'aria-valuemin': 0,
-          'aria-valuemax': 100,
-          'aria-valuenow': this.progress
-        }
+            role: 'progressbar',
+            'aria-valuemin': 0,
+            'aria-valuemax': 100,
+            'aria-valuenow': this.progress
+          }
         : { 'aria-hidden': 'true' }
     }
   },

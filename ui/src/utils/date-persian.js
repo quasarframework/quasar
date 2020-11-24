@@ -3,7 +3,8 @@
 /*
   Jalaali years starting the 33-year rule.
 */
-const breaks = [ -61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210,
+const breaks = [
+  -61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181, 1210,
   1635, 2060, 2097, 2192, 2262, 2324, 2394, 2456, 3178
 ]
 
@@ -62,17 +63,17 @@ export function jalaaliMonthLength (jy, jm) {
 function jalCalLeap (jy) {
   const bl = breaks.length
   let
-    jp = breaks[0],
+    jp = breaks[ 0 ],
     jm,
     jump,
     leap,
     n,
     i
 
-  if (jy < jp || jy >= breaks[bl - 1]) { throw new Error('Invalid Jalaali year ' + jy) }
+  if (jy < jp || jy >= breaks[ bl - 1 ]) { throw new Error('Invalid Jalaali year ' + jy) }
 
   for (i = 1; i < bl; i += 1) {
-    jm = breaks[i]
+    jm = breaks[ i ]
     jump = jm - jp
     if (jy < jm) { break }
     jp = jm
@@ -109,18 +110,18 @@ function jalCal (jy, withoutLeap) {
     gy = jy + 621
   let
     leapJ = -14,
-    jp = breaks[0],
+    jp = breaks[ 0 ],
     jm,
     jump,
     leap,
     n,
     i
 
-  if (jy < jp || jy >= breaks[bl - 1]) { throw new Error('Invalid Jalaali year ' + jy) }
+  if (jy < jp || jy >= breaks[ bl - 1 ]) { throw new Error('Invalid Jalaali year ' + jy) }
 
   // Find the limiting years for the Jalaali year jy.
   for (i = 1; i < bl; i += 1) {
-    jm = breaks[i]
+    jm = breaks[ i ]
     jump = jm - jp
     if (jy < jm) { break }
     leapJ = leapJ + div(jump, 33) * 8 + div(mod(jump, 33), 4)
@@ -195,7 +196,8 @@ function d2j (jdn) {
       // The first 6 months.
       jm = 1 + div(k, 31)
       jd = mod(k, 31) + 1
-      return { jy: jy,
+      return {
+        jy: jy,
         jm: jm,
         jd: jd
       }
@@ -213,7 +215,8 @@ function d2j (jdn) {
   }
   jm = 7 + div(k, 30)
   jd = mod(k, 30) + 1
-  return { jy: jy,
+  return {
+    jy: jy,
     jm: jm,
     jd: jd
   }

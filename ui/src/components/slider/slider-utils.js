@@ -110,7 +110,7 @@ export const SliderMixin = {
     },
 
     decimals () {
-      return (String(this.step).trim('0').split('.')[1] || '').length
+      return (String(this.step).trim('0').split('.')[ 1 ] || '').length
     },
 
     computedStep () {
@@ -159,10 +159,10 @@ export const SliderMixin = {
       }
 
       if (this.disable === true) {
-        attrs['aria-disabled'] = 'true'
+        attrs[ 'aria-disabled' ] = 'true'
       }
       else if (this.readonly === true) {
-        attrs['aria-readonly'] = 'true'
+        attrs[ 'aria-readonly' ] = 'true'
       }
 
       return attrs
@@ -170,7 +170,7 @@ export const SliderMixin = {
 
     panDirective () {
       // if this.editable === true
-      return [[
+      return [ [
         TouchPan,
         this.__pan,
         void 0,
@@ -181,7 +181,7 @@ export const SliderMixin = {
           mouse: true,
           mouseAllDir: true
         }
-      ]]
+      ] ]
     }
   },
 
@@ -210,7 +210,7 @@ export const SliderMixin = {
         },
 
         pinTextContainer: {
-          [this.$q.lang.rtl === true ? 'left' : 'right']: `${percent * 100}%`,
+          [ this.$q.lang.rtl === true ? 'left' : 'right' ]: `${percent * 100}%`,
           transform: `translateX(${Math.ceil((this.$q.lang.rtl === true ? -1 : 1) * 20 * percent)}px)`
         }
       }

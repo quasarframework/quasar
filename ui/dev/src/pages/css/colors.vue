@@ -46,8 +46,8 @@
 <script>
 import { clone, colors } from 'quasar'
 
-const mainColors = ['primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning', 'black']
-const mainLightColors = ['white']
+const mainColors = [ 'primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning', 'black' ]
+const mainLightColors = [ 'white' ]
 let mainColorValuesOrig
 
 export default {
@@ -58,7 +58,7 @@ export default {
       mainColorValues: {},
       mainColorValuesOrig: {},
       currentColor: null,
-      colors: ['red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey']
+      colors: [ 'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey' ]
     }
   },
   methods: {
@@ -68,21 +68,21 @@ export default {
       }, 300)
     },
     setColor (color, value) {
-      this.mainColorValues[color] = value
+      this.mainColorValues[ color ] = value
       colors.setBrand(color, value)
     },
     undoColor (color) {
-      const value = this.mainColorValuesOrig[color]
-      this.mainColorValues[color] = value
+      const value = this.mainColorValuesOrig[ color ]
+      this.mainColorValues[ color ] = value
       colors.setBrand(color, value)
     }
   },
   beforeMount () {
     const style = getComputedStyle(document.body)
-    const mainColorValues = [...mainColors, ...mainLightColors]
-      .filter(c => !['white', 'black'].includes(c))
+    const mainColorValues = [ ...mainColors, ...mainLightColors ]
+      .filter(c => ![ 'white', 'black' ].includes(c))
       .reduce((acc, color) => {
-        acc[color] = style.getPropertyValue(`--q-color-${color}`).trim() || null
+        acc[ color ] = style.getPropertyValue(`--q-color-${color}`).trim() || null
         return acc
       }, {})
     if (!mainColorValuesOrig) {

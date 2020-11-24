@@ -21,11 +21,11 @@ const positionClass = {
 }
 
 const transitions = {
-  standard: ['scale', 'scale'],
-  top: ['slide-down', 'slide-up'],
-  bottom: ['slide-up', 'slide-down'],
-  right: ['slide-left', 'slide-right'],
-  left: ['slide-right', 'slide-left']
+  standard: [ 'scale', 'scale' ],
+  top: [ 'slide-down', 'slide-up' ],
+  bottom: [ 'slide-up', 'slide-down' ],
+  right: [ 'slide-left', 'slide-right' ],
+  left: [ 'slide-right', 'slide-left' ]
 }
 
 export default defineComponent({
@@ -62,7 +62,7 @@ export default defineComponent({
       type: String,
       default: 'standard',
       validator: val => val === 'standard' ||
-        ['top', 'bottom', 'left', 'right'].includes(val)
+        [ 'top', 'bottom', 'left', 'right' ].includes(val)
     },
 
     transitionShow: String,
@@ -108,18 +108,18 @@ export default defineComponent({
     classes () {
       return 'q-dialog__inner flex no-pointer-events' +
         ` q-dialog__inner--${this.maximized === true ? 'maximized' : 'minimized'}` +
-        ` q-dialog__inner--${this.position} ${positionClass[this.position]}` +
+        ` q-dialog__inner--${this.position} ${positionClass[ this.position ]}` +
         (this.fullWidth === true ? ' q-dialog__inner--fullwidth' : '') +
         (this.fullHeight === true ? ' q-dialog__inner--fullheight' : '') +
         (this.square === true ? ' q-dialog__inner--square' : '')
     },
 
     transitionShowComputed () {
-      return 'q-transition--' + (this.transitionShow === void 0 ? transitions[this.position][0] : this.transitionShow)
+      return 'q-transition--' + (this.transitionShow === void 0 ? transitions[ this.position ][ 0 ] : this.transitionShow)
     },
 
     transitionHideComputed () {
-      return 'q-transition--' + (this.transitionHide === void 0 ? transitions[this.position][1] : this.transitionHide)
+      return 'q-transition--' + (this.transitionHide === void 0 ? transitions[ this.position ][ 1 ] : this.transitionHide)
     },
 
     transition () {
@@ -309,7 +309,7 @@ export default defineComponent({
       return h('div', {
         ...this.$attrs,
         class: [
-          `q-dialog fullscreen no-pointer-events ` +
+          'q-dialog fullscreen no-pointer-events ' +
             `q-dialog--${this.useBackdrop === true ? 'modal' : 'seamless'}`,
           this.$attrs.class
         ]
@@ -320,10 +320,10 @@ export default defineComponent({
         }, () => (
           this.useBackdrop === true
             ? h('div', {
-              class: 'q-dialog__backdrop fixed-full',
-              'aria-hidden': 'true',
-              onClick: this.__onBackdropClick
-            })
+                class: 'q-dialog__backdrop fixed-full',
+                'aria-hidden': 'true',
+                onClick: this.__onBackdropClick
+              })
             : null
         )),
 
@@ -332,11 +332,11 @@ export default defineComponent({
           { name: this.transition, appear: true },
           () => this.showing === true
             ? h('div', {
-              ref: 'inner',
-              class: this.classes,
-              tabindex: -1,
-              ...this.onEvents
-            }, hSlot(this, 'default'))
+                ref: 'inner',
+                class: this.classes,
+                tabindex: -1,
+                ...this.onEvents
+              }, hSlot(this, 'default'))
             : null
         )
       ])

@@ -29,7 +29,7 @@ export default defineComponent({
 
     style () {
       return {
-        margin: `${this.offset[1]}px ${this.offset[0]}px`
+        margin: `${this.offset[ 1 ]}px ${this.offset[ 0 ]}px`
       }
     }
   },

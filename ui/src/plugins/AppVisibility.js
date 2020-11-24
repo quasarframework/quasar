@@ -25,12 +25,12 @@ export default defineReactivePlugin({
     }
 
     const update = () => {
-      this.appVisible = !document[prop]
+      this.appVisible = !document[ prop ]
     }
 
     update()
 
-    if (evt && typeof document[prop] !== 'undefined') {
+    if (evt && typeof document[ prop ] !== 'undefined') {
       Object.defineProperty($q, 'appVisible', {
         get: () => this.appVisible
       })

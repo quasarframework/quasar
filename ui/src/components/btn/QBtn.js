@@ -40,9 +40,9 @@ export default defineComponent({
       return this.ripple === false
         ? false
         : {
-          keyCodes: this.isLink === true ? [ 13, 32 ] : [ 13 ],
-          ...(this.ripple === true ? {} : this.ripple)
-        }
+            keyCodes: this.isLink === true ? [ 13, 32 ] : [ 13 ],
+            ...(this.ripple === true ? {} : this.ripple)
+          }
     },
 
     percentageStyle () {
@@ -76,12 +76,12 @@ export default defineComponent({
 
     directives () {
       // if this.disable !== true && this.ripple !== false
-      return [[
+      return [ [
         Ripple,
         this.computedRipple,
         void 0,
         { center: this.round }
-      ]]
+      ] ]
     },
 
     nodeProps () {

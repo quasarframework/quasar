@@ -732,13 +732,13 @@ export default {
   data () {
     return {
       icon: 'alarm',
-      sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
+      sizes: [ 'xs', 'sm', 'md', 'lg', 'xl' ],
       colors: [
         'primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info', '', 'light', 'dark',
         'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green',
         'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'
       ],
-      extras: ['flat', 'outline', 'round', 'rounded', 'push', 'glossy'],
+      extras: [ 'flat', 'outline', 'round', 'rounded', 'push', 'glossy' ],
       loading: {},
       loading2: false,
       percentage: 0,
@@ -768,10 +768,10 @@ export default {
     simulateProgress (index) {
       const timeout = setTimeout(() => {
         if (index in this.loading) {
-          this.loading = extend({}, this.loading, { [index]: false })
+          this.loading = extend({}, this.loading, { [ index ]: false })
         }
       }, 5 * 60 * 1000)
-      this.loading = extend({}, this.loading, { [index]: timeout })
+      this.loading = extend({}, this.loading, { [ index ]: timeout })
     },
     stopProgress () {
       Object.values(this.loading).filter(t => t).map(t => clearTimeout(t))

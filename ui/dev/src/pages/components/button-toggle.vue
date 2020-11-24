@@ -123,7 +123,7 @@ export default {
     return {
       model: '',
       modelD: '',
-      options: [true, false],
+      options: [ true, false ],
       optionsO1: [
         { label: 'One', value: 'one' },
         { label: 'Two - this one has a longer label', value: 'two' },
@@ -153,7 +153,7 @@ export default {
         { label: 'Two', value: 'two', count: 0 },
         { label: 'Three', value: 'three', count: 0 }
       ],
-      sizes: ['sm', 'md', 'lg']
+      sizes: [ 'sm', 'md', 'lg' ]
     }
   },
   methods: {

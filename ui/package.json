@@ -69,20 +69,18 @@
     "babel-eslint": "^10.0.2",
     "babel-preset-es2015-rollup": "^3.0.0",
     "eslint": "^7.4.0",
-    "eslint-config-standard": "^12.0.0",
+    "eslint-config-standard": "^16.0.2",
     "eslint-friendly-formatter": "^4.0.1",
-    "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^7.0.0",
     "json-beautify": "^1.1.1",
     "module-alias": "^2.2.2",
     "recast": "^0.18.5",
     "rimraf": "^3.0.1",
     "rollup": "^1.31.0",
-    "table": "^5.4.6",
+    "table": "^6.0.4",
     "uglify-es": "^3.3.9"
   },
   "vetur": {
@@ -104,5 +102,8 @@
     "node": ">= 10.0.0",
     "npm": ">= 5.6.0",
     "yarn": ">= 1.6.0"
+  },
+  "dependencies": {
+    "eslint-webpack-plugin": "^2.4.0"
   }
 }

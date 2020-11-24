@@ -45,13 +45,13 @@ export default defineComponent({
     value () {
       return this.margin !== void 0 || this.threshold !== void 0
         ? {
-          handler: this.__trigger,
-          cfg: {
-            root: this.root,
-            rootMargin: this.margin,
-            threshold: this.threshold
+            handler: this.__trigger,
+            cfg: {
+              root: this.root,
+              rootMargin: this.margin,
+              threshold: this.threshold
+            }
           }
-        }
         : this.__trigger
     },
 
@@ -61,12 +61,12 @@ export default defineComponent({
 
     directives () {
       // if this.hasDirective === true
-      return [[
+      return [ [
         Intersection,
         this.value,
         void 0,
         { once: this.once }
-      ]]
+      ] ]
     }
   },
 
@@ -88,10 +88,10 @@ export default defineComponent({
   render () {
     const child = this.transition
       ? [
-        h(Transition, {
-          name: 'q-transition--' + this.transition
-        }, this.__getContent)
-      ]
+          h(Transition, {
+            name: 'q-transition--' + this.transition
+          }, this.__getContent)
+        ]
       : this.__getContent()
 
     return hDir(

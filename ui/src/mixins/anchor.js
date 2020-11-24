@@ -173,10 +173,10 @@ export default {
       const fnHandler = fn !== void 0 ? fn : this.__scrollFn
 
       if (scrollTarget !== window) {
-        scrollTarget[fnProp]('scroll', fnHandler, listenOpts.passive)
+        scrollTarget[ fnProp ]('scroll', fnHandler, listenOpts.passive)
       }
 
-      window[fnProp]('scroll', fnHandler, listenOpts.passive)
+      window[ fnProp ]('scroll', fnHandler, listenOpts.passive)
 
       this.__scrollFn = fn
     }

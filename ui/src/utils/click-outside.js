@@ -6,7 +6,7 @@ const
   { notPassiveCapture } = listenOpts,
   vmList = []
 
-function hasModalsAbove(node) {
+function hasModalsAbove (node) {
   while ((node = node.nextElementSibling) !== null) {
     if (node.classList.contains('q-dialog--modal')) {
       return true
@@ -30,7 +30,7 @@ function globalHandler (evt) {
   }
 
   for (let i = vmList.length - 1; i >= 0; i--) {
-    const vm = vmList[i]()
+    const vm = vmList[ i ]()
 
     if (
       (

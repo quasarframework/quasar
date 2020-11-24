@@ -38,7 +38,7 @@ export default {
     dense: Boolean,
 
     disable: Boolean,
-    tabindex: [String, Number]
+    tabindex: [ String, Number ]
   },
 
   emits: [ 'update:modelValue' ],
@@ -125,7 +125,7 @@ export default {
       }
 
       if (this.disable === true) {
-        attrs['aria-disabled'] = 'true'
+        attrs[ 'aria-disabled' ] = 'true'
       }
 
       return attrs

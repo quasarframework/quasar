@@ -656,7 +656,7 @@ export default {
         empty = typeof this.textFill !== 'string' || this.textFill.length === 0
 
       if (empty === true) {
-        return t.split('\n')[0]
+        return t.split('\n')[ 0 ]
       }
       else if (t.indexOf(this.textFill) !== 0) {
         return ''
@@ -666,7 +666,7 @@ export default {
         .split(this.textFill)
         .slice(1)
         .join(this.textFill)
-        .split('\n')[0]
+        .split('\n')[ 0 ]
     }
   },
   methods: {

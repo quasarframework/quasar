@@ -12,7 +12,7 @@ export default {
   computed: {
     cSize () {
       return this.size in sizes
-        ? `${sizes[this.size]}px`
+        ? `${sizes[ this.size ]}px`
         : this.size
     },
 

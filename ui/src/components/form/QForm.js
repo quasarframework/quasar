@@ -41,7 +41,7 @@ export default defineComponent({
       }
 
       for (let i = 0; i < components.length; i++) {
-        const comp = components[i]
+        const comp = components[ i ]
         const valid = comp.validate()
 
         if (typeof valid.then === 'function') {
@@ -84,7 +84,7 @@ export default defineComponent({
               return true
             }
 
-            const { valid, comp } = errors[0]
+            const { valid, comp } = errors[ 0 ]
 
             emit(false, comp)
 

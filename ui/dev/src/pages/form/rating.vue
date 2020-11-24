@@ -97,7 +97,7 @@ export default {
         'sentiment_satisfied',
         'sentiment_very_satisfied'
       ],
-      ratingColors: ['light-green-3', 'light-green-6', 'green', 'green-9', 'green-10']
+      ratingColors: [ 'light-green-3', 'light-green-6', 'green', 'green-9', 'green-10' ]
     }
   },
   watch: {

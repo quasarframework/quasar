@@ -8,7 +8,7 @@ import FormMixin from '../../mixins/form.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
-const keyCodes = [34, 37, 40, 33, 39, 38]
+const keyCodes = [ 34, 37, 40, 33, 39, 38 ]
 const commonPropsName = Object.keys(commonProps)
 
 export default defineComponent({
@@ -86,7 +86,7 @@ export default defineComponent({
     },
 
     decimals () {
-      return (String(this.step).trim('0').split('.')[1] || '').length
+      return (String(this.step).trim('0').split('.')[ 1 ] || '').length
     },
 
     computedStep () {
@@ -101,39 +101,39 @@ export default defineComponent({
     onEvents () {
       return this.editable === true
         ? (
-          this.$q.platform.is.mobile === true
-            ? { onClick: this.__click }
-            : {
-              onMousedown: this.__activate,
-              onClick: this.__click,
-              onKeydown: this.__keydown,
-              onKeyup: this.__keyup
-            }
-        )
+            this.$q.platform.is.mobile === true
+              ? { onClick: this.__click }
+              : {
+                  onMousedown: this.__activate,
+                  onClick: this.__click,
+                  onKeydown: this.__keydown,
+                  onKeyup: this.__keyup
+                }
+          )
         : {}
     },
 
     attrs () {
       return this.editable === true
         ? { tabindex: this.tabindex }
-        : { [`aria-${this.disable === true ? 'disabled' : 'readonly'}`]: 'true' }
+        : { [ `aria-${this.disable === true ? 'disabled' : 'readonly'}` ]: 'true' }
     },
 
     circularProps () {
       const props = {}
       commonPropsName.forEach(name => {
-        props[name] = this.$props[name]
+        props[ name ] = this.$props[ name ]
       })
       return props
     },
 
     directives () {
-      return [[
+      return [ [
         TouchPan,
         this.__pan,
         void 0,
         { prevent: true, stop: true, mouse: true }
-      ]]
+      ] ]
     }
   },
 
@@ -174,8 +174,8 @@ export default defineComponent({
       stopAndPrevent(evt)
 
       const
-        step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
-        offset = [34, 37, 40].includes(evt.keyCode) ? -step : step
+        step = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
+        offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -step : step
 
       this.model = between(
         parseFloat((this.model + offset).toFixed(this.decimals)),

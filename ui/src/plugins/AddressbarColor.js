@@ -18,8 +18,8 @@ function getProp () {
 function getMetaTag (v) {
   const els = document.getElementsByTagName('META')
   for (const i in els) {
-    if (els[i].name === v) {
-      return els[i]
+    if (els[ i ].name === v) {
+      return els[ i ]
     }
   }
 }
@@ -53,15 +53,15 @@ export default {
       Platform.is.webkit === true || Platform.is.vivaldi === true
     )
       ? hexColor => {
-        const val = hexColor || getBrand('primary')
+          const val = hexColor || getBrand('primary')
 
-        if (Platform.is.nativeMobile === true && window.StatusBar) {
-          window.StatusBar.backgroundColorByHexString(val)
+          if (Platform.is.nativeMobile === true && window.StatusBar) {
+            window.StatusBar.backgroundColorByHexString(val)
+          }
+          else {
+            setColor(val)
+          }
         }
-        else {
-          setColor(val)
-        }
-      }
       : noop
 
     $q.addressbarColor = this

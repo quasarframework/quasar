@@ -131,17 +131,17 @@ function generateOptions (name) {
   }
 }
 
-const enter = ['fadeIn', 'bounceInLeft']
-const leave = ['fadeOut', 'bounceOutRight']
+const enter = [ 'fadeIn', 'bounceInLeft' ]
+const leave = [ 'fadeOut', 'bounceOutRight' ]
 
 export default {
   data () {
     return {
       enterSelectOptions: enter.map(generateOptions),
       leaveSelectOptions: leave.map(generateOptions),
-      durationOptions: ['faster', 'fast', 'default', 'slow', 'slower'],
-      delayOptions: ['default', '1s', '2s', '3s', '4s', '5s'],
-      repeatOptions: ['default', '1', '2', '3', 'infinite'],
+      durationOptions: [ 'faster', 'fast', 'default', 'slow', 'slower' ],
+      delayOptions: [ 'default', '1s', '2s', '3s', '4s', '5s' ],
+      repeatOptions: [ 'default', '1', '2', '3', 'infinite' ],
       enter: 'bounceInLeft',
       leave: 'bounceOutRight',
       duration: 'default',

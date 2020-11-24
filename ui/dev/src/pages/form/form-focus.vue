@@ -43,7 +43,7 @@ export default {
       forInput: 'QInputId',
       forSelect: 'QSelectId',
 
-      options: ['Option 1', 'Option 2', 'Option 3']
+      options: [ 'Option 1', 'Option 2', 'Option 3' ]
     }
   }
 }

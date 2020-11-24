@@ -15,7 +15,7 @@ export function getSizeMixin (sizes) {
     computed: {
       sizeStyle () {
         if (this.size !== void 0) {
-          return { fontSize: this.size in sizes ? `${sizes[this.size]}px` : this.size }
+          return { fontSize: this.size in sizes ? `${sizes[ this.size ]}px` : this.size }
         }
       }
     }

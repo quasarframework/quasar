@@ -164,7 +164,7 @@ export default defineComponent({
         document.body.classList.add('non-selectable')
 
         const target = getTouchTarget(this.anchorEl)
-        const evts = ['touchmove', 'touchcancel', 'touchend', 'click']
+        const evts = [ 'touchmove', 'touchcancel', 'touchend', 'click' ]
           .map(e => ([ target, e, '__delayHide', 'passiveCapture' ]))
 
         addEvt(this, 'tooltipTemp', evts)
@@ -197,12 +197,12 @@ export default defineComponent({
 
       const evts = this.$q.platform.is.mobile === true
         ? [
-          [ this.anchorEl, 'touchstart', '__delayShow', 'passive' ]
-        ]
+            [ this.anchorEl, 'touchstart', '__delayShow', 'passive' ]
+          ]
         : [
-          [ this.anchorEl, 'mouseenter', '__delayShow', 'passive' ],
-          [ this.anchorEl, 'mouseleave', '__delayHide', 'passive' ]
-        ]
+            [ this.anchorEl, 'mouseenter', '__delayShow', 'passive' ],
+            [ this.anchorEl, 'mouseleave', '__delayHide', 'passive' ]
+          ]
 
       addEvt(this, 'anchor', evts)
     },
@@ -228,14 +228,14 @@ export default defineComponent({
     __getTooltipContent () {
       return this.showing === true
         ? h('div', {
-          ...this.$attrs,
-          ref: 'inner',
-          class: [
-            'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
-            this.$attrs.class
-          ],
-          role: 'complementary'
-        }, hSlot(this, 'default'))
+            ...this.$attrs,
+            ref: 'inner',
+            class: [
+              'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
+              this.$attrs.class
+            ],
+            role: 'complementary'
+          }, hSlot(this, 'default'))
         : null
     },
 

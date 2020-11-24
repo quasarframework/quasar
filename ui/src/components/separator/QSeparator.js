@@ -42,7 +42,7 @@ export default defineComponent({
 
     insetClass () {
       return this.inset !== false
-        ? `${this.classPrefix}-${insetMap[this.inset]}`
+        ? `${this.classPrefix}-${insetMap[ this.inset ]}`
         : ''
     },
 
@@ -62,13 +62,13 @@ export default defineComponent({
       if (this.spaced !== false) {
         const size = this.spaced === true
           ? `${margins.md}px`
-          : this.spaced in margins ? `${margins[this.spaced]}px` : this.spaced
+          : this.spaced in margins ? `${margins[ this.spaced ]}px` : this.spaced
 
         const props = this.vertical === true
           ? [ 'Left', 'Right' ]
           : [ 'Top', 'Bottom' ]
 
-        style[`margin${props[0]}`] = style[`margin${props[1]}`] = size
+        style[ `margin${props[ 0 ]}` ] = style[ `margin${props[ 1 ]}` ] = size
       }
 
       return style

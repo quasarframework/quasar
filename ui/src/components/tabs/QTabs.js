@@ -11,10 +11,10 @@ import { hSlot } from '../../utils/render.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
-    ? ['left', 'right']
-    : ['top', 'bottom']
+    ? [ 'left', 'right' ]
+    : [ 'top', 'bottom' ]
 
-  return `absolute-${top === true ? pos[0] : pos[1]}${color ? ` text-${color}` : ''}`
+  return `absolute-${top === true ? pos[ 0 ] : pos[ 1 ]}${color ? ` text-${color}` : ''}`
 }
 
 const alignValues = [ 'left', 'center', 'right', 'justify' ]
@@ -154,7 +154,7 @@ export default defineComponent({
         skipEmit !== true && this.$emit('update:modelValue', name)
         if (
           setCurrent === true ||
-          this.emitListeners['onUpdate:modelValue'] === void 0
+          this.emitListeners[ 'onUpdate:modelValue' ] === void 0
         ) {
           this.__animate(this.currentModel, name)
           this.currentModel = name
@@ -181,10 +181,10 @@ export default defineComponent({
 
     __updateContainer (domSize) {
       const
-        size = domSize[this.domProps.container],
+        size = domSize[ this.domProps.container ],
         scrollSize = Array.prototype.reduce.call(
           this.$refs.content.children,
-          (acc, el) => acc + el[this.domProps.content],
+          (acc, el) => acc + el[ this.domProps.content ],
           0
         ),
         scroll = size > 0 && scrollSize > size // when there is no tab, in Chrome, size === 0 and scrollSize === 1
@@ -215,8 +215,8 @@ export default defineComponent({
 
       if (oldTab && newTab) {
         const
-          oldEl = oldTab.$el.getElementsByClassName('q-tab__indicator')[0],
-          newEl = newTab.$el.getElementsByClassName('q-tab__indicator')[0]
+          oldEl = oldTab.$el.getElementsByClassName('q-tab__indicator')[ 0 ],
+          newEl = newTab.$el.getElementsByClassName('q-tab__indicator')[ 0 ]
 
         clearTimeout(this.animateTimer)
 
@@ -250,14 +250,14 @@ export default defineComponent({
         let offset = this.vertical === true ? newPos.top - top : newPos.left - left
 
         if (offset < 0) {
-          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += Math.floor(offset)
+          this.$refs.content[ this.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.floor(offset)
           this.__updateArrows()
           return
         }
 
         offset += this.vertical === true ? newPos.height - height : newPos.width - width
         if (offset > 0) {
-          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += Math.ceil(offset)
+          this.$refs.content[ this.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.ceil(offset)
           this.__updateArrows()
         }
       }
@@ -318,7 +318,7 @@ export default defineComponent({
         pos = value
       }
 
-      content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] = pos
+      content[ this.vertical === true ? 'scrollTop' : 'scrollLeft' ] = pos
       this.__updateArrows()
       return done
     },
@@ -331,7 +331,7 @@ export default defineComponent({
     __updateActiveRoute () {
       let href = '', name = null, wasActive = this.fromRoute
 
-      this.__getRouteList().map(getTab => {
+      this.__getRouteList().forEach(getTab => {
         const tab = getTab()
 
         if (

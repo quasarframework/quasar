@@ -427,7 +427,7 @@ export default {
       fontSize: 14,
 
       text: '$$TSP',
-      options: ['$$TSP', '$$$$$'],
+      options: [ '$$TSP', '$$$$$' ],
 
       longLabel: 'A long label - 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     }
@@ -448,7 +448,7 @@ export default {
   computed: {
     props () {
       return {
-        [this.type]: true,
+        [ this.type ]: true,
         type: 'text' + (this.autogrow === true ? 'area' : ''),
         autogrow: this.autogrow,
         hideBottomSpace: this.hideBottomSpace,

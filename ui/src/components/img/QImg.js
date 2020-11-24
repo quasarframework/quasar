@@ -217,20 +217,20 @@ export default defineComponent({
     __getImage () {
       const nativeImg = this.nativeContextMenu === true
         ? [
-          h('img', {
-            class: 'absolute-full fit',
-            src: this.url,
-            'aria-hidden': 'true'
-          })
-        ]
+            h('img', {
+              class: 'absolute-full fit',
+              src: this.url,
+              'aria-hidden': 'true'
+            })
+          ]
         : void 0
 
       const content = this.url !== void 0
         ? h('div', {
-          key: this.url,
-          class: [ 'q-img__image absolute-full', this.imgClass ],
-          style: this.imgContainerStyle
-        }, nativeImg)
+            key: this.url,
+            class: [ 'q-img__image absolute-full', this.imgClass ],
+            style: this.imgContainerStyle
+          }, nativeImg)
         : null
 
       return this.basic === true
@@ -259,15 +259,15 @@ export default defineComponent({
         }, this.$slots.loading !== void 0
           ? this.$slots.loading()
           : (
-            this.noDefaultSpinner === false
-              ? [
-                h(QSpinner, {
-                  color: this.spinnerColor,
-                  size: this.spinnerSize
-                })
-              ]
-              : void 0
-          )
+              this.noDefaultSpinner === false
+                ? [
+                    h(QSpinner, {
+                      color: this.spinnerColor,
+                      size: this.spinnerSize
+                    })
+                  ]
+                : void 0
+            )
         )
       }
 

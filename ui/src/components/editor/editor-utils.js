@@ -34,8 +34,8 @@ function getBtn (vm, btn, clickHandler, active = false) {
   if (btn.tip && vm.$q.platform.is.desktop) {
     const Key = btn.key
       ? h('div', [
-        h('small', `(CTRL + ${String.fromCharCode(btn.key)})`)
-      ])
+          h('small', `(CTRL + ${String.fromCharCode(btn.key)})`)
+        ])
       : null
     child.push(
       h(QTooltip, { delay: 1000 }, () => [
@@ -204,8 +204,8 @@ export function getFonts (defaultFont, defaultFontLabel, defaultFontIcon, fonts 
   }
 
   aliases.forEach(alias => {
-    const name = fonts[alias]
-    def[alias] = {
+    const name = fonts[ alias ]
+    def[ alias ] = {
       cmd: 'fontName',
       param: name,
       icon: defaultFontIcon,

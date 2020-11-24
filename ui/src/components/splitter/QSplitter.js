@@ -27,8 +27,8 @@ export default defineComponent({
       type: Array,
       validator: v => {
         if (v.length !== 2) return false
-        if (typeof v[0] !== 'number' || typeof v[1] !== 'number') return false
-        return v[0] >= 0 && v[0] <= v[1]
+        if (typeof v[ 0 ] !== 'number' || typeof v[ 1 ] !== 'number') return false
+        return v[ 0 ] >= 0 && v[ 0 ] <= v[ 1 ]
       }
     },
 
@@ -88,15 +88,15 @@ export default defineComponent({
 
     styles () {
       return {
-        [this.side]: {
-          [this.prop]: this.__getCSSValue(this.modelValue)
+        [ this.side ]: {
+          [ this.prop ]: this.__getCSSValue(this.modelValue)
         }
       }
     },
 
     sepDirective () {
       // if this.disable !== true
-      return [[
+      return [ [
         TouchPan,
         this.__pan,
         void 0,
@@ -107,18 +107,18 @@ export default defineComponent({
           mouse: true,
           mouseAllDir: true
         }
-      ]]
+      ] ]
     }
   },
 
   methods: {
     __pan (evt) {
       if (evt.isFirst === true) {
-        const size = this.$el.getBoundingClientRect()[this.prop]
+        const size = this.$el.getBoundingClientRect()[ this.prop ]
 
         this.__dir = this.horizontal === true ? 'up' : 'left'
         this.__maxValue = this.unit === '%' ? 100 : size
-        this.__value = Math.min(this.__maxValue, this.computedLimits[1], Math.max(this.computedLimits[0], this.modelValue))
+        this.__value = Math.min(this.__maxValue, this.computedLimits[ 1 ], Math.max(this.computedLimits[ 0 ], this.modelValue))
         this.__multiplier = (this.reverse !== true ? 1 : -1) *
           (this.horizontal === true ? 1 : (this.$q.lang.rtl === true ? -1 : 1)) *
           (this.unit === '%' ? (size === 0 ? 0 : 100 / size) : 1)
@@ -139,11 +139,11 @@ export default defineComponent({
       const val = this.__value +
         this.__multiplier *
         (evt.direction === this.__dir ? -1 : 1) *
-        evt.distance[this.horizontal === true ? 'y' : 'x']
+        evt.distance[ this.horizontal === true ? 'y' : 'x' ]
 
-      this.__normalized = Math.min(this.__maxValue, this.computedLimits[1], Math.max(this.computedLimits[0], val))
+      this.__normalized = Math.min(this.__maxValue, this.computedLimits[ 1 ], Math.max(this.computedLimits[ 0 ], val))
 
-      this.$refs[this.side].style[this.prop] = this.__getCSSValue(this.__normalized)
+      this.$refs[ this.side ].style[ this.prop ] = this.__getCSSValue(this.__normalized)
 
       if (this.emitImmediately === true && this.modelValue !== this.__normalized) {
         this.$emit('update:modelValue', this.__normalized)
@@ -151,11 +151,11 @@ export default defineComponent({
     },
 
     __normalize (val, limits) {
-      if (val < limits[0]) {
-        this.$emit('update:modelValue', limits[0])
+      if (val < limits[ 0 ]) {
+        this.$emit('update:modelValue', limits[ 0 ])
       }
-      else if (val > limits[1]) {
-        this.$emit('update:modelValue', limits[1])
+      else if (val > limits[ 1 ]) {
+        this.$emit('update:modelValue', limits[ 1 ])
       }
     },
 

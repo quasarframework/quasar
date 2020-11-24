@@ -27,7 +27,7 @@ function getBodyClasses ({ is, has, within }, cfg) {
 
     if (
       is.ios === true &&
-      (cfg[type] === void 0 || cfg[type].iosStatusBarPadding !== false)
+      (cfg[ type ] === void 0 || cfg[ type ].iosStatusBarPadding !== false)
     ) {
       cls.push('q-ios-padding')
     }
@@ -67,7 +67,7 @@ function applyClientSsrCorrections () {
 
 function setColors (brand) {
   for (const color in brand) {
-    setBrand(color, brand[color])
+    setBrand(color, brand[ color ])
   }
 }
 

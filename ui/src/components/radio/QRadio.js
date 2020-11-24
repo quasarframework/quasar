@@ -44,7 +44,7 @@ export default defineComponent({
     dense: Boolean,
 
     disable: Boolean,
-    tabindex: [String, Number]
+    tabindex: [ String, Number ]
   },
 
   emits: [ 'update:modelValue' ],
@@ -70,7 +70,7 @@ export default defineComponent({
         ? ` text-${this.color}`
         : ''
 
-      return `q-radio__inner relative-position ` +
+      return 'q-radio__inner relative-position ' +
         `q-radio__inner--${this.isTrue === true ? 'truthy' : 'falsy'}${color}`
     },
 

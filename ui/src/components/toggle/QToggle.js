@@ -42,11 +42,11 @@ export default defineComponent({
           class: 'q-toggle__thumb absolute flex flex-center no-wrap'
         }, this.computedIcon !== void 0
           ? [
-            h(QIcon, {
-              name: this.computedIcon,
-              color: this.computedIconColor
-            })
-          ]
+              h(QIcon, {
+                name: this.computedIcon,
+                color: this.computedIconColor
+              })
+            ]
           : void 0
         )
       ]

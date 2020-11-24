@@ -110,7 +110,7 @@ export default {
       // multiple attribute is not specified. We also normalize drag'n'dropped
       // files here:
       if (this.multiple !== true) {
-        files = [ files[0] ]
+        files = [ files[ 0 ] ]
       }
 
       if (this.maxTotalSize !== void 0) {
@@ -200,9 +200,9 @@ export const FileValueMixin = {
         const dt = 'DataTransfer' in window
           ? new DataTransfer()
           : ('ClipboardEvent' in window
-            ? new ClipboardEvent('').clipboardData
-            : void 0
-          )
+              ? new ClipboardEvent('').clipboardData
+              : void 0
+            )
 
         if (Object(this.modelValue) === this.modelValue) {
           ('length' in this.modelValue

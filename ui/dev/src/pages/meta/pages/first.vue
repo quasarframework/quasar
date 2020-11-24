@@ -58,7 +58,7 @@ export default {
           google: { rel: 'stylesheet', href: 'http://bogus.com/1' }
         },
         noscript: {
-          default: `This is for non-JS`
+          default: 'This is for non-JS'
         }
       }
     })

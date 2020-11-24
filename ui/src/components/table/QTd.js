@@ -26,7 +26,7 @@ export default defineComponent({
     const name = this.$.vnode.key
 
     const col = this.props.colsMap !== void 0 && name
-      ? this.props.colsMap[name]
+      ? this.props.colsMap[ name ]
       : this.props.col
 
     if (col === void 0) { return }

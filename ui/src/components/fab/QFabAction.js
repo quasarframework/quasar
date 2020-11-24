@@ -47,7 +47,7 @@ export default defineComponent({
 
   computed: {
     classes () {
-      const align = anchorMap[this.anchor]
+      const align = anchorMap[ this.anchor ]
       return this.formClass + (align !== void 0 ? ` ${align}` : '')
     },
 
@@ -69,7 +69,7 @@ export default defineComponent({
         h(QIcon, { name: this.icon })
       )
 
-      this.label !== '' && child[this.labelProps.action](
+      this.label !== '' && child[ this.labelProps.action ](
         h('div', this.labelProps.data, [ this.label ])
       )
 

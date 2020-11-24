@@ -25,7 +25,7 @@ export default defineComponent({
     const name = this.$.vnode.key
 
     if (name) {
-      col = this.props.colsMap[name]
+      col = this.props.colsMap[ name ]
       if (col === void 0) { return }
     }
     else {
@@ -38,7 +38,7 @@ export default defineComponent({
         : 'push'
 
       child = hUniqueSlot(this, 'default', [])
-      child[action](
+      child[ action ](
         h(QIcon, {
           class: col.__iconClass,
           name: this.$q.iconSet.table.arrowUp
@@ -57,7 +57,7 @@ export default defineComponent({
 
     if (col.sortable === true) {
       data.onClick = evt => {
-        this.props.sort(col)
+        this.props.sort(col) // eslint-disable-line
         this.$emit('click', evt)
       }
     }

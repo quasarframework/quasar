@@ -91,13 +91,13 @@ export default {
   computed: {
     attributes () {
       const att = {}
-      this.attrs.forEach(a => { att[a] = 'yes' })
+      this.attrs.forEach(a => { att[ a ] = 'yes' })
       return att
     },
 
     attributes2 () {
       const att = {}
-      this.attrs2.forEach(a => { att[a] = 'yes' })
+      this.attrs2.forEach(a => { att[ a ] = 'yes' })
       return att
     }
   },

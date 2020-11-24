@@ -369,7 +369,7 @@ export default {
     }
 
     for (let i = 1; i <= n; i++) {
-      data['model' + i] = ''
+      data[ 'model' + i ] = ''
     }
 
     return data
@@ -379,18 +379,18 @@ export default {
     testRule () {
       return this.testRule20 === true
         ? [
-          val => val >= 20 || 'Select at least 20'
-        ]
+            val => val >= 20 || 'Select at least 20'
+          ]
         : [
-          val => val >= 10 || 'Select at least 10'
-        ]
+            val => val >= 10 || 'Select at least 10'
+          ]
     }
   },
 
   methods: {
     reset () {
       for (let i = 1; i <= this.n; i++) {
-        this.$refs['input' + i].resetValidation()
+        this.$refs[ 'input' + i ].resetValidation()
       }
     },
 

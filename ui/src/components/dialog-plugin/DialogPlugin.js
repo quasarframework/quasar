@@ -75,13 +75,13 @@ export default defineComponent({
       if (this.progress !== false) {
         return Object(this.progress) === this.progress
           ? {
-            component: this.progress.spinner || QSpinner,
-            props: { color: this.progress.color || this.vmColor }
-          }
+              component: this.progress.spinner || QSpinner,
+              props: { color: this.progress.color || this.vmColor }
+            }
           : {
-            component: QSpinner,
-            props: { color: this.vmColor }
-          }
+              component: QSpinner,
+              props: { color: this.vmColor }
+            }
       }
     },
 
@@ -103,20 +103,20 @@ export default defineComponent({
       return Object(this.ok) === this.ok
         ? this.$q.lang.label.ok
         : (
-          this.ok === true
-            ? this.$q.lang.label.ok
-            : this.ok
-        )
+            this.ok === true
+              ? this.$q.lang.label.ok
+              : this.ok
+          )
     },
 
     cancelLabel () {
       return Object(this.cancel) === this.cancel
         ? this.$q.lang.label.cancel
         : (
-          this.cancel === true
-            ? this.$q.lang.label.cancel
-            : this.cancel
-        )
+            this.cancel === true
+              ? this.$q.lang.label.cancel
+              : this.cancel
+          )
     },
 
     vmColor () {
@@ -198,9 +198,9 @@ export default defineComponent({
     getSection (classes, text) {
       return this.html === true
         ? h(QCardSection, {
-          class: classes,
-          innerHTML: text
-        })
+            class: classes,
+            innerHTML: text
+          })
         : h(QCardSection, { class: classes }, () => text)
     },
 

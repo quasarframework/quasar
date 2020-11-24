@@ -81,7 +81,7 @@ export function getEmptyStorage () {
 
 export function getStorage (type) {
   const
-    webStorage = window[type + 'Storage'],
+    webStorage = window[ type + 'Storage' ],
     get = key => {
       const item = webStorage.getItem(key)
       return item
@@ -109,7 +109,7 @@ export function getStorage (type) {
 
       for (let i = 0; i < len; i++) {
         key = webStorage.key(i)
-        result[key] = get(key)
+        result[ key ] = get(key)
       }
 
       return result

@@ -810,7 +810,7 @@ export default {
       selectionToggle: false,
       loading: false,
       color: 'amber',
-      visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
+      visibleColumns: [ 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
       separator: 'horizontal',
       selected: [],
       gridHeader: false,

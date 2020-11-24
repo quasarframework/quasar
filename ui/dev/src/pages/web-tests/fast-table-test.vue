@@ -14,9 +14,9 @@
       :filter="filter"
       :color="color"
       row-key="name"
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
       :selection="selection"
-      :selected.sync="selected"
+      v-model:selected="selected"
       :loading="loading"
       :visible-columns="visibleColumns"
       :title="title"
@@ -34,7 +34,7 @@ export default {
       selectionToggle: false,
       loading: false,
       color: 'amber',
-      visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
+      visibleColumns: [ 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
       separator: 'horizontal',
       selected: [],
       selection: 'multiple',

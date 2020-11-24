@@ -8,7 +8,7 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 
 import { hSlot, hMergeSlot } from '../../utils/render.js'
 
-const directions = ['up', 'right', 'down', 'left']
+const directions = [ 'up', 'right', 'down', 'left' ]
 const alignValues = [ 'left', 'center', 'right' ]
 
 export default defineComponent({
@@ -95,7 +95,7 @@ export default defineComponent({
         ])
       )
 
-      this.label !== '' && child[this.labelProps.action](
+      this.label !== '' && child[ this.labelProps.action ](
         h('div', this.labelProps.data, [ this.label ])
       )
 

@@ -143,7 +143,7 @@ export default defineComponent({
     this.__resizeHandler = frameDebounce(this.__onResize)
 
     this.media = this.$slots.media !== void 0
-      ? this.$refs.mediaParent.children[0]
+      ? this.$refs.mediaParent.children[ 0 ]
       : this.$refs.media
 
     this.media.onload = this.media.onloadstart = this.media.loadedmetadata = this.__onResize
@@ -152,7 +152,7 @@ export default defineComponent({
 
     if (window.IntersectionObserver !== void 0) {
       this.observer = new IntersectionObserver(entries => {
-        this[entries[0].isIntersecting === true ? '__start' : '__stop']()
+        this[ entries[ 0 ].isIntersecting === true ? '__start' : '__stop' ]()
       })
 
       this.observer.observe(this.$el)

@@ -8,15 +8,15 @@ export default {
     __getGridHeader () {
       const child = this.gridHeader === true
         ? [
-          h('table', { class: 'q-table' }, [
-            this.__getTHead(h)
-          ])
-        ]
+            h('table', { class: 'q-table' }, [
+              this.__getTHead(h)
+            ])
+          ]
         : (
-          this.loading === true && this.$slots.loading === void 0
-            ? this.__getProgress(h)
-            : void 0
-        )
+            this.loading === true && this.$slots.loading === void 0
+              ? this.__getProgress(h)
+              : void 0
+          )
 
       return h('div', { class: 'q-table__middle' }, child)
     },
@@ -33,20 +33,20 @@ export default {
           )
 
           if (this.hasSelectionMode === true) {
-            const slot = this.$slots['body-selection']
+            const slot = this.$slots[ 'body-selection' ]
             const content = slot !== void 0
               ? slot(scope)
               : [
-                h(QCheckbox, {
-                  modelValue: scope.selected,
-                  color: this.color,
-                  dark: this.isDark,
-                  dense: this.dense,
-                  'onUpdate:modelValue': (adding, evt) => {
-                    this.__updateSelection([ scope.key ], [ scope.row ], adding, evt)
-                  }
-                })
-              ]
+                  h(QCheckbox, {
+                    modelValue: scope.selected,
+                    color: this.color,
+                    dark: this.isDark,
+                    dense: this.dense,
+                    'onUpdate:modelValue': (adding, evt) => {
+                      this.__updateSelection([ scope.key ], [ scope.row ], adding, evt)
+                    }
+                  })
+                ]
 
             child.unshift(
               h('div', { class: 'q-table__grid-item-row' }, content),
@@ -63,18 +63,18 @@ export default {
           }
 
           if (
-            this.emitListeners['onRow-click'] === true ||
-            this.emitListeners['onRow-dblclick'] === true
+            this.emitListeners[ 'onRow-click' ] === true ||
+            this.emitListeners[ 'onRow-dblclick' ] === true
           ) {
-            data.class[0] += ' cursor-pointer'
+            data.class[ 0 ] += ' cursor-pointer'
 
-            if (this.emitListeners['onRow-click'] === true) {
+            if (this.emitListeners[ 'onRow-click' ] === true) {
               data.onClick = evt => {
                 this.$emit('row-click', evt, scope.row, scope.pageIndex)
               }
             }
 
-            if (this.emitListeners['onRow-dblclick'] === true) {
+            if (this.emitListeners[ 'onRow-dblclick' ] === true) {
               data.onDblclick = evt => {
                 this.$emit('row-dblclick', evt, scope.row, scope.pageIndex)
               }

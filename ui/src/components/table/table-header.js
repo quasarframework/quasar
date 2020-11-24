@@ -33,7 +33,7 @@ export default {
     __getTHeadTR () {
       const
         header = this.$slots.header,
-        headerCell = this.$slots['header-cell']
+        headerCell = this.$slots[ 'header-cell' ]
 
       if (header !== void 0) {
         return header(
@@ -43,7 +43,7 @@ export default {
 
       const child = this.computedCols.map(col => {
         const
-          headerCellCol = this.$slots[`header-cell-${col.name}`],
+          headerCellCol = this.$slots[ `header-cell-${col.name}` ],
           slot = headerCellCol !== void 0 ? headerCellCol : headerCell,
           props = this.__getHeaderScope({ col })
 
@@ -63,18 +63,18 @@ export default {
         )
       }
       else if (this.multipleSelection === true) {
-        const slot = this.$slots['header-selection']
+        const slot = this.$slots[ 'header-selection' ]
         const content = slot !== void 0
           ? slot(this.__getHeaderScope({}))
           : [
-            h(QCheckbox, {
-              color: this.color,
-              modelValue: this.headerSelectedValue,
-              dark: this.isDark,
-              dense: this.dense,
-              'onUpdate:modelValue': this.__onMultipleSelectionSet
-            })
-          ]
+              h(QCheckbox, {
+                color: this.color,
+                modelValue: this.headerSelectedValue,
+                dark: this.isDark,
+                dense: this.dense,
+                'onUpdate:modelValue': this.__onMultipleSelectionSet
+              })
+            ]
 
         child.unshift(
           h('th', { class: 'q-table--col-auto-width' }, content)

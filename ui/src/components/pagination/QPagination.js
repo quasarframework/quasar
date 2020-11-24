@@ -33,8 +33,8 @@ export default defineComponent({
     },
     textColor: String,
 
-    inputStyle: [Array, String, Object],
-    inputClass: [Array, String, Object],
+    inputStyle: [ Array, String, Object ],
+    inputClass: [ Array, String, Object ],
 
     size: String,
 
@@ -72,7 +72,7 @@ export default defineComponent({
     },
 
     ripple: {
-      type: [Boolean, Object],
+      type: [ Boolean, Object ],
       default: null
     }
   },
@@ -173,7 +173,7 @@ export default defineComponent({
     },
 
     __getBool (val, otherwise) {
-      return [true, false].includes(val)
+      return [ true, false ].includes(val)
         ? val
         : otherwise
     },
@@ -204,12 +204,12 @@ export default defineComponent({
       contentStart.push(this.__getBtn({
         key: 'bls',
         disable: this.disable || this.modelValue <= this.min,
-        icon: this.icons[0]
+        icon: this.icons[ 0 ]
       }, this.min))
       contentEnd.unshift(this.__getBtn({
         key: 'ble',
         disable: this.disable || this.modelValue >= this.max,
-        icon: this.icons[3]
+        icon: this.icons[ 3 ]
       }, this.max))
     }
 
@@ -217,12 +217,12 @@ export default defineComponent({
       contentStart.push(this.__getBtn({
         key: 'bdp',
         disable: this.disable || this.modelValue <= this.min,
-        icon: this.icons[1]
+        icon: this.icons[ 1 ]
       }, this.modelValue - 1))
       contentEnd.unshift(this.__getBtn({
         key: 'bdn',
         disable: this.disable || this.modelValue >= this.max,
-        icon: this.icons[2]
+        icon: this.icons[ 2 ]
       }, this.modelValue + 1))
     }
 

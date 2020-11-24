@@ -1,7 +1,6 @@
 import { css } from '../utils/dom.js'
 import { position, stop, addEvt, cleanEvt } from '../utils/event.js'
 import { isKeyCode } from '../utils/key-composition.js'
-import { client } from '../plugins/Platform.js'
 import throttle from '../utils/throttle.js'
 import { $q } from '../install-quasar.js'
 
@@ -87,7 +86,7 @@ export default {
           evt.qSkipRipple !== true &&
           (
             ctx.modifiers.early === true
-              ? ['mousedown', 'touchstart'].includes(evt.type) === true
+              ? [ 'mousedown', 'touchstart' ].includes(evt.type) === true
               : evt.type === 'click'
           )
         ) {

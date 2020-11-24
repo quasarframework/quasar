@@ -871,7 +871,7 @@ export default {
 
       select: 'ten',
       selectMultiple: [],
-      selectOptions: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+      selectOptions: [ 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten' ],
       selectOptionsFiltered: [],
 
       closePopupTest: false,

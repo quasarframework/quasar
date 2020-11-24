@@ -45,17 +45,17 @@ const STORAGE_KEY = 'index-filter'
 
 const list = {}
 pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
-  const [folder, file] = page.split('/')
-  if (!list[folder]) {
-    list[folder] = []
+  const [ folder, file ] = page.split('/')
+  if (!list[ folder ]) {
+    list[ folder ] = []
   }
-  list[folder].push({
+  list[ folder ].push({
     route: '/' + page,
     title: file.split(/-/).map(f => f.charAt(0).toUpperCase() + f.slice(1)).join(' ')
   })
 })
 
-list['Meta'] = [
+list.Meta = [
   { route: '/meta/layout_1/first', title: 'Meta Layout 1' },
   { route: '/meta/layout_2/first', title: 'Meta Layout 2' },
   { route: '/meta/title', title: 'Meta Title page' }
@@ -99,11 +99,11 @@ export default {
       const filter = this.filter.toLowerCase()
 
       Object.keys(this.list).forEach(categName => {
-        const filtered = this.list[categName]
+        const filtered = this.list[ categName ]
           .filter(feature => feature.title.toLowerCase().indexOf(filter) > -1)
 
         if (filtered.length > 0) {
-          newList[categName] = filtered
+          newList[ categName ] = filtered
         }
       })
 
@@ -146,7 +146,7 @@ export default {
         else {
           const nodes = document.querySelectorAll('.q-item')
           if (nodes.length > 0) {
-            nextEl = nodes[nodes.length - 1]
+            nextEl = nodes[ nodes.length - 1 ]
           }
         }
 
@@ -156,9 +156,9 @@ export default {
         return
       }
 
-      if (el[op]) {
+      if (el[ op ]) {
         do {
-          el = el[op]
+          el = el[ op ]
         }
         while (el && (el.nodeType === 3 || el.tagName.toUpperCase() !== 'A'))
 

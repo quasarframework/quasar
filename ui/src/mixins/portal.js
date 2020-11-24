@@ -64,60 +64,60 @@ export function closePortals (vm, evt, depth) {
 export default __QUASAR_SSR_SERVER__
   ? { render: noop }
   : {
-    data () {
-      return { usePortal: false }
-    },
-
-    methods: {
-      __showPortal () {
-        if (this.__onGlobalDialog === false) {
-          this.__portalEl = createGlobalNode()
-        }
-
-        this.usePortal = true
-
-        // register portal
-        portalList.push(this.__getPortalVm)
+      data () {
+        return { usePortal: false }
       },
 
-      __hidePortal () {
-        this.usePortal = false
+      methods: {
+        __showPortal () {
+          if (this.__onGlobalDialog === false) {
+            this.__portalEl = createGlobalNode()
+          }
 
-        // unregister portal
-        const index = portalList.indexOf(this.__getPortalVm)
-        if (index > -1) {
-          portalList.splice(index, 1)
-        }
+          this.usePortal = true
 
-        if (this.__portalEl !== null) {
-          removeGlobalNode(this.__portalEl)
-          this.__portalEl = null
+          // register portal
+          portalList.push(this.__getPortalVm)
+        },
+
+        __hidePortal () {
+          this.usePortal = false
+
+          // unregister portal
+          const index = portalList.indexOf(this.__getPortalVm)
+          if (index > -1) {
+            portalList.splice(index, 1)
+          }
+
+          if (this.__portalEl !== null) {
+            removeGlobalNode(this.__portalEl)
+            this.__portalEl = null
+          }
+        },
+
+        // we use a reference that won't change between
+        // re-renders for the click-outside management
+        __getPortalVm () {
+          return this
         }
       },
 
-      // we use a reference that won't change between
-      // re-renders for the click-outside management
-      __getPortalVm () {
-        return this
+      render () {
+        return this.__onGlobalDialog === true
+          ? this.__renderPortal()
+          : (
+              this.usePortal === true
+                ? [ h(Teleport, { to: this.__portalEl }, this.__renderPortal()) ]
+                : void 0
+            )
+      },
+
+      created () {
+        this.__portalEl = null
+        this.__onGlobalDialog = this.$root.$.type.name === 'QGlobalDialog'
+      },
+
+      unmounted () {
+        this.__hidePortal()
       }
-    },
-
-    render () {
-      return this.__onGlobalDialog === true
-        ? this.__renderPortal()
-        : (
-          this.usePortal === true
-            ? [ h(Teleport, { to: this.__portalEl }, this.__renderPortal()) ]
-            : void 0
-        )
-    },
-
-    created () {
-      this.__portalEl = null
-      this.__onGlobalDialog = this.$root.$.type.name === 'QGlobalDialog'
-    },
-
-    unmounted () {
-      this.__hidePortal()
     }
-  }

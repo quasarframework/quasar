@@ -36,13 +36,13 @@ export default {
       return this.conf.split(' ')
     },
     first () {
-      return this.split[0]
+      return this.split[ 0 ]
     },
     second () {
-      return this.split[1]
+      return this.split[ 1 ]
     },
     last () {
-      return this.split[2]
+      return this.split[ 2 ]
     }
   }
 }

@@ -19,15 +19,15 @@ function onKeyup (evt) {
     escDown = false
 
     if (isKeyCode(evt, 27) === true) {
-      handlers[handlers.length - 1](evt)
+      handlers[ handlers.length - 1 ](evt)
     }
   }
 }
 
 function update (action) {
-  window[action]('keydown', onKeydown)
-  window[action]('blur', onBlur)
-  window[action]('keyup', onKeyup)
+  window[ action ]('keydown', onKeydown)
+  window[ action ]('blur', onBlur)
+  window[ action ]('keyup', onKeyup)
   escDown = false
 }
 

@@ -66,8 +66,8 @@ export default defineComponent({
 
     arrowIcons () {
       const ico = [
-        this.prevIcon || this.$q.iconSet.carousel[this.vertical === true ? 'up' : 'left'],
-        this.nextIcon || this.$q.iconSet.carousel[this.vertical === true ? 'down' : 'right']
+        this.prevIcon || this.$q.iconSet.carousel[ this.vertical === true ? 'up' : 'left' ],
+        this.nextIcon || this.$q.iconSet.carousel[ this.vertical === true ? 'down' : 'right' ]
       ]
 
       return this.vertical === false && this.$q.lang.rtl === true
@@ -98,11 +98,11 @@ export default defineComponent({
     },
 
     transitionPrevComputed () {
-      return this.transitionPrev || `fade`
+      return this.transitionPrev || 'fade'
     },
 
     transitionNextComputed () {
-      return this.transitionNext || `fade`
+      return this.transitionNext || 'fade'
     }
   },
 
@@ -148,8 +148,8 @@ export default defineComponent({
       const node = []
 
       if (this.navigation === true) {
-        const fn = this.$slots['navigation-icon'] !== void 0
-          ? this.$slots['navigation-icon']
+        const fn = this.$slots[ 'navigation-icon' ] !== void 0
+          ? this.$slots[ 'navigation-icon' ]
           : opts => h(QBtn, {
             key: 'nav' + opts.name,
             class: `q-carousel__navigation-icon q-carousel__navigation-icon--${opts.active === true ? '' : 'in'}active`,
@@ -189,7 +189,7 @@ export default defineComponent({
           return h('img', {
             key: 'tmb#' + slide.name,
             class: `q-carousel__thumbnail q-carousel__thumbnail--${slide.name === this.modelValue ? '' : 'in'}active` + color,
-            src: slide.imgSrc || slide['img-src'],
+            src: slide.imgSrc || slide[ 'img-src' ],
             onClick: () => { this.goTo(slide.name) }
           })
         }))
@@ -203,7 +203,7 @@ export default defineComponent({
               class: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${this.direction} absolute flex flex-center`
             }, [
               h(QBtn, {
-                icon: this.arrowIcons[0],
+                icon: this.arrowIcons[ 0 ],
                 ...this.controlProps,
                 onClick: this.previous
               })
@@ -215,11 +215,11 @@ export default defineComponent({
           node.push(
             h('div', {
               key: 'next',
-              class: `q-carousel__control q-carousel__arrow q-carousel__next-arrow` +
+              class: 'q-carousel__control q-carousel__arrow q-carousel__next-arrow' +
                 ` q-carousel__next-arrow--${this.direction} absolute flex flex-center`
             }, [
               h(QBtn, {
-                icon: this.arrowIcons[1],
+                icon: this.arrowIcons[ 1 ],
                 ...this.controlProps,
                 onClick: this.next
               })

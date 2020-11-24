@@ -7,7 +7,7 @@ function getBlockElement (el, parent) {
 
   const nodeName = el.nodeName.toLowerCase()
 
-  if (['div', 'li', 'ul', 'ol', 'blockquote'].includes(nodeName) === true) {
+  if ([ 'div', 'li', 'ul', 'ol', 'blockquote' ].includes(nodeName) === true) {
     return el
   }
 
@@ -52,7 +52,7 @@ function createRange (node, chars, range) {
     }
     else {
       for (let lp = 0; chars.count !== 0 && lp < node.childNodes.length; lp++) {
-        range = createRange(node.childNodes[lp], chars, range)
+        range = createRange(node.childNodes[ lp ], chars, range)
       }
     }
   }
@@ -210,10 +210,8 @@ export class Caret {
   is (cmd, param) {
     switch (cmd) {
       case 'formatBlock':
-        if (param === 'DIV' && this.parent === this.el) {
-          return true
-        }
-        return this.hasParent(param, param === 'PRE')
+        return (param === 'DIV' && this.parent === this.el) ||
+          this.hasParent(param, param === 'PRE')
       case 'link':
         return this.hasParent('A', true)
       case 'fontSize':
@@ -243,11 +241,11 @@ export class Caret {
 
   can (name) {
     if (name === 'outdent') {
-      return this.hasParents(['blockquote', 'li'], true)
+      return this.hasParents([ 'blockquote', 'li' ], true)
     }
 
     if (name === 'indent') {
-      return this.hasParents(['li'], true)
+      return this.hasParents([ 'li' ], true)
     }
 
     if (name === 'link') {
@@ -257,7 +255,7 @@ export class Caret {
 
   apply (cmd, param, done = noop) {
     if (cmd === 'formatBlock') {
-      if (['BLOCKQUOTE', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(param) && this.is(cmd, param)) {
+      if ([ 'BLOCKQUOTE', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6' ].includes(param) && this.is(cmd, param)) {
         cmd = 'outdent'
         param = null
       }
@@ -342,7 +340,7 @@ export class Caret {
     const range = document.createRange()
     range.setStart(sel.anchorNode, sel.anchorOffset)
     range.setEnd(sel.focusNode, sel.focusOffset)
-    const direction = range.collapsed ? ['backward', 'forward'] : ['forward', 'backward']
+    const direction = range.collapsed ? [ 'backward', 'forward' ] : [ 'forward', 'backward' ]
     range.detach()
 
     // modify() works on the focus of the selection
@@ -350,11 +348,11 @@ export class Caret {
       endNode = sel.focusNode,
       endOffset = sel.focusOffset
     sel.collapse(sel.anchorNode, sel.anchorOffset)
-    sel.modify('move', direction[0], 'character')
-    sel.modify('move', direction[1], 'word')
+    sel.modify('move', direction[ 0 ], 'character')
+    sel.modify('move', direction[ 1 ], 'word')
     sel.extend(endNode, endOffset)
-    sel.modify('extend', direction[1], 'character')
-    sel.modify('extend', direction[0], 'word')
+    sel.modify('extend', direction[ 1 ], 'character')
+    sel.modify('extend', direction[ 0 ], 'word')
 
     return sel
   }

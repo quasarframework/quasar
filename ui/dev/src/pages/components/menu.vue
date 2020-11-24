@@ -541,7 +541,7 @@
           <q-img
             src="https://cdn.quasar.dev/img/map.png"
             style="height: 150px; width: 200px;"
-            @click.native="showNotify(), $refs.popover3.hide()"
+            @click="showNotify(), $refs.popover3.hide()"
             tabindex="0"
           />
         </q-menu>
@@ -565,7 +565,7 @@
             v-for="n in 20"
             :key="n"
             clickable
-            @click.native="showNotify(), $refs.popover5.hide()"
+            @click="showNotify(), $refs.popover5.hide()"
           >
             <q-item-section>Label</q-item-section>
           </q-item>

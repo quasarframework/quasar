@@ -510,15 +510,15 @@ export default {
 
       scrolling: true,
 
-      topleft: v[0],
-      topcenter: v[1],
-      topright: v[2],
-      middleleft: v[4],
-      middlecenter: v[5],
-      middleright: v[6],
-      bottomleft: v[8],
-      bottomcenter: v[9],
-      bottomright: v[10],
+      topleft: v[ 0 ],
+      topcenter: v[ 1 ],
+      topright: v[ 2 ],
+      middleleft: v[ 4 ],
+      middlecenter: v[ 5 ],
+      middleright: v[ 6 ],
+      bottomleft: v[ 8 ],
+      bottomcenter: v[ 9 ],
+      bottomright: v[ 10 ],
       drawerBehaviorOptions: [
         { label: 'Behave Normal', value: 'default' },
         { label: 'Behave Mobile', value: 'mobile' },
@@ -547,7 +547,7 @@ export default {
   },
   watch: {
     mainColor (v) {
-      colors.setBrand(`primary`, v)
+      colors.setBrand('primary', v)
     }
   },
   methods: {

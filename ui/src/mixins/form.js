@@ -19,7 +19,7 @@ export default {
 
   methods: {
     __injectFormInput (child, action, className) {
-      child[action](
+      child[ action ](
         h('input', {
           class: 'hidden' + (className || ''),
           ...this.formAttrs,

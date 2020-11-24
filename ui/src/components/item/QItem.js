@@ -52,10 +52,10 @@ export default defineComponent({
           this.hasLink === true
             ? this.linkClass
             : (
-              this.active === true
-                ? ' q-item--active'
-                : ''
-            )
+                this.active === true
+                  ? ' q-item--active'
+                  : ''
+              )
         ) +
         (this.disable === true ? ' disabled' : '') +
         (
@@ -71,7 +71,7 @@ export default defineComponent({
       if (this.insetLevel !== void 0) {
         const dir = this.$q.lang.rtl === true ? 'Right' : 'Left'
         return {
-          ['padding' + dir]: (16 + this.insetLevel * 56) + 'px'
+          [ 'padding' + dir ]: (16 + this.insetLevel * 56) + 'px'
         }
       }
     }
@@ -133,7 +133,7 @@ export default defineComponent({
       Object.assign(data, this.linkProps)
     }
     else if (this.isActionable === true) {
-      data['aria-disabled'] = 'true'
+      data[ 'aria-disabled' ] = 'true'
     }
 
     return h(

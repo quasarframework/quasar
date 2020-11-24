@@ -41,16 +41,16 @@ export default {
           ? this.loadingLabel || this.$q.lang.table.loading
           : (this.filter ? this.noResultsLabel || this.$q.lang.table.noResults : this.noDataLabel || this.$q.lang.table.noData)
 
-        const noData = this.$slots['no-data']
+        const noData = this.$slots[ 'no-data' ]
         const children = noData !== void 0
           ? [ noData({ message, icon: this.$q.iconSet.table.warning, filter: this.filter }) ]
           : [
-            h(QIcon, {
-              class: 'q-table__bottom-nodata-icon',
-              name: this.$q.iconSet.table.warning
-            }),
-            message
-          ]
+              h(QIcon, {
+                class: 'q-table__bottom-nodata-icon',
+                name: this.$q.iconSet.table.warning
+              }),
+              message
+            ]
 
         return h('div', {
           class: bottomClass + ' q-table__bottom--nodata'
@@ -65,12 +65,12 @@ export default {
 
       const child = this.hideSelectedBanner !== true && this.hasSelectionMode === true && this.rowsSelectedNumber > 0
         ? [
-          h('div', { class: 'q-table__control' }, [
-            h('div', [
-              (this.selectedRowsLabel || this.$q.lang.table.selectedRecords)(this.rowsSelectedNumber)
+            h('div', { class: 'q-table__control' }, [
+              h('div', [
+                (this.selectedRowsLabel || this.$q.lang.table.selectedRecords)(this.rowsSelectedNumber)
+              ])
             ])
-          ])
-        ]
+          ]
         : []
 
       if (this.hidePagination !== true) {
@@ -156,7 +156,7 @@ export default {
             h(QBtn, {
               key: 'pgFirst',
               ...btnProps,
-              icon: this.navIcon[0],
+              icon: this.navIcon[ 0 ],
               disable: this.isFirstPage,
               onClick: this.firstPage
             })
@@ -166,7 +166,7 @@ export default {
             h(QBtn, {
               key: 'pgPrev',
               ...btnProps,
-              icon: this.navIcon[1],
+              icon: this.navIcon[ 1 ],
               disable: this.isFirstPage,
               onClick: this.prevPage
             }),
@@ -174,7 +174,7 @@ export default {
             h(QBtn, {
               key: 'pgNext',
               ...btnProps,
-              icon: this.navIcon[2],
+              icon: this.navIcon[ 2 ],
               disable: this.isLastPage,
               onClick: this.nextPage
             })
@@ -184,7 +184,7 @@ export default {
             h(QBtn, {
               key: 'pgLast',
               ...btnProps,
-              icon: this.navIcon[3],
+              icon: this.navIcon[ 3 ],
               disable: this.isLastPage,
               onClick: this.lastPage
             })

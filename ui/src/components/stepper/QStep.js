@@ -85,16 +85,16 @@ export default defineComponent({
       const vertical = this.stepper.vertical
       return vertical === true && this.stepper.keepAlive === true
         ? h(
-          KeepAlive,
-          this.isActive === true
-            ? [ h(StepWrapper, { key: this.name }, this.$slots.default) ]
-            : void 0
-        )
+            KeepAlive,
+            this.isActive === true
+              ? [ h(StepWrapper, { key: this.name }, this.$slots.default) ]
+              : void 0
+          )
         : (
-          vertical !== true || this.isActive === true
-            ? StepWrapper.render.call(this)
-            : void 0
-        )
+            vertical !== true || this.isActive === true
+              ? StepWrapper.render.call(this)
+              : void 0
+          )
     }
   },
 
@@ -104,15 +104,15 @@ export default defineComponent({
       { class: 'q-stepper__step' },
       this.stepper.vertical === true
         ? [
-          h(StepHeader, {
-            stepper: this.stepper,
-            step: this
-          }),
+            h(StepHeader, {
+              stepper: this.stepper,
+              step: this
+            }),
 
-          this.stepper.animated === true
-            ? h(QSlideTransition, this.__getStepContent)
-            : this.__getStepContent()
-        ]
+            this.stepper.animated === true
+              ? h(QSlideTransition, this.__getStepContent)
+              : this.__getStepContent()
+          ]
         : [ this.__getStepContent() ]
     )
   }

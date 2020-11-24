@@ -66,12 +66,12 @@ export default defineComponent({
         modifiers.mouse = true
       }
 
-      return [[
+      return [ [
         TouchPan,
         this.__pull,
         void 0,
         modifiers
-      ]]
+      ] ]
     },
 
     contentClass () {
@@ -190,10 +190,10 @@ export default defineComponent({
         }, [
           this.state !== 'refreshing'
             ? h(QIcon, {
-              name: this.icon || this.$q.iconSet.pullToRefresh.icon,
-              color: this.color,
-              size: '32px'
-            })
+                name: this.icon || this.$q.iconSet.pullToRefresh.icon,
+                color: this.color,
+                size: '32px'
+              })
             : h(QSpinner, {
               size: '24px',
               color: this.color

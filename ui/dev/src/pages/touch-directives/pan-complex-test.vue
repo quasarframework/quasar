@@ -17,7 +17,6 @@
           <q-slide-item
             @left="onLeft"
             @right="onRight"
-            @click.native="evt => onClickNative('ext', evt)"
             @click="evt => onClick('ext', evt)"
           >
             <template v-slot:left>
@@ -33,7 +32,6 @@
                   unelevated
                   color="primary"
                   label="Btn"
-                  @click.native="evt => onClickNative('ext btn', evt)"
                   @click="evt => onClick('ext btn', evt)"
                 />
                 <q-btn
@@ -42,7 +40,6 @@
                   color="primary"
                   to="#test"
                   label="Link"
-                  @click.native="evt => onClickNative('ext a', evt)"
                   @click="evt => onClick('ext a', evt)"
                 />
               </q-item-section>
@@ -55,7 +52,6 @@
               <q-slide-item
                 @left="onLeft"
                 @right="onRight"
-                @click.native="evt => onClickNative('int', evt)"
                 @click="evt => onClick('int', evt)"
               >
                 <template v-slot:left>
@@ -71,7 +67,6 @@
                       unelevated
                       color="primary"
                       label="Btn"
-                      @click.native="evt => onClickNative('int btn', evt)"
                       @click="evt => onClick('int btn', evt)"
                     />
                     <q-btn
@@ -80,7 +75,6 @@
                       color="primary"
                       to="#test"
                       label="Link"
-                      @click.native="evt => onClickNative('int a', evt)"
                       @click="evt => onClick('int a', evt)"
                     />
                   </q-item-section>
@@ -114,7 +108,6 @@
           <q-slide-item
             @left="onLeft"
             @right="onRight"
-            @click.native="evt => onClickNative('ext', evt)"
             @click="evt => onClick('ext', evt)"
           >
             <template v-slot:left>
@@ -130,7 +123,6 @@
                   unelevated
                   color="primary"
                   label="Btn"
-                  @click.native="evt => onClickNative('ext btn', evt)"
                   @click="evt => onClick('ext btn', evt)"
                 />
                 <q-btn
@@ -139,7 +131,6 @@
                   color="primary"
                   to="#test"
                   label="Link"
-                  @click.native="evt => onClickNative('ext a', evt)"
                   @click="evt => onClick('ext a', evt)"
                 />
               </q-item-section>
@@ -152,7 +143,6 @@
               <q-slide-item
                 @top="onTop"
                 @bottom="onBottom"
-                @click.native="evt => onClickNative('int', evt)"
                 @click="evt => onClick('int', evt)"
               >
                 <template v-slot:top>
@@ -168,7 +158,6 @@
                       unelevated
                       color="primary"
                       label="Btn"
-                      @click.native="evt => onClickNative('int btn', evt)"
                       @click="evt => onClick('int btn', evt)"
                     />
                     <q-btn
@@ -177,7 +166,6 @@
                       color="primary"
                       to="#test"
                       label="Link"
-                      @click.native="evt => onClickNative('int a', evt)"
                       @click="evt => onClick('int a', evt)"
                     />
                   </q-item-section>
@@ -211,7 +199,6 @@
           <q-slide-item
             @left="onLeft"
             @top="onTop"
-            @click.native="evt => onClickNative('ext', evt)"
             @click="evt => onClick('ext', evt)"
           >
             <template v-slot:left>
@@ -227,7 +214,6 @@
                   unelevated
                   color="primary"
                   label="Btn"
-                  @click.native="evt => onClickNative('ext btn', evt)"
                   @click="evt => onClick('ext btn', evt)"
                 />
                 <q-btn
@@ -236,7 +222,6 @@
                   color="primary"
                   to="#test"
                   label="Link"
-                  @click.native="evt => onClickNative('ext a', evt)"
                   @click="evt => onClick('ext a', evt)"
                 />
               </q-item-section>
@@ -249,7 +234,6 @@
               <q-slide-item
                 @right="onRight"
                 @bottom="onBottom"
-                @click.native="evt => onClickNative('int', evt)"
                 @click="evt => onClick('int', evt)"
               >
                 <template v-slot:right>
@@ -265,7 +249,6 @@
                       unelevated
                       color="primary"
                       label="Btn"
-                      @click.native="evt => onClickNative('int btn', evt)"
                       @click="evt => onClick('int btn', evt)"
                     />
                     <q-btn
@@ -274,7 +257,6 @@
                       color="primary"
                       to="#test"
                       label="Link"
-                      @click.native="evt => onClickNative('int a', evt)"
                       @click="evt => onClick('int a', evt)"
                     />
                   </q-item-section>
@@ -312,7 +294,6 @@
               @right="onRight"
               @top="onTop"
               @bottom="onBottom"
-              @click.native="evt => onClickNative('ext', evt)"
               @click="evt => onClick('ext', evt)"
             >
               <template v-if="i === 1 || i === 5 || i === 7" v-slot:left>
@@ -334,7 +315,6 @@
                     unelevated
                     color="primary"
                     label="Btn"
-                    @click.native="evt => onClickNative('ext btn', evt)"
                     @click="evt => onClick('ext btn', evt)"
                   />
                   <q-btn
@@ -343,7 +323,6 @@
                     color="primary"
                     to="#test"
                     label="Link"
-                    @click.native="evt => onClickNative('ext a', evt)"
                     @click="evt => onClick('ext a', evt)"
                   />
                 </q-item-section>
@@ -380,7 +359,7 @@
 export default {
   data () {
     return {
-      items: [1],
+      items: [ 1 ],
       slider: 10
     }
   },
@@ -414,15 +393,6 @@ export default {
       setTimeout(() => {
         reset()
       }, 2000)
-    },
-
-    onClickNative (msg, evt) {
-      if (this.$q.platform.is.desktop) {
-        console.log('native click on', msg, evt)
-      }
-      else {
-        this.$q.notify('native click on ' + msg)
-      }
     },
 
     onClick (msg, evt) {

@@ -23,7 +23,7 @@ export default defineComponent({
 
     gutter: {
       type: String,
-      validator: v => ['none', 'xs', 'sm', 'md', 'lg', 'xl'].includes(v),
+      validator: v => [ 'none', 'xs', 'sm', 'md', 'lg', 'xl' ].includes(v),
       default: 'sm'
     }
   },

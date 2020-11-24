@@ -20,15 +20,15 @@ export default {
       return this.filterMethod !== void 0
         ? this.filterMethod
         : (rows, terms, cols, cellValue) => {
-          const lowerTerms = terms ? terms.toLowerCase() : ''
-          return rows.filter(
-            row => cols.some(col => {
-              const val = cellValue(col, row) + ''
-              const haystack = (val === 'undefined' || val === 'null') ? '' : val.toLowerCase()
-              return haystack.indexOf(lowerTerms) !== -1
-            })
-          )
-        }
+            const lowerTerms = terms ? terms.toLowerCase() : ''
+            return rows.filter(
+              row => cols.some(col => {
+                const val = cellValue(col, row) + ''
+                const haystack = (val === 'undefined' || val === 'null') ? '' : val.toLowerCase()
+                return haystack.indexOf(lowerTerms) !== -1
+              })
+            )
+          }
     }
   }
 }

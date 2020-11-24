@@ -713,7 +713,7 @@ export default {
         { split: true, dense: false, disable: true },
         { split: true, dense: true, disable: true }
       ],
-      sizes: ['sm', 'md', 'lg'],
+      sizes: [ 'sm', 'md', 'lg' ],
       labelA: '',
       disableMainBtn: false,
       disableDropdown: false
@@ -738,7 +738,7 @@ export default {
     },
     hideDropdown (index) {
       console.log(this.$refs)
-      this.$refs.first[index].hide()
+      this.$refs.first[ index ].hide()
     },
     showNotification () {
       this.$q.notify('wow')

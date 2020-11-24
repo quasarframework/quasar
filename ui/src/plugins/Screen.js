@@ -4,7 +4,7 @@ import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { listenOpts, noop } from '../utils/event.js'
 import debounce from '../utils/debounce.js'
 
-const SIZE_LIST = ['sm', 'md', 'lg', 'xl']
+const SIZE_LIST = [ 'sm', 'md', 'lg', 'xl' ]
 const { passive } = listenOpts
 
 export default defineReactivePlugin({
@@ -100,8 +100,8 @@ export default defineReactivePlugin({
 
     this.setSizes = sizes => {
       SIZE_LIST.forEach(name => {
-        if (sizes[name] !== void 0) {
-          updateSizes[name] = sizes[name]
+        if (sizes[ name ] !== void 0) {
+          updateSizes[ name ] = sizes[ name ]
         }
       })
     }
@@ -119,14 +119,14 @@ export default defineReactivePlugin({
       // if css props available
       if (style.getPropertyValue('--q-size-sm')) {
         SIZE_LIST.forEach(name => {
-          this.sizes[name] = parseInt(style.getPropertyValue(`--q-size-${name}`), 10)
+          this.sizes[ name ] = parseInt(style.getPropertyValue(`--q-size-${name}`), 10)
         })
       }
 
       this.setSizes = sizes => {
         SIZE_LIST.forEach(name => {
-          if (sizes[name]) {
-            this.sizes[name] = sizes[name]
+          if (sizes[ name ]) {
+            this.sizes[ name ] = sizes[ name ]
           }
         })
         update(true)
@@ -152,7 +152,7 @@ export default defineReactivePlugin({
 
       // due to optimizations, this would be left out otherwise
       classes === true && this.name === 'xs' &&
-        document.body.classList.add(`screen--xs`)
+        document.body.classList.add('screen--xs')
     }
 
     if (isRuntimeSsrPreHydration === true) {

@@ -12,16 +12,16 @@ export default {
       }
 
       // we infer columns from first row
-      const row = this.rows[0]
+      const row = this.rows[ 0 ]
 
       return row !== void 0
         ? Object.keys(row).map(name => ({
-          name,
-          label: name.toUpperCase(),
-          field: name,
-          align: isNumber(row[name]) ? 'right' : 'left',
-          sortable: true
-        }))
+            name,
+            label: name.toUpperCase(),
+            field: name,
+            align: isNumber(row[ name ]) ? 'right' : 'left',
+            sortable: true
+          }))
         : []
     },
 
@@ -51,7 +51,7 @@ export default {
     computedColsMap () {
       const names = {}
       this.computedCols.forEach(col => {
-        names[col.name] = col
+        names[ col.name ] = col
       })
       return names
     },

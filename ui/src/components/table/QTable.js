@@ -22,7 +22,7 @@ import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
 const commonVirtPropsObj = {}
-commonVirtPropsList.forEach(p => { commonVirtPropsObj[p] = {} })
+commonVirtPropsList.forEach(p => { commonVirtPropsObj[ p ] = {} })
 
 export default defineComponent({
   name: 'QTable',
@@ -78,7 +78,7 @@ export default defineComponent({
     separator: {
       type: String,
       default: 'horizontal',
-      validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
+      validator: v => [ 'horizontal', 'vertical', 'cell', 'none' ].includes(v)
     },
     wrapCells: Boolean,
 
@@ -119,7 +119,7 @@ export default defineComponent({
         descending: false,
         page: 1,
         rowsPerPage: this.rowsPerPageOptions.length > 0
-          ? this.rowsPerPageOptions[0]
+          ? this.rowsPerPageOptions[ 0 ]
           : 5
       }, this.pagination)
     }
@@ -135,7 +135,7 @@ export default defineComponent({
     getRowKey () {
       return typeof this.rowKey === 'function'
         ? this.rowKey
-        : row => row[this.rowKey]
+        : row => row[ this.rowKey ]
     },
 
     hasVirtScroll () {
@@ -143,8 +143,8 @@ export default defineComponent({
     },
 
     needsReset () {
-      return ['tableStyle', 'tableClass', 'tableHeaderStyle', 'tableHeaderClass', 'containerClass']
-        .map(p => this[p]).join(';')
+      return [ 'tableStyle', 'tableClass', 'tableHeaderStyle', 'tableHeaderClass', 'containerClass' ]
+        .map(p => this[ p ]).join(';')
     },
 
     filteredSortedRows () {
@@ -213,28 +213,28 @@ export default defineComponent({
     },
 
     cardDefaultClass () {
-      return ` q-table__card` +
+      return ' q-table__card' +
         (this.isDark === true ? ' q-table__card--dark q-dark' : '') +
-        (this.square === true ? ` q-table--square` : '') +
-        (this.flat === true ? ` q-table--flat` : '') +
-        (this.bordered === true ? ` q-table--bordered` : '')
+        (this.square === true ? ' q-table--square' : '') +
+        (this.flat === true ? ' q-table--flat' : '') +
+        (this.bordered === true ? ' q-table--bordered' : '')
     },
 
     containerClass () {
       return `q-table__container q-table--${this.separator}-separator column no-wrap` +
         (this.loading === true ? ' q-table--loading' : '') +
         (this.grid === true ? ' q-table--grid' : this.cardDefaultClass) +
-        (this.isDark === true ? ` q-table--dark` : '') +
-        (this.dense === true ? ` q-table--dense` : '') +
-        (this.wrapCells === false ? ` q-table--no-wrap` : '') +
-        (this.inFullscreen === true ? ` fullscreen scroll` : '')
+        (this.isDark === true ? ' q-table--dark' : '') +
+        (this.dense === true ? ' q-table--dense' : '') +
+        (this.wrapCells === false ? ' q-table--no-wrap' : '') +
+        (this.inFullscreen === true ? ' fullscreen scroll' : '')
     },
 
     virtProps () {
       const props = {}
 
       commonVirtPropsList
-        .forEach(p => { props[p] = this[p] })
+        .forEach(p => { props[ p ] = this[ p ] })
 
       if (props.virtualScrollItemSize === void 0) {
         props.virtualScrollItemSize = this.dense === true ? 28 : 48

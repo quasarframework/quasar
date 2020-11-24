@@ -3,7 +3,7 @@ export default {
     selection: {
       type: String,
       default: 'none',
-      validator: v => ['single', 'multiple', 'none'].includes(v)
+      validator: v => [ 'single', 'multiple', 'none' ].includes(v)
     },
     selected: {
       type: Array,
@@ -17,7 +17,7 @@ export default {
     selectedKeys () {
       const keys = {}
       this.selected.map(this.getRowKey).forEach(key => {
-        keys[key] = true
+        keys[ key ] = true
       })
       return keys
     },
@@ -52,7 +52,7 @@ export default {
 
   methods: {
     isRowSelected (key) {
-      return this.selectedKeys[key] === true
+      return this.selectedKeys[ key ] === true
     },
 
     clearSelection () {
@@ -65,12 +65,12 @@ export default {
       const payload = this.singleSelection === true
         ? (added === true ? rows : [])
         : (
-          added === true
-            ? this.selected.concat(rows)
-            : this.selected.filter(
-              row => keys.includes(this.getRowKey(row)) === false
-            )
-        )
+            added === true
+              ? this.selected.concat(rows)
+              : this.selected.filter(
+                row => keys.includes(this.getRowKey(row)) === false
+              )
+          )
 
       this.$emit('update:selected', payload)
     }

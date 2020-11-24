@@ -8,7 +8,7 @@ function getLocale () {
 
   const val =
     navigator.language ||
-    navigator.languages[0] ||
+    navigator.languages[ 0 ] ||
     navigator.browserLanguage ||
     navigator.userLanguage ||
     navigator.systemLanguage

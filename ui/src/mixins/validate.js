@@ -132,14 +132,14 @@ export default {
       const promises = []
 
       for (let i = 0; i < this.rules.length; i++) {
-        const rule = this.rules[i]
+        const rule = this.rules[ i ]
         let res
 
         if (typeof rule === 'function') {
           res = rule(val)
         }
-        else if (typeof rule === 'string' && testPattern[rule] !== void 0) {
-          res = testPattern[rule](val)
+        else if (typeof rule === 'string' && testPattern[ rule ] !== void 0) {
+          res = testPattern[ rule ](val)
         }
 
         if (res === false || typeof res === 'string') {

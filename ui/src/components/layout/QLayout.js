@@ -74,9 +74,9 @@ export default defineComponent({
     rows () {
       const rows = this.view.toLowerCase().split(' ')
       return {
-        top: rows[0].split(''),
-        middle: rows[1].split(''),
-        bottom: rows[2].split('')
+        top: rows[ 0 ].split(''),
+        middle: rows[ 1 ].split(''),
+        bottom: rows[ 2 ].split('')
       }
     },
 
@@ -94,17 +94,17 @@ export default defineComponent({
     // used by container only
     targetStyle () {
       return this.scrollbarWidth !== 0
-        ? { [this.$q.lang.rtl === true ? 'left' : 'right']: `${this.scrollbarWidth}px` }
+        ? { [ this.$q.lang.rtl === true ? 'left' : 'right' ]: `${this.scrollbarWidth}px` }
         : null
     },
 
     targetChildStyle () {
       return this.scrollbarWidth !== 0
         ? {
-          [this.$q.lang.rtl === true ? 'right' : 'left']: 0,
-          [this.$q.lang.rtl === true ? 'left' : 'right']: `-${this.scrollbarWidth}px`,
-          width: `calc(100% + ${this.scrollbarWidth}px)`
-        }
+            [ this.$q.lang.rtl === true ? 'right' : 'left' ]: 0,
+            [ this.$q.lang.rtl === true ? 'left' : 'right' ]: `-${this.scrollbarWidth}px`,
+            width: `calc(100% + ${this.scrollbarWidth}px)`
+          }
         : null
     },
 
@@ -140,7 +140,7 @@ export default defineComponent({
       if (this.height !== height) {
         resized = true
         this.height = height
-        this.emitListeners['onScroll-height'] === true && this.$emit('scroll-height', height)
+        this.emitListeners[ 'onScroll-height' ] === true && this.$emit('scroll-height', height)
         this.__updateScrollbarWidth()
       }
       if (this.width !== width) {

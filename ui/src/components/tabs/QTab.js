@@ -57,9 +57,9 @@ export default defineComponent({
         (
           this.isActive === true
             ? (
-              (this.__qTabs.tabProps.activeColor ? ` text-${this.__qTabs.tabProps.activeColor}` : '') +
+                (this.__qTabs.tabProps.activeColor ? ` text-${this.__qTabs.tabProps.activeColor}` : '') +
               (this.__qTabs.tabProps.activeBgColor ? ` bg-${this.__qTabs.tabProps.activeBgColor}` : '')
-            )
+              )
             : ''
         ) +
         (this.icon && this.label && this.__qTabs.tabProps.inlineLabel === false ? ' q-tab--full' : '') +
@@ -124,12 +124,12 @@ export default defineComponent({
       this.alert !== false && content.push(
         this.alertIcon !== void 0
           ? h(QIcon, {
-            class: 'q-tab__alert-icon',
-            color: this.alert !== true
-              ? this.alert
-              : void 0,
-            name: this.alertIcon
-          })
+              class: 'q-tab__alert-icon',
+              color: this.alert !== true
+                ? this.alert
+                : void 0,
+              name: this.alertIcon
+            })
           : h('div', {
             class: 'q-tab__alert' +
               (this.alert !== true ? ` text-${this.alert}` : '')
@@ -166,7 +166,7 @@ export default defineComponent({
         content,
         'main',
         this.ripple !== false && this.disable === false,
-        () => [[ Ripple, this.ripple ]]
+        () => [ [ Ripple, this.ripple ] ]
       )
     },
 

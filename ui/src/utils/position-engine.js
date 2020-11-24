@@ -8,11 +8,11 @@ export function validatePosition (pos) {
   if (parts.length !== 2) {
     return false
   }
-  if ([ 'top', 'center', 'bottom' ].includes(parts[0]) !== true) {
+  if ([ 'top', 'center', 'bottom' ].includes(parts[ 0 ]) !== true) {
     console.error('Anchor/Self position must start with one of top/center/bottom')
     return false
   }
-  if ([ 'left', 'middle', 'right', 'start', 'end' ].includes(parts[1]) !== true) {
+  if ([ 'left', 'middle', 'right', 'start', 'end' ].includes(parts[ 1 ]) !== true) {
     console.error('Anchor/Self position must end with one of left/middle/right/start/end')
     return false
   }
@@ -22,7 +22,7 @@ export function validatePosition (pos) {
 export function validateOffset (val) {
   if (!val) { return true }
   if (val.length !== 2) { return false }
-  if (typeof val[0] !== 'number' || typeof val[1] !== 'number') {
+  if (typeof val[ 0 ] !== 'number' || typeof val[ 1 ] !== 'number') {
     return false
   }
   return true
@@ -36,15 +36,15 @@ const horizontalPos = {
 }
 
 ;[ 'left', 'middle', 'right' ].forEach(pos => {
-  horizontalPos[`${pos}#ltr`] = pos
-  horizontalPos[`${pos}#rtl`] = pos
+  horizontalPos[ `${pos}#ltr` ] = pos
+  horizontalPos[ `${pos}#rtl` ] = pos
 })
 
 export function parsePosition (pos, rtl) {
   const parts = pos.split(' ')
   return {
-    vertical: parts[0],
-    horizontal: horizontalPos[`${parts[1]}#${rtl === true ? 'rtl' : 'ltr'}`]
+    vertical: parts[ 0 ],
+    horizontal: horizontalPos[ `${parts[ 1 ]}#${rtl === true ? 'rtl' : 'ltr'}` ]
   }
 }
 
@@ -57,13 +57,13 @@ export function getAnchorProps (el, offset) {
   let { top, left, right, bottom, width, height } = el.getBoundingClientRect()
 
   if (offset !== void 0) {
-    top -= offset[1]
-    left -= offset[0]
-    bottom += offset[1]
-    right += offset[0]
+    top -= offset[ 1 ]
+    left -= offset[ 0 ]
+    bottom += offset[ 1 ]
+    right += offset[ 0 ]
 
-    width += offset[0]
-    height += offset[1]
+    width += offset[ 0 ]
+    height += offset[ 1 ]
   }
 
   return {
@@ -116,7 +116,7 @@ export function setPosition (cfg) {
   const { scrollLeft, scrollTop } = cfg.el
 
   if (cfg.absoluteOffset === void 0) {
-    anchorProps = getAnchorProps(cfg.anchorEl, cfg.cover === true ? [0, 0] : cfg.offset)
+    anchorProps = getAnchorProps(cfg.anchorEl, cfg.cover === true ? [ 0, 0 ] : cfg.offset)
   }
   else {
     const
@@ -145,8 +145,8 @@ export function setPosition (cfg) {
   const
     targetProps = getTargetProps(cfg.el),
     props = {
-      top: anchorProps[cfg.anchorOrigin.vertical] - targetProps[cfg.selfOrigin.vertical],
-      left: anchorProps[cfg.anchorOrigin.horizontal] - targetProps[cfg.selfOrigin.horizontal]
+      top: anchorProps[ cfg.anchorOrigin.vertical ] - targetProps[ cfg.selfOrigin.vertical ],
+      left: anchorProps[ cfg.anchorOrigin.horizontal ] - targetProps[ cfg.selfOrigin.horizontal ]
     }
 
   applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
@@ -192,12 +192,12 @@ function applyBoundaries (props, anchorProps, targetProps, anchorOrigin, selfOri
 
   if (props.top < 0 || props.top + currentHeight > innerHeight) {
     if (selfOrigin.vertical === 'center') {
-      props.top = anchorProps[anchorOrigin.vertical] > innerHeight / 2
+      props.top = anchorProps[ anchorOrigin.vertical ] > innerHeight / 2
         ? Math.max(0, innerHeight - currentHeight)
         : 0
       props.maxHeight = Math.min(currentHeight, innerHeight)
     }
-    else if (anchorProps[anchorOrigin.vertical] > innerHeight / 2) {
+    else if (anchorProps[ anchorOrigin.vertical ] > innerHeight / 2) {
       const anchorY = Math.min(
         innerHeight,
         anchorOrigin.vertical === 'center'
@@ -219,11 +219,11 @@ function applyBoundaries (props, anchorProps, targetProps, anchorOrigin, selfOri
   if (props.left < 0 || props.left + currentWidth > innerWidth) {
     props.maxWidth = Math.min(currentWidth, innerWidth)
     if (selfOrigin.horizontal === 'middle') {
-      props.left = anchorProps[anchorOrigin.horizontal] > innerWidth / 2
+      props.left = anchorProps[ anchorOrigin.horizontal ] > innerWidth / 2
         ? Math.max(0, innerWidth - currentWidth)
         : 0
     }
-    else if (anchorProps[anchorOrigin.horizontal] > innerWidth / 2) {
+    else if (anchorProps[ anchorOrigin.horizontal ] > innerWidth / 2) {
       const anchorX = Math.min(
         innerWidth,
         anchorOrigin.horizontal === 'middle'

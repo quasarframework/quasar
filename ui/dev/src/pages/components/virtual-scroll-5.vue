@@ -113,7 +113,7 @@ for (let i = 0; i <= listSize; i++) {
   const row = {}
 
   for (let j = 0; j < columns.length; j++) {
-    row[columns[j]] = '#' + i + ' row ' + (i + 1) + ' / col ' + (j + 1)
+    row[ columns[ j ] ] = '#' + i + ' row ' + (i + 1) + ' / col ' + (j + 1)
   }
   heavyList.push(row)
 }

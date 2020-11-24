@@ -7,12 +7,12 @@ function parseArg (arg) {
   // delta (min velocity -- dist / time)
   // mobile min distance on first move
   // desktop min distance until deciding if it's a swipe or not
-  const data = [0.06, 6, 50]
+  const data = [ 0.06, 6, 50 ]
 
   if (typeof arg === 'string' && arg.length) {
     arg.split(':').forEach((val, index) => {
       const v = parseFloat(val)
-      v && (data[index] = v)
+      v && (data[ index ] = v)
     })
   }
 
@@ -99,12 +99,12 @@ export default {
           absY = Math.abs(distY)
 
         if (ctx.event.mouse !== true) {
-          if (absX < ctx.sensitivity[1] && absY < ctx.sensitivity[1]) {
+          if (absX < ctx.sensitivity[ 1 ] && absY < ctx.sensitivity[ 1 ]) {
             ctx.end(evt)
             return
           }
         }
-        else if (absX < ctx.sensitivity[2] && absY < ctx.sensitivity[2]) {
+        else if (absX < ctx.sensitivity[ 2 ] && absY < ctx.sensitivity[ 2 ]) {
           return
         }
 
@@ -116,7 +116,7 @@ export default {
           ctx.direction.vertical === true &&
           absX < absY &&
           absX < 100 &&
-          velY > ctx.sensitivity[0]
+          velY > ctx.sensitivity[ 0 ]
         ) {
           ctx.event.dir = distY < 0 ? 'up' : 'down'
         }
@@ -125,7 +125,7 @@ export default {
           ctx.direction.horizontal === true &&
           absX > absY &&
           absY < 100 &&
-          velX > ctx.sensitivity[0]
+          velX > ctx.sensitivity[ 0 ]
         ) {
           ctx.event.dir = distX < 0 ? 'left' : 'right'
         }
@@ -135,7 +135,7 @@ export default {
           absX < absY &&
           distY < 0 &&
           absX < 100 &&
-          velY > ctx.sensitivity[0]
+          velY > ctx.sensitivity[ 0 ]
         ) {
           ctx.event.dir = 'up'
         }
@@ -145,7 +145,7 @@ export default {
           absX < absY &&
           distY > 0 &&
           absX < 100 &&
-          velY > ctx.sensitivity[0]
+          velY > ctx.sensitivity[ 0 ]
         ) {
           ctx.event.dir = 'down'
         }
@@ -155,7 +155,7 @@ export default {
           absX > absY &&
           distX < 0 &&
           absY < 100 &&
-          velX > ctx.sensitivity[0]
+          velX > ctx.sensitivity[ 0 ]
         ) {
           ctx.event.dir = 'left'
         }
@@ -165,7 +165,7 @@ export default {
           absX > absY &&
           distX > 0 &&
           absY < 100 &&
-          velX > ctx.sensitivity[0]
+          velX > ctx.sensitivity[ 0 ]
         ) {
           ctx.event.dir = 'right'
         }
@@ -231,7 +231,7 @@ export default {
 
     client.has.touch === true && addEvt(ctx, 'main', [
       [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
-      [ el, 'touchmove', 'noop', `notPassiveCapture` ]
+      [ el, 'touchmove', 'noop', 'notPassiveCapture' ]
     ])
   },
 

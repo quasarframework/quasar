@@ -465,7 +465,7 @@ export default {
       serverData: [],
       loading: false,
       loadingDyn: false,
-      visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
+      visibleColumns: [ 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
       selected: [],
 
       columns: [
@@ -485,8 +485,8 @@ export default {
         { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
-      data: [...data],
-      dataDyn: [...data]
+      data: [ ...data ],
+      dataDyn: [ ...data ]
     }
   },
   methods: {
@@ -527,13 +527,13 @@ export default {
     moveRowUp (name) {
       const rowIndex = this.data.findIndex(t => t.name === name)
       if (rowIndex > -1 && rowIndex > 0) {
-        this.data.splice(rowIndex - 1, 0, this.data.splice(rowIndex, 1)[0])
+        this.data.splice(rowIndex - 1, 0, this.data.splice(rowIndex, 1)[ 0 ])
       }
     },
     moveRowDown (name) {
       const rowIndex = this.data.findIndex(t => t.name === name)
       if (rowIndex > -1 && rowIndex < this.data.length - 1) {
-        this.data.splice(rowIndex + 1, 0, this.data.splice(rowIndex, 1)[0])
+        this.data.splice(rowIndex + 1, 0, this.data.splice(rowIndex, 1)[ 0 ])
       }
     },
     addRow () {
@@ -541,13 +541,13 @@ export default {
       setTimeout(() => {
         const
           addPoint = Math.floor(Math.random() * (this.dataDyn.length + 1)),
-          row = data[Math.floor(Math.random() * data.length)]
+          row = data[ Math.floor(Math.random() * data.length) ]
         if (!row.__count) {
           row.__count = 0
         }
         row.__count += 1
         const addRow = extend({}, row, { name: `${row.name} (${row.__count})` })
-        this.dataDyn = [...this.dataDyn.slice(0, addPoint), addRow, ...this.dataDyn.slice(addPoint)]
+        this.dataDyn = [ ...this.dataDyn.slice(0, addPoint), addRow, ...this.dataDyn.slice(addPoint) ]
         this.loadingDyn = false
       }, 500)
     },
@@ -555,7 +555,7 @@ export default {
       this.loadingDyn = true
       setTimeout(() => {
         const removePoint = Math.floor(Math.random() * this.dataDyn.length)
-        this.dataDyn = [...this.dataDyn.slice(0, removePoint), ...this.dataDyn.slice(removePoint + 1)]
+        this.dataDyn = [ ...this.dataDyn.slice(0, removePoint), ...this.dataDyn.slice(removePoint + 1) ]
         this.loadingDyn = false
       }, 500)
     }

@@ -33,7 +33,7 @@ export default defineComponent({
     },
 
     containerClass () {
-      return `q-message-container row items-end no-wrap` +
+      return 'q-message-container row items-end no-wrap' +
         (this.sent === true ? ' reverse' : '')
     },
 
@@ -61,12 +61,12 @@ export default defineComponent({
     __getText () {
       const withStamp = this.stamp
         ? node => [
-          node,
-          h('div', {
-            class: 'q-message-stamp',
-            [this.domProps.stamp]: this.stamp
-          })
-        ]
+            node,
+            h('div', {
+              class: 'q-message-stamp',
+              [ this.domProps.stamp ]: this.stamp
+            })
+          ]
         : node => [ node ]
 
       return this.text.map((msg, index) => h('div', {
@@ -77,7 +77,7 @@ export default defineComponent({
           'div',
           { class: this.textClass },
           withStamp(
-            h('div', { [this.domProps.msg]: msg })
+            h('div', { [ this.domProps.msg ]: msg })
           )
         )
       ]))
@@ -89,7 +89,7 @@ export default defineComponent({
       this.stamp !== void 0 && content.push(
         h('div', {
           class: 'q-message-stamp',
-          [this.domProps.stamp]: this.stamp
+          [ this.domProps.stamp ]: this.stamp
         })
       )
 
@@ -122,7 +122,7 @@ export default defineComponent({
     this.name !== void 0 && msg.push(
       h('div', {
         class: `q-message-name q-message-name--${this.op}`,
-        [this.domProps.name]: this.name
+        [ this.domProps.name ]: this.name
       })
     )
 
@@ -143,7 +143,7 @@ export default defineComponent({
     this.label && child.push(
       h('div', {
         class: 'q-message-label text-center',
-        [this.domProps.label]: this.label
+        [ this.domProps.label ]: this.label
       })
     )
 

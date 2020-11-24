@@ -85,7 +85,7 @@ export default {
         borderColor: 'transparent',
         borderWidth: this.horizontal === true ? '6px 0' : '0 6px',
         backgroundClip: 'content-box',
-        [this.horizontal === true ? 'height' : 'width']: '16px'
+        [ this.horizontal === true ? 'height' : 'width' ]: '16px'
       }
     },
 
@@ -97,7 +97,7 @@ export default {
         borderColor: 'transparent',
         borderWidth: this.horizontal === true ? '2px 0' : '0 2px',
         backgroundClip: 'content-box',
-        [this.horizontal === true ? 'height' : 'width']: '16px'
+        [ this.horizontal === true ? 'height' : 'width' ]: '16px'
       }
     }
   },
