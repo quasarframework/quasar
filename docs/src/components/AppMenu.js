@@ -38,7 +38,7 @@ export default defineComponent({
             ref: path,
             key: `${menu.name}-${path}`,
             label: menu.name,
-            dense: level > 0,
+            dense: true,
             icon: menu.icon,
             defaultOpened: menu.opened,
             expandSeparator: true,
@@ -89,7 +89,7 @@ export default defineComponent({
   },
 
   render () {
-    return h(QList, { class: 'app-menu' }, () => Menu.map(
+    return h(QList, { class: 'app-menu', dense: true }, () => Menu.map(
       item => this.getDrawerMenu(item, '/' + item.path, 0)
     ))
   },

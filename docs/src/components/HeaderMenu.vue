@@ -22,6 +22,15 @@ div
 
       q-item-label(header) Older Releases
       q-item(
+        key="v1-link"
+        clickable
+        tag="a"
+        :href="`https://v1.quasar.dev/`"
+        target="_blank"
+        rel="noopener"
+      )
+        q-item-section v1 docs
+      q-item(
         v-for="version in ['17', '16', '15', '14', '13']"
         :key="version"
         clickable

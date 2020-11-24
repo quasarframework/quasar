@@ -177,9 +177,9 @@ export default defineComponent({
       ref: 'menu',
       class: 'q-popup-edit',
       cover: this.cover,
-      'onBefore-show': this.__onBeforeShow,
+      onBeforeShow: this.__onBeforeShow,
       onShow: this.__onShow,
-      'onBefore-hide': this.__onBeforeHide,
+      onBeforeHide: this.__onBeforeHide,
       onHide: this.__onHide,
       'onEscape-key': this.cancel
     }, this.__getContent)

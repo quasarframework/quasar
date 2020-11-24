@@ -80,6 +80,12 @@ export default defineComponent({
       }
 
       return attrs
+    },
+
+    iconClass () {
+      return 'q-btn-dropdown__arrow' +
+        (this.showing === true && this.noIconAnimation === false ? ' rotate-180' : '') +
+        (this.split === false ? ' q-btn-dropdown__arrow-container' : '')
     }
   },
 
@@ -130,9 +136,7 @@ export default defineComponent({
   render () {
     const Arrow = [
       h(QIcon, {
-        class: 'q-btn-dropdown__arrow' +
-          (this.showing === true && this.noIconAnimation === false ? ' rotate-180' : '') +
-          (this.split === false ? ' q-btn-dropdown__arrow-container' : ''),
+        class: this.iconClass,
         name: this.dropdownIcon || this.$q.iconSet.arrow.dropdown
       })
     ]
@@ -151,9 +155,9 @@ export default defineComponent({
         contentClass: this.contentClass,
         contentStyle: this.contentStyle,
         separateClosePopup: true,
-        'onBefore-show': this.__onBeforeShow,
+        onBeforeShow: this.__onBeforeShow,
         onShow: this.__onShow,
-        'onBefore-hide': this.__onBeforeHide,
+        onBeforeHide: this.__onBeforeHide,
         onHide: this.__onHide
       }, this.$slots.default)
     )

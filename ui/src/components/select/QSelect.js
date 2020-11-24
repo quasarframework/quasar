@@ -1079,8 +1079,8 @@ export default defineComponent({
         transitionHide: this.transitionHide,
         separateClosePopup: true,
         onScrollPassive: this.__onVirtualScrollEvt,
-        'onBefore-show': this.__onControlPopupShow,
-        'onBefore-hide': this.__onMenuBeforeHide
+        onBeforeShow: this.__onControlPopupShow,
+        onBeforeHide: this.__onMenuBeforeHide
       }, child)
     },
 
@@ -1150,8 +1150,8 @@ export default defineComponent({
         position: this.useInput === true ? 'top' : void 0,
         transitionShow: this.transitionShowComputed,
         transitionHide: this.transitionHide,
-        'onBefore-show': this.__onControlPopupShow,
-        'onBefore-hide': this.__onDialogBeforeHide,
+        onBeforeShow: this.__onControlPopupShow,
+        onBeforeHide: this.__onDialogBeforeHide,
         onHide: this.__onDialogHide,
         onShow: this.__onDialogShow
       }, () => h('div', {
