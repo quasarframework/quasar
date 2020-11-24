@@ -1,5 +1,5 @@
 export function copyToClipboard (text) {
-  var textArea = document.createElement('textarea')
+  const textArea = document.createElement('textarea')
   textArea.className = 'fixed-top'
   textArea.value = text
   document.body.appendChild(textArea)

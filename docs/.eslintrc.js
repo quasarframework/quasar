@@ -43,6 +43,8 @@ module.exports = {
     'array-bracket-spacing': ['error', 'always'],
     'brace-style': ['error', 'stroustrup'],
 
+    'multiline-ternary': 'off',
+
     'import/export': 'off',
     'import/first': 'off',
     'import/no-absolute-path': 'off',

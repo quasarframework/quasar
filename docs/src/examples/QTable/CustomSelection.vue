@@ -175,11 +175,11 @@ export default {
 
       const operateSelection = added === true
         ? selRow => {
-          const selectedIndex = this.selected.indexOf(selRow)
-          if (selectedIndex === -1) {
-            this.selected = this.selected.concat(selRow)
+            const selectedIndex = this.selected.indexOf(selRow)
+            if (selectedIndex === -1) {
+              this.selected = this.selected.concat(selRow)
+            }
           }
-        }
         : selRow => {
           const selectedIndex = this.selected.indexOf(selRow)
           if (selectedIndex > -1) {
@@ -189,7 +189,6 @@ export default {
 
       if (lastIndex === null || evt.shiftKey !== true) {
         operateSelection(row)
-
         return
       }
 

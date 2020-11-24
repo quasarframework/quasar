@@ -48,9 +48,9 @@ export default {
           staticClass: 'q-mx-sm',
           props: this.asyncContent === null
             ? {
-              sent: this.sent,
-              text: [ `Retrieving message ${this.index}` ]
-            }
+                sent: this.sent,
+                text: [ `Retrieving message ${this.index}` ]
+              }
             : this.asyncContent
         })
       }

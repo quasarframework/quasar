@@ -90,12 +90,12 @@ export default {
         icon: file.type.indexOf('video/') === 0
           ? 'movie'
           : (file.type.indexOf('image/') === 0
-            ? 'photo'
-            : (file.type.indexOf('audio/') === 0
-              ? 'audiotrack'
-              : 'insert_drive_file'
+              ? 'photo'
+              : (file.type.indexOf('audio/') === 0
+                  ? 'audiotrack'
+                  : 'insert_drive_file'
+                )
             )
-          )
       }))
     },
 

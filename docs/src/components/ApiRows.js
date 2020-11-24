@@ -444,11 +444,11 @@ export default defineComponent({
     const content = Object.keys(api).length !== 0
       ? this[this.which](api)
       : [
-        h('div', { class: 'q-pa-md text-grey-9' }, [
-          h('div', 'No matching entries found on this tab.'),
-          h('div', 'Please check the other tabs/subtabs with a number badge on their label or refine the filter.')
-        ])
-      ]
+          h('div', { class: 'q-pa-md text-grey-9' }, [
+            h('div', 'No matching entries found on this tab.'),
+            h('div', 'Please check the other tabs/subtabs with a number badge on their label or refine the filter.')
+          ])
+        ]
 
     return h('div', { class: 'api-rows' }, content)
   }
