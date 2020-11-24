@@ -80,7 +80,6 @@ export default {
             waitFor: this.imgLoaded.promise,
             duration: 400,
             hideFromClone: true,
-            style: 'z-index: 1',
             onEnd: end => {
               if (end === 'from' && this.indexZoomed === index) {
                 this.indexZoomed = void 0
@@ -100,7 +99,6 @@ export default {
           onToggle: () => { this.indexZoomed = void 0 },
           duration: 200,
           keepToClone: true,
-          style: 'z-index: 1',
           onEnd: zoom
         })
       }

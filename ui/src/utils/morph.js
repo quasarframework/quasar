@@ -36,6 +36,8 @@ function getAbsoluteSize (el) {
 // firefox rulez
 const styleEdges = [ 'Top', 'Right', 'Bottom', 'Left' ]
 const styleBorderRadiuses = [ 'borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomRightRadius', 'borderBottomLeftRadius' ]
+const reStyleSkipKey = /-block|-inline|block-|inline-/
+const reStyleSkipRule = /(-block|-inline|block-|inline-).*:/
 
 function getComputedStyle (el, props) {
   const style = window.getComputedStyle(el)
@@ -49,7 +51,9 @@ function getComputedStyle (el, props) {
         let val = ''
 
         for (let i = 0; i < styleLen; i++) {
-          val += style[i] + ': ' + style[style[i]] + '; '
+          if (reStyleSkipKey.test(style[i]) !== true) {
+            val += style[i] + ': ' + style[style[i]] + '; '
+          }
         }
 
         fixed[prop] = val
@@ -78,11 +82,42 @@ function getComputedStyle (el, props) {
       }
     }
     else {
-      fixed[prop] = style[prop]
+      if (prop === 'cssText') {
+        fixed[prop] = style[prop]
+          .split(';')
+          .filter(val => reStyleSkipRule.test(val) !== true)
+          .join(';')
+      }
+      else {
+        fixed[prop] = style[prop]
+      }
     }
   }
 
   return fixed
+}
+
+const zIndexPositions = ['absolute', 'fixed', 'relative', 'sticky']
+
+function getMaxZIndex (elStart) {
+  let el = elStart
+  let maxIndex = 0
+
+  while (el !== null && el !== document) {
+    const { position, zIndex } = window.getComputedStyle(el)
+    const zIndexNum = Number(zIndex)
+
+    if (
+      zIndexNum > maxIndex &&
+      (el === elStart || zIndexPositions.includes(position) === true)
+    ) {
+      maxIndex = zIndexNum
+    }
+
+    el = el.parentNode
+  }
+
+  return maxIndex
 }
 
 function normalizeElements (opts) {
@@ -414,6 +449,9 @@ export default function morph (_options) {
         }
       }
 
+      const elFromZIndex = getMaxZIndex(elFromClone)
+      const elToZIndex = getMaxZIndex(elTo)
+
       // we position the morphing element
       // if we use fixed position for the final element we need to adjust for scroll
       const documentScroll = elToNeedsFixedPosition === true
@@ -537,6 +575,7 @@ export default function morph (_options) {
             borderStyle: elFromBorderStyle,
             borderColor: elFromBorderColor,
             borderRadius: elFromBorderRadius,
+            zIndex: elFromZIndex,
             transformOrigin: '0 0',
             ...resizeFrom,
             ...tweenFrom
@@ -547,6 +586,7 @@ export default function morph (_options) {
             borderStyle: elToBorderStyle,
             borderColor: elToBorderColor,
             borderRadius: elToBorderRadius,
+            zIndex: elToZIndex,
             transformOrigin: '0 0',
             transform: elToTransform,
             ...resizeTo,
@@ -567,6 +607,7 @@ export default function morph (_options) {
             borderStyle: elFromBorderStyle,
             borderColor: elFromBorderColor,
             borderRadius: elFromBorderRadius,
+            zIndex: elFromZIndex,
             transformOrigin: '0 0',
             transform: elFromTransform,
             ...resizeFromTween
@@ -578,6 +619,7 @@ export default function morph (_options) {
             borderStyle: elToBorderStyle,
             borderColor: elToBorderColor,
             borderRadius: elToBorderRadius,
+            zIndex: elToZIndex,
             transformOrigin: '0 0',
             ...resizeToTween
           }
@@ -729,6 +771,7 @@ export default function morph (_options) {
                 border-style: ${elFromBorderStyle};
                 border-color: ${elFromBorderColor};
                 border-radius: ${elFromBorderRadius};
+                z-index: ${elFromZIndex};
                 transform-origin: 0 0;
                 transform: ${elFromTransform};
                 ${resizeFromTween}
@@ -741,6 +784,7 @@ export default function morph (_options) {
                 border-style: ${elToBorderStyle};
                 border-color: ${elToBorderColor};
                 border-radius: ${elToBorderRadius};
+                z-index: ${elToZIndex};
                 transform-origin: 0 0;
                 ${resizeToTween}
               }
@@ -798,6 +842,7 @@ export default function morph (_options) {
               border-color: ${elFromBorderColor};
               border-radius: ${elFromBorderRadius};
               background-color: ${elFromBackground};
+              z-index: ${elFromZIndex};
               transform-origin: 0 0;
               ${resizeFrom}
               ${tweenFrom}
@@ -810,6 +855,7 @@ export default function morph (_options) {
               border-color: ${elToBorderColor};
               border-radius: ${elToBorderRadius};
               background-color: ${elToBackground};
+              z-index: ${elToZIndex};
               transform-origin: 0 0;
               transform: ${elToTransform};
               ${resizeTo}

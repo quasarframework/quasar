@@ -40,7 +40,6 @@ export default {
             this.indexZoomed = index
           },
           duration: 500,
-          style: 'z-index: 1',
           onEnd: end => {
             if (end === 'from' && this.indexZoomed === index) {
               this.indexZoomed = void 0
@@ -56,8 +55,7 @@ export default {
         morph({
           from: this.$refs.refThumb[indexZoomed].$el,
           waitFor: 100,
-          duration: 300,
-          style: 'z-index: 1'
+          duration: 300
         })
       }
     }
