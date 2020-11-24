@@ -16,7 +16,6 @@
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
     "docsearch.js": "^2.6.2",
-    "eslint-webpack-plugin": "^2.4.0",
     "prismjs": "^1.15.0",
     "quasar": "^2.0.0-alpha.1"
   },
@@ -30,6 +29,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-quasar": "^1.0.0",
     "eslint-plugin-vue": "^7.0.0",
+    "eslint-webpack-plugin": "^2.4.0",
     "gray-matter": "^4.0.2",
     "markdown-it": "^10.0.0",
     "markdown-it-container": "^2.0.0",

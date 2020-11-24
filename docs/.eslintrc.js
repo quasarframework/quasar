@@ -23,10 +23,14 @@ module.exports = {
   ],
 
   globals: {
-    'ga': true, // Google Analytics
-    'cordova': true,
-    '__statics': true,
-    'Prism': true
+    ga: true, // Google Analytics
+    cordova: true,
+    __statics: true,
+    __QUASAR_SSR__: true,
+    __QUASAR_SSR_SERVER__: true,
+    __QUASAR_SSR_CLIENT__: true,
+    __QUASAR_SSR_PWA__: true,
+    Prism: true
   },
 
   // add your custom rules here
