@@ -12,7 +12,7 @@ Simply replace the version string in all the CSS and JS tags that refer to Quasa
 
 ```bash
 # run these commands inside
-# of a Quasar v1 project
+# of a Quasar v2 project
 
 # check for upgradable packages
 $ quasar upgrade

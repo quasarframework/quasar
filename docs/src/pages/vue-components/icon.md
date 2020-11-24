@@ -97,7 +97,7 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 * Icon names are in hyphen-separated case and always begin with "la" prefix.
 * Go to [Line Awesome](https://icons8.com/line-awesome), look for your desired icon, click on it. A dialog box will appear. You'll see something like `<i class="lab la-behance-square"></i>`. Remember its name (eg. "lab la-behance-square") and use it.
 
-## Svg icons <q-badge align="top" label="Quasar v1.7+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.4+" />
+## Svg icons
 
 There are many advantages of using only svg icons in your website/app:
 * Better app footprint -- only used icons will be included in the final build (treeshaking in action)
@@ -141,9 +141,9 @@ If you are only using svg icons (and have configured a [Quasar Icon Set](/option
 | Vendor | Quasar IconSet name | Import Icons from | Requirements |
 | --- | --- | --- | --- |
 | Material Icons (Google) | svg-material-icons | @quasar/extras/material-icons | |
-| Material Icons Outlined (Google) | svg-material-icons-outlined | @quasar/extras/material-icons-outlined | @quasar/extras v1.9+; Quasar v1.13+ |
-| Material Icons Sharp (Google) | svg-material-icons-sharp | @quasar/extras/material-icons-sharp | @quasar/extras v1.9+; Quasar v1.13+ |
-| Material Icons Round (Google) | svg-material-icons-round | @quasar/extras/material-icons-round | @quasar/extras v1.9+; Quasar v1.13+ |
+| Material Icons Outlined (Google) | svg-material-icons-outlined | @quasar/extras/material-icons-outlined | @quasar/extras v1.9+; |
+| Material Icons Sharp (Google) | svg-material-icons-sharp | @quasar/extras/material-icons-sharp | @quasar/extras v1.9+ |
+| Material Icons Round (Google) | svg-material-icons-round | @quasar/extras/material-icons-round | @quasar/extras v1.9+ |
 | MDI (Material Design Icons) | svg-mdi-v5 | @quasar/extras/mdi-v5 | |
 | Font Awesome | svg-fontawesome-v5 | @quasar/extras/fontawesome-v5 | |
 | Ionicons v5 | svg-ionicons-v5 | @quasar/extras/ionicons-v5 | @quasar/extras v1.7+ |
@@ -162,19 +162,19 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "mat" and camel-case the result (eg. "matAllInbox").
 * Import statement example: `import { matAllInbox } from '@quasar/extras/material-icons'`.
 
-#### SVG Material Icons Outlined (Google) <q-badge align="top" label="Quasar v1.12.13+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.9+" />
+#### SVG Material Icons Outlined (Google)
 
 * Icon names are in camel-case and always begin with "outlined" prefix.
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "outlined" and camel-case the result (eg. "outlinedAllInbox").
 * Import statement example: `import { outlinedAllInbox } from '@quasar/extras/material-icons-outlined'`.
 
-#### SVG Material Icons Sharp (Google) <q-badge align="top" label="Quasar v1.12.13+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.9+" />
+#### SVG Material Icons Sharp (Google)
 
 * Icon names are in camel-case and always begin with "sharp" prefix.
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "sharp" and camel-case the result (eg. "sharpAllInbox").
 * Import statement example: `import { sharpAllInbox } from '@quasar/extras/material-icons-sharp'`.
 
-#### SVG Material Icons Round (Google) <q-badge align="top" label="Quasar v1.12.13+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.9+" />
+#### SVG Material Icons Round (Google)
 
 * Icon names are in camel-case and always begin with "round" prefix.
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "round" and camel-case the result (eg. "roundAllInbox").
@@ -217,7 +217,7 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 * Go to [Line Awesome](https://icons8.com/line-awesome), look for your desired icon, click on it. A dialog box will appear. You'll see something like `<i class="lab la-behance-square"></i>`. This would translate to: `laBehanceSquare`. There is a special case though (only for solid icons!): if the prefix before "la-" is "las" (eg. `<i class="las la-atom"></i>`), then you need to suffix "la-atom" with "-solid" and camel-case the result (eg. `laAtomSolid`).
 * Import statement example: `import { laBehanceSquare } from '@quasar/extras/line-awesome'`.
 
-### Svg icon format <q-badge align="top" label="enhanced on v1.11+" />
+### Svg icon format
 
 You can also supply your own svg icons. An svg icon is essentially a String with the following syntax:
 
@@ -330,13 +330,12 @@ Examples:
 </svg>
 ```
 
-## SVG-use way <q-badge align="top" label="v1.13+" />
+## SVG-use way
 
 This svg method allows you to store the SVG files as static assets and reference them.
 
 ```html
 // File: /public/icons.svg
-// (or the old /src/statics/icons.svg for @quasar/app v1)
 
 <svg xmlns="http://www.w3.org/2000/svg">
   <symbol id="icon-1" viewBox="0 0 24 24">
@@ -370,7 +369,7 @@ By default, the parent svg's viewBox is "0 0 24 24". However, you can also speci
 <q-icon name="svguse:icons.svg#icon-1|10 15 40 40" />
 ```
 
-## Inlined svg <q-badge align="top" label="v1.7+" />
+## Inlined svg
 
 If you don't want to use the webfont or svg variants from above, note that QIcon also supports one inlined `<svg>` tag (the content of the svg can be anything, not only a path).
 
@@ -429,7 +428,7 @@ You can also base64 encode an image and supply it. The example below is with a Q
 img:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" ... />
 ```
 
-## Custom mapping <q-badge align="top" label="v1.4+" />
+## Custom mapping
 
 Should you want, you can customize the mapping of icon names. This can be done by overriding `$q.iconMapFn`. The recommended place to do it is in the `created()` hook of your `/src/App.vue` component.
 

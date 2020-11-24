@@ -34,7 +34,7 @@ Since QPageScroller needs a layout and QLayout by default manages the entire win
 
 <doc-example title="Expanded" file="QPageScroller/Expanded" />
 
-### Reverse <q-badge align="top" label="v1.9+" />
+### Reverse
 
 <doc-example title="Reverse" file="QPageScroller/Reverse" />
 

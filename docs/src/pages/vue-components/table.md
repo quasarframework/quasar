@@ -99,7 +99,7 @@ columns: [ // array of Objects
 You can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense="$q.screen.lt.md"`. More info: [Screen Plugin](/options/screen-plugin).
 :::
 
-## Omitting columns definition <q-badge align="top" label="v1.12+" />
+## Omitting columns definition
 
 You can omit specifying the `columns`. QTable will infer the columns from the properties of the first row of the data. Note that labels are uppercased and sorting is enabled:
 
@@ -129,7 +129,7 @@ Sticky headers and columns are achieved through CSS with `position: sticky`. Thi
 
 <doc-example title="No header/footer" file="QTable/NoHeaderFooter" />
 
-## Virtual scrolling <q-badge align="top" label="v1.2+" />
+## Virtual scrolling
 
 Notice that when enabling virtual scroll you will need to specify the `table-style` (with a max-height) prop. In the example below, we are also forcing QTable to display all rows at once (note the use of `pagination` and `rows-per-page-options` props).
 
@@ -227,7 +227,7 @@ If you are using virtual scroll with QTable, you should know that starting with 
 
 <doc-example title="Before/After slots (header/footer)" file="QTable/BeforeAfterHeaderFooter" />
 
-## Pagination <q-badge align="top" label="enhanced on v1.12+" />
+## Pagination
 
 ::: tip
 When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See *"Server side pagination, filter and sorting"* section.
@@ -252,8 +252,6 @@ For learning purposes, we will customize the pagination controls with the defaul
 ## Loading state
 
 <doc-example title="Default loading" file="QTable/Loading" />
-
-The example below requires Quasar v1.8+:
 
 <doc-example title="Custom loading state" file="QTable/CustomLoading" />
 
@@ -297,7 +295,7 @@ Starting with **v1.1.1+**, there is also a "no-data" scoped slot (see below) tha
 
 <doc-example title="No Data Slot" file="QTable/NoDataSlot" />
 
-## Handling bottom layer <q-badge align="top" label="v1.12+" />
+## Handling bottom layer
 
 There are a few properties that you can use to hide the bottom layer or specific parts of it. You can play with it below:
 
@@ -316,8 +314,6 @@ First example below uses `$q.screen.lt.md` (for enabling dense mode) and the sec
 <doc-example title="Using dense prop" file="QTable/ResponsiveDense" />
 
 <doc-example title="Using grid prop" file="QTable/ResponsiveGrid" />
-
-The example above is essentially mimicking the earlier Quasar versions of the table behavior.
 
 ## Server side pagination, filter and sorting
 

@@ -1,6 +1,5 @@
 ---
 title: Supporting TypeScript
-badge: "@quasar/app v1.6+"
 desc: How to enable support for TypeScript in a Quasar app.
 related:
   - /quasar-cli/quasar-conf-js

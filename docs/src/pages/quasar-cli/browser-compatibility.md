@@ -1,7 +1,6 @@
 ---
 title: Browser compatibility
 desc: How to handle the browser support with Quasar CLI.
-badge: "@quasar/app v2+"
 related:
   - /quasar-cli/quasar-conf-js
 ---

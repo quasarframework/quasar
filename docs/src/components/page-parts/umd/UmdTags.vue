@@ -56,7 +56,7 @@ q-card(flat bordered)
 
   q-separator
 
-  doc-code.relative-position(lang="html") {{ output }}
+  doc-code.relative-position(lang="html", :code="output")
 
 </template>
 

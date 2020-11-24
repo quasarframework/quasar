@@ -42,11 +42,9 @@ $sizes.<breakpoint>
 // replace <breakpoint> with xs, sm, md, lg or xl
 ```
 
-Starting with **Quasar v1.5.3+**, [if enabled (only)](/options/screen-plugin#How-to-enable-body-classes), you can also style your content based on a particular set of CSS classes applied to document.body: `screen--xs`, `screen--sm`, ..., `screen--xl`.
+[If enabled (only)](/options/screen-plugin#How-to-enable-body-classes), you can also style your content based on a particular set of CSS classes applied to document.body: `screen--xs`, `screen--sm`, ..., `screen--xl`.
 
 ```css
-// v1.5.3+
-
 .my-div
   body.screen--xs &
     color: #000

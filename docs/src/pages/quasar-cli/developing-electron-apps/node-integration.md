@@ -5,8 +5,6 @@ desc: How to handle Electron Node Integration with Quasar CLI.
 
 Electron node integration refers to the ability of accessing Node.js resources from within the "renderer" thread (the UI). It is enabled by default in Quasar CLI, although Electron is encouraging developers to turn it off as a security precaution.
 
-As of "@quasar/app" v1.3+, you can turn off the node integration.
-
 ## What won't work when turning it off
 If you turn off the node integration, then in the renderer thread you won't be able to:
 
@@ -43,37 +41,5 @@ electron: {
 ```
 
 ::: tip
-Starting with "@quasar/app" v2.0+ you can edit your main thread file to set `nodeIntegration: process.env.QUASAR_NODE_INTEGRATION`. The `QUASAR_NODE_INTEGRATION` env variable is injected by Quasar so that you'll have only one place to edit your Node Integration state: quasar.conf.js.
+You can edit your main thread file to set `nodeIntegration: process.env.QUASAR_NODE_INTEGRATION`. The `QUASAR_NODE_INTEGRATION` env variable is injected by Quasar so that you'll have only one place to edit your Node Integration state: quasar.conf.js.
 :::
-
-### Legacy warnings
-
-**If your version of "@quasar/app" is greater than v1.7 and lower than v2.0**, then you also need to use `QUASAR_NODE_INTEGRATION` in your main thread file (/src-electron/main-process/main.js):
-
-```js
-// file: /src-electron/main-process/main.js
-
-mainWindow = new BrowserWindow({
-  // ..
-
-  webPreferences: {
-    nodeIntegration: QUASAR_NODE_INTEGRATION
-  }
-})
-```
-
-**If your version of "@quasar/app" is lower than v1.7**, then you also need to edit your main thread file (/src-electron/main-process/main.js):
-
-```js
-// file: /src-electron/main-process/main.js
-
-mainWindow = new BrowserWindow({
-  // ..
-
-  webPreferences: {
-    nodeIntegration: false
-  }
-})
-```
-
-Make sure that you keep the two configuration places in sync!

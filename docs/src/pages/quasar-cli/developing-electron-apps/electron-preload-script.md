@@ -1,10 +1,9 @@
 ---
 title: Electron Preload Script
-badge: "@quasar/app v1.5+"
 desc: How to handle Electron Node Integration with an Electron Preload script with Quasar CLI.
 ---
 
-As of "@quasar/app" v1.5+, you can benefit from an Electron preload script, which is very useful when you have [Node Integration](/quasar-cli/developing-electron-apps/node-integration) turned off.
+You can benefit from an Electron preload script, which is very useful when you have [Node Integration](/quasar-cli/developing-electron-apps/node-integration) turned off.
 
 This preload script can allow you to inject Nodejs stuff into the "window" global from the rendered thread (UI). This script will run in the browser, before your rendered thread. Regardless of your Node Integration setting, this file will have access to Nodejs. So be careful what you do with it!
 

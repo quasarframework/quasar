@@ -41,10 +41,10 @@ import { Screen } from 'quasar'
 
 // Screen.gt.md
 // Screen.md
-// Screen.name ('xs', 'sm', ...; Quasar v1.5.2+)
+// Screen.name ('xs', 'sm', ...)
 ```
 
-## Body classes <q-badge align="top" label="v1.5.3+" />
+## Body classes
 
 **If you enable it (see how to do it after the examples below)**, you can also style your content based on a particular set of CSS classes applied to document.body: `screen--xs`, `screen--sm`, ..., `screen-xl`.
 
@@ -78,7 +78,6 @@ In order to enable the behavior above, edit your /quasar.conf.js file like below
 
 ```js
 // file: /quasar.conf.js
-// with Quasar v1.5.3+
 
 framework: {
   config: {

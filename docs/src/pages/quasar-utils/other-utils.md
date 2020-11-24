@@ -26,13 +26,12 @@ It will take care of the quirks involved when running under Cordova, Electron or
 
 When wrapping with Cordova (or Capacitor), it's best (but not "a must do") if [InAppBrowser](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-inappbrowser/) Cordova plugin is also installed, so that openURL can hook into that.
 
-Starting with Quasar v1.11+, if running on iOS and [cordova-plugin-safariviewcontroller](https://github.com/EddyVerbruggen/cordova-plugin-safariviewcontroller) is installed, then openURL will first try to hook into it.
+If running on iOS and [cordova-plugin-safariviewcontroller](https://github.com/EddyVerbruggen/cordova-plugin-safariviewcontroller) is installed, then openURL will first try to hook into it.
 
 The optional `windowFeatures` parameter should be an Object with keys from [window.open() windowFeatures](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) and Boolean values (as described in the example below). Please note that these features will not be taken into account when openURL does not deferrs to using `window.open()` (like for example when it hooks into InAppBrowser or the electron's own window opener).
 
 ```js
 // example of openURL() with windowFeatures:
-// (requires Quasar v1.13+)
 
 openURL(
   'http://...',
@@ -54,7 +53,7 @@ openURL(
 If you want to open the telephone dialer in a Cordova app, don't use `openURL()`. Instead you should directly use `<a href="tel:123456789">` tags or `<QBtn type="a" href="tel:123456789">`
 :::
 
-## Copy to Clipboard <q-badge align="top" label="v1.5+" />
+## Copy to Clipboard
 
 The following is a helper to copy some text to Clipboard. The method returns a Promise.
 
@@ -70,7 +69,7 @@ copyToClipboard('some text')
   })
 ```
 
-## Export file <q-badge align="top" label="v1.5+" />
+## Export file
 
 The following is a helper to trigger a file download.
 

@@ -215,7 +215,6 @@ if (date.isBetweenDates(dateTarget, dateFrom, dateTo, { inclusiveFrom: true, inc
   // Do something with dateTarget
 }
 
-// (Quasar v1.9.9+)
 // if you only care about comparing dates (year/month/day, regardless of time)
 // then you could tip isBetweenDates() about it so it can perform best:
 if (date.isBetweenDates(dateTarget, dateFrom, dateTo, { onlyDate: true })) {

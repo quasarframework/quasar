@@ -9,10 +9,6 @@ related:
 
 You won't need to install any additional packages or extend the Webpack configuration.
 
-::: warning
-For full Sass/SCSS support, you will need @quasar/app v1.1+
-:::
-
 ## How to
 Your Vue files can contain Sass/SCSS/Stylus code through the `<style>` tag.
 

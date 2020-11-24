@@ -116,9 +116,6 @@ expires: 10 // in 10 days
 expires: -1 // yesterday
 expires: 'Mon, 06 Jan 2020 12:52:55 GMT'
 expires: new Date() // some JS Date Object
-
-// Following formats require Quasar v1.7+:
-
 expires: '1d 3h 5m' // in 1 day, 3 hours, 5 minutes
 expires: '2d' // in 2 days
 expires: '15m 10s' // in 15 minutes, 10 seconds

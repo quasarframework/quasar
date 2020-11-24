@@ -26,18 +26,15 @@ electron: {
     //...
   },
 
-  // -- @quasar/app v1.4.2+ --
   // Specify additional parameters when yarn/npm installing
   // the UnPackaged folder, right before bundling with either
   // electron packager or electron builder;
   // Example: [ '--ignore-optional', '--some-other-param' ]
   unPackagedInstallParams: [],
 
-  // -- @quasar/app v1.3+ --
   // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
   nodeIntegration: true,
 
-  // -- @quasar/app v1.9.5+ --
   // optional; add/remove/change properties
   // of production generated package.json
   extendPackageJson (pkg) {

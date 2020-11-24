@@ -40,7 +40,7 @@ q-card.doc-api.q-my-lg(flat bordered)
     q-separator
 
     q-tab-panels(v-model="currentTab", animated)
-      q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
+      q-tab-panel.q-pa-none(v-for="tab in tabs", :name="tab", :key="tab")
         .row.no-wrap.api-container(v-if="aggregationModel[tab]")
           .col-auto.row.no-wrap.bg-grey-1.text-grey-7.q-py-lg
             q-tabs(
@@ -73,6 +73,7 @@ q-card.doc-api.q-my-lg(flat bordered)
           )
             q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
               ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]")
+
         .api-container(v-else)
           ApiRows(:which="tab", :api="filteredApi")
 </template>

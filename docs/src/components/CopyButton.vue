@@ -26,7 +26,7 @@ import { mdiContentCopy } from '@quasar/extras/mdi-v5'
 
 export default {
   props: {
-    text: [ Function, String ]
+    text: String
   },
 
   created () {
@@ -41,11 +41,7 @@ export default {
 
   methods: {
     copy () {
-      const text = typeof this.text === 'function'
-        ? this.text()
-        : this.text
-
-      copyToClipboard(text)
+      copyToClipboard(this.text)
         .then(() => {
           this.copied = true
           clearTimeout(this.timer)

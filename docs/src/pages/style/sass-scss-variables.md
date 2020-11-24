@@ -10,8 +10,7 @@ related:
 There are Sass/SCSS variables built into Quasar that you can change and/or use within devland should you wish to.
 
 ::: warning
-* This applies to Quasar CLI managed apps only.
-* **The minimum required version of `@quasar/app` is v1.1. You will also need `quasar` v1.1.1+.**
+This applies to Quasar CLI managed apps only.
 :::
 
 ## Usage

@@ -61,7 +61,7 @@ This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins
 
 <doc-example title="Other options" file="Dialog/OtherOptions" />
 
-### Basic validation <q-badge align="top" label="v1.8+" />
+### Basic validation
 
 There is a basic validation system that you can use so that the user won't be able to submit the dialog (click/tap on "OK" or press <kbd>ENTER</kbd>) until the expected values are filled in.
 
@@ -69,7 +69,7 @@ There is a basic validation system that you can use so that the user won't be ab
 
 <doc-example title="Options with validation" file="Dialog/ValidationOptions" />
 
-### Progress <q-badge align="top" label="v1.13.3+" />
+### Progress
 
 <doc-example title="Showing progress" file="Dialog/Progress" />
 
@@ -192,12 +192,10 @@ return {
     config: {
       cordova: {
         // Quasar handles app exit on mobile phone back button.
-        // Requires Quasar v1.9.3+ for true/false, v1.12.6+ for '*' wildcard and array values
         backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
 
         // On the other hand, the following completely
         // disables Quasar's back button management.
-        // Requires Quasar v1.14.1+
         backButton: true/false
       }
     }
@@ -206,18 +204,15 @@ return {
 
 // quasar.conf.js;
 // for Capacitor (only!)
-// and Quasar v1.9.3+:
 return {
   framework: {
     config: {
       capacitor: {
         // Quasar handles app exit on mobile phone back button.
-        // Requires Quasar v1.9.3+ for true/false, v1.12.6+ for '*' wildcard and array values
         backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
 
         // On the other hand, the following completely
         // disables Quasar's back button management.
-        // Requires Quasar v1.14.1+
         backButton: true/false
       }
     }

@@ -45,7 +45,7 @@ q-card(flat, bordered)
   q-separator
 
   .q-pa-md.relative-position
-    doc-code(lang="html") {{ tooltipExport }}
+    doc-code(lang="html", :code="tooltipExport")
 
 </template>
 

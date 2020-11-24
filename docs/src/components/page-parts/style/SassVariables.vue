@@ -1,6 +1,6 @@
 <template lang="pug">
 q-card(v-if="ready", flat, bordered)
-  doc-code(lang="markup") {{ file }}
+  doc-code(lang="markup", :code="file")
 </template>
 
 <script>

@@ -15,7 +15,7 @@ There are two modes in which QPagination operates: with buttons only or with an 
 
 <doc-example title="Standard" file="QPagination/Standard" />
 
-### Custom icons <q-badge align="top" label="v1.9.4+" />
+### Custom icons
 
 <doc-example title="With icon replacement" file="QPagination/Icons" />
 

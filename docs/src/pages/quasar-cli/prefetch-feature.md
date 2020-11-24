@@ -96,8 +96,6 @@ The hook is defined as a custom static function called `preFetch` on our route c
 export default {
   // our hook here
   preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
-    // urlPath and publicPath requires @quasar/app v2+
-
     // fetch data, validate route and optionally redirect to some other route...
 
     // ssrContext is available only server-side in SSR mode

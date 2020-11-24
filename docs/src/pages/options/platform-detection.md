@@ -68,10 +68,10 @@ The following properties are available to the Platform object. It's not an exhau
 | ---                    | ---     | ---                                                      |
 | `Platform.is.mobile`     | Boolean | Is the code running on a mobile device?                |
 | `Platform.is.cordova`    | Boolean | Is the code running within Cordova?                    |
-| `Platform.is.capacitor`  | Boolean | Is the code running with Capacitor? (requires @quasar/app v1.2+) |
+| `Platform.is.capacitor`  | Boolean | Is the code running with Capacitor? |
 | `Platform.is.electron`   | Boolean | Is the code running within Electron?                   |
 | `Platform.is.desktop`    | Boolean | Is the code running on a desktop browser?              |
-| `Platform.is.bex`        | Boolean | Is the code running in a browser extension? (requires @quasar/app v1.2+) |
+| `Platform.is.bex`        | Boolean | Is the code running in a browser extension? |
 | `Platform.is.android`    | Boolean | Is the app running on an Android device?               |
 | `Platform.is.blackberry` | Boolean | Is the app running on a Blackberry device? |
 | `Platform.is.cros`       | Boolean | Is the app running on device with the Chrome OS operating system? |

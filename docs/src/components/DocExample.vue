@@ -43,7 +43,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
           :key="`pane-${tab}`"
           :name="tab"
         )
-          doc-code(lang="markup") {{ parts[tab] }}
+          doc-code(lang="markup", :code="parts[tab]")
 
       q-separator.doc-example__separator
 
@@ -55,6 +55,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
 </template>
 
 <script>
+import { markRaw } from 'vue'
 import { openURL } from 'quasar'
 
 import {
@@ -97,10 +98,10 @@ export default {
   },
 
   computed: {
-    classes () { // eslint-disable-line
-      if (this.dark === true) {
-        return 'doc-example--dark'
-      }
+    classes () {
+      return this.dark === true
+        ? 'doc-example--dark'
+        : ''
     },
 
     componentClass () {
@@ -121,7 +122,7 @@ export default {
         /* webpackMode: "lazy-once" */
         'examples/' + this.file + '.vue'
       ).then(comp => {
-        this.component = comp.default
+        this.component = markRaw(comp.default)
       }),
 
       import(

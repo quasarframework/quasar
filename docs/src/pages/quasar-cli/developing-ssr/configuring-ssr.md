@@ -8,15 +8,14 @@ related:
 ## Quasar.conf.js
 This is the place where you can configure some SSR options. Like if you want the client side to takeover as a SPA (Single Page Application -- the default behaviour), or as a PWA (Progressive Web App).
 
-```
+```js
 return {
   // ...
   ssr: {
     pwa: true/false, // should a PWA take over (default: false), or just a SPA?
-    manualHydration: true/false, // (@quasar/app v1.4.2+) Manually hydrate the store
+    manualHydration: true/false, // Manually hydrate the store
     componentCache: {...} // lru-cache package options,
 
-    // -- @quasar/app v1.9.5+ --
     // optional; add/remove/change properties
     // of production generated package.json
     extendPackageJson (pkg) {
@@ -24,7 +23,6 @@ return {
       // no need to return anything
     },
 
-    // -- @quasar/app v1.5+ --
     // optional; webpack config Object for
     // the Webserver part ONLY (/src-ssr/)
     // which is invoked for production (NOT for dev)
@@ -33,7 +31,6 @@ return {
       // no need to return anything
     },
 
-    // -- @quasar/app v1.5+ --
     // optional; EQUIVALENT to extendWebpack() but uses webpack-chain;
     // the Webserver part ONLY (/src-ssr/)
     // which is invoked for production (NOT for dev)
@@ -79,7 +76,7 @@ Notice a few things:
 
 4. When `/src-ssr/extension.js` is used by the development server, it assumes the configuration is ready to be used by an Express server. So plan accordingly. If you switch to another server, you may want to decouple extension.js from the production server (index.js).
 
-5. (@quasar/app v1.5+) The `/src-ssr` is built through a Webpack config for production (only). **You will see this marked as "Webserver" when Quasar App CLI builds your app.** You can chain/extend the Webpack configuration of these files through quasar.conf.js:
+5. The `/src-ssr` is built through a Webpack config for production (only). **You will see this marked as "Webserver" when Quasar App CLI builds your app.** You can chain/extend the Webpack configuration of these files through quasar.conf.js:
 
 ```
 return {
@@ -87,7 +84,6 @@ return {
   ssr: {
     // ...
 
-    // -- @quasar/app v1.5+ --
     // optional; webpack config Object for
     // the Webserver part ONLY (/src-ssr/)
     // which is invoked for production (NOT for dev)
@@ -96,7 +92,6 @@ return {
       // no need to return anything
     },
 
-    // -- @quasar/app v1.5+ --
     // optional; EQUIVALENT to extendWebpack() but uses webpack-chain;
     // the Webserver part ONLY (/src-ssr/)
     // which is invoked for production (NOT for dev)

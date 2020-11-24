@@ -84,22 +84,19 @@
 
       q-tab-panels.bg-code(v-model="exportTab", animated)
         q-tab-panel.q-pa-none(name="sass")
-          doc-code(copy) {{ sassExport }}
+          doc-code(copy, :code="sassExport")
 
         q-tab-panel.q-pa-none(name="scss")
-          doc-code(copy) {{ scssExport }}
-
-        q-tab-panel.q-pa-none(name="styl")
-          doc-code(copy) {{ stylusExport }}
+          doc-code(copy, :code="scssExport")
 
         q-tab-panel.q-pa-none(name="quasar-cli")
-          doc-code(copy) {{ quasarCliExport }}
+          doc-code(copy, :code="quasarCliExport")
 
         q-tab-panel.q-pa-none(name="umd")
-          doc-code(copy) {{ umdExport }}
+          doc-code(copy, :code="umdExport")
 
         q-tab-panel.q-pa-none(name="vue-cli")
-          doc-code(copy) {{ vueCliExport }}
+          doc-code(copy, :code="vueCliExport")
 
       q-separator
 

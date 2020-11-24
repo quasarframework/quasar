@@ -51,7 +51,7 @@ When not disabled or spinning, QBtn emits a `@click` event, as soon as it is cli
 
 <doc-example title="Button size" file="QBtn/ButtonSize" />
 
-### Padding <q-badge align="top" label="v1.11+" />
+### Padding
 
 The default padding is "xs md". However, you can use `padding` prop to customize it:
 

@@ -15,6 +15,7 @@ form(
 </template>
 
 <script>
+// TODO vue3 - adapt to vue3 specs
 import { Quasar } from 'quasar'
 
 const cssResources = [
@@ -23,7 +24,7 @@ const cssResources = [
 ].join(';')
 
 const jsResources = [
-  'https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js',
+  'https://cdn.jsdelivr.net/npm/vue@3',
   `https://cdn.jsdelivr.net/npm/quasar@${Quasar.version}/dist/quasar.umd.min.js`
 ].join(';')
 
