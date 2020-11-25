@@ -34,7 +34,7 @@ function getMatchedComponents (to, router) {
       const comp = m.components[key]
       return {
         path: m.path,
-        c: comp.options /* Vue.extend() */ || comp
+        c: comp
       }
     })
   }))

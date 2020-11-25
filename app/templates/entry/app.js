@@ -9,7 +9,6 @@
  *
  * Boot files are your "main.js"
  **/
-import { defineComponent } from 'vue'
 
 <% if (__vueDevtools !== false) { %>
 import vueDevtools from '@vue/devtools'
@@ -34,6 +33,7 @@ const { SplashScreen } = Plugins
 <% } %>
 
 <% if (__needsAppMountHook === true) { %>
+import { defineComponent } from 'vue'
 const RootComponent = defineComponent({
   mixins: [ AppComponent ],
   mounted () {

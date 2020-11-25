@@ -13,6 +13,8 @@
 // TODO vue3 - when on SSR+PWA -> createApp
 import { <%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %> } from 'vue'
 
+<% const bootEntries = boot.filter(asset => asset.client !== false) %>
+
 <% extras.length > 0 && extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
 <% }) %>
@@ -42,20 +44,6 @@ import { isRunningOnPWA } from './ssr-pwa'
 <% } %>
 <% } %>
 
-<%
-const bootNames = []
-if (boot.length > 0) {
-  function hash (str) {
-    const name = str.replace(/\W+/g, '')
-    return name.charAt(0).toUpperCase() + name.slice(1)
-  }
-  boot.filter(asset => asset.client !== false).forEach(asset => {
-    let importName = 'qboot_' + hash(asset.path)
-    bootNames.push(importName)
-%>
-import <%= importName %> from '<%= asset.path %>'
-<% }) } %>
-
 <% if (preFetch) { %>
 import { addPreFetchHooks } from './client-prefetch.js'
 <% } %>
@@ -80,9 +68,7 @@ const doubleSlashRE = /\/\//
 const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 <% } %>
 
-async function start () {
-  const { app, router<%= store ? ', store' : '' %> } = await createQuasarApp(<%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %>)
-
+async function start ({ app, router<%= store ? ', store' : '' %> }<%= bootEntries.length > 0 ? ', bootFiles' : '' %>) {
   <% if (ctx.mode.ssr && store && ssr.manualHydration !== true) { %>
   // prime the store with server-initialized state.
   // the state is determined during SSR and inlined in the page markup.
@@ -92,7 +78,7 @@ async function start () {
   }
   <% } %>
 
-  <% if (bootNames.length > 0) { %>
+  <% if (bootEntries.length > 0) { %>
   let hasRedirected = false
   const redirect = url => {
     hasRedirected = true
@@ -104,7 +90,6 @@ async function start () {
   }
 
   const urlPath = window.location.href.replace(window.location.origin, '')
-  const bootFiles = [<%= bootNames.join(',') %>]
 
   for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
     if (typeof bootFiles[i] !== 'function') {
@@ -187,4 +172,15 @@ async function start () {
 
 }
 
-start()
+createQuasarApp(<%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %>)
+<% if (bootEntries.length > 0) { %>
+  .then(app => {
+    return Promise.all([
+      <% bootEntries.forEach((asset, index) => { %>
+      import(/* webpackMode: "eager" */ '<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
+      <% }) %>
+    ]).then(bootFiles => start(app, bootFiles.map(entry => entry.default)))
+  })
+<% } else { %>
+  .then(start)
+<% } %>

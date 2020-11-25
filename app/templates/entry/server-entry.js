@@ -35,7 +35,6 @@ import createQuasarApp from './app.js'
 
 <% if (preFetch) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
-const appOptions = App.options /* Vue.extend() */ || App
 <% } %>
 
 <%
@@ -92,7 +91,6 @@ export default ssrContext => {
           app,
           router,
           <%= store ? 'store,' : '' %>
-          Vue,
           ssrContext,
           redirect,
           urlPath: ssrContext.url,
@@ -124,7 +122,7 @@ export default ssrContext => {
     router.isReady().then(() => {
       const matchedComponents = router.currentRoute.value.matched
         .flatMap(record => Object.values(record.components))
-        .map(m => m.options /* Vue.extend() */ || m)
+        .map(m => m)
 
       // no matched routes
       if (matchedComponents.length === 0) {
@@ -139,7 +137,7 @@ export default ssrContext => {
         redirectBrowser(url, router, reject)
       }
 
-      appOptions.preFetch !== void 0 && matchedComponents.unshift(appOptions)
+      App.preFetch !== void 0 && matchedComponents.unshift(App)
 
       // Call preFetch hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,

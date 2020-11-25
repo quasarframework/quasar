@@ -1,11 +1,6 @@
-// TODO vue3
-// import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 
 // import example from './module-example'
-
-// TODO vue3
-// Vue.use(Vuex)
 
 /*
  * If not building with SSR mode, you can
@@ -17,7 +12,7 @@ import Vuex from 'vuex'
  */
 
 export default function (/* { ssrContext } */) {
-  const Store = new Vuex.Store({
+  const Store = createStore({
     modules: {
       // example
     },
