@@ -16,6 +16,10 @@ import './AppMenu.sass'
 export default defineComponent({
   name: 'AppMenu',
 
+  created () {
+    this.routePath = this.$route.path
+  },
+
   watch: {
     $route (route) {
       this.showMenu(this.$refs[ route.path ])
@@ -44,7 +48,7 @@ export default defineComponent({
             label: menu.name,
             dense: true,
             icon: menu.icon,
-            defaultOpened: menu.opened,
+            defaultOpened: menu.opened || this.routePath.startsWith(path),
             expandSeparator: true,
             switchToggleSide: level > 0,
             denseToggle: level > 0
@@ -96,9 +100,5 @@ export default defineComponent({
     return h(QList, { class: 'app-menu', dense: true }, () => Menu.map(
       item => this.getDrawerMenu(item, '/' + item.path, 0)
     ))
-  },
-
-  mounted () {
-    this.showMenu(this.$refs[ this.$route.path ])
   }
 })

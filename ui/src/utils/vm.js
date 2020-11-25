@@ -1,3 +1,4 @@
+// used directly by docs too
 export function getParentVm (vm) {
   if (vm.$parent !== void 0 && vm.$parent !== null) {
     return vm.$parent
