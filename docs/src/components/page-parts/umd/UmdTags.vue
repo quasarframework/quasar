@@ -128,7 +128,7 @@ export default {
 
   <body>
     <!-- example of injection point where you write your app template -->
-    <div id="q-app></div>
+    <div id="q-app"></div>
 
     <!-- Add the following at the end of your body tag -->
     ${this.body}
