@@ -58,14 +58,14 @@ export default {
 
       const data = { key, class: { selected } }
 
-      if (this.emitListeners[ 'onRow-click' ] === true) {
+      if (this.emitListeners.onRowClick === true) {
         data.class[ 'cursor-pointer' ] = true
         data.onClick = evt => {
           this.$emit('row-click', evt, row, pageIndex)
         }
       }
 
-      if (this.emitListeners[ 'onRow-dblclick' ] === true) {
+      if (this.emitListeners.onRowDblclick === true) {
         data.class[ 'cursor-pointer' ] = true
         data.onDblclick = evt => {
           this.$emit('row-dblclick', evt, row, pageIndex)

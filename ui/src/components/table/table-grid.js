@@ -63,18 +63,18 @@ export default {
           }
 
           if (
-            this.emitListeners[ 'onRow-click' ] === true ||
-            this.emitListeners[ 'onRow-dblclick' ] === true
+            this.emitListeners.onRowClick === true ||
+            this.emitListeners.onRowDblclick === true
           ) {
             data.class[ 0 ] += ' cursor-pointer'
 
-            if (this.emitListeners[ 'onRow-click' ] === true) {
+            if (this.emitListenersonRowClick === true) {
               data.onClick = evt => {
                 this.$emit('row-click', evt, scope.row, scope.pageIndex)
               }
             }
 
-            if (this.emitListeners[ 'onRow-dblclick' ] === true) {
+            if (this.emitListeners.onRowDblclick === true) {
               data.onDblclick = evt => {
                 this.$emit('row-dblclick', evt, scope.row, scope.pageIndex)
               }

@@ -616,7 +616,7 @@ export default defineComponent({
       }
 
       const newValueModeValid = this.inputValue.length > 0 &&
-        (this.newValueMode !== void 0 || this.emitListeners[ 'onNew-value' ] === true)
+        (this.newValueMode !== void 0 || this.emitListeners.onNewValue === true)
       const tabShouldSelect = e.shiftKey !== true &&
         this.multiple !== true &&
         (this.optionIndex > -1 || newValueModeValid === true)
@@ -762,7 +762,7 @@ export default defineComponent({
           }
         }
 
-        if (this.emitListeners[ 'onNew-value' ] === true) {
+        if (this.emitListeners.onNewValue === true) {
           this.$emit('new-value', this.inputValue, done)
         }
         else {

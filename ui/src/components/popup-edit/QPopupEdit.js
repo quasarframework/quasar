@@ -181,7 +181,7 @@ export default defineComponent({
       onShow: this.__onShow,
       onBeforeHide: this.__onBeforeHide,
       onHide: this.__onHide,
-      'onEscape-key': this.cancel
+      onEscapeKey: this.cancel
     }, this.__getContent)
   }
 })

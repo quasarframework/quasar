@@ -140,7 +140,7 @@ export default defineComponent({
       if (this.height !== height) {
         resized = true
         this.height = height
-        this.emitListeners[ 'onScroll-height' ] === true && this.$emit('scroll-height', height)
+        this.emitListeners.onScrollHeight === true && this.$emit('scroll-height', height)
         this.__updateScrollbarWidth()
       }
       if (this.width !== width) {
