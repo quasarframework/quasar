@@ -22,8 +22,7 @@ q-card(flat bordered)
   q-separator
 
   q-card-section.q-gutter-xs
-    q-toggle(v-model="modern" label="Modern (ES6+)")
-    q-toggle(v-model="cfgObject" label="Quasar Configure Object")
+    q-toggle(v-model="cfgObject" label="Quasar Config Object")
     q-toggle(v-model="minified" label="Minified files")
     q-toggle(v-model="rtl" label="RTL CSS support")
 
@@ -105,7 +104,6 @@ export default {
         animate: false
       },
 
-      modern: false,
       minified: true,
       rtl: false,
       cfgObject: false,
@@ -129,10 +127,12 @@ export default {
   </head>
 
   <body>
+    <!-- example of injection point where you write your app template -->
+    <div id="q-app></div>
+
     <!-- Add the following at the end of your body tag -->
-    ${this.configTag}
     ${this.body}
-    ${this.finalScriptTag}
+    ${this.scriptTag}
   </body>
 </html>
 `
@@ -154,80 +154,81 @@ export default {
         .map(key => cssMap[ key ])
 
       css.unshift(this.googleFonts)
-      css.push(`cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.rtl.min.css`)
+      css.push(`cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.rtl.prod.css`)
 
       return css.filter(url => url)
         .map(url => this.getCssTag(url))
         .join('\n    ')
     },
 
-    configTag () {
+    configInstantiation () {
       if (this.cfgObject === false) {
-        return ''
+        return 'config: {}'
       }
 
-      // funky way otherwise vue-loader will crash
       return `
-    <` + `script>
-    window.quasarConfig = {
-      brand: {
-        primary: '#e46262',
-        // ... or all other brand colors
-      },
-      notify: {...}, // default set of options for Notify Quasar plugin
-      loading: {...}, // default set of options for Loading Quasar plugin
-      loadingBar: { ... }, // settings for LoadingBar Quasar plugin
-      // ..and many more (check Installation card on each Quasar component/directive/plugin)
-    }
-    <` + '/script>\n'
+        config: {
+          brand: {
+            primary: '#e46262',
+            // ... or all other brand colors
+          },
+          notify: {...}, // default set of options for Notify Quasar plugin
+          loading: {...}, // default set of options for Loading Quasar plugin
+          loadingBar: { ... }, // settings for LoadingBar Quasar plugin
+          // ..and many more (check Installation card on each Quasar component/directive/plugin)
+        }\n     `
     },
 
-    finalScriptTag () {
-      let prepend = ''
+    postCreateApp () {
+      let str = ''
 
       if (this.lang !== 'en-us' || this.iconSet !== 'material-icons') {
-        prepend = '\n'
-
         if (this.lang !== 'en-us') {
-          prepend += `      Quasar.lang.set(Quasar.lang.${camelize(this.lang)})\n`
+          str += `Quasar.lang.set(Quasar.lang.${camelize(this.lang)})\n      `
         }
 
         if (this.iconSet !== 'material-icons') {
-          prepend += `      Quasar.iconSet.set(Quasar.iconSet.${camelize(this.iconSet)})\n`
+          str += `Quasar.iconSet.set(Quasar.iconSet.${camelize(this.iconSet)})\n      `
         }
       }
 
+      return str
+    },
+
+    scriptTag () {
       const startup = `
       /*
         Example kicking off the UI. Obviously, adapt this to your specific needs.
         Assumes you have a <div id="q-app"></div> in your <body> above
        */
-      new Vue({
-        el: '#q-app',
-        data: function () {
+      const app = Vue.createApp({
+        data () {
           return {}
         },
         methods: {},
         // ...etc
       })
+
+      app.use(Quasar, { ${this.configInstantiation} })
+      ${this.postCreateApp}app.mount('#q-app')
     `
 
       // funky form below otherwise vue-loader will crash
-      return '\n    <' + `script>${prepend}${startup}<` + '/script>'
+      return '\n    <' + `script>${startup}<` + '/script>'
     },
 
     body () {
       const js = [
-        'cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js',
-        `cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.umd.${this.modern === true ? 'modern.' : ''}min.js`
+        'cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js',
+        `cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.umd.prod.js`
       ]
 
       if (this.lang !== 'en-us') {
-        js.push(`cdn.jsdelivr.net/npm/quasar@${this.version}/dist/lang/${this.lang}.umd.min.js`)
+        js.push(`cdn.jsdelivr.net/npm/quasar@${this.version}/dist/lang/${this.lang}.umd.prod.js`)
       }
 
       if (this.iconSet !== 'material-icons') {
-        js.push(`cdn.jsdelivr.net/npm/quasar@${this.version}/dist/icon-set/${this.iconSet}.umd.min.js`)
+        js.push(`cdn.jsdelivr.net/npm/quasar@${this.version}/dist/icon-set/${this.iconSet}.umd.prod.js`)
       }
 
       return js
@@ -239,7 +240,7 @@ export default {
   methods: {
     getUrl (url) {
       const min = this.minified === false
-        ? url.replace('.min', '')
+        ? url.replace('.prod', '')
         : url
 
       return this.rtl === false

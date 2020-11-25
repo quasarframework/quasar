@@ -39,12 +39,10 @@ When you embed Quasar UMD into a webpage you'll get a `Quasar` global Object inj
 Quasar = {
   version, // Quasar version
 
-  plugins, // Quasar plugins
-  utils, // Quasar utils
-
-  // if you want to extend Quasar's components or directives
-  components,
-  directives,
+  ...components,
+  ...directives,
+  ...plugins, // Quasar plugins
+  ...utils, // Quasar utils
 
   // if you want to change current icon set or Quasar Language pack
   // (must include CDN links so they are available first!)
@@ -53,13 +51,12 @@ Quasar = {
 }
 ```
 
-## Init Configuration
-There are some configuration options for Quasar & Quasar plugins. For the Quasar UMD version you can define the following before including the Quasar script tag:
+## Quasar Config Object
+There are some configuration options for Quasar & Quasar plugins:
 
-```html
-<script>
-  // optional
-  window.quasarConfig = {
+```js
+app.use(Quasar, {
+  config: {
     brand: { // this will NOT work on IE 11
       primary: '#e46262',
       // ... or all other brand colors
@@ -69,7 +66,7 @@ There are some configuration options for Quasar & Quasar plugins. For the Quasar
     loadingBar: { ... }, // settings for LoadingBar Quasar plugin
     // ..and many more
   }
-</script>
+})
 ```
 
 ## Usage
@@ -102,6 +99,7 @@ An example. No need to install any component in UMD version.
 
 ### Quasar Directives
 An example. No need to install any directives in UMD version.
+
 ```html
 <div v-ripple>...</div>
 ```
@@ -117,7 +115,7 @@ Quasar.plugins.bottomSheet.create({...})
 An example.
 
 ```js
-Quasar.utils.openURL('https://quasar.dev')
+Quasar.openURL('https://quasar.dev')
 ```
 
 ### Changing Quasar Icon Set
