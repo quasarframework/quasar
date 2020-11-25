@@ -164,6 +164,7 @@ Note that nested paths that start with `/` will be treated as a root path. This 
 :::
 
 Our routes configuration (`/src/router/routes.js`) should look like this:
+
 ```js
 export default [
   {
