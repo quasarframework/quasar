@@ -9,6 +9,7 @@ import {
   QList
 } from 'quasar'
 
+import { getParentVm } from 'quasar/src/utils/vm.js'
 import Menu from 'assets/menu.js'
 import './AppMenu.sass'
 
@@ -22,10 +23,13 @@ export default defineComponent({
   },
 
   methods: {
-    showMenu (comp) {
-      if (comp !== void 0 && comp !== this) {
-        // this.showMenu(comp.$parent) // TODO vue3
-        comp.show !== void 0 && comp.show()
+    showMenu (vm) {
+      if (vm !== void 0 && vm !== this) {
+        vm.show !== void 0 && vm.show()
+        const parent = getParentVm(vm)
+        if (parent !== void 0) {
+          this.showMenu(parent)
+        }
       }
     },
 
