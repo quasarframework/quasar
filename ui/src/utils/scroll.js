@@ -49,7 +49,8 @@ export function getHorizontalScrollPosition (scrollTarget) {
   return scrollTarget.scrollLeft
 }
 
-export function animScrollTo (el, to, duration = 0) {
+export function animScrollTo (el, to, duration = 0 /* , prevTime */) {
+  const prevTime = arguments[3] === void 0 ? performance.now() : arguments[3]
   const pos = getScrollPosition(el)
 
   if (duration <= 0) {
@@ -59,16 +60,18 @@ export function animScrollTo (el, to, duration = 0) {
     return
   }
 
-  requestAnimationFrame(() => {
-    const newPos = pos + (to - pos) / Math.max(16, duration) * 16
+  requestAnimationFrame(nowTime => {
+    const frameTime = nowTime - prevTime
+    const newPos = pos + (to - pos) / Math.max(frameTime, duration) * frameTime
     setScroll(el, newPos)
     if (newPos !== to) {
-      animScrollTo(el, to, duration - 16)
+      animScrollTo(el, to, duration - frameTime, nowTime)
     }
   })
 }
 
-export function animHorizontalScrollTo (el, to, duration = 0) {
+export function animHorizontalScrollTo (el, to, duration = 0 /* , prevTime */) {
+  const prevTime = arguments[3] === void 0 ? performance.now() : arguments[3]
   const pos = getHorizontalScrollPosition(el)
 
   if (duration <= 0) {
@@ -78,11 +81,12 @@ export function animHorizontalScrollTo (el, to, duration = 0) {
     return
   }
 
-  requestAnimationFrame(() => {
-    const newPos = pos + (to - pos) / Math.max(16, duration) * 16
+  requestAnimationFrame(nowTime => {
+    const frameTime = nowTime - prevTime
+    const newPos = pos + (to - pos) / Math.max(frameTime, duration) * frameTime
     setHorizontalScroll(el, newPos)
     if (newPos !== to) {
-      animHorizontalScrollTo(el, to, duration - 16)
+      animHorizontalScrollTo(el, to, duration - frameTime, nowTime)
     }
   })
 }
