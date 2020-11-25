@@ -5,7 +5,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
 
     q-space
 
-    div.col-auto
+    div.col-auto(v-if="!loading")
       q-btn(dense, flat, round, :icon="fabGithub", @click="openGitHub")
         q-tooltip View on GitHub
       q-btn.q-ml-sm(v-if="noEdit === false", dense, flat, round, :icon="fabCodepen", @click="openCodepen")
@@ -51,7 +51,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
     q-linear-progress(v-if="loading", color="primary", indeterminate)
     component.col.doc-example__content(v-else, :is="component", :class="componentClass")
 
-  codepen(ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle")
+  codepen(v-if="!loading", ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle")
 </template>
 
 <script>

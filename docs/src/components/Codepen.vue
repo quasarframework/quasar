@@ -15,7 +15,6 @@ form(
 </template>
 
 <script>
-// TODO vue3 - adapt to vue3 specs
 import { Quasar } from 'quasar'
 
 const cssResources = [
@@ -24,8 +23,8 @@ const cssResources = [
 ].join(';')
 
 const jsResources = [
-  'https://cdn.jsdelivr.net/npm/vue@3',
-  `https://cdn.jsdelivr.net/npm/quasar@${Quasar.version}/dist/quasar.umd.min.js`
+  'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js',
+  `https://cdn.jsdelivr.net/npm/quasar@${Quasar.version}/dist/quasar.umd.prod.js`
 ].join(';')
 
 export default {
@@ -58,7 +57,7 @@ export default {
       let component = /export default {([\s\S]*)}/g.exec(this.parts.script || '')
       component = ((component && component[ 1 ]) || '').trim()
       if (component.length > 0) {
-        component = ',\n  ' + component
+        component = '\n  ' + component + '\n'
       }
       let script = /<script>([\s\S]*)export default {/g.exec(this.parts.script || '')
       script = ((script && script[ 1 ]) || '')
@@ -68,21 +67,13 @@ export default {
             .map(p => p.trim())
             .filter(p => p.length > 0)
             .reduce((acc, p) => {
-              if (p[ 0 ] === 'Q') {
-                acc.c.push(p)
-              }
-              else {
-                acc.u.push(p)
-              }
+              acc.push(p)
               return acc
-            }, { c: [], u: [] })
+            }, [])
 
           const text = []
-          if (parts.c.length > 0) {
-            text.push('const { ' + parts.c.join(', ') + ' } = Quasar.components')
-          }
-          if (parts.u.length > 0) {
-            text.push('const { ' + parts.u.join(', ') + ' } = Quasar')
+          if (parts.length > 0) {
+            text.push('const { ' + parts.c.join(', ') + ' } = Quasar')
           }
           return text.join('\n')
         })
@@ -90,9 +81,10 @@ export default {
         .trim()
       script += script ? '\n\n' : ''
       return script +
-        `new Vue({
-  el: '#q-app'${component}
-})`
+        `const app = Vue.createApp({${component}})
+app.use(Quasar, { config: {} })
+app.mount('#q-app')
+`
     },
 
     html () {
@@ -117,19 +109,9 @@ export default {
     },
 
     computedTitle () {
-      return (this.page ? this.page + ': ' : '') +
+      return (typeof document !== 'undefined' ? document.title.split(' | ')[ 0 ] + ': ' : '') +
         (this.title ? this.title + ' - ' : '') +
-        'Quasar Playground'
-    },
-
-    page () {
-      let el = this.$parent
-
-      while (el && el.$options && (!el.$options.meta || !el.$options.meta.title)) {
-        el = el.$parent
-      }
-
-      return el ? el.$options.meta.title : null
+        `Quasar v${Quasar.version}`
     },
 
     options () {
