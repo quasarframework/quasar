@@ -9,16 +9,16 @@
   height: 100% !important
 .full-width
   width: 100% !important
-  margin-left: 0 !important
-  margin-right: 0 !important
+  margin-left: 0 !important /* rtl:ignore */
+  margin-right: 0 !important /* rtl:ignore */
 
 .window-height
   margin-top: 0 !important
   margin-bottom: 0 !important
   height: 100vh !important
 .window-width
-  margin-left: 0 !important
-  margin-right: 0 !important
+  margin-left: 0 !important /* rtl:ignore */
+  margin-right: 0 !important /* rtl:ignore */
   width: 100vw !important
 
 .block
@@ -39,7 +39,8 @@ for $space, $value in $spaces
   .q-pb-{$space}
     padding-bottom: $value.y
   .q-px-{$space}
-    @extends .q-pl-{$space}, .q-pr-{$space}
+    padding-left: $value.x /* rtl:ignore */
+    padding-right: $value.x /* rtl:ignore */
   .q-py-{$space}
     @extends .q-pt-{$space}, .q-pb-{$space}
 
@@ -54,15 +55,19 @@ for $space, $value in $spaces
   .q-mb-{$space}
     margin-bottom: $value.y
   .q-mx-{$space}
-    @extends .q-ml-{$space}, .q-mr-{$space}
+    margin-left: $value.x /* rtl:ignore */
+    margin-right: $value.x /* rtl:ignore */
   .q-my-{$space}
     @extends .q-mt-{$space}, .q-mb-{$space}
 
 .q-mt-auto, .q-my-auto
   margin-top: auto
-.q-ml-auto, .q-mx-auto
+.q-ml-auto
   margin-left: auto
 .q-mb-auto, .q-my-auto
   margin-bottom: auto
-.q-mr-auto, .q-mx-auto
+.q-mr-auto
   margin-right: auto
+.q-mx-auto
+  margin-left: auto /* rtl:ignore */
+  margin-right: auto /* rtl:ignore */

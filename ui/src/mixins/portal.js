@@ -26,7 +26,12 @@ export function closePortalMenus (vm, evt) {
       }
     }
     vm = vm.$parent
-  } while (vm !== void 0)
+  } while (
+    vm !== void 0 && (
+      vm.$el.contains === void 0 || // IE polyfill does not work on comments
+      vm.$el.contains(evt.target) !== true
+    )
+  )
 }
 
 export function closePortals (vm, evt, depth) {
