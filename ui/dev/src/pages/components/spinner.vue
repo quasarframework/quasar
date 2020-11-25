@@ -57,15 +57,16 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
       size: 36,
       color: 'primary',
       spinners: [
-        'audio', 'ball', 'bars', 'comment',
+        'audio', 'ball', 'bars', 'box', 'clock', 'comment',
         'cube', 'dots', 'facebook', 'gears', 'grid', 'hearts',
-        'hourglass', 'infinity', 'ios', 'oval',
+        'hourglass', 'infinity', 'ios', 'orbit', 'oval',
         'pie', 'puff', 'radio', 'rings', 'tail'
       ],
       colorOptions: [
