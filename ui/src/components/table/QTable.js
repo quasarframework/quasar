@@ -292,11 +292,9 @@ export default defineComponent({
         return this.__getGridBody()
       }
 
-      const header = this.hideHeader !== true ? this.__getTHead : void 0
+      const header = this.hideHeader !== true ? this.__getTHead : null
 
       if (this.hasVirtScroll === true) {
-        const body = this.$slots.body
-
         return h(QVirtualScroll, {
           ref: 'virtScroll',
           class: this.tableClass,
@@ -305,20 +303,25 @@ export default defineComponent({
           items: this.computedRows,
           type: '__qtable',
           tableColspan: this.computedColspan,
-          'onVirtual-scroll': this.__onVScroll
+          onVirtualScroll: this.__onVScroll
         }, {
-          default: props => this.__getTBodyTR(props.item, body, props.index),
-          before: header
+          default: props => this.__getTBodyTR(props.item, this.$slots.body, props.index),
+          header
         })
+      }
+
+      const child = [
+        this.__getTBody()
+      ]
+
+      if (header !== null) {
+        child.unshift(header())
       }
 
       return getTableMiddle({
         class: [ 'q-table__middle scroll', this.tableClass ],
         style: this.tableStyle
-      }, [
-        header(),
-        this.__getTBody()
-      ])
+      }, child)
     },
 
     scrollTo (toIndex) {
