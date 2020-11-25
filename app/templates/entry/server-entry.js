@@ -57,6 +57,8 @@ const doubleSlashRE = /\/\//
 const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 <% } %>
 
+const bootFiles = [<%= bootNames.join(',') %>].filter(boot => typeof boot === 'function')
+
 function redirectBrowser (url, router, reject) {
   const normalized = Object(url) === url
     ? <%= build.publicPath === '/' ? 'router.resolve(url).fullPath' : 'addPublicPath(router.resolve(url).fullPath)' %>
@@ -80,12 +82,7 @@ export default ssrContext => {
       redirectBrowser(url, router, reject)
     }
 
-    const bootFiles = [<%= bootNames.join(',') %>]
     for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
-      if (typeof bootFiles[i] !== 'function') {
-        continue
-      }
-
       try {
         await bootFiles[i]({
           app,
