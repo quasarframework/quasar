@@ -19,7 +19,7 @@ export function copyHeading (id) {
   }
 
   if ('replaceState' in history) {
-    history.replaceState('', '', `${location.pathname}#${id}`)
+    history.replaceState(history.state, '', `${location.pathname}#${id}`)
   }
   else {
     window.location.hash = '#' + id
