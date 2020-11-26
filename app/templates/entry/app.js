@@ -56,7 +56,7 @@ export default async function (createAppFn<%= ctx.mode.ssr ? ', ssrContext' : ''
     : createStore
   <% } %>
   const router = typeof createRouter === 'function'
-    ? await createRouter({<%= ctx.mode.ssr ? 'ssrContext' : '' %><%= store ? ', store' : '' %>})
+    ? await createRouter({<%= ctx.mode.ssr ? 'ssrContext' + (store ? ',' : '') : '' %><%= store ? 'store' : '' %>})
     : createRouter
   <% if (store) { %>
   // make router instance available in store
