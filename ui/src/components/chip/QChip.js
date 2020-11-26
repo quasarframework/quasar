@@ -32,6 +32,7 @@ export default defineComponent({
     icon: String,
     iconRight: String,
     iconRemove: String,
+    iconSelected: String,
     label: [ String, Number ],
 
     color: String,
@@ -79,6 +80,16 @@ export default defineComponent({
       return this.selected === true || this.icon !== void 0
     },
 
+    leftIcon () {
+      return this.selected === true
+        ? this.iconSelected || this.$q.iconSet.chip.selected
+        : this.icon
+    },
+
+    removeIcon () {
+      return this.iconRemove || this.$q.iconSet.chip.remove
+    },
+
     isClickable () {
       return this.disable === false && (this.clickable === true || this.selected !== null)
     },
@@ -122,7 +133,7 @@ export default defineComponent({
       this.hasLeftIcon === true && child.push(
         h(QIcon, {
           class: 'q-chip__icon q-chip__icon--left',
-          name: this.selected === true ? this.$q.iconSet.chip.selected : this.icon
+          name: this.leftIcon
         })
       )
 
@@ -146,7 +157,7 @@ export default defineComponent({
       this.removable === true && child.push(
         h(QIcon, {
           class: 'q-chip__icon q-chip__icon--remove cursor-pointer',
-          name: this.iconRemove || this.$q.iconSet.chip.remove,
+          name: this.removeIcon,
           ...this.attrs,
           onClick: this.__onRemove,
           onKeyup: this.__onRemove
