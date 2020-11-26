@@ -33,10 +33,8 @@ import { ref } from 'vue'
 
 export default {
   setup () {
-    const tab = ref('one')
-
     return {
-      tab
+      tab: ref('one')
     }
   }
 }

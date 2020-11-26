@@ -18,21 +18,20 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      items: [ {}, {}, {}, {}, {}, {}, {} ]
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    onLoad (index, done) {
-      setTimeout(() => {
-        if (this.items) {
-          this.items.splice(0, 0, {}, {}, {}, {}, {}, {}, {})
+export default {
+  setup () {
+    const items = ref([ {}, {}, {}, {}, {}, {}, {} ])
+
+    return {
+      items,
+      onLoad (index, done) {
+        setTimeout(() => {
+          items.value.splice(0, 0, {}, {}, {}, {}, {}, {}, {})
           done()
-        }
-      }, 2000)
+        }, 2000)
+      }
     }
   }
 }

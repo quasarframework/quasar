@@ -112,10 +112,8 @@ import { ref } from 'vue'
 
 export default {
   setup () {
-    const starts = ref(4)
-
     return {
-      starts
+      starts: ref(4)
     }
   }
 }

@@ -28,12 +28,9 @@ import { ref } from 'vue'
 
 export default {
   setup () {
-    const dialog = ref(false)
-    const cancelEnabled = ref(false)
-
     return {
-      dialog,
-      cancelEnabled
+      dialog: ref(false),
+      cancelEnabled: ref(false)
     }
   }
 }

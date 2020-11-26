@@ -52,12 +52,9 @@ import { ref } from 'vue'
 
 export default {
   setup () {
-    const lightDialog = ref(false)
-    const darkDialog = ref(false)
-
     return {
-      lightDialog,
-      darkDialog
+      lightDialog: ref(false),
+      darkDialog: ref(false)
     }
   }
 }

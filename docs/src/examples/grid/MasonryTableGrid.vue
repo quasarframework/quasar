@@ -40,6 +40,8 @@
 </template>
 
 <script>
+// TODO vue3 - convert to composition api
+
 const deserts = [
   'Frozen Yogurt',
   'Ice cream sandwich',

@@ -44,15 +44,11 @@ import { ref } from 'vue'
 
 export default {
   setup () {
-    const menu = ref(false)
-
-    function onItemClick () {
-      // console.log('Clicked on an Item')
-    }
-
     return {
-      menu,
-      onItemClick
+      menu: ref(false),
+      onItemClick () {
+        // console.log('Clicked on an Item')
+      }
     }
   }
 }

@@ -30,11 +30,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      slide: 1,
-      fullscreen: false
+      slide: ref(1),
+      fullscreen: ref(false)
     }
   }
 }

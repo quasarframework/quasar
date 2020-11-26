@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
 
-    <q-btn class="q-mb-md" color="primary" label="Regenerate layout" @click="generateCells" />
+    <q-btn class="q-mb-md" color="primary" label="Regenerate layout" @click="onClick" />
 
     <div class="column example-container">
       <div class="flex-break hidden"></div>
@@ -48,20 +48,21 @@ $x: 4
 </style>
 
 <script>
+import { ref } from 'vue'
+
 const generateCells = () => Array(24).fill(null).map((_, cell) => (
   Array(2 + Math.ceil(3 * Math.random())).fill(null).map((_, text) => `Cell ${cell + 1} - ${text + 1}`)
 ))
 
 export default {
-  data () {
-    return {
-      cells: generateCells()
-    }
-  },
+  setup () {
+    const cells = ref(generateCells())
 
-  methods: {
-    generateCells () {
-      this.cells = generateCells()
+    return {
+      cells,
+      onClick () {
+        cells.value = generateCells()
+      }
     }
   }
 }

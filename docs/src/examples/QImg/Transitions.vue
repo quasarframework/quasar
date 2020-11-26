@@ -44,33 +44,36 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      url: 'https://placeimg.com/500/300/nature',
-      transitions: [
-        'slide-right',
-        'slide-left',
-        'slide-up',
-        'slide-down',
-        'fade',
-        'scale',
-        'rotate',
-        'flip-right',
-        'flip-left',
-        'flip-up',
-        'flip-down',
-        'jump-right',
-        'jump-left',
-        'jump-up',
-        'jump-down'
-      ]
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    trigger () {
-      this.url = 'https://placeimg.com/500/300/nature?t=' + Math.random()
+const transitions = [
+  'slide-right',
+  'slide-left',
+  'slide-up',
+  'slide-down',
+  'fade',
+  'scale',
+  'rotate',
+  'flip-right',
+  'flip-left',
+  'flip-up',
+  'flip-down',
+  'jump-right',
+  'jump-left',
+  'jump-up',
+  'jump-down'
+]
+
+export default {
+  setup () {
+    const url = ref('https://placeimg.com/500/300/nature')
+
+    return {
+      url,
+      transitions,
+      trigger () {
+        url.value = 'https://placeimg.com/500/300/nature?t=' + Math.random()
+      }
     }
   }
 }

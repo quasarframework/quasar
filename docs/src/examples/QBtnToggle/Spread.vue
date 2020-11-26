@@ -38,12 +38,9 @@ import { ref } from 'vue'
 
 export default {
   setup () {
-    const model = ref('one')
-    const secondModel = ref('one')
-
     return {
-      model,
-      secondModel
+      model: ref('one'),
+      secondModel: ref('one')
     }
   }
 }

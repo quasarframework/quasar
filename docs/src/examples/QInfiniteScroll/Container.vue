@@ -31,31 +31,30 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const itemsRef = ref([ {}, {}, {}, {}, {}, {}, {} ])
+    const itemsId = ref([ {}, {}, {}, {}, {}, {}, {} ])
+
     return {
-      itemsRef: [ {}, {}, {}, {}, {}, {}, {} ],
-      itemsId: [ {}, {}, {}, {}, {}, {}, {} ]
-    }
-  },
+      itemsRef,
+      itemsId,
 
-  methods: {
-    onLoadRef (index, done) {
-      setTimeout(() => {
-        if (this.itemsRef) {
-          this.itemsRef.push({}, {}, {}, {}, {}, {}, {})
+      onLoadRef (index, done) {
+        setTimeout(() => {
+          itemsRef.value.push({}, {}, {}, {}, {}, {}, {})
           done()
-        }
-      }, 2000)
-    },
+        }, 2000)
+      },
 
-    onLoadId (index, done) {
-      setTimeout(() => {
-        if (this.itemsId) {
-          this.itemsId.push({}, {}, {}, {}, {}, {}, {})
+      onLoadId (index, done) {
+        setTimeout(() => {
+          itemsId.value.push({}, {}, {}, {}, {}, {}, {})
           done()
-        }
-      }, 2000)
+        }, 2000)
+      }
     }
   }
 }

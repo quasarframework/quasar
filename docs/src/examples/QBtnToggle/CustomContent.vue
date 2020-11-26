@@ -73,10 +73,8 @@ import { ref } from 'vue'
 
 export default {
   setup () {
-    const model = ref('three')
-
     return {
-      model
+      model: ref('three')
     }
   }
 }

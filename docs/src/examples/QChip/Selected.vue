@@ -22,23 +22,24 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      desert: {
-        Icecream: false,
-        Eclair: true,
-        Cupcake: false,
-        Gingerbread: false
-      }
-    }
-  },
+import { reactive, computed } from 'vue'
 
-  computed: {
-    selection () {
-      return Object.keys(this.desert)
-        .filter(type => this.desert[ type ] === true)
-        .join(', ')
+export default {
+  setup () {
+    const desert = reactive({
+      Icecream: false,
+      Eclair: true,
+      Cupcake: false,
+      Gingerbread: false
+    })
+
+    return {
+      desert,
+      selection: computed(() => {
+        return Object.keys(desert)
+          .filter(type => desert[ type ] === true)
+          .join(', ')
+      })
     }
   }
 }

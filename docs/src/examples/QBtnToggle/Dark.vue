@@ -18,10 +18,8 @@ import { ref } from 'vue'
 
 export default {
   setup () {
-    const model = ref('cake')
-
     return {
-      model
+      model: ref('cake')
     }
   }
 }
