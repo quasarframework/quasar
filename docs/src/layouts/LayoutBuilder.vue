@@ -366,6 +366,8 @@
 </template>
 
 <script>
+// TODO vue3 - convert to Composition API
+
 import { createMetaMixin } from 'quasar'
 
 import {

@@ -209,28 +209,30 @@ export default {
     IntroductionVideo
   },
 
-  created () {
-    this.year = (new Date()).getFullYear()
+  setup () {
+    return {
+      year: (new Date()).getFullYear(),
 
-    this.fabGithub = fabGithub
-    this.fabTwitter = fabTwitter
-    this.fabFacebook = fabFacebook
-    this.fasMedkit = fasMedkit
-    this.fabApple = fabApple
-    this.fabWindows = fabWindows
-    this.fabLinux = fabLinux
-    this.fabAndroid = fabAndroid
-    this.fabChrome = fabChrome
-    this.fabFirefox = fabFirefox
-    this.fabEdge = fabEdge
-    this.fabSafari = fabSafari
-    this.fabGoogle = fabGoogle
+      fabGithub,
+      fabTwitter,
+      fabFacebook,
+      fasMedkit,
+      fabApple,
+      fabWindows,
+      fabLinux,
+      fabAndroid,
+      fabChrome,
+      fabFirefox,
+      fabEdge,
+      fabSafari,
+      fabGoogle,
 
-    this.mdiChevronDown = mdiChevronDown
-    this.mdiLaunch = mdiLaunch
-    this.mdiBlogger = mdiBlogger
-    this.mdiChat = mdiChat
-    this.mdiForum = mdiForum
+      mdiChevronDown,
+      mdiLaunch,
+      mdiBlogger,
+      mdiChat,
+      mdiForum
+    }
   }
 }
 </script>

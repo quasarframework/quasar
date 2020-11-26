@@ -15,38 +15,39 @@ q-page.flex.flex-center(padding)
 </template>
 
 <script>
-import { createMetaMixin } from 'quasar'
+// TODO vue3 - re-enable createMetaMixin when composition api is available
+// import { createMetaMixin } from 'quasar'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { mdiCodeTags } from '@quasar/extras/mdi-v5'
 
-import getMeta from 'assets/get-meta.js'
+// import getMeta from 'assets/get-meta.js'
 
 export default {
   name: 'LayoutGalleryPage',
 
-  mixins: [
-    createMetaMixin(() => {
-      const title = this.$route.meta.title + ' Layout'
+  // mixins: [
+  //   createMetaMixin(() => {
+  //     const title = this.$route.meta.title + ' Layout'
 
-      return {
-        title,
+  //     return {
+  //       title,
 
-        meta: getMeta(
-          title + ' | Quasar Framework',
-          `Example of a Quasar layout that looks like ${this.$route.meta.title}`
-        )
-      }
-    })
-  ],
+  //       meta: getMeta(
+  //         title + ' | Quasar Framework',
+  //         `Example of a Quasar layout that looks like ${this.$route.meta.title}`
+  //       )
+  //     }
+  //   })
+  // ],
 
   setup () {
     const route = useRoute()
     const sourceLink = computed(() => route.meta.sourceLink)
 
     return {
-      sourceLink,
-      mdiCodeTags
+      mdiCodeTags,
+      sourceLink
     }
   }
 }

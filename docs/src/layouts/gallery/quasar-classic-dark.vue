@@ -6,7 +6,7 @@
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleLeftDrawer"
           aria-label="Menu"
           icon="menu"
         />
@@ -88,12 +88,21 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   name: 'MyLayout',
 
-  data () {
+  setup () {
+    const leftDrawerOpen = ref(false)
+
+    function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
+    }
+
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen,
+      toggleLeftDrawer
     }
   }
 }

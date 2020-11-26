@@ -7,7 +7,7 @@
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleLeftDrawer"
           aria-label="Menu"
           icon="menu"
           class="q-mr-sm"
@@ -136,14 +136,25 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   name: 'GooglePlayLayout',
 
-  data () {
+  setup () {
+    const leftDrawerOpen = ref(false)
+    const search = ref('')
+    const storage = ref(0.26)
+
+    function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
+    }
+
     return {
-      leftDrawerOpen: false,
-      search: '',
-      storage: 0.26,
+      leftDrawerOpen,
+      search,
+      storage,
+
       links1: [
         { text: 'Account' },
         { text: 'Payment methods' },
@@ -153,7 +164,9 @@ export default {
         { text: 'My wishlist' },
         { text: 'My Play activity' },
         { text: 'Parent guide' }
-      ]
+      ],
+
+      toggleLeftDrawer
     }
   }
 }

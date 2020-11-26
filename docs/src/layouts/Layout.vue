@@ -119,6 +119,8 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 </template>
 
 <script>
+// TODO vue3 - convert to Composition API
+
 import { scroll } from 'quasar'
 import {
   mdiMenu, mdiClipboardText, mdiHeartOutline, mdiMagnify, mdiChevronUp

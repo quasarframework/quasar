@@ -6,7 +6,7 @@
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleLeftDrawer"
           aria-label="Menu"
           icon="menu"
           class="q-mx-md"
@@ -167,14 +167,25 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   name: 'GooglePhotosLayout',
 
-  data () {
+  setup () {
+    const leftDrawerOpen = ref(false)
+    const search = ref('')
+    const storage = ref(0.26)
+
+    function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
+    }
+
     return {
-      leftDrawerOpen: false,
-      search: '',
-      storage: 0.26,
+      leftDrawerOpen,
+      search,
+      storage,
+
       links1: [
         { icon: 'photo', text: 'Photos' },
         { icon: 'photo_album', text: 'Albums' },
@@ -198,7 +209,9 @@ export default {
         { icon: 'library_books', text: 'Animation' },
         { icon: 'dashboard', text: 'Collage' },
         { icon: 'book', text: 'Photo book' }
-      ]
+      ],
+
+      toggleLeftDrawer
     }
   }
 }
