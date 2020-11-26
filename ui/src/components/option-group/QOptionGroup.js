@@ -111,17 +111,17 @@ export default Vue.extend({
         props: {
           value: this.value,
           val: opt.value,
-          name: this.name || opt.name,
+          name: opt.name === void 0 ? this.name : opt.name,
           disable: this.disable || opt.disable,
           label: opt.label,
-          leftLabel: this.leftLabel || opt.leftLabel,
-          color: opt.color || this.color,
+          leftLabel: opt.leftLabel === void 0 ? this.leftLabel : opt.leftLabel,
+          color: opt.color === void 0 ? this.color : opt.color,
           checkedIcon: opt.checkedIcon,
           uncheckedIcon: opt.uncheckedIcon,
           dark: opt.dark || this.isDark,
-          size: opt.size || this.size,
+          size: opt.size === void 0 ? this.size : opt.size,
           dense: this.dense,
-          keepColor: opt.keepColor || this.keepColor
+          keepColor: opt.keepColor === void 0 ? this.keepColor : opt.keepColor
         },
         on: cache(this, 'inp', {
           input: this.__update
