@@ -30,10 +30,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const model = ref('two')
+
     return {
-      model: 'two'
+      model
     }
   }
 }

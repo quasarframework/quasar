@@ -10,8 +10,8 @@
 
 <script>
 export default {
-  methods: {
-    linkClick (e, go) {
+  setup () {
+    function linkClick (e, go) {
       e.navigate = false // we choose when we navigate
 
       // console.log('triggering navigation in 2s')
@@ -20,6 +20,8 @@ export default {
         go()
       }, 2000)
     }
+
+    return { linkClick }
   }
 }
 </script>

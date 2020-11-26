@@ -43,13 +43,18 @@
 
 <script>
 export default {
-  methods: {
-    onMainClick () {
+  setup () {
+    function onMainClick () {
       // console.log('Clicked on main button')
-    },
+    }
 
-    onItemClick () {
+    function onItemClick () {
       // console.log('Clicked on an Item')
+    }
+
+    return {
+      onMainClick,
+      onItemClick
     }
   }
 }

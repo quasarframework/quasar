@@ -26,9 +26,13 @@
 
 <script>
 export default {
-  methods: {
-    onItemClick () {
+  setup () {
+    function onItemClick () {
       // console.log('Clicked on an Item')
+    }
+
+    return {
+      onItemClick
     }
   }
 }

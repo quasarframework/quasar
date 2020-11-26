@@ -13,10 +13,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const model = ref(null)
+
     return {
-      model: null
+      model
     }
   }
 }

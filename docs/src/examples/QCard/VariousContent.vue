@@ -108,10 +108,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const starts = ref(4)
+
     return {
-      stars: 4
+      starts
     }
   }
 }

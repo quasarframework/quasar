@@ -48,11 +48,16 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const lightDialog = ref(false)
+    const darkDialog = ref(false)
+
     return {
-      lightDialog: false,
-      darkDialog: false
+      lightDialog,
+      darkDialog
     }
   }
 }

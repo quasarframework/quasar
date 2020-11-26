@@ -34,11 +34,16 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const model = ref('one')
+    const secondModel = ref('one')
+
     return {
-      model: 'one',
-      secondModel: 'one'
+      model,
+      secondModel
     }
   }
 }

@@ -1,41 +1,51 @@
 <template>
   <div class="q-pa-md column q-gutter-sm">
-    <router-link :to="{ hash: '#Handling-links' }">
-      <template v-slot="props">
-        <q-btn v-bind="buttonProps(props)" />
-      </template>
+    <router-link
+      :to="{ hash: '#Handling-links' }"
+      custom
+      v-slot:default="props"
+    >
+      <q-btn v-bind="buttonProps(props)" />
     </router-link>
 
-    <router-link :to="{ hash: '#Handling-links', query: { search: '1' } }">
-      <template v-slot="props">
-        <q-btn v-bind="buttonProps(props)" />
-      </template>
+    <router-link
+      :to="{ hash: '#Handling-links', query: { search: '1' } }"
+      custom
+      v-slot:default="props"
+    >
+      <q-btn v-bind="buttonProps(props)" />
     </router-link>
 
-    <router-link :to="{ hash: '#Handling-links', query: { search: '1', test: '1' } }">
-      <template v-slot="props">
-        <q-btn v-bind="buttonProps(props)" />
-      </template>
+    <router-link
+      :to="{ hash: '#Handling-links', query: { search: '1', test: '1' } }"
+      custom
+      v-slot:default="props"
+    >
+      <q-btn v-bind="buttonProps(props)" />
     </router-link>
 
-    <router-link :to="{ hash: '#Handling-links', query: { search: '1', test: '2' } }">
-      <template v-slot="props">
-        <q-btn v-bind="buttonProps(props)" />
-      </template>
+    <router-link
+      :to="{ hash: '#Handling-links', query: { search: '1', test: '2' } }"
+      custom
+      v-slot:default="props"
+    >
+      <q-btn v-bind="buttonProps(props)" />
     </router-link>
 
-    <router-link :to="{ hash: '#Handling-links', query: { search: '1', test: '1' } }">
-      <template v-slot="props">
-        <q-btn v-bind="buttonProps(props)" icon-right="timer_3" @click="linkClick" />
-      </template>
+    <router-link
+      :to="{ hash: '#Handling-links', query: { search: '1', test: '1' } }"
+      custom
+      v-slot:default="props"
+    >
+      <q-btn v-bind="buttonProps(props)" icon-right="timer_3" @click="linkClick" />
     </router-link>
   </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    linkClick (e, go) {
+  setup () {
+    function linkClick (e, go) {
       e.navigate = false // we choose when we navigate
 
       // console.log('triggering navigation in 3s')
@@ -43,9 +53,9 @@ export default {
         // console.log('navigating as promised 3s ago')
         go()
       }, 3000)
-    },
+    }
 
-    buttonProps ({ href, route, isActive, isExactActive }) {
+    function buttonProps ({ href, route, isActive, isExactActive }) {
       const props = {
         color: 'black',
         noCaps: true,
@@ -62,6 +72,11 @@ export default {
       }
 
       return props
+    }
+
+    return {
+      linkClick,
+      buttonProps
     }
   }
 }
