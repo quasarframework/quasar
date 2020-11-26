@@ -11,7 +11,12 @@
  **/
 
 // TODO vue3 - when on SSR+PWA -> createApp
+<% if (ctx.mode.ssr && ctx.mode.pwa) { %>
+import { createSSRApp, createApp } from 'vue'
+import { isRunningOnPWA } from './ssr-pwa'
+<% } else { %>
 import { <%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %> } from 'vue'
+<% } %>
 
 <% const bootEntries = boot.filter(asset => asset.client !== false) %>
 
@@ -92,10 +97,6 @@ async function start ({ app, router<%= store ? ', store' : '' %> }<%= bootEntrie
   const urlPath = window.location.href.replace(window.location.origin, '')
 
   for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
-    if (typeof bootFiles[i] !== 'function') {
-      continue
-    }
-
     try {
       await bootFiles[i]({
         app,
@@ -172,14 +173,24 @@ async function start ({ app, router<%= store ? ', store' : '' %> }<%= bootEntrie
 
 }
 
-createQuasarApp(<%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %>)
+createQuasarApp(<%=
+  ctx.mode.ssr
+    ? (ctx.mode.pwa ? 'isRunningOnPWA ? createApp : createSSRApp' : 'createSSRApp')
+    : 'createApp'
+%>)
 <% if (bootEntries.length > 0) { %>
   .then(app => {
     return Promise.all([
       <% bootEntries.forEach((asset, index) => { %>
       import(/* webpackMode: "eager" */ '<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
       <% }) %>
-    ]).then(bootFiles => start(app, bootFiles.map(entry => entry.default)))
+    ]).then(bootFiles => {
+      const boot = bootFiles
+        .map(entry => entry.default)
+        .filter(entry => typeof entry === 'function')
+
+      start(app, boot)
+    })
   })
 <% } else { %>
   .then(start)

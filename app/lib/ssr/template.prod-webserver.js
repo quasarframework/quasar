@@ -44,15 +44,6 @@ module.exports.renderToString = function (opts, cb) {
   renderSSR(ssrContext, renderTemplate)
     .then(html => { cb(void 0, html) })
     .catch(cb)
-
-// TODO vue3
-// <% if (flags.meta) { %>
-//   renderer.renderToString(ctx, (err, html) => {
-//     cb(err, err ? html : ctx.$getMetaHTML(html, ctx))
-//   })
-// <% } else { %>
-//   renderer.renderToString(ctx, cb)
-// <% } %>
 }
 
 module.exports.resolveWWW = function (file) {
