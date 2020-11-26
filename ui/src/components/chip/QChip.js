@@ -35,6 +35,7 @@ export default Vue.extend({
     icon: String,
     iconRight: String,
     iconRemove: String,
+    iconSelected: String,
     label: [String, Number],
 
     color: String,
@@ -121,7 +122,7 @@ export default Vue.extend({
       this.hasLeftIcon === true && child.push(
         h(QIcon, {
           staticClass: 'q-chip__icon q-chip__icon--left',
-          props: { name: this.selected === true ? this.$q.iconSet.chip.selected : this.icon }
+          props: { name: this.selected === true ? this.iconSelected || this.$q.iconSet.chip.selected : this.icon }
         })
       )
 
