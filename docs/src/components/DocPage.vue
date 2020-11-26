@@ -1,7 +1,7 @@
 <template lang="pug">
 q-page.doc-page
 
-  h1.doc-heading.doc-h1#Introduction(v-if="title" @click="copyHeading('Introduction')")
+  h1.doc-heading.doc-h1#Introduction(v-if="title" @click="copyIntroductionHeading")
     span {{ title }}
     q-badge.q-ml-sm.doc-page__badge(v-if="badge") {{ badge }}
     a.doc-page__top-link.float-right(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
@@ -79,6 +79,9 @@ q-page.doc-page
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
 import {
   fabGithub, fabTwitter, fabFacebook
 } from '@quasar/extras/fontawesome-v5'
@@ -96,21 +99,6 @@ const year = (new Date()).getFullYear()
 export default {
   name: 'DocPage',
 
-  created () {
-    this.fabGithub = fabGithub
-    this.fabTwitter = fabTwitter
-    this.fabFacebook = fabFacebook
-
-    this.mdiBlogger = mdiBlogger
-    this.mdiForum = mdiForum
-    this.mdiChat = mdiChat
-    this.mdiCharity = mdiCharity
-    this.mdiPencil = mdiPencil
-    this.mdiLaunch = mdiLaunch
-    this.mdiChevronLeft = mdiChevronLeft
-    this.mdiChevronRight = mdiChevronRight
-  },
-
   props: {
     title: String,
     related: Array,
@@ -119,20 +107,37 @@ export default {
     badge: String
   },
 
-  data () {
+  setup () {
+    const route = useRoute()
+
+    const editHref = computed(() => {
+      return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${route.path}.md`
+    })
+
+    function copyIntroductionHeading () {
+      copyHeading('Introduction')
+    }
+
     return {
-      year
-    }
-  },
+      year,
+      editHref,
 
-  computed: {
-    editHref () {
-      return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${this.$route.path}.md`
-    }
-  },
+      copyHeading,
+      copyIntroductionHeading,
 
-  methods: {
-    copyHeading
+      fabGithub,
+      fabTwitter,
+      fabFacebook,
+
+      mdiBlogger,
+      mdiForum,
+      mdiChat,
+      mdiCharity,
+      mdiPencil,
+      mdiLaunch,
+      mdiChevronLeft,
+      mdiChevronRight
+    }
   }
 }
 </script>

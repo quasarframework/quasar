@@ -35,9 +35,7 @@ export default function (title, links) {
               name: link.page === true ? farFileAlt : fasFolderOpen
             }),
 
-            h(DocLink, {
-              to: link.to
-            }, () => link.title)
+            h(DocLink, { to: link.to }, () => link.title)
           ])
         })
       }

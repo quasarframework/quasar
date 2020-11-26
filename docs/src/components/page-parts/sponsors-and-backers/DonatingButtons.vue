@@ -51,9 +51,11 @@ import {
 export default {
   name: 'DonatingButtons',
 
-  created () {
-    this.fabGithub = fabGithub
-    this.fabPaypal = fabPaypal
+  setup () {
+    return {
+      fabGithub,
+      fabPaypal
+    }
   }
 }
 </script>

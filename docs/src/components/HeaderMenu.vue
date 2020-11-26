@@ -177,29 +177,31 @@ export default {
     align: String
   },
 
-  created () {
-    this.fabGithub = fabGithub
-    this.fasFlask = fasFlask
-    this.fabCodepen = fabCodepen
-    this.fabJsfiddle = fabJsfiddle
-    this.fasCubes = fasCubes
-    this.fabTwitter = fabTwitter
-    this.fabFacebook = fabFacebook
+  setup () {
+    return {
+      fabGithub,
+      fasFlask,
+      fabCodepen,
+      fabJsfiddle,
+      fasCubes,
+      fabTwitter,
+      fabFacebook,
 
-    this.mdiBlogger = mdiBlogger
-    this.mdiChat = mdiChat
-    this.mdiForum = mdiForum
-    this.mdiBullhorn = mdiBullhorn
-    this.mdiViewDashboard = mdiViewDashboard
-    this.mdiShoppingMusic = mdiShoppingMusic
-    this.mdiClipboardText = mdiClipboardText
-    this.mdiBugCheck = mdiBugCheck
-    this.mdiFlare = mdiFlare
-    this.mdiFilePlus = mdiFilePlus
-    this.mdiPaletteSwatch = mdiPaletteSwatch
-    this.mdiInvertColors = mdiInvertColors
-    this.mdiCharity = mdiCharity
-    this.mdiStarCircle = mdiStarCircle
+      mdiBlogger,
+      mdiChat,
+      mdiForum,
+      mdiBullhorn,
+      mdiViewDashboard,
+      mdiShoppingMusic,
+      mdiClipboardText,
+      mdiBugCheck,
+      mdiFlare,
+      mdiFilePlus,
+      mdiPaletteSwatch,
+      mdiInvertColors,
+      mdiCharity,
+      mdiStarCircle
+    }
   }
 }
 </script>

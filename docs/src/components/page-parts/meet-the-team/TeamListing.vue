@@ -24,8 +24,8 @@ export default {
     TeamMember
   },
 
-  created () {
-    this.team = team
+  setup () {
+    return { team }
   }
 }
 </script>

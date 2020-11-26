@@ -22,6 +22,8 @@ q-card.quasar-member.column(flat, bordered)
 </template>
 
 <script>
+import { toRefs, computed } from 'vue'
+
 import {
   fabGithub, fabTwitter
 } from '@quasar/extras/fontawesome-v5'
@@ -39,20 +41,22 @@ export default {
     desc: String
   },
 
-  computed: {
-    url () {
-      return {
-        avatar: 'https://cdn.quasar.dev/team/' + this.avatar,
-        twitter: 'https://twitter.com/' + this.twitter,
-        github: 'https://github.com/' + this.github,
-        email: 'mailto:' + this.email
-      }
-    }
-  },
+  setup (props) {
+    const { avatar, twitter, github, email } = toRefs(props)
 
-  created () {
-    this.fabGithub = fabGithub
-    this.fabTwitter = fabTwitter
+    const url = computed(() => ({
+      avatar: 'https://cdn.quasar.dev/team/' + avatar.value,
+      twitter: 'https://twitter.com/' + twitter.value,
+      github: 'https://github.com/' + github.value,
+      email: 'mailto:' + email.value
+    }))
+
+    return {
+      url,
+
+      fabGithub,
+      fabTwitter
+    }
   }
 }
 </script>

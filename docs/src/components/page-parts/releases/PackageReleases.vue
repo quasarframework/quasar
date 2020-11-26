@@ -17,60 +17,44 @@ q-splitter.release__splitter(:model-value="20" :limits="[14, 90]")
 </template>
 
 <script>
+import { ref, toRefs, computed, watch } from 'vue'
+import { mdiMagnify } from '@quasar/extras/mdi-v5'
+
 import sanitize from './sanitize'
 import parseMdTable from './md-table-parser'
 
-import { mdiMagnify } from '@quasar/extras/mdi-v5'
-
 export default {
-  created () {
-    this.mdiMagnify = mdiMagnify
-  },
-
   props: [ 'latestVersion', 'releases' ],
 
-  data () {
-    return {
-      search: '',
-      selectedVersion: null
-    }
-  },
+  setup (props) {
+    const { latestVersion, releases } = toRefs(props)
 
-  watch: {
-    latestVersion: {
-      immediate: true,
-      handler (value) {
-        this.selectedVersion = value
-      }
-    }
-  },
+    const search = ref('')
+    const selectedVersion = ref(props.latestVersion)
 
-  computed: {
-    filteredReleases () {
-      if (this.search) {
-        const search = this.search.toLowerCase()
-        return this.releases.filter(
-          release => release.body.toLowerCase().indexOf(search) > -1
+    watch(() => latestVersion, val => {
+      selectedVersion.value = val
+    })
+
+    const filteredReleases = computed(() => {
+      if (search.value) {
+        const val = search.value.toLowerCase()
+        return releases.value.filter(
+          release => release.body.toLowerCase().indexOf(val) > -1
         )
       }
 
-      return this.releases
-    },
+      return releases.value
+    })
 
-    currentReleaseBody () {
-      const release = this.releases.find(r => r.label === this.selectedVersion)
-      return release
-        ? this.parse(release.body)
-        : ''
-    }
-  },
-
-  methods: {
-    parse (body) {
+    function parse (body) {
       let content = sanitize(body) + '\n'
 
-      if (this.search) {
-        content = content.replace(new RegExp(`(${this.search})`, 'ig'), '<span class="bg-accent text-white">$1</span>')
+      if (search.value) {
+        content = content.replace(
+          new RegExp(`(${search.value})`, 'ig'),
+          '<span class="bg-accent text-white">$1</span>'
+        )
       }
 
       content = content
@@ -90,6 +74,23 @@ export default {
       return content.indexOf('| -') > -1
         ? parseMdTable(content)
         : content
+    }
+
+    const currentReleaseBody = computed(() => {
+      const release = releases.value.find(r => r.label === selectedVersion.value)
+      return release
+        ? parse(release.body)
+        : ''
+    })
+
+    return {
+      search,
+      selectedVersion,
+
+      filteredReleases,
+      currentReleaseBody,
+
+      mdiMagnify
     }
   }
 }

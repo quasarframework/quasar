@@ -50,30 +50,42 @@ q-card(flat, bordered)
 </template>
 
 <script>
+import { ref, reactive, computed } from 'vue'
+
 export default {
-  data () {
-    return {
-      fit: false,
-      cover: false,
-      anchorOrigin: { vertical: 'bottom', horizontal: 'middle' },
-      selfOrigin: { vertical: 'top', horizontal: 'middle' },
-      exportDialog: false
-    }
-  },
+  name: 'TooltipPositioning',
 
-  computed: {
-    anchor () {
-      return `${this.anchorOrigin.vertical} ${this.anchorOrigin.horizontal}`
-    },
+  setup () {
+    const fit = ref(false)
+    const cover = ref(false)
+    const anchorOrigin = reactive({ vertical: 'bottom', horizontal: 'middle' })
+    const selfOrigin = reactive({ vertical: 'top', horizontal: 'middle' })
+    const exportDialog = ref(false)
 
-    self () {
-      return `${this.selfOrigin.vertical} ${this.selfOrigin.horizontal}`
-    },
+    const anchor = computed(() => {
+      return `${anchorOrigin.vertical} ${anchorOrigin.horizontal}`
+    })
 
-    tooltipExport () {
-      return `<q-tooltip anchor="${this.anchor}" self="${this.self}">
+    const self = computed(() => {
+      return `${selfOrigin.vertical} ${selfOrigin.horizontal}`
+    })
+
+    const tooltipExport = computed(() => {
+      return `<q-tooltip anchor="${anchor.value}" self="${self.value}">
   Here I am!
 </q-tooltip>`
+    })
+
+    return {
+      fit,
+      cover,
+      anchorOrigin,
+      selfOrigin,
+      exportDialog,
+
+      anchor,
+      self,
+      tooltipExport
     }
   }
 }

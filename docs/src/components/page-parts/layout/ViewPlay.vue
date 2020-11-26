@@ -105,30 +105,45 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue'
+
 export default {
-  data () {
-    return {
-      topL: 'h',
-      topC: 'H',
-      topR: 'h',
+  name: 'ViewPlay',
 
-      middleL: 'L',
-      middleR: 'r',
+  setup () {
+    const topL = ref('h')
+    const topC = ref('H')
+    const topR = ref('h')
 
-      bottomL: 'f',
-      bottomC: 'F',
-      bottomR: 'f'
-    }
-  },
+    const middleL = ref('L')
+    const middleR = ref('r')
 
-  computed: {
-    view () {
+    const bottomL = ref('f')
+    const bottomC = ref('F')
+    const bottomR = ref('f')
+
+    const view = computed(() => {
       const
-        top = `${this.topL}${this.topC}${this.topR}`,
-        middle = `${this.middleL}p${this.middleR}`,
-        bottom = `${this.bottomL}${this.bottomC}${this.bottomR}`
+        top = `${topL.value}${topC.value}${topR.value}`,
+        middle = `${middleL.value}p${middleR.value}`,
+        bottom = `${bottomL.value}${bottomC.value}${bottomR.value}`
 
       return `${top} ${middle} ${bottom}`
+    })
+
+    return {
+      topL,
+      topC,
+      topR,
+
+      middleL,
+      middleR,
+
+      bottomL,
+      bottomC,
+      bottomR,
+
+      view
     }
   }
 }

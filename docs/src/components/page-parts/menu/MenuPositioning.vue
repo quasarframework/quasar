@@ -68,30 +68,24 @@ q-card(flat, bordered)
 </template>
 
 <script>
+import { ref, reactive, computed } from 'vue'
+
 export default {
-  data () {
-    return {
-      fit: false,
-      cover: false,
-      anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
-      selfOrigin: { vertical: 'top', horizontal: 'left' },
-      exportDialog: false
-    }
-  },
+  name: 'MenuPositioning',
 
-  computed: {
-    anchor () {
-      return `${this.anchorOrigin.vertical} ${this.anchorOrigin.horizontal}`
-    },
+  setup () {
+    const fit = ref(false)
+    const cover = ref(false)
+    const anchorOrigin = reactive({ vertical: 'bottom', horizontal: 'left' })
+    const selfOrigin = reactive({ vertical: 'top', horizontal: 'left' })
+    const exportDialog = ref(false)
 
-    self () {
-      return `${this.selfOrigin.vertical} ${this.selfOrigin.horizontal}`
-    },
-
-    menuExport () {
-      const props = this.cover === true
-        ? `cover anchor="${this.anchor}"`
-        : `${this.fit ? 'fit ' : ''}anchor="${this.anchor}" self="${this.self}"`
+    const anchor = computed(() => `${anchorOrigin.vertical} ${anchorOrigin.horizontal}`)
+    const self = computed(() => `${selfOrigin.vertical} ${selfOrigin.horizontal}`)
+    const menuExport = computed(() => {
+      const props = cover.value === true
+        ? `cover anchor="${anchor.value}"`
+        : `${fit.value ? 'fit ' : ''}anchor="${anchor.value}" self="${self.value}"`
 
       return `<q-menu ${props}>
   <q-item clickable>
@@ -101,6 +95,18 @@ export default {
     <q-item-section>New incognito tab</q-item-section>
   </q-item>
 </q-menu>`
+    })
+
+    return {
+      fit,
+      cover,
+      anchorOrigin,
+      selfOrigin,
+      exportDialog,
+
+      anchor,
+      self,
+      menuExport
     }
   }
 }

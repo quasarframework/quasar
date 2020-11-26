@@ -16,24 +16,23 @@ a.doc-link(
 </template>
 
 <script>
-import {
-  mdiLaunch
-} from '@quasar/extras/mdi-v5'
+import { toRefs, computed } from 'vue'
+import { mdiLaunch } from '@quasar/extras/mdi-v5'
 
 export default {
   name: 'DocLink',
-
-  created () {
-    this.mdiLaunch = mdiLaunch
-  },
 
   props: {
     to: String
   },
 
-  computed: {
-    internal () {
-      return this.to.charAt(0) === '/'
+  setup (props) {
+    const { to } = toRefs(props)
+    const internal = computed(() => to.value.charAt(0) === '/')
+
+    return {
+      mdiLaunch,
+      internal
     }
   }
 }

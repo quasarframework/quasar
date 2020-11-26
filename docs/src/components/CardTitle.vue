@@ -15,8 +15,8 @@ export default {
     prefix: String
   },
 
-  methods: {
-    copyHeading
+  setup () {
+    return { copyHeading }
   }
 }
 </script>

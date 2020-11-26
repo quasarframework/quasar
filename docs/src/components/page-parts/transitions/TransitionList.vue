@@ -20,10 +20,16 @@ div
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  name: 'TransitionList',
+
+  setup () {
+    const url = ref('https://placeimg.com/500/300/nature')
+
     return {
-      url: 'https://placeimg.com/500/300/nature',
+      url,
       transitions: [
         'slide-right',
         'slide-left',
@@ -40,13 +46,11 @@ export default {
         'jump-left',
         'jump-up',
         'jump-down'
-      ]
-    }
-  },
+      ],
 
-  methods: {
-    trigger () {
-      this.url = 'https://placeimg.com/500/300/nature?t=' + Math.random()
+      trigger () {
+        url.value = 'https://placeimg.com/500/300/nature?t=' + Math.random()
+      }
     }
   }
 }

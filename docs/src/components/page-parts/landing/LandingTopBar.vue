@@ -28,14 +28,16 @@ import {
 export default {
   name: 'LandingTopBar',
 
-  created () {
-    this.fabGithub = fabGithub
-    this.fabTwitter = fabTwitter
-    this.fabFacebook = fabFacebook
+  setup () {
+    return {
+      fabGithub,
+      fabTwitter,
+      fabFacebook,
 
-    this.mdiBlogger = mdiBlogger
-    this.mdiChat = mdiChat
-    this.mdiForum = mdiForum
+      mdiBlogger,
+      mdiChat,
+      mdiForum
+    }
   }
 }
 </script>

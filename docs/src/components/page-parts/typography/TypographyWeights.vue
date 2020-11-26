@@ -12,8 +12,12 @@ div
 
 <script>
 export default {
-  created () {
-    this.weights = [ 'thin', 'light', 'regular', 'medium', 'bold', 'bolder' ]
+  name: 'TypographyWeights',
+
+  setup () {
+    return {
+      weights: [ 'thin', 'light', 'regular', 'medium', 'bold', 'bolder' ]
+    }
   }
 }
 </script>

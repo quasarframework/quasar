@@ -16,6 +16,8 @@ q-page.flex.flex-center(padding)
 
 <script>
 import { createMetaMixin } from 'quasar'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { mdiCodeTags } from '@quasar/extras/mdi-v5'
 
 import getMeta from 'assets/get-meta.js'
@@ -38,9 +40,14 @@ export default {
     })
   ],
 
-  created () {
-    this.sourceLink = this.$route.meta.sourceLink
-    this.mdiCodeTags = mdiCodeTags
+  setup () {
+    const route = useRoute()
+    const sourceLink = computed(() => route.meta.sourceLink)
+
+    return {
+      sourceLink,
+      mdiCodeTags
+    }
   }
 }
 </script>

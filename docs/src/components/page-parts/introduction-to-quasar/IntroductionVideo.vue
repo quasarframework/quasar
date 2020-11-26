@@ -8,18 +8,19 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   name: 'IntroductionVideo',
 
-  data () {
-    return {
-      video: false
-    }
-  },
+  setup () {
+    const video = ref(false)
 
-  methods: {
-    showVideo () {
-      this.video = true
+    return {
+      video,
+      showVideo () {
+        video.value = true
+      }
     }
   }
 }

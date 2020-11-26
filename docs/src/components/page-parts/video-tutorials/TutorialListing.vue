@@ -20,10 +20,12 @@ export default {
     TutorialLink
   },
 
-  created () {
-    this.tutorials = this.which === 'quasar'
-      ? quasarTutorials
-      : vueTutorials
+  setup (props) {
+    return {
+      tutorials: props.which === 'quasar'
+        ? quasarTutorials
+        : vueTutorials
+    }
   }
 }
 </script>

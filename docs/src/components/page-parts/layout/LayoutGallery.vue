@@ -26,11 +26,12 @@ import list from 'assets/layout-gallery.js'
 export default {
   name: 'LayoutGallery',
 
-  created () {
-    this.list = list
-
-    this.mdiCodeTags = mdiCodeTags
-    this.mdiOpenInNew = mdiOpenInNew
+  setup () {
+    return {
+      list,
+      mdiCodeTags,
+      mdiOpenInNew
+    }
   }
 }
 </script>

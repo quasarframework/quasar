@@ -4,6 +4,7 @@ q-card(v-if="ready", flat, bordered)
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
 import DocCode from '../../DocCode.vue'
 
 export default {
@@ -13,17 +14,18 @@ export default {
     DocCode
   },
 
-  data () {
-    return {
-      ready: false
-    }
-  },
+  setup () {
+    const ready = ref(false)
+    const file = ref('')
 
-  mounted () {
-    import('!raw-loader!quasar/src/css/variables.sass').then(file => {
-      this.file = file.default
-      this.ready = true
+    onMounted(() => {
+      import('!raw-loader!quasar/src/css/variables.sass').then(content => {
+        file.value = content.default
+        ready.value = true
+      })
     })
+
+    return { file, ready }
   }
 }
 </script>

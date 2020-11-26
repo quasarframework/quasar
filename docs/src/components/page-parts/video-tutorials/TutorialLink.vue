@@ -10,6 +10,7 @@ q-card.full-width.column.tutorial-link.cursor-pointer(flat, bordered, @click.nat
 </template>
 
 <script>
+import { toRefs } from 'vue'
 import { openURL } from 'quasar'
 
 export default {
@@ -24,9 +25,13 @@ export default {
     imgUrl: String
   },
 
-  methods: {
-    openWebsite () {
-      openURL(this.link)
+  setup (props) {
+    const { link } = toRefs(props)
+
+    return {
+      openWebsite () {
+        openURL(link.value)
+      }
     }
   }
 }
