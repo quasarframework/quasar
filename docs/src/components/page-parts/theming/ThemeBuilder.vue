@@ -104,6 +104,7 @@
 </template>
 
 <script>
+import { ref, reactive, computed, watch } from 'vue'
 import { colors } from 'quasar'
 
 import {
@@ -117,185 +118,170 @@ import {
 const { setBrand, luminosity } = colors
 
 export default {
-  created () {
-    this.fasSquare = fasSquare
-    this.fasCircle = fasCircle
-    this.fasPlay = fasPlay
+  name: 'ThemeBuilder',
 
-    this.mdiArrowLeft = mdiArrowLeft
-    this.mdiMagnify = mdiMagnify
-    this.mdiMenu = mdiMenu
-    this.mdiMapMarkerRadius = mdiMapMarkerRadius
-  },
+  setup () {
+    const colors = reactive({
+      primary: '#027BE3',
+      secondary: '#26A69A',
+      accent: '#9C27B0',
 
-  data () {
-    return {
-      colors: {
-        primary: '#027BE3',
-        secondary: '#26A69A',
-        accent: '#9C27B0',
+      dark: '#1d1d1d',
 
-        dark: '#1d1d1d',
+      positive: '#21BA45',
+      negative: '#C10015',
+      info: '#31CCEC',
+      warning: '#F2C037'
+    })
 
-        positive: '#21BA45',
-        negative: '#C10015',
-        info: '#31CCEC',
-        warning: '#F2C037'
-      },
+    const dark = reactive({
+      primary: true,
+      secondary: true,
+      accent: true,
+      dark: true,
 
-      dark: {
-        primary: true,
-        secondary: true,
-        accent: true,
-        dark: true,
+      positive: true,
+      negative: true,
+      info: false,
+      warning: false
+    })
 
-        positive: true,
-        negative: true,
-        info: false,
-        warning: false
-      },
+    const darkMode = ref(false)
+    const exportDialog = ref(false)
+    const exportTab = ref('sass')
 
-      darkMode: false,
-      exportDialog: false,
-      exportTab: 'sass',
-      list: [ 'primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning' ],
-      sideColors: [ 'secondary', 'dark', 'positive', 'negative', 'info', 'warning' ]
+    function update (color, val) {
+      setBrand(color, val, document.getElementById('theme-picker'))
+      dark[ color ] = luminosity(val) <= 0.4
     }
-  },
 
-  watch: {
-    'colors.primary' (val) {
-      this.update('primary', val)
-    },
+    const list = [ 'primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning' ]
 
-    'colors.secondary' (val) {
-      this.update('secondary', val)
-    },
+    list.forEach(entry => {
+      watch(
+        () => colors[ entry ],
+        val => { update(entry, val) }
+      )
+    })
 
-    'colors.accent' (val) {
-      this.update('accent', val)
-    },
-
-    'colors.dark' (val) {
-      this.update('dark', val)
-    },
-
-    'colors.positive' (val) {
-      this.update('positive', val)
-    },
-
-    'colors.negative' (val) {
-      this.update('negative', val)
-    },
-
-    'colors.info' (val) {
-      this.update('info', val)
-    },
-
-    'colors.warning' (val) {
-      this.update('warning', val)
-    }
-  },
-
-  computed: {
-    pageClass () {
-      return this.darkMode === true
+    const pageClass = computed(() => {
+      return darkMode.value === true
         ? 'bg-grey-10 text-white'
         : 'bg-white text-black'
-    },
+    })
 
-    sassExport () {
+    const sassExport = computed(() => {
       return '// src/css/quasar.variables.sass\n\n' +
-        `$primary   : ${this.colors.primary}\n` +
-        `$secondary : ${this.colors.secondary}\n` +
-        `$accent    : ${this.colors.accent}\n\n` +
-        `$dark      : ${this.colors.dark}\n\n` +
-        `$positive  : ${this.colors.positive}\n` +
-        `$negative  : ${this.colors.negative}\n` +
-        `$info      : ${this.colors.info}\n` +
-        `$warning   : ${this.colors.warning}`
-    },
+        `$primary   : ${colors.primary}\n` +
+        `$secondary : ${colors.secondary}\n` +
+        `$accent    : ${colors.accent}\n\n` +
+        `$dark      : ${colors.dark}\n\n` +
+        `$positive  : ${colors.positive}\n` +
+        `$negative  : ${colors.negative}\n` +
+        `$info      : ${colors.info}\n` +
+        `$warning   : ${colors.warning}`
+    })
 
-    scssExport () {
+    const scssExport = computed(() => {
       return '// src/css/quasar.variables.scss\n\n' +
-        `$primary   : ${this.colors.primary};\n` +
-        `$secondary : ${this.colors.secondary};\n` +
-        `$accent    : ${this.colors.accent};\n\n` +
-        `$dark      : ${this.colors.dark};\n\n` +
-        `$positive  : ${this.colors.positive};\n` +
-        `$negative  : ${this.colors.negative};\n` +
-        `$info      : ${this.colors.info};\n` +
-        `$warning   : ${this.colors.warning};`
-    },
+        `$primary   : ${colors.primary};\n` +
+        `$secondary : ${colors.secondary};\n` +
+        `$accent    : ${colors.accent};\n\n` +
+        `$dark      : ${colors.dark};\n\n` +
+        `$positive  : ${colors.positive};\n` +
+        `$negative  : ${colors.negative};\n` +
+        `$info      : ${colors.info};\n` +
+        `$warning   : ${colors.warning};`
+    })
 
-    quasarCliExport () {
+    const quasarCliExport = computed(() => {
       return `// quasar.conf.js
 
 return {
   framework: {
     config: {
       brand: {
-        primary: '${this.colors.primary}',
-        secondary: '${this.colors.secondary}',
-        accent: '${this.colors.accent}',
+        primary: '${colors.primary}',
+        secondary: '${colors.secondary}',
+        accent: '${colors.accent}',
 
-        dark: '${this.colors.dark}',
+        dark: '${colors.dark}',
 
-        positive: '${this.colors.positive}',
-        negative: '${this.colors.negative}',
-        info: '${this.colors.info}',
-        warning: '${this.colors.warning}'
+        positive: '${colors.positive}',
+        negative: '${colors.negative}',
+        info: '${colors.info}',
+        warning: '${colors.warning}'
       }
     }
   }
 }`
-    },
+    })
 
-    umdExport () {
-      return `// place before including Quasar UMD script
-
-window.quasarConfig = {
-  brand: {
-    primary: '${this.colors.primary}',
-    secondary: '${this.colors.secondary}',
-    accent: '${this.colors.accent}',
-
-    dark: '${this.colors.dark}',
-
-    positive: '${this.colors.positive}',
-    negative: '${this.colors.negative}',
-    info: '${this.colors.info}',
-    warning: '${this.colors.warning}'
-  }
-}`
-    },
-
-    vueCliExport () {
-      return `// main.js
-
-Vue.use(Quasar, {
+    const umdExport = computed(() => {
+      return `app.use(Quasar, {
   config: {
     brand: {
-      primary: '${this.colors.primary}',
-      secondary: '${this.colors.secondary}',
-      accent: '${this.colors.accent}',
+      primary: '${colors.primary}',
+      secondary: '${colors.secondary}',
+      accent: '${colors.accent}',
 
-      dark: '${this.colors.dark}',
+      dark: '${colors.dark}',
 
-      positive: '${this.colors.positive}',
-      negative: '${this.colors.negative}',
-      info: '${this.colors.info}',
-      warning: '${this.colors.warning}'
+      positive: '${colors.positive}',
+      negative: '${colors.negative}',
+      info: '${colors.info}',
+      warning: '${colors.warning}'
+    }
+  }
+}`
+    })
+
+    const vueCliExport = computed(() => {
+      return `// main.js
+
+app.use(Quasar, {
+  config: {
+    brand: {
+      primary: '${colors.primary}',
+      secondary: '${colors.secondary}',
+      accent: '${colors.accent}',
+
+      dark: '${colors.dark}',
+
+      positive: '${colors.positive}',
+      negative: '${colors.negative}',
+      info: '${colors.info}',
+      warning: '${colors.warning}'
     }
   }
 })`
-    }
-  },
+    })
 
-  methods: {
-    update (color, val) {
-      setBrand(color, val, document.getElementById('theme-picker'))
-      this.dark[ color ] = luminosity(val) <= 0.4
+    return {
+      fasSquare,
+      fasCircle,
+      fasPlay,
+
+      mdiArrowLeft,
+      mdiMagnify,
+      mdiMenu,
+      mdiMapMarkerRadius,
+
+      colors,
+      dark,
+
+      darkMode,
+      exportDialog,
+      exportTab,
+      list,
+      sideColors: [ 'secondary', 'dark', 'positive', 'negative', 'info', 'warning' ],
+
+      pageClass,
+      sassExport,
+      scssExport,
+      quasarCliExport,
+      umdExport,
+      vueCliExport
     }
   }
 }

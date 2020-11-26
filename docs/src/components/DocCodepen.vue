@@ -1,6 +1,6 @@
 <template lang="pug">
 form(
-  v-if="active"
+  ref="form"
   method="post"
   action="https://codepen.io/pen/define/"
   target="_blank"
@@ -8,6 +8,7 @@ form(
   class="hidden"
 )
   input(
+    v-if="active"
     type="hidden"
     name="data"
     :value="options"
@@ -16,6 +17,7 @@ form(
 
 <script>
 import { Quasar } from 'quasar'
+import { toRefs, ref, reactive, computed, nextTick } from 'vue'
 
 const cssResources = [
   'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons',
@@ -28,38 +30,44 @@ const jsResources = [
 ].join(';')
 
 export default {
-  name: 'Codepen',
+  name: 'DocCodepen',
 
   props: {
     title: String,
     slugifiedTitle: String
   },
 
-  data: () => ({ active: false, parts: {} }),
+  setup (props) {
+    const { title, slugifiedTitle } = toRefs(props)
 
-  computed: {
-    css () {
-      return (this.parts.style || '')
+    const active = ref(false)
+    const form = ref(null) // $refs.form
+    const def = reactive({
+      parts: {}
+    })
+
+    const css = computed(() => {
+      return (def.parts.style || '')
         .replace(/(<style.*?>|<\/style>)/g, '')
         .trim()
-    },
+    })
 
-    cssPreprocessor () {
+    const cssPreprocessor = computed(() => {
       const lang = /<style.*lang=["'](.*)["'].*>/
-        .exec(this.parts.style || '')
+        .exec(def.parts.style || '')
 
       return lang ? lang[ 1 ] : 'none'
-    },
+    })
 
-    js () {
+    const js = computed(() => {
       const importsQ = /import\s+{([^}'\n]+)}\s+from\s+'quasar'/g
       const imports = /import ([^'\n]*) from ([^\n]*)/g
-      let component = /export default {([\s\S]*)}/g.exec(this.parts.script || '')
+      let component = /export default {([\s\S]*)}/g.exec(def.parts.script || '')
       component = ((component && component[ 1 ]) || '').trim()
       if (component.length > 0) {
         component = '\n  ' + component + '\n'
       }
-      let script = /<script>([\s\S]*)export default {/g.exec(this.parts.script || '')
+      let script = /<script>([\s\S]*)export default {/g.exec(def.parts.script || '')
       script = ((script && script[ 1 ]) || '')
         .replace(importsQ, function (match, p1) {
           const parts = p1
@@ -85,10 +93,10 @@ export default {
 app.use(Quasar, { config: {} })
 app.mount('#q-app')
 `
-    },
+    })
 
-    html () {
-      return (this.parts.template || '')
+    const html = computed(() => {
+      return (def.parts.template || '')
         .replace(/(<template>|<\/template>$)/g, '')
         .replace(/\n/g, '\n  ')
         .replace(/([\w]+=")([^"]*?)(")/g, function (match, p1, p2, p3) {
@@ -101,58 +109,62 @@ app.mount('#q-app')
         .replace(/___TEMP_REPLACEMENT___/g, '>')
         .replace(/^\s{2}/gm, '')
         .trim()
-    },
+    })
 
-    editors () {
-      const flag = (this.html && 0b100) | (this.css && 0b010) | (this.js && 0b001)
+    const editors = computed(() => {
+      const flag = (html.value && 0b100) | (css.value && 0b010) | (js.value && 0b001)
       return flag.toString(2)
-    },
+    })
 
-    computedTitle () {
+    const computedTitle = computed(() => {
       return (typeof document !== 'undefined' ? document.title.split(' | ')[ 0 ] + ': ' : '') +
-        (this.title ? this.title + ' - ' : '') +
+        (title.value ? title.value + ' - ' : '') +
         `Quasar v${Quasar.version}`
-    },
+    })
 
-    options () {
+    const options = computed(() => {
       const data = {
-        title: this.computedTitle,
+        title: computedTitle.value,
         html:
           `<!--
   Forked from:
-  ${window.location.origin + window.location.pathname}#${this.slugifiedTitle}
+  ${window.location.origin + window.location.pathname}#${slugifiedTitle.value}
 -->
 <div id="q-app">
-  ${this.html}
+  ${html.value}
 </div>`,
         head: '',
         html_pre_processor: 'none',
-        css: this.css,
-        css_pre_processor: this.cssPreprocessor,
+        css: css.value,
+        css_pre_processor: cssPreprocessor.value,
         css_external: cssResources,
-        js: this.js,
+        js: js.value,
         js_pre_processor: 'babel',
         js_external: jsResources,
-        editors: this.editors
+        editors: editors.value
       }
       return JSON.stringify(data)
-    }
-  },
+    })
 
-  methods: {
-    open (parts) {
-      this.parts = parts
+    async function open (whichParts) {
+      def.parts = whichParts
 
-      if (this.active) {
-        this.$el.submit()
+      if (active.value) {
+        form.value.submit()
         return
       }
 
-      this.active = true
+      active.value = true
 
-      this.$nextTick(() => {
-        this.$el.submit()
-      })
+      await nextTick()
+      form.value.submit()
+    }
+
+    return {
+      active,
+      form,
+      options,
+      open
     }
   }
 }

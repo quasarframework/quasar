@@ -79,6 +79,8 @@ q-card.doc-api.q-my-lg(flat bordered)
 </template>
 
 <script>
+// TODO vue3 - convert to Composition API
+
 import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v5'
 import { format } from 'quasar'
 

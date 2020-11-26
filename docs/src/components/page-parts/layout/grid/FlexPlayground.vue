@@ -68,17 +68,19 @@
       </template>
     </q-input>
 
-    <codepen ref="codepen" title="Flex example" slugifiedTitle="flex-example" />
+    <doc-codepen ref="codepen" title="Flex example" slugifiedTitle="flex-example" />
   </div>
 </template>
 
 <script>
+// TODO vue3 - convert to Composition API
+
 import { copyToClipboard } from 'quasar'
 import { fabCodepen } from '@quasar/extras/fontawesome-v5'
 import { mdiPlus, mdiShareVariant } from '@quasar/extras/mdi-v5'
 
 import Child from './FlexChild'
-import Codepen from '../../../Codepen'
+import DocCodepen from '../../../DocCodepen'
 import CopyButton from '../../../CopyButton'
 
 const queryParams = {
@@ -98,7 +100,7 @@ export default {
 
   components: {
     Child,
-    Codepen,
+    DocCodepen,
     CopyButton
   },
 

@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { mdiFileDocumentEditOutline } from '@quasar/extras/mdi-v5'
 
 const confDate = new Date('2020-11-16').getTime()
@@ -39,42 +40,45 @@ export default {
     paddingClass: String
   },
 
-  data () {
-    return {
-      days: '*',
-      hours: '*',
-      minutes: '*',
-      hasEnded: false
-    }
-  },
+  setup () {
+    const days = ref('*')
+    const hours = ref('*')
+    const minutes = ref('*')
+    const hasEnded = ref(false)
 
-  mounted () {
-    this.interval = setInterval(() => this.calcTimeRemaining, oneMin)
-    this.calcTimeRemaining()
-  },
+    let interval
 
-  created () {
-    this.mdiFileDocumentEditOutline = mdiFileDocumentEditOutline
-  },
-
-  beforeUnmount () {
-    clearInterval(this.interval)
-  },
-
-  methods: {
-    calcTimeRemaining () {
+    function calcTimeRemaining () {
       const now = new Date().getTime()
       const remaining = confDate - now
-      this.hasEnded = remaining <= 0
+      hasEnded.value = remaining <= 0
 
-      if (this.hasEnded === false) {
-        this.days = Math.floor(remaining / oneDay)
-        this.hours = Math.floor((remaining % oneDay) / oneHour)
-        this.minutes = Math.floor((remaining % oneHour) / oneMin)
+      if (hasEnded.value === false) {
+        days.value = Math.floor(remaining / oneDay)
+        hours.value = Math.floor((remaining % oneDay) / oneHour)
+        minutes.value = Math.floor((remaining % oneHour) / oneMin)
       }
       else {
-        clearInterval(this.interval)
+        clearInterval(interval)
       }
+    }
+
+    onMounted(() => {
+      interval = setInterval(() => calcTimeRemaining, oneMin)
+      calcTimeRemaining()
+    })
+
+    onBeforeUnmount(() => {
+      clearInterval(interval)
+    })
+
+    return {
+      days,
+      hours,
+      minutes,
+      hasEnded,
+
+      mdiFileDocumentEditOutline
     }
   }
 }

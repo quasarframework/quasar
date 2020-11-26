@@ -60,6 +60,8 @@ q-card(flat bordered)
 
 <script>
 import languages from 'quasar/lang/index.json'
+import { Quasar } from 'quasar'
+import { ref, reactive, computed } from 'vue'
 
 const cssMap = {
   'mdi-v5': 'cdn.jsdelivr.net/npm/@mdi/font@^5.0.0/css/materialdesignicons.min.css',
@@ -82,87 +84,79 @@ const googleMap = {
 const camelize = str => str.replace(/(-\w)/g, m => m[ 1 ].toUpperCase())
 
 export default {
-  data () {
-    return {
-      version: this.$q.version,
+  name: 'UmdTags',
 
-      css: {
-        roboto: true,
+  setup () {
+    const { version } = Quasar.version // TODO vue3 - useQuasar()
+    const css = reactive({
+      roboto: true,
 
-        'material-icons': true,
-        'material-icons-outlined': false,
-        'material-icons-round': false,
-        'material-icons-sharp': false,
+      'material-icons': true,
+      'material-icons-outlined': false,
+      'material-icons-round': false,
+      'material-icons-sharp': false,
 
-        'mdi-v5': false,
-        'fontawesome-v5': false,
-        'ionicons-v4': false,
-        'eva-icons': false,
-        themify: false,
-        'line-awesome': false,
+      'mdi-v5': false,
+      'fontawesome-v5': false,
+      'ionicons-v4': false,
+      'eva-icons': false,
+      themify: false,
+      'line-awesome': false,
 
-        animate: false
-      },
+      animate: false
+    })
 
-      minified: true,
-      rtl: false,
-      cfgObject: false,
+    const minified = ref(true)
+    const rtl = ref(false)
+    const cfgObject = ref(false)
+    const lang = ref('en-us')
+    const iconSet = ref('material-icons')
 
-      lang: 'en-us',
-      iconSet: 'material-icons'
+    function getUrl (url) {
+      const min = minified.value === false
+        ? url.replace('.prod', '')
+        : url
+
+      return rtl.value === false
+        ? min.replace('.rtl', '')
+        : min
     }
-  },
 
-  computed: {
-    output () {
-      return `<!DOCTYPE html>
-<html>
-  <!--
-    WARNING! Make sure that you match all Quasar related
-    tags to the same version! (Below it's "@${this.version}")
-  -->
+    function getCssTag (url) {
+      // funky form below, otherwise vue-loader will misinterpret
+      return '<' + `link href="https://${getUrl(url)}" rel="stylesheet" type="text/css"` + '>'
+    }
 
-  <head>
-    ${this.head}
-  </head>
+    function getJsTag (url) {
+      // funky form below, otherwise vue-loader will crash
+      return '<' + `script src="https://${getUrl(url)}"` + '><' + '/script>'
+    }
 
-  <body>
-    <!-- example of injection point where you write your app template -->
-    <div id="q-app"></div>
-
-    <!-- Add the following at the end of your body tag -->
-    ${this.body}
-    ${this.scriptTag}
-  </body>
-</html>
-`
-    },
-
-    googleFonts () {
-      const css = Object.keys(googleMap)
-        .filter(key => this.css[ key ] === true)
+    const googleFonts = computed(() => {
+      const cssAcc = Object.keys(googleMap)
+        .filter(key => css[ key ] === true)
         .map(key => googleMap[ key ])
 
-      return css.length === 0
+      return cssAcc.length === 0
         ? ''
-        : `fonts.googleapis.com/css?family=${css.join('|')}`
-    },
+        : `fonts.googleapis.com/css?family=${cssAcc.join('|')}`
+    })
 
-    head () {
-      const css = Object.keys(cssMap)
-        .filter(key => this.css[ key ] === true)
+    const head = computed(() => {
+      const cssAcc = Object.keys(cssMap)
+        .filter(key => css[ key ] === true)
         .map(key => cssMap[ key ])
 
-      css.unshift(this.googleFonts)
-      css.push(`cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.rtl.prod.css`)
+      cssAcc.unshift(googleFonts.value)
+      cssAcc.push(`cdn.jsdelivr.net/npm/quasar@${version}/dist/quasar.rtl.prod.css`)
 
-      return css.filter(url => url)
-        .map(url => this.getCssTag(url))
+      return cssAcc.filter(url => url)
+        .map(url => getCssTag(url))
         .join('\n    ')
-    },
+    })
 
-    configInstantiation () {
-      if (this.cfgObject === false) {
+    const configInstantiation = computed(() => {
+      if (cfgObject.value === false) {
         return 'config: {}'
       }
 
@@ -177,25 +171,25 @@ export default {
           loadingBar: { ... }, // settings for LoadingBar Quasar plugin
           // ..and many more (check Installation card on each Quasar component/directive/plugin)
         }\n     `
-    },
+    })
 
-    postCreateApp () {
+    const postCreateApp = computed(() => {
       let str = ''
 
-      if (this.lang !== 'en-us' || this.iconSet !== 'material-icons') {
-        if (this.lang !== 'en-us') {
-          str += `Quasar.lang.set(Quasar.lang.${camelize(this.lang)})\n      `
+      if (lang.value !== 'en-us' || iconSet.value !== 'material-icons') {
+        if (lang.value !== 'en-us') {
+          str += `Quasar.lang.set(Quasar.lang.${camelize(lang.value)})\n      `
         }
 
-        if (this.iconSet !== 'material-icons') {
-          str += `Quasar.iconSet.set(Quasar.iconSet.${camelize(this.iconSet)})\n      `
+        if (iconSet.value !== 'material-icons') {
+          str += `Quasar.iconSet.set(Quasar.iconSet.${camelize(iconSet.value)})\n      `
         }
       }
 
       return str
-    },
+    })
 
-    scriptTag () {
+    const scriptTag = computed(() => {
       const startup = `
       /*
         Example kicking off the UI. Obviously, adapt this to your specific needs.
@@ -209,77 +203,91 @@ export default {
         // ...etc
       })
 
-      app.use(Quasar, { ${this.configInstantiation} })
-      ${this.postCreateApp}app.mount('#q-app')
+      app.use(Quasar, { ${configInstantiation.value} })
+      ${postCreateApp.value}app.mount('#q-app')
     `
 
       // funky form below otherwise vue-loader will crash
       return '\n    <' + `script>${startup}<` + '/script>'
-    },
+    })
 
-    body () {
+    const body = computed(() => {
       const js = [
         'cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js',
-        `cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.umd.prod.js`
+        `cdn.jsdelivr.net/npm/quasar@${version}/dist/quasar.umd.prod.js`
       ]
 
-      if (this.lang !== 'en-us') {
-        js.push(`cdn.jsdelivr.net/npm/quasar@${this.version}/dist/lang/${this.lang}.umd.prod.js`)
+      if (lang.value !== 'en-us') {
+        js.push(`cdn.jsdelivr.net/npm/quasar@${version}/dist/lang/${lang.value}.umd.prod.js`)
       }
 
-      if (this.iconSet !== 'material-icons') {
-        js.push(`cdn.jsdelivr.net/npm/quasar@${this.version}/dist/icon-set/${this.iconSet}.umd.prod.js`)
+      if (iconSet.value !== 'material-icons') {
+        js.push(`cdn.jsdelivr.net/npm/quasar@${version}/dist/icon-set/${iconSet.value}.umd.prod.js`)
       }
 
       return js
-        .map(url => this.getJsTag(url))
+        .map(url => getJsTag(url))
         .join('\n    ')
+    })
+
+    const output = computed(() => {
+      return `<!DOCTYPE html>
+<html>
+  <!--
+    WARNING! Make sure that you match all Quasar related
+    tags to the same version! (Below it's "@${version}")
+  -->
+
+  <head>
+    ${head.value}
+  </head>
+
+  <body>
+    <!-- example of injection point where you write your app template -->
+    <div id="q-app"></div>
+
+    <!-- Add the following at the end of your body tag -->
+    ${body.value}
+    ${scriptTag.value}
+  </body>
+</html>
+`
+    })
+
+    return {
+      version,
+      langOptions: languages.map(lang => ({ label: lang.nativeName, value: lang.isoName })),
+      iconSetOptions: [
+        { label: 'Material (webfont)', value: 'material-icons' },
+        { label: 'Material (svg)', value: 'svg-material-icons' },
+        { label: 'Material Outlined (webfont)', value: 'material-icons-outlined' },
+        { label: 'Material Round (webfont)', value: 'material-icons-round' },
+        { label: 'Material Sharp (webfont)', value: 'material-icons-sharp' },
+        { label: 'MDI v5 (webfont)', value: 'mdi-v5' },
+        { label: 'MDI v5 (svg)', value: 'svg-mdi-v5' },
+        { label: 'Ionicons v4 (webfont)', value: 'ionicons-v4' },
+        { label: 'Ionicons v4 (svg)', value: 'svg-ionicons-v4' },
+        { label: 'Fontawesome v5 (webfont)', value: 'fontawesome-v5' },
+        { label: 'Fontawesome v5 (svg)', value: 'svg-fontawesome-v5' },
+        { label: 'Eva Icons (webfont)', value: 'eva-icons' },
+        { label: 'Eva Icons (svg)', value: 'svg-eva-icons' },
+        { label: 'Themify (webfont)', value: 'themify' },
+        { label: 'Themify (svg)', value: 'svg-themify' },
+        { label: 'Line Awesome (webfont)', value: 'line-awesome' },
+        { label: 'Line Awesome (svg)', value: 'svg-line-awesome' }
+      ],
+
+      css,
+
+      minified,
+      rtl,
+      cfgObject,
+
+      lang,
+      iconSet,
+
+      output
     }
-  },
-
-  methods: {
-    getUrl (url) {
-      const min = this.minified === false
-        ? url.replace('.prod', '')
-        : url
-
-      return this.rtl === false
-        ? min.replace('.rtl', '')
-        : min
-    },
-
-    getCssTag (url) {
-      // funky form below, otherwise vue-loader will misinterpret
-      return '<' + `link href="https://${this.getUrl(url)}" rel="stylesheet" type="text/css"` + '>'
-    },
-
-    getJsTag (url) {
-      // funky form below, otherwise vue-loader will crash
-      return '<' + `script src="https://${this.getUrl(url)}"` + '><' + '/script>'
-    }
-  },
-
-  created () {
-    this.langOptions = languages.map(lang => ({ label: lang.nativeName, value: lang.isoName }))
-    this.iconSetOptions = [
-      { label: 'Material (webfont)', value: 'material-icons' },
-      { label: 'Material (svg)', value: 'svg-material-icons' },
-      { label: 'Material Outlined (webfont)', value: 'material-icons-outlined' },
-      { label: 'Material Round (webfont)', value: 'material-icons-round' },
-      { label: 'Material Sharp (webfont)', value: 'material-icons-sharp' },
-      { label: 'MDI v5 (webfont)', value: 'mdi-v5' },
-      { label: 'MDI v5 (svg)', value: 'svg-mdi-v5' },
-      { label: 'Ionicons v4 (webfont)', value: 'ionicons-v4' },
-      { label: 'Ionicons v4 (svg)', value: 'svg-ionicons-v4' },
-      { label: 'Fontawesome v5 (webfont)', value: 'fontawesome-v5' },
-      { label: 'Fontawesome v5 (svg)', value: 'svg-fontawesome-v5' },
-      { label: 'Eva Icons (webfont)', value: 'eva-icons' },
-      { label: 'Eva Icons (svg)', value: 'svg-eva-icons' },
-      { label: 'Themify (webfont)', value: 'themify' },
-      { label: 'Themify (svg)', value: 'svg-themify' },
-      { label: 'Line Awesome (webfont)', value: 'line-awesome' },
-      { label: 'Line Awesome (svg)', value: 'svg-line-awesome' }
-    ]
   }
 }
 </script>

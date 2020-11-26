@@ -26,7 +26,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
         :breakpoint="0"
       )
         q-tab(
-          v-for="tab in tabs"
+          v-for="tab in def.tabs"
           :key="`tab-${tab}`"
           :name="tab"
           :label="tab"
@@ -39,11 +39,11 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
         animated
       )
         q-tab-panel.q-pa-none(
-          v-for="tab in tabs"
+          v-for="tab in def.tabs"
           :key="`pane-${tab}`"
           :name="tab"
         )
-          doc-code(lang="markup", :code="parts[tab]")
+          doc-code(lang="markup", :code="def.parts[tab]")
 
       q-separator.doc-example__separator
 
@@ -51,12 +51,13 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
     q-linear-progress(v-if="loading", color="primary", indeterminate)
     component.col.doc-example__content(v-else, :is="component", :class="componentClass")
 
-  codepen(v-if="!loading", ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle")
+  doc-codepen(v-if="!loading", ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle")
 </template>
 
 <script>
 import { markRaw } from 'vue'
 import { openURL } from 'quasar'
+import { ref, reactive, computed, toRefs, onMounted } from 'vue'
 
 import {
   fabGithub, fabCodepen
@@ -65,7 +66,7 @@ import {
 import { slugify } from 'assets/page-utils'
 
 import DocCode from './DocCode.vue'
-import Codepen from './Codepen.vue'
+import DocCodepen from './DocCodepen.vue'
 import CardTitle from './CardTitle.vue'
 
 export default {
@@ -73,7 +74,7 @@ export default {
 
   components: {
     DocCode,
-    Codepen,
+    DocCodepen,
     CardTitle
   },
 
@@ -86,92 +87,105 @@ export default {
     overflow: Boolean
   },
 
-  data () {
-    return {
-      loading: true,
-      component: null,
-      tabs: [],
-      currentTab: 'template',
-      expanded: false,
-      parts: {}
-    }
-  },
+  setup (props) {
+    const { dark, scrollable, overflow, title } = toRefs(props)
+    const codepen = ref(null) // $refs.codepen
 
-  computed: {
-    classes () {
-      return this.dark === true
+    const loading = ref(true)
+    const component = ref(null)
+    const def = reactive({
+      tabs: [],
+      parts: {}
+    })
+    const currentTab = ref('template')
+    const expanded = ref(false)
+
+    const classes = computed(() => {
+      return dark.value === true
         ? 'doc-example--dark'
         : ''
-    },
-
-    componentClass () {
-      return this.scrollable === true
-        ? 'doc-example__content--scrollable scroll-y'
-        : (this.overflow === true ? 'overflow-auto' : '')
-    },
-
-    slugifiedTitle () {
-      return 'Example--' + slugify(this.title)
-    }
-  },
-
-  mounted () {
-    Promise.all([
-      import(
-        /* webpackChunkName: "demo" */
-        /* webpackMode: "lazy-once" */
-        'examples/' + this.file + '.vue'
-      ).then(comp => {
-        this.component = markRaw(comp.default)
-      }),
-
-      import(
-        /* webpackChunkName: "demo-source" */
-        /* webpackMode: "lazy-once" */
-        '!raw-loader!examples/' + this.file + '.vue'
-      ).then(comp => {
-        this.parseComponent(comp.default)
-      })
-    ]).then(() => {
-      this.loading = false
     })
-  },
 
-  created () {
-    this.fabGithub = fabGithub
-    this.fabCodepen = fabCodepen
-  },
+    const componentClass = computed(() => {
+      return scrollable.value === true
+        ? 'doc-example__content--scrollable scroll-y'
+        : (overflow.value === true ? 'overflow-auto' : '')
+    })
 
-  methods: {
-    parseComponent (comp) {
-      const
-        template = this.parseTemplate('template', comp),
-        script = this.parseTemplate('script', comp),
-        style = this.parseTemplate('style', comp)
+    const slugifiedTitle = computed(() => {
+      return 'Example--' + slugify(title.value)
+    })
 
-      this.parts = {
-        template,
-        script,
-        style
-      }
-      this.tabs = [ 'template', 'script', 'style' ].filter(type => this.parts[ type ])
-    },
-
-    parseTemplate (target, template) {
+    function parseTemplate (target, template) {
       const
         string = `(<${target}(.*)?>[\\w\\W]*<\\/${target}>)`,
         regex = new RegExp(string, 'g'),
         parsed = regex.exec(template) || []
 
       return parsed[ 1 ] || ''
-    },
+    }
 
-    openGitHub () {
-      openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/src/examples/${this.file}.vue`)
-    },
+    function parseComponent (comp) {
+      const
+        template = parseTemplate('template', comp),
+        script = parseTemplate('script', comp),
+        style = parseTemplate('style', comp)
 
-    openCodepen () {
-      this.$refs.codepen.open(this.parts)
+      def.parts = {
+        template,
+        script,
+        style
+      }
+
+      def.tabs = [ 'template', 'script', 'style' ]
+        .filter(type => def.parts[ type ])
+    }
+
+    onMounted(() => {
+      Promise.all([
+        import(
+          /* webpackChunkName: "demo" */
+          /* webpackMode: "lazy-once" */
+          'examples/' + props.file + '.vue'
+        ).then(comp => {
+          component.value = markRaw(comp.default)
+        }),
+
+        import(
+          /* webpackChunkName: "demo-source" */
+          /* webpackMode: "lazy-once" */
+          '!raw-loader!examples/' + props.file + '.vue'
+        ).then(comp => {
+          parseComponent(comp.default)
+        })
+      ]).then(() => {
+        loading.value = false
+      })
+    })
+
+    return {
+      fabGithub,
+      fabCodepen,
+
+      codepen,
+
+      loading,
+      component,
+      currentTab,
+      expanded,
+      def,
+
+      classes,
+      componentClass,
+      slugifiedTitle,
+
+      openGitHub () {
+        openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/src/examples/${props.file}.vue`)
+      },
+
+      openCodepen () {
+        codepen.value.open(def.parts)
+      }
     }
   }
 }
