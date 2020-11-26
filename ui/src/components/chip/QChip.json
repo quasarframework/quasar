@@ -35,6 +35,11 @@
       "extends": "icon"
     },
 
+    "icon-selected": {
+      "extends": "icon",
+      "addedIn": "v1.14.6"
+    },
+
     "label": {
       "type": [ "String", "Number" ],
       "desc": "Chip's content as string; overrides default slot if specified",
