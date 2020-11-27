@@ -10,9 +10,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
+      expanded: ref([ 'Satisfied customers (with avatar)', 'Good food (with icon)' ]),
+
       simple: [
         {
           label: 'Satisfied customers (with avatar)',
@@ -48,8 +52,7 @@ export default {
             }
           ]
         }
-      ],
-      expanded: [ 'Satisfied customers (with avatar)', 'Good food (with icon)' ]
+      ]
     }
   }
 }

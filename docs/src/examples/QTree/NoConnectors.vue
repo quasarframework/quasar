@@ -10,10 +10,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      expanded: [ 'Satisfied customers (with avatar)', 'Good food (with icon)' ],
+      expanded: ref([ 'Satisfied customers (with avatar)', 'Good food (with icon)' ]),
 
       simple: [
         {

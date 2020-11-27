@@ -182,7 +182,6 @@ export default {
         }
         else if (evt !== Object(evt) || (evt.shiftKey !== true && evt.ctrlKey !== true)) {
           selected.value = added === true ? rows : []
-
           return
         }
 

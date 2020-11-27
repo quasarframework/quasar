@@ -25,9 +25,22 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
+      ticked: ref(['Pleasant surroundings']),
+      expanded: ref(['Good service (disabled node)']),
+      tickStrategy: ref('strict'),
+
+      tickStrategies: [
+        { value: 'none', label: 'None' },
+        { value: 'strict', label: 'Strict' },
+        { value: 'leaf', label: 'Leaf' },
+        { value: 'leaf-filtered', label: 'Leaf Filtered' }
+      ],
+
       simple: [
         {
           label: 'Satisfied customers',
@@ -57,16 +70,6 @@ export default {
             }
           ]
         }
-      ],
-
-      ticked: ['Pleasant surroundings'],
-      expanded: ['Good service (disabled node)'],
-      tickStrategy: 'strict',
-      tickStrategies: [
-        { value: 'none', label: 'None' },
-        { value: 'strict', label: 'Strict' },
-        { value: 'leaf', label: 'Leaf' },
-        { value: 'leaf-filtered', label: 'Leaf Filtered' }
       ]
     }
   }

@@ -16,10 +16,25 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const selected = ref(null)
+
     return {
-      selected: null,
+      selected,
+
+      selectGoodService () {
+        if (selected.value !== 'Good service') {
+          selected.value = 'Good service'
+        }
+      },
+
+      unselectNode () {
+        selected.value = null
+      },
+
       props: [
         {
           label: 'Satisfied customers',
@@ -59,18 +74,6 @@ export default {
           ]
         }
       ]
-    }
-  },
-
-  methods: {
-    selectGoodService () {
-      if (this.selected !== 'Good service') {
-        this.selected = 'Good service'
-      }
-    },
-
-    unselectNode () {
-      this.selected = null
     }
   }
 }

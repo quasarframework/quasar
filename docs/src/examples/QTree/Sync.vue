@@ -34,9 +34,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
+      selected: ref('Pleasant surroundings'),
+      ticked: ref([ 'Quality ingredients', 'Good table presentation' ]),
+      expanded: ref([ 'Satisfied customers', 'Good service (disabled node)', 'Pleasant surroundings' ]),
+
       simple: [
         {
           label: 'Satisfied customers',
@@ -66,10 +72,7 @@ export default {
             }
           ]
         }
-      ],
-      selected: 'Pleasant surroundings',
-      ticked: [ 'Quality ingredients', 'Good table presentation' ],
-      expanded: [ 'Satisfied customers', 'Good service (disabled node)', 'Pleasant surroundings' ]
+      ]
     }
   }
 }

@@ -13,68 +13,72 @@
 </template>
 
 <script>
+import { QChatMessage } from 'quasar'
+import { h, defineComponent, toRefs, ref, onMounted, onBeforeUnmount } from 'vue'
+
+const AsyncComponent = defineComponent({
+  props: {
+    index: Number,
+    sent: Boolean
+  },
+
+  setup (props) {
+    const { sent, index } = toRefs(props)
+    const asyncContent = ref(null)
+
+    let timer
+
+    onMounted(() => {
+      timer = setTimeout(() => {
+        asyncContent.value = {
+          sent: sent.value,
+          name: sent.value === true ? 'me' : 'Someone else',
+          avatar: sent.value === true ? 'https://cdn.quasar.dev/img/avatar4.jpg' : 'https://cdn.quasar.dev/img/avatar3.jpg',
+          stamp: `${Math.floor(index.value / 1000)} minutes ago`,
+          text: [`Message with id ${index.value}`]
+        }
+      }, 300 + Math.random() * 2000)
+    })
+
+    onBeforeUnmount(() => {
+      clearTimeout(timer)
+    })
+
+    return () => h(QChatMessage, {
+      class: 'q-mx-sm',
+      ...(asyncContent.value === null
+        ? {
+            sent: sent.value,
+            text: [`Retrieving message ${index.value}`]
+          }
+        : asyncContent.value)
+    })
+  }
+})
+
 export default {
   components: {
-    asyncComponent: {
-      props: {
-        index: Number,
-        sent: Boolean
-      },
-
-      data () {
-        return {
-          asyncContent: null
-        }
-      },
-
-      mounted () {
-        this.timer = setTimeout(() => {
-          this.asyncContent = {
-            sent: this.sent,
-            name: this.sent === true ? 'me' : 'Someone else',
-            avatar: this.sent === true ? 'https://cdn.quasar.dev/img/avatar4.jpg' : 'https://cdn.quasar.dev/img/avatar3.jpg',
-            stamp: `${Math.floor(this.index / 1000)} minutes ago`,
-            text: [`Message with id ${this.index}`]
-          }
-        }, 300 + Math.random() * 2000)
-      },
-
-      beforeUnmount () {
-        clearTimeout(this.timer)
-      },
-
-      render (h) {
-        return h('q-chat-message', {
-          staticClass: 'q-mx-sm',
-          props: this.asyncContent === null
-            ? {
-                sent: this.sent,
-                text: [`Retrieving message ${this.index}`]
-              }
-            : this.asyncContent
-        })
-      }
-    }
+    AsyncComponent
   },
 
-  data () {
+  setup () {
+    const size = ref(100000)
+
     return {
-      size: 100000
-    }
-  },
+      size,
 
-  methods: {
-    getItems (from, size) {
-      const items = []
+      getItems (from, size) {
+        const items = []
 
-      for (let i = 0; i < size; i++) {
-        items.push({
-          index: this.size - from - i,
-          sent: Math.random() > 0.5
-        })
+        for (let i = 0; i < size; i++) {
+          items.push({
+            index: size - from - i,
+            sent: Math.random() > 0.5
+          })
+        }
+
+        return Object.freeze(items)
       }
-
-      return Object.freeze(items)
     }
   }
 }

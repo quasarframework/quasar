@@ -36,10 +36,8 @@ for (let i = 0; i < maxSize; i++) {
   })
 }
 
-Object.freeze(heavyList)
-
 export default {
-  data () {
+  setup () {
     return {
       heavyList
     }

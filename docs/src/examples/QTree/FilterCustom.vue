@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-input
-      ref="filter"
+      ref="filterRef"
       filled
       v-model="filter"
       label="Search - only filters labels that have also '(*)'"
@@ -23,9 +23,18 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const filter = ref('de')
+    const filterRef = ref(null)
+
     return {
+      filter,
+      filterRef,
+      expanded: ref(['Good service (disabled node) (*)']),
+
       simple: [
         {
           label: 'Satisfied customers',
@@ -56,20 +65,16 @@ export default {
           ]
         }
       ],
-      filter: 'de',
-      expanded: ['Good service (disabled node) (*)']
-    }
-  },
 
-  methods: {
-    myFilterMethod (node, filter) {
-      const filt = filter.toLowerCase()
-      return node.label && node.label.toLowerCase().indexOf(filt) > -1 && node.label.toLowerCase().indexOf('(*)') > -1
-    },
+      myFilterMethod (node, filter) {
+        const filt = filter.toLowerCase()
+        return node.label && node.label.toLowerCase().indexOf(filt) > -1 && node.label.toLowerCase().indexOf('(*)') > -1
+      },
 
-    resetFilter () {
-      this.filter = ''
-      this.$refs.filter.focus()
+      resetFilter () {
+        filter.value = ''
+        filterRef.value.focus()
+      }
     }
   }
 }

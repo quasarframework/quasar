@@ -55,11 +55,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      splitterModel: 50,
-      selected: 'Food',
+      splitterModel: ref(50),
+      selected: ref('Food'),
+
       simple: [
         {
           label: 'Relax Hotel',
