@@ -9,10 +9,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      ratingModel: 3
+      ratingModel: ref(3)
     }
   }
 }

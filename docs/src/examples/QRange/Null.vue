@@ -36,29 +36,29 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      bothNull: {
+      bothNull: reactive({
         min: null,
         max: null
-      },
+      }),
 
-      minNull: {
+      minNull: reactive({
         min: null,
         max: 40
-      },
+      }),
 
-      maxNull: {
+      maxNull: reactive({
         min: 20,
         max: null
-      }
-    }
-  },
+      }),
 
-  methods: {
-    getNullLabel (val) {
-      return val === null ? 'null' : val
+      getNullLabel (val) {
+        return val === null ? 'null' : val
+      }
     }
   }
 }

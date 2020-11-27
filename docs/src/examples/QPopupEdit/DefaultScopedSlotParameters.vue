@@ -26,10 +26,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      nickname: 'Click me'
+      nickname: ref('Click me')
     }
   }
 }

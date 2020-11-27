@@ -5,7 +5,7 @@
       :bar-style="barStyle"
       style="height: 200px;"
       class="col"
-      ref="first"
+      ref="firstRef"
       @scroll="onScrollFirst"
     >
       <div v-for="n in 100" :key="n" class="q-pa-xs">
@@ -20,7 +20,7 @@
       :bar-style="barStyle"
       style="height: 200px;"
       class="col"
-      ref="second"
+      ref="secondRef"
       @scroll="onScrollSecond"
     >
       <div v-for="n in 100" :key="n" class="q-pa-xs">
@@ -33,9 +33,41 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const firstRef = ref(null)
+    const secondRef = ref(null)
+
+    let ignoreSource
+
+    function scroll (source, position) {
+      // if we previously just updated
+      // the scroll position, then ignore
+      // this update as otherwise we'll flicker
+      // the position from one scroll area to
+      // the other in an infinite loop
+      if (ignoreSource === source) {
+        ignoreSource = null
+        return
+      }
+
+      const target = source === 'first'
+        ? secondRef
+        : firstRef
+
+      // we'll now update the other scroll area,
+      // which will also trigger a @scroll event...
+      // and we need to ignore that one
+      ignoreSource = target
+      target.value.setScrollPosition(position)
+    }
+
     return {
+      firstRef,
+      secondRef,
+
       thumbStyle: {
         right: '4px',
         borderRadius: '5px',
@@ -50,39 +82,15 @@ export default {
         backgroundColor: '#027be3',
         width: '9px',
         opacity: 0.2
+      },
+
+      onScrollFirst ({ verticalPosition }) {
+        scroll('first', verticalPosition)
+      },
+
+      onScrollSecond ({ verticalPosition }) {
+        scroll('second', verticalPosition)
       }
-    }
-  },
-
-  methods: {
-    scroll (source, position) {
-      // if we previously just updated
-      // the scroll position, then ignore
-      // this update as otherwise we'll flicker
-      // the position from one scroll area to
-      // the other in an infinite loop
-      if (this.ignoreSource === source) {
-        this.ignoreSource = null
-        return
-      }
-
-      const target = source === 'first'
-        ? 'second'
-        : 'first'
-
-      // we'll now update the other scroll area,
-      // which will also trigger a @scroll event...
-      // and we need to ignore that one
-      this.ignoreSource = target
-      this.$refs[ target ].setScrollPosition(position)
-    },
-
-    onScrollFirst ({ verticalPosition }) {
-      this.scroll('first', verticalPosition)
-    },
-
-    onScrollSecond ({ verticalPosition }) {
-      this.scroll('second', verticalPosition)
     }
   }
 }

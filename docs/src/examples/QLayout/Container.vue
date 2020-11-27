@@ -80,11 +80,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      drawerLeft: false,
-      drawerRight: true
+      drawerLeft: ref(false),
+      drawerRight: ref(true)
     }
   }
 }

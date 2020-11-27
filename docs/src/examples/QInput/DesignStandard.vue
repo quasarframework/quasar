@@ -100,13 +100,14 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      text: '',
-      ph: '',
+import { ref } from 'vue'
 
-      dense: false
+export default {
+  setup () {
+    return {
+      text: ref(''),
+      ph: ref(''),
+      dense: ref(false)
     }
   }
 }

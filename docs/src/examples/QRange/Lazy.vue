@@ -15,13 +15,15 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      lazy: {
+      lazy: reactive({
         min: 10,
         max: 35
-      }
+      })
     }
   }
 }

@@ -27,11 +27,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      label: 'Click me',
-      label2: 'Also click me'
+      label: ref('Click me'),
+      label2: ref('Also click me')
     }
   }
 }

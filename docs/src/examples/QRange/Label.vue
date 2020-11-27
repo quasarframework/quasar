@@ -16,13 +16,15 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      label: {
+      label: reactive({
         min: -12,
         max: 8
-      }
+      })
     }
   }
 }

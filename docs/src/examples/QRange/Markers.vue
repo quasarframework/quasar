@@ -28,13 +28,15 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      marker: {
+      marker: reactive({
         min: 6,
         max: 8
-      }
+      })
     }
   }
 }

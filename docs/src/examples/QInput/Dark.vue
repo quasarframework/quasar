@@ -49,13 +49,14 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      text: '',
+import { ref } from 'vue'
 
-      readonly: false,
-      disable: false
+export default {
+  setup () {
+    return {
+      text: ref(''),
+      readonly: ref(false),
+      disable: ref(false)
     }
   }
 }

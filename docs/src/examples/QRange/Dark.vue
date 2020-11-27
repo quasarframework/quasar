@@ -21,13 +21,15 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model: {
+      model: reactive({
         min: 10,
         max: 35
-      }
+      })
     }
   }
 }

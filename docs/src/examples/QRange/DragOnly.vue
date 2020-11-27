@@ -17,13 +17,15 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      onlyRange: {
+      onlyRange: reactive({
         min: 10,
         max: 35
-      }
+      })
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
    <q-table
-      :data="data"
+      :rows="rows"
       :columns="columns"
       title="QDataTable with QPopupEdit"
       :rows-per-page-options="[]"
@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const columns = [
   { name: 'desc', style: 'min-width: 160px; width: 160px', align: 'left', label: 'Dessert (100g serving)', field: 'name' },
   { name: 'comment', style: 'min-width: 200px; width: 200px', align: 'left', label: 'Comment', field: 'comment' },
@@ -59,7 +61,7 @@ const columns = [
   { name: 'fat', label: 'Fat (g)', field: 'fat' }
 ]
 
-const data = [
+const rows = [
   {
     name: 'Frozen Yogurt',
     comment: '<p>It\'s cold but great and tastes different than normal ice cream, but it\'s great too!</p><p><strong>Have a taste!</strong></p>',
@@ -123,9 +125,9 @@ const data = [
 ]
 
 export default {
-  data () {
+  setup () {
     return {
-      data,
+      rows: ref(rows),
       columns
     }
   }

@@ -19,13 +19,15 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      rangeSnap: {
+      rangeSnap: reactive({
         min: 35,
         max: 60
-      }
+      })
     }
   }
 }

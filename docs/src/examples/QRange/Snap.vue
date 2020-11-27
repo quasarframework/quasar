@@ -16,13 +16,15 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      snap: {
+      snap: reactive({
         min: 2,
         max: 12
-      }
+      })
     }
   }
 }

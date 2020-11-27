@@ -26,11 +26,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      file: null,
-      files: null
+      file: ref(null),
+      files: ref(null)
     }
   }
 }
