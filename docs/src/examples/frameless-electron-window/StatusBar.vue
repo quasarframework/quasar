@@ -112,6 +112,8 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+
 // We guard the Electron API calls, but this
 // is only needed if we build same app with other
 // Quasar Modes as well (SPA/PWA/Cordova/SSR...)
@@ -120,16 +122,18 @@
 // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
 
 export default {
-  methods: {
-    minimize () {
-      if (process.env.MODE === 'electron') {
-        this.$q.electron.remote.BrowserWindow.getFocusedWindow().minimize()
-      }
-    },
+  setup () {
+    const $q = useQuasar()
 
-    maximize () {
+    function minimize () {
       if (process.env.MODE === 'electron') {
-        const win = this.$q.electron.remote.BrowserWindow.getFocusedWindow()
+        $q.electron.remote.BrowserWindow.getFocusedWindow().minimize()
+      }
+    }
+
+    function maximize () {
+      if (process.env.MODE === 'electron') {
+        const win = $q.electron.remote.BrowserWindow.getFocusedWindow()
 
         if (win.isMaximized()) {
           win.unmaximize()
@@ -138,13 +142,15 @@ export default {
           win.maximize()
         }
       }
-    },
+    }
 
-    closeApp () {
+    function closeApp () {
       if (process.env.MODE === 'electron') {
         this.$q.electron.remote.BrowserWindow.getFocusedWindow().close()
       }
     }
+
+    return { minimize, maximize, closeApp }
   }
 }
 </script>

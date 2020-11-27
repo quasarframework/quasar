@@ -10,20 +10,26 @@
 </template>
 
 <script>
-export default {
-  methods: {
-    toggle (e) {
-      const target = e.target.parentNode.parentNode.parentNode
+import { useQuasar } from 'quasar'
 
-      this.$q.fullscreen.toggle(target)
-        .then(() => {
-          // success!
-        })
-        .catch((err) => {
-          alert(err)
-          // uh, oh, error!!
-          // console.error(err)
-        })
+export default {
+  setup () {
+    const $q = useQuasar()
+
+    return {
+      toggle (e) {
+        const target = e.target.parentNode.parentNode.parentNode
+
+        $q.fullscreen.toggle(target)
+          .then(() => {
+            // success!
+          })
+          .catch((err) => {
+            alert(err)
+            // uh, oh, error!!
+            // console.error(err)
+          })
+      }
     }
   }
 }

@@ -8,10 +8,14 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+
 export default {
-  methods: {
-    customBtn () {
-      this.$q.dialog({
+  setup () {
+    const $q = useQuasar()
+
+    function customBtn () {
+      $q.dialog({
         title: 'Confirm',
         message: 'Would you like to turn on the wifi?',
         ok: {
@@ -29,28 +33,28 @@ export default {
       }).onDismiss(() => {
         // console.log('I am triggered on both OK and Cancel')
       })
-    },
+    }
 
-    positioned () {
-      this.$q.dialog({
+    function positioned () {
+      $q.dialog({
         title: 'Positioned',
         message: 'This dialog appears from bottom.',
         position: 'bottom'
       })
-    },
+    }
 
-    stacked () {
-      this.$q.dialog({
+    function stacked () {
+      $q.dialog({
         title: 'Stacked Buttons',
         stackButtons: true,
         cancel: true
       })
-    },
+    }
 
-    autoClose () {
+    function autoClose () {
       let seconds = 3
 
-      const dialog = this.$q.dialog({
+      const dialog = $q.dialog({
         title: 'Alert',
         message: `Autoclosing in ${seconds} seconds.`
       }).onOk(() => {
@@ -76,6 +80,8 @@ export default {
         }
       }, 1000)
     }
+
+    return { customBtn, positioned, stacked, autoClose }
   }
 }
 </script>
