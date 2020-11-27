@@ -29,6 +29,26 @@ const jsResources = [
   `https://cdn.jsdelivr.net/npm/quasar@${Quasar.version}/dist/quasar.umd.prod.js`
 ].join(';')
 
+const replace = name => function (match, p1) {
+  const parts = p1
+    .split(',')
+    .map(p => p.trim())
+    .filter(p => p.length > 0)
+    .reduce((acc, p) => {
+      acc.push(p)
+      return acc
+    }, [])
+
+  const text = []
+  if (parts.length > 0) {
+    text.push('const { ' + parts.join(', ') + ' } = ' + name)
+  }
+  return text.join('\n')
+}
+
+const replaceQuasarImports = replace('Quasar')
+const replaceVueImports = replace('Vue')
+
 export default {
   name: 'DocCodepen',
 
@@ -60,33 +80,23 @@ export default {
     })
 
     const js = computed(() => {
-      const importsQ = /import\s+{([^}'\n]+)}\s+from\s+'quasar'/g
-      const imports = /import ([^'\n]*) from ([^\n]*)/g
+      const quasarImports = /import\s+{([^}'\n]+)}\s+from\s+'quasar'/g
+      const vueImports = /import\s+{([^}'\n]+)}\s+from\s+'vue'/g
+      const otherImports = /import ([^'\n]*) from ([^\n]*)/g
       let component = /export default {([\s\S]*)}/g.exec(def.parts.script || '')
+
       component = ((component && component[ 1 ]) || '').trim()
       if (component.length > 0) {
         component = '\n  ' + component + '\n'
       }
+
       let script = /<script>([\s\S]*)export default {/g.exec(def.parts.script || '')
       script = ((script && script[ 1 ]) || '')
-        .replace(importsQ, function (match, p1) {
-          const parts = p1
-            .split(',')
-            .map(p => p.trim())
-            .filter(p => p.length > 0)
-            .reduce((acc, p) => {
-              acc.push(p)
-              return acc
-            }, [])
-
-          const text = []
-          if (parts.length > 0) {
-            text.push('const { ' + parts.c.join(', ') + ' } = Quasar')
-          }
-          return text.join('\n')
-        })
-        .replace(imports, '')
+        .replace(quasarImports, replaceQuasarImports)
+        .replace(vueImports, replaceVueImports)
+        .replace(otherImports, '')
         .trim()
+
       script += script ? '\n\n' : ''
       return script +
         `const app = Vue.createApp({${component}})
