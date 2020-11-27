@@ -147,7 +147,6 @@ const cli = [
   },
   {
     name: 'Upgrade guide (v2)',
-    badge: 'new',
     path: 'app-upgrade-guide'
   },
   {
@@ -156,7 +155,6 @@ const cli = [
   },
   {
     name: 'Browser Compatibility',
-    badge: 'new',
     path: 'browser-compatibility'
   },
   {
@@ -703,7 +701,6 @@ const directives = [
   },
   {
     name: 'Morph',
-    badge: 'new',
     path: 'morph'
   },
   {
@@ -759,7 +756,6 @@ const plugins = [
   },
   {
     name: 'Dialog',
-    badge: 'update',
     path: 'dialog'
   },
   {
@@ -780,7 +776,6 @@ const plugins = [
   },
   {
     name: 'Notify',
-    badge: 'update',
     path: 'notify'
   }
 ]
@@ -927,14 +922,12 @@ const components = [
       },
       {
         name: 'Date Picker',
-        badge: 'update',
         path: 'date'
       }
     ]
   },
   {
     name: 'Icon',
-    badge: 'update',
     path: 'icon'
   },
   {
@@ -1057,7 +1050,6 @@ const components = [
   },
   {
     name: 'Table',
-    badge: 'update',
     path: 'table'
   },
   {
@@ -1182,7 +1174,6 @@ const utils = [
   },
   {
     name: 'Morph Utils',
-    badge: 'new',
     path: 'morph-utils'
   },
   {

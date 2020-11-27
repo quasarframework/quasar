@@ -33,37 +33,9 @@
   </div>
 </template>
 
-<style lang="sass">
-.image-gallery
-  &__image
-    border-radius: 3%/5%
-    width: 150px
-    max-width: 20vw
-    cursor: pointer
-
-    &-full
-      width: 800px
-      max-width: 70vw
-      z-index: 2002
-      pointer-events: none
-
-      &--active
-        pointer-events: all
-  &__blinder
-    opacity: 0
-    z-index: 2000
-    pointer-events: none
-    transition: opacity 0.3s ease-in-out
-
-    &--active
-      opacity: 0.6
-      pointer-events: all
-
-      + div > .image-gallery__image
-        z-index: 2001
-</style>
-
 <script>
+// TODO vue3 - convert to composition api
+
 import { morph } from 'quasar'
 
 export default {
@@ -150,3 +122,33 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+.image-gallery
+  &__image
+    border-radius: 3%/5%
+    width: 150px
+    max-width: 20vw
+    cursor: pointer
+
+    &-full
+      width: 800px
+      max-width: 70vw
+      z-index: 2002
+      pointer-events: none
+
+      &--active
+        pointer-events: all
+  &__blinder
+    opacity: 0
+    z-index: 2000
+    pointer-events: none
+    transition: opacity 0.3s ease-in-out
+
+    &--active
+      opacity: 0.6
+      pointer-events: all
+
+      + div > .image-gallery__image
+        z-index: 2001
+</style>

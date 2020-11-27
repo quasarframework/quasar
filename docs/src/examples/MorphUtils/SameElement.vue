@@ -20,6 +20,8 @@
 </template>
 
 <script>
+// TODO vue3 - convert to composition api
+
 import { morph } from 'quasar'
 
 export default {

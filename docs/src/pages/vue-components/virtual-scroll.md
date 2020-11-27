@@ -1,7 +1,6 @@
 ---
 title: Virtual Scroll
 desc: The QVirtualScroll component renders a big list of items as the user scrolls in the container, keeping DOM tree clean and eating the lowest amount of memory possible.
-badge: v1.1+
 related:
   - /vue-components/select
 ---

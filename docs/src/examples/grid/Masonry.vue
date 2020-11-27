@@ -21,6 +21,27 @@
   </div>
 </template>
 
+<script>
+import { ref } from 'vue'
+
+const generateCells = () => Array(24).fill(null).map((_, cell) => (
+  Array(2 + Math.ceil(3 * Math.random())).fill(null).map((_, text) => `Cell ${cell + 1} - ${text + 1}`)
+))
+
+export default {
+  setup () {
+    const cells = ref(generateCells())
+
+    return {
+      cells,
+      onClick () {
+        cells.value = generateCells()
+      }
+    }
+  }
+}
+</script>
+
 <style lang="sass" scoped>
 .flex-break
   flex: 1 0 100% !important
@@ -46,24 +67,3 @@ $x: 4
       padding: 4px 8px
       box-shadow: inset 0 0 0 2px $grey-6
 </style>
-
-<script>
-import { ref } from 'vue'
-
-const generateCells = () => Array(24).fill(null).map((_, cell) => (
-  Array(2 + Math.ceil(3 * Math.random())).fill(null).map((_, text) => `Cell ${cell + 1} - ${text + 1}`)
-))
-
-export default {
-  setup () {
-    const cells = ref(generateCells())
-
-    return {
-      cells,
-      onClick () {
-        cells.value = generateCells()
-      }
-    }
-  }
-}
-</script>

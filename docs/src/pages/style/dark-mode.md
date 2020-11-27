@@ -1,7 +1,6 @@
 ---
 title: Dark Mode
 desc: Handle dark mode with Quasar.
-badge: v1.3+
 related:
   - /quasar-plugins/dark
   - /style/theme-builder
