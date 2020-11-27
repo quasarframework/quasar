@@ -8,7 +8,7 @@
         { label: 'Horizontal', value: 'horizontal' },
         { label: 'Vertical', value: 'vertical' },
         { label: 'Cell', value: 'cell' },
-        { label: 'None', value: 'none' },
+        { label: 'None', value: 'none' }
       ]"
     />
 

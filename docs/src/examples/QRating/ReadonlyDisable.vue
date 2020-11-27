@@ -24,9 +24,6 @@ export default {
     return {
       ratingModel: 3
     }
-  },
-
-  methods: {
   }
 }
 </script>
