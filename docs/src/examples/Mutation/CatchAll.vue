@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 function domToObj (domEl, whitelist) {
   const obj = {}
   for (let i = 0; i < whitelist.length; i++) {
@@ -56,47 +58,48 @@ const whitelist = [
 ]
 
 export default {
-  data () {
+  setup () {
+    const listItems = ref([])
+    const mutationInfo = ref('')
+
     return {
-      listItems: [],
-      mutationInfo: ''
-    }
-  },
+      listItems,
+      mutationInfo,
 
-  methods: {
-    handler (mutationRecords) {
-      const info = []
+      handler (mutationRecords) {
+        const info = []
 
-      for (const index in mutationRecords) {
-        const record = mutationRecords[ index ]
+        for (const index in mutationRecords) {
+          const record = mutationRecords[ index ]
 
-        info.push(
-          JSON.stringify(record, function (name, value) {
-            if (name === '') {
-              return domToObj(value, whitelist)
-            }
-            if (Array.isArray(this)) {
-              if (typeof value === 'object') {
+          info.push(
+            JSON.stringify(record, (name, value) => {
+              if (name === '') {
                 return domToObj(value, whitelist)
               }
-              return value
-            }
-            if (whitelist.find(x => (x === name))) {
-              return value
-            }
-          }, 2)
-        )
+              if (Array.isArray(this)) {
+                if (typeof value === 'object') {
+                  return domToObj(value, whitelist)
+                }
+                return value
+              }
+              if (whitelist.find(x => (x === name))) {
+                return value
+              }
+            }, 2)
+          )
+        }
+
+        mutationInfo.value = info.join('\n')
+      },
+
+      addRow () {
+        listItems.value.push(`List item #${listItems.value.length + 1}`)
+      },
+
+      removeRow () {
+        listItems.value.pop()
       }
-
-      this.mutationInfo = info.join('\n')
-    },
-
-    addRow () {
-      this.listItems.push(`List item #${this.listItems.length + 1}`)
-    },
-
-    removeRow () {
-      this.listItems.pop()
     }
   }
 }

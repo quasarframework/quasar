@@ -19,16 +19,15 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      slider: 10
-    }
-  },
+import { ref, computed } from 'vue'
 
-  computed: {
-    isValid () {
-      return this.slider <= 30
+export default {
+  setup () {
+    const slider = ref(10)
+
+    return {
+      slider,
+      isValid: computed(() => slider.value <= 30)
     }
   }
 }

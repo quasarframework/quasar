@@ -81,11 +81,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      drawer: false,
-      miniState: true
+      drawer: ref(false),
+      miniState: ref(true)
     }
   }
 }

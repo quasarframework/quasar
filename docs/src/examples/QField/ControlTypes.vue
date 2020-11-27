@@ -79,19 +79,21 @@
 </template>
 
 <script>
+import { ref, reactive } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      slider: 50,
-      range: {
+      slider: ref(50),
+      range: reactive({
         min: 10,
         max: 30
-      },
+      }),
 
-      knob: 50,
+      knob: ref(50),
 
-      time: '',
-      date: ''
+      time: ref(''),
+      date: ref('')
     }
   }
 }

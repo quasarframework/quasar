@@ -23,25 +23,29 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      date: '2020/03/20',
-      submitResult: []
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    onSubmit (evt) {
-      const formData = new FormData(evt.target)
-      const submitResult = []
-      for (const [ name, value ] of formData.entries()) {
-        submitResult.push({
-          name,
-          value
-        })
+export default {
+  setup () {
+    const submitResult = ref([])
+
+    return {
+      date: ref('2020/03/20'),
+      submitResult,
+
+      onSubmit (evt) {
+        const formData = new FormData(evt.target)
+        const data = []
+
+        for (const [ name, value ] of formData.entries()) {
+          data.push({
+            name,
+            value
+          })
+        }
+
+        submitResult.value = data
       }
-      this.submitResult = submitResult
     }
   }
 }

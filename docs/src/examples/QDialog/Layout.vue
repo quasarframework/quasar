@@ -40,22 +40,21 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      layout: false,
+import { ref, computed } from 'vue'
 
-      moreContent: true,
-      drawer: false,
-      drawerR: false,
+export default {
+  setup () {
+    const moreContent = ref(true)
+
+    return {
+      layout: ref(false),
+
+      moreContent,
+      contentSize: computed(() => moreContent.value ? 150 : 5),
+      drawer: ref(false),
+      drawerR: ref(false),
 
       lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!'
-    }
-  },
-
-  computed: {
-    contentSize () {
-      return this.moreContent ? 150 : 5
     }
   }
 }

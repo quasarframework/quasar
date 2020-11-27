@@ -172,7 +172,7 @@
 </template>
 
 <script>
-import { createMetaMixin } from 'quasar'
+import { useMeta } from 'quasar'
 
 import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
@@ -194,13 +194,6 @@ import {
 export default {
   name: 'Landing',
 
-  mixins: [
-    createMetaMixin({
-      title: 'Quasar Framework',
-      titleTemplate: ''
-    })
-  ],
-
   components: {
     Sponsor,
     SponsorList,
@@ -210,6 +203,11 @@ export default {
   },
 
   setup () {
+    useMeta({
+      title: 'Quasar Framework',
+      titleTemplate: ''
+    })
+
     return {
       year: (new Date()).getFullYear(),
 

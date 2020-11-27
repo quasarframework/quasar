@@ -90,13 +90,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      icon: false,
-      bar: false,
-      bar2: false,
-      toolbar: false
+      icon: ref(false),
+      bar: ref(false),
+      bar2: ref(false),
+      toolbar: ref(false)
     }
   }
 }

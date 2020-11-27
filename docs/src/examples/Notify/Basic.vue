@@ -5,13 +5,19 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+
 export default {
-  methods: {
-    showNotif () {
-      this.$q.notify({
-        message: 'Jim pinged you.',
-        color: 'purple'
-      })
+  setup () {
+    const $q = useQuasar()
+
+    return {
+      showNotif () {
+        $q.notify({
+          message: 'Jim pinged you.',
+          color: 'purple'
+        })
+      }
     }
   }
 }

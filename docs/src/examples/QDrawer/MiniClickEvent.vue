@@ -93,25 +93,27 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const miniState = ref(false)
+
     return {
-      drawer: false,
-      miniState: false
-    }
-  },
+      drawer: ref(false),
+      miniState,
 
-  methods: {
-    drawerClick (e) {
-      // if in "mini" state and user
-      // click on drawer, we switch it to "normal" mode
-      if (this.miniState) {
-        this.miniState = false
+      drawerClick (e) {
+        // if in "mini" state and user
+        // click on drawer, we switch it to "normal" mode
+        if (miniState.value) {
+          miniState.value = false
 
-        // notice we have registered an event with capture flag;
-        // we need to stop further propagation as this click is
-        // intended for switching drawer to "normal" mode only
-        e.stopPropagation()
+          // notice we have registered an event with capture flag;
+          // we need to stop further propagation as this click is
+          // intended for switching drawer to "normal" mode only
+          e.stopPropagation()
+        }
       }
     }
   }

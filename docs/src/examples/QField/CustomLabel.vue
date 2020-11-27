@@ -37,11 +37,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      email: 'john.doe',
-      number: 123
+      email: ref('john.doe'),
+      number: ref(123)
     }
   }
 }

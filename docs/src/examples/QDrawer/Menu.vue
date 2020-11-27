@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const menuList = [
   {
     icon: 'inbox',
@@ -87,9 +89,9 @@ const menuList = [
 ]
 
 export default {
-  data () {
+  setup () {
     return {
-      drawer: false,
+      drawer: ref(false),
       menuList
     }
   }

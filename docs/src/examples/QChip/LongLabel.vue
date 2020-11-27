@@ -55,11 +55,6 @@
   </div>
 </template>
 
-<style lang="sass" scoped>
-.truncate-chip-labels > .q-chip
-  max-width: 140px
-</style>
-
 <script>
 import { ref } from 'vue'
 
@@ -93,3 +88,8 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.truncate-chip-labels > .q-chip
+  max-width: 140px
+</style>

@@ -45,10 +45,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      text: 'Field content'
+      text: ref('Field content')
     }
   }
 }

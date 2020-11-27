@@ -151,12 +151,13 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      text: 'Field content',
+import { ref } from 'vue'
 
-      dense: false
+export default {
+  setup () {
+    return {
+      text: ref('Field content'),
+      dense: ref(false)
     }
   }
 }

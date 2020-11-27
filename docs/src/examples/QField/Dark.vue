@@ -70,19 +70,19 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const readonly = ref(false)
+    const disable = ref(false)
+
     return {
-      text: 'Field content',
+      text: ref('Field content'),
+      readonly,
+      disable,
 
-      readonly: false,
-      disable: false
-    }
-  },
-
-  computed: {
-    tabindex () {
-      return this.disable === true || this.readonly === true ? -1 : 0
+      tabindex: computed(() => disable.value === true || readonly.value === true ? -1 : 0)
     }
   }
 }
