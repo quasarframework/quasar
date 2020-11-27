@@ -18,13 +18,13 @@
 </template>
 
 <script>
-import { createMetaMixin } from 'quasar'
+import { useMeta } from 'quasar'
 
 export default {
   name: 'LayoutDefault',
 
-  mixins: [
-    createMetaMixin({
+  setup () {
+    useMeta({
       title: 'LayoutDefault',
       titleTemplate: chunk => `${chunk} - My Website`,
       meta: {
@@ -32,6 +32,6 @@ export default {
         description: { template: chunk => `${chunk} - Layout 1` }
       }
     })
-  ]
+  }
 }
 </script>

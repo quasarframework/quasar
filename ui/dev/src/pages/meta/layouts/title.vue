@@ -5,28 +5,25 @@
 </template>
 
 <script>
-import { createMetaMixin } from 'quasar'
+import { useMeta } from 'quasar'
+import { ref, onMounted } from 'vue'
 
 export default {
-  mixins: [
-    createMetaMixin(function () {
-      console.log('running meta fn in title.vue', this.title)
+  setup () {
+    console.log('init')
+
+    const title = ref('Test Start')
+
+    useMeta(() => {
+      console.log('running meta fn in title.vue', title.value)
       return {
-        title: this.title
+        title: title.value
       }
     })
-  ],
 
-  data () {
-    console.log('init')
-    return {
-      title: 'Test Start'
-    }
-  },
-
-  mounted () {
-    console.log('mounted, triggering title change')
-    this.title = 'Test End'
+    onMounted(() => {
+      title.value = 'Test End'
+    })
   }
 }
 </script>

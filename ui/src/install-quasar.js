@@ -6,6 +6,7 @@ import History from './history.js'
 import Lang from './lang.js'
 import Body from './body.js'
 import IconSet from './icon-set.js'
+import { quasarKey } from './utils/symbols.js'
 
 const autoInstalled = [
   Platform, Screen, Dark
@@ -20,6 +21,7 @@ const onSSRHydrated = []
 
 function prepareApp (app, uiOpts, pluginOpts) {
   app.config.globalProperties.$q = pluginOpts.$q
+  app.provide(quasarKey, $q)
 
   Platform.install(pluginOpts)
   Body.install(pluginOpts)

@@ -7,6 +7,7 @@ import * as components from './components.js'
 import * as directives from './directives.js'
 import * as plugins from './plugins.js'
 import * as utils from './utils.js'
+import * as composables from './composables.js'
 
 export default {
   version,
@@ -23,5 +24,6 @@ export default {
   ...components,
   ...directives,
   ...plugins,
+  ...composables,
   ...utils
 }

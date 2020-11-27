@@ -66,6 +66,15 @@ function addPlugins (map) {
     })
 }
 
+function addComposables (map) {
+  glob.sync(resolvePath('src/composables/*.js'))
+    .map(relative)
+    .forEach(file => {
+      const name = getWithoutExtension(path.basename(file))
+      map[lowerCamelCase(name)] = file
+    })
+}
+
 function addUtils (map) {
   glob.sync(resolvePath('src/utils/*.js'))
     .map(relative)
@@ -120,6 +129,7 @@ module.exports.generate = function () {
   addComponents(map, autoImport)
   addDirectives(map, autoImport)
   addPlugins(map)
+  addComposables(map)
   addUtils(map)
 
   writeFile(

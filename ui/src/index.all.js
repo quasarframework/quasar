@@ -9,6 +9,7 @@ import * as directives from './directives.js'
 export * from './components.js'
 export * from './directives.js'
 export * from './plugins.js'
+export * from './composables.js'
 export * from './utils.js'
 
 export const Quasar = {
