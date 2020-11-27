@@ -15,10 +15,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      time: '10:56'
+      time: ref('10:56')
     }
   }
 }

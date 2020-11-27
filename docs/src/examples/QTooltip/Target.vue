@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       targetEl: '#target-img-1'
     }

@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const options = [
   {
     label: '<span class="text-primary">G</span>oogle',
@@ -42,10 +44,10 @@ const options = [
 ]
 
 export default {
-  data () {
+  setup () {
     return {
-      model: options[ 0 ],
-      displayHtml: false,
+      model: ref(options[ 0 ]),
+      displayHtml: ref(false),
       options
     }
   }

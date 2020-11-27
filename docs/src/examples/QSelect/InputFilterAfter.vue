@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const stringOptions = [
   'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
 ].reduce((acc, opt) => {
@@ -61,68 +63,68 @@ const stringOptions = [
 }, [])
 
 export default {
-  data () {
+  setup () {
+    const options = ref(stringOptions)
+
     return {
-      model: null,
-      options: stringOptions
-    }
-  },
+      model: ref(null),
+      options,
 
-  methods: {
-    filterFn (val, update, abort) {
-      // call abort() at any time if you can't retrieve data somehow
+      filterFn (val, update, abort) {
+        // call abort() at any time if you can't retrieve data somehow
 
-      setTimeout(() => {
-        update(
-          () => {
-            if (val === '') {
-              this.options = stringOptions
+        setTimeout(() => {
+          update(
+            () => {
+              if (val === '') {
+                options.value = stringOptions
+              }
+              else {
+                const needle = val.toLowerCase()
+                options.value = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+              }
+            },
+
+            // "ref" is the Vue reference to the QSelect
+            ref => {
+              if (val !== '' && ref.options.length > 0) {
+                ref.setOptionIndex(-1) // reset optionIndex in case there is something selected
+                ref.moveOptionSelection(1, true) // focus the first selectable option and do not update the input-value
+              }
             }
-            else {
-              const needle = val.toLowerCase()
-              this.options = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-            }
-          },
+          )
+        }, 300)
+      },
 
-          // "ref" is the Vue reference to the QSelect
-          ref => {
-            if (val !== '' && ref.options.length > 0) {
-              ref.setOptionIndex(-1) // reset optionIndex in case there is something selected
-              ref.moveOptionSelection(1, true) // focus the first selectable option and do not update the input-value
-            }
-          }
-        )
-      }, 300)
-    },
+      filterFnAutoselect (val, update, abort) {
+        // call abort() at any time if you can't retrieve data somehow
 
-    filterFnAutoselect (val, update, abort) {
-      // call abort() at any time if you can't retrieve data somehow
+        setTimeout(() => {
+          update(
+            () => {
+              if (val === '') {
+                options.value = stringOptions
+              }
+              else {
+                const needle = val.toLowerCase()
+                options.value = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+              }
+            },
 
-      setTimeout(() => {
-        update(
-          () => {
-            if (val === '') {
-              this.options = stringOptions
+            // "ref" is the Vue reference to the QSelect
+            ref => {
+              if (val !== '' && ref.options.length > 0 && ref.optionIndex === -1) {
+                ref.moveOptionSelection(1, true) // focus the first selectable option and do not update the input-value
+                ref.toggleOption(ref.options[ ref.optionIndex ], true) // toggle the focused option
+              }
             }
-            else {
-              const needle = val.toLowerCase()
-              this.options = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-            }
-          },
+          )
+        }, 300)
+      },
 
-          // "ref" is the Vue reference to the QSelect
-          ref => {
-            if (val !== '' && ref.options.length > 0 && ref.optionIndex === -1) {
-              ref.moveOptionSelection(1, true) // focus the first selectable option and do not update the input-value
-              ref.toggleOption(ref.options[ ref.optionIndex ], true) // toggle the focused option
-            }
-          }
-        )
-      }, 300)
-    },
-
-    abortFilterFn () {
-      // console.log('delayed filter aborted')
+      abortFilterFn () {
+        // console.log('delayed filter aborted')
+      }
     }
   }
 }

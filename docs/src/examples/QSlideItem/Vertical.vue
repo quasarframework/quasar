@@ -23,27 +23,35 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { onBeforeUnmount } from 'vue'
+
 export default {
-  methods: {
-    onTop ({ reset }) {
-      this.$q.notify('Top action triggered. Resetting in 1 second.')
-      this.finalize(reset)
-    },
+  setup () {
+    const $q = useQuasar()
+    let timer
 
-    onBottom ({ reset }) {
-      this.$q.notify('Bottom action triggered. Resetting in 1 second.')
-      this.finalize(reset)
-    },
-
-    finalize (reset) {
-      this.timer = setTimeout(() => {
+    function finalize (reset) {
+      timer = setTimeout(() => {
         reset()
       }, 1000)
     }
-  },
 
-  beforeUnmount () {
-    clearTimeout(this.timer)
+    onBeforeUnmount(() => {
+      clearTimeout(timer)
+    })
+
+    return {
+      onLeft ({ reset }) {
+        $q.notify('Left action triggered. Resetting in 1 second.')
+        finalize(reset)
+      },
+
+      onRight ({ reset }) {
+        $q.notify('Right action triggered. Resetting in 1 second.')
+        finalize(reset)
+      }
+    }
   }
 }
 </script>

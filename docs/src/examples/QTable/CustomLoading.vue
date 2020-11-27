@@ -17,10 +17,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      loading: false,
+      loading: ref(false),
 
       columns: [
         {
