@@ -138,7 +138,7 @@ import {
   ${imports.join(',\n  ')}
 } from 'quasar'
 
-Vue.use(Quasar, {
+app.use(Quasar, {
   ${types.join(',\n  ')}
 })`
     })
