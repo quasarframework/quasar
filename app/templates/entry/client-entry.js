@@ -10,7 +10,6 @@
  * Boot files are your "main.js"
  **/
 
-// TODO vue3 - when on SSR+PWA -> createApp
 <% if (ctx.mode.ssr && ctx.mode.pwa) { %>
 import { createSSRApp, createApp } from 'vue'
 import { isRunningOnPWA } from './ssr-pwa'
