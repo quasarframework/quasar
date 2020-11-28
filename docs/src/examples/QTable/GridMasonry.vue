@@ -40,6 +40,9 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { ref, reactive, computed, watch } from 'vue'
+
 const deserts = [
   'Frozen Yogurt',
   'Ice cream sandwich',
@@ -52,6 +55,7 @@ const deserts = [
   'Donut',
   'KitKat'
 ]
+
 const rows = []
 
 deserts.forEach(name => {
@@ -63,58 +67,51 @@ deserts.forEach(name => {
 rows.sort(() => (-1 + Math.floor(3 * Math.random())))
 
 export default {
-  data () {
-    return {
-      filter: '',
+  setup () {
+    const $q = useQuasar()
 
-      pagination: {
-        page: 1,
-        rowsPerPage: this.getItemsPerPage()
-      },
+    function getItemsPerPage () {
+      if ($q.screen.lt.sm) {
+        return 3
+      }
+      if ($q.screen.lt.md) {
+        return 6
+      }
+      return 9
+    }
+
+    const filter = ref('')
+    const pagination = reactive({
+      page: 1,
+      rowsPerPage: getItemsPerPage()
+    })
+
+    watch(() => $q.screen.name, () => {
+      pagination.rowsPerPage = getItemsPerPage()
+    })
+
+    return {
+      rows,
+
+      filter,
+      pagination,
 
       columns: [
         { name: 'name', label: 'Name', field: 'name' },
         { name: 'calories', label: 'Calories (g)', field: 'calories' }
       ],
 
-      rows
-    }
-  },
+      cardContainerClass: computed(() => {
+        return $q.screen.gt.xs
+          ? 'grid-masonry grid-masonry--' + ($q.screen.gt.sm ? '3' : '2')
+          : null
+      }),
 
-  computed: {
-    cardContainerClass () {
-      if (this.$q.screen.gt.xs) {
-        return 'grid-masonry grid-masonry--' + (this.$q.screen.gt.sm ? '3' : '2')
-      }
-
-      return void 0
-    },
-
-    rowsPerPageOptions () {
-      if (this.$q.screen.gt.xs) {
-        return this.$q.screen.gt.sm ? [ 3, 6, 9 ] : [ 3, 6 ]
-      }
-
-      return [3]
-    }
-  },
-
-  watch: {
-    '$q.screen.name' () {
-      this.pagination.rowsPerPage = this.getItemsPerPage()
-    }
-  },
-
-  methods: {
-    getItemsPerPage () {
-      const { screen } = this.$q
-      if (screen.lt.sm) {
-        return 3
-      }
-      if (screen.lt.md) {
-        return 6
-      }
-      return 9
+      rowsPerPageOptions: computed(() => {
+        return $q.screen.gt.xs
+          ? $q.screen.gt.sm ? [ 3, 6, 9 ] : [ 3, 6 ]
+          : [3]
+      })
     }
   }
 }

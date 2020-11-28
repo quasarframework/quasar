@@ -59,9 +59,10 @@ q-card(flat bordered)
 </template>
 
 <script>
-import languages from 'quasar/lang/index.json'
-import { Quasar } from 'quasar'
+import { useQuasar } from 'quasar'
 import { ref, reactive, computed } from 'vue'
+
+import languages from 'quasar/lang/index.json'
 
 const cssMap = {
   'mdi-v5': 'cdn.jsdelivr.net/npm/@mdi/font@^5.0.0/css/materialdesignicons.min.css',
@@ -87,7 +88,8 @@ export default {
   name: 'UmdTags',
 
   setup () {
-    const { version } = Quasar.version // TODO vue3 - useQuasar()
+    const { version } = useQuasar()
+
     const css = reactive({
       roboto: true,
 

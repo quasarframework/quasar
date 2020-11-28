@@ -14,6 +14,30 @@
 </template>
 
 <script>
+const columns = [
+  {
+    name: 'index',
+    label: '#',
+    field: 'index'
+  },
+  {
+    name: 'name',
+    required: true,
+    label: 'Dessert (100g serving)',
+    align: 'left',
+    field: row => row.name,
+    format: val => `${val}`,
+    sortable: true
+  },
+  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
+  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
+  { name: 'protein', label: 'Protein (g)', field: 'protein' },
+  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
+  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+]
+
 const seed = [
   {
     name: 'Frozen Yogurt',
@@ -126,43 +150,15 @@ rows.forEach((row, index) => {
   row.index = index
 })
 
-// we are not going to change this array,
-// so why not freeze it to avoid Vue adding overhead
-// with state change detection
-Object.freeze(rows)
-
 export default {
-  data () {
+  setup () {
     return {
+      columns,
       rows,
 
       pagination: {
         rowsPerPage: 1000
-      },
-
-      columns: [
-        {
-          name: 'index',
-          label: '#',
-          field: 'index'
-        },
-        {
-          name: 'name',
-          required: true,
-          label: 'Dessert (100g serving)',
-          align: 'left',
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-        { name: 'protein', label: 'Protein (g)', field: 'protein' },
-        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-      ]
+      }
     }
   }
 }

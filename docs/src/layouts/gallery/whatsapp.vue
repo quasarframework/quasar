@@ -163,6 +163,7 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
 import { ref, computed } from 'vue'
 
 const conversations = [
@@ -204,6 +205,8 @@ export default {
   name: 'WhatsappLayout',
 
   setup () {
+    const $q = useQuasar()
+
     const leftDrawerOpen = ref(false)
     const search = ref('')
     const message = ref('')
@@ -214,7 +217,7 @@ export default {
     })
 
     const style = computed(() => ({
-      height: '500px' // TODO vue3 - this.$q.screen.height + 'px'
+      height: $q.screen.height + 'px'
     }))
 
     function toggleLeftDrawer () {

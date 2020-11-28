@@ -31,11 +31,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   data () {
     return {
       rows: [],
-      filter: '',
+      filter: ref(''),
 
       columns: [
         {
