@@ -44,7 +44,7 @@ export default {
     }
 
     function prompt () {
-      this.$q.dialog({
+      $q.dialog({
         title: 'Prompt',
         message: 'What is your name?',
         prompt: {
