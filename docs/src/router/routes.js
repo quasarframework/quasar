@@ -1,4 +1,4 @@
-import Layout from 'layouts/Layout.vue'
+import DocLayout from 'layouts/DocLayout.vue'
 import getListingComponent from 'components/getListingComponent.js'
 import menu from 'assets/menu.js'
 import layoutGallery from 'assets/layout-gallery.js'
@@ -82,7 +82,7 @@ const routes = [
   },
   {
     path: '/',
-    component: Layout,
+    component: DocLayout,
     children: docsPages
   },
 
