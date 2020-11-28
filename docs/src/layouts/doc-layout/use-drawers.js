@@ -16,7 +16,7 @@ export default function useDrawers (scope, $q, route) {
     }
   })
 
-  watch(() => route, () => {
+  watch(() => route.path, () => {
     leftDrawerState.value = $q.screen.width > 1023
   })
 

@@ -45,7 +45,7 @@ export default function useToc (scope, route) {
     updateActiveToc(pos, tocList, activeToc)
   }
 
-  watch(() => route, ({ hash }) => {
+  watch(() => route.path, ({ hash }) => {
     if (hash === '') {
       nextTick(() => {
         setActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
