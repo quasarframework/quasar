@@ -151,7 +151,7 @@ export default {
     CopyButton
   },
 
-  setup (props, { emit }) {
+  setup () {
     const $route = useRoute()
 
     const childRef = ref([])
