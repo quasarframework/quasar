@@ -51,15 +51,15 @@ module.exports = [
   },
 
   ...[
-    [ 828, 1792, '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPhone XR -->' ],
-    [ 1125, 2436, '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)', '<!-- iPhone X, XS -->' ],
-    [ 1242, 2688, '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)', '<!-- iPhone XS Max -->' ],
-    [ 750, 1334, '(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPhone 8, 7, 6s, 6 -->' ],
-    [ 1242, 2208, '(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)', '<!-- iPhone 8 Plus, 7 Plus, 6s Plus, 6 Plus -->' ],
-    [ 640, 1136, '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPhone 5 -->' ],
-    [ 1536, 2048, '(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPad Mini, Air, 9.7" -->' ],
-    [ 1668, 2224, '(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPad Pro 10.5" -->' ],
-    [ 1668, 2388, '(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPad Pro 11" -->' ],
-    [ 2048, 2732, '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPad Pro 12.9" -->' ]
+    [ 828, 1792, '(width: 414px) and (height: 896px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPhone XR -->' ],
+    [ 1125, 2436, '(width: 375px) and (height: 812px) and (-webkit-device-pixel-ratio: 3)', '<!-- iPhone X, XS -->' ],
+    [ 1242, 2688, '(width: 414px) and (height: 896px) and (-webkit-device-pixel-ratio: 3)', '<!-- iPhone XS Max -->' ],
+    [ 750, 1334, '(width: 375px) and (height: 667px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPhone 8, 7, 6s, 6 -->' ],
+    [ 1242, 2208, '(width: 414px) and (height: 736px) and (-webkit-device-pixel-ratio: 3)', '<!-- iPhone 8 Plus, 7 Plus, 6s Plus, 6 Plus -->' ],
+    [ 640, 1136, '(width: 320px) and (height: 568px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPhone 5 -->' ],
+    [ 1536, 2048, '(width: 768px) and (height: 1024px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPad Mini, Air, 9.7" -->' ],
+    [ 1668, 2224, '(width: 834px) and (height: 1112px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPad Pro 10.5" -->' ],
+    [ 1668, 2388, '(width: 834px) and (height: 1194px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPad Pro 11" -->' ],
+    [ 2048, 2732, '(width: 1024px) and (height: 1366px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPad Pro 12.9" -->' ]
   ].map(getAppleLaunch)
 ]
