@@ -16,23 +16,11 @@
       </template>
     </q-input>
     <q-select color="blue-12" v-model="child.widthGroup" :options="widthOptions" label="Width" emit-value map-options dense options-dense @update:modelValue="emitChange" />
-    <q-select color="blue-12" v-model="child.breakpointGroup" :options="breakpointOptions" label="Break Points" multiple emit-value map-options dense options-dense @update:modelValue="emitChange">
-      <template v-if="child.breakpointGroup" v-slot:append>
-        <q-icon :name="mdiCloseCircle" @click.stop="child.breakpointGroup = null" class="cursor-pointer" />
-      </template>
-    </q-select>
+    <q-select color="blue-12" v-model="child.breakpointGroup" :options="breakpointOptions" label="Break Points" multiple emit-value map-options clearable dense options-dense @update:modelValue="emitChange" />
     <q-select color="blue-12" v-model="child.alignmentGroup" :options="alignmentOptions" label="Alignment Options" emit-value map-options dense options-dense @update:modelValue="emitChange" />
     <q-select color="blue-12" v-model="child.offsetGroup" :options="offsetOptions" label="Offset Options" emit-value map-options dense options-dense @update:modelValue="emitChange" />
-    <q-select color="blue-12" v-model="child.gutterGroup" :options="gutterOptions" label="Gutter Options" multiple emit-value map-options dense options-dense @update:modelValue="emitChange">
-      <template v-if="child.gutterGroup" v-slot:append>
-        <q-icon :name="mdiCloseCircle" @click.stop="child.gutterGroup = null" class="cursor-pointer" />
-      </template>
-    </q-select>
-    <q-select color="blue-12" v-model="child.colGutterGroup" :options="colGutterOptions" label="Col Gutter Options" multiple emit-value map-options dense options-dense @update:modelValue="emitChange">
-      <template v-if="child.colGutterGroup" v-slot:append>
-        <q-icon :name="mdiCloseCircle" @click.stop="child.colGutterGroup = null" class="cursor-pointer" />
-      </template>
-    </q-select>
+    <q-select color="blue-12" v-model="child.gutterGroup" :options="gutterOptions" label="Gutter Options" multiple emit-value map-options clearable dense options-dense @update:modelValue="emitChange" />
+    <q-select color="blue-12" v-model="child.colGutterGroup" :options="colGutterOptions" label="Col Gutter Options" multiple emit-value map-options clearable dense options-dense @update:modelValue="emitChange" />
   </div>
 </template>
 
@@ -211,20 +199,22 @@ export default {
     })
 
     const styles = computed(() => {
-      return 'overflow: auto;' +
-        (child.height ? ('min-height: ' + child.height + '; max-height: ' + child.height + '; ') : '') +
-        (child.width ? ('min-width: ' + child.width + '; max-width: ' + child.width + ';') : '')
+      return ('overflow: auto;' +
+        (child.value.height ? (' min-height: ' + child.value.height + '; max-height: ' + child.value.height + '; ') : '') +
+        (child.value.width ? (' min-width: ' + child.value.width + '; max-width: ' + child.value.width + ';') : '')
+      ).trim()
     })
 
     const classes = computed(() => {
-      return (child.widthGroup +
-        ' ' + (child.breakpointGroup === null ? '' : child.breakpointGroup) +
-        ' ' + child.alignmentGroup +
-        ' ' + child.offsetGroup +
-        ' ' + (child.gutterGroup === null ? '' : child.gutterGroup) +
-        ' ' + (child.colGutterGroup === null ? '' : child.colGutterGroup))
+      return (child.value.widthGroup +
+        ' ' + (child.value.breakpointGroup === null ? '' : child.value.breakpointGroup) +
+        ' ' + child.value.alignmentGroup +
+        ' ' + child.value.offsetGroup +
+        ' ' + (child.value.gutterGroup === null ? '' : child.value.gutterGroup) +
+        ' ' + (child.value.colGutterGroup === null ? '' : child.value.colGutterGroup))
         .replace(/,/g, ' ')
-        .replace(/' '/g, ' ')
+        .replace(/  +/g, ' ')
+        .trim()
     })
 
     return {
