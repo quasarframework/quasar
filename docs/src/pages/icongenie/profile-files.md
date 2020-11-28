@@ -71,7 +71,7 @@ Some examples for `assets` from which you can extract the syntax for every type 
     "sizes": [
       [ 1668, 2388 ]
     ],
-    "tag": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)\" href=\"icons/{name}\">"
+    "tag": "<link rel=\"apple-touch-startup-image\" media=\"(width: 1024px) and (height: 1366px) and (-webkit-device-pixel-ratio: 2)\" href=\"icons/{name}\">"
   },
 
   {
