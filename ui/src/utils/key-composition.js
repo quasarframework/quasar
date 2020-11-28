@@ -1,14 +1,11 @@
-let lastKeyCompositionStatus = false
-
-export function onKeyDownComposition (evt) {
-  lastKeyCompositionStatus = evt.isComposing === true
-}
+import Interaction from '../plugins/Interaction.js'
 
 export function shouldIgnoreKey (evt) {
-  return lastKeyCompositionStatus === true ||
+  return Interaction.isComposing === true ||
+    Interaction.isKeyboard !== true ||
     evt !== Object(evt) ||
     evt.isComposing === true ||
-    evt.qKeyEvent === true
+    evt.target !== document.activeElement
 }
 
 export function isKeyCode (evt, keyCodes) {
