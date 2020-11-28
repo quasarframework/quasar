@@ -73,7 +73,6 @@
 </template>
 
 <script>
-// TODO vue3 - convert to Composition API
 import { ref, reactive, computed, onMounted, onBeforeUpdate } from 'vue'
 import { useRoute } from 'vue-router'
 import { copyToClipboard } from 'quasar'
