@@ -79,7 +79,8 @@ q-page.doc-page
 </template>
 
 <script>
-import { computed } from 'vue'
+import { useMeta } from 'quasar'
+import { toRefs, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 import {
@@ -93,6 +94,8 @@ import {
 } from '@quasar/extras/mdi-v5'
 
 import { copyHeading } from 'assets/page-utils'
+import getMeta from 'assets/get-meta'
+import { useDocStore } from 'assets/doc-store.js'
 
 const year = (new Date()).getFullYear()
 
@@ -104,26 +107,36 @@ export default {
     related: Array,
     nav: Array,
     noEdit: Boolean,
-    badge: String
+    badge: String,
+    metaTitle: String,
+    metaDesc: String,
+    toc: Array
   },
 
-  setup () {
-    const route = useRoute()
+  setup (props) {
+    const { metaTitle, metaDesc, toc } = toRefs(props)
 
+    useMeta(
+      metaDesc.value !== void 0
+        ? { title: metaTitle.value, meta: getMeta(metaTitle.value + ' | Quasar Framework', metaDesc.value) }
+        : { title: metaTitle.value }
+    )
+
+    const store = useDocStore()
+    store.toc = toc !== void 0 ? toc.value : []
+
+    const route = useRoute()
     const editHref = computed(() => {
       return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${route.path}.md`
     })
-
-    function copyIntroductionHeading () {
-      copyHeading('Introduction')
-    }
 
     return {
       year,
       editHref,
 
-      copyHeading,
-      copyIntroductionHeading,
+      copyIntroductionHeading () {
+        copyHeading('Introduction')
+      },
 
       fabGithub,
       fabTwitter,

@@ -1,5 +1,3 @@
-// Make sure to keep in sync with /build/md-loader-utils.js
-
 export default function (title, desc) {
   return {
     title: {

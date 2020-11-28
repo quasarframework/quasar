@@ -129,11 +129,14 @@ import {
 import AppMenu from 'components/AppMenu'
 import HeaderMenu from 'components/HeaderMenu'
 // import SurveyCountdown from 'components/SurveyCountdown'
+import { docStoreKey } from 'assets/symbols.js'
 
 const { setScrollPosition, getScrollPosition } = scroll
 
 export default {
   name: 'Layout',
+
+  inject: [docStoreKey],
 
   created () {
     this.mdiMenu = mdiMenu
@@ -194,11 +197,11 @@ export default {
     },
 
     tocList () {
-      const toc = this.$root.store.toc
+      const toc = this[ docStoreKey ].toc
       return toc.length > 0
         ? [
             { id: 'Introduction', title: 'Introduction' },
-            ...this.$root.store.toc
+            ...this[ docStoreKey ].toc
           ]
         : toc
     }
