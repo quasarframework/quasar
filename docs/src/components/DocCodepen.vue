@@ -140,7 +140,7 @@ app.mount('#q-app')
   Forked from:
   ${window.location.origin + window.location.pathname}#${slugifiedTitle.value}
 -->
-<div id="q-app">
+<div id="q-app" style="min-height: 100vh;">
   ${html.value}
 </div>`,
         head: '',
