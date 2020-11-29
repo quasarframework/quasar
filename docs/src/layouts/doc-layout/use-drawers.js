@@ -1,6 +1,6 @@
 import { ref, computed, watch } from 'vue'
 
-export default function useDrawers (scope, $q, route) {
+export default function useDrawers (scope, $q, $route) {
   const leftDrawerState = ref(false)
   const rightDrawerState = ref(false)
   const rightDrawerOnLayout = ref(false)
@@ -16,7 +16,7 @@ export default function useDrawers (scope, $q, route) {
     }
   })
 
-  watch(() => route.path, () => {
+  watch(() => $route.path, () => {
     leftDrawerState.value = $q.screen.width > 1023
   })
 

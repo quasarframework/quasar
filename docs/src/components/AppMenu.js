@@ -1,59 +1,65 @@
-import { h, defineComponent } from 'vue'
-
 import {
   QExpansionItem,
+  QList,
   QItem,
   QItemSection,
   QIcon,
-  QBadge,
-  QList
+  QBadge
 } from 'quasar'
 
 import { getParentVm } from 'quasar/src/utils/vm.js'
+import { h, ref, watch, onBeforeUpdate } from 'vue'
+import { useRoute } from 'vue-router'
+
 import Menu from 'assets/menu.js'
 import './AppMenu.sass'
 
-export default defineComponent({
+export default {
   name: 'AppMenu',
 
-  created () {
-    this.routePath = this.$route.path
-  },
+  setup () {
+    const $route = useRoute()
+    const routePath = $route.path
 
-  watch: {
-    $route (route) {
-      this.showMenu(this.$refs[ route.path ])
-    }
-  },
+    const rootRef = ref(null)
 
-  methods: {
-    showMenu (vm) {
-      if (vm !== void 0 && vm !== this) {
+    watch(() => $route.path, val => {
+      showMenu(childRefs[ val ])
+    })
+
+    let childRefs = []
+
+    onBeforeUpdate(() => {
+      childRefs = []
+    })
+
+    function showMenu (vm) {
+      if (vm !== void 0 && vm !== rootRef.value) {
         vm.show !== void 0 && vm.show()
         const parent = getParentVm(vm)
         if (parent !== void 0) {
-          this.showMenu(parent)
+          showMenu(parent)
         }
       }
-    },
+    }
 
-    getDrawerMenu (menu, path, level) {
+    function getDrawerMenu (menu, path, level) {
       if (menu.children !== void 0) {
         return h(
           QExpansionItem,
           {
             class: 'non-selectable',
-            ref: path,
+            ref: vm => { if (vm) { childRefs[ path ] = vm } },
             key: `${menu.name}-${path}`,
             label: menu.name,
             dense: true,
             icon: menu.icon,
-            defaultOpened: menu.opened || this.routePath.startsWith(path),
+            defaultOpened: menu.opened || routePath.startsWith(path),
             expandSeparator: true,
             switchToggleSide: level > 0,
             denseToggle: level > 0
           },
-          () => menu.children.map(item => this.getDrawerMenu(
+          () => menu.children.map(item => getDrawerMenu(
             item,
             path + (item.path !== void 0 ? '/' + item.path : ''),
             level + 1
@@ -62,7 +68,7 @@ export default defineComponent({
       }
 
       const props = {
-        ref: path,
+        ref: vm => { if (vm) { childRefs[ path ] = vm } },
         key: path,
         class: 'app-menu-entry non-selectable',
         to: path,
@@ -78,27 +84,29 @@ export default defineComponent({
         target: '_blank'
       })
 
-      return h(QItem, props, () => [
-        menu.icon !== void 0
-          ? h(QItemSection, {
-              avatar: true
-            }, () => h(QIcon, { name: menu.icon }))
-          : null,
+      const child = []
 
-        h(QItemSection, () => menu.name),
+      menu.icon !== void 0 && child.push(
+        h(QItemSection, {
+          avatar: true
+        }, () => h(QIcon, { name: menu.icon }))
+      )
 
-        menu.badge !== void 0
-          ? h(QItemSection, {
-              side: true
-            }, () => h(QBadge, { label: menu.badge }))
-          : null
-      ])
+      child.push(
+        h(QItemSection, () => menu.name)
+      )
+
+      menu.badge !== void 0 && child.push(
+        h(QItemSection, {
+          side: true
+        }, () => h(QBadge, { label: menu.badge }))
+      )
+
+      return h(QItem, props, () => child)
     }
-  },
 
-  render () {
-    return h(QList, { class: 'app-menu', dense: true }, () => Menu.map(
-      item => this.getDrawerMenu(item, '/' + item.path, 0)
+    return () => h(QList, { ref: rootRef, class: 'app-menu', dense: true }, () => Menu.map(
+      item => getDrawerMenu(item, '/' + item.path, 0)
     ))
   }
-})
+}

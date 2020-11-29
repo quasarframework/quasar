@@ -1,7 +1,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 
-export default function useAlgolia (scope, $q, route) {
+export default function useAlgolia (scope, $q, $route) {
   const search = ref('')
   const searchFocused = ref(false)
   const algoliaInputRef = ref(null)
@@ -25,11 +25,11 @@ export default function useAlgolia (scope, $q, route) {
   }
 
   onMounted(() => {
-    const router = useRouter()
+    const $router = useRouter()
 
     // If we have a search string in the query (mostly from tab-to-search functionality),
     // we need to open the drawer to fill in the search string in the input later
-    const searchQuery = route.query.search
+    const searchQuery = $route.query.search
 
     if (searchQuery) {
       scope.leftDrawerState.value = true
@@ -50,7 +50,7 @@ export default function useAlgolia (scope, $q, route) {
           const url = suggestion.url.replace('https://quasar.dev', '')
 
           search.value = ''
-          router.push(url)
+          $router.push(url)
           algoliaInputRef.value.blur()
         }
       })

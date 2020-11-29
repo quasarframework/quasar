@@ -33,10 +33,10 @@ function scrollToCurrentAnchor () {
   }
 }
 
-export default function useScroll (scope, route) {
-  watch(() => route.path, () => {
+export default function useScroll (scope, $route) {
+  watch(() => $route.path, () => {
     nextTick(() => {
-      if (route.hash === '') {
+      if ($route.hash === '') {
         resetScroll()
       }
       else {

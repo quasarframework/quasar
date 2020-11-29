@@ -146,7 +146,7 @@ export default {
 
   setup () {
     const $q = useQuasar()
-    const route = useRoute()
+    const $route = useRoute()
 
     const scope = {
       mdiMenu,
@@ -156,10 +156,10 @@ export default {
       mdiChevronUp
     }
 
-    useToc(scope, route)
-    useDrawers(scope, $q, route)
-    useScroll(scope, route)
-    useAlgolia(scope, $q, route)
+    useToc(scope, $route)
+    useDrawers(scope, $q, $route)
+    useScroll(scope, $route)
+    useAlgolia(scope, $q, $route)
 
     return scope
   }

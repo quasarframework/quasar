@@ -28,24 +28,24 @@ function updateActiveToc (position, tocList, activeToc) {
   }
 }
 
-export default function useToc (scope, route) {
-  const store = useDocStore()
+export default function useToc (scope, $route) {
+  const $store = useDocStore()
   const activeToc = ref(null)
 
   const tocList = computed(() => {
-    return store.toc.length > 0
+    return $store.toc.length > 0
       ? [
           { id: 'Introduction', title: 'Introduction' },
-          ...store.toc
+          ...$store.toc
         ]
-      : store.toc
+      : $store.toc
   })
 
   function setActiveToc (pos) {
     updateActiveToc(pos, tocList, activeToc)
   }
 
-  watch(() => route.path, ({ hash }) => {
+  watch(() => $route.path, ({ hash }) => {
     if (hash === '') {
       nextTick(() => {
         setActiveToc(document.documentElement.scrollTop || document.body.scrollTop)

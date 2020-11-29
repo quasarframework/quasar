@@ -26,17 +26,17 @@ export default {
   name: 'LayoutGalleryPage',
 
   setup () {
-    const route = useRoute()
-    const sourceLink = computed(() => route.meta.sourceLink)
+    const $route = useRoute()
+    const sourceLink = computed(() => $route.meta.sourceLink)
 
     useMeta(() => {
-      const title = route.meta.title + ' Layout'
+      const title = $route.meta.title + ' Layout'
 
       return {
         title,
         meta: getMeta(
           title + ' | Quasar Framework',
-          `Example of a Quasar layout that looks like ${route.meta.title}`
+          `Example of a Quasar layout that looks like ${$route.meta.title}`
         )
       }
     })

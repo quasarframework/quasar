@@ -122,12 +122,12 @@ export default {
         : { title: metaTitle.value }
     )
 
-    const store = useDocStore()
-    store.toc = toc !== void 0 ? toc.value : []
+    const $store = useDocStore()
+    $store.toc = toc !== void 0 ? toc.value : []
 
-    const route = useRoute()
+    const $route = useRoute()
     const editHref = computed(() => {
-      return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${route.path}.md`
+      return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${$route.path}.md`
     })
 
     return {
