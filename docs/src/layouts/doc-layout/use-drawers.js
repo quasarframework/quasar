@@ -10,7 +10,7 @@ export default function useDrawers (scope, $q, $route) {
     return hasRightDrawer.value === true && rightDrawerOnLayout.value === false
   })
 
-  watch(() => hasRightDrawer.value, shown => {
+  watch(hasRightDrawer, shown => {
     if (shown === false) {
       rightDrawerState.value = false
     }

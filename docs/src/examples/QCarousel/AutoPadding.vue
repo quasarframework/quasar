@@ -83,7 +83,7 @@ export default {
     const navPos = ref('bottom')
     const vertical = ref(false)
 
-    watch(() => vertical.value, val => {
+    watch(vertical, val => {
       navPos.value = val === true
         ? 'right'
         : 'bottom'

@@ -16,7 +16,7 @@ q-card(flat bordered)
 </template>
 
 <script>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { date } from 'quasar'
 
 import PackageReleases from './PackageReleases'
@@ -40,9 +40,9 @@ export default {
   setup () {
     const loading = ref(false)
     const error = ref(false)
-    const packages = reactive(packagesDefinitions)
+    const packages = ref(packagesDefinitions)
     const currentPackage = ref('quasar')
-    const versions = reactive({})
+    const versions = ref({})
 
     function queryReleases (page = 1) {
       loading.value = true
@@ -73,8 +73,8 @@ export default {
             continue
           }
 
-          if (packages[ packageName ] === void 0) {
-            packages[ packageName ] = []
+          if (packages.value[ packageName ] === void 0) {
+            packages.value[ packageName ] = []
           }
 
           const releaseInfo = {
@@ -83,7 +83,7 @@ export default {
             body: release.body,
             label: `${packageName} v${version}`
           }
-          packages[ packageName ].push(releaseInfo)
+          packages.value[ packageName ].push(releaseInfo)
 
           if (latestVersions[ packageName ] === void 0) {
             latestVersions[ packageName ] = releaseInfo.label
@@ -94,7 +94,7 @@ export default {
           queryReleases(page + 1)
         }
 
-        Object.assign(versions, latestVersions, versions)
+        versions.value = Object.assign(latestVersions, versions.value)
       })
 
       xhrQuasar.addEventListener('error', () => {

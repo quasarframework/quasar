@@ -158,10 +158,7 @@ export default {
     const list = [ 'primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning' ]
 
     list.forEach(entry => {
-      watch(
-        () => colors[ entry ],
-        val => { update(entry, val) }
-      )
+      watch(() => colors[ entry ], val => { update(entry, val) })
     })
 
     const pageClass = computed(() => {

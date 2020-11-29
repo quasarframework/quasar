@@ -1,23 +1,25 @@
 <template lang="pug">
-q-splitter.release__splitter(:model-value="20" :limits="[14, 90]")
-  template(#before)
-    q-scroll-area
-      q-input(v-model="search" dense square standout color="white" placeholder="Search..." input-class="text-center" clearable)
-        template(#append)
-          q-icon(:name="mdiMagnify")
-      q-tabs.text-grey-7(vertical v-model="selectedVersion"  active-color="primary" active-bg-color="blue-1" indicator-color="primary")
-        q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label")
-          .q-tab__label {{ releaseInfo.version }}
-          small.text-grey-7 {{ releaseInfo.date }}
-  template(#after)
-    q-tab-panels.releases-container(v-model="selectedVersion" animated transition-prev="slide-down" transition-next="slide-up")
-      q-tab-panel.q-pa-none(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label")
-        q-scroll-area
-          .release__body.q-pa-md(v-html="currentReleaseBody")
+div
+  q-input.q-mx-md(v-model="search" dense square borderless color="white" placeholder="Search..." clearable)
+    template(#prepend)
+      q-icon(:name="mdiMagnify")
+  q-separator
+  q-splitter.release__splitter(:model-value="20" :limits="[14, 90]")
+    template(#before)
+      q-scroll-area
+        q-tabs.text-grey-7(vertical v-model="selectedVersion"  active-color="primary" active-bg-color="blue-1" indicator-color="primary")
+          q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label")
+            .q-tab__label {{ releaseInfo.version }}
+            small.text-grey-7 {{ releaseInfo.date }}
+    template(#after)
+      q-tab-panels.releases-container(v-model="selectedVersion" animated transition-prev="slide-down" transition-next="slide-up")
+        q-tab-panel.q-pa-none(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label")
+          q-scroll-area
+            .release__body.q-pa-md(v-html="currentReleaseBody")
 </template>
 
 <script>
-import { ref, toRefs, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { mdiMagnify } from '@quasar/extras/mdi-v5'
 
 import sanitize from './sanitize'
@@ -27,24 +29,22 @@ export default {
   props: [ 'latestVersion', 'releases' ],
 
   setup (props) {
-    const { latestVersion, releases } = toRefs(props)
-
     const search = ref('')
     const selectedVersion = ref(props.latestVersion)
 
-    watch(() => latestVersion, val => {
+    watch(() => props.latestVersion, val => {
       selectedVersion.value = val
     })
 
     const filteredReleases = computed(() => {
       if (search.value) {
         const val = search.value.toLowerCase()
-        return releases.value.filter(
+        return props.releases.filter(
           release => release.body.toLowerCase().indexOf(val) > -1
         )
       }
 
-      return releases.value
+      return props.releases
     })
 
     function parse (body) {
@@ -77,7 +77,7 @@ export default {
     }
 
     const currentReleaseBody = computed(() => {
-      const release = releases.value.find(r => r.label === selectedVersion.value)
+      const release = props.releases.find(r => r.label === selectedVersion.value)
       return release
         ? parse(release.body)
         : ''

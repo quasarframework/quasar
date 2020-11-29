@@ -45,12 +45,10 @@ export default function useToc (scope, $route) {
     updateActiveToc(pos, tocList, activeToc)
   }
 
-  watch(() => $route.path, ({ hash }) => {
-    if (hash === '') {
-      nextTick(() => {
-        setActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
-      })
-    }
+  watch(() => $route.path, () => {
+    nextTick(() => {
+      setActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
+    })
   })
 
   Object.assign(scope, {
