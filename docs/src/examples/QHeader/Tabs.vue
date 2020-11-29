@@ -35,7 +35,7 @@
 import { ref } from 'vue'
 
 export default {
-  data () {
+  setup () {
     return {
       tab: ref('images')
     }

@@ -33,7 +33,7 @@ const stringOptions = [
 ]
 
 export default {
-  data () {
+  setup () {
     const options = ref(stringOptions)
     return {
       model: ref(null),

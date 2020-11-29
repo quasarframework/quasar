@@ -198,11 +198,9 @@ export default {
         Assumes you have a <div id="q-app"></div> in your <body> above
        */
       const app = Vue.createApp({
-        data () {
+        setup () {
           return {}
-        },
-        methods: {},
-        // ...etc
+        }
       })
 
       app.use(Quasar, { ${configInstantiation.value} })

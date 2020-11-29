@@ -142,7 +142,7 @@ const rows = [
 ]
 
 export default {
-  data () {
+  setup () {
     const selected = ref([])
 
     return {

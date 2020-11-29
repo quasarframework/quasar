@@ -49,7 +49,7 @@ import { ref, computed } from 'vue'
 const { stopAndPrevent } = event
 
 export default {
-  data () {
+  setup () {
     const inputModel = ref('')
     const inputFillCancelled = ref(false)
     const inputShadowText = computed(() => {

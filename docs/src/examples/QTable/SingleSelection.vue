@@ -141,7 +141,7 @@ const rows = [
 ]
 
 export default {
-  data () {
+  setup () {
     return {
       selected: ref([]),
       columns,

@@ -23,7 +23,7 @@
 import { ref, computed } from 'vue'
 
 export default {
-  data () {
+  setup () {
     const visible = ref(false)
 
     return {
