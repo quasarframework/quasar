@@ -26,11 +26,9 @@ export default {
   },
 
   setup (props) {
-    const { link } = toRefs(props)
-
     return {
       openWebsite () {
-        openURL(link.value)
+        openURL(props.link)
       }
     }
   }

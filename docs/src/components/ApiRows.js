@@ -1,4 +1,4 @@
-import { h, defineComponent, toRefs, computed } from 'vue'
+import { h, computed } from 'vue'
 import { QBadge } from 'quasar'
 
 import './ApiRows.sass'
@@ -429,7 +429,7 @@ describe.quasarConfOptions = conf => {
   ]
 }
 
-export default defineComponent({
+export default {
   name: 'ApiRows',
 
   props: {
@@ -439,12 +439,11 @@ export default defineComponent({
   },
 
   setup (props) {
-    const { which, api, apiKey } = toRefs(props)
-    const def = computed(() => api.value[ apiKey ? apiKey.value : which.value ])
+    const def = computed(() => props.api[ props.apiKey || props.which ])
 
     return () => {
       const content = Object.keys(def.value).length !== 0
-        ? describe[ which.value ](def.value)
+        ? describe[ props.which ](def.value)
         : [
             h('div', { class: 'q-pa-md text-grey-9' }, [
               h('div', 'No matching entries found on this tab.'),
@@ -455,4 +454,4 @@ export default defineComponent({
       return h('div', { class: 'api-rows' }, content)
     }
   }
-})
+}

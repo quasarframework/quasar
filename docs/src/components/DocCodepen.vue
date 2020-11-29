@@ -17,7 +17,7 @@ form(
 
 <script>
 import { Quasar } from 'quasar'
-import { toRefs, ref, reactive, computed, nextTick } from 'vue'
+import { ref, reactive, computed, nextTick } from 'vue'
 
 const cssResources = [
   'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons',
@@ -58,8 +58,6 @@ export default {
   },
 
   setup (props) {
-    const { title, slugifiedTitle } = toRefs(props)
-
     const active = ref(false)
     const form = ref(null) // $refs.form
     const def = reactive({
@@ -100,6 +98,7 @@ export default {
       script += script ? '\n\n' : ''
       return script +
         `const app = Vue.createApp({${component}})
+
 app.use(Quasar, { config: {} })
 app.mount('#q-app')
 `
@@ -128,7 +127,7 @@ app.mount('#q-app')
 
     const computedTitle = computed(() => {
       return (typeof document !== 'undefined' ? document.title.split(' | ')[ 0 ] + ': ' : '') +
-        (title.value ? title.value + ' - ' : '') +
+        (props.title ? props.title + ' - ' : '') +
         `Quasar v${Quasar.version}`
     })
 
@@ -138,7 +137,7 @@ app.mount('#q-app')
         html:
           `<!--
   Forked from:
-  ${window.location.origin + window.location.pathname}#${slugifiedTitle.value}
+  ${window.location.origin + window.location.pathname}#${props.slugifiedTitle}
 -->
 <div id="q-app" style="min-height: 100vh;">
   ${html.value}

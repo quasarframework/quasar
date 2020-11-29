@@ -1,5 +1,5 @@
 import 'prismjs'
-import { h, toRefs, computed } from 'vue'
+import { h, computed } from 'vue'
 
 export default {
   name: 'CodePrism',
@@ -10,16 +10,15 @@ export default {
   },
 
   setup (props) {
-    const { lang, code } = toRefs(props)
-    const className = computed(() => `language-${lang.value}`)
+    const className = computed(() => `language-${props.lang}`)
 
     return () => h('pre', { class: 'doc-code ' + className.value }, [
       h('code', {
         class: 'doc-code__inner ' + className.value,
         innerHTML: Prism.highlight(
-          code.value,
-          Prism.languages[ lang.value ],
-          lang.value
+          props.code,
+          Prism.languages[ props.lang ],
+          props.lang
         )
       })
     ])

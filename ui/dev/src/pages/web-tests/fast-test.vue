@@ -13,13 +13,10 @@
 
 <script>
 /* eslint-disable */
+import { ref } from 'vue'
 
 export default {
-  data () {
-    return {
-    }
-  },
-  methods: {
+  setup () {
   }
 }
 </script>

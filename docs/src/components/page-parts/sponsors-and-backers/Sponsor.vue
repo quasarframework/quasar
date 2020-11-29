@@ -7,7 +7,7 @@ q-card.quasar-sponsor(flat, bordered, @click.native="openWebsite", :style="style
 </template>
 
 <script>
-import { toRefs, computed } from 'vue'
+import { computed } from 'vue'
 import { openURL } from 'quasar'
 
 export default {
@@ -20,13 +20,11 @@ export default {
   },
 
   setup (props) {
-    const { url } = toRefs(props)
-    const style = computed(() => ({
-      cursor: url.value ? 'pointer' : 'default'
-    }))
-
     return {
-      style,
+      style: computed(() => ({
+        cursor: props.url ? 'pointer' : 'default'
+      })),
+
       openWebsite () {
         url.value && openURL(url.value)
       }

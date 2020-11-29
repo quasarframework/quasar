@@ -57,7 +57,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
 <script>
 import { markRaw } from 'vue'
 import { openURL } from 'quasar'
-import { ref, reactive, computed, toRefs, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 
 import {
   fabGithub, fabCodepen
@@ -88,7 +88,6 @@ export default {
   },
 
   setup (props) {
-    const { dark, scrollable, overflow, title } = toRefs(props)
     const codepen = ref(null) // $refs.codepen
 
     const loading = ref(true)
@@ -101,19 +100,19 @@ export default {
     const expanded = ref(false)
 
     const classes = computed(() => {
-      return dark.value === true
+      return props.dark === true
         ? 'doc-example--dark'
         : ''
     })
 
     const componentClass = computed(() => {
-      return scrollable.value === true
+      return props.scrollable === true
         ? 'doc-example__content--scrollable scroll-y'
-        : (overflow.value === true ? 'overflow-auto' : '')
+        : (props.overflow === true ? 'overflow-auto' : '')
     })
 
     const slugifiedTitle = computed(() => {
-      return 'Example--' + slugify(title.value)
+      return 'Example--' + slugify(props.title)
     })
 
     function parseTemplate (target, template) {

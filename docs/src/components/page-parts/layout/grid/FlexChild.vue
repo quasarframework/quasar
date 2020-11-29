@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { toRefs, computed, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { mdiClose, mdiCloseCircle } from '@quasar/extras/mdi-v5'
 
 const widthOptions = [
@@ -182,36 +182,34 @@ export default {
   },
 
   setup (props, { emit }) {
-    const { index, selectedIndex, child } = toRefs(props)
-
     function onDelete () {
-      emit('delete', index.value)
+      emit('delete', props.index)
     }
 
     function emitChange () {
-      emit('change', index.value)
+      emit('change', props.index)
     }
 
     onMounted(emitChange)
 
     const buttonClasses = computed(() => {
-      return 'text-white ' + (index.value === selectedIndex.value ? 'bg-primary' : 'bg-grey')
+      return 'text-white ' + (props.index === props.selectedIndex ? 'bg-primary' : 'bg-grey')
     })
 
     const styles = computed(() => {
       return ('overflow: auto;' +
-        (child.value.height ? (' min-height: ' + child.value.height + '; max-height: ' + child.value.height + '; ') : '') +
-        (child.value.width ? (' min-width: ' + child.value.width + '; max-width: ' + child.value.width + ';') : '')
+        (props.child.height ? (' min-height: ' + props.child.height + '; max-height: ' + props.child.height + '; ') : '') +
+        (props.child.width ? (' min-width: ' + props.child.width + '; max-width: ' + props.child.width + ';') : '')
       ).trim()
     })
 
     const classes = computed(() => {
-      return (child.value.widthGroup +
-        ' ' + (child.value.breakpointGroup === null ? '' : child.value.breakpointGroup) +
-        ' ' + child.value.alignmentGroup +
-        ' ' + child.value.offsetGroup +
-        ' ' + (child.value.gutterGroup === null ? '' : child.value.gutterGroup) +
-        ' ' + (child.value.colGutterGroup === null ? '' : child.value.colGutterGroup))
+      return (props.child.widthGroup +
+        ' ' + (props.child.breakpointGroup === null ? '' : props.child.breakpointGroup) +
+        ' ' + props.child.alignmentGroup +
+        ' ' + props.child.offsetGroup +
+        ' ' + (props.child.gutterGroup === null ? '' : props.child.gutterGroup) +
+        ' ' + (props.child.colGutterGroup === null ? '' : props.child.colGutterGroup))
         .replace(/,/g, ' ')
         .replace(/  +/g, ' ')
         .trim()

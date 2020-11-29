@@ -14,7 +14,7 @@
 
 <script>
 import { QChatMessage } from 'quasar'
-import { h, defineComponent, toRefs, ref, onMounted, onBeforeUnmount } from 'vue'
+import { h, defineComponent, ref, onMounted, onBeforeUnmount } from 'vue'
 
 const AsyncComponent = defineComponent({
   props: {
@@ -23,7 +23,6 @@ const AsyncComponent = defineComponent({
   },
 
   setup (props) {
-    const { sent, index } = toRefs(props)
     const asyncContent = ref(null)
 
     let timer
@@ -31,11 +30,11 @@ const AsyncComponent = defineComponent({
     onMounted(() => {
       timer = setTimeout(() => {
         asyncContent.value = {
-          sent: sent.value,
-          name: sent.value === true ? 'me' : 'Someone else',
-          avatar: sent.value === true ? 'https://cdn.quasar.dev/img/avatar4.jpg' : 'https://cdn.quasar.dev/img/avatar3.jpg',
-          stamp: `${Math.floor(index.value / 1000)} minutes ago`,
-          text: [`Message with id ${index.value}`]
+          sent: props.sent,
+          name: props.sent === true ? 'me' : 'Someone else',
+          avatar: props.sent === true ? 'https://cdn.quasar.dev/img/avatar4.jpg' : 'https://cdn.quasar.dev/img/avatar3.jpg',
+          stamp: `${Math.floor(props.index / 1000)} minutes ago`,
+          text: [`Message with id ${props.index}`]
         }
       }, 300 + Math.random() * 2000)
     })
@@ -48,8 +47,8 @@ const AsyncComponent = defineComponent({
       class: 'q-mx-sm',
       ...(asyncContent.value === null
         ? {
-            sent: sent.value,
-            text: [`Retrieving message ${index.value}`]
+            sent: props.sent,
+            text: [`Retrieving message ${props.index}`]
           }
         : asyncContent.value)
     })

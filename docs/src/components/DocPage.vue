@@ -80,7 +80,7 @@ q-page.doc-page
 
 <script>
 import { useMeta } from 'quasar'
-import { toRefs, computed } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 import {
@@ -114,16 +114,14 @@ export default {
   },
 
   setup (props) {
-    const { metaTitle, metaDesc, toc } = toRefs(props)
-
     useMeta(
-      metaDesc.value !== void 0
-        ? { title: metaTitle.value, meta: getMeta(metaTitle.value + ' | Quasar Framework', metaDesc.value) }
-        : { title: metaTitle.value }
+      props.metaDesc !== void 0
+        ? { title: props.metaTitle, meta: getMeta(props.metaTitle + ' | Quasar Framework', props.metaDesc) }
+        : { title: props.metaTitle }
     )
 
     const $store = useDocStore()
-    $store.toc = toc !== void 0 ? toc.value : []
+    $store.toc = props.toc !== void 0 ? props.toc : []
 
     const $route = useRoute()
     const editHref = computed(() => {
