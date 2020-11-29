@@ -5,7 +5,7 @@ const space = h('div', { class: 'q-space' })
 export default defineComponent({
   name: 'QSpace',
 
-  render () {
-    return space
+  setup () {
+    return () => space
   }
 })
