@@ -10,7 +10,6 @@ q-card.full-width.column.tutorial-link.cursor-pointer(flat, bordered, @click.nat
 </template>
 
 <script>
-import { toRefs } from 'vue'
 import { openURL } from 'quasar'
 
 export default {

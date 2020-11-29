@@ -26,7 +26,7 @@ export default {
       })),
 
       openWebsite () {
-        url.value && openURL(url.value)
+        props.url && openURL(props.url)
       }
     }
   }
