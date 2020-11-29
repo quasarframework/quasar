@@ -1,22 +1,11 @@
-const
-  alignMap = {
-    left: 'start',
-    center: 'center',
-    right: 'end',
-    between: 'between',
-    around: 'around',
-    evenly: 'evenly',
-    stretch: 'stretch'
-  },
-  alignValues = Object.keys(alignMap)
+// this file will eventually be removed
+// and superseeded by use-align.js
+// after all components use composition api
+
+import { alignMap, alignValues, useAlignProps } from '../composables/use-align.js'
 
 export default {
-  props: {
-    align: {
-      type: String,
-      validator: v => alignValues.includes(v)
-    }
-  },
+  props: useAlignProps,
 
   computed: {
     alignClass () {

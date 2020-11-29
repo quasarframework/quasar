@@ -1,13 +1,12 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import SizeMixin from '../../mixins/size.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useSize, { useSizeProps } from '../../composables/use-size.js'
 
-import { hSlot, hMergeSlot } from '../../utils/render.js'
+import { hSlot, hMergeSlot } from '../../utils/composition-render.js'
 
 export default defineComponent({
   name: 'QIcon',
-
-  mixins: [SizeMixin],
 
   props: {
     tag: {
@@ -18,37 +17,42 @@ export default defineComponent({
     name: String,
     color: String,
     left: Boolean,
-    right: Boolean
+    right: Boolean,
+
+    ...useSizeProps
   },
 
-  computed: {
-    classes () {
-      return 'q-icon' +
-        (this.left === true ? ' on-left' : '') +
-        (this.right === true ? ' on-right' : '') +
-        (this.color !== void 0 ? ` text-${this.color}` : '')
-    },
+  setup (props, { slots }) {
+    const $q = useQuasar()
+    const { sizeStyle } = useSize(props)
 
-    type () {
+    const classes = computed(() =>
+      'q-icon' +
+      (props.left === true ? ' on-left' : '') +
+      (props.right === true ? ' on-right' : '') +
+      (props.color !== void 0 ? ` text-${props.color}` : '')
+    )
+
+    const type = computed(() => {
       let cls
-      let icon = this.name
+      let icon = props.name
 
       if (!icon) {
         return {
           none: true,
-          cls: this.classes
+          cls: classes.value
         }
       }
 
-      if (this.$q.iconMapFn !== void 0) {
-        const res = this.$q.iconMapFn(icon)
+      if ($q.iconMapFn !== void 0) {
+        const res = $q.iconMapFn(icon)
         if (res !== void 0) {
           if (res.icon !== void 0) {
             icon = res.icon
           }
           else {
             return {
-              cls: res.cls + ' ' + this.classes,
+              cls: res.cls + ' ' + classes.value,
               content: res.content !== void 0
                 ? res.content
                 : ' '
@@ -62,7 +66,7 @@ export default defineComponent({
 
         return {
           svg: true,
-          cls: this.classes,
+          cls: classes.value,
           nodes: def.split('&&').map(path => {
             const [ d, style, transform ] = path.split('@@')
             return h('path', {
@@ -78,7 +82,7 @@ export default defineComponent({
       if (icon.startsWith('img:') === true) {
         return {
           img: true,
-          cls: this.classes,
+          cls: classes.value,
           src: icon.substring(4)
         }
       }
@@ -88,7 +92,7 @@ export default defineComponent({
 
         return {
           svguse: true,
-          cls: this.classes,
+          cls: classes.value,
           src: def.substring(7),
           viewBox: viewBox !== void 0 ? viewBox : '0 0 24 24'
         }
@@ -109,7 +113,7 @@ export default defineComponent({
         cls = `ionicons ${icon}`
       }
       else if (icon.startsWith('ion-') === true) {
-        cls = `ionicons ion-${this.$q.platform.is.ios === true ? 'ios' : 'md'}${icon.substr(3)}`
+        cls = `ionicons ion-${$q.platform.is.ios === true ? 'ios' : 'md'}${icon.substr(3)}`
       }
       else if (icon.startsWith('mdi-') === true) {
         cls = `mdi ${icon}`
@@ -142,47 +146,47 @@ export default defineComponent({
       }
 
       return {
-        cls: cls + ' ' + this.classes,
+        cls: cls + ' ' + classes.value,
         content
       }
+    })
+
+    return () => {
+      const data = {
+        class: type.value.cls,
+        style: sizeStyle.value,
+        'aria-hidden': 'true',
+        role: 'presentation'
+      }
+
+      if (type.value.none === true) {
+        return h(props.tag, data, hSlot(slots.default))
+      }
+
+      if (type.value.img === true) {
+        data.src = type.value.src
+        return h('img', data)
+      }
+
+      if (type.value.svg === true) {
+        data.viewBox = type.value.viewBox
+
+        return h('svg', data, hMergeSlot(slots.default, type.value.nodes))
+      }
+
+      if (type.value.svguse === true) {
+        data.viewBox = type.value.viewBox
+
+        return h(
+          'svg',
+          data,
+          hMergeSlot(slots.default, [h('use', { 'xlink:href': type.value.src })])
+        )
+      }
+
+      return h(props.tag, data, hMergeSlot(slots.default, [
+        type.value.content
+      ]))
     }
-  },
-
-  render () {
-    const data = {
-      class: this.type.cls,
-      style: this.sizeStyle,
-      'aria-hidden': 'true',
-      role: 'presentation'
-    }
-
-    if (this.type.none === true) {
-      return h(this.tag, data, hSlot(this, 'default'))
-    }
-
-    if (this.type.img === true) {
-      data.src = this.type.src
-      return h('img', data)
-    }
-
-    if (this.type.svg === true) {
-      data.viewBox = this.type.viewBox
-
-      return h('svg', data, hMergeSlot(this, 'default', this.type.nodes))
-    }
-
-    if (this.type.svguse === true) {
-      data.viewBox = this.type.viewBox
-
-      return h(
-        'svg',
-        data,
-        hMergeSlot(this, 'default', [h('use', { 'xlink:href': this.type.src })])
-      )
-    }
-
-    return h(this.tag, data, hMergeSlot(this, 'default', [
-      this.type.content
-    ]))
   }
 })

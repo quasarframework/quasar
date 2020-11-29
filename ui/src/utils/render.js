@@ -1,3 +1,9 @@
+import { hDir as dir } from './composition-render.js'
+
+// this file will eventually be removed
+// and superseeded by render-composition.js
+// after all components use composition api
+
 import { h, withDirectives } from 'vue'
 
 export function hSlot (vm, slotName, otherwise) {
@@ -37,23 +43,4 @@ export function hMergeSlotSafely (vm, slotName, source) {
     : slot
 }
 
-/*
- * (String)  key       - unique vnode key
- * (Boolean) condition - should change ONLY when adding/removing directive
- */
-export function hDir (
-  tag,
-  data,
-  children,
-  key,
-  condition,
-  getDirsFn
-) {
-  data.key = key + condition
-
-  const vnode = h(tag, data, children)
-
-  return condition === true
-    ? withDirectives(vnode, getDirsFn())
-    : vnode
-}
+export const hDir = dir

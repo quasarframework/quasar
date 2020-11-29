@@ -9,17 +9,19 @@ module.exports.evaluate = (source, lookup, callback) => {
     if (node.type === 'ExportDefaultDeclaration') {
       const properties =
         node.declaration.properties || // When exporting a plain object (`export default { ... }`)
-        node.declaration.arguments[0].properties // When exporting a wrapped object (`export default Vue.extend({ ... })`)
+        node.declaration.arguments[0].properties // When exporting a wrapped object (`export default defineComponent({ ... })`)
       for (const property of properties) {
         const propName = property.key.name
         if (lookup.includes(propName)) {
           const innerProps = property.value.properties
-          for (const innerProp of innerProps) {
-            let definition = null
-            if (propName === 'props' && innerProp.value) {
-              definition = getPropDefinition(innerProp)
+          if (innerProps !== void 0) { // TODO vue3 - fix AST
+            for (const innerProp of innerProps) {
+              let definition = null
+              if (propName === 'props' && innerProp.value) {
+                definition = getPropDefinition(innerProp)
+              }
+              innerProp.key !== void 0 && callback(propName, innerProp.key.name, definition)
             }
-            innerProp.key !== void 0 && callback(propName, innerProp.key.name, definition)
           }
         }
       }

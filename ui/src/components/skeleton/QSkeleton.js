@@ -1,8 +1,9 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import DarkMixin from '../../mixins/dark.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useDark, { useDarkProps } from '../../composables/use-dark.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/composition-render.js'
 
 export const skeletonTypes = [
   'text', 'rect', 'circle',
@@ -18,8 +19,6 @@ export const skeletonAnimations = [
 
 export default defineComponent({
   name: 'QSkeleton',
-
-  mixins: [DarkMixin],
 
   props: {
     tag: {
@@ -44,28 +43,30 @@ export default defineComponent({
 
     size: String,
     width: String,
-    height: String
+    height: String,
+
+    ...useDarkProps
   },
 
-  computed: {
-    style () {
-      return this.size !== void 0
-        ? { width: this.size, height: this.size }
-        : { width: this.width, height: this.height }
-    },
+  setup (props, { slots }) {
+    const $q = useQuasar()
+    const { isDark } = useDark(props, $q)
 
-    classes () {
-      return `q-skeleton q-skeleton--${this.isDark === true ? 'dark' : 'light'} q-skeleton--type-${this.type}` +
-        (this.animation !== 'none' ? ` q-skeleton--anim q-skeleton--anim-${this.animation}` : '') +
-        (this.square === true ? ' q-skeleton--square' : '') +
-        (this.bordered === true ? ' q-skeleton--bordered' : '')
-    }
-  },
+    const style = computed(() => props.size !== void 0
+      ? { width: props.size, height: props.size }
+      : { width: props.width, height: props.height }
+    )
 
-  render () {
-    return h(this.tag, {
-      class: this.classes,
-      style: this.style
-    }, hSlot(this, 'default'))
+    const classes = computed(() =>
+      `q-skeleton q-skeleton--${isDark.value === true ? 'dark' : 'light'} q-skeleton--type-${props.type}` +
+      (props.animation !== 'none' ? ` q-skeleton--anim q-skeleton--anim-${props.animation}` : '') +
+      (props.square === true ? ' q-skeleton--square' : '') +
+      (props.bordered === true ? ' q-skeleton--bordered' : '')
+    )
+
+    return () => h(props.tag, {
+      class: classes.value,
+      style: style.value
+    }, hSlot(slots.default))
   }
 })

@@ -1,15 +1,11 @@
-export default {
-  props: {
-    transitionShow: {
-      type: String,
-      default: 'fade'
-    },
+// this file will eventually be removed
+// and superseeded by use-transition.js
+// after all components use composition api
 
-    transitionHide: {
-      type: String,
-      default: 'fade'
-    }
-  },
+import { useTransitionProps } from '../composables/use-transition.js'
+
+export default {
+  props: useTransitionProps,
 
   data () {
     return {

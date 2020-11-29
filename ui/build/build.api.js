@@ -10,7 +10,7 @@ const extendApi = require(resolvePath('src/api.extends.json'))
 const { logError, writeFile, kebabCase } = require('./build.utils')
 const ast = require('./ast')
 
-const slotRegex = /(this\.\$slots\[['`](\S+)['`]\]|this\.\$slots\.([A-Za-z]+)\()|hSlot\(this, '(\S+)'|hUniqueSlot\(this, '(\S+)'|hMergeSlot\(this, '(\S+)'|hMergeSlotSafely\(this, '(\S+)'/g
+const slotRegex = /this\.\$slots\[['`](\S+)['`]\]\(|this\.\$slots\.([A-Za-z]+)\(|\(slots\[['`](\S+)['`]\]|\(slots\.([A-Za-z]+)|hSlot\(this, '(\S+)'|hUniqueSlot\(this, '(\S+)'|hMergeSlot\(this, '(\S+)'|hMergeSlotSafely\(this, '(\S+)'/g
 
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
@@ -470,7 +470,7 @@ function fillAPI (apiType) {
 
       let slotMatch
       while ((slotMatch = slotRegex.exec(definition)) !== null) {
-        const slotName = (slotMatch[2] || slotMatch[3] || slotMatch[4] || slotMatch[5] || slotMatch[6] || slotMatch[7]).replace(/(\${.+})/g, '[name]')
+        const slotName = (slotMatch[2] || slotMatch[3] || slotMatch[4] || slotMatch[5] || slotMatch[6] || slotMatch[7] || slotMatch[8] || slotsMatch[9]).replace(/(\${.+})/g, '[name]')
 
         if (!(api.slots || {})[slotName]) {
           logError(`${name}: missing "slot" -> "${slotName}" definition`)

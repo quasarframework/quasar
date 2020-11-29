@@ -1,10 +1,11 @@
+// this file will eventually be removed
+// and superseeded by use-dark.js
+// after all components use composition api
+
+import { useDarkProps } from '../composables/use-dark.js'
+
 export default {
-  props: {
-    dark: {
-      type: Boolean,
-      default: null
-    }
-  },
+  props: useDarkProps,
 
   computed: {
     isDark () {

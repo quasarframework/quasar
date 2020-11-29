@@ -1,33 +1,33 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import RatioMixin from '../../mixins/ratio.js'
+import useRatio, { useRatioProps } from '../../composables/use-ratio.js'
 
 export default defineComponent({
   name: 'QVideo',
-
-  mixins: [RatioMixin],
 
   props: {
     src: {
       type: String,
       required: true
-    }
+    },
+
+    ...useRatioProps
   },
 
-  computed: {
-    classes () {
-      return 'q-video' +
-        (this.ratio !== void 0 ? ' q-video--responsive' : '')
-    }
-  },
+  setup (props) {
+    const { ratioStyle } = useRatio(props)
 
-  render () {
-    return h('div', {
-      class: this.classes,
-      style: this.ratioStyle
+    const classes = computed(() =>
+      'q-video' +
+      (props.ratio !== void 0 ? ' q-video--responsive' : '')
+    )
+
+    return () => h('div', {
+      class: classes.value,
+      style: ratioStyle.value
     }, [
       h('iframe', {
-        src: this.src,
+        src: props.src,
         frameborder: '0',
         allowfullscreen: true
       })

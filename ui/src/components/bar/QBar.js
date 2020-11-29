@@ -1,30 +1,31 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import DarkMixin from '../../mixins/dark.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useDark, { useDarkProps } from '../../composables/use-dark.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/composition-render.js'
 
 export default defineComponent({
   name: 'QBar',
 
-  mixins: [DarkMixin],
-
   props: {
-    dense: Boolean
+    dense: Boolean,
+    ...useDarkProps
   },
 
-  computed: {
-    classes () {
-      return 'q-bar row no-wrap items-center' +
-        ` q-bar--${this.dense === true ? 'dense' : 'standard'} ` +
-        ` q-bar--${this.isDark === true ? 'dark' : 'light'}`
-    }
-  },
+  setup (props, { slots }) {
+    const $q = useQuasar()
+    const { isDark } = useDark(props, $q)
 
-  render () {
-    return h('div', {
-      class: this.classes,
+    const classes = computed(() =>
+      'q-bar row no-wrap items-center' +
+      ` q-bar--${props.dense === true ? 'dense' : 'standard'} ` +
+      ` q-bar--${isDark.value === true ? 'dark' : 'light'}`
+    )
+
+    return () => h('div', {
+      class: classes.value,
       role: 'toolbar'
-    }, hSlot(this, 'default'))
+    }, hSlot(slots.default))
   }
 })

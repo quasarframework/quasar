@@ -1,14 +1,13 @@
-import { h, defineComponent, Transition } from 'vue'
+import { h, defineComponent, computed, Transition } from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
 
-import TransitionMixin from '../../mixins/transition.js'
-import DarkMixin from '../../mixins/dark.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useTransition, { useTransitionProps } from '../../composables/use-transition.js'
 
 export default defineComponent({
   name: 'QInnerLoading',
-
-  mixins: [ DarkMixin, TransitionMixin ],
 
   props: {
     showing: Boolean,
@@ -17,39 +16,42 @@ export default defineComponent({
     size: {
       type: [ String, Number ],
       default: 42
-    }
+    },
+
+    ...useDarkProps,
+    ...useTransitionProps
   },
 
-  computed: {
-    classes () {
-      return 'q-inner-loading absolute-full column flex-center' +
-        (this.isDark === true ? ' q-inner-loading--dark' : '')
-    }
-  },
+  setup (props, { slots }) {
+    const $q = useQuasar()
+    const { isDark } = useDark(props, $q)
+    const { transition } = useTransition(props, props.showing)
 
-  methods: {
-    __getContent () {
-      return this.showing === true
+    const classes = computed(() =>
+      'q-inner-loading absolute-full column flex-center' +
+      (isDark.value === true ? ' q-inner-loading--dark' : '')
+    )
+
+    function getContent () {
+      return props.showing === true
         ? h(
             'div',
-            { class: this.classes },
-            this.$slots.default !== void 0
-              ? this.$slots.default()
+            { class: classes.value },
+            slots.default !== void 0
+              ? slots.default()
               : [
                   h(QSpinner, {
-                    size: this.size,
-                    color: this.color
+                    size: props.size,
+                    color: props.color
                   })
                 ]
           )
         : null
     }
-  },
 
-  render () {
-    return h(Transition, {
-      name: this.transition,
+    return () => h(Transition, {
+      name: transition.value,
       appear: true
-    }, this.__getContent)
+    }, getContent)
   }
 })

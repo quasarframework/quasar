@@ -1,6 +1,6 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/composition-render.js'
 
 export default defineComponent({
   name: 'QCardSection',
@@ -14,14 +14,12 @@ export default defineComponent({
     horizontal: Boolean
   },
 
-  computed: {
-    classes () {
-      return 'q-card__section' +
-        ` q-card__section--${this.horizontal === true ? 'horiz row no-wrap' : 'vert'}`
-    }
-  },
+  setup (props, { slots }) {
+    const classes = computed(() =>
+      'q-card__section' +
+      ` q-card__section--${props.horizontal === true ? 'horiz row no-wrap' : 'vert'}`
+    )
 
-  render () {
-    return h(this.tag, { class: this.classes }, hSlot(this, 'default'))
+    return () => h(props.tag, { class: classes.value }, hSlot(slots.default))
   }
 })

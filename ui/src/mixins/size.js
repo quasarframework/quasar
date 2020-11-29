@@ -1,10 +1,10 @@
-export const sizes = {
-  xs: 18,
-  sm: 24,
-  md: 32,
-  lg: 38,
-  xl: 46
-}
+// this file will eventually be removed
+// and superseeded by use-size.js
+// after all components use composition api
+
+import { useSizeDefaults } from '../composables/use-size.js'
+
+export const sizes = useSizeDefaults
 
 export function getSizeMixin (sizes) {
   return {
