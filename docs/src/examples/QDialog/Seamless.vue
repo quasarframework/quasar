@@ -29,12 +29,6 @@ export default {
     return {
       seamless: false
     }
-  },
-
-  computed: {
-    contentSize () {
-      return this.moreContent ? 150 : 5
-    }
   }
 }
 </script>
