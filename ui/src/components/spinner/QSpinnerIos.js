@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import mixin from './spinner-mixin.js'
+import useSpinner, { useSpinnerProps } from './use-spinner.js'
 
 const svg = [
   h('g', {
@@ -157,16 +157,22 @@ const svg = [
 export default defineComponent({
   name: 'QSpinnerIos',
 
-  mixins: [mixin],
+  props: {
+    ...useSpinnerProps
+  },
 
-  render () {
-    return h('svg', {
-      class: this.classes,
-      width: this.cSize,
-      height: this.cSize,
-      stroke: 'currentColor',
-      fill: 'currentColor',
-      viewBox: '0 0 64 64'
-    }, svg)
+  setup (props) {
+    const { cSize, classes } = useSpinner(props)
+
+    return () => {
+      return h('svg', {
+        class: classes.value,
+        width: cSize.value,
+        height: cSize.value,
+        stroke: 'currentColor',
+        fill: 'currentColor',
+        viewBox: '0 0 64 64'
+      }, svg)
+    }
   }
 })

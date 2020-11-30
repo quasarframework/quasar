@@ -18,6 +18,7 @@
           class="col"
           dense
           outlined
+          emit-value
           v-model="color"
           float-label
           label="Quick Pick"
@@ -49,8 +50,8 @@
       </h6>
 
       <h6>
-        <q-spinner-gears :color="color" :size="size" />
-        <q-spinner-gears :color="color" :size="size" />
+        <q-spinner-gears :color="color" size="md" />
+        <q-spinner-gears :color="color" size="xl" />
       </h6>
     </div>
   </div>
@@ -76,7 +77,7 @@ export default {
 
   data () {
     return {
-      size: 36,
+      size: '36',
       color: 'primary',
       spinners: [
         'audio', 'ball', 'bars', 'box', 'clock', 'comment',
