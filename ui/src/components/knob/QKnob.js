@@ -1,11 +1,13 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent, ref, computed, watch, onMounted, withDirectives, getCurrentInstance } from 'vue'
 
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 
 import QCircularProgress, { commonProps } from '../circular-progress/QCircularProgress.js'
-import FormMixin from '../../mixins/form.js'
 import TouchPan from '../../directives/TouchPan.js'
+
+import useQuasar from '../../composables/use-quasar.js'
+import { useFormProps, useFormAttrs } from '../../composables/use-form.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 const keyCodes = [ 34, 37, 40, 33, 39, 38 ]
@@ -14,11 +16,10 @@ const commonPropsName = Object.keys(commonProps)
 export default defineComponent({
   name: 'QKnob',
 
-  mixins: [
-    FormMixin
-  ],
-
   props: {
+    ...useFormProps,
+    ...commonProps,
+
     modelValue: {
       type: Number,
       required: true
@@ -36,137 +37,123 @@ export default defineComponent({
     },
 
     disable: Boolean,
-    readonly: Boolean,
-
-    ...commonProps
+    readonly: Boolean
   },
 
   emits: [ 'update:modelValue', 'change', 'drag-value' ],
 
-  data () {
-    return {
-      model: this.modelValue,
-      dragging: false
-    }
-  },
+  setup (props, { slots, emit }) {
+    const $q = useQuasar()
 
-  watch: {
-    modelValue (value) {
-      if (value < this.min) {
-        this.model = this.min
+    const model = ref(props.modelValue)
+    const dragging = ref(false)
+
+    let centerPosition, $el
+
+    watch(() => props.modelValue, val => {
+      if (val < props.min) {
+        model.value = props.min
       }
-      else if (value > this.max) {
-        this.model = this.max
+      else if (val > props.max) {
+        model.value = props.max
       }
       else {
-        if (value !== this.model) {
-          this.model = value
+        if (val !== model.value) {
+          model.value = val
         }
         return
       }
 
-      if (this.model !== this.modelValue) {
-        this.$emit('update:modelValue', this.model)
-        this.$emit('change', this.model)
+      if (model.value !== props.modelValue) {
+        emit('update:modelValue', model.value)
+        emit('change', model.value)
+      }
+    })
+
+    const editable = computed(() => props.disable === false && props.readonly === false)
+
+    const classes = computed(() =>
+      'q-knob non-selectable' + (
+        editable.value === true
+          ? ' q-knob--editable'
+          : (props.disable === true ? ' disabled' : '')
+      )
+    )
+
+    const decimals = computed(() => (String(props.step).trim('0').split('.')[ 1 ] || '').length)
+    const step = computed(() => props.step === 0 ? 1 : props.step)
+    const instantFeedback = computed(() => props.instantFeedback === true || dragging.value === true)
+
+    const onEvents = computed(() => editable.value === true
+      ? (
+          $q.platform.is.mobile === true
+            ? { onClick }
+            : {
+                onMousedown,
+                onClick,
+                onKeydown,
+                onKeyup
+              }
+        )
+      : {}
+    )
+
+    const attrs = computed(() => editable.value === true
+      ? { tabindex: props.tabindex }
+      : { [ `aria-${props.disable === true ? 'disabled' : 'readonly'}` ]: 'true' }
+    )
+
+    const circularProps = computed(() => {
+      const agg = {}
+      commonPropsName.forEach(name => {
+        agg[ name ] = props[ name ]
+      })
+      return agg
+    })
+
+    function pan (event) {
+      if (event.isFinal) {
+        updatePosition(event.evt, true)
+        dragging.value = false
+      }
+      else if (event.isFirst) {
+        updateCenterPosition()
+        dragging.value = true
+        updatePosition(event.evt)
+      }
+      else {
+        updatePosition(event.evt)
       }
     }
-  },
 
-  computed: {
-    classes () {
-      return 'q-knob non-selectable' + (
-        this.editable === true
-          ? ' q-knob--editable'
-          : (this.disable === true ? ' disabled' : '')
-      )
-    },
-
-    editable () {
-      return this.disable === false && this.readonly === false
-    },
-
-    decimals () {
-      return (String(this.step).trim('0').split('.')[ 1 ] || '').length
-    },
-
-    computedStep () {
-      return this.step === 0 ? 1 : this.step
-    },
-
-    computedInstantFeedback () {
-      return this.instantFeedback === true ||
-        this.dragging === true
-    },
-
-    onEvents () {
-      return this.editable === true
-        ? (
-            this.$q.platform.is.mobile === true
-              ? { onClick: this.__click }
-              : {
-                  onMousedown: this.__activate,
-                  onClick: this.__click,
-                  onKeydown: this.__keydown,
-                  onKeyup: this.__keyup
-                }
-          )
-        : {}
-    },
-
-    attrs () {
-      return this.editable === true
-        ? { tabindex: this.tabindex }
-        : { [ `aria-${this.disable === true ? 'disabled' : 'readonly'}` ]: 'true' }
-    },
-
-    circularProps () {
-      const props = {}
-      commonPropsName.forEach(name => {
-        props[ name ] = this.$props[ name ]
-      })
-      return props
-    },
-
-    directives () {
+    const directives = computed(() => {
       return [[
         TouchPan,
-        this.__pan,
+        pan,
         void 0,
         { prevent: true, stop: true, mouse: true }
       ]]
-    }
-  },
+    })
 
-  methods: {
-    __updateCenterPosition () {
-      const { top, left, width, height } = this.$el.getBoundingClientRect()
-      this.centerPosition = {
+    function updateCenterPosition () {
+      const { top, left, width, height } = $el.getBoundingClientRect()
+      centerPosition = {
         top: top + height / 2,
         left: left + width / 2
       }
-    },
+    }
 
-    __pan (event) {
-      if (event.isFinal) {
-        this.__updatePosition(event.evt, true)
-        this.dragging = false
-      }
-      else if (event.isFirst) {
-        this.__updateCenterPosition()
-        this.dragging = true
-        this.__updatePosition(event.evt)
-      }
-      else {
-        this.__updatePosition(event.evt)
-      }
-    },
+    function onMousedown (evt) {
+      updateCenterPosition()
+      updatePosition(evt)
+    }
 
-    __click (evt) {
-      this.__updateCenterPosition()
-      this.__updatePosition(evt, true)
-    },
+    function onClick (evt) {
+      updateCenterPosition()
+      updatePosition(evt, true)
+    }
 
-    __keydown (evt) {
+    function onKeydown (evt) {
       if (!keyCodes.includes(evt.keyCode)) {
         return
       }
@@ -174,119 +161,119 @@ export default defineComponent({
       stopAndPrevent(evt)
 
       const
-        step = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
-        offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -step : step
+        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * step.value,
+        offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -stepVal : stepVal
 
-      this.model = between(
-        parseFloat((this.model + offset).toFixed(this.decimals)),
-        this.min,
-        this.max
+      model.value = between(
+        parseFloat((model.value + offset).toFixed(decimals.value)),
+        props.min,
+        props.max
       )
 
-      this.__updateValue()
-    },
+      updateValue()
+    }
 
-    __keyup (evt) {
-      if (keyCodes.includes(evt.keyCode)) {
-        this.__updateValue(true)
-      }
-    },
-
-    __activate (evt) {
-      this.__updateCenterPosition()
-      this.__updatePosition(evt)
-    },
-
-    __updatePosition (evt, change) {
+    function updatePosition (evt, change) {
       const
-        center = this.centerPosition,
         pos = position(evt),
-        height = Math.abs(pos.top - center.top),
+        height = Math.abs(pos.top - centerPosition.top),
         distance = Math.sqrt(
           height ** 2 +
-          Math.abs(pos.left - center.left) ** 2
+          Math.abs(pos.left - centerPosition.left) ** 2
         )
 
       let angle = Math.asin(height / distance) * (180 / Math.PI)
 
-      if (pos.top < center.top) {
-        angle = center.left < pos.left ? 90 - angle : 270 + angle
+      if (pos.top < centerPosition.top) {
+        angle = centerPosition.left < pos.left ? 90 - angle : 270 + angle
       }
       else {
-        angle = center.left < pos.left ? angle + 90 : 270 - angle
+        angle = centerPosition.left < pos.left ? angle + 90 : 270 - angle
       }
 
-      if (this.angle) {
-        angle = normalizeToInterval(angle - this.angle, 0, 360)
+      if (props.angle) {
+        angle = normalizeToInterval(angle - props.angle, 0, 360)
       }
 
-      if (this.$q.lang.rtl === true) {
+      if ($q.lang.rtl === true) {
         angle = 360 - angle
       }
 
-      let model = this.min + (angle / 360) * (this.max - this.min)
+      let newModel = props.min + (angle / 360) * (props.max - props.min)
 
-      if (this.step !== 0) {
-        const
-          step = this.computedStep,
-          modulo = model % step
+      if (step.value !== 0) {
+        const modulo = newModel % step.value
 
-        model = model - modulo +
-          (Math.abs(modulo) >= step / 2 ? (modulo < 0 ? -1 : 1) * step : 0)
+        newModel = newModel - modulo +
+          (Math.abs(modulo) >= step.value / 2 ? (modulo < 0 ? -1 : 1) * step.value : 0)
 
-        model = parseFloat(model.toFixed(this.decimals))
+        newModel = parseFloat(newModel.toFixed(decimals.value))
       }
 
-      model = between(model, this.min, this.max)
+      newModel = between(newModel, props.min, props.max)
 
-      this.$emit('drag-value', model)
+      emit('drag-value', newModel)
 
-      if (this.model !== model) {
-        this.model = model
+      if (model.value !== newModel) {
+        model.value = newModel
       }
 
-      this.__updateValue(change)
-    },
-
-    __updateValue (change) {
-      this.modelValue !== this.model && this.$emit('update:modelValue', this.model)
-      change === true && this.$emit('change', this.model)
-    },
-
-    __getNameInput () {
-      return h('input', this.formAttrs)
-    }
-  },
-
-  render () {
-    const data = {
-      class: this.classes,
-      role: 'slider',
-      'aria-valuemin': this.min,
-      'aria-valuemax': this.max,
-      'aria-valuenow': this.modelValue,
-      ...this.attrs,
-      ...this.circularProps,
-      value: this.model,
-      instantFeedback: this.computedInstantFeedback,
-      ...this.onEvents
+      updateValue(change)
     }
 
-    const child = {
-      default: this.$slots.default
+    function onKeyup (evt) {
+      if (keyCodes.includes(evt.keyCode)) {
+        updateValue(true)
+      }
     }
 
-    if (this.editable === true) {
-      if (this.name !== void 0) {
-        child.internal = this.__getNameInput
+    function updateValue (change) {
+      props.modelValue !== model.value && emit('update:modelValue', model.value)
+      change === true && emit('change', model.value)
+    }
+
+    const formAttrs = useFormAttrs(props)
+
+    function getNameInput () {
+      return h('input', formAttrs.value)
+    }
+
+    const instance = getCurrentInstance()
+
+    onMounted(() => {
+      $el = instance.proxy.$el
+    })
+
+    return () => {
+      const data = {
+        class: classes.value,
+        role: 'slider',
+        'aria-valuemin': props.min,
+        'aria-valuemax': props.max,
+        'aria-valuenow': props.modelValue,
+        ...attrs.value,
+        ...circularProps.value,
+        value: model.value,
+        instantFeedback: instantFeedback.value,
+        ...onEvents.value
       }
 
-      return withDirectives(
-        h(QCircularProgress, data, child),
-        this.directives
-      )
-    }
+      const child = {
+        default: slots.default
+      }
 
-    return h(QCircularProgress, data, child)
+      if (editable.value === true) {
+        if (props.name !== void 0) {
+          child.internal = getNameInput
+        }
+
+        return withDirectives(
+          h(QCircularProgress, data, child),
+          directives.value
+        )
+      }
+
+      return h(QCircularProgress, data, child)
+    }
   }
 })

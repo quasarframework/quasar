@@ -10,6 +10,8 @@ export default defineComponent({
   name: 'QAvatar',
 
   props: {
+    ...useSizeProps,
+
     fontSize: String,
 
     color: String,
@@ -17,9 +19,7 @@ export default defineComponent({
 
     icon: String,
     square: Boolean,
-    rounded: Boolean,
-
-    ...useSizeProps
+    rounded: Boolean
   },
 
   setup (props, { slots }) {

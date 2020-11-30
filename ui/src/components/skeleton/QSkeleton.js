@@ -21,6 +21,8 @@ export default defineComponent({
   name: 'QSkeleton',
 
   props: {
+    ...useDarkProps,
+
     tag: {
       type: String,
       default: 'div'
@@ -43,9 +45,7 @@ export default defineComponent({
 
     size: String,
     width: String,
-    height: String,
-
-    ...useDarkProps
+    height: String
   },
 
   setup (props, { slots }) {

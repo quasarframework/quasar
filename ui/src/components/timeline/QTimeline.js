@@ -10,6 +10,8 @@ export default defineComponent({
   name: 'QTimeline',
 
   props: {
+    ...useDarkProps,
+
     color: {
       type: String,
       default: 'primary'
@@ -23,9 +25,7 @@ export default defineComponent({
       type: String,
       default: 'dense',
       validator: v => [ 'dense', 'comfortable', 'loose' ].includes(v)
-    },
-
-    ...useDarkProps
+    }
   },
 
   setup (props, { slots }) {

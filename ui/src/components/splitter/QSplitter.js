@@ -11,6 +11,8 @@ export default defineComponent({
   name: 'QSplitter',
 
   props: {
+    ...useDarkProps,
+
     modelValue: {
       type: Number,
       required: true
@@ -40,9 +42,7 @@ export default defineComponent({
     afterClass: [ Array, String, Object ],
 
     separatorClass: [ Array, String, Object ],
-    separatorStyle: [ Array, String, Object ],
-
-    ...useDarkProps
+    separatorStyle: [ Array, String, Object ]
   },
 
   emits: ['update:modelValue'],

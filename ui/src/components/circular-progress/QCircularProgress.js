@@ -14,6 +14,8 @@ const
 
 // used by QKnob
 export const commonProps = {
+  ...useSizeProps,
+
   min: {
     type: Number,
     default: 0
@@ -44,9 +46,7 @@ export const commonProps = {
   showValue: Boolean,
   reverse: Boolean,
 
-  instantFeedback: Boolean,
-
-  ...useSizeProps
+  instantFeedback: Boolean
 }
 
 export default defineComponent({

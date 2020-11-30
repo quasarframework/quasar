@@ -19,6 +19,8 @@ export default defineComponent({
   name: 'QOptionGroup',
 
   props: {
+    ...useDarkProps,
+
     modelValue: {
       required: true
     },
@@ -42,9 +44,7 @@ export default defineComponent({
 
     leftLabel: Boolean,
     inline: Boolean,
-    disable: Boolean,
-
-    ...useDarkProps
+    disable: Boolean
   },
 
   emits: ['update:modelValue'],

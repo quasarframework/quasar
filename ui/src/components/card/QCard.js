@@ -9,6 +9,8 @@ export default defineComponent({
   name: 'QCard',
 
   props: {
+    ...useDarkProps,
+
     tag: {
       type: String,
       default: 'div'
@@ -16,9 +18,7 @@ export default defineComponent({
 
     square: Boolean,
     flat: Boolean,
-    bordered: Boolean,
-
-    ...useDarkProps
+    bordered: Boolean
   },
 
   setup (props, { slots }) {

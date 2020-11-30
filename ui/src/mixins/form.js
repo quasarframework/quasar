@@ -1,3 +1,7 @@
+// this file will eventually be removed
+// and superseeded by use-form.js
+// after all components use composition api
+
 import { h } from 'vue'
 
 export default {

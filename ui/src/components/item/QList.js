@@ -9,12 +9,12 @@ export default defineComponent({
   name: 'QList',
 
   props: {
+    ...useDarkProps,
+
     bordered: Boolean,
     dense: Boolean,
     separator: Boolean,
-    padding: Boolean,
-
-    ...useDarkProps
+    padding: Boolean
   },
 
   setup (props, { slots }) {

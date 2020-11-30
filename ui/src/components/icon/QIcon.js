@@ -9,6 +9,8 @@ export default defineComponent({
   name: 'QIcon',
 
   props: {
+    ...useSizeProps,
+
     tag: {
       type: String,
       default: 'i'
@@ -17,9 +19,7 @@ export default defineComponent({
     name: String,
     color: String,
     left: Boolean,
-    right: Boolean,
-
-    ...useSizeProps
+    right: Boolean
   },
 
   setup (props, { slots }) {

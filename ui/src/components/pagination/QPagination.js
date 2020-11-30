@@ -13,6 +13,8 @@ export default defineComponent({
   name: 'QPagination',
 
   props: {
+    ...useDarkProps,
+
     modelValue: {
       type: Number,
       required: true
@@ -73,9 +75,7 @@ export default defineComponent({
     ripple: {
       type: [ Boolean, Object ],
       default: null
-    },
-
-    ...useDarkProps
+    }
   },
 
   emits: ['update:modelValue'],
