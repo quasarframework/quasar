@@ -1,11 +1,10 @@
-import { computed, watch, onActivated, onDeactivated, onUnmounted } from 'vue'
+import { computed, watch, onActivated, onDeactivated, onUnmounted, useSSRContext } from 'vue'
 
-import useQuasar from './use-quasar.js'
 import { clientList, planClientUpdate } from '../plugins/Meta.js'
 
 export default metaOptions => {
   if (__QUASAR_SSR_SERVER__) {
-    const { ssrContext } = useQuasar()
+    const ssrContext = useSSRContext()
 
     ssrContext.__qMetaList.push(
       typeof metaOptions === 'function'
@@ -20,7 +19,7 @@ export default metaOptions => {
       const content = computed(metaOptions)
       meta.val = content.value
 
-      watch(() => content.value, val => {
+      watch(content, val => {
         meta.val = val
         meta.active === true && planClientUpdate()
       })
