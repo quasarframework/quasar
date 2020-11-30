@@ -1,12 +1,19 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import { listenOpts } from '../../utils/event.js'
-import CanRenderMixin from '../../mixins/can-render.js'
+import useCanRender from '../../composables/use-can-render.js'
+
+import { listenOpts, noop } from '../../utils/event.js'
+
+const hasObserver = typeof ResizeObserver !== 'undefined'
+const resizeProps = hasObserver === true
+  ? {}
+  : {
+      style: 'display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;',
+      url: 'about: blank'
+    }
 
 export default defineComponent({
   name: 'QResizeObserver',
-
-  mixins: [CanRenderMixin],
 
   props: {
     debounce: {
@@ -17,113 +24,110 @@ export default defineComponent({
 
   emits: ['resize'],
 
-  data () {
-    return this.hasObserver === true
-      ? {}
-      : { url: 'about:blank' }
-  },
+  setup (props, { emit }) {
+    if (__QUASAR_SSR_SERVER__) { return noop }
 
-  methods: {
-    trigger (now) {
-      if (now === true || this.debounce === 0 || this.debounce === '0') {
-        this.__onResize()
+    let timer, targetEl, size = { width: -1, height: -1 }
+
+    function trigger (now) {
+      if (now === true || props.debounce === 0 || props.debounce === '0') {
+        onResize()
       }
-      else if (!this.timer) {
-        this.timer = setTimeout(this.__onResize, this.debounce)
+      else if (!timer) {
+        timer = setTimeout(onResize, props.debounce)
       }
-    },
+    }
 
-    __onResize () {
-      this.timer = null
+    function onResize () {
+      timer = void 0
 
-      if (!this.$el || !this.$el.parentNode) {
-        return
+      const { offsetWidth: width, offsetHeight: height } = targetEl
+
+      if (width !== size.width || height !== size.height) {
+        size = { width, height }
+        emit('resize', size)
+      }
+    }
+
+    const instance = getCurrentInstance()
+
+    // expose public methods
+    Object.assign(instance.proxy, { trigger })
+
+    if (hasObserver === true) {
+      let observer
+
+      onMounted(() => {
+        targetEl = instance.proxy.$el.parentNode
+
+        observer = new ResizeObserver(trigger)
+        observer.observe(targetEl)
+
+        onResize()
+      })
+
+      onBeforeUnmount(() => {
+        clearTimeout(timer)
+
+        if (observer !== void 0) {
+          if (observer.disconnect !== void 0) {
+            observer.disconnect()
+          }
+          else if (targetEl) { // FF for Android
+            observer.unobserve(targetEl)
+          }
+        }
+      })
+
+      return noop
+    }
+    else { // no observer, so fallback to old iframe method
+      const { canRender } = useCanRender()
+
+      let curDocView
+
+      function cleanup () {
+        clearTimeout(timer)
+
+        if (curDocView !== void 0) {
+          // iOS is fuzzy, need to check it first
+          if (curDocView.removeEventListener !== void 0) {
+            curDocView.removeEventListener('resize', trigger, listenOpts.passive)
+          }
+          curDocView = void 0
+        }
       }
 
-      const
-        parent = this.$el.parentNode,
-        size = {
-          width: parent.offsetWidth,
-          height: parent.offsetHeight
+      function onObjLoad () {
+        cleanup()
+
+        if (targetEl.contentDocument) {
+          curDocView = targetEl.contentDocument.defaultView
+          curDocView.addEventListener('resize', trigger, listenOpts.passive)
         }
 
-      if (size.width === this.size.width && size.height === this.size.height) {
-        return
+        onResize()
       }
 
-      this.size = size
-      this.$emit('resize', this.size)
-    },
+      onMounted(() => {
+        targetEl = instance.proxy.$el
+        onObjLoad()
+      })
 
-    __cleanup () {
-      if (this.curDocView !== void 0) {
-        // iOS is fuzzy, need to check it first
-        if (this.curDocView.removeEventListener !== void 0) {
-          this.curDocView.removeEventListener('resize', this.trigger, listenOpts.passive)
+      onBeforeUnmount(cleanup)
+
+      return () => {
+        if (canRender.value === true) {
+          return h('object', {
+            style: resizeProps.style,
+            tabindex: -1, // fix for Firefox
+            type: 'text/html',
+            data: resizeProps.url,
+            'aria-hidden': 'true',
+            onLoad: onObjLoad
+          })
         }
-        this.curDocView = void 0
       }
-    },
-
-    __onObjLoad () {
-      this.__cleanup()
-
-      if (this.$el.contentDocument) {
-        this.curDocView = this.$el.contentDocument.defaultView
-        this.curDocView.addEventListener('resize', this.trigger, listenOpts.passive)
-      }
-
-      this.__onResize()
     }
-  },
-
-  render () {
-    if (this.canRender === false || this.hasObserver === true) {
-      return
-    }
-
-    return h('object', {
-      style: this.style,
-      tabindex: -1, // fix for Firefox
-      type: 'text/html',
-      data: this.url,
-      'aria-hidden': 'true',
-      onLoad: this.__onObjLoad
-    })
-  },
-
-  beforeCreate () {
-    this.size = { width: -1, height: -1 }
-    if (__QUASAR_SSR_SERVER__) { return }
-
-    this.hasObserver = typeof ResizeObserver !== 'undefined'
-
-    if (this.hasObserver !== true) {
-      this.style = 'display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;'
-    }
-  },
-
-  mounted () {
-    if (this.hasObserver === true) {
-      this.observer = new ResizeObserver(this.trigger)
-      this.observer.observe(this.$el.parentNode)
-      this.__onResize()
-    }
-    else {
-      this.__onObjLoad()
-    }
-  },
-
-  beforeUnmount () {
-    clearTimeout(this.timer)
-
-    if (this.hasObserver === true) {
-      if (this.observer !== void 0 && this.$el.parentNode) {
-        this.observer.unobserve(this.$el.parentNode)
-      }
-      return
-    }
-
-    this.__cleanup()
   }
 })
