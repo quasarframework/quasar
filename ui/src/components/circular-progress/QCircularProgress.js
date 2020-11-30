@@ -62,7 +62,13 @@ export default Vue.extend({
     },
 
     svgStyle () {
-      return { transform: `rotate3d(0, 0, 1, ${this.angle - 90}deg)` }
+      const angle = this.$q.lang.rtl === true ? -this.angle : this.angle
+
+      if (this.reverse !== (this.$q.lang.rtl === true)) {
+        return { transform: `scale3d(-1, 1, 1) rotate3d(0, 0, 1, ${-90 - angle}deg)` }
+      }
+
+      return { transform: `rotate3d(0, 0, 1, ${angle - 90}deg)` }
     },
 
     circleStyle () {
@@ -85,7 +91,7 @@ export default Vue.extend({
 
     strokeDashOffset () {
       const progress = 1 - (this.normalizedValue - this.min) / (this.max - this.min)
-      return (this.dir * progress) * circumference
+      return progress * circumference
     },
 
     strokeWidth () {
