@@ -1,6 +1,6 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/composition-render.js'
 
 export default defineComponent({
   name: 'QBtnGroup',
@@ -16,18 +16,16 @@ export default defineComponent({
     spread: Boolean
   },
 
-  computed: {
-    classes () {
-      const props = [ 'unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch', 'glossy' ]
-        .filter(t => this[ t ] === true)
+  setup (props, { slots }) {
+    const classes = computed(() => {
+      const cls = [ 'unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch', 'glossy' ]
+        .filter(t => props[ t ] === true)
         .map(t => `q-btn-group--${t}`).join(' ')
 
-      return `q-btn-group row no-wrap${props.length > 0 ? ' ' + props : ''}` +
-        (this.spread === true ? ' q-btn-group--spread' : ' inline')
-    }
-  },
+      return `q-btn-group row no-wrap${cls.length > 0 ? ' ' + cls : ''}` +
+        (props.spread === true ? ' q-btn-group--spread' : ' inline')
+    })
 
-  render () {
-    return h('div', { class: this.classes }, hSlot(this, 'default'))
+    return () => h('div', { class: classes.value }, hSlot(slots.default))
   }
 })

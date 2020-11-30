@@ -9,7 +9,7 @@
         on the Toggle below to see the transition in action.
       </div>
 
-      <!-- TODO vue3 - SSR import _imports_0 from vue-loader issue <div class="q-mt-xl q-mb-xs">
+      <div class="q-mt-xl q-mb-xs">
         <q-toggle v-model="visibleVShow" label="Visible with v-show" />
       </div>
       <q-slide-transition @show="log('show')" @hide="log('hide')">
@@ -77,7 +77,7 @@
             </div>
           </q-slide-transition>
         </div>
-      </q-slide-transition> -->
+      </q-slide-transition>
 
       <div style="height: 500px">
         Scroll on purpose

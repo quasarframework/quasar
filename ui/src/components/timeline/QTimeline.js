@@ -1,19 +1,13 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed, provide } from 'vue'
 
-import DarkMixin from '../../mixins/dark.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useDark, { useDarkProps } from '../../composables/use-dark.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/composition-render.js'
+import { timelineKey } from '../../utils/symbols.js'
 
 export default defineComponent({
   name: 'QTimeline',
-
-  mixins: [DarkMixin],
-
-  provide () {
-    return {
-      __qTimeline: this
-    }
-  },
 
   props: {
     color: {
@@ -29,19 +23,22 @@ export default defineComponent({
       type: String,
       default: 'dense',
       validator: v => [ 'dense', 'comfortable', 'loose' ].includes(v)
-    }
+    },
+
+    ...useDarkProps
   },
 
-  computed: {
-    classes () {
-      return `q-timeline q-timeline--${this.layout} q-timeline--${this.layout}--${this.side}` +
-        (this.isDark === true ? ' q-timeline--dark' : '')
-    }
-  },
+  setup (props, { slots }) {
+    const $q = useQuasar()
+    const { isDark } = useDark(props, $q)
 
-  render () {
-    return h('ul', {
-      class: this.classes
-    }, hSlot(this, 'default'))
+    provide(timelineKey, props)
+
+    const classes = computed(() =>
+      `q-timeline q-timeline--${props.layout} q-timeline--${props.layout}--${props.side}` +
+      (isDark.value === true ? ' q-timeline--dark' : '')
+    )
+
+    return () => h('ul', { class: classes.value }, hSlot(slots.default))
   }
 })

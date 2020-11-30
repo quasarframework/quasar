@@ -1,15 +1,14 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, computed, watch, nextTick } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
-import DarkMixin from '../../mixins/dark.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useDark, { useDarkProps } from '../../composables/use-dark.js'
 
-import { hSlot, hMergeSlot, hDir } from '../../utils/render.js'
+import { hSlot, hMergeSlot, hDir } from '../../utils/composition-render.js'
 
 export default defineComponent({
   name: 'QSplitter',
-
-  mixins: [DarkMixin],
 
   props: {
     modelValue: {
@@ -41,170 +40,166 @@ export default defineComponent({
     afterClass: [ Array, String, Object ],
 
     separatorClass: [ Array, String, Object ],
-    separatorStyle: [ Array, String, Object ]
+    separatorStyle: [ Array, String, Object ],
+
+    ...useDarkProps
   },
 
   emits: ['update:modelValue'],
 
-  watch: {
-    modelValue: {
-      immediate: true,
-      handler (v) {
-        this.__normalize(v, this.computedLimits)
-      }
-    },
+  setup (props, { slots, emit }) {
+    const $q = useQuasar()
+    const { isDark } = useDark(props, $q)
 
-    limits: {
-      deep: true,
-      handler () {
-        this.$nextTick(() => {
-          this.__normalize(this.modelValue, this.computedLimits)
-        })
+    const rootRef = ref(null)
+    const sideRefs = {
+      before: ref(null),
+      after: ref(null)
+    }
+
+    const classes = computed(() =>
+      `q-splitter no-wrap ` +
+      `${props.horizontal === true ? 'q-splitter--horizontal column' : 'q-splitter--vertical row'}` +
+      ` q-splitter--${props.disable === true ? 'disabled' : 'workable'}` +
+      (isDark.value === true ? ' q-splitter--dark' : '')
+    )
+
+    const propName = computed(() => props.horizontal === true ? 'height' : 'width')
+    const side = computed(() => props.reverse !== true ? 'before' : 'after')
+
+    const computedLimits = computed(() => props.limits !== void 0
+      ? props.limits
+      : (props.unit === '%' ? [ 10, 90 ] : [ 50, Infinity ])
+    )
+
+    function getCSSValue (value) {
+      return (props.unit === '%' ? value : Math.round(value)) + props.unit
+    }
+
+    const styles = computed(() => ({
+      [ side.value ]: {
+        [ propName.value ]: getCSSValue(props.modelValue)
+      }
+    }))
+
+    let __dir, __maxValue, __value, __multiplier, __normalized
+
+    function pan (evt) {
+      if (evt.isFirst === true) {
+        const size = rootRef.value.getBoundingClientRect()[ propName.value ]
+
+        __dir = props.horizontal === true ? 'up' : 'left'
+        __maxValue = props.unit === '%' ? 100 : size
+        __value = Math.min(__maxValue, computedLimits.value[ 1 ], Math.max(computedLimits.value[ 0 ], props.modelValue))
+        __multiplier = (props.reverse !== true ? 1 : -1) *
+          (props.horizontal === true ? 1 : ($q.lang.rtl === true ? -1 : 1)) *
+          (props.unit === '%' ? (size === 0 ? 0 : 100 / size) : 1)
+
+        rootRef.value.classList.add('q-splitter--active')
+        return
+      }
+
+      if (evt.isFinal === true) {
+        if (__normalized !== props.modelValue) {
+          emit('update:modelValue', __normalized)
+        }
+
+        rootRef.value.classList.remove('q-splitter--active')
+        return
+      }
+
+      const val = __value +
+        __multiplier *
+        (evt.direction === __dir ? -1 : 1) *
+        evt.distance[ props.horizontal === true ? 'y' : 'x' ]
+
+      __normalized = Math.min(__maxValue, computedLimits.value[ 1 ], Math.max(computedLimits.value[ 0 ], val))
+
+      sideRefs[ side.value ].value.style[ propName.value ] = getCSSValue(__normalized)
+
+      if (props.emitImmediately === true && props.modelValue !== __normalized) {
+        emit('update:modelValue', __normalized)
       }
     }
-  },
 
-  computed: {
-    classes () {
-      return `q-splitter no-wrap ${this.horizontal === true ? 'column' : 'row'}` +
-        ` q-splitter--${this.horizontal === true ? 'horizontal' : 'vertical'}` +
-        ` q-splitter--${this.disable === true ? 'disabled' : 'workable'}` +
-        (this.isDark === true ? ' q-splitter--dark' : '')
-    },
-
-    prop () {
-      return this.horizontal === true ? 'height' : 'width'
-    },
-
-    side () {
-      return this.reverse !== true ? 'before' : 'after'
-    },
-
-    computedLimits () {
-      return this.limits !== void 0
-        ? this.limits
-        : (this.unit === '%' ? [ 10, 90 ] : [ 50, Infinity ])
-    },
-
-    styles () {
-      return {
-        [ this.side ]: {
-          [ this.prop ]: this.__getCSSValue(this.modelValue)
-        }
-      }
-    },
-
-    sepDirective () {
-      // if this.disable !== true
+    const sepDirective = computed(() => {
+      // if props.disable !== true
       return [[
         TouchPan,
-        this.__pan,
+        pan,
         void 0,
         {
-          [ this.horizontal === true ? 'vertical' : 'horizontal' ]: true,
+          [ props.horizontal === true ? 'vertical' : 'horizontal' ]: true,
           prevent: true,
           stop: true,
           mouse: true,
           mouseAllDir: true
         }
       ]]
-    }
-  },
+    })
 
-  methods: {
-    __pan (evt) {
-      if (evt.isFirst === true) {
-        const size = this.$el.getBoundingClientRect()[ this.prop ]
-
-        this.__dir = this.horizontal === true ? 'up' : 'left'
-        this.__maxValue = this.unit === '%' ? 100 : size
-        this.__value = Math.min(this.__maxValue, this.computedLimits[ 1 ], Math.max(this.computedLimits[ 0 ], this.modelValue))
-        this.__multiplier = (this.reverse !== true ? 1 : -1) *
-          (this.horizontal === true ? 1 : (this.$q.lang.rtl === true ? -1 : 1)) *
-          (this.unit === '%' ? (size === 0 ? 0 : 100 / size) : 1)
-
-        this.$el.classList.add('q-splitter--active')
-        return
-      }
-
-      if (evt.isFinal === true) {
-        if (this.__normalized !== this.modelValue) {
-          this.$emit('update:modelValue', this.__normalized)
-        }
-
-        this.$el.classList.remove('q-splitter--active')
-        return
-      }
-
-      const val = this.__value +
-        this.__multiplier *
-        (evt.direction === this.__dir ? -1 : 1) *
-        evt.distance[ this.horizontal === true ? 'y' : 'x' ]
-
-      this.__normalized = Math.min(this.__maxValue, this.computedLimits[ 1 ], Math.max(this.computedLimits[ 0 ], val))
-
-      this.$refs[ this.side ].style[ this.prop ] = this.__getCSSValue(this.__normalized)
-
-      if (this.emitImmediately === true && this.modelValue !== this.__normalized) {
-        this.$emit('update:modelValue', this.__normalized)
-      }
-    },
-
-    __normalize (val, limits) {
+    function normalize (val, limits) {
       if (val < limits[ 0 ]) {
-        this.$emit('update:modelValue', limits[ 0 ])
+        emit('update:modelValue', limits[ 0 ])
       }
       else if (val > limits[ 1 ]) {
-        this.$emit('update:modelValue', limits[ 1 ])
+        emit('update:modelValue', limits[ 1 ])
       }
-    },
-
-    __getCSSValue (value) {
-      return (this.unit === '%' ? value : Math.round(value)) + this.unit
     }
-  },
 
-  render () {
-    const child = [
-      h('div', {
-        ref: 'before',
-        class: [
-          'q-splitter__panel q-splitter__before' + (this.reverse === true ? ' col' : ''),
-          this.beforeClass
-        ],
-        style: this.styles.before
-      }, hSlot(this, 'before')),
+    watch(() => props.modelValue, v => {
+      normalize(v, computedLimits.value)
+    })
 
-      h('div', {
-        class: [
-          'q-splitter__separator',
-          this.separatorClass
-        ],
-        style: this.separatorStyle,
-        'aria-disabled': this.disable === true ? 'true' : void 0
-      }, [
-        hDir(
-          'div',
-          { class: 'q-splitter__separator-area absolute-full' },
-          hSlot(this, 'separator'),
-          'sep',
-          this.disable !== true,
-          () => this.sepDirective
-        )
-      ]),
+    watch(() => props.limits, () => {
+      nextTick(() => {
+        normalize(props.modelValue, computedLimits.value)
+      })
+    })
 
-      h('div', {
-        ref: 'after',
-        class: [
-          'q-splitter__panel q-splitter__after' + (this.reverse === true ? '' : ' col'),
-          this.afterClass
-        ],
-        style: this.styles.after
-      }, hSlot(this, 'after'))
-    ]
+    return () => {
+      const child = [
+        h('div', {
+          ref: sideRefs.before,
+          class: [
+            'q-splitter__panel q-splitter__before' + (props.reverse === true ? ' col' : ''),
+            props.beforeClass
+          ],
+          style: styles.value.before
+        }, hSlot(slots.before)),
 
-    return h('div', {
-      class: this.classes
-    }, hMergeSlot(this, 'default', child))
+        h('div', {
+          class: [
+            'q-splitter__separator',
+            props.separatorClass
+          ],
+          style: props.separatorStyle,
+          'aria-disabled': props.disable === true ? 'true' : void 0
+        }, [
+          hDir(
+            'div',
+            { class: 'q-splitter__separator-area absolute-full' },
+            hSlot(slots.separator),
+            'sep',
+            props.disable !== true,
+            () => sepDirective.value
+          )
+        ]),
+
+        h('div', {
+          ref: sideRefs.after,
+          class: [
+            'q-splitter__panel q-splitter__after' + (props.reverse === true ? '' : ' col'),
+            props.afterClass
+          ],
+          style: styles.value.after
+        }, hSlot(slots.after))
+      ]
+
+      return h('div', {
+        class: classes.value,
+        ref: rootRef
+      }, hMergeSlot(slots.default, child))
+    }
   }
 })

@@ -48,13 +48,15 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const $q = useQuasar()
-    const { ratioStyle } = useRatio(props)
+
+    const naturalRatio = ref(null)
+
+    const { ratioStyle } = useRatio(props, naturalRatio)
 
     const currentSrc = ref('')
     const image = ref(null)
     const isLoading = ref(!!props.src)
     const hasError = ref(false)
-    const naturalRatio = ref(null)
 
     const url = computed(() => currentSrc.value || props.placeholderSrc || void 0)
 

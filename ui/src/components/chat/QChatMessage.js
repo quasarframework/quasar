@@ -1,6 +1,6 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import { hUniqueSlot } from '../../utils/render.js'
+import { hUniqueSlot } from '../../utils/composition-render.js'
 
 export default defineComponent({
   name: 'QChatMessage',
@@ -21,138 +21,124 @@ export default defineComponent({
     stampHtml: Boolean
   },
 
-  computed: {
-    textClass () {
-      return `q-message-text-content q-message-text-content--${this.op}` +
-        (this.textColor !== void 0 ? ` text-${this.textColor}` : '')
-    },
+  setup (props, { slots }) {
+    const op = computed(() => props.sent === true ? 'sent' : 'received')
 
-    messageClass () {
-      return `q-message-text q-message-text--${this.op}` +
-        (this.bgColor !== void 0 ? ` text-${this.bgColor}` : '')
-    },
+    const textClass = computed(() =>
+      `q-message-text-content q-message-text-content--${op.value}` +
+      (props.textColor !== void 0 ? ` text-${props.textColor}` : '')
+    )
 
-    containerClass () {
-      return 'q-message-container row items-end no-wrap' +
-        (this.sent === true ? ' reverse' : '')
-    },
+    const messageClass = computed(() =>
+      `q-message-text q-message-text--${op.value}` +
+      (props.bgColor !== void 0 ? ` text-${props.bgColor}` : '')
+    )
 
-    sizeClass () {
-      if (this.size !== void 0) {
-        return `col-${this.size}`
-      }
-    },
+    const containerClass = computed(() =>
+      'q-message-container row items-end no-wrap' +
+      (props.sent === true ? ' reverse' : '')
+    )
 
-    op () {
-      return this.sent === true ? 'sent' : 'received'
-    },
+    const sizeClass = computed(() => props.size !== void 0 ? `col-${props.size}` : '')
 
-    domProps () {
-      return {
-        msg: this.textHtml === true ? 'innerHTML' : 'textContent',
-        stamp: this.stampHtml === true ? 'innerHTML' : 'textContent',
-        name: this.nameHtml === true ? 'innerHTML' : 'textContent',
-        label: this.labelHtml === true ? 'innerHTML' : 'textContent'
-      }
-    }
-  },
+    const domProps = computed(() => ({
+      msg: props.textHtml === true ? 'innerHTML' : 'textContent',
+      stamp: props.stampHtml === true ? 'innerHTML' : 'textContent',
+      name: props.nameHtml === true ? 'innerHTML' : 'textContent',
+      label: props.labelHtml === true ? 'innerHTML' : 'textContent'
+    }))
 
-  methods: {
-    __getText () {
-      const withStamp = this.stamp
+    function getText () {
+      const withStamp = props.stamp
         ? node => [
             node,
             h('div', {
               class: 'q-message-stamp',
-              [ this.domProps.stamp ]: this.stamp
+              [ domProps.value.stamp ]: props.stamp
             })
           ]
         : node => [node]
 
-      return this.text.map((msg, index) => h('div', {
+      return props.text.map((msg, index) => h('div', {
         key: index,
-        class: this.messageClass
+        class: messageClass.value
       }, [
         h(
           'div',
-          { class: this.textClass },
+          { class: textClass.value },
           withStamp(
-            h('div', { [ this.domProps.msg ]: msg })
+            h('div', { [ domProps.value.msg ]: msg })
           )
         )
       ]))
-    },
+    }
 
-    __getMessage () {
-      const content = hUniqueSlot(this, 'default', [])
+    function getMessage () {
+      const content = hUniqueSlot(slots.default, [])
 
-      this.stamp !== void 0 && content.push(
+      props.stamp !== void 0 && content.push(
         h('div', {
           class: 'q-message-stamp',
-          [ this.domProps.stamp ]: this.stamp
+          [ domProps.value.stamp ]: props.stamp
         })
       )
 
-      return h('div', { class: this.messageClass }, [
+      return h('div', { class: messageClass.value }, [
         h('div', {
-          class: 'q-message-text-content ' + this.textClass
+          class: 'q-message-text-content ' + textClass.value
         }, content)
       ])
     }
-  },
 
-  render () {
-    const container = []
+    return () => {
+      const container = []
 
-    if (this.$slots.avatar !== void 0) {
-      container.push(this.$slots.avatar())
-    }
-    else if (this.avatar !== void 0) {
-      container.push(
-        h('img', {
-          class: `q-message-avatar q-message-avatar--${this.op}`,
-          src: this.avatar,
-          'aria-hidden': 'true'
+      if (slots.avatar !== void 0) {
+        container.push(slots.avatar())
+      }
+      else if (props.avatar !== void 0) {
+        container.push(
+          h('img', {
+            class: `q-message-avatar q-message-avatar--${op.value}`,
+            src: props.avatar,
+            'aria-hidden': 'true'
+          })
+        )
+      }
+
+      const msg = []
+
+      props.name !== void 0 && msg.push(
+        h('div', {
+          class: `q-message-name q-message-name--${op.value}`,
+          [ domProps.value.name ]: props.name
         })
       )
+
+      props.text !== void 0 && msg.push(getText())
+
+      slots.default !== void 0 && msg.push(getMessage())
+
+      container.push(
+        h('div', { class: sizeClass.value }, msg)
+      )
+
+      const child = []
+
+      props.label && child.push(
+        h('div', {
+          class: 'q-message-label text-center',
+          [ domProps.value.label ]: props.label
+        })
+      )
+
+      child.push(
+        h('div', { class: containerClass.value }, container)
+      )
+
+      return h('div', {
+        class: `q-message q-message-${op.value}`
+      }, child)
     }
-
-    const msg = []
-
-    this.name !== void 0 && msg.push(
-      h('div', {
-        class: `q-message-name q-message-name--${this.op}`,
-        [ this.domProps.name ]: this.name
-      })
-    )
-
-    this.text !== void 0 && msg.push(
-      this.__getText()
-    )
-
-    this.$slots.default !== void 0 && msg.push(
-      this.__getMessage()
-    )
-
-    container.push(
-      h('div', { class: this.sizeClass }, msg)
-    )
-
-    const child = []
-
-    this.label && child.push(
-      h('div', {
-        class: 'q-message-label text-center',
-        [ this.domProps.label ]: this.label
-      })
-    )
-
-    child.push(
-      h('div', { class: this.containerClass }, container)
-    )
-
-    return h('div', {
-      class: `q-message q-message-${this.op}`
-    }, child)
   }
 })

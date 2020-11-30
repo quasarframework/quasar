@@ -229,7 +229,7 @@
       </q-card>
 
       <q-card class="bigger">
-        <!-- TODO vue3 - SSR import _imports_0 from vue-loader issue <q-img :src="require('assets/donuts.png')" /> -->
+        <q-img :src="require('assets/donuts.png')" />
 
         <q-card-section>
           <q-btn
@@ -281,7 +281,7 @@
       </q-card>
 
       <q-card flat bordered class="bigger">
-        <!-- TODO vue3 - SSR import _imports_0 from vue-loader issue <img src="~assets/donuts.png"> -->
+        <img src="~assets/donuts.png">
 
         <q-card-section>
           <q-btn
@@ -539,7 +539,7 @@
       </q-card>
 
       <q-card>
-        <!-- TODO vue3 - SSR import _imports_0 from vue-loader issue <img src="~assets/mountains.jpg"> -->
+        <img src="~assets/mountains.jpg">
 
         <q-card-section>
           <div class="text-h6">
@@ -555,7 +555,7 @@
         </q-card-section>
       </q-card>
 
-      <!-- TODO vue3 - SSR import _imports_0 from vue-loader issue <q-card>
+      <q-card>
         <q-img
           :src="require('assets/parallax2.jpg')"
           basic
@@ -564,7 +564,7 @@
             Title
           </div>
         </q-img>
-      </q-card> -->
+      </q-card>
 
       <q-card>
         <q-img
@@ -667,7 +667,7 @@
           </q-item-section>
         </q-item>
 
-        <!-- TODO vue3 - SSR import _imports_0 from vue-loader issue <img src="~assets/parallax2.jpg"> -->
+        <img src="~assets/parallax2.jpg">
 
         <q-card-section>
           <div class="text-h6">
@@ -689,7 +689,7 @@
       </q-card>
 
       <q-card>
-        <!-- TODO vue3 - SSR import _imports_0 from vue-loader issue <img src="~assets/parallax2.jpg"> -->
+        <img src="~assets/parallax2.jpg">
 
         <q-list>
           <q-item clickable>
@@ -803,7 +803,7 @@
       </q-card>
 
       <q-card>
-        <!-- TODO vue3 - SSR import _imports_0 from vue-loader issue <img src="~assets/mountains.jpg"> -->
+        <img src="~assets/mountains.jpg">
 
         <q-card-actions align="around">
           <q-btn flat round color="red" icon="favorite" />
@@ -813,7 +813,7 @@
       </q-card>
 
       <q-card>
-        <!-- TODO vue3 - SSR import _imports_0 from vue-loader issue <img src="~assets/mountains.jpg"> -->
+        <img src="~assets/mountains.jpg">
 
         <q-card-section>
           <div class="text-h6">

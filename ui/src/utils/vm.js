@@ -20,7 +20,7 @@ export function getNormalizedVNodes (vnodes) {
   const children = new Set()
 
   vnodes.forEach(vnode => {
-    if (typeof vnode.type === 'symbol') {
+    if (typeof vnode.type === 'symbol' && Array.isArray(vnode.children) === true) {
       vnode.children.forEach(child => {
         children.add(child)
       })

@@ -1,7 +1,9 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import SizeMixin from '../../mixins/size.js'
-import { hMergeSlotSafely } from '../../utils/render.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useSize, { useSizeProps } from '../../composables/use-size.js'
+
+import { hMergeSlotSafely } from '../../utils/composition-render.js'
 import { between } from '../../utils/format.js'
 
 const
@@ -44,13 +46,11 @@ export const commonProps = {
 
   instantFeedback: Boolean,
 
-  ...SizeMixin.props
+  ...useSizeProps
 }
 
 export default defineComponent({
   name: 'QCircularProgress',
-
-  mixins: [SizeMixin],
 
   props: {
     value: {
@@ -63,114 +63,106 @@ export default defineComponent({
     ...commonProps
   },
 
-  computed: {
-    normalizedValue () {
-      return between(this.value, this.min, this.max)
-    },
+  setup (props, { slots }) {
+    const $q = useQuasar()
+    const { sizeStyle } = useSize(props)
 
-    svgStyle () {
-      return { transform: `rotate3d(0, 0, 1, ${this.angle - 90}deg)` }
-    },
+    const svgStyle = computed(() => ({
+      transform: `rotate3d(0, 0, 1, ${props.angle - 90}deg)`
+    }))
 
-    circleStyle () {
-      if (this.instantFeedback !== true && this.indeterminate !== true) {
-        return { transition: 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease' }
-      }
-    },
+    const circleStyle = computed(() => props.instantFeedback !== true && props.indeterminate !== true
+      ? { transition: 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease' }
+      : ''
+    )
 
-    dir () {
-      return (this.$q.lang.rtl === true ? -1 : 1) * (this.reverse ? -1 : 1)
-    },
+    const dir = computed(() => ($q.lang.rtl === true ? -1 : 1) * (props.reverse ? -1 : 1))
 
-    viewBox () {
-      return diameter / (1 - this.thickness / 2)
-    },
+    const viewBox = computed(() => diameter / (1 - props.thickness / 2))
 
-    viewBoxAttr () {
-      return `${this.viewBox / 2} ${this.viewBox / 2} ${this.viewBox} ${this.viewBox}`
-    },
+    const viewBoxAttr = computed(() =>
+      `${viewBox.value / 2} ${viewBox.value / 2} ${viewBox.value} ${viewBox.value}`
+    )
 
-    strokeDashOffset () {
-      const progress = 1 - (this.normalizedValue - this.min) / (this.max - this.min)
-      return (this.dir * progress) * circumference
-    },
+    const normalized = computed(() => between(props.value, props.min, props.max))
 
-    strokeWidth () {
-      return this.thickness / 2 * this.viewBox
-    }
-  },
+    const strokeDashOffset = computed(() => {
+      const progress = 1 - (normalized.value - props.min) / (props.max - props.min)
+      return (dir.value * progress) * circumference
+    })
 
-  methods: {
-    __getCircle ({ thickness, offset, color, cls }) {
+    const strokeWidth = computed(() => props.thickness / 2 * viewBox.value)
+
+    function getCircle ({ thickness, offset, color, cls }) {
       return h('circle', {
         class: 'q-circular-progress__' + cls + (color !== void 0 ? ` text-${color}` : ''),
-        style: this.circleStyle,
+        style: circleStyle.value,
         fill: 'transparent',
         stroke: 'currentColor',
         'stroke-width': thickness,
         'stroke-dasharray': strokeDashArray,
         'stroke-dashoffset': offset,
-        cx: this.viewBox,
-        cy: this.viewBox,
+        cx: viewBox.value,
+        cy: viewBox.value,
         r: radius
       })
     }
-  },
 
-  render () {
-    const svgChild = []
+    return () => {
+      const svgChild = []
 
-    this.centerColor !== void 0 && this.centerColor !== 'transparent' && svgChild.push(
-      h('circle', {
-        class: `q-circular-progress__center text-${this.centerColor}`,
-        fill: 'currentColor',
-        r: radius - this.strokeWidth / 2,
-        cx: this.viewBox,
-        cy: this.viewBox
-      })
-    )
+      props.centerColor !== void 0 && props.centerColor !== 'transparent' && svgChild.push(
+        h('circle', {
+          class: `q-circular-progress__center text-${props.centerColor}`,
+          fill: 'currentColor',
+          r: radius - strokeWidth.value / 2,
+          cx: viewBox.value,
+          cy: viewBox.value
+        })
+      )
 
-    this.trackColor !== void 0 && this.trackColor !== 'transparent' && svgChild.push(
-      this.__getCircle({
-        cls: 'track',
-        thickness: this.strokeWidth,
-        offset: 0,
-        color: this.trackColor
-      })
-    )
+      props.trackColor !== void 0 && props.trackColor !== 'transparent' && svgChild.push(
+        getCircle({
+          cls: 'track',
+          thickness: strokeWidth.value,
+          offset: 0,
+          color: props.trackColor
+        })
+      )
 
-    svgChild.push(
-      this.__getCircle({
-        cls: 'circle',
-        thickness: this.strokeWidth,
-        offset: this.strokeDashOffset,
-        color: this.color
-      })
-    )
+      svgChild.push(
+        getCircle({
+          cls: 'circle',
+          thickness: strokeWidth.value,
+          offset: strokeDashOffset.value,
+          color: props.color
+        })
+      )
 
-    const child = [
-      h('svg', {
-        class: 'q-circular-progress__svg',
-        style: this.svgStyle,
-        viewBox: this.viewBoxAttr,
-        'aria-hidden': 'true'
-      }, svgChild)
-    ]
+      const child = [
+        h('svg', {
+          class: 'q-circular-progress__svg',
+          style: svgStyle.value,
+          viewBox: viewBoxAttr.value,
+          'aria-hidden': 'true'
+        }, svgChild)
+      ]
 
-    this.showValue === true && child.push(
-      h('div', {
-        class: 'q-circular-progress__text absolute-full row flex-center content-center',
-        style: { fontSize: this.fontSize }
-      }, this.$slots.default !== void 0 ? this.$slots.default() : [h('div', this.normalizedValue)])
-    )
+      props.showValue === true && child.push(
+        h('div', {
+          class: 'q-circular-progress__text absolute-full row flex-center content-center',
+          style: { fontSize: props.fontSize }
+        }, slots.default !== void 0 ? slots.default() : [h('div', normalized.value)])
+      )
 
-    return h('div', {
-      class: `q-circular-progress q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
-      style: this.sizeStyle,
-      role: 'progressbar',
-      'aria-valuemin': this.min,
-      'aria-valuemax': this.max,
-      'aria-valuenow': this.indeterminate === true ? void 0 : this.normalizedValue
-    }, hMergeSlotSafely(this, 'internal', child)) // "__internal" is used by QKnob
+      return h('div', {
+        class: `q-circular-progress q-circular-progress--${props.indeterminate === true ? 'in' : ''}determinate`,
+        style: sizeStyle.value,
+        role: 'progressbar',
+        'aria-valuemin': props.min,
+        'aria-valuemax': props.max,
+        'aria-valuenow': props.indeterminate === true ? void 0 : normalized.value
+      }, hMergeSlotSafely(slots.internal, child)) // "internal" is used by QKnob
+    }
   }
 })

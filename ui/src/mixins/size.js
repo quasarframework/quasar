@@ -2,15 +2,13 @@
 // and superseeded by use-size.js
 // after all components use composition api
 
-import { useSizeDefaults } from '../composables/use-size.js'
+import { useSizeDefaults, useSizeProps } from '../composables/use-size.js'
 
 export const sizes = useSizeDefaults
 
 export function getSizeMixin (sizes) {
   return {
-    props: {
-      size: String
-    },
+    props: useSizeProps,
 
     computed: {
       sizeStyle () {
