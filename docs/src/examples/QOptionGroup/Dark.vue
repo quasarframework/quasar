@@ -3,7 +3,7 @@
     <q-option-group
       v-model="group"
       :options="options"
-      :dark="true"
+      dark
       color="yellow"
     />
   </div>
