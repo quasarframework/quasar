@@ -77,10 +77,6 @@ export default Vue.extend({
       }
     },
 
-    dir () {
-      return (this.$q.lang.rtl === true ? -1 : 1) * (this.reverse ? -1 : 1)
-    },
-
     viewBox () {
       return diameter / (1 - this.thickness / 2)
     },
