@@ -20,8 +20,6 @@ export default defineComponent({
   emits: ['scroll'],
 
   setup (props, { emit }) {
-    const instance = getCurrentInstance()
-
     let position = 0
     let direction = props.horizontal === true ? 'right' : 'down'
     let directionChanged = false
@@ -91,8 +89,10 @@ export default defineComponent({
       }
     }
 
+    const vm = getCurrentInstance()
+
     onMounted(() => {
-      parentEl = instance.proxy.$el.parentNode
+      parentEl = vm.proxy.$el.parentNode
       configureScrollTarget()
     })
 
@@ -103,7 +103,7 @@ export default defineComponent({
     })
 
     // expose public methods
-    Object.assign(instance.proxy, { trigger, getPosition })
+    Object.assign(vm.proxy, { trigger, getPosition })
 
     return noop
   }

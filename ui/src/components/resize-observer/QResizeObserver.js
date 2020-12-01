@@ -49,16 +49,16 @@ export default defineComponent({
       }
     }
 
-    const instance = getCurrentInstance()
+    const vm = getCurrentInstance()
 
     // expose public methods
-    Object.assign(instance.proxy, { trigger })
+    Object.assign(vm.proxy, { trigger })
 
     if (hasObserver === true) {
       let observer
 
       onMounted(() => {
-        targetEl = instance.proxy.$el.parentNode
+        targetEl = vm.proxy.$el.parentNode
 
         observer = new ResizeObserver(trigger)
         observer.observe(targetEl)
@@ -110,7 +110,7 @@ export default defineComponent({
       }
 
       onMounted(() => {
-        targetEl = instance.proxy.$el
+        targetEl = vm.proxy.$el
         onObjLoad()
       })
 

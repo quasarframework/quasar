@@ -84,19 +84,17 @@ export default defineComponent({
     const step = computed(() => props.step === 0 ? 1 : props.step)
     const instantFeedback = computed(() => props.instantFeedback === true || dragging.value === true)
 
-    const onEvents = computed(() => editable.value === true
-      ? (
-          $q.platform.is.mobile === true
-            ? { onClick }
-            : {
-                onMousedown,
-                onClick,
-                onKeydown,
-                onKeyup
-              }
-        )
-      : {}
-    )
+    const onEvents = $q.platform.is.mobile === true
+      ? computed(() => editable.value === true ? { onClick } : {})
+      : computed(() => editable.value === true
+        ? {
+            onMousedown,
+            onClick,
+            onKeydown,
+            onKeyup
+          }
+        : {}
+      )
 
     const attrs = computed(() => editable.value === true
       ? { tabindex: props.tabindex }
@@ -238,10 +236,10 @@ export default defineComponent({
       return h('input', formAttrs.value)
     }
 
-    const instance = getCurrentInstance()
+    const vm = getCurrentInstance()
 
     onMounted(() => {
-      $el = instance.proxy.$el
+      $el = vm.proxy.$el
     })
 
     return () => {
