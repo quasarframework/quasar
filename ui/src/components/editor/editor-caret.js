@@ -228,8 +228,11 @@ export class Caret {
       case void 0:
         return false
       default:
-        const state = document.queryCommandState(cmd)
-        return param !== void 0 ? state === param : state
+        if (this.hasSelection) {
+          const state = document.queryCommandState(cmd)
+          return param !== void 0 ? state === param : state
+        }
+        return false
     }
   }
 
