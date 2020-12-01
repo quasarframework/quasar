@@ -67,16 +67,20 @@ export default defineComponent({
     const $q = useQuasar()
     const { sizeStyle } = useSize(props)
 
-    const svgStyle = computed(() => ({
-      transform: `rotate3d(0, 0, 1, ${props.angle - 90}deg)`
-    }))
+    const svgStyle = computed(() => {
+      const angle = ($q.lang.rtl === true ? -1 : 1) * props.angle
+
+      return {
+        transform: props.reverse !== ($q.lang.rtl === true)
+          ? `scale3d(-1, 1, 1) rotate3d(0, 0, 1, ${-90 - angle}deg)`
+          : `rotate3d(0, 0, 1, ${angle - 90}deg)`
+      }
+    })
 
     const circleStyle = computed(() => props.instantFeedback !== true && props.indeterminate !== true
       ? { transition: 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease' }
       : ''
     )
-
-    const dir = computed(() => ($q.lang.rtl === true ? -1 : 1) * (props.reverse ? -1 : 1))
 
     const viewBox = computed(() => diameter / (1 - props.thickness / 2))
 
@@ -86,10 +90,9 @@ export default defineComponent({
 
     const normalized = computed(() => between(props.value, props.min, props.max))
 
-    const strokeDashOffset = computed(() => {
-      const progress = 1 - (normalized.value - props.min) / (props.max - props.min)
-      return (dir.value * progress) * circumference
-    })
+    const strokeDashOffset = computed(() => circumference * (
+      1 - (normalized.value - props.min) / (props.max - props.min)
+    ))
 
     const strokeWidth = computed(() => props.thickness / 2 * viewBox.value)
 
