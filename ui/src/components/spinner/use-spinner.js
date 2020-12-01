@@ -1,8 +1,11 @@
 import { computed } from 'vue'
-import { useSizeProps, useSizeDefaults } from '../../composables/use-size.js'
+import { useSizeDefaults } from '../../composables/use-size.js'
 
 export const useSpinnerProps = {
-  ...useSizeProps,
+  size: {
+    type: [ Number, String],
+    default: '1em'
+  },
   color: String
 }
 
@@ -10,8 +13,11 @@ export default function useSpinner (props) {
   return {
     cSize: computed(() => props.size in useSizeDefaults
       ? `${useSizeDefaults[ props.size ]}px`
-      : props.size),
-    classes: computed(() => 'q-spinner' +
-      (props.color ? ` text-${props.color}` : ''))
+      : props.size
+    ),
+
+    classes: computed(() =>
+      'q-spinner' + (props.color ? ` text-${props.color}` : '')
+    )
   }
 }

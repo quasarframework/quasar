@@ -49,6 +49,7 @@
         <q-spinner :color="color" :size="size" style="margin-left: 1rem;" />
       </h6>
 
+      <q-spinner-gears :color="color" />
       <h6>
         <q-spinner-gears :color="color" size="md" />
         <q-spinner-gears :color="color" size="xl" />
@@ -77,7 +78,7 @@ export default {
 
   data () {
     return {
-      size: '36',
+      size: 36,
       color: 'primary',
       spinners: [
         'audio', 'ball', 'bars', 'box', 'clock', 'comment',

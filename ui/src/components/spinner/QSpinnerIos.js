@@ -157,22 +157,18 @@ const svg = [
 export default defineComponent({
   name: 'QSpinnerIos',
 
-  props: {
-    ...useSpinnerProps
-  },
+  props: useSpinnerProps,
 
   setup (props) {
     const { cSize, classes } = useSpinner(props)
 
-    return () => {
-      return h('svg', {
-        class: classes.value,
-        width: cSize.value,
-        height: cSize.value,
-        stroke: 'currentColor',
-        fill: 'currentColor',
-        viewBox: '0 0 64 64'
-      }, svg)
-    }
+    return () => h('svg', {
+      class: classes.value,
+      width: cSize.value,
+      height: cSize.value,
+      stroke: 'currentColor',
+      fill: 'currentColor',
+      viewBox: '0 0 64 64'
+    }, svg)
   }
 })

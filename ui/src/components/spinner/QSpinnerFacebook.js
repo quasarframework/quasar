@@ -86,22 +86,18 @@ const svg = [
 export default defineComponent({
   name: 'QSpinnerFacebook',
 
-  props: {
-    ...useSpinnerProps
-  },
+  props: useSpinnerProps,
 
   setup (props) {
     const { cSize, classes } = useSpinner(props)
 
-    return () => {
-      return h('svg', {
-        class: classes.value,
-        width: cSize.value,
-        height: cSize.value,
-        viewBox: '0 0 100 100',
-        xmlns: 'http://www.w3.org/2000/svg',
-        preserveAspectRatio: 'xMidYMid'
-      }, svg)
-    }
+    return () => h('svg', {
+      class: classes.value,
+      width: cSize.value,
+      height: cSize.value,
+      viewBox: '0 0 100 100',
+      xmlns: 'http://www.w3.org/2000/svg',
+      preserveAspectRatio: 'xMidYMid'
+    }, svg)
   }
 })

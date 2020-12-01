@@ -87,22 +87,18 @@ const svg = [
 export default defineComponent({
   name: 'QSpinnerBall',
 
-  props: {
-    ...useSpinnerProps
-  },
+  props: useSpinnerProps,
 
   setup (props) {
     const { cSize, classes } = useSpinner(props)
 
-    return () => {
-      return h('svg', {
-        class: classes.value,
-        stroke: 'currentColor',
-        width: cSize.value,
-        height: cSize.value,
-        viewBox: '0 0 57 57',
-        xmlns: 'http://www.w3.org/2000/svg'
-      }, svg)
-    }
+    return () => h('svg', {
+      class: classes.value,
+      stroke: 'currentColor',
+      width: cSize.value,
+      height: cSize.value,
+      viewBox: '0 0 57 57',
+      xmlns: 'http://www.w3.org/2000/svg'
+    }, svg)
   }
 })
