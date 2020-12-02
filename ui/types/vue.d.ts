@@ -1,7 +1,7 @@
-import Vue from 'vue'
+import 'vue';
 
-declare module 'vue/types/options' {
-  interface ComponentOptions<V extends Vue> {
-    meta?: object | ((this: V) => object)
+declare module '@vue/runtime-core' {
+  interface ComponentCustomOptions {
+    meta?: object | ((this: ComponentPublicInstance) => object);
   }
 }
