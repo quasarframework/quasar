@@ -1,6 +1,6 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/composition-render.js'
 
 export default defineComponent({
   name: 'QCarouselControl',
@@ -22,22 +22,15 @@ export default defineComponent({
     }
   },
 
-  computed: {
-    classes () {
-      return `q-carousel__control absolute absolute-${this.position}`
-    },
+  setup (props, { slots }) {
+    const classes = computed(() => `q-carousel__control absolute absolute-${props.position}`)
+    const style = computed(() => ({
+      margin: `${props.offset[ 1 ]}px ${props.offset[ 0 ]}px`
+    }))
 
-    style () {
-      return {
-        margin: `${this.offset[ 1 ]}px ${this.offset[ 0 ]}px`
-      }
-    }
-  },
-
-  render () {
-    return h('div', {
-      class: this.classes,
-      style: this.style
-    }, hSlot(this, 'default'))
+    return () => h('div', {
+      class: classes.value,
+      style: style.value
+    }, hSlot(slots.default))
   }
 })

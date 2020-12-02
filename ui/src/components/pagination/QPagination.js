@@ -169,8 +169,8 @@ export default defineComponent({
     }
 
     // expose public methods
-    const instance = getCurrentInstance()
-    Object.assign(instance.proxy, { set, setByOffset })
+    const vm = getCurrentInstance()
+    Object.assign(vm.proxy, { set, setByOffset })
 
     return () => {
       const

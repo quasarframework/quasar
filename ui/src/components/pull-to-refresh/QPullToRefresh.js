@@ -155,10 +155,10 @@ export default defineComponent({
       }, 300)
     }
 
-    const instance = getCurrentInstance()
+    const vm = getCurrentInstance()
 
     // expose public methods
-    Object.assign(instance.proxy, { trigger, updateScrollTarget })
+    Object.assign(vm.proxy, { trigger, updateScrollTarget })
 
     let $el, localScrollTarget, timer
 
@@ -169,7 +169,7 @@ export default defineComponent({
     watch(() => props.scrollTarget, updateScrollTarget)
 
     onMounted(() => {
-      $el = instance.proxy.$el
+      $el = vm.proxy.$el
       updateScrollTarget()
     })
 
