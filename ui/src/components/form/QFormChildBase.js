@@ -1,8 +1,9 @@
 import { noop } from '../../utils/event.js'
+import { formKey } from '../../utils/symbols.js'
 
 export default {
   inject: {
-    __qForm: {
+    [ formKey ]: {
       default: noop
     }
   },
@@ -12,10 +13,12 @@ export default {
   },
 
   created () {
-    this.__qForm !== void 0 && this.__qForm.__bindComponent(this)
+    const $form = this.$.provides[ formKey ]
+    $form !== void 0 && $form.bindComponent(this)
   },
 
   beforeUnmount () {
-    this.__qForm !== void 0 && this.__qForm.__unbindComponent(this)
+    const $form = this.$.provides[ formKey ]
+    $form !== void 0 && $form.unbindComponent(this)
   }
 }

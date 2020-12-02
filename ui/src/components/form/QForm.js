@@ -1,20 +1,13 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, onMounted, getCurrentInstance, nextTick, provide } from 'vue'
 
-import EmitListenersMixin from '../../mixins/emit-listeners.js'
+import useEmitListeners from '../../composables/use-emit-listeners.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/composition-render.js'
+import { formKey } from '../../utils/symbols.js'
 
 export default defineComponent({
   name: 'QForm',
-
-  provide () {
-    return {
-      __qForm: this
-    }
-  },
-
-  mixins: [EmitListenersMixin],
 
   props: {
     autofocus: Boolean,
@@ -25,23 +18,28 @@ export default defineComponent({
 
   emits: [ 'submit', 'reset', 'validation-success', 'validation-error' ],
 
-  methods: {
-    validate (shouldFocus) {
+  setup (props, { slots, emit }) {
+    const vm = getCurrentInstance()
+    const { emitListeners } = useEmitListeners(vm)
+    const rootRef = ref(null)
+
+    let validateIndex = 0
+    const registeredComponents = []
+
+    function validate (shouldFocus) {
       const promises = []
       const focus = typeof shouldFocus === 'boolean'
         ? shouldFocus
-        : this.noErrorFocus !== true
+        : props.noErrorFocus !== true
 
-      this.validateIndex++
+      validateIndex++
 
-      const components = this.getValidationComponents()
-
-      const emit = (res, ref) => {
-        this.$emit('validation-' + (res === true ? 'success' : 'error'), ref)
+      const emitEvent = (res, ref) => {
+        emit('validation-' + (res === true ? 'success' : 'error'), ref)
       }
 
-      for (let i = 0; i < components.length; i++) {
-        const comp = components[ i ]
+      for (let i = 0; i < registeredComponents.length; i++) {
+        const comp = registeredComponents[ i ]
         const valid = comp.validate()
 
         if (typeof valid.then === 'function') {
@@ -53,8 +51,8 @@ export default defineComponent({
           )
         }
         else if (valid !== true) {
-          if (this.greedy === false) {
-            emit(false, comp)
+          if (props.greedy === false) {
+            emitEvent(false, comp)
 
             if (focus === true && typeof comp.focus === 'function') {
               comp.focus()
@@ -68,25 +66,25 @@ export default defineComponent({
       }
 
       if (promises.length === 0) {
-        emit(true)
+        emitEvent(true)
         return Promise.resolve(true)
       }
 
-      const index = this.validateIndex
+      const index = validateIndex
 
       return Promise.all(promises).then(
         res => {
-          if (index === this.validateIndex) {
+          if (index === validateIndex) {
             const errors = res.filter(r => r.valid !== true)
 
             if (errors.length === 0) {
-              emit(true)
+              emitEvent(true)
               return true
             }
 
             const { valid, comp } = errors[ 0 ]
 
-            emit(false, comp)
+            emitEvent(false, comp)
 
             if (
               focus === true &&
@@ -100,81 +98,83 @@ export default defineComponent({
           }
         }
       )
-    },
+    }
 
-    resetValidation () {
-      this.validateIndex++
+    function resetValidation () {
+      validateIndex++
 
-      this.getValidationComponents().forEach(comp => {
+      registeredComponents.forEach(comp => {
         comp.resetValidation()
       })
-    },
+    }
 
-    submit (evt) {
+    function submit (evt) {
       evt !== void 0 && stopAndPrevent(evt)
 
-      this.validate().then(val => {
+      validate().then(val => {
         if (val === true) {
-          if (this.emitListeners.onSubmit === true) {
-            this.$emit('submit', evt)
+          if (emitListeners.value.onSubmit === true) {
+            emit('submit', evt)
           }
           else if (evt !== void 0 && evt.target !== void 0 && typeof evt.target.submit === 'function') {
             evt.target.submit()
           }
         }
       })
-    },
+    }
 
-    reset (evt) {
+    function reset (evt) {
       evt !== void 0 && stopAndPrevent(evt)
 
-      this.$emit('reset')
+      emit('reset')
 
-      this.$nextTick(() => { // allow userland to reset values before
-        this.resetValidation()
-        if (this.autofocus === true && this.noResetFocus !== true) {
-          this.focus()
+      nextTick(() => { // allow userland to reset values before
+        resetValidation()
+        if (props.autofocus === true && props.noResetFocus !== true) {
+          focus()
         }
       })
-    },
+    }
 
-    focus () {
-      const target = this.$el.querySelector('[autofocus], [data-autofocus]') ||
-        Array.prototype.find.call(this.$el.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
+    function focus () {
+      const target = rootRef.value.querySelector('[autofocus], [data-autofocus]') ||
+        Array.prototype.find.call(rootRef.value.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
 
       target !== null && target !== void 0 && target.focus()
-    },
-
-    getValidationComponents () {
-      return this.instances
-    },
-
-    __bindComponent (instance) {
-      this.instances.push(instance)
-    },
-
-    __unbindComponent (instance) {
-      const index = this.instances.indexOf(instance)
-      if (index > -1) {
-        this.instances.splice(index, 1)
-      }
     }
-  },
 
-  render () {
-    return h('form', {
+    provide(formKey, {
+      bindComponent (vmProxy) {
+        registeredComponents.push(vmProxy)
+      },
+
+      unbindComponent (vmProxy) {
+        const index = registeredComponents.indexOf(vmProxy)
+        if (index > -1) {
+          registeredComponents.splice(index, 1)
+        }
+      }
+    })
+
+    onMounted(() => {
+      props.autofocus === true && focus()
+    })
+
+    // expose public methods
+    Object.assign(vm.proxy, {
+      validate,
+      resetValidation,
+      submit,
+      reset,
+      focus,
+      getValidationComponents: () => registeredComponents
+    })
+
+    return () => h('form', {
       class: 'q-form',
-      onSubmit: this.submit,
-      onReset: this.reset
-    }, hSlot(this, 'default'))
-  },
-
-  created () {
-    this.instances = []
-  },
-
-  mounted () {
-    this.validateIndex = 0
-    this.autofocus === true && this.focus()
+      ref: rootRef,
+      onSubmit: submit,
+      onReset: reset
+    }, hSlot(slots.default))
   }
 })

@@ -24,3 +24,7 @@ export const pageContainerKey = hasSymbol === true
 export const fabKey = hasSymbol === true
   ? Symbol('_q_f_')
   : '_q_f_'
+
+export const formKey = hasSymbol === true
+  ? Symbol('_q_fo_')
+  : '_q_fo_'
