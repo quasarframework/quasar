@@ -1,14 +1,14 @@
-import { h, defineComponent, Transition } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeUnmount, Transition } from 'vue'
 
-import QPageSticky from '../page-sticky/QPageSticky.js'
+import { usePageSticky, usePageStickyProps } from '../page-sticky/use-page-sticky.js'
 import { getScrollTarget, setScrollPosition } from '../../utils/scroll.js'
 
 export default defineComponent({
   name: 'QPageScroller',
 
-  mixins: [QPageSticky],
-
   props: {
+    ...usePageStickyProps,
+
     scrollOffset: {
       type: Number,
       default: 1000
@@ -28,95 +28,83 @@ export default defineComponent({
 
   emits: ['click'],
 
-  inject: {
-    layout: {
-      default () {
-        console.error('QPageScroller needs to be used within a QLayout')
+  setup (props, { slots, emit }) {
+    const { layout, getStickyContent } = usePageSticky(props)
+    const rootRef = ref(null)
+
+    let heightWatcher
+
+    function isVisible () {
+      return props.reverse === true
+        ? props.height - layout.scroll.value.position > props.scrollOffset
+        : layout.scroll.value.position > props.scrollOffset
+    }
+
+    const showing = ref(isVisible())
+
+    const height = computed(() => layout.container === true
+      ? layout.containerHeight.value
+      : layout.height.value
+    )
+
+    function updateVisibility () {
+      const newVal = isVisible()
+      if (showing.value !== newVal) {
+        showing.value = newVal
       }
     }
-  },
 
-  data () {
-    return {
-      showing: this.__isVisible()
-    }
-  },
-
-  computed: {
-    height () {
-      return this.layout.container === true
-        ? this.layout.containerHeight
-        : this.layout.height
-    }
-  },
-
-  watch: {
-    'layout.scroll.position': '__updateVisibility',
-    reverse: '__updateReverse'
-  },
-
-  methods: {
-    __isVisible () {
-      return this.reverse === true
-        ? this.height - this.layout.scroll.position > this.scrollOffset
-        : this.layout.scroll.position > this.scrollOffset
-    },
-
-    __onClick (e) {
-      const target = this.layout.container === true
-        ? getScrollTarget(this.$el)
-        : getScrollTarget(this.layout.$el)
-
-      setScrollPosition(target, this.reverse === true ? this.layout.height : 0, this.duration)
-      this.$emit('click', e)
-    },
-
-    __updateVisibility () {
-      const newVal = this.__isVisible()
-      if (this.showing !== newVal) {
-        this.showing = newVal
-      }
-    },
-
-    __updateReverse () {
-      if (this.reverse === true) {
-        if (this.heightWatcher === void 0) {
-          this.heightWatcher = this.$watch('height', this.__updateVisibility)
+    function updateReverse () {
+      if (props.reverse === true) {
+        if (heightWatcher === void 0) {
+          heightWatcher = watch(height, updateVisibility)
         }
       }
-      else if (this.heightWatcher !== void 0) {
-        this.__cleanup()
+      else {
+        cleanup()
       }
-    },
+    }
 
-    __cleanup () {
-      this.heightWatcher()
-      this.heightWatcher = void 0
-    },
+    watch(layout.scroll, updateVisibility)
+    watch(() => props.reverse, updateReverse)
 
-    __getContent () {
-      return this.showing === true
+    function cleanup () {
+      if (heightWatcher !== void 0) {
+        heightWatcher()
+        heightWatcher = void 0
+      }
+    }
+
+    function onClick (e) {
+      const target = layout.container === true
+        ? getScrollTarget(rootRef.value)
+        : getScrollTarget(layout.rootRef.value)
+
+      setScrollPosition(
+        target,
+        props.reverse === true ? layout.height.value : 0, props.duration
+      )
+
+      emit('click', e)
+    }
+
+    function getContent () {
+      return showing.value === true
         ? h('div', {
             class: 'q-page-scroller',
-            onClick: this.__onClick
-          }, [QPageSticky.render.call(this)])
+            onClick
+          }, [getStickyContent(slots)])
         : null
     }
-  },
 
-  render () {
-    return h(
+    updateReverse()
+
+    onBeforeUnmount(cleanup)
+
+    return () => h(
       Transition,
-      { name: 'q-transition--fade' },
-      this.__getContent
+      { name: 'q-transition--fade', ref: rootRef },
+      getContent
     )
-  },
-
-  created () {
-    this.__updateReverse()
-  },
-
-  beforeUnmount () {
-    this.heightWatcher !== void 0 && this.__cleanup()
   }
 })

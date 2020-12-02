@@ -6,12 +6,12 @@ export default defineComponent({
   name: 'QVideo',
 
   props: {
+    ...useRatioProps,
+
     src: {
       type: String,
       required: true
-    },
-
-    ...useRatioProps
+    }
   },
 
   setup (props) {

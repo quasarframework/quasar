@@ -10,16 +10,16 @@ export default defineComponent({
   name: 'QInnerLoading',
 
   props: {
+    ...useDarkProps,
+    ...useTransitionProps,
+
     showing: Boolean,
     color: String,
 
     size: {
       type: [ String, Number ],
       default: 42
-    },
-
-    ...useDarkProps,
-    ...useTransitionProps
+    }
   },
 
   setup (props, { slots }) {

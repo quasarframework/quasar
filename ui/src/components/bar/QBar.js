@@ -9,8 +9,8 @@ export default defineComponent({
   name: 'QBar',
 
   props: {
-    dense: Boolean,
-    ...useDarkProps
+    ...useDarkProps,
+    dense: Boolean
   },
 
   setup (props, { slots }) {

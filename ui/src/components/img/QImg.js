@@ -11,6 +11,8 @@ export default defineComponent({
   name: 'QImg',
 
   props: {
+    ...useRatioProps,
+
     src: String,
     srcset: String,
     sizes: String,
@@ -39,9 +41,7 @@ export default defineComponent({
 
     noDefaultSpinner: Boolean,
     spinnerColor: String,
-    spinnerSize: String,
-
-    ...useRatioProps
+    spinnerSize: String
   },
 
   emits: [ 'load', 'error' ],

@@ -1,6 +1,6 @@
 import { h, createApp } from 'vue'
 
-import { appInstance } from '../install-quasar.js'
+import { appInstance, provideQuasar } from '../install-quasar.js'
 import { createGlobalNode, removeGlobalNode } from './global-nodes.js'
 
 const ssrAPI = {
@@ -122,6 +122,7 @@ export default function (DefaultComponent, supportsCustomComponent) {
     })
 
     app.config.globalProperties = appInstance.config.globalProperties
+    provideQuasar(app, appInstance.config.globalProperties.$q)
 
     let vm = app.mount(el)
     vm.$refs.dialog.show()

@@ -1,10 +1,11 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
 import QRadio from '../radio/QRadio.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QToggle from '../toggle/QToggle.js'
 
-import DarkMixin from '../../mixins/dark.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useDark, { useDarkProps } from '../../composables/use-dark.js'
 
 const components = {
   radio: QRadio,
@@ -17,17 +18,15 @@ const typeValues = Object.keys(components)
 export default defineComponent({
   name: 'QOptionGroup',
 
-  mixins: [DarkMixin],
-
   props: {
+    ...useDarkProps,
+
     modelValue: {
       required: true
     },
     options: {
       type: Array,
-      validator (opts) {
-        return opts.every(opt => 'value' in opt && 'label' in opt)
-      }
+      validator: opts => opts.every(opt => 'value' in opt && 'label' in opt)
     },
 
     name: String,
@@ -50,76 +49,65 @@ export default defineComponent({
 
   emits: ['update:modelValue'],
 
-  computed: {
-    component () {
-      return components[ this.type ]
-    },
+  setup (props, { emit }) {
+    const arrayModel = Array.isArray(props.modelValue)
 
-    model () {
-      return Array.isArray(this.modelValue)
-        ? this.modelValue.slice()
-        : this.modelValue
-    },
-
-    classes () {
-      return 'q-option-group q-gutter-x-sm' +
-        (this.inline === true ? ' q-option-group--inline' : '')
-    },
-
-    attrs () {
-      if (this.type === 'radio') {
-        const attrs = {
-          role: 'radiogroup'
-        }
-
-        if (this.disable === true) {
-          attrs[ 'aria-disabled' ] = 'true'
-        }
-
-        return attrs
-      }
-    }
-  },
-
-  methods: {
-    __update (value) {
-      this.$emit('update:modelValue', value)
-    }
-  },
-
-  created () {
-    const isArray = Array.isArray(this.modelValue)
-
-    if (this.type === 'radio') {
-      if (isArray) {
+    if (props.type === 'radio') {
+      if (arrayModel === true) {
         console.error('q-option-group: model should not be array')
       }
     }
-    else if (isArray === false) {
+    else if (arrayModel === false) {
       console.error('q-option-group: model should be array in your case')
     }
-  },
 
-  render () {
-    return h('div', {
-      class: this.classes,
-      ...this.attrs
-    }, this.options.map(opt => h('div', [
-      h(this.component, {
-        modelValue: this.modelValue,
+    const $q = useQuasar()
+    const { isDark } = useDark(props, $q)
+
+    const component = computed(() => components[ props.type ])
+
+    const classes = computed(() =>
+      'q-option-group q-gutter-x-sm' +
+      (props.inline === true ? ' q-option-group--inline' : '')
+    )
+
+    const attrs = computed(() => {
+      const attrs = {}
+
+      if (props.type === 'radio') {
+        attrs.role = 'radiogroup'
+
+        if (props.disable === true) {
+          attrs[ 'aria-disabled' ] = 'true'
+        }
+      }
+
+      return attrs
+    })
+
+    function onUpdateModelValue (value) {
+      emit('update:modelValue', value)
+    }
+
+    return () => h('div', {
+      class: classes.value,
+      ...attrs.value
+    }, props.options.map(opt => h('div', [
+      h(component.value, {
+        modelValue: props.modelValue,
         val: opt.value,
-        name: opt.name === void 0 ? this.name : opt.name,
-        disable: this.disable || opt.disable,
+        name: opt.name === void 0 ? props.name : opt.name,
+        disable: props.disable || opt.disable,
         label: opt.label,
-        leftLabel: opt.leftLabel === void 0 ? this.leftLabel : opt.leftLabel,
-        color: opt.color === void 0 ? this.color : opt.color,
+        leftLabel: opt.leftLabel === void 0 ? props.leftLabel : opt.leftLabel,
+        color: opt.color === void 0 ? props.color : opt.color,
         checkedIcon: opt.checkedIcon,
         uncheckedIcon: opt.uncheckedIcon,
-        dark: opt.dark || this.isDark,
-        size: opt.size === void 0 ? this.size : opt.size,
-        dense: this.dense,
-        keepColor: opt.keepColor === void 0 ? this.keepColor : opt.keepColor,
-        'onUpdate:modelValue': this.__update
+        dark: opt.dark || isDark.value,
+        size: opt.size === void 0 ? props.size : opt.size,
+        dense: props.dense,
+        keepColor: opt.keepColor === void 0 ? props.keepColor : opt.keepColor,
+        'onUpdate:modelValue': onUpdateModelValue
       })
     ])))
   }

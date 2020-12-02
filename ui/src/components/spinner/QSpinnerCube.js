@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import mixin from './spinner-mixin.js'
+import useSpinner, { useSpinnerProps } from './use-spinner.js'
 
 const svg = [
   h('rect', {
@@ -115,13 +115,15 @@ const svg = [
 export default defineComponent({
   name: 'QSpinnerCube',
 
-  mixins: [mixin],
+  props: useSpinnerProps,
 
-  render () {
-    return h('svg', {
-      class: this.classes,
-      width: this.cSize,
-      height: this.cSize,
+  setup (props) {
+    const { cSize, classes } = useSpinner(props)
+
+    return () => h('svg', {
+      class: classes.value,
+      width: cSize.value,
+      height: cSize.value,
       xmlns: 'http://www.w3.org/2000/svg',
       viewBox: '0 0 100 100',
       preserveAspectRatio: 'xMidYMid'

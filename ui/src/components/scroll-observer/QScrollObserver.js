@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts, noop } from '../../utils/event.js'
@@ -19,90 +19,92 @@ export default defineComponent({
 
   emits: ['scroll'],
 
-  render: noop, // eslint-disable-line
+  setup (props, { emit }) {
+    let position = 0
+    let direction = props.horizontal === true ? 'right' : 'down'
+    let directionChanged = false
+    let inflexionPosition = 0
 
-  data () {
-    return {
-      pos: 0,
-      dir: this.horizontal === true ? 'right' : 'down',
-      dirChanged: false,
-      dirChangePos: 0
-    }
-  },
+    let timer, localScrollTarget, parentEl
 
-  watch: {
-    scrollTarget () {
-      this.__unconfigureScrollTarget()
-      this.__configureScrollTarget()
-    }
-  },
+    watch(() => props.scrollTarget, () => {
+      unconfigureScrollTarget()
+      configureScrollTarget()
+    })
 
-  methods: {
-    getPosition () {
+    function getPosition () {
       return {
-        position: this.pos,
-        direction: this.dir,
-        directionChanged: this.dirChanged,
-        inflexionPosition: this.dirChangePos
+        position,
+        direction,
+        directionChanged,
+        inflexionPosition
       }
-    },
+    }
 
-    trigger (immediately) {
-      if (immediately === true || this.debounce === 0 || this.debounce === '0') {
-        this.__emit()
-      }
-      else if (!this.timer) {
-        this.timer = this.debounce
-          ? setTimeout(this.__emit, this.debounce)
-          : requestAnimationFrame(this.__emit)
-      }
-    },
-
-    __emit () {
-      const fn = this.horizontal === true
+    function emitEvent () {
+      const fn = props.horizontal === true
         ? getHorizontalScrollPosition
         : getScrollPosition
 
       const
-        pos = Math.max(0, fn(this.__scrollTarget)),
-        delta = pos - this.pos,
-        dir = this.horizontal === true
+        curPos = Math.max(0, fn(localScrollTarget)),
+        delta = curPos - position,
+        curDir = props.horizontal === true
           ? delta < 0 ? 'left' : 'right'
           : delta < 0 ? 'up' : 'down'
 
-      this.dirChanged = this.dir !== dir
+      directionChanged = direction !== curDir
 
-      if (this.dirChanged) {
-        this.dir = dir
-        this.dirChangePos = this.pos
+      if (directionChanged === true) {
+        direction = curDir
+        inflexionPosition = position
       }
 
-      this.timer = null
-      this.pos = pos
-      this.$emit('scroll', this.getPosition())
-    },
+      timer = null
+      position = curPos
+      emit('scroll', getPosition())
+    }
 
-    __configureScrollTarget () {
-      this.__scrollTarget = getScrollTarget(this.$el.parentNode, this.scrollTarget)
-      this.__scrollTarget.addEventListener('scroll', this.trigger, passive)
-      this.trigger(true)
-    },
+    function configureScrollTarget () {
+      localScrollTarget = getScrollTarget(parentEl, props.scrollTarget)
+      localScrollTarget.addEventListener('scroll', trigger, passive)
+      trigger(true)
+    }
 
-    __unconfigureScrollTarget () {
-      if (this.__scrollTarget !== void 0) {
-        this.__scrollTarget.removeEventListener('scroll', this.trigger, passive)
-        this.__scrollTarget = void 0
+    function unconfigureScrollTarget () {
+      if (localScrollTarget !== void 0) {
+        localScrollTarget.removeEventListener('scroll', trigger, passive)
+        localScrollTarget = void 0
       }
     }
-  },
 
-  mounted () {
-    this.__configureScrollTarget()
-  },
+    function trigger (immediately) {
+      if (immediately === true || props.debounce === 0 || props.debounce === '0') {
+        emitEvent()
+      }
+      else if (!timer) {
+        timer = props.debounce
+          ? setTimeout(emitEvent, props.debounce)
+          : requestAnimationFrame(emitEvent)
+      }
+    }
 
-  beforeUnmount () {
-    clearTimeout(this.timer)
-    cancelAnimationFrame(this.timer)
-    this.__unconfigureScrollTarget()
+    const vm = getCurrentInstance()
+
+    onMounted(() => {
+      parentEl = vm.proxy.$el.parentNode
+      configureScrollTarget()
+    })
+
+    onBeforeUnmount(() => {
+      clearTimeout(timer)
+      cancelAnimationFrame(timer)
+      unconfigureScrollTarget()
+    })
+
+    // expose public methods
+    Object.assign(vm.proxy, { trigger, getPosition })
+
+    return noop
   }
 })

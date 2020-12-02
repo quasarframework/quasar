@@ -1,59 +1,57 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed, inject } from 'vue'
 
-import { hSlot } from '../../utils/render.js'
+import useQuasar from '../../composables/use-quasar.js'
+
+import { hSlot } from '../../utils/composition-render.js'
+import { pageContainerKey, layoutKey } from '../../utils/symbols.js'
 
 export default defineComponent({
   name: 'QPage',
-
-  inject: {
-    pageContainer: {
-      default () {
-        console.error('QPage needs to be child of QPageContainer')
-      }
-    },
-    layout: {}
-  },
 
   props: {
     padding: Boolean,
     styleFn: Function
   },
 
-  computed: {
-    style () {
+  setup (props, { slots }) {
+    const $q = useQuasar()
+
+    const layout = inject(layoutKey)
+    inject(pageContainerKey, () => {
+      console.error('QPage needs to be child of QPageContainer')
+    })
+
+    const style = computed(() => {
       const offset =
-        (this.layout.header.space === true ? this.layout.header.size : 0) +
-        (this.layout.footer.space === true ? this.layout.footer.size : 0)
+        (layout.header.space === true ? layout.header.size : 0) +
+        (layout.footer.space === true ? layout.footer.size : 0)
 
-      if (typeof this.styleFn === 'function') {
-        const height = this.layout.container === true
-          ? this.layout.containerHeight
-          : this.$q.screen.height
+      if (typeof props.styleFn === 'function') {
+        const height = layout.container === true
+          ? layout.containerHeight.value
+          : $q.screen.height
 
-        return this.styleFn(offset, height)
+        return props.styleFn(offset, height)
       }
 
       return {
-        minHeight: this.layout.container === true
-          ? (this.layout.containerHeight - offset) + 'px'
+        minHeight: layout.container === true
+          ? (layout.containerHeight.value - offset) + 'px'
           : (
-              this.$q.screen.height === 0
+              $q.screen.height === 0
                 ? `calc(100vh - ${offset}px)`
-                : (this.$q.screen.height - offset) + 'px'
+                : ($q.screen.height - offset) + 'px'
             )
       }
-    },
+    })
 
-    classes () {
-      return 'q-page' +
-        (this.padding === true ? ' q-layout-padding' : '')
-    }
-  },
+    const classes = computed(() =>
+      `q-page ${props.padding === true ? ' q-layout-padding' : ''}`
+    )
 
-  render () {
-    return h('main', {
-      class: this.classes,
-      style: this.style
-    }, hSlot(this, 'default'))
+    return () => h('main', {
+      class: classes.value,
+      style: style.value
+    }, hSlot(slots.default))
   }
 })

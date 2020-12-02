@@ -1,24 +1,21 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed, provide, getCurrentInstance } from 'vue'
 
 import StepHeader from './StepHeader.js'
 
-import DarkMixin from '../../mixins/dark.js'
-import { PanelParentMixin } from '../../mixins/panel.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import { usePanelParentProps, usePanelParent } from '../../composables/use-panel.js'
 
-import { hSlot, hMergeSlot, hDir } from '../../utils/render.js'
+import { stepperKey } from '../../utils/symbols.js'
+import { hSlot, hMergeSlot, hDir } from '../../utils/composition-render.js'
 
 export default defineComponent({
   name: 'QStepper',
 
-  provide () {
-    return {
-      stepper: this
-    }
-  },
-
-  mixins: [ DarkMixin, PanelParentMixin ],
-
   props: {
+    ...useDarkProps,
+    ...usePanelParentProps,
+
     flat: Boolean,
     bordered: Boolean,
     alternativeLabels: Boolean,
@@ -36,33 +33,46 @@ export default defineComponent({
     errorColor: String
   },
 
-  computed: {
-    classes () {
-      return `q-stepper q-stepper--${this.vertical === true ? 'vertical' : 'horizontal'}` +
-        (this.flat === true || this.isDark === true ? ' q-stepper--flat no-shadow' : '') +
-        (this.bordered === true || (this.isDark === true && this.flat === false) ? ' q-stepper--bordered' : '') +
-        (this.contracted === true ? ' q-stepper--contracted' : '') +
-        (this.isDark === true ? ' q-stepper--dark q-dark' : '')
-    },
+  setup (props, { slots, emit }) {
+    const $q = useQuasar()
+    const { isDark } = useDark(props, $q)
 
-    headerClasses () {
-      return 'q-stepper__header row items-stretch justify-between' +
-        ` q-stepper__header--${this.alternativeLabels === true ? 'alternative' : 'standard'}-labels` +
-        (this.flat === false || this.bordered === true ? ' q-stepper__header--border' : '') +
-        (this.headerClass !== void 0 ? ` ${this.headerClass}` : '')
-    }
-  },
+    const vm = getCurrentInstance()
+    const {
+      updatePanelsList, isValidPanelName,
+      updatePanelIndex, getPanelContent,
+      getPanels, panelDirectives, goToPanel
+    } = usePanelParent(props, emit, $q, vm)
 
-  methods: {
-    __getContent () {
-      const top = hSlot(this, 'message', [])
+    provide(stepperKey, computed(() => ({
+      goToPanel,
+      ...props
+    })))
 
-      if (this.vertical === true) {
-        this.__isValidPanelName(this.modelValue) && this.__updatePanelIndex()
+    const classes = computed(() =>
+      `q-stepper q-stepper--${props.vertical === true ? 'vertical' : 'horizontal'}` +
+      (props.flat === true || isDark.value === true ? ' q-stepper--flat no-shadow' : '') +
+      (props.bordered === true || (isDark.value === true && props.flat === false) ? ' q-stepper--bordered' : '') +
+      (props.contracted === true ? ' q-stepper--contracted' : '') +
+      (isDark.value === true ? ' q-stepper--dark q-dark' : '')
+    )
+
+    const headerClasses = computed(() =>
+      'q-stepper__header row items-stretch justify-between' +
+      ` q-stepper__header--${props.alternativeLabels === true ? 'alternative' : 'standard'}-labels` +
+      (props.flat === false || props.bordered === true ? ' q-stepper__header--border' : '') +
+      (props.headerClass !== void 0 ? ` ${props.headerClass}` : '')
+    )
+
+    function getContent () {
+      const top = hSlot(slots.message, [])
+
+      if (props.vertical === true) {
+        isValidPanelName(props.modelValue) && updatePanelIndex()
 
         const content = h('div', {
           class: 'q-stepper__content'
-        }, hSlot(this, 'default'))
+        }, hSlot(slots.default))
 
         return top === void 0
           ? [content]
@@ -70,13 +80,14 @@ export default defineComponent({
       }
 
       return [
-        h('div', { class: this.headerClasses }, this.panels.map(panel => {
+        h('div', { class: headerClasses.value }, getPanels().map(panel => {
           const step = panel.props
 
           return h(StepHeader, {
             key: step.name,
-            stepper: this,
-            step
+            stepper: props,
+            step,
+            goToPanel
           })
         }))
       ].concat(
@@ -84,21 +95,20 @@ export default defineComponent({
         hDir(
           'div',
           { class: 'q-stepper__content q-panel-parent' },
-          this.__getPanelContent(),
+          getPanelContent(),
           'cont',
-          this.swipeable,
-          () => this.panelDirectives
+          props.swipeable,
+          () => panelDirectives.value
         )
       )
-    },
-
-    __renderPanels () {
-      return h('div', {
-        class: this.classes
-      }, hMergeSlot(this, 'navigation', this.__getContent()))
     }
-  },
 
-  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
-  render: PanelParentMixin.render
+    return () => {
+      updatePanelsList(slots)
+
+      return h('div', {
+        class: classes.value
+      }, hMergeSlot(slots.navigation, getContent()))
+    }
+  }
 })

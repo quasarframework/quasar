@@ -26,6 +26,9 @@ export default defineComponent({
   name: 'QLinearProgress',
 
   props: {
+    ...useDarkProps,
+    ...useSizeProps,
+
     value: {
       type: Number,
       default: 0
@@ -41,10 +44,7 @@ export default defineComponent({
     query: Boolean,
     rounded: Boolean,
 
-    instantFeedback: Boolean,
-
-    ...useDarkProps,
-    ...useSizeProps
+    instantFeedback: Boolean
   },
 
   setup (props, { slots }) {

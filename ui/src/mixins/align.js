@@ -2,7 +2,7 @@
 // and superseeded by use-align.js
 // after all components use composition api
 
-import { alignMap, alignValues, useAlignProps } from '../composables/use-align.js'
+import { alignMap, useAlignProps } from '../composables/use-align.js'
 
 export default {
   props: useAlignProps,

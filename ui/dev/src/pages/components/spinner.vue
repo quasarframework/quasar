@@ -18,6 +18,7 @@
           class="col"
           dense
           outlined
+          emit-value
           v-model="color"
           float-label
           label="Quick Pick"
@@ -48,9 +49,10 @@
         <q-spinner :color="color" :size="size" style="margin-left: 1rem;" />
       </h6>
 
+      <q-spinner-gears :color="color" />
       <h6>
-        <q-spinner-gears :color="color" :size="size" />
-        <q-spinner-gears :color="color" :size="size" />
+        <q-spinner-gears :color="color" size="md" />
+        <q-spinner-gears :color="color" size="xl" />
       </h6>
     </div>
   </div>

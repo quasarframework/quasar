@@ -9,6 +9,8 @@ export default defineComponent({
   name: 'QBreadcrumbs',
 
   props: {
+    ...useAlignProps,
+
     separator: {
       type: String,
       default: '/'
@@ -24,9 +26,7 @@ export default defineComponent({
       type: String,
       validator: v => [ 'none', 'xs', 'sm', 'md', 'lg', 'xl' ].includes(v),
       default: 'sm'
-    },
-
-    ...useAlignProps
+    }
   },
 
   setup (props, { slots }) {

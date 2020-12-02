@@ -11,6 +11,8 @@ export default defineComponent({
   name: 'QMarkupTable',
 
   props: {
+    ...useDarkProps,
+
     dense: Boolean,
     flat: Boolean,
     bordered: Boolean,
@@ -21,9 +23,7 @@ export default defineComponent({
       type: String,
       default: 'horizontal',
       validator: v => separatorValues.includes(v)
-    },
-
-    ...useDarkProps
+    }
   },
 
   setup (props, { slots }) {

@@ -8,8 +8,8 @@ export default defineComponent({
   name: 'QCardActions',
 
   props: {
-    vertical: Boolean,
-    ...useAlignProps
+    ...useAlignProps,
+    vertical: Boolean
   },
 
   setup (props, { slots }) {

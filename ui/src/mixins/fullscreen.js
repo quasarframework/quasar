@@ -1,12 +1,14 @@
+// this file will eventually be removed
+// and superseeded by use-fullscreen.js
+// after all components use composition api
+
 import History from '../history.js'
+import { useFullscreenProps, useFullscreenEmits } from '../composables/use-fullscreen.js'
 
 export default {
-  props: {
-    fullscreen: Boolean,
-    noRouteFullscreenExit: Boolean
-  },
+  props: useFullscreenProps,
 
-  emits: [ 'update:fullscreen', 'fullscreen' ],
+  emits: useFullscreenEmits,
 
   data () {
     return {

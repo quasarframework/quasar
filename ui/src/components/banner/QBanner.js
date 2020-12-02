@@ -9,10 +9,11 @@ export default defineComponent({
   name: 'QBanner',
 
   props: {
+    ...useDarkProps,
+
     inlineActions: Boolean,
     dense: Boolean,
-    rounded: Boolean,
-    ...useDarkProps
+    rounded: Boolean
   },
 
   setup (props, { slots }) {
