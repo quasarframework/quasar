@@ -50,11 +50,9 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const stepper = inject(stepperKey)
-
-    if (stepper === void 0) {
+    const stepper = inject(stepperKey, () => {
       console.error('QStep needs to be child of QStepper')
-    }
+    })
 
     const rootRef = ref(null)
 

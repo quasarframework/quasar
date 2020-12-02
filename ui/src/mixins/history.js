@@ -1,3 +1,7 @@
+// this file will eventually be removed
+// and superseeded by use-history.js
+// after all components use composition api
+
 import History from '../history.js'
 
 export default {

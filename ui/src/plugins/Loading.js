@@ -4,7 +4,7 @@ import QSpinner from '../components/spinner/QSpinner.js'
 
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { createGlobalNode, removeGlobalNode } from '../utils/global-nodes.js'
-import { preventScroll } from '../mixins/prevent-scroll.js'
+import preventScroll from '../utils/prevent-scroll.js'
 
 let
   app,

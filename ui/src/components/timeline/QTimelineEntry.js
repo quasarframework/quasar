@@ -31,11 +31,9 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const timeline = inject(timelineKey)
-
-    if (timeline === void 0) {
+    const timeline = inject(timelineKey, () => {
       console.error('QTimelineEntry needs to be child of QTimeline')
-    }
+    })
 
     const classes = computed(() =>
       `q-timeline__entry q-timeline__entry--${props.side}` +

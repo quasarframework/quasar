@@ -1,3 +1,7 @@
+// this file will eventually be removed
+// and superseeded by use-tick.js / use-timeout.js
+// after all components use composition api
+
 /*
  * Usage of nextTick:
  *    this.__nextTick(fn)

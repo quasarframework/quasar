@@ -1,3 +1,7 @@
+// this file will eventually be removed
+// and superseeded by use-emit-listeners.js
+// after all components use composition api
+
 const listenerRE = /^on[A-Z]/
 
 export default {

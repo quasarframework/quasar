@@ -1,3 +1,7 @@
+// this file will eventually be removed
+// and superseeded by use-model-toggle.js
+// after all components use composition api
+
 import TimeoutMixin from './timeout.js'
 import EmitListenersMixins from './emit-listeners.js'
 

@@ -1,47 +1,44 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed, provide, inject } from 'vue'
 
-import { hSlot } from '../../utils/render.js'
+import useQuasar from '../../composables/use-quasar.js'
+
+import { hSlot } from '../../utils/composition-render.js'
+import { pageContainerKey, layoutKey } from '../../utils/symbols.js'
 
 export default defineComponent({
   name: 'QPageContainer',
 
-  inject: {
-    layout: {
-      default () {
-        console.error('QPageContainer needs to be child of QLayout')
-      }
-    }
-  },
+  setup (props, { slots }) {
+    const $q = useQuasar()
 
-  provide: {
-    pageContainer: true
-  },
+    const layout = inject(layoutKey, () => {
+      console.error('QPageContainer needs to be child of QLayout')
+    })
 
-  computed: {
-    style () {
+    provide(pageContainerKey, true)
+
+    const style = computed(() => {
       const css = {}
 
-      if (this.layout.header.space === true) {
-        css.paddingTop = `${this.layout.header.size}px`
+      if (layout.header.space === true) {
+        css.paddingTop = `${layout.header.size}px`
       }
-      if (this.layout.right.space === true) {
-        css[ `padding${this.$q.lang.rtl === true ? 'Left' : 'Right'}` ] = `${this.layout.right.size}px`
+      if (layout.right.space === true) {
+        css[ `padding${$q.lang.rtl === true ? 'Left' : 'Right'}` ] = `${layout.right.size}px`
       }
-      if (this.layout.footer.space === true) {
-        css.paddingBottom = `${this.layout.footer.size}px`
+      if (layout.footer.space === true) {
+        css.paddingBottom = `${layout.footer.size}px`
       }
-      if (this.layout.left.space === true) {
-        css[ `padding${this.$q.lang.rtl === true ? 'Right' : 'Left'}` ] = `${this.layout.left.size}px`
+      if (layout.left.space === true) {
+        css[ `padding${$q.lang.rtl === true ? 'Right' : 'Left'}` ] = `${layout.left.size}px`
       }
 
       return css
-    }
-  },
+    })
 
-  render () {
-    return h('div', {
+    return () => h('div', {
       class: 'q-page-container',
-      style: this.style
-    }, hSlot(this, 'default'))
+      style: style.value
+    }, hSlot(slots.default))
   }
 })
