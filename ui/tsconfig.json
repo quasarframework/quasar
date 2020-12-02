@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "esnext",
+    "module": "esnext",
+    "skipLibCheck": true,
+    "moduleResolution": "node"
+  },
+  "include": ["./src/**/*"]
+}

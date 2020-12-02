@@ -6,6 +6,7 @@ const rollup = require('rollup')
 const uglify = require('uglify-es')
 const json = require('@rollup/plugin-json')
 const nodeResolve = require('@rollup/plugin-node-resolve')
+const typescript = require('rollup-plugin-typescript2')
 const replace = require('@rollup/plugin-replace')
 
 const buildConf = require('./build.conf')
@@ -15,7 +16,17 @@ function resolve (_path) {
   return path.resolve(__dirname, '..', _path)
 }
 
+const tsConfig = {
+  tsconfigOverride: {
+    compilerOptions: {
+      sourceMap: true
+    },
+    include: ['./src/**/*.ts']
+  }
+}
+
 const rollupPluginsModern = [
+  typescript(tsConfig),
   nodeResolve(),
   json()
 ]
