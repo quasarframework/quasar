@@ -1,12 +1,15 @@
-import { h, createApp, TransitionGroup } from 'vue'
+import { h, defineComponent, createApp, ref, TransitionGroup, getCurrentInstance } from 'vue'
 
 import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
 import QBtn from '../components/btn/QBtn.js'
 import QSpinner from '../components/spinner/QSpinner.js'
 
+import useQuasar from '../composables/use-quasar.js'
+
 import { noop } from '../utils/event.js'
 import { createGlobalNode } from '../utils/global-nodes.js'
+import { provideQuasar } from '../install-quasar.js'
 
 let uid = 0, vm
 const defaults = {}
@@ -24,23 +27,23 @@ const badgePositions = [
 
 const notifTypes = {
   positive: {
-    icon () { return this.$q.iconSet.type.positive },
+    icon: $q => $q.iconSet.type.positive,
     color: 'positive'
   },
 
   negative: {
-    icon () { return this.$q.iconSet.type.negative },
+    icon: $q => $q.iconSet.type.negative,
     color: 'negative'
   },
 
   warning: {
-    icon () { return this.$q.iconSet.type.warning },
+    icon: $q => $q.iconSet.type.warning,
     color: 'warning',
     textColor: 'dark'
   },
 
   info: {
-    icon () { return this.$q.iconSet.type.info },
+    icon: $q => $q.iconSet.type.info,
     color: 'info'
   },
 
@@ -60,14 +63,16 @@ function logError (error, config) {
   return false
 }
 
-const Notifications = {
+const Notifications = defineComponent({
   name: 'QNotifications',
 
-  created () {
-    this.notifs = {}
+  setup () {
+    const $q = useQuasar()
+    const notificationsList = {}
+    const notifRefs = []
 
     positionList.forEach(pos => {
-      this.notifs[ pos ] = []
+      notificationsList[ pos ] = ref([])
 
       const
         vert = [ 'left', 'center', 'right' ].includes(pos) === true ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
@@ -76,10 +81,8 @@ const Notifications = {
 
       positionClass[ pos ] = `q-notifications__list q-notifications__list--${vert} fixed column no-wrap ${classes}`
     })
-  },
 
-  methods: {
-    add (config, originalApi) {
+    function add (config, originalApi) {
       if (!config) {
         return logError('parameter required')
       }
@@ -102,7 +105,7 @@ const Notifications = {
       Object.assign(notif, notifTypes[ config.type || notif.type ], config)
 
       if (typeof notif.icon === 'function') {
-        notif.icon = notif.icon.call(this)
+        notif.icon = notif.icon($q)
       }
 
       if (notif.spinner === void 0) {
@@ -168,7 +171,7 @@ const Notifications = {
       notif.closeBtn && actions.push({
         label: typeof notif.closeBtn === 'string'
           ? notif.closeBtn
-          : this.$q.lang.label.close
+          : $q.lang.label.close
       })
 
       notif.actions = actions.map(({ handler, noDismiss, ...item }) => ({
@@ -241,8 +244,8 @@ const Notifications = {
         notif.meta.uid = originalApi.notif.meta.uid
 
         // replace notif
-        const index = this.notifs[ notif.position ].indexOf(originalApi.notif)
-        this.notifs[ notif.position ][ index ] = notif
+        const index = notificationsList[ notif.position ].value.indexOf(originalApi.notif)
+        notificationsList[ notif.position ].value[ index ] = notif
       }
       else {
         const original = groups[ notif.meta.group ]
@@ -253,15 +256,15 @@ const Notifications = {
           notif.meta.badge = 1
 
           if ([ 'left', 'right', 'center' ].indexOf(notif.position) !== -1) {
-            this.notifs[ notif.position ].splice(
-              Math.floor(this.notifs[ notif.position ].length / 2),
+            notificationsList[ notif.position ].value.splice(
+              Math.floor(notificationsList[ notif.position ].value.length / 2),
               0,
               notif
             )
           }
           else {
             const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
-            this.notifs[ notif.position ][ action ](notif)
+            notificationsList[ notif.position ].value[ action ](notif)
           }
 
           if (notif.group !== void 0) {
@@ -289,17 +292,15 @@ const Notifications = {
             (notif.badgeTextColor !== void 0 ? ` text-${notif.badgeTextColor}` : '') +
             (notif.badgeClass ? ` ${notif.badgeClass}` : '')
 
-          const index = this.notifs[ notif.position ].indexOf(original)
-          this.notifs[ notif.position ][ index ] = groups[ notif.meta.group ] = notif
+          const index = notificationsList[ notif.position ].value.indexOf(original)
+          notificationsList[ notif.position ].value[ index ] = groups[ notif.meta.group ] = notif
         }
       }
 
       const dismiss = () => {
-        this.remove(notif)
+        remove(notif)
         Api = void 0
       }
-
-      this.$forceUpdate()
 
       if (notif.timeout > 0) {
         notif.meta.timer = setTimeout(() => {
@@ -344,22 +345,22 @@ const Notifications = {
               position: notif.position
             })
 
-            this.add(newNotif, Api)
+            add(newNotif, Api)
           }
         }
       }
-    },
+    }
 
-    remove (notif) {
+    function remove (notif) {
       clearTimeout(notif.meta.timer)
 
-      const index = this.notifs[ notif.position ].indexOf(notif)
+      const index = notificationsList[ notif.position ].value.indexOf(notif)
       if (index !== -1) {
         if (notif.group !== void 0) {
           delete groups[ notif.meta.group ]
         }
 
-        const el = this.$refs[ `notif_${notif.meta.uid}` ]
+        const el = notifRefs[ '' + notif.meta.uid ]
 
         if (el) {
           const { width, height } = getComputedStyle(el)
@@ -369,25 +370,25 @@ const Notifications = {
           el.style.height = height
         }
 
-        this.notifs[ notif.position ].splice(index, 1)
-
-        this.$forceUpdate()
+        notificationsList[ notif.position ].value.splice(index, 1)
 
         if (typeof notif.onDismiss === 'function') {
           notif.onDismiss()
         }
       }
     }
-  },
 
-  render () {
-    return h('div', { class: 'q-notifications' }, positionList.map(pos => {
+    // expose public methods
+    const vm = getCurrentInstance()
+    Object.assign(vm.proxy, { add })
+
+    return () => h('div', { class: 'q-notifications' }, positionList.map(pos => {
       return h(TransitionGroup, {
         key: pos,
         class: positionClass[ pos ],
         tag: 'div',
         name: `q-notification--${pos}`
-      }, () => this.notifs[ pos ].map(notif => {
+      }, () => notificationsList[ pos ].value.map(notif => {
         let msgChild
 
         const meta = notif.meta
@@ -465,7 +466,7 @@ const Notifications = {
         )
 
         return h('div', {
-          ref: `notif_${meta.uid}`,
+          ref: el => { notifRefs[ '' + meta.uid ] = el },
           key: meta.uid,
           class: meta.class,
           ...meta.attrs
@@ -475,7 +476,7 @@ const Notifications = {
       }))
     }))
   }
-}
+})
 
 export default {
   create (opts) {
@@ -515,7 +516,7 @@ export default {
     const el = createGlobalNode('q-notify')
     const app = createApp(Notifications)
 
-    app.config.globalProperties.$q = $q
+    provideQuasar(app, $q)
 
     vm = app.mount(el)
   }

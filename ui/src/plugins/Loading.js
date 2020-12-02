@@ -1,4 +1,4 @@
-import { h, createApp, Transition } from 'vue'
+import { h, createApp, Transition, onMounted } from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
 
@@ -56,12 +56,12 @@ const Plugin = defineReactivePlugin({
       app = createApp({
         name: 'QLoading',
 
-        mounted () {
-          preventScroll(true)
-        },
+        setup () {
+          onMounted(() => {
+            preventScroll(true)
+          })
 
-        methods: {
-          __onAfterLeave () {
+          function onAfterLeave () {
             // might be called to finalize
             // previous leave, even if it was cancelled
             if (Plugin.isActive !== true && app !== void 0) {
@@ -71,9 +71,9 @@ const Plugin = defineReactivePlugin({
               app = void 0
               vm = void 0
             }
-          },
+          }
 
-          __getContent () {
+          function getContent () {
             if (Plugin.isActive !== true) {
               return null
             }
@@ -97,14 +97,12 @@ const Plugin = defineReactivePlugin({
               key: props.uid
             }, content)
           }
-        },
 
-        render () {
-          return h(Transition, {
+          return () => h(Transition, {
             name: 'q-transition--fade',
             appear: true,
-            onAfterLeave: this.__onAfterLeave
-          }, this.__getContent)
+            onAfterLeave
+          }, getContent)
         }
       })
 

@@ -1,4 +1,5 @@
 import { version } from '../package.json'
+
 import Platform from './plugins/Platform.js'
 import Screen from './plugins/Screen.js'
 import Dark from './plugins/Dark.js'
@@ -6,6 +7,7 @@ import History from './history.js'
 import Lang from './lang.js'
 import Body from './body.js'
 import IconSet from './icon-set.js'
+
 import { quasarKey } from './utils/symbols.js'
 
 const autoInstalled = [
@@ -15,13 +17,16 @@ const autoInstalled = [
 // to be used by client-side only
 export let $q
 export let appInstance
+export function provideQuasar (app, $q) {
+  app.config.globalProperties.$q = $q
+  app.provide(quasarKey, $q)
+}
 
 // to be used by SSR client-side only
 const onSSRHydrated = []
 
 function prepareApp (app, uiOpts, pluginOpts) {
-  app.config.globalProperties.$q = pluginOpts.$q
-  app.provide(quasarKey, $q)
+  provideQuasar(app, pluginOpts.$q)
 
   Platform.install(pluginOpts)
   Body.install(pluginOpts)

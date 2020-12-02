@@ -3,6 +3,7 @@ import { createApp, h } from 'vue'
 import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { noop } from '../utils/event.js'
 import { createGlobalNode } from '../utils/global-nodes.js'
+import { provideQuasar } from '../install-quasar.js'
 
 import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
 
@@ -30,10 +31,12 @@ export default defineReactivePlugin({
 
     const app = createApp({
       name: 'LoadingBar',
-      render: () => h(QAjaxBar, props)
+      setup () {
+        return () => h(QAjaxBar, props)
+      }
     })
 
-    app.config.globalProperties.$q = $q
+    provideQuasar(app, $q)
 
     const bar = app.mount(el).$refs.bar
 

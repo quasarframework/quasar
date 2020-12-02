@@ -4,8 +4,6 @@ import { hDir as dir } from './composition-render.js'
 // and superseeded by render-composition.js
 // after all components use composition api
 
-import { h, withDirectives } from 'vue'
-
 export function hSlot (vm, slotName, otherwise) {
   return vm.$slots[ slotName ] !== void 0
     ? vm.$slots[ slotName ]()
