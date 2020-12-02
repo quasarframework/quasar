@@ -72,9 +72,11 @@ export default defineComponent({
 
   setup (props, { slots, emit, attrs }) {
     const $q = useQuasar()
+    const vm = getCurrentInstance()
+
     const { isDark } = useDark(props, $q)
     const { preventBodyScroll } = usePreventScroll()
-    const { emitListeners } = useEmitListeners()
+    const { emitListeners } = useEmitListeners(vm)
     const { registerTimeout } = useTimeout()
 
     const layout = inject(layoutKey, () => {
@@ -618,7 +620,6 @@ export default defineComponent({
     })
 
     // expose public methods
-    const vm = getCurrentInstance()
     Object.assign(vm.proxy, { show, hide, toggle })
 
     return () => {

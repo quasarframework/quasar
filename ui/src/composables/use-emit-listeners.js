@@ -2,9 +2,7 @@ import { computed, getCurrentInstance } from 'vue'
 
 const listenerRE = /^on[A-Z]/
 
-export default function () {
-  const vm = getCurrentInstance()
-
+export default function (vm = getCurrentInstance()) {
   return {
     emitListeners: computed(() => {
       const acc = {}

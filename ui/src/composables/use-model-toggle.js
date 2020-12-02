@@ -11,7 +11,7 @@ export const useModelToggleEmits = [
   'update:modelValue', 'before-show', 'show', 'before-hide', 'hide'
 ]
 
-// handleShow/handleHide -> removetTick(), self (& emit show), planTick()
+// handleShow/handleHide -> removeTick(), self (& emit show), planTick()
 
 export default function (props, {
   emit,
@@ -26,10 +26,10 @@ export default function (props, {
 
   function toggle (evt) {
     if (showing.value === true) {
-      show()
+      hide(evt)
     }
     else {
-      hide()
+      show(evt)
     }
   }
 

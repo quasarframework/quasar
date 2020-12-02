@@ -20,3 +20,7 @@ export const layoutKey = hasSymbol === true
 export const pageContainerKey = hasSymbol === true
   ? Symbol('_q_pc_')
   : '_q_pc_'
+
+export const fabKey = hasSymbol === true
+  ? Symbol('_q_f_')
+  : '_q_f_'
