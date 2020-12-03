@@ -348,9 +348,44 @@ export default defineComponent({
       this.$emit('focus', e)
     },
 
+    __onFocusin (e) {
+      if (
+        this.$el.contains(e.target) === true &&
+        (
+          e.relatedTarget === null ||
+          this.$el.contains(e.relatedTarget) !== true
+        )
+      ) {
+        const prop = `inner${this.isViewingSource === true ? 'Text' : 'HTML'}`
+        this.caret.restorePosition(this.$refs.content[prop].length)
+        this.refreshToolbar()
+      }
+    },
+
+    __onFocusout (e) {
+      if (
+        this.$el.contains(e.target) === true &&
+        (
+          e.relatedTarget === null ||
+          this.$el.contains(e.relatedTarget) !== true
+        )
+      ) {
+        this.caret.savePosition()
+        this.refreshToolbar()
+      }
+    },
+
+    __onMousedown () {
+      this.__offsetBottom = void 0
+    },
+
     __onMouseup (e) {
       this.caret.save()
       this.$emit('mouseup', e)
+    },
+
+    __onTouchstart () {
+      this.__offsetBottom = void 0
     },
 
     __onKeyup (e) {
@@ -451,7 +486,9 @@ export default defineComponent({
     return h('div', {
       class: this.classes,
       style: { height: this.inFullscreen === true ? '100vh' : null },
-      ...this.attrs
+      ...this.attrs,
+      onFocusin: this.__onFocusin,
+      onFocusout: this.__onFocusout
     }, [
       toolbars,
 
@@ -470,6 +507,10 @@ export default defineComponent({
         onClick: this.__onClick,
         onBlur: this.__onBlur,
         onFocus: this.__onFocus,
+
+        // clean saved scroll position
+        onMousedown: this.__onMousedown,
+        onTouchstart: this.__onTouchstart,
 
         // save caret
         onMouseup: this.__onMouseup,
