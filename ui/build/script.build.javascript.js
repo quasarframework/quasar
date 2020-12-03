@@ -6,7 +6,7 @@ const rollup = require('rollup')
 const uglify = require('uglify-es')
 const json = require('@rollup/plugin-json')
 const nodeResolve = require('@rollup/plugin-node-resolve')
-const typescript = require('rollup-plugin-typescript2')
+// const typescript = require('rollup-plugin-typescript2')
 const replace = require('@rollup/plugin-replace')
 
 const buildConf = require('./build.conf')
@@ -26,7 +26,7 @@ const tsConfig = {
 }
 
 const rollupPluginsModern = [
-  typescript(tsConfig),
+  // typescript(tsConfig),
   nodeResolve(),
   json()
 ]
