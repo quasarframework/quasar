@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, defineComponent, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 
 import useEmitListeners from '../../composables/use-emit-listeners.js'
 
@@ -38,8 +38,7 @@ export default defineComponent({
     const mediaParentRef = ref(null)
     const mediaRef = ref(null)
 
-    const vm = getCurrentInstance()
-    const { emitListeners } = useEmitListeners(vm)
+    const { emitListeners } = useEmitListeners()
 
     let isWorking, mediaEl, mediaHeight, resizeHandler, observer, localScrollTarget
 
