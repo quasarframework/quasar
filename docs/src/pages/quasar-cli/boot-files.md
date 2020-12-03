@@ -27,7 +27,7 @@ A boot file is a simple JavaScript file which can optionally export a function. 
 | `ssrContext` | Available only on server-side, if building for SSR |
 | `urlPath` | (**@quasar/app 1.0.7+**) The pathname (path + search) part of the URL. It also contains the hash on client-side. |
 | `publicPath` | (**@quasar/app 2+**) The configured public path. |
-| `redirect` | (**@quasar/app 1.0.7+**) Function to call to redirect to another URL. Accepts String (URL path) or a Vue Router location Object. |
+| `redirect` | (**@quasar/app 1.0.7+**) Function to call to redirect to another URL. Accepts String (URL path) or a Vue Router location Object (and starting with v2.1.9+, also optionally a redirect HTTP Status Code). |
 
 ```js
 export default ({ app, router, store, Vue }) => {
@@ -195,6 +195,9 @@ export default ({ urlPath, redirect }) => {
   const isAuthorized = // ...
   if (!isAuthorized && !urlPath.startsWith('/login')) {
     redirect({ path: '/login' })
+    // (@quasar/app 2.1.9+)
+    // or with a HTTP Status Code:
+    // redirect({ path: '/login' }, 302)
     return
   }
   // ...
