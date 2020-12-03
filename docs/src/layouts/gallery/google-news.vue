@@ -32,7 +32,7 @@
               aria-label="Menu"
               icon="arrow_drop_down"
             >
-              <q-menu anchor="bottom right" self="top right">
+              <q-menu anchor="bottom end" self="top end">
                 <div class="q-pa-md" style="width: 400px">
                   <div class="text-body2 text-grey q-mb-md">
                     Narrow your search results

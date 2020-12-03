@@ -8,12 +8,12 @@ export function validatePosition (pos) {
   if (parts.length !== 2) {
     return false
   }
-  if (!['top', 'center', 'bottom'].includes(parts[0])) {
+  if ([ 'top', 'center', 'bottom' ].includes(parts[0]) !== true) {
     console.error('Anchor/Self position must start with one of top/center/bottom')
     return false
   }
-  if (!['left', 'middle', 'right'].includes(parts[1])) {
-    console.error('Anchor/Self position must end with one of left/middle/right')
+  if ([ 'left', 'middle', 'right', 'start', 'end' ].includes(parts[1]) !== true) {
+    console.error('Anchor/Self position must end with one of left/middle/right/start/end')
     return false
   }
   return true
@@ -28,9 +28,24 @@ export function validateOffset (val) {
   return true
 }
 
-export function parsePosition (pos) {
+const horizontalPos = {
+  'start#ltr': 'left',
+  'start#rtl': 'right',
+  'end#ltr': 'right',
+  'end#rtl': 'left'
+}
+
+;[ 'left', 'middle', 'right' ].forEach(pos => {
+  horizontalPos[`${pos}#ltr`] = pos
+  horizontalPos[`${pos}#rtl`] = pos
+})
+
+export function parsePosition (pos, rtl) {
   const parts = pos.split(' ')
-  return { vertical: parts[0], horizontal: parts[1] }
+  return {
+    vertical: parts[0],
+    horizontal: horizontalPos[`${parts[1]}#${rtl === true ? 'rtl' : 'ltr'}`]
+  }
 }
 
 export function validateCover (val) {

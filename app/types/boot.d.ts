@@ -9,7 +9,7 @@ interface BootFileParams<TStore> extends HasSsrParam, HasStoreParam<TStore> {
   router: VueRouter;
   urlPath: string;
   publicPath: string;
-  redirect: (url: string | RawLocation) => void;
+  redirect: (url: string | RawLocation, httpStatusCode?: number) => void;
 }
 
 export type BootCallback<TStore> = (

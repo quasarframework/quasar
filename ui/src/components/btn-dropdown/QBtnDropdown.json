@@ -91,12 +91,12 @@
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom middle", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
-      "default": "bottom right",
-      "examples": [ "top left", "bottom right" ],
+      "default": "bottom end",
+      "examples": [ "top right", "bottom end" ],
       "category": "position"
     },
 
@@ -104,12 +104,12 @@
       "type": "String",
       "desc": "Two values setting the menu's own position relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom middle", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
-      "default": "top right",
-      "examples": [ "top left", "bottom right" ],
+      "default": "top end",
+      "examples": [ "top right", "bottom end" ],
       "category": "position"
     },
 

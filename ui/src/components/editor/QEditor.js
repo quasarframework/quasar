@@ -269,6 +269,13 @@ export default Vue.extend({
       if (this.readonly === true) {
         return { 'aria-readonly': 'true' }
       }
+    },
+
+    onEditor () {
+      return {
+        focusin: this.__onFocusin,
+        focusout: this.__onFocusout
+      }
     }
   },
 
@@ -344,6 +351,37 @@ export default Vue.extend({
       this.$emit('focus', e)
     },
 
+    __onFocusin (e) {
+      if (
+        this.$el.contains(e.target) === true &&
+        (
+          e.relatedTarget === null ||
+          this.$el.contains(e.relatedTarget) !== true
+        )
+      ) {
+        const prop = `inner${this.isViewingSource === true ? 'Text' : 'HTML'}`
+        this.caret.restorePosition(this.$refs.content[prop].length)
+        this.refreshToolbar()
+      }
+    },
+
+    __onFocusout (e) {
+      if (
+        this.$el.contains(e.target) === true &&
+        (
+          e.relatedTarget === null ||
+          this.$el.contains(e.relatedTarget) !== true
+        )
+      ) {
+        this.caret.savePosition()
+        this.refreshToolbar()
+      }
+    },
+
+    __onMousedown () {
+      this.__offsetBottom = void 0
+    },
+
     __onMouseup (e) {
       this.caret.save()
       if (this.qListeners.mouseup !== void 0) {
@@ -356,6 +394,10 @@ export default Vue.extend({
       if (this.qListeners.keyup !== void 0) {
         this.$emit('keyup', e)
       }
+    },
+
+    __onTouchstart () {
+      this.__offsetBottom = void 0
     },
 
     __onTouchend (e) {
@@ -459,6 +501,10 @@ export default Vue.extend({
       blur: this.__onBlur,
       focus: this.__onFocus,
 
+      // clean saved scroll position
+      mousedown: this.__onMousedown,
+      touchstart: this.__onTouchstart,
+
       // save caret
       mouseup: this.__onMouseup,
       keyup: this.__onKeyup,
@@ -470,7 +516,8 @@ export default Vue.extend({
         height: this.inFullscreen === true ? '100vh' : null
       },
       class: this.classes,
-      attrs: this.attrs
+      attrs: this.attrs,
+      on: this.onEditor
     }, [
       toolbars,
 
