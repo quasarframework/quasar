@@ -59,12 +59,12 @@ const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 
 const bootFiles = [<%= bootNames.join(',') %>].filter(boot => typeof boot === 'function')
 
-function redirectBrowser (url, router, reject) {
+function redirectBrowser (url, router, reject, httpStatusCode) {
   const normalized = Object(url) === url
     ? <%= build.publicPath === '/' ? 'router.resolve(url).fullPath' : 'addPublicPath(router.resolve(url).fullPath)' %>
     : url
 
-  reject({ url: normalized })
+  reject({ url: normalized, code: httpStatusCode })
 }
 
 // This is where we perform data-prefetching to determine the
@@ -77,9 +77,9 @@ export default ssrContext => {
 
     <% if (bootNames.length > 0) { %>
     let hasRedirected = false
-    const redirect = url => {
+    const redirect = (url, httpStatusCode) => {
       hasRedirected = true
-      redirectBrowser(url, router, reject)
+      redirectBrowser(url, router, reject, httpStatusCode)
     }
 
     for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
@@ -129,9 +129,9 @@ export default ssrContext => {
       <% if (preFetch) { %>
 
       let hasRedirected = false
-      const redirect = url => {
+      const redirect = (url, httpStatusCode) => {
         hasRedirected = true
-        redirectBrowser(url, router, reject)
+        redirectBrowser(url, router, reject, httpStatusCode)
       }
 
       App.preFetch !== void 0 && matchedComponents.unshift(App)
