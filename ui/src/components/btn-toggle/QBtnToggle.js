@@ -4,14 +4,13 @@ import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 
 import FormMixin from '../../mixins/form.js'
-import RippleMixin from '../../mixins/ripple.js'
 
 import { hMergeSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QBtnToggle',
 
-  mixins: [ RippleMixin, FormMixin ],
+  mixins: [ FormMixin ],
 
   props: {
     modelValue: {
@@ -57,7 +56,12 @@ export default defineComponent({
 
     spread: Boolean,
 
-    clearable: Boolean
+    clearable: Boolean,
+
+    ripple: {
+      type: [ Boolean, Object ],
+      default: true
+    }
   },
 
   emits: [ 'update:modelValue', 'clear', 'click' ],

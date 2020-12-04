@@ -1,34 +1,33 @@
-// this file will eventually be removed
-// and superseeded by use-attrs.js
-// after all components use composition api
+import { computed } from 'vue'
 
 const listenerRE = /^on[A-Z]/
 const nonAttrsRE = /(^on[A-Z]|^class$|^style$)/
 
-export default {
-  computed: {
-    qAttrs () {
+// TODO vue3 - verify reactivity
+export default function (attrs) {
+  return {
+    qAttrs: computed(() => {
       const acc = {}
 
-      Object.keys(this.$attrs).forEach(key => {
+      Object.keys(attrs).forEach(key => {
         if (nonAttrsRE.test(key) === false) {
           acc[ key ] = this.$attrs[ key ]
         }
       })
 
       return acc
-    },
+    }),
 
-    qListeners () {
+    qListeners: computed(() => {
       const acc = {}
 
-      Object.keys(this.$attrs).forEach(key => {
+      Object.keys(attrs).forEach(key => {
         if (listenerRE.test(key) === true) {
           acc[ key ] = this.$attrs[ key ]
         }
       })
 
       return acc
-    }
+    })
   }
 }

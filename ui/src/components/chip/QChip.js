@@ -6,7 +6,6 @@ import Ripple from '../../directives/Ripple.js'
 
 import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import { useRippleProps } from '../../composables/use-ripple.js'
 import useSize, { useSizeProps } from '../../composables/use-size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
@@ -25,7 +24,6 @@ export default defineComponent({
 
   props: {
     ...useDarkProps,
-    ...useRippleProps,
     ...useSizeProps,
 
     dense: Boolean,
@@ -54,7 +52,12 @@ export default defineComponent({
     removable: Boolean,
 
     tabindex: [ String, Number ],
-    disable: Boolean
+    disable: Boolean,
+
+    ripple: {
+      type: [ Boolean, Object ],
+      default: true
+    }
   },
 
   emits: [ 'update:modelValue', 'update:selected', 'remove', 'click' ],

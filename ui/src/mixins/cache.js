@@ -1,3 +1,7 @@
+// this file will eventually be removed
+// and superseeded by use-cache.js
+// after all components use composition api
+
 export default {
   created () {
     this.__qCache = {}

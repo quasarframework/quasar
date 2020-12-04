@@ -1,3 +1,7 @@
+// this file will eventually be removed
+// and superseeded by use-file.js / use-file-value.js
+// after all components use composition api
+
 import { h } from 'vue'
 
 import { stopAndPrevent } from '../utils/event.js'

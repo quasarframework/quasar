@@ -1,5 +1,4 @@
 import AlignMixin from './align.js'
-import RippleMixin from './ripple.js'
 import RouterLinkMixin from './router-link.js'
 import { getSizeMixin } from './size.js'
 
@@ -14,7 +13,6 @@ const padding = {
 
 export default {
   mixins: [
-    RippleMixin,
     AlignMixin,
     RouterLinkMixin,
     getSizeMixin({
@@ -56,6 +54,11 @@ export default {
     dense: Boolean,
 
     tabindex: [ Number, String ],
+
+    ripple: {
+      type: [ Boolean, Object ],
+      default: true
+    },
 
     align: { default: 'center' },
     stack: Boolean,

@@ -2,8 +2,6 @@ import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import RippleMixin from '../../mixins/ripple.js'
-
 import Ripple from '../../directives/Ripple.js'
 
 import { hMergeSlot, hDir } from '../../utils/render.js'
@@ -13,8 +11,6 @@ let uid = 0
 
 export default defineComponent({
   name: 'QTab',
-
-  mixins: [RippleMixin],
 
   inject: {
     __qTabs: {
@@ -41,7 +37,12 @@ export default defineComponent({
     tabindex: [ String, Number ],
     disable: Boolean,
 
-    contentClass: String
+    contentClass: String,
+
+    ripple: {
+      type: [ Boolean, Object ],
+      default: true
+    }
   },
 
   emits: [ 'click', 'keyup' ],
