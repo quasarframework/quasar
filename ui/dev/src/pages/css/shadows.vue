@@ -13,10 +13,16 @@
       .shadow-up-{{ n }}
     </div>
     <p class="caption text-left">
-      Inset Shadow
+      Inset Shadow on top
     </p>
     <div class="flex inline shadow-box flex-center inset-shadow">
       .inset-shadow
+    </div>
+    <p class="caption text-left">
+      Inset Shadow on bottom
+    </p>
+    <div class="flex inline shadow-box flex-center inset-shadow-down">
+      .inset-shadow-down
     </div>
   </div>
 </template>
