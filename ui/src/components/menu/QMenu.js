@@ -1,14 +1,20 @@
-import { h, defineComponent, Transition } from 'vue'
+import { h, defineComponent, ref, computed, watch, Transition, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import AnchorMixin from '../../mixins/anchor.js'
-import ModelToggleMixin from '../../mixins/model-toggle.js'
-import DarkMixin from '../../mixins/dark.js'
-import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
-import TransitionMixin from '../../mixins/transition.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useAnchor, { useAnchorProps } from '../../composables/use-anchor.js'
+import useScrollTarget from '../../composables/use-scroll-target.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/use-model-toggle.js'
+import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import usePortal from '../../composables/use-portal.js'
+import useTransition, { useTransitionProps } from '../../composables/use-transition.js'
+import useEmitListeners from '../../composables/use-emit-listeners.js'
+import useTick from '../../composables/use-tick.js'
+import useTimeout from '../../composables/use-timeout.js'
 
+import { closePortalMenus } from '../../utils/portal.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { position, stopAndPrevent } from '../../utils/event.js'
-import { hSlot } from '../../utils/render.js'
+import { position, stopAndPrevent, addEvt } from '../../utils/event.js'
+import { hSlot } from '../../utils/composition-render.js'
 import { addEscapeKey, removeEscapeKey } from '../../utils/escape-key.js'
 import { addFocusout, removeFocusout } from '../../utils/focusout.js'
 import { childHasFocus } from '../../utils/dom.js'
@@ -23,15 +29,12 @@ export default defineComponent({
 
   inheritAttrs: false,
 
-  mixins: [
-    DarkMixin,
-    AnchorMixin,
-    ModelToggleMixin,
-    PortalMixin,
-    TransitionMixin
-  ],
-
   props: {
+    ...useAnchorProps,
+    ...useModelToggleProps,
+    ...useDarkProps,
+    ...useTransitionProps,
+
     persistent: Boolean,
     autoClose: Boolean,
     separateClosePopup: Boolean,
@@ -74,128 +77,187 @@ export default defineComponent({
     }
   },
 
-  emits: [ 'click', 'escape-key' ],
+  emits: [
+    ...useModelToggleEmits,
+    'click', 'escape-key'
+  ],
 
-  watch: {
-    handlesFocus (val) {
+  setup (props, { slots, emit, attrs }) {
+    let refocusTarget, absoluteOffset, unwatchPosition, avoidAutoClose
+
+    const vm = getCurrentInstance()
+    const innerRef = ref(null)
+    const showing = ref(false)
+
+    const hideOnRouteChange = computed(() =>
+      props.persistent !== true &&
+      props.noRouteDismiss !== true
+    )
+
+    const $q = useQuasar()
+    const { isDark } = useDark(props, $q)
+    const { registerTick, removeTick, prepareTick } = useTick()
+    const { registerTimeout, removeTimeout } = useTimeout()
+    const { transition } = useTransition(props, showing)
+    const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
+
+    const { anchorEl, showCondition, anchorEvents } = useAnchor(props, {
+      emit, vm, showing, configureAnchorEl
+    })
+
+    const { emitListeners } = useEmitListeners(vm)
+    const { show, hide, toggle } = useModelToggle(props, {
+      emit,
+      showing, showCondition, handleShow, handleHide,
+      hideOnRouteChange,
+      emitListeners,
+      processOnMount: true
+    })
+
+    anchorEvents.hide = hide
+    anchorEvents.toggle = toggle
+
+    const { showPortal, hidePortal, renderPortal } = usePortal(vm, renderPortalContent)
+
+    const clickOutsideProps = {
+      anchorEl,
+      innerRef,
+      getEl: () => vm.proxy.$el,
+      onClickOutside (e) {
+        if (props.persistent !== true && showing.value === true) {
+          const targetClassList = e.target.classList
+
+          hide(e)
+
+          if (
+            // always prevent touch event
+            e.type === 'touchstart' ||
+            // prevent click if it's on a dialog backdrop
+            targetClassList.contains('q-dialog__backdrop')
+          ) {
+            stopAndPrevent(e)
+          }
+
+          return true
+        }
+      }
+    }
+
+    const anchorOrigin = computed(() =>
+      parsePosition(
+        props.anchor || (
+          props.cover === true ? 'center middle' : 'bottom start'
+        ),
+        $q.lang.rtl
+      )
+    )
+
+    const selfOrigin = computed(() =>
+      props.cover === true
+        ? anchorOrigin.value
+        : parsePosition(props.self || 'top start', $q.lang.rtl)
+    )
+
+    const menuClass = computed(() =>
+      (props.square === true ? ' q-menu--square' : '') +
+      (isDark.value === true ? ' q-menu--dark q-dark' : '')
+    )
+
+    const onEvents = computed(() =>
+      props.autoClose === true
+        ? { onClick: onAutoClose }
+        : {}
+    )
+
+    const handlesFocus = computed(() =>
+      showing.value === true && props.persistent !== true
+    )
+
+    watch(handlesFocus, val => {
       if (val === true) {
-        addEscapeKey(this.__onEscapeKey)
-        addClickOutside(this.__getPortalVm)
+        addEscapeKey(onEscapeKey)
+        addClickOutside(clickOutsideProps)
       }
       else {
-        removeEscapeKey(this.__onEscapeKey)
-        removeClickOutside(this.__getPortalVm)
+        removeEscapeKey(onEscapeKey)
+        removeClickOutside(clickOutsideProps)
       }
-    }
-  },
+    })
 
-  computed: {
-    anchorOrigin () {
-      return parsePosition(
-        this.anchor || (
-          this.cover === true ? 'center middle' : 'bottom start'
-        ),
-        this.$q.lang.rtl
-      )
-    },
-
-    selfOrigin () {
-      return this.cover === true
-        ? this.anchorOrigin
-        : parsePosition(this.self || 'top start', this.$q.lang.rtl)
-    },
-
-    menuClass () {
-      return (this.square === true ? ' q-menu--square' : '') +
-        (this.isDark === true ? ' q-menu--dark q-dark' : '')
-    },
-
-    hideOnRouteChange () {
-      return this.persistent !== true &&
-        this.noRouteDismiss !== true
-    },
-
-    onEvents () {
-      return this.autoClose === true
-        ? { onClick: this.__onAutoClose }
-        : {}
-    },
-
-    handlesFocus () {
-      return this.showing === true && this.persistent !== true
-    }
-  },
-
-  methods: {
-    focus () {
-      let node = this.$refs.inner
+    function focus () {
+      let node = innerRef.value
 
       if (node && node.contains(document.activeElement) !== true) {
         node = node.querySelector('[autofocus], [data-autofocus]') || node
         node.focus()
       }
-    },
+    }
 
-    __show (evt) {
-      // IE can have null document.activeElement
-      this.__refocusTarget = this.noRefocus === false && document.activeElement !== null
+    function handleShow (evt) {
+      removeTick()
+      removeTimeout()
+
+      refocusTarget = props.noRefocus === false
         ? document.activeElement
         : void 0
 
-      addFocusout(this.__onFocusout)
+      addFocusout(onFocusout)
 
-      this.__showPortal()
-      this.__configureScrollTarget()
+      showPortal()
+      configureScrollTarget()
 
-      this.absoluteOffset = void 0
+      absoluteOffset = void 0
 
-      if (evt !== void 0 && (this.touchPosition || this.contextMenu)) {
+      if (evt !== void 0 && (props.touchPosition || props.contextMenu)) {
         const pos = position(evt)
 
         if (pos.left !== void 0) {
-          const { top, left } = this.anchorEl.getBoundingClientRect()
-          this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
+          const { top, left } = anchorEl.value.getBoundingClientRect()
+          absoluteOffset = { left: pos.left - left, top: pos.top - top }
         }
       }
 
-      if (this.unwatch === void 0) {
-        this.unwatch = this.$watch(
-          () => this.$q.screen.width + '|' + this.$q.screen.height + '|' + this.self + '|' + this.anchor + '|' + this.$q.lang.rtl,
-          this.updatePosition
+      if (unwatchPosition === void 0) {
+        unwatchPosition = watch(
+          () => $q.screen.width + '|' + $q.screen.height + '|' + props.self + '|' + props.anchor + '|' + $q.lang.rtl,
+          updatePosition
         )
       }
 
-      // IE can have null document.activeElement
-      if (this.noFocus !== true && document.activeElement !== null) {
+      if (props.noFocus !== true) {
         document.activeElement.blur()
       }
 
-      this.__nextTick(() => {
-        this.updatePosition()
-        this.noFocus !== true && this.focus()
+      registerTick(() => {
+        updatePosition()
+        props.noFocus !== true && focus()
       })
+      prepareTick()
 
-      this.__setTimeout(() => {
+      registerTimeout(() => {
         // required in order to avoid the "double-tap needed" issue
-        if (this.$q.platform.is.ios === true) {
+        if ($q.platform.is.ios === true) {
           // if auto-close, then this click should
           // not close the menu
-          this.__avoidAutoClose = this.autoClose
-          this.$refs.inner.click()
+          avoidAutoClose = props.autoClose
+          innerRef.value.click()
         }
 
-        this.updatePosition()
-        this.$emit('show', evt)
+        updatePosition()
+        emit('show', evt)
       }, 300)
-    },
+    }
 
-    __hide (evt) {
-      this.__anchorCleanup(true)
+    function handleHide (evt) {
+      removeTick()
+      removeTimeout()
+
+      anchorCleanup(true)
 
       // check null for IE
       if (
-        this.__refocusTarget !== void 0 &&
-        this.__refocusTarget !== null &&
+        refocusTarget !== void 0 &&
+        refocusTarget !== null &&
         (
           // menu was hidden from code or ESC plugin
           evt === void 0 ||
@@ -203,141 +265,145 @@ export default defineComponent({
           evt.qClickOutside !== true
         )
       ) {
-        this.__refocusTarget.focus()
+        refocusTarget.focus()
       }
 
-      this.__setTimeout(() => {
-        this.__hidePortal()
-        this.$emit('hide', evt)
+      registerTimeout(() => {
+        hidePortal()
+        emit('hide', evt)
       }, 300)
-    },
+    }
 
-    __anchorCleanup (hiding) {
-      this.absoluteOffset = void 0
+    function anchorCleanup (hiding) {
+      absoluteOffset = void 0
 
-      if (this.unwatch !== void 0) {
-        this.unwatch()
-        this.unwatch = void 0
+      if (unwatchPosition !== void 0) {
+        unwatchPosition()
+        unwatchPosition = void 0
       }
 
-      if (hiding === true || this.showing === true) {
-        removeFocusout(this.__onFocusout)
-        this.__unconfigureScrollTarget()
-        if (this.persistent !== true) {
-          removeClickOutside(this.__getPortalVm)
-          removeEscapeKey(this.__onEscapeKey)
+      if (hiding === true || showing.value === true) {
+        removeFocusout(onFocusout)
+        unconfigureScrollTarget()
+        if (props.persistent !== true) {
+          removeClickOutside(clickOutsideProps)
+          removeEscapeKey(onEscapeKey)
         }
       }
-    },
+    }
 
-    __unconfigureScrollTarget () {
-      if (this.__scrollTarget !== void 0) {
-        this.__changeScrollEvent(this.__scrollTarget)
-        this.__scrollTarget = void 0
-      }
-    },
+    function configureAnchorEl (context = props.contextMenu) {
+      if (props.noParentEvent === true || anchorEl.value === null) { return }
 
-    __configureScrollTarget () {
-      if (this.anchorEl !== void 0 || this.scrollTarget !== void 0) {
-        this.__scrollTarget = getScrollTarget(this.anchorEl, this.scrollTarget)
-        this.__changeScrollEvent(this.__scrollTarget, this.updatePosition)
-      }
-    },
+      let evts
 
-    __onAutoClose (e) {
-      // if auto-close, then the ios double-tap fix which
-      // issues a click should not close the menu
-      if (this.__avoidAutoClose !== true) {
-        closePortalMenus(this, e)
-        this.$emit('click', e)
+      if (context === true) {
+        if ($q.platform.is.mobile === true) {
+          evts = [
+            [ anchorEl.value, 'touchstart', 'mobileTouch', 'passive' ]
+          ]
+        }
+        else {
+          evts = [
+            [ anchorEl.value, 'click', 'hide', 'passive' ],
+            [ anchorEl.value, 'contextmenu', 'contextClick', 'notPassive' ]
+          ]
+        }
       }
       else {
-        this.__avoidAutoClose = false
+        evts = [
+          [ anchorEl.value, 'click', 'toggle', 'passive' ],
+          [ anchorEl.value, 'keyup', 'toggleKey', 'passive' ]
+        ]
       }
-    },
 
-    __onFocusout (evt) {
+      addEvt(anchorEvents, 'anchor', evts)
+    }
+
+    function configureScrollTarget () {
+      if (anchorEl.value !== null || props.scrollTarget !== void 0) {
+        localScrollTarget.value = getScrollTarget(anchorEl.value, props.scrollTarget)
+        changeScrollEvent(localScrollTarget.value, updatePosition)
+      }
+    }
+
+    function onAutoClose (e) {
+      // if auto-close, then the ios double-tap fix which
+      // issues a click should not close the menu
+      if (avoidAutoClose !== true) {
+        closePortalMenus(vm.proxy, e)
+        emit('click', e)
+      }
+      else {
+        avoidAutoClose = false
+      }
+    }
+
+    function onFocusout (evt) {
       // the focus is not in a vue child component
       if (
-        this.handlesFocus === true &&
-        childHasFocus(this.$refs.inner, evt.target) !== true
+        handlesFocus.value === true &&
+        childHasFocus(innerRef.value, evt.target) !== true
       ) {
-        this.focus()
+        focus()
       }
-    },
+    }
 
-    __onEscapeKey (evt) {
-      this.$emit('escape-key')
-      this.hide(evt)
-    },
+    function onEscapeKey (evt) {
+      emit('escape-key')
+      hide(evt)
+    }
 
-    updatePosition () {
-      const el = this.$refs.inner
+    function updatePosition () {
+      const el = innerRef.value
 
-      if (this.anchorEl === void 0 || !el) {
-        return
-      }
-
-      if (el.nodeType === 8) { // IE replaces the comment with delay
-        setTimeout(this.updatePosition, 25)
+      if (anchorEl.value === null || !el) {
         return
       }
 
       setPosition({
         el,
-        offset: this.offset,
-        anchorEl: this.anchorEl,
-        anchorOrigin: this.anchorOrigin,
-        selfOrigin: this.selfOrigin,
-        absoluteOffset: this.absoluteOffset,
-        fit: this.fit,
-        cover: this.cover,
-        maxHeight: this.maxHeight,
-        maxWidth: this.maxWidth
+        offset: props.offset,
+        anchorEl: anchorEl.value,
+        anchorOrigin: anchorOrigin.value,
+        selfOrigin: selfOrigin.value,
+        absoluteOffset,
+        fit: props.fit,
+        cover: props.cover,
+        maxHeight: props.maxHeight,
+        maxWidth: props.maxWidth
       })
-    },
+    }
 
-    __onClickOutside (e) {
-      if (this.persistent !== true && this.showing === true) {
-        const targetClassList = e.target.classList
-
-        this.hide(e)
-        if (
-          // always prevent touch event
-          e.type === 'touchstart' ||
-          // prevent click if it's on a dialog backdrop
-          targetClassList.contains('q-dialog__backdrop')
-        ) {
-          stopAndPrevent(e)
-        }
-        return true
-      }
-    },
-
-    __renderPortal () {
+    function renderPortalContent () {
       return h(
         Transition,
-        { name: this.transition, appear: true },
-        () => this.showing === true
+        { name: transition.value, appear: true },
+        () => showing.value === true
           ? h('div', {
-              ...this.$attrs,
-              ref: 'inner',
+              ...attrs, // TODO vue3 - verify reactivity
+              ref: innerRef,
               tabindex: -1,
               class: [
-                'q-menu q-position-engine scroll' + this.menuClass,
-                this.$attrs.class
+                'q-menu q-position-engine scroll' + menuClass.value,
+                attrs.class
               ],
-              ...this.onEvents
-            }, hSlot(this, 'default'))
+              ...onEvents.value
+            }, hSlot(slots.default))
           : null
       )
     }
-  },
 
-  mounted () {
-    this.__processModelChange(this.modelValue)
-  },
+    onBeforeUnmount(anchorCleanup)
 
-  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
-  render: PortalMixin.render
+    // expose public methods
+    Object.assign(vm.proxy, {
+      focus, show, hide, toggle, updatePosition,
+
+      // expose needed stuff for portal utils
+      quasarPortalInnerRef: innerRef
+    })
+
+    return renderPortal
+  }
 })

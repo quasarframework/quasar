@@ -1,15 +1,20 @@
-import { h, defineComponent, Transition } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
 
-import AnchorMixin from '../../mixins/anchor.js'
-import ModelToggleMixin from '../../mixins/model-toggle.js'
-import PortalMixin from '../../mixins/portal.js'
-import TransitionMixin from '../../mixins/transition.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useAnchor, { useAnchorProps } from '../../composables/use-anchor.js'
+import useScrollTarget from '../../composables/use-scroll-target.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/use-model-toggle.js'
+import usePortal from '../../composables/use-portal.js'
+import useTransition, { useTransitionProps } from '../../composables/use-transition.js'
+import useEmitListeners from '../../composables/use-emit-listeners.js'
+import useTick from '../../composables/use-tick.js'
+import useTimeout from '../../composables/use-timeout.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { getTouchTarget } from '../../utils/touch.js'
 import { addEvt, cleanEvt } from '../../utils/event.js'
 import { clearSelection } from '../../utils/selection.js'
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/composition-render.js'
 import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/position-engine.js'
@@ -19,14 +24,11 @@ export default defineComponent({
 
   inheritAttrs: false,
 
-  mixins: [
-    AnchorMixin,
-    ModelToggleMixin,
-    PortalMixin,
-    TransitionMixin
-  ],
-
   props: {
+    ...useAnchorProps,
+    ...useModelToggleProps,
+    ...useTransitionProps,
+
     maxHeight: {
       type: String,
       default: null
@@ -74,112 +76,139 @@ export default defineComponent({
     }
   },
 
-  computed: {
-    anchorOrigin () {
-      return parsePosition(this.anchor, this.$q.lang.rtl)
-    },
+  emits: [
+    ...useModelToggleEmits
+  ],
 
-    selfOrigin () {
-      return parsePosition(this.self, this.$q.lang.rtl)
-    },
+  setup (props, { slots, emit, attrs }) {
+    let unwatchPosition, observer
 
-    hideOnRouteChange () {
-      return this.persistent !== true
-    }
-  },
+    const $q = useQuasar()
 
-  methods: {
-    __show (evt) {
-      this.__showPortal()
+    const vm = getCurrentInstance()
+    const innerRef = ref(null)
+    const showing = ref(false)
 
-      this.__nextTick(() => {
-        this.observer = new MutationObserver(() => this.updatePosition())
-        this.observer.observe(this.$refs.inner, { attributes: false, childList: true, characterData: true, subtree: true })
-        this.updatePosition()
-        this.__configureScrollTarget()
+    const anchorOrigin = computed(() => parsePosition(props.anchor, $q.lang.rtl))
+    const selfOrigin = computed(() => parsePosition(props.self, $q.lang.rtl))
+    const hideOnRouteChange = computed(() => props.persistent !== true)
+
+    const { registerTick, removeTick, prepareTick } = useTick()
+    const { registerTimeout, removeTimeout } = useTimeout()
+    const { transition } = useTransition(props, showing)
+    const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
+
+    const { anchorEl, showCondition, anchorEvents } = useAnchor(props, {
+      emit, vm, showing, configureAnchorEl
+    })
+
+    const { emitListeners } = useEmitListeners(vm)
+    const { show, hide, toggle } = useModelToggle(props, {
+      emit,
+      showing, showCondition, handleShow, handleHide,
+      hideOnRouteChange,
+      emitListeners,
+      processOnMount: true
+    })
+
+    anchorEvents.delayShow = delayShow
+    anchorEvents.delayHide = delayHide
+
+    const { showPortal, hidePortal, renderPortal } = usePortal(vm, renderPortalContent)
+
+    function handleShow (evt) {
+      removeTick()
+      removeTimeout()
+
+      showPortal()
+
+      registerTick(() => {
+        observer = new MutationObserver(() => updatePosition())
+        observer.observe(innerRef.value, { attributes: false, childList: true, characterData: true, subtree: true })
+        updatePosition()
+        configureScrollTarget()
       })
+      prepareTick()
 
-      if (this.unwatch === void 0) {
-        this.unwatch = this.$watch(
-          () => this.$q.screen.width + '|' + this.$q.screen.height + '|' + this.self + '|' + this.anchor + '|' + this.$q.lang.rtl,
-          this.updatePosition
+      if (unwatchPosition === void 0) {
+        unwatchPosition = watch(
+          () => $q.screen.width + '|' + $q.screen.height + '|' + props.self + '|' + props.anchor + '|' + $q.lang.rtl,
+          updatePosition
         )
       }
 
-      this.__setTimeout(() => {
-        this.$emit('show', evt)
+      registerTimeout(() => {
+        emit('show', evt)
       }, 300)
-    },
+    }
 
-    __hide (evt) {
-      this.__anchorCleanup()
+    function handleHide (evt) {
+      removeTick()
+      removeTimeout()
 
-      this.__setTimeout(() => {
-        this.__hidePortal()
-        this.$emit('hide', evt)
+      anchorCleanup()
+
+      registerTimeout(() => {
+        hidePortal()
+        emit('hide', evt)
       }, 300)
-    },
+    }
 
-    __anchorCleanup () {
-      if (this.observer !== void 0) {
-        this.observer.disconnect()
-        this.observer = void 0
+    function anchorCleanup () {
+      if (observer !== void 0) {
+        observer.disconnect()
+        observer = void 0
       }
 
-      if (this.unwatch !== void 0) {
-        this.unwatch()
-        this.unwatch = void 0
+      if (unwatchPosition !== void 0) {
+        unwatchPosition()
+        unwatchPosition = void 0
       }
 
-      this.__unconfigureScrollTarget()
-      cleanEvt(this, 'tooltipTemp')
-    },
+      unconfigureScrollTarget()
+      cleanEvt(anchorEvents, 'tooltipTemp')
+    }
 
-    updatePosition () {
-      const el = this.$refs.inner
+    function updatePosition () {
+      const el = innerRef.value
 
-      if (this.anchorEl === void 0 || !el) {
-        return
-      }
-
-      if (el.nodeType === 8) { // IE replaces the comment with delay
-        setTimeout(this.updatePosition, 25)
+      if (anchorEl.value === void 0 || !el) {
         return
       }
 
       setPosition({
         el,
-        offset: this.offset,
-        anchorEl: this.anchorEl,
-        anchorOrigin: this.anchorOrigin,
-        selfOrigin: this.selfOrigin,
-        maxHeight: this.maxHeight,
-        maxWidth: this.maxWidth
+        offset: props.offset,
+        anchorEl: anchorEl.value,
+        anchorOrigin: anchorOrigin.value,
+        selfOrigin: selfOrigin.value,
+        maxHeight: props.maxHeight,
+        maxWidth: props.maxWidth
       })
-    },
+    }
 
-    __delayShow (evt) {
-      if (this.$q.platform.is.mobile === true) {
+    function delayShow (evt) {
+      if ($q.platform.is.mobile === true) {
         clearSelection()
         document.body.classList.add('non-selectable')
 
-        const target = getTouchTarget(this.anchorEl)
+        const target = getTouchTarget(anchorEl.value)
         const evts = [ 'touchmove', 'touchcancel', 'touchend', 'click' ]
           .map(e => ([ target, e, '__delayHide', 'passiveCapture' ]))
 
-        addEvt(this, 'tooltipTemp', evts)
+        addEvt(anchorEvents, 'tooltipTemp', evts)
       }
 
-      this.__setTimeout(() => {
-        this.show(evt)
-      }, this.delay)
-    },
+      registerTimeout(() => {
+        show(evt)
+      }, props.delay)
+    }
 
-    __delayHide (evt) {
-      this.__clearTimeout()
+    function delayHide (evt) {
+      removeTimeout()
 
-      if (this.$q.platform.is.mobile === true) {
-        cleanEvt(this, 'tooltipTemp')
+      if ($q.platform.is.mobile === true) {
+        cleanEvt(anchorEvents, 'tooltipTemp')
         clearSelection()
         // delay needed otherwise selection still occurs
         setTimeout(() => {
@@ -187,70 +216,68 @@ export default defineComponent({
         }, 10)
       }
 
-      this.__setTimeout(() => {
-        this.hide(evt)
-      }, this.hideDelay)
-    },
+      registerTimeout(() => {
+        hide(evt)
+      }, props.hideDelay)
+    }
 
-    __configureAnchorEl () {
-      if (this.noParentEvent === true || this.anchorEl === void 0) { return }
+    function configureAnchorEl () {
+      if (props.noParentEvent === true || anchorEl.value === void 0) { return }
 
-      const evts = this.$q.platform.is.mobile === true
+      const evts = $q.platform.is.mobile === true
         ? [
-            [ this.anchorEl, 'touchstart', '__delayShow', 'passive' ]
+            [ anchorEl.value, 'touchstart', 'delayShow', 'passive' ]
           ]
         : [
-            [ this.anchorEl, 'mouseenter', '__delayShow', 'passive' ],
-            [ this.anchorEl, 'mouseleave', '__delayHide', 'passive' ]
+            [ anchorEl.value, 'mouseenter', 'delayShow', 'passive' ],
+            [ anchorEl.value, 'mouseleave', 'delayHide', 'passive' ]
           ]
 
-      addEvt(this, 'anchor', evts)
-    },
+      addEvt(anchorEvents, 'anchor', evts)
+    }
 
-    __unconfigureScrollTarget () {
-      if (this.__scrollTarget !== void 0) {
-        this.__changeScrollEvent(this.__scrollTarget)
-        this.__scrollTarget = void 0
+    function configureScrollTarget () {
+      if (anchorEl.value !== void 0 || props.scrollTarget !== void 0) {
+        localScrollTarget.value = getScrollTarget(anchorEl.value, props.scrollTarget)
+        const fn = props.noParentEvent === true
+          ? updatePosition
+          : hide
+
+        changeScrollEvent(localScrollTarget.value, fn)
       }
-    },
+    }
 
-    __configureScrollTarget () {
-      if (this.anchorEl !== void 0 || this.scrollTarget !== void 0) {
-        this.__scrollTarget = getScrollTarget(this.anchorEl, this.scrollTarget)
-        const fn = this.noParentEvent === true
-          ? this.updatePosition
-          : this.hide
-
-        this.__changeScrollEvent(this.__scrollTarget, fn)
-      }
-    },
-
-    __getTooltipContent () {
-      return this.showing === true
+    function getTooltipContent () {
+      return showing.value === true
         ? h('div', {
-            ...this.$attrs,
-            ref: 'inner',
+            ...attrs, // TODO vue3 - verify reactivity
+            ref: innerRef,
             class: [
               'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
-              this.$attrs.class
+              attrs.class
             ],
             role: 'complementary'
-          }, hSlot(this, 'default'))
+          }, hSlot(slots.default))
         : null
-    },
-
-    __renderPortal () {
-      return h(Transition, {
-        name: this.transition,
-        appear: true
-      }, this.__getTooltipContent)
     }
-  },
 
-  mounted () {
-    this.__processModelChange(this.modelValue)
-  },
+    function renderPortalContent () {
+      return h(Transition, {
+        name: transition.value,
+        appear: true
+      }, getTooltipContent)
+    }
 
-  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
-  render: PortalMixin.render
+    onBeforeUnmount(anchorCleanup)
+
+    // expose public methods
+    Object.assign(vm.proxy, {
+      show, hide, toggle, updatePosition,
+
+      // expose needed stuff for portal utils
+      quasarPortalInnerRef: innerRef
+    })
+
+    return renderPortal
+  }
 })

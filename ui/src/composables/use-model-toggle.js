@@ -1,4 +1,4 @@
-import { ref, watch, nextTick } from 'vue'
+import { watch, nextTick, onMounted } from 'vue'
 
 export const useModelToggleProps = {
   modelValue: {
@@ -15,12 +15,13 @@ export const useModelToggleEmits = [
 
 export default function (props, {
   emit,
-  showing = ref(false),
-  showCondition,
-  hideOnRouteChange,
+  showing,
+  showCondition, // optional
+  hideOnRouteChange, // TODO vue3
   emitListeners,
-  handleShow, // __show
-  handleHide // __hide
+  handleShow,
+  handleHide,
+  processOnMount
 }) {
   let payload
 
@@ -131,11 +132,13 @@ export default function (props, {
   //   }
   // })
 
+  processOnMount === true && onMounted(() => {
+    processModelChange(props.modelValue)
+  })
+
   return {
     show,
     hide,
-    toggle,
-
-    showing
+    toggle
   }
 }

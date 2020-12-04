@@ -1,3 +1,7 @@
+// this file will eventually be removed
+// and superseeded by use-anchor.js
+// after all components use composition api
+
 import { clearSelection } from '../utils/selection.js'
 import { addEvt, cleanEvt, prevent, listenOpts } from '../utils/event.js'
 import { getTouchTarget } from '../utils/touch.js'

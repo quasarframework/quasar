@@ -4,7 +4,7 @@ let timer
 
 const
   { notPassiveCapture } = listenOpts,
-  vmList = []
+  registeredList = []
 
 function hasModalsAbove (node) {
   while ((node = node.nextElementSibling) !== null) {
@@ -29,24 +29,24 @@ function globalHandler (evt) {
     return
   }
 
-  for (let i = vmList.length - 1; i >= 0; i--) {
-    const vm = vmList[ i ]()
+  for (let i = registeredList.length - 1; i >= 0; i--) {
+    const state = registeredList[ i ]
 
     if (
       (
-        vm.anchorEl === void 0 ||
-        vm.anchorEl.contains(target) === false
+        state.anchorEl.value === null ||
+        state.anchorEl.value.contains(target) === false
       ) &&
       (
         target === document.body ||
-        vm.$refs.inner.contains(target) === false
+        state.innerRef.value.contains(target) === false
       ) &&
-      hasModalsAbove(vm.$el) !== true
+      hasModalsAbove(state.getEl()) !== true
     ) {
       // mark the event as being processed by clickOutside
       // used to prevent refocus after menu close
       evt.qClickOutside = true
-      vm.__onClickOutside(evt)
+      state.onClickOutside(evt)
     }
     else {
       return
@@ -54,22 +54,22 @@ function globalHandler (evt) {
   }
 }
 
-export function addClickOutside (getVm) {
-  vmList.push(getVm)
+export function addClickOutside (clickOutsideProps) {
+  registeredList.push(clickOutsideProps)
 
-  if (vmList.length === 1) {
+  if (registeredList.length === 1) {
     document.addEventListener('mousedown', globalHandler, notPassiveCapture)
     document.addEventListener('touchstart', globalHandler, notPassiveCapture)
   }
 }
 
-export function removeClickOutside (getVm) {
-  const index = vmList.findIndex(h => h === getVm)
+export function removeClickOutside (clickOutsideProps) {
+  const index = registeredList.findIndex(h => h === clickOutsideProps)
 
   if (index > -1) {
-    vmList.splice(index, 1)
+    registeredList.splice(index, 1)
 
-    if (vmList.length === 0) {
+    if (registeredList.length === 0) {
       clearTimeout(timer)
       document.removeEventListener('mousedown', globalHandler, notPassiveCapture)
       document.removeEventListener('touchstart', globalHandler, notPassiveCapture)

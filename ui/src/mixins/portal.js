@@ -1,3 +1,7 @@
+// this file will eventually be removed
+// and superseeded by use-align.js
+// after all components use composition api
+
 import { h, Teleport } from 'vue'
 
 import { createGlobalNode, removeGlobalNode } from '../utils/global-nodes.js'

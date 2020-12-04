@@ -38,6 +38,7 @@ module.exports = {
     'no-case-declarations': 'off',
     'generator-star-spacing': 'off',
     'arrow-parens': 'off',
+    'object-property-newline': 'off',
     'one-var': 'off',
     'no-void': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,

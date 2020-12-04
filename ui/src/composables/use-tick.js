@@ -24,7 +24,7 @@ export default function () {
       tickFn = void 0
     },
 
-    planTick () {
+    prepareTick () {
       if (tickFn !== void 0) {
         const fn = tickFn
         nextTick(() => {
