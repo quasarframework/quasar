@@ -22,6 +22,12 @@
       "category": "content"
     },
 
+    "inset-separator": {
+      "type": "Boolean",
+      "desc": "Applies an inset separator between contained items",
+      "category": "content"
+    },
+
     "dark": {
       "extends": "dark"
     },

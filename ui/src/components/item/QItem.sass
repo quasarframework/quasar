@@ -87,14 +87,29 @@
     > .q-item-type + .q-item-type,
     > .q-virtual-scroll__content > .q-item-type + .q-item-type
       border-top: 1px solid $separator-color
+  &--inset-separator
+    > .q-item-type + .q-item-type > .q-item__section--main::before,
+    > .q-virtual-scroll__content > .q-item-type + .q-item-type > .q-item__section--main::before
+      border-top: 1px solid $separator-color
+      content: ''
+      position: absolute
+      width: 100%
+      top: 0
   &--padding
     padding: 8px 0
+
+.q-list.q-list--inset-separator
+  overflow: hidden
 
 .q-list--dense > .q-item, .q-item--dense
   min-height: 32px
   padding: 2px 16px
 
 .q-list--dark.q-list--separator
+  > .q-item-type + .q-item-type,
+  > .q-virtual-scroll__content > .q-item-type + .q-item-type
+    border-top-color: $separator-dark-color
+.q-list--dark.q-list--inset-separator
   > .q-item-type + .q-item-type,
   > .q-virtual-scroll__content > .q-item-type + .q-item-type
     border-top-color: $separator-dark-color
