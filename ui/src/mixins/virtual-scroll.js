@@ -401,8 +401,7 @@ export default {
         const
           sizeAfter = this.virtualScrollSizes.slice(from, toIndex).reduce(sumFn, 0),
           posStart = sizeAfter + scrollDetails.offsetStart + this.virtualScrollPaddingBefore,
-          posEnd = posStart + this.virtualScrollSizes[toIndex],
-          rtl = this.$q.lang.rtl === true
+          posEnd = posStart + this.virtualScrollSizes[toIndex]
 
         let scrollPosition = posStart + offset
 
@@ -425,7 +424,7 @@ export default {
           scrollEl,
           scrollPosition,
           this.virtualScrollHorizontal,
-          rtl
+          this.$q.lang.rtl
         )
 
         this.__emitScroll(toIndex)
