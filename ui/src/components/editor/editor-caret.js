@@ -208,6 +208,10 @@ export class Caret {
   }
 
   is (cmd, param) {
+    if (this.selection === null) {
+      return false
+    }
+
     switch (cmd) {
       case 'formatBlock':
         if (param === 'DIV' && this.parent === this.el) {

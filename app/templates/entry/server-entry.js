@@ -56,12 +56,12 @@ const doubleSlashRE = /\/\//
 const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 <% } %>
 
-function redirectBrowser (url, router, reject) {
+function redirectBrowser (url, router, reject, status) {
   const normalized = Object(url) === url
     ? <%= build.publicPath === '/' ? 'router.resolve(url).route.fullPath' : 'addPublicPath(router.resolve(url).route.fullPath)' %>
     : url
 
-  reject({ url: normalized })
+  reject({ url: normalized, code: status })
 }
 
 // This exported function will be called by `bundleRenderer`.
@@ -75,9 +75,9 @@ export default context => {
 
     <% if (bootNames.length > 0) { %>
     let hasRedirected = false
-    const redirect = url => {
+    const redirect = (url, status) => {
       hasRedirected = true
-      redirectBrowser(url, router, reject)
+      redirectBrowser(url, router, reject, status)
     }
 
     const bootFiles = [<%= bootNames.join(',') %>]
@@ -133,9 +133,9 @@ export default context => {
       <% if (preFetch) { %>
 
       let hasRedirected = false
-      const redirect = url => {
+      const redirect = (url, status) => {
         hasRedirected = true
-        redirectBrowser(url, router, reject)
+        redirectBrowser(url, router, reject, status)
       }
 
       appOptions.preFetch !== void 0 && matchedComponents.unshift(appOptions)
