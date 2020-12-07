@@ -488,6 +488,14 @@ export default defineComponent({
 
       this.$emit('update:modelValue', null)
       this.$emit('clear', this.modelValue)
+
+      this.$nextTick(() => {
+        this.resetValidation()
+
+        if (this.lazyRules !== 'ondemand' && this.$q.platform.is.mobile !== true) {
+          this.isDirty = false
+        }
+      })
     },
 
     __emitValue (value) {
