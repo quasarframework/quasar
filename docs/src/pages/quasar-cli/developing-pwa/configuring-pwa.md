@@ -195,6 +195,10 @@ Please read about the [manifest config](https://developer.mozilla.org/en-US/docs
 Note that you don't need to edit your index.html file (generated from `/src/index.template.html`) to link to the manifest file. Quasar CLI takes care of embedding the right things for you.
 ::::
 
+::: tip
+(@quasar/app v2.1.10+) If your PWA is behind basic auth or requires an Authorization header, set quasar.conf.js > pwa > useCredentials to true to include `crossorigin="use-credentials"` on the manifest.json meta tag.
+::::
+
 ## PWA Checklist
 More info: [PWA Checklist](https://developers.google.com/web/progressive-web-apps/checklist)
 
