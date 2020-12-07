@@ -649,12 +649,15 @@ export default defineComponent({
       // backspace
       if (
         e.keyCode === 8 &&
-        this.multiple === true &&
         this.hideSelected !== true &&
-        this.inputValue.length === 0 &&
-        Array.isArray(this.modelValue)
+        this.inputValue.length === 0
       ) {
-        this.removeAtIndex(this.modelValue.length - 1)
+        if (this.multiple === true && Array.isArray(this.modelValue) === true) {
+          this.removeAtIndex(this.modelValue.length - 1)
+        }
+        else if (this.multiple !== true && this.modelValue !== null) {
+          this.$emit('update:modelValue', null)
+        }
         return
       }
 
