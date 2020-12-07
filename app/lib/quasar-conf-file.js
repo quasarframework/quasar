@@ -720,6 +720,7 @@ class QuasarConfFile {
       cfg.pwa = merge({
         workboxPluginMode: 'GenerateSW',
         workboxOptions: {},
+        useCredentials: false,
         manifest: {
           name: this.pkg.productName || this.pkg.name || 'Quasar App',
           short_name: this.pkg.name || 'quasar-pwa',
