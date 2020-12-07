@@ -324,9 +324,9 @@ export default defineComponent({
       }, child)
     },
 
-    scrollTo (toIndex) {
+    scrollTo (toIndex, edge) {
       if (this.$refs.virtScroll) {
-        this.$refs.virtScroll.scrollTo(toIndex)
+        this.$refs.virtScroll.scrollTo(toIndex, edge)
         return
       }
 
