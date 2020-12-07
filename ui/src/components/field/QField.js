@@ -508,6 +508,14 @@ export default Vue.extend({
 
       this.$emit('input', null)
       this.$emit('clear', this.value)
+
+      this.$nextTick(() => {
+        this.resetValidation()
+
+        if (this.lazyRules !== 'ondemand' && this.$q.platform.is.mobile !== true) {
+          this.isDirty = false
+        }
+      })
     },
 
     __emitValue (value) {
