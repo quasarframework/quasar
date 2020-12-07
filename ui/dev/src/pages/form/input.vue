@@ -87,6 +87,8 @@
 
       <q-input v-bind="props" v-model="email" type="email" label="eMail" placeholder="Write an email address" />
 
+      <q-input v-bind="props" type="date" v-model="date" label="Date" stack-label clearable />
+
       <q-input v-bind="props" v-model="text" label="Tooltip and menu">
         <template v-slot:prepend>
           <q-icon name="event">
@@ -590,6 +592,7 @@ export default {
       invalid: '123',
       number: 1.1,
       email: 'a',
+      date: null,
 
       prefix: null,
       suffix: null,

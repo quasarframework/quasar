@@ -470,8 +470,14 @@ export default defineComponent({
     __clearValue (e) {
       // prevent activating the field but keep focus on desktop
       stopAndPrevent(e)
-      const el = this.$refs.target || this.$el
-      el.focus()
+
+      if (this.$q.platform.is.mobile !== true) {
+        const el = this.$refs.target || this.$el
+        el.focus()
+      }
+      else if (this.$el.contains(document.activeElement) === true) {
+        document.activeElement.blur()
+      }
 
       if (this.type === 'file') {
         // do not let focus be triggered
