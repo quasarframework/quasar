@@ -29,37 +29,55 @@
     },
 
     "virtual-scroll-slice-size": {
-      "type": "Number",
-      "desc": "Number of rows to render in the virtual list",
+      "type": [ "Number", "String" ],
+      "desc": "Minimum number of rows to render in the virtual list",
       "default": "30",
-      "examples": [ ":virtual-scroll-slice-size=\"60\"" ],
+      "examples": [ "virtual-scroll-slice-size=\"60\"" ],
       "category": "virtual-scroll",
       "addedIn": "v1.2.0"
     },
 
+    "virtual-scroll-slice-ratio-before": {
+      "type": [ "Number", "String" ],
+      "desc": "Ratio of number of rows in visible zone to render before it",
+      "default": "1",
+      "examples": [ "virtual-scroll-slice-ratio-before=\"0.3\"" ],
+      "category": "virtual-scroll",
+      "addedIn": "v1.14.7"
+    },
+
+    "virtual-scroll-slice-ratio-after": {
+      "type": [ "Number", "String" ],
+      "desc": "Ratio of number of rows in visible zone to render after it",
+      "default": "1",
+      "examples": [ "virtual-scroll-slice-ratio-after=\"2\"" ],
+      "category": "virtual-scroll",
+      "addedIn": "v1.14.7"
+    },
+
     "virtual-scroll-item-size": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "desc": "Default size in pixels of a row; This value is used for rendering the initial table; Try to use a value close to the minimum size of a row",
       "default": "48 (24 if dense)",
-      "examples": [ ":virtual-scroll-item-size=\"48\"" ],
+      "examples": [ "virtual-scroll-item-size=\"48\"" ],
       "category": "virtual-scroll",
       "addedIn": "v1.2.0"
     },
 
     "virtual-scroll-sticky-size-start": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision",
       "default": "0",
-      "examples": [ ":virtual-scroll-sticky-size-start=\"48\"" ],
+      "examples": [ "virtual-scroll-sticky-size-start=\"48\"" ],
       "category": "virtual-scroll",
       "addedIn": "v1.2.0"
     },
 
     "virtual-scroll-sticky-size-end": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "desc": "Size in pixels of the sticky footer part (if using one); A correct value will improve scroll precision",
       "default": "0",
-      "examples": [ ":virtual-scroll-sticky-size-end=\"48\"" ],
+      "examples": [ "virtual-scroll-sticky-size-end=\"48\"" ],
       "category": "virtual-scroll",
       "addedIn": "v1.2.0"
     },
@@ -2330,6 +2348,12 @@
           "desc": "The index of the row in page (0 based)",
           "required": true,
           "examples": [ "1", 23 ]
+        },
+        "edge": {
+          "type": "String",
+          "desc": "Only for virtual scroll - the edge to align to if the row is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise); If the '-force' version is used then it always aligns",
+          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ],
+          "addedIn": "v1.14.7"
         }
       },
       "addedIn": "v1.7.2"
