@@ -24,7 +24,8 @@ const cssResources = [
 
 const jsResources = [
   'https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js',
-  `https://cdn.jsdelivr.net/npm/quasar@${Quasar.version}/dist/quasar.umd.min.js`
+  `https://cdn.jsdelivr.net/npm/quasar@${Quasar.version}/dist/quasar.umd.min.js`,
+  `https://cdn.jsdelivr.net/npm/fuzzysort`
 ].join(';')
 
 export default {

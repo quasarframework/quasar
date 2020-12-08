@@ -158,6 +158,13 @@ More information: [native input attributes](https://developer.mozilla.org/en-US/
 
 <doc-example title="Selecting option after filtering" file="QSelect/InputFilterAfter" />
 
+### Fuzzy searching
+
+The following example shows how to configure q-select for fuzzy searching (also known as "approximate string matching").
+This example is using a 3rd party library [fuzzysort](https://github.com/farzher/fuzzysort) to implement fuzzy searching algorithm, you can always change the underlying algorithm as you wish.
+
+<doc-example title="Fuzzy searching" file="QSelect/FuzzySearching" />
+
 ## Create new values
 
 ::: tip
