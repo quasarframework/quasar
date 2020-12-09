@@ -1,11 +1,12 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent, ref, computed, withDirectives, onBeforeUnmount, onBeforeUpdate, getCurrentInstance } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
-import CacheMixin from '../../mixins/cache.js'
-import DarkMixin from '../../mixins/dark.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useCache from '../../composables/use-cache.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/composition-render.js'
 
 const slotsDef = [
   [ 'left', 'center', 'start', 'width' ],
@@ -17,9 +18,9 @@ const slotsDef = [
 export default defineComponent({
   name: 'QSlideItem',
 
-  mixins: [ CacheMixin, DarkMixin ],
-
   props: {
+    ...useDarkProps,
+
     leftColor: String,
     rightColor: String,
     topColor: String,
@@ -28,59 +29,65 @@ export default defineComponent({
 
   emits: [ 'action', 'top', 'right', 'bottom', 'left' ],
 
-  directives: {
-    TouchPan
-  },
+  setup (props, { slots, emit }) {
+    const vm = getCurrentInstance()
 
-  computed: {
-    langDir () {
-      return this.$q.lang.rtl === true
+    const $q = useQuasar()
+    const { isDark } = useDark(props, $q)
+    const { getCacheWithFn } = useCache()
+
+    const contentRef = ref(null)
+
+    let timer, pan = {}, dirRefs = {}, dirContentRefs = {}
+
+    const langDir = computed(() =>
+      $q.lang.rtl === true
         ? { left: 'right', right: 'left' }
         : { left: 'left', right: 'right' }
-    },
+    )
 
-    classes () {
-      return 'q-slide-item q-item-type overflow-hidden' +
-        (this.isDark === true ? ' q-slide-item--dark q-dark' : '')
+    const classes = computed(() =>
+      'q-slide-item q-item-type overflow-hidden' +
+      (isDark.value === true ? ' q-slide-item--dark q-dark' : '')
+    )
+
+    function reset () {
+      contentRef.value.style.transform = 'translate(0,0)'
     }
-  },
 
-  methods: {
-    reset () {
-      this.$refs.content.style.transform = 'translate(0,0)'
-    },
-
-    __pan (evt) {
-      const node = this.$refs.content
+    function onPan (evt) {
+      const node = contentRef.value
 
       if (evt.isFirst) {
-        this.__dir = null
-        this.__size = { left: 0, right: 0, top: 0, bottom: 0 }
-        this.__scale = 0
+        pan = {
+          dir: null,
+          size: { left: 0, right: 0, top: 0, bottom: 0 },
+          scale: 0
+        }
 
         node.classList.add('no-transition')
 
-        slotsDef.forEach(slot => {
-          if (this.$slots[ slot[ 0 ] ] !== void 0) {
-            const node = this.$refs[ slot[ 0 ] + 'Content' ]
+        slotsDef.forEach(slotName => {
+          if (slots[ slotName[ 0 ] ] !== void 0) {
+            const node = dirContentRefs[ slotName[ 0 ] ]
             node.style.transform = 'scale(1)'
-            this.__size[ slot[ 0 ] ] = node.getBoundingClientRect()[ slot[ 3 ] ]
+            pan.size[ slotName[ 0 ] ] = node.getBoundingClientRect()[ slotName[ 3 ] ]
           }
         })
 
-        this.__axis = (evt.direction === 'up' || evt.direction === 'down')
+        pan.axis = (evt.direction === 'up' || evt.direction === 'down')
           ? 'Y'
           : 'X'
       }
       else if (evt.isFinal) {
         node.classList.remove('no-transition')
 
-        if (this.__scale === 1) {
-          node.style.transform = `translate${this.__axis}(${this.__dir * 100}%)`
+        if (pan.scale === 1) {
+          node.style.transform = `translate${pan.axis}(${pan.dir * 100}%)`
 
-          this.timer = setTimeout(() => {
-            this.$emit(this.__showing, { reset: this.reset })
-            this.$emit('action', { side: this.__showing, reset: this.reset })
+          timer = setTimeout(() => {
+            emit(pan.showing, { reset })
+            emit('action', { side: pan.showing, reset })
           }, 230)
         }
         else {
@@ -90,16 +97,16 @@ export default defineComponent({
         return
       }
       else {
-        evt.direction = this.__axis === 'X'
+        evt.direction = pan.axis === 'X'
           ? evt.offset.x < 0 ? 'left' : 'right'
           : evt.offset.y < 0 ? 'up' : 'down'
       }
 
       if (
-        (this.$slots.left === void 0 && evt.direction === this.langDir.right) ||
-        (this.$slots.right === void 0 && evt.direction === this.langDir.left) ||
-        (this.$slots.top === void 0 && evt.direction === 'down') ||
-        (this.$slots.bottom === void 0 && evt.direction === 'up')
+        (slots.left === void 0 && evt.direction === langDir.value.right) ||
+        (slots.right === void 0 && evt.direction === langDir.value.left) ||
+        (slots.top === void 0 && evt.direction === 'down') ||
+        (slots.bottom === void 0 && evt.direction === 'up')
       ) {
         node.style.transform = 'translate(0,0)'
         return
@@ -107,9 +114,9 @@ export default defineComponent({
 
       let showing, dir, dist
 
-      if (this.__axis === 'X') {
+      if (pan.axis === 'X') {
         dir = evt.direction === 'left' ? -1 : 1
-        showing = dir === 1 ? this.langDir.left : this.langDir.right
+        showing = dir === 1 ? langDir.value.left : langDir.value.right
         dist = evt.distance.x
       }
       else {
@@ -118,87 +125,95 @@ export default defineComponent({
         dist = evt.distance.y
       }
 
-      if (this.__dir !== null && Math.abs(dir) !== Math.abs(this.__dir)) {
+      if (pan.dir !== null && Math.abs(dir) !== Math.abs(pan.dir)) {
         return
       }
 
-      if (this.__dir !== dir) {
+      if (pan.dir !== dir) {
         [ 'left', 'right', 'top', 'bottom' ].forEach(d => {
-          if (this.$refs[ d ]) {
-            this.$refs[ d ].style.visibility = showing === d
+          if (dirRefs[ d ]) {
+            dirRefs[ d ].style.visibility = showing === d
               ? 'visible'
               : 'hidden'
           }
         })
-        this.__showing = showing
-        this.__dir = dir
+        pan.showing = showing
+        pan.dir = dir
       }
 
-      this.__scale = Math.max(0, Math.min(1, (dist - 40) / this.__size[ showing ]))
+      pan.scale = Math.max(0, Math.min(1, (dist - 40) / pan.size[ showing ]))
 
-      node.style.transform = `translate${this.__axis}(${dist * dir / Math.abs(dir)}px)`
-      this.$refs[ `${showing}Content` ].style.transform = `scale(${this.__scale})`
+      node.style.transform = `translate${pan.axis}(${dist * dir / Math.abs(dir)}px)`
+      dirContentRefs[ showing ].style.transform = `scale(${pan.scale})`
     }
-  },
 
-  render () {
-    const
-      content = [],
-      slots = {
-        left: this.$slots[ this.langDir.right ] !== void 0,
-        right: this.$slots[ this.langDir.left ] !== void 0,
-        up: this.$slots.bottom !== void 0,
-        down: this.$slots.top !== void 0
-      },
-      dirs = Object.keys(slots).filter(key => slots[ key ] === true)
-
-    slotsDef.forEach(slot => {
-      const dir = slot[ 0 ]
-
-      if (this.$slots[ dir ] !== void 0) {
-        content.push(
-          h('div', {
-            ref: dir,
-            class: `q-slide-item__${dir} absolute-full row no-wrap items-${slot[ 1 ]} justify-${slot[ 2 ]}` +
-              (this[ dir + 'Color' ] !== void 0 ? ` bg-${this[ dir + 'Color' ]}` : '')
-          }, [
-            h('div', { ref: dir + 'Content' }, this.$slots[ dir ]())
-          ])
-        )
-      }
+    onBeforeUpdate(() => {
+      dirRefs = {}
+      dirContentRefs = {}
     })
 
-    const node = h('div', {
-      ref: 'content',
-      key: 'content',
-      class: 'q-slide-item__content'
-    }, hSlot(this, 'default'))
+    onBeforeUnmount(() => {
+      clearTimeout(timer)
+    })
 
-    content.push(
-      withDirectives(node, this.__getCacheWithFn('dir#' + dirs.join(''), () => {
-        const modifiers = {
-          prevent: true,
-          stop: true,
-          mouse: true
+    // expose public methods
+    Object.assign(vm.proxy, { reset })
+
+    return () => {
+      const
+        content = [],
+        slotsList = {
+          left: slots[ langDir.value.right ] !== void 0,
+          right: slots[ langDir.value.left ] !== void 0,
+          up: slots.bottom !== void 0,
+          down: slots.top !== void 0
+        },
+        dirs = Object.keys(slotsList).filter(key => slotsList[ key ] === true)
+
+      slotsDef.forEach(slotName => {
+        const dir = slotName[ 0 ]
+
+        if (slots[ dir ] !== void 0) {
+          content.push(
+            h('div', {
+              ref: el => { dirRefs[ dir ] = el },
+              class: `q-slide-item__${dir} absolute-full row no-wrap items-${slotName[ 1 ]} justify-${slotName[ 2 ]}` +
+                (props[ dir + 'Color' ] !== void 0 ? ` bg-${props[ dir + 'Color' ]}` : '')
+            }, [
+              h('div', { ref: el => { dirContentRefs[ dir ] = el } }, slots[ dir ]())
+            ])
+          )
         }
+      })
 
-        dirs.forEach(dir => {
-          modifiers[ dir ] = true
-        })
+      const node = h('div', {
+        key: 'content',
+        ref: contentRef,
+        class: 'q-slide-item__content'
+      }, hSlot(slots.default))
 
-        return [[
-          TouchPan,
-          this.__pan,
-          void 0,
-          modifiers
-        ]]
-      }))
-    )
+      content.push(
+        withDirectives(node, getCacheWithFn('dir#' + dirs.join(''), () => {
+          const modifiers = {
+            prevent: true,
+            stop: true,
+            mouse: true
+          }
 
-    return h('div', { class: this.classes }, content)
-  },
+          dirs.forEach(dir => {
+            modifiers[ dir ] = true
+          })
 
-  beforeUnmount () {
-    clearTimeout(this.timer)
+          return [[
+            TouchPan,
+            onPan,
+            void 0,
+            modifiers
+          ]]
+        }))
+      )
+
+      return h('div', { class: classes.value }, content)
+    }
   }
 })
