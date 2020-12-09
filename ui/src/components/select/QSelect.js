@@ -74,14 +74,8 @@ export default Vue.extend({
     optionsCover: Boolean,
 
     menuShrink: Boolean,
-    menuAnchor: {
-      type: String,
-      default: 'bottom end'
-    },
-    menuSelf: {
-      type: String,
-      default: 'top end'
-    },
+    menuAnchor: String,
+    menuSelf: String,
     menuOffset: Array,
 
     popupContentClass: String,
@@ -647,12 +641,15 @@ export default Vue.extend({
       // backspace
       if (
         e.keyCode === 8 &&
-        this.multiple === true &&
         this.hideSelected !== true &&
-        this.inputValue.length === 0 &&
-        Array.isArray(this.value)
+        this.inputValue.length === 0
       ) {
-        this.removeAtIndex(this.value.length - 1)
+        if (this.multiple === true && Array.isArray(this.value)) {
+          this.removeAtIndex(this.value.length - 1)
+        }
+        else if (this.multiple !== true && this.value !== null) {
+          this.$emit('input', null)
+        }
         return
       }
 

@@ -323,9 +323,9 @@ export default Vue.extend({
         ])
     },
 
-    scrollTo (toIndex) {
+    scrollTo (toIndex, edge) {
       if (this.$refs.virtScroll !== void 0) {
-        this.$refs.virtScroll.scrollTo(toIndex)
+        this.$refs.virtScroll.scrollTo(toIndex, edge)
         return
       }
 
