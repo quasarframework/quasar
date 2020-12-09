@@ -23,10 +23,10 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | --- | --- | --- | --- | --- | --- |
 | Roboto Font | CDN v20 | `roboto-font` | Recommended font along Material theme | | [License](roboto-font/LICENSE) |
 | Roboto Font Latin Extended | CDN v20 | `roboto-font-latin-ext` | Recommended font along Material theme | | [License](roboto-font-latin-ext/LICENSE) |
-| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v55 | `material-icons` | Material icons font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons/LICENSE) |
-| [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v27 | `material-icons-outlined` | Material icons outlined font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-outlined/LICENSE) |
-| [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v26 | `material-icons-round` | Material icons round font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-round/LICENSE) |
-| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v27 | `material-icons-sharp` | Material icons sharp font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-sharp/LICENSE) |
+| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v67 | `material-icons` | Material icons font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons/LICENSE) |
+| [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v35 | `material-icons-outlined` | Material icons outlined font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-outlined/LICENSE) |
+| [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v34 | `material-icons-round` | Material icons round font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-round/LICENSE) |
+| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v35 | `material-icons-sharp` | Material icons sharp font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-sharp/LICENSE) |
 | [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.8.55 | `mdi-v5` | Extended Material Design icons font | The Quasar Icon Set is available in Quasar 1.9.9+ | [License](mdi-v5/LICENSE) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/license.md) |
 | MDI v3 (Material Design Icons) | 3.6.95 | `mdi-v3` | Extended Material Design icons font | | [License](mdi-v3/LICENSE) |
