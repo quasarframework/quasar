@@ -33,8 +33,8 @@ export namespace date {
   function addToDate(date: Date | number | string, options: ModifyDateOptions): Date;
   function subtractFromDate(date: Date | number | string, options: ModifyDateOptions): Date;
   function adjustDate(date: Date | number | string, options: ModifyDateOptions, utc?: boolean): Date;
-  function startOfDate(date: Date | number | string, option: DateUnitOptions): Date;
-  function endOfDate(date: Date | number | string, option: DateUnitOptions): Date;
+  function startOfDate(date: Date | number | string, option: DateUnitOptions, utc: boolean): Date;
+  function endOfDate(date: Date | number | string, option: DateUnitOptions, utc: boolean): Date;
   function getMaxDate(date: Date | number | string, ...args: (Date | number | string)[]): Date;
   function getMinDate(date: Date | number | string, ...args: (Date | number | string)[]): Date;
   function getDateDiff(date: Date | number | string, subtract: Date | number | string, unit?: string): number;
