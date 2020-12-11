@@ -1,3 +1,7 @@
+// this file will eventually be removed
+// and superseeded by use-router-link.js
+// after all components use composition api
+
 /*
  * Inspired by RouterLink from Vue Router
  *  --> API should match!
