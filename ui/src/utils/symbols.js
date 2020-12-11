@@ -28,3 +28,7 @@ export const fabKey = hasSymbol === true
 export const formKey = hasSymbol === true
   ? Symbol('_q_fo_')
   : '_q_fo_'
+
+export const tabsKey = hasSymbol === true
+  ? Symbol('_q_tabs_')
+  : '_q_tabs_'
