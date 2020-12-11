@@ -11,17 +11,18 @@ export const useModelToggleEmits = [
   'update:modelValue', 'before-show', 'show', 'before-hide', 'hide'
 ]
 
-// handleShow/handleHide -> removeTick(), self (& emit show), planTick()
+// handleShow/handleHide -> removeTick(), self (& emit show), prepareTick()
 
 export default function (props, {
   emit,
   showing,
-  showCondition, // optional
-  hideOnRouteChange, // TODO vue3
   emitListeners,
-  handleShow,
-  handleHide,
-  processOnMount
+  showCondition, // optional
+  vm, // optional (required by hideOnRouteChange)
+  hideOnRouteChange, // optional
+  handleShow, // optional
+  handleHide, // optional
+  processOnMount // optional
 }) {
   let payload
 
@@ -125,12 +126,14 @@ export default function (props, {
   }
 
   watch(() => props.modelValue, processModelChange)
-  // TODO vue3 - handle router for UMD as well
-  // watch('$route', () => {
-  //   if (hideOnRouteChange.value === true && showing.value === true) {
-  //     hide()
-  //   }
-  // })
+
+  if (vm !== void 0 && hideOnRouteChange !== void 0) {
+    watch(() => vm.proxy.$route, () => {
+      if (hideOnRouteChange.value === true && showing.value === true) {
+        hide()
+      }
+    })
+  }
 
   processOnMount === true && onMounted(() => {
     processModelChange(props.modelValue)

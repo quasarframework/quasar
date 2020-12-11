@@ -155,8 +155,9 @@ export default defineComponent({
     const { show, hide, toggle } = useModelToggle(props, {
       emit,
       showing,
-      hideOnRouteChange,
       emitListeners,
+      vm,
+      hideOnRouteChange,
       handleShow,
       handleHide
     })

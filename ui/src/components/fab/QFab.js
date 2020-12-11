@@ -47,9 +47,10 @@ export default defineComponent({
   emits: useModelToggleEmits,
 
   setup (props, { slots, emit }) {
+    const vm = getCurrentInstance()
+
     const triggerRef = ref(null)
     const showing = ref(props.modelValue === true)
-    const vm = getCurrentInstance()
 
     const $q = useQuasar()
     const { formClass, labelProps } = useFab(props, showing)
@@ -60,8 +61,9 @@ export default defineComponent({
     const { show, hide, toggle } = useModelToggle(props, {
       emit,
       showing,
-      hideOnRouteChange,
-      emitListeners
+      emitListeners,
+      vm,
+      hideOnRouteChange
     })
 
     const classes = computed(() =>
