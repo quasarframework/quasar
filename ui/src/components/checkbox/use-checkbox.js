@@ -32,7 +32,6 @@ export const useCheckboxProps = {
 
   label: String,
   leftLabel: Boolean,
-  fontSize: String,
 
   color: String,
   keepColor: Boolean,
@@ -80,12 +79,6 @@ export default function (props, slots, emit, type, getInner) {
 
   const tabindex = computed(() =>
     props.disable === true ? -1 : props.tabindex || 0
-  )
-
-  const labelStyle = computed(() =>
-    props.fontSize !== void 0
-      ? { fontSize: props.fontSize }
-      : {}
   )
 
   const classes = computed(() =>
@@ -226,8 +219,7 @@ export default function (props, slots, emit, type, getInner) {
 
     label !== void 0 && child.push(
       h('div', {
-        class: `q-${type}__label q-anchor--skip`,
-        style: labelStyle.value
+        class: `q-${type}__label q-anchor--skip`
       }, label)
     )
 
