@@ -259,6 +259,7 @@ export default Vue.extend({
       }
 
       const { from, to } = this.virtualScrollSliceRange
+      const { options, optionEls } = this.__optionScopeCache
 
       return this.options.slice(from, to).map((opt, i) => {
         const disable = this.isOptionDisabled(opt) === true
@@ -289,7 +290,7 @@ export default Vue.extend({
           itemEvents.mousemove = () => { this.setOptionIndex(index) }
         }
 
-        return {
+        const option = {
           index,
           opt,
           sanitize: this.sanitizeFn(opt),
@@ -297,7 +298,16 @@ export default Vue.extend({
           focused: itemProps.focused,
           toggleOption: this.toggleOption,
           setOptionIndex: this.setOptionIndex,
-          itemProps,
+          itemProps
+        }
+
+        if (options[i] === void 0 || isDeepEqual(option, options[i]) !== true) {
+          options[i] = option
+          optionEls[i] = void 0
+        }
+
+        return {
+          ...option,
           itemEvents
         }
       })
@@ -906,6 +916,14 @@ export default Vue.extend({
         return void 0
       }
 
+      if (
+        this.$scopedSlots.option !== void 0 &&
+        this.__optionScopeCache.optionSlot !== this.$scopedSlots.option
+      ) {
+        this.__optionScopeCache.optionSlot = this.$scopedSlots.option
+        this.__optionScopeCache.optionEls = []
+      }
+
       const fn = this.$scopedSlots.option !== void 0
         ? this.$scopedSlots.option
         : scope => h(QItem, {
@@ -922,7 +940,15 @@ export default Vue.extend({
           ])
         ])
 
-      let options = this.__padVirtualScroll(h, 'div', this.optionScope.map(fn))
+      const { optionEls } = this.__optionScopeCache
+
+      let options = this.__padVirtualScroll(h, 'div', this.optionScope.map((scope, i) => {
+        if (optionEls[i] === void 0) {
+          optionEls[i] = fn(scope)
+        }
+
+        return optionEls[i]
+      }))
 
       if (this.$scopedSlots['before-options'] !== void 0) {
         options = this.$scopedSlots['before-options']().concat(options)
@@ -1290,6 +1316,10 @@ export default Vue.extend({
     },
 
     __closeMenu () {
+      if (this.__optionScopeCache !== void 0) {
+        this.__optionScopeCache.optionEls = []
+      }
+
       if (this.dialog === true) {
         return
       }
@@ -1391,7 +1421,16 @@ export default Vue.extend({
     }
   },
 
+  beforeMount () {
+    this.__optionScopeCache = {
+      optionSlot: this.$scopedSlots.option,
+      options: [],
+      optionEls: []
+    }
+  },
+
   beforeDestroy () {
+    this.__optionScopeCache = void 0
     clearTimeout(this.inputTimer)
   }
 })
