@@ -80,7 +80,7 @@ export default {
   computed: {
     customBarStyle () {
       return {
-        background: '#666',
+        backgroundColor: '#666',
         borderStyle: 'solid',
         borderColor: 'transparent',
         borderWidth: this.horizontal === true ? '6px 0' : '0 6px',
@@ -91,7 +91,7 @@ export default {
 
     customThumbStyle () {
       return {
-        background: '#000',
+        backgroundColor: '#000',
         borderRadius: '4px',
         borderStyle: 'solid',
         borderColor: 'transparent',
