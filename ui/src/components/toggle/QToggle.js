@@ -1,14 +1,14 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
-import CheckboxMixin from '../../mixins/checkbox.js'
+import useCheckbox, { useCheckboxProps, useCheckboxEmits } from '../checkbox/use-checkbox.js'
 
 export default defineComponent({
   name: 'QToggle',
 
-  mixins: [CheckboxMixin],
-
   props: {
+    ...useCheckboxProps,
+
     icon: String,
     checkedIcon: String,
     uncheckedIcon: String,
@@ -17,46 +17,40 @@ export default defineComponent({
     iconColor: String
   },
 
-  computed: {
-    computedIcon () {
-      return (
-        this.isTrue === true
-          ? this.checkedIcon
-          : (this.isIndeterminate === true ? this.indeterminateIcon : this.uncheckedIcon)
-      ) || this.icon
-    },
+  emits: useCheckboxEmits,
 
-    computedIconColor () {
-      if (this.isTrue === true) {
-        return this.iconColor
-      }
-    }
-  },
+  setup (props, { slots, emit }) {
+    function getInner (isTrue, isIndeterminate) {
+      const computedIcon = computed(() =>
+        (isTrue.value === true
+          ? props.checkedIcon
+          : (isIndeterminate.value === true ? props.indeterminateIcon : props.uncheckedIcon)
+        ) || props.icon
+      )
 
-  methods: {
-    __getInner () {
-      return [
+      const computedIconColor = computed(() => {
+        if (isTrue.value === true) {
+          return props.iconColor
+        }
+      })
+
+      return () => [
         h('div', { class: 'q-toggle__track' }),
 
         h('div', {
           class: 'q-toggle__thumb absolute flex flex-center no-wrap'
-        }, this.computedIcon !== void 0
+        }, computedIcon.value !== void 0
           ? [
               h(QIcon, {
-                name: this.computedIcon,
-                color: this.computedIconColor
+                name: computedIcon.value,
+                color: computedIconColor.value
               })
             ]
           : void 0
         )
       ]
     }
-  },
 
-  created () {
-    this.type = 'toggle'
-  },
-
-  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
-  render: CheckboxMixin.render
+    return useCheckbox(props, slots, emit, 'toggle', getInner)
+  }
 })

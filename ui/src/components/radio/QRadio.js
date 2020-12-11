@@ -1,12 +1,14 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
 
-import DarkMixin from '../../mixins/dark.js'
-import OptionSizeMixin from '../../mixins/option-size.js'
-import FormMixin from '../../mixins/form.js'
-import RefocusTargetMixin from '../../mixins/refocus-target.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useSize, { useSizeProps } from '../../composables/use-size.js'
+import useRefocusTarget from '../../composables/use-refocus-target.js'
+import { useFormProps, useFormInject } from '../../composables/use-form.js'
 
+import optionSizes from '../../utils/option-sizes.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { hSlot, hMergeSlot } from '../../utils/render.js'
+import { hSlot, hMergeSlot } from '../../utils/composition-render.js'
 
 const svg = h('svg', {
   class: 'q-radio__bg absolute non-selectable',
@@ -26,9 +28,11 @@ const svg = h('svg', {
 export default defineComponent({
   name: 'QRadio',
 
-  mixins: [ DarkMixin, OptionSizeMixin, FormMixin, RefocusTargetMixin ],
-
   props: {
+    ...useDarkProps,
+    ...useSizeProps,
+    ...useFormProps,
+
     modelValue: {
       required: true
     },
@@ -49,118 +53,128 @@ export default defineComponent({
 
   emits: ['update:modelValue'],
 
-  computed: {
-    isTrue () {
-      return this.modelValue === this.val
-    },
+  setup (props, { slots, emit }) {
+    const vm = getCurrentInstance()
+    const $q = useQuasar()
+    const { isDark } = useDark(props, $q)
+    const { sizeStyle } = useSize(props, optionSizes)
 
-    classes () {
-      return 'q-radio cursor-pointer no-outline row inline no-wrap items-center' +
-        (this.disable === true ? ' disabled' : '') +
-        (this.isDark === true ? ' q-radio--dark' : '') +
-        (this.dense === true ? ' q-radio--dense' : '') +
-        (this.leftLabel === true ? ' reverse' : '')
-    },
+    const rootRef = ref(null)
+    const { refocusTargetEl, refocusTarget } = useRefocusTarget(props, rootRef)
 
-    innerClass () {
-      const color = this.color !== void 0 && (
-        this.keepColor === true ||
-        this.isTrue === true
+    const isTrue = computed(() => props.modelValue === props.val)
+
+    const classes = computed(() =>
+      'q-radio cursor-pointer no-outline row inline no-wrap items-center' +
+      (props.disable === true ? ' disabled' : '') +
+      (isDark.value === true ? ' q-radio--dark' : '') +
+      (props.dense === true ? ' q-radio--dense' : '') +
+      (props.leftLabel === true ? ' reverse' : '')
+    )
+
+    const innerClass = computed(() => {
+      const color = props.color !== void 0 && (
+        props.keepColor === true ||
+        isTrue.value === true
       )
-        ? ` text-${this.color}`
+        ? ` text-${props.color}`
         : ''
 
       return 'q-radio__inner relative-position ' +
-        `q-radio__inner--${this.isTrue === true ? 'truthy' : 'falsy'}${color}`
-    },
+        `q-radio__inner--${isTrue.value === true ? 'truthy' : 'falsy'}${color}`
+    })
 
-    computedTabindex () {
-      return this.disable === true ? -1 : this.tabindex || 0
-    },
+    const tabindex = computed(() =>
+      props.disable === true ? -1 : props.tabindex || 0
+    )
 
-    formAttrs () {
+    const formAttrs = computed(() => {
       const prop = { type: 'radio' }
 
-      this.name !== void 0 && Object.assign(prop, {
-        name: this.name,
-        value: this.val
+      props.name !== void 0 && Object.assign(prop, {
+        name: props.name,
+        value: props.val
       })
 
       return prop
-    },
+    })
 
-    formDomProps () {
-      if (this.name !== void 0 && this.isTrue === true) {
-        return { checked: true }
-      }
-    }
-  },
+    const formDomProps = computed(() =>
+      props.name !== void 0 && isTrue.value === true
+        ? { checked: true }
+        : {}
+    )
 
-  methods: {
-    set (e) {
+    const injectFormInput = useFormInject(formAttrs, formDomProps)
+
+    function onClick (e) {
       if (e !== void 0) {
         stopAndPrevent(e)
-        this.__refocusTarget(e)
+        refocusTarget(e)
       }
 
-      if (this.disable !== true && this.isTrue !== true) {
-        this.$emit('update:modelValue', this.val, e)
+      if (props.disable !== true && isTrue.value !== true) {
+        emit('update:modelValue', props.val, e)
       }
-    },
+    }
 
-    __onKeydown (e) {
+    function onKeydown (e) {
       if (e.keyCode === 13 || e.keyCode === 32) {
         stopAndPrevent(e)
       }
-    },
+    }
 
-    __onKeyup (e) {
+    function onKeyup (e) {
       if (e.keyCode === 13 || e.keyCode === 32) {
-        this.set(e)
+        onClick(e)
       }
     }
-  },
 
-  render () {
-    const content = [svg]
+    // expose public methods
+    Object.assign(vm.proxy, { set: onClick })
 
-    this.disable !== true && this.__injectFormInput(
-      content,
-      'unshift',
-      ' q-radio__native q-ma-none q-pa-none'
-    )
+    return () => {
+      const content = [svg]
 
-    const child = [
-      h('div', {
-        class: this.innerClass,
-        style: this.sizeStyle
-      }, content)
-    ]
+      props.disable !== true && injectFormInput(
+        content,
+        'unshift',
+        ' q-radio__native q-ma-none q-pa-none'
+      )
 
-    if (this.__refocusTargetEl !== void 0) {
-      child.push(this.__refocusTargetEl)
+      const child = [
+        h('div', {
+          class: innerClass.value,
+          style: sizeStyle.value
+        }, content)
+      ]
+
+      if (refocusTargetEl.value !== null) {
+        child.push(refocusTargetEl.value)
+      }
+
+      const label = props.label !== void 0
+        ? hMergeSlot(slots.default, [props.label])
+        : hSlot(slots.default)
+
+      label !== void 0 && child.push(
+        h('div', {
+          class: 'q-radio__label q-anchor--skip'
+        }, label)
+      )
+
+      return h('div', {
+        ref: rootRef,
+        class: classes.value,
+        tabindex: tabindex.value,
+        role: 'radio',
+        'aria-label': props.label,
+        'aria-checked': isTrue.value === true ? 'true' : 'false',
+        'aria-disabled': props.disable === true ? 'true' : void 0,
+        onClick,
+        onKeydown,
+        onKeyup
+      }, child)
     }
-
-    const label = this.label !== void 0
-      ? hMergeSlot(this, 'default', [this.label])
-      : hSlot(this, 'default')
-
-    label !== void 0 && child.push(
-      h('div', {
-        class: 'q-radio__label q-anchor--skip'
-      }, label)
-    )
-
-    return h('div', {
-      class: this.classes,
-      tabindex: this.computedTabindex,
-      role: 'radio',
-      'aria-label': this.label,
-      'aria-checked': this.isTrue === true ? 'true' : 'false',
-      'aria-disabled': this.disable === true ? 'true' : void 0,
-      onClick: this.set,
-      onKeydown: this.__onKeydown,
-      onKeyup: this.__onKeyup
-    }, child)
   }
 })

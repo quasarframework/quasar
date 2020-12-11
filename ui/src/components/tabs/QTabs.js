@@ -337,7 +337,7 @@ export default defineComponent({
       getRouteList().forEach(tab => {
         if (
           tab.routerProps !== void 0 &&
-          tab.routerProps[ tab.exact === true ? 'linkIsExactActive' : 'linkIsActive' ].value === true &&
+          tab.routerProps[ tab.routerProps.exact.value === true ? 'linkIsExactActive' : 'linkIsActive' ].value === true &&
           tab.routerProps.linkRoute.value.href.length > href.length
         ) {
           href = tab.routerProps.linkRoute.value.href

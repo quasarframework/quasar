@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import CheckboxMixin from '../../mixins/checkbox.js'
+import useCheckbox, { useCheckboxProps, useCheckboxEmits } from './use-checkbox.js'
 
 const bgNode = [
   h('div', {
@@ -28,18 +28,13 @@ const bgNode = [
 export default defineComponent({
   name: 'QCheckbox',
 
-  mixins: [CheckboxMixin],
+  props: useCheckboxProps,
+  emits: useCheckboxEmits,
 
-  methods: {
-    __getInner () {
-      return bgNode
-    }
-  },
+  setup (props, { slots, emit }) {
+    const getInner = () => () => bgNode
+    const renderFn = useCheckbox(props, slots, emit, 'checkbox', getInner)
 
-  created () {
-    this.type = 'checkbox'
-  },
-
-  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
-  render: CheckboxMixin.render
+    return renderFn
+  }
 })
