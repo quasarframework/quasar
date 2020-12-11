@@ -20,6 +20,8 @@
                     :direction-links="directionLinks"
                     :input="inputType"
                     :to-fn="toFn"
+                    outline
+                    padding="xs"
       />
 
       <p class="caption">

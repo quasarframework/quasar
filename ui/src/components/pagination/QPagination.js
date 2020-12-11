@@ -75,6 +75,20 @@ export default defineComponent({
     ripple: {
       type: [ Boolean, Object ],
       default: null
+    },
+
+    round: Boolean,
+    rounded: Boolean,
+
+    outline: Boolean,
+    unelevated: Boolean,
+    push: Boolean,
+    glossy: Boolean,
+
+    dense: Boolean,
+    padding: {
+      type: String,
+      default: '6px 5px'
     }
   },
 
@@ -132,6 +146,17 @@ export default defineComponent({
     )
 
     const btnProps = computed(() => ({
+      round: props.round,
+      rounded: props.rounded,
+
+      outline: props.outline,
+      unelevated: props.unelevated,
+      push: props.push,
+      glossy: props.glossy,
+
+      dense: props.dense,
+      padding: props.padding,
+
       color: props.color,
       flat: true,
       size: props.size,
