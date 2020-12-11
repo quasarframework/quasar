@@ -1,17 +1,16 @@
-import { h, defineComponent } from 'vue'
-
-import { hMergeSlot } from '../../utils/render.js'
+import { h, defineComponent, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import RouterLinkMixin from '../../mixins/router-link.js'
+import { hMergeSlot } from '../../utils/composition-render.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/use-router-link.js'
 
 export default defineComponent({
   name: 'QBreadcrumbsEl',
 
-  mixins: [RouterLinkMixin],
-
   props: {
+    ...useRouterLinkProps,
+
     label: String,
     icon: String,
 
@@ -21,22 +20,27 @@ export default defineComponent({
     }
   },
 
-  render () {
-    const child = []
+  setup (props, { slots, attrs }) {
+    const vm = getCurrentInstance()
+    const { linkTag, linkProps } = useRouterLink(props, vm, attrs)
 
-    this.icon !== void 0 && child.push(
-      h(QIcon, {
-        class: 'q-breadcrumbs__el-icon' +
-          (this.label !== void 0 ? ' q-breadcrumbs__el-icon--with-label' : ''),
-        name: this.icon
-      })
-    )
+    return () => {
+      const child = []
 
-    this.label !== void 0 && child.push(this.label)
+      props.icon !== void 0 && child.push(
+        h(QIcon, {
+          class: 'q-breadcrumbs__el-icon' +
+            (props.label !== void 0 ? ' q-breadcrumbs__el-icon--with-label' : ''),
+          name: props.icon
+        })
+      )
 
-    return h(this.linkTag, {
-      class: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
-      ...this.linkProps
-    }, hMergeSlot(this, 'default', child))
+      props.label !== void 0 && child.push(props.label)
+
+      return h(linkTag.value, {
+        class: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
+        ...linkProps.value
+      }, hMergeSlot(slots.default, child))
+    }
   }
 })
