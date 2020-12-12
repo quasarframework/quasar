@@ -58,42 +58,24 @@
       "type": [ "Number", "String" ],
       "desc": "Default size in pixels of a row; This value is used for rendering the initial table; Try to use a value close to the minimum size of a row",
       "default": "48 (24 if dense)",
-<<<<<<< HEAD
-      "examples": [ ":virtual-scroll-item-size=\"48\"" ],
-      "category": "virtual-scroll"
-=======
       "examples": [ "virtual-scroll-item-size=\"48\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
->>>>>>> 159b73afb... feat(VirtualScroll): add ratio of items to render before and after the visible ones #7624 (#8151)
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-sticky-size-start": {
       "type": [ "Number", "String" ],
       "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision",
       "default": "0",
-<<<<<<< HEAD
-      "examples": [ ":virtual-scroll-sticky-size-start=\"48\"" ],
-      "category": "virtual-scroll"
-=======
       "examples": [ "virtual-scroll-sticky-size-start=\"48\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
->>>>>>> 159b73afb... feat(VirtualScroll): add ratio of items to render before and after the visible ones #7624 (#8151)
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-sticky-size-end": {
       "type": [ "Number", "String" ],
       "desc": "Size in pixels of the sticky footer part (if using one); A correct value will improve scroll precision",
       "default": "0",
-<<<<<<< HEAD
-      "examples": [ ":virtual-scroll-sticky-size-end=\"48\"" ],
-      "category": "virtual-scroll"
-=======
       "examples": [ "virtual-scroll-sticky-size-end=\"48\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
->>>>>>> 159b73afb... feat(VirtualScroll): add ratio of items to render before and after the visible ones #7624 (#8151)
+      "category": "virtual-scroll"
     },
 
     "table-colspan": {
