@@ -236,7 +236,7 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      if (this.showPopup !== void 0 && this.hasDialog === true) {
+      if (this.showPopup !== void 0) {
         this.showPopup()
         return
       }
