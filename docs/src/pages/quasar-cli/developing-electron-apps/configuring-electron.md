@@ -15,7 +15,7 @@ electron: {
   bundler: 'packager', // or 'builder'
 
   // electron-packager options
-  // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
+  // https://electron.github.io/electron-packager/master/
   packager: {
     //...
   },
