@@ -4,7 +4,8 @@
     "target": "esnext",
     "module": "esnext",
     "skipLibCheck": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "outDir": "./dist"
   },
   "include": ["./src/**/*"]
 }
