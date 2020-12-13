@@ -78,11 +78,22 @@ export default function (props, attrs, vm) {
   const { alignClass } = useAlign(props)
   const { hasLink, linkProps, navigateToLink } = useRouterLink(props, vm, attrs)
 
-  const style = computed(() =>
-    props.fab === false && props.fabMini === false
+  const style = computed(() => {
+    const obj = props.fab === false && props.fabMini === false
       ? sizeStyle.value
       : {}
-  )
+
+    return props.padding !== void 0
+      ? Object.assign({}, obj, {
+          padding: props.padding
+            .split(/\s+/)
+            .map(v => v in padding ? padding[v] + 'px' : v)
+            .join(' '),
+          minWidth: '0',
+          minHeight: '0'
+        })
+      : obj
+  })
 
   const isRounded = computed(() =>
     props.rounded === true || props.fab === true || props.fabMini === true
@@ -171,23 +182,9 @@ export default function (props, attrs, vm) {
     (props.loading === true ? ' q-btn__content--hidden' : '')
   )
 
-  const wrapperStyle = computed(() =>
-    props.padding !== void 0
-      ? {
-          padding: props.padding
-            .split(/\s+/)
-            .map(v => v in padding ? padding[ v ] + 'px' : v)
-            .join(' '),
-          minWidth: '0',
-          minHeight: '0'
-        }
-      : {}
-  )
-
   return {
     classes,
     style,
-    wrapperStyle,
     innerClasses,
     attributes,
     hasLink,

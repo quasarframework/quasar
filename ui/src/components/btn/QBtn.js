@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, Transition, onBeforeUnmount, getCurrentInstance, nextTick } from 'vue'
+import { h, defineComponent, ref, computed, Transition, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
@@ -34,7 +34,7 @@ export default defineComponent({
   setup (props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
     const {
-      classes, style, wrapperStyle, innerClasses,
+      classes, style, innerClasses,
       attributes,
       hasLink, isLink, navigateToLink,
       isActionable
@@ -322,13 +322,8 @@ export default defineComponent({
 
       child.push(
         h('span', {
-          class: 'q-btn__wrapper col row q-anchor--skip',
-          style: wrapperStyle.value
-        }, [
-          h('span', {
-            class: 'q-btn__content text-center col items-center q-anchor--skip ' + innerClasses.value
-          }, inner)
-        ])
+          class: 'q-btn__content text-center col items-center q-anchor--skip ' + innerClasses.value
+        }, inner)
       )
 
       props.loading !== null && child.push(
