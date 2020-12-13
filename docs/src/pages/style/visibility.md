@@ -52,7 +52,7 @@ Example: `<span class="gt-sm inline">...</span>`
 :::
 
 ::: tip
-If you want to e.g. show hide based on JavaScript properties, you can use the Screen Plugin: https://quasar.dev/options/screen-plugin
+If you want to e.g. show hide based on JavaScript properties, you can use the [Screen Plugin](/options/screen-plugin).
 :::
 
 ## Platform Related
