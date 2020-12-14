@@ -32,3 +32,7 @@ export const formKey = hasSymbol === true
 export const tabsKey = hasSymbol === true
   ? Symbol('_q_tabs_')
   : '_q_tabs_'
+
+export const uploaderKey = hasSymbol === true
+  ? Symbol('_q_u_')
+  : '_q_u_'
