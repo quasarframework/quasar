@@ -197,6 +197,12 @@
           "desc": "Function that cancels the editing and reverts the value to the initialValue",
           "params": null,
           "returns": null
+        },
+        "updatePosition": {
+          "type": "Function",
+          "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the component without significant performance drawbacks so the optimal solution is for you to call this method when you need it",
+          "params": null,
+          "returns": null
         }
       }
     }
@@ -272,6 +278,10 @@
 
     "hide": {
       "extends": "hide"
+    },
+
+    "updatePosition": {
+      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the component without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
     }
   }
 }

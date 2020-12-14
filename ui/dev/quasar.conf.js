@@ -69,7 +69,7 @@ module.exports = function (ctx) {
       }
     },
 
-    supportTS: true,
+    // supportTS: true,
 
     devServer: {
       https: false,

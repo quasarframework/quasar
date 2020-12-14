@@ -1,7 +1,9 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, computed, nextTick, getCurrentInstance } from 'vue'
 
 import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
+
+import useQuasar from '../../composables/use-quasar.js'
 
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/is.js'
@@ -44,144 +46,149 @@ export default defineComponent({
     'before-show', 'show', 'before-hide', 'hide'
   ],
 
-  data () {
-    return {
-      initialValue: '',
-      currentModel: ''
-    }
-  },
+  setup (props, { slots, emit }) {
+    const $q = useQuasar()
+    const menuRef = ref(null)
 
-  computed: {
-    scope () {
-      const scope = {
-        initialValue: this.initialValue,
-        validate: this.validate,
-        set: this.set,
-        cancel: this.cancel
+    const initialValue = ref('')
+    const currentModel = ref('')
+
+    let validated = false
+
+    const scope = computed(() => {
+      const acc = {
+        initialValue: initialValue.value,
+        validate: props.validate,
+        set,
+        cancel,
+        updatePosition
       }
 
-      Object.defineProperty(scope, 'value', {
-        get: () => this.currentModel,
-        set: val => { this.currentModel = val }
+      Object.defineProperty(acc, 'value', {
+        get: () => currentModel.value,
+        set: val => { currentModel.value = val }
       })
 
-      return scope
-    }
-  },
+      return acc
+    })
 
-  methods: {
-    set () {
-      if (this.__hasChanged() === true) {
-        if (this.validate(this.currentModel) === false) {
+    function set () {
+      if (hasModelChanged() === true) {
+        if (props.validate(currentModel.value) === false) {
           return
         }
-        this.$emit('save', this.currentModel, this.initialValue)
-        this.$emit('update:modelValue', this.currentModel)
+
+        emit('save', currentModel.value, initialValue.value)
+        emit('update:modelValue', currentModel.value)
       }
-      this.__close()
-    },
 
-    cancel () {
-      if (this.__hasChanged() === true) {
-        this.$emit('cancel', this.currentModel, this.initialValue)
+      closeMenu()
+    }
+
+    function cancel () {
+      if (hasModelChanged() === true) {
+        emit('cancel', currentModel.value, initialValue.value)
       }
-      this.__close()
-    },
 
-    show (e) {
-      this.$refs.menu && this.$refs.menu.show(e)
-    },
+      closeMenu()
+    }
 
-    hide (e) {
-      this.$refs.menu && this.$refs.menu.hide(e)
-    },
-
-    __hasChanged () {
-      return isDeepEqual(this.currentModel, this.initialValue) === false
-    },
-
-    __close () {
-      this.validated = true
-      this.$refs.menu.showing === true && this.$refs.menu.hide()
-    },
-
-    __reposition () {
-      this.$nextTick(() => {
-        this.$refs.menu.updatePosition()
+    function updatePosition () {
+      nextTick(() => {
+        menuRef.value.updatePosition()
       })
-    },
+    }
 
-    __getContent () {
-      const child = this.$slots.default !== void 0
-        ? this.$slots.default(this.scope).slice()
+    function hasModelChanged () {
+      return isDeepEqual(currentModel.value, initialValue.value) === false
+    }
+
+    function closeMenu () {
+      validated = true
+      menuRef.value.hide()
+    }
+
+    function onBeforeShow () {
+      validated = false
+      initialValue.value = clone(props.modelValue)
+      currentModel.value = clone(props.modelValue)
+      emit('before-show')
+    }
+
+    function onShow () {
+      emit('show')
+    }
+
+    function onBeforeHide () {
+      if (validated === false && hasModelChanged() === true) {
+        if (props.autoSave === true && props.validate(currentModel.value) === true) {
+          emit('save', currentModel.value, initialValue.value)
+          emit('update:modelValue', currentModel.value)
+        }
+        else {
+          emit('cancel', currentModel.value, initialValue.value)
+        }
+      }
+
+      emit('before-hide')
+    }
+
+    function onHide () {
+      emit('hide')
+    }
+
+    // expose public methods
+    const vm = getCurrentInstance()
+    Object.assign(vm.proxy, {
+      set,
+      cancel,
+      show (e) { menuRef.value && menuRef.value.show(e) },
+      hide (e) { menuRef.value && menuRef.value.hide(e) },
+      updatePosition
+    })
+
+    function getContent () {
+      const child = slots.default !== void 0
+        ? slots.default(scope.value).slice()
         : []
 
-      this.title && child.unshift(
-        h('div', { class: 'q-dialog__title q-mt-sm q-mb-sm' }, this.title)
+      props.title && child.unshift(
+        h('div', { class: 'q-dialog__title q-mt-sm q-mb-sm' }, props.title)
       )
 
-      this.buttons === true && child.push(
+      props.buttons === true && child.push(
         h('div', { class: 'q-popup-edit__buttons row justify-center no-wrap' }, [
           h(QBtn, {
             flat: true,
-            color: this.color,
-            label: this.labelCancel || this.$q.lang.label.cancel,
-            onClick: this.cancel
+            color: props.color,
+            label: props.labelCancel || $q.lang.label.cancel,
+            onClick: cancel
           }),
           h(QBtn, {
             flat: true,
-            color: this.color,
-            label: this.labelSet || this.$q.lang.label.set,
-            onClick: this.set
+            color: props.color,
+            label: props.labelSet || $q.lang.label.set,
+            onClick: set
           })
         ])
       )
 
       return child
-    },
-
-    __onBeforeShow () {
-      this.validated = false
-      this.initialValue = clone(this.modelValue)
-      this.currentModel = clone(this.modelValue)
-      this.$emit('before-show')
-    },
-
-    __onShow () {
-      this.$emit('show')
-    },
-
-    __onBeforeHide () {
-      if (this.validated === false && this.__hasChanged() === true) {
-        if (this.autoSave === true && this.validate(this.currentModel) === true) {
-          this.$emit('save', this.currentModel, this.initialValue)
-          this.$emit('update:modelValue', this.currentModel)
-        }
-        else {
-          this.$emit('cancel', this.currentModel, this.initialValue)
-        }
-      }
-
-      this.$emit('before-hide')
-    },
-
-    __onHide () {
-      this.$emit('hide')
     }
-  },
 
-  render () {
-    if (this.disable === true) { return }
+    return () => {
+      if (props.disable === true) { return }
 
-    return h(QMenu, {
-      ref: 'menu',
-      class: 'q-popup-edit',
-      cover: this.cover,
-      onBeforeShow: this.__onBeforeShow,
-      onShow: this.__onShow,
-      onBeforeHide: this.__onBeforeHide,
-      onHide: this.__onHide,
-      onEscapeKey: this.cancel
-    }, this.__getContent)
+      return h(QMenu, {
+        ref: menuRef,
+        class: 'q-popup-edit',
+        cover: props.cover,
+        onBeforeShow,
+        onShow,
+        onBeforeHide,
+        onHide,
+        onEscapeKey: cancel
+      }, getContent)
+    }
   }
 })
