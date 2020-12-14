@@ -76,8 +76,9 @@ export default {
       return this.locale || this.$q.lang.date
     },
 
-    __getCurrentDate () {
+    __getCurrentDate (dateOnly) {
       const d = new Date()
+      const timeFill = dateOnly === true ? null : 0
 
       if (this.calendar === 'persian') {
         const jDate = toJalaali(d)
@@ -92,10 +93,10 @@ export default {
         year: d.getFullYear(),
         month: d.getMonth() + 1,
         day: d.getDate(),
-        hour: 0,
-        minute: 0,
-        second: 0,
-        millisecond: 0
+        hour: timeFill,
+        minute: timeFill,
+        second: timeFill,
+        millisecond: timeFill
       }
     },
 
