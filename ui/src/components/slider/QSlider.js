@@ -1,22 +1,28 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, computed, watch } from 'vue'
+
+import useQuasar from '../../composables/use-quasar.js'
+import { useFormInject, useFormProps, useFormAttrs } from '../../composables/use-form.js'
 
 import {
+  useSlider,
+  useSliderProps,
+  useSliderEmits,
   getRatio,
   getModel,
-  SliderMixin,
-  keyCodes
-} from './slider-utils.js'
+  keyCodes,
+} from './use-slider.js'
 
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { hDir } from '../../utils/render.js'
+import { hDir } from '../../utils/composition-render.js'
 
 export default defineComponent({
   name: 'QSlider',
 
-  mixins: [SliderMixin],
-
   props: {
+    ...useSliderProps,
+    ...useFormProps,
+
     modelValue: {
       required: true,
       default: null,
@@ -26,125 +32,118 @@ export default defineComponent({
     labelValue: [ String, Number ]
   },
 
-  data () {
-    return {
-      model: this.modelValue === null ? this.min : this.modelValue,
-      curRatio: 0
-    }
-  },
+  emits: useSliderEmits,
 
-  watch: {
-    modelValue (v) {
-      this.model = v === null
-        ? 0
-        : between(v, this.min, this.max)
-    },
+  setup (props, { emit }) {
+    const $q = useQuasar()
+    const formAttrs = useFormAttrs(props)
+    const injectFormInput = useFormInject(formAttrs)
 
-    min (v) {
-      this.model = between(this.model, v, this.max)
-    },
+    const rootRef = ref(null)
+    const model = ref(props.modelValue === null ? props.min : props.modelValue)
+    const curRatio = ref(0)
 
-    max (v) {
-      this.model = between(this.model, this.min, v)
-    }
-  },
+    const { state, methods } = useSlider({
+      props, emit, $q,
+      updateValue, updatePosition, getDragging
+    })
 
-  computed: {
-    ratio () {
-      return this.active === true ? this.curRatio : this.modelRatio
-    },
+    const modelRatio = computed(() => (model.value - props.min) / (props.max - props.min))
+    const ratio = computed(() => state.active.value === true ? curRatio.value : modelRatio.value)
 
-    modelRatio () {
-      return (this.model - this.min) / (this.max - this.min)
-    },
+    const trackStyle = computed(() => ({
+      [ state.positionProp.value ]: 0,
+      [ state.sizeProp.value ]: `${100 * ratio.value}%`
+    }))
 
-    trackStyle () {
-      return {
-        [ this.positionProp ]: 0,
-        [ this.sizeProp ]: `${100 * this.ratio}%`
-      }
-    },
+    const thumbStyle = computed(() => ({
+      [ state.positionProp.value ]: `${100 * ratio.value}%`
+    }))
 
-    thumbStyle () {
-      return {
-        [ this.positionProp ]: `${100 * this.ratio}%`
-      }
-    },
-
-    thumbClass () {
-      return this.preventFocus === false && this.focus === true
+    const thumbClass = computed(() =>
+      state.preventFocus.value === false && state.focus.value === true
         ? ' q-slider--focus'
         : ''
-    },
+    )
 
-    pinClass () {
-      return this.labelColor !== void 0
-        ? `text-${this.labelColor}`
+    const pinClass = computed(() =>
+      props.labelColor !== void 0
+        ? `text-${props.labelColor}`
         : ''
-    },
+    )
 
-    pinTextClass () {
-      return 'q-slider__pin-value-marker-text' +
-        (this.labelTextColor !== void 0 ? ` text-${this.labelTextColor}` : '')
-    },
+    const pinTextClass = computed(() =>
+      'q-slider__pin-value-marker-text' +
+      (props.labelTextColor !== void 0 ? ` text-${props.labelTextColor}` : '')
+    )
 
-    events () {
-      if (this.editable === true) {
-        return this.$q.platform.is.mobile === true
-          ? { onClick: this.__mobileClick }
-          : {
-              onMousedown: this.__activate,
-              onFocus: this.__focus,
-              onBlur: this.__blur,
-              onKeydown: this.__keydown,
-              onKeyup: this.__keyup
-            }
+    const events = computed(() => {
+      if (state.editable.value !== true) {
+        return {}
       }
-    },
 
-    computedLabel () {
-      return this.labelValue !== void 0
-        ? this.labelValue
-        : this.model
-    },
+      return $q.platform.is.mobile === true
+        ? { onClick: methods.onMobileClick }
+        : {
+            onMousedown: methods.onActivate,
+            onFocus,
+            onBlur: methods.onBlur,
+            onKeydown,
+            onKeyup: methods.onKeyup
+          }
+    })
 
-    pinStyle () {
-      const percent = (this.reverse === true ? -this.ratio : this.ratio - 1)
-      return this.__getPinStyle(percent, this.ratio)
+    const label = computed(() =>
+      props.labelValue !== void 0
+        ? props.labelValue
+        : model.value
+    )
+
+    const pinStyle = computed(() => {
+      const percent = (props.reverse === true ? -ratio.value : ratio.value - 1)
+      return methods.getPinStyle(percent, ratio.value)
+    })
+
+    watch(() => props.modelValue, v => {
+      model.value = v === null
+        ? 0
+        : between(v, props.min, props.max)
+    })
+
+    watch(() => props.min + props.max, () => {
+      model.value = between(model.value, props.min, props.max)
+    })
+
+    function updateValue (change) {
+      if (model.value !== props.modelValue) {
+        emit('update:modelValue', model.value)
+      }
+      change === true && emit('change', model.value)
     }
-  },
 
-  methods: {
-    __updateValue (change) {
-      if (this.model !== this.modelValue) {
-        this.$emit('update:modelValue', this.model)
-      }
-      change === true && this.$emit('change', this.model)
-    },
+    function getDragging () {
+      return rootRef.value.getBoundingClientRect()
+    }
 
-    __getDragging () {
-      return this.$el.getBoundingClientRect()
-    },
-
-    __updatePosition (event, dragging = this.dragging) {
+    function updatePosition (event, dragging = state.dragging.value) {
       const ratio = getRatio(
         event,
         dragging,
-        this.isReversed,
-        this.vertical
+        state.isReversed.value,
+        props.vertical
       )
 
-      this.model = getModel(ratio, this.min, this.max, this.step, this.decimals)
-      this.curRatio = this.snap !== true || this.step === 0
+      model.value = getModel(ratio, props.min, props.max, props.step, state.decimals.value)
+      curRatio.value = props.snap !== true || props.step === 0
         ? ratio
-        : (this.model - this.min) / (this.max - this.min)
-    },
+        : (model.value - props.min) / (props.max - props.min)
+    }
 
-    __focus () {
-      this.focus = true
-    },
+    function onFocus () {
+      state.focus.value = true
+    }
 
-    __keydown (evt) {
+    function onKeydown (evt) {
       if (!keyCodes.includes(evt.keyCode)) {
         return
       }
@@ -152,86 +151,87 @@ export default defineComponent({
       stopAndPrevent(evt)
 
       const
-        step = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
-        offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -step : step
+        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * state.step.value,
+        offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -stepVal : stepVal
 
-      this.model = between(
-        parseFloat((this.model + offset).toFixed(this.decimals)),
-        this.min,
-        this.max
+      model.value = between(
+        parseFloat((model.value + offset).toFixed(state.decimals.value)),
+        props.min,
+        props.max
       )
 
-      this.__updateValue()
+      updateValue()
     }
-  },
 
-  render () {
-    const child = [
-      this.__getThumbSvg(),
-      h('div', { class: 'q-slider__focus-ring' })
-    ]
+    return () => {
+      const child = [
+        methods.getThumbSvg(),
+        h('div', { class: 'q-slider__focus-ring' })
+      ]
 
-    if (this.label === true || this.labelAlways === true) {
-      child.push(
-        h('div', {
-          class: `q-slider__pin q-slider__pin${this.axis} absolute ` + this.pinClass,
-          style: this.pinStyle.pin
-        }, [
+      if (props.label === true || props.labelAlways === true) {
+        child.push(
           h('div', {
-            class: `q-slider__pin-text-container q-slider__pin-text-container${this.axis}`,
-            style: this.pinStyle.pinTextContainer
+            class: `q-slider__pin q-slider__pin${state.axis.value} absolute ` + pinClass.value,
+            style: pinStyle.value.pin
           }, [
-            h('span', {
-              class: 'q-slider__pin-text ' + this.pinTextClass
+            h('div', {
+              class: `q-slider__pin-text-container q-slider__pin-text-container${state.axis.value}`,
+              style: pinStyle.value.pinTextContainer
             }, [
-              this.computedLabel
+              h('span', {
+                class: 'q-slider__pin-text ' + pinTextClass.value
+              }, [
+                label.value
+              ])
             ])
-          ])
-        ]),
+          ]),
 
+          h('div', {
+            class: `q-slider__arrow q-slider__arrow${state.axis.value} ${pinClass.value}`
+          })
+        )
+      }
+
+      if (props.name !== void 0 && props.disable !== true) {
+        injectFormInput(child, 'push')
+      }
+
+      const track = [
         h('div', {
-          class: `q-slider__arrow q-slider__arrow${this.axis} ${this.pinClass}`
+          class: `q-slider__track q-slider__track${state.axis.value} absolute`,
+          style: trackStyle.value
+        })
+      ]
+
+      props.markers === true && track.push(
+        h('div', {
+          class: `q-slider__track-markers q-slider__track-markers${state.axis.value} absolute-full fit`,
+          style: state.markerStyle.value
         })
       )
+
+      const content = [
+        h('div', {
+          class: `q-slider__track-container q-slider__track-container${state.axis.value} absolute`
+        }, track),
+
+        h('div', {
+          class: `q-slider__thumb-container q-slider__thumb-container${state.axis.value} absolute non-selectable` + thumbClass.value,
+          style: thumbStyle.value
+        }, child)
+      ]
+
+      const data = {
+        ref: rootRef,
+        class: state.classes.value + (props.modelValue === null ? ' q-slider--no-value' : ''),
+        ...state.attributes.value,
+        'aria-valuenow': props.modelValue,
+        tabindex: state.tabindex.value,
+        ...events.value
+      }
+
+      return hDir('div', data, content, 'slide', state.editable.value, () => state.panDirective.value)
     }
-
-    if (this.name !== void 0 && this.disable !== true) {
-      this.__injectFormInput(child, 'push')
-    }
-
-    const track = [
-      h('div', {
-        class: `q-slider__track q-slider__track${this.axis} absolute`,
-        style: this.trackStyle
-      })
-    ]
-
-    this.markers === true && track.push(
-      h('div', {
-        class: `q-slider__track-markers q-slider__track-markers${this.axis} absolute-full fit`,
-        style: this.markerStyle
-      })
-    )
-
-    const content = [
-      h('div', {
-        class: `q-slider__track-container q-slider__track-container${this.axis} absolute`
-      }, track),
-
-      h('div', {
-        class: `q-slider__thumb-container q-slider__thumb-container${this.axis} absolute non-selectable` + this.thumbClass,
-        style: this.thumbStyle
-      }, child)
-    ]
-
-    const data = {
-      class: this.classes + (this.modelValue === null ? ' q-slider--no-value' : ''),
-      ...this.attrs,
-      'aria-valuenow': this.modelValue,
-      tabindex: this.computedTabindex,
-      ...this.events
-    }
-
-    return hDir('div', data, content, 'slide', this.editable, () => this.panDirective)
   }
 })
