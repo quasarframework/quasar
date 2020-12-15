@@ -4,6 +4,8 @@ import DarkMixin from './dark.js'
 import FormMixin from './form.js'
 import ListenersMixin from './listeners.js'
 
+import { pad } from '../utils/format.js'
+
 const calendars = [ 'gregorian', 'persian' ]
 
 export default {
@@ -109,6 +111,10 @@ export default {
         second: d.getSeconds(),
         millisecond: d.getMilliseconds()
       }
+    },
+
+    __getDayHash (date) {
+      return date.year + '/' + pad(date.month) + '/' + pad(date.day)
     }
   }
 }
