@@ -88,7 +88,7 @@ export default defineComponent({
     const $q = useQuasar()
     const { isDark } = useDark(props, $q)
     const { getCache } = useCache()
-    const { computedTabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
+    const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
 
     let lastEmitValue
 
@@ -99,8 +99,8 @@ export default defineComponent({
     const innerMask = ref(getMask())
     const innerLocale = ref(getLocale())
 
-    const computedMask = computed(() => getMask())
-    const computedLocale = computed(() => getLocale())
+    const mask = computed(() => getMask())
+    const locale = computed(() => getLocale())
 
     const today = computed(() => getCurrentDate())
 
@@ -711,12 +711,12 @@ export default defineComponent({
       emit('navigation', { year: viewModel.value.year, month })
     })
 
-    watch(computedMask, val => {
+    watch(mask, val => {
       updateValue(val, innerLocale.value, 'mask')
       innerMask.value = val
     })
 
-    watch(computedLocale, val => {
+    watch(locale, val => {
       updateValue(innerMask.value, val, 'locale')
       innerLocale.value = val
     })
@@ -1069,7 +1069,7 @@ export default defineComponent({
             key: 'h-yr-' + headerSubtitle.value,
             class: 'q-date__header-subtitle q-date__header-link ' +
               (view.value === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer'),
-            tabindex: computedTabindex.value,
+            tabindex: tabindex.value,
             ...getCache('vY', {
               onClick: () => { view.value = 'Years' },
               onKeyup: e => { e.keyCode === 13 && (view.value = 'Years') }
@@ -1089,7 +1089,7 @@ export default defineComponent({
               key: 'h-sub' + headerTitle.value,
               class: 'q-date__header-title-label q-date__header-link ' +
                 (view.value === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer'),
-              tabindex: computedTabindex.value,
+              tabindex: tabindex.value,
               ...getCache('vC', {
                 onClick: () => { view.value = 'Calendar' },
                 onKeyup: e => { e.keyCode === 13 && (view.value = 'Calendar') }
@@ -1103,7 +1103,7 @@ export default defineComponent({
             flat: true,
             size: 'sm',
             round: true,
-            tabindex: computedTabindex.value,
+            tabindex: tabindex.value,
             onClick: setToday
           }) : null
         ])
@@ -1121,7 +1121,7 @@ export default defineComponent({
             size: 'sm',
             flat: true,
             icon: dateArrow.value[ 0 ],
-            tabindex: computedTabindex.value,
+            tabindex: tabindex.value,
             disable: boundaries.prev === false,
             ...getCache('go-#' + type, { onClick () { goTo(-1) } })
           })
@@ -1138,7 +1138,7 @@ export default defineComponent({
               dense: true,
               noCaps: true,
               label,
-              tabindex: computedTabindex.value,
+              tabindex: tabindex.value,
               ...getCache('view#' + type, { onClick: () => { view.value = type } })
             })
           ]))
@@ -1153,7 +1153,7 @@ export default defineComponent({
             size: 'sm',
             flat: true,
             icon: dateArrow.value[ 1 ],
-            tabindex: computedTabindex.value,
+            tabindex: tabindex.value,
             disable: boundaries.next === false,
             ...getCache('go+#' + type, { onClick () { goTo(1) } })
           })
@@ -1210,7 +1210,7 @@ export default defineComponent({
                       color: day.color,
                       textColor: day.textColor,
                       label: day.i,
-                      tabindex: computedTabindex.value,
+                      tabindex: tabindex.value,
                       ...getCache('day#' + day.i, {
                         onClick: () => { onDayClick(day.i) },
                         onMouseover: () => { onDayMouseover(day.i) }
@@ -1248,7 +1248,7 @@ export default defineComponent({
               unelevated: active,
               color: active === true ? computedColor.value : null,
               textColor: active === true ? computedTextColor.value : null,
-              tabindex: computedTabindex.value,
+              tabindex: tabindex.value,
               disable: isDisabled(i + 1),
               ...getCache('month#' + i, { onClick: () => { setMonth(i + 1) } })
             })
@@ -1304,7 +1304,7 @@ export default defineComponent({
                 unelevated: active,
                 color: active === true ? computedColor.value : null,
                 textColor: active === true ? computedTextColor.value : null,
-                tabindex: computedTabindex.value,
+                tabindex: tabindex.value,
                 disable: isDisabled(i),
                 ...getCache('yr#' + i, { onClick: () => { setYear(i) } })
               })
@@ -1323,7 +1323,7 @@ export default defineComponent({
               dense: true,
               flat: true,
               icon: dateArrow.value[ 0 ],
-              tabindex: computedTabindex.value,
+              tabindex: tabindex.value,
               disable: isDisabled(start),
               ...getCache('y-', { onClick: () => { startYear.value -= yearsInterval } })
             })
@@ -1341,7 +1341,7 @@ export default defineComponent({
               dense: true,
               flat: true,
               icon: dateArrow.value[ 1 ],
-              tabindex: computedTabindex.value,
+              tabindex: tabindex.value,
               disable: isDisabled(stop),
               ...getCache('y+', { onClick: () => { startYear.value += yearsInterval } })
             })

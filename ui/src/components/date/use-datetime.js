@@ -45,7 +45,7 @@ export function useDatetime (props, $q) {
     return props.disable !== true && props.readonly !== true
   })
 
-  const computedTabindex = computed(() => {
+  const tabindex = computed(() => {
     return props.editable === true ? 0 : -1
   })
 
@@ -86,7 +86,7 @@ export function useDatetime (props, $q) {
 
   return {
     editable,
-    computedTabindex,
+    tabindex,
     headerClass,
 
     getLocale,
