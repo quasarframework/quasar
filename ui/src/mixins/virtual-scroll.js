@@ -467,7 +467,7 @@ export default {
 
       if (contentEl) {
         const
-          children = slice.call(contentEl.children)
+          children = slice.call(contentEl.childNodes)
             .filter(el => el.classList.contains('q-virtual-scroll--skip') === false),
           childrenLength = children.length,
           sizeFn = this.virtualScrollHorizontal === true
