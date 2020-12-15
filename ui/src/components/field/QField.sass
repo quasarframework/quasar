@@ -196,7 +196,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     right: calc(-100% / 3)
     transition: transform $field-transition, right $field-transition-label-right-down
 
-  &--focused
+  &--highlighted
     .q-field__label
       color: currentColor
     .q-field__shadow
@@ -229,7 +229,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     &.q-field--rounded .q-field__control
       border-radius: 28px 28px 0 0
 
-    &.q-field--focused
+    &.q-field--highlighted
       .q-field__control
         &:before
           opacity: 1
@@ -240,7 +240,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     &.q-field--dark
       .q-field__control, .q-field__control:before
         background: rgba(255,255,255,.07)
-      &.q-field--focused .q-field__control:before
+      &.q-field--highlighted .q-field__control:before
         background: rgba(255,255,255,.1)
 
     &.q-field--readonly
@@ -276,7 +276,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     &.q-field--rounded .q-field__control
       border-radius: 28px
 
-    &.q-field--focused
+    &.q-field--highlighted
       // prevent rounded border imperfections to be seen through the :after border
       .q-field__control:hover:before
         border-color: transparent
@@ -309,7 +309,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
         background: currentColor
         transition: transform $field-transition
 
-    &.q-field--focused
+    &.q-field--highlighted
       .q-field__control:after
         transform: scale3d(1, 1, 1)
 
@@ -328,7 +328,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__input
       color: #fff
 
-    &:not(.q-field--focused) .q-field__label, .q-field__marginal, .q-field__bottom
+    &:not(.q-field--highlighted) .q-field__label, .q-field__marginal, .q-field__bottom
       color: rgba(255,255,255,.7)
 
   &--standout
@@ -350,7 +350,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     &.q-field--rounded .q-field__control
       border-radius: 28px
 
-    &.q-field--focused
+    &.q-field--highlighted
       .q-field__control
         box-shadow: $shadow-2
         background: #000
@@ -368,7 +368,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
         background: rgba(255,255,255,.07)
         &:before
           background: rgba(255,255,255,.07)
-      &.q-field--focused
+      &.q-field--highlighted
         .q-field__control
           background: #fff
         .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append, .q-field__input

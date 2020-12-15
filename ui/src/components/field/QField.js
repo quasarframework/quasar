@@ -156,7 +156,9 @@ export default defineComponent({
         (this.itemAligned === true ? ' q-field--item-aligned q-item-type' : '') +
         (this.isDark === true ? ' q-field--dark' : '') +
         (this.field.getControl === void 0 ? ' q-field--auto-height' : '') +
-        (this.hasError === true ? ' q-field--focused q-field--error' : (this.focused === true ? ' q-field--focused' : '')) +
+        (this.focused === true ? ' q-field--focused' : '') +
+        (this.hasError === true ? ' q-field--error' : '') +
+        (this.hasError === true || this.focused === true ? ' q-field--highlighted' : '') +
         (this.hideBottomSpace !== true && this.shouldRenderBottom === true ? ' q-field--with-bottom' : '') +
         (this.disable === true ? ' q-field--disabled' : (this.readonly === true ? ' q-field--readonly' : ''))
     },
