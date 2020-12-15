@@ -1147,10 +1147,6 @@ export default defineComponent({
       return date.year + '/' + pad(date.month)
     },
 
-    __getDayHash (date) {
-      return date.year + '/' + pad(date.month) + '/' + pad(date.day)
-    },
-
     __toggleDate (date, monthHash) {
       const month = this.daysMap[ monthHash ]
       const fn = month !== void 0 && month.includes(date.day) === true
