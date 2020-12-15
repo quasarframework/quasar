@@ -264,6 +264,7 @@ export default defineComponent({
       }
 
       const { from, to } = this.virtualScrollSliceRange
+      const { options, optionEls } = this.__optionScopeCache
 
       return this.options.slice(from, to).map((opt, i) => {
         const disable = this.isOptionDisabled(opt) === true
@@ -291,7 +292,7 @@ export default defineComponent({
           }
         }
 
-        return {
+        const option = {
           index,
           opt,
           html: this.needsHtmlFn(opt),
@@ -302,6 +303,13 @@ export default defineComponent({
           setOptionIndex: this.setOptionIndex,
           itemProps
         }
+
+        if (options[i] === void 0 || isDeepEqual(option, options[i]) !== true) {
+          options[i] = option
+          optionEls[i] = void 0
+        }
+
+        return option
       })
     },
 
@@ -834,6 +842,14 @@ export default defineComponent({
     },
 
     __getOptions () {
+      if (
+        this.$slots.option !== void 0 &&
+        this.__optionScopeCache.optionSlot !== this.$slots.option
+      ) {
+        this.__optionScopeCache.optionSlot = this.$slots.option
+        this.__optionScopeCache.optionEls = []
+      }
+
       const fn = this.$slots.option !== void 0
         ? this.$slots.option
         : scope => {
@@ -853,7 +869,15 @@ export default defineComponent({
           })
         }
 
-      let options = this.__padVirtualScroll('div', this.optionScope.map(fn))
+      const { optionEls } = this.__optionScopeCache
+
+      let options = this.__padVirtualScroll('div', this.optionScope.map((scope, i) => {
+        if (optionEls[i] === void 0) {
+          optionEls[i] = fn(scope)
+        }
+
+        return optionEls[i]
+      }))
 
       if (this.$slots[ 'before-options' ] !== void 0) {
         options = this.$slots[ 'before-options' ]().concat(options)
@@ -1185,6 +1209,10 @@ export default defineComponent({
     },
 
     __closeMenu () {
+      if (this.__optionScopeCache !== void 0) {
+        this.__optionScopeCache.optionEls = []
+      }
+
       if (this.dialog === true) {
         return
       }
@@ -1364,7 +1392,16 @@ export default defineComponent({
     })
   },
 
+  beforeMount () {
+    this.__optionScopeCache = {
+      optionSlot: this.$slots.option,
+      options: [],
+      optionEls: []
+    }
+  },
+
   beforeUnmount () {
+    this.__optionScopeCache = void 0
     clearTimeout(this.inputTimer)
   },
 
