@@ -44,7 +44,8 @@ export default defineComponent({
       this.modelValue,
       this.__getMask(),
       this.__getLocale(),
-      this.calendar
+      this.calendar,
+      this.__getDefaultDateModel()
     )
 
     let view = 'Hour'
@@ -71,7 +72,8 @@ export default defineComponent({
         v,
         this.computedMask,
         this.computedLocale,
-        this.calendar
+        this.calendar,
+        this.defaultDateModel
       )
 
       if (
@@ -134,6 +136,10 @@ export default defineComponent({
           ? '--'
           : pad(time.second)
       }
+    },
+
+    defaultDateModel () {
+      return this.__getDefaultDateModel()
     },
 
     computedFormat24h () {
@@ -346,6 +352,16 @@ export default defineComponent({
       return this.calendar !== 'persian' && this.mask !== null
         ? this.mask
         : `HH:mm${this.withSeconds === true ? ':ss' : ''}`
+    },
+
+    __getDefaultDateModel () {
+      if (typeof this.defaultDate !== 'string') {
+        const date = this.__getCurrentDate(true)
+        date.dateHash = this.__getDayHash(date)
+        return date
+      }
+
+      return __splitDate(this.defaultDate, 'YYYY/MM/DD', void 0, this.calendar)
     },
 
     __click (evt) {
