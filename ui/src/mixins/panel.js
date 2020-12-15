@@ -43,9 +43,9 @@ export const PanelParentMixin = {
     transitionNext: String,
 
     keepAlive: Boolean,
-    keepAliveInclude: {},
-    keepAliveExclude: {},
-    keepAliveMax: {}
+    keepAliveInclude: [ String, Array, RegExp ],
+    keepAliveExclude: [ String, Array, RegExp ],
+    keepAliveMax: Number
   },
 
   data () {
@@ -89,7 +89,6 @@ export const PanelParentMixin = {
       this.keepAliveInclude !== void 0 && (props.include = this.keepAliveInclude)
       this.keepAliveExclude !== void 0 && (props.exclude = this.keepAliveExclude)
       this.keepAliveMax !== void 0 && (props.max = this.keepAliveMax)
-
       return props
     }
   },

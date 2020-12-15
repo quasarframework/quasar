@@ -14,24 +14,27 @@
     },
 
     "keep-alive-include": {
-      "type": [ "String", "Array" ],
+      "type": [ "String", "Array", "RegExp" ],
       "desc": "Equivalent to using Vue's native include prop for <keep-alive>",
       "examples": [ "a,b", "/a|b/", "['a', 'b']" ],
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v1.14.8"
     },
 
     "keep-alive-exclude": {
-      "type": [ "String", "Array" ],
+      "type": [ "String", "Array", "RegExp" ],
       "desc": "Equivalent to using Vue's native exclude prop for <keep-alive>",
       "examples": [ "a,b", "/a|b/", "['a', 'b']" ],
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v1.14.8"
     },
 
     "keep-alive-max": {
       "type": "Number",
       "desc": "Equivalent to using Vue's native max prop for <keep-alive>",
       "examples": [ "2" ],
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v1.14.8"
     },
 
     "animated": {
