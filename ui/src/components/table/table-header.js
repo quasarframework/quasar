@@ -51,9 +51,7 @@ export default {
           ? slot(props)
           : h(QTh, {
             key: col.name,
-            props,
-            style: col.headerStyle,
-            class: col.headerClasses
+            props
           }, () => col.label)
       })
 
