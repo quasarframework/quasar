@@ -133,7 +133,11 @@ export default defineComponent({
         }
 
         let lazy = node.lazy
-        if (lazy && this.lazy[ key ]) {
+        if (
+          lazy === true &&
+          this.lazy[ key ] !== void 0 &&
+          Array.isArray(node[ this.childrenKey ]) === true
+        ) {
           lazy = this.lazy[ key ]
         }
 
@@ -314,14 +318,15 @@ export default defineComponent({
         }
 
         this.lazy[ key ] = 'loading'
+        if (Array.isArray(node[ this.childrenKey ]) !== true) {
+          node[ this.childrenKey ] = []
+        }
         this.$emit('lazy-load', {
           node,
           key,
           done: children => {
             this.lazy[ key ] = 'loaded'
-            if (children) {
-              node[ this.childrenKey ] = children
-            }
+            node[ this.childrenKey ] = Array.isArray(children) === true ? children : []
             this.$nextTick(() => {
               const m = this.meta[ key ]
               if (m && m.isParent === true) {
@@ -331,6 +336,9 @@ export default defineComponent({
           },
           fail: () => {
             delete this.lazy[ key ]
+            if (node[ this.childrenKey ].length === 0) {
+              delete node[ this.childrenKey ]
+            }
           }
         })
       }
