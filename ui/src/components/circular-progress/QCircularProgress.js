@@ -1,7 +1,8 @@
 import { h, defineComponent, computed } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useSize, { useSizeProps } from '../../composables/use-size.js'
+import useSize from '../../composables/use-size.js'
+import { useCircularCommonProps } from './use-circular-progress.js'
 
 import { hMergeSlotSafely } from '../../utils/composition-render.js'
 import { between } from '../../utils/format.js'
@@ -12,55 +13,18 @@ const
   circumference = diameter * Math.PI,
   strokeDashArray = Math.round(circumference * 1000) / 1000
 
-// used by QKnob
-export const commonProps = {
-  ...useSizeProps,
-
-  min: {
-    type: Number,
-    default: 0
-  },
-  max: {
-    type: Number,
-    default: 100
-  },
-
-  color: String,
-  centerColor: String,
-  trackColor: String,
-
-  fontSize: String,
-
-  // ratio
-  thickness: {
-    type: Number,
-    default: 0.2,
-    validator: v => v >= 0 && v <= 1
-  },
-
-  angle: {
-    type: Number,
-    default: 0
-  },
-
-  showValue: Boolean,
-  reverse: Boolean,
-
-  instantFeedback: Boolean
-}
-
 export default defineComponent({
   name: 'QCircularProgress',
 
   props: {
+    ...useCircularCommonProps,
+
     value: {
       type: Number,
       default: 0
     },
 
-    indeterminate: Boolean,
-
-    ...commonProps
+    indeterminate: Boolean
   },
 
   setup (props, { slots }) {
