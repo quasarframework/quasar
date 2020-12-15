@@ -285,7 +285,7 @@ export default defineComponent({
       // we need to use setTimeout instead of this.$nextTick
       // to avoid a bug where focusout is not emitted for type date/time/week/...
       this.type !== 'file' && setTimeout(() => {
-        if (this.$refs.input !== void 0) {
+        if (this.$refs.input) {
           this.$refs.input.value = this.innerValue !== void 0 ? this.innerValue : ''
         }
       })

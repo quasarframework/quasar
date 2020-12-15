@@ -419,23 +419,28 @@
           swipeable
           animated
           infinite
+          keep-alive
           class="text-center"
         >
           <q-tab-panel :name="panelTest ? 'two' : 'one'">
             <q-btn dense round icon="map" class="absolute-bottom-right" />
             Tab One <strong v-if="panelTest">(Swapped)</strong> <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
+            <keep-alive-test name="one" />
           </q-tab-panel>
 
           <q-tab-panel :name="panelTest ? 'one' : 'two'">
             Tab Two <strong v-if="panelTest">(Swapped)</strong>  <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
+            <keep-alive-test name="two" />
           </q-tab-panel>
 
           <q-tab-panel name="three">
             Tab Three <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
+            <keep-alive-test name="three" />
           </q-tab-panel>
 
           <q-tab-panel disable name="four">
             Tab Four <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
+            <keep-alive-test name="four" />
           </q-tab-panel>
         </q-tab-panels>
       </div>
@@ -504,7 +509,60 @@
 </template>
 
 <script>
+import { h, ref, onBeforeMount, onMounted, onBeforeUnmount, onActivated, onDeactivated } from 'vue'
+import { uid } from 'quasar'
+
 export default {
+  components: {
+    KeepAliveTest: {
+      name: 'KeepAliveTest',
+
+      props: {
+        name: String
+      },
+
+      setup (props) {
+        const counter = ref(0)
+        const id = uid()
+
+        function log (what) {
+          console.log(`[KeepAliveTest > ${props.name} / ${id}] ${what}`)
+        }
+
+        log('created')
+
+        onBeforeMount(() => {
+          log('onBeforeMount')
+        })
+
+        onMounted(() => {
+          log('onMounted')
+        })
+
+        onBeforeUnmount(() => {
+          log('onBeforeUnmount')
+        })
+
+        onActivated(() => {
+          log('onActivated')
+        })
+
+        onDeactivated(() => {
+          log('onDeactivated')
+        })
+
+        function onClick () {
+          counter.value += 1
+        }
+
+        return () => h('div', {
+          class: 'q-pa-sm bg-grey-2 cursor-pointer',
+          onClick
+        }, `${props.name} - clicked ${counter.value} times [${id}]`)
+      }
+    }
+  },
+
   data () {
     return {
       text: '',

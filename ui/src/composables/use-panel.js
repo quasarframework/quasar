@@ -34,7 +34,10 @@ export const usePanelParentProps = {
   transitionPrev: String,
   transitionNext: String,
 
-  keepAlive: Boolean
+  keepAlive: Boolean,
+  keepAliveInclude: [ String, Array, RegExp ],
+  keepAliveExclude: [ String, Array, RegExp ],
+  keepAliveMax: Number
 }
 
 export const usePanelParentEmits = [ 'update:modelValue', 'before-transition', 'transition' ]
@@ -76,6 +79,14 @@ export function usePanelParent (props, emit, $q, vm) {
     ? props.modelValue
     : String(props.modelValue)
   )
+
+  const keepAliveProps = computed(() => {
+    const acc = {}
+    props.keepAliveInclude !== void 0 && (acc.include = props.keepAliveInclude)
+    props.keepAliveExclude !== void 0 && (acc.exclude = props.keepAliveExclude)
+    props.keepAliveMax !== void 0 && (acc.max = props.keepAliveMax)
+    return acc
+  })
 
   watch(() => props.modelValue, (newVal, oldVal) => {
     const index = isValidPanelName(newVal) === true
@@ -186,7 +197,7 @@ export function usePanelParent (props, emit, $q, vm) {
     return props.keepAlive === true
       ? [
           h(KeepAlive, [
-            h(PanelWrapper, { key: contentKey.value }, () => panel)
+            h(PanelWrapper, { key: contentKey.value, ...keepAliveProps.value }, () => panel)
           ])
         ]
       : [
