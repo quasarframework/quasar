@@ -105,6 +105,8 @@ export default Vue.extend({
       default: 0
     },
 
+    autocomplete: String,
+
     transitionShow: String,
     transitionHide: String,
 
@@ -112,6 +114,11 @@ export default Vue.extend({
       type: String,
       validator: v => ['default', 'menu', 'dialog'].includes(v),
       default: 'default'
+    },
+
+    virtualScrollItemSize: {
+      type: [ Number, String ],
+      default: void 0
     }
   },
 
@@ -364,7 +371,7 @@ export default Vue.extend({
         // fires "change" instead of "input" on autocomplete.
         change: this.__onChange,
         keydown: this.__onTargetKeydown,
-        keyup: this.__onTargetKeyup,
+        keyup: this.__onTargetAutocomplete,
         keypress: this.__onTargetKeypress,
         focus: this.__selectInputText,
         click: e => {
@@ -375,6 +382,12 @@ export default Vue.extend({
       on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
 
       return on
+    },
+
+    virtualScrollItemSizeComputed () {
+      return this.virtualScrollItemSize === void 0
+        ? (this.dense === true ? 24 : 48)
+        : this.virtualScrollItemSize
     }
   },
 
@@ -579,12 +592,14 @@ export default Vue.extend({
     __onTargetAutocomplete (e) {
       const { value } = e.target
 
-      e.target.value = ''
-
       if (e.keyCode !== void 0) {
         this.__onTargetKeyup(e)
         return
       }
+
+      e.target.value = ''
+      clearTimeout(this.inputTimer)
+      this.__resetInputValue()
 
       if (typeof value === 'string' && value.length > 0) {
         const needle = value.toLocaleLowerCase()
@@ -592,17 +607,33 @@ export default Vue.extend({
         let fn = opt => this.getOptionValue(opt).toLocaleLowerCase() === needle
         let option = this.options.find(fn)
 
-        if (option !== null) {
-          this.innerValue.indexOf(option) === -1 && this.toggleOption(option)
+        if (option !== void 0) {
+          if (this.innerValue.indexOf(option) === -1) {
+            this.toggleOption(option)
+          }
+          else {
+            this.hidePopup()
+          }
         }
         else {
           fn = opt => this.getOptionLabel(opt).toLocaleLowerCase() === needle
           option = this.options.find(fn)
 
-          if (option !== null) {
-            this.innerValue.indexOf(option) === -1 && this.toggleOption(option)
+          if (option !== void 0) {
+            if (this.innerValue.indexOf(option) === -1) {
+              this.toggleOption(option)
+            }
+            else {
+              this.hidePopup()
+            }
+          }
+          else {
+            this.filter(value, true)
           }
         }
+      }
+      else {
+        this.__clearValue(e)
       }
     },
 
@@ -663,6 +694,32 @@ export default Vue.extend({
         return
       }
 
+      // home, end - 36, 35
+      if (
+        (e.keyCode === 35 || e.keyCode === 36) &&
+        (typeof this.inputValue !== 'string' || this.inputValue.length === 0)
+      ) {
+        stopAndPrevent(e)
+        this.optionIndex = -1
+        this.moveOptionSelection(e.keyCode === 36 ? 1 : -1, this.multiple)
+      }
+
+      // pg up, pg down - 33, 34
+      if (
+        (e.keyCode === 33 || e.keyCode === 34) &&
+        this.virtualScrollSliceSizeComputed !== void 0
+      ) {
+        stopAndPrevent(e)
+        this.optionIndex = Math.max(
+          -1,
+          Math.min(
+            this.virtualScrollLength,
+            this.optionIndex + (e.keyCode === 33 ? -1 : 1) * this.virtualScrollSliceSizeComputed.view
+          )
+        )
+        this.moveOptionSelection(e.keyCode === 33 ? 1 : -1, this.multiple)
+      }
+
       // up, down
       if (e.keyCode === 38 || e.keyCode === 40) {
         stopAndPrevent(e)
@@ -680,6 +737,7 @@ export default Vue.extend({
       if (
         optionsLength > 0 &&
         this.useInput !== true &&
+        e.key !== void 0 &&
         e.key.length === 1 && // printable char
         e.altKey === e.ctrlKey && // not kbd shortcut
         (e.keyCode !== 32 || this.searchBuffer.length > 0) // space in middle of search
@@ -801,17 +859,9 @@ export default Vue.extend({
       return this.__getVirtualScrollEl()
     },
 
-    __getSelection (h, fromDialog) {
+    __getSelection (h) {
       if (this.hideSelected === true) {
-        return fromDialog === true || this.dialog !== true || this.hasDialog !== true
-          ? []
-          : [
-            h('span', {
-              domProps: {
-                textContent: this.inputValue
-              }
-            })
-          ]
+        return []
       }
 
       if (this.$scopedSlots['selected-item'] !== void 0) {
@@ -856,16 +906,16 @@ export default Vue.extend({
     },
 
     __getControl (h, fromDialog) {
-      const child = this.__getSelection(h, fromDialog)
+      const child = this.__getSelection(h)
       const isTarget = fromDialog === true || this.dialog !== true || this.hasDialog !== true
 
-      if (isTarget === true && this.useInput === true) {
-        child.push(this.__getInput(h, fromDialog))
+      if (this.useInput === true) {
+        child.push(this.__getInput(h, fromDialog, isTarget))
       }
-      else if (this.editable === true) {
-        isTarget === true && child.push(
+      // there can be only one (when dialog is opened the control in dialog should be target)
+      else if (this.editable === true && isTarget === true) {
+        child.push(
           h('div', {
-            // there can be only one (when dialog is opened the control in dialog should be target)
             ref: 'target',
             key: 'd_t',
             staticClass: 'no-outline',
@@ -881,15 +931,17 @@ export default Vue.extend({
           })
         )
 
-        this.qAttrs.autocomplete !== void 0 && child.push(
-          h('input', {
-            staticClass: 'q-select__autocomplete-input no-outline',
-            attrs: { autocomplete: this.qAttrs.autocomplete },
-            on: cache(this, 'autoinp', {
-              keyup: this.__onTargetAutocomplete
+        if (typeof this.autocomplete === 'string' && this.autocomplete.length > 0) {
+          child.push(
+            h('input', {
+              staticClass: 'q-select__autocomplete-input no-outline',
+              attrs: { autocomplete: this.autocomplete },
+              on: cache(this, 'autoinp', {
+                keyup: this.__onTargetAutocomplete
+              })
             })
-          })
-        )
+          )
+        }
       }
 
       if (this.nameProp !== void 0 && this.disable !== true && this.innerOptionsValue.length > 0) {
@@ -968,9 +1020,9 @@ export default Vue.extend({
         : null
     },
 
-    __getInput (h, fromDialog) {
+    __getInput (h, fromDialog, isTarget) {
       const options = {
-        ref: 'target',
+        ref: isTarget === true ? 'target' : void 0,
         key: 'i_t',
         staticClass: 'q-field__input q-placeholder col',
         style: this.inputStyle,
@@ -983,6 +1035,7 @@ export default Vue.extend({
           id: this.targetUid,
           maxlength: this.maxlength, // this is converted to prop by QField
           tabindex: this.tabindex,
+          autocomplete: this.autocomplete,
           'data-autofocus': fromDialog === true ? false : this.autofocus,
           disabled: this.disable === true,
           readonly: this.readonly === true
@@ -992,7 +1045,6 @@ export default Vue.extend({
 
       if (fromDialog !== true && this.hasDialog === true) {
         options.staticClass += ' no-pointer-events'
-        options.attrs.readonly = true
       }
 
       return h('input', options)
@@ -1050,8 +1102,8 @@ export default Vue.extend({
       }
     },
 
-    filter (val) {
-      if (this.qListeners.filter === void 0 || this.focused !== true) {
+    filter (val, keepClosed) {
+      if (this.qListeners.filter === void 0 || (keepClosed !== true && this.focused !== true)) {
         return
       }
 
@@ -1083,7 +1135,7 @@ export default Vue.extend({
         'filter',
         val,
         (fn, afterFn) => {
-          if (this.focused === true && this.filterId === filterId) {
+          if ((keepClosed === true || this.focused === true) && this.filterId === filterId) {
             clearTimeout(this.filterId)
 
             typeof fn === 'function' && fn()
@@ -1095,7 +1147,10 @@ export default Vue.extend({
               this.innerLoading = false
 
               if (this.editable === true) {
-                if (this.menu === true) {
+                if (keepClosed === true) {
+                  this.menu === true && this.hidePopup()
+                }
+                else if (this.menu === true) {
                   this.__updateMenu(true)
                 }
                 else {
@@ -1139,12 +1194,7 @@ export default Vue.extend({
         click: e => {
           if (this.hasDialog !== true) {
             // label from QField will propagate click on the input (except IE)
-            if (
-              (this.useInput === true && e.target.classList.contains('q-field__input') !== true) ||
-              (this.useInput !== true && e.target.classList.contains('no-outline') === true)
-            ) {
-              return
-            }
+            prevent(e)
 
             if (this.menu === true) {
               this.__closeMenu()
@@ -1201,9 +1251,14 @@ export default Vue.extend({
         },
         on: cache(this, 'menu', {
           '&scroll': this.__onVirtualScrollEvt,
-          'before-hide': this.__closeMenu
+          'before-hide': this.__closeMenu,
+          show: this.__onMenuShow
         })
       }, child)
+    },
+
+    __onMenuShow () {
+      this.__setVirtualScrollSize()
     },
 
     __onDialogFieldFocus (e) {
@@ -1313,6 +1368,8 @@ export default Vue.extend({
       ) {
         this.$refs.target.focus()
       }
+
+      this.__setVirtualScrollSize()
     },
 
     __closeMenu () {

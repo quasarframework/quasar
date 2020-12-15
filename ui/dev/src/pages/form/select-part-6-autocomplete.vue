@@ -49,6 +49,8 @@
           </q-item>
         </template>
       </q-select>
+
+      <pre>{{name}} / {{city}} / {{country}}</pre>
     </div>
   </div>
 </template>
