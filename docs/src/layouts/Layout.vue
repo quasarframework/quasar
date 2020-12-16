@@ -108,6 +108,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       leave-active-class="animated fadeOut"
       mode="out-in"
       @leave="resetScroll"
+      @enter="scrollToCurrentAnchor"
     )
       router-view
 
@@ -131,6 +132,8 @@ export default {
   name: 'Layout',
 
   created () {
+    this.preventTocUpdate = this.$route.hash.length > 1
+
     this.mdiMenu = mdiMenu
     this.mdiClipboardText = mdiClipboardText
     this.mdiHeartOutline = mdiHeartOutline
@@ -153,7 +156,9 @@ export default {
       rightDrawerState: false,
       rightDrawerOnLayout: false,
 
-      activeToc: void 0
+      activeToc: this.$route.hash.length > 1
+        ? this.$route.hash.substring(1)
+        : void 0
     }
   },
 
@@ -185,13 +190,9 @@ export default {
   },
 
   watch: {
-    $route ({ hash }) {
+    $route () {
       this.leftDrawerState = this.$q.screen.width > 1023
-      if (hash === '') {
-        this.$nextTick(() => {
-          this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
-        })
-      }
+      this.scrollToCurrentAnchor()
     },
 
     hasRightDrawer (shown) {
@@ -216,46 +217,40 @@ export default {
       done()
     },
 
-    scrollTo (id) {
-      const el = document.getElementById(id)
-      if (el === null) {
-        return
+    changeRouterHash (hash) {
+      if (this.$route.hash !== hash) {
+        this.$router.push({ hash }).catch(() => {})
       }
+      else {
+        this.scrollToCurrentAnchor()
+      }
+    },
 
+    scrollTo (id) {
       clearTimeout(this.scrollTimer)
 
-      if (el) {
-        if (this.rightDrawerOnLayout !== true) {
-          this.rightDrawerState = false
-          this.scrollTimer = setTimeout(() => {
-            this.scrollPage(el, 500)
-          }, 300)
-        }
-        else {
-          this.scrollPage(el, 500)
-        }
-
-        el.id = ''
-      }
-
-      window.location.hash = '#' + id
-
-      if (el) {
-        setTimeout(() => {
-          el.id = id
+      if (this.rightDrawerOnLayout !== true) {
+        this.rightDrawerState = false
+        this.scrollTimer = setTimeout(() => {
+          this.changeRouterHash('#' + id)
         }, 300)
+      }
+      else {
+        this.changeRouterHash('#' + id)
       }
     },
 
     scrollPage (el, delay) {
       const { top } = el.getBoundingClientRect()
-      const offset = top + getScrollPosition(window) - el.scrollHeight - 50
+      const offset = Math.max(0, getScrollPosition(window) + top - 66)
 
-      this.scrollingPage = true
+      clearTimeout(this.scrollTimer)
+
+      this.preventTocUpdate = true
       setScrollPosition(window, offset, delay)
 
       this.scrollTimer = setTimeout(() => {
-        this.scrollingPage = false
+        this.preventTocUpdate = false
       }, delay + 10)
     },
 
@@ -264,12 +259,19 @@ export default {
     },
 
     onScroll ({ position }) {
-      if (this.scrollingPage !== true) {
+      if (
+        this.preventTocUpdate !== true &&
+        (this.rightDrawerOnLayout === true || this.rightDrawerState !== true)
+      ) {
         this.updateActiveToc(position)
       }
     },
 
     updateActiveToc (position) {
+      if (position === void 0) {
+        position = getScrollPosition(window)
+      }
+
       const toc = this.tocList
       let last
 
@@ -321,12 +323,24 @@ export default {
       this.searchFocused = false
     },
 
-    scrollToCurrentAnchor () {
-      const hash = window.location.hash
+    scrollToCurrentAnchor (immediate) {
+      const { hash } = this.$route
+      const el = hash.length > 1
+        ? document.getElementById(hash.substring(1))
+        : null
 
-      if (hash.length > 0) {
-        const el = document.getElementById(hash.substring(1))
-        el !== null && this.scrollPage(el, 0)
+      const anchor = document.querySelector('.q-overflow-anchor')
+      if (anchor !== null) {
+        anchor.classList.remove('q-overflow-anchor')
+      }
+
+      if (el !== null) {
+        el.classList.add('q-overflow-anchor')
+        this.scrollPage(el, immediate === true ? 0 : 500)
+      }
+      else {
+        this.preventTocUpdate = false
+        this.updateActiveToc()
       }
     },
 
@@ -354,7 +368,7 @@ export default {
             const url = suggestion.url.replace('https://quasar.dev', '')
 
             this.search = ''
-            this.$router.push(url)
+            this.$router.push(url).catch(() => {})
             this.$refs.docAlgolia.blur()
           }
         })
@@ -380,7 +394,7 @@ export default {
   },
 
   mounted () {
-    this.scrollToCurrentAnchor()
+    this.scrollToCurrentAnchor(true)
     this.initializeAlgolia()
   },
 
