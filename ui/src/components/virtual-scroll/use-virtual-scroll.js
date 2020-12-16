@@ -208,6 +208,7 @@ const commonVirtScrollProps = {
 }
 
 export const commonVirtPropsList = Object.keys(commonVirtScrollProps)
+
 export const useVirtualScrollProps = {
   virtualScrollHorizontal: Boolean,
   ...commonVirtScrollProps
