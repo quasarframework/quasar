@@ -2,21 +2,21 @@
   <div class="q-layout-padding">
     <div class="row q-gutter-lg">
       <div class="column no-wrap q-gutter-y-md">
-        <q-input
+        <q-update:modelValue
           v-model.number="index1"
           type="number"
           dense
           outlined
           :min="0"
           :max="255"
-          @input="val => { $refs.table1 !== void 0 && $refs.table1.scrollTo(val) }"
+          @update:modelValue="val => { $refs.table1 !== void 0 && $refs.table1.scrollTo(val) }"
         />
 
         <q-table
           ref="table1"
           style="height: 400px; max-height: 80vh; width: 600px; max-width: 80vw"
           flat
-          :data="data"
+          :rows="rows"
           :columns="columns"
           row-key="id"
           :pagination="pagination"
@@ -41,21 +41,21 @@
       </div>
 
       <div class="column no-wrap q-gutter-y-md">
-        <q-input
+        <q-update:modelValue
           v-model.number="index2"
           type="number"
           dense
           outlined
           :min="0"
           :max="255"
-          @input="val => { $refs.table2 !== void 0 && $refs.table2.scrollTo(val, 'center-force') }"
+          @update:modelValue="val => { $refs.table2 !== void 0 && $refs.table2.scrollTo(val, 'center-force') }"
         />
 
         <q-table
           ref="table2"
           style="height: 400px; max-height: 80vh; width: 600px; max-width: 80vw"
           flat
-          :data="data"
+          :rows="rows"
           :columns="columns"
           row-key="id"
           :pagination="pagination"
@@ -86,7 +86,7 @@
 
 <script>
 export default {
-  data: function () {
+  setup () {
     return {
       index1: 0,
       index2: 0,
@@ -107,7 +107,7 @@ export default {
         }
       ],
 
-      data: Array(256).fill(null).map((_, i) => ({ 'id': '#' + i, 'ip': '10.0.0.' + i }))
+      rows: Array(256).fill(null).map((_, i) => ({ id: '#' + i, ip: '10.0.0.' + i }))
     }
   }
 }

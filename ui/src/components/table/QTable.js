@@ -278,6 +278,28 @@ export default defineComponent({
       const header = props.hideHeader !== true ? getTHead : null
 
       if (hasVirtScroll.value === true) {
+        const topRow = slots[ 'top-row' ]
+        const bottomRow = slots[ 'bottom-row' ]
+
+        const virtSlots = {
+          default: props => getTBodyTR(props.item, slots.body, props.index)
+        }
+
+        if (topRow !== void 0) {
+          const topContent = h('tbody', topRow({ cols: computedCols.value }))
+
+          virtSlots.before = header === null
+            ? () => topContent
+            : () => [header()].concat(topContent)
+        }
+        else if (header !== null) {
+          virtSlots.before = header
+        }
+
+        if (bottomRow !== void 0) {
+          virtSlots.after = () => h('tbody', bottomRow({ cols: computedCols.value }))
+        }
+
         return h(QVirtualScroll, {
           ref: virtScrollRef,
           class: props.tableClass,
@@ -287,10 +309,7 @@ export default defineComponent({
           type: '__qtable',
           tableColspan: computedColspan.value,
           onVirtualScroll: onVScroll
-        }, {
-          default: props => getTBodyTR(props.item, slots.body, props.index),
-          header
-        })
+        }, virtSlots)
       }
 
       const child = [
