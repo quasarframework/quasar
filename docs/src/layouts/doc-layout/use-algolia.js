@@ -50,7 +50,7 @@ export default function useAlgolia (scope, $q, $route) {
           const url = suggestion.url.replace('https://quasar.dev', '')
 
           search.value = ''
-          $router.push(url)
+          $router.push(url).catch(() => {})
           algoliaInputRef.value.blur()
         }
       })
