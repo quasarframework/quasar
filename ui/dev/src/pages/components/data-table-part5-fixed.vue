@@ -252,6 +252,7 @@ export default {
       title: 'QDataTable',
       filter: '',
       loading: false,
+      selected: [],
       visibleColumns: [ 'index', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
       separator: 'horizontal',
       pagination: {

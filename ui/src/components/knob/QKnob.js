@@ -1,24 +1,25 @@
 import { h, defineComponent, ref, computed, watch, onMounted, withDirectives, getCurrentInstance } from 'vue'
 
+import QCircularProgress from '../circular-progress/QCircularProgress.js'
+import TouchPan from '../../directives/TouchPan.js'
+
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 
-import QCircularProgress, { commonProps } from '../circular-progress/QCircularProgress.js'
-import TouchPan from '../../directives/TouchPan.js'
-
 import useQuasar from '../../composables/use-quasar.js'
 import { useFormProps, useFormAttrs } from '../../composables/use-form.js'
+import { useCircularCommonProps } from '../circular-progress/use-circular-progress.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 const keyCodes = [ 34, 37, 40, 33, 39, 38 ]
-const commonPropsName = Object.keys(commonProps)
+const commonPropsName = Object.keys(useCircularCommonProps)
 
 export default defineComponent({
   name: 'QKnob',
 
   props: {
     ...useFormProps,
-    ...commonProps,
+    ...useCircularCommonProps,
 
     modelValue: {
       type: Number,

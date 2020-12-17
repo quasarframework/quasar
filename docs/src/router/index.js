@@ -19,7 +19,11 @@ export default function () {
     : createWebHistory
 
   const Router = createRouter({
-    scrollBehavior: (_, __, savedPosition) => savedPosition || { x: 0, y: 0 },
+    scrollBehavior: (to, _, savedPosition) => (
+      to.hash.length > 1
+        ? false
+        : (savedPosition || { x: 0, y: 0 })
+    ),
     routes,
 
     // Leave this as is and make changes in quasar.conf.js instead!

@@ -92,6 +92,7 @@ export default function (props, emit, vm) {
   })
 
   return {
-    inFullscreen
+    inFullscreen,
+    toggleFullscreen
   }
 }

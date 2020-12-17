@@ -104,6 +104,8 @@ export default defineComponent({
       default: 0
     },
 
+    autocomplete: String,
+
     transitionShow: String,
     transitionHide: String,
 
@@ -111,6 +113,11 @@ export default defineComponent({
       type: String,
       validator: v => [ 'default', 'menu', 'dialog' ].includes(v),
       default: 'default'
+    },
+
+    virtualScrollItemSize: {
+      type: [ Number, String ],
+      default: void 0
     }
   },
 
@@ -264,6 +271,7 @@ export default defineComponent({
       }
 
       const { from, to } = this.virtualScrollSliceRange
+      const { options, optionEls } = this.__optionScopeCache
 
       return this.options.slice(from, to).map((opt, i) => {
         const disable = this.isOptionDisabled(opt) === true
@@ -291,7 +299,7 @@ export default defineComponent({
           }
         }
 
-        return {
+        const option = {
           index,
           opt,
           html: this.needsHtmlFn(opt),
@@ -302,6 +310,22 @@ export default defineComponent({
           setOptionIndex: this.setOptionIndex,
           itemProps
         }
+
+        const optionWithoutEvents = {
+          ...option,
+          itemProps: {
+            ...itemProps,
+            onClick: void 0,
+            onMousemove: void 0
+          }
+        }
+
+        if (options[i] === void 0 || isDeepEqual(optionWithoutEvents, options[i]) !== true) {
+          options[i] = optionWithoutEvents
+          optionEls[i] = void 0
+        }
+
+        return option
       })
     },
 
@@ -356,7 +380,7 @@ export default defineComponent({
         // fires "change" instead of "input" on autocomplete.
         onChange: this.__onChange,
         onKeydown: this.__onTargetKeydown,
-        onKeyup: this.__onTargetKeyup,
+        onKeyup: this.__onTargetAutocomplete,
         onKeypress: this.__onTargetKeypress,
         onFocus: this.__selectInputText,
         onClick: e => {
@@ -367,6 +391,12 @@ export default defineComponent({
       evt.onCompositionstart = evt.onCompositionupdate = evt.onCompositionend = this.__onComposition
 
       return evt
+    },
+
+    virtualScrollItemSizeComputed () {
+      return this.virtualScrollItemSize === void 0
+        ? (this.dense === true ? 24 : 48)
+        : this.virtualScrollItemSize
     }
   },
 
@@ -571,12 +601,14 @@ export default defineComponent({
     __onTargetAutocomplete (e) {
       const { value } = e.target
 
-      e.target.value = ''
-
       if (e.keyCode !== void 0) {
         this.__onTargetKeyup(e)
         return
       }
+
+      e.target.value = ''
+      clearTimeout(this.inputTimer)
+      this.__resetInputValue()
 
       if (typeof value === 'string' && value.length > 0) {
         const needle = value.toLocaleLowerCase()
@@ -584,17 +616,33 @@ export default defineComponent({
         let fn = opt => this.getOptionValue(opt).toLocaleLowerCase() === needle
         let option = this.options.find(fn)
 
-        if (option !== null) {
-          this.innerValue.indexOf(option) === -1 && this.toggleOption(option)
+        if (option !== void 0) {
+          if (this.innerValue.indexOf(option) === -1) {
+            this.toggleOption(option)
+          }
+          else {
+            this.hidePopup()
+          }
         }
         else {
           fn = opt => this.getOptionLabel(opt).toLocaleLowerCase() === needle
           option = this.options.find(fn)
 
-          if (option !== null) {
-            this.innerValue.indexOf(option) === -1 && this.toggleOption(option)
+          if (option !== void 0) {
+            if (this.innerValue.indexOf(option) === -1) {
+              this.toggleOption(option)
+            }
+            else {
+              this.hidePopup()
+            }
+          }
+          else {
+            this.filter(value, true)
           }
         }
+      }
+      else {
+        this.__clearValue(e)
       }
     },
 
@@ -655,6 +703,32 @@ export default defineComponent({
         return
       }
 
+      // home, end - 36, 35
+      if (
+        (e.keyCode === 35 || e.keyCode === 36) &&
+        (typeof this.inputValue !== 'string' || this.inputValue.length === 0)
+      ) {
+        stopAndPrevent(e)
+        this.optionIndex = -1
+        this.moveOptionSelection(e.keyCode === 36 ? 1 : -1, this.multiple)
+      }
+
+      // pg up, pg down - 33, 34
+      if (
+        (e.keyCode === 33 || e.keyCode === 34) &&
+        this.virtualScrollSliceSizeComputed !== void 0
+      ) {
+        stopAndPrevent(e)
+        this.optionIndex = Math.max(
+          -1,
+          Math.min(
+            this.virtualScrollLength,
+            this.optionIndex + (e.keyCode === 33 ? -1 : 1) * this.virtualScrollSliceSizeComputed.view
+          )
+        )
+        this.moveOptionSelection(e.keyCode === 33 ? 1 : -1, this.multiple)
+      }
+
       // up, down
       if (e.keyCode === 38 || e.keyCode === 40) {
         stopAndPrevent(e)
@@ -672,6 +746,7 @@ export default defineComponent({
       if (
         optionsLength > 0 &&
         this.useInput !== true &&
+        e.key !== void 0 &&
         e.key.length === 1 && // printable char
         e.altKey === e.ctrlKey && // not kbd shortcut
         (e.keyCode !== 32 || this.searchBuffer.length > 0) // space in middle of search
@@ -783,8 +858,8 @@ export default defineComponent({
       return this.hasDialog === true
         ? this.$refs.menuContent
         : (
-            this.$refs.menu && this.$refs.menu.$refs.inner
-              ? this.$refs.menu.$refs.inner
+            this.$refs.menu && this.$refs.menu.quasarPortalInnerRef.value
+              ? this.$refs.menu.quasarPortalInnerRef.value
               : void 0
           )
     },
@@ -793,13 +868,9 @@ export default defineComponent({
       return this.__getVirtualScrollEl()
     },
 
-    __getSelection (fromDialog) {
+    __getSelection () {
       if (this.hideSelected === true) {
-        return fromDialog === true || this.dialog !== true || this.hasDialog !== true
-          ? []
-          : [
-              h('span', { textContent: this.inputValue })
-            ]
+        return []
       }
 
       if (this.$slots[ 'selected-item' ] !== void 0) {
@@ -834,6 +905,14 @@ export default defineComponent({
     },
 
     __getOptions () {
+      if (
+        this.$slots.option !== void 0 &&
+        this.__optionScopeCache.optionSlot !== this.$slots.option
+      ) {
+        this.__optionScopeCache.optionSlot = this.$slots.option
+        this.__optionScopeCache.optionEls = []
+      }
+
       const fn = this.$slots.option !== void 0
         ? this.$slots.option
         : scope => {
@@ -853,7 +932,15 @@ export default defineComponent({
           })
         }
 
-      let options = this.__padVirtualScroll('div', this.optionScope.map(fn))
+      const { optionEls } = this.__optionScopeCache
+
+      let options = this.__padVirtualScroll('div', this.optionScope.map((scope, i) => {
+        if (optionEls[i] === void 0) {
+          optionEls[i] = fn(scope)
+        }
+
+        return optionEls[i]
+      }))
 
       if (this.$slots[ 'before-options' ] !== void 0) {
         options = this.$slots[ 'before-options' ]().concat(options)
@@ -862,9 +949,9 @@ export default defineComponent({
       return hMergeSlot(this, 'after-options', options)
     },
 
-    __getInput (fromDialog) {
+    __getInput (fromDialog, isTarget) {
       const data = {
-        ref: 'target',
+        ref: isTarget === true ? 'target' : void 0,
         key: 'i_t',
         class: this.computedInputClass,
         style: this.inputStyle,
@@ -875,6 +962,7 @@ export default defineComponent({
         id: this.targetUid,
         maxlength: this.maxlength, // this is converted to prop by QField
         tabindex: this.tabindex,
+        autocomplete: this.autocomplete,
         'data-autofocus': fromDialog === true ? false : this.autofocus,
         disabled: this.disable === true,
         readonly: this.readonly === true,
@@ -882,8 +970,6 @@ export default defineComponent({
       }
 
       if (fromDialog !== true && this.hasDialog === true) {
-        data.readonly = true
-
         if (Array.isArray(data.class) === true) {
           data.class[ 0 ] += ' no-pointer-events'
         }
@@ -947,8 +1033,8 @@ export default defineComponent({
       }
     },
 
-    filter (val) {
-      if (this.emitListeners.onFilter === void 0 || this.focused !== true) {
+    filter (val, keepClosed) {
+      if (this.emitListeners.onFilter === void 0 || (keepClosed !== true && this.focused !== true)) {
         return
       }
 
@@ -980,7 +1066,7 @@ export default defineComponent({
         'filter',
         val,
         (fn, afterFn) => {
-          if (this.focused === true && this.filterId === filterId) {
+          if ((keepClosed === true || this.focused === true) && this.filterId === filterId) {
             clearTimeout(this.filterId)
 
             typeof fn === 'function' && fn()
@@ -992,7 +1078,10 @@ export default defineComponent({
               this.innerLoading = false
 
               if (this.editable === true) {
-                if (this.menu === true) {
+                if (keepClosed === true) {
+                  this.menu === true && this.hidePopup()
+                }
+                else if (this.menu === true) {
                   this.__updateMenu(true)
                 }
                 else {
@@ -1029,12 +1118,7 @@ export default defineComponent({
         onClick: e => {
           if (this.hasDialog !== true) {
             // label from QField will propagate click on the input (except IE)
-            if (
-              (this.useInput === true && e.target.classList.contains('q-field__input') !== true) ||
-              (this.useInput !== true && e.target.classList.contains('no-outline') === true)
-            ) {
-              return
-            }
+            prevent(e)
 
             if (this.menu === true) {
               this.__closeMenu()
@@ -1077,13 +1161,18 @@ export default defineComponent({
         separateClosePopup: true,
         onScrollPassive: this.__onVirtualScrollEvt,
         onBeforeShow: this.__onControlPopupShow,
-        onBeforeHide: this.__onMenuBeforeHide
+        onBeforeHide: this.__onMenuBeforeHide,
+        onShow: this.__onMenuShow
       }, child)
     },
 
     __onMenuBeforeHide (e) {
       this.__onControlPopupHide(e)
       this.__closeMenu()
+    },
+
+    __onMenuShow () {
+      this.__setVirtualScrollSize()
     },
 
     __onDialogFieldFocus (e) {
@@ -1182,9 +1271,15 @@ export default defineComponent({
       ) {
         this.$refs.target.focus()
       }
+
+      this.__setVirtualScrollSize()
     },
 
     __closeMenu () {
+      if (this.__optionScopeCache !== void 0) {
+        this.__optionScopeCache.optionEls = []
+      }
+
       if (this.dialog === true) {
         return
       }
@@ -1303,16 +1398,16 @@ export default defineComponent({
       },
 
       getControl: fromDialog => {
-        const child = this.__getSelection(fromDialog)
+        const child = this.__getSelection()
         const isTarget = fromDialog === true || this.dialog !== true || this.hasDialog !== true
 
-        if (isTarget === true && this.useInput === true) {
-          child.push(this.__getInput(fromDialog))
+        if (this.useInput === true) {
+          child.push(this.__getInput(fromDialog, isTarget))
         }
-        else if (this.editable === true) {
-          isTarget === true && child.push(
+      // there can be only one (when dialog is opened the control in dialog should be target)
+        else if (this.editable === true && isTarget === true) {
+          child.push(
             h('div', {
-              // there can be only one (when dialog is opened the control in dialog should be target)
               ref: 'target',
               key: 'd_t',
               class: 'no-outline',
@@ -1324,13 +1419,15 @@ export default defineComponent({
             })
           )
 
-          this.qAttrs.autocomplete !== void 0 && child.push(
-            h('input', {
-              class: 'q-select__autocomplete-input no-outline',
-              autocomplete: this.qAttrs.autocomplete,
-              onKeyup: this.__onTargetAutocomplete
-            })
-          )
+          if (typeof this.autocomplete === 'string' && this.autocomplete.length > 0) {
+            child.push(
+              h('input', {
+                class: 'q-select__autocomplete-input no-outline',
+                autocomplete: this.autocomplete,
+                onKeyup: this.__onTargetAutocomplete
+              })
+            )
+          }
         }
 
         if (this.nameProp !== void 0 && this.disable !== true && this.innerOptionsValue.length > 0) {
@@ -1364,7 +1461,16 @@ export default defineComponent({
     })
   },
 
+  beforeMount () {
+    this.__optionScopeCache = {
+      optionSlot: this.$slots.option,
+      options: [],
+      optionEls: []
+    }
+  },
+
   beforeUnmount () {
+    this.__optionScopeCache = void 0
     clearTimeout(this.inputTimer)
   },
 

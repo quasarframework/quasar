@@ -1,8 +1,10 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import { hSlot, hUniqueSlot } from '../../utils/render.js'
+import useQuasar from '../../composables/use-quasar.js'
+
+import { hSlot, hUniqueSlot } from '../../utils/composition-render.js'
 
 export default defineComponent({
   name: 'QTh',
@@ -14,54 +16,59 @@ export default defineComponent({
 
   emits: ['click'],
 
-  render () {
-    if (this.props === void 0) {
-      return h('th', {
-        class: this.autoWidth === true ? 'q-table--col-auto-width' : ''
-      }, hSlot(this, 'default'))
-    }
+  setup (props, { slots, emit }) {
+    const $q = useQuasar()
+    const vm = getCurrentInstance()
 
-    let col, child
-    const name = this.$.vnode.key
-
-    if (name) {
-      col = this.props.colsMap[ name ]
-      if (col === void 0) { return }
-    }
-    else {
-      col = this.props.col
-    }
-
-    if (col.sortable === true) {
-      const action = col.align === 'right'
-        ? 'unshift'
-        : 'push'
-
-      child = hUniqueSlot(this, 'default', [])
-      child[ action ](
-        h(QIcon, {
-          class: col.__iconClass,
-          name: this.$q.iconSet.table.arrowUp
-        })
-      )
-    }
-    else {
-      child = hSlot(this, 'default')
-    }
-
-    const data = {
-      class: col.__thClass +
-        (this.autoWidth === true ? ' q-table--col-auto-width' : ''),
-      style: col.headerStyle
-    }
-
-    if (col.sortable === true) {
-      data.onClick = evt => {
-        this.props.sort(col) // eslint-disable-line
-        this.$emit('click', evt)
+    return () => {
+      if (props.props === void 0) {
+        return h('th', {
+          class: props.autoWidth === true ? 'q-table--col-auto-width' : ''
+        }, hSlot(slots.default))
       }
-    }
 
-    return h('th', data, child)
+      let col, child
+      const name = vm.vnode.key
+
+      if (name) {
+        col = props.props.colsMap[ name ]
+        if (col === void 0) { return }
+      }
+      else {
+        col = props.props.col
+      }
+
+      if (col.sortable === true) {
+        const action = col.align === 'right'
+          ? 'unshift'
+          : 'push'
+
+        child = hUniqueSlot(slots.default, [])
+        child[ action ](
+          h(QIcon, {
+            class: col.__iconClass,
+            name: $q.iconSet.table.arrowUp
+          })
+        )
+      }
+      else {
+        child = hSlot(slots.default)
+      }
+
+      const data = {
+        class: col.__thClass +
+          (props.autoWidth === true ? ' q-table--col-auto-width' : ''),
+        style: col.headerStyle
+      }
+
+      if (col.sortable === true) {
+        data.onClick = evt => {
+          props.props.sort(col) // eslint-disable-line
+          emit('click', evt)
+        }
+      }
+
+      return h('th', data, child)
+    }
   }
 })

@@ -73,7 +73,7 @@ export default defineComponent({
   setup (props, { slots, emit }) {
     const $q = useQuasar()
     const { isDark } = useDark(props, $q)
-    const { computedTabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
+    const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
 
     const formAttrs = useFormAttrs()
     const injectFormInput = useFormInject(formAttrs)
@@ -82,8 +82,8 @@ export default defineComponent({
 
     const clockRef = ref(null)
 
-    const computedMask = computed(() => getMask())
-    const computedLocale = computed(() => getLocale())
+    const mask = computed(() => getMask())
+    const locale = computed(() => getLocale())
 
     const model = __splitDate(
       props.modelValue,
@@ -283,8 +283,8 @@ export default defineComponent({
     watch(() => props.modelValue, v => {
       const model = __splitDate(
         v,
-        computedMask.value,
-        computedLocale.value,
+        mask.value,
+        locale.value,
         props.calendar,
         defaultDateModel.value
       )
@@ -304,7 +304,7 @@ export default defineComponent({
       }
     })
 
-    watch([ computedMask, computedLocale ], () => {
+    watch([ mask, locale ], () => {
       nextTick(() => {
         updateValue()
       })
@@ -746,8 +746,8 @@ export default defineComponent({
             date.second,
             date.millisecond
           ),
-          computedMask.value,
-          computedLocale.value,
+          mask.value,
+          locale.value,
           date.year,
           date.timezoneOffset
         )
@@ -765,7 +765,7 @@ export default defineComponent({
         h('div', {
           class: 'q-time__link ' +
             (view.value === 'hour' ? 'q-time__link--active' : 'cursor-pointer'),
-          tabindex: computedTabindex.value,
+          tabindex: tabindex.value,
           onClick: setView.hour,
           onKeyup: onKeyupHour
         }, stringModel.value.hour),
@@ -778,7 +778,7 @@ export default defineComponent({
             ? {
                 class: 'q-time__link ' +
                 (view.value === 'minute' ? 'q-time__link--active' : 'cursor-pointer'),
-                tabindex: computedTabindex.value,
+                tabindex: tabindex.value,
                 onKeyup: onKeyupMinute,
                 onClick: setView.minute
               }
@@ -797,7 +797,7 @@ export default defineComponent({
               ? {
                   class: 'q-time__link ' +
                   (view.value === 'second' ? 'q-time__link--active' : 'cursor-pointer'),
-                  tabindex: computedTabindex.value,
+                  tabindex: tabindex.value,
                   onKeyup: onKeyupSecond,
                   onClick: setView.second
                 }
@@ -821,7 +821,7 @@ export default defineComponent({
           h('div', {
             class: 'q-time__link ' +
               (isAM.value === true ? 'q-time__link--active' : 'cursor-pointer'),
-            tabindex: computedTabindex.value,
+            tabindex: tabindex.value,
             onClick: setAm,
             onKeyup: setAmOnKey
           }, 'AM'),
@@ -829,7 +829,7 @@ export default defineComponent({
           h('div', {
             class: 'q-time__link ' +
               (isAM.value !== true ? 'q-time__link--active' : 'cursor-pointer'),
-            tabindex: computedTabindex.value,
+            tabindex: tabindex.value,
             onClick: setPm,
             onKeyup: setPmOnKey
           }, 'PM')
@@ -891,7 +891,7 @@ export default defineComponent({
           round: true,
           color: props.color,
           textColor: props.textColor,
-          tabindex: computedTabindex.value,
+          tabindex: tabindex.value,
           onClick: setNow
         }) : null
       ])
