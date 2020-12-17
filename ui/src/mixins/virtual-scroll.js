@@ -230,7 +230,7 @@ export default {
 
   computed: {
     needsReset () {
-      return ['virtualScrollItemSize', 'virtualScrollHorizontal']
+      return ['virtualScrollItemSizeComputed', 'virtualScrollHorizontal']
         .map(p => this[p]).join(';')
     },
 
@@ -243,6 +243,10 @@ export default {
       return this.tableColspan !== void 0
         ? { colspan: this.tableColspan }
         : { colspan: 100 }
+    },
+
+    virtualScrollItemSizeComputed () {
+      return this.virtualScrollItemSize
     }
   },
 
@@ -489,7 +493,7 @@ export default {
     },
 
     __resetVirtualScroll (toIndex, fullReset) {
-      const defaultSize = this.virtualScrollItemSize
+      const defaultSize = this.virtualScrollItemSizeComputed
 
       if (fullReset === true || Array.isArray(this.virtualScrollSizes) === false) {
         this.virtualScrollSizes = []
@@ -556,7 +560,7 @@ export default {
       const onView = Math.ceil(Math.max(
         scrollViewSize === void 0 || scrollViewSize <= 0
           ? 10
-          : scrollViewSize / this.virtualScrollItemSize,
+          : scrollViewSize / this.virtualScrollItemSizeComputed,
         this.virtualScrollSliceSize / multiplier
       ))
 
@@ -564,7 +568,10 @@ export default {
         total: Math.ceil(onView * multiplier),
         start: Math.ceil(onView * this.virtualScrollSliceRatioBefore),
         center: Math.ceil(onView * (0.5 + this.virtualScrollSliceRatioBefore)),
-        end: Math.ceil(onView * (1 + this.virtualScrollSliceRatioBefore))
+        end: Math.ceil(onView * (1 + this.virtualScrollSliceRatioBefore)),
+        view: scrollViewSize === void 0 || scrollViewSize <= 0
+          ? 1
+          : Math.ceil(scrollViewSize / this.virtualScrollItemSizeComputed)
       }
     },
 

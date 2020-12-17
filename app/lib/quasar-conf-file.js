@@ -592,6 +592,8 @@ class QuasarConfFile {
       const originalBefore = cfg.devServer.before
       const openInEditor = require('launch-editor-middleware')
 
+      delete cfg.devServer.before
+
       cfg.devServer = merge({
         publicPath: cfg.build.publicPath,
         hot: true,
@@ -616,7 +618,7 @@ class QuasarConfFile {
         contentBase: false,
         watchContentBase: false,
 
-        before: app => {
+        before: (app, server, compiler) => {
           if (!this.ctx.mode.ssr) {
             const express = require('express')
 
@@ -634,7 +636,7 @@ class QuasarConfFile {
 
           app.use('/__open-in-editor', openInEditor(void 0, appPaths.appDir))
 
-          originalBefore && originalBefore(app)
+          originalBefore && originalBefore(app, server, compiler)
         }
       })
 
