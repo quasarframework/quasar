@@ -27,8 +27,6 @@ export default function useScroll (scope, $route) {
   preventTocUpdate = $route.hash.length > 1
 
   watch(() => $route.fullPath, () => {
-    // TODO: to be moved outside setTimeout once
-    // transition is used in DocLayout
     setTimeout(() => {
       scrollToCurrentAnchor()
     })
@@ -100,8 +98,6 @@ export default function useScroll (scope, $route) {
   })
 
   Object.assign(scope, {
-    // TODO: to be used in DocLayout in @enter
-    // scrollToCurrentAnchor,
     scrollTo,
     onScroll
   })
