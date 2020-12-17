@@ -110,7 +110,6 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     //-     enter-active-class="animated fadeIn"
     //-     leave-active-class="animated fadeOut"
     //-     mode="out-in"
-    //-     @enter="scrollToCurrentAnchor"
     //-   )
     //-     component(:is="Component")
 
