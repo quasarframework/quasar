@@ -299,15 +299,16 @@ export default Vue.extend({
 
         if (topRow !== void 0) {
           header = header === null ? [] : [ header ]
-          header.push(h('tbody', topRow({ cols: this.computedCols })))
+          header.push(
+            h('tbody', topRow({ cols: this.computedCols }))
+          )
         }
+
         if (bottomRow !== void 0) {
           footer = h('tbody', bottomRow({ cols: this.computedCols }))
         }
-      }
 
-      return this.hasVirtScroll === true
-        ? h(QVirtualScroll, {
+        return h(QVirtualScroll, {
           ref: 'virtScroll',
           props: {
             ...this.virtProps,
@@ -330,14 +331,16 @@ export default Vue.extend({
               : () => footer
           }
         })
-        : getTableMiddle(h, {
-          staticClass: 'scroll',
-          class: this.tableClass,
-          style: this.tableStyle
-        }, [
-          header,
-          this.__getTBody(h)
-        ])
+      }
+
+      return getTableMiddle(h, {
+        staticClass: 'scroll',
+        class: this.tableClass,
+        style: this.tableStyle
+      }, [
+        header,
+        this.__getTBody(h)
+      ])
     },
 
     scrollTo (toIndex, edge) {
