@@ -1,4 +1,4 @@
-import { h, createApp } from 'vue'
+import { h, createApp, ref } from 'vue'
 
 import { appInstance, provideQuasar } from '../install-quasar.js'
 import { createGlobalNode, removeGlobalNode } from './global-nodes.js'
@@ -66,7 +66,9 @@ export default function (DefaultComponent, supportsCustomComponent) {
           return API
         },
         hide () {
-          vm.$refs.dialog.hide()
+          if (dialogRef.value !== null) {
+            dialogRef.value.hide()
+          }
           return API
         },
         update (componentProps) {
@@ -109,11 +111,13 @@ export default function (DefaultComponent, supportsCustomComponent) {
       }
     }
 
+    const dialogRef = ref(null)
+
     let app = createApp({
       name: 'QGlobalDialog',
-      render () {
-        return h(DialogComponent, {
-          ref: 'dialog',
+      setup () {
+        return () => h(DialogComponent, {
+          ref: dialogRef,
           ...props,
           onOk,
           onHide
@@ -125,7 +129,7 @@ export default function (DefaultComponent, supportsCustomComponent) {
     provideQuasar(app, appInstance.config.globalProperties.$q)
 
     let vm = app.mount(el)
-    vm.$refs.dialog.show()
+    dialogRef.value.show()
 
     return API
   }
