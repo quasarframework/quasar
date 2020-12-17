@@ -50,6 +50,7 @@ export function useTableRowExpand (props, emit) {
 
   return {
     isRowExpanded,
+    setExpanded,
     updateExpanded
   }
 }

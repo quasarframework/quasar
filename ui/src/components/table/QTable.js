@@ -168,7 +168,7 @@ export default defineComponent({
     } = useTablePaginationInit(props, emit, emitListeners, getCellValue)
 
     const { computedFilterMethod } = useTableFilter(props, setPagination)
-    const { isRowExpanded, updateExpanded } = useTableRowExpand(props, emit)
+    const { isRowExpanded, setExpanded, updateExpanded } = useTableRowExpand(props, emit)
 
     const filteredSortedRows = computed(() => {
       let rows = props.rows
@@ -977,11 +977,19 @@ export default defineComponent({
     Object.assign(vm.proxy, {
       filteredSortedRows, // TODO vue3 - make it a getter
       requestServerInteraction,
+      setPagination,
+      firstPage,
+      prevPage,
+      nextPage,
+      lastPage,
+      isRowSelected,
+      clearSelection,
+      isRowExpanded,
+      setExpanded,
+      sort,
       resetVirtualScroll,
       scrollTo,
-      getCellValue,
-      setPagination,
-      sort
+      getCellValue
     })
 
     return () => {
