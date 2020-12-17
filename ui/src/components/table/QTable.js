@@ -290,7 +290,21 @@ export default Vue.extend({
         return this.__getGridBody(h)
       }
 
-      const header = this.hideHeader !== true ? this.__getTHead(h) : null
+      let header = this.hideHeader !== true ? this.__getTHead(h) : null
+      let footer = null
+
+      if (this.hasVirtScroll === true) {
+        const topRow = this.$scopedSlots['top-row']
+        const bottomRow = this.$scopedSlots['bottom-row']
+
+        if (topRow !== void 0) {
+          header = header === null ? [] : [ header ]
+          header.push(h('tbody', topRow({ cols: this.computedCols })))
+        }
+        if (bottomRow !== void 0) {
+          footer = h('tbody', bottomRow({ cols: this.computedCols }))
+        }
+      }
 
       return this.hasVirtScroll === true
         ? h(QVirtualScroll, {
@@ -310,7 +324,10 @@ export default Vue.extend({
             before: header === null
               ? void 0
               : () => header,
-            default: this.__getVirtualTBodyTR(h)
+            default: this.__getVirtualTBodyTR(h),
+            after: footer === null
+              ? void 0
+              : () => footer
           }
         })
         : getTableMiddle(h, {
