@@ -267,7 +267,7 @@
       "desc": "Autocomplete attribute for field",
       "examples": [ "autocomplete=\"country\"" ],
       "category": "behavior",
-      "addedIn": "v1.14.8"
+      "addedIn": "v1.15.0"
     },
 
     "transition-show": {
