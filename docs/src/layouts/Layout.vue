@@ -108,7 +108,6 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       leave-active-class="animated fadeOut"
       mode="out-in"
       @leave="resetScroll"
-      @enter="scrollToCurrentAnchor"
     )
       router-view
 
@@ -192,7 +191,9 @@ export default {
   watch: {
     $route () {
       this.leftDrawerState = this.$q.screen.width > 1023
-      this.scrollToCurrentAnchor()
+      setTimeout(() => {
+        this.scrollToCurrentAnchor()
+      })
     },
 
     hasRightDrawer (shown) {
