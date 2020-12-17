@@ -1,7 +1,11 @@
-import { ref, computed, watch, nextTick } from 'vue'
+import { ref, computed } from 'vue'
 import { useDocStore } from 'assets/doc-store'
 
 function updateActiveToc (position, tocList, activeToc) {
+  if (position === void 0) {
+    position = document.documentElement.scrollTop || document.body.scrollTop
+  }
+
   let last
 
   for (const i in tocList.value) {
@@ -30,7 +34,10 @@ function updateActiveToc (position, tocList, activeToc) {
 
 export default function useToc (scope, $route) {
   const $store = useDocStore()
-  const activeToc = ref(null)
+  const activeToc = ref($route.hash.length > 1
+    ? $route.hash.substring(1)
+    : null
+  )
 
   const tocList = computed(() => {
     return $store.toc.length > 0
@@ -44,12 +51,6 @@ export default function useToc (scope, $route) {
   function setActiveToc (pos) {
     updateActiveToc(pos, tocList, activeToc)
   }
-
-  watch(() => $route.path, () => {
-    nextTick(() => {
-      setActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
-    })
-  })
 
   Object.assign(scope, {
     tocList,
