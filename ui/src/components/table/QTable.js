@@ -290,22 +290,29 @@ export default Vue.extend({
         return this.__getGridBody(h)
       }
 
-      let header = this.hideHeader !== true ? this.__getTHead(h) : null
-      let footer = null
+      const header = this.hideHeader !== true ? this.__getTHead(h) : null
 
       if (this.hasVirtScroll === true) {
         const topRow = this.$scopedSlots['top-row']
         const bottomRow = this.$scopedSlots['bottom-row']
 
+        const virtSlots = {
+          default: this.__getVirtualTBodyTR(h)
+        }
+
         if (topRow !== void 0) {
-          header = header === null ? [] : [ header ]
-          header.push(
-            h('tbody', topRow({ cols: this.computedCols }))
-          )
+          const topContent = h('tbody', topRow({ cols: this.computedCols }))
+
+          virtSlots.before = header === null
+            ? () => [topContent]
+            : () => [header].concat(topContent)
+        }
+        else if (header !== null) {
+          virtSlots.before = () => header
         }
 
         if (bottomRow !== void 0) {
-          footer = h('tbody', bottomRow({ cols: this.computedCols }))
+          virtSlots.after = () => h('tbody', bottomRow({ cols: this.computedCols }))
         }
 
         return h(QVirtualScroll, {
@@ -321,15 +328,7 @@ export default Vue.extend({
           }),
           class: this.tableClass,
           style: this.tableStyle,
-          scopedSlots: {
-            before: header === null
-              ? void 0
-              : () => header,
-            default: this.__getVirtualTBodyTR(h),
-            after: footer === null
-              ? void 0
-              : () => footer
-          }
+          scopedSlots: virtSlots
         })
       }
 
