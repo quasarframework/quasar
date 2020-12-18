@@ -1,11 +1,12 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, computed, watch, onMounted, nextTick, getCurrentInstance } from 'vue'
 
+import Caret from './editor-caret.js'
 import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
-import { Caret } from './editor-caret.js'
 
-import FullscreenMixin from '../../mixins/fullscreen.js'
-import DarkMixin from '../../mixins/dark.js'
-import SplitAttrsMixin from '../../mixins/split-attrs.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/use-fullscreen.js'
+import useAttrs from '../../composables/use-attrs.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'
@@ -14,9 +15,10 @@ import { shouldIgnoreKey } from '../../utils/key-composition.js'
 export default defineComponent({
   name: 'QEditor',
 
-  mixins: [ FullscreenMixin, DarkMixin, SplitAttrsMixin ],
-
   props: {
+    ...useDarkProps,
+    ...useFullscreenProps,
+
     modelValue: {
       type: String,
       required: true
@@ -70,48 +72,61 @@ export default defineComponent({
   },
 
   emits: [
+    ...useFullscreenEmits,
     'update:modelValue',
     'keydown', 'click', 'mouseup', 'keyup', 'touchend',
     'focus', 'blur'
   ],
 
-  computed: {
-    editable () {
-      return !this.readonly && !this.disable
-    },
+  setup (props, { slots, emit, attrs }) {
+    const vm = getCurrentInstance()
+    const $q = useQuasar()
+    const { isDark } = useDark(props, $q)
+    const { inFullscreen, toggleFullscreen } = useFullscreen(props, emit, vm)
+    const { qListeners } = useAttrs(attrs)
 
-    hasToolbar () {
-      return this.toolbar && this.toolbar.length > 0
-    },
+    const rootRef = ref(null)
+    const contentRef = ref(null)
 
-    toolbarBackgroundClass () {
-      return this.toolbarBg
-        ? ` bg-${this.toolbarBg}`
-        : ''
-    },
+    const editLinkUrl = ref(null)
+    const isViewingSource = ref(false)
 
-    buttonProps () {
-      const flat = this.toolbarOutline !== true &&
-        this.toolbarPush !== true
+    const editable = computed(() => !props.readonly && !props.disable)
+
+    let defaultFont, offsetBottom
+    let lastEmit = props.modelValue // eslint-disable-line
+
+    if (__QUASAR_SSR_SERVER__ !== true) {
+      document.execCommand('defaultParagraphSeparator', false, props.paragraphTag)
+      defaultFont = window.getComputedStyle(document.body).fontFamily
+    }
+
+    const toolbarBackgroundClass = computed(() =>
+      props.toolbarBg ? ` bg-${props.toolbarBg}` : ''
+    )
+
+    const buttonProps = computed(() => {
+      const flat = props.toolbarOutline !== true &&
+        props.toolbarPush !== true
 
       return {
         type: 'a',
         flat,
         noWrap: true,
-        outline: this.toolbarOutline,
-        push: this.toolbarPush,
-        rounded: this.toolbarRounded,
+        outline: props.toolbarOutline,
+        push: props.toolbarPush,
+        rounded: props.toolbarRounded,
         dense: true,
-        color: this.toolbarColor,
-        disable: !this.editable,
+        color: props.toolbarColor,
+        disable: !editable.value,
         size: 'sm'
       }
-    },
+    })
 
-    buttonDef () {
+    const buttonDef = computed(() => {
       const
-        e = this.$q.lang.editor,
-        i = this.$q.iconSet.editor
+        e = $q.lang.editor,
+        i = $q.iconSet.editor
 
       return {
         bold: { cmd: 'bold', icon: i.bold, tip: e.bold, key: 66 },
@@ -122,7 +137,7 @@ export default defineComponent({
         ordered: { cmd: 'insertOrderedList', icon: i.orderedList, tip: e.orderedList },
         subscript: { cmd: 'subscript', icon: i.subscript, tip: e.subscript, htmlTip: 'x<subscript>2</subscript>' },
         superscript: { cmd: 'superscript', icon: i.superscript, tip: e.superscript, htmlTip: 'x<superscript>2</superscript>' },
-        link: { cmd: 'link', disable: vm => vm.caret && !vm.caret.can('link'), icon: i.hyperlink, tip: e.hyperlink, key: 76 },
+        link: { cmd: 'link', disable: eVm => eVm.caret && !eVm.caret.can('link'), icon: i.hyperlink, tip: e.hyperlink, key: 76 },
         fullscreen: { cmd: 'fullscreen', icon: i.toggleFullscreen, tip: e.toggleFullscreen, key: 70 },
         viewsource: { cmd: 'viewsource', icon: i.viewSource, tip: e.viewSource },
 
@@ -133,8 +148,8 @@ export default defineComponent({
         justify: { cmd: 'justifyFull', icon: i.justify, tip: e.justify },
 
         print: { type: 'no-state', cmd: 'print', icon: i.print, tip: e.print, key: 80 },
-        outdent: { type: 'no-state', disable: vm => vm.caret && !vm.caret.can('outdent'), cmd: 'outdent', icon: i.outdent, tip: e.outdent },
-        indent: { type: 'no-state', disable: vm => vm.caret && !vm.caret.can('indent'), cmd: 'indent', icon: i.indent, tip: e.indent },
+        outdent: { type: 'no-state', disable: eVm => eVm.caret && !eVm.caret.can('outdent'), cmd: 'outdent', icon: i.outdent, tip: e.outdent },
+        indent: { type: 'no-state', disable: eVm => eVm.caret && !eVm.caret.can('indent'), cmd: 'indent', icon: i.indent, tip: e.indent },
         removeFormat: { type: 'no-state', cmd: 'removeFormat', icon: i.removeFormat, tip: e.removeFormat },
         hr: { type: 'no-state', cmd: 'insertHorizontalRule', icon: i.hr, tip: e.hr },
         undo: { type: 'no-state', cmd: 'undo', icon: i.undo, tip: e.undo, key: 90 },
@@ -146,7 +161,7 @@ export default defineComponent({
         h4: { cmd: 'formatBlock', param: 'H4', icon: i.heading4 || i.heading, tip: e.heading4, htmlTip: `<h4 class="q-ma-none">${e.heading4}</h4>` },
         h5: { cmd: 'formatBlock', param: 'H5', icon: i.heading5 || i.heading, tip: e.heading5, htmlTip: `<h5 class="q-ma-none">${e.heading5}</h5>` },
         h6: { cmd: 'formatBlock', param: 'H6', icon: i.heading6 || i.heading, tip: e.heading6, htmlTip: `<h6 class="q-ma-none">${e.heading6}</h6>` },
-        p: { cmd: 'formatBlock', param: this.paragraphTag, icon: i.heading, tip: e.paragraph },
+        p: { cmd: 'formatBlock', param: props.paragraphTag, icon: i.heading, tip: e.paragraph },
         code: { cmd: 'formatBlock', param: 'PRE', icon: i.code, htmlTip: `<code>${e.code}</code>` },
 
         'size-1': { cmd: 'fontSize', param: '1', icon: i.size1 || i.size, tip: e.size1, htmlTip: `<font size="1">${e.size1}</font>` },
@@ -157,26 +172,26 @@ export default defineComponent({
         'size-6': { cmd: 'fontSize', param: '6', icon: i.size6 || i.size, tip: e.size6, htmlTip: `<font size="6">${e.size6}</font>` },
         'size-7': { cmd: 'fontSize', param: '7', icon: i.size7 || i.size, tip: e.size7, htmlTip: `<font size="7">${e.size7}</font>` }
       }
-    },
+    })
 
-    buttons () {
-      const userDef = this.definitions || {}
-      const def = this.definitions || this.fonts
+    const buttons = computed(() => {
+      const userDef = props.definitions || {}
+      const def = props.definitions || props.fonts
         ? extend(
             true,
             {},
-            this.buttonDef,
+            buttonDef.value,
             userDef,
             getFonts(
-              this.defaultFont,
-              this.$q.lang.editor.defaultFont,
-              this.$q.iconSet.editor.font,
-              this.fonts
+              defaultFont,
+              $q.lang.editor.defaultFont,
+              $q.iconSet.editor.font,
+              props.fonts
             )
           )
-        : this.buttonDef
+        : buttonDef.value
 
-      return this.toolbar.map(
+      return props.toolbar.map(
         group => group.map(token => {
           if (token.options) {
             return {
@@ -197,7 +212,7 @@ export default defineComponent({
 
           if (obj) {
             return obj.type === 'no-state' || (userDef[ token ] && (
-              obj.cmd === void 0 || (this.buttonDef[ obj.cmd ] && this.buttonDef[ obj.cmd ].type === 'no-state')
+              obj.cmd === void 0 || (buttonDef.value[ obj.cmd ] && buttonDef.value[ obj.cmd ].type === 'no-state')
             ))
               ? obj
               : Object.assign({ type: 'toggle' }, obj)
@@ -210,9 +225,35 @@ export default defineComponent({
           }
         })
       )
-    },
+    })
 
-    keys () {
+    const eVm = {
+      $q,
+      props,
+      slots,
+      // caret (will get injected after mount)
+      inFullscreen,
+      toggleFullscreen,
+      runCmd,
+      isViewingSource,
+      editLinkUrl,
+      toolbarBackgroundClass,
+      buttonProps,
+      contentRef,
+      buttons,
+      setContent
+    }
+
+    watch(() => props.modelValue, v => {
+      if (lastEmit !== v) {
+        lastEmit = v
+        setContent(v, true)
+      }
+    })
+
+    const hasToolbar = computed(() => props.toolbar && props.toolbar.length > 0)
+
+    const keys = computed(() => {
       const
         k = {},
         add = btn => {
@@ -224,7 +265,7 @@ export default defineComponent({
           }
         }
 
-      this.buttons.forEach(group => {
+      buttons.value.forEach(group => {
         group.forEach(token => {
           if (token.options) {
             token.options.forEach(add)
@@ -235,288 +276,261 @@ export default defineComponent({
         })
       })
       return k
-    },
+    })
 
-    innerStyle () {
-      return this.inFullscreen
-        ? this.contentStyle
+    const innerStyle = computed(() =>
+      inFullscreen.value
+        ? props.contentStyle
         : [
             {
-              minHeight: this.minHeight,
-              height: this.height,
-              maxHeight: this.maxHeight
+              minHeight: props.minHeight,
+              height: props.height,
+              maxHeight: props.maxHeight
             },
-            this.contentStyle
+            props.contentStyle
           ]
-    },
+    )
 
-    classes () {
-      return `q-editor q-editor--${this.isViewingSource === true ? 'source' : 'default'}` +
-        (this.disable === true ? ' disabled' : '') +
-        (this.inFullscreen === true ? ' fullscreen column' : '') +
-        (this.square === true ? ' q-editor--square no-border-radius' : '') +
-        (this.flat === true ? ' q-editor--flat' : '') +
-        (this.dense === true ? ' q-editor--dense' : '') +
-        (this.isDark === true ? ' q-editor--dark q-dark' : '')
-    },
+    const classes = computed(() =>
+      `q-editor q-editor--${isViewingSource.value === true ? 'source' : 'default'}` +
+      (props.disable === true ? ' disabled' : '') +
+      (inFullscreen.value === true ? ' fullscreen column' : '') +
+      (props.square === true ? ' q-editor--square no-border-radius' : '') +
+      (props.flat === true ? ' q-editor--flat' : '') +
+      (props.dense === true ? ' q-editor--dense' : '') +
+      (isDark.value === true ? ' q-editor--dark q-dark' : '')
+    )
 
-    innerClass () {
-      return [
-        this.contentClass,
-        'q-editor__content',
-        { col: this.inFullscreen, 'overflow-auto': this.inFullscreen || this.maxHeight }
-      ]
-    },
+    const innerClass = computed(() => ([
+      props.contentClass,
+      'q-editor__content',
+      { col: inFullscreen.value, 'overflow-auto': inFullscreen.value || props.maxHeight }
+    ]))
 
-    attrs () {
-      if (this.disable === true) {
-        return { 'aria-disabled': 'true' }
-      }
-      if (this.readonly === true) {
-        return { 'aria-readonly': 'true' }
-      }
-    }
-  },
+    const attributes = computed(() =>
+      props.disable === true
+        ? { 'aria-disabled': 'true' }
+        : (props.readonly === true ? { 'aria-readonly': 'true' } : {})
+    )
 
-  data () {
-    return {
-      lastEmit: this.modelValue,
-      editLinkUrl: null,
-      isViewingSource: false
-    }
-  },
+    function onInput () {
+      if (contentRef.value) {
+        const prop = `inner${isViewingSource.value === true ? 'Text' : 'HTML'}`
+        const val = contentRef.value[ prop ]
 
-  watch: {
-    modelValue (v) {
-      if (this.lastEmit !== v) {
-        this.lastEmit = v
-        this.__setContent(v, true)
-      }
-    }
-  },
-
-  methods: {
-    __onInput () {
-      if (this.$refs.content) {
-        const prop = `inner${this.isViewingSource === true ? 'Text' : 'HTML'}`
-        const val = this.$refs.content[ prop ]
-
-        if (val !== this.modelValue) {
-          this.lastEmit = val
-          this.$emit('update:modelValue', val)
+        if (val !== props.modelValue) {
+          lastEmit = val
+          emit('update:modelValue', val)
         }
       }
-    },
+    }
 
-    __onKeydown (e) {
-      this.$emit('keydown', e)
+    function onKeydown (e) {
+      emit('keydown', e)
 
       if (e.ctrlKey !== true || shouldIgnoreKey(e) === true) {
-        this.refreshToolbar()
+        refreshToolbar()
         return
       }
 
       const key = e.keyCode
-      const target = this.keys[ key ]
+      const target = keys.value[ key ]
       if (target !== void 0) {
         const { cmd, param } = target
         stopAndPrevent(e)
-        this.runCmd(cmd, param, false)
+        runCmd(cmd, param, false)
       }
-    },
+    }
 
-    __onClick (e) {
-      this.refreshToolbar()
-      this.$emit('click', e)
-    },
+    function onClick (e) {
+      refreshToolbar()
+      emit('click', e)
+    }
 
-    __onBlur (e) {
-      if (this.$refs.content) {
-        const { scrollTop, scrollHeight } = this.$refs.content
-        this.__offsetBottom = scrollHeight - scrollTop
+    function onBlur (e) {
+      if (contentRef.value) {
+        const { scrollTop, scrollHeight } = contentRef.value
+        offsetBottom = scrollHeight - scrollTop
       }
-      this.caret.save()
-      this.$emit('blur', e)
-    },
+      eVm.caret.save()
+      emit('blur', e)
+    }
 
-    __onFocus (e) {
-      this.$nextTick(() => {
-        if (this.$refs.content && this.__offsetBottom !== void 0) {
-          this.$refs.content.scrollTop = this.$refs.content.scrollHeight - this.__offsetBottom
+    function onFocus (e) {
+      nextTick(() => {
+        if (contentRef.value && offsetBottom !== void 0) {
+          contentRef.value.scrollTop = contentRef.value.scrollHeight - offsetBottom
         }
       })
-      this.$emit('focus', e)
-    },
+      emit('focus', e)
+    }
 
-    __onFocusin (e) {
+    function onFocusin (e) {
       if (
-        this.$el.contains(e.target) === true &&
+        rootRef.value.contains(e.target) === true &&
         (
           e.relatedTarget === null ||
-          this.$el.contains(e.relatedTarget) !== true
+          rootRef.value.contains(e.relatedTarget) !== true
         )
       ) {
-        const prop = `inner${this.isViewingSource === true ? 'Text' : 'HTML'}`
-        this.caret.restorePosition(this.$refs.content[prop].length)
-        this.refreshToolbar()
+        const prop = `inner${isViewingSource.value === true ? 'Text' : 'HTML'}`
+        eVm.caret.restorePosition(contentRef.value[prop].length)
+        refreshToolbar()
       }
-    },
+    }
 
-    __onFocusout (e) {
+    function onFocusout (e) {
       if (
-        this.$el.contains(e.target) === true &&
+        rootRef.value.contains(e.target) === true &&
         (
           e.relatedTarget === null ||
-          this.$el.contains(e.relatedTarget) !== true
+          rootRef.value.contains(e.relatedTarget) !== true
         )
       ) {
-        this.caret.savePosition()
-        this.refreshToolbar()
+        eVm.caret.savePosition()
+        refreshToolbar()
       }
-    },
+    }
 
-    __onMousedown () {
-      this.__offsetBottom = void 0
-    },
+    function onMousedown () {
+      offsetBottom = void 0
+    }
 
-    __onMouseup (e) {
-      this.caret.save()
-      this.$emit('mouseup', e)
-    },
+    function onMouseup (e) {
+      eVm.caret.save()
+      emit('mouseup', e)
+    }
 
-    __onTouchstart () {
-      this.__offsetBottom = void 0
-    },
+    function onTouchstart () {
+      offsetBottom = void 0
+    }
 
-    __onKeyup (e) {
-      this.caret.save()
-      this.$emit('keyup', e)
-    },
+    function onKeyup (e) {
+      eVm.caret.save()
+      emit('keyup', e)
+    }
 
-    __onTouchend (e) {
-      this.caret.save()
-      this.$emit('touchend', e)
-    },
+    function onTouchend (e) {
+      eVm.caret.save()
+      emit('touchend', e)
+    }
 
-    runCmd (cmd, param, update = true) {
-      this.focus()
-      this.caret.restore()
-      this.caret.apply(cmd, param, () => {
-        this.focus()
-        this.caret.save()
+    function setContent (v, restorePosition) {
+      if (contentRef.value) {
+        if (restorePosition === true) {
+          eVm.caret.savePosition()
+        }
+
+        const prop = `inner${isViewingSource.value === true ? 'Text' : 'HTML'}`
+        contentRef.value[ prop ] = v
+
+        if (restorePosition === true) {
+          eVm.caret.restorePosition(contentRef.value[ prop ].length)
+          refreshToolbar()
+        }
+      }
+    }
+
+    function runCmd (cmd, param, update = true) {
+      focus()
+      eVm.caret.restore()
+      eVm.caret.apply(cmd, param, () => {
+        focus()
+        eVm.caret.save()
         if (update) {
-          this.refreshToolbar()
+          refreshToolbar()
         }
       })
-    },
+    }
 
-    refreshToolbar () {
+    function refreshToolbar () {
       setTimeout(() => {
-        this.editLinkUrl = null
-        this.$forceUpdate()
+        editLinkUrl.value = null
+        vm.proxy.$forceUpdate()
       }, 1)
-    },
+    }
 
-    focus () {
-      this.$refs.content && this.$refs.content.focus()
-    },
+    function focus () {
+      contentRef.value && contentRef.value.focus()
+    }
 
-    getContentEl () {
-      return this.$refs.content
-    },
+    function getContentEl () {
+      return contentRef.value
+    }
 
-    __setContent (v, restorePosition) {
-      if (this.$refs.content) {
-        if (restorePosition === true) {
-          this.caret.savePosition()
-        }
+    // expose public methods
+    Object.assign(vm.proxy, {
+      runCmd, refreshToolbar, focus, getContentEl
+    })
 
-        const prop = `inner${this.isViewingSource === true ? 'Text' : 'HTML'}`
-        this.$refs.content[ prop ] = v
+    onMounted(() => {
+      eVm.caret = new Caret(contentRef.value, eVm)
+      setContent(props.modelValue)
+      refreshToolbar()
+    })
 
-        if (restorePosition === true) {
-          this.caret.restorePosition(this.$refs.content[ prop ].length)
-          this.refreshToolbar()
-        }
+    return () => {
+      let toolbars
+
+      if (hasToolbar.value) {
+        const bars = [
+          h('div', {
+            key: 'qedt_top',
+            class: 'q-editor__toolbar row no-wrap scroll-x' +
+              toolbarBackgroundClass.value
+          }, getToolbar(eVm))
+        ]
+
+        editLinkUrl.value !== null && bars.push(
+          h('div', {
+            key: 'qedt_btm',
+            class: 'q-editor__toolbar row no-wrap items-center scroll-x' +
+              toolbarBackgroundClass.value
+          }, getLinkEditor(eVm))
+        )
+
+        toolbars = h('div', {
+          key: 'toolbar_ctainer',
+          class: 'q-editor__toolbars-container'
+        }, bars)
       }
-    }
-  },
 
-  created () {
-    this.caret = void 0
+      return h('div', {
+        ref: rootRef,
+        class: classes.value,
+        style: { height: inFullscreen.value === true ? '100vh' : null },
+        ...attributes.value,
+        onFocusin,
+        onFocusout
+      }, [
+        toolbars,
 
-    if (__QUASAR_SSR_SERVER__ !== true) {
-      document.execCommand('defaultParagraphSeparator', false, this.paragraphTag)
-      this.defaultFont = window.getComputedStyle(document.body).fontFamily
-    }
-  },
-
-  mounted () {
-    this.caret = new Caret(this.$refs.content, this)
-    this.__setContent(this.modelValue)
-    this.refreshToolbar()
-  },
-
-  render () {
-    let toolbars
-
-    if (this.hasToolbar) {
-      const bars = [
         h('div', {
-          key: 'qedt_top',
-          class: 'q-editor__toolbar row no-wrap scroll-x' +
-            this.toolbarBackgroundClass
-        }, getToolbar(this))
-      ]
+          ref: contentRef,
+          style: innerStyle.value,
+          class: innerClass.value,
+          contenteditable: editable.value,
+          placeholder: props.placeholder,
+          ...(__QUASAR_SSR_SERVER__
+            ? { innerHTML: props.modelValue }
+            : {}),
+          ...qListeners,
+          onInput,
+          onKeydown,
+          onClick,
+          onBlur,
+          onFocus,
 
-      this.editLinkUrl !== null && bars.push(
-        h('div', {
-          key: 'qedt_btm',
-          class: 'q-editor__toolbar row no-wrap items-center scroll-x' +
-            this.toolbarBackgroundClass
-        }, getLinkEditor(this))
-      )
+          // clean saved scroll position
+          onMousedown,
+          onTouchstart,
 
-      toolbars = h('div', {
-        key: 'toolbar_ctainer',
-        class: 'q-editor__toolbars-container'
-      }, bars)
+          // save caret
+          onMouseup,
+          onKeyup,
+          onTouchend
+        })
+      ])
     }
-
-    return h('div', {
-      class: this.classes,
-      style: { height: this.inFullscreen === true ? '100vh' : null },
-      ...this.attrs,
-      onFocusin: this.__onFocusin,
-      onFocusout: this.__onFocusout
-    }, [
-      toolbars,
-
-      h('div', {
-        ref: 'content',
-        style: this.innerStyle,
-        class: this.innerClass,
-        contenteditable: this.editable,
-        placeholder: this.placeholder,
-        ...(__QUASAR_SSR_SERVER__
-          ? { innerHTML: this.modelValue }
-          : {}),
-        ...this.qListeners,
-        onIput: this.__onInput,
-        onKeydown: this.__onKeydown,
-        onClick: this.__onClick,
-        onBlur: this.__onBlur,
-        onFocus: this.__onFocus,
-
-        // clean saved scroll position
-        onMousedown: this.__onMousedown,
-        onTouchstart: this.__onTouchstart,
-
-        // save caret
-        onMouseup: this.__onMouseup,
-        onKeyup: this.__onKeyup,
-        onTouchend: this.__onTouchend
-      })
-    ])
   }
 })

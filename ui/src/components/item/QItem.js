@@ -63,7 +63,7 @@ export default defineComponent({
           ? linkClass.value
           : (
               props.active === true
-                ? ' q-item--active'
+                ? `${props.activeClass !== void 0 ? ` ${props.activeClass}` : ''} q-item--active`
                 : ''
             )
       ) +
