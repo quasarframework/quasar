@@ -144,10 +144,9 @@ kbd
 .q-page > .q-badge + .doc-example
   margin-top: 0
 
-.q-page
-  *
+body.q-scroll--lock .q-page
+  > *
     overflow-anchor: none
 
-  :target,
-  .q-overflow-anchor
+  > .q-scroll--anchor
     overflow-anchor: auto
