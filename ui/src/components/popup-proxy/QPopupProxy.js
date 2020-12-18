@@ -1,113 +1,105 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, computed, watch, getCurrentInstance } from 'vue'
 
 import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
 
-import AnchorMixin from '../../mixins/anchor.js'
-import { hSlot } from '../../utils/render.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useAnchor, { useAnchorProps } from '../../composables/use-anchor.js'
+import { hSlot } from '../../utils/composition-render.js'
 
 export default defineComponent({
   name: 'QPopupProxy',
 
-  mixins: [AnchorMixin],
-
   props: {
+    ...useAnchorProps,
+
     breakpoint: {
       type: [ String, Number ],
       default: 450
     }
   },
 
-  emits: ['hide'],
+  emits: [ 'show', 'hide' ],
 
-  data () {
-    const breakpoint = parseInt(this.breakpoint, 10)
-    return {
-      type: this.$q.screen.width < breakpoint || this.$q.screen.height < breakpoint
+  setup (props, { slots, emit, attrs }) {
+    const vm = getCurrentInstance()
+    const $q = useQuasar()
+
+    const showing = ref(false)
+    const popupRef = ref(null)
+    const breakpoint = computed(() => parseInt(props.breakpoint, 10))
+
+    const { canShow } = useAnchor(props, { vm, showing, $q })
+
+    function getType () {
+      return $q.screen.width < breakpoint.value || $q.screen.height < breakpoint.value
         ? 'dialog'
         : 'menu'
     }
-  },
 
-  computed: {
-    parsedBreakpoint () {
-      return parseInt(this.breakpoint, 10)
-    }
-  },
+    const type = ref(getType())
 
-  watch: {
-    '$q.screen.width': '__updateTypeWithGuard',
-    '$q.screen.height': '__updateTypeWithGuard',
-    parsedBreakpoint: '__updateTypeWithGuard'
-  },
-
-  methods: {
-    toggle (evt) {
-      this.$refs.popup.toggle(evt)
-    },
-
-    show (evt) {
-      this.$refs.popup.show(evt)
-    },
-
-    hide (evt) {
-      this.$refs.popup.hide(evt)
-    },
-
-    __onHide (evt) {
-      this.__updateType()
-      this.$emit('hide', evt)
-    },
-
-    __updateType () {
-      const type = this.$q.screen.width < this.parsedBreakpoint || this.$q.screen.height < this.parsedBreakpoint
-        ? 'dialog'
-        : 'menu'
-
-      if (this.type !== type) {
-        this.type = type
+    watch(() => getType(), val => {
+      if (showing.value !== true) {
+        type.value = val
       }
-    },
+    })
 
-    __updateTypeWithGuard () {
-      if (this.$refs.popup.showing !== true) {
-        this.__updateType()
+    // expose public methods
+    Object.assign(vm.proxy, {
+      show (evt) { canShow(evt) === true && popupRef.value.show(evt) },
+      hide (evt) { popupRef.value.hide(evt) },
+      toggle (evt) { popupRef.value.toggle(evt) }
+    })
+
+    function onShow (evt) {
+      showing.value = true
+      emit('show', evt)
+    }
+
+    function onHide (evt) {
+      showing.value = false
+      type.value = getType()
+      emit('hide', evt)
+    }
+
+    return () => {
+      const def = hSlot(slots.default)
+
+      const popupProps = (
+        type.value === 'menu' &&
+        def !== void 0 &&
+        def[ 0 ] !== void 0 &&
+        def[ 0 ].type !== void 0 &&
+        [ 'QDate', 'QTime', 'QCarousel', 'QColor' ].includes(
+          def[ 0 ].type.name
+        )
+      ) ? { cover: true, maxHeight: '99vh' } : {}
+
+      const data = {
+        ref: popupRef,
+        ...popupProps,
+        ...attrs,
+        onShow,
+        onHide
       }
+
+      let component
+
+      if (type.value === 'dialog') {
+        component = QDialog
+      }
+      else {
+        component = QMenu
+        Object.assign(data, {
+          target: props.target,
+          contextMenu: props.contextMenu,
+          noParentEvent: true,
+          separateClosePopup: true
+        })
+      }
+
+      return h(component, data, () => def)
     }
-  },
-
-  render () {
-    const def = hSlot(this, 'default')
-
-    const props = (
-      this.type === 'menu' &&
-      def !== void 0 &&
-      def[ 0 ] !== void 0 &&
-      def[ 0 ].type !== void 0 &&
-      [ 'QDate', 'QTime', 'QCarousel', 'QColor' ].includes(
-        def[ 0 ].type.name
-      )
-    ) ? { cover: true, maxHeight: '99vh' } : {}
-
-    const data = {
-      ref: 'popup',
-      ...props,
-      onHide: this.__onHide
-    }
-
-    let component
-
-    if (this.type === 'dialog') {
-      component = QDialog
-    }
-    else {
-      component = QMenu
-      data.target = this.target
-      data.contextMenu = this.contextMenu
-      data.noParentEvent = true
-      data.separateClosePopup = true
-    }
-
-    return h(component, data, () => def)
   }
 })

@@ -98,14 +98,14 @@ export default defineComponent({
     const { transition } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
-    const { anchorEl, showCondition, anchorEvents } = useAnchor(props, {
+    const { anchorEl, canShow, anchorEvents } = useAnchor(props, {
       emit, vm, showing, configureAnchorEl
     })
 
     const { emitListeners } = useEmitListeners(vm)
     const { show, hide, toggle } = useModelToggle(props, {
       emit,
-      showing, showCondition, handleShow, handleHide,
+      showing, canShow, handleShow, handleHide,
       emitListeners,
       vm,
       hideOnRouteChange,

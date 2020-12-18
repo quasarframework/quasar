@@ -35,10 +35,10 @@ const builds = [
   { // Generic prod entry (client-side only; NOT used by Quasar CLI)
     rollup: {
       input: {
-        input: resolve(`src/index.all.js`)
+        input: resolve('src/index.all.js')
       },
       output: {
-        file: resolve(`dist/quasar.esm.js`),
+        file: resolve('dist/quasar.esm.js'),
         format: 'es'
       }
     },
@@ -56,10 +56,10 @@ const builds = [
   { // SSR server prod entry
     rollup: {
       input: {
-        input: resolve(`src/index.all.js`)
+        input: resolve('src/index.all.js')
       },
       output: {
-        file: resolve(`dist/quasar.cjs.js`),
+        file: resolve('dist/quasar.cjs.js'),
         format: 'cjs'
       }
     },
@@ -67,6 +67,7 @@ const builds = [
       minified: true,
       modern: true,
       replace: {
+        'process.env.DEBUGGING': false,
         __QUASAR_SSR__: true,
         __QUASAR_SSR_SERVER__: true,
         __QUASAR_SSR_CLIENT__: false,
@@ -77,10 +78,10 @@ const builds = [
   { // UMD entry
     rollup: {
       input: {
-        input: resolve(`src/index.umd.js`)
+        input: resolve('src/index.umd.js')
       },
       output: {
-        file: resolve(`dist/quasar.umd.js`),
+        file: resolve('dist/quasar.umd.js'),
         format: 'umd'
       }
     },
@@ -89,6 +90,7 @@ const builds = [
       minified: true,
       modern: true,
       replace: {
+        'process.env.DEBUGGING': false,
         __QUASAR_SSR__: false,
         __QUASAR_SSR_SERVER__: false,
         __QUASAR_SSR_CLIENT__: false,

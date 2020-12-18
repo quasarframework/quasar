@@ -17,7 +17,7 @@ export default function (props, {
   emit,
   showing,
   emitListeners,
-  showCondition, // optional
+  canShow, // optional
   vm, // optional (required by hideOnRouteChange)
   hideOnRouteChange, // optional
   handleShow, // optional
@@ -36,7 +36,7 @@ export default function (props, {
   }
 
   function show (evt) {
-    if (props.disable === true || (showCondition !== void 0 && showCondition(evt) !== true)) {
+    if (props.disable === true || (canShow !== void 0 && canShow(evt) !== true)) {
       return
     }
 

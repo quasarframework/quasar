@@ -101,22 +101,19 @@ export default defineComponent({
     const { transition } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
-    const { anchorEl, showCondition, anchorEvents } = useAnchor(props, {
-      emit, vm, showing, configureAnchorEl
+    const { anchorEl, canShow } = useAnchor(props, {
+      emit, vm, showing, $q
     })
 
     const { emitListeners } = useEmitListeners(vm)
     const { show, hide, toggle } = useModelToggle(props, {
       emit,
-      showing, showCondition, handleShow, handleHide,
+      showing, canShow, handleShow, handleHide,
       emitListeners,
       vm,
       hideOnRouteChange,
       processOnMount: true
     })
-
-    anchorEvents.hide = hide
-    anchorEvents.toggle = toggle
 
     const { showPortal, hidePortal, renderPortal } = usePortal(vm, renderPortalContent)
 
@@ -291,34 +288,6 @@ export default defineComponent({
           removeEscapeKey(onEscapeKey)
         }
       }
-    }
-
-    function configureAnchorEl (context = props.contextMenu) {
-      if (props.noParentEvent === true || anchorEl.value === null) { return }
-
-      let evts
-
-      if (context === true) {
-        if ($q.platform.is.mobile === true) {
-          evts = [
-            [ anchorEl.value, 'touchstart', 'mobileTouch', 'passive' ]
-          ]
-        }
-        else {
-          evts = [
-            [ anchorEl.value, 'click', 'hide', 'passive' ],
-            [ anchorEl.value, 'contextmenu', 'contextClick', 'notPassive' ]
-          ]
-        }
-      }
-      else {
-        evts = [
-          [ anchorEl.value, 'click', 'toggle', 'passive' ],
-          [ anchorEl.value, 'keyup', 'toggleKey', 'passive' ]
-        ]
-      }
-
-      addEvt(anchorEvents, 'anchor', evts)
     }
 
     function configureScrollTarget () {

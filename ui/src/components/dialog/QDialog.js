@@ -75,16 +75,16 @@ export default defineComponent({
 
   setup (props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
-    const transitionState = ref(props.showing)
     const innerRef = ref(null)
     const showing = ref(false)
+    const transitionState = ref(false)
 
     let shakeTimeout, refocusTarget, isMaximized
 
     const hideOnRouteChange = computed(() =>
       props.persistent !== true &&
-        props.noRouteDismiss !== true &&
-        props.seamless !== true
+      props.noRouteDismiss !== true &&
+      props.seamless !== true
     )
 
     const $q = useQuasar()

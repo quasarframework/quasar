@@ -14,25 +14,22 @@ export const useAnchorProps = {
 }
 
 export default function (props, {
-  emit,
   vm,
   showing,
-  configureAnchorEl
+  emit, // required for anything except QPopupProxy
+  $q, // required only if configureAnchorEl is missing
+  configureAnchorEl // optional
 }) {
   const anchorEl = ref(null)
   const vmProxy = vm.proxy
 
   let touchTimer
 
-  function showCondition (evt) {
+  function canShow (evt) {
     // abort with no parent configured or on multi-touch
-    if (anchorEl.value === null) {
-      return false
-    }
-    if (evt === void 0) {
-      return true
-    }
-    return evt.touches === void 0 || evt.touches.length <= 1
+    return anchorEl.value === null
+      ? false
+      : (evt === void 0 || evt.touches === void 0 || evt.touches.length <= 1)
   }
 
   const anchorEvents = {
@@ -40,6 +37,14 @@ export default function (props, {
       vmProxy.hide(evt)
       nextTick(() => { vmProxy.show(evt) })
       prevent(evt)
+    },
+
+    hide (evt) {
+      vmProxy.hide(evt)
+    },
+
+    toggle (evt) {
+      vmProxy.toggle(evt)
     },
 
     toggleKey (evt) {
@@ -51,7 +56,7 @@ export default function (props, {
     mobileTouch (evt) {
       anchorEvents.mobileCleanup(evt)
 
-      if (showCondition(evt) !== true) {
+      if (canShow(evt) !== true) {
         return
       }
 
@@ -78,6 +83,38 @@ export default function (props, {
       if (showing.value === true && evt !== void 0) {
         clearSelection()
       }
+    }
+  }
+
+  if (configureAnchorEl === void 0) {
+    // default configureAnchorEl is designed for QMenu
+
+    configureAnchorEl = function (context = props.contextMenu) {
+      if (props.noParentEvent === true || anchorEl.value === null) { return }
+
+      let evts
+
+      if (context === true) {
+        if ($q.platform.is.mobile === true) {
+          evts = [
+            [ anchorEl.value, 'touchstart', 'mobileTouch', 'passive' ]
+          ]
+        }
+        else {
+          evts = [
+            [ anchorEl.value, 'click', 'hide', 'passive' ],
+            [ anchorEl.value, 'contextmenu', 'contextClick', 'notPassive' ]
+          ]
+        }
+      }
+      else {
+        evts = [
+          [ anchorEl.value, 'click', 'toggle', 'passive' ],
+          [ anchorEl.value, 'keyup', 'toggleKey', 'passive' ]
+        ]
+      }
+
+      addEvt(anchorEvents, 'anchor', evts)
     }
   }
 
@@ -153,7 +190,7 @@ export default function (props, {
   onMounted(() => {
     pickAnchorEl()
 
-    if (props.modelValue === true && anchorEl.value === null) {
+    if (emit !== void 0 && props.modelValue === true && anchorEl.value === null) {
       emit('update:modelValue', false)
     }
   })
@@ -165,7 +202,7 @@ export default function (props, {
 
   return {
     anchorEl,
-    showCondition,
+    canShow,
     anchorEvents
   }
 }
