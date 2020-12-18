@@ -26,9 +26,9 @@ export default function useScroll (scope, $route) {
 
   preventTocUpdate = $route.hash.length > 1
 
-  watch(() => $route.fullPath, () => {
+  watch(() => $route.fullPath, (newRoute, oldRoute) => {
     setTimeout(() => {
-      scrollToCurrentAnchor()
+      scrollToCurrentAnchor(newRoute.path !== oldRoute.path)
     })
   })
 
@@ -70,13 +70,22 @@ export default function useScroll (scope, $route) {
       ? document.getElementById(hash.substring(1))
       : null
 
-    const anchor = document.querySelector('.q-overflow-anchor')
-    if (anchor !== null) {
-      anchor.classList.remove('q-overflow-anchor')
-    }
-
     if (el !== null) {
-      el.classList.add('q-overflow-anchor')
+      if (immediate === true) {
+        let anchorEl = el
+        while (anchorEl.parentElement !== null && anchorEl.parentElement.classList.contains('q-page') !== true) {
+          anchorEl = anchorEl.parentElement
+        }
+
+        document.body.classList.add('q-scroll--lock')
+        anchorEl.classList.add('q-scroll--anchor')
+
+        setTimeout(() => {
+          document.body.classList.remove('q-scroll--lock')
+          anchorEl && anchorEl.classList.remove('q-scroll--anchor')
+        }, 2000)
+      }
+
       scrollPage(el, immediate === true ? 0 : 500)
     }
     else {
