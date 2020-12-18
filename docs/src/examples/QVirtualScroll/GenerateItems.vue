@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import { QChatMessage } from 'quasar'
-import { h, defineComponent, ref, onMounted, onBeforeUnmount } from 'vue'
+import { QChatMessage, QSkeleton } from 'quasar'
+import { h, defineComponent, ref, onBeforeMount, onBeforeUnmount } from 'vue'
 
 const AsyncComponent = defineComponent({
   props: {
@@ -27,7 +27,7 @@ const AsyncComponent = defineComponent({
 
     let timer
 
-    onMounted(() => {
+    onBeforeMount(() => {
       timer = setTimeout(() => {
         asyncContent.value = {
           sent: props.sent,
@@ -43,17 +43,46 @@ const AsyncComponent = defineComponent({
       clearTimeout(timer)
     })
 
-    return () => h(QChatMessage, {
-      class: 'q-mx-sm',
-      ...(asyncContent.value === null
-        ? {
-            sent: props.sent,
-            text: [`Retrieving message ${props.index}`]
-          }
-        : asyncContent.value)
-    })
+    return () => {
+      if (asyncContent.value === Object(asyncContent.value)) {
+        return h(QChatMessage, {
+          class: 'q-mx-sm',
+          key: props.index,
+          ...asyncContent.value
+        })
+      }
+
+      const content = [
+        h(QSkeleton, {
+          class: 'on-left on-right',
+          animation: 'none',
+          type: 'text',
+          width: '150px',
+          height: '100px'
+        })
+      ]
+
+      content[ props.sent === true ? 'push' : 'unshift' ](
+        h(QSkeleton, {
+          animation: 'none',
+          type: 'QAvatar'
+        })
+      )
+
+      return h('div', {
+        class: `row no-wrap items-center q-mx-sm justify-${props.sent === true ? 'end' : 'start'}`,
+        style: 'height: 78px',
+        key: props.index
+      }, content)
+    }
   }
 })
+
+const size = ref(100000)
+const allItems = Array(size.value).fill(null).map((_, index) => ({
+  index,
+  sent: Math.random() > 0.5
+}))
 
 export default {
   components: {
@@ -61,8 +90,6 @@ export default {
   },
 
   setup () {
-    const size = ref(100000)
-
     return {
       size,
 
@@ -70,10 +97,7 @@ export default {
         const items = []
 
         for (let i = 0; i < size; i++) {
-          items.push({
-            index: size - from - i,
-            sent: Math.random() > 0.5
-          })
+          items.push(allItems[ from + i ])
         }
 
         return Object.freeze(items)

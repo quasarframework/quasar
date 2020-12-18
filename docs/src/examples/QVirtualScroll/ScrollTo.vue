@@ -78,7 +78,7 @@ export default {
       },
 
       executeScroll () {
-        virtualListRef.value.scrollTo(virtualListIndex.value)
+        virtualListRef.value.scrollTo(virtualListIndex.value, 'start-force')
       }
     }
   }
