@@ -231,6 +231,10 @@ export default {
 .q-page-container :target
   scroll-margin-top: ($toolbar-min-height + 16px)
 
+// keep the button on top of sticky in examples
+.q-page-scroller > .q-page-sticky
+  z-index: 1
+
 .doc-layout
   .countdown
     .heading
