@@ -15,9 +15,9 @@ import { isKeyCode } from '../../utils/key-composition.js'
 const { passiveCapture } = listenOpts
 
 let
-  touchTarget = void 0,
-  keyboardTarget = void 0,
-  mouseTarget = void 0
+  touchTarget = null,
+  keyboardTarget = null,
+  mouseTarget = null
 
 export default defineComponent({
   name: 'QBtn',
@@ -149,7 +149,7 @@ export default defineComponent({
         stopAndPrevent(e)
 
         if (keyboardTarget !== rootRef.value) {
-          keyboardTarget !== void 0 && cleanup()
+          keyboardTarget !== null && cleanup()
 
           // focus external button if the focus helper was focused before
           rootRef.value.focus()
@@ -166,7 +166,7 @@ export default defineComponent({
 
     function onTouchstart (e) {
       if (touchTarget !== rootRef.value) {
-        touchTarget !== void 0 && cleanup()
+        touchTarget !== null && cleanup()
         touchTarget = rootRef.value
 
         localTouchTargetEl = getTouchTarget(e.target)
@@ -187,7 +187,7 @@ export default defineComponent({
 
     function onMousedown (e) {
       if (mouseTarget !== rootRef.value) {
-        mouseTarget !== void 0 && cleanup()
+        mouseTarget !== null && cleanup()
         mouseTarget = rootRef.value
         rootRef.value.classList.add('q-btn--active')
         document.addEventListener('mouseup', onPressEnd, passiveCapture)
@@ -240,18 +240,18 @@ export default defineComponent({
       if (touchTarget === rootRef.value) {
         localTouchTargetEl.removeEventListener('touchcancel', onPressEnd, passiveCapture)
         localTouchTargetEl.removeEventListener('touchend', onPressEnd, passiveCapture)
-        touchTarget = localTouchTargetEl = void 0
+        touchTarget = localTouchTargetEl = null
       }
 
       if (mouseTarget === rootRef.value) {
         document.removeEventListener('mouseup', onPressEnd, passiveCapture)
-        mouseTarget = void 0
+        mouseTarget = null
       }
 
       if (keyboardTarget === rootRef.value) {
         document.removeEventListener('keyup', onPressEnd, true)
         rootRef.value !== null && rootRef.value.removeEventListener('blur', onPressEnd, passiveCapture)
-        keyboardTarget = void 0
+        keyboardTarget = null
       }
 
       rootRef.value !== null && rootRef.value.classList.remove('q-btn--active')
