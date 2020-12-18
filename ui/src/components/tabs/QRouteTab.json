@@ -19,9 +19,7 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object; If you want to cancel navigation set synchronously 'evt.navigate' to false",
-          "__exemption": [
-            "examples"
-          ]
+          "__exemption": [ "examples" ]
         },
         "navigateFn": {
           "type": "Function",

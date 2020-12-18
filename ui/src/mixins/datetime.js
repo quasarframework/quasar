@@ -4,6 +4,8 @@ import DarkMixin from './dark.js'
 import FormMixin from './form.js'
 import ListenersMixin from './listeners.js'
 
+import { pad } from '../utils/format.js'
+
 const calendars = [ 'gregorian', 'persian' ]
 
 export default {
@@ -76,8 +78,9 @@ export default {
       return this.locale || this.$q.lang.date
     },
 
-    __getCurrentDate () {
+    __getCurrentDate (dateOnly) {
       const d = new Date()
+      const timeFill = dateOnly === true ? null : 0
 
       if (this.calendar === 'persian') {
         const jDate = toJalaali(d)
@@ -92,10 +95,10 @@ export default {
         year: d.getFullYear(),
         month: d.getMonth() + 1,
         day: d.getDate(),
-        hour: 0,
-        minute: 0,
-        second: 0,
-        millisecond: 0
+        hour: timeFill,
+        minute: timeFill,
+        second: timeFill,
+        millisecond: timeFill
       }
     },
 
@@ -108,6 +111,10 @@ export default {
         second: d.getSeconds(),
         millisecond: d.getMilliseconds()
       }
+    },
+
+    __getDayHash (date) {
+      return date.year + '/' + pad(date.month) + '/' + pad(date.day)
     }
   }
 }

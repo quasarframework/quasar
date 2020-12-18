@@ -129,13 +129,22 @@ if (ssrDetected === false) {
 
   const
     express = require('express'),
+    resolvedIndex = resolve(argv.index),
     microCacheSeconds = argv.micro
       ? parseInt(argv.micro, 10)
       : false
 
   function serve (path, cache) {
     const opts = {
-      maxAge: cache ? parseInt(argv.cache, 10) * 1000 : 0
+      maxAge: cache ? parseInt(argv.cache, 10) * 1000 : 0,
+      setHeaders (res, path) {
+        if (res.req.method === 'GET' && path === resolvedIndex) {
+          res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+          res.set('Pragma', 'no-cache')
+          res.set('Expires', '0')
+          res.set('Surrogate-Control', 'no-store')
+        }
+      }
     }
 
     if (argv.history !== true) {

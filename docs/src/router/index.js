@@ -16,7 +16,11 @@ export default function () {
   const Router = new VueRouter({
     routes,
 
-    scrollBehavior (_, __, savedPosition) {
+    scrollBehavior (to, _, savedPosition) {
+      if (to.hash.length > 1) {
+        return false
+      }
+
       return savedPosition || { x: 0, y: 0 }
     },
 

@@ -30,7 +30,6 @@ export default {
 
     label: String,
     leftLabel: Boolean,
-    fontSize: String,
 
     color: String,
     keepColor: Boolean,
@@ -69,12 +68,6 @@ export default {
 
     computedTabindex () {
       return this.disable === true ? -1 : this.tabindex || 0
-    },
-
-    labelStyle () {
-      if (this.fontSize !== void 0) {
-        return { fontSize: this.fontSize }
-      }
     },
 
     classes () {

@@ -13,6 +13,30 @@
       "category": "behavior"
     },
 
+    "keep-alive-include": {
+      "type": [ "String", "Array", "RegExp" ],
+      "desc": "Equivalent to using Vue's native include prop for <keep-alive>",
+      "examples": [ "a,b", "/a|b/", "['a', 'b']" ],
+      "category": "behavior",
+      "addedIn": "v1.15.0"
+    },
+
+    "keep-alive-exclude": {
+      "type": [ "String", "Array", "RegExp" ],
+      "desc": "Equivalent to using Vue's native exclude prop for <keep-alive>",
+      "examples": [ "a,b", "/a|b/", "['a', 'b']" ],
+      "category": "behavior",
+      "addedIn": "v1.15.0"
+    },
+
+    "keep-alive-max": {
+      "type": "Number",
+      "desc": "Equivalent to using Vue's native max prop for <keep-alive>",
+      "examples": [ "2" ],
+      "category": "behavior",
+      "addedIn": "v1.15.0"
+    },
+
     "animated": {
       "type": "Boolean",
       "desc": "Enable transitions between panel (also see 'transition-prev' and 'transition-next' props)",

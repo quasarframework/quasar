@@ -412,7 +412,7 @@ export function subtractFromDate (date, mod) {
 export function adjustDate (date, mod, utc) {
   const
     t = new Date(date),
-    prefix = `set${utc ? 'UTC' : ''}`
+    prefix = `set${utc === true ? 'UTC' : ''}`
 
   Object.keys(mod).forEach(key => {
     if (key === 'month') {
@@ -429,40 +429,46 @@ export function adjustDate (date, mod, utc) {
   return t
 }
 
-export function startOfDate (date, unit) {
-  const t = new Date(date)
+export function startOfDate (date, unit, utc) {
+  const
+    t = new Date(date),
+    prefix = `set${utc === true ? 'UTC' : ''}`
+
   switch (unit) {
     case 'year':
-      t.setMonth(0)
+      t[`${prefix}Month`](0)
     case 'month':
-      t.setDate(1)
+      t[`${prefix}Date`](1)
     case 'day':
-      t.setHours(0)
+      t[`${prefix}Hours`](0)
     case 'hour':
-      t.setMinutes(0)
+      t[`${prefix}Minutes`](0)
     case 'minute':
-      t.setSeconds(0)
+      t[`${prefix}Seconds`](0)
     case 'second':
-      t.setMilliseconds(0)
+      t[`${prefix}Milliseconds`](0)
   }
   return t
 }
 
-export function endOfDate (date, unit) {
-  const t = new Date(date)
+export function endOfDate (date, unit, utc) {
+  const
+    t = new Date(date),
+    prefix = `set${utc === true ? 'UTC' : ''}`
+
   switch (unit) {
     case 'year':
-      t.setMonth(11)
+      t[`${prefix}Month`](11)
     case 'month':
-      t.setDate(daysInMonth(t))
+      t[`${prefix}Date`](daysInMonth(t))
     case 'day':
-      t.setHours(23)
+      t[`${prefix}Hours`](23)
     case 'hour':
-      t.setMinutes(59)
+      t[`${prefix}Minutes`](59)
     case 'minute':
-      t.setSeconds(59)
+      t[`${prefix}Seconds`](59)
     case 'second':
-      t.setMilliseconds(59)
+      t[`${prefix}Milliseconds`](999)
   }
   return t
 }
