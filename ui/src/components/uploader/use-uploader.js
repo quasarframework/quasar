@@ -43,14 +43,7 @@ export const useUploaderEmits = [
   'start', 'finish', 'added', 'removed'
 ]
 
-// computed: {
-/*
-  * When extending:
-  *   Required : isUploading
-  *   Optional: isBusy
-  */
-
-export function useUploaderState (props, slots, emit) {
+export function useUploaderState () {
   const vm = getCurrentInstance()
 
   function updateFileStatus (file, status, uploadedSize) {
@@ -96,6 +89,10 @@ export function useUploader (props, slots, emit, state) {
 
   const uploadSize = ref(0)
   const editable = computed(() => props.disable !== true && props.readonly !== true)
+
+  if (state.isBusy === void 0) {
+    state.isBusy = ref(false)
+  }
 
   const files = ref([])
   const dnd = ref(false)

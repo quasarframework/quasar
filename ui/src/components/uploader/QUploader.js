@@ -17,7 +17,7 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit }) {
-    const uploaderState = useUploaderState(props)
+    const uploaderState = useUploaderState()
     const uploaderXhr = useUploaderXhr(props, emit, uploaderState)
     const { renderUploader } = useUploader(props, slots, emit, { ...uploaderState, ...uploaderXhr })
 
