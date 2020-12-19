@@ -9,7 +9,7 @@ export default {
   computed: {
     isDark () {
       return this.dark === null
-        ? this.$q.dark.isActive
+        ? this.$q?.dark.isActive
         : this.dark
     }
   }
