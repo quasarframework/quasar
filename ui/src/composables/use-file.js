@@ -22,19 +22,7 @@ function stopAndPreventDrag (e) {
   stopAndPrevent(e)
 }
 
-export const useFileProps = {
-  multiple: Boolean,
-  accept: String,
-  capture: String,
-  maxFileSize: [ Number, String ],
-  maxTotalSize: [ Number, String ],
-  maxFiles: [ Number, String ],
-  filter: Function
-}
-
-export const useFileEmits = ['rejected']
-
-export function useFileDomProps(props) {
+export function useFileDomProps (props) {
   return computed(() => {
     if (props.type !== 'file') { // TODO vue3 - handle QInput separately
       return
@@ -71,46 +59,51 @@ export function useFileDomProps(props) {
   })
 }
 
-export function useFile (props, emit) {
-  // TODO vue3 - convert & check exports
+export const useFileProps = {
+  multiple: Boolean,
+  accept: String,
+  capture: String,
+  maxFileSize: [ Number, String ],
+  maxTotalSize: [ Number, String ],
+  maxFiles: [ Number, String ],
+  filter: Function
+}
 
-  const extensions = computed(() => {
-    if (props.accept !== void 0) {
-      return props.accept.split(',').map(ext => {
-        ext = ext.trim()
-        if (ext === '*') { // support "*"
-          return '*/'
-        }
-        else if (ext.endsWith('/*')) { // support "image/*" or "*/*"
-          ext = ext.slice(0, ext.length - 1)
-        }
-        return ext.toUpperCase()
-      })
-    }
-  })
+export const useFileEmits = ['rejected']
 
-  const maxFilesNumber = computed(() =>
-    parseInt(props.maxFiles, 10)
+export function useFile (props, emit, editable, dnd, getFileInput, addFilesToQueue) {
+  const extensions = computed(() =>
+    props.accept !== void 0
+      ? props.accept.split(',').map(ext => {
+          ext = ext.trim()
+          if (ext === '*') { // support "*"
+            return '*/'
+          }
+          else if (ext.endsWith('/*')) { // support "image/*" or "*/*"
+            ext = ext.slice(0, ext.length - 1)
+          }
+          return ext.toUpperCase()
+        })
+      : null
   )
 
-  const maxTotalSizeNumber = computed(() =>
-    parseInt(props.maxTotalSize, 10)
-  )
+  const maxFilesNumber = computed(() => parseInt(props.maxFiles, 10))
+  const maxTotalSizeNumber = computed(() => parseInt(props.maxTotalSize, 10))
 
   function pickFiles (e) {
-    if (this.editable) {
-      const input = this.__getFileInput()
+    if (editable.value) {
+      const input = getFileInput()
       input && input.click(e)
     }
   }
 
   function addFiles (files) {
-    if (this.editable && files) {
-      this.__addFiles(null, files)
+    if (editable.value && files) {
+      addFilesToQueue(null, files)
     }
   }
 
-  function __processFiles (e, filesToProcess, currentFileList, append) {
+  function processFiles (e, filesToProcess, currentFileList, append) {
     let files = Array.from(filesToProcess || e.target.files)
     const rejectedFiles = []
 
@@ -121,9 +114,9 @@ export function useFile (props, emit) {
     }
 
     // filter file types
-    if (props.accept !== void 0 && props.extensions.indexOf('*/') === -1) {
+    if (props.accept !== void 0 && extensions.value.indexOf('*/') === -1) {
       files = filterFiles(files, rejectedFiles, 'accept', file => {
-        return this.extensions.some(ext => (
+        return extensions.value.some(ext => (
           file.type.toUpperCase().startsWith(ext) ||
           file.name.toUpperCase().endsWith(ext)
         ))
@@ -163,21 +156,21 @@ export function useFile (props, emit) {
     }
 
     // do we have custom filter function?
-    if (typeof this.filter === 'function') {
-      const filteredFiles = this.filter(files)
+    if (typeof props.filter === 'function') {
+      const filteredFiles = props.filter(files)
       files = filterFiles(files, rejectedFiles, 'filter', file => {
         return filteredFiles.includes(file)
       })
     }
 
-    if (this.maxFiles !== void 0) {
+    if (props.maxFiles !== void 0) {
       let filesNumber = append === true
         ? currentFileList.length
         : 0
 
       files = filterFiles(files, rejectedFiles, 'max-files', () => {
         filesNumber++
-        return filesNumber <= this.maxFilesNumber
+        return filesNumber <= maxFilesNumber.value
       })
 
       if (files.length === 0) { return done() }
@@ -190,36 +183,44 @@ export function useFile (props, emit) {
     }
   }
 
-  function __onDragOver (e) {
+  function onDragover (e) {
     stopAndPreventDrag(e)
-    this.dnd !== true && (this.dnd = true)
+    dnd.value !== true && (dnd.value = true)
   }
 
-  function __onDragLeave (e) {
+  function onDragleave (e) {
     stopAndPrevent(e)
-    this.dnd = false
+    dnd.value = false
   }
 
-  function __onDrop (e) {
+  function onDrop (e) {
     stopAndPreventDrag(e)
     const files = e.dataTransfer.files
 
     if (files.length > 0) {
-      this.__addFiles(null, files)
+      addFilesToQueue(null, files)
     }
 
-    this.dnd = false
+    dnd.value = false
   }
 
-  function __getDnd (type) {
-    if (this.dnd === true) {
+  function getDndNode (type) {
+    if (dnd.value === true) {
       return h('div', {
         class: `q-${type}__dnd absolute-full`,
         onDragenter: stopAndPreventDrag,
         onDragover: stopAndPreventDrag,
-        onDragleave: this.__onDragLeave,
-        onDrop: this.__onDrop
+        onDragleave,
+        onDrop
       })
     }
+  }
+
+  return {
+    pickFiles,
+    addFiles,
+    onDragover,
+    processFiles,
+    getDndNode
   }
 }

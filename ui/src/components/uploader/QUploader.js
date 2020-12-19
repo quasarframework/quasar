@@ -1,9 +1,26 @@
 import { defineComponent } from 'vue'
 
-import QUploaderBase from './QUploaderBase.js'
-import UploaderXHRMixin from './uploader-xhr-mixin.js'
+import { useUploaderState, useUploader, useUploaderProps, useUploaderEmits } from './use-uploader.js'
+import { useUploaderXhr, useUploaderXhrProps, useUploaderXhrEmits } from './use-uploader-xhr.js'
 
 export default defineComponent({
   name: 'QUploader',
-  mixins: [ QUploaderBase, UploaderXHRMixin ]
+
+  props: {
+    ...useUploaderProps,
+    ...useUploaderXhrProps
+  },
+
+  emits: [
+    ...useUploaderEmits,
+    ...useUploaderXhrEmits
+  ],
+
+  setup (props, { slots, emit }) {
+    const uploaderState = useUploaderState(props)
+    const uploaderXhr = useUploaderXhr(props, emit, uploaderState)
+    const { renderUploader } = useUploader(props, slots, emit, { ...uploaderState, ...uploaderXhr })
+
+    return renderUploader
+  }
 })

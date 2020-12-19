@@ -190,7 +190,7 @@ export default defineComponent({
 
   created () {
     Object.assign(this.field, {
-      getControlChild: () => this.__getDnd('file'),
+      getControlChild: () => this.__getDnd('file'), // getDndNode
       getControl: () => {
         const data = {
           ref: 'target',

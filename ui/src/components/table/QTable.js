@@ -20,7 +20,7 @@ import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../com
 
 import { useTableSort, useTableSortProps } from './table-sort.js'
 import { useTableFilter, useTableFilterProps } from './table-filter.js'
-import { useTablePaginationInit, useTablePagination, useTablePaginationProps, useTablePaginationEmits } from './table-pagination.js'
+import { useTablePaginationState, useTablePagination, useTablePaginationProps, useTablePaginationEmits } from './table-pagination.js'
 import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEmits } from './table-row-selection.js'
 import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
 import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
@@ -165,7 +165,7 @@ export default defineComponent({
 
       requestServerInteraction,
       setPagination
-    } = useTablePaginationInit(props, emit, emitListeners, getCellValue)
+    } = useTablePaginationState(props, emit, emitListeners, getCellValue)
 
     const { computedFilterMethod } = useTableFilter(props, setPagination)
     const { isRowExpanded, setExpanded, updateExpanded } = useTableRowExpand(props, emit)

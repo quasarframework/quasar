@@ -29,7 +29,7 @@ export const useTablePaginationProps = {
 
 export const useTablePaginationEmits = ['update:pagination']
 
-export function useTablePaginationInit (props, emit, emitListeners, getCellValue) {
+export function useTablePaginationState (props, emit, emitListeners, getCellValue) {
   const innerPagination = ref(
     Object.assign({
       sortBy: null,
