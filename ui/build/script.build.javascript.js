@@ -4,10 +4,11 @@ const path = require('path')
 const fs = require('fs')
 const rollup = require('rollup')
 const uglify = require('uglify-es')
-const json = require('@rollup/plugin-json')
 const nodeResolve = require('@rollup/plugin-node-resolve')
 // const typescript = require('rollup-plugin-typescript2')
 const replace = require('@rollup/plugin-replace')
+
+const { version } = require('../package.json')
 
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
@@ -27,8 +28,7 @@ const tsConfig = {
 
 const rollupPluginsModern = [
   // typescript(tsConfig),
-  nodeResolve(),
-  json()
+  nodeResolve()
 ]
 
 const builds = [
@@ -44,8 +44,8 @@ const builds = [
     },
     build: {
       minified: true,
-      modern: true,
       replace: {
+        __QUASAR_VERSION__: `'${version}'`,
         __QUASAR_SSR__: false,
         __QUASAR_SSR_SERVER__: false,
         __QUASAR_SSR_CLIENT__: false,
@@ -65,9 +65,8 @@ const builds = [
     },
     build: {
       minified: true,
-      modern: true,
       replace: {
-        'process.env.DEBUGGING': false,
+        __QUASAR_VERSION__: `'${version}'`,
         __QUASAR_SSR__: true,
         __QUASAR_SSR_SERVER__: true,
         __QUASAR_SSR_CLIENT__: false,
@@ -88,9 +87,8 @@ const builds = [
     build: {
       unminified: true,
       minified: true,
-      modern: true,
       replace: {
-        'process.env.DEBUGGING': false,
+        __QUASAR_VERSION__: `'${version}'`,
         __QUASAR_SSR__: false,
         __QUASAR_SSR_SERVER__: false,
         __QUASAR_SSR_CLIENT__: false,
@@ -132,10 +130,10 @@ function build (builds) {
 }
 
 function genConfig (opts) {
-  opts.rollup.input.plugins = [ ...rollupPluginsModern ]
+  opts.rollup.input.plugins = [...rollupPluginsModern]
 
   if (opts.build.replace !== void 0) {
-    opts.rollup.input.plugins.push(replace(opts.build.replace))
+    opts.rollup.input.plugins.unshift(replace(opts.build.replace))
   }
 
   opts.rollup.input.external = opts.rollup.input.external || []
@@ -193,7 +191,7 @@ function buildEntry (config) {
 
       const minified = uglify.minify(code, {
         compress: {
-          ecma: config.build.modern ? 6 : 5
+          ecma: 6
         }
       })
 

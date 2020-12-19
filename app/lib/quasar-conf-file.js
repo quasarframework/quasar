@@ -11,7 +11,7 @@ const extensionRunner = require('./app-extension/extensions-runner')
 const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
-const getPackageJson = require('./helpers/get-package-json')
+const { quasarVersion } = require('./helpers/banner')
 
 const transformAssetUrls = getDevlandFile('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
@@ -329,6 +329,7 @@ class QuasarConfFile {
       __VUE_OPTIONS_API__: true,
       __VUE_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true,
 
+      __QUASAR_VERSION__: `'${quasarVersion}'`,
       __QUASAR_SSR__: this.ctx.mode.ssr === true,
       __QUASAR_SSR_SERVER__: false,
       __QUASAR_SSR_CLIENT__: false,

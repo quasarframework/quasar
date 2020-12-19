@@ -1,10 +1,9 @@
 import installQuasar from './install-quasar.js'
-import { version } from '../package.json'
 import lang from './lang.js'
 import iconSet from './icon-set.js'
 
 export default {
-  version,
+  version: __QUASAR_VERSION__,
   install () {
     installQuasar.apply(this, arguments)
   },

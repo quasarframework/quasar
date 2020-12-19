@@ -148,14 +148,7 @@ export function addEvt (ctx, targetName, events) {
     : events
 
   events.forEach(evt => {
-    if (process.env.DEBUGGING && ctx[ evt[ 2 ] ] === void 0) {
-      // hard to track possible issue, so putting it under a build flag
-      // --> this will not be part of the dist/
-      console.error(`addEvt(${evt[ 1 ]}) has empty handler for`, evt[ 0 ])
-    }
-    else {
-      evt[ 0 ].addEventListener(evt[ 1 ], ctx[ evt[ 2 ] ], listenOpts[ evt[ 3 ] ])
-    }
+    evt[ 0 ].addEventListener(evt[ 1 ], ctx[ evt[ 2 ] ], listenOpts[ evt[ 3 ] ])
   })
 }
 
