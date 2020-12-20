@@ -78,7 +78,7 @@ export default defineComponent({
     const blurTargetRef = ref(null)
 
     const { emitListeners } = useEmitListeners(vm)
-    const { show, hide, toggle } = useModelToggle(props, { emit, showing, emitListeners })
+    const { show, hide, toggle } = useModelToggle({ props, emit, showing, emitListeners })
 
     let uniqueId, exitGroup
 

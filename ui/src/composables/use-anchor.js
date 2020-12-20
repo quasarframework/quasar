@@ -13,7 +13,8 @@ export const useAnchorProps = {
   contextMenu: Boolean
 }
 
-export default function (props, {
+export default function ({
+  props,
   vm,
   showing,
   emit, // required for anything except QPopupProxy

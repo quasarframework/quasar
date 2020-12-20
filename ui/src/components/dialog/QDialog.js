@@ -95,7 +95,8 @@ export default defineComponent({
 
     const { showPortal, hidePortal, portalIsActive, renderPortal } = usePortal(vm, renderPortalContent)
 
-    const { show, hide, toggle } = useModelToggle(props, {
+    const { show, hide, toggle } = useModelToggle({
+      props,
       emit,
       showing,
       emitListeners,
@@ -142,11 +143,9 @@ export default defineComponent({
     )
 
     watch(showing, val => {
-      if (transitionShow.value !== transitionHide.value) {
-        nextTick(() => {
-          transitionState.value = val
-        })
-      }
+      nextTick(() => {
+        transitionState.value = val
+      })
     })
 
     watch(() => props.maximized, state => {

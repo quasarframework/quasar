@@ -2,7 +2,7 @@ import { defineComponent, computed, getCurrentInstance } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import { usePanelParentProps, usePanelParent } from '../../composables/use-panel.js'
+import usePanel, { usePanelProps } from '../../composables/use-panel.js'
 
 import { hDir } from '../../utils/render.js'
 
@@ -10,7 +10,7 @@ export default defineComponent({
   name: 'QTabPanels',
 
   props: {
-    ...usePanelParentProps,
+    ...usePanelProps,
     ...useDarkProps
   },
 
@@ -19,7 +19,7 @@ export default defineComponent({
     const { isDark } = useDark(props, $q)
 
     const vm = getCurrentInstance()
-    const { updatePanelsList, getPanelContent, panelDirectives } = usePanelParent(props, emit, $q, vm)
+    const { updatePanelsList, getPanelContent, panelDirectives } = usePanel(props, emit, $q, vm)
 
     const classes = computed(() =>
       'q-tab-panels q-panel-parent' +

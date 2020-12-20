@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 
-import { useTab, useTabProps, useTabEmits } from './use-tab.js'
+import useTab, { useTabProps, useTabEmits } from './use-tab.js'
 
 export default defineComponent({
   name: 'QTab',

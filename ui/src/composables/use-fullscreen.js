@@ -13,10 +13,9 @@ export default function (props, emit, vm) {
   let historyEntry, fullscreenFillerNode, container
   const inFullscreen = ref(false)
 
-  // TODO vue3 - handle router without importing it (for UMD compliancy)
-  // watch($route, () => {
-  //   this.noRouteFullscreenExit !== true && this.exitFullscreen()
-  // })
+  vm.proxy.$route !== void 0 && watch(() => vm.proxy.$route, () => {
+    props.noRouteFullscreenExit !== true && exitFullscreen()
+  })
 
   watch(() => props.fullscreen, v => {
     if (inFullscreen.value !== v) {

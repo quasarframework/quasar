@@ -37,7 +37,7 @@ export const useTabProps = {
   }
 }
 
-export function useTab (props, slots, emit, routerProps) {
+export default function (props, slots, emit, routerProps) {
   const tabs = inject(tabsKey, () => {
     console.error('QTab/QRouteTab component needs to be child of QTabs')
   })

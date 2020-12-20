@@ -21,7 +21,7 @@ export const usePageStickyProps = {
   expand: Boolean
 }
 
-export function usePageSticky (props) {
+export default function (props) {
   const $q = useQuasar()
 
   const layout = inject(layoutKey, () => {

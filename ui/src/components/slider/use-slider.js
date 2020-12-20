@@ -78,7 +78,7 @@ export const useSliderProps = {
 
 export const useSliderEmits = [ 'pan', 'update:modelValue', 'change' ]
 
-export function useSlider ({ props, emit, $q, updateValue, updatePosition, getDragging }) {
+export default function ({ props, emit, $q, updateValue, updatePosition, getDragging }) {
   const { isDark } = useDark(props, $q)
 
   const active = ref(false)

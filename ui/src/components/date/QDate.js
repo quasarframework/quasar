@@ -6,7 +6,7 @@ import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/use-dark.js'
 import useCache from '../../composables/use-cache.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/use-form.js'
-import { useDatetime, useDatetimeProps, useDatetimeEmits, getDayHash } from './use-datetime.js'
+import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from './use-datetime.js'
 
 import { hSlot } from '../../utils/composition-render.js'
 import { formatDate, __splitDate, getDateDiff } from '../../utils/date.js'

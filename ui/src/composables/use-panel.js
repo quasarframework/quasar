@@ -21,7 +21,7 @@ const PanelWrapper = defineComponent({
   }
 })
 
-export const usePanelParentProps = {
+export const usePanelProps = {
   modelValue: {
     required: true
   },
@@ -40,9 +40,9 @@ export const usePanelParentProps = {
   keepAliveMax: Number
 }
 
-export const usePanelParentEmits = [ 'update:modelValue', 'before-transition', 'transition' ]
+export const usePanelEmits = [ 'update:modelValue', 'before-transition', 'transition' ]
 
-export function usePanelParent (props, emit, $q, vm) {
+export default function (props, emit, $q, vm) {
   let panels, forcedPanelTransition
 
   const panelIndex = ref(null)

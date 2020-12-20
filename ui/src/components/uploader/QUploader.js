@@ -1,25 +1,25 @@
 import { defineComponent } from 'vue'
 
-import { useUploaderState, useUploader, useUploaderProps, useUploaderEmits } from './use-uploader.js'
-import { useUploaderXhr, useUploaderXhrProps, useUploaderXhrEmits } from './use-uploader-xhr.js'
+import useUploader from '../../composables/use-uploader.js'
+import useUploaderXhr from '../../composables/use-uploader-xhr.js'
 
 export default defineComponent({
   name: 'QUploader',
 
   props: {
-    ...useUploaderProps,
-    ...useUploaderXhrProps
+    ...useUploader.props,
+    ...useUploaderXhr.props
   },
 
   emits: [
-    ...useUploaderEmits,
-    ...useUploaderXhrEmits
+    ...useUploader.emits,
+    ...useUploaderXhr.emits
   ],
 
   setup (props, { slots, emit }) {
-    const uploaderState = useUploaderState()
-    const uploaderXhr = useUploaderXhr(props, emit, uploaderState)
-    const { renderUploader } = useUploader(props, slots, emit, { ...uploaderState, ...uploaderXhr })
+    const uploaderState = useUploader.getState()
+    const uploaderXhr = useUploaderXhr.getState(props, emit, uploaderState)
+    const { renderUploader } = useUploader.getRender(props, slots, emit, { ...uploaderState, ...uploaderXhr })
 
     return renderUploader
   }

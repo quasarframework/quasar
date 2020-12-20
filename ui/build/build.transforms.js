@@ -1,6 +1,7 @@
 // Partly used with babel-plugin-transform-imports
 // and by @quasar/app auto-import feature
 
+const { readFileSync } = require('fs')
 const glob = require('glob')
 const path = require('path')
 
@@ -18,11 +19,11 @@ function getWithoutExtension (filename) {
 }
 
 function lowerCamelCase (name) {
-  return name.replace(/-([a-z])/g, g => g[1].toUpperCase())
+  return name.replace(/-([a-z])/g, g => g[ 1 ].toUpperCase())
 }
 
 function isExternalUtil (name) {
-  return !['escape-key', 'modal-fn', 'popup', 'sort', 'router-link', 'is', 'noop', 'web-storage'].includes(name)
+  return ![ 'escape-key', 'modal-fn', 'popup', 'sort', 'router-link', 'is', 'noop', 'web-storage' ].includes(name)
 }
 
 function addComponents (map, autoImport) {
@@ -33,12 +34,12 @@ function addComponents (map, autoImport) {
         name = getWithoutExtension(path.basename(file)),
         kebab = kebabCase(name)
 
-      map[name] = file
+      map[ name ] = file
 
       autoImport.kebabComponents.push(kebab)
       autoImport.pascalComponents.push(name)
-      autoImport.importName[name] = name
-      autoImport.importName[kebab] = name
+      autoImport.importName[ name ] = name
+      autoImport.importName[ kebab ] = name
     })
 }
 
@@ -50,10 +51,10 @@ function addDirectives (map, autoImport) {
         name = getWithoutExtension(path.basename(file)),
         kebab = 'v-' + kebabCase(name)
 
-      map[name] = file
+      map[ name ] = file
 
       autoImport.directives.push(kebab)
-      autoImport.importName[kebab] = name
+      autoImport.importName[ kebab ] = name
     })
 }
 
@@ -61,18 +62,21 @@ function addPlugins (map) {
   glob.sync(resolvePath('src/plugins/*.js'))
     .map(relative)
     .forEach(file => {
-      const name = path.basename(file)
-      map[getWithoutExtension(name)] = file
+      const name = getWithoutExtension(path.basename(file))
+      map[ name ] = file
     })
 }
 
+const composablesRE = /\/composables\/([\w-]+)\.js/g
+
 function addComposables (map) {
-  glob.sync(resolvePath('src/composables/*.js'))
-    .map(relative)
-    .forEach(file => {
-      const name = getWithoutExtension(path.basename(file))
-      map[lowerCamelCase(name)] = file
-    })
+  const publicComposables = readFileSync(resolvePath('src/composables.js'), 'utf-8')
+
+  let match
+  while ((match = composablesRE.exec(publicComposables)) !== null) {
+    const name = lowerCamelCase(match[ 1 ])
+    map[ name ] = path.join('src/composables', match[ 1 ] + '.js')
+  }
 }
 
 function addUtils (map) {
@@ -81,19 +85,24 @@ function addUtils (map) {
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
       if (isExternalUtil(name)) {
-        map[name === 'open-url' ? 'openURL' : lowerCamelCase(name)] = file
+        map[ name === 'open-url' ? 'openURL' : lowerCamelCase(name) ] = file
       }
     })
 }
 
-function getImportsFile (map) {
-  return `const map = ${JSON.stringify(map, null, 2)}
+function getImportMapContent (map) {
+  return JSON.stringify(map, null, 2)
+}
+
+function getImportTransformationsContent () {
+  return `const map = require('./import-map.json')
 
 module.exports = function (importName) {
-  if (typeof map[importName] === 'undefined') {
+  const file = map[importName]
+  if (file === void 0) {
     throw new Error('Unknown import from Quasar: ' + importName)
   }
-  return 'quasar/' + map[importName]
+  return 'quasar/' + file
 }
 `
 }
@@ -133,12 +142,17 @@ module.exports.generate = function () {
   addUtils(map)
 
   writeFile(
-    resolvePath(`dist/transforms/imports.js`),
-    getImportsFile(map)
+    resolvePath('dist/transforms/import-map.json'),
+    getImportMapContent(map)
   )
 
   writeFile(
-    resolvePath(`dist/transforms/auto-import.json`),
+    resolvePath('dist/transforms/import-transformation.js'),
+    getImportTransformationsContent()
+  )
+
+  writeFile(
+    resolvePath('dist/transforms/auto-import.json'),
     getAutoImportFile(autoImport)
   )
 }

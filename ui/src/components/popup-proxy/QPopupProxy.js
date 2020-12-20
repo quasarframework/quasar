@@ -29,7 +29,7 @@ export default defineComponent({
     const popupRef = ref(null)
     const breakpoint = computed(() => parseInt(props.breakpoint, 10))
 
-    const { canShow } = useAnchor(props, { vm, showing, $q })
+    const { canShow } = useAnchor({ props, vm, showing, $q })
 
     function getType () {
       return $q.screen.width < breakpoint.value || $q.screen.height < breakpoint.value

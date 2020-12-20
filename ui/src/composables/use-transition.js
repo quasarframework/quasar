@@ -13,12 +13,10 @@ export const useTransitionProps = {
 }
 
 export default function (props, showing) {
-  const transitionState = ref(showing)
+  const transitionState = ref(showing.value)
 
-  watch(() => showing, val => {
-    props.transitionShow !== props.transitionHide && nextTick(() => {
-      transitionState.value = val
-    })
+  watch(showing, val => {
+    nextTick(() => { transitionState.value = val })
   })
 
   return {

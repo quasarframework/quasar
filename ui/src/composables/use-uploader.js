@@ -1,23 +1,25 @@
+/* PUBLIC */
+
 import { h, ref, isRef, computed, watch, provide, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import QBtn from '../btn/QBtn.js'
-import QIcon from '../icon/QIcon.js'
-import QSpinner from '../spinner/QSpinner.js'
-import QCircularProgress from '../circular-progress/QCircularProgress.js'
+import QBtn from '../components/btn/QBtn.js'
+import QIcon from '../components/icon/QIcon.js'
+import QSpinner from '../components/spinner/QSpinner.js'
+import QCircularProgress from '../components/circular-progress/QCircularProgress.js'
 
-import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import { useFile, useFileProps, useFileEmits } from '../../composables/use-file.js'
+import useQuasar from './use-quasar.js'
+import useDark, { useDarkProps } from './use-dark.js'
+import useFile, { useFileProps, useFileEmits } from './use-file.js'
 
-import { stop } from '../../utils/event.js'
-import { humanStorageSize } from '../../utils/format.js'
-import { uploaderKey } from '../../utils/symbols.js'
+import { stop } from '../utils/event.js'
+import { humanStorageSize } from '../utils/format.js'
+import { uploaderKey } from '../utils/symbols.js'
 
 function getProgressLabel (p) {
   return (p * 100).toFixed(2) + '%'
 }
 
-export const useUploaderProps = {
+const props = {
   ...useDarkProps,
   ...useFileProps,
 
@@ -38,12 +40,12 @@ export const useUploaderProps = {
   readonly: Boolean
 }
 
-export const useUploaderEmits = [
+const emits = [
   ...useFileEmits,
   'start', 'finish', 'added', 'removed'
 ]
 
-export function useUploaderState () {
+function getState () {
   const vm = getCurrentInstance()
 
   function updateFileStatus (file, status, uploadedSize) {
@@ -82,7 +84,7 @@ export function useUploaderState () {
   }
 }
 
-export function useUploader (props, slots, emit, state) {
+function getRender (props, slots, emit, state) {
   const vm = getCurrentInstance()
   const $q = useQuasar()
   const { isDark } = useDark(props, $q)
@@ -468,4 +470,11 @@ export function useUploader (props, slots, emit, state) {
       return h('div', data, children)
     }
   }
+}
+
+export default {
+  props,
+  emits,
+  getState,
+  getRender
 }

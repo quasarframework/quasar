@@ -13,7 +13,7 @@ import useTimeout from '../../composables/use-timeout.js'
 
 import { closePortalMenus } from '../../utils/portal.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { position, stopAndPrevent, addEvt } from '../../utils/event.js'
+import { position, stopAndPrevent } from '../../utils/event.js'
 import { hSlot } from '../../utils/composition-render.js'
 import { addEscapeKey, removeEscapeKey } from '../../utils/escape-key.js'
 import { addFocusout, removeFocusout } from '../../utils/focusout.js'
@@ -101,12 +101,13 @@ export default defineComponent({
     const { transition } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
-    const { anchorEl, canShow } = useAnchor(props, {
-      emit, vm, showing, $q
+    const { anchorEl, canShow } = useAnchor({
+      props, emit, vm, showing, $q
     })
 
     const { emitListeners } = useEmitListeners(vm)
-    const { show, hide, toggle } = useModelToggle(props, {
+    const { show, hide, toggle } = useModelToggle({
+      props,
       emit,
       showing, canShow, handleShow, handleHide,
       emitListeners,

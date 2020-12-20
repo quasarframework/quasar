@@ -40,7 +40,7 @@ export function getDayHash (date) {
   return date.year + '/' + pad(date.month) + '/' + pad(date.day)
 }
 
-export function useDatetime (props, $q) {
+export default function (props, $q) {
   const editable = computed(() => {
     return props.disable !== true && props.readonly !== true
   })

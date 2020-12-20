@@ -1,3 +1,5 @@
+/* PUBLIC */
+
 import { ref, computed, getCurrentInstance } from 'vue'
 
 function getFn (prop) {
@@ -6,7 +8,7 @@ function getFn (prop) {
     : () => prop
 }
 
-export const useUploaderXhrProps = {
+const props = {
   url: [ Function, String ],
   method: {
     type: [ Function, String ],
@@ -25,9 +27,9 @@ export const useUploaderXhrProps = {
   factory: Function
 }
 
-export const useUploaderXhrEmits = [ 'factory-failed', 'uploaded', 'failed', 'uploading' ]
+const emits = [ 'factory-failed', 'uploaded', 'failed', 'uploading' ]
 
-export function useUploaderXhr (props, emit, state) {
+function getState (props, emit, state) {
   const vm = getCurrentInstance()
 
   const xhrs = ref([])
@@ -248,4 +250,10 @@ export function useUploaderXhr (props, emit, state) {
     abort,
     upload
   }
+}
+
+export default {
+  props,
+  emits,
+  getState
 }

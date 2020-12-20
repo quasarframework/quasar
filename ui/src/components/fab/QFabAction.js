@@ -3,7 +3,7 @@ import { h, defineComponent, computed, inject, getCurrentInstance } from 'vue'
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
-import { useFab, useFabProps } from './use-fab.js'
+import useFab, { useFabProps } from './use-fab.js'
 import { fabKey } from '../../utils/symbols.js'
 
 import { hMergeSlot } from '../../utils/composition-render.js'

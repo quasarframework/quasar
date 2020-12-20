@@ -152,7 +152,8 @@ export default defineComponent({
       }, duration)
     }
 
-    const { show, hide, toggle } = useModelToggle(props, {
+    const { show, hide, toggle } = useModelToggle({
+      props,
       emit,
       showing,
       emitListeners,

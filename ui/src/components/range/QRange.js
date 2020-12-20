@@ -3,8 +3,7 @@ import { h, defineComponent, ref, computed, watch } from 'vue'
 import useQuasar from '../../composables/use-quasar.js'
 import { useFormInject, useFormProps } from '../../composables/use-form.js'
 
-import {
-  useSlider,
+import useSlider, {
   useSliderProps,
   useSliderEmits,
   getRatio,

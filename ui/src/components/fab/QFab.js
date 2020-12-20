@@ -3,7 +3,7 @@ import { h, defineComponent, ref, computed, provide, getCurrentInstance } from '
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
-import { useFab, useFabProps } from './use-fab.js'
+import useFab, { useFabProps } from './use-fab.js'
 import useQuasar from '../../composables/use-quasar.js'
 import useEmitListeners from '../../composables/use-emit-listeners.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/use-model-toggle.js'
@@ -58,7 +58,8 @@ export default defineComponent({
 
     const hideOnRouteChange = computed(() => props.persistent !== true)
 
-    const { show, hide, toggle } = useModelToggle(props, {
+    const { show, hide, toggle } = useModelToggle({
+      props,
       emit,
       showing,
       emitListeners,

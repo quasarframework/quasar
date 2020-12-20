@@ -65,7 +65,9 @@ export default function (props, vm, attrs) {
   const vmProxy = vm.proxy
 
   const hasLink = computed(() =>
-    props.disable !== true && props.to !== void 0 && props.to !== null && props.to !== ''
+    props.disable !== true &&
+    props.to !== void 0 && props.to !== null && props.to !== '' &&
+    vmProxy.$router !== void 0
   )
 
   const linkTag = computed(() =>

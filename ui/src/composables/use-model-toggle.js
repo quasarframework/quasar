@@ -13,7 +13,8 @@ export const useModelToggleEmits = [
 
 // handleShow/handleHide -> removeTick(), self (& emit show), prepareTick()
 
-export default function (props, {
+export default function ({
+  props,
   emit,
   showing,
   emitListeners,
@@ -127,7 +128,7 @@ export default function (props, {
 
   watch(() => props.modelValue, processModelChange)
 
-  if (vm !== void 0 && hideOnRouteChange !== void 0) {
+  if (hideOnRouteChange !== void 0 && vm !== void 0 && vm.proxy.$route !== void 0) {
     watch(() => vm.proxy.$route, () => {
       if (hideOnRouteChange.value === true && showing.value === true) {
         hide()

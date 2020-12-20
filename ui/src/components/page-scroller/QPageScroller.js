@@ -1,6 +1,6 @@
 import { h, defineComponent, ref, computed, watch, onBeforeUnmount, Transition } from 'vue'
 
-import { usePageSticky, usePageStickyProps } from '../page-sticky/use-page-sticky.js'
+import usePageSticky, { usePageStickyProps } from '../page-sticky/use-page-sticky.js'
 import { getScrollTarget, setScrollPosition } from '../../utils/scroll.js'
 
 export default defineComponent({
