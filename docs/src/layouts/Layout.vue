@@ -189,10 +189,10 @@ export default {
   },
 
   watch: {
-    $route () {
+    $route (newRoute, oldRoute) {
       this.leftDrawerState = this.$q.screen.width > 1023
       setTimeout(() => {
-        this.scrollToCurrentAnchor()
+        this.scrollToCurrentAnchor(newRoute.path !== oldRoute.path)
       })
     },
 
@@ -330,13 +330,22 @@ export default {
         ? document.getElementById(hash.substring(1))
         : null
 
-      const anchor = document.querySelector('.q-overflow-anchor')
-      if (anchor !== null) {
-        anchor.classList.remove('q-overflow-anchor')
-      }
-
       if (el !== null) {
-        el.classList.add('q-overflow-anchor')
+        if (immediate === true) {
+          let anchorEl = el
+          while (anchorEl.parentElement !== null && anchorEl.parentElement.classList.contains('q-page') !== true) {
+            anchorEl = anchorEl.parentElement
+          }
+
+          document.body.classList.add('q-scroll--lock')
+          anchorEl.classList.add('q-scroll--anchor')
+
+          setTimeout(() => {
+            document.body.classList.remove('q-scroll--lock')
+            anchorEl && anchorEl.classList.remove('q-scroll--anchor')
+          }, 2000)
+        }
+
         this.scrollPage(el, immediate === true ? 0 : 500)
       }
       else {
@@ -474,6 +483,10 @@ export default {
 
 .q-page-container :target
   scroll-margin-top: ($toolbar-min-height + 16px)
+
+// keep the button on top of sticky in examples
+.q-page-scroller > .q-page-sticky
+  z-index: 1
 
 .doc-layout
   .countdown
