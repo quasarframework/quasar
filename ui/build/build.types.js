@@ -23,7 +23,7 @@ function write (fileContent, text = '') {
 
 const typeMap = new Map([
   ['Any', 'any'],
-  ['Component', 'Vue'],
+  ['Component', 'Component'],
   ['String', 'string'],
   ['Boolean', 'boolean'],
   ['Number', 'number']
@@ -272,7 +272,7 @@ function writeIndexDTS (apis) {
   //  we ignore the "missing package" error because it's the intended behaviour
   writeLine(contents, `// @ts-ignore`)
   writeLine(contents, `/// <reference types="@quasar/app" />`)
-  writeLine(contents, `import Vue, { VueConstructor, PluginObject } from 'vue'`)
+  writeLine(contents, `import { App, Component, ComponentPublicInstance, ComponentOptions } from 'vue'`)
   writeLine(contents, `import { LooseDictionary } from './ts-helpers'`)
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
@@ -292,7 +292,7 @@ function writeIndexDTS (apis) {
     const typeName = data.name
 
     const extendsVue = (content.type === 'component' || content.type === 'mixin')
-    const typeValue = `${extendsVue ? `VueConstructor<${typeName}>` : typeName}`
+    const typeValue = `${extendsVue ? `ComponentOptions` : typeName}`
     // Add Type to the appropriate section of types
     const propTypeDef = `${typeName}?: ${typeValue}`
     if (content.type === 'component') {
@@ -306,8 +306,8 @@ function writeIndexDTS (apis) {
     }
 
     // Declare class
-    writeLine(quasarTypeContents, `export const ${typeName}: ${extendsVue ? `VueConstructor<${typeName}>` : typeName}`)
-    writeLine(contents, `export interface ${typeName} ${extendsVue ? 'extends Vue ' : ''}{`)
+    writeLine(quasarTypeContents, `export const ${typeName}: ${extendsVue ? `ComponentOptions` : typeName}`)
+    writeLine(contents, `export interface ${typeName} ${extendsVue ? 'extends ComponentPublicInstance ' : ''}{`)
 
     // Write Props
     const props = getPropDefinitions(content.props, content.type === 'plugin', true)
@@ -393,7 +393,7 @@ function writeIndexDTS (apis) {
 
   quasarTypeContents.forEach(line => write(contents, line))
 
-  writeLine(contents, `export const Quasar: PluginObject<Partial<QuasarPluginOptions>>`)
+  writeLine(contents, `export const Quasar: { install: (app: App, options: Partial<QuasarPluginOptions>) => any }`)
   writeLine(contents, `export default Quasar`)
   writeLine(contents)
 
