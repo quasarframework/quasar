@@ -3,7 +3,7 @@ import { h, defineComponent, ref, computed, watch, nextTick, inject, KeepAlive }
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import StepHeader from './StepHeader.js'
 
-import { usePanelChildProps } from '../../composables/use-panel.js'
+import { usePanelChildProps } from '../../composables/private/use-panel.js'
 
 import { stepperKey } from '../../utils/symbols.js'
 import { hSlot } from '../../utils/composition-render.js'

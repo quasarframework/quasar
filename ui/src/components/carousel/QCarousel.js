@@ -3,9 +3,9 @@ import { h, defineComponent, computed, watch, onMounted, onBeforeUnmount, getCur
 import QBtn from '../btn/QBtn.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import usePanel, { usePanelProps, usePanelEmits } from '../../composables/use-panel.js'
-import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/use-fullscreen.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
+import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 
 import { isNumber } from '../../utils/is.js'
 import { hMergeSlot, hDir } from '../../utils/composition-render.js'

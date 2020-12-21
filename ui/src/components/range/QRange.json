@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/form" ],
+  "mixins": [ "composables/private/use-form" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/range"

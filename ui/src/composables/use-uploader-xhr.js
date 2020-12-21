@@ -1,5 +1,3 @@
-/* PUBLIC */
-
 import { ref, computed, getCurrentInstance } from 'vue'
 
 function getFn (prop) {

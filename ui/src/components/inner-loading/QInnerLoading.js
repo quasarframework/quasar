@@ -3,8 +3,8 @@ import { h, defineComponent, computed, Transition } from 'vue'
 import QSpinner from '../spinner/QSpinner.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import useTransition, { useTransitionProps } from '../../composables/use-transition.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
 
 export default defineComponent({
   name: 'QInnerLoading',

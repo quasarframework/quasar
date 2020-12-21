@@ -11,9 +11,9 @@ import QTabPanels from '../tab-panels/QTabPanels.js'
 import QTabPanel from '../tab-panels/QTabPanel.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useCache from '../../composables/use-cache.js'
-import { useFormInject, useFormProps } from '../../composables/use-form.js'
+import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
 import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'

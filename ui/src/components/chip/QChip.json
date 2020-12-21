@@ -1,6 +1,4 @@
 {
-  "mixins": [ "mixins/ripple" ],
-
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/chip"
   },
@@ -92,6 +90,10 @@
       "type": "Boolean",
       "desc": "If set, then it displays a 'remove' icon that when clicked the QChip emits 'remove' event",
       "category": "state"
+    },
+
+    "ripple": {
+      "extends": "ripple"
     },
 
     "tabindex": {

@@ -3,7 +3,7 @@ import { h, defineComponent, ref, computed, withDirectives, onBeforeUnmount, onB
 import TouchPan from '../../directives/TouchPan.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useCache from '../../composables/use-cache.js'
 
 import { hSlot } from '../../utils/composition-render.js'

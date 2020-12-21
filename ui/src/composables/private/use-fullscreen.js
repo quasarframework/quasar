@@ -1,6 +1,6 @@
 import { ref, watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
 
-import History from '../history.js'
+import History from '../../history.js'
 
 export const useFullscreenProps = {
   fullscreen: Boolean,

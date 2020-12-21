@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/ripple", "mixins/size" ],
+  "mixins": [ "composables/private/use-size" ],
 
   "props": {
     "type":{

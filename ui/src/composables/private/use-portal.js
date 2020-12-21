@@ -1,7 +1,7 @@
 import { h, ref, onUnmounted, Teleport } from 'vue'
 
-import { createGlobalNode, removeGlobalNode } from '../utils/global-nodes.js'
-import { portalList } from '../utils/portal.js'
+import { createGlobalNode, removeGlobalNode } from '../../utils/global-nodes.js'
+import { portalList } from '../../utils/portal.js'
 
 // Warning!
 // 1. You MUST specify "inheritAttrs: false" in your component

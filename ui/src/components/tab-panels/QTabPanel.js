@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import { usePanelChildProps } from '../../composables/use-panel.js'
+import { usePanelChildProps } from '../../composables/private/use-panel.js'
 import { hSlot } from '../../utils/composition-render.js'
 
 export default defineComponent({

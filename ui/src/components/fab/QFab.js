@@ -6,7 +6,7 @@ import QIcon from '../icon/QIcon.js'
 import useFab, { useFabProps } from './use-fab.js'
 import useQuasar from '../../composables/use-quasar.js'
 import useEmitListeners from '../../composables/use-emit-listeners.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/use-model-toggle.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
 import { hSlot, hMergeSlot } from '../../utils/composition-render.js'
 import { fabKey } from '../../utils/symbols.js'

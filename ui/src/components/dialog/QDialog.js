@@ -1,13 +1,13 @@
 import { h, defineComponent, ref, computed, watch, onBeforeUnmount, nextTick, Transition, getCurrentInstance } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useHistory from '../../composables/use-history.js'
+import useHistory from '../../composables/private/use-history.js'
 import useTimeout from '../../composables/use-timeout.js'
 import useTick from '../../composables/use-tick.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/use-model-toggle.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 import useEmitListeners from '../../composables/use-emit-listeners.js'
-import usePortal from '../../composables/use-portal.js'
-import usePreventScroll from '../../composables/use-prevent-scroll.js'
+import usePortal from '../../composables/private/use-portal.js'
+import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
 
 import { childHasFocus } from '../../utils/dom.js'
 import { hSlot } from '../../utils/composition-render.js'

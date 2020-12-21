@@ -2,7 +2,7 @@ import { h, defineComponent, computed } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import useSize, { useSizeProps } from '../../composables/use-size.js'
+import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
 import { hMergeSlotSafely } from '../../utils/composition-render.js'
 

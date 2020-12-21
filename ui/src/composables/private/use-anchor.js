@@ -1,9 +1,9 @@
 import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 
-import { clearSelection } from '../utils/selection.js'
-import { addEvt, cleanEvt, prevent } from '../utils/event.js'
-import { getTouchTarget } from '../utils/touch.js'
-import { isKeyCode } from '../utils/key-composition.js'
+import { clearSelection } from '../../utils/selection.js'
+import { addEvt, cleanEvt, prevent } from '../../utils/event.js'
+import { getTouchTarget } from '../../utils/touch.js'
+import { isKeyCode } from '../../utils/key-composition.js'
 
 export const useAnchorProps = {
   target: {

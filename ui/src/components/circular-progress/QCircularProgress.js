@@ -1,7 +1,7 @@
 import { h, defineComponent, computed } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useSize from '../../composables/use-size.js'
+import useSize from '../../composables/private/use-size.js'
 import { useCircularCommonProps } from './use-circular-progress.js'
 
 import { hMergeSlotSafely } from '../../utils/composition-render.js'

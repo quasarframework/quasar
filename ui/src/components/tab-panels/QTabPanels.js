@@ -1,8 +1,8 @@
 import { defineComponent, computed, getCurrentInstance } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import usePanel, { usePanelProps } from '../../composables/use-panel.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import usePanel, { usePanelProps } from '../../composables/private/use-panel.js'
 
 import { hDir } from '../../utils/render.js'
 

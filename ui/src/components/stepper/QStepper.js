@@ -3,8 +3,8 @@ import { h, defineComponent, computed, provide, getCurrentInstance } from 'vue'
 import StepHeader from './StepHeader.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import usePanel, { usePanelProps } from '../../composables/use-panel.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import usePanel, { usePanelProps } from '../../composables/private/use-panel.js'
 
 import { stepperKey } from '../../utils/symbols.js'
 import { hSlot, hMergeSlot, hDir } from '../../utils/composition-render.js'

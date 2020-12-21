@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/field/__QField", "mixins/file", "mixins/form" ],
+  "mixins": [ "components/field/__QField", "composables/private/use-file", "composables/private/use-form" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/file"

@@ -1,6 +1,6 @@
 import { h, computed } from 'vue'
 
-import { stopAndPrevent } from '../utils/event.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 function filterFiles (files, rejectedFiles, failedPropValidation, filterFn) {
   const acceptedFiles = []

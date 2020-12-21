@@ -1,9 +1,9 @@
 import { h, defineComponent, ref, computed, watch, nextTick, Transition, KeepAlive } from 'vue'
 
-import TouchSwipe from '../directives/TouchSwipe.js'
+import TouchSwipe from '../../directives/TouchSwipe.js'
 
-import { hSlot } from '../utils/composition-render.js'
-import { getNormalizedVNodes } from '../utils/vm.js'
+import { hSlot } from '../../utils/composition-render.js'
+import { getNormalizedVNodes } from '../../utils/vm.js'
 
 export const usePanelChildProps = {
   name: { required: true },

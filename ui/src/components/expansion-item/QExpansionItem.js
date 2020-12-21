@@ -8,10 +8,10 @@ import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import { useRouterLinkProps } from '../../composables/use-router-link.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 import useEmitListeners from '../../composables/use-emit-listeners.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/use-model-toggle.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { hSlot } from '../../utils/composition-render.js'

@@ -1,8 +1,8 @@
 import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import useRouterLink, { useRouterLinkProps } from '../../composables/use-router-link.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 
 import { hUniqueSlot } from '../../utils/composition-render.js'
 import { stopAndPrevent } from '../../utils/event.js'

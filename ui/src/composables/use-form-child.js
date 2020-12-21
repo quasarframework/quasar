@@ -1,5 +1,3 @@
-/* PUBLIC */
-
 import { inject, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import { formKey } from '../utils/symbols.js'

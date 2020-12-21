@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/file" ],
+  "mixins": [ "composables/private/use-file" ],
 
   "props": {
     "label": {

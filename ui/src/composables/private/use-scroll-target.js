@@ -1,6 +1,6 @@
 import { ref, watch, onBeforeUnmount } from 'vue'
 
-import { listenOpts } from '../utils/event.js'
+import { listenOpts } from '../../utils/event.js'
 
 export default function (
   props,

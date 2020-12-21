@@ -1,4 +1,4 @@
-import preventScroll from '../utils/prevent-scroll.js'
+import preventScroll from '../../utils/prevent-scroll.js'
 
 export default function () {
   let currentState

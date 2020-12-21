@@ -1,6 +1,6 @@
 import { defineComponent, computed, watch, getCurrentInstance } from 'vue'
 
-import useRouterLink, { useRouterLinkProps } from '../../composables/use-router-link.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 import useTab, { useTabProps, useTabEmits } from './use-tab.js'
 
 export default defineComponent({

@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import useRatio, { useRatioProps } from '../../composables/use-ratio.js'
+import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
 import { hSlot } from '../../utils/composition-render.js'
 

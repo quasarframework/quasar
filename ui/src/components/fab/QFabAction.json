@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/fab" ],
+  "mixins": [ "components/fab/use-fab" ],
 
   "props": {
     "icon": {

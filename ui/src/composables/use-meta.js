@@ -1,5 +1,3 @@
-/* PUBLIC */
-
 import { computed, watch, onActivated, onDeactivated, onUnmounted, useSSRContext } from 'vue'
 
 import { clientList, planClientUpdate } from '../plugins/Meta.js'

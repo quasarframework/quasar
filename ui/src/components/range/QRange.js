@@ -1,7 +1,7 @@
 import { h, defineComponent, ref, computed, watch } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import { useFormInject, useFormProps } from '../../composables/use-form.js'
+import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
 import useSlider, {
   useSliderProps,

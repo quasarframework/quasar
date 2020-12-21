@@ -13,10 +13,10 @@ import QBtn from '../btn/QBtn.js'
 import getTableMiddle from './get-table-middle.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useEmitListeners from '../../composables/use-emit-listeners.js'
 import { commonVirtPropsList } from '../virtual-scroll/use-virtual-scroll.js'
-import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/use-fullscreen.js'
+import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 
 import { useTableSort, useTableSortProps } from './table-sort.js'
 import { useTableFilter, useTableFilterProps } from './table-filter.js'

@@ -1,6 +1,6 @@
 import { h, defineComponent, computed } from 'vue'
 
-import useAlign, { useAlignProps } from '../../composables/use-align.js'
+import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
 
 import { hSlot } from '../../utils/composition-render.js'
 import { getNormalizedVNodes } from '../../utils/vm.js'

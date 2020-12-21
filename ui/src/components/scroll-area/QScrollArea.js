@@ -1,7 +1,7 @@
 import { h, defineComponent, ref, computed, withDirectives, getCurrentInstance } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useEmitListeners from '../../composables/use-emit-listeners.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'

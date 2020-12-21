@@ -9,7 +9,7 @@ import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { shouldIgnoreKey } from '../../utils/key-composition.js'

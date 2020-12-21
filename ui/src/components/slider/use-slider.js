@@ -2,7 +2,7 @@ import { h, ref, computed, onBeforeUnmount } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'

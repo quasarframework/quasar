@@ -4,7 +4,7 @@ import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useAnchor, { useAnchorProps } from '../../composables/use-anchor.js'
+import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
 import { hSlot } from '../../utils/composition-render.js'
 
 export default defineComponent({

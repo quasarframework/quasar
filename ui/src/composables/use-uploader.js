@@ -1,5 +1,3 @@
-/* PUBLIC */
-
 import { h, ref, isRef, computed, watch, provide, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import QBtn from '../components/btn/QBtn.js'
@@ -8,8 +6,8 @@ import QSpinner from '../components/spinner/QSpinner.js'
 import QCircularProgress from '../components/circular-progress/QCircularProgress.js'
 
 import useQuasar from './use-quasar.js'
-import useDark, { useDarkProps } from './use-dark.js'
-import useFile, { useFileProps, useFileEmits } from './use-file.js'
+import useDark, { useDarkProps } from './private/use-dark.js'
+import useFile, { useFileProps, useFileEmits } from './private/use-file.js'
 
 import { stop } from '../utils/event.js'
 import { humanStorageSize } from '../utils/format.js'

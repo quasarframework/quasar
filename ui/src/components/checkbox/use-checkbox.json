@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/size", "mixins/form" ],
+  "mixins": [ "composables/private/use-size", "composables/private/use-form" ],
 
   "props": {
     "model-value": {

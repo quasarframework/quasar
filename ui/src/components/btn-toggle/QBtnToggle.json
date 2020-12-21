@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/ripple", "mixins/form" ],
+  "mixins": [ "composables/private/use-form" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/button-toggle"
@@ -139,6 +139,10 @@
       "type": "Boolean",
       "desc": "Avoid label text wrapping",
       "category": "content"
+    },
+
+    "ripple": {
+      "extends": "ripple"
     },
 
     "dense": {

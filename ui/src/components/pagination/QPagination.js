@@ -4,7 +4,7 @@ import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { between } from '../../utils/format.js'
 import { isKeyCode } from '../../utils/key-composition.js'

@@ -4,8 +4,8 @@ import Caret from './editor-caret.js'
 import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/use-fullscreen.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 import useAttrs from '../../composables/use-attrs.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
