@@ -1,19 +1,23 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
 
-import QField from '../field/QField.js'
 import QChip from '../chip/QChip.js'
 
-import { FormFieldMixin } from '../../mixins/form.js'
-import FileMixin, { FileValueMixin } from '../../mixins/file.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
+import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
+import useFile, { useFileProps, useFileEmits } from '../../composables/private/use-file.js'
+import useFileFormDomProps from '../../composables/private/use-file-dom-props.js'
 
 import { humanStorageSize } from '../../utils/format.js'
 
 export default defineComponent({
   name: 'QFile',
 
-  mixins: [ QField, FileMixin, FormFieldMixin, FileValueMixin ],
-
   props: {
+    ...useFieldProps,
+    ...useFormProps,
+    ...useFileProps,
+
     /* SSR does not know about File & FileList */
     modelValue: __QUASAR_SSR_SERVER__
       ? {}
@@ -34,126 +38,126 @@ export default defineComponent({
     inputStyle: [ Array, String, Object ]
   },
 
-  data () {
-    return {
-      dnd: false
-    }
-  },
+  emits: [
+    ...useFieldEmits,
+    ...useFileEmits
+  ],
 
-  computed: {
-    // needed by QField mixin
-    fieldClass () {
-      return 'q-file q-field--auto-height'
-    },
+  setup (props, { slots, emit, attrs }) {
+    const $q = useQuasar()
+    const state = useFieldState(props, attrs)
 
-    innerValue () {
-      return Object(this.modelValue) === this.modelValue
-        ? ('length' in this.modelValue ? Array.from(this.modelValue) : [this.modelValue])
+    const inputRef = ref(null)
+    const dnd = ref(false)
+    const nameProp = useFormInputNameAttr(props)
+
+    const {
+      pickFiles,
+      addFiles,
+      onDragover,
+      processFiles,
+      getDndNode
+    } = useFile(props, emit, state.editable, dnd, getFileInput, addFilesToQueue)
+
+    const formDomProps = useFileFormDomProps(props)
+
+    const innerValue = computed(() =>
+      Object(props.modelValue) === props.modelValue
+        ? ('length' in props.modelValue ? Array.from(props.modelValue) : [props.modelValue])
         : []
-    },
+    )
 
-    selectedString () {
-      return this.innerValue
+    const hasValue = computed(() => fieldValueIsFilled(innerValue.value))
+
+    const selectedString = computed(() =>
+      innerValue.value
         .map(file => file.name)
         .join(', ')
-    },
+    )
 
-    totalSize () {
-      return humanStorageSize(
-        this.innerValue.reduce((acc, file) => acc + file.size, 0)
+    const totalSize = computed(() =>
+      humanStorageSize(
+        innerValue.value.reduce((acc, file) => acc + file.size, 0)
       )
-    },
+    )
 
-    counterProps () {
-      return {
-        totalSize: this.totalSize,
-        filesNumber: this.innerValue.length,
-        maxFiles: this.maxFiles
-      }
-    },
+    const counterProps = computed(() => ({
+      totalSize: totalSize.value,
+      filesNumber: innerValue.value.length,
+      maxFiles: props.maxFiles
+    }))
 
-    computedCounter () {
-      if (this.counterLabel !== void 0) {
-        return this.counterLabel(this.counterProps)
-      }
+    const inputAttrs = computed(() => ({
+      tabindex: -1,
+      type: 'file',
+      title: '', // try to remove default tooltip,
+      accept: props.accept,
+      capture: props.capture,
+      name: nameProp.value,
+      ...attrs,
+      id: state.targetUid.value,
+      disabled: state.editable.value !== true
+    }))
 
-      const max = this.maxFiles
-      return `${this.innerValue.length}${max !== void 0 ? ' / ' + max : ''} (${this.totalSize})`
-    },
+    const isAppending = computed(() =>
+      props.multiple === true && props.append === true
+    )
 
-    inputAttrs () {
-      return {
-        tabindex: -1,
-        type: 'file',
-        title: '', // try to remove default tooltip,
-        accept: this.accept,
-        capture: this.capture,
-        name: this.nameProp,
-        ...this.$attrs,
-        id: this.targetUid,
-        disabled: this.editable !== true
-      }
-    },
-
-    isAppending () {
-      return this.multiple === true && this.append === true
-    }
-  },
-
-  methods: {
-    removeAtIndex (index) {
-      const files = this.innerValue.slice()
+    function removeAtIndex (index) {
+      const files = innerValue.value.slice()
       files.splice(index, 1)
-      this.__emitValue(files)
-    },
+      emitValue(files)
+    }
 
-    removeFile (file) {
-      const index = this.innerValue.findIndex(file)
+    function removeFile (file) {
+      const index = innerValue.value.findIndex(file)
       if (index > -1) {
-        this.removeAtIndex(index)
+        removeAtIndex(index)
       }
-    },
+    }
 
-    __emitValue (files) {
-      this.$emit('update:modelValue', this.multiple === true ? files : files[ 0 ])
-    },
+    function emitValue (files) {
+      emit('update:modelValue', props.multiple === true ? files : files[ 0 ])
+    }
 
-    __onKeyup (e) {
+    function onKeyup (e) {
       // only on ENTER
-      e.keyCode === 13 && this.pickFiles(e)
-    },
+      e.keyCode === 13 && pickFiles(e)
+    }
 
-    __getFileInput () {
-      return this.$refs.input
-    },
+    function getFileInput () {
+      return inputRef.value
+    }
 
-    __addFiles (e, fileList) {
-      const files = this.__processFiles(e, fileList, this.innerValue, this.isAppending)
+    function addFilesToQueue (e, fileList) {
+      const files = processFiles(e, fileList, innerValue.value, isAppending.value)
 
-      files !== void 0 && this.__emitValue(
-        this.isAppending === true
-          ? this.innerValue.concat(files)
+      files !== void 0 && emitValue(
+        isAppending.value === true
+          ? innerValue.value.concat(files)
           : files
       )
-    },
+    }
 
-    __getSelection () {
-      if (this.$slots.file !== void 0) {
-        return this.innerValue.map((file, index) => this.$slots.file({ index, file, ref: this }))
+    function getSelection () {
+      if (slots.file !== void 0) {
+        return innerValue.value.map(
+          (file, index) => slots.file({ index, file, ref: this })
+        )
       }
 
-      if (this.$slots.selected !== void 0) {
-        return this.$slots.selected({ files: this.innerValue, ref: this })
+      if (slots.selected !== void 0) {
+        return slots.selected({ files: innerValue.value, ref: this })
       }
 
-      if (this.useChips === true) {
-        return this.innerValue.map((file, i) => h(QChip, {
+      if (props.useChips === true) {
+        return innerValue.value.map((file, i) => h(QChip, {
           key: 'file-' + i,
-          removable: this.editable,
+          removable: state.editable.value,
           dense: true,
-          textColor: this.color,
-          tabindex: this.tabindex,
-          onRemove: () => { this.removeAtIndex(i) }
+          textColor: props.color,
+          tabindex: props.tabindex,
+          onRemove: () => { removeAtIndex(i) }
         }, () => h('span', {
           class: 'ellipsis',
           textContent: file.name
@@ -162,56 +166,76 @@ export default defineComponent({
 
       return [
         h('div', {
-          class: this.inputClass,
-          style: this.inputStyle,
-          textContent: this.displayValue !== void 0
-            ? this.displayValue
-            : this.selectedString
+          class: props.inputClass,
+          style: props.inputStyle,
+          textContent: props.displayValue !== void 0
+            ? props.displayValue
+            : selectedString.value
         })
       ]
-    },
+    }
 
-    __getInput () {
+    function getInput () {
       const data = {
-        ref: 'input',
+        ref: inputRef,
         class: 'q-field__input fit absolute-full cursor-pointer',
-        ...this.inputAttrs,
-        ...this.formDomProps,
-        onChange: this.__addFiles
+        ...inputAttrs.value,
+        ...formDomProps.value,
+        onChange: addFilesToQueue
       }
 
-      if (this.multiple === true) {
+      if (props.multiple === true) {
         data.multiple = true
       }
 
       return h('input', data)
     }
-  },
 
-  created () {
-    Object.assign(this.field, {
-      getControlChild: () => this.__getDnd('file'), // getDndNode
+    Object.assign(state, {
+      fieldClass: { value: 'q-file q-field--auto-height' },
+      emitValue,
+      hasValue,
+      inputRef,
+      innerValue,
+
+      floatingLabel: computed(() =>
+        hasValue.value === true ||
+        fieldValueIsFilled(props.displayValue)
+      ),
+
+      computedCounter: computed(() => {
+        if (props.counterLabel !== void 0) {
+          return props.counterLabel(counterProps.value)
+        }
+
+        const max = props.maxFiles
+        return `${innerValue.value.length}${max !== void 0 ? ' / ' + max : ''} (${totalSize.value})`
+      }),
+
+      getControlChild: () => getDndNode('file'),
       getControl: () => {
         const data = {
-          ref: 'target',
+          ref: state.targetRef,
           class: 'q-field__native row items-center cursor-pointer',
-          tabindex: this.tabindex
+          tabindex: props.tabindex
         }
 
-        if (this.editable === true) {
-          data.onDragover = this.__onDragOver
-          data.onKeyup = this.__onKeyup
+        if (state.editable.value === true) {
+          Object.assign(data, { onDragover, onKeyup })
         }
 
-        return h('div', data, [this.__getInput()].concat(this.__getSelection()))
+        return h('div', data, [getInput()].concat(getSelection()))
       }
     })
 
-    // necessary for QField's clearable
-    // and FileValueMixin
-    this.type = 'file'
-  },
+    // expose public methods
+    const vm = getCurrentInstance()
+    Object.assign(vm.proxy, {
+      addFiles,
+      removeAtIndex,
+      removeFile
+    })
 
-  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
-  render: QField.render
+    return useField({ props, slots, emit, attrs, $q, state })
+  }
 })

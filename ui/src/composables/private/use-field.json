@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/validate" ],
+  "mixins": [ "composables/private/use-validate" ],
 
   "props": {
     "label": {

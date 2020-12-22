@@ -1,11 +1,7 @@
 import { computed } from 'vue'
 
-export default function (props) {
-  return computed(() => {
-    if (props.type !== 'file') { // TODO vue3 - handle QInput separately
-      return
-    }
-
+export default function (props, typeGuard) {
+  function getFormDomProps () {
     const model = props.modelValue
 
     try {
@@ -34,5 +30,15 @@ export default function (props) {
         files: void 0
       }
     }
-  })
+  }
+
+  return typeGuard === true
+    ? computed(() => {
+        if (props.type !== 'file') {
+          return
+        }
+
+        return getFormDomProps()
+      })
+    : computed(getFormDomProps)
 }

@@ -24,7 +24,7 @@ export const usePageStickyProps = {
 export default function (props) {
   const $q = useQuasar()
 
-  const layout = inject(layoutKey, () => {
+  const $layout = inject(layoutKey, () => {
     console.error('QPageSticky needs to be child of QLayout')
   })
 
@@ -41,10 +41,10 @@ export default function (props) {
     }
   })
 
-  const top = computed(() => layout.header.offset)
-  const right = computed(() => layout.right.offset)
-  const bottom = computed(() => layout.footer.offset)
-  const left = computed(() => layout.left.offset)
+  const top = computed(() => $layout.header.offset)
+  const right = computed(() => $layout.right.offset)
+  const bottom = computed(() => $layout.footer.offset)
+  const left = computed(() => $layout.left.offset)
 
   const style = computed(() => {
     let posX = 0, posY = 0
@@ -111,7 +111,7 @@ export default function (props) {
   }
 
   return {
-    layout,
+    $layout,
     getStickyContent
   }
 }

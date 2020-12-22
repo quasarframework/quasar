@@ -30,27 +30,27 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const $q = useQuasar()
-    const layout = inject(layoutKey, () => {
+    const $layout = inject(layoutKey, () => {
       console.error('QFooter needs to be child of QLayout')
     })
 
     const size = ref(parseInt(props.heightHint, 10))
     const revealed = ref(true)
     const windowHeight = ref(
-      isRuntimeSsrPreHydration === true || layout.container === true
+      isRuntimeSsrPreHydration === true || $layout.container === true
         ? 0
         : window.innerHeight
     )
 
     const fixed = computed(() =>
       props.reveal === true ||
-      layout.view.indexOf('F') > -1 ||
-      layout.container === true
+      $layout.view.indexOf('F') > -1 ||
+      $layout.container === true
     )
 
     const containerHeight = computed(() =>
-      layout.container === true
-        ? layout.containerHeight.value
+      $layout.container === true
+        ? $layout.containerHeight.value
         : windowHeight.value
     )
 
@@ -61,7 +61,7 @@ export default defineComponent({
       if (fixed.value === true) {
         return revealed.value === true ? size.value : 0
       }
-      const offset = layout.scroll.value.position + containerHeight.value + size.value - layout.height.value
+      const offset = $layout.scroll.value.position + containerHeight.value + size.value - $layout.height.value
       return offset > 0 ? offset : 0
     })
 
@@ -87,14 +87,14 @@ export default defineComponent({
 
     const style = computed(() => {
       const
-        view = layout.rows.value.bottom,
+        view = $layout.rows.value.bottom,
         css = {}
 
-      if (view[ 0 ] === 'l' && layout.left.space === true) {
-        css[ $q.lang.rtl === true ? 'right' : 'left' ] = `${layout.left.size}px`
+      if (view[ 0 ] === 'l' && $layout.left.space === true) {
+        css[ $q.lang.rtl === true ? 'right' : 'left' ] = `${$layout.left.size}px`
       }
-      if (view[ 2 ] === 'r' && layout.right.space === true) {
-        css[ $q.lang.rtl === true ? 'left' : 'right' ] = `${layout.right.size}px`
+      if (view[ 2 ] === 'r' && $layout.right.space === true) {
+        css[ $q.lang.rtl === true ? 'left' : 'right' ] = `${$layout.right.size}px`
       }
 
       return css
@@ -104,8 +104,8 @@ export default defineComponent({
       // ensure state update is caught correctly by Vue diffing
       // on all layout components, so nextTicking:
       nextTick(() => {
-        if (layout.footer[ prop ] !== val) {
-          layout.footer[ prop ] = val
+        if ($layout.footer[ prop ] !== val) {
+          $layout.footer[ prop ] = val
         }
       })
     }
@@ -124,12 +124,12 @@ export default defineComponent({
     function updateRevealed () {
       if (props.reveal !== true) { return }
 
-      const { direction, position, inflexionPosition } = layout.scroll.value
+      const { direction, position, inflexionPosition } = $layout.scroll.value
 
       updateLocal(revealed, (
         direction === 'up' ||
         position - inflexionPosition < 100 ||
-        layout.height.value - containerHeight.value - position - size.value < 300
+        $layout.height.value - containerHeight.value - position - size.value < 300
       ))
     }
 
@@ -144,7 +144,7 @@ export default defineComponent({
     watch(() => props.modelValue, val => {
       updateLayout('space', val)
       updateLocal(revealed, true)
-      layout.animate()
+      $layout.animate()
     })
 
     watch(offset, val => {
@@ -156,26 +156,26 @@ export default defineComponent({
     })
 
     watch(revealed, val => {
-      layout.animate()
+      $layout.animate()
       emit('reveal', val)
     })
 
-    watch([ size, layout.scroll, layout.height ], updateRevealed)
+    watch([ size, $layout.scroll, $layout.height ], updateRevealed)
 
     watch(() => $q.screen.height, val => {
-      layout.container !== true && updateLocal(windowHeight, val)
+      $layout.container !== true && updateLocal(windowHeight, val)
     })
 
     const instance = {}
 
-    layout.instances.footer = instance
+    $layout.instances.footer = instance
     props.modelValue === true && updateLayout('size', size.value)
     updateLayout('space', props.modelValue)
     updateLayout('offset', offset.value)
 
     onBeforeUnmount(() => {
-      if (layout.instances.footer === instance) {
-        layout.instances.footer = void 0
+      if ($layout.instances.footer === instance) {
+        $layout.instances.footer = void 0
         updateLayout('size', 0)
         updateLayout('offset', 0)
         updateLayout('space', false)

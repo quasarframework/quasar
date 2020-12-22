@@ -1,0 +1,607 @@
+import { h, ref, computed, watch, Transition, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
+
+import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
+
+import QIcon from '../../components/icon/QIcon.js'
+import QSpinner from '../../components/spinner/QSpinner.js'
+
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useValidate, { useValidateProps } from './use-validate.js'
+import useAttrs from '../use-attrs.js'
+
+import { hSlot } from '../../utils/composition-render.js'
+import uid from '../../utils/uid.js'
+import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
+
+function getTargetUid (val) {
+  return val === void 0 ? `f_${uid()}` : val
+}
+
+export function fieldValueIsFilled (val) {
+  return val !== void 0 &&
+    val !== null &&
+    ('' + val).length > 0
+}
+
+export const useFieldProps = {
+  ...useDarkProps,
+  ...useValidateProps,
+
+  label: String,
+  stackLabel: Boolean,
+  hint: String,
+  hideHint: Boolean,
+  prefix: String,
+  suffix: String,
+
+  labelColor: String,
+  color: String,
+  bgColor: String,
+
+  filled: Boolean,
+  outlined: Boolean,
+  borderless: Boolean,
+  standout: [ Boolean, String ],
+
+  square: Boolean,
+
+  loading: Boolean,
+
+  labelSlot: Boolean,
+
+  bottomSlots: Boolean,
+  hideBottomSpace: Boolean,
+
+  rounded: Boolean,
+  dense: Boolean,
+  itemAligned: Boolean,
+
+  counter: Boolean,
+
+  clearable: Boolean,
+  clearIcon: String,
+
+  disable: Boolean,
+  readonly: Boolean,
+
+  autofocus: Boolean,
+
+  for: String,
+
+  maxlength: [ Number, String ]
+}
+
+export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popup-show', 'popup-hide' ]
+
+export function useFieldState (props, attrs) {
+  const { qAttrs, qListeners } = useAttrs(attrs)
+
+  return {
+    editable: computed(() =>
+      props.disable !== true && props.readonly !== true
+    ),
+
+    qAttrs,
+    qListeners,
+    targetUid: ref(getTargetUid(props.for)),
+
+    targetRef: ref(null),
+    controlRef: ref(null)
+
+    /**
+     * user supplied additionals:
+
+     * innerValue - computed
+     * floatingLabel - computed
+     * inputRef - computed
+
+     * fieldClass - computed
+     * hasShadow - computed
+
+     * getControlEvents - fn
+     * getControl - fn
+     * getInnerAppend - fn
+     * getControlChild - fn
+     * getShadowControl - fn
+     * showPopup - fn
+     */
+  }
+}
+
+export default function ({
+  props,
+  emit,
+  slots,
+  attrs,
+  $q,
+  state
+}) {
+  const { isDark } = useDark(props, $q)
+
+  let focusoutTimer, hasPopupOpen
+
+  const rootRef = ref(null)
+  const focused = ref(false)
+
+  if (state.hasValue === void 0) {
+    state.hasValue = computed(() => fieldValueIsFilled(props.modelValue))
+  }
+
+  if (state.emitValue === void 0) {
+    state.emitValue = value => {
+      emit('update:modelValue', value)
+    }
+  }
+
+  if (state.computedCounter === void 0) {
+    state.computedCounter = computed(() => {
+      if (props.counter !== false) {
+        const len = typeof props.modelValue === 'string' || typeof props.modelValue === 'number'
+          ? ('' + props.modelValue).length
+          : (Array.isArray(props.modelValue) === true ? props.modelValue.length : 0)
+
+        const max = props.maxlength !== void 0
+          ? props.maxlength
+          : props.maxValues
+
+        return len + (max !== void 0 ? ' / ' + max : '')
+      }
+    })
+  }
+
+  // used internally by validation for QInput
+  // or menu handling for QSelect
+  const innerLoading = ref(false)
+
+  const controlEvents = state.getControlEvents !== void 0
+    ? state.getControlEvents()
+    : {
+        onFocusin: onControlFocusin,
+        onFocusout: onControlFocusout
+      }
+
+  const {
+    isDirtyModel,
+    hasRules,
+    hasError,
+    computedErrorMessage,
+    resetValidation
+  } = useValidate(props, focused, innerLoading)
+
+  const floatingLabel = state.floatingLabel !== void 0
+    ? computed(() => props.stackLabel === true || focused.value === true || state.floatingLabel.value === true)
+    : computed(() => props.stackLabel === true || focused.value === true)
+
+  const shouldRenderBottom = computed(() =>
+    props.bottomSlots === true ||
+    props.hint !== void 0 ||
+    hasRules.value === true ||
+    props.counter === true ||
+    props.error !== null
+  )
+
+  const styleType = computed(() => {
+    if (props.filled === true) { return 'filled' }
+    if (props.outlined === true) { return 'outlined' }
+    if (props.borderless === true) { return 'borderless' }
+    if (props.standout) { return 'standout' }
+    return 'standard'
+  })
+
+  const classes = computed(() =>
+    `q-field row no-wrap items-start q-field--${styleType.value}` +
+    (state.fieldClass !== void 0 ? ` ${state.fieldClass.value}` : '') +
+    (props.rounded === true ? ' q-field--rounded' : '') +
+    (props.square === true ? ' q-field--square' : '') +
+    (floatingLabel.value === true ? ' q-field--float' : '') +
+    (hasLabel.value === true ? ' q-field--labeled' : '') +
+    (props.dense === true ? ' q-field--dense' : '') +
+    (props.itemAligned === true ? ' q-field--item-aligned q-item-type' : '') +
+    (isDark.value === true ? ' q-field--dark' : '') +
+    (state.getControl === void 0 ? ' q-field--auto-height' : '') +
+    (focused.value === true ? ' q-field--focused' : '') +
+    (hasError.value === true ? ' q-field--error' : '') +
+    (hasError.value === true || focused.value === true ? ' q-field--highlighted' : '') +
+    (props.hideBottomSpace !== true && shouldRenderBottom.value === true ? ' q-field--with-bottom' : '') +
+    (props.disable === true ? ' q-field--disabled' : (props.readonly === true ? ' q-field--readonly' : ''))
+  )
+
+  const contentClass = computed(() =>
+    'q-field__control relative-position row no-wrap' +
+    (props.bgColor !== void 0 ? ` bg-${props.bgColor}` : '') +
+    (
+      hasError.value === true
+        ? ' text-negative'
+        : (
+            typeof props.standout === 'string' && props.standout.length > 0 && focused.value === true
+              ? ` ${props.standout}`
+              : (props.color !== void 0 ? ` text-${props.color}` : '')
+          )
+    )
+  )
+
+  const hasLabel = computed(() =>
+    props.labelSlot === true || props.label !== void 0
+  )
+
+  const labelClass = computed(() =>
+    'q-field__label no-pointer-events absolute ellipsis' +
+    (props.labelColor !== void 0 && hasError.value !== true ? ` text-${props.labelColor}` : '')
+  )
+
+  const controlSlotScope = computed(() => ({
+    id: state.targetUid.value,
+    field: rootRef,
+    editable: state.editable.value,
+    focused: focused.value,
+    floatingLabel: floatingLabel.value,
+    modelValue: props.modelValue,
+    emitValue: state.emitValue
+  }))
+
+  const attributes = computed(() => {
+    const acc = {
+      for: state.targetUid.value
+    }
+
+    if (props.disable === true) {
+      acc[ 'aria-disabled' ] = 'true'
+    }
+    else if (props.readonly === true) {
+      acc[ 'aria-readonly' ] = 'true'
+    }
+
+    return acc
+  })
+
+  watch(() => props.for, val => {
+    // don't transform targetUid into a computed
+    // prop as it will break SSR
+    state.targetUid.value = getTargetUid(val)
+  })
+
+  function focus () {
+    if (state.showPopup !== void 0) {
+      state.showPopup()
+      return
+    }
+
+    localFocus()
+  }
+
+  function blur () {
+    const el = document.activeElement
+    // IE can have null document.activeElement
+    if (el !== null && rootRef.value.contains(el)) {
+      el.blur()
+    }
+  }
+
+  function __onControlPopupShow (e) {
+    e !== void 0 && stop(e)
+    emit('popup-show', e)
+    hasPopupOpen = true
+    onControlFocusin(e)
+  }
+
+  function __onControlPopupHide (e) {
+    e !== void 0 && stop(e)
+    emit('popup-hide', e)
+    hasPopupOpen = false
+    onControlFocusout(e)
+  }
+
+  function onControlFocusin (e) {
+    if (state.editable.value === true && focused.value === false) {
+      focused.value = true
+      emit('focus', e)
+    }
+  }
+
+  function onControlFocusout (e, then) {
+    clearTimeout(focusoutTimer)
+    focusoutTimer = setTimeout(() => {
+      if (
+        document.hasFocus() === true && (
+          hasPopupOpen === true ||
+          (
+            state.controlRef !== void 0 &&
+            (
+              state.controlRef.value === null ||
+              state.controlRef.value.contains(document.activeElement) !== false
+            )
+          )
+        )
+      ) {
+        return
+      }
+
+      if (focused.value === true) {
+        focused.value = false
+        emit('blur', e)
+      }
+
+      then !== void 0 && then()
+    })
+  }
+
+  function clearValue (e) {
+    // prevent activating the field but keep focus on desktop
+    stopAndPrevent(e)
+
+    if ($q.platform.is.mobile !== true) {
+      const el = (state.targetRef !== void 0 && state.targetRef.value) || rootRef.value
+      el.focus()
+    }
+    else if (rootRef.value.contains(document.activeElement) === true) {
+      document.activeElement.blur()
+    }
+
+    if (props.type === 'file') {
+      // do not let focus be triggered
+      // as it will make the native file dialog
+      // appear for another selection
+      state.inputRef.value.value = null
+    }
+
+    emit('update:modelValue', null)
+    emit('clear', props.modelValue)
+
+    nextTick(() => {
+      resetValidation()
+
+      if (props.lazyRules !== 'ondemand' && $q.platform.is.mobile !== true) {
+        isDirtyModel.value = false
+      }
+    })
+  }
+
+  function localFocus () {
+    const el = document.activeElement
+    let target = state.targetRef !== void 0 && state.targetRef.value
+    // IE can have null document.activeElement
+    if (target && (el === null || el.id !== state.targetUid.value)) {
+      target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
+      target && target !== el && target.focus()
+    }
+  }
+
+  function getContent () {
+    const node = []
+
+    slots.prepend !== void 0 && node.push(
+      h('div', {
+        class: 'q-field__prepend q-field__marginal row no-wrap items-center',
+        key: 'prepend',
+        onClick: prevent
+      }, slots.prepend())
+    )
+
+    node.push(
+      h('div', {
+        class: 'q-field__control-container col relative-position row no-wrap q-anchor--skip'
+      }, getControlContainer())
+    )
+
+    slots.append !== void 0 && node.push(
+      h('div', {
+        class: 'q-field__append q-field__marginal row no-wrap items-center',
+        key: 'append',
+        onClick: prevent
+      }, slots.append())
+    )
+
+    hasError.value === true && props.noErrorIcon === false && node.push(
+      getInnerAppendNode('error', [
+        h(QIcon, { name: $q.iconSet.field.error, color: 'negative' })
+      ])
+    )
+
+    if (props.loading === true || innerLoading.value === true) {
+      node.push(
+        getInnerAppendNode(
+          'inner-loading-append',
+          slots.loading !== void 0
+            ? slots.loading()
+            : [h(QSpinner, { color: props.color })]
+        )
+      )
+    }
+    else if (props.clearable === true && state.hasValue.value === true && state.editable.value === true) {
+      node.push(
+        getInnerAppendNode('inner-clearable-append', [
+          h(QIcon, {
+            class: 'q-field__focusable-action',
+            tag: 'button',
+            name: props.clearIcon || $q.iconSet.field.clear,
+            tabindex: 0,
+            type: 'button',
+            onClick: clearValue
+          })
+        ])
+      )
+    }
+
+    state.getInnerAppend !== void 0 && node.push(
+      getInnerAppendNode('inner-append', state.getInnerAppend())
+    )
+
+    state.getControlChild !== void 0 && node.push(
+      state.getControlChild()
+    )
+
+    return node
+  }
+
+  function getControlContainer () {
+    const node = []
+
+    props.prefix !== void 0 && props.prefix !== null && node.push(
+      h('div', {
+        class: 'q-field__prefix no-pointer-events row items-center'
+      }, props.prefix)
+    )
+
+    if (state.getShadowControl !== void 0 && state.hasShadow.value === true) {
+      node.push(
+        state.getShadowControl()
+      )
+    }
+
+    if (state.getControl !== void 0) {
+      node.push(state.getControl())
+    }
+    // internal usage only:
+    else if (slots.rawControl !== void 0) {
+      node.push(slots.rawControl())
+    }
+    else if (slots.control !== void 0) {
+      node.push(
+        h('div', {
+          ref: state.targetRef,
+          class: 'q-field__native row',
+          ...state.qAttrs.value,
+          'data-autofocus': props.autofocus
+        }, slots.control(controlSlotScope.value))
+      )
+    }
+
+    hasLabel.value === true && node.push(
+      h('div', {
+        class: labelClass.value
+      }, hSlot(slots.label, props.label))
+    )
+
+    props.suffix !== void 0 && props.suffix !== null && node.push(
+      h('div', {
+        class: 'q-field__suffix no-pointer-events row items-center'
+      }, props.suffix)
+    )
+
+    return node.concat(hSlot(slots.default))
+  }
+
+  function getBottom () {
+    let msg, key
+
+    if (hasError.value === true) {
+      if (computedErrorMessage.value !== void 0) {
+        msg = [h('div', computedErrorMessage.value)]
+        key = computedErrorMessage.value
+      }
+      else {
+        msg = hSlot(slots.error)
+        key = 'q--slot-error'
+      }
+    }
+    else if (props.hideHint !== true || focused.value === true) {
+      if (props.hint !== void 0) {
+        msg = [h('div', props.hint)]
+        key = props.hint
+      }
+      else {
+        msg = hSlot(slots.hint)
+        key = 'q--slot-hint'
+      }
+    }
+
+    const hasCounter = props.counter === true || slots.counter !== void 0
+
+    if (props.hideBottomSpace === true && hasCounter === false && msg === void 0) {
+      return
+    }
+
+    const main = h('div', {
+      key,
+      class: 'q-field__messages col'
+    }, msg)
+
+    return h('div', {
+      class: 'q-field__bottom row items-start q-field__bottom--' +
+        (props.hideBottomSpace !== true ? 'animated' : 'stale')
+    }, [
+      props.hideBottomSpace === true
+        ? main
+        : h(Transition, { name: 'q-transition--field-message' }, () => main),
+
+      hasCounter === true
+        ? h('div', {
+            class: 'q-field__counter'
+          }, slots.counter !== void 0 ? slots.counter() : state.computedCounter.value)
+        : null
+    ])
+  }
+
+  function getInnerAppendNode (key, content) {
+    return content === null
+      ? null
+      : h('div', {
+        key,
+        class: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip'
+      }, content)
+  }
+
+  // expose public methods
+  const vm = getCurrentInstance()
+  Object.assign(vm.proxy, {
+    focus, blur
+  })
+
+  onMounted(() => {
+    if (isRuntimeSsrPreHydration === true && props.for === void 0) {
+      state.targetUid.value = getTargetUid()
+    }
+
+    props.autofocus === true && focus()
+  })
+
+  onBeforeUnmount(() => {
+    clearTimeout(focusoutTimer)
+  })
+
+  // return () => {
+  //   field.onPreRender !== void 0 && field.onPreRender()
+  //   field.onPostRender !== void 0 && nextTick(field.onPostRender)
+  // }
+
+  return function renderField () {
+    return h('label', {
+      ref: rootRef,
+      class: [
+        classes.value,
+        attrs.class
+      ],
+      style: attrs.style,
+      ...attributes.value
+    }, [
+      slots.before !== void 0
+        ? h('div', {
+            class: 'q-field__before q-field__marginal row no-wrap items-center',
+            onClick: prevent
+          }, slots.before())
+        : null,
+
+      h('div', {
+        class: 'q-field__inner relative-position col self-stretch column justify-center'
+      }, [
+        h('div', {
+          ref: state.controlRef,
+          class: contentClass.value,
+          tabindex: -1,
+          ...controlEvents
+        }, getContent()),
+
+        shouldRenderBottom.value === true
+          ? getBottom()
+          : null
+      ]),
+
+      slots.after !== void 0
+        ? h('div', {
+            class: 'q-field__after q-field__marginal row no-wrap items-center',
+            onClick: prevent
+          }, slots.after())
+        : null
+    ])
+  }
+}

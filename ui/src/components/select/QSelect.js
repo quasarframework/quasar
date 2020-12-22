@@ -178,7 +178,7 @@ export default defineComponent({
         : 0
     },
 
-    fieldClass () {
+    fieldClass () { // state.classes
       return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input` +
         ` q-select--with${this.useChips !== true ? 'out' : ''}-chips` +
         ` q-select--${this.multiple === true ? 'multiple' : 'single'}`
@@ -422,7 +422,7 @@ export default defineComponent({
 
     __removeAtIndexAndFocus (index) {
       this.removeAtIndex(index)
-      this.__focus()
+      localFocus()
     },
 
     add (opt, unique) {
@@ -486,7 +486,7 @@ export default defineComponent({
         return
       }
 
-      (this.hasDialog !== true || this.dialogFieldFocused === true) && this.__focus()
+      (this.hasDialog !== true || this.dialogFieldFocused === true) && localFocus()
 
       this.__selectInputText()
 
@@ -1002,7 +1002,7 @@ export default defineComponent({
         this.focused !== true &&
         (this.hasDialog !== true || this.dialogFieldFocused === true)
       ) {
-        this.__focus()
+        localFocus()
       }
 
       if (this.emitListeners.onFilter === true) {
@@ -1311,11 +1311,11 @@ export default defineComponent({
         this.__onControlFocusin(e)
         this.dialog = true
         this.$nextTick(() => {
-          this.__focus()
+          localFocus()
         })
       }
       else {
-        this.__focus()
+        localFocus()
       }
 
       if (this.emitListeners.onFilter === true) {

@@ -11,7 +11,7 @@ export default function (attrs) {
 
       Object.keys(attrs).forEach(key => {
         if (nonAttrsRE.test(key) === false) {
-          acc[ key ] = this.$attrs[ key ]
+          acc[ key ] = attrs[ key ]
         }
       })
 
@@ -23,7 +23,7 @@ export default function (attrs) {
 
       Object.keys(attrs).forEach(key => {
         if (listenerRE.test(key) === true) {
-          acc[ key ] = this.$attrs[ key ]
+          acc[ key ] = attrs[ key ]
         }
       })
 

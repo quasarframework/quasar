@@ -31,7 +31,7 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const timeline = inject(timelineKey, () => {
+    const $timeline = inject(timelineKey, () => {
       console.error('QTimelineEntry needs to be child of QTimeline')
     })
 
@@ -41,11 +41,11 @@ export default defineComponent({
     )
 
     const dotClass = computed(() =>
-      `q-timeline__dot text-${props.color || timeline.color}`
+      `q-timeline__dot text-${props.color || $timeline.color}`
     )
 
     const reverse = computed(() =>
-      timeline.layout === 'comfortable' && timeline.side === 'left'
+      $timeline.layout === 'comfortable' && $timeline.side === 'left'
     )
 
     return () => {

@@ -23,3 +23,7 @@ export function useFormInject (formAttrs = {}, formDomProps = {}) {
     )
   }
 }
+
+export function useFormInputNameAttr (props) {
+  return computed(() => props.name || props.for)
+}

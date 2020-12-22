@@ -50,18 +50,18 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const stepper = inject(stepperKey, () => {
+    const $stepper = inject(stepperKey, () => {
       console.error('QStep needs to be child of QStepper')
     })
 
     const rootRef = ref(null)
 
-    const isActive = computed(() => stepper.value.modelValue === props.name)
+    const isActive = computed(() => $stepper.value.modelValue === props.name)
 
     watch(isActive, active => {
       if (
         active === true &&
-        stepper.value.vertical === true
+        $stepper.value.vertical === true
       ) {
         nextTick(() => {
           if (rootRef.value !== void 0) {
@@ -72,8 +72,8 @@ export default defineComponent({
     })
 
     function getStepContent () {
-      const vertical = stepper.value.vertical
-      return vertical === true && stepper.value.keepAlive === true
+      const vertical = $stepper.value.vertical
+      return vertical === true && $stepper.value.keepAlive === true
         ? h(
             KeepAlive,
             isActive.value === true
@@ -90,15 +90,15 @@ export default defineComponent({
     return () => h(
       'div',
       { ref: rootRef, class: 'q-stepper__step' },
-      stepper.value.vertical === true
+      $stepper.value.vertical === true
         ? [
             h(StepHeader, {
-              stepper: stepper.value,
+              stepper: $stepper.value,
               step: props,
-              goToPanel: stepper.value.goToPanel
+              goToPanel: $stepper.value.goToPanel
             }),
 
-            stepper.value.animated === true
+            $stepper.value.animated === true
               ? h(QSlideTransition, getStepContent)
               : getStepContent()
           ]
