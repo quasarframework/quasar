@@ -136,42 +136,45 @@ export default Vue.extend({
     },
 
     removeUploadedFiles () {
-      if (!this.disable) {
-        this.files = this.files.filter(f => {
-          if (f.__status !== 'uploaded') {
-            return true
-          }
-
-          f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
-
-          return false
-        })
+      this.__removeFiles([ 'uploaded' ], () => {
         this.uploadedFiles = []
-      }
+      })
     },
 
     removeQueuedFiles () {
-      if (!this.disable) {
-        const removedFiles = []
+      this.__removeFiles([ 'idle', 'failed' ], ({ size }) => {
+        this.uploadSize -= size
+        this.queuedFiles = []
+      })
+    },
 
-        const files = this.files.filter(f => {
-          if (f.__status !== 'idle' && f.__status !== 'failed') {
-            return true
-          }
+    __removeFiles (statusList, cb) {
+      if (this.disable === true) {
+        return
+      }
 
-          this.uploadSize -= f.size
-          removedFiles.push(f)
+      const removed = {
+        files: [],
+        size: 0
+      }
 
-          f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
-
-          return false
-        })
-
-        if (removedFiles.length > 0) {
-          this.files = files
-          this.queuedFiles = []
-          this.$emit('removed', removedFiles)
+      const files = this.files.filter(f => {
+        if (statusList.indexOf(f.__status) === -1) {
+          return true
         }
+
+        removed.size += f.size
+        removed.files.push(f)
+
+        f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
+
+        return false
+      })
+
+      if (removed.files.length > 0) {
+        this.files = files
+        cb !== void 0 && cb(removed)
+        this.$emit('removed', removed.files)
       }
     },
 
