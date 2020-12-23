@@ -235,7 +235,7 @@ export default defineComponent({
         setScroll(pos / containerSize.value * scrollSize.value)
 
         // activate thumb pan
-        if (thumbRef.value) {
+        if (thumbRef.value !== null) {
           thumbRef.value.dispatchEvent(new MouseEvent(evt.type, evt))
         }
       }

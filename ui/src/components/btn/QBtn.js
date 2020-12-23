@@ -126,7 +126,7 @@ export default defineComponent({
           const onClickCleanup = () => {
             document.removeEventListener('keydown', stopAndPrevent, true)
             document.removeEventListener('keyup', onClickCleanup, passiveCapture)
-            rootRef.value !== void 0 && rootRef.value.removeEventListener('blur', onClickCleanup, passiveCapture)
+            rootRef.value !== null && rootRef.value.removeEventListener('blur', onClickCleanup, passiveCapture)
           }
 
           document.addEventListener('keydown', stopAndPrevent, true)

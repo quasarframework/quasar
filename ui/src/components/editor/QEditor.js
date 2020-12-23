@@ -314,7 +314,7 @@ export default defineComponent({
     )
 
     function onInput () {
-      if (contentRef.value) {
+      if (contentRef.value !== null) {
         const prop = `inner${isViewingSource.value === true ? 'Text' : 'HTML'}`
         const val = contentRef.value[ prop ]
 
@@ -348,7 +348,7 @@ export default defineComponent({
     }
 
     function onBlur (e) {
-      if (contentRef.value) {
+      if (contentRef.value !== null) {
         const { scrollTop, scrollHeight } = contentRef.value
         offsetBottom = scrollHeight - scrollTop
       }
@@ -358,7 +358,7 @@ export default defineComponent({
 
     function onFocus (e) {
       nextTick(() => {
-        if (contentRef.value && offsetBottom !== void 0) {
+        if (contentRef.value !== null && offsetBottom !== void 0) {
           contentRef.value.scrollTop = contentRef.value.scrollHeight - offsetBottom
         }
       })
@@ -374,7 +374,7 @@ export default defineComponent({
         )
       ) {
         const prop = `inner${isViewingSource.value === true ? 'Text' : 'HTML'}`
-        eVm.caret.restorePosition(contentRef.value[prop].length)
+        eVm.caret.restorePosition(contentRef.value[ prop ].length)
         refreshToolbar()
       }
     }
@@ -416,7 +416,7 @@ export default defineComponent({
     }
 
     function setContent (v, restorePosition) {
-      if (contentRef.value) {
+      if (contentRef.value !== null) {
         if (restorePosition === true) {
           eVm.caret.savePosition()
         }
@@ -451,7 +451,7 @@ export default defineComponent({
     }
 
     function focus () {
-      contentRef.value && contentRef.value.focus()
+      contentRef.value !== null && contentRef.value.focus()
     }
 
     function getContentEl () {

@@ -45,7 +45,7 @@ export default defineComponent({
 
   setup (props, { slots, emit, attrs }) {
     const $q = useQuasar()
-    const state = useFieldState(props, attrs)
+    const state = useFieldState(props, attrs, $q)
 
     const inputRef = ref(null)
     const dnd = ref(false)

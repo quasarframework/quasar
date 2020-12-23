@@ -105,7 +105,7 @@ export default defineComponent({
       onChildClick (evt) {
         hide(evt)
 
-        if (triggerRef.value && triggerRef.value.$el) {
+        if (triggerRef.value !== null) {
           triggerRef.value.$el.focus()
         }
       }

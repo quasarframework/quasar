@@ -93,7 +93,7 @@ export default defineComponent({
             if (stop === true) {
               stop()
             }
-            else if (rootRef.value) {
+            else if (rootRef.value !== null) {
               rootRef.value.closest('body') && poll()
             }
           })

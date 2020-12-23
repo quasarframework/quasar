@@ -216,7 +216,10 @@ export const useVirtualScrollProps = {
 
 export const useVirtualScrollEmits = ['virtual-scroll']
 
-export function useVirtualScroll (props, emit, $q, vm, virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl) {
+export function useVirtualScroll ({
+  props, emit, $q, vm, virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl,
+  virtualScrollItemSizeComputed // optional
+}) {
   let prevScrollStart, prevToIndex, localScrollViewSize, virtualScrollSizesAgg = [], virtualScrollSizes
 
   const virtualScrollPaddingBefore = ref(0)
@@ -231,7 +234,9 @@ export function useVirtualScroll (props, emit, $q, vm, virtualScrollLength, getV
 
   const colspanAttr = computed(() => props.tableColspan !== void 0 ? props.tableColspan : 100)
 
-  const virtualScrollItemSizeComputed = computed(() => props.virtualScrollItemSize)
+  if (virtualScrollItemSizeComputed === void 0) {
+    virtualScrollItemSizeComputed = computed(() => props.virtualScrollItemSize)
+  }
 
   const needsReset = computed(() => virtualScrollItemSizeComputed.value + ';' + props.virtualScrollHorizontal)
 
@@ -239,7 +244,7 @@ export function useVirtualScroll (props, emit, $q, vm, virtualScrollLength, getV
     needsReset.value + ';' + props.virtualScrollSliceRatioBefore + ';' + props.virtualScrollSliceRatioAfter
   )
 
-  watch(needsSliceRecalc, setVirtualScrollSize)
+  watch(needsSliceRecalc, () => { setVirtualScrollSize() })
   watch(needsReset, reset)
 
   function reset () {
@@ -638,10 +643,11 @@ export function useVirtualScroll (props, emit, $q, vm, virtualScrollLength, getV
 
   return {
     virtualScrollSliceRange,
+    virtualScrollSliceSizeComputed,
 
     setVirtualScrollSize,
     onVirtualScrollEvt,
-    localResetVirtualScroll, // TODO vue3 QSelect -> __resetVirtualScroll
+    localResetVirtualScroll,
     padVirtualScroll,
 
     scrollTo,

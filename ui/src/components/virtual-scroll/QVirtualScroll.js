@@ -64,10 +64,10 @@ export default defineComponent({
       padVirtualScroll,
       onVirtualScrollEvt,
       scrollTo, reset, refresh
-    } = useVirtualScroll(
+    } = useVirtualScroll({
       props, emit, $q, vm,
       virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl
-    )
+    })
 
     const virtualScrollScope = computed(() => {
       if (virtualScrollLength.value === 0) {

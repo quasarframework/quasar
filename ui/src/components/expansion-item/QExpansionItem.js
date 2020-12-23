@@ -138,7 +138,7 @@ export default defineComponent({
     }
 
     function toggleIcon (e, keyboard) {
-      keyboard !== true && blurTargetRef.value && blurTargetRef.value.focus()
+      keyboard !== true && blurTargetRef.value !== null && blurTargetRef.value.focus()
       toggle(e)
       stopAndPrevent(e)
     }

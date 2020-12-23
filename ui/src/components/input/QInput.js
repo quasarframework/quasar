@@ -63,7 +63,7 @@ export default defineComponent({
 
     const { onComposition } = useKeyComposition(onInput)
 
-    const state = useFieldState(props, attrs)
+    const state = useFieldState(props, attrs, $q)
 
     const isTextarea = computed(() =>
       props.type === 'textarea' || props.autogrow === true
@@ -168,7 +168,7 @@ export default defineComponent({
     function focus () {
       const el = document.activeElement
       if (
-        inputRef.value &&
+        inputRef.value !== null &&
         inputRef.value !== el &&
         // IE can have null document.activeElement
         (el === null || el.id !== state.targetUid.value)
@@ -178,7 +178,7 @@ export default defineComponent({
     }
 
     function select () {
-      inputRef.value && inputRef.value.select()
+      inputRef.value !== null && inputRef.value.select()
     }
 
     function onPaste (e) {
@@ -253,7 +253,7 @@ export default defineComponent({
     // textarea only
     function adjustHeight () {
       const inp = inputRef.value
-      if (inp) {
+      if (inp !== null) {
         const parentStyle = inp.parentNode.style
 
         // reset height of textarea to a small size to detect the real height
@@ -288,7 +288,7 @@ export default defineComponent({
       // we need to use setTimeout instead of this.$nextTick
       // to avoid a bug where focusout is not emitted for type date/time/week/...
       props.type !== 'file' && setTimeout(() => {
-        if (inputRef.value) {
+        if (inputRef.value !== null) {
           inputRef.value.value = innerValue.value !== void 0 ? innerValue.value : ''
         }
       })

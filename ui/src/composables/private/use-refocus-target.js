@@ -21,7 +21,7 @@ export default function (props, rootRef) {
         rootRef.value.focus()
       }
     }
-    else if ((e === void 0 || rootRef.value.contains(e.target) === true) && refocusRef.value) {
+    else if ((e === void 0 || rootRef.value.contains(e.target) === true) && refocusRef.value !== null) {
       refocusRef.value.focus()
     }
   }

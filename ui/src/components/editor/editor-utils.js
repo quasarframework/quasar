@@ -120,7 +120,7 @@ function getDropdown (eVm, btn) {
         dense: true,
         onClick (e) {
           closeDropdown()
-          eVm.contentRef.value && eVm.contentRef.value.focus()
+          eVm.contentRef.value !== null && eVm.contentRef.value.focus()
           eVm.caret.restore()
           run(e, btn, eVm)
         }

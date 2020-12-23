@@ -80,7 +80,7 @@ export default defineComponent({
     )
 
     watch(() => props.modelValue, val => {
-      menuRef.value && menuRef.value[ val ? 'show' : 'hide' ]()
+      menuRef.value !== null && menuRef.value[ val ? 'show' : 'hide' ]()
     })
 
     watch(() => props.split, hide)
@@ -116,15 +116,15 @@ export default defineComponent({
     }
 
     function toggle (evt) {
-      menuRef.value && menuRef.value.toggle(evt)
+      menuRef.value !== null && menuRef.value.toggle(evt)
     }
 
     function show (evt) {
-      menuRef.value && menuRef.value.show(evt)
+      menuRef.value !== null && menuRef.value.show(evt)
     }
 
     function hide (evt) {
-      menuRef.value && menuRef.value.hide(evt)
+      menuRef.value !== null && menuRef.value.hide(evt)
     }
 
     // expose public methods

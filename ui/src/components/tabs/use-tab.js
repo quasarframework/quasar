@@ -82,7 +82,7 @@ export default function (props, slots, emit, routerProps) {
   // )
 
   function onClick (e, keyboard) {
-    keyboard !== true && blurTargetRef.value && blurTargetRef.value.focus()
+    keyboard !== true && blurTargetRef.value !== null && blurTargetRef.value.focus()
 
     if (props.disable !== true) {
       if (routerProps !== void 0) {

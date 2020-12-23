@@ -700,7 +700,7 @@ export default defineComponent({
     })
 
     watch(view, () => {
-      blurTargetRef.value && blurTargetRef.value.focus()
+      blurTargetRef.value !== null && blurTargetRef.value.focus()
     })
 
     watch(() => viewModel.value.year, year => {

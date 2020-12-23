@@ -325,7 +325,7 @@ export default defineComponent({
     function updatePosition () {
       const el = innerRef.value
 
-      if (anchorEl.value === null || !el) {
+      if (el === null || anchorEl.value === null) {
         return
       }
 

@@ -153,7 +153,7 @@ export default defineComponent({
 
     watch(
       () => props.tableStyle + props.tableClass + props.tableHeaderStyle + props.tableHeaderClass + containerClass.value,
-      () => { hasVirtScroll.value === true && virtScrollRef.value && virtScrollRef.value.reset() }
+      () => { hasVirtScroll.value === true && virtScrollRef.value !== null && virtScrollRef.value.reset() }
     )
 
     const {
@@ -325,7 +325,7 @@ export default defineComponent({
     }
 
     function scrollTo (toIndex, edge) {
-      if (virtScrollRef.value) {
+      if (virtScrollRef.value !== null) {
         virtScrollRef.value.scrollTo(toIndex, edge)
         return
       }

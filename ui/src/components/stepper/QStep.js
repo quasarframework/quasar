@@ -64,7 +64,7 @@ export default defineComponent({
         $stepper.value.vertical === true
       ) {
         nextTick(() => {
-          if (rootRef.value !== void 0) {
+          if (rootRef.value !== null) {
             rootRef.value.scrollTop = 0
           }
         })

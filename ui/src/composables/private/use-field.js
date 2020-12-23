@@ -11,7 +11,7 @@ import useSplitAttrs from './use-split-attrs.js'
 
 import { hSlot } from '../../utils/composition-render.js'
 import uid from '../../utils/uid.js'
-import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
+import { prevent, stopAndPrevent } from '../../utils/event.js'
 
 function getTargetUid (val) {
   return val === void 0 ? `f_${uid()}` : val
@@ -73,15 +73,24 @@ export const useFieldProps = {
 
 export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popup-show', 'popup-hide' ]
 
-export function useFieldState (props, attrs) {
+export function useFieldState (props, attrs, $q) {
+  const { isDark } = useDark(props, $q)
+
   return {
+    isDark,
+
     editable: computed(() =>
       props.disable !== true && props.readonly !== true
     ),
 
+    innerLoading: ref(false),
+    focused: ref(false),
+    hasPopupOpen: ref(false),
+
     splitAttrs: useSplitAttrs(attrs),
     targetUid: ref(getTargetUid(props.for)),
 
+    rootRef: ref(null),
     targetRef: ref(null),
     controlRef: ref(null)
 
@@ -95,7 +104,8 @@ export function useFieldState (props, attrs) {
      * fieldClass - computed
      * hasShadow - computed
 
-     * getControlEvents - fn
+     * controlEvents - Object with fn(e)
+
      * getControl - fn
      * getInnerAppend - fn
      * getControlChild - fn
@@ -113,12 +123,7 @@ export default function ({
   $q,
   state
 }) {
-  const { isDark } = useDark(props, $q)
-
-  let focusoutTimer, hasPopupOpen
-
-  const rootRef = ref(null)
-  const focused = ref(false)
+  let focusoutTimer
 
   if (state.hasValue === void 0) {
     state.hasValue = computed(() => fieldValueIsFilled(props.modelValue))
@@ -129,6 +134,13 @@ export default function ({
       emit('update:modelValue', value)
     }
   }
+
+  Object.assign(state, {
+    clearValue,
+    onControlFocusin,
+    onControlFocusout,
+    localFocus
+  })
 
   if (state.computedCounter === void 0) {
     state.computedCounter = computed(() => {
@@ -146,12 +158,8 @@ export default function ({
     })
   }
 
-  // used internally by validation for QInput
-  // or menu handling for QSelect
-  const innerLoading = ref(false)
-
-  const controlEvents = state.getControlEvents !== void 0
-    ? state.getControlEvents()
+  const controlEvents = state.controlEvents !== void 0
+    ? state.controlEvents
     : {
         onFocusin: onControlFocusin,
         onFocusout: onControlFocusout
@@ -163,11 +171,11 @@ export default function ({
     hasError,
     computedErrorMessage,
     resetValidation
-  } = useValidate(props, focused, innerLoading)
+  } = useValidate(props, state.focused, state.innerLoading)
 
   const floatingLabel = state.floatingLabel !== void 0
-    ? computed(() => props.stackLabel === true || focused.value === true || state.floatingLabel.value === true)
-    : computed(() => props.stackLabel === true || focused.value === true)
+    ? computed(() => props.stackLabel === true || state.focused.value === true || state.floatingLabel.value === true)
+    : computed(() => props.stackLabel === true || state.focused.value === true)
 
   const shouldRenderBottom = computed(() =>
     props.bottomSlots === true ||
@@ -194,11 +202,11 @@ export default function ({
     (hasLabel.value === true ? ' q-field--labeled' : '') +
     (props.dense === true ? ' q-field--dense' : '') +
     (props.itemAligned === true ? ' q-field--item-aligned q-item-type' : '') +
-    (isDark.value === true ? ' q-field--dark' : '') +
+    (state.isDark.value === true ? ' q-field--dark' : '') +
     (state.getControl === void 0 ? ' q-field--auto-height' : '') +
-    (focused.value === true ? ' q-field--focused' : '') +
+    (state.focused.value === true ? ' q-field--focused' : '') +
     (hasError.value === true ? ' q-field--error' : '') +
-    (hasError.value === true || focused.value === true ? ' q-field--highlighted' : '') +
+    (hasError.value === true || state.focused.value === true ? ' q-field--highlighted' : '') +
     (props.hideBottomSpace !== true && shouldRenderBottom.value === true ? ' q-field--with-bottom' : '') +
     (props.disable === true ? ' q-field--disabled' : (props.readonly === true ? ' q-field--readonly' : ''))
   )
@@ -210,7 +218,7 @@ export default function ({
       hasError.value === true
         ? ' text-negative'
         : (
-            typeof props.standout === 'string' && props.standout.length > 0 && focused.value === true
+            typeof props.standout === 'string' && props.standout.length > 0 && state.focused.value === true
               ? ` ${props.standout}`
               : (props.color !== void 0 ? ` text-${props.color}` : '')
           )
@@ -228,9 +236,9 @@ export default function ({
 
   const controlSlotScope = computed(() => ({
     id: state.targetUid.value,
-    field: rootRef,
+    // field: markRaw(state.rootRef.value), // TODO vue3
     editable: state.editable.value,
-    focused: focused.value,
+    focused: state.focused.value,
     floatingLabel: floatingLabel.value,
     modelValue: props.modelValue,
     emitValue: state.emitValue
@@ -269,28 +277,14 @@ export default function ({
   function blur () {
     const el = document.activeElement
     // IE can have null document.activeElement
-    if (el !== null && rootRef.value.contains(el)) {
+    if (el !== null && state.rootRef.value.contains(el)) {
       el.blur()
     }
   }
 
-  function __onControlPopupShow (e) {
-    e !== void 0 && stop(e)
-    emit('popup-show', e)
-    hasPopupOpen = true
-    onControlFocusin(e)
-  }
-
-  function __onControlPopupHide (e) {
-    e !== void 0 && stop(e)
-    emit('popup-hide', e)
-    hasPopupOpen = false
-    onControlFocusout(e)
-  }
-
   function onControlFocusin (e) {
-    if (state.editable.value === true && focused.value === false) {
-      focused.value = true
+    if (state.editable.value === true && state.focused.value === false) {
+      state.focused.value = true
       emit('focus', e)
     }
   }
@@ -300,7 +294,7 @@ export default function ({
     focusoutTimer = setTimeout(() => {
       if (
         document.hasFocus() === true && (
-          hasPopupOpen === true ||
+          state.hasPopupOpen.value === true ||
           (
             state.controlRef !== void 0 &&
             (
@@ -313,8 +307,8 @@ export default function ({
         return
       }
 
-      if (focused.value === true) {
-        focused.value = false
+      if (state.focused.value === true) {
+        state.focused.value = false
         emit('blur', e)
       }
 
@@ -327,14 +321,14 @@ export default function ({
     stopAndPrevent(e)
 
     if ($q.platform.is.mobile !== true) {
-      const el = (state.targetRef !== void 0 && state.targetRef.value) || rootRef.value
+      const el = (state.targetRef !== void 0 && state.targetRef.value) || state.rootRef.value
       el.focus()
     }
-    else if (rootRef.value.contains(document.activeElement) === true) {
+    else if (state.rootRef.value.contains(document.activeElement) === true) {
       document.activeElement.blur()
     }
 
-    if (props.type === 'file') {
+    if (props.type === 'file') { // TODO vue3
       // do not let focus be triggered
       // as it will make the native file dialog
       // appear for another selection
@@ -394,7 +388,7 @@ export default function ({
       ])
     )
 
-    if (props.loading === true || innerLoading.value === true) {
+    if (props.loading === true || state.innerLoading.value === true) {
       node.push(
         getInnerAppendNode(
           'inner-loading-append',
@@ -491,7 +485,7 @@ export default function ({
         key = 'q--slot-error'
       }
     }
-    else if (props.hideHint !== true || focused.value === true) {
+    else if (props.hideHint !== true || state.focused.value === true) {
       if (props.hint !== void 0) {
         msg = [h('div', props.hint)]
         key = props.hint
@@ -563,7 +557,7 @@ export default function ({
 
   return function renderField () {
     return h('label', {
-      ref: rootRef,
+      ref: state.rootRef,
       class: [
         classes.value,
         attrs.class

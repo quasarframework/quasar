@@ -231,7 +231,7 @@ export default defineComponent({
     function focus () {
       let node = innerRef.value
 
-      if (!node || node.contains(document.activeElement) === true) {
+      if (node !== null || node.contains(document.activeElement) === true) {
         return
       }
 
@@ -245,7 +245,7 @@ export default defineComponent({
 
       const node = innerRef.value
 
-      if (node) {
+      if (node !== null) {
         node.classList.remove('q-animate--scale')
         node.classList.add('q-animate--scale')
         clearTimeout(shakeTimeout)
@@ -328,6 +328,11 @@ export default defineComponent({
     Object.assign(vm.proxy, {
       // expose public methods
       show, hide, toggle, focus, shake,
+
+      // private but needed by QSelect
+      __updateRefocusTarget (target) {
+        refocusTarget = target
+      },
 
       // expose needed stuff for portal utils
       quasarPortalInnerRef: innerRef
