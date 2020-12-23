@@ -71,7 +71,7 @@ export default defineComponent({
 
     const onEvents = computed(() => {
       const evt = {
-        ...state.qListeners.value,
+        ...state.splitAttrs.listeners,
         onInput,
         onPaste,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
@@ -103,7 +103,7 @@ export default defineComponent({
         rows: props.type === 'textarea' ? 6 : void 0,
         'aria-label': props.label,
         name: nameProp.value,
-        ...state.qAttrs.value,
+        ...state.splitAttrs.attributes,
         id: state.targetUid.value,
         maxlength: props.maxlength,
         disabled: props.disable === true,

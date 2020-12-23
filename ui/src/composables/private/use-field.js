@@ -7,7 +7,7 @@ import QSpinner from '../../components/spinner/QSpinner.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useValidate, { useValidateProps } from './use-validate.js'
-import useAttrs from '../use-attrs.js'
+import useSplitAttrs from './use-split-attrs.js'
 
 import { hSlot } from '../../utils/composition-render.js'
 import uid from '../../utils/uid.js'
@@ -74,15 +74,12 @@ export const useFieldProps = {
 export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popup-show', 'popup-hide' ]
 
 export function useFieldState (props, attrs) {
-  const { qAttrs, qListeners } = useAttrs(attrs)
-
   return {
     editable: computed(() =>
       props.disable !== true && props.readonly !== true
     ),
 
-    qAttrs,
-    qListeners,
+    splitAttrs: useSplitAttrs(attrs),
     targetUid: ref(getTargetUid(props.for)),
 
     targetRef: ref(null),
@@ -460,7 +457,7 @@ export default function ({
         h('div', {
           ref: state.targetRef,
           class: 'q-field__native row',
-          ...state.qAttrs.value,
+          ...state.splitAttrs.attributes,
           'data-autofocus': props.autofocus
         }, slots.control(controlSlotScope.value))
       )

@@ -1,4 +1,3 @@
-import useAttrs from './composables/use-attrs.js'
 import useCache from './composables/use-cache.js'
 import useCanRender from './composables/use-can-render.js'
 import useFormChild from './composables/use-form-child.js'
@@ -10,7 +9,6 @@ import useUploader from './composables/use-uploader.js'
 import useUploaderXhr from './composables/use-uploader-xhr.js'
 
 export {
-  useAttrs,
   useCache,
   useCanRender,
   useFormChild,

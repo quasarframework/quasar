@@ -6,7 +6,7 @@ import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
 import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
-import useAttrs from '../../composables/use-attrs.js'
+import useSplitAttrs from '../../composables/private/use-split-attrs.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'
@@ -83,7 +83,7 @@ export default defineComponent({
     const $q = useQuasar()
     const { isDark } = useDark(props, $q)
     const { inFullscreen, toggleFullscreen } = useFullscreen(props, emit, vm)
-    const { qListeners } = useAttrs(attrs)
+    const splitAttrs = useSplitAttrs(attrs)
 
     const rootRef = ref(null)
     const contentRef = ref(null)
@@ -514,7 +514,7 @@ export default defineComponent({
           ...(__QUASAR_SSR_SERVER__
             ? { innerHTML: props.modelValue }
             : {}),
-          ...qListeners,
+          ...splitAttrs.listeners,
           onInput,
           onKeydown,
           onClick,

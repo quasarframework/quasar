@@ -958,7 +958,7 @@ export default defineComponent({
         value: this.inputValue !== void 0 ? this.inputValue : '',
         // required for Android in order to show ENTER key when in form
         type: 'search',
-        ...this.qAttrs,
+        ...state.splitAttrs.attributes,
         id: this.targetUid,
         maxlength: this.maxlength, // this is converted to prop by QField
         tabindex: this.tabindex,
@@ -1201,7 +1201,7 @@ export default defineComponent({
           itemAligned: false,
           filled: true,
           stackLabel: this.inputValue.length > 0,
-          ...this.qListeners,
+          ...state.splitAttrs.listeners,
           onFocus: this.__onDialogFieldFocus,
           onBlur: this.__onDialogFieldBlur
         }, {
@@ -1444,7 +1444,7 @@ export default defineComponent({
 
         return h('div', {
           class: 'q-field__native row items-center',
-          ...this.qAttrs
+          ...state.splitAttrs.attributes
         }, child)
       },
 

@@ -13,10 +13,12 @@
 
 <script>
 /* eslint-disable */
-import { ref } from 'vue'
+import { h, ref, computed, watch, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 
 export default {
   setup () {
+    return {
+    }
   }
 }
 </script>
