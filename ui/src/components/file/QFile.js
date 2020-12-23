@@ -231,7 +231,7 @@ export default defineComponent({
     // expose public methods
     const vm = getCurrentInstance()
     Object.assign(vm.proxy, {
-      addFiles,
+      addFiles, // TODO vue3 - should this be exported here? not in QFile.json
       removeAtIndex,
       removeFile
     })

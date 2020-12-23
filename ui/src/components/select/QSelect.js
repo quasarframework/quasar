@@ -1392,6 +1392,18 @@ export default defineComponent({
       clearTimeout(inputTimer)
     })
 
+    // expose public methods
+    Object.assign(vm.proxy, {
+      showPopup, hidePopup,
+      removeAtIndex, add, toggleOption,
+      setOptionIndex, moveOptionSelection,
+      updateInputValue,
+      isOptionSelected, isOptionDisabled, // TODO vue3 - exposing computed prop
+      filter,
+      updateMenuPosition,
+      getEmittingOptionValue, getOptionValue, getOptionLabel
+    })
+
     function onFocusout (e) {
       state.onControlFocusout(e, () => {
         resetInputValue()

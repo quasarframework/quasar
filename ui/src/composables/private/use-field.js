@@ -534,9 +534,7 @@ export default function ({
 
   // expose public methods
   const vm = getCurrentInstance()
-  Object.assign(vm.proxy, {
-    focus, blur
-  })
+  Object.assign(vm.proxy, { focus, blur })
 
   onMounted(() => {
     if (isRuntimeSsrPreHydration === true && props.for === void 0) {

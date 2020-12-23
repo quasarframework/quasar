@@ -232,5 +232,15 @@
         }
       }
     }
+  },
+
+  "methods": {
+    "focus": {
+      "desc": "Focus component"
+    },
+
+    "blur": {
+      "desc": "Blur component (lose focus)"
+    }
   }
 }

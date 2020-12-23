@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, onMounted, nextTick } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeUnmount, onMounted, nextTick, getCurrentInstance } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
 import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
@@ -362,6 +362,10 @@ export default defineComponent({
         ])
       }
     })
+
+    // expose public methods // TODO vue3 - verify if these focus/blur should override use-field ones
+    // const vm = getCurrentInstance()
+    // Object.assign(vm.proxy, { focus, blur, select })
 
     return useField({ props, slots, emit, attrs, $q, state })
   }

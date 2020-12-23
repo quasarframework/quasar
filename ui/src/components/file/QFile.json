@@ -143,14 +143,6 @@
   },
 
   "methods": {
-    "focus": {
-      "desc": "Focus component"
-    },
-
-    "blur": {
-      "desc": "Blur component (lose focus)"
-    },
-
     "removeAtIndex": {
       "desc": "Remove file located at specific index in the model",
       "params": {
