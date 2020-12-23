@@ -16,10 +16,9 @@ export const useModelToggleEmits = [
 export default function ({
   props,
   emit,
+  vm,
   showing,
-  emitListeners,
   canShow, // optional
-  vm, // optional (required by hideOnRouteChange)
   hideOnRouteChange, // optional
   handleShow, // optional
   handleHide, // optional
@@ -41,7 +40,7 @@ export default function ({
       return
     }
 
-    const listener = emitListeners.value[ 'onUpdate:modelValue' ] === true
+    const listener = vm.vnode.props[ 'onUpdate:modelValue' ] === true
 
     if (listener === true && __QUASAR_SSR_SERVER__ !== true) {
       emit('update:modelValue', true)
@@ -80,7 +79,7 @@ export default function ({
       return
     }
 
-    const listener = emitListeners.value[ 'onUpdate:modelValue' ] === true
+    const listener = vm.vnode.props[ 'onUpdate:modelValue' ] === true
 
     if (listener === true && __QUASAR_SSR_SERVER__ !== true) {
       emit('update:modelValue', false)
@@ -116,7 +115,7 @@ export default function ({
 
   function processModelChange (val) {
     if (props.disable === true && val === true) {
-      if (emitListeners.value[ 'onUpdate:modelValue' ] === true) {
+      if (vm.vnode.props[ 'onUpdate:modelValue' ] === true) {
         emit('update:modelValue', false)
       }
     }

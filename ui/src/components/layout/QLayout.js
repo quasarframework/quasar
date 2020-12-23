@@ -1,9 +1,8 @@
-import { h, defineComponent, ref, reactive, computed, provide } from 'vue'
+import { h, defineComponent, ref, reactive, computed, provide, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
 
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
@@ -27,8 +26,8 @@ export default defineComponent({
   emits: [ 'scroll', 'scroll-height', 'resize' ],
 
   setup (props, { slots, emit }) {
+    const vm = getCurrentInstance()
     const $q = useQuasar()
-    const { emitListeners } = useEmitListeners()
 
     const rootRef = ref(null)
 
@@ -73,7 +72,7 @@ export default defineComponent({
       if (props.container === true || document.qScrollPrevented !== true) {
         scroll.value = data
       }
-      emitListeners.value.onScroll === true && emit('scroll', data)
+      vm.vnode.props.onScroll === true && emit('scroll', data)
     }
 
     function onPageResize (data) {
@@ -83,7 +82,7 @@ export default defineComponent({
       if (height.value !== newHeight) {
         resized = true
         height.value = newHeight
-        emitListeners.value.onScrollHeight === true && emit('scroll-height', newHeight)
+        vm.vnode.props.onScrollHeight === true && emit('scroll-height', newHeight)
         updateScrollbarWidth()
       }
       if (width.value !== newWidth) {
@@ -91,8 +90,8 @@ export default defineComponent({
         width.value = newWidth
       }
 
-      if (resized === true) {
-        emitListeners.value.onResize === true && emit('resize', data)
+      if (resized === true && vm.vnode.props.onResize === true) {
+        emit('resize', data)
       }
     }
 

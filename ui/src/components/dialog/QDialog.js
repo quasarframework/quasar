@@ -5,7 +5,6 @@ import useHistory from '../../composables/private/use-history.js'
 import useTimeout from '../../composables/use-timeout.js'
 import useTick from '../../composables/use-tick.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
 import usePortal from '../../composables/private/use-portal.js'
 import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
 
@@ -91,16 +90,14 @@ export default defineComponent({
     const { preventBodyScroll } = usePreventScroll()
     const { registerTimeout, removeTimeout } = useTimeout()
     const { registerTick, removeTick, prepareTick } = useTick()
-    const { emitListeners } = useEmitListeners(vm)
 
     const { showPortal, hidePortal, portalIsActive, renderPortal } = usePortal(vm, renderPortalContent)
 
     const { show, hide, toggle } = useModelToggle({
       props,
       emit,
-      showing,
-      emitListeners,
       vm,
+      showing,
       hideOnRouteChange,
       handleShow,
       handleHide,

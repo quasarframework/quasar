@@ -29,7 +29,7 @@ export const useTablePaginationProps = {
 
 export const useTablePaginationEmits = ['update:pagination']
 
-export function useTablePaginationState (props, emit, emitListeners, getCellValue) {
+export function useTablePaginationState (props, emit, vm, getCellValue) {
   const innerPagination = ref(
     Object.assign({
       sortBy: null,
@@ -42,7 +42,7 @@ export function useTablePaginationState (props, emit, emitListeners, getCellValu
   )
 
   const computedPagination = computed(() => {
-    const pag = emitListeners.value[ 'onUpdate:pagination' ] === true
+    const pag = vm.vnode.props[ 'onUpdate:pagination' ] === true
       ? { ...innerPagination.value, ...props.pagination }
       : innerPagination.value
 
@@ -88,7 +88,7 @@ export function useTablePaginationState (props, emit, emitListeners, getCellValu
 
     if (
       props.pagination !== void 0 &&
-      emitListeners.value[ 'onUpdate:pagination' ] === true
+      vm.vnode.props[ 'onUpdate:pagination' ] === true
     ) {
       emit('update:pagination', newPagination)
     }
@@ -107,7 +107,7 @@ export function useTablePaginationState (props, emit, emitListeners, getCellValu
   }
 }
 
-export function useTablePagination (props, emit, $q, emitListeners, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber) {
+export function useTablePagination (props, emit, $q, vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber) {
   const computedRowsNumber = computed(() =>
     isServerSide.value === true
       ? computedPagination.value.rowsNumber || 0
@@ -188,7 +188,7 @@ export function useTablePagination (props, emit, $q, emitListeners, innerPaginat
     setPagination({ page: pagesNumber.value })
   }
 
-  if (emitListeners.value[ 'onUpdate:pagination' ] === true) {
+  if (vm.vnode.props[ 'onUpdate:pagination' ] === true) {
     emit('update:pagination', { ...computedPagination.value })
   }
 

@@ -4,7 +4,6 @@ import useQuasar from '../../composables/use-quasar.js'
 import useHistory from '../../composables/private/use-history.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
 import useTimeout from '../../composables/use-timeout.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
@@ -76,7 +75,6 @@ export default defineComponent({
 
     const { isDark } = useDark(props, $q)
     const { preventBodyScroll } = usePreventScroll()
-    const { emitListeners } = useEmitListeners(vm)
     const { registerTimeout } = useTimeout()
 
     const $layout = inject(layoutKey, () => {
@@ -155,9 +153,8 @@ export default defineComponent({
     const { show, hide, toggle } = useModelToggle({
       props,
       emit,
-      showing,
-      emitListeners,
       vm,
+      showing,
       hideOnRouteChange,
       handleShow,
       handleHide
@@ -571,7 +568,7 @@ export default defineComponent({
       props.showIfAbove === true &&
       props.modelValue !== true &&
       showing.value === true &&
-      emitListeners.value[ 'onUpdate:modelValue' ] === true
+      vm.vnode.props[ 'onUpdate:modelValue' ] === true
     ) {
       emit('update:modelValue', true)
     }

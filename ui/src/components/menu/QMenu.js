@@ -7,7 +7,6 @@ import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import usePortal from '../../composables/private/use-portal.js'
 import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
 import useTick from '../../composables/use-tick.js'
 import useTimeout from '../../composables/use-timeout.js'
 
@@ -105,13 +104,11 @@ export default defineComponent({
       props, emit, vm, showing, $q
     })
 
-    const { emitListeners } = useEmitListeners(vm)
     const { show, hide, toggle } = useModelToggle({
       props,
       emit,
-      showing, canShow, handleShow, handleHide,
-      emitListeners,
       vm,
+      showing, canShow, handleShow, handleHide,
       hideOnRouteChange,
       processOnMount: true
     })

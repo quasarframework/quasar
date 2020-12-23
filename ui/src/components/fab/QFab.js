@@ -5,7 +5,6 @@ import QIcon from '../icon/QIcon.js'
 
 import useFab, { useFabProps } from './use-fab.js'
 import useQuasar from '../../composables/use-quasar.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
 import { hSlot, hMergeSlot } from '../../utils/composition-render.js'
@@ -54,16 +53,14 @@ export default defineComponent({
 
     const $q = useQuasar()
     const { formClass, labelProps } = useFab(props, showing)
-    const { emitListeners } = useEmitListeners(vm)
 
     const hideOnRouteChange = computed(() => props.persistent !== true)
 
     const { show, hide, toggle } = useModelToggle({
       props,
       emit,
-      showing,
-      emitListeners,
       vm,
+      showing,
       hideOnRouteChange
     })
 

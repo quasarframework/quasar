@@ -216,7 +216,7 @@ export const useVirtualScrollProps = {
 
 export const useVirtualScrollEmits = ['virtual-scroll']
 
-export function useVirtualScroll (props, emit, $q, vm, emitListeners, virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl) {
+export function useVirtualScroll (props, emit, $q, vm, virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl) {
   let prevScrollStart, prevToIndex, localScrollViewSize, virtualScrollSizesAgg = [], virtualScrollSizes
 
   const virtualScrollPaddingBefore = ref(0)
@@ -616,7 +616,7 @@ export function useVirtualScroll (props, emit, $q, vm, emitListeners, virtualScr
 
   function emitScroll (index) {
     if (prevToIndex !== index) {
-      emitListeners.value.onVirtualScroll === true && emit('virtual-scroll', {
+      vm.vnode.props.onVirtualScroll === true && emit('virtual-scroll', {
         index,
         from: virtualScrollSliceRange.value.from,
         to: virtualScrollSliceRange.value.to - 1,

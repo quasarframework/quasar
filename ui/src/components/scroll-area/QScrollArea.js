@@ -2,7 +2,6 @@ import { h, defineComponent, ref, computed, withDirectives, getCurrentInstance }
 
 import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
@@ -59,7 +58,6 @@ export default defineComponent({
 
     const $q = useQuasar()
     const { isDark } = useDark(props, $q)
-    const { emitListeners } = useEmitListeners(vm)
 
     let timer, panRefPos
 
@@ -252,7 +250,7 @@ export default defineComponent({
       }
 
       timer = setTimeout(() => { tempShowing.value = false }, props.delay)
-      emitListeners.onScroll === true && emitScroll()
+      vm.vnode.props.onScroll === true && emitScroll()
     }
 
     function setScroll (offset) {

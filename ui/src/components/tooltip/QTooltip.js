@@ -6,7 +6,6 @@ import useScrollTarget from '../../composables/private/use-scroll-target.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 import usePortal from '../../composables/private/use-portal.js'
 import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
 import useTick from '../../composables/use-tick.js'
 import useTimeout from '../../composables/use-timeout.js'
 
@@ -102,13 +101,11 @@ export default defineComponent({
       props, emit, vm, showing, configureAnchorEl
     })
 
-    const { emitListeners } = useEmitListeners(vm)
     const { show, hide, toggle } = useModelToggle({
       props,
       emit,
-      showing, canShow, handleShow, handleHide,
-      emitListeners,
       vm,
+      showing, canShow, handleShow, handleHide,
       hideOnRouteChange,
       processOnMount: true
     })

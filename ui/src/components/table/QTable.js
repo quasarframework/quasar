@@ -14,7 +14,6 @@ import getTableMiddle from './get-table-middle.js'
 
 import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
 import { commonVirtPropsList } from '../virtual-scroll/use-virtual-scroll.js'
 import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 
@@ -122,7 +121,6 @@ export default defineComponent({
     const vm = getCurrentInstance()
     const $q = useQuasar()
     const { isDark } = useDark(props, $q)
-    const { emitListeners } = useEmitListeners(vm)
     const { inFullscreen, toggleFullscreen } = useFullscreen(props, emit, vm)
 
     const getRowKey = computed(() =>
@@ -165,7 +163,7 @@ export default defineComponent({
 
       requestServerInteraction,
       setPagination
-    } = useTablePaginationState(props, emit, emitListeners, getCellValue)
+    } = useTablePaginationState(props, emit, vm, getCellValue)
 
     const { computedFilterMethod } = useTableFilter(props, setPagination)
     const { isRowExpanded, setExpanded, updateExpanded } = useTableRowExpand(props, emit)
@@ -249,7 +247,7 @@ export default defineComponent({
       prevPage,
       nextPage,
       lastPage
-    } = useTablePagination(props, emit, $q, emitListeners, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber)
+    } = useTablePagination(props, emit, $q, vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber)
 
     const nothingToDisplay = computed(() => computedRows.value.length === 0)
 
@@ -345,7 +343,7 @@ export default defineComponent({
         emit('virtual-scroll', {
           index: toIndex,
           from: 0,
-          to: pagination.value.rowsPerPage - 1,
+          to: pagination.value.rowsPerPage - 1, // TODO vue3
           direction
         })
       }
@@ -421,14 +419,14 @@ export default defineComponent({
 
       const data = { key, class: { selected } }
 
-      if (emitListeners.value.onRowClick === true) {
+      if (vm.vnode.props.onRowClick === true) {
         data.class[ 'cursor-pointer' ] = true
         data.onClick = evt => {
           emit('row-click', evt, row, pageIndex)
         }
       }
 
-      if (emitListeners.value.onRowDblclick === true) {
+      if (vm.vnode.props.onRowDblclick === true) {
         data.class[ 'cursor-pointer' ] = true
         data.onDblclick = evt => {
           emit('row-dblclick', evt, row, pageIndex)
@@ -951,18 +949,18 @@ export default defineComponent({
           }
 
           if (
-            emitListeners.value.onRowClick === true ||
-            emitListeners.value.onRowDblclick === true
+            vm.vnode.props.onRowClick === true ||
+            vm.vnode.props.onRowDblclick === true
           ) {
             data.class[ 0 ] += ' cursor-pointer'
 
-            if (emitListeners.valueonRowClick === true) {
+            if (vm.vnode.props.onRowClick === true) {
               data.onClick = evt => {
                 emit('row-click', evt, scope.row, scope.pageIndex)
               }
             }
 
-            if (emitListeners.value.onRowDblclick === true) {
+            if (vm.vnode.props.onRowDblclick === true) {
               data.onDblclick = evt => {
                 emit('row-dblclick', evt, scope.row, scope.pageIndex)
               }

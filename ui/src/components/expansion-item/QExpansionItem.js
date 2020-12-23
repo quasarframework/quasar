@@ -10,7 +10,6 @@ import QSeparator from '../separator/QSeparator.js'
 import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import { useRouterLinkProps } from '../../composables/private/use-router-link.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
@@ -77,8 +76,7 @@ export default defineComponent({
 
     const blurTargetRef = ref(null)
 
-    const { emitListeners } = useEmitListeners(vm)
-    const { show, hide, toggle } = useModelToggle({ props, emit, showing, emitListeners })
+    const { show, hide, toggle } = useModelToggle({ props, emit, vm, showing })
 
     let uniqueId, exitGroup
 

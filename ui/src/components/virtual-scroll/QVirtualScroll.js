@@ -5,7 +5,6 @@ import QMarkupTable from '../markup-table/QMarkupTable.js'
 import getTableMiddle from '../table/get-table-middle.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
 import { useVirtualScroll, useVirtualScrollProps, useVirtualScrollEmits } from './use-virtual-scroll.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
@@ -49,7 +48,6 @@ export default defineComponent({
   setup (props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
     const $q = useQuasar()
-    const { emitListeners } = useEmitListeners(vm)
 
     let localScrollTarget
     const rootRef = ref(null)
@@ -60,8 +58,14 @@ export default defineComponent({
         : (Array.isArray(props.items) ? props.items.length : 0)
     )
 
-    const { virtualScrollSliceRange, localResetVirtualScroll, padVirtualScroll, onVirtualScrollEvt, scrollTo, reset, refresh } = useVirtualScroll(
-      props, emit, $q, vm, emitListeners,
+    const {
+      virtualScrollSliceRange,
+      localResetVirtualScroll,
+      padVirtualScroll,
+      onVirtualScrollEvt,
+      scrollTo, reset, refresh
+    } = useVirtualScroll(
+      props, emit, $q, vm,
       virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl
     )
 

@@ -1,8 +1,6 @@
-import { h, defineComponent, ref, computed, Transition } from 'vue'
+import { h, defineComponent, ref, computed, Transition, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
-
-import useEmitListeners from '../../composables/use-emit-listeners.js'
 
 import Intersection from '../../directives/Intersection.js'
 
@@ -34,8 +32,8 @@ export default defineComponent({
   emits: ['visibility'],
 
   setup (props, { slots, emit }) {
+    const vm = getCurrentInstance()
     const showing = ref(isRuntimeSsrPreHydration === true ? props.ssrPrerender : false)
-    const { emitListeners } = useEmitListeners()
 
     const intersectionProps = computed(() =>
       props.margin !== void 0 || props.threshold !== void 0
@@ -68,7 +66,7 @@ export default defineComponent({
     function trigger (entry) {
       if (showing.value !== entry.isIntersecting) {
         showing.value = entry.isIntersecting
-        emitListeners.onVisibility === true && emit('visibility', showing.value)
+        vm.vnode.props.onVisibility === true && emit('visibility', showing.value)
       }
     }
 

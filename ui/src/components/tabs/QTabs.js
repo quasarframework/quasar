@@ -6,7 +6,6 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import useQuasar from '../../composables/use-quasar.js'
 import useTick from '../../composables/use-tick.js'
 import useTimeout from '../../composables/use-timeout.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
 
 import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/composition-render.js'
@@ -67,9 +66,9 @@ export default defineComponent({
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
     const $q = useQuasar()
+
     const { registerTick, prepareTick } = useTick()
     const { registerTimeout } = useTimeout()
-    const { emitListeners } = useEmitListeners(vm)
 
     const rootRef = ref(null)
     const contentRef = ref(null)
@@ -155,7 +154,7 @@ export default defineComponent({
         skipEmit !== true && emit('update:modelValue', name)
         if (
           setCurrent === true ||
-          emitListeners[ 'onUpdate:modelValue' ] === void 0
+          vm.vnode.props[ 'onUpdate:modelValue' ] === void 0
         ) {
           animate(currentModel.value, name)
           currentModel.value = name
