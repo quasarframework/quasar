@@ -1,7 +1,6 @@
 // Partly used with babel-plugin-transform-imports
 // and by @quasar/app auto-import feature
 
-const { readFileSync } = require('fs')
 const glob = require('glob')
 const path = require('path')
 
@@ -67,16 +66,13 @@ function addPlugins (map) {
     })
 }
 
-const composablesRE = /\/composables\/([\w-]+)\.js/g
-
 function addComposables (map) {
-  const publicComposables = readFileSync(resolvePath('src/composables.js'), 'utf-8')
-
-  let match
-  while ((match = composablesRE.exec(publicComposables)) !== null) {
-    const name = lowerCamelCase(match[ 1 ])
-    map[ name ] = path.join('src/composables', match[ 1 ] + '.js')
-  }
+  glob.sync(resolvePath('src/composables/*.js'))
+    .map(relative)
+    .forEach(file => {
+      const name = getWithoutExtension(path.basename(file))
+      map[ lowerCamelCase(name) ] = file
+    })
 }
 
 function addUtils (map) {

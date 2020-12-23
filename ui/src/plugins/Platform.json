@@ -49,5 +49,25 @@
       },
       "examples": [ "{ iframe: false }" ]
     }
+  },
+
+  "methods": {
+    "parseSSR": {
+      "desc": "For SSR usage only, and only on the global import (not on $q.platform)",
+      "params": {
+        "ssrContext": {
+          "type": "Object",
+          "desc": "SSR Context Object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "tsType": "Platform",
+        "desc": "Platform object (like $q.platform) for SSR usage purposes",
+        "__exemption": [ "examples" ]
+      }
+    }
   }
 }
