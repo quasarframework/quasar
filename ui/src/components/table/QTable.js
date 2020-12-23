@@ -343,7 +343,7 @@ export default defineComponent({
         emit('virtual-scroll', {
           index: toIndex,
           from: 0,
-          to: pagination.value.rowsPerPage - 1, // TODO vue3
+          to: innerPagination.value.rowsPerPage - 1,
           direction
         })
       }
