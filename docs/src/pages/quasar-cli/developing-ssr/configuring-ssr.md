@@ -67,6 +67,8 @@ Adding SSR mode to a Quasar project means a new folder will be created: `/src-ss
     └── extension.js  # Common code for production & development server
 ```
 
+For your `extension.js` to run during development, **start Quasar dev server in "ssr" mode**:  `quasar dev -m ssr`
+
 You can freely edit these files. You're not required to use an Express server. Simply choose whatever fits you best and tweak however you want.
 
 Notice a few things:
