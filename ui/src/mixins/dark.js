@@ -2,7 +2,7 @@
 // and superseeded by use-dark.js
 // after all components use composition api
 
-import { useDarkProps } from '../composables/use-dark.js'
+import { useDarkProps } from '../composables/private/use-dark.js'
 
 export default {
   props: useDarkProps,

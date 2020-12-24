@@ -1,12 +1,11 @@
 import { h, defineComponent, withDirectives, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, inject, getCurrentInstance } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useHistory from '../../composables/use-history.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/use-model-toggle.js'
-import usePreventScroll from '../../composables/use-prevent-scroll.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
+import useHistory from '../../composables/private/use-history.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
+import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
 import useTimeout from '../../composables/use-timeout.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import TouchPan from '../../directives/TouchPan.js'
 
@@ -76,10 +75,9 @@ export default defineComponent({
 
     const { isDark } = useDark(props, $q)
     const { preventBodyScroll } = usePreventScroll()
-    const { emitListeners } = useEmitListeners(vm)
     const { registerTimeout } = useTimeout()
 
-    const layout = inject(layoutKey, () => {
+    const $layout = inject(layoutKey, () => {
       console.error('QDrawer needs to be child of QLayout')
     })
 
@@ -87,7 +85,7 @@ export default defineComponent({
 
     const belowBreakpoint = ref(
       props.behavior === 'mobile' ||
-      (props.behavior !== 'desktop' && layout.totalWidth.value <= props.breakpoint)
+      (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
     )
 
     const isMini = computed(() =>
@@ -114,17 +112,17 @@ export default defineComponent({
     function handleShow (evt, noEvent) {
       addToHistory()
 
-      evt !== false && layout.animate()
+      evt !== false && $layout.animate()
       applyPosition(0)
 
       if (belowBreakpoint.value === true) {
-        const otherInstance = layout.instances[ otherSide.value ]
+        const otherInstance = $layout.instances[ otherSide.value ]
         if (otherInstance !== void 0 && otherInstance.belowBreakpoint === true) {
           otherInstance.hide(false)
         }
 
         applyBackdrop(1)
-        layout.container !== true && preventBodyScroll(true)
+        $layout.container !== true && preventBodyScroll(true)
       }
       else {
         applyBackdrop(0)
@@ -140,7 +138,7 @@ export default defineComponent({
     function handleHide (evt, noEvent) {
       removeFromHistory()
 
-      evt !== false && layout.animate()
+      evt !== false && $layout.animate()
 
       applyBackdrop(0)
       applyPosition(stateDirection.value * size.value)
@@ -152,11 +150,11 @@ export default defineComponent({
       }, duration)
     }
 
-    const { show, hide, toggle } = useModelToggle(props, {
+    const { show, hide } = useModelToggle({
+      props,
       emit,
-      showing,
-      emitListeners,
       vm,
+      showing,
       hideOnRouteChange,
       handleShow,
       handleHide
@@ -192,8 +190,8 @@ export default defineComponent({
     const fixed = computed(() =>
       props.overlay === true ||
       props.miniToOverlay === true ||
-      layout.view.indexOf(rightSide.value ? 'R' : 'L') > -1 ||
-      ($q.platform.is.ios === true && layout.container === true)
+      $layout.view.indexOf(rightSide.value ? 'R' : 'L') > -1 ||
+      ($q.platform.is.ios === true && $layout.container === true)
     )
 
     const onLayout = computed(() =>
@@ -219,34 +217,34 @@ export default defineComponent({
 
     const headerSlot = computed(() =>
       rightSide.value === true
-        ? layout.rows.value.top[ 2 ] === 'r'
-        : layout.rows.value.top[ 0 ] === 'l'
+        ? $layout.rows.value.top[ 2 ] === 'r'
+        : $layout.rows.value.top[ 0 ] === 'l'
     )
 
     const footerSlot = computed(() =>
       rightSide.value === true
-        ? layout.rows.value.bottom[ 2 ] === 'r'
-        : layout.rows.value.bottom[ 0 ] === 'l'
+        ? $layout.rows.value.bottom[ 2 ] === 'r'
+        : $layout.rows.value.bottom[ 0 ] === 'l'
     )
 
     const aboveStyle = computed(() => {
       const css = {}
 
-      if (layout.header.space === true && headerSlot.value === false) {
+      if ($layout.header.space === true && headerSlot.value === false) {
         if (fixed.value === true) {
-          css.top = `${layout.header.offset}px`
+          css.top = `${$layout.header.offset}px`
         }
-        else if (layout.header.space === true) {
-          css.top = `${layout.header.size}px`
+        else if ($layout.header.space === true) {
+          css.top = `${$layout.header.size}px`
         }
       }
 
-      if (layout.footer.space === true && footerSlot.value === false) {
+      if ($layout.footer.space === true && footerSlot.value === false) {
         if (fixed.value === true) {
-          css.bottom = `${layout.footer.offset}px`
+          css.bottom = `${$layout.footer.offset}px`
         }
-        else if (layout.footer.space === true) {
-          css.bottom = `${layout.footer.size}px`
+        else if ($layout.footer.space === true) {
+          css.bottom = `${$layout.footer.size}px`
         }
       }
 
@@ -351,7 +349,7 @@ export default defineComponent({
       }
     })
 
-    watch(layout.totalWidth, val => {
+    watch($layout.totalWidth, val => {
       updateLocal(belowBreakpoint, (
         props.behavior === 'mobile' ||
         (props.behavior !== 'desktop' && val <= props.breakpoint)
@@ -359,25 +357,25 @@ export default defineComponent({
     })
 
     watch(() => props.side, (newSide, oldSide) => {
-      if (layout.instances[ oldSide ] === instance) {
-        layout.instances[ oldSide ] = void 0
-        layout[ oldSide ].space = false
-        layout[ oldSide ].offset = 0
+      if ($layout.instances[ oldSide ] === instance) {
+        $layout.instances[ oldSide ] = void 0
+        $layout[ oldSide ].space = false
+        $layout[ oldSide ].offset = 0
       }
 
-      layout.instances[ newSide ] = instance
-      layout[ newSide ].size = size.value
-      layout[ newSide ].space = onLayout.value
-      layout[ newSide ].offset = offset.value
+      $layout.instances[ newSide ] = instance
+      $layout[ newSide ].size = size.value
+      $layout[ newSide ].space = onLayout.value
+      $layout[ newSide ].offset = offset.value
     })
 
     watch(() => props.behavior + props.breakpoint, updateBelowBreakpoint)
 
-    watch(() => layout.container, val => {
+    watch(() => $layout.container, val => {
       showing.value === true && preventBodyScroll(val !== true)
     })
 
-    watch(layout.scrollbarWidth, () => {
+    watch($layout.scrollbarWidth, () => {
       applyPosition(showing.value === true ? 0 : void 0)
     })
 
@@ -404,7 +402,7 @@ export default defineComponent({
     watch(() => props.mini, () => {
       if (props.modelValue === true) {
         animateMini()
-        layout.animate()
+        $layout.animate()
       }
     })
 
@@ -419,11 +417,11 @@ export default defineComponent({
       }
       else {
         if (
-          layout.container === true &&
+          $layout.container === true &&
           rightSide.value === true &&
           (belowBreakpoint.value === true || Math.abs(position) === size.value)
         ) {
-          position += stateDirection.value * layout.scrollbarWidth.value
+          position += stateDirection.value * $layout.scrollbarWidth.value
         }
 
         flagContentPosition.value = position
@@ -433,7 +431,7 @@ export default defineComponent({
     function updateBelowBreakpoint () {
       updateLocal(belowBreakpoint, (
         props.behavior === 'mobile' ||
-        (props.behavior !== 'desktop' && layout.totalWidth.value <= props.breakpoint)
+        (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
       ))
     }
 
@@ -444,7 +442,7 @@ export default defineComponent({
     function setScrollable (v) {
       const action = v === true
         ? 'remove'
-        : (layout.container !== true ? 'add' : '')
+        : ($layout.container !== true ? 'add' : '')
 
       action !== '' && document.body.classList[ action ]('q-body--drawer-toggle')
     }
@@ -475,7 +473,7 @@ export default defineComponent({
           show()
         }
         else {
-          layout.animate()
+          $layout.animate()
           applyBackdrop(0)
           applyPosition(stateDirection.value * width)
         }
@@ -516,7 +514,7 @@ export default defineComponent({
         const opened = Math.abs(position) < Math.min(75, width)
 
         if (opened === true) {
-          layout.animate()
+          $layout.animate()
           applyBackdrop(1)
           applyPosition(0)
         }
@@ -545,8 +543,8 @@ export default defineComponent({
       // ensure state update is caught correctly by Vue diffing
       // on all layout components, so nextTicking:
       nextTick(() => {
-        if (layout[ props.side ][ prop ] !== val) {
-          layout[ props.side ][ prop ] = val
+        if ($layout[ props.side ][ prop ] !== val) {
+          $layout[ props.side ][ prop ] = val
         }
       })
     }
@@ -561,7 +559,7 @@ export default defineComponent({
       updateLayout('size', miniToOverlay === true ? props.miniWidth : size)
     }
 
-    layout.instances[ props.side ] = instance
+    $layout.instances[ props.side ] = instance
     updateSizeOnLayout(props.miniToOverlay, size.value)
     updateLayout('space', onLayout.value)
     updateLayout('offset', offset.value)
@@ -570,7 +568,7 @@ export default defineComponent({
       props.showIfAbove === true &&
       props.modelValue !== true &&
       showing.value === true &&
-      emitListeners.value[ 'onUpdate:modelValue' ] === true
+      vm.vnode.props[ 'onUpdate:modelValue' ] === true
     ) {
       emit('update:modelValue', true)
     }
@@ -586,14 +584,14 @@ export default defineComponent({
         action(false, true)
       }
 
-      if (layout.totalWidth.value !== 0) {
+      if ($layout.totalWidth.value !== 0) {
         // make sure that all computed properties
         // have been updated before calling handleShow/handleHide()
         nextTick(fn)
         return
       }
 
-      layoutTotalWidthWatcher = watch(layout.totalWidth, () => {
+      layoutTotalWidthWatcher = watch($layout.totalWidth, () => {
         layoutTotalWidthWatcher()
         layoutTotalWidthWatcher = void 0
 
@@ -612,16 +610,13 @@ export default defineComponent({
 
       showing.value === true && cleanup()
 
-      if (layout.instances[ props.side ] === instance) {
-        layout.instances[ props.side ] = void 0
+      if ($layout.instances[ props.side ] === instance) {
+        $layout.instances[ props.side ] = void 0
         updateLayout('size', 0)
         updateLayout('offset', 0)
         updateLayout('space', false)
       }
     })
-
-    // expose public methods
-    Object.assign(vm.proxy, { show, hide, toggle })
 
     return () => {
       const child = []
@@ -660,7 +655,7 @@ export default defineComponent({
         h('div', {
           ...attrs,
           class: [
-            'q-drawer__content fit ' + (layout.container === true ? 'overflow-auto' : 'scroll'),
+            'q-drawer__content fit ' + ($layout.container === true ? 'overflow-auto' : 'scroll'),
             attrs.class
           ]
         }, isMini.value === true && slots.mini !== void 0

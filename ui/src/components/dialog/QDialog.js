@@ -1,13 +1,12 @@
 import { h, defineComponent, ref, computed, watch, onBeforeUnmount, nextTick, Transition, getCurrentInstance } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useHistory from '../../composables/use-history.js'
+import useHistory from '../../composables/private/use-history.js'
 import useTimeout from '../../composables/use-timeout.js'
 import useTick from '../../composables/use-tick.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/use-model-toggle.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
-import usePortal from '../../composables/use-portal.js'
-import usePreventScroll from '../../composables/use-prevent-scroll.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
+import usePortal from '../../composables/private/use-portal.js'
+import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
 
 import { childHasFocus } from '../../utils/dom.js'
 import { hSlot } from '../../utils/composition-render.js'
@@ -75,31 +74,30 @@ export default defineComponent({
 
   setup (props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
-    const transitionState = ref(props.showing)
     const innerRef = ref(null)
     const showing = ref(false)
+    const transitionState = ref(false)
 
     let shakeTimeout, refocusTarget, isMaximized
 
     const hideOnRouteChange = computed(() =>
       props.persistent !== true &&
-        props.noRouteDismiss !== true &&
-        props.seamless !== true
+      props.noRouteDismiss !== true &&
+      props.seamless !== true
     )
 
     const $q = useQuasar()
     const { preventBodyScroll } = usePreventScroll()
     const { registerTimeout, removeTimeout } = useTimeout()
     const { registerTick, removeTick, prepareTick } = useTick()
-    const { emitListeners } = useEmitListeners(vm)
 
-    const { showPortal, hidePortal, portalIsActive, renderPortal } = usePortal(vm, renderPortalContent)
+    const { showPortal, hidePortal, portalIsActive, renderPortal } = usePortal(vm, innerRef, renderPortalContent)
 
-    const { show, hide, toggle } = useModelToggle(props, {
+    const { hide } = useModelToggle({
+      props,
       emit,
-      showing,
-      emitListeners,
       vm,
+      showing,
       hideOnRouteChange,
       handleShow,
       handleHide,
@@ -142,11 +140,9 @@ export default defineComponent({
     )
 
     watch(showing, val => {
-      if (transitionShow.value !== transitionHide.value) {
-        nextTick(() => {
-          transitionState.value = val
-        })
-      }
+      nextTick(() => {
+        transitionState.value = val
+      })
     })
 
     watch(() => props.maximized, state => {
@@ -235,7 +231,7 @@ export default defineComponent({
     function focus () {
       let node = innerRef.value
 
-      if (!node || node.contains(document.activeElement) === true) {
+      if (node !== null || node.contains(document.activeElement) === true) {
         return
       }
 
@@ -249,7 +245,7 @@ export default defineComponent({
 
       const node = innerRef.value
 
-      if (node) {
+      if (node !== null) {
         node.classList.remove('q-animate--scale')
         node.classList.add('q-animate--scale')
         clearTimeout(shakeTimeout)
@@ -331,10 +327,12 @@ export default defineComponent({
 
     Object.assign(vm.proxy, {
       // expose public methods
-      show, hide, toggle, focus, shake,
+      focus, shake,
 
-      // expose needed stuff for portal utils
-      quasarPortalInnerRef: innerRef
+      // private but needed by QSelect
+      __updateRefocusTarget (target) {
+        refocusTarget = target
+      }
     })
 
     onBeforeUnmount(() => {

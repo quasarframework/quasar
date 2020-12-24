@@ -1,7 +1,5 @@
 import { h, defineComponent, ref, onMounted, getCurrentInstance, nextTick, provide } from 'vue'
 
-import useEmitListeners from '../../composables/use-emit-listeners.js'
-
 import { stopAndPrevent } from '../../utils/event.js'
 import { hSlot } from '../../utils/composition-render.js'
 import { formKey } from '../../utils/symbols.js'
@@ -20,7 +18,6 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const { emitListeners } = useEmitListeners(vm)
     const rootRef = ref(null)
 
     let validateIndex = 0
@@ -113,7 +110,7 @@ export default defineComponent({
 
       validate().then(val => {
         if (val === true) {
-          if (emitListeners.value.onSubmit === true) {
+          if (vm.vnode.props.onSubmit === true) {
             emit('submit', evt)
           }
           else if (evt !== void 0 && evt.target !== void 0 && typeof evt.target.submit === 'function') {

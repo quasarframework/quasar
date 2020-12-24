@@ -44,9 +44,9 @@ const topSections = {
 const objectTypes = {
   Boolean: {
     props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
+    required: ['desc'],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
-    isArray: [ 'examples' ]
+    isArray: ['examples']
   },
 
   String: {
@@ -66,9 +66,9 @@ const objectTypes = {
   Object: {
     props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
-    recursive: [ 'definition' ],
+    recursive: ['definition'],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
-    isObject: [ 'definition' ],
+    isObject: ['definition'],
     isArray: [ 'examples', 'values' ]
   },
 
@@ -76,7 +76,7 @@ const objectTypes = {
     props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
-    isObject: [ 'definition' ],
+    isObject: ['definition'],
     isArray: [ 'examples', 'values' ]
   },
 
@@ -84,8 +84,8 @@ const objectTypes = {
     props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
-    isObject: [ 'definition' ],
-    isArray: [ 'examples' ]
+    isObject: ['definition'],
+    isArray: ['examples']
   },
 
   Function: {
@@ -94,7 +94,7 @@ const objectTypes = {
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'params', 'returns' ],
     canBeNull: [ 'params', 'returns' ],
-    isArray: [ 'examples' ]
+    isArray: ['examples']
   },
 
   MultipleTypes: {
@@ -108,63 +108,63 @@ const objectTypes = {
   // special type, not common
   Error: {
     props: [ 'desc', 'category', 'examples', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'internal' ]
+    required: ['desc'],
+    isBoolean: ['internal']
   },
 
   // special type, not common
   Component: {
     props: [ 'desc', 'category', 'examples', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'internal' ]
+    required: ['desc'],
+    isBoolean: ['internal']
   },
 
   meta: {
-    props: [ 'docsUrl' ],
+    props: ['docsUrl'],
     required: []
   },
 
   // special type, not common
   Element: {
     props: [ 'desc', 'category', 'examples', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'internal' ]
+    required: ['desc'],
+    isBoolean: ['internal']
   },
 
   // special type, not common
   File: {
     props: [ 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'internal' ]
+    required: ['desc'],
+    isBoolean: ['internal']
   },
 
   // special type, not common
   FileList: {
     props: [ 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'internal' ]
+    required: ['desc'],
+    isBoolean: ['internal']
   },
 
   // component only
   slots: {
     props: [ 'desc', 'link', 'scope', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isObject: [ 'scope' ],
-    isBoolean: [ 'internal' ]
+    required: ['desc'],
+    isObject: ['scope'],
+    isBoolean: ['internal']
   },
 
   // component only
   events: {
     props: [ 'desc', 'link', 'params', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isObject: [ 'params' ],
-    isBoolean: [ 'internal' ]
+    required: ['desc'],
+    isObject: ['params'],
+    isBoolean: ['internal']
   },
 
   methods: {
     props: [ 'tsInjectionPoint', 'tsType', 'desc', 'link', 'params', 'returns', 'addedIn' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint' ],
+    required: ['desc'],
+    isBoolean: ['tsInjectionPoint'],
     isObject: [ 'params', 'returns' ]
   },
 
@@ -175,26 +175,26 @@ const objectTypes = {
 }
 
 function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
-  let obj = api[itemName]
+  let obj = api[ itemName ]
 
-  if (obj.extends !== void 0 && extendApi[masterType] !== void 0) {
-    if (extendApi[masterType][obj.extends] === void 0) {
+  if (obj.extends !== void 0 && extendApi[ masterType ] !== void 0) {
+    if (extendApi[ masterType ][ obj.extends ] === void 0) {
       logError(`${banner} extends "${obj.extends}" which does not exists`)
       process.exit(1)
     }
 
-    api[itemName] = merge(
-      extendApi[masterType][obj.extends],
-      api[itemName]
+    api[ itemName ] = merge(
+      extendApi[ masterType ][ obj.extends ],
+      api[ itemName ]
     )
-    delete api[itemName].extends
+    delete api[ itemName ].extends
 
-    obj = api[itemName]
+    obj = api[ itemName ]
   }
 
   let type
 
-  if (['props', 'modifiers'].includes(masterType)) {
+  if ([ 'props', 'modifiers' ].includes(masterType)) {
     if (obj.type === void 0) {
       logError(`${banner} missing "type" prop`)
       process.exit(1)
@@ -210,13 +210,13 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
 
   type = type.startsWith('Promise') ? 'Promise' : type
 
-  if (objectTypes[type] === void 0) {
+  if (objectTypes[ type ] === void 0) {
     logError(`${banner} object has unrecognized API type prop value: "${type}"`)
     console.error(obj)
     process.exit(1)
   }
 
-  const def = objectTypes[type]
+  const def = objectTypes[ type ]
 
   if (obj.internal !== true) {
     for (const prop in obj) {
@@ -249,7 +249,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
           return
         }
 
-        if (obj[prop] === void 0) {
+        if (obj[ prop ] === void 0) {
           logError(`${banner} missing required API prop "${prop}" for its type (${type})`)
           console.error(obj)
           console.log()
@@ -259,11 +259,11 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
 
       if (obj.__exemption !== void 0) {
         const { __exemption, ...p } = obj
-        api[itemName] = p
+        api[ itemName ] = p
       }
 
       def.isBoolean && def.isBoolean.forEach(prop => {
-        if (obj[prop] && obj[prop] !== true && obj[prop] !== false) {
+        if (obj[ prop ] && obj[ prop ] !== true && obj[ prop ] !== false) {
           logError(`${banner}/"${prop}" is not a Boolean`)
           console.error(obj)
           console.log()
@@ -271,7 +271,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
         }
       })
       def.isObject && def.isObject.forEach(prop => {
-        if (obj[prop] && Object(obj[prop]) !== obj[prop]) {
+        if (obj[ prop ] && Object(obj[ prop ]) !== obj[ prop ]) {
           logError(`${banner}/"${prop}" is not an Object`)
           console.error(obj)
           console.log()
@@ -279,7 +279,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
         }
       })
       def.isArray && def.isArray.forEach(prop => {
-        if (obj[prop] && !Array.isArray(obj[prop])) {
+        if (obj[ prop ] && !Array.isArray(obj[ prop ])) {
           logError(`${banner}/"${prop}" is not an Array`)
           console.error(obj)
           console.log()
@@ -292,19 +292,19 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
   if (obj.returns) {
     parseObject({
       banner: `${banner}/"returns"`,
-      api: api[itemName],
+      api: api[ itemName ],
       itemName: 'returns',
       masterType: 'props'
     })
   }
 
   ;[ 'params', 'definition', 'scope', 'props' ].forEach(prop => {
-    if (!obj[prop]) { return }
+    if (!obj[ prop ]) { return }
 
-    for (let item in obj[prop]) {
+    for (const item in obj[ prop ]) {
       parseObject({
         banner: `${banner}/"${prop}"/"${item}"`,
-        api: api[itemName][prop],
+        api: api[ itemName ][ prop ],
         itemName: item,
         masterType: 'props'
       })
@@ -321,13 +321,13 @@ function isValidVersion (version) {
 }
 
 function handleAddedIn (api, banner) {
-  if (api['addedIn'] === void 0 || api['addedIn'].length === 0) {
+  if (api.addedIn === void 0 || api.addedIn.length === 0) {
     logError(`${banner} "addedIn" is empty`)
     console.log()
     process.exit(1)
   }
 
-  const addedIn = api['addedIn']
+  const addedIn = api.addedIn
 
   if (addedIn.charAt(0) !== 'v') {
     logError(`${banner} "addedIn" value (${addedIn}) must start with "v"`)
@@ -358,7 +358,7 @@ function parseAPI (file, apiType) {
 
   // "props", "slots", ...
   for (const type in api) {
-    if (!topSections[apiType].includes(type)) {
+    if (!topSections[ apiType ].includes(type)) {
       logError(`${banner} "${type}" is not recognized for a ${apiType}`)
       process.exit(1)
     }
@@ -376,14 +376,14 @@ function parseAPI (file, apiType) {
       continue
     }
 
-    if (['value', 'arg', 'quasarConfOptions', 'meta'].includes(type)) {
-      if (Object(api[type]) !== api[type]) {
+    if ([ 'value', 'arg', 'quasarConfOptions', 'meta' ].includes(type)) {
+      if (Object(api[ type ]) !== api[ type ]) {
         logError(`${banner} "${type}"/"${type}" is not an object`)
         process.exit(1)
       }
     }
 
-    if (['meta', 'quasarConfOptions'].includes(type)) {
+    if ([ 'meta', 'quasarConfOptions' ].includes(type)) {
       parseObject({
         banner: `${banner} "${type}"`,
         api,
@@ -393,7 +393,7 @@ function parseAPI (file, apiType) {
       continue
     }
 
-    if (['value', 'arg'].includes(type)) {
+    if ([ 'value', 'arg' ].includes(type)) {
       parseObject({
         banner: `${banner} "${type}"`,
         api,
@@ -405,10 +405,10 @@ function parseAPI (file, apiType) {
 
     const isComponent = banner.indexOf('component') > -1
 
-    for (let itemName in api[type]) {
+    for (const itemName in api[ type ]) {
       parseObject({
         banner: `${banner} "${type}"/"${itemName}"`,
-        api: api[type],
+        api: api[ type ],
         itemName,
         masterType: type,
         verifyCategory: type === 'props' && isComponent
@@ -424,9 +424,9 @@ function orderAPI (api, apiType) {
     type: apiType
   }
 
-  topSections[apiType].forEach(section => {
-    if (api[section] !== void 0) {
-      ordered[section] = api[section]
+  topSections[ apiType ].forEach(section => {
+    if (api[ section ] !== void 0) {
+      ordered[ section ] = api[ section ]
     }
   })
 
@@ -434,9 +434,9 @@ function orderAPI (api, apiType) {
 }
 
 function arrayHasError (name, key, property, expected, propApi) {
-  const apiVal = propApi[property]
+  const apiVal = propApi[ property ]
 
-  if (expected.length === 1 && expected[0] === apiVal) {
+  if (expected.length === 1 && expected[ 0 ] === apiVal) {
     return
   }
 
@@ -447,7 +447,7 @@ function arrayHasError (name, key, property, expected, propApi) {
     apiVal.length !== expectedVal.length ||
     !expectedVal.every(t => apiVal.includes(t))
   ) {
-    console.log(key, name, propApi[key], expectedVal)
+    console.log(key, name, propApi[ key ], expectedVal)
     logError(`${name}: wrong definition for prop "${key}" on "${property}": expected ${expectedVal} but found ${apiVal}`)
     return true
   }
@@ -466,22 +466,22 @@ function fillAPI (apiType) {
 
       const filePath = file.replace('.json', fs.existsSync(file.replace('.json', '.js')) ? '.js' : '.ts')
 
-      const definition = fs.readFileSync(filePath, { encoding: 'utf-8' })
+      const definition = fs.readFileSync(filePath, 'utf-8')
 
       let slotMatch
       while ((slotMatch = slotRegex.exec(definition)) !== null) {
-        const slotName = (slotMatch[2] || slotMatch[3] || slotMatch[4] || slotMatch[5] || slotMatch[6] || slotMatch[7] || slotMatch[8] || slotsMatch[9]).replace(/(\${.+})/g, '[name]')
+        const slotName = (slotMatch[ 2 ] || slotMatch[ 3 ] || slotMatch[ 4 ] || slotMatch[ 5 ] || slotMatch[ 6 ] || slotMatch[ 7 ] || slotMatch[ 8 ] || slotMatch[ 9 ]).replace(/(\${.+})/g, '[name]')
 
-        if (!(api.slots || {})[slotName]) {
+        if (!(api.slots || {})[ slotName ]) {
           logError(`${name}: missing "slot" -> "${slotName}" definition`)
           hasError = true // keep looping through to find as many as can be found before exiting
         }
-        else if (api.slots[slotName].internal === true) {
-          delete api.slots[slotName]
+        else if (api.slots[ slotName ].internal === true) {
+          delete api.slots[ slotName ]
         }
       }
 
-      ast.evaluate(definition, topSections[apiType], (prop, key, definition) => {
+      ast.evaluate(definition, topSections[ apiType ], (prop, key, definition) => {
         if (key.startsWith('__')) {
           return
         }
@@ -492,18 +492,18 @@ function fillAPI (apiType) {
             .toLowerCase()
         }
 
-        if (api[prop] === void 0 || api[prop][key] === void 0) {
+        if (api[ prop ] === void 0 || api[ prop ][ key ] === void 0) {
           logError(`${name}: missing "${prop}" -> "${key}" definition`)
           hasError = true // keep looping through to find as many as can be found before exiting
         }
 
-        if (api[prop][key].internal === true) {
-          delete api[prop][key]
+        if (api[ prop ][ key ].internal === true) {
+          delete api[ prop ][ key ]
           return
         }
 
         if (definition) {
-          const propApi = api[prop][key]
+          const propApi = api[ prop ][ key ]
           if (typeof definition === 'string' && propApi.type !== definition) {
             logError(`${name}: wrong definition for prop "${key}": expected "${definition}" but found "${propApi.type}"`)
             hasError = true // keep looping through to find as many as can be found before exiting
@@ -541,7 +541,7 @@ function fillAPI (apiType) {
       })
 
       if (hasError === true) {
-        logError(`Errors were found...exiting`)
+        logError('Errors were found...exiting')
         process.exit(1)
       }
     }
@@ -561,26 +561,26 @@ function writeTransformAssetUrls (components) {
     base: null,
     includeAbsolute: false,
     tags: {
-      video: ['src', 'poster'],
+      video: [ 'src', 'poster' ],
       source: ['src'],
       img: ['src'],
-      image: ['xlink:href', 'href'],
-      use: ['xlink:href', 'href']
+      image: [ 'xlink:href', 'href' ],
+      use: [ 'xlink:href', 'href' ]
     }
   }
 
   components.forEach(({ name, api }) => {
     if (api.props !== void 0) {
       let props = Object.keys(api.props)
-        .filter(name => api.props[name].transformAssetUrls === true)
+        .filter(name => api.props[ name ].transformAssetUrls === true)
 
       if (props.length > 0) {
         props = props.length > 1
           ? props
-          : props[0]
+          : props[ 0 ]
 
-        transformAssetUrls.tags[name] = props
-        transformAssetUrls.tags[kebabCase(name)] = props
+        transformAssetUrls.tags[ name ] = props
+        transformAssetUrls.tags[ kebabCase(name) ] = props
       }
     }
   })
@@ -609,7 +609,7 @@ module.exports.generate = function () {
 
     resolve({ components, directives, plugins })
   }).catch(err => {
-    logError(`build.api.js: something went wrong...`)
+    logError('build.api.js: something went wrong...')
     console.log()
     console.error(err)
     console.log()

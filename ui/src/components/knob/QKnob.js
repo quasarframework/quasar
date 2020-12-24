@@ -7,7 +7,7 @@ import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import { useFormProps, useFormAttrs } from '../../composables/use-form.js'
+import { useFormProps, useFormAttrs } from '../../composables/private/use-form.js'
 import { useCircularCommonProps } from '../circular-progress/use-circular-progress.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP

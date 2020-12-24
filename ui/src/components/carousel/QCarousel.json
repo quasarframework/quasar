@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/panel-parent", "mixins/fullscreen" ],
+  "mixins": [ "composables/private/use-panel", "composables/private/use-fullscreen" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/carousel"

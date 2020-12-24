@@ -3,7 +3,7 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/tab-panels"
   },
 
-  "mixins": [ "mixins/panel-child" ],
+  "mixins": [ "composables/private/use-panel.child" ],
 
   "props": {
     "dark": {

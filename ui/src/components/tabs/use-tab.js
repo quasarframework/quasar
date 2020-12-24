@@ -37,8 +37,8 @@ export const useTabProps = {
   }
 }
 
-export function useTab (props, slots, emit, routerProps) {
-  const tabs = inject(tabsKey, () => {
+export default function (props, slots, emit, routerProps) {
+  const $tabs = inject(tabsKey, () => {
     console.error('QTab/QRouteTab component needs to be child of QTabs')
   })
 
@@ -46,7 +46,7 @@ export function useTab (props, slots, emit, routerProps) {
   const rootRef = ref(null)
   const tabIndicatorRef = ref(null)
 
-  const isActive = computed(() => tabs.currentModel.value === props.name)
+  const isActive = computed(() => $tabs.currentModel.value === props.name)
 
   const classes = computed(() =>
     'q-tab relative-position self-stretch flex flex-center text-center' +
@@ -54,19 +54,19 @@ export function useTab (props, slots, emit, routerProps) {
     (
       isActive.value === true
         ? (
-            (tabs.tabProps.value.activeColor ? ` text-${tabs.tabProps.value.activeColor}` : '') +
-            (tabs.tabProps.value.activeBgColor ? ` bg-${tabs.tabProps.value.activeBgColor}` : '')
+            ($tabs.tabProps.value.activeColor ? ` text-${$tabs.tabProps.value.activeColor}` : '') +
+            ($tabs.tabProps.value.activeBgColor ? ` bg-${$tabs.tabProps.value.activeBgColor}` : '')
           )
         : ''
     ) +
-    (props.icon && props.label && tabs.tabProps.value.inlineLabel === false ? ' q-tab--full' : '') +
-    (props.noCaps === true || tabs.tabProps.value.noCaps === true ? ' q-tab--no-caps' : '') +
+    (props.icon && props.label && $tabs.tabProps.value.inlineLabel === false ? ' q-tab--full' : '') +
+    (props.noCaps === true || $tabs.tabProps.value.noCaps === true ? ' q-tab--no-caps' : '') +
     (props.disable === true ? ' disabled' : ' q-focusable q-hoverable cursor-pointer')
   )
 
   const innerClass = computed(() =>
     'q-tab__content self-stretch flex-center relative-position q-anchor--skip non-selectable ' +
-    (tabs.tabProps.value.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column') +
+    ($tabs.tabProps.value.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column') +
     (props.contentClass !== void 0 ? ` ${props.contentClass}` : '')
   )
 
@@ -82,7 +82,7 @@ export function useTab (props, slots, emit, routerProps) {
   // )
 
   function onClick (e, keyboard) {
-    keyboard !== true && blurTargetRef.value && blurTargetRef.value.focus()
+    keyboard !== true && blurTargetRef.value !== null && blurTargetRef.value.focus()
 
     if (props.disable !== true) {
       if (routerProps !== void 0) {
@@ -95,7 +95,7 @@ export function useTab (props, slots, emit, routerProps) {
       }
       else {
         emit('click', e)
-        tabs.updateModel({ name: props.name, fromRoute: false })
+        $tabs.updateModel({ name: props.name, fromRoute: false })
       }
     }
   }
@@ -107,13 +107,13 @@ export function useTab (props, slots, emit, routerProps) {
 
   function getContent () {
     const
-      narrow = tabs.tabProps.value.narrowIndicator,
+      narrow = $tabs.tabProps.value.narrowIndicator,
       content = [],
       indicator = h('div', {
         ref: tabIndicatorRef,
         class: [
           'q-tab__indicator',
-          tabs.tabProps.value.indicatorClass
+          $tabs.tabProps.value.indicatorClass
         ]
       })
 
@@ -163,13 +163,13 @@ export function useTab (props, slots, emit, routerProps) {
   }
 
   onBeforeUnmount(() => {
-    tabs.unregisterTab(tabData)
-    tabs.recalculateScroll()
+    $tabs.unregisterTab(tabData)
+    $tabs.recalculateScroll()
   })
 
   onMounted(() => {
-    tabs.registerTab(tabData)
-    tabs.recalculateScroll()
+    $tabs.registerTab(tabData)
+    $tabs.recalculateScroll()
   })
 
   function renderTab (tag, customData) {
@@ -195,5 +195,5 @@ export function useTab (props, slots, emit, routerProps) {
     )
   }
 
-  return { renderTab, tabs }
+  return { renderTab, $tabs }
 }

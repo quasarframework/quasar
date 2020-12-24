@@ -118,3 +118,5 @@ module.exports.devCompilationSuccess = function (ctx, url, appDir, transpileBann
     Transpiled JS..... ${transpileBanner}
   `
 }
+
+module.exports.quasarVersion = quasarVersion

@@ -110,7 +110,6 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     //-     enter-active-class="animated fadeIn"
     //-     leave-active-class="animated fadeOut"
     //-     mode="out-in"
-    //-     @leave="resetScroll"
     //-   )
     //-     component(:is="Component")
 
@@ -231,6 +230,10 @@ export default {
 
 .q-page-container :target
   scroll-margin-top: ($toolbar-min-height + 16px)
+
+// keep the button on top of sticky in examples
+.q-page-scroller > .q-page-sticky
+  z-index: 1
 
 .doc-layout
   .countdown

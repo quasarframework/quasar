@@ -3,7 +3,7 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/breadcrumbs"
   },
 
-  "mixins": [ "mixins/router-link" ],
+  "mixins": [ "composables/private/use-router-link" ],
 
   "props": {
     "label": {
@@ -21,6 +21,10 @@
       "extends": "tag",
       "default": "span",
       "examples": [ "div", "span" ]
+    },
+
+    "ripple": {
+      "extends": "ripple"
     }
   },
 

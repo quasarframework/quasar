@@ -3,7 +3,7 @@ import { h, defineComponent, ref, computed, watch, onBeforeMount, onBeforeUnmoun
 import QSpinner from '../spinner/QSpinner.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useRatio, { useRatioProps } from '../../composables/use-ratio.js'
+import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
 import { hSlot } from '../../utils/composition-render.js'
 
@@ -249,7 +249,7 @@ export default defineComponent({
     }
 
     function getContentSlot () {
-      return hSlot(slots[hasError.value === true ? 'error' : 'default'])
+      return hSlot(slots[ hasError.value === true ? 'error' : 'default' ])
     }
 
     function getContent () {

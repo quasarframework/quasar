@@ -1,21 +1,21 @@
 const stringifyRequest = require('loader-utils/lib/stringifyRequest')
 const getDevlandFile = require('../helpers/get-devland-file')
 
-const data = getDevlandFile('quasar/dist/transforms/auto-import.json')
-const importTransform = getDevlandFile('quasar/dist/transforms/imports.js')
+const autoImportData = getDevlandFile('quasar/dist/transforms/auto-import.json')
+const importTransformation = getDevlandFile('quasar/dist/transforms/import-transformation.js')
 const runtimePath = require.resolve('./runtime.auto-import.js')
 
 const compRegex = {
-  '?kebab': new RegExp(data.regex.kebabComponents || data.regex.components, 'g'),
-  '?pascal': new RegExp(data.regex.pascalComponents || data.regex.components, 'g'),
-  '?combined': new RegExp(data.regex.components, 'g')
+  '?kebab': new RegExp(autoImportData.regex.kebabComponents || autoImportData.regex.components, 'g'),
+  '?pascal': new RegExp(autoImportData.regex.pascalComponents || autoImportData.regex.components, 'g'),
+  '?combined': new RegExp(autoImportData.regex.components, 'g')
 }
 
-const dirRegex = new RegExp(data.regex.directives, 'g')
+const dirRegex = new RegExp(autoImportData.regex.directives, 'g')
 
 function transform (itemArray) {
   return itemArray
-    .map(name => `import ${name} from '${importTransform(name)}';`)
+    .map(name => `import ${name} from '${importTransformation(name)}';`)
     .join(`\n`)
 }
 
@@ -36,7 +36,7 @@ function extract (content, ctx) {
 
     // map comp names only if not pascal-case already
     if (ctx.query !== '?pascal') {
-      comp = comp.map(name => data.importName[name])
+      comp = comp.map(name => autoImportData.importName[name])
     }
 
     if (ctx.query === '?combined') {
@@ -51,7 +51,7 @@ function extract (content, ctx) {
 
   if (dir !== null) {
     dir = Array.from(new Set(dir))
-      .map(name => data.importName[name])
+      .map(name => autoImportData.importName[name])
 
     importStatements += transform(dir)
     installStatements += `qInstall(script, 'directives', {${dir.join(',')}});`

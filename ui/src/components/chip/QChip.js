@@ -5,8 +5,8 @@ import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/Ripple.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import useSize, { useSizeProps } from '../../composables/use-size.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { hMergeSlotSafely, hDir } from '../../utils/composition-render.js'

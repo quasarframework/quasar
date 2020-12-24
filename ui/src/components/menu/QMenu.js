@@ -1,19 +1,18 @@
 import { h, defineComponent, ref, computed, watch, Transition, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useAnchor, { useAnchorProps } from '../../composables/use-anchor.js'
-import useScrollTarget from '../../composables/use-scroll-target.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/use-model-toggle.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import usePortal from '../../composables/use-portal.js'
-import useTransition, { useTransitionProps } from '../../composables/use-transition.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
+import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
+import useScrollTarget from '../../composables/private/use-scroll-target.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import usePortal from '../../composables/private/use-portal.js'
+import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
 import useTick from '../../composables/use-tick.js'
 import useTimeout from '../../composables/use-timeout.js'
 
 import { closePortalMenus } from '../../utils/portal.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { position, stopAndPrevent, addEvt } from '../../utils/event.js'
+import { position, stopAndPrevent } from '../../utils/event.js'
 import { hSlot } from '../../utils/composition-render.js'
 import { addEscapeKey, removeEscapeKey } from '../../utils/escape-key.js'
 import { addFocusout, removeFocusout } from '../../utils/focusout.js'
@@ -101,24 +100,20 @@ export default defineComponent({
     const { transition } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
-    const { anchorEl, showCondition, anchorEvents } = useAnchor(props, {
-      emit, vm, showing, configureAnchorEl
+    const { anchorEl, canShow } = useAnchor({
+      props, emit, vm, showing, $q
     })
 
-    const { emitListeners } = useEmitListeners(vm)
-    const { show, hide, toggle } = useModelToggle(props, {
+    const { hide } = useModelToggle({
+      props,
       emit,
-      showing, showCondition, handleShow, handleHide,
-      emitListeners,
       vm,
+      showing, canShow, handleShow, handleHide,
       hideOnRouteChange,
       processOnMount: true
     })
 
-    anchorEvents.hide = hide
-    anchorEvents.toggle = toggle
-
-    const { showPortal, hidePortal, renderPortal } = usePortal(vm, renderPortalContent)
+    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent)
 
     const clickOutsideProps = {
       anchorEl,
@@ -293,34 +288,6 @@ export default defineComponent({
       }
     }
 
-    function configureAnchorEl (context = props.contextMenu) {
-      if (props.noParentEvent === true || anchorEl.value === null) { return }
-
-      let evts
-
-      if (context === true) {
-        if ($q.platform.is.mobile === true) {
-          evts = [
-            [ anchorEl.value, 'touchstart', 'mobileTouch', 'passive' ]
-          ]
-        }
-        else {
-          evts = [
-            [ anchorEl.value, 'click', 'hide', 'passive' ],
-            [ anchorEl.value, 'contextmenu', 'contextClick', 'notPassive' ]
-          ]
-        }
-      }
-      else {
-        evts = [
-          [ anchorEl.value, 'click', 'toggle', 'passive' ],
-          [ anchorEl.value, 'keyup', 'toggleKey', 'passive' ]
-        ]
-      }
-
-      addEvt(anchorEvents, 'anchor', evts)
-    }
-
     function configureScrollTarget () {
       if (anchorEl.value !== null || props.scrollTarget !== void 0) {
         localScrollTarget.value = getScrollTarget(anchorEl.value, props.scrollTarget)
@@ -358,7 +325,7 @@ export default defineComponent({
     function updatePosition () {
       const el = innerRef.value
 
-      if (anchorEl.value === null || !el) {
+      if (el === null || anchorEl.value === null) {
         return
       }
 
@@ -398,12 +365,7 @@ export default defineComponent({
     onBeforeUnmount(anchorCleanup)
 
     // expose public methods
-    Object.assign(vm.proxy, {
-      focus, show, hide, toggle, updatePosition,
-
-      // expose needed stuff for portal utils
-      quasarPortalInnerRef: innerRef
-    })
+    Object.assign(vm.proxy, { focus, updatePosition })
 
     return renderPortal
   }

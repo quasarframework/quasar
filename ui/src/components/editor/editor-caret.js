@@ -62,10 +62,10 @@ function createRange (node, chars, range) {
 
 const urlRegex = /^https?:\/\//
 
-export class Caret {
-  constructor (el, vm) {
+export default class Caret {
+  constructor (el, eVm) {
     this.el = el
-    this.vm = vm
+    this.eVm = eVm
     this._range = null
   }
 
@@ -224,9 +224,9 @@ export class Caret {
         const res = document.queryCommandValue(cmd)
         return res === `"${param}"` || res === param
       case 'fullscreen':
-        return this.vm.inFullscreen
+        return this.eVm.inFullscreen.value
       case 'viewsource':
-        return this.vm.isViewingSource
+        return this.eVm.isViewingSource.value
       case void 0:
         return false
       default:
@@ -302,13 +302,13 @@ export class Caret {
           }
         }
 
-        this.vm.editLinkUrl = urlRegex.test(url) ? url : 'https://'
-        document.execCommand('createLink', false, this.vm.editLinkUrl)
+        this.eVm.editLinkUrl.value = urlRegex.test(url) ? url : 'https://'
+        document.execCommand('createLink', false, this.eVm.editLinkUrl.value)
 
         this.save(selection.getRangeAt(0))
       }
       else {
-        this.vm.editLinkUrl = link
+        this.eVm.editLinkUrl.value = link
 
         this.range.selectNodeContents(this.parent)
         this.save()
@@ -317,14 +317,14 @@ export class Caret {
       return
     }
     else if (cmd === 'fullscreen') {
-      this.vm.toggleFullscreen()
+      this.eVm.toggleFullscreen()
       done()
 
       return
     }
     else if (cmd === 'viewsource') {
-      this.vm.isViewingSource = this.vm.isViewingSource === false
-      this.vm.__setContent(this.vm.value)
+      this.eVm.isViewingSource.value = this.eVm.isViewingSource.value === false
+      this.eVm.setContent(this.eVm.props.modelValue)
       done()
 
       return

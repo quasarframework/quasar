@@ -1,6 +1,4 @@
-import { h, defineComponent, ref, watch, onMounted, onBeforeUnmount } from 'vue'
-
-import useEmitListeners from '../../composables/use-emit-listeners.js'
+import { h, defineComponent, ref, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
@@ -33,12 +31,12 @@ export default defineComponent({
   emits: ['scroll'],
 
   setup (props, { slots, emit }) {
+    const vm = getCurrentInstance()
+
     const percentScrolled = ref(0)
     const rootRef = ref(null)
     const mediaParentRef = ref(null)
     const mediaRef = ref(null)
-
-    const { emitListeners } = useEmitListeners()
 
     let isWorking, mediaEl, mediaHeight, resizeHandler, observer, localScrollTarget
 
@@ -55,7 +53,7 @@ export default defineComponent({
 
     let update = percentage => {
       percentScrolled.value = percentage
-      emitListeners.onScroll === true && emit('scroll', percentage)
+      vm.vnode.props.onScroll === true && emit('scroll', percentage)
     }
 
     function updatePos () {

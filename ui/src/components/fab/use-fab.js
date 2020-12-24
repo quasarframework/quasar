@@ -41,7 +41,7 @@ export const useFabProps = {
   tabindex: [ Number, String ]
 }
 
-export function useFab (props, showing) {
+export default function (props, showing) {
   return {
     formClass: computed(() =>
       `q-fab--form-${props.square === true ? 'square' : 'rounded'}`

@@ -244,9 +244,12 @@ export const useVirtualScrollProps = {
 
 export const useVirtualScrollEmits = ['virtual-scroll']
 
-export function useVirtualScroll (props, emit, $q, vm, emitListeners, virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl) {
+export function useVirtualScroll ({
+  props, emit, $q, vm, virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl,
+  virtualScrollItemSizeComputed // optional
+}) {
   let prevScrollStart, prevToIndex, prevAlignRange, localScrollViewSize, virtualScrollSizesAgg = [], virtualScrollSizes
-
+  
   const vsId = 'qvs_' + id++
 
   const virtualScrollPaddingBefore = ref(0)
@@ -261,7 +264,9 @@ export function useVirtualScroll (props, emit, $q, vm, emitListeners, virtualScr
 
   const colspanAttr = computed(() => props.tableColspan !== void 0 ? props.tableColspan : 100)
 
-  const virtualScrollItemSizeComputed = computed(() => props.virtualScrollItemSize)
+  if (virtualScrollItemSizeComputed === void 0) {
+    virtualScrollItemSizeComputed = computed(() => props.virtualScrollItemSize)
+  }
 
   const needsReset = computed(() => virtualScrollItemSizeComputed.value + ';' + props.virtualScrollHorizontal)
 
@@ -269,7 +274,7 @@ export function useVirtualScroll (props, emit, $q, vm, emitListeners, virtualScr
     needsReset.value + ';' + props.virtualScrollSliceRatioBefore + ';' + props.virtualScrollSliceRatioAfter
   )
 
-  watch(needsSliceRecalc, setVirtualScrollSize)
+  watch(needsSliceRecalc, () => { setVirtualScrollSize() })
   watch(needsReset, reset)
 
   function reset () {
@@ -663,7 +668,7 @@ export function useVirtualScroll (props, emit, $q, vm, emitListeners, virtualScr
 
   function emitScroll (index) {
     if (prevToIndex !== index) {
-      emitListeners.value.onVirtualScroll === true && emit('virtual-scroll', {
+      vm.vnode.props.onVirtualScroll === true && emit('virtual-scroll', {
         index,
         from: virtualScrollSliceRange.value.from,
         to: virtualScrollSliceRange.value.to - 1,
@@ -688,12 +693,16 @@ export function useVirtualScroll (props, emit, $q, vm, emitListeners, virtualScr
     styleSheet !== null && styleSheet.remove()
   })
 
+  // expose public methods
+  Object.assign(vm.proxy, { scrollTo, reset, refresh })
+
   return {
     virtualScrollSliceRange,
+    virtualScrollSliceSizeComputed,
 
     setVirtualScrollSize,
     onVirtualScrollEvt,
-    localResetVirtualScroll, // TODO vue3 QSelect -> __resetVirtualScroll
+    localResetVirtualScroll,
     padVirtualScroll,
 
     scrollTo,

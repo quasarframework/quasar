@@ -1,7 +1,7 @@
 import { h, defineComponent, computed, provide } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { hSlot } from '../../utils/composition-render.js'
 import { timelineKey } from '../../utils/symbols.js'

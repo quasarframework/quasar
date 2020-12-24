@@ -1,7 +1,7 @@
 import { h, defineComponent, computed } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 const insetMap = {
   true: 'inset',

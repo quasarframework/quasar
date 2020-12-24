@@ -4,8 +4,8 @@ export const portalList = []
 
 export function getPortalVm (el) {
   return portalList.find(vm =>
-    vm.quasarPortalInnerRef.value !== null &&
-    vm.quasarPortalInnerRef.value.contains(el)
+    vm.__qPortalInnerRef.value !== null &&
+    vm.__qPortalInnerRef.value.contains(el)
   )
 }
 
@@ -19,7 +19,7 @@ export function closePortalMenus (vm, evt) {
         return getParentVm(vm)
       }
     }
-    else if (vm.quasarPortalInnerRef !== void 0) {
+    else if (vm.__qPortalInnerRef !== void 0) {
       // treat it as point of separation if parent is QPopupProxy
       // (so mobile matches desktop behavior)
       // and hide it too
@@ -40,7 +40,7 @@ export function closePortalMenus (vm, evt) {
 
 export function closePortals (vm, evt, depth) {
   while (depth !== 0 && vm !== void 0 && vm !== null) {
-    if (vm.quasarPortalInnerRef !== void 0) {
+    if (vm.__qPortalInnerRef !== void 0) {
       depth--
 
       if (vm.$options.name === 'QMenu') {

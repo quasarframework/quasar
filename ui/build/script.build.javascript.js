@@ -4,10 +4,11 @@ const path = require('path')
 const fs = require('fs')
 const rollup = require('rollup')
 const uglify = require('uglify-es')
-const json = require('@rollup/plugin-json')
 const nodeResolve = require('@rollup/plugin-node-resolve')
 // const typescript = require('rollup-plugin-typescript2')
 const replace = require('@rollup/plugin-replace')
+
+const { version } = require('../package.json')
 
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
@@ -27,25 +28,24 @@ const tsConfig = {
 
 const rollupPluginsModern = [
   // typescript(tsConfig),
-  nodeResolve(),
-  json()
+  nodeResolve()
 ]
 
 const builds = [
   { // Generic prod entry (client-side only; NOT used by Quasar CLI)
     rollup: {
       input: {
-        input: resolve(`src/index.all.js`)
+        input: resolve('src/index.all.js')
       },
       output: {
-        file: resolve(`dist/quasar.esm.js`),
+        file: resolve('dist/quasar.esm.js'),
         format: 'es'
       }
     },
     build: {
       minified: true,
-      modern: true,
       replace: {
+        __QUASAR_VERSION__: `'${version}'`,
         __QUASAR_SSR__: false,
         __QUASAR_SSR_SERVER__: false,
         __QUASAR_SSR_CLIENT__: false,
@@ -56,17 +56,17 @@ const builds = [
   { // SSR server prod entry
     rollup: {
       input: {
-        input: resolve(`src/index.all.js`)
+        input: resolve('src/index.all.js')
       },
       output: {
-        file: resolve(`dist/quasar.cjs.js`),
+        file: resolve('dist/quasar.cjs.js'),
         format: 'cjs'
       }
     },
     build: {
       minified: true,
-      modern: true,
       replace: {
+        __QUASAR_VERSION__: `'${version}'`,
         __QUASAR_SSR__: true,
         __QUASAR_SSR_SERVER__: true,
         __QUASAR_SSR_CLIENT__: false,
@@ -77,18 +77,18 @@ const builds = [
   { // UMD entry
     rollup: {
       input: {
-        input: resolve(`src/index.umd.js`)
+        input: resolve('src/index.umd.js')
       },
       output: {
-        file: resolve(`dist/quasar.umd.js`),
+        file: resolve('dist/quasar.umd.js'),
         format: 'umd'
       }
     },
     build: {
       unminified: true,
       minified: true,
-      modern: true,
       replace: {
+        __QUASAR_VERSION__: `'${version}'`,
         __QUASAR_SSR__: false,
         __QUASAR_SSR_SERVER__: false,
         __QUASAR_SSR_CLIENT__: false,
@@ -130,10 +130,10 @@ function build (builds) {
 }
 
 function genConfig (opts) {
-  opts.rollup.input.plugins = [ ...rollupPluginsModern ]
+  opts.rollup.input.plugins = [...rollupPluginsModern]
 
   if (opts.build.replace !== void 0) {
-    opts.rollup.input.plugins.push(replace(opts.build.replace))
+    opts.rollup.input.plugins.unshift(replace(opts.build.replace))
   }
 
   opts.rollup.input.external = opts.rollup.input.external || []
@@ -191,7 +191,7 @@ function buildEntry (config) {
 
       const minified = uglify.minify(code, {
         compress: {
-          ecma: config.build.modern ? 6 : 5
+          ecma: 6
         }
       })
 

@@ -13,14 +13,13 @@ import QBtn from '../btn/QBtn.js'
 import getTableMiddle from './get-table-middle.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import { commonVirtPropsList } from '../virtual-scroll/use-virtual-scroll.js'
-import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/use-fullscreen.js'
+import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 
 import { useTableSort, useTableSortProps } from './table-sort.js'
 import { useTableFilter, useTableFilterProps } from './table-filter.js'
-import { useTablePaginationInit, useTablePagination, useTablePaginationProps, useTablePaginationEmits } from './table-pagination.js'
+import { useTablePaginationState, useTablePagination, useTablePaginationProps, useTablePaginationEmits } from './table-pagination.js'
 import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEmits } from './table-row-selection.js'
 import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
 import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
@@ -122,7 +121,6 @@ export default defineComponent({
     const vm = getCurrentInstance()
     const $q = useQuasar()
     const { isDark } = useDark(props, $q)
-    const { emitListeners } = useEmitListeners(vm)
     const { inFullscreen, toggleFullscreen } = useFullscreen(props, emit, vm)
 
     const getRowKey = computed(() =>
@@ -155,7 +153,7 @@ export default defineComponent({
 
     watch(
       () => props.tableStyle + props.tableClass + props.tableHeaderStyle + props.tableHeaderClass + containerClass.value,
-      () => { hasVirtScroll.value === true && virtScrollRef.value && virtScrollRef.value.reset() }
+      () => { hasVirtScroll.value === true && virtScrollRef.value !== null && virtScrollRef.value.reset() }
     )
 
     const {
@@ -165,10 +163,10 @@ export default defineComponent({
 
       requestServerInteraction,
       setPagination
-    } = useTablePaginationInit(props, emit, emitListeners, getCellValue)
+    } = useTablePaginationState(props, emit, vm, getCellValue)
 
     const { computedFilterMethod } = useTableFilter(props, setPagination)
-    const { isRowExpanded, updateExpanded } = useTableRowExpand(props, emit)
+    const { isRowExpanded, setExpanded, updateExpanded } = useTableRowExpand(props, emit)
 
     const filteredSortedRows = computed(() => {
       let rows = props.rows
@@ -249,7 +247,7 @@ export default defineComponent({
       prevPage,
       nextPage,
       lastPage
-    } = useTablePagination(props, emit, $q, emitListeners, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber)
+    } = useTablePagination(props, emit, $q, vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber)
 
     const nothingToDisplay = computed(() => computedRows.value.length === 0)
 
@@ -278,6 +276,28 @@ export default defineComponent({
       const header = props.hideHeader !== true ? getTHead : null
 
       if (hasVirtScroll.value === true) {
+        const topRow = slots[ 'top-row' ]
+        const bottomRow = slots[ 'bottom-row' ]
+
+        const virtSlots = {
+          default: props => getTBodyTR(props.item, slots.body, props.index)
+        }
+
+        if (topRow !== void 0) {
+          const topContent = h('tbody', topRow({ cols: computedCols.value }))
+
+          virtSlots.before = header === null
+            ? () => topContent
+            : () => [header()].concat(topContent)
+        }
+        else if (header !== null) {
+          virtSlots.before = header
+        }
+
+        if (bottomRow !== void 0) {
+          virtSlots.after = () => h('tbody', bottomRow({ cols: computedCols.value }))
+        }
+
         return h(QVirtualScroll, {
           ref: virtScrollRef,
           class: props.tableClass,
@@ -287,10 +307,7 @@ export default defineComponent({
           type: '__qtable',
           tableColspan: computedColspan.value,
           onVirtualScroll: onVScroll
-        }, {
-          default: props => getTBodyTR(props.item, slots.body, props.index),
-          header
-        })
+        }, virtSlots)
       }
 
       const child = [
@@ -308,7 +325,7 @@ export default defineComponent({
     }
 
     function scrollTo (toIndex, edge) {
-      if (virtScrollRef.value) {
+      if (virtScrollRef.value !== null) {
         virtScrollRef.value.scrollTo(toIndex, edge)
         return
       }
@@ -326,7 +343,7 @@ export default defineComponent({
         emit('virtual-scroll', {
           index: toIndex,
           from: 0,
-          to: pagination.value.rowsPerPage - 1,
+          to: innerPagination.value.rowsPerPage - 1,
           direction
         })
       }
@@ -402,14 +419,14 @@ export default defineComponent({
 
       const data = { key, class: { selected } }
 
-      if (emitListeners.value.onRowClick === true) {
+      if (vm.vnode.props.onRowClick === true) {
         data.class[ 'cursor-pointer' ] = true
         data.onClick = evt => {
           emit('row-click', evt, row, pageIndex)
         }
       }
 
-      if (emitListeners.value.onRowDblclick === true) {
+      if (vm.vnode.props.onRowDblclick === true) {
         data.class[ 'cursor-pointer' ] = true
         data.onDblclick = evt => {
           emit('row-dblclick', evt, row, pageIndex)
@@ -932,18 +949,18 @@ export default defineComponent({
           }
 
           if (
-            emitListeners.value.onRowClick === true ||
-            emitListeners.value.onRowDblclick === true
+            vm.vnode.props.onRowClick === true ||
+            vm.vnode.props.onRowDblclick === true
           ) {
             data.class[ 0 ] += ' cursor-pointer'
 
-            if (emitListeners.valueonRowClick === true) {
+            if (vm.vnode.props.onRowClick === true) {
               data.onClick = evt => {
                 emit('row-click', evt, scope.row, scope.pageIndex)
               }
             }
 
-            if (emitListeners.value.onRowDblclick === true) {
+            if (vm.vnode.props.onRowDblclick === true) {
               data.onDblclick = evt => {
                 emit('row-dblclick', evt, scope.row, scope.pageIndex)
               }
@@ -977,11 +994,19 @@ export default defineComponent({
     Object.assign(vm.proxy, {
       filteredSortedRows, // TODO vue3 - make it a getter
       requestServerInteraction,
+      setPagination,
+      firstPage,
+      prevPage,
+      nextPage,
+      lastPage,
+      isRowSelected,
+      clearSelection,
+      isRowExpanded,
+      setExpanded,
+      sort,
       resetVirtualScroll,
       scrollTo,
-      getCellValue,
-      setPagination,
-      sort
+      getCellValue
     })
 
     return () => {

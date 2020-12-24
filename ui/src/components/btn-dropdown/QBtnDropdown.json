@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/btn", "mixins/model-toggle" ],
+  "mixins": [ "components/btn/use-btn", "composables/private/use-model-toggle" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/button-dropdown"

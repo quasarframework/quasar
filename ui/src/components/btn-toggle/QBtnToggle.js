@@ -3,7 +3,7 @@ import { h, defineComponent, computed } from 'vue'
 import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 
-import { useFormInject, useFormProps } from '../../composables/use-form.js'
+import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
 import { hMergeSlot } from '../../utils/composition-render.js'
 

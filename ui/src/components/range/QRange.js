@@ -1,10 +1,9 @@
 import { h, defineComponent, ref, computed, watch } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import { useFormInject, useFormProps } from '../../composables/use-form.js'
+import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
-import {
-  useSlider,
+import useSlider, {
   useSliderProps,
   useSliderEmits,
   getRatio,
@@ -410,7 +409,7 @@ export default defineComponent({
       stopAndPrevent(evt)
 
       const
-        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * step,
+        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * props.step,
         offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -stepVal : stepVal
 
       if (props.dragOnlyRange) {

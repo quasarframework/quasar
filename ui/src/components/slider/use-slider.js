@@ -2,7 +2,7 @@ import { h, ref, computed, onBeforeUnmount } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
@@ -78,7 +78,7 @@ export const useSliderProps = {
 
 export const useSliderEmits = [ 'pan', 'update:modelValue', 'change' ]
 
-export function useSlider ({ props, emit, $q, updateValue, updatePosition, getDragging }) {
+export default function ({ props, emit, $q, updateValue, updatePosition, getDragging }) {
   const { isDark } = useDark(props, $q)
 
   const active = ref(false)

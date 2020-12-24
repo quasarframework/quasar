@@ -1,8 +1,8 @@
 import { h, defineComponent, computed } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import useSize, { useSizeProps } from '../../composables/use-size.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
 import { hMergeSlot } from '../../utils/composition-render.js'
 

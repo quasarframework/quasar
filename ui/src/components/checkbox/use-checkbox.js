@@ -1,10 +1,10 @@
 import { h, ref, computed, getCurrentInstance } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import useSize, { useSizeProps } from '../../composables/use-size.js'
-import useRefocusTarget from '../../composables/use-refocus-target.js'
-import { useFormInject } from '../../composables/use-form.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useSize, { useSizeProps } from '../../composables/private/use-size.js'
+import useRefocusTarget from '../../composables/private/use-refocus-target.js'
+import { useFormInject } from '../../composables/private/use-form.js'
 
 import optionSizes from '../../utils/option-sizes.js'
 import { stopAndPrevent } from '../../utils/event.js'

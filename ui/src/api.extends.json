@@ -125,6 +125,14 @@
         "scroll-target=\"body\""
       ],
       "category": "behavior"
+    },
+
+    "ripple": {
+      "type": [ "Boolean", "Object" ],
+      "desc": "Configure material ripple (disable it by setting it to 'false' or supply a config object)",
+      "default": true,
+      "examples": [ false, "{ early: true, center: true, color: 'teal', keyCodes: [] }" ],
+      "category": "style"
     }
   },
 

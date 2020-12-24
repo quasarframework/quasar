@@ -142,8 +142,8 @@ export default defineComponent({
     Object.assign(vm.proxy, {
       set,
       cancel,
-      show (e) { menuRef.value && menuRef.value.show(e) },
-      hide (e) { menuRef.value && menuRef.value.hide(e) },
+      show (e) { menuRef.value !== null && menuRef.value.show(e) },
+      hide (e) { menuRef.value !== null && menuRef.value.hide(e) },
       updatePosition
     })
 

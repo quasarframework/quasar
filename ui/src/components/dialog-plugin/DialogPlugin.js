@@ -14,7 +14,7 @@ import QOptionGroup from '../option-group/QOptionGroup.js'
 import QSpinner from '../spinner/QSpinner.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { isKeyCode } from '../../utils/key-composition.js'
 

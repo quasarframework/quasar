@@ -8,10 +8,9 @@ import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import { useRouterLinkProps } from '../../composables/use-router-link.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/use-model-toggle.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import { useRouterLinkProps } from '../../composables/private/use-router-link.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { hSlot } from '../../utils/composition-render.js'
@@ -77,8 +76,7 @@ export default defineComponent({
 
     const blurTargetRef = ref(null)
 
-    const { emitListeners } = useEmitListeners(vm)
-    const { show, hide, toggle } = useModelToggle(props, { emit, showing, emitListeners })
+    const { hide, toggle } = useModelToggle({ props, emit, vm, showing })
 
     let uniqueId, exitGroup
 
@@ -140,7 +138,7 @@ export default defineComponent({
     }
 
     function toggleIcon (e, keyboard) {
-      keyboard !== true && blurTargetRef.value && blurTargetRef.value.focus()
+      keyboard !== true && blurTargetRef.value !== null && blurTargetRef.value.focus()
       toggle(e)
       stopAndPrevent(e)
     }
@@ -333,11 +331,6 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       exitGroup !== void 0 && exitGroup()
-    })
-
-    // expose public methods
-    Object.assign(vm.proxy, {
-      show, hide, toggle
     })
 
     return () => h('div', { class: classes.value }, [

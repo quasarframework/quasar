@@ -3,9 +3,9 @@ import { h, defineComponent, computed, watch, onMounted, onBeforeUnmount, getCur
 import QBtn from '../btn/QBtn.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import { usePanelParentProps, usePanelParentEmits, usePanelParent } from '../../composables/use-panel.js'
-import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/use-fullscreen.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
+import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 
 import { isNumber } from '../../utils/is.js'
 import { hMergeSlot, hDir } from '../../utils/composition-render.js'
@@ -18,7 +18,7 @@ export default defineComponent({
 
   props: {
     ...useDarkProps,
-    ...usePanelParentProps,
+    ...usePanelProps,
     ...useFullscreenProps,
 
     transitionPrev: { // usePanelParentProps override
@@ -60,7 +60,7 @@ export default defineComponent({
 
   emits: [
     ...useFullscreenEmits,
-    ...usePanelParentEmits
+    ...usePanelEmits
   ],
 
   setup (props, { slots, emit }) {
@@ -75,7 +75,7 @@ export default defineComponent({
       panelDirectives, goToPanel,
       previousPanel, nextPanel, getEnabledPanels,
       panelIndex
-    } = usePanelParent(props, emit, $q, vm)
+    } = usePanel(props, emit, $q, vm)
 
     const { inFullscreen } = useFullscreen(props, emit, vm)
 

@@ -54,7 +54,7 @@ export default {
       setTimeout(() => {
         this.showing = false
         this.showSimulatedReturnData = true
-      }, 3000)
+      }, 5000)
     }
   }
 }

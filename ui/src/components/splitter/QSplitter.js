@@ -3,7 +3,7 @@ import { h, defineComponent, ref, computed, watch, nextTick } from 'vue'
 import TouchPan from '../../directives/TouchPan.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { hSlot, hMergeSlot, hDir } from '../../utils/composition-render.js'
 
@@ -58,7 +58,7 @@ export default defineComponent({
     }
 
     const classes = computed(() =>
-      `q-splitter no-wrap ` +
+      'q-splitter no-wrap ' +
       `${props.horizontal === true ? 'q-splitter--horizontal column' : 'q-splitter--vertical row'}` +
       ` q-splitter--${props.disable === true ? 'disabled' : 'workable'}` +
       (isDark.value === true ? ' q-splitter--dark' : '')

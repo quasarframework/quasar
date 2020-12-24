@@ -32,7 +32,7 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const $q = useQuasar()
-    const layout = inject(layoutKey, () => {
+    const $layout = inject(layoutKey, () => {
       console.error('QHeader needs to be child of QLayout')
     })
 
@@ -41,8 +41,8 @@ export default defineComponent({
 
     const fixed = computed(() =>
       props.reveal === true ||
-      layout.view.indexOf('H') > -1 ||
-      layout.container === true
+      $layout.view.indexOf('H') > -1 ||
+      $layout.container === true
     )
 
     const offset = computed(() => {
@@ -52,7 +52,7 @@ export default defineComponent({
       if (fixed.value === true) {
         return revealed.value === true ? size.value : 0
       }
-      const offset = size.value - layout.scroll.value.position
+      const offset = size.value - $layout.scroll.value.position
       return offset > 0 ? offset : 0
     })
 
@@ -74,14 +74,14 @@ export default defineComponent({
 
     const style = computed(() => {
       const
-        view = layout.rows.value.top,
+        view = $layout.rows.value.top,
         css = {}
 
-      if (view[ 0 ] === 'l' && layout.left.space === true) {
-        css[ $q.lang.rtl === true ? 'right' : 'left' ] = `${layout.left.size}px`
+      if (view[ 0 ] === 'l' && $layout.left.space === true) {
+        css[ $q.lang.rtl === true ? 'right' : 'left' ] = `${$layout.left.size}px`
       }
-      if (view[ 2 ] === 'r' && layout.right.space === true) {
-        css[ $q.lang.rtl === true ? 'left' : 'right' ] = `${layout.right.size}px`
+      if (view[ 2 ] === 'r' && $layout.right.space === true) {
+        css[ $q.lang.rtl === true ? 'left' : 'right' ] = `${$layout.right.size}px`
       }
 
       return css
@@ -91,8 +91,8 @@ export default defineComponent({
       // ensure state update is caught correctly by Vue diffing
       // on all layout components, so nextTicking:
       nextTick(() => {
-        if (layout.header[ prop ] !== val) {
-          layout.header[ prop ] = val
+        if ($layout.header[ prop ] !== val) {
+          $layout.header[ prop ] = val
         }
       })
     }
@@ -119,7 +119,7 @@ export default defineComponent({
     watch(() => props.modelValue, val => {
       updateLayout('space', val)
       updateLocal(revealed, true)
-      layout.animate()
+      $layout.animate()
     })
 
     watch(offset, val => {
@@ -131,11 +131,11 @@ export default defineComponent({
     })
 
     watch(revealed, val => {
-      layout.animate()
+      $layout.animate()
       emit('reveal', val)
     })
 
-    watch(layout.scroll, scroll => {
+    watch($layout.scroll, scroll => {
       props.reveal === true && updateLocal(revealed,
         scroll.direction === 'up' ||
         scroll.position <= props.revealOffset ||
@@ -145,14 +145,14 @@ export default defineComponent({
 
     const instance = {}
 
-    layout.instances.header = instance
+    $layout.instances.header = instance
     props.modelValue === true && updateLayout('size', size.value)
     updateLayout('space', props.modelValue)
     updateLayout('offset', offset.value)
 
     onBeforeUnmount(() => {
-      if (layout.instances.header === instance) {
-        layout.instances.header = void 0
+      if ($layout.instances.header === instance) {
+        $layout.instances.header = void 0
         updateLayout('size', 0)
         updateLayout('offset', 0)
         updateLayout('space', false)

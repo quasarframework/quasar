@@ -1,5 +1,3 @@
-import { version } from '../package.json'
-
 import Platform from './plugins/Platform.js'
 import Screen from './plugins/Screen.js'
 import Dark from './plugins/Dark.js'
@@ -61,7 +59,7 @@ function prepareApp (app, uiOpts, pluginOpts) {
 const installQuasar = __QUASAR_SSR_SERVER__
   ? function (app, opts = {}, ssrContext) {
       const $q = {
-        version,
+        version: __QUASAR_VERSION__,
         config: Object.freeze(opts.config || {})
       }
 
@@ -93,7 +91,7 @@ const installQuasar = __QUASAR_SSR_SERVER__
     appInstance = app
 
     $q = {
-      version,
+      version: __QUASAR_VERSION__,
       config: Object.freeze(opts.config || {})
     }
 

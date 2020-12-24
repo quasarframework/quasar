@@ -3,10 +3,9 @@ import { h, defineComponent, ref, computed, provide, getCurrentInstance } from '
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
-import { useFab, useFabProps } from './use-fab.js'
+import useFab, { useFabProps } from './use-fab.js'
 import useQuasar from '../../composables/use-quasar.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/use-model-toggle.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
 import { hSlot, hMergeSlot } from '../../utils/composition-render.js'
 import { fabKey } from '../../utils/symbols.js'
@@ -54,15 +53,14 @@ export default defineComponent({
 
     const $q = useQuasar()
     const { formClass, labelProps } = useFab(props, showing)
-    const { emitListeners } = useEmitListeners(vm)
 
     const hideOnRouteChange = computed(() => props.persistent !== true)
 
-    const { show, hide, toggle } = useModelToggle(props, {
+    const { hide, toggle } = useModelToggle({
+      props,
       emit,
-      showing,
-      emitListeners,
       vm,
+      showing,
       hideOnRouteChange
     })
 
@@ -107,14 +105,11 @@ export default defineComponent({
       onChildClick (evt) {
         hide(evt)
 
-        if (triggerRef.value && triggerRef.value.$el) {
+        if (triggerRef.value !== null) {
           triggerRef.value.$el.focus()
         }
       }
     })
-
-    // expose public methods
-    Object.assign(vm.proxy, { show, hide, toggle })
 
     return () => h('div', {
       class: classes.value

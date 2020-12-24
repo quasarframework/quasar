@@ -3,8 +3,6 @@
     "docsUrl": "https://v2.quasar.dev/vue-components/tabs"
   },
 
-  "mixins": [ "mixins/ripple" ],
-
   "props": {
     "icon": {
       "extends": "icon"
@@ -57,6 +55,10 @@
       "desc": "Class definitions to be attributed to the content wrapper",
       "examples": [ "my-special-class" ],
       "category": "style"
+    },
+
+    "ripple": {
+      "extends": "ripple"
     },
 
     "tabindex": {

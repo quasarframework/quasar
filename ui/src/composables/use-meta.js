@@ -2,7 +2,7 @@ import { computed, watch, onActivated, onDeactivated, onUnmounted, useSSRContext
 
 import { clientList, planClientUpdate } from '../plugins/Meta.js'
 
-export default metaOptions => {
+export default function (metaOptions) {
   if (__QUASAR_SSR_SERVER__) {
     const ssrContext = useSSRContext()
 

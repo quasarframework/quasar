@@ -1,8 +1,8 @@
 import { computed } from 'vue'
 
-import useAlign, { useAlignProps } from '../../composables/use-align.js'
-import useSize, { useSizeProps } from '../../composables/use-size.js'
-import useRouterLink, { useRouterLinkProps } from '../../composables/use-router-link.js'
+import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
+import useSize, { useSizeProps } from '../../composables/private/use-size.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 
 const padding = {
   none: 0,
@@ -87,7 +87,7 @@ export default function (props, attrs, vm) {
       ? Object.assign({}, obj, {
           padding: props.padding
             .split(/\s+/)
-            .map(v => v in padding ? padding[v] + 'px' : v)
+            .map(v => v in padding ? padding[ v ] + 'px' : v)
             .join(' '),
           minWidth: '0',
           minHeight: '0'

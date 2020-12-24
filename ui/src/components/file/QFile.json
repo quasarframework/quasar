@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/field/__QField", "mixins/file", "mixins/form" ],
+  "mixins": [ "composables/private/use-field", "composables/private/use-file", "composables/private/use-form" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/file"
@@ -143,14 +143,6 @@
   },
 
   "methods": {
-    "focus": {
-      "desc": "Focus component"
-    },
-
-    "blur": {
-      "desc": "Blur component (lose focus)"
-    },
-
     "removeAtIndex": {
       "desc": "Remove file located at specific index in the model",
       "params": {

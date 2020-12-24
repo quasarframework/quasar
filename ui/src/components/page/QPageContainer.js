@@ -11,7 +11,7 @@ export default defineComponent({
   setup (props, { slots }) {
     const $q = useQuasar()
 
-    const layout = inject(layoutKey, () => {
+    const $layout = inject(layoutKey, () => {
       console.error('QPageContainer needs to be child of QLayout')
     })
 
@@ -20,17 +20,17 @@ export default defineComponent({
     const style = computed(() => {
       const css = {}
 
-      if (layout.header.space === true) {
-        css.paddingTop = `${layout.header.size}px`
+      if ($layout.header.space === true) {
+        css.paddingTop = `${$layout.header.size}px`
       }
-      if (layout.right.space === true) {
-        css[ `padding${$q.lang.rtl === true ? 'Left' : 'Right'}` ] = `${layout.right.size}px`
+      if ($layout.right.space === true) {
+        css[ `padding${$q.lang.rtl === true ? 'Left' : 'Right'}` ] = `${$layout.right.size}px`
       }
-      if (layout.footer.space === true) {
-        css.paddingBottom = `${layout.footer.size}px`
+      if ($layout.footer.space === true) {
+        css.paddingBottom = `${$layout.footer.size}px`
       }
-      if (layout.left.space === true) {
-        css[ `padding${$q.lang.rtl === true ? 'Right' : 'Left'}` ] = `${layout.left.size}px`
+      if ($layout.left.space === true) {
+        css[ `padding${$q.lang.rtl === true ? 'Right' : 'Left'}` ] = `${$layout.left.size}px`
       }
 
       return css

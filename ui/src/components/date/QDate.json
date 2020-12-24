@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/datetime" ],
+  "mixins": [ "components/date/use-datetime" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/date"

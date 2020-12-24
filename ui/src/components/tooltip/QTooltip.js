@@ -1,12 +1,11 @@
 import { h, defineComponent, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useAnchor, { useAnchorProps } from '../../composables/use-anchor.js'
-import useScrollTarget from '../../composables/use-scroll-target.js'
-import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/use-model-toggle.js'
-import usePortal from '../../composables/use-portal.js'
-import useTransition, { useTransitionProps } from '../../composables/use-transition.js'
-import useEmitListeners from '../../composables/use-emit-listeners.js'
+import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
+import useScrollTarget from '../../composables/private/use-scroll-target.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
+import usePortal from '../../composables/private/use-portal.js'
+import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
 import useTick from '../../composables/use-tick.js'
 import useTimeout from '../../composables/use-timeout.js'
 
@@ -98,16 +97,15 @@ export default defineComponent({
     const { transition } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
-    const { anchorEl, showCondition, anchorEvents } = useAnchor(props, {
-      emit, vm, showing, configureAnchorEl
+    const { anchorEl, canShow, anchorEvents } = useAnchor({
+      props, emit, vm, showing, configureAnchorEl
     })
 
-    const { emitListeners } = useEmitListeners(vm)
-    const { show, hide, toggle } = useModelToggle(props, {
+    const { show, hide } = useModelToggle({
+      props,
       emit,
-      showing, showCondition, handleShow, handleHide,
-      emitListeners,
       vm,
+      showing, canShow, handleShow, handleHide,
       hideOnRouteChange,
       processOnMount: true
     })
@@ -115,7 +113,7 @@ export default defineComponent({
     anchorEvents.delayShow = delayShow
     anchorEvents.delayHide = delayHide
 
-    const { showPortal, hidePortal, renderPortal } = usePortal(vm, renderPortalContent)
+    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent)
 
     function handleShow (evt) {
       removeTick()
@@ -272,12 +270,7 @@ export default defineComponent({
     onBeforeUnmount(anchorCleanup)
 
     // expose public methods
-    Object.assign(vm.proxy, {
-      show, hide, toggle, updatePosition,
-
-      // expose needed stuff for portal utils
-      quasarPortalInnerRef: innerRef
-    })
+    Object.assign(vm.proxy, { updatePosition })
 
     return renderPortal
   }

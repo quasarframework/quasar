@@ -21,6 +21,7 @@ module.exports = {
   globals: {
     cordova: true,
     __statics: true,
+    __QUASAR_VERSION__: true,
     __QUASAR_SSR__: true,
     __QUASAR_SSR_SERVER__: true,
     __QUASAR_SSR_CLIENT__: true,
@@ -28,7 +29,7 @@ module.exports = {
   },
   // add your custom rules here
   rules: {
-    'brace-style': [ 2, 'stroustrup', { 'allowSingleLine': true } ],
+    'brace-style': [ 2, 'stroustrup', { allowSingleLine: true } ],
     'prefer-const': 2,
     'prefer-promise-reject-errors': 'off',
     'multiline-ternary': 'off',

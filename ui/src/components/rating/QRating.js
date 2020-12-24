@@ -6,8 +6,8 @@ import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useSize, { useSizeProps } from '../../composables/use-size.js'
-import { useFormProps, useFormAttrs, useFormInject } from '../../composables/use-form.js'
+import useSize, { useSizeProps } from '../../composables/private/use-size.js'
+import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 
 export default defineComponent({
   name: 'QRating',

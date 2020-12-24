@@ -3,8 +3,8 @@ import { h, defineComponent, computed, Transition } from 'vue'
 import QSpinner from '../spinner/QSpinner.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useDark, { useDarkProps } from '../../composables/use-dark.js'
-import useTransition, { useTransitionProps } from '../../composables/use-transition.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
 
 export default defineComponent({
   name: 'QInnerLoading',
@@ -25,7 +25,7 @@ export default defineComponent({
   setup (props, { slots }) {
     const $q = useQuasar()
     const { isDark } = useDark(props, $q)
-    const { transition } = useTransition(props, props.showing)
+    const { transition } = useTransition(props, computed(() => props.showing))
 
     const classes = computed(() =>
       'q-inner-loading absolute-full column flex-center' +
