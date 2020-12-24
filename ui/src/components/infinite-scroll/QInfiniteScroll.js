@@ -141,7 +141,8 @@ export default defineComponent({
     // expose public methods
     const vm = getCurrentInstance()
     Object.assign(vm.proxy, {
-      poll: immediatePoll, trigger, stop, reset, resume, setIndex
+      poll: () => poll.apply(null, arguments),
+      trigger, stop, reset, resume, setIndex
     })
 
     function setDebounce (val) {
@@ -149,12 +150,9 @@ export default defineComponent({
 
       const oldPoll = poll
 
-      if (val <= 0) {
-        poll = immediatePoll
-      }
-      else {
-        poll = debounce(immediatePoll, isNaN(val) === true ? 100 : val)
-      }
+      poll = val <= 0
+        ? immediatePoll
+        : debounce(immediatePoll, isNaN(val) === true ? 100 : val)
 
       if (localScrollTarget && isWorking === true) {
         if (oldPoll !== void 0) {
