@@ -109,7 +109,7 @@ export default ssrContext => {
     const { fullPath } = router.resolve(url)
 
     if (fullPath !== url) {
-      return reject({ url: fullPath })
+      return reject({ url: <%= build.publicPath === '/' ? 'fullPath' : 'addPublicPath(fullPath)' %> })
     }
 
     // set router's location
