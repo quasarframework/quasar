@@ -3,6 +3,7 @@ import { h, defineComponent, ref, onMounted, getCurrentInstance, nextTick, provi
 import { stopAndPrevent } from '../../utils/event.js'
 import { hSlot } from '../../utils/render.js'
 import { formKey } from '../../utils/symbols.js'
+import { vmHasListener } from '../../utils/vm.js'
 
 export default defineComponent({
   name: 'QForm',
@@ -110,7 +111,7 @@ export default defineComponent({
 
       validate().then(val => {
         if (val === true) {
-          if (vm.vnode.props.onSubmit === true) {
+          if (vmHasListener(vm, 'onSubmit') === true) {
             emit('submit', evt)
           }
           else if (evt !== void 0 && evt.target !== void 0 && typeof evt.target.submit === 'function') {

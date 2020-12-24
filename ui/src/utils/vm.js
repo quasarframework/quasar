@@ -36,3 +36,8 @@ export function getNormalizedVNodes (vnodes) {
 export function vmHasRouter (vm) {
   return vm.appContext.config.globalProperties.$router !== void 0
 }
+
+export function vmHasListener (vm, listenerName) {
+  return vm.vnode.props !== null
+    && vm.vnode.props[ listenerName ] !== void 0
+}

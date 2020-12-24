@@ -5,6 +5,7 @@ import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { hSlot } from '../../utils/render.js'
 import { listenOpts } from '../../utils/event.js'
+import { vmHasListener } from '../../utils/vm.js'
 
 const { passive } = listenOpts
 
@@ -53,7 +54,7 @@ export default defineComponent({
 
     let update = percentage => {
       percentScrolled.value = percentage
-      vm.vnode.props.onScroll === true && emit('scroll', percentage)
+      vmHasListener(vm, 'onScroll') === true && emit('scroll', percentage)
     }
 
     function updatePos () {

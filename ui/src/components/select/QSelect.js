@@ -22,6 +22,7 @@ import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition.js'
 import { hMergeSlot } from '../../utils/render.js'
+import { vmHasListener } from '../../utils/vm.js'
 
 const validateNewValueMode = v => [ 'add', 'add-unique', 'toggle' ].includes(v)
 const reEscapeList = '.*+?^${}()|[]\\'
@@ -671,7 +672,7 @@ export default defineComponent({
       }
 
       const newValueModeValid = inputValue.value.length > 0
-        && (props.newValueMode !== void 0 || vm.vnode.props.onNewValue === true)
+        && (props.newValueMode !== void 0 || vmHasListener(vm, 'onNewValue') === true)
 
       const tabShouldSelect = e.shiftKey !== true
         && props.multiple !== true
@@ -846,7 +847,7 @@ export default defineComponent({
           }
         }
 
-        if (vm.vnode.props.onNewValue === true) {
+        if (vmHasListener(vm, 'onNewValue') === true) {
           emit('new-value', inputValue.value, done)
         }
         else {
@@ -1013,7 +1014,7 @@ export default defineComponent({
         state.localFocus()
       }
 
-      if (vm.vnode.props.onFilter === true) {
+      if (vmHasListener(vm, 'onFilter') === true) {
         inputTimer = setTimeout(() => {
           filter(inputValue.value)
         }, props.inputDebounce)
@@ -1042,7 +1043,7 @@ export default defineComponent({
     }
 
     function filter (val, keepClosed) {
-      if (vm.vnode.props.onFilter === void 0 || (keepClosed !== true && state.focused.value !== true)) {
+      if (vmHasListener(vm, 'onFilter') === void 0 || (keepClosed !== true && state.focused.value !== true)) {
         return
       }
 
@@ -1303,7 +1304,7 @@ export default defineComponent({
         state.localFocus()
       }
 
-      if (vm.vnode.props.onFilter === true) {
+      if (vmHasListener(vm, 'onFilter') === true) {
         filter(inputValue.value)
       }
       else if (noOptions.value !== true || slots[ 'no-option' ] !== void 0) {
@@ -1366,7 +1367,7 @@ export default defineComponent({
         ? false
         : props.behavior !== 'menu' && (
           props.useInput === true
-            ? slots[ 'no-option' ] !== void 0 || vm.vnode.props.onFilter === true || noOptions.value === false
+            ? slots[ 'no-option' ] !== void 0 || vmHasListener(vm, 'onFilter') === true || noOptions.value === false
             : true
         )
 

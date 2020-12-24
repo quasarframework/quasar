@@ -5,6 +5,7 @@ import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 import Intersection from '../../directives/Intersection.js'
 
 import { hSlot, hDir } from '../../utils/render.js'
+import { vmHasListener } from '../../utils/vm.js'
 
 export default defineComponent({
   name: 'QIntersection',
@@ -66,7 +67,7 @@ export default defineComponent({
     function trigger (entry) {
       if (showing.value !== entry.isIntersecting) {
         showing.value = entry.isIntersecting
-        vm.vnode.props.onVisibility === true && emit('visibility', showing.value)
+        vmHasListener(vm, 'onVisibility') === true && emit('visibility', showing.value)
       }
     }
 

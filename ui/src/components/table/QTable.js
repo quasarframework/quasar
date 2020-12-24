@@ -24,6 +24,8 @@ import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEm
 import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
 import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
 
+import { vmHasListener } from '../../utils/vm.js'
+
 const bottomClass = 'q-table__bottom row items-center'
 
 const commonVirtPropsObj = {}
@@ -419,14 +421,14 @@ export default defineComponent({
 
       const data = { key, class: { selected } }
 
-      if (vm.vnode.props.onRowClick === true) {
+      if (vmHasListener(vm, 'onRowClick') === true) {
         data.class[ 'cursor-pointer' ] = true
         data.onClick = evt => {
           emit('row-click', evt, row, pageIndex)
         }
       }
 
-      if (vm.vnode.props.onRowDblclick === true) {
+      if (vmHasListener(vm, 'onRowDblclick') === true) {
         data.class[ 'cursor-pointer' ] = true
         data.onDblclick = evt => {
           emit('row-dblclick', evt, row, pageIndex)
@@ -949,18 +951,18 @@ export default defineComponent({
           }
 
           if (
-            vm.vnode.props.onRowClick === true
-            || vm.vnode.props.onRowDblclick === true
+            vmHasListener(vm, 'onRowClick') === true
+            || vmHasListener(vm, 'onRowDblclick') === true
           ) {
             data.class[ 0 ] += ' cursor-pointer'
 
-            if (vm.vnode.props.onRowClick === true) {
+            if (vmHasListener(vm, 'onRowClick') === true) {
               data.onClick = evt => {
                 emit('row-click', evt, scope.row, scope.pageIndex)
               }
             }
 
-            if (vm.vnode.props.onRowDblclick === true) {
+            if (vmHasListener(vm, 'onRowDblclick') === true) {
               data.onDblclick = evt => {
                 emit('row-dblclick', evt, scope.row, scope.pageIndex)
               }

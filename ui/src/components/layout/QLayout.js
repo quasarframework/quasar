@@ -10,6 +10,7 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import { getScrollbarWidth } from '../../utils/scroll.js'
 import { hMergeSlot } from '../../utils/render.js'
 import { layoutKey } from '../../utils/symbols.js'
+import { vmHasListener } from '../../utils/vm.js'
 
 export default defineComponent({
   name: 'QLayout',
@@ -72,7 +73,7 @@ export default defineComponent({
       if (props.container === true || document.qScrollPrevented !== true) {
         scroll.value = data
       }
-      vm.vnode.props.onScroll === true && emit('scroll', data)
+      vmHasListener(vm, 'onScroll') === true && emit('scroll', data)
     }
 
     function onPageResize (data) {
@@ -82,7 +83,7 @@ export default defineComponent({
       if (height.value !== newHeight) {
         resized = true
         height.value = newHeight
-        vm.vnode.props.onScrollHeight === true && emit('scroll-height', newHeight)
+        vmHasListener(vm, 'onScrollHeight') === true && emit('scroll-height', newHeight)
         updateScrollbarWidth()
       }
       if (width.value !== newWidth) {
@@ -90,7 +91,7 @@ export default defineComponent({
         width.value = newWidth
       }
 
-      if (resized === true && vm.vnode.props.onResize === true) {
+      if (resized === true && vmHasListener(vm, 'onResize') === true) {
         emit('resize', data)
       }
     }

@@ -10,6 +10,7 @@ import useTimeout from '../../composables/use-timeout.js'
 import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/render.js'
 import { tabsKey } from '../../utils/symbols.js'
+import { vmHasListener } from '../../utils/vm.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -154,7 +155,7 @@ export default defineComponent({
         skipEmit !== true && emit('update:modelValue', name)
         if (
           setCurrent === true
-          || vm.vnode.props[ 'onUpdate:modelValue' ] === void 0
+          || vmHasListener(vm, 'onUpdate:modelValue') === void 0
         ) {
           animate(currentModel.value, name)
           currentModel.value = name

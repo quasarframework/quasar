@@ -12,6 +12,7 @@ import { between } from '../../utils/format.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import { hMergeSlot } from '../../utils/render.js'
 import debounce from '../../utils/debounce.js'
+import { vmHasListener } from '../../utils/vm.js'
 
 export default defineComponent({
   name: 'QScrollArea',
@@ -250,7 +251,7 @@ export default defineComponent({
       }
 
       timer = setTimeout(() => { tempShowing.value = false }, props.delay)
-      vm.vnode.props.onScroll === true && emitScroll()
+      vmHasListener(vm, 'onScroll') === true && emitScroll()
     }
 
     function setScroll (offset) {

@@ -2,6 +2,7 @@ import { h, ref, computed, watch, onBeforeMount, onBeforeUnmount, nextTick } fro
 
 import debounce from '../../utils/debounce.js'
 import { noop } from '../../utils/event.js'
+import { vmHasListener } from '../../utils/vm.js'
 
 const aggBucketSize = 1000
 
@@ -663,7 +664,7 @@ export function useVirtualScroll ({
 
   function emitScroll (index) {
     if (prevToIndex !== index) {
-      vm.vnode.props.onVirtualScroll === true && emit('virtual-scroll', {
+      vmHasListener(vm, 'onVirtualScroll') === true && emit('virtual-scroll', {
         index,
         from: virtualScrollSliceRange.value.from,
         to: virtualScrollSliceRange.value.to - 1,

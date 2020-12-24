@@ -1,6 +1,6 @@
 import { watch, nextTick, onMounted } from 'vue'
 
-import { vmHasRouter } from '../../utils/vm.js'
+import { vmHasRouter, vmHasListener } from '../../utils/vm.js'
 
 export const useModelToggleProps = {
   modelValue: {
@@ -42,7 +42,7 @@ export default function ({
       return
     }
 
-    const listener = vm.vnode.props[ 'onUpdate:modelValue' ] === true
+    const listener = vmHasListener(vm, 'onUpdate:modelValue') === true
 
     if (listener === true && __QUASAR_SSR_SERVER__ !== true) {
       emit('update:modelValue', true)
@@ -81,7 +81,7 @@ export default function ({
       return
     }
 
-    const listener = vm.vnode.props[ 'onUpdate:modelValue' ] === true
+    const listener = vmHasListener(vm, 'onUpdate:modelValue') === true
 
     if (listener === true && __QUASAR_SSR_SERVER__ !== true) {
       emit('update:modelValue', false)
@@ -117,7 +117,7 @@ export default function ({
 
   function processModelChange (val) {
     if (props.disable === true && val === true) {
-      if (vm.vnode.props[ 'onUpdate:modelValue' ] === true) {
+      if (vmHasListener(vm, 'onUpdate:modelValue') === true) {
         emit('update:modelValue', false)
       }
     }
