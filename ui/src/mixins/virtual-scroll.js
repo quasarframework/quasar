@@ -204,6 +204,34 @@ const commonVirtScrollProps = {
   tableColspan: [ Number, String ]
 }
 
+let id = 1
+
+function setOverflowAnchor (id, index) {
+  if (setOverflowAnchor.isSupported === void 0) {
+    setOverflowAnchor.isSupported = window.getComputedStyle(document.body).overflowAnchor !== void 0
+  }
+
+  if (setOverflowAnchor.isSupported === false) {
+    return
+  }
+
+  const ssId = id + '_ss'
+
+  let styleSheet = document.getElementById(ssId)
+
+  if (styleSheet === null) {
+    styleSheet = document.createElement('style')
+    styleSheet.type = 'text/css'
+    styleSheet.id = ssId
+    document.head.appendChild(styleSheet)
+  }
+
+  if (styleSheet.qChildIndex !== index) {
+    styleSheet.qChildIndex = index
+    styleSheet.innerHTML = `#${id} > *:nth-child(${index}) { overflow-anchor: auto }`
+  }
+}
+
 export const commonVirtPropsList = Object.keys(commonVirtScrollProps)
 
 export default {
@@ -214,7 +242,8 @@ export default {
 
   data () {
     return {
-      virtualScrollSliceRange: { from: 0, to: 0 }
+      virtualScrollSliceRange: { from: 0, to: 0 },
+      id: 'qvs_' + id++
     }
   },
 
@@ -374,12 +403,26 @@ export default {
       )
     },
 
+    __calcAlignRange (alignEnd, toIndex) {
+      if (alignEnd !== void 0) {
+        return alignEnd
+      }
+
+      if (toIndex > this.prevToIndex) {
+        return 'start'
+      }
+
+      return toIndex === this.prevToIndex && this.prevAlignRange !== void 0
+        ? this.prevAlignRange
+        : 'end'
+    },
+
     __setVirtualScrollSliceRange (scrollEl, scrollDetails, toIndex, offset, align) {
       const alignForce = typeof align === 'string' && align.indexOf('-force') > -1
       const alignEnd = alignForce === true ? align.replace('-force', '') : align
-      const alignRange = alignEnd === void 0
-        ? (scrollDetails.scrollStart > this.prevScrollStart || toIndex > this.prevToIndex ? 'start' : 'end')
-        : alignEnd
+      const alignRange = this.__calcAlignRange(alignEnd, toIndex)
+
+      this.prevAlignRange = alignRange
 
       let
         from = Math.max(0, Math.ceil(toIndex - this.virtualScrollSliceSizeComputed[alignRange])),
@@ -403,6 +446,8 @@ export default {
 
         return
       }
+
+      setOverflowAnchor(this.id, toIndex - from + 1)
 
       const sizeBefore = alignEnd !== void 0 ? this.virtualScrollSizes.slice(from, toIndex).reduce(sumFn, 0) : 0
 
@@ -603,7 +648,7 @@ export default {
           staticClass: 'q-virtual-scroll__content',
           key: 'content',
           ref: 'content',
-          attrs: { tabindex: -1 }
+          attrs: { id: this.id, tabindex: -1 }
         }, content),
 
         tag === 'tbody'
@@ -649,7 +694,12 @@ export default {
 
   beforeMount () {
     buggyRTL === void 0 && detectBuggyRTL()
-    this.__onVirtualScrollEvt = debounce(this.__onVirtualScrollEvt, this.$q.platform.is.ios === true ? 120 : 50)
+    this.__onVirtualScrollEvt = debounce(this.__onVirtualScrollEvt, this.$q.platform.is.ios === true ? 120 : 35)
     this.__setVirtualScrollSize()
+  },
+
+  beforeDestroy () {
+    const styleSheet = document.getElementById(this.id + '_ss')
+    styleSheet !== null && styleSheet.remove()
   }
 }
