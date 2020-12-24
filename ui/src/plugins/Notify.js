@@ -1,4 +1,4 @@
-import { h, defineComponent, createApp, ref, TransitionGroup, getCurrentInstance } from 'vue'
+import { h, defineComponent, createApp, ref, markRaw, TransitionGroup, getCurrentInstance } from 'vue'
 
 import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
@@ -111,8 +111,12 @@ const Notifications = defineComponent({
       if (notif.spinner === void 0) {
         notif.spinner = false
       }
-      else if (notif.spinner === true) {
-        notif.spinner = QSpinner
+      else {
+        if (notif.spinner === true) {
+          notif.spinner = QSpinner
+        }
+
+        notif.spinner = markRaw(notif.spinner)
       }
 
       notif.meta = {
