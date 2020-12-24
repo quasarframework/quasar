@@ -114,7 +114,7 @@ export default context => {
       { fullPath } = router.resolve(url).route
 
     if (fullPath !== url) {
-      return reject({ url: fullPath })
+      return reject({ url: <%= build.publicPath === '/' ? 'fullPath' : 'addPublicPath(fullPath)' %> })
     }
 
     // set router's location
