@@ -14,8 +14,8 @@ export default defineComponent({
   setup (props, { slots }) {
     const vm = getCurrentInstance()
     const classes = computed(() =>
-      'q-td' + (props.autoWidth === true ? ' q-table--col-auto-width' : '') +
-      (props.noHover === true ? ' q-td--no-hover' : '')
+      'q-td' + (props.autoWidth === true ? ' q-table--col-auto-width' : '')
+      + (props.noHover === true ? ' q-td--no-hover' : '')
     )
 
     return () => {

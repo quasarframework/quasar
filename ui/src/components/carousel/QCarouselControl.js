@@ -23,9 +23,9 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const classes = computed(() => `q-carousel__control absolute absolute-${props.position}`)
+    const classes = computed(() => `q-carousel__control absolute absolute-${ props.position }`)
     const style = computed(() => ({
-      margin: `${props.offset[ 1 ]}px ${props.offset[ 0 ]}px`
+      margin: `${ props.offset[ 1 ] }px ${ props.offset[ 0 ] }px`
     }))
 
     return () => h('div', {

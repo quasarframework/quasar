@@ -55,50 +55,50 @@ export default function (props, slots, emit, type, getInner) {
     props.val !== void 0 && Array.isArray(props.modelValue)
   )
 
-  const index = computed(() =>
+  const index = computed(() => (
     modelIsArray.value === true
       ? props.modelValue.indexOf(props.val)
       : -1
-  )
+  ))
 
-  const isTrue = computed(() =>
+  const isTrue = computed(() => (
     modelIsArray.value === true
       ? index.value > -1
       : props.modelValue === props.trueValue
-  )
+  ))
 
-  const isFalse = computed(() =>
+  const isFalse = computed(() => (
     modelIsArray.value === true
       ? index.value === -1
       : props.modelValue === props.falseValue
-  )
+  ))
 
   const isIndeterminate = computed(() =>
     isTrue.value === false && isFalse.value === false
   )
 
-  const tabindex = computed(() =>
+  const tabindex = computed(() => (
     props.disable === true ? -1 : props.tabindex || 0
-  )
+  ))
 
   const classes = computed(() =>
-    `q-${type} cursor-pointer no-outline row inline no-wrap items-center` +
-    (props.disable === true ? ' disabled' : '') +
-    (isDark.value === true ? ` q-${type}--dark` : '') +
-    (props.dense === true ? ` q-${type}--dense` : '') +
-    (props.leftLabel === true ? ' reverse' : '')
+    `q-${ type } cursor-pointer no-outline row inline no-wrap items-center`
+    + (props.disable === true ? ' disabled' : '')
+    + (isDark.value === true ? ` q-${ type }--dark` : '')
+    + (props.dense === true ? ` q-${ type }--dense` : '')
+    + (props.leftLabel === true ? ' reverse' : '')
   )
 
   const innerClass = computed(() => {
     const state = isTrue.value === true ? 'truthy' : (isFalse.value === true ? 'falsy' : 'indet')
     const color = props.color !== void 0 && (
-      props.keepColor === true ||
-      (type === 'toggle' ? isTrue.value === true : isFalse.value !== true)
+      props.keepColor === true
+      || (type === 'toggle' ? isTrue.value === true : isFalse.value !== true)
     )
-      ? ` text-${props.color}`
+      ? ` text-${ props.color }`
       : ''
 
-    return `q-${type}__inner relative-position non-selectable q-${type}__inner--${state}${color}`
+    return `q-${ type }__inner relative-position non-selectable q-${ type }__inner--${ state }${ color }`
   })
 
   const formAttrs = computed(() => {
@@ -199,7 +199,7 @@ export default function (props, slots, emit, type, getInner) {
     props.disable !== true && injectFormInput(
       inner,
       'unshift',
-      ` q-${type}__native absolute q-ma-none q-pa-none`
+      ` q-${ type }__native absolute q-ma-none q-pa-none`
     )
 
     const child = [
@@ -219,7 +219,7 @@ export default function (props, slots, emit, type, getInner) {
 
     label !== void 0 && child.push(
       h('div', {
-        class: `q-${type}__label q-anchor--skip`
+        class: `q-${ type }__label q-anchor--skip`
       }, label)
     )
 

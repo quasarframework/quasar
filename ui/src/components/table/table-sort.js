@@ -17,7 +17,7 @@ export function useTableSort (props, computedPagination, colList, setPagination)
       : null
   })
 
-  const computedSortMethod = computed(() =>
+  const computedSortMethod = computed(() => (
     props.sortMethod !== void 0
       ? props.sortMethod
       : (data, sortBy, descending) => {
@@ -63,7 +63,7 @@ export function useTableSort (props, computedPagination, colList, setPagination)
               : (A === B ? 0 : dir)
           })
         }
-  )
+  ))
 
   function sort (col /* String(col name) or Object(col definition) */) {
     if (col === Object(col)) {

@@ -1,5 +1,5 @@
-const hasSymbol = typeof Symbol === 'function' &&
-  typeof Symbol.toStringTag === 'symbol'
+const hasSymbol = typeof Symbol === 'function'
+  && typeof Symbol.toStringTag === 'symbol'
 
 export const quasarKey = hasSymbol === true
   ? Symbol('_q_')

@@ -157,7 +157,7 @@ export default function ({
       }
       else {
         anchorEl.value = null
-        console.error(`Anchor: target "${props.target}" not found`)
+        console.error(`Anchor: target "${ props.target }" not found`)
       }
     }
   }

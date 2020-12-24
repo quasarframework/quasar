@@ -33,8 +33,6 @@ module.exports = {
     'prefer-const': 2,
     'prefer-promise-reject-errors': 'off',
     'multiline-ternary': 'off',
-    'array-bracket-spacing': [ 'error', 'always', { singleValue: false } ],
-    'computed-property-spacing': [ 'error', 'always' ],
     'no-prototype-builtins': 'off',
     'no-case-declarations': 'off',
     'generator-star-spacing': 'off',
@@ -42,7 +40,20 @@ module.exports = {
     'object-property-newline': 'off',
     'one-var': 'off',
     'no-void': 'off',
+    'no-lone-blocks': 'error',
+    'no-unused-expressions': 'error',
+    'no-useless-concat': 'error',
+    'no-useless-return': 'error',
+    'no-unneeded-ternary': 'error',
+    'no-confusing-arrow': [ 'error', { allowParens: true } ],
+    'linebreak-style': [ 'error', 'unix' ],
+    'operator-linebreak': [ 'error', 'before' ],
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+
+    'array-bracket-spacing': [ 'error', 'always', { singleValue: false } ],
+    'object-curly-spacing': [ 'error', 'always' ],
+    'computed-property-spacing': [ 'error', 'always' ],
+    'template-curly-spacing': [ 'error', 'always' ],
 
     'import/first': 0,
     'import/named': 2,
@@ -65,7 +76,6 @@ module.exports = {
     'vue/array-bracket-spacing': 'off',
     'vue/object-curly-spacing': 'off',
     'vue/script-indent': 'off',
-    'vue/require-explicit-emits': 'error',
     'vue/no-v-model-argument': 'off',
     'vue/require-explicit-emits': 'off'
   }

@@ -423,7 +423,7 @@ export default {
       const interval = setInterval(() => {
         percentage = Math.min(100, percentage + Math.floor(Math.random() * 22))
         dialog.update({
-          message: `Uploading... ${percentage}%`
+          message: `Uploading... ${ percentage }%`
         })
 
         if (percentage === 100) {
@@ -470,7 +470,7 @@ export default {
 
       this.dialogHandler = this.$q.dialog({
         title: 'Alert',
-        message: `Autoclosing in ${seconds} seconds.`,
+        message: `Autoclosing in ${ seconds } seconds.`,
         dark: this.dark
       }).onOk(() => {
         console.log('OK')
@@ -487,7 +487,7 @@ export default {
           seconds--
           if (seconds > 0) {
             this.dialogHandler.update({
-              message: `Autoclosing in ${seconds} second${seconds > 1 ? 's' : ''}.`
+              message: `Autoclosing in ${ seconds } second${ seconds > 1 ? 's' : '' }.`
             })
           }
           else {

@@ -17,12 +17,12 @@ function translate ({ p, pos, active, horiz, reverse, dir }) {
   if (horiz) {
     if (reverse) { x = -1 }
     if (pos === 'bottom') { y = -1 }
-    return { transform: `translate3d(${x * (p - 100)}%,${active ? 0 : y * -200}%,0)` }
+    return { transform: `translate3d(${ x * (p - 100) }%,${ active ? 0 : y * -200 }%,0)` }
   }
 
   if (reverse) { y = -1 }
   if (pos === 'right') { x = -1 }
-  return { transform: `translate3d(${active ? 0 : dir * x * -200}%,${y * (p - 100)}%,0)` }
+  return { transform: `translate3d(${ active ? 0 : dir * x * -200 }%,${ y * (p - 100) }%,0)` }
 }
 
 function inc (p, amount) {
@@ -105,13 +105,13 @@ export default defineComponent({
     let calls = 0, timer, speed
 
     const classes = computed(() =>
-      `q-loading-bar q-loading-bar--${props.position}` +
-      (props.color !== void 0 ? ` bg-${props.color}` : '') +
-      (animate.value === true ? '' : ' no-transition')
+      `q-loading-bar q-loading-bar--${ props.position }`
+      + (props.color !== void 0 ? ` bg-${ props.color }` : '')
+      + (animate.value === true ? '' : ' no-transition')
     )
 
     const horizontal = computed(() => props.position === 'top' || props.position === 'bottom')
-    const sizeProp = computed(() => horizontal.value === true ? 'height' : 'width')
+    const sizeProp = computed(() => (horizontal.value === true ? 'height' : 'width'))
 
     const style = computed(() => {
       const active = onScreen.value
@@ -133,7 +133,7 @@ export default defineComponent({
       return obj
     })
 
-    const attributes = computed(() =>
+    const attributes = computed(() => (
       onScreen.value === true
         ? {
             role: 'progressbar',
@@ -142,7 +142,7 @@ export default defineComponent({
             'aria-valuenow': progress.value
           }
         : { 'aria-hidden': 'true' }
-    )
+    ))
 
     function start (newSpeed = 300) {
       const oldSpeed = speed

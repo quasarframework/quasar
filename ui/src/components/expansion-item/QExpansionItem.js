@@ -81,9 +81,9 @@ export default defineComponent({
     let uniqueId, exitGroup
 
     const classes = computed(() =>
-      'q-expansion-item q-item-type' +
-      ` q-expansion-item--${showing.value === true ? 'expanded' : 'collapsed'}` +
-      ` q-expansion-item--${props.popup === true ? 'popup' : 'standard'}`
+      'q-expansion-item q-item-type'
+      + ` q-expansion-item--${ showing.value === true ? 'expanded' : 'collapsed' }`
+      + ` q-expansion-item--${ props.popup === true ? 'popup' : 'standard' }`
     )
 
     const contentStyle = computed(() => {
@@ -113,11 +113,11 @@ export default defineComponent({
       hasLink.value === true || props.expandIconToggle !== true
     )
 
-    const expansionIcon = computed(() =>
+    const expansionIcon = computed(() => (
       props.expandedIcon !== void 0 && showing.value === true
         ? props.expandedIcon
         : props.expandIcon || $q.iconSet.expansionItem[ props.denseToggle === true ? 'denseIcon' : 'icon' ]
-    )
+    ))
 
     const activeToggleIcon = computed(() =>
       props.disable !== true && (hasLink.value === true || props.expandIconToggle === true)
@@ -193,8 +193,8 @@ export default defineComponent({
     function getToggleIcon () {
       const data = {
         class: [
-          'q-focusable relative-position cursor-pointer' +
-            `${props.denseToggle === true && props.switchToggleSide === true ? ' items-end' : ''}`,
+          'q-focusable relative-position cursor-pointer'
+            + `${ props.denseToggle === true && props.switchToggleSide === true ? ' items-end' : '' }`,
           props.expandIconClass
         ],
         side: props.switchToggleSide !== true,
@@ -203,8 +203,8 @@ export default defineComponent({
 
       const child = [
         h(QIcon, {
-          class: 'q-expansion-item__toggle-icon' +
-            (props.expandedIcon === void 0 && showing.value === true
+          class: 'q-expansion-item__toggle-icon'
+            + (props.expandedIcon === void 0 && showing.value === true
               ? ' q-expansion-item__toggle-icon--rotated'
               : ''),
           name: expansionIcon.value

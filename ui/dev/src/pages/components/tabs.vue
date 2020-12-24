@@ -526,7 +526,7 @@ export default {
         const id = uid()
 
         function log (what) {
-          console.log(`[KeepAliveTest > ${props.name} / ${id}] ${what}`)
+          console.log(`[KeepAliveTest > ${ props.name } / ${ id }] ${ what }`)
         }
 
         log('created')
@@ -558,7 +558,7 @@ export default {
         return () => h('div', {
           class: 'q-pa-sm bg-grey-2 cursor-pointer',
           onClick
-        }, `${props.name} - clicked ${counter.value} times [${id}]`)
+        }, `${ props.name } - clicked ${ counter.value } times [${ id }]`)
       }
     }
   },

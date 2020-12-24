@@ -16,9 +16,9 @@ function isPlainObject (obj) {
     return false
   }
 
-  if (obj.constructor &&
-    !hasOwn.call(obj, 'constructor') &&
-    !hasOwn.call(obj.constructor.prototype, 'isPrototypeOf')) {
+  if (obj.constructor
+    && !hasOwn.call(obj, 'constructor')
+    && !hasOwn.call(obj.constructor.prototype, 'isPrototypeOf')) {
     return false
   }
 

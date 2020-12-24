@@ -167,29 +167,29 @@ export default {
       let classes = 'animated'
 
       if (this.duration !== 'default') {
-        classes += ` ${this.duration}`
+        classes += ` ${ this.duration }`
       }
 
       if (this.delay !== 'default') {
-        classes += ` delay-${this.delay}`
+        classes += ` delay-${ this.delay }`
       }
 
       return classes
     },
     enterClass () {
-      return `${this.baseClasses} ${this.enter}`
+      return `${ this.baseClasses } ${ this.enter }`
     },
     leaveClass () {
-      return `${this.baseClasses} ${this.leave}`
+      return `${ this.baseClasses } ${ this.leave }`
     },
     continuousClasses () {
       let classes = this.baseClasses
 
       if (this.repeat !== 'default') {
-        classes += this.repeat === 'infinite' ? ' infinite' : ` repeat-${this.repeat}`
+        classes += this.repeat === 'infinite' ? ' infinite' : ` repeat-${ this.repeat }`
       }
 
-      return `${classes} ${this.enter}`
+      return `${ classes } ${ this.enter }`
     }
   }
 }

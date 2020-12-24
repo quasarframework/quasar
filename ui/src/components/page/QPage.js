@@ -22,9 +22,9 @@ export default defineComponent({
     })
 
     const style = computed(() => {
-      const offset =
-        ($layout.header.space === true ? $layout.header.size : 0) +
-        ($layout.footer.space === true ? $layout.footer.size : 0)
+      const offset
+        = ($layout.header.space === true ? $layout.header.size : 0)
+        + ($layout.footer.space === true ? $layout.footer.size : 0)
 
       if (typeof props.styleFn === 'function') {
         const height = $layout.container === true
@@ -39,14 +39,14 @@ export default defineComponent({
           ? ($layout.containerHeight.value - offset) + 'px'
           : (
               $q.screen.height === 0
-                ? `calc(100vh - ${offset}px)`
+                ? `calc(100vh - ${ offset }px)`
                 : ($q.screen.height - offset) + 'px'
             )
       }
     })
 
     const classes = computed(() =>
-      `q-page ${props.padding === true ? ' q-layout-padding' : ''}`
+      `q-page ${ props.padding === true ? ' q-layout-padding' : '' }`
     )
 
     return () => h('main', {

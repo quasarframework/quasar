@@ -8,10 +8,10 @@ export function rgbToHex ({ r, g, b, a }) {
   b = Math.round(b)
 
   if (
-    r > 255 ||
-    g > 255 ||
-    b > 255 ||
-    (alpha && a > 100)
+    r > 255
+    || g > 255
+    || b > 255
+    || (alpha && a > 100)
   ) {
     throw new TypeError('Expected 3 numbers below 256 (and optionally one below 100)')
   }
@@ -24,7 +24,7 @@ export function rgbToHex ({ r, g, b, a }) {
 }
 
 export function rgbToString ({ r, g, b, a }) {
-  return `rgb${a !== void 0 ? 'a' : ''}(${r},${g},${b}${a !== void 0 ? ',' + (a / 100) : ''})`
+  return `rgb${ a !== void 0 ? 'a' : '' }(${ r },${ g },${ b }${ a !== void 0 ? ',' + (a / 100) : '' })`
 }
 
 export function hexToRgb (hex) {
@@ -181,9 +181,9 @@ export function lighten (color, percent) {
     B = rgb.b
 
   return '#' + (
-    0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
-    (Math.round((t - G) * p) + G) * 0x100 +
-    (Math.round((t - B) * p) + B)
+    0x1000000 + (Math.round((t - R) * p) + R) * 0x10000
+    + (Math.round((t - G) * p) + G) * 0x100
+    + (Math.round((t - B) * p) + B)
   ).toString(16).slice(1)
 }
 
@@ -274,7 +274,7 @@ export function setBrand (color, value, element = document.body) {
     throw new TypeError('Expected a DOM element')
   }
 
-  element.style.setProperty(`--q-color-${color}`, value)
+  element.style.setProperty(`--q-color-${ color }`, value)
 }
 
 export function getBrand (color, element = document.body) {
@@ -285,7 +285,7 @@ export function getBrand (color, element = document.body) {
     throw new TypeError('Expected a DOM element')
   }
 
-  return getComputedStyle(element).getPropertyValue(`--q-color-${color}`).trim() || null
+  return getComputedStyle(element).getPropertyValue(`--q-color-${ color }`).trim() || null
 }
 
 export function getPaletteColor (colorName) {
@@ -295,7 +295,7 @@ export function getPaletteColor (colorName) {
 
   const el = document.createElement('div')
 
-  el.className = `text-${colorName} invisible fixed no-pointer-events`
+  el.className = `text-${ colorName } invisible fixed no-pointer-events`
   document.body.appendChild(el)
 
   const result = getComputedStyle(el).getPropertyValue('color')

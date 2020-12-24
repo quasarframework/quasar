@@ -58,19 +58,20 @@ export default defineComponent({
     }
 
     const classes = computed(() =>
-      'q-splitter no-wrap ' +
-      `${props.horizontal === true ? 'q-splitter--horizontal column' : 'q-splitter--vertical row'}` +
-      ` q-splitter--${props.disable === true ? 'disabled' : 'workable'}` +
-      (isDark.value === true ? ' q-splitter--dark' : '')
+      'q-splitter no-wrap '
+      + `${ props.horizontal === true ? 'q-splitter--horizontal column' : 'q-splitter--vertical row' }`
+      + ` q-splitter--${ props.disable === true ? 'disabled' : 'workable' }`
+      + (isDark.value === true ? ' q-splitter--dark' : '')
     )
 
-    const propName = computed(() => props.horizontal === true ? 'height' : 'width')
-    const side = computed(() => props.reverse !== true ? 'before' : 'after')
+    const propName = computed(() => (props.horizontal === true ? 'height' : 'width'))
+    const side = computed(() => (props.reverse !== true ? 'before' : 'after'))
 
-    const computedLimits = computed(() => props.limits !== void 0
-      ? props.limits
-      : (props.unit === '%' ? [ 10, 90 ] : [ 50, Infinity ])
-    )
+    const computedLimits = computed(() => (
+      props.limits !== void 0
+        ? props.limits
+        : (props.unit === '%' ? [ 10, 90 ] : [ 50, Infinity ])
+    ))
 
     function getCSSValue (value) {
       return (props.unit === '%' ? value : Math.round(value)) + props.unit
@@ -91,9 +92,9 @@ export default defineComponent({
         __dir = props.horizontal === true ? 'up' : 'left'
         __maxValue = props.unit === '%' ? 100 : size
         __value = Math.min(__maxValue, computedLimits.value[ 1 ], Math.max(computedLimits.value[ 0 ], props.modelValue))
-        __multiplier = (props.reverse !== true ? 1 : -1) *
-          (props.horizontal === true ? 1 : ($q.lang.rtl === true ? -1 : 1)) *
-          (props.unit === '%' ? (size === 0 ? 0 : 100 / size) : 1)
+        __multiplier = (props.reverse !== true ? 1 : -1)
+          * (props.horizontal === true ? 1 : ($q.lang.rtl === true ? -1 : 1))
+          * (props.unit === '%' ? (size === 0 ? 0 : 100 / size) : 1)
 
         rootRef.value.classList.add('q-splitter--active')
         return
@@ -108,10 +109,10 @@ export default defineComponent({
         return
       }
 
-      const val = __value +
-        __multiplier *
-        (evt.direction === __dir ? -1 : 1) *
-        evt.distance[ props.horizontal === true ? 'y' : 'x' ]
+      const val = __value
+        + __multiplier
+        * (evt.direction === __dir ? -1 : 1)
+        * evt.distance[ props.horizontal === true ? 'y' : 'x' ]
 
       __normalized = Math.min(__maxValue, computedLimits.value[ 1 ], Math.max(computedLimits.value[ 0 ], val))
 

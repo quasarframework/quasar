@@ -33,11 +33,11 @@ export default defineComponent({
     const { alignClass } = useAlign(props)
 
     const classes = computed(() =>
-      `flex items-center ${alignClass.value}${props.gutter === 'none' ? '' : ` q-gutter-${props.gutter}`}`
+      `flex items-center ${ alignClass.value }${ props.gutter === 'none' ? '' : ` q-gutter-${ props.gutter }` }`
     )
 
-    const sepClass = computed(() => props.separatorColor ? ` text-${props.separatorColor}` : '')
-    const activeClass = computed(() => `text-${props.activeColor}`)
+    const sepClass = computed(() => (props.separatorColor ? ` text-${ props.separatorColor }` : ''))
+    const activeClass = computed(() => `text-${ props.activeColor }`)
 
     return () => {
       const vnodes = getNormalizedVNodes(
@@ -62,8 +62,8 @@ export default defineComponent({
 
           child.push(
             h('div', {
-              class: 'flex items-center ' +
-                (middle === true ? activeClass.value : 'q-breadcrumbs--last')
+              class: 'flex items-center '
+                + (middle === true ? activeClass.value : 'q-breadcrumbs--last')
             }, [comp])
           )
 

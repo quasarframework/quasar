@@ -14,9 +14,10 @@ export const useSizeProps = {
 
 export default function (props, sizes = useSizeDefaults) {
   return {
-    sizeStyle: computed(() => props.size !== void 0
-      ? { fontSize: props.size in sizes ? `${sizes[ props.size ]}px` : props.size }
-      : null
-    )
+    sizeStyle: computed(() => (
+      props.size !== void 0
+        ? { fontSize: props.size in sizes ? `${ sizes[ props.size ] }px` : props.size }
+        : null
+    ))
   }
 }

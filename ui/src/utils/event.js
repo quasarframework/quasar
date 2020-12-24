@@ -141,7 +141,7 @@ export function create (name, { bubbles = false, cancelable = false } = {}) {
 }
 
 export function addEvt (ctx, targetName, events) {
-  const name = `__q_${targetName}_evt`
+  const name = `__q_${ targetName }_evt`
 
   ctx[ name ] = ctx[ name ] !== void 0
     ? ctx[ name ].concat(events)
@@ -153,7 +153,7 @@ export function addEvt (ctx, targetName, events) {
 }
 
 export function cleanEvt (ctx, targetName) {
-  const name = `__q_${targetName}_evt`
+  const name = `__q_${ targetName }_evt`
 
   if (ctx[ name ] !== void 0) {
     ctx[ name ].forEach(evt => {

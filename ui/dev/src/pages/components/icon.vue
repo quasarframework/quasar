@@ -91,7 +91,7 @@ function parseSet (setName, set) {
     Object.keys(prop).forEach(name => {
       const val = prop[ name ]
       if (typeof val === 'string') {
-        icons.push({ name: `${key}/${name}`, val })
+        icons.push({ name: `${ key }/${ name }`, val })
       }
     })
   })

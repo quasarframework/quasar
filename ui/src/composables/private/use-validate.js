@@ -33,20 +33,20 @@ export default function (props, focused, vm, innerLoading) {
   let validateIndex = 0, unwatchRules
 
   const hasRules = computed(() =>
-    props.rules !== void 0 &&
-    props.rules !== null &&
-    props.rules.length > 0
+    props.rules !== void 0
+    && props.rules !== null
+    && props.rules.length > 0
   )
 
   const hasError = computed(() =>
     props.error === true || innerError.value === true
   )
 
-  const computedErrorMessage = computed(() =>
+  const computedErrorMessage = computed(() => (
     typeof props.errorMessage === 'string' && props.errorMessage.length > 0
       ? props.errorMessage
       : innerErrorMessage.value || ''
-  )
+  ))
 
   watch(() => props.modelValue, () => {
     validateIfNeeded()
@@ -183,9 +183,9 @@ export default function (props, focused, vm, innerLoading) {
 
   function validateIfNeeded (changedRules) {
     if (
-      hasRules.value === true &&
-      props.lazyRules !== 'ondemand' &&
-      (isDirtyModel.value === true || (props.lazyRules !== true && changedRules !== true))
+      hasRules.value === true
+      && props.lazyRules !== 'ondemand'
+      && (isDirtyModel.value === true || (props.lazyRules !== true && changedRules !== true))
     ) {
       validate()
     }

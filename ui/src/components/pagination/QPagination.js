@@ -122,8 +122,8 @@ export default defineComponent({
     }
 
     const classes = computed(() =>
-      'q-pagination row no-wrap items-center' +
-      (props.disable === true ? ' disabled' : '')
+      'q-pagination row no-wrap items-center'
+      + (props.disable === true ? ' disabled' : '')
     )
     const inputPlaceholder = computed(() => model.value + ' / ' + props.max)
     const __boundaryLinks = computed(() => getBool(props.boundaryLinks, props.input))
@@ -140,10 +140,11 @@ export default defineComponent({
       return $q.lang.rtl === true ? ico.reverse() : ico
     })
 
-    const attrs = computed(() => props.disable === true
-      ? { 'aria-disabled': 'true' }
-      : {}
-    )
+    const attrs = computed(() => (
+      props.disable === true
+        ? { 'aria-disabled': 'true' }
+        : {}
+    ))
 
     const btnProps = computed(() => ({
       round: props.round,
@@ -233,7 +234,7 @@ export default defineComponent({
         contentMiddle.push(h(QInput, {
           class: 'inline',
           style: {
-            width: `${inputPlaceholder.value.length / 1.5}em`
+            width: `${ inputPlaceholder.value.length / 1.5 }em`
           },
           type: 'number',
           dense: true,
@@ -286,7 +287,7 @@ export default defineComponent({
           }
         }
         const style = {
-          minWidth: `${Math.max(2, String(props.max).length)}em`
+          minWidth: `${ Math.max(2, String(props.max).length) }em`
         }
         if (boundaryStart) {
           const active = props.min === props.modelValue
@@ -331,7 +332,7 @@ export default defineComponent({
         for (let i = pgFrom; i <= pgTo; i++) {
           const active = i === props.modelValue
           contentMiddle.push(getBtn({
-            key: `bpg${i}`,
+            key: `bpg${ i }`,
             style,
             disable: props.disable,
             flat: !active,

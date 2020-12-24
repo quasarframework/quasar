@@ -48,32 +48,32 @@ export default defineComponent({
     })
 
     const modelRatio = computed(() => (model.value - props.min) / (props.max - props.min))
-    const ratio = computed(() => state.active.value === true ? curRatio.value : modelRatio.value)
+    const ratio = computed(() => (state.active.value === true ? curRatio.value : modelRatio.value))
 
     const trackStyle = computed(() => ({
       [ state.positionProp.value ]: 0,
-      [ state.sizeProp.value ]: `${100 * ratio.value}%`
+      [ state.sizeProp.value ]: `${ 100 * ratio.value }%`
     }))
 
     const thumbStyle = computed(() => ({
-      [ state.positionProp.value ]: `${100 * ratio.value}%`
+      [ state.positionProp.value ]: `${ 100 * ratio.value }%`
     }))
 
-    const thumbClass = computed(() =>
+    const thumbClass = computed(() => (
       state.preventFocus.value === false && state.focus.value === true
         ? ' q-slider--focus'
         : ''
-    )
+    ))
 
-    const pinClass = computed(() =>
+    const pinClass = computed(() => (
       props.labelColor !== void 0
-        ? `text-${props.labelColor}`
+        ? `text-${ props.labelColor }`
         : ''
-    )
+    ))
 
     const pinTextClass = computed(() =>
-      'q-slider__pin-value-marker-text' +
-      (props.labelTextColor !== void 0 ? ` text-${props.labelTextColor}` : '')
+      'q-slider__pin-value-marker-text'
+      + (props.labelTextColor !== void 0 ? ` text-${ props.labelTextColor }` : '')
     )
 
     const events = computed(() => {
@@ -92,11 +92,11 @@ export default defineComponent({
           }
     })
 
-    const label = computed(() =>
+    const label = computed(() => (
       props.labelValue !== void 0
         ? props.labelValue
         : model.value
-    )
+    ))
 
     const pinStyle = computed(() => {
       const percent = (props.reverse === true ? -ratio.value : ratio.value - 1)
@@ -171,11 +171,11 @@ export default defineComponent({
       if (props.label === true || props.labelAlways === true) {
         child.push(
           h('div', {
-            class: `q-slider__pin q-slider__pin${state.axis.value} absolute ` + pinClass.value,
+            class: `q-slider__pin q-slider__pin${ state.axis.value } absolute ` + pinClass.value,
             style: pinStyle.value.pin
           }, [
             h('div', {
-              class: `q-slider__pin-text-container q-slider__pin-text-container${state.axis.value}`,
+              class: `q-slider__pin-text-container q-slider__pin-text-container${ state.axis.value }`,
               style: pinStyle.value.pinTextContainer
             }, [
               h('span', {
@@ -187,7 +187,7 @@ export default defineComponent({
           ]),
 
           h('div', {
-            class: `q-slider__arrow q-slider__arrow${state.axis.value} ${pinClass.value}`
+            class: `q-slider__arrow q-slider__arrow${ state.axis.value } ${ pinClass.value }`
           })
         )
       }
@@ -198,25 +198,25 @@ export default defineComponent({
 
       const track = [
         h('div', {
-          class: `q-slider__track q-slider__track${state.axis.value} absolute`,
+          class: `q-slider__track q-slider__track${ state.axis.value } absolute`,
           style: trackStyle.value
         })
       ]
 
       props.markers === true && track.push(
         h('div', {
-          class: `q-slider__track-markers q-slider__track-markers${state.axis.value} absolute-full fit`,
+          class: `q-slider__track-markers q-slider__track-markers${ state.axis.value } absolute-full fit`,
           style: state.markerStyle.value
         })
       )
 
       const content = [
         h('div', {
-          class: `q-slider__track-container q-slider__track-container${state.axis.value} absolute`
+          class: `q-slider__track-container q-slider__track-container${ state.axis.value } absolute`
         }, track),
 
         h('div', {
-          class: `q-slider__thumb-container q-slider__thumb-container${state.axis.value} absolute non-selectable` + thumbClass.value,
+          class: `q-slider__thumb-container q-slider__thumb-container${ state.axis.value } absolute non-selectable` + thumbClass.value,
           style: thumbStyle.value
         }, child)
       ]

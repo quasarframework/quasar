@@ -533,11 +533,11 @@ export default {
   computed: {
     view () {
       const
-        top = `${this.topleft}${this.topcenter}${this.topright}`,
-        middle = `${this.middleleft}${this.middlecenter}${this.middleright}`,
-        bottom = `${this.bottomleft}${this.bottomcenter}${this.bottomright}`
+        top = `${ this.topleft }${ this.topcenter }${ this.topright }`,
+        middle = `${ this.middleleft }${ this.middlecenter }${ this.middleright }`,
+        bottom = `${ this.bottomleft }${ this.bottomcenter }${ this.bottomright }`
 
-      return `${top} ${middle} ${bottom}`
+      return `${ top } ${ middle } ${ bottom }`
     },
     marginalClass () {
       return this.whiteLayout

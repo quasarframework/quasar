@@ -36,20 +36,21 @@ export default defineComponent({
 
       return {
         transform: props.reverse !== ($q.lang.rtl === true)
-          ? `scale3d(-1, 1, 1) rotate3d(0, 0, 1, ${-90 - angle}deg)`
-          : `rotate3d(0, 0, 1, ${angle - 90}deg)`
+          ? `scale3d(-1, 1, 1) rotate3d(0, 0, 1, ${ -90 - angle }deg)`
+          : `rotate3d(0, 0, 1, ${ angle - 90 }deg)`
       }
     })
 
-    const circleStyle = computed(() => props.instantFeedback !== true && props.indeterminate !== true
-      ? { transition: 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease' }
-      : ''
-    )
+    const circleStyle = computed(() => (
+      props.instantFeedback !== true && props.indeterminate !== true
+        ? { transition: 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease' }
+        : ''
+    ))
 
     const viewBox = computed(() => diameter / (1 - props.thickness / 2))
 
     const viewBoxAttr = computed(() =>
-      `${viewBox.value / 2} ${viewBox.value / 2} ${viewBox.value} ${viewBox.value}`
+      `${ viewBox.value / 2 } ${ viewBox.value / 2 } ${ viewBox.value } ${ viewBox.value }`
     )
 
     const normalized = computed(() => between(props.value, props.min, props.max))
@@ -62,7 +63,7 @@ export default defineComponent({
 
     function getCircle ({ thickness, offset, color, cls }) {
       return h('circle', {
-        class: 'q-circular-progress__' + cls + (color !== void 0 ? ` text-${color}` : ''),
+        class: 'q-circular-progress__' + cls + (color !== void 0 ? ` text-${ color }` : ''),
         style: circleStyle.value,
         fill: 'transparent',
         stroke: 'currentColor',
@@ -80,7 +81,7 @@ export default defineComponent({
 
       props.centerColor !== void 0 && props.centerColor !== 'transparent' && svgChild.push(
         h('circle', {
-          class: `q-circular-progress__center text-${props.centerColor}`,
+          class: `q-circular-progress__center text-${ props.centerColor }`,
           fill: 'currentColor',
           r: radius - strokeWidth.value / 2,
           cx: viewBox.value,
@@ -123,7 +124,7 @@ export default defineComponent({
       )
 
       return h('div', {
-        class: `q-circular-progress q-circular-progress--${props.indeterminate === true ? 'in' : ''}determinate`,
+        class: `q-circular-progress q-circular-progress--${ props.indeterminate === true ? 'in' : '' }determinate`,
         style: sizeStyle.value,
         role: 'progressbar',
         'aria-valuemin': props.min,

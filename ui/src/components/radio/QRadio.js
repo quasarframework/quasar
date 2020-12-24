@@ -65,28 +65,28 @@ export default defineComponent({
     const isTrue = computed(() => props.modelValue === props.val)
 
     const classes = computed(() =>
-      'q-radio cursor-pointer no-outline row inline no-wrap items-center' +
-      (props.disable === true ? ' disabled' : '') +
-      (isDark.value === true ? ' q-radio--dark' : '') +
-      (props.dense === true ? ' q-radio--dense' : '') +
-      (props.leftLabel === true ? ' reverse' : '')
+      'q-radio cursor-pointer no-outline row inline no-wrap items-center'
+      + (props.disable === true ? ' disabled' : '')
+      + (isDark.value === true ? ' q-radio--dark' : '')
+      + (props.dense === true ? ' q-radio--dense' : '')
+      + (props.leftLabel === true ? ' reverse' : '')
     )
 
     const innerClass = computed(() => {
       const color = props.color !== void 0 && (
-        props.keepColor === true ||
-        isTrue.value === true
+        props.keepColor === true
+        || isTrue.value === true
       )
-        ? ` text-${props.color}`
+        ? ` text-${ props.color }`
         : ''
 
-      return 'q-radio__inner relative-position ' +
-        `q-radio__inner--${isTrue.value === true ? 'truthy' : 'falsy'}${color}`
+      return 'q-radio__inner relative-position '
+        + `q-radio__inner--${ isTrue.value === true ? 'truthy' : 'falsy' }${ color }`
     })
 
-    const tabindex = computed(() =>
+    const tabindex = computed(() => (
       props.disable === true ? -1 : props.tabindex || 0
-    )
+    ))
 
     const formAttrs = computed(() => {
       const prop = { type: 'radio' }
@@ -99,11 +99,11 @@ export default defineComponent({
       return prop
     })
 
-    const formDomProps = computed(() =>
+    const formDomProps = computed(() => (
       props.name !== void 0 && isTrue.value === true
         ? { checked: true }
         : {}
-    )
+    ))
 
     const injectFormInput = useFormInject(formAttrs, formDomProps)
 

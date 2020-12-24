@@ -41,32 +41,32 @@ export default defineComponent({
     const scrollbarWidth = ref(isRuntimeSsrPreHydration === true ? 0 : getScrollbarWidth())
 
     const classes = computed(() =>
-      'q-layout q-layout--' +
-      (props.container === true ? 'containerized' : 'standard')
+      'q-layout q-layout--'
+      + (props.container === true ? 'containerized' : 'standard')
     )
 
-    const style = computed(() =>
+    const style = computed(() => (
       props.container === false
         ? { minHeight: $q.screen.height + 'px' }
         : null
-    )
+    ))
 
     // used by container only
-    const targetStyle = computed(() =>
+    const targetStyle = computed(() => (
       scrollbarWidth.value !== 0
-        ? { [ $q.lang.rtl === true ? 'left' : 'right' ]: `${scrollbarWidth.value}px` }
+        ? { [ $q.lang.rtl === true ? 'left' : 'right' ]: `${ scrollbarWidth.value }px` }
         : null
-    )
+    ))
 
-    const targetChildStyle = computed(() =>
+    const targetChildStyle = computed(() => (
       scrollbarWidth.value !== 0
         ? {
             [ $q.lang.rtl === true ? 'right' : 'left' ]: 0,
-            [ $q.lang.rtl === true ? 'left' : 'right' ]: `-${scrollbarWidth.value}px`,
-            width: `calc(100% + ${scrollbarWidth.value}px)`
+            [ $q.lang.rtl === true ? 'left' : 'right' ]: `-${ scrollbarWidth.value }px`,
+            width: `calc(100% + ${ scrollbarWidth.value }px)`
           }
         : null
-    )
+    ))
 
     function onPageScroll (data) {
       if (props.container === true || document.qScrollPrevented !== true) {

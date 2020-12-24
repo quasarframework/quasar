@@ -22,20 +22,20 @@ export let iosEmulated = false
 export let iosCorrection
 
 function getMatch (userAgent, platformMatch) {
-  const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
-    /(opr)[\/]([\w.]+)/.exec(userAgent) ||
-    /(vivaldi)[\/]([\w.]+)/.exec(userAgent) ||
-    /(chrome|crios)[\/]([\w.]+)/.exec(userAgent) ||
-    /(iemobile)[\/]([\w.]+)/.exec(userAgent) ||
-    /(version)(applewebkit)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent) ||
-    /(webkit)[\/]([\w.]+).*(version)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent) ||
-    /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent) ||
-    /(webkit)[\/]([\w.]+)/.exec(userAgent) ||
-    /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent) ||
-    /(msie) ([\w.]+)/.exec(userAgent) ||
-    (userAgent.indexOf('trident') >= 0 && /(rv)(?::| )([\w.]+)/.exec(userAgent)) ||
-    (userAgent.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(userAgent)) ||
-    []
+  const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent)
+    || /(opr)[\/]([\w.]+)/.exec(userAgent)
+    || /(vivaldi)[\/]([\w.]+)/.exec(userAgent)
+    || /(chrome|crios)[\/]([\w.]+)/.exec(userAgent)
+    || /(iemobile)[\/]([\w.]+)/.exec(userAgent)
+    || /(version)(applewebkit)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent)
+    || /(webkit)[\/]([\w.]+).*(version)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent)
+    || /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent)
+    || /(webkit)[\/]([\w.]+)/.exec(userAgent)
+    || /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent)
+    || /(msie) ([\w.]+)/.exec(userAgent)
+    || (userAgent.indexOf('trident') >= 0 && /(rv)(?::| )([\w.]+)/.exec(userAgent))
+    || (userAgent.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(userAgent))
+    || []
 
   return {
     browser: match[ 5 ] || match[ 3 ] || match[ 1 ] || '',
@@ -46,21 +46,21 @@ function getMatch (userAgent, platformMatch) {
 }
 
 function getPlatformMatch (userAgent) {
-  return /(ipad)/.exec(userAgent) ||
-    /(ipod)/.exec(userAgent) ||
-    /(windows phone)/.exec(userAgent) ||
-    /(iphone)/.exec(userAgent) ||
-    /(kindle)/.exec(userAgent) ||
-    /(silk)/.exec(userAgent) ||
-    /(android)/.exec(userAgent) ||
-    /(win)/.exec(userAgent) ||
-    /(mac)/.exec(userAgent) ||
-    /(linux)/.exec(userAgent) ||
-    /(cros)/.exec(userAgent) ||
-    /(playbook)/.exec(userAgent) ||
-    /(bb)/.exec(userAgent) ||
-    /(blackberry)/.exec(userAgent) ||
-    []
+  return /(ipad)/.exec(userAgent)
+    || /(ipod)/.exec(userAgent)
+    || /(windows phone)/.exec(userAgent)
+    || /(iphone)/.exec(userAgent)
+    || /(kindle)/.exec(userAgent)
+    || /(silk)/.exec(userAgent)
+    || /(android)/.exec(userAgent)
+    || /(win)/.exec(userAgent)
+    || /(mac)/.exec(userAgent)
+    || /(linux)/.exec(userAgent)
+    || /(cros)/.exec(userAgent)
+    || /(playbook)/.exec(userAgent)
+    || /(bb)/.exec(userAgent)
+    || /(blackberry)/.exec(userAgent)
+    || []
 }
 
 const hasTouch = __QUASAR_SSR_SERVER__
@@ -102,17 +102,17 @@ function getPlatform (UA) {
     browser[ matched.platform ] = true
   }
 
-  const knownMobiles = browser.android ||
-    browser.ios ||
-    browser.bb ||
-    browser.blackberry ||
-    browser.ipad ||
-    browser.iphone ||
-    browser.ipod ||
-    browser.kindle ||
-    browser.playbook ||
-    browser.silk ||
-    browser[ 'windows phone' ]
+  const knownMobiles = browser.android
+    || browser.ios
+    || browser.bb
+    || browser.blackberry
+    || browser.ipad
+    || browser.iphone
+    || browser.ipod
+    || browser.kindle
+    || browser.playbook
+    || browser.silk
+    || browser[ 'windows phone' ]
 
   // These are all considered mobile platforms, meaning they run a mobile browser
   if (knownMobiles === true || userAgent.indexOf('mobile') > -1) {
@@ -150,15 +150,15 @@ function getPlatform (UA) {
 
   // Chrome, Opera 15+, Vivaldi and Safari are webkit based browsers
   if (
-    browser.chrome ||
-    browser.opr ||
-    browser.safari ||
-    browser.vivaldi ||
+    browser.chrome
+    || browser.opr
+    || browser.safari
+    || browser.vivaldi
     // we expect unknown, non iOS mobile browsers to be webkit based
-    (
-      browser.mobile === true &&
-      browser.ios !== true &&
-      knownMobiles !== true
+    || (
+      browser.mobile === true
+      && browser.ios !== true
+      && knownMobiles !== true
     )
   ) {
     browser.webkit = true
@@ -229,15 +229,15 @@ function getPlatform (UA) {
       }
 
       if (
-        hasTouch === true &&
-        browser.mac === true &&
-        (
-          (browser.desktop === true && browser.safari === true) ||
-          (
-            browser.nativeMobile === true &&
-            browser.android !== true &&
-            browser.ios !== true &&
-            browser.ipad !== true
+        hasTouch === true
+        && browser.mac === true
+        && (
+          (browser.desktop === true && browser.safari === true)
+          || (
+            browser.nativeMobile === true
+            && browser.android !== true
+            && browser.ios !== true
+            && browser.ipad !== true
           )
         )
       ) {
@@ -341,8 +341,8 @@ if (__QUASAR_SSR_SERVER__) {
   }
 }
 else {
-  iosEmulated = client.is.ios === true &&
-    window.navigator.vendor.toLowerCase().indexOf('apple') === -1
+  iosEmulated = client.is.ios === true
+    && window.navigator.vendor.toLowerCase().indexOf('apple') === -1
 }
 
 export default Platform

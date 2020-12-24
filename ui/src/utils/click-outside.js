@@ -22,9 +22,9 @@ function globalHandler (evt) {
   const target = evt.target
 
   if (
-    target === void 0 ||
-    target.nodeType === 8 ||
-    target.classList.contains('no-pointer-events') === true
+    target === void 0
+    || target.nodeType === 8
+    || target.classList.contains('no-pointer-events') === true
   ) {
     return
   }
@@ -34,14 +34,14 @@ function globalHandler (evt) {
 
     if (
       (
-        state.anchorEl.value === null ||
-        state.anchorEl.value.contains(target) === false
-      ) &&
-      (
-        target === document.body ||
-        state.innerRef.value.contains(target) === false
-      ) &&
-      hasModalsAbove(state.getEl()) !== true
+        state.anchorEl.value === null
+        || state.anchorEl.value.contains(target) === false
+      )
+      && (
+        target === document.body
+        || state.innerRef.value.contains(target) === false
+      )
+      && hasModalsAbove(state.getEl()) !== true
     ) {
       // mark the event as being processed by clickOutside
       // used to prevent refocus after menu close

@@ -11,10 +11,10 @@ export default function (onInput) {
     }
     else if (e.type === 'compositionupdate') {
       if (
-        typeof e.data === 'string' &&
-        isJapanese.test(e.data) === false &&
-        isChinese.test(e.data) === false &&
-        isKorean.test(e.data) === false
+        typeof e.data === 'string'
+        && isJapanese.test(e.data) === false
+        && isChinese.test(e.data) === false
+        && isKorean.test(e.data) === false
       ) {
         e.target.composing = false
       }

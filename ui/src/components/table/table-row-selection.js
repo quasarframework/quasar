@@ -42,8 +42,8 @@ export function useTableRowSelection (props, emit, computedRows, getRowKey) {
   )
 
   const someRowsSelected = computed(() =>
-    allRowsSelected.value !== true &&
-    computedRows.value.some(row => selectedKeys.value[ getRowKey.value(row) ] === true)
+    allRowsSelected.value !== true
+    && computedRows.value.some(row => selectedKeys.value[ getRowKey.value(row) ] === true)
   )
 
   const rowsSelectedNumber = computed(() => props.selected.length)

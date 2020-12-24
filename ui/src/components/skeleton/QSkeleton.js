@@ -52,16 +52,17 @@ export default defineComponent({
     const $q = useQuasar()
     const { isDark } = useDark(props, $q)
 
-    const style = computed(() => props.size !== void 0
-      ? { width: props.size, height: props.size }
-      : { width: props.width, height: props.height }
-    )
+    const style = computed(() => (
+      props.size !== void 0
+        ? { width: props.size, height: props.size }
+        : { width: props.width, height: props.height }
+    ))
 
     const classes = computed(() =>
-      `q-skeleton q-skeleton--${isDark.value === true ? 'dark' : 'light'} q-skeleton--type-${props.type}` +
-      (props.animation !== 'none' ? ` q-skeleton--anim q-skeleton--anim-${props.animation}` : '') +
-      (props.square === true ? ' q-skeleton--square' : '') +
-      (props.bordered === true ? ' q-skeleton--bordered' : '')
+      `q-skeleton q-skeleton--${ isDark.value === true ? 'dark' : 'light' } q-skeleton--type-${ props.type }`
+      + (props.animation !== 'none' ? ` q-skeleton--anim q-skeleton--anim-${ props.animation }` : '')
+      + (props.square === true ? ' q-skeleton--square' : '')
+      + (props.bordered === true ? ' q-skeleton--bordered' : '')
     )
 
     return () => h(props.tag, {

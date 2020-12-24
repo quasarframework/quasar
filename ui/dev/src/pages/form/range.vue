@@ -299,16 +299,16 @@ export default {
   },
   watch: {
     'standalone.min' (val, old) {
-      console.log(`Changed [min] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed [min] from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     },
     'standalone.max' (val, old) {
-      console.log(`Changed [max] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed [max] from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     },
     'range.min' (val, old) {
-      console.log(`Changed [min] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed [min] from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     },
     'range.max' (val, old) {
-      console.log(`Changed [max] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed [max] from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     }
   },
   methods: {

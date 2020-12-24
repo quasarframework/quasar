@@ -50,18 +50,18 @@ export default defineComponent({
     })))
 
     const classes = computed(() =>
-      `q-stepper q-stepper--${props.vertical === true ? 'vertical' : 'horizontal'}` +
-      (props.flat === true || isDark.value === true ? ' q-stepper--flat no-shadow' : '') +
-      (props.bordered === true || (isDark.value === true && props.flat === false) ? ' q-stepper--bordered' : '') +
-      (props.contracted === true ? ' q-stepper--contracted' : '') +
-      (isDark.value === true ? ' q-stepper--dark q-dark' : '')
+      `q-stepper q-stepper--${ props.vertical === true ? 'vertical' : 'horizontal' }`
+      + (props.flat === true || isDark.value === true ? ' q-stepper--flat no-shadow' : '')
+      + (props.bordered === true || (isDark.value === true && props.flat === false) ? ' q-stepper--bordered' : '')
+      + (props.contracted === true ? ' q-stepper--contracted' : '')
+      + (isDark.value === true ? ' q-stepper--dark q-dark' : '')
     )
 
     const headerClasses = computed(() =>
-      'q-stepper__header row items-stretch justify-between' +
-      ` q-stepper__header--${props.alternativeLabels === true ? 'alternative' : 'standard'}-labels` +
-      (props.flat === false || props.bordered === true ? ' q-stepper__header--border' : '') +
-      (props.headerClass !== void 0 ? ` ${props.headerClass}` : '')
+      'q-stepper__header row items-stretch justify-between'
+      + ` q-stepper__header--${ props.alternativeLabels === true ? 'alternative' : 'standard' }-labels`
+      + (props.flat === false || props.bordered === true ? ' q-stepper__header--border' : '')
+      + (props.headerClass !== void 0 ? ` ${ props.headerClass }` : '')
     )
 
     function getContent () {

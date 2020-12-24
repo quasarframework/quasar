@@ -122,7 +122,7 @@ export default {
         i += 1
       }
 
-      return `<span class="bg-yellow">${common}</span>${text.slice(common.length)}`
+      return `<span class="bg-yellow">${ common }</span>${ text.slice(common.length) }`
     }
   }
 }

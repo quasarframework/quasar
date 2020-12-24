@@ -44,10 +44,10 @@ export default defineComponent({
     const blurTargetRef = ref(null)
 
     const isActionable = computed(() =>
-      props.clickable === true ||
-        hasLink.value === true ||
-        props.tag === 'a' ||
-        props.tag === 'label'
+      props.clickable === true
+        || hasLink.value === true
+        || props.tag === 'a'
+        || props.tag === 'label'
     )
 
     const isClickable = computed(() =>
@@ -55,24 +55,24 @@ export default defineComponent({
     )
 
     const classes = computed(() =>
-      'q-item q-item-type row no-wrap' +
-      (props.dense === true ? ' q-item--dense' : '') +
-      (isDark.value === true ? ' q-item--dark' : '') +
-      (
+      'q-item q-item-type row no-wrap'
+      + (props.dense === true ? ' q-item--dense' : '')
+      + (isDark.value === true ? ' q-item--dark' : '')
+      + (
         hasLink.value === true
           ? linkClass.value
           : (
               props.active === true
-                ? `${props.activeClass !== void 0 ? ` ${props.activeClass}` : ''} q-item--active`
+                ? `${ props.activeClass !== void 0 ? ` ${ props.activeClass }` : '' } q-item--active`
                 : ''
             )
-      ) +
-      (props.disable === true ? ' disabled' : '') +
-      (
+      )
+      + (props.disable === true ? ' disabled' : '')
+      + (
         isClickable.value === true
-          ? ' q-item--clickable q-link cursor-pointer ' +
-            (props.manualFocus === true ? 'q-manual-focusable' : 'q-focusable q-hoverable') +
-            (props.focused === true ? ' q-manual-focusable--focused' : '')
+          ? ' q-item--clickable q-link cursor-pointer '
+            + (props.manualFocus === true ? 'q-manual-focusable' : 'q-focusable q-hoverable')
+            + (props.focused === true ? ' q-manual-focusable--focused' : '')
           : ''
       )
     )

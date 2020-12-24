@@ -189,7 +189,7 @@ export default {
 
       methods: {
         log (what) {
-          console.log(`[KeepAliveTest > ${this.name}] ${what}`)
+          console.log(`[KeepAliveTest > ${ this.name }] ${ what }`)
         }
       },
 

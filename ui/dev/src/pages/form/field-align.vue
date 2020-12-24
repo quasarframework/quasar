@@ -461,7 +461,7 @@ export default {
         placeholder: this.placeholder === true ? 'Placeholder text' : null,
         dense: this.dense,
         square: this.square,
-        style: { fontSize: `${this.fontSize}px` },
+        style: { fontSize: `${ this.fontSize }px` },
         color: typeof this.textColor === 'string' && this.textColor.length > 0 ? this.textColor : null,
         bgColor: typeof this.bgColor === 'string' && this.bgColor.length > 0 ? this.bgColor : null
       }

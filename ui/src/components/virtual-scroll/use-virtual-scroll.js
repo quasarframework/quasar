@@ -58,7 +58,7 @@ const setOverflowAnchor = __QUASAR_SSR__ || window.getComputedStyle(document.bod
 
     if (styleSheet.qChildIndex !== index) {
       styleSheet.qChildIndex = index
-      styleSheet.innerHTML = `#${id} > *:nth-child(${index}) { overflow-anchor: auto }`
+      styleSheet.innerHTML = `#${ id } > *:nth-child(${ index }) { overflow-anchor: auto }`
     }
   }
 
@@ -257,7 +257,7 @@ export function useVirtualScroll ({
 
   const virtualScrollSliceRange = ref({ from: 0, to: 0 })
 
-  const colspanAttr = computed(() => props.tableColspan !== void 0 ? props.tableColspan : 100)
+  const colspanAttr = computed(() => (props.tableColspan !== void 0 ? props.tableColspan : 100))
 
   if (virtualScrollItemSizeComputed === void 0) {
     virtualScrollItemSizeComputed = computed(() => props.virtualScrollItemSize)
@@ -343,9 +343,9 @@ export function useVirtualScroll ({
 
     updateVirtualScrollSizes(virtualScrollSliceRange.value.from)
 
-    const scrollMaxStart = Math.floor(scrollDetails.scrollMaxSize -
-      Math.max(scrollDetails.scrollViewSize, scrollDetails.offsetEnd) -
-      Math.min(virtualScrollSizes[ listLastIndex ], scrollDetails.scrollViewSize / 2))
+    const scrollMaxStart = Math.floor(scrollDetails.scrollMaxSize
+      - Math.max(scrollDetails.scrollViewSize, scrollDetails.offsetEnd)
+      - Math.min(virtualScrollSizes[ listLastIndex ], scrollDetails.scrollViewSize / 2))
 
     if (scrollMaxStart > 0 && Math.ceil(scrollDetails.scrollStart) >= scrollMaxStart) {
       setVirtualScrollSliceRange(
@@ -619,7 +619,7 @@ export function useVirtualScroll ({
           }, [
             h('tr', [
               h('td', {
-                style: { [ paddingSize ]: `${virtualScrollPaddingBefore.value}px` },
+                style: { [ paddingSize ]: `${ virtualScrollPaddingBefore.value }px` },
                 colspan: colspanAttr.value
               })
             ])
@@ -628,7 +628,7 @@ export function useVirtualScroll ({
           class: 'q-virtual-scroll__padding',
           key: 'before',
           ref: beforeRef,
-          style: { [ paddingSize ]: `${virtualScrollPaddingBefore.value}px` }
+          style: { [ paddingSize ]: `${ virtualScrollPaddingBefore.value }px` }
         }),
 
       h(tag, {
@@ -647,7 +647,7 @@ export function useVirtualScroll ({
           }, [
             h('tr', [
               h('td', {
-                style: { [ paddingSize ]: `${virtualScrollPaddingAfter.value}px` },
+                style: { [ paddingSize ]: `${ virtualScrollPaddingAfter.value }px` },
                 colspan: colspanAttr.value
               })
             ])
@@ -656,7 +656,7 @@ export function useVirtualScroll ({
           class: 'q-virtual-scroll__padding',
           key: 'after',
           ref: afterRef,
-          style: { [ paddingSize ]: `${virtualScrollPaddingAfter.value}px` }
+          style: { [ paddingSize ]: `${ virtualScrollPaddingAfter.value }px` }
         })
     ]
   }

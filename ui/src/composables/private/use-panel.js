@@ -68,17 +68,18 @@ export default function (props, emit, $q, vm) {
   })
 
   const transitionPrev = computed(() =>
-    props.transitionPrev || `slide-${props.vertical === true ? 'down' : 'right'}`
+    props.transitionPrev || `slide-${ props.vertical === true ? 'down' : 'right' }`
   )
 
   const transitionNext = computed(() =>
-    props.transitionNext || `slide-${props.vertical === true ? 'up' : 'left'}`
+    props.transitionNext || `slide-${ props.vertical === true ? 'up' : 'left' }`
   )
 
-  const contentKey = computed(() => typeof props.modelValue === 'string' || typeof props.modelValue === 'number'
-    ? props.modelValue
-    : String(props.modelValue)
-  )
+  const contentKey = computed(() => (
+    typeof props.modelValue === 'string' || typeof props.modelValue === 'number'
+      ? props.modelValue
+      : String(props.modelValue)
+  ))
 
   const keepAliveProps = computed(() => {
     const acc = {}
@@ -128,16 +129,16 @@ export default function (props, emit, $q, vm) {
 
   function getPanelIndex (name) {
     return panels.findIndex(panel => {
-      return panel.props.name === name &&
-        panel.props.disable !== '' &&
-        panel.props.disable !== true
+      return panel.props.name === name
+        && panel.props.disable !== ''
+        && panel.props.disable !== true
     })
   }
 
   function getEnabledPanels () {
     return panels.filter(panel => {
-      return panel.props.disable !== '' &&
-        panel.props.disable !== true
+      return panel.props.disable !== ''
+        && panel.props.disable !== true
     })
   }
 
@@ -158,9 +159,9 @@ export default function (props, emit, $q, vm) {
       const opt = panels[ index ]
 
       if (
-        opt !== void 0 &&
-        opt.props.disable !== '' &&
-        opt.props.disable !== true
+        opt !== void 0
+        && opt.props.disable !== ''
+        && opt.props.disable !== true
       ) {
         updatePanelTransition(direction)
         forcedPanelTransition = true
@@ -190,9 +191,9 @@ export default function (props, emit, $q, vm) {
   }
 
   function getPanelContentChild () {
-    const panel = isValidPanelName(props.modelValue) &&
-      updatePanelIndex() &&
-      panels[ panelIndex.value ]
+    const panel = isValidPanelName(props.modelValue)
+      && updatePanelIndex()
+      && panels[ panelIndex.value ]
 
     return props.keepAlive === true
       ? [
@@ -227,9 +228,9 @@ export default function (props, emit, $q, vm) {
     panels = getNormalizedVNodes(
       hSlot(slots.default, [])
     ).filter(
-      panel => panel.props !== null &&
-        panel.props.slot === void 0 &&
-        isValidPanelName(panel.props.name)
+      panel => panel.props !== null
+        && panel.props.slot === void 0
+        && isValidPanelName(panel.props.name)
     )
 
     return panels.length

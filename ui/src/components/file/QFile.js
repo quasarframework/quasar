@@ -60,11 +60,11 @@ export default defineComponent({
 
     const formDomProps = useFileFormDomProps(props)
 
-    const innerValue = computed(() =>
+    const innerValue = computed(() => (
       Object(props.modelValue) === props.modelValue
         ? ('length' in props.modelValue ? Array.from(props.modelValue) : [props.modelValue])
         : []
-    )
+    ))
 
     const hasValue = computed(() => fieldValueIsFilled(innerValue.value))
 
@@ -198,8 +198,8 @@ export default defineComponent({
       innerValue,
 
       floatingLabel: computed(() =>
-        hasValue.value === true ||
-        fieldValueIsFilled(props.displayValue)
+        hasValue.value === true
+        || fieldValueIsFilled(props.displayValue)
       ),
 
       computedCounter: computed(() => {
@@ -208,7 +208,7 @@ export default defineComponent({
         }
 
         const max = props.maxFiles
-        return `${innerValue.value.length}${max !== void 0 ? ' / ' + max : ''} (${totalSize.value})`
+        return `${ innerValue.value.length }${ max !== void 0 ? ' / ' + max : '' } (${ totalSize.value })`
       }),
 
       getControlChild: () => getDndNode('file'),

@@ -39,7 +39,7 @@
 
 <script>
 const prefixes = [ 'Item', 'Option', 'Address', 'Selection' ]
-const options = Array(200).fill(0).map((item, i) => `${prefixes[ Math.floor(Math.random() * prefixes.length) ]} ${i}`).sort(() => Math.random() * 2 - 1)
+const options = Array(200).fill(0).map((item, i) => `${ prefixes[ Math.floor(Math.random() * prefixes.length) ] } ${ i }`).sort(() => Math.random() * 2 - 1)
 
 export default {
   data: function () {

@@ -35,9 +35,9 @@ function includesParams (outer, inner) {
       }
     }
     else if (
-      Array.isArray(outerValue) === false ||
-      outerValue.length !== innerValue.length ||
-      innerValue.some((value, i) => value !== outerValue[ i ])
+      Array.isArray(outerValue) === false
+      || outerValue.length !== innerValue.length
+      || innerValue.some((value, i) => value !== outerValue[ i ])
     ) {
       return false
     }
@@ -65,22 +65,22 @@ export default function (props, vm, attrs) {
   const vmProxy = vm.proxy
 
   const hasLink = computed(() =>
-    vmProxy.$router !== void 0 &&
-    props.disable !== true &&
-    props.to !== void 0 && props.to !== null && props.to !== ''
+    vmProxy.$router !== void 0
+    && props.disable !== true
+    && props.to !== void 0 && props.to !== null && props.to !== ''
   )
 
-  const linkTag = computed(() =>
+  const linkTag = computed(() => (
     hasLink.value === true
       ? 'a'
       : (props.tag || 'div')
-  )
+  ))
 
-  const linkRoute = computed(() =>
+  const linkRoute = computed(() => (
     hasLink.value === true
       ? vmProxy.$router.resolve(props.to)
       : null
-  )
+  ))
 
   const linkActiveIndex = computed(() => {
     if (hasLink.value === false) {
@@ -115,13 +115,13 @@ export default function (props, vm, attrs) {
 
     return (
       // we are dealing with nested routes
-      length > 1 &&
+      length > 1
       // if the parent and matched route have the same path, this link is
       // referring to the empty child. Or we currently are on a different
       // child of the same parent
-      getOriginalPath(routeMatched) === parentRecordPath &&
+      && getOriginalPath(routeMatched) === parentRecordPath
       // avoid comparing the child with its parent
-      currentMatched[ currentMatched.length - 1 ].path !== parentRecordPath
+      && currentMatched[ currentMatched.length - 1 ].path !== parentRecordPath
         ? currentMatched.findIndex(
             isSameRouteRecord.bind(null, matched[ length - 2 ])
           )
@@ -130,31 +130,31 @@ export default function (props, vm, attrs) {
   })
 
   const linkIsActive = computed(() =>
-    hasLink.value === true &&
-    linkActiveIndex.value > -1 &&
-    includesParams(vmProxy.$route.params, linkRoute.value.params)
+    hasLink.value === true
+    && linkActiveIndex.value > -1
+    && includesParams(vmProxy.$route.params, linkRoute.value.params)
   )
 
   const linkIsExactActive = computed(() =>
-    linkIsActive.value === true &&
-      linkActiveIndex.value === vmProxy.$route.matched.length - 1
+    linkIsActive.value === true
+      && linkActiveIndex.value === vmProxy.$route.matched.length - 1
   )
 
-  const linkClass = computed(() =>
+  const linkClass = computed(() => (
     hasLink.value === true
       ? (
           linkIsExactActive.value === true
-            ? ` ${props.exactActiveClass} ${props.activeClass}`
+            ? ` ${ props.exactActiveClass } ${ props.activeClass }`
             : (
                 props.exact === true
                   ? ''
-                  : (linkIsActive.value === true ? ` ${props.activeClass}` : '')
+                  : (linkIsActive.value === true ? ` ${ props.activeClass }` : '')
               )
         )
       : ''
-  )
+  ))
 
-  const linkProps = computed(() =>
+  const linkProps = computed(() => (
     hasLink.value === true
       ? {
           href: linkRoute.value.href,
@@ -162,25 +162,25 @@ export default function (props, vm, attrs) {
           role: 'link'
         }
       : {}
-  )
+  ))
 
   // should match RouterLink from Vue Router
   function navigateToLink (e) {
     if (
       // component is not disabled
-      props.disable === true ||
+      props.disable === true
 
       // don't redirect with control keys
-      e.metaKey || e.altKey || e.ctrlKey || e.shiftKey ||
+      || e.metaKey || e.altKey || e.ctrlKey || e.shiftKey
 
       // don't redirect when preventDefault called
-      e.defaultPrevented ||
+      || e.defaultPrevented
 
       // don't redirect on right click
-      (e.button !== undefined && e.button !== 0) ||
+      || (e.button !== undefined && e.button !== 0)
 
       // don't redirect if it should open in a new window
-      attrs.target === '_blank'
+      || attrs.target === '_blank'
     ) {
       return false
     }

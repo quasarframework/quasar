@@ -107,7 +107,7 @@ export default {
       return this.testHeight ? ' [Apjyq]' : ''
     },
     testFonts () {
-      return fonts.map(f => ({ label: `Font ${f}`, value: f }))
+      return fonts.map(f => ({ label: `Font ${ f }`, value: f }))
     }
   }
 }

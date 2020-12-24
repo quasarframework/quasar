@@ -98,12 +98,12 @@ export default defineComponent({
     const isAM = ref(model.hour === null || model.hour < 12)
 
     const classes = computed(() =>
-      `q-time q-time--${props.landscape === true ? 'landscape' : 'portrait'}` +
-      (isDark.value === true ? ' q-time--dark q-dark' : '') +
-      (props.disable === true ? ' disabled' : (props.readonly === true ? ' q-time--readonly' : '')) +
-      (props.bordered === true ? ' q-time--bordered' : '') +
-      (props.square === true ? ' q-time--square no-border-radius' : '') +
-      (props.flat === true ? ' q-time--flat no-shadow' : '')
+      `q-time q-time--${ props.landscape === true ? 'landscape' : 'portrait' }`
+      + (isDark.value === true ? ' q-time--dark q-dark' : '')
+      + (props.disable === true ? ' disabled' : (props.readonly === true ? ' q-time--readonly' : ''))
+      + (props.bordered === true ? ' q-time--bordered' : '')
+      + (props.square === true ? ' q-time--square no-border-radius' : '')
+      + (props.flat === true ? ' q-time--flat no-shadow' : '')
     )
 
     const stringModel = computed(() => {
@@ -132,11 +132,11 @@ export default defineComponent({
 
     const defaultDateModel = computed(() => getDefaultDateModel())
 
-    const computedFormat24h = computed(() =>
+    const computedFormat24h = computed(() => (
       props.format24h !== null
         ? props.format24h
         : $q.lang.date.format24h
-    )
+    ))
 
     const pointerStyle = computed(() => {
       const
@@ -145,12 +145,12 @@ export default defineComponent({
         amount = innerModel.value[ view.value ],
         degrees = Math.round(amount * (360 / divider)) - 180
 
-      let transform = `rotate(${degrees}deg) translateX(-50%)`
+      let transform = `rotate(${ degrees }deg) translateX(-50%)`
 
       if (
-        forHour === true &&
-        computedFormat24h.value === true &&
-        innerModel.value.hour >= 12
+        forHour === true
+        && computedFormat24h.value === true
+        && innerModel.value.hour >= 12
       ) {
         transform += ' scale(.7)'
       }
@@ -161,7 +161,7 @@ export default defineComponent({
     const minLink = computed(() => innerModel.value.hour !== null)
     const secLink = computed(() => minLink.value === true && innerModel.value.minute !== null)
 
-    const hourInSelection = computed(() =>
+    const hourInSelection = computed(() => (
       props.hourOptions !== void 0
         ? val => props.hourOptions.includes(val)
         : (
@@ -169,9 +169,9 @@ export default defineComponent({
               ? val => props.options(val, null, null)
               : void 0
           )
-    )
+    ))
 
-    const minuteInSelection = computed(() =>
+    const minuteInSelection = computed(() => (
       props.minuteOptions !== void 0
         ? val => props.minuteOptions.includes(val)
         : (
@@ -179,9 +179,9 @@ export default defineComponent({
               ? val => props.options(innerModel.value.hour, val, null)
               : void 0
           )
-    )
+    ))
 
-    const secondInSelection = computed(() =>
+    const secondInSelection = computed(() => (
       props.secondOptions !== void 0
         ? val => props.secondOptions.includes(val)
         : (
@@ -189,7 +189,7 @@ export default defineComponent({
               ? val => props.options(innerModel.value.hour, innerModel.value.minute, val)
               : void 0
           )
-    )
+    ))
 
     const validHours = computed(() => {
       // TODO vue3 - return null otherwise
@@ -290,8 +290,8 @@ export default defineComponent({
       )
 
       if (
-        model.dateHash !== innerModel.value.dateHash ||
-        model.timeHash !== innerModel.value.timeHash
+        model.dateHash !== innerModel.value.dateHash
+        || model.timeHash !== innerModel.value.timeHash
       ) {
         innerModel.value = model
 
@@ -367,7 +367,7 @@ export default defineComponent({
     function getMask () {
       return props.calendar !== 'persian' && props.mask !== null
         ? props.mask
-        : `HH:mm${props.withSeconds === true ? ':ss' : ''}`
+        : `HH:mm${ props.withSeconds === true ? ':ss' : '' }`
     }
 
     function getDefaultDateModel () {
@@ -381,16 +381,16 @@ export default defineComponent({
     }
 
     function shouldAbortInteraction () {
-      return vm.isDeactivated === true ||
-        vm.isUnmounted === true ||
+      return vm.isDeactivated === true
+        || vm.isUnmounted === true
         // if we have limited options, can we actually set any?
-        (
-          viewValidOptions.value !== void 0 &&
-          (
-            viewValidOptions.value.values.length === 0 ||
-            (
-              view.value === 'hour' && computedFormat24h.value !== true &&
-              validHours.value[ isAM.value === true ? 'am' : 'pm' ].values.length === 0
+        || (
+          viewValidOptions.value !== void 0
+          && (
+            viewValidOptions.value.values.length === 0
+            || (
+              view.value === 'hour' && computedFormat24h.value !== true
+              && validHours.value[ isAM.value === true ? 'am' : 'pm' ].values.length === 0
             )
           )
         )
@@ -443,8 +443,8 @@ export default defineComponent({
         pos = position(evt),
         height = Math.abs(pos.top - clockRect.top),
         distance = Math.sqrt(
-          Math.pow(Math.abs(pos.top - clockRect.top), 2) +
-          Math.pow(Math.abs(pos.left - clockRect.left), 2)
+          Math.pow(Math.abs(pos.top - clockRect.top), 2)
+          + Math.pow(Math.abs(pos.left - clockRect.left), 2)
         )
 
       let
@@ -571,9 +571,9 @@ export default defineComponent({
           }
           else {
             const index = (
-              values.length +
-              values.indexOf(innerModel.value.hour) +
-              payload
+              values.length
+              + values.indexOf(innerModel.value.hour)
+              + payload
             ) % values.length
 
             setHour(values[ index ])
@@ -607,9 +607,9 @@ export default defineComponent({
           }
           else {
             const index = (
-              values.length +
-              values.indexOf(innerModel.value.minute) +
-              payload
+              values.length
+              + values.indexOf(innerModel.value.minute)
+              + payload
             ) % values.length
 
             setMinute(values[ index ])
@@ -639,9 +639,9 @@ export default defineComponent({
           }
           else {
             const index = (
-              values.length +
-              values.indexOf(innerModel.value.second) +
-              payload
+              values.length
+              + values.indexOf(innerModel.value.second)
+              + payload
             ) % values.length
 
             setSecond(values[ index ])
@@ -733,9 +733,9 @@ export default defineComponent({
       const date = Object.assign({ ...innerModel.value }, obj)
 
       const val = props.calendar === 'persian'
-        ? pad(date.hour) + ':' +
-          pad(date.minute) +
-          (props.withSeconds === true ? ':' + pad(date.second) : '')
+        ? pad(date.hour) + ':'
+          + pad(date.minute)
+          + (props.withSeconds === true ? ':' + pad(date.second) : '')
         : formatDate(
           new Date(
             date.year,
@@ -763,8 +763,8 @@ export default defineComponent({
     function getHeader () {
       const label = [
         h('div', {
-          class: 'q-time__link ' +
-            (view.value === 'hour' ? 'q-time__link--active' : 'cursor-pointer'),
+          class: 'q-time__link '
+            + (view.value === 'hour' ? 'q-time__link--active' : 'cursor-pointer'),
           tabindex: tabindex.value,
           onClick: setView.hour,
           onKeyup: onKeyupHour
@@ -776,8 +776,8 @@ export default defineComponent({
           'div',
           minLink.value === true
             ? {
-                class: 'q-time__link ' +
-                (view.value === 'minute' ? 'q-time__link--active' : 'cursor-pointer'),
+                class: 'q-time__link '
+                + (view.value === 'minute' ? 'q-time__link--active' : 'cursor-pointer'),
                 tabindex: tabindex.value,
                 onKeyup: onKeyupMinute,
                 onClick: setView.minute
@@ -795,8 +795,8 @@ export default defineComponent({
             'div',
             secLink.value === true
               ? {
-                  class: 'q-time__link ' +
-                  (view.value === 'second' ? 'q-time__link--active' : 'cursor-pointer'),
+                  class: 'q-time__link '
+                  + (view.value === 'second' ? 'q-time__link--active' : 'cursor-pointer'),
                   tabindex: tabindex.value,
                   onKeyup: onKeyupSecond,
                   onClick: setView.second
@@ -819,16 +819,16 @@ export default defineComponent({
           class: 'q-time__header-ampm column items-between no-wrap'
         }, [
           h('div', {
-            class: 'q-time__link ' +
-              (isAM.value === true ? 'q-time__link--active' : 'cursor-pointer'),
+            class: 'q-time__link '
+              + (isAM.value === true ? 'q-time__link--active' : 'cursor-pointer'),
             tabindex: tabindex.value,
             onClick: setAm,
             onKeyup: setAmOnKey
           }, 'AM'),
 
           h('div', {
-            class: 'q-time__link ' +
-              (isAM.value !== true ? 'q-time__link--active' : 'cursor-pointer'),
+            class: 'q-time__link '
+              + (isAM.value !== true ? 'q-time__link--active' : 'cursor-pointer'),
             tabindex: tabindex.value,
             onClick: setPm,
             onKeyup: setPmOnKey
@@ -865,14 +865,14 @@ export default defineComponent({
               }, [
                 h('div', { class: 'q-time__clock-circle fit' }, [
                   h('div', {
-                    class: 'q-time__clock-pointer' +
-                      (innerModel.value[ view.value ] === null ? ' hidden' : (props.color !== void 0 ? ` text-${props.color}` : '')),
+                    class: 'q-time__clock-pointer'
+                      + (innerModel.value[ view.value ] === null ? ' hidden' : (props.color !== void 0 ? ` text-${ props.color }` : '')),
                     style: pointerStyle.value
                   }),
 
                   positions.value.map(pos => h('div', {
-                    class: `q-time__clock-position row flex-center q-time__clock-pos-${pos.index}` +
-                      (pos.val === current
+                    class: `q-time__clock-position row flex-center q-time__clock-pos-${ pos.index }`
+                      + (pos.val === current
                         ? ' q-time__clock-position--active ' + headerClass.value
                         : (pos.disable === true ? ' q-time__clock-position--disable' : ''))
                   }, [h('span', pos.label)]))

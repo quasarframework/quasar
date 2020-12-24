@@ -35,8 +35,8 @@ export default defineComponent({
     provide(timelineKey, props)
 
     const classes = computed(() =>
-      `q-timeline q-timeline--${props.layout} q-timeline--${props.layout}--${props.side}` +
-      (isDark.value === true ? ' q-timeline--dark' : '')
+      `q-timeline q-timeline--${ props.layout } q-timeline--${ props.layout }--${ props.side }`
+      + (isDark.value === true ? ' q-timeline--dark' : '')
     )
 
     return () => h('ul', { class: classes.value }, hSlot(slots.default))

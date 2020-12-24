@@ -11,8 +11,8 @@ export default defineComponent({
 
   setup (props, { slots }) {
     const classes = computed(() =>
-      'q-toolbar__title ellipsis' +
-      (props.shrink === true ? ' col-shrink' : '')
+      'q-toolbar__title ellipsis'
+      + (props.shrink === true ? ' col-shrink' : '')
     )
 
     return () => h('div', { class: classes.value }, hSlot(slots.default))

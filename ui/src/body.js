@@ -11,7 +11,7 @@ function getMobilePlatform (is) {
 function getBodyClasses ({ is, has, within }, cfg) {
   const cls = [
     is.desktop === true ? 'desktop' : 'mobile',
-    `${has.touch === false ? 'no-' : ''}touch`
+    `${ has.touch === false ? 'no-' : '' }touch`
   ]
 
   if (is.mobile === true) {
@@ -26,8 +26,8 @@ function getBodyClasses ({ is, has, within }, cfg) {
     cls.push('native-mobile')
 
     if (
-      is.ios === true &&
-      (cfg[ type ] === void 0 || cfg[ type ].iosStatusBarPadding !== false)
+      is.ios === true
+      && (cfg[ type ] === void 0 || cfg[ type ].iosStatusBarPadding !== false)
     ) {
       cls.push('q-ios-padding')
     }

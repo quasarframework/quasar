@@ -36,15 +36,15 @@ export default defineComponent({
         ? props.color || props.textColor
         : props.textColor
 
-      return 'q-badge flex inline items-center no-wrap' +
-        ` q-badge--${props.multiLine === true ? 'multi' : 'single'}-line` +
-        (props.outline === true
+      return 'q-badge flex inline items-center no-wrap'
+        + ` q-badge--${ props.multiLine === true ? 'multi' : 'single' }-line`
+        + (props.outline === true
           ? ' q-badge--outline'
-          : (props.color !== void 0 ? ` bg-${props.color}` : '')
-        ) +
-        (text !== void 0 ? ` text-${text}` : '') +
-        (props.floating === true ? ' q-badge--floating' : '') +
-        (props.transparent === true ? ' q-badge--transparent' : '')
+          : (props.color !== void 0 ? ` bg-${ props.color }` : '')
+        )
+        + (text !== void 0 ? ` text-${ text }` : '')
+        + (props.floating === true ? ' q-badge--floating' : '')
+        + (props.transparent === true ? ' q-badge--transparent' : '')
     })
 
     return () => h('div', {

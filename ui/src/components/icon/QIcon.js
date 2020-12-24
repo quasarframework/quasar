@@ -27,10 +27,10 @@ export default defineComponent({
     const { sizeStyle } = useSize(props)
 
     const classes = computed(() =>
-      'q-icon' +
-      (props.left === true ? ' on-left' : '') +
-      (props.right === true ? ' on-right' : '') +
-      (props.color !== void 0 ? ` text-${props.color}` : '')
+      'q-icon'
+      + (props.left === true ? ' on-left' : '')
+      + (props.right === true ? ' on-right' : '')
+      + (props.color !== void 0 ? ` text-${ props.color }` : '')
     )
 
     const type = computed(() => {
@@ -104,25 +104,25 @@ export default defineComponent({
         cls = icon
       }
       else if (icon.startsWith('bt-') === true) {
-        cls = `bt ${icon}`
+        cls = `bt ${ icon }`
       }
       else if (icon.startsWith('eva-') === true) {
-        cls = `eva ${icon}`
+        cls = `eva ${ icon }`
       }
       else if (/^ion-(md|ios|logo)/.test(icon) === true) {
-        cls = `ionicons ${icon}`
+        cls = `ionicons ${ icon }`
       }
       else if (icon.startsWith('ion-') === true) {
-        cls = `ionicons ion-${$q.platform.is.ios === true ? 'ios' : 'md'}${icon.substr(3)}`
+        cls = `ionicons ion-${ $q.platform.is.ios === true ? 'ios' : 'md' }${ icon.substr(3) }`
       }
       else if (icon.startsWith('mdi-') === true) {
-        cls = `mdi ${icon}`
+        cls = `mdi ${ icon }`
       }
       else if (icon.startsWith('iconfont ') === true) {
-        cls = `${icon}`
+        cls = `${ icon }`
       }
       else if (icon.startsWith('ti-') === true) {
-        cls = `themify-icon ${icon}`
+        cls = `themify-icon ${ icon }`
       }
       else {
         // "notranslate" class is for Google Translate

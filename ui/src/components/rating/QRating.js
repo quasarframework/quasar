@@ -58,13 +58,13 @@ export default defineComponent({
     )
 
     const classes = computed(() =>
-      'q-rating row inline items-center' +
-      ` q-rating--${editable.value === true ? '' : 'non-'}editable` +
-      (props.noDimming === true ? ' q-rating--no-dimming' : '') +
-      (props.disable === true ? ' disabled' : '') +
-      (
+      'q-rating row inline items-center'
+      + ` q-rating--${ editable.value === true ? '' : 'non-' }editable`
+      + (props.noDimming === true ? ' q-rating--no-dimming' : '')
+      + (props.disable === true ? ' disabled' : '')
+      + (
         props.color !== void 0 && Array.isArray(props.color) === false
-          ? ` text-${props.color}`
+          ? ` text-${ props.color }`
           : ''
       )
     )
@@ -128,14 +128,14 @@ export default defineComponent({
           return stopAndPrevent(e)
         case 37: // LEFT ARROW
         case 40: // DOWN ARROW
-          if (iconRefs[ `rt${i - 1}` ]) {
-            iconRefs[ `rt${i - 1}` ].$el.focus()
+          if (iconRefs[ `rt${ i - 1 }` ]) {
+            iconRefs[ `rt${ i - 1 }` ].$el.focus()
           }
           return stopAndPrevent(e)
         case 39: // RIGHT ARROW
         case 38: // UP ARROW
-          if (iconRefs[ `rt${i + 1}` ]) {
-            iconRefs[ `rt${i + 1}` ].$el.focus()
+          if (iconRefs[ `rt${ i + 1 }` ]) {
+            iconRefs[ `rt${ i + 1 }` ].$el.focus()
           }
           return stopAndPrevent(e)
       }
@@ -179,16 +179,16 @@ export default defineComponent({
                   ? (i <= icons.selColorLen ? props.colorSelected[ i - 1 ] : icons.selColor)
                   : (i <= icons.colorLen ? props.color[ i - 1 ] : icons.color)
               ),
-          classes = 'q-rating__icon' +
-            (active === true || half === true ? ' q-rating__icon--active' : '') +
-            (exSelected === true ? ' q-rating__icon--exselected' : '') +
-            (mouseModel.value === i ? ' q-rating__icon--hovered' : '') +
-            (color !== void 0 ? ` text-${color}` : '')
+          classes = 'q-rating__icon'
+            + (active === true || half === true ? ' q-rating__icon--active' : '')
+            + (exSelected === true ? ' q-rating__icon--exselected' : '')
+            + (mouseModel.value === i ? ' q-rating__icon--hovered' : '')
+            + (color !== void 0 ? ` text-${ color }` : '')
 
         child.push(
           h(QIcon, {
             key: i,
-            ref: vm => { iconRefs[ `rt${i}` ] = vm },
+            ref: vm => { iconRefs[ `rt${ i }` ] = vm },
             class: classes,
             name: name || $q.iconSet.rating.icon,
             tabindex,
@@ -198,7 +198,7 @@ export default defineComponent({
             onFocus () { setHoverValue(i) },
             onBlur: resetMouseModel,
             onKeyup (e) { onKeyup(e, i) }
-          }, slots[ `tip-${i}` ])
+          }, slots[ `tip-${ i }` ])
         )
       }
 

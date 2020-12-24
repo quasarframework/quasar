@@ -42,7 +42,7 @@ export default {
       mouseStart (evt) {
         if (shouldStart(evt, ctx) && leftClick(evt)) {
           addEvt(ctx, 'temp', [
-            [ document, 'mousemove', 'move', `notPassive${mouseCapture}` ],
+            [ document, 'mousemove', 'move', `notPassive${ mouseCapture }` ],
             [ document, 'mouseup', 'end', 'notPassiveCapture' ]
           ])
           ctx.start(evt, true)
@@ -113,59 +113,59 @@ export default {
           velY = absY / time
 
         if (
-          ctx.direction.vertical === true &&
-          absX < absY &&
-          absX < 100 &&
-          velY > ctx.sensitivity[ 0 ]
+          ctx.direction.vertical === true
+          && absX < absY
+          && absX < 100
+          && velY > ctx.sensitivity[ 0 ]
         ) {
           ctx.event.dir = distY < 0 ? 'up' : 'down'
         }
 
         if (
-          ctx.direction.horizontal === true &&
-          absX > absY &&
-          absY < 100 &&
-          velX > ctx.sensitivity[ 0 ]
+          ctx.direction.horizontal === true
+          && absX > absY
+          && absY < 100
+          && velX > ctx.sensitivity[ 0 ]
         ) {
           ctx.event.dir = distX < 0 ? 'left' : 'right'
         }
 
         if (
-          ctx.direction.up === true &&
-          absX < absY &&
-          distY < 0 &&
-          absX < 100 &&
-          velY > ctx.sensitivity[ 0 ]
+          ctx.direction.up === true
+          && absX < absY
+          && distY < 0
+          && absX < 100
+          && velY > ctx.sensitivity[ 0 ]
         ) {
           ctx.event.dir = 'up'
         }
 
         if (
-          ctx.direction.down === true &&
-          absX < absY &&
-          distY > 0 &&
-          absX < 100 &&
-          velY > ctx.sensitivity[ 0 ]
+          ctx.direction.down === true
+          && absX < absY
+          && distY > 0
+          && absX < 100
+          && velY > ctx.sensitivity[ 0 ]
         ) {
           ctx.event.dir = 'down'
         }
 
         if (
-          ctx.direction.left === true &&
-          absX > absY &&
-          distX < 0 &&
-          absY < 100 &&
-          velX > ctx.sensitivity[ 0 ]
+          ctx.direction.left === true
+          && absX > absY
+          && distX < 0
+          && absY < 100
+          && velX > ctx.sensitivity[ 0 ]
         ) {
           ctx.event.dir = 'left'
         }
 
         if (
-          ctx.direction.right === true &&
-          absX > absY &&
-          distX > 0 &&
-          absY < 100 &&
-          velX > ctx.sensitivity[ 0 ]
+          ctx.direction.right === true
+          && absX > absY
+          && distX > 0
+          && absY < 100
+          && velX > ctx.sensitivity[ 0 ]
         ) {
           ctx.event.dir = 'right'
         }
@@ -226,11 +226,11 @@ export default {
     el.__qtouchswipe = ctx
 
     modifiers.mouse === true && addEvt(ctx, 'main', [
-      [ el, 'mousedown', 'mouseStart', `passive${mouseCapture}` ]
+      [ el, 'mousedown', 'mouseStart', `passive${ mouseCapture }` ]
     ])
 
     client.has.touch === true && addEvt(ctx, 'main', [
-      [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
+      [ el, 'touchstart', 'touchStart', `passive${ modifiers.capture === true ? 'Capture' : '' }` ],
       [ el, 'touchmove', 'noop', 'notPassiveCapture' ]
     ])
   },

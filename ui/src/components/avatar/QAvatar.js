@@ -26,20 +26,21 @@ export default defineComponent({
     const { sizeStyle } = useSize(props)
 
     const classes = computed(() =>
-      'q-avatar' +
-      (props.color ? ` bg-${props.color}` : '') +
-      (props.textColor ? ` text-${props.textColor} q-chip--colored` : '') +
-      (
+      'q-avatar'
+      + (props.color ? ` bg-${ props.color }` : '')
+      + (props.textColor ? ` text-${ props.textColor } q-chip--colored` : '')
+      + (
         props.square === true
           ? ' q-avatar--square'
           : (props.rounded === true ? ' rounded-borders' : '')
       )
     )
 
-    const contentStyle = computed(() => props.fontSize
-      ? { fontSize: props.fontSize }
-      : null
-    )
+    const contentStyle = computed(() => (
+      props.fontSize
+        ? { fontSize: props.fontSize }
+        : null
+    ))
 
     return () => {
       const icon = props.icon !== void 0

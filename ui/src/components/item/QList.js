@@ -22,12 +22,12 @@ export default defineComponent({
     const { isDark } = useDark(props, $q)
 
     const classes = computed(() =>
-      'q-list' +
-      (props.bordered === true ? ' q-list--bordered' : '') +
-      (props.dense === true ? ' q-list--dense' : '') +
-      (props.separator === true ? ' q-list--separator' : '') +
-      (isDark.value === true ? ' q-list--dark' : '') +
-      (props.padding === true ? ' q-list--padding' : '')
+      'q-list'
+      + (props.bordered === true ? ' q-list--bordered' : '')
+      + (props.dense === true ? ' q-list--dense' : '')
+      + (props.separator === true ? ' q-list--separator' : '')
+      + (isDark.value === true ? ' q-list--dark' : '')
+      + (props.padding === true ? ' q-list--padding' : '')
     )
 
     return () => h('div', { class: classes.value }, hSlot(slots.default))

@@ -214,15 +214,15 @@ export default class Caret {
 
     switch (cmd) {
       case 'formatBlock':
-        return (param === 'DIV' && this.parent === this.el) ||
-          this.hasParent(param, param === 'PRE')
+        return (param === 'DIV' && this.parent === this.el)
+          || this.hasParent(param, param === 'PRE')
       case 'link':
         return this.hasParent('A', true)
       case 'fontSize':
         return document.queryCommandValue(cmd) === param
       case 'fontName':
         const res = document.queryCommandValue(cmd)
-        return res === `"${param}"` || res === param
+        return res === `"${ param }"` || res === param
       case 'fullscreen':
         return this.eVm.inFullscreen.value
       case 'viewsource':
@@ -277,10 +277,10 @@ export default class Caret {
         <!doctype html>
         <html>
           <head>
-            <title>Print - ${document.title}</title>
+            <title>Print - ${ document.title }</title>
           </head>
           <body>
-            <div>${this.el.innerHTML}</div>
+            <div>${ this.el.innerHTML }</div>
           </body>
         </html>
       `)

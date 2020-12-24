@@ -47,12 +47,12 @@ export default defineComponent({
 
     const classes = computed(() => {
       const align = anchorMap[ props.anchor ]
-      return formClass.value + (align !== void 0 ? ` ${align}` : '')
+      return formClass.value + (align !== void 0 ? ` ${ align }` : '')
     })
 
     const isDisabled = computed(() =>
-      props.disable === true ||
-      $fab.showing.value !== true
+      props.disable === true
+      || $fab.showing.value !== true
     )
 
     function click (e) {

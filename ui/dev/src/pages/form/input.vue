@@ -633,7 +633,7 @@ export default {
         dense: this.dense,
         clearable: true,
         square: this.square,
-        style: { fontSize: `${this.fontSize}px` }
+        style: { fontSize: `${ this.fontSize }px` }
       }
 
       if (this.rows !== '') {

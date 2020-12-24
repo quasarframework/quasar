@@ -6,7 +6,7 @@ export const useTableFilterProps = {
 }
 
 export function useTableFilter (props, setPagination) {
-  const computedFilterMethod = computed(() =>
+  const computedFilterMethod = computed(() => (
     props.filterMethod !== void 0
       ? props.filterMethod
       : (rows, terms, cols, cellValue) => {
@@ -19,7 +19,7 @@ export function useTableFilter (props, setPagination) {
             })
           )
         }
-  )
+  ))
 
   watch(
     () => props.filter,

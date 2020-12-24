@@ -81,16 +81,16 @@ export default defineReactivePlugin({
       this.lg = this.gt.md === true && this.lt.xl === true
       this.xl = this.gt.lg
 
-      s = (this.xs === true && 'xs') ||
-        (this.sm === true && 'sm') ||
-        (this.md === true && 'md') ||
-        (this.lg === true && 'lg') ||
-        'xl'
+      s = (this.xs === true && 'xs')
+        || (this.sm === true && 'sm')
+        || (this.md === true && 'md')
+        || (this.lg === true && 'lg')
+        || 'xl'
 
       if (s !== this.name) {
         if (classes === true) {
-          document.body.classList.remove(`screen--${this.name}`)
-          document.body.classList.add(`screen--${s}`)
+          document.body.classList.remove(`screen--${ this.name }`)
+          document.body.classList.add(`screen--${ s }`)
         }
         this.name = s
       }
@@ -119,7 +119,7 @@ export default defineReactivePlugin({
       // if css props available
       if (style.getPropertyValue('--q-size-sm')) {
         SIZE_LIST.forEach(name => {
-          this.sizes[ name ] = parseInt(style.getPropertyValue(`--q-size-${name}`), 10)
+          this.sizes[ name ] = parseInt(style.getPropertyValue(`--q-size-${ name }`), 10)
         })
       }
 
@@ -151,8 +151,8 @@ export default defineReactivePlugin({
       }
 
       // due to optimizations, this would be left out otherwise
-      classes === true && this.name === 'xs' &&
-        document.body.classList.add('screen--xs')
+      classes === true && this.name === 'xs'
+        && document.body.classList.add('screen--xs')
     }
 
     if (isRuntimeSsrPreHydration === true) {

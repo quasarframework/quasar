@@ -65,14 +65,14 @@ export default defineComponent({
     })
 
     const classes = computed(() =>
-      'q-fab z-fab row inline justify-center' +
-      ` q-fab--align-${props.verticalActionsAlign} ${formClass.value}` +
-      (showing.value === true ? ' q-fab--opened' : '')
+      'q-fab z-fab row inline justify-center'
+      + ` q-fab--align-${ props.verticalActionsAlign } ${ formClass.value }`
+      + (showing.value === true ? ' q-fab--opened' : '')
     )
 
     const actionClass = computed(() =>
-      'q-fab__actions flex no-wrap inline' +
-      ` q-fab__actions--${props.direction}`
+      'q-fab__actions flex no-wrap inline'
+      + ` q-fab__actions--${ props.direction }`
     )
 
     function getTriggerContent () {

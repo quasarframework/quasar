@@ -40,15 +40,15 @@ export default defineComponent({
 
     let timer, pan = {}, dirRefs = {}, dirContentRefs = {}
 
-    const langDir = computed(() =>
+    const langDir = computed(() => (
       $q.lang.rtl === true
         ? { left: 'right', right: 'left' }
         : { left: 'left', right: 'right' }
-    )
+    ))
 
     const classes = computed(() =>
-      'q-slide-item q-item-type overflow-hidden' +
-      (isDark.value === true ? ' q-slide-item--dark q-dark' : '')
+      'q-slide-item q-item-type overflow-hidden'
+      + (isDark.value === true ? ' q-slide-item--dark q-dark' : '')
     )
 
     function reset () {
@@ -83,7 +83,7 @@ export default defineComponent({
         node.classList.remove('no-transition')
 
         if (pan.scale === 1) {
-          node.style.transform = `translate${pan.axis}(${pan.dir * 100}%)`
+          node.style.transform = `translate${ pan.axis }(${ pan.dir * 100 }%)`
 
           timer = setTimeout(() => {
             emit(pan.showing, { reset })
@@ -103,10 +103,10 @@ export default defineComponent({
       }
 
       if (
-        (slots.left === void 0 && evt.direction === langDir.value.right) ||
-        (slots.right === void 0 && evt.direction === langDir.value.left) ||
-        (slots.top === void 0 && evt.direction === 'down') ||
-        (slots.bottom === void 0 && evt.direction === 'up')
+        (slots.left === void 0 && evt.direction === langDir.value.right)
+        || (slots.right === void 0 && evt.direction === langDir.value.left)
+        || (slots.top === void 0 && evt.direction === 'down')
+        || (slots.bottom === void 0 && evt.direction === 'up')
       ) {
         node.style.transform = 'translate(0,0)'
         return
@@ -143,8 +143,8 @@ export default defineComponent({
 
       pan.scale = Math.max(0, Math.min(1, (dist - 40) / pan.size[ showing ]))
 
-      node.style.transform = `translate${pan.axis}(${dist * dir / Math.abs(dir)}px)`
-      dirContentRefs[ showing ].style.transform = `scale(${pan.scale})`
+      node.style.transform = `translate${ pan.axis }(${ dist * dir / Math.abs(dir) }px)`
+      dirContentRefs[ showing ].style.transform = `scale(${ pan.scale })`
     }
 
     onBeforeUpdate(() => {
@@ -177,8 +177,8 @@ export default defineComponent({
           content.push(
             h('div', {
               ref: el => { dirRefs[ dir ] = el },
-              class: `q-slide-item__${dir} absolute-full row no-wrap items-${slotName[ 1 ]} justify-${slotName[ 2 ]}` +
-                (props[ dir + 'Color' ] !== void 0 ? ` bg-${props[ dir + 'Color' ]}` : '')
+              class: `q-slide-item__${ dir } absolute-full row no-wrap items-${ slotName[ 1 ] } justify-${ slotName[ 2 ] }`
+                + (props[ dir + 'Color' ] !== void 0 ? ` bg-${ props[ dir + 'Color' ] }` : '')
             }, [
               h('div', { ref: el => { dirContentRefs[ dir ] = el } }, slots[ dir ]())
             ])

@@ -59,8 +59,8 @@ export default defineComponent({
     position: {
       type: String,
       default: 'standard',
-      validator: val => val === 'standard' ||
-        [ 'top', 'bottom', 'left', 'right' ].includes(val)
+      validator: val => val === 'standard'
+        || [ 'top', 'bottom', 'left', 'right' ].includes(val)
     },
 
     transitionShow: String,
@@ -81,9 +81,9 @@ export default defineComponent({
     let shakeTimeout, refocusTarget, isMaximized
 
     const hideOnRouteChange = computed(() =>
-      props.persistent !== true &&
-      props.noRouteDismiss !== true &&
-      props.seamless !== true
+      props.persistent !== true
+      && props.noRouteDismiss !== true
+      && props.seamless !== true
     )
 
     const $q = useQuasar()
@@ -107,37 +107,37 @@ export default defineComponent({
     const { addToHistory, removeFromHistory } = useHistory(showing, hide, hideOnRouteChange)
 
     const classes = computed(() =>
-      'q-dialog__inner flex no-pointer-events' +
-      ` q-dialog__inner--${props.maximized === true ? 'maximized' : 'minimized'}` +
-      ` q-dialog__inner--${props.position} ${positionClass[ props.position ]}` +
-      (props.fullWidth === true ? ' q-dialog__inner--fullwidth' : '') +
-      (props.fullHeight === true ? ' q-dialog__inner--fullheight' : '') +
-      (props.square === true ? ' q-dialog__inner--square' : '')
+      'q-dialog__inner flex no-pointer-events'
+      + ` q-dialog__inner--${ props.maximized === true ? 'maximized' : 'minimized' }`
+      + ` q-dialog__inner--${ props.position } ${ positionClass[ props.position ] }`
+      + (props.fullWidth === true ? ' q-dialog__inner--fullwidth' : '')
+      + (props.fullHeight === true ? ' q-dialog__inner--fullheight' : '')
+      + (props.square === true ? ' q-dialog__inner--square' : '')
     )
 
     const transitionShow = computed(() =>
-      'q-transition--' +
-      (props.transitionShow === void 0 ? transitions[ props.position ][ 0 ] : props.transitionShow)
+      'q-transition--'
+      + (props.transitionShow === void 0 ? transitions[ props.position ][ 0 ] : props.transitionShow)
     )
 
     const transitionHide = computed(() =>
-      'q-transition--' +
-      (props.transitionHide === void 0 ? transitions[ props.position ][ 1 ] : props.transitionHide)
+      'q-transition--'
+      + (props.transitionHide === void 0 ? transitions[ props.position ][ 1 ] : props.transitionHide)
     )
 
-    const transition = computed(() =>
+    const transition = computed(() => (
       transitionState.value === true
         ? transitionHide.value
         : transitionShow.value
-    )
+    ))
 
     const useBackdrop = computed(() => showing.value === true && props.seamless !== true)
 
-    const onEvents = computed(() =>
+    const onEvents = computed(() => (
       props.autoClose === true
         ? { onClick: onAutoClose }
         : {}
-    )
+    ))
 
     watch(showing, val => {
       nextTick(() => {
@@ -317,9 +317,9 @@ export default defineComponent({
     function onFocusChange (evt) {
       // the focus is not in a vue child component
       if (
-        showing.value === true &&
-        portalIsActive.value === true &&
-        childHasFocus(innerRef.value, evt.target) !== true
+        showing.value === true
+        && portalIsActive.value === true
+        && childHasFocus(innerRef.value, evt.target) !== true
       ) {
         focus()
       }
@@ -343,8 +343,8 @@ export default defineComponent({
       return h('div', {
         ...attrs, // TODO vue3 - verify reactivity
         class: [
-          'q-dialog fullscreen no-pointer-events ' +
-            `q-dialog--${useBackdrop.value === true ? 'modal' : 'seamless'}`,
+          'q-dialog fullscreen no-pointer-events '
+            + `q-dialog--${ useBackdrop.value === true ? 'modal' : 'seamless' }`,
           attrs.class
         ]
       }, [
@@ -364,14 +364,16 @@ export default defineComponent({
         h(
           Transition,
           { name: transition.value, appear: true },
-          () => showing.value === true
-            ? h('div', {
-                ref: innerRef,
-                class: classes.value,
-                tabindex: -1,
-                ...onEvents.value
-              }, hSlot(slots.default))
-            : null
+          () => (
+            showing.value === true
+              ? h('div', {
+                  ref: innerRef,
+                  class: classes.value,
+                  tabindex: -1,
+                  ...onEvents.value
+                }, hSlot(slots.default))
+              : null
+          )
         )
       ])
     }

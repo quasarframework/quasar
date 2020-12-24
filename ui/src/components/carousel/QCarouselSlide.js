@@ -13,10 +13,11 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const style = computed(() => props.imgSrc
-      ? { backgroundImage: `url("${props.imgSrc}")` }
-      : {}
-    )
+    const style = computed(() => (
+      props.imgSrc
+        ? { backgroundImage: `url("${ props.imgSrc }")` }
+        : {}
+    ))
 
     return () => h('div', {
       class: 'q-carousel__slide',

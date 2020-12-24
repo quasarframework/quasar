@@ -101,7 +101,7 @@ function apply ({ add, remove }) {
   if (Object.keys(remove).length > 0) {
     [ 'meta', 'link', 'script' ].forEach(type => {
       remove[ type ].forEach(name => {
-        document.head.querySelector(`${type}[data-qmeta="${name}"]`).remove()
+        document.head.querySelector(`${ type }[data-qmeta="${ name }"]`).remove()
       })
     })
     remove.htmlAttr.filter(htmlFilter).forEach(name => {
@@ -140,14 +140,14 @@ function apply ({ add, remove }) {
 function getAttr (seed) {
   return att => {
     const val = seed[ att ]
-    return att + (val !== void 0 ? `="${val}"` : '')
+    return att + (val !== void 0 ? `="${ val }"` : '')
   }
 }
 
 function getHead (meta) {
   let output = ''
   if (meta.title) {
-    output += `<title>${meta.title}</title>`
+    output += `<title>${ meta.title }</title>`
   }
   ;[ 'meta', 'link', 'script' ].forEach(type => {
     const metaType = meta[ type ]
@@ -157,7 +157,7 @@ function getHead (meta) {
         .filter(att => att !== 'innerHTML')
         .map(getAttr(metaType[ att ]))
 
-      output += `<${type} ${attrs.join(' ')} data-qmeta="${att}">`
+      output += `<${ type } ${ attrs.join(' ') } data-qmeta="${ att }">`
       if (type === 'script') {
         output += (metaType[ att ].innerHTML || '') + '</script>'
       }
@@ -187,7 +187,7 @@ function injectServerMeta (ssrContext) {
 
   // TODO vue3 - add more options for scripts
   const nonce = ssrContext.nonce !== void 0
-    ? ` nonce="${ssrContext.nonce}"`
+    ? ` nonce="${ ssrContext.nonce }"`
     : ''
 
   const ctx = ssrContext._meta
@@ -205,9 +205,9 @@ function injectServerMeta (ssrContext) {
     .join(' ')
 
   ctx.bodyTags += Object.keys(data.noscript)
-    .map(name => `<noscript data-qmeta="${name}">${data.noscript[ name ]}</noscript>`)
-    .join('') +
-    `<script${nonce} id="qmeta-init">window.__Q_META__=${delete data.noscript && JSON.stringify(data)}</script>`
+    .map(name => `<noscript data-qmeta="${ name }">${ data.noscript[ name ] }</noscript>`)
+    .join('')
+    + `<script${ nonce } id="qmeta-init">window.__Q_META__=${ delete data.noscript && JSON.stringify(data) }</script>`
 }
 
 function updateClientMeta () {

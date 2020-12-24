@@ -104,9 +104,9 @@ export default function (props, emit, emitValue, inputRef) {
   }
 
   function updateMaskInternals () {
-    hasMask.value = props.mask !== void 0 &&
-      props.mask.length > 0 &&
-      [ 'text', 'search', 'url', 'tel', 'password' ].includes(props.type)
+    hasMask.value = props.mask !== void 0
+      && props.mask.length > 0
+      && [ 'text', 'search', 'url', 'tel', 'password' ].includes(props.type)
 
     if (hasMask.value === false) {
       computedUnmask = void 0
@@ -158,10 +158,10 @@ export default function (props, emit, emitValue, inputRef) {
 
     const
       unmaskMatcher = new RegExp(
-        '^' +
-        unmask.join('') +
-        '(' + (unmaskChar === '' ? '.' : '[^' + unmaskChar + ']') + '+)?' +
-        '$'
+        '^'
+        + unmask.join('')
+        + '(' + (unmaskChar === '' ? '.' : '[^' + unmaskChar + ']') + '+)?'
+        + '$'
       ),
       extractLast = extract.length - 1,
       extractMatcher = extract.map((re, index) => {
@@ -170,9 +170,9 @@ export default function (props, emit, emitValue, inputRef) {
         }
         else if (index === extractLast) {
           return new RegExp(
-            '^' + re +
-            '(' + (negateChar === '' ? '.' : negateChar) + '+)?' +
-            (props.reverseFillMask === true ? '$' : fillCharEscaped + '*')
+            '^' + re
+            + '(' + (negateChar === '' ? '.' : negateChar) + '+)?'
+            + (props.reverseFillMask === true ? '$' : fillCharEscaped + '*')
           )
         }
 
@@ -206,7 +206,7 @@ export default function (props, emit, emitValue, inputRef) {
 
       return val
     }
-    maskMarked = mask.map(v => typeof v === 'string' ? v : MARKER).join('')
+    maskMarked = mask.map(v => (typeof v === 'string' ? v : MARKER)).join('')
     maskReplaced = maskMarked.split(MARKER).join(fillChar)
   }
 
@@ -307,9 +307,9 @@ export default function (props, emit, emitValue, inputRef) {
       }
 
       if (
-        i < 0 &&
-        maskMarked[ start ] !== void 0 &&
-        maskMarked[ start ] !== MARKER
+        i < 0
+        && maskMarked[ start ] !== void 0
+        && maskMarked[ start ] !== MARKER
       ) {
         return moveCursor.right(inp, 0, 0)
       }
@@ -335,9 +335,9 @@ export default function (props, emit, emitValue, inputRef) {
       }
 
       if (
-        i > limit &&
-        maskMarked[ end - 1 ] !== void 0 &&
-        maskMarked[ end - 1 ] !== MARKER
+        i > limit
+        && maskMarked[ end - 1 ] !== void 0
+        && maskMarked[ end - 1 ] !== MARKER
       ) {
         return moveCursor.left(inp, limit, limit)
       }
@@ -364,9 +364,9 @@ export default function (props, emit, emitValue, inputRef) {
       }
 
       if (
-        i < 0 &&
-        localMaskMarked[ start ] !== void 0 &&
-        localMaskMarked[ start ] !== MARKER
+        i < 0
+        && localMaskMarked[ start ] !== void 0
+        && localMaskMarked[ start ] !== MARKER
       ) {
         return moveCursor.rightReverse(inp, 0, 0)
       }
@@ -393,9 +393,9 @@ export default function (props, emit, emitValue, inputRef) {
       }
 
       if (
-        i > limit &&
-        localMaskMarked[ end - 1 ] !== void 0 &&
-        localMaskMarked[ end - 1 ] !== MARKER
+        i > limit
+        && localMaskMarked[ end - 1 ] !== void 0
+        && localMaskMarked[ end - 1 ] !== MARKER
       ) {
         return moveCursor.leftReverse(inp, limit, limit)
       }
@@ -421,16 +421,16 @@ export default function (props, emit, emitValue, inputRef) {
       fn(inp, start, end, e.shiftKey)
     }
     else if (
-      e.keyCode === 8 && // Backspace
-      props.reverseFillMask !== true &&
-      start === end
+      e.keyCode === 8 // Backspace
+      && props.reverseFillMask !== true
+      && start === end
     ) {
       moveCursor.left(inp, start, end, true)
     }
     else if (
-      e.keyCode === 46 && // Delete
-      props.reverseFillMask === true &&
-      start === end
+      e.keyCode === 46 // Delete
+      && props.reverseFillMask === true
+      && start === end
     ) {
       moveCursor.rightReverse(inp, start, end, true)
     }

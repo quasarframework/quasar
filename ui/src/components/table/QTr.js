@@ -12,9 +12,9 @@ export default defineComponent({
 
   setup (props, { slots }) {
     const classes = computed(() =>
-      'q-tr' +
-      (props.props === void 0 || props.props.header === true ? '' : ' ' + props.props.__trClass) +
-      (props.noHover === true ? ' q-tr--no-hover' : '')
+      'q-tr'
+      + (props.props === void 0 || props.props.header === true ? '' : ' ' + props.props.__trClass)
+      + (props.noHover === true ? ' q-tr--no-hover' : '')
     )
 
     return () => h('tr', { class: classes.value }, hSlot(slots.default))

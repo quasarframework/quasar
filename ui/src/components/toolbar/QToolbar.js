@@ -11,8 +11,8 @@ export default defineComponent({
 
   setup (props, { slots }) {
     const classes = computed(() =>
-      'q-toolbar row no-wrap items-center' +
-      (props.inset === true ? ' q-toolbar--inset' : '')
+      'q-toolbar row no-wrap items-center'
+      + (props.inset === true ? ' q-toolbar--inset' : '')
     )
 
     return () => h('div', { class: classes.value }, hSlot(slots.default))

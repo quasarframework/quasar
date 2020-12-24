@@ -65,7 +65,7 @@ export default {
 
         // we update the dialog
         notif({
-          caption: `${percentage}%`
+          caption: `${ percentage }%`
         })
 
         // if we are done...

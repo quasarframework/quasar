@@ -62,7 +62,7 @@ export default defineComponent({
       return {
         type: 'hidden',
         name: props.name,
-        value: `${props.modelValue.min}|${props.modelValue.max}`
+        value: `${ props.modelValue.min }|${ props.modelValue.max }`
       }
     })
 
@@ -88,21 +88,21 @@ export default defineComponent({
       (model.value.min - props.min) / (props.max - props.min)
     )
 
-    const ratioMin = computed(() =>
+    const ratioMin = computed(() => (
       state.active.value === true ? curMinRatio.value : modelMinRatio.value
-    )
+    ))
 
     const modelMaxRatio = computed(() =>
       (model.value.max - props.min) / (props.max - props.min)
     )
 
-    const ratioMax = computed(() =>
+    const ratioMax = computed(() => (
       state.active.value === true ? curMaxRatio.value : modelMaxRatio.value
-    )
+    ))
 
     const trackStyle = computed(() => ({
-      [ state.positionProp.value ]: `${100 * ratioMin.value}%`,
-      [ state.sizeProp.value ]: `${100 * (ratioMax.value - ratioMin.value)}%`
+      [ state.positionProp.value ]: `${ 100 * ratioMin.value }%`,
+      [ state.sizeProp.value ]: `${ 100 * (ratioMax.value - ratioMin.value) }%`
     }))
 
     const events = computed(() => {
@@ -129,7 +129,7 @@ export default defineComponent({
     const minProps = {
       domRef: ref(null),
 
-      events: computed(() =>
+      events: computed(() => (
         state.editable.value === true && $q.platform.is.mobile !== true && props.dragOnlyRange !== true
           ? {
               onFocus: () => { onFocus('min') },
@@ -138,27 +138,27 @@ export default defineComponent({
               onKeyup: methods.onKeyup
             }
           : {}
-      ),
+      )),
 
       thumbStyle: computed(() => ({
-        [ state.positionProp.value ]: `${100 * ratioMin.value}%`,
+        [ state.positionProp.value ]: `${ 100 * ratioMin.value }%`,
         'z-index': nextFocus.value === 'min' ? 2 : void 0
       })),
 
-      thumbClass: computed(() =>
+      thumbClass: computed(() => (
         state.preventFocus.value === false && state.focus.value === 'min'
           ? ' q-slider--focus'
           : ''
-      ),
+      )),
 
       pinClass: computed(() => {
         const color = props.leftLabelColor || props.labelColor
-        return color ? ` text-${color}` : ''
+        return color ? ` text-${ color }` : ''
       }),
 
       pinTextClass: computed(() => {
         const color = props.leftLabelTextColor || props.labelTextColor
-        return color ? ` text-${color}` : ''
+        return color ? ` text-${ color }` : ''
       }),
 
       pinStyle: computed(() => {
@@ -166,17 +166,17 @@ export default defineComponent({
         return methods.getPinStyle(percent, ratioMin.value)
       }),
 
-      label: computed(() =>
+      label: computed(() => (
         props.leftLabelValue !== void 0
           ? props.leftLabelValue
           : model.value.min
-      )
+      ))
     }
 
     const maxProps = {
       domRef: ref(null),
 
-      events: computed(() =>
+      events: computed(() => (
         state.editable.value === true && $q.platform.is.mobile !== true && props.dragOnlyRange !== true
           ? {
               onFocus: () => { onFocus('max') },
@@ -185,26 +185,26 @@ export default defineComponent({
               onKeyup: methods.onKeyup
             }
           : {}
-      ),
+      )),
 
       thumbStyle: computed(() => ({
-        [ state.positionProp.value ]: `${100 * ratioMax.value}%`
+        [ state.positionProp.value ]: `${ 100 * ratioMax.value }%`
       })),
 
-      thumbClass: computed(() =>
+      thumbClass: computed(() => (
         state.preventFocus.value === false && state.focus.value === 'max'
           ? ' q-slider--focus'
           : ''
-      ),
+      )),
 
       pinClass: computed(() => {
         const color = props.rightLabelColor || props.labelColor
-        return color ? ` text-${color}` : ''
+        return color ? ` text-${ color }` : ''
       }),
 
       pinTextClass: computed(() => {
         const color = props.rightLabelTextColor || props.labelTextColor
-        return color ? ` text-${color}` : ''
+        return color ? ` text-${ color }` : ''
       }),
 
       pinStyle: computed(() => {
@@ -212,11 +212,11 @@ export default defineComponent({
         return methods.getPinStyle(percent, ratioMax.value)
       }),
 
-      label: computed(() =>
+      label: computed(() => (
         props.rightLabelValue !== void 0
           ? props.rightLabelValue
           : model.value.max
-      )
+      ))
     }
 
     watch(() => props.modelValue.min, val => {
@@ -456,11 +456,11 @@ export default defineComponent({
       if (props.label === true || props.labelAlways === true) {
         child.push(
           h('div', {
-            class: `q-slider__pin q-slider__pin${state.axis.value} absolute` + sideProps.pinClass.value,
+            class: `q-slider__pin q-slider__pin${ state.axis.value } absolute` + sideProps.pinClass.value,
             style: sideProps.pinStyle.value.pin
           }, [
             h('div', {
-              class: `q-slider__pin-text-container q-slider__pin-text-container${state.axis.value}`,
+              class: `q-slider__pin-text-container q-slider__pin-text-container${ state.axis.value }`,
               style: sideProps.pinStyle.value.pinTextContainer
             }, [
               h('span', {
@@ -470,14 +470,14 @@ export default defineComponent({
           ]),
 
           h('div', {
-            class: `q-slider__arrow q-slider__arrow${state.axis.value}` + sideProps.pinClass.value
+            class: `q-slider__arrow q-slider__arrow${ state.axis.value }` + sideProps.pinClass.value
           })
         )
       }
 
       return h('div', {
         ref: sideProps.domRef,
-        class: `q-slider__thumb-container q-slider__thumb-container${state.axis.value} absolute non-selectable` + sideProps.thumbClass.value,
+        class: `q-slider__thumb-container q-slider__thumb-container${ state.axis.value } absolute non-selectable` + sideProps.thumbClass.value,
         style: sideProps.thumbStyle.value,
         ...sideProps.events.value,
         tabindex: props.dragOnlyRange !== true ? state.tabindex.value : null
@@ -487,21 +487,21 @@ export default defineComponent({
     return () => {
       const track = [
         h('div', {
-          class: `q-slider__track q-slider__track${state.axis.value} absolute`,
+          class: `q-slider__track q-slider__track${ state.axis.value } absolute`,
           style: trackStyle.value
         })
       ]
 
       props.markers === true && track.push(
         h('div', {
-          class: `q-slider__track-markers q-slider__track-markers${state.axis.value} absolute-full fit`,
+          class: `q-slider__track-markers q-slider__track-markers${ state.axis.value } absolute-full fit`,
           style: state.markerStyle.value
         })
       )
 
       const child = [
         h('div', {
-          class: `q-slider__track-container q-slider__track-container${state.axis.value} absolute`
+          class: `q-slider__track-container q-slider__track-container${ state.axis.value } absolute`
         }, track),
 
         getThumb(minProps),

@@ -21,15 +21,15 @@ export default defineComponent({
     const { isDark } = useDark(props, $q)
 
     const classes = computed(() =>
-      'q-banner row items-center' +
-      (props.dense === true ? ' q-banner--dense' : '') +
-      (isDark.value === true ? ' q-banner--dark q-dark' : '') +
-      (props.rounded === true ? ' rounded-borders' : '')
+      'q-banner row items-center'
+      + (props.dense === true ? ' q-banner--dense' : '')
+      + (isDark.value === true ? ' q-banner--dark q-dark' : '')
+      + (props.rounded === true ? ' rounded-borders' : '')
     )
 
     const actionClass = computed(() =>
-      'q-banner__actions row items-center justify-end' +
-      ` col-${props.inlineActions === true ? 'auto' : 'all'}`
+      'q-banner__actions row items-center justify-end'
+      + ` col-${ props.inlineActions === true ? 'auto' : 'all' }`
     )
 
     return () => {
@@ -49,8 +49,8 @@ export default defineComponent({
       )
 
       return h('div', {
-        class: classes.value +
-          (props.inlineActions === false && actions !== void 0 ? ' q-banner--top-padding' : ''),
+        class: classes.value
+          + (props.inlineActions === false && actions !== void 0 ? ' q-banner--top-padding' : ''),
         role: 'alert'
       }, child)
     }

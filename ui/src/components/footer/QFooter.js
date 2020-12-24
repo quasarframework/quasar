@@ -43,16 +43,16 @@ export default defineComponent({
     )
 
     const fixed = computed(() =>
-      props.reveal === true ||
-      $layout.view.indexOf('F') > -1 ||
-      $layout.container === true
+      props.reveal === true
+      || $layout.view.indexOf('F') > -1
+      || $layout.container === true
     )
 
-    const containerHeight = computed(() =>
+    const containerHeight = computed(() => (
       $layout.container === true
         ? $layout.containerHeight.value
         : windowHeight.value
-    )
+    ))
 
     const offset = computed(() => {
       if (props.modelValue !== true) {
@@ -74,11 +74,11 @@ export default defineComponent({
     )
 
     const classes = computed(() =>
-      'q-footer q-layout__section--marginal ' +
-      (fixed.value === true ? 'fixed' : 'absolute') + '-bottom' +
-      (props.bordered === true ? ' q-footer--bordered' : '') +
-      (hidden.value === true ? ' q-footer--hidden' : '') +
-      (
+      'q-footer q-layout__section--marginal '
+      + (fixed.value === true ? 'fixed' : 'absolute') + '-bottom'
+      + (props.bordered === true ? ' q-footer--bordered' : '')
+      + (hidden.value === true ? ' q-footer--hidden' : '')
+      + (
         props.modelValue !== true
           ? ' q-layout--prevent-focus' + (fixed.value !== true ? ' hidden' : '')
           : ''
@@ -91,10 +91,10 @@ export default defineComponent({
         css = {}
 
       if (view[ 0 ] === 'l' && $layout.left.space === true) {
-        css[ $q.lang.rtl === true ? 'right' : 'left' ] = `${$layout.left.size}px`
+        css[ $q.lang.rtl === true ? 'right' : 'left' ] = `${ $layout.left.size }px`
       }
       if (view[ 2 ] === 'r' && $layout.right.space === true) {
-        css[ $q.lang.rtl === true ? 'left' : 'right' ] = `${$layout.right.size}px`
+        css[ $q.lang.rtl === true ? 'left' : 'right' ] = `${ $layout.right.size }px`
       }
 
       return css
@@ -127,9 +127,9 @@ export default defineComponent({
       const { direction, position, inflexionPosition } = $layout.scroll.value
 
       updateLocal(revealed, (
-        direction === 'up' ||
-        position - inflexionPosition < 100 ||
-        $layout.height.value - containerHeight.value - position - size.value < 300
+        direction === 'up'
+        || position - inflexionPosition < 100
+        || $layout.height.value - containerHeight.value - position - size.value < 300
       ))
     }
 

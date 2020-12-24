@@ -90,8 +90,8 @@ export default {
       }
 
       if (
-        indexZoomed !== void 0 &&
-        (this.cancel === void 0 || this.cancel() === false)
+        indexZoomed !== void 0
+        && (this.cancel === void 0 || this.cancel() === false)
       ) {
         morph({
           from: this.$refs.refFull.$el,

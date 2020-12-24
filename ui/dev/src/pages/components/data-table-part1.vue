@@ -833,7 +833,7 @@ export default {
           style: 'background: #26a69a',
           headerStyle: 'background: #26a69a',
           field: row => row.name,
-          format: val => `~${val}`,
+          format: val => `~${ val }`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },

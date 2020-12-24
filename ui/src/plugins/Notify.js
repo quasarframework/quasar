@@ -59,7 +59,7 @@ const groups = {}
 const positionClass = {}
 
 function logError (error, config) {
-  console.error(`Notify: ${error}`, config)
+  console.error(`Notify: ${ error }`, config)
   return false
 }
 
@@ -77,9 +77,9 @@ const Notifications = defineComponent({
       const
         vert = [ 'left', 'center', 'right' ].includes(pos) === true ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
         align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center'),
-        classes = [ 'left', 'right' ].includes(pos) ? `items-${pos === 'left' ? 'start' : 'end'} justify-center` : (pos === 'center' ? 'flex-center' : `items-${align}`)
+        classes = [ 'left', 'right' ].includes(pos) ? `items-${ pos === 'left' ? 'start' : 'end' } justify-center` : (pos === 'center' ? 'flex-center' : `items-${ align }`)
 
-      positionClass[ pos ] = `q-notifications__list q-notifications__list--${vert} fixed column no-wrap ${classes}`
+      positionClass[ pos ] = `q-notifications__list q-notifications__list--${ vert } fixed column no-wrap ${ classes }`
     })
 
     function add (config, originalApi) {
@@ -145,12 +145,12 @@ const Notifications = defineComponent({
       else if (notif.progress === true) {
         notif.meta.progressClass = 'q-notification__progress' + (
           notif.progressClass
-            ? ` ${notif.progressClass}`
+            ? ` ${ notif.progressClass }`
             : ''
         )
 
         notif.meta.progressStyle = {
-          animationDuration: `${notif.timeout + 1000}ms`
+          animationDuration: `${ notif.timeout + 1000 }ms`
         }
       }
 
@@ -190,17 +190,17 @@ const Notifications = defineComponent({
       }
 
       Object.assign(notif.meta, {
-        class: 'q-notification row items-stretch' +
-          ` q-notification--${notif.multiLine === true ? 'multi-line' : 'standard'}` +
-          (notif.color !== void 0 ? ` bg-${notif.color}` : '') +
-          (notif.textColor !== void 0 ? ` text-${notif.textColor}` : '') +
-          (notif.classes !== void 0 ? ` ${notif.classes}` : ''),
+        class: 'q-notification row items-stretch'
+          + ` q-notification--${ notif.multiLine === true ? 'multi-line' : 'standard' }`
+          + (notif.color !== void 0 ? ` bg-${ notif.color }` : '')
+          + (notif.textColor !== void 0 ? ` text-${ notif.textColor }` : '')
+          + (notif.classes !== void 0 ? ` ${ notif.classes }` : ''),
 
-        wrapperClass: 'q-notification__wrapper col relative-position border-radius-inherit ' +
-          (notif.multiLine === true ? 'column no-wrap justify-center' : 'row items-center'),
+        wrapperClass: 'q-notification__wrapper col relative-position border-radius-inherit '
+          + (notif.multiLine === true ? 'column no-wrap justify-center' : 'row items-center'),
 
-        contentClass: 'q-notification__content row items-center' +
-          (notif.multiLine === true ? '' : ' col'),
+        contentClass: 'q-notification__content row items-center'
+          + (notif.multiLine === true ? '' : ' col'),
 
         attrs: {
           role: 'alert',
@@ -220,7 +220,7 @@ const Notifications = defineComponent({
             notif.caption,
             notif.multiline
           ].concat(
-            notif.actions.map(props => `${props.label}*${props.icon}`)
+            notif.actions.map(props => `${ props.label }*${ props.icon }`)
           ).join('|')
         }
 
@@ -231,9 +231,9 @@ const Notifications = defineComponent({
         notif.actions = void 0
       }
       else {
-        notif.meta.actionsClass = 'q-notification__actions row items-center ' +
-          (notif.multiLine === true ? 'justify-end' : 'col-auto') +
-          (notif.meta.hasMedia === true ? ' q-notification__actions--with-media' : '')
+        notif.meta.actionsClass = 'q-notification__actions row items-center '
+          + (notif.multiLine === true ? 'justify-end' : 'col-auto')
+          + (notif.meta.hasMedia === true ? ' q-notification__actions--with-media' : '')
       }
 
       if (originalApi !== void 0) {
@@ -282,15 +282,15 @@ const Notifications = defineComponent({
             }
           }
           else {
-            notif.badgePosition = `top-${notif.position.indexOf('left') > -1 ? 'right' : 'left'}`
+            notif.badgePosition = `top-${ notif.position.indexOf('left') > -1 ? 'right' : 'left' }`
           }
 
           notif.meta.uid = original.meta.uid
           notif.meta.badge = original.meta.badge + 1
-          notif.meta.badgeClass = `q-notification__badge q-notification__badge--${notif.badgePosition}` +
-            (notif.badgeColor !== void 0 ? ` bg-${notif.badgeColor}` : '') +
-            (notif.badgeTextColor !== void 0 ? ` text-${notif.badgeTextColor}` : '') +
-            (notif.badgeClass ? ` ${notif.badgeClass}` : '')
+          notif.meta.badgeClass = `q-notification__badge q-notification__badge--${ notif.badgePosition }`
+            + (notif.badgeColor !== void 0 ? ` bg-${ notif.badgeColor }` : '')
+            + (notif.badgeTextColor !== void 0 ? ` text-${ notif.badgeTextColor }` : '')
+            + (notif.badgeClass ? ` ${ notif.badgeClass }` : '')
 
           const index = notificationsList[ notif.position ].value.indexOf(original)
           notificationsList[ notif.position ].value[ index ] = groups[ notif.meta.group ] = notif
@@ -365,7 +365,7 @@ const Notifications = defineComponent({
         if (el) {
           const { width, height } = getComputedStyle(el)
 
-          el.style.left = `${el.offsetLeft}px`
+          el.style.left = `${ el.offsetLeft }px`
           el.style.width = width
           el.style.height = height
         }
@@ -387,7 +387,7 @@ const Notifications = defineComponent({
         key: pos,
         class: positionClass[ pos ],
         tag: 'div',
-        name: `q-notification--${pos}`
+        name: `q-notification--${ pos }`
       }, () => notificationsList[ pos ].value.map(notif => {
         let msgChild
 
@@ -396,7 +396,7 @@ const Notifications = defineComponent({
 
         if (notif.html === true) {
           msgData.innerHTML = notif.caption
-            ? `<div>${notif.message}</div><div class="q-notification__caption">${notif.caption}</div>`
+            ? `<div>${ notif.message }</div><div class="q-notification__caption">${ notif.caption }</div>`
             : notif.message
         }
         else {
@@ -445,7 +445,7 @@ const Notifications = defineComponent({
 
         notif.progress === true && child.push(
           h('div', {
-            key: `${meta.uid}|p|${meta.badge}`,
+            key: `${ meta.uid }|p|${ meta.badge }`,
             class: meta.progressClass,
             style: meta.progressStyle
           })
@@ -459,7 +459,7 @@ const Notifications = defineComponent({
 
         meta.badge > 1 && child.push(
           h('div', {
-            key: `${meta.uid}|${meta.badge}`,
+            key: `${ meta.uid }|${ meta.badge }`,
             class: notif.meta.badgeClass,
             style: notif.badgeStyle
           }, [meta.badge])

@@ -111,45 +111,45 @@ function getRender (props, slots, emit, state) {
   } = useFile(props, emit, editable, dnd, getFileInput, addFilesToQueue)
 
   const canAddFiles = computed(() =>
-    editable.value === true &&
-    state.isUploading.value !== true &&
+    editable.value === true
+    && state.isUploading.value !== true
     // if single selection and no files are queued:
-    (props.multiple === true || state.queuedFiles.value.length === 0) &&
+    && (props.multiple === true || state.queuedFiles.value.length === 0)
     // if max-files is set and current number of files does not exceeds it:
-    (props.maxFiles === void 0 || files.value.length < props.maxFilesNumber) &&
+    && (props.maxFiles === void 0 || files.value.length < props.maxFilesNumber)
     // if max-total-size is set and current upload size does not exceeds it:
-    (props.maxTotalSize === void 0 || uploadSize.value < props.maxTotalSizeNumber)
+    && (props.maxTotalSize === void 0 || uploadSize.value < props.maxTotalSizeNumber)
   )
 
   const canUpload = computed(() =>
-    editable.value === true &&
-    state.isBusy.value !== true &&
-    state.isUploading.value !== true &&
-    state.queuedFiles.value.length > 0
+    editable.value === true
+    && state.isBusy.value !== true
+    && state.isUploading.value !== true
+    && state.queuedFiles.value.length > 0
   )
 
-  const uploadProgress = computed(() =>
+  const uploadProgress = computed(() => (
     uploadSize.value === 0
       ? 0
       : state.uploadedSize.value / uploadSize.value
-  )
+  ))
 
   const uploadProgressLabel = computed(() => getProgressLabel(uploadProgress.value))
   const uploadSizeLabel = computed(() => humanStorageSize(uploadSize.value))
 
   const classes = computed(() =>
-    'q-uploader column no-wrap' +
-    (isDark.value === true ? ' q-uploader--dark q-dark' : '') +
-    (props.bordered === true ? ' q-uploader--bordered' : '') +
-    (props.square === true ? ' q-uploader--square no-border-radius' : '') +
-    (props.flat === true ? ' q-uploader--flat no-shadow' : '') +
-    (props.disable === true ? ' disabled q-uploader--disable' : '')
+    'q-uploader column no-wrap'
+    + (isDark.value === true ? ' q-uploader--dark q-dark' : '')
+    + (props.bordered === true ? ' q-uploader--bordered' : '')
+    + (props.square === true ? ' q-uploader--square no-border-radius' : '')
+    + (props.flat === true ? ' q-uploader--flat no-shadow' : '')
+    + (props.disable === true ? ' disabled q-uploader--disable' : '')
   )
 
   const colorClass = computed(() =>
-    'q-uploader__header' +
-    (props.color !== void 0 ? ` bg-${props.color}` : '') +
-    (props.textColor !== void 0 ? ` text-${props.textColor}` : '')
+    'q-uploader__header'
+    + (props.color !== void 0 ? ` bg-${ props.color }` : '')
+    + (props.textColor !== void 0 ? ` text-${ props.textColor }` : '')
   )
 
   watch(state.isUploading, (newVal, oldVal) => {
@@ -251,8 +251,8 @@ function getRender (props, slots, emit, state) {
   }
 
   function getFileInput () {
-    return inputRef.value ||
-      rootRef.value.getElementsByClassName('q-uploader__input')[ 0 ]
+    return inputRef.value
+      || rootRef.value.getElementsByClassName('q-uploader__input')[ 0 ]
   }
 
   function addFilesToQueue (e, fileList) {
@@ -366,9 +366,9 @@ function getRender (props, slots, emit, state) {
 
     return files.value.map(file => h('div', {
       key: file.name,
-      class: 'q-uploader__file relative-position' +
-        (props.noThumbnails !== true && file.__img !== void 0 ? ' q-uploader__file--img' : '') +
-        (
+      class: 'q-uploader__file relative-position'
+        + (props.noThumbnails !== true && file.__img !== void 0 ? ' q-uploader__file--img' : '')
+        + (
           file.__status === 'failed'
             ? ' q-uploader__file--failed'
             : (file.__status === 'uploaded' ? ' q-uploader__file--uploaded' : '')

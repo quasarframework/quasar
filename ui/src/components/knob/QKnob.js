@@ -82,25 +82,27 @@ export default defineComponent({
     )
 
     const decimals = computed(() => (String(props.step).trim('0').split('.')[ 1 ] || '').length)
-    const step = computed(() => props.step === 0 ? 1 : props.step)
+    const step = computed(() => (props.step === 0 ? 1 : props.step))
     const instantFeedback = computed(() => props.instantFeedback === true || dragging.value === true)
 
     const onEvents = $q.platform.is.mobile === true
-      ? computed(() => editable.value === true ? { onClick } : {})
-      : computed(() => editable.value === true
-        ? {
-            onMousedown,
-            onClick,
-            onKeydown,
-            onKeyup
-          }
-        : {}
-      )
+      ? computed(() => (editable.value === true ? { onClick } : {}))
+      : computed(() => (
+        editable.value === true
+          ? {
+              onMousedown,
+              onClick,
+              onKeydown,
+              onKeyup
+            }
+          : {}
+      ))
 
-    const attrs = computed(() => editable.value === true
-      ? { tabindex: props.tabindex }
-      : { [ `aria-${props.disable === true ? 'disabled' : 'readonly'}` ]: 'true' }
-    )
+    const attrs = computed(() => (
+      editable.value === true
+        ? { tabindex: props.tabindex }
+        : { [ `aria-${ props.disable === true ? 'disabled' : 'readonly' }` ]: 'true' }
+    ))
 
     const circularProps = computed(() => {
       const agg = {}
@@ -177,8 +179,8 @@ export default defineComponent({
         pos = position(evt),
         height = Math.abs(pos.top - centerPosition.top),
         distance = Math.sqrt(
-          height ** 2 +
-          Math.abs(pos.left - centerPosition.left) ** 2
+          height ** 2
+          + Math.abs(pos.left - centerPosition.left) ** 2
         )
 
       let angle = Math.asin(height / distance) * (180 / Math.PI)
@@ -203,8 +205,8 @@ export default defineComponent({
       if (step.value !== 0) {
         const modulo = newModel % step.value
 
-        newModel = newModel - modulo +
-          (Math.abs(modulo) >= step.value / 2 ? (modulo < 0 ? -1 : 1) * step.value : 0)
+        newModel = newModel - modulo
+          + (Math.abs(modulo) >= step.value / 2 ? (modulo < 0 ? -1 : 1) * step.value : 0)
 
         newModel = parseFloat(newModel.toFixed(decimals.value))
       }

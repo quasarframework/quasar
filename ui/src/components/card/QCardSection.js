@@ -16,8 +16,8 @@ export default defineComponent({
 
   setup (props, { slots }) {
     const classes = computed(() =>
-      'q-card__section' +
-      ` q-card__section--${props.horizontal === true ? 'horiz row no-wrap' : 'vert'}`
+      'q-card__section'
+      + ` q-card__section--${ props.horizontal === true ? 'horiz row no-wrap' : 'vert' }`
     )
 
     return () => h(props.tag, { class: classes.value }, hSlot(slots.default))

@@ -308,7 +308,7 @@ const
   ]),
   lotsOptions = () => Array(5000).fill(0).map((item, i) => ({
     value: i,
-    label: `Item ${i}`
+    label: `Item ${ i }`
   }))
 
 export default {

@@ -16,7 +16,7 @@ function getIndicatorClass (color, top, vertical) {
     ? [ 'left', 'right' ]
     : [ 'top', 'bottom' ]
 
-  return `absolute-${top === true ? pos[ 0 ] : pos[ 1 ]}${color ? ` text-${color}` : ''}`
+  return `absolute-${ top === true ? pos[ 0 ] : pos[ 1 ] }${ color ? ` text-${ color }` : '' }`
 }
 
 const alignValues = [ 'left', 'center', 'right', 'justify' ]
@@ -108,30 +108,30 @@ export default defineComponent({
         ? 'left'
         : (justify.value === true ? 'justify' : props.align)
 
-      return `q-tabs__content--align-${align}`
+      return `q-tabs__content--align-${ align }`
     })
 
     const classes = computed(() =>
-      'q-tabs row no-wrap items-center' +
-      ` q-tabs--${scrollable.value === true ? '' : 'not-'}scrollable` +
-      ` q-tabs--${props.vertical === true ? 'vertical' : 'horizontal'}` +
-      ` q-tabs__arrows--${arrowsEnabled.value === true && props.outsideArrows === true ? 'outside' : 'inside'}` +
-      (props.dense === true ? ' q-tabs--dense' : '') +
-      (props.shrink === true ? ' col-shrink' : '') +
-      (props.stretch === true ? ' self-stretch' : '')
+      'q-tabs row no-wrap items-center'
+      + ` q-tabs--${ scrollable.value === true ? '' : 'not-' }scrollable`
+      + ` q-tabs--${ props.vertical === true ? 'vertical' : 'horizontal' }`
+      + ` q-tabs__arrows--${ arrowsEnabled.value === true && props.outsideArrows === true ? 'outside' : 'inside' }`
+      + (props.dense === true ? ' q-tabs--dense' : '')
+      + (props.shrink === true ? ' col-shrink' : '')
+      + (props.stretch === true ? ' self-stretch' : '')
     )
 
     const innerClass = computed(() =>
-      'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar ' +
-      alignClass.value +
-      (props.contentClass !== void 0 ? ` ${props.contentClass}` : '')
+      'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar '
+      + alignClass.value
+      + (props.contentClass !== void 0 ? ` ${ props.contentClass }` : '')
     )
 
-    const domProps = computed(() =>
+    const domProps = computed(() => (
       props.vertical === true
         ? { container: 'height', content: 'offsetHeight', posLeft: 'top', posRight: 'bottom' }
         : { container: 'width', content: 'offsetWidth', posLeft: 'left', posRight: 'right' }
-    )
+    ))
 
     watch(() => props.modelValue, name => {
       updateModel({ name, setCurrent: true, skipEmit: true })
@@ -153,8 +153,8 @@ export default defineComponent({
       if (currentModel.value !== name) {
         skipEmit !== true && emit('update:modelValue', name)
         if (
-          setCurrent === true ||
-          vm.vnode.props[ 'onUpdate:modelValue' ] === void 0
+          setCurrent === true
+          || vm.vnode.props[ 'onUpdate:modelValue' ] === void 0
         ) {
           animate(currentModel.value, name)
           currentModel.value = name
@@ -230,8 +230,8 @@ export default defineComponent({
           newPos = newEl.getBoundingClientRect()
 
         newEl.style.transform = props.vertical === true
-          ? `translate3d(0,${oldPos.top - newPos.top}px,0) scale3d(1,${newPos.height ? oldPos.height / newPos.height : 1},1)`
-          : `translate3d(${oldPos.left - newPos.left}px,0,0) scale3d(${newPos.width ? oldPos.width / newPos.width : 1},1,1)`
+          ? `translate3d(0,${ oldPos.top - newPos.top }px,0) scale3d(1,${ newPos.height ? oldPos.height / newPos.height : 1 },1)`
+          : `translate3d(${ oldPos.left - newPos.left }px,0,0) scale3d(${ newPos.width ? oldPos.width / newPos.width : 1 },1,1)`
 
         // allow scope updates to kick in (QRouteTab needs more time)
         nextTick(() => {
@@ -312,8 +312,8 @@ export default defineComponent({
         pos = 0
       }
       else if (
-        (direction === -1 && pos <= value) ||
-        (direction === 1 && pos >= value)
+        (direction === -1 && pos <= value)
+        || (direction === 1 && pos >= value)
       ) {
         done = true
         pos = value
@@ -335,9 +335,9 @@ export default defineComponent({
 
       getRouteList().forEach(tab => {
         if (
-          tab.routerProps !== void 0 &&
-          tab.routerProps[ tab.routerProps.exact.value === true ? 'linkIsExactActive' : 'linkIsActive' ].value === true &&
-          tab.routerProps.linkRoute.value.href.length > href.length
+          tab.routerProps !== void 0
+          && tab.routerProps[ tab.routerProps.exact.value === true ? 'linkIsExactActive' : 'linkIsActive' ].value === true
+          && tab.routerProps.linkRoute.value.href.length > href.length
         ) {
           href = tab.routerProps.linkRoute.value.href
           name = tab.name.value
@@ -421,8 +421,8 @@ export default defineComponent({
 
       arrowsEnabled.value === true && child.push(
         h(QIcon, {
-          class: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon' +
-            (leftArrow.value === true ? '' : ' q-tabs__arrow--faded'),
+          class: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon'
+            + (leftArrow.value === true ? '' : ' q-tabs__arrow--faded'),
           name: props.leftIcon || $q.iconSet.tabs[ props.vertical === true ? 'up' : 'left' ],
           onMousedown: scrollToStart,
           onTouchstart: scrollToStart,
@@ -432,8 +432,8 @@ export default defineComponent({
         }),
 
         h(QIcon, {
-          class: 'q-tabs__arrow q-tabs__arrow--right absolute q-tab__icon' +
-            (rightArrow.value === true ? '' : ' q-tabs__arrow--faded'),
+          class: 'q-tabs__arrow q-tabs__arrow--right absolute q-tab__icon'
+            + (rightArrow.value === true ? '' : ' q-tabs__arrow--faded'),
           name: props.rightIcon || $q.iconSet.tabs[ props.vertical === true ? 'down' : 'right' ],
           onMousedown: scrollToEnd,
           onTouchstart: scrollToEnd,

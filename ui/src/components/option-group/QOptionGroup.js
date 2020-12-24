@@ -67,8 +67,8 @@ export default defineComponent({
     const component = computed(() => components[ props.type ])
 
     const classes = computed(() =>
-      'q-option-group q-gutter-x-sm' +
-      (props.inline === true ? ' q-option-group--inline' : '')
+      'q-option-group q-gutter-x-sm'
+      + (props.inline === true ? ' q-option-group--inline' : '')
     )
 
     const attrs = computed(() => {

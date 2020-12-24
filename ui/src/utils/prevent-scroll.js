@@ -96,8 +96,8 @@ function apply (action) {
     bodyLeft = body.style.left
     bodyTop = body.style.top
 
-    body.style.left = `-${scrollPositionX}px`
-    body.style.top = `-${scrollPositionY}px`
+    body.style.left = `-${ scrollPositionX }px`
+    body.style.top = `-${ scrollPositionY }px`
 
     if (overflowX !== 'hidden' && (overflowX === 'scroll' || body.scrollWidth > window.innerWidth)) {
       body.classList.add('q-body--force-scrollbar-x')
@@ -123,7 +123,7 @@ function apply (action) {
 
   if (client.is.desktop === true && client.is.mac === true) {
     // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention
-    window[ `${action}EventListener` ]('wheel', onWheel, listenOpts.notPassive)
+    window[ `${ action }EventListener` ]('wheel', onWheel, listenOpts.notPassive)
   }
 
   if (action === 'remove') {

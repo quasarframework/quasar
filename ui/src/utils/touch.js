@@ -45,17 +45,17 @@ export function getModifierDirections (mod) {
 }
 
 export const getTouchTarget = __QUASAR_SSR_SERVER__ !== true && iosEmulated !== true && (
-  client.is.ios === true ||
-  window.navigator.vendor.toLowerCase().indexOf('apple') > -1
+  client.is.ios === true
+  || window.navigator.vendor.toLowerCase().indexOf('apple') > -1
 )
   ? () => document
   : target => target
 
 export function shouldStart (evt, ctx) {
-  return ctx.event === void 0 &&
-    evt.target !== void 0 &&
-    evt.target.draggable !== true &&
-    typeof ctx.handler === 'function' &&
-    evt.target.nodeName.toUpperCase() !== 'INPUT' &&
-    (evt.qClonedBy === void 0 || evt.qClonedBy.indexOf(ctx.uid) === -1)
+  return ctx.event === void 0
+    && evt.target !== void 0
+    && evt.target.draggable !== true
+    && typeof ctx.handler === 'function'
+    && evt.target.nodeName.toUpperCase() !== 'INPUT'
+    && (evt.qClonedBy === void 0 || evt.qClonedBy.indexOf(ctx.uid) === -1)
 }

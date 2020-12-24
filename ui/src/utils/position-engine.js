@@ -36,15 +36,15 @@ const horizontalPos = {
 }
 
 ;[ 'left', 'middle', 'right' ].forEach(pos => {
-  horizontalPos[ `${pos}#ltr` ] = pos
-  horizontalPos[ `${pos}#rtl` ] = pos
+  horizontalPos[ `${ pos }#ltr` ] = pos
+  horizontalPos[ `${ pos }#rtl` ] = pos
 })
 
 export function parsePosition (pos, rtl) {
   const parts = pos.split(' ')
   return {
     vertical: parts[ 0 ],
-    horizontal: horizontalPos[ `${parts[ 1 ]}#${rtl === true ? 'rtl' : 'ltr'}` ]
+    horizontal: horizontalPos[ `${ parts[ 1 ] }#${ rtl === true ? 'rtl' : 'ltr' }` ]
   }
 }
 

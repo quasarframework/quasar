@@ -34,24 +34,24 @@ export default defineComponent({
     const $q = useQuasar()
     const { isDark } = useDark(props, $q)
 
-    const orientation = computed(() =>
+    const orientation = computed(() => (
       props.vertical === true
         ? 'vertical'
         : 'horizontal'
-    )
+    ))
 
-    const classPrefix = computed(() => ` q-separator--${orientation.value}`)
+    const classPrefix = computed(() => ` q-separator--${ orientation.value }`)
 
-    const insetClass = computed(() =>
+    const insetClass = computed(() => (
       props.inset !== false
-        ? `${classPrefix.value}-${insetMap[ props.inset ]}`
+        ? `${ classPrefix.value }-${ insetMap[ props.inset ] }`
         : ''
-    )
+    ))
 
     const classes = computed(() =>
-      `q-separator q-separator${classPrefix.value}${insetClass.value}` +
-      (props.color !== void 0 ? ` bg-${props.color}` : '') +
-      (isDark.value === true ? ' q-separator--dark' : '')
+      `q-separator q-separator${ classPrefix.value }${ insetClass.value }`
+      + (props.color !== void 0 ? ` bg-${ props.color }` : '')
+      + (isDark.value === true ? ' q-separator--dark' : '')
     )
 
     const style = computed(() => {
@@ -63,14 +63,14 @@ export default defineComponent({
 
       if (props.spaced !== false) {
         const size = props.spaced === true
-          ? `${margins.md}px`
-          : props.spaced in margins ? `${margins[ props.spaced ]}px` : props.spaced
+          ? `${ margins.md }px`
+          : props.spaced in margins ? `${ margins[ props.spaced ] }px` : props.spaced
 
         const dir = props.vertical === true
           ? [ 'Left', 'Right' ]
           : [ 'Top', 'Bottom' ]
 
-        acc[ `margin${dir[ 0 ]}` ] = acc[ `margin${dir[ 1 ]}` ] = size
+        acc[ `margin${ dir[ 0 ] }` ] = acc[ `margin${ dir[ 1 ] }` ] = size
       }
 
       return acc

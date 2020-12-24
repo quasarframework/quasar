@@ -31,14 +31,14 @@ export default defineComponent({
     const { isDark } = useDark(props, $q)
 
     const classes = computed(() =>
-      'q-markup-table q-table__container q-table__card' +
-      ` q-table--${props.separator}-separator` +
-      (isDark.value === true ? ' q-table--dark q-table__card--dark q-dark' : '') +
-      (props.dense === true ? ' q-table--dense' : '') +
-      (props.flat === true ? ' q-table--flat' : '') +
-      (props.bordered === true ? ' q-table--bordered' : '') +
-      (props.square === true ? ' q-table--square' : '') +
-      (props.wrapCells === false ? ' q-table--no-wrap' : '')
+      'q-markup-table q-table__container q-table__card'
+      + ` q-table--${ props.separator }-separator`
+      + (isDark.value === true ? ' q-table--dark q-table__card--dark q-dark' : '')
+      + (props.dense === true ? ' q-table--dense' : '')
+      + (props.flat === true ? ' q-table--flat' : '')
+      + (props.bordered === true ? ' q-table--bordered' : '')
+      + (props.square === true ? ' q-table--square' : '')
+      + (props.wrapCells === false ? ' q-table--no-wrap' : '')
     )
 
     return () => h('div', {

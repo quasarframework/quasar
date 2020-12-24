@@ -127,27 +127,27 @@ export default {
     },
 
     sassExport () {
-      return '// src/css/quasar.variables.sass\n\n' +
-        `$primary   : ${this.colors.primary}\n` +
-        `$secondary : ${this.colors.secondary}\n` +
-        `$accent    : ${this.colors.accent}\n\n` +
-        `$dark      : ${this.colors.dark}\n\n` +
-        `$positive  : ${this.colors.positive}\n` +
-        `$negative  : ${this.colors.negative}\n` +
-        `$info      : ${this.colors.info}\n` +
-        `$warning   : ${this.colors.warning}`
+      return '// src/css/quasar.variables.sass\n\n'
+        + `$primary   : ${ this.colors.primary }\n`
+        + `$secondary : ${ this.colors.secondary }\n`
+        + `$accent    : ${ this.colors.accent }\n\n`
+        + `$dark      : ${ this.colors.dark }\n\n`
+        + `$positive  : ${ this.colors.positive }\n`
+        + `$negative  : ${ this.colors.negative }\n`
+        + `$info      : ${ this.colors.info }\n`
+        + `$warning   : ${ this.colors.warning }`
     },
 
     scssExport () {
-      return '// src/css/quasar.variables.scss\n\n' +
-        `$primary   : ${this.colors.primary};\n` +
-        `$secondary : ${this.colors.secondary};\n` +
-        `$accent    : ${this.colors.accent};\n\n` +
-        `$dark      : ${this.colors.dark};\n\n` +
-        `$positive  : ${this.colors.positive};\n` +
-        `$negative  : ${this.colors.negative};\n` +
-        `$info      : ${this.colors.info};\n` +
-        `$warning   : ${this.colors.warning};`
+      return '// src/css/quasar.variables.scss\n\n'
+        + `$primary   : ${ this.colors.primary };\n`
+        + `$secondary : ${ this.colors.secondary };\n`
+        + `$accent    : ${ this.colors.accent };\n\n`
+        + `$dark      : ${ this.colors.dark };\n\n`
+        + `$positive  : ${ this.colors.positive };\n`
+        + `$negative  : ${ this.colors.negative };\n`
+        + `$info      : ${ this.colors.info };\n`
+        + `$warning   : ${ this.colors.warning };`
     },
 
     quasarCliExport () {
@@ -158,16 +158,16 @@ return {
   framework: {
     config: {
       brand: {
-        primary: '${this.colors.primary}',
-        secondary: '${this.colors.secondary}',
-        accent: '${this.colors.accent}',
+        primary: '${ this.colors.primary }',
+        secondary: '${ this.colors.secondary }',
+        accent: '${ this.colors.accent }',
 
-        dark: '${this.colors.dark}',
+        dark: '${ this.colors.dark }',
 
-        positive: '${this.colors.positive}',
-        negative: '${this.colors.negative}',
-        info: '${this.colors.info}',
-        warning: '${this.colors.warning}'
+        positive: '${ this.colors.positive }',
+        negative: '${ this.colors.negative }',
+        info: '${ this.colors.info }',
+        warning: '${ this.colors.warning }'
       }
     }
   }
@@ -180,16 +180,16 @@ return {
 
 window.quasarConfig = {
   brand: {
-    primary: '${this.colors.primary}',
-    secondary: '${this.colors.secondary}',
-    accent: '${this.colors.accent}',
+    primary: '${ this.colors.primary }',
+    secondary: '${ this.colors.secondary }',
+    accent: '${ this.colors.accent }',
 
-    dark: '${this.colors.dark}',
+    dark: '${ this.colors.dark }',
 
-    positive: '${this.colors.positive}',
-    negative: '${this.colors.negative}',
-    info: '${this.colors.info}',
-    warning: '${this.colors.warning}'
+    positive: '${ this.colors.positive }',
+    negative: '${ this.colors.negative }',
+    info: '${ this.colors.info }',
+    warning: '${ this.colors.warning }'
   }
 }`
     },
@@ -201,16 +201,16 @@ window.quasarConfig = {
 Vue.use(Quasar, {
   config: {
     brand: {
-      primary: '${this.colors.primary}',
-      secondary: '${this.colors.secondary}',
-      accent: '${this.colors.accent}',
+      primary: '${ this.colors.primary }',
+      secondary: '${ this.colors.secondary }',
+      accent: '${ this.colors.accent }',
 
-      dark: '${this.colors.dark}',
+      dark: '${ this.colors.dark }',
 
-      positive: '${this.colors.positive}',
-      negative: '${this.colors.negative}',
-      info: '${this.colors.info}',
-      warning: '${this.colors.warning}'
+      positive: '${ this.colors.positive }',
+      negative: '${ this.colors.negative }',
+      info: '${ this.colors.info }',
+      warning: '${ this.colors.warning }'
     }
   }
 })`

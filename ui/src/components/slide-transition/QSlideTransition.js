@@ -31,9 +31,9 @@ export default defineComponent({
     function begin (el, height, done) {
       el.style.overflowY = 'hidden'
       if (height !== void 0) {
-        el.style.height = `${height}px`
+        el.style.height = `${ height }px`
       }
-      el.style.transition = `height ${props.duration}ms cubic-bezier(.25, .8, .50, 1)`
+      el.style.transition = `height ${ props.duration }ms cubic-bezier(.25, .8, .50, 1)`
 
       animating = true
       doneFn = done
@@ -62,7 +62,7 @@ export default defineComponent({
       begin(el, pos, done)
 
       timer = setTimeout(() => {
-        el.style.height = `${el.scrollHeight}px`
+        el.style.height = `${ el.scrollHeight }px`
         animListener = ev => {
           if (Object(ev) !== ev || ev.target === el) {
             end(el, 'show')

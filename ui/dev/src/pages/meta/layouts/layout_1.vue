@@ -26,10 +26,10 @@ export default {
   setup () {
     useMeta({
       title: 'LayoutDefault',
-      titleTemplate: chunk => `${chunk} - My Website`,
+      titleTemplate: chunk => `${ chunk } - My Website`,
       meta: {
         // description: { name: 'description', content: 'Layout 1' }
-        description: { template: chunk => `${chunk} - Layout 1` }
+        description: { template: chunk => `${ chunk } - Layout 1` }
       }
     })
   }

@@ -26,7 +26,7 @@ export default function (props) {
         ? props.vertical === true ? 'stretch' : 'left'
         : props.align
 
-      return `${props.vertical === true ? 'items' : 'justify'}-${alignMap[ align ]}`
+      return `${ props.vertical === true ? 'items' : 'justify' }-${ alignMap[ align ] }`
     })
   }
 }

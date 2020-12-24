@@ -84,19 +84,19 @@ export default defineComponent({
     let lastDesktopState, timerMini, layoutTotalWidthWatcher
 
     const belowBreakpoint = ref(
-      props.behavior === 'mobile' ||
-      (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
+      props.behavior === 'mobile'
+      || (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
     )
 
     const isMini = computed(() =>
       props.mini === true && belowBreakpoint.value !== true
     )
 
-    const size = computed(() =>
+    const size = computed(() => (
       isMini.value === true
         ? props.miniWidth
         : props.width
-    )
+    ))
 
     const showing = ref(
       props.showIfAbove === true && belowBreakpoint.value === false
@@ -105,8 +105,8 @@ export default defineComponent({
     )
 
     const hideOnRouteChange = computed(() =>
-      props.persistent !== true &&
-      (belowBreakpoint.value === true || onScreenOverlay.value === true)
+      props.persistent !== true
+      && (belowBreakpoint.value === true || onScreenOverlay.value === true)
     )
 
     function handleShow (evt, noEvent) {
@@ -180,71 +180,71 @@ export default defineComponent({
       size.value * stateDirection.value
     )
 
-    const otherSide = computed(() => rightSide.value === true ? 'left' : 'right')
-    const offset = computed(() =>
+    const otherSide = computed(() => (rightSide.value === true ? 'left' : 'right'))
+    const offset = computed(() => (
       showing.value === true && belowBreakpoint.value === false && props.overlay === false
         ? (props.miniToOverlay === true ? props.miniWidth : size.value)
         : 0
-    )
+    ))
 
     const fixed = computed(() =>
-      props.overlay === true ||
-      props.miniToOverlay === true ||
-      $layout.view.indexOf(rightSide.value ? 'R' : 'L') > -1 ||
-      ($q.platform.is.ios === true && $layout.container === true)
+      props.overlay === true
+      || props.miniToOverlay === true
+      || $layout.view.indexOf(rightSide.value ? 'R' : 'L') > -1
+      || ($q.platform.is.ios === true && $layout.container === true)
     )
 
     const onLayout = computed(() =>
-      props.overlay === false &&
-      showing.value === true &&
-      belowBreakpoint.value === false
+      props.overlay === false
+      && showing.value === true
+      && belowBreakpoint.value === false
     )
 
     const onScreenOverlay = computed(() =>
-      props.overlay === true &&
-      showing.value === true &&
-      belowBreakpoint.value === false
+      props.overlay === true
+      && showing.value === true
+      && belowBreakpoint.value === false
     )
 
     const backdropClass = computed(() =>
-      'fullscreen q-drawer__backdrop' +
-      (showing.value === false && flagPanning.value === false ? ' hidden' : '')
+      'fullscreen q-drawer__backdrop'
+      + (showing.value === false && flagPanning.value === false ? ' hidden' : '')
     )
 
     const backdropStyle = computed(() => ({
-      backgroundColor: `rgba(0,0,0,${flagBackdropBg.value * 0.4})`
+      backgroundColor: `rgba(0,0,0,${ flagBackdropBg.value * 0.4 })`
     }))
 
-    const headerSlot = computed(() =>
+    const headerSlot = computed(() => (
       rightSide.value === true
         ? $layout.rows.value.top[ 2 ] === 'r'
         : $layout.rows.value.top[ 0 ] === 'l'
-    )
+    ))
 
-    const footerSlot = computed(() =>
+    const footerSlot = computed(() => (
       rightSide.value === true
         ? $layout.rows.value.bottom[ 2 ] === 'r'
         : $layout.rows.value.bottom[ 0 ] === 'l'
-    )
+    ))
 
     const aboveStyle = computed(() => {
       const css = {}
 
       if ($layout.header.space === true && headerSlot.value === false) {
         if (fixed.value === true) {
-          css.top = `${$layout.header.offset}px`
+          css.top = `${ $layout.header.offset }px`
         }
         else if ($layout.header.space === true) {
-          css.top = `${$layout.header.size}px`
+          css.top = `${ $layout.header.size }px`
         }
       }
 
       if ($layout.footer.space === true && footerSlot.value === false) {
         if (fixed.value === true) {
-          css.bottom = `${$layout.footer.offset}px`
+          css.bottom = `${ $layout.footer.offset }px`
         }
         else if ($layout.footer.space === true) {
-          css.bottom = `${$layout.footer.size}px`
+          css.bottom = `${ $layout.footer.size }px`
         }
       }
 
@@ -253,8 +253,8 @@ export default defineComponent({
 
     const style = computed(() => {
       const style = {
-        width: `${size.value}px`,
-        transform: `translateX(${flagContentPosition.value}px)`
+        width: `${ size.value }px`,
+        transform: `translateX(${ flagContentPosition.value }px)`
       }
 
       return belowBreakpoint.value === true
@@ -263,22 +263,22 @@ export default defineComponent({
     })
 
     const classes = computed(() =>
-      `q-drawer q-drawer--${props.side}` +
-      (flagMiniAnimate.value === true ? ' q-drawer--mini-animate' : '') +
-      (props.bordered === true ? ' q-drawer--bordered' : '') +
-      (isDark.value === true ? ' q-drawer--dark q-dark' : '') +
-      (
+      `q-drawer q-drawer--${ props.side }`
+      + (flagMiniAnimate.value === true ? ' q-drawer--mini-animate' : '')
+      + (props.bordered === true ? ' q-drawer--bordered' : '')
+      + (isDark.value === true ? ' q-drawer--dark q-dark' : '')
+      + (
         flagPanning.value === true
           ? ' no-transition'
           : (showing.value === true ? '' : ' q-layout--prevent-focus')
-      ) +
-      (
+      )
+      + (
         belowBreakpoint.value === true
           ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'
-          : ` q-drawer--${isMini.value === true ? 'mini' : 'standard'}` +
-          (fixed.value === true || onLayout.value !== true ? ' fixed' : '') +
-          (props.overlay === true || props.miniToOverlay === true ? ' q-drawer--on-top' : '') +
-          (headerSlot.value === true ? ' q-drawer--top-padding' : '')
+          : ` q-drawer--${ isMini.value === true ? 'mini' : 'standard' }`
+          + (fixed.value === true || onLayout.value !== true ? ' fixed' : '')
+          + (props.overlay === true || props.miniToOverlay === true ? ' q-drawer--on-top' : '')
+          + (headerSlot.value === true ? ' q-drawer--top-padding' : '')
       )
     )
 
@@ -334,9 +334,9 @@ export default defineComponent({
         showing.value === true && hide(false)
       }
       else if (
-        props.overlay === false &&
-        props.behavior !== 'mobile' &&
-        lastDesktopState !== false
+        props.overlay === false
+        && props.behavior !== 'mobile'
+        && lastDesktopState !== false
       ) { // from xs to lg
         if (showing.value === true) {
           applyPosition(0)
@@ -351,8 +351,8 @@ export default defineComponent({
 
     watch($layout.totalWidth, val => {
       updateLocal(belowBreakpoint, (
-        props.behavior === 'mobile' ||
-        (props.behavior !== 'desktop' && val <= props.breakpoint)
+        props.behavior === 'mobile'
+        || (props.behavior !== 'desktop' && val <= props.breakpoint)
       ))
     })
 
@@ -417,9 +417,9 @@ export default defineComponent({
       }
       else {
         if (
-          $layout.container === true &&
-          rightSide.value === true &&
-          (belowBreakpoint.value === true || Math.abs(position) === size.value)
+          $layout.container === true
+          && rightSide.value === true
+          && (belowBreakpoint.value === true || Math.abs(position) === size.value)
         ) {
           position += stateDirection.value * $layout.scrollbarWidth.value
         }
@@ -430,8 +430,8 @@ export default defineComponent({
 
     function updateBelowBreakpoint () {
       updateLocal(belowBreakpoint, (
-        props.behavior === 'mobile' ||
-        (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
+        props.behavior === 'mobile'
+        || (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
       ))
     }
 
@@ -565,10 +565,10 @@ export default defineComponent({
     updateLayout('offset', offset.value)
 
     if (
-      props.showIfAbove === true &&
-      props.modelValue !== true &&
-      showing.value === true &&
-      vm.vnode.props[ 'onUpdate:modelValue' ] === true
+      props.showIfAbove === true
+      && props.modelValue !== true
+      && showing.value === true
+      && vm.vnode.props[ 'onUpdate:modelValue' ] === true
     ) {
       emit('update:modelValue', true)
     }
@@ -626,7 +626,7 @@ export default defineComponent({
           withDirectives(
             h('div', {
               key: 'open',
-              class: `q-drawer__opener fixed-${props.side}`,
+              class: `q-drawer__opener fixed-${ props.side }`,
               'aria-hidden': 'true'
             }),
             openDirective.value

@@ -134,8 +134,8 @@ export default defineComponent({
         innerValue.value = v
 
         if (
-          props.type === 'number' &&
-          temp.hasOwnProperty('value') === true
+          props.type === 'number'
+          && temp.hasOwnProperty('value') === true
         ) {
           if (typedNumber === true) {
             typedNumber = false
@@ -168,10 +168,10 @@ export default defineComponent({
     function focus () {
       const el = document.activeElement
       if (
-        inputRef.value !== null &&
-        inputRef.value !== el &&
+        inputRef.value !== null
+        && inputRef.value !== el
         // IE can have null document.activeElement
-        (el === null || el.id !== state.targetUid.value)
+        && (el === null || el.id !== state.targetUid.value)
       ) {
         inputRef.value.focus()
       }
@@ -217,8 +217,8 @@ export default defineComponent({
     function emitValue (val, stopWatcher) {
       emitValueFn = () => {
         if (
-          props.type !== 'number' &&
-          temp.hasOwnProperty('value') === true
+          props.type !== 'number'
+          && temp.hasOwnProperty('value') === true
         ) {
           delete temp.value
         }
@@ -313,14 +313,14 @@ export default defineComponent({
       innerValue,
 
       fieldClass: computed(() =>
-        `q-${isTextarea.value === true ? 'textarea' : 'input'}` +
-        (props.autogrow === true ? ' q-textarea--autogrow' : '')
+        `q-${ isTextarea.value === true ? 'textarea' : 'input' }`
+        + (props.autogrow === true ? ' q-textarea--autogrow' : '')
       ),
 
       hasShadow: computed(() =>
-        props.type !== 'file' &&
-        typeof props.shadowText === 'string' &&
-        props.shadowText.length > 0
+        props.type !== 'file'
+        && typeof props.shadowText === 'string'
+        && props.shadowText.length > 0
       ),
 
       inputRef,
@@ -330,8 +330,8 @@ export default defineComponent({
       hasValue,
 
       floatingLabel: computed(() =>
-        hasValue.value === true ||
-        fieldValueIsFilled(props.displayValue)
+        hasValue.value === true
+        || fieldValueIsFilled(props.displayValue)
       ),
 
       getControl: () => {
@@ -354,8 +354,8 @@ export default defineComponent({
 
       getShadowControl: () => {
         return h('div', {
-          class: 'q-field__native q-field__shadow absolute-bottom no-pointer-events' +
-            (isTextarea.value === true ? '' : ' text-no-wrap')
+          class: 'q-field__native q-field__shadow absolute-bottom no-pointer-events'
+            + (isTextarea.value === true ? '' : ' text-no-wrap')
         }, [
           h('span', { class: 'invisible' }, getCurValue()),
           h('span', props.shadowText)

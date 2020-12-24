@@ -21,16 +21,16 @@ export default defineComponent({
       const css = {}
 
       if ($layout.header.space === true) {
-        css.paddingTop = `${$layout.header.size}px`
+        css.paddingTop = `${ $layout.header.size }px`
       }
       if ($layout.right.space === true) {
-        css[ `padding${$q.lang.rtl === true ? 'Left' : 'Right'}` ] = `${$layout.right.size}px`
+        css[ `padding${ $q.lang.rtl === true ? 'Left' : 'Right' }` ] = `${ $layout.right.size }px`
       }
       if ($layout.footer.space === true) {
-        css.paddingBottom = `${$layout.footer.size}px`
+        css.paddingBottom = `${ $layout.footer.size }px`
       }
       if ($layout.left.space === true) {
-        css[ `padding${$q.lang.rtl === true ? 'Right' : 'Left'}` ] = `${$layout.left.size}px`
+        css[ `padding${ $q.lang.rtl === true ? 'Right' : 'Left' }` ] = `${ $layout.left.size }px`
       }
 
       return css

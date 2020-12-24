@@ -10,7 +10,7 @@ export default function (
   let scrollFn
 
   function changeScrollEvent (scrollTarget, fn) {
-    const fnProp = `${fn !== void 0 ? 'add' : 'remove'}EventListener`
+    const fnProp = `${ fn !== void 0 ? 'add' : 'remove' }EventListener`
     const fnHandler = fn !== void 0 ? fn : scrollFn
 
     if (scrollTarget !== window) {

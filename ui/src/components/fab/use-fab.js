@@ -44,12 +44,12 @@ export const useFabProps = {
 export default function (props, showing) {
   return {
     formClass: computed(() =>
-      `q-fab--form-${props.square === true ? 'square' : 'rounded'}`
+      `q-fab--form-${ props.square === true ? 'square' : 'rounded' }`
     ),
 
     stacked: computed(() =>
-      props.externalLabel === false &&
-      [ 'top', 'bottom' ].includes(props.labelPosition)
+      props.externalLabel === false
+      && [ 'top', 'bottom' ].includes(props.labelPosition)
     ),
 
     labelProps: computed(() => {
@@ -63,9 +63,9 @@ export default function (props, showing) {
           data: {
             class: [
               props.labelClass,
-              'q-fab__label q-tooltip--style q-fab__label--external' +
-              ` q-fab__label--external-${props.labelPosition}` +
-              (hideLabel === true ? ' q-fab__label--external-hidden' : '')
+              'q-fab__label q-tooltip--style q-fab__label--external'
+              + ` q-fab__label--external-${ props.labelPosition }`
+              + (hideLabel === true ? ' q-fab__label--external-hidden' : '')
             ],
             style: props.labelStyle
           }
@@ -79,8 +79,8 @@ export default function (props, showing) {
         data: {
           class: [
             props.labelClass,
-            `q-fab__label q-fab__label--internal q-fab__label--internal-${props.labelPosition}` +
-            (props.hideLabel === true ? ' q-fab__label--internal-hidden' : '')
+            `q-fab__label q-fab__label--internal q-fab__label--internal-${ props.labelPosition }`
+            + (props.hideLabel === true ? ' q-fab__label--internal-hidden' : '')
           ],
           style: props.labelStyle
         }

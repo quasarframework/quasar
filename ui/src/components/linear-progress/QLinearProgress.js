@@ -17,8 +17,8 @@ const defaultSizes = {
 function width (val, reverse) {
   return {
     transform: reverse === true
-      ? `translateX(100%) scale3d(${-val},1,1)`
-      : `scale3d(${val},1,1)`
+      ? `translateX(100%) scale3d(${ -val },1,1)`
+      : `scale3d(${ val },1,1)`
   }
 }
 
@@ -55,28 +55,28 @@ export default defineComponent({
     const motion = computed(() => props.indeterminate === true || props.query === true)
 
     const classes = computed(() =>
-      'q-linear-progress' +
-      (props.color !== void 0 ? ` text-${props.color}` : '') +
-      (props.reverse === true || props.query === true ? ' q-linear-progress--reverse' : '') +
-      (props.rounded === true ? ' rounded-borders' : '')
+      'q-linear-progress'
+      + (props.color !== void 0 ? ` text-${ props.color }` : '')
+      + (props.reverse === true || props.query === true ? ' q-linear-progress--reverse' : '')
+      + (props.rounded === true ? ' rounded-borders' : '')
     )
 
     const trackStyle = computed(() => width(props.buffer !== void 0 ? props.buffer : 1, props.reverse))
     const trackClass = computed(() =>
-      'q-linear-progress__track absolute-full' +
-      ` q-linear-progress__track--with${props.instantFeedback === true ? 'out' : ''}-transition` +
-      ` q-linear-progress__track--${isDark.value === true ? 'dark' : 'light'}` +
-      (props.trackColor !== void 0 ? ` bg-${props.trackColor}` : '')
+      'q-linear-progress__track absolute-full'
+      + ` q-linear-progress__track--with${ props.instantFeedback === true ? 'out' : '' }-transition`
+      + ` q-linear-progress__track--${ isDark.value === true ? 'dark' : 'light' }`
+      + (props.trackColor !== void 0 ? ` bg-${ props.trackColor }` : '')
     )
 
     const modelStyle = computed(() => width(motion.value === true ? 1 : props.value, props.reverse))
     const modelClass = computed(() =>
-      'q-linear-progress__model absolute-full' +
-      ` q-linear-progress__model--with${props.instantFeedback === true ? 'out' : ''}-transition` +
-      ` q-linear-progress__model--${motion.value === true ? 'in' : ''}determinate`
+      'q-linear-progress__model absolute-full'
+      + ` q-linear-progress__model--with${ props.instantFeedback === true ? 'out' : '' }-transition`
+      + ` q-linear-progress__model--${ motion.value === true ? 'in' : '' }determinate`
     )
 
-    const stripeStyle = computed(() => ({ width: `${props.value * 100}%` }))
+    const stripeStyle = computed(() => ({ width: `${ props.value * 100 }%` }))
 
     return () => {
       const child = [

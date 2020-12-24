@@ -119,12 +119,12 @@ export default defineComponent({
 
     const classes = computed(() => {
       const type = props.landscape === true ? 'landscape' : 'portrait'
-      return `q-date q-date--${type} q-date--${type}-${props.minimal === true ? 'minimal' : 'standard'}` +
-        (isDark.value === true ? ' q-date--dark q-dark' : '') +
-        (props.bordered === true ? ' q-date--bordered' : '') +
-        (props.square === true ? ' q-date--square no-border-radius' : '') +
-        (props.flat === true ? ' q-date--flat no-shadow' : '') +
-        (props.disable === true ? ' disabled' : (props.readonly === true ? ' q-date--readonly' : ''))
+      return `q-date q-date--${ type } q-date--${ type }-${ props.minimal === true ? 'minimal' : 'standard' }`
+        + (isDark.value === true ? ' q-date--dark q-dark' : '')
+        + (props.bordered === true ? ' q-date--bordered' : '')
+        + (props.square === true ? ' q-date--square no-border-radius' : '')
+        + (props.flat === true ? ' q-date--flat no-shadow' : '')
+        + (props.disable === true ? ' disabled' : (props.readonly === true ? ' q-date--readonly' : ''))
     })
 
     const computedColor = computed(() => {
@@ -136,16 +136,16 @@ export default defineComponent({
     })
 
     const isImmediate = computed(() =>
-      props.emitImmediately === true &&
-      props.multiple !== true &&
-      props.range !== true
+      props.emitImmediately === true
+      && props.multiple !== true
+      && props.range !== true
     )
 
-    const normalizedModel = computed(() =>
+    const normalizedModel = computed(() => (
       Array.isArray(props.modelValue) === true
         ? props.modelValue
         : (props.modelValue !== null && props.modelValue !== void 0 ? [props.modelValue] : [])
-    )
+    ))
 
     const daysModel = computed(() =>
       normalizedModel.value
@@ -162,16 +162,16 @@ export default defineComponent({
         .filter(range => range.from.dateHash !== null && range.to.dateHash !== null && range.from.dateHash < range.to.dateHash)
     })
 
-    const getNativeDateFn = computed(() =>
+    const getNativeDateFn = computed(() => (
       props.calendar !== 'persian'
         ? model => new Date(model.year, model.month - 1, model.day)
         : model => {
           const gDate = toGregorian(model.year, model.month, model.day)
           return new Date(gDate.gy, gDate.gm - 1, gDate.gd)
         }
-    )
+    ))
 
-    const encodeObjectFn = computed(() =>
+    const encodeObjectFn = computed(() => (
       props.calendar === 'persian'
         ? getDayHash
         : (date, mask, locale) => formatDate(
@@ -189,7 +189,7 @@ export default defineComponent({
             date.year,
             date.timezoneOffset
           )
-    )
+    ))
 
     const daysInModel = computed(() =>
       daysModel.value.length + rangeModel.value.reduce(
@@ -210,9 +210,9 @@ export default defineComponent({
         const model = editRange.value.init
         const date = getNativeDateFn.value(model)
 
-        return innerLocale.value.daysShort[ date.getDay() ] + ', ' +
-          innerLocale.value.monthsShort[ model.month - 1 ] + ' ' +
-          model.day + lineStr + '?'
+        return innerLocale.value.daysShort[ date.getDay() ] + ', '
+          + innerLocale.value.monthsShort[ model.month - 1 ] + ' '
+          + model.day + lineStr + '?'
       }
 
       if (daysInModel.value === 0) {
@@ -220,7 +220,7 @@ export default defineComponent({
       }
 
       if (daysInModel.value > 1) {
-        return `${daysInModel.value} ${innerLocale.value.pluralDay}`
+        return `${ daysInModel.value } ${ innerLocale.value.pluralDay }`
       }
 
       const model = daysModel.value[ 0 ]
@@ -234,9 +234,9 @@ export default defineComponent({
         return innerLocale.value.headerTitle(date, model)
       }
 
-      return innerLocale.value.daysShort[ date.getDay() ] + ', ' +
-        innerLocale.value.monthsShort[ model.month - 1 ] + ' ' +
-        model.day
+      return innerLocale.value.daysShort[ date.getDay() ] + ', '
+        + innerLocale.value.monthsShort[ model.month - 1 ] + ' '
+        + model.day
     })
 
     const minSelectedModel = computed(() => {
@@ -286,11 +286,11 @@ export default defineComponent({
       return $q.lang.rtl === true ? val.reverse() : val
     })
 
-    const computedFirstDayOfWeek = computed(() =>
+    const computedFirstDayOfWeek = computed(() => (
       props.firstDayOfWeek !== void 0
         ? Number(props.firstDayOfWeek)
         : innerLocale.value.firstDayOfWeek
-    )
+    ))
 
     const daysOfWeek = computed(() => {
       const
@@ -309,11 +309,11 @@ export default defineComponent({
         : jalaaliMonthLength(date.year, date.month)
     })
 
-    const evtColor = computed(() =>
+    const evtColor = computed(() => (
       typeof props.eventColor === 'function'
         ? props.eventColor
         : () => props.eventColor
-    )
+    ))
 
     const minNav = computed(() => {
       if (props.navigationMinYearMonth === void 0) {
@@ -662,18 +662,18 @@ export default defineComponent({
           cls += 'q-date__calendar-item--fill'
         }
         else {
-          cls += `q-date__calendar-item--${day.in === true ? 'in' : 'out'}`
+          cls += `q-date__calendar-item--${ day.in === true ? 'in' : 'out' }`
 
           if (day.range !== void 0) {
-            cls += ` q-date__range${day.rangeTo === true ? '-to' : (day.rangeFrom === true ? '-from' : '')}`
+            cls += ` q-date__range${ day.rangeTo === true ? '-to' : (day.rangeFrom === true ? '-from' : '') }`
           }
 
           if (day.editRange === true) {
-            cls += ` q-date__edit-range${day.editRangeFrom === true ? '-from' : ''}${day.editRangeTo === true ? '-to' : ''}`
+            cls += ` q-date__edit-range${ day.editRangeFrom === true ? '-from' : '' }${ day.editRangeTo === true ? '-to' : '' }`
           }
 
           if (day.range !== void 0 || day.editRange === true) {
-            cls += ` text-${day.color}`
+            cls += ` text-${ day.color }`
           }
         }
 
@@ -683,11 +683,11 @@ export default defineComponent({
       return res
     })
 
-    const attributes = computed(() =>
+    const attributes = computed(() => (
       props.disable === true
         ? { 'aria-disabled': 'true' }
         : (props.readonly === true ? { 'aria-readonly': 'true' } : {})
-    )
+    ))
 
     watch(() => props.modelValue, v => {
       if (lastEmitValue === v) {
@@ -956,7 +956,7 @@ export default defineComponent({
     function getEmitParams (action, date) {
       return date.from !== void 0
         ? {
-            reason: `${action}-range`,
+            reason: `${ action }-range`,
             details: {
               ...getShortDate(date.target),
               from: getShortDate(date.from),
@@ -964,7 +964,7 @@ export default defineComponent({
             }
           }
         : {
-            reason: `${action}-day`,
+            reason: `${ action }-day`,
             details: getShortDate(date)
           }
     }
@@ -1018,9 +1018,11 @@ export default defineComponent({
 
         if (date.from !== void 0) {
           model = props.modelValue.filter(
-            date => date.from !== void 0
-              ? (date.from !== val.from && date.to !== val.to)
-              : true
+            date => (
+              date.from !== void 0
+                ? (date.from !== val.from && date.to !== val.to)
+                : true
+            )
           )
         }
         else {
@@ -1067,8 +1069,8 @@ export default defineComponent({
             name: 'q-transition--fade'
           }, () => h('div', {
             key: 'h-yr-' + headerSubtitle.value,
-            class: 'q-date__header-subtitle q-date__header-link ' +
-              (view.value === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer'),
+            class: 'q-date__header-subtitle q-date__header-link '
+              + (view.value === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer'),
             tabindex: tabindex.value,
             ...getCache('vY', {
               onClick: () => { view.value = 'Years' },
@@ -1087,8 +1089,8 @@ export default defineComponent({
               name: 'q-transition--fade'
             }, () => h('div', {
               key: 'h-sub' + headerTitle.value,
-              class: 'q-date__header-title-label q-date__header-link ' +
-                (view.value === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer'),
+              class: 'q-date__header-title-label q-date__header-link '
+                + (view.value === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer'),
               tabindex: tabindex.value,
               ...getCache('vC', {
                 onClick: () => { view.value = 'Calendar' },
@@ -1230,8 +1232,8 @@ export default defineComponent({
         const currentYear = viewModel.value.year === today.value.year
         const isDisabled = month => {
           return (
-            (minNav.value !== null && viewModel.value.year === minNav.value.year && minNav.value.month > month) ||
-            (maxNav.value !== null && viewModel.value.year === maxNav.value.year && maxNav.value.month < month)
+            (minNav.value !== null && viewModel.value.year === minNav.value.year && minNav.value.month > month)
+            || (maxNav.value !== null && viewModel.value.year === maxNav.value.year && maxNav.value.month < month)
           )
         }
 
@@ -1283,8 +1285,8 @@ export default defineComponent({
 
         const isDisabled = year => {
           return (
-            (minNav.value !== null && minNav.value.year > year) ||
-            (maxNav.value !== null && maxNav.value.year < year)
+            (minNav.value !== null && minNav.value.year > year)
+            || (maxNav.value !== null && maxNav.value.year < year)
           )
         }
 

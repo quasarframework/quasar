@@ -83,17 +83,17 @@ export default defineComponent({
     const spectrumRef = ref(null)
     const errorIconRef = ref(null)
 
-    const forceHex = computed(() =>
+    const forceHex = computed(() => (
       props.formatModel === 'auto'
         ? null
         : props.formatModel.indexOf('hex') > -1
-    )
+    ))
 
-    const forceAlpha = computed(() =>
+    const forceAlpha = computed(() => (
       props.formatModel === 'auto'
         ? null
         : props.formatModel.indexOf('a') > -1
-    )
+    ))
 
     const topView = ref(
       props.formatModel === 'auto'
@@ -111,17 +111,17 @@ export default defineComponent({
     const editable = computed(() => props.disable !== true && props.readonly !== true)
 
     const isHex = computed(() =>
-      props.modelValue === void 0 ||
-      props.modelValue === null ||
-      props.modelValue === '' ||
-      props.modelValue.startsWith('#')
+      props.modelValue === void 0
+      || props.modelValue === null
+      || props.modelValue === ''
+      || props.modelValue.startsWith('#')
     )
 
-    const isOutputHex = computed(() =>
+    const isOutputHex = computed(() => (
       forceHex.value !== null
         ? forceHex.value
         : isHex.value
-    )
+    ))
 
     const formAttrs = computed(() => ({
       type: 'hidden',
@@ -131,11 +131,11 @@ export default defineComponent({
 
     const injectFormInput = useFormInject(formAttrs)
 
-    const hasAlpha = computed(() =>
+    const hasAlpha = computed(() => (
       forceAlpha.value !== null
         ? forceAlpha.value
         : model.value.a !== void 0
-    )
+    ))
 
     const currentBgColor = computed(() => ({
       backgroundColor: model.value.rgb || '#000'
@@ -146,32 +146,32 @@ export default defineComponent({
         ? true
         : luminosity(model.value) > 0.4
 
-      return 'q-color-picker__header-content absolute-full' +
-        ` q-color-picker__header-content--${light ? 'light' : 'dark'}`
+      return 'q-color-picker__header-content absolute-full'
+        + ` q-color-picker__header-content--${ light ? 'light' : 'dark' }`
     })
 
     const spectrumStyle = computed(() => ({
-      background: `hsl(${model.value.h},100%,50%)`
+      background: `hsl(${ model.value.h },100%,50%)`
     }))
 
     const spectrumPointerStyle = computed(() => ({
-      top: `${100 - model.value.v}%`,
-      [ $q.lang.rtl === true ? 'right' : 'left' ]: `${model.value.s}%`
+      top: `${ 100 - model.value.v }%`,
+      [ $q.lang.rtl === true ? 'right' : 'left' ]: `${ model.value.s }%`
     }))
 
-    const computedPalette = computed(() =>
+    const computedPalette = computed(() => (
       props.palette !== void 0 && props.palette.length > 0
         ? props.palette
         : palette
-    )
+    ))
 
     const classes = computed(() =>
-      'q-color-picker' +
-      (props.bordered === true ? ' q-color-picker--bordered' : '') +
-      (props.square === true ? ' q-color-picker--square no-border-radius' : '') +
-      (props.flat === true ? ' q-color-picker--flat no-shadow' : '') +
-      (props.disable === true ? ' disabled' : '') +
-      (isDark.value === true ? ' q-color-picker--dark q-dark' : '')
+      'q-color-picker'
+      + (props.bordered === true ? ' q-color-picker--bordered' : '')
+      + (props.square === true ? ' q-color-picker--square no-border-radius' : '')
+      + (props.flat === true ? ' q-color-picker--flat no-shadow' : '')
+      + (props.disable === true ? ' disabled' : '')
+      + (isDark.value === true ? ' q-color-picker--dark q-dark' : '')
     )
 
     const attributes = computed(() => {
@@ -354,8 +354,8 @@ export default defineComponent({
 
       if (topView.value === 'hex') {
         if (
-          inp.length !== (hasAlpha.value === true ? 9 : 7) ||
-          !/^#[0-9A-Fa-f]+$/.test(inp)
+          inp.length !== (hasAlpha.value === true ? 9 : 7)
+          || !/^#[0-9A-Fa-f]+$/.test(inp)
         ) {
           return true
         }
@@ -372,8 +372,8 @@ export default defineComponent({
           model = inp.substring(4, inp.length - 1).split(',').map(n => parseInt(n, 10))
 
           if (
-            model.length !== 3 ||
-            !/^rgb\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\)$/.test(inp)
+            model.length !== 3
+            || !/^rgb\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\)$/.test(inp)
           ) {
             return true
           }
@@ -382,8 +382,8 @@ export default defineComponent({
           model = inp.substring(5, inp.length - 1).split(',')
 
           if (
-            model.length !== 4 ||
-            !/^rgba\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3},(0|0\.[0-9]+[1-9]|0\.[1-9]+|1)\)$/.test(inp)
+            model.length !== 4
+            || !/^rgba\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3},(0|0\.[0-9]+[1-9]|0\.[1-9]+|1)\)$/.test(inp)
           ) {
             return true
           }
@@ -407,10 +407,10 @@ export default defineComponent({
         }
 
         if (
-          model[ 0 ] < 0 || model[ 0 ] > 255 ||
-          model[ 1 ] < 0 || model[ 1 ] > 255 ||
-          model[ 2 ] < 0 || model[ 2 ] > 255 ||
-          (hasAlpha.value === true && (model[ 3 ] < 0 || model[ 3 ] > 1))
+          model[ 0 ] < 0 || model[ 0 ] > 255
+          || model[ 1 ] < 0 || model[ 1 ] > 255
+          || model[ 2 ] < 0 || model[ 2 ] > 255
+          || (hasAlpha.value === true && (model[ 3 ] < 0 || model[ 3 ] > 1))
         ) {
           return true
         }
@@ -618,8 +618,8 @@ export default defineComponent({
     function getSpectrumTab () {
       const data = {
         ref: spectrumRef,
-        class: 'q-color-picker__spectrum non-selectable relative-position cursor-pointer' +
-          (editable.value !== true ? ' readonly' : ''),
+        class: 'q-color-picker__spectrum non-selectable relative-position cursor-pointer'
+          + (editable.value !== true ? ' readonly' : ''),
         style: spectrumStyle.value,
         ...(editable.value === true
           ? {
@@ -793,8 +793,8 @@ export default defineComponent({
     function getPaletteTab () {
       return [
         h('div', {
-          class: 'row items-center q-color-picker__palette-rows' +
-            (editable.value === true ? ' q-color-picker__palette-rows--editable' : '')
+          class: 'row items-center q-color-picker__palette-rows'
+            + (editable.value === true ? ' q-color-picker__palette-rows--editable' : '')
         }, computedPalette.value.map(color => h('div', {
           class: 'q-color-picker__cube col-auto',
           style: { backgroundColor: color },

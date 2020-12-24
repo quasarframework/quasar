@@ -54,12 +54,14 @@ export default function (vm, innerRef, renderPortalContent) {
 
     portalIsActive,
 
-    renderPortal: () => onGlobalDialog === true
-      ? renderPortalContent()
-      : (
-          portalIsActive.value === true
-            ? [h(Teleport, { to: portalEl }, renderPortalContent())]
-            : void 0
-        )
+    renderPortal: () => (
+      onGlobalDialog === true
+        ? renderPortalContent()
+        : (
+            portalIsActive.value === true
+              ? [h(Teleport, { to: portalEl }, renderPortalContent())]
+              : void 0
+          )
+    )
   }
 }

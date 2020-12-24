@@ -33,8 +33,8 @@ function update (el, ctx, value) {
         // if observed element is part of a vue transition
         // then we need to be careful...
         if (
-          entry.rootBounds === null &&
-          document.body.contains(el) === true
+          entry.rootBounds === null
+          && document.body.contains(el) === true
         ) {
           ctx.observer.unobserve(el)
           ctx.observer.observe(el)
@@ -44,8 +44,8 @@ function update (el, ctx, value) {
         const res = ctx.handler(entry, ctx.observer)
 
         if (
-          res === false ||
-          (ctx.once === true && entry.isIntersecting === true)
+          res === false
+          || (ctx.once === true && entry.isIntersecting === true)
         ) {
           destroy(el)
         }

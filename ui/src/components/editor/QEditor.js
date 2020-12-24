@@ -101,13 +101,13 @@ export default defineComponent({
       defaultFont = window.getComputedStyle(document.body).fontFamily
     }
 
-    const toolbarBackgroundClass = computed(() =>
-      props.toolbarBg ? ` bg-${props.toolbarBg}` : ''
-    )
+    const toolbarBackgroundClass = computed(() => (
+      props.toolbarBg ? ` bg-${ props.toolbarBg }` : ''
+    ))
 
     const buttonProps = computed(() => {
-      const flat = props.toolbarOutline !== true &&
-        props.toolbarPush !== true
+      const flat = props.toolbarOutline !== true
+        && props.toolbarPush !== true
 
       return {
         type: 'a',
@@ -155,22 +155,22 @@ export default defineComponent({
         undo: { type: 'no-state', cmd: 'undo', icon: i.undo, tip: e.undo, key: 90 },
         redo: { type: 'no-state', cmd: 'redo', icon: i.redo, tip: e.redo, key: 89 },
 
-        h1: { cmd: 'formatBlock', param: 'H1', icon: i.heading1 || i.heading, tip: e.heading1, htmlTip: `<h1 class="q-ma-none">${e.heading1}</h1>` },
-        h2: { cmd: 'formatBlock', param: 'H2', icon: i.heading2 || i.heading, tip: e.heading2, htmlTip: `<h2 class="q-ma-none">${e.heading2}</h2>` },
-        h3: { cmd: 'formatBlock', param: 'H3', icon: i.heading3 || i.heading, tip: e.heading3, htmlTip: `<h3 class="q-ma-none">${e.heading3}</h3>` },
-        h4: { cmd: 'formatBlock', param: 'H4', icon: i.heading4 || i.heading, tip: e.heading4, htmlTip: `<h4 class="q-ma-none">${e.heading4}</h4>` },
-        h5: { cmd: 'formatBlock', param: 'H5', icon: i.heading5 || i.heading, tip: e.heading5, htmlTip: `<h5 class="q-ma-none">${e.heading5}</h5>` },
-        h6: { cmd: 'formatBlock', param: 'H6', icon: i.heading6 || i.heading, tip: e.heading6, htmlTip: `<h6 class="q-ma-none">${e.heading6}</h6>` },
+        h1: { cmd: 'formatBlock', param: 'H1', icon: i.heading1 || i.heading, tip: e.heading1, htmlTip: `<h1 class="q-ma-none">${ e.heading1 }</h1>` },
+        h2: { cmd: 'formatBlock', param: 'H2', icon: i.heading2 || i.heading, tip: e.heading2, htmlTip: `<h2 class="q-ma-none">${ e.heading2 }</h2>` },
+        h3: { cmd: 'formatBlock', param: 'H3', icon: i.heading3 || i.heading, tip: e.heading3, htmlTip: `<h3 class="q-ma-none">${ e.heading3 }</h3>` },
+        h4: { cmd: 'formatBlock', param: 'H4', icon: i.heading4 || i.heading, tip: e.heading4, htmlTip: `<h4 class="q-ma-none">${ e.heading4 }</h4>` },
+        h5: { cmd: 'formatBlock', param: 'H5', icon: i.heading5 || i.heading, tip: e.heading5, htmlTip: `<h5 class="q-ma-none">${ e.heading5 }</h5>` },
+        h6: { cmd: 'formatBlock', param: 'H6', icon: i.heading6 || i.heading, tip: e.heading6, htmlTip: `<h6 class="q-ma-none">${ e.heading6 }</h6>` },
         p: { cmd: 'formatBlock', param: props.paragraphTag, icon: i.heading, tip: e.paragraph },
-        code: { cmd: 'formatBlock', param: 'PRE', icon: i.code, htmlTip: `<code>${e.code}</code>` },
+        code: { cmd: 'formatBlock', param: 'PRE', icon: i.code, htmlTip: `<code>${ e.code }</code>` },
 
-        'size-1': { cmd: 'fontSize', param: '1', icon: i.size1 || i.size, tip: e.size1, htmlTip: `<font size="1">${e.size1}</font>` },
-        'size-2': { cmd: 'fontSize', param: '2', icon: i.size2 || i.size, tip: e.size2, htmlTip: `<font size="2">${e.size2}</font>` },
-        'size-3': { cmd: 'fontSize', param: '3', icon: i.size3 || i.size, tip: e.size3, htmlTip: `<font size="3">${e.size3}</font>` },
-        'size-4': { cmd: 'fontSize', param: '4', icon: i.size4 || i.size, tip: e.size4, htmlTip: `<font size="4">${e.size4}</font>` },
-        'size-5': { cmd: 'fontSize', param: '5', icon: i.size5 || i.size, tip: e.size5, htmlTip: `<font size="5">${e.size5}</font>` },
-        'size-6': { cmd: 'fontSize', param: '6', icon: i.size6 || i.size, tip: e.size6, htmlTip: `<font size="6">${e.size6}</font>` },
-        'size-7': { cmd: 'fontSize', param: '7', icon: i.size7 || i.size, tip: e.size7, htmlTip: `<font size="7">${e.size7}</font>` }
+        'size-1': { cmd: 'fontSize', param: '1', icon: i.size1 || i.size, tip: e.size1, htmlTip: `<font size="1">${ e.size1 }</font>` },
+        'size-2': { cmd: 'fontSize', param: '2', icon: i.size2 || i.size, tip: e.size2, htmlTip: `<font size="2">${ e.size2 }</font>` },
+        'size-3': { cmd: 'fontSize', param: '3', icon: i.size3 || i.size, tip: e.size3, htmlTip: `<font size="3">${ e.size3 }</font>` },
+        'size-4': { cmd: 'fontSize', param: '4', icon: i.size4 || i.size, tip: e.size4, htmlTip: `<font size="4">${ e.size4 }</font>` },
+        'size-5': { cmd: 'fontSize', param: '5', icon: i.size5 || i.size, tip: e.size5, htmlTip: `<font size="5">${ e.size5 }</font>` },
+        'size-6': { cmd: 'fontSize', param: '6', icon: i.size6 || i.size, tip: e.size6, htmlTip: `<font size="6">${ e.size6 }</font>` },
+        'size-7': { cmd: 'fontSize', param: '7', icon: i.size7 || i.size, tip: e.size7, htmlTip: `<font size="7">${ e.size7 }</font>` }
       }
     })
 
@@ -278,7 +278,7 @@ export default defineComponent({
       return k
     })
 
-    const innerStyle = computed(() =>
+    const innerStyle = computed(() => (
       inFullscreen.value
         ? props.contentStyle
         : [
@@ -289,16 +289,16 @@ export default defineComponent({
             },
             props.contentStyle
           ]
-    )
+    ))
 
     const classes = computed(() =>
-      `q-editor q-editor--${isViewingSource.value === true ? 'source' : 'default'}` +
-      (props.disable === true ? ' disabled' : '') +
-      (inFullscreen.value === true ? ' fullscreen column' : '') +
-      (props.square === true ? ' q-editor--square no-border-radius' : '') +
-      (props.flat === true ? ' q-editor--flat' : '') +
-      (props.dense === true ? ' q-editor--dense' : '') +
-      (isDark.value === true ? ' q-editor--dark q-dark' : '')
+      `q-editor q-editor--${ isViewingSource.value === true ? 'source' : 'default' }`
+      + (props.disable === true ? ' disabled' : '')
+      + (inFullscreen.value === true ? ' fullscreen column' : '')
+      + (props.square === true ? ' q-editor--square no-border-radius' : '')
+      + (props.flat === true ? ' q-editor--flat' : '')
+      + (props.dense === true ? ' q-editor--dense' : '')
+      + (isDark.value === true ? ' q-editor--dark q-dark' : '')
     )
 
     const innerClass = computed(() => ([
@@ -307,15 +307,15 @@ export default defineComponent({
       { col: inFullscreen.value, 'overflow-auto': inFullscreen.value || props.maxHeight }
     ]))
 
-    const attributes = computed(() =>
+    const attributes = computed(() => (
       props.disable === true
         ? { 'aria-disabled': 'true' }
         : (props.readonly === true ? { 'aria-readonly': 'true' } : {})
-    )
+    ))
 
     function onInput () {
       if (contentRef.value !== null) {
-        const prop = `inner${isViewingSource.value === true ? 'Text' : 'HTML'}`
+        const prop = `inner${ isViewingSource.value === true ? 'Text' : 'HTML' }`
         const val = contentRef.value[ prop ]
 
         if (val !== props.modelValue) {
@@ -367,13 +367,13 @@ export default defineComponent({
 
     function onFocusin (e) {
       if (
-        rootRef.value.contains(e.target) === true &&
-        (
-          e.relatedTarget === null ||
-          rootRef.value.contains(e.relatedTarget) !== true
+        rootRef.value.contains(e.target) === true
+        && (
+          e.relatedTarget === null
+          || rootRef.value.contains(e.relatedTarget) !== true
         )
       ) {
-        const prop = `inner${isViewingSource.value === true ? 'Text' : 'HTML'}`
+        const prop = `inner${ isViewingSource.value === true ? 'Text' : 'HTML' }`
         eVm.caret.restorePosition(contentRef.value[ prop ].length)
         refreshToolbar()
       }
@@ -381,10 +381,10 @@ export default defineComponent({
 
     function onFocusout (e) {
       if (
-        rootRef.value.contains(e.target) === true &&
-        (
-          e.relatedTarget === null ||
-          rootRef.value.contains(e.relatedTarget) !== true
+        rootRef.value.contains(e.target) === true
+        && (
+          e.relatedTarget === null
+          || rootRef.value.contains(e.relatedTarget) !== true
         )
       ) {
         eVm.caret.savePosition()
@@ -421,7 +421,7 @@ export default defineComponent({
           eVm.caret.savePosition()
         }
 
-        const prop = `inner${isViewingSource.value === true ? 'Text' : 'HTML'}`
+        const prop = `inner${ isViewingSource.value === true ? 'Text' : 'HTML' }`
         contentRef.value[ prop ] = v
 
         if (restorePosition === true) {
@@ -476,16 +476,16 @@ export default defineComponent({
         const bars = [
           h('div', {
             key: 'qedt_top',
-            class: 'q-editor__toolbar row no-wrap scroll-x' +
-              toolbarBackgroundClass.value
+            class: 'q-editor__toolbar row no-wrap scroll-x'
+              + toolbarBackgroundClass.value
           }, getToolbar(eVm))
         ]
 
         editLinkUrl.value !== null && bars.push(
           h('div', {
             key: 'qedt_btm',
-            class: 'q-editor__toolbar row no-wrap items-center scroll-x' +
-              toolbarBackgroundClass.value
+            class: 'q-editor__toolbar row no-wrap items-center scroll-x'
+              + toolbarBackgroundClass.value
           }, getLinkEditor(eVm))
         )
 

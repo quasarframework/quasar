@@ -49,19 +49,19 @@ export default defineComponent({
       props.label !== void 0 && props.label !== null && props.label !== ''
     )
 
-    const ripple = computed(() =>
+    const ripple = computed(() => (
       props.ripple === false
         ? false
         : {
             keyCodes: isLink.value === true ? [ 13, 32 ] : [13],
             ...(props.ripple === true ? {} : props.ripple)
           }
-    )
+    ))
 
     const percentageStyle = computed(() => {
       const val = Math.max(0, Math.min(100, props.percentage))
       return val > 0
-        ? { transition: 'transform 0.6s', transform: `translateX(${val - 100}%)` }
+        ? { transition: 'transform 0.6s', transform: `translateX(${ val - 100 }%)` }
         : {}
     })
 
@@ -115,11 +115,11 @@ export default defineComponent({
         // focus button if it came from ENTER on form
         // prevent the new submit (already done)
         if (
-          props.type === 'submit' &&
-          el !== document.body &&
-          rootRef.value.contains(el) === false &&
+          props.type === 'submit'
+          && el !== document.body
+          && rootRef.value.contains(el) === false
           // required for iOS and desktop Safari
-          el.contains(rootRef.value) === false
+          && el.contains(rootRef.value) === false
         ) {
           rootRef.value.focus()
 
@@ -228,10 +228,10 @@ export default defineComponent({
       const blurTarget = blurTargetRef.value
 
       if (
-        destroying !== true &&
-        (touchTarget === rootRef.value || mouseTarget === rootRef.value) &&
-        blurTarget !== null &&
-        blurTarget !== document.activeElement
+        destroying !== true
+        && (touchTarget === rootRef.value || mouseTarget === rootRef.value)
+        && blurTarget !== null
+        && blurTarget !== document.activeElement
       ) {
         blurTarget.setAttribute('tabindex', -1)
         blurTarget.focus()
@@ -329,12 +329,16 @@ export default defineComponent({
       props.loading !== null && child.push(
         h(Transition, {
           name: 'q-transition--fade'
-        }, () => props.loading === true ? [
-          h('span', {
-            key: 'loading',
-            class: 'absolute-full flex flex-center'
-          }, slots.loading !== void 0 ? slots.loading() : [h(QSpinner)])
-        ] : void 0)
+        }, () => (
+          props.loading === true
+            ? [
+                h('span', {
+                  key: 'loading',
+                  class: 'absolute-full flex flex-center'
+                }, slots.loading !== void 0 ? slots.loading() : [h(QSpinner)])
+              ]
+            : void 0
+        ))
       )
 
       return hDir(

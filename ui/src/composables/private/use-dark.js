@@ -9,9 +9,10 @@ export const useDarkProps = {
 
 export default function (props, $q) {
   return {
-    isDark: computed(() => props.dark === null
-      ? $q.dark.isActive
-      : props.dark
-    )
+    isDark: computed(() => (
+      props.dark === null
+        ? $q.dark.isActive
+        : props.dark
+    ))
   }
 }

@@ -39,12 +39,12 @@ export function useTableColumnSelection (props, computedPagination, hasSelection
       return {
         ...col,
         align,
-        __iconClass: `q-table__sort-icon q-table__sort-icon--${align}`,
-        __thClass: `text-${align}` +
-          (col.headerClasses !== void 0 ? ' ' + col.headerClasses : '') +
-          (col.sortable === true ? ' sortable' : '') +
-          (col.name === sortBy ? ` sorted ${descending === true ? 'sort-desc' : ''}` : ''),
-        __tdClass: `text-${align}${col.classes !== void 0 ? ' ' + col.classes : ''}`
+        __iconClass: `q-table__sort-icon q-table__sort-icon--${ align }`,
+        __thClass: `text-${ align }`
+          + (col.headerClasses !== void 0 ? ' ' + col.headerClasses : '')
+          + (col.sortable === true ? ' sortable' : '')
+          + (col.name === sortBy ? ` sorted ${ descending === true ? 'sort-desc' : '' }` : ''),
+        __tdClass: `text-${ align }${ col.classes !== void 0 ? ' ' + col.classes : '' }`
       }
     })
   })

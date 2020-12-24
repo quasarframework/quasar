@@ -22,24 +22,24 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const op = computed(() => props.sent === true ? 'sent' : 'received')
+    const op = computed(() => (props.sent === true ? 'sent' : 'received'))
 
     const textClass = computed(() =>
-      `q-message-text-content q-message-text-content--${op.value}` +
-      (props.textColor !== void 0 ? ` text-${props.textColor}` : '')
+      `q-message-text-content q-message-text-content--${ op.value }`
+      + (props.textColor !== void 0 ? ` text-${ props.textColor }` : '')
     )
 
     const messageClass = computed(() =>
-      `q-message-text q-message-text--${op.value}` +
-      (props.bgColor !== void 0 ? ` text-${props.bgColor}` : '')
+      `q-message-text q-message-text--${ op.value }`
+      + (props.bgColor !== void 0 ? ` text-${ props.bgColor }` : '')
     )
 
     const containerClass = computed(() =>
-      'q-message-container row items-end no-wrap' +
-      (props.sent === true ? ' reverse' : '')
+      'q-message-container row items-end no-wrap'
+      + (props.sent === true ? ' reverse' : '')
     )
 
-    const sizeClass = computed(() => props.size !== void 0 ? `col-${props.size}` : '')
+    const sizeClass = computed(() => (props.size !== void 0 ? `col-${ props.size }` : ''))
 
     const domProps = computed(() => ({
       msg: props.textHtml === true ? 'innerHTML' : 'textContent',
@@ -99,7 +99,7 @@ export default defineComponent({
       else if (props.avatar !== void 0) {
         container.push(
           h('img', {
-            class: `q-message-avatar q-message-avatar--${op.value}`,
+            class: `q-message-avatar q-message-avatar--${ op.value }`,
             src: props.avatar,
             'aria-hidden': 'true'
           })
@@ -110,7 +110,7 @@ export default defineComponent({
 
       props.name !== void 0 && msg.push(
         h('div', {
-          class: `q-message-name q-message-name--${op.value}`,
+          class: `q-message-name q-message-name--${ op.value }`,
           [ domProps.value.name ]: props.name
         })
       )
@@ -137,7 +137,7 @@ export default defineComponent({
       )
 
       return h('div', {
-        class: `q-message q-message-${op.value}`
+        class: `q-message q-message-${ op.value }`
       }, child)
     }
   }

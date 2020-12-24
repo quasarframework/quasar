@@ -154,17 +154,17 @@ export default defineComponent({
 
     const { onComposition } = useKeyComposition(onInput)
 
-    const virtualScrollLength = computed(() =>
+    const virtualScrollLength = computed(() => (
       Array.isArray(props.options)
         ? props.options.length
         : 0
-    )
+    ))
 
-    const virtualScrollItemSizeComputed = computed(() =>
+    const virtualScrollItemSizeComputed = computed(() => (
       props.virtualScrollItemSize === void 0
         ? (props.dense === true ? 24 : 48)
         : props.virtualScrollItemSize
-    )
+    ))
 
     const {
       virtualScrollSliceRange,
@@ -209,11 +209,11 @@ export default defineComponent({
       return acc
     })
 
-    const isOptionsDark = computed(() =>
+    const isOptionsDark = computed(() => (
       props.optionsDark === null
         ? state.isDark.value
         : props.optionsDark
-    )
+    ))
 
     const hasValue = computed(() => fieldValueIsFilled(innerValue.value))
 
@@ -232,8 +232,8 @@ export default defineComponent({
     })
 
     const menuContentClass = computed(() =>
-      (props.virtualScrollHorizontal === true ? 'q-virtual-scroll--horizontal' : '') +
-      (props.popupContentClass ? ' ' + props.popupContentClass : '')
+      (props.virtualScrollHorizontal === true ? 'q-virtual-scroll--horizontal' : '')
+      + (props.popupContentClass ? ' ' + props.popupContentClass : '')
     )
 
     const noOptions = computed(() => virtualScrollLength.value === 0)
@@ -244,22 +244,22 @@ export default defineComponent({
         .join(', ')
     )
 
-    const needsHtmlFn = computed(() =>
+    const needsHtmlFn = computed(() => (
       props.optionsHtml === true
         ? () => true
         : opt => opt !== void 0 && opt !== null && opt.html === true
-    )
+    ))
 
-    const valueAsHtml = computed(() =>
+    const valueAsHtml = computed(() => (
       props.displayValueHtml === true || (
         props.displayValue === void 0 && (
-          props.optionsHtml === true ||
-          innerValue.value.some(needsHtmlFn.value)
+          props.optionsHtml === true
+          || innerValue.value.some(needsHtmlFn.value)
         )
       )
-    )
+    ))
 
-    const tabindex = computed(() => state.focused.value === true ? props.tabindex : -1)
+    const tabindex = computed(() => (state.focused.value === true ? props.tabindex : -1))
 
     const selectedScope = computed(() => {
       return innerValue.value.map((opt, i) => ({
@@ -337,25 +337,25 @@ export default defineComponent({
       })
     })
 
-    const dropdownArrowIcon = computed(() =>
+    const dropdownArrowIcon = computed(() => (
       props.dropdownIcon !== void 0
         ? props.dropdownIcon
         : $q.iconSet.arrow.dropdown
-    )
+    ))
 
     const squaredMenu = computed(() =>
-      props.optionsCover === false &&
-      props.outlined !== true &&
-      props.standout !== true &&
-      props.borderless !== true &&
-      props.rounded !== true
+      props.optionsCover === false
+      && props.outlined !== true
+      && props.standout !== true
+      && props.borderless !== true
+      && props.rounded !== true
     )
 
-    const computedOptionsSelectedClass = computed(() =>
+    const computedOptionsSelectedClass = computed(() => (
       props.optionsSelectedClass !== void 0
         ? props.optionsSelectedClass
-        : (props.color !== void 0 ? `text-${props.color}` : '')
-    )
+        : (props.color !== void 0 ? `text-${ props.color }` : '')
+    ))
 
     // returns method to get value of an option;
     // takes into account 'option-value' prop
@@ -397,13 +397,13 @@ export default defineComponent({
       innerValueCache = val
 
       if (
-        props.useInput === true &&
-        props.fillInput === true &&
-        props.multiple !== true &&
+        props.useInput === true
+        && props.fillInput === true
+        && props.multiple !== true
         // Prevent re-entering in filter while filtering
         // Also prevent clearing inputValue while filtering
-        state.innerLoading.value !== true &&
-        ((dialog.value !== true && menu.value !== true) || hasValue.value !== true)
+        && state.innerLoading.value !== true
+        && ((dialog.value !== true && menu.value !== true) || hasValue.value !== true)
       ) {
         userInputValue !== true && resetInputValue()
         if (dialog.value === true || menu.value === true) {
@@ -583,9 +583,7 @@ export default defineComponent({
 
       return typeof val === 'function'
         ? val
-        : opt => Object(opt) === opt && val in opt
-          ? opt[ val ]
-          : opt
+        : opt => (Object(opt) === opt && val in opt ? opt[ val ] : opt)
     }
 
     function isOptionSelected (opt) {
@@ -672,12 +670,12 @@ export default defineComponent({
         return
       }
 
-      const newValueModeValid = inputValue.value.length > 0 &&
-        (props.newValueMode !== void 0 || vm.vnode.props.onNewValue === true)
+      const newValueModeValid = inputValue.value.length > 0
+        && (props.newValueMode !== void 0 || vm.vnode.props.onNewValue === true)
 
-      const tabShouldSelect = e.shiftKey !== true &&
-        props.multiple !== true &&
-        (optionIndex.value > -1 || newValueModeValid === true)
+      const tabShouldSelect = e.shiftKey !== true
+        && props.multiple !== true
+        && (optionIndex.value > -1 || newValueModeValid === true)
 
       // escape
       if (e.keyCode === 27) {
@@ -695,9 +693,9 @@ export default defineComponent({
 
       // down
       if (
-        e.keyCode === 40 &&
-        state.innerLoading.value !== true &&
-        menu.value === false
+        e.keyCode === 40
+        && state.innerLoading.value !== true
+        && menu.value === false
       ) {
         stopAndPrevent(e)
         showPopup()
@@ -706,9 +704,9 @@ export default defineComponent({
 
       // backspace
       if (
-        e.keyCode === 8 &&
-        props.hideSelected !== true &&
-        inputValue.value.length === 0
+        e.keyCode === 8
+        && props.hideSelected !== true
+        && inputValue.value.length === 0
       ) {
         if (props.multiple === true && Array.isArray(props.modelValue) === true) {
           removeAtIndex(props.modelValue.length - 1)
@@ -721,8 +719,8 @@ export default defineComponent({
 
       // home, end - 36, 35
       if (
-        (e.keyCode === 35 || e.keyCode === 36) &&
-        (typeof inputValue.value !== 'string' || inputValue.value.length === 0)
+        (e.keyCode === 35 || e.keyCode === 36)
+        && (typeof inputValue.value !== 'string' || inputValue.value.length === 0)
       ) {
         stopAndPrevent(e)
         optionIndex.value = -1
@@ -731,8 +729,8 @@ export default defineComponent({
 
       // pg up, pg down - 33, 34
       if (
-        (e.keyCode === 33 || e.keyCode === 34) &&
-        virtualScrollSliceSizeComputed.value !== void 0
+        (e.keyCode === 33 || e.keyCode === 34)
+        && virtualScrollSliceSizeComputed.value !== void 0
       ) {
         stopAndPrevent(e)
         optionIndex.value = Math.max(
@@ -760,12 +758,12 @@ export default defineComponent({
 
       // keyboard search when not having use-input
       if (
-        optionsLength > 0 &&
-        props.useInput !== true &&
-        e.key !== void 0 &&
-        e.key.length === 1 && // printable char
-        e.altKey === e.ctrlKey && // not kbd shortcut
-        (e.keyCode !== 32 || searchBuffer.length > 0) // space in middle of search
+        optionsLength > 0
+        && props.useInput !== true
+        && e.key !== void 0
+        && e.key.length === 1 // printable char
+        && e.altKey === e.ctrlKey // not kbd shortcut
+        && (e.keyCode !== 32 || searchBuffer.length > 0) // space in middle of search
       ) {
         menu.value !== true && showPopup(e)
 
@@ -779,7 +777,7 @@ export default defineComponent({
           searchBuffer += char
         }
 
-        const searchRe = new RegExp('^' + searchBuffer.split('').map(l => reEscapeList.indexOf(l) > -1 ? '\\' + l : l).join('.*'), 'i')
+        const searchRe = new RegExp('^' + searchBuffer.split('').map(l => (reEscapeList.indexOf(l) > -1 ? '\\' + l : l)).join('.*'), 'i')
 
         let index = optionIndex.value
 
@@ -788,8 +786,8 @@ export default defineComponent({
             index = normalizeToInterval(index + 1, -1, optionsLength - 1)
           }
           while (index !== optionIndex.value && (
-            isOptionDisabled.value(props.options[ index ]) === true ||
-            searchRe.test(getOptionLabel.value(props.options[ index ])) !== true
+            isOptionDisabled.value(props.options[ index ]) === true
+            || searchRe.test(getOptionLabel.value(props.options[ index ])) !== true
           ))
         }
 
@@ -810,9 +808,9 @@ export default defineComponent({
       // enter, space (when not using use-input and not in search), or tab (when not using multiple and option selected)
       // same target is checked above
       if (
-        e.keyCode !== 13 &&
-        (e.keyCode !== 32 || props.useInput === true || searchBuffer !== '') &&
-        (e.keyCode !== 9 || tabShouldSelect === false)
+        e.keyCode !== 13
+        && (e.keyCode !== 32 || props.useInput === true || searchBuffer !== '')
+        && (e.keyCode !== 9 || tabShouldSelect === false)
       ) { return }
 
       e.keyCode !== 9 && stopAndPrevent(e)
@@ -920,8 +918,8 @@ export default defineComponent({
 
     function getAllOptions () {
       if (
-        slots.option !== void 0 &&
-        optionScopeCache.optionSlot !== slots.option
+        slots.option !== void 0
+        && optionScopeCache.optionSlot !== slots.option
       ) {
         optionScopeCache.optionSlot = slots.option
         optionScopeCache.optionEls = []
@@ -1009,8 +1007,8 @@ export default defineComponent({
       defaultInputValue = inputValue.value
 
       if (
-        state.focused.value !== true &&
-        (hasDialog !== true || dialogFieldFocused.value === true)
+        state.focused.value !== true
+        && (hasDialog !== true || dialogFieldFocused.value === true)
       ) {
         state.localFocus()
       }
@@ -1057,11 +1055,11 @@ export default defineComponent({
       }
 
       if (
-        val !== '' &&
-        props.multiple !== true &&
-        innerValue.value.length > 0 &&
-        userInputValue !== true &&
-        val === getOptionLabel.value(innerValue.value[ 0 ])
+        val !== ''
+        && props.multiple !== true
+        && innerValue.value.length > 0
+        && userInputValue !== true
+        && val === getOptionLabel.value(innerValue.value[ 0 ])
       ) {
         val = ''
       }
@@ -1175,7 +1173,7 @@ export default defineComponent({
     function getDialog () {
       const content = [
         h(QField, {
-          class: `col-auto ${state.fieldClass}`,
+          class: `col-auto ${ state.fieldClass }`,
           ...innerFieldProps.value,
           for: state.targetUid.value,
           dark: isOptionsDark.value,
@@ -1224,9 +1222,9 @@ export default defineComponent({
         onHide: onDialogHide,
         onShow: onDialogShow
       }, () => h('div', {
-        class: 'q-select__dialog' +
-          (isOptionsDark.value === true ? ' q-select__dialog--dark q-dark' : '') +
-          (dialogFieldFocused.value === true ? ' q-select__dialog--focused' : '')
+        class: 'q-select__dialog'
+          + (isOptionsDark.value === true ? ' q-select__dialog--dark q-dark' : '')
+          + (dialogFieldFocused.value === true ? ' q-select__dialog--focused' : '')
       }, content))
     }
 
@@ -1252,9 +1250,9 @@ export default defineComponent({
       const el = document.activeElement
       // IE can have null document.activeElement
       if (
-        (el === null || el.id !== state.targetUid.value) &&
-        targetRef.value !== null &&
-        targetRef.value !== el
+        (el === null || el.id !== state.targetUid.value)
+        && targetRef.value !== null
+        && targetRef.value !== el
       ) {
         targetRef.value.focus()
       }
@@ -1416,9 +1414,9 @@ export default defineComponent({
       innerValue,
 
       fieldClass: computed(() =>
-        `q-select q-field--auto-height q-select--with${props.useInput !== true ? 'out' : ''}-input` +
-        ` q-select--with${props.useChips !== true ? 'out' : ''}-chips` +
-        ` q-select--${props.multiple === true ? 'multiple' : 'single'}`
+        `q-select q-field--auto-height q-select--with${ props.useInput !== true ? 'out' : '' }-input`
+        + ` q-select--with${ props.useChips !== true ? 'out' : '' }-chips`
+        + ` q-select--${ props.multiple === true ? 'multiple' : 'single' }`
       ),
 
       inputRef,
@@ -1428,16 +1426,16 @@ export default defineComponent({
         (props.hideSelected === true
           ? inputValue.value.length > 0
           : hasValue.value === true
-        ) ||
-        fieldValueIsFilled(props.displayValue)
+        )
+        || fieldValueIsFilled(props.displayValue)
       ),
 
       getControlChild: () => {
         if (
           state.editable.value !== false && (
-            dialog.value === true || // dialog always has menu displayed, so need to render it
-            noOptions.value !== true ||
-            slots[ 'no-option' ] !== void 0
+            dialog.value === true // dialog always has menu displayed, so need to render it
+            || noOptions.value !== true
+            || slots[ 'no-option' ] !== void 0
           )
         ) {
           return hasDialog === true ? getDialog() : getMenu()

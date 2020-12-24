@@ -35,7 +35,7 @@ export default defineComponent({
     const vm = getCurrentInstance()
     const showing = ref(isRuntimeSsrPreHydration === true ? props.ssrPrerender : false)
 
-    const intersectionProps = computed(() =>
+    const intersectionProps = computed(() => (
       props.margin !== void 0 || props.threshold !== void 0
         ? {
             handler: trigger,
@@ -46,11 +46,11 @@ export default defineComponent({
             }
           }
         : trigger
-    )
+    ))
 
     const hasDirective = computed(() =>
-      props.disable !== true &&
-      (isRuntimeSsrPreHydration !== true || props.once !== true || props.ssrPrerender !== true)
+      props.disable !== true
+      && (isRuntimeSsrPreHydration !== true || props.once !== true || props.ssrPrerender !== true)
     )
 
     const directives = computed(() => {

@@ -546,7 +546,7 @@ export default {
           row.__count = 0
         }
         row.__count += 1
-        const addRow = extend({}, row, { name: `${row.name} (${row.__count})` })
+        const addRow = extend({}, row, { name: `${ row.name } (${ row.__count })` })
         this.dataDyn = [ ...this.dataDyn.slice(0, addPoint), addRow, ...this.dataDyn.slice(addPoint) ]
         this.loadingDyn = false
       }, 500)

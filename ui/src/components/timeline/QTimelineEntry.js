@@ -36,12 +36,12 @@ export default defineComponent({
     })
 
     const classes = computed(() =>
-      `q-timeline__entry q-timeline__entry--${props.side}` +
-      (props.icon !== void 0 || props.avatar !== void 0 ? ' q-timeline__entry--icon' : '')
+      `q-timeline__entry q-timeline__entry--${ props.side }`
+      + (props.icon !== void 0 || props.avatar !== void 0 ? ' q-timeline__entry--icon' : '')
     )
 
     const dotClass = computed(() =>
-      `q-timeline__dot text-${props.color || $timeline.color}`
+      `q-timeline__dot text-${ props.color || $timeline.color }`
     )
 
     const reverse = computed(() =>

@@ -6,12 +6,12 @@ import { isRuntimeSsrPreHydration } from './plugins/Platform.js'
 function getLocale () {
   if (__QUASAR_SSR_SERVER__) { return }
 
-  const val =
-    navigator.language ||
-    navigator.languages[ 0 ] ||
-    navigator.browserLanguage ||
-    navigator.userLanguage ||
-    navigator.systemLanguage
+  const val
+    = navigator.language
+    || navigator.languages[ 0 ]
+    || navigator.browserLanguage
+    || navigator.userLanguage
+    || navigator.systemLanguage
 
   if (val) {
     return val.toLowerCase()
@@ -35,7 +35,7 @@ export default {
       }
 
       const dir = lang.rtl === true ? 'rtl' : 'ltr'
-      const attrs = `lang=${lang.isoName} dir=${dir}`
+      const attrs = `lang=${ lang.isoName } dir=${ dir }`
 
       lang.set = ssrContext.$q.lang.set
 

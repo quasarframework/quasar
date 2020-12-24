@@ -86,51 +86,51 @@ export default function ({ props, emit, $q, updateValue, updatePosition, getDrag
   const focus = ref(false)
   const dragging = ref(false)
 
-  const axis = computed(() => props.vertical === true ? '--v' : '--h')
+  const axis = computed(() => (props.vertical === true ? '--v' : '--h'))
 
-  const isReversed = computed(() =>
+  const isReversed = computed(() => (
     props.vertical === true
       ? props.reverse === true
       : props.reverse !== ($q.lang.rtl === true)
-  )
+  ))
 
   const editable = computed(() => props.disable !== true && props.readonly !== true)
 
   const classes = computed(() =>
-    `q-slider q-slider${axis.value} q-slider--${active.value === true ? '' : 'in'}active` +
-    (isReversed.value === true ? ' q-slider--reversed' : '') +
-    (props.color !== void 0 ? ` text-${props.color}` : '') +
-    (props.disable === true ? ' disabled' : ' q-slider--enabled' + (editable.value === true ? ' q-slider--editable' : '')) +
-    (focus.value === 'both' ? ' q-slider--focus' : '') +
-    (props.label || props.labelAlways === true ? ' q-slider--label' : '') +
-    (props.labelAlways === true ? ' q-slider--label-always' : '') +
-    (isDark.value === true ? ' q-slider--dark' : '') +
-    (props.dense === true ? ' q-slider--dense q-slider--dense' + axis.value : '')
+    `q-slider q-slider${ axis.value } q-slider--${ active.value === true ? '' : 'in' }active`
+    + (isReversed.value === true ? ' q-slider--reversed' : '')
+    + (props.color !== void 0 ? ` text-${ props.color }` : '')
+    + (props.disable === true ? ' disabled' : ' q-slider--enabled' + (editable.value === true ? ' q-slider--editable' : ''))
+    + (focus.value === 'both' ? ' q-slider--focus' : '')
+    + (props.label || props.labelAlways === true ? ' q-slider--label' : '')
+    + (props.labelAlways === true ? ' q-slider--label-always' : '')
+    + (isDark.value === true ? ' q-slider--dark' : '')
+    + (props.dense === true ? ' q-slider--dense q-slider--dense' + axis.value : '')
   )
 
   const decimals = computed(() => (String(props.step).trim('0').split('.')[ 1 ] || '').length)
-  const step = computed(() => props.step === 0 ? 1 : props.step)
+  const step = computed(() => (props.step === 0 ? 1 : props.step))
 
   const markerStyle = computed(() => {
     const size = 100 * step.value / (props.max - props.min)
     return {
       backgroundSize: props.vertical === true
-        ? `2px ${size}%`
-        : `${size}% 2px`
+        ? `2px ${ size }%`
+        : `${ size }% 2px`
     }
   })
 
-  const tabindex = computed(() => editable.value === true ? props.tabindex || 0 : -1)
+  const tabindex = computed(() => (editable.value === true ? props.tabindex || 0 : -1))
 
-  const positionProp = computed(() =>
+  const positionProp = computed(() => (
     props.vertical === true
       ? (isReversed.value === true ? 'bottom' : 'top')
       : isReversed.value === true ? 'right' : 'left'
-  )
+  ))
 
-  const sizeProp = computed(() => props.vertical === true ? 'height' : 'width')
+  const sizeProp = computed(() => (props.vertical === true ? 'height' : 'width'))
 
-  const orientation = computed(() => props.vertical === true ? 'vertical' : 'horizontal')
+  const orientation = computed(() => (props.vertical === true ? 'vertical' : 'horizontal'))
 
   const attributes = computed(() => {
     const acc = {
@@ -184,15 +184,15 @@ export default function ({ props, emit, $q, updateValue, updatePosition, getDrag
       return {}
     }
 
-    const offset = `${Math.ceil(20 * Math.abs(0.5 - ratio))}px`
+    const offset = `${ Math.ceil(20 * Math.abs(0.5 - ratio)) }px`
     return {
       pin: {
-        transformOrigin: `${$q.lang.rtl === true ? offset : `calc(100% - ${offset})`} 50%`
+        transformOrigin: `${ $q.lang.rtl === true ? offset : `calc(100% - ${ offset })` } 50%`
       },
 
       pinTextContainer: {
-        [ $q.lang.rtl === true ? 'left' : 'right' ]: `${percent * 100}%`,
-        transform: `translateX(${Math.ceil(($q.lang.rtl === true ? -1 : 1) * 20 * percent)}px)`
+        [ $q.lang.rtl === true ? 'left' : 'right' ]: `${ percent * 100 }%`,
+        transform: `translateX(${ Math.ceil(($q.lang.rtl === true ? -1 : 1) * 20 * percent) }px)`
       }
     }
   }

@@ -53,39 +53,39 @@ export default function (props) {
     const dir = $q.lang.rtl === true ? -1 : 1
 
     if (side.top === true && top.value !== 0) {
-      posY = `${top.value}px`
+      posY = `${ top.value }px`
     }
     else if (side.bottom === true && bottom.value !== 0) {
-      posY = `${-bottom.value}px`
+      posY = `${ -bottom.value }px`
     }
 
     if (side.left === true && left.value !== 0) {
-      posX = `${dir * left.value}px`
+      posX = `${ dir * left.value }px`
     }
     else if (side.right === true && right.value !== 0) {
-      posX = `${-dir * right.value}px`
+      posX = `${ -dir * right.value }px`
     }
 
-    const css = { transform: `translate(${posX}, ${posY})` }
+    const css = { transform: `translate(${ posX }, ${ posY })` }
 
     if (props.offset) {
-      css.margin = `${props.offset[ 1 ]}px ${props.offset[ 0 ]}px`
+      css.margin = `${ props.offset[ 1 ] }px ${ props.offset[ 0 ] }px`
     }
 
     if (side.vertical === true) {
       if (left.value !== 0) {
-        css[ $q.lang.rtl === true ? 'right' : 'left' ] = `${left.value}px`
+        css[ $q.lang.rtl === true ? 'right' : 'left' ] = `${ left.value }px`
       }
       if (right.value !== 0) {
-        css[ $q.lang.rtl === true ? 'left' : 'right' ] = `${right.value}px`
+        css[ $q.lang.rtl === true ? 'left' : 'right' ] = `${ right.value }px`
       }
     }
     else if (side.horizontal === true) {
       if (top.value !== 0) {
-        css.top = `${top.value}px`
+        css.top = `${ top.value }px`
       }
       if (bottom.value !== 0) {
-        css.bottom = `${bottom.value}px`
+        css.bottom = `${ bottom.value }px`
       }
     }
 
@@ -93,8 +93,8 @@ export default function (props) {
   })
 
   const classes = computed(() =>
-    `q-page-sticky row flex-center fixed-${props.position}` +
-    ` q-page-sticky--${props.expand === true ? 'expand' : 'shrink'}`
+    `q-page-sticky row flex-center fixed-${ props.position }`
+    + ` q-page-sticky--${ props.expand === true ? 'expand' : 'shrink' }`
   )
 
   function getStickyContent (slots) {

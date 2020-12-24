@@ -84,9 +84,9 @@ export default defineComponent({
             emitEvent(false, comp)
 
             if (
-              focus === true &&
-              valid !== true &&
-              typeof comp.focus === 'function'
+              focus === true
+              && valid !== true
+              && typeof comp.focus === 'function'
             ) {
               comp.focus()
             }
@@ -134,8 +134,8 @@ export default defineComponent({
     }
 
     function focus () {
-      const target = rootRef.value.querySelector('[autofocus], [data-autofocus]') ||
-        Array.prototype.find.call(rootRef.value.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
+      const target = rootRef.value.querySelector('[autofocus], [data-autofocus]')
+        || Array.prototype.find.call(rootRef.value.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
 
       target !== null && target !== void 0 && target.focus()
     }

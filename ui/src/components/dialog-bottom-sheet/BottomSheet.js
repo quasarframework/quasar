@@ -112,16 +112,18 @@ export default defineComponent({
             h(
               QItemSection,
               { avatar: true },
-              () => action.icon
-                ? h(QIcon, { name: action.icon, color: action.color })
-                : (
-                    img
-                      ? h('img', {
-                          class: action.avatar ? 'q-bottom-sheet__avatar' : '',
-                          src: img
-                        })
-                      : null
-                  )
+              () => (
+                action.icon
+                  ? h(QIcon, { name: action.icon, color: action.color })
+                  : (
+                      img
+                        ? h('img', {
+                            class: action.avatar ? 'q-bottom-sheet__avatar' : '',
+                            src: img
+                          })
+                        : null
+                    )
+              )
             ),
 
             h(QItemSection, () => action.label)
@@ -159,8 +161,8 @@ export default defineComponent({
       return [
         h(QCard, {
           class: [
-            `q-bottom-sheet q-bottom-sheet--${props.grid === true ? 'grid' : 'list'}` +
-            (isDark.value === true ? ' q-bottom-sheet--dark q-dark' : ''),
+            `q-bottom-sheet q-bottom-sheet--${ props.grid === true ? 'grid' : 'list' }`
+            + (isDark.value === true ? ' q-bottom-sheet--dark q-dark' : ''),
             props.cardClass
           ],
           style: props.cardStyle

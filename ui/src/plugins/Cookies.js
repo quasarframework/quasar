@@ -79,7 +79,7 @@ function set (key, val, opts = {}, ssr) {
     }
   }
 
-  const keyValue = `${encode(key)}=${stringifyCookieValue(val)}`
+  const keyValue = `${ encode(key) }=${ stringifyCookieValue(val) }`
 
   const cookie = [
     keyValue,
@@ -111,14 +111,14 @@ function set (key, val, opts = {}, ssr) {
       const val = get(key, ssr)
       if (val !== undefined) {
         all = all
-          .replace(`${key}=${val}; `, '')
-          .replace(`; ${key}=${val}`, '')
-          .replace(`${key}=${val}`, '')
+          .replace(`${ key }=${ val }; `, '')
+          .replace(`; ${ key }=${ val }`, '')
+          .replace(`${ key }=${ val }`, '')
       }
     }
     else {
       all = all
-        ? `${keyValue}; ${all}`
+        ? `${ keyValue }; ${ all }`
         : cookie
     }
 

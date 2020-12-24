@@ -18,9 +18,9 @@ export default defineComponent({
     const { isDark } = useDark(props, $q)
 
     const classes = computed(() =>
-      'q-bar row no-wrap items-center' +
-      ` q-bar--${props.dense === true ? 'dense' : 'standard'} ` +
-      ` q-bar--${isDark.value === true ? 'dark' : 'light'}`
+      'q-bar row no-wrap items-center'
+      + ` q-bar--${ props.dense === true ? 'dense' : 'standard' } `
+      + ` q-bar--${ isDark.value === true ? 'dark' : 'light' }`
     )
 
     return () => h('div', {

@@ -22,8 +22,8 @@ export default defineComponent({
     const { updatePanelsList, getPanelContent, panelDirectives } = usePanel(props, emit, $q, vm)
 
     const classes = computed(() =>
-      'q-tab-panels q-panel-parent' +
-      (isDark.value === true ? ' q-tab-panels--dark q-dark' : '')
+      'q-tab-panels q-panel-parent'
+      + (isDark.value === true ? ' q-tab-panels--dark q-dark' : '')
     )
 
     return () => {

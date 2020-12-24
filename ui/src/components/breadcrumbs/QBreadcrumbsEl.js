@@ -29,8 +29,8 @@ export default defineComponent({
 
       props.icon !== void 0 && child.push(
         h(QIcon, {
-          class: 'q-breadcrumbs__el-icon' +
-            (props.label !== void 0 ? ' q-breadcrumbs__el-icon--with-label' : ''),
+          class: 'q-breadcrumbs__el-icon'
+            + (props.label !== void 0 ? ' q-breadcrumbs__el-icon--with-label' : ''),
           name: props.icon
         })
       )

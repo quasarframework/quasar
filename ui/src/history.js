@@ -4,10 +4,10 @@ import { noop } from './utils/event.js'
 const getTrue = () => true
 
 function filterInvalidPath (path) {
-  return typeof path === 'string' &&
-    path !== '' &&
-    path !== '/' &&
-    path !== '#/'
+  return typeof path === 'string'
+    && path !== ''
+    && path !== '/'
+    && path !== '#/'
 }
 
 function normalizeExitPath (path) {

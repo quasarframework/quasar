@@ -27,7 +27,7 @@ export default {
     useMeta({
       title: 'Layout 2',
       link: {
-        google: { template: chunk => `${chunk}/addition` }
+        google: { template: chunk => `${ chunk }/addition` }
       },
       bodyAttr: {
         layout: 2

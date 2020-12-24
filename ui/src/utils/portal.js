@@ -4,8 +4,8 @@ export const portalList = []
 
 export function getPortalVm (el) {
   return portalList.find(vm =>
-    vm.__qPortalInnerRef.value !== null &&
-    vm.__qPortalInnerRef.value.contains(el)
+    vm.__qPortalInnerRef.value !== null
+    && vm.__qPortalInnerRef.value.contains(el)
   )
 }
 

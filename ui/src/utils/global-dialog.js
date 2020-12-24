@@ -30,8 +30,8 @@ export default function (DefaultComponent, supportsCustomComponent) {
     if (__QUASAR_SSR_SERVER__) { return ssrAPI }
 
     let DialogComponent, props
-    const isCustom = supportsCustomComponent === true &&
-      pluginProps.component !== void 0
+    const isCustom = supportsCustomComponent === true
+      && pluginProps.component !== void 0
 
     if (isCustom === true) {
       const { component, componentProps } = pluginProps

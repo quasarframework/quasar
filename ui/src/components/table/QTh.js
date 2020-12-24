@@ -56,8 +56,8 @@ export default defineComponent({
       }
 
       const data = {
-        class: col.__thClass +
-          (props.autoWidth === true ? ' q-table--col-auto-width' : ''),
+        class: col.__thClass
+          + (props.autoWidth === true ? ' q-table--col-auto-width' : ''),
         style: col.headerStyle
       }
 

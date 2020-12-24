@@ -14,13 +14,13 @@ import uid from '../../utils/uid.js'
 import { prevent, stopAndPrevent } from '../../utils/event.js'
 
 function getTargetUid (val) {
-  return val === void 0 ? `f_${uid()}` : val
+  return val === void 0 ? `f_${ uid() }` : val
 }
 
 export function fieldValueIsFilled (val) {
-  return val !== void 0 &&
-    val !== null &&
-    ('' + val).length > 0
+  return val !== void 0
+    && val !== null
+    && ('' + val).length > 0
 }
 
 export const useFieldProps = {
@@ -180,11 +180,11 @@ export default function ({
     : computed(() => props.stackLabel === true || state.focused.value === true)
 
   const shouldRenderBottom = computed(() =>
-    props.bottomSlots === true ||
-    props.hint !== void 0 ||
-    hasRules.value === true ||
-    props.counter === true ||
-    props.error !== null
+    props.bottomSlots === true
+    || props.hint !== void 0
+    || hasRules.value === true
+    || props.counter === true
+    || props.error !== null
   )
 
   const styleType = computed(() => {
@@ -196,33 +196,33 @@ export default function ({
   })
 
   const classes = computed(() =>
-    `q-field row no-wrap items-start q-field--${styleType.value}` +
-    (state.fieldClass !== void 0 ? ` ${state.fieldClass.value}` : '') +
-    (props.rounded === true ? ' q-field--rounded' : '') +
-    (props.square === true ? ' q-field--square' : '') +
-    (floatingLabel.value === true ? ' q-field--float' : '') +
-    (hasLabel.value === true ? ' q-field--labeled' : '') +
-    (props.dense === true ? ' q-field--dense' : '') +
-    (props.itemAligned === true ? ' q-field--item-aligned q-item-type' : '') +
-    (state.isDark.value === true ? ' q-field--dark' : '') +
-    (state.getControl === void 0 ? ' q-field--auto-height' : '') +
-    (state.focused.value === true ? ' q-field--focused' : '') +
-    (hasError.value === true ? ' q-field--error' : '') +
-    (hasError.value === true || state.focused.value === true ? ' q-field--highlighted' : '') +
-    (props.hideBottomSpace !== true && shouldRenderBottom.value === true ? ' q-field--with-bottom' : '') +
-    (props.disable === true ? ' q-field--disabled' : (props.readonly === true ? ' q-field--readonly' : ''))
+    `q-field row no-wrap items-start q-field--${ styleType.value }`
+    + (state.fieldClass !== void 0 ? ` ${ state.fieldClass.value }` : '')
+    + (props.rounded === true ? ' q-field--rounded' : '')
+    + (props.square === true ? ' q-field--square' : '')
+    + (floatingLabel.value === true ? ' q-field--float' : '')
+    + (hasLabel.value === true ? ' q-field--labeled' : '')
+    + (props.dense === true ? ' q-field--dense' : '')
+    + (props.itemAligned === true ? ' q-field--item-aligned q-item-type' : '')
+    + (state.isDark.value === true ? ' q-field--dark' : '')
+    + (state.getControl === void 0 ? ' q-field--auto-height' : '')
+    + (state.focused.value === true ? ' q-field--focused' : '')
+    + (hasError.value === true ? ' q-field--error' : '')
+    + (hasError.value === true || state.focused.value === true ? ' q-field--highlighted' : '')
+    + (props.hideBottomSpace !== true && shouldRenderBottom.value === true ? ' q-field--with-bottom' : '')
+    + (props.disable === true ? ' q-field--disabled' : (props.readonly === true ? ' q-field--readonly' : ''))
   )
 
   const contentClass = computed(() =>
-    'q-field__control relative-position row no-wrap' +
-    (props.bgColor !== void 0 ? ` bg-${props.bgColor}` : '') +
-    (
+    'q-field__control relative-position row no-wrap'
+    + (props.bgColor !== void 0 ? ` bg-${ props.bgColor }` : '')
+    + (
       hasError.value === true
         ? ' text-negative'
         : (
             typeof props.standout === 'string' && props.standout.length > 0 && state.focused.value === true
-              ? ` ${props.standout}`
-              : (props.color !== void 0 ? ` text-${props.color}` : '')
+              ? ` ${ props.standout }`
+              : (props.color !== void 0 ? ` text-${ props.color }` : '')
           )
     )
   )
@@ -232,8 +232,8 @@ export default function ({
   )
 
   const labelClass = computed(() =>
-    'q-field__label no-pointer-events absolute ellipsis' +
-    (props.labelColor !== void 0 && hasError.value !== true ? ` text-${props.labelColor}` : '')
+    'q-field__label no-pointer-events absolute ellipsis'
+    + (props.labelColor !== void 0 && hasError.value !== true ? ` text-${ props.labelColor }` : '')
   )
 
   const controlSlotScope = computed(() => ({
@@ -296,12 +296,12 @@ export default function ({
     focusoutTimer = setTimeout(() => {
       if (
         document.hasFocus() === true && (
-          state.hasPopupOpen.value === true ||
-          (
-            state.controlRef !== void 0 &&
-            (
-              state.controlRef.value === null ||
-              state.controlRef.value.contains(document.activeElement) !== false
+          state.hasPopupOpen.value === true
+          || (
+            state.controlRef !== void 0
+            && (
+              state.controlRef.value === null
+              || state.controlRef.value.contains(document.activeElement) !== false
             )
           )
         )
@@ -510,8 +510,8 @@ export default function ({
     }, msg)
 
     return h('div', {
-      class: 'q-field__bottom row items-start q-field__bottom--' +
-        (props.hideBottomSpace !== true ? 'animated' : 'stale')
+      class: 'q-field__bottom row items-start q-field__bottom--'
+        + (props.hideBottomSpace !== true ? 'animated' : 'stale')
     }, [
       props.hideBottomSpace === true
         ? main

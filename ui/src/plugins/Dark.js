@@ -28,8 +28,8 @@ const Plugin = defineReactivePlugin({
 
     Plugin.isActive = val === true
 
-    document.body.classList.remove(`body--${val === true ? 'light' : 'dark'}`)
-    document.body.classList.add(`body--${val === true ? 'dark' : 'light'}`)
+    document.body.classList.remove(`body--${ val === true ? 'light' : 'dark' }`)
+    document.body.classList.add(`body--${ val === true ? 'dark' : 'light' }`)
   },
 
   toggle () {
@@ -50,7 +50,7 @@ const Plugin = defineReactivePlugin({
         set: val => {
           ssrContext._meta.bodyClasses = ssrContext._meta.bodyClasses
             .replace(' body--light', '')
-            .replace(' body--dark', '') + ` body--${val === true ? 'dark' : 'light'}`
+            .replace(' body--dark', '') + ` body--${ val === true ? 'dark' : 'light' }`
 
           $q.dark.isActive = val === true
           $q.dark.mode = val

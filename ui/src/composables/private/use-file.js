@@ -43,7 +43,7 @@ export default function ({
   getFileInput,
   addFilesToQueue
 }) {
-  const extensions = computed(() =>
+  const extensions = computed(() => (
     props.accept !== void 0
       ? props.accept.split(',').map(ext => {
           ext = ext.trim()
@@ -56,7 +56,7 @@ export default function ({
           return ext.toUpperCase()
         })
       : null
-  )
+  ))
 
   const maxFilesNumber = computed(() => parseInt(props.maxFiles, 10))
   const maxTotalSizeNumber = computed(() => parseInt(props.maxTotalSize, 10))
@@ -88,8 +88,8 @@ export default function ({
     if (props.accept !== void 0 && extensions.value.indexOf('*/') === -1) {
       files = filterFiles(files, rejectedFiles, 'accept', file => {
         return extensions.value.some(ext => (
-          file.type.toUpperCase().startsWith(ext) ||
-          file.name.toUpperCase().endsWith(ext)
+          file.type.toUpperCase().startsWith(ext)
+          || file.name.toUpperCase().endsWith(ext)
         ))
       })
 
@@ -178,7 +178,7 @@ export default function ({
   function getDndNode (type) {
     if (dnd.value === true) {
       return h('div', {
-        class: `q-${type}__dnd absolute-full`,
+        class: `q-${ type }__dnd absolute-full`,
         onDragenter: stopAndPreventDrag,
         onDragover: stopAndPreventDrag,
         onDragleave,

@@ -51,8 +51,8 @@ export default function (props, $q) {
 
   const headerClass = computed(() => {
     const cls = []
-    props.color !== void 0 && cls.push(`bg-${props.color}`)
-    props.textColor !== void 0 && cls.push(`text-${props.textColor}`)
+    props.color !== void 0 && cls.push(`bg-${ props.color }`)
+    props.textColor !== void 0 && cls.push(`text-${ props.textColor }`)
     return cls.join(' ')
   })
 

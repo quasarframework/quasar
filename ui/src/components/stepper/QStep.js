@@ -60,8 +60,8 @@ export default defineComponent({
 
     watch(isActive, active => {
       if (
-        active === true &&
-        $stepper.value.vertical === true
+        active === true
+        && $stepper.value.vertical === true
       ) {
         nextTick(() => {
           if (rootRef.value !== null) {

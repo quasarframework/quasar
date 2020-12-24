@@ -37,8 +37,8 @@ const Plugin = defineReactivePlugin({
       ? { ...originalDefaults, ...opts }
       : { ...defaults, ...opts }
 
-    props.customClass += ` text-${props.backgroundColor}`
-    props.uid = `l_${uid++}`
+    props.customClass += ` text-${ props.backgroundColor }`
+    props.uid = `l_${ uid++ }`
 
     Plugin.isActive = true
 
@@ -87,7 +87,7 @@ const Plugin = defineReactivePlugin({
 
             props.message && content.push(
               h('div', {
-                class: `text-${props.messageColor}`,
+                class: `text-${ props.messageColor }`,
                 [ props.html === true ? 'innerHTML' : 'textContent' ]: props.message
               })
             )

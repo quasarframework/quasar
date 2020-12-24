@@ -66,7 +66,7 @@ export default defineComponent({
         backgroundPosition: props.position
       },
       props.imgStyle,
-      { backgroundImage: `url("${url.value}")` }
+      { backgroundImage: `url("${ url.value }")` }
     ))
 
     const style = computed(() => ({
@@ -75,8 +75,8 @@ export default defineComponent({
     }))
 
     const classes = computed(() =>
-      'q-img overflow-hidden' +
-      (props.nativeContextMenu === true ? ' q-img--menu' : '')
+      'q-img overflow-hidden'
+      + (props.nativeContextMenu === true ? ' q-img--menu' : '')
     )
 
     let ratioTimer, destroyed = false, unwatch

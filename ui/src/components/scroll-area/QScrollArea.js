@@ -65,17 +65,17 @@ export default defineComponent({
     const targetRef = ref(null)
 
     const classes = computed(() =>
-      'q-scrollarea' +
-      (isDark.value === true ? ' q-scrollarea--dark' : '')
+      'q-scrollarea'
+      + (isDark.value === true ? ' q-scrollarea--dark' : '')
     )
 
     const containerSize = computed(() => container[ dirProps.value.suffix ].value)
 
     const thumbHidden = computed(() =>
       (
-        (props.visible === null ? hover.value : props.visible) !== true &&
-        tempShowing.value === false &&
-        panning.value === false
+        (props.visible === null ? hover.value : props.visible) !== true
+        && tempShowing.value === false
+        && panning.value === false
       ) || scrollSize.value <= containerSize.value
     )
 
@@ -95,41 +95,41 @@ export default defineComponent({
         ...props.thumbStyle,
         ...(props.horizontal === true
           ? {
-              left: `${pos}px`,
-              width: `${thumbSize.value}px`
+              left: `${ pos }px`,
+              width: `${ thumbSize.value }px`
             }
           : {
-              top: `${pos}px`,
-              height: `${thumbSize.value}px`
+              top: `${ pos }px`,
+              height: `${ thumbSize.value }px`
             })
       }
     })
 
-    const mainStyle = computed(() =>
+    const mainStyle = computed(() => (
       thumbHidden.value === true
         ? props.contentStyle
         : props.contentActiveStyle
-    )
+    ))
 
     const scrollPercentage = computed(() => {
       const p = between(scrollPosition.value / (scrollSize.value - containerSize.value), 0, 1)
       return Math.round(p * 10000) / 10000
     })
 
-    const dirProps = computed(() =>
+    const dirProps = computed(() => (
       props.horizontal === true
         ? { prefix: 'horizontal', suffix: 'width', scroll: 'scrollLeft', classSuffix: 'h absolute-bottom', dir: 'right', dist: 'x' }
         : { prefix: 'vertical', suffix: 'height', scroll: 'scrollTop', classSuffix: 'v absolute-right', dir: 'down', dist: 'y' }
-    )
+    ))
 
     const thumbClass = computed(() =>
-      `q-scrollarea__thumb q-scrollarea__thumb--${dirProps.value.classSuffix}` +
-      (thumbHidden.value === true ? ' q-scrollarea__thumb--invisible' : '')
+      `q-scrollarea__thumb q-scrollarea__thumb--${ dirProps.value.classSuffix }`
+      + (thumbHidden.value === true ? ' q-scrollarea__thumb--invisible' : '')
     )
 
     const barClass = computed(() =>
-      `q-scrollarea__bar q-scrollarea__bar--${dirProps.value.classSuffix}` +
-      (thumbHidden.value === true ? ' q-scrollarea__bar--invisible' : '')
+      `q-scrollarea__bar q-scrollarea__bar--${ dirProps.value.classSuffix }`
+      + (thumbHidden.value === true ? ' q-scrollarea__bar--invisible' : '')
     )
 
     const thumbDirectives = computed(() => {
@@ -231,7 +231,7 @@ export default defineComponent({
 
     function onMousedown (evt) {
       if (thumbHidden.value !== true) {
-        const pos = evt[ `offset${props.horizontal === true ? 'X' : 'Y'}` ] - thumbSize.value / 2
+        const pos = evt[ `offset${ props.horizontal === true ? 'X' : 'Y' }` ] - thumbSize.value / 2
         setScroll(pos / containerSize.value * scrollSize.value)
 
         // activate thumb pan
@@ -289,7 +289,7 @@ export default defineComponent({
           class: 'scroll relative-position fit hide-scrollbar'
         }, [
           h('div', {
-            class: `absolute full-${props.horizontal === true ? 'height' : 'width'}`,
+            class: `absolute full-${ props.horizontal === true ? 'height' : 'width' }`,
             style: mainStyle.value
           }, hMergeSlot(slots.default, [
             h(QResizeObserver, {

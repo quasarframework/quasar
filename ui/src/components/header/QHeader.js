@@ -40,9 +40,9 @@ export default defineComponent({
     const revealed = ref(true)
 
     const fixed = computed(() =>
-      props.reveal === true ||
-      $layout.view.indexOf('H') > -1 ||
-      $layout.container === true
+      props.reveal === true
+      || $layout.view.indexOf('H') > -1
+      || $layout.container === true
     )
 
     const offset = computed(() => {
@@ -56,20 +56,20 @@ export default defineComponent({
       return offset > 0 ? offset : 0
     })
 
-    const hidden = computed(() => props.modelValue !== true ||
-      (fixed.value === true && revealed.value !== true)
+    const hidden = computed(() => props.modelValue !== true
+      || (fixed.value === true && revealed.value !== true)
     )
 
-    const revealOnFocus = computed(() => props.modelValue === true &&
-      hidden.value === true && props.reveal === true
+    const revealOnFocus = computed(() => props.modelValue === true
+      && hidden.value === true && props.reveal === true
     )
 
     const classes = computed(() =>
-      'q-header q-layout__section--marginal ' +
-      (fixed.value === true ? 'fixed' : 'absolute') + '-top' +
-      (props.bordered === true ? ' q-header--bordered' : '') +
-      (hidden.value === true ? ' q-header--hidden' : '') +
-      (props.modelValue !== true ? ' q-layout--prevent-focus' : '')
+      'q-header q-layout__section--marginal '
+      + (fixed.value === true ? 'fixed' : 'absolute') + '-top'
+      + (props.bordered === true ? ' q-header--bordered' : '')
+      + (hidden.value === true ? ' q-header--hidden' : '')
+      + (props.modelValue !== true ? ' q-layout--prevent-focus' : '')
     )
 
     const style = computed(() => {
@@ -78,10 +78,10 @@ export default defineComponent({
         css = {}
 
       if (view[ 0 ] === 'l' && $layout.left.space === true) {
-        css[ $q.lang.rtl === true ? 'right' : 'left' ] = `${$layout.left.size}px`
+        css[ $q.lang.rtl === true ? 'right' : 'left' ] = `${ $layout.left.size }px`
       }
       if (view[ 2 ] === 'r' && $layout.right.space === true) {
-        css[ $q.lang.rtl === true ? 'left' : 'right' ] = `${$layout.right.size}px`
+        css[ $q.lang.rtl === true ? 'left' : 'right' ] = `${ $layout.right.size }px`
       }
 
       return css
@@ -137,9 +137,9 @@ export default defineComponent({
 
     watch($layout.scroll, scroll => {
       props.reveal === true && updateLocal(revealed,
-        scroll.direction === 'up' ||
-        scroll.position <= props.revealOffset ||
-        scroll.position - scroll.inflexionPosition < 100
+        scroll.direction === 'up'
+        || scroll.position <= props.revealOffset
+        || scroll.position - scroll.inflexionPosition < 100
       )
     })
 

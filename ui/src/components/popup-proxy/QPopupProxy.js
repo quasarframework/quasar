@@ -67,11 +67,11 @@ export default defineComponent({
       const def = hSlot(slots.default)
 
       const popupProps = (
-        type.value === 'menu' &&
-        def !== void 0 &&
-        def[ 0 ] !== void 0 &&
-        def[ 0 ].type !== void 0 &&
-        [ 'QDate', 'QTime', 'QCarousel', 'QColor' ].includes(
+        type.value === 'menu'
+        && def !== void 0
+        && def[ 0 ] !== void 0
+        && def[ 0 ].type !== void 0
+        && [ 'QDate', 'QTime', 'QCarousel', 'QColor' ].includes(
           def[ 0 ].type.name
         )
       ) ? { cover: true, maxHeight: '99vh' } : {}

@@ -18,20 +18,20 @@ function showRipple (evt, el, ctx, forceCenter) {
     { left, top, width, height } = el.getBoundingClientRect(),
     diameter = Math.sqrt(width * width + height * height),
     radius = diameter / 2,
-    centerX = `${(width - diameter) / 2}px`,
-    x = center ? centerX : `${pos.left - left - radius}px`,
-    centerY = `${(height - diameter) / 2}px`,
-    y = center ? centerY : `${pos.top - top - radius}px`
+    centerX = `${ (width - diameter) / 2 }px`,
+    x = center ? centerX : `${ pos.left - left - radius }px`,
+    centerY = `${ (height - diameter) / 2 }px`,
+    y = center ? centerY : `${ pos.top - top - radius }px`
 
   innerNode.className = 'q-ripple__inner'
   css(innerNode, {
-    height: `${diameter}px`,
-    width: `${diameter}px`,
-    transform: `translate3d(${x},${y},0) scale3d(.2,.2,1)`,
+    height: `${ diameter }px`,
+    width: `${ diameter }px`,
+    transform: `translate3d(${ x },${ y },0) scale3d(.2,.2,1)`,
     opacity: 0
   })
 
-  node.className = `q-ripple${color ? ' text-' + color : ''}`
+  node.className = `q-ripple${ color ? ' text-' + color : '' }`
   node.setAttribute('dir', 'ltr')
   node.appendChild(innerNode)
   el.appendChild(node)
@@ -44,7 +44,7 @@ function showRipple (evt, el, ctx, forceCenter) {
 
   let timer = setTimeout(() => {
     innerNode.classList.add('q-ripple__inner--enter')
-    innerNode.style.transform = `translate3d(${centerX},${centerY},0) scale3d(1,1,1)`
+    innerNode.style.transform = `translate3d(${ centerX },${ centerY },0) scale3d(1,1,1)`
     innerNode.style.opacity = 0.2
 
     timer = setTimeout(() => {
@@ -82,9 +82,9 @@ export default {
 
       start (evt) {
         if (
-          ctx.enabled === true &&
-          evt.qSkipRipple !== true &&
-          (
+          ctx.enabled === true
+          && evt.qSkipRipple !== true
+          && (
             ctx.modifiers.early === true
               ? [ 'mousedown', 'touchstart' ].includes(evt.type) === true
               : evt.type === 'click'
@@ -96,10 +96,10 @@ export default {
 
       keystart: throttle(evt => {
         if (
-          ctx.enabled === true &&
-          evt.qSkipRipple !== true &&
-          isKeyCode(evt, ctx.modifiers.keyCodes) === true &&
-          evt.type === `key${ctx.modifiers.early === true ? 'down' : 'up'}`
+          ctx.enabled === true
+          && evt.qSkipRipple !== true
+          && isKeyCode(evt, ctx.modifiers.keyCodes) === true
+          && evt.type === `key${ ctx.modifiers.early === true ? 'down' : 'up' }`
         ) {
           showRipple(evt, el, ctx, true)
         }

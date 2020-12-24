@@ -69,17 +69,17 @@ export default defineComponent({
 
     const hasLeftIcon = computed(() => props.selected === true || props.icon !== void 0)
 
-    const leftIcon = computed(() =>
+    const leftIcon = computed(() => (
       props.selected === true
         ? props.iconSelected || $q.iconSet.chip.selected
         : props.icon
-    )
+    ))
 
     const removeIcon = computed(() => props.iconRemove || $q.iconSet.chip.remove)
 
     const isClickable = computed(() =>
-      props.disable === false &&
-      (props.clickable === true || props.selected !== null)
+      props.disable === false
+      && (props.clickable === true || props.selected !== null)
     )
 
     const classes = computed(() => {
@@ -87,23 +87,23 @@ export default defineComponent({
         ? props.color || props.textColor
         : props.textColor
 
-      return 'q-chip row inline no-wrap items-center' +
-        (props.outline === false && props.color !== void 0 ? ` bg-${props.color}` : '') +
-        (text ? ` text-${text} q-chip--colored` : '') +
-        (props.disable === true ? ' disabled' : '') +
-        (props.dense === true ? ' q-chip--dense' : '') +
-        (props.outline === true ? ' q-chip--outline' : '') +
-        (props.selected === true ? ' q-chip--selected' : '') +
-        (isClickable.value === true ? ' q-chip--clickable cursor-pointer non-selectable q-hoverable' : '') +
-        (props.square === true ? ' q-chip--square' : '') +
-        (isDark.value === true ? ' q-chip--dark q-dark' : '')
+      return 'q-chip row inline no-wrap items-center'
+        + (props.outline === false && props.color !== void 0 ? ` bg-${ props.color }` : '')
+        + (text ? ` text-${ text } q-chip--colored` : '')
+        + (props.disable === true ? ' disabled' : '')
+        + (props.dense === true ? ' q-chip--dense' : '')
+        + (props.outline === true ? ' q-chip--outline' : '')
+        + (props.selected === true ? ' q-chip--selected' : '')
+        + (isClickable.value === true ? ' q-chip--clickable cursor-pointer non-selectable q-hoverable' : '')
+        + (props.square === true ? ' q-chip--square' : '')
+        + (isDark.value === true ? ' q-chip--dark q-dark' : '')
     })
 
-    const attributes = computed(() =>
+    const attributes = computed(() => (
       props.disable === true
         ? { tabindex: -1, 'aria-disabled': 'true' }
         : { tabindex: props.tabindex || 0 }
-    )
+    ))
 
     function onKeyup (e) {
       e.keyCode === 13 /* ENTER */ && onClick(e)

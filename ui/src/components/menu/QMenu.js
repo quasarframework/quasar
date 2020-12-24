@@ -89,8 +89,8 @@ export default defineComponent({
     const showing = ref(false)
 
     const hideOnRouteChange = computed(() =>
-      props.persistent !== true &&
-      props.noRouteDismiss !== true
+      props.persistent !== true
+      && props.noRouteDismiss !== true
     )
 
     const $q = useQuasar()
@@ -127,9 +127,9 @@ export default defineComponent({
 
           if (
             // always prevent touch event
-            e.type === 'touchstart' ||
+            e.type === 'touchstart'
             // prevent click if it's on a dialog backdrop
-            targetClassList.contains('q-dialog__backdrop')
+            || targetClassList.contains('q-dialog__backdrop')
           ) {
             stopAndPrevent(e)
           }
@@ -148,22 +148,22 @@ export default defineComponent({
       )
     )
 
-    const selfOrigin = computed(() =>
+    const selfOrigin = computed(() => (
       props.cover === true
         ? anchorOrigin.value
         : parsePosition(props.self || 'top start', $q.lang.rtl)
-    )
+    ))
 
     const menuClass = computed(() =>
-      (props.square === true ? ' q-menu--square' : '') +
-      (isDark.value === true ? ' q-menu--dark q-dark' : '')
+      (props.square === true ? ' q-menu--square' : '')
+      + (isDark.value === true ? ' q-menu--dark q-dark' : '')
     )
 
-    const onEvents = computed(() =>
+    const onEvents = computed(() => (
       props.autoClose === true
         ? { onClick: onAutoClose }
         : {}
-    )
+    ))
 
     const handlesFocus = computed(() =>
       showing.value === true && props.persistent !== true
@@ -252,13 +252,13 @@ export default defineComponent({
 
       // check null for IE
       if (
-        refocusTarget !== void 0 &&
-        refocusTarget !== null &&
-        (
+        refocusTarget !== void 0
+        && refocusTarget !== null
+        && (
           // menu was hidden from code or ESC plugin
-          evt === void 0 ||
+          evt === void 0
           // menu was not closed from a mouse or touch clickOutside
-          evt.qClickOutside !== true
+          || evt.qClickOutside !== true
         )
       ) {
         refocusTarget.focus()
@@ -310,8 +310,8 @@ export default defineComponent({
     function onFocusout (evt) {
       // the focus is not in a vue child component
       if (
-        handlesFocus.value === true &&
-        childHasFocus(innerRef.value, evt.target) !== true
+        handlesFocus.value === true
+        && childHasFocus(innerRef.value, evt.target) !== true
       ) {
         focus()
       }
@@ -347,18 +347,20 @@ export default defineComponent({
       return h(
         Transition,
         { name: transition.value, appear: true },
-        () => showing.value === true
-          ? h('div', {
-              ...attrs, // TODO vue3 - verify reactivity
-              ref: innerRef,
-              tabindex: -1,
-              class: [
-                'q-menu q-position-engine scroll' + menuClass.value,
-                attrs.class
-              ],
-              ...onEvents.value
-            }, hSlot(slots.default))
-          : null
+        () => (
+          showing.value === true
+            ? h('div', {
+                ...attrs, // TODO vue3 - verify reactivity
+                ref: innerRef,
+                tabindex: -1,
+                class: [
+                  'q-menu q-position-engine scroll' + menuClass.value,
+                  attrs.class
+                ],
+                ...onEvents.value
+              }, hSlot(slots.default))
+            : null
+        )
       )
     }
 

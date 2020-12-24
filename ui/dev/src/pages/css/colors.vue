@@ -82,7 +82,7 @@ export default {
     const mainColorValues = [ ...mainColors, ...mainLightColors ]
       .filter(c => ![ 'white', 'black' ].includes(c))
       .reduce((acc, color) => {
-        acc[ color ] = style.getPropertyValue(`--q-color-${color}`).trim() || null
+        acc[ color ] = style.getPropertyValue(`--q-color-${ color }`).trim() || null
         return acc
       }, {})
     if (!mainColorValuesOrig) {

@@ -93,7 +93,7 @@ export default {
       scroll: false,
       scrollArea: false,
       selectModel: null,
-      selectOptions: Array(50).fill(null).map((_, index) => `Option ${index + 1}`)
+      selectOptions: Array(50).fill(null).map((_, index) => `Option ${ index + 1 }`)
     }
   },
   watch: {

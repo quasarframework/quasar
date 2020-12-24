@@ -41,16 +41,16 @@ export default defineComponent({
         opt = props.step.headerNav,
         nav = opt === true || opt === '' || opt === void 0
 
-      return isDisable.value === false &&
-        props.stepper.headerNav &&
-        nav
+      return isDisable.value === false
+        && props.stepper.headerNav
+        && nav
     })
 
     const hasPrefix = computed(() => {
-      return props.step.prefix &&
-        isActive.value === false &&
-        isError.value === false &&
-        isDone.value === false
+      return props.step.prefix
+        && isActive.value === false
+        && isError.value === false
+        && isDone.value === false
     })
 
     const icon = computed(() => {
@@ -89,13 +89,13 @@ export default defineComponent({
     })
 
     const classes = computed(() => {
-      return 'q-stepper__tab col-grow flex items-center no-wrap relative-position' +
-        (color.value !== void 0 ? ` text-${color.value}` : '') +
-        (isError.value === true ? ' q-stepper__tab--error' : '') +
-        (isActive.value === true ? ' q-stepper__tab--active' : '') +
-        (isDone.value === true ? ' q-stepper__tab--done' : '') +
-        (headerNav.value === true ? ' q-stepper__tab--navigation q-focusable q-hoverable' : '') +
-        (isDisable.value === true ? ' q-stepper__tab--disabled' : '')
+      return 'q-stepper__tab col-grow flex items-center no-wrap relative-position'
+        + (color.value !== void 0 ? ` text-${ color.value }` : '')
+        + (isError.value === true ? ' q-stepper__tab--error' : '')
+        + (isActive.value === true ? ' q-stepper__tab--active' : '')
+        + (isDone.value === true ? ' q-stepper__tab--done' : '')
+        + (headerNav.value === true ? ' q-stepper__tab--navigation q-focusable q-hoverable' : '')
+        + (isDisable.value === true ? ' q-stepper__tab--disabled' : '')
     })
 
     function onActivate () {

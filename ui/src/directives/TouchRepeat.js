@@ -16,13 +16,13 @@ const
     down: 40,
     delete: [ 8, 46 ]
   },
-  keyRegex = new RegExp(`^([\\d+]+|${Object.keys(keyCodes).join('|')})$`, 'i')
+  keyRegex = new RegExp(`^([\\d+]+|${ Object.keys(keyCodes).join('|') })$`, 'i')
 
 function shouldEnd (evt, origin) {
   const { top, left } = position(evt)
 
-  return Math.abs(left - origin.left) >= 7 ||
-    Math.abs(top - origin.top) >= 7
+  return Math.abs(left - origin.left) >= 7
+    || Math.abs(top - origin.top) >= 7
 }
 
 export default {
@@ -39,9 +39,9 @@ export default {
 
     // early return, we don't need to do anything
     if (
-      modifiers.mouse !== true &&
-      client.has.touch !== true &&
-      keyboard.length === 0
+      modifiers.mouse !== true
+      && client.has.touch !== true
+      && keyboard.length === 0
     ) {
       return
     }
@@ -200,16 +200,16 @@ export default {
     el.__qtouchrepeat = ctx
 
     modifiers.mouse === true && addEvt(ctx, 'main', [
-      [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true ? 'Capture' : ''}` ]
+      [ el, 'mousedown', 'mouseStart', `passive${ modifiers.mouseCapture === true ? 'Capture' : '' }` ]
     ])
 
     client.has.touch === true && addEvt(ctx, 'main', [
-      [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
+      [ el, 'touchstart', 'touchStart', `passive${ modifiers.capture === true ? 'Capture' : '' }` ],
       [ el, 'touchend', 'noop', 'notPassiveCapture' ]
     ])
 
     keyboard.length > 0 && addEvt(ctx, 'main', [
-      [ el, 'keydown', 'keyboardStart', `notPassive${modifiers.keyCapture === true ? 'Capture' : ''}` ]
+      [ el, 'keydown', 'keyboardStart', `notPassive${ modifiers.keyCapture === true ? 'Capture' : '' }` ]
     ])
   },
 

@@ -34,7 +34,7 @@ function getBtn (eVm, btn, clickHandler, active = false) {
   if (btn.tip && eVm.$q.platform.is.desktop) {
     const Key = btn.key
       ? h('div', [
-          h('small', `(CTRL + ${String.fromCharCode(btn.key)})`)
+          h('small', `(CTRL + ${ String.fromCharCode(btn.key) })`)
         ])
       : null
     child.push(
@@ -91,10 +91,10 @@ function getDropdown (eVm, btn) {
   }
   else {
     const activeClass = eVm.props.toolbarToggleColor !== void 0
-      ? `text-${eVm.props.toolbarToggleColor}`
+      ? `text-${ eVm.props.toolbarToggleColor }`
       : null
     const inactiveClass = eVm.props.toolbarTextColor !== void 0
-      ? `text-${eVm.props.toolbarTextColor}`
+      ? `text-${ eVm.props.toolbarTextColor }`
       : null
 
     const noIcons = btn.list === 'no-icons'
@@ -210,7 +210,7 @@ export function getFonts (defaultFont, defaultFontLabel, defaultFontIcon, fonts 
       param: name,
       icon: defaultFontIcon,
       tip: name,
-      htmlTip: `<font face="${name}">${name}</font>`
+      htmlTip: `<font face="${ name }">${ name }</font>`
     }
   })
 
@@ -232,7 +232,7 @@ export function getLinkEditor (eVm) {
     }
 
     return [
-      h('div', { class: `q-mx-xs text-${color}` }, `${eVm.$q.lang.editor.url}: `),
+      h('div', { class: `q-mx-xs text-${ color }` }, `${ eVm.$q.lang.editor.url }: `),
       h('input', {
         key: 'qedt_btm_input',
         class: 'col q-editor__link-input',

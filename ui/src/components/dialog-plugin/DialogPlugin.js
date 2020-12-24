@@ -65,16 +65,16 @@ export default defineComponent({
     )
 
     const classes = computed(() =>
-      'q-dialog-plugin' +
-      (isDark.value === true ? ' q-dialog-plugin--dark q-dark' : '') +
-      (props.progress !== false ? ' q-dialog-plugin--progress' : '')
+      'q-dialog-plugin'
+      + (isDark.value === true ? ' q-dialog-plugin--dark q-dark' : '')
+      + (props.progress !== false ? ' q-dialog-plugin--progress' : '')
     )
 
     const vmColor = computed(() =>
       props.color || (isDark.value === true ? 'amber' : 'primary')
     )
 
-    const spinner = computed(() =>
+    const spinner = computed(() => (
       props.progress === false
         ? null
         : (
@@ -88,7 +88,7 @@ export default defineComponent({
                   props: { color: vmColor.value }
                 }
           )
-    )
+    ))
 
     const hasForm = computed(() =>
       props.prompt !== void 0 || props.options !== void 0
@@ -106,7 +106,7 @@ export default defineComponent({
       return formProps
     })
 
-    const okLabel = computed(() =>
+    const okLabel = computed(() => (
       Object(props.ok) === props.ok
         ? $q.lang.label.ok
         : (
@@ -114,9 +114,9 @@ export default defineComponent({
               ? $q.lang.label.ok
               : props.ok
           )
-    )
+    ))
 
-    const cancelLabel = computed(() =>
+    const cancelLabel = computed(() => (
       Object(props.cancel) === props.cancel
         ? $q.lang.label.cancel
         : (
@@ -124,16 +124,16 @@ export default defineComponent({
               ? $q.lang.label.cancel
               : props.cancel
           )
-    )
+    ))
 
     const okDisabled = computed(() => {
       if (props.prompt !== void 0) {
-        return props.prompt.isValid !== void 0 &&
-          props.prompt.isValid(model.value) !== true
+        return props.prompt.isValid !== void 0
+          && props.prompt.isValid(model.value) !== true
       }
       if (props.options !== void 0) {
-        return props.options.isValid !== void 0 &&
-          props.options.isValid(model.value) !== true
+        return props.options.isValid !== void 0
+          && props.options.isValid(model.value) !== true
       }
       return false
     })
@@ -188,9 +188,9 @@ export default defineComponent({
     function onInputKeyup (evt) {
       // if ENTER key
       if (
-        okDisabled.value !== true &&
-        props.prompt.type !== 'textarea' &&
-        isKeyCode(evt, 13) === true
+        okDisabled.value !== true
+        && props.prompt.type !== 'textarea'
+        && isKeyCode(evt, 13) === true
       ) {
         onOk()
       }

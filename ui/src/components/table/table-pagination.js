@@ -87,8 +87,8 @@ export function useTablePaginationState (props, emit, vm, getCellValue) {
     }
 
     if (
-      props.pagination !== void 0 &&
-      vm.vnode.props[ 'onUpdate:pagination' ] === true
+      props.pagination !== void 0
+      && vm.vnode.props[ 'onUpdate:pagination' ] === true
     ) {
       emit('update:pagination', newPagination)
     }
@@ -108,11 +108,11 @@ export function useTablePaginationState (props, emit, vm, getCellValue) {
 }
 
 export function useTablePagination (props, emit, $q, vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber) {
-  const computedRowsNumber = computed(() =>
+  const computedRowsNumber = computed(() => (
     isServerSide.value === true
       ? computedPagination.value.rowsNumber || 0
       : filteredSortedRowsNumber.value
-  )
+  ))
 
   const firstRowIndex = computed(() => {
     const { page, rowsPerPage } = computedPagination.value
@@ -126,20 +126,20 @@ export function useTablePagination (props, emit, $q, vm, innerPagination, comput
 
   const isFirstPage = computed(() => computedPagination.value.page === 1)
 
-  const pagesNumber = computed(() =>
+  const pagesNumber = computed(() => (
     computedPagination.value.rowsPerPage === 0
       ? 1
       : Math.max(
         1,
         Math.ceil(computedRowsNumber.value / computedPagination.value.rowsPerPage)
       )
-  )
+  ))
 
-  const isLastPage = computed(() =>
+  const isLastPage = computed(() => (
     lastRowIndex.value === 0
       ? true
       : computedPagination.value.page >= pagesNumber.value
-  )
+  ))
 
   const computedRowsPerPageOptions = computed(() => {
     const opts = props.rowsPerPageOptions.includes(innerPagination.value.rowsPerPage)

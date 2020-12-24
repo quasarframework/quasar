@@ -41,8 +41,8 @@ export default defineComponent({
     let localScrollTarget, poll
 
     const classes = computed(() =>
-      'q-infinite-scroll__loading' +
-      (fetching.value === true ? '' : ' invisible')
+      'q-infinite-scroll__loading'
+      + (fetching.value === true ? '' : ' invisible')
     )
 
     function immediatePoll () {

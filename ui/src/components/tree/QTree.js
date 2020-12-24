@@ -91,10 +91,10 @@ export default defineComponent({
     })
 
     const classes = computed(() =>
-      'q-tree' +
-      (props.noConnectors === true ? ' q-tree--no-connectors' : '') +
-      (isDark.value === true ? ' q-tree--dark' : '') +
-      (props.color !== void 0 ? ` text-${props.color}` : '')
+      'q-tree'
+      + (props.noConnectors === true ? ' q-tree--no-connectors' : '')
+      + (isDark.value === true ? ' q-tree--dark' : '')
+      + (props.color !== void 0 ? ` text-${ props.color }` : '')
     )
 
     const hasSelection = computed(() => props.selected !== void 0)
@@ -103,26 +103,26 @@ export default defineComponent({
 
     const computedControlColor = computed(() => props.controlColor || props.color)
 
-    const textColorClass = computed(() =>
+    const textColorClass = computed(() => (
       props.textColor !== void 0
-        ? ` text-${props.textColor}`
+        ? ` text-${ props.textColor }`
         : ''
-    )
+    ))
 
     const selectedColorClass = computed(() => {
       const color = props.selectedColor || props.color
-      return color ? ` text-${color}` : ''
+      return color ? ` text-${ color }` : ''
     })
 
-    const computedFilterMethod = computed(() =>
+    const computedFilterMethod = computed(() => (
       props.filterMethod !== void 0
         ? props.filterMethod
         : (node, filter) => {
             const filt = filter.toLowerCase()
-            return node[ props.labelKey ] &&
-            node[ props.labelKey ].toLowerCase().indexOf(filt) > -1
+            return node[ props.labelKey ]
+            && node[ props.labelKey ].toLowerCase().indexOf(filt) > -1
           }
-    )
+    ))
 
     const meta = computed(() => {
       const meta = {}
@@ -147,9 +147,9 @@ export default defineComponent({
 
         let localLazy = node.lazy
         if (
-          localLazy === true &&
-          lazy.value[ key ] !== void 0 &&
-          Array.isArray(node[ props.childrenKey ]) === true
+          localLazy === true
+          && lazy.value[ key ] !== void 0
+          && Array.isArray(node[ props.childrenKey ]) === true
         ) {
           localLazy = lazy.value[ key ]
         }
@@ -191,11 +191,11 @@ export default defineComponent({
               m.matchesFilter = m.children.some(n => n.matchesFilter)
             }
             else if (
-              m.noTick !== true &&
-              m.disabled !== true &&
-              m.tickable === true &&
-              leafFilteredTicking === true &&
-              m.children.every(n => n.matchesFilter !== true || n.noTick === true || n.tickable !== true) === true
+              m.noTick !== true
+              && m.disabled !== true
+              && m.tickable === true
+              && leafFilteredTicking === true
+              && m.children.every(n => n.matchesFilter !== true || n.noTick === true || n.tickable !== true) === true
             ) {
               m.tickable = false
             }
@@ -213,7 +213,7 @@ export default defineComponent({
 
               if (m.indeterminate !== true) {
                 const sel = m.children
-                  .reduce((acc, meta) => meta.ticked === true ? acc + 1 : acc, 0)
+                  .reduce((acc, meta) => (meta.ticked === true ? acc + 1 : acc), 0)
 
                 if (sel === m.children.length) {
                   m.ticked = true
@@ -461,7 +461,7 @@ export default defineComponent({
       const src = node.img || node.avatar
       if (src) {
         return h('img', {
-          class: `q-tree__${node.img ? 'img' : 'avatar'} q-mr-sm`,
+          class: `q-tree__${ node.img ? 'img' : 'avatar' } q-mr-sm`,
           src
         })
       }
@@ -480,7 +480,7 @@ export default defineComponent({
         key = node[ props.nodeKey ],
         m = meta.value[ key ],
         header = node.header
-          ? slots[ `header-${node.header}` ] || slots[ 'default-header' ]
+          ? slots[ `header-${ node.header }` ] || slots[ 'default-header' ]
           : slots[ 'default-header' ]
 
       const children = m.isParent === true
@@ -490,7 +490,7 @@ export default defineComponent({
       const isParent = children.length > 0 || (m.lazy && m.lazy !== 'loaded')
 
       let body = node.body
-        ? slots[ `body-${node.body}` ] || slots[ 'default-body' ]
+        ? slots[ `body-${ node.body }` ] || slots[ 'default-body' ]
         : slots[ 'default-body' ]
       const slotScope = header !== void 0 || body !== void 0
         ? getSlotScope(node, m, key)
@@ -506,14 +506,14 @@ export default defineComponent({
 
       return h('div', {
         key,
-        class: 'q-tree__node relative-position' +
-          ` q-tree__node--${isParent === true ? 'parent' : 'child'}`
+        class: 'q-tree__node relative-position'
+          + ` q-tree__node--${ isParent === true ? 'parent' : 'child' }`
       }, [
         h('div', {
-          class: 'q-tree__node-header relative-position row no-wrap items-center' +
-            (m.link === true ? ' q-tree__node--link q-hoverable q-focusable' : '') +
-            (m.selected === true ? ' q-tree__node--selected' : '') +
-            (m.disabled === true ? ' q-tree__node--disabled' : ''),
+          class: 'q-tree__node-header relative-position row no-wrap items-center'
+            + (m.link === true ? ' q-tree__node--link q-hoverable q-focusable' : '')
+            + (m.selected === true ? ' q-tree__node--selected' : '')
+            + (m.disabled === true ? ' q-tree__node--disabled' : ''),
           tabindex: m.link === true ? 0 : -1,
           onClick: (e) => {
             onClick(node, m, e)
@@ -539,8 +539,8 @@ export default defineComponent({
             : (
                 isParent === true
                   ? h(QIcon, {
-                      class: 'q-tree__arrow q-mr-xs' +
-                    (m.expanded === true ? ' q-tree__arrow--rotate' : ''),
+                      class: 'q-tree__arrow q-mr-xs'
+                    + (m.expanded === true ? ' q-tree__arrow--rotate' : ''),
                       name: computedIcon.value,
                       onClick: e => {
                         onExpandClick(node, m, e)
@@ -566,8 +566,8 @@ export default defineComponent({
             : null,
 
           h('div', {
-            class: 'q-tree__node-header-content col row no-wrap items-center' +
-              (m.selected === true ? selectedColorClass.value : textColorClass.value)
+            class: 'q-tree__node-header-content col row no-wrap items-center'
+              + (m.selected === true ? selectedColorClass.value : textColorClass.value)
           }, [
             header
               ? header(slotScope)
@@ -586,12 +586,12 @@ export default defineComponent({
             }, () => withDirectives(
               h('div', {
                 class: 'q-tree__node-collapsible' + textColorClass.value,
-                key: `${key}__q`
+                key: `${ key }__q`
               }, [
                 body,
                 h('div', {
-                  class: 'q-tree__children' +
-                  (m.disabled === true ? ' q-tree__node--disabled' : '')
+                  class: 'q-tree__children'
+                  + (m.disabled === true ? ' q-tree__node--disabled' : '')
                 }, children)
               ]),
               [[ vShow, m.expanded ]]
@@ -649,9 +649,9 @@ export default defineComponent({
             }
           }
           else if (
-            meta.noTick !== true &&
-            meta.tickable === true &&
-            (meta.leafFilteredTicking !== true || meta.matchesFilter === true)
+            meta.noTick !== true
+            && meta.tickable === true
+            && (meta.leafFilteredTicking !== true || meta.matchesFilter === true)
           ) {
             keys.push(meta.key)
           }

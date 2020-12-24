@@ -183,7 +183,7 @@ export default {
   },
   methods: {
     submit () {
-      this.$q.notify(`Submit called with: [${this.test}], [${this.testC}], [${this.testN}]`)
+      this.$q.notify(`Submit called with: [${ this.test }], [${ this.testC }], [${ this.testN }]`)
     },
     reset () {
       this.test = 'Initial value'

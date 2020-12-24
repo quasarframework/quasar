@@ -900,7 +900,7 @@ export default {
     openSpecialPosition (position) {
       this.$q.dialog({
         title: 'Positioned',
-        message: `This dialog appears from ${position}.`,
+        message: `This dialog appears from ${ position }.`,
         position
       })
     },

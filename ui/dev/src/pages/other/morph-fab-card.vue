@@ -47,7 +47,7 @@ export default {
     morph (state) {
       if (state !== this.toggle) {
         const getFab = () => this.$refs.refFab
-        const getCard = () => this.$refs.refCard ? this.$refs.refCard.$el : void 0
+        const getCard = () => (this.$refs.refCard ? this.$refs.refCard.$el : void 0)
 
         morph({
           from: this.toggle === true ? getCard : getFab,

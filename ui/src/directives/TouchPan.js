@@ -184,8 +184,8 @@ export default {
            * clone event only otherwise
            */
           if (
-            ctx.direction.all !== true &&
-            (mouseEvent !== true || ctx.direction.mouseAllDir !== true)
+            ctx.direction.all !== true
+            && (mouseEvent !== true || ctx.direction.mouseAllDir !== true)
           ) {
             const clone = evt.type.indexOf('mouse') > -1
               ? new MouseEvent(evt.type, evt)
@@ -292,8 +292,8 @@ export default {
         }
 
         if (
-          ctx.direction.all === true ||
-          (isMouseEvt === true && ctx.modifiers.mouseAllDir === true)
+          ctx.direction.all === true
+          || (isMouseEvt === true && ctx.modifiers.mouseAllDir === true)
         ) {
           start()
           ctx.event.detected = true
@@ -310,12 +310,12 @@ export default {
 
         if (absX !== absY) {
           if (
-            (ctx.direction.horizontal === true && absX > absY) ||
-            (ctx.direction.vertical === true && absX < absY) ||
-            (ctx.direction.up === true && absX < absY && distY < 0) ||
-            (ctx.direction.down === true && absX < absY && distY > 0) ||
-            (ctx.direction.left === true && absX > absY && distX < 0) ||
-            (ctx.direction.right === true && absX > absY && distX > 0)
+            (ctx.direction.horizontal === true && absX > absY)
+            || (ctx.direction.vertical === true && absX < absY)
+            || (ctx.direction.up === true && absX < absY && distY < 0)
+            || (ctx.direction.down === true && absX < absY && distY > 0)
+            || (ctx.direction.left === true && absX > absY && distX < 0)
+            || (ctx.direction.right === true && absX > absY && distX > 0)
           ) {
             ctx.event.detected = true
             ctx.move(evt)
@@ -364,11 +364,11 @@ export default {
     el.__qtouchpan = ctx
 
     modifiers.mouse === true && addEvt(ctx, 'main', [
-      [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true ? 'Capture' : ''}` ]
+      [ el, 'mousedown', 'mouseStart', `passive${ modifiers.mouseCapture === true ? 'Capture' : '' }` ]
     ])
 
     client.has.touch === true && addEvt(ctx, 'main', [
-      [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
+      [ el, 'touchstart', 'touchStart', `passive${ modifiers.capture === true ? 'Capture' : '' }` ],
       [ el, 'touchmove', 'noop', 'notPassiveCapture' ]
     ])
   },

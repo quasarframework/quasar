@@ -10,7 +10,7 @@ export default function (props, naturalRatio) {
       const ratio = props.ratio || (naturalRatio !== void 0 ? naturalRatio.value : void 0)
 
       return ratio !== void 0
-        ? { paddingBottom: `${100 / ratio}%` }
+        ? { paddingBottom: `${ 100 / ratio }%` }
         : null
     })
   }

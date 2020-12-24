@@ -5,10 +5,10 @@ const prefixes = {}
 
 function getFullscreenElement () {
   return (
-    document.fullscreenElement ||
-    document.mozFullScreenElement ||
-    document.webkitFullscreenElement ||
-    document.msFullscreenElement
+    document.fullscreenElement
+    || document.mozFullScreenElement
+    || document.webkitFullscreenElement
+    || document.msFullscreenElement
   )
 }
 

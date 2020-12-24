@@ -86,8 +86,8 @@ export default {
       move (evt) {
         const { top, left } = position(evt)
         if (
-          Math.abs(left - ctx.origin.left) >= ctx.sensitivity ||
-          Math.abs(top - ctx.origin.top) >= ctx.sensitivity
+          Math.abs(left - ctx.origin.left) >= ctx.sensitivity
+          || Math.abs(top - ctx.origin.top) >= ctx.sensitivity
         ) {
           clearTimeout(ctx.timer)
         }
@@ -123,11 +123,11 @@ export default {
     el.__qtouchhold = ctx
 
     modifiers.mouse === true && addEvt(ctx, 'main', [
-      [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true ? 'Capture' : ''}` ]
+      [ el, 'mousedown', 'mouseStart', `passive${ modifiers.mouseCapture === true ? 'Capture' : '' }` ]
     ])
 
     client.has.touch === true && addEvt(ctx, 'main', [
-      [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
+      [ el, 'touchstart', 'touchStart', `passive${ modifiers.capture === true ? 'Capture' : '' }` ],
       [ el, 'touchend', 'noop', 'notPassiveCapture' ]
     ])
   },

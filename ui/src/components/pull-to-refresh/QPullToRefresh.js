@@ -44,13 +44,13 @@ export default defineComponent({
 
     const style = computed(() => ({
       opacity: pullRatio.value,
-      transform: `translateY(${pullPosition.value}px) rotate(${pullRatio.value * 360}deg)`
+      transform: `translateY(${ pullPosition.value }px) rotate(${ pullRatio.value * 360 }deg)`
     }))
 
     const classes = computed(() =>
-      'q-pull-to-refresh__puller row flex-center' +
-      (animating.value === true ? ' q-pull-to-refresh__puller--animating' : '') +
-      (props.bgColor !== void 0 ? ` bg-${props.bgColor}` : '')
+      'q-pull-to-refresh__puller row flex-center'
+      + (animating.value === true ? ' q-pull-to-refresh__puller--animating' : '')
+      + (props.bgColor !== void 0 ? ` bg-${ props.bgColor }` : '')
     )
 
     function pull (event) {
@@ -129,7 +129,7 @@ export default defineComponent({
     })
 
     const contentClass = computed(() =>
-      `q-pull-to-refresh__content${pulling.value === true ? ' no-pointer-events' : ''}`
+      `q-pull-to-refresh__content${ pulling.value === true ? ' no-pointer-events' : '' }`
     )
 
     function trigger () {

@@ -86,7 +86,7 @@ app.get(ssr.resolveUrl('*'), (req, res) => {
         // create a route (/src/routes) for an error page and redirect to it
         res.status(500).send('500 | Internal Server Error')
         if (ssr.settings.debug) {
-          console.error(`500 on ${req.url}`)
+          console.error(`500 on ${ req.url }`)
           console.error(err)
           console.error(err.stack)
         }
@@ -99,5 +99,5 @@ app.get(ssr.resolveUrl('*'), (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Server listening at port ${port}`)
+  console.log(`Server listening at port ${ port }`)
 })

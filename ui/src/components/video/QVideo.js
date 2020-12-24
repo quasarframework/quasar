@@ -18,8 +18,8 @@ export default defineComponent({
     const { ratioStyle } = useRatio(props)
 
     const classes = computed(() =>
-      'q-video' +
-      (props.ratio !== void 0 ? ' q-video--responsive' : '')
+      'q-video'
+      + (props.ratio !== void 0 ? ' q-video--responsive' : '')
     )
 
     return () => h('div', {

@@ -21,7 +21,7 @@ export const useTabProps = {
 
   name: {
     type: [ Number, String ],
-    default: () => `t_${uid++}`
+    default: () => `t_${ uid++ }`
   },
 
   noCaps: Boolean,
@@ -49,30 +49,30 @@ export default function (props, slots, emit, routerProps) {
   const isActive = computed(() => $tabs.currentModel.value === props.name)
 
   const classes = computed(() =>
-    'q-tab relative-position self-stretch flex flex-center text-center' +
-    ` q-tab--${isActive.value === true ? '' : 'in'}active` +
-    (
+    'q-tab relative-position self-stretch flex flex-center text-center'
+    + ` q-tab--${ isActive.value === true ? '' : 'in' }active`
+    + (
       isActive.value === true
         ? (
-            ($tabs.tabProps.value.activeColor ? ` text-${$tabs.tabProps.value.activeColor}` : '') +
-            ($tabs.tabProps.value.activeBgColor ? ` bg-${$tabs.tabProps.value.activeBgColor}` : '')
+            ($tabs.tabProps.value.activeColor ? ` text-${ $tabs.tabProps.value.activeColor }` : '')
+            + ($tabs.tabProps.value.activeBgColor ? ` bg-${ $tabs.tabProps.value.activeBgColor }` : '')
           )
         : ''
-    ) +
-    (props.icon && props.label && $tabs.tabProps.value.inlineLabel === false ? ' q-tab--full' : '') +
-    (props.noCaps === true || $tabs.tabProps.value.noCaps === true ? ' q-tab--no-caps' : '') +
-    (props.disable === true ? ' disabled' : ' q-focusable q-hoverable cursor-pointer')
+    )
+    + (props.icon && props.label && $tabs.tabProps.value.inlineLabel === false ? ' q-tab--full' : '')
+    + (props.noCaps === true || $tabs.tabProps.value.noCaps === true ? ' q-tab--no-caps' : '')
+    + (props.disable === true ? ' disabled' : ' q-focusable q-hoverable cursor-pointer')
   )
 
   const innerClass = computed(() =>
-    'q-tab__content self-stretch flex-center relative-position q-anchor--skip non-selectable ' +
-    ($tabs.tabProps.value.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column') +
-    (props.contentClass !== void 0 ? ` ${props.contentClass}` : '')
+    'q-tab__content self-stretch flex-center relative-position q-anchor--skip non-selectable '
+    + ($tabs.tabProps.value.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column')
+    + (props.contentClass !== void 0 ? ` ${ props.contentClass }` : '')
   )
 
-  const tabIndex = computed(() =>
+  const tabIndex = computed(() => (
     props.disable === true || isActive.value === true ? -1 : props.tabindex || 0
-  )
+  ))
 
   // TODO vue3 - not needed???
   // const attributes = computed(() =>
@@ -138,8 +138,8 @@ export default function (props, slots, emit, routerProps) {
             name: props.alertIcon
           })
         : h('div', {
-          class: 'q-tab__alert' +
-            (props.alert !== true ? ` text-${props.alert}` : '')
+          class: 'q-tab__alert'
+            + (props.alert !== true ? ` text-${ props.alert }` : '')
         })
     )
 

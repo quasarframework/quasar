@@ -188,10 +188,10 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
   defaultModel !== void 0 && Object.assign(date, defaultModel)
 
   if (
-    str === void 0 ||
-    str === null ||
-    str === '' ||
-    typeof str !== 'string'
+    str === void 0
+    || str === null
+    || str === ''
+    || typeof str !== 'string'
   ) {
     return date
   }
@@ -276,9 +276,9 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
     else if (map.h !== void 0) {
       date.hour = parseInt(match[ map.h ], 10) % 12
       if (
-        (map.A && match[ map.A ] === 'PM') ||
-        (map.a && match[ map.a ] === 'pm') ||
-        (map.aa && match[ map.aa ] === 'p.m.')
+        (map.A && match[ map.A ] === 'PM')
+        || (map.a && match[ map.a ] === 'pm')
+        || (map.aa && match[ map.aa ] === 'p.m.')
       ) {
         date.hour += 12
       }
@@ -341,7 +341,7 @@ function getChange (date, mod, add) {
     const op = key === 'year'
       ? 'FullYear'
       : capitalize(key === 'days' ? 'date' : key)
-    t[ `set${op}` ](t[ `get${op}` ]() + sign * mod[ key ])
+    t[ `set${ op }` ](t[ `get${ op }` ]() + sign * mod[ key ])
   })
   return t
 }
@@ -398,8 +398,8 @@ export function isBetweenDates (date, from, to, opts = {}) {
     d2 = getDateIdentifier(to, opts.onlyDate),
     cur = getDateIdentifier(date, opts.onlyDate)
 
-  return (cur > d1 || (opts.inclusiveFrom === true && cur === d1)) &&
-    (cur < d2 || (opts.inclusiveTo === true && cur === d2))
+  return (cur > d1 || (opts.inclusiveFrom === true && cur === d1))
+    && (cur < d2 || (opts.inclusiveTo === true && cur === d2))
 }
 
 export function addToDate (date, mod) {
@@ -412,7 +412,7 @@ export function subtractFromDate (date, mod) {
 export function adjustDate (date, mod, utc) {
   const
     t = new Date(date),
-    prefix = `set${utc === true ? 'UTC' : ''}`
+    prefix = `set${ utc === true ? 'UTC' : '' }`
 
   Object.keys(mod).forEach(key => {
     if (key === 'month') {
@@ -423,7 +423,7 @@ export function adjustDate (date, mod, utc) {
     const op = key === 'year'
       ? 'FullYear'
       : key.charAt(0).toUpperCase() + key.slice(1)
-    t[ `${prefix}${op}` ](mod[ key ])
+    t[ `${ prefix }${ op }` ](mod[ key ])
   })
 
   return t
@@ -432,21 +432,21 @@ export function adjustDate (date, mod, utc) {
 export function startOfDate (date, unit, utc) {
   const
     t = new Date(date),
-    prefix = `set${utc === true ? 'UTC' : ''}`
+    prefix = `set${ utc === true ? 'UTC' : '' }`
 
   switch (unit) {
     case 'year':
-      t[ `${prefix}Month` ](0)
+      t[ `${ prefix }Month` ](0)
     case 'month':
-      t[ `${prefix}Date` ](1)
+      t[ `${ prefix }Date` ](1)
     case 'day':
-      t[ `${prefix}Hours` ](0)
+      t[ `${ prefix }Hours` ](0)
     case 'hour':
-      t[ `${prefix}Minutes` ](0)
+      t[ `${ prefix }Minutes` ](0)
     case 'minute':
-      t[ `${prefix}Seconds` ](0)
+      t[ `${ prefix }Seconds` ](0)
     case 'second':
-      t[ `${prefix}Milliseconds` ](0)
+      t[ `${ prefix }Milliseconds` ](0)
   }
   return t
 }
@@ -454,21 +454,21 @@ export function startOfDate (date, unit, utc) {
 export function endOfDate (date, unit, utc) {
   const
     t = new Date(date),
-    prefix = `set${utc === true ? 'UTC' : ''}`
+    prefix = `set${ utc === true ? 'UTC' : '' }`
 
   switch (unit) {
     case 'year':
-      t[ `${prefix}Month` ](11)
+      t[ `${ prefix }Month` ](11)
     case 'month':
-      t[ `${prefix}Date` ](daysInMonth(t))
+      t[ `${ prefix }Date` ](daysInMonth(t))
     case 'day':
-      t[ `${prefix}Hours` ](23)
+      t[ `${ prefix }Hours` ](23)
     case 'hour':
-      t[ `${prefix}Minutes` ](59)
+      t[ `${ prefix }Minutes` ](59)
     case 'minute':
-      t[ `${prefix}Seconds` ](59)
+      t[ `${ prefix }Seconds` ](59)
     case 'second':
-      t[ `${prefix}Milliseconds` ](999)
+      t[ `${ prefix }Milliseconds` ](999)
   }
   return t
 }
@@ -491,8 +491,8 @@ export function getMinDate (date /*, ...args */) {
 
 function getDiff (t, sub, interval) {
   return (
-    (t.getTime() - t.getTimezoneOffset() * MILLISECONDS_IN_MINUTE) -
-    (sub.getTime() - sub.getTimezoneOffset() * MILLISECONDS_IN_MINUTE)
+    (t.getTime() - t.getTimezoneOffset() * MILLISECONDS_IN_MINUTE)
+    - (sub.getTime() - sub.getTimezoneOffset() * MILLISECONDS_IN_MINUTE)
   ) / interval
 }
 
@@ -588,7 +588,7 @@ export function isSameDate (date, date2, unit) {
       }
       break
     default:
-      throw new Error(`date isSameDate unknown unit ${unit}`)
+      throw new Error(`date isSameDate unknown unit ${ unit }`)
   }
 
   return true
@@ -600,14 +600,14 @@ export function daysInMonth (date) {
 
 function getOrdinal (n) {
   if (n >= 11 && n <= 13) {
-    return `${n}th`
+    return `${ n }th`
   }
   switch (n % 10) {
-    case 1: return `${n}st`
-    case 2: return `${n}nd`
-    case 3: return `${n}rd`
+    case 1: return `${ n }st`
+    case 2: return `${ n }nd`
+    case 3: return `${ n }rd`
   }
-  return `${n}th`
+  return `${ n }th`
 }
 
 const formatter = {
@@ -826,9 +826,9 @@ const formatter = {
 
 export function formatDate (val, mask, dateLocale, __forcedYear, __forcedTimezoneOffset) {
   if (
-    (val !== 0 && !val) ||
-    val === Infinity ||
-    val === -Infinity
+    (val !== 0 && !val)
+    || val === Infinity
+    || val === -Infinity
   ) {
     return
   }
@@ -849,9 +849,11 @@ export function formatDate (val, mask, dateLocale, __forcedYear, __forcedTimezon
 
   return mask.replace(
     token,
-    (match, text) => match in formatter
-      ? formatter[ match ](date, locale, __forcedYear, __forcedTimezoneOffset)
-      : (text === void 0 ? match : text.split('\\]').join(']'))
+    (match, text) => (
+      match in formatter
+        ? formatter[ match ](date, locale, __forcedYear, __forcedTimezoneOffset)
+        : (text === void 0 ? match : text.split('\\]').join(']'))
+    )
   )
 }
 

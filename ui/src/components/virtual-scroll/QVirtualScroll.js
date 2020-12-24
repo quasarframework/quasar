@@ -52,11 +52,11 @@ export default defineComponent({
     let localScrollTarget
     const rootRef = ref(null)
 
-    const virtualScrollLength = computed(() =>
+    const virtualScrollLength = computed(() => (
       props.itemsSize >= 0 && props.itemsFn !== void 0
         ? parseInt(props.itemsSize, 10)
         : (Array.isArray(props.items) ? props.items.length : 0)
-    )
+    ))
 
     const {
       virtualScrollSliceRange,
@@ -84,13 +84,13 @@ export default defineComponent({
     })
 
     const classes = computed(() =>
-      'q-virtual-scroll q-virtual-scroll' + (props.virtualScrollHorizontal === true ? '--horizontal' : '--vertical') +
-      (props.scrollTarget !== void 0 ? '' : ' scroll')
+      'q-virtual-scroll q-virtual-scroll' + (props.virtualScrollHorizontal === true ? '--horizontal' : '--vertical')
+      + (props.scrollTarget !== void 0 ? '' : ' scroll')
     )
 
-    const attributes = computed(() =>
+    const attributes = computed(() => (
       props.scrollTarget !== void 0 ? {} : { tabindex: 0 }
-    )
+    ))
 
     watch(virtualScrollLength, () => {
       localResetVirtualScroll()

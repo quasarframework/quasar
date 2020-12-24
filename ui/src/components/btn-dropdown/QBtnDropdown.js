@@ -61,10 +61,10 @@ export default defineComponent({
       }
 
       if (
-        props.disable === true ||
-        (
-          (props.split === false && props.disableMainBtn === true) ||
-          props.disableDropdown === true
+        props.disable === true
+        || (
+          (props.split === false && props.disableMainBtn === true)
+          || props.disableDropdown === true
         )
       ) {
         acc[ 'aria-disabled' ] = 'true'
@@ -74,9 +74,9 @@ export default defineComponent({
     })
 
     const iconClass = computed(() =>
-      'q-btn-dropdown__arrow' +
-      (showing.value === true && props.noIconAnimation === false ? ' rotate-180' : '') +
-      (props.split === false ? ' q-btn-dropdown__arrow-container' : '')
+      'q-btn-dropdown__arrow'
+      + (showing.value === true && props.noIconAnimation === false ? ' rotate-180' : '')
+      + (props.split === false ? ' q-btn-dropdown__arrow-container' : '')
     )
 
     watch(() => props.modelValue, val => {

@@ -16,11 +16,11 @@ export default defineComponent({
     const parsedLines = computed(() => parseInt(props.lines, 10))
 
     const classes = computed(() =>
-      'q-item__label' +
-      (props.overline === true ? ' q-item__label--overline text-overline' : '') +
-      (props.caption === true ? ' q-item__label--caption text-caption' : '') +
-      (props.header === true ? ' q-item__label--header' : '') +
-      (props.parsedLines === 1 ? ' ellipsis' : '')
+      'q-item__label'
+      + (props.overline === true ? ' q-item__label--overline text-overline' : '')
+      + (props.caption === true ? ' q-item__label--caption text-caption' : '')
+      + (props.header === true ? ' q-item__label--header' : '')
+      + (props.parsedLines === 1 ? ' ellipsis' : '')
     )
 
     const style = computed(() => {

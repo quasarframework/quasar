@@ -225,11 +225,11 @@ export default {
       console.log('@input', JSON.stringify(val))
     },
     onAdded (files) {
-      console.log(`@added ${files.length || 0} files`)
+      console.log(`@added ${ files.length || 0 } files`)
       console.log(files)
     },
     onRemoved (files) {
-      console.log(`@removed ${files.length || 0} files`)
+      console.log(`@removed ${ files.length || 0 } files`)
       console.log(files)
     },
     onFactoryFailed (err) {

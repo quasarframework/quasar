@@ -28,8 +28,8 @@ export default defineComponent({
     const { transition } = useTransition(props, computed(() => props.showing))
 
     const classes = computed(() =>
-      'q-inner-loading absolute-full column flex-center' +
-      (isDark.value === true ? ' q-inner-loading--dark' : '')
+      'q-inner-loading absolute-full column flex-center'
+      + (isDark.value === true ? ' q-inner-loading--dark' : '')
     )
 
     function getContent () {

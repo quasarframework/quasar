@@ -123,32 +123,32 @@ export default defineComponent({
     const { isDark } = useDark(props, $q)
     const { inFullscreen, toggleFullscreen } = useFullscreen(props, emit, vm)
 
-    const getRowKey = computed(() =>
+    const getRowKey = computed(() => (
       typeof props.rowKey === 'function'
         ? props.rowKey
         : row => row[ props.rowKey ]
-    )
+    ))
 
     const rootRef = ref(null)
     const virtScrollRef = ref(null)
     const hasVirtScroll = computed(() => props.grid !== true && props.virtualScroll === true)
 
     const cardDefaultClass = computed(() =>
-      ' q-table__card' +
-      (isDark.value === true ? ' q-table__card--dark q-dark' : '') +
-      (props.square === true ? ' q-table--square' : '') +
-      (props.flat === true ? ' q-table--flat' : '') +
-      (props.bordered === true ? ' q-table--bordered' : '')
+      ' q-table__card'
+      + (isDark.value === true ? ' q-table__card--dark q-dark' : '')
+      + (props.square === true ? ' q-table--square' : '')
+      + (props.flat === true ? ' q-table--flat' : '')
+      + (props.bordered === true ? ' q-table--bordered' : '')
     )
 
     const containerClass = computed(() =>
-      `q-table__container q-table--${props.separator}-separator column no-wrap` +
-      (props.loading === true ? ' q-table--loading' : '') +
-      (props.grid === true ? ' q-table--grid' : cardDefaultClass.value) +
-      (isDark.value === true ? ' q-table--dark' : '') +
-      (props.dense === true ? ' q-table--dense' : '') +
-      (props.wrapCells === false ? ' q-table--no-wrap' : '') +
-      (inFullscreen.value === true ? ' fullscreen scroll' : '')
+      `q-table__container q-table--${ props.separator }-separator column no-wrap`
+      + (props.loading === true ? ' q-table--loading' : '')
+      + (props.grid === true ? ' q-table--grid' : cardDefaultClass.value)
+      + (isDark.value === true ? ' q-table--dark' : '')
+      + (props.dense === true ? ' q-table--dense' : '')
+      + (props.wrapCells === false ? ' q-table--no-wrap' : '')
+      + (inFullscreen.value === true ? ' fullscreen scroll' : '')
     )
 
     watch(
@@ -331,7 +331,7 @@ export default defineComponent({
       }
 
       toIndex = parseInt(toIndex, 10)
-      const rowEl = rootRef.value.querySelector(`tbody tr:nth-of-type(${toIndex + 1})`)
+      const rowEl = rootRef.value.querySelector(`tbody tr:nth-of-type(${ toIndex + 1 })`)
 
       if (rowEl !== null) {
         const scrollTarget = rootRef.value.querySelector('.q-table__middle.scroll')
@@ -385,7 +385,7 @@ export default defineComponent({
         bodyCell = slots[ 'body-cell' ],
         child = computedCols.value.map(col => {
           const
-            bodyCellCol = slots[ `body-cell-${col.name}` ],
+            bodyCellCol = slots[ `body-cell-${ col.name }` ],
             slot = bodyCellCol !== void 0 ? bodyCellCol : bodyCell
 
           return slot !== void 0
@@ -544,9 +544,9 @@ export default defineComponent({
         topLeft = slots[ 'top-left' ],
         topRight = slots[ 'top-right' ],
         topSelection = slots[ 'top-selection' ],
-        hasSelection = hasSelectionMode.value === true &&
-          topSelection !== void 0 &&
-          rowsSelectedNumber.vaue > 0,
+        hasSelection = hasSelectionMode.value === true
+          && topSelection !== void 0
+          && rowsSelectedNumber.vaue > 0,
         topClass = 'q-table__top relative-position row items-center'
 
       if (top !== void 0) {
@@ -597,11 +597,11 @@ export default defineComponent({
       return h('div', { class: topClass }, child)
     }
 
-    const headerSelectedValue = computed(() =>
+    const headerSelectedValue = computed(() => (
       someRowsSelected.value === true
         ? null
         : allRowsSelected.value
-    )
+    ))
 
     function getTHead () {
       const child = getTHeadTR()
@@ -633,7 +633,7 @@ export default defineComponent({
 
       const child = computedCols.value.map(col => {
         const
-          headerCellCol = slots[ `header-cell-${col.name}` ],
+          headerCellCol = slots[ `header-cell-${ col.name }` ],
           slot = headerCellCol !== void 0 ? headerCellCol : headerCell,
           props = getHeaderScope({ col })
 
@@ -949,8 +949,8 @@ export default defineComponent({
           }
 
           if (
-            vm.vnode.props.onRowClick === true ||
-            vm.vnode.props.onRowDblclick === true
+            vm.vnode.props.onRowClick === true
+            || vm.vnode.props.onRowDblclick === true
           ) {
             data.class[ 0 ] += ' cursor-pointer'
 
@@ -968,8 +968,8 @@ export default defineComponent({
           }
 
           return h('div', {
-            class: 'q-table__grid-item col-xs-12 col-sm-6 col-md-4 col-lg-3' +
-              (scope.selected === true ? 'q-table__grid-item--selected' : '')
+            class: 'q-table__grid-item col-xs-12 col-sm-6 col-md-4 col-lg-3'
+              + (scope.selected === true ? 'q-table__grid-item--selected' : '')
           }, [
             h('div', data, child)
           ])

@@ -79,19 +79,20 @@ export default defineComponent({
 
     const { inFullscreen } = useFullscreen(props, emit, vm)
 
-    const style = computed(() => inFullscreen.value !== true && props.height !== void 0
-      ? { height: props.height }
-      : {}
-    )
+    const style = computed(() => (
+      inFullscreen.value !== true && props.height !== void 0
+        ? { height: props.height }
+        : {}
+    ))
 
-    const direction = computed(() => props.vertical === true ? 'vertical' : 'horizontal')
+    const direction = computed(() => (props.vertical === true ? 'vertical' : 'horizontal'))
 
     const classes = computed(() =>
-      `q-carousel q-panel-parent q-carousel--with${props.padding === true ? '' : 'out'}-padding` +
-      (inFullscreen.value === true ? ' fullscreen' : '') +
-      (isDark.value === true ? ' q-carousel--dark q-dark' : '') +
-      (props.arrows === true ? ` q-carousel--arrows-${direction.value}` : '') +
-      (props.navigation === true ? ` q-carousel--navigation-${navigationPosition.value}` : '')
+      `q-carousel q-panel-parent q-carousel--with${ props.padding === true ? '' : 'out' }-padding`
+      + (inFullscreen.value === true ? ' fullscreen' : '')
+      + (isDark.value === true ? ' q-carousel--dark q-dark' : '')
+      + (props.arrows === true ? ` q-carousel--arrows-${ direction.value }` : '')
+      + (props.navigation === true ? ` q-carousel--navigation-${ navigationPosition.value }` : '')
     )
 
     const arrowIcons = computed(() => {
@@ -107,8 +108,8 @@ export default defineComponent({
 
     const navIcon = computed(() => props.navigationIcon || $q.iconSet.carousel.navigationIcon)
     const navActiveIcon = computed(() => props.navigationActiveIcon || navIcon.value)
-    const navigationPosition = computed(() => props.navigationPosition ||
-      (props.vertical === true ? 'right' : 'bottom')
+    const navigationPosition = computed(() => props.navigationPosition
+      || (props.vertical === true ? 'right' : 'bottom')
     )
 
     const controlProps = computed(() => ({
@@ -149,9 +150,9 @@ export default defineComponent({
 
     function getNavigationContainer (type, mapping) {
       return h('div', {
-        class: 'q-carousel__control q-carousel__navigation no-wrap absolute flex' +
-          ` q-carousel__navigation--${type} q-carousel__navigation--${navigationPosition.value}` +
-          (props.controlColor !== void 0 ? ` text-${props.controlColor}` : '')
+        class: 'q-carousel__control q-carousel__navigation no-wrap absolute flex'
+          + ` q-carousel__navigation--${ type } q-carousel__navigation--${ navigationPosition.value }`
+          + (props.controlColor !== void 0 ? ` text-${ props.controlColor }` : '')
       }, [
         h('div', {
           class: 'q-carousel__navigation-inner flex flex-center no-wrap'
@@ -167,7 +168,7 @@ export default defineComponent({
           ? slots[ 'navigation-icon' ]
           : opts => h(QBtn, {
             key: 'nav' + opts.name,
-            class: `q-carousel__navigation-icon q-carousel__navigation-icon--${opts.active === true ? '' : 'in'}active`,
+            class: `q-carousel__navigation-icon q-carousel__navigation-icon--${ opts.active === true ? '' : 'in' }active`,
             ...opts.btnProps,
             onClick: opts.onClick
           })
@@ -195,7 +196,7 @@ export default defineComponent({
       }
       else if (props.thumbnails === true) {
         const color = props.controlColor !== void 0
-          ? ` text-${props.controlColor}`
+          ? ` text-${ props.controlColor }`
           : ''
 
         node.push(getNavigationContainer('thumbnails', panel => {
@@ -203,7 +204,7 @@ export default defineComponent({
 
           return h('img', {
             key: 'tmb#' + slide.name,
-            class: `q-carousel__thumbnail q-carousel__thumbnail--${slide.name === props.modelValue ? '' : 'in'}active` + color,
+            class: `q-carousel__thumbnail q-carousel__thumbnail--${ slide.name === props.modelValue ? '' : 'in' }active` + color,
             src: slide.imgSrc || slide[ 'img-src' ],
             onClick: () => { goToPanel(slide.name) }
           })
@@ -215,7 +216,7 @@ export default defineComponent({
           node.push(
             h('div', {
               key: 'prev',
-              class: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${direction.value} absolute flex flex-center`
+              class: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${ direction.value } absolute flex flex-center`
             }, [
               h(QBtn, {
                 icon: arrowIcons.value[ 0 ],
@@ -230,8 +231,8 @@ export default defineComponent({
           node.push(
             h('div', {
               key: 'next',
-              class: 'q-carousel__control q-carousel__arrow q-carousel__next-arrow' +
-                ` q-carousel__next-arrow--${direction.value} absolute flex flex-center`
+              class: 'q-carousel__control q-carousel__arrow q-carousel__next-arrow'
+                + ` q-carousel__next-arrow--${ direction.value } absolute flex flex-center`
             }, [
               h(QBtn, {
                 icon: arrowIcons.value[ 1 ],

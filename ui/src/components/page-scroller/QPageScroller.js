@@ -42,10 +42,11 @@ export default defineComponent({
 
     const showing = ref(isVisible())
 
-    const height = computed(() => $layout.container === true
-      ? $layout.containerHeight.value
-      : $layout.height.value
-    )
+    const height = computed(() => (
+      $layout.container === true
+        ? $layout.containerHeight.value
+        : $layout.height.value
+    ))
 
     function updateVisibility () {
       const newVal = isVisible()
