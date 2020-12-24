@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onBeforeMount, nextTick } from 'vue'
+import { h, ref, computed, watch, onBeforeMount, onBeforeUnmount, nextTick } from 'vue'
 
 import debounce from '../../utils/debounce.js'
 
@@ -37,6 +37,34 @@ function detectBuggyRTL () {
   buggyRTL = scroller.scrollLeft >= 0
 
   scroller.remove()
+}
+
+let id = 1
+
+function setOverflowAnchor (id, index) {
+  if (setOverflowAnchor.isSupported === void 0) {
+    setOverflowAnchor.isSupported = window.getComputedStyle(document.body).overflowAnchor !== void 0
+  }
+
+  if (setOverflowAnchor.isSupported === false) {
+    return
+  }
+
+  const ssId = id + '_ss'
+
+  let styleSheet = document.getElementById(ssId)
+
+  if (styleSheet === null) {
+    styleSheet = document.createElement('style')
+    styleSheet.type = 'text/css'
+    styleSheet.id = ssId
+    document.head.appendChild(styleSheet)
+  }
+
+  if (styleSheet.qChildIndex !== index) {
+    styleSheet.qChildIndex = index
+    styleSheet.innerHTML = `#${id} > *:nth-child(${index}) { overflow-anchor: auto }`
+  }
 }
 
 function sumFn (acc, h) {
@@ -220,7 +248,9 @@ export function useVirtualScroll ({
   props, emit, $q, vm, virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl,
   virtualScrollItemSizeComputed // optional
 }) {
-  let prevScrollStart, prevToIndex, localScrollViewSize, virtualScrollSizesAgg = [], virtualScrollSizes
+  let prevScrollStart, prevToIndex, prevAlignRange, localScrollViewSize, virtualScrollSizesAgg = [], virtualScrollSizes
+  
+  const vsId = 'qvs_' + id++
 
   const virtualScrollPaddingBefore = ref(0)
   const virtualScrollPaddingAfter = ref(0)
@@ -369,12 +399,26 @@ export function useVirtualScroll ({
     )
   }
 
+  function __calcAlignRange (alignEnd, toIndex) {
+    if (alignEnd !== void 0) {
+      return alignEnd
+    }
+
+    if (toIndex > prevToIndex) {
+      return 'start'
+    }
+
+    return toIndex === prevToIndex && prevAlignRange !== void 0
+      ? prevAlignRange
+      : 'end'
+  }
+
   function setVirtualScrollSliceRange (scrollEl, scrollDetails, toIndex, offset, align) {
     const alignForce = typeof align === 'string' && align.indexOf('-force') > -1
     const alignEnd = alignForce === true ? align.replace('-force', '') : align
-    const alignRange = alignEnd === void 0
-      ? (scrollDetails.scrollStart > prevScrollStart || toIndex > prevToIndex ? 'start' : 'end')
-      : alignEnd
+    const alignRange = __calcAlignRange(alignEnd, toIndex)
+
+    prevAlignRange = alignRange
 
     let
       from = Math.max(0, Math.ceil(toIndex - virtualScrollSliceSizeComputed.value[ alignRange ])),
@@ -397,6 +441,8 @@ export function useVirtualScroll ({
       emitScroll(toIndex)
       return
     }
+
+    setOverflowAnchor(vsId, toIndex - from + 1)
 
     const sizeBefore = alignEnd !== void 0 ? virtualScrollSizes.slice(from, toIndex).reduce(sumFn, 0) : 0
 
@@ -594,6 +640,7 @@ export function useVirtualScroll ({
         class: 'q-virtual-scroll__content',
         key: 'content',
         ref: contentRef,
+        id: vsId,
         tabindex: -1
       }, content),
 
@@ -634,17 +681,20 @@ export function useVirtualScroll ({
   }
 
   setVirtualScrollSize()
-  const onVirtualScrollEvt = debounce(__onVirtualScrollEvt, $q.platform.is.ios === true ? 120 : 50)
+  const onVirtualScrollEvt = debounce(__onVirtualScrollEvt, $q.platform.is.ios === true ? 120 : 35)
 
   onBeforeMount(() => {
     buggyRTL === void 0 && detectBuggyRTL()
     setVirtualScrollSize()
   })
 
-  // expose public methods
-  Object.assign(vm.proxy, {
-    scrollTo, reset, refresh
+  onBeforeUnmount (() => {
+    const styleSheet = document.getElementById(vsId + '_ss')
+    styleSheet !== null && styleSheet.remove()
   })
+
+  // expose public methods
+  Object.assign(vm.proxy, { scrollTo, reset, refresh })
 
   return {
     virtualScrollSliceRange,
