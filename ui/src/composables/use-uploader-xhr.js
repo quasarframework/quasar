@@ -241,6 +241,9 @@ function getState (props, emit, state) {
     }
   }
 
+  // expose public methods
+  Object.assign(vm.proxy, { abort, upload })
+
   return {
     isUploading,
     isBusy,

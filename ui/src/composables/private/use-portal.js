@@ -4,15 +4,9 @@ import { createGlobalNode, removeGlobalNode } from '../../utils/global-nodes.js'
 import { portalList } from '../../utils/portal.js'
 
 // Warning!
-// 1. You MUST specify "inheritAttrs: false" in your component
-// 2. Also expose publicly:
-// Object.assign(vm.proxy, {
-//   expose needed stuff for portal utils
-//   quasarPortalInnerRef: innerRef
-// })
-// })
+// You MUST specify "inheritAttrs: false" in your component
 
-export default function (vm, renderPortalContent) {
+export default function (vm, innerRef, renderPortalContent) {
   if (__QUASAR_SSR_SERVER__) {
     // TODO vue3
     return
@@ -50,6 +44,9 @@ export default function (vm, renderPortalContent) {
   }
 
   onUnmounted(hidePortal)
+
+  // expose publicly needed stuff for portal utils
+  Object.assign(vm.proxy, { __qPortalInnerRef: innerRef })
 
   return {
     showPortal,

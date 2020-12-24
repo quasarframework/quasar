@@ -91,9 +91,9 @@ export default defineComponent({
     const { registerTimeout, removeTimeout } = useTimeout()
     const { registerTick, removeTick, prepareTick } = useTick()
 
-    const { showPortal, hidePortal, portalIsActive, renderPortal } = usePortal(vm, renderPortalContent)
+    const { showPortal, hidePortal, portalIsActive, renderPortal } = usePortal(vm, innerRef, renderPortalContent)
 
-    const { show, hide, toggle } = useModelToggle({
+    const { hide } = useModelToggle({
       props,
       emit,
       vm,
@@ -327,15 +327,12 @@ export default defineComponent({
 
     Object.assign(vm.proxy, {
       // expose public methods
-      show, hide, toggle, focus, shake,
+      focus, shake,
 
       // private but needed by QSelect
       __updateRefocusTarget (target) {
         refocusTarget = target
-      },
-
-      // expose needed stuff for portal utils
-      quasarPortalInnerRef: innerRef
+      }
     })
 
     onBeforeUnmount(() => {

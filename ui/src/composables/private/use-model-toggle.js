@@ -139,9 +139,9 @@ export default function ({
     processModelChange(props.modelValue)
   })
 
-  return {
-    show,
-    hide,
-    toggle
-  }
+  // expose public methods
+  const publicMethods = { show, hide, toggle }
+  Object.assign(vm.proxy, publicMethods)
+
+  return publicMethods
 }

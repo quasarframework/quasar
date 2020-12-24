@@ -34,7 +34,15 @@ export const useFileProps = {
 
 export const useFileEmits = ['rejected']
 
-export default function (props, emit, editable, dnd, getFileInput, addFilesToQueue) {
+export default function ({
+  props,
+  emit,
+  editable,
+  vm,
+  dnd,
+  getFileInput,
+  addFilesToQueue
+}) {
   const extensions = computed(() =>
     props.accept !== void 0
       ? props.accept.split(',').map(ext => {
@@ -178,6 +186,9 @@ export default function (props, emit, editable, dnd, getFileInput, addFilesToQue
       })
     }
   }
+
+  // expose public methods
+  Object.assign(vm.proxy, { pickFiles, addFiles })
 
   return {
     pickFiles,

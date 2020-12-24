@@ -56,7 +56,7 @@ export default defineComponent({
 
     const hideOnRouteChange = computed(() => props.persistent !== true)
 
-    const { show, hide, toggle } = useModelToggle({
+    const { hide, toggle } = useModelToggle({
       props,
       emit,
       vm,
@@ -110,9 +110,6 @@ export default defineComponent({
         }
       }
     })
-
-    // expose public methods
-    Object.assign(vm.proxy, { show, hide, toggle })
 
     return () => h('div', {
       class: classes.value

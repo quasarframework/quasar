@@ -104,7 +104,7 @@ export default defineComponent({
       props, emit, vm, showing, $q
     })
 
-    const { show, hide, toggle } = useModelToggle({
+    const { hide } = useModelToggle({
       props,
       emit,
       vm,
@@ -113,7 +113,7 @@ export default defineComponent({
       processOnMount: true
     })
 
-    const { showPortal, hidePortal, renderPortal } = usePortal(vm, renderPortalContent)
+    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent)
 
     const clickOutsideProps = {
       anchorEl,
@@ -365,12 +365,7 @@ export default defineComponent({
     onBeforeUnmount(anchorCleanup)
 
     // expose public methods
-    Object.assign(vm.proxy, {
-      focus, show, hide, toggle, updatePosition,
-
-      // expose needed stuff for portal utils
-      quasarPortalInnerRef: innerRef
-    })
+    Object.assign(vm.proxy, { focus, updatePosition })
 
     return renderPortal
   }

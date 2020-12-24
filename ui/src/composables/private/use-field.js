@@ -123,6 +123,8 @@ export default function ({
   $q,
   state
 }) {
+  const vm = getCurrentInstance()
+
   let focusoutTimer
 
   if (state.hasValue === void 0) {
@@ -171,7 +173,7 @@ export default function ({
     hasError,
     computedErrorMessage,
     resetValidation
-  } = useValidate(props, state.focused, state.innerLoading)
+  } = useValidate(props, state.focused, vm, state.innerLoading)
 
   const floatingLabel = state.floatingLabel !== void 0
     ? computed(() => props.stackLabel === true || state.focused.value === true || state.floatingLabel.value === true)
@@ -533,7 +535,6 @@ export default function ({
   }
 
   // expose public methods
-  const vm = getCurrentInstance()
   Object.assign(vm.proxy, { focus, blur })
 
   onMounted(() => {

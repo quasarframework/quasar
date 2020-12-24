@@ -150,7 +150,7 @@ export default defineComponent({
       }, duration)
     }
 
-    const { show, hide, toggle } = useModelToggle({
+    const { show, hide } = useModelToggle({
       props,
       emit,
       vm,
@@ -617,9 +617,6 @@ export default defineComponent({
         updateLayout('space', false)
       }
     })
-
-    // expose public methods
-    Object.assign(vm.proxy, { show, hide, toggle })
 
     return () => {
       const child = []

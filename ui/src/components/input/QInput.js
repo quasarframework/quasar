@@ -363,9 +363,9 @@ export default defineComponent({
       }
     })
 
-    // expose public methods // TODO vue3 - verify if these focus/blur should override use-field ones
-    // const vm = getCurrentInstance()
-    // Object.assign(vm.proxy, { focus, blur, select })
+    // expose public methods
+    const vm = getCurrentInstance()
+    Object.assign(vm.proxy, { focus, select })
 
     return useField({ props, slots, emit, attrs, $q, state })
   }

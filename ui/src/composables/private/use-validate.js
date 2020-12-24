@@ -23,7 +23,7 @@ export const useValidateProps = {
   }
 }
 
-export default function (props, focused, innerLoading) {
+export default function (props, focused, vm, innerLoading) {
   const innerError = ref(false)
   const innerErrorMessage = ref(null)
   const isDirtyModel = ref(null)
@@ -194,6 +194,9 @@ export default function (props, focused, innerLoading) {
   onBeforeUnmount(() => {
     unwatchRules !== void 0 && unwatchRules()
   })
+
+  // expose public methods
+  Object.assign(vm.proxy, { resetValidation, validate })
 
   return {
     isDirtyModel,

@@ -422,7 +422,6 @@ function getRender (props, slots, emit, state) {
     removeUploadedFiles,
     removeQueuedFiles,
     removeFile,
-    abort: state.abort,
     upload
   }
 

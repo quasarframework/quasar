@@ -76,7 +76,7 @@ export default defineComponent({
 
     const blurTargetRef = ref(null)
 
-    const { show, hide, toggle } = useModelToggle({ props, emit, vm, showing })
+    const { hide, toggle } = useModelToggle({ props, emit, vm, showing })
 
     let uniqueId, exitGroup
 
@@ -331,11 +331,6 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       exitGroup !== void 0 && exitGroup()
-    })
-
-    // expose public methods
-    Object.assign(vm.proxy, {
-      show, hide, toggle
     })
 
     return () => h('div', { class: classes.value }, [

@@ -641,6 +641,11 @@ export function useVirtualScroll ({
     setVirtualScrollSize()
   })
 
+  // expose public methods
+  Object.assign(vm.proxy, {
+    scrollTo, reset, refresh
+  })
+
   return {
     virtualScrollSliceRange,
     virtualScrollSliceSizeComputed,

@@ -62,8 +62,7 @@ export default defineComponent({
       virtualScrollSliceRange,
       localResetVirtualScroll,
       padVirtualScroll,
-      onVirtualScrollEvt,
-      scrollTo, reset, refresh
+      onVirtualScrollEvt
     } = useVirtualScroll({
       props, emit, $q, vm,
       virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl
@@ -145,11 +144,6 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       unconfigureScrollTarget()
-    })
-
-    // expose public methods
-    Object.assign(vm.proxy, {
-      scrollTo, reset, refresh
     })
 
     return () => {

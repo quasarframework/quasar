@@ -101,7 +101,7 @@ export default defineComponent({
       props, emit, vm, showing, configureAnchorEl
     })
 
-    const { show, hide, toggle } = useModelToggle({
+    const { show, hide } = useModelToggle({
       props,
       emit,
       vm,
@@ -113,7 +113,7 @@ export default defineComponent({
     anchorEvents.delayShow = delayShow
     anchorEvents.delayHide = delayHide
 
-    const { showPortal, hidePortal, renderPortal } = usePortal(vm, renderPortalContent)
+    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent)
 
     function handleShow (evt) {
       removeTick()
@@ -270,12 +270,7 @@ export default defineComponent({
     onBeforeUnmount(anchorCleanup)
 
     // expose public methods
-    Object.assign(vm.proxy, {
-      show, hide, toggle, updatePosition,
-
-      // expose needed stuff for portal utils
-      quasarPortalInnerRef: innerRef
-    })
+    Object.assign(vm.proxy, { updatePosition })
 
     return renderPortal
   }

@@ -872,8 +872,8 @@ export default defineComponent({
       return hasDialog === true
         ? menuContentRef.value
         : (
-            menuRef.value !== null && menuRef.value.quasarPortalInnerRef.value
-              ? menuRef.value.quasarPortalInnerRef.value
+            menuRef.value !== null && menuRef.value.__qPortalInnerRef.value !== null
+              ? menuRef.value.__qPortalInnerRef.value
               : void 0
           )
     }
@@ -1397,11 +1397,12 @@ export default defineComponent({
       showPopup, hidePopup,
       removeAtIndex, add, toggleOption,
       setOptionIndex, moveOptionSelection,
-      updateInputValue,
-      isOptionSelected, isOptionDisabled, // TODO vue3 - exposing computed prop
-      filter,
-      updateMenuPosition,
-      getEmittingOptionValue, getOptionValue, getOptionLabel
+      filter, updateMenuPosition, updateInputValue,
+      isOptionSelected,
+      getEmittingOptionValue,
+      isOptionDisabled: () => isOptionDisabled.value.apply(null, arguments),
+      getOptionValue: () => getOptionValue.value.apply(null, arguments),
+      getOptionLabel: () => getOptionLabel.value.apply(null, arguments)
     })
 
     function onFocusout (e) {
