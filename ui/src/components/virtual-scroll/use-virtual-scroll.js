@@ -1,6 +1,7 @@
 import { h, ref, computed, watch, onBeforeMount, onBeforeUnmount, nextTick } from 'vue'
 
 import debounce from '../../utils/debounce.js'
+import { noop } from '../../utils/event.js'
 
 const aggBucketSize = 1000
 
@@ -18,7 +19,7 @@ const slice = Array.prototype.slice
 let buggyRTL = void 0
 
 // mobile Chrome takes the crown for this
-function detectBuggyRTL () {
+if (!__QUASAR_SSR__) {
   const scroller = document.createElement('div')
   const spacer = document.createElement('div')
 
@@ -41,31 +42,25 @@ function detectBuggyRTL () {
 
 let id = 1
 
-function setOverflowAnchor (id, index) {
-  if (setOverflowAnchor.isSupported === void 0) {
-    setOverflowAnchor.isSupported = window.getComputedStyle(document.body).overflowAnchor !== void 0
+const setOverflowAnchor = __QUASAR_SSR__ || window.getComputedStyle(document.body).overflowAnchor === void 0
+  ? noop
+  : function (id, index) {
+    const ssId = id + '_ss'
+
+    let styleSheet = document.getElementById(ssId)
+
+    if (styleSheet === null) {
+      styleSheet = document.createElement('style')
+      styleSheet.type = 'text/css'
+      styleSheet.id = ssId
+      document.head.appendChild(styleSheet)
+    }
+
+    if (styleSheet.qChildIndex !== index) {
+      styleSheet.qChildIndex = index
+      styleSheet.innerHTML = `#${id} > *:nth-child(${index}) { overflow-anchor: auto }`
+    }
   }
-
-  if (setOverflowAnchor.isSupported === false) {
-    return
-  }
-
-  const ssId = id + '_ss'
-
-  let styleSheet = document.getElementById(ssId)
-
-  if (styleSheet === null) {
-    styleSheet = document.createElement('style')
-    styleSheet.type = 'text/css'
-    styleSheet.id = ssId
-    document.head.appendChild(styleSheet)
-  }
-
-  if (styleSheet.qChildIndex !== index) {
-    styleSheet.qChildIndex = index
-    styleSheet.innerHTML = `#${id} > *:nth-child(${index}) { overflow-anchor: auto }`
-  }
-}
 
 function sumFn (acc, h) {
   return acc + h
@@ -249,7 +244,7 @@ export function useVirtualScroll ({
   virtualScrollItemSizeComputed // optional
 }) {
   let prevScrollStart, prevToIndex, prevAlignRange, localScrollViewSize, virtualScrollSizesAgg = [], virtualScrollSizes
-  
+
   const vsId = 'qvs_' + id++
 
   const virtualScrollPaddingBefore = ref(0)
@@ -314,7 +309,7 @@ export function useVirtualScroll ({
     )
   }
 
-  function __onVirtualScrollEvt () {
+  function localOnVirtualScrollEvt () {
     const scrollEl = getVirtualScrollTarget()
 
     if (scrollEl === void 0 || scrollEl === null || scrollEl.nodeType === 8) {
@@ -399,7 +394,7 @@ export function useVirtualScroll ({
     )
   }
 
-  function __calcAlignRange (alignEnd, toIndex) {
+  function calcAlignRange (alignEnd, toIndex) {
     if (alignEnd !== void 0) {
       return alignEnd
     }
@@ -416,7 +411,7 @@ export function useVirtualScroll ({
   function setVirtualScrollSliceRange (scrollEl, scrollDetails, toIndex, offset, align) {
     const alignForce = typeof align === 'string' && align.indexOf('-force') > -1
     const alignEnd = alignForce === true ? align.replace('-force', '') : align
-    const alignRange = __calcAlignRange(alignEnd, toIndex)
+    const alignRange = calcAlignRange(alignEnd, toIndex)
 
     prevAlignRange = alignRange
 
@@ -681,14 +676,13 @@ export function useVirtualScroll ({
   }
 
   setVirtualScrollSize()
-  const onVirtualScrollEvt = debounce(__onVirtualScrollEvt, $q.platform.is.ios === true ? 120 : 35)
+  const onVirtualScrollEvt = debounce(localOnVirtualScrollEvt, $q.platform.is.ios === true ? 120 : 35)
 
   onBeforeMount(() => {
-    buggyRTL === void 0 && detectBuggyRTL()
     setVirtualScrollSize()
   })
 
-  onBeforeUnmount (() => {
+  setOverflowAnchor !== noop && onBeforeUnmount(() => {
     const styleSheet = document.getElementById(vsId + '_ss')
     styleSheet !== null && styleSheet.remove()
   })
