@@ -3,15 +3,17 @@ import { height, offset } from '../utils/dom.js'
 import { getScrollTarget } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
 
+const { passive } = listenOpts
+
 function update (ctx, { value, oldValue }) {
   if (typeof value !== 'function') {
-    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
+    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, passive)
     return
   }
 
   ctx.handler = value
   if (typeof oldValue !== 'function') {
-    ctx.scrollTarget.addEventListener('scroll', ctx.scroll, listenOpts.passive)
+    ctx.scrollTarget.addEventListener('scroll', ctx.scroll, passive)
     ctx.scroll()
   }
 }
@@ -35,7 +37,7 @@ export default {
         }
 
         if (elBottom > 0 && elBottom < containerBottom) {
-          ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
+          ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, passive)
           ctx.handler(el)
         }
       }, 25)
@@ -54,7 +56,7 @@ export default {
 
   beforeUnmount (el) {
     const ctx = el.__qscrollfire
-    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
+    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, passive)
     delete el.__qscrollfire
   }
 }
