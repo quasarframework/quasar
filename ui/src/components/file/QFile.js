@@ -53,7 +53,6 @@ export default defineComponent({
 
     const {
       pickFiles,
-      addFiles,
       onDragover,
       processFiles,
       getDndNode
