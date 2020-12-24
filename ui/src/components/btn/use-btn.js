@@ -87,7 +87,7 @@ export default function (props, attrs, vm) {
       ? Object.assign({}, obj, {
           padding: props.padding
             .split(/\s+/)
-            .map(v => v in padding ? padding[v] + 'px' : v)
+            .map(v => v in padding ? padding[ v ] + 'px' : v)
             .join(' '),
           minWidth: '0',
           minHeight: '0'

@@ -161,7 +161,7 @@ export default defineComponent({
           isLeaf,
           localLazy,
           disabled: node.disabled,
-          link: node.disabled !== true && (selectable === true || (expandable === true && (isParent === true || lazy === true))),
+          link: node.disabled !== true && (selectable === true || (expandable === true && (isParent === true || localLazy === true))),
           children: [],
           matchesFilter: props.filter ? computedFilterMethod.value(node, props.filter) : true,
 

@@ -3,7 +3,7 @@ import { useSizeDefaults } from '../../composables/private/use-size.js'
 
 export const useSpinnerProps = {
   size: {
-    type: [ Number, String],
+    type: [ Number, String ],
     default: '1em'
   },
   color: String

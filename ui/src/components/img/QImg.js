@@ -249,7 +249,7 @@ export default defineComponent({
     }
 
     function getContentSlot () {
-      return hSlot(slots[hasError.value === true ? 'error' : 'default'])
+      return hSlot(slots[ hasError.value === true ? 'error' : 'default' ])
     }
 
     function getContent () {

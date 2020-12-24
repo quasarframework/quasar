@@ -38,14 +38,14 @@ export default defineComponent({
 
     let index = props.initialIndex || 0
     let isWorking = true
-    let localScrollTarget, immediatePoll
+    let localScrollTarget, poll
 
     const classes = computed(() =>
       'q-infinite-scroll__loading' +
       (fetching.value === true ? '' : ' invisible')
     )
 
-    function poll () {
+    function immediatePoll () {
       if (props.disable === true || fetching.value === true || isWorking === false) {
         return
       }
@@ -93,7 +93,7 @@ export default defineComponent({
             if (stop === true) {
               stop()
             }
-            else if (rootRef.value !== null) {
+            else if (rootRef.value) {
               rootRef.value.closest('body') && poll()
             }
           })
@@ -141,16 +141,27 @@ export default defineComponent({
     // expose public methods
     const vm = getCurrentInstance()
     Object.assign(vm.proxy, {
-      poll, trigger, stop, reset, resume, setIndex
+      poll: immediatePoll, trigger, stop, reset, resume, setIndex
     })
 
     function setDebounce (val) {
       val = parseInt(val, 10)
+
+      const oldPoll = poll
+
       if (val <= 0) {
         poll = immediatePoll
       }
       else {
         poll = debounce(immediatePoll, isNaN(val) === true ? 100 : val)
+      }
+
+      if (localScrollTarget && isWorking === true) {
+        if (oldPoll !== void 0) {
+          localScrollTarget.removeEventListener('scroll', oldPoll, listenOpts.passive)
+        }
+
+        localScrollTarget.addEventListener('scroll', poll, listenOpts.passive)
       }
     }
 
@@ -173,7 +184,6 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      immediatePoll = poll
       setDebounce(props.debounce)
 
       updateScrollTarget()

@@ -243,8 +243,8 @@ export default {
     },
 
     needsSliceRecalc () {
-      return this.needsReset + ';' + ['virtualScrollSliceRatioBefore', 'virtualScrollSliceRatioAfter']
-        .map(p => this[p]).join(';')
+      return this.needsReset + ';' + [ 'virtualScrollSliceRatioBefore', 'virtualScrollSliceRatioAfter' ]
+        .map(p => this[ p ]).join(';')
     },
 
     colspanAttr () {
@@ -388,7 +388,7 @@ export default {
         : alignEnd
 
       let
-        from = Math.max(0, Math.ceil(toIndex - this.virtualScrollSliceSizeComputed[alignRange])),
+        from = Math.max(0, Math.ceil(toIndex - this.virtualScrollSliceSizeComputed[ alignRange ])),
         to = from + this.virtualScrollSliceSizeComputed.total
 
       if (to > this.virtualScrollLength) {

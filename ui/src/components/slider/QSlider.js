@@ -8,7 +8,7 @@ import useSlider, {
   useSliderEmits,
   getRatio,
   getModel,
-  keyCodes,
+  keyCodes
 } from './use-slider.js'
 
 import { between } from '../../utils/format.js'

@@ -436,17 +436,17 @@ export function startOfDate (date, unit, utc) {
 
   switch (unit) {
     case 'year':
-      t[`${prefix}Month`](0)
+      t[ `${prefix}Month` ](0)
     case 'month':
-      t[`${prefix}Date`](1)
+      t[ `${prefix}Date` ](1)
     case 'day':
-      t[`${prefix}Hours`](0)
+      t[ `${prefix}Hours` ](0)
     case 'hour':
-      t[`${prefix}Minutes`](0)
+      t[ `${prefix}Minutes` ](0)
     case 'minute':
-      t[`${prefix}Seconds`](0)
+      t[ `${prefix}Seconds` ](0)
     case 'second':
-      t[`${prefix}Milliseconds`](0)
+      t[ `${prefix}Milliseconds` ](0)
   }
   return t
 }
@@ -458,17 +458,17 @@ export function endOfDate (date, unit, utc) {
 
   switch (unit) {
     case 'year':
-      t[`${prefix}Month`](11)
+      t[ `${prefix}Month` ](11)
     case 'month':
-      t[`${prefix}Date`](daysInMonth(t))
+      t[ `${prefix}Date` ](daysInMonth(t))
     case 'day':
-      t[`${prefix}Hours`](23)
+      t[ `${prefix}Hours` ](23)
     case 'hour':
-      t[`${prefix}Minutes`](59)
+      t[ `${prefix}Minutes` ](59)
     case 'minute':
-      t[`${prefix}Seconds`](59)
+      t[ `${prefix}Seconds` ](59)
     case 'second':
-      t[`${prefix}Milliseconds`](999)
+      t[ `${prefix}Milliseconds` ](999)
   }
   return t
 }
