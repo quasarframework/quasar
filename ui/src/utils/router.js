@@ -27,6 +27,7 @@ export function isSameRoute (current, target) {
   if (!target) {
     return false
   }
+
   if (current.path && target.path) {
     return (
       current.path.replace(trailingSlashRE, '') === target.path.replace(trailingSlashRE, '') &&
@@ -34,19 +35,16 @@ export function isSameRoute (current, target) {
       equals(current.query, target.query)
     )
   }
-  if (current.name && target.name) {
-    return (
-      current.name === target.name &&
-      current.hash === target.hash &&
-      equals(current.query, target.query) &&
-      equals(current.params, target.params)
-    )
-  }
-  return false
+
+  return typeof current.name === 'string' &&
+    current.name === target.name &&
+    current.hash === target.hash &&
+    equals(current.query, target.query) === true &&
+    equals(current.params, target.params) === true
 }
 
 export function isIncludedRoute (current, target) {
-  return current.path.indexOf(target.path.replace(trailingSlashRE, '/')) === 0 &&
-    (!target.hash || current.hash === target.hash) &&
-    includes(current.query, target.query)
+  return current.path.replace(trailingSlashRE, '/').indexOf(target.path.replace(trailingSlashRE, '/')) === 0 &&
+    (typeof target.hash !== 'string' || target.hash.length < 2 || current.hash === target.hash) &&
+    includes(current.query, target.query) === true
 }
