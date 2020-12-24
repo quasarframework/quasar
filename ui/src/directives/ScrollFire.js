@@ -5,7 +5,7 @@ import { listenOpts } from '../utils/event.js'
 
 function update (ctx, { value, oldValue }) {
   if (typeof value !== 'function') {
-    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
+    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
     return
   }
 
