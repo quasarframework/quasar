@@ -167,7 +167,7 @@ export default defineComponent({
         : (
             props.options !== void 0
               ? val => props.options(val, null, null)
-              : void 0
+              : null
           )
     ))
 
@@ -177,7 +177,7 @@ export default defineComponent({
         : (
             props.options !== void 0
               ? val => props.options(innerModel.value.hour, val, null)
-              : void 0
+              : null
           )
     ))
 
@@ -187,32 +187,31 @@ export default defineComponent({
         : (
             props.options !== void 0
               ? val => props.options(innerModel.value.hour, innerModel.value.minute, val)
-              : void 0
+              : null
           )
     ))
 
     const validHours = computed(() => {
-      // TODO vue3 - return null otherwise
-      if (hourInSelection.value !== void 0) {
-        const am = getValidValues(0, 11, hourInSelection.value)
-        const pm = getValidValues(12, 11, hourInSelection.value)
-        return { am, pm, values: am.values.concat(pm.values) }
+      if (hourInSelection.value === null) {
+        return null
       }
+
+      const am = getValidValues(0, 11, hourInSelection.value)
+      const pm = getValidValues(12, 11, hourInSelection.value)
+      return { am, pm, values: am.values.concat(pm.values) }
     })
 
-    const validMinutes = computed(() => {
-      // TODO vue3 - return null otherwise
-      if (minuteInSelection.value !== void 0) {
-        return getValidValues(0, 59, minuteInSelection.value)
-      }
-    })
+    const validMinutes = computed(() => (
+      minuteInSelection.value !== null
+        ? getValidValues(0, 59, minuteInSelection.value)
+        : null
+    ))
 
-    const validSeconds = computed(() => {
-      // TODO vue3 - return null otherwise
-      if (secondInSelection.value !== void 0) {
-        return getValidValues(0, 59, secondInSelection.value)
-      }
-    })
+    const validSeconds = computed(() => (
+      secondInSelection.value !== null
+        ? getValidValues(0, 59, secondInSelection.value)
+        : null
+    ))
 
     const viewValidOptions = computed(() => {
       switch (view.value) {
@@ -227,7 +226,7 @@ export default defineComponent({
 
     const positions = computed(() => {
       let start, end, offset = 0, step = 1
-      const values = viewValidOptions.value !== void 0
+      const values = viewValidOptions.value !== null
         ? viewValidOptions.value.values
         : void 0
 
@@ -385,7 +384,7 @@ export default defineComponent({
         || vm.isUnmounted === true
         // if we have limited options, can we actually set any?
         || (
-          viewValidOptions.value !== void 0
+          viewValidOptions.value !== null
           && (
             viewValidOptions.value.values.length === 0
             || (
@@ -461,7 +460,7 @@ export default defineComponent({
       if (view.value === 'hour') {
         val = angle / 30
 
-        if (validHours.value !== void 0) {
+        if (validHours.value !== null) {
           const am = computedFormat24h.value !== true
             ? isAM.value === true
             : (
@@ -503,10 +502,10 @@ export default defineComponent({
       else {
         val = Math.round(angle / 6) % 60
 
-        if (view.value === 'minute' && validMinutes.value !== void 0) {
+        if (view.value === 'minute' && validMinutes.value !== null) {
           val = getNormalizedClockValue(val, validMinutes.value)
         }
-        else if (view.value === 'second' && validSeconds.value !== void 0) {
+        else if (view.value === 'second' && validSeconds.value !== null) {
           val = getNormalizedClockValue(val, validSeconds.value)
         }
       }
@@ -540,14 +539,12 @@ export default defineComponent({
           updateClock(evt, getClockRect())
         }
 
-        console.log('onClick')
         goToNextView()
       }
     }
 
     function onMousedown (evt) {
       if (shouldAbortInteraction() !== true) {
-        console.log('updating clock')
         updateClock(evt, getClockRect())
       }
     }
@@ -559,7 +556,7 @@ export default defineComponent({
       else if ([ 37, 39 ].includes(e.keyCode)) {
         const payload = e.keyCode === 37 ? -1 : 1
 
-        if (validHours.value !== void 0) {
+        if (validHours.value !== null) {
           const values = computedFormat24h.value === true
             ? validHours.value.values
             : validHours.value[ isAM.value === true ? 'am' : 'pm' ].values
@@ -597,7 +594,7 @@ export default defineComponent({
       else if ([ 37, 39 ].includes(e.keyCode)) {
         const payload = e.keyCode === 37 ? -1 : 1
 
-        if (validMinutes.value !== void 0) {
+        if (validMinutes.value !== null) {
           const values = validMinutes.value.values
 
           if (values.length === 0) { return }
@@ -629,7 +626,7 @@ export default defineComponent({
       else if ([ 37, 39 ].includes(e.keyCode)) {
         const payload = e.keyCode === 37 ? -1 : 1
 
-        if (validSeconds.value !== void 0) {
+        if (validSeconds.value !== null) {
           const values = validSeconds.value.values
 
           if (values.length === 0) { return }
@@ -703,20 +700,20 @@ export default defineComponent({
     }
 
     function verifyAndUpdate () {
-      if (hourInSelection.value !== void 0 && hourInSelection.value(innerModel.value.hour) !== true) {
+      if (hourInSelection.value !== null && hourInSelection.value(innerModel.value.hour) !== true) {
         innerModel.value = __splitDate()
         view.value = 'hour'
         return
       }
 
-      if (minuteInSelection.value !== void 0 && minuteInSelection.value(innerModel.value.minute) !== true) {
+      if (minuteInSelection.value !== null && minuteInSelection.value(innerModel.value.minute) !== true) {
         innerModel.value.minute = null
         innerModel.value.second = null
         view.value = 'minute'
         return
       }
 
-      if (props.withSeconds === true && secondInSelection.value !== void 0 && secondInSelection.value(innerModel.value.second) !== true) {
+      if (props.withSeconds === true && secondInSelection.value !== null && secondInSelection.value(innerModel.value.second) !== true) {
         innerModel.value.second = null
         view.value = 'second'
         return
