@@ -2,7 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import useCanRender from '../../composables/use-can-render.js'
 
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QNoSsr',

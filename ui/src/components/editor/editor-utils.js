@@ -8,7 +8,7 @@ import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
 import { prevent, stop } from '../../utils/event.js'
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 import { shouldIgnoreKey } from '../../utils/key-composition.js'
 
 function run (e, btn, eVm) {

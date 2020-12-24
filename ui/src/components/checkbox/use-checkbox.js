@@ -8,7 +8,7 @@ import { useFormInject } from '../../composables/private/use-form.js'
 
 import optionSizes from '../../utils/option-sizes.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { hSlot, hMergeSlot } from '../../utils/composition-render.js'
+import { hSlot, hMergeSlot } from '../../utils/render.js'
 
 export const useCheckboxProps = {
   ...useDarkProps,

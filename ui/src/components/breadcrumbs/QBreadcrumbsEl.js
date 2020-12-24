@@ -2,7 +2,7 @@ import { h, defineComponent, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import { hMergeSlot } from '../../utils/composition-render.js'
+import { hMergeSlot } from '../../utils/render.js'
 import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 
 export default defineComponent({

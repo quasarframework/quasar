@@ -4,7 +4,7 @@ import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import Intersection from '../../directives/Intersection.js'
 
-import { hSlot, hDir } from '../../utils/composition-render.js'
+import { hSlot, hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QIntersection',

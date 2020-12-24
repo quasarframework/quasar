@@ -3,7 +3,7 @@ import { h, defineComponent, computed } from 'vue'
 import useQuasar from '../../composables/use-quasar.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
-import { hSlot, hMergeSlot } from '../../utils/composition-render.js'
+import { hSlot, hMergeSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QIcon',

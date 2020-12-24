@@ -8,7 +8,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from '../date/use-datetime.js'
 
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { pad } from '../../utils/format.js'

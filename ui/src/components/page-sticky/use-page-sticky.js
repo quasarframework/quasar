@@ -1,7 +1,7 @@
 import { h, computed, inject } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 import { layoutKey } from '../../utils/symbols.js'
 
 export const usePageStickyProps = {

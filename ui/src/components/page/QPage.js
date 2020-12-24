@@ -2,7 +2,7 @@ import { h, defineComponent, computed, inject } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
 
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 import { pageContainerKey, layoutKey } from '../../utils/symbols.js'
 
 export default defineComponent({

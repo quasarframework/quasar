@@ -6,7 +6,7 @@ import StepHeader from './StepHeader.js'
 import { usePanelChildProps } from '../../composables/private/use-panel.js'
 
 import { stepperKey } from '../../utils/symbols.js'
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 
 function getStepWrapper (slots, key) {
   return h('div', {

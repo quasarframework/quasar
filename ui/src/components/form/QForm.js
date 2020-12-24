@@ -1,7 +1,7 @@
 import { h, defineComponent, ref, onMounted, getCurrentInstance, nextTick, provide } from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 import { formKey } from '../../utils/symbols.js'
 
 export default defineComponent({

@@ -13,7 +13,7 @@ import useSlider, {
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
-import { hDir } from '../../utils/composition-render.js'
+import { hDir } from '../../utils/render.js'
 
 const dragType = {
   MIN: 0,

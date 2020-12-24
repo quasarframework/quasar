@@ -5,7 +5,7 @@ import QMenu from '../menu/QMenu.js'
 
 import useQuasar from '../../composables/use-quasar.js'
 import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QPopupProxy',

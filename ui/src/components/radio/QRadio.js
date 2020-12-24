@@ -8,7 +8,7 @@ import { useFormProps, useFormInject } from '../../composables/private/use-form.
 
 import optionSizes from '../../utils/option-sizes.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { hSlot, hMergeSlot } from '../../utils/composition-render.js'
+import { hSlot, hMergeSlot } from '../../utils/render.js'
 
 const svg = h('svg', {
   class: 'q-radio__bg absolute non-selectable',

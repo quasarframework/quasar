@@ -3,7 +3,7 @@ import { h, defineComponent, computed } from 'vue'
 import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QBar',

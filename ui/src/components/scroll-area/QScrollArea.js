@@ -10,7 +10,7 @@ import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
-import { hMergeSlot } from '../../utils/composition-render.js'
+import { hMergeSlot } from '../../utils/render.js'
 import debounce from '../../utils/debounce.js'
 
 export default defineComponent({

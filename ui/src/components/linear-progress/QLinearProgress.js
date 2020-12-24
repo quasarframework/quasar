@@ -4,7 +4,7 @@ import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
-import { hMergeSlot } from '../../utils/composition-render.js'
+import { hMergeSlot } from '../../utils/render.js'
 
 const defaultSizes = {
   xs: 2,

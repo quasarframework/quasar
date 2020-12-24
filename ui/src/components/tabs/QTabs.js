@@ -8,7 +8,7 @@ import useTick from '../../composables/use-tick.js'
 import useTimeout from '../../composables/use-timeout.js'
 
 import { noop } from '../../utils/event.js'
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 import { tabsKey } from '../../utils/symbols.js'
 
 function getIndicatorClass (color, top, vertical) {

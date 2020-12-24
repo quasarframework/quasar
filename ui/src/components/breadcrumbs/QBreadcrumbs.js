@@ -2,7 +2,7 @@ import { h, defineComponent, computed } from 'vue'
 
 import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
 
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 import { getNormalizedVNodes } from '../../utils/vm.js'
 
 export default defineComponent({

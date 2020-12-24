@@ -4,7 +4,7 @@ import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 
-import { hUniqueSlot } from '../../utils/composition-render.js'
+import { hUniqueSlot } from '../../utils/render.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 

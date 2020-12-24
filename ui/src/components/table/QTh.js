@@ -4,7 +4,7 @@ import QIcon from '../icon/QIcon.js'
 
 import useQuasar from '../../composables/use-quasar.js'
 
-import { hSlot, hUniqueSlot } from '../../utils/composition-render.js'
+import { hSlot, hUniqueSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QTh',

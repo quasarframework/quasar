@@ -10,7 +10,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
-import { hSlot, hDir } from '../../utils/composition-render.js'
+import { hSlot, hDir } from '../../utils/render.js'
 import { layoutKey } from '../../utils/symbols.js'
 
 const duration = 150

@@ -9,7 +9,7 @@ import { useVirtualScroll, useVirtualScrollProps, useVirtualScrollEmits } from '
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
-import { hMergeSlot } from '../../utils/composition-render.js'
+import { hMergeSlot } from '../../utils/render.js'
 
 const comps = {
   list: QList,

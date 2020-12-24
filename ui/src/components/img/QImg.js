@@ -5,7 +5,7 @@ import QSpinner from '../spinner/QSpinner.js'
 import useQuasar from '../../composables/use-quasar.js'
 import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QImg',

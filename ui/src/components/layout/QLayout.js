@@ -8,7 +8,7 @@ import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import { getScrollbarWidth } from '../../utils/scroll.js'
-import { hMergeSlot } from '../../utils/composition-render.js'
+import { hMergeSlot } from '../../utils/render.js'
 import { layoutKey } from '../../utils/symbols.js'
 
 export default defineComponent({

@@ -9,7 +9,7 @@ import useQuasar from '../../composables/use-quasar.js'
 import { useBtnProps } from '../btn/use-btn.js'
 
 import { stop } from '../../utils/event.js'
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QBtnDropdown',

@@ -9,7 +9,7 @@ import useQuasar from '../../composables/use-quasar.js'
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
-import { hSlot, hDir } from '../../utils/composition-render.js'
+import { hSlot, hDir } from '../../utils/render.js'
 
 const
   PULLER_HEIGHT = 40,

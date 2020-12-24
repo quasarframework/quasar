@@ -6,7 +6,7 @@ import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useCache from '../../composables/use-cache.js'
 
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 
 const slotsDef = [
   [ 'left', 'center', 'start', 'width' ],

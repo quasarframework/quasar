@@ -6,7 +6,7 @@ import QIcon from '../icon/QIcon.js'
 import useFab, { useFabProps } from './use-fab.js'
 import { fabKey } from '../../utils/symbols.js'
 
-import { hMergeSlot } from '../../utils/composition-render.js'
+import { hMergeSlot } from '../../utils/render.js'
 
 const anchorMap = {
   start: 'self-end',

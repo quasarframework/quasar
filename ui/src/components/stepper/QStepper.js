@@ -7,7 +7,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import usePanel, { usePanelProps } from '../../composables/private/use-panel.js'
 
 import { stepperKey } from '../../utils/symbols.js'
-import { hSlot, hMergeSlot, hDir } from '../../utils/composition-render.js'
+import { hSlot, hMergeSlot, hDir } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QStepper',

@@ -1,7 +1,7 @@
 import { h, defineComponent } from 'vue'
 
 import { usePanelChildProps } from '../../composables/private/use-panel.js'
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 
 export default defineComponent({
   name: 'QTabPanel',

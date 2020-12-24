@@ -2,7 +2,7 @@ import { h, defineComponent, computed, inject } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import { hSlot, hUniqueSlot } from '../../utils/composition-render.js'
+import { hSlot, hUniqueSlot } from '../../utils/render.js'
 import { timelineKey } from '../../utils/symbols.js'
 
 export default defineComponent({

@@ -3,7 +3,7 @@ import { h, defineComponent, ref, watch, onMounted, onBeforeUnmount, getCurrentI
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { hSlot } from '../../utils/composition-render.js'
+import { hSlot } from '../../utils/render.js'
 import { listenOpts } from '../../utils/event.js'
 
 const { passive } = listenOpts

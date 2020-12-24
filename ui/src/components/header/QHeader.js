@@ -3,7 +3,7 @@ import { h, defineComponent, ref, computed, watch, onBeforeUnmount, nextTick, in
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import { hUniqueSlot } from '../../utils/composition-render.js'
+import { hUniqueSlot } from '../../utils/render.js'
 import { layoutKey } from '../../utils/symbols.js'
 
 export default defineComponent({

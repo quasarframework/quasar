@@ -7,7 +7,7 @@ import Ripple from '../../directives/Ripple.js'
 
 import useBtn, { useBtnProps } from './use-btn.js'
 
-import { hMergeSlot, hDir } from '../../utils/composition-render.js'
+import { hMergeSlot, hDir } from '../../utils/render.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { getTouchTarget } from '../../utils/touch.js'
 import { isKeyCode } from '../../utils/key-composition.js'
