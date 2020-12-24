@@ -151,8 +151,7 @@ export default function ({
       }
 
       if (el !== void 0 && el !== null) {
-        // TODO vue3 - correctly handle el._isVue
-        anchorEl.value = el._isVue === true && el.$el !== void 0 ? el.$el : el
+        anchorEl.value = el.$el || el
         configureAnchorEl()
       }
       else {

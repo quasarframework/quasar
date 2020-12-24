@@ -992,7 +992,6 @@ export default defineComponent({
 
     // expose public methods and needed computed props
     Object.assign(vm.proxy, {
-      filteredSortedRows, // TODO vue3 - make it a getter
       requestServerInteraction,
       setPagination,
       firstPage,
@@ -1007,6 +1006,11 @@ export default defineComponent({
       resetVirtualScroll,
       scrollTo,
       getCellValue
+    })
+
+    Object.defineProperty(vm.proxy, 'filteredSortedRows', {
+      get: () => filteredSortedRows.value,
+      enumerable: true
     })
 
     return () => {

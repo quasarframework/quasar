@@ -337,7 +337,7 @@ export default defineComponent({
                   class: 'absolute-full flex flex-center'
                 }, slots.loading !== void 0 ? slots.loading() : [h(QSpinner)])
               ]
-            : void 0
+            : null
         ))
       )
 

@@ -249,7 +249,7 @@ export default defineComponent({
     function getTooltipContent () {
       return showing.value === true
         ? h('div', {
-            ...attrs, // TODO vue3 - verify reactivity
+            ...attrs,
             ref: innerRef,
             class: [
               'q-tooltip q-tooltip--style q-position-engine no-pointer-events',

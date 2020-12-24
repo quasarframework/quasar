@@ -341,7 +341,7 @@ export default defineComponent({
 
     function renderPortalContent () {
       return h('div', {
-        ...attrs, // TODO vue3 - verify reactivity
+        ...attrs,
         class: [
           'q-dialog fullscreen no-pointer-events '
             + `q-dialog--${ useBackdrop.value === true ? 'modal' : 'seamless' }`,

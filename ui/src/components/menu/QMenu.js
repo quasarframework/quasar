@@ -350,7 +350,7 @@ export default defineComponent({
         () => (
           showing.value === true
             ? h('div', {
-                ...attrs, // TODO vue3 - verify reactivity
+                ...attrs,
                 ref: innerRef,
                 tabindex: -1,
                 class: [

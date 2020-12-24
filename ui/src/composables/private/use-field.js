@@ -238,7 +238,6 @@ export default function ({
 
   const controlSlotScope = computed(() => ({
     id: state.targetUid.value,
-    // field: markRaw(state.rootRef.value), // TODO vue3
     editable: state.editable.value,
     focused: state.focused.value,
     floatingLabel: floatingLabel.value,

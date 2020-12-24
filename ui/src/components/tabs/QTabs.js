@@ -168,7 +168,6 @@ export default defineComponent({
 
     function recalculateScroll () {
       registerTick(() => {
-        // TODO vue3 -> verify vm.isDeactivated/isUnmounted
         if (vm.isDeactivated !== true && vm.isUnmounted !== true) {
           updateContainer({
             width: rootRef.value.offsetWidth,

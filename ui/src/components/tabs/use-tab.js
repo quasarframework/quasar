@@ -74,13 +74,6 @@ export default function (props, slots, emit, routerProps) {
     props.disable === true || isActive.value === true ? -1 : props.tabindex || 0
   ))
 
-  // TODO vue3 - not needed???
-  // const attributes = computed(() =>
-  //   props.disable === true
-  //     ? { 'aria-disabled': 'true' }
-  //     : {}
-  // )
-
   function onClick (e, keyboard) {
     keyboard !== true && blurTargetRef.value !== null && blurTargetRef.value.focus()
 
