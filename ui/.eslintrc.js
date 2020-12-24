@@ -46,7 +46,6 @@ module.exports = {
     'no-useless-return': 'error',
     'no-unneeded-ternary': 'error',
     'no-confusing-arrow': [ 'error', { allowParens: true } ],
-    'linebreak-style': [ 'error', 'unix' ],
     'operator-linebreak': [ 'error', 'before' ],
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
 
