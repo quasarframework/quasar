@@ -175,41 +175,46 @@ function getRender (props, slots, emit, state) {
 
   function removeUploadedFiles () {
     if (props.disable === false) {
-      files.value = files.value.filter(f => {
-        if (f.__status !== 'uploaded') {
-          return true
-        }
-
-        f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
-
-        return false
+      batchRemoveFiles(['uploaded'], () => {
+        state.uploadedFiles.value = []
       })
-      state.uploadedFiles.value = []
     }
   }
 
   function removeQueuedFiles () {
-    if (props.disable === false) {
-      const removedFiles = []
+    batchRemoveFiles([ 'idle', 'failed' ], ({ size }) => {
+      uploadSize.value -= size
+      state.queuedFiles.value = []
+    })
+  }
 
-      const localFiles = files.value.filter(f => {
-        if (f.__status !== 'idle' && f.__status !== 'failed') {
-          return true
-        }
+  function batchRemoveFiles (statusList, cb) {
+    if (props.disable === true) {
+      return
+    }
 
-        uploadSize.value -= f.size
-        removedFiles.push(f)
+    const removed = {
+      files: [],
+      size: 0
+    }
 
-        f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
-
-        return false
-      })
-
-      if (removedFiles.length > 0) {
-        files.value = localFiles
-        state.queuedFiles.value = []
-        emit('removed', removedFiles)
+    const localFiles = files.value.filter(f => {
+      if (statusList.indexOf(f.__status) === -1) {
+        return true
       }
+
+      removed.size += f.size
+      removed.files.push(f)
+
+      f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
+
+      return false
+    })
+
+    if (removed.files.length > 0) {
+      files.value = localFiles
+      cb(removed)
+      emit('removed', removed.files)
     }
   }
 
