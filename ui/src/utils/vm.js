@@ -32,3 +32,7 @@ export function getNormalizedVNodes (vnodes) {
 
   return Array.from(children)
 }
+
+export function vmHasRouter (vm) {
+  return vm.appContext.config.globalProperties.$router !== void 0
+}

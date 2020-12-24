@@ -1,5 +1,7 @@
 import { watch, nextTick, onMounted } from 'vue'
 
+import { vmHasRouter } from '../../utils/vm.js'
+
 export const useModelToggleProps = {
   modelValue: {
     type: Boolean,
@@ -127,7 +129,7 @@ export default function ({
 
   watch(() => props.modelValue, processModelChange)
 
-  if (hideOnRouteChange !== void 0 && vm !== void 0 && vm.proxy.$route !== void 0) {
+  if (hideOnRouteChange !== void 0 && vm !== void 0 && vmHasRouter(vm) === true) {
     watch(() => vm.proxy.$route, () => {
       if (hideOnRouteChange.value === true && showing.value === true) {
         hide()

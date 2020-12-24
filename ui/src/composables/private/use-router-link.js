@@ -4,7 +4,9 @@
  */
 
 import { computed } from 'vue'
+
 import { prevent } from '../../utils/event.js'
+import { vmHasRouter } from '../../utils/vm.js'
 
 // Get the original path value of a record by following its aliasOf
 function getOriginalPath (record) {
@@ -63,9 +65,10 @@ export const useRouterLinkProps = {
 
 export default function (props, vm, attrs) {
   const vmProxy = vm.proxy
+  const hasRouter = vmHasRouter(vm)
 
   const hasLink = computed(() =>
-    vmProxy.$router !== void 0
+    hasRouter === true
     && props.disable !== true
     && props.to !== void 0 && props.to !== null && props.to !== ''
   )

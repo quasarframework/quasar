@@ -1,6 +1,7 @@
 import { ref, watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
 
 import History from '../../history.js'
+import { vmHasRouter } from '../../utils/vm.js'
 
 export const useFullscreenProps = {
   fullscreen: Boolean,
@@ -13,7 +14,7 @@ export default function (props, emit, vm) {
   let historyEntry, fullscreenFillerNode, container
   const inFullscreen = ref(false)
 
-  vm.proxy.$route !== void 0 && watch(() => vm.proxy.$route, () => {
+  vmHasRouter(vm) === true && watch(() => vm.proxy.$route, () => {
     props.noRouteFullscreenExit !== true && exitFullscreen()
   })
 
