@@ -1,14 +1,10 @@
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 
 import materialIcons from '../icon-set/material-icons.js'
 
-const state = reactive({
-  iconMapFn: void 0
-})
-
-export default {
+const Plugin = {
   set (setObject, ssrContext) {
-    const def = { ...setObject }
+    const def = { ...setObject, rtl: setObject.rtl === true }
 
     if (__QUASAR_SSR_SERVER__) {
       if (ssrContext === void 0) {
@@ -17,11 +13,11 @@ export default {
       }
 
       def.set = ssrContext.$q.iconSet.set
-      ssrContext.$q.iconSet = def
+      Object.assign(ssrContext.$q.iconSet, def)
     }
     else {
-      def.set = this.set
-      this.__q.iconSet = def
+      def.set = Plugin.set
+      Object.assign(Plugin.__q.iconSet, def)
     }
   },
 
@@ -30,6 +26,7 @@ export default {
     const { $q } = opts
 
     if (__QUASAR_SSR_SERVER__) {
+      $q.iconMapFn = null
       $q.iconSet = {}
       $q.iconSet.set = setObject => {
         this.set(setObject, opts.ssrContext)
@@ -38,11 +35,13 @@ export default {
       $q.iconSet.set(initialSet)
     }
     else {
+      const iconMapFn = ref(null)
+
       $q.iconSet = reactive({})
 
       Object.defineProperty($q, 'iconMapFn', {
-        get: () => state.iconMapFn,
-        set: val => { state.iconMapFn = val }
+        get: () => iconMapFn.value,
+        set: val => { iconMapFn.value = val }
       })
 
       this.__q = $q
@@ -50,3 +49,5 @@ export default {
     }
   }
 }
+
+export default Plugin

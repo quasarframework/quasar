@@ -18,7 +18,7 @@ function getLocale () {
   }
 }
 
-export default {
+const Plugin = {
   getLocale,
 
   set (langObject = langEn, ssrContext) {
@@ -53,10 +53,13 @@ export default {
         el.setAttribute('lang', lang.isoName)
       }
 
-      lang.set = this.set
-      this.__q.lang = this.props = lang
-      this.isoName = lang.isoName
-      this.nativeName = lang.nativeName
+      lang.set = Plugin.set
+
+      Object.assign(Plugin.__q.lang, lang)
+
+      Plugin.props = lang
+      Plugin.isoName = lang.isoName
+      Plugin.nativeName = lang.nativeName
     }
   },
 
@@ -82,8 +85,11 @@ export default {
     }
     else {
       opts.$q.lang = reactive({})
+
       this.__q = opts.$q
       this.set(initialLang)
     }
   }
 }
+
+export default Plugin

@@ -44,7 +44,7 @@ export default defineComponent({
         }
       }
 
-      if ($q.iconMapFn !== void 0) {
+      if ($q.iconMapFn !== null) {
         const res = $q.iconMapFn(icon)
         if (res !== void 0) {
           if (res.icon !== void 0) {
