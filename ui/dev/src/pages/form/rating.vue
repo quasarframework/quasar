@@ -6,8 +6,8 @@
       </div>
 
       <div class="column q-gutter-md" style="font-size: 2rem; margin-top: 20px;">
-        <q-rating v-model="ratingModel" max="3" @change="onChange" @input="onInput" />
-        <q-rating v-model="ratingModel" color="primary" max="5" icon="pets" @input="onInput" />
+        <q-rating v-model="ratingModel" max="3" @change="onChange" @update:modelValue="onInput" />
+        <q-rating v-model="ratingModel" color="primary" max="5" icon="pets" @update:modelValue="onInput" />
         <q-rating color="teal" v-model="ratingModel" max="9" icon="thumb_up" />
         <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="favorite_border" />
         <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
@@ -53,7 +53,7 @@
       <div class="column q-gutter-md" style="font-size: 2rem; margin-top: 20px;">
         <q-rating v-model="halfModel" max="7" icon-half="star_half" icon="star_border" icon-selected="star" />
         <q-rating v-model="halfModel" max="7" icon-half="star_half" icon="star_border" icon-selected="star" color="yellow" no-dimming />
-        <q-rating v-model="halfModel" color="primary" max="5" icon="pets" @input="onInput" icon-half="star_half" />
+        <q-rating v-model="halfModel" color="primary" max="5" icon="pets" @update:modelValue="onInput" icon-half="star_half" />
         <q-rating color="teal" v-model="halfModel" max="9" icon="thumb_up" icon-half="star_half" />
         <q-rating size="3rem" color="red-10" color-half="red-5" v-model="halfModel" :max="6" icon-selected="favorite" icon-half="favorite" icon="favorite_border" />
         <q-rating size="3rem" color="red" v-model="halfModel" :max="6" icon="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" icon-half="star_half" />
@@ -110,7 +110,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:modelValue', JSON.stringify(val))
     }
   }
 }

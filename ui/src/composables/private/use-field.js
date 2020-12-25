@@ -277,7 +277,6 @@ export default function ({
 
   function blur () {
     const el = document.activeElement
-    // IE can have null document.activeElement
     if (el !== null && state.rootRef.value.contains(el)) {
       el.blur()
     }
@@ -351,7 +350,7 @@ export default function ({
   function localFocus () {
     const el = document.activeElement
     let target = state.targetRef !== void 0 && state.targetRef.value
-    // IE can have null document.activeElement
+
     if (target && (el === null || el.id !== state.targetUid.value)) {
       target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
       target && target !== el && target.focus()

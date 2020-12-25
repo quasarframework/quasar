@@ -216,7 +216,7 @@ export default {
 
   methods: {
     onInput (val) {
-      console.log('@input', val)
+      console.log('@update:modelValue', val)
     },
 
     optionsFn (hr, min, sec) {

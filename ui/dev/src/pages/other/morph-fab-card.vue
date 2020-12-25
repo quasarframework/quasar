@@ -7,7 +7,7 @@
         direction="up"
         icon="add"
         color="accent"
-        @input="val => val === true && morph(false)"
+        @update:modelValue="val => val === true && morph(false)"
       >
         <q-fab-action color="primary" @click="morph(true)" icon="alarm" />
       </q-fab>

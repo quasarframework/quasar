@@ -128,18 +128,6 @@ export function preventDraggable (el, status) {
   el.querySelectorAll('a, img').forEach(fn)
 }
 
-export function create (name, { bubbles = false, cancelable = false } = {}) {
-  try {
-    return new CustomEvent(name, { bubbles, cancelable })
-  }
-  catch (e) {
-    // IE doesn't support `new Event()`, so...
-    const evt = document.createEvent('Event')
-    evt.initEvent(name, bubbles, cancelable)
-    return evt
-  }
-}
-
 export function addEvt (ctx, targetName, events) {
   const name = `__q_${ targetName }_evt`
 
@@ -178,6 +166,5 @@ export default {
   stop,
   prevent,
   stopAndPrevent,
-  preventDraggable,
-  create
+  preventDraggable
 }

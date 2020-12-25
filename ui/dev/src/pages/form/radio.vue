@@ -12,10 +12,10 @@
         Standalone
       </p>
       <div class="q-gutter-md">
-        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor" />
-        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt2" label="Option 2" :dark="dark" :dense="dense" :keep-color="keepColor" />
-        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt3" color="teal" label="Option 3" :dark="dark" :dense="dense" :keep-color="keepColor" />
-        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt4" color="orange" label="Option 4" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio @change="onChange" @update:modelValue="onInput" v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio @change="onChange" @update:modelValue="onInput" v-model="option" val="opt2" label="Option 2" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio @change="onChange" @update:modelValue="onInput" v-model="option" val="opt3" color="teal" label="Option 3" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio @change="onChange" @update:modelValue="onInput" v-model="option" val="opt4" color="orange" label="Option 4" :dark="dark" :dense="dense" :keep-color="keepColor" />
       </div>
 
       <p class="caption">
@@ -52,7 +52,7 @@
         type="radio"
         v-model="group"
         @change="onChange"
-        @input="onInput"
+        @update:modelValue="onInput"
         :dark="dark" :dense="dense"
         :keep-color="keepColor"
         :options="[
@@ -223,7 +223,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:modelValue', JSON.stringify(val))
     }
   }
 }

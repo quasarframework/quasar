@@ -82,7 +82,7 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit, attrs }) {
-    let refocusTarget, absoluteOffset, unwatchPosition, avoidAutoClose
+    let refocusTarget = null, absoluteOffset, unwatchPosition, avoidAutoClose
 
     const vm = getCurrentInstance()
     const innerRef = ref(null)
@@ -195,7 +195,7 @@ export default defineComponent({
 
       refocusTarget = props.noRefocus === false
         ? document.activeElement
-        : void 0
+        : null
 
       addFocusout(onFocusout)
 
@@ -250,10 +250,8 @@ export default defineComponent({
 
       anchorCleanup(true)
 
-      // check null for IE
       if (
-        refocusTarget !== void 0
-        && refocusTarget !== null
+        refocusTarget !== null
         && (
           // menu was hidden from code or ESC plugin
           evt === void 0

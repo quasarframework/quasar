@@ -78,7 +78,7 @@ export default defineComponent({
     const showing = ref(false)
     const transitionState = ref(false)
 
-    let shakeTimeout, refocusTarget, isMaximized
+    let shakeTimeout, refocusTarget = null, isMaximized
 
     const hideOnRouteChange = computed(() =>
       props.persistent !== true
@@ -167,16 +167,14 @@ export default defineComponent({
       removeTick()
       addToHistory()
 
-      // IE can have null document.activeElement
       refocusTarget = props.noRefocus === false && document.activeElement !== null
         ? document.activeElement
-        : void 0
+        : null
 
       updateMaximized(props.maximized)
       showPortal()
 
       if (props.noFocus !== true) {
-        // IE can have null document.activeElement
         document.activeElement !== null && document.activeElement.blur()
         registerTick(focus)
         prepareTick()
@@ -218,7 +216,7 @@ export default defineComponent({
       removeFromHistory()
       cleanup(true)
 
-      if (refocusTarget !== void 0) {
+      if (refocusTarget !== null) {
         refocusTarget.focus()
       }
 
@@ -331,7 +329,7 @@ export default defineComponent({
 
       // private but needed by QSelect
       __updateRefocusTarget (target) {
-        refocusTarget = target
+        refocusTarget = target || null
       }
     })
 

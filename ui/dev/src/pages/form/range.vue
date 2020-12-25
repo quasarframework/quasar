@@ -18,7 +18,7 @@
       </p>
 
       <div class="row justify-around">
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50" />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @update:modelValue="onInput" v-model="standalone" :min="0" :max="50" />
         <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @update:modelValue="onInput" :model-value="standalone" :min="0" :max="50" label :left-label-value="labelLeftValue(standalone.min)" :right-label-value="labelRightValue(standalone.max)" />
         <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
         <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" label-color="orange" label-text-color="black" :min="0" :max="50" label :left-label-value="labelLeftValue(standalone.min)" :right-label-value="labelRightValue(standalone.max)" />
@@ -112,7 +112,7 @@
       </p>
 
       <div class="row justify-around">
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @input="onInput" v-model="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @update:modelValue="onInput" v-model="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
         <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { range = val; onChange(val); }" @update:modelValue="onInput" :model-value="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
       </div>
 
@@ -316,7 +316,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:modelValue', JSON.stringify(val))
     },
     getNullLabel (val) {
       return val === null ? 'null' : val

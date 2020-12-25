@@ -170,7 +170,6 @@ export default defineComponent({
       if (
         inputRef.value !== null
         && inputRef.value !== el
-        // IE can have null document.activeElement
         && (el === null || el.id !== state.targetUid.value)
       ) {
         inputRef.value.focus()

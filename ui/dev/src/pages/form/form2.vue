@@ -16,7 +16,7 @@
         <q-input
           filled
           v-model="name"
-          @input="programaticSubmit"
+          @update:modelValue="programaticSubmit"
           debounce="500"
           label="Your name *"
           hint="Name and surname"
@@ -27,7 +27,7 @@
           filled
           type="number"
           v-model="age"
-          @input="programaticSubmit"
+          @update:modelValue="programaticSubmit"
           label="Your age *"
           debounce="500"
           :rules="[
@@ -36,7 +36,7 @@
           ]"
         />
 
-        <q-toggle @input="programaticSubmit" v-model="accept" label="I accept the license and terms" />
+        <q-toggle @update:modelValue="programaticSubmit" v-model="accept" label="I accept the license and terms" />
 
         <div>
           <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />

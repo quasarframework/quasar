@@ -11,7 +11,7 @@
       <p class="caption">
         Standalone
       </p>
-      <q-toggle @change="onChange" @input="onInput" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-toggle @change="onChange" @update:modelValue="onInput" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-toggle v-model="checked" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-toggle v-model="checked" color="orange" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-toggle v-model="checked" color="teal" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
@@ -107,7 +107,7 @@
         type="toggle"
         v-model="group"
         @change="onChange"
-        @input="onInput"
+        @update:modelValue="onInput"
         :dark="dark" :dense="dense"
         :keep-color="keepColor"
         :options="[
@@ -243,7 +243,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:modelValue', JSON.stringify(val))
     }
   }
 }

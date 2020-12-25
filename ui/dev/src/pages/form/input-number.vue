@@ -1,9 +1,9 @@
 <template>
   <div class="q-layout-padding">
     <div>{{ n }} {{ typeof n }}</div>
-    <q-input @input="onInput" type="number" v-model.number="n" input-class="text-right" class="q-ml-md col" />
-    <q-input @input="onInput" type="number" v-model.number="n" input-class="text-right" class="q-ml-md col" />
-    <q-input label="Debounced" @input="onInput" type="number" v-model.number="n" debounce="300" input-class="text-right" class="q-ml-md col" />
+    <q-input @update:modelValue="onInput" type="number" v-model.number="n" input-class="text-right" class="q-ml-md col" />
+    <q-input @update:modelValue="onInput" type="number" v-model.number="n" input-class="text-right" class="q-ml-md col" />
+    <q-input label="Debounced" @update:modelValue="onInput" type="number" v-model.number="n" debounce="300" input-class="text-right" class="q-ml-md col" />
 
     <div class="q-mt-lg">
       Update if &lt; 4 and set on blur 1: {{ num1 }} {{ typeof num1 }}

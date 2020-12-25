@@ -44,7 +44,6 @@
           <template v-slot:option="scope">
             <q-item
               v-bind="scope.itemProps"
-              v-on="scope.itemEvents"
               class="q-py-none"
             >
               <q-item-section>
@@ -52,7 +51,7 @@
               </q-item-section>
               <q-item-section side>
                 <q-toggle
-                  :value="value.some(opt => opt.value === scope.opt.value)"
+                  :model-value="value.some(opt => opt.value === scope.opt.value)"
                   color="primary"
                 />
               </q-item-section>
@@ -127,7 +126,7 @@
         ></q-input>
 
         <q-toggle
-          :value="false"
+          :model-value="false"
           label="Toggle"
           color="primary"
         />
@@ -178,7 +177,6 @@
           <template v-slot:option="scope">
             <q-item
               v-bind="scope.itemProps"
-              v-on="scope.itemEvents"
               class="q-py-none"
             >
               <q-item-section>
@@ -186,7 +184,7 @@
               </q-item-section>
               <q-item-section side>
                 <q-toggle
-                  :value="value.some(opt => opt.value === scope.opt.value)"
+                  :model-value="value.some(opt => opt.value === scope.opt.value)"
                   color="primary"
                 />
               </q-item-section>

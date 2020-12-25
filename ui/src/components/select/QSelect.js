@@ -1021,10 +1021,10 @@ export default defineComponent({
       }
     }
 
-    function setInputValue (inputValue) {
-      if (inputValue.value !== inputValue) {
-        inputValue.value = inputValue
-        emit('input-value', inputValue)
+    function setInputValue (val) {
+      if (inputValue.value !== val) {
+        inputValue.value = val
+        emit('input-value', val)
       }
     }
 
@@ -1249,7 +1249,6 @@ export default defineComponent({
 
     function onDialogShow () {
       const el = document.activeElement
-      // IE can have null document.activeElement
       if (
         (el === null || el.id !== state.targetUid.value)
         && targetRef.value !== null
@@ -1404,13 +1403,6 @@ export default defineComponent({
       getOptionLabel: () => getOptionLabel.value.apply(null, arguments)
     })
 
-    function onFocusout (e) {
-      state.onControlFocusout(e, () => {
-        resetInputValue()
-        closeMenu()
-      })
-    }
-
     Object.assign(state, {
       innerValue,
 
@@ -1445,7 +1437,12 @@ export default defineComponent({
 
       controlEvents: {
         onFocusin: state.onControlFocusin,
-        onFocusout,
+        onFocusout: e => {
+          state.onControlFocusout(e, () => {
+            resetInputValue()
+            closeMenu()
+          })
+        },
         onClick: e => {
           if (hasDialog !== true) {
             // label from QField will propagate click on the input (except IE)
@@ -1513,8 +1510,8 @@ export default defineComponent({
         }, child)
       },
 
-      getInnerAppend: () => {
-        return props.loading !== true && innerLoadingIndicator.value !== true && props.hideDropdownIcon !== true
+      getInnerAppend: () => (
+        props.loading !== true && innerLoadingIndicator.value !== true && props.hideDropdownIcon !== true
           ? [
               h(QIcon, {
                 class: 'q-select__dropdown-icon' + (menu.value === true ? ' rotate-180' : ''),
@@ -1522,7 +1519,7 @@ export default defineComponent({
               })
             ]
           : null
-      }
+      )
     })
 
     return useField({ props, slots, emit, attrs, $q, state })

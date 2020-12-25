@@ -6,7 +6,7 @@
       </div>
 
       <p class="caption">
-        Default (@input, @change)
+        Default (@update:modelValue, @change)
       </p>
       <div class="q-gutter-sm">
         <q-knob
@@ -15,7 +15,7 @@
           :min="min"
           :max="max"
           @change="onChange"
-          @input="onInput"
+          @update:modelValue="onInput"
         />
         <q-knob
           v-model="model"
@@ -200,7 +200,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:modelValue', JSON.stringify(val))
     }
   }
 }
