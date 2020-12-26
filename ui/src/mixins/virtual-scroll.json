@@ -127,11 +127,11 @@
     },
 
     "reset": {
-      "desc": "Resets the computations; Needed for custom edge-cases"
+      "desc": "Resets the virtual scroll computations; Needed for custom edge-cases"
     },
 
     "refresh": {
-      "desc": "Refreshes the list; Use it after appending items",
+      "desc": "Refreshes the virtual scroll list; Use it after appending items",
       "params": {
         "index": {
           "type": [ "String", "Number" ],
