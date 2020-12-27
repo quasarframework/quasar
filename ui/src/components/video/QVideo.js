@@ -15,7 +15,7 @@ export default defineComponent({
   },
 
   setup (props) {
-    const { ratioStyle } = useRatio(props)
+    const ratioStyle = useRatio(props)
 
     const classes = computed(() =>
       'q-video'

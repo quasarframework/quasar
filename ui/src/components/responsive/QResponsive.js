@@ -10,7 +10,7 @@ export default defineComponent({
   props: useRatioProps,
 
   setup (props, { slots }) {
-    const { ratioStyle } = useRatio(props)
+    const ratioStyle = useRatio(props)
 
     return () => h('div', {
       class: 'q-responsive'
