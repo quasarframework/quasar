@@ -11,12 +11,12 @@ const
 function parse (prop, txt) {
   const
     propIndex = txt.indexOf(prop),
-    startIndex = txt.indexOf(`'`, propIndex) + 1
+    startIndex = txt.indexOf('\'', propIndex) + 1
 
-  let stopIndex = txt.indexOf(`'`, startIndex)
+  let stopIndex = txt.indexOf('\'', startIndex)
 
   while (txt.charAt(stopIndex - 1) === '\\') {
-    stopIndex = txt.indexOf(`'`, stopIndex + 1)
+    stopIndex = txt.indexOf('\'', stopIndex + 1)
   }
 
   return txt.substring(startIndex, stopIndex).replace('\\', '')
@@ -51,7 +51,7 @@ module.exports.generate = function () {
       : Promise.resolve()
   }
   catch (err) {
-    logError(`build.lang-index.js: something went wrong...`)
+    logError('build.lang-index.js: something went wrong...')
     console.log()
     console.error(err)
     console.log()

@@ -104,10 +104,10 @@ module.exports = function (importName) {
 }
 
 function getAutoImportFile (autoImport) {
-  autoImport.kebabComponents.sort((a, b) => a.length > b.length ? -1 : 1)
-  autoImport.pascalComponents.sort((a, b) => a.length > b.length ? -1 : 1)
+  autoImport.kebabComponents.sort((a, b) => (a.length > b.length ? -1 : 1))
+  autoImport.pascalComponents.sort((a, b) => (a.length > b.length ? -1 : 1))
   autoImport.components = autoImport.kebabComponents.concat(autoImport.pascalComponents)
-  autoImport.directives.sort((a, b) => a.length > b.length ? -1 : 1)
+  autoImport.directives.sort((a, b) => (a.length > b.length ? -1 : 1))
 
   return JSON.stringify({
     importName: autoImport.importName,

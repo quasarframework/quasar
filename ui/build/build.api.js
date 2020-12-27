@@ -10,14 +10,14 @@ const extendApi = require(resolvePath('src/api.extends.json'))
 const { logError, writeFile, kebabCase } = require('./build.utils')
 const ast = require('./ast')
 
-const slotRegex = /this\.\$slots\[['`](\S+)['`]\]\(|this\.\$slots\.([A-Za-z]+)\(|\(slots\[['`](\S+)['`]\]|\(slots\.([A-Za-z]+)|hSlot\(this, '(\S+)'|hUniqueSlot\(this, '(\S+)'|hMergeSlot\(this, '(\S+)'|hMergeSlotSafely\(this, '(\S+)'/g
+const slotRegex = /\(slots\[['`](\S+)['`]\]|\(slots\.([A-Za-z]+)|hSlot\(this, '(\S+)'|hUniqueSlot\(this, '(\S+)'|hMergeSlot\(this, '(\S+)'|hMergeSlotSafely\(this, '(\S+)'/g
 
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
     const mixinFile = resolvePath('src/' + mixin + '.json')
 
     if (!fs.existsSync(mixinFile)) {
-      logError(`build.api.js: ${path.relative(root, mainFile)} -> no such mixin ${mixin}`)
+      logError(`build.api.js: ${ path.relative(root, mainFile) } -> no such mixin ${ mixin }`)
       process.exit(1)
     }
 
@@ -179,7 +179,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
 
   if (obj.extends !== void 0 && extendApi[ masterType ] !== void 0) {
     if (extendApi[ masterType ][ obj.extends ] === void 0) {
-      logError(`${banner} extends "${obj.extends}" which does not exists`)
+      logError(`${ banner } extends "${ obj.extends }" which does not exists`)
       process.exit(1)
     }
 
@@ -196,7 +196,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
 
   if ([ 'props', 'modifiers' ].includes(masterType)) {
     if (obj.type === void 0) {
-      logError(`${banner} missing "type" prop`)
+      logError(`${ banner } missing "type" prop`)
       process.exit(1)
     }
 
@@ -211,7 +211,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
   type = type.startsWith('Promise') ? 'Promise' : type
 
   if (objectTypes[ type ] === void 0) {
-    logError(`${banner} object has unrecognized API type prop value: "${type}"`)
+    logError(`${ banner } object has unrecognized API type prop value: "${ type }"`)
     console.error(obj)
     process.exit(1)
   }
@@ -225,14 +225,14 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
       }
 
       if (verifyCategory && obj.category === void 0) {
-        logError(`${banner} missing required API prop "category" for its type (${type})`)
+        logError(`${ banner } missing required API prop "category" for its type (${ type })`)
         console.error(obj)
         console.log()
         process.exit(1)
       }
 
       if (!def.props.includes(prop)) {
-        logError(`${banner} object has unrecognized API prop "${prop}" for its type (${type})`)
+        logError(`${ banner } object has unrecognized API prop "${ prop }" for its type (${ type })`)
         console.error(obj)
         console.log()
         process.exit(1)
@@ -243,14 +243,14 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
           return
         }
         if (
-          !prop.examples &&
-          (obj.definition !== void 0 || obj.values !== void 0)
+          !prop.examples
+          && (obj.definition !== void 0 || obj.values !== void 0)
         ) {
           return
         }
 
         if (obj[ prop ] === void 0) {
-          logError(`${banner} missing required API prop "${prop}" for its type (${type})`)
+          logError(`${ banner } missing required API prop "${ prop }" for its type (${ type })`)
           console.error(obj)
           console.log()
           process.exit(1)
@@ -264,7 +264,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
 
       def.isBoolean && def.isBoolean.forEach(prop => {
         if (obj[ prop ] && obj[ prop ] !== true && obj[ prop ] !== false) {
-          logError(`${banner}/"${prop}" is not a Boolean`)
+          logError(`${ banner }/"${ prop }" is not a Boolean`)
           console.error(obj)
           console.log()
           process.exit(1)
@@ -272,7 +272,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
       })
       def.isObject && def.isObject.forEach(prop => {
         if (obj[ prop ] && Object(obj[ prop ]) !== obj[ prop ]) {
-          logError(`${banner}/"${prop}" is not an Object`)
+          logError(`${ banner }/"${ prop }" is not an Object`)
           console.error(obj)
           console.log()
           process.exit(1)
@@ -280,7 +280,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
       })
       def.isArray && def.isArray.forEach(prop => {
         if (obj[ prop ] && !Array.isArray(obj[ prop ])) {
-          logError(`${banner}/"${prop}" is not an Array`)
+          logError(`${ banner }/"${ prop }" is not an Array`)
           console.error(obj)
           console.log()
           process.exit(1)
@@ -291,7 +291,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
 
   if (obj.returns) {
     parseObject({
-      banner: `${banner}/"returns"`,
+      banner: `${ banner }/"returns"`,
       api: api[ itemName ],
       itemName: 'returns',
       masterType: 'props'
@@ -303,7 +303,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
 
     for (const item in obj[ prop ]) {
       parseObject({
-        banner: `${banner}/"${prop}"/"${item}"`,
+        banner: `${ banner }/"${ prop }"/"${ item }"`,
         api: api[ itemName ][ prop ],
         itemName: item,
         masterType: 'props'
@@ -322,7 +322,7 @@ function isValidVersion (version) {
 
 function handleAddedIn (api, banner) {
   if (api.addedIn === void 0 || api.addedIn.length === 0) {
-    logError(`${banner} "addedIn" is empty`)
+    logError(`${ banner } "addedIn" is empty`)
     console.log()
     process.exit(1)
   }
@@ -330,13 +330,13 @@ function handleAddedIn (api, banner) {
   const addedIn = api.addedIn
 
   if (addedIn.charAt(0) !== 'v') {
-    logError(`${banner} "addedIn" value (${addedIn}) must start with "v"`)
+    logError(`${ banner } "addedIn" value (${ addedIn }) must start with "v"`)
     console.log()
     process.exit(1)
   }
 
   if (isValidVersion(addedIn.slice(1)) !== true) {
-    logError(`${banner} "addedIn" value (${addedIn}) must follow sematic versioning`)
+    logError(`${ banner } "addedIn" value (${ addedIn }) must follow sematic versioning`)
     console.log()
     process.exit(1)
   }
@@ -349,23 +349,23 @@ function parseAPI (file, apiType) {
     api = getMixedInAPI(api, file)
   }
 
-  const banner = `build.api.js: ${path.relative(root, file)} -> `
+  const banner = `build.api.js: ${ path.relative(root, file) } -> `
 
   if (api.meta === void 0 || api.meta.docsUrl === void 0) {
-    logError(`${banner} API file does not contain meta > docsUrl`)
+    logError(`${ banner } API file does not contain meta > docsUrl`)
     process.exit(1)
   }
 
   // "props", "slots", ...
   for (const type in api) {
     if (!topSections[ apiType ].includes(type)) {
-      logError(`${banner} "${type}" is not recognized for a ${apiType}`)
+      logError(`${ banner } "${ type }" is not recognized for a ${ apiType }`)
       process.exit(1)
     }
 
     if (type === 'injection') {
       if (typeof api.injection !== 'string' || api.injection.length === 0) {
-        logError(`${banner} "${type}"/"injection" invalid content`)
+        logError(`${ banner } "${ type }"/"injection" invalid content`)
         process.exit(1)
       }
       continue
@@ -378,14 +378,14 @@ function parseAPI (file, apiType) {
 
     if ([ 'value', 'arg', 'quasarConfOptions', 'meta' ].includes(type)) {
       if (Object(api[ type ]) !== api[ type ]) {
-        logError(`${banner} "${type}"/"${type}" is not an object`)
+        logError(`${ banner } "${ type }"/"${ type }" is not an object`)
         process.exit(1)
       }
     }
 
     if ([ 'meta', 'quasarConfOptions' ].includes(type)) {
       parseObject({
-        banner: `${banner} "${type}"`,
+        banner: `${ banner } "${ type }"`,
         api,
         itemName: type,
         masterType: type
@@ -395,7 +395,7 @@ function parseAPI (file, apiType) {
 
     if ([ 'value', 'arg' ].includes(type)) {
       parseObject({
-        banner: `${banner} "${type}"`,
+        banner: `${ banner } "${ type }"`,
         api,
         itemName: type,
         masterType: 'props'
@@ -407,7 +407,7 @@ function parseAPI (file, apiType) {
 
     for (const itemName in api[ type ]) {
       parseObject({
-        banner: `${banner} "${type}"/"${itemName}"`,
+        banner: `${ banner } "${ type }"/"${ itemName }"`,
         api: api[ type ],
         itemName,
         masterType: type,
@@ -443,12 +443,12 @@ function arrayHasError (name, key, property, expected, propApi) {
   const expectedVal = expected.filter(t => t.startsWith('__') === false)
 
   if (
-    !Array.isArray(apiVal) ||
-    apiVal.length !== expectedVal.length ||
-    !expectedVal.every(t => apiVal.includes(t))
+    !Array.isArray(apiVal)
+    || apiVal.length !== expectedVal.length
+    || !expectedVal.every(t => apiVal.includes(t))
   ) {
     console.log(key, name, propApi[ key ], expectedVal)
-    logError(`${name}: wrong definition for prop "${key}" on "${property}": expected ${expectedVal} but found ${apiVal}`)
+    logError(`${ name }: wrong definition for prop "${ key }" on "${ property }": expected ${ expectedVal } but found ${ apiVal }`)
     return true
   }
 }
@@ -470,10 +470,10 @@ function fillAPI (apiType) {
 
       let slotMatch
       while ((slotMatch = slotRegex.exec(definition)) !== null) {
-        const slotName = (slotMatch[ 2 ] || slotMatch[ 3 ] || slotMatch[ 4 ] || slotMatch[ 5 ] || slotMatch[ 6 ] || slotMatch[ 7 ] || slotMatch[ 8 ] || slotMatch[ 9 ]).replace(/(\${.+})/g, '[name]')
+        const slotName = (slotMatch[ 2 ] || slotMatch[ 3 ] || slotMatch[ 4 ] || slotMatch[ 5 ] || slotMatch[ 6 ] || slotMatch[ 7 ]).replace(/(\${.+})/g, '[name]')
 
         if (!(api.slots || {})[ slotName ]) {
-          logError(`${name}: missing "slot" -> "${slotName}" definition`)
+          logError(`${ name }: missing "slot" -> "${ slotName }" definition`)
           hasError = true // keep looping through to find as many as can be found before exiting
         }
         else if (api.slots[ slotName ].internal === true) {
@@ -493,7 +493,7 @@ function fillAPI (apiType) {
         }
 
         if (api[ prop ] === void 0 || api[ prop ][ key ] === void 0) {
-          logError(`${name}: missing "${prop}" -> "${key}" definition`)
+          logError(`${ name }: missing "${ prop }" -> "${ key }" definition`)
           hasError = true // keep looping through to find as many as can be found before exiting
         }
 
@@ -505,7 +505,7 @@ function fillAPI (apiType) {
         if (definition) {
           const propApi = api[ prop ][ key ]
           if (typeof definition === 'string' && propApi.type !== definition) {
-            logError(`${name}: wrong definition for prop "${key}": expected "${definition}" but found "${propApi.type}"`)
+            logError(`${ name }: wrong definition for prop "${ key }": expected "${ definition }" but found "${ propApi.type }"`)
             hasError = true // keep looping through to find as many as can be found before exiting
           }
           else if (Array.isArray(definition)) {
@@ -521,13 +521,13 @@ function fillAPI (apiType) {
                 }
               }
               else if (propApi.type !== definition.type) {
-                logError(`${name}: wrong definition for prop "${key}" on "type": expected "${definition.type}" but found "${propApi.type}"`)
+                logError(`${ name }: wrong definition for prop "${ key }" on "type": expected "${ definition.type }" but found "${ propApi.type }"`)
                 hasError = true // keep looping through to find as many as can be found before exiting
               }
             }
 
             if (key !== 'value' && definition.required && Boolean(definition.required) !== propApi.required) {
-              logError(`${name}: wrong definition for prop "${key}" on "required": expected "${definition.required}" but found "${propApi.required}"`)
+              logError(`${ name }: wrong definition for prop "${ key }" on "required": expected "${ definition.required }" but found "${ propApi.required }"`)
               hasError = true // keep looping through to find as many as can be found before exiting
             }
 

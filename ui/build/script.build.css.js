@@ -10,12 +10,12 @@ const buildUtils = require('./build.utils')
 
 const nano = postcss([
   cssnano({
-    preset: ['default', {
+    preset: [ 'default', {
       mergeLonghand: false,
       convertValues: false,
       cssDeclarationSorter: false,
       reduceTransforms: false
-    }]
+    } ]
   })
 ])
 
@@ -42,13 +42,13 @@ function getConcatenatedContent (src, noBanner) {
 }
 
 function generateUMD (code, middleName, ext = '') {
-  return buildUtils.writeFile(`dist/quasar${middleName}${ext}.css`, code, true)
+  return buildUtils.writeFile(`dist/quasar${ middleName }${ ext }.css`, code, true)
     .then(code => nano.process(code, { from: void 0 }))
-    .then(code => buildUtils.writeFile(`dist/quasar${middleName}${ext}.prod.css`, code.css, true))
+    .then(code => buildUtils.writeFile(`dist/quasar${ middleName }${ ext }.prod.css`, code.css, true))
 }
 
 function renderAsset (cssCode, middleName = '') {
-  return postcss([ autoprefixer ]).process(cssCode, { from: void 0 })
+  return postcss([autoprefixer]).process(cssCode, { from: void 0 })
     .then(code => {
       code.warnings().forEach(warn => {
         console.warn(warn.toString())
@@ -57,7 +57,7 @@ function renderAsset (cssCode, middleName = '') {
     })
     .then(code => Promise.all([
       generateUMD(code, middleName),
-      postcss([ rtl({}) ]).process(code, { from: void 0 })
+      postcss([rtl({})]).process(code, { from: void 0 })
         .then(code => generateUMD(code.css, middleName, '.rtl'))
     ]))
 }

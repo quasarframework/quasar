@@ -17,14 +17,14 @@ function resolve (_path) {
   return path.resolve(__dirname, '..', _path)
 }
 
-const tsConfig = {
-  tsconfigOverride: {
-    compilerOptions: {
-      sourceMap: true
-    },
-    include: ['./src/**/*.ts']
-  }
-}
+// const tsConfig = {
+//   tsconfigOverride: {
+//     compilerOptions: {
+//       sourceMap: true
+//     },
+//     include: ['./src/**/*.ts']
+//   }
+// }
 
 const rollupPluginsModern = [
   // typescript(tsConfig),
@@ -45,7 +45,7 @@ const builds = [
     build: {
       minified: true,
       replace: {
-        __QUASAR_VERSION__: `'${version}'`,
+        __QUASAR_VERSION__: `'${ version }'`,
         __QUASAR_SSR__: false,
         __QUASAR_SSR_SERVER__: false,
         __QUASAR_SSR_CLIENT__: false,
@@ -66,7 +66,7 @@ const builds = [
     build: {
       minified: true,
       replace: {
-        __QUASAR_VERSION__: `'${version}'`,
+        __QUASAR_VERSION__: `'${ version }'`,
         __QUASAR_SSR__: true,
         __QUASAR_SSR_SERVER__: true,
         __QUASAR_SSR_CLIENT__: false,
@@ -88,7 +88,7 @@ const builds = [
       unminified: true,
       minified: true,
       replace: {
-        __QUASAR_VERSION__: `'${version}'`,
+        __QUASAR_VERSION__: `'${ version }'`,
         __QUASAR_SSR__: false,
         __QUASAR_SSR_SERVER__: false,
         __QUASAR_SSR_CLIENT__: false,
@@ -104,16 +104,16 @@ function addUmdAssets (builds, type, injectName) {
   files
     .filter(file => file.endsWith('.js'))
     .forEach(file => {
-      const name = file.substr(0, file.length - 3).replace(/-([a-z])/g, g => g[1].toUpperCase())
+      const name = file.substr(0, file.length - 3).replace(/-([a-z])/g, g => g[ 1 ].toUpperCase())
       builds.push({
         rollup: {
           input: {
-            input: resolve(`${type}/${file}`)
+            input: resolve(`${ type }/${ file }`)
           },
           output: {
-            file: addExtension(resolve(`dist/${type}/${file}`), 'umd'),
+            file: addExtension(resolve(`dist/${ type }/${ file }`), 'umd'),
             format: 'umd',
-            name: `Quasar.${injectName}.${name}`
+            name: `Quasar.${ injectName }.${ name }`
           }
         },
         build: {
@@ -150,11 +150,11 @@ function genConfig (opts) {
 
 function addExtension (filename, ext = 'prod') {
   const insertionPoint = filename.lastIndexOf('.')
-  return `${filename.slice(0, insertionPoint)}.${ext}${filename.slice(insertionPoint)}`
+  return `${ filename.slice(0, insertionPoint) }.${ ext }${ filename.slice(insertionPoint) }`
 }
 
 function injectVueRequirement (code) {
-  const index = code.indexOf(`Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue`)
+  const index = code.indexOf('Vue = Vue && Vue.hasOwnProperty(\'default\') ? Vue[\'default\'] : Vue')
 
   if (index === -1) {
     return code
@@ -166,9 +166,9 @@ function injectVueRequirement (code) {
   }
   `
 
-  return code.substring(0, index - 1) +
-    checkMe +
-    code.substring(index)
+  return code.substring(0, index - 1)
+    + checkMe
+    + code.substring(index)
 }
 
 function buildEntry (config) {
@@ -177,8 +177,8 @@ function buildEntry (config) {
     .then(bundle => bundle.generate(config.rollup.output))
     .then(({ output }) => {
       const code = config.rollup.output.format === 'umd'
-        ? injectVueRequirement(output[0].code)
-        : output[0].code
+        ? injectVueRequirement(output[ 0 ].code)
+        : output[ 0 ].code
 
       return config.build.unminified
         ? buildUtils.writeFile(config.rollup.output.file, code)

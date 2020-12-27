@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'production'
 
-const type = process.argv[2]
+const type = process.argv[ 2 ]
 const { createFolder } = require('./build.utils')
 const { green } = require('chalk')
 
@@ -17,7 +17,7 @@ if (!type) {
   require('./script.clean.js')
 }
 
-console.log(` 📦 Building Quasar ${green('v' + require('../package.json').version)}...\n`)
+console.log(` 📦 Building Quasar ${ green('v' + require('../package.json').version) }...\n`)
 
 createFolder('dist')
 
