@@ -108,7 +108,7 @@ function getRender (props, slots, emit, state) {
     onDragover,
     processFiles,
     getDndNode
-  } = useFile(props, emit, editable, dnd, getFileInput, addFilesToQueue)
+  } = useFile({ props, emit, editable, vm, dnd, getFileInput, addFilesToQueue })
 
   const canAddFiles = computed(() =>
     editable.value === true

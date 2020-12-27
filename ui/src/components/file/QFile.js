@@ -44,6 +44,8 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit, attrs }) {
+    const vm = getCurrentInstance()
+
     const $q = useQuasar()
     const state = useFieldState(props, attrs, $q)
 
@@ -56,7 +58,7 @@ export default defineComponent({
       onDragover,
       processFiles,
       getDndNode
-    } = useFile(props, emit, state.editable, dnd, getFileInput, addFilesToQueue)
+    } = useFile({ props, emit, editable: state.editable, vm, dnd, getFileInput, addFilesToQueue })
 
     const formDomProps = useFileFormDomProps(props)
 
@@ -228,7 +230,6 @@ export default defineComponent({
     })
 
     // expose public methods
-    const vm = getCurrentInstance()
     Object.assign(vm.proxy, {
       removeAtIndex,
       removeFile
