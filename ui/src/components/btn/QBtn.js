@@ -180,14 +180,6 @@ export default Vue.extend({
         target.addEventListener('touchend', this.__onPressEnd, passiveCapture)
       }
 
-      // avoid duplicated mousedown event
-      // triggering another early ripple
-      this.avoidMouseRipple = true
-      clearTimeout(this.mouseTimer)
-      this.mouseTimer = setTimeout(() => {
-        this.avoidMouseRipple = false
-      }, 200)
-
       this.$emit('touchstart', e)
     },
 
@@ -199,7 +191,6 @@ export default Vue.extend({
         document.addEventListener('mouseup', this.__onPressEnd, passiveCapture)
       }
 
-      e.qSkipRipple = this.avoidMouseRipple === true
       this.$emit('mousedown', e)
     },
 
