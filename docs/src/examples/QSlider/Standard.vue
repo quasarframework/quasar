@@ -1,6 +1,5 @@
 <template>
   <div class="q-pa-md">
-
     <q-badge color="secondary">
       Model: {{ standard }} (0 to 50)
     </q-badge>

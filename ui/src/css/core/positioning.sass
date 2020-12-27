@@ -35,16 +35,16 @@
 
 .fixed-top, .absolute-top
   top: 0
-  left: 0
-  right: 0
+  left: 0 #{"/* rtl:ignore */"}
+  right: 0 #{"/* rtl:ignore */"}
 .fixed-right, .absolute-right
   top: 0
   right: 0
   bottom: 0
 .fixed-bottom, .absolute-bottom
-  right: 0
+  right: 0 #{"/* rtl:ignore */"}
   bottom: 0
-  left: 0
+  left: 0 #{"/* rtl:ignore */"}
 .fixed-left, .absolute-left
   top: 0
   bottom: 0
@@ -71,9 +71,9 @@
 
 .absolute-full, .fullscreen, .fixed-full
   top: 0
-  right: 0
+  right: 0 #{"/* rtl:ignore */"}
   bottom: 0
-  left: 0
+  left: 0 #{"/* rtl:ignore */"}
 
 .fixed-center, .absolute-center
   top: 50%
@@ -92,3 +92,10 @@
   margin-right: 12px
 .on-right
   margin-left: 12px
+
+/* internal: */
+.q-position-engine
+  margin-top: var(--q-pe-top, 0) !important
+  margin-left: var(--q-pe-left, 0) !important
+  will-change: auto
+  visibility: collapse // needed for animation - is removed on first positioning

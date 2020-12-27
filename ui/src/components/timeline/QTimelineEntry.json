@@ -1,4 +1,10 @@
 {
+  "mixins": [ "mixins/tag" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/timeline"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -11,11 +17,9 @@
     },
 
     "tag": {
-      "type": "String",
       "desc": "Tag to use, if of type 'heading' only",
       "default": "h3",
-      "examples": [ "h1" ],
-      "category": "content"
+      "examples": [ "h1" ]
     },
 
     "side": {
@@ -32,8 +36,14 @@
 
     "avatar": {
       "type": "String",
-      "desc": "URL to the avatar image; Icon takes precedence if used, so it replaces avatar; Suggestion: use a static resource",
-      "examples": [ "statics/boy-avatar.png", "statics/linux-avatar.png" ],
+      "desc": "URL to the avatar image; Icon takes precedence if used, so it replaces avatar",
+      "transformAssetUrls": true,
+      "examples": [
+        "(statics folder) src=\"statics/img/my-bg.png\"",
+        "(assets folder) src=\"~assets/my-img.png\"",
+        "(relative path format) :src=\"require('./my_img.jpg')\"",
+        "(URL) src=\"https://placeimg.com/500/300/nature\""
+      ],
       "category": "content"
     },
 
@@ -43,14 +53,14 @@
 
     "title": {
       "type": "String",
-      "desc": "Title of timeline entry; Is overriden if using 'title' slot",
+      "desc": "Title of timeline entry; Is overridden if using 'title' slot",
       "examples": [ "December party" ],
       "category": "content"
     },
 
     "subtitle": {
       "type": "String",
-      "desc": "Subtitle of timeline entry; Is overriden if using 'subtitle' slot",
+      "desc": "Subtitle of timeline entry; Is overridden if using 'subtitle' slot",
       "examples": [ "All invited" ],
       "category": "content"
     },

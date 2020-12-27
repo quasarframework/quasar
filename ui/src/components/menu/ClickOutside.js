@@ -1,3 +1,4 @@
+import { client } from '../../plugins/Platform.js'
 import { listenOpts } from '../../utils/event.js'
 import { getVmOfNode, isVmChildOf } from '../../utils/vm.js'
 
@@ -10,6 +11,16 @@ const
     focus: []
   }
 
+function hasModalsAbove (node) {
+  while ((node = node.nextElementSibling) !== null) {
+    if (node.classList.contains('q-dialog--modal')) {
+      return true
+    }
+  }
+
+  return false
+}
+
 function execHandlers (list, evt) {
   for (let i = list.length - 1; i >= 0; i--) {
     if (list[i](evt) === void 0) {
@@ -21,10 +32,16 @@ function execHandlers (list, evt) {
 function globalHandler (evt) {
   clearTimeout(timer)
 
-  if (evt.type === 'focusin') {
+  // prevent autofocus on body resulting from blur
+  if (
+    evt.type === 'focusin' && (
+      (client.is.ie === true && evt.target === document.body) ||
+      evt.target.hasAttribute('tabindex') === true
+    )
+  ) {
     timer = setTimeout(() => {
       execHandlers(handlers.focus, evt)
-    }, 200)
+    }, client.is.ie === true ? 500 : 200)
   }
   else {
     execHandlers(handlers.click, evt)
@@ -45,10 +62,13 @@ export default {
         const target = evt.target
 
         if (
+          evt.qClickOutside !== true &&
           target !== void 0 &&
           target.nodeType !== 8 &&
           // directives that prevent click by using pointer-events none generate click on html element
           target !== document.documentElement &&
+          target.classList.contains('no-pointer-events') === false &&
+          hasModalsAbove(el) !== true &&
           (
             ctx.toggleEl === void 0 ||
             ctx.toggleEl.contains(target) === false
@@ -58,7 +78,7 @@ export default {
             isVmChildOf(getVmOfNode(target), vmEl) === false
           )
         ) {
-          // mark the event as beeing processed by clickOutside
+          // mark the event as being processed by clickOutside
           // used to prevent refocus after menu close
           evt.qClickOutside = true
 
@@ -74,8 +94,7 @@ export default {
     el.__qclickoutside = ctx
 
     if (handlers.click.length === 0) {
-      // use click to be able to prevent click in handler
-      document.addEventListener('click', globalHandler, notPassiveCapture)
+      document.addEventListener('mousedown', globalHandler, notPassiveCapture)
       document.addEventListener('touchstart', globalHandler, notPassiveCapture)
       document.addEventListener('focusin', globalHandler, passiveCapture)
     }
@@ -112,7 +131,7 @@ export default {
 
       if (handlers.click.length === 0) {
         clearTimeout(timer)
-        document.removeEventListener('click', globalHandler, notPassiveCapture)
+        document.removeEventListener('mousedown', globalHandler, notPassiveCapture)
         document.removeEventListener('touchstart', globalHandler, notPassiveCapture)
         document.removeEventListener('focusin', globalHandler, passiveCapture)
       }

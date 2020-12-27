@@ -22,7 +22,8 @@ export default {
     months: 'tammikuu_helmikuu_maaliskuu_huhtikuu_toukokuu_kesäkuu_heinäkuu_elokuu_syyskuu_lokakuu_marraskuu_joulukuu'.split('_'),
     monthsShort: 'tammi_helmi_maalis_huhti_touko_kesä_heinä_elo_syys_loka_marras_joulu'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'päivää'
   },
   pullToRefresh: {
     pull: 'Vedä alas päivittääksesi',
@@ -72,12 +73,12 @@ export default {
     hr: 'Lisää erotin',
     undo: 'Kumoa',
     redo: 'Toista',
-    header1: 'Otsikko 1',
-    header2: 'Otsikko 2',
-    header3: 'Otsikko 3',
-    header4: 'Otsikko 4',
-    header5: 'Otsikko 5',
-    header6: 'Otsikko 6',
+    heading1: 'Otsikko 1',
+    heading2: 'Otsikko 2',
+    heading3: 'Otsikko 3',
+    heading4: 'Otsikko 4',
+    heading5: 'Otsikko 5',
+    heading6: 'Otsikko 6',
     paragraph: 'Kappale',
     code: 'Koodi',
     size1: 'Erittäin pieni',

@@ -26,7 +26,8 @@ export default {
     months: 'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split('_'),
     monthsShort: 'Янв_Фев_Мар_Апр_Май_Июн_Июл_Авг_Сен_Окт_Ноя_Дек'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'дней'
   },
   table: {
     noData: 'Нет данных',
@@ -71,12 +72,12 @@ export default {
     hr: 'Вставить горизонтальную линию',
     undo: 'Отменить',
     redo: 'Повторить',
-    header1: 'Заголовок 1',
-    header2: 'Заголовок 2',
-    header3: 'Заголовок 3',
-    header4: 'Заголовок 4',
-    header5: 'Заголовок 5',
-    header6: 'Заголовок 6',
+    heading1: 'Заголовок 1',
+    heading2: 'Заголовок 2',
+    heading3: 'Заголовок 3',
+    heading4: 'Заголовок 4',
+    heading5: 'Заголовок 5',
+    heading6: 'Заголовок 6',
     paragraph: 'Параграф',
     code: 'Код',
     size1: 'Очень маленький',

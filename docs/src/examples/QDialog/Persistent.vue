@@ -8,7 +8,7 @@
           <div class="text-h6">Persistent</div>
         </q-card-section>
 
-        <q-card-section>
+        <q-card-section class="q-pt-none">
           Click/Tap on the backdrop.
         </q-card-section>
 

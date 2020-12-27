@@ -23,7 +23,8 @@ export default {
     months: 'ינואר_פברואר_מרץ_אפריל_מאי_יוני_יולי_אוגוסט_ספטמבר_אוקטובר_נובמבר_דצמבר'.split('_'),
     monthsShort: 'ינואר_פברואר_מרץ_אפריל_מאי_יוני_יולי_אוגוסט_ספטמבר_אוקטובר_נובמבר_דצמבר'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'ימים'
   },
   table: {
     noData: 'לא נמצאו נתונים',
@@ -68,12 +69,12 @@ export default {
     hr: 'הוסף קו אופקי',
     undo: 'בטל',
     redo: 'בצע מחדש',
-    header1: 'כותרת 1',
-    header2: 'כותרת 2',
-    header3: 'כותרת 3',
-    header4: 'כותרת 4',
-    header5: 'כותרת 5',
-    header6: 'כותרת 6',
+    heading1: 'כותרת 1',
+    heading2: 'כותרת 2',
+    heading3: 'כותרת 3',
+    heading4: 'כותרת 4',
+    heading5: 'כותרת 5',
+    heading6: 'כותרת 6',
     paragraph: 'פסקה',
     code: 'קטע קוד',
     size1: 'קטן מאוד',

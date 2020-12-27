@@ -39,7 +39,7 @@
                     <q-icon name="keyboard_arrow_right" />
                   </q-item-section>
 
-                  <q-menu anchor="top right" self="top left">
+                  <q-menu anchor="top end" self="top start">
                     <q-list>
                       <q-item
                         v-for="n in 3"
@@ -51,7 +51,7 @@
                         <q-item-section side>
                           <q-icon name="keyboard_arrow_right" />
                         </q-item-section>
-                        <q-menu auto-close anchor="top right" self="top left">
+                        <q-menu auto-close anchor="top end" self="top start">
                           <q-list>
                             <q-item
                               v-for="n in 3"
@@ -112,9 +112,12 @@
 </template>
 
 <script>
-// we guard the Electron API calls, but this
+// We guard the Electron API calls, but this
 // is only needed if we build same app with other
 // Quasar Modes as well (SPA/PWA/Cordova/SSR...)
+
+// The code below requires Node Integration being kept turned "on"
+// More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
 
 export default {
   methods: {

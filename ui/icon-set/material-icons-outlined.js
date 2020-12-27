@@ -28,8 +28,9 @@ export default {
   carousel: {
     left: 'o_chevron_left',
     right: 'o_chevron_right',
-    navigationIcon: 'o_lens',
-    thumbnails: 'o_view_carousel'
+    up: 'o_keyboard_arrow_up',
+    down: 'o_keyboard_arrow_down',
+    navigationIcon: 'o_lens'
   },
   chip: {
     remove: 'o_cancel',
@@ -67,7 +68,7 @@ export default {
     hr: 'o_remove',
     undo: 'o_undo',
     redo: 'o_redo',
-    header: 'o_format_size',
+    heading: 'o_format_size',
     code: 'o_code',
     size: 'o_format_size',
     font: 'o_font_download',
@@ -108,8 +109,10 @@ export default {
   table: {
     arrowUp: 'o_arrow_upward',
     warning: 'o_warning',
+    firstPage: 'o_first_page',
     prevPage: 'o_chevron_left',
-    nextPage: 'o_chevron_right'
+    nextPage: 'o_chevron_right',
+    lastPage: 'o_last_page'
   },
   tree: {
     icon: 'o_play_arrow'

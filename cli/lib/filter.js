@@ -1,8 +1,7 @@
 // Following is adapted from Vue CLI v2 "init" command
 
-const
-  match = require('minimatch'),
-  evaluate = require('./eval')
+const match = require('minimatch')
+const evaluate = require('./eval')
 
 module.exports = (files, filters, data, done) => {
   if (!filters) {

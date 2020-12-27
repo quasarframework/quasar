@@ -8,18 +8,15 @@ import DarkMixin from '../../mixins/dark.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
+import cache from '../../utils/cache.js'
+import { ariaHidden } from '../../mixins/attrs'
 
 const duration = 150
 
-const directiveTemplate = {
-  name: 'touch-pan',
-  modifiers: {
-    horizontal: true,
-    mouse: true,
-    mouseAllDir: true
-  }
-}
+const mouseEvents = [
+  'mouseover', 'mouseout', 'mouseenter', 'mouseleave'
+]
 
 export default Vue.extend({
   name: 'QDrawer',
@@ -84,7 +81,7 @@ export default Vue.extend({
   data () {
     const belowBreakpoint = (
       this.behavior === 'mobile' ||
-      (this.behavior !== 'desktop' && this.layout.width <= this.breakpoint)
+      (this.behavior !== 'desktop' && this.layout.totalWidth <= this.breakpoint)
     )
 
     return {
@@ -117,29 +114,37 @@ export default Vue.extend({
       }
     },
 
-    'layout.width' (val) {
+    'layout.totalWidth' (val) {
       this.__updateLocal('belowBreakpoint', (
         this.behavior === 'mobile' ||
         (this.behavior !== 'desktop' && val <= this.breakpoint)
       ))
     },
 
-    side (_, oldSide) {
-      this.layout[oldSide].space = false
-      this.layout[oldSide].offset = 0
+    side (newSide, oldSide) {
+      if (this.layout.instances[oldSide] === this) {
+        this.layout.instances[oldSide] = void 0
+        this.layout[oldSide].space = false
+        this.layout[oldSide].offset = 0
+      }
+
+      this.layout.instances[newSide] = this
+      this.layout[newSide].size = this.size
+      this.layout[newSide].space = this.onLayout
+      this.layout[newSide].offset = this.offset
     },
 
     behavior (val) {
       this.__updateLocal('belowBreakpoint', (
         val === 'mobile' ||
-        (val !== 'desktop' && this.layout.width <= this.breakpoint)
+        (val !== 'desktop' && this.layout.totalWidth <= this.breakpoint)
       ))
     },
 
     breakpoint (val) {
       this.__updateLocal('belowBreakpoint', (
         this.behavior === 'mobile' ||
-        (this.behavior !== 'desktop' && this.layout.width <= val)
+        (this.behavior !== 'desktop' && this.layout.totalWidth <= val)
       ))
     },
 
@@ -194,6 +199,10 @@ export default Vue.extend({
       return this.side === 'right'
     },
 
+    otherSide () {
+      return this.rightSide === true ? 'left' : 'right'
+    },
+
     offset () {
       return this.showing === true && this.belowBreakpoint === false && this.overlay === false
         ? (this.miniToOverlay === true ? this.miniWidth : this.size)
@@ -222,7 +231,7 @@ export default Vue.extend({
     },
 
     backdropClass () {
-      return this.showing === false ? 'no-pointer-events' : null
+      return this.showing === false ? 'hidden' : null
     },
 
     headerSlot () {
@@ -272,6 +281,7 @@ export default Vue.extend({
       return `q-drawer--${this.side}` +
         (this.bordered === true ? ' q-drawer--bordered' : '') +
         (this.isDark === true ? ' q-drawer--dark q-dark' : '') +
+        (this.showing !== true ? ' q-layout--prevent-focus' : '') +
         (
           this.belowBreakpoint === true
             ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'
@@ -292,13 +302,17 @@ export default Vue.extend({
 
     onNativeEvents () {
       if (this.belowBreakpoint !== true) {
-        return {
-          '!click': e => { this.$emit('click', e) },
-          mouseover: e => { this.$emit('mouseover', e) },
-          mouseout: e => { this.$emit('mouseout', e) },
-          mouseenter: e => { this.$emit('mouseenter', e) },
-          mouseleave: e => { this.$emit('mouseleave', e) }
+        const evt = {
+          '!click': e => { this.$emit('click', e) }
         }
+
+        mouseEvents.forEach(name => {
+          evt[name] = e => {
+            this.qListeners[name] !== void 0 && this.$emit(name, e)
+          }
+        })
+
+        return evt
       }
     },
 
@@ -308,19 +322,45 @@ export default Vue.extend({
     },
 
     openDirective () {
-      if (this.belowBreakpoint === true) {
+      const dir = this.$q.lang.rtl === true ? this.side : this.otherSide
+
+      return [{
+        name: 'touch-pan',
+        value: this.__openByTouch,
+        modifiers: {
+          [ dir ]: true,
+          mouse: true
+        }
+      }]
+    },
+
+    contentCloseDirective () {
+      if (this.noSwipeClose !== true) {
+        const dir = this.$q.lang.rtl === true ? this.otherSide : this.side
+
         return [{
-          ...directiveTemplate,
-          value: this.__openByTouch
+          name: 'touch-pan',
+          value: this.__closeByTouch,
+          modifiers: {
+            [ dir ]: true,
+            mouse: true
+          }
         }]
       }
     },
 
-    closeDirective () {
-      if (this.belowBreakpoint === true) {
+    backdropCloseDirective () {
+      if (this.noSwipeBackdrop !== true) {
+        const dir = this.$q.lang.rtl === true ? this.otherSide : this.side
+
         return [{
-          ...directiveTemplate,
-          value: this.__closeByTouch
+          name: 'touch-pan',
+          value: this.__closeByTouch,
+          modifiers: {
+            [ dir ]: true,
+            mouse: true,
+            mouseAllDir: true
+          }
         }]
       }
     }
@@ -362,6 +402,12 @@ export default Vue.extend({
         retry !== true && this.$nextTick(() => {
           this.__applyBackdrop(x, true)
         })
+      }
+    },
+
+    __setBackdropVisible (v) {
+      if (this.$refs.backdrop !== void 0) {
+        this.$refs.backdrop.classList[v === true ? 'remove' : 'add']('hidden')
       }
     },
 
@@ -412,13 +458,15 @@ export default Vue.extend({
           this.__applyBackdrop(0)
           this.__applyPosition(this.stateDirection * width)
           el.classList.remove('q-drawer--delimiter')
+          el.classList.add('q-layout--prevent-focus')
+          this.__setBackdropVisible(false)
         }
 
         return
       }
 
       this.__applyPosition(
-        (this.$q.lang.rtl === true ? !this.rightSide : this.rightSide)
+        (this.$q.lang.rtl === true ? this.rightSide !== true : this.rightSide)
           ? Math.max(width - position, 0)
           : Math.min(0, position - width)
       )
@@ -430,6 +478,8 @@ export default Vue.extend({
         const el = this.$refs.content
         el.classList.add('no-transition')
         el.classList.add('q-drawer--delimiter')
+        el.classList.remove('q-layout--prevent-focus')
+        this.__setBackdropVisible(true)
       }
     },
 
@@ -443,7 +493,7 @@ export default Vue.extend({
       const
         width = this.size,
         dir = evt.direction === this.side,
-        position = (this.$q.lang.rtl === true ? !dir : dir)
+        position = (this.$q.lang.rtl === true ? dir !== true : dir)
           ? between(evt.distance.x, 0, width)
           : 0
 
@@ -474,11 +524,12 @@ export default Vue.extend({
     __show (evt, noEvent) {
       this.__addHistory()
 
+      this.__setBackdropVisible(true)
       evt !== false && this.layout.__animate()
       this.__applyPosition(0)
 
       if (this.belowBreakpoint === true) {
-        const otherSide = this.layout.instances[this.rightSide === true ? 'left' : 'right']
+        const otherSide = this.layout.instances[this.otherSide]
         if (otherSide !== void 0 && otherSide.belowBreakpoint === true) {
           otherSide.hide(false)
         }
@@ -504,6 +555,7 @@ export default Vue.extend({
 
       this.__applyBackdrop(0)
       this.__applyPosition(this.stateDirection * this.size)
+      this.__setBackdropVisible(false)
 
       this.__cleanup()
 
@@ -544,7 +596,7 @@ export default Vue.extend({
       this.showIfAbove === true &&
       this.value !== true &&
       this.showing === true &&
-      this.$listeners.input !== void 0
+      this.qListeners.input !== void 0
     ) {
       this.$emit('input', true)
     }
@@ -554,17 +606,21 @@ export default Vue.extend({
     this.$emit('on-layout', this.onLayout)
     this.$emit('mini-state', this.isMini)
 
+    this.lastDesktopState = this.showIfAbove === true
+
     const fn = () => {
       const action = this.showing === true ? 'show' : 'hide'
       this[`__${action}`](false, true)
     }
 
-    if (this.layout.width !== 0) {
-      fn()
+    if (this.layout.totalWidth !== 0) {
+      // make sure that all computed properties
+      // have been updated before calling __show/__hide()
+      this.$nextTick(fn)
       return
     }
 
-    this.watcher = this.$watch('layout.width', () => {
+    this.watcher = this.$watch('layout.totalWidth', () => {
       this.watcher()
       this.watcher = void 0
 
@@ -592,27 +648,33 @@ export default Vue.extend({
   },
 
   render (h) {
-    const child = [
-      this.noSwipeOpen !== true && this.belowBreakpoint === true
-        ? h('div', {
+    const child = []
+
+    if (this.belowBreakpoint === true) {
+      this.noSwipeOpen !== true && child.push(
+        h('div', {
           staticClass: `q-drawer__opener fixed-${this.side}`,
+          attrs: ariaHidden,
           directives: this.openDirective
         })
-        : null,
+      )
 
-      this.belowBreakpoint === true ? h('div', {
-        ref: 'backdrop',
-        staticClass: 'fullscreen q-drawer__backdrop',
-        class: this.backdropClass,
-        style: this.lastBackdropBg !== void 0
-          ? { backgroundColor: this.lastBackdropBg }
-          : null,
-        on: { click: this.hide },
-        directives: this.noSwipeBackdrop !== true
-          ? this.closeDirective
-          : void 0
-      }) : null
-    ]
+      child.push(
+        h('div', {
+          ref: 'backdrop',
+          staticClass: 'fullscreen q-drawer__backdrop',
+          class: this.backdropClass,
+          attrs: ariaHidden,
+          style: this.lastBackdropBg !== void 0
+            ? { backgroundColor: this.lastBackdropBg }
+            : null,
+          on: cache(this, 'bkdrop', { click: this.hide }),
+          directives: this.showing === false
+            ? void 0
+            : this.backdropCloseDirective
+        })
+      )
+    }
 
     const content = [
       h('div', {
@@ -633,19 +695,19 @@ export default Vue.extend({
       )
     }
 
-    return h('div', {
-      staticClass: 'q-drawer-container'
-    }, child.concat([
+    child.push(
       h('aside', {
         ref: 'content',
         staticClass: `q-drawer`,
         class: this.classes,
         style: this.style,
         on: this.onNativeEvents,
-        directives: this.noSwipeClose !== true
-          ? this.closeDirective
+        directives: this.belowBreakpoint === true
+          ? this.contentCloseDirective
           : void 0
       }, content)
-    ]))
+    )
+
+    return h('div', { staticClass: 'q-drawer-container' }, child)
   }
 })

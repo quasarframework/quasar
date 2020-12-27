@@ -31,7 +31,8 @@ export default {
         monthsShort[ model.month - 1 ]
     },
     firstDayOfWeek: 6,
-    format24h: true
+    format24h: true,
+    pluralDay: 'روز'
   },
   table: {
     noData: 'اطلاعاتی موجود نیست',
@@ -49,7 +50,7 @@ export default {
   },
   editor: {
     url: 'آدرس',
-    bold: 'کلفت',
+    bold: 'ضخیم',
     italic: 'کج',
     strikethrough: 'خط‌خورده',
     underline: 'زیرخط',
@@ -74,12 +75,12 @@ export default {
     hr: 'درج خط افقی',
     undo: 'عمل قبلی',
     redo: 'عملی بعدی',
-    header1: 'سرفصل ۱',
-    header2: 'سرفصل ۲',
-    header3: 'سرفصل ۳',
-    header4: 'سرفصل ۴',
-    header5: 'سرفصل ۵',
-    header6: 'سرفصل ۶',
+    heading1: 'سرفصل ۱',
+    heading2: 'سرفصل ۲',
+    heading3: 'سرفصل ۳',
+    heading4: 'سرفصل ۴',
+    heading5: 'سرفصل ۵',
+    heading6: 'سرفصل ۶',
     paragraph: 'پاراگراف',
     code: 'کد',
     size1: 'خیلی کوچک',

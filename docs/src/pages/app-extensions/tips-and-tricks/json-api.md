@@ -86,7 +86,7 @@ The rest of the definitions can be one of the following:
 | Name | Description |
 | :--- | :--- |
 | type | Optional for everything but `props`. This can be a single item or array of items. Values are: `["Array", "Boolean", "Function", "Number", "Object", "String", "Null", "Any"]` |
-| desc | Any string that descibes the item being described |
+| desc | Any string that describes the item being described |
 | required | [true,false] |
 | values | an array of constrained values. Ex: `[0, 0.5, 1.0, 1.5, 2.0]` |
 | definition | Describes an object definition. This is an object that pretty much conforms to the base object. It can contain `"type"`, `"desc"`, `"required"`, `"examples"`, `"values"` and `"definition"` (recursive) |
@@ -94,7 +94,7 @@ The rest of the definitions can be one of the following:
 | returns | The returned value (for methods or functions) |
 | category | Used for grouping |
 
-All items are optional, but in the very least you shoud provide a description.
+All items are optional, but in the very least you should provide a description.
 
 ### Props example
 
@@ -139,7 +139,7 @@ All items are optional, but in the very least you shoud provide a description.
     },
     "options": {
       "type": "Function",
-      "desc": "Optionally configure what time is the user allowed to set; Overriden by 'hour-options', 'minute-options' and 'second-options' if those are set",
+      "desc": "Optionally configure what time is the user allowed to set; Overridden by 'hour-options', 'minute-options' and 'second-options' if those are set",
       "params": {
         "hr": {
           "type": "Number",

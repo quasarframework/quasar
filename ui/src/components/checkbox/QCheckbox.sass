@@ -4,12 +4,10 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
   vertical-align: middle
 
   &__bg
-    left: 11px
-    top: 11px
-    right: auto
-    bottom: 0
-    width: 45%
-    height: 45%
+    top: 25%
+    left: 25%
+    width: 50%
+    height: 50%
     border: 2px solid currentColor
     border-radius: 2px
     transition: background $checkbox-transition
@@ -18,56 +16,43 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
     width: 1px
     height: 1px
 
-  &__label
-    padding-left: 4px
-    font-size: 14px
-    line-height: 20px
-
-  &.reverse &__label
-    padding-right: 4px
-
-  &__check
+  &__svg
     color: #fff
 
-    path
-      stroke: currentColor
-      stroke-width: 3.12px
-      stroke-dashoffset: 29.78334
-      stroke-dasharray: 29.78334
+  &__truthy
+    stroke: currentColor
+    stroke-width: 3.12px
+    stroke-dashoffset: 29.78334
+    stroke-dasharray: 29.78334
 
-  &__check-indet
-    width: 100%
-    height: 0
-    left: 0
-    top: 50%
-    border-color: #fff
-    border-width: 1px
-    border-style: solid
-    transform: translate3d(0, -50%, 0) rotate3d(0, 0, 1, -280deg) scale3d(0, 0, 0)
+  &__indet
+    fill: currentColor
+    transform-origin: 50% 50%
+    transform: rotate(-280deg) scale(0)
 
   &__inner
-    width: 40px
-    min-width: 40px
-    height: 40px
-    padding: 11px
+    font-size: 40px
+    width: 1em
+    min-width: 1em
+    height: 1em
     outline: 0
     border-radius: 50%
-    color: rgba(0, 0, 0, .54)
+    color: rgba(0,0,0,.54)
 
-    &--active, &--indeterminate
+    &--truthy, &--indet
       color: $primary
       color: var(--q-color-primary)
       .q-checkbox__bg
         background: currentColor
 
-    &--active
+    &--truthy
       path
         stroke-dashoffset: 0
         transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms
 
-    &--indeterminate
-      .q-checkbox__check-indet
-        transform: translate3d(0, -50%, 0) rotate3d(0, 0, 1, 0) scale3d(1, 1, 1)
+    &--indet
+      .q-checkbox__indet
+        transform: rotate(0) scale(1)
         transition: transform $checkbox-transition
 
   &.disabled
@@ -75,31 +60,37 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
 
   &--dark
     .q-checkbox__inner
-      color: rgba(255, 255, 255, .7)
+      color: rgba(255,255,255,.7)
       &:before
         opacity: .32 !important
-      &--active, &--indeterminate
+      &--truthy, &--indet
         color: $primary
         color: var(--q-color-primary)
 
   &--dense
 
     .q-checkbox__inner
-      width: 20px
-      min-width: 20px
-      height: 20px
-      padding: 0
+      width: .5em
+      min-width: .5em
+      height: .5em
 
     .q-checkbox__bg
-      left: 1px
-      top: 1px
-      width: 18px
-      height: 18px
+      left: 5%
+      top: 5%
+      width: 90%
+      height: 90%
+
+    .q-checkbox__label
+      padding-left: .5em
+
+    &.reverse .q-checkbox__label
+      padding-left: 0
+      padding-right: .5em
 
 body.desktop
 
-  .q-checkbox
-    &__inner:before
+  .q-checkbox:not(.disabled)
+    .q-checkbox__inner:before
       content: ''
       position: absolute
       top: 0
@@ -109,16 +100,16 @@ body.desktop
       border-radius: 50%
       background: currentColor
       opacity: .12
-      transform: scale3d(0, 0, 0)
+      transform: scale3d(0, 0, 1)
       transition: transform $option-focus-transition
 
-    &:focus:not(.disabled)
+    &:focus,
+    &:hover
       .q-checkbox__inner:before
         transform: scale3d(1, 1, 1)
 
-    &--dense:focus:not(.disabled) .q-checkbox__inner:before
-      transform: scale3d(1.5, 1.5, 1.5)
-
-  .q-table--dense .q-checkbox--dense:focus:not(.disabled) .q-checkbox__inner:before
-    transform: scale3d(1.4, 1.4, 1.4)
-
+  .q-checkbox--dense:not(.disabled)
+    &:focus,
+    &:hover
+      .q-checkbox__inner:before
+        transform: scale3d(1.4, 1.4, 1)

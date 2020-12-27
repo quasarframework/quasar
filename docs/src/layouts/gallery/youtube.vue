@@ -12,7 +12,7 @@
         />
 
         <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
-          <q-icon name="fab fa-youtube" color="red" size="28px" />
+          <q-icon :name="fabYoutube" color="red" size="28px" />
           <q-toolbar-title shrink class="text-weight-bold">
             YouTube
           </q-toolbar-title>
@@ -145,6 +145,8 @@
 </template>
 
 <script>
+import { fabYoutube } from '@quasar/extras/fontawesome-v5'
+
 export default {
   name: 'MyLayout',
 
@@ -164,7 +166,7 @@ export default {
         { icon: 'thumb_up_alt', text: 'Liked videos' }
       ],
       links3: [
-        { icon: 'fab fa-youtube', text: 'YouTube Premium' },
+        { icon: fabYoutube, text: 'YouTube Premium' },
         { icon: 'local_movies', text: 'Movies & Shows' },
         { icon: 'videogame_asset', text: 'Gaming' },
         { icon: 'live_tv', text: 'Live' }
@@ -191,6 +193,10 @@ export default {
         { text: 'Test new features' }
       ]
     }
+  },
+
+  created () {
+    this.fabYoutube = fabYoutube
   }
 }
 </script>

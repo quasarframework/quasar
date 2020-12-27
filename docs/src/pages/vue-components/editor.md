@@ -122,7 +122,7 @@ User can pick only one option from each dropdown.
 ## Caveats
 
 ### Autocorrect & spellcheck
-There may be occassions where you want to turn off the integrated autocorrect, autocomplete, autocapitalization and spelling correction "features" that many modern browsers offer. To do this, simply wrap the `<q-editor>` component in a `<form>` element, like this:
+There may be occasions where you want to turn off the integrated autocorrect, autocomplete, autocapitalization and spelling correction "features" that many modern browsers offer. To do this, simply wrap the `<q-editor>` component in a `<form>` element, like this:
 
 ```html
 <form

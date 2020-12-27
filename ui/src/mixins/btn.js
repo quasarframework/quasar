@@ -1,23 +1,39 @@
 import AlignMixin from './align.js'
 import RippleMixin from './ripple.js'
+import ListenersMixin from './listeners.js'
+import { getSizeMixin } from './size.js'
 
-const sizes = {
-  xs: 8,
-  sm: 10,
-  md: 14,
-  lg: 20,
-  xl: 24
+const padding = {
+  none: 0,
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32
 }
 
 export default {
-  mixins: [ RippleMixin, AlignMixin ],
+  mixins: [
+    ListenersMixin,
+    RippleMixin,
+    AlignMixin,
+    getSizeMixin({
+      xs: 8,
+      sm: 10,
+      md: 14,
+      lg: 20,
+      xl: 24
+    })
+  ],
 
   props: {
     type: String,
-    to: [Object, String],
-    replace: Boolean,
 
-    label: [Number, String],
+    to: [ Object, String ],
+    replace: Boolean,
+    append: Boolean,
+
+    label: [ Number, String ],
     icon: String,
     iconRight: String,
 
@@ -32,6 +48,7 @@ export default {
     size: String,
     fab: Boolean,
     fabMini: Boolean,
+    padding: String,
 
     color: String,
     textColor: String,
@@ -39,7 +56,7 @@ export default {
     noWrap: Boolean,
     dense: Boolean,
 
-    tabindex: [Number, String],
+    tabindex: [ Number, String ],
 
     align: { default: 'center' },
     stack: Boolean,
@@ -53,23 +70,21 @@ export default {
 
   computed: {
     style () {
-      if (this.fab === false && this.fabMini === false && this.size) {
-        return {
-          fontSize: this.size in sizes ? `${sizes[this.size]}px` : this.size
-        }
+      if (this.fab === false && this.fabMini === false) {
+        return this.sizeStyle
       }
     },
 
-    isRound () {
-      return this.round === true || this.fab === true || this.fabMini === true
+    isRounded () {
+      return this.rounded === true || this.fab === true || this.fabMini === true
     },
 
-    isDisabled () {
-      return this.disable === true || this.loading === true
+    isActionable () {
+      return this.disable !== true && this.loading !== true
     },
 
     computedTabIndex () {
-      return this.isDisabled === true ? -1 : this.tabindex || 0
+      return this.isActionable === true ? this.tabindex || 0 : -1
     },
 
     hasRouterLink () {
@@ -88,18 +103,45 @@ export default {
       return 'standard'
     },
 
-    attrs () {
-      const att = { tabindex: this.computedTabIndex }
-      if (this.type !== 'a') {
-        att.type = this.type || 'button'
-      }
+    currentLocation () {
       if (this.hasRouterLink === true) {
-        att.href = this.$router.resolve(this.to).href
+        // we protect from accessing this.$route without
+        // actually needing it so that we won't trigger
+        // unnecessary updates
+        return this.append === true
+          ? this.$router.resolve(this.to, this.$route, true)
+          : this.$router.resolve(this.to)
       }
-      if (this.isDisabled === true) {
-        att.disabled = true
+    },
+
+    attrs () {
+      const attrs = { tabindex: this.computedTabIndex }
+
+      if (this.type !== 'a') {
+        attrs.type = this.type || 'button'
       }
-      return att
+
+      if (this.hasRouterLink === true) {
+        attrs.href = this.currentLocation.href
+        attrs.role = 'link'
+      }
+      else {
+        attrs.role = this.type === 'a' ? 'link' : 'button'
+      }
+
+      if (this.loading === true && this.percentage !== void 0) {
+        attrs.role = 'progressbar'
+        attrs['aria-valuemin'] = 0
+        attrs['aria-valuemax'] = 100
+        attrs['aria-valuenow'] = this.percentage
+      }
+
+      if (this.disable === true) {
+        attrs.disabled = ''
+        attrs['aria-disabled'] = 'true'
+      }
+
+      return attrs
     },
 
     classes () {
@@ -117,12 +159,13 @@ export default {
         colors = `text-${this.textColor}`
       }
 
-      return `q-btn--${this.design} q-btn--${this.isRound === true ? 'round' : 'rectangle'}` +
+      return `q-btn--${this.design} ` +
+        `q-btn--${this.round === true ? 'round' : `rectangle${this.isRounded === true ? ' q-btn--rounded' : ''}`}` +
         (colors !== void 0 ? ' ' + colors : '') +
-        (this.isDisabled !== true ? ' q-focusable q-hoverable' : ' disabled') +
+        (this.isActionable === true ? ' q-btn--actionable q-focusable q-hoverable' : (this.disable === true ? ' disabled' : '')) +
         (this.fab === true ? ' q-btn--fab' : (this.fabMini === true ? ' q-btn--fab-mini' : '')) +
         (this.noCaps === true ? ' q-btn--no-uppercase' : '') +
-        (this.rounded === true ? ' q-btn--rounded' : '') +
+        (this.noWrap === true ? '' : ' q-btn--wrap') + // this is for IE11
         (this.dense === true ? ' q-btn--dense' : '') +
         (this.stretch === true ? ' no-border-radius self-stretch' : '') +
         (this.glossy === true ? ' glossy' : '')
@@ -132,6 +175,19 @@ export default {
       return this.alignClass + (this.stack === true ? ' column' : ' row') +
         (this.noWrap === true ? ' no-wrap text-no-wrap' : '') +
         (this.loading === true ? ' q-btn__content--hidden' : '')
+    },
+
+    wrapperStyle () {
+      if (this.padding !== void 0) {
+        return {
+          padding: this.padding
+            .split(/\s+/)
+            .map(v => v in padding ? padding[v] + 'px' : v)
+            .join(' '),
+          minWidth: '0',
+          minHeight: '0'
+        }
+      }
     }
   }
 }

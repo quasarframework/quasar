@@ -3,8 +3,14 @@ import Vue from 'vue'
 import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/Ripple.js'
 
+import AttrsMixin from '../../mixins/attrs.js'
+
+import cache from '../../utils/cache.js'
+
 export default Vue.extend({
   name: 'StepHeader',
+
+  mixins: [ AttrsMixin ],
 
   directives: {
     Ripple
@@ -32,7 +38,7 @@ export default Vue.extend({
 
     isDone () {
       const opt = this.step.done
-      return !this.isDisable && (opt === true || opt === '')
+      return this.isDisable === false && (opt === true || opt === '')
     },
 
     headerNav () {
@@ -40,21 +46,26 @@ export default Vue.extend({
         opt = this.step.headerNav,
         nav = opt === true || opt === '' || opt === void 0
 
-      return !this.isDisable && this.stepper.headerNav && (this.isActive || nav)
+      return this.isDisable === false &&
+        this.stepper.headerNav &&
+        nav
     },
 
     hasPrefix () {
-      return this.step.prefix && !this.isActive && !this.isError && !this.isDone
+      return this.step.prefix &&
+        this.isActive === false &&
+        this.isError === false &&
+        this.isDone === false
     },
 
     icon () {
-      if (this.isActive) {
+      if (this.isActive === true) {
         return this.step.activeIcon || this.stepper.activeIcon || this.$q.iconSet.stepper.active
       }
-      if (this.isError) {
+      if (this.isError === true) {
         return this.step.errorIcon || this.stepper.errorIcon || this.$q.iconSet.stepper.error
       }
-      if (!this.isDisable && this.isDone) {
+      if (this.isDisable === false && this.isDone === true) {
         return this.step.doneIcon || this.stepper.doneIcon || this.$q.iconSet.stepper.done
       }
 
@@ -62,13 +73,20 @@ export default Vue.extend({
     },
 
     color () {
-      if (this.isActive) {
-        return this.step.activeColor || this.stepper.activeColor || this.step.color
+      const errorColor = this.isError === true
+        ? this.step.errorColor || this.stepper.errorColor
+        : void 0
+
+      if (this.isActive === true) {
+        const color = this.step.activeColor || this.stepper.activeColor || this.step.color
+        return color !== void 0
+          ? color
+          : errorColor
       }
-      if (this.isError) {
-        return this.step.errorColor || this.stepper.errorColor
+      if (errorColor !== void 0) {
+        return errorColor
       }
-      if (!this.disable && this.isDone) {
+      if (this.isDisable === false && this.isDone === true) {
         return this.step.doneColor || this.stepper.doneColor || this.step.color || this.stepper.inactiveColor
       }
 
@@ -76,46 +94,50 @@ export default Vue.extend({
     },
 
     classes () {
-      return {
-        [`text-${this.color}`]: this.color,
-        'q-stepper__tab--error': this.isError,
-        'q-stepper__tab--active': this.isActive,
-        'q-stepper__tab--done': this.isDone,
-        'q-stepper__tab--navigation q-focusable q-hoverable': this.headerNav,
-        'q-stepper__tab--disabled': this.isDisable
-      }
+      return `q-stepper__tab col-grow flex items-center no-wrap relative-position` +
+        (this.color !== void 0 ? ` text-${this.color}` : '') +
+        (this.isError === true ? ' q-stepper__tab--error' : '') +
+        (this.isActive === true ? ' q-stepper__tab--active' : '') +
+        (this.isDone === true ? ' q-stepper__tab--done' : '') +
+        (this.headerNav === true ? ' q-stepper__tab--navigation q-focusable q-hoverable' : '') +
+        (this.isDisable === true ? ' q-stepper__tab--disabled' : '')
     }
   },
 
   methods: {
     activate () {
       this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
-      !this.isActive && this.stepper.goTo(this.step.name)
+      this.isActive === false && this.stepper.goTo(this.step.name)
     },
+
     keyup (e) {
-      e.keyCode === 13 && !this.isActive && this.stepper.goTo(this.step.name)
+      if (e.keyCode === 13 && this.isActive === false) {
+        this.stepper.goTo(this.step.name)
+      }
     }
   },
 
   render (h) {
-    const data = {
-      staticClass: 'q-stepper__tab col-grow flex items-center no-wrap relative-position',
-      class: this.classes,
-      directives: this.stepper.headerNav ? [{
+    const data = { class: this.classes }
+
+    if (this.stepper.headerNav === true) {
+      data.directives = [{
         name: 'ripple',
         value: this.headerNav
-      }] : null
+      }]
     }
 
-    if (this.headerNav) {
-      data.on = {
+    this.headerNav === true && Object.assign(data, {
+      on: cache(this, 'headnavon', {
         click: this.activate,
         keyup: this.keyup
-      }
-      data.attrs = { tabindex: this.isDisable === true ? -1 : this.$attrs.tabindex || 0 }
-    }
+      }),
+      attrs: this.isDisable === true
+        ? { tabindex: -1, 'aria-disabled': 'true' }
+        : { tabindex: this.qAttrs.tabindex || 0 }
+    })
 
-    return h('div', data, [
+    const child = [
       h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }),
 
       h('div', { staticClass: 'q-stepper__dot row flex-center q-stepper__line relative-position' }, [
@@ -124,18 +146,27 @@ export default Vue.extend({
             ? this.step.prefix
             : h(QIcon, { props: { name: this.icon } })
         ])
-      ]),
+      ])
+    ]
 
-      this.step.title
-        ? h('div', {
+    if (this.step.title !== void 0 && this.step.title !== null) {
+      const content = [
+        h('div', { staticClass: 'q-stepper__title' }, [ this.step.title ])
+      ]
+
+      if (this.step.caption !== void 0 && this.step.caption !== null) {
+        content.push(
+          h('div', { staticClass: 'q-stepper__caption' }, [ this.step.caption ])
+        )
+      }
+
+      child.push(
+        h('div', {
           staticClass: 'q-stepper__label q-stepper__line relative-position'
-        }, [
-          h('div', { staticClass: 'q-stepper__title' }, [ this.step.title ]),
-          this.step.caption
-            ? h('div', { staticClass: 'q-stepper__caption' }, [ this.step.caption ])
-            : null
-        ])
-        : null
-    ])
+        }, content)
+      )
+    }
+
+    return h('div', data, child)
   }
 })

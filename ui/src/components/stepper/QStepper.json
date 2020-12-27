@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/panel-parent" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/stepper"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -26,7 +30,7 @@
 
     "alternative-labels": {
       "type": "Boolean",
-      "desc": "Use alternative labels (applies only to horizontal stepper)",
+      "desc": "Use alternative labels - stacks the icon on top of the label (applies only to horizontal stepper)",
       "category": "header"
     },
 
@@ -80,6 +84,15 @@
     "error-color": {
       "extends": "color",
       "category": "header"
+    },
+
+    "header-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the header",
+      "examples": [
+        "my-special-class"
+      ],
+      "category": "style"
     }
   },
 

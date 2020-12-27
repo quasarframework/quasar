@@ -1,4 +1,12 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/infinite-scroll"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "offset": {
       "type": "Number",
@@ -17,14 +25,17 @@
       "addedIn": "v1.1.0"
     },
 
+    "initial-index": {
+      "type": "Number",
+      "desc": "Initialize the pagination index (used for the @load event)",
+      "default": 0,
+      "examples": [ 2, 3 ],
+      "category": "behavior",
+      "addedIn": "v1.13.0"
+    },
+
     "scroll-target": {
-      "type": [ "Element", "String" ],
-      "desc": "CSS selector or DOM element to be used as scroll container instead of the auto detected one",
-      "examples": [
-        ":scroll-target=\"$refs.scrollTarget\"",
-        "scroll-target=\"scroll-target\""
-      ],
-      "category": "behavior"
+      "extends": "scroll-target"
     },
 
     "disable": {
@@ -91,6 +102,11 @@
 
     "resume": {
       "desc": "Starts working. Checks scroll position upon call and if trigger is hit, it loads more content"
+    },
+
+    "setIndex": {
+      "desc": "Overwrite the current pagination index",
+      "addedIn": "v1.13.0"
     },
 
     "updateScrollTarget": {

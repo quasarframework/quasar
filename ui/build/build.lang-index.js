@@ -46,9 +46,9 @@ module.exports.generate = function () {
     }
     catch (e) { }
 
-    if (newLangJson.split(/[\n\r]+/).join('\n') !== oldLangJson.split(/[\n\r]+/).join('\n')) {
-      writeFile(langFile, newLangJson)
-    }
+    return newLangJson.split(/[\n\r]+/).join('\n') !== oldLangJson.split(/[\n\r]+/).join('\n')
+      ? writeFile(langFile, newLangJson)
+      : Promise.resolve()
   }
   catch (err) {
     logError(`build.lang-index.js: something went wrong...`)

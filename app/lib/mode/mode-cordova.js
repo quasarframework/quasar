@@ -1,70 +1,56 @@
-const
-  fs = require('fs'),
-  fse = require('fs-extra'),
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  log = logger('app:mode-cordova'),
-  warn = logger('app:mode-cordova', 'red'),
-  { spawnSync } = require('../helpers/spawn')
+const fs = require('fs')
+const fse = require('fs-extra')
 
-function installDependencies () {
-  if (fs.existsSync(appPaths.resolve.cordova('node_modules'))) {
-    return
-  }
-
-  log('Installing dependencies in /src-cordova')
-  spawnSync(
-    'npm',
-    [ 'install' ],
-    { cwd: appPaths.cordovaDir },
-    () => {
-      warn(`⚠️  [FAIL] npm failed installing dependencies in /src-cordova`)
-      process.exit(1)
-    }
-  )
-}
+const appPaths = require('../app-paths')
+const { log, warn, fatal } = require('../helpers/logger')
+const { spawnSync } = require('../helpers/spawn')
 
 class Mode {
   get isInstalled () {
     return fs.existsSync(appPaths.cordovaDir)
   }
 
-  add (target) {
+  async add (target) {
     if (this.isInstalled) {
       warn(`Cordova support detected already. Aborting.`)
       return
     }
 
-    const
-      pkg = require(appPaths.resolve.app('package.json')),
-      appName = pkg.productName || pkg.name || 'Quasar App'
+    const pkg = require(appPaths.resolve.app('package.json'))
+    const appName = pkg.productName || pkg.name || 'Quasar App'
 
     if (/^[0-9]/.test(appName)) {
       warn(
-        `⚠️  App product name cannot start with a number. ` +
+        `App product name cannot start with a number. ` +
         `Please change the "productName" prop in your /package.json then try again.`
       )
       return
     }
 
+    const inquirer = require('inquirer')
+
+    console.log()
+    const answer = await inquirer.prompt([{
+      name: 'appId',
+      type: 'input',
+      message: 'What is the Cordova app id?',
+      default: 'org.cordova.quasar.app',
+      validate: appId => appId ? true : 'Please fill in a value'
+    }])
+
     log('Creating Cordova source folder...')
 
     spawnSync(
       'cordova',
-      ['create', 'src-cordova', pkg.cordovaId || 'org.quasar.cordova.app', appName],
+      ['create', 'src-cordova', answer.appId, appName],
       { cwd: appPaths.appDir },
       () => {
-        warn(`⚠️  There was an error trying to install Cordova support`)
-        process.exit(1)
+        fatal(`There was an error trying to install Cordova support`)
       }
     )
 
-    const www = appPaths.resolve.cordova('www')
-    fse.removeSync(www)
-    fse.copySync(
-      appPaths.resolve.cli('templates/cordova'),
-      appPaths.cordovaDir
-    )
+    const { ensureWWW } = require('../cordova/ensure-consistency')
+    ensureWWW(true)
 
     log(`Cordova support was installed`)
     log(`App name was taken from package.json: "${appName}"`)
@@ -93,10 +79,10 @@ class Mode {
   }
 
   addPlatform (target) {
-    fse.ensureDir(appPaths.resolve.cordova(`www`))
+    const ensureConsistency = require('../cordova/ensure-consistency')
+    ensureConsistency()
 
     if (this.hasPlatform(target)) {
-      installDependencies()
       return
     }
 
@@ -106,7 +92,7 @@ class Mode {
       ['platform', 'add', target],
       { cwd: appPaths.cordovaDir },
       () => {
-        warn(`⚠️  There was an error trying to install Cordova platform "${target}"`)
+        warn(`There was an error trying to install Cordova platform "${target}"`)
         process.exit(1)
       }
     )

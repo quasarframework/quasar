@@ -10,8 +10,8 @@
     >
 
       <template v-slot:top>
-        <q-btn flat dense color="primary" :disable="loading" label="Add row" @click="addRow" />
-        <q-btn class="on-right" flat dense color="primary" :disable="loading" label="Remove row" @click="removeRow" />
+        <q-btn color="primary" :disable="loading" label="Add row" @click="addRow" />
+        <q-btn class="q-ml-sm" color="primary" :disable="loading" label="Remove row" @click="removeRow" />
         <q-space />
         <q-input borderless dense debounce="300" color="primary" v-model="filter">
           <template v-slot:append>
@@ -265,6 +265,7 @@ export default {
       ]
     }
   },
+
   methods: {
     // emulate fetching data from server
     addRow () {
@@ -278,15 +279,16 @@ export default {
         }
         row.id = ++this.rowCount
         const addRow = { ...row } // extend({}, row, { name: `${row.name} (${row.__count})` })
-        this.data = [...this.data.slice(0, index), addRow, ...this.data.slice(index)]
+        this.data = [ ...this.data.slice(0, index), addRow, ...this.data.slice(index) ]
         this.loading = false
       }, 500)
     },
+
     removeRow () {
       this.loading = true
       setTimeout(() => {
         const index = Math.floor(Math.random() * this.data.length)
-        this.data = [...this.data.slice(0, index), ...this.data.slice(index + 1)]
+        this.data = [ ...this.data.slice(0, index), ...this.data.slice(index + 1) ]
         this.loading = false
       }, 500)
     }

@@ -14,6 +14,10 @@ The QSlideItem component is essentially a [QItem](/vue-components/list-and-list-
 ## Usage
 Drag with the mouse or use your finger to pan to left or right side to see QSlideItem in action.
 
+::: tip
+If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+:::
+
 <doc-example title="Basic" file="QSlideItem/Basic" />
 
 <doc-example title="Vertical (v1.1.3+)" file="QSlideItem/Vertical" />

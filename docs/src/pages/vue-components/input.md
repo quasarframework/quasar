@@ -96,6 +96,10 @@ You'll be using `v-model.number` (notice the `number` modifier) along with `type
 
 #### Input of file type
 
+::: tip ALTERNATIVES
+**Instead of using a QInput with `type="file"`, you might want to use [QFile](/vue-components/file-picker) picker instead or even [QUploader](/vue-components/uploader)**. However, should you wish to use QInput, please read the warning below.
+:::
+
 ::: warning
 Do NOT use a `v-model` when QInput is of `type="file"`. Browser security policy does not allow a value to be set to such an input. As a result, you can only read it (attach an `@input` event), but not write it.
 :::
@@ -113,6 +117,22 @@ When you need QInput to grow along with its content, then use the `autogrow` pro
 ### Prefix and suffix
 
 <doc-example title="Prefix and suffix" file="QInput/PrefixSuffix" />
+
+### Custom Label <q-badge align="top" label="v1.12.9+" />
+
+Using the `label` slot you can customize the aspect of the label or add special features as `QTooltip`.
+
+::: tip
+Do not forget to set the `label-slot` property.
+
+If you want to interact with the content of the label (QTooltip) add the `all-pointer-events` class on the element in the slot.
+:::
+
+<doc-example title="Custom label" file="QInput/CustomLabel" />
+
+### Shadow text <q-badge align="top" label="v1.10+" />
+
+<doc-example title="Shadow text" file="QInput/ShadowText" />
 
 ### Slots with QBtn type "submit"
 
@@ -164,11 +184,86 @@ The `reverse-fill-mask` is useful if you want to force the user to fill the mask
 
 <doc-example title="Filling the mask in reverse" file="QInput/MaskFillReverse" />
 
+### Using third party mask processors
+
+You can easily use any third party mask processor by doing a few small adjustments to your QInput.
+
+Starting from a QInput like this:
+
+```html
+<q-input
+  filled
+  v-model="price"
+  label="Price with 2 decimals"
+  mask="#.##"
+  fill-mask="#"
+  reverse-fill-mask
+  hint="Mask: #.00"
+  input-class="text-right"
+/>
+```
+
+You can use v-money directive:
+
+```html
+<q-field
+  filled
+  v-model="price"
+  label="Price with v-money directive"
+  hint="Mask: $ #,###.00 #"
+>
+  <template v-slot:control="{ id, floatingLabel, value, emitValue }">
+    <input :id="id" class="q-field__input text-right" :value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
+  </template>
+</q-field>
+```
+
+```javascript
+moneyFormatForDirective: {
+  decimal: '.',
+  thousands: ',',
+  prefix: '$ ',
+  suffix: ' #',
+  precision: 2,
+  masked: false /* doesn't work with directive */
+}
+```
+
+Or you can use money component:
+
+```html
+<q-field
+  filled
+  v-model="price"
+  label="Price with v-money component"
+  hint="Mask: $ #,###.00 #"
+>
+  <template v-slot:control="{ id, floatingLabel, value, emitValue }">
+    <money :id="id" class="q-field__input text-right" :value="value" @input="emitValue" v-bind="moneyFormatForComponent" v-show="floatingLabel" />
+  </template>
+</q-field>
+```
+
+```javascript
+moneyFormatForComponent: {
+  decimal: '.',
+  thousands: ',',
+  prefix: '$ ',
+  suffix: ' #',
+  precision: 2,
+  masked: true
+}
+```
+
 ## Validation
 
 ### Internal validation
 
 You can validate QInput components with `:rules` prop. Specify array of embedded rules or your own validators. Your custom validator will be a function which returns `true` if validator succeeds or `String` with error message if it doesn't succeed.
+
+::: tip
+By default, for perf reasons, a change in the rules does not trigger a new validation until the model changes. In order to trigger the validation when rules change too, then use `reactive-rules` Boolean prop. The downside is a performance penalty (so use it when you really need this only!) and it can be slightly mitigated by using a computed prop as value for the rules (and not specify them inline in the vue template).
+:::
 
 This is so you can write convenient rules of shape like:
 
@@ -188,7 +283,7 @@ There are **helpers** for QInput `rules` prop: [full list](https://github.com/qu
 
 <doc-example title="Maximum length" file="QInput/ValidationMaxLength" />
 
-If you set `lazy-rules`, validation starts after first blur.
+If you set `lazy-rules`, validation starts after first blur. Starting with v1.11+, if `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
 
 <doc-example title="Lazy rules" file="QInput/ValidationLazy" />
 
@@ -216,6 +311,12 @@ Depending on your needs, you might connect [Vuelidate](https://vuelidate.netlify
 You can also customize the slot for error message:
 
 <doc-example title="Slot for error message" file="QInput/ValidationSlots" />
+
+## Native form submit <q-badge align="top" label="v1.9+" />
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QInput, otherwise formData will not contain it (if it should):
+
+<doc-example title="Native form" file="QInput/NativeForm" />
 
 ## QInput API
 <doc-api file="QInput" />

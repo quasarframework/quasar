@@ -1,5 +1,7 @@
 import { setBrand } from './utils/colors.js'
-import { isSSR, fromSSR, client } from './plugins/Platform.js'
+import { noop } from './utils/event.js'
+import { onKeyDownComposition } from './utils/key-composition.js'
+import { isSSR, fromSSR, client, iosCorrection } from './plugins/Platform.js'
 
 function getMobilePlatform (is) {
   if (is.ios === true) return 'ios'
@@ -42,31 +44,30 @@ function getBodyClasses ({ is, has, within }, cfg) {
   return cls
 }
 
-function clientApply (cls) {
-  if (client.is.ie === true && client.is.versionNumber === 11) {
-    cls.forEach(c => document.body.classList.add(c))
-  }
-  else {
-    document.body.classList.add.apply(document.body.classList, cls)
-  }
-}
-
 // SSR takeover corrections
 function clientUpdate () {
-  const cls = []
+  const classes = document.body.className
+  let newCls = classes
 
-  if (client.has.touch === true) {
-    document.body.classList.remove('no-touch')
-    cls.push('touch')
+  if (iosCorrection !== void 0) {
+    newCls = newCls.replace('desktop', 'platform-ios mobile')
   }
 
-  client.within.iframe === true && cls.push('within-iframe')
+  if (client.has.touch === true) {
+    newCls = newCls.replace('no-touch', 'touch')
+  }
 
-  cls.length > 0 && clientApply(cls)
+  if (client.within.iframe === true) {
+    newCls += ' within-iframe'
+  }
+
+  if (classes !== newCls) {
+    document.body.className = newCls
+  }
 }
 
 function setColors (brand) {
-  for (let color in brand) {
+  for (const color in brand) {
     setBrand(color, brand[color])
   }
 }
@@ -79,6 +80,10 @@ export default {
           cls = getBodyClasses(q.platform, cfg),
           fn = ctx.ssr.setBodyClasses
 
+        if (cfg.screen !== void 0 && cfg.screen.bodyClass === true) {
+          cls.push('screen--xs')
+        }
+
         if (typeof fn === 'function') {
           fn(cls)
         }
@@ -86,21 +91,31 @@ export default {
           ctx.ssr.Q_BODY_CLASSES = cls.join(' ')
         }
       })
+
+      return
+    }
+
+    if (fromSSR === true) {
+      clientUpdate()
     }
     else {
-      if (fromSSR === true) {
-        clientUpdate()
+      const cls = getBodyClasses(client, cfg)
+
+      if (client.is.ie === true && client.is.versionNumber === 11) {
+        cls.forEach(c => document.body.classList.add(c))
       }
       else {
-        clientApply(getBodyClasses(client, cfg))
-      }
-
-      cfg.brand !== void 0 && setColors(cfg.brand)
-
-      if (client.is.ios === true) {
-        // needed for iOS button active state
-        document.body.addEventListener('touchstart', () => {})
+        document.body.classList.add.apply(document.body.classList, cls)
       }
     }
+
+    cfg.brand !== void 0 && setColors(cfg.brand)
+
+    if (client.is.ios === true) {
+      // needed for iOS button active state
+      document.body.addEventListener('touchstart', noop)
+    }
+
+    window.addEventListener('keydown', onKeyDownComposition, true)
   }
 }

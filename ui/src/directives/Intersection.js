@@ -6,9 +6,7 @@ const defaultCfg = {
   rootMargin: '0px'
 }
 
-function update (el, ctx, { modifiers, value }) {
-  ctx.once = modifiers.once
-
+function update (el, ctx, value) {
   let handler, cfg, changed
 
   if (typeof value === 'function') {
@@ -31,13 +29,26 @@ function update (el, ctx, { modifiers, value }) {
     ctx.observer !== void 0 && ctx.observer.unobserve(el)
 
     ctx.observer = new IntersectionObserver(([ entry ]) => {
-      const res = ctx.handler(entry, ctx.observer)
+      if (typeof ctx.handler === 'function') {
+        // if observed element is part of a vue transition
+        // then we need to be careful...
+        if (
+          entry.rootBounds === null &&
+          (el.__vue__ !== void 0 ? el.__vue__._inactive !== true : document.body.contains(el) === true)
+        ) {
+          ctx.observer.unobserve(el)
+          ctx.observer.observe(el)
+          return
+        }
 
-      if (
-        res === false ||
-        (ctx.once === true && entry.isIntersecting === true)
-      ) {
-        destroy(el)
+        const res = ctx.handler(entry, ctx.observer)
+
+        if (
+          res === false ||
+          (ctx.once === true && entry.isIntersecting === true)
+        ) {
+          destroy(el)
+        }
       }
     }, cfg)
 
@@ -57,16 +68,32 @@ function destroy (el) {
 export default {
   name: 'intersection',
 
-  inserted (el, binding) {
-    const ctx = {}
-    update(el, ctx, binding)
+  inserted (el, { modifiers, value }) {
+    if (el.__qvisible !== void 0) {
+      destroy(el)
+      el.__qvisible_destroyed = true
+    }
+
+    const ctx = {
+      once: modifiers.once === true
+    }
+
+    update(el, ctx, value)
+
     el.__qvisible = ctx
   },
 
   update (el, binding) {
     const ctx = el.__qvisible
-    ctx !== void 0 && update(el, ctx, binding)
+    ctx !== void 0 && update(el, ctx, binding.value)
   },
 
-  unbind: destroy
+  unbind (el) {
+    if (el.__qvisible_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qvisible_destroyed
+    }
+  }
 }

@@ -59,8 +59,8 @@ export default {
         }
       ],
 
-      ticked: ['Pleasant surroundings'],
-      expanded: ['Good service (disabled node)'],
+      ticked: [ 'Pleasant surroundings' ],
+      expanded: [ 'Good service (disabled node)' ],
       tickStrategy: 'strict',
       tickStrategies: [
         { value: 'none', label: 'None' },

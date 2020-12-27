@@ -1,8 +1,15 @@
 ---
 title: Uploader
 desc: The QUploader Vue component is a way for the user to upload files to a backend server.
+related:
+  - /vue-components/file-picker
 ---
+
 Quasar supplies a way for you to upload files through the QUploader component.
+
+:::tip
+If all you want is an input file, you might want to consider using [QFile](/vue-components/file-picker) picker component instead.
+:::
 
 ## Installation
 <doc-installation components="QUploader" />
@@ -87,7 +94,7 @@ You can also use the `factory` Function prop and return immediately the same Obj
 In the example below we're showing the equivalent of the default header. Also notice some Boolean scope properties that you can use: `scope.canAddFiles`, `scope.canUpload`, `scope.isUploading`.
 
 ::: warning
-Notice that you must install and use one more component (QUploaderAddTrigger) in order to be able to add files to the queue. This component needs to be placed under a DOM node which has `position: relative` (hint: QBtn has it already) and will automatically inject the necessary events when user clicks on its parent (do NOT manually add `@click="scope.pickFiles"`).
+Notice that you must install and use one more component (QUploaderAddTrigger) in order to be able to add files to the queue. This component needs to be placed under a DOM node which has `position: relative` (hint: QBtn has it already) and will automatically inject the necessary events when user clicks on its parent (do NOT manually add `@click="scope.pickFiles"`). If the trigger is not working, check if you have an element rendered above it and change the zIndex of QUploaderAddTrigger accordingly.
 :::
 
 ::: tip IE11 Support with custom header
@@ -145,8 +152,8 @@ app.post('/upload', (req, res) => {
     console.log('Fields', fields)
     console.log('Received:', Object.keys(files))
     console.log()
+    res.send('Thank you')
   })
-  res.send('Thank you')
 })
 
 app.listen(port, () => {
@@ -158,7 +165,7 @@ app.listen(port, () => {
 QUploader seamlessly integrates with a Microsoft ASP.NET MVC/Core 2.x Web API backend.
 In your Vue file, configure the QUploader component with the desired Web API endpoint:
 
-```vue
+```html
 <q-uploader
   url="http://localhost:4444/fileuploader/upload"
   label="Upload"
@@ -185,10 +192,9 @@ export default {
         // Retrieve JWT token from your store.
         const token = "myToken";
         resolve({
-          url: http://localhost:4444/fileuploader/upload,
+          url: 'http://localhost:4444/fileuploader/upload',
           method: 'POST',
           headers: [
-            { name: 'Content-Type', value: 'application/json-patch+json'},
             { name: 'Authorization', value: `Bearer ${token}` }
           ]
         })
@@ -249,13 +255,46 @@ public class UploadRest {
 }
 
 // html
-<q-uploader fieldName="file" url="YOUR_URL_BACK/upload" with-credentials />
+<q-uploader field-name="file" url="YOUR_URL_BACK/upload" with-credentials />
+```
+
+### Python/Flask
+
+```
+// python
+from flask import Flask, request
+from werkzeug import secure_filename
+from flask_cors import CORS
+import os
+
+app = Flask(__name__)
+
+# This is necessary because QUploader uses an AJAX request
+# to send the file
+cors = CORS()
+cors.init_app(app, resource={r"/api/*": {"origins": "*"}})
+
+@app.route('/upload', methods=['POST'])
+def upload():        
+    for fname in request.files:
+        f = request.files.get(fname)
+        print(f)
+        f.save('./uploads/%s' % secure_filename(fname))
+
+    return 'Okay!'
+
+if __name__ == '__main__':
+    if not os.path.exists('./uploads'):
+        os.mkdir('./uploads')
+    app.run(debug=True)
 ```
 
 ## Supporting other services
 QUploader currently supports uploading through the HTTP protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
-Below is an example with the API that you need to supply. You'll be creating a new Vue component that extends the Base of QUploader that you can then import and use in your website/app.
+Below is an example with the API that you need to supply. **You'll be creating a new Vue component that extends the Base of QUploader that you can then import and use in your website/app.**
+
+Basically, QUploader is QUploaderBase + the xhr mixin. Your component will be QUploaderBase + your service mixin.
 
 ::: tip
 For the default XHR implementation, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/uploader-xhr-mixin.js).
@@ -308,6 +347,25 @@ export default {
 
       // ...
     }
+  }
+}
+```
+
+Then you register this component globally with Vue or you import it and add it to the "components: {}" in your Vue components.
+
+```js
+// globally registering your component
+import Vue from 'vue'
+import MyUploader from '../../path/to/MyUploader' // the file from above
+Vue.component('MyUploader', MyUploader)
+
+// or declaring it in a .vue file
+import MyUploader from '../../path/to/MyUploader' // the file from above
+export default {
+  // ...
+  components: {
+    // ...
+    MyUploader
   }
 }
 ```

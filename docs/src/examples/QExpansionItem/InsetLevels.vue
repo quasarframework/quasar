@@ -26,7 +26,7 @@
             </q-card>
           </q-expansion-item>
 
-          <q-expansion-item  switch-toggle-side dense-toggle label="Yesterday" :header-inset-level="1" :content-inset-level="2">
+          <q-expansion-item switch-toggle-side dense-toggle label="Yesterday" :header-inset-level="1" :content-inset-level="2">
             <q-card>
               <q-card-section>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos corrupti

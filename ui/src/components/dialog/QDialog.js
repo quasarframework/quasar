@@ -4,11 +4,13 @@ import HistoryMixin from '../../mixins/history.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
+import AttrsMixin, { ariaHidden } from '../../mixins/attrs.js'
 
 import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 import { create, stop } from '../../utils/event.js'
+import cache from '../../utils/cache.js'
 
 let maximizedModals = 0
 
@@ -31,7 +33,13 @@ const transitions = {
 export default Vue.extend({
   name: 'QDialog',
 
-  mixins: [ HistoryMixin, ModelToggleMixin, PortalMixin, PreventScrollMixin ],
+  mixins: [
+    AttrsMixin,
+    HistoryMixin,
+    ModelToggleMixin,
+    PortalMixin,
+    PreventScrollMixin
+  ],
 
   props: {
     persistent: Boolean,
@@ -54,9 +62,8 @@ export default Vue.extend({
     position: {
       type: String,
       default: 'standard',
-      validator (val) {
-        return val === 'standard' || ['top', 'bottom', 'left', 'right'].includes(val)
-      }
+      validator: val => val === 'standard' ||
+        ['top', 'bottom', 'left', 'right'].includes(val)
     },
 
     transitionShow: String,
@@ -78,11 +85,8 @@ export default Vue.extend({
       }
     },
 
-    maximized (newV, oldV) {
-      if (this.showing === true) {
-        this.__updateState(false, oldV)
-        this.__updateState(true, newV)
-      }
+    maximized (state) {
+      this.showing === true && this.__updateMaximized(state)
     },
 
     useBackdrop (v) {
@@ -122,6 +126,22 @@ export default Vue.extend({
       return this.persistent !== true &&
         this.noRouteDismiss !== true &&
         this.seamless !== true
+    },
+
+    onEvents () {
+      const on = {
+        ...this.qListeners,
+        // stop propagating these events from children
+        input: stop,
+        'popup-show': stop,
+        'popup-hide': stop
+      }
+
+      if (this.autoClose === true) {
+        on.click = this.__onAutoClose
+      }
+
+      return on
     }
   },
 
@@ -133,12 +153,13 @@ export default Vue.extend({
         return
       }
 
-      node = node.querySelector('[autofocus]') || node
+      node = node.querySelector('[autofocus], [data-autofocus]') || node
       node.focus()
     },
 
     shake () {
       this.focus()
+      this.$emit('shake')
 
       const node = this.__getInnerNode()
 
@@ -167,8 +188,7 @@ export default Vue.extend({
         : void 0
 
       this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
-
-      this.__updateState(true, this.maximized)
+      this.__updateMaximized(this.maximized)
 
       EscapeKey.register(this, () => {
         if (this.seamless !== true) {
@@ -191,12 +211,29 @@ export default Vue.extend({
       }
 
       this.__setTimeout(() => {
-        if (this.$q.platform.is.ios === true && document.activeElement) {
-          const { top } = document.activeElement.getBoundingClientRect()
-          if (top < 0) {
-            document.scrollingElement.scrollTop += top - window.innerHeight / 2
+        if (this.$q.platform.is.ios === true) {
+          if (this.seamless !== true && document.activeElement) {
+            const
+              { top, bottom } = document.activeElement.getBoundingClientRect(),
+              { innerHeight } = window,
+              height = window.visualViewport !== void 0
+                ? window.visualViewport.height
+                : innerHeight
+
+            if (top > 0 && bottom > height / 2) {
+              document.scrollingElement.scrollTop = Math.min(
+                document.scrollingElement.scrollHeight - height,
+                bottom >= innerHeight
+                  ? Infinity
+                  : Math.ceil(document.scrollingElement.scrollTop + bottom - height / 2)
+              )
+            }
+
+            document.activeElement.scrollIntoView()
           }
-          document.activeElement.scrollIntoView()
+
+          // required in order to avoid the "double-tap needed" issue
+          this.__portal.$el.click()
         }
 
         this.$emit('show', evt)
@@ -225,23 +262,31 @@ export default Vue.extend({
 
       if (hiding === true || this.showing === true) {
         EscapeKey.pop(this)
-        this.__updateState(false, this.maximized)
-        if (this.useBackdrop === true) {
+        this.__updateMaximized(false)
+
+        if (this.seamless !== true) {
           this.__preventScroll(false)
           this.__preventFocusout(false)
         }
       }
     },
 
-    __updateState (opening, maximized) {
-      if (maximized === true) {
-        if (opening === true) {
+    __updateMaximized (active) {
+      if (active === true) {
+        if (this.isMaximized !== true) {
           maximizedModals < 1 && document.body.classList.add('q-body--dialog')
+          maximizedModals++
+
+          this.isMaximized = true
         }
-        else if (maximizedModals < 2) {
+      }
+      else if (this.isMaximized === true) {
+        if (maximizedModals < 2) {
           document.body.classList.remove('q-body--dialog')
         }
-        maximizedModals += opening === true ? 1 : -1
+
+        maximizedModals--
+        this.isMaximized = false
       }
     },
 
@@ -254,7 +299,7 @@ export default Vue.extend({
 
     __onAutoClose (e) {
       this.hide(e)
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+      this.qListeners.click !== void 0 && this.$emit('click', e)
     },
 
     __onBackdropClick (e) {
@@ -278,32 +323,21 @@ export default Vue.extend({
     },
 
     __renderPortal (h) {
-      const on = {
-        ...this.$listeners,
-        // stop propagating this events from children
-        input: stop,
-        'popup-show': stop,
-        'popup-hide': stop
-      }
-
-      if (this.autoClose === true) {
-        on.click = this.__onAutoClose
-      }
-
       return h('div', {
-        staticClass: 'q-dialog fullscreen no-pointer-events',
+        staticClass: `q-dialog fullscreen no-pointer-events q-dialog--${this.useBackdrop === true ? 'modal' : 'seamless'}`,
         class: this.contentClass,
         style: this.contentStyle,
-        attrs: this.$attrs
+        attrs: this.qAttrs
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }
         }, this.useBackdrop === true ? [
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
-            on: {
+            attrs: ariaHidden,
+            on: cache(this, 'bkdrop', {
               click: this.__onBackdropClick
-            }
+            })
           })
         ] : null),
 
@@ -315,7 +349,7 @@ export default Vue.extend({
             staticClass: 'q-dialog__inner flex no-pointer-events',
             class: this.classes,
             attrs: { tabindex: -1 },
-            on
+            on: this.onEvents
           }, slot(this, 'default')) : null
         ])
       ])

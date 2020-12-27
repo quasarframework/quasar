@@ -41,6 +41,13 @@
     border-radius: $table-border-radius
     box-shadow: $table-box-shadow
 
+    .q-table__middle
+      flex: 1 1 auto
+
+    .q-table__top,
+    .q-table__bottom
+      flex: 0 0 auto
+
   &__container
     position: relative
 
@@ -52,6 +59,9 @@
       border-bottom-left-radius: inherit
       border-bottom-right-radius: inherit
 
+    > .q-inner-loading
+      border-radius: inherit !important
+
   &__top
     padding: 12px 16px
     .q-table__control
@@ -59,7 +69,7 @@
 
   &__title
     font-size: 20px
-    letter-spacing: 0.005em
+    letter-spacing: .005em
     font-weight: 400
 
   &__separator
@@ -78,7 +88,7 @@
     max-width: 100%
 
   &__bottom
-    min-height: 48px
+    min-height: 50px
     padding: 4px 14px 4px 16px
     font-size: 12px
 
@@ -125,6 +135,7 @@
 
   &--grid
     box-shadow: none
+    border-radius: $generic-border-radius
     .q-table__top
       padding-bottom: 4px
     .q-table__middle
@@ -137,6 +148,11 @@
       bottom: 0
     .q-table__bottom
       border-top: 0
+    .q-table__grid-content
+      flex: 1 1 auto
+
+    &.fullscreen
+      background: inherit
 
   &__grid-item-card
     vertical-align: top
@@ -161,7 +177,7 @@
     transition: transform $table-transition
 
     &--selected
-      transform: scale(0.95)
+      transform: scale(.95)
 
 /*
  * Separators
@@ -186,8 +202,10 @@
  */
 
 .q-table--dense
+  .q-table__top
+    padding: 6px 16px
   .q-table__bottom
-    min-height: 42px
+    min-height: 33px
 
   .q-table__sort-icon
     font-size: 110%
@@ -203,6 +221,13 @@
 
   .q-table__bottom-item
     margin-right: 8px
+
+  .q-table__select
+    .q-field__control, .q-field__native
+      min-height: 24px
+      padding: 0
+    .q-field__marginal
+      height: 24px
 
 /*
  * On light background
@@ -232,7 +257,7 @@
     tr.selected td:after
       content: ''
 
-body.desktop .q-table tbody tr:hover td:before
+body.desktop .q-table > tbody > tr:not(.q-tr--no-hover):hover > td:not(.q-td--no-hover):before
   content: ''
 
 /*
@@ -246,11 +271,12 @@ body.desktop .q-table tbody tr:hover td:before
   .q-table__bottom, thead, tr, th, td
     border-color: $table-dark-border-color
 
-  tbody td
-    &:before
-      background: $table-dark-hover-background
-    &:after
-      background: $table-dark-selected-background
+  tbody
+    td
+      &:before
+        background: $table-dark-hover-background
+      &:after
+        background: $table-dark-selected-background
 
   &.q-table--vertical-separator, &.q-table--cell-separator
     .q-table__top

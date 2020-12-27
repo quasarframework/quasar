@@ -1,14 +1,15 @@
 import Vue from 'vue'
 
 import { isSSR } from './Platform.js'
+import { noop } from '../utils/event.js'
 import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
 
 export default {
   isActive: false,
-  start () {},
-  stop () {},
-  increment () {},
-  setDefaults () {},
+  start: noop,
+  stop: noop,
+  increment: noop,
+  setDefaults: noop,
 
   install ({ $q, cfg }) {
     if (isSSR === true) {
@@ -16,7 +17,7 @@ export default {
       return
     }
 
-    let props = cfg.loadingBar !== void 0
+    const props = cfg.loadingBar !== void 0
       ? { ...cfg.loadingBar }
       : {}
 

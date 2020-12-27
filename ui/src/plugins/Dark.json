@@ -1,5 +1,11 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/quasar-plugins/dark"
+  },
+
   "injection": "$q.dark",
+
+  "addedIn": "v1.3.0",
 
   "props": {
     "isActive": {
@@ -27,6 +33,10 @@
           "required": true
         }
       }
+    },
+
+    "toggle": {
+      "desc": "Toggle dark mode status"
     }
   }
 }

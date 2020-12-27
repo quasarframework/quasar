@@ -8,6 +8,9 @@ export const isSSR = typeof window === 'undefined'
 export let fromSSR = false
 export let onSSR = isSSR
 
+export let iosEmulated = false
+export let iosCorrection
+
 function getMatch (userAgent, platformMatch) {
   const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
     /(opr)[\/]([\w.]+)/.exec(userAgent) ||
@@ -20,8 +23,8 @@ function getMatch (userAgent, platformMatch) {
     /(webkit)[\/]([\w.]+)/.exec(userAgent) ||
     /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent) ||
     /(msie) ([\w.]+)/.exec(userAgent) ||
-    userAgent.indexOf('trident') >= 0 && /(rv)(?::| )([\w.]+)/.exec(userAgent) ||
-    userAgent.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(userAgent) ||
+    (userAgent.indexOf('trident') >= 0 && /(rv)(?::| )([\w.]+)/.exec(userAgent)) ||
+    (userAgent.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(userAgent)) ||
     []
 
   return {
@@ -50,8 +53,31 @@ function getPlatformMatch (userAgent) {
     []
 }
 
-function getPlatform (userAgent) {
+const hasTouch = isSSR === false
+  ? 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
+  : false
+
+function applyIosCorrection (is) {
+  iosCorrection = { is: { ...is } }
+
+  delete is.mac
+  delete is.desktop
+
+  const platform = Math.min(window.innerHeight, window.innerWidth) > 414
+    ? 'ipad'
+    : 'iphone'
+
+  Object.assign(is, {
+    mobile: true,
+    ios: true,
+    platform,
+    [ platform ]: true
+  })
+}
+
+function getPlatform (UA) {
   const
+    userAgent = UA.toLowerCase(),
     platformMatch = getPlatformMatch(userAgent),
     matched = getMatch(userAgent, platformMatch),
     browser = {}
@@ -180,26 +206,51 @@ function getPlatform (userAgent) {
   browser.platform = matched.platform
 
   if (isSSR === false) {
-    if (window.process && window.process.versions && window.process.versions.electron) {
+    if (userAgent.indexOf('electron') > -1) {
       browser.electron = true
     }
     else if (document.location.href.indexOf('-extension://') > -1) {
       browser.bex = true
     }
-    else if (window.Capacitor !== void 0) {
-      browser.capacitor = true
-      browser.nativeMobile = true
-      browser.nativeMobileWrapper = 'capacitor'
-    }
-    else if (window._cordovaNative !== void 0 || window.cordova !== void 0) {
-      browser.cordova = true
-      browser.nativeMobile = true
-      browser.nativeMobileWrapper = 'cordova'
+    else {
+      if (window.Capacitor !== void 0) {
+        browser.capacitor = true
+        browser.nativeMobile = true
+        browser.nativeMobileWrapper = 'capacitor'
+      }
+      else if (window._cordovaNative !== void 0 || window.cordova !== void 0) {
+        browser.cordova = true
+        browser.nativeMobile = true
+        browser.nativeMobileWrapper = 'cordova'
+      }
+
+      if (
+        hasTouch === true &&
+        browser.mac === true &&
+        (
+          (browser.desktop === true && browser.safari === true) ||
+          (
+            browser.nativeMobile === true &&
+            browser.android !== true &&
+            browser.ios !== true &&
+            browser.ipad !== true
+          )
+        )
+      ) {
+        /*
+        * Correction needed for iOS since the default
+        * setting on iPad is to request desktop view; if we have
+        * touch support and the user agent says it's a
+        * desktop, we infer that it's an iPhone/iPad with desktop view
+        * so we must fix the false positives
+        */
+        applyIosCorrection(browser)
+      }
     }
 
     fromSSR = browser.nativeMobile === void 0 &&
       browser.electron === void 0 &&
-      !!document.querySelector('[data-server-rendered]')
+      document.querySelector('[data-server-rendered]') !== null
 
     if (fromSSR === true) {
       onSSR = true
@@ -209,8 +260,8 @@ function getPlatform (userAgent) {
   return browser
 }
 
-const userAgent = isSSR === false
-  ? (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
+const userAgent = isSSR !== true
+  ? navigator.userAgent || navigator.vendor || window.opera
   : ''
 
 const ssrClient = {
@@ -231,9 +282,7 @@ export const client = isSSR === false
     userAgent,
     is: getPlatform(userAgent),
     has: {
-      touch: (() => 'ontouchstart' in window ||
-        window.navigator.maxTouchPoints > 0
-      )(),
+      touch: hasTouch,
       webStorage: (() => {
         try {
           if (window.localStorage) {
@@ -264,7 +313,7 @@ const Platform = {
       // must match with server-side before
       // client taking over in order to prevent
       // hydration errors
-      Object.assign(this, client, ssrClient)
+      Object.assign(this, client, iosCorrection, ssrClient)
 
       // takeover should increase accuracy for
       // the rest of the props; we also avoid
@@ -272,6 +321,7 @@ const Platform = {
       queues.takeover.push(q => {
         onSSR = fromSSR = false
         Object.assign(q.platform, client)
+        iosCorrection = void 0
       })
 
       // we need to make platform reactive
@@ -289,13 +339,17 @@ const Platform = {
 
 if (isSSR === true) {
   Platform.parseSSR = (/* ssrContext */ ssr) => {
-    const userAgent = (ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent'] || '').toLowerCase()
+    const userAgent = ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent'] || ''
     return {
       ...client,
       userAgent,
       is: getPlatform(userAgent)
     }
   }
+}
+else {
+  iosEmulated = client.is.ios === true &&
+    window.navigator.vendor.toLowerCase().indexOf('apple') === -1
 }
 
 export default Platform

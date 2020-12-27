@@ -7,8 +7,6 @@ related:
 
 The QScrollArea component offers a neat way of customizing the scrollbars by encapsulating your content. Think of it as a DOM element which has `overflow: auto`, but with your own custom styled scrollbar instead of browser's default one and a few nice features on top.
 
-This is especially useful for desktop as scrollbars are hidden on a mobile device. When on a mobile device, QScrollArea simply wraps the content in a `<div>` configured for default browser scrolling -- so no QScrollArea features apply on such devices.
-
 ## Installation
 
 <doc-installation components="QScrollArea" />
@@ -18,7 +16,7 @@ This is especially useful for desktop as scrollbars are hidden on a mobile devic
 The following examples are best seen on desktop as they make too little sense on a mobile device.
 
 ::: tip
-You can also take a look at [Layout Drawer](/layout/drawer) too see some more examples of it in action.
+You can also take a look at [Layout Drawer](/layout/drawer) to see some more examples of it in action.
 :::
 
 ### Basic
@@ -27,11 +25,17 @@ You can also take a look at [Layout Drawer](/layout/drawer) too see some more ex
 
 ### Styled
 
+<doc-example title="Styled thumb and bar" file="QScrollArea/StyledBar" />
+
 <doc-example title="Styled" file="QScrollArea/Styled" />
 
-### Controlling scrollbar visibility
+### Dark <q-badge align="top" label="v1.9+" />
 
-<q-badge label="v1.3.0+" /> When using the `visible` Boolean prop, the default mouse over/leave behavior is disabled, leaving you in full control of the scrollbar visibility.
+<doc-example title="Dark" file="QScrollArea/Dark" />
+
+### Controlling scrollbar visibility <q-badge align="top" label="v1.3+" />
+
+When using the `visible` Boolean prop, the default mouse over/leave behavior is disabled, leaving you in full control of the scrollbar visibility.
 
 <doc-example title="Controlling scrollbar visibility" file="QScrollArea/ScrollbarVisibility" />
 
@@ -48,6 +52,12 @@ When content changes, the scrollbar appears then disappears again. You can set a
 ### Horizontal mode
 
 <doc-example title="Horizontal mode" file="QScrollArea/Horizontal" />
+
+### Scroll event <q-badge align="top" label="v1.9.3+" />
+
+Below is an example of using the `@scroll` event to synchronize the scrolling between two containers.
+
+<doc-example title="Synchronized" file="QScrollArea/Synchronized" />
 
 ## QScrollArea API
 

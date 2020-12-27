@@ -1,63 +1,31 @@
-const
-  webpack = require('webpack'),
-  WebpackDevServer = require('webpack-dev-server')
+const webpack = require('webpack')
+const WebpackDevServer = require('webpack-dev-server')
 
-const
-  appPaths = require('./app-paths'),
-  logger = require('./helpers/logger')
-  log = logger('app:dev-server'),
-  warn = logger('app:dev-server', 'red')
+const appPaths = require('./app-paths')
+const openBrowser = require('./helpers/open-browser')
+const { log } = require('./helpers/logger')
 
 let alreadyNotified = false
-
-function openBrowser (url, opts) {
-  const open = require('open')
-
-  const openDefault = () => {
-    log('Opening default browser at ' + url)
-    log()
-    open(url, { wait: true, url: true }).catch(() => {
-      warn(`⚠️  Failed to open default browser`)
-      warn()
-    })
-  }
-
-  if (opts) {
-    log('Opening browser at ' + url + ' with options: ' + opts)
-    log()
-    open(url, { app: opts, wait: true, url: true }).catch(() => {
-      warn(`⚠️  Failed to open specific browser`)
-      warn()
-      openDefault()
-    })
-  }
-  else {
-    openDefault()
-  }
-}
-
 module.exports = class DevServer {
-  constructor (quasarConfig) {
-    this.quasarConfig = quasarConfig
+  constructor (quasarConfFile) {
+    this.quasarConfFile = quasarConfFile
   }
 
   async listen () {
-    const
-      webpackConfig = this.quasarConfig.getWebpackConfig(),
-      cfg = this.quasarConfig.getBuildConfig()
+    const cfg = this.quasarConfFile.quasarConf
+    const webpackConf = this.quasarConfFile.webpackConf
 
     log(`Booting up...`)
-    log()
 
     return new Promise(resolve => (
       cfg.ctx.mode.ssr
-        ? this.listenSSR(webpackConfig, cfg, resolve)
-        : this.listenCSR(webpackConfig, cfg, resolve)
+        ? this.listenSSR(webpackConf, cfg, resolve)
+        : this.listenCSR(webpackConf, cfg, resolve)
     ))
   }
 
-  listenCSR (webpackConfig, cfg, resolve) {
-    const compiler = webpack(webpackConfig.renderer || webpackConfig)
+  listenCSR (webpackConf, cfg, resolve) {
+    const compiler = webpack(webpackConf.renderer || webpackConf)
 
     compiler.hooks.done.tap('done-compiling', compiler => {
       if (this.__started) { return }
@@ -76,7 +44,7 @@ module.exports = class DevServer {
         alreadyNotified = true
 
         if (cfg.__devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
-          openBrowser(cfg.build.APP_URL, cfg.__devServer.openOptions)
+          openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
         }
       })
     })
@@ -92,15 +60,14 @@ module.exports = class DevServer {
     }
   }
 
-  listenSSR (webpackConfig, cfg, resolve) {
-    const
-      fs = require('fs'),
-      LRU = require('lru-cache'),
-      express = require('express'),
-      chokidar = require('chokidar'),
-      { createBundleRenderer } = require('vue-server-renderer'),
-      ouchInstance = require('./helpers/cli-error-handling').getOuchInstance(),
-      SsrExtension = require('./ssr/ssr-extension')
+  listenSSR (webpackConf, cfg, resolve) {
+    const fs = require('fs')
+    const LRU = require('lru-cache')
+    const express = require('express')
+    const chokidar = require('chokidar')
+    const { createBundleRenderer } = require('vue-server-renderer')
+    const ouchInstance = require('./helpers/cli-error-handling').getOuchInstance()
+    const SsrExtension = require('./ssr/ssr-extension')
 
     let renderer
 
@@ -108,13 +75,8 @@ module.exports = class DevServer {
       // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
       return createBundleRenderer(bundle, {
         ...options,
-        ...(cfg.build.preloadChunks !== true
-          ? {
-            shouldPreload: () => false,
-            shouldPrefetch: () => false
-          }
-          : {}
-        ),
+        shouldPreload: () => false,
+        shouldPrefetch: () => false,
 
         // for component caching
         cache: new LRU({
@@ -133,13 +95,14 @@ module.exports = class DevServer {
 
       const handleError = err => {
         if (err.url) {
-          res.redirect(err.url)
+          if (err.code) res.redirect(err.code, err.url)
+          else res.redirect(err.url)
         }
         else if (err.code === 404) {
           res.status(404).send('404 | Page Not Found')
         }
         else {
-          ouchInstance.handleException(err, req, res, output => {
+          ouchInstance.handleException(err, req, res, () => {
             console.error(`${req.url} -> error during render`)
             console.error(err.stack)
           })
@@ -158,18 +121,17 @@ module.exports = class DevServer {
           return
         }
         if (cfg.__meta) {
-          html = context.$getMetaHTML(html)
+          html = context.$getMetaHTML(html, context)
         }
         console.log(`${req.url} -> request took: ${Date.now() - startTime}ms`)
         res.send(html)
       })
     }
 
-    let
-      bundle,
-      template,
-      clientManifest,
-      pwa
+    let bundle
+    let template
+    let clientManifest
+    let pwa
 
     let ready
     const readyPromise = new Promise(r => { ready = r })
@@ -185,9 +147,8 @@ module.exports = class DevServer {
     }
 
     // read template from disk and watch
-    const
-      { getIndexHtml } = require('./ssr/html-template'),
-      templatePath = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
+    const { getIndexHtml } = require('./ssr/html-template')
+    const templatePath = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
 
     function getTemplate () {
       return getIndexHtml(fs.readFileSync(templatePath, 'utf-8'), cfg)
@@ -200,9 +161,8 @@ module.exports = class DevServer {
       update()
     })
 
-    const
-      serverCompiler = webpack(webpackConfig.server),
-      clientCompiler = webpack(webpackConfig.client)
+    const serverCompiler = webpack(webpackConf.server)
+    const clientCompiler = webpack(webpackConf.client)
 
     serverCompiler.hooks.done.tapAsync('done-compiling', ({ compilation: { errors, warnings, assets }}, cb) => {
       errors.forEach(err => console.error(err))
@@ -213,7 +173,7 @@ module.exports = class DevServer {
         return
       }
 
-      bundle = JSON.parse(assets['../vue-ssr-server-bundle.json'].source())
+      bundle = JSON.parse(assets['../quasar.server-manifest.json'].source())
       update()
 
       cb()
@@ -235,7 +195,7 @@ module.exports = class DevServer {
         }
       }
 
-      clientManifest = JSON.parse(assets['../vue-ssr-client-manifest.json'].source())
+      clientManifest = JSON.parse(assets['../quasar.client-manifest.json'].source())
       update()
 
       cb()
@@ -251,19 +211,21 @@ module.exports = class DevServer {
 
       after: app => {
         if (cfg.ctx.mode.pwa) {
-          app.use('/manifest.json', (req, res) => {
+          app.use(cfg.build.publicPath + 'manifest.json', (_, res) => {
             res.setHeader('Content-Type', 'application/json')
             res.send(pwa.manifest)
           })
-          app.use('/service-worker.js', (req, res) => {
+          app.use(cfg.build.publicPath + 'service-worker.js', (_, res) => {
             res.setHeader('Content-Type', 'text/javascript')
             res.send(pwa.serviceWorker)
           })
         }
 
-        app.use('/statics', express.static(appPaths.resolve.src('statics'), {
-          maxAge: 0
-        }))
+        if (cfg.build.ignorePublicFolder !== true) {
+          app.use(cfg.build.publicPath, express.static(appPaths.resolve.app('public'), {
+            maxAge: 0
+          }))
+        }
 
         originalAfter && originalAfter(app)
 
@@ -271,11 +233,10 @@ module.exports = class DevServer {
           app,
 
           ssr: {
-            renderToString ({ req, res }, fn) {
+            renderToString (opts, fn) {
               const context = {
-                url: req.url,
-                req,
-                res
+                ...opts,
+                url: opts.req.url
               }
 
               renderer.renderToString(context, (err, html) => {
@@ -284,7 +245,7 @@ module.exports = class DevServer {
                   return
                 }
                 if (cfg.__meta) {
-                  html = context.$getMetaHTML(html)
+                  html = context.$getMetaHTML(html, context)
                 }
 
                 fn(err, html)
@@ -299,7 +260,7 @@ module.exports = class DevServer {
           }
         })
 
-        app.get('*', render)
+        app.get(cfg.build.publicPath + '*', render)
       }
     })
 
@@ -307,7 +268,7 @@ module.exports = class DevServer {
       server.listen(cfg.devServer.port, cfg.devServer.host, () => {
         resolve()
         if (cfg.__devServer.open) {
-          openBrowser(cfg.build.APP_URL, cfg.__devServer.openOptions)
+          openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
         }
       })
     })

@@ -22,7 +22,7 @@ export default Vue.extend({
       validator: v => typeof v === 'number' || v === null
     },
 
-    labelValue: [String, Number]
+    labelValue: [ String, Number ]
   },
 
   data () {
@@ -58,24 +58,28 @@ export default Vue.extend({
     },
 
     trackStyle () {
-      return { width: (100 * this.ratio) + '%' }
+      return {
+        [ this.positionProp ]: 0,
+        [ this.sizeProp ]: `${100 * this.ratio}%`
+      }
     },
 
     thumbStyle () {
       return {
-        [this.horizProp]: (100 * this.ratio) + '%'
+        [ this.positionProp ]: `${100 * this.ratio}%`
       }
     },
 
     thumbClass () {
-      return this.preventFocus === false && this.focus === true
-        ? 'q-slider--focus'
-        : null
+      if (this.preventFocus === false && this.focus === true) {
+        return 'q-slider--focus'
+      }
     },
 
     pinClass () {
-      return 'q-slider__pin absolute flex flex-center' +
-        (this.labelColor !== void 0 ? ` text-${this.labelColor}` : '')
+      if (this.labelColor !== void 0) {
+        return `text-${this.labelColor}`
+      }
     },
 
     pinTextClass () {
@@ -101,6 +105,11 @@ export default Vue.extend({
       return this.labelValue !== void 0
         ? this.labelValue
         : this.model
+    },
+
+    pinStyle () {
+      const percent = (this.reverse === true ? -this.ratio : this.ratio - 1)
+      return this.__getPinStyle(percent, this.ratio)
     }
   },
 
@@ -120,7 +129,8 @@ export default Vue.extend({
       const ratio = getRatio(
         event,
         dragging,
-        this.$q.lang.rtl
+        this.isReversed,
+        this.vertical
       )
 
       this.model = getModel(ratio, this.min, this.max, this.step, this.decimals)
@@ -155,76 +165,76 @@ export default Vue.extend({
   },
 
   render (h) {
+    const child = [
+      this.__getThumbSvg(h),
+      h('div', { staticClass: 'q-slider__focus-ring' })
+    ]
+
+    if (this.label === true || this.labelAlways === true) {
+      child.push(
+        h('div', {
+          staticClass: `q-slider__pin q-slider__pin${this.axis} absolute`,
+          style: this.pinStyle.pin,
+          class: this.pinClass
+        }, [
+          h('div', {
+            staticClass: `q-slider__pin-text-container q-slider__pin-text-container${this.axis}`,
+            style: this.pinStyle.pinTextContainer
+          }, [
+            h('span', {
+              staticClass: 'q-slider__pin-text',
+              class: this.pinTextClass
+            }, [
+              this.computedLabel
+            ])
+          ])
+        ]),
+
+        h('div', {
+          staticClass: `q-slider__arrow q-slider__arrow${this.axis}`,
+          class: this.pinClass
+        })
+      )
+    }
+
+    if (this.name !== void 0 && this.disable !== true) {
+      this.__injectFormInput(child, 'push')
+    }
+
+    const track = [
+      h('div', {
+        staticClass: `q-slider__track q-slider__track${this.axis} absolute`,
+        style: this.trackStyle
+      })
+    ]
+
+    this.markers === true && track.push(
+      h('div', {
+        staticClass: `q-slider__track-markers q-slider__track-markers${this.axis} absolute-full fit`,
+        style: this.markerStyle
+      })
+    )
+
     return h('div', {
       staticClass: this.value === null ? ' q-slider--no-value' : '',
       attrs: {
-        role: 'slider',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
+        ...this.attrs,
         'aria-valuenow': this.value,
-        'data-step': this.step,
-        'aria-disabled': this.disable,
         tabindex: this.computedTabindex
       },
       class: this.classes,
       on: this.events,
-      directives: this.editable ? [{
-        name: 'touch-pan',
-        value: this.__pan,
-        modifiers: {
-          horizontal: true,
-          prevent: true,
-          stop: true,
-          mouse: true,
-          mouseAllDir: true
-        }
-      }] : null
+      directives: this.panDirectives
     }, [
-      h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
-        h('div', {
-          staticClass: 'q-slider__track absolute-full',
-          style: this.trackStyle
-        }),
-
-        this.markers === true
-          ? h('div', {
-            staticClass: 'q-slider__track-markers absolute-full fit',
-            style: this.markerStyle
-          })
-          : null
-      ]),
+      h('div', {
+        staticClass: `q-slider__track-container q-slider__track-container${this.axis} absolute`
+      }, track),
 
       h('div', {
-        staticClass: 'q-slider__thumb-container absolute non-selectable',
+        staticClass: `q-slider__thumb-container q-slider__thumb-container${this.axis} absolute non-selectable`,
         class: this.thumbClass,
         style: this.thumbStyle
-      }, [
-        h('svg', {
-          staticClass: 'q-slider__thumb absolute',
-          attrs: { width: '21', height: '21' }
-        }, [
-          h('circle', {
-            attrs: {
-              cx: '10.5',
-              cy: '10.5',
-              r: '7.875'
-            }
-          })
-        ]),
-
-        this.label === true || this.labelAlways === true ? h('div', {
-          class: this.pinClass
-        }, [
-          h('div', { staticClass: 'q-slider__pin-value-marker' }, [
-            h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
-            h('div', { class: this.pinTextClass }, [
-              this.computedLabel
-            ])
-          ])
-        ]) : null,
-
-        h('div', { staticClass: 'q-slider__focus-ring' })
-      ])
+      }, child)
     ])
   }
 })

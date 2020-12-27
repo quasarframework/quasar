@@ -26,7 +26,7 @@
         One of two rows
       </div>
       <div class="col-4">
-        One of two columns
+        One of two rows
       </div>
     </div>
 
@@ -42,6 +42,16 @@
 
     <q-badge>justify-between</q-badge>
     <div class="column justify-between" style="height: 150px">
+      <div class="col-4">
+        One of two rows
+      </div>
+      <div class="col-4">
+        One of two rows
+      </div>
+    </div>
+
+    <q-badge>justify-evenly</q-badge>
+    <div class="column justify-evenly" style="height: 150px">
       <div class="col-4">
         One of two rows
       </div>

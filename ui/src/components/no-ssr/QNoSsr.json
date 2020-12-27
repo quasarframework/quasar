@@ -1,11 +1,17 @@
 {
+  "mixins": [ "mixins/tag" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/no-ssr"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "tag": {
-      "type": "String",
-      "desc": "HTML tag to render",
-      "default": "div",
-      "examples": [ "span", "blockquote" ],
-      "category": "content"
+      "examples": [ "div", "span", "blockquote" ]
     },
 
     "placeholder": {

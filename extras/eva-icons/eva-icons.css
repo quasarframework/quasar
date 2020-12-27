@@ -1,10 +1,11 @@
-/* v1.1.1 */
+/* v1.1.3 */
 
 @font-face {
     font-family: Eva-Icons;
     src: url("./Eva-Icons.woff2") format("woff2"), url("./Eva-Icons.woff") format("woff");
     font-style: normal;
     font-weight: 400;
+    font-display: block;
 }
 
 .eva {
@@ -1743,250 +1744,258 @@
     content: "\ebaa";
 }
 
-.eva-speaker::before {
+.eva-smiling-face::before {
     content: "\ebab";
 }
 
-.eva-speaker-outline::before {
+.eva-smiling-face-outline::before {
     content: "\ebac";
 }
 
-.eva-square::before {
+.eva-speaker::before {
     content: "\ebad";
 }
 
-.eva-square-outline::before {
+.eva-speaker-outline::before {
     content: "\ebae";
 }
 
-.eva-star::before {
+.eva-square::before {
     content: "\ebaf";
 }
 
-.eva-star-outline::before {
+.eva-square-outline::before {
     content: "\ebb0";
 }
 
-.eva-stop-circle::before {
+.eva-star::before {
     content: "\ebb1";
 }
 
-.eva-stop-circle-outline::before {
+.eva-star-outline::before {
     content: "\ebb2";
 }
 
-.eva-sun::before {
+.eva-stop-circle::before {
     content: "\ebb3";
 }
 
-.eva-sun-outline::before {
+.eva-stop-circle-outline::before {
     content: "\ebb4";
 }
 
-.eva-swap::before {
+.eva-sun::before {
     content: "\ebb5";
 }
 
-.eva-swap-outline::before {
+.eva-sun-outline::before {
     content: "\ebb6";
 }
 
-.eva-sync::before {
+.eva-swap::before {
     content: "\ebb7";
 }
 
-.eva-sync-outline::before {
+.eva-swap-outline::before {
     content: "\ebb8";
 }
 
-.eva-text::before {
+.eva-sync::before {
     content: "\ebb9";
 }
 
-.eva-text-outline::before {
+.eva-sync-outline::before {
     content: "\ebba";
 }
 
-.eva-thermometer::before {
+.eva-text::before {
     content: "\ebbb";
 }
 
-.eva-thermometer-minus::before {
+.eva-text-outline::before {
     content: "\ebbc";
 }
 
-.eva-thermometer-minus-outline::before {
+.eva-thermometer::before {
     content: "\ebbd";
 }
 
-.eva-thermometer-outline::before {
+.eva-thermometer-minus::before {
     content: "\ebbe";
 }
 
-.eva-thermometer-plus::before {
+.eva-thermometer-minus-outline::before {
     content: "\ebbf";
 }
 
-.eva-thermometer-plus-outline::before {
+.eva-thermometer-outline::before {
     content: "\ebc0";
 }
 
-.eva-toggle-left::before {
+.eva-thermometer-plus::before {
     content: "\ebc1";
 }
 
-.eva-toggle-left-outline::before {
+.eva-thermometer-plus-outline::before {
     content: "\ebc2";
 }
 
-.eva-toggle-right::before {
+.eva-toggle-left::before {
     content: "\ebc3";
 }
 
-.eva-toggle-right-outline::before {
+.eva-toggle-left-outline::before {
     content: "\ebc4";
 }
 
-.eva-trash::before {
+.eva-toggle-right::before {
     content: "\ebc5";
 }
 
-.eva-trash-2::before {
+.eva-toggle-right-outline::before {
     content: "\ebc6";
 }
 
-.eva-trash-2-outline::before {
+.eva-trash::before {
     content: "\ebc7";
 }
 
-.eva-trash-outline::before {
+.eva-trash-2::before {
     content: "\ebc8";
 }
 
-.eva-trending-down::before {
+.eva-trash-2-outline::before {
     content: "\ebc9";
 }
 
-.eva-trending-down-outline::before {
+.eva-trash-outline::before {
     content: "\ebca";
 }
 
-.eva-trending-up::before {
+.eva-trending-down::before {
     content: "\ebcb";
 }
 
-.eva-trending-up-outline::before {
+.eva-trending-down-outline::before {
     content: "\ebcc";
 }
 
-.eva-tv::before {
+.eva-trending-up::before {
     content: "\ebcd";
 }
 
-.eva-tv-outline::before {
+.eva-trending-up-outline::before {
     content: "\ebce";
 }
 
-.eva-twitter::before {
+.eva-tv::before {
     content: "\ebcf";
 }
 
-.eva-twitter-outline::before {
+.eva-tv-outline::before {
     content: "\ebd0";
 }
 
-.eva-umbrella::before {
+.eva-twitter::before {
     content: "\ebd1";
 }
 
-.eva-umbrella-outline::before {
+.eva-twitter-outline::before {
     content: "\ebd2";
 }
 
-.eva-undo::before {
+.eva-umbrella::before {
     content: "\ebd3";
 }
 
-.eva-undo-outline::before {
+.eva-umbrella-outline::before {
     content: "\ebd4";
 }
 
-.eva-unlock::before {
+.eva-undo::before {
     content: "\ebd5";
 }
 
-.eva-unlock-outline::before {
+.eva-undo-outline::before {
     content: "\ebd6";
 }
 
-.eva-upload::before {
+.eva-unlock::before {
     content: "\ebd7";
 }
 
-.eva-upload-outline::before {
+.eva-unlock-outline::before {
     content: "\ebd8";
 }
 
-.eva-video::before {
+.eva-upload::before {
     content: "\ebd9";
 }
 
-.eva-video-off::before {
+.eva-upload-outline::before {
     content: "\ebda";
 }
 
-.eva-video-off-outline::before {
+.eva-video::before {
     content: "\ebdb";
 }
 
-.eva-video-outline::before {
+.eva-video-off::before {
     content: "\ebdc";
 }
 
-.eva-volume-down::before {
+.eva-video-off-outline::before {
     content: "\ebdd";
 }
 
-.eva-volume-down-outline::before {
+.eva-video-outline::before {
     content: "\ebde";
 }
 
-.eva-volume-mute::before {
+.eva-volume-down::before {
     content: "\ebdf";
 }
 
-.eva-volume-mute-outline::before {
+.eva-volume-down-outline::before {
     content: "\ebe0";
 }
 
-.eva-volume-off::before {
+.eva-volume-mute::before {
     content: "\ebe1";
 }
 
-.eva-volume-off-outline::before {
+.eva-volume-mute-outline::before {
     content: "\ebe2";
 }
 
-.eva-volume-up::before {
+.eva-volume-off::before {
     content: "\ebe3";
 }
 
-.eva-volume-up-outline::before {
+.eva-volume-off-outline::before {
     content: "\ebe4";
 }
 
-.eva-wifi::before {
+.eva-volume-up::before {
     content: "\ebe5";
 }
 
-.eva-wifi-off::before {
+.eva-volume-up-outline::before {
     content: "\ebe6";
 }
 
-.eva-wifi-off-outline::before {
+.eva-wifi::before {
     content: "\ebe7";
 }
 
-.eva-wifi-outline::before {
+.eva-wifi-off::before {
     content: "\ebe8";
+}
+
+.eva-wifi-off-outline::before {
+    content: "\ebe9";
+}
+
+.eva-wifi-outline::before {
+    content: "\ebea";
 }

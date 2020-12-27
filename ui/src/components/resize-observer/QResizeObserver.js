@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { listenOpts } from '../../utils/event.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import { isSSR } from '../../plugins/Platform.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QResizeObserver',
@@ -87,11 +88,11 @@ export default Vue.extend({
         tabindex: -1, // fix for Firefox
         type: 'text/html',
         data: this.url,
-        'aria-hidden': true
+        'aria-hidden': 'true'
       },
-      on: {
+      on: cache(this, 'load', {
         load: this.__onObjLoad
-      }
+      })
     })
   },
 
@@ -127,7 +128,9 @@ export default Vue.extend({
     clearTimeout(this.timer)
 
     if (this.hasObserver === true) {
-      this.$el.parentNode && this.observer.unobserve(this.$el.parentNode)
+      if (this.observer !== void 0 && this.$el.parentNode) {
+        this.observer.unobserve(this.$el.parentNode)
+      }
       return
     }
 

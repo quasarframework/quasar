@@ -22,7 +22,8 @@ export default {
     months: 'Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Mai_Jun_Jul_Aug_Sep_Okt_Nov_Dez'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'tage'
   },
   table: {
     noData: 'Keine Daten vorhanden.',
@@ -67,12 +68,12 @@ export default {
     hr: 'Horizontale Linie einfügen',
     undo: 'Rückgänging',
     redo: 'Wiederherstellen',
-    header1: 'Überschrift 1',
-    header2: 'Überschrift 2',
-    header3: 'Überschrift 3',
-    header4: 'Überschrift 4',
-    header5: 'Überschrift 5',
-    header6: 'Überschrift 6',
+    heading1: 'Überschrift 1',
+    heading2: 'Überschrift 2',
+    heading3: 'Überschrift 3',
+    heading4: 'Überschrift 4',
+    heading5: 'Überschrift 5',
+    heading6: 'Überschrift 6',
     paragraph: 'Absatz',
     code: 'Code',
     size1: 'Sehr klein',

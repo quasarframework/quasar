@@ -1,93 +1,100 @@
 <template lang="pug">
-q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
+q-card.doc-api.q-my-lg(flat bordered)
   q-toolbar.text-grey-8.bg-white
     card-title(:title="name", prefix="API--")
     q-space
     .col-auto.text-grey {{ type }}
 
-  q-separator
+  q-linear-progress(v-if="loading", color="primary", indeterminate)
 
-  div.bg-grey-2.text-grey-7.flex.no-wrap
-    q-tabs.col(v-model="currentTab", indicator-color="primary", align="left", :breakpoint="0", dense)
-      q-tab(
-        v-for="tab in tabs"
-        :key="`api-tab-${tab}`"
-        :name="tab"
+  template(v-else)
+    q-separator
+
+    div.bg-grey-2.text-grey-7.flex.no-wrap
+      q-tabs.col(v-model="currentTab", indicator-color="primary", align="left", :breakpoint="0", dense)
+        q-tab(
+          v-for="tab in tabs"
+          :key="`api-tab-${tab}`"
+          :name="tab"
+        )
+          .row.no-wrap.items-center
+            span.q-mr-xs.text-uppercase.text-weight-medium {{ tab }}
+            q-badge(v-if="tabCount[tab]") {{ tabCount[tab] }}
+
+      q-input.q-mx-sm(
+        v-if="$q.screen.gt.xs"
+        ref="input",
+        v-model="filter",
+        dense,
+        input-class="text-right",
+        borderless,
+        placeholder="Filter..."
+        style="min-width: 150px"
       )
-        .row.no-wrap.items-center
-          span.q-mr-xs.text-uppercase.text-weight-medium {{ tab }}
-          q-badge(v-if="tabCount[tab]") {{ tabCount[tab] }}
-
-    q-input.q-mx-sm(
-      v-if="$q.screen.gt.xs"
-      ref="input",
-      v-model="filter",
-      dense,
-      input-class="text-right",
-      borderless,
-      placeholder="Filter..."
-      style="min-width: 150px"
-    )
-      template(v-slot:append)
-        q-icon.cursor-pointer(
-          :name="filter !== '' ? 'clear' : 'search'"
-          @click="onFilterClick"
-        )
-
-  q-separator
-
-  q-tab-panels(v-model="currentTab", animated)
-    q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
-      .row.no-wrap.api-container(v-if="aggregationModel[tab]")
-        .col-auto.row.no-wrap.bg-grey-1.text-grey-7.q-py-lg
-          q-tabs(
-            v-model="currentInnerTab[tab]",
-            active-color="primary",
-            indicator-color="primary",
-            :breakpoint="0",
-            vertical,
-            dense,
-            shrink
+        template(v-slot:append)
+          q-icon.cursor-pointer(
+            :name="inputIcon"
+            @click="onFilterClick"
           )
-            q-tab(
-              v-for="category in apiTabs(tab)"
-              :key="`api-inner-tab-${category}`"
-              class="inner-tab"
-              :name="category"
+
+    q-separator
+
+    q-tab-panels(v-model="currentTab", animated)
+      q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
+        .row.no-wrap.api-container(v-if="aggregationModel[tab]")
+          .col-auto.row.no-wrap.bg-grey-1.text-grey-7.q-py-lg
+            q-tabs(
+              v-model="currentInnerTab[tab]",
+              active-color="primary",
+              indicator-color="primary",
+              :breakpoint="0",
+              vertical,
+              dense,
+              shrink
             )
-              .row.no-wrap.items-center.self-stretch
-                span.q-mr-xs.text-capitalize.text-weight-medium {{ category }}
-                .col
-                q-badge(v-if="apiInnerCount(tab, category)") {{ formattedApiInnerCount(tab, category) }}
+              q-tab(
+                v-for="category in apiTabs(tab)"
+                :key="`api-inner-tab-${category}`"
+                class="inner-tab"
+                :name="category"
+              )
+                .row.no-wrap.items-center.self-stretch
+                  span.q-mr-xs.text-capitalize.text-weight-medium {{ category }}
+                  .col
+                  q-badge(v-if="apiInnerCount(tab, category)") {{ formattedApiInnerCount(tab, category) }}
 
-        q-separator(vertical)
+          q-separator(vertical)
 
-        q-tab-panels.col(
-          v-model="currentInnerTab[tab]",
-          animated,
-          transition-prev="slide-down",
-          transition-next="slide-up"
-        )
-          q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
-            ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]")
-      .api-container(v-else)
-        ApiRows(:which="tab", :api="filteredApi")
+          q-tab-panels.col(
+            v-model="currentInnerTab[tab]",
+            animated,
+            transition-prev="slide-down",
+            transition-next="slide-up"
+          )
+            q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
+              ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]")
+        .api-container(v-else)
+          ApiRows(:which="tab", :api="filteredApi")
 </template>
 
 <script>
+import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v5'
+import { format } from 'quasar'
+
 import ApiRows from './ApiRows.js'
 import CardTitle from './CardTitle.vue'
-import { format } from 'quasar'
+
 const { pad } = format
 
 const groupBy = (list, groupKey, defaultGroupKeyValue) => {
   const res = {}
 
-  for (let key in list) {
-    if (list.hasOwnProperty(key)) {
-      let value = list[key]
-      let groupKeyValue = (value[groupKey] || defaultGroupKeyValue).split('|')
-      for (let groupKeyV of groupKeyValue) {
+  for (const key in list) {
+    if (list[key] !== void 0) {
+      const value = list[key]
+      const groupKeyValue = (value[groupKey] || defaultGroupKeyValue).split('|')
+
+      for (const groupKeyV of groupKeyValue) {
         if (res[groupKeyV] === void 0) {
           res[groupKeyV] = {}
         }
@@ -116,7 +123,11 @@ export default {
 
   data () {
     return {
-      ready: false,
+      loading: true,
+
+      name: 'Loading API...',
+      type: 'Please wait...',
+
       currentTab: null,
       currentInnerTab: {
         props: null
@@ -164,8 +175,8 @@ export default {
         if (this.aggregationModel[tab]) {
           api[tab] = {}
 
-          for (let group in this.api[tab]) {
-            if (this.api[tab].hasOwnProperty(group)) {
+          for (const group in this.api[tab]) {
+            if (this.api[tab][group] !== void 0) {
               api[tab][group] = filterApi(this.api[tab][group])
             }
           }
@@ -173,7 +184,7 @@ export default {
           if (this.currentTab === tab) {
             let apiWithResultsCount = 0,
               lastFoundApiWithResults = null
-            for (let group in this.api[tab]) {
+            for (const group in this.api[tab]) {
               if (Object.keys(api[tab][group]).length > 0) {
                 apiWithResultsCount++
                 lastFoundApiWithResults = group
@@ -198,11 +209,11 @@ export default {
   },
 
   methods: {
-    parseJson (name, { type, behavior, ...api }) {
+    parseJson (name, { type, behavior, meta, addedIn, ...api }) {
       this.aggregationModel = {}
 
       if (type === 'component' && api.props !== void 0) {
-        for (let apiGroup of ['props']) {
+        for (const apiGroup of [ 'props' ]) {
           api[apiGroup] = groupBy(api[apiGroup], 'category', 'general')
           this.currentInnerTab[apiGroup] = this.apiTabs(apiGroup, api)[0]
           this.aggregationModel[apiGroup] = true
@@ -249,16 +260,14 @@ export default {
       if (this.apiType !== 'plugin' && tab === 'props') {
         let total = 0
 
-        if (this.currentTabMaxCategoryPropCount > 0) {
-          Object.keys(this.filteredApi[tab]).forEach(key => {
-            total += Object.keys(this.filteredApi[tab][key]).length
-          })
-        }
+        Object.keys(this.filteredApi[tab]).forEach(key => {
+          total += Object.keys(this.filteredApi[tab][key]).length
+        })
 
         return total
       }
 
-      if (['value', 'arg', 'quasarConfOptions', 'injection'].includes(tab)) {
+      if ([ 'value', 'arg', 'quasarConfOptions', 'injection' ].includes(tab)) {
         return 1
       }
 
@@ -278,8 +287,8 @@ export default {
     currentTabMaxCategoryPropCount () {
       if (this.aggregationModel[this.currentTab]) {
         let max = -1
-        for (let category in this.filteredApi[this.currentTab]) {
-          let count = this.apiInnerCount(this.currentTab, category)
+        for (const category in this.filteredApi[this.currentTab]) {
+          const count = this.apiInnerCount(this.currentTab, category)
           if (count > max) {
             max = count
           }
@@ -288,6 +297,10 @@ export default {
       }
 
       return 0
+    },
+
+    inputIcon () {
+      return this.filter !== '' ? mdiClose : mdiMagnify
     }
   },
 
@@ -295,10 +308,10 @@ export default {
     import(
       /* webpackChunkName: "quasar-api" */
       /* webpackMode: "lazy-once" */
-      `quasar/dist/api/${this.file}.json`
+      'quasar/dist/api/' + this.file + '.json'
     ).then(json => {
       this.parseJson(this.file, json.default)
-      this.ready = true
+      this.loading = false
     })
   }
 }

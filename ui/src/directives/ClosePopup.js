@@ -1,4 +1,5 @@
 import { closePortals } from '../mixins/portal.js'
+import { isKeyCode } from '../utils/key-composition.js'
 
 /*
  * depth
@@ -19,10 +20,24 @@ function getDepth (value) {
   return isNaN(depth) ? 0 : depth
 }
 
+function destroy (el) {
+  const ctx = el.__qclosepopup
+  if (ctx !== void 0) {
+    el.removeEventListener('click', ctx.handler)
+    el.removeEventListener('keyup', ctx.handlerKey)
+    delete el.__qclosepopup
+  }
+}
+
 export default {
   name: 'close-popup',
 
   bind (el, { value }, vnode) {
+    if (el.__qclosepopup !== void 0) {
+      destroy(el)
+      el.__qclosepopup_destroyed = true
+    }
+
     const ctx = {
       depth: getDepth(value),
 
@@ -34,12 +49,8 @@ export default {
       },
 
       handlerKey (evt) {
-        evt.keyCode === 13 && ctx.handler(evt)
+        isKeyCode(evt, 13) === true && ctx.handler(evt)
       }
-    }
-
-    if (el.__qclosepopup !== void 0) {
-      el.__qclosepopup_old = el.__qclosepopup
     }
 
     el.__qclosepopup = ctx
@@ -49,17 +60,17 @@ export default {
   },
 
   update (el, { value, oldValue }) {
-    if (value !== oldValue) {
+    if (el.__qclosepopup !== void 0 && value !== oldValue) {
       el.__qclosepopup.depth = getDepth(value)
     }
   },
 
   unbind (el) {
-    const ctx = el.__qclosepopup_old || el.__qclosepopup
-    if (ctx !== void 0) {
-      el.removeEventListener('click', ctx.handler)
-      el.removeEventListener('keyup', ctx.handlerKey)
-      delete el[el.__qclosepopup_old ? '__qclosepopup_old' : '__qclosepopup']
+    if (el.__qclosepopup_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qclosepopup_destroyed
     }
   }
 }

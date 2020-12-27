@@ -1,24 +1,29 @@
 import Vue from 'vue'
 
-import uid from '../../utils/uid.js'
 import QIcon from '../icon/QIcon.js'
+
 import RippleMixin from '../../mixins/ripple.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { stop } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
+import { isKeyCode } from '../../utils/key-composition.js'
+
+let uid = 0
 
 export default Vue.extend({
   name: 'QTab',
 
-  mixins: [ RippleMixin ],
+  mixins: [ RippleMixin, ListenersMixin ],
 
   inject: {
     tabs: {
       default () {
-        console.error('QTab/QRouteTab components need to be child of QTabsBar')
+        console.error('QTab/QRouteTab components need to be child of QTabs')
       }
     },
-    __activateTab: {}
+    __activateTab: {},
+    __recalculateScroll: {}
   },
 
   props: {
@@ -26,16 +31,19 @@ export default Vue.extend({
     label: [Number, String],
 
     alert: [Boolean, String],
+    alertIcon: String,
 
     name: {
       type: [Number, String],
-      default: () => uid()
+      default: () => `t_${uid++}`
     },
 
     noCaps: Boolean,
 
     tabindex: [String, Number],
-    disable: Boolean
+    disable: Boolean,
+
+    contentClass: String
   },
 
   computed: {
@@ -55,8 +63,36 @@ export default Vue.extend({
       }
     },
 
+    innerClass () {
+      return (this.tabs.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column') +
+        (this.contentClass !== void 0 ? ` ${this.contentClass}` : '')
+    },
+
     computedTabIndex () {
       return this.disable === true || this.isActive === true ? -1 : this.tabindex || 0
+    },
+
+    onEvents () {
+      return {
+        input: stop,
+        ...this.qListeners,
+        click: this.__activate,
+        keyup: this.__onKeyup
+      }
+    },
+
+    attrs () {
+      const attrs = {
+        tabindex: this.computedTabIndex,
+        role: 'tab',
+        'aria-selected': this.isActive
+      }
+
+      if (this.disable === true) {
+        attrs['aria-disabled'] = 'true'
+      }
+
+      return attrs
     }
   },
 
@@ -65,13 +101,13 @@ export default Vue.extend({
       keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
 
       if (this.disable !== true) {
-        this.$listeners.click !== void 0 && this.$emit('click', e)
+        this.qListeners.click !== void 0 && this.$emit('click', e)
         this.__activateTab(this.name)
       }
     },
 
     __onKeyup (e) {
-      e.keyCode === 13 && this.__activate(e, true)
+      isKeyCode(e, 13) === true && this.__activate(e, true)
     },
 
     __getContent (h) {
@@ -83,32 +119,50 @@ export default Vue.extend({
           class: this.tabs.indicatorClass
         })
 
-      this.icon !== void 0 && content.push(h(QIcon, {
-        staticClass: 'q-tab__icon',
-        props: { name: this.icon }
-      }))
+      this.icon !== void 0 && content.push(
+        h(QIcon, {
+          staticClass: 'q-tab__icon',
+          props: { name: this.icon }
+        })
+      )
 
-      this.label !== void 0 && content.push(h('div', {
-        staticClass: 'q-tab__label'
-      }, [ this.label ]))
+      this.label !== void 0 && content.push(
+        h('div', {
+          staticClass: 'q-tab__label'
+        }, [ this.label ])
+      )
 
-      this.alert !== false && content.push(h('div', {
-        staticClass: 'q-tab__alert',
-        class: this.alert !== true ? `text-${this.alert}` : null
-      }))
+      this.alert !== false && content.push(
+        this.alertIcon !== void 0
+          ? h(QIcon, {
+            staticClass: 'q-tab__alert-icon',
+            props: {
+              color: this.alert !== true
+                ? this.alert
+                : void 0,
+              name: this.alertIcon
+            }
+          })
+          : h('div', {
+            staticClass: 'q-tab__alert',
+            class: this.alert !== true
+              ? `text-${this.alert}`
+              : null
+          })
+      )
 
-      narrow && content.push(indicator)
+      narrow === true && content.push(indicator)
 
       const node = [
         h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }),
 
         h('div', {
-          staticClass: 'q-tab__content self-stretch flex-center relative-position no-pointer-events q-anchor--skip non-selectable',
-          class: this.tabs.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column'
-        }, content.concat(slot(this, 'default')))
+          staticClass: 'q-tab__content self-stretch flex-center relative-position q-anchor--skip non-selectable',
+          class: this.innerClass
+        }, mergeSlot(content, this, 'default'))
       ]
 
-      !narrow && node.push(indicator)
+      narrow === false && node.push(indicator)
 
       return node
     },
@@ -117,20 +171,11 @@ export default Vue.extend({
       const data = {
         staticClass: 'q-tab relative-position self-stretch flex flex-center text-center',
         class: this.classes,
-        attrs: {
-          tabindex: this.computedTabIndex,
-          role: 'tab',
-          'aria-selected': this.isActive
-        },
+        attrs: this.attrs,
         directives: this.ripple !== false && this.disable === true ? null : [
           { name: 'ripple', value: this.ripple }
         ],
-        [tag === 'div' ? 'on' : 'nativeOn']: {
-          input: stop,
-          ...this.$listeners,
-          click: this.__activate,
-          keyup: this.__onKeyup
-        }
+        [ tag === 'div' ? 'on' : 'nativeOn' ]: this.onEvents
       }
 
       if (props !== void 0) {
@@ -139,6 +184,14 @@ export default Vue.extend({
 
       return h(tag, data, this.__getContent(h))
     }
+  },
+
+  mounted () {
+    this.__recalculateScroll()
+  },
+
+  beforeDestroy () {
+    this.__recalculateScroll()
   },
 
   render (h) {

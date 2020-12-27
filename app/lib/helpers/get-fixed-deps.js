@@ -14,7 +14,7 @@ module.exports = function (deps) {
     }
     else {
       const pkg = getPackageJson(name)
-      appDeps[name] = pkg ? pkg.version : deps[name]
+      appDeps[name] = pkg !== void 0 ? pkg.version : deps[name]
     }
   })
 

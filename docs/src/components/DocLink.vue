@@ -12,12 +12,20 @@
     rel="noopener"
   )
     slot
-    q-icon(name="launch")
+    q-icon(:name="mdiLaunch")
 </template>
 
 <script>
+import {
+  mdiLaunch
+} from '@quasar/extras/mdi-v5'
+
 export default {
   name: 'DocLink',
+
+  created () {
+    this.mdiLaunch = mdiLaunch
+  },
 
   props: {
     to: String

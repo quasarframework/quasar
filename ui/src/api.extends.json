@@ -21,7 +21,7 @@
 
     "text-color": {
       "type": "String",
-      "desc": "Overrides text color (if needed); color name from the Quasar Color Palette",
+      "desc": "Overrides text color (if needed); Color name from the Quasar Color Palette",
       "examples": [ "primary", "teal-10" ],
       "category": "style"
     },
@@ -47,7 +47,7 @@
 
     "icon": {
       "type": "String",
-      "desc": "Icon name following Quasar convention; make sure you have the icon library installed unless you are using 'img:' prefix",
+      "desc": "Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix",
       "examples": [
         "map",
         "ion-add",
@@ -105,6 +105,19 @@
       "default": "false",
       "desc": "Force use of textContent instead of innerHTML to render text; Use it when the text might be unsafe (from user input)",
       "category": "behavior"
+    },
+
+    "scroll-target": {
+      "type": [ "Element", "String" ],
+      "desc": "CSS selector or DOM element to be used as a custom scroll container instead of the auto detected one",
+      "examples": [
+        ":scroll-target=\"$refs.scrollTarget\"",
+        "scroll-target=\".scroll-target-class\"",
+        "scroll-target=\"#scroll-target-id\"",
+        "scroll-target=\"body\""
+      ],
+      "category": "behavior",
+      "addedIn": "v1.8.0"
     }
   },
 
@@ -157,6 +170,10 @@
       }
     },
 
+    "after-show": {
+      "desc": "Emitted when component show animation is finished"
+    },
+
     "hide": {
       "desc": "Emitted after component has triggered hide()",
       "params": {
@@ -179,6 +196,10 @@
           "__exemption": [ "examples" ]
         }
       }
+    },
+
+    "after-hide": {
+      "desc": "Emitted when component hide animation is finished"
     },
 
     "click": {

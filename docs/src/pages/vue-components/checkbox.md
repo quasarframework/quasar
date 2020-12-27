@@ -40,11 +40,27 @@ In the second row in the example below, the property `keep-color` is being used 
 
 <doc-example title="On a dark background" file="QCheckbox/OnDarkBackground" dark />
 
+### Sizes <q-badge align="top" label="v1.8+" />
+
+Apart from the standard sizes below, you can define your own through the `size` property (last one is a custom size).
+
+<doc-example title="Standard sizes" file="QCheckbox/StandardSizes" />
+
 ### Indeterminate state
 
 In the example below, as soon as you click on the first checkbox it starts toggling between true/false. The second checkbox, on the other hand toggles between the three states (indeterminate/true/false) with help from `toggle-indeterminate`. You can optionally set the property `indeterminate-value`, otherwise the indeterminate value will be considered `null`.
 
 <doc-example title="Indeterminate state" file="QCheckbox/IndeterminateState" />
+
+### Toggle order <q-badge align="top" label="v1.12+" />
+
+By default, QCheckbox follows this chain when toggling: indeterminate -> checked -> unchecked. However, you can change this behavior through the `toggle-order` prop. This property determines the order of the states and can be `tf` (default) or `ft` (`t` stands for state of true/checked while `f` for state of false/unchecked).
+
+Toggling order is:
+* if `toggle-indeterminate` is true, then: indet -> first state -> second state -> indet (and repeat)
+* otherwise (no toggle-indeterminate): indet -> first state -> second state -> first state -> second state -> ...
+
+<doc-example title="Toggle order" file="QCheckbox/ToggleOrder" />
 
 ### Array model
 
@@ -71,6 +87,12 @@ In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so
 ### Disable
 
 <doc-example title="Disable" file="QCheckbox/Disable" />
+
+### Native form submit <q-badge align="top" label="v1.9+" />
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QCheckbox, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
+
+<doc-example title="Native form" file="QCheckbox/NativeForm" />
 
 ## QCheckbox API
 <doc-api file="QCheckbox" />

@@ -1,5 +1,5 @@
 ---
-title: Cordova App Preparation
+title: Preparation for Cordova App
 desc: What you need to do before developing a Quasar hybrid mobile app with Cordova.
 ---
 Before we dive in to the actual development, we need to do some preparation work.
@@ -10,6 +10,16 @@ First step is to make sure you got the Cordova CLI installed and the necessary S
 ```bash
 $ npm install -g cordova
 ```
+
+::: warning
+Depending on your version of Android Studio, you might need to re-enable the "Android SDK Tools". You can do this by going
+to "Tools > SDK Manager > SDK Tools" then un-ticking "Hide Obsolete Packages" and tick "Android SDK Tools (Obsolete)".
+**The instructions below assume this has been done.**
+:::
+
+::: warning
+The environmental variable `ANDROID_HOME` has been deprecated and replaced with `ANDROID_SDK_ROOT`. Depending on your version of Android Studio you may need one or the other. It doesn't hurt to have both set.
+:::
 
 ### Android setup
 
@@ -23,25 +33,39 @@ $ npm install -g cordova
 
 ```bash
 export ANDROID_HOME="$HOME/Android/Sdk"
-PATH=$PATH:$ANDROID_HOME/tools; PATH=$PATH:$ANDROID_HOME/platform-tools
+export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+export PATH=$PATH:$ANDROID_SDK_ROOT/tools; PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 ```
 
-> Please note that sometimes the `/Android/Sdk` folder is added inside `/Library/` inside your user folder. Check your user folder and if the `/Android/` folder is only inside `/Library/` do: `export ANDROID_HOME="$HOME/Library/Android/Sdk"` instead.
+> Please note that sometimes the `/Android/Sdk` folder is added inside `/Library/` inside your user folder. Check your user folder and if the `/Android/` folder is only inside `/Library/` do: `export ANDROID_SDK_ROOT="$HOME/Library/Android/Sdk"` or `export ANDROID_HOME="$HOME/Library/Android/Sdk"` instead.
 
 #### Windows
 
+After installing Android Studio, you need to install two more pieces of software:
+* JDK from Oracle. It can be found [here](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Gradle. It used to usable from Android Studio but now you have to install it separately. There is a very specific version that cordova requires. You can download it [here](https://downloads.gradle-dn.com/distributions/gradle-4.10.3-all.zip)
+
+Then you will have to set environment variables. You will need to set the following variables. Cordova has a good guide for it already. It can be found [here](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#setting-environment-variables). You need to:
+* add ANDROID_SDK_ROOT. It can safely be set to: "%USERPROFILE%\AppData\Local\Android\Sdk"
+* add two ANDROID_SDK_ROOT directories to your path: %ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools
+* add Gradle to your path. Note that gradle does not have an installer. You just put the binary files where you want them, then add the bin directory to your path.
+
+If you have an init script for your command prompt or powershell, you can try this:
 ```bash
 setx ANDROID_HOME "%USERPROFILE%\AppData\Local\Android\Sdk"
-setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools"
+setx ANDROID_SDK_ROOT "%USERPROFILE%\AppData\Local\Android\Sdk"
+setx path "%path%;%ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools;<gradle_path>\bin;"
 ```
 
-* Start Android studio by changing into the folder you installed it in and run `./studio.sh`. Next step is to install the individual SDKs:
+After the tools are installed, setup Android Studio with the correct SDK and create a virtual machine.
+
+* Start Android studio (check the executable in the folder that you installed it in). Next step is to install the individual SDKs:
 
 * Open the "Configure" menu at the bottom of the window:
 
   ![SDK manager](https://cdn.quasar.dev/img/Android-Studio-SDK-Menu.png "SDK manager")
 
-* Select the desired SDKs. As per August 2018 Cordova supports 5.0 and up and click on "Apply" to install the SDKs.
+* Select the desired SDKs. As per December 2019 Cordova requires android-28 (Android 9.0 - Pie) so be sure to include it. Click on "Apply" to install the SDKs.
 
   ![SDK selection](https://cdn.quasar.dev/img/Android-Studio-SDK-selection.png "SDK selection")
 

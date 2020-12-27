@@ -55,11 +55,43 @@ this.$refs.myForm.resetValidation()
 
 ## Turning off Autocompletion
 If you want to turn off the way that some browsers use autocorrection or spellchecking of all of the input elements of your form, you can also add these pure HTML attributes to the QForm component:
+
 ```html
 autocorrect="off"
 autocapitalize="off"
 autocomplete="off"
 spellcheck="false"
+```
+
+## Submitting to a URL (native form submit)
+If you are using the native `action` and `method` attributes on a QForm, please remember to use the `name` prop on each Quasar form component, so that the sent formData to actually contain what the user has filled in.
+
+```html
+<q-form action="https://some-url.com" method="post">
+  <q-input name="firstname" ...>
+  <!-- ... -->
+</q-form>
+```
+
+* Control the way the form is submitted by setting `action`, `method`, `enctype` and `target` attributes of QForm
+* If a listener on `@submit` IS NOT present on the QForm then the form will be submitted if the validation is successful
+* If a listener on `@submit` IS present on the QForm then the listener will be called if the validation is successful. In order to do a native submit in this case:
+
+```html
+<q-form action="https://some-url.com" method="post" @submit="onSubmit">
+  <q-input name="firstname" ...>
+  <!-- ... -->
+</q-form>
+```
+
+```js
+methods: {
+  onSubmit (evt) {
+    console.log('@submit - do something here', evt)
+
+    evt.target.submit()
+  }
+}
 ```
 
 ## QForm API

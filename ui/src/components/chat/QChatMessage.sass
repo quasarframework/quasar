@@ -21,37 +21,35 @@
   &:first-child .q-message-label
     margin-top: 0
 
-.q-message-received
-  .q-message-avatar
-    margin-right: 8px
-  .q-message-text
-    color: $chat-message-received-bg
-    border-radius: $chat-message-border-radius $chat-message-border-radius $chat-message-border-radius 0
-    &:last-child:before
-      right: 100%
-      border-right: 0 solid transparent
-      border-left: 8px solid transparent
-      border-bottom: 8px solid currentColor
-  .q-message-text-content
-    color: $chat-message-received-color
+.q-message-avatar--received
+  margin-right: 8px
+.q-message-text--received
+  color: $chat-message-received-bg
+  border-radius: $chat-message-border-radius $chat-message-border-radius $chat-message-border-radius 0
+  &:last-child:before
+    right: 100%
+    border-right: 0 solid transparent
+    border-left: 8px solid transparent
+    border-bottom: 8px solid currentColor
+.q-message-text-content--received
+  color: $chat-message-received-color
 
-.q-message-sent
-  .q-message-name
-    text-align: right
-  .q-message-avatar
-    margin-left: 8px
-  .q-message-container
-    flex-direction: row-reverse
-  .q-message-text
-    color: $chat-message-sent-bg
-    border-radius: $chat-message-border-radius $chat-message-border-radius 0 $chat-message-border-radius
-    &:last-child:before
-      left: 100%
-      border-left: 0 solid transparent
-      border-right: 8px solid transparent
-      border-bottom: 8px solid currentColor
-  .q-message-text-content
-    color: $chat-message-sent-color
+.q-message-name--sent
+  text-align: right
+.q-message-avatar--sent
+  margin-left: 8px
+.q-message-container--sent
+  flex-direction: row-reverse
+.q-message-text--sent
+  color: $chat-message-sent-bg
+  border-radius: $chat-message-border-radius $chat-message-border-radius 0 $chat-message-border-radius
+  &:last-child:before
+    left: 100%
+    border-left: 0 solid transparent
+    border-right: 8px solid transparent
+    border-bottom: 8px solid currentColor
+.q-message-text-content--sent
+  color: $chat-message-sent-color
 
 .q-message-text
   background: currentColor

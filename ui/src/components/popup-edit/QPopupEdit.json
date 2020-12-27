@@ -1,10 +1,21 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/popup-edit"
+  },
+
   "props": {
     "value": {
       "extends": "value",
       "type": "Any",
       "examples": [ "v-model=\"myValue\"" ],
       "category": "model"
+    },
+
+    "auto-save": {
+      "type": "Boolean",
+      "desc": "Automatically save the model (if changed) when user clicks/taps outside of the popup; It does not apply to ESC key",
+      "category": "behavior",
+      "addedIn": "v1.9.0"
     },
 
     "title": {
@@ -99,9 +110,9 @@
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom middle", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "examples": [ "top left", "bottom right" ],
       "category": "position"
@@ -111,9 +122,9 @@
       "type": "String",
       "desc": "Two values setting the menu's own position relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom middle", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "examples": [ "top left", "bottom right" ],
       "category": "position"
@@ -152,13 +163,13 @@
 
     "max-height": {
       "extends": "size",
-      "desc": "The maximimum height of the menu; Size in CSS units, including unit name",
+      "desc": "The maximum height of the menu; Size in CSS units, including unit name",
       "category": "style"
     },
 
     "max-width": {
       "extends": "size",
-      "desc": "The maximimum width of the menu; Size in CSS units, including unit name",
+      "desc": "The maximum width of the menu; Size in CSS units, including unit name",
       "category": "style"
     }
   },
@@ -189,7 +200,7 @@
           "params": {
             "value": {
               "type": "Any",
-              "desc": "Value to be emited",
+              "desc": "Value to be emitted",
               "examples": [ 0, "Changed text" ]
             }
           },
@@ -233,7 +244,6 @@
     },
 
     "before-show": {
-      "extends": "before-show",
       "desc": "Emitted right before Popup gets shown"
     },
 
@@ -242,7 +252,6 @@
     },
 
     "before-hide": {
-      "extends": "before-hide",
       "desc": "Emitted right before Popup gets dismissed"
     },
 
@@ -290,6 +299,16 @@
 
     "cancel": {
       "desc": "Triggers a model reset to its initial value ('cancel' event is emitted) then closes Popup"
+    },
+
+    "show": {
+      "extends": "show",
+      "addedIn": "v1.12.0"
+    },
+
+    "hide": {
+      "extends": "hide",
+      "addedIn": "v1.12.0"
     }
   }
 }

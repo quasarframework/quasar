@@ -1,11 +1,3 @@
-export function getAllChildren (vm, children = []) {
-  vm.$children.forEach(function (child) {
-    children.push(child)
-    child.$children.length > 0 && getAllChildren(child, children)
-  })
-  return children
-}
-
 export function getVmOfNode (el) {
   for (let node = el; node !== null; node = node.parentNode) {
     // node.__vue__ can be null if the instance was destroyed

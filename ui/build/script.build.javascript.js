@@ -4,23 +4,27 @@ const path = require('path')
 const fs = require('fs')
 const rollup = require('rollup')
 const uglify = require('uglify-es')
-const buble = require('rollup-plugin-buble')
-const json = require('rollup-plugin-json')
-const nodeResolve = require('rollup-plugin-node-resolve')
+const buble = require('@rollup/plugin-buble')
+const json = require('@rollup/plugin-json')
+const nodeResolve = require('@rollup/plugin-node-resolve')
+
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
 
-const bubleConfig = {
-  objectAssign: 'Object.assign'
+function resolve (_path) {
+  return path.resolve(__dirname, '..', _path)
 }
 
-const defaultRollupPlugins = [
-  nodeResolve({
-    extensions: ['.js'],
-    preferBuiltins: false
-  }),
-  json(),
-  buble(bubleConfig)
+const rollupPluginsModern = [
+  nodeResolve(),
+  json()
+]
+
+const rollupPluginsLegacy = [
+  ...rollupPluginsModern,
+  buble({
+    objectAssign: 'Object.assign'
+  })
 ]
 
 const builds = [
@@ -34,7 +38,11 @@ const builds = [
         format: 'es'
       }
     },
-    build: { minified: true, minExt: false }
+    build: {
+      minified: true,
+      minExt: false,
+      modern: true
+    }
   },
   {
     rollup: {
@@ -48,7 +56,8 @@ const builds = [
     },
     build: {
       minified: true,
-      minExt: false
+      minExt: false,
+      modern: true
     }
   },
   {
@@ -61,7 +70,10 @@ const builds = [
         format: 'es'
       }
     },
-    build: { minified: true, minExt: false }
+    build: {
+      minified: true,
+      minExt: false
+    }
   },
   {
     rollup: {
@@ -73,7 +85,9 @@ const builds = [
         format: 'umd'
       }
     },
-    build: { minified: true }
+    build: {
+      minified: true
+    }
   },
   {
     rollup: {
@@ -89,35 +103,27 @@ const builds = [
       unminified: true,
       minified: true
     }
+  },
+  {
+    rollup: {
+      input: {
+        input: resolve(`src/index.umd.js`)
+      },
+      output: {
+        file: resolve(`dist/quasar.umd.modern.js`),
+        format: 'umd'
+      }
+    },
+    build: {
+      unminified: true,
+      minified: true,
+      modern: true
+    }
   }
 ]
 
-addAssets(builds, 'lang', 'lang')
-addAssets(builds, 'icon-set', 'iconSet')
-
-build(builds)
-
-require('./build.api').generate()
-  .then(data => {
-    require('./build.transforms').generate()
-    require('./build.vetur').generate(data)
-    require('./build.lang-index').generate()
-    require('./build.types').generate(data)
-    require('./build.web-types').generate(data)
-  })
-
-/**
- * Helpers
- */
-
-function resolve (_path) {
-  return path.resolve(__dirname, '..', _path)
-}
-
 function addAssets (builds, type, injectName) {
-  const
-    files = fs.readdirSync(resolve(type)),
-    plugins = [ buble(bubleConfig) ]
+  const files = fs.readdirSync(resolve(type))
 
   files
     .filter(file => file.endsWith('.js'))
@@ -126,8 +132,7 @@ function addAssets (builds, type, injectName) {
       builds.push({
         rollup: {
           input: {
-            input: resolve(`${type}/${file}`),
-            plugins
+            input: resolve(`${type}/${file}`)
           },
           output: {
             file: addExtension(resolve(`dist/${type}/${file}`), 'umd'),
@@ -149,9 +154,9 @@ function build (builds) {
 }
 
 function genConfig (opts) {
-  if (opts.rollup.input.plugins === void 0) {
-    opts.rollup.input.plugins = defaultRollupPlugins
-  }
+  opts.rollup.input.plugins = opts.build.modern === true
+    ? rollupPluginsModern
+    : rollupPluginsLegacy
 
   opts.rollup.input.external = opts.rollup.input.external || []
   opts.rollup.input.external.push('vue')
@@ -208,7 +213,7 @@ function buildEntry (config) {
 
       const minified = uglify.minify(code, {
         compress: {
-          pure_funcs: ['makeMap']
+          ecma: config.build.modern ? 6 : 5
         }
       })
 
@@ -227,5 +232,21 @@ function buildEntry (config) {
     .catch(err => {
       console.error(err)
       process.exit(1)
+    })
+}
+
+module.exports = function () {
+  require('./build.lang-index').generate()
+    .then(() => require('./build.svg-icon-sets').generate())
+    .then(() => require('./build.api').generate())
+    .then(data => {
+      require('./build.transforms').generate()
+      require('./build.vetur').generate(data)
+      require('./build.types').generate(data)
+      require('./build.web-types').generate(data)
+
+      addAssets(builds, 'lang', 'lang')
+      addAssets(builds, 'icon-set', 'iconSet')
+      build(builds)
     })
 }

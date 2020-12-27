@@ -1,0 +1,38 @@
+.q-icon
+  line-height: 1
+  width: 1em
+  height: 1em
+  letter-spacing: normal
+  text-transform: none
+  white-space: nowrap
+  word-wrap: normal
+  direction: ltr
+  text-align: center
+  position: relative
+  box-sizing: content-box
+
+  fill: currentColor // for svg paths
+
+  &:before, &:after
+    width: 100%
+    height: 100%
+    display: flex !important
+    align-items: center
+    justify-content: center
+
+  > svg
+    width: 100%
+    height: 100%
+
+.q-icon,
+.material-icons,
+.material-icons-outlined,
+.material-icons-round,
+.material-icons-sharp
+  user-select: none
+  cursor: inherit
+  font-size: inherit
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  vertical-align: middle

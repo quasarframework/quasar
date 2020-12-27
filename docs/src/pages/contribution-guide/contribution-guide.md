@@ -42,7 +42,7 @@ Apart from answering questions and sharing resources in the forum and chat, ther
 * [GitHub](https://github.com/quasarframework/quasar/issues): If you have a bug to report or feature to request, that’s what the GitHub issues are for.
 
 ::: danger Reporting a vulnerability
-Please do not report security vulnerabilities with public GitHub issue reports. Follow the [Report a vulnerability](security/report-a-vulnerability) steps for security issues.
+Please do not report security vulnerabilities with public GitHub issue reports. Follow the [Report a vulnerability](/security/report-a-vulnerability) steps for security issues.
 :::
 
 If you've found a problem in Quasar which is not a security risk, do a search on GitHub under [Issues](https://github.com/quasarframework/quasar/issues) to check if it is already answered or even fixed in the development branch (`dev`).
@@ -67,7 +67,7 @@ If you've found a problem in Quasar which is not a security risk, do a search on
 
 ## Helping to Resolve Existing Issues
 
-As a next step beyond reporting issues, you can help the Quasar Team resolve existing ones by providing feedback about them. If you are new to Quasar  development, that might be a great way to walk your first steps, you'll get familiar with the code base and the processes.
+As a next step beyond reporting issues, you can help the Quasar Team resolve existing ones by providing feedback about them. If you are new to Quasar development, that might be a great way to walk your first steps, you'll get familiar with the code base and the processes.
 
 If you check the issues list in [GitHub Issues](https://github.com/quasarframework/quasar/issues), you'll find lots of issues already requiring attention. What can you do for these? Quite a bit, actually:
 
@@ -111,10 +111,22 @@ If your comment simply reads "+1", then odds are that other reviewers aren't goi
 You can help improve the Quasar documentation by making it more coherent, consistent, or readable, adding missing information, correcting factual errors, fixing typos, or bringing them up to date with the latest edge Quasar.
 
 ::: tip Typos or small changes can be fixed directly from the documentation
-Use a pencil icon in the top right corner of every documentation page. Edit the source file, preview the changes, add a description of your change and hit `Propose a file change` and on next screen `Create pull request`.
+Use a pencil icon in the top right corner of every documentation page. Edit the source file, preview the changes, add a description of your change and hit `Propose a file change` and on the next screen `Create pull request`.
 :::
 
 For larger edits change the Quasar source files (located [here](https://github.com/quasarframework/quasar/tree/dev/docs/src/pages) on GitHub).
+
+### Documentation Best Practices
+
+Over time we consolidated a set of rules which we follow and following them will speed up the merge process:
+- Capitalize titles, see [How to Use Capitalize My Title](https://capitalizemytitle.com/).
+- Use the present tense.
+- Be concise, avoid text / code duplication.
+- Link to the external sources which are used as master information sources and are usually updated more frequently, like [Mozilla MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Vue.js API](https://vuejs.org/v2/api/) rather than compiled tutorials which tend to be outdated soon.
+- Do the proofreading before opening a PR
+- Do not repeat texts from other sources, but keep only things which are relevant and shows in a context Quasar specific features
+- Use official names. For example use `Firebase` instead of `firebase`
+- Exclude from PR all drafts and unfinished pages
 
 #### Fork
 
@@ -151,7 +163,7 @@ The documentation runs against your local cloned repository.
 
 #### Commit your changes
 
-When you're happy with the change  on your computer, you need to commit the changes to Git:
+When you're happy with the change on your computer, you need to commit the changes to Git:
 
 ```bash
 $ git commit -a
@@ -182,27 +194,27 @@ $ git checkout dev
 $ git merge upstream/dev
 ```
 
-No conflicts? Tests still pass? Change still seems reasonable to you? Then move on and  open a pull request to apply your changes to the dev branch in main Quasar repository.
+No conflicts? Tests still pass? Change still seems reasonable to you? Then move on and open a pull request to apply your changes to the dev branch in main Quasar repository.
 
 #### Issue a pull request
 
 Navigate to your repository you just pushed to (e.g. https://github.com/your-user-name/quasar) and click on "New Pull Request" seen in the left top panel.
 
-Ensure the changesets you introduced are included. Fill in some details about your potential patch including a meaningful title. When finished, press Click on "Create pull request". The Quasar core team will be notified about your submission.
+Ensure the change sets you introduced are included. Fill in some details about your potential patch including a meaningful title. When finished, press Click on "Create pull request". The Quasar core team will be notified about your submission.
 
 ## Write your Story
 
-We're always looking for great write-ups on how you are using Quasar or the great experiences you've had with Quasar. If you write an article, we will publish it on our Medium pulblication channel and we'll also make sure your article gets the attention it deserves with our social media presence. If you are interested, please contact blog(at)quasar.dev. We'd love to hear from you!
+We're always looking for great write-ups on how you are using Quasar or the great experiences you've had with Quasar. If you write an article, we will publish it on our Medium publication channel and we'll also make sure your article gets the attention it deserves with our social media presence. If you are interested, please contact blog(at)quasar.dev. We'd love to hear from you!
 
 ## Create new Quasar App Extension
 
-An easy way to start to contribute to Quasar is to generalize the code you have created on your project and publish it as a Quasar App Extension. Follow this guide on how to [create a new extension](../app-extensions/development-guide/introduction).
+An easy way to start to contribute to Quasar is to generalize the code you have created on your project and publish it as a Quasar App Extension. Follow this guide on how to [create a new extension](/app-extensions/development-guide/introduction).
 
 When done, submit a PR on [Quasar Awesome](https://github.com/quasarframework/quasar-awesome/blob/master/README.md#community-app-extensions), share your achievement via [Quasar Forum](https://forum.quasar-framework.org/category/15/v1-app-extensions).
 
 ## Contributing to the Quasar UI Source Code
 
-As with any project, there are rules to contributing. Ours are written here, please read them carefully. After that, read the [Quasar code of conduct](https://github.com/quasarframework/quasar/blob/dev/.github/CODE_OF_CONDUCT.md) and you’ll be ready to contribute to Quasars’s core repositories.
+As with any project, there are rules to contributing. Ours are written here, please read them carefully. After that, read the [Quasar code of conduct](https://github.com/quasarframework/quasar/blob/dev/.github/CODE_OF_CONDUCT.md) and you’ll be ready to contribute to Quasar’s core repositories.
 
 An article [Look at the source code](https://medium.com/quasar-framework/wip-look-at-the-source-code-please-1b905ea4906) will help you to get familiar with a Quasar code base.
 

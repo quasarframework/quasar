@@ -1,6 +1,10 @@
 {
   "mixins": [ "utils/global-dialog" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/quasar-plugins/bottom-sheet"
+  },
+
   "injection": "$q.bottomSheet",
 
   "methods": {

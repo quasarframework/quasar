@@ -2,7 +2,9 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import slot, { uniqueSlot } from '../../utils/slot.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
+import { slot, uniqueSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QTimelineEntry',
@@ -14,6 +16,8 @@ export default Vue.extend({
       }
     }
   },
+
+  mixins: [ ListenersMixin ],
 
   props: {
     heading: Boolean,
@@ -53,10 +57,10 @@ export default Vue.extend({
   },
 
   render (h) {
-    const def = uniqueSlot(this, 'default', [])
+    const child = uniqueSlot(this, 'default', [])
 
     if (this.body !== void 0) {
-      def.unshift(this.body)
+      child.unshift(this.body)
     }
 
     if (this.heading === true) {
@@ -66,13 +70,13 @@ export default Vue.extend({
         h(
           this.tag,
           { staticClass: 'q-timeline__heading-title' },
-          def
+          child
         )
       ]
 
       return h('div', {
         staticClass: 'q-timeline__heading',
-        on: this.$listeners
+        on: { ...this.qListeners }
       }, this.reverse === true ? content.reverse() : content)
     }
 
@@ -107,13 +111,13 @@ export default Vue.extend({
 
       h('div', { staticClass: 'q-timeline__content' }, [
         h('h6', { staticClass: 'q-timeline__title' }, slot(this, 'title', [ this.title ]))
-      ].concat(def))
+      ].concat(child))
     ]
 
     return h('li', {
       staticClass: 'q-timeline__entry',
       class: this.classes,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, this.reverse === true ? content.reverse() : content)
   }
 })

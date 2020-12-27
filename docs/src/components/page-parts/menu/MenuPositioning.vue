@@ -41,6 +41,8 @@
             q-radio(dense, v-model="anchorOrigin.horizontal", val="left", label="Left")
             q-radio(dense, v-model="anchorOrigin.horizontal", val="middle", label="Middle")
             q-radio(dense, v-model="anchorOrigin.horizontal", val="right", label="Right")
+            q-radio(dense, v-model="anchorOrigin.horizontal", val="start", label="Start")
+            q-radio(dense, v-model="anchorOrigin.horizontal", val="end", label="End")
 
       .column.items-center.col-6(v-if="!cover")
         .text-weight-bold Self Origin
@@ -55,6 +57,8 @@
             q-radio(dense, v-model="selfOrigin.horizontal", val="left", label="Left")
             q-radio(dense, v-model="selfOrigin.horizontal", val="middle", label="Middle")
             q-radio(dense, v-model="selfOrigin.horizontal", val="right", label="Right")
+            q-radio(dense, v-model="selfOrigin.horizontal", val="start", label="Start")
+            q-radio(dense, v-model="selfOrigin.horizontal", val="end", label="End")
 
     q-separator
 

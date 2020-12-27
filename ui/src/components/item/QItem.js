@@ -1,14 +1,18 @@
 import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
+import TagMixin from '../../mixins/tag.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { uniqueSlot } from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
+import { isKeyCode } from '../../utils/key-composition.js'
 
 export default Vue.extend({
   name: 'QItem',
 
-  mixins: [ DarkMixin, RouterLinkMixin ],
+  mixins: [ DarkMixin, RouterLinkMixin, TagMixin, ListenersMixin ],
 
   props: {
     active: Boolean,
@@ -18,23 +22,21 @@ export default Vue.extend({
     insetLevel: Number,
 
     tabindex: [ String, Number ],
-    tag: {
-      type: String,
-      default: 'div'
-    },
 
     focused: Boolean,
     manualFocus: Boolean
   },
 
   computed: {
-    isClickable () {
-      return this.disable !== true && (
-        this.clickable === true ||
+    isActionable () {
+      return this.clickable === true ||
         this.hasRouterLink === true ||
         this.tag === 'a' ||
         this.tag === 'label'
-      )
+    },
+
+    isClickable () {
+      return this.disable !== true && this.isActionable === true
     },
 
     classes () {
@@ -61,6 +63,14 @@ export default Vue.extend({
           ['padding' + dir]: (16 + this.insetLevel * 56) + 'px'
         }
       }
+    },
+
+    onEvents () {
+      return {
+        ...this.qListeners,
+        click: this.__onClick,
+        keyup: this.__onKeyup
+      }
     }
   },
 
@@ -75,8 +85,13 @@ export default Vue.extend({
 
     __onClick (e) {
       if (this.isClickable === true) {
-        if (e.qKeyEvent !== true && this.$refs.blurTarget !== void 0) {
-          this.$refs.blurTarget.focus()
+        if (this.$refs.blurTarget !== void 0) {
+          if (e.qKeyEvent !== true && document.activeElement === this.$el) {
+            this.$refs.blurTarget.focus()
+          }
+          else if (document.activeElement === this.$refs.blurTarget) {
+            this.$el.focus()
+          }
         }
 
         this.$emit('click', e)
@@ -84,7 +99,7 @@ export default Vue.extend({
     },
 
     __onKeyup (e) {
-      if (e.keyCode === 13 && this.isClickable === true) {
+      if (this.isClickable === true && isKeyCode(e, 13) === true) {
         stopAndPrevent(e)
 
         // for ripple
@@ -104,19 +119,18 @@ export default Vue.extend({
     const data = {
       staticClass: 'q-item q-item-type row no-wrap',
       class: this.classes,
-      style: this.style
-    }
-
-    const evtProp = this.hasRouterLink === true ? 'nativeOn' : 'on'
-    data[evtProp] = {
-      ...this.$listeners,
-      click: this.__onClick,
-      keyup: this.__onKeyup
+      style: this.style,
+      [ this.hasRouterLink === true ? 'nativeOn' : 'on' ]: this.onEvents
     }
 
     if (this.isClickable === true) {
       data.attrs = {
         tabindex: this.tabindex || '0'
+      }
+    }
+    else if (this.isActionable === true) {
+      data.attrs = {
+        'aria-disabled': 'true'
       }
     }
 

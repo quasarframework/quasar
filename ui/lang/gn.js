@@ -22,7 +22,8 @@ export default {
     months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
     monthsShort: 'Ene_Feb_Mar_Abr_May_Jun_Jul_Ago_Sep_Oct_Nov_Dic'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'ára'
   },
   table: {
     noData: 'Ni peteĨ mba\'e',
@@ -67,12 +68,12 @@ export default {
     hr: 'Insertar línea horizontal',
     undo: 'Deshacer',
     redo: 'Rehacer',
-    header1: 'Encabezado 1',
-    header2: 'Encabezado 2',
-    header3: 'Encabezado 3',
-    header4: 'Encabezado 4',
-    header5: 'Encabezado 5',
-    header6: 'Encabezado 6',
+    heading1: 'Encabezado 1',
+    heading2: 'Encabezado 2',
+    heading3: 'Encabezado 3',
+    heading4: 'Encabezado 4',
+    heading5: 'Encabezado 5',
+    heading6: 'Encabezado 6',
     paragraph: 'Párrafo',
     code: 'Código',
     size1: 'Muy pequeño',

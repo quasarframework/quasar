@@ -1,0 +1,140 @@
+{
+  "mixins": [ "mixins/file" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/uploader"
+  },
+
+  "props": {
+    "label": {
+      "type": "String",
+      "desc": "Label for the uploader",
+      "examples": ["Upload photo here"],
+      "category": "content"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "square": {
+      "extends": "square"
+    },
+
+    "flat": {
+      "extends": "flat"
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "no-thumbnails": {
+      "type": "Boolean",
+      "desc": "Don't display thumbnails for image files",
+      "category": "content"
+    },
+
+    "auto-upload": {
+      "type": "Boolean",
+      "desc": "Upload files immediately when added",
+      "category": "behavior"
+    },
+
+    "hide-upload-btn": {
+      "type": "Boolean",
+      "desc": "Don't show the upload button",
+      "category": "behavior"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "max-files": {
+      "addedIn": "v1.11.2"
+    }
+  },
+
+  "scopedSlots": {
+    "header": {
+      "desc": "Slot for custom header; Scope is the QUploader instance itself",
+      "__exemption": ["scope"]
+    },
+
+    "list": {
+      "desc": "Slot for custom list; Scope is the QUploader instance itself",
+      "__exemption": ["scope"]
+    }
+  },
+
+  "events": {
+    "added": {
+      "desc": "Emitted when files are added into the list",
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Array of files that were added",
+          "__exemption": ["examples"]
+        }
+      }
+    },
+
+    "removed": {
+      "desc": "Emitted when files are removed from the list",
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Array of files that were removed",
+          "__exemption": ["examples"]
+        }
+      }
+    },
+
+    "start": {
+      "desc": "Started working"
+    },
+
+    "finish": {
+      "desc": "Finished working (regardless of success or fail)"
+    }
+  },
+
+  "methods": {
+    "reset": {
+      "desc": "Resets uploader to default; Empties queue, aborts current uploads"
+    },
+
+    "removeUploadedFiles": {
+      "desc": "Removes already uploaded files from the list"
+    },
+
+    "removeQueuedFiles": {
+      "desc": "Remove files that are waiting for upload to start (same as clicking the left clear button)"
+    },
+
+    "removeFile": {
+      "desc": "Remove specified file from the queue",
+      "params": {
+        "file": {
+          "type": "Object",
+          "desc": "File to remove (instance of File)",
+          "required": true,
+          "__exemption": ["examples"]
+        }
+      }
+    }
+  }
+}

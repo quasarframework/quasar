@@ -18,8 +18,9 @@ export default Vue.extend({
     return h('svg', {
       staticClass: 'q-spinner q-spinner-mat',
       class: this.classes,
-      on: this.$listeners,
+      on: { ...this.qListeners },
       attrs: {
+        focusable: 'false' /* needed for IE11 */,
         'width': this.cSize,
         'height': this.cSize,
         'viewBox': '25 25 50 50'

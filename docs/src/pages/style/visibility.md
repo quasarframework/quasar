@@ -1,6 +1,10 @@
 ---
 title: CSS Visibility
 desc: The list of CSS classes supplied by Quasar to manage responsiveness and visibility of components and DOM elements.
+related:
+  - /style/typography
+  - /style/positioning
+  - /style/spacing
 ---
 There are some CSS classes that you can use out of the box for common functionality.
 
@@ -47,6 +51,10 @@ You can combine the visibility classes with the `inline` class for inline-blocks
 Example: `<span class="gt-sm inline">...</span>`
 :::
 
+::: tip
+If you want to e.g. show hide based on JavaScript properties, you can use the [Screen Plugin](/options/screen-plugin).
+:::
+
 ## Platform Related
 Visible only on:
 
@@ -56,7 +64,7 @@ Visible only on:
 | `mobile-only` | Visible only on mobile |
 | `native-mobile-only` | Visible only on Cordova/Capacitor |
 | `cordova-only` | Visible only on Cordova wrapped Apps |
-| `capacitor-only` | Visible only on Cordova wrapped Apps |
+| `capacitor-only` | Visible only on Capacitor wrapped Apps |
 | `electron-only` | Visible only on Electron wrapped Apps |
 | `touch-only` | Visible only on touch capable platforms |
 | `platform-ios-only` | Visible only on an iOS platform |
@@ -71,7 +79,7 @@ Hide on:
 | `mobile-hide` | Hide on mobile |
 | `native-mobile-hide` | Hide on Cordova/Capacitor |
 | `cordova-hide` | Hide on Cordova wrapped Apps |
-| `capacitor-hide` | Hide on Cordova wrapped Apps |
+| `capacitor-hide` | Hide on Capacitor wrapped Apps |
 | `electron-hide` | Hide on Electron wrapped Apps |
 | `touch-hide` | Hide on touch capable platforms |
 | `platform-ios-hide` | Hide on iOS platform |

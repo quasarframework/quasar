@@ -67,11 +67,12 @@ setHorizontalScrollPosition (scrollTargetElement, offset[, duration])
 ```
 
 ### Scrolling to an element
-A full example using the scroll utils to scroll to an element:
+Below is an example using the scroll utils to scroll to an element within its container. It does not take into consideration if the container is on screen or more complex cases.
 
 ```js
 import { scroll } from 'quasar'
 const { getScrollTarget, setScrollPosition } = scroll
+
 // takes an element object
 function scrollToElement (el) {
   const target = getScrollTarget(el)

@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-md">
     <q-table
+      style="height: 400px"
       title="Treats"
       :data="data"
       :columns="columns"
-      table-style="max-height: 400px"
       row-key="index"
       virtual-scroll
       :pagination.sync="pagination"

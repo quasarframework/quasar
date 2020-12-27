@@ -2,33 +2,52 @@ import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
-import FabMixin from './fab-mixin.js'
+
+import FabMixin from '../../mixins/fab.js'
+import AttrsMixin from '../../mixins/attrs.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import slot from '../../utils/slot.js'
+
+import { slot, mergeSlot } from '../../utils/slot.js'
+import cache from '../../utils/cache.js'
+
+const directions = ['up', 'right', 'down', 'left']
+const alignValues = [ 'left', 'center', 'right' ]
 
 export default Vue.extend({
   name: 'QFab',
 
-  mixins: [ FabMixin, ModelToggleMixin ],
+  inheritAttrs: false,
+
+  mixins: [ FabMixin, AttrsMixin, ModelToggleMixin ],
 
   provide () {
     return {
-      __qFabClose: evt => {
-        this.hide(evt)
-        this.$refs.trigger && this.$refs.trigger.$el && this.$refs.trigger.$el.focus()
-      }
+      __qFab: this
     }
   },
 
   props: {
     icon: String,
     activeIcon: String,
+
+    hideIcon: Boolean,
+    hideLabel: {
+      default: null
+    },
+
     direction: {
       type: String,
       default: 'right',
-      validator: v => ['up', 'right', 'down', 'left'].includes(v)
+      validator: v => directions.includes(v)
     },
-    persistent: Boolean
+
+    persistent: Boolean,
+
+    verticalActionsAlign: {
+      type: String,
+      default: 'center',
+      validator: v => alignValues.includes(v)
+    }
   },
 
   data () {
@@ -40,26 +59,37 @@ export default Vue.extend({
   computed: {
     hideOnRouteChange () {
       return this.persistent !== true
+    },
+
+    classes () {
+      return `q-fab--align-${this.verticalActionsAlign} ${this.formClass}` +
+        (this.showing === true ? ' q-fab--opened' : '')
+    },
+
+    attrs () {
+      return {
+        'aria-expanded': this.showing === true ? 'true' : 'false',
+        'aria-haspopup': 'true',
+        ...this.qAttrs
+      }
+    }
+  },
+
+  methods: {
+    __onChildClick (evt) {
+      this.hide(evt)
+
+      if (this.$refs.trigger && this.$refs.trigger.$el) {
+        this.$refs.trigger.$el.focus()
+      }
     }
   },
 
   render (h) {
-    return h('div', {
-      staticClass: 'q-fab z-fab row inline justify-center',
-      class: this.showing === true ? 'q-fab--opened' : null,
-      on: this.$listeners
-    }, [
-      h(QBtn, {
-        ref: 'trigger',
-        props: {
-          ...this.$props,
-          icon: void 0,
-          fab: true
-        },
-        on: {
-          click: this.toggle
-        }
-      }, slot(this, 'tooltip', []).concat([
+    const child = []
+
+    this.hideIcon !== true && child.push(
+      h('div', { staticClass: 'q-fab__icon-holder' }, [
         h(QIcon, {
           staticClass: 'q-fab__icon absolute-full',
           props: { name: this.icon || this.$q.iconSet.fab.icon }
@@ -68,10 +98,39 @@ export default Vue.extend({
           staticClass: 'q-fab__active-icon absolute-full',
           props: { name: this.activeIcon || this.$q.iconSet.fab.activeIcon }
         })
-      ])),
+      ])
+    )
+
+    this.label !== '' && child[this.labelProps.action](
+      h('div', this.labelProps.data, [ this.label ])
+    )
+
+    return h('div', {
+      staticClass: 'q-fab z-fab row inline justify-center',
+      class: this.classes,
+      on: { ...this.qListeners }
+    }, [
+      h(QBtn, {
+        ref: 'trigger',
+        class: this.formClass,
+        props: {
+          ...this.$props,
+          noWrap: true,
+          stack: this.stacked,
+          align: void 0,
+          icon: void 0,
+          label: void 0,
+          noCaps: true,
+          fab: true
+        },
+        attrs: this.attrs,
+        on: cache(this, 'tog', {
+          click: this.toggle
+        })
+      }, mergeSlot(child, this, 'tooltip')),
 
       h('div', {
-        staticClass: 'q-fab__actions flex no-wrap inline items-center',
+        staticClass: 'q-fab__actions flex no-wrap inline',
         class: `q-fab__actions--${this.direction}`
       }, slot(this, 'default'))
     ])

@@ -1,9 +1,13 @@
 import Vue from 'vue'
 
-import slot from '../../utils/slot.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QPageSticky',
+
+  mixins: [ ListenersMixin ],
 
   inject: {
     layout: {
@@ -120,7 +124,8 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-page-sticky row flex-center',
       class: this.classes,
-      style: this.style
+      style: this.style,
+      on: { ...this.qListeners }
     },
     this.expand === true
       ? content

@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/anchor" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/popup-proxy"
+  },
+
   "props": {
     "value": {
       "type": "Boolean",
@@ -10,7 +14,7 @@
 
     "breakpoint": {
       "type": [ "Number", "String" ],
-      "desc": "Breakpoint (in pixels) of window width from where a Menu will get to be used instead of a Dialog",
+      "desc": "Breakpoint (in pixels) of window width/height (whichever is smaller) from where a Menu will get to be used instead of a Dialog",
       "default": 450,
       "examples": [ 992, ":breakpoint=\"1024\"" ],
       "category": "behavior"

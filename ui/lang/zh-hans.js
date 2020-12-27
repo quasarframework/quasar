@@ -27,7 +27,8 @@ export default {
       }).format(date)
     },
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: false
+    format24h: false,
+    pluralDay: '天'
   },
   table: {
     noData: '没有可用数据',
@@ -70,12 +71,12 @@ export default {
     hr: '插入水平线',
     undo: '撤消',
     redo: '重做',
-    header1: '标题一',
-    header2: '标题二',
-    header3: '标题三',
-    header4: '标题四',
-    header5: '标题五',
-    header6: '标题六',
+    heading1: '标题一',
+    heading2: '标题二',
+    heading3: '标题三',
+    heading4: '标题四',
+    heading5: '标题五',
+    heading6: '标题六',
     paragraph: '段落',
     code: '代码',
     size1: '非常小',

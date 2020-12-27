@@ -1,5 +1,7 @@
+import Vue from 'vue'
+
 export namespace scroll {
-  function getScrollTarget(el: Element | Window): Element;
+  function getScrollTarget(el: Element, selector?: string | Element | Window | Vue): Element | Window;
 
   function getScrollHeight(el: Element | Window): number;
   function getScrollWidth(el: Element | Window): number;

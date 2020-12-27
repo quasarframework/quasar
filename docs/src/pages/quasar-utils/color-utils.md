@@ -27,11 +27,11 @@ These functions take a color as string or Object and convert it to another forma
 
 | Function | Source format | Destination format | Description |
 | --- | --- | --- | --- |
-| `rgbToHex` | Object | String | Converts a RGB/A color Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to it's HEX/A representation as a String (`#RRGGBB<AA>`). If Alpha channel is present in the original object it will be present also in the output. |
-| `rgbToHsv` | Object | Object | Converts a RGB/A color Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to it's HSV/A representation as an Object (`{ h: [0-360], s: [0-100], v: [0-100},  a: [0-100]}`). If Alpha channel is present in the original object it will be present also in the output. |
-| `hexToRgb` | String | Object | Converts a HEX/A color String (`#RRGGBB<AA>`) to it's RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to it's . If Alpha channel is present in the original object it will be present also in the output. |
-| `textToRgb` | String | Object | Converts a HEX/A color String (`#RRGGBB<AA>`) or a RGB/A color String(`rgb(R, G, B<, A>)`) to it's RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to it's . If Alpha channel is present in the original object it will be present also in the output. |
-| `hsvToRgb` | String | Object | Converts a HSV/A color Object (`{ h: [0-360], s: [0-100], v: [0-100},  a: [0-100]}`) to it's RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to it's . If Alpha channel is present in the original object it will be present also in the output. |
+| `rgbToHex` | Object | String | Converts a RGB/A color Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to its HEX/A representation as a String (`#RRGGBB<AA>`). If Alpha channel is present in the original object it will be present also in the output. |
+| `rgbToHsv` | Object | Object | Converts a RGB/A color Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to its HSV/A representation as an Object (`{ h: [0-360], s: [0-100], v: [0-100},  a: [0-100]}`). If Alpha channel is present in the original object it will be present also in the output. |
+| `hexToRgb` | String | Object | Converts a HEX/A color String (`#RRGGBB<AA>`) to its RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) . If Alpha channel is present in the original object it will be present also in the output. |
+| `textToRgb` | String | Object | Converts a HEX/A color String (`#RRGGBB<AA>`) or a RGB/A color String(`rgb(R, G, B<, A>)`) to its RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`). If Alpha channel is present in the original object it will be present also in the output. |
+| `hsvToRgb` | String | Object | Converts a HSV/A color Object (`{ h: [0-360], s: [0-100], v: [0-100},  a: [0-100]}`) to its RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`). If Alpha channel is present in the original object it will be present also in the output. |
 
 ## Color Processing
 These functions perform changes on the color or extract specific information.
@@ -48,6 +48,29 @@ Calculates the [relative luminance](http://www.w3.org/TR/WCAG20/#relativeluminan
 Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `color`.
 Returns a value between 0 and 1.
 
+### brightness (color)
+Calculates the [color contrast](https://www.w3.org/TR/AERT/#color-contrast) of the `color`.
+
+Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `color`.
+Returns a value between 0 and 255. A value of < 128 would be considered a dark color.
+
+### blend (fgColor, bgColor) <q-badge align="top" label="v1.7.1+" />
+
+Calculates the [blend](https://www.w3.org/TR/compositing-1/#simplealphacompositing) of two colors.
+
+Accepts a HEX/A String or a RGB/A Object as `fgColor`/`bgColor`.
+If the alpha channel of the `fgColor` is completely opaque, then the result will be the `fgColor`.
+If the alpha channel of the `bgColor` is completely opaque, then the resulting blended color will also be opaque.
+Returns the same type as input for fgColor.
+
+### changeAlpha (color, offset) <q-badge align="top" label="v1.7.2+" />
+
+Increments or decrements the alpha of a string color.
+
+Accepts a HEX/A String as `color` and a number between -1 and 1 (including edges) as `offset`.
+Use a negative value to decrement and a positive number to increment (ex: `changeAlpha('#ff0000', -0.1)` to decrement alpha by 10%).
+Returns HEX/A String.
+
 ## Dynamic Change of Brand Colors (Dynamic Theme Colors)
 
 ::: warning
@@ -56,7 +79,7 @@ This is only supported on [browsers that support CSS Variables](https://caniuse.
 It is not going to work on IE11, but it will fall back to the brand colors from the CSS theme.
 :::
 
-You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `accent`, `positive`, `negative`, `info`, `warning`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
+You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
 
 The main color configuration is done using CSS custom properties, stored on the root element (`:root`). Each property has a name of `--q-color-${name}` (example: `--q-color-primary`, `--q-color-secondary`) and should have a valid CSS color as value.
 
@@ -71,7 +94,7 @@ Quasar offers a helper function for setting custom colors in the `colors` utils:
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `positive`, `negative`, `info`, `warning` |
+| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning` |
 | `colorValue` | String | *Yes* | Valid CSS color value |
 | `element` | Element | - | (Default: `document.body`) Element where the custom property will be set. |
 
@@ -92,7 +115,7 @@ Quasar offers a helper function for getting custom colors in the `colors` utils:
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `positive`, `negative`, `info`, `warning` |
+| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning` |
 | `element` | Element | - | (Default: `document.body`) Element where the custom property will be read. |
 
 Example of getting brand colors using the helper:
@@ -139,4 +162,23 @@ const { lighten, setBrand } = colors
 const newPrimaryColor = '#933'
 setBrand('primary', newPrimaryColor)
 setBrand('primary-darkened', lighten(newPrimaryColor, -10))
+```
+
+## Helper - getPaletteColor <q-badge align="top" label="v1.10+" />
+
+You can query any brand color, palette color or custom color in JS context to get its hex string value. Note that the method below is not cheap to run, so use it with care:
+
+```js
+import { colors } from 'quasar'
+
+const { getPaletteColor } = colors
+
+console.log(getPaletteColor('primary')) // '#1976d2'
+console.log(getPaletteColor('red-2')) // '#ffcdd2'
+```
+
+Assuming you've created [a custom color](/style/color-palette#Adding-Your-Own-Colors) and named it "my-color", then you can extract its value in JS:
+
+```js
+console.log(getPaletteColor('my-color')) // '#...'
 ```

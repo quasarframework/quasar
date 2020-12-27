@@ -5,8 +5,10 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import BtnMixin from '../../mixins/btn.js'
 
-import slot from '../../utils/slot.js'
-import { stopAndPrevent, listenOpts } from '../../utils/event.js'
+import { mergeSlot } from '../../utils/slot.js'
+import { stop, prevent, stopAndPrevent, listenOpts, noop } from '../../utils/event.js'
+import { getTouchTarget } from '../../utils/touch.js'
+import { isKeyCode } from '../../utils/key-composition.js'
 
 const { passiveCapture } = listenOpts
 
@@ -14,6 +16,8 @@ let
   touchTarget = void 0,
   keyboardTarget = void 0,
   mouseTarget = void 0
+
+const iconAttrs = { role: 'img', 'aria-hidden': 'true' }
 
 export default Vue.extend({
   name: 'QBtn',
@@ -33,14 +37,55 @@ export default Vue.extend({
     computedRipple () {
       return this.ripple === false
         ? false
-        : Object.assign(
-          { keyCodes: [] },
-          this.ripple === true ? {} : this.ripple
-        )
+        : {
+          keyCodes: this.isLink === true ? [ 13, 32 ] : [ 13 ],
+          ...(this.ripple === true ? {} : this.ripple)
+        }
     },
 
-    computedPercentage () {
-      return Math.max(0, Math.min(100, this.percentage))
+    percentageStyle () {
+      const val = Math.max(0, Math.min(100, this.percentage))
+      if (val > 0) {
+        return { transition: 'transform 0.6s', transform: `translateX(${val - 100}%)` }
+      }
+    },
+
+    onEvents () {
+      if (this.loading === true) {
+        return {
+          mousedown: this.__onLoadingEvt,
+          touchstart: this.__onLoadingEvt,
+          click: this.__onLoadingEvt,
+          keydown: this.__onLoadingEvt,
+          keyup: this.__onLoadingEvt
+        }
+      }
+      else if (this.isActionable === true) {
+        const on = {
+          ...this.qListeners,
+          click: this.click,
+          keydown: this.__onKeydown,
+          mousedown: this.__onMousedown
+        }
+
+        if (this.$q.platform.has.touch === true) {
+          on.touchstart = this.__onTouchstart
+        }
+
+        return on
+      }
+
+      return {}
+    },
+
+    directives () {
+      if (this.disable !== true && this.ripple !== false) {
+        return [{
+          name: 'ripple',
+          value: this.computedRipple,
+          modifiers: { center: this.round }
+        }]
+      }
     }
   },
 
@@ -79,18 +124,27 @@ export default Vue.extend({
           this.$el.addEventListener('blur', onClickCleanup, passiveCapture)
         }
 
-        this.hasRouterLink === true && stopAndPrevent(e)
+        if (this.hasRouterLink === true) {
+          if (
+            e.ctrlKey === true ||
+            e.shiftKey === true ||
+            e.altKey === true ||
+            e.metaKey === true
+          ) {
+            // if it has meta keys, let vue-router link
+            // handle this by its own
+            return
+          }
+
+          stopAndPrevent(e)
+        }
       }
 
       const go = () => {
-        const res = this.$router[this.replace === true ? 'replace' : 'push'](this.to)
-
         // vue-router now throwing error if navigating
         // to the same route that the user is currently at
         // https://github.com/vuejs/vue-router/issues/2872
-        if (res !== void 0 && typeof res.catch === 'function') {
-          res.catch(() => {})
-        }
+        this.$router[this.replace === true ? 'replace' : 'push'](this.currentLocation.route, void 0, noop)
       }
 
       this.$emit('click', e, go)
@@ -98,7 +152,7 @@ export default Vue.extend({
     },
 
     __onKeydown (e) {
-      if ([13, 32].includes(e.keyCode) === true) {
+      if (isKeyCode(e, [ 13, 32 ]) === true) {
         stopAndPrevent(e)
 
         if (keyboardTarget !== this.$el) {
@@ -120,11 +174,19 @@ export default Vue.extend({
     __onTouchstart (e) {
       if (touchTarget !== this.$el) {
         touchTarget !== void 0 && this.__cleanup()
-
-        touchTarget = e.target
-        touchTarget.addEventListener('touchcancel', this.__onPressEnd, passiveCapture)
-        touchTarget.addEventListener('touchend', this.__onPressEnd, passiveCapture)
+        touchTarget = this.$el
+        const target = this.touchTargetEl = getTouchTarget(e.target)
+        target.addEventListener('touchcancel', this.__onPressEnd, passiveCapture)
+        target.addEventListener('touchend', this.__onPressEnd, passiveCapture)
       }
+
+      // avoid duplicated mousedown event
+      // triggering another early ripple
+      this.avoidMouseRipple = true
+      clearTimeout(this.mouseTimer)
+      this.mouseTimer = setTimeout(() => {
+        this.avoidMouseRipple = false
+      }, 200)
 
       this.$emit('touchstart', e)
     },
@@ -132,21 +194,28 @@ export default Vue.extend({
     __onMousedown (e) {
       if (mouseTarget !== this.$el) {
         mouseTarget !== void 0 && this.__cleanup()
-
         mouseTarget = this.$el
+        this.$el.classList.add('q-btn--active')
         document.addEventListener('mouseup', this.__onPressEnd, passiveCapture)
       }
 
+      e.qSkipRipple = this.avoidMouseRipple === true
       this.$emit('mousedown', e)
     },
 
     __onPressEnd (e) {
+      // needed for IE (because it emits blur when focusing button from focus helper)
+      if (e !== void 0 && e.type === 'blur' && document.activeElement === this.$el) {
+        return
+      }
+
       if (e !== void 0 && e.type === 'keyup') {
-        if (keyboardTarget === this.$el && [13, 32].includes(e.keyCode) === true) {
+        if (keyboardTarget === this.$el && isKeyCode(e, [ 13, 32 ]) === true) {
           // for click trigger
           const evt = new MouseEvent('click', e)
           evt.qKeyEvent = true
-          e.defaultPrevented === true && evt.preventDefault()
+          e.defaultPrevented === true && prevent(evt)
+          e.cancelBubble === true && stop(evt)
           this.$el.dispatchEvent(evt)
 
           stopAndPrevent(e)
@@ -161,19 +230,24 @@ export default Vue.extend({
       this.__cleanup()
     },
 
-    __cleanup () {
+    __cleanup (destroying) {
+      const blurTarget = this.$refs.blurTarget
+
       if (
+        destroying !== true &&
         (touchTarget === this.$el || mouseTarget === this.$el) &&
-        this.$refs.blurTarget !== void 0 &&
-        this.$refs.blurTarget !== document.activeElement
+        blurTarget !== void 0 &&
+        blurTarget !== document.activeElement
       ) {
-        this.$refs.blurTarget.focus()
+        blurTarget.setAttribute('tabindex', -1)
+        blurTarget.focus()
       }
 
-      if (touchTarget !== void 0 && touchTarget === this.$el) {
-        touchTarget.removeEventListener('touchcancel', this.__onPressEnd, passiveCapture)
-        touchTarget.removeEventListener('touchend', this.__onPressEnd, passiveCapture)
-        touchTarget = void 0
+      if (touchTarget === this.$el) {
+        const target = this.touchTargetEl
+        target.removeEventListener('touchcancel', this.__onPressEnd, passiveCapture)
+        target.removeEventListener('touchend', this.__onPressEnd, passiveCapture)
+        touchTarget = this.touchTargetEl = void 0
       }
 
       if (mouseTarget === this.$el) {
@@ -188,103 +262,94 @@ export default Vue.extend({
       }
 
       this.$el !== void 0 && this.$el.classList.remove('q-btn--active')
+    },
+
+    __onLoadingEvt (evt) {
+      stopAndPrevent(evt)
+      evt.qSkipRipple = true
     }
   },
 
   beforeDestroy () {
-    this.__cleanup()
+    this.__cleanup(true)
   },
 
   render (h) {
-    const
-      inner = [],
-      data = {
-        staticClass: 'q-btn inline q-btn-item non-selectable no-outline',
-        class: this.classes,
-        style: this.style,
-        attrs: this.attrs
-      }
+    let inner = []
 
-    if (this.isDisabled === false) {
-      data.on = {
-        ...this.$listeners,
-        click: this.click,
-        keydown: this.__onKeydown,
-        mousedown: this.__onMousedown
-      }
+    this.icon !== void 0 && inner.push(
+      h(QIcon, {
+        attrs: iconAttrs,
+        props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
+      })
+    )
 
-      if (this.$q.platform.has.touch === true) {
-        data.on.touchstart = this.__onTouchstart
-      }
+    this.hasLabel === true && inner.push(
+      h('span', { staticClass: 'block' }, [ this.label ])
+    )
 
-      if (this.ripple !== false) {
-        data.directives = [{
-          name: 'ripple',
-          value: this.computedRipple,
-          modifiers: { center: this.isRound }
-        }]
-      }
-    }
+    inner = mergeSlot(inner, this, 'default')
 
-    if (this.icon !== void 0) {
+    if (this.iconRight !== void 0 && this.round === false) {
       inner.push(
         h(QIcon, {
-          props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
-        })
-      )
-    }
-
-    if (this.hasLabel === true) {
-      inner.push(
-        h('div', [ this.label ])
-      )
-    }
-
-    const def = slot(this, 'default')
-    def !== void 0 && inner.push(def)
-
-    if (this.iconRight !== void 0 && this.isRound === false) {
-      inner.push(
-        h(QIcon, {
+          attrs: iconAttrs,
           props: { name: this.iconRight, right: this.stack === false && this.hasLabel === true }
         })
       )
     }
 
     const child = [
-      h('div', {
+      h('span', {
         staticClass: 'q-focus-helper',
-        ref: 'blurTarget',
-        attrs: { tabindex: -1 }
+        ref: 'blurTarget'
       })
     ]
 
-    this.loading === true && this.percentage !== void 0 && child.push(
-      h('div', {
-        staticClass: 'q-btn__progress absolute-full',
-        class: this.darkPercentage === true ? 'q-btn__progress--dark' : '',
-        style: { transform: `scale3d(${this.computedPercentage / 100},1,1)` }
-      })
-    )
+    if (this.loading === true && this.percentage !== void 0) {
+      child.push(
+        h('span', {
+          staticClass: 'q-btn__progress absolute-full overflow-hidden'
+        }, [
+          h('span', {
+            staticClass: 'q-btn__progress-indicator fit block',
+            class: this.darkPercentage === true ? 'q-btn__progress--dark' : '',
+            style: this.percentageStyle
+          })
+        ])
+      )
+    }
 
     child.push(
-      h('div', {
-        staticClass: 'q-btn__content text-center col items-center q-anchor--skip',
-        class: this.innerClasses
-      }, inner)
+      h('span', {
+        staticClass: 'q-btn__wrapper col row q-anchor--skip',
+        style: this.wrapperStyle
+      }, [
+        h('span', {
+          staticClass: 'q-btn__content text-center col items-center q-anchor--skip',
+          class: this.innerClasses
+        }, inner)
+      ])
     )
 
     this.loading !== null && child.push(
       h('transition', {
         props: { name: 'q-transition--fade' }
       }, this.loading === true ? [
-        h('div', {
+        h('span', {
           key: 'loading',
           staticClass: 'absolute-full flex flex-center'
         }, this.$scopedSlots.loading !== void 0 ? this.$scopedSlots.loading() : [ h(QSpinner) ])
       ] : void 0)
     )
 
-    return h(this.isLink === true ? 'a' : 'button', data, child)
+    return h(this.isLink === true ? 'a' : 'button', {
+      staticClass: 'q-btn q-btn-item non-selectable no-outline',
+      class: this.classes,
+      style: this.style,
+      attrs: this.attrs,
+      on: this.onEvents,
+      directives: this.directives
+    }, child)
   }
 })

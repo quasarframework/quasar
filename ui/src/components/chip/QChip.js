@@ -4,23 +4,26 @@ import QIcon from '../icon/QIcon.js'
 
 import DarkMixin from '../../mixins/dark.js'
 import RippleMixin from '../../mixins/ripple.js'
-import SizeMixin from '../../mixins/size.js'
+import { getSizeMixin } from '../../mixins/size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
-
-const sizes = {
-  xs: 8,
-  sm: 10,
-  md: 14,
-  lg: 20,
-  xl: 24
-}
+import { mergeSlotSafely } from '../../utils/slot.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QChip',
 
-  mixins: [ RippleMixin, SizeMixin, DarkMixin ],
+  mixins: [
+    RippleMixin,
+    DarkMixin,
+    getSizeMixin({
+      xs: 8,
+      sm: 10,
+      md: 14,
+      lg: 20,
+      xl: 24
+    })
+  ],
 
   model: {
     event: 'remove'
@@ -31,6 +34,8 @@ export default Vue.extend({
 
     icon: String,
     iconRight: String,
+    iconRemove: String,
+    iconSelected: String,
     label: [String, Number],
 
     color: String,
@@ -44,8 +49,6 @@ export default Vue.extend({
       type: Boolean,
       default: null
     },
-
-    size: String,
 
     square: Boolean,
     outline: Boolean,
@@ -75,24 +78,28 @@ export default Vue.extend({
       }
     },
 
-    style () {
-      if (this.size !== void 0) {
-        return {
-          fontSize: this.size in sizes ? `${sizes[this.size]}px` : this.size
-        }
-      }
-    },
-
     hasLeftIcon () {
       return this.selected === true || this.icon !== void 0
+    },
+
+    leftIcon () {
+      return this.selected === true
+        ? this.iconSelected || this.$q.iconSet.chip.selected
+        : this.icon
+    },
+
+    removeIcon () {
+      return this.iconRemove || this.$q.iconSet.chip.remove
     },
 
     isClickable () {
       return this.disable === false && (this.clickable === true || this.selected !== null)
     },
 
-    computedTabindex () {
-      return this.disable === true ? -1 : this.tabindex || 0
+    attrs () {
+      return this.disable === true
+        ? { tabindex: -1, 'aria-disabled': 'true' }
+        : { tabindex: this.tabindex || 0 }
     }
   },
 
@@ -118,21 +125,25 @@ export default Vue.extend({
     __getContent (h) {
       const child = []
 
-      this.isClickable && child.push(
+      this.isClickable === true && child.push(
         h('div', { staticClass: 'q-focus-helper' })
       )
 
       this.hasLeftIcon === true && child.push(
         h(QIcon, {
           staticClass: 'q-chip__icon q-chip__icon--left',
-          props: { name: this.selected === true ? this.$q.iconSet.chip.selected : this.icon }
+          props: { name: this.leftIcon }
         })
       )
 
+      const label = this.label !== void 0
+        ? [ h('div', { staticClass: 'ellipsis' }, [ this.label ]) ]
+        : void 0
+
       child.push(
         h('div', {
-          staticClass: 'q-chip__content row no-wrap items-center q-anchor--skip'
-        }, this.label !== void 0 ? [ this.label ] : slot(this, 'default'))
+          staticClass: 'q-chip__content col row no-wrap items-center q-anchor--skip'
+        }, mergeSlotSafely(label, this, 'default'))
       )
 
       this.iconRight && child.push(
@@ -142,15 +153,15 @@ export default Vue.extend({
         })
       )
 
-      this.removable && child.push(
+      this.removable === true && child.push(
         h(QIcon, {
           staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
-          props: { name: this.$q.iconSet.chip.remove },
-          attrs: { tabindex: this.computedTabindex },
-          nativeOn: {
+          props: { name: this.removeIcon },
+          attrs: this.attrs,
+          on: cache(this, 'non', {
             click: this.__onRemove,
             keyup: this.__onRemove
-          }
+          })
         })
       )
 
@@ -161,19 +172,21 @@ export default Vue.extend({
   render (h) {
     if (this.value === false) { return }
 
-    const data = this.isClickable ? {
-      attrs: { tabindex: this.computedTabindex },
-      on: {
-        click: this.__onClick,
-        keyup: this.__onKeyup
-      },
-      directives: [{ name: 'ripple', value: this.ripple }]
-    } : {}
-
-    Object.assign(data, {
+    const data = {
       staticClass: 'q-chip row inline no-wrap items-center',
       class: this.classes,
-      style: this.style
+      style: this.sizeStyle
+    }
+
+    this.isClickable === true && Object.assign(data, {
+      attrs: this.attrs,
+      on: cache(this, 'click', {
+        click: this.__onClick,
+        keyup: this.__onKeyup
+      }),
+      directives: cache(this, 'dir#' + this.ripple, [
+        { name: 'ripple', value: this.ripple }
+      ])
     })
 
     return h('div', data, this.__getContent(h))

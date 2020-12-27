@@ -1,20 +1,18 @@
 const fse = require('fs-extra')
 
-const
-  log = require('../helpers/logger')('app:capacitor'),
-  warn = require('../helpers/logger')('app:capacitor', 'red'),
-  CapacitorConfig = require('./capacitor-config'),
-  { spawn, spawnSync } = require('../helpers/spawn'),
-  onShutdown = require('../helpers/on-shutdown'),
-  appPaths = require('../app-paths'),
-  openIde = require('../helpers/open-ide')
+const { log, warn, fatal } = require('../helpers/logger')
+const CapacitorConfig = require('./capacitor-config')
+const { spawn, spawnSync } = require('../helpers/spawn')
+const onShutdown = require('../helpers/on-shutdown')
+const appPaths = require('../app-paths')
+const openIde = require('../helpers/open-ide')
 
-const capacitorCliPath = require('./capacitor-cli-path')
+const { capBin } = require('./cap-cli')
 
 class CapacitorRunner {
   constructor () {
     this.pid = 0
-    this.config = new CapacitorConfig()
+    this.capacitorConfig = new CapacitorConfig()
 
     onShutdown(() => {
       this.stop()
@@ -30,10 +28,9 @@ class CapacitorRunner {
     }
   }
 
-  async run (quasarConfig) {
-    const
-      cfg = quasarConfig.getBuildConfig(),
-      url = cfg.build.APP_URL
+  async run (quasarConfFile) {
+    const cfg = quasarConfFile.quasarConf
+    const url = cfg.build.APP_URL
 
     if (this.url === url) {
       return
@@ -44,23 +41,23 @@ class CapacitorRunner {
     }
 
     this.url = url
-    this.config.prepare(cfg)
+    this.capacitorConfig.prepare(cfg)
 
-    await this.__runCapacitorCommand(['sync', this.target])
+    await this.__runCapacitorCommand(cfg.capacitor.capacitorCliPreparationParams)
 
-    this.config.prepareSSL(cfg.devServer.https, this.target)
+    this.capacitorConfig.prepareSSL(cfg.devServer.https, this.target)
 
     await openIde('capacitor', cfg.bin, this.target, true)
   }
 
-  async build (quasarConfig, argv) {
-    const cfg = quasarConfig.getBuildConfig()
+  async build (quasarConfFile, argv) {
+    const cfg = quasarConfFile.quasarConf
 
-    this.config.prepare(cfg)
+    this.capacitorConfig.prepare(cfg)
 
-    await this.__runCapacitorCommand(['sync', this.target])
+    await this.__runCapacitorCommand(cfg.capacitor.capacitorCliPreparationParams)
 
-    this.config.prepareSSL(false, this.target)
+    this.capacitorConfig.prepareSSL(false, this.target)
 
     if (argv['skip-pkg'] === true) {
       return
@@ -118,10 +115,10 @@ class CapacitorRunner {
       [ `assemble${this.ctx.debug ? 'Debug' : 'Release'}` ].concat(argv._),
       { cwd: appPaths.resolve.capacitor('android') },
       () => {
-        console.log()
-        console.log(` ⚠️  Gradle build failed!`)
-        console.log(` ⚠️  As an alternative, you can use the "--ide" param and build from the IDE.`)
-        console.log()
+        warn()
+        warn(`Gradle build failed!`)
+        warn(`As an alternative, you can use the "--ide" param and build from the IDE.`)
+        warn()
       }
     )
 
@@ -139,15 +136,14 @@ class CapacitorRunner {
   __runCapacitorCommand (args) {
     return new Promise(resolve => {
       this.pid = spawn(
-        capacitorCliPath,
+        capBin,
         args,
         { cwd: appPaths.capacitorDir },
         code => {
           this.__cleanup()
 
           if (code) {
-            warn(`⚠️  [FAIL] Capacitor CLI has failed`)
-            process.exit(1)
+            fatal(`[FAIL] Capacitor CLI has failed`)
           }
 
           resolve && resolve()
@@ -158,7 +154,7 @@ class CapacitorRunner {
 
   __cleanup () {
     this.pid = 0
-    this.config.reset()
+    this.capacitorConfig.reset()
   }
 }
 

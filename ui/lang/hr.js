@@ -22,7 +22,8 @@ export default {
     months: 'Siječanj_Veljača_Ožujak_Travanj_Svibanj_Lipanj_Srpanj_Kolovoz_Rujan_Listopad_Studeni_Prosinac'.split('_'),
     monthsShort: 'Sij_Velj_Ožu_Tra_Svi_Lip_Srp_Kol_Ruj_Lis_Stu_Pro'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dana'
   },
   table: {
     noData: 'Nema podataka',
@@ -67,12 +68,12 @@ export default {
     hr: 'Ubaciti vodoravno ravnalo',
     undo: 'Poništiti',
     redo: 'Vratiti',
-    header1: 'Naslov 1',
-    header2: 'Naslov 2',
-    header3: 'Naslov 3',
-    header4: 'Naslov 4',
-    header5: 'Naslov 5',
-    header6: 'Naslov 6',
+    heading1: 'Naslov 1',
+    heading2: 'Naslov 2',
+    heading3: 'Naslov 3',
+    heading4: 'Naslov 4',
+    heading5: 'Naslov 5',
+    heading6: 'Naslov 6',
     paragraph: 'Odlomak',
     code: 'Kod',
     size1: 'Vrlo malo',

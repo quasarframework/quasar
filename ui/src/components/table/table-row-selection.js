@@ -33,15 +33,14 @@ export default {
     },
 
     allRowsSelected () {
-      if (this.multipleSelection === true) {
-        return this.computedRows.length > 0 && this.computedRows.every(row => this.selectedKeys[ this.getRowKey(row) ] === true)
-      }
+      return this.computedRows.length > 0 && this.computedRows.every(
+        row => this.selectedKeys[ this.getRowKey(row) ] === true
+      )
     },
 
     someRowsSelected () {
-      if (this.multipleSelection === true) {
-        return !this.allRowsSelected && this.computedRows.some(row => this.selectedKeys[ this.getRowKey(row) ] === true)
-      }
+      return this.allRowsSelected !== true &&
+        this.computedRows.some(row => this.selectedKeys[ this.getRowKey(row) ] === true)
     },
 
     rowsSelectedNumber () {
@@ -58,8 +57,8 @@ export default {
       this.$emit('update:selected', [])
     },
 
-    __updateSelection (keys, rows, added) {
-      this.$emit('selection', { rows, added, keys })
+    __updateSelection (keys, rows, added, evt) {
+      this.$emit('selection', { rows, added, keys, evt })
 
       const payload = this.singleSelection === true
         ? (added === true ? rows : [])

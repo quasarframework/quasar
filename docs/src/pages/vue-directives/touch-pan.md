@@ -18,6 +18,10 @@ We will be describing `v-touch-pan` on the lines below.
 Click then pan in a direction with your mouse on the area below to see it in action.
 Page scrolling is prevented, but you can opt out if you wish.
 
+::: tip
+If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+:::
+
 <doc-example title="All directions" file="TouchPan/Basic" />
 
 Panning works both with a mouse or a native touch action.
@@ -72,8 +76,14 @@ When you want to inhibit TouchPan, you can do so by stopping propagation of the 
 
 However, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchPan directive then the inner content, so TouchPan will still trigger.
 
-### Note on HMR
-Due to performance reasons, when doing HMR updates, all modifiers EXCEPT for direction ones (`left`, `right`, `up`, `down`, `horizontal`, `vertical`) are NOT updated, so you will require a window refresh.
+## Example with FAB
 
-## API
+Below is a nice example on using TouchPan on a QFab. You can drag it across the screen.
+
+<doc-example title="Draggable" file="QFab/Draggable" />
+
+## Note on HMR
+Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.
+
+## TouchPan API
 <doc-api file="TouchPan" />

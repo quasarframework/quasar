@@ -1,6 +1,14 @@
 {
   "mixins": [ "mixins/model-toggle", "mixins/portal" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/dialog"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "persistent": {
       "type": "Boolean",
@@ -102,7 +110,7 @@
     },
 
     "escape-key": {
-      "desc": "Emitted when ESC key is pressed; Does not gets emitted if Dialog is 'persistent' or it has 'no-esc-key' set"
+      "desc": "Emitted when ESC key is pressed; Does not get emitted if Dialog is 'persistent' or it has 'no-esc-key' set"
     }
   },
 
@@ -113,6 +121,12 @@
 
     "shake": {
       "desc": "Shakes dialog"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
     }
   }
 }

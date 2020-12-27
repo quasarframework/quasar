@@ -11,8 +11,7 @@ module.exports = function (ctx) {
     ],
 
     css: [
-      'app.sass',
-      'docs-font/docs-font.css'
+      'app.sass'
     ],
 
     extras: [
@@ -20,19 +19,13 @@ module.exports = function (ctx) {
       'material-icons'
     ],
 
-    supportIE: true,
-    preFetch: true,
+    // preFetch: true,
 
     build: {
-      scopeHoisting: true,
       vueRouterMode: 'history',
       showProgress: ctx.dev,
-      // preloadChunks: false,
-      // vueCompiler: true,
-      // gzip: true,
-      // analyze: true,
-      // extractCSS: false,
       distDir: 'dist/quasar.dev',
+      // analyze: true,
 
       chainWebpack (chain) {
         chain.module.rule('eslint')
@@ -75,13 +68,14 @@ module.exports = function (ctx) {
     },
 
     devServer: {
-      https: ctx.mode.pwa === true,
+      // https: true,
       port: 9090,
       open: true // opens browser window automatically
     },
 
     framework: {
-      all: true,
+      importStrategy: 'all',
+      iconSet: 'svg-mdi-v5',
 
       config: {
         loadingBar: {
@@ -90,21 +84,28 @@ module.exports = function (ctx) {
       }
     },
 
-    animations: ['fadeIn', 'fadeOut'],
+    animations: [ 'fadeIn', 'fadeOut' ],
 
     ssr: {
-      pwa: false
+      pwa: true
     },
 
     pwa: {
       // workboxPluginMode: 'InjectManifest',
       workboxOptions: {
+        cleanupOutdatedCaches: true,
         skipWaiting: true,
-        clientsClaim: true
+        clientsClaim: true,
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/cdn/,
+            handler: 'StaleWhileRevalidate'
+          }
+        ]
       },
       manifest: {
         name: 'Quasar Documentation',
-        short_name: 'Quasar-Docs',
+        short_name: 'Quasar Docs',
         description: 'Quasar Framework Documentation',
         display: 'standalone',
         orientation: 'portrait',
@@ -112,29 +113,29 @@ module.exports = function (ctx) {
         theme_color: '#027be3',
         icons: [
           {
-            'src': 'https://cdn.quasar.dev/app-icons/icon-128x128.png',
-            'sizes': '128x128',
-            'type': 'image/png'
+            src: 'https://cdn.quasar.dev/app-icons/icon-128x128.png',
+            sizes: '128x128',
+            type: 'image/png'
           },
           {
-            'src': 'https://cdn.quasar.dev/app-icons/icon-192x192.png',
-            'sizes': '192x192',
-            'type': 'image/png'
+            src: 'https://cdn.quasar.dev/app-icons/icon-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
           },
           {
-            'src': 'https://cdn.quasar.dev/app-icons/icon-256x256.png',
-            'sizes': '256x256',
-            'type': 'image/png'
+            src: 'https://cdn.quasar.dev/app-icons/icon-256x256.png',
+            sizes: '256x256',
+            type: 'image/png'
           },
           {
-            'src': 'https://cdn.quasar.dev/app-icons/icon-384x384.png',
-            'sizes': '384x384',
-            'type': 'image/png'
+            src: 'https://cdn.quasar.dev/app-icons/icon-384x384.png',
+            sizes: '384x384',
+            type: 'image/png'
           },
           {
-            'src': 'https://cdn.quasar.dev/app-icons/icon-512x512.png',
-            'sizes': '512x512',
-            'type': 'image/png'
+            src: 'https://cdn.quasar.dev/app-icons/icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
           }
         ]
       },
@@ -148,32 +149,20 @@ module.exports = function (ctx) {
       }
     },
 
-    cordova: {
-      // id: 'org.cordova.quasar.app'
-    },
+    vendor: {
+      remove: [
+        'quasar/dist/api',
 
-    electron: {
-      // bundler: 'builder', // or 'packager'
-      extendWebpack (cfg) {
-        // do something with Electron process Webpack cfg
-      },
-      packager: {
-        // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
-
-        // OS X / Mac App Store
-        // appBundleId: '',
-        // appCategoryType: '',
-        // osxSign: '',
-        // protocol: 'myapp://path',
-
-        // Window only
-        // win32metadata: { ... }
-      },
-      builder: {
-        // https://www.electron.build/configuration/configuration
-
-        // appId: 'quasar-app'
-      }
+        // following are used by algolia
+        'algoliasearch',
+        'autocomplete.js',
+        'hogan.js',
+        'request',
+        'stack-utils',
+        'to-factory',
+        'zepto',
+        'es6-promise'
+      ]
     }
   }
 }

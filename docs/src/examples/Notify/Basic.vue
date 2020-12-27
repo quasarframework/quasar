@@ -9,7 +9,7 @@ export default {
   methods: {
     showNotif () {
       this.$q.notify({
-        message: 'John pinged you',
+        message: 'Jim pinged you.',
         color: 'purple'
       })
     }

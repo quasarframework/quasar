@@ -24,6 +24,56 @@
       <q-tabs
         v-model="tab"
         inline-label
+        class="bg-yellow shadow-2"
+      >
+        <q-tab name="mails" label="Mails" icon="mail" />
+        <q-tab name="alarms" label="Alarms" icon="alarm" />
+        <q-btn-dropdown auto-close stretch flat icon="more" label="More...">
+          <q-list>
+            <q-item clickable @click="tab = 'movies'">
+              <q-item-section>Movies</q-item-section>
+            </q-item>
+
+            <q-item clickable @click="tab = 'photos'">
+              <q-item-section>Photos</q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+      </q-tabs>
+
+      <q-tabs
+        v-model="tab"
+        class="bg-primary text-white shadow-2"
+      >
+        <q-tab name="mails" label="Mails" icon="mail" />
+        <q-tab name="alarms" label="Alarms" icon="alarm" />
+        <q-btn-dropdown auto-close stretch flat>
+          <template v-slot:label>
+            <div>
+              <div class="row justify-around items-center no-wrap">
+                <q-icon name="more" />
+              </div>
+              <div class="row items-center no-wrap">
+                More...
+              </div>
+            </div>
+          </template>
+
+          <q-list>
+            <q-item clickable @click="tab = 'movies'">
+              <q-item-section>Movies</q-item-section>
+            </q-item>
+
+            <q-item clickable @click="tab = 'photos'">
+              <q-item-section>Photos</q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+      </q-tabs>
+
+      <q-tabs
+        v-model="tab"
+        inline-label
         :breakpoint="0"
         align="justify"
         class="bg-purple text-white shadow-2"

@@ -68,8 +68,8 @@ export default {
         }
       ],
       selected: 'Pleasant surroundings',
-      ticked: ['Quality ingredients', 'Good table presentation'],
-      expanded: ['Satisfied customers', 'Good service (disabled node)', 'Pleasant surroundings']
+      ticked: [ 'Quality ingredients', 'Good table presentation' ],
+      expanded: [ 'Satisfied customers', 'Good service (disabled node)', 'Pleasant surroundings' ]
     }
   }
 }

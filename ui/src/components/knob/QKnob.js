@@ -2,9 +2,11 @@ import Vue from 'vue'
 
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
+import cache from '../../utils/cache.js'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
+import FormMixin from '../../mixins/form.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
@@ -13,9 +15,10 @@ const keyCodes = [34, 37, 40, 33, 39, 38]
 export default Vue.extend({
   name: 'QKnob',
 
-  mixins: [{
-    props: QCircularProgress.options.props
-  }],
+  mixins: [
+    { props: QCircularProgress.options.props },
+    FormMixin
+  ],
 
   directives: {
     TouchPan
@@ -68,14 +71,15 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return {
-        disabled: this.disable,
-        'q-knob--editable': this.editable
-      }
+      return 'q-knob non-selectable' + (
+        this.editable === true
+          ? ' q-knob--editable'
+          : (this.disable === true ? ' disabled' : '')
+      )
     },
 
     editable () {
-      return !this.disable && !this.readonly
+      return this.disable === false && this.readonly === false
     },
 
     decimals () {
@@ -84,21 +88,59 @@ export default Vue.extend({
 
     computedStep () {
       return this.step === 0 ? 1 : this.step
+    },
+
+    computedInstantFeedback () {
+      return this.instantFeedback === true ||
+        this.dragging === true
+    },
+
+    onEvents () {
+      return this.$q.platform.is.mobile === true
+        ? { click: this.__click }
+        : {
+          mousedown: this.__activate,
+          click: this.__click,
+          keydown: this.__keydown,
+          keyup: this.__keyup
+        }
+    },
+
+    attrs () {
+      const attrs = {
+        role: 'slider',
+        'aria-valuemin': this.min,
+        'aria-valuemax': this.max,
+        'aria-valuenow': this.value
+      }
+
+      if (this.editable === true) {
+        attrs.tabindex = this.tabindex
+      }
+      else {
+        attrs[`aria-${this.disable === true ? 'disabled' : 'readonly'}`] = ''
+      }
+
+      return attrs
     }
   },
 
   methods: {
+    __updateCenterPosition () {
+      const { top, left, width, height } = this.$el.getBoundingClientRect()
+      this.centerPosition = {
+        top: top + height / 2,
+        left: left + width / 2
+      }
+    },
+
     __pan (event) {
       if (event.isFinal) {
         this.__updatePosition(event.evt, true)
         this.dragging = false
       }
       else if (event.isFirst) {
-        const { top, left, width, height } = this.$el.getBoundingClientRect()
-        this.centerPosition = {
-          top: top + height / 2,
-          left: left + width / 2
-        }
+        this.__updateCenterPosition()
         this.dragging = true
         this.__updatePosition(event.evt)
       }
@@ -108,11 +150,7 @@ export default Vue.extend({
     },
 
     __click (evt) {
-      const { top, left, width, height } = this.$el.getBoundingClientRect()
-      this.centerPosition = {
-        top: top + height / 2,
-        left: left + width / 2
-      }
+      this.__updateCenterPosition()
       this.__updatePosition(evt, true)
     },
 
@@ -142,6 +180,11 @@ export default Vue.extend({
       }
     },
 
+    __activate (evt) {
+      this.__updateCenterPosition()
+      this.__updatePosition(evt)
+    },
+
     __updatePosition (evt, change) {
       const
         center = this.centerPosition,
@@ -165,7 +208,7 @@ export default Vue.extend({
         angle = normalizeToInterval(angle - this.angle, 0, 360)
       }
 
-      if (this.$q.lang.rtl) {
+      if (this.$q.lang.rtl === true) {
         angle = 360 - angle
       }
 
@@ -196,29 +239,27 @@ export default Vue.extend({
     __updateValue (change) {
       this.value !== this.model && this.$emit('input', this.model)
       change === true && this.$emit('change', this.model)
+    },
+
+    __getNameInput () {
+      return this.$createElement('input', { attrs: this.formAttrs })
     }
   },
 
   render (h) {
     const data = {
-      staticClass: 'q-knob non-selectable',
       class: this.classes,
-
+      attrs: this.attrs,
       props: {
         ...this.$props,
         value: this.model,
-        instantFeedback: this.dragging
+        instantFeedback: this.computedInstantFeedback
       }
     }
 
     if (this.editable === true) {
-      data.attrs = { tabindex: this.tabindex }
-      data.on = {
-        click: this.__click,
-        keydown: this.__keydown,
-        keyup: this.__keyup
-      }
-      data.directives = [{
+      data.on = this.onEvents
+      data.directives = cache(this, 'dir', [{
         name: 'touch-pan',
         value: this.__pan,
         modifiers: {
@@ -226,7 +267,13 @@ export default Vue.extend({
           stop: true,
           mouse: true
         }
-      }]
+      }])
+
+      if (this.name !== void 0) {
+        data.scopedSlots = {
+          internal: this.__getNameInput
+        }
+      }
     }
 
     return h(QCircularProgress, data, slot(this, 'default'))

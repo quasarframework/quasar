@@ -1,5 +1,22 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/scroll-area"
+  },
+
   "props": {
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.9.0"
+    },
+
+    "bar-style": {
+      "type": [ "Array", "String", "Object"],
+      "desc": "Object with CSS properties and values for styling the custom scrollbar",
+      "examples": [ ":bar-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
+      "category": "style",
+      "addedIn": "v1.5.0"
+    },
+
     "thumb-style": {
       "type": "Object",
       "desc": "Object with CSS properties and values for styling the thumb of custom scrollbar",
@@ -8,14 +25,14 @@
     },
 
     "content-style": {
-      "type": "Object",
+      "type": [ "Array", "String", "Object"],
       "desc": "Object with CSS properties and values for styling the container of QScrollArea",
       "examples": [ ":content-style=\"{ backgroundColor: '#C0C0C0' }\"" ],
       "category": "style"
     },
 
     "content-active-style": {
-      "type": "Object",
+      "type": [ "Array", "String", "Object"],
       "desc": "Object with CSS properties and values for styling the container of QScrollArea when scroll area becomes active (is mouse hovered)",
       "examples": [ ":content-active-style=\"{ backgroundColor: 'white' }\"" ],
       "category": "style"
@@ -30,7 +47,7 @@
 
     "delay": {
       "type": [ "Number", "String" ],
-      "desc": "When content changes, the scrollbar appears; this delay defines the amount of time (in milliseconds) before scrollbars dissapear again (if component is not hovered)",
+      "desc": "When content changes, the scrollbar appears; this delay defines the amount of time (in milliseconds) before scrollbars disappear again (if component is not hovered)",
       "default": 1000,
       "examples": [ 500, ":delay=\"550\"" ],
       "category": "behavior"
@@ -46,6 +63,67 @@
   "slots": {
     "default": {
       "extends": "default"
+    }
+  },
+
+  "events": {
+    "scroll": {
+      "desc": "Emitted when scroll information changes (and listener is configured)",
+      "params": {
+        "info": {
+          "type": "Object",
+          "__exemption": [ "examples" ],
+          "definition": {
+            "ref": {
+              "type": "Object",
+              "desc": "Vue reference to the QScrollArea which triggered the event",
+              "__exemption": [ "examples" ]
+            },
+            "verticalPosition": {
+              "type": "Number",
+              "desc": "Vertical scroll position (in px); available only if QScrollArea is NOT in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+            "verticalPercentage": {
+              "type": "Number",
+              "desc": "Vertical scroll percentage (0.0 < x < 1.0); available only if QScrollArea is NOT in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+            "verticalSize": {
+              "type": "Number",
+              "desc": "Vertical scroll size (in px); available only if QScrollArea is NOT in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+            "verticalContainerSize": {
+              "type": "Number",
+              "desc": "Height of the container (in px); available only if QScrollArea is NOT in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+
+            "horizontalPosition": {
+              "type": "Number",
+              "desc": "Horizontal scroll position (in px); available only if QScrollArea is in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+            "horizontalPercentage": {
+              "type": "Number",
+              "desc": "Horizontal scroll percentage (0.0 < x < 1.0); available only if QScrollArea is in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+            "horizontalSize": {
+              "type": "Number",
+              "desc": "Horizontal scroll size (in px); available only if QScrollArea is in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+            "horizontalContainerSize": {
+              "type": "Number",
+              "desc": "Width of the container (in px); available only if QScrollArea is in horizontal mode",
+              "__exemption": [ "examples" ]
+            }
+          }
+        }
+      },
+      "addedIn": "v1.9.3"
     }
   },
 
@@ -83,6 +161,24 @@
           "examples": [ 300 ]
         }
       }
+    },
+
+    "setScrollPercentage": {
+      "desc": "Set scroll position to a percentage (0.0 < x < 1.0) of the total scrolling size; If a duration (in milliseconds) is specified then the scroll is animated",
+      "params": {
+        "offset": {
+          "type": "Number",
+          "desc": "Scroll percentage (0.0 < x < 1.0) of the total scrolling size",
+          "required": true,
+          "examples": [ 220 ]
+        },
+        "duration": {
+          "type": "Number",
+          "desc": "Duration (in milliseconds) enabling animated scroll",
+          "examples": [ 300 ]
+        }
+      },
+      "addedIn": "v1.13.2"
     }
   }
 }

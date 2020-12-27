@@ -1,7 +1,11 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-directives/scroll"
+  },
+
   "value": {
     "type": "Function",
-    "desc": "Function to call when scrolling occurs",
+    "desc": "Function to call when scrolling occurs (use a non-function to disable)",
     "params": {
       "verticalScrollPosition": {
         "type": "Number",
@@ -14,6 +18,7 @@
         "examples": [ 350 ]
       }
     },
-    "returns": null
+    "returns": null,
+    "examples": [ "v-scroll=\"fnToCall\"", "v-scroll=\"void 0\"" ]
   }
 }

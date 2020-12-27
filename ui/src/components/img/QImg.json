@@ -1,4 +1,10 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/img"
+  },
+
+  "mixins": [ "mixins/ratio" ],
+
   "behavior": {
     "$listeners": true
   },
@@ -7,10 +13,12 @@
     "src": {
       "type": "String",
       "desc": "Path to image",
+      "transformAssetUrls": true,
       "examples": [
-        "(statics folder) statics/img/something.png",
+        "(statics folder) src=\"statics/img/something.png\"",
+        "(assets folder) src=\"~assets/my-img.gif\"",
         "(relative path format) :src=\"require('./my_img.jpg')\"",
-        "(URL) https://some-site.net/some-img.gif"
+        "(URL) src=\"https://placeimg.com/500/300/nature\""
       ],
       "category": "model"
     },
@@ -35,6 +43,28 @@
       "category": "model"
     },
 
+    "width": {
+      "type": "String",
+      "desc": "Forces image width; Must also include the unit (px or %)",
+      "examples": [
+        "280px",
+        "70%"
+      ],
+      "category": "model",
+      "addedIn": "v1.9.0"
+    },
+
+    "height": {
+      "type": "String",
+      "desc": "Forces image height; Must also include the unit (px or %)",
+      "examples": [
+        "280px",
+        "70%"
+      ],
+      "category": "model",
+      "addedIn": "v1.9.0"
+    },
+
     "alt": {
       "type": "String",
       "desc": "Specifies an alternate text for the image, if the image cannot be displayed",
@@ -45,7 +75,13 @@
     "placeholder-src": {
       "type": "String",
       "desc": "While waiting for your image to load, you can use a placeholder image",
-      "examples": [ "https://some-site.net/some-placeholder.jpg" ],
+      "transformAssetUrls": true,
+      "examples": [
+        "(statics folder) src=\"statics/img/some-placeholder.png\"",
+        "(assets folder) src=\"~assets/my-placeholder.gif\"",
+        "(relative path format) :src=\"require('./placeholder.jpg')\"",
+        "(URL) src=\"https://placeimg.com/500/300/nature\""
+      ],
       "category": "model"
     },
 
@@ -95,6 +131,14 @@
       "addedIn": "v1.4.0"
     },
 
+    "img-style": {
+      "type": "Object",
+      "desc": "Apply CSS to the container of the image; Does not apply to the caption",
+      "examples": [ ":img-style=\"{ transform: 'rotate(45deg)' }\" "],
+      "category": "style",
+      "addedIn": "v1.5.11"
+    },
+
     "spinner-color": {
       "extends": "color",
       "desc": "Color name for default Spinner (unless using a 'loading' slot)",
@@ -112,6 +156,13 @@
       "desc": "Do not display the default spinner when loading images (unless you are specifying one through the 'loading' slot)",
       "category": "content",
       "addedIn": "v1.1.0"
+    },
+
+    "native-context-menu": {
+      "type": "Boolean",
+      "desc": "Enable the native context menu of the image",
+      "category": "behavior",
+      "addedIn": "v1.8.4"
     }
   },
 

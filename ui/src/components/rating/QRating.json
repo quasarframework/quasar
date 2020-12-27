@@ -1,5 +1,9 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "mixins/size", "mixins/form" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/rating"
+  },
 
   "behavior": {
     "$listeners": true
@@ -45,8 +49,45 @@
       "addedIn": "v1.1.0"
     },
 
+    "icon-half": {
+      "type": [ "String", "Array" ],
+      "desc": "Icon name following Quasar convention to be used when selected (optional); make sure you have the icon library installed unless you are using 'img:' prefix; If an array is provided each rating value will use the corresponding icon in the array (0 based)",
+      "examples": [
+        "map",
+        "ion-add",
+        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
+        "img:statics/path/to/some_image.png"
+      ],
+      "category": "content",
+      "addedIn": "v1.7.4"
+    },
+
     "color": {
-      "extends": "color"
+      "extends": "color",
+      "type": [ "String", "Array" ],
+      "desc": "Color name for component from the Quasar Color Palette; v1.5.0+: If an array is provided each rating value will use the corresponding color in the array (0 based)",
+      "examples": [ "primary", "teal-10", "[\"accent\", \"grey-7\"] "]
+    },
+
+    "color-selected": {
+      "extends": "color",
+      "type": [ "String", "Array" ],
+      "desc": "Color name from the Quasar Palette for selected icons",
+      "addedIn": "v1.5.0"
+    },
+
+    "color-half": {
+      "extends": "color",
+      "type": [ "String", "Array" ],
+      "desc": "Color name from the Quasar Palette for half selected icons",
+      "addedIn": "v1.7.4"
+    },
+
+    "no-dimming": {
+      "type": "Boolean",
+      "desc": "Does not lower opacity for unselected icons",
+      "category": "style",
+      "addedIn": "v1.7.4"
     },
 
     "no-reset": {
@@ -67,6 +108,13 @@
   "events": {
     "input": {
       "extends": "input"
+    }
+  },
+
+  "slots": {
+    "tip-[index]": {
+      "desc": "Slot to define the tooltip of icon at '[index]' (1-based); Suggestion: QTooltip",
+      "addedIn": "v1.5.0"
     }
   }
 }

@@ -20,9 +20,7 @@ This directive is a helper when dealing with [QDialog](/vue-components/dialog) a
 
 <doc-example title="With a QDialog" file="ClosePopup/Dialog" />
 
-### Closing multiple levels
-
-<q-badge label="Quasar v1.1.0+" />
+### Closing multiple levels <q-badge align="top" label="v1.1+" />
 
 You can also close multiple levels of popups by supplying a level number to the directive:
 
@@ -47,6 +45,6 @@ Notice below that the inner dialog is a child of the main dialog. This is the on
 
 <doc-example title="Dialog in Dialog" file="ClosePopup/DialogInDialog" />
 
-## API
+## ClosePopup API
 <doc-api file="ClosePopup" />
 

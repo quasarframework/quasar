@@ -1,14 +1,17 @@
 import Vue from 'vue'
 
 import { isSSR, fromSSR } from './Platform.js'
-import { listenOpts } from '../utils/event.js'
+import { listenOpts, noop } from '../utils/event.js'
 import debounce from '../utils/debounce.js'
 
 const SIZE_LIST = ['sm', 'md', 'lg', 'xl']
+const { passive } = listenOpts
 
 export default {
   width: 0,
   height: 0,
+
+  name: 'xs',
 
   sizes: {
     sm: 600,
@@ -35,21 +38,25 @@ export default {
   lg: false,
   xl: false,
 
-  setSizes () {},
-  setDebounce () {},
+  setSizes: noop,
+  setDebounce: noop,
 
-  install ($q, queues) {
+  install ($q, queues, cfg) {
     if (isSSR === true) {
       $q.screen = this
       return
     }
 
-    let update = force => {
-      if (window.innerHeight !== this.height) {
-        this.height = window.innerHeight
-      }
+    const classes = cfg.screen !== void 0 && cfg.screen.bodyClasses === true
 
-      const w = window.innerWidth
+    const update = force => {
+      const
+        w = window.innerWidth,
+        h = window.innerHeight
+
+      if (h !== this.height) {
+        this.height = h
+      }
 
       if (w !== this.width) {
         this.width = w
@@ -58,7 +65,7 @@ export default {
         return
       }
 
-      const s = this.sizes
+      let s = this.sizes
 
       this.gt.xs = w >= s.sm
       this.gt.sm = w >= s.md
@@ -69,10 +76,24 @@ export default {
       this.lt.lg = w < s.lg
       this.lt.xl = w < s.xl
       this.xs = this.lt.sm
-      this.sm = this.gt.xs && this.lt.md
-      this.md = this.gt.sm && this.lt.lg
-      this.lg = this.gt.md && this.lt.xl
+      this.sm = this.gt.xs === true && this.lt.md === true
+      this.md = this.gt.sm === true && this.lt.lg === true
+      this.lg = this.gt.md === true && this.lt.xl === true
       this.xl = this.gt.lg
+
+      s = (this.xs === true && 'xs') ||
+        (this.sm === true && 'sm') ||
+        (this.md === true && 'md') ||
+        (this.lg === true && 'lg') ||
+        'xl'
+
+      if (s !== this.name) {
+        if (classes === true) {
+          document.body.classList.remove(`screen--${this.name}`)
+          document.body.classList.add(`screen--${s}`)
+        }
+        this.name = s
+      }
     }
 
     let updateEvt, updateSizes = {}, updateDebounce = 16
@@ -89,7 +110,11 @@ export default {
     }
 
     const start = () => {
-      const style = getComputedStyle(document.body)
+      const
+        style = getComputedStyle(document.body),
+        target = window.visualViewport !== void 0
+          ? window.visualViewport
+          : window
 
       // if css props available
       if (style.getPropertyValue('--q-size-sm')) {
@@ -108,12 +133,11 @@ export default {
       }
 
       this.setDebounce = delay => {
-        const fn = () => { update() }
-        updateEvt && window.removeEventListener('resize', updateEvt, listenOpts.passive)
+        updateEvt !== void 0 && target.removeEventListener('resize', updateEvt, passive)
         updateEvt = delay > 0
-          ? debounce(fn, delay)
-          : fn
-        window.addEventListener('resize', updateEvt, listenOpts.passive)
+          ? debounce(update, delay)
+          : update
+        target.addEventListener('resize', updateEvt, passive)
       }
 
       this.setDebounce(updateDebounce)
@@ -125,6 +149,10 @@ export default {
       else {
         update()
       }
+
+      // due to optimizations, this would be left out otherwise
+      classes === true && this.name === 'xs' &&
+        document.body.classList.add(`screen--xs`)
     }
 
     if (fromSSR === true) {

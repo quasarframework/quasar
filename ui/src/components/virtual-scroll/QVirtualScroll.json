@@ -1,6 +1,12 @@
 {
   "mixins": [ "mixins/virtual-scroll" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/virtual-scroll"
+  },
+
+  "addedIn": "v1.1.0",
+
   "props": {
     "type": {
       "type": "String",
@@ -22,11 +28,11 @@
     },
 
     "items-size": {
-      "type": [ "String", "Number"],
+      "type": "Number",
       "desc": "Number of available items in the list; Required and used only if 'itemsFn' is provided",
       "default": "void 0",
       "examples": [
-        "items-size=\"100000\"",
+        ":items-size=\"100000\"",
         ":items-size=\"500\""
       ],
       "category": "content"
@@ -59,13 +65,7 @@
     },
 
     "scroll-target": {
-      "type": [ "Element", "String" ],
-      "desc": "CSS selector or DOM element to be used as scroll container instead of the component's own container",
-      "examples": [
-        ":scroll-target=\"$refs.scrollTarget\"",
-        "scroll-target=\"body\""
-      ],
-      "category": "behavior"
+      "extends": "scroll-target"
     }
   },
 

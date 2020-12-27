@@ -27,9 +27,10 @@ export default {
   },
   carousel: {
     left: 'fal fa-chevron-left',
-    right: 'fal fa-chevron-right', // TODO
-    navigationIcon: 'fal fa-circle',
-    thumbnails: 'fal fa-th'
+    right: 'fal fa-chevron-right',
+    up: 'fal fa-chevron-up',
+    down: 'fal fa-chevron-down',
+    navigationIcon: 'fal fa-circle'
   },
   chip: {
     remove: 'fal fa-times-circle',
@@ -67,7 +68,7 @@ export default {
     hr: 'fal fa-minus-square',
     undo: 'fal fa-undo',
     redo: 'fal fa-redo',
-    header: 'fal fa-heading',
+    heading: 'fal fa-heading',
     code: 'fal fa-code',
     size: 'fal fa-text-height',
     font: 'fal fa-font',
@@ -108,8 +109,10 @@ export default {
   table: {
     arrowUp: 'fal fa-long-arrow-up',
     warning: 'fal fa-exclamation-triangle',
+    firstPage: 'fal fa-step-backward',
     prevPage: 'fal fa-chevron-left',
-    nextPage: 'fal fa-chevron-right'
+    nextPage: 'fal fa-chevron-right',
+    lastPage: 'fal fa-step-forward'
   },
   tree: {
     icon: 'fal fa-play'

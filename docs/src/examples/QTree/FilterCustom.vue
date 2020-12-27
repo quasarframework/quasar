@@ -57,7 +57,7 @@ export default {
         }
       ],
       filter: 'de',
-      expanded: ['Good service (disabled node) (*)']
+      expanded: [ 'Good service (disabled node) (*)' ]
     }
   },
 

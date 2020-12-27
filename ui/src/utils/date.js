@@ -123,8 +123,10 @@ function getRegexData (mask, dateLocale) {
         return '(\\d{2})'
 
       case 'Z': // to split: (?:(Z)()()|([+-])?(\\d{2}):?(\\d{2}))
+        map.Z = index
         return '(Z|[+-]\\d{2}:\\d{2})'
       case 'ZZ':
+        map.ZZ = index
         return '(Z|[+-]\\d{2}\\d{2})'
 
       case 'X':
@@ -152,7 +154,7 @@ function getRegexData (mask, dateLocale) {
 export function extractDate (str, mask, dateLocale) {
   const d = __splitDate(str, mask, dateLocale)
 
-  return new Date(
+  const date = new Date(
     d.year,
     d.month === null ? null : d.month - 1,
     d.day,
@@ -161,9 +163,15 @@ export function extractDate (str, mask, dateLocale) {
     d.second,
     d.millisecond
   )
+
+  const tzOffset = date.getTimezoneOffset()
+
+  return d.timezoneOffset === null || d.timezoneOffset === tzOffset
+    ? date
+    : getChange(date, { minutes: d.timezoneOffset - tzOffset }, true)
 }
 
-export function __splitDate (str, mask, dateLocale, calendar) {
+export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
   const date = {
     year: null,
     month: null,
@@ -172,9 +180,12 @@ export function __splitDate (str, mask, dateLocale, calendar) {
     minute: null,
     second: null,
     millisecond: null,
+    timezoneOffset: null,
     dateHash: null,
     timeHash: null
   }
+
+  defaultModel !== void 0 && Object.assign(date, defaultModel)
 
   if (
     str === void 0 ||
@@ -201,6 +212,8 @@ export function __splitDate (str, mask, dateLocale, calendar) {
   if (match === null) {
     return date
   }
+
+  let tzString = ''
 
   if (map.X !== void 0 || map.x !== void 0) {
     const stamp = parseInt(match[map.X !== void 0 ? map.X : map.x], 10)
@@ -283,10 +296,15 @@ export function __splitDate (str, mask, dateLocale, calendar) {
     if (map.S !== void 0) {
       date.millisecond = parseInt(match[map.S], 10) * 10 ** (3 - match[map.S].length)
     }
+
+    if (map.Z !== void 0 || map.ZZ !== void 0) {
+      tzString = (map.Z !== void 0 ? match[map.Z].replace(':', '') : match[map.ZZ])
+      date.timezoneOffset = (tzString[0] === '+' ? -1 : 1) * (60 * tzString.slice(1, 3) + 1 * tzString.slice(3, 5))
+    }
   }
 
   date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
-  date.timeHash = pad(date.hour) + ':' + pad(date.minute) + ':' + pad(date.second)
+  date.timeHash = pad(date.hour) + ':' + pad(date.minute) + ':' + pad(date.second) + tzString
 
   return date
 }
@@ -365,16 +383,23 @@ export function getWeekOfYear (date) {
   return 1 + Math.floor(weekDiff)
 }
 
+function getDayIdentifier (date) {
+  return date.getFullYear() * 10000 + date.getMonth() * 100 + date.getDate()
+}
+
+function getDateIdentifier (date, onlyDate /* = false */) {
+  const d = new Date(date)
+  return onlyDate === true ? getDayIdentifier(d) : d.getTime()
+}
+
 export function isBetweenDates (date, from, to, opts = {}) {
-  let
-    d1 = new Date(from).getTime(),
-    d2 = new Date(to).getTime(),
-    cur = new Date(date).getTime()
+  const
+    d1 = getDateIdentifier(from, opts.onlyDate),
+    d2 = getDateIdentifier(to, opts.onlyDate),
+    cur = getDateIdentifier(date, opts.onlyDate)
 
-  opts.inclusiveFrom && d1--
-  opts.inclusiveTo && d2++
-
-  return cur > d1 && cur < d2
+  return (cur > d1 || (opts.inclusiveFrom === true && cur === d1)) &&
+    (cur < d2 || (opts.inclusiveTo === true && cur === d2))
 }
 
 export function addToDate (date, mod) {
@@ -387,7 +412,7 @@ export function subtractFromDate (date, mod) {
 export function adjustDate (date, mod, utc) {
   const
     t = new Date(date),
-    prefix = `set${utc ? 'UTC' : ''}`
+    prefix = `set${utc === true ? 'UTC' : ''}`
 
   Object.keys(mod).forEach(key => {
     if (key === 'month') {
@@ -404,47 +429,53 @@ export function adjustDate (date, mod, utc) {
   return t
 }
 
-export function startOfDate (date, unit) {
-  const t = new Date(date)
+export function startOfDate (date, unit, utc) {
+  const
+    t = new Date(date),
+    prefix = `set${utc === true ? 'UTC' : ''}`
+
   switch (unit) {
     case 'year':
-      t.setMonth(0)
+      t[`${prefix}Month`](0)
     case 'month':
-      t.setDate(1)
+      t[`${prefix}Date`](1)
     case 'day':
-      t.setHours(0)
+      t[`${prefix}Hours`](0)
     case 'hour':
-      t.setMinutes(0)
+      t[`${prefix}Minutes`](0)
     case 'minute':
-      t.setSeconds(0)
+      t[`${prefix}Seconds`](0)
     case 'second':
-      t.setMilliseconds(0)
+      t[`${prefix}Milliseconds`](0)
   }
   return t
 }
 
-export function endOfDate (date, unit) {
-  const t = new Date(date)
+export function endOfDate (date, unit, utc) {
+  const
+    t = new Date(date),
+    prefix = `set${utc === true ? 'UTC' : ''}`
+
   switch (unit) {
     case 'year':
-      t.setMonth(11)
+      t[`${prefix}Month`](11)
     case 'month':
-      t.setDate(daysInMonth(date))
+      t[`${prefix}Date`](daysInMonth(t))
     case 'day':
-      t.setHours(23)
+      t[`${prefix}Hours`](23)
     case 'hour':
-      t.setMinutes(59)
+      t[`${prefix}Minutes`](59)
     case 'minute':
-      t.setSeconds(59)
+      t[`${prefix}Seconds`](59)
     case 'second':
-      t.setMilliseconds(59)
+      t[`${prefix}Milliseconds`](999)
   }
   return t
 }
 
-export function getMaxDate (/* date, ...args */) {
-  let t = 0
-  Array.prototype.slice.call(arguments).forEach(d => {
+export function getMaxDate (date /* , ...args */) {
+  let t = new Date(date)
+  Array.prototype.slice.call(arguments, 1).forEach(d => {
     t = Math.max(t, new Date(d))
   })
   return t
@@ -466,7 +497,7 @@ function getDiff (t, sub, interval) {
 }
 
 export function getDateDiff (date, subtract, unit = 'days') {
-  let
+  const
     t = new Date(date),
     sub = new Date(subtract)
 
@@ -765,13 +796,21 @@ const formatter = {
   },
 
   // Timezone: -01:00, +00:00, ... +12:00
-  Z (date) {
-    return formatTimezone(date.getTimezoneOffset(), ':')
+  Z (date, dateLocale, forcedYear, forcedTimezoneOffset) {
+    const tzOffset = forcedTimezoneOffset === void 0 || forcedTimezoneOffset === null
+      ? date.getTimezoneOffset()
+      : forcedTimezoneOffset
+
+    return formatTimezone(tzOffset, ':')
   },
 
   // Timezone: -0100, +0000, ... +1200
-  ZZ (date) {
-    return formatTimezone(date.getTimezoneOffset())
+  ZZ (date, dateLocale, forcedYear, forcedTimezoneOffset) {
+    const tzOffset = forcedTimezoneOffset === void 0 || forcedTimezoneOffset === null
+      ? date.getTimezoneOffset()
+      : forcedTimezoneOffset
+
+    return formatTimezone(tzOffset)
   },
 
   // Seconds timestamp: 512969520
@@ -785,7 +824,7 @@ const formatter = {
   }
 }
 
-export function formatDate (val, mask, dateLocale, __forcedYear) {
+export function formatDate (val, mask, dateLocale, __forcedYear, __forcedTimezoneOffset) {
   if (
     (val !== 0 && !val) ||
     val === Infinity ||
@@ -794,7 +833,7 @@ export function formatDate (val, mask, dateLocale, __forcedYear) {
     return
   }
 
-  let date = new Date(val)
+  const date = new Date(val)
 
   if (isNaN(date)) {
     return
@@ -811,7 +850,7 @@ export function formatDate (val, mask, dateLocale, __forcedYear) {
   return mask.replace(
     token,
     (match, text) => match in formatter
-      ? formatter[match](date, locale, __forcedYear)
+      ? formatter[match](date, locale, __forcedYear, __forcedTimezoneOffset)
       : (text === void 0 ? match : text.split('\\]').join(']'))
   )
 }

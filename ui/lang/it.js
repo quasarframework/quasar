@@ -22,7 +22,8 @@ export default {
     months: 'Gennaio_Febbraio_Marzo_Aprile_Maggio_Giugno_Luglio_Agosto_Settembre_Ottobre_Novembre_Dicembre'.split('_'),
     monthsShort: 'Gen_Feb_Mar_Apr_Mag_Giu_Lug_Ago_Set_Ott_Nov_Dic'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'giorni'
   },
   table: {
     noData: 'Nessun dato disponibile',
@@ -67,12 +68,12 @@ export default {
     hr: 'Inserisci righello orizzontale',
     undo: 'Indietro',
     redo: 'Avanti',
-    header1: 'Intestazione 1',
-    header2: 'Intestazione 2',
-    header3: 'Intestazione 3',
-    header4: 'Intestazione 4',
-    header5: 'Intestazione 5',
-    header6: 'Intestazione 6',
+    heading1: 'Intestazione 1',
+    heading2: 'Intestazione 2',
+    heading3: 'Intestazione 3',
+    heading4: 'Intestazione 4',
+    heading5: 'Intestazione 5',
+    heading6: 'Intestazione 6',
     paragraph: 'Paragrafo',
     code: 'Codice',
     size1: 'Molto piccolo',

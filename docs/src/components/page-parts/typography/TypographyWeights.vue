@@ -13,7 +13,7 @@
 <script>
 export default {
   created () {
-    this.weights = ['thin', 'light', 'regular', 'medium', 'bold', 'bolder']
+    this.weights = [ 'thin', 'light', 'regular', 'medium', 'bold', 'bolder' ]
   }
 }
 </script>

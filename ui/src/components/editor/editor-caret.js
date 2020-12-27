@@ -1,6 +1,14 @@
+import { noop } from '../../utils/event.js'
+
 function getBlockElement (el, parent) {
   if (parent && el === parent) {
     return null
+  }
+
+  const nodeName = el.nodeName.toLowerCase()
+
+  if (['div', 'li', 'ul', 'ol', 'blockquote'].includes(nodeName) === true) {
+    return el
   }
 
   const
@@ -16,19 +24,40 @@ function getBlockElement (el, parent) {
   return getBlockElement(el.parentNode)
 }
 
-function isChildOf (el, parent) {
-  if (!el) {
-    return false
+function isChildOf (el, parent, orSame) {
+  return !el || el === document.body
+    ? false
+    : (orSame === true && el === parent) || (parent === document ? document.body : parent).contains(el.parentNode)
+}
+
+function createRange (node, chars, range) {
+  if (!range) {
+    range = document.createRange()
+    range.selectNode(node)
+    range.setStart(node, 0)
   }
-  while ((el = el.parentNode)) {
-    if (el === document.body) {
-      return false
+
+  if (chars.count === 0) {
+    range.setEnd(node, chars.count)
+  }
+  else if (chars.count > 0) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      if (node.textContent.length < chars.count) {
+        chars.count -= node.textContent.length
+      }
+      else {
+        range.setEnd(node, chars.count)
+        chars.count = 0
+      }
     }
-    if (el === parent) {
-      return true
+    else {
+      for (let lp = 0; chars.count !== 0 && lp < node.childNodes.length; lp++) {
+        range = createRange(node.childNodes[lp], chars, range)
+      }
     }
   }
-  return false
+
+  return range
 }
 
 const urlRegex = /^https?:\/\//
@@ -37,59 +66,66 @@ export class Caret {
   constructor (el, vm) {
     this.el = el
     this.vm = vm
+    this._range = null
   }
 
   get selection () {
-    if (!this.el) {
-      return
+    if (this.el) {
+      const sel = document.getSelection()
+
+      // only when the selection in element
+      if (isChildOf(sel.anchorNode, this.el, true) && isChildOf(sel.focusNode, this.el, true)) {
+        return sel
+      }
     }
-    const sel = document.getSelection()
-    // only when the selection in element
-    if (isChildOf(sel.anchorNode, this.el) && isChildOf(sel.focusNode, this.el)) {
-      return sel
-    }
+
+    return null
   }
 
   get hasSelection () {
-    return this.selection
+    return this.selection !== null
       ? this.selection.toString().length > 0
-      : null
+      : false
   }
 
   get range () {
     const sel = this.selection
 
-    if (!sel) {
-      return
+    if (sel !== null && sel.rangeCount) {
+      return sel.getRangeAt(0)
     }
 
-    return sel.rangeCount
-      ? sel.getRangeAt(0)
-      : null
+    return this._range
   }
 
   get parent () {
     const range = this.range
-    if (!range) {
-      return
+
+    if (range !== null) {
+      const node = range.startContainer
+
+      return node.nodeType === document.ELEMENT_NODE
+        ? node
+        : node.parentNode
     }
 
-    const node = range.startContainer
-    return node.nodeType === document.ELEMENT_NODE
-      ? node
-      : node.parentNode
+    return null
   }
 
   get blockParent () {
     const parent = this.parent
-    if (!parent) {
-      return
+
+    if (parent !== null) {
+      return getBlockElement(parent, this.el)
     }
-    return getBlockElement(parent, this.el)
+
+    return null
   }
 
   save (range = this.range) {
-    this._range = range
+    if (range !== null) {
+      this._range = range
+    }
   }
 
   restore (range = this._range) {
@@ -97,7 +133,7 @@ export class Caret {
       r = document.createRange(),
       sel = document.getSelection()
 
-    if (range) {
+    if (range !== null) {
       r.setStart(range.startContainer, range.startOffset)
       r.setEnd(range.endContainer, range.endOffset)
       sel.removeAllRanges()
@@ -109,24 +145,73 @@ export class Caret {
     }
   }
 
+  savePosition () {
+    let charCount = -1, node
+    const
+      selection = document.getSelection(),
+      parentEl = this.el.parentNode
+
+    if (selection.focusNode && isChildOf(selection.focusNode, parentEl)) {
+      node = selection.focusNode
+      charCount = selection.focusOffset
+
+      while (node && node !== parentEl) {
+        if (node !== this.el && node.previousSibling) {
+          node = node.previousSibling
+          charCount += node.textContent.length
+        }
+        else {
+          node = node.parentNode
+        }
+      }
+    }
+
+    this.savedPos = charCount
+  }
+
+  restorePosition (length = 0) {
+    if (this.savedPos > 0 && this.savedPos < length) {
+      const
+        selection = window.getSelection(),
+        range = createRange(this.el, { count: this.savedPos })
+
+      if (range) {
+        range.collapse(false)
+        selection.removeAllRanges()
+        selection.addRange(range)
+      }
+    }
+  }
+
   hasParent (name, spanLevel) {
     const el = spanLevel
       ? this.parent
       : this.blockParent
 
-    return el
+    return el !== null
       ? el.nodeName.toLowerCase() === name.toLowerCase()
       : false
   }
 
-  hasParents (list) {
-    const el = this.parent
-    return el
-      ? list.includes(el.nodeName.toLowerCase())
+  hasParents (list, recursive, el = this.parent) {
+    if (el === null) {
+      return false
+    }
+
+    if (el !== null && list.includes(el.nodeName.toLowerCase()) === true) {
+      return true
+    }
+
+    return recursive === true
+      ? this.hasParents(list, recursive, el.parentNode)
       : false
   }
 
   is (cmd, param) {
+    if (this.selection === null) {
+      return false
+    }
+
     switch (cmd) {
       case 'formatBlock':
         if (param === 'DIV' && this.parent === this.el) {
@@ -148,37 +233,33 @@ export class Caret {
         return false
       default:
         const state = document.queryCommandState(cmd)
-        return param ? state === param : state
+        return param !== void 0 ? state === param : state
     }
   }
 
   getParentAttribute (attrib) {
-    if (this.parent) {
+    if (this.parent !== null) {
       return this.parent.getAttribute(attrib)
     }
+
+    return null
   }
 
   can (name) {
     if (name === 'outdent') {
-      return this.hasParents(['blockquote', 'li'])
+      return this.hasParents(['blockquote', 'li'], true)
     }
+
     if (name === 'indent') {
-      const parentName = this.parent ? this.parent.nodeName.toLowerCase() : false
-      if (parentName === 'blockquote') {
-        return false
-      }
-      if (parentName === 'li') {
-        const previousEl = this.parent.previousSibling
-        return previousEl && previousEl.nodeName.toLowerCase() === 'li'
-      }
-      return false
+      return this.hasParents(['li'], true)
     }
+
     if (name === 'link') {
-      return this.selection || this.is('link')
+      return this.selection !== null || this.is('link')
     }
   }
 
-  apply (cmd, param, done = () => {}) {
+  apply (cmd, param, done = noop) {
     if (cmd === 'formatBlock') {
       if (['BLOCKQUOTE', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(param) && this.is(cmd, param)) {
         cmd = 'outdent'
@@ -191,7 +272,9 @@ export class Caret {
     }
     else if (cmd === 'print') {
       done()
+
       const win = window.open()
+
       win.document.write(`
         <!doctype html>
         <html>
@@ -205,57 +288,57 @@ export class Caret {
       `)
       win.print()
       win.close()
+
       return
     }
     else if (cmd === 'link') {
       const link = this.getParentAttribute('href')
-      if (!link) {
+
+      if (link === null) {
         const selection = this.selectWord(this.selection)
         const url = selection ? selection.toString() : ''
+
         if (!url.length) {
-          return
+          if (!this.range || !this.range.cloneContents().querySelector('img')) {
+            return
+          }
         }
+
         this.vm.editLinkUrl = urlRegex.test(url) ? url : 'https://'
         document.execCommand('createLink', false, this.vm.editLinkUrl)
+
+        this.save(selection.getRangeAt(0))
       }
       else {
         this.vm.editLinkUrl = link
-      }
-      this.vm.$nextTick(() => {
+
         this.range.selectNodeContents(this.parent)
         this.save()
-      })
+      }
+
       return
     }
     else if (cmd === 'fullscreen') {
       this.vm.toggleFullscreen()
       done()
+
       return
     }
     else if (cmd === 'viewsource') {
-      this.vm.isViewingSource = !this.vm.isViewingSource
+      this.vm.isViewingSource = this.vm.isViewingSource === false
       this.vm.__setContent(this.vm.value)
       done()
+
       return
     }
 
-    if (this.vm.$q.platform.is.ie === true || this.vm.$q.platform.is.edge === true) {
-      // workaround for IE/Edge, otherwise it messes up
-      // the DOM of toolbar
-      const dummyDiv = document.createElement('div')
-      this.vm.$refs.content.appendChild(dummyDiv)
-      document.execCommand(cmd, false, param)
-      dummyDiv.remove()
-    }
-    else {
-      document.execCommand(cmd, false, param)
-    }
+    document.execCommand(cmd, false, param)
 
     done()
   }
 
   selectWord (sel) {
-    if (!sel || !sel.isCollapsed) {
+    if (sel === null || sel.isCollapsed !== true || /* IE 11 */ sel.modify === void 0) {
       return sel
     }
 

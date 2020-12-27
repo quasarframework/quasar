@@ -22,7 +22,8 @@ export default {
     months: 'Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_November_Desember'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Mei_Jun_Jul_Ags_Sep_Okt_Nov_Des'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'hari'
   },
   table: {
     noData: 'Tidak ada data tersedia',
@@ -67,12 +68,12 @@ export default {
     hr: 'Masukkan Aturan Horizontal',
     undo: 'Urungkan',
     redo: 'Ulangi',
-    header1: 'Header 1',
-    header2: 'Header 2',
-    header3: 'Header 3',
-    header4: 'Header 4',
-    header5: 'Header 5',
-    header6: 'Header 6',
+    heading1: 'Heading 1',
+    heading2: 'Heading 2',
+    heading3: 'Heading 3',
+    heading4: 'Heading 4',
+    heading5: 'Heading 5',
+    heading6: 'Heading 6',
     paragraph: 'Paragraf',
     code: 'Kode',
     size1: 'Sangat Kecil',

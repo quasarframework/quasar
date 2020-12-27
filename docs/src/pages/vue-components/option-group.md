@@ -45,9 +45,24 @@ The model for checkboxes/toggles must be an array.
 
 <doc-example title="Disabled" file="QOptionGroup/Disable" />
 
+::: tip
+The objects within the `options` array can hold any of the props found in QToggle, QCheckbox or QRadio for instance `disable` or `leftLabel`. See below for an example.
+:::
+
+### Disable Certain Options
+
+<doc-example title="Disable Certain Options" file="QOptionGroup/DisableCertainOptions" />
+
 ### Dark
 
 <doc-example title="On a dark background" file="QOptionGroup/Dark" dark />
+
+### Native form submit <q-badge align="top" label="v1.9+" />
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QOptionGroup, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
+
+<doc-example title="Native form" file="QOptionGroup/NativeForm" />
+
 
 ## QOptionGroup API
 <doc-api file="QOptionGroup" />

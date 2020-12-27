@@ -1,9 +1,5 @@
 {
-  "mixins": [ "mixins/model-toggle" ],
-
-  "behavior": {
-    "$listeners": true
-  },
+  "mixins": [ "mixins/model-toggle", "mixins/fab" ],
 
   "props": {
     "value": {
@@ -19,8 +15,11 @@
       "extends": "icon"
     },
 
-    "disable": {
-      "extends": "disable"
+    "hide-icon": {
+      "type": "Boolean",
+      "desc": "Hide the icon (don't use any)",
+      "category": "style|content",
+      "addedIn": "v1.9.14"
     },
 
     "direction": {
@@ -32,52 +31,19 @@
       "category": "behavior"
     },
 
+    "vertical-actions-align": {
+      "type": "String",
+      "desc": "The side of the Fab where Fab Actions will expand (only when direction is 'up' or 'down')",
+      "default": "center",
+      "values": [ "left", "center", "right" ],
+      "category": "style|content",
+      "addedIn": "v1.9.0"
+    },
+
     "persistent": {
       "type": "Boolean",
       "desc": "By default, Fab Actions are hidden when user navigates to another route and this prop disables this behavior",
       "category": "behavior"
-    },
-
-    "type":{
-      "type": "String",
-      "desc": "Define the button HTML DOM type",
-      "default": "a",
-      "values": [
-        "a", "submit", "button", "reset"
-      ],
-      "category": "general"
-    },
-
-    "outline": {
-      "type": "Boolean",
-      "desc": "Use 'outline' design for Fab button",
-      "category": "style"
-    },
-
-    "push": {
-      "type": "Boolean",
-      "desc": "Use 'push' design for Fab button",
-      "category": "style"
-    },
-
-    "flat": {
-      "type": "Boolean",
-      "desc": "Use 'flat' design for Fab button",
-      "category": "style"
-    },
-
-    "color": {
-      "extends": "color"
-    },
-
-    "text-color": {
-      "extends": "text-color"
-    },
-
-    "glossy": {
-      "type": "Boolean",
-      "desc": "Apply the glossy effect over the button",
-      "category": "style"
     }
   },
 

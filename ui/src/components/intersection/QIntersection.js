@@ -1,10 +1,18 @@
 import Vue from 'vue'
 
+import { onSSR } from '../../plugins/Platform.js'
+
 import Intersection from '../../directives/Intersection.js'
-import slot from '../../utils/slot.js'
+
+import TagMixin from '../../mixins/tag.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QIntersection',
+
+  mixins: [ TagMixin, ListenersMixin ],
 
   directives: {
     Intersection
@@ -14,15 +22,20 @@ export default Vue.extend({
     once: Boolean,
     transition: String,
 
+    ssrPrerender: Boolean,
+
     margin: String,
     threshold: [ Number, Array ],
+    root: {
+      default: null
+    },
 
     disable: Boolean
   },
 
   data () {
     return {
-      showing: false
+      showing: onSSR === true ? this.ssrPrerender : false
     }
   },
 
@@ -32,11 +45,24 @@ export default Vue.extend({
         ? {
           handler: this.__trigger,
           cfg: {
+            root: this.root,
             rootMargin: this.margin,
             threshold: this.threshold
           }
         }
         : this.__trigger
+    },
+
+    directives () {
+      if (this.disable !== true && (onSSR !== true || this.once !== true || this.ssrPrerender !== true)) {
+        return [{
+          name: 'intersection',
+          value: this.value,
+          modifiers: {
+            once: this.once
+          }
+        }]
+      }
     }
   },
 
@@ -45,7 +71,7 @@ export default Vue.extend({
       if (this.showing !== entry.isIntersecting) {
         this.showing = entry.isIntersecting
 
-        if (this.$listeners.visibility !== void 0) {
+        if (this.qListeners.visibility !== void 0) {
           this.$emit('visibility', this.showing)
         }
       }
@@ -57,15 +83,10 @@ export default Vue.extend({
       ? [ h('div', { key: 'content' }, slot(this, 'default')) ]
       : void 0
 
-    return h('div', {
+    return h(this.tag, {
       staticClass: 'q-intersection',
-      directives: this.disable === true ? null : [{
-        name: 'intersection',
-        value: this.value,
-        modifiers: {
-          once: this.once
-        }
-      }]
+      on: { ...this.qListeners },
+      directives: this.directives
     }, this.transition
       ? [
         h('transition', {

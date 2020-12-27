@@ -21,8 +21,14 @@ export default {
     daysShort: 'Dim_Lun_Mar_Mer_Jeu_Ven_Sam'.split('_'),
     months: 'Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre'.split('_'),
     monthsShort: 'Jan_Fev_Mar_Avr_Mai_Juin_Jui_Aou_Sep_Oct_Nov_Dec'.split('_'),
+    headerTitle: function (date, model) {
+      return new Intl.DateTimeFormat('fr', {
+        weekday: 'short', day: 'numeric', month: 'short'
+      }).format(date)
+    },
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'jours'
   },
   table: {
     noData: 'Aucune donnée à afficher',
@@ -67,12 +73,12 @@ export default {
     hr: 'Insérer une règle horizontale',
     undo: 'Annuler',
     redo: 'Refaire',
-    header1: 'Titre 1',
-    header2: 'Titre 2',
-    header3: 'Titre 3',
-    header4: 'Titre 4',
-    header5: 'Titre 5',
-    header6: 'Titre 6',
+    heading1: 'Titre 1',
+    heading2: 'Titre 2',
+    heading3: 'Titre 3',
+    heading4: 'Titre 4',
+    heading5: 'Titre 5',
+    heading6: 'Titre 6',
     paragraph: 'Paragraphe',
     code: 'Code',
     size1: 'Très petit',

@@ -5,13 +5,14 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import DarkMixin from '../../mixins/dark.js'
 import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
+import AttrsMixin from '../../mixins/attrs.js'
 
 import ClickOutside from './ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { create, stop, position, listenOpts, stopAndPrevent } from '../../utils/event.js'
+import { create, stop, position, stopAndPreventClick } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 import {
   validatePosition, validateOffset, setPosition, parsePosition
@@ -20,7 +21,14 @@ import {
 export default Vue.extend({
   name: 'QMenu',
 
-  mixins: [ DarkMixin, AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
+  mixins: [
+    AttrsMixin,
+    DarkMixin,
+    AnchorMixin,
+    ModelToggleMixin,
+    PortalMixin,
+    TransitionMixin
+  ],
 
   directives: {
     ClickOutside
@@ -31,6 +39,7 @@ export default Vue.extend({
     autoClose: Boolean,
     separateClosePopup: Boolean,
 
+    noRouteDismiss: Boolean,
     noRefocus: Boolean,
     noFocus: Boolean,
 
@@ -52,6 +61,10 @@ export default Vue.extend({
       validator: validateOffset
     },
 
+    scrollTarget: {
+      default: void 0
+    },
+
     touchPosition: Boolean,
 
     maxHeight: {
@@ -65,22 +78,19 @@ export default Vue.extend({
   },
 
   computed: {
-    horizSide () {
-      return this.$q.lang.rtl ? 'right' : 'left'
-    },
-
     anchorOrigin () {
       return parsePosition(
         this.anchor || (
-          this.cover === true ? `center middle` : `bottom ${this.horizSide}`
-        )
+          this.cover === true ? 'center middle' : 'bottom start'
+        ),
+        this.$q.lang.rtl
       )
     },
 
     selfOrigin () {
       return this.cover === true
         ? this.anchorOrigin
-        : parsePosition(this.self || `top ${this.horizSide}`)
+        : parsePosition(this.self || 'top start', this.$q.lang.rtl)
     },
 
     menuClass () {
@@ -89,7 +99,31 @@ export default Vue.extend({
     },
 
     hideOnRouteChange () {
-      return this.persistent !== true
+      return this.persistent !== true &&
+        this.noRouteDismiss !== true
+    },
+
+    onEvents () {
+      const on = {
+        ...this.qListeners,
+        // stop propagating these events from children
+        input: stop,
+        'popup-show': stop,
+        'popup-hide': stop
+      }
+
+      if (this.autoClose === true) {
+        on.click = this.__onAutoClose
+      }
+
+      return on
+    },
+
+    attrs () {
+      return {
+        tabindex: -1,
+        ...this.qAttrs
+      }
     }
   },
 
@@ -100,7 +134,7 @@ export default Vue.extend({
         : void 0
 
       if (node !== void 0 && node.contains(document.activeElement) !== true) {
-        node = node.querySelector('[autofocus]') || node
+        node = node.querySelector('[autofocus], [data-autofocus]') || node
         node.focus()
       }
     },
@@ -133,7 +167,10 @@ export default Vue.extend({
       }
 
       if (this.unwatch === void 0) {
-        this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
+        this.unwatch = this.$watch(
+          () => this.$q.screen.width + '|' + this.$q.screen.height + '|' + this.self + '|' + this.anchor + '|' + this.$q.lang.rtl,
+          this.updatePosition
+        )
       }
 
       this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
@@ -149,6 +186,15 @@ export default Vue.extend({
       })
 
       this.__setTimeout(() => {
+        // required in order to avoid the "double-tap needed" issue
+        if (this.$q.platform.is.ios === true) {
+          // if auto-close, then this click should
+          // not close the menu
+          this.__avoidAutoClose = this.autoClose
+          this.__portal.$el.click()
+        }
+
+        this.updatePosition()
         this.$emit('show', evt)
       }, 300)
     },
@@ -193,29 +239,33 @@ export default Vue.extend({
     },
 
     __unconfigureScrollTarget () {
-      if (this.scrollTarget !== void 0) {
-        this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
+      if (this.__scrollTarget !== void 0) {
+        this.__changeScrollEvent(this.__scrollTarget)
+        this.__scrollTarget = void 0
       }
-      window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
     },
 
     __configureScrollTarget () {
-      if (this.anchorEl !== void 0) {
-        this.scrollTarget = getScrollTarget(this.anchorEl)
-        this.scrollTarget.addEventListener('scroll', this.updatePosition, listenOpts.passive)
-        if (this.scrollTarget !== window) {
-          window.addEventListener('scroll', this.updatePosition, listenOpts.passive)
-        }
+      if (this.anchorEl !== void 0 || this.scrollTarget !== void 0) {
+        this.__scrollTarget = getScrollTarget(this.anchorEl, this.scrollTarget)
+        this.__changeScrollEvent(this.__scrollTarget, this.updatePosition)
       }
     },
 
     __onAutoClose (e) {
-      closePortalMenus(this, e)
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+      // if auto-close, then the ios double-tap fix which
+      // issues a click should not close the menu
+      if (this.__avoidAutoClose !== true) {
+        closePortalMenus(this, e)
+        this.qListeners.click !== void 0 && this.$emit('click', e)
+      }
+      else {
+        this.__avoidAutoClose = false
+      }
     },
 
     updatePosition () {
-      if (this.__portal === void 0) {
+      if (this.anchorEl === void 0 || this.__portal === void 0) {
         return
       }
 
@@ -244,45 +294,30 @@ export default Vue.extend({
       if (this.persistent !== true && this.showing === true) {
         const targetClassList = e.target.classList
 
-        this.hide(e)
+        closePortalMenus(this, e)
         if (
           // always prevent touch event
           e.type === 'touchstart' ||
           // prevent click if it's on a dialog backdrop
           targetClassList.contains('q-dialog__backdrop')
         ) {
-          stopAndPrevent(e)
+          stopAndPreventClick(e)
         }
         return true
       }
     },
 
     __renderPortal (h) {
-      const on = {
-        ...this.$listeners,
-        // stop propagating these events from children
-        input: stop,
-        'popup-show': stop,
-        'popup-hide': stop
-      }
-
-      if (this.autoClose === true) {
-        on.click = this.__onAutoClose
-      }
-
       return h('transition', {
         props: { name: this.transition }
       }, [
         this.showing === true ? h('div', {
           ref: 'inner',
-          staticClass: 'q-menu scroll' + this.menuClass,
+          staticClass: 'q-menu q-position-engine scroll' + this.menuClass,
           class: this.contentClass,
           style: this.contentStyle,
-          attrs: {
-            tabindex: -1,
-            ...this.$attrs
-          },
-          on,
+          attrs: this.attrs,
+          on: this.onEvents,
           directives: [{
             name: 'click-outside',
             value: this.__onClickOutside,

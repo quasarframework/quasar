@@ -22,7 +22,8 @@ export default {
     months: 'Janvāris_Februāris_Marts_Aprīlis_Maijs_Jūnijs_Jūlijs_Augusts_Septembris_Okrobris_Novembris_Decembris'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Mai_Jūn_Jūl_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dienas'
   },
   table: {
     noData: 'Nav datu',
@@ -67,12 +68,12 @@ export default {
     hr: 'Ievietot horizontālo līniju',
     undo: 'Atsaukt',
     redo: 'Atkārtot',
-    header1: 'Virsraksts 1',
-    header2: 'Virsraksts 2',
-    header3: 'Virsraksts 3',
-    header4: 'Virsraksts 4',
-    header5: 'Virsraksts 5',
-    header6: 'Virsraksts 6',
+    heading1: 'Virsraksts 1',
+    heading2: 'Virsraksts 2',
+    heading3: 'Virsraksts 3',
+    heading4: 'Virsraksts 4',
+    heading5: 'Virsraksts 5',
+    heading6: 'Virsraksts 6',
     paragraph: 'Rindkopa',
     code: 'Kods',
     size1: 'Ļoti mazs',

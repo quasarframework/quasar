@@ -8,7 +8,7 @@
         <div class="text-subtitle2">by John Doe</div>
       </q-card-section>
 
-      <q-card-section>
+      <q-card-section class="q-pt-none">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
         eiusmod tempor incididunt ut labore et dolore magna aliqua.
       </q-card-section>

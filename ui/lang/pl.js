@@ -22,7 +22,8 @@ export default {
     months: 'Styczeń_Luty_Marzec_Kwiecień_Maj_Czerwiec_Lipiec_Sierpień_Wrzesień_Październik_Listopad_Grudzień'.split('_'),
     monthsShort: 'Sty_Lut_Mar_Kwi_Maj_Cze_Lip_Sie_Wrz_Paź_Lis_Gru'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dni'
   },
   table: {
     noData: 'Brak dostępnych danych',
@@ -67,12 +68,12 @@ export default {
     hr: 'Wstaw poziomą linię',
     undo: 'Cofnij',
     redo: 'Przywróć',
-    header1: 'Nagłówek 1',
-    header2: 'Nagłówek 2',
-    header3: 'Nagłówek 3',
-    header4: 'Nagłówek 4',
-    header5: 'Nagłówek 5',
-    header6: 'Nagłówek 6',
+    heading1: 'Nagłówek 1',
+    heading2: 'Nagłówek 2',
+    heading3: 'Nagłówek 3',
+    heading4: 'Nagłówek 4',
+    heading5: 'Nagłówek 5',
+    heading6: 'Nagłówek 6',
     paragraph: 'Paragraf',
     code: 'Kod',
     size1: 'Bardzo mała',

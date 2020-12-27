@@ -6,10 +6,7 @@ if (process.env.NODE_ENV === void 0) {
 
 const parseArgs = require('minimist')
 
-const
-  logger = require('../lib/helpers/logger'),
-  log = logger('app:dev'),
-  warn = logger('app:dev', 'red')
+const { log, warn, fatal } = require('../lib/helpers/logger')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -19,9 +16,10 @@ const argv = parseArgs(process.argv.slice(2), {
     p: 'port',
     H: 'hostname',
     i: 'ide',
-    h: 'help'
+    h: 'help',
+    d: 'devtools'
   },
-  boolean: ['h', 'i'],
+  boolean: ['h', 'i', 'd'],
   string: ['m', 'T', 'H'],
   default: {
     m: 'spa'
@@ -52,20 +50,22 @@ if (argv.help) {
     $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --help, -h       Displays this message
 
     Only for Cordova mode:
     --target, -T     (required) App target
-                        [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+                        [android|ios]
     --emulator, -e   (optional) Emulator name
                         Examples: iPhone-7, iPhone-X
                         iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
     --ide, -i        Open IDE (Android Studio / XCode) instead of letting Cordova
                         booting up the emulator, in which case the "--emulator"
                         param will have no effect
+
+    --devtools, -d   Open remote Vue Devtools
 
     Only for Capacitor mode:
     --target, -T     (required) App target
@@ -74,12 +74,11 @@ if (argv.help) {
   process.exit(0)
 }
 
-require('../lib/helpers/ensure-argv')(argv, 'dev')
-require('../lib/helpers/banner')(argv, 'dev')
+const ensureArgv = require('../lib/helpers/ensure-argv')
+ensureArgv(argv, 'dev')
 
-if (argv.mode !== 'spa') {
-  require('../lib/mode/install-missing')(argv.mode, argv.target)
-}
+const banner = require('../lib/helpers/banner')
+banner(argv, 'dev')
 
 const findPort = require('../lib/helpers/net').findClosestOpenPort
 
@@ -87,15 +86,13 @@ async function parseAddress ({ host, port }) {
   if (this.chosenHost) {
     host = this.chosenHost
   }
-  else {
-    if (host && ['localhost', '127.0.0.1', '::1'].includes(host.toLowerCase())) {
-      host = '0.0.0.0'
-    }
-    if (['cordova', 'capacitor'].includes(argv.mode) && (!host || host === '0.0.0.0')) {
-      const getExternalIP = require('../lib/helpers/get-external-ip')
-      host = await getExternalIP()
-      this.chosenHost = host
-    }
+  else if (
+    ['cordova', 'capacitor', 'bex'].includes(argv.mode) &&
+    (!host || ['0.0.0.0', 'localhost', '127.0.0.1', '::1'].includes(host.toLowerCase()))
+  ) {
+    const getExternalIP = require('../lib/helpers/get-external-ip')
+    host = await getExternalIP()
+    this.chosenHost = host
   }
 
   log(`Checking listening address availability (${host}:${port})...`)
@@ -104,7 +101,7 @@ async function parseAddress ({ host, port }) {
     const openPort = await findPort(port, host)
     if (port !== openPort) {
       warn()
-      warn(`️️⚠️  Setting port to closest one available: ${openPort}`)
+      warn(`️️Setting port to closest one available: ${openPort}`)
       warn()
 
       port = openPort
@@ -114,13 +111,13 @@ async function parseAddress ({ host, port }) {
     warn()
 
     if (e.message === 'ERROR_NETWORK_PORT_NOT_AVAIL') {
-      warn(`⚠️  Could not find an open port. Please configure a lower one to start searching with.`)
+      warn(`Could not find an open port. Please configure a lower one to start searching with.`)
     }
     else if (e.message === 'ERROR_NETWORK_ADDRESS_NOT_AVAIL') {
-      warn(`⚠️  Invalid host specified. No network address matches. Please specify another one.`)
+      warn(`Invalid host specified. No network address matches. Please specify another one.`)
     }
     else {
-      warn(`⚠️  Unknown network error occurred`)
+      warn(`Unknown network error occurred`)
       console.log(e)
     }
 
@@ -137,67 +134,115 @@ async function parseAddress ({ host, port }) {
   return { host, port }
 }
 
+function startVueDevtools () {
+  const { spawn, spawnSync } = require('../lib/helpers/spawn')
+  const getPackagePath = require('../lib/helpers/get-package-path')
+
+  let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')
+
+  function run () {
+    log(`Booting up remote Vue Devtools...`)
+    spawn(vueDevtoolsBin, [], {})
+  }
+
+  if (vueDevtoolsBin !== void 0) {
+    run()
+    return
+  }
+
+  const nodePackager = require('../lib/helpers/node-packager')
+  const appPaths = require('../lib/app-paths')
+  const cmdParam = nodePackager === 'npm' ?
+    ['install', '--save-dev'] :
+    ['add', '--dev']
+
+  log('Installing vue-devtools package...')
+  spawnSync(
+    nodePackager,
+    cmdParam.concat('@vue/devtools'),
+    { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
+    () => warn('Failed to install vue-devtools')
+  )
+
+  // a small delay is a must, otherwise require.resolve
+  // after a yarn/npm install will fail
+  return new Promise(resolve => {
+    vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')
+    run()
+    resolve()
+  })
+}
+
 async function goLive () {
-  const
-    DevServer = require('../lib/dev-server'),
-    QuasarConfig = require('../lib/quasar-config'),
-    Generator = require('../lib/generator'),
-    getQuasarCtx = require('../lib/helpers/get-quasar-ctx'),
-    extensionRunner = require('../lib/app-extension/extensions-runner')
+  if (argv.mode !== 'spa') {
+    const installMissing = require('../lib/mode/install-missing')
+    await installMissing(argv.mode, argv.target)
+  }
+
+  const DevServer = require('../lib/dev-server')
+  const QuasarConfFile = require('../lib/quasar-conf-file')
+  const Generator = require('../lib/generator')
+  const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
+  const extensionRunner = require('../lib/app-extension/extensions-runner')
+  const regenerateTypesFeatureFlags = require('../lib/helpers/types-feature-flags')
 
   const ctx = getQuasarCtx({
     mode: argv.mode,
     target: argv.target,
     emulator: argv.emulator,
-    dev: true
+    dev: true,
+    vueDevtools: argv.devtools
   })
 
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
-  const
-    quasarConfig = new QuasarConfig(ctx, {
-      port: argv.port,
-      host: argv.hostname,
-      onAddress: parseAddress,
-      onBuildChange () {
-        log(`Build changes detected. Rebuilding app...`)
-        dev = dev.then(startDev)
-      },
-      onAppChange () {
-        log(`App changes detected. Updating app...`)
-        generator.build()
-      }
-    })
+  const quasarConfFile = new QuasarConfFile(ctx, {
+    port: argv.port,
+    host: argv.hostname,
+    onAddress: parseAddress,
+    onBuildChange () {
+      log(`Build changes detected. Rebuilding app...`)
+      dev = dev.then(startDev)
+    },
+    onAppChange () {
+      log(`App changes detected. Updating app...`)
+      generator.build()
+    }
+  })
 
   try {
-    await quasarConfig.prepare()
+    await quasarConfFile.prepare()
   }
   catch (e) {
     console.log(e)
-    warn(`⚠️  [FAIL] quasar.conf.js has JS errors`)
-    process.exit(1)
+    fatal(`[FAIL] quasar.conf.js has JS errors`)
   }
 
-  await quasarConfig.compile()
+  await quasarConfFile.compile()
 
-  buildConfig = quasarConfig.getBuildConfig()
+  const quasarConf = quasarConfFile.quasarConf
 
-  if (typeof buildConfig.build.beforeDev === 'function') {
-    await buildConfig.build.beforeDev({ quasarConf: buildConfig })
+  regenerateTypesFeatureFlags(quasarConf)
+
+  if (quasarConf.__vueDevtools !== false) {
+    await startVueDevtools()
+  }
+
+  if (typeof quasarConf.build.beforeDev === 'function') {
+    await quasarConf.build.beforeDev({ quasarConf })
   }
 
   // run possible beforeDev hooks
   await extensionRunner.runHook('beforeDev', async hook => {
     log(`Extension(${hook.api.extId}): Running beforeDev hook...`)
-    await hook.fn(hook.api, { quasarConf: buildConfig })
+    await hook.fn(hook.api, { quasarConf })
   })
 
-  const
-    generator = new Generator(quasarConfig),
-    ModeRunner = ['cordova', 'capacitor', 'electron'].includes(argv.mode)
-      ? require('../lib/' + argv.mode)
-      : void 0
+  const generator = new Generator(quasarConfFile)
+  const ModeRunner = ['cordova', 'capacitor', 'electron', 'bex'].includes(argv.mode)
+    ? require('../lib/' + argv.mode)
+    : void 0
 
   if (ModeRunner !== void 0) {
     ModeRunner.init(ctx)
@@ -207,27 +252,33 @@ async function goLive () {
     let devServer
 
     return Promise.resolve()
-      .then(() => oldDevServer && oldDevServer.stop())
-      .then(() => generator.build()) // Update generated files
-      .then(() => devServer = new DevServer(quasarConfig))
-      .then(() => devServer.listen()) // Start listening
-      .then(() => ModeRunner !== void 0 && ModeRunner.run(quasarConfig, argv))
+      .then(() => {
+        if (oldDevServer !== void 0) {
+          oldDevServer.stop()
+          oldDevServer = void 0
+        }
+
+        generator.build()  // Update generated files
+        devServer = new DevServer(quasarConfFile) // Create new devserver
+
+        return devServer.listen() // Start listening
+      })
+      .then(() => ModeRunner !== void 0 && ModeRunner.run(quasarConfFile, argv))
       .then(() => devServer) // Pass new builder to watch chain
   }
 
-  let dev = startDev()
-    .then(async (devServer) => {
-      if (typeof buildConfig.build.afterDev === 'function') {
-        await buildConfig.build.afterDev({ quasarConf: buildConfig })
-      }
-      // run possible afterDev hooks
-      await extensionRunner.runHook('afterDev', async hook => {
-        log(`Extension(${hook.api.extId}): Running afterDev hook...`)
-        await hook.fn(hook.api, { quasarConf: buildConfig })
-      })
-
-      return devServer
+  let dev = startDev().then(async (payload) => {
+    if (typeof quasarConf.build.afterDev === 'function') {
+      await quasarConf.build.afterDev({ quasarConf })
+    }
+    // run possible afterDev hooks
+    await extensionRunner.runHook('afterDev', async hook => {
+      log(`Extension(${hook.api.extId}): Running afterDev hook...`)
+      await hook.fn(hook.api, { quasarConf })
     })
+
+    return payload
+  })
 }
 
 goLive()

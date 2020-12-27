@@ -2,40 +2,30 @@
 title: Opening Your Dev Server to the Public
 desc: How to offer temporary access to your development server to anyone on the Internet.
 ---
-At some point you may want to show someone else the project you've been working on. Fortunately, there are a couple of good tools to accomplish this, [Serveo](https://serveo.net/) and [Ngrok](https://ngrok.com/). Both create a tunnel to your dev server and (by default) auto-generate an internet address on their respective servers to offer to your clients or anyone special you'd like to show your work to.
+At some point you may want to show someone else the project you've been working on. Fortunately, there are a couple of good tools to accomplish this, [localhost.run](https://localhost.run/) and [Ngrok](https://ngrok.com/). Both create a tunnel to your dev server and (by default) auto-generate an internet address on their respective servers to offer to your clients or anyone special you'd like to show your work to.
 
 ::: warning
 Opening your dev server to the public poses security risks. Be absolutely cautious when using tools like this.
 
-When you've finished with your demonstration or testing, make sure to stop serveo or ngrok. This will prevent any unwanted access of your computer through them.
+When you've finished with your demonstration or testing, make sure to stop localhost.run or ngrok. This will prevent any unwanted access of your computer through them.
 :::
 
-## Using Serveo (easiest)
+## Using localhost.run (easiest)
 
 1. Assuming you have an SSH shell, you only need issue the following command (substituting your details)
 ``` bash
-$ ssh -R 80:localhost:8080 serveo.net
+$ ssh -R 80:localhost:8080 ssh.localhost.run
 # In case your development server doesn't run on port 8080 you need to change the number to the correct port
 ```
 
-2. That's it, and you will now have a random subdomain assigned to you like so:
+2. That's it, and you will now have a random subdomain based on your current system username assigned to you like so:
 ``` bash
-$ ssh -R 80:localhost:8080 serveo.net
-Hi there
-Forwarding HTTP traffic from https://randomsubdomain.serveo.net
-Press g to start a GUI session and ctrl-c to quit.
+$ ssh -R 80:localhost:8080 ssh.localhost.run
+Connect to http://fakeusername-random4chars.localhost.run or https://fakeusername-random4chars.localhost.run
+Press ctrl-c to quit.
 ```
 
-3. if you want to get fancy, you can even request your own subdomain like so
-``` bash
-$ ssh -R mysubdomain:80:localhost:8080 serveo.net
-Hi there
-Forwarding HTTP traffic from https://mysubdomain.serveo.net
-Press g to start a GUI session and ctrl-c to quit.
-# replace 'mysubdomain' above with whatever subdomain you want, and if it is available, you will have it.
-```
-
-
+It's not currently possible to request your own subdomain.
 
 ## Using Ngrok
 
@@ -61,7 +51,7 @@ Web Interface                 http://127.0.0.1:4040
 Forwarding                    http://92832de0.ngrok.io -> localhost:8080
 Forwarding                    https://92832de0.ngrok.io -> localhost:8080
 
-Connnections                  ttl     opn     rt1     rt5     p50     p90
+Connections                  ttl     opn     rt1     rt5     p50     p90
                               0       0       0.00    0.00    0.00    0.00
 ```
 Please be careful as the 'Forwarding' URL will be accessible to anyone until this connection is closed again.

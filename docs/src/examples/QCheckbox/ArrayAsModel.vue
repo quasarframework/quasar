@@ -17,7 +17,7 @@
 export default {
   data () {
     return {
-      selection: ['teal', 'red']
+      selection: [ 'teal', 'red' ]
     }
   }
 }

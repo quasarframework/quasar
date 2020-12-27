@@ -22,7 +22,8 @@ export default {
     months: 'Januari_Februari_Mars_April_Maj_Juni_Juli_Augusti_September_Oktober_November_December'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dagar'
   },
   table: {
     noData: 'Ingen data tillgänglig',
@@ -67,12 +68,12 @@ export default {
     hr: 'Infoga vågrät linje',
     undo: 'Ångra',
     redo: 'Gör om',
-    header1: 'Rubrik 1',
-    header2: 'Rubrik 2',
-    header3: 'Rubrik 3',
-    header4: 'Rubrik 4',
-    header5: 'Rubrik 5',
-    header6: 'Rubrik 6',
+    heading1: 'Rubrik 1',
+    heading2: 'Rubrik 2',
+    heading3: 'Rubrik 3',
+    heading4: 'Rubrik 4',
+    heading5: 'Rubrik 5',
+    heading6: 'Rubrik 6',
     paragraph: 'Stycke',
     code: 'Kod',
     size1: 'Väldigt liten',

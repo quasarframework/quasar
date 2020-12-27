@@ -23,7 +23,7 @@ function (ssrContext) {
 }
 ```
 
-The `ssrContext` is available in the [Boot Files](/quasar-cli/cli-documentation/boot-files) or the [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature), where it is supplied as a parameter.
+The `ssrContext` is available in the [Boot Files](/quasar-cli/boot-files) or the [PreFetch Feature](/quasar-cli/prefetch-feature), where it is supplied as a parameter.
 
 There is a good reason for this. In a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same thing. Each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So [Platform](/options/platform-detection) and [Cookies](/quasar-plugins/cookies) need to be bound to each request separately.
 

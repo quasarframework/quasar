@@ -2,24 +2,22 @@
  * This file runs in a Node context (it's NOT transpiled by Babel), so use only
  * the ES6 features that are supported by your Node version. https://node.green/
  *
- * All content of this folder will be copied as is to the output folder. So only import:
- *  1. node_modules (and yarn/npm install dependencies -- NOT to devDependecies though)
- *  2. create files in this folder and import only those with the relative path
+ * WARNING!
+ * If you import anything from node_modules, then make sure that the package is specified
+ * in package.json > dependencies and NOT in devDependencies
  *
  * Note: This file is used only for PRODUCTION. It is not picked up while in dev mode.
  *   If you are looking to add common DEV & PROD logic to the express app, then use
  *   "src-ssr/extension.js"
  */
 
-const
-  express = require('express'),
-  compression = require('compression')
+const express = require('express')
+const compression = require('compression')
 
-const
-  ssr = require('../ssr'),
-  extension = require('./extension'),
-  app = express(),
-  port = process.env.PORT || 3000
+const ssr = require('quasar-ssr')
+const extension = require('./extension')
+const app = express()
+const port = process.env.PORT || 3000
 
 const serve = (path, cache) => express.static(ssr.resolveWWW(path), {
   maxAge: cache ? 1000 * 60 * 60 * 24 * 30 : 0
@@ -30,17 +28,17 @@ app.use(compression({ threshold: 0 }))
 
 // serve this with no cache, if built with PWA:
 if (ssr.settings.pwa) {
-  app.use('/service-worker.js', serve('service-worker.js'))
+  app.use(ssr.resolveUrl('/service-worker.js'), serve('service-worker.js'))
 }
 
 // serve "www" folder
-app.use('/', serve('.', true))
+app.use(ssr.resolveUrl('/'), serve('.', true))
 
 // we extend the custom common dev & prod parts here
 extension.extendApp({ app, ssr })
 
 // this should be last get(), rendering with SSR
-app.get('*', (req, res) => {
+app.get(ssr.resolveUrl('*'), (req, res) => {
   res.setHeader('Content-Type', 'text/html')
 
   // SECURITY HEADERS
@@ -76,13 +74,17 @@ app.get('*', (req, res) => {
   ssr.renderToString({ req, res }, (err, html) => {
     if (err) {
       if (err.url) {
-        res.redirect(err.url)
+        if (err.code) res.redirect(err.code, err.url)
+        else res.redirect(err.url)
       }
       else if (err.code === 404) {
+        // Should reach here only if no "catch-all" route
+        // is defined in /src/routes
         res.status(404).send('404 | Page Not Found')
       }
       else {
-        // Render Error Page or Redirect
+        // Render Error Page or
+        // create a route (/src/routes) for an error page and redirect to it
         res.status(500).send('500 | Internal Server Error')
         if (ssr.settings.debug) {
           console.error(`500 on ${req.url}`)

@@ -13,6 +13,9 @@ To mix messages with avatar and without avatar in the same thread, use a placeho
 <doc-installation components="QChatMessage" />
 
 ## Usage
+
+### The basics
+
 ::: tip
 Using the property `sent` is intended for the sender of the chat message. The other side is for received messages.
 :::
@@ -33,9 +36,11 @@ Using the property `sent` is intended for the sender of the chat message. The ot
 
 <doc-example title="Size" file="QChatMessage/Size" />
 
-### More advanced
+### Slots
 
-<doc-example title="Slot" file="QChatMessage/Slot" />
+<doc-example title="Default slot" file="QChatMessage/SlotDefault" />
+
+<doc-example title="Avatar slot" file="QChatMessage/SlotAvatar" />
 
 ### Sanitization
 

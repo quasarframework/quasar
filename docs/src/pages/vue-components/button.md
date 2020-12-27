@@ -16,23 +16,46 @@ When not disabled or spinning, QBtn emits a `@click` event, as soon as it is cli
 <doc-installation components="QBtn" />
 
 ## Usage
+
+### Standard
+
 <doc-example title="Standard buttons" file="QBtn/Standard" />
+
+### Custom colors
 
 <doc-example title="Custom colors" file="QBtn/CustomColor" />
 
-<doc-example title="With icons" file="QBtn/WithIcons" />
+### With icon
+
+<doc-example title="With icon" file="QBtn/WithIcons" />
+
+### Round
 
 <doc-example title="Round buttons" file="QBtn/Round" />
 
+### Custom content
+
 <doc-example title="Custom content" file="QBtn/CustomContent" />
+
+<doc-example title="Truncate label" file="QBtn/TruncateLabel" />
 
 ### Design
 
 <doc-example title="Button design" file="QBtn/ButtonDesign" />
 
+### Alignment
+
 <doc-example title="Button alignment" file="QBtn/ButtonAlignment" />
 
+### Size
+
 <doc-example title="Button size" file="QBtn/ButtonSize" />
+
+### Padding <q-badge align="top" label="v1.11+" />
+
+The default padding is "xs md". However, you can use `padding` prop to customize it:
+
+<doc-example title="Button padding" file="QBtn/ButtonPadding" />
 
 ### Progress related
 
@@ -52,11 +75,11 @@ Should you wish, you can also display a deterministic progress within the button
 
 The two examples below won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.
 
-<doc-example title="Links" file="QBtn/Links" />
+<doc-example title="Links" file="QBtn/Links" no-edit />
 
 For more convoluted use-cases, you can also directly use the native Vue `<router-link>` component to wrap a QBtn. This also gives the opportunity to control the state according to app's current route:
 
-<doc-example title="Scoped slot of RouterLink" file="QBtn/RouterLink" />
+<doc-example title="Scoped slot of RouterLink" file="QBtn/RouterLink" no-edit />
 
 ### Other options
 

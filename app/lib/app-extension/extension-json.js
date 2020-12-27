@@ -1,10 +1,7 @@
-const
-  fs = require('fs'),
-  logger = require('../helpers/logger'),
-  log = logger('app:extension-manager'),
-  warn = logger('app:extension-manager', 'red'),
-  chalk = require('chalk'),
-  appPaths = require('../app-paths')
+const fs = require('fs')
+const { log, fatal } = require('../helpers/logger')
+const chalk = require('chalk')
+const appPaths = require('../app-paths')
 
 const extensionPath = appPaths.resolve.app('quasar.extensions.json')
 
@@ -20,8 +17,7 @@ class ExtensionJson {
     }
     catch (e) {
       console.log(e)
-      warn(`⚠️  [FAIL] quasar.extensions.json is malformed`)
-      process.exit(1)
+      fatal(`[FAIL] quasar.extensions.json is malformed`)
     }
   }
 

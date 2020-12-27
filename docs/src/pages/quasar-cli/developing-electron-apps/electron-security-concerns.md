@@ -14,7 +14,7 @@ Under no circumstances should you load and execute remote code with Node.js inte
 The Electron team itself makes the following recommendations:
 
 1.  [Only load secure content](https://electronjs.org/docs/tutorial/security#1-only-load-secure-content)
-2.  [Disable the Node.js integration in all renderers that display remote content](https://electronjs.org/docs/tutorial/security#2-disable-nodejs-integration-for-remote-content)
+2.  [Disable the Node.js integration in all renderers that display remote content](https://electronjs.org/docs/tutorial/security#2-disable-nodejs-integration-for-remote-content). How to [turn it off in Quasar](/quasar-cli/developing-electron-apps/node-integration).
 3.  [Use  `ses.setPermissionRequestHandler()`  in all sessions that load remote content](https://electronjs.org/docs/tutorial/security#4-handle-session-permission-requests-from-remote-content)
 4.  [Define a  `Content-Security-Policy`](https://electronjs.org/docs/tutorial/security#6-define-a-content-security-policy)  and use restrictive rules (i.e.  `script-src 'self'`)
 5.  [Do not disable  `webSecurity`](https://electronjs.org/docs/tutorial/security#5-do-not-disable-websecurity)

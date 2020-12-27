@@ -12,7 +12,7 @@ export default {
     radio () {
       this.$q.dialog({
         title: 'Options',
-        message: 'Choose your options',
+        message: 'Choose an option:',
         options: {
           type: 'radio',
           model: 'opt1',
@@ -37,7 +37,7 @@ export default {
     checkbox () {
       this.$q.dialog({
         title: 'Options',
-        message: 'Choose your options',
+        message: 'Choose your options:',
         options: {
           type: 'checkbox',
           model: [],
@@ -62,7 +62,7 @@ export default {
     toggle () {
       this.$q.dialog({
         title: 'Options',
-        message: 'Choose your options',
+        message: 'Choose your options:',
         options: {
           type: 'toggle',
           model: [],

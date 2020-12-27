@@ -1,4 +1,12 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/chat"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "sent": {
       "type": "Boolean",
@@ -34,13 +42,19 @@
 
     "avatar": {
       "type": "String",
-      "desc": "URL to the avatar image of the author; Suggestion: use a static resource",
-      "examples": [ "statics/boy-avatar.png", "statics/linux-avatar.png" ],
+      "desc": "URL to the avatar image of the author",
+      "transformAssetUrls": true,
+      "examples": [
+        "(statics folder) src=\"statics/boy-avatar.png\"",
+        "(assets folder) src=\"~assets/boy-avatar.png\"",
+        "(relative path format) :src=\"require('./my_img.jpg')\"",
+        "(URL) src=\"https://placeimg.com/500/300/nature\""
+      ],
       "category": "content"
     },
 
     "text": {
-      "type": "String",
+      "type": "Array",
       "desc": "Array of strings that are the message body. Strings are not sanitized (see details in docs)",
       "examples": [ ":text=\"['How are you?']\"", ":text=\"['I\\'m good, thank you!', 'And you?']\"" ],
       "category": "content"

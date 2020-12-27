@@ -1,18 +1,26 @@
 import Vue from 'vue'
 
+import { fromSSR } from '../../plugins/Platform.js'
+
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
 import DarkMixin from '../../mixins/dark.js'
-import slot from '../../utils/slot.js'
-import { stop, prevent } from '../../utils/event.js'
+import AttrsMixin from '../../mixins/attrs.js'
+
+import { slot } from '../../utils/slot.js'
 import uid from '../../utils/uid.js'
+import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
+
+function getTargetUid (val) {
+  return val === void 0 ? `f_${uid()}` : val
+}
 
 export default Vue.extend({
   name: 'QField',
 
-  mixins: [ DarkMixin, ValidateMixin ],
+  mixins: [ DarkMixin, ValidateMixin, AttrsMixin ],
 
   inheritAttrs: false,
 
@@ -24,6 +32,7 @@ export default Vue.extend({
     prefix: String,
     suffix: String,
 
+    labelColor: String,
     color: String,
     bgColor: String,
 
@@ -35,6 +44,8 @@ export default Vue.extend({
     square: Boolean,
 
     loading: Boolean,
+
+    labelSlot: Boolean,
 
     bottomSlots: Boolean,
     hideBottomSpace: Boolean,
@@ -53,6 +64,8 @@ export default Vue.extend({
 
     autofocus: Boolean,
 
+    for: String,
+
     maxlength: [Number, String],
     maxValues: [Number, String] // private, do not add to JSON; internally needed by QSelect
   },
@@ -60,11 +73,19 @@ export default Vue.extend({
   data () {
     return {
       focused: false,
+      targetUid: getTargetUid(this.for),
 
       // used internally by validation for QInput
       // or menu handling for QSelect
-      innerLoading: false,
-      targetUid: this.$attrs.for === void 0 ? 'qf_' + uid() : this.$attrs.for
+      innerLoading: false
+    }
+  },
+
+  watch: {
+    for (val) {
+      // don't transform targetUid into a computed
+      // prop as it will break SSR
+      this.targetUid = getTargetUid(val)
     }
   },
 
@@ -86,15 +107,17 @@ export default Vue.extend({
         const len = typeof this.value === 'string' || typeof this.value === 'number'
           ? ('' + this.value).length
           : (Array.isArray(this.value) === true ? this.value.length : 0)
-        const max = this.maxlength !== void 0 ? this.maxlength : this.maxValues
+
+        const max = this.maxlength !== void 0
+          ? this.maxlength
+          : this.maxValues
 
         return len + (max !== void 0 ? ' / ' + max : '')
       }
     },
 
     floatingLabel () {
-      return this.hasError === true ||
-        this.stackLabel === true ||
+      return this.stackLabel === true ||
         this.focused === true ||
         (
           this.inputValue !== void 0 && this.hideSelected === true
@@ -111,7 +134,7 @@ export default Vue.extend({
     shouldRenderBottom () {
       return this.bottomSlots === true ||
         this.hint !== void 0 ||
-        this.rules !== void 0 ||
+        this.hasRules === true ||
         this.counter === true ||
         this.error !== null
     },
@@ -124,9 +147,10 @@ export default Vue.extend({
         'q-field--rounded': this.rounded,
         'q-field--square': this.square,
 
-        'q-field--focused': this.focused === true || this.hasError === true,
+        'q-field--focused': this.focused === true,
+        'q-field--highlighted': this.focused === true || this.hasError === true,
         'q-field--float': this.floatingLabel,
-        'q-field--labeled': this.label !== void 0,
+        'q-field--labeled': this.hasLabel,
 
         'q-field--dense': this.dense,
         'q-field--item-aligned q-item-type': this.itemAligned,
@@ -170,6 +194,19 @@ export default Vue.extend({
       return cls
     },
 
+    hasLabel () {
+      return this.labelSlot === true || this.label !== void 0
+    },
+
+    labelClass () {
+      if (
+        this.labelColor !== void 0 &&
+        this.hasError !== true
+      ) {
+        return 'text-' + this.labelColor
+      }
+    },
+
     controlSlotScope () {
       return {
         id: this.targetUid,
@@ -180,12 +217,27 @@ export default Vue.extend({
         value: this.value,
         emitValue: this.__emitValue
       }
+    },
+
+    attrs () {
+      const attrs = {
+        for: this.targetUid
+      }
+
+      if (this.disable === true) {
+        attrs['aria-disabled'] = 'true'
+      }
+      else if (this.readonly === true) {
+        attrs['aria-readonly'] = 'true'
+      }
+
+      return attrs
     }
   },
 
   methods: {
     focus () {
-      if (this.showPopup !== void 0 && this.hasDialog === true) {
+      if (this.showPopup !== void 0) {
         this.showPopup()
         return
       }
@@ -206,7 +258,7 @@ export default Vue.extend({
       let target = this.$refs.target
       // IE can have null document.activeElement
       if (target !== void 0 && (el === null || el.id !== this.targetUid)) {
-        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
+        target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
         target !== null && target !== el && target.focus()
       }
     },
@@ -257,11 +309,10 @@ export default Vue.extend({
         node.push(
           this.__getInnerAppendNode(h, 'inner-clearable-append', [
             h(QIcon, {
-              staticClass: 'cursor-pointer',
-              props: { name: this.clearIcon || this.$q.iconSet.field.clear },
-              on: {
-                click: this.__clearValue
-              }
+              staticClass: 'q-field__focusable-action',
+              props: { tag: 'button', name: this.clearIcon || this.$q.iconSet.field.clear },
+              attrs: { tabindex: 0, type: 'button' },
+              on: this.clearableEvents
             })
           ])
         )
@@ -271,8 +322,8 @@ export default Vue.extend({
         this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
       )
 
-      this.__getPopup !== void 0 && node.push(
-        this.__getPopup(h)
+      this.__getControlChild !== void 0 && node.push(
+        this.__getControlChild(h)
       )
 
       return node
@@ -287,10 +338,14 @@ export default Vue.extend({
         }, [ this.prefix ])
       )
 
-      if (this.__getControl !== void 0) {
+      if (this.hasShadow === true && this.__getShadowControl !== void 0) {
         node.push(
-          this.__getControl(h)
+          this.__getShadowControl(h)
         )
+      }
+
+      if (this.__getControl !== void 0) {
+        node.push(this.__getControl(h))
       }
       // internal usage only:
       else if (this.$scopedSlots.rawControl !== void 0) {
@@ -302,17 +357,18 @@ export default Vue.extend({
             ref: 'target',
             staticClass: 'q-field__native row',
             attrs: {
-              ...this.$attrs,
-              autofocus: this.autofocus
+              ...this.qAttrs,
+              'data-autofocus': this.autofocus
             }
           }, this.$scopedSlots.control(this.controlSlotScope))
         )
       }
 
-      this.label !== void 0 && node.push(
+      this.hasLabel === true && node.push(
         h('div', {
-          staticClass: 'q-field__label no-pointer-events absolute ellipsis'
-        }, [ this.label ])
+          staticClass: 'q-field__label no-pointer-events absolute ellipsis',
+          class: this.labelClass
+        }, [ slot(this, 'label', this.label) ])
       )
 
       this.suffix !== void 0 && this.suffix !== null && node.push(
@@ -433,16 +489,34 @@ export default Vue.extend({
     },
 
     __clearValue (e) {
-      stop(e)
+      // prevent activating the field but keep focus on desktop
+      stopAndPrevent(e)
+
+      if (this.$q.platform.is.mobile !== true) {
+        const el = this.$refs.target || this.$el
+        el.focus()
+      }
+      else if (this.$el.contains(document.activeElement) === true) {
+        document.activeElement.blur()
+      }
+
       if (this.type === 'file') {
         // do not let focus be triggered
         // as it will make the native file dialog
         // appear for another selection
-        prevent(e)
         this.$refs.input.value = null
       }
+
       this.$emit('input', null)
       this.$emit('clear', this.value)
+
+      this.$nextTick(() => {
+        this.resetValidation()
+
+        if (this.lazyRules !== 'ondemand' && this.$q.platform.is.mobile !== true) {
+          this.isDirty = false
+        }
+      })
     },
 
     __emitValue (value) {
@@ -455,11 +529,9 @@ export default Vue.extend({
     this.__onPostRender !== void 0 && this.$nextTick(this.__onPostRender)
 
     return h('label', {
-      staticClass: 'q-field row no-wrap items-start',
+      staticClass: 'q-field q-validation-component row no-wrap items-start',
       class: this.classes,
-      attrs: {
-        for: this.targetUid
-      }
+      attrs: this.attrs
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center',
@@ -494,6 +566,8 @@ export default Vue.extend({
 
     this.slotsEvents = { click: prevent }
 
+    this.clearableEvents = { click: this.__clearValue }
+
     this.controlEvents = this.__getControlEvents !== void 0
       ? this.__getControlEvents()
       : {
@@ -505,6 +579,10 @@ export default Vue.extend({
   },
 
   mounted () {
+    if (fromSSR === true && this.for === void 0) {
+      this.targetUid = getTargetUid()
+    }
+
     this.autofocus === true && this.focus()
   },
 

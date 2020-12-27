@@ -1,26 +1,32 @@
 .q-scrollarea
-  position relative
+  position: relative
 
-.q-scrollarea__thumb
-  background black
-  opacity .2
-  transition opacity .3s
+  &__bar,
+  &__thumb
+    opacity: .2
+    transition: opacity .3s
+    will-change: opacity
+    cursor: grab
 
-  &--v
-    right 0
-    width 10px
+    &--v
+      right: 0
+      width: 10px
 
-  &--h
-    bottom 0
-    height 10px
+    &--h
+      bottom: 0
+      height: 10px
 
-  &:hover
-    opacity .3
-    cursor grab
-  &:active
-    opacity .5
+    &--invisible
+      opacity: 0 !important
+      pointer-events: none
 
-  &--invisible
-    opacity 0 !important
+  &__thumb
+    background: #000
+
     &:hover
-      cursor inherit
+      opacity: .3
+    &:active
+      opacity: .5
+
+  &--dark .q-scrollarea__thumb
+    background: #fff

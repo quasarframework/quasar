@@ -5,16 +5,18 @@ related:
   - /options/transitions
 ---
 
-A Stepper conveys progress through numbered steps. Steppers display progress
-through a sequence of logical and numbered steps. They may also be used for
-navigation. It's usually useful when the user has to follow steps to complete a
-process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
+Steppers display progress through a sequence of logical and numbered steps. They may also be used for navigation.
+They're usually useful when the user has to follow steps to complete a process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
 
 ## Installation
 
 <doc-installation :components="['QStepper', 'QStep', 'QStepperNavigation']" />
 
 ## Usage
+
+::: tip
+If the QStep content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+:::
 
 ::: danger
 Please take notice of the Boolean `keep-alive` prop for QStepper, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QStep.
@@ -41,7 +43,7 @@ Please take notice of the Boolean `keep-alive` prop for QStepper, if you need th
 <doc-example title="Alternative labels" file="QStepper/AlternativeLabels" />
 
 ::: tip
-You can also connect `contracted` prop to `$q.screen` to make a responsive behavior, like `:contracted="$q.screen.lt.md`.
+You can also connect `contracted` prop to `$q.screen` to create a responsive behavior, like `:contracted="$q.screen.lt.md"`.
 More info: [Quasar Screen Plugin](/options/screen-plugin).
 :::
 
@@ -58,6 +60,10 @@ You can also use `prefix` prop (max 2 characters) instead of an icon for each st
 <doc-example title="Step prefix" file="QStepper/Prefix" />
 
 <doc-example title="Dark" file="QStepper/Dark" />
+
+Starting with Quasar v1.9.13+, you can use the `header-class` prop to apply any CSS class(es) to the header. In the example below, we are applying bolded text:
+
+<doc-example title="Header Class" file="QStepper/HeaderClass" />
 
 ### Message slot
 

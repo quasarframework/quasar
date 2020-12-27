@@ -8,7 +8,7 @@
           <div class="text-h6">Inception</div>
         </q-card-section>
 
-        <q-card-section>
+        <q-card-section class="q-pt-none">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis laudantium minus earum totam modi laborum illo, corporis fuga saepe animi aliquam ea enim assumenda ut nulla natus aperiam quis. Iste.
         </q-card-section>
 
@@ -25,7 +25,7 @@
           <div class="text-h6">Persistent</div>
         </q-card-section>
 
-        <q-card-section>
+        <q-card-section class="q-pt-none">
           Click/Tap on the backdrop.
         </q-card-section>
 

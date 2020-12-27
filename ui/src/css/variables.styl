@@ -18,6 +18,10 @@ $spaces ?= {
   xl: $space-xl
 }
 
+$animate-duration ?= .3s
+$animate-delay    ?= .3s
+$animate-repeat   ?= 1
+
 // Max width at which point
 // current size ends
 $breakpoint-xs ?= 599px
@@ -159,7 +163,7 @@ $text-weights ?= {
   bolder: 900
 }
 
-$primary   ?= #027BE3
+$primary   ?= #1976D2
 $secondary ?= #26A69A
 $accent    ?= #9C27B0
 
@@ -480,6 +484,7 @@ $z-max                ?= 9998
 $shadow-color         ?= black
 $shadow-transition    ?= box-shadow .28s cubic-bezier(.4, 0, .2, 1)
 $inset-shadow         ?= 0 7px 9px -7px rgba($shadow-color, .7) inset
+$inset-shadow-down    ?= 0 -7px 9px -7px rgba($shadow-color, .7) inset
 
 $elevation-umbra      ?= rgba($shadow-color, .2)
 $elevation-penumbra   ?= rgba($shadow-color, .14)
@@ -548,7 +553,7 @@ $button-padding                 ?= 4px 16px
 $button-dense-padding           ?= .285em
 $button-transition              ?= $generic-hover-transition
 $button-font-size               ?= 14px
-$button-line-height             ?= 1.718em
+$button-line-height             ?= 1.715em
 $button-font-weight             ?= 500
 $button-shadow                  ?= $shadow-2
 $button-shadow-active           ?= $shadow-5
@@ -574,8 +579,6 @@ $editor-toolbar-padding         ?= 4px
 $editor-hr-color                ?= $editor-border-color
 $editor-hr-dark-color           ?= $editor-border-dark-color
 $editor-button-gutter           ?= 4px
-
-$fab-margin                     ?= 5px
 
 $table-transition               ?= $generic-hover-transition
 $table-border-radius            ?= $generic-border-radius

@@ -57,12 +57,46 @@ server {
 }
 ```
 
+## Important Hosting Configuration
 
-## Deploying with Now.sh
-Deploying your Quasar application with [now](https://zeit.co/now) is really easy.
-All you have to do is to download the [now-cli](https://zeit.co/download#now-cli) and log in by running:
+It's important that you do not allow browsers to cache the `index.html` file. Because otherwise updates to this file or to your app might slip through the cracks for browsers that load the index.html from cache.
+
+This is why you must always make sure to add `"Cache-Control": "no-cache"` to the headers of the `index.html` file via your hosting service.
+
+As an example how this is done for Google Firebase, you would add the following to the `firebase.json` configuration:
+
+```json
+{
+  "hosting": {
+    "headers": [
+      {
+        "source": "/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(jpg|jpeg|gif|png|svg|webp|js|css|eot|otf|ttf|ttc|woff|woff2|font.css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=604800"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Deploying with Vercel
+Deploying your Quasar application with [Vercel](https://vercel.com/) is really easy.
+All you have to do is to download the [vercel-cli](https://vercel.com/download#now-cli) and log in by running:
 ```bash
-$ now login
+$ vercel login
 ```
 
 Then proceed to build your Quasar application using the steps described in "General deployment" section.
@@ -70,27 +104,27 @@ Then proceed to build your Quasar application using the steps described in "Gene
 After the build is finished, change directory into your deploy root (example: `/dist/spa`) and run:
 ```bash
 # from /dist/spa (or your distDir)
-$ now
+$ vercel
 ```
 
-The Now CLI should now display information regarding your deployment, like the URL. That's it. You're done.
+The Vercel CLI should now display information regarding your deployment, like the URL. That's it. You're done.
 
-### _Now.sh_ configuration tips
+### Vercel configuration tips
 You should consider adding some additional configurations to your project.
 
-* Since _now.sh_ expects the _build_ script to be defined, you may add in `package.json` the following scripts: 
+* Since Vercel expects the _build_ script to be defined, you may add in `package.json` the following scripts: 
 ```json
   {
     ..
     "scripts": {
       ...
       "build": "quasar build",
-      "deploy": "now"
+      "deploy": "vercel"
     }
   }
 ```
 
-* Since _now.sh_ expects the build results to be in `/public` directory, and _Quasar_ has it in `/dist/spa` by default,
+* Since Vercel expects the build results to be in `/public` directory, and _Quasar_ has it in `/dist/spa` by default,
 consider updating `quasar.conf.js` accordingly:
 ```js
 module.exports = function (ctx) {
@@ -102,7 +136,7 @@ module.exports = function (ctx) {
     }
 ```
 
-* In order to support SPA routing in the deployed app, consider adding `now.json` file in your root folder:
+* In order to support SPA routing in the deployed app, consider adding `vercel.json` file in your root folder:
 ```json
 {
   "routes": [

@@ -1,10 +1,9 @@
 // Adapted from Vue CLI v2 "init" command
 
-const
-  path = require('path'),
-  metadata = require('read-metadata'),
-  validateName = require('validate-npm-package-name'),
-  exists = require('fs').existsSync
+const path = require('path')
+const metadata = require('read-metadata')
+const validateName = require('validate-npm-package-name')
+const exists = require('fs').existsSync
 
 const getGitUser = require('./git-user')
 
@@ -84,8 +83,8 @@ function setDefault (opts, key, val) {
 
 function setValidateName (opts) {
   const
-    name = opts.prompts.name,
-    customValidate = name.validate
+    name = opts.prompts.name;
+    const customValidate = name.validate
 
   name.validate = name => {
     const its = validateName(name)

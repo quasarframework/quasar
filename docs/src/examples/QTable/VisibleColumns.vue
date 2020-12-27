@@ -52,7 +52,7 @@
 export default {
   data () {
     return {
-      visibleColumns: ['calories', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
+      visibleColumns: [ 'calories', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
       columns: [
         {
           name: 'desc',

@@ -9,14 +9,17 @@
  *
  * Boot files are your "main.js"
  **/
-import App from 'app/<%= sourceFiles.rootComponent %>'
-const appOptions = App.options /* Vue.extend() */ || App
-
 <% if (__loadingBar) { %>
 import { LoadingBar } from 'quasar'
 <% } %>
 
-<% if (!ctx.mode.ssr) { %>
+<% if (ctx.mode.ssr && ctx.mode.pwa) { %>
+import { isRunningOnPWA } from './ssr-pwa'
+<% } %>
+
+<% if (!ctx.mode.ssr || ctx.mode.pwa) { %>
+import App from 'app/<%= sourceFiles.rootComponent %>'
+let appOptions = App.options /* Vue.extend() */ || App
 let appPrefetch = typeof appOptions.preFetch === 'function'
 <% } %>
 
@@ -26,7 +29,8 @@ function getMatchedComponents (to, router) {
     : router.currentRoute
 
   if (!route) { return [] }
-  return [].concat.apply([], route.matched.map(m => {
+
+  return Array.prototype.concat.apply([], route.matched.map(m => {
     return Object.keys(m.components).map(key => {
       const comp = m.components[key]
       return {
@@ -37,18 +41,19 @@ function getMatchedComponents (to, router) {
   }))
 }
 
-export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
+export function addPreFetchHooks (router<%= store ? ', store' : '' %>, publicPath) {
   // Add router hook for handling preFetch.
   // Doing it after initial route is resolved so that we don't double-fetch
   // the data that we already have. Using router.beforeResolve() so that all
   // async components are resolved.
   router.beforeResolve((to, from, next) => {
     const
+      urlPath = window.location.href.replace(window.location.origin, ''),
       matched = getMatchedComponents(to, router),
       prevMatched = getMatchedComponents(from, router)
 
     let diffed = false
-    const components = matched
+    const preFetchList = matched
       .filter((m, i) => {
         return diffed || (diffed = (
           !prevMatched[i] ||
@@ -57,41 +62,48 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
         ))
       })
       .filter(m => m.c && typeof m.c.preFetch === 'function')
-      .map(m => m.c)
+      .map(m => m.c.preFetch)
 
     <% if (!ctx.mode.ssr) { %>
-    if (appPrefetch) {
+    if (appPrefetch === true) {
       appPrefetch = false
-      components.unshift(appOptions)
+      preFetchList.unshift(appOptions.preFetch)
+    }
+    <% } else if (ctx.mode.pwa) { %>
+    if (isRunningOnPWA === true && appPrefetch === true) {
+      appPrefetch = false
+      preFetchList.unshift(appOptions.preFetch)
     }
     <% } %>
 
-    if (!components.length) { return next() }
+    if (preFetchList.length === 0) {
+      return next()
+    }
 
-    let routeUnchanged = true
+    let hasRedirected = false
     const redirect = url => {
-      routeUnchanged = false
+      hasRedirected = true
       next(url)
     }
     const proceed = () => {
       <% if (__loadingBar) { %>
       LoadingBar.stop()
       <% } %>
-      if (routeUnchanged) { next() }
+      if (hasRedirected === false) { next() }
     }
 
     <% if (__loadingBar) { %>
     LoadingBar.start()
     <% } %>
 
-    components
-    .filter(c => c && c.preFetch)
-    .reduce(
-      (promise, c) => promise.then(() => routeUnchanged && c.preFetch({
+    preFetchList.reduce(
+      (promise, preFetch) => promise.then(() => hasRedirected === false && preFetch({
         <% if (store) { %>store,<% } %>
         currentRoute: to,
         previousRoute: from,
-        redirect
+        redirect,
+        urlPath,
+        publicPath
       })),
       Promise.resolve()
     )

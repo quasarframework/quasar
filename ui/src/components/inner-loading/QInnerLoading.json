@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/size" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/inner-loading"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -13,7 +17,8 @@
     },
 
     "color": {
-      "extends": "color"
+      "extends": "color",
+      "desc": "Color name for component from the Quasar Color Palette for the inner Spinner (unless using the default slot)"
     },
 
     "size": {

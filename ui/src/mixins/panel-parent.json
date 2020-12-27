@@ -2,7 +2,7 @@
   "props": {
     "value": {
       "type": "Any",
-      "desc": "Model of the component defining current panel's name; If used as Number, it does not defines panel index though but slide name's which may be an Integer; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "desc": "Model of the component defining the current panel's name; If a Number is used, it does not define the panel's index, but rather the panel's name which can also be an Integer; Either use this property (along with a listener for 'input' event) OR use the v-model directive.",
       "examples": [ "v-model=\"panelName\"" ],
       "category": "model"
     },
@@ -11,6 +11,30 @@
       "type": "Boolean",
       "desc": "Equivalent to using Vue's native <keep-alive> component on the content",
       "category": "behavior"
+    },
+
+    "keep-alive-include": {
+      "type": [ "String", "Array", "RegExp" ],
+      "desc": "Equivalent to using Vue's native include prop for <keep-alive>",
+      "examples": [ "a,b", "/a|b/", "['a', 'b']" ],
+      "category": "behavior",
+      "addedIn": "v1.15.0"
+    },
+
+    "keep-alive-exclude": {
+      "type": [ "String", "Array", "RegExp" ],
+      "desc": "Equivalent to using Vue's native exclude prop for <keep-alive>",
+      "examples": [ "a,b", "/a|b/", "['a', 'b']" ],
+      "category": "behavior",
+      "addedIn": "v1.15.0"
+    },
+
+    "keep-alive-max": {
+      "type": "Number",
+      "desc": "Equivalent to using Vue's native max prop for <keep-alive>",
+      "examples": [ "2" ],
+      "category": "behavior",
+      "addedIn": "v1.15.0"
     },
 
     "animated": {
@@ -31,17 +55,23 @@
       "category": "behavior"
     },
 
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Default transitions and swipe actions will be on the vertical axis",
+      "category": "behavior"
+    },
+
     "transition-prev": {
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
-      "default": "slide-right",
+      "default": "slide-right/slide-down",
       "category": "behavior"
     },
 
     "transition-next": {
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
-      "default": "slide-left",
+      "default": "slide-left/slide-up",
       "category": "behavior"
     }
   },

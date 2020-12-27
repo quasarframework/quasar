@@ -10,11 +10,12 @@ The shadows are in accordance to Material Design specifications (24 levels of de
 | CSS Class Name | Description |
 | --- | --- |
 | `no-shadow` | Remove any shadow |
-| `inset-shadow` | Set an inset shadow |
+| `inset-shadow` | Set an inset shadow on top |
+| `inset-shadow-down` | Set an inset shadow on bottom (**v1.14.7+**) |
 | `shadow-1` | Set a depth of 1 |
 | `shadow-2` | Set a depth of 2 |
 | `shadow-N` | Where `N` is an integer from 1 to 24. |
-| `shadow-transition` | Apply a CSS transition on the shadow; best use in conjunction with `hoverable` classes |
+| `shadow-transition` | Apply the default CSS transition effect on the shadow |
 
 <doc-example title="Standard shadows" file="shadows/Standard" scrollable />
 

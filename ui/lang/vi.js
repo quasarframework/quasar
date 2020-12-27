@@ -22,7 +22,8 @@ export default {
     months: 'Tháng Một_Tháng Hai_Tháng Ba_Tháng Tư_Tháng Năm_Tháng Sáu_Tháng Bảy_Tháng Tám_Tháng Chín_Tháng Mười_Tháng Mười Một_Tháng Mười Hai'.split('_'),
     monthsShort: 'Th1_Th2_Th3_Th4_Th5_Th6_Th7_Th8_Th9_Th10_Th11_Th12'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: false
+    format24h: false,
+    pluralDay: 'ngày'
   },
   table: {
     noData: 'Không có dữ liệu',
@@ -67,12 +68,12 @@ export default {
     hr: 'Chèn Quy Tắc Ngang',
     undo: 'Hoàn tác',
     redo: 'Làm lại',
-    header1: 'Tiêu đề 1',
-    header2: 'Tiêu đề 2',
-    header3: 'Tiêu đề 3',
-    header4: 'Tiêu đề 4',
-    header5: 'Tiêu đề 5',
-    header6: 'Tiêu đề 6',
+    heading1: 'Tiêu đề 1',
+    heading2: 'Tiêu đề 2',
+    heading3: 'Tiêu đề 3',
+    heading4: 'Tiêu đề 4',
+    heading5: 'Tiêu đề 5',
+    heading6: 'Tiêu đề 6',
     paragraph: 'Đoạn',
     code: 'Mã',
     size1: 'Rất nhỏ',

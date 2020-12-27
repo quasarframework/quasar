@@ -49,7 +49,7 @@ export default {
           ]
         }
       ],
-      expanded: ['Satisfied customers (with avatar)', 'Good food (with icon)']
+      expanded: [ 'Satisfied customers (with avatar)', 'Good food (with icon)' ]
     }
   }
 }

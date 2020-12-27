@@ -1,16 +1,13 @@
-const
-  fs = require('fs-extra'),
-  path = require('path'),
-  merge = require('webpack-merge'),
-  semver = require('semver')
+const fs = require('fs-extra')
+const path = require('path')
+const merge = require('webpack-merge')
+const semver = require('semver')
 
-const
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  warn = logger('app:extension(install)', 'red'),
-  getPackageJson = require('../helpers/get-package-json'),
-  getCallerPath = require('../helpers/get-caller-path'),
-  extensionJson = require('./extension-json')
+const appPaths = require('../app-paths')
+const { warn, fatal } = require('../helpers/logger')
+const getPackageJson = require('../helpers/get-package-json')
+const getCallerPath = require('../helpers/get-caller-path')
+const extensionJson = require('./extension-json')
 
 /**
  * API for extension's /install.js script
@@ -25,6 +22,7 @@ module.exports = class InstallAPI {
     this.__needsNodeModulesUpdate = false
     this.__hooks = {
       renderFolders: [],
+      renderFiles: [],
       exitLog: []
     }
   }
@@ -79,13 +77,11 @@ module.exports = class InstallAPI {
     const json = getPackageJson(packageName)
 
     if (json === void 0) {
-      warn(`⚠️  Extension(${this.extId}): Dependency not found - ${packageName}. Please install it.`)
-      process.exit(1)
+      fatal(`Extension(${this.extId}): Dependency not found - ${packageName}. Please install it.`)
     }
 
     if (!semver.satisfies(json.version, semverCondition)) {
-      warn(`⚠️  Extension(${this.extId}): is not compatible with ${packageName} v${json.version}. Required version: ${semverCondition}`)
-      process.exit(1)
+      fatal(`Extension(${this.extId}): is not compatible with ${packageName} v${json.version}. Required version: ${semverCondition}`)
     }
   }
 
@@ -148,19 +144,18 @@ module.exports = class InstallAPI {
     }
 
     if (typeof extPkg === 'string') {
-      const
-        dir = getCallerPath(),
-        source = path.resolve(dir, extPkg)
+      const dir = getCallerPath()
+      const source = path.resolve(dir, extPkg)
 
       if (!fs.existsSync(source)) {
         warn()
-        warn(`⚠️  Extension(${this.extId}): extendPackageJson() - cannot locate ${extPkg}. Skipping...`)
+        warn(`Extension(${this.extId}): extendPackageJson() - cannot locate ${extPkg}. Skipping...`)
         warn()
         return
       }
       if (fs.lstatSync(source).isDirectory()) {
         warn()
-        warn(`⚠️  Extension(${this.extId}): extendPackageJson() - "${extPkg}" is a folder instead of file. Skipping...`)
+        warn(`Extension(${this.extId}): extendPackageJson() - "${extPkg}" is a folder instead of file. Skipping...`)
         warn()
         return
       }
@@ -169,7 +164,7 @@ module.exports = class InstallAPI {
         extPkg = require(source)
       }
       catch (e) {
-        warn(`⚠️  Extension(${this.extId}): extendPackageJson() - "${extPkg}" is malformed`)
+        warn(`Extension(${this.extId}): extendPackageJson() - "${extPkg}" is malformed`)
         warn()
         process.exit(1)
       }
@@ -179,9 +174,8 @@ module.exports = class InstallAPI {
       return
     }
 
-    const
-      filePath = appPaths.resolve.app('package.json'),
-      pkg = merge(require(filePath), extPkg)
+    const filePath = appPaths.resolve.app('package.json')
+    const pkg = merge(require(filePath), extPkg)
 
     fs.writeFileSync(
       filePath,
@@ -209,41 +203,51 @@ module.exports = class InstallAPI {
    */
   extendJsonFile (file, newData) {
     if (newData !== void 0 && Object(newData) === newData && Object.keys(newData).length > 0) {
-      const
-        filePath = appPaths.resolve.app(file),
-        data = merge(fs.existsSync(filePath) ? require(filePath) : {}, newData)
+      const filePath = appPaths.resolve.app(file)
 
-      fs.writeFileSync(
-        appPaths.resolve.app(file),
-        JSON.stringify(data, null, 2),
-        'utf-8'
-      )
+      // Try to parse the JSON with Node native tools.
+      // It will soft-fail and log a warning if the JSON isn't parseable
+      //  which usually means we are dealing with an extended JSON flavour,
+      //  for example JSON with comments or JSON5.
+      // Notable examples are TS 'tsconfig.json' or VSCode 'settings.json'
+      try {
+        const data = merge(fs.existsSync(filePath) ? require(filePath) : {}, newData)
+
+        fs.writeFileSync(
+          appPaths.resolve.app(file),
+          JSON.stringify(data, null, 2),
+          'utf-8'
+        )
+      }
+      catch(e) {
+        warn()
+        warn(`Extension(${this.extId}): extendJsonFile() - "${filePath}" doesn't conform to JSON format: this could happen if you are trying to update flavoured JSON files (eg. JSON with Comments or JSON5). Skipping...`)
+        warn(`Extension(${this.extId}): extendJsonFile() - The extension tried to apply these updates to "${filePath}" file: ${JSON.stringify(newData)}`)
+        warn()
+      }
     }
   }
 
   /**
    * Render a folder from extension templates into devland.
-   * Needs a relative path to the folder of the file calling render().
+   * Needs a path (to a folder) relative to the path of the file where render() is called
    *
    * @param {string} templatePath (relative path to folder to render in app)
    * @param {object} scope (optional; rendering scope variables)
    */
   render (templatePath, scope) {
-    const
-      dir = getCallerPath(),
-      source = path.resolve(dir, templatePath),
-      rawCopy = !scope || Object.keys(scope).length === 0
+    const dir = getCallerPath()
+    const source = path.resolve(dir, templatePath)
+    const rawCopy = !scope || Object.keys(scope).length === 0
 
     if (!fs.existsSync(source)) {
       warn()
-      warn(`⚠️  Extension(${this.extId}): render() - cannot locate ${templatePath}. Skipping...`)
-      warn()
+      warn(`Extension(${this.extId}): render() - cannot locate ${templatePath}. Skipping...\n`)
       return
     }
     if (!fs.lstatSync(source).isDirectory()) {
       warn()
-      warn(`⚠️  Extension(${this.extId}): render() - "${templatePath}" is a file instead of folder. Skipping...`)
-      warn()
+      warn(`Extension(${this.extId}): render() - "${templatePath}" is a file instead of folder. Skipping...\n`)
       return
     }
 
@@ -251,6 +255,40 @@ module.exports = class InstallAPI {
       source,
       rawCopy,
       scope
+    })
+  }
+
+  /**
+   * Render a file from extension template into devland
+   * Needs a path (to a file) relative to the path of the file where renderFile() is called
+   *
+   * @param {string} relativeSourcePath (file path relative to the folder from which the install script is called)
+   * @param {string} relativeTargetPath (file path relative to the root of the app -- including filename!)
+   * @param {object} scope (optional; rendering scope variables)
+   */
+  renderFile (relativeSourcePath, relativeTargetPath, scope) {
+    const dir = getCallerPath()
+    const sourcePath = path.resolve(dir, relativeSourcePath)
+    const targetPath = appPaths.resolve.app(relativeTargetPath)
+    const rawCopy = !scope || Object.keys(scope).length === 0
+
+    if (!fs.existsSync(sourcePath)) {
+      warn()
+      warn(`Extension(${this.extId}): renderFile() - cannot locate ${relativeSourcePath}. Skipping...\n`)
+      return
+    }
+    if (fs.lstatSync(sourcePath).isDirectory()) {
+      warn()
+      warn(`Extension(${this.extId}): renderFile() - "${relativeSourcePath}" is a folder instead of a file. Skipping...\n`)
+      return
+    }
+
+    this.__hooks.renderFiles.push({
+      sourcePath,
+      targetPath,
+      rawCopy,
+      scope,
+      overwritePrompt: true
     })
   }
 

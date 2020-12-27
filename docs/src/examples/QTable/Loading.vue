@@ -1,10 +1,11 @@
 <template>
   <div class="q-pa-md">
-    <q-btn label="Refresh" color="primary" @click="onRefresh" class="q-mb-md" />
+    <q-toggle v-model="loading" label="Loading state" class="q-mb-md" />
     <q-table
       title="Treats"
       :data="data"
       :columns="columns"
+      color="primary"
       row-key="name"
       :loading="loading"
     />
@@ -15,7 +16,8 @@
 export default {
   data () {
     return {
-      loading: true,
+      loading: false,
+
       columns: [
         {
           name: 'desc',
@@ -136,18 +138,6 @@ export default {
           iron: '6%'
         }
       ]
-    }
-  },
-  mounted () {
-    this.onRefresh()
-  },
-  methods: {
-    // emulate fetching data from server
-    onRefresh () {
-      this.loading = true
-      setTimeout(() => {
-        this.loading = false
-      }, 5000)
     }
   }
 }

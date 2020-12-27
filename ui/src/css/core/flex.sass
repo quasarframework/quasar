@@ -24,7 +24,7 @@
         flex: 0 1 auto
 
     @for $i from 0 through $flex-cols
-      $ic: quote($i)
+      $ic: quote('' + $i)
       #{str-fe('.col<name>-<i>', $name, $noProcNotZero, $ic)}
         @extend .col#{$name}-auto
       .row

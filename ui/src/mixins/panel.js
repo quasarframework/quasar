@@ -2,8 +2,11 @@ import Vue from 'vue'
 
 import TouchSwipe from '../directives/TouchSwipe.js'
 
+import ListenersMixin from './listeners.js'
+
 import { stop } from '../utils/event.js'
-import slot from '../utils/slot.js'
+import { slot } from '../utils/slot.js'
+import cache from '../utils/cache.js'
 
 const PanelWrapper = Vue.extend({
   name: 'QTabPanelWrapper',
@@ -14,14 +17,14 @@ const PanelWrapper = Vue.extend({
       attrs: { role: 'tabpanel' },
       // stop propagation of content emitted @input
       // which would tamper with Panel's model
-      on: {
-        input: stop
-      }
+      on: cache(this, 'stop', { input: stop })
     }, slot(this, 'default'))
   }
 })
 
 export const PanelParentMixin = {
+  mixins: [ ListenersMixin ],
+
   directives: {
     TouchSwipe
   },
@@ -34,17 +37,15 @@ export const PanelParentMixin = {
     animated: Boolean,
     infinite: Boolean,
     swipeable: Boolean,
+    vertical: Boolean,
 
-    transitionPrev: {
-      type: String,
-      default: 'slide-right'
-    },
-    transitionNext: {
-      type: String,
-      default: 'slide-left'
-    },
+    transitionPrev: String,
+    transitionNext: String,
 
-    keepAlive: Boolean
+    keepAlive: Boolean,
+    keepAliveInclude: [ String, Array, RegExp ],
+    keepAliveExclude: [ String, Array, RegExp ],
+    keepAliveMax: Number
   },
 
   data () {
@@ -56,12 +57,13 @@ export const PanelParentMixin = {
 
   computed: {
     panelDirectives () {
-      if (this.swipeable) {
+      if (this.swipeable === true) {
         return [{
           name: 'touch-swipe',
           value: this.__swipe,
           modifiers: {
-            horizontal: true,
+            horizontal: this.vertical !== true,
+            vertical: this.vertical,
             mouse: true
           }
         }]
@@ -72,6 +74,22 @@ export const PanelParentMixin = {
       return typeof this.value === 'string' || typeof this.value === 'number'
         ? this.value
         : String(this.value)
+    },
+
+    transitionPrevComputed () {
+      return this.transitionPrev || `slide-${this.vertical === true ? 'down' : 'right'}`
+    },
+
+    transitionNextComputed () {
+      return this.transitionNext || `slide-${this.vertical === true ? 'up' : 'left'}`
+    },
+
+    keepAliveProps () {
+      const props = {}
+      this.keepAliveInclude !== void 0 && (props.include = this.keepAliveInclude)
+      this.keepAliveExclude !== void 0 && (props.exclude = this.keepAliveExclude)
+      this.keepAliveMax !== void 0 && (props.max = this.keepAliveMax)
+      return props
     }
   },
 
@@ -116,34 +134,23 @@ export const PanelParentMixin = {
 
     __getPanelIndex (name) {
       return this.panels.findIndex(panel => {
-        const opt = panel.componentOptions
-        return opt &&
-          opt.propsData.name === name &&
-          opt.propsData.disable !== '' &&
-          opt.propsData.disable !== true
+        const opt = panel.componentOptions.propsData
+        return opt.name === name &&
+          opt.disable !== '' &&
+          opt.disable !== true
       })
     },
 
-    __getAllPanels () {
-      return this.panels.filter(
-        panel => panel.componentOptions !== void 0 &&
-          this.__isValidPanelName(panel.componentOptions.propsData.name)
-      )
-    },
-
-    __getAvailablePanels () {
+    __getEnabledPanels () {
       return this.panels.filter(panel => {
-        const opt = panel.componentOptions
-        return opt &&
-          opt.propsData.name !== void 0 &&
-          opt.propsData.disable !== '' &&
-          opt.propsData.disable !== true
+        const opt = panel.componentOptions.propsData
+        return opt.disable !== '' && opt.disable !== true
       })
     },
 
     __updatePanelTransition (direction) {
       const val = direction !== 0 && this.animated === true && this.panelIndex !== -1
-        ? 'q-transition--' + (direction === -1 ? this.transitionPrev : this.transitionNext)
+        ? 'q-transition--' + (direction === -1 ? this.transitionPrevComputed : this.transitionNextComputed)
         : null
 
       if (this.panelTransition !== val) {
@@ -181,7 +188,8 @@ export const PanelParentMixin = {
     },
 
     __swipe (evt) {
-      this.__go((this.$q.lang.rtl === true ? -1 : 1) * (evt.direction === 'left' ? 1 : -1))
+      const dir = this.vertical === true ? 'up' : 'left'
+      this.__go((this.$q.lang.rtl === true ? -1 : 1) * (evt.direction === dir ? 1 : -1))
     },
 
     __updatePanelIndex () {
@@ -207,7 +215,8 @@ export const PanelParentMixin = {
         ? [
           h('keep-alive', [
             h(PanelWrapper, {
-              key: this.contentKey
+              key: this.contentKey,
+              props: this.keepAliveProps
             }, [ panel ])
           ])
         ]
@@ -218,7 +227,7 @@ export const PanelParentMixin = {
             attrs: { role: 'tabpanel' },
             // stop propagation of content emitted @input
             // which would tamper with Panel's model
-            on: { input: stop }
+            on: cache(this, 'stop', { input: stop })
           }, [ panel ])
         ]
 
@@ -235,12 +244,20 @@ export const PanelParentMixin = {
   },
 
   render (h) {
-    this.panels = slot(this, 'default', [])
+    this.panels = slot(this, 'default', []).filter(
+      panel => panel !== void 0 &&
+        panel.componentOptions !== void 0 &&
+        panel.componentOptions.propsData !== void 0 &&
+        this.__isValidPanelName(panel.componentOptions.propsData.name)
+    )
+
     return this.__renderPanels(h)
   }
 }
 
 export const PanelChildMixin = {
+  mixins: [ ListenersMixin ],
+
   props: {
     name: {
       required: true

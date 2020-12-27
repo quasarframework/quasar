@@ -1,13 +1,13 @@
 const fs = require('fs')
-const
-  appPath = require('../app-paths'),
-  getPackageJson = require('../helpers/get-package-json'),
-  getPackage = require('../helpers/get-package'),
-  log = require('../helpers/logger')('app:electron-bundle')
+
+const appPath = require('../app-paths')
+const getPackageJson = require('../helpers/get-package-json')
+const getPackage = require('../helpers/get-package')
+const { log, warn, fatal } = require('../helpers/logger')
 
 const versions = {
-  packager: '13.1.0',
-  builder: '21.0.0'
+  packager: '14.1.1',
+  builder: '22.4.0'
 }
 
 function isValidName (bundlerName) {
@@ -15,19 +15,18 @@ function isValidName (bundlerName) {
 }
 
 function installBundler (bundlerName) {
-  const
-    { spawnSync } = require('../helpers/spawn'),
-    nodePackager = require('../helpers/node-packager'),
-    cmdParam = nodePackager === 'npm'
-      ? ['install', '--save-dev']
-      : ['add', '--dev']
+  const { spawnSync } = require('../helpers/spawn')
+  const nodePackager = require('../helpers/node-packager')
+  const cmdParam = nodePackager === 'npm'
+    ? ['install', '--save-dev']
+    : ['add', '--dev']
 
   log(`Installing required Electron bundler (electron-${bundlerName})...`)
   spawnSync(
     nodePackager,
     cmdParam.concat([`electron-${bundlerName}@${'^' + versions[bundlerName]}`]),
-    { cwd: appPath.appDir },
-    () => warn(`⚠️  Failed to install electron-${bundlerName}`)
+    { cwd: appPath.appDir, env: { ...process.env, NODE_ENV: 'development' } },
+    () => warn(`Failed to install electron-${bundlerName}`)
   )
 }
 
@@ -37,24 +36,12 @@ function bundlerIsInstalled (bundlerName) {
 
 module.exports.bundlerIsInstalled = bundlerIsInstalled
 
-function bundlerVersionIsOk (bundlerName) {
-  const
-    semver = require('semver'),
-    pkg = getPackageJson(`electron-${bundlerName}`)
-
-  if (semver.satisfies(pkg.version, `>= ${versions[bundlerName]}`)) {
-    return true
-  }
-}
-
 module.exports.ensureInstall = function (bundlerName) {
   if (!isValidName(bundlerName)) {
-    warn(`⚠️  Unknown bundler "${ bundlerName }" for Electron`)
-    warn()
-    process.exit(1)
+    fatal(`Unknown bundler "${ bundlerName }" for Electron\n`)
   }
 
-  if (!bundlerIsInstalled(bundlerName) || !bundlerVersionIsOk(bundlerName)) {
+  if (!bundlerIsInstalled(bundlerName)) {
     installBundler(bundlerName)
   }
 }

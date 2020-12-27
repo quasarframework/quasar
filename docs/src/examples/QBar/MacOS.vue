@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-bar>
-      <q-btn dense flat icon="fab fa-apple" />
+      <q-btn dense flat :icon="fabApple" />
       <div class="text-weight-bold">
         App
       </div>
@@ -20,7 +20,7 @@
     </q-bar>
 
     <q-bar class="bg-black text-white">
-      <q-btn dense flat icon="fab fa-apple" />
+      <q-btn dense flat :icon="fabApple" />
       <div class="text-weight-bold">
         App
       </div>
@@ -57,3 +57,13 @@
     </q-bar>
   </div>
 </template>
+
+<script>
+import { fabApple } from '@quasar/extras/fontawesome-v5'
+
+export default {
+  created () {
+    this.fabApple = fabApple
+  }
+}
+</script>

@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/tree"
+  },
+
   "props": {
     "nodes": {
       "type": "Array",
@@ -22,6 +26,22 @@
       "default": "label",
       "examples": [ "name", "description" ],
       "category": "content"
+    },
+
+    "children-key": {
+      "type": "String",
+      "desc": "The property name of each node object that holds the list of children of the node",
+      "default": "children",
+      "examples": [ "roles", "relatives" ],
+      "category": "content",
+      "addedIn":"v1.11.3"
+    },
+
+    "no-connectors": {
+      "type": "Boolean",
+      "desc": "Do not display the connector lines between nodes",
+      "category": "style",
+      "addedIn": "v1.5.10"
     },
 
     "color": {
@@ -382,6 +402,16 @@
           "examples": [ "Node 1" ]
         }
       }
+    },
+
+    "after-show": {
+      "extends": "after-show",
+      "addedIn": "v1.9.0"
+    },
+
+    "after-hide": {
+      "extends": "after-hide",
+      "addedIn": "v1.9.0"
     }
   },
 

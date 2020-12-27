@@ -2,10 +2,14 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import slot from '../../utils/slot.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
+import { slot, uniqueSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QTh',
+
+  mixins: [ ListenersMixin ],
 
   props: {
     props: Object,
@@ -13,17 +17,16 @@ export default Vue.extend({
   },
 
   render (h) {
-    const on = this.$listeners
-    const def = slot(this, 'default', [])
+    const on = { ...this.qListeners }
 
     if (this.props === void 0) {
       return h('th', {
         on,
         class: this.autoWidth === true ? 'q-table--col-auto-width' : null
-      }, def)
+      }, slot(this, 'default'))
     }
 
-    let col, child = def
+    let col, child
     const name = this.$vnode.key
 
     if (name) {
@@ -39,12 +42,16 @@ export default Vue.extend({
         ? 'unshift'
         : 'push'
 
-      child = child.slice()[action](
+      child = uniqueSlot(this, 'default', [])
+      child[action](
         h(QIcon, {
           props: { name: this.$q.iconSet.table.arrowUp },
           staticClass: col.__iconClass
         })
       )
+    }
+    else {
+      child = slot(this, 'default')
     }
 
     const evt = col.sortable === true
@@ -58,7 +65,7 @@ export default Vue.extend({
 
     return h('th', {
       on: { ...on, ...evt },
-      style: col.__thStyle,
+      style: col.headerStyle,
       class: col.__thClass +
         (this.autoWidth === true ? ' q-table--col-auto-width' : '')
     }, child)

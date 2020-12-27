@@ -1,13 +1,16 @@
 import Vue from 'vue'
 
-import SizeMixin from '../../mixins/size.js'
 import QIcon from '../icon/QIcon.js'
-import slot from '../../utils/slot.js'
+
+import SizeMixin from '../../mixins/size.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
+import { mergeSlotSafely } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QAvatar',
 
-  mixins: [ SizeMixin ],
+  mixins: [ ListenersMixin, SizeMixin ],
 
   props: {
     fontSize: String,
@@ -21,11 +24,11 @@ export default Vue.extend({
   },
 
   computed: {
-    contentClass () {
+    classes () {
       return {
         [`bg-${this.color}`]: this.color,
         [`text-${this.textColor} q-chip--colored`]: this.textColor,
-        'q-avatar__content--square': this.square,
+        'q-avatar--square': this.square,
         'rounded-borders': this.rounded
       }
     },
@@ -37,28 +40,21 @@ export default Vue.extend({
     }
   },
 
-  methods: {
-    __getContent (h) {
-      const content = slot(this, 'default')
-      return this.icon !== void 0
-        ? [ h(QIcon, { props: { name: this.icon } }) ].concat(content)
-        : content
-    }
-  },
-
   render (h) {
+    const icon = this.icon !== void 0
+      ? [ h(QIcon, { props: { name: this.icon } }) ]
+      : void 0
+
     return h('div', {
       staticClass: 'q-avatar',
       style: this.sizeStyle,
-      on: this.$listeners
+      class: this.classes,
+      on: { ...this.qListeners }
     }, [
       h('div', {
         staticClass: 'q-avatar__content row flex-center overflow-hidden',
-        class: this.contentClass,
         style: this.contentStyle
-      }, [
-        this.__getContent(h)
-      ])
+      }, mergeSlotSafely(icon, this, 'default'))
     ])
   }
 })

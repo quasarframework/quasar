@@ -1,58 +1,19 @@
 {
-  "behavior": {
-    "$listeners": true
-  },
+  "mixins": [ "mixins/fab" ],
 
   "props": {
-    "disable": {
-      "extends": "disable"
-    },
-
     "icon": {
-      "extends": "icon",
-      "required": true
+      "extends": "icon"
     },
 
-    "type":{
+    "anchor": {
       "type": "String",
-      "desc": "Define the button HTML DOM type",
-      "default": "a",
+      "desc": "How to align the Fab Action relative to Fab expand side; By default it uses the align specified in QFab",
       "values": [
-        "a", "submit", "button", "reset"
+        "start", "center", "end"
       ],
-      "category": "general"
-    },
-
-    "outline": {
-      "type": "Boolean",
-      "desc": "Use 'outline' design for Fab button",
-      "category": "style"
-    },
-
-    "push": {
-      "type": "Boolean",
-      "desc": "Use 'push' design for Fab button",
-      "category": "style"
-    },
-
-    "flat": {
-      "type": "Boolean",
-      "desc": "Use 'flat' design for Fab button",
-      "category": "style"
-    },
-
-    "color": {
-      "extends": "color"
-    },
-
-    "text-color": {
-      "extends": "text-color"
-    },
-
-    "glossy": {
-      "type": "Boolean",
-      "desc": "Apply the glossy effect over the button",
-      "category": "style"
+      "category": "style|content",
+      "addedIn": "v1.9.0"
     },
 
     "to": {

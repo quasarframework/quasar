@@ -1,15 +1,15 @@
-const
-  webpack = require('webpack'),
-  WebpackChain = require('webpack-chain'),
-  WebpackProgress = require('../plugin.progress')
+const webpack = require('webpack')
+const WebpackChain = require('webpack-chain')
 
-const
-  appPaths = require('../../app-paths')
+const WebpackProgress = require('../plugin.progress')
+const ExpressionDependency = require('./plugin.expression-dependency')
+const parseBuildEnv = require('../../helpers/parse-build-env')
+
+const appPaths = require('../../app-paths')
 
 module.exports = function (cfg, configName) {
-  const
-    { dependencies:appDeps = {} } = require(appPaths.resolve.cli('package.json')),
-    { dependencies:cliDeps = {} } = require(appPaths.resolve.app('package.json'))
+  const { dependencies:appDeps = {} } = require(appPaths.resolve.app('package.json'))
+  const { dependencies:cliDeps = {} } = require(appPaths.resolve.cli('package.json'))
 
   const chain = new WebpackChain()
   const resolveModules = [
@@ -45,16 +45,21 @@ module.exports = function (cfg, configName) {
     ...Object.keys(appDeps)
   ])
 
-  chain.module.rule('babel')
-    .test(/\.js$/)
-    .exclude
-      .add(/node_modules/)
-      .end()
-    .use('babel-loader')
-      .loader('babel-loader')
-        .options({
-          extends: appPaths.resolve.app('babel.config.js')
-        })
+  chain.plugin('expression-dependency')
+    .use(ExpressionDependency)
+
+  if (cfg.build.transpile === true) {
+    chain.module.rule('babel')
+      .test(/\.js$/)
+      .exclude
+        .add(/node_modules/)
+        .end()
+      .use('babel-loader')
+        .loader('babel-loader')
+          .options({
+            extends: appPaths.resolve.app('babel.config.js')
+          })
+  }
 
   chain.module.rule('node')
     .test(/\.node$/)
@@ -78,8 +83,14 @@ module.exports = function (cfg, configName) {
       .use(WebpackProgress, [{ name: configName }])
   }
 
+  const env = Object.assign({}, cfg.build.env, {
+    QUASAR_NODE_INTEGRATION: cfg.electron.nodeIntegration === true
+  })
+
   chain.plugin('define')
-    .use(webpack.DefinePlugin, [ cfg.build.env ])
+    .use(webpack.DefinePlugin, [
+      parseBuildEnv(env, cfg.__rootDefines)
+    ])
 
   if (cfg.ctx.prod) {
     if (cfg.build.minify) {
@@ -99,29 +110,21 @@ module.exports = function (cfg, configName) {
 
     // write package.json file
     chain.plugin('package-json')
-      .use(ElectronPackageJson)
+      .use(ElectronPackageJson, [ cfg ])
 
-    const
-      fs = require('fs'),
-      copyArray = [],
-      npmrc = appPaths.resolve.app('.npmrc')
-      yarnrc = appPaths.resolve.app('.yarnrc')
+    const patterns = [
+      appPaths.resolve.app('.npmrc'),
+      appPaths.resolve.app('.yarnrc'),
+      appPaths.resolve.electron('main-process/electron-preload.js')
+    ].map(filename => ({
+      from: filename,
+      to: '.',
+      noErrorOnMissing: true
+    }))
 
-    fs.existsSync(npmrc) && copyArray.push({
-      from: npmrc,
-      to: '.'
-    })
-
-    fs.existsSync(yarnrc) && copyArray.push({
-      from: yarnrc,
-      to: '.'
-    })
-
-    if (copyArray.length > 0) {
-      const CopyWebpackPlugin = require('copy-webpack-plugin')
-      chain.plugin('copy-webpack')
-        .use(CopyWebpackPlugin, [ copyArray ])
-    }
+    const CopyWebpackPlugin = require('copy-webpack-plugin')
+    chain.plugin('copy-webpack')
+      .use(CopyWebpackPlugin, [{ patterns }])
   }
 
   return chain

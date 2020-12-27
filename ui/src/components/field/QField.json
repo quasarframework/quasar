@@ -1,18 +1,16 @@
 {
   "mixins": [ "components/field/__QField" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/field"
+  },
+
   "props": {
     "maxlength": {
       "type": [ "String", "Number" ],
       "desc": "Specify a max length of model",
       "examples": [ "12" ],
       "category": "model"
-    },
-
-    "item-aligned": {
-      "type": "Boolean",
-      "desc": "Match inner content alignments to QItem",
-      "category": "style"
     }
   },
 
@@ -53,7 +51,7 @@
           "params": {
             "value": {
               "type": "Any",
-              "desc": "Value to be emited",
+              "desc": "Value to be emitted",
               "examples": [ 0, "Changed text" ]
             }
           },

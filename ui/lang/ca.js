@@ -22,7 +22,8 @@ export default {
     months: 'Gener_Febrer_Març_Abril_Maig_Juny_Juliol_Agost_Setembre_Octubre_Novembre_Desembre'.split('_'),
     monthsShort: 'Gen_Feb_Mar_Abr_Mai_Jun_Jul_Ago_Set_Oct_Nov_Des'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dies'
   },
   table: {
     noData: 'No hi ha dades disponibles',
@@ -67,12 +68,12 @@ export default {
     hr: 'Insereix una línea horitzontal',
     undo: 'Desfés',
     redo: 'Refés',
-    header1: 'Encapçalament 1',
-    header2: 'Encapçalament 2',
-    header3: 'Encapçalament 3',
-    header4: 'Encapçalament 4',
-    header5: 'Encapçalament 5',
-    header6: 'Encapçalament 6',
+    heading1: 'Encapçalament 1',
+    heading2: 'Encapçalament 2',
+    heading3: 'Encapçalament 3',
+    heading4: 'Encapçalament 4',
+    heading5: 'Encapçalament 5',
+    heading6: 'Encapçalament 6',
     paragraph: 'Paràgraf',
     code: 'Codi',
     size1: 'Molt petit',

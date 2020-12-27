@@ -3,7 +3,7 @@
     <q-scroll-area
       horizontal
       style="height: 210px; width: 230px;"
-      class="bg-grey-1"
+      class="bg-grey-1 rounded-borders"
     >
       <div class="row no-wrap">
         <div v-for="n in 10" :key="n" style="width: 150px" class="q-pa-sm">

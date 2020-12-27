@@ -3,13 +3,16 @@ import Vue from 'vue'
 import TouchPan from '../../directives/TouchPan.js'
 
 import DarkMixin from '../../mixins/dark.js'
-import slot from '../../utils/slot.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
+import { slot, mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QSplitter',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, ListenersMixin ],
 
   directives: {
     TouchPan
@@ -35,6 +38,8 @@ export default Vue.extend({
         return v[0] >= 0 && v[0] <= v[1]
       }
     },
+
+    emitImmediately: Boolean,
 
     horizontal: Boolean,
     disable: Boolean,
@@ -92,6 +97,22 @@ export default Vue.extend({
           [this.prop]: this.__getCSSValue(this.value)
         }
       }
+    },
+
+    separatorDirectives () {
+      if (this.disable !== true) {
+        return [{
+          name: 'touch-pan',
+          value: this.__pan,
+          modifiers: {
+            [ this.horizontal === true ? 'vertical' : 'horizontal' ]: true,
+            prevent: true,
+            stop: true,
+            mouse: true,
+            mouseAllDir: true
+          }
+        }]
+      }
     }
   },
 
@@ -128,6 +149,10 @@ export default Vue.extend({
       this.__normalized = Math.min(this.__maxValue, this.computedLimits[1], Math.max(this.computedLimits[0], val))
 
       this.$refs[this.side].style[this.prop] = this.__getCSSValue(this.__normalized)
+
+      if (this.emitImmediately === true && this.value !== this.__normalized) {
+        this.$emit('input', this.__normalized)
+      }
     },
 
     __normalize (val, limits) {
@@ -145,38 +170,25 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h('div', {
-      staticClass: 'q-splitter no-wrap',
-      class: this.classes,
-      on: this.$listeners
-    }, [
+    const attrs = this.disable === true ? { 'aria-disabled': 'true' } : void 0
+    const child = [
       h('div', {
         ref: 'before',
         staticClass: 'q-splitter__panel q-splitter__before' + (this.reverse === true ? ' col' : ''),
         style: this.styles.before,
         class: this.beforeClass,
-        on: { input: stop }
+        on: cache(this, 'stop', { input: stop })
       }, slot(this, 'before')),
 
       h('div', {
         staticClass: 'q-splitter__separator',
         style: this.separatorStyle,
-        class: this.separatorClass
+        class: this.separatorClass,
+        attrs
       }, [
         h('div', {
           staticClass: 'absolute-full q-splitter__separator-area',
-          directives: this.disable === true ? void 0 : [{
-            name: 'touch-pan',
-            value: this.__pan,
-            modifiers: {
-              horizontal: this.horizontal !== true,
-              vertical: this.horizontal,
-              prevent: true,
-              stop: true,
-              mouse: true,
-              mouseAllDir: true
-            }
-          }]
+          directives: this.separatorDirectives
         }, slot(this, 'separator'))
       ]),
 
@@ -185,8 +197,14 @@ export default Vue.extend({
         staticClass: 'q-splitter__panel q-splitter__after' + (this.reverse === true ? '' : ' col'),
         style: this.styles.after,
         class: this.afterClass,
-        on: { input: stop }
+        on: cache(this, 'stop', { input: stop })
       }, slot(this, 'after'))
-    ].concat(slot(this, 'default')))
+    ]
+
+    return h('div', {
+      staticClass: 'q-splitter no-wrap',
+      class: this.classes,
+      on: { ...this.qListeners }
+    }, mergeSlot(child, this, 'default'))
   }
 })

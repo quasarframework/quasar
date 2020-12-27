@@ -1,7 +1,11 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-directives/touch-pan"
+  },
+
   "value": {
     "type": "Function",
-    "desc": "Handler for panning",
+    "desc": "Handler for panning (use a non-function to disable)",
     "params": {
       "details": {
         "type": "Object",
@@ -106,7 +110,7 @@
       }
     },
     "returns": null,
-    "examples": [ "v-touch-pan=\"fnToCall\"" ]
+    "examples": [ "v-touch-pan=\"fnToCall\"", "v-touch-pan=\"void 0\"" ]
   },
 
   "modifiers": {
@@ -143,6 +147,12 @@
     "mouseAllDir": {
       "type": "Boolean",
       "desc": "Ignore initial mouse move direction (do not abort if the first mouse move is in an unaccepted direction)"
+    },
+
+    "preserveCursor": {
+      "type": "Boolean",
+      "desc": "Prevent the mouse cursor from automatically displaying as grabbing when panning",
+      "addedIn": "v1.13.0"
     },
 
     "horizontal": {

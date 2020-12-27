@@ -22,7 +22,8 @@ export default {
     months: 'Januaro_Februaro_Marto_Aprilo_Majo_Junio_Julio_Aŭgusto_Septembro_Oktobro_Novembro_Decembro'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Aŭg_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'tagoj'
   },
   table: {
     noData: 'Neniu datumo afiŝenda',
@@ -67,12 +68,12 @@ export default {
     hr: 'Enmeti horizontalan strekon',
     undo: 'Malfari',
     redo: 'Refari',
-    header1: 'Titolo 1',
-    header2: 'Titolo 2',
-    header3: 'Titolo 3',
-    header4: 'Titolo 4',
-    header5: 'Titolo 5',
-    header6: 'Titolo 6',
+    heading1: 'Titolo 1',
+    heading2: 'Titolo 2',
+    heading3: 'Titolo 3',
+    heading4: 'Titolo 4',
+    heading5: 'Titolo 5',
+    heading6: 'Titolo 6',
     paragraph: 'Paragrafo',
     code: 'Kodo',
     size1: 'Tre malgranda',

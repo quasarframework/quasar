@@ -8,7 +8,7 @@ related:
 
 The QPageSticky component helps in placing DOM elements / components wrapped by it into a static position within the content area of your QPage, no matter where the user scrolls.
 
-The great advantage of this is that the elements wrapped by this component will never overlap the layout header, footer or drawer(s), even if those are not configured to be fixed. In the latter case, the position will be offsetted so that the overlap won't occur.
+The great advantage of this is that the elements wrapped by this component will never overlap the layout header, footer or drawer(s), even if those are not configured to be fixed. In the latter case, the position will be offset so that the overlap won't occur.
 Try it out with a non-fixed footer for example. When user reaches bottom of screen and footer comes into view, the component will shift up so it won't overlap with the footer.
 
 ## Installation
@@ -21,7 +21,7 @@ Since QPageSticky needs a layout and QLayout by default manages the entire windo
 
 ::: warning
 * In order for QPageSticky to work, it must be placed within a QLayout component.
-* QPageSticky must be the last child element within it's parent, so it can display on top of other content
+* QPageSticky must be the last child element within its parent, so it can display on top of other content
 :::
 
 ### Basic

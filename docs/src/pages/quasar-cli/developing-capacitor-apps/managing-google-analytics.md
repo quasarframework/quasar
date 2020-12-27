@@ -13,7 +13,7 @@ You'll need to include a `<script>` tag provided by Google in `/src/index.templa
 :::
 
 ## Prerequisites
-* Make sure all your routes have a name and path parameter specified. Otherwise, they cannot be posted to the `ga.logPage` function. Please refer to [Routing](/quasar-cli/cli-documentation/routing) for more info on routing.
+* Make sure all your routes have a name and path parameter specified. Otherwise, they cannot be posted to the `ga.logPage` function. Please refer to [Routing](/quasar-cli/routing) for more info on routing.
 * Have Basic knowledge of Google Analytics
 
 ## Preparation

@@ -1,14 +1,14 @@
 import QBtn from '../btn/QBtn.js'
 import QBtnDropdown from '../btn-dropdown/QBtnDropdown.js'
-import QInput from '../input/QInput.js'
 import QIcon from '../icon/QIcon.js'
 import QTooltip from '../tooltip/QTooltip.js'
 import QList from '../item/QList.js'
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
-import { prevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { prevent, stop } from '../../utils/event.js'
+import { slot } from '../../utils/slot.js'
+import { shouldIgnoreKey } from '../../utils/key-composition.js'
 
 function run (e, btn, vm) {
   if (btn.handler) {
@@ -53,7 +53,7 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
   return h(QBtn, {
     props: {
       ...vm.buttonProps,
-      icon: btn.icon,
+      icon: btn.icon !== null ? btn.icon : void 0,
       color: toggled ? btn.toggleColor || vm.toolbarToggleColor : btn.color || vm.toolbarColor,
       textColor: toggled && !vm.toolbarPush ? null : btn.textColor || vm.toolbarTextColor,
       label: btn.label,
@@ -65,10 +65,10 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
 }
 
 function getDropdown (h, vm, btn) {
+  const onlyIcons = btn.list === 'only-icons'
   let
     label = btn.label,
-    icon = btn.icon,
-    onlyIcons = btn.list === 'only-icons',
+    icon = btn.icon !== null ? btn.icon : void 0,
     contentClass,
     Items
 
@@ -84,7 +84,7 @@ function getDropdown (h, vm, btn) {
 
       if (active) {
         label = btn.tip
-        icon = btn.icon
+        icon = btn.icon !== null ? btn.icon : void 0
       }
       return getBtn(h, vm, btn, closeDropdown, active)
     })
@@ -101,6 +101,8 @@ function getDropdown (h, vm, btn) {
       ? `text-${vm.toolbarTextColor}`
       : null
 
+    const noIcons = btn.list === 'no-icons'
+
     Items = btn.options.map(btn => {
       const disable = btn.disable ? btn.disable(vm) : false
       const active = btn.type === void 0
@@ -109,7 +111,7 @@ function getDropdown (h, vm, btn) {
 
       if (active) {
         label = btn.tip
-        icon = btn.icon
+        icon = btn.icon !== null ? btn.icon : void 0
       }
 
       const htmlTip = btn.htmlTip
@@ -128,21 +130,26 @@ function getDropdown (h, vm, btn) {
           }
         },
         [
-          btn.list === 'no-icons'
+          noIcons === true
             ? null
             : h(QItemSection, {
               class: active ? activeClass : inactiveClass,
               props: { side: true }
             }, [
-              h(QIcon, { props: { name: btn.icon } })
+              h(QIcon, { props: { name: btn.icon !== null ? btn.icon : void 0 } })
             ]),
 
           h(QItemSection, [
             htmlTip
               ? h('div', {
+                staticClass: 'text-no-wrap',
                 domProps: { innerHTML: btn.htmlTip }
               })
-              : (btn.tip ? h('div', [ btn.tip ]) : null)
+              : (
+                btn.tip
+                  ? h('div', { staticClass: 'text-no-wrap' }, [ btn.tip ])
+                  : null
+              )
           ])
         ]
       )
@@ -164,7 +171,7 @@ function getDropdown (h, vm, btn) {
         color: highlight ? vm.toolbarToggleColor : vm.toolbarColor,
         textColor: highlight && !vm.toolbarPush ? null : vm.toolbarTextColor,
         label: btn.fixedLabel ? btn.label : label,
-        icon: btn.fixedIcon ? btn.icon : icon,
+        icon: btn.fixedIcon ? (btn.icon !== null ? btn.icon : void 0) : icon,
         contentClass
       }
     },
@@ -229,33 +236,40 @@ export function getFonts (defaultFont, defaultFontLabel, defaultFontIcon, fonts 
   return def
 }
 
-export function getLinkEditor (h, vm) {
+export function getLinkEditor (h, vm, ie11) {
   if (vm.caret) {
     const color = vm.toolbarColor || vm.toolbarTextColor
     let link = vm.editLinkUrl
     const updateLink = () => {
       vm.caret.restore()
+
       if (link !== vm.editLinkUrl) {
         document.execCommand('createLink', false, link === '' ? ' ' : link)
       }
+
       vm.editLinkUrl = null
+
+      ie11 === true && vm.$nextTick(vm.__onInput)
     }
 
     return [
       h('div', { staticClass: 'q-mx-xs', 'class': `text-${color}` }, [`${vm.$q.lang.editor.url}: `]),
-      h(QInput, {
+      h('input', {
         key: 'qedt_btm_input',
-        staticClass: 'q-ma-none q-pa-none col q-editor-input',
-        props: {
-          value: link,
-          color,
-          autofocus: true,
-          borderless: true,
-          dense: true
+        staticClass: 'col q-editor__link-input',
+        domProps: {
+          value: link
         },
         on: {
-          input: val => { link = val },
+          input: e => {
+            stop(e)
+            link = e.target.value
+          },
           keydown: event => {
+            if (shouldIgnoreKey(event) === true) {
+              return
+            }
+
             switch (event.keyCode) {
               case 13: // ENTER key
                 prevent(event)
@@ -286,6 +300,8 @@ export function getLinkEditor (h, vm) {
               vm.caret.restore()
               document.execCommand('unlink')
               vm.editLinkUrl = null
+
+              ie11 === true && vm.$nextTick(vm.__onInput)
             }
           }
         }),

@@ -1,0 +1,35 @@
+{
+  "rules": {
+    "extends-before-mixins": 2,
+    "extends-before-declarations": 2,
+    "placeholder-in-extend": 2,
+    "mixins-before-declarations": [
+      2,
+      {
+        "exclude": [
+          "breakpoint",
+          "mq"
+        ]
+      }
+    ],
+    "no-warn": 1,
+    "no-debug": 1,
+    "no-ids": 0,
+    "no-important": 0,
+    "hex-notation": 0,
+    "indentation": [
+      2,
+      {
+        "size": 2
+      }
+    ],
+    "class-name-format": 0,
+    "no-color-literals": 0,
+    "empty-line-between-blocks": 0,
+    "single-line-per-selector": 1,
+    "force-element-nesting": 0,
+    "property-sort-order": 0,
+    "variable-for-property": 0,
+    "leading-zero": 0
+  }
+}

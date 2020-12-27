@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import { between } from '../../utils/format.js'
 import { isSSR } from '../../plugins/Platform.js'
+import { ariaHidden } from '../../mixins/attrs'
 
 const
   xhr = isSSR ? null : XMLHttpRequest,
@@ -82,18 +83,13 @@ export default Vue.extend({
     position: {
       type: String,
       default: 'top',
-      validator (val) {
-        return ['top', 'right', 'bottom', 'left'].includes(val)
-      }
+      validator: val => ['top', 'right', 'bottom', 'left'].includes(val)
     },
     size: {
       type: String,
       default: '2px'
     },
-    color: {
-      type: String,
-      default: 'red'
-    },
+    color: String,
     skipHijack: Boolean,
     reverse: Boolean
   },
@@ -109,22 +105,23 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-loading-bar q-loading-bar--${this.position} bg-${this.color}` +
+      return `q-loading-bar q-loading-bar--${this.position}` +
+        (this.color !== void 0 ? ` bg-${this.color}` : '') +
         (this.animate === true ? '' : ' no-transition')
     },
 
     style () {
       const active = this.onScreen
 
-      let o = translate({
+      const o = translate({
         p: this.progress,
         pos: this.position,
         active,
         horiz: this.horizontal,
-        reverse: this.$q.lang.rtl && ['top', 'bottom'].includes(this.position)
+        reverse: this.$q.lang.rtl === true && ['top', 'bottom'].includes(this.position)
           ? !this.reverse
           : this.reverse,
-        dir: this.$q.lang.rtl ? -1 : 1
+        dir: this.$q.lang.rtl === true ? -1 : 1
       })
 
       o[this.sizeProp] = this.size
@@ -139,6 +136,17 @@ export default Vue.extend({
 
     sizeProp () {
       return this.horizontal ? 'height' : 'width'
+    },
+
+    attrs () {
+      return this.onScreen === true
+        ? {
+          role: 'progressbar',
+          'aria-valuemin': 0,
+          'aria-valuemax': 100,
+          'aria-valuenow': this.progress
+        }
+        : ariaHidden
     }
   },
 
@@ -175,7 +183,9 @@ export default Vue.extend({
     },
 
     increment (amount) {
-      this.calls > 0 && (this.progress = inc(this.progress, amount))
+      if (this.calls > 0) {
+        this.progress = inc(this.progress, amount)
+      }
     },
 
     stop () {
@@ -220,13 +230,14 @@ export default Vue.extend({
 
   beforeDestroy () {
     clearTimeout(this.timer)
-    this.hijacked && restoreAjax(this.start, this.stop)
+    this.hijacked === true && restoreAjax(this.start, this.stop)
   },
 
   render (h) {
     return h('div', {
       class: this.classes,
-      style: this.style
+      style: this.style,
+      attrs: this.attrs
     })
   }
 })

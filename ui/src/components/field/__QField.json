@@ -42,6 +42,12 @@
       "category": "content"
     },
 
+    "label-color" : {
+      "extends": "color",
+      "desc": "Color name for the label from the Quasar Color Palette; Overrides the 'color' prop; The difference from 'color' prop is that the label will always have this color, even when field is not focused",
+      "addedIn": "v1.7.0"
+    },
+
     "color": {
       "extends": "color"
     },
@@ -101,6 +107,13 @@
       "category": "style"
     },
 
+    "label-slot": {
+      "type": "Boolean",
+      "desc": "Enables label slot; You need to set it to force use of the 'label' slot if the 'label' prop is not set",
+      "category": "content",
+      "addedIn": "v1.12.9"
+    },
+
     "bottom-slots": {
       "type": "Boolean",
       "desc": "Enables bottom slots ('error', 'hint', 'counter')",
@@ -109,7 +122,7 @@
 
     "hide-bottom-space": {
       "type": "Boolean",
-      "desc": "Does not reserves space for hint/error/counter anymore when these are not used; as a result, it also disables the animation for those",
+      "desc": "Do not reserve space for hint/error/counter anymore when these are not used; As a result, it also disables the animation for those; It also allows the hint/error area to stretch vertically based on its content",
       "category": "style"
     },
 
@@ -133,10 +146,10 @@
       "extends": "dense"
     },
 
-    "items-aligned": {
+    "item-aligned": {
       "type": "Boolean",
-      "desc": "Align content to match QItem",
-      "category": "content"
+      "desc": "Match inner content alignment to that of QItem",
+      "category": "style"
     },
 
     "disable": {
@@ -151,6 +164,22 @@
       "type": "Boolean",
       "desc": "Focus field on initial component render",
       "category": "behavior"
+    },
+
+    "for": {
+      "type": "String",
+      "desc": "Used to specify the 'id' of the control and also the 'for' attribute of the label that wraps it; If no 'name' prop is specified, then it is used for this attribute as well",
+      "examples": [ "myFieldsId" ],
+      "category": "behavior",
+      "addedIn": "v1.4.2"
+    },
+
+    "name": {
+      "type": "String",
+      "desc": "Used to specify the name of the control; Useful if dealing with forms; If not specified, it takes the value of 'for' prop, if it exists",
+      "examples": [ "car_id" ],
+      "category": "behavior",
+      "addedIn": "v1.9.0"
     }
   },
 
@@ -173,6 +202,11 @@
 
     "after": {
       "desc": "Append outer field; Suggestions: QIcon, QBtn"
+    },
+
+    "label": {
+      "desc": "Slot for label; Used only if 'label-slot' prop is set or the 'label' prop is set; When it is used the text in the 'label' prop is ignored",
+      "addedIn": "v1.12.9"
     },
 
     "error": {

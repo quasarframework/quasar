@@ -22,7 +22,8 @@ export default {
     months: 'Január_Február_Marec_Apríl_Máj_Jún_Júl_August_September_Október_November_December'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Máj_Jún_Júl_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dní'
   },
   table: {
     noData: 'Nie sú dostupné údaje',
@@ -67,12 +68,12 @@ export default {
     hr: 'Vložiť horizontálny oddelovač',
     undo: 'Späť',
     redo: 'Znova',
-    header1: 'Hlavička 1',
-    header2: 'Hlavička 2',
-    header3: 'Hlavička 3',
-    header4: 'Hlavička 4',
-    header5: 'Hlavička 5',
-    header6: 'Hlavička 6',
+    heading1: 'Hlavička 1',
+    heading2: 'Hlavička 2',
+    heading3: 'Hlavička 3',
+    heading4: 'Hlavička 4',
+    heading5: 'Hlavička 5',
+    heading6: 'Hlavička 6',
     paragraph: 'Odsek',
     code: 'Kód',
     size1: 'Veľmi malé',

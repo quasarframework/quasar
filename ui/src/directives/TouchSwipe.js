@@ -1,9 +1,7 @@
 import { client } from '../plugins/Platform.js'
-import { getModifierDirections, updateModifiers, addEvt, cleanEvt } from '../utils/touch.js'
-import { position, leftClick, stopAndPrevent, listenOpts, preventDraggable } from '../utils/event.js'
+import { getModifierDirections, getTouchTarget, shouldStart } from '../utils/touch.js'
+import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, preventDraggable, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
-
-const { notPassiveCapture } = listenOpts
 
 function parseArg (arg) {
   // delta (min velocity -- dist / time)
@@ -21,10 +19,29 @@ function parseArg (arg) {
   return data
 }
 
+function destroy (el) {
+  const ctx = el.__qtouchswipe
+
+  if (ctx !== void 0) {
+    cleanEvt(ctx, 'main')
+    cleanEvt(ctx, 'temp')
+
+    client.is.firefox === true && preventDraggable(el, false)
+    ctx.styleCleanup !== void 0 && ctx.styleCleanup()
+
+    delete el.__qtouchswipe
+  }
+}
+
 export default {
   name: 'touch-swipe',
 
   bind (el, { value, arg, modifiers }) {
+    if (el.__qtouchswipe !== void 0) {
+      destroy(el)
+      el.__qtouchswipe_destroyed = true
+    }
+
     // early return, we don't need to do anything
     if (modifiers.mouse !== true && client.has.touch !== true) {
       return
@@ -32,15 +49,17 @@ export default {
 
     const mouseCapture = modifiers.mouseCapture === true ? 'Capture' : ''
 
-    let ctx = {
+    const ctx = {
       handler: value,
       sensitivity: parseArg(arg),
 
       modifiers: modifiers,
       direction: getModifierDirections(modifiers),
 
+      noop,
+
       mouseStart (evt) {
-        if (ctx.event === void 0 && leftClick(evt)) {
+        if (shouldStart(evt, ctx) && leftClick(evt)) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', `notPassive${mouseCapture}` ],
             [ document, 'mouseup', 'end', 'notPassiveCapture' ]
@@ -50,10 +69,12 @@ export default {
       },
 
       touchStart (evt) {
-        if (ctx.event === void 0 && evt.target !== void 0) {
+        if (shouldStart(evt, ctx)) {
+          const target = getTouchTarget(evt.target)
           addEvt(ctx, 'temp', [
-            [ evt.target, 'touchcancel', 'end', 'notPassiveCapture' ],
-            [ evt.target, 'touchend', 'end', 'notPassiveCapture' ]
+            [ target, 'touchmove', 'move', 'notPassiveCapture' ],
+            [ target, 'touchcancel', 'end', 'notPassiveCapture' ],
+            [ target, 'touchend', 'end', 'notPassiveCapture' ]
           ])
           ctx.start(evt)
         }
@@ -67,7 +88,7 @@ export default {
         ctx.event = {
           x: pos.left,
           y: pos.top,
-          time: new Date().getTime(),
+          time: Date.now(),
           mouse: mouseEvent === true,
           dir: false
         }
@@ -83,7 +104,7 @@ export default {
           return
         }
 
-        const time = new Date().getTime() - ctx.event.time
+        const time = Date.now() - ctx.event.time
 
         if (time === 0) {
           return
@@ -170,11 +191,24 @@ export default {
 
         if (ctx.event.dir !== false) {
           stopAndPrevent(evt)
-          document.addEventListener('click', stopAndPrevent, notPassiveCapture)
 
           if (ctx.event.mouse === true) {
+            document.body.classList.add('no-pointer-events--children')
             document.body.classList.add('non-selectable')
             clearSelection()
+
+            ctx.styleCleanup = withDelay => {
+              ctx.styleCleanup = void 0
+
+              document.body.classList.remove('non-selectable')
+
+              const remove = () => {
+                document.body.classList.remove('no-pointer-events--children')
+              }
+
+              if (withDelay === true) { setTimeout(remove, 50) }
+              else { remove() }
+            }
           }
 
           ctx.handler({
@@ -201,21 +235,11 @@ export default {
 
         cleanEvt(ctx, 'temp')
         client.is.firefox === true && preventDraggable(el, false)
-
-        if (ctx.event.dir !== false) {
-          stopAndPrevent(evt)
-          setTimeout(() => {
-            document.removeEventListener('click', stopAndPrevent, notPassiveCapture)
-          }, 50)
-          ctx.event.mouse === true && document.body.classList.remove('non-selectable')
-        }
+        ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
+        evt !== void 0 && ctx.event.dir !== false && stopAndPrevent(evt)
 
         ctx.event = void 0
       }
-    }
-
-    if (el.__qtouchswipe) {
-      el.__qtouchswipe_old = el.__qtouchswipe
     }
 
     el.__qtouchswipe = ctx
@@ -224,35 +248,26 @@ export default {
       [ el, 'mousedown', 'mouseStart', `passive${mouseCapture}` ]
     ])
 
-    if (client.has.touch === true) {
-      const capture = modifiers.capture === true ? 'Capture' : ''
-      addEvt(ctx, 'main', [
-        [ el, 'touchstart', 'touchStart', `passive${capture}` ],
-        [ el, 'touchmove', 'move', `notPassive${capture}` ]
-      ])
+    client.has.touch === true && addEvt(ctx, 'main', [
+      [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
+      [ el, 'touchmove', 'noop', `notPassiveCapture` ]
+    ])
+  },
+
+  update (el, { oldValue, value }) {
+    const ctx = el.__qtouchswipe
+    if (ctx !== void 0 && oldValue !== value) {
+      typeof value !== 'function' && ctx.end()
+      ctx.handler = value
     }
   },
 
-  update (el, binding) {
-    const ctx = el.__qtouchswipe
-    ctx !== void 0 && updateModifiers(ctx, binding)
-  },
-
   unbind (el) {
-    const ctx = el.__qtouchswipe_old || el.__qtouchswipe
-
-    if (ctx !== void 0) {
-      client.is.firefox === true && preventDraggable(el, false)
-
-      cleanEvt(ctx, 'main')
-      cleanEvt(ctx, 'temp')
-
-      if (ctx.event !== void 0 && ctx.event.dir !== false) {
-        document.removeEventListener('click', stopAndPrevent, notPassiveCapture)
-        ctx.event.mouse === true && document.body.classList.remove('non-selectable')
-      }
-
-      delete el[el.__qtouchswipe_old ? '__qtouchswipe_old' : '__qtouchswipe']
+    if (el.__qtouchswipe_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qtouchswipe_destroyed
     }
   }
 }

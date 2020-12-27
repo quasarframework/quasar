@@ -28,7 +28,7 @@ import { AppVisibility } from 'quasar'
 <script>
 export default {
   watch: {
-    '$q.appVisibile' (val) {
+    '$q.appVisible' (val) {
       console.log(val ? 'App became visible' : 'App went in the background')
     }
   }

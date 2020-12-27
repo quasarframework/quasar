@@ -1,7 +1,6 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input
-      ref="input"
       filled
       v-model="model"
       label="Type here"

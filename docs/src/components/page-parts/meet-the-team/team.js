@@ -45,19 +45,11 @@ export default [
   },
 
   {
-    name: 'Lucas Nogueira',
-    role: 'Senior Developer',
-    avatar: 'lucas_nogueira.jpg',
-    github: 'lucasfernog',
-    desc: 'Quasar App CLI development, docs enhancements'
-  },
-
-  {
-    name: 'Tobias Mesquita',
-    role: 'Senior Developer',
-    avatar: 'tobias_mesquita.jpg',
-    github: 'TobyMosque',
-    desc: 'Help desk'
+    name: 'Paolo Caleffi',
+    role: 'Senior developer',
+    avatar: 'paolo_caleffi.jpg',
+    github: 'IlCallo',
+    desc: 'Typescript support'
   },
 
   {
@@ -65,6 +57,14 @@ export default [
     role: 'Community Staff',
     avatar: 'aldrin_marquez.jpg',
     github: 'metalsadman',
+    desc: 'Help desk'
+  },
+
+  {
+    name: 'Tobias Mesquita',
+    role: 'Senior Developer',
+    avatar: 'tobias_mesquita.jpg',
+    github: 'TobyMosque',
     desc: 'Help desk'
   },
 
@@ -77,43 +77,11 @@ export default [
   },
 
   {
-    name: 'Stanislav Valasek',
-    role: 'Community Staff',
-    avatar: 'stanislav_valasek.jpg',
-    github: 'valasek',
-    desc: 'Marketing, Open Source Compliance, Community experience.'
-  },
-
-  {
     name: 'Noah Klayman',
     role: 'Developer / Community Staff',
     avatar: 'noah_klayman.jpeg',
     github: 'nklayman',
     desc: 'Capacitor App CLI mode'
-  },
-
-  {
-    name: 'Matyáš Racek',
-    role: 'Community Staff',
-    avatar: 'matyas_panstromek.jpeg',
-    github: 'panstromek',
-    desc: 'Help desk'
-  },
-
-  {
-    name: 'Ross Ball',
-    role: 'Designer',
-    avatar: 'ross_ball.jpeg',
-    github: 'rossity',
-    desc: 'Quasar Themes'
-  },
-
-  {
-    name: 'Ben Coughenour',
-    role: 'Community Staff',
-    avatar: 'ben_coughenour.jpg',
-    github: 'sskwrl',
-    desc: 'Help desk'
   },
 
   {
@@ -125,10 +93,19 @@ export default [
   },
 
   {
-    name: 'Adam Purdy',
-    role: 'Community Staff',
-    avatar: 'adam_purdy.jpg',
-    github: 'adamkpurdy',
-    desc: 'Firebase Support Owner & Maintainer, Quasar support member.'
+    name: 'Jesús Villanueva',
+    role: 'Senior Developer',
+    avatar: 'jesus_villanueva.jpg',
+    github: 'jesusvilla',
+    desc: 'Help desk'
+  },
+
+  {
+    name: 'Dmitrij Polianin',
+    role: 'Trainer / Community Staff',
+    avatar: 'dmitrij_polianin.jpg',
+    email: 'dmitrij.polyanin@gmail.com',
+    github: 'DmitrijOkeanij',
+    desc: 'Russian Community maintainer and Quasar Trainer.'
   }
 ]

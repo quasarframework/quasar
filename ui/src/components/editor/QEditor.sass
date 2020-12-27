@@ -25,6 +25,9 @@
       margin: 1px
       height: 1px
       background: $editor-hr-color
+    &:empty:not(:focus):before
+      content: attr(placeholder)
+      opacity: .7
 
   &__toolbar
     border-bottom: 1px solid $editor-border-color
@@ -46,8 +49,14 @@
         width: 1px
         background: $editor-border-color
 
-  &_input input
+  &__link-input
     color: inherit
+    text-decoration: none
+    text-transform: none
+    border: none
+    border-radius: 0
+    background: none
+    outline: 0
 
   &--flat
     &, .q-editor__toolbar

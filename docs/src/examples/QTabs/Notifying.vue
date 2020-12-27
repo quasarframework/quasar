@@ -16,7 +16,16 @@
 
       <q-tabs
         v-model="tab"
-        class="bg-yellow shadow-2"
+        class="bg-purple text-white shadow-2"
+      >
+        <q-tab alert="yellow" alert-icon="warning" name="mails" label="Mails" />
+        <q-tab alert alert-icon="event" label="Alarms" name="alarms" />
+        <q-tab alert="orange" alert-icon="announcement" name="movies" label="Movies" />
+      </q-tabs>
+
+      <q-tabs
+        v-model="tab"
+        class="bg-yellow"
       >
         <q-tab name="mails" icon="mail" label="Mails">
           <q-badge color="primary" text-color="white" floating>2</q-badge>
@@ -29,7 +38,7 @@
 
       <q-tabs
         v-model="tab"
-        class="bg-grey-3 shadow-2"
+        class="bg-grey-3"
       >
         <q-tab alert="red" name="mails" icon="mail" label="Mails" />
         <q-tab alert="purple" name="alarms" icon="alarm" label="Alarms" />

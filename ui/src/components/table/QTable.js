@@ -6,17 +6,22 @@ import TableBody from './table-body.js'
 import Bottom from './table-bottom.js'
 import TableGrid from './table-grid.js'
 import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
+import QLinearProgress from '../linear-progress/QLinearProgress.js'
+import getTableMiddle from './get-table-middle.js'
 
 import { commonVirtPropsList } from '../../mixins/virtual-scroll.js'
 import DarkMixin from '../../mixins/dark.js'
-import getTableMiddle from './get-table-middle.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import Sort from './table-sort.js'
 import Filter from './table-filter.js'
 import Pagination from './table-pagination.js'
 import RowSelection from './table-row-selection.js'
+import RowExpand from './table-row-expand.js'
 import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
+
+import cache from '../../utils/cache.js'
 
 const commonVirtPropsObj = {}
 commonVirtPropsList.forEach(p => { commonVirtPropsObj[p] = {} })
@@ -26,6 +31,7 @@ export default Vue.extend({
 
   mixins: [
     DarkMixin,
+    ListenersMixin,
 
     FullscreenMixin,
     Top,
@@ -37,6 +43,7 @@ export default Vue.extend({
     Filter,
     Pagination,
     RowSelection,
+    RowExpand,
     ColumnSelection
   ],
 
@@ -54,10 +61,14 @@ export default Vue.extend({
     loading: Boolean,
     binaryStateSort: Boolean,
 
+    iconFirstPage: String,
+    iconPrevPage: String,
+    iconNextPage: String,
+    iconLastPage: String,
+
     title: String,
 
     hideHeader: Boolean,
-    hideBottom: Boolean,
 
     grid: Boolean,
     gridHeader: Boolean,
@@ -88,6 +99,7 @@ export default Vue.extend({
       default: 'grey-8'
     },
 
+    titleClass: [String, Array, Object],
     tableStyle: [String, Array, Object],
     tableClass: [String, Array, Object],
     tableHeaderStyle: [String, Array, Object],
@@ -100,19 +112,20 @@ export default Vue.extend({
 
   data () {
     return {
-      rowsExpanded: {},
-      innerPagination: {
+      innerPagination: Object.assign({
         sortBy: null,
         descending: false,
         page: 1,
-        rowsPerPage: 5
-      }
+        rowsPerPage: this.rowsPerPageOptions.length > 0
+          ? this.rowsPerPageOptions[0]
+          : 5
+      }, this.pagination)
     }
   },
 
   watch: {
     needsReset () {
-      this.hasVirtScroll === true && this.$refs.virtScroll.reset()
+      this.hasVirtScroll === true && this.$refs.virtScroll !== void 0 && this.$refs.virtScroll.reset()
     }
   },
 
@@ -132,50 +145,61 @@ export default Vue.extend({
         .map(p => this[p]).join(';')
     },
 
-    computedData () {
-      let rows = this.data.slice().map((row, i) => {
-        row.__index = i
-        return row
-      })
+    filteredSortedRows () {
+      let rows = this.data
 
-      if (rows.length === 0) {
-        return {
-          rowsNumber: 0,
-          rows: []
-        }
+      if (this.isServerSide === true || rows.length === 0) {
+        return rows
       }
 
-      if (this.isServerSide === true) {
-        return { rows }
-      }
-
-      const { sortBy, descending, rowsPerPage } = this.computedPagination
+      const { sortBy, descending } = this.computedPagination
 
       if (this.filter) {
         rows = this.filterMethod(rows, this.filter, this.computedCols, this.getCellValue)
       }
 
-      if (this.columnToSort) {
-        rows = this.sortMethod(rows, sortBy, descending)
+      if (this.columnToSort !== void 0) {
+        rows = this.sortMethod(
+          this.data === rows ? rows.slice() : rows,
+          sortBy,
+          descending
+        )
       }
 
-      const rowsNumber = rows.length
+      return rows
+    },
 
-      if (rowsPerPage) {
-        rows = rows.slice(this.firstRowIndex, this.lastRowIndex)
-      }
-
-      return { rowsNumber, rows }
+    filteredSortedRowsNumber () {
+      return this.filteredSortedRows.length
     },
 
     computedRows () {
-      return this.computedData.rows
+      let rows = this.filteredSortedRows
+
+      if (this.isServerSide === true) {
+        return rows
+      }
+
+      const { rowsPerPage } = this.computedPagination
+
+      if (rowsPerPage !== 0) {
+        if (this.firstRowIndex === 0 && this.data !== rows) {
+          if (rows.length > this.lastRowIndex) {
+            rows = rows.slice(0, this.lastRowIndex)
+          }
+        }
+        else {
+          rows = rows.slice(this.firstRowIndex, this.lastRowIndex)
+        }
+      }
+
+      return rows
     },
 
     computedRowsNumber () {
       return this.isServerSide === true
         ? this.computedPagination.rowsNumber || 0
-        : this.computedData.rowsNumber
+        : this.filteredSortedRowsNumber
     },
 
     nothingToDisplay () {
@@ -195,7 +219,7 @@ export default Vue.extend({
     },
 
     containerClass () {
-      return `q-table__container q-table--${this.separator}-separator` +
+      return `q-table__container q-table--${this.separator}-separator column no-wrap` +
         (this.loading === true ? ' q-table--loading' : '') +
         (this.grid === true ? ' q-table--grid' : this.cardDefaultClass) +
         (this.isDark === true ? ` q-table--dark` : '') +
@@ -219,19 +243,31 @@ export default Vue.extend({
   },
 
   render (h) {
+    const child = [ this.__getTopDiv(h) ]
     const data = { staticClass: this.containerClass }
 
-    if (this.grid === false) {
-      data.class = this.cardClass
-      data.style = this.cardStyle
+    if (this.grid === true) {
+      child.push(this.__getGridHeader(h))
+    }
+    else {
+      Object.assign(data, {
+        class: this.cardClass,
+        style: this.cardStyle
+      })
     }
 
-    return h('div', data, [
-      this.getTop(h),
-      this.grid === true ? this.getGridHeader(h) : null,
-      this.getBody(h),
-      this.getBottom(h)
-    ])
+    child.push(
+      this.__getBody(h),
+      this.__getBottomDiv(h)
+    )
+
+    if (this.loading === true && this.$scopedSlots.loading !== void 0) {
+      child.push(
+        this.$scopedSlots.loading()
+      )
+    }
+
+    return h('div', data, child)
   },
 
   methods: {
@@ -249,45 +285,104 @@ export default Vue.extend({
       this.hasVirtScroll === true && this.$refs.virtScroll.reset()
     },
 
-    getBody (h) {
+    __getBody (h) {
       if (this.grid === true) {
-        return this.getGridBody(h)
+        return this.__getGridBody(h)
       }
 
-      const header = this.hideHeader !== true ? this.getTableHeader(h) : null
+      const header = this.hideHeader !== true ? this.__getTHead(h) : null
 
-      return this.hasVirtScroll === true
-        ? h(QVirtualScroll, {
+      if (this.hasVirtScroll === true) {
+        const topRow = this.$scopedSlots['top-row']
+        const bottomRow = this.$scopedSlots['bottom-row']
+
+        const virtSlots = {
+          default: this.__getVirtualTBodyTR(h)
+        }
+
+        if (topRow !== void 0) {
+          const topContent = h('tbody', topRow({ cols: this.computedCols }))
+
+          virtSlots.before = header === null
+            ? () => [topContent]
+            : () => [header].concat(topContent)
+        }
+        else if (header !== null) {
+          virtSlots.before = () => header
+        }
+
+        if (bottomRow !== void 0) {
+          virtSlots.after = () => h('tbody', bottomRow({ cols: this.computedCols }))
+        }
+
+        return h(QVirtualScroll, {
           ref: 'virtScroll',
           props: {
             ...this.virtProps,
             items: this.computedRows,
-            type: '__qtable'
+            type: '__qtable',
+            tableColspan: this.computedColspan
           },
-          on: {
+          on: cache(this, 'vs', {
             'virtual-scroll': this.__onVScroll
-          },
+          }),
           class: this.tableClass,
           style: this.tableStyle,
-          scopedSlots: {
-            before: header === null
-              ? void 0
-              : () => header,
-            default: this.getTableRowVirtual(h)
-          }
+          scopedSlots: virtSlots
         })
-        : getTableMiddle(h, {
-          staticClass: 'scroll',
-          class: this.tableClass,
-          style: this.tableStyle
-        }, [
-          header,
-          this.getTableBody(h)
-        ])
+      }
+
+      return getTableMiddle(h, {
+        staticClass: 'scroll',
+        class: this.tableClass,
+        style: this.tableStyle
+      }, [
+        header,
+        this.__getTBody(h)
+      ])
+    },
+
+    scrollTo (toIndex, edge) {
+      if (this.$refs.virtScroll !== void 0) {
+        this.$refs.virtScroll.scrollTo(toIndex, edge)
+        return
+      }
+
+      toIndex = parseInt(toIndex, 10)
+      const rowEl = this.$el.querySelector(`tbody tr:nth-of-type(${toIndex + 1})`)
+
+      if (rowEl !== null) {
+        const scrollTarget = this.$el.querySelector('.q-table__middle.scroll')
+        const { offsetTop } = rowEl
+        const direction = offsetTop < scrollTarget.scrollTop ? 'decrease' : 'increase'
+
+        scrollTarget.scrollTop = offsetTop
+
+        this.$emit('virtual-scroll', {
+          index: toIndex,
+          from: 0,
+          to: this.pagination.rowsPerPage - 1,
+          direction
+        })
+      }
     },
 
     __onVScroll (info) {
       this.$emit('virtual-scroll', info)
+    },
+
+    __getProgress (h) {
+      return [
+        h(QLinearProgress, {
+          staticClass: 'q-table__linear-progress',
+          props: {
+            color: this.color,
+            dark: this.isDark,
+            indeterminate: true,
+            trackColor: 'transparent'
+          }
+        })
+      ]
     }
   }
 })

@@ -1,9 +1,13 @@
 import Vue from 'vue'
 
-import slot from '../../utils/slot.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QPage',
+
+  mixins: [ ListenersMixin ],
 
   inject: {
     pageContainer: {
@@ -26,7 +30,11 @@ export default Vue.extend({
         (this.layout.footer.space === true ? this.layout.footer.size : 0)
 
       if (typeof this.styleFn === 'function') {
-        return this.styleFn(offset)
+        const height = this.layout.container === true
+          ? this.layout.containerHeight
+          : this.$q.screen.height
+
+        return this.styleFn(offset, height)
       }
 
       return {
@@ -52,7 +60,7 @@ export default Vue.extend({
       staticClass: 'q-page',
       style: this.style,
       class: this.classes,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

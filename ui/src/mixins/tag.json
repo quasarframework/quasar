@@ -1,0 +1,10 @@
+{
+  "props": {
+    "tag": {
+      "type": "String",
+      "desc": "HTML tag to render",
+      "default": "div",
+      "category": "content"
+    }
+  }
+}

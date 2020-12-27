@@ -1,0 +1,82 @@
+{
+  "mixins": [ "mixins/tag" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/skeleton"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "addedIn": "v1.6.0",
+
+  "props": {
+    "dark": {
+      "extends": "dark"
+    },
+
+    "type": {
+      "type": "String",
+      "desc": "Type of skeleton placeholder",
+      "values": [
+        "text", "rect", "circle",
+        "QBtn", "QBadge", "QChip", "QToolbar",
+        "QCheckbox", "QRadio", "QToggle",
+        "QSlider", "QRange", "QInput",
+        "QAvatar"
+      ],
+      "default": "rect",
+      "category": "content"
+    },
+
+    "animation": {
+      "type": "String",
+      "desc": "The animation effect of the skeleton placeholder",
+      "values": [
+        "wave", "pulse", "pulse-x", "pulse-y", "fade", "blink", "none"
+      ],
+      "default": "wave",
+      "category": "style"
+    },
+
+    "square": {
+      "extends": "square"
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "size": {
+      "type": "String",
+      "desc": "Size in CSS units, including unit name; Overrides 'height' and 'width' props and applies the value to both height and width",
+      "examples": [ "16px", "2rem" ],
+      "category": "style"
+    },
+
+    "width": {
+      "type": "String",
+      "desc": "Width in CSS units, including unit name; Apply custom width; Use this prop or through CSS; Overridden by 'size' prop if used",
+      "examples": [ "16px", "2rem" ],
+      "category": "style"
+    },
+
+    "height": {
+      "type": "String",
+      "desc": "Height in CSS units, including unit name; Apply custom height; Use this prop or through CSS; Overridden by 'size' prop if used",
+      "examples": [ "16px", "2rem" ],
+      "category": "style"
+    },
+
+    "tag": {
+      "examples": [ "div", "span" ]
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

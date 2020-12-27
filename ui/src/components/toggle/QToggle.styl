@@ -1,106 +1,133 @@
 $toggle-transition = .22s cubic-bezier(.4,0,.2,1)
 
 .q-toggle
-  vertical-align middle
-
-  &__label
-    font-size 14px
-    line-height 20px
+  vertical-align: middle
 
   &__native
-    width 1px
-    height 1px
+    width: 1px
+    height: 1px
 
   &__track
-    height 14px
-    border-radius 7px
-    opacity .38
-    background-color currentColor
-
-  &__thumb-container
-    left 10px
-    right auto
-    top 10px
-    transform translate3d(0, 0, 0)
-    transition transform $toggle-transition
-    user-select none
+    height: .35em
+    border-radius: .175em
+    opacity: .38
+    background: currentColor
 
   &__thumb
-    width 20px
-    height 20px
-    border 10px solid
-    border-radius 50%
-    border-color #fff
-    box-shadow 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)
+    top: .25em
+    left: .25em
+    width: .5em
+    height: .5em
+    transition: left $toggle-transition
+    user-select: none
+    z-index: 0
+
+    &:after
+      content: ''
+      position: absolute
+      top: 0
+      right: 0
+      bottom: 0
+      left: 0
+      border-radius: 50%
+      background: #fff
+      box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)
 
     .q-icon
-      font-size 12px
-      width 20px
-      height 0
-      line-height 0
-      color black
-      opacity .54
+      font-size: .3em
+      min-width: 1em
+      color: #000
+      opacity: .54
+      z-index: 1
 
   &__inner
-    width 56px
-    min-width 56px
-    height 40px
-    padding 13px 12px
+    font-size: 40px
+    width: 1.4em
+    min-width: 1.4em
+    height: 1em
+    padding: .325em .3em
 
-    &--active
-      color $primary
-      color var(--q-color-primary)
-      .q-toggle__track
-        opacity .54
-      .q-toggle__thumb-container
-        transform translate3d(16px, 0, 0)
+    &--indet
       .q-toggle__thumb
-        background-color currentColor
-        border-color currentColor
+        left: .45em
+
+    &--truthy
+      color: $primary
+      color: var(--q-color-primary)
+      .q-toggle__track
+        opacity: .54
+      .q-toggle__thumb
+        left: .65em
+
+        &:after
+          background-color: currentColor
+
         .q-icon
-          color #fff
-          opacity 1
+          color: #fff
+          opacity: 1
 
   &.disabled
-    opacity .75 !important
+    opacity: .75 !important
 
   &--dark
     .q-toggle__inner
-      color #fff
-      &--active
-        color $primary
-        color var(--q-color-primary)
+      color: #fff
+      &--truthy
+        color: $primary
+        color: var(--q-color-primary)
     .q-toggle__thumb:before
-      opacity .32 !important
+      opacity: .32 !important
 
   &--dense
 
     .q-toggle__inner
-      height 20px
-      padding 3px 12px
-    .q-toggle__thumb-container
-      top 0
+      width: .8em
+      min-width: .8em
+      height: .5em
+      padding: .07625em 0
+
+    .q-toggle__thumb
+      top: 0
+      left: 0
+
+    .q-toggle__inner--indet
+      .q-toggle__thumb
+        left: .15em
+    .q-toggle__inner--truthy
+      .q-toggle__thumb
+        left: .3em
+
+    .q-toggle__label
+      padding-left: .5em
+
+    &.reverse .q-toggle__label
+      padding-left: 0
+      padding-right: .5em
 
 body.desktop
 
-  .q-toggle
-    &__thumb:before
-      content ''
-      z-index -1
-      position absolute
-      top 0
-      right 0
-      bottom 0
-      left 0
-      border-radius 50%
-      background currentColor
-      opacity .12
-      transform scale3d(0, 0, 0)
-      transition transform $option-focus-transition
+  .q-toggle:not(.disabled)
+    .q-toggle__thumb:before
+      content: ''
+      position: absolute
+      top: 0
+      right: 0
+      bottom: 0
+      left: 0
+      border-radius: 50%
+      background: currentColor
+      opacity: .12
+      transform: scale3d(0, 0, 1)
+      transition: transform $option-focus-transition
 
-    &:focus:not(.disabled) .q-toggle__thumb:before
-      transform scale3d(2, 2, 2)
+    &:focus,
+    &:hover
+      .q-toggle__thumb:before
+        transform: scale3d(2, 2, 1)
 
-    &--dense:focus:not(.disabled) .q-toggle__thumb:before
-      transform scale3d(1.5, 1.5, 1.5)
+  .q-toggle--dense:not(.disabled)
+    &:focus,
+    &:hover
+      .q-toggle__thumb:before
+        transform: scale3d(1.5, 1.5, 1)
 

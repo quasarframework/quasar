@@ -1,7 +1,11 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-directives/touch-hold"
+  },
+
   "value": {
     "type": "Function",
-    "desc": "Function to call after user has hold touch/click for the specified amount of time",
+    "desc": "Function to call after user has hold touch/click for the specified amount of time (use a non-function to disable)",
     "params": {
       "details": {
         "type": "Object",
@@ -45,7 +49,7 @@
       }
     },
     "returns": null,
-    "examples": [ "v-touch-hold=\"fnToCall\"" ]
+    "examples": [ "v-touch-hold=\"fnToCall\"", "v-touch-hold=\"void 0\"" ]
   },
 
   "arg": {

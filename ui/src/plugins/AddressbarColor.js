@@ -1,4 +1,5 @@
 import Platform, { isSSR } from './Platform.js'
+import { noop } from '../utils/event.js'
 import { getBrand } from '../utils/colors.js'
 
 let metaValue
@@ -16,7 +17,7 @@ function getProp () {
 
 function getMetaTag (v) {
   const els = document.getElementsByTagName('META')
-  for (let i in els) {
+  for (const i in els) {
     if (els[i].name === v) {
       return els[i]
     }
@@ -61,7 +62,7 @@ export default {
           setColor(val)
         }
       }
-      : () => {}
+      : noop
 
     $q.addressbarColor = this
 

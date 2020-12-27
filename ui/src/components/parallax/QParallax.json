@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/parallax"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -7,10 +11,12 @@
     "src": {
       "type": "String",
       "desc": "Path to image (unless a 'media' slot is used)",
+      "transformAssetUrls": true,
       "examples": [
-        "(statics folder) statics/img/something.png",
+        "(statics folder) src=\"statics/img/something.png\"",
+        "(assets folder) src=\"~assets/my-img.png\"",
         "(relative path format) :src=\"require('./my_img.jpg')\"",
-        "(URL) https://some-site.net/some-img.jpg"
+        "(URL) src=\"https://some-site.net/some-img.jpg\""
       ],
       "category": "model"
     },
@@ -28,6 +34,10 @@
       "desc": "Speed of parallax effect (0.0 < x < 1.0)",
       "examples": [ ":speed=\"0.24\"" ],
       "category": "behavior"
+    },
+
+    "scroll-target": {
+      "extends": "scroll-target"
     }
   },
 

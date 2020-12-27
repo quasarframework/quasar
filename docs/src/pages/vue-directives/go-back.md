@@ -8,17 +8,46 @@ When writing reusable code for building a mobile App and a website, it's importa
 If you have no knowledge of [Vue Router](http://router.vuejs.org/), we highly recommend you read and understand how it works first.
 :::
 
-## Cordova Use Case
-Quasar handles the back button for you by default, so it can hide any opened Modals/Dialogs **instead of the default behavior** which is to return to the previous page (which is not a nice user experience).
+## Cordova/Capacitor
+Quasar handles the back button for you by default, so it can hide any opened Dialogs **instead of the default behavior** which is to return to the previous page (which is not a nice user experience).
 
-Also, when on the home route (`/`) and user presses the back button on the phone/tablet, Quasar will make your app exit. Should you wish to disable this behavior, then you can do so by configuring quasar.conf.js:
+Also, when on the home route (`/`) and user presses the back button on the phone/tablet, Quasar will make your app exit. Should you wish to disable or configure this behavior, then you can do so via quasar.conf.js options:
+- `false` will disable the feature;
+- `'*'` will make your app exit on any page, if the history length is 0;
+- an array of strings (eg. `['login', 'home', 'my-page']`) will make your app exit when current path is included in that array (or on default `/`). The array automatically filters out non-strings or empty values and normalizes paths to match `#/<your-path>` format.
 
 ```js
+// for Cordova (only!):
 return {
   framework: {
     config: {
       cordova: {
-        backButtonExit: true/false
+        // Quasar handles app exit on mobile phone back button.
+        // Requires Quasar v1.9.3+ for true/false, v1.12.6+ for '*' wildcard and array values
+        backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
+
+        // On the other hand, the following completely
+        // disables Quasar's back button management.
+        // Requires Quasar v1.14.1+
+        backButton: true/false
+      }
+    }
+  }
+}
+
+// for Capacitor (only!)
+return {
+  framework: {
+    config: {
+      capacitor: {
+        // Quasar handles app exit on mobile phone back button.
+        // Requires Quasar v1.9.3+ for true/false, v1.12.6+ for '*' wildcard and array values
+        backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
+
+        // On the other hand, the following completely
+        // disables Quasar's back button management.
+        // Requires Quasar v1.14.1+
+        backButton: true/false
       }
     }
   }
@@ -67,7 +96,7 @@ Then we use it:
 />
 ```
 
-This directive determines if the Platform is Cordova, and if so, it performs a `window.history.back()` call instead of a `$router.push('/')`.
+This directive determines if the Platform is Cordova or Capacitor, and if so, it performs a `window.history.back()` call instead of a `$router.push('/')`.
 
 ## Quirks
 Now you may think everything will work smoothly, but you must be careful about how your app is stacking up the window history. Remember, we started out by saying that the List page has a layout with multiple tabs, each one with its own route ("/list/shoes", "/list/hats"). If we'd use `to="/list/shoes"` and `to="/list/hats"` on your Tabs (read more about [QTabs](/vue-components/tabs)), then window history will build up when switching between the tabs.
@@ -82,6 +111,6 @@ The same applies to `<router-link>`s.
 Always **think** about how you redirect your App to a new route, depending on what you want to achieve. Think if you really want to push a new route to window history or if you want to "replace" the current route. Otherwise the phone/tablet/browser "Back" button won't work quite as expected. Instead of finally exiting the App, it will make you go through all the routes in the reverse order they were visited. So when you hit back and go to the Login page, you'd expect another back to make the App exit, but it might make your App go to one of the List tabs, depending on the user's navigation history.
 :::
 
-## API
+## GoBack API
 
 <doc-api file="GoBack" />

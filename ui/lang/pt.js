@@ -22,7 +22,8 @@ export default {
     months: 'Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro'.split('_'),
     monthsShort: 'Jan_Fev_Mar_Abr_Mai_Jun_Jul_Ago_Set_Out_Nov_Dez'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dias'
   },
   table: {
     noData: 'Sem dados disponíveis',
@@ -67,12 +68,12 @@ export default {
     hr: 'Inserir linha horizontal',
     undo: 'Desfazer',
     redo: 'Refazer',
-    header1: 'Cabeçalho 1',
-    header2: 'Cabeçalho 2',
-    header3: 'Cabeçalho 3',
-    header4: 'Cabeçalho 4',
-    header5: 'Cabeçalho 5',
-    header6: 'Cabeçalho 6',
+    heading1: 'Cabeçalho 1',
+    heading2: 'Cabeçalho 2',
+    heading3: 'Cabeçalho 3',
+    heading4: 'Cabeçalho 4',
+    heading5: 'Cabeçalho 5',
+    heading6: 'Cabeçalho 6',
     paragraph: 'Parágrafo',
     code: 'Código',
     size1: 'Muito pequeno',

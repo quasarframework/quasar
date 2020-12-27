@@ -4,7 +4,7 @@
   box-shadow: $shadow-2
   border-radius: $generic-border-radius
   background: #fff
-  outline: none
+  outline: 0
   width: 290px
   min-width: 290px
   max-width: 100%
@@ -26,7 +26,7 @@
   &__header-label
     font-size: 28px
     line-height: 1
-    letter-spacing: -0.00833em
+    letter-spacing: -.00833em
 
     > div + div
       margin-left: 4px
@@ -40,7 +40,7 @@
 
   &__header-ampm
     font-size: 16px
-    letter-spacing: 0.1em
+    letter-spacing: .1em
 
   &__content
     padding: 16px
@@ -55,7 +55,7 @@
 
   &__container-child
     border-radius: 50%
-    background: rgba(0, 0, 0, .12)
+    background: rgba(0,0,0,.12)
 
   &__clock
     padding: 24px
@@ -77,9 +77,9 @@
     background: currentColor
 
   &__clock-pointer
-    width: 1px
+    width: 2px
     height: 50%
-    transform-origin: top center /* rtl:ignore */
+    transform-origin: 0 0 #{"/* rtl:ignore */"}
     min-height: 0
     position: absolute
     left: 50%
@@ -93,10 +93,10 @@
     &:before, &:after
       content: ''
       position: absolute
-      left: 0
+      left: 50%
       border-radius: 50%
       background: currentColor
-      transform: translateX(-44%)
+      transform: translateX(-50%)
     &:before
       bottom: -4px
       width: 8px
@@ -115,7 +115,7 @@
     line-height: 32px
     margin: 0
     padding: 0
-    transform: translate(-50%, -50%) /* rtl:ignore */
+    transform: translate(-50%, -50%) #{"/* rtl:ignore */"}
     border-radius: 50%
 
     &--disable
@@ -133,7 +133,7 @@
 
     &__clock-pos-#{$pos}
       top: toFixed(percentage($top * 0.5), 100)
-      left: toFixed(percentage($left * 0.5), 100) /* rtl:ignore */
+      left: toFixed(percentage($left * 0.5), 100) #{"/* rtl:ignore */"}
 
   @for $pos from 12 through 23
     $angle: (270 + 30 * $pos)
@@ -142,7 +142,7 @@
 
     &__clock-pos-#{$pos}
       top: toFixed(percentage(.15 + $top * .35), 100)
-      left: toFixed(percentage(.15 + $left * .35), 100) /* rtl:ignore */
+      left: toFixed(percentage(.15 + $left * .35), 100) #{"/* rtl:ignore */"}
 
   &__now-button
     background-color: $primary
@@ -150,17 +150,6 @@
     color: #fff
     top: 12px
     right: 12px
-
-  &__event
-    position: absolute
-    bottom: 2px
-    left: 50%
-    height: 5px
-    width: 10px
-    border-radius: 5px
-    background-color: $secondary
-    background-color: var(--q-color-secondary)
-    transform: translate3d(-50%, 0, 0)
 
   &.disabled, &--readonly
     .q-time__header-ampm, .q-time__content

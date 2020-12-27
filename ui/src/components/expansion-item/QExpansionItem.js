@@ -10,8 +10,10 @@ import QSeparator from '../separator/QSeparator.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import DarkMixin from '../../mixins/dark.js'
+
 import { stopAndPrevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
+import cache from '../../utils/cache.js'
 
 const eventName = 'q:expansion-item:close'
 
@@ -32,6 +34,7 @@ export default Vue.extend({
     dense: Boolean,
 
     expandIcon: String,
+    expandedIcon: String,
     expandIconClass: [ Array, String, Object ],
     duration: Number,
 
@@ -93,7 +96,9 @@ export default Vue.extend({
     },
 
     expansionIcon () {
-      return this.expandIcon || (this.denseToggle ? this.$q.iconSet.expansionItem.denseIcon : this.$q.iconSet.expansionItem.icon)
+      return this.expandedIcon !== void 0 && this.showing === true
+        ? this.expandedIcon
+        : this.expandIcon || this.$q.iconSet.expansionItem[this.denseToggle === true ? 'denseIcon' : 'icon']
     },
 
     activeToggleIcon () {
@@ -122,38 +127,44 @@ export default Vue.extend({
     },
 
     __getToggleIcon (h) {
-      return h(QItemSection, {
-        staticClass: `cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
+      const data = {
+        staticClass: `q-focusable relative-position cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
         class: this.expandIconClass,
         props: {
           side: this.switchToggleSide !== true,
           avatar: this.switchToggleSide
-        },
-        on: this.activeToggleIcon === true ? {
-          click: this.__toggleIcon,
-          keyup: this.__toggleIconKeyboard
-        } : void 0
-      }, [
+        }
+      }
+
+      const child = [
         h(QIcon, {
-          staticClass: 'q-expansion-item__toggle-icon q-focusable',
-          class: {
-            'rotate-180': this.showing,
-            invisible: this.disable
-          },
-          props: {
-            name: this.expansionIcon
-          },
-          attrs: this.activeToggleIcon === true
-            ? { tabindex: 0 }
-            : void 0
-        }, [
-          h('div', {
-            staticClass: 'q-focus-helper q-focus-helper--round',
-            attrs: { tabindex: -1 },
-            ref: 'blurTarget'
+          staticClass: 'q-expansion-item__toggle-icon',
+          class: this.expandedIcon === void 0 && this.showing === true
+            ? 'q-expansion-item__toggle-icon--rotated'
+            : void 0,
+          props: { name: this.expansionIcon }
+        })
+      ]
+
+      if (this.activeToggleIcon === true) {
+        Object.assign(data, {
+          attrs: { tabindex: 0 },
+          on: cache(this, 'inpExt', {
+            click: this.__toggleIcon,
+            keyup: this.__toggleIconKeyboard
           })
-        ])
-      ])
+        })
+
+        child.unshift(
+          h('div', {
+            ref: 'blurTarget',
+            staticClass: 'q-expansion-item__toggle-focus q-icon q-focus-helper q-focus-helper--rounded',
+            attrs: { tabindex: -1 }
+          })
+        )
+      }
+
+      return h(QItemSection, data, child)
     },
 
     __getHeader (h) {
@@ -191,7 +202,9 @@ export default Vue.extend({
         )
       }
 
-      child[this.switchToggleSide === true ? 'unshift' : 'push'](this.__getToggleIcon(h))
+      this.disable !== true && child[this.switchToggleSide === true ? 'unshift' : 'push'](
+        this.__getToggleIcon(h)
+      )
 
       const data = {
         ref: 'item',
@@ -210,7 +223,7 @@ export default Vue.extend({
 
         data.props.clickable = true
         data[evtProp] = {
-          ...this.$listeners,
+          ...this.qListeners,
           click: this.__onHeaderClick
         }
 
@@ -228,7 +241,11 @@ export default Vue.extend({
         this.__getHeader(h),
 
         h(QSlideTransition, {
-          props: { duration: this.duration }
+          props: { duration: this.duration },
+          on: cache(this, 'slide', {
+            show: () => { this.$emit('after-show') },
+            hide: () => { this.$emit('after-hide') }
+          })
         }, [
           h('div', {
             staticClass: 'q-expansion-item__content relative-position',

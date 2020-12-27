@@ -3,12 +3,18 @@ import Vue from 'vue'
 import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
 
+import AttrsMixin from '../../mixins/attrs.js'
+
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/is.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
+import { isKeyCode } from '../../utils/key-composition.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QPopupEdit',
+
+  mixins: [ AttrsMixin ],
 
   props: {
     value: {
@@ -27,6 +33,8 @@ export default Vue.extend({
       type: Function,
       default: () => true
     },
+
+    autoSave: Boolean,
 
     /* menu props overrides */
     cover: {
@@ -48,7 +56,7 @@ export default Vue.extend({
   computed: {
     classes () {
       return 'q-popup-edit' +
-        (this.contentClass ? ' ' + this.contentClass : '')
+        (this.contentClass !== void 0 ? ` ${this.contentClass}` : '')
     },
 
     defaultSlotScope () {
@@ -60,12 +68,20 @@ export default Vue.extend({
         set: this.set,
         cancel: this.cancel
       }
+    },
+
+    menuProps () {
+      return {
+        ...this.qAttrs,
+        cover: this.cover,
+        contentClass: this.classes
+      }
     }
   },
 
   methods: {
     set () {
-      if (this.__hasChanged()) {
+      if (this.__hasChanged() === true) {
         if (this.validate(this.value) === false) {
           return
         }
@@ -75,27 +91,34 @@ export default Vue.extend({
     },
 
     cancel () {
-      if (this.__hasChanged()) {
-        this.$emit('cancel', this.value, this.initialValue)
+      if (this.__hasChanged() === true) {
         this.$emit('input', this.initialValue)
+        this.$emit('cancel', this.value, this.initialValue)
       }
       this.__close()
     },
 
+    show (e) {
+      this.$refs.menu !== void 0 && this.$refs.menu.show(e)
+    },
+
+    hide (e) {
+      this.$refs.menu !== void 0 && this.$refs.menu.hide(e)
+    },
+
     __hasChanged () {
-      return !isDeepEqual(this.value, this.initialValue)
+      return isDeepEqual(this.value, this.initialValue) === false
     },
 
     __emitValue (val) {
-      if (this.disable === true) {
-        return
+      if (this.disable !== true) {
+        this.$emit('input', val)
       }
-      this.$emit('input', val)
     },
 
     __close () {
       this.validated = true
-      this.$refs.menu.hide()
+      this.$refs.menu.showing === true && this.$refs.menu.hide()
     },
 
     __reposition () {
@@ -123,7 +146,7 @@ export default Vue.extend({
               color: this.color,
               label: this.labelCancel || this.$q.lang.label.cancel
             },
-            on: { click: this.cancel }
+            on: cache(this, 'cancel', { click: this.cancel })
           }),
           h(QBtn, {
             props: {
@@ -131,7 +154,7 @@ export default Vue.extend({
               color: this.color,
               label: this.labelSet || this.$q.lang.label.set
             },
-            on: { click: this.set }
+            on: cache(this, 'ok', { click: this.set })
           })
         ])
       )
@@ -145,12 +168,8 @@ export default Vue.extend({
 
     return h(QMenu, {
       ref: 'menu',
-      props: {
-        ...this.$attrs,
-        cover: this.cover,
-        contentClass: this.classes
-      },
-      on: {
+      props: this.menuProps,
+      on: cache(this, 'menu', {
         'before-show': () => {
           this.validated = false
           this.initialValue = clone(this.value)
@@ -160,22 +179,29 @@ export default Vue.extend({
         show: () => {
           this.$emit('show')
         },
+        'escape-key': this.cancel,
         'before-hide': () => {
           this.watcher()
 
-          if (this.validated === false && this.__hasChanged()) {
-            this.$emit('cancel', this.value, this.initialValue)
-            this.$emit('input', this.initialValue)
+          if (this.validated === false && this.__hasChanged() === true) {
+            if (this.autoSave === true && this.validate(this.value) === true) {
+              this.$emit('save', this.value, this.initialValue)
+            }
+            else {
+              this.$emit('cancel', this.value, this.initialValue)
+              this.$emit('input', this.initialValue)
+            }
           }
+
           this.$emit('before-hide')
         },
         hide: () => {
           this.$emit('hide')
         },
         keyup: e => {
-          e.keyCode === 13 && this.set()
+          isKeyCode(e, 13) === true && this.set()
         }
-      }
+      })
     }, this.__getContent(h))
   }
 })

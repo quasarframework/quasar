@@ -47,10 +47,10 @@ if (argv.help) {
     $ quasar build -m ios -- some params --and options --here
 
   Options
-    --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
+    --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
-                        [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+                        [android|ios]
                       - Capacitor
                         [android|ios]
                       - Electron with default "electron-packager" bundler (default: yours)
@@ -88,43 +88,50 @@ if (argv.help) {
   process.exit(0)
 }
 
-const chalk = require('chalk')
+const ensureArgv = require('../lib/helpers/ensure-argv')
+ensureArgv(argv, 'build')
 
-const
-  logger = require('../lib/helpers/logger'),
-  log = logger('app:build'),
-  warn = logger('app:build', 'red'),
-  banner = require('../lib/helpers/banner')
-
-require('../lib/helpers/ensure-argv')(argv, 'build')
+const banner = require('../lib/helpers/banner')
 banner(argv, 'build')
 
-if (argv.mode !== 'spa') {
-  require('../lib/mode/install-missing')(argv.mode, argv.target)
-}
+const { log, warn, fatal } = require('../lib/helpers/logger')
 
-const
-  path = require('path'),
-  webpack = require('webpack')
+const chalk = require('chalk')
+const path = require('path')
+const webpack = require('webpack')
 
-const
-  QuasarConfig = require('../lib/quasar-config'),
-  Generator = require('../lib/generator'),
-  artifacts = require('../lib/artifacts'),
-  getQuasarCtx = require('../lib/helpers/get-quasar-ctx'),
-  extensionRunner = require('../lib/app-extension/extensions-runner')
-
-function parseWebpackConfig (webpackConfig, mode) {
+function splitConfig (webpackConf, mode) {
   if (mode === 'ssr') {
-    return [ webpackConfig.server, webpackConfig.client ]
+    return [
+      { webpack: webpackConf.server, name: 'Server' },
+      { webpack: webpackConf.client, name: 'Client' },
+      { webpack: webpackConf.webserver, name: 'Webserver' }
+    ]
   }
-  if (mode === 'electron') {
-    return [ webpackConfig.renderer, webpackConfig.main ]
+
+  if (['electron', 'bex'].includes(mode)) {
+    return [
+      { webpack: webpackConf.renderer, name: 'Renderer process' },
+      { webpack: webpackConf.main, name: 'Main process' }
+    ]
   }
-  return webpackConfig
+
+  return [
+    { webpack: webpackConf, name: 'Build' }
+  ]
 }
 
-function finalizeBuild (mode, ctx, quasarConfig) {
+function parseWebpackConfig (cfg, mode) {
+  const data = splitConfig(cfg, mode)
+
+  return {
+    configs: data.map(d => d.webpack),
+    name: data.map(d => d.name),
+    folder: data.map(d => d.webpack.output.path)
+  }
+}
+
+function finalizeBuild (mode, ctx, quasarConfFile) {
   let Runner
 
   if (['cordova', 'capacitor'].includes(mode)) {
@@ -136,13 +143,25 @@ function finalizeBuild (mode, ctx, quasarConfig) {
 
   if (Runner !== void 0) {
     Runner.init(ctx)
-    return Runner.build(quasarConfig, argv)
+    return Runner.build(quasarConfFile, argv)
   }
 
   return Promise.resolve()
 }
 
 async function build () {
+  if (argv.mode !== 'spa') {
+    const installMissing = require('../lib/mode/install-missing')
+    await installMissing(argv.mode, argv.target)
+  }
+
+  const QuasarConfFile = require('../lib/quasar-conf-file')
+  const Generator = require('../lib/generator')
+  const artifacts = require('../lib/artifacts')
+  const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
+  const extensionRunner = require('../lib/app-extension/extensions-runner')
+  const regenerateTypesFeatureFlags = require('../lib/helpers/types-feature-flags')
+
   const ctx = getQuasarCtx({
     mode: argv.mode,
     target: argv.target,
@@ -156,103 +175,120 @@ async function build () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
-  const quasarConfig = new QuasarConfig(ctx)
+  const quasarConfFile = new QuasarConfFile(ctx, argv)
 
   try {
-    await quasarConfig.prepare()
+    await quasarConfFile.prepare()
   }
   catch (e) {
     console.log(e)
-    warn(`⚠️  [FAIL] quasar.conf.js has JS errors`)
-    process.exit(1)
+    fatal(`[FAIL] quasar.conf.js has JS errors`)
   }
 
-  await quasarConfig.compile()
+  await quasarConfFile.compile()
 
-  const
-    generator = new Generator(quasarConfig),
-    webpackConfig = quasarConfig.getWebpackConfig(),
-    buildConfig = quasarConfig.getBuildConfig()
+  const generator = new Generator(quasarConfFile)
+  const quasarConf = quasarConfFile.quasarConf
+  const webpackConf = quasarConfFile.webpackConf
 
-  let outputFolder = buildConfig.build.packagedDistDir ||
-    buildConfig.build.distDir
+  regenerateTypesFeatureFlags(quasarConf)
+
+  let outputFolder = quasarConf.build.packagedDistDir ||
+  quasarConf.build.distDir
 
   artifacts.clean(outputFolder)
   generator.build()
 
-  if (typeof buildConfig.build.beforeBuild === 'function') {
-    await buildConfig.build.beforeBuild({ quasarConf: buildConfig })
+  if (typeof quasarConf.build.beforeBuild === 'function') {
+    await quasarConf.build.beforeBuild({ quasarConf })
   }
 
   // run possible beforeBuild hooks
   await extensionRunner.runHook('beforeBuild', async hook => {
     log(`Extension(${hook.api.extId}): Running beforeBuild hook...`)
-    await hook.fn(hook.api, { quasarConf: buildConfig })
+    await hook.fn(hook.api, { quasarConf })
   })
 
-  log(chalk.bold(`Building...`))
+  log(`Compiling with Webpack...`)
 
-  webpack(parseWebpackConfig(webpackConfig, argv.mode), async (err, stats) => {
-    if (err) { throw err }
+  let webpackData = parseWebpackConfig(webpackConf, argv.mode)
+
+  webpack(webpackData.configs, async (err, stats) => {
+    if (err) {
+      console.error(err.stack || err)
+
+      if (err.details) {
+        console.error(err.details)
+      }
+
+      process.exit(1)
+    }
 
     artifacts.add(outputFolder)
 
-    statsArray = stats.stats || [ stats ]
-    statsArray.forEach(stat => {
-      process.stdout.write('\n\n' + stat.toString({
-        colors: true,
-        performance: false,
-        hash: false,
-        assets: true,
-        chunks: false,
-        chunkModules: false,
-        chunkOrigins: false,
-        modules: false,
-        nestedModules: false,
-        moduleAssets: false,
-        children: false
-      }) + '\n\n')
-    })
+    const statsArray = stats.stats || [ stats ]
 
     statsArray.forEach(stat => {
-      if (stat.hasErrors()) {
-        warn()
-        warn(chalk.red('[FAIL] Build failed with errors. Check log above.'))
-        warn()
-
-        process.exit(1)
+      if (stat.hasErrors() !== true) {
+        return
       }
+
+      const info = stat.toJson()
+      const errNumber = info.errors.length
+      const errDetails = `${errNumber} error${errNumber > 1 ? 's' : ''}`
+
+      warn()
+      warn(chalk.red(`${errDetails} encountered:\n`))
+
+      info.errors.forEach(err => {
+        console.error(err)
+      })
+
+      warn()
+      warn(chalk.red(`[FAIL] Build failed with ${errDetails}. Check log above.\n`))
+
+      process.exit(1)
     })
 
-    finalizeBuild(argv.mode, ctx, quasarConfig).then(async () => {
+    const printWebpackStats = require('../lib/helpers/print-webpack-stats')
+
+    console.log()
+    statsArray.forEach((stats, index) => {
+      printWebpackStats(stats, webpackData.folder[index], webpackData.name[index])
+    })
+
+    // free up memory
+    webpackData = void 0
+
+    finalizeBuild(argv.mode, ctx, quasarConfFile).then(async () => {
       outputFolder = argv.mode === 'cordova'
         ? path.join(outputFolder, '..')
         : outputFolder
 
-      banner(argv, 'build', { outputFolder })
+      banner(argv, 'build', { outputFolder, transpileBanner: quasarConf.__transpileBanner })
 
-      if (typeof buildConfig.build.afterBuild === 'function') {
-        await buildConfig.build.afterBuild({ quasarConf: buildConfig })
+      if (typeof quasarConf.build.afterBuild === 'function') {
+        await quasarConf.build.afterBuild({ quasarConf })
       }
 
       // run possible beforeBuild hooks
       await extensionRunner.runHook('afterBuild', async hook => {
         log(`Extension(${hook.api.extId}): Running afterBuild hook...`)
-        await hook.fn(hook.api, { quasarConf: buildConfig })
+        await hook.fn(hook.api, { quasarConf })
       })
 
       if (argv.publish !== void 0) {
         const opts = {
           arg: argv.publish,
           distDir: outputFolder,
-          quasarConf: buildConfig
+          quasarConf
         }
 
-        if (typeof buildConfig.build.onPublish === 'function') {
-          await buildConfig.build.onPublish(opts)
+        if (typeof quasarConf.build.onPublish === 'function') {
+          await quasarConf.build.onPublish(opts)
         }
 
-        // run possible beforeBuild hooks
+        // run possible onPublish hooks
         await extensionRunner.runHook('onPublish', async hook => {
           log(`Extension(${hook.api.extId}): Running onPublish hook...`)
           await hook.fn(hook.api, opts)

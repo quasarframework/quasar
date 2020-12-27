@@ -1,4 +1,10 @@
 {
+  "mixins": [ "mixins/size", "mixins/form" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/radio"
+  },
+
   "props": {
     "value": {
       "extends": "value",
@@ -39,6 +45,10 @@
       "category": "behavior"
     },
 
+    "size": {
+      "addedIn": "v1.8.0"
+    },
+
     "dark": {
       "extends": "dark"
     },
@@ -64,7 +74,22 @@
 
   "events": {
     "input": {
-      "extends": "input"
+      "desc": "Emitted when the component needs to change the model; Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "Any",
+          "desc": "New model value",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "required": true,
+          "__exemption": [ "examples" ],
+          "addedIn":"v1.11.2"
+        }
+      }
     }
   },
 

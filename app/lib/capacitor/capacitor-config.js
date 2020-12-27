@@ -1,19 +1,57 @@
 const fs = require('fs')
-const fse = require('fs-extra')
 const path = require('path')
 
-const
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  log = logger('app:capacitor-conf')
-  warn = logger('app:capacitor-conf', 'red')
+const appPaths = require('../app-paths')
+const { log, warn } = require('../helpers/logger')
+const ensureConsistency = require('./ensure-consistency')
+const { capVersion } = require('./cap-cli')
 
+function getAndroidMainActivity (capVersion, appId) {
+  if (capVersion === 1) {
+    return `
+package ${appId};
+import android.net.http.SslError;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+public class EnableHttpsSelfSigned {
+  public static void enable(WebView webview) {
+    webview.setWebViewClient(new WebViewClient() {
+      @Override
+      public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
+        handler.proceed();
+      }
+    });
+  }
+}`
+  }
+
+  // capVersion > 1
+  return `
+package ${appId};
+import android.net.http.SslError;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebView;
+import com.getcapacitor.Bridge;
+import com.getcapacitor.BridgeWebViewClient;
+
+public class EnableHttpsSelfSigned {
+  public static void enable(Bridge bridge) {
+    bridge.getWebView().setWebViewClient(new BridgeWebViewClient(bridge) {
+      @Override
+      public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
+        handler.proceed();
+      }
+    });
+  }
+}`
+}
 class CapacitorConfig {
   prepare (cfg) {
-    this.pkg = require(appPaths.resolve.app('package.json'))
+    ensureConsistency()
 
-    // Make sure there is an index.html, otherwise Capacitor will crash
-    fse.ensureFileSync(appPaths.resolve.capacitor('www/index.html'))
+    this.pkg = require(appPaths.resolve.app('package.json'))
 
     this.__updateCapPkg(cfg, this.pkg)
     log(`Updated src-capacitor/package.json`)
@@ -68,7 +106,6 @@ class CapacitorConfig {
   __updateCapJson (cfg, originalCapCfg) {
     const capJson = { ...originalCapCfg }
 
-    capJson.appId = cfg.capacitor.id || this.pkg.capacitorId || this.pkg.cordovaId || 'org.quasar.cordova.app'
     capJson.appName = cfg.capacitor.appName || this.pkg.productName || 'Quasar App'
     capJson.bundledWebRuntime = false
 
@@ -107,15 +144,30 @@ class CapacitorConfig {
       this.__handleSSLonIOS(add)
     }
     else {
-      this.__handleSSLonAndroid()
+      this.__handleSSLonAndroid(add)
+    }
+  }
+
+  __getIosCapacitorBridgeFile () {
+    // we need to try multiple files because
+    // @capacitor/ios changed the location during its v2
+    const fileList = [
+      'node_modules/@capacitor/ios/ios/Capacitor/Capacitor/CAPBridgeViewController.swift',
+      'node_modules/@capacitor/ios/Capacitor/Capacitor/CAPBridgeViewController.swift'
+    ]
+
+    for (let i = 0; i < fileList.length; i++) {
+      let file = appPaths.resolve.capacitor(fileList[i])
+      if (fs.existsSync(file)) {
+        return file
+      }
     }
   }
 
   __handleSSLonIOS (add) {
-    const
-      file = appPaths.resolve.capacitor('node_modules/@capacitor/ios/ios/Capacitor/Capacitor/CAPBridgeViewController.swift'),
-      needle = 'public func getWebView() -> WKWebView {',
-      content = `
+    const file = this.__getIosCapacitorBridgeFile()
+    const needle = 'public func getWebView() -> WKWebView {'
+    const content = `
   // The following part was dynamically added by Quasar.
   // This should NOT be part of the app when building for production,
   // and it will be removed by Quasar automatically on "quasar build":
@@ -135,9 +187,9 @@ class CapacitorConfig {
   }
 
   __injectIntoFile (file, needle, content) {
-    const shortFilename = path.basename(file)
-
     const sslWarn = () => {
+      const shortFilename = path.basename(file)
+
       warn()
       warn()
       warn()
@@ -151,7 +203,7 @@ class CapacitorConfig {
       warn()
     }
 
-    if (!fs.existsSync(file)) {
+    if (!file) {
       sslWarn()
       return
     }
@@ -176,7 +228,7 @@ class CapacitorConfig {
   }
 
   __removeFromFile (file, content) {
-    if (!fs.existsSync(file)) {
+    if (!file) {
       return
     }
 
@@ -189,54 +241,67 @@ class CapacitorConfig {
     }
   }
 
-  __handleSSLonAndroid () {
-    const mainActivityPath = appPaths.resolve.capacitor(
-      'android/app/src/main/java/org/cordova/quasar/app/MainActivity.java'
-    )
-    const enableHttpsSelfSignedPath = appPaths.resolve.capacitor(
-      'android/app/src/main/java/org/cordova/quasar/app/EnableHttpsSelfSigned.java'
-    )
+  __handleSSLonAndroid (add) {
+    const fglob = require('fast-glob')
+    const capacitorSrcPath = appPaths.resolve.capacitor('android/app/src/main/java')
+    let mainActivityPath = fglob.sync(`**/MainActivity.java`, { cwd: capacitorSrcPath, absolute: true })
+
+    if (mainActivityPath.length > 0) {
+      if (mainActivityPath.length > 1) {
+        warn(`Found multiple matches for MainActivity.java file, https might not work. Using file ${mainActivityPath[0]}.`)
+      }
+      mainActivityPath = mainActivityPath[0]
+    }
+    else if (mainActivityPath.length === 0) {
+      warn()
+      warn('IMPORTANT! Could not find MainActivity.java file and therefore cannot enable devServer: https support.')
+      warn()
+      return
+    }
+
+    const enableHttpsSelfSignedPath = path.join(path.dirname(mainActivityPath), 'EnableHttpsSelfSigned.java')
 
     if (fs.existsSync(mainActivityPath)) {
-      // Allow unsigned certificates in MainActivity
       let mainActivity = fs.readFileSync(mainActivityPath, 'utf8')
 
-      if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
-        mainActivity = mainActivity.replace(
-          /this\.init\(.*}}\);/ms,
-          match => `${match}
+      const sslString = `
     if (BuildConfig.DEBUG) {
-      EnableHttpsSelfSigned.enable(findViewById(R.id.webview));
+      EnableHttpsSelfSigned.enable(${capVersion === 1 ? 'findViewById(R.id.webview)' : 'this.bridge'});
     }
-    `
-        )
+      `
 
-        fs.writeFileSync(mainActivityPath, mainActivity, 'utf-8')
+      if (add) {
+        // Allow unsigned certificates in MainActivity
+        if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
+          mainActivity = mainActivity.replace(
+            /this\.init\(.*}}\);/ms,
+            match => `${match}
+${sslString}
+              `
+          )
+        }
+
+        // Add helper file
+        if (!fs.existsSync(enableHttpsSelfSignedPath)) {
+          const appId = mainActivity.match(/package ([\w\.]*);/)[1]
+
+          fs.writeFileSync(
+            enableHttpsSelfSignedPath,
+            getAndroidMainActivity(capVersion, appId)
+          )
+        }
+      }
+      else {
+        if (/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
+          mainActivity = mainActivity.replace(sslString, '')
+        }
+
+        if (fs.existsSync(enableHttpsSelfSignedPath)) {
+          fs.unlinkSync(enableHttpsSelfSignedPath)
+        }
       }
 
-      // Add helper file
-      if (!fs.existsSync(enableHttpsSelfSignedPath)) {
-        const appId = mainActivity.match(/package ([a-zA-Z\.]*);/)[1]
-        fs.writeFileSync(
-          enableHttpsSelfSignedPath,
-          `
-package ${appId};
-import android.net.http.SslError;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-public class EnableHttpsSelfSigned {
-  public static void enable(WebView webview) {
-    webview.setWebViewClient(new WebViewClient() {
-      @Override
-      public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
-        handler.proceed();
-      }
-    });
-  }
-}`
-        )
-      }
+      fs.writeFileSync(mainActivityPath, mainActivity, 'utf-8')
     }
   }
 }

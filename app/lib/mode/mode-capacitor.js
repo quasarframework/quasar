@@ -2,55 +2,44 @@ const fs = require('fs')
 const fse = require('fs-extra')
 const compileTemplate = require('lodash.template')
 
-const
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  log = logger('app:mode-capacitor'),
-  warn = logger('app:mode-capacitor', 'red'),
-  { spawnSync } = require('../helpers/spawn'),
-  nodePackager = require('../helpers/node-packager')
-
-function installDependencies () {
-  if (fs.existsSync(appPaths.resolve.capacitor('node_modules'))) {
-    return
-  }
-
-  const cmdParam = nodePackager === 'npm'
-    ? ['install']
-    : []
-
-  log(`Installing Capacitor dependencies...`)
-  spawnSync(
-    nodePackager,
-    cmdParam,
-    { cwd: appPaths.capacitorDir },
-    () => warn('Failed to install Capacitor dependencies')
-  )
-}
+const appPaths = require('../app-paths')
+const { log, warn } = require('../helpers/logger')
+const { spawnSync } = require('../helpers/spawn')
+const nodePackager = require('../helpers/node-packager')
 
 class Mode {
   get isInstalled () {
     return fs.existsSync(appPaths.capacitorDir)
   }
 
-  add (target) {
+  async add (target) {
     if (this.isInstalled) {
       warn(`Capacitor support detected already. Aborting.`)
       return
     }
 
-    const
-      pkgPath = appPaths.resolve.app('package.json'),
-      pkg = require(pkgPath),
-      appName = pkg.productName || pkg.name || 'Quasar App'
+    const pkgPath = appPaths.resolve.app('package.json')
+    const pkg = require(pkgPath)
+    const appName = pkg.productName || pkg.name || 'Quasar App'
 
     if (/^[0-9]/.test(appName)) {
       warn(
-        `⚠️  App product name cannot start with a number. ` +
-          `Please change the "productName" prop in your /package.json then try again.`
+        `App product name cannot start with a number. ` +
+        `Please change the "productName" prop in your /package.json then try again.`
       )
       return
     }
+
+    const inquirer = require('inquirer')
+
+    console.log()
+    const answer = await inquirer.prompt([{
+      name: 'appId',
+      type: 'input',
+      message: 'What is the Capacitor app id?',
+      default: 'org.capacitor.quasar.app',
+      validate: appId => appId ? true : 'Please fill in a value'
+    }])
 
     log(`Creating Capacitor source folder...`)
 
@@ -60,7 +49,7 @@ class Mode {
     const fglob = require('fast-glob')
     const scope = {
       appName,
-      appId: pkg.capacitorId || pkg.cordovaId || 'org.quasar.capacitor.app',
+      appId: answer.appId,
       pkg,
       nodePackager
     }
@@ -74,13 +63,14 @@ class Mode {
       fs.writeFileSync(dest, compileTemplate(content)(scope), 'utf-8')
     })
 
-    installDependencies()
+    const { ensureDeps } = require('../capacitor/ensure-consistency')
+    ensureDeps()
 
-    const capacitorCliPath = require('../capacitor/capacitor-cli-path')
+    const { capBin } = require('../capacitor/cap-cli')
 
     log(`Initializing capacitor...`)
     spawnSync(
-      capacitorCliPath,
+      capBin,
       [
         'init',
         '--web-dir',
@@ -108,16 +98,18 @@ class Mode {
   }
 
   addPlatform (target) {
+    const ensureConsistency = require('../capacitor/ensure-consistency')
+    ensureConsistency()
+
     if (this.hasPlatform(target)) {
-      installDependencies()
       return
     }
 
-    const capacitorCliPath = require('../capacitor/capacitor-cli-path')
+    const { capBin } = require('../capacitor/cap-cli')
 
     log(`Adding Capacitor platform "${target}"`)
     spawnSync(
-      capacitorCliPath,
+      capBin,
       ['add', target],
       { cwd: appPaths.capacitorDir }
     )

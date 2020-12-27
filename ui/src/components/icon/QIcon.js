@@ -1,14 +1,21 @@
 import Vue from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
-import slot from '../../utils/slot.js'
+import TagMixin from '../../mixins/tag.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
+import { slot, mergeSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QIcon',
 
-  mixins: [ SizeMixin ],
+  mixins: [ ListenersMixin, SizeMixin, TagMixin ],
 
   props: {
+    tag: {
+      default: 'i'
+    },
+
     name: String,
     color: String,
     left: Boolean,
@@ -16,21 +23,25 @@ export default Vue.extend({
   },
 
   computed: {
+    classes () {
+      // "notranslate" class is for Google Translate
+      // to avoid tampering with Material Icons ligature font
+      return 'q-icon notranslate' +
+        (this.left === true ? ' on-left' : '') +
+        (this.right === true ? ' on-right' : '') +
+        (this.color !== void 0 ? ` text-${this.color}` : '')
+    },
+
     type () {
       let cls
       let icon = this.name
 
       if (!icon) {
         return {
-          cls: void 0,
-          content: void 0
+          none: true,
+          cls: this.classes
         }
       }
-
-      const commonCls = 'q-icon' +
-        (this.left === true ? ' on-left' : '') +
-        (this.right === true ? ' on-right' : '') +
-        (this.color !== void 0 ? ` text-${this.color}` : '')
 
       if (this.$q.iconMapFn !== void 0) {
         const res = this.$q.iconMapFn(icon)
@@ -40,7 +51,7 @@ export default Vue.extend({
           }
           else {
             return {
-              cls: res.cls + ' ' + commonCls,
+              cls: res.cls + ' ' + this.classes,
               content: res.content !== void 0
                 ? res.content
                 : ' '
@@ -49,17 +60,48 @@ export default Vue.extend({
         }
       }
 
+      if (icon.startsWith('M') === true) {
+        const [ def, viewBox ] = icon.split('|')
+
+        return {
+          svg: true,
+          cls: this.classes,
+          nodes: def.split('&&').map(path => {
+            const [ d, style, transform ] = path.split('@@')
+            return this.$createElement('path', {
+              attrs: {
+                d,
+                transform
+              },
+              style
+            })
+          }),
+          viewBox: viewBox !== void 0 ? viewBox : '0 0 24 24'
+        }
+      }
+
       if (icon.startsWith('img:') === true) {
         return {
           img: true,
-          cls: commonCls,
+          cls: this.classes,
           src: icon.substring(4)
+        }
+      }
+
+      if (icon.startsWith('svguse:') === true) {
+        const [ def, viewBox ] = icon.split('|')
+
+        return {
+          svguse: true,
+          cls: this.classes,
+          src: def.substring(7),
+          viewBox: viewBox !== void 0 ? viewBox : '0 0 24 24'
         }
       }
 
       let content = ' '
 
-      if (/^fa[s|r|l|b|d]{0,1} /.test(icon) || icon.startsWith('icon-') === true) {
+      if (/^[l|f]a[s|r|l|b|d]{0,1} /.test(icon) || icon.startsWith('icon-') === true) {
         cls = icon
       }
       else if (icon.startsWith('bt-') === true) {
@@ -103,25 +145,54 @@ export default Vue.extend({
       }
 
       return {
-        cls: cls + ' ' + commonCls,
+        cls: cls + ' ' + this.classes,
         content
       }
     }
   },
 
   render (h) {
-    return this.type.img === true
-      ? h('img', {
-        staticClass: this.type.cls,
-        style: this.sizeStyle,
-        on: this.$listeners,
-        attrs: { src: this.type.src }
-      })
-      : h('i', {
-        staticClass: this.type.cls,
-        style: this.sizeStyle,
-        on: this.$listeners,
-        attrs: { 'aria-hidden': true }
-      }, [ this.type.content ].concat(slot(this, 'default')))
+    const data = {
+      class: this.type.cls,
+      style: this.sizeStyle,
+      on: { ...this.qListeners },
+      attrs: {
+        'aria-hidden': 'true',
+        role: 'presentation'
+      }
+    }
+
+    if (this.type.none === true) {
+      return h(this.tag, data, slot(this, 'default'))
+    }
+
+    if (this.type.img === true) {
+      data.attrs.src = this.type.src
+      return h('img', data)
+    }
+
+    if (this.type.svg === true) {
+      data.attrs.focusable = 'false' /* needed for IE11 */
+      data.attrs.viewBox = this.type.viewBox
+
+      return h('svg', data, mergeSlot(this.type.nodes, this, 'default'))
+    }
+    if (this.type.svguse === true) {
+      data.attrs.focusable = 'false' /* needed for IE11 */
+      data.attrs.viewBox = this.type.viewBox
+
+      return h('svg', data, [
+        h('use', {
+          attrs: {
+            'xlink:href': this.type.src
+          }
+        }),
+        mergeSlot(this.type.nodes, this, 'default')
+      ])
+    }
+
+    return h(this.tag, data, mergeSlot([
+      this.type.content
+    ], this, 'default'))
   }
 })

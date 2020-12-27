@@ -1,4 +1,12 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/layout/layout"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "view": {
       "type": "String",
@@ -83,7 +91,7 @@
         "height": {
           "type": "Number",
           "desc": "New scroll height of layout",
-          "examples": [ 1442 ]
+          "examples": [1442]
         }
       }
     }

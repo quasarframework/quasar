@@ -1,5 +1,7 @@
 import { testPattern } from '../utils/patterns.js'
 
+const lazyRulesValues = [ true, false, 'ondemand' ]
+
 export default {
   props: {
     value: {},
@@ -12,35 +14,65 @@ export default {
     noErrorIcon: Boolean,
 
     rules: Array,
-    lazyRules: Boolean
+    reactiveRules: Boolean,
+    lazyRules: {
+      type: [ Boolean, String ],
+      validator: v => lazyRulesValues.includes(v)
+    }
   },
 
   data () {
     return {
-      isDirty: false,
+      isDirty: null,
       innerError: false,
       innerErrorMessage: void 0
     }
   },
 
   watch: {
-    value (v) {
-      if (this.rules === void 0) {
-        return
-      }
-      if (this.lazyRules === true && this.isDirty === false) {
-        return
-      }
+    value () {
+      this.__validateIfNeeded()
+    },
 
-      this.validate(v)
+    reactiveRules: {
+      handler (val) {
+        if (val === true) {
+          if (this.unwatchRules === void 0) {
+            this.unwatchRules = this.$watch('rules', () => {
+              this.__validateIfNeeded(true)
+            })
+          }
+        }
+        else if (this.unwatchRules !== void 0) {
+          this.unwatchRules()
+          this.unwatchRules = void 0
+        }
+      },
+      immediate: true
     },
 
     focused (focused) {
-      focused === false && this.__triggerValidation()
+      if (this.lazyRules !== 'ondemand') {
+        if (focused === true) {
+          if (this.isDirty === null) {
+            this.isDirty = false
+          }
+        }
+        else if (this.isDirty === false && this.hasRules === true) {
+          this.isDirty = true
+          this.validate()
+        }
+      }
     }
   },
 
   computed: {
+    hasRules () {
+      return this.rules !== void 0 &&
+        this.rules !== null &&
+        this.rules.length > 0
+    },
+
     hasError () {
       return this.error === true || this.innerError === true
     },
@@ -54,18 +86,17 @@ export default {
 
   mounted () {
     this.validateIndex = 0
-    this.focused === void 0 && this.$el.addEventListener('focusout', this.__triggerValidation)
   },
 
   beforeDestroy () {
-    this.focused === void 0 && this.$el.removeEventListener('focusout', this.__triggerValidation)
+    this.unwatchRules !== void 0 && this.unwatchRules()
   },
 
   methods: {
     resetValidation () {
       this.validateIndex++
       this.innerLoading = false
-      this.isDirty = false
+      this.isDirty = null
       this.innerError = false
       this.innerErrorMessage = void 0
     },
@@ -77,7 +108,7 @@ export default {
      *   - Promise (pending async validation)
      */
     validate (val = this.value) {
-      if (!this.rules || this.rules.length === 0) {
+      if (this.hasRules !== true) {
         return true
       }
 
@@ -93,6 +124,7 @@ export default {
         }
 
         const m = msg || void 0
+
         if (this.innerErrorMessage !== m) {
           this.innerErrorMessage = m
         }
@@ -162,10 +194,13 @@ export default {
       )
     },
 
-    __triggerValidation () {
-      if (this.isDirty === false && this.rules !== void 0) {
-        this.isDirty = true
-        this.validate(this.value)
+    __validateIfNeeded (changedRules) {
+      if (
+        this.hasRules === true &&
+        this.lazyRules !== 'ondemand' &&
+        (this.isDirty === true || (this.lazyRules !== true && changedRules !== true))
+      ) {
+        this.validate()
       }
     }
   }

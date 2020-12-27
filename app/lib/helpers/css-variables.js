@@ -1,8 +1,6 @@
-const
-  fs = require('fs'),
-  { join } = require('path')
+const fs = require('fs')
+const { join } = require('path')
 
-const path = require('path')
 const appPaths = require('../app-paths')
 
 const cssVariables = {
@@ -15,9 +13,9 @@ const cssVariables = {
   },
 
   loaders: {
-    styl: path.join(__dirname, '../webpack/loader.quasar-stylus-variables'),
-    scss: path.join(__dirname, '../webpack/loader.quasar-scss-variables'),
-    sass: path.join(__dirname, '../webpack/loader.quasar-sass-variables')
+    styl: join(__dirname, '../webpack/loader.quasar-stylus-variables'),
+    scss: join(__dirname, '../webpack/loader.quasar-scss-variables'),
+    sass: join(__dirname, '../webpack/loader.quasar-sass-variables')
   }
 }
 

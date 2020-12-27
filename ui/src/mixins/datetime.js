@@ -1,8 +1,15 @@
 import { toJalaali } from '../utils/date-persian.js'
+
 import DarkMixin from './dark.js'
+import FormMixin from './form.js'
+import ListenersMixin from './listeners.js'
+
+import { pad } from '../utils/format.js'
+
+const calendars = [ 'gregorian', 'persian' ]
 
 export default {
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, FormMixin, ListenersMixin ],
 
   props: {
     value: {
@@ -16,7 +23,7 @@ export default {
 
     calendar: {
       type: String,
-      validator: v => ['gregorian', 'persian'].includes(v),
+      validator: v => calendars.includes(v),
       default: 'gregorian'
     },
 
@@ -33,21 +40,15 @@ export default {
     disable: Boolean
   },
 
-  watch: {
-    mask () {
-      this.$nextTick(() => {
-        this.__updateValue({}, /* reason for QDate only */ 'mask')
-      })
+  computed: {
+    computedMask () {
+      return this.__getMask()
     },
 
     computedLocale () {
-      this.$nextTick(() => {
-        this.__updateValue({}, /* reason for QDate only */ 'locale')
-      })
-    }
-  },
+      return this.__getLocale()
+    },
 
-  computed: {
     editable () {
       return this.disable !== true && this.readonly !== true
     },
@@ -69,20 +70,17 @@ export default {
       this.color !== void 0 && cls.push(`bg-${this.color}`)
       this.textColor !== void 0 && cls.push(`text-${this.textColor}`)
       return cls.join(' ')
-    },
-
-    computedLocale () {
-      return this.__getComputedLocale()
     }
   },
 
   methods: {
-    __getComputedLocale () {
+    __getLocale () {
       return this.locale || this.$q.lang.date
     },
 
-    __getCurrentDate () {
+    __getCurrentDate (dateOnly) {
       const d = new Date()
+      const timeFill = dateOnly === true ? null : 0
 
       if (this.calendar === 'persian') {
         const jDate = toJalaali(d)
@@ -96,7 +94,11 @@ export default {
       return {
         year: d.getFullYear(),
         month: d.getMonth() + 1,
-        day: d.getDate()
+        day: d.getDate(),
+        hour: timeFill,
+        minute: timeFill,
+        second: timeFill,
+        millisecond: timeFill
       }
     },
 
@@ -109,6 +111,10 @@ export default {
         second: d.getSeconds(),
         millisecond: d.getMilliseconds()
       }
+    },
+
+    __getDayHash (date) {
+      return date.year + '/' + pad(date.month) + '/' + pad(date.day)
     }
   }
 }

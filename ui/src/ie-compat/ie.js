@@ -23,62 +23,225 @@ typeof window !== 'undefined' && (function (window) {
 
   try {
     new MouseEvent('test') // eslint-disable-line no-new, no-use-before-define
-    return
   }
-  catch (e) {}
+  catch (e) {
+    // Polyfills DOM4 MouseEvent
+    var MouseEventPolyfill = function (eventType, params) {
+      params = params || { bubbles: false, cancelable: false }
+      var mouseEvent = document.createEvent('MouseEvent')
+      mouseEvent.initMouseEvent(eventType,
+        params.bubbles,
+        params.cancelable,
+        window,
+        0,
+        params.screenX || 0,
+        params.screenY || 0,
+        params.clientX || 0,
+        params.clientY || 0,
+        params.ctrlKey || false,
+        params.altKey || false,
+        params.shiftKey || false,
+        params.metaKey || false,
+        params.button || 0,
+        params.relatedTarget || null
+      )
 
-  var MouseEvent = function (eventType, params) {
-    params = params || {}
-    var mouseEvent = document.createEvent('MouseEvent')
-    mouseEvent.initMouseEvent(
-      eventType,
-      params.bubbles || false,
-      params.cancelable || false,
-      params.view || window,
-      params.detail || 0,
-      params.screenX || 0,
-      params.screenY || 0,
-      params.clientX || 0,
-      params.clientY || 0,
-      params.ctrlKey || false,
-      params.altKey || false,
-      params.shiftKey || false,
-      params.metaKey || false,
-      params.button || 0,
-      params.relatedTarget || null
-    )
+      return mouseEvent
+    }
 
-    return mouseEvent
+    MouseEventPolyfill.prototype = Event.prototype
+
+    window.MouseEvent = MouseEventPolyfill
   }
 
-  MouseEvent.prototype = Event.prototype
+  if (typeof Object.assign !== 'function') {
+    // Must be writable: true, enumerable: false, configurable: true
+    Object.defineProperty(Object, 'assign', {
+      value: function assign (target, varArgs) { // .length of function is 2
+        'use strict'
+        if (target === null || target === undefined) {
+          throw new TypeError('Cannot convert undefined or null to object')
+        }
 
-  window.MouseEvent = MouseEvent
-}(window))
+        var to = Object(target)
 
-if (!Array.prototype.findIndex) {
-  Object.defineProperty(Array.prototype, 'findIndex', {
-    value (predicate) {
-      'use strict'
-      if (this == null) {
-        throw new TypeError('Array.prototype.findIndex called on null or undefined')
+        for (var index = 1; index < arguments.length; index++) {
+          var nextSource = arguments[index]
+          if (nextSource !== null && nextSource !== undefined) {
+            for (var nextKey in nextSource) {
+              // Avoid bugs when hasOwnProperty is shadowed
+              if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+                to[nextKey] = nextSource[nextKey]
+              }
+            }
+          }
+        }
+        return to
+      },
+      writable: true,
+      configurable: true
+    })
+  }
+
+  if (!String.prototype.startsWith) {
+    Object.defineProperty(String.prototype, 'startsWith', {
+      value: function (search, rawPos) {
+        var pos = rawPos > 0 ? rawPos | 0 : 0
+        return this.substring(pos, pos + search.length) === search
       }
-      if (typeof predicate !== 'function') {
-        throw new TypeError('predicate must be a function')
-      }
-      var list = Object(this)
-      var length = list.length >>> 0
-      var thisArg = arguments[1]
+    })
+  }
 
-      for (var i = 0; i < length; i++) {
-        if (predicate.call(thisArg, list[i], i, list)) {
-          return i
+  if (!String.prototype.endsWith) {
+    String.prototype.endsWith = function (search, thisLen) {
+      if (thisLen === void 0 || thisLen > this.length) {
+        thisLen = this.length
+      }
+      return this.substring(thisLen - search.length, thisLen) === search
+    }
+  }
+
+  if (!Number.isInteger) {
+    Number.isInteger = function (value) {
+      return typeof value === 'number' &&
+        isFinite(value) &&
+        Math.floor(value) === value
+    }
+  }
+
+  if (!Array.prototype.includes) {
+    Array.prototype.includes = function (search) {
+      return !!~this.indexOf(search)
+    }
+  }
+
+  if (!Element.prototype.matches) {
+    Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector
+  }
+
+  if (!Element.prototype.closest) {
+    Element.prototype.closest = function (s) {
+      var el = this
+
+      do {
+        if (el.matches(s)) return el
+        el = el.parentElement || el.parentNode
+      } while (el !== null && el.nodeType === 1)
+
+      return null
+    }
+  }
+
+  // https://tc39.github.io/ecma262/#sec-array.prototype.find
+  if (!Array.prototype.find) {
+    Object.defineProperty(Array.prototype, 'find', {
+      value: function (predicate) {
+        // 1. Let O be ? ToObject(this value).
+        if (this == null) {
+          throw TypeError('"this" is null or not defined')
+        }
+
+        var o = Object(this)
+
+        // 2. Let len be ? ToLength(? Get(O, "length")).
+        var len = o.length >>> 0
+
+        // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+        if (typeof predicate !== 'function') {
+          throw TypeError('predicate must be a function')
+        }
+
+        // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+        var thisArg = arguments[1]
+
+        // 5. Let k be 0.
+        var k = 0
+
+        // 6. Repeat, while k < len
+        while (k < len) {
+          // a. Let Pk be ! ToString(k).
+          // b. Let kValue be ? Get(O, Pk).
+          // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+          // d. If testResult is true, return kValue.
+          var kValue = o[k]
+          if (predicate.call(thisArg, kValue, k, o)) {
+            return kValue
+          }
+          // e. Increase k by 1.
+          k++
+        }
+
+        // 7. Return undefined.
+      },
+      configurable: true,
+      writable: true
+    })
+  }
+
+  if (!Array.prototype.findIndex) {
+    Object.defineProperty(Array.prototype, 'findIndex', {
+      value (predicate) {
+        'use strict'
+        if (this == null) {
+          throw new TypeError('Array.prototype.findIndex called on null or undefined')
+        }
+        if (typeof predicate !== 'function') {
+          throw new TypeError('predicate must be a function')
+        }
+        var list = Object(this)
+        var length = list.length >>> 0
+        var thisArg = arguments[1]
+
+        for (var i = 0; i < length; i++) {
+          if (predicate.call(thisArg, list[i], i, list)) {
+            return i
+          }
+        }
+        return -1
+      }
+    })
+  }
+
+  if (!('classList' in SVGElement.prototype)) {
+    Object.defineProperty(SVGElement.prototype, 'classList', {
+      get: function get () {
+        var _this = this
+
+        return {
+          contains: function contains (className) {
+            return _this.className.baseVal.split(' ').indexOf(className) !== -1
+          },
+          add: function add (className) {
+            return _this.setAttribute(
+              'class',
+              _this.getAttribute('class') + ' ' + className
+            )
+          },
+          remove: function remove (className) {
+            var removedClass = _this
+              .getAttribute('class')
+              .replace(
+                new RegExp('(\\s|^)'.concat(className, '(\\s|$)'), 'g'),
+                '$2'
+              )
+
+            if (_this.classList.contains(className)) {
+              _this.setAttribute('class', removedClass)
+            }
+          },
+          toggle: function toggle (className) {
+            if (this.contains(className)) {
+              this.remove(className)
+            }
+            else {
+              this.add(className)
+            }
+          }
         }
       }
-      return -1
-    }
-  })
-}
+    })
+  }
+}(window))
 
 /* eslint-disable */
 
@@ -542,9 +705,9 @@ function initializePromise(promise, resolver) {
   }
 }
 
-var id = 0;
+var uid = 0;
 function nextId() {
-  return id++;
+  return uid++;
 }
 
 function makePromise(promise) {
@@ -1013,7 +1176,7 @@ var Promise$2 = function () {
     // The user's comments are now available
   });
   ```
-   If the assimliated promise rejects, then the downstream promise will also reject.
+   If the assimilated promise rejects, then the downstream promise will also reject.
    ```js
   findUser().then(function (user) {
     return findCommentsByAuthor(user);

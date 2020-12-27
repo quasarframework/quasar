@@ -1,9 +1,24 @@
 import { client } from '../plugins/Platform.js'
+import { isKeyCode } from '../utils/key-composition.js'
+
+function destroy (el) {
+  const ctx = el.__qgoback
+  if (ctx !== void 0) {
+    el.removeEventListener('click', ctx.goBack)
+    el.removeEventListener('keyup', ctx.goBackKey)
+    delete el.__qgoback
+  }
+}
 
 export default {
   name: 'go-back',
 
   bind (el, { value, modifiers }, vnode) {
+    if (el.__qgoback !== void 0) {
+      destroy(el)
+      el.__qgoback_destroyed = true
+    }
+
     const ctx = {
       value,
 
@@ -13,7 +28,7 @@ export default {
       goBack () {
         const router = vnode.context.$router
 
-        if (ctx.single) {
+        if (ctx.single === true) {
           router.go(-1)
         }
         else if (client.is.nativeMobile === true) {
@@ -25,32 +40,31 @@ export default {
       },
 
       goBackKey (e) {
-        // ENTER
-        e.keyCode === 13 && ctx.goBack()
+        // if ENTER key
+        isKeyCode(e, 13) === true && ctx.goBack()
       }
     }
 
-    if (el.__qgoback) {
-      el.__qgoback_old = el.__qgoback
-    }
-
     el.__qgoback = ctx
+
     el.addEventListener('click', ctx.goBack)
     el.addEventListener('keyup', ctx.goBackKey)
   },
 
   update (el, { value, oldValue }) {
-    if (value !== oldValue) {
-      el.__qgoback.value = value
+    const ctx = el.__qgoback
+
+    if (ctx !== void 0 && value !== oldValue) {
+      ctx.value = value
     }
   },
 
   unbind (el) {
-    const ctx = el.__qgoback_old || el.__qgoback
-    if (ctx !== void 0) {
-      el.removeEventListener('click', ctx.goBack)
-      el.removeEventListener('keyup', ctx.goBackKey)
-      delete el[el.__qgoback_old ? '__qgoback_old' : '__qgoback']
+    if (el.__qgoback_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qgoback_destroyed
     }
   }
 }

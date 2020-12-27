@@ -1,15 +1,21 @@
+import Vue from 'vue'
+
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 
+import FileMixin from '../../mixins/file.js'
 import DarkMixin from '../../mixins/dark.js'
 
-import { stop, stopAndPrevent } from '../../utils/event.js'
+import { stop } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
+import cache from '../../utils/cache.js'
 
-export default {
-  mixins: [ DarkMixin ],
+export default Vue.extend({
+  name: 'QUploaderBase',
+
+  mixins: [ DarkMixin, FileMixin ],
 
   props: {
     label: String,
@@ -21,11 +27,6 @@ export default {
     flat: Boolean,
     bordered: Boolean,
 
-    multiple: Boolean,
-    accept: String,
-    maxFileSize: Number,
-    maxTotalSize: Number,
-    filter: Function,
     noThumbnails: Boolean,
     autoUpload: Boolean,
     hideUploadBtn: Boolean,
@@ -79,22 +80,16 @@ export default {
     },
 
     canAddFiles () {
-      return this.editable &&
+      return (
+        this.editable === true &&
         this.isUploading !== true &&
-        (this.multiple === true || this.queuedFiles.length === 0)
-    },
-
-    extensions () {
-      if (this.accept !== void 0) {
-        return this.accept.split(',').map(ext => {
-          ext = ext.trim()
-          // support "image/*"
-          if (ext.endsWith('/*')) {
-            ext = ext.slice(0, ext.length - 1)
-          }
-          return ext
-        })
-      }
+        // if single selection and no files are queued:
+        (this.multiple === true || this.queuedFiles.length === 0) &&
+        // if max-files is set and current number of files does not exceeds it:
+        (this.maxFiles === void 0 || this.files.length < this.maxFilesNumber) &&
+        // if max-total-size is set and current upload size does not exceeds it:
+        (this.maxTotalSize === void 0 || this.uploadSize < this.maxTotalSizeNumber)
+      )
     },
 
     uploadProgress () {
@@ -128,24 +123,12 @@ export default {
   },
 
   methods: {
-    pickFiles (e) {
-      if (this.editable) {
-        const input = this.__getFileInput()
-        input && input.click(e)
-      }
-    },
-
-    addFiles (files) {
-      if (this.editable && files) {
-        this.__addFiles(null, files)
-      }
-    },
-
     reset () {
       if (!this.disable) {
         this.abort()
         this.uploadedSize = 0
         this.uploadSize = 0
+        this.__revokeImgURLs()
         this.files = []
         this.queuedFiles = []
         this.uploadedFiles = []
@@ -153,28 +136,45 @@ export default {
     },
 
     removeUploadedFiles () {
-      if (!this.disable) {
-        this.files = this.files.filter(f => f.__status !== 'uploaded')
+      this.__removeFiles([ 'uploaded' ], () => {
         this.uploadedFiles = []
-      }
+      })
     },
 
     removeQueuedFiles () {
-      if (!this.disable) {
-        const removedFiles = []
+      this.__removeFiles([ 'idle', 'failed' ], ({ size }) => {
+        this.uploadSize -= size
+        this.queuedFiles = []
+      })
+    },
 
-        this.files.forEach(file => {
-          if (file.__status === 'idle' || file.__status === 'failed') {
-            this.uploadSize -= file.size
-            removedFiles.push(file)
-          }
-        })
+    __removeFiles (statusList, cb) {
+      if (this.disable === true) {
+        return
+      }
 
-        if (removedFiles.length > 0) {
-          this.files = this.files.filter(f => f.__status !== 'idle' && f.__status !== 'failed')
-          this.queuedFiles = []
-          this.$emit('removed', removedFiles)
+      const removed = {
+        files: [],
+        size: 0
+      }
+
+      const files = this.files.filter(f => {
+        if (statusList.indexOf(f.__status) === -1) {
+          return true
         }
+
+        removed.size += f.size
+        removed.files.push(f)
+
+        f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
+
+        return false
+      })
+
+      if (removed.files.length > 0) {
+        this.files = files
+        cb !== void 0 && cb(removed)
+        this.$emit('removed', removed.files)
       }
     },
 
@@ -191,9 +191,23 @@ export default {
         this.uploadSize -= file.size
       }
 
-      this.files = this.files.filter(f => f.name !== file.name)
+      this.files = this.files.filter(f => {
+        if (f.name !== file.name) {
+          return true
+        }
+
+        f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
+
+        return false
+      })
       this.queuedFiles = this.queuedFiles.filter(f => f.name !== file.name)
       this.$emit('removed', [ file ])
+    },
+
+    __revokeImgURLs () {
+      this.files.forEach(f => {
+        f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
+      })
     },
 
     __getFileInput () {
@@ -232,112 +246,33 @@ export default {
       this.$forceUpdate()
     },
 
-    __addFiles (e, files) {
-      files = Array.prototype.slice.call(files || e.target.files)
+    __addFiles (e, fileList) {
+      const processedFiles = this.__processFiles(e, fileList, this.files, true)
+
+      if (processedFiles === void 0) { return }
+
+      const files = processedFiles
+        .filter(file => this.files.findIndex(f => file.name === f.name) === -1)
+
       this.__getFileInput().value = ''
 
-      // make sure we don't duplicate files
-      files = files.filter(file => !this.files.some(f => file.name === f.name))
-      if (files.length === 0) { return }
-
-      // filter file types
-      if (this.accept !== void 0) {
-        files = Array.prototype.filter.call(files, file => {
-          return this.extensions.some(ext => (
-            file.type.toUpperCase().startsWith(ext.toUpperCase()) ||
-            file.name.toUpperCase().endsWith(ext.toUpperCase())
-          ))
-        })
-        if (files.length === 0) { return }
-      }
-
-      // filter max file size
-      if (this.maxFileSize !== void 0) {
-        files = Array.prototype.filter.call(files, file => file.size <= this.maxFileSize)
-        if (files.length === 0) { return }
-      }
-
-      // Cordova/iOS allows selecting multiple files even when the
-      // multiple attribute is not specified. We also normalize drag'n'dropped
-      // files here:
-      if (this.multiple !== true) {
-        files = [ files[0] ]
-      }
-
-      if (this.maxTotalSize !== void 0) {
-        let size = 0
-        for (let i = 0; i < files.length; i++) {
-          size += files[i].size
-          if (size > this.maxTotalSize) {
-            if (i > 0) {
-              files = files.slice(0, i - 1)
-              break
-            }
-            else {
-              return
-            }
-          }
-        }
-        if (files.length === 0) { return }
-      }
-
-      // do we have custom filter function?
-      if (typeof this.filter === 'function') {
-        files = this.filter(files)
-      }
-
-      if (files.length === 0) { return }
-
-      let filesReady = [] // List of image load promises
+      if (files === void 0) { return }
 
       files.forEach(file => {
         this.__updateFile(file, 'idle')
         this.uploadSize += file.size
 
         if (this.noThumbnails !== true && file.type.toUpperCase().startsWith('IMAGE')) {
-          const reader = new FileReader()
-          let p = new Promise((resolve, reject) => {
-            reader.onload = e => {
-              let img = new Image()
-              img.src = e.target.result
-              file.__img = img
-              resolve(true)
-            }
-            reader.onerror = e => { reject(e) }
-          })
-
-          reader.readAsDataURL(file)
-          filesReady.push(p)
+          const img = new Image()
+          img.src = window.URL.createObjectURL(file)
+          file.__img = img
         }
       })
 
-      Promise.all(filesReady).then(() => {
-        this.files = this.files.concat(files)
-        this.queuedFiles = this.queuedFiles.concat(files)
-        this.$emit('added', files)
-        this.autoUpload === true && this.upload()
-      })
-    },
-
-    __onDragOver (e) {
-      stopAndPrevent(e)
-      this.dnd = true
-    },
-
-    __onDragLeave (e) {
-      stopAndPrevent(e)
-      this.dnd = false
-    },
-
-    __onDrop (e) {
-      stopAndPrevent(e)
-      let files = e.dataTransfer.files
-
-      if (files.length > 0) {
-        this.__addFiles(null, files)
-      }
-
-      this.dnd = false
+      this.files = this.files.concat(files)
+      this.queuedFiles = this.queuedFiles.concat(files)
+      this.$emit('added', files)
+      this.autoUpload === true && this.upload()
     },
 
     __getBtn (h, show, icon, fn) {
@@ -364,12 +299,13 @@ export default {
             type: 'file',
             title: '', // try to remove default tooltip
             accept: this.accept,
+            capture: this.capture,
             ...(this.multiple === true ? { multiple: true } : {})
           },
-          on: {
+          on: cache(this, 'input', {
             mousedown: stop, // need to stop refocus from QBtn
             change: this.__addFiles
-          }
+          })
         })
       ]
     },
@@ -416,12 +352,12 @@ export default {
         key: file.name,
         staticClass: 'q-uploader__file relative-position',
         class: {
-          'q-uploader__file--img': file.__img !== void 0,
+          'q-uploader__file--img': this.noThumbnails !== true && file.__img !== void 0,
           'q-uploader__file--failed': file.__status === 'failed',
           'q-uploader__file--uploaded': file.__status === 'uploaded'
         },
-        style: file.__img !== void 0 ? {
-          backgroundImage: 'url(' + file.__img.src + ')'
+        style: this.noThumbnails !== true && file.__img !== void 0 ? {
+          backgroundImage: 'url("' + file.__img.src + '")'
         } : null
       }, [
         h('div', {
@@ -473,9 +409,29 @@ export default {
 
   beforeDestroy () {
     this.isUploading === true && this.abort()
+    this.files.length > 0 && this.__revokeImgURLs()
   },
 
   render (h) {
+    const children = [
+      h('div', {
+        staticClass: 'q-uploader__header',
+        class: this.colorClass
+      }, this.__getHeader(h)),
+
+      h('div', {
+        staticClass: 'q-uploader__list scroll'
+      }, this.__getList(h)),
+
+      this.__getDnd(h, 'uploader')
+    ]
+
+    this.isBusy === true && children.push(
+      h('div', {
+        staticClass: 'q-uploader__overlay absolute-full flex flex-center'
+      }, [ h(QSpinner) ])
+    )
+
     return h('div', {
       staticClass: 'q-uploader column no-wrap',
       class: {
@@ -486,33 +442,8 @@ export default {
         'disabled q-uploader--disable': this.disable
       },
       on: this.canAddFiles === true
-        ? { dragover: this.__onDragOver }
+        ? cache(this, 'drag', { dragover: this.__onDragOver })
         : null
-    }, [
-      h('div', {
-        staticClass: 'q-uploader__header',
-        class: this.colorClass
-      }, this.__getHeader(h)),
-
-      h('div', {
-        staticClass: 'q-uploader__list scroll'
-      }, this.__getList(h)),
-
-      this.dnd === true ? h('div', {
-        staticClass: 'q-uploader__dnd absolute-full',
-        on: {
-          dragenter: stopAndPrevent,
-          dragover: stopAndPrevent,
-          dragleave: this.__onDragLeave,
-          drop: this.__onDrop
-        }
-      }) : null,
-
-      this.isBusy === true ? h('div', {
-        staticClass: 'q-uploader__overlay absolute-full flex flex-center'
-      }, [
-        h(QSpinner)
-      ]) : null
-    ])
+    }, children)
   }
-}
+})

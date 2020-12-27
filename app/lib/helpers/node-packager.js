@@ -1,9 +1,8 @@
 const fs = require('fs')
 
-const
-  appPaths = require('../app-paths'),
-  spawn = require('cross-spawn').sync,
-  warn = require('./logger')('app:node-packager', 'red')
+const appPaths = require('../app-paths')
+const spawn = require('cross-spawn').sync
+const { warn } = require('./logger')
 
 function isInstalled (cmd) {
   try {
@@ -31,8 +30,7 @@ function getPackager () {
     return 'npm'
   }
 
-  warn('⚠️  Please install Yarn or NPM before running this command.')
-  warn()
+  warn('Please install Yarn or NPM before running this command.\n')
 }
 
 module.exports = getPackager()

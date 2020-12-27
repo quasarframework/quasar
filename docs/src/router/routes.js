@@ -52,7 +52,7 @@ function parseMenuNode (node, __path) {
   else if (node.external !== true) {
     docsPages.push({
       path: prefix,
-      component: () => import(`pages/${prefix.substring(1)}.md`)
+      component: () => import('pages/' + prefix.substring(1) + '.md')
     })
   }
 }
@@ -61,7 +61,17 @@ menu.forEach(node => {
   parseMenuNode(node, '')
 })
 
+const redirects = [
+  { from: '/quasar-cli/supporting-ie', to: '/quasar-cli/browser-compatibility' },
+  { from: '/quasar-cli/modern-build', to: '/quasar-cli/browser-compatibility' }
+]
+
 const routes = [
+  ...redirects.map(entry => ({
+    path: entry.from,
+    redirect: entry.to
+  })),
+
   {
     path: '/',
     component: () => import('pages/Landing.vue')
@@ -84,11 +94,11 @@ const routes = [
 
   ...layoutGallery.map(layout => ({
     path: layout.demoLink,
-    component: () => import(`layouts/gallery/${layout.path}.vue`),
+    component: () => import('layouts/gallery/' + layout.path + '.vue'),
     children: [
       {
         path: '',
-        component: () => import(`components/page-parts/layout/LayoutGalleryPage.vue`),
+        component: () => import('components/page-parts/layout/LayoutGalleryPage.vue'),
         meta: {
           title: layout.name,
           screenshot: layout.screenshot,
@@ -96,13 +106,13 @@ const routes = [
         }
       }
     ]
-  }))
-]
+  })),
 
-// Always leave this as last one
-routes.push({
-  path: process.env.MODE === 'ssr' ? '/not-found' : '*',
-  component: () => import('pages/Error404.vue')
-})
+  // Always leave this as last one
+  {
+    path: '*',
+    component: () => import('pages/Error404.vue')
+  }
+]
 
 export default routes

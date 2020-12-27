@@ -1,12 +1,19 @@
 import Vue from 'vue'
 
-import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import { onSSR } from '../../plugins/Platform.js'
-import slot from '../../utils/slot.js'
+
+import QResizeObserver from '../resize-observer/QResizeObserver.js'
+
+import ListenersMixin from '../../mixins/listeners.js'
+
+import { mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QFooter',
+
+  mixins: [ ListenersMixin ],
 
   inject: {
     layout: {
@@ -100,16 +107,20 @@ export default Vue.extend({
       return offset > 0 ? offset : 0
     },
 
+    hidden () {
+      return this.value !== true || (this.fixed === true && this.revealed !== true)
+    },
+
+    revealOnFocus () {
+      return this.value === true && this.hidden === true && this.reveal === true
+    },
+
     classes () {
-      return (
-        (this.fixed === true ? 'fixed' : 'absolute') + '-bottom') +
-        (this.value === true || this.fixed === true ? '' : ' hidden') +
+      return (this.fixed === true ? 'fixed' : 'absolute') + '-bottom' +
         (this.bordered === true ? ' q-footer--bordered' : '') +
-        (
-          this.value !== true || (this.fixed === true && this.revealed !== true)
-            ? ' q-footer--hidden'
-            : ''
-        )
+        (this.hidden === true ? ' q-footer--hidden' : '') +
+        (this.value !== true ? ' q-layout--prevent-focus' : '') +
+        (this.value !== true && this.fixed !== true ? ' hidden' : '')
     },
 
     style () {
@@ -118,23 +129,31 @@ export default Vue.extend({
         css = {}
 
       if (view[0] === 'l' && this.layout.left.space === true) {
-        css[this.$q.lang.rtl ? 'right' : 'left'] = `${this.layout.left.size}px`
+        css[this.$q.lang.rtl === true ? 'right' : 'left'] = `${this.layout.left.size}px`
       }
       if (view[2] === 'r' && this.layout.right.space === true) {
-        css[this.$q.lang.rtl ? 'left' : 'right'] = `${this.layout.right.size}px`
+        css[this.$q.lang.rtl === true ? 'left' : 'right'] = `${this.layout.right.size}px`
       }
 
       return css
+    },
+
+    onEvents () {
+      return {
+        ...this.qListeners,
+        focusin: this.__onFocusin,
+        input: stop
+      }
     }
   },
 
   render (h) {
-    const child = [
+    const child = mergeSlot([
       h(QResizeObserver, {
         props: { debounce: 0 },
-        on: { resize: this.__onResize }
+        on: cache(this, 'resize', { resize: this.__onResize })
       })
-    ]
+    ], this, 'default')
 
     this.elevated === true && child.push(
       h('div', {
@@ -146,11 +165,8 @@ export default Vue.extend({
       staticClass: 'q-footer q-layout__section--marginal',
       class: this.classes,
       style: this.style,
-      on: {
-        ...this.$listeners,
-        input: stop
-      }
-    }, child.concat(slot(this, 'default')))
+      on: this.onEvents
+    }, child)
   },
 
   created () {
@@ -197,6 +213,14 @@ export default Vue.extend({
         position - inflexionPosition < 100 ||
         this.layout.height - this.containerHeight - position - this.size < 300
       ))
+    },
+
+    __onFocusin (evt) {
+      if (this.revealOnFocus === true) {
+        this.__updateLocal('revealed', true)
+      }
+
+      this.$emit('focusin', evt)
     }
   }
 })

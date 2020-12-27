@@ -22,7 +22,8 @@ export default {
     months: 'Januar_Februar_Mart_April_Maj_Jun_Jul_Avgust_Septembar_Oktobar_Novembar_Decembar'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Avg_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'дана'
   },
   table: {
     noData: 'Nema podataka',
@@ -67,12 +68,12 @@ export default {
     hr: 'Ubaciti vodoravni lenjir',
     undo: 'Poništiti',
     redo: 'Vratiti',
-    header1: 'Naslov 1',
-    header2: 'Naslov 2',
-    header3: 'Naslov 3',
-    header4: 'Naslov 4',
-    header5: 'Naslov 5',
-    header6: 'Naslov 6',
+    heading1: 'Naslov 1',
+    heading2: 'Naslov 2',
+    heading3: 'Naslov 3',
+    heading4: 'Naslov 4',
+    heading5: 'Naslov 5',
+    heading6: 'Naslov 6',
     paragraph: 'Odlomak',
     code: 'Kod',
     size1: 'Najmanje',

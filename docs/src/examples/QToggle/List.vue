@@ -37,7 +37,7 @@
 export default {
   data () {
     return {
-      notifications: ['friend']
+      notifications: [ 'friend' ]
     }
   }
 }

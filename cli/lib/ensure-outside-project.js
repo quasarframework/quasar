@@ -1,6 +1,5 @@
-const
-  { existsSync } = require('fs'),
-  { sep, normalize, join } = require('path')
+const { existsSync } = require('fs')
+const { sep, normalize, join } = require('path')
 
 module.exports = function () {
   let dir = process.cwd()

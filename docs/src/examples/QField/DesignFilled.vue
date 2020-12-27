@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
-      <q-toggle v-model="dense" label="Dense QInput" />
+      <q-toggle v-model="dense" label="Dense QField" />
 
       <q-field filled :dense="dense">
         <template v-slot:control>

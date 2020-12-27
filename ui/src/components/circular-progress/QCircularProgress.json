@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/size" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/circular-progress"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -84,6 +88,12 @@
     "reverse": {
       "type": "Boolean",
       "desc": "Reverses the direction of progress; Only for determined state",
+      "category": "behavior"
+    },
+
+    "instant-feedback": {
+      "type": "Boolean",
+      "desc": "No animation when model changes",
       "category": "behavior"
     }
   },

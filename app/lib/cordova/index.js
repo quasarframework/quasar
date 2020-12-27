@@ -1,17 +1,16 @@
 const fse = require('fs-extra')
 
-const
-  log = require('../helpers/logger')('app:cordova'),
-  CordovaConfig = require('./cordova-config'),
-  { spawn } = require('../helpers/spawn'),
-  onShutdown = require('../helpers/on-shutdown'),
-  appPaths = require('../app-paths'),
-  openIde = require('../helpers/open-ide')
+const { log, fatal } = require('../helpers/logger')
+const CordovaConfig = require('./cordova-config')
+const { spawn } = require('../helpers/spawn')
+const onShutdown = require('../helpers/on-shutdown')
+const appPaths = require('../app-paths')
+const openIde = require('../helpers/open-ide')
 
 class CordovaRunner {
   constructor () {
     this.pid = 0
-    this.config = new CordovaConfig()
+    this.cordovaConfig = new CordovaConfig()
 
     onShutdown(() => {
       this.stop()
@@ -27,10 +26,9 @@ class CordovaRunner {
     }
   }
 
-  async run (quasarConfig, argv) {
-    const
-      cfg = quasarConfig.getBuildConfig(),
-      url = cfg.build.APP_URL
+  async run (quasarConfFile, argv) {
+    const cfg = quasarConfFile.quasarConf
+    const url = cfg.build.APP_URL
 
     if (this.url === url) {
       return
@@ -64,8 +62,8 @@ class CordovaRunner {
     )
   }
 
-  async build (quasarConfig, argv) {
-    const cfg = quasarConfig.getBuildConfig()
+  async build (quasarConfFile, argv) {
+    const cfg = quasarConfFile.quasarConf
     const buildPath = appPaths.resolve.cordova(
       this.target === 'android'
         ? 'platforms/android/app/build/outputs'
@@ -105,7 +103,7 @@ class CordovaRunner {
   }
 
   __runCordovaCommand (cfg, args) {
-    this.config.prepare(cfg)
+    this.cordovaConfig.prepare(cfg)
 
     if (this.target === 'ios' && cfg.cordova.noIosLegacyBuildFlag !== true) {
       args.push(`--buildFlag=-UseModernBuildSystem=0`)
@@ -119,8 +117,7 @@ class CordovaRunner {
         code => {
           this.__cleanup()
           if (code) {
-            warn(`⚠️  [FAIL] Cordova CLI has failed`)
-            process.exit(1)
+            fatal(`[FAIL] Cordova CLI has failed`)
           }
           resolve()
         }
@@ -130,7 +127,7 @@ class CordovaRunner {
 
   __cleanup () {
     this.pid = 0
-    this.config.reset()
+    this.cordovaConfig.reset()
   }
 }
 

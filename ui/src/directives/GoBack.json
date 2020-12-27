@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-directives/go-back"
+  },
+
   "value": {
     "type": [ "String", "Object" ],
     "desc": "Equivalent to Vue Router <router-link> 'to' property",

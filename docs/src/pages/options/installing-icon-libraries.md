@@ -6,13 +6,17 @@ related:
   - /vue-components/icon
 ---
 
-You'll most likely want icons in your website/app and Quasar offers an easy way out of the box for the following icon libraries: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons) and [Themify Icons](https://themify.me/themify-icons).
-
 ::: tip
-You can choose to install one or more of these icon libraries.
+**This page refers to using [webfont icons](/vue-components/icon#Webfont-icons) only.** Svg icons do not need any installation step.
 :::
 
-## Installing
+You'll most likely want icons in your website/app and Quasar offers an easy way out of the box for the following icon libraries: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons) and [Line Awesome](https://icons8.com/line-awesome). But you can [add support for others](/vue-components/icon#Custom-mapping) by yourself.
+
+::: tip
+In regards to webfont icons, you can choose to install one or more of these icon libraries.
+:::
+
+## Installing Webfonts
 If you are building a website only, then using a CDN (Content Delivery Network) approach can be an option you can follow. However, when building a mobile or Electron app, you most likely do not want to depend on an Internet connection and Quasar comes with a solution to this problem:
 
 Edit `/quasar.conf.js`:
@@ -23,7 +27,7 @@ extras: [
 ]
 ```
 
-Icon sets are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
+Webfont icons are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
 
 Adding more than one set (showing all options):
 ```js
@@ -36,7 +40,8 @@ extras: [
   'ionicons-v4',
   'eva-icons',
   'fontawesome-v5',
-  'themify'
+  'themify',
+  'line-awesome'
 ]
 ```
 
@@ -45,43 +50,7 @@ You're now ready to use the [QIcon](/vue-components/icon) component.
 ## Using CDN as alternative
 If you want to make use of a CDN (Content Delivery Network), all you need to do is to include style tags in your `index.template.html` which point to the CDN URL.
 
-In case you follow this path, do not also add the icon sets that you want in `/quasar.conf.js > extras`. Simply edit `index.template.html` as follows.
-
-The example link tag below would include Fontawesome v5.6.3 icons. Do a Google search for CDNs to make sure you include the latest version. The following are just examples.
-
-```html
-<!-- in `/src/index.template.html` -->
-
-<head>
-  ...
-
-  <!-- CDN example for Material Icons -->
-  <link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet"
-  >
-
-  <!-- CDN example for Material Icons Outlined (similar thing for Round and Sharp versions) -->
-  <link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
-    rel="stylesheet"
-  >
-
-  <!-- CDN example for Fontawesome 5.6.3 -->
-  <link
-    rel="stylesheet"
-    href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-    integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
-    crossorigin="anonymous"
-  >
-
-  <!-- CDN example for Ionicons -->
-  <link
-    href="https://unpkg.com/ionicons@4.5.0/dist/css/ionicons.min.css"
-    rel="stylesheet"
-  >
-</head>
-```
+In case you follow this path, do not also add the icon sets that you want in `/quasar.conf.js > extras`. Play with the [UMD Installation Guide](/start/umd#Installation) and edit `index.template.html` as described there.
 
 ## Using Fontawesome-Pro
 If you have a Fontawesome 5 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions:
@@ -89,7 +58,8 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
 1. Open the [Linked Accounts section](https://fontawesome.com/account) in Fontawesome's user account page to grab the npm TOKENID (login if necessary).
 2. Create or append TOKENID into the `.npmrc` file  (file path same as package.json):
   ```
-  @fortawesome:registry=https://npm.fontawesome.com/TOKENID
+  @fortawesome:registry=https://npm.fontawesome.com/
+  //npm.fontawesome.com/:_authToken=TOKENID
   ```
 3. Install Fontawesome webfonts:
   ```bash

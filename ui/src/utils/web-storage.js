@@ -1,3 +1,5 @@
+import { noop } from '../utils/event.js'
+
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {
     return '__q_date|' + value.toUTCString()
@@ -27,16 +29,14 @@ function encode (value) {
 }
 
 function decode (value) {
-  let type, length, source
-
-  length = value.length
+  const length = value.length
   if (length < 9) {
     // then it wasn't encoded by us
     return value
   }
 
-  type = value.substr(0, 8)
-  source = value.substring(9)
+  const type = value.substr(0, 8)
+  const source = value.substring(9)
 
   switch (type) {
     case '__q_date':
@@ -66,18 +66,16 @@ function decode (value) {
 }
 
 export function getEmptyStorage () {
-  const fn = () => {}
-
   return {
-    has: fn,
-    getLength: fn,
-    getItem: fn,
-    getIndex: fn,
-    getAll: fn,
-    set: fn,
-    remove: fn,
-    clear: fn,
-    isEmpty: fn
+    has: noop,
+    getLength: noop,
+    getItem: noop,
+    getIndex: noop,
+    getAll: noop,
+    set: noop,
+    remove: noop,
+    clear: noop,
+    isEmpty: noop
   }
 }
 
@@ -96,16 +94,31 @@ export function getStorage (type) {
     getLength: () => webStorage.length,
     getItem: get,
     getIndex: index => {
-      if (index < webStorage.length) {
-        return get(webStorage.key(index))
-      }
+      return index < webStorage.length
+        ? get(webStorage.key(index))
+        : null
+    },
+    getKey: index => {
+      return index < webStorage.length
+        ? webStorage.key(index)
+        : null
     },
     getAll: () => {
-      let result = {}, key, len = webStorage.length
+      let key
+      const result = {}, len = webStorage.length
 
       for (let i = 0; i < len; i++) {
         key = webStorage.key(i)
         result[key] = get(key)
+      }
+
+      return result
+    },
+    getAllKeys: () => {
+      const result = [], len = webStorage.length
+
+      for (let i = 0; i < len; i++) {
+        result.push(webStorage.key(i))
       }
 
       return result

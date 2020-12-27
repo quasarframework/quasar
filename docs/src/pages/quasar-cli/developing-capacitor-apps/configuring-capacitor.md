@@ -15,13 +15,21 @@ The most important config file for your mobile app is `/src-capacitor/capacitor.
 Some properties from this file will get overwritten as we'll see in next section.
 
 ## quasar.conf.js
-Quasar CLI helps you in setting some properties of the mobile Apps automatically, like the app name, app id, version, description and so on. This is for convenience so you'll be able to have a single point where, for example, you change the version of your app, not multiple files that you need to simultaneously touch which is error prone.
+There are two places in `/quasar.conf.js` where you can configure Quasar specific features for Capacitor.
 
-For determining the values for each of the properties mentioned above, Quasar CLI:
-1. Looks in `/quasar.conf.js` for a "capacitor" Object. Does it have "id", "appName", "version", "description"? If yes, it will use them.
-2. If not, then it looks into your `/package.json` for "capacitorId" (or "cordovaId" for carefree Quasar CLI upgrades), "name", "version" and "description" fields.
+```js
+return {
+  capacitor: {
+    // (Optional!) requires @quasar/app v1.3+
+    hideSplashscreen: false, // disables auto-hiding the Splashscreen by Quasar CLI
 
-Other options you can configure:
+    // (Optional!) requires @quasar/app v2.1.5
+    capacitorCliPreparationParams: [ 'sync', ctx.targetName ]
+  }
+}
+```
+
+And you can also configure:
 
 ```js
 return {
@@ -29,6 +37,27 @@ return {
     config: {
       capacitor: {
         iosStatusBarPadding: true/false, // add the dynamic top padding on iOS mobile devices
+      }
+    }
+  }
+}
+```
+
+Finally, you can also disable or configure the back button hook (used for Dialogs):
+
+```js
+return {
+  framework: {
+    config: {
+      capacitor: {
+        // Quasar handles app exit on mobile phone back button.
+        // Requires Quasar v1.9.3+ for true/false, v1.12.6+ for '*' wildcard and array values
+        backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
+
+        // On the other hand, the following completely
+        // disables Quasar's back button management.
+        // Requires Quasar v1.14.1+
+        backButton: true/false
       }
     }
   }

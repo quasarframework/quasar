@@ -1,11 +1,15 @@
 import { css } from '../utils/dom.js'
-import { position, stop, listenOpts } from '../utils/event.js'
+import { position, stop, addEvt, cleanEvt } from '../utils/event.js'
+import { isKeyCode } from '../utils/key-composition.js'
 import { client } from '../plugins/Platform.js'
+import throttle from '../utils/throttle.js'
+import { $q } from '../install.js'
 
 function showRipple (evt, el, ctx, forceCenter) {
   ctx.modifiers.stop === true && stop(evt)
 
-  let { center, color } = ctx.modifiers
+  const color = ctx.modifiers.color
+  let center = ctx.modifiers.center
   center = center === true || forceCenter === true
 
   const
@@ -24,7 +28,7 @@ function showRipple (evt, el, ctx, forceCenter) {
   css(innerNode, {
     height: `${diameter}px`,
     width: `${diameter}px`,
-    transform: `translate3d(${x}, ${y}, 0) scale3d(0.2, 0.2, 1)`,
+    transform: `translate3d(${x},${y},0) scale3d(.2,.2,1)`,
     opacity: 0
   })
 
@@ -41,7 +45,7 @@ function showRipple (evt, el, ctx, forceCenter) {
 
   let timer = setTimeout(() => {
     innerNode.classList.add('q-ripple__inner--enter')
-    innerNode.style.transform = `translate3d(${centerX}, ${centerY}, 0) scale3d(1, 1, 1)`
+    innerNode.style.transform = `translate3d(${centerX},${centerY},0) scale3d(1,1,1)`
     innerNode.style.opacity = 0.2
 
     timer = setTimeout(() => {
@@ -57,23 +61,23 @@ function showRipple (evt, el, ctx, forceCenter) {
   }, 50)
 }
 
-function updateCtx (ctx, { value, modifiers, arg }) {
-  ctx.enabled = value !== false
+function updateModifiers (ctx, { modifiers, value, arg }) {
+  const cfg = Object.assign({}, $q.config.ripple, modifiers, value)
+  ctx.modifiers = {
+    early: cfg.early === true,
+    stop: cfg.stop === true,
+    center: cfg.center === true,
+    color: cfg.color || arg,
+    keyCodes: [].concat(cfg.keyCodes || 13)
+  }
+}
 
-  if (ctx.enabled === true) {
-    ctx.modifiers = Object(value) === value
-      ? {
-        stop: value.stop === true || modifiers.stop === true,
-        center: value.center === true || modifiers.center === true,
-        color: value.color || arg,
-        keyCodes: [].concat(value.keyCodes || 13)
-      }
-      : {
-        stop: modifiers.stop,
-        center: modifiers.center,
-        color: arg,
-        keyCodes: [13]
-      }
+function destroy (el) {
+  const ctx = el.__qripple
+  if (ctx !== void 0) {
+    ctx.abort.forEach(fn => { fn() })
+    cleanEvt(ctx, 'main')
+    delete el._qripple
   }
 }
 
@@ -81,46 +85,74 @@ export default {
   name: 'ripple',
 
   inserted (el, binding) {
+    if (el.__qripple !== void 0) {
+      destroy(el)
+      el.__qripple_destroyed = true
+    }
+
     const ctx = {
+      enabled: binding.value !== false,
       modifiers: {},
       abort: [],
 
-      click (evt) {
-        // on ENTER in form IE emits a PointerEvent with negative client cordinates
-        if (ctx.enabled === true && (client.is.ie !== true || evt.clientX >= 0)) {
+      start (evt) {
+        if (
+          ctx.enabled === true &&
+          evt.qSkipRipple !== true &&
+          // on ENTER in form IE emits a PointerEvent with negative client cordinates
+          (client.is.ie !== true || evt.clientX >= 0) &&
+          (
+            ctx.modifiers.early === true
+              ? ['mousedown', 'touchstart'].includes(evt.type) === true
+              : evt.type === 'click'
+          )
+        ) {
           showRipple(evt, el, ctx, evt.qKeyEvent === true)
         }
       },
 
-      keyup (evt) {
-        if (ctx.enabled === true && ctx.modifiers.keyCodes.indexOf(evt.keyCode) > -1 && evt.qKeyEvent !== true) {
+      keystart: throttle(evt => {
+        if (
+          ctx.enabled === true &&
+          evt.qSkipRipple !== true &&
+          isKeyCode(evt, ctx.modifiers.keyCodes) === true &&
+          evt.type === `key${ctx.modifiers.early === true ? 'down' : 'up'}`
+        ) {
           showRipple(evt, el, ctx, true)
         }
-      }
+      }, 300)
     }
 
-    updateCtx(ctx, binding)
-
-    if (el.__qripple) {
-      el.__qripple_old = el.__qripple
-    }
+    updateModifiers(ctx, binding)
 
     el.__qripple = ctx
-    el.addEventListener('click', ctx.click, listenOpts.passive)
-    el.addEventListener('keyup', ctx.keyup, listenOpts.passive)
+
+    addEvt(ctx, 'main', [
+      [ el, 'mousedown', 'start', 'passive' ],
+      [ el, 'touchstart', 'start', 'passive' ],
+      [ el, 'click', 'start', 'passive' ],
+      [ el, 'keydown', 'keystart', 'passive' ],
+      [ el, 'keyup', 'keystart', 'passive' ]
+    ])
   },
 
   update (el, binding) {
-    el.__qripple !== void 0 && updateCtx(el.__qripple, binding)
+    const ctx = el.__qripple
+    if (ctx !== void 0 && binding.oldValue !== binding.value) {
+      ctx.enabled = binding.value !== false
+
+      if (ctx.enabled === true && Object(binding.value) === binding.value) {
+        updateModifiers(ctx, binding)
+      }
+    }
   },
 
   unbind (el) {
-    const ctx = el.__qripple_old || el.__qripple
-    if (ctx !== void 0) {
-      ctx.abort.forEach(fn => { fn() })
-      el.removeEventListener('click', ctx.click, listenOpts.passive)
-      el.removeEventListener('keyup', ctx.keyup, listenOpts.passive)
-      delete el[el.__qripple_old ? '__qripple_old' : '__qripple']
+    if (el.__qripple_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qripple_destroyed
     }
   }
 }

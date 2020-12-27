@@ -30,7 +30,7 @@ export default {
       filter: '',
       loading: false,
       pagination: {
-        sortBy: 'name',
+        sortBy: 'desc',
         descending: false,
         page: 1,
         rowsPerPage: 3,
@@ -108,8 +108,8 @@ export default {
   },
   methods: {
     onRequest (props) {
-      let { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination
-      let filter = props.filter
+      const { page, rowsPerPage, sortBy, descending } = props.pagination
+      const filter = props.filter
 
       this.loading = true
 
@@ -119,13 +119,13 @@ export default {
         this.pagination.rowsNumber = this.getRowsNumberCount(filter)
 
         // get all rows if "All" (0) is selected
-        let fetchCount = rowsPerPage === 0 ? rowsNumber : rowsPerPage
+        const fetchCount = rowsPerPage === 0 ? this.pagination.rowsNumber : rowsPerPage
 
         // calculate starting row of data
-        let startRow = (page - 1) * rowsPerPage
+        const startRow = (page - 1) * rowsPerPage
 
         // fetch data from "server"
-        let returnedData = this.fetchFromServer(startRow, fetchCount, filter, sortBy, descending)
+        const returnedData = this.fetchFromServer(startRow, fetchCount, filter, sortBy, descending)
 
         // clear out existing data and add new
         this.data.splice(0, this.data.length, ...returnedData)
@@ -144,45 +144,25 @@ export default {
     // emulate ajax call
     // SELECT * FROM ... WHERE...LIMIT...
     fetchFromServer (startRow, count, filter, sortBy, descending) {
-      let data = []
-
-      if (!filter) {
-        data = this.original.slice(startRow, startRow + count)
-      }
-      else {
-        let found = 0
-        for (let index = startRow, items = 0; index < this.original.length && items < count; ++index) {
-          let row = this.original[index]
-          // match filter?
-          if (!row['name'].includes(filter)) {
-            // get a different row, until one is found
-            continue
-          }
-          ++found
-          if (found >= startRow) {
-            data.push(row)
-            ++items
-          }
-        }
-      }
+      const data = filter
+        ? this.original.filter(row => row.name.includes(filter))
+        : this.original.slice()
 
       // handle sortBy
       if (sortBy) {
-        data.sort((a, b) => {
-          let x = descending ? b : a
-          let y = descending ? a : b
-          if (sortBy === 'desc') {
-            // string sort
-            return x[sortBy] > y[sortBy] ? 1 : x[sortBy] < y[sortBy] ? -1 : 0
-          }
-          else {
-            // numeric sort
-            return parseFloat(x[sortBy]) - parseFloat(y[sortBy])
-          }
-        })
+        const sortFn = sortBy === 'desc'
+          ? (descending
+            ? (a, b) => (a.name > b.name ? -1 : a.name < b.name ? 1 : 0)
+            : (a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
+          )
+          : (descending
+            ? (a, b) => (parseFloat(b[sortBy]) - parseFloat(a[sortBy]))
+            : (a, b) => (parseFloat(a[sortBy]) - parseFloat(b[sortBy]))
+          )
+        data.sort(sortFn)
       }
 
-      return data
+      return data.slice(startRow, startRow + count)
     },
 
     // emulate 'SELECT count(*) FROM ...WHERE...'
@@ -192,7 +172,7 @@ export default {
       }
       let count = 0
       this.original.forEach((treat) => {
-        if (treat['name'].includes(filter)) {
+        if (treat.name.includes(filter)) {
           ++count
         }
       })

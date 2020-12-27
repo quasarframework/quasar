@@ -1,6 +1,6 @@
-import { listenOpts } from './event.js'
+import { isSSR, client, iosEmulated } from '../plugins/Platform.js'
 
-const directions = ['left', 'right', 'up', 'down', 'horizontal', 'vertical']
+const directions = [ 'left', 'right', 'up', 'down', 'horizontal', 'vertical' ]
 
 const modifiersAll = {
   left: true,
@@ -13,7 +13,7 @@ const modifiersAll = {
 }
 
 export function getModifierDirections (mod) {
-  let dir = {}
+  const dir = {}
 
   directions.forEach(direction => {
     if (mod[direction]) {
@@ -44,39 +44,18 @@ export function getModifierDirections (mod) {
   return dir
 }
 
-export function updateModifiers (ctx, { oldValue, value, modifiers }) {
-  if (oldValue !== value) {
-    ctx.handler = value
-  }
+export const getTouchTarget = isSSR === false && iosEmulated !== true && (
+  client.is.ios === true ||
+  window.navigator.vendor.toLowerCase().indexOf('apple') > -1
+)
+  ? () => document
+  : target => target
 
-  if (directions.some(direction => modifiers[direction] !== ctx.modifiers[direction])) {
-    ctx.modifiers = modifiers
-    ctx.direction = getModifierDirections(modifiers)
-  }
-}
-
-export function addEvt (ctx, target, events) {
-  target += 'Evt'
-
-  if (ctx[target] !== void 0) {
-    ctx[target] = ctx[target].concat(events)
-  }
-  else {
-    ctx[target] = events
-  }
-
-  events.forEach(evt => {
-    evt[0].addEventListener(evt[1], ctx[evt[2]], listenOpts[evt[3]])
-  })
-}
-
-export function cleanEvt (ctx, target) {
-  target += 'Evt'
-
-  if (ctx[target] !== void 0) {
-    ctx[target].forEach(evt => {
-      evt[0].removeEventListener(evt[1], ctx[evt[2]], listenOpts[evt[3]])
-    })
-    ctx[target] = void 0
-  }
+export function shouldStart (evt, ctx) {
+  return ctx.event === void 0 &&
+    evt.target !== void 0 &&
+    evt.target.draggable !== true &&
+    typeof ctx.handler === 'function' &&
+    evt.target.nodeName.toUpperCase() !== 'INPUT' &&
+    (evt.qClonedBy === void 0 || evt.qClonedBy.indexOf(ctx.uid) === -1)
 }

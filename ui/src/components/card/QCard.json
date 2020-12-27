@@ -1,4 +1,10 @@
 {
+  "mixins": [ "mixins/tag" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/card"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -18,6 +24,11 @@
 
     "bordered": {
       "extends": "bordered"
+    },
+
+    "tag": {
+      "examples": [ "div", "form" ],
+      "addedIn": "v1.8.4"
     }
   },
 

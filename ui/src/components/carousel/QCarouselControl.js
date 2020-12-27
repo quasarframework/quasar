@@ -1,18 +1,28 @@
 import Vue from 'vue'
 
-import slot from '../../utils/slot.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QCarouselControl',
 
+  mixins: [ ListenersMixin ],
+
   props: {
     position: {
       type: String,
-      default: 'bottom-right'
+      default: 'bottom-right',
+      validator: v => [
+        'top-right', 'top-left',
+        'bottom-right', 'bottom-left',
+        'top', 'right', 'bottom', 'left'
+      ].includes(v)
     },
     offset: {
       type: Array,
-      default: () => [18, 18]
+      default: () => [18, 18],
+      validator: v => v.length === 2
     }
   },
 
@@ -33,7 +43,7 @@ export default Vue.extend({
       staticClass: 'q-carousel__control absolute',
       style: this.style,
       class: this.classes,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

@@ -1,13 +1,14 @@
-const
-  logger = require('./logger'),
-  log = logger('app:spawn'),
-  warn = logger('app:spawn', 'red'),
-  crossSpawn = require('cross-spawn')
+const { log, warn, fatal } = require('./logger')
+const crossSpawn = require('cross-spawn')
 
 /*
  Returns pid, takes onClose
  */
 module.exports.spawn = function (cmd, params, opts, onClose) {
+  if (!cmd) {
+    fatal(`Command name was not available. Please run again.`)
+  }
+
   log(`Running "${cmd} ${params.join(' ')}"`)
   log()
 
@@ -48,9 +49,9 @@ module.exports.spawnSync = function (cmd, params, opts, onFail) {
 
   if (runner.status || runner.error) {
     warn()
-    warn(`⚠️  Command "${cmd}" failed with exit code: ${runner.status}`)
+    warn(`Command "${cmd}" failed with exit code: ${runner.status}`)
     if (runner.status === null) {
-      warn(`⚠️  Please globally install "${cmd}"`)
+      warn(`Please globally install "${cmd}"`)
     }
     onFail && onFail()
     process.exit(1)

@@ -30,7 +30,7 @@
   "main": "fastclick.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:quasarframework/fastclick.git"
+    "url": "git+https://github.com/quasarframework/quasar.git"
   },
   "keywords": [
     "quasar",
@@ -42,6 +42,10 @@
     "click",
     "delay"
   ],
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
   "licenses": [
     {
       "type": "MIT",

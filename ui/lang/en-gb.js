@@ -22,7 +22,8 @@ export default {
     months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'days'
   },
   table: {
     noData: 'No data available',
@@ -67,12 +68,12 @@ export default {
     hr: 'Insert Horizontal Rule',
     undo: 'Undo',
     redo: 'Redo',
-    header1: 'Header 1',
-    header2: 'Header 2',
-    header3: 'Header 3',
-    header4: 'Header 4',
-    header5: 'Header 5',
-    header6: 'Header 6',
+    heading1: 'Heading 1',
+    heading2: 'Heading 2',
+    heading3: 'Heading 3',
+    heading4: 'Heading 4',
+    heading5: 'Heading 5',
+    heading6: 'Heading 6',
     paragraph: 'Paragraph',
     code: 'Code',
     size1: 'Very small',

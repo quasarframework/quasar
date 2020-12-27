@@ -1,29 +1,41 @@
 .non-selectable
-  user-select none !important
+  user-select: none !important
 
 .scroll
-  overflow auto
+  overflow: auto
 .scroll, .scroll-x, .scroll-y
-  -webkit-overflow-scrolling touch
-  will-change scroll-position
+  -webkit-overflow-scrolling: touch
+  will-change: scroll-position
 .scroll-x
-  overflow-x auto
+  overflow-x: auto
 .scroll-y
-  overflow-y auto
+  overflow-y: auto
 .no-scroll
-  overflow hidden !important
+  overflow: hidden !important
 
-.no-pointer-events
-  pointer-events none !important
+.no-pointer-events,
+.no-pointer-events--children,
+.no-pointer-events--children *
+  pointer-events: none !important
 .all-pointer-events
-  pointer-events all !important
+  pointer-events: all !important
 
 .cursor
   &-pointer
-    cursor pointer !important
+    cursor: pointer !important
   &-not-allowed
-    cursor not-allowed !important
+    cursor: not-allowed !important
   &-inherit
-    cursor inherit !important
+    cursor: inherit !important
   &-none
-    cursor none !important
+    cursor: none !important
+
+[aria-busy='true']
+  cursor: progress
+
+[aria-controls],
+[role='button']
+  cursor: pointer
+
+[aria-disabled]
+  cursor: default

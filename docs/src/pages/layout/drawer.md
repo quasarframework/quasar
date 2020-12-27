@@ -16,11 +16,12 @@ QDrawer is the sidebar part of your QLayout.
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
-<q-btn push color="primary" icon-right="launch" label="Layout Builder" type="a" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
+<q-btn push color="primary" icon-right="launch" label="Layout Builder" type="a" href="layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ## Usage
 ::: tip
-Since QDrawer needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QDrawer.
+* Since QDrawer needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QDrawer.
+* If the QDrawer content also has images and you want to use touch actions to close it, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 :::
 
 ::: danger
@@ -58,7 +59,7 @@ There are some CSS classes that will help you customize the drawer when dealing 
 | `q-mini-drawer-hide` | Hide when drawer is in "mini" mode. |
 | `q-mini-drawer-only` | Show only when drawer is in "mini" mode. |
 
-You can also write your own CSS classes based on the fact that QLayoutDrawer has `q-layout-drawer-normal` CSS class when in "normal" mode and `q-layout-drawer-mini` when in "mini" mode. Also, when drawer is in "mobile" behavior, it gets `q-layout-drawer-mobile` CSS class.
+You can also write your own CSS classes based on the fact that QLayoutDrawer has `q-drawer--standard` CSS class when in "normal" mode and `q-drawer--mini` when in "mini" mode. Also, when drawer is in "mobile" behavior, it gets `q-drawer--mobile` CSS class.
 
 #### Mouseover/mouseout trigger
 
@@ -85,7 +86,7 @@ By default, when in "mini" mode, Quasar CSS hides a few DOM elements to provide 
 <doc-example title="Mini-mode with slot" file="QDrawer/MiniSlot" />
 
 ### Overlay mode
-The overlay mode makes the drawer not to occupy space on the layout and rather hover over the page instead. This will always set your drawer with fixed position, regardless of your configuration from the `view` prop.
+The overlay mode prevents the drawer from occupying space on the layout and rather hover over the page instead. This will always set your drawer with fixed position, regardless of your configuration from the `view` prop.
 
 On the example below, click the menu icon to see the drawer in action. It's best viewed on a desktop with a window of at least 500px width (this is the breakpoint that is set on this demo).
 

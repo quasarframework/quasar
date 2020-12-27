@@ -23,7 +23,7 @@ export function width (el) {
 }
 
 export function css (element, css) {
-  let style = element.style
+  const style = element.style
 
   Object.keys(css).forEach(prop => {
     style[prop] = css[prop]
@@ -46,6 +46,7 @@ export function ready (fn) {
   document.addEventListener('DOMContentLoaded', fn, false)
 }
 
+// internal
 export function childHasFocus (el, focusedEl) {
   if (el === void 0 || el.contains(focusedEl) === true) {
     return true
@@ -58,6 +59,18 @@ export function childHasFocus (el, focusedEl) {
   }
 
   return false
+}
+
+// internal
+export function getBodyFullscreenElement (isFullscreen, activeEl) {
+  return isFullscreen === true
+    ? (
+      // when a video tag enters fullscreen activeEl is null
+      activeEl === document.documentElement || activeEl === null
+        ? document.body
+        : activeEl
+    )
+    : document.body
 }
 
 export default {

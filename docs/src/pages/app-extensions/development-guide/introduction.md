@@ -8,10 +8,12 @@ This section of the docs deals with creating your own App Extensions.
 It is assumed you have already installed one of the official App Extensions. Having this experience at your disposal is going to be very valuable when you start building your own App Extensions. If you run into problems, please visit our Discord server's channel `#app-extensions`.
 
 ## Getting started
-An App Extension is an npm package. We will be using the official App Extension starter kit to create one.
+An App Extension is an npm package. There are two offcial kits for creating App Extensions. The official `App Extension` starter kit should be used to create App Extensions that do not provide a UI, like a component or directive, unless the objective is to install a 3rd-party library into Vue. The second official kit is the `UI` kit. This has a `ui` folder for creating your component/directive, a `ui/dev` Quasar application for testing your component/directive in isolation, and an `app-extension` folder for creating the App Extension that will be used for injecting your component/directive via the Quasar CLI into a Quasar app. The UI kit can also be used such that your component/directive can also be used with Vue CLI or UMD.
 
 ```bash
 $ quasar create my-ext --kit app-extension
+# or
+$ quasar create my-ext --kit ui
 ```
 
 It will prompt you about your specific needs. Do you need an install script, an uninstall script, will you be prompting the user with some questions? Pick only what you will be using. You can manually add these later if you decide otherwise.
@@ -21,6 +23,7 @@ For the sake of this documentation page, let's assume we answered with `my-ext` 
 Based on your response, Quasar CLI will create a folder for your App Extension’s source code that will have the following structure:
 
 ```bash
+# app-extension kit
 .
 ├── package.json
 └── src
@@ -28,11 +31,37 @@ Based on your response, Quasar CLI will create a folder for your App Extension�
     ├── install.js    # Described in Install API
     ├── prompts.js    # Described in Prompts API
     └── uninstall.js  # Described in Uninstall API
+
+# ui kit
+.
+├── app-extension
+│   ├── package.json
+│   └── src
+│       ├── index.js           # Described in Index API
+│       ├── install.js         # Described in Install API
+│       ├── prompts.js         # Described in Prompts API
+│       └── uninstall.js       # Described in Uninstall API
+└── ui
+    ├── package.json
+    ├── build                  # build scripts
+    ├── dev                    # Quasar app for testing component/directive
+    └── src
+        ├── components         # (optional) Folder for your component(s)
+        │   ├── Component.js   # (optional) Code for your component(s)
+        │   └── Component.sass # (optional) Sass for your component(s)
+        ├── directives         # (optional) Folder for your directive(s)
+        │   ├── Directive.js   # (optional) Code for your directive(s)
+        │   └── Directive.sass # (optional) Sass for your directive(s)
+        ├── mixins             # (optional) Where to put your mixin sources
+        ├── index.js           # Exports and Vue injection
+        └── index.sass         # Sass imports
 ```
 
-Except for `src/index.js`, all the other files are optional. You can manually add or remove them at any point in time.
+Except for `src/index.js` (from the `app-extension` kit) or `app-extension/src/index.js` (from the `ui` kit) , all the other files are optional. You can manually add or remove them at any point in time.
 
-## Scripts description
+When using the `UI` kit, you will have two npm packages; one for the App Extension and one for the UI module. For testing with the `dev` app, from the `ui` folder type `yarn dev`. Create pages in the `dev` folder for testing and they will automatically be injected into the test app. Also, check out the `scripts` section in the `package.json` to see what you have available. When you `yarn build`, a `dist` folder will be created and populated with various types of packages (common, esm, and umd).
+
+## App Extension Scripts description
 
 | Name | Description |
 | --- | --- |

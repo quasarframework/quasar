@@ -1,21 +1,27 @@
-const
-  { ProgressPlugin } = require('webpack'),
-  throttle = require('lodash.throttle'),
-  { green, grey } = require('chalk'),
-  log = require('../helpers/logger')('app:progress'),
-  logUpdate = require('log-update'),
-  ms = require('ms')
+const { ProgressPlugin } = require('webpack')
+const throttle = require('lodash.throttle')
+const chalk = require('chalk')
+const { log } = require('../helpers/logger')
+const logUpdate = require('log-update')
 
-const
-  isMinimalTerminal = require('../helpers/is-minimal-terminal'),
-  logLine = isMinimalTerminal
-    ? () => {}
-    : logUpdate.create(process.stdout, { showCursor: true })
+const isMinimalTerminal = require('../helpers/is-minimal-terminal')
+const logLine = isMinimalTerminal
+  ? () => {}
+  : logUpdate.create(process.stdout, { showCursor: true })
 
-const
-  compilations = {},
-  barLength = 25,
-  barItems = Array.apply(null, { length: barLength })
+const compilations = {}
+
+const barLength = 20
+const barProgressFactor = barLength / 100
+const barString = Array.apply(null, { length: barLength })
+  .map((_, index) => {
+    const p = index / barLength
+    const color = p <= 0.5
+      ? chalk.rgb(255, Math.round(p * 510), 0)
+      : chalk.rgb(255 - Math.round(p * 122), 255, 0)
+
+    return color('█')
+  })
 
 let maxLengthName = 0
 
@@ -23,30 +29,33 @@ function isRunningGlobally () {
   return Object.values(compilations).find(c => c.running) !== void 0
 }
 
-function renderBar (progress, color) {
-  const width = progress * (barLength / 100)
-
-  return barItems
-    .map((_, index) => index < width ? '█' : ' ')
-    .join('')
-}
-
 function printState () {
-  const lines = Object.values(compilations).map(state => {
-    return [
-      ' ' + green( state.name.padEnd(maxLengthName) + ' ' + renderBar(state.progress)),
+  const threads = Object.values(compilations)
+  const prefixLen = threads.length - 1
+
+  const lines = threads.map((state, index) => {
+    const prefix = index < prefixLen ? '├──' : '└──'
+
+    const name = chalk.green(state.name.padEnd(maxLengthName))
+
+    const barWidth = Math.floor(state.progress * barProgressFactor)
+    const bar = barString
+      .map((char, index) => index <= barWidth ? char : ' ')
+      .join('')
+
+    const progress = state.progress + '%'
+
+    const details = [
       state.msg,
-      `[${state.progress}%]`.padStart(4),
       state.running
-        ? grey(state.details
-            ? [ state.details[0], state.details[1] ].filter(s => s).join(' ')
-            : ''
-        )
+        ? (state.details ? [ state.details[0], state.details[1] ].filter(s => s).join(' ') : '')
         : state.doneStamp
-    ].filter(m => m).join(' ') + '\n'
+    ].filter(m => m).join(' ')
+
+    return ` ${prefix} ${name} ${bar} ${progress} ${chalk.grey(details)}\n`
   })
 
-  logLine('\n' + lines.join(''))
+  logLine(`\n • ${chalk.bold(chalk.green('Compiling'))}:\n` + lines.join(''))
 }
 
 const render = throttle(printState, 200)
@@ -81,10 +90,9 @@ module.exports = class WebpackProgress extends ProgressPlugin {
   }
 
   updateProgress (percent, msg, details) {
-    const
-      progress = Math.floor(percent * 100),
-      wasRunning = this.state.running,
-      running = progress < 100
+    const progress = Math.floor(percent * 100)
+    const wasRunning = this.state.running
+    const running = progress < 100
 
     Object.assign(this.state, {
       progress,
@@ -102,22 +110,24 @@ module.exports = class WebpackProgress extends ProgressPlugin {
     }
     else if (wasRunning && !running) {
       const diff = +new Date() - this.state.startTime
-      this.state.doneStamp = `in ~${ms(diff)}`
+      this.state.doneStamp = `done in ${diff} ms`
 
       if (isMinimalTerminal) {
         log(`Compiled ${this.state.name} ${this.state.doneStamp}`)
       }
     }
 
-    if (!isMinimalTerminal) {
-      if (running && isRunningGlobally()) {
-        render()
-      }
-      else {
-        render.cancel()
-        printState()
-        logLine.done()
-      }
+    if (isMinimalTerminal) {
+      return
+    }
+
+    if (running && isRunningGlobally()) {
+      render()
+    }
+    else {
+      render.cancel()
+      printState()
+      logLine.done()
     }
   }
 }

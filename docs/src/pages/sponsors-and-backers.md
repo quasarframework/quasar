@@ -17,8 +17,6 @@ Please read our manifesto on [Why donations are important](/why-donate).
 ## Donating
 You can help Quasar Development by making a monthly pledge through Github Sponsorship or send a one-time donation through Paypal. If you are representing a company who wants to become a **Sponsor** and need an invoice for your donations, please send an email to `razvan.stoenescu [at] gmail [dot] com` instead (or directly contact Razvan on our Discord).
 
-**For every $1 donated through Github Sponsorship, Github will also match your donation (making it worth double your amount) in our first year on the program, which will end in June 2020.**
-
 <donating-buttons />
 
 All donations are used for Quasar Development purposes exclusively.

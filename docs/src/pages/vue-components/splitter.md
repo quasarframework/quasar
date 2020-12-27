@@ -46,6 +46,10 @@ By default, the model is connected to the `before` slot size. But you can revers
 
 ### Adding content to separator
 
+::: tip
+If you use images as content for the separator slot, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+:::
+
 <doc-example title="Adding to separator" file="QSplitter/SeparatorSlot" />
 
 ### Dark design

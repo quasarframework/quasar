@@ -1,21 +1,17 @@
-const
-  fs = require('fs'),
-  et = require('elementtree')
+const fs = require('fs')
+const et = require('elementtree')
 
-const
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  log = logger('app:cordova-conf')
-  warn = logger('app:cordova-conf', 'red')
+const appPaths = require('../app-paths')
+const { log, warn } = require('../helpers/logger')
+const ensureConsistency = require('./ensure-consistency')
 
 const filePath = appPaths.resolve.cordova('config.xml')
 
 function setFields (root, cfg) {
   Object.keys(cfg).forEach(key => {
-    const
-      el = root.find(key),
-      values = cfg[key],
-      isObject = Object(values) === values
+    const el = root.find(key)
+    const values = cfg[key]
+    const isObject = Object(values) === values
 
     if (!el) {
       if (isObject) {
@@ -41,6 +37,8 @@ function setFields (root, cfg) {
 
 class CordovaConfig {
   prepare (cfg) {
+    ensureConsistency()
+
     const doc = et.parse(fs.readFileSync(filePath, 'utf-8'))
     this.pkg = require(appPaths.resolve.app('package.json'))
     this.APP_URL = cfg.build.APP_URL
@@ -48,7 +46,6 @@ class CordovaConfig {
 
     const root = doc.getroot()
 
-    root.set('id', cfg.cordova.id || this.pkg.cordovaId || 'org.quasar.cordova.app')
     root.set('version', cfg.cordova.version || this.pkg.version)
 
     if (cfg.cordova.androidVersionCode) {
@@ -70,6 +67,11 @@ class CordovaConfig {
           this.__prepareWkWebEngine(node)
         }
       }
+    }
+
+    // needed for QResizeObserver until ResizeObserver Web API is supported by all platforms
+    if (!root.find(`allow-navigation[@href='about:*']`)) {
+      et.SubElement(root, 'allow-navigation', { href: 'about:*' })
     }
 
     this.__save(doc)
