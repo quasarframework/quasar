@@ -13,7 +13,7 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const { alignClass } = useAlign(props)
+    const alignClass = useAlign(props)
 
     const classes = computed(() =>
       `q-card__actions ${ alignClass.value }`

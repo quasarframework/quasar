@@ -32,7 +32,7 @@ export default defineComponent({
 
   setup (props) {
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
 
     const orientation = computed(() => (
       props.vertical === true

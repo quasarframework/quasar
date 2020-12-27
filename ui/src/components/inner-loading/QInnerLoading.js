@@ -24,8 +24,8 @@ export default defineComponent({
 
   setup (props, { slots }) {
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
-    const { transition } = useTransition(props, computed(() => props.showing))
+    const isDark = useDark(props, $q)
+    const transition = useTransition(props, computed(() => props.showing))
 
     const classes = computed(() =>
       'q-inner-loading absolute-full column flex-center'

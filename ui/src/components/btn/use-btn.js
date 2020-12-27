@@ -74,8 +74,8 @@ export const useBtnProps = {
 }
 
 export default function (props, attrs, vm) {
-  const { sizeStyle } = useSize(props, defaultSizes)
-  const { alignClass } = useAlign(props)
+  const sizeStyle = useSize(props, defaultSizes)
+  const alignClass = useAlign(props)
   const { hasLink, linkProps, navigateToLink } = useRouterLink(props, vm, attrs)
 
   const style = computed(() => {

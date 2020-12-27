@@ -85,7 +85,7 @@ function getState () {
 function getRender (props, slots, emit, state) {
   const vm = getCurrentInstance()
   const $q = useQuasar()
-  const { isDark } = useDark(props, $q)
+  const isDark = useDark(props, $q)
 
   const uploadSize = ref(0)
   const editable = computed(() => props.disable !== true && props.readonly !== true)

@@ -96,7 +96,7 @@ export default defineComponent({
 
   setup (props, { emit }) {
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
 
     const newPage = ref(null)
     const model = computed({

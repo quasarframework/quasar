@@ -62,7 +62,7 @@ export default defineComponent({
     }
 
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
 
     const component = computed(() => components[ props.type ])
 

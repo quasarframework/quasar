@@ -61,7 +61,7 @@ export default defineComponent({
     const formDomProps = useFileFormDomProps(props, /* type guard */ true)
     const hasValue = computed(() => fieldValueIsFilled(innerValue.value))
 
-    const { onComposition } = useKeyComposition(onInput)
+    const onComposition = useKeyComposition(onInput)
 
     const state = useFieldState(props, attrs, $q)
 

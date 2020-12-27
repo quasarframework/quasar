@@ -153,7 +153,7 @@ export default defineComponent({
 
     const nameProp = useFormInputNameAttr(props)
 
-    const { onComposition } = useKeyComposition(onInput)
+    const onComposition = useKeyComposition(onInput)
 
     const virtualScrollLength = computed(() => (
       Array.isArray(props.options)

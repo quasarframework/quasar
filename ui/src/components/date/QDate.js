@@ -86,7 +86,7 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
     const { getCache } = useCache()
     const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
 

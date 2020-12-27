@@ -30,7 +30,7 @@ export default defineComponent({
 
   setup (props, { slots }) {
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
 
     provide(timelineKey, props)
 

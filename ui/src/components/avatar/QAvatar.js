@@ -23,7 +23,7 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const { sizeStyle } = useSize(props)
+    const sizeStyle = useSize(props)
 
     const classes = computed(() =>
       'q-avatar'

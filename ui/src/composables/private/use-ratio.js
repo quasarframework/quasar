@@ -5,6 +5,7 @@ export const useRatioProps = {
 }
 
 export default function (props, naturalRatio) {
+  // return ratioStyle
   return computed(() => {
     const ratio = Number(
       props.ratio || (naturalRatio !== void 0 ? naturalRatio.value : void 0)

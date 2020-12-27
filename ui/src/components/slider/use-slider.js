@@ -79,7 +79,7 @@ export const useSliderProps = {
 export const useSliderEmits = [ 'pan', 'update:modelValue', 'change' ]
 
 export default function ({ props, emit, $q, updateValue, updatePosition, getDragging }) {
-  const { isDark } = useDark(props, $q)
+  const isDark = useDark(props, $q)
 
   const active = ref(false)
   const preventFocus = ref(false)

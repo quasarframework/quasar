@@ -94,7 +94,7 @@ export default defineComponent({
 
     const { registerTick, removeTick, prepareTick } = useTick()
     const { registerTimeout, removeTimeout } = useTimeout()
-    const { transition } = useTransition(props, showing)
+    const transition = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
     const { anchorEl, canShow, anchorEvents } = useAnchor({

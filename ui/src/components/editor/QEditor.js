@@ -81,7 +81,7 @@ export default defineComponent({
   setup (props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
     const { inFullscreen, toggleFullscreen } = useFullscreen(props, emit, vm)
     const splitAttrs = useSplitAttrs(attrs)
 

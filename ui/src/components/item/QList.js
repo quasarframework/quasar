@@ -19,7 +19,7 @@ export default defineComponent({
 
   setup (props, { slots }) {
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
 
     const classes = computed(() =>
       'q-list'

@@ -28,7 +28,7 @@ export default defineComponent({
 
   setup (props, { slots }) {
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
 
     const classes = computed(() =>
       'q-markup-table q-table__container q-table__card'

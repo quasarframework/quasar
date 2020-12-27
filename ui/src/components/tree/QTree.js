@@ -78,7 +78,7 @@ export default defineComponent({
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
 
     const lazy = ref({})
     const innerTicked = ref(props.ticked || [])

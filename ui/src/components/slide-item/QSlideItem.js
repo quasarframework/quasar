@@ -33,7 +33,7 @@ export default defineComponent({
     const vm = getCurrentInstance()
 
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
     const { getCacheWithFn } = useCache()
 
     const contentRef = ref(null)

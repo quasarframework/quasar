@@ -37,7 +37,7 @@ export default defineComponent({
   setup (props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
     const { hasLink, linkProps, linkClass, linkTag, navigateToLink } = useRouterLink(props, vm, attrs)
 
     const rootRef = ref(null)

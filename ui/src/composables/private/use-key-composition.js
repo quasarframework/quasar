@@ -3,7 +3,7 @@ const isChinese = /[\u4e00-\u9fff\u3400-\u4dbf\u{20000}-\u{2a6df}\u{2a700}-\u{2b
 const isKorean = /[\u3131-\u314e\u314f-\u3163\uac00-\ud7a3]/
 
 export default function (onInput) {
-  function onComposition (e) {
+  return function onComposition (e) {
     if (e.type === 'compositionend' || e.type === 'change') {
       if (e.target.composing !== true) { return }
       e.target.composing = false
@@ -22,9 +22,5 @@ export default function (onInput) {
     else {
       e.target.composing = true
     }
-  }
-
-  return {
-    onComposition
   }
 }

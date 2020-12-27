@@ -2,11 +2,6 @@ import { onBeforeUpdate } from 'vue'
 
 const listenerRE = /^on[A-Z]/
 
-/**
- * The returned Object
- * is NOT reactive, so do NOT destructure it!
- */
-
 export default function (attrs) {
   const acc = {}
 
@@ -28,5 +23,9 @@ export default function (attrs) {
 
   update()
 
+  /**
+   * The returned Object
+   * is NOT reactive, so do NOT destructure it!
+   */
   return acc
 }

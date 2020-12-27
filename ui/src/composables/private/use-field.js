@@ -74,7 +74,7 @@ export const useFieldProps = {
 export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popup-show', 'popup-hide' ]
 
 export function useFieldState (props, attrs, $q) {
-  const { isDark } = useDark(props, $q)
+  const isDark = useDark(props, $q)
 
   return {
     isDark,

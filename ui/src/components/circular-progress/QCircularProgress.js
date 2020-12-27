@@ -29,7 +29,7 @@ export default defineComponent({
 
   setup (props, { slots }) {
     const $q = useQuasar()
-    const { sizeStyle } = useSize(props)
+    const sizeStyle = useSize(props)
 
     const svgStyle = computed(() => {
       const angle = ($q.lang.rtl === true ? -1 : 1) * props.angle

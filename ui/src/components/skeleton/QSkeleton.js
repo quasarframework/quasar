@@ -50,7 +50,7 @@ export default defineComponent({
 
   setup (props, { slots }) {
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
 
     const style = computed(() => (
       props.size !== void 0

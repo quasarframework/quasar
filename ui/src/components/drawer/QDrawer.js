@@ -74,7 +74,7 @@ export default defineComponent({
     const $q = useQuasar()
     const vm = getCurrentInstance()
 
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
     const { preventBodyScroll } = usePreventScroll()
     const { registerTimeout } = useTimeout()
 

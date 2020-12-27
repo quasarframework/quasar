@@ -45,11 +45,11 @@ export const useCheckboxEmits = ['update:modelValue']
 
 export default function (props, slots, emit, type, getInner) {
   const $q = useQuasar()
-  const { isDark } = useDark(props, $q)
+  const isDark = useDark(props, $q)
 
   const rootRef = ref(null)
   const { refocusTargetEl, refocusTarget } = useRefocusTarget(props, rootRef)
-  const { sizeStyle } = useSize(props, optionSizes)
+  const sizeStyle = useSize(props, optionSizes)
 
   const modelIsArray = computed(() =>
     props.val !== void 0 && Array.isArray(props.modelValue)

@@ -56,8 +56,8 @@ export default defineComponent({
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
-    const { sizeStyle } = useSize(props, optionSizes)
+    const isDark = useDark(props, $q)
+    const sizeStyle = useSize(props, optionSizes)
 
     const rootRef = ref(null)
     const { refocusTargetEl, refocusTarget } = useRefocusTarget(props, rootRef)

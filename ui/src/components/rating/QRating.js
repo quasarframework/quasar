@@ -45,7 +45,7 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const $q = useQuasar()
-    const { sizeStyle } = useSize(props)
+    const sizeStyle = useSize(props)
     const formAttrs = useFormAttrs(props)
     const injectFormInput = useFormInject(formAttrs)
 

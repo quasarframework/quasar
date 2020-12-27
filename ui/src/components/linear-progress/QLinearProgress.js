@@ -49,8 +49,8 @@ export default defineComponent({
 
   setup (props, { slots }) {
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
-    const { sizeStyle } = useSize(props, defaultSizes)
+    const isDark = useDark(props, $q)
+    const sizeStyle = useSize(props, defaultSizes)
 
     const motion = computed(() => props.indeterminate === true || props.query === true)
 

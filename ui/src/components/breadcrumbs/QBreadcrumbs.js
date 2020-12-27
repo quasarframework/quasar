@@ -30,7 +30,7 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const { alignClass } = useAlign(props)
+    const alignClass = useAlign(props)
 
     const classes = computed(() =>
       `flex items-center ${ alignClass.value }${ props.gutter === 'none' ? '' : ` q-gutter-${ props.gutter }` }`

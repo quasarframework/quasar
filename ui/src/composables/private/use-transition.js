@@ -19,9 +19,8 @@ export default function (props, showing) {
     nextTick(() => { transitionState.value = val })
   })
 
-  return {
-    transition: computed(() => 'q-transition--' + (
-      transitionState.value === true ? props.transitionHide : props.transitionShow
-    ))
-  }
+  // return transition
+  return computed(() => 'q-transition--' + (
+    transitionState.value === true ? props.transitionHide : props.transitionShow
+  ))
 }

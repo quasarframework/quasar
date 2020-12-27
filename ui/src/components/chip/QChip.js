@@ -64,8 +64,8 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
-    const { sizeStyle } = useSize(props, defaultSizes)
+    const isDark = useDark(props, $q)
+    const sizeStyle = useSize(props, defaultSizes)
 
     const hasLeftIcon = computed(() => props.selected === true || props.icon !== void 0)
 

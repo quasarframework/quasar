@@ -58,7 +58,7 @@ export default defineComponent({
     const vm = getCurrentInstance()
 
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
 
     let timer, panRefPos
 

@@ -94,10 +94,10 @@ export default defineComponent({
     )
 
     const $q = useQuasar()
-    const { isDark } = useDark(props, $q)
+    const isDark = useDark(props, $q)
     const { registerTick, removeTick, prepareTick } = useTick()
     const { registerTimeout, removeTimeout } = useTimeout()
-    const { transition } = useTransition(props, showing)
+    const transition = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
     const { anchorEl, canShow } = useAnchor({
