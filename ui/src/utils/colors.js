@@ -274,7 +274,7 @@ export function setBrand (color, value, element = document.body) {
     throw new TypeError('Expected a DOM element')
   }
 
-  element.style.setProperty(`--q-color-${ color }`, value)
+  element.style.setProperty(`--q-${ color }`, value)
 }
 
 export function getBrand (color, element = document.body) {
@@ -285,7 +285,7 @@ export function getBrand (color, element = document.body) {
     throw new TypeError('Expected a DOM element')
   }
 
-  return getComputedStyle(element).getPropertyValue(`--q-color-${ color }`).trim() || null
+  return getComputedStyle(element).getPropertyValue(`--q-${ color }`).trim() || null
 }
 
 export function getPaletteColor (colorName) {
