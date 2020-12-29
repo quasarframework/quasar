@@ -190,7 +190,7 @@ export default defineComponent({
       if (isLoading.value !== true) {
         return h('div', {
           key: 'content',
-          class: 'q-img__content absolute-full'
+          class: 'q-img__content absolute-full q-anchor--skip'
         }, hSlot(slots[ hasError.value === true ? 'error' : 'default' ]))
       }
 
