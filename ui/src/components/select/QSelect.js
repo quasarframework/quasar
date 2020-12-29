@@ -1370,7 +1370,7 @@ export default defineComponent({
             : true
         )
 
-      transitionShowComputed = hasDialog === true && props.useInput === true && $q.platform.is.ios === true
+      transitionShowComputed = $q.platform.is.ios === true && hasDialog === true && props.useInput === true
         ? 'fade'
         : props.transitionShow
     })
@@ -1436,7 +1436,9 @@ export default defineComponent({
       },
 
       controlEvents: {
-        onFocusin: state.onControlFocusin,
+        onFocusin: e => {
+          state.onControlFocusin(e)
+        },
         onFocusout: e => {
           state.onControlFocusout(e, () => {
             resetInputValue()

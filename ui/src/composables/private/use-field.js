@@ -137,6 +137,13 @@ export default function ({
     }
   }
 
+  if (state.controlEvents === void 0) {
+    state.controlEvents = {
+      onFocusin: onControlFocusin,
+      onFocusout: onControlFocusout
+    }
+  }
+
   Object.assign(state, {
     clearValue,
     onControlFocusin,
@@ -159,13 +166,6 @@ export default function ({
       }
     })
   }
-
-  const controlEvents = state.controlEvents !== void 0
-    ? state.controlEvents
-    : {
-        onFocusin: onControlFocusin,
-        onFocusout: onControlFocusout
-      }
 
   const {
     isDirtyModel,
@@ -547,11 +547,6 @@ export default function ({
     clearTimeout(focusoutTimer)
   })
 
-  // return () => {
-  //   field.onPreRender !== void 0 && field.onPreRender()
-  //   field.onPostRender !== void 0 && nextTick(field.onPostRender)
-  // }
-
   return function renderField () {
     return h('label', {
       ref: state.rootRef,
@@ -576,7 +571,7 @@ export default function ({
           ref: state.controlRef,
           class: contentClass.value,
           tabindex: -1,
-          ...controlEvents
+          ...state.controlEvents
         }, getContent()),
 
         shouldRenderBottom.value === true
