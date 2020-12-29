@@ -91,7 +91,9 @@ export default defineComponent({
     const { registerTimeout, removeTimeout } = useTimeout()
     const { registerTick, removeTick, prepareTick } = useTick()
 
-    const { showPortal, hidePortal, portalIsActive, renderPortal } = usePortal(vm, innerRef, renderPortalContent)
+    const { showPortal, hidePortal, portalIsActive, renderPortal } = usePortal(
+      vm, innerRef, renderPortalContent, /* pls do check if on a global dialog */ true
+    )
 
     const { hide } = useModelToggle({
       props,

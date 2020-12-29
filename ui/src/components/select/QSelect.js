@@ -1125,14 +1125,14 @@ export default defineComponent({
 
       return h(QMenu, {
         ref: menuRef,
+        class: menuContentClass.value,
+        style: props.popupContentStyle,
         modelValue: menu.value,
         fit: props.menuShrink !== true,
         cover: props.optionsCover === true && noOptions.value !== true && props.useInput !== true,
         anchor: props.menuAnchor,
         self: props.menuSelf,
         offset: props.menuOffset,
-        contentClass: menuContentClass.value,
-        contentStyle: props.popupContentStyle,
         dark: isOptionsDark.value,
         noParentEvent: true,
         noRefocus: true,

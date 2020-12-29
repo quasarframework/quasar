@@ -3,18 +3,34 @@ import { h, ref, onUnmounted, Teleport } from 'vue'
 import { createGlobalNode, removeGlobalNode } from '../../utils/global-nodes.js'
 import { portalList } from '../../utils/portal.js'
 
+function isOnGlobalDialog (vm) {
+  vm = vm.parent
+
+  while (vm !== void 0 && vm !== null) {
+    if (vm.type.name === 'QGlobalDialog') {
+      return true
+    }
+    if (vm.type.name === 'QDialog' || vm.type.name === 'QMenu') {
+      return false
+    }
+
+    vm = vm.parent
+  }
+
+  return false
+}
+
 // Warning!
 // You MUST specify "inheritAttrs: false" in your component
 
-export default function (vm, innerRef, renderPortalContent) {
+export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
   if (__QUASAR_SSR_SERVER__) {
     // TODO vue3
     return
   }
 
   let portalEl = null
-  const onGlobalDialog = vm.proxy.$root.$.type.name === 'QGlobalDialog'
-
+  const onGlobalDialog = checkGlobalDialog === true && isOnGlobalDialog(vm)
   const portalIsActive = ref(false)
 
   function showPortal () {
