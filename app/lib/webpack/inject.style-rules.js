@@ -1,11 +1,12 @@
 const ExtractLoader = require('mini-css-extract-plugin').loader
 const merge = require('webpack-merge')
+const path = require('path')
 
 const appPaths = require('../app-paths')
 const cssVariables = require('../helpers/css-variables')
 const postCssConfig = require(appPaths.resolve.app('.postcssrc.js'))
 
-const quasarCssPaths = [ 'node_modules/quasar', 'node_modules/@quasar' ]
+const quasarCssPaths = [ path.join('node_modules', 'quasar'), path.join('node_modules', '@quasar') ]
 
 function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)
