@@ -175,14 +175,6 @@ export default Vue.extend({
       }
     },
 
-    inputsArray () {
-      const inp = ['r', 'g', 'b']
-      if (this.hasAlpha === true) {
-        inp.push('a')
-      }
-      return inp
-    },
-
     computedPalette () {
       return this.palette !== void 0 && this.palette.length > 0
         ? this.palette

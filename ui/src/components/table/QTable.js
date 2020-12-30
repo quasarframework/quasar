@@ -292,8 +292,30 @@ export default Vue.extend({
 
       const header = this.hideHeader !== true ? this.__getTHead(h) : null
 
-      return this.hasVirtScroll === true
-        ? h(QVirtualScroll, {
+      if (this.hasVirtScroll === true) {
+        const topRow = this.$scopedSlots['top-row']
+        const bottomRow = this.$scopedSlots['bottom-row']
+
+        const virtSlots = {
+          default: this.__getVirtualTBodyTR(h)
+        }
+
+        if (topRow !== void 0) {
+          const topContent = h('tbody', topRow({ cols: this.computedCols }))
+
+          virtSlots.before = header === null
+            ? () => [topContent]
+            : () => [header].concat(topContent)
+        }
+        else if (header !== null) {
+          virtSlots.before = () => header
+        }
+
+        if (bottomRow !== void 0) {
+          virtSlots.after = () => h('tbody', bottomRow({ cols: this.computedCols }))
+        }
+
+        return h(QVirtualScroll, {
           ref: 'virtScroll',
           props: {
             ...this.virtProps,
@@ -306,21 +328,18 @@ export default Vue.extend({
           }),
           class: this.tableClass,
           style: this.tableStyle,
-          scopedSlots: {
-            before: header === null
-              ? void 0
-              : () => header,
-            default: this.__getVirtualTBodyTR(h)
-          }
+          scopedSlots: virtSlots
         })
-        : getTableMiddle(h, {
-          staticClass: 'scroll',
-          class: this.tableClass,
-          style: this.tableStyle
-        }, [
-          header,
-          this.__getTBody(h)
-        ])
+      }
+
+      return getTableMiddle(h, {
+        staticClass: 'scroll',
+        class: this.tableClass,
+        style: this.tableStyle
+      }, [
+        header,
+        this.__getTBody(h)
+      ])
     },
 
     scrollTo (toIndex, edge) {

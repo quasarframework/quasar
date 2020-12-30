@@ -15,7 +15,7 @@
         label="Go"
         no-caps
         color="primary"
-        @click="$refs.virtualListRef.scrollTo(virtualListIndex)"
+        @click="$refs.virtualListRef.scrollTo(virtualListIndex, 'start-force')"
       />
     </div>
 

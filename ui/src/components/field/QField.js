@@ -147,7 +147,8 @@ export default Vue.extend({
         'q-field--rounded': this.rounded,
         'q-field--square': this.square,
 
-        'q-field--focused': this.focused === true || this.hasError === true,
+        'q-field--focused': this.focused === true,
+        'q-field--highlighted': this.focused === true || this.hasError === true,
         'q-field--float': this.floatingLabel,
         'q-field--labeled': this.hasLabel,
 
@@ -236,7 +237,7 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      if (this.showPopup !== void 0 && this.hasDialog === true) {
+      if (this.showPopup !== void 0) {
         this.showPopup()
         return
       }

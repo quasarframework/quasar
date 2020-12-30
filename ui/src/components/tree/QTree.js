@@ -124,7 +124,11 @@ export default Vue.extend({
         }
 
         let lazy = node.lazy
-        if (lazy && this.lazy[key]) {
+        if (
+          lazy === true &&
+          this.lazy[key] !== void 0 &&
+          Array.isArray(node[this.childrenKey]) === true
+        ) {
           lazy = this.lazy[key]
         }
 
@@ -305,14 +309,15 @@ export default Vue.extend({
         }
 
         this.$set(this.lazy, key, 'loading')
+        if (Array.isArray(node[this.childrenKey]) !== true) {
+          this.$set(node, this.childrenKey, [])
+        }
         this.$emit('lazy-load', {
           node,
           key,
           done: children => {
             this.lazy[key] = 'loaded'
-            if (children) {
-              this.$set(node, this.childrenKey, children)
-            }
+            this.$set(node, this.childrenKey, Array.isArray(children) === true ? children : [])
             this.$nextTick(() => {
               const m = this.meta[key]
               if (m && m.isParent === true) {
@@ -322,6 +327,9 @@ export default Vue.extend({
           },
           fail: () => {
             this.$delete(this.lazy, key)
+            if (node[this.childrenKey].length === 0) {
+              this.$delete(node, this.childrenKey)
+            }
           }
         })
       }

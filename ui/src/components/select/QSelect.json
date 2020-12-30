@@ -262,6 +262,14 @@
       "extends": "tabindex"
     },
 
+    "autocomplete": {
+      "type": "String",
+      "desc": "Autocomplete attribute for field",
+      "examples": [ "autocomplete=\"country\"" ],
+      "category": "behavior",
+      "addedIn": "v1.15.0"
+    },
+
     "transition-show": {
       "extends": "transition",
       "desc": "Transition when showing the menu/dialog; One of Quasar's embedded transitions",

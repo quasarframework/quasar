@@ -2,8 +2,10 @@ export interface ExampleStateInterface {
   prop: boolean;
 }
 
-const state: ExampleStateInterface = {
-  prop: false
-};
+function state(): ExampleStateInterface {
+  return {
+    prop: false,
+  };
+}
 
 export default state;

@@ -1,11 +1,12 @@
 const ExtractLoader = require('mini-css-extract-plugin').loader
 const merge = require('webpack-merge')
+const path = require('path')
 
 const appPaths = require('../app-paths')
 const cssVariables = require('../helpers/css-variables')
 const postCssConfig = require(appPaths.resolve.app('.postcssrc.js'))
 
-const quasarCssPaths = [ 'node_modules/quasar', 'node_modules/@quasar' ]
+const quasarCssPaths = [ path.join('node_modules', 'quasar'), path.join('node_modules', '@quasar') ]
 
 function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)
@@ -149,11 +150,11 @@ module.exports = function (chain, pref) {
     ...pref.stylusLoaderOptions
   })
   injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader', merge(
-    { sassOptions: {} },
+    { sassOptions: { outputStyle: /* required for RTL */ 'expanded' } },
     pref.scssLoaderOptions
   ))
   injectRule(chain, pref, 'sass', /\.sass$/, 'sass-loader', merge(
-    { sassOptions: { indentedSyntax: true } },
+    { sassOptions: { indentedSyntax: true, outputStyle: /* required for RTL */ 'expanded' } },
     pref.sassLoaderOptions
   ))
   injectRule(chain, pref, 'less', /\.less$/, 'less-loader', pref.lessLoaderOptions)
