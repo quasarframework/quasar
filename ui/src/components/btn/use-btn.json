@@ -131,6 +131,10 @@
       "extends": "dense"
     },
 
+    "ripple": {
+      "extends": "ripple"
+    },
+
     "tabindex": {
       "extends": "tabindex"
     },
