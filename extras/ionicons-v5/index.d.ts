@@ -1,4 +1,4 @@
-/* Ionicons v5.2.3 */
+/* Ionicons v5.3.0 */
 
 export declare const ionAccessibilityOutline: string;
 export declare const ionAccessibilitySharp: string;
@@ -745,6 +745,7 @@ export declare const ionLogoLinkedin: string;
 export declare const ionLogoMarkdown: string;
 export declare const ionLogoMastodon: string;
 export declare const ionLogoMedium: string;
+export declare const ionLogoMicrosoft: string;
 export declare const ionLogoNoSmoking: string;
 export declare const ionLogoNodejs: string;
 export declare const ionLogoNpm: string;
