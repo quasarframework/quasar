@@ -18,8 +18,10 @@
         <q-btn label="Positioned" flat color="primary" @click="positioned" />
         <q-btn label="Stacked Buttons" flat color="primary" @click="stacked" />
         <q-btn label="Auto Closing" flat color="primary" @click="autoClose" />
-        <q-btn label="Custom component with Parent" no-caps flat color="primary" @click="customComponentWithParent" />
-        <q-btn label="Custom component w/o Parent" no-caps flat color="primary" @click="customComponentNoParent" />
+        <q-btn label="Custom component with Parent" no-caps flat color="primary" @click="customComponentWithParent(false)" />
+        <q-btn label="Custom component w/o Parent" no-caps flat color="primary" @click="customComponentNoParent(false)" />
+        <q-btn label="Custom component with Parent (async)" no-caps flat color="primary" @click="customComponentWithParent(true)" />
+        <q-btn label="Custom component w/o Parent (async)" no-caps flat color="primary" @click="customComponentNoParent(true)" />
         <q-btn label="With HTML" flat color="primary" @click="unsafe" />
         <q-btn label="Prompt (validation)" flat color="primary" @click="promptValidation" />
         <q-btn label="Radio (validation)" flat color="primary" @click="radioValidation" />
@@ -512,10 +514,10 @@ export default {
       }, 1000)
     },
 
-    customComponentWithParent () {
+    customComponentWithParent (async) {
       this.dialogHandler = this.$q.dialog({
         parent: this,
-        component: DialogComponentWithParent,
+        component: async !== true ? DialogComponentWithParent : () => import('./dialog-component-with-parent.js'),
         // props forwarded to component:
         text: 'gigi'
       }).onOk(() => {
@@ -527,9 +529,9 @@ export default {
       })
     },
 
-    customComponentNoParent () {
+    customComponentNoParent (async) {
       this.dialogHandler = this.$q.dialog({
-        component: DialogComponentNoParent,
+        component: async !== true ? DialogComponentNoParent : () => import('./dialog-component-no-parent.js'),
         // props forwarded to component:
         text: 'gigi'
       }).onOk(() => {
