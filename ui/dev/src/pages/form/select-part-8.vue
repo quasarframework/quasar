@@ -63,7 +63,7 @@
             </template>
           </q-select>
 
-          <q-separator spaced></q-separator>
+          <q-separator spaced />
           <q-item-label header>General</q-item-label>
 
           <q-item tag="label" v-ripple>
@@ -105,7 +105,7 @@
             </q-item-section>
           </q-item>
 
-          <q-separator spaced></q-separator>
+          <q-separator spaced />
           <q-item-label header>Notifications</q-item-label>
 
           <q-item tag="label" v-ripple>
