@@ -1,18 +1,16 @@
-const logger = require('./logger')
-const log = logger('app:browser')
-const warn = logger('app:browser', 'red')
+const { log, warn } = require('./logger')
 
 module.exports = function openBrowser({ url, opts, wait = true }) {
   const open = require('open')
 
   const openDefault = () => {
-    log('Opening default browser at ' + url)
-    log()
+    log('Opening default browser at ' + url + '\n')
+
     open(url, {
       wait,
       url: true
     }).catch(() => {
-      warn(`⚠️  Failed to open default browser`)
+      warn(`Failed to open default browser`)
       warn()
     })
   }
@@ -25,7 +23,7 @@ module.exports = function openBrowser({ url, opts, wait = true }) {
       wait,
       url: true
     }).catch(() => {
-      warn(`⚠️  Failed to open specific browser`)
+      warn(`Failed to open specific browser`)
       warn()
       openDefault()
     })

@@ -1,11 +1,11 @@
 import { client } from '../plugins/Platform.js'
-import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget, shouldStart } from '../utils/touch.js'
-import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable, noop } from '../utils/event.js'
+import { getModifierDirections, getTouchTarget, shouldStart } from '../utils/touch.js'
+import { addEvt, cleanEvt, position, leftClick, prevent, stop, stopAndPrevent, preventDraggable, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
 function getChanges (evt, ctx, isFinal) {
+  const pos = position(evt)
   let
-    pos = position(evt),
     dir,
     distX = pos.left - ctx.event.x,
     distY = pos.top - ctx.event.y,
@@ -114,12 +114,35 @@ function getChanges (evt, ctx, isFinal) {
   }
 }
 
+function destroy (el) {
+  const ctx = el.__qtouchpan
+  if (ctx !== void 0) {
+    // emit the end event when the directive is destroyed while active
+    // this is only needed in TouchPan because the rest of the touch directives do not emit an end event
+    // the condition is also checked in the start of function but we avoid the call
+    ctx.event !== void 0 && ctx.end()
+
+    cleanEvt(ctx, 'main')
+    cleanEvt(ctx, 'temp')
+
+    client.is.firefox === true && preventDraggable(el, false)
+    ctx.styleCleanup !== void 0 && ctx.styleCleanup()
+
+    delete el.__qtouchpan
+  }
+}
+
 let uid = 0
 
 export default {
   name: 'touch-pan',
 
   bind (el, { value, modifiers }) {
+    if (el.__qtouchpan !== void 0) {
+      destroy(el)
+      el.__qtouchpan_destroyed = true
+    }
+
     // early return, we don't need to do anything
     if (modifiers.mouse !== true && client.has.touch !== true) {
       return
@@ -233,15 +256,19 @@ export default {
         const start = () => {
           handleEvent(evt, isMouseEvt)
 
-          document.documentElement.style.cursor = 'grabbing'
+          if (modifiers.preserveCursor !== true) {
+            document.documentElement.style.cursor = 'grabbing'
+          }
           isMouseEvt === true && document.body.classList.add('no-pointer-events--children')
           document.body.classList.add('non-selectable')
           clearSelection()
 
-          ctx.styleCleanup = withDelay => {
+          ctx.styleCleanup = withDelayedFn => {
             ctx.styleCleanup = void 0
 
-            document.documentElement.style.cursor = ''
+            if (modifiers.preserveCursor !== true) {
+              document.documentElement.style.cursor = ''
+            }
             document.body.classList.remove('non-selectable')
 
             if (isMouseEvt === true) {
@@ -249,8 +276,16 @@ export default {
                 document.body.classList.remove('no-pointer-events--children')
               }
 
-              if (withDelay === true) { setTimeout(remove, 50) }
+              if (withDelayedFn !== void 0) {
+                setTimeout(() => {
+                  remove()
+                  withDelayedFn()
+                }, 50)
+              }
               else { remove() }
+            }
+            else if (withDelayedFn !== void 0) {
+              withDelayedFn()
             }
           }
         }
@@ -321,26 +356,32 @@ export default {
 
         cleanEvt(ctx, 'temp')
         client.is.firefox === true && preventDraggable(el, false)
-        ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
 
         if (abort === true) {
+          ctx.styleCleanup !== void 0 && ctx.styleCleanup()
+
           if (ctx.event.detected !== true && ctx.initialEvent !== void 0) {
             ctx.initialEvent.target.dispatchEvent(ctx.initialEvent.event)
           }
         }
         else if (ctx.event.detected === true) {
           ctx.event.isFirst === true && ctx.handler(getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx).payload)
-          ctx.handler(getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx, true).payload)
+
+          const { payload } = getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx, true)
+          const fn = () => { ctx.handler(payload) }
+
+          if (ctx.styleCleanup !== void 0) {
+            ctx.styleCleanup(fn)
+          }
+          else {
+            fn()
+          }
         }
 
         ctx.event = void 0
         ctx.initialEvent = void 0
         ctx.lastEvt = void 0
       }
-    }
-
-    if (el.__qtouchpan) {
-      el.__qtouchpan_old = el.__qtouchpan
     }
 
     el.__qtouchpan = ctx
@@ -355,21 +396,20 @@ export default {
     ])
   },
 
-  update (el, binding) {
-    el.__qtouchpan !== void 0 && updateModifiers(el.__qtouchpan, binding)
+  update (el, { oldValue, value }) {
+    const ctx = el.__qtouchpan
+    if (ctx !== void 0 && oldValue !== value) {
+      typeof value !== 'function' && ctx.end()
+      ctx.handler = value
+    }
   },
 
   unbind (el) {
-    const ctx = el.__qtouchpan_old || el.__qtouchpan
-
-    if (ctx !== void 0) {
-      cleanEvt(ctx, 'main')
-      cleanEvt(ctx, 'temp')
-
-      client.is.firefox === true && preventDraggable(el, false)
-      ctx.styleCleanup !== void 0 && ctx.styleCleanup()
-
-      delete el[el.__qtouchpan_old ? '__qtouchpan_old' : '__qtouchpan']
+    if (el.__qtouchpan_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qtouchpan_destroyed
     }
   }
 }

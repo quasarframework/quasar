@@ -5,13 +5,13 @@ desc: How to manage your Browser Extensions with Quasar CLI.
 
 Before we can configure anything, we need to understand how the BEX is structured. A BEX can be one (or more) of the following:
 
-1. Runs in it's own tab in the browser
+1. Runs in its own tab in the browser
 2. Runs in the [Developer Tools](https://developer.chrome.com/extensions/devtools) window.
 3. Runs in a [Popup](https://developer.chrome.com/extensions/user_interface#popup) window.
 4. Runs as [Options](https://developer.chrome.com/extensions/options) window.
 5. Runs in the context of a web page (injected into a website)
 
-You do not need a new Quasar App per BEX type above as a single Quasar Application can run in **all** of the instances above. You can find out more about these in the [types section](/developing-browser-extensions/types).
+You do not need a new Quasar App per BEX type above as a single Quasar Application can run in **all** of the instances above. You can find out more about these in the [types section](/quasar-cli/developing-browser-extensions/types-of-bex).
 
 ## Manifest.json
 
@@ -46,4 +46,4 @@ This must be native CSS as it's not preprocessed via SASS / Stylus.
 
 ## Hook Files
 
-In a Quasar BEX, you are provided with `background-hook.js`, `content-hook.js` and `dom-hook.js`. These files are designed to give you access to a bridge which closes the gap in communication with each layer of a BEX. We will explore them in more detail in the [next section](/developing-browser-extensions/communication).
+In a Quasar BEX, you are provided with `background-hook.js`, `content-hook.js` and `dom-hook.js`. These files are designed to give you access to a bridge which closes the gap in communication with each layer of a BEX. We will explore them in more detail in the [next section](/quasar-cli/developing-browser-extensions/bex-communication).

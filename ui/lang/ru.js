@@ -26,7 +26,8 @@ export default {
     months: 'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split('_'),
     monthsShort: 'Янв_Фев_Мар_Апр_Май_Июн_Июл_Авг_Сен_Окт_Ноя_Дек'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'дней'
   },
   table: {
     noData: 'Нет данных',

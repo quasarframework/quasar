@@ -93,8 +93,9 @@ export default {
 
       let
         maskMarked = this.maskMarked,
-        padPos = maskMarked.indexOf(MARKER),
         pad = ''
+      const
+        padPos = maskMarked.indexOf(MARKER)
 
       if (padPos > -1) {
         for (let i = size - maskMarked.length; i > 0; i--) {
@@ -236,7 +237,7 @@ export default {
 
       changed === true && (this.innerValue = masked)
 
-      this.$nextTick(() => {
+      document.activeElement === inp && this.$nextTick(() => {
         if (masked === this.maskReplaced) {
           const cursor = this.reverseFillMask === true ? this.maskReplaced.length : 0
           inp.setSelectionRange(cursor, cursor, 'forward')

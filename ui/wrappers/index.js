@@ -14,6 +14,10 @@ module.exports.configure = function (callback) {
   return callback
 }
 
+module.exports.preFetch = function (callback) {
+  return callback
+}
+
 module.exports.route = function (callback) {
   return callback
 }

@@ -22,11 +22,45 @@
         Standard
       </div>
 
+      <q-input v-bind="props" outlined v-model="text" label="Label" label-color="green">
+        <div slot="label" class="ellipsis">
+          Label <strong>in slot</strong> that is <em>very long</em> and might overflow the space available if the field is not long enought to hold it all
+        </div>
+      </q-input>
+
+      <q-input v-bind="props" outlined v-model="text" label="Label" label-color="green">
+        <div slot="label" class="row items-center">
+          <q-icon class="on-left" color="red" name="delete" />
+          Label with icon
+          <q-icon class="on-right" color="primary" name="event" />
+        </div>
+      </q-input>
+
       <q-input :dark="false" v-model="text" @focus="onFocus" @blur="onBlur" tabindex="1" />
 
       <q-input v-bind="props" v-model="text" label="Label (stacked) g" stack-label />
 
       <q-input v-bind="props" v-model="text" label="Label" label-color="green" />
+
+      <q-input
+        v-bind="props"
+        v-model="textFill"
+        label="Fill value and shadow text"
+        hint="Press TAB to autocomplete suggested value or ESC to cancel suggestion"
+        :shadow-text="textFillValue"
+        @keydown="onTextFillEvent"
+        @focus="onTextFillEvent"
+      />
+
+      <q-input
+        v-bind="props"
+        v-model="textFill"
+        placeholder="Fill value and shadow text"
+        hint="Press TAB to autocomplete suggested value or ESC to cancel suggestion"
+        :shadow-text="textFillValue"
+        @keydown="onTextFillEvent"
+        @focus="onTextFillEvent"
+      />
 
       <q-input v-bind="props" v-model="text" required label="Required" placeholder="Write something" color="green" />
 
@@ -43,6 +77,8 @@
       <q-input v-bind="props" v-model="number" type="number" step="0.1" label="Number - step 0.1" placeholder="Write a number" />
 
       <q-input v-bind="props" v-model="email" type="email" label="eMail" placeholder="Write an email address" />
+
+      <q-input v-bind="props" type="date" v-model="date" label="Date" stack-label clearable />
 
       <q-input v-bind="props" v-model="text" label="Tooltip and menu">
         <q-icon slot="prepend" name="event">
@@ -450,6 +486,10 @@
 </template>
 
 <script>
+import { event } from 'quasar'
+
+const { stopAndPrevent } = event
+
 export default {
   data () {
     return {
@@ -475,12 +515,16 @@ export default {
       events: '',
       debounced: '',
 
+      textFill: '',
+      textFillCancelled: false,
+
       pass: '',
       password: true,
 
       invalid: '123',
       number: 1.1,
       email: 'a',
+      date: null,
 
       prefix: null,
       suffix: null,
@@ -533,6 +577,31 @@ export default {
 
     length () {
       return this.text.length
+    },
+
+    textFillValue () {
+      if (this.textFillCancelled === true) {
+        return ''
+      }
+
+      const
+        t = this.textarea === true || this.autogrow === true
+          ? '$ | Filled\nfilled\n@ #'
+          : '$ | Filled filled @ #',
+        empty = typeof this.textFill !== 'string' || this.textFill.length === 0
+
+      if (empty === true) {
+        return t.split('\n')[0]
+      }
+      else if (t.indexOf(this.textFill) !== 0) {
+        return ''
+      }
+
+      return t
+        .split(this.textFill)
+        .slice(1)
+        .join(this.textFill)
+        .split('\n')[0]
     }
   },
   methods: {
@@ -550,6 +619,27 @@ export default {
     },
     log (what) {
       console.log('LOG:', what)
+    },
+
+    onTextFillEvent (e) {
+      if (e === void 0) {
+        return
+      }
+
+      if (e.keyCode === 27) {
+        if (this.textFillCancelled !== true) {
+          this.textFillCancelled = true
+        }
+      }
+      else if (e.keyCode === 9) {
+        if (this.textFillCancelled !== true && this.textFillValue.length > 0) {
+          stopAndPrevent(e)
+          this.textFill += this.textFillValue
+        }
+      }
+      else if (this.textFillCancelled === true) {
+        this.textFillCancelled = false
+      }
     }
   }
 }

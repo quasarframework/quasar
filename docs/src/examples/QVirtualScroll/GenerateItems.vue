@@ -13,6 +13,12 @@
 </template>
 
 <script>
+const size = 100000
+const allItems = Array(size).fill(null).map((_, index) => ({
+  index,
+  sent: Math.random() > 0.5
+}))
+
 export default {
   components: {
     asyncComponent: {
@@ -27,7 +33,7 @@ export default {
         }
       },
 
-      mounted () {
+      beforeMount () {
         this.timer = setTimeout(() => {
           this.asyncContent = {
             sent: this.sent,
@@ -44,22 +50,35 @@ export default {
       },
 
       render (h) {
-        return h('q-chat-message', {
-          staticClass: 'q-mx-sm',
-          props: this.asyncContent === null
-            ? {
-              sent: this.sent,
-              text: [ `Retrieving message ${this.index}` ]
-            }
-            : this.asyncContent
-        })
+        if (this.asyncContent === Object(this.asyncContent)) {
+          return h('q-chat-message', {
+            staticClass: 'q-mx-sm',
+            key: this.index,
+            props: this.asyncContent
+          })
+        }
+        else {
+          const content = [
+            h('q-skeleton', { staticClass: 'on-left on-right', props: { animation: 'none', type: 'text', width: '150px', height: '100px' } })
+          ]
+
+          content[this.sent === true ? 'push' : 'unshift'](
+            h('q-skeleton', { props: { animation: 'none', type: 'QAvatar' } })
+          )
+
+          return h('div', {
+            staticClass: `row no-wrap items-center q-mx-sm justify-${this.sent === true ? 'end' : 'start'}`,
+            style: 'height: 78px',
+            key: this.index
+          }, content)
+        }
       }
     }
   },
 
   data () {
     return {
-      size: 100000
+      size
     }
   },
 
@@ -68,10 +87,7 @@ export default {
       const items = []
 
       for (let i = 0; i < size; i++) {
-        items.push({
-          index: this.size - from - i,
-          sent: Math.random() > 0.5
-        })
+        items.push(allItems[from + i])
       }
 
       return Object.freeze(items)

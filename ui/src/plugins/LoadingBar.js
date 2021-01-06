@@ -17,7 +17,7 @@ export default {
       return
     }
 
-    let props = cfg.loadingBar !== void 0
+    const props = cfg.loadingBar !== void 0
       ? { ...cfg.loadingBar }
       : {}
 

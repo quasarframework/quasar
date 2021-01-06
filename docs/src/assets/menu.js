@@ -146,87 +146,82 @@ const cli = [
     path: 'installation'
   },
   {
+    name: 'Upgrade guide (v2)',
+    badge: 'new',
+    path: 'app-upgrade-guide'
+  },
+  {
     name: 'quasar.conf.js',
     path: 'quasar-conf-js'
   },
   {
-    name: 'App Icons',
-    path: 'app-icons'
+    name: 'Browser Compatibility',
+    badge: 'new',
+    path: 'browser-compatibility'
+  },
+  {
+    name: 'Supporting TypeScript',
+    path: 'supporting-ts'
+  },
+  {
+    name: 'Directory Structure',
+    path: 'directory-structure'
+  },
+  {
+    name: 'Build Commands',
+    path: 'build-commands'
+  },
+  {
+    name: 'Commands List',
+    path: 'commands-list'
+  },
+  {
+    name: 'CSS Preprocessors',
+    path: 'css-preprocessors'
+  },
+  {
+    name: 'Routing',
+    path: 'routing'
+  },
+  {
+    name: 'Lazy Loading - Code Splitting',
+    path: 'lazy-loading'
+  },
+  {
+    name: 'Handling Assets',
+    path: 'handling-assets'
+  },
+  {
+    name: 'Boot Files',
+    path: 'boot-files'
+  },
+  {
+    name: 'Prefetch Feature',
+    path: 'prefetch-feature'
+  },
+  {
+    name: 'API Proxying',
+    path: 'api-proxying'
+  },
+  {
+    name: 'Handling Webpack',
+    path: 'handling-webpack'
+  },
+  {
+    name: 'Handling process.env',
+    path: 'handling-process-env'
+  },
+  {
+    name: 'Vuex Store',
+    path: 'vuex-store'
+  },
+  {
+    name: 'Linter',
+    path: 'linter'
   },
   {
     name: 'Testing & Auditing',
     path: 'testing-and-auditing'
-  },
-  {
-    name: 'CLI Documentation',
-    path: 'cli-documentation',
-    children: [
-      {
-        name: 'Supporting IE',
-        path: 'supporting-ie'
-      },
-      {
-        name: 'Supporting TypeScript',
-        badge: 'new',
-        path: 'supporting-ts'
-      },
-      {
-        name: 'Directory Structure',
-        path: 'directory-structure'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Commands List',
-        path: 'commands-list'
-      },
-      {
-        name: 'CSS Preprocessors',
-        path: 'css-preprocessors'
-      },
-      {
-        name: 'Routing',
-        path: 'routing'
-      },
-      {
-        name: 'Lazy Loading - Code Splitting',
-        path: 'lazy-loading'
-      },
-      {
-        name: 'Handling Assets',
-        path: 'handling-assets'
-      },
-      {
-        name: 'Boot Files',
-        path: 'boot-files'
-      },
-      {
-        name: 'Prefetch Feature',
-        path: 'prefetch-feature'
-      },
-      {
-        name: 'API Proxying',
-        path: 'api-proxying'
-      },
-      {
-        name: 'Handling Webpack',
-        path: 'handling-webpack'
-      },
-      {
-        name: 'Handling process.env',
-        path: 'handling-process-env'
-      },
-      {
-        name: 'Vuex Store',
-        path: 'vuex-store'
-      },
-      {
-        name: 'Linter',
-        path: 'linter'
-      }
-    ]
   },
   {
     name: 'Developing SPA',
@@ -261,6 +256,10 @@ const cli = [
       {
         name: 'Writing Universal Code',
         path: 'writing-universal-code'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
       },
       {
         name: 'Configuring SSR',
@@ -309,8 +308,20 @@ const cli = [
         path: 'introduction'
       },
       {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
         name: 'Configuring PWA',
         path: 'configuring-pwa'
+      },
+      {
+        name: 'HMR for PWA',
+        path: 'hmr-for-dev'
       },
       {
         name: 'App Icons for PWA',
@@ -319,10 +330,6 @@ const cli = [
       {
         name: 'Handling Service Worker',
         path: 'handling-service-worker'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
       }
     ]
   },
@@ -524,6 +531,33 @@ const cli = [
   }
 ]
 
+const icongenie = [
+  {
+    name: 'Introduction',
+    path: 'introduction'
+  },
+
+  {
+    name: 'Installation / Upgrade notes',
+    path: 'installation'
+  },
+
+  {
+    name: 'Command list',
+    path: 'command-list'
+  },
+
+  {
+    name: 'App Icons List',
+    path: 'app-icons-list'
+  },
+
+  {
+    name: 'Profile files',
+    path: 'profile-files'
+  }
+]
+
 const style = [
   {
     name: 'Typography',
@@ -603,7 +637,6 @@ const layout = [
       },
       {
         name: 'Flexbox patterns',
-        badge: 'new',
         path: 'flexbox-patterns'
       },
       {
@@ -671,6 +704,11 @@ const directives = [
   {
     name: 'Mutation',
     path: 'mutation'
+  },
+  {
+    name: 'Morph',
+    badge: 'new',
+    path: 'morph'
   },
   {
     name: 'Scroll',
@@ -832,7 +870,6 @@ const components = [
   },
   {
     name: 'Floating Action Button',
-    badge: 'update',
     path: 'floating-action-button'
   },
   {
@@ -850,7 +887,6 @@ const components = [
       },
       {
         name: 'File picker',
-        badge: 'new',
         path: 'file-picker'
       },
       {
@@ -895,12 +931,14 @@ const components = [
       },
       {
         name: 'Date Picker',
+        badge: 'update',
         path: 'date'
       }
     ]
   },
   {
     name: 'Icon',
+    badge: 'update',
     path: 'icon'
   },
   {
@@ -987,7 +1025,6 @@ const components = [
   },
   {
     name: 'Scroll Area',
-    badge: 'update',
     path: 'scroll-area'
   },
   {
@@ -1024,6 +1061,7 @@ const components = [
   },
   {
     name: 'Table',
+    badge: 'update',
     path: 'table'
   },
   {
@@ -1147,6 +1185,11 @@ const utils = [
     path: 'dom-utils'
   },
   {
+    name: 'Morph Utils',
+    badge: 'new',
+    path: 'morph-utils'
+  },
+  {
     name: 'Formatter Utils',
     path: 'formatter-utils'
   },
@@ -1215,6 +1258,12 @@ module.exports = [
     icon: 'build',
     path: 'quasar-cli',
     children: cli
+  },
+  {
+    name: 'Icon Genie CLI',
+    icon: 'stars',
+    path: 'icongenie',
+    children: icongenie
   },
   {
     name: 'Style & Identity',

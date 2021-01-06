@@ -52,7 +52,7 @@
             </div>
           </q-step>
 
-          <q-step name="cfg" title="Configure Layout Parts" :icon="mdiSettings" class="q-pb-lg">
+          <q-step name="cfg" title="Configure Layout Parts" :icon="mdiCog" class="q-pb-lg">
             <div class="q-mb-md text-grey-8">Layout "View"</div>
 
             <div class="q-mb-lg rounded-borders overflow-hidden shadow-2">
@@ -367,8 +367,8 @@
 
 <script>
 import {
-  mdiMenu, mdiViewDashboard, mdiSettings, mdiPlayCircleOutline
-} from '@quasar/extras/mdi-v4'
+  mdiMenu, mdiViewDashboard, mdiCog, mdiPlayCircleOutline
+} from '@quasar/extras/mdi-v5'
 
 import getMeta from 'assets/get-meta.js'
 
@@ -376,7 +376,7 @@ export default {
   created () {
     this.mdiMenu = mdiMenu
     this.mdiViewDashboard = mdiViewDashboard
-    this.mdiSettings = mdiSettings
+    this.mdiCog = mdiCog
     this.mdiPlayCircleOutline = mdiPlayCircleOutline
 
     this.drawerBehaviorOptions = [

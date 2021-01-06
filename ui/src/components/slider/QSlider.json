@@ -39,9 +39,16 @@
 
     "reverse": {
       "type": "Boolean",
-      "desc": "Work in reverse (changes horizontal direction)",
+      "desc": "Work in reverse (changes direction)",
       "category": "behavior",
       "addedIn": "v1.5.0"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Display in vertical direction",
+      "category": "behavior",
+      "addedIn": "v1.10.0"
     },
 
     "color": {
@@ -128,6 +135,18 @@
     "change": {
       "extends": "input",
       "desc": "Emitted on lazy model value change (after user slides then releases the thumb)"
+    },
+
+    "pan": {
+      "desc": "Triggered when user starts panning on the component",
+      "params": {
+        "phase": {
+          "type": "String",
+          "desc": "Phase of panning",
+          "values": [ "start", "end" ]
+        }
+      },
+      "addedIn": "v1.14.0"
     }
   }
 }

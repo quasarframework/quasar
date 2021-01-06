@@ -1,8 +1,6 @@
 const webpack = require('webpack')
 
-const logger = require('../helpers/logger')
-const log = logger('app:bex')
-const warn = logger('app:bex', 'red')
+const { log, warn } = require('../helpers/logger')
 
 class BexRunner {
   constructor () {
@@ -11,10 +9,10 @@ class BexRunner {
 
   init () {}
 
-  async run (quasarConfig) {
+  async run (quasarConfFile) {
     this.stop()
 
-    const compiler = webpack(quasarConfig.getWebpackConfig().main)
+    const compiler = webpack(quasarConfFile.webpackConf.main)
 
     return new Promise(resolve => {
       log(`Building background process...`)

@@ -26,4 +26,5 @@ export namespace colors {
   function changeAlpha(color: string, offset: number): string;
   function setBrand(color: string, value: string, element?: Element): void;
   function getBrand(color: string, element?: Element): string | null;
+  function getPaletteColor(colorName: string): string;
 }

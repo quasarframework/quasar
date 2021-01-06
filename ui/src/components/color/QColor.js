@@ -2,12 +2,13 @@ import Vue from 'vue'
 
 import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 import { stop } from '../../utils/event.js'
-import { hexToRgb, rgbToHex, rgbToString, stringToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
+import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
 
 import DarkMixin from '../../mixins/dark.js'
 import FormMixin from '../../mixins/form.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import TouchPan from '../../directives/TouchPan.js'
 
@@ -35,7 +36,7 @@ const palette = [
 export default Vue.extend({
   name: 'QColor',
 
-  mixins: [ DarkMixin, FormMixin ],
+  mixins: [ ListenersMixin, DarkMixin, FormMixin ],
 
   directives: {
     TouchPan
@@ -174,14 +175,6 @@ export default Vue.extend({
       }
     },
 
-    inputsArray () {
-      const inp = ['r', 'g', 'b']
-      if (this.hasAlpha === true) {
-        inp.push('a')
-      }
-      return inp
-    },
-
     computedPalette () {
       return this.palette !== void 0 && this.palette.length > 0
         ? this.palette
@@ -199,10 +192,10 @@ export default Vue.extend({
 
     attrs () {
       if (this.disable === true) {
-        return { 'aria-disabled': '' }
+        return { 'aria-disabled': 'true' }
       }
       if (this.readonly === true) {
-        return { 'aria-readonly': '' }
+        return { 'aria-readonly': 'true' }
       }
     }
   },
@@ -229,7 +222,7 @@ export default Vue.extend({
     return h('div', {
       class: this.classes,
       attrs: this.attrs,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, child)
   },
 
@@ -838,7 +831,7 @@ export default Vue.extend({
         }
       }
 
-      const model = stringToRgb(v)
+      const model = textToRgb(v)
 
       if (forceAlpha === true && model.a === void 0) {
         model.a = 100

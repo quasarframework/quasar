@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import { between } from '../../utils/format.js'
 import { isSSR } from '../../plugins/Platform.js'
+import { ariaHidden } from '../../mixins/attrs'
 
 const
   xhr = isSSR ? null : XMLHttpRequest,
@@ -112,7 +113,7 @@ export default Vue.extend({
     style () {
       const active = this.onScreen
 
-      let o = translate({
+      const o = translate({
         p: this.progress,
         pos: this.position,
         active,
@@ -145,9 +146,7 @@ export default Vue.extend({
           'aria-valuemax': 100,
           'aria-valuenow': this.progress
         }
-        : {
-          'aria-hidden': 'true'
-        }
+        : ariaHidden
     }
   },
 

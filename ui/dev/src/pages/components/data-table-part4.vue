@@ -1,127 +1,56 @@
 <template>
-  <div class="q-layout-padding">
-    <q-input filled v-model="filter" label="Search" debounce="300">
-      <q-icon slot="append" name="search" />
-    </q-input>
-
-    <div>
-      <q-toggle color="primary" v-model="loading" label="Show loading" />
-      <q-toggle color="primary" v-model="dense" label="Dense" />
-      <q-select filled multiple v-model="visibleColumns" :options="columns" option-value="name" option-disable="required" emit-value />
-      <q-select class="q-mt-md" filled v-model="separator" :options="['horizontal', 'vertical', 'cell', 'none']" />
+  <div class="q-pa-md">
+    <div class="row items-center q-gutter-sm q-mb-md">
+      <q-btn label="Toggle data / no data" no-caps color="primary" @click="toggleData" />
+      <q-toggle label="Hide bottom" v-model="hideBottom" />
+      <q-toggle label="Hide sel rows banner" v-model="hideSelectedBanner" />
+      <q-toggle label="Hide no data" v-model="hideNoData" />
+      <q-toggle label="Hide pagination" v-model="hidePagination" />
     </div>
 
-    <h2>Fixed header</h2>
     <q-table
-      :dense="dense"
-      table-style="max-height: 500px"
-      class="table-sticky"
-      :separator="separator"
-      :data="data"
+      title="Treats"
+      :data="rows"
       :columns="columns"
-      :title="title"
-      :filter="filter"
-      :loading="loading"
-      :visible-columns="visibleColumns"
-      row-key="index"
-      virtual-scroll
-      :virtual-scroll-sticky-start="dense ? 24 : 48"
-      :pagination.sync="pagination"
-      :rows-per-page-options="[0]"
-    />
-
-    <h2>Basic</h2>
-    <q-table
-      :dense="dense"
-      table-style="max-height: 500px"
-      :separator="separator"
-      :data="data"
-      :columns="columns"
-      :title="title"
-      :filter="filter"
-      :loading="loading"
-      :visible-columns="visibleColumns"
-      row-key="index"
-      virtual-scroll
-    />
-
-    <h2>With slots</h2>
-    <q-table
-      ref="virtualScrollTable"
-      :dense="dense"
-      table-style="max-height: 500px"
-      class="table-sticky"
-      :separator="separator"
-      :data="data"
-      :columns="columns"
-      :title="title"
-      :filter="filter"
-      :loading="loading"
-      :visible-columns="visibleColumns"
-      row-key="index"
-      :virtual-scroll="pagination.rowsPerPage === 0"
-      :virtual-scroll-sticky-start="dense ? 24 : 48"
-      @virtual-scroll="onVirtualScroll"
-      :pagination.sync="pagination"
+      row-key="name"
+      selection="multiple"
+      :selected.sync="selected"
+      :hide-bottom="hideBottom"
+      :hide-selected-banner="hideSelectedBanner"
+      :hide-no-data="hideNoData"
+      :hide-pagination="hidePagination"
+      no-hover
     >
-      <template v-slot:header="props">
-        <q-tr :props="props">
-          <q-th v-for="col in props.cols" :key="col.name" :props="props">
-            {{ col.label }}
-          </q-th>
-        </q-tr>
-      </template>
-
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td v-for="col in props.cols" :key="col.name" :props="props">
-            {{ col.value }}
+          <q-td auto-width>
+            <q-toggle dense v-model="props.selected" />
+          </q-td>
+          <q-td key="desc" :props="props" no-hover>
+            {{ props.rowIndex }} / {{ props.pageIndex }} -
+            {{ props.row.name }}
+            <q-btn dense round flat :icon="props.expand ? 'arrow_drop_up' : 'arrow_drop_down'" @click="props.expand = !props.expand" />
+          </q-td>
+          <q-td key="calories" :props="props">{{ props.row.calories }}</q-td>
+          <q-td key="fat" :props="props">{{ props.row.fat }}</q-td>
+          <q-td key="carbs" :props="props">{{ props.row.carbs }}</q-td>
+          <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
+          <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
+          <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
+          <q-td key="iron" :props="props">
+            <q-badge color="amber">
+              {{ props.row.iron }}
+            </q-badge>
           </q-td>
         </q-tr>
-      </template>
-    </q-table>
-    <div class="q-pa-md">
-      <q-input
-        type="number"
-        :value="listIndex"
-        :min="0"
-        :max="pagination.rowsPerPage === 0 ? listSize : pagination.rowsPerPage - 1"
-        label="Scroll to index"
-        input-class="text-right"
-        @input="onIndexChange"
-      />
-    </div>
-
-    <h2>With slots & different sizes</h2>
-    <q-table
-      :dense="dense"
-      table-style="max-height: 500px"
-      class="table-sticky"
-      :separator="separator"
-      :data="data"
-      :columns="columns"
-      :title="title"
-      :filter="filter"
-      :loading="loading"
-      :visible-columns="visibleColumns"
-      row-key="index"
-      virtual-scroll
-      :virtual-scroll-sticky-start="dense ? 24 : 48"
-      :pagination.sync="pagination"
-    >
-      <template v-slot:header="props">
-        <q-tr :props="props">
-          <q-th v-for="col in props.cols" :key="col.name" :props="props">
-            {{ col.label }}
-          </q-th>
-        </q-tr>
-      </template>
-
-      <template v-slot:body="props">
-        <q-tr :props="props">
-          <q-td v-for="col in props.cols" :key="col.name" :props="props">
-            {{ col.value }}
-            <div v-if="pagination.page % 2 === 0" style="height: 50px;" />
+        <q-tr v-show="props.expand" :props="props" no-hover>
+          <q-td colspan="100%">
+            <q-table
+              :data="rows"
+              :columns="columns"
+            >
+              <q-tr :props="props" />
+            </q-table>
           </q-td>
         </q-tr>
       </template>
@@ -130,7 +59,7 @@
 </template>
 
 <script>
-const seed = [
+const rows = [
   {
     name: 'Frozen Yogurt',
     calories: 159,
@@ -233,89 +162,42 @@ const seed = [
   }
 ]
 
-// we generate lots of rows here
-let data = []
-const listSize = 1000
-for (let i = 0; i < listSize; i++) {
-  data = data.concat(seed.slice(0).map(r => ({ ...r })))
-}
-data.forEach((row, index) => {
-  row.index = index
-})
-
 export default {
   data () {
     return {
-      dense: false,
-      title: 'QDataTable',
-      filter: '',
-      loading: false,
-      visibleColumns: ['index', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
-      separator: 'horizontal',
-      pagination: {
-        rowsPerPage: 0
-      },
-
-      listSize: listSize * seed.length - 1,
-      listIndex: 50,
-
+      hideBottom: false,
+      hideSelectedBanner: false,
+      hideNoData: false,
+      hidePagination: false,
+      selected: [],
       columns: [
-        {
-          name: 'index',
-          label: '#',
-          field: 'index'
-        },
         {
           name: 'desc',
           required: true,
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `~${val}`,
+          format: val => `${val}`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
+        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, style: 'width: 10px' },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
         { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-      ]
+      ],
+      rows
     }
   },
 
   methods: {
-    onIndexChange (index) {
-      this.$refs.virtualScrollTable.scrollTo(index)
-    },
-    onVirtualScroll ({ index }) {
-      this.listIndex = index
+    toggleData () {
+      this.rows = this.rows.length === 0
+        ? rows
+        : []
     }
-  },
-
-  created () {
-    this.data = data
-  },
-
-  mounted () {
-    this.$refs.virtualScrollTable.scrollTo(this.listIndex)
   }
 }
 </script>
-
-<style lang="stylus">
-.table-sticky
-  .q-table__top,
-  .q-table__bottom,
-  thead tr:first-child th /* bg color is important for th; just specify one */
-    background-color: #c1f4cd
-
-  thead tr th
-    position: sticky
-    z-index: 1
-  thead tr:last-child th // this will be the loading indicator
-    top: 48px // height of all previous header rows
-  thead tr:first-child th
-    top: 0
-</style>

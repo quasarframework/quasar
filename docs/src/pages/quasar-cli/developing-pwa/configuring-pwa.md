@@ -4,19 +4,6 @@ desc: How to manage your Progressive Web Apps with Quasar CLI.
 related:
   - /quasar-cli/quasar-conf-js
 ---
-We'll be using Quasar CLI to develop and build a PWA. The difference between building a SPA, Mobile App, Electron App, PWA or SSR is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
-
-## Installation
-In order to build a PWA, we first need to add the PWA mode to our Quasar project:
-```bash
-$ quasar mode add pwa
-```
-
-If you want to jump right in and start developing, you can skip the "quasar mode" command and issue:
-```bash
-$ quasar dev -m pwa
-```
-This will add PWA mode automatically, if it is missing.
 
 ## Service Worker
 Adding PWA mode to a Quasar project means a new folder will be created: `/src-pwa`, which contains PWA specific files:
@@ -25,7 +12,7 @@ Adding PWA mode to a Quasar project means a new folder will be created: `/src-pw
 └── src-pwa/
     ├── register-service-worker.js  # App-code *managing* service worker
     └── custom-service-worker.js    # Optional custom service worker
-                                    # file (InjectManifest mode oNLY)
+                                    # file (InjectManifest mode ONLY)
 ```
 
 You can freely edit these files. Notice a few things:
@@ -55,12 +42,12 @@ pwa: {
   metaVariables: {
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'default',
-    appleTouchIcon120: 'statics/icons/apple-icon-120x120.png',
-    appleTouchIcon180: 'statics/icons/apple-icon-180x180.png',
-    appleTouchIcon152: 'statics/icons/apple-icon-152x152.png',
-    appleTouchIcon167: 'statics/icons/apple-icon-167x167.png',
-    appleSafariPinnedTab: 'statics/icons/safari-pinned-tab.svg',
-    msapplicationTileImage: 'statics/icons/ms-icon-144x144.png',
+    appleTouchIcon120: 'icons/apple-icon-120x120.png',
+    appleTouchIcon180: 'icons/apple-icon-180x180.png',
+    appleTouchIcon152: 'icons/apple-icon-152x152.png',
+    appleTouchIcon167: 'icons/apple-icon-167x167.png',
+    appleSafariPinnedTab: 'icons/safari-pinned-tab.svg',
+    msapplicationTileImage: 'icons/ms-icon-144x144.png',
     msapplicationTileColor: '#000000'
   },
 
@@ -83,13 +70,14 @@ pwa: {
 
       {
         // this entry will generate:
-        // <link rel="apple-touch-icon" sizes="180x180" href="statics/icon-180.png">
+        // <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+        // references /public/icons/icon-180.png
 
         tagName: 'link',
         attributes: {
           rel: 'apple-touch-icon',
           sizes: '180x180',
-          href: 'statics/icon-180.png'
+          href: 'icons/icon-180.png'
         },
         closeTag: false // this is optional;
                         // specifies if tag also needs an explicit closing tag;
@@ -168,27 +156,27 @@ pwa: {
     description: 'Quasar Framework Showcase',
     icons: [
       {
-        'src': 'statics/icons/icon-128x128.png',
+        'src': 'icons/icon-128x128.png',
         'sizes': '128x128',
         'type': 'image/png'
       },
       {
-        'src': 'statics/icons/icon-192x192.png',
+        'src': 'icons/icon-192x192.png',
         'sizes': '192x192',
         'type': 'image/png'
       },
       {
-        'src': 'statics/icons/icon-256x256.png',
+        'src': 'icons/icon-256x256.png',
         'sizes': '256x256',
         'type': 'image/png'
       },
       {
-        'src': 'statics/icons/icon-384x384.png',
+        'src': 'icons/icon-384x384.png',
         'sizes': '384x384',
         'type': 'image/png'
       },
       {
-        'src': 'statics/icons/icon-512x512.png',
+        'src': 'icons/icon-512x512.png',
         'sizes': '512x512',
         'type': 'image/png'
       }
@@ -207,6 +195,10 @@ Please read about the [manifest config](https://developer.mozilla.org/en-US/docs
 Note that you don't need to edit your index.html file (generated from `/src/index.template.html`) to link to the manifest file. Quasar CLI takes care of embedding the right things for you.
 ::::
 
+::: tip
+(@quasar/app v2.1.10+) If your PWA is behind basic auth or requires an Authorization header, set quasar.conf.js > pwa > useCredentials to true to include `crossorigin="use-credentials"` on the manifest.json meta tag.
+::::
+
 ## PWA Checklist
 More info: [PWA Checklist](https://developers.google.com/web/progressive-web-apps/checklist)
 
@@ -214,7 +206,7 @@ More info: [PWA Checklist](https://developers.google.com/web/progressive-web-app
 Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things). See the [Testing and Auditing](/quasar-cli/testing-and-auditing) section of these docs for more information.
 :::
 
-## Reload & Update Workbox
+## Reload & Update Automatically
 For those who don't want to manually reload the page when the service worker is updated **and are using the default GenerateSW workbox mode**, you can make it active at once. Update the workboxOptions config in quasar.conf.js as follows:
 
 ```js

@@ -3,6 +3,7 @@ import Vue from 'vue'
 import DarkMixin from '../../mixins/dark.js'
 import TagMixin from '../../mixins/tag.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { uniqueSlot } from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -11,7 +12,7 @@ import { isKeyCode } from '../../utils/key-composition.js'
 export default Vue.extend({
   name: 'QItem',
 
-  mixins: [ DarkMixin, RouterLinkMixin, TagMixin ],
+  mixins: [ DarkMixin, RouterLinkMixin, TagMixin, ListenersMixin ],
 
   props: {
     active: Boolean,
@@ -27,13 +28,15 @@ export default Vue.extend({
   },
 
   computed: {
-    isClickable () {
-      return this.disable !== true && (
-        this.clickable === true ||
+    isActionable () {
+      return this.clickable === true ||
         this.hasRouterLink === true ||
         this.tag === 'a' ||
         this.tag === 'label'
-      )
+    },
+
+    isClickable () {
+      return this.disable !== true && this.isActionable === true
     },
 
     classes () {
@@ -59,6 +62,14 @@ export default Vue.extend({
         return {
           ['padding' + dir]: (16 + this.insetLevel * 56) + 'px'
         }
+      }
+    },
+
+    onEvents () {
+      return {
+        ...this.qListeners,
+        click: this.__onClick,
+        keyup: this.__onKeyup
       }
     }
   },
@@ -108,19 +119,18 @@ export default Vue.extend({
     const data = {
       staticClass: 'q-item q-item-type row no-wrap',
       class: this.classes,
-      style: this.style
-    }
-
-    const evtProp = this.hasRouterLink === true ? 'nativeOn' : 'on'
-    data[evtProp] = {
-      ...this.$listeners,
-      click: this.__onClick,
-      keyup: this.__onKeyup
+      style: this.style,
+      [ this.hasRouterLink === true ? 'nativeOn' : 'on' ]: this.onEvents
     }
 
     if (this.isClickable === true) {
       data.attrs = {
         tabindex: this.tabindex || '0'
+      }
+    }
+    else if (this.isActionable === true) {
+      data.attrs = {
+        'aria-disabled': 'true'
       }
     }
 

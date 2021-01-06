@@ -1,6 +1,6 @@
 ---
 title: Commit Conventions
-desc: Play with Quasar on a jsFiddle, Codepen or Codesandbox templates.
+desc: Quasar commit conventions
 ---
 
 ## Goals

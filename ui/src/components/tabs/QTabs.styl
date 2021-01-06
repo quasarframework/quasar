@@ -66,7 +66,7 @@
 
   &--active .q-tab__indicator
     opacity: 1
-    transform-origin: left
+    transform-origin: left /* rtl:ignore */
 
   &--inactive
     opacity: .85
@@ -74,6 +74,24 @@
 .q-tabs
   position: relative
   transition: color .3s, background-color .3s
+
+  &--scrollable
+    &.q-tabs__arrows--outside
+      &.q-tabs--horizontal
+        padding-left: 36px
+        padding-right: 36px
+
+      &.q-tabs--vertical
+        padding-top: 36px
+        padding-bottom: 36px
+
+      .q-tabs__arrow--faded
+        opacity: 0.3
+        pointer-events: none
+
+    &.q-tabs__arrows--inside
+      .q-tabs__arrow--faded
+        display: none
 
   &--not-scrollable
     .q-tabs__arrow
@@ -86,9 +104,7 @@
     font-size: 32px
     min-width: 36px
     text-shadow: 0 0 3px #fff, 0 0 1px #fff, 0 0 1px #000
-
-    &--faded
-      display: none
+    transition: opacity .3s
 
   &__content
     overflow: hidden
@@ -113,12 +129,12 @@
 
     &--left
       top: 0
-      left: 0
+      left: 0 /* rtl:ignore */
       bottom: 0
 
     &--right
       top: 0
-      right: 0
+      right: 0 /* rtl:ignore */
       bottom: 0
 
   &--vertical
@@ -166,14 +182,10 @@
       &--full
         min-height: 52px
 
-body.mobile
-  .q-tabs
+body.mobile .q-tabs
 
-    &__content
-      overflow: auto
-
-    &__arrow
-      display: none
+  &__content
+    overflow: auto
 
 @media (min-width: $breakpoint-lg-min)
   .q-header, .q-footer

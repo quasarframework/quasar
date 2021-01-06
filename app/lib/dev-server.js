@@ -2,32 +2,30 @@ const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 
 const appPaths = require('./app-paths')
-const logger = require('./helpers/logger')
 const openBrowser = require('./helpers/open-browser')
-const log = logger('app:dev-server')
+const { log } = require('./helpers/logger')
 
 let alreadyNotified = false
 module.exports = class DevServer {
-  constructor (quasarConfig) {
-    this.quasarConfig = quasarConfig
+  constructor (quasarConfFile) {
+    this.quasarConfFile = quasarConfFile
   }
 
   async listen () {
-    const webpackConfig = this.quasarConfig.getWebpackConfig()
-    const cfg = this.quasarConfig.getBuildConfig()
+    const cfg = this.quasarConfFile.quasarConf
+    const webpackConf = this.quasarConfFile.webpackConf
 
     log(`Booting up...`)
-    log()
 
     return new Promise(resolve => (
       cfg.ctx.mode.ssr
-        ? this.listenSSR(webpackConfig, cfg, resolve)
-        : this.listenCSR(webpackConfig, cfg, resolve)
+        ? this.listenSSR(webpackConf, cfg, resolve)
+        : this.listenCSR(webpackConf, cfg, resolve)
     ))
   }
 
-  listenCSR (webpackConfig, cfg, resolve) {
-    const compiler = webpack(webpackConfig.renderer || webpackConfig)
+  listenCSR (webpackConf, cfg, resolve) {
+    const compiler = webpack(webpackConf.renderer || webpackConf)
 
     compiler.hooks.done.tap('done-compiling', compiler => {
       if (this.__started) { return }
@@ -62,7 +60,7 @@ module.exports = class DevServer {
     }
   }
 
-  listenSSR (webpackConfig, cfg, resolve) {
+  listenSSR (webpackConf, cfg, resolve) {
     const fs = require('fs')
     const LRU = require('lru-cache')
     const express = require('express')
@@ -77,13 +75,8 @@ module.exports = class DevServer {
       // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
       return createBundleRenderer(bundle, {
         ...options,
-        ...(cfg.build.preloadChunks !== true
-          ? {
-            shouldPreload: () => false,
-            shouldPrefetch: () => false
-          }
-          : {}
-        ),
+        shouldPreload: () => false,
+        shouldPrefetch: () => false,
 
         // for component caching
         cache: new LRU({
@@ -102,13 +95,14 @@ module.exports = class DevServer {
 
       const handleError = err => {
         if (err.url) {
-          res.redirect(err.url)
+          if (err.code) res.redirect(err.code, err.url)
+          else res.redirect(err.url)
         }
         else if (err.code === 404) {
           res.status(404).send('404 | Page Not Found')
         }
         else {
-          ouchInstance.handleException(err, req, res, output => {
+          ouchInstance.handleException(err, req, res, () => {
             console.error(`${req.url} -> error during render`)
             console.error(err.stack)
           })
@@ -127,7 +121,7 @@ module.exports = class DevServer {
           return
         }
         if (cfg.__meta) {
-          html = context.$getMetaHTML(html)
+          html = context.$getMetaHTML(html, context)
         }
         console.log(`${req.url} -> request took: ${Date.now() - startTime}ms`)
         res.send(html)
@@ -167,8 +161,8 @@ module.exports = class DevServer {
       update()
     })
 
-    const serverCompiler = webpack(webpackConfig.server)
-    const clientCompiler = webpack(webpackConfig.client)
+    const serverCompiler = webpack(webpackConf.server)
+    const clientCompiler = webpack(webpackConf.client)
 
     serverCompiler.hooks.done.tapAsync('done-compiling', ({ compilation: { errors, warnings, assets }}, cb) => {
       errors.forEach(err => console.error(err))
@@ -179,7 +173,7 @@ module.exports = class DevServer {
         return
       }
 
-      bundle = JSON.parse(assets['../vue-ssr-server-bundle.json'].source())
+      bundle = JSON.parse(assets['../quasar.server-manifest.json'].source())
       update()
 
       cb()
@@ -201,7 +195,7 @@ module.exports = class DevServer {
         }
       }
 
-      clientManifest = JSON.parse(assets['../vue-ssr-client-manifest.json'].source())
+      clientManifest = JSON.parse(assets['../quasar.client-manifest.json'].source())
       update()
 
       cb()
@@ -217,19 +211,21 @@ module.exports = class DevServer {
 
       after: app => {
         if (cfg.ctx.mode.pwa) {
-          app.use('/manifest.json', (req, res) => {
+          app.use(cfg.build.publicPath + 'manifest.json', (_, res) => {
             res.setHeader('Content-Type', 'application/json')
             res.send(pwa.manifest)
           })
-          app.use('/service-worker.js', (req, res) => {
+          app.use(cfg.build.publicPath + 'service-worker.js', (_, res) => {
             res.setHeader('Content-Type', 'text/javascript')
             res.send(pwa.serviceWorker)
           })
         }
 
-        app.use('/statics', express.static(appPaths.resolve.src('statics'), {
-          maxAge: 0
-        }))
+        if (cfg.build.ignorePublicFolder !== true) {
+          app.use(cfg.build.publicPath, express.static(appPaths.resolve.app('public'), {
+            maxAge: 0
+          }))
+        }
 
         originalAfter && originalAfter(app)
 
@@ -237,11 +233,10 @@ module.exports = class DevServer {
           app,
 
           ssr: {
-            renderToString ({ req, res }, fn) {
+            renderToString (opts, fn) {
               const context = {
-                url: req.url,
-                req,
-                res
+                ...opts,
+                url: opts.req.url
               }
 
               renderer.renderToString(context, (err, html) => {
@@ -250,7 +245,7 @@ module.exports = class DevServer {
                   return
                 }
                 if (cfg.__meta) {
-                  html = context.$getMetaHTML(html)
+                  html = context.$getMetaHTML(html, context)
                 }
 
                 fn(err, html)
@@ -265,7 +260,7 @@ module.exports = class DevServer {
           }
         })
 
-        app.get('*', render)
+        app.get(cfg.build.publicPath + '*', render)
       }
     })
 

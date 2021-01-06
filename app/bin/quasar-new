@@ -4,9 +4,11 @@ const parseArgs = require('minimist')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
-    h: 'help'
+    h: 'help',
+    f: 'format'
   },
-  boolean: ['h']
+  boolean: ['h'],
+  string: ['f']
 })
 
 function showHelp () {
@@ -15,11 +17,11 @@ function showHelp () {
     Quickly scaffold a page/layout/component/store module.
 
   Usage
-    $ quasar new [p|page] <page_file_name>
-    $ quasar new [l|layout] <layout_file_name>
-    $ quasar new [c|component] <component_file_name>
-    $ quasar new [b|boot] <boot_name>
-    $ quasar new [s|store] <store_module_name>
+    $ quasar new <p|page> [-f <option>] <page_file_name>
+    $ quasar new <l|layout> [-f <option>] <layout_file_name>
+    $ quasar new <c|component> [-f <option>] <component_file_name>
+    $ quasar new <b|boot> [-f ts] <boot_name>
+    $ quasar new <s|store> [-f ts] <store_module_name>
 
     # Examples:
 
@@ -32,8 +34,21 @@ function showHelp () {
     # Create src/layouts/shop/Checkout.vue
     $ quasar new layout shop/Checkout.vue
 
+    # Create src/layouts/shop/Checkout.vue with TypeScript options API
+    $ quasar new layout -f ts-options shop/Checkout.vue
+
+    # Create a store with TypeScript support
+    $ quasar new store -f ts myStore
+
   Options
-    --help, -h     Displays this message
+    --help, -h            Displays this message
+
+    --format -f <option>  (optional) Use a supported format for the template
+                          Option can be:
+                             * ts-options - TS options API
+                             * ts-composition - TS component API
+                             * ts-class - TS class style syntax
+                             * ts - use for TS boot file and store modules only
   `)
   process.exit(0)
 }
@@ -46,24 +61,45 @@ const path = require('path')
 const fs = require('fs')
 const fse = require('fs-extra')
 
-const logger = require('../lib/helpers/logger')
-const log = logger('app:new')
-const warn = logger('app:new', 'red')
+const { log, warn } = require('../lib/helpers/logger')
 const appPaths = require('../lib/app-paths')
+const defaultFilePath = 'default'
 
 if (argv._.length < 2) {
   console.log()
-  warn(`⚠️  Wrong number of parameters (${argv._.length}).`)
+  warn(`Wrong number of parameters (${argv._.length}).`)
   showHelp()
   process.exit(1)
 }
 
 let [ type, ...names ] = argv._
+let format = argv.format || defaultFilePath
+
+function showError (message, param) {
+  console.log()
+  warn(`${message}: ${param}`)
+  showHelp()
+}
 
 if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store', 'b', 'boot'].includes(type)) {
-  console.log()
-  warn(`⚠️  Invalid asset type: ${type}`)
-  showHelp()
+  showError('Invalid asset type', type)
+}
+
+if (!['default', 'ts-options', 'ts-class', 'ts-composition', 'ts'].includes(format)) {
+  showError('Invalid asset format', format)
+}
+
+if (format === 'ts' && !['b', 'boot', 's', 'store'].includes(type)) {
+  showError('Please select a TypeScript variation for *.vue files, i.e ts-class. Current', format)
+}
+
+const isTypeScript = format === 'ts' || format.indexOf('ts-') > -1
+
+// If they've supplied a TS format i.e ts-options and
+// are creating a boot file / store then set format
+// to TS as they're the same for all formats.
+if (isTypeScript && ['b', 'boot', 's', 'store'].includes(type)) {
+  format = 'ts'
 }
 
 if (type.length === 1) {
@@ -97,13 +133,12 @@ function createFile (asset, file) {
 
   fse.mkdirp(path.dirname(file))
   fse.copy(
-    appPaths.resolve.cli(path.join('templates/app', type + (asset.ext || ''))),
+    appPaths.resolve.cli(path.join('templates/app', format, type + (asset.ext || ''))),
     file,
     err => {
-
       if (err) {
         console.warn(err)
-        warn('[FAIL] Could not generate ${relativePath}.')
+        warn(`[FAIL] Could not generate ${relativePath}.`)
         return
       }
 
@@ -116,16 +151,17 @@ function createFile (asset, file) {
   )
 }
 
+const ext = isTypeScript ? '.ts' : '.js'
 const mapping = {
   page: {
     folder: 'pages',
     ext: '.vue',
-    reference: 'src/router/routes.js'
+    reference: `src/router/routes${ext}`
   },
   layout: {
     folder: 'layouts',
     ext: '.vue',
-    reference: 'src/router/routes.js'
+    reference: `src/router/routes${ext}`
   },
   component: {
     folder: 'components',
@@ -133,11 +169,12 @@ const mapping = {
   },
   store: {
     folder: 'store',
-    reference: 'src/store/index.js'
+    install: true,
+    reference: `src/store/index${ext}`
   },
   boot: {
     folder: 'boot',
-    ext: '.js',
+    ext,
     reference: 'quasar.conf.js > boot'
   }
 }
@@ -145,6 +182,28 @@ const mapping = {
 const asset = mapping[type]
 
 const filesToCreate = getPaths(asset, names)
+
+if (asset.install) {
+  const folder = appPaths.resolve.src(asset.folder)
+
+  if (!fs.existsSync(folder)) {
+    fse.mkdirp(folder)
+    fse.copy(
+      appPaths.resolve.cli(`templates/store/${format}`),
+      folder,
+      err => {
+        if (err) {
+          console.warn(err)
+          warn(`[FAIL] Could not generate src/${asset.folder}.`)
+          return
+        }
+
+        log(`Generated src/${asset.folder}`)
+        log()
+      }
+    )
+  }
+}
 
 filesToCreate.forEach(file => {
   createFile(asset, file)

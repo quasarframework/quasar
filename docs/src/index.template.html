@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (htmlWebpackPlugin.options.ctx.mode.cordova || htmlWebpackPlugin.options.ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (ctx.mode.cordova || ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>">
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@quasarframework">
@@ -12,13 +12,23 @@
     <meta property="og:image" content="https://cdn.quasar.dev/logo/512/quasar-logo.png" />
     <meta property="og:site_name" content="Quasar Framework" />
 
-    <link type="application/opensearchdescription+xml" rel="search" title="Quasar docs" href="statics/search_manifest.xml">
-    <link rel="icon" type="image/svg+xml" href="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+    <link type="application/opensearchdescription+xml" rel="search" title="Quasar docs" href="search_manifest.xml">
+
     <link rel="icon" type="image/png" sizes="128x128" href="https://cdn.quasar.dev/app-icons/favicon-128x128.png">
     <link rel="icon" type="image/png" sizes="96x96" href="https://cdn.quasar.dev/app-icons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.quasar.dev/app-icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.quasar.dev/app-icons/favicon-16x16.png">
     <link rel="icon" type="image/ico" href="https://cdn.quasar.dev/app-icons/favicon.ico">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="https://cdn.quasar.dev/app-icons/apple-launch-828x1792.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="https://cdn.quasar.dev/app-icons/apple-launch-1125x2436.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" href="https://cdn.quasar.dev/app-icons/apple-launch-1242x2688.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="https://cdn.quasar.dev/app-icons/apple-launch-750x1334.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" href="https://cdn.quasar.dev/app-icons/apple-launch-1242x2208.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="https://cdn.quasar.dev/app-icons/apple-launch-640x1136.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" href="https://cdn.quasar.dev/app-icons/apple-launch-1536x2048.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" href="https://cdn.quasar.dev/app-icons/apple-launch-1668x2224.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" href="https://cdn.quasar.dev/app-icons/apple-launch-1668x2388.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" href="https://cdn.quasar.dev/app-icons/apple-launch-2048x2732.png">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-6317975-6"></script>
     <script>

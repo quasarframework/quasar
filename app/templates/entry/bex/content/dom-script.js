@@ -1,5 +1,5 @@
 /**
- * THIS FILE WILL BE OVERWRITTEN.
+ * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
  *
  * You are probably looking into adding hooks in your code. This should be done by means of
@@ -7,7 +7,7 @@
  **/
 
 import Bridge from '../bridge'
-import attachDomHooks from '../../../src-bex/js/dom-hooks'
+import attachDomHooks from 'src-bex/js/dom-hooks'
 import { listenForWindowEvents } from './window-event-listener'
 
 let bridge = new Bridge({

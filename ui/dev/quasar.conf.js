@@ -25,15 +25,13 @@ module.exports = function (ctx) {
     framework: {
       // iconSet: 'svg-mdi-v4',
       // config: { ripple: { early: true } },
-      all: true
+      importStrategy: 'all'
     },
 
-    supportIE: true,
-
     build: {
-      rtl: true,
+      rtl: false,
       vueRouterMode: 'history',
-      showProgress: true,
+      // showProgress: false,
 
       chainWebpack (chain) {
         const path = require('path')
@@ -108,7 +106,6 @@ module.exports = function (ctx) {
 
     cordova: {
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
-      id: 'org.cordova.quasar.dev-app'
     },
 
     capacitor: {

@@ -3,7 +3,7 @@ const fs = require('fs')
 const appPath = require('../app-paths')
 const getPackageJson = require('../helpers/get-package-json')
 const getPackage = require('../helpers/get-package')
-const log = require('../helpers/logger')('app:electron-bundle')
+const { log, warn, fatal } = require('../helpers/logger')
 
 const versions = {
   packager: '14.1.1',
@@ -26,7 +26,7 @@ function installBundler (bundlerName) {
     nodePackager,
     cmdParam.concat([`electron-${bundlerName}@${'^' + versions[bundlerName]}`]),
     { cwd: appPath.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => warn(`⚠️  Failed to install electron-${bundlerName}`)
+    () => warn(`Failed to install electron-${bundlerName}`)
   )
 }
 
@@ -36,23 +36,12 @@ function bundlerIsInstalled (bundlerName) {
 
 module.exports.bundlerIsInstalled = bundlerIsInstalled
 
-function bundlerVersionIsOk (bundlerName) {
-  const semver = require('semver')
-  const pkg = getPackageJson(`electron-${bundlerName}`)
-
-  if (semver.satisfies(pkg.version, `>= ${versions[bundlerName]}`)) {
-    return true
-  }
-}
-
 module.exports.ensureInstall = function (bundlerName) {
   if (!isValidName(bundlerName)) {
-    warn(`⚠️  Unknown bundler "${ bundlerName }" for Electron`)
-    warn()
-    process.exit(1)
+    fatal(`Unknown bundler "${ bundlerName }" for Electron\n`)
   }
 
-  if (!bundlerIsInstalled(bundlerName) || !bundlerVersionIsOk(bundlerName)) {
+  if (!bundlerIsInstalled(bundlerName)) {
     installBundler(bundlerName)
   }
 }

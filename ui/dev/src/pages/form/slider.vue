@@ -1,24 +1,27 @@
 <template>
   <div class="column no-wrap" style="height: 100vh" :class="dark ? 'bg-black text-white' : ''">
-    <div class="row q-col-gutter-md q-pl-md q-pr-xl shadow-2">
-      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" :false-value="null" />
-      <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
-      <q-toggle v-model="defaultLabels" :dark="dark" :dense="dense" label="Default labels" />
-      <q-input outlined square class="col" v-model="labelTemplate" label="Label template - use {model}" />
+    <div class="row q-col-gutter-md q-pl-md q-pr-xl shadow-2" :class="dark ? 'bg-grey-9' : 'bg-grey-3'" style="z-index: 1">
+      <q-toggle v-model="dark" :dark="dark" label="Dark" :false-value="null" />
+      <q-toggle v-model="dense" :dark="dark" label="Dense" />
+      <q-toggle v-model="vertical" :dark="dark" label="Vertical" />
+      <q-toggle v-model="defaultLabels" :dark="dark" label="Default labels" />
+      <q-input borderless square class="col" v-model="labelTemplate" :dark="dark" label="Label template - use {model}" />
     </div>
 
-    <div class="col scroll q-pl-md q-pr-xl">
+    <div class="col scroll q-pl-md q-pr-xl q-gutter-y-lg">
       <p class="caption">
         Standalone
         <span class="label inline bg-secondary text-white">
           Model <span class="right-detail"><em>{{ standalone }}</em> &nbsp;&nbsp;(0 to 50)</span>
         </span>
       </p>
-      <q-slider :dark="dark" :dense="dense" @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50" />
-      <q-slider :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
-      <q-slider :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
 
-      <q-slider :dark="dark" :dense="dense" label-color="orange" label-text-color="black" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
+      <div class="row justify-around">
+        <q-slider :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50" />
+        <q-slider :vertical="vertical" :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
+        <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
+        <q-slider :vertical="vertical" :dark="dark" :dense="dense" label-color="orange" label-text-color="black" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
+      </div>
 
       <p class="caption">
         Reverse
@@ -26,7 +29,7 @@
           Model <span class="right-detail"><em>{{ stepZero }}</em> &nbsp;&nbsp;(0 to 100)</span>
         </span>
       </p>
-      <q-slider :dark="dark" :dense="dense" v-model="stepZero" reverse label :label-value="labelValue(stepZero)" />
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="stepZero" reverse label :label-value="labelValue(stepZero)" />
 
       <p class="caption">
         Step 0
@@ -34,7 +37,7 @@
           Model <span class="right-detail"><em>{{ stepZero }}</em> &nbsp;&nbsp;(0 to 100)</span>
         </span>
       </p>
-      <q-slider :dark="dark" :dense="dense" v-model="stepZero" :step="0" />
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="stepZero" :step="0" />
 
       <p class="caption">
         With Floating Point Precision
@@ -42,15 +45,7 @@
           Model <span class="right-detail"><em>{{ precision }}</em> &nbsp;&nbsp;(0.1 to 2.0, step 0.01)</span>
         </span>
       </p>
-      <q-slider :dark="dark" :dense="dense" v-model="precision" :min="0.1" :max="2" :step="0.01" />
-
-      <p class="caption">
-        With Floating Point Precision
-        <span class="label inline bg-secondary text-white">
-          Model <span class="right-detail"><em>{{ precision }}</em> &nbsp;&nbsp;(0.1 to 2.0, step 0.01)</span>
-        </span>
-      </p>
-      <q-slider :dark="dark" :dense="dense" v-model="precision" :min="0.1" :max="2" :step="0.01" />
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="precision" :min="0.1" :max="2" :step="0.01" />
 
       <p class="caption">
         With Step
@@ -58,7 +53,7 @@
           Model <span class="right-detail"><em>{{ step }}</em> &nbsp;&nbsp;(0 to 45, step 5)</span>
         </span>
       </p>
-      <q-slider :dark="dark" :dense="dense" v-model="step" :min="0" :max="45" :step="5" />
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="step" :min="0" :max="45" :step="5" />
 
       <p class="caption">
         With Label
@@ -66,7 +61,7 @@
           Model <span class="right-detail"><em>{{ label }}</em> &nbsp;&nbsp;(-10 to 10, step 4)</span>
         </span>
       </p>
-      <q-slider :dark="dark" :dense="dense" v-model="label" :min="-10" :max="10" :step="4" label :label-value="labelValue(label)" />
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="label" :min="-10" :max="10" :step="4" label :label-value="labelValue(label)" />
 
       <p class="caption">
         Snaps to Steps
@@ -74,7 +69,7 @@
           Model <span class="right-detail"><em>{{ snap }}</em> &nbsp;&nbsp;(0 to 10, step 2)</span>
         </span>
       </p>
-      <q-slider :dark="dark" :dense="dense" v-model="snap" :min="0" :max="10" :step="2" label :label-value="labelValue(snap)" snap />
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="snap" :min="0" :max="10" :step="2" label :label-value="labelValue(snap)" snap />
 
       <p class="caption">
         With Markers. Snaps to Steps
@@ -82,7 +77,7 @@
           Model <span class="right-detail"><em>{{ marker }}</em> &nbsp;&nbsp;(0 to 10, step 2)</span>
         </span>
       </p>
-      <q-slider :dark="dark" :dense="dense" color="orange" v-model="marker" :min="0" :max="10" :step="2" label :label-value="labelValue(marker)" snap markers />
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" color="orange" v-model="marker" :min="0" :max="10" :step="2" label :label-value="labelValue(marker)" snap markers />
 
       <p class="caption">
         Display Label Always
@@ -90,7 +85,7 @@
           Model <span class="right-detail"><em>{{ label }}</em> &nbsp;&nbsp;(-20000 to 20000, step 400)</span>
         </span>
       </p>
-      <q-slider :dark="dark" :dense="dense" v-model="label" :min="-20000" :max="20000" :step="400" label-always :label-value="labelValue(label)" />
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="label" :min="-20000" :max="20000" :step="400" label-always :label-value="labelValue(label)" />
 
       <p class="caption">
         With custom value for Label
@@ -98,17 +93,17 @@
           Model <span class="right-detail"><em>{{ label }}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
         </span>
       </p>
-      <q-slider :dark="dark" :dense="dense" v-model="label" markers :min="-20" :max="20" :step="4" label :label-value="`${label}px`" label-always />
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="label" markers :min="-20" :max="20" :step="4" label :label-value="`${label}px`" label-always />
 
       <p class="caption">
         Readonly State
       </p>
-      <q-slider :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" readonly />
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" readonly />
 
       <p class="caption">
         Disabled State
       </p>
-      <q-slider :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" disable />
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" disable />
 
       <p class="caption">
         Null Value
@@ -116,7 +111,7 @@
           Model <span class="right-detail"><em>{{ nullValue === null ? 'null' : nullValue }}</em> &nbsp;&nbsp;(0 to 50)</span>
         </span>
       </p>
-      <q-slider :dark="dark" :dense="dense" v-model="nullValue" :min="0" :max="50" />
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="nullValue" :min="0" :max="50" />
 
       <p class="caption">
         Null Value with min
@@ -124,15 +119,18 @@
           Model <span class="right-detail"><em>{{ nullValueMin === null ? 'null' : nullValueMin }}</em> &nbsp;&nbsp;(20 to 50)</span>
         </span>
       </p>
-      <q-slider :dark="dark" :dense="dense" v-model="nullValueMin" :min="20" :max="50" />
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="nullValueMin" :min="20" :max="50" />
 
       <p class="caption">
         Coloring
       </p>
-      <q-slider :dark="dark" :dense="dense" color="secondary" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
-      <q-slider :dark="dark" :dense="dense" color="orange" label-text-color="black" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
-      <q-slider :dark="dark" :dense="dense" color="dark" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
-      <q-slider :dark="dark" :dense="dense" color="teal" label-color="black" v-model="standalone" :min="0" :max="50" label-always :label-value="labelValue(standalone)" class="q-mt-md" />
+
+      <div class="row justify-around">
+        <q-slider :vertical="vertical" :dark="dark" :dense="dense" color="secondary" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
+        <q-slider :vertical="vertical" :dark="dark" :dense="dense" color="orange" label-text-color="black" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
+        <q-slider :vertical="vertical" :dark="dark" :dense="dense" color="dark" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
+        <q-slider :vertical="vertical" :dark="dark" :dense="dense" color="teal" label-color="black" v-model="standalone" :min="0" :max="50" label-always :label-value="labelValue(standalone)" class="q-mt-md" />
+      </div>
 
       <p class="caption">
         Inside of a List
@@ -143,7 +141,7 @@
             <q-icon name="volume_up" />
           </q-item-section>
           <q-item-section>
-            <q-slider :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
+            <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
           </q-item-section>
         </q-item>
 
@@ -152,7 +150,7 @@
             <q-icon name="brightness_medium" />
           </q-item-section>
           <q-item-section>
-            <q-slider :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
+            <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
           </q-item-section>
         </q-item>
 
@@ -161,7 +159,7 @@
             <q-icon name="mic" />
           </q-item-section>
           <q-item-section>
-            <q-slider :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
+            <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
           </q-item-section>
         </q-item>
       </q-list>
@@ -175,6 +173,7 @@ export default {
     return {
       dark: null,
       dense: false,
+      vertical: false,
 
       defaultLabels: true,
       labelTemplate: 'Current value: {model}',

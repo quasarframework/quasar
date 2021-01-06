@@ -27,7 +27,7 @@ The list below is not complete. Also check the other CSS documentation pages lik
 | `overflow-auto` | Sets overflow to auto |
 | `overflow-hidden` | Sets overflow to hidden |
 | `overflow-hidden-y` | Sets overflow to hidden on the y-axis |
-| `no-scrollbar` | Removes the scrollbar |
+| `hide-scrollbar` | Removes the scrollbar |
 
 ## Size Related
 | Class Name | Description |
@@ -46,7 +46,7 @@ The list below is not complete. Also check the other CSS documentation pages lik
 | `rotate-90` | Rotate by 90 degrees |
 | `rotate-135` | Rotate by 135 degrees |
 | `rotate-180` | Rotate by 180 degrees |
-| `rotate-205` | Rotate by 205 degrees |
+| `rotate-225` | Rotate by 225 degrees |
 | `rotate-270` | Rotate by 270 degrees |
 | `rotate-315` | Rotate by 315 degrees |
 | `flip-horizontal` | Flip DOM element horizontally |

@@ -1,4 +1,9 @@
 /**
+ * THIS FILE IS GENERATED AUTOMATICALLY.
+ * DO NOT EDIT.
+ **/
+
+/**
  * Helper function to add a generic windows event listener to the page
  * which acts as a bridge between the web page and the content script bridge.
  * @param bridge

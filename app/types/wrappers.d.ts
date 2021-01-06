@@ -6,19 +6,22 @@
 //  a file evaluated by Node (in `quasar.conf.js`, `configure` would be imported as
 //  `const { configure } = require('quasar')`).
 // This is a precautional measure to avoid future hard-to-backtrack bugs.
-declare module "quasar/wrappers" {
-  import {
-    BootCallback,
-    ConfigureCallback,
-    RouteCallback,
-    StoreCallback
-  } from "quasar";
 
+declare module "quasar/wrappers" {
+  import { BootCallback } from "@quasar/app";
+  import { ConfigureCallback } from "@quasar/app";
+  import { PrefetchCallback } from "@quasar/app";
+  import { RouteCallback } from "@quasar/app";
+  import { StoreCallback } from "@quasar/app";
   function boot<TStore = any>(
     callback: BootCallback<TStore>
   ): BootCallback<TStore>;
 
   function configure(callback: ConfigureCallback): ConfigureCallback;
+
+  function preFetch<TStore = any>(
+    callback: PrefetchCallback<TStore>
+  ): PrefetchCallback<TStore>;
 
   function route<TStore = any>(
     callback: RouteCallback<TStore>

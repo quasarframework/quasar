@@ -3,13 +3,14 @@ import Vue from 'vue'
 import { between } from '../../utils/format.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import { mergeSlot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 import debounce from '../../utils/debounce.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import TouchPan from '../../directives/TouchPan.js'
 import DarkMixin from '../../mixins/dark.js'
+import { ariaHidden } from '../../mixins/attrs'
 
 export default Vue.extend({
   name: 'QScrollArea',
@@ -124,6 +125,19 @@ export default Vue.extend({
     barClass () {
       return `q-scrollarea__bar--${this.dirProps.classSuffix}` +
         (this.thumbHidden === true ? ' q-scrollarea__bar--invisible' : '')
+    },
+
+    thumbDirectives () {
+      return [{
+        name: 'touch-pan',
+        modifiers: {
+          [ this.horizontal === true ? 'horizontal' : 'vertical' ]: true,
+          prevent: true,
+          mouse: true,
+          mouseAllDir: true
+        },
+        value: this.__panThumb
+      }]
     }
   },
 
@@ -142,6 +156,13 @@ export default Vue.extend({
         : setScrollPosition
 
       fn(this.$refs.target, offset, duration)
+    },
+
+    setScrollPercentage (percentage, duration) {
+      this.setScrollPosition(
+        percentage * (this.scrollSize - this.containerSize),
+        duration
+      )
     },
 
     __updateContainer ({ height, width }) {
@@ -272,6 +293,7 @@ export default Vue.extend({
         staticClass: 'q-scrollarea__bar',
         style: this.barStyle,
         class: this.barClass,
+        attrs: ariaHidden,
         on: cache(this, 'bar', {
           mousedown: this.__mouseDown
         })
@@ -282,17 +304,8 @@ export default Vue.extend({
         staticClass: 'q-scrollarea__thumb',
         style: this.style,
         class: this.thumbClass,
-        directives: cache(this, 'thumb#' + this.horizontal, [{
-          name: 'touch-pan',
-          modifiers: {
-            vertical: this.horizontal !== true,
-            horizontal: this.horizontal,
-            prevent: true,
-            mouse: true,
-            mouseAllDir: true
-          },
-          value: this.__panThumb
-        }])
+        attrs: ariaHidden,
+        directives: this.thumbDirectives
       })
     ])
   },

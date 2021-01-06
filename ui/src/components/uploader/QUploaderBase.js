@@ -10,7 +10,7 @@ import DarkMixin from '../../mixins/dark.js'
 
 import { stop } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QUploaderBase',
@@ -80,22 +80,16 @@ export default Vue.extend({
     },
 
     canAddFiles () {
-      return this.editable &&
+      return (
+        this.editable === true &&
         this.isUploading !== true &&
-        (this.multiple === true || this.queuedFiles.length === 0)
-    },
-
-    extensions () {
-      if (this.accept !== void 0) {
-        return this.accept.split(',').map(ext => {
-          ext = ext.trim()
-          // support "image/*"
-          if (ext.endsWith('/*')) {
-            ext = ext.slice(0, ext.length - 1)
-          }
-          return ext
-        })
-      }
+        // if single selection and no files are queued:
+        (this.multiple === true || this.queuedFiles.length === 0) &&
+        // if max-files is set and current number of files does not exceeds it:
+        (this.maxFiles === void 0 || this.files.length < this.maxFilesNumber) &&
+        // if max-total-size is set and current upload size does not exceeds it:
+        (this.maxTotalSize === void 0 || this.uploadSize < this.maxTotalSizeNumber)
+      )
     },
 
     uploadProgress () {
@@ -142,42 +136,45 @@ export default Vue.extend({
     },
 
     removeUploadedFiles () {
-      if (!this.disable) {
-        this.files = this.files.filter(f => {
-          if (f.__status !== 'uploaded') {
-            return true
-          }
-
-          f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
-
-          return false
-        })
+      this.__removeFiles([ 'uploaded' ], () => {
         this.uploadedFiles = []
-      }
+      })
     },
 
     removeQueuedFiles () {
-      if (!this.disable) {
-        const removedFiles = []
+      this.__removeFiles([ 'idle', 'failed' ], ({ size }) => {
+        this.uploadSize -= size
+        this.queuedFiles = []
+      })
+    },
 
-        const files = this.files.filter(f => {
-          if (f.__status !== 'idle' && f.__status !== 'failed') {
-            return true
-          }
+    __removeFiles (statusList, cb) {
+      if (this.disable === true) {
+        return
+      }
 
-          this.uploadSize -= f.size
-          removedFiles.push(f)
+      const removed = {
+        files: [],
+        size: 0
+      }
 
-          f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
-
-          return false
-        })
-
-        if (removedFiles.length > 0) {
-          this.files = files
-          this.queuedFiles = []
-          this.$emit('removed', removedFiles)
+      const files = this.files.filter(f => {
+        if (statusList.indexOf(f.__status) === -1) {
+          return true
         }
+
+        removed.size += f.size
+        removed.files.push(f)
+
+        f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
+
+        return false
+      })
+
+      if (removed.files.length > 0) {
+        this.files = files
+        cb !== void 0 && cb(removed)
+        this.$emit('removed', removed.files)
       }
     },
 
@@ -250,7 +247,7 @@ export default Vue.extend({
     },
 
     __addFiles (e, fileList) {
-      const processedFiles = this.__processFiles(e, fileList)
+      const processedFiles = this.__processFiles(e, fileList, this.files, true)
 
       if (processedFiles === void 0) { return }
 
@@ -302,6 +299,7 @@ export default Vue.extend({
             type: 'file',
             title: '', // try to remove default tooltip
             accept: this.accept,
+            capture: this.capture,
             ...(this.multiple === true ? { multiple: true } : {})
           },
           on: cache(this, 'input', {
@@ -359,7 +357,7 @@ export default Vue.extend({
           'q-uploader__file--uploaded': file.__status === 'uploaded'
         },
         style: this.noThumbnails !== true && file.__img !== void 0 ? {
-          backgroundImage: 'url(' + file.__img.src + ')'
+          backgroundImage: 'url("' + file.__img.src + '")'
         } : null
       }, [
         h('div', {

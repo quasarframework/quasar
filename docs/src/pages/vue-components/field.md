@@ -96,6 +96,18 @@ Most of the form controls always render something visible, so you if you're usin
 
 <doc-example title="Prefix and suffix" file="QField/PrefixSuffix" />
 
+### Custom Label
+
+Using the `label` slot you can customize the aspect of the label or add special features as `QTooltip`.
+
+::: tip
+Do not forget to set the `label-slot` property.
+
+If you want to interact with the content of the label (QTooltip) add the `all-pointer-events` class on the element in the slot.
+:::
+
+<doc-example title="Custom label" file="QField/CustomLabel" />
+
 ### Slots with QBtn type "submit"
 
 ::: warning
@@ -111,6 +123,10 @@ When placing a QBtn with type "submit" in one of the "before", "after", "prepend
 ### Internal validation
 
 You can validate QField components with `:rules` prop. Specify array of embedded rules or your own validators. Your custom validator will be a function which returns `true` if validator succeeds or `String` with error message if it doesn't succeed.
+
+::: tip
+By default, for perf reasons, a change in the rules does not trigger a new validation until the model changes. In order to trigger the validation when rules change too, then use `reactive-rules` Boolean prop. The downside is a performance penalty (so use it when you really need this only!) and it can be slightly mitigated by using a computed prop as value for the rules (and not specify them inline in the vue template).
+:::
 
 This is so you can write convenient rules of shape like:
 
@@ -128,7 +144,7 @@ You can reset the validation by calling `resetValidation()` method on the QField
 
 <doc-example title="Maximum value" file="QField/ValidationMaxValue" />
 
-If you set `lazy-rules`, validation starts after first blur.
+If you set `lazy-rules`, validation starts after first blur. Starting with v1.11+, if `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
 
 <doc-example title="Lazy rules" file="QField/ValidationLazy" />
 

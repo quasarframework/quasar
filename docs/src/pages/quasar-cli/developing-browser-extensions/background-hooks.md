@@ -47,6 +47,6 @@ export default {
 }
 ```
 
-There are wide variety of events available to the chrome background script - Google is your friend if you're trying to do something in this area.
+There are wide variety of events available to the browser extension background script - Google is your friend if you're trying to do something in this area.
 
 What if you want to modify the underlying web page content in some way? That's where we'd use `content-hooks.js`. Let's look at that in the next section.

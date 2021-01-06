@@ -39,8 +39,33 @@ app.use('/', serve('.', true))
 // we extend the custom common dev & prod parts here
 extension.extendApp({ app })
 
-app.get('/layout/floating-action-button', (_, res) => {
-  res.redirect('/vue-components/floating-action-button')
+const redirects = [
+  { from: '/quasar-cli/supporting-ie', to: '/quasar-cli/browser-compatibility' },
+  { from: '/quasar-cli/modern-build', to: '/quasar-cli/browser-compatibility' },
+  { from: '/layout/floating-action-button', to: '/vue-components/floating-action-button' },
+  { from: '/quasar-cli/app-icons', to: '/icongenie/introduction' },
+  { from: '/quasar-cli/cli-documentation/supporting-ie', to: '/quasar-cli/supporting-ie' },
+  { from: '/quasar-cli/cli-documentation/supporting-ts', to: '/quasar-cli/supporting-ts' },
+  { from: '/quasar-cli/cli-documentation/directory-structure', to: '/quasar-cli/directory-structure' },
+  { from: '/quasar-cli/cli-documentation/commands-list', to: '/quasar-cli/commands-list' },
+  { from: '/quasar-cli/cli-documentation/css-preprocessors', to: '/quasar-cli/css-preprocessors' },
+  { from: '/quasar-cli/cli-documentation/routing', to: '/quasar-cli/routing' },
+  { from: '/quasar-cli/cli-documentation/lazy-loading', to: '/quasar-cli/lazy-loading' },
+  { from: '/quasar-cli/cli-documentation/handling-assets', to: '/quasar-cli/handling-assets' },
+  { from: '/quasar-cli/cli-documentation/boot-files', to: '/quasar-cli/boot-files' },
+  { from: '/quasar-cli/cli-documentation/prefetch-feature', to: '/quasar-cli/prefetch-feature' },
+  { from: '/quasar-cli/cli-documentation/api-proxying', to: '/quasar-cli/api-proxying' },
+  { from: '/quasar-cli/cli-documentation/boot-files', to: '/quasar-cli/boot-files' },
+  { from: '/quasar-cli/cli-documentation/handling-webpack', to: '/quasar-cli/handling-webpack' },
+  { from: '/quasar-cli/cli-documentation/handling-process-env', to: '/quasar-cli/handling-process-env' },
+  { from: '/quasar-cli/cli-documentation/vuex-store', to: '/quasar-cli/vuex-store' },
+  { from: '/quasar-cli/cli-documentation/linter', to: '/quasar-cli/linter' }
+]
+
+redirects.forEach(entry => {
+  app.get(entry.from, (_, res) => {
+    res.redirect(entry.to)
+  })
 })
 
 // this should be last get(), rendering with SSR
@@ -61,7 +86,9 @@ app.get('*', (req, res) => {
         res.redirect(err.url)
       }
       else if (err.code === 404) {
-        res.redirect('/not-found')
+        // Should reach here only if no "catch-all" route
+        // is defined in /src/routes
+        res.status(404).send('404 | Page Not Found')
       }
       else {
         // Render Error Page or Redirect

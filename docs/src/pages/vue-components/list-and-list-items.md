@@ -74,7 +74,7 @@ For more complex menus, consider also using [QExpansionItem](/vue-components/exp
 ### Connecting to Vue Router
 You can use QItems together with Vue Router through `<router-link>` properties bound to it. These allow for listening to the current app route and also triggering a route when clicked/tapped.
 
-```vue
+```html
 <q-item to="/inbox" exact>
   <q-item-section avatar>
     <q-icon name="inbox" />

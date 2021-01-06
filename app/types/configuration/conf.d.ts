@@ -1,18 +1,13 @@
-import {
-  QuasarAnimations,
-  QuasarBootConfiguration,
-  QuasarBuildConfiguration,
-  QuasarFonts,
-  QuasarFrameworkConfiguration,
-  QuasarIconSets,
-  WebpackConfiguration
-} from "quasar";
-
-import "../ts-helpers";
-import "./build";
-import "./framework-conf";
-import "./pwa-conf";
-import "./ssr-conf";
+import { QuasarAnimations, QuasarIconSets, QuasarFonts } from "quasar";
+import { WebpackConfiguration } from "../ts-helpers";
+import { QuasarBootConfiguration } from "./boot";
+import { QuasarBuildConfiguration } from "./build";
+import { QuasarPwaConfiguration } from "./pwa-conf";
+import { QuasarSsrConfiguration } from "./ssr-conf";
+import { QuasarCapacitorConfiguration } from "./capacitor-conf";
+import { QuasarElectronConfiguration } from "./electron-conf";
+import { QuasarFrameworkConfiguration } from "./framework-conf";
+import { QuasarCordovaConfiguration } from "./cordova-conf";
 
 type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];
 
@@ -67,7 +62,7 @@ interface BaseQuasarConfiguration {
    * except for theme files, which are included by default.
    */
   css?: string[];
-  /** Enable [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature). */
+  /** Enable [PreFetch Feature](/quasar-cli/prefetch-feature). */
   preFetch?: boolean;
   /**
    * What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package.
@@ -80,29 +75,20 @@ interface BaseQuasarConfiguration {
     remove: string[];
   };
   /**
-   * Add support for IE11+.
-   *
-   * Ignored when in Capacitor, Cordova and Electron mode.
-   *
-   * @default false
-   */
-  supportIE?: boolean;
-  /**
    * Add support for TypeScript.
    *
    * @default false
    */
-  supportTS?:
-    | boolean
-    | { tsLoaderConfig: object; tsCheckerConfig: object };
+  supportTS?: boolean | { tsLoaderConfig: object; tsCheckerConfig: object };
   /** Add variables that you can use in index.template.html. */
   htmlVariables?: { [index: string]: string };
   /**
-   * What Quasar components/directives/plugins to import,
+   * What is the import strategy for Quasar,
    * what Quasar language pack to use, what Quasar icon
    * set to use for Quasar components.
    *
-   * When not specified or when equal to `all`, it's treated as `{ all: true }`
+   * When not specified it's treated as `{ importStrategy: 'auto' }`
+   * When equal to `all` it's treated as `{ importStrategy: 'all' }`
    */
   framework?: QuasarFrameworkConfiguration;
   /**
@@ -124,25 +110,23 @@ interface BaseQuasarConfiguration {
   sourceFiles?: QuasarSourceFilesConfiguration;
 }
 
-declare module "quasar" {
-  interface QuasarHookParams {
-    quasarConf: QuasarConf;
-  }
-
-  type QuasarConf = BaseQuasarConfiguration & {
-    /** PWA specific [config](/quasar-cli/developing-pwa/configuring-pwa). */
-    pwa?: QuasarPwaConfiguration;
-  } & {
-    /** SSR specific [config](/quasar-cli/developing-ssr/configuring-ssr). */
-    ssr?: QuasarSsrConfiguration;
-  } & {
-    /** Capacitor specific [config](/quasar-cli/developing-capacitor-apps/configuring-capacitor). */
-    capacitor?: QuasarCapacitorConfiguration;
-  } & {
-    /** Cordova specific [config](/quasar-cli/developing-cordova-apps/configuring-cordova). */
-    cordova?: QuasarCordovaConfiguration;
-  } & {
-    /** Electron specific [config](/quasar-cli/developing-electron-apps/configuring-electron). */
-    electron?: QuasarElectronConfiguration;
-  };
+export interface QuasarHookParams {
+  quasarConf: QuasarConf;
 }
+
+export type QuasarConf = BaseQuasarConfiguration & {
+  /** PWA specific [config](/quasar-cli/developing-pwa/configuring-pwa). */
+  pwa?: QuasarPwaConfiguration;
+} & {
+  /** SSR specific [config](/quasar-cli/developing-ssr/configuring-ssr). */
+  ssr?: QuasarSsrConfiguration;
+} & {
+  /** Capacitor specific [config](/quasar-cli/developing-capacitor-apps/configuring-capacitor). */
+  capacitor?: QuasarCapacitorConfiguration;
+} & {
+  /** Cordova specific [config](/quasar-cli/developing-cordova-apps/configuring-cordova). */
+  cordova?: QuasarCordovaConfiguration;
+} & {
+  /** Electron specific [config](/quasar-cli/developing-electron-apps/configuring-electron). */
+  electron?: QuasarElectronConfiguration;
+};

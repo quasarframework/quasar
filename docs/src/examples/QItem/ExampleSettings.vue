@@ -114,7 +114,7 @@
           />
         </q-item-section>
         <q-item-section side>
-          <q-icon  color="teal" name="volume_up" />
+          <q-icon color="teal" name="volume_up" />
         </q-item-section>
       </q-item>
 

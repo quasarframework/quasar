@@ -4,6 +4,7 @@
       <q-date
         v-model="date"
         dark
+        bordered
       />
 
       <q-date
@@ -11,6 +12,7 @@
         color="orange"
         text-color="black"
         dark
+        bordered
       />
     </div>
   </div>

@@ -41,11 +41,11 @@ You could configure your `manifest.json` file with the following so the options 
 
 ## Web Page
 
-This is where the real power comes in. With a little ingenuity we can inject our Quasar application into a web page and and use it as an overlay making it seem like our Quasar App is part of the page experience.
+This is where the real power comes in. With a little ingenuity we can inject our Quasar application into a web page and use it as an overlay making it seem like our Quasar App is part of the page experience.
 
 Here's a brief rundown of how you could achieve this:
 
-* `src-bex/js/content-script.js`
+* `src-bex/js/content-hooks.js`
 
 The idea here is to create an IFrame and add our Quasar app into it, then inject that into the page.
 
@@ -67,7 +67,7 @@ const setIFrameHeight = height => {
 }
 
 /**
- * Reset the iFrame to it's default height e.g The height of the top bar.
+ * Reset the iFrame to its default height e.g The height of the top bar.
  */
 const resetIFrameHeight = () => {
   setIFrameHeight(defaultFrameHeight)
@@ -94,7 +94,7 @@ export default function attachContentHooks (bridge) {
 }
 
 /**
- * The code below will get everything going. Initialise the iFrame with defaults and add it to the page.
+ * The code below will get everything going. Initialize the iFrame with defaults and add it to the page.
  * @type {string}
  */
 iFrame.id = 'bex-app-iframe'
@@ -120,7 +120,7 @@ Object.assign(iFrame.style, {
 })()
 ```
 
-* `src-bex/css/content-css.js`
+* `src-bex/css/content-css.css`
 
 Add a margin to the top of our document so our Quasar toolbar doesn't overlap the actual page content.
 

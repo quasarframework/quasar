@@ -2,14 +2,15 @@ import Vue from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
 import { isSSR } from './Platform.js'
-import { cache } from '../utils/vm.js'
+import cache from '../utils/cache.js'
 import { preventScroll } from '../mixins/prevent-scroll.js'
 
 let
   vm,
   uid = 0,
   timeout,
-  props = {},
+  props = {}
+const
   originalDefaults = {
     delay: 0,
     message: false,

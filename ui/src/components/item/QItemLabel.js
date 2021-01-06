@@ -1,15 +1,19 @@
 import Vue from 'vue'
 
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QItemLabel',
 
+  mixins: [ ListenersMixin ],
+
   props: {
     overline: Boolean,
     caption: Boolean,
     header: Boolean,
-    lines: [Number, String]
+    lines: [ Number, String ]
   },
 
   computed: {
@@ -39,7 +43,7 @@ export default Vue.extend({
       staticClass: 'q-item__label',
       style: this.style,
       class: this.classes,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

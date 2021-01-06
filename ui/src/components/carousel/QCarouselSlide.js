@@ -17,7 +17,7 @@ export default Vue.extend({
     style () {
       if (this.imgSrc) {
         return {
-          backgroundImage: `url(${this.imgSrc})`
+          backgroundImage: `url("${this.imgSrc}")`
         }
       }
     }
@@ -27,7 +27,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-carousel__slide',
       style: this.style,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

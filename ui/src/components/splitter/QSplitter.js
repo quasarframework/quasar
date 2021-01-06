@@ -3,14 +3,16 @@ import Vue from 'vue'
 import TouchPan from '../../directives/TouchPan.js'
 
 import DarkMixin from '../../mixins/dark.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot, mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QSplitter',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, ListenersMixin ],
 
   directives: {
     TouchPan
@@ -95,6 +97,22 @@ export default Vue.extend({
           [this.prop]: this.__getCSSValue(this.value)
         }
       }
+    },
+
+    separatorDirectives () {
+      if (this.disable !== true) {
+        return [{
+          name: 'touch-pan',
+          value: this.__pan,
+          modifiers: {
+            [ this.horizontal === true ? 'vertical' : 'horizontal' ]: true,
+            prevent: true,
+            stop: true,
+            mouse: true,
+            mouseAllDir: true
+          }
+        }]
+      }
     }
   },
 
@@ -152,7 +170,8 @@ export default Vue.extend({
   },
 
   render (h) {
-    let child = [
+    const attrs = this.disable === true ? { 'aria-disabled': 'true' } : void 0
+    const child = [
       h('div', {
         ref: 'before',
         staticClass: 'q-splitter__panel q-splitter__before' + (this.reverse === true ? ' col' : ''),
@@ -164,22 +183,12 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-splitter__separator',
         style: this.separatorStyle,
-        class: this.separatorClass
+        class: this.separatorClass,
+        attrs
       }, [
         h('div', {
           staticClass: 'absolute-full q-splitter__separator-area',
-          directives: this.disable === true ? void 0 : cache(this, 'dir#' + this.horizontal, [{
-            name: 'touch-pan',
-            value: this.__pan,
-            modifiers: {
-              horizontal: this.horizontal !== true,
-              vertical: this.horizontal,
-              prevent: true,
-              stop: true,
-              mouse: true,
-              mouseAllDir: true
-            }
-          }])
+          directives: this.separatorDirectives
         }, slot(this, 'separator'))
       ]),
 
@@ -195,7 +204,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-splitter no-wrap',
       class: this.classes,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, mergeSlot(child, this, 'default'))
   }
 })

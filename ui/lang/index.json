@@ -4,6 +4,10 @@
     "nativeName": "العربية"
   },
   {
+    "isoName": "az-latn",
+    "nativeName": "Azerbaijani (latin)"
+  },
+  {
     "isoName": "bg",
     "nativeName": "български език"
   },
@@ -44,7 +48,15 @@
     "nativeName": "Español"
   },
   {
+    "isoName": "et",
+    "nativeName": "Eesti"
+  },
+  {
     "isoName": "fa-ir",
+    "nativeName": "فارسی"
+  },
+  {
+    "isoName": "fa",
     "nativeName": "فارسی"
   },
   {
@@ -90,6 +102,10 @@
   {
     "isoName": "ko-kr",
     "nativeName": "한국어"
+  },
+  {
+    "isoName": "kur-ckb",
+    "nativeName": "کوردی سۆرانی"
   },
   {
     "isoName": "lu",
@@ -162,6 +178,10 @@
   {
     "isoName": "tr",
     "nativeName": "Türkçe"
+  },
+  {
+    "isoName": "ug",
+    "nativeName": "ئۇيغۇرچە"
   },
   {
     "isoName": "uk",

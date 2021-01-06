@@ -60,12 +60,10 @@ module.exports.getVueComponent = function (rendered, data, toc) {
           }
         }` : ''}
       },
-      preFetch ({ store }) {
-        store.commit('updateToc', ${toc})
-      },
       ${data.components !== void 0 ? getComponentsDeclaration(data.components) : ''}
       ${data.related !== void 0 || data.nav !== void 0 ? `
       created () {
+        this.$root.store.toc = ${toc}
         ${data.related !== void 0 ? `this.related = ${JSON.stringify(data.related)}` : ''}
         ${data.nav !== void 0 ? `this.nav = ${JSON.stringify(data.nav)}` : ''}
         ${data.badge !== void 0 ? `this.badge = ${JSON.stringify(data.badge)}` : ''}

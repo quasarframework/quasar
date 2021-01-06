@@ -40,7 +40,7 @@ Notice (in the example below) the custom header and body slots.
 ::: warning
 Clicking or pressing `SPACE` or `ENTER` on the custom header selects the tree item (and the custom header is blurred).
 
-If you don't want this to happen just wrap the content of the custom header in a `<div @click.stop @keyup.13.32.stop>`.
+If you don't want this to happen just wrap the content of the custom header in a `<div @click.stop @keypress.stop>` (or add the listeners to the respective component/element that is emitting them).
 :::
 
 ### Accordion, filtering and selectable
@@ -95,8 +95,8 @@ The following describes a node's properties that are taken into account by QTree
 | label | String | The item has no label | Node's label. When `labelKey` prop is set the label is picked from that key. |
 | icon | String | The default icon is used | Node's icon. |
 | iconColor | String | The inherited color is used | Node's icon color. One from Quasar Color Palette. |
-| img | String | No image is displayed | Node's image. Use statics folder. Example: 'statics/mountains.png' |
-| avatar | String | No avatar is displayed | Node's avatar. Use statics folder. Example: 'statics/boy-avatar.png' |
+| img | String | No image is displayed | Node's image. Use /public folder. Example: 'mountains.png' |
+| avatar | String | No avatar is displayed | Node's avatar. Use /public folder. Example: 'boy-avatar.png' |
 | children | Array | This node has no sub-nodes | Array of nodes as children. |
 | disabled | Boolean | The node is enabled | Is node disabled? |
 | expandable | Boolean | The node is expandable | Is node expandable? |

@@ -58,7 +58,7 @@ const hasTouch = isSSR === false
   : false
 
 function applyIosCorrection (is) {
-  iosCorrection = { is: Object.assign({}, is) }
+  iosCorrection = { is: { ...is } }
 
   delete is.mac
   delete is.desktop
@@ -75,8 +75,9 @@ function applyIosCorrection (is) {
   })
 }
 
-function getPlatform (userAgent) {
+function getPlatform (UA) {
   const
+    userAgent = UA.toLowerCase(),
     platformMatch = getPlatformMatch(userAgent),
     matched = getMatch(userAgent, platformMatch),
     browser = {}
@@ -211,35 +212,45 @@ function getPlatform (userAgent) {
     else if (document.location.href.indexOf('-extension://') > -1) {
       browser.bex = true
     }
-    else if (window.Capacitor !== void 0) {
-      browser.capacitor = true
-      browser.nativeMobile = true
-      browser.nativeMobileWrapper = 'capacitor'
-    }
-    else if (window._cordovaNative !== void 0 || window.cordova !== void 0) {
-      browser.cordova = true
-      browser.nativeMobile = true
-      browser.nativeMobileWrapper = 'cordova'
-    }
-    else if (
-      hasTouch === true &&
-      browser.desktop === true &&
-      browser.mac === true &&
-      browser.safari === true
-    ) {
-      /*
-       * Correction needed for iOS since the default
-       * setting on iPad is to request desktop view; if we have
-       * touch support and the user agent says it's a
-       * desktop, we infer that it's an iPhone/iPad with desktop view
-       * so we must fix the false positives
-       */
-      applyIosCorrection(browser)
+    else {
+      if (window.Capacitor !== void 0) {
+        browser.capacitor = true
+        browser.nativeMobile = true
+        browser.nativeMobileWrapper = 'capacitor'
+      }
+      else if (window._cordovaNative !== void 0 || window.cordova !== void 0) {
+        browser.cordova = true
+        browser.nativeMobile = true
+        browser.nativeMobileWrapper = 'cordova'
+      }
+
+      if (
+        hasTouch === true &&
+        browser.mac === true &&
+        (
+          (browser.desktop === true && browser.safari === true) ||
+          (
+            browser.nativeMobile === true &&
+            browser.android !== true &&
+            browser.ios !== true &&
+            browser.ipad !== true
+          )
+        )
+      ) {
+        /*
+        * Correction needed for iOS since the default
+        * setting on iPad is to request desktop view; if we have
+        * touch support and the user agent says it's a
+        * desktop, we infer that it's an iPhone/iPad with desktop view
+        * so we must fix the false positives
+        */
+        applyIosCorrection(browser)
+      }
     }
 
     fromSSR = browser.nativeMobile === void 0 &&
       browser.electron === void 0 &&
-      !!document.querySelector('[data-server-rendered]')
+      document.querySelector('[data-server-rendered]') !== null
 
     if (fromSSR === true) {
       onSSR = true
@@ -249,8 +260,8 @@ function getPlatform (userAgent) {
   return browser
 }
 
-const userAgent = isSSR === false
-  ? (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
+const userAgent = isSSR !== true
+  ? navigator.userAgent || navigator.vendor || window.opera
   : ''
 
 const ssrClient = {
@@ -328,7 +339,7 @@ const Platform = {
 
 if (isSSR === true) {
   Platform.parseSSR = (/* ssrContext */ ssr) => {
-    const userAgent = (ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent'] || '').toLowerCase()
+    const userAgent = ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent'] || ''
     return {
       ...client,
       userAgent,

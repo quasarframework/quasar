@@ -8,11 +8,16 @@ module.exports = function (chain, cfg) {
   const rootPath = cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir
   const outputPath = path.join(rootPath, 'www')
 
+  const copyPatterns = []
+
   // Add a copy config to copy the static folder for both dev and build.
-  let copyArray = [{
-    from: appPaths.resolve.src( 'statics'),
-    to: path.join(outputPath, 'statics')
-  }]
+  if (cfg.build.ignorePublicFolder !== true) {
+    copyPatterns.push({
+      from: appPaths.resolve.app('public'),
+      to: outputPath,
+      noErrorOnMissing: true
+    })
+  }
 
   // Copy our entry BEX files to the .quasar/bex folder.
   fse.copySync(appPaths.resolve.cli('templates/entry/bex'), appPaths.resolve.app('.quasar/bex'))
@@ -23,6 +28,10 @@ module.exports = function (chain, cfg) {
   // Bundle our bex files for inclusion via the manifest.json
   chain.entry('bex-init')
     .add(appPaths.resolve.app('.quasar/bex/init/index.js'))
+
+  // We shouldn't minify BEX code. This option is disabled by default for BEX mode in quasar-conf.js.
+  // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/Source_Code_Submission#Provide_your_extension_source_code
+  chain.optimization.minimize(cfg.build.minify)
 
   if (cfg.ctx.dev) {
     // Clean old dir
@@ -45,19 +54,27 @@ module.exports = function (chain, cfg) {
       .use(BexPackager, [{
         src: cfg.bex.builder.directories.input,
         dest: cfg.bex.builder.directories.output,
-        name: require(path.join(appPaths.appDir, 'package.json')).name
+        name: require(appPaths.resolve.app('package.json')).name
       }])
 
-    // Copy our user edited BEX files to the dist dir (excluding the already build www folder)
-    copyArray.push({
+    // Copy our user edited BEX files to the dist dir (excluding the already built www folder)
+    copyPatterns.push({
       from: appPaths.bexDir,
       to: cfg.build.distDir,
-      ignore: ['www/**/*']
+      noErrorOnMissing: true,
+      globOptions: {
+        dot: false,
+        // These ignores are relative to the "from" path so no need for full paths here.
+        ignore: [
+          '**/www/**/*',
+          '**/bex-flag.d.ts'
+        ]
+      }
     })
   }
 
   // Copy any files we've registered during the chain.
   const CopyWebpackPlugin = require('copy-webpack-plugin')
   chain.plugin('copy-webpack')
-    .use(CopyWebpackPlugin, [copyArray])
+    .use(CopyWebpackPlugin, [{ patterns: copyPatterns }])
 }

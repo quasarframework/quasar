@@ -34,7 +34,6 @@
       opacity: 1
 
   &__header-subtitle
-    height: 24px
     font-size: 14px
     line-height: 1.75
     letter-spacing: .00938em
@@ -76,13 +75,26 @@
     width: 14.285% !important
     height: 12.5% !important
     position: relative
+    padding: 1px
+
+    &:after
+      content: ''
+      position: absolute
+      pointer-events: none
+      top: 1px
+      right: 0
+      bottom: 1px
+      left: 0
+      border-style: dashed
+      border-color: transparent
+      border-width: 1px
 
     > div, button
-      width: 32px
-      height: 32px
+      width: 30px
+      height: 30px
       border-radius: 50%
     > div
-      line-height: 32px
+      line-height: 30px
       text-align: center
 
     &--out
@@ -90,6 +102,66 @@
 
     &--fill
       visibility: hidden
+
+  &__range, &__range-from, &__range-to
+
+    &:before
+      content: ''
+      background-color: currentColor
+      position: absolute
+      top: 1px
+      bottom: 1px
+      left: 0
+      right: 0
+      opacity: .3
+
+    &:nth-child(7n-6)
+      &:before
+        border-top-left-radius: 0
+        border-bottom-left-radius: 0
+
+    &:nth-child(7n)
+      &:before
+        border-top-right-radius: 0
+        border-bottom-right-radius: 0
+
+  &__range-from
+    &:before
+      left: 50%
+  &__range-to
+    &:before
+      right: 50%
+
+  &__edit-range
+    &:after
+      border-color: currentColor transparent
+
+    &:nth-child(7n-6)
+      &:after
+        border-top-left-radius: 0
+        border-bottom-left-radius: 0
+    &:nth-child(7n)
+      &:after
+        border-top-right-radius: 0
+        border-bottom-right-radius: 0
+
+    &-from, &-from-to
+      &:after
+        left: 4px
+        border-left-color: currentColor
+        border-top-color: currentColor
+        border-bottom-color: currentColor
+        border-top-left-radius: $button-rounded-border-radius
+        border-bottom-left-radius: $button-rounded-border-radius
+
+    &-to, &-from-to
+      &:after
+        right: 4px
+        border-right-color: currentColor
+        border-top-color: currentColor
+        border-bottom-color: currentColor
+        border-top-right-radius: $button-rounded-border-radius
+        border-bottom-right-radius: $button-rounded-border-radius
 
   &__calendar-days-container
     height: 75%

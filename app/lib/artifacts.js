@@ -4,7 +4,7 @@ const fse = require('fs-extra')
 
 const appPaths = require('./app-paths')
 const filePath = appPaths.resolve.app('.quasar/artifacts.json')
-const log = require('./helpers/logger')('app:artifacts')
+const { log } = require('./helpers/logger')
 
 function exists () {
   return fs.existsSync(filePath)
@@ -65,6 +65,10 @@ module.exports.cleanAll = function () {
   fse.removeSync(folder)
   log(`Cleaned build artifact: "${folder}"`)
 
-  fse.emptyDirSync(appPaths.resolve.app('dist'))
-  log(`Emptied dist folder`)
+  const distFolder = appPaths.resolve.app('dist')
+
+  if (fs.existsSync(distFolder)) {
+    fse.emptyDirSync(distFolder)
+    log(`Emptied dist folder`)
+  }
 }

@@ -33,7 +33,7 @@ if (argv.help) {
 
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
-    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
     --depth, -d      Number of levels deep (default: 5)
     --path, -p       Path of config in dot notation
                         Examples:
@@ -47,31 +47,35 @@ if (argv.help) {
 require('../lib/helpers/ensure-argv')(argv, 'inspect')
 require('../lib/helpers/banner')(argv, argv.cmd)
 
+const { log, fatal } = require('../lib/helpers/logger')
+
 if (argv.mode !== 'spa') {
-  require('../lib/mode/install-missing')(argv.mode, argv.target)
+  const getMode = require('../lib/mode/index')
+  if (getMode(argv.mode).isInstalled !== true) {
+    fatal('Requested mode for inspection is NOT installed.\n')
+  }
 }
 
-const logger = require('../lib/helpers/logger')
-const log = logger('app:inspect')
-const warn = logger('app:inspect', 'red')
-const QuasarConfig = require('../lib/quasar-config')
+const QuasarConfFile = require('../lib/quasar-conf-file')
 
 const depth = parseInt(argv.depth, 10) || Infinity
 
-function getCfgEntries (webpackConfig, mode) {
+function getCfgEntries (webpackConf, mode) {
   if (mode === 'ssr') {
     return [
-      { name: 'Server', webpackCfg: webpackConfig.server },
-      { name: 'Client', webpackCfg: webpackConfig.client }
+      { name: 'Server', webpackCfg: webpackConf.server },
+      { name: 'Client', webpackCfg: webpackConf.client }
     ]
   }
-  if (mode === 'electron') {
+
+  if (mode === 'electron' || mode === 'bex') {
     return [
-      { name: 'Renderer', webpackCfg: webpackConfig.renderer },
-      { name: 'Main', webpackCfg: webpackConfig.main }
+      { name: 'Renderer', webpackCfg: webpackConf.renderer },
+      { name: 'Main', webpackCfg: webpackConf.main }
     ]
   }
-  return [ { name: 'Main', webpackCfg: webpackConfig } ]
+
+  return [ { name: 'Main', webpackCfg: webpackConf } ]
 }
 
 async function inspect () {
@@ -80,7 +84,9 @@ async function inspect () {
 
   const ctx = getQuasarCtx({
     mode: argv.mode,
-    target: argv.target,
+    target: argv.mode === 'cordova' || argv.mode === 'capacitor'
+      ? 'android'
+      : void 0,
     debug: argv.debug,
     dev: argv.cmd === 'dev',
     prod: argv.cmd === 'build'
@@ -89,21 +95,20 @@ async function inspect () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
-  const quasarConfig = new QuasarConfig(ctx)
+  const quasarConfFile = new QuasarConfFile(ctx)
 
   try {
-    await quasarConfig.prepare()
+    await quasarConfFile.prepare()
   }
   catch (e) {
     console.log(e)
-    warn(`⚠️ [FAIL] quasar.conf.js has JS errors`)
-    process.exit(1)
+    fatal(`[FAIL] quasar.conf.js has JS errors`)
   }
 
-  await quasarConfig.compile()
+  await quasarConfFile.compile()
 
   const util = require('util')
-  let cfgEntries = getCfgEntries(quasarConfig.getWebpackConfig(), argv.mode)
+  let cfgEntries = getCfgEntries(quasarConfFile.webpackConf, argv.mode)
 
   if (argv.path) {
     const dot = require('dot-prop')

@@ -1,10 +1,24 @@
 import { client } from '../plugins/Platform.js'
 import { isKeyCode } from '../utils/key-composition.js'
 
+function destroy (el) {
+  const ctx = el.__qgoback
+  if (ctx !== void 0) {
+    el.removeEventListener('click', ctx.goBack)
+    el.removeEventListener('keyup', ctx.goBackKey)
+    delete el.__qgoback
+  }
+}
+
 export default {
   name: 'go-back',
 
   bind (el, { value, modifiers }, vnode) {
+    if (el.__qgoback !== void 0) {
+      destroy(el)
+      el.__qgoback_destroyed = true
+    }
+
     const ctx = {
       value,
 
@@ -31,35 +45,26 @@ export default {
       }
     }
 
-    if (el.__qgoback) {
-      el.__qgoback_old = el.__qgoback
-    }
-
     el.__qgoback = ctx
+
     el.addEventListener('click', ctx.goBack)
     el.addEventListener('keyup', ctx.goBackKey)
   },
 
-  update (el, { value, oldValue, modifiers }) {
+  update (el, { value, oldValue }) {
     const ctx = el.__qgoback
 
-    if (ctx !== void 0) {
-      if (value !== oldValue) {
-        ctx.value = value
-      }
-
-      if (ctx.single !== modifiers.single) {
-        ctx.single = modifiers.single
-      }
+    if (ctx !== void 0 && value !== oldValue) {
+      ctx.value = value
     }
   },
 
   unbind (el) {
-    const ctx = el.__qgoback_old || el.__qgoback
-    if (ctx !== void 0) {
-      el.removeEventListener('click', ctx.goBack)
-      el.removeEventListener('keyup', ctx.goBackKey)
-      delete el[el.__qgoback_old ? '__qgoback_old' : '__qgoback']
+    if (el.__qgoback_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qgoback_destroyed
     }
   }
 }

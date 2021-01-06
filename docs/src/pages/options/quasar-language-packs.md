@@ -22,11 +22,12 @@ For a complete list of available Quasar Languages, check [Quasar Languages on Gi
 
 Unless configured otherwise (see below), Quasar uses the `en-us` Language Pack by default.
 
-### Hardcoded Default Language Pack
+### Hardcoded
 If the default Quasar Language Pack is not dynamically determined (does not depends on cookies for example), then you can:
 
 #### Quasar CLI
 Edit `/quasar.conf.js`:
+
 ```js
 framework: {
   lang: 'de'
@@ -35,6 +36,7 @@ framework: {
 
 #### Vue CLI
 Edit your `main.js`:
+
 ```js
 import langDe from 'quasar/lang/de'
 // ...
@@ -64,7 +66,7 @@ Include the language pack JS tag for your Quasar version and also tell Quasar to
 
 Check what tags you need to include in your HTML files on [UMD / Standalone](/start/umd) page.
 
-### Dynamically Picking Default Language
+### Dynamical (non-SSR)
 Quasar CLI: If your desired Quasar Language Pack must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-lang-pack`. This will create `/src/boot/quasar-lang-pack.js` file. Edit it to:
 
 ```js
@@ -93,6 +95,7 @@ export default async () => {
 ```
 
 Then register this boot file into `/quasar.conf.js`:
+
 ```js
 boot: [
   'quasar-lang-pack'
@@ -100,11 +103,42 @@ boot: [
 ```
 
 ::: warning Always constrain a dynamic import
-Notice the use of the [Webpack magic comment](https://webpack.js.org/api/module-methods/#magic-comments) `webpackInclude`. Otherwise all the available language packs will be bundled, resulting in an increase in the compilation time and the bundle size. See [Caveat for dynamic imports](https://quasar.dev/quasar-cli/cli-documentation/lazy-loading#Caveat-for-dynamic-imports)
+Notice the use of the [Webpack magic comment](https://webpack.js.org/api/module-methods/#magic-comments) - `webpackInclude`. Otherwise all the available language packs will be bundled, resulting in an increase in the compilation time and the bundle size. See [Caveat for dynamic imports](https://quasar.dev/quasar-cli/lazy-loading#Caveat-for-dynamic-imports)
 :::
+
+### Dynamical (SSR) <q-badge align="top" label="v1.11+" />
+When dealing with SSR, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
+
+```js
+// for when you don't specify quasar.conf.js > framework: 'all'
+import { Quasar } from 'quasar'
+// OTHERWISE:
+import Quasar from 'quasar'
+
+// ! NOTICE ssrContext param:
+export default async ({ ssrContext }) => {
+  const langIso = 'de' // ... some logic to determine it (use Cookies Plugin?)
+
+  try {
+    await import(
+      /* webpackInclude: /(de|en-us)\.js$/ */
+      'quasar/lang/' + langIso
+      )
+      .then(lang => {
+        // ! NOTICE ssrContext param:
+        Quasar.lang.set(lang.default, ssrContext)
+      })
+  }
+  catch (err) {
+    // Requested Quasar Language Pack does not exist,
+    // let's not break the app, so catching error
+  }
+}
+```
 
 ## Change Quasar Language Pack at Runtime
 Example with a QSelect to dynamically change the Quasar components language:
+
 ```html
 <template>
   <q-select

@@ -4,16 +4,17 @@ import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
 
 import DarkMixin from '../../mixins/dark.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { stop } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 import { isKeyCode } from '../../utils/key-composition.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QPagination',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, ListenersMixin ],
 
   props: {
     value: {
@@ -76,6 +77,20 @@ export default Vue.extend({
     ripple: {
       type: [Boolean, Object],
       default: null
+    },
+
+    round: Boolean,
+    rounded: Boolean,
+
+    outline: Boolean,
+    unelevated: Boolean,
+    push: Boolean,
+    glossy: Boolean,
+
+    dense: Boolean,
+    padding: {
+      type: String,
+      default: '6px 5px'
     }
   },
 
@@ -143,13 +158,24 @@ export default Vue.extend({
     attrs () {
       if (this.disable === true) {
         return {
-          'aria-disabled': ''
+          'aria-disabled': 'true'
         }
       }
     },
 
     btnProps () {
       return {
+        round: this.round,
+        rounded: this.rounded,
+
+        outline: this.outline,
+        unelevated: this.unelevated,
+        push: this.push,
+        glossy: this.glossy,
+
+        dense: this.dense,
+        padding: this.padding,
+
         color: this.color,
         flat: true,
         size: this.size,
@@ -362,7 +388,7 @@ export default Vue.extend({
       staticClass: 'q-pagination row no-wrap items-center',
       class: { disabled: this.disable },
       attrs: this.attrs,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, [
       contentStart,
 

@@ -1,16 +1,12 @@
 ---
-title: BEX Preparation
-desc: How to manage the Browser Extension (BEX) mode into a Quasar app.
+title: Preparation for BEX
+desc: How to add the Browser Extension (BEX) mode into a Quasar app.
 ---
 
 The difference between building a SPA, Mobile App, Electron App, BEX or SSR is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
 
 ::: tip
 You will need `@quasar/app` v1.7+ in order to run BEX mode.
-:::
-
-::: warning
-BEX mode is in a short beta stage currently. We appreciate any feedback.
 :::
 
 ## 1. Add Quasar BEX Mode
@@ -33,6 +29,7 @@ The `src-bex` folder is just a standard browser extension folder so you are free
 
 * [Mozilla FireFox Browser Extension Documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions)
 * [Google Chrome Browser Extension Documentation](https://developer.chrome.com/extensions)
+* **Other Chromium Based Browsers** - Refer to their specific documentation.
 :::
 
 ## 2. Understand The Anatomy Of `src-bex`
@@ -52,7 +49,7 @@ The new folder has the following structure:
     |   ├── background-hooks.js   # Background script with a hook into the BEX communication layer
     |   ├── content-hooks.js      # Content script script with a hook into the BEX communication layer
     |   ├── content-script.js     # Standard content script BEX file - auto injected via manifest.json
-    |   └── dom-hooks.png         # JS file which is injected into the DOM with a hook into the BEX communication layer
+    |   └── dom-hooks.js          # JS file which is injected into the DOM with a hook into the BEX communication layer
     └── www/                   # Compiled BEX source - compiled from /src (Quasar app)
     └── manifest.json          # Main thread code for production
 ```

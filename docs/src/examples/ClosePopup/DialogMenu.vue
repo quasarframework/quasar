@@ -21,7 +21,7 @@
                     <q-icon name="keyboard_arrow_right" />
                   </q-item-section>
 
-                  <q-menu anchor="top right" self="top left">
+                  <q-menu anchor="top end" self="top start">
                     <q-list>
                       <q-item
                         v-for="n in 3"
@@ -33,7 +33,7 @@
                         <q-item-section side>
                           <q-icon name="keyboard_arrow_right" />
                         </q-item-section>
-                        <q-menu anchor="top right" self="top left">
+                        <q-menu anchor="top end" self="top start">
                           <q-list>
                             <q-item
                               v-for="n in 3"

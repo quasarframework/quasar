@@ -146,44 +146,43 @@
 
     "mouseAllDir": {
       "type": "Boolean",
-      "desc": "Ignore initial mouse move direction (do not abort if the first mouse move is in an unaccepted direction)",
-      "reactive": true
+      "desc": "Ignore initial mouse move direction (do not abort if the first mouse move is in an unaccepted direction)"
+    },
+
+    "preserveCursor": {
+      "type": "Boolean",
+      "desc": "Prevent the mouse cursor from automatically displaying as grabbing when panning",
+      "addedIn": "v1.13.0"
     },
 
     "horizontal": {
       "type": "Boolean",
-      "desc": "Catch horizontal (left/right) movement",
-      "reactive": true
+      "desc": "Catch horizontal (left/right) movement"
     },
 
     "vertical": {
       "type": "Boolean",
-      "desc": "Catch vertical (up/down) movement",
-      "reactive": true
+      "desc": "Catch vertical (up/down) movement"
     },
 
     "up": {
       "type": "Boolean",
-      "desc": "Catch panning to up",
-      "reactive": true
+      "desc": "Catch panning to up"
     },
 
     "right": {
       "type": "Boolean",
-      "desc": "Catch panning to right",
-      "reactive": true
+      "desc": "Catch panning to right"
     },
 
     "down": {
       "type": "Boolean",
-      "desc": "Catch panning to down",
-      "reactive": true
+      "desc": "Catch panning to down"
     },
 
     "left": {
       "type": "Boolean",
-      "desc": "Catch panning to left",
-      "reactive": true
+      "desc": "Catch panning to left"
     }
   }
 }

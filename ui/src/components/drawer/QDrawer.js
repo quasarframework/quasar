@@ -9,7 +9,8 @@ import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
+import { ariaHidden } from '../../mixins/attrs'
 
 const duration = 150
 
@@ -230,7 +231,7 @@ export default Vue.extend({
     },
 
     backdropClass () {
-      return this.showing === false ? 'no-pointer-events' : null
+      return this.showing === false ? 'hidden' : null
     },
 
     headerSlot () {
@@ -307,7 +308,7 @@ export default Vue.extend({
 
         mouseEvents.forEach(name => {
           evt[name] = e => {
-            this.$listeners[name] !== void 0 && this.$emit(name, e)
+            this.qListeners[name] !== void 0 && this.$emit(name, e)
           }
         })
 
@@ -404,6 +405,12 @@ export default Vue.extend({
       }
     },
 
+    __setBackdropVisible (v) {
+      if (this.$refs.backdrop !== void 0) {
+        this.$refs.backdrop.classList[v === true ? 'remove' : 'add']('hidden')
+      }
+    },
+
     __setScrollable (v) {
       const action = v === true
         ? 'remove'
@@ -452,6 +459,7 @@ export default Vue.extend({
           this.__applyPosition(this.stateDirection * width)
           el.classList.remove('q-drawer--delimiter')
           el.classList.add('q-layout--prevent-focus')
+          this.__setBackdropVisible(false)
         }
 
         return
@@ -471,6 +479,7 @@ export default Vue.extend({
         el.classList.add('no-transition')
         el.classList.add('q-drawer--delimiter')
         el.classList.remove('q-layout--prevent-focus')
+        this.__setBackdropVisible(true)
       }
     },
 
@@ -515,6 +524,7 @@ export default Vue.extend({
     __show (evt, noEvent) {
       this.__addHistory()
 
+      this.__setBackdropVisible(true)
       evt !== false && this.layout.__animate()
       this.__applyPosition(0)
 
@@ -545,6 +555,7 @@ export default Vue.extend({
 
       this.__applyBackdrop(0)
       this.__applyPosition(this.stateDirection * this.size)
+      this.__setBackdropVisible(false)
 
       this.__cleanup()
 
@@ -585,7 +596,7 @@ export default Vue.extend({
       this.showIfAbove === true &&
       this.value !== true &&
       this.showing === true &&
-      this.$listeners.input !== void 0
+      this.qListeners.input !== void 0
     ) {
       this.$emit('input', true)
     }
@@ -595,13 +606,17 @@ export default Vue.extend({
     this.$emit('on-layout', this.onLayout)
     this.$emit('mini-state', this.isMini)
 
+    this.lastDesktopState = this.showIfAbove === true
+
     const fn = () => {
       const action = this.showing === true ? 'show' : 'hide'
       this[`__${action}`](false, true)
     }
 
     if (this.layout.totalWidth !== 0) {
-      fn()
+      // make sure that all computed properties
+      // have been updated before calling __show/__hide()
+      this.$nextTick(fn)
       return
     }
 
@@ -639,6 +654,7 @@ export default Vue.extend({
       this.noSwipeOpen !== true && child.push(
         h('div', {
           staticClass: `q-drawer__opener fixed-${this.side}`,
+          attrs: ariaHidden,
           directives: this.openDirective
         })
       )
@@ -648,11 +664,14 @@ export default Vue.extend({
           ref: 'backdrop',
           staticClass: 'fullscreen q-drawer__backdrop',
           class: this.backdropClass,
+          attrs: ariaHidden,
           style: this.lastBackdropBg !== void 0
             ? { backgroundColor: this.lastBackdropBg }
             : null,
           on: cache(this, 'bkdrop', { click: this.hide }),
-          directives: this.backdropCloseDirective
+          directives: this.showing === false
+            ? void 0
+            : this.backdropCloseDirective
         })
       )
     }

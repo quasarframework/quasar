@@ -1,5 +1,5 @@
 function samePagination (oldPag, newPag) {
-  for (let prop in newPag) {
+  for (const prop in newPag) {
     if (newPag[prop] !== oldPag[prop]) {
       return false
     }
@@ -22,16 +22,17 @@ export default {
     pagination: Object,
     rowsPerPageOptions: {
       type: Array,
-      default: () => [3, 5, 7, 10, 15, 20, 25, 50, 0]
+      default: () => [ 5, 7, 10, 15, 20, 25, 50, 0 ]
     }
   },
 
   computed: {
     computedPagination () {
-      return fixPagination({
-        ...this.innerPagination,
-        ...this.pagination
-      })
+      const pag = this.qListeners['update:pagination'] !== void 0
+        ? { ...this.innerPagination, ...this.pagination }
+        : this.innerPagination
+
+      return fixPagination(pag)
     },
 
     firstRowIndex () {
@@ -64,7 +65,11 @@ export default {
     },
 
     computedRowsPerPageOptions () {
-      return this.rowsPerPageOptions.map(count => ({
+      const opts = this.rowsPerPageOptions.includes(this.innerPagination.rowsPerPage)
+        ? this.rowsPerPageOptions
+        : [ this.innerPagination.rowsPerPage ].concat(this.rowsPerPageOptions)
+
+      return opts.map(count => ({
         label: count === 0 ? this.$q.lang.table.allRows : '' + count,
         value: count
       }))
@@ -102,23 +107,27 @@ export default {
       })
 
       if (samePagination(this.computedPagination, newPagination)) {
-        if (this.isServerSide && forceServerRequest) {
+        if (this.isServerSide === true && forceServerRequest === true) {
           this.__sendServerRequest(newPagination)
         }
         return
       }
 
-      if (this.isServerSide) {
+      if (this.isServerSide === true) {
         this.__sendServerRequest(newPagination)
         return
       }
 
-      if (this.pagination) {
+      if (this.pagination !== void 0 && this.qListeners['update:pagination'] !== void 0) {
         this.$emit('update:pagination', newPagination)
       }
       else {
         this.innerPagination = newPagination
       }
+    },
+
+    firstPage () {
+      this.setPagination({ page: 1 })
     },
 
     prevPage () {
@@ -133,10 +142,16 @@ export default {
       if (this.lastRowIndex > 0 && page * rowsPerPage < this.computedRowsNumber) {
         this.setPagination({ page: page + 1 })
       }
+    },
+
+    lastPage () {
+      this.setPagination({ page: this.pagesNumber })
     }
   },
 
   created () {
-    this.$emit('update:pagination', { ...this.computedPagination })
+    if (this.qListeners['update:pagination'] !== void 0) {
+      this.$emit('update:pagination', { ...this.computedPagination })
+    }
   }
 }

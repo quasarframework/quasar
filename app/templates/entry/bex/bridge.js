@@ -1,5 +1,5 @@
 /**
- * THIS FILE WILL BE OVERWRITTEN.
+ * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
  **/
 
@@ -21,12 +21,15 @@ const
 export default class Bridge extends EventEmitter {
   constructor (wall) {
     super()
+
     this.setMaxListeners(Infinity)
     this.wall = wall
+
     wall.listen(messages => {
       if (Array.isArray(messages)) {
         messages.forEach(message => this._emit(message))
-      } else {
+      }
+      else {
         this._emit(messages)
       }
     })
@@ -58,7 +61,8 @@ export default class Bridge extends EventEmitter {
   _emit (message) {
     if (typeof message === 'string') {
       this.emit(message)
-    } else {
+    }
+    else {
       this.emit(message.event, message.payload)
     }
   }
@@ -92,7 +96,8 @@ export default class Bridge extends EventEmitter {
             this.off(eventResponseKey, fn)
             resolve(allChunks)
           }
-        } else {
+        }
+        else {
           this.off(eventResponseKey, fn)
           resolve(r)
         }
@@ -115,7 +120,8 @@ export default class Bridge extends EventEmitter {
         })
 
         this.wall.send(messagesToSend)
-      } catch (err) {
+      }
+      catch (err) {
         const errorMessage = 'Message length exceeded maximum allowed length.'
 
         if (err.message === errorMessage) {
@@ -125,7 +131,8 @@ export default class Bridge extends EventEmitter {
             if (process.env.NODE_ENV !== 'production') {
               console.error(errorMessage + ' Note: The bridge can deal with this is if the payload is an Array.')
             }
-          } else {
+          }
+          else {
             const objectSize = sizeOf(currentMessage)
 
             if (objectSize > this._maxMessageSize) {
@@ -152,6 +159,7 @@ export default class Bridge extends EventEmitter {
           }
         }
       }
+
       this._sending = false
       requestAnimationFrame(() => { return this._nextSend() })
     })

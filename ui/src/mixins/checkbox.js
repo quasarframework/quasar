@@ -6,7 +6,7 @@ import OptionSizeMixin from './option-size.js'
 import RefocusTargetMixin from './refocus-target.js'
 
 import { slot, mergeSlot } from '../utils/slot.js'
-import { cache } from '../utils/vm.js'
+import cache from '../utils/cache.js'
 
 export default {
   mixins: [ DarkMixin, OptionSizeMixin, FormMixin, RefocusTargetMixin ],
@@ -20,13 +20,16 @@ export default {
 
     trueValue: { default: true },
     falseValue: { default: false },
-
-    toggleIndeterminate: Boolean,
     indeterminateValue: { default: null },
+
+    toggleOrder: {
+      type: String,
+      validator: v => v === 'tf' || v === 'ft'
+    },
+    toggleIndeterminate: Boolean,
 
     label: String,
     leftLabel: Boolean,
-    fontSize: String,
 
     color: String,
     keepColor: Boolean,
@@ -50,8 +53,7 @@ export default {
     },
 
     isIndeterminate () {
-      return this.value === this.indeterminateValue &&
-        this.value !== this.falseValue
+      return this.isTrue === false && this.isFalse === false
     },
 
     index () {
@@ -66,12 +68,6 @@ export default {
 
     computedTabindex () {
       return this.disable === true ? -1 : this.tabindex || 0
-    },
-
-    labelStyle () {
-      if (this.fontSize !== void 0) {
-        return { fontSize: this.fontSize }
-      }
     },
 
     classes () {
@@ -115,11 +111,11 @@ export default {
         'aria-label': this.label,
         'aria-checked': this.isIndeterminate === true
           ? 'mixed'
-          : this.isTrue === true ? 'true' : 'false'
+          : (this.isTrue === true ? 'true' : 'false')
       }
 
       if (this.disable === true) {
-        attrs['aria-disabled'] = ''
+        attrs['aria-disabled'] = 'true'
       }
 
       return attrs
@@ -133,34 +129,39 @@ export default {
         this.__refocusTarget(e)
       }
 
-      if (this.disable === true) {
-        return
+      if (this.disable !== true) {
+        this.$emit('input', this.__getNextValue(), e)
       }
+    },
 
-      let val
-
+    __getNextValue () {
       if (this.modelIsArray === true) {
         if (this.isTrue === true) {
-          val = this.value.slice()
+          const val = this.value.slice()
           val.splice(this.index, 1)
+          return val
         }
-        else {
-          val = this.value.concat([ this.val ])
-        }
-      }
-      else if (this.isTrue === true) {
-        val = this.toggleIndeterminate === true
-          ? this.indeterminateValue
-          : this.falseValue
-      }
-      else if (this.isFalse === true) {
-        val = this.trueValue
-      }
-      else {
-        val = this.falseValue
+
+        return this.value.concat([ this.val ])
       }
 
-      this.$emit('input', val)
+      if (this.isTrue === true) {
+        if (this.toggleOrder !== 'ft' || this.toggleIndeterminate === false) {
+          return this.falseValue
+        }
+      }
+      else if (this.isFalse === true) {
+        if (this.toggleOrder === 'ft' || this.toggleIndeterminate === false) {
+          return this.trueValue
+        }
+      }
+      else {
+        return this.toggleOrder !== 'ft'
+          ? this.trueValue
+          : this.falseValue
+      }
+
+      return this.indeterminateValue
     },
 
     __onKeydown (e) {
@@ -182,12 +183,12 @@ export default {
     this.disable !== true && this.__injectFormInput(
       inner,
       'unshift',
-      `q-${this.type}__native absolute q-ma-none q-pa-none invisible`
+      `q-${this.type}__native absolute q-ma-none q-pa-none`
     )
 
     const child = [
       h('div', {
-        staticClass: `q-${this.type}__inner relative-position no-pointer-events`,
+        staticClass: `q-${this.type}__inner relative-position non-selectable`,
         class: this.innerClass,
         style: this.sizeStyle
       }, inner)

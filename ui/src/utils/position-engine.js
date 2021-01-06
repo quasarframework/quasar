@@ -4,16 +4,16 @@ import { client } from '../plugins/Platform.js'
 let vpLeft, vpTop
 
 export function validatePosition (pos) {
-  let parts = pos.split(' ')
+  const parts = pos.split(' ')
   if (parts.length !== 2) {
     return false
   }
-  if (!['top', 'center', 'bottom'].includes(parts[0])) {
+  if ([ 'top', 'center', 'bottom' ].includes(parts[0]) !== true) {
     console.error('Anchor/Self position must start with one of top/center/bottom')
     return false
   }
-  if (!['left', 'middle', 'right'].includes(parts[1])) {
-    console.error('Anchor/Self position must end with one of left/middle/right')
+  if ([ 'left', 'middle', 'right', 'start', 'end' ].includes(parts[1]) !== true) {
+    console.error('Anchor/Self position must end with one of left/middle/right/start/end')
     return false
   }
   return true
@@ -28,9 +28,24 @@ export function validateOffset (val) {
   return true
 }
 
-export function parsePosition (pos) {
-  let parts = pos.split(' ')
-  return { vertical: parts[0], horizontal: parts[1] }
+const horizontalPos = {
+  'start#ltr': 'left',
+  'start#rtl': 'right',
+  'end#ltr': 'right',
+  'end#rtl': 'left'
+}
+
+;[ 'left', 'middle', 'right' ].forEach(pos => {
+  horizontalPos[`${pos}#ltr`] = pos
+  horizontalPos[`${pos}#rtl`] = pos
+})
+
+export function parsePosition (pos, rtl) {
+  const parts = pos.split(' ')
+  return {
+    vertical: parts[0],
+    horizontal: horizontalPos[`${parts[1]}#${rtl === true ? 'rtl' : 'ltr'}`]
+  }
 }
 
 export function validateCover (val) {
@@ -137,19 +152,19 @@ export function setPosition (cfg) {
   applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
 
   elStyle = {
-    top: Math.floor(props.top) + 'px',
-    left: Math.floor(props.left) + 'px'
+    top: props.top + 'px',
+    left: props.left + 'px'
   }
 
   if (props.maxHeight !== void 0) {
-    elStyle.maxHeight = Math.floor(props.maxHeight) + 'px'
+    elStyle.maxHeight = props.maxHeight + 'px'
 
     if (anchorProps.height > props.maxHeight) {
       elStyle.minHeight = elStyle.maxHeight
     }
   }
   if (props.maxWidth !== void 0) {
-    elStyle.maxWidth = Math.floor(props.maxWidth) + 'px'
+    elStyle.maxWidth = props.maxWidth + 'px'
 
     if (anchorProps.width > props.maxWidth) {
       elStyle.minWidth = elStyle.maxWidth

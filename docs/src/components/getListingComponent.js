@@ -20,8 +20,8 @@ export default function (title, links) {
       )
     },
 
-    preFetch ({ store }) {
-      store.commit('updateToc', [])
+    created () {
+      this.$root.store.toc = []
     },
 
     render (h) {
