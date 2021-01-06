@@ -49,8 +49,8 @@ export default {
 
       // we are using QResizeObserver to keep
       // this example mobile-friendly
-      onResize ({ width }) {
-        width.value = width
+      onResize (info) {
+        width.value = info.width
       }
     }
   }
