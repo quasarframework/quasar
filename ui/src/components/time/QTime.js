@@ -75,7 +75,7 @@ export default defineComponent({
     const isDark = useDark(props, $q)
     const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
 
-    const formAttrs = useFormAttrs()
+    const formAttrs = useFormAttrs(props)
     const injectFormInput = useFormInject(formAttrs)
 
     let draggingClockRect, dragCache
