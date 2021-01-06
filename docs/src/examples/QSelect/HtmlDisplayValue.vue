@@ -5,7 +5,7 @@
     </q-badge>
 
     <div class="q-gutter-md">
-      <q-toggle v-model="displayHtml" label="Sanitize display value" />
+      <q-toggle v-model="displayHtml" label="Display value in HTML form" />
 
       <q-select
         filled

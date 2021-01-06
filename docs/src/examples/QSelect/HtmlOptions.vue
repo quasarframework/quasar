@@ -5,9 +5,9 @@
     </q-badge>
 
     <div class="q-gutter-md">
-      <q-toggle v-model="optionsSanitize" label="Sanitize options" />
+      <q-toggle v-model="optionsHtml" label="Options in HTML form" />
 
-      <q-select filled v-model="model" :options="options" label="Standard" options-html />
+      <q-select filled v-model="model" :options="options" label="Standard" :options-html="optionsHtml" />
     </div>
   </div>
 </template>
@@ -19,14 +19,15 @@ export default {
   setup () {
     return {
       model: ref(null),
+      optionsHtml: ref(false),
 
       options: [
         {
-          label: '<span class="text-primary">G</span>oogle',
+          label: '<span class="text-primary text-bold text-underline">Goo</span>gle',
           value: 'Google'
         },
         {
-          label: '<span class="text-primary">This is</span> sanitized through option',
+          label: '<span class="text-primary">This is</span> in <span class="text-negative text-bold">HTML form</span> through an option prop',
           value: 'Facebook',
           html: true
         }
