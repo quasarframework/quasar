@@ -1,7 +1,7 @@
 .q-separator
-  border: 0
-  background: $separator-color
-  margin: 0
+  border: 0 /* rtl:ignore */
+  background: $separator-color /* rtl:ignore */
+  margin: 0 /* rtl:ignore */
   transition: background .3s, opacity .3s
   flex-shrink: 0
 
@@ -11,26 +11,22 @@
   &--horizontal
     display: block
     height: 1px
-    width: 100%
 
     &-inset
-      margin-left: 16px
-      margin-right: 16px
-      width: calc(100% - 32px)
+      margin-left: 16px /* rtl:ignore */
+      margin-right: 16px /* rtl:ignore */
     &-item-inset
       margin-left: 72px
       margin-right: 0
-      width: calc(100% - 72px)
     &-item-thumbnail-inset
       margin-left: 116px
       margin-right: 0
-      width: calc(100% - 116px)
 
   &--vertical
     width: 1px
-    height: inherit
+    height: auto
     align-self: stretch
 
     &-inset
-      margin-top: 8px
-      margin-bottom: 8px
+      margin-top: 8px /* rtl:ignore */
+      margin-bottom: 8px /* rtl:ignore */
