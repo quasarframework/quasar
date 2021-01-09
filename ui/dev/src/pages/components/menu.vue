@@ -206,6 +206,7 @@
                 :anchor="anchor"
                 :self="self"
                 auto-close
+                transition-duration="1000"
               >
                 <q-list style="min-width: 400px">
                   <q-item

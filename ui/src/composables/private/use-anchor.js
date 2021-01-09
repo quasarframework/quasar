@@ -33,62 +33,65 @@ export default function ({
       : (evt === void 0 || evt.touches === void 0 || evt.touches.length <= 1)
   }
 
-  const anchorEvents = {
-    contextClick (evt) {
-      vmProxy.hide(evt)
-      nextTick(() => { vmProxy.show(evt) })
-      prevent(evt)
-    },
-
-    hide (evt) {
-      vmProxy.hide(evt)
-    },
-
-    toggle (evt) {
-      vmProxy.toggle(evt)
-    },
-
-    toggleKey (evt) {
-      isKeyCode(evt, 13) === true && vmProxy.toggle(evt)
-    },
-
-    mobilePrevent: prevent,
-
-    mobileTouch (evt) {
-      anchorEvents.mobileCleanup(evt)
-
-      if (canShow(evt) !== true) {
-        return
-      }
-
-      vmProxy.hide(evt)
-      anchorEl.value.classList.add('non-selectable')
-
-      const target = getTouchTarget(evt.target)
-      addEvt(anchorEvents, 'anchor', [
-        [ target, 'touchmove', 'mobileCleanup', 'passive' ],
-        [ target, 'touchend', 'mobileCleanup', 'passive' ],
-        [ target, 'touchcancel', 'mobileCleanup', 'passive' ],
-        [ anchorEl.value, 'contextmenu', 'mobilePrevent', 'notPassive' ]
-      ])
-
-      touchTimer = setTimeout(() => {
-        vmProxy.show(evt)
-      }, 300)
-    },
-
-    mobileCleanup (evt) {
-      anchorEl.value.classList.remove('non-selectable')
-      clearTimeout(touchTimer)
-
-      if (showing.value === true && evt !== void 0) {
-        clearSelection()
-      }
-    }
-  }
+  const anchorEvents = {}
 
   if (configureAnchorEl === void 0) {
-    // default configureAnchorEl is designed for QMenu
+    // default configureAnchorEl is designed for
+    // QMenu & QPopupProxy (which is why it's handled here)
+
+    Object.assign(anchorEvents, {
+      hide (evt) {
+        vmProxy.hide(evt)
+      },
+
+      toggle (evt) {
+        vmProxy.toggle(evt)
+      },
+
+      toggleKey (evt) {
+        isKeyCode(evt, 13) === true && vmProxy.toggle(evt)
+      },
+
+      contextClick (evt) {
+        vmProxy.hide(evt)
+        nextTick(() => { vmProxy.show(evt) })
+        prevent(evt)
+      },
+
+      mobilePrevent: prevent,
+
+      mobileTouch (evt) {
+        anchorEvents.mobileCleanup(evt)
+
+        if (canShow(evt) !== true) {
+          return
+        }
+
+        vmProxy.hide(evt)
+        anchorEl.value.classList.add('non-selectable')
+
+        const target = getTouchTarget(evt.target)
+        addEvt(anchorEvents, 'anchor', [
+          [ target, 'touchmove', 'mobileCleanup', 'passive' ],
+          [ target, 'touchend', 'mobileCleanup', 'passive' ],
+          [ target, 'touchcancel', 'mobileCleanup', 'passive' ],
+          [ anchorEl.value, 'contextmenu', 'mobilePrevent', 'notPassive' ]
+        ])
+
+        touchTimer = setTimeout(() => {
+          vmProxy.show(evt)
+        }, 300)
+      },
+
+      mobileCleanup (evt) {
+        anchorEl.value.classList.remove('non-selectable')
+        clearTimeout(touchTimer)
+
+        if (showing.value === true && evt !== void 0) {
+          clearSelection()
+        }
+      }
+    })
 
     configureAnchorEl = function (context = props.contextMenu) {
       if (props.noParentEvent === true || anchorEl.value === null) { return }

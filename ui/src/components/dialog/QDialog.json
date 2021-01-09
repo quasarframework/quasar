@@ -71,14 +71,12 @@
 
     "transition-show": {
       "extends": "transition",
-      "default": "scale",
-      "category": "behavior"
+      "default": "scale"
     },
 
     "transition-hide": {
       "extends": "transition",
-      "default": "scale",
-      "category": "behavior"
+      "default": "scale"
     },
 
     "square": {
