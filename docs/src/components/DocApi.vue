@@ -74,18 +74,18 @@ q-card.doc-api.q-my-lg(flat bordered)
             transition-next="slide-up"
           )
             q-tab-panel(v-for="innerTab in innerTabsList[tab]", :name="innerTab", :key="innerTab", class="q-pa-none")
-              ApiRows(:type="tab", :definition="filteredApi[tab][innerTab]")
+              DocApiEntry(:type="tab", :definition="filteredApi[tab][innerTab]")
 
         .api-container(v-else)
-          ApiRows(:type="tab", :definition="filteredApi[tab][defaultInnerTabName]")
+          DocApiEntry(:type="tab", :definition="filteredApi[tab][defaultInnerTabName]")
 </template>
 
 <script>
 import { ref, computed, watch, onMounted } from 'vue'
 import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v5'
 
-import ApiRows from './ApiRows.js'
 import CardTitle from './CardTitle.vue'
+import DocApiEntry from './DocApiEntry.js'
 
 const defaultInnerTabName = '__default'
 
@@ -234,8 +234,8 @@ export default {
   name: 'DocApi',
 
   components: {
-    ApiRows,
-    CardTitle
+    CardTitle,
+    DocApiEntry
   },
 
   props: {

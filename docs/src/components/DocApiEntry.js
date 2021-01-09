@@ -1,7 +1,7 @@
 import { h } from 'vue'
 import { QBadge } from 'quasar'
 
-import './ApiRows.sass'
+import './DocApiEntry.sass'
 
 function getEventParams (event) {
   const params = event.params === void 0 || event.params.length === 0
