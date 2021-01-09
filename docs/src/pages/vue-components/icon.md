@@ -64,7 +64,7 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 
 #### Material Icons (Google)
 
-* Icon names are always in snake-case.
+* Icon names are always in snake_case.
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon. Remember its name (eg. "all_inbox") and use it.
 
 #### MDI (Material Design Icons)
