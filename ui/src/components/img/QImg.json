@@ -159,6 +159,12 @@
       "type": "Boolean",
       "desc": "Disables the native context menu for the image",
       "category": "behavior"
+    },
+
+    "no-transition": {
+      "type": "Boolean",
+      "desc": "Disable default transition when switching between old and new image",
+      "category": "behavior"
     }
   },
 
