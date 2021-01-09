@@ -1,4 +1,4 @@
-import { h, computed } from 'vue'
+import { h } from 'vue'
 import { QBadge } from 'quasar'
 
 import './ApiRows.sass'
@@ -406,6 +406,12 @@ describe.injection = injection => {
 
 describe.quasarConfOptions = conf => {
   const child = []
+  const entry = [
+    getDiv(12, 'Property Name', [
+      h('span', { class: 'text-grey-5' }, 'quasar.conf.js > framework > config > '),
+      h('span', conf.propName)
+    ])
+  ]
 
   for (const def in conf.definition) {
     child.push(
@@ -413,19 +419,21 @@ describe.quasarConfOptions = conf => {
     )
   }
 
+  conf.addedIn !== void 0 && entry.push(
+    getDiv(12, 'Added in', conf.addedIn)
+  )
+
+  entry.push(
+    getDiv(
+      12,
+      'Definition',
+      void 0,
+      h('div', { class: 'api-row__subitem' }, child)
+    )
+  )
+
   return [
-    h('div', { class: 'api-row row' }, [
-      getDiv(12, 'Property Name', conf.propName),
-      conf.addedIn !== void 0
-        ? getDiv(12, 'Added in', conf.addedIn)
-        : null,
-      getDiv(
-        12,
-        'Definition',
-        void 0,
-        h('div', { class: 'api-row__subitem' }, child)
-      )
-    ])
+    h('div', { class: 'api-row row' }, entry)
   ]
 }
 
@@ -433,17 +441,14 @@ export default {
   name: 'ApiRows',
 
   props: {
-    which: String,
-    apiKey: String,
-    api: Object
+    type: String,
+    definition: [ Object, String ]
   },
 
   setup (props) {
-    const def = computed(() => props.api[ props.apiKey || props.which ])
-
     return () => {
-      const content = Object.keys(def.value).length !== 0
-        ? describe[ props.which ](def.value)
+      const content = Object.keys(props.definition).length !== 0
+        ? describe[ props.type ](props.definition)
         : [
             h('div', { class: 'q-pa-md text-grey-9' }, [
               h('div', 'No matching entries found on this tab.'),
