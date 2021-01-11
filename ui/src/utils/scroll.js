@@ -49,7 +49,7 @@ export function getHorizontalScrollPosition (scrollTarget) {
 }
 
 export function animScrollTo (el, to, duration = 0 /* , prevTime */) {
-  const prevTime = arguments[3] === void 0 ? performance.now() : arguments[3]
+  const prevTime = arguments[ 3 ] === void 0 ? performance.now() : arguments[ 3 ]
   const pos = getScrollPosition(el)
 
   if (duration <= 0) {
@@ -70,7 +70,7 @@ export function animScrollTo (el, to, duration = 0 /* , prevTime */) {
 }
 
 export function animHorizontalScrollTo (el, to, duration = 0 /* , prevTime */) {
-  const prevTime = arguments[3] === void 0 ? performance.now() : arguments[3]
+  const prevTime = arguments[ 3 ] === void 0 ? performance.now() : arguments[ 3 ]
   const pos = getHorizontalScrollPosition(el)
 
   if (duration <= 0) {
