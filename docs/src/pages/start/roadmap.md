@@ -29,7 +29,7 @@ In the meantime, the wonderful framework you've come to love is still here and y
 
 If you want to speed up the development of Quasar please consider donating to the project. With proper funding, it allows more of the team to work on the project in a much more dedicated manner.
 
-[Donations - https://github.com/sponsors/rstoenescu](https://github.com/sponsors/rstoenescu)
+[Donations - https://donate.quasar.dev](https://donate.quasar.dev)
 
 If you're in a company and using Quasar for commercial projects, explain to your management the importance of monthly donations (eg. $200+) for open source projects: you're the one using it every day and this makes you the best suited person to convince them. Be creative! :)
 
