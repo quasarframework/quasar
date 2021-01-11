@@ -32,7 +32,7 @@ export default {
     selectedRecords: function (rows) {
       return rows === 1
         ? '1 færsla valin.'
-        : (rows === 0 ? 'No' : rows) + ' færslur valdar.'
+        : (rows === 0 ? 'Engar' : rows) + ' færslur valdar.'
     },
     recordsPerPage: 'Færslur á hverri síðu:',
     allRows: 'Allar',
