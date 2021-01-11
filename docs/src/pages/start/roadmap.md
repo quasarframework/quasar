@@ -33,4 +33,4 @@ If you want to speed up the development of Quasar please consider donating to th
 
 If you're in a company and using Quasar for commercial projects, explain to your management the importance of monthly donations (eg. $200+) for open source projects: you're the one using it every day and this makes you the best suited person to convince them. Be creative! :)
 
-Quasar is saving your company tens of thousands of development hours (quite literally), which in turn is a pretty high money savings. Consider giving back a part of those savings to refuel the project itself :wink:
+Quasar is saving your company tens of thousands of development hours (quite literally), which in turn is a pretty high money savings. Consider giving back a part of those savings to refuel the project itself ;)
