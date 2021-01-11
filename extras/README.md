@@ -39,6 +39,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 
 > Install one of MDI v5, MDI v4 or MDI v3, but never together at the same time.
 
+> Note that ionicons v5+ no longer comes with a webfont.
 ### SVG
 
 > Quasar v1.7+ required for svg Quasar Icon Sets.
