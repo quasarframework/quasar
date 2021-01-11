@@ -22,7 +22,7 @@ export default function () {
     scrollBehavior: (to, _, savedPosition) => (
       to.hash.length > 1
         ? false
-        : (savedPosition || { x: 0, y: 0 })
+        : (savedPosition || { left: 0, top: 0 })
     ),
     routes,
 
