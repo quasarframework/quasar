@@ -94,7 +94,7 @@ export default defineComponent({
 
     const { registerTick, removeTick, prepareTick } = useTick()
     const { registerTimeout, removeTimeout } = useTimeout()
-    const transition = useTransition(props, showing)
+    const { transition, transitionStyle } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
     const { anchorEl, canShow, anchorEvents } = useAnchor({
@@ -110,8 +110,7 @@ export default defineComponent({
       processOnMount: true
     })
 
-    anchorEvents.delayShow = delayShow
-    anchorEvents.delayHide = delayHide
+    Object.assign(anchorEvents, { delayShow, delayHide })
 
     const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent)
 
@@ -138,7 +137,7 @@ export default defineComponent({
 
       registerTimeout(() => {
         emit('show', evt)
-      }, 300)
+      }, props.transitionDuration)
     }
 
     function handleHide (evt) {
@@ -150,7 +149,7 @@ export default defineComponent({
       registerTimeout(() => {
         hidePortal()
         emit('hide', evt)
-      }, 300)
+      }, props.transitionDuration)
     }
 
     function anchorCleanup () {
@@ -255,6 +254,7 @@ export default defineComponent({
               'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
               attrs.class
             ],
+            style: transitionStyle.value,
             role: 'complementary'
           }, hSlot(slots.default))
         : null

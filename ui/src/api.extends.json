@@ -92,7 +92,7 @@
       "type": "String",
       "desc": "One of Quasar's embedded transitions",
       "examples": [ "fade", "slide-down" ],
-      "category": "behavior"
+      "category": "transition"
     },
 
     "model-value": {

@@ -49,6 +49,7 @@ export default defineComponent({
 
     noSpinner: Boolean,
     noNativeMenu: Boolean,
+    noTransition: Boolean,
 
     spinnerColor: String,
     spinnerSize: String
@@ -81,6 +82,10 @@ export default defineComponent({
       width: props.width,
       height: props.height
     }))
+
+    const imgClass = computed(() =>
+      `q-img__image q-img__image--with${ props.noTransition === true ? 'out' : '' }-transition`
+    )
 
     const imgStyle = computed(() => ({
       ...props.imgStyle,
@@ -165,7 +170,7 @@ export default defineComponent({
       const img = images[ index ].value
 
       const data = {
-        class: 'q-img__image',
+        class: imgClass.value,
         style: imgStyle.value,
         crossorigin: props.crossorigin,
         height: props.height,

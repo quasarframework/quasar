@@ -25,7 +25,7 @@ export default defineComponent({
   setup (props, { slots }) {
     const $q = useQuasar()
     const isDark = useDark(props, $q)
-    const transition = useTransition(props, computed(() => props.showing))
+    const { transition, transitionStyle } = useTransition(props, computed(() => props.showing))
 
     const classes = computed(() =>
       'q-inner-loading absolute-full column flex-center'
@@ -36,7 +36,7 @@ export default defineComponent({
       return props.showing === true
         ? h(
             'div',
-            { class: classes.value },
+            { class: classes.value, style: transitionStyle.value },
             slots.default !== void 0
               ? slots.default()
               : [

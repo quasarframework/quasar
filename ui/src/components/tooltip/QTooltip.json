@@ -1,5 +1,5 @@
 {
-  "mixins": [ "composables/private/use-model-toggle", "composables/private/use-portal" ],
+  "mixins": [ "composables/private/use-model-toggle", "composables/private/use-portal", "composables/private/use-transition" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/tooltip"
@@ -19,15 +19,11 @@
     },
 
     "transition-show": {
-      "extends": "transition",
-      "default": "jump-down",
-      "category": "behavior"
+      "default": "jump-down"
     },
 
     "transition-hide": {
-      "extends": "transition",
-      "default": "jump-up",
-      "category": "behavior"
+      "default": "jump-up"
     },
 
     "anchor": {

@@ -79,7 +79,7 @@ The two examples below won't work with UMD version (so in Codepen/jsFiddle too) 
 
 For more convoluted use-cases, you can also directly use the native Vue `<router-link>` component to wrap a QBtn. This also gives the opportunity to control the state according to app's current route:
 
-<doc-example title="Scoped slot of RouterLink" file="QBtn/RouterLink" no-edit />
+<doc-example title="Scoped slot of RouterLink" file="QBtn/RouterLinkExample" no-edit />
 
 ### Other options
 

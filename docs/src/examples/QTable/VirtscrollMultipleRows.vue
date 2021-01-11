@@ -190,7 +190,7 @@ export default {
     const tableRef = ref(null)
 
     onMounted(() => {
-      tableRef.value.$refs.virtScroll.scrollTo(5000)
+      tableRef.value.scrollTo(5000)
     })
 
     return {

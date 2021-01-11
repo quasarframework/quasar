@@ -1,5 +1,5 @@
 <template lang="pug">
-section.q-my-sm.q-mr-md.cursor-pointer.text-subtitle1(:id="slugifiedTitle", @click="copyHeading(slugifiedTitle)")
+section.q-my-xs.q-mr-md.cursor-pointer.text-subtitle1(:id="slugifiedTitle", @click="onClick")
   div.doc-card-title {{ title }}
 </template>
 
@@ -15,8 +15,12 @@ export default {
     prefix: String
   },
 
-  setup () {
-    return { copyHeading }
+  setup (props) {
+    return {
+      onClick () {
+        copyHeading(props.slugifiedTitle)
+      }
+    }
   }
 }
 </script>

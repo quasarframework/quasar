@@ -16,7 +16,7 @@
       <div class="col">
         The model data: <strong>{{ JSON.stringify(theModel) }}</strong>
       </div>
-      <q-btn color="primary" label="Reset" @click="reset" class="q-ml-md" />
+      <q-btn color="primary" label="Reset" @click="onResetClick" class="q-ml-md" />
     </div>
   </div>
 </template>

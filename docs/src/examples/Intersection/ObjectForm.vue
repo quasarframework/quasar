@@ -40,9 +40,9 @@ export default {
 
       options: {
         handler (entry) {
-          const percent = (entry.intersectionRatio * 100).toFixed(0)
-          if (percent.value !== percent) {
-            percent.value = percent
+          const val = (entry.intersectionRatio * 100).toFixed(0)
+          if (percent.value !== val) {
+            percent.value = val
           }
         },
         cfg: {

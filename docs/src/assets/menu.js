@@ -684,10 +684,6 @@ const directives = [
     path: 'close-popup'
   },
   {
-    name: 'Go Back (Handling Back Button)',
-    path: 'go-back'
-  },
-  {
     name: 'Intersection',
     path: 'intersection'
   },

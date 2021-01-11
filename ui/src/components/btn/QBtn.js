@@ -43,7 +43,7 @@ export default defineComponent({
     const rootRef = ref(null)
     const blurTargetRef = ref(null)
 
-    let localTouchTargetEl, avoidMouseRipple, mouseTimer
+    let localTouchTargetEl = null, avoidMouseRipple, mouseTimer
 
     const hasLabel = computed(() =>
       props.label !== void 0 && props.label !== null && props.label !== ''
@@ -238,8 +238,10 @@ export default defineComponent({
       }
 
       if (touchTarget === rootRef.value) {
-        localTouchTargetEl.removeEventListener('touchcancel', onPressEnd, passiveCapture)
-        localTouchTargetEl.removeEventListener('touchend', onPressEnd, passiveCapture)
+        if (localTouchTargetEl !== null) {
+          localTouchTargetEl.removeEventListener('touchcancel', onPressEnd, passiveCapture)
+          localTouchTargetEl.removeEventListener('touchend', onPressEnd, passiveCapture)
+        }
         touchTarget = localTouchTargetEl = null
       }
 

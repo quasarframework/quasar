@@ -13,7 +13,7 @@ export function useFormAttrs (props) {
 }
 
 export function useFormInject (formAttrs = {}, formDomProps = {}) {
-  return function (child, action, className) {
+  return (child, action, className) => {
     child[ action ](
       h('input', {
         class: 'hidden' + (className || ''),

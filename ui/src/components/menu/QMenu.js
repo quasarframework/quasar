@@ -97,7 +97,7 @@ export default defineComponent({
     const isDark = useDark(props, $q)
     const { registerTick, removeTick, prepareTick } = useTick()
     const { registerTimeout, removeTimeout } = useTimeout()
-    const transition = useTransition(props, showing)
+    const { transition, transitionStyle } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
     const { anchorEl, canShow } = useAnchor({
@@ -241,7 +241,7 @@ export default defineComponent({
 
         updatePosition()
         emit('show', evt)
-      }, 300)
+      }, props.transitionDuration)
     }
 
     function handleHide (evt) {
@@ -265,7 +265,7 @@ export default defineComponent({
       registerTimeout(() => {
         hidePortal()
         emit('hide', evt)
-      }, 300)
+      }, props.transitionDuration)
     }
 
     function anchorCleanup (hiding) {
@@ -355,6 +355,7 @@ export default defineComponent({
                   'q-menu q-position-engine scroll' + menuClass.value,
                   attrs.class
                 ],
+                style: [ attrs.style, transitionStyle.value ],
                 ...onEvents.value
               }, hSlot(slots.default))
             : null

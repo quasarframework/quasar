@@ -92,7 +92,7 @@ export default defineComponent({
 
     let lastEmitValue
 
-    const formAttrs = useFormAttrs()
+    const formAttrs = useFormAttrs(props)
     const injectFormInput = useFormInject(formAttrs)
 
     const blurTargetRef = ref(null)

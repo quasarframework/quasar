@@ -201,31 +201,25 @@ Generating multiple values from input:
 
 ## Sanitization
 
-::: warning
-Always sanitize values if you do not trust the origin (if the value comes from user input).
-:::
+**By default, all options (included selected ones) are sanitized**. This means that displaying them in HTML format is disabled. However, if you require HTML on your options and you trust their content, then there are a few ways to do this.
 
-You can force sanitization of the menu options by:
-  - setting `sanitize` key of the untrusted option to `true` (for specific untrusted options)
-  - or by setting `options-sanitize` prop of QSelect (for all options)
+You can force the HTML form of the menu options by:
+  - setting `html` key of the trusted option to `true` (for specific trusted options)
+  - or by setting `options-html` prop of QSelect (for all options)
 
-::: warning
-If you use `option` slot, then you are responsible for sanitization of the menu options. The `options-sanitize` prop will not apply.
-:::
-
-The displayed value of QSelect is sanitized if:
-  - the `display-value-sanitize` prop of QSelect is set
+The displayed value of QSelect is displayed as HTML if:
+  - the `display-value-html` prop of QSelect is set
   - or you are not using `display-value` and
-    - the `options-sanitize` prop of QSelect is set
-    - any selected option has `sanitize` key set to `true`
+    - the `options-html` prop of QSelect is set
+    - any selected option has `html` key set to `true`
 
 ::: warning
-If you use `selected` or `selected-item` slots, then you are responsible for sanitization of the display value. The `display-value-sanitize` prop will not apply.
+If you use `selected` or `selected-item` slots, then you are responsible for sanitization of the display value. The `display-value-html` prop will not apply.
 :::
 
-<doc-example title="Sanitize options" file="QSelect/SanitizeOptions" />
+<doc-example title="Options in HTML form" file="QSelect/HtmlOptions" />
 
-<doc-example title="Sanitize display value" file="QSelect/SanitizeDisplayCustomValue" />
+<doc-example title="Display value in HTML form" file="QSelect/HtmlDisplayValue" />
 
 ## Render performance
 

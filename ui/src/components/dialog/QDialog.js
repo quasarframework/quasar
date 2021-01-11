@@ -209,7 +209,7 @@ export default defineComponent({
         }
 
         emit('show', evt)
-      }, 300)
+      }, props.transitionDuration)
     }
 
     function handleHide (evt) {
@@ -225,7 +225,7 @@ export default defineComponent({
       registerTimeout(() => {
         hidePortal()
         emit('hide', evt)
-      }, 300)
+      }, props.transitionDuration)
     }
 
     function focus () {
