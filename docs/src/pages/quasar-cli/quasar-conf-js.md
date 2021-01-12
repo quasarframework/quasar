@@ -340,8 +340,8 @@ module.exports = function (ctx) {
 Then (just an example showing you how to reference a variable defined above, in this case `title`):
 ```html
 <!-- src/index.template.html -->
-<%= title %>
-<%= some.prop %>
+<%= htmlWebpackPlugin.options.title %>
+<%= htmlWebpackPlugin.options.some.prop %>
 ```
 
 ### Property: sourceFiles
