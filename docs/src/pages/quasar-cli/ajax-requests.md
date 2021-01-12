@@ -34,7 +34,7 @@ Be sure to check out [Prefetch Feature](/quasar-cli/prefetch-feature) if you are
 :::
 
 Usage in your single file components methods will be like:
-```
+```js
 import { api } from '../boot/axios'
 
 methods: {
@@ -52,10 +52,11 @@ methods: {
         })
       })
   },
+}
 ```
 
 Usage in Vuex Actions for globally adding headers to axios (such as during authentication):
-```
+```js
 import { api } from '../../boot/axios'
 
 export function register ({commit}, form) {
