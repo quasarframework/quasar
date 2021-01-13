@@ -153,6 +153,8 @@ SameSite cookies let servers require that a cookie shouldn't be sent with cross-
 
 **Lax** - If the attribute is set to Lax, same-site cookies are withheld on cross-site subrequests, such as calls to load images or frames, but will be sent when a user navigates to the URL from an external site, for example, by following a link.
 
+For more information on the `same-site` setting, go [here](https://web.dev/samesite-cookies-explained/).
+
 ### Option: httpOnly
 
 ```js
