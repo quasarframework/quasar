@@ -183,7 +183,7 @@ export default defineComponent({
             h('div', {
               class: 'scroll',
               style: targetChildStyle.value
-            }, [layout])
+            }, [ layout ])
           ])
         ])
       }

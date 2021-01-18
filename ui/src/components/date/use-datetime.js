@@ -34,7 +34,7 @@ export const useDatetimeProps = {
   disable: Boolean
 }
 
-export const useDatetimeEmits = ['update:modelValue']
+export const useDatetimeEmits = [ 'update:modelValue' ]
 
 export function getDayHash (date) {
   return date.year + '/' + pad(date.month) + '/' + pad(date.day)

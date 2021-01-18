@@ -13,7 +13,7 @@ export default {
   name: 'Test',
   data () {
     return {
-      list: ['Pull down to load elements']
+      list: [ 'Pull down to load elements' ]
     }
   },
   methods: {

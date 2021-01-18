@@ -287,7 +287,7 @@ export default defineComponent({
       // if props.noSwipeOpen !== true
       const dir = $q.lang.rtl === true ? props.side : otherSide.value
 
-      return [[
+      return [ [
         TouchPan,
         onOpenPan,
         void 0,
@@ -295,14 +295,14 @@ export default defineComponent({
           [ dir ]: true,
           mouse: true
         }
-      ]]
+      ] ]
     })
 
     const contentCloseDirective = computed(() => {
       // if belowBreakpoint.value === true && props.noSwipeClose !== true
       const dir = $q.lang.rtl === true ? otherSide.value : props.side
 
-      return [[
+      return [ [
         TouchPan,
         onClosePan,
         void 0,
@@ -310,14 +310,14 @@ export default defineComponent({
           [ dir ]: true,
           mouse: true
         }
-      ]]
+      ] ]
     })
 
     const backdropCloseDirective = computed(() => {
       // if showing.value === true && props.noSwipeBackdrop !== true
       const dir = $q.lang.rtl === true ? otherSide.value : props.side
 
-      return [[
+      return [ [
         TouchPan,
         onClosePan,
         void 0,
@@ -326,7 +326,7 @@ export default defineComponent({
           mouse: true,
           mouseAllDir: true
         }
-      ]]
+      ] ]
     })
 
     watch(belowBreakpoint, val => {

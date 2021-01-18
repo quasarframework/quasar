@@ -153,7 +153,7 @@ export default function ({ props, emit, $q, updateValue, updatePosition, getDrag
 
   const panDirective = computed(() => {
     // if editable.value === true
-    return [[
+    return [ [
       TouchPan,
       onPan,
       void 0,
@@ -164,7 +164,7 @@ export default function ({ props, emit, $q, updateValue, updatePosition, getDrag
         mouse: true,
         mouseAllDir: true
       }
-    ]]
+    ] ]
   })
 
   function getThumbSvg () {

@@ -38,7 +38,7 @@ export default defineComponent({
     horizontal: Boolean
   },
 
-  emits: ['scroll'],
+  emits: [ 'scroll' ],
 
   setup (props, { slots, emit }) {
     // state management
@@ -134,7 +134,7 @@ export default defineComponent({
     )
 
     const thumbDirectives = computed(() => {
-      return [[
+      return [ [
         TouchPan,
         onPanThumb,
         void 0,
@@ -144,7 +144,7 @@ export default defineComponent({
           mouse: true,
           mouseAllDir: true
         }
-      ]]
+      ] ]
     })
 
     // we have lots of listeners, so

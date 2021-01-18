@@ -28,7 +28,7 @@ export const useTablePaginationProps = {
   }
 }
 
-export const useTablePaginationEmits = ['update:pagination']
+export const useTablePaginationEmits = [ 'update:pagination' ]
 
 export function useTablePaginationState (props, emit, vm, getCellValue) {
   const innerPagination = ref(
@@ -145,7 +145,7 @@ export function useTablePagination (props, emit, $q, vm, innerPagination, comput
   const computedRowsPerPageOptions = computed(() => {
     const opts = props.rowsPerPageOptions.includes(innerPagination.value.rowsPerPage)
       ? props.rowsPerPageOptions
-      : [innerPagination.value.rowsPerPage].concat(props.rowsPerPageOptions)
+      : [ innerPagination.value.rowsPerPage ].concat(props.rowsPerPageOptions)
 
     return opts.map(count => ({
       label: count === 0 ? $q.lang.table.allRows : '' + count,

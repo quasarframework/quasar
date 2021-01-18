@@ -45,7 +45,7 @@ export default defineComponent({
     separatorStyle: [ Array, String, Object ]
   },
 
-  emits: ['update:modelValue'],
+  emits: [ 'update:modelValue' ],
 
   setup (props, { slots, emit }) {
     const $q = useQuasar()
@@ -125,7 +125,7 @@ export default defineComponent({
 
     const sepDirective = computed(() => {
       // if props.disable !== true
-      return [[
+      return [ [
         TouchPan,
         pan,
         void 0,
@@ -136,7 +136,7 @@ export default defineComponent({
           mouse: true,
           mouseAllDir: true
         }
-      ]]
+      ] ]
     })
 
     function normalize (val, limits) {

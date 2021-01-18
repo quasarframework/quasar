@@ -102,7 +102,7 @@ export default defineComponent({
               ? h(QSlideTransition, getStepContent)
               : getStepContent()
           ]
-        : [getStepContent()]
+        : [ getStepContent() ]
     )
   }
 })

@@ -29,7 +29,7 @@ export default defineComponent({
     }
   },
 
-  emits: ['scroll'],
+  emits: [ 'scroll' ],
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()

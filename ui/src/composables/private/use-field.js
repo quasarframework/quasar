@@ -394,7 +394,7 @@ export default function ({
           'inner-loading-append',
           slots.loading !== void 0
             ? slots.loading()
-            : [h(QSpinner, { color: props.color })]
+            : [ h(QSpinner, { color: props.color }) ]
         )
       )
     }
@@ -477,7 +477,7 @@ export default function ({
 
     if (hasError.value === true) {
       if (computedErrorMessage.value !== void 0) {
-        msg = [h('div', computedErrorMessage.value)]
+        msg = [ h('div', computedErrorMessage.value) ]
         key = computedErrorMessage.value
       }
       else {
@@ -487,7 +487,7 @@ export default function ({
     }
     else if (props.hideHint !== true || state.focused.value === true) {
       if (props.hint !== void 0) {
-        msg = [h('div', props.hint)]
+        msg = [ h('div', props.hint) ]
         key = props.hint
       }
       else {

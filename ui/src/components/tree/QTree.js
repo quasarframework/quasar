@@ -381,7 +381,7 @@ export default defineComponent({
           }
         }
 
-        target = target.concat([key])
+        target = target.concat([ key ])
           .filter((key, index, self) => self.indexOf(key) === index)
       }
       else {
@@ -434,7 +434,7 @@ export default defineComponent({
       })
       Object.defineProperty(scope, 'ticked', {
         get: () => { return meta.ticked },
-        set: val => { val !== meta.ticked && setTicked([key], val) },
+        set: val => { val !== meta.ticked && setTicked([ key ], val) },
         configurable: true,
         enumerable: true
       })
@@ -594,7 +594,7 @@ export default defineComponent({
                   + (m.disabled === true ? ' q-tree__node--disabled' : '')
                 }, children)
               ]),
-              [[ vShow, m.expanded ]]
+              [ [ vShow, m.expanded ] ]
             ))
           : body
       ])
@@ -635,7 +635,7 @@ export default defineComponent({
         state = meta.indeterminateNextState
       }
       if (meta.strictTicking) {
-        setTicked([meta.key], state)
+        setTicked([ meta.key ], state)
       }
       else if (meta.leafTicking) {
         const keys = []

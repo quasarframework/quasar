@@ -30,7 +30,7 @@ export default defineComponent({
     }
   },
 
-  emits: ['refresh'],
+  emits: [ 'refresh' ],
 
   setup (props, { slots, emit }) {
     const $q = useQuasar()
@@ -120,12 +120,12 @@ export default defineComponent({
         modifiers.mouse = true
       }
 
-      return [[
+      return [ [
         TouchPan,
         pull,
         void 0,
         modifiers
-      ]]
+      ] ]
     })
 
     const contentClass = computed(() =>

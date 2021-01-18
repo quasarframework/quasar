@@ -75,7 +75,7 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
         ? renderPortalContent()
         : (
             portalIsActive.value === true
-              ? [h(Teleport, { to: portalEl }, renderPortalContent())]
+              ? [ h(Teleport, { to: portalEl }, renderPortalContent()) ]
               : void 0
           )
     )

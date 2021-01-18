@@ -159,7 +159,7 @@ export default defineComponent({
         child,
         'head',
         props.stepper.headerNav === true && headerNav.value !== false,
-        () => [[ Ripple, headerNav.value ]]
+        () => [ [ Ripple, headerNav.value ] ]
       )
     }
   }

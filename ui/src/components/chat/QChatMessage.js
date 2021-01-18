@@ -57,7 +57,7 @@ export default defineComponent({
               [ domProps.value.stamp ]: props.stamp
             })
           ]
-        : node => [node]
+        : node => [ node ]
 
       return props.text.map((msg, index) => h('div', {
         key: index,

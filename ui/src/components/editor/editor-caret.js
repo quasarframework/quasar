@@ -249,7 +249,7 @@ export default class Caret {
     }
 
     if (name === 'indent') {
-      return this.hasParents(['li'], true)
+      return this.hasParents([ 'li' ], true)
     }
 
     if (name === 'link') {

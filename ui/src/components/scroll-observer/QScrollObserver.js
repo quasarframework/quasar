@@ -17,7 +17,7 @@ export default defineComponent({
     }
   },
 
-  emits: ['scroll'],
+  emits: [ 'scroll' ],
 
   setup (props, { emit }) {
     let position = 0

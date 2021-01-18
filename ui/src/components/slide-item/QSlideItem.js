@@ -204,12 +204,12 @@ export default defineComponent({
             modifiers[ dir ] = true
           })
 
-          return [[
+          return [ [
             TouchPan,
             onPan,
             void 0,
             modifiers
-          ]]
+          ] ]
         }))
       )
 

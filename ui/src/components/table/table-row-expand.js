@@ -10,7 +10,7 @@ export const useTableRowExpandProps = {
   expanded: Array // v-model:expanded
 }
 
-export const useTableRowExpandEmits = ['update:expanded']
+export const useTableRowExpandEmits = [ 'update:expanded' ]
 
 export function useTableRowExpand (props, emit) {
   const innerExpanded = ref(getVal(props.expanded))

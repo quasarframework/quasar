@@ -26,7 +26,7 @@ export default defineComponent({
     }
   },
 
-  emits: ['click'],
+  emits: [ 'click' ],
 
   setup (props, { slots, emit }) {
     const { $layout, getStickyContent } = usePageSticky(props)
@@ -94,7 +94,7 @@ export default defineComponent({
         ? h('div', {
             class: 'q-page-scroller',
             onClick
-          }, [getStickyContent(slots)])
+          }, [ getStickyContent(slots) ])
         : null
     }
 

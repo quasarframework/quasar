@@ -36,7 +36,7 @@ export default defineComponent({
     replace: Boolean
   },
 
-  emits: ['click'],
+  emits: [ 'click' ],
 
   setup (props, { slots, emit }) {
     const $fab = inject(fabKey, () => {
@@ -68,7 +68,7 @@ export default defineComponent({
       )
 
       props.label !== '' && child[ labelProps.value.action ](
-        h('div', labelProps.value.data, [props.label])
+        h('div', labelProps.value.data, [ props.label ])
       )
 
       return hMergeSlot(slots.default, child)
