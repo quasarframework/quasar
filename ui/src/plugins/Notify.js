@@ -166,8 +166,10 @@ const Notifications = {
           : this.$q.lang.label.close
       })
 
-      notif.actions = actions.map(({ handler, noDismiss, attrs, ...item }) => ({
-        props: { flat: true, ...item },
+      notif.actions = actions.map(({ handler, noDismiss, style, class: klass, attrs, ...props }) => ({
+        staticClass: klass,
+        style,
+        props: { flat: true, ...props },
         attrs,
         on: {
           click: typeof handler === 'function'
@@ -457,7 +459,7 @@ const Notifications = {
         notif.actions !== void 0 && child.push(
           h('div', {
             staticClass: meta.actionsClass
-          }, notif.actions.map(a => h(QBtn, { props: a.props, attrs: a.attrs, on: a.on })))
+          }, notif.actions.map(action => h(QBtn, { ...action })))
         )
 
         meta.badge > 1 && child.push(

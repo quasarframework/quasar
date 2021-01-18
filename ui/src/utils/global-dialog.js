@@ -125,7 +125,14 @@ export default function (DefaultComponent) {
       },
 
       mounted () {
-        this.$refs.dialog.show()
+        if (this.$refs.dialog !== void 0) {
+          this.$refs.dialog.show()
+        }
+        else {
+          on['hook:mounted'] = () => {
+            this.$refs.dialog !== void 0 && this.$refs.dialog.show()
+          }
+        }
       }
     })
 

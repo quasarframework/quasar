@@ -142,7 +142,7 @@ export default Vue.extend({
 
   render (h) {
     const child = this.btnOptions.map(opt => {
-      return h(QBtn, opt.options, opt.slot !== void 0 ? slot(this, opt.slot) : void 0)
+      return h(QBtn, { ...opt.options }, opt.slot !== void 0 ? slot(this, opt.slot) : void 0)
     })
 
     if (this.name !== void 0 && this.disable !== true && this.hasActiveValue === true) {
