@@ -40,7 +40,7 @@
 
     "visible": {
       "type": "Boolean",
-      "desc": "(Desktop only) Manually control the visibility of the scrollbar; Overrides default mouse over/leave behavior",
+      "desc": "Manually control the visibility of the scrollbar; Overrides default mouse over/leave behavior",
       "category": "behavior",
       "addedIn": "v1.3.0"
     },
