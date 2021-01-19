@@ -106,7 +106,7 @@ export default function (props) {
     },
     props.expand === true
       ? content
-      : [h('div', content)]
+      : [ h('div', content) ]
     )
   }
 

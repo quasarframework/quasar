@@ -22,7 +22,7 @@ export default defineComponent({
     }
   },
 
-  emits: ['resize'],
+  emits: [ 'resize' ],
 
   setup (props, { emit }) {
     if (__QUASAR_SSR_SERVER__) { return noop }

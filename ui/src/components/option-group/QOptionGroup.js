@@ -47,7 +47,7 @@ export default defineComponent({
     disable: Boolean
   },
 
-  emits: ['update:modelValue'],
+  emits: [ 'update:modelValue' ],
 
   setup (props, { emit }) {
     const arrayModel = Array.isArray(props.modelValue)

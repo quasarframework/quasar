@@ -166,7 +166,7 @@ export default defineComponent({
         style: style.value,
         ref: props.container === true ? void 0 : rootRef
       }, hMergeSlot(slots.default, [
-        h(QScrollObserver, { onScroll: onPageScroll }),
+        h(QScrollObserver, { axis: 'both', onScroll: onPageScroll }),
         h(QResizeObserver, { onResize: onPageResize })
       ]))
 
@@ -183,7 +183,7 @@ export default defineComponent({
             h('div', {
               class: 'scroll',
               style: targetChildStyle.value
-            }, [layout])
+            }, [ layout ])
           ])
         ])
       }

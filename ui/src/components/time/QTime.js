@@ -267,7 +267,7 @@ export default defineComponent({
     })
 
     const clockDirectives = computed(() => {
-      return [[
+      return [ [
         TouchPan,
         onPan,
         void 0,
@@ -276,7 +276,7 @@ export default defineComponent({
           prevent: true,
           mouse: true
         }
-      ]]
+      ] ]
     })
 
     watch(() => props.modelValue, v => {
@@ -872,7 +872,7 @@ export default defineComponent({
                       + (pos.val === current
                         ? ' q-time__clock-position--active ' + headerClass.value
                         : (pos.disable === true ? ' q-time__clock-position--disable' : ''))
-                  }, [h('span', pos.label)]))
+                  }, [ h('span', pos.label) ]))
                 ])
               ]),
               clockDirectives.value
@@ -895,7 +895,7 @@ export default defineComponent({
     }
 
     return () => {
-      const child = [getClock()]
+      const child = [ getClock() ]
 
       const def = hSlot(slots.default)
       def !== void 0 && child.push(

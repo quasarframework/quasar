@@ -180,7 +180,7 @@ export default defineComponent({
         return h(
           'svg',
           data,
-          hMergeSlot(slots.default, [h('use', { 'xlink:href': type.value.src })])
+          hMergeSlot(slots.default, [ h('use', { 'xlink:href': type.value.src }) ])
         )
       }
 

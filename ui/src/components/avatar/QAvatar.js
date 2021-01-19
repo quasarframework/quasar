@@ -44,7 +44,7 @@ export default defineComponent({
 
     return () => {
       const icon = props.icon !== void 0
-        ? [h(QIcon, { name: props.icon })]
+        ? [ h(QIcon, { name: props.icon }) ]
         : void 0
 
       return h('div', {

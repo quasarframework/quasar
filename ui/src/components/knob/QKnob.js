@@ -128,12 +128,12 @@ export default defineComponent({
     }
 
     const directives = computed(() => {
-      return [[
+      return [ [
         TouchPan,
         pan,
         void 0,
         { prevent: true, stop: true, mouse: true }
-      ]]
+      ] ]
     })
 
     function updateCenterPosition () {

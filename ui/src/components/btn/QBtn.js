@@ -53,7 +53,7 @@ export default defineComponent({
       props.ripple === false
         ? false
         : {
-            keyCodes: isLink.value === true ? [ 13, 32 ] : [13],
+            keyCodes: isLink.value === true ? [ 13, 32 ] : [ 13 ],
             ...(props.ripple === true ? {} : props.ripple)
           }
     ))
@@ -89,12 +89,12 @@ export default defineComponent({
 
     const directives = computed(() => {
       // if props.disable !== true && props.ripple !== false
-      return [[
+      return [ [
         Ripple,
         ripple.value,
         void 0,
         { center: props.round }
-      ]]
+      ] ]
     })
 
     const nodeProps = computed(() => ({
@@ -286,7 +286,7 @@ export default defineComponent({
       )
 
       hasLabel.value === true && inner.push(
-        h('span', { class: 'block' }, [props.label])
+        h('span', { class: 'block' }, [ props.label ])
       )
 
       inner = hMergeSlot(slots.default, inner)
@@ -337,7 +337,7 @@ export default defineComponent({
                 h('span', {
                   key: 'loading',
                   class: 'absolute-full flex flex-center'
-                }, slots.loading !== void 0 ? slots.loading() : [h(QSpinner)])
+                }, slots.loading !== void 0 ? slots.loading() : [ h(QSpinner) ])
               ]
             : null
         ))

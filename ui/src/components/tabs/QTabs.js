@@ -62,7 +62,7 @@ export default defineComponent({
     contentClass: String
   },
 
-  emits: ['update:modelValue'],
+  emits: [ 'update:modelValue' ],
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()

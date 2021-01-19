@@ -51,7 +51,7 @@ export default defineComponent({
     tabindex: [ String, Number ]
   },
 
-  emits: ['update:modelValue'],
+  emits: [ 'update:modelValue' ],
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
@@ -134,7 +134,7 @@ export default defineComponent({
     Object.assign(vm.proxy, { set: onClick })
 
     return () => {
-      const content = [svg]
+      const content = [ svg ]
 
       props.disable !== true && injectFormInput(
         content,
@@ -154,7 +154,7 @@ export default defineComponent({
       }
 
       const label = props.label !== void 0
-        ? hMergeSlot(slots.default, [props.label])
+        ? hMergeSlot(slots.default, [ props.label ])
         : hSlot(slots.default)
 
       label !== void 0 && child.push(

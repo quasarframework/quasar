@@ -14,7 +14,7 @@ export default defineComponent({
     autoWidth: Boolean
   },
 
-  emits: ['click'],
+  emits: [ 'click' ],
 
   setup (props, { slots, emit }) {
     const $q = useQuasar()

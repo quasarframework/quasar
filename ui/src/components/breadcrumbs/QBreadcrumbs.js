@@ -64,7 +64,7 @@ export default defineComponent({
             h('div', {
               class: 'flex items-center '
                 + (middle === true ? activeClass.value : 'q-breadcrumbs--last')
-            }, [comp])
+            }, [ comp ])
           )
 
           if (middle === true) {

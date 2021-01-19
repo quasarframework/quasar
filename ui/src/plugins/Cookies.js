@@ -97,7 +97,7 @@ function set (key, val, opts = {}, ssr) {
       ssr.req.qCookies.push(cookie)
     }
     else {
-      ssr.req.qCookies = [cookie]
+      ssr.req.qCookies = [ cookie ]
     }
 
     ssr.res.setHeader('Set-Cookie', ssr.req.qCookies)

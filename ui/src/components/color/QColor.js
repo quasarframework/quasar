@@ -186,12 +186,12 @@ export default defineComponent({
 
     const spectrumDirective = computed(() => {
       // if editable.value === true
-      return [[
+      return [ [
         TouchPan,
         onSpectrumPan,
         void 0,
         { prevent: true, stop: true, mouse: true }
-      ]]
+      ] ]
     })
 
     watch(() => props.modelValue, v => {
@@ -808,7 +808,7 @@ export default defineComponent({
     }
 
     return () => {
-      const child = [getContent()]
+      const child = [ getContent() ]
 
       if (props.name !== void 0 && props.disable !== true) {
         injectFormInput(child, 'push')

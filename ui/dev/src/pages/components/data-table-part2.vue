@@ -485,8 +485,8 @@ export default {
         { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
-      data: [...data],
-      dataDyn: [...data]
+      data: [ ...data ],
+      dataDyn: [ ...data ]
     }
   },
   methods: {

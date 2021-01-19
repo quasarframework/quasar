@@ -195,7 +195,7 @@ export default {
             evt.cancelBubble === true && stop(clone)
 
             clone.qClonedBy = evt.qClonedBy === void 0
-              ? [ctx.uid]
+              ? [ ctx.uid ]
               : evt.qClonedBy.concat(ctx.uid)
             clone.qKeyEvent = evt.qKeyEvent
             clone.qClickOutside = evt.qClickOutside

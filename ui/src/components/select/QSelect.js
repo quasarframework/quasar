@@ -187,7 +187,7 @@ export default defineComponent({
       const
         mapNull = props.mapOptions === true && props.multiple !== true,
         val = props.modelValue !== void 0 && (props.modelValue !== null || mapNull === true)
-          ? (props.multiple === true && Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue])
+          ? (props.multiple === true && Array.isArray(props.modelValue) ? props.modelValue : [ props.modelValue ])
           : []
 
       if (props.mapOptions === true && Array.isArray(props.options) === true) {
@@ -457,7 +457,7 @@ export default defineComponent({
 
       if (innerValue.value.length === 0) {
         emit('add', { index: 0, value: val })
-        emit('update:modelValue', props.multiple === true ? [val] : val)
+        emit('update:modelValue', props.multiple === true ? [ val ] : val)
         return
       }
 
@@ -509,7 +509,7 @@ export default defineComponent({
       if (innerValue.value.length === 0) {
         const val = props.emitValue === true ? optValue : opt
         emit('add', { index: 0, value: val })
-        emit('update:modelValue', props.multiple === true ? [val] : val)
+        emit('update:modelValue', props.multiple === true ? [ val ] : val)
         return
       }
 

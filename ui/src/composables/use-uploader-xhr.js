@@ -67,7 +67,7 @@ function getState (props, emit, state) {
     }
     else {
       queue.forEach(file => {
-        runFactory([file])
+        runFactory([ file ])
       })
     }
   }

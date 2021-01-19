@@ -40,14 +40,14 @@ Vertically:
 
 ```js
 import { scroll } from 'quasar'
-const { getScrollPosition, setScrollPosition } = scroll
+const { getVerticalScrollPosition, setVerticalScrollPosition } = scroll
 
 // Get scroll position of a element or page.
 // Use it in conjunction with `getScrollTarget()`
-(Number pixels) getScrollPosition(scrollTargetDomElement)
+(Number pixels) getVerticalScrollPosition(scrollTargetDomElement)
 
 // Setting scroll position of an element or page:
-setScrollPosition (scrollTargetElement, offset[, duration])
+setVerticalScrollPosition (scrollTargetElement, offset[, duration])
 // if "duration" is specified then it will animate the scrolling
 ```
 
@@ -71,14 +71,14 @@ Below is an example using the scroll utils to scroll to an element within its co
 
 ```js
 import { scroll } from 'quasar'
-const { getScrollTarget, setScrollPosition } = scroll
+const { getScrollTarget, setVerticalScrollPosition } = scroll
 
 // takes an element object
 function scrollToElement (el) {
   const target = getScrollTarget(el)
   const offset = el.offsetTop
   const duration = 1000
-  setScrollPosition(target, offset, duration)
+  setVerticalScrollPosition(target, offset, duration)
 }
 ```
 

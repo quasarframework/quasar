@@ -184,7 +184,7 @@ export default function (props, slots, emit, routerProps) {
       getContent(),
       'main',
       props.ripple !== false && props.disable === false,
-      () => [[ Ripple, props.ripple ]]
+      () => [ [ Ripple, props.ripple ] ]
     )
   }
 

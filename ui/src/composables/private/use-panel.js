@@ -55,7 +55,7 @@ export default function (props, emit, $q, vm) {
 
   const panelDirectives = computed(() => {
     // if props.swipeable
-    return [[
+    return [ [
       TouchSwipe,
       onSwipe,
       void 0,
@@ -64,7 +64,7 @@ export default function (props, emit, $q, vm) {
         vertical: props.vertical,
         mouse: true
       }
-    ]]
+    ] ]
   })
 
   const transitionPrev = computed(() =>
@@ -206,7 +206,7 @@ export default function (props, emit, $q, vm) {
             class: 'q-panel scroll',
             key: contentKey.value,
             role: 'tabpanel'
-          }, [panel])
+          }, [ panel ])
         ]
   }
 

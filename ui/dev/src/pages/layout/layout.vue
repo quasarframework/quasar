@@ -555,7 +555,7 @@ export default {
       console.log('drawer on layout:', v)
     },
     onScroll (data) {
-      // console.log('scroll', data.position)
+      // console.log('scroll', data)
     },
     goMini () {
       console.log('goMini')

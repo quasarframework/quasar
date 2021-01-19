@@ -32,7 +32,7 @@ export const useFileProps = {
   filter: Function
 }
 
-export const useFileEmits = ['rejected']
+export const useFileEmits = [ 'rejected' ]
 
 export default function ({
   props,
@@ -110,7 +110,7 @@ export default function ({
     // multiple attribute is not specified. We also normalize drag'n'dropped
     // files here:
     if (props.multiple !== true) {
-      files = [files[ 0 ]]
+      files = [ files[ 0 ] ]
     }
 
     if (props.maxTotalSize !== void 0) {

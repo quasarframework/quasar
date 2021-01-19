@@ -41,7 +41,7 @@ export default defineComponent({
     disable: Boolean
   },
 
-  emits: ['update:modelValue'],
+  emits: [ 'update:modelValue' ],
 
   setup (props, { slots, emit }) {
     const $q = useQuasar()

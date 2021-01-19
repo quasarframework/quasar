@@ -64,7 +64,7 @@ export default defineComponent({
 
     const innerValue = computed(() => (
       Object(props.modelValue) === props.modelValue
-        ? ('length' in props.modelValue ? Array.from(props.modelValue) : [props.modelValue])
+        ? ('length' in props.modelValue ? Array.from(props.modelValue) : [ props.modelValue ])
         : []
     ))
 
@@ -225,7 +225,7 @@ export default defineComponent({
           Object.assign(data, { onDragover, onKeyup })
         }
 
-        return h('div', data, [getInput()].concat(getSelection()))
+        return h('div', data, [ getInput() ].concat(getSelection()))
       }
     })
 

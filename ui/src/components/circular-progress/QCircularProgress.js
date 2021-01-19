@@ -120,7 +120,7 @@ export default defineComponent({
         h('div', {
           class: 'q-circular-progress__text absolute-full row flex-center content-center',
           style: { fontSize: props.fontSize }
-        }, slots.default !== void 0 ? slots.default() : [h('div', normalized.value)])
+        }, slots.default !== void 0 ? slots.default() : [ h('div', normalized.value) ])
       )
 
       return h('div', {

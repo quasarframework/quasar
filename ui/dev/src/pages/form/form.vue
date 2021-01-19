@@ -186,7 +186,7 @@ import { QField, QCard, QCardSection, QFormChildBase } from 'quasar'
 export default {
   components: {
     customInput: {
-      props: ['modelValue'],
+      props: [ 'modelValue' ],
       render () {
         return h(QField, {
           modelValue: this.modelValue
@@ -197,7 +197,7 @@ export default {
     },
 
     myComp: {
-      mixins: [QFormChildBase],
+      mixins: [ QFormChildBase ],
 
       render () {
         return h('div', {}, [
@@ -205,7 +205,7 @@ export default {
             class: 'text-subtitle2',
             bordered: true,
             flat: true
-          }, () => h(QCardSection, () => ['a custom component']))
+          }, () => h(QCardSection, () => [ 'a custom component' ]))
         ])
       },
 

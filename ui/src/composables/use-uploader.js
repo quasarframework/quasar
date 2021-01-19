@@ -175,7 +175,7 @@ function getRender (props, slots, emit, state) {
 
   function removeUploadedFiles () {
     if (props.disable === false) {
-      batchRemoveFiles(['uploaded'], () => {
+      batchRemoveFiles([ 'uploaded' ], () => {
         state.uploadedFiles.value = []
       })
     }
@@ -241,7 +241,7 @@ function getRender (props, slots, emit, state) {
       return false
     })
     state.queuedFiles.value = state.queuedFiles.value.filter(f => f.name !== file.name)
-    emit('removed', [file])
+    emit('removed', [ file ])
   }
 
   function revokeImgURLs () {
@@ -344,7 +344,7 @@ function getRender (props, slots, emit, state) {
 
         h('div', { class: 'col column justify-center' }, [
           props.label !== void 0
-            ? h('div', { class: 'q-uploader__title' }, [props.label])
+            ? h('div', { class: 'q-uploader__title' }, [ props.label ])
             : null,
 
           h('div', { class: 'q-uploader__subtitle' }, [
@@ -389,7 +389,7 @@ function getRender (props, slots, emit, state) {
           : null,
 
         h('div', { class: 'q-uploader__file-header-content col' }, [
-          h('div', { class: 'q-uploader__title' }, [file.name]),
+          h('div', { class: 'q-uploader__title' }, [ file.name ]),
           h('div', {
             class: 'q-uploader__subtitle row items-center no-wrap'
           }, [
@@ -460,7 +460,7 @@ function getRender (props, slots, emit, state) {
       state.isBusy.value === true && children.push(
         h('div', {
           class: 'q-uploader__overlay absolute-full flex flex-center'
-        }, [h(QSpinner)])
+        }, [ h(QSpinner) ])
       )
 
       const data = { ref: rootRef, class: classes.value }

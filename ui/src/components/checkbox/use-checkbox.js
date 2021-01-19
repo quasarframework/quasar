@@ -41,7 +41,7 @@ export const useCheckboxProps = {
   tabindex: [ String, Number ]
 }
 
-export const useCheckboxEmits = ['update:modelValue']
+export const useCheckboxEmits = [ 'update:modelValue' ]
 
 export default function (props, slots, emit, type, getInner) {
   const $q = useQuasar()
@@ -153,7 +153,7 @@ export default function (props, slots, emit, type, getInner) {
         return val
       }
 
-      return props.modelValue.concat([props.val])
+      return props.modelValue.concat([ props.val ])
     }
 
     if (isTrue.value === true) {
@@ -214,7 +214,7 @@ export default function (props, slots, emit, type, getInner) {
     }
 
     const label = props.label !== void 0
-      ? hMergeSlot(slots.default, [props.label])
+      ? hMergeSlot(slots.default, [ props.label ])
       : hSlot(slots.default)
 
     label !== void 0 && child.push(

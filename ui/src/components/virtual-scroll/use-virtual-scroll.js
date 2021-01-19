@@ -238,7 +238,7 @@ export const useVirtualScrollProps = {
   ...commonVirtScrollProps
 }
 
-export const useVirtualScrollEmits = ['virtual-scroll']
+export const useVirtualScrollEmits = [ 'virtual-scroll' ]
 
 export function useVirtualScroll ({
   props, emit, $q, vm, virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl,

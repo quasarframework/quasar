@@ -15,7 +15,7 @@ export default function (props, typeGuard) {
       if (Object(model) === model) {
         ('length' in model
           ? Array.from(model)
-          : [model]
+          : [ model ]
         ).forEach(file => {
           dt.items.add(file)
         })

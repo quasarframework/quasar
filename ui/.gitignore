@@ -3,6 +3,7 @@
 node_modules/
 dev-umd/dist
 dist/
+dev/dist/
 deploy/
 npm-debug.log
 test/unit/coverage/

@@ -290,7 +290,7 @@ export default defineComponent({
 
           virtSlots.before = header === null
             ? () => topContent
-            : () => [header()].concat(topContent)
+            : () => [ header() ].concat(topContent)
         }
         else if (header !== null) {
           virtSlots.before = header
@@ -409,7 +409,7 @@ export default defineComponent({
                 dark: isDark.value,
                 dense: props.dense,
                 'onUpdate:modelValue': (adding, evt) => {
-                  updateSelection([key], [row], adding, evt)
+                  updateSelection([ key ], [ row ], adding, evt)
                 }
               })
             ]
@@ -505,7 +505,7 @@ export default defineComponent({
       hasSelectionMode.value === true && Object.defineProperty(data, 'selected', {
         get: () => isRowSelected(data.key),
         set: (adding, evt) => {
-          updateSelection([data.key], [data.row], adding, evt)
+          updateSelection([ data.key ], [ data.row ], adding, evt)
         },
         configurable: true,
         enumerable: true
@@ -552,7 +552,7 @@ export default defineComponent({
         topClass = 'q-table__top relative-position row items-center'
 
       if (top !== void 0) {
-        return h('div', { class: topClass }, [top(marginalsScope.value)])
+        return h('div', { class: topClass }, [ top(marginalsScope.value) ])
       }
 
       let child
@@ -739,7 +739,7 @@ export default defineComponent({
 
         const noData = slots[ 'no-data' ]
         const children = noData !== void 0
-          ? [noData({ message, icon: $q.iconSet.table.warning, filter: props.filter })]
+          ? [ noData({ message, icon: $q.iconSet.table.warning, filter: props.filter }) ]
           : [
               h(QIcon, {
                 class: 'q-table__bottom-nodata-icon',
@@ -754,7 +754,7 @@ export default defineComponent({
       const bottom = slots.bottom
 
       if (bottom !== void 0) {
-        return h('div', { class: bottomClass }, [bottom(marginalsScope.value)])
+        return h('div', { class: bottomClass }, [ bottom(marginalsScope.value) ])
       }
 
       const child = props.hideSelectedBanner !== true && hasSelectionMode.value === true && rowsSelectedNumber.value > 0
@@ -915,8 +915,8 @@ export default defineComponent({
         : scope => {
           const child = scope.cols.map(
             col => h('div', { class: 'q-table__grid-item-row' }, [
-              h('div', { class: 'q-table__grid-item-title' }, [col.label]),
-              h('div', { class: 'q-table__grid-item-value' }, [col.value])
+              h('div', { class: 'q-table__grid-item-title' }, [ col.label ]),
+              h('div', { class: 'q-table__grid-item-value' }, [ col.value ])
             ])
           )
 
@@ -931,7 +931,7 @@ export default defineComponent({
                     dark: isDark.value,
                     dense: props.dense,
                     'onUpdate:modelValue': (adding, evt) => {
-                      updateSelection([scope.key], [scope.row], adding, evt)
+                      updateSelection([ scope.key ], [ scope.row ], adding, evt)
                     }
                   })
                 ]
@@ -1016,7 +1016,7 @@ export default defineComponent({
     })
 
     return () => {
-      const child = [getTopDiv()]
+      const child = [ getTopDiv() ]
       const data = { ref: rootRef, class: containerClass.value }
 
       if (props.grid === true) {
