@@ -14,19 +14,11 @@ import { hMergeSlot } from '../../utils/render.js'
 import debounce from '../../utils/debounce.js'
 import { vmHasListener } from '../../utils/vm.js'
 
-const axisValues = [ 'both', 'horizontal', 'vertical' ]
-
 export default defineComponent({
   name: 'QScrollArea',
 
   props: {
     ...useDarkProps,
-
-    axis: {
-      type: String,
-      validator: v => axisValues.includes(v),
-      default: 'vertical'
-    },
 
     barStyle: [ Array, String, Object ],
     thumbStyle: Object,
@@ -298,7 +290,7 @@ export default defineComponent({
           class: 'scroll relative-position fit hide-scrollbar'
         }, [
           h('div', {
-            class: 'absolute full-width full-height',
+            class: `absolute full-${ props.horizontal === true ? 'height' : 'width' }`,
             style: mainStyle.value
           }, hMergeSlot(slots.default, [
             h(QResizeObserver, {
