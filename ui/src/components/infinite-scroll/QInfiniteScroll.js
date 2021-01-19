@@ -2,7 +2,7 @@ import { h, defineComponent, ref, computed, watch, onMounted, onBeforeUnmount, n
 
 import debounce from '../../utils/debounce.js'
 import { height } from '../../utils/dom.js'
-import { getScrollTarget, getScrollHeight, getScrollPosition, setScrollPosition } from '../../utils/scroll.js'
+import { getScrollTarget, getScrollHeight, getVerticalScrollPosition, setVerticalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 import { hSlot, hUniqueSlot } from '../../utils/render.js'
 
@@ -52,7 +52,7 @@ export default defineComponent({
 
       const
         scrollHeight = getScrollHeight(localScrollTarget),
-        scrollPosition = getScrollPosition(localScrollTarget),
+        scrollPosition = getVerticalScrollPosition(localScrollTarget),
         containerHeight = height(localScrollTarget)
 
       if (props.reverse === false) {
@@ -84,10 +84,10 @@ export default defineComponent({
             if (props.reverse === true) {
               const
                 heightAfter = getScrollHeight(localScrollTarget),
-                scrollPosition = getScrollPosition(localScrollTarget),
+                scrollPosition = getVerticalScrollPosition(localScrollTarget),
                 heightDifference = heightAfter - heightBefore
 
-              setScrollPosition(localScrollTarget, scrollPosition + heightDifference)
+              setVerticalScrollPosition(localScrollTarget, scrollPosition + heightDifference)
             }
 
             if (stop === true) {
@@ -191,7 +191,7 @@ export default defineComponent({
           scrollHeight = getScrollHeight(localScrollTarget),
           containerHeight = height(localScrollTarget)
 
-        setScrollPosition(localScrollTarget, scrollHeight - containerHeight)
+        setVerticalScrollPosition(localScrollTarget, scrollHeight - containerHeight)
       }
 
       immediatePoll()

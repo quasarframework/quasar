@@ -6,13 +6,13 @@ export namespace scroll {
   function getScrollHeight(el: Element | Window): number;
   function getScrollWidth(el: Element | Window): number;
 
-  function getScrollPosition(scrollTarget: Element | Window): number;
+  function getVerticalScrollPosition(scrollTarget: Element | Window): number;
   function getHorizontalScrollPosition(scrollTarget: Element | Window): number;
 
-  function animScrollTo(el: Element | Window, to: number, duration: number): void;
+  function animVerticalScrollTo(el: Element | Window, to: number, duration: number): void;
   function animHorizontalScrollTo(el: Element | Window, to: number, duration: number): void;
 
-  function setScrollPosition(scrollTarget: Element | Window, offset: number, duration?: number): void;
+  function setVerticalScrollPosition(scrollTarget: Element | Window, offset: number, duration?: number): void;
   function setHorizontalScrollPosition(scrollTarget: Element | Window, offset: number, duration?: number): void;
 
   function getScrollbarWidth(): number;

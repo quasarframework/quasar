@@ -6,7 +6,7 @@ import TouchPan from '../../directives/TouchPan.js'
 
 import useQuasar from '../../composables/use-quasar.js'
 
-import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
+import { getScrollTarget, getVerticalScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
 import { hSlot, hDir } from '../../utils/render.js'
@@ -76,7 +76,7 @@ export default defineComponent({
       }
 
       if (event.isFirst === true) {
-        if (getScrollPosition(localScrollTarget) !== 0) {
+        if (getVerticalScrollPosition(localScrollTarget) !== 0) {
           if (pulling.value === true) {
             pulling.value = false
             state.value = 'pull'

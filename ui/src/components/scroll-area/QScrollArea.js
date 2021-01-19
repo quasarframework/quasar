@@ -9,7 +9,7 @@ import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
-import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
+import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import { hMergeSlot } from '../../utils/render.js'
 import debounce from '../../utils/debounce.js'
 import { vmHasListener } from '../../utils/vm.js'
@@ -165,7 +165,7 @@ export default defineComponent({
     function localSetScrollPosition (offset, duration) {
       const fn = props.horizontal === true
         ? setHorizontalScrollPosition
-        : setScrollPosition
+        : setVerticalScrollPosition
 
       fn(targetRef.value, offset, duration)
     }
