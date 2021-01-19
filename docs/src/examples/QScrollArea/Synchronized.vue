@@ -1,6 +1,7 @@
 <template>
   <div class="q-ma-md row no-wrap">
     <q-scroll-area
+      visible
       :thumb-style="thumbStyle"
       :bar-style="barStyle"
       style="height: 200px;"
@@ -8,7 +9,7 @@
       ref="firstRef"
       @scroll="onScrollFirst"
     >
-      <div v-for="n in 100" :key="n" class="q-pa-xs">
+      <div v-for="n in 100" :key="n" class="q-pa-sm">
         Lorem ipsum dolor sit amet, consectetur adipisicing
         elit, sed do eiusmod tempor incididunt ut labore et
         dolore magna aliqua.
@@ -16,6 +17,7 @@
     </q-scroll-area>
 
     <q-scroll-area
+      visible
       :thumb-style="thumbStyle"
       :bar-style="barStyle"
       style="height: 200px;"
@@ -23,7 +25,7 @@
       ref="secondRef"
       @scroll="onScrollSecond"
     >
-      <div v-for="n in 100" :key="n" class="q-pa-xs">
+      <div v-for="n in 100" :key="n" class="q-pa-sm">
         Lorem ipsum dolor sit amet, consectetur adipisicing
         elit, sed do eiusmod tempor incididunt ut labore et
         dolore magna aliqua.
@@ -53,15 +55,18 @@ export default {
         return
       }
 
-      const target = source === 'first'
-        ? secondRef
-        : firstRef
-
       // we'll now update the other scroll area,
       // which will also trigger a @scroll event...
       // and we need to ignore that one
-      ignoreSource = target
-      target.value.setScrollPosition(position)
+      ignoreSource = source === 'first'
+        ? 'second'
+        : 'first'
+
+      const areaRef = source === 'first'
+        ? secondRef
+        : firstRef
+
+      areaRef.value.setScrollPosition('vertical', position)
     }
 
     return {
@@ -70,9 +75,9 @@ export default {
 
       thumbStyle: {
         right: '4px',
-        borderRadius: '5px',
+        borderRadius: '7px',
         backgroundColor: '#027be3',
-        width: '5px',
+        width: '4px',
         opacity: 0.75
       },
 
@@ -80,7 +85,7 @@ export default {
         right: '2px',
         borderRadius: '9px',
         backgroundColor: '#027be3',
-        width: '9px',
+        width: '8px',
         opacity: 0.2
       },
 

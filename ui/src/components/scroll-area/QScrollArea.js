@@ -99,7 +99,7 @@ export default defineComponent({
         (props.visible === null ? hover.value : props.visible) !== true
         && tempShowing.value === false
         && panning.value === false
-      ) || scroll.vertical.size.value <= container.vertical.value
+      ) || scroll.vertical.size.value <= container.vertical.value + 1
     )
     scroll.vertical.thumbSize = computed(() =>
       Math.round(
@@ -138,7 +138,7 @@ export default defineComponent({
         (props.visible === null ? hover.value : props.visible) !== true
         && tempShowing.value === false
         && panning.value === false
-      ) || scroll.horizontal.size.value <= container.horizontal.value
+      ) || scroll.horizontal.size.value <= container.horizontal.value + 1
     )
     scroll.horizontal.thumbSize = computed(() =>
       Math.round(

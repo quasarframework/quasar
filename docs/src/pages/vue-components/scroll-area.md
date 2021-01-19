@@ -21,7 +21,11 @@ You can also take a look at [Layout Drawer](/layout/drawer) to see some more exa
 
 ### Basic
 
-<doc-example title="Basic" file="QScrollArea/Basic" />
+<doc-example title="Vertical content" file="QScrollArea/Vertical" />
+
+<doc-example title="Horizontal content" file="QScrollArea/Horizontal" />
+
+<doc-example title="Vertical and horizontal content" file="QScrollArea/VertHoriz" />
 
 ### Styled
 
@@ -48,10 +52,6 @@ When content changes, the scrollbar appears then disappears again. You can set a
 ### Scroll position
 
 <doc-example title="Scroll Position" file="QScrollArea/ScrollPosition" />
-
-### Horizontal mode
-
-<doc-example title="Horizontal mode" file="QScrollArea/Horizontal" />
 
 ### Scroll event
 
