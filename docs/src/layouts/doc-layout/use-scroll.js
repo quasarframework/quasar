@@ -2,19 +2,19 @@ import { scroll } from 'quasar'
 import { watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 
-const { setScrollPosition, getScrollPosition } = scroll
+const { setVerticalScrollPosition, getVerticalScrollPosition } = scroll
 
 let preventTocUpdate = false
 let scrollTimer
 
 function scrollPage (el, delay) {
   const { top } = el.getBoundingClientRect()
-  const offset = Math.max(0, top + getScrollPosition(window) - 66)
+  const offset = Math.max(0, top + getVerticalScrollPosition(window) - 66)
 
   clearTimeout(scrollTimer)
 
   preventTocUpdate = true
-  setScrollPosition(window, offset, delay)
+  setVerticalScrollPosition(window, offset, delay)
 
   scrollTimer = setTimeout(() => {
     preventTocUpdate = false
