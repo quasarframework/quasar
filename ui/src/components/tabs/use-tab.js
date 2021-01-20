@@ -7,6 +7,7 @@ import Ripple from '../../directives/Ripple.js'
 import { hMergeSlot, hDir } from '../../utils/render.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 import { tabsKey } from '../../utils/symbols.js'
+import useFocusHelper from '../../composables/private/use-focus-helper.js'
 
 let uid = 0
 
@@ -139,7 +140,7 @@ export default function (props, slots, emit, routerProps) {
     narrow === true && content.push(indicator)
 
     const node = [
-      h('div', { class: 'q-focus-helper', tabindex: -1, ref: blurTargetRef }),
+      useFocusHelper(blurTargetRef),
       h('div', { class: innerClass.value }, hMergeSlot(slots.default, content))
     ]
 

@@ -11,6 +11,7 @@ import { hMergeSlot, hDir } from '../../utils/render.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { getTouchTarget } from '../../utils/touch.js'
 import { isKeyCode } from '../../utils/key-composition.js'
+import useFocusHelper from '../../composables/private/use-focus-helper.js'
 
 const { passiveCapture } = listenOpts
 
@@ -303,10 +304,7 @@ export default defineComponent({
       }
 
       const child = [
-        h('span', {
-          class: 'q-focus-helper',
-          ref: blurTargetRef
-        })
+        useFocusHelper(blurTargetRef)
       ]
 
       if (props.loading === true && props.percentage !== void 0) {

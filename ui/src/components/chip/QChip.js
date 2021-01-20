@@ -7,6 +7,7 @@ import Ripple from '../../directives/Ripple.js'
 import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
+import useFocusHelper from '../../composables/private/use-focus-helper.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { hMergeSlotSafely, hDir } from '../../utils/render.js'
@@ -130,7 +131,7 @@ export default defineComponent({
       const child = []
 
       isClickable.value === true && child.push(
-        h('div', { class: 'q-focus-helper' })
+        useFocusHelper()
       )
 
       hasLeftIcon.value === true && child.push(

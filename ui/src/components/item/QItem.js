@@ -3,6 +3,7 @@ import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
 import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
+import useFocusHelper from '../../composables/private/use-focus-helper.js'
 
 import { hUniqueSlot } from '../../utils/render.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -124,7 +125,7 @@ export default defineComponent({
       const child = hUniqueSlot(slots.default, [])
 
       isClickable.value === true && child.unshift(
-        h('div', { class: 'q-focus-helper', tabindex: -1, ref: blurTargetRef })
+        useFocusHelper(blurTargetRef)
       )
 
       return child

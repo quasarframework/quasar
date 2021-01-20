@@ -5,6 +5,7 @@ import Ripple from '../../directives/Ripple.js'
 
 import useQuasar from '../../composables/use-quasar.js'
 import { hDir } from '../../utils/render.js'
+import useFocusHelper from '../../composables/private/use-focus-helper.js'
 
 export default defineComponent({
   name: 'StepHeader',
@@ -124,7 +125,7 @@ export default defineComponent({
       }
 
       const child = [
-        h('div', { class: 'q-focus-helper', tabindex: -1, ref: blurRef }),
+        useFocusHelper(blurRef),
 
         h('div', { class: 'q-stepper__dot row flex-center q-stepper__line relative-position' }, [
           h('span', { class: 'row flex-center' }, [

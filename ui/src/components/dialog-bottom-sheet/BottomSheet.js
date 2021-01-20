@@ -13,6 +13,7 @@ import QItemSection from '../item/QItemSection.js'
 
 import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useFocusHelper from '../../composables/private/use-focus-helper.js'
 
 export default defineComponent({
   name: 'BottomSheetPlugin',
@@ -75,7 +76,7 @@ export default defineComponent({
               e.keyCode === 13 && onOk(action)
             }
           }, [
-            h('div', { class: 'q-focus-helper' }),
+            useFocusHelper(),
 
             action.icon
               ? h(QIcon, { name: action.icon, color: action.color })
