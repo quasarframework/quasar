@@ -144,7 +144,7 @@ You can reset the validation by calling `resetValidation()` method on the QField
 
 <doc-example title="Maximum value" file="QField/ValidationMaxValue" />
 
-If you set `lazy-rules`, validation starts after first blur. Starting with v1.11+, if `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
+If you set `lazy-rules`, validation starts after first blur. If `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
 
 <doc-example title="Lazy rules" file="QField/ValidationLazy" />
 

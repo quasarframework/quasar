@@ -42,13 +42,13 @@ export default {
     })
 
     return {
-      onLeft ({ reset }) {
-        $q.notify('Left action triggered. Resetting in 1 second.')
+      onTop ({ reset }) {
+        $q.notify('Top action triggered. Resetting in 1 second.')
         finalize(reset)
       },
 
-      onRight ({ reset }) {
-        $q.notify('Right action triggered. Resetting in 1 second.')
+      onBottom ({ reset }) {
+        $q.notify('Bottom action triggered. Resetting in 1 second.')
         finalize(reset)
       }
     }

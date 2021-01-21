@@ -73,7 +73,7 @@ Now we can use this color for Quasar components:
 <q-btn color="brand" ... />
 ```
 
-Starting with v1.10+, you can access a custom color value (hex string) in JS context with the [getPaletteColor](/quasar-utils/color-utils#Helper---getPaletteColor) util.
+You can access a custom color value (hex string) in JS context with the [getPaletteColor](/quasar-utils/color-utils#Helper---getPaletteColor) util.
 
 ## Dynamic Change of Brand Colors (Dynamic Theme Colors)
 

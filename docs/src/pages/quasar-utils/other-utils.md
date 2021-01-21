@@ -18,7 +18,7 @@ openURL('http://...')
 openURL(
   String url,
   Function rejectFn, // optional; gets called if window cannot be opened
-  Object windowFeatures // (v1.13+) optional requested features for the new window
+  Object windowFeatures // optional requested features for the new window
 )
 ```
 

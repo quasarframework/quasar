@@ -5,7 +5,7 @@
       <q-btn no-caps unelevated color="negative" @click="triggerNegative" label="Trigger 'negative'" />
       <q-btn no-caps unelevated color="warning" text-color="dark" @click="triggerWarning" label="Trigger 'warning'" />
       <q-btn no-caps unelevated color="info" @click="triggerInfo" label="Trigger 'info'" />
-      <q-btn no-caps unelevated color="grey-8" @click="triggerOngoing" label="Trigger 'ongoing' (v1.14+)" />
+      <q-btn no-caps unelevated color="grey-8" @click="triggerOngoing" label="Trigger 'ongoing'" />
     </div>
   </div>
 </template>

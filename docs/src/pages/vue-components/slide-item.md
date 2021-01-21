@@ -20,7 +20,7 @@ If your content also has images, you might want to add `draggable="false"` to th
 
 <doc-example title="Basic" file="QSlideItem/Basic" />
 
-<doc-example title="Vertical (v1.1.3+)" file="QSlideItem/Vertical" />
+<doc-example title="Vertical" file="QSlideItem/Vertical" />
 
 <doc-example title="Custom colors" file="QSlideItem/CustomColors" />
 

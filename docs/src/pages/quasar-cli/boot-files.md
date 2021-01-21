@@ -35,7 +35,7 @@ export default ({ app, router, store, Vue }) => {
 }
 ```
 
-Starting with v1.0, boot files can also be async:
+Boot files can also be async:
 
 ```js
 export default async ({ app, router, store, Vue }) => {
@@ -44,7 +44,7 @@ export default async ({ app, router, store, Vue }) => {
 }
 ```
 
-Starting with v1.9, you can wrap the returned function with `boot` helper to get a better IDE autocomplete experience (through Typescript):
+You can wrap the returned function with `boot` helper to get a better IDE autocomplete experience (through Typescript):
 
 ```js
 import { boot } from 'quasar/wrappers'

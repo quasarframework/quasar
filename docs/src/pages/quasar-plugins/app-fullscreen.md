@@ -23,19 +23,19 @@ import { AppFullscreen } from 'quasar'
 
 // Requesting fullscreen mode:
 AppFullscreen.request()
-  .then(() => { // v1.5.0+
+  .then(() => {
     // success!
   })
-  .catch(err => { // v1.5.0+
+  .catch(err => {
     // oh, no!!!
   })
 
 // Exiting fullscreen mode:
 AppFullscreen.exit()
-  .then(() => { // v1.5.0+
+  .then(() => {
     // success!
   })
-  .catch(err => { // v1.5.0+
+  .catch(err => {
     // oh, no!!!
   })
 ```
@@ -45,19 +45,19 @@ AppFullscreen.exit()
 
 // Requesting fullscreen mode:
 this.$q.fullscreen.request()
-  .then(() => { // v1.5.0+
+  .then(() => {
     // success!
   })
-  .catch(err => { // v1.5.0+
+  .catch(err => {
     // oh, no!!!
   })
 
 // Exiting fullscreen mode:
 this.$q.fullscreen.exit()
-  .then(() => { // v1.5.0+
+  .then(() => {
     // success!
   })
-  .catch(err => { // v1.5.0+
+  .catch(err => {
     // oh, no!!!
   })
 ```

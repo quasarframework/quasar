@@ -232,7 +232,8 @@ Don't forget to use the `preserveState: true` option for `registerModule` so we 
 :::
 
 ### Usage with TypeScript
-Starting with v1.9, you can use `preFetch` helper to type-hint the store parameter (which will otherwise have an `any` type):
+
+You can use `preFetch` helper to type-hint the store parameter (which will otherwise have an `any` type):
 
 ```js
 import { preFetch } from 'quasar/wrappers'

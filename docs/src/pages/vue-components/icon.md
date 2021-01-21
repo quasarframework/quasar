@@ -11,7 +11,7 @@ Quasar supports out of the box: [Material Icons](https://material.io/icons/), [F
 
 Furthermore you can [add support by yourself](/vue-components/icon#Custom-mapping) for any icon lib.
 
-There are multiple types of icons in Quasar: webfont-based, svg-based (v1.7+) and image-based. You are not bound to using only one type in your website/app.
+There are multiple types of icons in Quasar: webfont-based, svg-based and image-based. You are not bound to using only one type in your website/app.
 
 ::: tip
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
@@ -50,15 +50,15 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | Quasar IconSet name | Name prefix | Examples | Notes |
 | --- | --- | --- | --- |
 | material-icons | *None* | thumb_up | Notice the underline character instead of dash or space |
-| material-icons-outlined | o_ | o_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
-| material-icons-round | r_ | r_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
-| material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
+| material-icons-outlined | o_ | o_thumb_up | Notice the underline character instead of dash or space |
+| material-icons-round | r_ | r_thumb_up | Notice the underline character instead of dash or space |
+| material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | fontawesome-v5 | fa[s,r,l,d,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
 | mdi-v5/v4/v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters; Use only one of mdi-v5, mdi-v4 or mdi-v3 |
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters |
 | themify | ti- | ti-hand-point-up | Notice the use of dash characters |
-| line-awesome | la[s,r,l,d,b] la- | "las la-atom" | QIcon "name" property is same as "class" attribute value in Line Awesome docs examples (where they show `<i>` tags); **Quasar 1.8+ & @quasar/extras v1.5+** |
+| line-awesome | la[s,r,l,d,b] la- | "las la-atom" | QIcon "name" property is same as "class" attribute value in Line Awesome docs examples (where they show `<i>` tags); **@quasar/extras v1.5+** |
 
 ### Naming convention
 
