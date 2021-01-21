@@ -2,7 +2,7 @@ const days = 'یکشنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنج�
 const monthsShort = 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_')
 
 export default {
-  isoName: 'fa-ir',
+  isoName: 'fa-IR',
   nativeName: 'فارسی',
   rtl: true,
   label: {
