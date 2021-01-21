@@ -25,7 +25,7 @@ import { date } from 'quasar'
 // destructuring to keep only what is needed
 const { addToDate } = date
 
-let newDate = addToDate(new Date(), { days: 7, month: 1 })
+let newDate = addToDate(new Date(), { days: 7, months: 1 })
 ```
 
 ::: tip
@@ -88,7 +88,7 @@ The following method is just a wrapper to help you in cases where you just need 
 ```js
 import { date } from 'quasar'
 
-let newDate = date.buildDate({ year:2010, date:5, hours:15, milliseconds:123})
+let newDate = date.buildDate({ year: 2010, date: 5, hours: 15, milliseconds: 123 })
 ```
 
 You can pass a second argument (a boolean) for setting UTC time (true) instead of local time.
@@ -125,7 +125,7 @@ import { date } from 'quasar'
 
 let newDate = new Date(2017, 2, 7)
 
-newDate = date.addToDate(newDate, { days: 7, month: 1 })
+newDate = date.addToDate(newDate, { days: 7, months: 1 })
 // `newDate` is now 2017-3-14 00:00:00
 
 newDate = date.subtractFromDate(newDate, { hours: 24, milliseconds: 10000 })
@@ -141,8 +141,8 @@ The object literal provided can contain the following keys (all are optional):
 | `minutes` | for a duration in minutes |
 | `hours` | for a duration in hours |
 | `days` | for a duration in days |
-| `month` | for a duration in months |
-| `year` | for a duration in years |
+| `months` | for a duration in months |
+| `years` | for a duration in years |
 
 ### Set date/time
 To set a specified unit(s) of date/time:

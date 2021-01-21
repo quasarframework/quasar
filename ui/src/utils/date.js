@@ -333,12 +333,12 @@ function getChange (date, mod, add) {
     sign = (add ? 1 : -1)
 
   Object.keys(mod).forEach(key => {
-    if (key === 'month') {
+    if (key === 'months') {
       setMonth(t, t.getMonth() + 1 + sign * mod.month)
       return
     }
 
-    const op = key === 'year'
+    const op = key === 'years'
       ? 'FullYear'
       : capitalize(key === 'days' ? 'date' : key)
     t[ `set${ op }` ](t[ `get${ op }` ]() + sign * mod[ key ])
