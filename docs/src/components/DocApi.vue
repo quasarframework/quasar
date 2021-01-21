@@ -96,16 +96,15 @@ function getPropsCategories (props) {
     if (props[ key ] !== void 0) {
       const value = props[ key ]
 
-      if (!value.category) {
-        console.log(key, value)
-      }
       value.category.split('|').forEach(groupKey => {
         acc.add(groupKey)
       })
     }
   }
 
-  return Array.from(acc).sort()
+  return acc.size === 1
+    ? [defaultInnerTabName]
+    : Array.from(acc).sort()
 }
 
 function getInnerTabs (api, tabs, apiType) {
@@ -216,7 +215,7 @@ function getApiCount (parsedApi, tabs, innerTabs) {
         category: { [ categ ]: count }
       }
     }
-    if (tabCategories.length > 1) {
+    else {
       acc[ tab ].category = {}
 
       tabCategories.forEach(categ => {
