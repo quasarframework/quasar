@@ -32,3 +32,70 @@ After installing PM2 on your server, your npm start script can look like this in
   "start": "pm2 start index.js"
 }
 ```
+
+## Production scenario
+For serving our Quasar SSR web app in the real world we should consider using Nginx as reverse proxy for leveraging these advantages:
+- Faster static file serving
+- SSL offloading
+- Error pages handling
+- Compression
+- Proxy WebSocket Connections
+- Caching
+
+You may have to consider the scope of your web app, the average number of requests and more other things specific to the reliability of your services.
+
+Here an example basic configuration for using both Nginx and Express for serving an SSR Quasar web app in a real scenario.
+
+```js
+upstream backend_ssr {
+  server localhost:3000;
+  keepalive 64;
+}
+
+server {
+  listen 80;
+  listen [::]:80;
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  ssl_certificate /usr/local/nginx/conf/ssl/ssr.example.com.crt;
+  ssl_certificate_key /usr/local/nginx/conf/ssl/ssr.example.com.key;
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+  ssl_ciphers TLS13-AES-256-GCM-SHA384:TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-128-GCM-SHA256:TLS13-AES-128-CCM-8-SHA256:TLS13-AES-128-CCM-SHA256:EECDH+CHACHA20:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+  ssl_prefer_server_ciphers on;
+  ssl_session_timeout 10m;
+  ssl_session_cache builtin:1000 shared:SSL:10m;
+  ssl_buffer_size 1400;
+  add_header Strict-Transport-Security max-age=15768000;
+  ssl_stapling on;
+  ssl_stapling_verify on;
+  server_name ssr.example.com;
+  access_log /data/wwwlogs/ssr.example.com_nginx.log combined;
+  index index.html index.htm;
+  root /data/wwwroot/ssr.example.com/public/www;
+
+  location / {
+    try_files $uri @backend;
+  }
+
+  location @backend {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header Host $http_host;
+
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+
+    proxy_pass http://backend_ssr;
+    proxy_redirect off;
+    proxy_read_timeout 240s;
+  }
+}
+```
+As you can notice, the core part is the `try_files $uri @backend;`.
+
+This line tells to Nginx to look for the file requested and if it can't be found pass the request to the location `@backend` that proxyes requests to our Express web server served by Node.js.
+
+::: tip
+Remember to run node with NODE_ENV=production
+:::
