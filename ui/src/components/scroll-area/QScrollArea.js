@@ -373,10 +373,10 @@ export default defineComponent({
       }, [
         h('div', {
           ref: targetRef,
-          class: 'scroll relative-position fit hide-scrollbar'
+          class: 'q-scrollarea__container scroll relative-position fit hide-scrollbar'
         }, [
           h('div', {
-            class: 'absolute',
+            class: 'q-scrollarea__content absolute',
             style: mainStyle.value
           }, hMergeSlot(slots.default, [
             h(QResizeObserver, {
