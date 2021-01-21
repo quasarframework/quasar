@@ -48,7 +48,7 @@ app.get(ssr.resolveUrl('*'), (req, res) => {
   // and potentially look here for inspiration:
   // https://ponyfoo.com/articles/content-security-policy-in-express-apps
 
-  // https://developer.mozilla.org/en-us/docs/Web/HTTP/Headers/X-Frame-Options
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   // res.setHeader('X-frame-options', 'SAMEORIGIN') // one of DENY | SAMEORIGIN | ALLOW-FROM https://example.com
 
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
