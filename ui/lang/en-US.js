@@ -1,6 +1,6 @@
 export default {
-  isoName: 'en-gb',
-  nativeName: 'English (UK)',
+  isoName: 'en-US',
+  nativeName: 'English (US)',
   label: {
     clear: 'Clear',
     ok: 'OK',
@@ -21,8 +21,8 @@ export default {
     daysShort: 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
     months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
-    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true,
+    firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
+    format24h: false,
     pluralDay: 'days'
   },
   table: {

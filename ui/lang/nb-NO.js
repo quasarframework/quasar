@@ -1,5 +1,5 @@
 export default {
-  isoName: 'nb-no',
+  isoName: 'nb-NO',
   nativeName: 'Norsk',
   label: {
     clear: 'Tøm',

@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 
-import langEn from '../lang/en-us.js'
+import langEn from '../lang/en-US.js'
 import { isRuntimeSsrPreHydration } from './plugins/Platform.js'
 
 function getLocale () {
@@ -13,9 +13,7 @@ function getLocale () {
     || navigator.userLanguage
     || navigator.systemLanguage
 
-  if (val) {
-    return val.toLowerCase()
-  }
+  return val.toLowerCase()
 }
 
 const Plugin = {
