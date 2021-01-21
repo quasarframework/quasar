@@ -482,10 +482,6 @@ function fillAPI (apiType) {
       }
 
       ast.evaluate(definition, topSections[ apiType ], (prop, key, definition) => {
-        if (key.startsWith('__')) {
-          return
-        }
-
         if (prop === 'props') {
           key = key.replace(/([a-z])([A-Z])/g, '$1-$2')
             .replace(/\s+/g, '-')
@@ -495,11 +491,6 @@ function fillAPI (apiType) {
         if (api[ prop ] === void 0 || api[ prop ][ key ] === void 0) {
           logError(`${ name }: missing "${ prop }" -> "${ key }" definition`)
           hasError = true // keep looping through to find as many as can be found before exiting
-        }
-
-        if (api[ prop ][ key ].internal === true) {
-          delete api[ prop ][ key ]
-          return
         }
 
         if (definition) {
@@ -539,6 +530,14 @@ function fillAPI (apiType) {
           }
         }
       })
+
+      if (api.props !== void 0) {
+        for (const key in api.props) {
+          if (api.props[ key ].internal === true) {
+            delete api.props[ key ]
+          }
+        }
+      }
 
       if (hasError === true) {
         logError('Errors were found...exiting')
