@@ -104,7 +104,8 @@ function addUmdAssets (builds, type, injectName) {
   files
     .filter(file => file.endsWith('.js'))
     .forEach(file => {
-      const name = file.substr(0, file.length - 3).replace(/-([a-z])/g, g => g[ 1 ].toUpperCase())
+      const name = file.substr(0, file.length - 3).replace(/-/g, '')
+
       builds.push({
         rollup: {
           input: {

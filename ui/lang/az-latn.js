@@ -1,5 +1,5 @@
 export default {
-  isoName: 'az-LATN',
+  isoName: 'az-Latn',
   nativeName: 'Azerbaijani (latin)',
   label: {
     clear: 'Təmizlə',
