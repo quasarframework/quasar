@@ -634,6 +634,9 @@ export default {
 
     __padVirtualScroll (h, tag, content) {
       const paddingSize = this.virtualScrollHorizontal === true ? 'width' : 'height'
+      const style = {
+        ['--q-virtual-scroll-item-' + paddingSize]: this.virtualScrollItemSizeComputed + 'px'
+      }
 
       return [
         tag === 'tbody'
@@ -644,7 +647,7 @@ export default {
           }, [
             h('tr', [
               h('td', {
-                style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` },
+                style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px`, ...style },
                 attrs: this.colspanAttr
               })
             ])
@@ -653,7 +656,7 @@ export default {
             staticClass: 'q-virtual-scroll__padding',
             key: 'before',
             ref: 'before',
-            style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` }
+            style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px`, ...style }
           }),
 
         h(tag, {
@@ -671,7 +674,7 @@ export default {
           }, [
             h('tr', [
               h('td', {
-                style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` },
+                style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px`, ...style },
                 attrs: this.colspanAttr
               })
             ])
@@ -680,7 +683,7 @@ export default {
             staticClass: 'q-virtual-scroll__padding',
             key: 'after',
             ref: 'after',
-            style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` }
+            style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px`, ...style }
           })
       ]
     },
