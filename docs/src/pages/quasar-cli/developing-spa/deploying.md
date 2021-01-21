@@ -45,7 +45,6 @@ server {
         try_files $uri $uri/ /index.html;
     }
 
-    location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }
 
     access_log off;
