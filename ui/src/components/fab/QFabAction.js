@@ -5,6 +5,7 @@ import QIcon from '../icon/QIcon.js'
 
 import FabMixin from '../../mixins/fab.js'
 
+import { noop } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/slot.js'
 
 const anchorMap = {
@@ -38,7 +39,10 @@ export default Vue.extend({
   inject: {
     __qFab: {
       default () {
-        console.error('QFabAction needs to be child of QFab')
+        return {
+          showing: true,
+          __onChildClick: noop
+        }
       }
     }
   },
