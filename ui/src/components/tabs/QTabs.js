@@ -126,12 +126,13 @@ export default defineComponent({
       'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar '
       + alignClass.value
       + (props.contentClass !== void 0 ? ` ${ props.contentClass }` : '')
+      + ($q.platform.is.mobile === true ? ' scroll' : '')
     )
 
     const domProps = computed(() => (
       props.vertical === true
-        ? { container: 'height', content: 'offsetHeight', posLeft: 'top', posRight: 'bottom' }
-        : { container: 'width', content: 'offsetWidth', posLeft: 'left', posRight: 'right' }
+        ? { container: 'height', content: 'offsetHeight', scroll: 'scrollHeight' }
+        : { container: 'width', content: 'offsetWidth', scroll: 'scrollWidth' }
     ))
 
     watch(() => props.modelValue, name => {
@@ -183,10 +184,13 @@ export default defineComponent({
     function updateContainer (domSize) {
       const
         size = domSize[ domProps.value.container ],
-        scrollSize = Array.prototype.reduce.call(
-          contentRef.value.children,
-          (acc, el) => acc + el[ domProps.value.content ],
-          0
+        scrollSize = Math.min(
+          contentRef.value[ domProps.value.scroll ],
+          Array.prototype.reduce.call(
+            contentRef.value.children,
+            (acc, el) => acc + el[ domProps.value.content ],
+            0
+          )
         ),
         scroll = size > 0 && scrollSize > size // when there is no tab, in Chrome, size === 0 and scrollSize === 1
 
@@ -415,7 +419,8 @@ export default defineComponent({
 
         h('div', {
           ref: contentRef,
-          class: innerClass.value
+          class: innerClass.value,
+          onScroll: localUpdateArrows
         }, hSlot(slots.default))
       ]
 
