@@ -244,7 +244,7 @@ export function useVirtualScroll ({
   props, emit, $q, vm, virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl,
   virtualScrollItemSizeComputed // optional
 }) {
-  let prevScrollStart, prevToIndex, prevAlignRange, localScrollViewSize, virtualScrollSizesAgg = [], virtualScrollSizes
+  let prevScrollStart, prevToIndex, localScrollViewSize, virtualScrollSizesAgg = [], virtualScrollSizes
 
   const vsId = 'qvs_' + id++
 
@@ -655,7 +655,7 @@ export function useVirtualScroll ({
         ref: contentRef,
         id: vsId,
         tabindex: -1
-      }, content),
+      }, content.flat()),
 
       tag === 'tbody'
         ? h(tag, {
