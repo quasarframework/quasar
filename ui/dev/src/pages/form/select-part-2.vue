@@ -479,11 +479,8 @@
             @blur="onBlur"
           >
             <template v-slot:option="scope">
-              <div>
-                <q-item
-                  v-bind="scope.itemProps"
-                  :key="scope.index"
-                >
+              <div :key="scope.index">
+                <q-item v-bind="scope.itemProps">
                   <q-item-section>
                     <q-item-label>
                       Option - {{ scope.opt.label }} - {{ scope.index }}
@@ -524,11 +521,8 @@
             @virtual-scroll="onScroll"
           >
             <template v-slot:option="scope">
-              <div>
-                <q-item
-                  v-bind="scope.itemProps"
-                  :key="scope.index"
-                >
+              <div :key="scope.index">
+                <q-item v-bind="scope.itemProps">
                   <q-item-section>
                     <q-item-label>
                       Option - {{ scope.opt.label }} - {{ scope.index }}
@@ -568,11 +562,8 @@
             @blur="onBlur"
           >
             <template v-slot:option="scope">
-              <div>
-                <q-item
-                  v-bind="scope.itemProps"
-                  :key="scope.index"
-                >
+              <div :key="scope.index">
+                <q-item v-bind="scope.itemProps">
                   <q-item-section>
                     <q-item-label>
                       Option - {{ scope.opt.label }} - {{ scope.index }}
@@ -611,11 +602,8 @@
             @blur="onBlur"
           >
             <template v-slot:option="scope">
-              <div>
-                <q-item
-                  v-bind="scope.itemProps"
-                  :key="scope.index"
-                >
+              <div :key="scope.index">
+                <q-item v-bind="scope.itemProps">
                   <q-item-section>
                     <q-item-label>
                       Option - {{ scope.opt.label }} - {{ scope.index }}

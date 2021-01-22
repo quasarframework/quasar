@@ -395,29 +395,13 @@ export function useVirtualScroll ({
     )
   }
 
-  function calcAlignRange (alignEnd, toIndex) {
-    if (alignEnd !== void 0) {
-      return alignEnd
-    }
-
-    if (toIndex > prevToIndex) {
-      return 'start'
-    }
-
-    return toIndex === prevToIndex && prevAlignRange !== void 0
-      ? prevAlignRange
-      : 'end'
-  }
-
   function setVirtualScrollSliceRange (scrollEl, scrollDetails, toIndex, offset, align) {
     const alignForce = typeof align === 'string' && align.indexOf('-force') > -1
     const alignEnd = alignForce === true ? align.replace('-force', '') : align
-    const alignRange = calcAlignRange(alignEnd, toIndex)
-
-    prevAlignRange = alignRange
+    const alignRange = alignEnd !== void 0 ? alignEnd : 'start'
 
     let
-      from = Math.max(0, Math.ceil(toIndex - virtualScrollSliceSizeComputed.value[ alignRange ])),
+      from = Math.max(0, toIndex - virtualScrollSliceSizeComputed.value[ alignRange ]),
       to = from + virtualScrollSliceSizeComputed.value.total
 
     if (to > virtualScrollLength.value) {
@@ -427,10 +411,6 @@ export function useVirtualScroll ({
 
     prevScrollStart = scrollDetails.scrollStart
 
-    if (contentRef.value !== null && contentRef.value.contains(document.activeElement)) {
-      contentRef.value.focus()
-    }
-
     const rangeChanged = from !== virtualScrollSliceRange.value.from || to !== virtualScrollSliceRange.value.to
 
     if (rangeChanged === false && alignEnd === void 0) {
@@ -438,14 +418,47 @@ export function useVirtualScroll ({
       return
     }
 
+    const { activeElement } = document
+    if (
+      rangeChanged === true
+      && contentRef.value !== null
+      && contentRef.value !== activeElement
+      && contentRef.value.contains(activeElement) === true
+    ) {
+      const onBlurFn = () => {
+        contentRef.value.focus()
+      }
+
+      activeElement.addEventListener('blur', onBlurFn, true)
+
+      requestAnimationFrame(() => {
+        activeElement.removeEventListener('blur', onBlurFn, true)
+      })
+    }
+
     setOverflowAnchor(vsId, toIndex - from + 1)
 
     const sizeBefore = alignEnd !== void 0 ? virtualScrollSizes.slice(from, toIndex).reduce(sumFn, 0) : 0
 
     if (rangeChanged === true) {
-      virtualScrollSliceRange.value = { from, to }
+      // vue key matching algorithm works only if
+      // the array of VNodes changes on only one of the ends
+      // so we first change one end and then the other
+
+      const tempTo = to >= virtualScrollSliceRange.value.from && from <= virtualScrollSliceRange.value.to
+        ? virtualScrollSliceRange.value.to
+        : to
+
+      virtualScrollSliceRange.value = { from, to: tempTo }
       virtualScrollPaddingBefore.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, 0, from)
       virtualScrollPaddingAfter.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, to, virtualScrollLength.value)
+
+      requestAnimationFrame(() => {
+        if (virtualScrollSliceRange.value.to !== to && prevScrollStart === scrollDetails.scrollStart) {
+          virtualScrollSliceRange.value = { from: virtualScrollSliceRange.value.from, to }
+          virtualScrollPaddingAfter.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, to, virtualScrollLength.value)
+        }
+      })
     }
 
     requestAnimationFrame(() => {
@@ -530,7 +543,7 @@ export function useVirtualScroll ({
   }
 
   function localResetVirtualScroll (toIndex, fullReset) {
-    const defaultSize = virtualScrollItemSizeComputed.value
+    const defaultSize = 1 * virtualScrollItemSizeComputed.value
 
     if (fullReset === true || Array.isArray(virtualScrollSizes) === false) {
       virtualScrollSizes = []
@@ -590,6 +603,16 @@ export function useVirtualScroll ({
     localScrollViewSize = scrollViewSize
 
     const multiplier = 1 + props.virtualScrollSliceRatioBefore + props.virtualScrollSliceRatioAfter
+    const view = scrollViewSize === void 0 || scrollViewSize <= 0
+      ? 1
+      : Math.ceil(scrollViewSize / virtualScrollItemSizeComputed.value)
+
+    const baseSize = Math.max(
+      10,
+      view,
+      Math.ceil(props.virtualScrollSliceSize / multiplier)
+    )
+
     const onView = Math.ceil(Math.max(
       scrollViewSize === void 0 || scrollViewSize <= 0
         ? 10
@@ -598,18 +621,19 @@ export function useVirtualScroll ({
     ))
 
     virtualScrollSliceSizeComputed.value = {
-      total: Math.ceil(onView * multiplier),
-      start: Math.ceil(onView * props.virtualScrollSliceRatioBefore),
-      center: Math.ceil(onView * (0.5 + props.virtualScrollSliceRatioBefore)),
-      end: Math.ceil(onView * (1 + props.virtualScrollSliceRatioBefore)),
-      view: scrollViewSize === void 0 || scrollViewSize <= 0
-        ? 1
-        : Math.ceil(scrollViewSize / virtualScrollItemSizeComputed.value)
+      total: Math.ceil(baseSize * multiplier),
+      start: Math.ceil(baseSize * props.virtualScrollSliceRatioBefore),
+      center: Math.ceil(baseSize * (0.5 + props.virtualScrollSliceRatioBefore)),
+      end: Math.ceil(baseSize * (1 + props.virtualScrollSliceRatioBefore)),
+      view
     }
   }
 
   function padVirtualScroll (tag, content) {
     const paddingSize = props.virtualScrollHorizontal === true ? 'width' : 'height'
+    const style = {
+      [ '--q-virtual-scroll-item-' + paddingSize ]: virtualScrollItemSizeComputed.value + 'px'
+    }
 
     return [
       tag === 'tbody'
@@ -620,7 +644,7 @@ export function useVirtualScroll ({
           }, [
             h('tr', [
               h('td', {
-                style: { [ paddingSize ]: `${ virtualScrollPaddingBefore.value }px` },
+                style: { [ paddingSize ]: `${ virtualScrollPaddingBefore.value }px`, ...style },
                 colspan: colspanAttr.value
               })
             ])
@@ -629,7 +653,7 @@ export function useVirtualScroll ({
           class: 'q-virtual-scroll__padding',
           key: 'before',
           ref: beforeRef,
-          style: { [ paddingSize ]: `${ virtualScrollPaddingBefore.value }px` }
+          style: { [ paddingSize ]: `${ virtualScrollPaddingBefore.value }px`, ...style }
         }),
 
       h(tag, {
@@ -648,7 +672,7 @@ export function useVirtualScroll ({
           }, [
             h('tr', [
               h('td', {
-                style: { [ paddingSize ]: `${ virtualScrollPaddingAfter.value }px` },
+                style: { [ paddingSize ]: `${ virtualScrollPaddingAfter.value }px`, ...style },
                 colspan: colspanAttr.value
               })
             ])
@@ -657,7 +681,7 @@ export function useVirtualScroll ({
           class: 'q-virtual-scroll__padding',
           key: 'after',
           ref: afterRef,
-          style: { [ paddingSize ]: `${ virtualScrollPaddingAfter.value }px` }
+          style: { [ paddingSize ]: `${ virtualScrollPaddingAfter.value }px`, ...style }
         })
     ]
   }
