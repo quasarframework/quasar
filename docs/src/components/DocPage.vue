@@ -125,7 +125,7 @@ export default {
 
     const $route = useRoute()
     const editHref = computed(() => {
-      return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${$route.path}.md`
+      return `https://github.com/quasarframework/quasar/edit/vue3-work/docs/src/pages${$route.path}.md`
     })
 
     return {
