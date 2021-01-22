@@ -435,6 +435,13 @@ export default defineComponent({
         }
       }
 
+      if (vmHasListener(vm, 'onContextmenu') === true) {
+        data.class[ 'cursor-pointer' ] = true
+        data.onContextmenu = evt => {
+          emit('row-contextmenu', evt, row, pageIndex)
+        }
+      }
+
       return h('tr', data, child)
     }
 
