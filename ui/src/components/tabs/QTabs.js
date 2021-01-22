@@ -189,13 +189,15 @@ export default Vue.extend({
     },
 
     innerClass () {
-      return this.alignClass + (this.contentClass !== void 0 ? ` ${this.contentClass}` : '')
+      return this.alignClass +
+        (this.contentClass !== void 0 ? ` ${this.contentClass}` : '') +
+        (this.$q.platform.is.mobile === true ? ' scroll' : '')
     },
 
     domProps () {
       return this.vertical === true
-        ? { container: 'height', content: 'offsetHeight', posLeft: 'top', posRight: 'bottom' }
-        : { container: 'width', content: 'offsetWidth', posLeft: 'left', posRight: 'right' }
+        ? { container: 'height', content: 'offsetHeight', scroll: 'scrollHeight' }
+        : { container: 'width', content: 'offsetWidth', scroll: 'scrollWidth' }
     },
 
     onEvents () {
@@ -264,10 +266,13 @@ export default Vue.extend({
     __updateContainer (domSize) {
       const
         size = domSize[this.domProps.container],
-        scrollSize = Array.prototype.reduce.call(
-          this.$refs.content.children,
-          (acc, el) => acc + el[this.domProps.content],
-          0
+        scrollSize = Math.min(
+          this.$refs.content[this.domProps.scroll],
+          Array.prototype.reduce.call(
+            this.$refs.content.children,
+            (acc, el) => acc + el[this.domProps.content],
+            0
+          )
         ),
         scroll = size > 0 && scrollSize > size // when there is no tab, in Chrome, size === 0 and scrollSize === 1
 
@@ -426,7 +431,8 @@ export default Vue.extend({
       h('div', {
         ref: 'content',
         staticClass: 'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar',
-        class: this.innerClass
+        class: this.innerClass,
+        on: this.arrowsEnabled === true ? cache(this, 'scroll', { scroll: this.__updateArrowsFn }) : void 0
       }, slot(this, 'default'))
     ]
 
