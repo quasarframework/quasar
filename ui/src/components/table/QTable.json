@@ -1919,7 +1919,7 @@
           "__exemption": [ "examples" ]
         }
       },
-      "addedIn": "v1.40.1"
+      "addedIn": "v1.15.1"
     },
 
     "request": {
