@@ -41,7 +41,7 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const $fab = inject(fabKey, () => ({
-      showing: true,
+      showing: { value: true },
       onChildClick: noop
     }))
 
