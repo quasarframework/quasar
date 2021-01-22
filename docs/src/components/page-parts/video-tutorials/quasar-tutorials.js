@@ -60,5 +60,14 @@ export default [
     lang: 'English',
     link: 'https://www.youtube.com/watch?v=1F0SfYmrSbA',
     imgUrl: 'https://i.ytimg.com/vi/1F0SfYmrSbA/hqdefault.jpg?sqp=-oaymwEZCNACELwBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLA2kGICdkby-h6xUpCKhj763uYSwg'
+  },
+
+  {
+    name: 'Quasar Framework Course',
+    desc: 'A playlist with step by step to start multiplatform development with Quasar Framework.',
+    author: 'Patrick Monteiro',
+    lang: 'Portuguese',
+    link: 'https://youtube.com/playlist?list=PLBjvYfV_TvwL7srfoBB0QxP1P-iJ5sQnc',
+    imgUrl: 'https://i.ytimg.com/vi/XFVXoC2wt1U/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAHHzV8mQYsR9Cq5OTLajBMfqQqpQ'
   }
 ]

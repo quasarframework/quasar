@@ -459,11 +459,10 @@
             @blur="onBlur"
           >
             <template v-slot:option="scope">
-              <div>
+              <div :key="scope.index">
                 <q-item
                   v-bind="scope.itemProps"
                   v-on="scope.itemEvents"
-                  :key="scope.index"
                 >
                   <q-item-section>
                     <q-item-label>
@@ -505,11 +504,10 @@
             @virtual-scroll="onScroll"
           >
             <template v-slot:option="scope">
-              <div>
+              <div :key="scope.index">
                 <q-item
                   v-bind="scope.itemProps"
                   v-on="scope.itemEvents"
-                  :key="scope.index"
                 >
                   <q-item-section>
                     <q-item-label>

@@ -161,15 +161,15 @@
           > *
             margin-left: $gsize
         &-y-#{$gname}
-          margin-top: -$gsize
+          margin-top: -$gsize #{"/* rtl:ignore */"}
           > *
-            margin-top: $gsize
+            margin-top: $gsize #{"/* rtl:ignore */"}
         &-#{$gname}
           margin-left: -$gsize
-          margin-top: -$gsize
+          margin-top: -$gsize #{"/* rtl:ignore */"}
           > *
             margin-left: $gsize
-            margin-top: $gsize
+            margin-top: $gsize #{"/* rtl:ignore */"}
 
       #{str-fr('.q-col-gutter<name>', $name)}
         &-x-#{$gname}
@@ -177,15 +177,15 @@
           > *
             padding-left: $gsize
         &-y-#{$gname}
-          margin-top: -$gsize
+          margin-top: -$gsize #{"/* rtl:ignore */"}
           > *
-            padding-top: $gsize
+            padding-top: $gsize #{"/* rtl:ignore */"}
         &-#{$gname}
           margin-left: -$gsize
-          margin-top: -$gsize
+          margin-top: -$gsize #{"/* rtl:ignore */"}
           > *
             padding-left: $gsize
-            padding-top: $gsize
+            padding-top: $gsize #{"/* rtl:ignore */"}
 
     @each $name2, $size2 in $sizes
       @if $size >= $size2
