@@ -18,7 +18,8 @@
         <q-btn label="Positioned" flat color="primary" @click="positioned" />
         <q-btn label="Stacked Buttons" flat color="primary" @click="stacked" />
         <q-btn label="Auto Closing" flat color="primary" @click="autoClose" />
-        <q-btn label="Custom component" no-caps flat color="primary" @click="customComponent" />
+        <q-btn label="Custom component" no-caps flat color="primary" @click="customComponent(false)" />
+        <q-btn label="Custom component (async)" no-caps flat color="primary" @click="customComponent(true)" />
         <q-btn label="With HTML" flat color="primary" @click="unsafe" />
         <q-btn label="Prompt (validation)" flat color="primary" @click="promptValidation" />
         <q-btn label="Radio (validation)" flat color="primary" @click="radioValidation" />
@@ -82,7 +83,12 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-btn label="Custom component" no-caps flat color="primary" @click="customComponent" />
+                <q-btn label="Custom component" no-caps flat color="primary" @click="customComponent(false)" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Custom component (async)" no-caps flat color="primary" @click="customComponent(true)" />
               </q-item-section>
             </q-item>
             <q-item>
@@ -104,6 +110,8 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
+
 import { QSpinnerGears, QSpinnerCube } from 'quasar'
 
 import DialogComponent from './dialog-component.js'
@@ -501,9 +509,9 @@ export default {
       }, 1000)
     },
 
-    customComponent () {
+    customComponent (async) {
       this.dialogHandler = this.$q.dialog({
-        component: DialogComponent,
+        component: async !== true ? DialogComponent : defineAsyncComponent(() => import('./dialog-component.js')),
         componentProps: {
           text: 'Works'
         }

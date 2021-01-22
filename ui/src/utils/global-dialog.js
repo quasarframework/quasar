@@ -1,4 +1,4 @@
-import { h, createApp, ref } from 'vue'
+import { h, createApp, ref, nextTick } from 'vue'
 
 import { appInstance, provideQuasar } from '../install-quasar.js'
 import { createGlobalNode, removeGlobalNode } from './global-nodes.js'
@@ -129,7 +129,18 @@ export default function (DefaultComponent, supportsCustomComponent) {
     provideQuasar(app, appInstance.config.globalProperties.$q)
 
     let vm = app.mount(el)
-    dialogRef.value.show()
+    if (dialogRef.value !== null) {
+      dialogRef.value.show()
+    }
+    else if (typeof DialogComponent.__asyncLoader === 'function') {
+      DialogComponent.__asyncLoader().then(() => {
+        nextTick(() => {
+          if (dialogRef.value !== null) {
+            dialogRef.value.show()
+          }
+        })
+      })
+    }
 
     return API
   }
