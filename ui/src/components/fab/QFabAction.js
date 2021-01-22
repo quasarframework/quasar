@@ -4,9 +4,10 @@ import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
 import useFab, { useFabProps } from './use-fab.js'
-import { fabKey } from '../../utils/symbols.js'
 
+import { fabKey } from '../../utils/symbols.js'
 import { hMergeSlot } from '../../utils/render.js'
+import { noop } from '../../utils/event.js'
 
 const anchorMap = {
   start: 'self-end',
@@ -39,9 +40,10 @@ export default defineComponent({
   emits: [ 'click' ],
 
   setup (props, { slots, emit }) {
-    const $fab = inject(fabKey, () => {
-      console.error('QFabAction needs to be child of QFab')
-    })
+    const $fab = inject(fabKey, () => ({
+      showing: true,
+      onChildClick: noop
+    }))
 
     const { formClass, labelProps } = useFab(props, $fab.showing)
 
