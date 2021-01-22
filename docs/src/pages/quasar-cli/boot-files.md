@@ -340,8 +340,7 @@ In any JavaScript file, you'll be able to import the axios instance like this.
 
 ```js
 // we import one of the named exports from src/boot/axios.js
-import { api } from '../boot/axios'
-
+import { api } from 'boot/axios'
 ```
 
 Further reading on syntax: [ES6 import](https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/import), [ES6 export](https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export).
