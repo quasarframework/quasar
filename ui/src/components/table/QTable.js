@@ -219,13 +219,17 @@ export default Vue.extend({
     },
 
     containerClass () {
-      return `q-table__container q-table--${this.separator}-separator column no-wrap` +
+      return `q-table__container column no-wrap` +
         (this.loading === true ? ' q-table--loading' : '') +
         (this.grid === true ? ' q-table--grid' : this.cardDefaultClass) +
         (this.isDark === true ? ` q-table--dark` : '') +
         (this.dense === true ? ` q-table--dense` : '') +
         (this.wrapCells === false ? ` q-table--no-wrap` : '') +
-        (this.inFullscreen === true ? ` fullscreen scroll` : '')
+        (this.inFullscreen === true ? ` fullscreen scroll` : '') +
+        (this.separator === 'horizontal' ? ' q-table--horizontal-separator' : '') +
+        (this.separator === 'vertical' ? ' q-table--vertical-separator' : '') +
+        (this.separator === 'cell' ? ' q-table--cell-separator' : '') +
+        (this.separator === 'none' ? ' q-table--none-separator' : '')
     },
 
     virtProps () {

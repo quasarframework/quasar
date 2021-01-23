@@ -96,11 +96,11 @@ export default {
     },
 
     design () {
-      if (this.flat === true) return 'flat'
-      if (this.outline === true) return 'outline'
-      if (this.push === true) return 'push'
-      if (this.unelevated === true) return 'unelevated'
-      return 'standard'
+      if (this.flat === true) return 'q-btn--flat'
+      if (this.outline === true) return 'q-btn--outline'
+      if (this.push === true) return 'q-btn--push'
+      if (this.unelevated === true) return 'q-btn--unelevated'
+      return 'q-btn--standard'
     },
 
     currentLocation () {
@@ -159,8 +159,9 @@ export default {
         colors = `text-${this.textColor}`
       }
 
-      return `q-btn--${this.design} ` +
-        `q-btn--${this.round === true ? 'round' : `rectangle${this.isRounded === true ? ' q-btn--rounded' : ''}`}` +
+      return `${this.design}` +
+        (this.round === true ? ' q-btn--round' : ' q-btn--rectangle') +
+        (this.rounded === true ? ' q-btn--rounded' : '') +
         (colors !== void 0 ? ' ' + colors : '') +
         (this.isActionable === true ? ' q-btn--actionable q-focusable q-hoverable' : (this.disable === true ? ' disabled' : '')) +
         (this.fab === true ? ' q-btn--fab' : (this.fabMini === true ? ' q-btn--fab-mini' : '')) +
