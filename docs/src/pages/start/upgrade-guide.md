@@ -4,12 +4,11 @@ desc: How to upgrade Quasar from older versions to the latest one.
 ---
 
 ::: danger Quasar v2 beta
-Until the final stable version is released, some aspects of the framework may change. We're not planning for additional changes, but unforeseen reported issues may require us to do breaking changes (unlikely, but keep this in mind). So please make sure that you read each v2 beta version's release notes carefully before upgrading.
+* Until the final stable version is released, some aspects of the framework may change. We're not planning for additional changes, but unforeseen reported issues may require us to do breaking changes (unlikely, but keep this in mind). So please make sure that you read each v2 beta version's release notes carefully before upgrading.
+* Considering the above, we still recommend starting a new project with Quasar v2.
 :::
 
-We did our best so that this transition from Quasar v1 to v2 to be as painless as possible. The API of Quasar components, directives and plugins
-
-## Upgrading from older v2 to latest v2
+## Older v2 to latest v2
 
 ### With UMD
 Simply replace the version string in all the CSS and JS tags that refer to Quasar to the newer version.
@@ -18,7 +17,7 @@ Simply replace the version string in all the CSS and JS tags that refer to Quasa
 
 ```bash
 # run these commands inside
-# of a Quasar v2 project
+# of a Quasar UI v2 project
 
 # check for upgradable packages
 $ quasar upgrade
@@ -34,32 +33,44 @@ If you're using a code editor terminal instead of the real one, you run `quasar 
 ### With Vue CLI
 
 ```bash
-$ yarn upgrade quasar@latest
+$ yarn upgrade quasar@next
 ```
+
+Optionally, you may also want to make sure that you have the latest `vue-cli-plugin-quasar` package.
 
 You may also want to make sure you have the latest of `@quasar/extras` package too:
 
 ```bash
+# optional, but recommended
 $ yarn add @quasar/extras@latest
 ```
 
-## Upgrading from v1 to v2
+## Migrate to v2 from v1
 
-Before you start down this journey of upgrading Quasar Legacy to Quasar v1 you should know a few things:
+### Introduction
+
+We did our best so that this transition from Quasar v1 to v2 to be as painless as possible. Don't be afraid by the length of this page as it doesn't reflects the effort that you need to put into this (we just tried to make it as complete as possible). The API of Quasar components, directives and plugins has minor changes as we kept the breaking changes to the bare minimum. We also added some new cool features for some components.
+
+Quasar UI v2 is based on Vue 3, as opposed to previous version which was based on Vue 2. This means that your app code (Vue components, directives, etc) should be Vue 3 compliant too, not just the Quasar UI source-code. If you are using additional libraries in your app, please make sure that you have their Vue 3 versions.
+
+Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots of significant performance enhancements in Quasar's algorithms too!__ You'll love it!
+
+::: warning IMPORTANT!
+* No IE11 support - Vue 3 does not supports it either; if IE11 support is mandatory for your project(s), then continue using Quasar UI v1.
+* Quasar Stylus variables are no longer available (only Sass/SCSS ones); this does NOT mean that you can't use Stylus anymore though.
+* SSR build mode is NOT **yet** supported; if your project relies on SSR, you might want to hold off on upgrading for now.
+:::
+
+Before you start down this journey of upgrading a project from v1 to v2 you should know a few things:
 1) Read the documentation before asking questions on Discord server or forums.
 2) Prepare a CodePen so staff can help you.
-3) Dig into the Quasar source code (it'll help you understand the framework as well as teach you best practices for programming with Vue).
+3) Dig into the [Quasar source code](https://github.com/quasarframework/quasar/tree/vue3-work) (it'll help you understand the framework as well as teach you best practices for programming with Vue).
 4) Don't use framework components as mixins unless absolutely necessary (wrap them if you need).
 5) Don't target inner component stuff with CSS selectors unless absolutely necessary.
 6) We recommend `yarn` whenever possible because of its speed and efficient use. However, when using globals, we still recommend using `npm`, especially if you use `nvm` (Node Version Manager).
 7) Use `git` for repository management and make regular commits, it is like taking notes on the process and lets you revert to a previous state in case you get stuck.
 8) Use Quasar boot files for any pre-mounting app routines.
-9) Be very cautious when using other libraries - Quasar can't ensure they will be fully compatible
-10) Finally, become a [backer/sponsor](https://donate.quasar.dev) and get access to the special Discord support chat room for priority support.
-
-### Introduction to Upgrading
-
-Please note that Quasar v2 is based on Vue 3, as opposed to previous version which was based on Vue 2. This means that your app code (Vue components, directives, etc) should be Vue 3 compliant too, not just the Quasar UI. If you are using additional libraries in your app, please make sure that you have their Vue 3 versions.
+9) Finally, become a [backer/sponsor](https://donate.quasar.dev) and get access to the special Discord support chat room for priority support. This also helps the project survive.
 
 If you get stuck, check out the forums and visit Discord server for help. Not just from staff, but from the community as well.
 
@@ -67,7 +78,7 @@ If you get stuck, check out the forums and visit Discord server for help. Not ju
 It should be noted that we have tried our hardest to make sure everything in the Upgrade documentation is correct. However, because this has been a manual process there are likely errors. If you find any, don't be afraid to make a PR and propose a change to that which needs to be corrected.
 :::
 
-#### Vue 3
+### Vue 3
 
 Since you will also switch to [Vue 3](https://v3.vuejs.org), it's best that you also take a look at its [migration guide](https://v3.vuejs.org/guide/migration/introduction.html).
 
@@ -75,11 +86,107 @@ If you're using .vue files, you'll most likely have a fairly easy transition sin
 
 We suggest that you first convert your project to Quasar v2 while maintaining Options API (because your components are already in Options API form and you probably want to ensure everything is working first). After this transition you can convert all your Vue components to Composition API, but in no way is this a requirement.
 
-Vue 3 is to be used along with a new major version of [Vue Router](https://next.router.vuejs.org), which comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/) that you should be aware of.
+Vue 3 is to be used along with a new major version of [Vue Router v4](https://next.router.vuejs.org), which comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/) that you should be aware of. There's also the new [Vuex v4]().
+
+As an example: one of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to `model-value` + `@update:modelValue` combo instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files then you don't need to worry about it as vue-loader correctly translates it for you.
 
 ### Initial Steps
 
-// todo
+There are two paths that you can follow and they are described below. Choose what best fit your needs. We do recommend the first option.
+
+#### Option 1: Convert a project
+
+Before starting, it might be wise to work on this on a new git branch or on a copy of your current working project.
+
+1) **Stylus related**: Are you using Stylus and Quasar Stylus variables? Then before anything, convert all those files to Sass/SCSS (including src/css/app.styl -> src/css/app.sass or app.scss). If you will still want to use Stylus in your project (without Quasar Stylus variables), then you'll also need to install the stylus related packages (which are no longer supplied by "@quasar/app" out of the box):
+  ```bash
+  $ yarn add --dev stylus stylus-loader
+  ```
+2) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file; this generally is not really needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide
+3) **Install**: `quasar` v2 and `@quasar/app` v3 beta packages from the npm tag named "next":
+  ```bash
+  $ yarn add quasar@next
+  $ yarn add --dev @quasar/app@next
+  ```
+3) **Vue Router** (Vue 3 ecosystem upstream breaking change): Update src/router files to match Vue Router v4's API. Vue Router v4 comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/index.html). Especially note below how we are dealing with the 404 error.
+  ```js
+  // default src/router/index.js content:
+
+  import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
+  import routes from './routes'
+
+  export default function (/* { store, ssrContext } */) {
+    const createHistory = process.env.MODE === 'ssr'
+      ? createMemoryHistory
+      : process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory
+
+    const Router = createRouter({
+      scrollBehavior: () => ({ x: 0, y: 0 }),
+      routes,
+
+      // Leave this as is and make changes in quasar.conf.js instead!
+      // quasar.conf.js -> build -> vueRouterMode
+      // quasar.conf.js -> build -> publicPath
+      history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+    })
+
+    return Router
+  }
+  ```
+
+  ```js
+  // default src/router/routes.js content:
+  export default [
+    {
+      path: '/',
+      component: () => import('layouts/MainLayout.vue'),
+      children: [
+        { path: '', component: () => import('pages/Index.vue') }
+      ]
+    },
+
+    // Always leave this as last one,
+    // but you can also remove it
+    {
+      path: '/:catchAll(.*)*',
+      component: Error404
+    }
+  ]
+
+  export default routes
+  ```
+4) **Vuex** (Vue 3 ecosystem upstream breaking change): If you're using Vuex, then update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
+  ```js
+  // default src/router/routes.js content:
+  import { createStore } from 'vuex'
+  // import example from './module-example'
+
+  export default function (/* { ssrContext } */) {
+    const Store = createStore({
+      modules: {
+        // example
+      },
+
+      // enable strict mode (adds overhead!)
+      // for dev mode and --debug builds only
+      strict: process.env.DEBUGGING
+    })
+
+    return Store
+  }
+  ```
+
+#### Option 2: Create a project
+
+Second option is to create a fresh project and port it to it bit by bit. We see this option as a worst case scenario (where you encounter problems with Vue 3 and Vue Router v4 rather than with Quasar itself) and we wrote about it for the completeness of this guide.
+
+You can generate a new Quasar v2 project like below and then you can port your app bit by bit to it.
+
+```bash
+$ quasar create <folder_name> --kit v2
+# NOTE: the above will change when v2 is released as stable
+```
+
 ### Quasar components
 
 // the following is a draft
@@ -110,9 +217,72 @@ Added: "tag", "ripple"
 * QExpansionItem
 Removed: "append" (due to new vue-router)
 
+* (new) QFormChildBase -> for Options API only; for Composition API -> useFormChild
+
+* QImg
+Added: "loading", "crossorigin", "fit", "no-spinner", "no-native-menu", "no-transition"
+Removed: "transition", "basic" (now equivalent to "no-spinner" + "no-transition")
+Changed: "no-default-spinner" -> "no-spinner"
+
+* QLayout
+"@scroll" > { position: {top,left}, direction (top, right, bottom, left), inflexionPosition: {top,left}, directionChanged }
+
+* QRouteTab
+Added: "ripple"
+
+* QScrollArea
+Added: "vertical-bar-style", "horizontal-bar-style", "vertical-thumb-style", "horizontal-thumb-style"
+Removed: "horizontal"
+getScrollPosition now returns { top, left }
+new first param: setScrollPosition(axis, offset[, duration]), setScrollPercentage(axis, offset[, duration])
+
+* QScrollObserver
+Removed: "horizontal"
+Added: "axis" (vertical, horizontal, both)
+@scroll passes { position: {top,left}, direction (top, right, bottom, left), delta: {top,left}, inflexionPosition: {top,left}, directionChanged }
+
+* QSelect
+"option" slot params {} -> removed "itemEvents" (info now contained by "itemProps")
+New method: "blur"
+
+* QTable
+Renamed: "data" to "rows" (to solve TS issues)
+pagination.sync -> v-model:pagination
+selected.sync -> v-model:selected
+expanded.sync -> v-model:expanded
+
+* QTooltip
+Added: transition-duration
+
+* QTree
+ticked.sync -> v-model:ticked
+selected.sync -> v-model:selected
+expanded.sync -> v-model:expanded
+
+* QUploaderBase -> removed (Composition API instead)
+
 ### Quasar directives
 
-// the following is a draft
+The only breaking change in this section is that **we've removed the GoBack directive**. Use the router reference instead to push/replace/go(-1).
+
+```js
+// Composition API variant
+import { useRouter } from 'vue-router'
+
+setup () {
+  const $router = useRouter()
+
+  // go back by one record, the same as $router.back()
+  $router.go(-1)
+}
+```
+
+```js
+// Options API variant inside your component
+this.$router.go(-1)
+}
+```
+
 ### Quasar plugins
 
 // the following is a draft
