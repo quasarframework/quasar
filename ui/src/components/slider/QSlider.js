@@ -54,7 +54,7 @@ export default Vue.extend({
     },
 
     modelRatio () {
-      return (this.model - this.min) / (this.max - this.min)
+      return this.minMaxDiff === 0 ? 0 : (this.model - this.min) / this.minMaxDiff
     },
 
     trackStyle () {
@@ -136,7 +136,11 @@ export default Vue.extend({
       this.model = getModel(ratio, this.min, this.max, this.step, this.decimals)
       this.curRatio = this.snap !== true || this.step === 0
         ? ratio
-        : (this.model - this.min) / (this.max - this.min)
+        : (
+          this.minMaxDiff === 0
+            ? 0
+            : (this.model - this.min) / this.minMaxDiff
+        )
     },
 
     __focus () {
