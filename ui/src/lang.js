@@ -3,19 +3,32 @@ import Vue from 'vue'
 import langEn from '../lang/en-us.js'
 import { isSSR, fromSSR } from './plugins/Platform.js'
 
+const localeRe = /^\s*([^-]+)(?:-(.+))\s*$/
+
+function normalizeLocale (_, p1, p2) {
+  const locale = p1.toLowerCase()
+
+  if (typeof p2 === 'string' && p2.length > 0) {
+    return locale + '-' + (
+      p2.length < 3
+        ? p2.toUpperCase()
+        : (p2[0].toUpperCase() + p2.slice(1).toLowerCase())
+    )
+  }
+
+  return locale
+}
+
 function getLocale () {
   if (isSSR === true) { return }
 
-  const val =
-    navigator.language ||
-    navigator.languages[0] ||
-    navigator.browserLanguage ||
-    navigator.userLanguage ||
-    navigator.systemLanguage
+  const val = Array.isArray(navigator.languages) === true && navigator.languages.length > 0
+    ? navigator.languages[0]
+    : navigator.language
 
-  if (val) {
-    return val.toLowerCase()
-  }
+  return typeof val === 'string'
+    ? val.replace(localeRe, normalizeLocale)
+    : void 0
 }
 
 export default {
