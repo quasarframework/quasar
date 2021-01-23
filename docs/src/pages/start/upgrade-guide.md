@@ -285,10 +285,121 @@ this.$router.go(-1)
 
 ### Quasar plugins
 
-// the following is a draft
+#### Loading plugin
+By default, the message is protected by XSS attacks. Should you wish to display HTML content with the "message" prop you should also specify "html: true".
 
-* Loading
-html -> sanitize
+This is the total opposite behavior from v1, where you had prop "sanitize" (not available anymore; enabled now by default) to NOT display HTML.
 
-* Meta plugin
-Composition API form; Options API form
+#### Dialog plugin
+Two things changed:
+
+1. If you are using the Dialog plugin with a custom component, then you must now supply the component properties under "componentProps":
+
+  ```js
+  // OLD, DEPRECATED v1 way
+  const dialog = this.$q.dialog({ // or Dialog.create({...})
+    component: MyVueComponent,
+    someProp: someValue,
+    // ...
+  })
+
+  // New v2 way (Composition API)
+  import { useQuasar } from 'quasar'
+
+  setup () {
+    const $q = useQuasar()
+    // ...
+    const dialog = $q.dialog({ // or Dialog.create({...})
+      component: MyVueComponent,
+      componentProps: {
+        someProp: someValue,
+        // ...
+      }
+    })
+  }
+
+  // New v2 way (Options API)
+  const dialog = this.$q.dialog({ // or Dialog.create({...})
+    // same as above
+  })
+  ```
+2. The "parent" / "root" prop has been removed. Due to the Vue 3 architecture, we can no longer use a "parent" component for the provide/inject functionality. But you'll still be able to use Vue Router/Vuex/etc inside of your custom component.
+
+#### Meta plugin
+
+```js
+// v1 way (OLD, DEPRECATED)
+// some .vue file
+export default {
+  meta: {
+    // ...definition
+  }
+}
+```
+
+The new way (Composition API or the old Options API):
+
+```js
+// Composition API variant
+// for some .vue file
+import { useMeta } from 'quasar'
+
+export default {
+  setup () {
+    // Needs to be called directly under the setup() method!
+    useMeta({
+      // ...definition
+    })
+  }
+}
+```
+
+```js
+// Options API variant
+// for some .vue file
+import { createMetaMixin } from 'quasar'
+
+export default {
+  mixins: [
+    createMetaMixin({
+      // ...definition
+    })
+  ]
+}
+```
+
+### Quasar utils
+
+#### date utils
+The object literal property names provided for methods "addToDate" and "subtractFromDate" have been normalized: [#7414](https://github.com/quasarframework/quasar/issues/7414).
+
+| Old | New | Changed? |
+| --- | --- | --- |
+| year | years | **Yes** |
+| month | months | **Yes** |
+| days | days | - |
+| hours | hours | - |
+| minutes | minutes | - |
+| seconds | seconds | - |
+| milliseconds | milliseconds | - |
+
+#### scroll utils
+
+| Old method name | NEW method name |
+| --- | --- |
+| getScrollPosition | getVerticalScrollPosition |
+| animScrollTo | animVerticalScrollTo |
+| setScrollPosition | setVerticalScrollPosition |
+
+### Quasar language packs
+We have changed the language pack filenames to reflect the standard naming used by browsers. This will allow you to use `$q.lang.getLocale()` when you want to dynamically import the Quasar language pack file.
+
+Full list of changes: "en-us" -> "en-US", "en-gb" -> "en-GB", "az-latn" -> "az-Latn", "fa-ir" -> "fa-IR", "ko-kr" -> "ko-KR", "kur-ckb" -> "kur-CKB", "nb-no" -> "nb-NO", "pt-br" -> "pt-BR", "zh-hans" -> "zh-CN", "zh-hant" -> "zh-TW".
+
+### Quasar App CLI
+
+### Quasar Extras
+Nothing changed.
+
+### Quasar Icon Genie
+Nothing changed.

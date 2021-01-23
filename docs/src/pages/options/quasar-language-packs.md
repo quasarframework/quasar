@@ -200,6 +200,7 @@ Check a Quasar Language Pack on [GitHub](https://github.com/quasarframework/quas
 
 ## Detecting Locale
 There's also a method to determine user locale which is supplied by Quasar out of the box:
+
 ```js
 // outside of a Vue file
 
