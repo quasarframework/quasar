@@ -24,6 +24,8 @@ If your content also has images, you might want to add `draggable="false"` to th
 
 <doc-example title="Custom colors" file="QSlideItem/CustomColors" />
 
+<doc-example title="Customize while sliding (v1.15.2+)" file="QSlideItem/CustomizeSlide" />
+
 <doc-example title="One sided or no sides" file="QSlideItem/OneSided" />
 
 ## QSlideItem API

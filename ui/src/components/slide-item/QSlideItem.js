@@ -42,6 +42,12 @@ export default Vue.extend({
   methods: {
     reset () {
       this.$refs.content.style.transform = `translate(0,0)`
+
+      this.__emitSlide(this.__showing, 0, true)
+    },
+
+    __emitSlide (side, ratio, reset = false) {
+      this.qListeners.slide !== void 0 && this.$emit('slide', { side, ratio, reset })
     },
 
     __pan (evt) {
@@ -79,6 +85,8 @@ export default Vue.extend({
         }
         else {
           node.style.transform = `translate(0,0)`
+
+          this.__emitSlide(this.__showing, 0, true)
         }
 
         return
@@ -132,6 +140,8 @@ export default Vue.extend({
 
       node.style.transform = `translate${this.__axis}(${dist * dir / Math.abs(dir)}px)`
       this.$refs[`${showing}Content`].style.transform = `scale(${this.__scale})`
+
+      this.__emitSlide(showing, this.__scale)
     }
   },
 
