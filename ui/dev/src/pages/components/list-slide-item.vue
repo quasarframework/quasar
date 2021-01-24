@@ -285,6 +285,8 @@
       </div>
     </q-list>
 
+    <q-separator spaced />
+
     <div>Dynamic slot</div>
     <q-toggle v-model="slot1Active" label="Left active" />
     <q-toggle v-model="slot2Active" label="Right active" />
@@ -329,6 +331,25 @@
         <q-item-section>Text only</q-item-section>
       </q-item>
     </q-slide-item>
+
+    <q-separator spaced />
+
+    <div>Dynamic slots using @slide event</div>
+
+    <q-slide-item :left-color="leftColor" @left="onLeft" @slide="onSlide">
+      <template v-slot:left>
+        <div>
+          {{ leftMessage }}
+        </div>
+      </template>
+
+      <q-item>
+        <q-item-section avatar>
+          <q-avatar color="primary" text-color="white" icon="bluetooth" />
+        </q-item-section>
+        <q-item-section>Slide towards right</q-item-section>
+      </q-item>
+    </q-slide-item>
   </div>
 </template>
 
@@ -337,7 +358,23 @@ export default {
   data () {
     return {
       slot1Active: true,
-      slot2Active: false
+      slot2Active: false,
+
+      leftSlideRatio: 0
+    }
+  },
+
+  computed: {
+    leftColor () {
+      return this.leftSlideRatio >= 1
+        ? 'red'
+        : 'orange-' + (2 + Math.round(Math.min(6, this.leftSlideRatio * 6)))
+    },
+
+    leftMessage () {
+      return this.leftSlideRatio >= 1
+        ? 'Will perform action'
+        : 'Move right to perform action'
     }
   },
 
@@ -363,6 +400,14 @@ export default {
       setTimeout(() => {
         reset()
       }, 1000)
+    },
+
+    onSlide ({ side, ratio, isReset }) {
+      if (side === 'left') {
+        setTimeout(() => {
+          this.leftSlideRatio = ratio
+        }, isReset === true ? 200 : void 0)
+      }
     },
 
     onClickItem () {
