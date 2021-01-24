@@ -84,17 +84,17 @@ export default defineComponent({
       updateValue, updatePosition, getDragging
     })
 
-    const modelMinRatio = computed(() =>
-      (model.value.min - props.min) / (props.max - props.min)
-    )
+    const modelMinRatio = computed(() => (
+      state.minMaxDiff.value === 0 ? 0 : (model.value.min - props.min) / state.minMaxDiff.value
+    ))
 
     const ratioMin = computed(() => (
       state.active.value === true ? curMinRatio.value : modelMinRatio.value
     ))
 
-    const modelMaxRatio = computed(() =>
-      (model.value.max - props.min) / (props.max - props.min)
-    )
+    const modelMaxRatio = computed(() => (
+      state.minMaxDiff.value === 0 ? 0 : (model.value.max - props.min) / state.minMaxDiff.value
+    ))
 
     const ratioMax = computed(() => (
       state.active.value === true ? curMaxRatio.value : modelMaxRatio.value
@@ -264,8 +264,7 @@ export default defineComponent({
           : (props.vertical === true
               ? minProps.domRef.value.offsetHeight / (2 * height)
               : minProps.domRef.value.offsetWidth / (2 * width)
-            ),
-        diff = props.max - props.min
+            )
 
       const dragging = {
         left,
@@ -274,8 +273,8 @@ export default defineComponent({
         height,
         valueMin: model.value.min,
         valueMax: model.value.max,
-        ratioMin: (model.value.min - props.min) / diff,
-        ratioMax: (model.value.max - props.min) / diff
+        ratioMin: modelMinRatio.value,
+        ratioMax: modelMaxRatio.value
       }
 
       const ratio = getRatio(event, dragging, state.isReversed.value, props.vertical)
@@ -391,9 +390,8 @@ export default defineComponent({
         curMaxRatio.value = pos.maxR
       }
       else {
-        const diff = props.max - props.min
-        curMinRatio.value = (model.value.min - props.min) / diff
-        curMaxRatio.value = (model.value.max - props.min) / diff
+        curMinRatio.value = state.minMaxDiff.value === 0 ? 0 : (model.value.min - props.min) / state.minMaxDiff.value
+        curMaxRatio.value = state.minMaxDiff.value === 0 ? 0 : (model.value.max - props.min) / state.minMaxDiff.value
       }
     }
 
