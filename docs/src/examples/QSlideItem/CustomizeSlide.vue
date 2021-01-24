@@ -66,8 +66,6 @@ export default {
     })
 
     return {
-      slideRatio,
-
       leftColor,
       rightColor,
 
