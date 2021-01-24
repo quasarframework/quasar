@@ -47,7 +47,9 @@ export default defineComponent({
       updateValue, updatePosition, getDragging
     })
 
-    const modelRatio = computed(() => (model.value - props.min) / (props.max - props.min))
+    const modelRatio = computed(() => (
+      state.minMaxDiff.value === 0 ? 0 : (model.value - props.min) / state.minMaxDiff.value
+    ))
     const ratio = computed(() => (state.active.value === true ? curRatio.value : modelRatio.value))
 
     const trackStyle = computed(() => ({
@@ -135,7 +137,9 @@ export default defineComponent({
       model.value = getModel(ratio, props.min, props.max, props.step, state.decimals.value)
       curRatio.value = props.snap !== true || props.step === 0
         ? ratio
-        : (model.value - props.min) / (props.max - props.min)
+        : (
+            state.minMaxDiff.value === 0 ? 0 : (model.value - props.min) / state.minMaxDiff.value
+          )
     }
 
     function onFocus () {

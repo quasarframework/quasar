@@ -94,7 +94,7 @@ export default function ({ props, emit, $q, updateValue, updatePosition, getDrag
       : props.reverse !== ($q.lang.rtl === true)
   ))
 
-  const editable = computed(() => props.disable !== true && props.readonly !== true)
+  const editable = computed(() => props.disable !== true && props.readonly !== true && props.min < props.max)
 
   const classes = computed(() =>
     `q-slider q-slider${ axis.value } q-slider--${ active.value === true ? '' : 'in' }active`
@@ -110,14 +110,20 @@ export default function ({ props, emit, $q, updateValue, updatePosition, getDrag
 
   const decimals = computed(() => (String(props.step).trim('0').split('.')[ 1 ] || '').length)
   const step = computed(() => (props.step === 0 ? 1 : props.step))
+  const minMaxDiff = computed(() => props.max - props.min)
 
   const markerStyle = computed(() => {
-    const size = 100 * step.value / (props.max - props.min)
-    return {
-      backgroundSize: props.vertical === true
-        ? `2px ${ size }%`
-        : `${ size }% 2px`
+    if (minMaxDiff.value !== 0) {
+      const size = 100 * step.value / minMaxDiff.value
+
+      return {
+        backgroundSize: props.vertical === true
+          ? `2px ${ size }%`
+          : `${ size }% 2px`
+      }
     }
+
+    return null
   })
 
   const tabindex = computed(() => (editable.value === true ? props.tabindex || 0 : -1))
@@ -276,6 +282,7 @@ export default function ({ props, emit, $q, updateValue, updatePosition, getDrag
       classes,
       decimals,
       step,
+      minMaxDiff,
       markerStyle,
       tabindex,
       positionProp,
