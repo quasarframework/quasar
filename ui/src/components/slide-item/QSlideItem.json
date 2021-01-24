@@ -156,7 +156,7 @@
               "desc": "Ratio of how much of the required slide was performed (0..1)",
               "examples": [ 0, 0.5, 1 ]
             },
-            "reset": {
+            "isReset": {
               "type": "Boolean",
               "desc": "Ratio is reseted"
             }
