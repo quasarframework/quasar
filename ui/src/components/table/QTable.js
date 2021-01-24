@@ -143,7 +143,7 @@ export default defineComponent({
       + (props.bordered === true ? ' q-table--bordered' : '')
     )
 
-    const containerClass = computed(() =>
+    const __containerClass = computed(() =>
       `q-table__container q-table--${ props.separator }-separator column no-wrap`
       + (props.loading === true ? ' q-table--loading' : '')
       + (props.grid === true ? ' q-table--grid' : cardDefaultClass.value)
@@ -153,8 +153,12 @@ export default defineComponent({
       + (inFullscreen.value === true ? ' fullscreen scroll' : '')
     )
 
+    const containerClass = computed(() =>
+      __containerClass.value + (props.loading === true ? ' q-table--loading' : '')
+    )
+
     watch(
-      () => props.tableStyle + props.tableClass + props.tableHeaderStyle + props.tableHeaderClass + containerClass.value,
+      () => props.tableStyle + props.tableClass + props.tableHeaderStyle + props.tableHeaderClass + __containerClass.value,
       () => { hasVirtScroll.value === true && virtScrollRef.value !== null && virtScrollRef.value.reset() }
     )
 
