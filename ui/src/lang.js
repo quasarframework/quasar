@@ -8,15 +8,13 @@ const localeRe = /^\s*([^-]+)(?:-(.+))\s*$/
 function normalizeLocale (_, p1, p2) {
   const locale = p1.toLowerCase()
 
-  if (typeof p2 === 'string' && p2.length > 0) {
-    return locale + '-' + (
-      p2.length < 4
-        ? p2.toUpperCase()
-        : (p2[0].toUpperCase() + p2.slice(1).toLowerCase())
-    )
-  }
-
-  return locale
+  return typeof p2 === 'string' && p2.length > 0
+    ? locale + '-' + (
+        p2.length < 4
+          ? p2.toUpperCase()
+          : (p2[ 0 ].toUpperCase() + p2.slice(1).toLowerCase())
+      )
+    : locale
 }
 
 function getLocale () {
@@ -26,9 +24,9 @@ function getLocale () {
     ? navigator.languages[ 0 ]
     : navigator.language
 
-  return typeof val === 'string'
-    ? val.replace(localeRe, normalizeLocale)
-    : void 0
+  if (typeof val === 'string') {
+    return val.replace(localeRe, normalizeLocale)
+  }
 }
 
 const Plugin = {
