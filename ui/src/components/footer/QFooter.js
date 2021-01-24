@@ -124,11 +124,11 @@ export default defineComponent({
     function updateRevealed () {
       if (props.reveal !== true) { return }
 
-      const { direction, position, inflexionPosition } = $layout.scroll.value
+      const { direction, position, inflectionPoint } = $layout.scroll.value
 
       updateLocal(revealed, (
         direction === 'up'
-        || position - inflexionPosition < 100
+        || position - inflectionPoint < 100
         || $layout.height.value - containerHeight.value - position - size.value < 300
       ))
     }

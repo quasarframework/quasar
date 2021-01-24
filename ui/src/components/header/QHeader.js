@@ -139,7 +139,7 @@ export default defineComponent({
       props.reveal === true && updateLocal(revealed,
         scroll.direction === 'up'
         || scroll.position <= props.revealOffset
-        || scroll.position - scroll.inflexionPosition < 100
+        || scroll.position - scroll.inflectionPoint < 100
       )
     })
 

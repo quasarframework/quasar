@@ -28,7 +28,7 @@ export default function (props, focused, vm, innerLoading) {
   const innerErrorMessage = ref(null)
   const isDirtyModel = ref(null)
 
-  useFormChild({ validate, canFail: true })
+  useFormChild({ validate, requiresQForm: true })
 
   let validateIndex = 0, unwatchRules
 

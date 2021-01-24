@@ -75,7 +75,7 @@
               }
             },
 
-            "inflexionPosition": {
+            "inflectionPoint": {
               "type": "Object",
               "desc": "Last scroll offset where scroll direction has changed",
               "definition": {
@@ -109,7 +109,7 @@
     },
 
     "getPosition": {
-      "desc": "Get current scroll details under the form of an Object: { position, direction, directionChanged, inflexionPosition }"
+      "desc": "Get current scroll details under the form of an Object: { position, direction, directionChanged, inflectionPoint }"
     }
   }
 }

@@ -40,7 +40,7 @@ export default defineComponent({
         left: 0
       },
 
-      inflexionPosition: {
+      inflectionPoint: {
         top: 0,
         left: 0
       }
@@ -79,7 +79,7 @@ export default defineComponent({
 
       if (scroll.directionChanged === true) {
         scroll.direction = curDir
-        scroll.inflexionPosition = scroll.position
+        scroll.inflectionPoint = scroll.position
       }
 
       timer = null

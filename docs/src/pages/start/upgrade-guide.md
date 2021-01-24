@@ -38,7 +38,7 @@ $ yarn upgrade quasar@next
 
 Optionally, you may also want to make sure that you have the latest `vue-cli-plugin-quasar` package.
 
-You may also want to make sure you have the latest of `@quasar/extras` package too:
+It's a good idea to keep `@quasar/extras` package to its latest version too:
 
 ```bash
 # optional, but recommended
@@ -78,18 +78,6 @@ If you get stuck, check out the forums and visit Discord server for help. Not ju
 It should be noted that we have tried our hardest to make sure everything in the Upgrade documentation is correct. However, because this has been a manual process there are likely errors. If you find any, don't be afraid to make a PR and propose a change to that which needs to be corrected.
 :::
 
-### Vue 3
-
-Since you will also switch to [Vue 3](https://v3.vuejs.org), it's best that you also take a look at its [migration guide](https://v3.vuejs.org/guide/migration/introduction.html).
-
-If you're using .vue files, you'll most likely have a fairly easy transition since 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://v3.vuejs.org/guide/single-file-component.html) and instructing Vue 3 what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)).
-
-We suggest that you first convert your project to Quasar v2 while maintaining Options API (because your components are already in Options API form and you probably want to ensure everything is working first). After this transition you can convert all your Vue components to Composition API, but in no way is this a requirement.
-
-Vue 3 is to be used along with a new major version of [Vue Router v4](https://next.router.vuejs.org), which comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/) that you should be aware of. There's also the new [Vuex v4]().
-
-As an example: one of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to `model-value` + `@update:modelValue` combo instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files then you don't need to worry about it as vue-loader correctly translates it for you.
-
 ### Initial Steps
 
 There are two paths that you can follow and they are described below. Choose what best fit your needs. We do recommend the first option.
@@ -100,6 +88,7 @@ Before starting, it might be wise to work on this on a new git branch or on a co
 
 1) **Stylus related**: Are you using Stylus and Quasar Stylus variables? Then before anything, convert all those files to Sass/SCSS (including src/css/app.styl -> src/css/app.sass or app.scss). If you will still want to use Stylus in your project (without Quasar Stylus variables), then you'll also need to install the stylus related packages (which are no longer supplied by "@quasar/app" out of the box):
   ```bash
+  # only if you still want to use Stylus (but without Quasar Stylus variables)
   $ yarn add --dev stylus stylus-loader
   ```
 2) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file; this generally is not really needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide
@@ -108,73 +97,7 @@ Before starting, it might be wise to work on this on a new git branch or on a co
   $ yarn add quasar@next
   $ yarn add --dev @quasar/app@next
   ```
-3) **Vue Router** (Vue 3 ecosystem upstream breaking change): Update src/router files to match Vue Router v4's API. Vue Router v4 comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/index.html). Especially note below how we are dealing with the 404 error.
-  ```js
-  // default src/router/index.js content:
-
-  import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
-  import routes from './routes'
-
-  export default function (/* { store, ssrContext } */) {
-    const createHistory = process.env.MODE === 'ssr'
-      ? createMemoryHistory
-      : process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory
-
-    const Router = createRouter({
-      scrollBehavior: () => ({ x: 0, y: 0 }),
-      routes,
-
-      // Leave this as is and make changes in quasar.conf.js instead!
-      // quasar.conf.js -> build -> vueRouterMode
-      // quasar.conf.js -> build -> publicPath
-      history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
-    })
-
-    return Router
-  }
-  ```
-
-  ```js
-  // default src/router/routes.js content:
-  export default [
-    {
-      path: '/',
-      component: () => import('layouts/MainLayout.vue'),
-      children: [
-        { path: '', component: () => import('pages/Index.vue') }
-      ]
-    },
-
-    // Always leave this as last one,
-    // but you can also remove it
-    {
-      path: '/:catchAll(.*)*',
-      component: Error404
-    }
-  ]
-
-  export default routes
-  ```
-4) **Vuex** (Vue 3 ecosystem upstream breaking change): If you're using Vuex, then update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
-  ```js
-  // default src/router/routes.js content:
-  import { createStore } from 'vuex'
-  // import example from './module-example'
-
-  export default function (/* { ssrContext } */) {
-    const Store = createStore({
-      modules: {
-        // example
-      },
-
-      // enable strict mode (adds overhead!)
-      // for dev mode and --debug builds only
-      strict: process.env.DEBUGGING
-    })
-
-    return Store
-  }
-  ```
+4) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue Router, Vuex, Vue-i18n and any other vue plugin that you are using.
 
 #### Option 2: Create a project
 
@@ -183,83 +106,322 @@ Second option is to create a fresh project and port it to it bit by bit. We see 
 You can generate a new Quasar v2 project like below and then you can port your app bit by bit to it.
 
 ```bash
-$ quasar create <folder_name> --kit v2
+$ quasar create <folder_name> --branch v2
 # NOTE: the above will change when v2 is released as stable
+```
+
+### App.vue
+
+You'll need to edit src/App.vue and remove the wrapper `<div id="q-app">`. You don't (and should NOT) need it anymore.
+
+```html
+<!-- old way -->
+<template>
+  <div id="q-app">
+    <router-view />
+  </div>
+</template>
+
+<!-- NEW way -->
+<template>
+  <router-view />
+</template>
+```
+
+### Vue 3
+
+Since you will also switch to [Vue 3](https://v3.vuejs.org), it's best that you also take a look at its [migration guide](https://v3.vuejs.org/guide/migration/introduction.html).
+
+If you're using .vue files, you'll most likely have a fairly easy transition since 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://v3.vuejs.org/guide/single-file-component.html) and instructing Vue 3 what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)).
+
+We suggest that you first convert your project to Quasar v2 while maintaining Options API (because your components are already in Options API form and you probably want to ensure everything is working first). After this transition you can convert all your Vue components to Composition API, but in no way is this a requirement.
+
+Vue 3 is to be used along with a new major version of [Vue Router v4](https://next.router.vuejs.org), which comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/) that you should be aware of. There's also the new [Vuex v4]().
+
+As an example of one of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to `model-value` + `@update:modelValue` combo instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files then you don't need to worry about it as vue-loader correctly translates it for you.
+
+### Vue Router v4
+
+This is a Vue 3 ecosystem upstream breaking change. Update src/router files to match Vue Router v4's API. Vue Router v4 comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/index.html). Especially note below how we are dealing with the 404 error.
+
+```js
+// default src/router/index.js content:
+
+import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
+import routes from './routes'
+
+export default function (/* { store, ssrContext } */) {
+  const createHistory = process.env.MODE === 'ssr'
+    ? createMemoryHistory
+    : process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory
+
+  const Router = createRouter({
+    scrollBehavior: () => ({ x: 0, y: 0 }),
+    routes,
+
+    // Leave this as is and make changes in quasar.conf.js instead!
+    // quasar.conf.js -> build -> vueRouterMode
+    // quasar.conf.js -> build -> publicPath
+    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+  })
+
+  return Router
+}
+```
+
+```js
+// default src/router/routes.js content:
+export default [
+  {
+    path: '/',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Index.vue') }
+    ]
+  },
+
+  // Always leave this as last one,
+  // but you can also remove it
+  {
+    path: '/:catchAll(.*)*',
+    component: Error404
+  }
+]
+
+export default routes
+```
+
+### Vue-i18n v8
+
+This is a Vue 3 ecosystem upstream breaking change. Update src/boot/i18n.js file to match Vue-i18n v8's API. Vue-i18n comes with its own [breaking changes](https://vue-i18n-next.intlify.dev/guide/migration/breaking.html).
+
+```js
+// default src/boot/i18n.js content:
+
+import { createI18n } from 'vue-i18n'
+import messages from 'src/i18n'
+// you'll need to create the src/i18n/index.js file too
+
+const i18n = createI18n({
+  locale: 'en-us',
+  messages
+})
+
+export default ({ app }) => {
+  // Set i18n instance on app
+  app.use(i18n)
+})
+
+export { i18n }
+```
+
+### Vuex v4
+
+This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
+
+```js
+// default src/router/routes.js content:
+import { createStore } from 'vuex'
+// import example from './module-example'
+
+export default function (/* { ssrContext } */) {
+  const Store = createStore({
+    modules: {
+      // example
+    },
+
+    // enable strict mode (adds overhead!)
+    // for dev mode and --debug builds only
+    strict: process.env.DEBUGGING
+  })
+
+  return Store
+}
 ```
 
 ### Quasar components
 
-// the following is a draft
+#### Vue 3 and v-model
 
-* Important Vue 3 breaking changes:
+The `v-model` is now an alias to `model-value` + `@update:modelValue` combo instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files then you don't need to worry about it as vue-loader correctly translates it for you.
 
-v-model equivalent:
-"value" -> "modelValue";
-"@input" -> "@update:modelValue"
+Suggestion: you may want to do a search and replace for `value` and `@input`.
 
-scopedSlots -> slots
+#### Vue 3 and scoped slots
 
-* Use "class" and "style" instead of "content-class" / "content-style" for QDrawer/QDialog/QMenu/QTooltip
+All slots are now acting in the same manner as the scoped slots in Vue 2. If you're using Options API, then you can do a search and replace for `this.$scopedSlots` (and replace it with `this.$slots`).
 
-* QBreadcrumbsEl
-Removed: "append" (due to new vue-router)
-Added: "tag", "ripple"
+#### QDrawer/QDialog/QMenu/QTooltip
 
-* QChatMessage
-"label-html" -> "label-sanitize"
-"name-html" -> "name-sanitize"
-"text-html" -> text-sanitize"
-"stamp-html" -> stamp-sanitize"
+Use "class" and "style" attributes instead of "content-class" / "content-style" props for the above mentioned Quasar components.
 
-* QDate
-"@update:modelValue" > details > removed "changed"
+#### QBreadcrumbsEl
 
-* QExpansionItem
-Removed: "append" (due to new vue-router)
+Removed "append" prop due to Vue Router v4 also [dropping it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
+Added "tag" and "ripple" properties.
 
-* (new) QFormChildBase -> for Options API only; for Composition API -> useFormChild
+#### QChatMessage
 
-* QImg
-Added: "loading", "crossorigin", "fit", "no-spinner", "no-native-menu", "no-transition"
-Removed: "transition", "basic" (now equivalent to "no-spinner" + "no-transition")
-Changed: "no-default-spinner" -> "no-spinner"
+By default, the "label", "name", "text" and "stamp" are protected by XSS attacks now. This means that all of the `*-sanitize` props have been dropped as this behavior is the standard in Quasar now. Should you wish to display HTML as content for these props you now need to explicitly specify them through new Boolean props (`*-html`).
 
-* QLayout
-"@scroll" > { position: {top,left}, direction (top, right, bottom, left), inflexionPosition: {top,left}, directionChanged }
+| Removed Boolean prop | New opposite equivalent Boolean prop |
+| --- | --- |
+| label-sanitize | label-html |
+| name-sanitize | name-html |
+| text-sanitize | text-html |
+| stamp-sanitize | stamp-html |
 
-* QRouteTab
-Added: "ripple"
+#### QDate
 
-* QScrollArea
-Added: "vertical-bar-style", "horizontal-bar-style", "vertical-thumb-style", "horizontal-thumb-style"
-Removed: "horizontal"
-getScrollPosition now returns { top, left }
-new first param: setScrollPosition(axis, offset[, duration]), setScrollPercentage(axis, offset[, duration])
+When `@update:modelValue` event (equivalent of the old `@input`) is triggered, the contents of the first parameter no longer contains the (deprecated) `changed` prop.
 
-* QScrollObserver
-Removed: "horizontal"
-Added: "axis" (vertical, horizontal, both)
-@scroll passes { position: {top,left}, direction (top, right, bottom, left), delta: {top,left}, inflexionPosition: {top,left}, directionChanged }
+#### QExpansionItem
 
-* QSelect
-"option" slot params {} -> removed "itemEvents" (info now contained by "itemProps")
-New method: "blur"
+Removed the "append" property due to Vue Router v4 also [dropping it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
 
-* QTable
-Renamed: "data" to "rows" (to solve TS issues)
-pagination.sync -> v-model:pagination
-selected.sync -> v-model:selected
-expanded.sync -> v-model:expanded
+#### (New) Connecting to QForm
 
-* QTooltip
-Added: transition-duration
+Should you wish to create your own Vue components that need to connect to a parent QForm (for validation purposes), we made it easier for you:
 
-* QTree
-ticked.sync -> v-model:ticked
-selected.sync -> v-model:selected
-expanded.sync -> v-model:expanded
+```js
+// Composition API variant
 
-* QUploaderBase -> removed (Composition API instead)
+import { useFormChild } from 'quasar'
+
+useFormChild ({
+  validate,     // Function returning a Boolean
+  requiresQForm // Boolean -> if "true" and your component
+                //   is not wrapped by QForm it then displays
+                //   an error message
+})
+
+// some component
+export default {
+  setup () {
+    // required! should return a Boolean
+    function validate () {
+      console.log('called my-comp.validate()')
+      return true
+    }
+
+    useFormChild({ validate, requiresQForm: true })
+  }
+}
+```
+
+```js
+// Options API variant
+
+import { QFormChildBase } from 'quasar'
+
+// some component
+export default {
+  mixins: [ QFormChildBase ],
+
+  methods: {
+    // required! should return a Boolean
+    validate () {
+      console.log('called my-comp.validate()')
+      return true
+    }
+  },
+
+  // ...
+}
+```
+
+#### QImg
+
+This component has been redesigned from the ground up. It now makes use of more modern API. The immediate effects are that it uses less RAM memory and runtime is much faster.
+
+Added properties: "loading", "crossorigin", "fit", "no-spinner", "no-native-menu", "no-transition".
+Removed properties: "transition", "basic" (now equivalent to "no-spinner" + "no-transition")
+Changed property "no-default-spinner" to "no-spinner".
+
+For the detailed changes, please view the API Card on [QImg](/vue-components/img#QImg-API) page.
+
+#### QLayout/QScrollObserver
+
+The `@scroll` event parameter now has a slightly different content:
+
+```js
+{
+  position: {
+    top, left // Numbers (pixels)
+  },
+  direction, // String ("top", "right", "bottom" or "left")
+  directionChanged, // Boolean
+  inflectionPoint: { // last position when direction changed
+    top, left // Numbers (pixels)
+  },
+  delta: { // difference since last @scroll update
+    top, left // Numbers (pixels)
+  }
+}
+```
+
+#### QRouteTab
+
+Added "ripple" property.
+
+#### QScrollArea
+
+QScrollArea has been redesigned so that it now supports both vertical and horizontal scrolling simultaneously.
+
+* Added props: "vertical-bar-style" and "horizontal-bar-style" (that come on top of "bar-style" which is applied to both vertical and horizontal scrolling bars)
+* Added props: "vertical-thumb-style" and "horizontal-thumb-style" (that come on top of "thumb-style" which is applied to both vertical and horizontal scrolling bar thumbs)
+* Removed prop: "horizontal" (now obsolete as QScrollArea support both vertical and horizontal scrolling simultaneously)
+* The "getScrollPosition" method now returns an Object of the form `{ top, left }` (example: `{ top: 5, left: 0 }`)
+* The "setScrollPosition" and "setScrollPercentage" methods now require a new first param (named "axis" with values either "horizontal" or "vertical"): (axis, offset[, duration])
+
+#### QScrollObserver
+
+Replaced property "horizontal" with "axis" (String: "vertical", "horizontal", "both"; default value: "vertical").
+
+The `@scroll` event parameter now has a slightly different content:
+
+```js
+{
+  position: {
+    top, left // Numbers (pixels)
+  },
+  direction, // String ("top", "right", "bottom" or "left")
+  directionChanged, // Boolean
+  inflectionPoint: { // last position when direction changed
+    top, left // Numbers (pixels)
+  },
+  delta: { // difference since last @scroll update
+    top, left // Numbers (pixels)
+  }
+}
+```
+
+#### QSelect
+
+* The "option" slot params has dropped "itemEvents" prop and that information is now contained within the "itemProps". This comes naturally as a result of Vue 3 flattening the rendering function's second parameter ("on", "props" etc merged together into a single Object).
+* New method: "blur()"
+
+#### QTable
+
+Renamed "data" property to "rows" (to solve TS conflict issue with "data" incorrectly inferred as the "data()" method of a Vue component)
+
+#### QTable/QTree
+
+Due to the new v-model feature of Vue 3 which replaces ".sync" modifier, the following properties need to be used differently:
+
+| Old way | New way |
+| --- | --- |
+| pagination.sync="varName" | v-model:pagination="varName" |
+| selected.sync="varName" | v-model:selected="varName" |
+| expanded.sync="varName" | v-model:expanded="varName" |
+
+#### QTooltip/QMenu
+
+Added "transition-duration" property.
+
+#### QUploader
+
+The QUploaderBase component has been removed in favor of the "useUploader" and "useUploaderXhr" composables.
 
 ### Quasar directives
 
@@ -286,6 +448,7 @@ this.$router.go(-1)
 ### Quasar plugins
 
 #### Loading plugin
+
 By default, the message is protected by XSS attacks. Should you wish to display HTML content with the "message" prop you should also specify "html: true".
 
 This is the total opposite behavior from v1, where you had prop "sanitize" (not available anymore; enabled now by default) to NOT display HTML.
@@ -337,7 +500,7 @@ export default {
 }
 ```
 
-The new way (Composition API or the old Options API):
+The new way (Composition API or Options API):
 
 ```js
 // Composition API variant
@@ -398,8 +561,15 @@ Full list of changes: "en-us" -> "en-US", "en-gb" -> "en-GB", "az-latn" -> "az-L
 
 ### Quasar App CLI
 
+This section refers to "@quasar/app" v3 package.
+
+* Dropped support for `src/css/quasar.variables.styl`. Also, if you still want to use Stylus as preprocessor (but without the Quasar Stylus variables) then you need to manually yarn/npm install `stylus` and `stylus-loader` as dev dependencies into your project ("@quasar/app" does not supply them anymore).
+* New quasar.conf.js > build > vueLoaderOptions prop
+* The url-loader configuration has been enhanced so it now also supports "ico" files out of the box
+* Removed support for quasar.conf.js > framework > `importStrategy: 'all'` since the auto import feature has become so good anyways (so it's now enabled by default).
+
 ### Quasar Extras
-Nothing changed.
+Nothing changed. You can use it as for Quasar UI v1.
 
 ### Quasar Icon Genie
-Nothing changed.
+Nothing changed. You can use it the same way as for "@quasar/app" v1 or v2 projects.

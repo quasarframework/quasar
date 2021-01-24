@@ -35,7 +35,7 @@ export default defineComponent({
     // page related
     const height = ref($q.screen.height)
     const width = ref(props.container === true ? 0 : $q.screen.width)
-    const scroll = ref({ position: 0, direction: 'down', inflexionPosition: 0 })
+    const scroll = ref({ position: 0, direction: 'down', inflectionPoint: 0 })
 
     // container only prop
     const containerHeight = ref(0)

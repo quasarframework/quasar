@@ -2,7 +2,7 @@ import { inject, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import { formKey } from '../utils/symbols.js'
 
-export default function ({ validate, canFail }) {
+export default function ({ validate, requiresQForm }) {
   const $form = inject(formKey, false)
 
   if ($form !== false) {
@@ -19,7 +19,7 @@ export default function ({ validate, canFail }) {
       $form.unbindComponent(vm.proxy)
     })
   }
-  else if (canFail !== true) {
-    console.error('Parent QForm not found on useForm()!')
+  else if (requiresQForm !== true) {
+    console.error('Parent QForm not found on useFormChild()!')
   }
 }
