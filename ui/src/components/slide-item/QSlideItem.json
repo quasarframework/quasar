@@ -140,7 +140,7 @@
     },
 
     "slide": {
-      "desc": "Emitted while user is sliding the item to either sides",
+      "desc": "Emitted while user is sliding the item to one of the available sides",
       "params": {
         "details": {
           "type": "Object",
@@ -158,7 +158,7 @@
             },
             "isReset": {
               "type": "Boolean",
-              "desc": "Ratio is reseted"
+              "desc": "Ratio has been reset"
             }
           }
         }
