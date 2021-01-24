@@ -181,6 +181,13 @@
           v1.0.0
         </q-badge>
       </div>
+
+      <div>
+        Some text <q-badge color="red" label="1" round />
+      </div>
+      <div>
+        Some text <q-badge color="green" label="999+" round />
+      </div>
     </div>
   </div>
 </template>

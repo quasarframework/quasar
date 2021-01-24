@@ -17,6 +17,7 @@ export default Vue.extend({
     transparent: Boolean,
     multiLine: Boolean,
     outline: Boolean,
+    round: Boolean,
 
     label: [Number, String],
 
@@ -46,6 +47,7 @@ export default Vue.extend({
         ) +
         (text !== void 0 ? ` text-${text}` : '') +
         (this.floating === true ? ' q-badge--floating' : '') +
+        (this.round === true ? ' q-badge--round' : '') +
         (this.transparent === true ? ' q-badge--transparent' : '')
     },
 
