@@ -64,11 +64,11 @@ export default {
       this.finalize(reset)
     },
 
-    onSlide ({ side, ratio, reset }) {
+    onSlide ({ side, ratio, isReset }) {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.slideRatio[side] = ratio
-      }, reset === true ? 200 : void 0)
+      }, isReset === true ? 200 : void 0)
     },
 
     finalize (reset) {

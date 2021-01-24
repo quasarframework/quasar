@@ -336,11 +336,11 @@ export default {
       }, 1000)
     },
 
-    onSlide ({ side, ratio, reset }) {
+    onSlide ({ side, ratio, isReset }) {
       if (side === 'left') {
         setTimeout(() => {
           this.leftSlideRatio = ratio
-        }, reset === true ? 200 : void 0)
+        }, isReset === true ? 200 : void 0)
       }
     },
 
