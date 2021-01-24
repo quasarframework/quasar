@@ -15,6 +15,7 @@ export default defineComponent({
     transparent: Boolean,
     multiLine: Boolean,
     outline: Boolean,
+    rounded: Boolean,
 
     label: [ Number, String ],
 
@@ -44,6 +45,7 @@ export default defineComponent({
         )
         + (text !== void 0 ? ` text-${ text }` : '')
         + (props.floating === true ? ' q-badge--floating' : '')
+        + (props.rounded === true ? ' q-badge--rounded' : '')
         + (props.transparent === true ? ' q-badge--transparent' : '')
     })
 

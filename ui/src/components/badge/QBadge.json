@@ -48,6 +48,12 @@
       "type": "Boolean",
       "desc": "Use 'outline' design (colored text and borders only)",
       "category": "content"
+    },
+
+    "rounded": {
+      "type": "Boolean",
+      "desc": "Makes a rounded shaped badge",
+      "category": "style"
     }
   },
 
