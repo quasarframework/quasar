@@ -7,6 +7,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useCache from '../../composables/use-cache.js'
 
 import { hSlot } from '../../utils/render.js'
+import { vmHasListener } from '../../utils/vm.js'
 
 const slotsDef = [
   [ 'left', 'center', 'start', 'width' ],
@@ -27,7 +28,7 @@ export default defineComponent({
     bottomColor: String
   },
 
-  emits: [ 'action', 'top', 'right', 'bottom', 'left' ],
+  emits: [ 'action', 'top', 'right', 'bottom', 'left', 'slide' ],
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
@@ -53,6 +54,10 @@ export default defineComponent({
 
     function reset () {
       contentRef.value.style.transform = 'translate(0,0)'
+    }
+
+    function emitSlide (side, ratio, isReset) {
+      vmHasListener(vm, 'onSlide') === true && emit('slide', { side, ratio, isReset })
     }
 
     function onPan (evt) {
@@ -92,6 +97,7 @@ export default defineComponent({
         }
         else {
           node.style.transform = 'translate(0,0)'
+          emitSlide(pan.showing, 0, true)
         }
 
         return
@@ -145,6 +151,8 @@ export default defineComponent({
 
       node.style.transform = `translate${ pan.axis }(${ dist * dir / Math.abs(dir) }px)`
       dirContentRefs[ showing ].style.transform = `scale(${ pan.scale })`
+
+      emitSlide(showing, pan.scale, false)
     }
 
     onBeforeUpdate(() => {
