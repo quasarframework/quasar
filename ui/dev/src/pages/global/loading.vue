@@ -12,10 +12,13 @@
           Show
         </q-btn>
         <q-btn push color="primary" @click="withHtmlMessage">
-          Show With HTML Message
+          HTML Message
         </q-btn>
         <q-btn push color="primary" @click="withMessageSanitized">
-          Show With Message (Sanitized)
+          Sanitized Message
+        </q-btn>
+        <q-btn push color="secondary" @click="withBox">
+          With box
         </q-btn>
       </div>
       <p class="caption">
@@ -151,6 +154,12 @@ export default {
           message: 'Some <b class="text-orange">important</b> process is in progress. Hang on...'
         })
       },
+      withBox () {
+        show({
+          message: 'Please wait...',
+          boxClass: 'bg-white text-grey-9'
+        })
+      },
       changeMessage () {
         Loading.show({ message: 'First message. Gonna change it in 3 seconds...' })
         setTimeout(() => {
@@ -164,7 +173,7 @@ export default {
         }, 3000)
       },
       async showMultiple () {
-        for (let i = 0; i < this.showCount; i++) {
+        for (let i = 0; i < showCount.value; i++) {
           Loading.show()
 
           await new Promise(resolve => setTimeout(resolve, 2000))

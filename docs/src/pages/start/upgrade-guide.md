@@ -449,9 +449,8 @@ this.$router.go(-1)
 
 #### Loading plugin
 
-By default, the message is protected by XSS attacks. Should you wish to display HTML content with the "message" prop you should also specify "html: true".
-
-This is the total opposite behavior from v1, where you had prop "sanitize" (not available anymore; enabled now by default) to NOT display HTML.
+* Added "boxClass" property
+* By default, the message is protected by XSS attacks. Should you wish to display HTML content with the "message" prop you should also specify "html: true". This is the total opposite behavior from v1, where you had prop "sanitize" (not available anymore; enabled now by default) to NOT display HTML.
 
 #### Dialog plugin
 Two things changed:
