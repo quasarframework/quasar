@@ -55,9 +55,9 @@
       "addedIn": "v1.4.5"
     },
 
-    "round": {
+    "rounded": {
       "type": "Boolean",
-      "desc": "Makes a circle shaped badge",
+      "desc": "Makes a rounded shaped badge",
       "category": "style",
       "addedIn": "v1.15.2"
     }
