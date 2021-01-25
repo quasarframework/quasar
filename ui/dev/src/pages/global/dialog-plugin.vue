@@ -18,8 +18,10 @@
         <q-btn label="Positioned" flat color="primary" @click="positioned" />
         <q-btn label="Stacked Buttons" flat color="primary" @click="stacked" />
         <q-btn label="Auto Closing" flat color="primary" @click="autoClose" />
-        <q-btn label="Custom component" no-caps flat color="primary" @click="customComponent(false)" />
-        <q-btn label="Custom component (async)" no-caps flat color="primary" @click="customComponent(true)" />
+        <q-btn label="Custom component (Compo)" no-caps flat color="primary" @click="customComponentCompositionApi(false)" />
+        <q-btn label="Custom component (Compo;Async)" no-caps flat color="primary" @click="customComponentCompositionApi(true)" />
+        <q-btn label="Custom component (Opt)" no-caps flat color="primary" @click="customComponentOptionsApi(false)" />
+        <q-btn label="Custom component (Opt;Async)" no-caps flat color="primary" @click="customComponentOptionsApi(true)" />
         <q-btn label="With HTML" flat color="primary" @click="unsafe" />
         <q-btn label="Prompt (validation)" flat color="primary" @click="promptValidation" />
         <q-btn label="Radio (validation)" flat color="primary" @click="radioValidation" />
@@ -114,7 +116,8 @@ import { defineAsyncComponent } from 'vue'
 
 import { QSpinnerGears, QSpinnerCube } from 'quasar'
 
-import DialogComponent from './dialog-component.js'
+import DialogComponentOptionsApi from './dialog-component-options-api.js'
+import DialogComponentCompositionApi from './dialog-component-composition-api.js'
 
 export default {
   data () {
@@ -509,9 +512,24 @@ export default {
       }, 1000)
     },
 
-    customComponent (async) {
+    customComponentOptionsApi (async) {
       this.dialogHandler = this.$q.dialog({
-        component: async !== true ? DialogComponent : defineAsyncComponent(() => import('./dialog-component.js')),
+        component: async !== true ? DialogComponentOptionsApi : defineAsyncComponent(() => import('./dialog-component-options-api.js')),
+        componentProps: {
+          text: 'Works'
+        }
+      }).onOk(() => {
+        console.log('OK')
+      }).onCancel(() => {
+        console.log('Cancel')
+      }).onDismiss(() => {
+        this.dialogHandler = void 0
+      })
+    },
+
+    customComponentCompositionApi (async) {
+      this.dialogHandler = this.$q.dialog({
+        component: async !== true ? DialogComponentCompositionApi : defineAsyncComponent(() => import('./dialog-component-composition-api.js')),
         componentProps: {
           text: 'Works'
         }
