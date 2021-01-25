@@ -119,5 +119,8 @@ import '@fortawesome/fontawesome-pro/css/solid.min.css'
 import '@fortawesome/fontawesome-pro/css/light.min.css'
 
 // example
-Vue.prototype.$q.iconSet.chip.remove = 'fas fa-times-circle'
+export default ({ app }) => {
+  // TODO vue3
+  $q.iconSet.chip.remove = 'fas fa-times-circle'
+}
 ```

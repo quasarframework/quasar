@@ -72,8 +72,8 @@ const contributionGuide = [
 
 const options = [
   {
-    name: 'Vue Prototype Injections',
-    path: 'vue-prototype-injections'
+    name: 'The $q object',
+    path: 'the-q-object'
   },
   {
     name: 'App Icons',
@@ -118,10 +118,6 @@ const options = [
   {
     name: 'Transitions',
     path: 'transitions'
-  },
-  {
-    name: 'Global Event Bus',
-    path: 'global-event-bus'
   }
 ]
 

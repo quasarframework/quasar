@@ -156,17 +156,6 @@ import { Notify } from 'quasar'
 Notify.create('My message')
 ```
 
-### Importing All Components and Directives for Quick Test
-Referencing all Quasar Components, Directives and Plugins can be tiresome when you just want to do a quick test. In this case, you can tell Quasar to import them all by editing `/quasar.conf.js` like this:
-
-```js
-framework: 'all'
-```
-
-::: warning
-This **will not** take advantage of tree shaking, causing your bundle to become bloated with unnecessary/unused code. **Not recommended for production**. Use this only for quick testing purposes.
-:::
-
 ### Self-Closing Tags
 
 ::: danger

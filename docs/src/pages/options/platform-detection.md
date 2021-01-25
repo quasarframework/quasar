@@ -13,8 +13,15 @@ Based on your needs, you might also want to check the [Style & Identity &gt; Vis
 Usage inside a Vue component JS:
 
 ```js
-this.$q.platform.is.mobile
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  $q.platform.is.mobile
+}
 ```
+
 Usage inside a Vue component template:
 
 ```js

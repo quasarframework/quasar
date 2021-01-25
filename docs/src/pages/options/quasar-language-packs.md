@@ -38,16 +38,11 @@ framework: {
 Edit your `main.js`:
 
 ```js
-import langDe from 'quasar/lang/de'
-// ...
-
-// when not selecting to import all Quasar components:
 import { Quasar } from 'quasar'
-// OTHERWISE:
-import Quasar from 'quasar'
+import langDe from 'quasar/lang/de'
 
 // ...
-Vue.use(Quasar, {
+app.use(Quasar, {
   // ...,
   lang: langDe
 })
@@ -70,10 +65,7 @@ Check what tags you need to include in your HTML files on [UMD / Standalone](/st
 Quasar CLI: If your desired Quasar Language Pack must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-lang-pack`. This will create `/src/boot/quasar-lang-pack.js` file. Edit it to:
 
 ```js
-// for when you don't specify quasar.conf.js > framework: 'all'
 import { Quasar } from 'quasar'
-// OTHERWISE:
-import Quasar from 'quasar'
 
 export default async () => {
   const langIso = 'de' // ... some logic to determine it (use Cookies Plugin?)
@@ -110,10 +102,7 @@ Notice the use of the [Webpack magic comment](https://webpack.js.org/api/module-
 When dealing with SSR, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
 
 ```js
-// for when you don't specify quasar.conf.js > framework: 'all'
 import { Quasar } from 'quasar'
-// OTHERWISE:
-import Quasar from 'quasar'
 
 // ! NOTICE ssrContext param:
 export default async ({ ssrContext }) => {
@@ -155,34 +144,37 @@ Example with a QSelect to dynamically change the Quasar components language:
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
 import languages from 'quasar/lang/index.json'
+import { ref, watch } from 'vue'
+
 const appLanguages = languages.filter(lang =>
-  [ 'de', 'en-us' ].includes(lang.isoName)
+  [ 'de', 'en-US' ].includes(lang.isoName)
 )
 
-export default {
-  data () {
-    return {
-      lang: this.$q.lang.isoName
-    }
-  },
+const langOptions = appLanguages.map(lang => ({
+  label: lang.nativeName, value: lang.isoName
+}))
 
-  watch: {
-    lang (lang) {
+export default {
+  setup () {
+    const $q = useQuasar()
+    const lang = ref($q.lang.isoName)
+
+    watch(lang, val => {
       // dynamic import, so loading on demand only
       import(
-        /* webpackInclude: /(de|en-us)\.js$/ */
-        'quasar/lang/' + lang
+        /* webpackInclude: /(de|en-US)\.js$/ */
+        'quasar/lang/' + val
         ).then(lang => {
-        this.$q.lang.set(lang.default)
-      })
-    }
-  },
+          $q.lang.set(lang.default)
+        })
+    })
 
-  created () {
-    this.langOptions = appLanguages.map(lang => ({
-      label: lang.nativeName, value: lang.isoName
-    }))
+    return {
+      lang,
+      langOptions
+    }
   }
 }
 </script>
@@ -203,14 +195,14 @@ There's also a method to determine user locale which is supplied by Quasar out o
 
 ```js
 // outside of a Vue file
-
-// for when you don't specify quasar.conf.js > framework: 'all'
 import { Quasar } from 'quasar'
-// OTHERWISE:
-import Quasar from 'quasar'
-
 Quasar.lang.getLocale() // returns a string
 
 // inside of a Vue file
-this.$q.lang.getLocale() // returns a string
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+  $q.lang.getLocale() // returns a string
+}
 ```

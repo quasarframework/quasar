@@ -43,6 +43,7 @@ It should be noted that when you import Animate.css through the `<link>` tag, al
 
 ## Usage
 Notice the string "animated" in front of the actual animation name.
+
 ```html
 <!-- Example with wrapping only one DOM element / component -->
 <transition

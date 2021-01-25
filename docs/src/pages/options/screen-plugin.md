@@ -24,18 +24,25 @@ Notice `$q.screen` below. This is just a simple usage example.
 
 ```js
 // script part of a Vue component
+import { useQuasar } from 'quasar'
+import { computed } from 'vue'
+
 export default {
-  computed: {
-    buttonColor () {
-      return this.$q.screen.lt.md
+  setup () {
+    const $q = useQuasar()
+    const buttonColor = computed(() => {
+      return $q.screen.lt.md
         ? 'primary'
         : 'secondary'
-    }
+    })
+
+    return { buttonColor }
   }
 }
 ```
 
 We can also use the Screen plugin outside of a Vue component:
+
 ```js
 import { Screen } from 'quasar'
 
@@ -100,7 +107,13 @@ Examples:
 
 ```js
 // inside a Vue component:
-this.$q.screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  $q.screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
+}
 
 // outside of a Vue component:
 import { Screen } from 'quasar'

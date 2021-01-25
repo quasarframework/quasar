@@ -81,7 +81,7 @@ import iconSet from 'quasar/icon-set/fontawesome-v5'
 // ...
 import { Quasar } from 'quasar'
 // ...
-Vue.use(Quasar, {
+app.use(Quasar, {
   // ...,
   iconSet: iconSet
 })
@@ -91,10 +91,7 @@ Vue.use(Quasar, {
 Quasar CLI: If your desired Quasar Icon Set must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-icon-set`. This will create `/src/boot/quasar-icon-set.js` file. Edit it to:
 
 ```js
-// for when you don't specify quasar.conf.js > framework: 'all'
 import { Quasar } from 'quasar'
-// OTHERWISE:
-import Quasar from 'quasar'
 
 export default async () => {
   const iconSetName = 'mdi-v5' // ... some logic to determine it (use Cookies Plugin?)
@@ -131,10 +128,7 @@ Notice the use of the [Webpack magic comment](https://webpack.js.org/api/module-
 When dealing with SSR, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
 
 ```js
-// for when you don't specify quasar.conf.js > framework: 'all'
 import { Quasar } from 'quasar'
-// OTHERWISE:
-import Quasar from 'quasar'
 
 // ! NOTICE ssrContext param:
 export default async ({ ssrContext }) => {

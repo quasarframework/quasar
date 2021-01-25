@@ -93,9 +93,9 @@ Please make sure you understand what problem boot files solve and when it is app
 Boot files fulfill one special purpose: they run code **before** the App's Vue root component is instantiated while giving you access to certain variables, which is required if you need to initialize a library, interfere with Vue Router, inject Vue prototype or inject the root instance of the Vue app.
 
 ### Examples of appropriate usage of boot files
-* Your Vue plugin has installation instructions, like needing to call `Vue.use()` on it.
+* Your Vue plugin has installation instructions, like needing to call `app.use()` on it.
 * Your Vue plugin requires instantiation of data that is added to the root instance - An example would be [vue-i18n](https://github.com/kazupon/vue-i18n/).
-* You want to add a global mixin using `Vue.mixin()`.
+* You want to add a global mixin using `app.mixin()`.
 * You want to add something to the Vue prototype for convenient access - An example would be to conveniently use `this.$axios` inside your Vue files instead of importing Axios in each such file.
 * You want to interfere with the router - An example would be to use `router.beforeEach` for authentication
 * You want to interfere with the Vuex store instance - An example would be to use `vuex-router-sync` package
@@ -251,51 +251,37 @@ In order to better understand how a boot file works and what it does, you need t
 ### Axios
 
 ```js
-import Vue from 'vue'
 import axios from 'axios'
 
-// we add it to Vue prototype
-// so we can reference it in Vue files as this.$axios
-// without the need to import axios or use vue-axios
-Vue.prototype.$axios = axios
-
-// can also create an axios instance specifically for the backend API
-const api = axios.create({ baseURL: 'https://api.example.com' })
-Vue.prototype.$api = api
-
-export { axios, api }
+export default ({ app }) => {
+  app.config.globalProperties.$axios = axios
+}
 ```
 
 ### vue-i18n
 
 ```js
-import Vue from 'vue'
-// we import the external package
-import VueI18n from 'vue-i18n'
-
-// let's say we have a file in /src/i18n containing the language pack
+import { createI18n } from 'vue-i18n'
 import messages from 'src/i18n'
 
-// we tell Vue to use our Vue package:
-Vue.use(VueI18n)
+const i18n = createI18n({
+  locale: 'en-us',
+  messages
+})
 
 export default ({ app }) => {
-  // Set i18n instance on app;
-  // We inject it into root component by doing so;
-  // new Vue({..., i18n: ... }).$mount(...)
-  app.i18n = new VueI18n({
-    locale: 'en',
-    fallbackLocale: 'en',
-    messages
-  })
+  // Set i18n instance on app
+  app.use(i18n)
 }
+
+export { i18n } // if you need this instance elsewhere
 ```
 
 ### Router authentication
 Some boot files might need to interfere with Vue Router configuration:
 
 ```js
-export default ({ router, store, Vue }) => {
+export default ({ router, store }) => {
   router.beforeEach((to, from, next) => {
     // Now you need to add your authentication logic here, like calling an API endpoint
   })
@@ -314,7 +300,6 @@ Consider the following boot file for axios:
 ```js
 // axios boot file (src/boot/axios.js)
 
-import Vue from 'vue'
 import axios from 'axios'
 
 // We create our own axios instance and set a custom base URL.
@@ -325,8 +310,10 @@ const api = axios.create({
 })
 
 // for use inside Vue files through this.$axios and this.$api
-Vue.prototype.$axios = axios
-Vue.prototype.$api   = api
+export default ({ app }) => {
+  app.config.globalProperties.$axios = axios
+  app.config.globalProperties.$api = api
+}
 
 // Here we define a named export
 // that we can later use inside .js files:

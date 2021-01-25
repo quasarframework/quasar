@@ -47,7 +47,7 @@ $ yarn add @quasar/extras@latest
 
 ## Migrate to v2 from v1
 
-### Introduction
+### Intro
 
 We did our best so that this transition from Quasar v1 to v2 to be as painless as possible. Don't be afraid by the length of this page as it doesn't reflects the effort that you need to put into this (we just tried to make it as complete as possible). The API of Quasar components, directives and plugins has minor changes as we kept the breaking changes to the bare minimum. We also added some new cool features for some components.
 
@@ -191,30 +191,6 @@ export default [
 export default routes
 ```
 
-### Vue-i18n v8
-
-This is a Vue 3 ecosystem upstream breaking change. Update src/boot/i18n.js file to match Vue-i18n v8's API. Vue-i18n comes with its own [breaking changes](https://vue-i18n-next.intlify.dev/guide/migration/breaking.html).
-
-```js
-// default src/boot/i18n.js content:
-
-import { createI18n } from 'vue-i18n'
-import messages from 'src/i18n'
-// you'll need to create the src/i18n/index.js file too
-
-const i18n = createI18n({
-  locale: 'en-us',
-  messages
-})
-
-export default ({ app }) => {
-  // Set i18n instance on app
-  app.use(i18n)
-})
-
-export { i18n }
-```
-
 ### Vuex v4
 
 This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
@@ -237,6 +213,30 @@ export default function (/* { ssrContext } */) {
 
   return Store
 }
+```
+
+### Vue-i18n v8
+
+This is a Vue 3 ecosystem upstream breaking change. Update src/boot/i18n.js file to match Vue-i18n v8's API. Vue-i18n comes with its own [breaking changes](https://vue-i18n-next.intlify.dev/guide/migration/breaking.html).
+
+```js
+// default src/boot/i18n.js content:
+
+import { createI18n } from 'vue-i18n'
+import messages from 'src/i18n'
+// you'll need to create the src/i18n/index.js file too
+
+const i18n = createI18n({
+  locale: 'en-us',
+  messages
+})
+
+export default ({ app }) => {
+  // Set i18n instance on app
+  app.use(i18n)
+})
+
+export { i18n }
 ```
 
 ### Quasar components
@@ -552,6 +552,25 @@ The object literal property names provided for methods "addToDate" and "subtract
 | getScrollPosition | getVerticalScrollPosition |
 | animScrollTo | animVerticalScrollTo |
 | setScrollPosition | setVerticalScrollPosition |
+
+#### color utils
+
+Removed "getBrand" and "setBrand" from color utils. They are replaced by "getCssVar" and "setCssVar":
+
+```js
+// OLD, DEPRECATED v1 way:
+import { colors } from 'quasar'
+
+const { getBrand, setBrand } = colors
+const primaryColor = getBrand('primary')
+setBrand('primary', '#f3c')
+
+// NEW v2 way:
+import { getCssVar, setCssVar } from 'quasar'
+
+const primaryColor = getCssVar('primary')
+setCssVar('primary', '#f3c')
+```
 
 ### Quasar language packs
 We have changed the language pack filenames to reflect the standard naming used by browsers. This will allow you to use `$q.lang.getLocale()` when you want to dynamically import the Quasar language pack file.
