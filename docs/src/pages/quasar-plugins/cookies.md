@@ -36,15 +36,19 @@ The reason for this is that in a client-only app, every user will be using a fre
 ```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
-
-var value = Cookies.get('cookie_name')
+const value = Cookies.get('cookie_name')
 ```
 
 When cookie is not set, the return value is `null`.
 
 ```js
 // inside of a Vue file
-this.$q.cookies.get('cookie_name')
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+  const value = $q.cookies.get('cookie_name')
+}
 ```
 
 ## Read All Cookies
@@ -52,7 +56,6 @@ this.$q.cookies.get('cookie_name')
 ```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
-
 const cookies = Cookies.getAll()
 ```
 
@@ -60,7 +63,12 @@ const cookies = Cookies.getAll()
 
 ```js
 // inside of a Vue file
-this.$q.cookies.getAll()
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+  const allCookies = $q.cookies.getAll()
+}
 ```
 
 ## Verify if Cookie is Set
@@ -68,13 +76,17 @@ this.$q.cookies.getAll()
 ```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
-
-(Boolean) Cookies.has('cookie_name')
+Cookies.has('cookie_name') // Boolean
 ```
 
 ```js
 // inside of a Vue file
-this.$q.cookies.has('cookie_name')
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+  const hasIt = $q.cookies.has('cookie_name')
+}
 ```
 
 ## Write a Cookie
@@ -100,11 +112,15 @@ Cookies.set('quasar', 'framework', {
 
 ```js
 // inside of a Vue file
+import { useQuasar } from 'quasar'
 
-this.$q.cookies.set('cookie_name', cookie_value)
+setup () {
+  const $q = useQuasar()
 
-// or pass in options also:
-this.$q.cookies.set('cookie_name', cookie_value, options)
+  $q.cookies.set('cookie_name', cookie_value)
+  // or pass in options also:
+  $q.cookies.set('cookie_name', cookie_value, options)
+}
 ```
 
 The (optional) `options` parameter is an Object which is explained below, property by property.
@@ -197,11 +213,17 @@ Cookies.remove('cookie_name', options)
 
 ```js
 // inside of a Vue file
-this.$q.cookies.remove('cookie_name')
+import { useQuasar } from 'quasar'
 
-// if cookie was set with specific options like path and/or domain
-// then you need to also supply them when removing:
-this.$q.cookies.remove('cookie_name', options)
+setup () {
+  const $q = useQuasar()
+
+  $q.cookies.remove('cookie_name')
+
+  // if cookie was set with specific options like path and/or domain
+  // then you need to also supply them when removing:
+  $q.cookies.remove('cookie_name', options)
+}
 ```
 
 ::: warning

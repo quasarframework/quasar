@@ -22,27 +22,35 @@ Do not manually assign a value to `isActive` or `mode` from below. Instead, use 
 ### Inside of a Vue file
 
 ```js
-// get status
-console.log(this.$q.dark.isActive) // true, false
+import { useQuasar } from 'quasar'
+setup () {
+  const $q = useQuasar()
 
-// get configured status
-console.log(this.$q.dark.mode) // "auto", true, false
+  // get status
+  console.log($q.dark.isActive) // true, false
 
-// set status
-this.$q.dark.set(true) // or false or "auto"
+  // get configured status
+  console.log($q.dark.mode) // "auto", true, false
 
-// toggle
-this.$q.dark.toggle()
+  // set status
+  $q.dark.set(true) // or false or "auto"
+
+  // toggle
+  $q.dark.toggle()
+}
 ```
 
-On a **SSR build**, you can set this from a `created` hook from your `/src/App.vue`:
+On a **SSR build**, you may want to set this from your `/src/App.vue`:
 
 ```js
-export default {
-  // ...
+import { useQuasar } from 'quasar'
 
-  created () {
-    this.$q.dark.set(true)
+export default {
+  setup () {
+    const $q = useQuasar()
+
+    // calling here; equivalent to when component is created
+    $q.dark.set(true)
   }
 }
 ```
@@ -92,11 +100,16 @@ When on a SSR build:
 <template>...</template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { watch } from 'vue'
+
 export default {
-  watch: {
-    '$q.dark.isActive' (val) {
+  setup () {
+    const $q = useQuasar()
+
+    watch(() => $q.dark.isActive, val => {
       console.log(val ? 'On dark mode' : 'On light mode')
-    }
+    })
   }
 }
 </script>

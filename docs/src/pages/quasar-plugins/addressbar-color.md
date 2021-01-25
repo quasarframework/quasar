@@ -44,13 +44,18 @@ Because the meta tag doesn't get injected until run time you can dynamically cha
 
 ```js
 // a .vue file representing a page
+
+import { useQuasar } from 'quasar'
+
 export default {
-  // ...,
-  created () {
-    this.$q.addressbarColor.set('#a2e3fa')
+  setup () {
+    // equivalent to calling this on creating the component
+    const $q = useQuasar()
+    $q.addressbarColor.set('#a2e3fa')
   }
 }
 ```
+
 ::: tip
 Calling `set()` with no parameters will use the primary color.
 :::

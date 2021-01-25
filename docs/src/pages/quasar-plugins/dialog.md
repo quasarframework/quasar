@@ -38,7 +38,12 @@ import { Dialog } from 'quasar'
 (Object) Dialog.create({ ... })
 
 // inside of a Vue file
-(Object) this.$q.dialog({ ... })
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+  $q.dialog({ ... }) // returns Object
+}
 ```
 
 Please check the API card to see what the returned Object is.
@@ -82,39 +87,106 @@ You can use HTML on title and message if you specify the `html: true` prop. **Pl
 
 You can also invoke your own custom component rather than relying on the default one that the Dialog plugin comes with out of the box. But in this case you will be responsible for handling everything (including your own component props).
 
+This feature is actually the "bread and butter" of the Dialog plugin. It helps you keep your other vue components html templates clean by separating and reusing your dialog's functionality with ease.
+
 ```js
+import { useQuasar } from 'quasar'
 import CustomComponent from '..path.to.component..'
 
-// ...
+setup () {
+  const $q = useQuasar()
 
-this.$q.dialog({
-  component: CustomComponent,
+  $q.dialog({
+    component: CustomComponent,
 
-  // optional if you want to have access to
-  // Router, Vuex store, and so on, in your
-  // custom component:
-  parent: this, // becomes child of this Vue node
-                // ("this" points to your Vue component)
-                // (prop was called "root" in < 1.1.0 and
-                // still works, but recommending to switch
-                // to the more appropriate "parent" name)
-
-  // props forwarded to component
-  // (everything except "component" and "parent" props above):
-  text: 'something',
-  // ...more.props...
-}).onOk(() => {
-  console.log('OK')
-}).onCancel(() => {
-  console.log('Cancel')
-}).onDismiss(() => {
-  console.log('Called on OK or Cancel')
-})
+    // props forwarded to your custom component
+    componentProps: {
+      text: 'something',
+      // ...more..props...
+    }
+  }).onOk(() => {
+    console.log('OK')
+  }).onCancel(() => {
+    console.log('Cancel')
+  }).onDismiss(() => {
+    console.log('Called on OK or Cancel')
+  })
+}
 ```
+
+The equivalent of the above with Options API is by directly using `this.$q.dialog({ ... })`.
 
 ::: warning
 Your custom component however must follow the interface described below in order to perfectly hook into the Dialog plugin. **Notice the "REQUIRED" comments** and take it as is -- just a bare-bone example, nothing more.
 :::
+
+#### Composition API variant
+
+```html
+<template>
+  <!-- notice dialogRef here -->
+  <q-dialog ref="dialogRef" @hide="onDialogHide">
+    <q-card class="q-dialog-plugin">
+      <!--
+        ...content
+        ... use q-card-section for it?
+      -->
+
+      <!-- buttons example -->
+      <q-card-actions align="right">
+        <q-btn color="primary" label="OK" @click="onOKClick" />
+        <q-btn color="primary" label="Cancel" @click="onCancelClick" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+</template>
+
+<script>
+import { useDialogPluginComponent } from 'quasar'
+
+export default {
+  props: {
+    // ...your custom props
+  },
+
+  setup (props, { emit }) {
+    // REQUIRED; must be called inside of setup()
+    const { dialogRef, onDialogHide, show, hide } = useDialogPluginComponent({ emit })
+
+    function onOKClick () {
+      // on OK, it is REQUIRED to
+      // emit "ok" event (with optional payload)
+      // before hiding the QDialog
+      $emit('ok')
+      // or with payload: $emit('ok', { ... })
+
+      // then hiding dialog
+      hide()
+    }
+
+    function onCancelClick () {
+      // we just need to hide the dialog
+      hide()
+    }
+
+    return {
+      // This is REQUIRED;
+      // Need to inject these (from useCustomDialog() call)
+      // into the vue scope for the vue html template
+      dialogRef,
+      onDialogHide,
+
+      // other methods that we used in our vue html template;
+      // these are part of our example (so not required)
+      onOKClick,
+      onCancelClick
+    }
+  }
+}
+</script>
+```
+
+#### Options API variant
 
 ```html
 <template>
@@ -171,14 +243,13 @@ export default {
     },
 
     onCancelClick () {
-      // we just need to hide dialog
+      // we just need to hide the dialog
       this.hide()
     }
   }
 }
 </script>
 ```
-
 ## Cordova/Capacitor back button
 Quasar handles the back button for you by default so it can hide any opened Dialogs instead of the default behavior which is to return to the previous page (which is not a nice user experience).
 

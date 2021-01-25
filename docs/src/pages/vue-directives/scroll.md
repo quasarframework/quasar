@@ -20,47 +20,47 @@ There is one more scrolling-related directive available called [Scroll Fire](/vu
 <doc-installation directives="Scroll" />
 
 ## Usage
+
 ```vue
 <template>
   ...
-  <div v-scroll="scrolled">...</div>
+  <div v-scroll="onScroll">...</div>
   ...
 </template>
 
 <script>
 export default {
-  ...,
-  methods: {
-    ...,
-    scrolled (position) {
+  setup () {
+    function onScroll (position) {
       // when this method is invoked then it means user
       // has scrolled the page to `position`
       //
       // `position` is an Integer designating the current
       // scroll position in pixels.
     }
+
+    return { onScroll }
   }
 }
 </script>
 ```
 
-Please note that by default the method called is not debounced. For that you have to do it yourself, by wrapping your method with Quasar's debounce util like below.
-As per the example below, you need to use `function (position) {}` or `position => {}.bind(this)` to be able to access the Vue component inside the debounce function.
-
 ```js
 import { debounce } from 'quasar'
 
 export default {
-  ...,
-  methods: {
-    ...,
-    scrolled: debounce(function (position) {
+  setup () {
+    function onScroll (position) {
       // when this method is invoked then it means user
-      // has scrolled the Page to 'position'
+      // has scrolled the page to `position`
       //
-      // 'position' is an Integer designating the current
+      // `position` is an Integer designating the current
       // scroll position in pixels.
-    }, 200) // debounce for 200ms
+    }
+
+    return {
+      onScroll: debounce(onScroll, 200) // debounce for 200ms
+    }
   }
 }
 ```

@@ -22,9 +22,15 @@ Notify.create({
 })
 
 // inside of a Vue file
-this.$q.notify('Message')
-// or with a config object:
-this.$q.notify({...})
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  $q.notify('Message')
+  // or with a config object:
+  $q.notify({...})
+}
 ```
 
 <doc-example title="Basic" file="Notify/Basic" />
@@ -118,31 +124,37 @@ You can use HTML on message if you specify the `html: true` prop. **Please note 
 You can set custom HTML attributes on the notification itself or on individual notification actions by setting the `attrs` Object property.
 
 ```js
-this.$q.notify({
-  ...
+import { useQuasar } from 'quasar'
 
-  attrs: {
-    // for the notification itself:
-    role: 'alertdialog'
-  },
+setup () {
+  const $q = useQuasar()
 
-  actions: [
-    {
-      icon: 'close',
-      // for individual action (button):
-      attrs: {
-        'aria-label': 'Dismiss'
+  $q.notify({
+    ...
+
+    attrs: {
+      // for the notification itself:
+      role: 'alertdialog'
+    },
+
+    actions: [
+      {
+        icon: 'close',
+        // for individual action (button):
+        attrs: {
+          'aria-label': 'Dismiss'
+        }
       }
-    }
-  ]
-})
+    ]
+  })
+}
 ```
 
 ### Programmatically closing
 Notifications are meant to be dismissed only by the user, however for exceptional cases you can do it programmatically. Especially useful when you set indefinite timeout (0).
 
 ```js
-const dismiss = this.$q.notify({...})
+const dismiss = $q.notify({...})
 ...
 dismiss()
 ```
@@ -190,12 +202,18 @@ We could also set the defaults in some Vue file:
 
 ```js
 // inside of a Vue component
-this.$q.notify.setDefaults({
-  position: 'top-right',
-  timeout: 2500,
-  textColor: 'white',
-  actions: [{ icon: 'close', color: 'white' }]
-})
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  $q.notify.setDefaults({
+    position: 'top-right',
+    timeout: 2500,
+    textColor: 'white',
+    actions: [{ icon: 'close', color: 'white' }]
+  })
+}
 ```
 
 ## Notify API

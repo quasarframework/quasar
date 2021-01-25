@@ -21,15 +21,23 @@ When using the UMD version of Quasar, all components, directives and plugins are
 :::
 
 ## Usage
+
 Inside Vue components:
 
 ```js
-this.$q.loadingBar.start()
-this.$q.loadingBar.stop()
-this.$q.loadingBar.increment(value)
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  $q.loadingBar.start()
+  $q.loadingBar.stop()
+  $q.loadingBar.increment(value)
+}
 ```
 
 Outside of Vue components:
+
 ```js
 import { LoadingBar } from 'quasar'
 
@@ -45,11 +53,17 @@ Should you wish to set up some defaults, rather than specifying them each time, 
 Inside Vue components:
 
 ```js
-this.$q.loadingBar.setDefaults({
-  color: 'purple',
-  size: '15px',
-  position: 'bottom'
-})
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  $q.loadingBar.setDefaults({
+    color: 'purple',
+    size: '15px',
+    position: 'bottom'
+  })
+}
 ```
 
 Outside of Vue components:

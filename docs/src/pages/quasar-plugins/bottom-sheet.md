@@ -20,10 +20,14 @@ Bottom Sheets can be displayed as a list or as a grid, with icons or with avatar
 ```js
 // outside of a Vue file
 import { BottomSheet } from 'quasar'
-(Object) BottomSheet.create({ ... })
+BottomSheet.create({ ... }) // returns Object
 
 // inside of a Vue file
-(Object) this.$q.bottomSheet({ ... })
+import { useQuasar } from 'quasar'
+setup () {
+  const $q = useQuasar()
+  $q.bottomSheet({ ... }) // returns Object
+}
 ```
 
 ::: tip

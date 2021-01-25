@@ -31,19 +31,24 @@ let value = SessionStorage.getItem(key)
 
 ```js
 // inside of a Vue file
+import { useQuasar } from 'quasar'
 
-this.$q.localStorage.set(key, value)
-let value = this.$q.localStorage.getItem(key)
+setup () {
+  const $q = useQuasar()
 
-this.$q.sessionStorage.set(key, value)
-let value = this.$q.sessionStorage.getItem(key)
+  $q.localStorage.set(key, value)
+  const value = $q.localStorage.getItem(key)
+
+  $q.sessionStorage.set(key, value)
+  const otherValue = $q.sessionStorage.getItem(key)
+}
 ```
 
 For a bulletproof approach when setting a value, it's best to also catch any potential errors raised by the underlying Local/Session Storage Web API, like when exceeding quota:
 
 ```js
 try {
-  this.$q.localStorage.set(key, value)
+  $q.localStorage.set(key, value)
 } catch (e) {
   // data wasn't successfully saved due to
   // a Web Storage API error

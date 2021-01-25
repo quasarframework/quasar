@@ -43,23 +43,29 @@ AppFullscreen.exit()
 ```js
 // inside of a Vue file
 
-// Requesting fullscreen mode:
-this.$q.fullscreen.request()
-  .then(() => {
-    // success!
-  })
-  .catch(err => {
-    // oh, no!!!
-  })
+import { useQuasar } from 'quasar'
 
-// Exiting fullscreen mode:
-this.$q.fullscreen.exit()
-  .then(() => {
-    // success!
-  })
-  .catch(err => {
-    // oh, no!!!
-  })
+setup () {
+  const $q = useQuasar()
+
+  // Requesting fullscreen mode:
+  $q.fullscreen.request()
+    .then(() => {
+      // success!
+    })
+    .catch(err => {
+      // oh, no!!!
+    })
+
+  // Exiting fullscreen mode:
+  $q.fullscreen.exit()
+    .then(() => {
+      // success!
+    })
+    .catch(err => {
+      // oh, no!!!
+    })
+}
 ```
 
 <doc-example title="Basic" file="AppFullscreen/Basic" />
@@ -80,11 +86,16 @@ It all depends on the Web Fullscreen API support of the platform the code is run
 <template>...</template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { watch } from 'vue'
+
 export default {
-  watch: {
-    '$q.fullscreen.isActive' (val) {
+  setup () {
+    const $q = useQuasar()
+
+    watch(() => $q.fullscreen.isActive, val => {
       console.log(val ? 'In fullscreen now' : 'Exited fullscreen')
-    }
+    })
   }
 }
 </script>
