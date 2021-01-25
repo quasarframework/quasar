@@ -4,6 +4,8 @@ desc: How to use and customize the Quasar Color Palette.
 components:
   - color-palette/BrandColors
   - color-palette/ColorList
+related:
+  - quasar-utils/color-utils
 ---
 Quasar Framework offers a wide selection of colors out of the box. You can use them both as Sass/SCSS variables in your CSS code or directly as CSS classes in your HTML templates.
 
@@ -77,6 +79,8 @@ You can access a custom color value (hex string) in JS context with the [getPale
 
 ## Dynamic Change of Brand Colors (Dynamic Theme Colors)
 
+### How it works
+
 You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
 
 The main color configuration is done using CSS custom properties, stored on the root element (`:root`). Each property has a name of `--q-${name}` (example: `--q-primary`, `--q-secondary`) and should have a valid CSS color as value.
@@ -87,7 +91,7 @@ The recommended workflow is to set your customized color properties on the `html
 
 More info on CSS custom properties (variables) on [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables).
 
-### Helper - setCssVar
+### Util: setCssVar
 
 Quasar offers a helper function for setting Quasar CSS variables that can be used for the brand colors too: `setCssVar(colorName, colorValue[, element])`
 
@@ -114,7 +118,7 @@ Example of setting brand colors using the helper:
 document.body.style.setProperty('--q-primary', '#0273d4')
 ```
 
-### Helper - getCssVar
+### Util: getCssVar
 
 Quasar offers a helper function for getting the value of Quasar CSS variables that can be used for brand colors too: `getCssVar(colorName[, element])`
 
@@ -126,7 +130,7 @@ Quasar offers a helper function for getting the value of Quasar CSS variables th
 Example of getting brand colors using the helper:
 
 ```js
-import { colors } from 'quasar'
+import { getCssVar } from 'quasar'
 
 getCssVar('primary') // '#33F'
 getCssVar('primary', document.getElementById('rebranded-section-id'))
@@ -140,12 +144,26 @@ getComputedStyle(document.documentElement)
   .getPropertyValue('--q-primary') // #0273d4
 ```
 
-### Setting Up Defaults
+### More color utils
 
-Should you wish to set up some brand colors without tampering with the Sass variables, you can do so in quasar.conf.js:
+Besides the utils above, we also have a dedicated section in docs for handling colors that you might be interested in: [Color utils](/quasar-utils/color-utils).
 
 ```js
-// quasar.conf.js
+import { colors, setCssVar } from 'quasar'
+
+const { lighten } = colors
+
+const newPrimaryColor = '#933'
+setCssVar('primary', newPrimaryColor)
+setCssVar('primary-darkened', lighten(newPrimaryColor, -10))
+```
+
+## Setting Up Defaults
+
+This is how you can set up some brand colors without tampering with the Sass variables:
+
+```js
+// Quasar CLI - quasar.conf.js
 return {
   framework: {
     config: {
@@ -161,7 +179,8 @@ return {
 Or with a [boot file](/quasar-cli/boot-files):
 
 ```js
-// Do NOT run this in SSR mode
+// For Quasar CLI
+// Do NOT run this boot file for SSR mode
 
 import { setCssProperty } from 'quasar'
 
@@ -170,7 +189,7 @@ export default () => {
 }
 ```
 
-This is especially useful when you use the Quasar UMD version or Vue CLI:
+If you are using the Quasar UMD version or Vue CLI:
 
 ```js
 // UMD or Vue CLI
