@@ -4,7 +4,7 @@ import useQuasar from '../../composables/use-quasar.js'
 import useSize from '../../composables/private/use-size.js'
 import { useCircularCommonProps } from './use-circular-progress.js'
 
-import { hMergeSlotSafely } from '../../utils/render.js'
+import { hMergeSlotSafely } from '../../utils/private/render.js'
 import { between } from '../../utils/format.js'
 
 const

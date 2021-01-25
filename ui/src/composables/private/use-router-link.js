@@ -6,7 +6,7 @@
 import { computed } from 'vue'
 
 import { prevent } from '../../utils/event.js'
-import { vmHasRouter } from '../../utils/vm.js'
+import { vmHasRouter } from '../../utils/private/vm.js'
 
 // Get the original path value of a record by following its aliasOf
 function getOriginalPath (record) {

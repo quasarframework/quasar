@@ -5,8 +5,8 @@ import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import { hMergeSlot } from '../../utils/render.js'
-import { layoutKey } from '../../utils/symbols.js'
+import { hMergeSlot } from '../../utils/private/render.js'
+import { layoutKey } from '../../utils/private/symbols.js'
 
 export default defineComponent({
   name: 'QFooter',

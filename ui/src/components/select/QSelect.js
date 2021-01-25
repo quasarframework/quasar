@@ -17,12 +17,12 @@ import { useVirtualScroll, useVirtualScrollProps, useVirtualScrollEmits } from '
 import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
 import useKeyComposition from '../../composables/private/use-key-composition.js'
 
-import { isDeepEqual } from '../../utils/is.js'
+import { isDeepEqual } from '../../utils/private/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
-import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition.js'
-import { hMergeSlot } from '../../utils/render.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { shouldIgnoreKey, isKeyCode } from '../../utils/private/key-composition.js'
+import { hMergeSlot } from '../../utils/private/render.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 const validateNewValueMode = v => [ 'add', 'add-unique', 'toggle' ].includes(v)
 const reEscapeList = '.*+?^${}()|[]\\'

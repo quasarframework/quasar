@@ -1,6 +1,6 @@
 import { watch, nextTick, onMounted } from 'vue'
 
-import { vmHasRouter, vmHasListener } from '../../utils/vm.js'
+import { vmHasRouter, vmHasListener } from '../../utils/private/vm.js'
 
 export const useModelToggleProps = {
   modelValue: {

@@ -5,8 +5,8 @@ import QIcon from '../icon/QIcon.js'
 
 import useFab, { useFabProps } from './use-fab.js'
 
-import { fabKey } from '../../utils/symbols.js'
-import { hMergeSlot } from '../../utils/render.js'
+import { fabKey } from '../../utils/private/symbols.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 import { noop } from '../../utils/event.js'
 
 const anchorMap = {

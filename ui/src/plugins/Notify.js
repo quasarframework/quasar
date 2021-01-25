@@ -8,7 +8,7 @@ import QSpinner from '../components/spinner/QSpinner.js'
 import useQuasar from '../composables/use-quasar.js'
 
 import { noop } from '../utils/event.js'
-import { createGlobalNode } from '../utils/global-nodes.js'
+import { createGlobalNode } from '../utils/private/global-nodes.js'
 import { provideQuasar } from '../install-quasar.js'
 
 let uid = 0, vm

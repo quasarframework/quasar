@@ -10,13 +10,13 @@ import useTick from '../../composables/use-tick.js'
 import useTimeout from '../../composables/use-timeout.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
-import { getTouchTarget } from '../../utils/touch.js'
+import { getTouchTarget } from '../../utils/private/touch.js'
 import { addEvt, cleanEvt } from '../../utils/event.js'
-import { clearSelection } from '../../utils/selection.js'
-import { hSlot } from '../../utils/render.js'
+import { clearSelection } from '../../utils/private/selection.js'
+import { hSlot } from '../../utils/private/render.js'
 import {
   validatePosition, validateOffset, setPosition, parsePosition
-} from '../../utils/position-engine.js'
+} from '../../utils/private/position-engine.js'
 
 export default defineComponent({
   name: 'QTooltip',

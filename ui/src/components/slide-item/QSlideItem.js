@@ -6,8 +6,8 @@ import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useCache from '../../composables/use-cache.js'
 
-import { hSlot } from '../../utils/render.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { hSlot } from '../../utils/private/render.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 const slotsDef = [
   [ 'left', 'center', 'start', 'width' ],

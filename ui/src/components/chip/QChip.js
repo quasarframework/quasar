@@ -9,7 +9,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { hMergeSlotSafely, hDir } from '../../utils/render.js'
+import { hMergeSlotSafely, hDir } from '../../utils/private/render.js'
 
 const defaultSizes = {
   xs: 8,

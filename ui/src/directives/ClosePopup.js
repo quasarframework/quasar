@@ -1,5 +1,5 @@
-import { closePortals, getPortalVm } from '../utils/portal.js'
-import { isKeyCode } from '../utils/key-composition.js'
+import { closePortals, getPortalVm } from '../utils/private/portal.js'
+import { isKeyCode } from '../utils/private/key-composition.js'
 
 /*
  * depth

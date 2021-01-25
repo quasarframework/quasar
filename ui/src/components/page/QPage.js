@@ -2,8 +2,8 @@ import { h, defineComponent, computed, inject } from 'vue'
 
 import useQuasar from '../../composables/use-quasar.js'
 
-import { hSlot } from '../../utils/render.js'
-import { pageContainerKey, layoutKey } from '../../utils/symbols.js'
+import { hSlot } from '../../utils/private/render.js'
+import { pageContainerKey, layoutKey } from '../../utils/private/symbols.js'
 
 export default defineComponent({
   name: 'QPage',

@@ -1,7 +1,7 @@
 import { client } from '../plugins/Platform.js'
-import { getTouchTarget } from '../utils/touch.js'
+import { getTouchTarget } from '../utils/private/touch.js'
 import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
-import { clearSelection } from '../utils/selection.js'
+import { clearSelection } from '../utils/private/selection.js'
 
 export default {
   name: 'touch-hold',

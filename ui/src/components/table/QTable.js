@@ -24,7 +24,7 @@ import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEm
 import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
 import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
 
-import { vmHasListener } from '../../utils/vm.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 const bottomClass = 'q-table__bottom row items-center'
 

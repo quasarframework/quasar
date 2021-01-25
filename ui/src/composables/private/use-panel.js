@@ -2,8 +2,8 @@ import { h, defineComponent, ref, computed, watch, nextTick, Transition, KeepAli
 
 import TouchSwipe from '../../directives/TouchSwipe.js'
 
-import { hSlot } from '../../utils/render.js'
-import { getNormalizedVNodes } from '../../utils/vm.js'
+import { hSlot } from '../../utils/private/render.js'
+import { getNormalizedVNodes } from '../../utils/private/vm.js'
 
 export const usePanelChildProps = {
   name: { required: true },

@@ -1,7 +1,7 @@
 import { h, ref, onUnmounted, Teleport } from 'vue'
 
-import { createGlobalNode, removeGlobalNode } from '../../utils/global-nodes.js'
-import { portalList } from '../../utils/portal.js'
+import { createGlobalNode, removeGlobalNode } from '../../utils/private/global-nodes.js'
+import { portalList } from '../../utils/private/portal.js'
 
 function isOnGlobalDialog (vm) {
   vm = vm.parent

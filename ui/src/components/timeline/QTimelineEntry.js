@@ -2,8 +2,8 @@ import { h, defineComponent, computed, inject } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import { hSlot, hUniqueSlot } from '../../utils/render.js'
-import { timelineKey } from '../../utils/symbols.js'
+import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
+import { timelineKey } from '../../utils/private/symbols.js'
 
 export default defineComponent({
   name: 'QTimelineEntry',

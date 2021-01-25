@@ -13,7 +13,7 @@ import { useRouterLinkProps } from '../../composables/private/use-router-link.js
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 import uid from '../../utils/uid.js'
 
 const itemGroups = shallowReactive({})

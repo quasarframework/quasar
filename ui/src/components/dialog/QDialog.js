@@ -9,9 +9,9 @@ import usePortal from '../../composables/private/use-portal.js'
 import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
 
 import { childHasFocus } from '../../utils/dom.js'
-import { hSlot } from '../../utils/render.js'
-import { addEscapeKey, removeEscapeKey } from '../../utils/escape-key.js'
-import { addFocusout, removeFocusout } from '../../utils/focusout.js'
+import { hSlot } from '../../utils/private/render.js'
+import { addEscapeKey, removeEscapeKey } from '../../utils/private/escape-key.js'
+import { addFocusout, removeFocusout } from '../../utils/private/focusout.js'
 
 let maximizedModals = 0
 

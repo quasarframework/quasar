@@ -5,7 +5,7 @@ import QBtnGroup from '../btn-group/QBtnGroup.js'
 
 import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
-import { hMergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QBtnToggle',

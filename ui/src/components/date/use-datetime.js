@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 
-import { toJalaali } from '../../utils/date-persian.js'
+import { toJalaali } from '../../utils/private/date-persian.js'
 import { pad } from '../../utils/format.js'
 
 const calendars = [ 'gregorian', 'persian' ]

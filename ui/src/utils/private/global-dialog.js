@@ -1,6 +1,6 @@
 import { h, createApp, ref, nextTick } from 'vue'
 
-import { appInstance, provideQuasar } from '../install-quasar.js'
+import { appInstance, provideQuasar } from '../../install-quasar.js'
 import { createGlobalNode, removeGlobalNode } from './global-nodes.js'
 
 const ssrAPI = {

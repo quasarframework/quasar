@@ -3,9 +3,9 @@ import { h, defineComponent, ref, watch, onMounted, onBeforeUnmount, getCurrentI
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 import { listenOpts } from '../../utils/event.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 const { passive } = listenOpts
 

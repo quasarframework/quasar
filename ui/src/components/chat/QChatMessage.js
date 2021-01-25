@@ -1,6 +1,6 @@
 import { h, defineComponent, computed } from 'vue'
 
-import { hUniqueSlot } from '../../utils/render.js'
+import { hUniqueSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QChatMessage',

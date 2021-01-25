@@ -4,7 +4,7 @@ import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import usePanel, { usePanelProps } from '../../composables/private/use-panel.js'
 
-import { hDir } from '../../utils/render.js'
+import { hDir } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QTabPanels',

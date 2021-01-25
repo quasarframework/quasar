@@ -9,7 +9,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useValidate, { useValidateProps } from './use-validate.js'
 import useSplitAttrs from './use-split-attrs.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 import uid from '../../utils/uid.js'
 import { prevent, stopAndPrevent } from '../../utils/event.js'
 

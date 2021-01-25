@@ -2,8 +2,8 @@ import { h, defineComponent, computed } from 'vue'
 
 import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
 
-import { hSlot } from '../../utils/render.js'
-import { getNormalizedVNodes } from '../../utils/vm.js'
+import { hSlot } from '../../utils/private/render.js'
+import { getNormalizedVNodes } from '../../utils/private/vm.js'
 
 export default defineComponent({
   name: 'QBreadcrumbs',

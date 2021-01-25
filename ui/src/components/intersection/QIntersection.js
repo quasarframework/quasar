@@ -4,8 +4,8 @@ import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import Intersection from '../../directives/Intersection.js'
 
-import { hSlot, hDir } from '../../utils/render.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { hSlot, hDir } from '../../utils/private/render.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 export default defineComponent({
   name: 'QIntersection',

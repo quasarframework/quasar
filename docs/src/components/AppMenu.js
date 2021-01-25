@@ -7,7 +7,7 @@ import {
   QBadge
 } from 'quasar'
 
-import { getParentVm } from 'quasar/src/utils/vm.js'
+import { getParentVm } from 'quasar/src/utils/private/vm.js'
 import { h, ref, watch, onBeforeUpdate } from 'vue'
 import { useRoute } from 'vue-router'
 

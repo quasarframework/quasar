@@ -11,7 +11,7 @@ import useFile, { useFileProps, useFileEmits } from './private/use-file.js'
 
 import { stop } from '../utils/event.js'
 import { humanStorageSize } from '../utils/format.js'
-import { uploaderKey } from '../utils/symbols.js'
+import { uploaderKey } from '../utils/private/symbols.js'
 
 function getProgressLabel (p) {
   return (p * 100).toFixed(2) + '%'

@@ -1,4 +1,4 @@
-import { getParentVm } from '../utils/vm.js'
+import { getParentVm } from './vm.js'
 
 export const portalList = []
 

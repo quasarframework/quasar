@@ -6,7 +6,7 @@ import Lang from './lang.js'
 import Body from './body.js'
 import IconSet from './icon-set.js'
 
-import { quasarKey } from './utils/symbols.js'
+import { quasarKey } from './utils/private/symbols.js'
 
 const autoInstalled = [
   Platform, Screen, Dark

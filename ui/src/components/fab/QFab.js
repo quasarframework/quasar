@@ -7,8 +7,8 @@ import useFab, { useFabProps } from './use-fab.js'
 import useQuasar from '../../composables/use-quasar.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
-import { hSlot, hMergeSlot } from '../../utils/render.js'
-import { fabKey } from '../../utils/symbols.js'
+import { hSlot, hMergeSlot } from '../../utils/private/render.js'
+import { fabKey } from '../../utils/private/symbols.js'
 
 const directions = [ 'up', 'right', 'down', 'left' ]
 const alignValues = [ 'left', 'center', 'right' ]

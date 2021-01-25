@@ -1,18 +1,17 @@
 import Platform from './Platform.js'
 import { noop } from '../utils/event.js'
-import { getBrand } from '../utils/colors.js'
+import getCssVar from '../utils/get-css-var.js'
 
 let metaValue
 
 function getProp () {
-  if (Platform.is.winphone) {
-    return 'msapplication-navbutton-color'
-  }
-  if (Platform.is.safari) {
-    return 'apple-mobile-web-app-status-bar-style'
-  }
-  // Chrome, Firefox OS, Opera, Vivaldi
-  return 'theme-color'
+  return Platform.is.winphone
+    ? 'msapplication-navbutton-color'
+    : (
+        Platform.is.safari
+          ? 'apple-mobile-web-app-status-bar-style'
+          : 'theme-color' // Chrome, Firefox OS, Opera, Vivaldi, ...
+      )
 }
 
 function getMetaTag (v) {
@@ -53,7 +52,7 @@ export default {
       || Platform.is.webkit === true || Platform.is.vivaldi === true
     )
       ? hexColor => {
-          const val = hexColor || getBrand('primary')
+          const val = hexColor || getCssVar('primary')
 
           if (Platform.is.nativeMobile === true && window.StatusBar) {
             window.StatusBar.backgroundColorByHexString(val)

@@ -6,7 +6,7 @@ import QBtn from '../btn/QBtn.js'
 import useQuasar from '../../composables/use-quasar.js'
 
 import clone from '../../utils/clone.js'
-import { isDeepEqual } from '../../utils/is.js'
+import { isDeepEqual } from '../../utils/private/is.js'
 
 export default defineComponent({
   name: 'QPopupEdit',

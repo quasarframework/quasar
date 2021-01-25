@@ -263,31 +263,6 @@ export function changeAlpha (color, offset) {
   })
 }
 
-export function setBrand (color, value, element = document.body) {
-  if (typeof color !== 'string') {
-    throw new TypeError('Expected a string as color')
-  }
-  if (typeof value !== 'string') {
-    throw new TypeError('Expected a string as value')
-  }
-  if (!(element instanceof Element)) {
-    throw new TypeError('Expected a DOM element')
-  }
-
-  element.style.setProperty(`--q-${ color }`, value)
-}
-
-export function getBrand (color, element = document.body) {
-  if (typeof color !== 'string') {
-    throw new TypeError('Expected a string as color')
-  }
-  if (!(element instanceof Element)) {
-    throw new TypeError('Expected a DOM element')
-  }
-
-  return getComputedStyle(element).getPropertyValue(`--q-${ color }`).trim() || null
-}
-
 export function getPaletteColor (colorName) {
   if (typeof colorName !== 'string') {
     throw new TypeError('Expected a string as color')
@@ -316,7 +291,5 @@ export default {
   brightness,
   blend,
   changeAlpha,
-  setBrand,
-  getBrand,
   getPaletteColor
 }

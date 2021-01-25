@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import { colors } from 'quasar'
-const { setBrand, luminosity } = colors
+import { colors, setCssVar } from 'quasar'
+const { luminosity } = colors
 
 export default {
   data () {
@@ -219,7 +219,7 @@ Vue.use(Quasar, {
 
   methods: {
     update (color, val) {
-      setBrand(color, val, document.getElementById('theme-picker'))
+      setCssVar(color, val, document.getElementById('theme-picker'))
       this.dark[ color ] = luminosity(val) <= 0.4
     }
   }

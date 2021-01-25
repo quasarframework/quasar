@@ -1,6 +1,6 @@
 import { defineComponent, inject } from 'vue'
 
-import { uploaderKey } from '../../utils/symbols.js'
+import { uploaderKey } from '../../utils/private/symbols.js'
 
 export default defineComponent({
   name: 'QUploaderAddTrigger',

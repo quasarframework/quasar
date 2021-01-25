@@ -8,14 +8,10 @@ Quasar provides a set of useful functions to manipulate colors easily in most us
 ### Helping Tree-Shake
 You will notice all examples import `colors` Object from Quasar. However, if you need only one method from it, then you can use ES6 destructuring to help Tree Shaking embed only that method and not all of `colors`.
 
-Example with `setBrand()`:
+Example with `setCssVar()`:
 ```js
-// we import all of `colors`
-import { colors } from 'quasar'
-// destructuring to keep only what is needed
-const { setBrand } = colors
-
-setBrand('primary', '#f33')
+import { setCssVar } from 'quasar'
+setCssVar('primary', '#f33')
 ```
 
 ::: tip
@@ -83,8 +79,8 @@ The recommended workflow is to set your customized color properties on the `html
 
 More info on CSS custom properties (variables): https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables
 
-### Helper - setBrand
-Quasar offers a helper function for setting custom colors in the `colors` utils: `setBrand(colorName, colorValue[, element])`
+### Helper - setCssVar
+Quasar offers a helper function for setting Quasar CSS variables that can be used for colors too: `setCssVar(colorName, colorValue[, element])`
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -95,17 +91,17 @@ Quasar offers a helper function for setting custom colors in the `colors` utils:
 Example of setting brand colors using the helper:
 
 ```js
-import { colors } from 'quasar'
+import { setCssVar } from 'quasar'
 
-colors.setBrand('info', '#DDD')
-colors.setBrand('primary', '#33F')
-colors.setBrand('primary', '#F33', document.getElementById('rebranded-section-id'))
+setCssVar('info', '#DDD')
+setCssVar('primary', '#33F')
+setCssVar('primary', '#F33', document.getElementById('rebranded-section-id'))
 ```
 
 The helper function will also take care of setting dependent custom properties for brand colors, so this is the recommended way of usage instead of the raw Javascript `setProperty()`.
 
-### Helper - getBrand
-Quasar offers a helper function for getting custom colors in the `colors` utils: `getBrand(colorName[, element])`
+### Helper - getCssVar
+Quasar offers a helper function for getting the value of Quasar CSS variables that can be used for brand colors too: `getCssVar(colorName[, element])`
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
@@ -117,43 +113,43 @@ Example of getting brand colors using the helper:
 ```js
 import { colors } from 'quasar'
 
-colors.getBrand('primary') // '#33F'
-colors.getBrand('primary', document.getElementById('rebranded-section-id'))
+getCssVar('primary') // '#33F'
+getCssVar('primary', document.getElementById('rebranded-section-id'))
 ```
 
 What this helper does is wrap the raw Javascript `getPropertyValue()` and it's available for convenience. Example of equivalent raw Javascript:
 
 ```js
-// equivalent of colors.getBrand('primary') in raw Javascript:
+// equivalent of getCssVar('primary') in raw Javascript:
 
 getComputedStyle(document.documentElement)
-  .getPropertyValue('--q-color-primary') // #0273d4
+  .getPropertyValue('--q-primary') // #0273d4
 ```
 
 ### Create Dynamic Custom Colors
-You can use `setBrand` and `getBrand` to define custom brand colors to use in your application.
+You can use `setCssVar` and `getCssVar` to define custom brand colors to use in your application.
 An example of such a new custom color usage:
 
 ```sass
 $primary-darkened : scale-color($primary, $lightness: -40%)
 
 :root
-  --q-color-primary-darkened: $primary-darkened
+  --q-primary-darkened: $primary-darkened
 
 .text-primary-darkened
-  color: var(--q-color-primary-darkened) !important
+  color: var(--q-primary-darkened) !important
 .bg-primary-darkened
-  background: var(--q-color-primary-darkened) !important
+  background: var(--q-primary-darkened) !important
 ```
 
 ```js
-import { colors } from 'quasar'
+import { colors, setCssVar } from 'quasar'
 
-const { lighten, setBrand } = colors
+const { lighten } = colors
 
 const newPrimaryColor = '#933'
-setBrand('primary', newPrimaryColor)
-setBrand('primary-darkened', lighten(newPrimaryColor, -10))
+setCssVar('primary', newPrimaryColor)
+setCssVar('primary-darkened', lighten(newPrimaryColor, -10))
 ```
 
 ## Helper - getPaletteColor

@@ -12,7 +12,7 @@ import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { shouldIgnoreKey } from '../../utils/key-composition.js'
+import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 
 export default defineComponent({
   name: 'QTree',

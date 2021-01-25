@@ -2,8 +2,8 @@ import { h, createApp, Transition, onMounted } from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
 
-import defineReactivePlugin from '../utils/define-reactive-plugin.js'
-import { createGlobalNode, removeGlobalNode } from '../utils/global-nodes.js'
+import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
+import { createGlobalNode, removeGlobalNode } from '../utils/private/global-nodes.js'
 import preventScroll from '../utils/prevent-scroll.js'
 
 let

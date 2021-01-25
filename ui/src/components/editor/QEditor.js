@@ -10,7 +10,7 @@ import useSplitAttrs from '../../composables/private/use-split-attrs.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'
-import { shouldIgnoreKey } from '../../utils/key-composition.js'
+import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 
 export default defineComponent({
   name: 'QEditor',

@@ -1,9 +1,9 @@
 import { h, defineComponent, ref, onMounted, getCurrentInstance, nextTick, provide } from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { hSlot } from '../../utils/render.js'
-import { formKey } from '../../utils/symbols.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { hSlot } from '../../utils/private/render.js'
+import { formKey } from '../../utils/private/symbols.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 export default defineComponent({
   name: 'QForm',

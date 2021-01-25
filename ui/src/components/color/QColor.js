@@ -19,7 +19,7 @@ import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
 import { stop } from '../../utils/event.js'
 import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
-import { hDir } from '../../utils/render.js'
+import { hDir } from '../../utils/private/render.js'
 
 const palette = [
   'rgb(255,204,204)', 'rgb(255,230,204)', 'rgb(255,255,204)', 'rgb(204,255,204)', 'rgb(204,255,230)', 'rgb(204,255,255)', 'rgb(204,230,255)', 'rgb(204,204,255)', 'rgb(230,204,255)', 'rgb(255,204,255)',

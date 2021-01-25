@@ -1,5 +1,5 @@
 import { ref, computed, watch, nextTick } from 'vue'
-import { vmHasListener } from '../../utils/vm.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 function samePagination (oldPag, newPag) {
   for (const prop in newPag) {

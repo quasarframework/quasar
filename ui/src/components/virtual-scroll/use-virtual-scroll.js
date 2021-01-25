@@ -2,7 +2,7 @@ import { h, ref, computed, watch, onBeforeMount, onBeforeUnmount, nextTick } fro
 
 import debounce from '../../utils/debounce.js'
 import { noop } from '../../utils/event.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 const aggBucketSize = 1000
 

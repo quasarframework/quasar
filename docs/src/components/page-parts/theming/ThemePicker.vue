@@ -76,8 +76,7 @@
         q-tab(name="sass", no-caps, label="Sass")
         q-tab(name="scss", no-caps, label="SCSS")
         q-tab(name="quasar-cli", no-caps, label="Quasar CLI")
-        q-tab(name="umd", no-caps, label="UMD")
-        q-tab(name="vue-cli", no-caps, label="Vue CLI")
+        q-tab(name="umd", no-caps, label="UMD / Vue CLI")
 
       q-separator
 
@@ -105,7 +104,7 @@
 
 <script>
 import { ref, reactive, computed, watch } from 'vue'
-import { colors } from 'quasar'
+import { colors, setCssVar } from 'quasar'
 
 import {
   fasSquare, fasCircle, fasPlay
@@ -115,10 +114,10 @@ import {
   mdiArrowLeft, mdiMagnify, mdiMenu, mdiMapMarkerRadius
 } from '@quasar/extras/mdi-v5'
 
-const { setBrand, luminosity } = colors
+const { luminosity } = colors
 
 export default {
-  name: 'ThemeBuilder',
+  name: 'ThemePicker',
 
   setup () {
     const colors = reactive({
@@ -151,7 +150,7 @@ export default {
     const exportTab = ref('sass')
 
     function update (color, val) {
-      setBrand(color, val, document.getElementById('theme-picker'))
+      setCssVar(color, val, document.getElementById('theme-picker'))
       dark[ color ] = luminosity(val) <= 0.4
     }
 
@@ -233,27 +232,6 @@ return {
 }`
     })
 
-    const vueCliExport = computed(() => {
-      return `// main.js
-
-app.use(Quasar, {
-  config: {
-    brand: {
-      primary: '${colors.primary}',
-      secondary: '${colors.secondary}',
-      accent: '${colors.accent}',
-
-      dark: '${colors.dark}',
-
-      positive: '${colors.positive}',
-      negative: '${colors.negative}',
-      info: '${colors.info}',
-      warning: '${colors.warning}'
-    }
-  }
-})`
-    })
-
     return {
       fasSquare,
       fasCircle,
@@ -277,8 +255,7 @@ app.use(Quasar, {
       sassExport,
       scssExport,
       quasarCliExport,
-      umdExport,
-      vueCliExport
+      umdExport
     }
   }
 }

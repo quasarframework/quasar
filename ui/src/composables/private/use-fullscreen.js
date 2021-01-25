@@ -1,7 +1,7 @@
 import { ref, watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
 
 import History from '../../history.js'
-import { vmHasRouter } from '../../utils/vm.js'
+import { vmHasRouter } from '../../utils/private/vm.js'
 
 export const useFullscreenProps = {
   fullscreen: Boolean,

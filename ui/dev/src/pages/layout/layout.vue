@@ -476,7 +476,7 @@
 </style>
 
 <script>
-import { colors } from 'quasar'
+import { setCssVar } from 'quasar'
 
 export default {
   data () {
@@ -547,7 +547,7 @@ export default {
   },
   watch: {
     mainColor (v) {
-      colors.setBrand('primary', v)
+      setCssVar('primary', v)
     }
   },
   methods: {

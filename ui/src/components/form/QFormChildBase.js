@@ -1,5 +1,5 @@
 import { noop } from '../../utils/event.js'
-import { formKey } from '../../utils/symbols.js'
+import { formKey } from '../../utils/private/symbols.js'
 
 export default {
   inject: {

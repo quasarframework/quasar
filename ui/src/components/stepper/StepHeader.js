@@ -4,7 +4,7 @@ import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/Ripple.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import { hDir } from '../../utils/render.js'
+import { hDir } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'StepHeader',

@@ -1,4 +1,4 @@
-import { client, iosEmulated } from '../plugins/Platform.js'
+import { client, iosEmulated } from '../../plugins/Platform.js'
 
 const directions = [ 'left', 'right', 'up', 'down', 'horizontal', 'vertical' ]
 

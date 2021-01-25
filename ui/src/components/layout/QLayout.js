@@ -8,9 +8,9 @@ import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import { getScrollbarWidth } from '../../utils/scroll.js'
-import { hMergeSlot } from '../../utils/render.js'
-import { layoutKey } from '../../utils/symbols.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { hMergeSlot } from '../../utils/private/render.js'
+import { layoutKey } from '../../utils/private/symbols.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 export default defineComponent({
   name: 'QLayout',

@@ -8,9 +8,9 @@ import useTick from '../../composables/use-tick.js'
 import useTimeout from '../../composables/use-timeout.js'
 
 import { noop } from '../../utils/event.js'
-import { hSlot } from '../../utils/render.js'
-import { tabsKey } from '../../utils/symbols.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { hSlot } from '../../utils/private/render.js'
+import { tabsKey } from '../../utils/private/symbols.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true

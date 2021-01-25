@@ -1,4 +1,4 @@
-import { listenOpts } from './event.js'
+import { listenOpts } from '../event.js'
 
 let timer
 

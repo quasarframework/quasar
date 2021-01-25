@@ -80,9 +80,7 @@ function addUtils (map) {
     .map(relative)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
-      if (isExternalUtil(name)) {
-        map[ name === 'open-url' ? 'openURL' : lowerCamelCase(name) ] = file
-      }
+      map[ name === 'open-url' ? 'openURL' : lowerCamelCase(name) ] = file
     })
 }
 

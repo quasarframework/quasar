@@ -4,7 +4,7 @@ import debounce from '../../utils/debounce.js'
 import { height } from '../../utils/dom.js'
 import { getScrollTarget, getScrollHeight, getVerticalScrollPosition, setVerticalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
-import { hSlot, hUniqueSlot } from '../../utils/render.js'
+import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QInfiniteScroll',

@@ -10,18 +10,18 @@ import useTransition, { useTransitionProps } from '../../composables/private/use
 import useTick from '../../composables/use-tick.js'
 import useTimeout from '../../composables/use-timeout.js'
 
-import { closePortalMenus } from '../../utils/portal.js'
+import { closePortalMenus } from '../../utils/private/portal.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
-import { hSlot } from '../../utils/render.js'
-import { addEscapeKey, removeEscapeKey } from '../../utils/escape-key.js'
-import { addFocusout, removeFocusout } from '../../utils/focusout.js'
+import { hSlot } from '../../utils/private/render.js'
+import { addEscapeKey, removeEscapeKey } from '../../utils/private/escape-key.js'
+import { addFocusout, removeFocusout } from '../../utils/private/focusout.js'
 import { childHasFocus } from '../../utils/dom.js'
-import { addClickOutside, removeClickOutside } from '../../utils/click-outside.js'
+import { addClickOutside, removeClickOutside } from '../../utils/private/click-outside.js'
 
 import {
   validatePosition, validateOffset, setPosition, parsePosition
-} from '../../utils/position-engine.js'
+} from '../../utils/private/position-engine.js'
 
 export default defineComponent({
   name: 'QMenu',

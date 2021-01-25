@@ -4,9 +4,9 @@ import QIcon from '../icon/QIcon.js'
 
 import Ripple from '../../directives/Ripple.js'
 
-import { hMergeSlot, hDir } from '../../utils/render.js'
-import { isKeyCode } from '../../utils/key-composition.js'
-import { tabsKey } from '../../utils/symbols.js'
+import { hMergeSlot, hDir } from '../../utils/private/render.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
+import { tabsKey } from '../../utils/private/symbols.js'
 
 let uid = 0
 

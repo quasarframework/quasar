@@ -1,4 +1,4 @@
-import { isDeepEqual } from '../utils/is.js'
+import { isDeepEqual } from '../utils/private/is.js'
 
 const defaultCfg = {
   threshold: 0,

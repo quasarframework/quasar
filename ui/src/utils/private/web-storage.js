@@ -1,4 +1,4 @@
-import { noop } from '../utils/event.js'
+import { noop } from '../event.js'
 
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {

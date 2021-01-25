@@ -4,7 +4,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 const crossoriginValues = [ 'anonymous', 'use-credentials' ]
 const loadingValues = [ 'eager', 'lazy' ]

@@ -1,6 +1,6 @@
 import { inject, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import { formKey } from '../utils/symbols.js'
+import { formKey } from '../utils/private/symbols.js'
 
 export default function ({ validate, requiresQForm }) {
   const $form = inject(formKey, false)
