@@ -567,6 +567,8 @@ This section refers to "@quasar/app" v3 package.
 * The url-loader configuration has been enhanced so it now also supports "ico" files out of the box
 * Removed support for quasar.conf.js > framework > `importStrategy: 'all'` since the auto import feature has become so good anyways (so it's now enabled by default).
 
+Nothing changed in regards to how App Extensions work.
+
 ### Quasar Extras
 Nothing changed. You can use it as for Quasar UI v1.
 

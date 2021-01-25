@@ -16,7 +16,7 @@ const { getScrollTarget } = scroll
 
 // Get parent DomNode that handles page scrolling
 // Usually this is element with classname ".layout-view" or "window"
-(DOM Element) getScrollTarget(DomElement)
+getScrollTarget(DomElement) // returns a DOM Element (or window Object)
 ```
 
 This method searches for a parent DOM element which has one of the `scroll` or `overflow-auto` Quasar CSS Helper class attached to it. If none is found, then it considers that the scrolling takes place on the document itself.
@@ -44,7 +44,7 @@ const { getVerticalScrollPosition, setVerticalScrollPosition } = scroll
 
 // Get scroll position of a element or page.
 // Use it in conjunction with `getScrollTarget()`
-(Number pixels) getVerticalScrollPosition(scrollTargetDomElement)
+getVerticalScrollPosition(scrollTargetDomElement) // returns a Number (pixels)
 
 // Setting scroll position of an element or page:
 setVerticalScrollPosition (scrollTargetElement, offset[, duration])
@@ -59,7 +59,7 @@ const { getHorizontalScrollPosition, setHorizontalScrollPosition } = scroll
 
 // Get scroll position of a element or page.
 // Use it in conjunction with `getScrollTarget()`
-(Number pixels) getHorizontalScrollPosition(scrollTargetDomElement)
+getHorizontalScrollPosition(scrollTargetDomElement) // returns a Number (pixels)
 
 // Setting scroll position of an element or page:
 setHorizontalScrollPosition (scrollTargetElement, offset[, duration])
@@ -90,7 +90,7 @@ import { scroll } from 'quasar'
 const { getScrollHeight } = scroll
 
 // get scrolling container inner height
-(Number) getScrollHeight(scrollTargetDomElement)
+getScrollHeight(scrollTargetDomElement) // returns a Number
 
 console.log( getScrollHeight(el) )
 // 824 (it's in pixels always)
@@ -103,7 +103,7 @@ import { scroll } from 'quasar'
 const { getScrollWidth } = scroll
 
 // get scrolling container inner height
-(Number) getScrollWidth(scrollTargetDomElement)
+getScrollWidth(scrollTargetDomElement) // returns a Number
 
 console.log( getScrollWidth(el) )
 // 824 (it's in pixels always)
