@@ -53,7 +53,7 @@ Include the language pack JS tag for your Quasar version and also tell Quasar to
 
 ```html
 <!-- include this after Quasar JS tag -->
-<script src="https://cdn.jsdelivr.net/npm/quasar@v1.0.0/dist/lang/de.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quasar@v1.0.0/dist/lang/de.umd.prod.js"></script>
 <script>
   Quasar.lang.set(Quasar.lang.de)
 </script>
@@ -72,7 +72,7 @@ export default async () => {
 
   try {
     await import(
-      /* webpackInclude: /(de|en-us)\.js$/ */
+      /* webpackInclude: /(de|en-US)\.js$/ */
       'quasar/lang/' + langIso
       )
       .then(lang => {
@@ -110,7 +110,7 @@ export default async ({ ssrContext }) => {
 
   try {
     await import(
-      /* webpackInclude: /(de|en-us)\.js$/ */
+      /* webpackInclude: /(de|en-US)\.js$/ */
       'quasar/lang/' + langIso
       )
       .then(lang => {
