@@ -84,6 +84,10 @@ There are two paths that you can follow and they are described below. Choose wha
 
 #### Option 1: Convert a project
 
+::: danger Important!
+This guide assumes that you are currently using a `@quasar/app` v2 project.
+:::
+
 Before starting, it might be wise to work on this on a new git branch or on a copy of your current working project.
 
 1) **Stylus related**: Are you using Stylus and Quasar Stylus variables? Then before anything, convert all those files to Sass/SCSS (including src/css/app.styl -> src/css/app.sass or app.scss). If you will still want to use Stylus in your project (without Quasar Stylus variables), then you'll also need to install the stylus related packages (which are no longer supplied by "@quasar/app" out of the box):

@@ -35,6 +35,11 @@ Under Windows, modify user's PATH environment variable. If you are using yarn th
 Then we create a project folder with Quasar CLI:
 
 ```bash
+## Quasar UI v2 beta project
+$ quasar create <folder_name> --branch v2
+
+## After Quasar v2 is stable (out of beta):
+## (Don't use the following for now as it will generate a Quasar UI v1 project!)
 $ quasar create <folder_name>
 ```
 

@@ -15,10 +15,14 @@ If you turn off the node integration, then in the renderer thread you won't be a
 Example of what you WON'T be able to do:
 
 ```js
+import { useQuasar } from 'quasar'
+
 export default {
-  methods: {
-    minimize () {
-      this.$q.electron.remote.BrowserWindow.getFocusedWindow().minimize()
+  setup () {
+    const $q = useQuasar()
+
+    function minimize () {
+      $q.electron.remote.BrowserWindow.getFocusedWindow().minimize()
 
       // equivalent to:
       const { remote } = require('electron')

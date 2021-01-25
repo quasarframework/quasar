@@ -7,10 +7,14 @@ desc: Tips and tricks for a Quasar desktop app with Electron.
 While you are developing with Electron Mode, you can access `this.$q.electron` in your Vue files. This is an alias to the `electron` Object when imported.
 
 ```js
+import { useQuasar } from 'quasar'
+
 export default {
-  methods: {
-    minimize () {
-      this.$q.electron.remote.BrowserWindow.getFocusedWindow().minimize()
+  setup () {
+    const $q = useQuasar()
+
+    function minimize () {
+      $q.electron.remote.BrowserWindow.getFocusedWindow().minimize()
 
       // equivalent to:
       const { remote } = require('electron')
@@ -21,7 +25,7 @@ export default {
 ```
 
 ::: warning
-Accessing `this.$q.electron` requires that the [Node Integration](/quasar-cli/developing-electron-apps/node-integration) is kept turned "on".
+Accessing `$q.electron` requires that the [Node Integration](/quasar-cli/developing-electron-apps/node-integration) is kept turned "on".
 :::
 
 ## Read & Write Local Files

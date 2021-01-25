@@ -20,17 +20,16 @@ A boot file is a simple JavaScript file which can optionally export a function. 
 
 | Prop name | Description |
 | --- | --- |
-| `app` | Object with which the root component gets instantiated by Vue |
+| `app` | Vue app instance |
 | `router` | Instance of Vue Router from 'src/router/index.js' |
 | `store` | Instance of the app Vuex Store - **store only will be passed if your project uses Vuex (you have src/store)** |
-| `Vue` | Is same as if we do `import Vue from 'vue'` and it's there for convenience |
 | `ssrContext` | Available only on server-side, if building for SSR |
 | `urlPath` | The pathname (path + search) part of the URL. It also contains the hash on client-side. |
 | `publicPath` | The configured public path. |
 | `redirect` | Function to call to redirect to another URL. Accepts String (URL path) or a Vue Router location Object. |
 
 ```js
-export default ({ app, router, store, Vue }) => {
+export default ({ app, router, store }) => {
   // something to do
 }
 ```
@@ -38,7 +37,7 @@ export default ({ app, router, store, Vue }) => {
 Boot files can also be async:
 
 ```js
-export default async ({ app, router, store, Vue }) => {
+export default async ({ app, router, store }) => {
   // something to do
   await something()
 }
@@ -49,17 +48,13 @@ You can wrap the returned function with `boot` helper to get a better IDE autoco
 ```js
 import { boot } from 'quasar/wrappers'
 
-export default boot(async ({ app, router, store, Vue }) => {
+export default boot(async ({ app, router, store }) => {
   // something to do
   await something()
 })
 ```
 
 Notice we are using the [ES6 destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment). Only assign what you actually need/use.
-
-::: danger
-Never call `new Vue(App)` in your boot files as this will completely break your website/app. You don't need it since Quasar CLI takes care of instantiating your App with Vue.
-:::
 
 You may ask yourself why we need to export a function. This is actually optional, but before you decide to remove the default export, you need to understand when you need it:
 
@@ -69,7 +64,7 @@ You may ask yourself why we need to export a function. This is actually optional
 //  - Good place for import statements,
 //  - No access to router, Vuex store, ...
 
-export default async ({ app, router, store, Vue }) => {
+export default async ({ app, router, store }) => {
   // Code here has access to the Object param above, connecting
   // with other parts of your app;
 
@@ -96,7 +91,7 @@ Boot files fulfill one special purpose: they run code **before** the App's Vue r
 * Your Vue plugin has installation instructions, like needing to call `app.use()` on it.
 * Your Vue plugin requires instantiation of data that is added to the root instance - An example would be [vue-i18n](https://github.com/kazupon/vue-i18n/).
 * You want to add a global mixin using `app.mixin()`.
-* You want to add something to the Vue prototype for convenient access - An example would be to conveniently use `this.$axios` inside your Vue files instead of importing Axios in each such file.
+* You want to add something to the Vue prototype for convenient access - An example would be to conveniently use `this.$axios` inside your Vue files instead of importing Axios in each such file. // TODO vue3
 * You want to interfere with the router - An example would be to use `router.beforeEach` for authentication
 * You want to interfere with the Vuex store instance - An example would be to use `vuex-router-sync` package
 * Configure aspects of libraries - An example would be to create an instance of Axios with a base URL; you can then inject it into Vue prototype and/or export it (so you can import the instance from anywhere else in your app)
@@ -120,7 +115,7 @@ This command creates a new file: `/src/boot/<name>.js` with the following conten
 
 // "async" is optional!
 // remove it if you don't need it
-export default async ({ /* app, router, store, Vue */ }) => {
+export default async ({ /* app, router, store */ }) => {
   // something to do
 }
 ```
@@ -130,7 +125,7 @@ You can also return a Promise:
 ```js
 // import something here
 
-export default ({ /* app, router, store, Vue */ }) => {
+export default ({ /* app, router, store */ }) => {
   return new Promise((resolve, reject) => {
     // do something
   })

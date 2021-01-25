@@ -59,7 +59,8 @@ const redirects = [
   { from: '/quasar-cli/cli-documentation/handling-webpack', to: '/quasar-cli/handling-webpack' },
   { from: '/quasar-cli/cli-documentation/handling-process-env', to: '/quasar-cli/handling-process-env' },
   { from: '/quasar-cli/cli-documentation/vuex-store', to: '/quasar-cli/vuex-store' },
-  { from: '/quasar-cli/cli-documentation/linter', to: '/quasar-cli/linter' }
+  { from: '/quasar-cli/cli-documentation/linter', to: '/quasar-cli/linter' },
+  { from: '/quasar-cli/app-upgrade-guide', to: '/quasar-cli/installation' }
 ]
 
 redirects.forEach(entry => {

@@ -142,10 +142,6 @@ const cli = [
     path: 'installation'
   },
   {
-    name: 'Upgrade guide (v2)',
-    path: 'app-upgrade-guide'
-  },
-  {
     name: 'quasar.conf.js',
     path: 'quasar-conf-js'
   },
