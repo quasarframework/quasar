@@ -309,20 +309,8 @@
               "__exemption": [ "examples" ]
             },
 
-            "parent": {
+            "componentProps": {
               "type": "Object",
-              "desc": "Required if using 'component' prop and you need access to vuex store, router and so on; Specify Vue parent component",
-              "examples": [ "parent: this" ]
-            },
-
-            "root": {
-              "type": "Object",
-              "desc": "Deprecated alias for parent",
-              "examples": [ "root: this" ]
-            },
-
-            "...props": {
-              "type": "Any",
               "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used",
               "__exemption": [ "examples" ]
             }
