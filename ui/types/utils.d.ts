@@ -53,3 +53,6 @@ interface MorphOptions {
 }
 
 export function morph(options: MorphOptions): (abort?: boolean) => boolean;
+
+export function getCssVar(varName: string, element?: Element): string | null;
+export function setCssVar(varName: string, value: string, element?: Element): void;
