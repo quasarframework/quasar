@@ -279,6 +279,7 @@ function writeIndexDTS (apis) {
   // We expose `ts-helpers` because they are needed by `@quasar/app` augmentations
   writeLine(quasarTypeContents, 'export * from \'./ts-helpers\'')
   writeLine(quasarTypeContents, 'export * from \'./utils\'')
+  writeLine(quasarTypeContents, 'export * from \'./composables\'')
   writeLine(quasarTypeContents, 'export * from \'./feature-flag\'')
   writeLine(quasarTypeContents, 'export * from \'./globals\'')
   writeLine(quasarTypeContents, 'export * from \'./extras\'')
@@ -400,7 +401,6 @@ function writeIndexDTS (apis) {
   // These imports force TS compiler to evaluate contained declarations
   //  which by defaults would be ignored because inside node_modules
   //  and not directly referenced by any file
-  writeLine(contents, 'import \'./vue\'')
   writeLine(contents, 'import \'./shim-icon-set\'')
 
   writeFile(resolvePath('index.d.ts'), contents.join(''))
