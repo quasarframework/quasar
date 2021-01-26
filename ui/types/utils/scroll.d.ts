@@ -1,7 +1,7 @@
-import Vue from 'vue'
+import { Ref, ComponentPublicInstance } from 'vue'
 
 export namespace scroll {
-  function getScrollTarget(el: Element, selector?: string | Element | Window | Vue): Element | Window;
+  function getScrollTarget(el: Element, selector?: string | Element | Window | Ref<ComponentPublicInstance | undefined>): Element | Window;
 
   function getScrollHeight(el: Element | Window): number;
   function getScrollWidth(el: Element | Window): number;
