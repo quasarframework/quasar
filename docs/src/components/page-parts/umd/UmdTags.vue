@@ -28,29 +28,31 @@ q-card(flat bordered)
 
   q-separator
 
-  q-card-section.q-gutter-sm.column
-    q-select(
-      label="Quasar Language Pack"
-      dense
-      outlined
-      :options="langOptions"
-      emit-value
-      map-options
-      options-dense
-      v-model="lang"
-      style="width: 100%"
-    )
+  q-card-section.q-col-gutter-sm.row
+    .col-xs-12.col-md-6
+      q-select(
+        label="Quasar Language Pack"
+        dense
+        outlined
+        :options="langOptions"
+        emit-value
+        map-options
+        options-dense
+        v-model="lang"
+        style="width: 100%"
+      )
 
-    q-select(
-      label="Quasar Icon Set"
-      dense
-      outlined
-      :options="iconSetOptions"
-      options-dense
-      emit-value
-      map-options
-      v-model="iconSet"
-    )
+    .col-xs-12.col-md-6
+      q-select(
+        label="Quasar Icon Set"
+        dense
+        outlined
+        :options="iconSetOptions"
+        options-dense
+        emit-value
+        map-options
+        v-model="iconSet"
+      )
 
   q-separator
 
@@ -159,20 +161,22 @@ export default {
 
     const configInstantiation = computed(() => {
       if (cfgObject.value === false) {
-        return 'config: {}'
+        return ''
       }
 
-      return `
+      return `, {
         config: {
+          /*
           brand: {
-            primary: '#e46262',
+            // primary: '#e46262',
             // ... or all other brand colors
           },
           notify: {...}, // default set of options for Notify Quasar plugin
           loading: {...}, // default set of options for Loading Quasar plugin
           loadingBar: { ... }, // settings for LoadingBar Quasar plugin
           // ..and many more (check Installation card on each Quasar component/directive/plugin)
-        }\n     `
+          */
+        }\n      }`
     })
 
     const postCreateApp = computed(() => {
@@ -201,7 +205,7 @@ export default {
         }
       })
 
-      app.use(Quasar, { ${configInstantiation.value} })
+      app.use(Quasar${configInstantiation.value})
       ${postCreateApp.value}app.mount('#q-app')
     `
 

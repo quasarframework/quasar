@@ -581,6 +581,14 @@ We have changed the language pack filenames to reflect the standard naming used 
 
 Full list of changes: "en-us" -> "en-US", "en-gb" -> "en-GB", "az-latn" -> "az-Latn", "fa-ir" -> "fa-IR", "ko-kr" -> "ko-KR", "kur-ckb" -> "kur-CKB", "nb-no" -> "nb-NO", "pt-br" -> "pt-BR", "zh-hans" -> "zh-CN", "zh-hant" -> "zh-TW".
 
+### Quasar UMD
+* Due to the new Vue 3 architecture, the code for bootstrapping the app has changed and you will need to adapt [accordingly](/start/umd).
+* There have been changes to the naming scheme of script and css tags to include. For example, the minified resources filenames now end in `.prod.js`/`.prod.css`. This is as a way to match Vue 3's own file naming.
+
+::: tip
+For an in-depth look at the necessary UMD scripts and tags, please use our [generator tool](/start/umd#Installation).
+:::
+
 ### Quasar App CLI
 
 This section refers to "@quasar/app" v3 package.

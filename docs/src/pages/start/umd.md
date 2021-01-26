@@ -51,6 +51,15 @@ Quasar = {
 }
 ```
 
+Some usage examples:
+
+```js
+Quasar.QBtn
+Quasar.getCssVar('primary')
+Quasar.debounce(fn, 200)
+Quasar.Notify.create('Hi and welcome!')
+```
+
 ## Quasar Config Object
 There are some configuration options for Quasar & Quasar plugins:
 
