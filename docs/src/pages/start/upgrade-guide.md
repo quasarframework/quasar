@@ -6,6 +6,7 @@ desc: How to upgrade Quasar from older versions to the latest one.
 ::: danger Quasar v2 beta
 * Until the final stable version is released, some aspects of the framework may change. We're not planning for additional changes, but unforeseen reported issues may require us to do breaking changes (unlikely, but keep this in mind). So please make sure that you read each v2 beta version's release notes carefully before upgrading.
 * Considering the above, we still recommend starting a new project with Quasar v2.
+* Vue team is working on a dedicated Migration Build of Vue 3. If you are planning to migrate a complex Vue 2 app, consider waiting for the Migration Build for a smoother experience.
 :::
 
 ## Older v2 to latest v2
@@ -102,6 +103,7 @@ Before starting, it might be wise to work on this on a new git branch or on a co
   $ yarn add --dev @quasar/app@next
   ```
 4) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue Router, Vuex, Vue-i18n and any other vue plugin that you are using.
+5) Upgrade your other project dependencies (especially ESLint related ones).
 
 #### Option 2: Create a project
 
@@ -134,7 +136,7 @@ You'll need to edit src/App.vue and remove the wrapper `<div id="q-app">`. You d
 
 ### Vue 3
 
-Since you will also switch to [Vue 3](https://v3.vuejs.org), it's best that you also take a look at its [migration guide](https://v3.vuejs.org/guide/migration/introduction.html).
+Since you will also switch to [Vue 3](https://v3.vuejs.org), it's best that you also take a look at its [migration guide](https://v3.vuejs.org/guide/migration/introduction.html) **after**  finishing reading this migration guide.
 
 If you're using .vue files, you'll most likely have a fairly easy transition since 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://v3.vuejs.org/guide/single-file-component.html) and instructing Vue 3 what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)).
 
@@ -160,7 +162,7 @@ export default function (/* { store, ssrContext } */) {
     : process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory
 
   const Router = createRouter({
-    scrollBehavior: () => ({ x: 0, y: 0 }),
+    scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
 
     // Leave this as is and make changes in quasar.conf.js instead!
@@ -195,6 +197,8 @@ export default [
 export default routes
 ```
 
+If you use TypeScript, you must replace `RouteConfig` interface occurrences with `RouteRecordRaw`.
+
 ### Vuex v4
 
 This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
@@ -219,9 +223,11 @@ export default function (/* { ssrContext } */) {
 }
 ```
 
-### Vue-i18n v8
+### Vue-i18n v9
 
-This is a Vue 3 ecosystem upstream breaking change. Update src/boot/i18n.js file to match Vue-i18n v8's API. Vue-i18n comes with its own [breaking changes](https://vue-i18n-next.intlify.dev/guide/migration/breaking.html).
+This is a Vue 3 ecosystem upstream breaking change. Update src/boot/i18n.js file to match Vue-i18n v9's API. Vue-i18n comes with its own [breaking changes](https://vue-i18n-next.intlify.dev/guide/migration/breaking.html).
+
+Since this package isn't provided by `@quasar/app`, you must update the dependency in your project via `yarn add vue-i18n@rc`
 
 ```js
 // default src/boot/i18n.js content:
@@ -243,13 +249,33 @@ export default ({ app }) => {
 export { i18n }
 ```
 
+If you use TypeScript, remove the existing augmentation of 'vue/types/vue' as it has been integrated into the upstream package.
+
+### @vue/composition-api
+
+If you've been using Composition API package for Vue 2, you shall now change all imports to point towards Vue package.
+
+  ```js
+  // OLD, @vue/composition-api way
+  import { defineComponent } from '@vue/composition-api'
+
+  // New Vue 3 way
+  import { defineComponent } from 'vue'
+  ```
+
+If you were using the deprecated `context.root` object, you must refactor your code to avoid using it, as it's not available anymore.
+
+Delete `src/boot/composition-api` boot file and the corresponding entry into `quasar.conf.js`.
+
+If you use TypeScript, prepare to reload VSCode many times, as all upgrades will cause typings cache problems.
+
 ### Quasar components
 
 #### Vue 3 and v-model
 
 The `v-model` is now an alias to `model-value` + `@update:modelValue` combo instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files then you don't need to worry about it as vue-loader correctly translates it for you.
 
-Suggestion: you may want to do a search and replace for `value` and `@input`.
+Suggestion: you may want to do a search and replace for `:value` and `@input`.
 
 #### Vue 3 and scoped slots
 
@@ -597,6 +623,7 @@ This section refers to "@quasar/app" v3 package.
 * New quasar.conf.js > build > vueLoaderOptions prop
 * The url-loader configuration has been enhanced so it now also supports "ico" files out of the box
 * Removed support for quasar.conf.js > framework > `importStrategy: 'all'` since the auto import feature has become so good anyways (so it's now enabled by default).
+* if you use TypeScript, update `supportTs.tsCheckerConfig.eslint` property value with `{ enabled: true, files: './src/**/*.{ts,tsx,js,jsx,vue}' }`. This is due to upstream breaking changes of `fork-ts-checker-webpack-plugin`.
 
 Nothing changed in regards to how App Extensions work.
 
