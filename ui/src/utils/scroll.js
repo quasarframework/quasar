@@ -17,7 +17,7 @@ export function getScrollTarget (el, target) {
   if (target === void 0 || target === null) {
     target = el.closest('.scroll,.scroll-y,.overflow-auto')
   }
-  else if (target.value !== void 0 && target.value.$el !== void 0) {
+  else if (target.value !== void 0 && target.value.$el !== void 0 && target.value.$el !== null) {
     target = target.$el
   }
 
