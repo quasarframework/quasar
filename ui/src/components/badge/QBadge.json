@@ -21,7 +21,7 @@
     "transparent": {
       "type": "Boolean",
       "desc": "Applies a 0.8 opacity; Useful especially for floating QBadge",
-      "category": "content"
+      "category": "style"
     },
 
     "multi-line": {
@@ -47,7 +47,7 @@
     "outline": {
       "type": "Boolean",
       "desc": "Use 'outline' design (colored text and borders only)",
-      "category": "content"
+      "category": "style"
     },
 
     "rounded": {

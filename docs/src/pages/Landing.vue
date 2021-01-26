@@ -13,7 +13,7 @@
             span Framew
             img.landing__logo(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
             span rk
-        .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
+        .text-subtitle1.q-pl-sm Build high-performance <strong>Vue 3</strong> user interfaces in record time
         //- .q-pt-sm.q-px-sm
         //-   survey-countdown.landing-countdown.bg-primary.text-white.rounded-borders(
         //-     color="white"
