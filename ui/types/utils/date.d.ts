@@ -3,8 +3,8 @@ interface DateOptions {
   seconds?: number;
   minutes?: number;
   hours?: number;
-  month?: number;
-  year?: number;
+  months?: number;
+  years?: number;
 }
 
 export interface BuildDateOptions extends DateOptions {
