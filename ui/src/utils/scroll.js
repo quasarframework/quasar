@@ -17,7 +17,7 @@ export function getScrollTarget (el, target) {
   if (target === void 0 || target === null) {
     target = el.closest('.scroll,.scroll-y,.overflow-auto')
   }
-  else if (target._isVue === true && target.$el !== void 0) {
+  else if (target.value !== void 0 && target.value.$el !== void 0) {
     target = target.$el
   }
 
@@ -173,15 +173,15 @@ export function hasScrollbar (el, onY = true) {
     ? (
         el.scrollHeight > el.clientHeight && (
           el.classList.contains('scroll')
-        || el.classList.contains('overflow-auto')
-        || [ 'auto', 'scroll' ].includes(window.getComputedStyle(el)[ 'overflow-y' ])
+          || el.classList.contains('overflow-auto')
+          || [ 'auto', 'scroll' ].includes(window.getComputedStyle(el)[ 'overflow-y' ])
         )
       )
     : (
         el.scrollWidth > el.clientWidth && (
           el.classList.contains('scroll')
-        || el.classList.contains('overflow-auto')
-        || [ 'auto', 'scroll' ].includes(window.getComputedStyle(el)[ 'overflow-x' ])
+          || el.classList.contains('overflow-auto')
+          || [ 'auto', 'scroll' ].includes(window.getComputedStyle(el)[ 'overflow-x' ])
         )
       )
 }
