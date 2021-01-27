@@ -1,6 +1,6 @@
 import { h, ref, defineComponent } from 'vue'
-// import { useRoute } from 'vue-router'
-import { useDialogPluginComponent, QDialog, QCard, QCardSection, QCardActions, QBtn, QSelect } from 'quasar'
+import { useRoute } from 'vue-router'
+import { useQuasar, useDialogPluginComponent, QDialog, QCard, QCardSection, QCardActions, QBtn, QSelect } from 'quasar'
 
 const options = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5' ]
 
@@ -20,8 +20,8 @@ export default defineComponent({
     const inc = ref(0)
     const sel = ref(null)
 
-    // TODO vue3 - is there a way to pass through the provide/inject mechanism without using props (eg. route/router)
-    // const $route = useRoute()
+    const $q = useQuasar()
+    const $route = useRoute()
 
     const { dialogRef, onDialogHide, hide } = useDialogPluginComponent({ emit })
 
@@ -41,9 +41,11 @@ export default defineComponent({
       h(QCard, {
         class: 'q-dialog-plugin'
       }, () => [
-        h(QCardSection, {}, () => 'Prop "text": ' + props.text),
-
-        // h(QCardSection, {}, () => 'Current route: ' + $route.path),
+        h(QCardSection, {}, () => [
+          h('div', 'Prop "text": ' + props.text),
+          h('div', 'Quasar v' + $q.version),
+          h('div', 'Current route: ' + $route.path)
+        ]),
 
         h(QCardSection, {}, () => [
           h(QSelect, {

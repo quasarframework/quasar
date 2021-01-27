@@ -1,9 +1,9 @@
-import { createApp, h } from 'vue'
+import { h } from 'vue'
 
 import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
 import { noop } from '../utils/event.js'
 import { createGlobalNode } from '../utils/private/global-nodes.js'
-import { provideQuasar } from '../install-quasar.js'
+import { createChildApp } from '../install-quasar.js'
 
 import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
 
@@ -29,14 +29,12 @@ export default defineReactivePlugin({
 
     const el = createGlobalNode('q-loading-bar')
 
-    const app = createApp({
+    const app = createChildApp({
       name: 'LoadingBar',
       setup () {
         return () => h(QAjaxBar, props)
       }
     })
-
-    provideQuasar(app, $q)
 
     const bar = app.mount(el).$refs.bar
 

@@ -45,9 +45,11 @@ export default defineComponent({
       h(QCard, {
         class: 'q-dialog-plugin'
       }, () => [
-        h(QCardSection, {}, () => 'Prop "text": ' + this.text),
-
-        h(QCardSection, {}, () => 'Current route: ' + this.$route.path),
+        h(QCardSection, {}, () => [
+          h('div', 'Prop "text": ' + this.text),
+          h('div', 'Quasar v' + this.$q.version),
+          h('div', 'Current route: ' + this.$route.path)
+        ]),
 
         h(QCardSection, {}, () => [
           h(QSelect, {

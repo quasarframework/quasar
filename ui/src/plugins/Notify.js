@@ -1,4 +1,4 @@
-import { h, defineComponent, createApp, ref, markRaw, TransitionGroup, getCurrentInstance } from 'vue'
+import { h, defineComponent, ref, markRaw, TransitionGroup, getCurrentInstance } from 'vue'
 
 import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
@@ -9,7 +9,7 @@ import useQuasar from '../composables/use-quasar.js'
 
 import { noop } from '../utils/event.js'
 import { createGlobalNode } from '../utils/private/global-nodes.js'
-import { provideQuasar } from '../install-quasar.js'
+import { createChildApp } from '../install-quasar.js'
 
 let uid = 0, vm
 const defaults = {}
@@ -518,9 +518,7 @@ export default {
     $q.notify.registerType = this.registerType
 
     const el = createGlobalNode('q-notify')
-    const app = createApp(Notifications)
-
-    provideQuasar(app, $q)
+    const app = createChildApp(Notifications)
 
     vm = app.mount(el)
   }

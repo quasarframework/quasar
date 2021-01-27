@@ -1,6 +1,6 @@
-import { h, createApp, ref, nextTick } from 'vue'
+import { h, ref, nextTick } from 'vue'
 
-import { appInstance, provideQuasar } from '../../install-quasar.js'
+import { createChildApp } from '../../install-quasar.js'
 import { createGlobalNode, removeGlobalNode } from './global-nodes.js'
 
 const ssrAPI = {
@@ -113,7 +113,7 @@ export default function (DefaultComponent, supportsCustomComponent) {
 
     const dialogRef = ref(null)
 
-    let app = createApp({
+    let app = createChildApp({
       name: 'QGlobalDialog',
       setup () {
         return () => h(DialogComponent, {
@@ -125,10 +125,8 @@ export default function (DefaultComponent, supportsCustomComponent) {
       }
     })
 
-    app.config.globalProperties = appInstance.config.globalProperties
-    provideQuasar(app, appInstance.config.globalProperties.$q)
-
     let vm = app.mount(el)
+
     if (dialogRef.value !== null) {
       dialogRef.value.show()
     }
