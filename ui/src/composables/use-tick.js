@@ -5,7 +5,7 @@ import { nextTick, onBeforeUnmount } from 'vue'
  *    registerTick(fn)
  *    registerTick(fn)
  *    ....
- *    planTick()
+ *    prepareTick()
  */
 
 export default function () {

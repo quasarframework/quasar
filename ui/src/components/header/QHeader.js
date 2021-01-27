@@ -41,8 +41,8 @@ export default defineComponent({
 
     const fixed = computed(() =>
       props.reveal === true
-      || $layout.view.indexOf('H') > -1
-      || $layout.container === true
+      || $layout.view.value.indexOf('H') > -1
+      || $layout.isContainer.value === true
     )
 
     const offset = computed(() => {
@@ -52,7 +52,7 @@ export default defineComponent({
       if (fixed.value === true) {
         return revealed.value === true ? size.value : 0
       }
-      const offset = size.value - $layout.scroll.value.position
+      const offset = size.value - $layout.scroll.value.position.top
       return offset > 0 ? offset : 0
     })
 
@@ -88,13 +88,7 @@ export default defineComponent({
     })
 
     function updateLayout (prop, val) {
-      // ensure state update is caught correctly by Vue diffing
-      // on all layout components, so nextTicking:
-      nextTick(() => {
-        if ($layout.header[ prop ] !== val) {
-          $layout.header[ prop ] = val
-        }
-      })
+      $layout.update('header', prop, val)
     }
 
     function updateLocal (prop, val) {
@@ -138,8 +132,8 @@ export default defineComponent({
     watch($layout.scroll, scroll => {
       props.reveal === true && updateLocal(revealed,
         scroll.direction === 'up'
-        || scroll.position <= props.revealOffset
-        || scroll.position - scroll.inflectionPoint < 100
+        || scroll.position.top <= props.revealOffset
+        || scroll.position.top - scroll.inflectionPoint.top < 100
       )
     })
 

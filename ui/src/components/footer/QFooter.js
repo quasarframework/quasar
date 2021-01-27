@@ -37,19 +37,19 @@ export default defineComponent({
     const size = ref(parseInt(props.heightHint, 10))
     const revealed = ref(true)
     const windowHeight = ref(
-      isRuntimeSsrPreHydration === true || $layout.container === true
+      isRuntimeSsrPreHydration === true || $layout.isContainer.value === true
         ? 0
         : window.innerHeight
     )
 
     const fixed = computed(() =>
       props.reveal === true
-      || $layout.view.indexOf('F') > -1
-      || $layout.container === true
+      || $layout.view.value.indexOf('F') > -1
+      || $layout.isContainer.value === true
     )
 
     const containerHeight = computed(() => (
-      $layout.container === true
+      $layout.isContainer.value === true
         ? $layout.containerHeight.value
         : windowHeight.value
     ))
@@ -101,13 +101,7 @@ export default defineComponent({
     })
 
     function updateLayout (prop, val) {
-      // ensure state update is caught correctly by Vue diffing
-      // on all layout components, so nextTicking:
-      nextTick(() => {
-        if ($layout.footer[ prop ] !== val) {
-          $layout.footer[ prop ] = val
-        }
-      })
+      $layout.update('footer', prop, val)
     }
 
     function updateLocal (prop, val) {
@@ -163,7 +157,7 @@ export default defineComponent({
     watch([ size, $layout.scroll, $layout.height ], updateRevealed)
 
     watch(() => $q.screen.height, val => {
-      $layout.container !== true && updateLocal(windowHeight, val)
+      $layout.isContainer.value !== true && updateLocal(windowHeight, val)
     })
 
     const instance = {}

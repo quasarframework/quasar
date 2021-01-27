@@ -27,7 +27,7 @@ export default defineComponent({
         + ($layout.footer.space === true ? $layout.footer.size : 0)
 
       if (typeof props.styleFn === 'function') {
-        const height = $layout.container === true
+        const height = $layout.isContainer.value === true
           ? $layout.containerHeight.value
           : $q.screen.height
 
@@ -35,7 +35,7 @@ export default defineComponent({
       }
 
       return {
-        minHeight: $layout.container === true
+        minHeight: $layout.isContainer.value === true
           ? ($layout.containerHeight.value - offset) + 'px'
           : (
               $q.screen.height === 0

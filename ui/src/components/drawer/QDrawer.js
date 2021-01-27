@@ -123,7 +123,7 @@ export default defineComponent({
         }
 
         applyBackdrop(1)
-        $layout.container !== true && preventBodyScroll(true)
+        $layout.isContainer.value !== true && preventBodyScroll(true)
       }
       else {
         applyBackdrop(0)
@@ -191,8 +191,8 @@ export default defineComponent({
     const fixed = computed(() =>
       props.overlay === true
       || props.miniToOverlay === true
-      || $layout.view.indexOf(rightSide.value ? 'R' : 'L') > -1
-      || ($q.platform.is.ios === true && $layout.container === true)
+      || $layout.view.value.indexOf(rightSide.value ? 'R' : 'L') > -1
+      || ($q.platform.is.ios === true && $layout.isContainer.value === true)
     )
 
     const onLayout = computed(() =>
@@ -372,7 +372,7 @@ export default defineComponent({
 
     watch(() => props.behavior + props.breakpoint, updateBelowBreakpoint)
 
-    watch(() => $layout.container, val => {
+    watch($layout.isContainer, val => {
       showing.value === true && preventBodyScroll(val !== true)
     })
 
@@ -418,7 +418,7 @@ export default defineComponent({
       }
       else {
         if (
-          $layout.container === true
+          $layout.isContainer.value === true
           && rightSide.value === true
           && (belowBreakpoint.value === true || Math.abs(position) === size.value)
         ) {
@@ -443,7 +443,7 @@ export default defineComponent({
     function setScrollable (v) {
       const action = v === true
         ? 'remove'
-        : ($layout.container !== true ? 'add' : '')
+        : ($layout.isContainer.value !== true ? 'add' : '')
 
       action !== '' && document.body.classList[ action ]('q-body--drawer-toggle')
     }
@@ -541,13 +541,7 @@ export default defineComponent({
     }
 
     function updateLayout (prop, val) {
-      // ensure state update is caught correctly by Vue diffing
-      // on all layout components, so nextTicking:
-      nextTick(() => {
-        if ($layout[ props.side ][ prop ] !== val) {
-          $layout[ props.side ][ prop ] = val
-        }
-      })
+      $layout.update(props.side, prop, val)
     }
 
     function updateLocal (prop, val) {
@@ -656,7 +650,7 @@ export default defineComponent({
         h('div', {
           ...attrs,
           class: [
-            'q-drawer__content fit ' + ($layout.container === true ? 'overflow-auto' : 'scroll'),
+            'q-drawer__content fit ' + ($layout.isContainer.value === true ? 'overflow-auto' : 'scroll'),
             attrs.class
           ]
         }, isMini.value === true && slots.mini !== void 0

@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, reactive, computed, provide, getCurrentInstance } from 'vue'
+import { h, defineComponent, ref, reactive, computed, provide, nextTick, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
@@ -71,7 +71,11 @@ export default defineComponent({
 
     function onPageScroll (data) {
       if (props.container === true || document.qScrollPrevented !== true) {
-        scroll.value = data
+        scroll.value = {
+          position: data.position.top,
+          direction: data.direction,
+          inflectionPoint: data.inflectionPoint.top
+        }
       }
       vmHasListener(vm, 'onScroll') === true && emit('scroll', data)
     }
@@ -115,12 +119,12 @@ export default defineComponent({
       }
     }
 
-    let timer
+    let timer, updateCache = {}
 
-    provide(layoutKey, {
+    const $layout = {
       instances: {},
-      view: props.view,
-      container: props.container,
+      view: computed(() => props.view),
+      isContainer: computed(() => props.container),
 
       rootRef,
 
@@ -157,8 +161,27 @@ export default defineComponent({
           document.body.classList.remove('q-body--layout-animate')
           timer = void 0
         }, 150)
+      },
+
+      update (part, prop, val) {
+        updateCache[ part + '|' + prop ] = val
+
+        // ensure state update is caught correctly;
+        // workaround over the state change vue reactivity issue where you change one variable
+        // to val1 then val2 then val1 and the update is not triggered
+        nextTick(() => {
+          for (const p in updateCache) {
+            const [ part, prop ] = p.split('|')
+            $layout[ part ][ prop ] = updateCache[ p ]
+          }
+
+          // reset cache
+          updateCache = {}
+        })
       }
-    })
+    }
+
+    provide(layoutKey, $layout)
 
     return () => {
       const layout = h('div', {

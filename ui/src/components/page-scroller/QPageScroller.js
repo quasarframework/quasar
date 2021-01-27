@@ -43,7 +43,7 @@ export default defineComponent({
     const showing = ref(isVisible())
 
     const height = computed(() => (
-      $layout.container === true
+      $layout.isContainer.value === true
         ? $layout.containerHeight.value
         : $layout.height.value
     ))
@@ -77,7 +77,7 @@ export default defineComponent({
     }
 
     function onClick (e) {
-      const target = $layout.container === true
+      const target = $layout.isContainer.value === true
         ? getScrollTarget(rootRef.value)
         : getScrollTarget($layout.rootRef.value)
 
