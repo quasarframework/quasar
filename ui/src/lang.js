@@ -3,20 +3,6 @@ import { reactive } from 'vue'
 import langEn from '../lang/en-US.js'
 import { isRuntimeSsrPreHydration } from './plugins/Platform.js'
 
-const localeRe = /^\s*([^-]+)(?:-(.+))\s*$/
-
-function normalizeLocale (_, p1, p2) {
-  const locale = p1.toLowerCase()
-
-  return typeof p2 === 'string' && p2.length > 0
-    ? locale + '-' + (
-        p2.length < 4
-          ? p2.toUpperCase()
-          : (p2[ 0 ].toUpperCase() + p2.slice(1).toLowerCase())
-      )
-    : locale
-}
-
 function getLocale () {
   if (__QUASAR_SSR_SERVER__) { return }
 
@@ -25,7 +11,15 @@ function getLocale () {
     : navigator.language
 
   if (typeof val === 'string') {
-    return val.replace(localeRe, normalizeLocale)
+    return val.split('-').map((v, i) => (
+      i === 0
+        ? v.toLowerCase()
+        : (
+          i > 1 || v.length < 4
+            ? v.toUpperCase()
+            : (v[ 0 ].toUpperCase() + v.slice(1).toLowerCase())
+        )
+    )).join('-')
   }
 }
 
