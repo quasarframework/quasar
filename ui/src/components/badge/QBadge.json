@@ -53,6 +53,13 @@
       "desc": "Use 'outline' design (colored text and borders only)",
       "category": "content",
       "addedIn": "v1.4.5"
+    },
+
+    "rounded": {
+      "type": "Boolean",
+      "desc": "Makes a rounded shaped badge",
+      "category": "style",
+      "addedIn": "v1.15.2"
     }
   },
 

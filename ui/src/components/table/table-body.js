@@ -74,6 +74,13 @@ export default {
         }
       }
 
+      if (this.qListeners['row-contextmenu'] !== void 0) {
+        data.class['cursor-pointer'] = true
+        data.on.contextmenu = evt => {
+          this.$emit('row-contextmenu', evt, row, pageIndex)
+        }
+      }
+
       return h('tr', data, child)
     },
 
