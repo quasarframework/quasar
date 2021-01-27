@@ -284,7 +284,7 @@ export default Vue.extend({
             flat: true,
             dense: true
           },
-          on: icon === 'add' ? null : { click: fn }
+          on: { click: icon === 'add' ? this.pickFiles : fn }
         }, icon === 'add' ? this.__getInputControl(h) : null)
       }
     },
@@ -304,6 +304,7 @@ export default Vue.extend({
           },
           on: cache(this, 'input', {
             mousedown: stop, // need to stop refocus from QBtn
+            click: this.pickFiles,
             change: this.__addFiles
           })
         })
