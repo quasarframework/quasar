@@ -6,7 +6,6 @@ desc: How to upgrade Quasar from older versions to the latest one.
 ::: danger Quasar v2 beta
 * Until the final stable version is released, some aspects of the framework may change. We're not planning for additional changes, but unforeseen reported issues may require us to do breaking changes (unlikely, but keep this in mind). So please make sure that you read each v2 beta version's release notes carefully before upgrading.
 * Considering the above, we still recommend starting a new project with Quasar v2.
-* Vue team is working on a dedicated Migration Build of Vue 3. If you are planning to migrate a complex Vue 2 app, consider waiting for the Migration Build for a smoother experience.
 :::
 
 ## Older v2 to latest v2
