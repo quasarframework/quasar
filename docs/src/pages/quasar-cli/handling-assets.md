@@ -56,7 +56,7 @@ Please note that whenever you bind "src" to a variable in your Vue scope, it mus
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       /*
         Referencing /public.
