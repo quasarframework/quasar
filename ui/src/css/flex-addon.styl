@@ -159,9 +159,9 @@ fg($name, $size)
           > *
             margin-left: $gsize
         &-y-{$gname}
-          margin-top: (- $gsize) /* rtl:ignore */
+          margin-top: (- $gsize)
           > *
-            margin-top: $gsize /* rtl:ignore */
+            margin-top: $gsize
         &-{$gname}
           @extends .q-gutter{$name}-x-{$gname}, .q-gutter{$name}-y-{$gname}
       {str-fr('.q-col-gutter<name>', $name)}
@@ -170,9 +170,9 @@ fg($name, $size)
           > *
             padding-left: ($gsize)
         &-y-{$gname}
-          margin-top: (- $gsize) /* rtl:ignore */
+          margin-top: (- $gsize)
           > *
-            padding-top: ($gsize) /* rtl:ignore */
+            padding-top: ($gsize)
         &-{$gname}
           @extends .q-col-gutter{$name}-x-{$gname}, .q-col-gutter{$name}-y-{$gname}
 
