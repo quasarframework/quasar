@@ -111,7 +111,7 @@ Second option is to create a fresh project and port it to it bit by bit. We see 
 You can generate a new Quasar v2 project like below and then you can port your app bit by bit to it.
 
 ```bash
-$ quasar create <folder_name> --branch v2
+$ quasar create <folder_name> --branch next
 # NOTE: the above will change when v2 is released as stable
 ```
 
