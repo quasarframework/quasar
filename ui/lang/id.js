@@ -29,16 +29,14 @@ export default {
     noData: 'Tidak ada data tersedia',
     noResults: 'Tidak ada yang cocok',
     loading: 'Memuat...',
-    selectedRecords: function (rows) {
-      return rows > 1
+    selectedRecords: rows => (
+      rows > 1
         ? rows + ' baris terpilih.'
         : (rows === 0 ? 'tidak ada' : '1') + ' baris terpilih.'
-    },
+    ),
     recordsPerPage: 'Baris per halaman:',
     allRows: 'Semua',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' dari ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' dari ' + total,
     columns: 'Kolom'
   },
   editor: {

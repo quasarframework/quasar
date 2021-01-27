@@ -25,11 +25,7 @@ export default {
     daysShort: 'ی_د_س_چ_پ_ج_ش'.split('_'),
     months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_'),
     monthsShort: monthsShort,
-    headerTitle: function (date, model) {
-      return days[ date.getDay() ] + '، ' +
-        model.day + ' ' +
-        monthsShort[ model.month - 1 ]
-    },
+    headerTitle: (date, model) => `${ days[ date.getDay() ] }، ${ model.day } ${ monthsShort[ model.month - 1 ] }`,
     firstDayOfWeek: 6,
     format24h: true,
     pluralDay: 'روز'
@@ -38,14 +34,10 @@ export default {
     noData: 'اطلاعاتی موجود نیست',
     noResults: 'هیچ موردی یافت نشد',
     loading: 'در حال بارگذاری ...',
-    selectedRecords: function (rows) {
-      return rows === 0 ? 'رکوردی انتخاب نشده' : rows + ' رکورد انتخاب شده'
-    },
+    selectedRecords: rows => (rows === 0 ? 'رکوردی انتخاب نشده' : rows + ' رکورد انتخاب شده'),
     recordsPerPage: 'رکورد در صفحه:',
     allRows: 'همه',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' از ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' از ' + total,
     columns: 'ستون'
   },
   editor: {

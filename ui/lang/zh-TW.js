@@ -21,11 +21,9 @@ export default {
     daysShort: '週日_週一_週二_週三_週四_週五_週六'.split('_'),
     months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
     monthsShort: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
-    headerTitle: function (date) {
-      return new Intl.DateTimeFormat('zh-TW', {
-        weekday: 'short', month: 'short', day: 'numeric'
-      }).format(date)
-    },
+    headerTitle: date => new Intl.DateTimeFormat('zh-TW', {
+      weekday: 'short', month: 'short', day: 'numeric'
+    }).format(date),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     pluralDay: '天'
@@ -34,14 +32,10 @@ export default {
     noData: '無資料',
     noResults: '無相符資料',
     loading: '載入中...',
-    selectedRecords: function (rows) {
-      return '已選擇' + rows + '筆'
-    },
+    selectedRecords: rows => '已選擇' + rows + '筆',
     recordsPerPage: '每頁筆數:',
     allRows: '全部',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' / ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
     columns: '列'
   },
   editor: {

@@ -29,16 +29,14 @@ export default {
     noData: 'Nema podataka',
     noResults: 'Nema odgovarajućih zapisa',
     loading: 'Učitavanje...',
-    selectedRecords: function (rows) {
-      return rows > 1
+    selectedRecords: rows => (
+      rows > 1
         ? rows + ' izabranih redova.'
         : (rows === 0 ? 'Nema' : '1') + ' izabranih redova.'
-    },
+    ),
     recordsPerPage: 'Redova po stranici:',
     allRows: 'Sve',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' od ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' od ' + total,
     columns: 'Stupci'
   },
   editor: {

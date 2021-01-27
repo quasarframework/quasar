@@ -1,5 +1,5 @@
 function plurals (n, opts) {
-  return opts[n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2]
+  return opts[ n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2 ]
 }
 
 export default {
@@ -33,16 +33,14 @@ export default {
     noData: 'Нет данных',
     noResults: 'Совпадений не найдено',
     loading: 'Загрузка...',
-    selectedRecords: function (rows) {
-      return rows > 0
-        ? rows + ' ' + plurals(rows, ['строка выбрана', 'строки выбраны', 'строк выбрано']) + '.'
+    selectedRecords: rows => (
+      rows > 0
+        ? rows + ' ' + plurals(rows, [ 'строка выбрана', 'строки выбраны', 'строк выбрано' ]) + '.'
         : 'Ни одна строка не выбрана.'
-    },
+    ),
     recordsPerPage: 'Строк на странице:',
     allRows: 'Все',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' из ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' из ' + total,
     columns: 'Колонки'
   },
   editor: {

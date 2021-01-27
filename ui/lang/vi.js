@@ -29,16 +29,14 @@ export default {
     noData: 'Không có dữ liệu',
     noResults: 'Không tìm thấy kết quả',
     loading: 'Đang tải',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 hàng đã chọn.'
         : (rows === 0 ? 'Không có hàng nào' : rows) + ' hàng đã chọn.'
-    },
+    ),
     recordsPerPage: 'Hàng trên mỗi trang:',
     allRows: 'Tất cả',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' của ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' của ' + total,
     columns: 'Cột'
   },
   editor: {

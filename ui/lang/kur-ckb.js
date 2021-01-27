@@ -39,16 +39,14 @@ export default {
     noData: 'هیچ داتەیەک نییە',
     noResults: 'هیچ ئەنجامێک نییە',
     loading: 'چاوەڕوانبە...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? 'یەک ڕیکۆرد هەڵبژێردراوە'
-        : (rows === 0 ? '0' : rows) + 'ڕیکۆرد هەڵبژێرداوە.';
-    },
+        : (rows === 0 ? '0' : rows) + 'ڕیکۆرد هەڵبژێرداوە.'
+    ),
     recordsPerPage: 'ئەنجام بۆهەر پەڕەیەک:',
     allRows: 'هەمووی',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' لە ' + total;
-    },
+    pagination: (start, end, total) => start + '-' + end + ' لە ' + total,
     columns: 'ڕیز'
   },
   editor: {
