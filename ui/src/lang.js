@@ -11,7 +11,7 @@ function getLocale () {
     : navigator.language
 
   if (typeof val === 'string') {
-    return val.split('-').map((v, i) => (
+    return val.split(/[-_]/).map((v, i) => (
       i === 0
         ? v.toLowerCase()
         : (
