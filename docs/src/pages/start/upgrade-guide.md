@@ -303,23 +303,17 @@ NEW way is below. Notice `v-slot="scope"` applied directly on `<q-popup-edit>` a
 
 For more details information on the usage, please read [QPopupEdit](/vue-components/popup-edit)'s page.
 
-#### QLayout/QScrollObserver
+#### QLayout
 
 The `@scroll` event parameter now has a slightly different content:
 
 ```js
 {
-  position: {
-    top, left // Numbers (pixels)
-  },
-  direction, // String ("top", "right", "bottom" or "left")
+  position, // Number (pixels from top)
+  direction, // String ("top", "bottom")
   directionChanged, // Boolean
-  inflectionPoint: { // last position when direction changed
-    top, left // Numbers (pixels)
-  },
-  delta: { // difference since last @scroll update
-    top, left // Numbers (pixels)
-  }
+  inflectionPoint, // last position (from the top) when direction changed - Number (pixels)
+  delta // difference since last @scroll update - Number (pixels)
 }
 ```
 

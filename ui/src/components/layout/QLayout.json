@@ -58,63 +58,30 @@
           "desc": "Scroll details",
           "definition": {
             "position": {
-              "type": "Object",
-              "desc": "Scroll offset (from top and left)",
-              "definition": {
-                "top": {
-                  "type": "Number",
-                  "desc": "Scroll offset from top (vertical)",
-                  "examples": [ 120 ]
-                },
-                "left": {
-                  "type": "Number",
-                  "desc": "Scroll offset from left (horizontal)",
-                  "examples": [ 10 ]
-                }
-              }
+              "type": "Number",
+              "desc": "Scroll offset from top (vertical)",
+              "examples": [ 120 ]
             },
 
             "direction": {
               "type": "String",
               "desc": "Direction of scroll",
-              "values": [ "up", "down", "left", "right" ]
+              "values": [ "up", "down" ]
             },
             "directionChanged": {
               "type": "Boolean",
               "desc": "Has scroll direction changed since event was last emitted?"
             },
             "delta": {
-              "type": "Object",
-              "desc": "Delta of distance (in pixels) since event was last emitted",
-              "definition": {
-                "top": {
-                  "type": "Number",
-                  "desc": "Vertical delta distance since event was last emitted",
-                  "examples": [ 120 ]
-                },
-                "left": {
-                  "type": "Number",
-                  "desc": "Horizontal delta distance since event was last emitted",
-                  "examples": [ 10 ]
-                }
-              }
+              "type": "Number",
+              "desc": "Vertical delta distance since event was last emitted",
+              "examples": [ 120 ]
             },
 
             "inflectionPoint": {
-              "type": "Object",
-              "desc": "Last scroll offset where scroll direction has changed",
-              "definition": {
-                "top": {
-                  "type": "Number",
-                  "desc": "Scroll offset from top (vertical)",
-                  "examples": [ 120 ]
-                },
-                "left": {
-                  "type": "Number",
-                  "desc": "Scroll offset from left (horizontal)",
-                  "examples": [ 10 ]
-                }
-              }
+              "type": "Number",
+              "desc": "Scroll offset from top (vertical)",
+              "examples": [ 120 ]
             }
           }
         }

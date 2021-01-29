@@ -74,7 +74,9 @@ export default defineComponent({
         scroll.value = {
           position: data.position.top,
           direction: data.direction,
-          inflectionPoint: data.inflectionPoint.top
+          directionChanged: data.directionChanged,
+          inflectionPoint: data.inflectionPoint.top,
+          delta: data.delta.top
         }
       }
       vmHasListener(vm, 'onScroll') === true && emit('scroll', data)
@@ -189,7 +191,7 @@ export default defineComponent({
         style: style.value,
         ref: props.container === true ? void 0 : rootRef
       }, hMergeSlot(slots.default, [
-        h(QScrollObserver, { axis: 'both', onScroll: onPageScroll }),
+        h(QScrollObserver, { onScroll: onPageScroll }),
         h(QResizeObserver, { onResize: onPageResize })
       ]))
 

@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, nextTick, inject } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeUnmount, inject } from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
@@ -52,7 +52,7 @@ export default defineComponent({
       if (fixed.value === true) {
         return revealed.value === true ? size.value : 0
       }
-      const offset = size.value - $layout.scroll.value.position.top
+      const offset = size.value - $layout.scroll.value.position
       return offset > 0 ? offset : 0
     })
 
@@ -60,8 +60,8 @@ export default defineComponent({
       || (fixed.value === true && revealed.value !== true)
     )
 
-    const revealOnFocus = computed(() => props.modelValue === true
-      && hidden.value === true && props.reveal === true
+    const revealOnFocus = computed(() =>
+      props.modelValue === true && hidden.value === true && props.reveal === true
     )
 
     const classes = computed(() =>
@@ -132,8 +132,8 @@ export default defineComponent({
     watch($layout.scroll, scroll => {
       props.reveal === true && updateLocal(revealed,
         scroll.direction === 'up'
-        || scroll.position.top <= props.revealOffset
-        || scroll.position.top - scroll.inflectionPoint.top < 100
+        || scroll.position <= props.revealOffset
+        || scroll.position - scroll.inflectionPoint < 100
       )
     })
 
