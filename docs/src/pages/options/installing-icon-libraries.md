@@ -120,7 +120,6 @@ import '@fortawesome/fontawesome-pro/css/light.min.css'
 
 // example
 export default ({ app }) => {
-  // TODO vue3
-  $q.iconSet.chip.remove = 'fas fa-times-circle'
+  app.config.globalProperties.$q.iconSet.chip.remove = 'fas fa-times-circle'
 }
 ```

@@ -731,6 +731,18 @@ This section refers to "@quasar/app" v3 package.
 * Removed support for quasar.conf.js > framework > `importStrategy: 'all'` since the auto import feature has become so good anyways (so it's now enabled by default).
 * if you use TypeScript, update `supportTs.tsCheckerConfig.eslint` property value with `{ enabled: true, files: './src/**/*.{ts,tsx,js,jsx,vue}' }`. This is due to upstream breaking changes of `fork-ts-checker-webpack-plugin`.
 
+If you have boot files where you access and change the `$q` Object through `Vue.prototype.$q`, then you need to adapt this:
+
+```js
+// old way in boot file
+Vue.prototype.$q.iconSet.chip.remove = 'fas fa-times-circle'
+
+// NEW way
+export default ({ app }) => {
+  app.config.globalProperties.$q.iconSet.chip.remove = 'fas fa-times-circle'
+}
+```
+
 Nothing changed in regards to how App Extensions work.
 
 ### Quasar Extras
