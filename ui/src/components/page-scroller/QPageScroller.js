@@ -34,19 +34,19 @@ export default defineComponent({
 
     let heightWatcher
 
-    function isVisible () {
-      return props.reverse === true
-        ? props.height - $layout.scroll.value.position > props.scrollOffset
-        : $layout.scroll.value.position > props.scrollOffset
-    }
-
-    const showing = ref(isVisible())
-
     const height = computed(() => (
       $layout.isContainer.value === true
         ? $layout.containerHeight.value
         : $layout.height.value
     ))
+
+    function isVisible () {
+      return props.reverse === true
+        ? height.value - $layout.scroll.value.position > props.scrollOffset
+        : $layout.scroll.value.position > props.scrollOffset
+    }
+
+    const showing = ref(isVisible())
 
     function updateVisibility () {
       const newVal = isVisible()
