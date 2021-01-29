@@ -544,7 +544,19 @@ setCssVar('primary', '#f3c')
 ### Quasar language packs
 We have changed the language pack filenames to reflect the standard naming used by browsers. This will allow you to use `$q.lang.getLocale()` when you want to dynamically import the Quasar language pack file.
 
-Full list of changes: "en-us" -> "en-US", "en-gb" -> "en-GB", "az-latn" -> "az-Latn", "fa-ir" -> "fa-IR", "ko-kr" -> "ko-KR", "kur-ckb" -> "kur-CKB", "nb-no" -> "nb-NO", "pt-br" -> "pt-BR", "zh-hans" -> "zh-CN", "zh-hant" -> "zh-TW".
+Full list of changes:
+| Old name | New name |
+| --- | --- |
+| en-us | en-US |
+| en-gb | en-GB |
+| az-latn | az-Latn |
+| fa-ir | fa-IR |
+| ko-kr | ko-KR |
+| kur-CKB | kur-CKB |
+| nb-no | nb-NO |
+| pt-br | pt-BR |
+| zh-hans | zh-CN |
+| zh-hant | zh-TW |
 
 If you have configured a default Quasar language pack in your quasar.conf.js, then you need to edit it:
 
@@ -559,6 +571,8 @@ framework: {
   lang: 'en-US'
 }
 ```
+
+You'll also need to edit all your dynamic imports from `quasar/lang/` to match the new syntax.
 
 ### Quasar UMD
 * Due to the new Vue 3 architecture, the code for bootstrapping the app has changed and you will need to adapt [accordingly](/start/umd).
