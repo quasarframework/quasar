@@ -5,28 +5,29 @@ desc: Using Axios for fetching data in a Quasar app.
 
 > Quasar recommends Axios during project initialization: `Use Axios for Ajax calls? (Y/n)`
 
-Then you should create a new boot file `axios.js` that looks like this:
+If you haven't selected Axios during the project initialization then you should create a new boot file `axios.js` that looks like this:
 (Here you can also specify additional settings for your axios instance)
 
 
 ```js
 // src/boot/axios.js
 
+import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 
 const api = axios.create({ baseURL: 'https://api.example.com' })
 
-export default ({ app }) => {
+export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
   app.config.globalProperties.$axios = axios
-  // ^ ^ ^ this will allow you to use this.$axios
+  // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
   //       so you won't necessarily have to import axios in each vue file
 
   app.config.globalProperties.$api = api
-  // ^ ^ ^ this will allow you to use this.$api
+  // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
-}
+})
 
 export { axios, api }
 ```
@@ -61,7 +62,7 @@ setup () {
       })
   }
 
-  return { data }
+  return { data, loadData }
 }
 ```
 

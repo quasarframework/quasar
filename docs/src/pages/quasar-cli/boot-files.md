@@ -246,11 +246,24 @@ In order to better understand how a boot file works and what it does, you need t
 ### Axios
 
 ```js
+import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 
-export default ({ app }) => {
+const api = axios.create({ baseURL: 'https://api.example.com' })
+
+export default boot(({ app }) => {
+  // for use inside Vue files (Options API) through this.$axios and this.$api
+
   app.config.globalProperties.$axios = axios
-}
+  // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
+  //       so you won't necessarily have to import axios in each vue file
+
+  app.config.globalProperties.$api = api
+  // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
+  //       so you can easily perform requests against your app's API
+})
+
+export { axios, api }
 ```
 
 ### vue-i18n
@@ -264,10 +277,10 @@ const i18n = createI18n({
   messages
 })
 
-export default ({ app }) => {
+export default boot(({ app }) => {
   // Set i18n instance on app
   app.use(i18n)
-}
+})
 
 export { i18n } // if you need this instance elsewhere
 ```
@@ -276,11 +289,11 @@ export { i18n } // if you need this instance elsewhere
 Some boot files might need to interfere with Vue Router configuration:
 
 ```js
-export default ({ router, store }) => {
+export default boot(({ router, store }) => {
   router.beforeEach((to, from, next) => {
     // Now you need to add your authentication logic here, like calling an API endpoint
   })
-}
+})
 ```
 
 ## Accessing data from boot files
@@ -305,6 +318,7 @@ const api = axios.create({
 })
 
 // for use inside Vue files through this.$axios and this.$api
+// (only in Vue Options API form)
 export default ({ app }) => {
   app.config.globalProperties.$axios = axios
   app.config.globalProperties.$api = api
