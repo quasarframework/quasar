@@ -63,8 +63,8 @@ export default defineComponent({
       }
 
       if (
-        (props.axis === 'vertical' && delta.x === 0)
-        || (props.axis === 'horizontal' && delta.y === 0)
+        (props.axis === 'vertical' && delta.y === 0)
+        || (props.axis === 'horizontal' && delta.x === 0)
       ) {
         return
       }
