@@ -263,6 +263,11 @@ export default defineComponent({
         : Object.assign(style, aboveStyle.value)
     })
 
+    const contentClass = computed(() =>
+      'q-drawer__content fit '
+      + ($layout.isContainer.value !== true ? 'scroll' : 'overflow-auto')
+    )
+
     const classes = computed(() =>
       `q-drawer q-drawer--${ props.side }`
       + (flagMiniAnimate.value === true ? ' q-drawer--mini-animate' : '')
@@ -646,14 +651,16 @@ export default defineComponent({
         )
       }
 
+      const mini = isMini.value === true && slots.mini !== void 0
       const content = [
         h('div', {
           ...attrs,
+          key: '' + mini, // required otherwise Vue will not diff correctly
           class: [
-            'q-drawer__content fit ' + ($layout.isContainer.value === true ? 'overflow-auto' : 'scroll'),
+            contentClass.value,
             attrs.class
           ]
-        }, isMini.value === true && slots.mini !== void 0
+        }, mini === true
           ? slots.mini()
           : hSlot(slots.default)
         )

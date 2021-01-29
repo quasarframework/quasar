@@ -162,7 +162,7 @@ export default defineComponent({
         timer = setTimeout(() => {
           document.body.classList.remove('q-body--layout-animate')
           timer = void 0
-        }, 150)
+        }, 155)
       },
 
       update (part, prop, val) {

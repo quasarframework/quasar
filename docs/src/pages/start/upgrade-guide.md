@@ -169,6 +169,145 @@ You'll need to edit src/App.vue and remove the wrapper `<div id="q-app">`. You d
 </template>
 ```
 
+### Vue 3
+
+Since you will also switch to [Vue 3](https://v3.vuejs.org), it's best that you also take a look at its [migration guide](https://v3.vuejs.org/guide/migration/introduction.html) **after**  finishing reading this migration guide.
+
+If you're using .vue files, you'll most likely have a fairly easy transition since 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://v3.vuejs.org/guide/single-file-component.html) and instructing Vue 3 what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)).
+
+We suggest that you first convert your project to Quasar v2 while maintaining Options API (because your components are already in Options API form and you probably want to ensure everything is working first). After this transition you can convert all your Vue components to Composition API, but in no way is this a requirement.
+
+Vue 3 is to be used along with a new major version of [Vue Router v4](https://next.router.vuejs.org), which comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/) that you should be aware of. There's also the new [Vuex v4]().
+
+As an example of one of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to `model-value` + `@update:modelValue` combo instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files then you don't need to worry about it as vue-loader correctly translates it for you.
+
+### Vue Router v4
+
+This is a Vue 3 ecosystem upstream breaking change. Update src/router files to match Vue Router v4's API. Vue Router v4 comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/index.html). Especially note below how we are dealing with the 404 error.
+
+```js
+// default src/router/index.js content:
+
+import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
+import routes from './routes'
+
+export default function (/* { store, ssrContext } */) {
+  const createHistory = process.env.MODE === 'ssr'
+    ? createMemoryHistory
+    : process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory
+
+  const Router = createRouter({
+    scrollBehavior: () => ({ left: 0, top: 0 }),
+    routes,
+
+    // Leave this as is and make changes in quasar.conf.js instead!
+    // quasar.conf.js -> build -> vueRouterMode
+    // quasar.conf.js -> build -> publicPath
+    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+  })
+
+  return Router
+}
+```
+
+```js
+// default src/router/routes.js content:
+export default [
+  {
+    path: '/',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Index.vue') }
+    ]
+  },
+
+  // Always leave this as last one,
+  // but you can also remove it
+  {
+    path: '/:catchAll(.*)*',
+    component: Error404
+  }
+]
+
+export default routes
+```
+
+If you use TypeScript, you must replace `RouteConfig` interface occurrences with `RouteRecordRaw`.
+
+### Vuex v4
+
+This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
+
+```js
+// default src/router/routes.js content:
+import { createStore } from 'vuex'
+// import example from './module-example'
+
+export default function (/* { ssrContext } */) {
+  const Store = createStore({
+    modules: {
+      // example
+    },
+
+    // enable strict mode (adds overhead!)
+    // for dev mode and --debug builds only
+    strict: process.env.DEBUGGING
+  })
+
+  return Store
+}
+```
+
+### Vue-i18n v9
+
+This is a Vue 3 ecosystem upstream breaking change. Update src/boot/i18n.js file to match Vue-i18n v9's API. Vue-i18n comes with its own [breaking changes](https://vue-i18n-next.intlify.dev/guide/migration/breaking.html).
+
+Since this package isn't provided by `@quasar/app`, you must update the dependency in your project via `yarn add vue-i18n@rc`
+
+```js
+// default src/boot/i18n.js content:
+
+import { createI18n } from 'vue-i18n'
+import messages from 'src/i18n'
+// you'll need to create the src/i18n/index.js file too
+
+const i18n = createI18n({
+  locale: 'en-US',
+  messages
+})
+
+export default ({ app }) => {
+  // Set i18n instance on app
+  app.use(i18n)
+})
+
+export { i18n }
+```
+
+If you use TypeScript, remove the existing augmentation of 'vue/types/vue' as it has been integrated into the upstream package.
+
+### @vue/composition-api
+
+If you've been using Composition API package for Vue 2, you shall now change all imports to point towards the Vue package.
+
+  ```js
+  // OLD, @vue/composition-api way
+  import { defineComponent } from '@vue/composition-api'
+
+  // New Vue 3 way
+  import { defineComponent } from 'vue'
+  ```
+
+If you were using the deprecated `context.root` object, you must refactor your code to avoid using it, as it's not available anymore.
+
+Delete `src/boot/composition-api` boot file and the corresponding entry into `quasar.conf.js`. Then uninstall the `@vue/composition-api` package:
+
+```bash
+$ yarn remove @vue/composition-api
+```
+
+If you use TypeScript, prepare to reload VSCode many times, as all upgrades will cause typings cache problems.
+
 ### Quasar components
 
 #### Vue 3 and v-model
@@ -599,142 +738,3 @@ Nothing changed. You can use it as for Quasar UI v1.
 
 ### Quasar Icon Genie
 Nothing changed. You can use it the same way as for "@quasar/app" v1 or v2 projects.
-
-### Vue 3
-
-Since you will also switch to [Vue 3](https://v3.vuejs.org), it's best that you also take a look at its [migration guide](https://v3.vuejs.org/guide/migration/introduction.html) **after**  finishing reading this migration guide.
-
-If you're using .vue files, you'll most likely have a fairly easy transition since 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://v3.vuejs.org/guide/single-file-component.html) and instructing Vue 3 what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)).
-
-We suggest that you first convert your project to Quasar v2 while maintaining Options API (because your components are already in Options API form and you probably want to ensure everything is working first). After this transition you can convert all your Vue components to Composition API, but in no way is this a requirement.
-
-Vue 3 is to be used along with a new major version of [Vue Router v4](https://next.router.vuejs.org), which comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/) that you should be aware of. There's also the new [Vuex v4]().
-
-As an example of one of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to `model-value` + `@update:modelValue` combo instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files then you don't need to worry about it as vue-loader correctly translates it for you.
-
-### Vue Router v4
-
-This is a Vue 3 ecosystem upstream breaking change. Update src/router files to match Vue Router v4's API. Vue Router v4 comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/index.html). Especially note below how we are dealing with the 404 error.
-
-```js
-// default src/router/index.js content:
-
-import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
-import routes from './routes'
-
-export default function (/* { store, ssrContext } */) {
-  const createHistory = process.env.MODE === 'ssr'
-    ? createMemoryHistory
-    : process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory
-
-  const Router = createRouter({
-    scrollBehavior: () => ({ left: 0, top: 0 }),
-    routes,
-
-    // Leave this as is and make changes in quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
-  })
-
-  return Router
-}
-```
-
-```js
-// default src/router/routes.js content:
-export default [
-  {
-    path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Index.vue') }
-    ]
-  },
-
-  // Always leave this as last one,
-  // but you can also remove it
-  {
-    path: '/:catchAll(.*)*',
-    component: Error404
-  }
-]
-
-export default routes
-```
-
-If you use TypeScript, you must replace `RouteConfig` interface occurrences with `RouteRecordRaw`.
-
-### Vuex v4
-
-This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
-
-```js
-// default src/router/routes.js content:
-import { createStore } from 'vuex'
-// import example from './module-example'
-
-export default function (/* { ssrContext } */) {
-  const Store = createStore({
-    modules: {
-      // example
-    },
-
-    // enable strict mode (adds overhead!)
-    // for dev mode and --debug builds only
-    strict: process.env.DEBUGGING
-  })
-
-  return Store
-}
-```
-
-### Vue-i18n v9
-
-This is a Vue 3 ecosystem upstream breaking change. Update src/boot/i18n.js file to match Vue-i18n v9's API. Vue-i18n comes with its own [breaking changes](https://vue-i18n-next.intlify.dev/guide/migration/breaking.html).
-
-Since this package isn't provided by `@quasar/app`, you must update the dependency in your project via `yarn add vue-i18n@rc`
-
-```js
-// default src/boot/i18n.js content:
-
-import { createI18n } from 'vue-i18n'
-import messages from 'src/i18n'
-// you'll need to create the src/i18n/index.js file too
-
-const i18n = createI18n({
-  locale: 'en-US',
-  messages
-})
-
-export default ({ app }) => {
-  // Set i18n instance on app
-  app.use(i18n)
-})
-
-export { i18n }
-```
-
-If you use TypeScript, remove the existing augmentation of 'vue/types/vue' as it has been integrated into the upstream package.
-
-### @vue/composition-api
-
-If you've been using Composition API package for Vue 2, you shall now change all imports to point towards the Vue package.
-
-  ```js
-  // OLD, @vue/composition-api way
-  import { defineComponent } from '@vue/composition-api'
-
-  // New Vue 3 way
-  import { defineComponent } from 'vue'
-  ```
-
-If you were using the deprecated `context.root` object, you must refactor your code to avoid using it, as it's not available anymore.
-
-Delete `src/boot/composition-api` boot file and the corresponding entry into `quasar.conf.js`. Then uninstall the `@vue/composition-api` package:
-
-```bash
-$ yarn remove @vue/composition-api
-```
-
-If you use TypeScript, prepare to reload VSCode many times, as all upgrades will cause typings cache problems.
