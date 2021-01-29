@@ -125,8 +125,20 @@ Before starting, it might be wise to work on this on a new git branch or on a co
   "eslint-plugin-vue": "^7.0.0",
   "eslint-webpack-plugin": "^2.4.0"
   ```
-5) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
-6) Upgrade your other project dependencies (especially ESLint related ones).
+5) Edit quasar.conf.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
+  ```js
+  // old way
+  framework: {
+    lang: 'en-us'
+  }
+
+  // NEW way
+  framework: {
+    lang: 'en-US'
+  }
+  ```
+6) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
+7) Upgrade your other project dependencies (especially ESLint related ones).
 
 #### Option 2: Create a project
 
@@ -533,6 +545,20 @@ setCssVar('primary', '#f3c')
 We have changed the language pack filenames to reflect the standard naming used by browsers. This will allow you to use `$q.lang.getLocale()` when you want to dynamically import the Quasar language pack file.
 
 Full list of changes: "en-us" -> "en-US", "en-gb" -> "en-GB", "az-latn" -> "az-Latn", "fa-ir" -> "fa-IR", "ko-kr" -> "ko-KR", "kur-ckb" -> "kur-CKB", "nb-no" -> "nb-NO", "pt-br" -> "pt-BR", "zh-hans" -> "zh-CN", "zh-hant" -> "zh-TW".
+
+If you have configured a default Quasar language pack in your quasar.conf.js, then you need to edit it:
+
+```js
+// old way
+framework: {
+  lang: 'en-us'
+}
+
+// NEW way
+framework: {
+  lang: 'en-US'
+}
+```
 
 ### Quasar UMD
 * Due to the new Vue 3 architecture, the code for bootstrapping the app has changed and you will need to adapt [accordingly](/start/umd).
