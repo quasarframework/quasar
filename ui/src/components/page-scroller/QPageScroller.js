@@ -83,7 +83,8 @@ export default defineComponent({
 
       setVerticalScrollPosition(
         target,
-        props.reverse === true ? $layout.height.value : 0, props.duration
+        props.reverse === true ? $layout.height.value : 0,
+        props.duration
       )
 
       emit('click', e)
@@ -92,9 +93,10 @@ export default defineComponent({
     function getContent () {
       return showing.value === true
         ? h('div', {
+            ref: rootRef,
             class: 'q-page-scroller',
             onClick
-          }, [ getStickyContent(slots) ])
+          }, getStickyContent(slots))
         : null
     }
 
@@ -104,7 +106,7 @@ export default defineComponent({
 
     return () => h(
       Transition,
-      { name: 'q-transition--fade', ref: rootRef },
+      { name: 'q-transition--fade' },
       getContent
     )
   }

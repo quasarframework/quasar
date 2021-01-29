@@ -71,15 +71,17 @@ export default defineComponent({
 
     function onPageScroll (data) {
       if (props.container === true || document.qScrollPrevented !== true) {
-        scroll.value = {
+        const info = {
           position: data.position.top,
           direction: data.direction,
           directionChanged: data.directionChanged,
           inflectionPoint: data.inflectionPoint.top,
           delta: data.delta.top
         }
+
+        scroll.value = info
+        vmHasListener(vm, 'onScroll') === true && emit('scroll', info)
       }
-      vmHasListener(vm, 'onScroll') === true && emit('scroll', data)
     }
 
     function onPageResize (data) {

@@ -46,7 +46,7 @@ export default defineComponent({
       }
     }
 
-    let timer, localScrollTarget, parentEl
+    let timer = null, localScrollTarget, parentEl
 
     watch(() => props.scrollTarget, () => {
       unconfigureScrollTarget()
@@ -54,24 +54,26 @@ export default defineComponent({
     })
 
     function emitEvent () {
+      timer = null
+
       const top = Math.max(0, getVerticalScrollPosition(localScrollTarget))
       const left = getHorizontalScrollPosition(localScrollTarget)
 
       const delta = {
-        y: top - scroll.position.top,
-        x: left - scroll.position.left
+        top: top - scroll.position.top,
+        left: left - scroll.position.left
       }
 
       if (
-        (props.axis === 'vertical' && delta.y === 0)
-        || (props.axis === 'horizontal' && delta.x === 0)
+        (props.axis === 'vertical' && delta.top === 0)
+        || (props.axis === 'horizontal' && delta.left === 0)
       ) {
         return
       }
 
-      const curDir = Math.abs(delta.y) >= Math.abs(delta.x)
-        ? (delta.y < 0 ? 'up' : 'down')
-        : (delta.x < 0 ? 'left' : 'right')
+      const curDir = Math.abs(delta.top) >= Math.abs(delta.left)
+        ? (delta.top < 0 ? 'up' : 'down')
+        : (delta.left < 0 ? 'left' : 'right')
 
       scroll.position = { top, left }
       scroll.directionChanged = scroll.direction !== curDir
@@ -82,7 +84,6 @@ export default defineComponent({
         scroll.inflectionPoint = scroll.position
       }
 
-      timer = null
       emit('scroll', scroll)
     }
 
@@ -103,7 +104,7 @@ export default defineComponent({
       if (immediately === true || props.debounce === 0 || props.debounce === '0') {
         emitEvent()
       }
-      else if (!timer) {
+      else if (timer === null) {
         timer = props.debounce
           ? setTimeout(emitEvent, props.debounce)
           : requestAnimationFrame(emitEvent)

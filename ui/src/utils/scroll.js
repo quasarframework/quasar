@@ -15,6 +15,10 @@ export function getScrollTarget (el, target) {
   }
 
   if (target === void 0 || target === null) {
+    if (el === void 0 || el === null) {
+      return window
+    }
+
     target = el.closest('.scroll,.scroll-y,.overflow-auto')
   }
   else if (target.value !== void 0 && target.value.$el !== void 0 && target.value.$el !== null) {
@@ -35,17 +39,15 @@ export function getScrollWidth (el) {
 }
 
 export function getVerticalScrollPosition (scrollTarget) {
-  if (scrollTarget === window) {
-    return window.pageYOffset || window.scrollY || document.body.scrollTop || 0
-  }
-  return scrollTarget.scrollTop
+  return scrollTarget === window
+    ? window.pageYOffset || window.scrollY || document.body.scrollTop || 0
+    : scrollTarget.scrollTop
 }
 
 export function getHorizontalScrollPosition (scrollTarget) {
-  if (scrollTarget === window) {
-    return window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
-  }
-  return scrollTarget.scrollLeft
+  return scrollTarget === window
+    ? window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
+    : scrollTarget.scrollLeft
 }
 
 export function animVerticalScrollTo (el, to, duration = 0 /* , prevTime */) {
