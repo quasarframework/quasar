@@ -1,6 +1,6 @@
 import { h, defineComponent } from 'vue'
 
-import useCanRender from '../../composables/use-can-render.js'
+import useCanRender from '../../composables/private/use-can-render.js'
 
 import { hSlot } from '../../utils/private/render.js'
 

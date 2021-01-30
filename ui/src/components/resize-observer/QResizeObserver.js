@@ -1,6 +1,6 @@
 import { h, defineComponent, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import useCanRender from '../../composables/use-can-render.js'
+import useCanRender from '../../composables/private/use-can-render.js'
 
 import { listenOpts, noop } from '../../utils/event.js'
 

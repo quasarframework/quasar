@@ -4,7 +4,7 @@ import QBtn from '../btn/QBtn.js'
 
 import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useCache from '../../composables/use-cache.js'
+import useCache from '../../composables/private/use-cache.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from './use-datetime.js'
 

@@ -670,104 +670,6 @@ const layout = [
   }
 ]
 
-const directives = [
-  {
-    name: 'Close Popup',
-    path: 'close-popup'
-  },
-  {
-    name: 'Intersection',
-    path: 'intersection'
-  },
-  {
-    name: 'Material Ripples',
-    path: 'material-ripple'
-  },
-  {
-    name: 'Mutation',
-    path: 'mutation'
-  },
-  {
-    name: 'Morph',
-    path: 'morph'
-  },
-  {
-    name: 'Scroll',
-    path: 'scroll'
-  },
-  {
-    name: 'Scroll Fire',
-    path: 'scroll-fire'
-  },
-  {
-    name: 'Touch Hold',
-    path: 'touch-hold'
-  },
-  {
-    name: 'Touch Pan',
-    path: 'touch-pan'
-  },
-  {
-    name: 'Touch Repeat',
-    path: 'touch-repeat'
-  },
-  {
-    name: 'Touch Swipe',
-    path: 'touch-swipe'
-  }
-]
-
-const plugins = [
-  {
-    name: 'Addressbar Color',
-    path: 'addressbar-color'
-  },
-  {
-    name: 'App Fullscreen',
-    path: 'app-fullscreen'
-  },
-  {
-    name: 'App Visibility',
-    path: 'app-visibility'
-  },
-  {
-    name: 'Bottom Sheet',
-    path: 'bottom-sheet'
-  },
-  {
-    name: 'Cookies',
-    path: 'cookies'
-  },
-  {
-    name: 'Dark',
-    path: 'dark'
-  },
-  {
-    name: 'Dialog',
-    path: 'dialog'
-  },
-  {
-    name: 'Loading',
-    path: 'loading'
-  },
-  {
-    name: 'Loading Bar',
-    path: 'loading-bar'
-  },
-  {
-    name: 'Local/Session Storage',
-    path: 'web-storage'
-  },
-  {
-    name: 'Meta',
-    path: 'meta'
-  },
-  {
-    name: 'Notify',
-    path: 'notify'
-  }
-]
-
 const components = [
   {
     name: 'Ajax Bar',
@@ -1078,6 +980,127 @@ const components = [
   }
 ]
 
+const composables = [
+  {
+    name: 'useQuasar',
+    path: 'use-quasar'
+  },
+  {
+    name: 'useDialogPluginComponent',
+    path: 'use-dialog-plugin-component'
+  },
+  {
+    name: 'useFormChild',
+    path: 'use-form-child'
+  },
+  {
+    name: 'useMeta',
+    path: 'use-meta'
+  },
+  {
+    name: 'useUploader',
+    path: 'use-uploader'
+  }
+]
+
+const directives = [
+  {
+    name: 'Close Popup',
+    path: 'close-popup'
+  },
+  {
+    name: 'Intersection',
+    path: 'intersection'
+  },
+  {
+    name: 'Material Ripples',
+    path: 'material-ripple'
+  },
+  {
+    name: 'Mutation',
+    path: 'mutation'
+  },
+  {
+    name: 'Morph',
+    path: 'morph'
+  },
+  {
+    name: 'Scroll',
+    path: 'scroll'
+  },
+  {
+    name: 'Scroll Fire',
+    path: 'scroll-fire'
+  },
+  {
+    name: 'Touch Hold',
+    path: 'touch-hold'
+  },
+  {
+    name: 'Touch Pan',
+    path: 'touch-pan'
+  },
+  {
+    name: 'Touch Repeat',
+    path: 'touch-repeat'
+  },
+  {
+    name: 'Touch Swipe',
+    path: 'touch-swipe'
+  }
+]
+
+const plugins = [
+  {
+    name: 'Addressbar Color',
+    path: 'addressbar-color'
+  },
+  {
+    name: 'App Fullscreen',
+    path: 'app-fullscreen'
+  },
+  {
+    name: 'App Visibility',
+    path: 'app-visibility'
+  },
+  {
+    name: 'Bottom Sheet',
+    path: 'bottom-sheet'
+  },
+  {
+    name: 'Cookies',
+    path: 'cookies'
+  },
+  {
+    name: 'Dark',
+    path: 'dark'
+  },
+  {
+    name: 'Dialog',
+    path: 'dialog'
+  },
+  {
+    name: 'Loading',
+    path: 'loading'
+  },
+  {
+    name: 'Loading Bar',
+    path: 'loading-bar'
+  },
+  {
+    name: 'Local/Session Storage',
+    path: 'web-storage'
+  },
+  {
+    name: 'Meta',
+    path: 'meta'
+  },
+  {
+    name: 'Notify',
+    path: 'notify'
+  }
+]
+
 const appExtensions = [
   {
     name: 'Introduction',
@@ -1257,6 +1280,12 @@ module.exports = [
     icon: 'widgets',
     path: 'vue-components',
     children: components
+  },
+  {
+    name: 'Vue Composables',
+    icon: 'developer_mode',
+    path: 'vue-composables',
+    children: composables
   },
   {
     name: 'Vue Directives',

@@ -2,8 +2,8 @@ import { h, defineComponent, ref, computed, watch, onBeforeUnmount, nextTick, Tr
 
 import useQuasar from '../../composables/use-quasar.js'
 import useHistory from '../../composables/private/use-history.js'
-import useTimeout from '../../composables/use-timeout.js'
-import useTick from '../../composables/use-tick.js'
+import useTimeout from '../../composables/private/use-timeout.js'
+import useTick from '../../composables/private/use-tick.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 import usePortal from '../../composables/private/use-portal.js'
 import usePreventScroll from '../../composables/private/use-prevent-scroll.js'

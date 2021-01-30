@@ -1,6 +1,8 @@
 ---
 title: The $q object
 desc: The $q object in Quasar. Why and how to use it.
+related:
+  - /vue-composables/use-quasar
 ---
 
 Quasar supplies a `$q` object that you can use for various purposes. You will notice it throughout the docs.

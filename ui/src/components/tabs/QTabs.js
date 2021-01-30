@@ -4,8 +4,8 @@ import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import useQuasar from '../../composables/use-quasar.js'
-import useTick from '../../composables/use-tick.js'
-import useTimeout from '../../composables/use-timeout.js'
+import useTick from '../../composables/private/use-tick.js'
+import useTimeout from '../../composables/private/use-timeout.js'
 
 import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'

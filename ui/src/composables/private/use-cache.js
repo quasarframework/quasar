@@ -1,5 +1,5 @@
 export default function () {
-  let cache = {}
+  let cache = new Map()
 
   return {
     getCache: __QUASAR_SSR_SERVER__
