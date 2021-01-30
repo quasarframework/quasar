@@ -4,6 +4,7 @@ desc: A Quasar plugin that provides an easy way to display a prompt, choice, con
 related:
   - /vue-components/dialog
   - /quasar-plugins/bottom-sheet
+  - /vue-composables/use-dialog-plugin-component
 ---
 
 Quasar Dialogs are a great way to offer the user the ability to choose a specific action or list of actions. They also can provide the user with important information, or require them to make a decision (or multiple decisions).

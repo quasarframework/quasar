@@ -360,7 +360,7 @@ Should you wish to create your own Vue components that need to connect to a pare
 import { useFormChild } from 'quasar'
 
 useFormChild ({
-  validate,     // Function returning a Boolean
+  validate,     // Function returning a Boolean (or a Promise resolving to a Boolean)
   requiresQForm // Boolean -> if "true" and your component
                 //   is not wrapped by QForm it then displays
                 //   an error message
@@ -383,11 +383,11 @@ export default {
 ```js
 // Options API variant
 
-import { QFormChildBase } from 'quasar'
+import { QFormChildMixin } from 'quasar'
 
 // some component
 export default {
-  mixins: [ QFormChildBase ],
+  mixins: [ QFormChildMixin ],
 
   methods: {
     // required! should return a Boolean

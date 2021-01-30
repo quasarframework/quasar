@@ -1,7 +1,7 @@
 import QForm from './QForm.js'
-import QFormChildBase from './QFormChildBase.js'
+import QFormChildMixin from './QFormChildMixin.js'
 
 export {
   QForm,
-  QFormChildBase
+  QFormChildMixin
 }

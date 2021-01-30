@@ -181,7 +181,7 @@
 
 <script>
 import { h } from 'vue'
-import { QField, QCard, QCardSection, QFormChildBase } from 'quasar'
+import { QField, QCard, QCardSection, QFormChildMixin } from 'quasar'
 
 export default {
   components: {
@@ -197,7 +197,7 @@ export default {
     },
 
     myComp: {
-      mixins: [ QFormChildBase ],
+      mixins: [ QFormChildMixin ],
 
       render () {
         return h('div', {}, [
