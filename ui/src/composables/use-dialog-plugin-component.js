@@ -19,5 +19,5 @@ export default function ({ emit }) {
   const vm = getCurrentInstance()
   Object.assign(vm.proxy, { show, hide })
 
-  return { dialogRef, onDialogHide, show, hide }
+  return { dialogRef, onDialogHide, hide }
 }

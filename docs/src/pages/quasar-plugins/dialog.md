@@ -122,6 +122,8 @@ Your custom component however must follow the interface described below in order
 
 #### Composition API variant
 
+We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plugin-component) composable.
+
 ```html
 <template>
   <!-- notice dialogRef here -->
@@ -151,7 +153,7 @@ export default {
 
   setup (props, { emit }) {
     // REQUIRED; must be called inside of setup()
-    const { dialogRef, onDialogHide, show, hide } = useDialogPluginComponent({ emit })
+    const { dialogRef, onDialogHide, hide } = useDialogPluginComponent({ emit })
 
     function onOKClick () {
       // on OK, it is REQUIRED to

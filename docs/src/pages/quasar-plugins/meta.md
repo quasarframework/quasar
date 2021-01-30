@@ -17,6 +17,8 @@ What the Meta plugin does is that it enables the use of a special property in yo
 
 ### Composition API
 
+We will be using the [useMeta](/vue-composables/use-meta) composable.
+
 ```js
 // some .vue file
 import { useMeta } from 'quasar'
