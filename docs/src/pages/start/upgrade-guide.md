@@ -29,7 +29,7 @@ $ quasar upgrade --install
 ```
 
 ::: warning Note for code editor terminals
-If you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%* then restart your code editor.
+If you're using a code editor terminal instead of an external one and you run `quasar upgrade` and get the error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%*, then restart your code editor.
 :::
 
 ### With Vue CLI
@@ -40,7 +40,7 @@ $ yarn upgrade quasar@next
 
 Optionally, you may also want to make sure that you have the latest `vue-cli-plugin-quasar` package.
 
-It's a good idea to keep `@quasar/extras` package to its latest version too:
+It's highly recommended to keep `@quasar/extras` package up to date too:
 
 ```bash
 # optional, but recommended
@@ -51,38 +51,38 @@ $ yarn add @quasar/extras@latest
 
 ### Intro
 
-We did our best so that this transition from Quasar v1 to v2 to be as painless as possible. Don't be afraid by the length of this page as it doesn't reflects the effort that you need to put into this (we just tried to make it as complete as possible). The API of Quasar components, directives and plugins has minor changes as we kept the breaking changes to the bare minimum. We also added some new cool features for some components.
+We've put in a lot of work, so the transition from Quasar v1 to v2 is as painless as possible. Don't be afraid by the length of this page, as it doesn't reflect the effort that you need to put into upgrading your app to Quasar v2 (we just tried to make it as complete as possible). The API of Quasar components, directives and plugins has minor changes, but we kept the breaking changes to a bare minimum. We've also added some new cool features to some components.
 
-Quasar UI v2 is based on Vue 3, as opposed to previous version which was based on Vue 2. This means that your app code (Vue components, directives, etc) should be Vue 3 compliant too, not just the Quasar UI source-code. If you are using additional libraries in your app, please make sure that you have their Vue 3 versions.
+Quasar UI v2 is based on Vue 3, as opposed to the previous version which was based on Vue 2. This means that your app code (Vue components, directives, etc) should be Vue 3 compliant too, not just the Quasar UI source-code. If you are using additional libraries in your app, please make sure that you are using their Vue 3 versions.
 
 Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots of significant performance enhancements in Quasar's algorithms too!__ You'll love it!
 
 ::: warning IMPORTANT!
-* No IE11 support - Vue 3 does not supports it either; if IE11 support is mandatory for your project(s), then continue using Quasar UI v1.
-* Quasar Stylus variables are no longer available (only Sass/SCSS ones); this does NOT mean that you can't use Stylus anymore though.
-* SSR build mode is NOT **yet** supported; if your project relies on SSR, you might want to hold off on upgrading for now.
+* No IE11 support - Vue 3 does not supports IE11 either. If IE11 support is mandatory for your project(s), then continue using Quasar UI v1.
+* Quasar Stylus variables are no longer available (only Sass/SCSS). This does NOT mean that you can't use Stylus anymore though.
+* SSR build mode is NOT **yet** supported. If your project relies on SSR, you might want to hold off on upgrading for now.
 :::
 
-Before you start down this journey of upgrading a project from v1 to v2 you should know a few things:
+Before you start with this journey of upgrading your project from v1 to v2, you should know a few additional things:
 1) Read the documentation before asking questions on Discord server or forums.
-2) Prepare a CodePen so staff can help you.
+2) Prepare a CodePen so staff can help you, if you think you've found an issue.
 3) Dig into the [Quasar source code](https://github.com/quasarframework/quasar/tree/vue3-work) (it'll help you understand the framework as well as teach you best practices for programming with Vue).
-4) Don't use framework components as mixins unless absolutely necessary (wrap them if you need).
+4) Don't use framework components as mixins unless absolutely necessary (wrap them if you need to).
 5) Don't target inner component stuff with CSS selectors unless absolutely necessary.
 6) We recommend `yarn` whenever possible because of its speed and efficient use. However, when using globals, we still recommend using `npm`, especially if you use `nvm` (Node Version Manager).
 7) Use `git` for repository management and make regular commits, it is like taking notes on the process and lets you revert to a previous state in case you get stuck.
 8) Use Quasar boot files for any pre-mounting app routines.
 9) Finally, become a [backer/sponsor](https://donate.quasar.dev) and get access to the special Discord support chat room for priority support. This also helps the project survive.
 
-If you get stuck, check out the forums and visit Discord server for help. Not just from staff, but from the community as well.
+If you get stuck, check out the forums or visit our Discord server for help which comes not just from staff, but from the community as well.
 
 ::: warning Info
-It should be noted that we have tried our hardest to make sure everything in the Upgrade documentation is correct. However, because this has been a manual process there are likely errors. If you find any, don't be afraid to make a PR and propose a change to that which needs to be corrected.
+It should be noted that we have tried our hardest to make sure everything in the Upgrade documentation is correct. However, because this has been a manual process, there are likely errors. If you find any, don't be afraid to make a PR and propose a change to make corrections.
 :::
 
 ### Initial Steps
 
-There are two paths that you can follow and they are described below. Choose what best fit your needs. We do recommend the first option.
+There are two paths you can follow. They are described below. Choose the path that fits your needs best. We do, however, recommend the first option.
 
 #### Option 1: Convert a project
 
@@ -90,14 +90,14 @@ There are two paths that you can follow and they are described below. Choose wha
 This guide assumes that you are currently using a `@quasar/app` v2 project.
 :::
 
-Before starting, it might be wise to work on this on a new git branch or on a copy of your current working project.
+Before starting, it is highly suggested to make a copy of your current working project or create a new branch with git.
 
-1) **Stylus related**: Are you using Stylus and Quasar Stylus variables? Then before anything, convert all those files to Sass/SCSS (including src/css/app.styl -> src/css/app.sass or app.scss). If you will still want to use Stylus in your project (without Quasar Stylus variables), then you'll also need to install the stylus related packages (which are no longer supplied by "@quasar/app" out of the box):
+1) **Stylus related**: Are you using Stylus and Quasar Stylus variables? Then before anything, convert all those files to Sass/SCSS (including src/css/app.styl -> src/css/app.sass or app.scss). If you still want to use Stylus in your project (without Quasar Stylus variables), then you'll also need to install the stylus related packages (which are no longer supplied by "@quasar/app" out of the box):
   ```bash
   # only if you still want to use Stylus (but without Quasar Stylus variables)
   $ yarn add --dev stylus stylus-loader
   ```
-2) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file; this generally is not really needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide
+2) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
 3) **Install**: `quasar` v2 and `@quasar/app` v3 beta packages from the npm tag named "next":
   ```bash
   $ yarn add quasar@next
@@ -144,9 +144,9 @@ Before starting, it might be wise to work on this on a new git branch or on a co
 
 #### Option 2: Create a project
 
-Second option is to create a fresh project and port it to it bit by bit. We see this option as a worst case scenario (where you encounter problems with Vue 3 and Vue Router v4 rather than with Quasar itself) and we wrote about it for the completeness of this guide.
+Second option is to create a fresh project and port to it bit by bit. We see this option as a worst case scenario (where you encounter problems with Vue 3 and Vue Router v4 rather than with Quasar itself) and we only mention it for the completeness of this guide.
 
-You can generate a new Quasar v2 project like below and then you can port your app bit by bit to it.
+You can generate a new Quasar v2 project as shown below and then you can port your app to it.
 
 ```bash
 $ quasar create <folder_name> --branch next
@@ -175,13 +175,13 @@ You'll need to edit src/App.vue and remove the wrapper `<div id="q-app">`. You d
 
 Since you will also switch to [Vue 3](https://v3.vuejs.org), it's best that you also take a look at its [migration guide](https://v3.vuejs.org/guide/migration/introduction.html) **after**  finishing reading this migration guide.
 
-If you're using .vue files, you'll most likely have a fairly easy transition since 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://v3.vuejs.org/guide/single-file-component.html) and instructing Vue 3 what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)).
+If you're using .vue files, you'll most likely have a fairly easy transition because 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://v3.vuejs.org/guide/single-file-component.html) and instructing Vue 3 on what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)).
 
-We suggest that you first convert your project to Quasar v2 while maintaining Options API (because your components are already in Options API form and you probably want to ensure everything is working first). After this transition you can convert all your Vue components to Composition API, but in no way is this a requirement.
+We suggest that you first convert your project to Quasar v2 while maintaining Options API (because your components are already in Options API form and you probably want to ensure everything is working first). After this transition, you can convert all your Vue components to Composition API, but in no way is this a requirement.
 
-Vue 3 is to be used along with a new major version of [Vue Router v4](https://next.router.vuejs.org), which comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/) that you should be aware of. There's also the new [Vuex v4]().
+Along with Vue3, there is a new major version of [Vue Router v4](https://next.router.vuejs.org), which has its own [breaking changes](https://next.router.vuejs.org/guide/migration/) you should be aware of. There's also the new [Vuex v4](https://vuex.vuejs.org/) too.
 
-As an example of one of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to `model-value` + `@update:modelValue` combo instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files then you don't need to worry about it as vue-loader correctly translates it for you.
+As an example of one of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to the `model-value` + `@update:modelValue` combo, instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files, then you don't need to worry about it as vue-loader correctly translates it for you.
 
 ### Vue Router v4
 
@@ -234,7 +234,7 @@ export default [
 export default routes
 ```
 
-If you use TypeScript, you must replace `RouteConfig` interface occurrences with `RouteRecordRaw`.
+If you use TypeScript, you must replace the `RouteConfig` interface occurrences with `RouteRecordRaw`.
 
 ### Vuex v4
 
@@ -290,7 +290,7 @@ If you use TypeScript, remove the existing augmentation of 'vue/types/vue' as it
 
 ### @vue/composition-api
 
-If you've been using Composition API package for Vue 2, you shall now change all imports to point towards the Vue package.
+If you've been using Composition API package for Vue 2, you'll need to change all imports to point towards the Vue package.
 
   ```js
   // OLD, @vue/composition-api way
@@ -314,9 +314,9 @@ If you use TypeScript, prepare to reload VSCode many times, as all upgrades will
 
 #### Vue 3 and v-model
 
-The `v-model` is now an alias to `model-value` + `@update:modelValue` combo instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files then you don't need to worry about it as vue-loader correctly translates it for you.
+The `v-model` is now an alias to the `model-value` + `@update:modelValue` combo, instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files then you don't need to worry about it as vue-loader correctly translates it for you.
 
-Suggestion: you may want to do a search and replace for `:value` and `@input`. Please be careful on replacing the `:value` as some components (QLinearProgress, QCircularProgress) are not tied to v-model and still use `value` as property.
+Suggestion: you may want to do a search and replace for `:value` and `@input`. Please be careful on replacing the `:value` as some components (QLinearProgress, QCircularProgress) are not tied to v-model and still use `value` as a property.
 
 #### Vue 3 and scoped slots
 
@@ -328,12 +328,12 @@ Use "class" and "style" attributes instead of "content-class" / "content-style" 
 
 #### QBreadcrumbsEl
 
-Removed "append" prop due to Vue Router v4 also [dropping it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
+Removed "append" prop because Vue Router v4 [has also dropped it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
 Added "tag" and "ripple" properties.
 
 #### QChatMessage
 
-By default, the "label", "name", "text" and "stamp" are protected by XSS attacks now. This means that all of the `*-sanitize` props have been dropped as this behavior is the standard in Quasar now. Should you wish to display HTML as content for these props you now need to explicitly specify them through new Boolean props (`*-html`).
+Now by default, the "label", "name", "text" and "stamp" are protected from XSS attacks. This means that all of the `*-sanitize` props have been dropped, as this behavior has now become the standard in Quasar. Should you wish to display HTML as content for these props, you now need to explicitly specify them through new Boolean props (`*-html`).
 
 | Removed Boolean prop | New opposite equivalent Boolean prop |
 | --- | --- |
@@ -344,15 +344,15 @@ By default, the "label", "name", "text" and "stamp" are protected by XSS attacks
 
 #### QDate
 
-When `@update:modelValue` event (equivalent of the old `@input`) is triggered, the contents of the first parameter no longer contains the (deprecated) `changed` prop.
+When `@update:modelValue` event (equivalent of the old `@input`) is triggered, the contents of the first parameter no longer contain the (deprecated) `changed` prop.
 
 #### QExpansionItem
 
-Removed the "append" property due to Vue Router v4 also [dropping it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
+Removed the "append" property because Vue Router v4 [has also dropped it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
 
 #### (New) Connecting to QForm
 
-Should you wish to create your own Vue components that need to connect to a parent QForm (for validation purposes), we made it easier for you:
+Should you wish to create your own Vue components that need to connect to a parent QForm (for validation purposes), we've made it easier for you:
 
 ```js
 // Composition API variant
@@ -403,7 +403,7 @@ export default {
 
 #### QImg
 
-This component has been redesigned from the ground up. It now makes use of more modern API. The immediate effects are that it uses less RAM memory and runtime is much faster.
+This component has been redesigned from the ground up. It now makes use of a more modern API. The immediate effects are that it uses less RAM memory and runtime is much faster.
 
 Added properties: "loading", "crossorigin", "fit", "no-spinner", "no-native-menu", "no-transition".
 Removed properties: "transition", "basic" (now equivalent to "no-spinner" + "no-transition")
@@ -433,7 +433,7 @@ Some performance improvements have been made on this component and as a result y
 </q-popup-edit>
 ```
 
-NEW way is below. Notice `v-slot="scope"` applied directly on `<q-popup-edit>` and using `scope.value` instead of `myModel` for the inner `<q-input>` component:
+The NEW way is below. Notice `v-slot="scope"` is applied directly on `<q-popup-edit>` and using `scope.value` instead of `myModel` for the inner `<q-input>` component:
 
 ```html
 <q-popup-edit
@@ -454,7 +454,7 @@ NEW way is below. Notice `v-slot="scope"` applied directly on `<q-popup-edit>` a
 </q-popup-edit>
 ```
 
-For more details information on the usage, please read [QPopupEdit](/vue-components/popup-edit)'s page.
+For more detailed information on the usage, please read [QPopupEdit](/vue-components/popup-edit)'s page.
 
 #### QLayout
 
@@ -508,16 +508,16 @@ The `@scroll` event parameter now has a slightly different content:
 
 #### QSelect
 
-* The "option" slot params has dropped "itemEvents" prop and that information is now contained within the "itemProps". This comes naturally as a result of Vue 3 flattening the rendering function's second parameter ("on", "props" etc merged together into a single Object).
+* The "itemEvents" prop has been dropped from the "option" slot. That information is now contained within the "itemProps". This change is a logical result Vue 3's flattening of the rendering function's second parameter ("on", "props" etc. merged together into a single Object).
 * New method: "blur()"
 
 #### QTable
 
-Renamed "data" property to "rows" (to solve TS conflict issue with "data" incorrectly inferred as the "data()" method of a Vue component)
+Renamed the "data" property to "rows" (to solve TS conflict issue with "data" incorrectly inferred as the "data()" method of a Vue component)
 
 #### QTable/QTree
 
-Due to the new v-model feature of Vue 3 which replaces ".sync" modifier, the following properties need to be used differently:
+Due to the new v-model feature of Vue 3, which replaces the ".sync" modifier, the following properties need to be used differently:
 
 | Old way | New way |
 | --- | --- |
@@ -560,7 +560,7 @@ this.$router.go(-1)
 #### Loading plugin
 
 * Added "boxClass" property
-* By default, the message is protected by XSS attacks. Should you wish to display HTML content with the "message" prop you should also specify "html: true". This is the total opposite behavior from v1, where you had prop "sanitize" (not available anymore; enabled now by default) to NOT display HTML.
+* By default, the message is protected from XSS attacks. Should you wish to display HTML content with the "message" prop, you should also specify "html: true". This behavior is completely opposite to that of Quasar v1, where you had the prop "sanitize" (not available anymore; enabled now by default) to NOT display HTML.
 
 #### Dialog plugin
 Two things changed:
@@ -595,7 +595,7 @@ Two things changed:
     // same as above
   })
   ```
-2. The "parent" / "root" prop has been removed. Due to the Vue 3 architecture, we can no longer use a "parent" component for the provide/inject functionality. But you'll still be able to use Vue Router/Vuex/etc inside of your custom component.
+2. The "parent" / "root" prop has been removed. Due to the Vue 3 architecture, we can no longer use a "parent" component for the provide/inject functionality. But you'll still be able to use Vue Router/Vuex/etc. inside of your custom component.
 
 #### Meta plugin
 
@@ -717,7 +717,7 @@ You'll also need to edit all your dynamic imports from `quasar/lang/` to match t
 
 ### Quasar UMD
 * Due to the new Vue 3 architecture, the code for bootstrapping the app has changed and you will need to adapt [accordingly](/start/umd).
-* There have been changes to the naming scheme of script and css tags to include. For example, the minified resources filenames now end in `.prod.js`/`.prod.css`. This is as a way to match Vue 3's own file naming.
+* There have been changes to the naming scheme of script and css tags to include the type of distubution. For example, the minified resources filenames now end in `.prod.js`/`.prod.css`. This was done to match Vue 3's own file naming scheme.
 
 ::: tip
 For an in-depth look at the necessary UMD scripts and tags, please use our [generator tool](/start/umd#Installation).
@@ -734,7 +734,7 @@ This section refers to "@quasar/app" v3 package.
 * Removed support for quasar.conf.js > framework > `importStrategy: 'all'` since the auto import feature has become so good anyways (so it's now enabled by default).
 * if you use TypeScript, update `supportTs.tsCheckerConfig.eslint` property value with `{ enabled: true, files: './src/**/*.{ts,tsx,js,jsx,vue}' }`. This is due to upstream breaking changes of `fork-ts-checker-webpack-plugin`.
 
-If you have boot files where you access and change the `$q` Object through `Vue.prototype.$q`, then you need to adapt this:
+If you have boot files, where you access and change the `$q` Object through `Vue.prototype.$q`, then you need to adapt this:
 
 ```js
 // old way in boot file
