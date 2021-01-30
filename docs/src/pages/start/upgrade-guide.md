@@ -7,6 +7,7 @@ desc: How to upgrade Quasar from older versions to the latest one.
 * Until the final stable version is released, some aspects of the framework may change. We're not planning for additional changes, but unforeseen reported issues may require us to do breaking changes (unlikely, but keep this in mind). So please make sure that you read each v2 beta version's release notes carefully before upgrading.
 * We plan on finalizing the Webpack 5 upgrade in Quasar CLI at some point in the beta stage.
 * Considering the above, we still recommend starting a new project with Quasar v2.
+* We are still working on upgrading all of our App Extensions to Vue 3 and Quasar v2.
 :::
 
 ## Older v2 to latest v2
@@ -728,6 +729,7 @@ This section refers to "@quasar/app" v3 package.
 
 * Dropped support for `src/css/quasar.variables.styl`. Also, if you still want to use Stylus as preprocessor (but without the Quasar Stylus variables) then you need to manually yarn/npm install `stylus` and `stylus-loader` as dev dependencies into your project ("@quasar/app" does not supply them anymore).
 * New quasar.conf.js > build > vueLoaderOptions prop
+* Remove quasar.conf.js > framework > importStrategy. Auto import works so great that is now used by default and as the only option.
 * The url-loader configuration has been enhanced so it now also supports "ico" files out of the box
 * Removed support for quasar.conf.js > framework > `importStrategy: 'all'` since the auto import feature has become so good anyways (so it's now enabled by default).
 * if you use TypeScript, update `supportTs.tsCheckerConfig.eslint` property value with `{ enabled: true, files: './src/**/*.{ts,tsx,js,jsx,vue}' }`. This is due to upstream breaking changes of `fork-ts-checker-webpack-plugin`.
