@@ -59,9 +59,10 @@ async function run () {
   // TODO vue3 - remove when ready
   if (mode === 'ssr') {
     console.log(
+      '\n' +
       '##############################################################\n' +
       '# SSR mode is not *yet* supported and is disabled currently. #\n' +
-      '##############################################################\n\n'
+      '##############################################################\n'
     )
     process.exit(1)
   }

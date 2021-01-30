@@ -47,9 +47,10 @@ if (argv.help) {
 // TODO vue3 - remove when ready
 if (argv.mode === 'ssr') {
   console.log(
+    '\n' +
     '##############################################################\n' +
     '# SSR mode is not *yet* supported and is disabled currently. #\n' +
-    '##############################################################\n\n'
+    '##############################################################\n'
   )
   process.exit(1)
 }
