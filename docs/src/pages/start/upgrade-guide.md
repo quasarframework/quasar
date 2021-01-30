@@ -29,7 +29,7 @@ $ quasar upgrade --install
 ```
 
 ::: warning Note for code editor terminals
-If you're using a code editor terminal instead of the real one and you run `quasar upgrade` and get an error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%* then restart your code editor.
+If you're using a code editor terminal instead an external one and you run `quasar upgrade` and get the error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%*, then restart your code editor.
 :::
 
 ### With Vue CLI
@@ -40,7 +40,7 @@ $ yarn upgrade quasar@next
 
 Optionally, you may also want to make sure that you have the latest `vue-cli-plugin-quasar` package.
 
-It's highly recommened to keep `@quasar/extras` package up to date too:
+It's highly recommended to keep `@quasar/extras` package up to date too:
 
 ```bash
 # optional, but recommended
@@ -51,7 +51,7 @@ $ yarn add @quasar/extras@latest
 
 ### Intro
 
-We put in a lot of work, so the transition from Quasar v1 to v2 is as painless as possible, for you. Don't be afraid by the length of this page, as it doesn't reflects the effort that you need to put into upgrading your app to Quasar v2 (we just tried to make it as complete as possible). The API of Quasar components, directives and plugins has minor changes, but we kept the breaking changes to a bare minimum. We also added some new cool features for some components.
+We've put in a lot of work, so the transition from Quasar v1 to v2 is as painless as possible. Don't be afraid by the length of this page, as it doesn't reflect the effort that you need to put into upgrading your app to Quasar v2 (we just tried to make it as complete as possible). The API of Quasar components, directives and plugins has minor changes, but we kept the breaking changes to a bare minimum. We've also added some new cool features to some components.
 
 Quasar UI v2 is based on Vue 3, as opposed to the previous version which was based on Vue 2. This means that your app code (Vue components, directives, etc) should be Vue 3 compliant too, not just the Quasar UI source-code. If you are using additional libraries in your app, please make sure that you are using their Vue 3 versions.
 
