@@ -1,23 +1,23 @@
 import { h, ref, isRef, computed, watch, provide, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import QBtn from '../components/btn/QBtn.js'
-import QIcon from '../components/icon/QIcon.js'
-import QSpinner from '../components/spinner/QSpinner.js'
-import QCircularProgress from '../components/circular-progress/QCircularProgress.js'
+import QBtn from '../btn/QBtn.js'
+import QIcon from '../icon/QIcon.js'
+import QSpinner from '../spinner/QSpinner.js'
+import QCircularProgress from '../circular-progress/QCircularProgress.js'
 
-import useQuasar from './use-quasar.js'
-import useDark, { useDarkProps } from './private/use-dark.js'
-import useFile, { useFileProps, useFileEmits } from './private/use-file.js'
+import useQuasar from '../../composables/use-quasar.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useFile, { useFileProps, useFileEmits } from '../../composables/private/use-file.js'
 
-import { stop } from '../utils/event.js'
-import { humanStorageSize } from '../utils/format.js'
-import { uploaderKey } from '../utils/private/symbols.js'
+import { stop } from '../../utils/event.js'
+import { humanStorageSize } from '../../utils/format.js'
+import { uploaderKey } from '../../utils/private/symbols.js'
 
 function getProgressLabel (p) {
   return (p * 100).toFixed(2) + '%'
 }
 
-const props = {
+export const coreProps = {
   ...useDarkProps,
   ...useFileProps,
 
@@ -38,13 +38,15 @@ const props = {
   readonly: Boolean
 }
 
-const emits = [
+export const coreEmits = [
   ...useFileEmits,
   'start', 'finish', 'added', 'removed'
 ]
 
-function getState () {
+export function getRenderer (props, slots, emit, getPlugin) {
   const vm = getCurrentInstance()
+  const $q = useQuasar()
+  const isDark = useDark(props, $q)
 
   function updateFileStatus (file, status, uploadedSize) {
     file.__status = status
@@ -73,19 +75,18 @@ function getState () {
     vm.proxy.$forceUpdate()
   }
 
-  return {
+  const state = {
     queuedFiles: ref([]),
     uploadedFiles: ref([]),
     uploadedSize: ref(0),
 
-    updateFileStatus
+    updateFileStatus,
+    isAlive () {
+      return vm.isDeactivated !== true && vm.isUnmounted !== true
+    }
   }
-}
 
-function getRender (props, slots, emit, state) {
-  const vm = getCurrentInstance()
-  const $q = useQuasar()
-  const isDark = useDark(props, $q)
+  Object.assign(state, getPlugin({ props, slots, emit, helpers: state }))
 
   const uploadSize = ref(0)
   const editable = computed(() => props.disable !== true && props.readonly !== true)
@@ -427,7 +428,8 @@ function getRender (props, slots, emit, state) {
     removeUploadedFiles,
     removeQueuedFiles,
     removeFile,
-    upload
+    upload,
+    abort: state.abort
   }
 
   const slotScope = computed(() => {
@@ -449,34 +451,25 @@ function getRender (props, slots, emit, state) {
   // expose public methods
   Object.assign(vm.proxy, publicMethods)
 
-  return {
-    renderUploader: () => {
-      const children = [
-        h('div', { class: colorClass.value }, getHeader()),
-        h('div', { class: 'q-uploader__list scroll' }, getList()),
-        getDndNode('uploader')
-      ]
+  return () => {
+    const children = [
+      h('div', { class: colorClass.value }, getHeader()),
+      h('div', { class: 'q-uploader__list scroll' }, getList()),
+      getDndNode('uploader')
+    ]
 
-      state.isBusy.value === true && children.push(
-        h('div', {
-          class: 'q-uploader__overlay absolute-full flex flex-center'
-        }, [ h(QSpinner) ])
-      )
+    state.isBusy.value === true && children.push(
+      h('div', {
+        class: 'q-uploader__overlay absolute-full flex flex-center'
+      }, [ h(QSpinner) ])
+    )
 
-      const data = { ref: rootRef, class: classes.value }
+    const data = { ref: rootRef, class: classes.value }
 
-      if (canAddFiles.value === true) {
-        data.onDragover = onDragover
-      }
-
-      return h('div', data, children)
+    if (canAddFiles.value === true) {
+      data.onDragover = onDragover
     }
-  }
-}
 
-export default {
-  props,
-  emits,
-  getState,
-  getRender
+    return h('div', data, children)
+  }
 }

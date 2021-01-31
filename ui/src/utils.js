@@ -2,6 +2,7 @@ import clone from './utils/clone.js'
 import colors from './utils/colors.js'
 import copyToClipboard from './utils/copy-to-clipboard.js'
 import createMetaMixin from './utils/create-meta-mixin.js'
+import createUploaderComponent from './utils/create-uploader-component.js'
 import date from './utils/date.js'
 import debounce from './utils/debounce.js'
 import dom from './utils/dom.js'
@@ -24,6 +25,7 @@ export {
   colors,
   copyToClipboard,
   createMetaMixin,
+  createUploaderComponent,
   date,
   debounce,
   dom,

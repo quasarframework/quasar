@@ -160,8 +160,8 @@ export default {
       // on OK, it is REQUIRED to
       // emit "ok" event (with optional payload)
       // before hiding the QDialog
-      $emit('ok')
-      // or with payload: $emit('ok', { ... })
+      emit('ok')
+      // or with payload: emit('ok', { ... })
 
       // then hiding dialog
       hide()

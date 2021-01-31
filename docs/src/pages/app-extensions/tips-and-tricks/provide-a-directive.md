@@ -70,7 +70,6 @@ Finally, let's see how the boot file would look like. Make sure that you read th
 
 ```js
 // file: /src/boot/my-directive.js
-import Vue from 'vue'
 import MyDirective from '../directive/MyDirective.js'
 
 // We globally register our directive with Vue;
@@ -78,5 +77,7 @@ import MyDirective from '../directive/MyDirective.js'
 // but that should not be part of your directive name
 // https://vuejs.org/v2/guide/custom-directive.html
 // 'my-directive' will be used as 'v-my-directive'
-Vue.directive('my-directive', MyDirective)
+export default ({ app }) => {
+  app.directive('my-directive', MyDirective)
+}
 ```

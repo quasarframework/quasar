@@ -286,74 +286,89 @@ if __name__ == '__main__':
 ```
 
 ## Supporting other services
-QUploader currently supports uploading through the HTTP protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
-
-Below is an example with the API that you need to supply. **You'll be creating a new Vue component that extends the Base of QUploader that you can then import and use in your website/app.**
-
-Basically, QUploader is QUploaderBase + the xhr mixin. Your component will be QUploaderBase + your service mixin.
-
-::: tip
-For the default XHR implementation, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/uploader-xhr-mixin.js).
-:::
+QUploader currently supports uploading through the HTTP(S) protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
 ::: warning Help appreciated
-We'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit.
+We'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit. Hit the `Suggest an edit on GitHub` link at bottom of this page or the pencil icon at the top of the page.
 :::
 
-For the UMD version, you can extend `Quasar.components.QUploaderBase`.
+Below is an example with the API that you need to supply to the `createUploaderComponent()` Quasar util. This will create a Vue component that you can import in your app.
 
 ```js
 // MyUploader.js
-import { QUploaderBase } from 'quasar'
+import { createUploaderComponent } from 'quasar'
+import { computed } from 'vue'
 
-export default {
-  name: 'MyUploader',
+// export a Vue component
+export default createUploaderComponent({
+  // defining the QUploader plugin here
 
-  mixins: [ QUploaderBase ],
+  name: 'MyUploader', // your component's name
 
-  computed: {
-    // [REQUIRED]
-    // we're working on uploading files
-    isUploading () {
-      // return <Boolean>
-    },
-
-    // [optional]
-    // shows overlay on top of the
-    // uploader signaling it's waiting
-    // on something (blocks all controls)
-    isBusy () {
-      // return <Boolean>
-    }
+  props: {
+    // ...your custom props
   },
 
-  methods: {
-    // [REQUIRED]
-    // abort and clean up any process
+  emits: [
+    // ...your custom events name list
+  ],
+
+  injectPlugin ({ props, emit, helpers }) {
+    // can call any other composables here
+    // as this function will run in the component's setup()
+
+    // [ REQUIRED! ]
+    // We're working on uploading files
+    const isUploading = computed(() => {
+      // return <Boolean>
+    })
+
+    // [ optional ]
+    // Shows overlay on top of the
+    // uploader signaling it's waiting
+    // on something (blocks all controls)
+    const isBusy = computed(() => {
+      // return <Boolean>
+    })
+
+    // [ REQUIRED! ]
+    // Abort and clean up any process
     // that is in progress
-    abort () {
-      // ...
-    },
-
-    // [REQUIRED]
-    upload () {
-      if (this.canUpload === false) {
-        return
-      }
-
+    function abort () {
       // ...
     }
+
+    // [ REQUIRED! ]
+    // Start the uploading process
+    function upload () {
+      // ...
+    }
+
+    return {
+      isUploading,
+      isBusy,
+
+      abort,
+      upload
+    }
   }
-}
+})
 ```
+
+::: tip TIPS
+* For the default XHR implementation in the form of such a plugin, check out [source code](https://github.com/quasarframework/quasar/blob/vue3-work/ui/src/components/uploader/xhr-uploader-plugin.js).
+* For the UMD version use `Quasar.createUploaderComponent({ ... })`.
+:::
 
 Then you register this component globally with Vue or you import it and add it to the "components: {}" in your Vue components.
 
 ```js
-// globally registering your component
-import Vue from 'vue'
+// globally registering your component in a boot file
 import MyUploader from '../../path/to/MyUploader' // the file from above
-Vue.component('MyUploader', MyUploader)
+
+export default ({ app }) {
+  app.component('MyUploader', MyUploader)
+}
 
 // or declaring it in a .vue file
 import MyUploader from '../../path/to/MyUploader' // the file from above

@@ -1,4 +1,4 @@
-import { ref, computed, getCurrentInstance } from 'vue'
+import { ref, computed } from 'vue'
 
 function getFn (prop) {
   return typeof prop === 'function'
@@ -27,9 +27,7 @@ const props = {
 
 const emits = [ 'factory-failed', 'uploaded', 'failed', 'uploading' ]
 
-function getState (props, emit, state) {
-  const vm = getCurrentInstance()
-
+function injectPlugin ({ props, emit, helpers }) {
   const xhrs = ref([])
   const promises = ref([])
   const workingThreads = ref(0)
@@ -59,8 +57,8 @@ function getState (props, emit, state) {
   }
 
   function upload () {
-    const queue = state.queuedFiles.value.slice(0)
-    state.queuedFiles.value = []
+    const queue = helpers.queuedFiles.value.slice(0)
+    helpers.queuedFiles.value = []
 
     if (xhrProps.value.batch(queue)) {
       runFactory(queue)
@@ -94,15 +92,15 @@ function getState (props, emit, state) {
       promises.value.push(res)
 
       const failed = err => {
-        if (vm.isDeactivated !== true && vm.isUnmounted !== true) {
+        if (helpers.isAlive() === true) {
           promises.value = promises.value.filter(p => p !== res)
 
           if (promises.value.length === 0) {
             abortPromises = false
           }
 
-          state.queuedFiles.value = state.queuedFiles.value.concat(files)
-          files.forEach(f => { state.updateFileStatus(f, 'failed') })
+          helpers.queuedFiles.value = helpers.queuedFiles.value.concat(files)
+          files.forEach(f => { helpers.updateFileStatus(f, 'failed') })
 
           emit('factory-failed', err, files)
           workingThreads.value--
@@ -113,7 +111,7 @@ function getState (props, emit, state) {
         if (abortPromises === true) {
           failed(new Error('Aborted'))
         }
-        else if (vm.isDeactivated !== true && vm.isUnmounted !== true) {
+        else if (helpers.isAlive() === true) {
           promises.value = promises.value.filter(p => p !== res)
           performUpload(files, factory)
         }
@@ -160,7 +158,7 @@ function getState (props, emit, state) {
 
       const loaded = Math.min(maxUploadSize, e.loaded)
 
-      state.uploadedSize.value += loaded - localUploadedSize
+      helpers.uploadedSize.value += loaded - localUploadedSize
       localUploadedSize = loaded
 
       let size = localUploadedSize - uploadIndexSize
@@ -173,10 +171,10 @@ function getState (props, emit, state) {
           size -= file.size
           uploadIndex++
           uploadIndexSize += file.size
-          state.updateFileStatus(file, 'uploading', file.size)
+          helpers.updateFileStatus(file, 'uploading', file.size)
         }
         else {
-          state.updateFileStatus(file, 'uploading', size)
+          helpers.updateFileStatus(file, 'uploading', size)
           return
         }
       }
@@ -188,15 +186,15 @@ function getState (props, emit, state) {
       }
 
       if (xhr.status && xhr.status < 400) {
-        state.uploadedFiles.value = state.uploadedFiles.value.concat(files)
-        files.forEach(f => { state.updateFileStatus(f, 'uploaded') })
+        helpers.uploadedFiles.value = helpers.uploadedFiles.value.concat(files)
+        files.forEach(f => { helpers.updateFileStatus(f, 'uploaded') })
         emit('uploaded', { files, xhr })
       }
       else {
         aborted = true
-        state.uploadedSize.value -= localUploadedSize
-        state.queuedFiles.value = state.queuedFiles.value.concat(files)
-        files.forEach(f => { state.updateFileStatus(f, 'failed') })
+        helpers.uploadedSize.value -= localUploadedSize
+        helpers.queuedFiles.value = helpers.queuedFiles.value.concat(files)
+        files.forEach(f => { helpers.updateFileStatus(f, 'failed') })
         emit('failed', { files, xhr })
       }
 
@@ -221,7 +219,7 @@ function getState (props, emit, state) {
     const sendRaw = getProp('sendRaw', files)
 
     files.forEach(file => {
-      state.updateFileStatus(file, 'uploading', 0)
+      helpers.updateFileStatus(file, 'uploading', 0)
       if (sendRaw !== true) {
         form.append(getProp('fieldName', file), file, file.name)
       }
@@ -241,9 +239,6 @@ function getState (props, emit, state) {
     }
   }
 
-  // expose public methods
-  Object.assign(vm.proxy, { abort, upload })
-
   return {
     isUploading,
     isBusy,
@@ -254,7 +249,8 @@ function getState (props, emit, state) {
 }
 
 export default {
+  name: 'QUploader',
   props,
   emits,
-  getState
+  injectPlugin
 }

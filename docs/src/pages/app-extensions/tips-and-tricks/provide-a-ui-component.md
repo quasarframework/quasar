@@ -74,9 +74,10 @@ Finally, let's see how the boot file would look like. Make sure that you read th
 
 ```js
 // file: /src/boot/register-my-component.js
-import Vue from 'vue'
 import MyComponent from '../component/MyComponent.vue'
 
 // we globally register our component with Vue
-Vue.component('my-component', MyComponent)
+export default ({ app }) => {
+  app.component('my-component', MyComponent)
+}
 ```

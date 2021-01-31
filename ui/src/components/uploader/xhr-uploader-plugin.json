@@ -199,15 +199,5 @@
         }
       }
     }
-  },
-
-  "methods": {
-    "abort": {
-      "desc": "Abort upload of all files (same as clicking the abort button)"
-    },
-
-    "upload": {
-      "desc": "Start uploading (same as clicking the upload button)"
-    }
   }
 }

@@ -152,7 +152,6 @@ export default {
 
     quasarCliExport () {
       return `// quasar.conf.js
-// (will not work for IE11)
 
 return {
   framework: {
@@ -175,30 +174,28 @@ return {
     },
 
     umdExport () {
-      return `// place before including Quasar UMD script
-// (will not work for IE11)
+      return `app.use(Quasar, {
+  config: {
+    brand: {
+      primary: '${ this.colors.primary }',
+      secondary: '${ this.colors.secondary }',
+      accent: '${ this.colors.accent }',
 
-window.quasarConfig = {
-  brand: {
-    primary: '${ this.colors.primary }',
-    secondary: '${ this.colors.secondary }',
-    accent: '${ this.colors.accent }',
+      dark: '${ this.colors.dark }',
 
-    dark: '${ this.colors.dark }',
-
-    positive: '${ this.colors.positive }',
-    negative: '${ this.colors.negative }',
-    info: '${ this.colors.info }',
-    warning: '${ this.colors.warning }'
+      positive: '${ this.colors.positive }',
+      negative: '${ this.colors.negative }',
+      info: '${ this.colors.info }',
+      warning: '${ this.colors.warning }'
+    }
   }
 }`
     },
 
     vueCliExport () {
       return `// main.js
-// (will not work for IE11)
 
-Vue.use(Quasar, {
+app.use(Quasar, {
   config: {
     brand: {
       primary: '${ this.colors.primary }',

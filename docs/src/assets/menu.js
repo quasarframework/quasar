@@ -980,29 +980,6 @@ const components = [
   }
 ]
 
-const composables = [
-  {
-    name: 'useQuasar',
-    path: 'use-quasar'
-  },
-  {
-    name: 'useDialogPluginComponent',
-    path: 'use-dialog-plugin-component'
-  },
-  {
-    name: 'useFormChild',
-    path: 'use-form-child'
-  },
-  {
-    name: 'useMeta',
-    path: 'use-meta'
-  },
-  {
-    name: 'useUploader',
-    path: 'use-uploader'
-  }
-]
-
 const directives = [
   {
     name: 'Close Popup',
@@ -1098,6 +1075,25 @@ const plugins = [
   {
     name: 'Notify',
     path: 'notify'
+  }
+]
+
+const composables = [
+  {
+    name: 'useQuasar',
+    path: 'use-quasar'
+  },
+  {
+    name: 'useDialogPluginComponent',
+    path: 'use-dialog-plugin-component'
+  },
+  {
+    name: 'useFormChild',
+    path: 'use-form-child'
+  },
+  {
+    name: 'useMeta',
+    path: 'use-meta'
   }
 ]
 
@@ -1282,12 +1278,6 @@ module.exports = [
     children: components
   },
   {
-    name: 'Vue Composables',
-    icon: 'developer_mode',
-    path: 'vue-composables',
-    children: composables
-  },
-  {
     name: 'Vue Directives',
     icon: 'swap_calls',
     path: 'vue-directives',
@@ -1298,6 +1288,12 @@ module.exports = [
     icon: 'extension',
     path: 'quasar-plugins',
     children: plugins
+  },
+  {
+    name: 'Vue Composables',
+    icon: 'developer_mode',
+    path: 'vue-composables',
+    children: composables
   },
   {
     name: 'App Extensions',
