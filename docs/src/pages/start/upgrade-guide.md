@@ -181,7 +181,25 @@ We suggest that you first convert your project to Quasar v2 while maintaining Op
 
 Along with Vue3, there is a new major version of [Vue Router v4](https://next.router.vuejs.org), which has its own [breaking changes](https://next.router.vuejs.org/guide/migration/) you should be aware of. There's also the new [Vuex v4](https://vuex.vuejs.org/) too.
 
-As an example of one of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to the `model-value` + `@update:modelValue` combo, instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files, then you don't need to worry about it as vue-loader correctly translates it for you.
+#### Vue 3 breaking changes examples
+
+One of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to the `model-value` + `@update:modelValue` combo, instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files, then you don't need to worry about it as vue-loader correctly translates it for you.
+
+Also, if you emit custom events from your Vue components, you will need to explicitly specify them like below:
+
+```html
+<script>
+// your Vue component;
+// let's assume that we emit 'ok' and 'myEvent' events
+// from this component
+
+export default {
+  // ...
+  emits: [ 'ok', 'myEvent' ],
+  // ...
+}
+</script>
+```
 
 ### Vue Router v4
 
