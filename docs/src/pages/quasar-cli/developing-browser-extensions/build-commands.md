@@ -75,9 +75,9 @@ You can find following places to investigate the errors and outputs from the con
 3. Content scripts - page where your script is injected.
 4. Extension Errors - list of errors related to the extension (e.g. manifest configuration) are available in `Manage extension - Errors`.
   
-[Popup](https://drive.google.com/file/d/1MNI1ShmdBx_Dts9FVr_sfHnuMi73ge0O/view?usp=sharing) 
+[Popup](https://user-images.githubusercontent.com/37825539/106393529-ea113400-63f7-11eb-876c-aa10c90a4615.png) 
 
-[Background scripts, Content scripts and Extension Errors](https://drive.google.com/file/d/1kNRc9w2gdDOTmbnpR_3UPv-OmUf93ZLi/view?usp=sharing)
+[Background scripts, Content scripts and Extension Errors](https://user-images.githubusercontent.com/37825539/106393533-eed5e800-63f7-11eb-8a31-b60d51673801.png)
 
 If your code changes are not propagated to the browser you can try to:
 	- Update or Reload extension - from the Extensions list (screenshots)
