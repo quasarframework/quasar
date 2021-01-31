@@ -152,37 +152,41 @@ export default {
     // ...your custom props
   },
 
+  emits: [
+    // REQUIRED; need to specify some events that your
+    // component will emit through useDialogPluginComponent()
+    ...useDialogPluginComponent.emits
+  ],
+
   setup (props, { emit }) {
     // REQUIRED; must be called inside of setup()
-    const { dialogRef, onDialogHide, hide } = useDialogPluginComponent({ emit })
-
-    function onOKClick () {
-      // on OK, it is REQUIRED to
-      // emit "ok" event (with optional payload)
-      // before hiding the QDialog
-      emit('ok')
-      // or with payload: emit('ok', { ... })
-
-      // then hiding dialog
-      hide()
-    }
-
-    function onCancelClick () {
-      // we just need to hide the dialog
-      hide()
-    }
+    const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent({ emit })
+    // dialogRef      - Vue ref to be applied to QDialog
+    // onDialogHide   - Function to be used as handler for @hide on QDialog
+    // onDialogOK     - Function to call to settle dialog with "ok" outcome
+    //                    example: onDialogOK() - no payload
+    //                    example: onDialogOK({ /*.../* }) - with payload
+    // onDialogCancel - Function to call to settle dialog with "cancel" outcome
 
     return {
       // This is REQUIRED;
-      // Need to inject these (from useCustomDialog() call)
+      // Need to inject these (from useDialogPluginComponent() call)
       // into the vue scope for the vue html template
       dialogRef,
       onDialogHide,
 
       // other methods that we used in our vue html template;
       // these are part of our example (so not required)
-      onOKClick,
-      onCancelClick
+      onOKClick () {
+        // on OK, it is REQUIRED to
+        // call onDialogOK (with optional payload)
+        onDialogOK()
+        // or with payload: onDialogOK({ ... })
+        // ...and it will also hide the dialog automatically
+      },
+
+      // we can passthrough onDialogCancel directly
+      onCancelClick: onDialogCancel
     }
   }
 }
@@ -214,6 +218,11 @@ export default {
   props: {
     // ...your custom props
   },
+
+  emits: [
+    // REQUIRED
+    'ok', 'hide'
+  ],
 
   methods: {
     // following method is REQUIRED

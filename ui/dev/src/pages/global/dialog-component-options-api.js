@@ -88,7 +88,7 @@ export default defineComponent({
             color: 'primary',
             label: 'OK',
             onClick: () => {
-              this.$emit('ok')
+              this.$emit('ok', this.inc)
               this.hide()
             }
           }),

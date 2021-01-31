@@ -563,7 +563,7 @@ this.$router.go(-1)
 * By default, the message is protected from XSS attacks. Should you wish to display HTML content with the "message" prop, you should also specify "html: true". This behavior is completely opposite to that of Quasar v1, where you had the prop "sanitize" (not available anymore; enabled now by default) to NOT display HTML.
 
 #### Dialog plugin
-Two things changed:
+A few things changed:
 
 1. If you are using the Dialog plugin with a custom component, then you must now supply the component properties under "componentProps":
 
@@ -592,10 +592,23 @@ Two things changed:
 
   // New v2 way (Options API)
   const dialog = this.$q.dialog({ // or Dialog.create({...})
-    // same as above
+    component: MyVueComponent,
+    componentProps: {
+      someProp: someValue,
+      // ...
+    }
   })
   ```
-2. The "parent" / "root" prop has been removed. Due to the Vue 3 architecture, we can no longer use a "parent" component for the provide/inject functionality. But you'll still be able to use Vue Router/Vuex/etc. inside of your custom component.
+2. The `parent` and `root` props have been removed. Due to the Vue 3 architecture, we can no longer use a "parent" component for the provide/inject functionality. But you'll still be able to use Vue Router/Vuex/etc. inside of your custom component.
+3. If invoking the Dialog plugin with a custom component then you need to add `emits: [ 'ok', 'cancel' ]` to your component as Vue 3 now requires an explicit list of events that the component might emit. You can also transform the component to Composition API. For detailed information please see [Invoking custom component](/quasar-plugins/dialog#Invoking-custom-component).
+  ```js
+  // the invoked component code
+  export default {
+    // ...
+    emits: [ 'ok', 'cancel' ],
+    // ...
+  }
+  ```
 
 #### Meta plugin
 
@@ -639,6 +652,8 @@ export default {
   ]
 }
 ```
+
+For detailed information please see [Meta Plugin](/quasar-plugins/meta#Usage).
 
 ### Quasar utils
 

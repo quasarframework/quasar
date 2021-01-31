@@ -4,6 +4,8 @@ import { useQuasar, useDialogPluginComponent, QDialog, QCard, QCardSection, QCar
 
 const options = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5' ]
 
+console.log(useDialogPluginComponent.emits)
+
 export default defineComponent({
   name: 'CustomDialogComponent',
 
@@ -14,7 +16,7 @@ export default defineComponent({
     }
   },
 
-  emits: [ 'hide', 'ok' ],
+  emits: [ ...useDialogPluginComponent.emits ],
 
   setup (props, { emit }) {
     const inc = ref(0)
@@ -23,15 +25,14 @@ export default defineComponent({
     const $q = useQuasar()
     const $route = useRoute()
 
-    const { dialogRef, onDialogHide, hide } = useDialogPluginComponent({ emit })
+    const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent({ emit })
 
     function increment () {
       inc.value++
     }
 
-    function onOKClick () {
-      emit('ok')
-      hide()
+    function onOK () {
+      onDialogOK(inc.value)
     }
 
     return () => h(QDialog, {
@@ -83,13 +84,13 @@ export default defineComponent({
           h(QBtn, {
             color: 'primary',
             label: 'OK',
-            onClick: onOKClick
+            onClick: onOK
           }),
 
           h(QBtn, {
             color: 'primary',
             label: 'Cancel',
-            onClick: hide
+            onClick: onDialogCancel
           })
         ])
       ])

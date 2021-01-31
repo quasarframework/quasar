@@ -518,8 +518,8 @@ export default {
         componentProps: {
           text: 'Works'
         }
-      }).onOk(() => {
-        console.log('OK')
+      }).onOk(payload => {
+        console.log('OK', payload)
       }).onCancel(() => {
         console.log('Cancel')
       }).onDismiss(() => {
@@ -533,8 +533,8 @@ export default {
         componentProps: {
           text: 'Works'
         }
-      }).onOk(() => {
-        console.log('OK')
+      }).onOk(payload => {
+        console.log('OK', payload)
       }).onCancel(() => {
         console.log('Cancel')
       }).onDismiss(() => {
