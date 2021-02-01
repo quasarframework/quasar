@@ -17,11 +17,14 @@ This composable is to be used on the custom components which a Dialog plugin is 
 import { useDialogPluginComponent } from 'quasar'
 
 setup (props, { emit }) {
-  const { dialogRef, onDialogHide, show, hide } = useDialogPluginComponent({ emit })
+  const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent({ emit })
 
-  // "dialogRef" needs to be set as the QDialog reference
-  // "onDialogHide" needs to be set as "@hide" event handler of the QDialog
-  // "show()" and "hide()" are methods that can be called to show or hide the dialog
+  // dialogRef      - Vue ref to be applied to QDialog
+  // onDialogHide   - Function to be used as handler for @hide on QDialog
+  // onDialogOK     - Function to call to settle dialog with "ok" outcome
+  //                    example: onDialogOK() - no payload
+  //                    example: onDialogOK({ /*.../* }) - with payload
+  // onDialogCancel - Function to call to settle dialog with "cancel" outcome
 
   return {
     dialogRef,

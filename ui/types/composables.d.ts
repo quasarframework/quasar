@@ -9,8 +9,6 @@ export function useDialogPluginComponent(context: {
   emit: SetupContext["emit"];
 }): {
   dialogRef: Ref<QDialog | undefined>;
-  show: () => void;
-  hide: () => void;
   onDialogHide: () => void;
   onDialogOk: (payload?: any) => void;
   onDialogCancel: () => void;
