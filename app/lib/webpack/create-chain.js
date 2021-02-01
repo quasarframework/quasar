@@ -119,8 +119,8 @@ module.exports = function (cfg, configName) {
     .test(/\.vue$/)
 
   if (configName !== 'Server') {
-    vueRule.use('quasar-auto-import')
-      .loader(path.join(__dirname, 'loader.auto-import.js'))
+    vueRule.use('vue-auto-import-quasar')
+      .loader(path.join(__dirname, 'loader.vue.auto-import-quasar.js'))
       .options(cfg.framework.autoImportComponentCase)
   }
 
@@ -139,10 +139,10 @@ module.exports = function (cfg, configName) {
     )
 
   if (configName !== 'Server') {
-    chain.module.rule('transform-quasar-imports')
+    chain.module.rule('js-transform-quasar-imports')
       .test(/\.(t|j)sx?$/)
       .use('transform-quasar-imports')
-        .loader(path.join(__dirname, 'loader.transform-quasar-imports.js'))
+        .loader(path.join(__dirname, 'loader.js.transform-quasar-imports.js'))
   }
 
   if (cfg.build.transpile === true) {
