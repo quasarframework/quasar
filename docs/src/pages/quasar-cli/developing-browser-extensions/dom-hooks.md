@@ -45,7 +45,8 @@ export default function detectQuasar (bridge) {
       ...window.Quasar,
       umd: true
     })
-  } else { // CLI
+  }
+  else { // CLI
     let isVue3 = false
     setTimeout(() => {
       const all = document.querySelectorAll('*')
