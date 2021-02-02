@@ -142,9 +142,9 @@ for $name, $size in $flex-gutter
       > *
         margin-left: $size
     &-y-{$name}
-      margin-top: (- $size) /* rtl:ignore */
+      margin-top: (- $size)
       > *
-        margin-top: $size /* rtl:ignore */
+        margin-top: $size
     &-{$name}
       @extends .q-gutter-x-{$name}, .q-gutter-y-{$name}
   .q-col-gutter
@@ -153,9 +153,9 @@ for $name, $size in $flex-gutter
       > *
         padding-left: ($size)
     &-y-{$name}
-      margin-top: (- $size) /* rtl:ignore */
+      margin-top: (- $size)
       > *
-        padding-top: $size /* rtl:ignore */
+        padding-top: $size
     &-{$name}
       @extends .q-col-gutter-x-{$name}, .q-col-gutter-y-{$name}
 

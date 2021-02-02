@@ -41,7 +41,12 @@ export default Vue.extend({
 
   methods: {
     reset () {
-      this.$refs.content.style.transform = `translate(0,0)`
+      this.$refs.content.style.transform = 'translate(0,0)'
+      this.__emitSlide(this.__showing, 0, true)
+    },
+
+    __emitSlide (side, ratio, isReset) {
+      this.qListeners.slide !== void 0 && this.$emit('slide', { side, ratio, isReset })
     },
 
     __pan (evt) {
@@ -57,7 +62,7 @@ export default Vue.extend({
         slotsDef.forEach(slot => {
           if (this.$scopedSlots[slot[0]] !== void 0) {
             const node = this.$refs[slot[0] + 'Content']
-            node.style.transform = `scale(1)`
+            node.style.transform = 'scale(1)'
             this.__size[slot[0]] = node.getBoundingClientRect()[slot[3]]
           }
         })
@@ -78,7 +83,8 @@ export default Vue.extend({
           }, 230)
         }
         else {
-          node.style.transform = `translate(0,0)`
+          node.style.transform = 'translate(0,0)'
+          this.__emitSlide(this.__showing, 0, true)
         }
 
         return
@@ -95,7 +101,7 @@ export default Vue.extend({
         (this.$scopedSlots.top === void 0 && evt.direction === 'down') ||
         (this.$scopedSlots.bottom === void 0 && evt.direction === 'up')
       ) {
-        node.style.transform = `translate(0,0)`
+        node.style.transform = 'translate(0,0)'
         return
       }
 
@@ -132,6 +138,8 @@ export default Vue.extend({
 
       node.style.transform = `translate${this.__axis}(${dist * dir / Math.abs(dir)}px)`
       this.$refs[`${showing}Content`].style.transform = `scale(${this.__scale})`
+
+      this.__emitSlide(showing, this.__scale, false)
     }
   },
 
@@ -191,7 +199,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-slide-item q-item-type overflow-hidden',
-      class: this.isDark === true ? `q-slide-item--dark q-dark` : '',
+      class: this.isDark === true ? 'q-slide-item--dark q-dark' : '',
       on: { ...this.qListeners }
     }, content)
   },

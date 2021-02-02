@@ -105,7 +105,7 @@ export const SliderMixin = {
     },
 
     editable () {
-      return this.disable !== true && this.readonly !== true
+      return this.disable !== true && this.readonly !== true && this.min < this.max
     },
 
     decimals () {
@@ -116,11 +116,19 @@ export const SliderMixin = {
       return this.step === 0 ? 1 : this.step
     },
 
+    minMaxDiff () {
+      return this.max - this.min
+    },
+
     markerStyle () {
-      return {
-        backgroundSize: this.vertical === true
-          ? '2px ' + (100 * this.computedStep / (this.max - this.min)) + '%'
-          : (100 * this.computedStep / (this.max - this.min)) + '% 2px'
+      if (this.minMaxDiff !== 0) {
+        const size = 100 * this.computedStep / this.minMaxDiff
+
+        return {
+          backgroundSize: this.vertical === true
+            ? '2px ' + size + '%'
+            : size + '% 2px'
+        }
       }
     },
 
