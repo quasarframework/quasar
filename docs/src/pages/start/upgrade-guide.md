@@ -325,7 +325,7 @@ export { i18n }
 ```
 
 If you use TypeScript, remove the existing augmentation of 'vue/types/vue' as it has been integrated into the upstream package.
-If you use TypeScript and ESLint, due to an (upsteam types generation problem)[https://github.com/intlify/vue-i18n-next/issues/324], `useI18n` composable will generate a "@typescript-eslint/unbound-method" linting warning when used to destructure `t`, `te` and similar methods.
+If you use TypeScript and ESLint, due to an [upstream types generation problem](https://github.com/intlify/vue-i18n-next/issues/324), `useI18n` composable will generate a "@typescript-eslint/unbound-method" linting warning when used to destructure `t`, `te` and similar methods.
 Until the problem is solved upstream, we recommended to stick to the legacy API when possible or disable that rule every time you use `useI18n`.
 
 ### @vue/composition-api
