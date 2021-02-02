@@ -62,19 +62,21 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         q-input.full-width.doc-algolia.bg-primary(
           ref="algoliaInputRef"
           v-model="search"
+          disable
           dense
           square
           dark
           borderless
           :placeholder="searchPlaceholder"
-          @focus="onSearchFocus"
-          @blur="onSearchBlur"
         )
-          template(v-slot:append)
-            q-icon(
-              :name="mdiMagnify"
-              @click="$refs.algoliaInputRef.focus()"
-            )
+          //- @focus="onSearchFocus"
+          //- @blur="onSearchBlur"
+
+          //- template(v-slot:append)
+          //-   q-icon(
+          //-     :name="mdiMagnify"
+          //-     @click="onSearchIconClick"
+          //-   )
       .layout-drawer-toolbar__shadow.absolute-full.overflow-hidden.no-pointer-events
 
   q-drawer(
@@ -159,6 +161,11 @@ export default {
     useDrawers(scope, $q, $route)
     useScroll(scope, $route)
     useAlgolia(scope, $q, $route)
+
+    // TODO vue3 - re-enable search when docs are released as SSR
+    // scope.onSearchIconClick = () => {
+    //   scope.algoliaInputRef.value.focus()
+    // }
 
     return scope
   }
