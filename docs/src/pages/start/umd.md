@@ -134,7 +134,7 @@ Assuming you have already included the CDN link to your favorite Quasar Icon Set
 Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
 ```
 
-The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/icon-set).
+The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [GitHub](https://github.com/quasarframework/quasar/tree/vue3-work/ui/icon-set).
 
 ### Changing Quasar Language Pack
 Assuming you have already included the CDN link to your desired Quasar I18n Language (unless you want "en-US" language pack which is used by default), you can then tell Quasar to use it:
@@ -148,4 +148,4 @@ Quasar.lang.set(Quasar.lang.de)
 Quasar.lang.set(Quasar.lang.ptBR)
 ```
 
-The list of available languages can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang). **If your desired language pack is not available yet, you can help by providing a PR.** We welcome any languages!
+The list of available languages can be found on [GitHub](https://github.com/quasarframework/quasar/tree/vue3-work/ui/lang). **If your desired language pack is not available yet, you can help by providing a PR.** We welcome any languages!

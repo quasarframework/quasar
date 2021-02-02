@@ -43,7 +43,7 @@ framework: {
 }
 ```
 
-For all available options, visit the [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/icon-set) repository.
+For all available options, visit the [GitHub](https://github.com/quasarframework/quasar/tree/vue3-work/ui/icon-set) repository.
 
 Full example of including MDI & Fontawesome and telling Quasar to use Fontawesome for its components.
 
