@@ -6,8 +6,13 @@ desc: How to upgrade Quasar from older versions to the latest one.
 ::: danger Quasar v2 beta
 * Until the final stable version is released, some aspects of the framework may change. We're not planning for additional changes, but unforeseen reported issues may require us to do breaking changes (unlikely, but keep this in mind). So please make sure that you read each v2 beta version's release notes carefully before upgrading.
 * We plan on finalizing the Webpack 5 upgrade in Quasar CLI at some point in the beta stage.
-* Considering the above, we still recommend starting a new project with Quasar v2.
+* SSR support is temporarily disabled (will be enabled in the beta stage at some point before the stable release in Q1 2021). There is also no IE11 support (Vue 3 does NOT supports it either).
 * We are still working on upgrading all of our App Extensions to Vue 3 and Quasar v2.
+* Considering the above, we still recommend starting a new project with Quasar v2.
+:::
+
+::: tip Composition and Options API
+You will notice that all of our documentation examples are using Vue 3's Composition API. This does NOT mean that you can't use the legacy Options API. On the contrary, maintaining Options API will actually help you on your upgrade path and make it a lot easier for you. After upgrading is done we do recommend switching to the Composition API, but by no means you are required to do so.
 :::
 
 ## Older v2 to latest v2
@@ -38,7 +43,7 @@ If you're using a code editor terminal instead of an external one and you run `q
 $ yarn upgrade quasar@next
 ```
 
-Optionally, you may also want to make sure that you have the latest `vue-cli-plugin-quasar` package.
+Optionally, you may also want to make sure that you have the latest `vue-cli-plugin-quasar@next` package.
 
 It's highly recommended to keep `@quasar/extras` package up to date too:
 
@@ -48,6 +53,8 @@ $ yarn add @quasar/extras@latest
 ```
 
 ## Migrate to v2 from v1
+
+**This guide refers to Quasar CLI & UMD projects**, but information from here can be used for Vue CLI too. For developers using Vue CLI on your projects already you can check out how to install the [vue-cli-plugin-quasar](/start/vue-cli-plugin) package that works with Quasar v2. You will also need to make a few changes to your main.js too (best way currently is to generate a new Vue CLI project for Vue 3 and then following the [install steps](/start/vue-cli-plugin#Add-Vue-CLI-Quasar-Plugin) for the vue-cli-plugin-quasar and check out the changes incurred to that /src folder, then apply the same principle to your current Vue CLI project).
 
 ### Intro
 
@@ -61,6 +68,7 @@ Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots o
 * No IE11 support - Vue 3 does not supports IE11 either. If IE11 support is mandatory for your project(s), then continue using Quasar UI v1.
 * Quasar Stylus variables are no longer available (only Sass/SCSS). This does NOT mean that you can't use Stylus anymore though.
 * SSR build mode is NOT **yet** supported. If your project relies on SSR, you might want to hold off on upgrading for now.
+* Not all of our official App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions for them.
 :::
 
 Before you start with this journey of upgrading your project from v1 to v2, you should know a few additional things:
@@ -173,6 +181,10 @@ You'll need to edit src/App.vue and remove the wrapper `<div id="q-app">`. You d
 
 ### Vue 3
 
+::: tip
+For Quasar CLI projects, you don't need to manually install/upgrade the `vue` package as "@quasar/app" v3 is already supplying the correct version of Vue for you.
+:::
+
 Since you will also switch to [Vue 3](https://v3.vuejs.org), it's best that you also take a look at its [migration guide](https://v3.vuejs.org/guide/migration/introduction.html) **after**  finishing reading this migration guide.
 
 If you're using .vue files, you'll most likely have a fairly easy transition because 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://v3.vuejs.org/guide/single-file-component.html) and instructing Vue 3 on what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)).
@@ -202,6 +214,10 @@ export default {
 ```
 
 ### Vue Router v4
+
+::: tip
+For Quasar CLI projects, you don't need to manually install/upgrade the `vue-router` package as "@quasar/app" v3 is already supplying the correct version of Vue Router for you.
+:::
 
 This is a Vue 3 ecosystem upstream breaking change. Update src/router files to match Vue Router v4's API. Vue Router v4 comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/index.html). Especially note below how we are dealing with the 404 error.
 
@@ -255,6 +271,10 @@ export default routes
 If you use TypeScript, you must replace the `RouteConfig` interface occurrences with `RouteRecordRaw`.
 
 ### Vuex v4
+
+::: tip
+For Quasar CLI projects, you don't need to manually install/upgrade the `vuex` package as "@quasar/app" v3 is already supplying the correct version of Vuex for you.
+:::
 
 This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
 
@@ -314,15 +334,15 @@ If you've been using Composition API package for Vue 2, you'll need to change al
 
   ```js
   // OLD, @vue/composition-api way
-  import { defineComponent } from '@vue/composition-api'
+  import { ref } from '@vue/composition-api'
 
   // New Vue 3 way
-  import { defineComponent } from 'vue'
+  import { ref } from 'vue'
   ```
 
 If you were using the deprecated `context.root` object, you must refactor your code to avoid using it, as it's not available anymore.
 
-Delete `src/boot/composition-api` boot file and the corresponding entry into `quasar.conf.js`. Then uninstall the `@vue/composition-api` package:
+Delete `src/boot/composition-api` boot file and the corresponding entry from `quasar.conf.js`. Then uninstall the `@vue/composition-api` package:
 
 ```bash
 $ yarn remove @vue/composition-api
@@ -760,7 +780,7 @@ For an in-depth look at the necessary UMD scripts and tags, please use our [gene
 
 ### Quasar App CLI
 
-This section refers to "@quasar/app" v3 package.
+This section refers to "@quasar/app" v3 package which supports Vue 3 and Quasar UI v2.
 
 * Dropped support for `src/css/quasar.variables.styl`. Also, if you still want to use Stylus as preprocessor (but without the Quasar Stylus variables) then you need to manually yarn/npm install `stylus` and `stylus-loader` as dev dependencies into your project ("@quasar/app" does not supply them anymore).
 * New quasar.conf.js > build > vueLoaderOptions prop
@@ -781,7 +801,7 @@ export default ({ app }) => {
 }
 ```
 
-Nothing changed in regards to how App Extensions work.
+Nothing changed in regards to how App Extensions work. Please note that not all of our App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions of them.
 
 ### Quasar Extras
 Nothing changed. You can use it as for Quasar UI v1.

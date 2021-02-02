@@ -23,7 +23,7 @@ $ npm uninstall -g vue-cli
 $ yarn global remove vue-cli
 ```
 
-Install Vue CLI (v4+) as follows:
+Install Vue CLI (v4.5.11+) as follows:
 
 ```bash
 $ npm install -g @vue/cli
