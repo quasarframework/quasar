@@ -145,7 +145,7 @@ Assuming you have already included the CDN link to your desired Quasar I18n Lang
 Quasar.lang.set(Quasar.lang.de)
 
 // example setting Portuguese (Brazil) language:
-Quasar.lang.set(Quasar.lang.ptBr)
+Quasar.lang.set(Quasar.lang.ptBR)
 ```
 
 The list of available languages can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang). **If your desired language pack is not available yet, you can help by providing a PR.** We welcome any languages!

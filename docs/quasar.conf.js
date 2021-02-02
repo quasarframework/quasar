@@ -24,7 +24,7 @@ module.exports = function (ctx) {
 
     build: {
       vueRouterMode: 'history',
-      showProgress: false, // ctx.dev,
+      // showProgress: false, // ctx.dev,
       distDir: 'dist/quasar.dev',
       // analyze: true,
 

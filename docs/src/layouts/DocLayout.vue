@@ -78,6 +78,9 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           //-     @click="onSearchIconClick"
           //-   )
       .layout-drawer-toolbar__shadow.absolute-full.overflow-hidden.no-pointer-events
+      q-tooltip(class="bg-red text-bold")
+        div We are sorry but this website is not deployed using SSR (yet)
+        div so Algolia search cannot index it.
 
   q-drawer(
     v-if="hasRightDrawer"
