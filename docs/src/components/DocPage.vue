@@ -1,6 +1,13 @@
 <template lang="pug">
 q-page.doc-page
 
+  .text-right.text-bold
+    q-icon.text-negative.q-mx-sm(:name="mdiFire")
+    | Looking for
+    doc-link.q-mx-xs(to="https://next.quasar.dev/start/upgrade-guide") Quasar v2 beta
+    | with Vue 3 docs?
+    q-icon.text-negative.q-mx-xs(:name="mdiFire")
+
   h1.doc-heading.doc-h1#Introduction(v-if="title" @click="copyHeading('Introduction')")
     span {{ title }}
     q-badge.q-ml-sm.doc-page__badge(v-if="badge") {{ badge }}
@@ -86,7 +93,7 @@ import {
 import {
   mdiBlogger, mdiForum, mdiChat, mdiCharity,
   mdiPencil, mdiLaunch,
-  mdiChevronLeft, mdiChevronRight
+  mdiChevronLeft, mdiChevronRight, mdiFire
 } from '@quasar/extras/mdi-v5'
 
 import { copyHeading } from 'assets/page-utils'
@@ -109,6 +116,7 @@ export default {
     this.mdiLaunch = mdiLaunch
     this.mdiChevronLeft = mdiChevronLeft
     this.mdiChevronRight = mdiChevronRight
+    this.mdiFire = mdiFire
   },
 
   props: {
