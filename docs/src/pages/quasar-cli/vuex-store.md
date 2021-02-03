@@ -19,7 +19,7 @@ We won't go into details on how to configure or use Vuex since it has great docs
 
 By default, if you choose to use Vuex when you create a project folder with Quasar CLI, it will set you up on using Vuex modules. Each sub-folder of `/src/store` represents a Vuex Module.
 
-If by contrast, you did not choose to use Vuex when you create a project folder with Quasar CLI, Adding a Vuex Module (see below) is all you need to do to `install` vuex.
+If by contrast you did not choose Vuex option during the project creation, adding a Vuex Module (see below) is all you need to install Vuex.
 
 ::: tip
 If Vuex Modules is too much for your website app, you can change `/src/store/index.js` and avoid importing any module.
