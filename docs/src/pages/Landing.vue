@@ -13,13 +13,19 @@
             span Framew
             img.landing__logo(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
             span rk
-        .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
+        .text-subtitle1 Build high-performance <strong>VueJS</strong> user interfaces in record time
         //- .q-pt-sm.q-px-sm
         //-   survey-countdown.landing-countdown.bg-primary.text-white.rounded-borders(
         //-     color="white"
         //-     text-color="primary"
         //-     align-class="justify-center"
         //-   )
+        .text-subtitle1.q-pt-sm
+          | Looking for
+          q-icon.text-red-4.q-mx-sm(:name="mdiFire")
+          doc-link.text-red-4.text-white(to="https://next.quasar.dev/start/upgrade-guide") Quasar v2 beta
+          q-icon.text-red-4.q-mx-sm(:name="mdiFire")
+          | with Vue 3 docs?
         .q-pt-md.q-pl-sm
           .landing__hero-row.landing__hero-btns.q-gutter-sm.row.items-center.justify-center
             q-btn(color="white" text-color="primary" no-caps to="/start" label="Get Started")
@@ -186,7 +192,7 @@ import {
 
 import {
   mdiChevronDown, mdiLaunch, mdiBlogger,
-  mdiChat, mdiForum
+  mdiChat, mdiForum, mdiFire
 } from '@quasar/extras/mdi-v5'
 
 export default {
@@ -227,6 +233,7 @@ export default {
     this.mdiBlogger = mdiBlogger
     this.mdiChat = mdiChat
     this.mdiForum = mdiForum
+    this.mdiFire = mdiFire
   }
 }
 </script>
