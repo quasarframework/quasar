@@ -5,14 +5,17 @@ import { MetaOptions } from "./meta";
 import { Ref, SetupContext } from "vue";
 import { QVueGlobals } from "./globals";
 
-export function useDialogPluginComponent(context: {
-  emit: SetupContext["emit"];
-}): {
-  dialogRef: Ref<QDialog | undefined>;
-  onDialogHide: () => void;
-  onDialogOk: (payload?: any) => void;
-  onDialogCancel: () => void;
-};
+interface useDialogPluginComponent {
+  (context: { emit: SetupContext["emit"] }): {
+    dialogRef: Ref<QDialog | undefined>;
+    onDialogHide: () => void;
+    onDialogOk: (payload?: any) => void;
+    onDialogCancel: () => void;
+  };
+  emits: string[];
+}
+
+export const useDialogPluginComponent: useDialogPluginComponent;
 
 interface UseFormChildOptions {
   validate: () => boolean | Promise<boolean>;
