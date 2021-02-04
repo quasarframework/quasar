@@ -20,6 +20,20 @@ div
 
       q-separator.q-mb-sm.q-mt-md
 
+      q-item-label(header) Beta Releases
+      q-item(
+        clickable
+        tag="a"
+        :href="`https://next.quasar.dev/start/upgrade-guide`"
+        target="_blank"
+        rel="noopener"
+      )
+        q-item-section.text-negative(avatar)
+          q-icon(:name="mdiFire")
+        q-item-section v2 beta docs
+
+      q-separator.q-mb-sm.q-mt-md
+
       q-item-label(header) Older Releases
       q-item(
         v-for="version in ['17', '16', '15', '14', '13']"
@@ -158,7 +172,7 @@ import {
   mdiBlogger, mdiForum, mdiChat, mdiBullhorn,
   mdiViewDashboard, mdiShoppingMusic, mdiClipboardText,
   mdiBugCheck, mdiFlare, mdiFilePlus, mdiPaletteSwatch,
-  mdiInvertColors, mdiCharity, mdiStarCircle
+  mdiInvertColors, mdiCharity, mdiStarCircle, mdiFire
 } from '@quasar/extras/mdi-v5'
 
 export default {
@@ -191,6 +205,7 @@ export default {
     this.mdiInvertColors = mdiInvertColors
     this.mdiCharity = mdiCharity
     this.mdiStarCircle = mdiStarCircle
+    this.mdiFire = mdiFire
   }
 }
 </script>
