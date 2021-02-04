@@ -4,7 +4,7 @@
 
 function parseContent (str) {
   const title = String(str)
-    .replace(/<\/?[^>]+(>|$)/g, "")
+    .replace(/<\/?[^>]+(>|$)/g, '')
     .trim()
 
   return {

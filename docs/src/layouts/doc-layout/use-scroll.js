@@ -34,7 +34,7 @@ export default function useScroll (scope, $route) {
 
   function changeRouterHash (hash) {
     if ($route.hash !== hash) {
-      $router.push({ hash }).catch(() => {})
+      $router.replace({ hash }).catch(() => {})
     }
     else {
       scrollToCurrentAnchor()
@@ -43,15 +43,16 @@ export default function useScroll (scope, $route) {
 
   function scrollTo (id) {
     clearTimeout(scrollTimer)
+    const hashtag = '#' + id
 
     if (scope.rightDrawerOnLayout.value !== true) {
       scope.rightDrawerState.value = false
       scrollTimer = setTimeout(() => {
-        changeRouterHash('#' + id)
+        changeRouterHash(hashtag)
       }, 300)
     }
     else {
-      changeRouterHash('#' + id)
+      changeRouterHash(hashtag)
     }
   }
 
@@ -67,7 +68,10 @@ export default function useScroll (scope, $route) {
   function scrollToCurrentAnchor (immediate) {
     const hash = window.location.hash
     const el = hash.length > 1
-      ? document.getElementById(hash.substring(1))
+      ? (
+          document.getElementById(hash.substring(1)) ||
+          document.getElementById(decodeURIComponent(hash).substring(1))
+        )
       : null
 
     if (el !== null) {
