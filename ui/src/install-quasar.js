@@ -22,7 +22,9 @@ export function createChildApp (appCfg) {
   const app = createApp(appCfg)
 
   app.config.globalProperties = appInstance.config.globalProperties
-  app._context.provides = appInstance._context.provides
+
+  const { reload, ...appContext } = appInstance._context
+  Object.assign(app._context, appContext)
 
   return app
 }
