@@ -42,13 +42,6 @@ export default {
         }, 2000)
       }
     }
-  },
-
-  beforeUnmount () {
-    if (this.timer !== void 0) {
-      clearTimeout(this.timer)
-      this.$q.loading.hide()
-    }
   }
 }
 </script>

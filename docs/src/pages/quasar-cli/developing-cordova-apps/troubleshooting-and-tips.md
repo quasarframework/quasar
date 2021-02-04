@@ -4,7 +4,7 @@ desc: Tips and tricks for a Quasar hybrid mobile app with Cordova.
 ---
 
 ## $q.cordova
-While you are developing a Mobile App with Cordova Mode, you can access `this.$q.cordova` in your Vue files. This is an alias to the global `cordova` Object.
+While you are developing a Mobile App with Cordova Mode, you can access `$q.cordova` in your Vue files. This is an alias to the global `cordova` Object.
 
 ## Android Tips
 

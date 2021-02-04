@@ -58,19 +58,23 @@ In the example above, notice that we add `q-electron-drag` to our QBar and we al
 // The code below requires Node Integration being kept turned "on"
 // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
 
+import { useQuasar } from 'quasar'
+
 export default {
   // ...
 
-  methods: {
-    minimize () {
-      if (process.env.MODE === 'electron') {
-        this.$q.electron.remote.BrowserWindow.getFocusedWindow().minimize()
-      }
-    },
+  setup () {
+    const $q = useQuasar()
 
-    maximize () {
+    function minimize () {
       if (process.env.MODE === 'electron') {
-        const win = this.$q.electron.remote.BrowserWindow.getFocusedWindow()
+        $q.electron.remote.BrowserWindow.getFocusedWindow().minimize()
+      }
+    }
+
+    function maximize () {
+      if (process.env.MODE === 'electron') {
+        const win = $q.electron.remote.BrowserWindow.getFocusedWindow()
 
         if (win.isMaximized()) {
           win.unmaximize()
@@ -78,12 +82,16 @@ export default {
           win.maximize()
         }
       }
-    },
+    }
 
-    close () {
+    function close () {
       if (process.env.MODE === 'electron') {
-        this.$q.electron.remote.BrowserWindow.getFocusedWindow().close()
+        $q.electron.remote.BrowserWindow.getFocusedWindow().close()
       }
+    }
+
+    return {
+      minimize, maximize, close
     }
   }
 }

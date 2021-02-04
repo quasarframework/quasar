@@ -157,6 +157,25 @@ export default async ({ ssrContext }) => {
 Quasar Icon Set is reactive, so all components will update properly if you change the $q.iconSet object. Here is an example:
 
 ```js
+// Composition API variant
+import { useQuasar } from 'quasar'
+import mdiIconSet from 'quasar/icon-set/mdi-v5.js'
+
+setup () {
+  const $q = useQuasar()
+
+  function changeIconSetToMdiIconSet () {
+    $q.iconSet.set(mdiIconSet)
+  }
+
+  return {
+    changeIconSetToMdiIconSet
+  }
+}
+```
+
+```js
+// Options API variant
 import mdiIconSet from 'quasar/icon-set/mdi-v5.js'
 
 methods: {
@@ -170,6 +189,22 @@ methods: {
 If you want to change a specific icon to another, you can. Here is an example:
 
 ```js
+// Composition API variant
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  function changeQEditorHeaderIcon () {
+    $q.iconSet.editor.header1 = 'fas fa-font'
+  }
+
+  return { changeQEditorHeaderIcon }
+}
+```
+
+```js
+// Options API variant
 methods: {
   changeQEditorHeaderIcon () {
     this.$q.iconSet.editor.header1 = 'fas fa-font'

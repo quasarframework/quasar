@@ -4,7 +4,7 @@ desc: Tips and tricks for a Quasar desktop app with Electron.
 ---
 
 ## $q.electron
-While you are developing with Electron Mode, you can access `this.$q.electron` in your Vue files. This is an alias to the `electron` Object when imported.
+While you are developing with Electron Mode, you can access `$q.electron` in your Vue files. This is an alias to the `electron` Object when imported.
 
 ```js
 import { useQuasar } from 'quasar'

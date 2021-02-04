@@ -463,13 +463,17 @@ Let's take both cases now.
 This is especially useful when you are using a custom icon library (that doesn't come with Quasar and its `@quasar/extras` package).
 
 ```js
-created () {
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
   // Example of adding support for
   // <q-icon name="app:...." />
   // This includes support for all "icon" props
   // of Quasar components
 
-  this.$q.iconMapFn = (iconName) => {
+  $q.iconMapFn = (iconName) => {
     // iconName is the content of QIcon "name" prop
 
     // your custom approach, the following
@@ -527,6 +531,8 @@ And also add "my-app-icon.woff2" and "my-app-icon.woff" files into the same fold
 #### 2. Simply mapping a few icons
 
 ```js
+import { useQuasar } from 'quasar'
+
 const myIcons = {
   'app:icon1': 'img:/path/to/icon1.svg',
   'app:icon2': 'img:/path/to/icon2.svg',
@@ -534,8 +540,10 @@ const myIcons = {
 }
 
 // ...
-created () {
-  this.$q.iconMapFn = (iconName) => {
+setup () {
+  const $q = useQuasar()
+
+  $q.iconMapFn = (iconName) => {
     const icon = myIcons[iconName]
     if (icon !== void 0) {
       return { icon: icon }
