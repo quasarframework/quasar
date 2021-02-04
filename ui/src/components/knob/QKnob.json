@@ -35,6 +35,13 @@
       "category": "model"
     },
 
+    "instant-feedback": {
+      "type": "Boolean",
+      "desc": "No animation when model changes",
+      "category": "behavior",
+      "addedIn": "v1.11.0"
+    },
+
     "color": {
       "extends": "color"
     },

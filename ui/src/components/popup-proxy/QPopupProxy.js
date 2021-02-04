@@ -94,7 +94,7 @@ export default Vue.extend({
   render (h) {
     const def = slot(this, 'default')
 
-    let props = (
+    const props = (
       this.type === 'menu' &&
       def !== void 0 &&
       def[0] !== void 0 &&
@@ -108,7 +108,7 @@ export default Vue.extend({
 
     const data = {
       ref: 'popup',
-      props: Object.assign(props, this.qAttrs),
+      props: { ...props, ...this.qAttrs },
       on: this.onEvents
     }
 

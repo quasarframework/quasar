@@ -1,37 +1,6 @@
+const { existsSync } = require('fs')
+const { resolveDir } = require('../utils/app-paths')
 
-module.exports = {
-  spa: {
-    folder: '/src',
-    assets: require('./spa')
-  },
-
-  pwa: {
-    folder: '/src-pwa',
-    assets: require('./pwa')
-  },
-
-  ssr: {
-    folder: '/src-ssr',
-    assets: require('./ssr')
-  },
-
-  bex: {
-    folder: '/src-bex',
-    assets: require('./bex')
-  },
-
-  cordova: {
-    folder: '/src-cordova',
-    assets: require('./cordova')
-  },
-
-  capacitor: {
-    folder: '/src-capacitor',
-    assets: require('./capacitor')
-  },
-
-  electron: {
-    folder: '/src-electron',
-    assets: require('./electron')
-  }
-}
+module.exports = existsSync(resolveDir('public'))
+  ? require('./quasar-app-v2')
+  : require('./quasar-app-v1')

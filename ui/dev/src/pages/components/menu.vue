@@ -95,10 +95,10 @@
         <q-btn color="primary" label="Menu with select">
           <q-menu cover @show="log('@show cover')" @hide="log('@hide cover')" content-class="q-pa-md">
             <div class="column q-gutter-md">
-              <q-select v-model="selectModelS" :options="selectOptions" behavior="menu" filled label="Select single - menu" />
-              <q-select v-model="selectModelM" :options="selectOptions" behavior="menu" filled multiple label="Select multiple - menu" />
-              <q-select v-model="selectModelS" :options="selectOptions" behavior="dialog" filled label="Select single - dialog" />
-              <q-select v-model="selectModelM" :options="selectOptions" behavior="dialog" filled multiple label="Select multiple - dialog" />
+              <q-select v-model="selectModelS" :options="selectOptions" behavior="menu" filled label="Select single - menu" clearable />
+              <q-select v-model="selectModelM" :options="selectOptions" behavior="menu" filled multiple label="Select multiple - menu" clearable />
+              <q-select v-model="selectModelS" :options="selectOptions" behavior="dialog" filled label="Select single - dialog" clearable />
+              <q-select v-model="selectModelM" :options="selectOptions" behavior="dialog" filled multiple label="Select multiple - dialog" clearable />
             </div>
           </q-menu>
         </q-btn>
@@ -284,6 +284,8 @@
                   <q-radio v-model="anchorOrigin.horizontal" val="left" label="Left" />
                   <q-radio v-model="anchorOrigin.horizontal" val="middle" label="Middle" />
                   <q-radio v-model="anchorOrigin.horizontal" val="right" label="Right" />
+                  <q-radio v-model="anchorOrigin.horizontal" val="start" label="Start" />
+                  <q-radio v-model="anchorOrigin.horizontal" val="end" label="End" />
                 </div>
               </div>
             </div>
@@ -304,6 +306,8 @@
                   <q-radio v-model="selfOrigin.horizontal" val="left" label="Left" />
                   <q-radio v-model="selfOrigin.horizontal" val="middle" label="Middle" />
                   <q-radio v-model="selfOrigin.horizontal" val="right" label="Right" />
+                  <q-radio v-model="selfOrigin.horizontal" val="start" label="Start" />
+                  <q-radio v-model="selfOrigin.horizontal" val="end" label="End" />
                 </div>
               </div>
             </div>
@@ -574,7 +578,7 @@
 <script>
 export default {
   data () {
-    let list = []
+    const list = []
     for (let i = 0; i < 26 * 30; i += 1) {
       const c = String.fromCharCode(97 + (i % 26))
       const v = `${c}${c}${c}${c}${c}#${i}`

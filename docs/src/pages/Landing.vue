@@ -4,20 +4,33 @@
 
   section
     .landing__hero.flex.flex-center
-      .relative-position
+      .relative-position.text-center
         .text-h1
-          .text-weight-bold Quasar
-          .landing__hero-row.row.no-wrap.items-baseline
+          div
+            span.text-bold Quasar
+            span.text-subtitle1 v{{ $q.version }}
+          .landing__hero-row.row.no-wrap.items-baseline.justify-center
             span Framew
             img.landing__logo(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
             span rk
-        .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
+        .text-subtitle1 Build high-performance <strong>VueJS</strong> user interfaces in record time
+        //- .q-pt-sm.q-px-sm
+        //-   survey-countdown.landing-countdown.bg-primary.text-white.rounded-borders(
+        //-     color="white"
+        //-     text-color="primary"
+        //-     align-class="justify-center"
+        //-   )
+        .text-subtitle1.q-pt-sm
+          | Looking for
+          q-icon.text-red-4.q-mx-sm(:name="mdiFire")
+          doc-link.text-red-4.text-white(to="https://next.quasar.dev/start/upgrade-guide") Quasar v2 beta
+          q-icon.text-red-4.q-mx-sm(:name="mdiFire")
+          | with Vue 3 docs?
         .q-pt-md.q-pl-sm
-          .landing__hero-row.landing__hero-btns.q-gutter-sm.row.items-center
-            q-btn(color="white", text-color="primary", no-caps, to="/start", label="Get Started")
-            q-btn(color="white", text-color="primary", no-caps, to="/introduction-to-quasar", label="Why Quasar?")
-            q-btn(color="white", text-color="primary", no-caps, to="/video-tutorials", label="Video Tutorials")
-            .text-body2 v{{ $q.version }}
+          .landing__hero-row.landing__hero-btns.q-gutter-sm.row.items-center.justify-center
+            q-btn(color="white" text-color="primary" no-caps to="/start" label="Get Started")
+            q-btn(color="white" text-color="primary" no-caps to="/introduction-to-quasar" label="Why Quasar?")
+            q-btn(color="white" text-color="primary" no-caps to="/video-tutorials" label="Video Tutorials")
         .landing__arrow-down.row.justify-center.absolute
           q-icon.landing__arrow-down-icon.q-mt-xl(:name="mdiChevronDown" size="50px")
 
@@ -82,7 +95,7 @@
         .landing__feature-item
           q-icon(name="settings_applications")
           h6 Best practices integrated by default
-          p Quasar developers are encouraged to follow web development best practices, and Quasar comes with many embedded features to that regard out of the box. HTML/CSS/JS minification, cache busting, tree shaking, sourcemapping, code-splitting and lazy loading, ES6 transpiling, linting code, accessibility features. Quasar takes care of all these and more - no configuration needed.
+          p Quasar developers are encouraged to follow web development best practices, and Quasar comes with many embedded features to that regard out of the box. HTML/CSS/JS minification, cache busting, tree shaking, source-mapping, code-splitting and lazy loading, ES6 transpiling, linting code, accessibility features. Quasar takes care of all these and more - no configuration needed.
 
       .col-xs-12.col-sm-5
         .landing__feature-item
@@ -169,6 +182,7 @@ import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
 import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
 import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
+// import SurveyCountdown from '../components/SurveyCountdown'
 
 import {
   fabGithub, fabTwitter, fabFacebook, fasMedkit,
@@ -178,8 +192,8 @@ import {
 
 import {
   mdiChevronDown, mdiLaunch, mdiBlogger,
-  mdiChat, mdiForum
-} from '@quasar/extras/mdi-v4'
+  mdiChat, mdiForum, mdiFire
+} from '@quasar/extras/mdi-v5'
 
 export default {
   name: 'Landing',
@@ -188,6 +202,7 @@ export default {
     Sponsor,
     SponsorList,
     LandingTopBar,
+    // SurveyCountdown,
     IntroductionVideo
   },
 
@@ -218,6 +233,7 @@ export default {
     this.mdiBlogger = mdiBlogger
     this.mdiChat = mdiChat
     this.mdiForum = mdiForum
+    this.mdiFire = mdiFire
   }
 }
 </script>
@@ -249,7 +265,7 @@ export default {
 
   &__front
     padding: 130px 16px 100px !important
-    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.9) 15%)
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(0, 0, 0, 0.9) 15%)
     > div
       max-width: 700px !important
 
@@ -320,6 +336,10 @@ export default {
 
       &:hover
         color: $grey-4
+
+.landing-countdown
+  border-top: 4px solid darken($primary, 10%)
+  border-bottom: 4px solid darken($primary, 10%)
 
 @keyframes logo-rotate
   100%

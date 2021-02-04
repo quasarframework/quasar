@@ -2,22 +2,24 @@
   <div class="q-pa-md">
     <div class="q-gutter-md row items-start">
       <q-file
+        style="max-width: 300px"
         v-model="filesMaxSize"
         filled
         label="Filtered (for <2k size)"
         multiple
         :filter="checkFileSize"
-        style="max-width: 300px"
+        @rejected="onRejected"
       />
 
       <q-file
+        style="max-width: 300px"
         v-model="filesPng"
         rounded
         outlined
         label="Filtered (png only)"
         multiple
         :filter="checkFileType"
-        style="max-width: 300px"
+        @rejected="onRejected"
       />
     </div>
   </div>
@@ -39,6 +41,15 @@ export default {
 
     checkFileType (files) {
       return files.filter(file => file.type === 'image/png')
+    },
+
+    onRejected (rejectedEntries) {
+      // Notify plugin needs to be installed
+      // https://quasar.dev/quasar-plugins/notify#Installation
+      this.$q.notify({
+        type: 'negative',
+        message: `${rejectedEntries.length} file(s) did not pass validation constraints`
+      })
     }
   }
 }

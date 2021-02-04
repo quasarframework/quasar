@@ -6,6 +6,7 @@ import DarkMixin from '../../mixins/dark.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
+import { cacheWithFn } from '../../utils/cache.js'
 
 const slotsDef = [
   ['left', 'center', 'start', 'width'],
@@ -40,7 +41,12 @@ export default Vue.extend({
 
   methods: {
     reset () {
-      this.$refs.content.style.transform = `translate(0,0)`
+      this.$refs.content.style.transform = 'translate(0,0)'
+      this.__emitSlide(this.__showing, 0, true)
+    },
+
+    __emitSlide (side, ratio, isReset) {
+      this.qListeners.slide !== void 0 && this.$emit('slide', { side, ratio, isReset })
     },
 
     __pan (evt) {
@@ -56,7 +62,7 @@ export default Vue.extend({
         slotsDef.forEach(slot => {
           if (this.$scopedSlots[slot[0]] !== void 0) {
             const node = this.$refs[slot[0] + 'Content']
-            node.style.transform = `scale(1)`
+            node.style.transform = 'scale(1)'
             this.__size[slot[0]] = node.getBoundingClientRect()[slot[3]]
           }
         })
@@ -77,7 +83,8 @@ export default Vue.extend({
           }, 230)
         }
         else {
-          node.style.transform = `translate(0,0)`
+          node.style.transform = 'translate(0,0)'
+          this.__emitSlide(this.__showing, 0, true)
         }
 
         return
@@ -94,7 +101,7 @@ export default Vue.extend({
         (this.$scopedSlots.top === void 0 && evt.direction === 'down') ||
         (this.$scopedSlots.bottom === void 0 && evt.direction === 'up')
       ) {
-        node.style.transform = `translate(0,0)`
+        node.style.transform = 'translate(0,0)'
         return
       }
 
@@ -131,16 +138,21 @@ export default Vue.extend({
 
       node.style.transform = `translate${this.__axis}(${dist * dir / Math.abs(dir)}px)`
       this.$refs[`${showing}Content`].style.transform = `scale(${this.__scale})`
+
+      this.__emitSlide(showing, this.__scale, false)
     }
   },
 
   render (h) {
     const
       content = [],
-      left = this.$scopedSlots[this.langDir.right] !== void 0,
-      right = this.$scopedSlots[this.langDir.left] !== void 0,
-      up = this.$scopedSlots.bottom !== void 0,
-      down = this.$scopedSlots.top !== void 0
+      slots = {
+        left: this.$scopedSlots[this.langDir.right] !== void 0,
+        right: this.$scopedSlots[this.langDir.left] !== void 0,
+        up: this.$scopedSlots.bottom !== void 0,
+        down: this.$scopedSlots.top !== void 0
+      },
+      dirs = Object.keys(slots).filter(key => slots[key] === true)
 
     slotsDef.forEach(slot => {
       const dir = slot[0]
@@ -163,26 +175,32 @@ export default Vue.extend({
         ref: 'content',
         key: 'content',
         staticClass: 'q-slide-item__content',
-        directives: left === true || right === true || up === true || down === true ? [{
-          name: 'touch-pan',
-          value: this.__pan,
-          modifiers: {
-            left,
-            right,
-            up,
-            down,
-            prevent: true,
-            stop: true,
-            mouse: true
-          }
-        }] : null
+        directives: dirs.length > 0
+          ? cacheWithFn(this, 'dir#' + dirs.join(''), () => {
+            const modifiers = {
+              prevent: true,
+              stop: true,
+              mouse: true
+            }
+
+            dirs.forEach(dir => {
+              modifiers[dir] = true
+            })
+
+            return [{
+              name: 'touch-pan',
+              value: this.__pan,
+              modifiers
+            }]
+          })
+          : null
       }, slot(this, 'default'))
     )
 
     return h('div', {
       staticClass: 'q-slide-item q-item-type overflow-hidden',
-      class: this.isDark === true ? `q-slide-item--dark q-dark` : '',
-      on: this.qListeners
+      class: this.isDark === true ? 'q-slide-item--dark q-dark' : '',
+      on: { ...this.qListeners }
     }, content)
   },
 

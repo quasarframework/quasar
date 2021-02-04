@@ -9,9 +9,12 @@ import { isKeyCode } from '../../utils/key-composition.js'
 import QCard from '../card/QCard.js'
 import QCardSection from '../card/QCardSection.js'
 import QCardActions from '../card/QCardActions.js'
+import QSeparator from '../separator/QSeparator.js'
 
 import QInput from '../input/QInput.js'
 import QOptionGroup from '../option-group/QOptionGroup.js'
+
+import QSpinner from '../spinner/QSpinner.js'
 
 import DarkMixin from '../../mixins/dark.js'
 import AttrsMixin from '../../mixins/attrs.js'
@@ -30,14 +33,15 @@ export default Vue.extend({
     message: String,
     prompt: Object,
     options: Object,
+    progress: [ Boolean, Object ],
 
     html: Boolean,
 
     ok: {
-      type: [String, Object, Boolean],
+      type: [ String, Object, Boolean ],
       default: true
     },
-    cancel: [String, Object, Boolean],
+    cancel: [ String, Object, Boolean ],
     focus: {
       type: String,
       default: 'ok',
@@ -47,11 +51,31 @@ export default Vue.extend({
     stackButtons: Boolean,
     color: String,
 
-    cardClass: [String, Array, Object],
-    cardStyle: [String, Array, Object]
+    cardClass: [ String, Array, Object ],
+    cardStyle: [ String, Array, Object ]
   },
 
   computed: {
+    classes () {
+      return 'q-dialog-plugin' +
+        (this.isDark === true ? ' q-dialog-plugin--dark q-dark' : '') +
+        (this.progress !== false ? ' q-dialog-plugin--progress' : '')
+    },
+
+    spinner () {
+      if (this.progress !== false) {
+        return Object(this.progress) === this.progress
+          ? {
+            component: this.progress.spinner || QSpinner,
+            props: { color: this.progress.color || this.vmColor }
+          }
+          : {
+            component: QSpinner,
+            props: { color: this.vmColor }
+          }
+      }
+    },
+
     hasForm () {
       return this.prompt !== void 0 || this.options !== void 0
     },
@@ -92,30 +116,22 @@ export default Vue.extend({
     },
 
     okProps () {
-      return Object.assign(
-        {
-          color: this.vmColor,
-          label: this.okLabel,
-          ripple: false
-        },
-        Object(this.ok) === this.ok
-          ? this.ok
-          : { flat: true },
-        { disable: this.okDisabled }
-      )
+      return {
+        color: this.vmColor,
+        label: this.okLabel,
+        ripple: false,
+        ...(Object(this.ok) === this.ok ? this.ok : { flat: true }),
+        disable: this.okDisabled
+      }
     },
 
     cancelProps () {
-      return Object.assign(
-        {
-          color: this.vmColor,
-          label: this.cancelLabel,
-          ripple: false
-        },
-        Object(this.cancel) === this.cancel
-          ? this.cancel
-          : { flat: true }
-      )
+      return {
+        color: this.vmColor,
+        label: this.cancelLabel,
+        ripple: false,
+        ...(Object(this.cancel) === this.cancel ? this.cancel : { flat: true })
+      }
     }
   },
 
@@ -134,11 +150,21 @@ export default Vue.extend({
           props: {
             value: this.prompt.model,
             type: this.prompt.type,
+
             label: this.prompt.label,
             stackLabel: this.prompt.stackLabel,
+
             outlined: this.prompt.outlined,
             filled: this.prompt.filled,
             standout: this.prompt.standout,
+            rounded: this.prompt.rounded,
+            square: this.prompt.square,
+
+            counter: this.prompt.counter,
+            maxlength: this.prompt.maxlength,
+            prefix: this.prompt.prefix,
+            suffix: this.prompt.suffix,
+
             color: this.vmColor,
             dense: true,
             autofocus: true,
@@ -238,19 +264,38 @@ export default Vue.extend({
       this.getSection(h, 'q-dialog__title', this.title)
     )
 
-    this.message && child.push(
-      this.getSection(h, 'q-dialog__message scroll', this.message)
+    this.progress !== false && child.push(
+      h(QCardSection, { staticClass: 'q-dialog__progress' }, [
+        h(this.spinner.component, {
+          props: this.spinner.props
+        })
+      ])
     )
 
-    this.hasForm === true && child.push(
-      h(
-        QCardSection,
-        { staticClass: 'scroll' },
-        this.prompt !== void 0
-          ? this.getPrompt(h)
-          : this.getOptions(h)
-      )
+    this.message && child.push(
+      this.getSection(h, 'q-dialog__message', this.message)
     )
+
+    if (this.prompt !== void 0) {
+      child.push(
+        h(
+          QCardSection,
+          { staticClass: 'scroll q-dialog-plugin__form' },
+          this.getPrompt(h)
+        )
+      )
+    }
+    else if (this.options !== void 0) {
+      child.push(
+        h(QSeparator, { props: { dark: this.isDark } }),
+        h(
+          QCardSection,
+          { staticClass: 'scroll q-dialog-plugin__form' },
+          this.getOptions(h)
+        ),
+        h(QSeparator, { props: { dark: this.isDark } })
+      )
+    }
 
     if (this.ok || this.cancel) {
       child.push(this.getButtons(h))
@@ -271,8 +316,7 @@ export default Vue.extend({
       })
     }, [
       h(QCard, {
-        staticClass: 'q-dialog-plugin' +
-          (this.isDark === true ? ' q-dialog-plugin--dark q-dark' : ''),
+        staticClass: this.classes,
         style: this.cardStyle,
         class: this.cardClass,
         props: { dark: this.isDark }

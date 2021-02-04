@@ -28,7 +28,7 @@ export default Vue.extend({
       staticClass: 'q-bar row no-wrap items-center',
       class: this.classes,
       attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

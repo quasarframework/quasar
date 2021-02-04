@@ -135,37 +135,31 @@ export default Vue.extend({
   },
 
   render (h) {
-    let child = []
+    const child = []
 
-    if (this.title) {
-      child.push(
-        h(QCardSection, {
-          staticClass: 'q-dialog__title'
-        }, [ this.title ])
-      )
-    }
+    this.title && child.push(
+      h(QCardSection, {
+        staticClass: 'q-dialog__title'
+      }, [ this.title ])
+    )
 
-    if (this.message) {
-      child.push(
-        h(QCardSection, {
-          staticClass: 'q-dialog__message scroll'
-        }, [ this.message ])
-      )
-    }
+    this.message && child.push(
+      h(QCardSection, {
+        staticClass: 'q-dialog__message'
+      }, [ this.message ])
+    )
 
     child.push(
       this.grid === true
         ? h('div', {
-          staticClass: 'scroll row items-stretch justify-start'
+          staticClass: 'row items-stretch justify-start'
         }, this.__getGrid(h))
-        : h('div', { staticClass: 'scroll' }, this.__getList(h))
+        : h('div', this.__getList(h))
     )
 
     return h(QDialog, {
       ref: 'dialog',
-
       props: this.dialogProps,
-
       on: cache(this, 'hide', {
         hide: () => {
           this.$emit('hide')

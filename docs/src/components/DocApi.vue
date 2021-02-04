@@ -78,7 +78,7 @@ q-card.doc-api.q-my-lg(flat bordered)
 </template>
 
 <script>
-import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v4'
+import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v5'
 import { format } from 'quasar'
 
 import ApiRows from './ApiRows.js'
@@ -209,7 +209,7 @@ export default {
   },
 
   methods: {
-    parseJson (name, { type, behavior, meta, ...api }) {
+    parseJson (name, { type, behavior, meta, addedIn, ...api }) {
       this.aggregationModel = {}
 
       if (type === 'component' && api.props !== void 0) {

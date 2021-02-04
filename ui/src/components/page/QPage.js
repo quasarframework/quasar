@@ -60,7 +60,7 @@ export default Vue.extend({
       staticClass: 'q-page',
       style: this.style,
       class: this.classes,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

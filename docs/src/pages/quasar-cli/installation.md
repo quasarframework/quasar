@@ -6,7 +6,11 @@ desc: How to install the Quasar CLI on your development machine.
 Make sure that you have Node >=10 and NPM >=5 installed on your machine.
 
 ::: warning
-**Do not use uneven versions of Node i.e. 11, 13, etc.** These versions aren't tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
+**Do not use any Node version higher than 12+**. Webpack 4 does not support any Node version higher than this and we cannot move to Webpack 5 without making breaking changes. However, we will support Webpack 5 in a future release.
+:::
+
+::: warning
+**Do not use uneven versions of Node i.e. 11, 13, etc.** These versions are not tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
 :::
 
 ```bash
@@ -35,7 +39,13 @@ $ quasar create <folder_name>
 ```
 
 :::tip
-Some **advanced** scenarios require to use a custom starter kit (eg. testing or personal presets). In those **rare** cases, you can use `--kit` option. Read more about this into [create command](/quasar-cli/cli-documentation/commands-list#create) description. Remember that the recommended way to go is through writing a Quasar App Extension though.
+Some **advanced** scenarios require to use a custom starter kit (eg. testing or personal presets). In those **rare** cases, you can use `--kit` option. Read more about this into [create command](/quasar-cli/commands-list#create) description. Remember that the recommended way to go is through writing a Quasar App Extension though.
+:::
+
+:::tip WSL2
+Microsoft's recommended [Nodejs development environment setup in WSL2](https://docs.microsoft.com/en-us/windows/nodejs/setup-on-wsl2).
+
+When using WSL2 (Windows Subsystem for Linux) [Microsoft recommends](https://docs.microsoft.com/en-us/windows/wsl/compare-versions#performance-across-os-file-systems) keeping files in the linux file sytem to maximize performance.  Projects will build around 3X slower and HMR (Hot Module Reload) will not work ([without a hack](/quasar-cli/quasar-conf-js#Docker-and-WSL-Issues-with-HRM)) if the project files are on the Windows mount instead of the local linux file system.  This is also true in Docker for Windows based development environments.
 :::
 
 Note that you don't need separate projects if you want to build any of the available platforms. This one project can seamlessly handle all of them.

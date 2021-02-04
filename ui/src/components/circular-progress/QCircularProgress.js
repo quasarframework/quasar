@@ -62,17 +62,19 @@ export default Vue.extend({
     },
 
     svgStyle () {
-      return { transform: `rotate3d(0, 0, 1, ${this.angle - 90}deg)` }
+      const angle = this.$q.lang.rtl === true ? -this.angle : this.angle
+
+      return {
+        transform: this.reverse !== (this.$q.lang.rtl === true)
+          ? `scale3d(-1, 1, 1) rotate3d(0, 0, 1, ${-90 - angle}deg)`
+          : `rotate3d(0, 0, 1, ${angle - 90}deg)`
+      }
     },
 
     circleStyle () {
       if (this.instantFeedback !== true && this.indeterminate !== true) {
         return { transition: 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease' }
       }
-    },
-
-    dir () {
-      return (this.$q.lang.rtl === true ? -1 : 1) * (this.reverse ? -1 : 1)
     },
 
     viewBox () {
@@ -85,7 +87,7 @@ export default Vue.extend({
 
     strokeDashOffset () {
       const progress = 1 - (this.normalizedValue - this.min) / (this.max - this.min)
-      return (this.dir * progress) * circumference
+      return progress * circumference
     },
 
     strokeWidth () {
@@ -162,7 +164,8 @@ export default Vue.extend({
         style: this.svgStyle,
         attrs: {
           focusable: 'false' /* needed for IE11 */,
-          viewBox: this.viewBoxAttr
+          viewBox: this.viewBoxAttr,
+          'aria-hidden': 'true'
         }
       }, svgChild)
     ]
@@ -178,7 +181,7 @@ export default Vue.extend({
       staticClass: 'q-circular-progress',
       class: `q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
       style: this.sizeStyle,
-      on: this.qListeners,
+      on: { ...this.qListeners },
       attrs: this.attrs
     }, mergeSlotSafely(child, this, 'internal'))
   }

@@ -45,6 +45,8 @@ export default Vue.extend({
 
     loading: Boolean,
 
+    labelSlot: Boolean,
+
     bottomSlots: Boolean,
     hideBottomSpace: Boolean,
 
@@ -145,9 +147,10 @@ export default Vue.extend({
         'q-field--rounded': this.rounded,
         'q-field--square': this.square,
 
-        'q-field--focused': this.focused === true || this.hasError === true,
+        'q-field--focused': this.focused === true,
+        'q-field--highlighted': this.focused === true || this.hasError === true,
         'q-field--float': this.floatingLabel,
-        'q-field--labeled': this.label !== void 0,
+        'q-field--labeled': this.hasLabel,
 
         'q-field--dense': this.dense,
         'q-field--item-aligned q-item-type': this.itemAligned,
@@ -191,6 +194,10 @@ export default Vue.extend({
       return cls
     },
 
+    hasLabel () {
+      return this.labelSlot === true || this.label !== void 0
+    },
+
     labelClass () {
       if (
         this.labelColor !== void 0 &&
@@ -218,10 +225,10 @@ export default Vue.extend({
       }
 
       if (this.disable === true) {
-        attrs['aria-disabled'] = ''
+        attrs['aria-disabled'] = 'true'
       }
       else if (this.readonly === true) {
-        attrs['aria-readonly'] = ''
+        attrs['aria-readonly'] = 'true'
       }
 
       return attrs
@@ -230,7 +237,7 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      if (this.showPopup !== void 0 && this.hasDialog === true) {
+      if (this.showPopup !== void 0) {
         this.showPopup()
         return
       }
@@ -357,11 +364,11 @@ export default Vue.extend({
         )
       }
 
-      this.label !== void 0 && node.push(
+      this.hasLabel === true && node.push(
         h('div', {
           staticClass: 'q-field__label no-pointer-events absolute ellipsis',
           class: this.labelClass
-        }, [ this.label ])
+        }, [ slot(this, 'label', this.label) ])
       )
 
       this.suffix !== void 0 && this.suffix !== null && node.push(
@@ -482,21 +489,34 @@ export default Vue.extend({
     },
 
     __clearValue (e) {
-      this.focused = false
-
       // prevent activating the field but keep focus on desktop
       stopAndPrevent(e)
-      this.$el.focus()
+
+      if (this.$q.platform.is.mobile !== true) {
+        const el = this.$refs.target || this.$el
+        el.focus()
+      }
+      else if (this.$el.contains(document.activeElement) === true) {
+        document.activeElement.blur()
+      }
 
       if (this.type === 'file') {
         // do not let focus be triggered
         // as it will make the native file dialog
         // appear for another selection
-        prevent(e)
         this.$refs.input.value = null
       }
+
       this.$emit('input', null)
       this.$emit('clear', this.value)
+
+      this.$nextTick(() => {
+        this.resetValidation()
+
+        if (this.lazyRules !== 'ondemand' && this.$q.platform.is.mobile !== true) {
+          this.isDirty = false
+        }
+      })
     },
 
     __emitValue (value) {
@@ -509,7 +529,7 @@ export default Vue.extend({
     this.__onPostRender !== void 0 && this.$nextTick(this.__onPostRender)
 
     return h('label', {
-      staticClass: 'q-field row no-wrap items-start',
+      staticClass: 'q-field q-validation-component row no-wrap items-start',
       class: this.classes,
       attrs: this.attrs
     }, [

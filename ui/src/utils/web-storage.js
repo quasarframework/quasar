@@ -29,16 +29,14 @@ function encode (value) {
 }
 
 function decode (value) {
-  let type, length, source
-
-  length = value.length
+  const length = value.length
   if (length < 9) {
     // then it wasn't encoded by us
     return value
   }
 
-  type = value.substr(0, 8)
-  source = value.substring(9)
+  const type = value.substr(0, 8)
+  const source = value.substring(9)
 
   switch (type) {
     case '__q_date':

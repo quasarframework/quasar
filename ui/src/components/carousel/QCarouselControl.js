@@ -43,7 +43,7 @@ export default Vue.extend({
       staticClass: 'q-carousel__control absolute',
       style: this.style,
       class: this.classes,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

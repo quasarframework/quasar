@@ -19,7 +19,7 @@ The new folder has the following structure:
     ├── icons/                 # Icons of your app for all platforms
     |   ├── icon.icns             # Icon file for Darwin (MacOS) platform
     |   ├── icon.ico              # Icon file for win32 (Windows) platform
-    |   └── linux-256x256.png     # Icon file for Linux platform
+    |   └── linux-512x512.png     # Icon file for Linux platform (when using electron-builder)
     └── main-process/          # Main thread source code
         ├── electron-main.dev.js  # Main thread code while developing; read below
         └── electron-main.js      # Main thread code for production

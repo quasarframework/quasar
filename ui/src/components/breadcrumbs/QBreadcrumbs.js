@@ -80,7 +80,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-breadcrumbs',
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, [
       h('div', {
         staticClass: 'flex items-center',

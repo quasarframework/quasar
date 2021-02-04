@@ -1,6 +1,6 @@
 ---
 title: Formatter Utils
-desc: A set of Quasar methods for formatting values. Capitalizing, padding, normalizing and more. 
+desc: A set of Quasar methods for formatting values. Capitalizing, padding, normalizing and more.
 ---
 
 ### Helping Tree-Shake
@@ -50,6 +50,7 @@ console.log( humanStorageSize(13087) )
 ```
 
 ## Normalize Number to Interval
+
 ``` js
 import { format } from 'quasar'
 const { between } = format
@@ -57,6 +58,18 @@ const { between } = format
 // (Number) between(Number, Number min, Number max)
 console.log( between(50, 10, 20) )
 // 20
+```
+
+``` js
+import { format } from 'quasar'
+const { normalizeToInterval } = format
+
+// (Number) normalizeToInterval(Number, Number lower_margin, Number upper_margin)
+
+console.log( normalizeToInterval(21, 10, 20) ) // 10
+console.log( normalizeToInterval(33, 10, 20) ) // 11
+console.log( normalizeToInterval(52, 10, 20) ) // 19
+console.log( normalizeToInterval(5, 10, 16) ) // 12
 ```
 
 ## Pad String

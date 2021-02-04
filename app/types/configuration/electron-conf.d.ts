@@ -4,13 +4,18 @@ import {
   Options as ElectronPackagerOptions,
   platform
 } from "electron-packager";
-import { WebpackConfiguration } from "quasar";
 import * as WebpackChain from "webpack-chain";
-import "../ts-helpers";
+import { WebpackConfiguration } from "../ts-helpers";
 
-type QuasarElectronBundlersInternal = "builder" | "packager";
+export type QuasarElectronBundlersInternal = "builder" | "packager";
 
 interface QuasarBaseElectronConfiguration {
+  /**
+   * @version `@quasar/app` 1.9.6+
+   *
+   * Add/remove/change properties of production generated package.json
+   */
+  extendPackageJson?: (pkg: { [index in string]: any }) => void;
   /** Webpack config object for the Main Process ONLY (`/src-electron/main-process/`) */
   extendWebpack?: (config: WebpackConfiguration) => void;
   /**
@@ -53,23 +58,21 @@ interface QuasarElectronBuilderConfiguration
   builder?: ElectronBuilderConfiguration;
 }
 
-declare module "quasar" {
-  type QuasarElectronBundlers = QuasarElectronBundlersInternal;
+export type QuasarElectronBundlers = QuasarElectronBundlersInternal;
 
-  type ElectronBuilderArchs = "ia32" | "x64" | "armv7l" | "arm64" | "all";
+export type ElectronBuilderArchs = "ia32" | "x64" | "armv7l" | "arm64" | "all";
 
-  type ElectronBuilderTargets =
-    | "darwin"
-    | "mac"
-    | "win32"
-    | "win"
-    | "linux"
-    | "all";
+export type ElectronBuilderTargets =
+  | "darwin"
+  | "mac"
+  | "win32"
+  | "win"
+  | "linux"
+  | "all";
 
-  type ElectronPackagerArchs = arch;
-  type ElectronPackagerTargets = platform;
+export type ElectronPackagerArchs = arch;
+export type ElectronPackagerTargets = platform;
 
-  type QuasarElectronConfiguration =
-    | QuasarElectronPackagerConfiguration
-    | QuasarElectronBuilderConfiguration;
-}
+export type QuasarElectronConfiguration =
+  | QuasarElectronPackagerConfiguration
+  | QuasarElectronBuilderConfiguration;

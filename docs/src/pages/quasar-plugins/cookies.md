@@ -6,12 +6,12 @@ This is a wrapper over the standardized `document.cookie`.
 
 > **NOTE**
 >
-> In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects.
+> In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.
 
 ## Installation
 <doc-installation plugins="Cookies" />
 
-### Note about SSR
+## Notes on SSR
 When building for SSR, use only the `$q.cookies` form. If you need to use the `import { Cookies } from 'quasar'`, then you'll need to do it like this:
 
 ```js
@@ -27,7 +27,7 @@ function (ssrContext) {
 }
 ```
 
-The `ssrContext` is available in App Plugins or preFetch feature where it is supplied as parameter.
+The `ssrContext` is available in [boot files](/quasar-cli/boot-files) or [preFetch feature](/quasar-cli/prefetch-feature) where it is supplied as parameter.
 
 The reason for this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Cookies needs to be bound to each request separately.
 
@@ -40,7 +40,7 @@ import { Cookies } from 'quasar'
 var value = Cookies.get('cookie_name')
 ```
 
-When cookie is not set, the return value is `undefined`.
+When cookie is not set, the return value is `null`.
 
 ```js
 // inside of a Vue file
@@ -101,7 +101,7 @@ Cookies.set('quasar', 'framework', {
 ```js
 // inside of a Vue file
 
-this.$q.cookies.set('cookie_name', cookie_value, options)
+this.$q.cookies.set('cookie_name', cookie_value)
 
 // or pass in options also:
 this.$q.cookies.set('cookie_name', cookie_value, options)
@@ -155,6 +155,8 @@ SameSite cookies let servers require that a cookie shouldn't be sent with cross-
 **Strict** - If a same-site cookie has this attribute, the browser will only send cookies if the request originated from the website that set the cookie. If the request originated from a different URL than the URL of the current location, none of the cookies tagged with the Strict attribute will be included.
 
 **Lax** - If the attribute is set to Lax, same-site cookies are withheld on cross-site subrequests, such as calls to load images or frames, but will be sent when a user navigates to the URL from an external site, for example, by following a link.
+
+For more information on the `same-site` setting, go [here](https://web.dev/samesite-cookies-explained/).
 
 ### Option: httpOnly
 

@@ -87,10 +87,7 @@ columns: [ // array of Objects
 ]
 ```
 
-## Usage
-
-
-### Basic
+## Basic usage
 
 <doc-example title="Basic" file="QTable/Basic" />
 
@@ -99,10 +96,16 @@ columns: [ // array of Objects
 <doc-example title="Dense" file="QTable/Dense" />
 
 ::: tip
-You can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense="$q.screen.lt.md`. More info: [Screen Plugin](/options/screen-plugin).
+You can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense="$q.screen.lt.md"`. More info: [Screen Plugin](/options/screen-plugin).
 :::
 
-### Sticky header/column
+## Omitting columns definition <q-badge align="top" label="v1.12+" />
+
+You can omit specifying the `columns`. QTable will infer the columns from the properties of the first row of the data. Note that labels are uppercased and sorting is enabled:
+
+<doc-example title="Infering columns from data" file="QTable/InferColumns" />
+
+## Sticky header/column
 
 ::: warning
 Sticky headers and columns are achieved through CSS with `position: sticky`. This is NOT supported on all browsers. Check [caniuse.com](https://caniuse.com/#search=sticky) before using this technique.
@@ -114,11 +117,11 @@ Sticky headers and columns are achieved through CSS with `position: sticky`. Thi
 
 <doc-example title="Sticky header and column" file="QTable/StickyHeaderAndColumn" />
 
-### Separators
+## Separators
 
 <doc-example title="Separators" file="QTable/Separators" />
 
-### Styling
+## Styling
 
 <doc-example title="Custom column" file="QTable/CustomColumn" />
 
@@ -126,7 +129,7 @@ Sticky headers and columns are achieved through CSS with `position: sticky`. Thi
 
 <doc-example title="No header/footer" file="QTable/NoHeaderFooter" />
 
-### Virtual scrolling <q-badge align="top" label="v1.2+" />
+## Virtual scrolling <q-badge align="top" label="v1.2+" />
 
 Notice that when enabling virtual scroll you will need to specify the `table-style` (with a max-height) prop. In the example below, we are also forcing QTable to display all rows at once (note the use of `pagination` and `rows-per-page-options` props).
 
@@ -150,7 +153,7 @@ Starting with v1.8.4, there are 2 utility CSS classes that control VirtualScroll
 
 <doc-example title="Virtual scroll with multiple rows for a data row" file="QTable/VirtscrollMultipleRows" />
 
-### Selection
+## Selection
 
 ::: warning
 The property `row-key` must be set in order for selection to work properly.
@@ -160,7 +163,11 @@ The property `row-key` must be set in order for selection to work properly.
 
 <doc-example title="Multiple selection" file="QTable/MultipleSelection" />
 
-### Visible columns, custom top, fullscreen
+<doc-example title="Selection cell slots (v1.14+)" file="QTable/SelectionSlots" />
+
+<doc-example title="Custom multiple selection" file="QTable/CustomSelection" />
+
+## Visible columns, custom top, fullscreen
 
 Please note that columns marked as `required` (in the column definition) cannot be toggled and are always visible.
 
@@ -168,7 +175,7 @@ Please note that columns marked as `required` (in the column definition) cannot 
 
 <doc-example title="Visible columns" file="QTable/VisibleColumns2" />
 
-### Popup editing
+## Popup editing
 
 ::: tip
 Below is an example with the user being able to edit “in place” with the help of **QPopupEdit** component. Please note that we are using the `body` scoped slot. **QPopupEdit** won’t work with cell scoped slots.
@@ -176,10 +183,10 @@ Below is an example with the user being able to edit “in place” with the hel
 
 <doc-example title="Popup editing" file="QTable/PopupEditing" />
 
-### Grid style
+## Grid style
 
 ::: tip
-You can use the `grid` prop along with `$q.screen` to create a responsive behavior. Example: `:grid="$q.screen.lt.md`. More info: [Screen Plugin](/options/screen-plugin).
+You can use the `grid` prop along with `$q.screen` to create a responsive behavior. Example: `:grid="$q.screen.lt.md"`. More info: [Screen Plugin](/options/screen-plugin).
 :::
 
 In the example below, we let QTable deal with displaying the grid mode (not using the specific slot):
@@ -198,7 +205,7 @@ However, if you want to fully customize the content, check the example below, wh
 
 <doc-example title="Grid style with slot" file="QTable/GridStyleSlot" />
 
-### Expanding rows
+## Expanding rows
 
 ::: warning
 Add unique (distinct) `key` on QTr if you generate more than one QTr from a row in data.
@@ -216,23 +223,37 @@ If you are using virtual scroll with QTable, you should know that starting with 
 
 <doc-example title="Virtual scroll with expansion model" file="QTable/VirtscrollExpandedRow" />
 
-### Before/after slots
+## Before/after slots
 
 <doc-example title="Before/After slots (header/footer)" file="QTable/BeforeAfterHeaderFooter" />
 
-### Pagination
+## Pagination <q-badge align="top" label="enhanced on v1.12+" />
 
-::: tip
-If you want to control Table’s pagination, use `pagination` prop, but don’t forget to add the `.sync` modifier
+::: warning
+On Quasar <= v1.11, the `pagination` prop usage required the ".sync" modifier. With v1.12+ this is not longer mandatory, but if you want to control the Table’s pagination from your own components, then it is still a must-do. Example: `pagination.sync="pagination"`.
 :::
 
 ::: tip
-When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See *Synchronizing with Server* example below.
+When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See *"Server side pagination, filter and sorting"* section.
 :::
 
-<doc-example title="Pagination with initial sort and rows per page" file="QTable/Pagination" />
+Below are two examples of handling the pagination (and sorting and rows per page).
 
-### Loading state
+The first example highlights how to configure the initial pagination:
+
+<doc-example title="Initial pagination" file="QTable/PaginationInitial" />
+
+The second example uses the ".sync" modifier because we want to access its current value at any time. A use-case for the technique below can be to control the pagination from outside of QTable.
+
+<doc-example title="Synchronized pagination" file="QTable/PaginationSync" />
+
+## Pagination slot
+
+For learning purposes, we will customize the pagination controls with the default controls in order to help you get started with your own.
+
+<doc-example title="Pagination slot" file="QTable/PaginationSlot" />
+
+## Loading state
 
 <doc-example title="Default loading" file="QTable/Loading" />
 
@@ -240,11 +261,11 @@ The example below requires Quasar v1.8+:
 
 <doc-example title="Custom loading state" file="QTable/CustomLoading" />
 
-### Custom top
+## Custom top
 
 <doc-example title="Custom top with add/remove row" file="QTable/CustomTop" />
 
-### Body slots
+## Body slots
 
 The example below shows how you can use a slot to customize the entire row:
 
@@ -258,7 +279,7 @@ We can also customize only one particular column only. The syntax for this slot 
 
 <doc-example title="Body-cell-[name] slot" file="QTable/SlotBodyCellName" />
 
-### Header slots
+## Header slots
 
 The example below shows how you can use a slot to customize the entire header row:
 
@@ -272,7 +293,7 @@ Starting with **v1.1.1+**, we can also customize only one particular header cell
 
 <doc-example title="Header-cell-[name] slot" file="QTable/SlotHeaderCellName" />
 
-### No data
+## No data
 
 <doc-example title="No Data Label" file="QTable/NoData" />
 
@@ -280,11 +301,17 @@ Starting with **v1.1.1+**, there is also a "no-data" scoped slot (see below) tha
 
 <doc-example title="No Data Slot" file="QTable/NoDataSlot" />
 
-### Custom sorting
+## Handling bottom layer <q-badge align="top" label="v1.12+" />
+
+There are a few properties that you can use to hide the bottom layer or specific parts of it. You can play with it below:
+
+<doc-example title="Hiding bottom layer" file="QTable/HideBottom" />
+
+## Custom sorting
 
 <doc-example title="Custom sorting" file="QTable/CustomSorting" />
 
-### Responsive tables
+## Responsive tables
 
 In order to create responsive tables, we have two tools at our disposal: `dense` and `grid` properties. We can connect these with `$q.screen`. More info: [Screen Plugin](/options/screen-plugin).
 
@@ -296,7 +323,7 @@ First example below uses `$q.screen.lt.md` (for enabling dense mode) and the sec
 
 The example above is essentially mimicking the earlier Quasar versions of the table behavior.
 
-### Server side pagination, filter and sorting
+## Server side pagination, filter and sorting
 
 When your database contains a big number of rows for a Table, obviously it’s not feasible to load them all for multiple reasons (memory, UI rendering performance, …). Instead, you can load only a Table page. Whenever the user wants to navigate to another Table page, or wants to sort by a column or wants to filter the Table, a **request** is sent to the **server** to fetch the partially paged data.
 
@@ -312,13 +339,17 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 
 <doc-example title="Synchronizing with server" file="QTable/Synchronizing" />
 
-### Exporting data
+## Exporting data
 
 Below is an example of a naive csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#Export-file) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.
 
-<doc-example title="Export to csv" file="QTable/ExportCsv" no-edit />
+::: tip
+You could also make use of the `filteredSortedRows` internal computed property of QTable should you want to export the user filtered + sorted data.
+:::
 
-### Keyboard navigation
+<doc-example title="Export to csv" file="QTable/ExportCsv" />
+
+## Keyboard navigation
 
 Below is an example of keyboard navigation in the table using selected row. Use `ArrowUp`, `ArrowDown`, `PageUp`, `PageDown`, `Home` and `End` keys to navigate.
 

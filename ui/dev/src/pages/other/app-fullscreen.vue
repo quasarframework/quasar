@@ -47,6 +47,12 @@
 import { AppFullscreen } from 'quasar'
 
 export default {
+  watch: {
+    '$q.fullscreen.activeEl' (val) {
+      console.log(val)
+    }
+  },
+
   methods: {
     toggleFullscreen () {
       AppFullscreen.toggle()

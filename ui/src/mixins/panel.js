@@ -42,7 +42,10 @@ export const PanelParentMixin = {
     transitionPrev: String,
     transitionNext: String,
 
-    keepAlive: Boolean
+    keepAlive: Boolean,
+    keepAliveInclude: [ String, Array, RegExp ],
+    keepAliveExclude: [ String, Array, RegExp ],
+    keepAliveMax: Number
   },
 
   data () {
@@ -79,6 +82,14 @@ export const PanelParentMixin = {
 
     transitionNextComputed () {
       return this.transitionNext || `slide-${this.vertical === true ? 'up' : 'left'}`
+    },
+
+    keepAliveProps () {
+      const props = {}
+      this.keepAliveInclude !== void 0 && (props.include = this.keepAliveInclude)
+      this.keepAliveExclude !== void 0 && (props.exclude = this.keepAliveExclude)
+      this.keepAliveMax !== void 0 && (props.max = this.keepAliveMax)
+      return props
     }
   },
 
@@ -123,28 +134,17 @@ export const PanelParentMixin = {
 
     __getPanelIndex (name) {
       return this.panels.findIndex(panel => {
-        const opt = panel.componentOptions
-        return opt &&
-          opt.propsData.name === name &&
-          opt.propsData.disable !== '' &&
-          opt.propsData.disable !== true
+        const opt = panel.componentOptions.propsData
+        return opt.name === name &&
+          opt.disable !== '' &&
+          opt.disable !== true
       })
     },
 
-    __getAllPanels () {
-      return this.panels.filter(
-        panel => panel.componentOptions !== void 0 &&
-          this.__isValidPanelName(panel.componentOptions.propsData.name)
-      )
-    },
-
-    __getAvailablePanels () {
+    __getEnabledPanels () {
       return this.panels.filter(panel => {
-        const opt = panel.componentOptions
-        return opt &&
-          opt.propsData.name !== void 0 &&
-          opt.propsData.disable !== '' &&
-          opt.propsData.disable !== true
+        const opt = panel.componentOptions.propsData
+        return opt.disable !== '' && opt.disable !== true
       })
     },
 
@@ -215,7 +215,8 @@ export const PanelParentMixin = {
         ? [
           h('keep-alive', [
             h(PanelWrapper, {
-              key: this.contentKey
+              key: this.contentKey,
+              props: this.keepAliveProps
             }, [ panel ])
           ])
         ]
@@ -243,7 +244,13 @@ export const PanelParentMixin = {
   },
 
   render (h) {
-    this.panels = slot(this, 'default', [])
+    this.panels = slot(this, 'default', []).filter(
+      panel => panel !== void 0 &&
+        panel.componentOptions !== void 0 &&
+        panel.componentOptions.propsData !== void 0 &&
+        this.__isValidPanelName(panel.componentOptions.propsData.name)
+    )
+
     return this.__renderPanels(h)
   }
 }

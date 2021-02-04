@@ -132,12 +132,13 @@ function set (key, val, opts = {}, ssr) {
 }
 
 function get (key, ssr) {
-  let
-    result = key ? null : {},
+  const
     cookieSource = ssr ? ssr.req.headers : document,
     cookies = cookieSource.cookie ? cookieSource.cookie.split('; ') : [],
+    l = cookies.length
+  let
+    result = key ? null : {},
     i = 0,
-    l = cookies.length,
     parts,
     name,
     cookie
@@ -172,9 +173,7 @@ function has (key, ssr) {
   return get(key, ssr) !== null
 }
 
-export function getObject (ctx = {}) {
-  const ssr = ctx.ssr
-
+export function getObject (ssr) {
   return {
     get: key => get(key, ssr),
     set: (key, val, opts) => set(key, val, opts, ssr),
@@ -185,14 +184,16 @@ export function getObject (ctx = {}) {
 }
 
 export default {
-  parseSSR (/* ssrContext */ ssr) {
-    return ssr ? getObject({ ssr }) : this
+  parseSSR (ssrContext) {
+    return ssrContext !== void 0
+      ? getObject(ssrContext)
+      : this
   },
 
   install ({ $q, queues }) {
     if (isSSR === true) {
       queues.server.push((q, ctx) => {
-        q.cookies = getObject(ctx)
+        q.cookies = getObject(ctx.ssr)
       })
     }
     else {

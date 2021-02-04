@@ -26,6 +26,9 @@ export default Vue.extend({
 
     margin: String,
     threshold: [ Number, Array ],
+    root: {
+      default: null
+    },
 
     disable: Boolean
   },
@@ -42,6 +45,7 @@ export default Vue.extend({
         ? {
           handler: this.__trigger,
           cfg: {
+            root: this.root,
             rootMargin: this.margin,
             threshold: this.threshold
           }
@@ -81,7 +85,7 @@ export default Vue.extend({
 
     return h(this.tag, {
       staticClass: 'q-intersection',
-      on: this.qListeners,
+      on: { ...this.qListeners },
       directives: this.directives
     }, this.transition
       ? [

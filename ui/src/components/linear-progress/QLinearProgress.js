@@ -6,7 +6,10 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { mergeSlot } from '../../utils/slot.js'
 
-function width (val) {
+function width (val, reverse) {
+  if (reverse === true) {
+    return { transform: `translateX(100%) scale3d(${-val},1,1)` }
+  }
   return { transform: `scale3d(${val},1,1)` }
 }
 
@@ -39,7 +42,9 @@ export default Vue.extend({
     stripe: Boolean,
     indeterminate: Boolean,
     query: Boolean,
-    rounded: Boolean
+    rounded: Boolean,
+
+    instantFeedback: Boolean
   },
 
   computed: {
@@ -55,20 +60,22 @@ export default Vue.extend({
     },
 
     trackStyle () {
-      return width(this.buffer !== void 0 ? this.buffer : 1)
+      return width(this.buffer !== void 0 ? this.buffer : 1, this.reverse)
     },
 
     trackClass () {
-      return 'q-linear-progress__track--' + (this.isDark === true ? 'dark' : 'light') +
+      return `q-linear-progress__track--with${this.instantFeedback === true ? 'out' : ''}-transition` +
+        ` q-linear-progress__track--${this.isDark === true ? 'dark' : 'light'}` +
         (this.trackColor !== void 0 ? ` bg-${this.trackColor}` : '')
     },
 
     modelStyle () {
-      return width(this.motion ? 1 : this.value)
+      return width(this.motion === true ? 1 : this.value, this.reverse)
     },
 
     modelClasses () {
-      return `q-linear-progress__model--${this.motion ? 'in' : ''}determinate`
+      return `q-linear-progress__model--with${this.instantFeedback === true ? 'out' : ''}-transition` +
+        ` q-linear-progress__model--${this.motion === true ? 'in' : ''}determinate`
     },
 
     stripeStyle () {
@@ -111,7 +118,7 @@ export default Vue.extend({
       style: this.sizeStyle,
       class: this.classes,
       attrs: this.attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, mergeSlot(child, this, 'default'))
   }
 })

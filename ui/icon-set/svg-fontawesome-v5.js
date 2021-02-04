@@ -5,6 +5,7 @@
  * Edit that file instead (fontawesome-v5.js).
  */
 
+
 import {
   fasCheck,
   fasExclamationTriangle,
@@ -96,7 +97,7 @@ export default {
   },
   carousel: {
     left: fasChevronLeft,
-    right: fasChevronRight, // TODO
+    right: fasChevronRight,
     up: fasChevronUp,
     down: fasChevronDown,
     navigationIcon: fasCircle
@@ -178,8 +179,10 @@ export default {
   table: {
     arrowUp: fasArrowUp,
     warning: fasExclamationTriangle,
+    firstPage: fasStepBackward,
     prevPage: fasChevronLeft,
-    nextPage: fasChevronRight
+    nextPage: fasChevronRight,
+    lastPage: fasStepForward
   },
   tree: {
     icon: fasPlay

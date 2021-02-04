@@ -19,19 +19,13 @@ module.exports = function (ctx) {
       'material-icons'
     ],
 
-    // supportIE: true,
     // preFetch: true,
 
     build: {
-      scopeHoisting: true,
       vueRouterMode: 'history',
       showProgress: ctx.dev,
-      // preloadChunks: true,
-      // vueCompiler: true,
-      // gzip: true,
-      // analyze: true,
-      // extractCSS: false,
       distDir: 'dist/quasar.dev',
+      // analyze: true,
 
       chainWebpack (chain) {
         chain.module.rule('eslint')
@@ -80,8 +74,8 @@ module.exports = function (ctx) {
     },
 
     framework: {
-      all: true,
-      iconSet: 'svg-mdi-v4',
+      importStrategy: 'all',
+      iconSet: 'svg-mdi-v5',
 
       config: {
         loadingBar: {
@@ -114,7 +108,7 @@ module.exports = function (ctx) {
         short_name: 'Quasar Docs',
         description: 'Quasar Framework Documentation',
         display: 'standalone',
-        orientation: 'portrait',
+        orientation: 'any',
         background_color: '#ffffff',
         theme_color: '#027be3',
         icons: [
@@ -152,34 +146,6 @@ module.exports = function (ctx) {
         appleTouchIcon167: 'https://cdn.quasar.dev/app-icons/apple-icon-167x167.png',
         appleSafariPinnedTab: 'https://cdn.quasar.dev/app-icons/safari-pinned-tab.svg',
         msapplicationTileImage: 'https://cdn.quasar.dev/app-icons/ms-icon-144x144.png'
-      }
-    },
-
-    cordova: {
-      // id: 'org.cordova.quasar.app'
-    },
-
-    electron: {
-      // bundler: 'builder', // or 'packager'
-      extendWebpack (cfg) {
-        // do something with Electron process Webpack cfg
-      },
-      packager: {
-        // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
-
-        // OS X / Mac App Store
-        // appBundleId: '',
-        // appCategoryType: '',
-        // osxSign: '',
-        // protocol: 'myapp://path',
-
-        // Window only
-        // win32metadata: { ... }
-      },
-      builder: {
-        // https://www.electron.build/configuration/configuration
-
-        // appId: 'quasar-app'
       }
     },
 

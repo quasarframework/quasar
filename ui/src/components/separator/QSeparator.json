@@ -13,8 +13,12 @@
     },
 
     "spaced": {
-      "type": "Boolean",
-      "desc": "If set to true, the top and bottom margins will be set to 8px",
+      "type": [ "Boolean", "String" ],
+      "desc": "If set to true, the corresponding direction margins will be set to 8px; It can also be set to a size in CSS units, including unit name, or one of the xs|sm|md|lg|xl predefined sizes",
+      "default": "md",
+      "examples": [
+        "12px", "sm", "md"
+      ],
       "category": "content"
     },
 
@@ -29,6 +33,11 @@
       "type": "Boolean",
       "desc": "If set to true, the separator will be vertical.",
       "category": "content"
+    },
+
+    "size": {
+      "extends": "size",
+      "addedIn": "v1.12.0"
     },
 
     "color": {

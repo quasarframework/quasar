@@ -87,10 +87,10 @@ export default Vue.extend({
 
     attrs () {
       if (this.disable === true) {
-        return { 'aria-disabled': '' }
+        return { 'aria-disabled': 'true' }
       }
       if (this.readonly === true) {
-        return { 'aria-readonly': '' }
+        return { 'aria-readonly': 'true' }
       }
     }
   },
@@ -200,7 +200,7 @@ export default Vue.extend({
       class: this.classes,
       style: this.sizeStyle,
       attrs: this.attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, child)
   }
 })

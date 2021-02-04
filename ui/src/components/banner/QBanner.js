@@ -46,7 +46,7 @@ export default Vue.extend({
         'rounded-borders': this.rounded
       },
       attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, child)
   }
 })

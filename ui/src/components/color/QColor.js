@@ -175,14 +175,6 @@ export default Vue.extend({
       }
     },
 
-    inputsArray () {
-      const inp = ['r', 'g', 'b']
-      if (this.hasAlpha === true) {
-        inp.push('a')
-      }
-      return inp
-    },
-
     computedPalette () {
       return this.palette !== void 0 && this.palette.length > 0
         ? this.palette
@@ -200,10 +192,10 @@ export default Vue.extend({
 
     attrs () {
       if (this.disable === true) {
-        return { 'aria-disabled': '' }
+        return { 'aria-disabled': 'true' }
       }
       if (this.readonly === true) {
-        return { 'aria-readonly': '' }
+        return { 'aria-readonly': 'true' }
       }
     }
   },
@@ -230,7 +222,7 @@ export default Vue.extend({
     return h('div', {
       class: this.classes,
       attrs: this.attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, child)
   },
 

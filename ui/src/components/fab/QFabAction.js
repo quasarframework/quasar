@@ -4,8 +4,8 @@ import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
 import FabMixin from '../../mixins/fab.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
+import { noop } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/slot.js'
 
 const anchorMap = {
@@ -19,7 +19,7 @@ const anchorValues = Object.keys(anchorMap)
 export default Vue.extend({
   name: 'QFabAction',
 
-  mixins: [ ListenersMixin, FabMixin ],
+  mixins: [ FabMixin ],
 
   props: {
     icon: {
@@ -32,14 +32,17 @@ export default Vue.extend({
       validator: v => anchorValues.includes(v)
     },
 
-    to: [String, Object],
+    to: [ String, Object ],
     replace: Boolean
   },
 
   inject: {
-    __qFabClose: {
+    __qFab: {
       default () {
-        console.error('QFabAction needs to be child of QFab')
+        return {
+          showing: true,
+          __onChildClick: noop
+        }
       }
     }
   },
@@ -55,12 +58,16 @@ export default Vue.extend({
         ...this.qListeners,
         click: this.click
       }
+    },
+
+    isDisabled () {
+      return this.__qFab.showing !== true || this.disable === true
     }
   },
 
   methods: {
     click (e) {
-      this.__qFabClose()
+      this.__qFab.__onChildClick(e)
       this.$emit('click', e)
     }
   },
@@ -87,7 +94,8 @@ export default Vue.extend({
         icon: void 0,
         label: void 0,
         noCaps: true,
-        fabMini: true
+        fabMini: true,
+        disable: this.isDisabled
       },
       on: this.onEvents
     }, mergeSlot(child, this, 'default'))

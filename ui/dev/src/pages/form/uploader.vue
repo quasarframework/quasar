@@ -47,6 +47,23 @@
         />
 
         <q-uploader
+          v-bind="props"
+          accept="image/png"
+          multiple
+          :max-file-size="41000"
+          label="Png & max 41k only"
+          :form-fields="[{name: 'my-field', value: 'my-value'}]"
+          url="http://localhost:4444/upload"
+          @added="onAdded"
+          @removed="onRemoved"
+          @start="onStart"
+          @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
+          @rejected="onRejected"
+        />
+
+        <q-uploader
           :dark="dark"
           label="Fn returning immediately"
           multiple
@@ -229,6 +246,9 @@ export default {
     },
     onFail () {
       console.log('@failed')
+    },
+    onRejected (files) {
+      console.log(`@rejected`, files)
     },
     promiseFn (files) {
       return new Promise((resolve) => {

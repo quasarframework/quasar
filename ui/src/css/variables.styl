@@ -18,6 +18,10 @@ $spaces ?= {
   xl: $space-xl
 }
 
+$animate-duration ?= .3s
+$animate-delay    ?= .3s
+$animate-repeat   ?= 1
+
 // Max width at which point
 // current size ends
 $breakpoint-xs ?= 599px
@@ -480,6 +484,7 @@ $z-max                ?= 9998
 $shadow-color         ?= black
 $shadow-transition    ?= box-shadow .28s cubic-bezier(.4, 0, .2, 1)
 $inset-shadow         ?= 0 7px 9px -7px rgba($shadow-color, .7) inset
+$inset-shadow-down    ?= 0 -7px 9px -7px rgba($shadow-color, .7) inset
 
 $elevation-umbra      ?= rgba($shadow-color, .2)
 $elevation-penumbra   ?= rgba($shadow-color, .14)

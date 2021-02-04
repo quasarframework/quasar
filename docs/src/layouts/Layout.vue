@@ -31,6 +31,13 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     content-class="doc-left-drawer"
   )
     q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
+      //- survey-countdown.layout-countdown(
+      //-   color="primary"
+      //-   align-class="justify-start"
+      //-   padding-class="q-py-md"
+      //- )
+      q-separator.q-mb-lg
+
       .row.justify-center.q-my-lg
         q-btn(
           type="a"
@@ -112,17 +119,20 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 import { scroll } from 'quasar'
 import {
   mdiMenu, mdiClipboardText, mdiHeartOutline, mdiMagnify, mdiChevronUp
-} from '@quasar/extras/mdi-v4'
+} from '@quasar/extras/mdi-v5'
 
 import AppMenu from 'components/AppMenu'
 import HeaderMenu from 'components/HeaderMenu'
+// import SurveyCountdown from 'components/SurveyCountdown'
 
-const { getScrollTarget, setScrollPosition } = scroll
+const { setScrollPosition, getScrollPosition } = scroll
 
 export default {
   name: 'Layout',
 
   created () {
+    this.preventTocUpdate = this.$route.hash.length > 1
+
     this.mdiMenu = mdiMenu
     this.mdiClipboardText = mdiClipboardText
     this.mdiHeartOutline = mdiHeartOutline
@@ -132,6 +142,7 @@ export default {
 
   components: {
     AppMenu,
+    // SurveyCountdown,
     HeaderMenu
   },
 
@@ -144,7 +155,9 @@ export default {
       rightDrawerState: false,
       rightDrawerOnLayout: false,
 
-      activeToc: void 0
+      activeToc: this.$route.hash.length > 1
+        ? this.$route.hash.substring(1)
+        : void 0
     }
   },
 
@@ -176,10 +189,10 @@ export default {
   },
 
   watch: {
-    $route () {
+    $route (newRoute, oldRoute) {
       this.leftDrawerState = this.$q.screen.width > 1023
-      this.$nextTick(() => {
-        this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
+      setTimeout(() => {
+        this.scrollToCurrentAnchor(newRoute.path !== oldRoute.path)
       })
     },
 
@@ -205,43 +218,40 @@ export default {
       done()
     },
 
+    changeRouterHash (hash) {
+      if (this.$route.hash !== hash) {
+        this.$router.push({ hash }).catch(() => {})
+      }
+      else {
+        this.scrollToCurrentAnchor()
+      }
+    },
+
     scrollTo (id) {
-      const el = document.getElementById(id)
       clearTimeout(this.scrollTimer)
 
-      if (el) {
-        if (this.rightDrawerOnLayout !== true) {
-          this.rightDrawerState = false
-          this.scrollTimer = setTimeout(() => {
-            this.scrollPage(el, 500)
-          }, 300)
-        }
-        else {
-          this.scrollPage(el, 500)
-        }
-
-        el.id = ''
-      }
-
-      window.location.hash = '#' + id
-
-      if (el) {
-        setTimeout(() => {
-          el.id = id
+      if (this.rightDrawerOnLayout !== true) {
+        this.rightDrawerState = false
+        this.scrollTimer = setTimeout(() => {
+          this.changeRouterHash('#' + id)
         }, 300)
+      }
+      else {
+        this.changeRouterHash('#' + id)
       }
     },
 
     scrollPage (el, delay) {
-      const
-        target = getScrollTarget(el),
-        offset = el.offsetTop - el.scrollHeight
+      const { top } = el.getBoundingClientRect()
+      const offset = Math.max(0, getScrollPosition(window) + top - 66)
 
-      this.scrollingPage = true
-      setScrollPosition(target, offset, delay)
+      clearTimeout(this.scrollTimer)
+
+      this.preventTocUpdate = true
+      setScrollPosition(window, offset, delay)
 
       this.scrollTimer = setTimeout(() => {
-        this.scrollingPage = false
+        this.preventTocUpdate = false
       }, delay + 10)
     },
 
@@ -250,12 +260,19 @@ export default {
     },
 
     onScroll ({ position }) {
-      if (this.scrollingPage !== true) {
+      if (
+        this.preventTocUpdate !== true &&
+        (this.rightDrawerOnLayout === true || this.rightDrawerState !== true)
+      ) {
         this.updateActiveToc(position)
       }
     },
 
     updateActiveToc (position) {
+      if (position === void 0) {
+        position = getScrollPosition(window)
+      }
+
       const toc = this.tocList
       let last
 
@@ -307,12 +324,33 @@ export default {
       this.searchFocused = false
     },
 
-    scrollToCurrentAnchor () {
-      const hash = window.location.hash
+    scrollToCurrentAnchor (immediate) {
+      const { hash } = this.$route
+      const el = hash.length > 1
+        ? document.getElementById(hash.substring(1))
+        : null
 
-      if (hash.length > 0) {
-        const el = document.getElementById(hash.substring(1))
-        this.scrollPage(el, 0)
+      if (el !== null) {
+        if (immediate === true) {
+          let anchorEl = el
+          while (anchorEl.parentElement !== null && anchorEl.parentElement.classList.contains('q-page') !== true) {
+            anchorEl = anchorEl.parentElement
+          }
+
+          document.body.classList.add('q-scroll--lock')
+          anchorEl.classList.add('q-scroll--anchor')
+
+          setTimeout(() => {
+            document.body.classList.remove('q-scroll--lock')
+            anchorEl && anchorEl.classList.remove('q-scroll--anchor')
+          }, 2000)
+        }
+
+        this.scrollPage(el, immediate === true ? 0 : 500)
+      }
+      else {
+        this.preventTocUpdate = false
+        this.updateActiveToc()
       }
     },
 
@@ -340,7 +378,7 @@ export default {
             const url = suggestion.url.replace('https://quasar.dev', '')
 
             this.search = ''
-            this.$router.push(url)
+            this.$router.push(url).catch(() => {})
             this.$refs.docAlgolia.blur()
           }
         })
@@ -366,7 +404,7 @@ export default {
   },
 
   mounted () {
-    this.scrollToCurrentAnchor()
+    this.scrollToCurrentAnchor(true)
     this.initializeAlgolia()
   },
 
@@ -445,4 +483,19 @@ export default {
 
 .q-page-container :target
   scroll-margin-top: ($toolbar-min-height + 16px)
+
+// keep the button on top of sticky in examples
+.q-page-scroller > .q-page-sticky
+  z-index: 1
+
+.doc-layout
+  .countdown
+    .heading
+      font-size: 18px
+    .time
+      font-size: 38px
+
+.layout-countdown
+  background: linear-gradient(45deg, #e6f1fc 25%, #c3e0ff 25%, #c3e0ff 50%, #e6f1fc 50%, #e6f1fc 75%, #c3e0ff 75%, #c3e0ff)
+  background-size: 40px 40px
 </style>

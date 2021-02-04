@@ -1,6 +1,6 @@
 import { clearSelection } from '../utils/selection.js'
-import { prevent, listenOpts } from '../utils/event.js'
-import { addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
+import { addEvt, cleanEvt, prevent, listenOpts } from '../utils/event.js'
+import { getTouchTarget } from '../utils/touch.js'
 import { isKeyCode } from '../utils/key-composition.js'
 
 export default {

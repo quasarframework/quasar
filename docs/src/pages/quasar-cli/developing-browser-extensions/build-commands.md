@@ -76,11 +76,11 @@ The new folder has the following structure:
 .
 └── dist/
     ├── UnPackaged/                       # Built code ready for testing in your development environment
-    ├── Packaged/
-    |   ├── Chrome
-    |   |   └── your-project-name.zip     # A zip file ready for submission to the Chrome Browser Extension Store / Other Chromium based stores.
-    |   ├── Firefox
-    └── └── └── your-project-name.zip     # A zip file ready for submission to the Firefox Extension Store
+    └── Packaged/
+        ├── Chrome
+        |   └── your-project-name.zip     # A zip file ready for submission to the Chrome Browser Extension Store / Other Chromium based stores.
+        └── Firefox
+            └── your-project-name.zip     # A zip file ready for submission to the Firefox Extension Store
 ```
 
 ::: tip

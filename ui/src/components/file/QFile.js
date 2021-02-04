@@ -21,9 +21,9 @@ export default Vue.extend({
       ? {}
       : [ File, FileList, Array ],
 
+    append: Boolean,
     useChips: Boolean,
     displayValue: [ String, Number ],
-    maxFiles: [ Number, String ],
 
     tabindex: {
       type: [ String, Number ],
@@ -84,11 +84,16 @@ export default Vue.extend({
         type: 'file',
         title: '', // try to remove default tooltip,
         accept: this.accept,
+        capture: this.capture,
         name: this.nameProp,
         ...this.qAttrs,
         id: this.targetUid,
         disabled: this.editable !== true
       }
+    },
+
+    isAppending () {
+      return this.multiple === true && this.append === true
     }
   },
 
@@ -120,11 +125,11 @@ export default Vue.extend({
     },
 
     __addFiles (e, fileList) {
-      const files = this.__processFiles(e, fileList)
+      const files = this.__processFiles(e, fileList, this.innerValue, this.isAppending)
 
       files !== void 0 && this.__emitValue(
-        this.maxFiles !== void 0
-          ? files.slice(0, parseInt(this.maxFiles, 10))
+        this.isAppending === true
+          ? this.innerValue.concat(files)
           : files
       )
     },
@@ -217,6 +222,9 @@ export default Vue.extend({
 
   created () {
     this.fieldClass = 'q-file q-field--auto-height'
-    this.type = 'file' // necessary for QField's clearable
+
+    // necessary for QField's clearable
+    // and FileValueMixin
+    this.type = 'file'
   }
 })

@@ -5,6 +5,8 @@ import Ripple from '../../directives/Ripple.js'
 
 import AttrsMixin from '../../mixins/attrs.js'
 
+import cache from '../../utils/cache.js'
+
 export default Vue.extend({
   name: 'StepHeader',
 
@@ -46,7 +48,7 @@ export default Vue.extend({
 
       return this.isDisable === false &&
         this.stepper.headerNav &&
-        (this.isActive === true || nav)
+        nav
     },
 
     hasPrefix () {
@@ -107,6 +109,7 @@ export default Vue.extend({
       this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
       this.isActive === false && this.stepper.goTo(this.step.name)
     },
+
     keyup (e) {
       if (e.keyCode === 13 && this.isActive === false) {
         this.stepper.goTo(this.step.name)
@@ -124,17 +127,15 @@ export default Vue.extend({
       }]
     }
 
-    if (this.headerNav === true) {
-      Object.assign(data, {
-        on: {
-          click: this.activate,
-          keyup: this.keyup
-        },
-        attrs: this.isDisable === true
-          ? { tabindex: -1, 'aria-disabled': '' }
-          : { tabindex: this.qAttrs.tabindex || 0 }
-      })
-    }
+    this.headerNav === true && Object.assign(data, {
+      on: cache(this, 'headnavon', {
+        click: this.activate,
+        keyup: this.keyup
+      }),
+      attrs: this.isDisable === true
+        ? { tabindex: -1, 'aria-disabled': 'true' }
+        : { tabindex: this.qAttrs.tabindex || 0 }
+    })
 
     const child = [
       h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }),
@@ -148,16 +149,23 @@ export default Vue.extend({
       ])
     ]
 
-    this.step.title && child.push(
-      h('div', {
-        staticClass: 'q-stepper__label q-stepper__line relative-position'
-      }, [
-        h('div', { staticClass: 'q-stepper__title' }, [ this.step.title ]),
-        this.step.caption
-          ? h('div', { staticClass: 'q-stepper__caption' }, [ this.step.caption ])
-          : null
-      ])
-    )
+    if (this.step.title !== void 0 && this.step.title !== null) {
+      const content = [
+        h('div', { staticClass: 'q-stepper__title' }, [ this.step.title ])
+      ]
+
+      if (this.step.caption !== void 0 && this.step.caption !== null) {
+        content.push(
+          h('div', { staticClass: 'q-stepper__caption' }, [ this.step.caption ])
+        )
+      }
+
+      child.push(
+        h('div', {
+          staticClass: 'q-stepper__label q-stepper__line relative-position'
+        }, content)
+      )
+    }
 
     return h('div', data, child)
   }

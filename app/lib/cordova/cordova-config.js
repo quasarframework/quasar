@@ -2,10 +2,8 @@ const fs = require('fs')
 const et = require('elementtree')
 
 const appPaths = require('../app-paths')
-const logger = require('../helpers/logger')
-const log = logger('app:cordova-conf')
-const warn = logger('app:cordova-conf', 'red')
-const ensureConsistency = require('../cordova/ensure-consistency')
+const { log, warn } = require('../helpers/logger')
+const ensureConsistency = require('./ensure-consistency')
 
 const filePath = appPaths.resolve.cordova('config.xml')
 
@@ -48,7 +46,6 @@ class CordovaConfig {
 
     const root = doc.getroot()
 
-    root.set('id', cfg.cordova.id || this.pkg.cordovaId || 'org.quasar.cordova.app')
     root.set('version', cfg.cordova.version || this.pkg.version)
 
     if (cfg.cordova.androidVersionCode) {

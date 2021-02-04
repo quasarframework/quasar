@@ -9,7 +9,7 @@ import Vuex from 'vuex';
  * directly export the Store instantiation
  */
 
-export interface StoreInterface {
+export interface StateInterface {
   // Define your own store structure, using submodules if needed
   // example: ExampleStateInterface;
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
@@ -19,14 +19,14 @@ export interface StoreInterface {
 export default store(function ({ Vue }) {
   Vue.use(Vuex);
 
-  const Store = new Vuex.Store<StoreInterface>({
+  const Store = new Vuex.Store<StateInterface>({
     modules: {
       // example
     },
 
     // enable strict mode (adds overhead!)
-    // for dev mode only
-    strict: !!process.env.DEV
+    // for dev mode and --debug builds only
+    strict: !!process.env.DEBUGGING
   });
 
   return Store;

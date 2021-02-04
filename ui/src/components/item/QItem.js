@@ -130,7 +130,7 @@ export default Vue.extend({
     }
     else if (this.isActionable === true) {
       data.attrs = {
-        'aria-disabled': ''
+        'aria-disabled': 'true'
       }
     }
 

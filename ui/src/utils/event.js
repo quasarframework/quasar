@@ -110,6 +110,19 @@ export function stopAndPrevent (e) {
   e.stopPropagation()
 }
 
+export function stopAndPreventClick (evt) {
+  stopAndPrevent(evt)
+
+  if (evt.type === 'mousedown') {
+    const handler = e => {
+      e.target === evt.target && stopAndPrevent(e)
+      document.removeEventListener('click', handler, listenOpts.notPassiveCapture)
+    }
+
+    document.addEventListener('click', handler, listenOpts.notPassiveCapture)
+  }
+}
+
 export function preventDraggable (el, status) {
   if (el === void 0 || (status === true && el.__dragPrevented === true)) {
     return
@@ -130,13 +143,36 @@ export function preventDraggable (el, status) {
 
 export function create (name, { bubbles = false, cancelable = false } = {}) {
   try {
-    return new Event(name, { bubbles, cancelable })
+    return new CustomEvent(name, { bubbles, cancelable })
   }
   catch (e) {
     // IE doesn't support `new Event()`, so...
     const evt = document.createEvent('Event')
     evt.initEvent(name, bubbles, cancelable)
     return evt
+  }
+}
+
+export function addEvt (ctx, targetName, events) {
+  const name = `__q_${targetName}_evt`
+
+  ctx[name] = ctx[name] !== void 0
+    ? ctx[name].concat(events)
+    : events
+
+  events.forEach(evt => {
+    evt[0].addEventListener(evt[1], ctx[evt[2]], listenOpts[evt[3]])
+  })
+}
+
+export function cleanEvt (ctx, targetName) {
+  const name = `__q_${targetName}_evt`
+
+  if (ctx[name] !== void 0) {
+    ctx[name].forEach(evt => {
+      evt[0].removeEventListener(evt[1], ctx[evt[2]], listenOpts[evt[3]])
+    })
+    ctx[name] = void 0
   }
 }
 

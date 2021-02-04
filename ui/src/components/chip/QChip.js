@@ -34,6 +34,8 @@ export default Vue.extend({
 
     icon: String,
     iconRight: String,
+    iconRemove: String,
+    iconSelected: String,
     label: [String, Number],
 
     color: String,
@@ -80,13 +82,23 @@ export default Vue.extend({
       return this.selected === true || this.icon !== void 0
     },
 
+    leftIcon () {
+      return this.selected === true
+        ? this.iconSelected || this.$q.iconSet.chip.selected
+        : this.icon
+    },
+
+    removeIcon () {
+      return this.iconRemove || this.$q.iconSet.chip.remove
+    },
+
     isClickable () {
       return this.disable === false && (this.clickable === true || this.selected !== null)
     },
 
     attrs () {
       return this.disable === true
-        ? { tabindex: -1, 'aria-disabled': '' }
+        ? { tabindex: -1, 'aria-disabled': 'true' }
         : { tabindex: this.tabindex || 0 }
     }
   },
@@ -120,7 +132,7 @@ export default Vue.extend({
       this.hasLeftIcon === true && child.push(
         h(QIcon, {
           staticClass: 'q-chip__icon q-chip__icon--left',
-          props: { name: this.selected === true ? this.$q.iconSet.chip.selected : this.icon }
+          props: { name: this.leftIcon }
         })
       )
 
@@ -144,7 +156,7 @@ export default Vue.extend({
       this.removable === true && child.push(
         h(QIcon, {
           staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
-          props: { name: this.$q.iconSet.chip.remove },
+          props: { name: this.removeIcon },
           attrs: this.attrs,
           on: cache(this, 'non', {
             click: this.__onRemove,

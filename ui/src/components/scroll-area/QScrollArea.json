@@ -40,7 +40,7 @@
 
     "visible": {
       "type": "Boolean",
-      "desc": "(Desktop only) Manually control the visibility of the scrollbar; Overrides default mouse over/leave behavior",
+      "desc": "Manually control the visibility of the scrollbar; Overrides default mouse over/leave behavior",
       "category": "behavior",
       "addedIn": "v1.3.0"
     },
@@ -161,6 +161,24 @@
           "examples": [ 300 ]
         }
       }
+    },
+
+    "setScrollPercentage": {
+      "desc": "Set scroll position to a percentage (0.0 < x < 1.0) of the total scrolling size; If a duration (in milliseconds) is specified then the scroll is animated",
+      "params": {
+        "offset": {
+          "type": "Number",
+          "desc": "Scroll percentage (0.0 < x < 1.0) of the total scrolling size",
+          "required": true,
+          "examples": [ 220 ]
+        },
+        "duration": {
+          "type": "Number",
+          "desc": "Duration (in milliseconds) enabling animated scroll",
+          "examples": [ 300 ]
+        }
+      },
+      "addedIn": "v1.13.2"
     }
   }
 }

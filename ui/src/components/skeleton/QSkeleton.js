@@ -64,7 +64,7 @@ export default Vue.extend({
       staticClass: 'q-skeleton',
       class: this.classes,
       style: this.style,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

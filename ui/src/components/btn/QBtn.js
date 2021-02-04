@@ -37,10 +37,10 @@ export default Vue.extend({
     computedRipple () {
       return this.ripple === false
         ? false
-        : Object.assign(
-          { keyCodes: this.isLink === true ? [ 13, 32 ] : [ 13 ] },
-          this.ripple === true ? {} : this.ripple
-        )
+        : {
+          keyCodes: this.isLink === true ? [ 13, 32 ] : [ 13 ],
+          ...(this.ripple === true ? {} : this.ripple)
+        }
     },
 
     percentageStyle () {
@@ -141,14 +141,10 @@ export default Vue.extend({
       }
 
       const go = () => {
-        const res = this.$router[this.replace === true ? 'replace' : 'push'](this.to)
-
         // vue-router now throwing error if navigating
         // to the same route that the user is currently at
         // https://github.com/vuejs/vue-router/issues/2872
-        if (res !== void 0 && typeof res.catch === 'function') {
-          res.catch(noop)
-        }
+        this.$router[this.replace === true ? 'replace' : 'push'](this.currentLocation.route, void 0, noop)
       }
 
       this.$emit('click', e, go)
@@ -235,13 +231,16 @@ export default Vue.extend({
     },
 
     __cleanup (destroying) {
+      const blurTarget = this.$refs.blurTarget
+
       if (
         destroying !== true &&
         (touchTarget === this.$el || mouseTarget === this.$el) &&
-        this.$refs.blurTarget !== void 0 &&
-        this.$refs.blurTarget !== document.activeElement
+        blurTarget !== void 0 &&
+        blurTarget !== document.activeElement
       ) {
-        this.$refs.blurTarget.focus()
+        blurTarget.setAttribute('tabindex', -1)
+        blurTarget.focus()
       }
 
       if (touchTarget === this.$el) {
@@ -286,7 +285,7 @@ export default Vue.extend({
     )
 
     this.hasLabel === true && inner.push(
-      h('div', [ this.label ])
+      h('span', { staticClass: 'block' }, [ this.label ])
     )
 
     inner = mergeSlot(inner, this, 'default')
@@ -301,20 +300,19 @@ export default Vue.extend({
     }
 
     const child = [
-      h('div', {
+      h('span', {
         staticClass: 'q-focus-helper',
-        ref: 'blurTarget',
-        attrs: { tabindex: -1 }
+        ref: 'blurTarget'
       })
     ]
 
     if (this.loading === true && this.percentage !== void 0) {
       child.push(
-        h('div', {
+        h('span', {
           staticClass: 'q-btn__progress absolute-full overflow-hidden'
         }, [
-          h('div', {
-            staticClass: 'q-btn__progress-indicator fit',
+          h('span', {
+            staticClass: 'q-btn__progress-indicator fit block',
             class: this.darkPercentage === true ? 'q-btn__progress--dark' : '',
             style: this.percentageStyle
           })
@@ -323,10 +321,11 @@ export default Vue.extend({
     }
 
     child.push(
-      h('div', {
-        staticClass: 'q-btn__wrapper col row q-anchor--skip'
+      h('span', {
+        staticClass: 'q-btn__wrapper col row q-anchor--skip',
+        style: this.wrapperStyle
       }, [
-        h('div', {
+        h('span', {
           staticClass: 'q-btn__content text-center col items-center q-anchor--skip',
           class: this.innerClasses
         }, inner)
@@ -337,7 +336,7 @@ export default Vue.extend({
       h('transition', {
         props: { name: 'q-transition--fade' }
       }, this.loading === true ? [
-        h('div', {
+        h('span', {
           key: 'loading',
           staticClass: 'absolute-full flex flex-center'
         }, this.$scopedSlots.loading !== void 0 ? this.$scopedSlots.loading() : [ h(QSpinner) ])

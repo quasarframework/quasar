@@ -12,6 +12,10 @@ $space-xl   : (x: ($space-x-base * 3), y: ($space-y-base * 3)) !default
 // sorry for long line; we need .sass and it doesn't support multi-line list
 $spaces: ('none': $space-none, 'xs': $space-xs, 'sm': $space-sm, 'md': $space-md, 'lg': $space-lg, 'xl': $space-xl) !default
 
+$animate-duration : .3s !default
+$animate-delay    : .3s !default
+$animate-repeat   : 1 !default
+
 // Max width at which point
 // current size ends
 $breakpoint-xs: 599px !default
@@ -393,6 +397,7 @@ $z-max                : 9998 !default
 $shadow-color         : #000 !default
 $shadow-transition    : box-shadow .28s cubic-bezier(.4, 0, .2, 1) !default
 $inset-shadow         : 0 7px 9px -7px rgba($shadow-color, .7) inset !default
+$inset-shadow-down    : 0 -7px 9px -7px rgba($shadow-color, .7) inset !default
 
 $elevation-umbra      : rgba($shadow-color, .2) !default
 $elevation-penumbra   : rgba($shadow-color, .14) !default

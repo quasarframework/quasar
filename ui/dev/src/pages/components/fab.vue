@@ -14,7 +14,7 @@
       </p>
 
       <div class="column items-center" style="margin-top: 100px; margin-bottom: 100px;">
-        <q-fab v-model="toggle" color="purple" direction="up">
+        <q-fab padding="xs xl" v-model="toggle" color="purple" direction="up">
           <q-fab-action color="amber" to="/" @click="notify('alarm')" icon="alarm" />
           <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
           <q-fab-action color="amber" @click="notify('alarm')" :icon="mdiMenu" />

@@ -107,6 +107,13 @@
       "category": "style"
     },
 
+    "label-slot": {
+      "type": "Boolean",
+      "desc": "Enables label slot; You need to set it to force use of the 'label' slot if the 'label' prop is not set",
+      "category": "content",
+      "addedIn": "v1.12.9"
+    },
+
     "bottom-slots": {
       "type": "Boolean",
       "desc": "Enables bottom slots ('error', 'hint', 'counter')",
@@ -115,7 +122,7 @@
 
     "hide-bottom-space": {
       "type": "Boolean",
-      "desc": "Does not reserves space for hint/error/counter anymore when these are not used; As a result, it also disables the animation for those; It also allows the hint/error area to stretch vertically based on its content",
+      "desc": "Do not reserve space for hint/error/counter anymore when these are not used; As a result, it also disables the animation for those; It also allows the hint/error area to stretch vertically based on its content",
       "category": "style"
     },
 
@@ -195,6 +202,11 @@
 
     "after": {
       "desc": "Append outer field; Suggestions: QIcon, QBtn"
+    },
+
+    "label": {
+      "desc": "Slot for label; Used only if 'label-slot' prop is set or the 'label' prop is set; When it is used the text in the 'label' prop is ignored",
+      "addedIn": "v1.12.9"
     },
 
     "error": {

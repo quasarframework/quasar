@@ -14,7 +14,25 @@
       <div class="text-h6">
         Internal validation
         <q-btn label="Reset" @click="reset" color="primary" flat />
+
+        <q-toggle v-model="testRule20" label="Trigger rule on less than 20" />
       </div>
+
+      <q-input
+        v-model.number="test1"
+        type="number"
+        :label="`Trigger error on less than ${ testRule20 ? 20 : 10 }`"
+        :rules="testRule"
+      />
+
+      <q-input
+        v-model.number="test2"
+        type="number"
+        :label="`Lazy trigger error on less than ${ testRule20 ? 20 : 10 }`"
+        :rules="testRule"
+        reactive-rules
+        lazy-rules
+      />
 
       <q-input
         v-model.number="model"
@@ -341,7 +359,12 @@ export default {
       ],
       num: 0,
       date: '',
-      time: ''
+      time: '',
+
+      test1: 11,
+      test2: 11,
+
+      testRule20: false
     }
 
     for (let i = 1; i <= n; i++) {
@@ -349,6 +372,18 @@ export default {
     }
 
     return data
+  },
+
+  computed: {
+    testRule () {
+      return this.testRule20 === true
+        ? [
+          val => val >= 20 || 'Select at least 20'
+        ]
+        : [
+          val => val >= 10 || 'Select at least 10'
+        ]
+    }
   },
 
   methods: {

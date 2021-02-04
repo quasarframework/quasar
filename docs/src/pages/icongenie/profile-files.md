@@ -3,7 +3,7 @@ title: Icon Genie Profile Files
 desc: How to use profile files with the Icon Genie CLI.
 ---
 
-If you need to automate the creation of all your app's icons and splashscreens, Icon Genie offers configuration files which can be run in batch.
+If you need to automate the creation of all your app's icons and splash screens, Icon Genie offers configuration files which can be run in batch.
 
 These configuration files are called "profile files". The files are in JSON format and tell Icon Genie which images to generate and how to generate them. They also spare you from having to remember the whole set of Icon Genie commands and parameters to generate your assets.
 
@@ -30,15 +30,15 @@ Full list of props that you can write for the `params` object:
 | --- | --- | --- | --- |
 | include | Array | Include Icon Genie hardcoded sets of assets for specific Quasar modes | `[ "spa", "pwa" ]` / `[ "all" ]` |
 | icon | String | Path to source file for icon; can be absolute or relative to the root of the Quasar project folder | `my-icon.png` |
-| background | String | Path to optional background source file (for splashscreens); can be absolute or relative to the root of the Quasar project folder | `my-bg.png` |
+| background | String | Path to optional background source file (for splash screens); can be absolute or relative to the root of the Quasar project folder | `my-bg.png` |
 | filter | String | Optionally filter the assets by generators; when used, it can generate only one type of asset instead of all | `ico` |
 | quality | Number [1-12] | Quality of the generated files; higher quality means bigger filesize, slower; lower quality means smaller filesize, faster | `12` |
 | padding | Array [Number] | (v2.1+) Apply fixed padding to the icon image after trimming it; Syntax: [ <horiz_px>, <vert_px> ]; Default is: [0, 0] | `[10, 0]` / `[5,5]` |
-| themeColor | String [hex] | Rather than using the other color related props, you can use this one; it will be used by each generator (that uses a color) | `#ccc` / `#e2b399` |
-| themeColor | String [hex] | Theme color to use for all generators requiring a color; it gets overriden if any generator color is also specified | `#ccc` / `#e2b399` |
-| pngColor | String [hex] | Background color to use for the png generator, when "background: true" in the asset definition (like for the cordova/capacitor iOS icons) | `#ccc` / `#e2b399` |
-| splashscreenColor | String [hex] | Background color to use for the splashscreen generator | `#ccc` / `#e2b399` |
-| svgColor | String [hex] | Color to use for the generated monochrome SVGs | `#ccc` / `#e2b399` |
+| skipTrim | Boolean | (v2.2+) Do not trim the icon source file | |
+| themeColor | String [hex] | Theme color to use for all generators requiring a color; it gets overridden if any generator color is also specified | `ccc` / `e2b399` |
+| pngColor | String [hex] | Background color to use for the png generator, when "background: true" in the asset definition (like for the cordova/capacitor iOS icons) | `ccc` / `e2b399` |
+| splashscreenColor | String [hex] | Background color to use for the splashscreen generator | `ccc` / `e2b399` |
+| svgColor | String [hex] | Color to use for the generated monochrome SVGs | `ccc` / `e2b399` |
 | splashscreenIconRatio | Number [0-100] | Ratio of icon size in respect to the width or height (whichever is smaller) of the resulting splashscreen; represents percentages; 0 means it won't add the icon of top of the background | `40` |
 
 ### Assets
@@ -61,17 +61,17 @@ Some examples for `assets` from which you can extract the syntax for every type 
   {
     "generator": "svg",
     "name": "safari-pinned-tab.svg",
-    "folder": "src/statics/icons"
+    "folder": "public/icons"
   },
 
   {
     "generator": "splashscreen",
     "name": "apple-launch-{size}.png",
-    "folder": "src/statics/icons",
+    "folder": "public/icons",
     "sizes": [
       [ 1668, 2388 ]
     ],
-    "tag": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)\" href=\"statics/icons/{name}\">"
+    "tag": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)\" href=\"icons/{name}\">"
   },
 
   {

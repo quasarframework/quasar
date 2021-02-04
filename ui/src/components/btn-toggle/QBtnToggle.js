@@ -7,7 +7,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 import FormMixin from '../../mixins/form.js'
 import RippleMixin from '../../mixins/ripple.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QBtnToggle',
@@ -44,6 +44,7 @@ export default Vue.extend({
     glossy: Boolean,
 
     size: String,
+    padding: String,
 
     noCaps: Boolean,
     noWrap: Boolean,
@@ -70,11 +71,59 @@ export default Vue.extend({
         name: this.name,
         value: this.value
       }
+    },
+
+    btnOptions () {
+      const mergeOption = (opt, key) => opt[key] === void 0 ? this[key] : opt[key]
+
+      return this.options.map((opt, i) => ({
+        slot: opt.slot,
+
+        options: {
+          key: i,
+          class: opt.class,
+          style: opt.style,
+          on: {
+            ...this.qListeners,
+            click: e => this.__set(opt.value, opt, e)
+          },
+          attrs: opt.attrs,
+          props: {
+            ...opt,
+            slot: void 0,
+            class: void 0,
+            style: void 0,
+            value: void 0,
+            attrs: void 0,
+
+            outline: this.outline,
+            flat: this.flat,
+            rounded: this.rounded,
+            push: this.push,
+            unelevated: this.unelevated,
+            dense: this.dense,
+
+            disable: this.disable === true || opt.disable === true,
+
+            // Options that come from the button specific options first, then from general props
+            color: opt.value === this.value ? mergeOption(opt, 'toggleColor') : mergeOption(opt, 'color'),
+            textColor: opt.value === this.value ? mergeOption(opt, 'toggleTextColor') : mergeOption(opt, 'textColor'),
+            noCaps: mergeOption(opt, 'noCaps') === true,
+            noWrap: mergeOption(opt, 'noWrap') === true,
+
+            size: mergeOption(opt, 'size'),
+            padding: mergeOption(opt, 'padding'),
+            ripple: mergeOption(opt, 'ripple'),
+            stack: mergeOption(opt, 'stack') === true,
+            stretch: mergeOption(opt, 'stretch') === true
+          }
+        }
+      }))
     }
   },
 
   methods: {
-    __set (value, opt) {
+    __set (value, opt, e) {
       if (this.readonly !== true) {
         if (this.value === value) {
           if (this.clearable === true) {
@@ -85,38 +134,15 @@ export default Vue.extend({
         else {
           this.$emit('input', value, opt)
         }
+
+        this.$emit('click', e)
       }
     }
   },
 
   render (h) {
-    const child = this.options.map((opt, i) => {
-      return h(QBtn, {
-        key: i,
-        on: { click: () => this.__set(opt.value, opt) },
-        props: {
-          disable: this.disable || opt.disable,
-          label: opt.label,
-          // Colors come from the button specific options first, then from general props
-          color: opt.value === this.value ? opt.toggleColor || this.toggleColor : opt.color || this.color,
-          textColor: opt.value === this.value ? opt.toggleTextColor || this.toggleTextColor : opt.textColor || this.textColor,
-          icon: opt.icon,
-          iconRight: opt.iconRight,
-          noCaps: this.noCaps === true || opt.noCaps === true,
-          noWrap: this.noWrap === true || opt.noWrap === true,
-          outline: this.outline,
-          flat: this.flat,
-          rounded: this.rounded,
-          push: this.push,
-          unelevated: this.unelevated,
-          size: this.size,
-          dense: this.dense,
-          ripple: this.ripple !== void 0 ? this.ripple : opt.ripple,
-          stack: this.stack === true || opt.stack === true,
-          tabindex: opt.tabindex,
-          stretch: this.stretch
-        }
-      }, opt.slot !== void 0 ? slot(this, opt.slot) : void 0)
+    const child = this.btnOptions.map(opt => {
+      return h(QBtn, { ...opt.options }, opt.slot !== void 0 ? slot(this, opt.slot) : void 0)
     })
 
     if (this.name !== void 0 && this.disable !== true && this.hasActiveValue === true) {
@@ -134,8 +160,7 @@ export default Vue.extend({
         unelevated: this.unelevated,
         glossy: this.glossy,
         spread: this.spread
-      },
-      on: this.qListeners
-    }, child)
+      }
+    }, mergeSlot(child, this, 'default'))
   }
 })

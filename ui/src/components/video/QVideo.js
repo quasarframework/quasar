@@ -36,7 +36,7 @@ export default Vue.extend({
     return h('div', {
       class: this.classes,
       style: this.ratioStyle,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, [
       h('iframe', this.iframeData)
     ])

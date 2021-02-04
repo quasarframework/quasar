@@ -27,7 +27,8 @@ export default {
       }).format(date)
     },
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: false
+    format24h: false,
+    pluralDay: '天'
   },
   table: {
     noData: '無資料',

@@ -26,7 +26,7 @@ function getFileStatus (file) {
     }
 
     if (width !== file.width || height !== file.height) {
-      return red('ERROR: incorrect resolution!')
+      return red(`ERROR: incorrect resolution! ${width}x${height}`)
     }
   }
 

@@ -13,7 +13,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-responsive',
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, [
       h('div', {
         staticClass: 'q-responsive__filler overflow-hidden'

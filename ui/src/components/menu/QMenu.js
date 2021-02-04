@@ -9,7 +9,7 @@ import AttrsMixin from '../../mixins/attrs.js'
 
 import ClickOutside from './ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { create, stop, position, stopAndPrevent } from '../../utils/event.js'
+import { create, stop, position, stopAndPreventClick } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 
 import { slot } from '../../utils/slot.js'
@@ -39,6 +39,7 @@ export default Vue.extend({
     autoClose: Boolean,
     separateClosePopup: Boolean,
 
+    noRouteDismiss: Boolean,
     noRefocus: Boolean,
     noFocus: Boolean,
 
@@ -77,22 +78,19 @@ export default Vue.extend({
   },
 
   computed: {
-    horizSide () {
-      return this.$q.lang.rtl === true ? 'right' : 'left'
-    },
-
     anchorOrigin () {
       return parsePosition(
         this.anchor || (
-          this.cover === true ? `center middle` : `bottom ${this.horizSide}`
-        )
+          this.cover === true ? 'center middle' : 'bottom start'
+        ),
+        this.$q.lang.rtl
       )
     },
 
     selfOrigin () {
       return this.cover === true
         ? this.anchorOrigin
-        : parsePosition(this.self || `top ${this.horizSide}`)
+        : parsePosition(this.self || 'top start', this.$q.lang.rtl)
     },
 
     menuClass () {
@@ -101,7 +99,8 @@ export default Vue.extend({
     },
 
     hideOnRouteChange () {
-      return this.persistent !== true
+      return this.persistent !== true &&
+        this.noRouteDismiss !== true
     },
 
     onEvents () {
@@ -168,7 +167,10 @@ export default Vue.extend({
       }
 
       if (this.unwatch === void 0) {
-        this.unwatch = this.$watch(() => this.$q.screen.width + '|' + this.$q.screen.height, this.updatePosition)
+        this.unwatch = this.$watch(
+          () => this.$q.screen.width + '|' + this.$q.screen.height + '|' + this.self + '|' + this.anchor + '|' + this.$q.lang.rtl,
+          this.updatePosition
+        )
       }
 
       this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
@@ -292,14 +294,14 @@ export default Vue.extend({
       if (this.persistent !== true && this.showing === true) {
         const targetClassList = e.target.classList
 
-        this.hide(e)
+        closePortalMenus(this, e)
         if (
           // always prevent touch event
           e.type === 'touchstart' ||
           // prevent click if it's on a dialog backdrop
           targetClassList.contains('q-dialog__backdrop')
         ) {
-          stopAndPrevent(e)
+          stopAndPreventClick(e)
         }
         return true
       }

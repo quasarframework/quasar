@@ -1,14 +1,13 @@
-const
-  path = require('path'),
-  stylus = require('stylus'),
-  sass = require('node-sass'),
-  rtl = require('postcss-rtl'),
-  postcss = require('postcss'),
-  cssnano = require('cssnano'),
-  autoprefixer = require('autoprefixer'),
-  buildConf = require('./build.conf'),
-  buildUtils = require('./build.utils'),
-  pathList = [ path.join(__dirname, '../src/css/') ]
+const path = require('path')
+const stylus = require('stylus')
+const sass = require('sass')
+const rtl = require('postcss-rtl')
+const postcss = require('postcss')
+const cssnano = require('cssnano')
+const autoprefixer = require('autoprefixer')
+const buildConf = require('./build.conf')
+const buildUtils = require('./build.utils')
+const pathList = [ path.join(__dirname, '../src/css/') ]
 
 const nano = postcss([
   cssnano({
@@ -25,50 +24,10 @@ function generateSassFile (source, destination) {
   const src = path.join(__dirname, '..', source)
   const dest = path.join(__dirname, '..', destination)
 
-  return new Promise((resolve, reject) => {
-    /*
-     * Cannot use result.stats.includedFiles
-     * because it does not contain variable only files
-     */
-    const deps = [ src ]
+  // We do 2 things here: validate and build import graph
+  const result = sass.renderSync({ file: src })
 
-    // We do 2 things here: validate and build import graph
-    sass.render({
-      file: src,
-      importer: [
-        (url, prev, done) => {
-          // needed for Windows as "prev"
-          // comes with backward slashes
-          prev = path.normalize(prev)
-
-          const file = path.normalize(path.join(
-            prev ? path.dirname(prev) : pathList[0],
-            url
-          ))
-
-          // avoid duplicates
-          if (deps.indexOf(file) === -1) {
-            // insert in the right order
-            if (prev) {
-              deps.splice(deps.indexOf(prev), 0, file)
-            }
-            else {
-              deps.push(file)
-            }
-          }
-
-          done({ file })
-        }
-      ]
-    }, (err) => {
-      if (err) {
-        reject(err)
-        return
-      }
-
-      resolve(deps)
-    })
-  }).then(deps => getConcatenatedContent(deps))
+  return getConcatenatedContent(result.stats.includedFiles)
     .then(code => buildUtils.writeFile(dest, code))
     .then(() => validateSassFile(destination))
 }

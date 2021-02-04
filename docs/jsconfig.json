@@ -1,0 +1,25 @@
+{
+  "include": [
+    "./src/**/*"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "boot/*": [
+        "src/boot/*"
+      ],
+      "components/*": [
+        "src/components/*"
+      ],
+      "examples/*": [
+        "src/examples/*"
+      ],
+      "layouts/*": [
+        "src/layouts/*"
+      ],
+      "pages/*": [
+        "src/pages/*"
+      ]
+    }
+  }
+}

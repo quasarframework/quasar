@@ -77,6 +77,20 @@ export default Vue.extend({
     ripple: {
       type: [Boolean, Object],
       default: null
+    },
+
+    round: Boolean,
+    rounded: Boolean,
+
+    outline: Boolean,
+    unelevated: Boolean,
+    push: Boolean,
+    glossy: Boolean,
+
+    dense: Boolean,
+    padding: {
+      type: String,
+      default: '6px 5px'
     }
   },
 
@@ -144,13 +158,24 @@ export default Vue.extend({
     attrs () {
       if (this.disable === true) {
         return {
-          'aria-disabled': ''
+          'aria-disabled': 'true'
         }
       }
     },
 
     btnProps () {
       return {
+        round: this.round,
+        rounded: this.rounded,
+
+        outline: this.outline,
+        unelevated: this.unelevated,
+        push: this.push,
+        glossy: this.glossy,
+
+        dense: this.dense,
+        padding: this.padding,
+
         color: this.color,
         flat: true,
         size: this.size,
@@ -363,7 +388,7 @@ export default Vue.extend({
       staticClass: 'q-pagination row no-wrap items-center',
       class: { disabled: this.disable },
       attrs: this.attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, [
       contentStart,
 

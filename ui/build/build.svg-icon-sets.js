@@ -15,77 +15,115 @@ const svgIconSetBanner = setName => `
  */
 `
 
-module.exports.generate = function () {
-  // generic conversion
-  const convert = str => str.replace(/(-\w)/g, m => m[1].toUpperCase())
+// generic conversion
+const convert = str => str.replace(/(-\w)/g, m => m[1].toUpperCase())
+const materialConvert = (str, old, prefix) => {
+  if (old !== '') {
+    str = str.substr(old.length)
+  }
+  return (prefix + str).replace(/(_\w)/g, m => m[1].toUpperCase())
+}
 
-  const iconTypes = [
-    {
-      name: 'material-icons',
-      regex: /_/,
-      convert: str => ('mat_' + str).replace(/(_\w)/g, m => m[1].toUpperCase())
-    },
-    {
-      name: 'mdi-v5',
-      regex: /^mdi-/,
-      convert
-    },
-    {
-      name: 'ionicons-v4',
-      regex: /^ion-/,
-      convert: str => (/ion-(md|ios)-/.test(str) === true ? str : str.replace(/ion-/, 'ion-md-'))
-        .replace(/(-\w)/g, m => m[1].toUpperCase())
-    },
-    {
-      name: 'fontawesome-v5',
-      regex: /^fa[brs] fa-/,
-      convert: str => str.replace(' fa-', '-').replace(/(-\w)/g, m => m[1].toUpperCase())
-    },
-    {
-      name: 'eva-icons',
-      regex: /^eva-/,
-      convert
-    },
-    {
-      name: 'themify',
-      regex: /^ti-/,
-      convert
-    },
-    {
-      name: 'line-awesome',
-      regex: /^la[brs] la-/,
-      convert: str => (str.startsWith('las la-') === true ? str + '-solid' : str)
+const iconTypes = [
+  {
+    name: 'material-icons-outlined',
+    regex: /^o_/,
+    convert: str => materialConvert(str, 'o_', 'outlined_')
+  },
+  {
+    name: 'material-icons-round',
+    regex: /^r_/,
+    convert: str => materialConvert(str, 'r_', 'round_')
+  },
+  {
+    name: 'material-icons-sharp',
+    regex: /^s_/,
+    convert: str => materialConvert(str, 's_', 'sharp_')
+  },
+  {
+    name: 'mdi-v5',
+    regex: /^mdi-/,
+    convert
+  },
+  {
+    name: 'ionicons-v4',
+    regex: /^ion-/,
+    convert: str => convert(
+      /ion-(md|ios)-/.test(str) === true
+        ? str
+        : str.replace(/ion-/, 'ion-md-')
+    )
+  },
+  {
+    name: 'fontawesome-v5',
+    regex: /^fa[brs] fa-/,
+    convert: str => convert(str.replace(' fa-', '-'))
+  },
+  {
+    name: 'eva-icons',
+    regex: /^eva-/,
+    convert
+  },
+  {
+    name: 'themify',
+    regex: /^ti-/,
+    convert
+  },
+  {
+    name: 'line-awesome',
+    regex: /^la[brs] la-/,
+    convert: str => convert(
+      (str.startsWith('las la-') === true ? str + '-solid' : str)
         .replace(/^la[brs] la-/, 'la-')
-        .replace(/(-\w)/g, m => m[1].toUpperCase())
-    }
-  ]
-
-  function convertWebfont (name) {
-    const type = iconTypes.find(type => type.regex.test(name)) || iconTypes[0]
-
-    return {
-      importName: type.name,
-      variableName: type.convert(name)
-    }
+    )
+  },
+  // must be last as it's a catch-all
+  {
+    name: 'material-icons',
+    regex: /./,
+    convert: str => materialConvert(str, '', 'mat_')
   }
+]
 
-  function toObject (arr) {
-    const obj = {}
-    arr.forEach(item => {
-      obj[item] = []
-    })
-    return obj
+function convertWebfont (name) {
+  const type = iconTypes.find(type => type.regex.test(name)) || iconTypes[0]
+
+  return {
+    importName: type.name,
+    variableName: type.convert(name)
   }
+}
 
-  const iconNames = iconTypes.map(type => type.name)
+function toObject (arr) {
+  const obj = {}
+  arr.forEach(item => {
+    obj[item] = []
+  })
+  return obj
+}
 
+const iconNames = iconTypes.map(type => type.name)
+
+const splitDelimiter = 'export default {'
+
+function splitContent (str) {
+  const content = str.split(splitDelimiter)
+
+  return {
+    outsideOfExport: content[0],
+    insideOfExport: splitDelimiter + content[1]
+  }
+}
+
+module.exports.generate = function () {
   return Promise.all(
     iconTypes.map(type => {
       const original = fs.readFileSync(resolve(`icon-set/${type.name}.js`), 'utf-8')
+      const { outsideOfExport, insideOfExport } = splitContent(original)
 
       const importList = toObject(iconNames)
 
-      const contentString = original
+      const contentString = insideOfExport
         .replace(/name: '(.+)'/, `name: ""`)
         .replace(/'(.+)'/g, m => {
           const { importName, variableName } = convertWebfont(m.substring(1, m.length - 1))
@@ -101,7 +139,12 @@ module.exports.generate = function () {
         .map(listName => `import {\n  ` + importList[listName].join(',\n  ') + `\n} from '@quasar/extras/${listName}'`)
         .join('\n\n')
 
-      const content = svgIconSetBanner(type.name) + '\n' + importString + '\n\n' + contentString
+      const content = [
+        svgIconSetBanner(type.name),
+        importString,
+        outsideOfExport,
+        contentString
+      ].filter(str => str).join('\n\n')
 
       const iconFile = resolve(`icon-set/svg-${type.name}.js`)
 
@@ -110,7 +153,7 @@ module.exports.generate = function () {
       try {
         oldContent = fs.readFileSync(iconFile, 'utf-8')
       }
-      catch (e) { }
+      catch (e) {}
 
       return content.split(/[\n\r]+/).join('\n') !== oldContent.split(/[\n\r]+/).join('\n')
         ? buildUtils.writeFile(iconFile, content, 'utf-8')

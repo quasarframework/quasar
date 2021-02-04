@@ -1,6 +1,5 @@
 const appPaths = require('../app-paths')
-const logger = require('./logger')
-const warn = logger('app:docs', 'red')
+const { fatal } = require('./logger')
 
 module.exports = async function getApi(item) {
   try {
@@ -45,16 +44,14 @@ module.exports = async function getApi(item) {
             )
           }
           catch (e) {
-            warn(`⚠️  Extension(${instance.extId}): registerDescribeApi - there is no package "${file}" installed`)
-            process.exit(1)
+            fatal(`Extension(${instance.extId}): registerDescribeApi - there is no package "${file}" installed`)
           }
         }
         else {
           file = path.resolve(callerPath, relativePath)
 
           if (!fs.existsSync(file)) {
-            warn(`⚠️  Extension(${instance.extId}): registerDescribeApi - there is no file at ${file}`)
-            process.exit(1)
+            fatal(`Extension(${instance.extId}): registerDescribeApi - there is no file at ${file}`)
           }
         }
 
@@ -65,14 +62,11 @@ module.exports = async function getApi(item) {
           }
         }
         catch (e) {
-          warn(`⚠️  Extension(${instance.extId}): Malformed API file at ${file}`)
-          process.exit(1)
+          fatal(`Extension(${instance.extId}): Malformed API file at ${file}`)
         }
       }
     }
   }
 
-  warn(`⚠️  No API found for requested "${item}"`)
-  warn()
-  process.exit(1)
+  fatal(`No API found for requested "${item}"\n`)
 }

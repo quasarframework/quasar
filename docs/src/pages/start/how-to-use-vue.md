@@ -13,7 +13,7 @@ After reading the Vue documentation, let's clear up some of the most frequently 
 ## Vue Single File Components (SFC)
 You'll be building your Quasar app using `*.vue` files which contain multiple sections: `template` (HTML), `script` (Javascript) and `style` (CSS/Stylus/SASS/SCSS/Less) all in the same file.
 
-```vue
+```html
 <template>
   <!-- you define your Vue template here -->
 </template>
@@ -216,7 +216,7 @@ Let's take some examples with a bogus Quasar component (we will call it QBogus) 
 A boolean property means it only accepts a strictly Boolean value. The values will not be cast to Boolean, so you must ensure you are using a true Boolean.
 
 If you are trying to control that property and change it dynamically at runtime, then bind it to a variable in your scope:
-```vue
+```html
 <template>
   <q-bogus :infinite="myInfiniteVariable" />
 </template>
@@ -233,7 +233,8 @@ export default {
 ```
 
 If, on the other hand, you know this Boolean value is not going to change, you can use the shorthand version of the variable like a component attribute and just specify it. In other words, if you don't bind the variable to a variable in the component's scope as it will always be `true`:
-```vue
+
+```html
 <template>
   <q-bogus infinite />
 
@@ -247,7 +248,8 @@ If, on the other hand, you know this Boolean value is not going to change, you c
 
 ### String Property
 As you can imagine, Strings are required as a value for this type of property.
-```vue
+
+```html
 <template>
   <!--
     direct assignment, no need for
@@ -276,7 +278,7 @@ export default {
 ```
 
 ### Number Property
-```vue
+```html
 <template>
   <!--
     Case 1. Direct assignment.
@@ -301,7 +303,8 @@ export default {
 ```
 
 ### Object Property
-```vue
+
+```html
 <template>
   <!-- Case 1. Direct assignment. -->
   <q-bogus :columns="{key: 'value', anotherKey: 'another value'}" />
@@ -332,7 +335,8 @@ export default {
 ```
 
 ### Array Property
-```vue
+
+```html
 <template>
   <!-- Case 1. Direct assignment. -->
   <q-bogus :offset="[10, 20]" />
@@ -363,7 +367,7 @@ You will notice throughout the documentation that some Quasar components have me
 
 In order for you to access these methods, you will need to set a Vue reference on the component first. Here's an example:
 
-```vue
+```html
 <template>
   <!--
     Notice ref="myRef". We will use the name
@@ -398,7 +402,7 @@ Example of "Vue Events":
 
 In order for you to catch these events, when they are triggered, you will need to add listeners for them on the component itself in the HTML template. Here's an example:
 
-```vue
+```html
 <template>
   <q-bogus @show="doSomething" @hide="doSomethingElse" />
 </template>

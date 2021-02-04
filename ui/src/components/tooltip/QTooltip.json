@@ -34,10 +34,11 @@
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the Tooltip relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom middle", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
+      "default": "bottom middle",
       "examples": [ "top left", "bottom right" ],
       "category": "position"
     },
@@ -46,10 +47,11 @@
       "type": "String",
       "desc": "Two values setting the Tooltip's own position relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom middle", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
+      "default": "top middle",
       "examples": [ "top left", "bottom right" ],
       "category": "position"
     },
@@ -70,7 +72,7 @@
       "type": [ "Boolean", "String" ],
       "desc": "Configure a target element to trigger Tooltip toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) it attaches the events to the specified DOM element (if it exists)",
       "default": true,
-      "values": [ true, false, "(CSS selector)" ],
+      "values": [ "(Boolean) true", "(Boolean) false", "(CSS selector)" ],
       "examples": [
         ":target=\"false\"",
         "target=\".my-parent\""

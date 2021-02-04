@@ -28,6 +28,10 @@ export default Vue.extend({
       type: String,
       default: 'label'
     },
+    childrenKey: {
+      type: String,
+      default: 'children'
+    },
 
     color: String,
     controlColor: String,
@@ -105,7 +109,7 @@ export default Vue.extend({
         const tickStrategy = node.tickStrategy || (parent ? parent.tickStrategy : this.tickStrategy)
         const
           key = node[this.nodeKey],
-          isParent = node.children && node.children.length > 0,
+          isParent = node[this.childrenKey] && node[this.childrenKey].length > 0,
           isLeaf = isParent !== true,
           selectable = node.disabled !== true && this.hasSelection === true && node.selectable !== false,
           expandable = node.disabled !== true && node.expandable !== false,
@@ -120,7 +124,11 @@ export default Vue.extend({
         }
 
         let lazy = node.lazy
-        if (lazy && this.lazy[key]) {
+        if (
+          lazy === true &&
+          this.lazy[key] !== void 0 &&
+          Array.isArray(node[this.childrenKey]) === true
+        ) {
           lazy = this.lazy[key]
         }
 
@@ -154,7 +162,7 @@ export default Vue.extend({
         meta[key] = m
 
         if (isParent === true) {
-          m.children = node.children.map(n => travel(n, m))
+          m.children = node[this.childrenKey].map(n => travel(n, m))
 
           if (this.filter) {
             if (m.matchesFilter !== true) {
@@ -241,8 +249,8 @@ export default Vue.extend({
         if (node[this.nodeKey] === key) {
           return node
         }
-        if (node.children) {
-          return find(null, node.children)
+        if (node[this.childrenKey]) {
+          return find(null, node[this.childrenKey])
         }
       }
 
@@ -276,10 +284,10 @@ export default Vue.extend({
       const
         expanded = this.innerExpanded,
         travel = node => {
-          if (node.children && node.children.length > 0) {
+          if (node[this.childrenKey] && node[this.childrenKey].length > 0) {
             if (node.expandable !== false && node.disabled !== true) {
               expanded.push(node[this.nodeKey])
-              node.children.forEach(travel)
+              node[this.childrenKey].forEach(travel)
             }
           }
         }
@@ -301,14 +309,15 @@ export default Vue.extend({
         }
 
         this.$set(this.lazy, key, 'loading')
+        if (Array.isArray(node[this.childrenKey]) !== true) {
+          this.$set(node, this.childrenKey, [])
+        }
         this.$emit('lazy-load', {
           node,
           key,
           done: children => {
             this.lazy[key] = 'loaded'
-            if (children) {
-              this.$set(node, 'children', children)
-            }
+            this.$set(node, this.childrenKey, Array.isArray(children) === true ? children : [])
             this.$nextTick(() => {
               const m = this.meta[key]
               if (m && m.isParent === true) {
@@ -318,6 +327,9 @@ export default Vue.extend({
           },
           fail: () => {
             this.$delete(this.lazy, key)
+            if (node[this.childrenKey].length === 0) {
+              this.$delete(node, this.childrenKey)
+            }
           }
         })
       }
@@ -453,18 +465,17 @@ export default Vue.extend({
           : this.$scopedSlots['default-header']
 
       const children = meta.isParent === true
-        ? this.__getChildren(h, node.children)
+        ? this.__getChildren(h, node[this.childrenKey])
         : []
 
       const isParent = children.length > 0 || (meta.lazy && meta.lazy !== 'loaded')
 
-      let
-        body = node.body
-          ? this.$scopedSlots[`body-${node.body}`] || this.$scopedSlots['default-body']
-          : this.$scopedSlots['default-body'],
-        slotScope = header !== void 0 || body !== void 0
-          ? this.__getSlotScope(node, meta, key)
-          : null
+      let body = node.body
+        ? this.$scopedSlots[`body-${node.body}`] || this.$scopedSlots['default-body']
+        : this.$scopedSlots['default-body']
+      const slotScope = header !== void 0 || body !== void 0
+        ? this.__getSlotScope(node, meta, key)
+        : null
 
       if (body !== void 0) {
         body = h('div', { staticClass: 'q-tree__node-body relative-position' }, [

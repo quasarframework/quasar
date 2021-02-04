@@ -15,7 +15,7 @@ export default Vue.extend({
         }, [
           h('svg', {
             staticClass: 'q-checkbox__svg fit absolute-full',
-            attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 24 24' }
+            attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 24 24', 'aria-hidden': 'true' }
           }, [
             h('path', {
               staticClass: 'q-checkbox__truthy',
