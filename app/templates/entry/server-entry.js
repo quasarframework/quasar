@@ -75,6 +75,9 @@ export default ssrContext => {
   return new Promise(async (resolve, reject) => {
     const { app, router<%= store ? ', store' : '' %> } = await createQuasarApp(createApp, ssrContext)
 
+    app.use(router)
+    <% if (store) { %>app.use(store)<% } %>
+
     <% if (bootNames.length > 0) { %>
     let hasRedirected = false
     const redirect = (url, httpStatusCode) => {

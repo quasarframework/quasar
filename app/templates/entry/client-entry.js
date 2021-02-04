@@ -73,6 +73,9 @@ const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 <% } %>
 
 async function start ({ app, router<%= store ? ', store' : '' %> }<%= bootEntries.length > 0 ? ', bootFiles' : '' %>) {
+  app.use(router)
+  <% if (store) { %>app.use(store)<% } %>
+
   <% if (ctx.mode.ssr && store && ssr.manualHydration !== true) { %>
   // prime the store with server-initialized state.
   // the state is determined during SSR and inlined in the page markup.
