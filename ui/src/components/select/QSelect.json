@@ -277,6 +277,14 @@
       "category": "behavior"
     },
 
+    "transition-duration": {
+      "type": [ "String", "Number" ],
+      "desc": "Transition duration when hiding the menu/dialog (in milliseconds, without unit)",
+      "default": 300,
+      "examples": [ 500, "1200" ],
+      "category": "behavior"
+    },
+
     "behavior": {
       "type": "String",
       "desc": "Overrides the default dynamic mode of showing as menu on desktop and dialog on mobiles",

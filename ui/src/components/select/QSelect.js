@@ -109,6 +109,7 @@ export default defineComponent({
 
     transitionShow: String,
     transitionHide: String,
+    transitionDuration: [ String, Number ],
 
     behavior: {
       type: String,
@@ -1140,6 +1141,7 @@ export default defineComponent({
         square: squaredMenu.value,
         transitionShow: props.transitionShow,
         transitionHide: props.transitionHide,
+        transitionDuration: props.transitionDuration,
         separateClosePopup: true,
         onScrollPassive: onVirtualScrollEvt,
         onBeforeShow: onControlPopupShow,
@@ -1218,6 +1220,7 @@ export default defineComponent({
         position: props.useInput === true ? 'top' : void 0,
         transitionShow: transitionShowComputed,
         transitionHide: props.transitionHide,
+        transitionDuration: props.transitionDuration,
         onBeforeShow: onControlPopupShow,
         onBeforeHide: onDialogBeforeHide,
         onHide: onDialogHide,
