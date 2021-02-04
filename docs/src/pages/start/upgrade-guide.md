@@ -279,7 +279,7 @@ For Quasar CLI projects, you don't need to manually install/upgrade the `vuex` p
 This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
 
 ```js
-// default src/router/routes.js content:
+// default src/store/index.js content:
 import { createStore } from 'vuex'
 // import example from './module-example'
 
