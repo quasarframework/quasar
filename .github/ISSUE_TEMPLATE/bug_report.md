@@ -29,13 +29,21 @@ If applicable, add screenshots to help explain your problem.
 Quasar Version:
 @quasar/app Version:
 Quasar mode:
-  [] SPA
-  [] SSR
-  [] PWA
-  [] Electron
-  [] Cordova
-  [] Capacitor
-  [] BEX
+  [ ] SPA
+  [ ] SSR
+  [ ] PWA
+  [ ] Electron
+  [ ] Cordova
+  [ ] Capacitor
+  [ ] BEX
+Tested on:
+  [ ] SPA
+  [ ] SSR
+  [ ] PWA
+  [ ] Electron
+  [ ] Cordova
+  [ ] Capacitor
+  [ ] BEX
 OS:
 Node:
 NPM:
