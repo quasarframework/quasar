@@ -305,7 +305,7 @@
 
             "component": {
               "type": "Any",
-              "desc": "Use custom dialog component; use along with 'parent' prop where possible; if using this prop, all others described here will be supplied to your custom component",
+              "desc": "Use custom dialog component; use along with 'componentProps' prop where possible",
               "__exemption": [ "examples" ]
             },
 

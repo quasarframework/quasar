@@ -101,11 +101,11 @@
 
           "update": {
             "type": "Function",
-            "desc": "Updates the initial properties (given as create() param) except for 'component' and 'parent' (and deprecated 'root')",
+            "desc": "Updates the initial properties (given as create() param) except for 'component'",
             "params": {
               "opts": {
                 "type": "Object",
-                "desc": "Props (except 'component' and 'parent') which will overwrite the initial create() params",
+                "desc": "Props (except 'component') which will overwrite the initial create() params; If create() was invoked with a custom dialog component then this param should contain the new componentProps",
                 "__exemption": [ "examples" ]
               }
             },
