@@ -146,7 +146,7 @@ export default {
 
     function closeApp () {
       if (process.env.MODE === 'electron') {
-        this.$q.electron.remote.BrowserWindow.getFocusedWindow().close()
+        $q.electron.remote.BrowserWindow.getFocusedWindow().close()
       }
     }
 
