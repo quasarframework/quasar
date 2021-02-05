@@ -26,6 +26,24 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Platform (please complete the following information):**
+Quasar Version:
+@quasar/app Version:
+Quasar mode:
+  [ ] SPA
+  [ ] SSR
+  [ ] PWA
+  [ ] Electron
+  [ ] Cordova
+  [ ] Capacitor
+  [ ] BEX
+Tested on:
+  [ ] SPA
+  [ ] SSR
+  [ ] PWA
+  [ ] Electron
+  [ ] Cordova
+  [ ] Capacitor
+  [ ] BEX
 OS:
 Node:
 NPM:
