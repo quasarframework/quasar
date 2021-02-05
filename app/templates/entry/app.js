@@ -71,8 +71,6 @@ export default async function (createAppFn<%= ctx.mode.ssr ? ', ssrContext' : ''
   app.config.devtools = true
   <% } %>
 
-  app.use(router)
-  <% if (store) { %>app.use(store)<% } %>
   app.use(Quasar, quasarUserOptions<%= ctx.mode.ssr ? ', ssrContext' : '' %>)
 
   <% if (ctx.mode.electron && electron.nodeIntegration === true) { %>

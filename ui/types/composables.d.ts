@@ -9,7 +9,7 @@ interface useDialogPluginComponent {
   (context: { emit: SetupContext["emit"] }): {
     dialogRef: Ref<QDialog | undefined>;
     onDialogHide: () => void;
-    onDialogOk: (payload?: any) => void;
+    onDialogOK: (payload?: any) => void;
     onDialogCancel: () => void;
   };
   emits: string[];

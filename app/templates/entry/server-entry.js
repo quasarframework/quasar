@@ -105,6 +105,9 @@ export default ssrContext => {
     }
     <% } %>
 
+    app.use(router)
+    <% if (store) { %>app.use(store)<% } %>
+
     const url = ssrContext.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '')<% } %>
     const { fullPath } = router.resolve(url)
 

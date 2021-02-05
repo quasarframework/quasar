@@ -31,7 +31,7 @@ Let's discuss about each of these requirements:
 
 ## Things to keep in mind
 * Both RTL and non-RTL Quasar language packs will work together and dynamically switch to/from RTL. So only choosing an RTL Quasar language pack will trigger the RTL UI for you. You don't need separate builds of your app (one for non-RTL and one for RTL-only). The RTL is dynamically changed for you automatically.
-* You can dynamically detect if you are on RTL mode by taking a look at Boolean `this.$q.lang.rtl`. More info on [Vue Prototype Injections](/options/vue-prototype-injections).
+* You can dynamically detect if you are on RTL mode by taking a look at Boolean `$q.lang.rtl`. More info on [The $q object](/options/the-q-object).
 * You need to be careful when writing your own CSS. Like mentioned above, Quasar will automatically add RTL (LTR if quasar.conf.js > build > rtl > fromRTL is set to true) rules based on your CSS code. So writing:
 
 ```css

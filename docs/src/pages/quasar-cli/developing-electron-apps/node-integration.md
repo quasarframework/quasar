@@ -10,7 +10,7 @@ If you turn off the node integration, then in the renderer thread you won't be a
 
 * Import Node.js packages (like "fs", "path", "electron"). Using "require" will trigger an error.
 * Use `__statics` ([more info](/quasar-cli/developing-electron-apps/electron-static-assets)).
-* Use `this.$q.electron` (as an alias to `electron` Object) in your .vue files.
+* Use `$q.electron` (as an alias to `electron` Object) in your .vue files.
 
 Example of what you WON'T be able to do:
 
