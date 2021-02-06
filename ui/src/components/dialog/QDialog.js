@@ -229,7 +229,7 @@ export default defineComponent({
     function focus () {
       let node = innerRef.value
 
-      if (node !== null || node.contains(document.activeElement) === true) {
+      if (node === null || node.contains(document.activeElement) === true) {
         return
       }
 
