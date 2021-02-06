@@ -13,7 +13,7 @@
         <q-separator />
 
         <q-list ref="scrollTargetRef" class="scroll" style="max-height: 250px">
-          <q-infinite-scroll @load="onLoadMenu" :offset="250" :scroll-target="$refs.scrollTargetRef">
+          <q-infinite-scroll @load="onLoadMenu" :offset="250" :scroll-target="scrollTargetRef">
             <q-item v-for="(item, index) in itemsMenu" :key="index">
               <q-item-section>
                 {{ index + 1 }}. Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -40,9 +40,11 @@ import { ref } from 'vue'
 export default {
   setup () {
     const itemsMenu = ref([ {}, {}, {}, {}, {}, {}, {} ])
+    const scrollTargetRef = ref(null)
 
     return {
       itemsMenu,
+      scrollTargetRef,
 
       onLoadMenu (index, done) {
         if (index > 1) {

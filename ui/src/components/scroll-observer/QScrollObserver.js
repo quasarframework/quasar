@@ -84,7 +84,7 @@ export default defineComponent({
         scroll.inflectionPoint = scroll.position
       }
 
-      emit('scroll', scroll)
+      emit('scroll', { ...scroll })
     }
 
     function configureScrollTarget () {
