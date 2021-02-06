@@ -1,3 +1,5 @@
+import { isRef } from 'vue'
+
 export function offset (el) {
   if (el === window) {
     return { top: 0, left: 0 }
@@ -44,6 +46,30 @@ export function ready (fn) {
   }
 
   document.addEventListener('DOMContentLoaded', fn, false)
+}
+
+// internal
+export function getElement (el) {
+  if (el === void 0 || el === null) {
+    return void 0
+  }
+
+  if (typeof el === 'string') {
+    try {
+      return document.querySelector(el) || void 0
+    }
+    catch (err) {
+      return void 0
+    }
+  }
+
+  const target = isRef(el) === true
+    ? el.value
+    : el
+
+  if (target) {
+    return target.$el || target
+  }
 }
 
 // internal
