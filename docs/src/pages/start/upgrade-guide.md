@@ -770,6 +770,18 @@ framework: {
 
 You'll also need to edit all your dynamic imports from `quasar/lang/` to match the new syntax.
 
+### Quasar CSS
+
+The color CSS variable names (all the brand related ones) have changed:
+
+```
+// old
+--q-color-primary, --q-color-secondary, ...
+
+// new
+--q-primary, --q-secondary, ...
+```
+
 ### Quasar UMD
 * Due to the new Vue 3 architecture, the code for bootstrapping the app has changed and you will need to adapt [accordingly](/start/umd).
 * There have been changes to the naming scheme of script and css tags to include the type of distubution. For example, the minified resources filenames now end in `.prod.js`/`.prod.css`. This was done to match Vue 3's own file naming scheme.
