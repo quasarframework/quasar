@@ -42,7 +42,7 @@ export default {
     const options = ref(null)
 
     return {
-      model: null,
+      model: ref(null),
       options,
 
       filterFn (val, update, abort) {
