@@ -12,5 +12,5 @@ export default function () {
     }
   })
 
-  return { canRender }
+  return canRender
 }

@@ -3,7 +3,6 @@ import { h, defineComponent, ref, computed, watch, getCurrentInstance } from 'vu
 import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
 import { hSlot } from '../../utils/private/render.js'
 
@@ -22,14 +21,14 @@ export default defineComponent({
   emits: [ 'show', 'hide' ],
 
   setup (props, { slots, emit, attrs }) {
-    const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
 
     const showing = ref(false)
     const popupRef = ref(null)
     const breakpoint = computed(() => parseInt(props.breakpoint, 10))
 
-    const { canShow } = useAnchor({ props, vm, showing, $q })
+    const { canShow } = useAnchor({ showing })
 
     function getType () {
       return $q.screen.width < breakpoint.value || $q.screen.height < breakpoint.value
@@ -46,7 +45,7 @@ export default defineComponent({
     })
 
     // expose public methods
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       show (evt) { canShow(evt) === true && popupRef.value.show(evt) },
       hide (evt) { popupRef.value.hide(evt) },
       toggle (evt) { popupRef.value.toggle(evt) }

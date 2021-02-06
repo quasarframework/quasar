@@ -1,11 +1,10 @@
-import { h, defineComponent, ref, computed, onBeforeUpdate } from 'vue'
+import { h, defineComponent, ref, computed, onBeforeUpdate, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 
@@ -44,7 +43,8 @@ export default defineComponent({
   emits: [ 'update:modelValue' ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
+
     const sizeStyle = useSize(props)
     const formAttrs = useFormAttrs(props)
     const injectFormInput = useFormInject(formAttrs)

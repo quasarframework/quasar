@@ -1,6 +1,5 @@
 import { h, defineComponent, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
 import useScrollTarget from '../../composables/private/use-scroll-target.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
@@ -82,9 +81,9 @@ export default defineComponent({
   setup (props, { slots, emit, attrs }) {
     let unwatchPosition, observer
 
-    const $q = useQuasar()
-
     const vm = getCurrentInstance()
+    const { proxy: { $q } } = vm
+
     const innerRef = ref(null)
     const showing = ref(false)
 
@@ -97,14 +96,9 @@ export default defineComponent({
     const { transition, transitionStyle } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
-    const { anchorEl, canShow, anchorEvents } = useAnchor({
-      props, emit, vm, showing, configureAnchorEl
-    })
+    const { anchorEl, canShow, anchorEvents } = useAnchor({ showing, configureAnchorEl })
 
     const { show, hide } = useModelToggle({
-      props,
-      emit,
-      vm,
       showing, canShow, handleShow, handleHide,
       hideOnRouteChange,
       processOnMount: true

@@ -17,7 +17,7 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const { canRender } = useCanRender()
+    const canRender = useCanRender()
 
     return () => {
       const data = {}

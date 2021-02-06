@@ -1,4 +1,4 @@
-import { ref, computed, watch, onBeforeUnmount } from 'vue'
+import { ref, computed, watch, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import useFormChild from '../use-form-child.js'
 import { testPattern } from '../../utils/patterns.js'
@@ -23,7 +23,9 @@ export const useValidateProps = {
   }
 }
 
-export default function (props, focused, vm, innerLoading) {
+export default function (focused, innerLoading) {
+  const { props, proxy } = getCurrentInstance()
+
   const innerError = ref(false)
   const innerErrorMessage = ref(null)
   const isDirtyModel = ref(null)
@@ -196,7 +198,7 @@ export default function (props, focused, vm, innerLoading) {
   })
 
   // expose public methods
-  Object.assign(vm.proxy, { resetValidation, validate })
+  Object.assign(proxy, { resetValidation, validate })
 
   return {
     isDirtyModel,

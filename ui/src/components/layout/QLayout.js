@@ -2,8 +2,6 @@ import { h, defineComponent, ref, reactive, computed, provide, nextTick, getCurr
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
-import useQuasar from '../../composables/use-quasar.js'
-
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
@@ -28,7 +26,7 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy: { $q } } = vm
 
     const rootRef = ref(null)
 

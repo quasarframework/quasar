@@ -8,7 +8,6 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
@@ -76,8 +75,9 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const isDark = useDark(props, $q)
 
     const lazy = ref({})
@@ -424,7 +424,7 @@ export default defineComponent({
     }
 
     function getSlotScope (node, meta, key) {
-      const scope = { tree: vm.proxy, node, key, color: props.color, dark: isDark.value }
+      const scope = { tree: proxy, node, key, color: props.color, dark: isDark.value }
 
       Object.defineProperty(scope, 'expanded', {
         get: () => { return meta.expanded },
@@ -662,7 +662,7 @@ export default defineComponent({
     }
 
     // expose public methods
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       getNodeByKey,
       getTickedNodes,
       getExpandedNodes,

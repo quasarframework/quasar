@@ -73,8 +73,10 @@ export const useFieldProps = {
 
 export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popup-show', 'popup-hide' ]
 
-export function useFieldState (props, attrs, $q) {
-  const isDark = useDark(props, $q)
+export function useFieldState () {
+  const { props, attrs, proxy } = getCurrentInstance()
+
+  const isDark = useDark(props, proxy.$q)
 
   return {
     isDark,
@@ -115,15 +117,9 @@ export function useFieldState (props, attrs, $q) {
   }
 }
 
-export default function ({
-  props,
-  emit,
-  slots,
-  attrs,
-  $q,
-  state
-}) {
-  const vm = getCurrentInstance()
+export default function (state) {
+  const { props, emit, slots, attrs, proxy } = getCurrentInstance()
+  const { $q } = proxy
 
   let focusoutTimer
 
@@ -173,7 +169,7 @@ export default function ({
     hasError,
     computedErrorMessage,
     resetValidation
-  } = useValidate(props, state.focused, vm, state.innerLoading)
+  } = useValidate(state.focused, state.innerLoading)
 
   const floatingLabel = state.floatingLabel !== void 0
     ? computed(() => props.stackLabel === true || state.focused.value === true || state.floatingLabel.value === true)
@@ -533,7 +529,7 @@ export default function ({
   }
 
   // expose public methods
-  Object.assign(vm.proxy, { focus, blur })
+  Object.assign(proxy, { focus, blur })
 
   onMounted(() => {
     if (isRuntimeSsrPreHydration === true && props.for === void 0) {

@@ -29,7 +29,7 @@ export default defineComponent({
   emits: [ 'click' ],
 
   setup (props, { slots, emit }) {
-    const { $layout, getStickyContent } = usePageSticky(props)
+    const { $layout, getStickyContent } = usePageSticky()
     const rootRef = ref(null)
 
     let heightWatcher

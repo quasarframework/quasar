@@ -1,9 +1,8 @@
-import { h, defineComponent, ref, computed } from 'vue'
+import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/Ripple.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import { hDir } from '../../utils/private/render.js'
 
 export default defineComponent({
@@ -16,7 +15,7 @@ export default defineComponent({
   },
 
   setup (props, { attrs }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
     const blurRef = ref(null)
 
     const isActive = computed(() => props.stepper.modelValue === props.step.name)

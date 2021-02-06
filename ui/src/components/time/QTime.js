@@ -3,7 +3,6 @@ import { h, defineComponent, ref, computed, watch, withDirectives, Transition, n
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from '../date/use-datetime.js'
@@ -71,7 +70,8 @@ export default defineComponent({
   emits: useDatetimeEmits,
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
+
     const isDark = useDark(props, $q)
     const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
 

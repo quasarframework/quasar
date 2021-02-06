@@ -1,6 +1,5 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 const insetMap = {
@@ -31,8 +30,8 @@ export default defineComponent({
   },
 
   setup (props) {
-    const $q = useQuasar()
-    const isDark = useDark(props, $q)
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
 
     const orientation = computed(() => (
       props.vertical === true

@@ -30,7 +30,9 @@ export const useTablePaginationProps = {
 
 export const useTablePaginationEmits = [ 'update:pagination' ]
 
-export function useTablePaginationState (props, emit, vm, getCellValue) {
+export function useTablePaginationState (vm, getCellValue) {
+  const { props, emit } = vm
+
   const innerPagination = ref(
     Object.assign({
       sortBy: null,
@@ -108,7 +110,9 @@ export function useTablePaginationState (props, emit, vm, getCellValue) {
   }
 }
 
-export function useTablePagination (props, emit, $q, vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber) {
+export function useTablePagination (vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber) {
+  const { props, emit, proxy: { $q } } = vm
+
   const computedRowsNumber = computed(() => (
     isServerSide.value === true
       ? computedPagination.value.rowsNumber || 0

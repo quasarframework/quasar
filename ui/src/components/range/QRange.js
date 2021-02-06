@@ -1,6 +1,5 @@
-import { h, defineComponent, ref, computed, watch } from 'vue'
+import { h, defineComponent, ref, computed, watch, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
 import useSlider, {
@@ -56,7 +55,7 @@ export default defineComponent({
   emits: useSliderEmits,
 
   setup (props, { emit }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
 
     const formAttrs = computed(() => {
       return {
@@ -80,7 +79,6 @@ export default defineComponent({
     const curMaxRatio = ref(0)
 
     const { state, methods } = useSlider({
-      props, emit, $q,
       updateValue, updatePosition, getDragging
     })
 

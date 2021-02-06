@@ -3,7 +3,7 @@
  *  --> API should match!
  */
 
-import { computed } from 'vue'
+import { computed, getCurrentInstance } from 'vue'
 
 import { prevent } from '../../utils/event.js'
 import { vmHasRouter } from '../../utils/private/vm.js'
@@ -63,8 +63,10 @@ export const useRouterLinkProps = {
   disable: Boolean
 }
 
-export default function (props, vm, attrs) {
-  const vmProxy = vm.proxy
+export default function () {
+  const vm = getCurrentInstance()
+  const { props, attrs, proxy } = vm
+
   const hasRouter = vmHasRouter(vm)
 
   const hasLink = computed(() =>
@@ -81,7 +83,7 @@ export default function (props, vm, attrs) {
 
   const linkRoute = computed(() => (
     hasLink.value === true
-      ? vmProxy.$router.resolve(props.to)
+      ? proxy.$router.resolve(props.to)
       : null
   ))
 
@@ -99,7 +101,7 @@ export default function (props, vm, attrs) {
       return -1
     }
 
-    const currentMatched = vmProxy.$route.matched
+    const currentMatched = proxy.$route.matched
 
     if (currentMatched.length === 0) {
       return -1
@@ -135,12 +137,12 @@ export default function (props, vm, attrs) {
   const linkIsActive = computed(() =>
     hasLink.value === true
     && linkActiveIndex.value > -1
-    && includesParams(vmProxy.$route.params, linkRoute.value.params)
+    && includesParams(proxy.$route.params, linkRoute.value.params)
   )
 
   const linkIsExactActive = computed(() =>
     linkIsActive.value === true
-      && linkActiveIndex.value === vmProxy.$route.matched.length - 1
+      && linkActiveIndex.value === proxy.$route.matched.length - 1
   )
 
   const linkClass = computed(() => (
@@ -190,7 +192,7 @@ export default function (props, vm, attrs) {
 
     prevent(e)
 
-    vmProxy.$router[ props.replace === true ? 'replace' : 'push' ](props.to)
+    proxy.$router[ props.replace === true ? 'replace' : 'push' ](props.to)
       .catch(() => {})
 
     return true

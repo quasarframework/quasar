@@ -3,7 +3,6 @@ import { h, defineComponent, ref, computed, watch, onMounted, nextTick, getCurre
 import Caret from './editor-caret.js'
 import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 import useSplitAttrs from '../../composables/private/use-split-attrs.js'
@@ -79,10 +78,11 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit, attrs }) {
-    const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const isDark = useDark(props, $q)
-    const { inFullscreen, toggleFullscreen } = useFullscreen(props, emit, vm)
+    const { inFullscreen, toggleFullscreen } = useFullscreen()
     const splitAttrs = useSplitAttrs(attrs)
 
     const rootRef = ref(null)
@@ -446,7 +446,7 @@ export default defineComponent({
     function refreshToolbar () {
       setTimeout(() => {
         editLinkUrl.value = null
-        vm.proxy.$forceUpdate()
+        proxy.$forceUpdate()
       }, 1)
     }
 
@@ -459,7 +459,7 @@ export default defineComponent({
     }
 
     // expose public methods
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       runCmd, refreshToolbar, focus, getContentEl
     })
 

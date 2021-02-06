@@ -7,8 +7,8 @@ export default defineComponent({
 
   props: usePageStickyProps,
 
-  setup (props, { slots }) {
-    const { getStickyContent } = usePageSticky(props)
+  setup (_, { slots }) {
+    const { getStickyContent } = usePageSticky()
     return () => getStickyContent(slots)
   }
 })

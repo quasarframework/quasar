@@ -12,7 +12,6 @@ import QBtn from '../btn/QBtn.js'
 
 import getTableMiddle from './get-table-middle.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import { commonVirtPropsList } from '../virtual-scroll/use-virtual-scroll.js'
 import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
@@ -121,9 +120,10 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy: { $q } } = vm
+
     const isDark = useDark(props, $q)
-    const { inFullscreen, toggleFullscreen } = useFullscreen(props, emit, vm)
+    const { inFullscreen, toggleFullscreen } = useFullscreen()
 
     const getRowKey = computed(() => (
       typeof props.rowKey === 'function'
@@ -169,7 +169,7 @@ export default defineComponent({
 
       requestServerInteraction,
       setPagination
-    } = useTablePaginationState(props, emit, vm, getCellValue)
+    } = useTablePaginationState(vm, getCellValue)
 
     const { computedFilterMethod } = useTableFilter(props, setPagination)
     const { isRowExpanded, setExpanded, updateExpanded } = useTableRowExpand(props, emit)
@@ -253,7 +253,7 @@ export default defineComponent({
       prevPage,
       nextPage,
       lastPage
-    } = useTablePagination(props, emit, $q, vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber)
+    } = useTablePagination(vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber)
 
     const nothingToDisplay = computed(() => computedRows.value.length === 0)
 

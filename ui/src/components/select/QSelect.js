@@ -11,7 +11,6 @@ import QItemLabel from '../item/QItemLabel.js'
 import QMenu from '../menu/QMenu.js'
 import QDialog from '../dialog/QDialog.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
 import { useVirtualScroll, useVirtualScrollProps, useVirtualScrollEmits } from '../virtual-scroll/use-virtual-scroll.js'
 import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
@@ -131,9 +130,9 @@ export default defineComponent({
     'filter-abort', 'filter'
   ],
 
-  setup (props, { slots, emit, attrs }) {
+  setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy: { $q } } = vm
 
     const menu = ref(false)
     const dialog = ref(false)
@@ -177,12 +176,11 @@ export default defineComponent({
       scrollTo,
       setVirtualScrollSize
     } = useVirtualScroll({
-      props, emit, $q, vm,
       virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl,
       virtualScrollItemSizeComputed
     })
 
-    const state = useFieldState(props, attrs, $q)
+    const state = useFieldState()
 
     const innerValue = computed(() => {
       const
@@ -1527,6 +1525,6 @@ export default defineComponent({
       )
     })
 
-    return useField({ props, slots, emit, attrs, $q, state })
+    return useField(state)
   }
 })

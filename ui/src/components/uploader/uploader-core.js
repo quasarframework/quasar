@@ -5,7 +5,6 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useFile, { useFileProps, useFileEmits } from '../../composables/private/use-file.js'
 
@@ -43,9 +42,11 @@ export const coreEmits = [
   'start', 'finish', 'added', 'removed'
 ]
 
-export function getRenderer (props, slots, emit, getPlugin) {
+export function getRenderer (getPlugin) {
   const vm = getCurrentInstance()
-  const $q = useQuasar()
+  const { props, slots, emit, proxy } = vm
+  const { $q } = proxy
+
   const isDark = useDark(props, $q)
 
   function updateFileStatus (file, status, uploadedSize) {
@@ -59,7 +60,7 @@ export function getRenderer (props, slots, emit, getPlugin) {
       return
     }
     if (status === 'failed') {
-      vm.proxy.$forceUpdate()
+      proxy.$forceUpdate()
       return
     }
 
@@ -72,7 +73,7 @@ export function getRenderer (props, slots, emit, getPlugin) {
       : Math.min(0.9999, file.__uploaded / file.size)
 
     file.__progressLabel = getProgressLabel(file.__progress)
-    vm.proxy.$forceUpdate()
+    proxy.$forceUpdate()
   }
 
   const state = {
@@ -109,7 +110,7 @@ export function getRenderer (props, slots, emit, getPlugin) {
     onDragover,
     processFiles,
     getDndNode
-  } = useFile({ props, emit, editable, vm, dnd, getFileInput, addFilesToQueue })
+  } = useFile({ editable, dnd, getFileInput, addFilesToQueue })
 
   const canAddFiles = computed(() =>
     editable.value === true
@@ -449,7 +450,7 @@ export function getRenderer (props, slots, emit, getPlugin) {
   })
 
   // expose public methods
-  Object.assign(vm.proxy, publicMethods)
+  Object.assign(proxy, publicMethods)
 
   return () => {
     const children = [

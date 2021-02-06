@@ -3,8 +3,6 @@ import { h, defineComponent, ref, computed, nextTick, getCurrentInstance } from 
 import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
 
-import useQuasar from '../../composables/use-quasar.js'
-
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/private/is.js'
 
@@ -47,7 +45,9 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const menuRef = ref(null)
 
     const initialValue = ref('')
@@ -138,8 +138,7 @@ export default defineComponent({
     }
 
     // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       set,
       cancel,
       show (e) { menuRef.value !== null && menuRef.value.show(e) },

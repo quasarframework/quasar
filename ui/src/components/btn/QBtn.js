@@ -31,14 +31,15 @@ export default defineComponent({
 
   emits: [ 'click', 'keydown', 'touchstart', 'mousedown', 'keyup' ],
 
-  setup (props, { slots, emit, attrs }) {
-    const vm = getCurrentInstance()
+  setup (props, { slots, emit }) {
+    const { proxy } = getCurrentInstance()
+
     const {
       classes, style, innerClasses,
       attributes,
       hasLink, isLink, navigateToLink,
       isActionable
-    } = useBtn(props, attrs, vm)
+    } = useBtn(props)
 
     const rootRef = ref(null)
     const blurTargetRef = ref(null)
@@ -269,7 +270,7 @@ export default defineComponent({
     })
 
     // expose public methods
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       click: onClick
     })
 

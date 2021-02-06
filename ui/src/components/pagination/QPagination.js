@@ -3,7 +3,6 @@ import { h, defineComponent, ref, watch, computed, getCurrentInstance } from 'vu
 import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { between } from '../../utils/format.js'
@@ -95,7 +94,9 @@ export default defineComponent({
   emits: [ 'update:modelValue' ],
 
   setup (props, { emit }) {
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const isDark = useDark(props, $q)
 
     const newPage = ref(null)
@@ -195,8 +196,7 @@ export default defineComponent({
     }
 
     // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, { set, setByOffset })
+    Object.assign(proxy, { set, setByOffset })
 
     return () => {
       const

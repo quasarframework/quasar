@@ -1,10 +1,9 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, inject } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeUnmount, inject, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 import { layoutKey } from '../../utils/private/symbols.js'
 
@@ -29,7 +28,8 @@ export default defineComponent({
   emits: [ 'reveal', 'focusin' ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
+
     const $layout = inject(layoutKey, () => {
       console.error('QFooter needs to be child of QLayout')
     })

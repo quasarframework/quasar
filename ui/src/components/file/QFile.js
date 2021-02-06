@@ -2,7 +2,6 @@ import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
 
 import QChip from '../chip/QChip.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
 import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
 import useFile, { useFileProps, useFileEmits } from '../../composables/private/use-file.js'
@@ -44,10 +43,9 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit, attrs }) {
-    const vm = getCurrentInstance()
+    const { proxy } = getCurrentInstance()
 
-    const $q = useQuasar()
-    const state = useFieldState(props, attrs, $q)
+    const state = useFieldState()
 
     const inputRef = ref(null)
     const dnd = ref(false)
@@ -58,7 +56,7 @@ export default defineComponent({
       onDragover,
       processFiles,
       getDndNode
-    } = useFile({ props, emit, editable: state.editable, vm, dnd, getFileInput, addFilesToQueue })
+    } = useFile({ editable: state.editable, dnd, getFileInput, addFilesToQueue })
 
     const formDomProps = useFileFormDomProps(props)
 
@@ -230,11 +228,11 @@ export default defineComponent({
     })
 
     // expose public methods
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       removeAtIndex,
       removeFile
     })
 
-    return useField({ props, slots, emit, attrs, $q, state })
+    return useField(state)
   }
 })

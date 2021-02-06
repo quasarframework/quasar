@@ -1,8 +1,7 @@
-import { h, defineComponent, ref, computed, watch, nextTick } from 'vue'
+import { h, defineComponent, ref, computed, watch, nextTick, getCurrentInstance } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { hSlot, hMergeSlot, hDir } from '../../utils/private/render.js'
@@ -48,7 +47,7 @@ export default defineComponent({
   emits: [ 'update:modelValue' ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
     const isDark = useDark(props, $q)
 
     const rootRef = ref(null)

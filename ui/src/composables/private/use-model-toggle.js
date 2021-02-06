@@ -1,4 +1,4 @@
-import { watch, nextTick, onMounted } from 'vue'
+import { watch, nextTick, onMounted, getCurrentInstance } from 'vue'
 
 import { vmHasRouter, vmHasListener } from '../../utils/private/vm.js'
 
@@ -16,9 +16,6 @@ export const useModelToggleEmits = [
 // handleShow/handleHide -> removeTick(), self (& emit show), prepareTick()
 
 export default function ({
-  props,
-  emit,
-  vm,
   showing,
   canShow, // optional
   hideOnRouteChange, // optional
@@ -26,6 +23,9 @@ export default function ({
   handleHide, // optional
   processOnMount // optional
 }) {
+  const vm = getCurrentInstance()
+  const { props, emit, proxy } = vm
+
   let payload
 
   function toggle (evt) {
@@ -129,8 +129,8 @@ export default function ({
 
   watch(() => props.modelValue, processModelChange)
 
-  if (hideOnRouteChange !== void 0 && vm !== void 0 && vmHasRouter(vm) === true) {
-    watch(() => vm.proxy.$route, () => {
+  if (hideOnRouteChange !== void 0 && vmHasRouter(vm) === true) {
+    watch(() => proxy.$route, () => {
       if (hideOnRouteChange.value === true && showing.value === true) {
         hide()
       }
@@ -143,7 +143,7 @@ export default function ({
 
   // expose public methods
   const publicMethods = { show, hide, toggle }
-  Object.assign(vm.proxy, publicMethods)
+  Object.assign(proxy, publicMethods)
 
   return publicMethods
 }

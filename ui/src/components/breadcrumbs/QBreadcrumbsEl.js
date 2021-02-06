@@ -1,4 +1,4 @@
-import { h, defineComponent, getCurrentInstance } from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -20,9 +20,8 @@ export default defineComponent({
     }
   },
 
-  setup (props, { slots, attrs }) {
-    const vm = getCurrentInstance()
-    const { linkTag, linkProps } = useRouterLink(props, vm, attrs)
+  setup (props, { slots }) {
+    const { linkTag, linkProps } = useRouterLink()
 
     return () => {
       const child = []

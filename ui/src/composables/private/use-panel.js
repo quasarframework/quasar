@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, nextTick, Transition, KeepAlive } from 'vue'
+import { h, defineComponent, ref, computed, watch, nextTick, getCurrentInstance, Transition, KeepAlive } from 'vue'
 
 import TouchSwipe from '../../directives/TouchSwipe.js'
 
@@ -42,7 +42,9 @@ export const usePanelProps = {
 
 export const usePanelEmits = [ 'update:modelValue', 'before-transition', 'transition' ]
 
-export default function (props, emit, $q, vm) {
+export default function () {
+  const { props, emit, proxy } = getCurrentInstance()
+
   let panels, forcedPanelTransition
 
   const panelIndex = ref(null)
@@ -50,7 +52,7 @@ export default function (props, emit, $q, vm) {
 
   function onSwipe (evt) {
     const dir = props.vertical === true ? 'up' : 'left'
-    goToPanelByOffset(($q.lang.rtl === true ? -1 : 1) * (evt.direction === dir ? 1 : -1))
+    goToPanelByOffset((proxy.$q.lang.rtl === true ? -1 : 1) * (evt.direction === dir ? 1 : -1))
   }
 
   const panelDirectives = computed(() => {
@@ -113,7 +115,7 @@ export default function (props, emit, $q, vm) {
   function previousPanel () { goToPanelByOffset(-1) }
 
   // expose public methods
-  Object.assign(vm.proxy, {
+  Object.assign(proxy, {
     next: nextPanel,
     previous: previousPanel,
     goTo: goToPanel

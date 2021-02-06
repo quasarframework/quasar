@@ -1,6 +1,4 @@
-import { h, defineComponent, computed, inject } from 'vue'
-
-import useQuasar from '../../composables/use-quasar.js'
+import { h, defineComponent, computed, inject, getCurrentInstance } from 'vue'
 
 import { hSlot } from '../../utils/private/render.js'
 import { pageContainerKey, layoutKey } from '../../utils/private/symbols.js'
@@ -14,7 +12,7 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
 
     const $layout = inject(layoutKey)
     inject(pageContainerKey, () => {

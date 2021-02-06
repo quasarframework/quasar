@@ -3,7 +3,6 @@ import { h, defineComponent, ref, computed, watch, nextTick, onBeforeUnmount, ge
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useTick from '../../composables/private/use-tick.js'
 import useTimeout from '../../composables/private/use-timeout.js'
 
@@ -66,7 +65,7 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy: { $q } } = vm
 
     const { registerTick, prepareTick } = useTick()
     const { registerTimeout } = useTimeout()

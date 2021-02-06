@@ -1,6 +1,5 @@
 import { h, defineComponent, withDirectives, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, inject, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useHistory from '../../composables/private/use-history.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
@@ -71,8 +70,8 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit, attrs }) {
-    const $q = useQuasar()
     const vm = getCurrentInstance()
+    const { proxy: { $q } } = vm
 
     const isDark = useDark(props, $q)
     const { preventBodyScroll } = usePreventScroll()
@@ -152,9 +151,6 @@ export default defineComponent({
     }
 
     const { show, hide } = useModelToggle({
-      props,
-      emit,
-      vm,
       showing,
       hideOnRouteChange,
       handleShow,

@@ -2,7 +2,6 @@ import { h, defineComponent, computed, provide, getCurrentInstance } from 'vue'
 
 import StepHeader from './StepHeader.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import usePanel, { usePanelProps } from '../../composables/private/use-panel.js'
 
@@ -33,16 +32,15 @@ export default defineComponent({
     errorColor: String
   },
 
-  setup (props, { slots, emit }) {
-    const $q = useQuasar()
-    const isDark = useDark(props, $q)
-
+  setup (props, { slots }) {
     const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
+
     const {
       updatePanelsList, isValidPanelName,
       updatePanelIndex, getPanelContent,
       getPanels, panelDirectives, goToPanel
-    } = usePanel(props, emit, $q, vm)
+    } = usePanel()
 
     provide(stepperKey, computed(() => ({
       goToPanel,

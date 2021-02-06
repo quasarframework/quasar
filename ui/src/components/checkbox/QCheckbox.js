@@ -31,10 +31,8 @@ export default defineComponent({
   props: useCheckboxProps,
   emits: useCheckboxEmits,
 
-  setup (props, { slots, emit }) {
+  setup () {
     const getInner = () => () => bgNode
-    const renderFn = useCheckbox(props, slots, emit, 'checkbox', getInner)
-
-    return renderFn
+    return useCheckbox('checkbox', getInner)
   }
 })
