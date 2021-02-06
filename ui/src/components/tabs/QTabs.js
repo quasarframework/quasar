@@ -267,15 +267,17 @@ export default defineComponent({
     }
 
     function updateArrowsFn () {
-      const
-        content = contentRef.value,
-        rect = content.getBoundingClientRect(),
-        pos = props.vertical === true ? content.scrollTop : content.scrollLeft
+      const content = contentRef.value
+      if (content !== null) {
+        const
+          rect = content.getBoundingClientRect(),
+          pos = props.vertical === true ? content.scrollTop : content.scrollLeft
 
-      leftArrow.value = pos > 0
-      rightArrow.value = props.vertical === true
-        ? Math.ceil(pos + rect.height) < content.scrollHeight
-        : Math.ceil(pos + rect.width) < content.scrollWidth
+        leftArrow.value = pos > 0
+        rightArrow.value = props.vertical === true
+          ? Math.ceil(pos + rect.height) < content.scrollHeight
+          : Math.ceil(pos + rect.width) < content.scrollWidth
+      }
     }
 
     function animScrollTo (value) {
