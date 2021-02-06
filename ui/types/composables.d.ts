@@ -2,11 +2,11 @@
 // The import will work correctly at runtime
 import { QDialog } from "quasar";
 import { MetaOptions } from "./meta";
-import { Ref, SetupContext } from "vue";
+import { Ref } from "vue";
 import { QVueGlobals } from "./globals";
 
 interface useDialogPluginComponent {
-  (context: { emit: SetupContext["emit"] }): {
+  (): {
     dialogRef: Ref<QDialog | undefined>;
     onDialogHide: () => void;
     onDialogOK: (payload?: any) => void;

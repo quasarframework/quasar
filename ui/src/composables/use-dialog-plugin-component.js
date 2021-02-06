@@ -3,7 +3,9 @@ import { ref, getCurrentInstance } from 'vue'
 // To be used for the custom component
 // used on a Dialog plugin
 
-function useDialogPluginComponent ({ emit }) {
+function useDialogPluginComponent () {
+  const { emit, proxy } = getCurrentInstance()
+
   // we need a Vue reference to the QDialog
   // component so we can handle it;
   // <q-dialog ref="dialogRef" ...
@@ -22,8 +24,7 @@ function useDialogPluginComponent ({ emit }) {
   function onDialogHide () { emit('hide') }
 
   // expose public methods required by Dialog plugin
-  const vm = getCurrentInstance()
-  Object.assign(vm.proxy, { show, hide })
+  Object.assign(proxy, { show, hide })
 
   return {
     dialogRef,
