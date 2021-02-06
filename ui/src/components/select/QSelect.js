@@ -1100,7 +1100,7 @@ export default defineComponent({
                 }
               }
 
-              typeof afterFn === 'function' && nextTick(() => { afterFn(vm.ctx) })
+              typeof afterFn === 'function' && nextTick(() => { afterFn(vm.proxy) })
             })
           }
         },
