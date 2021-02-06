@@ -265,7 +265,10 @@ export function getRenderer (getPlugin) {
     const localFiles = processedFiles
       .filter(file => files.value.findIndex(f => file.name === f.name) === -1)
 
-    getFileInput().value = ''
+    const fileInput = getFileInput()
+    if (fileInput !== void 0 && fileInput !== null) {
+      fileInput.value = ''
+    }
 
     if (localFiles === void 0) { return }
 
