@@ -1,5 +1,5 @@
 ---
-title: App Internationalization (I18n)
+title: App Internationalization (i18n)
 desc: How to use vue-i18n in a Quasar app.
 related:
   - /options/rtl-support
@@ -37,7 +37,7 @@ const i18n = createI18n({
 export default ({ app }) => {
   // Set i18n instance on app
   app.use(i18n)
-})
+}
 
 export { i18n }
 ```
