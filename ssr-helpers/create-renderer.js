@@ -83,7 +83,7 @@ function createRenderContext ({ clientManifest, publicPath }) {
   }
 }
 
-function renderStyles (ssrContext, renderContext, usedAsyncFiles) {
+function renderStyles (renderContext, usedAsyncFiles, ssrContext) {
   const initial = renderContext.preloadFiles
   const cssFiles = initial.concat(usedAsyncFiles).filter(({ file }) => cssRE.test(file))
 
@@ -132,7 +132,7 @@ module.exports = function createRenderer (opts) {
   return async function renderToString (ssrContext, renderTemplate) {
     try {
       Object.assign(ssrContext, {
-        _registeredComponents: [],
+        _modules: [],
         _meta: {},
         _onRenderedList: []
       })
@@ -140,14 +140,14 @@ module.exports = function createRenderer (opts) {
       const app = await runApp(ssrContext)
       const resourceApp = await opts.vueRenderToString(app, ssrContext)
 
-      const registered = Array.from(ssrContext._registeredComponents)
+      const registered = Array.from(ssrContext._modules)
       const usedAsyncFiles = renderContext.mapFiles(registered).map(normalizeFile)
 
       ssrContext._onRenderedList.forEach(fn => { fn() })
 
       Object.assign(ssrContext._meta, {
         resourceApp,
-        resourceStyles: renderStyles(ssrContext, renderContext, usedAsyncFiles),
+        resourceStyles: renderStyles(renderContext, usedAsyncFiles, ssrContext),
         resourceScripts: renderScripts(renderContext, usedAsyncFiles)
       })
 

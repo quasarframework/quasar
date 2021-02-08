@@ -3,12 +3,13 @@ const getDevlandFile = require('../helpers/get-devland-file')
 
 const autoImportData = getDevlandFile('quasar/dist/transforms/auto-import.json')
 const importTransformation = getDevlandFile('quasar/dist/transforms/import-transformation.js')
-const runtimePath = require.resolve('./runtime.auto-import.js')
+const autoImportRuntimePath = require.resolve('./runtime.auto-import.js')
+const injectModuleIdRuntimePath = require.resolve('./runtime.inject-module-id.js')
 
 const compRegex = {
-  '?kebab': new RegExp(autoImportData.regex.kebabComponents || autoImportData.regex.components, 'g'),
-  '?pascal': new RegExp(autoImportData.regex.pascalComponents || autoImportData.regex.components, 'g'),
-  '?combined': new RegExp(autoImportData.regex.components, 'g')
+  'kebab': new RegExp(autoImportData.regex.kebabComponents || autoImportData.regex.components, 'g'),
+  'pascal': new RegExp(autoImportData.regex.pascalComponents || autoImportData.regex.components, 'g'),
+  'combined': new RegExp(autoImportData.regex.components, 'g')
 }
 
 const dirRegex = new RegExp(autoImportData.regex.directives, 'g')
@@ -19,8 +20,8 @@ function transform (itemArray) {
     .join(`\n`)
 }
 
-function extract (content, ctx) {
-  let comp = content.match(compRegex[ctx.query])
+function extract (content, ctx, autoImportCase) {
+  let comp = content.match(compRegex[autoImportCase])
   let dir = content.match(dirRegex)
 
   if (comp === null && dir === null) {
@@ -35,11 +36,11 @@ function extract (content, ctx) {
     comp = Array.from(new Set(comp))
 
     // map comp names only if not pascal-case already
-    if (ctx.query !== '?pascal') {
+    if (autoImportCase !== 'pascal') {
       comp = comp.map(name => autoImportData.importName[name])
     }
 
-    if (ctx.query === '?combined') {
+    if (autoImportCase === 'combined') {
       // could have been transformed QIcon and q-icon too,
       // so avoid duplicates
       comp = Array.from(new Set(comp))
@@ -61,31 +62,44 @@ function extract (content, ctx) {
   // messes up consistency of hashes between builds
   return `
 ${importStatements}
-import qInstall from ${stringifyRequest(ctx, runtimePath)};
+import qInstall from ${stringifyRequest(ctx, autoImportRuntimePath)};
 ${installStatements}
 `
 }
+
+function getModuleIdentifierCode (ctx) {
+  const id = hash(ctx.request)
+  return `
+import qInject from ${stringifyRequest(ctx, injectModuleIdRuntimePath)};
+qInject(script, '${id}');
+`
+}
+
+const { getOptions } = require('loader-utils')
+const hash = require('hash-sum')
 
 module.exports = function (content, map) {
   let newContent = content
 
   if (!this.resourceQuery) {
-    const file = this.fs.readFileSync(this.resource, 'utf-8').toString()
-    const code = extract(file, this)
+    const opts = getOptions(this)
 
-    if (code !== void 0) {
-      const index = this.mode === 'development'
-        ? content.indexOf('/* hot reload */')
-        : -1
+    if (opts.isServerBuild === true) {
+      newContent = content + getModuleIdentifierCode(this)
+    }
+    else {
+      const file = this.fs.readFileSync(this.resource, 'utf-8').toString()
+      const code = extract(file, this, opts.autoImportComponentCase)
 
-      newContent = index === -1
-        ? content + code
-        : content.slice(0, index) + code + content.slice(index)
+      if (code !== void 0) {
+        const index = this.mode === 'development'
+          ? content.indexOf('/* hot reload */')
+          : -1
 
-      // TODO vue3 - remove when SSR is ready
-      // if (this.resource === '/Users/Razvan/work/test/vue3/src/pages/Index.vue') {
-      //   newContent += `\nconsole.log(QToggle)`
-      // }
+        newContent = index === -1
+          ? content + code
+          : content.slice(0, index) + code + content.slice(index)
+      }
     }
   }
 
