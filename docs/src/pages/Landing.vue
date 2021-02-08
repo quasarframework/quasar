@@ -14,12 +14,12 @@
             img.landing__logo(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
             span rk
         .text-subtitle1 Build high-performance <strong>VueJS</strong> user interfaces in record time
-        //- .q-pt-sm.q-px-sm
-        //-   survey-countdown.landing-countdown.bg-primary.text-white.rounded-borders(
-        //-     color="white"
-        //-     text-color="primary"
-        //-     align-class="justify-center"
-        //-   )
+        .q-pt-sm.q-px-sm
+          survey-link.landing-link.bg-primary.text-white.rounded-borders(
+            color="white"
+            text-color="primary"
+            align-class="justify-center"
+          )
         .text-subtitle1.q-pt-sm
           | Looking for
           q-icon.text-red-4.q-mx-sm(:name="mdiFire")
@@ -182,7 +182,7 @@ import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
 import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
 import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
-// import SurveyCountdown from '../components/SurveyCountdown'
+import SurveyLink from '../components/SurveyLink'
 
 import {
   fabGithub, fabTwitter, fabFacebook, fasMedkit,
@@ -202,7 +202,7 @@ export default {
     Sponsor,
     SponsorList,
     LandingTopBar,
-    // SurveyCountdown,
+    SurveyLink,
     IntroductionVideo
   },
 
@@ -337,7 +337,7 @@ export default {
       &:hover
         color: $grey-4
 
-.landing-countdown
+.landing-link
   border-top: 4px solid darken($primary, 10%)
   border-bottom: 4px solid darken($primary, 10%)
 
