@@ -28,7 +28,10 @@ function createMapper (clientManifest) {
       const mapped = map.get(moduleIds[i])
       if (mapped) {
         for (let j = 0; j < mapped.length; j++) {
-          res.add(mapped[j])
+          const entry = mapped[j]
+          if (entry !== void 0) {
+            res.add(mapped[j])
+          }
         }
       }
     }
@@ -132,16 +135,16 @@ module.exports = function createRenderer (opts) {
   return async function renderToString (ssrContext, renderTemplate) {
     try {
       Object.assign(ssrContext, {
-        _modules: [],
+        _modules: new Set(),
         _meta: {},
         _onRenderedList: []
       })
 
       const app = await runApp(ssrContext)
       const resourceApp = await opts.vueRenderToString(app, ssrContext)
-
-      const registered = Array.from(ssrContext._modules)
-      const usedAsyncFiles = renderContext.mapFiles(registered).map(normalizeFile)
+      const usedAsyncFiles = renderContext
+        .mapFiles(Array.from(ssrContext._modules))
+        .map(normalizeFile)
 
       ssrContext._onRenderedList.forEach(fn => { fn() })
 
