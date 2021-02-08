@@ -603,7 +603,7 @@ class QuasarConfFile {
 
       if (cfg.ssr.pwa) {
         await require('./mode/install-missing')('pwa')
-        this.__rootDefines.__QUASAR_SSR_PWA__ = true
+        cfg.__rootDefines.__QUASAR_SSR_PWA__ = true
       }
 
       this.ctx.mode.pwa = cfg.ctx.mode.pwa = !!cfg.ssr.pwa

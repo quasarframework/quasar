@@ -43,9 +43,6 @@ import createQuasarApp from './app.js'
 
 <% if (ctx.mode.pwa) { %>
 import 'app/<%= sourceFiles.registerServiceWorker %>'
-<% if (ctx.mode.ssr) { %>
-import { isRunningOnPWA } from './ssr-pwa'
-<% } %>
 <% } %>
 
 <% if (preFetch) { %>
@@ -77,6 +74,7 @@ async function start ({ app, router<%= store ? ', store' : '' %> }<%= bootEntrie
   // prime the store with server-initialized state.
   // the state is determined during SSR and inlined in the page markup.
   if (<% if (ctx.mode.pwa) { %>isRunningOnPWA !== true && <% } %>window.__INITIAL_STATE__) {
+    // TODO vue3
     store.replaceState(window.__INITIAL_STATE__)
   }
   <% } %>
