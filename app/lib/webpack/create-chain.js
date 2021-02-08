@@ -312,7 +312,7 @@ module.exports = function (cfg, configName) {
 
     chain.plugin('mini-css-extract')
       .use(MiniCssExtractPlugin, [{
-        filename: 'css/[name].[contenthash:8].css'
+        filename: `css/[name]${fileHash}.css`
       }])
   }
 

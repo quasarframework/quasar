@@ -1,3 +1,6 @@
+const { getOptions } = require('loader-utils')
+const hash = require('hash-sum')
+
 const stringifyRequest = require('loader-utils/lib/stringifyRequest')
 const getDevlandFile = require('../helpers/get-devland-file')
 
@@ -74,9 +77,6 @@ import qInject from ${stringifyRequest(ctx, injectModuleIdRuntimePath)};
 qInject(script, '${id}');
 `
 }
-
-const { getOptions } = require('loader-utils')
-const hash = require('hash-sum')
 
 module.exports = function (content, map) {
   let newContent = content
