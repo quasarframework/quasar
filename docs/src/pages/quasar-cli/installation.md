@@ -10,7 +10,7 @@ Make sure that you have Node >=10 and NPM >=5 installed on your machine.
 :::
 
 ::: warning
-**Do not use uneven versions of Node i.e. 13, 14, etc.** These versions are not tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
+**Do not use uneven versions of Node i.e. 13, 15, etc.** These versions are not tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
 :::
 
 ```bash
