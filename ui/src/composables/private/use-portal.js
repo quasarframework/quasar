@@ -1,5 +1,6 @@
 import { h, ref, onUnmounted, Teleport } from 'vue'
 
+import { noop } from '../../utils/event.js'
 import { createGlobalNode, removeGlobalNode } from '../../utils/private/global-nodes.js'
 import { portalList } from '../../utils/private/portal.js'
 
@@ -25,8 +26,13 @@ function isOnGlobalDialog (vm) {
 
 export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
   if (__QUASAR_SSR_SERVER__) {
-    // TODO vue3
-    return
+    return {
+      portalIsActive: ref(false),
+
+      showPortal: noop,
+      hidePortal: noop,
+      renderPortal: noop
+    }
   }
 
   let portalEl = null
