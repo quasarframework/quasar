@@ -159,7 +159,7 @@ export default defineComponent({
           parent,
           isParent,
           isLeaf,
-          localLazy,
+          lazy: localLazy,
           disabled: node.disabled,
           link: node.disabled !== true && (selectable === true || (expandable === true && (isParent === true || localLazy === true))),
           children: [],
@@ -329,7 +329,7 @@ export default defineComponent({
             lazy.value[ key ] = 'loaded'
             node[ props.childrenKey ] = Array.isArray(children) === true ? children : []
             nextTick(() => {
-              const localMeta = m.value[ key ]
+              const localMeta = meta.value[ key ]
               if (localMeta && localMeta.isParent === true) {
                 localSetExpanded(key, true)
               }
