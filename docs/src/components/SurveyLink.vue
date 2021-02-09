@@ -2,7 +2,7 @@
   q-banner(inline-actions).survey-link
     q-btn(
       type="a"
-      href="https://cdn.quasar.dev/statistics/survey_2020.pdf"
+      href="https://bit.ly/3cTLXsO"
       target="_blank"
       :color="color"
       :text-color="textColor"
