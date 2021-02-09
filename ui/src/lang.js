@@ -15,10 +15,10 @@ function getLocale () {
       i === 0
         ? v.toLowerCase()
         : (
-          i > 1 || v.length < 4
-            ? v.toUpperCase()
-            : (v[ 0 ].toUpperCase() + v.slice(1).toLowerCase())
-        )
+            i > 1 || v.length < 4
+              ? v.toUpperCase()
+              : (v[ 0 ].toUpperCase() + v.slice(1).toLowerCase())
+          )
     )).join('-')
   }
 }
@@ -69,7 +69,7 @@ const Plugin = {
   },
 
   install (opts) {
-    const initialLang = opts.cfg.lang || langEn
+    const initialLang = opts.lang || langEn
 
     if (__QUASAR_SSR_SERVER__) {
       const { $q, ssrContext } = opts
