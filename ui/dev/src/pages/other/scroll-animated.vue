@@ -62,7 +62,7 @@
 <script>
 import { scroll } from 'quasar'
 
-const { animScrollTo, animHorizontalScrollTo } = scroll
+const { animVerticalScrollTo, animHorizontalScrollTo } = scroll
 
 export default {
   data () {
@@ -125,7 +125,7 @@ export default {
       }, this.duration + 500)
 
       animHorizontalScrollTo(el, this.to.left, this.duration)
-      animScrollTo(el, this.to.top, this.duration)
+      animVerticalScrollTo(el, this.to.top, this.duration)
     }
   }
 }
