@@ -188,7 +188,7 @@ export default defineComponent({
                 size: 'sm',
                 ...controlProps.value
               },
-              onClick: () => { goToPanel(name) } // TODO vue3 - cache it
+              onClick: () => { goToPanel(name) }
             })
           })
         )

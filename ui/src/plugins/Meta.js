@@ -185,7 +185,6 @@ function injectServerMeta (ssrContext) {
 
   normalize(data)
 
-  // TODO vue3 - add more options for scripts
   const nonce = ssrContext.nonce !== void 0
     ? ` nonce="${ ssrContext.nonce }"`
     : ''
