@@ -166,27 +166,7 @@ export default defineComponent({
       },
 
       update (part, prop, val) {
-        if (__QUASAR_SSR__) {
-          // update should happen immediately
-          // as we can't wait for nextTick
-          $layout[ part ][ prop ] = val
-        }
-        else {
-          updateCache[ part + '|' + prop ] = val
-
-          // ensure state update is caught correctly;
-          // workaround over the state change vue reactivity issue where you change one variable
-          // to val1 then val2 then val1 and the update is not triggered
-          nextTick(() => {
-            for (const p in updateCache) {
-              const [ part, prop ] = p.split('|')
-              $layout[ part ][ prop ] = updateCache[ p ]
-            }
-
-            // reset cache
-            updateCache = {}
-          })
-        }
+        $layout[ part ][ prop ] = val
       }
     }
 
