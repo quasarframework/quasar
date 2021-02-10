@@ -1,9 +1,9 @@
 <template>
   <div class="q-pa-md" style="max-width: 500px">
-    <div>{{ native }}</div>
-    <div>{{ name }}</div>
-    <div>{{ age }}</div>
-    <div>{{ modelAsync }}</div>
+    <div>{{ native || 'null' }}</div>
+    <div>{{ name || 'null' }}</div>
+    <div>{{ age || 'null' }}</div>
+    <div>{{ modelAsync || 'null' }}</div>
 
     <q-toggle v-model="show" label="Show form" />
     <q-toggle v-model="autofocus" label="Autofocus" />
@@ -191,7 +191,7 @@ export default {
         return h(QField, {
           modelValue: this.modelValue
         }, {
-          control: () => this.modelValue
+          control: () => this.modelValue || 'null'
         })
       }
     },
