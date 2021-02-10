@@ -2,14 +2,14 @@
   <div class="q-layout-padding">
     <div class="row q-gutter-lg">
       <div class="column no-wrap q-gutter-y-md">
-        <q-update:modelValue
+        <q-input
           v-model.number="index1"
           type="number"
           dense
           outlined
           :min="0"
           :max="255"
-          @update:modelValue="val => { $refs.table1 !== void 0 && $refs.table1.scrollTo(val) }"
+          @update:modelValue="val => { table1.value !== null && table1.value.scrollTo(val) }"
         />
 
         <q-table
@@ -41,14 +41,14 @@
       </div>
 
       <div class="column no-wrap q-gutter-y-md">
-        <q-update:modelValue
+        <q-input
           v-model.number="index2"
           type="number"
           dense
           outlined
           :min="0"
           :max="255"
-          @update:modelValue="val => { $refs.table2 !== void 0 && $refs.table2.scrollTo(val, 'center-force') }"
+          @update:modelValue="val => { table2.value !== null && table2.value.scrollTo(val, 'center-force') }"
         />
 
         <q-table
@@ -85,11 +85,16 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   setup () {
     return {
       index1: 0,
       index2: 0,
+
+      table1: ref(null),
+      table2: ref(null),
 
       pagination: { sortBy: '', descending: false, rowsPerPage: 0 },
       columns: [
