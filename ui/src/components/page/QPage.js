@@ -37,7 +37,7 @@ export default defineComponent({
           ? ($layout.containerHeight.value - offset) + 'px'
           : (
               $q.screen.height === 0
-                ? `calc(100vh - ${ offset }px)`
+                ? (offset !== 0 ? `calc(100vh - ${ offset }px)` : '100vh')
                 : ($q.screen.height - offset) + 'px'
             )
       }
