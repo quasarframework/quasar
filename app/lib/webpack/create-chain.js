@@ -113,7 +113,7 @@ module.exports = function (cfg, configName) {
     : (
       cfg.build.vueCompiler
         ? 'vue-i18n.esm-bundler.js'
-        : 'vue-18n.runtime.esm-bundler.js'
+        : 'vue-i18n.runtime.esm-bundler.js'
     )
 
   chain.resolve.alias.set('vue-i18n$', 'vue-i18n/dist/' + vueI18nFile)
