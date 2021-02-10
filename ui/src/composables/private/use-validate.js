@@ -57,7 +57,7 @@ export default function (focused, innerLoading) {
   watch(() => props.reactiveRules, val => {
     if (val === true) {
       if (unwatchRules === void 0) {
-        unwatchRules = watch('rules', () => {
+        unwatchRules = watch(() => props.rules, () => {
           validateIfNeeded(true)
         })
       }
