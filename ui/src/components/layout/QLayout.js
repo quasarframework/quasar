@@ -166,34 +166,43 @@ export default defineComponent({
       },
 
       update (part, prop, val) {
-        updateCache[ part + '|' + prop ] = val
+        if (__QUASAR_SSR__) {
+          // update should happen immediately
+          // as we can't wait for nextTick
+          $layout[ part ][ prop ] = val
+        }
+        else {
+          updateCache[ part + '|' + prop ] = val
 
-        // ensure state update is caught correctly;
-        // workaround over the state change vue reactivity issue where you change one variable
-        // to val1 then val2 then val1 and the update is not triggered
-        nextTick(() => {
-          for (const p in updateCache) {
-            const [ part, prop ] = p.split('|')
-            $layout[ part ][ prop ] = updateCache[ p ]
-          }
+          // ensure state update is caught correctly;
+          // workaround over the state change vue reactivity issue where you change one variable
+          // to val1 then val2 then val1 and the update is not triggered
+          nextTick(() => {
+            for (const p in updateCache) {
+              const [ part, prop ] = p.split('|')
+              $layout[ part ][ prop ] = updateCache[ p ]
+            }
 
-          // reset cache
-          updateCache = {}
-        })
+            // reset cache
+            updateCache = {}
+          })
+        }
       }
     }
 
     provide(layoutKey, $layout)
 
     return () => {
+      const content = hMergeSlot(slots.default, [
+        h(QScrollObserver, { onScroll: onPageScroll }),
+        h(QResizeObserver, { onResize: onPageResize })
+      ])
+
       const layout = h('div', {
         class: classes.value,
         style: style.value,
         ref: props.container === true ? void 0 : rootRef
-      }, hMergeSlot(slots.default, [
-        h(QScrollObserver, { onScroll: onPageScroll }),
-        h(QResizeObserver, { onResize: onPageResize })
-      ]))
+      }, content)
 
       if (props.container === true) {
         return h('div', {
