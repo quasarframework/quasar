@@ -129,7 +129,6 @@ export declare const matAllInclusive: string;
 export declare const matAllOut: string;
 export declare const matAlternateEmail: string;
 export declare const matAltRoute: string;
-export declare const matAmpStories: string;
 export declare const matAnalytics: string;
 export declare const matAnchor: string;
 export declare const matAndroid: string;

@@ -129,7 +129,6 @@ export declare const outlinedAllInclusive: string;
 export declare const outlinedAllOut: string;
 export declare const outlinedAlternateEmail: string;
 export declare const outlinedAltRoute: string;
-export declare const outlinedAmpStories: string;
 export declare const outlinedAnalytics: string;
 export declare const outlinedAnchor: string;
 export declare const outlinedAndroid: string;
