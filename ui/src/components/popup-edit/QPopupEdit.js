@@ -81,10 +81,10 @@ export default Vue.extend({
 
   methods: {
     set () {
+      if (this.validate(this.value) !== true) {
+        return
+      }
       if (this.__hasChanged() === true) {
-        if (this.validate(this.value) === false) {
-          return
-        }
         this.$emit('save', this.value, this.initialValue)
       }
       this.__close()

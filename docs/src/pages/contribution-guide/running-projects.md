@@ -11,7 +11,7 @@ desc: Quasar's active projects, goals and maintainers.
 | Media | Quasar is well known in JavaScript / Vue.js / backend / mobile and desktop dev community | Scott | [Facebook](https://www.facebook.com/QuasarFramework), [Medium](https://medium.com/quasar-framework), [Twitter](https://twitter.com/quasarframework) |
 | BEX | Browser Extension CLI mode | Allan | [#76](https://github.com/quasarframework/quasar/issues/76)|
 | UI App Ext | Create and maintain UI extensions | Jeff | |
-| Firebase | Docs and possibly an App Ext | Adam | [repo](https://github.com/quasarframework/app-extension-firebase) |
+| Firebase | Knowledge base articles - [dev.to/quasar](https://dev.to/quasar) : "To the Stars with Quasar & Firebase" | Adam | [repo](https://github.com/quasarframework/firebase-sample-apps) |
 | Quasar ESLint plugin | Plugin for ESLint with Quasar upgrade support warnings  | Jeff | [repo](https://github.com/quasarframework/eslint-plugin-quasar)|
 | Typescript support | Full Typescript support for Quasar | Paolo, Kerry | [repo](https://github.com/quasarframework/app-extension-typescript) |
 | Quasar Testing AE | Maintenance and enhancements | Paolo | [repo](https://github.com/quasarframework/quasar-testing) |
