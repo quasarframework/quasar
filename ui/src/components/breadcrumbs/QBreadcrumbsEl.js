@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -21,15 +21,27 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const { linkTag, linkProps } = useRouterLink()
+    const { linkTag, linkProps, hasLink, navigateToLink } = useRouterLink()
+
+    const data = computed(() => {
+      const acc = { ...linkProps.value }
+      if (hasLink.value === true) {
+        acc.onClick = navigateToLink
+      }
+      return acc
+    })
+
+    const iconClass = computed(() =>
+      'q-breadcrumbs__el-icon'
+      + (props.label !== void 0 ? ' q-breadcrumbs__el-icon--with-label' : '')
+    )
 
     return () => {
       const child = []
 
       props.icon !== void 0 && child.push(
         h(QIcon, {
-          class: 'q-breadcrumbs__el-icon'
-            + (props.label !== void 0 ? ' q-breadcrumbs__el-icon--with-label' : ''),
+          class: iconClass.value,
           name: props.icon
         })
       )
@@ -38,7 +50,7 @@ export default defineComponent({
 
       return h(linkTag.value, {
         class: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
-        ...linkProps.value
+        ...data.value
       }, hMergeSlot(slots.default, child))
     }
   }
