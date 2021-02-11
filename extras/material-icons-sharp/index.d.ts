@@ -129,7 +129,6 @@ export declare const sharpAllInclusive: string;
 export declare const sharpAllOut: string;
 export declare const sharpAlternateEmail: string;
 export declare const sharpAltRoute: string;
-export declare const sharpAmpStories: string;
 export declare const sharpAnalytics: string;
 export declare const sharpAnchor: string;
 export declare const sharpAndroid: string;
