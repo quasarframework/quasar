@@ -15,7 +15,7 @@ export default ({ name, props, emits, injectPlugin }) => defineComponent({
     ...emits
   ],
 
-  setup (props, { slots, emit }) {
-    return getRenderer(props, slots, emit, injectPlugin)
+  setup () {
+    return getRenderer(injectPlugin)
   }
 })

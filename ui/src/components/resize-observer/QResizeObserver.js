@@ -82,7 +82,7 @@ export default defineComponent({
       return noop
     }
     else { // no observer, so fallback to old iframe method
-      const { canRender } = useCanRender()
+      const canRender = useCanRender()
 
       let curDocView
 

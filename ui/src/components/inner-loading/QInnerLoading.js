@@ -1,8 +1,7 @@
-import { h, defineComponent, computed, Transition } from 'vue'
+import { h, defineComponent, computed, Transition, getCurrentInstance } from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
 
@@ -23,8 +22,9 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const $q = useQuasar()
-    const isDark = useDark(props, $q)
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
+
     const { transition, transitionStyle } = useTransition(props, computed(() => props.showing))
 
     const classes = computed(() =>

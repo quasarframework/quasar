@@ -8,7 +8,6 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
@@ -76,8 +75,9 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const isDark = useDark(props, $q)
 
     const lazy = ref({})
@@ -159,7 +159,7 @@ export default defineComponent({
           parent,
           isParent,
           isLeaf,
-          localLazy,
+          lazy: localLazy,
           disabled: node.disabled,
           link: node.disabled !== true && (selectable === true || (expandable === true && (isParent === true || localLazy === true))),
           children: [],
@@ -329,7 +329,7 @@ export default defineComponent({
             lazy.value[ key ] = 'loaded'
             node[ props.childrenKey ] = Array.isArray(children) === true ? children : []
             nextTick(() => {
-              const localMeta = m.value[ key ]
+              const localMeta = meta.value[ key ]
               if (localMeta && localMeta.isParent === true) {
                 localSetExpanded(key, true)
               }
@@ -424,7 +424,7 @@ export default defineComponent({
     }
 
     function getSlotScope (node, meta, key) {
-      const scope = { tree: vm.proxy, node, key, color: props.color, dark: isDark.value }
+      const scope = { tree: proxy, node, key, color: props.color, dark: isDark.value }
 
       Object.defineProperty(scope, 'expanded', {
         get: () => { return meta.expanded },
@@ -662,7 +662,7 @@ export default defineComponent({
     }
 
     // expose public methods
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       getNodeByKey,
       getTickedNodes,
       getExpandedNodes,

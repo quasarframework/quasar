@@ -65,7 +65,7 @@ Quasar UI v2 is based on Vue 3, as opposed to the previous version which was bas
 Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots of significant performance enhancements in Quasar's algorithms too!__ You'll love it!
 
 ::: warning IMPORTANT!
-* No IE11 support - Vue 3 does not supports IE11 either. If IE11 support is mandatory for your project(s), then continue using Quasar UI v1.
+* No IE11 support - Vue 3 does not support IE11 either. If IE11 support is mandatory for your project(s), then continue using Quasar UI v1.
 * Quasar Stylus variables are no longer available (only Sass/SCSS). This does NOT mean that you can't use Stylus anymore though.
 * SSR build mode is NOT **yet** supported. If your project relies on SSR, you might want to hold off on upgrading for now.
 * Not all of our official App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions for them.
@@ -228,7 +228,7 @@ import { createRouter, createMemoryHistory, createWebHistory, createWebHashHisto
 import routes from './routes'
 
 export default function (/* { store, ssrContext } */) {
-  const createHistory = process.env.MODE === 'ssr'
+  const createHistory = process.env.SERVER
     ? createMemoryHistory
     : process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory
 
@@ -319,7 +319,7 @@ const i18n = createI18n({
 export default ({ app }) => {
   // Set i18n instance on app
   app.use(i18n)
-})
+}
 
 export { i18n }
 ```
@@ -769,6 +769,18 @@ framework: {
 ```
 
 You'll also need to edit all your dynamic imports from `quasar/lang/` to match the new syntax.
+
+### Quasar CSS
+
+The color CSS variable names (all the brand related ones) have changed:
+
+```
+// old
+--q-color-primary, --q-color-secondary, ...
+
+// new
+--q-primary, --q-secondary, ...
+```
 
 ### Quasar UMD
 * Due to the new Vue 3 architecture, the code for bootstrapping the app has changed and you will need to adapt [accordingly](/start/umd).

@@ -21,10 +21,6 @@ function lowerCamelCase (name) {
   return name.replace(/-([a-z])/g, g => g[ 1 ].toUpperCase())
 }
 
-function isExternalUtil (name) {
-  return ![ 'escape-key', 'modal-fn', 'popup', 'sort', 'router-link', 'is', 'noop', 'web-storage' ].includes(name)
-}
-
 function addComponents (map, autoImport) {
   glob.sync(resolvePath('src/components/**/Q*.js'))
     .map(relative)

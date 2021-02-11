@@ -108,6 +108,16 @@ module.exports = function (cfg, configName) {
 
   chain.resolve.alias.set('vue$', 'vue/dist/' + vueFile)
 
+  const vueI18nFile = configName === 'Server'
+    ? (cfg.ctx.prod ? 'vue-i18n.cjs.prod.js' : 'vue-i18n.cjs.js')
+    : (
+      cfg.build.vueCompiler
+        ? 'vue-i18n.esm-bundler.js'
+        : 'vue-i18n.runtime.esm-bundler.js'
+    )
+
+  chain.resolve.alias.set('vue-i18n$', 'vue-i18n/dist/' + vueI18nFile)
+
   chain.resolveLoader.modules
     .merge(resolveModules)
 
@@ -118,11 +128,12 @@ module.exports = function (cfg, configName) {
   const vueRule = chain.module.rule('vue')
     .test(/\.vue$/)
 
-  if (configName !== 'Server') {
-    vueRule.use('vue-auto-import-quasar')
-      .loader(path.join(__dirname, 'loader.vue.auto-import-quasar.js'))
-      .options(cfg.framework.autoImportComponentCase)
-  }
+  vueRule.use('vue-auto-import-quasar')
+    .loader(path.join(__dirname, 'loader.vue.auto-import-quasar.js'))
+    .options({
+      autoImportComponentCase: cfg.framework.autoImportComponentCase,
+      isServerBuild: configName === 'Server'
+    })
 
   vueRule.use('vue-loader')
     .loader('vue-loader')
@@ -130,7 +141,7 @@ module.exports = function (cfg, configName) {
       merge(
         cfg.build.vueLoaderOptions,
         {
-          productionMode: cfg.ctx.prod,
+          isServerBuild: configName === 'Server',
           compilerOptions: configName === 'Server'
             ? { directiveTransforms: cfg.ssr.directiveTransforms, ssr: true }
             : {}
@@ -234,10 +245,10 @@ module.exports = function (cfg, configName) {
       })
 
   injectStyleRules(chain, {
+    isServerBuild: configName === 'Server',
     rtl: cfg.build.rtl,
     sourceMap: cfg.build.sourceMap,
     extract: cfg.build.extractCSS,
-    serverExtract: configName === 'Server' && cfg.build.extractCSS,
     minify: cfg.build.minify,
     stylusLoaderOptions: cfg.build.stylusLoaderOptions,
     sassLoaderOptions: cfg.build.sassLoaderOptions,
@@ -305,6 +316,15 @@ module.exports = function (cfg, configName) {
     })
   }
 
+  // extract css into its own file
+  if (configName !== 'Server' && cfg.build.extractCSS) {
+    const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+
+    chain.plugin('mini-css-extract')
+      .use(MiniCssExtractPlugin, [{
+        filename: `css/[name]${fileHash}.css`
+      }])
+  }
 
   // DEVELOPMENT build
   if (cfg.ctx.dev) {
@@ -389,18 +409,9 @@ module.exports = function (cfg, configName) {
         }])
     }
 
-    // configure CSS extraction & optimize
-    if (configName !== 'Server' && cfg.build.extractCSS) {
-      const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
-      // extract css into its own file
-      chain.plugin('mini-css-extract')
-        .use(MiniCssExtractPlugin, [{
-          filename: 'css/[name].[contenthash:8].css'
-        }])
-
+    if (configName !== 'Server') {
       // dedupe & minify CSS (only if extracted)
-      if (cfg.build.minify) {
+      if (cfg.build.extractCSS && cfg.build.minify) {
         const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
         const cssProcessorOptions = {
@@ -428,9 +439,7 @@ module.exports = function (cfg, configName) {
             }
           }])
       }
-    }
 
-    if (configName !== 'Server') {
       // also produce a gzipped version
       if (cfg.build.gzip) {
         const CompressionWebpackPlugin = require('compression-webpack-plugin')

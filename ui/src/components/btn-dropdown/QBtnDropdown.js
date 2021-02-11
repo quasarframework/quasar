@@ -5,7 +5,6 @@ import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import { useBtnProps } from '../btn/use-btn.js'
 
 import { stop } from '../../utils/event.js'
@@ -48,8 +47,7 @@ export default defineComponent({
   emits: [ 'update:modelValue', 'click', 'before-show', 'show', 'before-hide', 'hide' ],
 
   setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
 
     const showing = ref(props.modelValue)
     const menuRef = ref(null)
@@ -128,7 +126,7 @@ export default defineComponent({
     }
 
     // expose public methods
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       show, hide, toggle
     })
 
@@ -140,7 +138,7 @@ export default defineComponent({
       const Arrow = [
         h(QIcon, {
           class: iconClass.value,
-          name: props.dropdownIcon || $q.iconSet.arrow.dropdown
+          name: props.dropdownIcon || proxy.$q.iconSet.arrow.dropdown
         })
       ]
 

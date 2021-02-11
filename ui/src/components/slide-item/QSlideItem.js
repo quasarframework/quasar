@@ -2,7 +2,6 @@ import { h, defineComponent, ref, computed, withDirectives, onBeforeUnmount, onB
 
 import TouchPan from '../../directives/TouchPan.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useCache from '../../composables/private/use-cache.js'
 
@@ -32,8 +31,8 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
+    const { proxy: { $q } } = vm
 
-    const $q = useQuasar()
     const isDark = useDark(props, $q)
     const { getCacheWithFn } = useCache()
 

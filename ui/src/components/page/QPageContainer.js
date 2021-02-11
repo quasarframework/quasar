@@ -1,6 +1,4 @@
-import { h, defineComponent, computed, provide, inject } from 'vue'
-
-import useQuasar from '../../composables/use-quasar.js'
+import { h, defineComponent, computed, provide, inject, getCurrentInstance } from 'vue'
 
 import { hSlot } from '../../utils/private/render.js'
 import { pageContainerKey, layoutKey } from '../../utils/private/symbols.js'
@@ -8,8 +6,8 @@ import { pageContainerKey, layoutKey } from '../../utils/private/symbols.js'
 export default defineComponent({
   name: 'QPageContainer',
 
-  setup (props, { slots }) {
-    const $q = useQuasar()
+  setup (_, { slots }) {
+    const { proxy: { $q } } = getCurrentInstance()
 
     const $layout = inject(layoutKey, () => {
       console.error('QPageContainer needs to be child of QLayout')

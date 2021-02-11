@@ -2,8 +2,6 @@ import { h, defineComponent, ref, reactive, computed, provide, nextTick, getCurr
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
-import useQuasar from '../../composables/use-quasar.js'
-
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
@@ -28,7 +26,7 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy: { $q } } = vm
 
     const rootRef = ref(null)
 
@@ -168,34 +166,23 @@ export default defineComponent({
       },
 
       update (part, prop, val) {
-        updateCache[ part + '|' + prop ] = val
-
-        // ensure state update is caught correctly;
-        // workaround over the state change vue reactivity issue where you change one variable
-        // to val1 then val2 then val1 and the update is not triggered
-        nextTick(() => {
-          for (const p in updateCache) {
-            const [ part, prop ] = p.split('|')
-            $layout[ part ][ prop ] = updateCache[ p ]
-          }
-
-          // reset cache
-          updateCache = {}
-        })
+        $layout[ part ][ prop ] = val
       }
     }
 
     provide(layoutKey, $layout)
 
     return () => {
+      const content = hMergeSlot(slots.default, [
+        h(QScrollObserver, { onScroll: onPageScroll }),
+        h(QResizeObserver, { onResize: onPageResize })
+      ])
+
       const layout = h('div', {
         class: classes.value,
         style: style.value,
         ref: props.container === true ? void 0 : rootRef
-      }, hMergeSlot(slots.default, [
-        h(QScrollObserver, { onScroll: onPageScroll }),
-        h(QResizeObserver, { onResize: onPageResize })
-      ]))
+      }, content)
 
       if (props.container === true) {
         return h('div', {

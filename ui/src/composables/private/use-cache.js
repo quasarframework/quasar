@@ -1,5 +1,5 @@
 export default function () {
-  let cache = new Map()
+  const cache = new Map()
 
   return {
     getCache: __QUASAR_SSR_SERVER__
@@ -16,15 +16,6 @@ export default function () {
         return cache[ key ] === void 0
           ? (cache[ key ] = fn())
           : cache[ key ]
-      },
-
-    clearCache (key) {
-      if (key === void 0) {
-        cache = {}
       }
-      else {
-        delete cache[ key ]
-      }
-    }
   }
 }

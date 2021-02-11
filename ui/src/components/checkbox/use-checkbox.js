@@ -1,6 +1,5 @@
 import { h, ref, computed, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 import useRefocusTarget from '../../composables/private/use-refocus-target.js'
@@ -43,8 +42,10 @@ export const useCheckboxProps = {
 
 export const useCheckboxEmits = [ 'update:modelValue' ]
 
-export default function (props, slots, emit, type, getInner) {
-  const $q = useQuasar()
+export default function (type, getInner) {
+  const { props, slots, emit, proxy } = getCurrentInstance()
+  const { $q } = proxy
+
   const isDark = useDark(props, $q)
 
   const rootRef = ref(null)
@@ -190,8 +191,7 @@ export default function (props, slots, emit, type, getInner) {
   const getInnerContent = getInner(isTrue, isIndeterminate)
 
   // expose public methods
-  const vm = getCurrentInstance()
-  Object.assign(vm.proxy, { toggle: onClick })
+  Object.assign(proxy, { toggle: onClick })
 
   return () => {
     const inner = getInnerContent()

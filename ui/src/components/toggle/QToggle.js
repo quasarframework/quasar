@@ -19,7 +19,7 @@ export default defineComponent({
 
   emits: useCheckboxEmits,
 
-  setup (props, { slots, emit }) {
+  setup (props) {
     function getInner (isTrue, isIndeterminate) {
       const computedIcon = computed(() =>
         (isTrue.value === true
@@ -51,6 +51,6 @@ export default defineComponent({
       ]
     }
 
-    return useCheckbox(props, slots, emit, 'toggle', getInner)
+    return useCheckbox('toggle', getInner)
   }
 })

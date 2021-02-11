@@ -10,7 +10,6 @@ import QTab from '../tabs/QTab.js'
 import QTabPanels from '../tab-panels/QTabPanels.js'
 import QTabPanel from '../tab-panels/QTabPanel.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useCache from '../../composables/private/use-cache.js'
 import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
@@ -73,10 +72,10 @@ export default defineComponent({
 
   emits: [ 'update:modelValue', 'change' ],
 
-  setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
+  setup (props, { emit }) {
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
 
-    const $q = useQuasar()
     const isDark = useDark(props, $q)
     const { getCache } = useCache()
 
@@ -309,14 +308,14 @@ export default defineComponent({
       evt !== void 0 && stop(evt)
 
       if (!/^[0-9]+$/.test(value)) {
-        change && vm.proxy.$forceUpdate()
+        change && proxy.$forceUpdate()
         return
       }
 
       const val = Math.floor(Number(value))
 
       if (val < 0 || val > max) {
-        change === true && vm.proxy.$forceUpdate()
+        change === true && proxy.$forceUpdate()
         return
       }
 
@@ -543,7 +542,7 @@ export default defineComponent({
                 },
                 onChange: stop,
                 onBlur: evt => {
-                  onEditorChange(evt, true) === true && vm.proxy.$forceUpdate()
+                  onEditorChange(evt, true) === true && proxy.$forceUpdate()
                   updateErrorIcon(false)
                 }
               })

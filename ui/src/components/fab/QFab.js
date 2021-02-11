@@ -4,7 +4,6 @@ import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
 import useFab, { useFabProps } from './use-fab.js'
-import useQuasar from '../../composables/use-quasar.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
 import { hSlot, hMergeSlot } from '../../utils/private/render.js'
@@ -45,21 +44,16 @@ export default defineComponent({
 
   emits: useModelToggleEmits,
 
-  setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
-
+  setup (props, { slots }) {
     const triggerRef = ref(null)
     const showing = ref(props.modelValue === true)
 
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
     const { formClass, labelProps } = useFab(props, showing)
 
     const hideOnRouteChange = computed(() => props.persistent !== true)
 
     const { hide, toggle } = useModelToggle({
-      props,
-      emit,
-      vm,
       showing,
       hideOnRouteChange
     })

@@ -326,15 +326,23 @@ class QuasarConfFile {
 
     // make sure these exist
     cfg.__rootDefines = {
+      // vue
       __VUE_OPTIONS_API__: true,
       __VUE_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true,
 
+      // quasar
       __QUASAR_VERSION__: `'${quasarVersion}'`,
       __QUASAR_SSR__: this.ctx.mode.ssr === true,
       __QUASAR_SSR_SERVER__: false,
       __QUASAR_SSR_CLIENT__: false,
-      __QUASAR_SSR_PWA__: false
+      __QUASAR_SSR_PWA__: false,
+
+      // vue-i18n
+      __VUE_I18N_FULL_INSTALL__: true,
+      __VUE_I18N_LEGACY_API__: true,
+      __INTLIFY_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true
     }
+
     cfg.__needsAppMountHook = false
     cfg.__vueDevtools = false
     cfg.supportTS = cfg.supportTS || false
@@ -408,7 +416,9 @@ class QuasarConfFile {
       scopeHoisting: true,
       productName: this.pkg.productName,
       productDescription: this.pkg.description,
-      extractCSS: this.ctx.prod,
+      // need to force extraction for SSR due to
+      // missing functionality in vue-loader
+      extractCSS: this.ctx.prod || this.ctx.mode.ssr,
       sourceMap: this.ctx.dev,
       minify: this.ctx.prod && this.ctx.mode.bex !== true,
       distDir: path.join('dist', this.ctx.modeName),
@@ -480,7 +490,9 @@ class QuasarConfFile {
         gzip: false
       })
     }
-    if (this.ctx.dev) {
+    // need to force extraction for SSR due to
+    // missing functionality in vue-loader
+    if (this.ctx.dev && !this.ctx.mode.ssr) {
       cfg.build.extractCSS = false
     }
     if (this.ctx.debug) {
@@ -599,7 +611,7 @@ class QuasarConfFile {
 
       if (cfg.ssr.pwa) {
         await require('./mode/install-missing')('pwa')
-        this.__rootDefines.__QUASAR_SSR_PWA__ = true
+        cfg.__rootDefines.__QUASAR_SSR_PWA__ = true
       }
 
       this.ctx.mode.pwa = cfg.ctx.mode.pwa = !!cfg.ssr.pwa

@@ -1,6 +1,5 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
 import { hSlot, hMergeSlot } from '../../utils/private/render.js'
@@ -23,7 +22,7 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
     const sizeStyle = useSize(props)
 
     const classes = computed(() =>

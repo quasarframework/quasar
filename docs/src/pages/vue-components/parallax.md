@@ -28,7 +28,7 @@ When using the `video` tag inside QParallax, you **must** provide the `width` an
 
 <doc-example title="Custom speed" file="QParallax/Speed" />
 
-<doc-example title="Scoped Slot" file="QParallax/ScopedSlot" />
+<doc-example title="Using the slot" file="QParallax/ScopedSlot" />
 
 ## QParallax API
 <doc-api file="QParallax" />

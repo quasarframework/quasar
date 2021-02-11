@@ -1,6 +1,5 @@
 import { h, defineComponent, ref, computed, withDirectives, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
@@ -78,8 +77,7 @@ export default defineComponent({
 
     const vm = getCurrentInstance()
 
-    const $q = useQuasar()
-    const isDark = useDark(props, $q)
+    const isDark = useDark(props, vm.proxy.$q)
 
     let timer, panRefPos
 

@@ -1,6 +1,5 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useSize from '../../composables/private/use-size.js'
 import { useCircularCommonProps } from './use-circular-progress.js'
 
@@ -28,7 +27,7 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
     const sizeStyle = useSize(props)
 
     const svgStyle = computed(() => {

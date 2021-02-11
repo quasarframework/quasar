@@ -28,7 +28,7 @@
             <span class="text-bold">Expanded</span>:<br>{{ expanded }}
           </div>
           <div v-if="selectableNodes" class="col-xs-12 col-md-6" style="min-height: 60px">
-            <span class="text-bold">Selected</span>:<br>{{ selected }}
+            <span class="text-bold">Selected</span>:<br>{{ selected || 'null' }}
           </div>
           <div class="col-xs-12 col-md-6">
             <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />

@@ -231,7 +231,8 @@ The render performance is NOT affected much by the number of options, unless `ma
 Notice the infinite scroll in place which renders additional options as the user scrolls through the list.
 
 ::: tip
-To get the best performance while using lots of options freeze the array you are passing in the `options` prop using `Object.freeze(options)`.
+* (Composition API) To get the best performance while using lots of options, do not wrap the array that you are passing in the `options` prop with ref()/computed()/reactive()/etc. This allows Vue to skip making the list "responsive" to changes.
+* (Options API) To get the best performance while using lots of options, freeze the array that you are passing in the `options` prop using `Object.freeze(items)`. This allows Vue to skip making the list "responsive" to changes.
 :::
 
 <doc-example title="100k options" file="QSelect/RenderPerf" />

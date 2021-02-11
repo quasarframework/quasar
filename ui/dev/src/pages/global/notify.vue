@@ -249,7 +249,7 @@ export default {
       html: true
     })
     // this.$q.notify.setDefaults({
-    //   actions: [{ icon: 'close', handler () { console.log('cloooose') } }]
+    //   actions: [ { icon: 'close', handler () { console.log('cloooose') } } ]
     // })
     this.$q.notify({
       message: 'You need to know about this!',

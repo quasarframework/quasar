@@ -1,6 +1,5 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { hSlot } from '../../utils/private/render.js'
@@ -27,8 +26,8 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const $q = useQuasar()
-    const isDark = useDark(props, $q)
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
 
     const classes = computed(() =>
       'q-markup-table q-table__container q-table__card'

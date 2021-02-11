@@ -1,4 +1,4 @@
-import { h, computed } from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
 
@@ -35,14 +35,13 @@ export const useFileProps = {
 export const useFileEmits = [ 'rejected' ]
 
 export default function ({
-  props,
-  emit,
   editable,
-  vm,
   dnd,
   getFileInput,
   addFilesToQueue
 }) {
+  const { props, emit, proxy } = getCurrentInstance()
+
   const extensions = computed(() => (
     props.accept !== void 0
       ? props.accept.split(',').map(ext => {
@@ -188,7 +187,7 @@ export default function ({
   }
 
   // expose public methods
-  Object.assign(vm.proxy, { pickFiles, addFiles })
+  Object.assign(proxy, { pickFiles, addFiles })
 
   return {
     pickFiles,

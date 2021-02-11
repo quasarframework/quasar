@@ -1,8 +1,7 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, inject } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeUnmount, inject, getCurrentInstance } from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import { hUniqueSlot } from '../../utils/private/render.js'
 import { layoutKey } from '../../utils/private/symbols.js'
 
@@ -31,7 +30,8 @@ export default defineComponent({
   emits: [ 'reveal', 'focusin' ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
+
     const $layout = inject(layoutKey, () => {
       console.error('QHeader needs to be child of QLayout')
     })

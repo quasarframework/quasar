@@ -5,8 +5,6 @@ import QIcon from '../components/icon/QIcon.js'
 import QBtn from '../components/btn/QBtn.js'
 import QSpinner from '../components/spinner/QSpinner.js'
 
-import useQuasar from '../composables/use-quasar.js'
-
 import { noop } from '../utils/event.js'
 import { createGlobalNode } from '../utils/private/global-nodes.js'
 import { createChildApp } from '../install-quasar.js'
@@ -67,7 +65,9 @@ const Notifications = defineComponent({
   name: 'QNotifications',
 
   setup () {
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const notificationsList = {}
     const notifRefs = []
 
@@ -383,8 +383,7 @@ const Notifications = defineComponent({
     }
 
     // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, { add })
+    Object.assign(proxy, { add })
 
     return () => h('div', { class: 'q-notifications' }, positionList.map(pos => {
       return h(TransitionGroup, {

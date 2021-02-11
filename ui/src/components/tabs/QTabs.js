@@ -3,7 +3,6 @@ import { h, defineComponent, ref, computed, watch, nextTick, onBeforeUnmount, ge
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useTick from '../../composables/private/use-tick.js'
 import useTimeout from '../../composables/private/use-timeout.js'
 
@@ -66,7 +65,7 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy: { $q } } = vm
 
     const { registerTick, prepareTick } = useTick()
     const { registerTimeout } = useTimeout()
@@ -268,15 +267,17 @@ export default defineComponent({
     }
 
     function updateArrowsFn () {
-      const
-        content = contentRef.value,
-        rect = content.getBoundingClientRect(),
-        pos = props.vertical === true ? content.scrollTop : content.scrollLeft
+      const content = contentRef.value
+      if (content !== null) {
+        const
+          rect = content.getBoundingClientRect(),
+          pos = props.vertical === true ? content.scrollTop : content.scrollLeft
 
-      leftArrow.value = pos > 0
-      rightArrow.value = props.vertical === true
-        ? Math.ceil(pos + rect.height) < content.scrollHeight
-        : Math.ceil(pos + rect.width) < content.scrollWidth
+        leftArrow.value = pos > 0
+        rightArrow.value = props.vertical === true
+          ? Math.ceil(pos + rect.height) < content.scrollHeight
+          : Math.ceil(pos + rect.width) < content.scrollWidth
+      }
     }
 
     function animScrollTo (value) {

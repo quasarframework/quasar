@@ -2,7 +2,6 @@ import { h, defineComponent, ref, computed, watch, Transition, nextTick, getCurr
 
 import QBtn from '../btn/QBtn.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useCache from '../../composables/private/use-cache.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
@@ -85,7 +84,9 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const isDark = useDark(props, $q)
     const { getCache } = useCache()
     const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
@@ -1051,8 +1052,7 @@ export default defineComponent({
     }
 
     // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       setToday, setView, offsetCalendar, setCalendarTo, setEditingRange
     })
 

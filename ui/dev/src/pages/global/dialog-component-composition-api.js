@@ -18,14 +18,14 @@ export default defineComponent({
 
   emits: [ ...useDialogPluginComponent.emits ],
 
-  setup (props, { emit }) {
+  setup (props) {
     const inc = ref(0)
     const sel = ref(null)
 
     const $q = useQuasar()
     const $route = useRoute()
 
-    const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent({ emit })
+    const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
 
     function increment () {
       inc.value++

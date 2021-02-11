@@ -1,6 +1,6 @@
 <template>
   <div class="q-layout-padding">
-    <div>Status: {{ this.$q.loadingBar.isActive ? 'active' : 'idle' }}</div>
+    <div>Status: {{ $q.loadingBar.isActive ? 'active' : 'idle' }}</div>
     <h1>LoadingBar global</h1>
     <div class="q-gutter-sm">
       <q-btn color="primary" label="Add event" @click="add()" />

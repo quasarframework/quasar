@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onBeforeMount, onBeforeUnmount, nextTick } from 'vue'
+import { h, ref, computed, watch, onBeforeMount, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import debounce from '../../utils/debounce.js'
 import { noop } from '../../utils/event.js'
@@ -241,9 +241,14 @@ export const useVirtualScrollProps = {
 export const useVirtualScrollEmits = [ 'virtual-scroll' ]
 
 export function useVirtualScroll ({
-  props, emit, $q, vm, virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl,
+  virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl,
   virtualScrollItemSizeComputed // optional
 }) {
+  const vm = getCurrentInstance()
+
+  const { props, emit, proxy } = vm
+  const { $q } = proxy
+
   let prevScrollStart, prevToIndex, localScrollViewSize, virtualScrollSizesAgg = [], virtualScrollSizes
 
   const vsId = 'qvs_' + id++
@@ -686,7 +691,7 @@ export function useVirtualScroll ({
         from: virtualScrollSliceRange.value.from,
         to: virtualScrollSliceRange.value.to - 1,
         direction: index < prevToIndex ? 'decrease' : 'increase',
-        ref: vm.proxy
+        ref: proxy
       })
 
       prevToIndex = index
@@ -706,7 +711,7 @@ export function useVirtualScroll ({
   })
 
   // expose public methods
-  Object.assign(vm.proxy, { scrollTo, reset, refresh })
+  Object.assign(proxy, { scrollTo, reset, refresh })
 
   return {
     virtualScrollSliceRange,

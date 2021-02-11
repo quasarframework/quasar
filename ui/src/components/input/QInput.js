@@ -1,6 +1,5 @@
 import { h, defineComponent, ref, computed, watch, onBeforeUnmount, onMounted, nextTick, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
 import useMask, { useMaskProps } from './use-mask.js'
 import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
@@ -41,9 +40,7 @@ export default defineComponent({
     'paste', 'change'
   ],
 
-  setup (props, { slots, emit, attrs }) {
-    const $q = useQuasar()
-
+  setup (props, { emit, attrs }) {
     const temp = {}
     let emitCachedValue = NaN, typedNumber, stopValueWatcher, emitTimer, emitValueFn
 
@@ -63,7 +60,7 @@ export default defineComponent({
 
     const onComposition = useKeyComposition(onInput)
 
-    const state = useFieldState(props, attrs, $q)
+    const state = useFieldState()
 
     const isTextarea = computed(() =>
       props.type === 'textarea' || props.autogrow === true
@@ -366,6 +363,6 @@ export default defineComponent({
     const vm = getCurrentInstance()
     Object.assign(vm.proxy, { focus, select })
 
-    return useField({ props, slots, emit, attrs, $q, state })
+    return useField(state)
   }
 })

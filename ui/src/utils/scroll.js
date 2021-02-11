@@ -1,28 +1,18 @@
-import { css } from './dom.js'
+import { css, getElement } from './dom.js'
 
 const scrollTargets = __QUASAR_SSR_SERVER__
   ? []
   : [ null, document, document.body, document.scrollingElement, document.documentElement ]
 
-export function getScrollTarget (el, target) {
-  if (typeof target === 'string') {
-    try {
-      target = document.querySelector(target)
-    }
-    catch (err) {
-      target = void 0
-    }
-  }
+export function getScrollTarget (el, targetEl) {
+  let target = getElement(targetEl)
 
-  if (target === void 0 || target === null) {
+  if (target === void 0) {
     if (el === void 0 || el === null) {
       return window
     }
 
     target = el.closest('.scroll,.scroll-y,.overflow-auto')
-  }
-  else if (target.value !== void 0 && target.value.$el !== void 0 && target.value.$el !== null) {
-    target = target.$el
   }
 
   return scrollTargets.includes(target)

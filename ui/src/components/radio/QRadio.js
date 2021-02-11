@@ -1,6 +1,5 @@
 import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 import useRefocusTarget from '../../composables/private/use-refocus-target.js'
@@ -54,9 +53,9 @@ export default defineComponent({
   emits: [ 'update:modelValue' ],
 
   setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
-    const $q = useQuasar()
-    const isDark = useDark(props, $q)
+    const { proxy } = getCurrentInstance()
+
+    const isDark = useDark(props, proxy.$q)
     const sizeStyle = useSize(props, optionSizes)
 
     const rootRef = ref(null)
@@ -131,7 +130,7 @@ export default defineComponent({
     }
 
     // expose public methods
-    Object.assign(vm.proxy, { set: onClick })
+    Object.assign(proxy, { set: onClick })
 
     return () => {
       const content = [ svg ]

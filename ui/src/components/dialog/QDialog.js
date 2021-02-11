@@ -1,6 +1,5 @@
 import { h, defineComponent, ref, computed, watch, onBeforeUnmount, nextTick, Transition, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useHistory from '../../composables/private/use-history.js'
 import useTimeout from '../../composables/private/use-timeout.js'
 import useTick from '../../composables/private/use-tick.js'
@@ -76,6 +75,7 @@ export default defineComponent({
 
   setup (props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
+
     const innerRef = ref(null)
     const showing = ref(false)
     const transitionState = ref(false)
@@ -88,7 +88,6 @@ export default defineComponent({
       && props.seamless !== true
     )
 
-    const $q = useQuasar()
     const { preventBodyScroll } = usePreventScroll()
     const { registerTimeout, removeTimeout } = useTimeout()
     const { registerTick, removeTick, prepareTick } = useTick()
@@ -98,9 +97,6 @@ export default defineComponent({
     )
 
     const { hide } = useModelToggle({
-      props,
-      emit,
-      vm,
       showing,
       hideOnRouteChange,
       handleShow,
@@ -185,7 +181,7 @@ export default defineComponent({
       }
 
       registerTimeout(() => {
-        if ($q.platform.is.ios === true) {
+        if (vm.proxy.$q.platform.is.ios === true) {
           if (props.seamless !== true && document.activeElement) {
             const
               { top, bottom } = document.activeElement.getBoundingClientRect(),
@@ -233,7 +229,7 @@ export default defineComponent({
     function focus () {
       let node = innerRef.value
 
-      if (node !== null || node.contains(document.activeElement) === true) {
+      if (node === null || node.contains(document.activeElement) === true) {
         return
       }
 

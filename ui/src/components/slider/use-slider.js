@@ -1,4 +1,4 @@
-import { h, ref, computed, onBeforeUnmount } from 'vue'
+import { h, ref, computed, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
@@ -78,7 +78,8 @@ export const useSliderProps = {
 
 export const useSliderEmits = [ 'pan', 'update:modelValue', 'change' ]
 
-export default function ({ props, emit, $q, updateValue, updatePosition, getDragging }) {
+export default function ({ updateValue, updatePosition, getDragging }) {
+  const { props, emit, proxy: { $q } } = getCurrentInstance()
   const isDark = useDark(props, $q)
 
   const active = ref(false)
