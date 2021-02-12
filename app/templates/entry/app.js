@@ -14,10 +14,6 @@
 import vueDevtools from '@vue/devtools'
 <% } %>
 
-<% if (ctx.mode.electron && electron.nodeIntegration === true) { %>
-import electron from 'electron'
-<% } %>
-
 import { Quasar } from 'quasar'
 import quasarUserOptions from './quasar-user-options.js'
 import <%= __needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
@@ -72,10 +68,6 @@ export default async function (createAppFn<%= ctx.mode.ssr ? ', ssrContext' : ''
   <% } %>
 
   app.use(Quasar, quasarUserOptions<%= ctx.mode.ssr ? ', ssrContext' : '' %>)
-
-  <% if (ctx.mode.electron && electron.nodeIntegration === true) { %>
-  app.config.globalProperties.$q.electron = electron
-  <% } %>
 
   <% if (ctx.mode.capacitor) { %>
   app.config.globalProperties.$q.capacitor = window.Capacitor

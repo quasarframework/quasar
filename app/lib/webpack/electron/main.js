@@ -83,13 +83,9 @@ module.exports = function (cfg, configName) {
       .use(WebpackProgress, [{ name: configName }])
   }
 
-  const env = Object.assign({}, cfg.build.env, {
-    QUASAR_NODE_INTEGRATION: cfg.electron.nodeIntegration === true
-  })
-
   chain.plugin('define')
     .use(webpack.DefinePlugin, [
-      parseBuildEnv(env, cfg.__rootDefines)
+      parseBuildEnv(cfg.build.env, cfg.__rootDefines)
     ])
 
   if (cfg.ctx.prod) {

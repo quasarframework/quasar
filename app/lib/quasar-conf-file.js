@@ -811,98 +811,6 @@ class QuasarConfFile {
     if (this.ctx.mode.pwa) {
       cfg.build.env.SERVICE_WORKER_FILE = `${cfg.build.publicPath}service-worker.js`
     }
-
-    if (this.ctx.mode.electron) {
-      if (this.ctx.dev) {
-        cfg.electron = merge({
-          nodeIntegration: true
-        }, cfg.electron)
-
-        if (cfg.build.ignorePublicFolder !== true) {
-          cfg.__rootDefines.__statics = `"${appPaths.resolve.app('public').replace(/\\/g, '\\\\')}"`
-        }
-      }
-      else {
-        const bundler = require('./electron/bundler')
-
-        cfg.electron = merge({
-          nodeIntegration: true,
-          packager: {
-            asar: true,
-            icon: appPaths.resolve.electron('icons/icon'),
-            overwrite: true
-          },
-          builder: {
-            appId: 'quasar-app',
-            productName: this.pkg.productName || this.pkg.name || 'Quasar App',
-            directories: {
-              buildResources: appPaths.resolve.electron('')
-            }
-          }
-        }, cfg.electron, {
-          packager: {
-            dir: cfg.build.distDir,
-            out: cfg.build.packagedDistDir
-          },
-          builder: {
-            directories: {
-              app: cfg.build.distDir,
-              output: path.join(cfg.build.packagedDistDir, 'Packaged')
-            }
-          }
-        })
-
-        if (cfg.ctx.bundlerName) {
-          cfg.electron.bundler = cfg.ctx.bundlerName
-        }
-        else if (!cfg.electron.bundler) {
-          cfg.electron.bundler = bundler.getDefaultName()
-        }
-
-        if (this.opts.argv !== void 0) {
-          const { ensureElectronArgv } = require('./helpers/ensure-argv')
-          ensureElectronArgv(cfg.electron.bundler, this.opts.argv)
-        }
-
-        if (cfg.electron.bundler === 'packager') {
-          if (cfg.ctx.targetName) {
-            cfg.electron.packager.platform = cfg.ctx.targetName
-          }
-          if (cfg.ctx.archName) {
-            cfg.electron.packager.arch = cfg.ctx.archName
-          }
-        }
-        else {
-          cfg.electron.builder = {
-            config: cfg.electron.builder
-          }
-
-          if (cfg.ctx.targetName === 'mac' || cfg.ctx.targetName === 'darwin' || cfg.ctx.targetName === 'all') {
-            cfg.electron.builder.mac = []
-          }
-
-          if (cfg.ctx.targetName === 'linux' || cfg.ctx.targetName === 'all') {
-            cfg.electron.builder.linux = []
-          }
-
-          if (cfg.ctx.targetName === 'win' || cfg.ctx.targetName === 'win32' || cfg.ctx.targetName === 'all') {
-            cfg.electron.builder.win = []
-          }
-
-          if (cfg.ctx.archName) {
-            cfg.electron.builder[cfg.ctx.archName] = true
-          }
-
-          if (cfg.ctx.publish) {
-            cfg.electron.builder.publish = cfg.ctx.publish
-          }
-
-          bundler.ensureBuilderCompatibility()
-        }
-
-        bundler.ensureInstall(cfg.electron.bundler)
-      }
-    }
     else if (this.ctx.mode.bex) {
       cfg.bex = merge(cfg.bex, {
         builder: {
@@ -912,6 +820,85 @@ class QuasarConfFile {
           }
         }
       })
+    }
+    else if (this.ctx.mode.electron && this.ctx.prod) {
+      const bundler = require('./electron/bundler')
+
+      cfg.electron = merge({
+        packager: {
+          asar: true,
+          icon: appPaths.resolve.electron('icons/icon'),
+          overwrite: true
+        },
+        builder: {
+          appId: 'quasar-app',
+          productName: this.pkg.productName || this.pkg.name || 'Quasar App',
+          directories: {
+            buildResources: appPaths.resolve.electron('')
+          }
+        }
+      }, cfg.electron, {
+        packager: {
+          dir: cfg.build.distDir,
+          out: cfg.build.packagedDistDir
+        },
+        builder: {
+          directories: {
+            app: cfg.build.distDir,
+            output: path.join(cfg.build.packagedDistDir, 'Packaged')
+          }
+        }
+      })
+
+      if (cfg.ctx.bundlerName) {
+        cfg.electron.bundler = cfg.ctx.bundlerName
+      }
+      else if (!cfg.electron.bundler) {
+        cfg.electron.bundler = bundler.getDefaultName()
+      }
+
+      if (this.opts.argv !== void 0) {
+        const { ensureElectronArgv } = require('./helpers/ensure-argv')
+        ensureElectronArgv(cfg.electron.bundler, this.opts.argv)
+      }
+
+      if (cfg.electron.bundler === 'packager') {
+        if (cfg.ctx.targetName) {
+          cfg.electron.packager.platform = cfg.ctx.targetName
+        }
+        if (cfg.ctx.archName) {
+          cfg.electron.packager.arch = cfg.ctx.archName
+        }
+      }
+      else {
+        cfg.electron.builder = {
+          config: cfg.electron.builder
+        }
+
+        if (cfg.ctx.targetName === 'mac' || cfg.ctx.targetName === 'darwin' || cfg.ctx.targetName === 'all') {
+          cfg.electron.builder.mac = []
+        }
+
+        if (cfg.ctx.targetName === 'linux' || cfg.ctx.targetName === 'all') {
+          cfg.electron.builder.linux = []
+        }
+
+        if (cfg.ctx.targetName === 'win' || cfg.ctx.targetName === 'win32' || cfg.ctx.targetName === 'all') {
+          cfg.electron.builder.win = []
+        }
+
+        if (cfg.ctx.archName) {
+          cfg.electron.builder[cfg.ctx.archName] = true
+        }
+
+        if (cfg.ctx.publish) {
+          cfg.electron.builder.publish = cfg.ctx.publish
+        }
+
+        bundler.ensureBuilderCompatibility()
+      }
+
+      bundler.ensureInstall(cfg.electron.bundler)
     }
 
     cfg.htmlVariables = merge({
