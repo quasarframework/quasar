@@ -798,8 +798,7 @@ This section refers to "@quasar/app" v3 package which supports Vue 3 and Quasar 
 * New quasar.conf.js > build > vueLoaderOptions prop
 * Remove quasar.conf.js > framework > importStrategy. Auto import works so great that is now used by default and as the only option.
 * The url-loader configuration has been enhanced so it now also supports "ico" files out of the box
-* Removed support for quasar.conf.js > framework > `importStrategy: 'all'` since the auto import feature has become so good anyways (so it's now enabled by default).
-* if you use TypeScript, update `supportTs.tsCheckerConfig.eslint` property value with `{ enabled: true, files: './src/**/*.{ts,tsx,js,jsx,vue}' }`. This is due to upstream breaking changes of `fork-ts-checker-webpack-plugin`.
+* Removed support for quasar.conf.js > framework > `importStrategy: 'all'` since the auto import feature has become so good anyways (so it's now enabled by default)..
 
 If you have boot files, where you access and change the `$q` Object through `Vue.prototype.$q`, then you need to adapt this:
 
@@ -814,6 +813,40 @@ export default ({ app }) => {
 ```
 
 Nothing changed in regards to how App Extensions work. Please note that not all of our App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions of them.
+
+#### TypeScript
+
+Update `src/shims-vue.d.ts` as such:
+
+```ts
+// Mocks all files ending in `.vue` showing them as plain Vue instances
+declare module '*.vue' {
+  import { ComponentOptions } from 'vue';
+  const component: ComponentOptions;
+  export default component;
+}
+```
+
+If you use ESLint, update the property into `quasar.conf.js`:
+
+```js
+// old way
+supportTS: {
+  tsCheckerConfig: { eslint: true },
+},
+
+// new way
+supportTS: {
+  tsCheckerConfig: {
+    eslint: {
+      enabled: true,
+      files: './src/**/*.{ts,tsx,js,jsx,vue}',
+    },
+  },
+},
+```
+
+This is due to upstream breaking changes of `fork-ts-checker-webpack-plugin`.
 
 ### Quasar Extras
 Nothing changed. You can use it as for Quasar UI v1.
