@@ -110,11 +110,7 @@ module.exports = function (cfg, configName) {
 
   const vueI18nFile = configName === 'Server'
     ? (cfg.ctx.prod ? 'vue-i18n.cjs.prod.js' : 'vue-i18n.cjs.js')
-    : (
-      cfg.build.vueCompiler
-        ? 'vue-i18n.esm-bundler.js'
-        : 'vue-i18n.runtime.esm-bundler.js'
-    )
+    : 'vue-i18n.esm-bundler.js'
 
   chain.resolve.alias.set('vue-i18n$', 'vue-i18n/dist/' + vueI18nFile)
 
