@@ -9,6 +9,11 @@
  *
  * Boot files are your "main.js"
  **/
+
+<% if (__vueDevtools !== false) { %>
+import vueDevtools from '@vue/devtools'
+<% } %>
+
 import Vue from 'vue'
 import './import-quasar.js'
 
@@ -31,9 +36,6 @@ import { Plugins } from '@capacitor/core'
 const { SplashScreen } = Plugins
 <% } %>
 
-<% if (__vueDevtools !== false) { %>
-import vueDevtools from '@vue/devtools'
-<% } %>
 
 export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // create store and router instances
