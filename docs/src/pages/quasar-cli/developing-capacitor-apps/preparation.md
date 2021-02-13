@@ -59,7 +59,15 @@ In order to develop/build a Mobile app, we need to add the Capacitor mode to our
 $ quasar mode add capacitor
 ```
 
-## 3. Start Developing
+## 3. Install Capacitor
+
+Install Capacitor using npm ([Capacitor installation instructions](https://capacitorjs.com/docs/getting-started)):
+
+```bash
+$ npm install @capacitor/core @capacitor/cli
+```
+
+## 4. Start Developing
 
 To start a dev server with HMR, run the command below:
 
