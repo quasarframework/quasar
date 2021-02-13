@@ -529,14 +529,17 @@ export default function (state) {
   }
 
   // expose public methods
-  Object.assign(proxy, { focus, blur })
+  Object.assign(proxy, {
+    focus: proxy.focus || focus,
+    blur
+  })
 
   onMounted(() => {
     if (isRuntimeSsrPreHydration === true && props.for === void 0) {
       state.targetUid.value = getTargetUid()
     }
 
-    props.autofocus === true && focus()
+    props.autofocus === true && proxy.focus()
   })
 
   onBeforeUnmount(() => {
