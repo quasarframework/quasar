@@ -13,4 +13,4 @@ Electron uses Chromium for displaying web pages in a separate process called the
 In Electron, the process that runs package.json’s main script is called the main process. This is the script that runs in the main process and can display a GUI by initializing the renderer thread. This thread deals with your code in `/src-electron/electron-main.js` folder.
 
 ## Preload Script
-The [preload script](/quasar-cli/developing-electron-apps/electron-preload-script) (`/src-electron/electron-preload.js`) is a way for you to inject Node.js stuff into the renderer thread by using a bridge between it and the UI. You can expose APIs that you can then call from your UI.
+The [preload script](/quasar-cli/developing-electron-apps/electron-preload-script) (`/src-electron/electron-preload.[js|ts]`) is a way for you to inject Node.js stuff into the renderer thread by using a bridge between it and the UI. You can expose APIs that you can then call from your UI.

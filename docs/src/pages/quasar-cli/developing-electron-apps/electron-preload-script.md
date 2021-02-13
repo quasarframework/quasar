@@ -3,17 +3,17 @@ title: Electron Preload Script
 desc: How to handle Electron Node Integration with an Electron Preload script with Quasar CLI.
 ---
 
-For security reasons, the renderer thread (your UI code from `/src`) does not have access to the Node.js stuff. However, you can run Node.js code and bridge it to the renderer thread through an Electron Preload script located at `/src-electron/main-process/electron-preload.js`. Use `contextBridge` (from the `electron` package) to expose the stuff that you need for your UI.
+For security reasons, the renderer thread (your UI code from `/src`) does not have access to the Node.js stuff. However, you can run Node.js code and bridge it to the renderer thread through an Electron Preload script located at `/src-electron/electron-preload.[js|ts]`. Use `contextBridge` (from the `electron` package) to expose the stuff that you need for your UI.
 
 Since the preload script runs from Node.js, be careful what you do with it and what you expose to the renderer thread!
 
 ## How to use it
-In `/src-electron/main-process/` folder, there is a file named `electron-preload.js`. Fill it with your preload code.
+In `/src-electron/` folder, there is a file named `electron-preload.js`. Fill it with your preload code.
 
-Make sure that your `/src-electron/main-process/electron-main.js` has the following (near the "webPreferences" section):
+Make sure that your `/src-electron/electron-main.[js|ts]` has the following (near the "webPreferences" section):
 
 ```js
-// file: /src-electron/main-process/electron-main.js
+// file: /src-electron/electron-main.[js|ts]
 
 // Add this at the top:
 import path from 'path'
@@ -31,7 +31,7 @@ function createWindow () {
   })
 ```
 
-Example of `/src-electron/main-process/electron-preload.js` content:
+Example of `/src-electron/main-process/electron-preload.[js|ts]` content:
 
 ```js
 // example which injects window.myAPI.doAThing() into the renderer

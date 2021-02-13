@@ -18,6 +18,7 @@ $ yarn upgrade electron@latest
 The Electron mode for Quasar v2 is an almost complete overhaul of the previous version, significantly improving the developer experience. Some of the changes here are required in order to ensure compatibility with the latest developments in the Electron world (so bulletproofing for upcoming upstream changes).
 
 ### High overview of the improvements
+* **Out of the box support for Typescript**. Just rename electron-main.js and electron-preload.js to electron-main.ts and electron-preload.ts.
 * Support for Electron 11 and preparing out of the box support for upcoming changes in Electron 12+ (without you needing to change anything in the future). One of changes are that we'll be using `contextIsolation` instead of the deprecated `Node Integration`.
 * The preload script no longer has the old limitations. You can import other js files with a relative path because the script is now bundled and passed through Babel (so you can use the `import X from Y` syntax too). You can also enable linting for it.
 * You can enable linting for the main thread file too.
@@ -45,8 +46,8 @@ The Electron mode for Quasar v2 is an almost complete overhaul of the previous v
     |   ├── icon.icns             # Icon file for Darwin (MacOS) platform
     |   ├── icon.ico              # Icon file for win32 (Windows) platform
     |   └── linux-512x512.png     # Icon file for Linux platform (when using electron-builder)
-    ├── electron-preload.js   # Electron preload script (injects Node.js stuff into renderer thread)
-    └── electron-main.js      # Main thread code
+    ├── electron-preload.js   # (or .ts) Electron preload script (injects Node.js stuff into renderer thread)
+    └── electron-main.js      # (or .ts) Main thread code
 ```
 
 Notice that there's no `electron-main.dev.js` file anymore (not needed anymore) and that the `electron-preload/main.js` files need to be moved directly under `/src-electron`.

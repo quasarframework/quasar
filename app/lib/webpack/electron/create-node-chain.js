@@ -58,6 +58,21 @@ module.exports = (nodeType, cfg, configName) => {
           })
   }
 
+  if (cfg.supportTS !== false) {
+    chain.resolve.extensions
+      .merge([ '.ts' ])
+
+    chain.module
+      .rule('typescript')
+      .test(/\.ts$/)
+      .use('ts-loader')
+        .loader('ts-loader')
+        .options({
+          onlyCompileBundledFiles: true,
+          transpileOnly: false
+        })
+  }
+
   chain.module.rule('node')
     .test(/\.node$/)
     .use('node-loader')

@@ -13,9 +13,10 @@ You may notice that `/quasar.conf.js` contains a property called `electron`.
 
 ```js
 // should you wish to change default files
+// (notice no extension, so it resolves to both .js and .ts)
 sourceFiles: {
-  electronMain: 'src-electron/electron-main.js',
-  electronPreload: 'src-electron/electron-preload.js'
+  electronMain: 'src-electron/electron-main',
+  electronPreload: 'src-electron/electron-preload'
 },
 
 // electron configuration

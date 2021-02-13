@@ -22,8 +22,8 @@ The new folder has the following structure:
     |   ├── icon.icns             # Icon file for Darwin (MacOS) platform
     |   ├── icon.ico              # Icon file for win32 (Windows) platform
     |   └── linux-512x512.png     # Icon file for Linux platform (when using electron-builder)
-    ├── electron-preload.js   # Electron preload script (injects Node.js stuff into renderer thread)
-    └── electron-main.js      # Main thread code
+    ├── electron-preload.js   # (or .ts) Electron preload script (injects Node.js stuff into renderer thread)
+    └── electron-main.js      # (or .ts) Main thread code
 ```
 
 ### A note for Windows Users
