@@ -213,6 +213,9 @@ export default {
 </script>
 ```
 
+### Vue.js Devtools
+If you'd like to use the Vue.js Devtools with Vue 3, you'll need to replace your current browser extension with the [v6 one](https://chrome.google.com/webstore/detail/vuejs-devtools/ljjemllljcmogpfapbkkighbhhppjdbg).
+
 ### Vue Router v4
 
 ::: tip

@@ -163,3 +163,23 @@ Furthermore, the [openURL](/quasar-utils/other-utils#Open-External-URL) util can
 ::: danger
 You will need to transfer all the Node.js stuff away from your renderer thread (the UI code from /src) and into the preload script. Provide the same functionality through the `contextBridge` as seen in the preload script section above.
 :::
+
+### Browser Devtools
+You may also want the following code in your electron-main.js to auto-open devtools while on dev mode (or prod with debugging enabled) and to disable devtools on production builds (without debugging enabled):
+
+```js
+function createWindow () {
+  mainWindow = new BrowserWindow({ /* ... */ })
+
+  if (process.env.DEBUGGING) {
+    // if on DEV or Production with debug enabled
+    mainWindow.webContents.openDevTools()
+  }
+  else {
+    // we're on production; no access to devtools pls
+    mainWindow.webContents.on('devtools-opened', () => {
+      mainWindow.webContents.closeDevTools()
+    })
+  }
+}
+```

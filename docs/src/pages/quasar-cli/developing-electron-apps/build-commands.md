@@ -43,6 +43,15 @@ $ quasar build --mode electron
 
 It builds your app for production and then uses electron-packager to pack it into an executable. Check how to configure this on [Configuring Electron](/quasar-cli/developing-electron-apps/configuring-electron) page.
 
+If you want a production build with debugging enabled for the UI code:
+
+```bash
+$ quasar build -m electron -d
+
+# ..or the longer form
+$ quasar build -m electron --debug
+```
+
 ### A note for non-Windows users
 If you want to build for Windows with a custom icon using a non-Windows platform, you must have [wine](https://www.winehq.org/) installed. [More Info](https://github.com/electron-userland/electron-packager#building-windows-apps-from-non-windows-platforms).
 

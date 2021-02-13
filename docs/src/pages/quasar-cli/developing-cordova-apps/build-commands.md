@@ -113,3 +113,12 @@ If you encounter any IDE errors then click on File > Invalidate caches and resta
 
 <img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="q-mt-md fit rounded-borders" style="max-width: 350px">
 :::
+
+If you want a production build with debugging enabled for the UI code:
+
+```bash
+$ quasar build -m [ios|android] -d
+
+# ..or the longer form
+$ quasar build -m [ios|android] --debug
+```
