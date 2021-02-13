@@ -120,9 +120,17 @@ function splitConfig (webpackConf, mode) {
     ]
   }
 
-  if (['electron', 'bex'].includes(mode)) {
+  if (mode === 'bex') {
     return [
       { webpack: webpackConf.renderer, name: 'Renderer process' },
+      { webpack: webpackConf.main, name: 'Main process' }
+    ]
+  }
+
+  if (mode === 'electron') {
+    return [
+      { webpack: webpackConf.renderer, name: 'Renderer process' },
+      { webpack: webpackConf.preload, name: 'Preload process' },
       { webpack: webpackConf.main, name: 'Main process' }
     ]
   }

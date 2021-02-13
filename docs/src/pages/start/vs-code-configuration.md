@@ -167,9 +167,9 @@ To edit the settings use the command `Open Settings JSON` in the Command Palette
     "**/*.html",
     "**/*.php",
     "**/*.css",
+    "**/*.sass",
     "**/*.scss",
-    "**/*.vue",
-    "**/*.styl"
+    "**/*.vue"
   ],
   "workbench.iconTheme": "vscode-icons"
 }

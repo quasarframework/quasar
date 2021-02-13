@@ -7,6 +7,7 @@ async function getWebpackConfig (chain, cfg, {
   hot,
   cfgExtendBase = cfg.build,
   hookSuffix = '',
+  cmdSuffix = '',
   invokeParams
 }) {
   await extensionRunner.runHook('chainWebpack' + hookSuffix, async hook => {
@@ -14,9 +15,9 @@ async function getWebpackConfig (chain, cfg, {
     await hook.fn(chain, invokeParams, hook.api)
   })
 
-  if (typeof cfgExtendBase.chainWebpack === 'function') {
+  if (typeof cfgExtendBase[ 'chainWebpack' + cmdSuffix ] === 'function') {
     log(`Chaining ${name ? name + ' ' : ''}Webpack config`)
-    await cfgExtendBase.chainWebpack(chain, invokeParams)
+    await cfgExtendBase[ 'chainWebpack' + cmdSuffix ](chain, invokeParams)
   }
 
   const webpackConfig = chain.toConfig()
@@ -26,9 +27,9 @@ async function getWebpackConfig (chain, cfg, {
     await hook.fn(webpackConfig, invokeParams, hook.api)
   })
 
-  if (typeof cfgExtendBase.extendWebpack === 'function') {
+  if (typeof cfgExtendBase[ 'extendWebpack' + cmdSuffix ] === 'function') {
     log(`Extending ${name ? name + ' ' : ''}Webpack config`)
-    await cfgExtendBase.extendWebpack(webpackConfig, invokeParams)
+    await cfgExtendBase[ 'extendWebpack' + cmdSuffix ](webpackConfig, invokeParams)
   }
 
   if (hot && cfg.ctx.dev && cfg.devServer.hot) {
@@ -89,6 +90,7 @@ async function getCapacitor (cfg) {
 
 async function getElectron (cfg) {
   const rendererChain = createChain(cfg, 'Renderer process')
+  const preloadChain = require('./electron/preload')(cfg, 'Preload process')
   const mainChain = require('./electron/main')(cfg, 'Main process')
 
   require('./electron/renderer')(rendererChain, cfg)
@@ -99,10 +101,18 @@ async function getElectron (cfg) {
       hot: true,
       invokeParams: { isClient: true, isServer: false }
     }),
+    preload: await getWebpackConfig(preloadChain, cfg, {
+      name: 'Preload process',
+      cfgExtendBase: cfg.electron,
+      hookSuffix: 'PreloadElectronProcess',
+      cmdSuffix: 'Preload',
+      invokeParams: { isClient: false, isServer: true }
+    }),
     main: await getWebpackConfig(mainChain, cfg, {
       name: 'Main process',
       cfgExtendBase: cfg.electron,
       hookSuffix: 'MainElectronProcess',
+      cmdSuffix: 'Main',
       invokeParams: { isClient: false, isServer: true }
     })
   }

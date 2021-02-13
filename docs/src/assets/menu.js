@@ -420,6 +420,11 @@ const cli = [
         path: 'introduction'
       },
       {
+        name: 'Upgrade guide',
+        path: 'electron-upgrade-guide',
+        badge: 'new'
+      },
+      {
         name: 'Preparation',
         path: 'preparation'
       },
@@ -432,8 +437,8 @@ const cli = [
         path: 'app-icons-electron'
       },
       {
-        name: 'Node Integration',
-        path: 'node-integration'
+        name: 'Build Commands',
+        path: 'build-commands'
       },
       {
         name: 'Preload Script',
@@ -444,12 +449,8 @@ const cli = [
         path: 'electron-packages'
       },
       {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Electron Static Assets',
-        path: 'electron-static-assets'
+        name: 'Accessing files',
+        path: 'electron-accessing-files'
       },
       {
         name: 'Frameless Electron Window',

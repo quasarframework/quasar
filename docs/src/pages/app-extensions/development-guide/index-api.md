@@ -153,7 +153,7 @@ module.exports = function (api, ctx) {
     // the regex above matches those files too!
 
     // make sure my-ext css goes through webpack
-    conf.css.push('~quasar-app-extension-my-ext/src/component/my-ext.styl')
+    conf.css.push('~quasar-app-extension-my-ext/src/component/my-ext.sass')
   })
 }
 ```
@@ -191,7 +191,7 @@ api.extendWebpack((cfg, { isClient, isServer }, api) => {
 ```
 
 ## api.chainWebpackMainElectronProcess
-Chain webpack config of main electron process
+Chain webpack config of the main electron process
 
 ```js
 /**
@@ -204,7 +204,7 @@ api.chainWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
 ```
 
 ## api.extendWebpackMainElectronProcess
-Extend webpack config Object of main electron process
+Extend webpack config Object of the main electron process
 
 ```js
 /**
@@ -212,6 +212,32 @@ Extend webpack config Object of main electron process
  *   (cfg: Object) => undefined
  */
 api.extendWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
+  // add/remove/change cfg (Webpack configuration Object)
+})
+```
+
+## api.chainWebpackPreloadElectronProcess
+Chain webpack config of the preload electron process
+
+```js
+/**
+ * @param {function} fn
+ *   (cfg: ChainObject) => undefined
+ */
+api.chainWebpackPreloadElectronProcess((cfg, { isClient, isServer }, api) => {
+  // add/remove/change cfg (Webpack chain Object)
+})
+```
+
+## api.extendWebpackPreloadElectronProcess
+Extend webpack config Object of the preload electron process
+
+```js
+/**
+ * @param {function} fn
+ *   (cfg: Object) => undefined
+ */
+api.extendWebpackPreloadElectronProcess((cfg, { isClient, isServer }, api) => {
   // add/remove/change cfg (Webpack configuration Object)
 })
 ```

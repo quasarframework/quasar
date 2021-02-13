@@ -848,6 +848,12 @@ supportTS: {
 
 This is due to upstream breaking changes of `fork-ts-checker-webpack-plugin`.
 
+### Quasar App CLI Electron mode
+
+::: warning
+If you have a project using the Quasar Electron mode, then it's essential to read its own [Electron mode upgrade guide](/quasar-cli/developing-electron-apps/electron-upgrade-guide#Upgrading-from-Quasar-v1).
+:::
+
 ### Quasar Extras
 Nothing changed. You can use it as for Quasar UI v1.
 

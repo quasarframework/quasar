@@ -70,8 +70,8 @@ Or you can use a global CSS file for SPA mode and another one for Cordova mode w
 ```js
 module.exports = function (ctx) {
   css: [
-    ctx.mode.spa ? 'app-spa.styl' : null, // looks for /src/css/app-spa.styl
-    ctx.mode.cordova ? 'app-cordova.styl' : null  // looks for /src/css/app-cordova.styl
+    ctx.mode.spa ? 'app-spa.sass' : null, // looks for /src/css/app-spa.sass
+    ctx.mode.cordova ? 'app-cordova.sass' : null  // looks for /src/css/app-cordova.sass
   ]
 }
 ```
@@ -153,7 +153,7 @@ Global CSS/Sass/... files from `/src/css/`, except for theme files, which are in
 // quasar.conf.js
 return {
   css: [
-    'app.styl', // referring to /src/css/app.styl
+    'app.sass', // referring to /src/css/app.sass
     '~some-library/style.css' // referring to node_modules/some-library/style.css
   ]
 }
@@ -349,8 +349,8 @@ sourceFiles: {
   indexHtmlTemplate: 'src/index.template.html',
   registerServiceWorker: 'src-pwa/register-service-worker.js',
   serviceWorker: 'src-pwa/custom-service-worker.js',
-  electronMainDev: 'src-electron/main-process/electron-main.dev.js',
-  electronMainProd: 'src-electron/main-process/electron-main.js'
+  electronMain: 'src-electron/electron-main.js',
+  electronPreload: 'src-electron/electron-preload.js'
 }
 ```
 

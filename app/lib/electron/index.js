@@ -13,7 +13,8 @@ const getPackage = require('../helpers/get-package')
 class ElectronRunner {
   constructor () {
     this.pid = 0
-    this.watcher = null
+    this.mainWatcher = null
+    this.preloadWatcher = null
   }
 
   init () {}
@@ -32,12 +33,16 @@ class ElectronRunner {
 
     this.url = url
 
-    const compiler = webpack(quasarConfFile.webpackConf.main)
+    const mainCompiler = webpack(quasarConfFile.webpackConf.main)
+    const preloadCompiler = webpack(quasarConfFile.webpackConf.preload)
 
-    return new Promise(resolve => {
-      log(`Building main Electron process...`)
+    log(`Building main & preload Electron processes...`)
 
-      this.watcher = compiler.watch({}, async (err, stats) => {
+    let mainReady = false
+    let preloadReady = false
+
+    const resolveMain = new Promise(resolve => {
+      this.mainWatcher = mainCompiler.watch({}, async (err, stats) => {
         if (err) {
           console.log(err)
           return
@@ -59,30 +64,52 @@ class ElectronRunner {
           return
         }
 
-        await this.__stopElectron()
-        this.__startElectron(argv._)
+        mainReady = true
+
+        if (preloadReady === true) {
+          await this.__stopElectron()
+          this.__startElectron(argv._)
+        }
 
         resolve()
       })
+    })
 
-      const preloadFile = appPaths.resolve.electron('main-process/electron-preload.js')
+    const resolvePreload = new Promise(resolve => {
+      this.preloadWatcher = preloadCompiler.watch({}, async (err, stats) => {
+        if (err) {
+          console.log(err)
+          return
+        }
 
-      if (fs.existsSync(preloadFile)) {
-        // Start watching for electron-preload.js changes
-        this.preloadWatcher = chokidar
-          .watch(preloadFile, { watchers: { chokidar: { ignoreInitial: true } } })
+        log(`Webpack built Electron preload process`)
+        log()
+        process.stdout.write(stats.toString({
+          colors: true,
+          modules: false,
+          children: false,
+          chunks: false,
+          chunkModules: false
+        }) + '\n')
+        log()
 
-        this.preloadWatcher.on('change', debounce(async () => {
-          console.log()
-          log(`electron-preload.js changed`)
+        if (stats.hasErrors()) {
+          warn(`Electron preload build failed with errors`)
+          return
+        }
 
+        preloadReady = true
+
+        if (mainReady === true) {
           await this.__stopElectron()
           this.__startElectron(argv._)
+        }
 
-          resolve()
-        }, 1000))
-      }
+        resolve()
+      })
     })
+
+    return Promise.all([ resolveMain, resolvePreload ])
   }
 
   build (quasarConfFile) {
@@ -158,7 +185,7 @@ class ElectronRunner {
   stop () {
     return new Promise(resolve => {
       let counter = 0
-      const maxCounter = (this.watcher ? 1 : 0) + (this.preloadWatcher ? 1 : 0)
+      const maxCounter = (this.mainWatcher ? 1 : 0) + (this.preloadWatcher ? 1 : 0)
 
       const finalize = () => {
         counter++
@@ -167,13 +194,13 @@ class ElectronRunner {
         }
       }
 
-      if (this.watcher) {
-        this.watcher.close(finalize)
-        this.watcher = null
+      if (this.mainWatcher) {
+        this.mainWatcher.close(finalize)
+        this.mainWatcher = null
       }
 
       if (this.preloadWatcher) {
-        this.preloadWatcher.close().then(finalize)
+        this.preloadWatcher.close(finalize)
         this.preloadWatcher = null
       }
 

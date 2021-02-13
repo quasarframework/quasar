@@ -38,8 +38,8 @@ interface QuasarDevServerConfiguration
  *  indexHtmlTemplate: 'src/index.template.html',
  *  registerServiceWorker: 'src-pwa/register-service-worker.js',
  *  serviceWorker: 'src-pwa/custom-service-worker.js',
- *  electronMainDev: 'src-electron/main-process/electron-main.dev.js',
- *  electronMainProd: 'src-electron/main-process/electron-main.js'
+ *  electronMain: 'src-electron/main-process/electron-main.js',
+ *  electronPreload: 'src-electron/main-process/electron-preload.js'
  * }
  * ```
  */
@@ -50,8 +50,8 @@ type QuasarSourceFilesConfiguration = Partial<{
   indexHtmlTemplate: string;
   registerServiceWorker: string;
   serviceWorker: string;
-  electronMainDev: string;
-  electronMainProd: string;
+  electronMain: string;
+  electronPreload: string;
 }>;
 
 interface BaseQuasarConfiguration {

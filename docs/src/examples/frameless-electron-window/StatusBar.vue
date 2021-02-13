@@ -15,7 +15,7 @@
           <q-space />
 
           <q-btn dense flat icon="minimize" @click="minimize" />
-          <q-btn dense flat icon="crop_square" @click="maximize" />
+          <q-btn dense flat icon="crop_square" @click="toggleMaximize" />
           <q-btn dense flat icon="close" @click="closeApp" />
         </q-bar>
 
@@ -112,45 +112,32 @@
 </template>
 
 <script>
-import { useQuasar } from 'quasar'
-
 // We guard the Electron API calls, but this
 // is only needed if we build same app with other
 // Quasar Modes as well (SPA/PWA/Cordova/SSR...)
 
-// The code below requires Node Integration being kept turned "on"
-// More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
-
 export default {
   setup () {
-    const $q = useQuasar()
-
+    // we rely upon
     function minimize () {
       if (process.env.MODE === 'electron') {
-        $q.electron.remote.BrowserWindow.getFocusedWindow().minimize()
+        window.myWindowAPI.minimize()
       }
     }
 
-    function maximize () {
+    function toggleMaximize () {
       if (process.env.MODE === 'electron') {
-        const win = $q.electron.remote.BrowserWindow.getFocusedWindow()
-
-        if (win.isMaximized()) {
-          win.unmaximize()
-        }
-        else {
-          win.maximize()
-        }
+        window.myWindowAPI.toggleMaximize()
       }
     }
 
     function closeApp () {
       if (process.env.MODE === 'electron') {
-        $q.electron.remote.BrowserWindow.getFocusedWindow().close()
+        window.myWindowAPI.close()
       }
     }
 
-    return { minimize, maximize, closeApp }
+    return { minimize, toggleMaximize, closeApp }
   }
 }
 </script>
