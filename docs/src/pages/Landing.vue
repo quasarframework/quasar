@@ -1,13 +1,13 @@
 <template lang="pug">
 q-page.landing
-  section.landing__hero
-    .row.items-center.justify-center
+  section.landing__hero.flex.flex-center
+    .row.items-center.justify-center.landing__hero-inner
       .landing__hero-logo.col-12.col-md-4.row
         img.landing__logo-image(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
       .landing__hero-text.col-12.col-md-8.column.justify-center
         .text-h1.text-bold.text-primary Quasar Framework
         .text-subtitle1.q-py-md.text-grey-8.row.landing__hero-quote
-          div(style="max-width:390px")
+          div
             | Effortlessly build high-performance & high-quality
             | <strong>Vue 3</strong> user interfaces in record time
         .landing__hero-row.q-gutter-sm.row.items-center
@@ -197,12 +197,18 @@ export default {
   &__hero
     min-height: 400px
 
+    &-inner
+      max-width: 650px !important
+
     &-logo
       padding-right: 20px
       justify-content: flex-end
 
     &-text
       text-align: left
+
+    &-quote
+      max-width: 390px
 
     .text-h1
       font-size: 5.2rem
