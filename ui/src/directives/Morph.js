@@ -1,4 +1,5 @@
 import morph from '../utils/morph.js'
+import getSSRProps from './Morph.ssr.js'
 
 const morphGroups = {}
 const props = [
@@ -160,49 +161,51 @@ function updateValue (ctx, value) {
   }
 }
 
-export default {
-  name: 'morph',
+export default __QUASAR_SSR_SERVER__
+  ? { name: 'morph', getSSRProps }
+  : {
+      name: 'morph',
 
-  mounted (el, binding) {
-    const ctx = {
-      el,
-      animating: false,
-      opts: {}
-    }
-
-    updateModifiers(binding.modifiers, ctx)
-    insertArgs(binding.arg, ctx)
-    updateValue(ctx, binding.value)
-
-    el.__qmorph = ctx
-  },
-
-  updated (el, binding) {
-    updateValue(el.__qmorph, binding.value)
-  },
-
-  beforeUnmount (el) {
-    const ctx = el.__qmorph
-
-    const group = morphGroups[ ctx.group ]
-
-    if (group !== void 0) {
-      const index = group.queue.indexOf(ctx)
-
-      if (index !== -1) {
-        group.queue = group.queue.filter(item => item !== ctx)
-
-        if (group.queue.length === 0) {
-          group.cancel !== void 0 && group.cancel()
-          delete morphGroups[ ctx.group ]
+      mounted (el, binding) {
+        const ctx = {
+          el,
+          animating: false,
+          opts: {}
         }
+
+        updateModifiers(binding.modifiers, ctx)
+        insertArgs(binding.arg, ctx)
+        updateValue(ctx, binding.value)
+
+        el.__qmorph = ctx
+      },
+
+      updated (el, binding) {
+        updateValue(el.__qmorph, binding.value)
+      },
+
+      beforeUnmount (el) {
+        const ctx = el.__qmorph
+
+        const group = morphGroups[ ctx.group ]
+
+        if (group !== void 0) {
+          const index = group.queue.indexOf(ctx)
+
+          if (index !== -1) {
+            group.queue = group.queue.filter(item => item !== ctx)
+
+            if (group.queue.length === 0) {
+              group.cancel !== void 0 && group.cancel()
+              delete morphGroups[ ctx.group ]
+            }
+          }
+        }
+
+        if (ctx.clsAction === 'add') {
+          el.classList.remove('q-morph--invisible')
+        }
+
+        delete el.__qmorph
       }
     }
-
-    if (ctx.clsAction === 'add') {
-      el.classList.remove('q-morph--invisible')
-    }
-
-    delete el.__qmorph
-  }
-}
