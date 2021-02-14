@@ -6,12 +6,12 @@ div
       q-item(clickable, to="/start/release-notes")
         q-item-section.text-teal(avatar)
           q-icon(:name="mdiClipboardText")
-        q-item-section Release notes
+        q-item-section.text-no-wrap Release notes
 
       q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar/issues", target="_blank", rel="noopener")
         q-item-section.text-purple(avatar)
           q-icon(:name="mdiBugCheck")
-        q-item-section Report a bug
+        q-item-section.text-no-wrap Report a bug
 
       q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
         q-item-section(avatar)
@@ -46,19 +46,19 @@ div
       q-item(clickable, tag="a", href="https://awesome.quasar.dev", rel="noopener", target="_blank")
         q-item-section.text-yellow-9(avatar)
           q-icon(:name="mdiFlare")
-        q-item-section Awesome List
+        q-item-section.text-no-wrap Awesome List
 
       q-item(to="/app-extensions/discover")
         q-item-section.text-primary(avatar)
           q-icon(:name="mdiFilePlus")
-        q-item-section App Extensions
+        q-item-section.text-no-wrap App Extensions
 
       q-item-label.q-mt-md(header) Helpers
 
       q-item(clickable, to="/icongenie")
         q-item-section.text-red(avatar)
           q-icon(:name="mdiStarCircle")
-        q-item-section
+        q-item-section.text-no-wrap
           .row.no-wrap.items-center
             span Icon Genie CLI
             //- q-badge.q-ml-sm new
@@ -66,27 +66,27 @@ div
       q-item(clickable, to="/style/theme-builder")
         q-item-section.text-teal(avatar)
           q-icon(:name="mdiPaletteSwatch")
-        q-item-section Theme Builder
+        q-item-section.text-no-wrap Theme Builder
 
       q-item(clickable, to="/style/dark-mode")
         q-item-section(avatar)
           q-icon(:name="mdiInvertColors")
-        q-item-section Dark Mode
+        q-item-section.text-no-wrap Dark Mode
 
       q-item(clickable, tag="a", href="layout-builder", target="_blank")
         q-item-section.text-primary(avatar)
           q-icon(:name="mdiViewDashboard")
-        q-item-section Layout Builder
+        q-item-section.text-no-wrap Layout Builder
 
       q-item(clickable, to="/layout/gallery")
         q-item-section.text-grey-8(avatar)
           q-icon(:name="mdiShoppingMusic")
-        q-item-section Layout Gallery
+        q-item-section.text-no-wrap Layout Gallery
 
       q-item(clickable, to="/layout/grid/flex-playground")
         q-item-section.text-orange(avatar)
           q-icon(:name="fasFlask")
-        q-item-section
+        q-item-section.text-no-wrap
           .row.no-wrap.items-center
             span Flex Playground
 
@@ -113,7 +113,7 @@ div
       q-item(clickable, tag="a", href="https://chat.quasar.dev", rel="noopener", target="_blank")
         q-item-section.text-primary(avatar)
           q-icon(:name="mdiChat")
-        q-item-section Discord Chat
+        q-item-section.text-no-wrap Discord Chat
 
       q-item(clickable, tag="a", href="https://forum.quasar.dev/", rel="noopener", target="_blank")
         q-item-section.text-secondary(avatar)
@@ -123,7 +123,7 @@ div
       q-item(clickable, tag="a", href="https://github.com/quasarframework", rel="noopener", target="_blank")
         q-item-section(avatar)
           q-icon(:name="fabGithub")
-        q-item-section Github Repositories
+        q-item-section.text-no-wrap Github Repositories
 
       q-item-label.q-mt-md(header) Social
 

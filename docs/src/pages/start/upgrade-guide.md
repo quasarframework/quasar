@@ -1,7 +1,6 @@
 ---
 title: Upgrade Guide
 desc: How to upgrade Quasar from older versions to the latest one.
-badge: New
 ---
 
 ::: danger Quasar v2 beta
