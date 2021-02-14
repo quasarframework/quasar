@@ -577,21 +577,7 @@ class QuasarConfFile {
       cfg.ssr = merge({
         pwa: false,
         manualHydration: false,
-        directiveTransforms: {
-          // TODO vue3 - talk with Evan. any better way to declare SSR transforms?
-          // TODO vue3 - move to UI package once JSON API is ready
-          'close-popup': noopDirectiveTransform,
-          intersection: noopDirectiveTransform,
-          morph: noopDirectiveTransform,
-          mutation: noopDirectiveTransform,
-          ripple: noopDirectiveTransform,
-          scroll: noopDirectiveTransform,
-          'scroll-fire': noopDirectiveTransform,
-          'touch-hold': noopDirectiveTransform,
-          'touch-pan': noopDirectiveTransform,
-          'touch-repeat': noopDirectiveTransform,
-          'touch-swipe': noopDirectiveTransform
-        }
+        directiveTransforms: require('quasar/dist/ssr-directives/index.js')
       }, cfg.ssr)
 
       cfg.ssr.debug = this.ctx.debug
