@@ -126,7 +126,10 @@ export default defineComponent({
       else {
         // "notranslate" class is for Google Translate
         // to avoid tampering with Material Icons ligature font
-        cls = 'material-icons notranslate'
+        //
+        // Caution: To be able to add suffix to the class name,
+        // keep the 'material-icons' at the end of the string.
+        cls = 'notranslate material-icons'
 
         if (icon.startsWith('o_') === true) {
           icon = icon.substring(2)
