@@ -126,6 +126,47 @@ function addUmdAssets (builds, type, injectName) {
     })
 }
 
+function addSsrDirectives (builds) {
+  const files = fs.readdirSync(resolve('src/directives'))
+  const acc = []
+
+  files
+    .filter(file => file.endsWith('.js') && file.endsWith('.ssr.js') === false)
+    .forEach(file => {
+      const name = file.substr(0, file.length - 3)
+      const ssrFile = resolve(`src/directives/${ file.replace('.js', '.ssr.js') }`)
+
+      if (fs.existsSync(ssrFile)) {
+        acc.push(`  '${ buildUtils.kebabCase(name) }': require('./${ name }.js')`)
+
+        builds.push({
+          rollup: {
+            input: {
+              input: ssrFile
+            },
+            output: {
+              file: resolve(`dist/ssr-directives/${ name }.js`),
+              format: 'cjs',
+              exports: 'auto',
+              name: false
+            }
+          },
+          build: {
+            unminified: true
+          }
+        })
+      }
+      else {
+        acc.push(`  '${ buildUtils.kebabCase(name) }': noopTransform`)
+      }
+    })
+
+  buildUtils.writeFile(
+    resolve('dist/ssr-directives/index.js'),
+    'const noopTransform = () => ({ props: [] })\nmodule.exports = {\n' + acc.join(',\n') + '\n}\n'
+  )
+}
+
 function build (builds) {
   return Promise
     .all(builds.map(genConfig).map(buildEntry))
@@ -133,17 +174,23 @@ function build (builds) {
 }
 
 function genConfig (opts) {
-  opts.rollup.input.plugins = [...rollupPluginsModern]
+  opts.rollup.input.plugins = [ ...rollupPluginsModern ]
 
   if (opts.build.replace !== void 0) {
     opts.rollup.input.plugins.unshift(replace(opts.build.replace))
   }
 
   opts.rollup.input.external = opts.rollup.input.external || []
-  opts.rollup.input.external.push('vue')
+  opts.rollup.input.external.push('vue', '@vue/compiler-dom')
 
   opts.rollup.output.banner = buildConf.banner
-  opts.rollup.output.name = opts.rollup.output.name || 'Quasar'
+
+  if (opts.rollup.output.name !== false) {
+    opts.rollup.output.name = opts.rollup.output.name || 'Quasar'
+  }
+  else {
+    delete opts.rollup.output.name
+  }
 
   opts.rollup.output.globals = opts.rollup.output.globals || {}
   opts.rollup.output.globals.vue = 'Vue'
@@ -223,6 +270,8 @@ module.exports = function () {
       require('./build.vetur').generate(data)
       require('./build.types').generate(data)
       require('./build.web-types').generate(data)
+
+      addSsrDirectives(builds)
 
       addUmdAssets(builds, 'lang', 'lang')
       addUmdAssets(builds, 'icon-set', 'iconSet')

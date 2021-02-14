@@ -40,6 +40,7 @@ function addComponents (map, autoImport) {
 
 function addDirectives (map, autoImport) {
   glob.sync(resolvePath('src/directives/*.js'))
+    .filter(file => file.endsWith('.ssr.js') === false)
     .map(relative)
     .forEach(file => {
       const
