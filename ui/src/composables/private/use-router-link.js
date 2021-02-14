@@ -148,7 +148,7 @@ export default function () {
   const linkClass = computed(() => (
     hasLink.value === true
       ? (
-          linkIsExactActive.value === true
+          linkIsExactActive.value === true || props.active
             ? ` ${ props.exactActiveClass } ${ props.activeClass }`
             : (
                 props.exact === true
