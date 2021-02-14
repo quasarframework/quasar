@@ -79,7 +79,7 @@ module.exports = function (ctx) {
 
       config: {
         loadingBar: {
-          color: 'amber'
+          color: 'teal'
         }
       },
 

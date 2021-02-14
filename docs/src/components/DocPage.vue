@@ -1,19 +1,19 @@
 <template lang="pug">
 q-page.doc-page
 
-  h1.doc-heading.doc-h1#Introduction(v-if="title" @click="copyIntroductionHeading")
-    span {{ title }}
-    q-badge.q-ml-sm.doc-page__badge(v-if="badge") {{ badge }}
-    a.doc-page__top-link.float-right(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
-      q-icon(:name="mdiPencil", @click.stop)
-        q-tooltip Improve page
+  .row.items-start.no-wrap
+    .col.doc-heading.doc-h1#Introduction(v-if="title" @click="copyIntroductionHeading")
+      span {{ title }}
+      q-badge.q-ml-sm.doc-page__badge(v-if="badge") {{ badge }}
+    a.doc-h1.doc-page__top-link.text-primary(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
+      q-icon(:name="mdiPencil")
+      q-tooltip
+        span Caught a mistake? Edit page in browser
+        q-icon.q-ml-xs(:name="mdiFlash" size="2em")
 
-  slot
-
-  .doc-page-nav.text-primary.q-pb-lg(v-if="related !== void 0")
-    .text-h6.q-pb-md Related
+  .doc-page-nav.text-primary(v-if="related !== void 0")
     .q-gutter-md.flex
-      router-link.q-link.doc-page-related.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.bg-grey-4(
+      router-link.q-link.doc-page-related.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.bg-grey-3(
         v-for="link in related"
         :key="link.category + link.path"
         :to="link.path"
@@ -25,10 +25,12 @@ q-page.doc-page
 
           q-icon.q-ml-lg(:name="mdiLaunch")
 
-  .doc-page-nav.text-primary.q-pb-xl(v-if="nav !== void 0")
+  slot
+
+  .doc-page-nav.doc-page-nav__footer.text-primary.q-pb-xl(v-if="nav !== void 0")
     .text-h6.q-pb-md Ready for more?
     .q-gutter-md.flex
-      router-link.q-link.doc-page-related.doc-page-related-bordered.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.bg-white(
+      router-link.q-link.doc-page-related.doc-page-related-bordered.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.bg-grey-1(
         v-for="link in nav"
         :key="link.category + link.path"
         :to="link.path"
@@ -48,7 +50,8 @@ q-page.doc-page
     q-separator.q-mb-sm
 
     .q-mb-md(v-if="noEdit === false")
-      | Caught a mistake? <doc-link :to="editHref">Suggest an edit on GitHub</doc-link>
+      span Caught a mistake?
+      doc-link.q-ml-xs(:to="editHref") Edit this page in browser
 
     .doc-page-footer__icons.row.items-center.q-gutter-sm
       a(href="https://github.quasar.dev", target="_blank", rel="noopener")
@@ -90,7 +93,8 @@ import {
 import {
   mdiBlogger, mdiForum, mdiChat, mdiCharity,
   mdiPencil, mdiLaunch,
-  mdiChevronLeft, mdiChevronRight
+  mdiChevronLeft, mdiChevronRight,
+  mdiFlash
 } from '@quasar/extras/mdi-v5'
 
 import { copyHeading } from 'assets/page-utils'
@@ -147,7 +151,8 @@ export default {
       mdiPencil,
       mdiLaunch,
       mdiChevronLeft,
-      mdiChevronRight
+      mdiChevronRight,
+      mdiFlash
     }
   }
 }
@@ -204,8 +209,10 @@ export default {
         color: $grey-8
 
 .doc-page-nav
-  margin: 68px 0 0
-  margin-bottom: 0 !important
+
+  &__footer
+    margin: 68px 0 0
+    margin-bottom: 0 !important
 
   .q-link
     position: relative

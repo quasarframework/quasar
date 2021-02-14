@@ -1,6 +1,7 @@
 ---
 title: Upgrade Guide
 desc: How to upgrade Quasar from older versions to the latest one.
+badge: New
 ---
 
 ::: danger Quasar v2 beta
@@ -821,7 +822,7 @@ Nothing changed in regards to how App Extensions work. Please note that not all 
 
 Update `src/shims-vue.d.ts` as such:
 
-```ts
+```js
 // Mocks all files ending in `.vue` showing them as plain Vue instances
 declare module '*.vue' {
   import { ComponentOptions } from 'vue';
@@ -856,6 +857,8 @@ This is due to upstream breaking changes of `fork-ts-checker-webpack-plugin`.
 ::: warning
 If you have a project using the Quasar Electron mode, then it's essential to read its own [Electron mode upgrade guide](/quasar-cli/developing-electron-apps/electron-upgrade-guide#Upgrading-from-Quasar-v1).
 :::
+
+Out of the box support for TS now available.
 
 ### Quasar Extras
 Nothing changed. You can use it as for Quasar UI v1.

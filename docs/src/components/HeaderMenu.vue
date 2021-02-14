@@ -61,7 +61,7 @@ div
         q-item-section
           .row.no-wrap.items-center
             span Icon Genie CLI
-            q-badge.q-ml-sm new
+            //- q-badge.q-ml-sm new
 
       q-item(clickable, to="/style/theme-builder")
         q-item-section.text-teal(avatar)
@@ -154,7 +154,7 @@ div
       q-item(clickable, tag="a", href="https://donate.quasar.dev", target="_blank", rel="noopener")
         q-item-section(avatar)
           q-icon(:name="mdiCharity")
-        q-item-section Github Sponsorship
+        q-item-section Sponsorship
 </template>
 
 <script>

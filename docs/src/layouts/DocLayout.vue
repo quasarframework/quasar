@@ -1,8 +1,8 @@
 <template lang="pug">
 q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
-  q-header.header(elevated)
-    q-toolbar
-      q-btn.q-mr-sm(flat, dense, round, @click="toggleLeftDrawer", aria-label="Menu", :icon="mdiMenu")
+  q-header.header.text-dark(bordered)
+    q-toolbar.q-px-none
+      q-btn.q-mx-sm.lt-md(flat, dense, round, @click="toggleLeftDrawer", aria-label="Menu", :icon="mdiMenu")
 
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
         q-avatar.doc-layout-avatar
@@ -23,49 +23,54 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         :icon="mdiClipboardText"
       )
 
-  q-drawer(
+  q-drawer.doc-left-drawer(
     side="left"
     v-model="leftDrawerState"
     show-if-above
     bordered
-    class="doc-left-drawer"
   )
-    q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
-      survey-link.layout-link(
-        color="primary"
-        align-class="justify-start"
-        padding-class="q-py-md"
-      )
-      q-separator.q-mb-lg
-
-      .row.justify-center.q-my-lg
-        q-btn(
+    q-scroll-area(style="height: calc(100% - 51px); margin-top: 51px")
+      .row.justify-center.q-my-md
+        q-btn.doc-layout__main-btn(
           type="a"
           href="https://donate.quasar.dev"
           target="_blank"
           rel="noopener"
-          size="13px"
-          color="primary"
-          :icon="mdiHeartOutline"
+          color="teal"
+          outline
+          :icon="mdiHeart"
           label="Donate to Quasar"
+          padding="12px lg"
         )
 
-      app-menu.q-my-lg
+      .row.justify-center.q-my-md
+        q-btn.doc-layout__main-btn(
+          type="a"
+          href="https://bit.ly/3cTLXsO"
+          target="_blank"
+          color="primary"
+          outline
+          :icon="mdiFileDocumentEditOutline"
+          label="Survey results are out!"
+          no-caps
+          padding="12px lg"
+        )
 
-    .absolute-top.bg-white.layout-drawer-toolbar
+      app-menu.q-mb-lg
+
+    .absolute-top.header
       form(
         autocorrect="off"
         autocapitalize="off"
         autocomplete="off"
         spellcheck="false"
       )
-        q-input.full-width.doc-algolia.bg-primary(
+        q-input.full-width.doc-algolia(
           ref="algoliaInputRef"
           v-model="search"
           disable
           dense
           square
-          dark
           borderless
           :placeholder="searchPlaceholder"
         )
@@ -77,24 +82,26 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           //-     :name="mdiMagnify"
           //-     @click="onSearchIconClick"
           //-   )
-      .layout-drawer-toolbar__shadow.absolute-full.overflow-hidden.no-pointer-events
-      q-tooltip(class="bg-red text-bold")
-        div We are sorry but this website is not deployed using SSR (yet)
-        div so Algolia search cannot index it.
+        q-tooltip(class="bg-primary text-bold")
+          div We are sorry but this website is not deployed using SSR (yet)
+          div so Algolia search cannot index it.
+
+      q-separator
 
   q-drawer(
     v-if="hasRightDrawer"
     side="right"
     v-model="rightDrawerState"
     show-if-above
-    class="bg-grey-1"
-    :width="180"
+    :width="220"
     @on-layout="updateRightDrawerOnLayout"
   )
     q-scroll-area.fit
       header-menu.q-mt-sm.text-primary.column(v-if="$q.screen.lt.sm", align="right")
 
-      q-list.doc-toc.q-my-lg.text-grey-8
+      q-list.doc-toc.q-my-sm.text-grey-8
+        q-item-label.text-uppercase.q-pl-md.q-pb-sm.text-grey-9(header) Table of contents
+        q-separator(inset).q-mb-sm
         q-item(
           v-for="tocItem in tocList",
           :key="tocItem.id",
@@ -109,14 +116,6 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
   q-page-container
     router-view
-    //- TODO vue3 - wait for router-view + transition bugfix
-    //- router-view(v-slot="{ Component }")
-    //-   transition(
-    //-     enter-active-class="animated fadeIn"
-    //-     leave-active-class="animated fadeOut"
-    //-     mode="out-in"
-    //-   )
-    //-     component(:is="Component")
 
   q-page-scroller
     q-btn(fab-mini, color="primary", glossy, :icon="mdiChevronUp")
@@ -127,12 +126,12 @@ import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
 
 import {
-  mdiMenu, mdiClipboardText, mdiHeartOutline, mdiMagnify, mdiChevronUp
+  mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp,
+  mdiFileDocumentEditOutline
 } from '@quasar/extras/mdi-v5'
 
 import AppMenu from 'components/AppMenu'
 import HeaderMenu from 'components/HeaderMenu'
-import SurveyLink from 'components/SurveyLink'
 
 import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'
@@ -144,7 +143,6 @@ export default {
 
   components: {
     AppMenu,
-    SurveyLink,
     HeaderMenu
   },
 
@@ -155,9 +153,10 @@ export default {
     const scope = {
       mdiMenu,
       mdiClipboardText,
-      mdiHeartOutline,
+      mdiHeart,
       mdiMagnify,
-      mdiChevronUp
+      mdiChevronUp,
+      mdiFileDocumentEditOutline
     }
 
     useToc(scope, $route)
@@ -178,40 +177,35 @@ export default {
 <style lang="sass">
 @import '../css/docsearch'
 
-.header
-  background: linear-gradient(145deg, $primary 11%, $dark-primary 75%)
+@supports (backdrop-filter: none)
+  .header
+    background-color: rgba(0,0,0,.1)
+    backdrop-filter: blur(7px)
+
+@supports not (backdrop-filter: none)
+  .header
+    background-color: $grey-4
 
 .header-logo
   width: 25px
   height: 25px
 
+.doc-layout__main-btn
+  width: 230px
+
 .doc-layout-avatar > div
   border-radius: 0
-
-.layout-drawer-toolbar
-  > form
-    margin-right: -2px
-  &__shadow
-    bottom: -10px
-    &:after
-      content: ''
-      position: absolute
-      top: 0
-      right: 0
-      bottom: 10px
-      left: 0
-      box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2), 0 0px 10px rgba(0, 0, 0, 0.24)
 
 .doc-algolia
   .q-field__control
     padding: 0 18px 0 16px !important
+  .q-field__native
+    text-align: center
   &.q-field--focused
     .q-icon
       color: #fff
 
 .q-drawer--mobile
-  .layout-drawer-toolbar form
-    margin-right: -1px
   .doc-algolia .q-field__control
     padding-right: 17px !important
   .doc-toc
@@ -251,9 +245,4 @@ export default {
       font-size: 18px
     .time
       font-size: 38px
-
-.layout-link
-  background: linear-gradient(45deg, #e6f1fc 25%, #c3e0ff 25%, #c3e0ff 50%, #e6f1fc 50%, #e6f1fc 75%, #c3e0ff 75%, #c3e0ff)
-  background-size: 40px 40px
-  text-align: center
 </style>

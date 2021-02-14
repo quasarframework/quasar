@@ -289,7 +289,7 @@ if __name__ == '__main__':
 QUploader currently supports uploading through the HTTP(S) protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
 ::: warning Help appreciated
-We'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit. Hit the `Suggest an edit on GitHub` link at bottom of this page or the pencil icon at the top of the page.
+We'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit. Hit the `Edit this page in browser` link at bottom of this page or the pencil icon at the top of the page.
 :::
 
 Below is an example with the API that you need to supply to the `createUploaderComponent()` Quasar util. This will create a Vue component that you can import in your app.

@@ -193,7 +193,7 @@ export default {
 <style lang="sass">
 .doc-example
   &__toolbar
-    background: white
+    background: $grey-1
     color: $grey-8
     > .q-btn
       color: $grey-7
