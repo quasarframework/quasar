@@ -7,7 +7,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
         q-avatar.doc-layout-avatar
           img(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
-        q-toolbar-title(shrink) Quasar
+        q-toolbar-title.text-weight-bold(shrink) Quasar
 
       q-space
 
@@ -41,6 +41,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           :icon="mdiHeart"
           label="Donate to Quasar"
           padding="12px lg"
+          no-wrap
         )
 
       .row.justify-center.q-my-md
@@ -54,6 +55,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           label="Survey results are out!"
           no-caps
           padding="12px lg"
+          no-wrap
         )
 
       app-menu.q-mb-lg
@@ -191,7 +193,7 @@ export default {
   height: 25px
 
 .doc-layout__main-btn
-  width: 230px
+  width: 250px
 
 .doc-layout-avatar > div
   border-radius: 0
