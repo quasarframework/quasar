@@ -8,9 +8,6 @@ related:
 
 The QSlideItem component is essentially a [QItem](/vue-components/list-and-list-items) with two additional slots (`left` and `right`) which allows user to drag the item (through mouse or with the finger on a touch device) to one of the sides in order to apply a specific action.
 
-## Installation
-<doc-installation components="QSlideItem" />
-
 ## Usage
 Drag with the mouse or use your finger to pan to left or right side to see QSlideItem in action.
 

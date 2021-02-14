@@ -11,9 +11,6 @@ Quasar supplies a way for you to upload files through the QUploader component.
 If all you want is an input file, you might want to consider using [QFile](/vue-components/file-picker) picker component instead.
 :::
 
-## Installation
-<doc-installation components="QUploader" />
-
 ## Usage
 
 ::: warning

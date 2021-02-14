@@ -6,9 +6,6 @@ related:
 ---
 QScrollObserver is a Quasar component that emits a `scroll` event whenever the user scrolls the page or overflowed container with `.scroll` CSS class applied to it.
 
-## Installation
-<doc-installation components="QScrollObserver" />
-
 ## Usage
 Scroll this page to see the example below in action.
 

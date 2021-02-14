@@ -8,9 +8,6 @@ components:
 ---
 The QTooltip component is to be used when you want to offer the user more information about a certain area in your App. When hovering the mouse over the target element (or quickly tapping on mobile platforms), the tooltip will appear.
 
-## Installation
-<doc-installation components="QTooltip" />
-
 ## Usage
 The idea with QTooltip is to place it inside your DOM element / component that you want to be the trigger as direct child. Don’t worry about QTooltip content inheriting CSS from the container as the QTooltip will be injected as a direct child of `<body>` through a Quasar Portal.
 

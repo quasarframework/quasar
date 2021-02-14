@@ -12,9 +12,6 @@ related:
 There is also a [Scroll](/vue-directives/scroll) directive which fires whenever user scrolls the page.
 :::
 
-## Installation
-<doc-installation directives="ScrollFire" />
-
 ## Usage
 
 <doc-example title="Basic" file="ScrollFire/Basic" scrollable />

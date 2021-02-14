@@ -16,10 +16,6 @@ Under the covers, it uses the [Intersection Observer API](https://developer.mozi
 Not all browsers support the Intersection Observer API. Most [modern browsers](https://caniuse.com/#search=intersection) do, but other browsers do not. If you need to support older browsers, you can install and import (into a boot file) the official W3C [polyfill](https://github.com/w3c/IntersectionObserver).
 :::
 
-## Installation
-
-<doc-installation directives="Intersection" />
-
 ## Usage
 
 Reading the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) first will be best in your understanding of how this directive works.

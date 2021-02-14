@@ -13,9 +13,6 @@ The QTime component provides a method to input time.
 For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
 :::
 
-## Installation
-<doc-installation components="QTime" />
-
 ## Usage
 
 Notice that the model is a String only.

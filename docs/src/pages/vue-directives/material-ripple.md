@@ -8,9 +8,6 @@ Material Ripple effect can easily be added to any DOM element (or component) thr
 Do not use this directive on components that already have material ripples baked in (example: `QBtn`). Rather configure the internal ripples through those component's `ripple` property.
 :::
 
-## Installing
-<doc-installation directives="Ripple" config="ripple" />
-
 ## Usage
 
 ::: warning

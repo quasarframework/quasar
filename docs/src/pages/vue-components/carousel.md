@@ -5,9 +5,6 @@ desc: The QCarousel Vue component allows you to display a series of slides, usef
 
 The QCarousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards or an image gallery too.
 
-## Installation
-<doc-installation :components="['QCarousel', 'QCarouselControl', 'QCarouselSlide']" />
-
 ## Usage
 
 ::: tip

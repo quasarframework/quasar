@@ -16,9 +16,6 @@ List Items have the following pre-built child components:
 
 * **QItemLabel** - An item label is useful for predefined text content type within a QItemSection, or for header-like content of the QList itself.
 
-## Installation
-<doc-installation :components="['QList', 'QItem', 'QItemSection', 'QItemLabel']" />
-
 ## Usage
 
 ### Basic

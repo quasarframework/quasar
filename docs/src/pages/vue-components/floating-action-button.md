@@ -10,9 +10,6 @@ A Floating Action Button (FAB) represents the primary action in a Page. But, it'
 
 Note that you don’t need a QLayout to use FABs.
 
-## Installation
-<doc-installation :components="['QFab', 'QFabAction']" />
-
 ## Usage
 There are two types of FABs: expandable (has sub-actions) and non-expandable.
 

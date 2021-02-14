@@ -15,25 +15,17 @@ One common use case for this component is in Layout’s header/footer. Please re
 Works great along with [QTabPanels](/vue-components/tab-panels), a component which refers strictly to the panels (tab content) themselves.
 :::
 
-## Installation
-Cherry-pick only what you are using from list below.
-
-<doc-installation :components="['QTabs', 'QTab', 'QRouteTab']" />
-
-::: warning
-QRouteTab won't and cannot work with the UMD version because in that environment you don't have Vue Router.
-:::
-
 ## Usage
 
-::: tip
-QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action.
+::: tip TIPS
+* QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action.
+* On a desktop you will see chevrons on either side that can be clicked.
+* On a mobile, you can pan the tabs with your finger.
+* If you want to force arrows to be visible on mobile use `mobile-arrows` prop.
+:::
 
-On a desktop you will see chevrons on either side that can be clicked.
-
-On a mobile, you can pan the tabs with your finger.
-
-If you want to force arrows to be visible on mobile use `mobile-arrows` prop.
+::: warning
+QRouteTab won't and cannot work with the UMD version if you don't also install Vue Router.
 :::
 
 ### Basic

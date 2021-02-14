@@ -11,9 +11,6 @@ The QExpansionItem component allows the hiding of content that is not immediatel
 
 They are basically [QItem](/vue-components/list-and-list-items) components wrapped with additional functionality. So they can be included in QLists and inherit QItem component properties.
 
-## Installation
-<doc-installation components="QExpansionItem" />
-
 ## Usage
 
 ### Basic

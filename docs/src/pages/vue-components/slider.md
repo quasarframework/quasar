@@ -9,9 +9,6 @@ The QSlider is a great way for the user to specify a number value between a mini
 
 Also check its “sibling”, the [QRange](/vue-components/range) component.
 
-## Installation
-<doc-installation components="QSlider" />
-
 ## Usage
 
 ### Standard

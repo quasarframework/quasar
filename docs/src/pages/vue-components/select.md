@@ -7,9 +7,6 @@ The QSelect component has two types of selection: single or multiple. This compo
 
 In case you are looking for a dropdown "button" instead of "input" use [Button Dropdown](/vue-components/button-dropdown) instead.
 
-## Installation
-<doc-installation components="QSelect"/>
-
 ## Design
 
 ### Overview

@@ -11,9 +11,6 @@ related:
 
 QToolbar is a component usually part of Layout Header and Footer, but it can be used anywhere on the page.
 
-## Installation
-<doc-installation :components="['QToolbar', 'QToolbarTitle']" />
-
 ## Usage
 
 <doc-example title="Basic" file="QToolbar/Basic" />

@@ -11,9 +11,6 @@ QField allows you to display any form control (or almost anything as a matter of
 Do NOT wrap QInput, QFile or QSelect with QField as these components already inherit QField.
 :::
 
-## Installation
-<doc-installation components="QField"/>
-
 ## Design
 
 ::: tip

@@ -10,9 +10,6 @@ related:
 
 The QForm component renders a `<form>` DOM element and allows you to easily validate child form components (like [QInput](/vue-components/input#Internal-validation), [QSelect](/vue-components/select) or your [QField](/vue-components/field) wrapped components) that have the **internal validation** (NOT the external one) through `rules` associated with them.
 
-## Installation
-<doc-installation components="QForm" />
-
 ## Usage
 
 ::: warning

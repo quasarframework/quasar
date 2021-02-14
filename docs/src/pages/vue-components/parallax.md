@@ -9,9 +9,6 @@ Parallax scrolling is a technique in computer graphics and web design, where bac
 
 QParallax takes care of a lot of quirks, including image/video size which can actually be smaller than the window width/height.
 
-## Installation
-<doc-installation components="QParallax" />
-
 ## Usage
 
 <doc-example title="Image background" file="QParallax/Image" />

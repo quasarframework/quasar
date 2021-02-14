@@ -7,9 +7,6 @@ related:
 
 The QKnob component is used to take a number input from the user through mouse/touch panning. It is based on [QCircularProgress](/vue-components/circular-progress) and inherits all its properties and behavior.
 
-## Installation
-<doc-installation components="QKnob" />
-
 ## Usage
 
 By default, QKnob inherits current text color (as arc progress color and inner label color) and current font size (as component size). For customization, you can use the size and color related props.

@@ -11,9 +11,6 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-swipe` on the lines below.
 
-## Installation
-<doc-installation directives="TouchSwipe" />
-
 ## Usage
 Swipe with your mouse on the area below to see it in action. If using a mouse, you need to do it quick.
 

@@ -11,9 +11,6 @@ components:
 
 The QMenu component is a convenient way to show menus. Goes very well with [QList](/vue-components/list-and-list-items) as dropdown content, but it's by no means limited to it.
 
-## Installation
-<doc-installation components="QMenu" directives="ClosePopup" />
-
 ## Usage
 
 The idea with QMenu is to place it inside your DOM element / component that you want to be the trigger as direct child. Don’t worry about QMenu content inheriting CSS from the container as the QMenu will be injected as a direct child of `<body>` through a Quasar Portal.

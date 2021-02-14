@@ -9,9 +9,6 @@ The QRange component is a great way to offer the user the selection of a sub-ran
 
 Also check out its “sibling”, the [QSlider](/vue-components/slider) component.
 
-## Installation
-<doc-installation components="QRange" />
-
 ## Usage
 
 Notice we are using an object for the selection, which holds values for both the lower value of the selected range - `rangeValues.min` and the higher value - `rangeValues.max`.

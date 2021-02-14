@@ -11,9 +11,6 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-hold` directive on the lines below.
 
-## Installation
-<doc-installation directives="TouchHold" />
-
 ## Usage
 <doc-example title="Basic" file="TouchHold/Basic" />
 

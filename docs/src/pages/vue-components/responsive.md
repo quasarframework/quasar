@@ -5,9 +5,6 @@ desc: The QResponsive Vue component forces the content to maintain an aspect rat
 
 QResponsive is a component which forces the content to maintain an aspect ratio based on its width.
 
-## Installation
-<doc-installation components="QResponsive" />
-
 ## Usage
 
 ::: tip TIPS

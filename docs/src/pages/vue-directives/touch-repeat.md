@@ -8,9 +8,6 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-repeat` on the lines below.
 
-## Installation
-<doc-installation directives="TouchRepeat" />
-
 ## Usage
 Click and hold with your mouse on the area below to see it in action.
 Notice that on touch capable devices the scrolling is not blocked.

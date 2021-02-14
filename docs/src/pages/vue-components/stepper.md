@@ -8,10 +8,6 @@ related:
 Steppers display progress through a sequence of logical and numbered steps. They may also be used for navigation.
 They're usually useful when the user has to follow steps to complete a process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
 
-## Installation
-
-<doc-installation :components="['QStepper', 'QStep', 'QStepperNavigation']" />
-
 ## Usage
 
 ::: tip

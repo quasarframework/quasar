@@ -9,9 +9,6 @@ Quasar supplies a chat component called QChatMessage which is really a chat entr
 To mix messages with avatar and without avatar in the same thread, use a placeholder avatar image.
 :::
 
-## Installation
-<doc-installation components="QChatMessage" />
-
 ## Usage
 
 ### The basics

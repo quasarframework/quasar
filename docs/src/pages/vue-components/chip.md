@@ -15,9 +15,6 @@ Chips can contain entities such as an avatar, text or an icon, optionally having
 Also check out [QBadge](/vue-components/badge).
 :::
 
-## Installation
-<doc-installation components="QChip" />
-
 ## Usage
 <doc-example title="Basic" file="QChip/Basic" />
 

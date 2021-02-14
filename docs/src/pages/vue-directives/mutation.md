@@ -7,10 +7,6 @@ desc: Vue directive that uses Mutation Observer API to watch for changes being m
 
 Under the covers, it uses the [Mutation Observer API](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
 
-## Installation
-
-<doc-installation directives="Mutation" />
-
 ## Usage
 
 Reading the [Mutation Observer API](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) first will be best in your understanding of how this directive works.

@@ -5,10 +5,6 @@ desc: The QRating Vue component allows the user to rate items. It's usually know
 
 Quasar Rating is a Component which allows users to rate items, usually known as “Star Rating”.
 
-## Installation
-
-<doc-installation components="QRating" />
-
 ## Usage
 
 ### Basic

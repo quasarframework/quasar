@@ -11,9 +11,6 @@ With so much content to display at once, and often so little screen real-estate,
 
 The QCard component is intentionally lightweight and essentially a containing element that is capable of "hosting" any other component that is appropriate.
 
-## Installation
-<doc-installation :components="['QCard', 'QCardSection', 'QCardActions']" />
-
 ## Usage
 
 ::: tip

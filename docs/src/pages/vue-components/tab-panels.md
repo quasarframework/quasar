@@ -10,9 +10,6 @@ Tab panels are a way of displaying more information using less window real estat
 Works great along with [QTabs](/vue-components/tabs) but it is not required to be used with it.
 :::
 
-## Installation
-<doc-installation :components="['QTabPanels', 'QTabPanel']" />
-
 ## Usage
 
 ::: tip

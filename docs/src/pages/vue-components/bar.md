@@ -9,9 +9,6 @@ The QBar is a small component for creating the top bar on different types of mob
 
 QBar is especially useful for frame-less Electron apps where you integrate it in the QHeader.
 
-## Installation
-<doc-installation components="QBar" />
-
 ## Usage
 
 ::: tip

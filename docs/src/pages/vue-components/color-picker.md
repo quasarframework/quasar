@@ -11,9 +11,6 @@ The QColor component provides a method to input colors.
 For handling colors, also check out [Quasar Color Utils](/quasar-utils/color-utils).
 :::
 
-## Installation
-<doc-installation components="QColor" />
-
 ## Usage
 
 ### Basic

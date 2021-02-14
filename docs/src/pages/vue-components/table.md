@@ -22,9 +22,6 @@ QTable is a component that allows you to display data in a tabular manner. It's 
 If you don't need pagination, sorting, filtering, and all other features of QTable, then you may want to check out [QMarkupTable](/vue-components/markup-table) component instead.
 :::
 
-## Installation
-<doc-installation :components="['QTable', 'QTh', 'QTr', 'QTd']" />
-
 ## Defining the columns
 
 Let’s take an example of configuring the `columns` property. We are going to tell QTable that `row-key` is ‘name’, which **must** be unique. If this was data fetched from a database we would likely use the row **id**.
