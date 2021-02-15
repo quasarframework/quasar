@@ -359,10 +359,12 @@ export default defineComponent({
       }
     })
 
+    const renderFn = useField(state)
+
     // expose public methods
     const vm = getCurrentInstance()
     Object.assign(vm.proxy, { focus, select })
 
-    return useField(state)
+    return renderFn
   }
 })
