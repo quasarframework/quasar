@@ -69,24 +69,24 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       )
         q-input.full-width.doc-algolia(
           ref="algoliaInputRef"
+          id="algoliaInput"
           v-model="search"
-          disable
           dense
           square
           borderless
           :placeholder="searchPlaceholder"
+          @focus="onSearchFocus"
+          @blur="onSearchBlur"
         )
-          //- @focus="onSearchFocus"
-          //- @blur="onSearchBlur"
 
-          //- template(v-slot:append)
-          //-   q-icon(
-          //-     :name="mdiMagnify"
-          //-     @click="onSearchIconClick"
-          //-   )
-        q-tooltip(class="bg-primary text-bold")
-          div We are sorry but this website is not deployed using SSR (yet)
-          div so Algolia search cannot index it.
+          template(v-slot:append)
+            q-icon(
+              :name="mdiMagnify"
+              @click="onSearchIconClick"
+            )
+        //- q-tooltip(class="bg-primary text-bold")
+        //-   div We are sorry but this website is not deployed using SSR (yet)
+        //-   div so Algolia search cannot index it.
 
       q-separator
 
@@ -166,9 +166,9 @@ export default {
     useAlgolia(scope, $q, $route)
 
     // TODO vue3 - re-enable search when docs are released as SSR
-    // scope.onSearchIconClick = () => {
-    //   scope.algoliaInputRef.value.focus()
-    // }
+    scope.onSearchIconClick = () => {
+      scope.algoliaInputRef.value.focus()
+    }
 
     return scope
   }
