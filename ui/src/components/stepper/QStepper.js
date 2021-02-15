@@ -3,7 +3,7 @@ import { h, defineComponent, computed, provide, getCurrentInstance } from 'vue'
 import StepHeader from './StepHeader.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import usePanel, { usePanelProps } from '../../composables/private/use-panel.js'
+import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
 
 import { stepperKey } from '../../utils/private/symbols.js'
 import { hSlot, hMergeSlot, hDir } from '../../utils/private/render.js'
@@ -31,6 +31,8 @@ export default defineComponent({
     errorIcon: String,
     errorColor: String
   },
+
+  emits: usePanelEmits,
 
   setup (props, { slots }) {
     const vm = getCurrentInstance()
