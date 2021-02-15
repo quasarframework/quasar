@@ -80,6 +80,15 @@ q-page.landing
             :to="'/quasar-plugins/' + dir.path"
           ) {{ dir.name }}
 
+  section.bg-white.text-grey-10.text-center.row.justify-center
+    .landing__features.row
+      .col-12.q-my-xl.row.items-center.justify-center
+        q-img.col-12.col-sm-4.landing__icongenie-logo(src="https://cdn.quasar.dev/img/iconfactory.png")
+        .col-12.col-sm-8.column.items-center
+          h4 Quasar Icon Genie
+          .q-mt-lg.q-mb-xl Consumes a source icon and automatically clones, scales, minifies and places the (needed) 100+ generated icons and splash screens in the appropriate directories for you.
+          q-btn(color="primary", unelevated, no-caps, no-wrap, :icon-right="mdiLaunch", label="IconGenie", to="/icongenie/introduction")
+
   section.landing__footer.flex.flex-center
     div.text-center
       div.landing__footer-icons.row.flex-center.q-gutter-md
@@ -217,6 +226,9 @@ export default {
   &__logo-image
     width: 220px
     height: 220px
+
+  &__icongenie-logo
+    max-width: 220px !important
 
   &__front
     padding: 50px 16px 50px !important
