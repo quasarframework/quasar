@@ -71,6 +71,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           ref="algoliaInputRef"
           id="algoliaInput"
           v-model="search"
+          disable
           dense
           square
           borderless
@@ -79,14 +80,14 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           @blur="onSearchBlur"
         )
 
-          template(v-slot:append)
-            q-icon(
-              :name="mdiMagnify"
-              @click="onSearchIconClick"
-            )
-        //- q-tooltip(class="bg-primary text-bold")
-        //-   div We are sorry but this website is not deployed using SSR (yet)
-        //-   div so Algolia search cannot index it.
+          //- template(v-slot:append)
+          //-   q-icon(
+          //-     :name="mdiMagnify"
+          //-     @click="onSearchIconClick"
+          //-   )
+        q-tooltip(class="bg-primary text-bold")
+          div We are sorry but this website is not deployed using SSR (yet)
+          div so Algolia search cannot index it.
 
       q-separator
 
