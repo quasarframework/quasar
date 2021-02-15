@@ -10,9 +10,6 @@ QLayout allows you to configure your views as a 3x3 matrix, containing optional 
 
 QDrawer is the sidebar part of your QLayout.
 
-## Installation
-<doc-installation components="QDrawer" />
-
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 

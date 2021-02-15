@@ -7,11 +7,6 @@ related:
 
 We will be talking about encapsulating pages within a QLayout. If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
 
-## Installation
-Pick only what you are using from the list below.
-
-<doc-installation :components="['QPageContainer', 'QPage']" />
-
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 

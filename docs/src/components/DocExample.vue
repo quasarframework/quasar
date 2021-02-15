@@ -1,5 +1,5 @@
 <template lang="pug">
-q-card.doc-example.doc-fixed-fontsize.q-my-lg(:class="classes", flat, bordered)
+q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
   q-toolbar.doc-example__toolbar
     card-title(:title="title", :slugifiedTitle="slugifiedTitle")
 
