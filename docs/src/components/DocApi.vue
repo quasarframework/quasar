@@ -1,5 +1,5 @@
 <template lang="pug">
-q-card.doc-api.q-my-lg(flat bordered)
+q-card.doc-api.doc-fixed-fontsize.q-my-lg(flat bordered)
   q-toolbar.text-grey-8.bg-grey-1
     card-title(:title="nameBanner", prefix="API--")
     q-space

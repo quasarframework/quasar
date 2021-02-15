@@ -2,7 +2,14 @@
 
 body
   background-color: #fff
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif
+
+.doc-fixed-fontsize
+  font-size: 14px
+
+@media (min-width: 1024px)
+  .q-page
+    font-size: 15px
 
 strong
   font-weight: bold
@@ -34,6 +41,7 @@ blockquote .doc-token
   margin: 16px 0
   padding: 16px 24px
   font-size: 1em
+  line-height: 1.35em
   border-width: 0 5px
   border-style: solid
   border-color: $grey-3

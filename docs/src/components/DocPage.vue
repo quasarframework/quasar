@@ -193,7 +193,6 @@ export default {
   border: 1px solid $separator-color
 
 .doc-page-footer
-  font-size: 12px
   padding: 36px 0 16px
 
   &__icons
