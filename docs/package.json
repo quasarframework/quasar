@@ -17,7 +17,6 @@
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
     "docs-searchbar.js": "^1.1.11",
-    "meilisearch": "^0.18.1",
     "prismjs": "^1.15.0",
     "quasar": "^2.0.0-beta.1"
   },
