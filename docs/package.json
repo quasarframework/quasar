@@ -9,12 +9,14 @@
     "dev": "quasar dev",
     "dev:ssr": "quasar dev -m ssr",
     "build": "quasar build -m pwa",
+    "build:search": "node build/search.js",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
+    "docs-searchbar.js": "^1.1.11",
     "docsearch.js": "^2.6.2",
     "prismjs": "^1.15.0",
     "quasar": "^2.0.0-beta.1"
@@ -30,12 +32,15 @@
     "eslint-plugin-quasar": "^1.0.0",
     "eslint-plugin-vue": "^7.0.0",
     "eslint-webpack-plugin": "^2.4.0",
+    "fast-glob": "^3.2.5",
     "gray-matter": "^4.0.2",
+    "js-yaml": "^4.0.0",
     "markdown-it": "^10.0.0",
     "markdown-it-container": "^2.0.0",
     "pug": "^2.0.0",
     "pug-plain-loader": "^1.0.0",
     "raw-loader": "^4.0.0",
+    "simple-markdown": "^0.7.3",
     "toml": "^3.0.0",
     "workbox-webpack-plugin": "^5.1.3"
   },
