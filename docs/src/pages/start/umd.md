@@ -117,7 +117,7 @@ An example. No need to install any directives in UMD version.
 An example. No need to install any plugins in UMD version.
 
 ```js
-Quasar.plugins.bottomSheet.create({...})
+Quasar.BottomSheet.create({...})
 ```
 
 ### Quasar Utils
