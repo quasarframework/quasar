@@ -1362,7 +1362,7 @@ export default defineComponent({
       state.onControlFocusout(e)
     }
 
-    onBeforeUpdate(() => {
+    function updatePreState () {
       hasDialog = $q.platform.is.mobile !== true && props.behavior !== 'dialog'
         ? false
         : props.behavior !== 'menu' && (
@@ -1374,9 +1374,12 @@ export default defineComponent({
       transitionShowComputed = $q.platform.is.ios === true && hasDialog === true && props.useInput === true
         ? 'fade'
         : props.transitionShow
-    })
+    }
 
+    onBeforeUpdate(updatePreState)
     onUpdated(updateMenuPosition)
+
+    updatePreState()
 
     onBeforeMount(() => {
       optionScopeCache = {
@@ -1414,7 +1417,9 @@ export default defineComponent({
       ),
 
       inputRef,
+      targetRef,
       hasValue,
+      showPopup,
 
       floatingLabel: computed(() =>
         (props.hideSelected === true
