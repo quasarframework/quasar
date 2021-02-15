@@ -142,12 +142,12 @@ export default function useAlgolia (scope, $q, $route) {
     search,
     algoliaInputRef,
 
-    // searchPlaceholder: 'Search is not available yet',
-    searchPlaceholder: computed(() => {
-      return searchFocused.value === true
-        ? 'Type to start searching...'
-        : ($q.platform.is.desktop === true ? 'Type \' / \' to focus here...' : 'Search...')
-    }),
+    searchPlaceholder: 'Search is not available yet',
+    // searchPlaceholder: computed(() => {
+    //   return searchFocused.value === true
+    //     ? 'Type to start searching...'
+    //     : ($q.platform.is.desktop === true ? 'Type \' / \' to focus here...' : 'Search...')
+    // }),
 
     onSearchFocus () {
       searchFocused.value = true
