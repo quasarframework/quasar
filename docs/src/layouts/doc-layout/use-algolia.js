@@ -60,13 +60,13 @@ export default function useAlgolia (scope, $q, $route) {
       /* webpackChunkName: "algolia" */
       'docs-searchbar.js'
     ).then(docsearch => {
-      console.log({
-        apiKey: process.env.search.apiKey,
-        hostUrl: process.env.search.hostUrl,
-        indexName: process.env.search.indexUid,
-        inputSelector: process.env.search.inputSelector,
-        debug: process.env.search.debug,
-      })
+      // console.log({
+      //   apiKey: process.env.search.apiKey,
+      //   hostUrl: process.env.search.hostUrl,
+      //   indexName: process.env.search.indexUid,
+      //   inputSelector: process.env.search.inputSelector,
+      //   debug: process.env.search.debug,
+      // })
       docsearch.default({
         apiKey: process.env.search.apiKey,
         hostUrl: process.env.search.hostUrl,
