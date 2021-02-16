@@ -1,8 +1,8 @@
 ---
-name: Feature request
+name: Feature request (Quasar v2)
 about: Suggest an idea for Quasar v2
 title: ''
-labels: "feature request, \U0001F51D Qv2"
+labels: Qv2, feature request
 assignees: ''
 
 ---
