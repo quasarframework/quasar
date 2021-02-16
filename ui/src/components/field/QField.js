@@ -539,7 +539,7 @@ export default Vue.extend({
       }, this.$scopedSlots.before()) : null,
 
       h('div', {
-        staticClass: 'q-field__inner relative-position col self-stretch column justify-center'
+        staticClass: 'q-field__inner relative-position col self-stretch'
       }, [
         h('div', {
           ref: 'control',
