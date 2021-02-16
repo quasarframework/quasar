@@ -81,7 +81,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         )
 
           //- template(v-slot:append)
-          //-   q-icon(
+          //-   q-icon.cursor-pointer(
           //-     :name="mdiMagnify"
           //-     @click="onSearchIconClick"
           //-   )
@@ -167,9 +167,9 @@ export default {
     useAlgolia(scope, $q, $route)
 
     // TODO vue3 - re-enable search when docs are released as SSR
-    scope.onSearchIconClick = () => {
-      scope.algoliaInputRef.value.focus()
-    }
+    // scope.onSearchIconClick = () => {
+    //   scope.algoliaInputRef.value.focus()
+    // }
 
     return scope
   }
