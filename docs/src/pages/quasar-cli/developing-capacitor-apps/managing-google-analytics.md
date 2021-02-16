@@ -28,19 +28,19 @@ Place the Tag Manager snippet into head of your `index.html` file (if you've fol
 export default {
   logEvent(category, action, label, sessionId = null) {
     window.dataLayer.push({
-      'appEventCategory': category,
-      'appEventAction': action,
-      'appEventLabel': label,
-      'sessionId': sessionId
+      appEventCategory: category,
+      appEventAction: action,
+      appEventLabel: label,
+      sessionId: sessionId
     })
     window.dataLayer.push({ 'event': 'appEvent' })
   },
 
   logPage(path, name, sessionId = null) {
     window.dataLayer.push({
-      'screenPath': path,
-      'screenName': name,
-      'sessionId': sessionId
+      screenPath: path,
+      screenName: name,
+      sessionId: sessionId
     })
     window.dataLayer.push({ 'event': 'appScreenView' })
   }
