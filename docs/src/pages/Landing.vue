@@ -231,7 +231,6 @@ export default {
     max-width: 220px !important
 
   &__front
-    padding: 50px 16px 50px !important
 
     > div
       max-width: 700px !important
