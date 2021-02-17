@@ -34,6 +34,10 @@ export default {
       this.__validateIfNeeded()
     },
 
+    disable (val) {
+      val === true && this.resetValidation()
+    },
+
     reactiveRules: {
       handler (val) {
         if (val === true) {

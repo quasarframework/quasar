@@ -113,7 +113,7 @@ export default Vue.extend({
       this.validateIndex++
 
       this.getValidationComponents().forEach(comp => {
-        comp.resetValidation()
+        typeof comp.resetValidation === 'function' && comp.resetValidation()
       })
     },
 
