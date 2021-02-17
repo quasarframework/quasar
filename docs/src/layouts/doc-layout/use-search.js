@@ -45,7 +45,7 @@ export default function useSearch (scope, $q, $route) {
         indexUid: 'quasar-v2',
         inputSelector: '.doc-search input',
         // layout: 'simple',
-        debug: true,
+        debug: false,
         meilisearchOptions: {
           limit: 7
         },
