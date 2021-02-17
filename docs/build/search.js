@@ -206,9 +206,6 @@ const processMarkdown = (syntaxTree, entries, entry) => {
 
       // handle text from previous
       const data = createIndex({ ...entry, content: text })
-      if (data.objectID >= 800) {
-        console.log(data)
-      }
       entries.push(data)
 
       if (val !== null) {
