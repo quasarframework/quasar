@@ -27,16 +27,6 @@ module.exports = function (ctx) {
       distDir: 'dist/quasar.dev',
       // analyze: true,
 
-      env: {
-        search: {
-          apiKey: 'e3b57f8578a57aaa539b19127bfdf0174926c47edd73cfaee5d66e44e84e403c',
-          hostUrl: ctx.prod ? 'https://next.quasar.dev:7700' : 'http://127.0.0.1:7700',
-          indexUid: 'docs',
-          inputSelector: '.doc-algolia input',
-          debug: true // Set debug to true if you want to inspect the dropdown
-        }
-      },
-
       chainWebpack (chain) {
         chain.plugin('eslint-webpack-plugin')
           .use(ESLintPlugin, [{
@@ -187,8 +177,9 @@ module.exports = function (ctx) {
       remove: [
         'quasar/dist/api',
 
-        // following are used by algolia
-        'algoliasearch',
+        // following are used by meilisearch/docs-searchbar
+        'meilisearch',
+        'docs-searchbar.js',
         'autocomplete.js',
         'hogan.js',
         'request',

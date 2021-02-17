@@ -1,12 +1,10 @@
-import { provideDocStore } from 'src/assets/doc-store'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
-// import { ref } from 'vue'
 
-export default function useAlgolia (scope, $q, $route) {
+export default function useSearch (scope, $q, $route) {
   const search = ref('')
   const searchFocused = ref(false)
-  const algoliaInputRef = ref(null)
+  const searchInputRef = ref(null)
 
   function focusOnSearch (evt) {
     if (
@@ -21,7 +19,7 @@ export default function useAlgolia (scope, $q, $route) {
       }
 
       setTimeout(() => {
-        algoliaInputRef.value.focus()
+        searchInputRef.value.focus()
       })
     }
   }
@@ -37,47 +35,21 @@ export default function useAlgolia (scope, $q, $route) {
       scope.leftDrawerState.value = true
     }
 
-    // import(
-    //   /* webpackChunkName: "algolia" */
-    //   'docsearch.js'
-    // ).then(docsearch => {
-    //   docsearch.default({
-    //     apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
-    //     indexName: 'quasar-framework',
-    //     inputSelector: '.doc-algolia input',
-    //     algoliaOptions: {
-    //       hitsPerPage: 7
-    //     },
-    //     handleSelected: (a, b, suggestion, c, context) => {
-    //       const url = suggestion.url.replace('https://quasar.dev', '')
-
-    //       search.value = ''
-    //       $router.push(url).catch(() => {})
-    //       algoliaInputRef.value.blur()
-    //     }
-    //   })
     import(
-      /* webpackChunkName: "algolia" */
-      'docs-searchbar.js'
+      /* webpackChunkName: "search" */
+      'docs-searchbar.js/dist/npm/index'
     ).then(docsearch => {
-      console.log({
-        apiKey: process.env.search.apiKey,
-        hostUrl: process.env.search.hostUrl,
-        indexName: process.env.search.indexUid,
-        inputSelector: process.env.search.inputSelector,
-        debug: process.env.search.debug,
-      })
       docsearch.default({
-        apiKey: process.env.search.apiKey,
-        hostUrl: process.env.search.hostUrl,
-        indexUid: process.env.search.indexUid,
-        inputSelector: process.env.search.inputSelector,
-        debug: process.env.search.debug,
+        apiKey: 'e3b57f8578a57aaa539b19127bfdf0174926c47edd73cfaee5d66e44e84e403c',
+        hostUrl: process.env.DEBUGGING ? 'http://127.0.0.1:7700' : 'https://next.quasar.dev:7700',
+        indexUid: 'quasar-v2',
+        inputSelector: '.doc-search input',
+        // layout: 'simple',
+        debug: true,
         meilisearchOptions: {
           limit: 7
         },
         // autocompleteOptions: {
-
         // }
         /**
          * queryHook takes a callback function as value. This function will be
@@ -102,14 +74,15 @@ export default function useAlgolia (scope, $q, $route) {
          * @param {Event} event the actual event triggering the selection.
          * @param {Object} suggestion the object representing the current selection. It contains a .url key representing the destination.
          * @param {Number} datasetNumber this should always be equal to 1 as docs-searchbar.js is searching into one dataset at a time. You can ignore this attribute.
-         * @param {Any} context additional information about the selection. Contains a .selectionMethod key that can be either click, enterKey, tabKey or blur, depending on how the suggestion was selected.
+         * @param {Object} context additional information about the selection. Contains a .selectionMethod key that can be either click, enterKey, tabKey or blur, depending on how the suggestion was selected.
          */
         handleSelected: (input, event, suggestion, datasetNumber, context) => {
+          debugger
           const url = suggestion.url.replace('https://quasar.dev', '')
 
           search.value = ''
           $router.push(url).catch(() => {})
-          algoliaInputRef.value.blur()
+          searchInputRef.value.blur()
         }
       })
 
@@ -119,14 +92,14 @@ export default function useAlgolia (scope, $q, $route) {
 
       if (searchQuery) {
         // Here we put search string from query into the input and open the search popup.
-        // Unfortunately, this input is managed completely by Algolia and their code doesn't seem to
+        // Unfortunately, this input is managed completely by Meilisearch and their code doesn't seem to
         // have a method of opening the popup programmatically, so we need to simulate typing on that input element.
         // We also need to dispatch the event only after the input text is populated and Vue will
         // do that in next render, so we schedule it on the next event loop iteration with setTimeout.
         search.value = searchQuery
-        algoliaInputRef.value.focus()
+        searchInputRef.value.focus()
         setTimeout(() => {
-          algoliaInputRef.value.$refs.input.dispatchEvent(new Event('input', {}))
+          searchInputRef.value.$refs.input.dispatchEvent(new Event('input', {}))
         })
       }
     })
@@ -140,14 +113,14 @@ export default function useAlgolia (scope, $q, $route) {
 
   Object.assign(scope, {
     search,
-    algoliaInputRef,
+    searchInputRef,
 
-    searchPlaceholder: 'Search is not available yet',
-    // searchPlaceholder: computed(() => {
-    //   return searchFocused.value === true
-    //     ? 'Type to start searching...'
-    //     : ($q.platform.is.desktop === true ? 'Type \' / \' to focus here...' : 'Search...')
-    // }),
+    // searchPlaceholder: 'Search is not available yet',
+    searchPlaceholder: computed(() => {
+      return searchFocused.value === true
+        ? 'Type to start searching...'
+        : ($q.platform.is.desktop === true ? 'Type \' / \' to focus here...' : 'Search...')
+    }),
 
     onSearchFocus () {
       searchFocused.value = true

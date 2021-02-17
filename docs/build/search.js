@@ -1,22 +1,28 @@
 const fs = require('fs')
 const path = require('path')
-const fg = require('fast-glob')
 const jsYaml = require('js-yaml')
 const SimpleMarkdown = require('simple-markdown')
 
+// get the menu from assets folder
+const menu = require(path.resolve(__dirname, '../src/assets/menu.js'))
+// markdown parser (not perfect, but works well enough)
 const mdParse = SimpleMarkdown.defaultBlockParse
 // eslint-disable-next-line no-useless-escape
 const yamlBlockPattern = /^(?:\-\-\-)(.*?)(?:\-\-\-|\.\.\.)/s
-
-const folders = '../src/pages/**/*.md'
-const intro = '../src/pages/'
-// const base = 'https://next.quasar.dev/'
+// where the markdown lives
+const intro = '../src/pages'
 
 let objectID = 1
 const getObjectID = () => objectID++
 
 const slugify = (str) => {
   return encodeURIComponent(String(str).trim().replace(/\s+/g, '-'))
+}
+
+const sleep = (delay = 0) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay)
+  })
 }
 
 const createFolder = (folder) => {
@@ -40,12 +46,12 @@ const createIndex = (data) => {
   }
   return {
     objectID: getObjectID(),
-    hierarchy_radio_lvl0: null,
-    hierarchy_radio_lvl1: null,
-    hierarchy_radio_lvl2: null,
-    hierarchy_radio_lvl3: null,
-    hierarchy_radio_lvl4: null,
-    hierarchy_radio_lvl5: null,
+    // hierarchy_radio_lvl0: null,
+    // hierarchy_radio_lvl1: null,
+    // hierarchy_radio_lvl2: null,
+    // hierarchy_radio_lvl3: null,
+    // hierarchy_radio_lvl4: null,
+    // hierarchy_radio_lvl5: null,
     hierarchy_lvl0: null,
     hierarchy_lvl1: null,
     hierarchy_lvl2: null,
@@ -59,9 +65,10 @@ const createIndex = (data) => {
   }
 }
 
-// returns the contents of the assciated file
+// returns the contents of the associated file
 const getFileContents = (mdPath) => {
-  return fs.readFileSync(path.resolve(__dirname, mdPath), {
+  const page = path.resolve(__dirname, mdPath)
+  return fs.readFileSync(page, {
     encoding: 'utf8'
   })
 }
@@ -104,7 +111,7 @@ const buildParagraph = (content, text2 = '', skip = 0) => {
         }
         else {
           if (node.type !== 'image' && node.type !== 'codeBlock') {
-            console.log(node)
+            console.log('Unknown node:', node)
           }
         }
       }
@@ -148,7 +155,7 @@ const processNode = (node) => {
       const slug = slugify(subheading)
       const id = {
         anchor: slug,
-        [ 'hierarchy_lvl' + (level - 1) ]: subheading
+        [ 'hierarchy_lvl' + (level) ]: subheading
       }
       const data = buildParagraph(node.content, remaining, index + 1)
       id.content = data.text
@@ -165,7 +172,7 @@ const processNode = (node) => {
     const slug = slugify(subheading)
     const id = {
       anchor: slug,
-      [ 'hierarchy_lvl' + (level - 1) ]: subheading
+      [ 'hierarchy_lvl' + (level) ]: subheading
     }
     return id
   }
@@ -184,26 +191,42 @@ const processNode = (node) => {
 
 const processMarkdown = (syntaxTree, entries, entry) => {
   const contents = []
+
+  const handleAnchor = (val = null) => {
+    if (contents.length > 0) {
+      const text = contents.join(' ')
+        .replace(/\n/g, ' ')
+        .replace(/<br>/g, '')
+        .replace(/\s\s+/g, ' ')
+        .replace(/::: tip/g, '')
+        .replace(/::: warning/g, '')
+        .replace(/::: danger/g, '')
+        .replace(/:::/g, '')
+        .trim()
+
+      // handle text from previous
+      const data = createIndex({ ...entry, content: text })
+      if (data.objectID >= 800) {
+        console.log(data)
+      }
+      entries.push(data)
+
+      if (val !== null) {
+        // start a new subheading
+        entry = { ...entry, ...val, content: '' }
+      }
+
+      // clean up contents array
+      contents.splice(0, contents.length)
+    }
+  }
+
   syntaxTree.forEach((node, index) => {
     // skip first one which is the yaml
     if (index > 1) {
       const val = processNode(node)
       if (val.anchor) {
-        const text = contents.join(' ')
-          .replace(/\n/g, ' ')
-          .replace(/<br>/g, '')
-          .replace(/\s\s+/g, ' ')
-          .trim()
-
-        // handle text from previous
-        const data = createIndex({ ...entry, content: text })
-        entries.push(data)
-
-        // start a new subheading
-        entry = { ...entry, ...val, content: '' }
-
-        // clean up contents array
-        contents.splice(0, contents.length)
+        handleAnchor(val)
       }
       // don't accept components embedded into the page
       else if (val.text.charAt(0) !== '<' && val.text.charAt(val.text.length - 1) !== '>') {
@@ -211,29 +234,74 @@ const processMarkdown = (syntaxTree, entries, entry) => {
       }
     }
   })
+
+  // handle last bits on the page
+  handleAnchor()
 }
 
-const processFile = (page, entries) => {
-  const key = page.replace(intro, '').replace('.md', '')
-  const url = '/' + key
-
-  console.log('Processing', page, url)
-
+const processPage = (page, entry, entries, level = 0) => {
   const md = getFileContents(page)
   const yaml = getYaml(md)
   const { title, desc } = getYamlFields(yaml)
 
-  const syntaxTree = mdParse(md)
-
-  const entry = {
-    hierarchy_lvl0: title,
-    hierarchy_lvl1: desc,
-    content: '',
-    anchor: 'Introduction',
-    url
+  const entryItem = {
+    ...entry,
+    [ 'hierarchy_lvl' + level ]: title,
+    content: desc,
+    anchor: 'Introduction'
   }
 
-  processMarkdown(syntaxTree, entries, entry)
+  entries.push(createIndex(entryItem))
+
+  const syntaxTree = mdParse(md)
+  processMarkdown(syntaxTree, entries, entryItem)
+}
+
+const processChildren = (parent, entry, entries, level) => {
+  if (parent.children) {
+    parent.children.forEach(menuItem => {
+      if (menuItem.external !== true) {
+        let entryChild = { ...entry }
+        if (menuItem.path) {
+          entryChild = {
+            ...entry,
+            [ 'hierarchy_lvl' + (level) ]: menuItem.name,
+            url: entry.url + '/' + menuItem.path
+          }
+        }
+
+        if (menuItem.children) {
+          processChildren(menuItem, entryChild, entries, level + 1)
+        }
+        else {
+          processPage(intro + entryChild.url + '.md', entryChild, entries, level + 1)
+        }
+      }
+    })
+  }
+}
+
+const processMenuItem = (menuItem, entries, level = 0) => {
+  const entryItem = {
+    hierarchy_lvl0: 'Documentation',
+    hierarchy_lvl1: menuItem.name,
+    content: '',
+    anchor: '',
+    url: '/' + menuItem.path
+  }
+
+  if (menuItem.external !== true) {
+    if (menuItem.children) {
+      const entryChild = {
+        ...entryItem,
+        [ 'hierarchy_lvl' + level ]: menuItem.name
+      }
+      processChildren(menuItem, entryChild, entries, level)
+    }
+    else {
+      processPage(intro + entryItem.url + '.md', entryItem, entries, level)
+    }
+  }
 }
 
 // -- Begin processing
@@ -245,20 +313,16 @@ const run = () => {
 
   const entries = []
 
-  // retrieve all the markdown pages paths
-  const pages = fg.sync(folders, {
-    cwd: __dirname
-  })
-
-  pages.forEach(mdPage => {
-    processFile(mdPage, entries)
+  menu.forEach(item => {
+    processMenuItem(item, entries)
   })
 
   fs.writeFileSync(path.resolve(__dirname, '../search/indices.json'), JSON.stringify(entries, null, 2), () => {})
 
   const end = new Date().getTime()
   const time = end - start
-  console.log(`Finished ${pages.length} pages with ${entries.length} indices in ${time}ms`)
+  console.log(`Finished ${entries.length} indices in ${time}ms`)
 }
 
 run()
+sleep(3000)
