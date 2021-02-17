@@ -348,7 +348,7 @@
 .meilisearch-autocomplete .docs-searchbar-suggestion--no-results
   width: 100%
   padding: 8px 0
-  text-align: center
+  text-align: left
   font-size: 1.2em
 
 .meilisearch-autocomplete .docs-searchbar-suggestion--no-results:before
@@ -551,6 +551,9 @@
       background: $primary !important
       &, .docs-searchbar-suggestion--text
         color: white
+        &, .docs-searchbar-suggestion--wrapper
+          background: $primary !important
+          padding: 6px 0 6px 4px !important
       .docs-searchbar-suggestion--text
         margin-top: 0
         padding: 8px
@@ -595,11 +598,12 @@
       margin: 6px
 
     @media (max-width: 768px)
-      &-suggestion--wrapper
+      &-suggestion--wrapper:not(.docs-searchbar-suggestion--no-results)
         padding: 6px 8px
       &-suggestion--content
         padding: 0 4px !important
       &-suggestion--no-results
         margin: -6px 0
+        padding: 6px 0 6px 4px !important
         width: 100% !important
 

@@ -196,11 +196,11 @@ export default {
 .doc-search
   .q-field__control
     padding: 0 18px 0 16px !important
-  .q-field__native
-    text-align: center
   &.q-field--focused
     .q-icon
       color: #fff
+  .q-field__append
+    height: 100%
 
 .q-drawer--mobile
   .doc-search .q-field__control
