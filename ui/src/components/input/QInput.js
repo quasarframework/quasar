@@ -96,7 +96,7 @@ export default defineComponent({
     const inputAttrs = computed(() => {
       const attrs = {
         tabindex: 0,
-        'data-autofocus': props.autofocus,
+        'data-autofocus': props.autofocus === true || void 0,
         rows: props.type === 'textarea' ? 6 : void 0,
         'aria-label': props.label,
         name: nameProp.value,

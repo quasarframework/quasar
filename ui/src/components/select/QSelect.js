@@ -975,7 +975,7 @@ export default defineComponent({
         maxlength: props.maxlength,
         tabindex: props.tabindex,
         autocomplete: props.autocomplete,
-        'data-autofocus': fromDialog === true ? false : props.autofocus,
+        'data-autofocus': (fromDialog !== true && props.autofocus === true) || void 0,
         disabled: props.disable === true,
         readonly: props.readonly === true,
         ...inputControlEvents.value

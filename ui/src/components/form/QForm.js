@@ -102,7 +102,7 @@ export default defineComponent({
       validateIndex++
 
       registeredComponents.forEach(comp => {
-        comp.resetValidation()
+        typeof comp.resetValidation === 'function' && comp.resetValidation()
       })
     }
 
