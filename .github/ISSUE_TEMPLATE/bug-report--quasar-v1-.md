@@ -1,11 +1,12 @@
 ---
-name: Bug report
-about: Create a report to help us improve Quasar
+name: Bug report (Quasar v1)
+about: Create a report to help us improve Quasar v1
 title: ''
-labels: bug
+labels: ":beetle: bug, Qv1"
 assignees: ''
 
 ---
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 

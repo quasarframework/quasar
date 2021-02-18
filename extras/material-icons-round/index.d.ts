@@ -129,7 +129,6 @@ export declare const roundAllInclusive: string;
 export declare const roundAllOut: string;
 export declare const roundAlternateEmail: string;
 export declare const roundAltRoute: string;
-export declare const roundAmpStories: string;
 export declare const roundAnalytics: string;
 export declare const roundAnchor: string;
 export declare const roundAndroid: string;
