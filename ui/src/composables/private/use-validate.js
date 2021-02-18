@@ -23,14 +23,14 @@ export const useValidateProps = {
   }
 }
 
-export default function (focused, innerLoading, disable) {
+export default function (focused, innerLoading) {
   const { props, proxy } = getCurrentInstance()
 
   const innerError = ref(false)
   const innerErrorMessage = ref(null)
   const isDirtyModel = ref(null)
 
-  useFormChild({ validate, resetValidation, requiresQForm: true, disable })
+  useFormChild({ validate, resetValidation, requiresQForm: true })
 
   let validateIndex = 0, unwatchRules
 

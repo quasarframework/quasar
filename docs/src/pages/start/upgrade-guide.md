@@ -404,6 +404,7 @@ import { useFormChild } from 'quasar'
 
 useFormChild ({
   validate,     // Function returning a Boolean (or a Promise resolving to a Boolean)
+  resetValidation, // Optional function which resets validation
   requiresQForm // Boolean -> if "true" and your component
                 //   is not wrapped by QForm it then displays
                 //   an error message
@@ -418,7 +419,11 @@ export default {
       return true
     }
 
-    useFormChild({ validate, requiresQForm: true })
+    function resetValidation () {
+      // ...
+    }
+
+    useFormChild({ validate, resetValidation, requiresQForm: true })
   }
 }
 ```
@@ -437,6 +442,11 @@ export default {
     validate () {
       console.log('called my-comp.validate()')
       return true
+    },
+
+    // optional
+    resetValidation () {
+      // ...
     }
   },
 
