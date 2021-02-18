@@ -424,7 +424,5 @@ build: {
 }
 ```
 
-> Alternatively you can use our [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) or [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) App Extensions.
-
 ### Handling Webpack configuration
 In depth analysis on [Handling Webpack](/quasar-cli/handling-webpack) documentation page.
