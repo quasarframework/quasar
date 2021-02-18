@@ -518,7 +518,7 @@ export default defineComponent({
           onClick: (e) => {
             onClick(node, m, e)
           },
-          onKeypress: e => {
+          onKeypress (e) {
             if (shouldIgnoreKey(e) !== true) {
               if (e.keyCode === 13) { onClick(node, m, e, true) }
               else if (e.keyCode === 32) { onExpandClick(node, m, e, true) }
@@ -542,9 +542,7 @@ export default defineComponent({
                       class: 'q-tree__arrow q-mr-xs'
                     + (m.expanded === true ? ' q-tree__arrow--rotate' : ''),
                       name: computedIcon.value,
-                      onClick: e => {
-                        onExpandClick(node, m, e)
-                      }
+                      onClick (e) { onExpandClick(node, m, e) }
                     })
                   : null
               ),

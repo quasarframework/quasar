@@ -247,8 +247,8 @@ export default defineComponent({
           placeholder: inputPlaceholder.value,
           min: props.min,
           max: props.max,
-          onInput: value => { newPage.value = value },
-          onKeyup: e => { isKeyCode(e, 13) === true && updateModel() },
+          onInput (value) { newPage.value = value },
+          onKeyup (e) { isKeyCode(e, 13) === true && updateModel() },
           onBlur: updateModel
         }))
       }

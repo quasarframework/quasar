@@ -383,9 +383,7 @@ export default defineComponent({
         onKeyup: onTargetAutocomplete,
         onKeypress: onTargetKeypress,
         onFocus: selectInputText,
-        onClick: e => {
-          hasDialog === true && stop(e)
-        }
+        onClick (e) { hasDialog === true && stop(e) }
       }
 
       evt.onCompositionstart = evt.onCompositionupdate = evt.onCompositionend = onComposition
@@ -1442,16 +1440,14 @@ export default defineComponent({
       },
 
       controlEvents: {
-        onFocusin: e => {
-          state.onControlFocusin(e)
-        },
-        onFocusout: e => {
+        onFocusin (e) { state.onControlFocusin(e) },
+        onFocusout (e) {
           state.onControlFocusout(e, () => {
             resetInputValue()
             closeMenu()
           })
         },
-        onClick: e => {
+        onClick (e) {
           if (hasDialog !== true) {
             // label from QField will propagate click on the input (except IE)
             prevent(e)

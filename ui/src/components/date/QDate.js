@@ -1073,8 +1073,8 @@ export default defineComponent({
               + (view.value === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer'),
             tabindex: tabindex.value,
             ...getCache('vY', {
-              onClick: () => { view.value = 'Years' },
-              onKeyup: e => { e.keyCode === 13 && (view.value = 'Years') }
+              onClick () { view.value = 'Years' },
+              onKeyup (e) { e.keyCode === 13 && (view.value = 'Years') }
             })
           }, [ headerSubtitle.value ]))
         ]),
@@ -1093,8 +1093,8 @@ export default defineComponent({
                 + (view.value === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer'),
               tabindex: tabindex.value,
               ...getCache('vC', {
-                onClick: () => { view.value = 'Calendar' },
-                onKeyup: e => { e.keyCode === 13 && (view.value = 'Calendar') }
+                onClick () { view.value = 'Calendar' },
+                onKeyup (e) { e.keyCode === 13 && (view.value = 'Calendar') }
               })
             }, [ headerTitle.value ]))
           ]),
