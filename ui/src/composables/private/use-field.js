@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, Transition, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
+import { h, ref, toRefs, computed, watch, Transition, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
@@ -169,7 +169,7 @@ export default function (state) {
     hasError,
     computedErrorMessage,
     resetValidation
-  } = useValidate(state.focused, state.innerLoading)
+  } = useValidate(state.focused, state.innerLoading, toRefs(props).disable)
 
   const floatingLabel = state.floatingLabel !== void 0
     ? computed(() => props.stackLabel === true || state.focused.value === true || state.floatingLabel.value === true)
@@ -448,7 +448,7 @@ export default function (state) {
           ref: state.targetRef,
           class: 'q-field__native row',
           ...state.splitAttrs.attributes,
-          'data-autofocus': props.autofocus
+          'data-autofocus': props.autofocus === true || void 0
         }, slots.control(controlSlotScope.value))
       )
     }
