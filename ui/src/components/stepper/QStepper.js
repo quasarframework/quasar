@@ -80,18 +80,23 @@ export default defineComponent({
       }
 
       return [
-        h('div', { class: headerClasses.value }, getPanels().map(panel => {
-          const step = panel.props
+        h(
+          'div',
+          { class: headerClasses.value },
+          getPanels().map(panel => {
+            const step = panel.props
 
-          return h(StepHeader, {
-            key: step.name,
-            stepper: props,
-            step,
-            goToPanel
+            return h(StepHeader, {
+              key: step.name,
+              stepper: props,
+              step,
+              goToPanel
+            })
           })
-        }))
-      ].concat(
+        ),
+
         top,
+
         hDir(
           'div',
           { class: 'q-stepper__content q-panel-parent' },
@@ -100,7 +105,7 @@ export default defineComponent({
           props.swipeable,
           () => panelDirectives.value
         )
-      )
+      ]
     }
 
     return () => {
