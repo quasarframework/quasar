@@ -1,4 +1,4 @@
-import { h, ref, toRefs, computed, watch, Transition, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, Transition, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
@@ -169,7 +169,7 @@ export default function (state) {
     hasError,
     computedErrorMessage,
     resetValidation
-  } = useValidate(state.focused, state.innerLoading, toRefs(props).disable)
+  } = useValidate(state.focused, state.innerLoading)
 
   const floatingLabel = state.floatingLabel !== void 0
     ? computed(() => props.stackLabel === true || state.focused.value === true || state.floatingLabel.value === true)
