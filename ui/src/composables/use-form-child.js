@@ -22,11 +22,11 @@ export default function ({ validate, resetValidation, requiresQForm }) {
     })
 
     // register component to parent QForm
-    props.disable.value !== true && $form.bindComponent(proxy)
+    props.disable !== true && $form.bindComponent(proxy)
 
     onBeforeUnmount(() => {
       // unregister component
-      props.disable.value !== true && $form.unbindComponent(proxy)
+      props.disable !== true && $form.unbindComponent(proxy)
     })
   }
   else if (requiresQForm !== true) {
