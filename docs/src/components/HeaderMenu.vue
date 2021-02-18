@@ -130,6 +130,11 @@ div
           q-icon(:name="fabGithub")
         q-item-section Github Repositories
 
+      q-item(clickable, tag="a", href="https://stackoverflow.com/questions/tagged/quasasframework+or+quasar", rel="noopener", target="_blank")
+        q-item-section.text-warning(avatar)
+          q-icon(:name="fabStackOverflow")
+        q-item-section Stack Overflow
+
       q-item-label.q-mt-md(header) Social
 
       q-item(clickable, tag="a", href="https://blog.quasar.dev", rel="noopener", target="_blank")
@@ -165,7 +170,7 @@ div
 <script>
 import {
   fabGithub, fasFlask, fabCodepen, fabJsfiddle,
-  fasCubes, fabTwitter, fabFacebook
+  fasCubes, fabTwitter, fabFacebook, fabStackOverflow
 } from '@quasar/extras/fontawesome-v5'
 
 import {
@@ -190,6 +195,7 @@ export default {
     this.fasCubes = fasCubes
     this.fabTwitter = fabTwitter
     this.fabFacebook = fabFacebook
+    this.fabStackOverflow = fabStackOverflow
 
     this.mdiBlogger = mdiBlogger
     this.mdiChat = mdiChat
