@@ -1237,7 +1237,7 @@ module.exports = [
     children: contributionGuide
   },
   {
-    name: 'Quasar Options & Helpers',
+    name: 'Options & Helpers',
     icon: 'tune',
     path: 'options',
     children: options
