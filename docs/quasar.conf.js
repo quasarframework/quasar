@@ -178,8 +178,9 @@ module.exports = function (ctx) {
       remove: [
         'quasar/dist/api',
 
-        // following are used by algolia
-        'algoliasearch',
+        // following are used by meilisearch/docs-searchbar
+        'meilisearch',
+        'docs-searchbar.js',
         'autocomplete.js',
         'hogan.js',
         'request',

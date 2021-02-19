@@ -67,11 +67,9 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         autocomplete="off"
         spellcheck="false"
       )
-        q-input.full-width.doc-algolia(
-          ref="algoliaInputRef"
-          id="algoliaInput"
+        q-input.full-width.doc-search(
+          ref="searchInputRef"
           v-model="search"
-          disable
           dense
           square
           borderless
@@ -80,14 +78,11 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           @blur="onSearchBlur"
         )
 
-          //- template(v-slot:append)
-          //-   q-icon.cursor-pointer(
-          //-     :name="mdiMagnify"
-          //-     @click="onSearchIconClick"
-          //-   )
-        q-tooltip(class="bg-primary text-bold")
-          div We are sorry but this website is not deployed using SSR (yet)
-          div so Algolia search cannot index it.
+          template(v-slot:append)
+            q-icon(
+              :name="mdiMagnify"
+              @click="onSearchIconClick"
+            )
 
       q-separator
 
@@ -138,7 +133,7 @@ import HeaderMenu from 'components/HeaderMenu'
 import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'
 import useScroll from './doc-layout/use-scroll'
-import useAlgolia from './doc-layout/use-algolia'
+import useSearch from './doc-layout/use-search'
 
 export default {
   name: 'DocLayout',
@@ -164,12 +159,11 @@ export default {
     useToc(scope, $route)
     useDrawers(scope, $q, $route)
     useScroll(scope, $route)
-    useAlgolia(scope, $q, $route)
+    useSearch(scope, $q, $route)
 
-    // TODO vue3 - re-enable search when docs are released as SSR
-    // scope.onSearchIconClick = () => {
-    //   scope.algoliaInputRef.value.focus()
-    // }
+    scope.onSearchIconClick = () => {
+      scope.searchInputRef.value.focus()
+    }
 
     return scope
   }
@@ -198,17 +192,17 @@ export default {
 .doc-layout-avatar > div
   border-radius: 0
 
-.doc-algolia
+.doc-search
   .q-field__control
     padding: 0 18px 0 16px !important
-  .q-field__native
-    text-align: center
   &.q-field--focused
     .q-icon
       color: #fff
+  .q-field__append
+    height: 100%
 
 .q-drawer--mobile
-  .doc-algolia .q-field__control
+  .doc-search .q-field__control
     padding-right: 17px !important
   .doc-toc
     .q-item
