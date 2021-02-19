@@ -218,8 +218,10 @@ const processMarkdown = (syntaxTree, entries, entry) => {
       const text = contents.join(' ')
         .replace(/\n/g, ' ')
         .replace(/<br>/g, '')
+        .replace(/\|/g, '')
         .replace(/\s\s+/g, ' ')
         .replace(/::: tip/g, '')
+        .replace(/---/g, '')
         .replace(/::: warning/g, '')
         .replace(/::: danger/g, '')
         .replace(/:::/g, '')
@@ -239,13 +241,16 @@ const processMarkdown = (syntaxTree, entries, entry) => {
   }
 
   syntaxTree.forEach((node, index) => {
-    const val = processNode(node, parent)
-    if (val.anchor) {
-      handleAnchor(val)
-    }
-    // don't accept components embedded into the page
-    else if (val.text.charAt(0) !== '<' && val.text.charAt(val.text.length - 1) !== '>') {
-      contents.push(val.text)
+    // skip yaml part
+    if (index > 1) {
+      const val = processNode(node, parent)
+      if (val.anchor) {
+        handleAnchor(val)
+      }
+      // don't accept components embedded into the page
+      else if (val.text.charAt(0) !== '<' && val.text.charAt(val.text.length - 1) !== '>') {
+        contents.push(val.text)
+      }
     }
   })
 
