@@ -9,13 +9,14 @@
     "dev": "quasar dev",
     "dev:ssr": "quasar dev -m ssr",
     "build": "quasar build -m pwa",
+    "build:search": "node build/search.js",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
-    "docsearch.js": "^2.6.2",
+    "docs-searchbar.js": "^1.1.11",
     "prismjs": "^1.15.0",
     "quasar": "^2.0.0-beta.1"
   },
@@ -36,6 +37,7 @@
     "pug": "^2.0.0",
     "pug-plain-loader": "^1.0.0",
     "raw-loader": "^4.0.0",
+    "simple-markdown": "^0.7.3",
     "toml": "^3.0.0",
     "workbox-webpack-plugin": "^5.1.3"
   },

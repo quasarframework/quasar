@@ -40,8 +40,8 @@ export default function useSearch (scope, $q, $route) {
       'docs-searchbar.js/dist/npm/index'
     ).then(docsearch => {
       docsearch.default({
-        apiKey: 'e3b57f8578a57aaa539b19127bfdf0174926c47edd73cfaee5d66e44e84e403c',
-        hostUrl: process.env.DEBUGGING ? 'http://127.0.0.1:7700' : 'https://next.quasar.dev:7700',
+        apiKey: 'a7c3283824a29d1b0e8042f0266690670b00f7c81d92021b80117563577d2106',
+        hostUrl: 'https://search.quasar.dev',
         indexUid: 'quasar-v2',
         inputSelector: '.doc-search input',
         // layout: 'simple',
@@ -78,7 +78,7 @@ export default function useSearch (scope, $q, $route) {
          */
         handleSelected: (input, event, suggestion, datasetNumber, context) => {
           debugger
-          const url = suggestion.url.replace('https://quasar.dev', '')
+          const url = suggestion.url.replace('https://next.quasar.dev', '')
 
           search.value = ''
           $router.push(url).catch(() => {})
