@@ -9,7 +9,7 @@ q-page.landing
         .text-subtitle1.q-py-md.text-grey-8.row.landing__hero-quote
           div
             | Effortlessly build high-performance & high-quality
-            | <strong>Vue 3</strong> user interfaces in record time
+            | <span class="text-bold text-no-wrap">Vue 3</span> user interfaces in record time
         .landing__hero-row.q-gutter-sm.row.items-center
           q-btn(color="primary" unelevated no-caps to="/introduction-to-quasar" label="Why Quasar?")
           q-btn(color="primary" outline no-caps to="/start" label="Get Started")
@@ -231,7 +231,6 @@ export default {
     max-width: 220px !important
 
   &__front
-    padding: 50px 16px 50px !important
 
     > div
       max-width: 700px !important

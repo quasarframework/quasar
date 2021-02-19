@@ -69,10 +69,8 @@ export default defineComponent({
               action.class
             ],
             tabindex: 0,
-            onClick: () => onOk(action),
-            onKeyup: e => {
-              e.keyCode === 13 && onOk(action)
-            }
+            onClick () { onOk(action) },
+            onKeyup (e) { e.keyCode === 13 && onOk(action) }
           }, [
             h('div', { class: 'q-focus-helper' }),
 
@@ -103,10 +101,8 @@ export default defineComponent({
             tabindex: 0,
             clickable: true,
             dark: isDark.value,
-            onClick: () => onOk(action),
-            onKeyup: e => {
-              e.keyCode === 13 && onOk(action)
-            }
+            onClick () { onOk(action) },
+            onKeyup (e) { e.keyCode === 13 && onOk(action) }
           }, () => [
             h(
               QItemSection,

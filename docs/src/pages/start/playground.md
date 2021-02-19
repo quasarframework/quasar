@@ -7,8 +7,8 @@ You can fork and use these links for reporting issues on GitHub too. These links
 
 | Supplier | URL |
 | --- | --- |
-| jsFiddle | [https://jsfiddle.quasar.dev](https://jsfiddle.net/rstoenescu/a2cuzods/) |
-| Codepen | [https://codepen.quasar.dev](https://codepen.io/rstoenescu/pen/xxEvBLR?editors=101) |
+| jsFiddle | [https://jsfiddle.net/rstoenescu/a2cuzods/](https://jsfiddle.net/rstoenescu/a2cuzods/) |
+| Codepen | [https://codepen.io/rstoenescu/pen/xxEvBLR?editors=101](https://codepen.io/rstoenescu/pen/xxEvBLR?editors=101) |
 
 Make sure to read [about it](/start/umd) before diving in. When you use jsFiddle/Codepen you can skip the Installation section.
 

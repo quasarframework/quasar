@@ -8,17 +8,33 @@ export default {
     }
   },
 
+  watch: {
+    disable (val) {
+      const $form = this.$.provides[ formKey ]
+      if ($form !== void 0) {
+        if (val === true) {
+          this.resetValidation()
+          $form.unbindComponent(this)
+        }
+        else {
+          $form.bindComponent(this)
+        }
+      }
+    }
+  },
+
   methods: {
-    validate () {}
+    validate () {},
+    resetValidation () {}
   },
 
   created () {
     const $form = this.$.provides[ formKey ]
-    $form !== void 0 && $form.bindComponent(this)
+    $form !== void 0 && this.disable !== true && $form.bindComponent(this)
   },
 
   beforeUnmount () {
     const $form = this.$.provides[ formKey ]
-    $form !== void 0 && $form.unbindComponent(this)
+    $form !== void 0 && this.disable !== true && $form.unbindComponent(this)
   }
 }

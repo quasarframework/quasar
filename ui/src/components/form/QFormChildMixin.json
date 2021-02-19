@@ -13,6 +13,10 @@
           "validate().then(outcome => { ... })"
         ]
       }
+    },
+
+    "resetValidation": {
+      "desc": "Needs to be overwritten when getting extended/mixed in"
     }
   }
 }

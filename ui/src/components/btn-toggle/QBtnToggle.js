@@ -86,7 +86,7 @@ export default defineComponent({
         slot,
         props: {
           key: i,
-          onClick: e => set(value, item, e),
+          onClick (e) { set(value, item, e) },
 
           ...attrs,
           ...opt,

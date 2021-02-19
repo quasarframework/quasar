@@ -19,7 +19,8 @@ export const useDialogPluginComponent: useDialogPluginComponent;
 
 interface UseFormChildOptions {
   validate: () => boolean | Promise<boolean>;
-  requiresQForm: boolean;
+  resetValidation?: () => void;
+  requiresQForm?: boolean;
 }
 
 export function useFormChild(options: UseFormChildOptions): void;

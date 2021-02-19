@@ -11,6 +11,7 @@
     <q-toggle v-model="greedy" label="Greedy" />
     <q-toggle v-model="loading" label="Loading" />
     <q-toggle v-model="customInput" label="Custom Input" />
+    <q-toggle v-model="titleIsDisabled" label="Disable Title QSelect" />
     <q-option-group class="q-mb-lg" inline v-model="autofocusEl" dense="dense" :options="autofocusEls" />
 
     <q-form
@@ -42,7 +43,7 @@
 
         <my-comp />
 
-        <!-- TODO vue3 <q-select
+        <q-select
           ref="title"
           name="title"
           v-model="title"
@@ -50,11 +51,12 @@
           :dark="dark"
           :color="dark ? 'yellow' : 'primary'"
           filled
+          :disable="titleIsDisabled"
           label="Title"
           :rules="[ val => !!val ]"
           :autofocus="autofocusEl === 4"
           clearable
-        /> -->
+        />
 
         <q-input
           ref="name"
@@ -189,7 +191,8 @@ export default {
       props: [ 'modelValue' ],
       render () {
         return h(QField, {
-          modelValue: this.modelValue
+          modelValue: this.modelValue,
+          stackLabel: true
         }, {
           control: () => this.modelValue || 'null'
         })
@@ -226,6 +229,8 @@ export default {
       modelAsync: null,
 
       accept: false,
+
+      titleIsDisabled: false,
 
       show: true,
       autofocus: true,

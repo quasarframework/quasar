@@ -1,33 +1,6 @@
 // initial part taken from
 // https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css
 
-// /* Main dropdown wrapper */
-// .meilisearch-autocomplete .dsb-dropdown-menu
-//   width: 500px
-
-// /* Main category */
-// .meilisearch-autocomplete .docs-searchbar-suggestion--category-header
-//   color: darkgray
-//   border: 1px solid gray
-
-// /* Category */
-// .meilisearch-autocomplete .docs-searchbar-suggestion--subcategory-column
-//   color: gray
-
-// /* Title */
-// .meilisearch-autocomplete .docs-searchbar-suggestion--title
-//   font-weight: bold
-//   color: black
-
-// /* Description */
-// .meilisearch-autocomplete .docs-searchbar-suggestion--text
-//   font-size: 0.8rem
-//   color: gray
-
-// /* Highlighted text */
-// .meilisearch-autocomplete .docs-searchbar-suggestion--highlight
-//   color: blue
-
 .searchbox
   display: inline-block
   position: relative
@@ -522,8 +495,7 @@
   // fix for IE
   display: flex !important
 
-  .ds-dropdown-menu,
-  .dsb-dropdown-menu
+  .ds-dropdown-menu
     box-shadow: $shadow-2
     max-width: 93vw
     width: 500px
@@ -538,8 +510,7 @@
       max-height: 80vh
       overflow: auto
 
-    .ds-suggestions,
-    .dsb-suggestions
+    .ds-suggestions
       margin-top: 0
       border-bottom: 1px solid #ddd
 
@@ -606,4 +577,3 @@
         margin: -6px 0
         padding: 6px 0 6px 4px !important
         width: 100% !important
-

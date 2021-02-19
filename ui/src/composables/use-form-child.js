@@ -1,22 +1,32 @@
-import { inject, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { inject, watch, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import { formKey } from '../utils/private/symbols.js'
 
-export default function ({ validate, requiresQForm }) {
+export default function ({ validate, resetValidation, requiresQForm }) {
   const $form = inject(formKey, false)
 
   if ($form !== false) {
-    const vm = getCurrentInstance()
+    const { props, proxy } = getCurrentInstance()
 
     // export public method (so it can be used in QForm)
-    Object.assign(vm.proxy, validate)
+    Object.assign(proxy, validate)
+
+    watch(() => props.disable, val => {
+      if (val === true) {
+        typeof resetValidation === 'function' && resetValidation()
+        $form.unbindComponent(proxy)
+      }
+      else {
+        $form.bindComponent(proxy)
+      }
+    })
 
     // register component to parent QForm
-    $form.bindComponent(vm.proxy)
+    props.disable !== true && $form.bindComponent(proxy)
 
     onBeforeUnmount(() => {
       // unregister component
-      $form.unbindComponent(vm.proxy)
+      props.disable !== true && $form.unbindComponent(proxy)
     })
   }
   else if (requiresQForm !== true) {

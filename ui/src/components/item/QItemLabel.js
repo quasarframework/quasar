@@ -20,7 +20,7 @@ export default defineComponent({
       + (props.overline === true ? ' q-item__label--overline text-overline' : '')
       + (props.caption === true ? ' q-item__label--caption text-caption' : '')
       + (props.header === true ? ' q-item__label--header' : '')
-      + (props.parsedLines === 1 ? ' ellipsis' : '')
+      + (parsedLines.value === 1 ? ' ellipsis' : '')
     )
 
     const style = computed(() => {
