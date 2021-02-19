@@ -76,12 +76,9 @@ export default function useSearch (scope, $q, $route) {
          * @param {Number} datasetNumber this should always be equal to 1 as docs-searchbar.js is searching into one dataset at a time. You can ignore this attribute.
          * @param {Object} context additional information about the selection. Contains a .selectionMethod key that can be either click, enterKey, tabKey or blur, depending on how the suggestion was selected.
          */
-        handleSelected: (input, event, suggestion, datasetNumber, context) => {
-          debugger
-          const url = suggestion.url.replace('https://next.quasar.dev', '')
-
+        handleSelected (input, event, suggestion, datasetNumber, context) {
           search.value = ''
-          $router.push(url).catch(() => {})
+          $router.push(suggestion.url).catch(() => {})
           searchInputRef.value.blur()
         }
       })
