@@ -25,7 +25,7 @@ const createFolder = (folder) => {
 }
 
 const createIndex = (data) => {
-  const requiredFields = [ levelName + '0', levelName + '1', 'url' ]
+  const requiredFields = [ levelName + '0', 'url' ]
   const missingFields = requiredFields.filter(
     (requiredField) => !data[ requiredField ]
   )
@@ -275,8 +275,7 @@ const processChildren = (parent, entry, entries, level) => {
 
 const processMenuItem = (menuItem, entries, level = 0) => {
   const entryItem = {
-    [ levelName + '0' ]: 'Documentation',
-    [ levelName + '1' ]: menuItem.name,
+    [ levelName + level ]: menuItem.name,
     content: '',
     anchor: '',
     url: '/' + menuItem.path
