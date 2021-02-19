@@ -4,6 +4,7 @@ const jsYaml = require('js-yaml')
 const SimpleMarkdown = require('simple-markdown')
 
 const levelName = 'l'
+const stripEmptyContent = false
 
 // get the menu from assets folder
 const menu = require(path.resolve(__dirname, '../src/assets/menu.js'))
@@ -61,6 +62,23 @@ const cleanObject = (item) => {
   return item
 }
 
+const getNextLevel = (item, text) => {
+  for (let index = 0; index < 7; ++index) {
+    if (item[ levelName + index ] === void 0 || item[ levelName + index ] === text) {
+      return index
+    }
+  }
+  return 6 // highest
+}
+
+// makes sure there is content before adding to array
+const addItem = (entries, item) => {
+  if (stripEmptyContent === true && (item.content === null || item.content === '')) {
+    return
+  }
+  entries.push(createIndex(item))
+}
+
 // returns the contents of the associated file
 const getFileContents = (mdPath) => {
   const page = path.resolve(__dirname, mdPath)
@@ -82,12 +100,16 @@ const getYamlFields = (yaml) => {
   }
 }
 
-const buildParagraph = (content, text2 = '', skip = 0) => {
+// responsible for collection the text under
+// an anchor until it hits  the next anchor
+const buildParagraph = (content, remaining = '', skip = 0) => {
   const text = []
 
   const addText = (data) => {
     text.push(data)
   }
+
+  addText(remaining)
 
   content.forEach((node, index) => {
     if (index >= skip) {
@@ -117,7 +139,7 @@ const buildParagraph = (content, text2 = '', skip = 0) => {
   return { text: text.join('') }
 }
 
-const processNode = (node) => {
+const processNode = (node, entry) => {
   const text = []
   if (Array.isArray(node)) {
     node.forEach(leaf => {
@@ -137,7 +159,10 @@ const processNode = (node) => {
       let remaining = ''
       let index = 0
       for (; index < node.content.length; ++index) {
-        const content = node.content[ index ].content
+        let content = node.content[ index ].content
+        if (Array.isArray(content)) {
+          content = buildParagraph(content).text
+        }
         const parts = content.split('\n')
         text += parts[ 0 ]
         if (parts.length > 1) {
@@ -146,15 +171,16 @@ const processNode = (node) => {
           break
         }
       }
-      const level = text.indexOf(' ')
-      const subheading = text.slice(level + 1)
-      const id = {
+      const level2 = text.indexOf(' ')
+      const subheading = text.slice(level2 + 1)
+      const level = getNextLevel(entry, subheading)
+      const entryItem = {
         [ levelName + (level) ]: subheading,
         anchor: subheading
       }
       const data = buildParagraph(node.content, remaining, index + 1)
-      id.content = data.text
-      return id
+      entryItem.content = data.text
+      return entryItem
     }
 
     const data = buildParagraph(node.content)
@@ -163,7 +189,7 @@ const processNode = (node) => {
   else if (node.type === 'heading') {
     const data = buildParagraph(node.content)
     const subheading = data.text
-    const level = node.level
+    const level = getNextLevel(entry, subheading)
     const id = {
       [ levelName + (level) ]: subheading,
       anchor: subheading
@@ -171,7 +197,7 @@ const processNode = (node) => {
     return id
   }
   else if (node.type === 'blockQuote') {
-    const data = processNode(node.content)
+    const data = processNode(node.content, entry)
     text.push(data.text)
   }
   else {
@@ -185,6 +211,7 @@ const processNode = (node) => {
 
 const processMarkdown = (syntaxTree, entries, entry) => {
   const contents = []
+  let parent = { ...entry }
 
   const handleAnchor = (val = null) => {
     if (contents.length > 0) {
@@ -199,12 +226,11 @@ const processMarkdown = (syntaxTree, entries, entry) => {
         .trim()
 
       // handle text from previous
-      const data = cleanObject(createIndex({ ...entry, content: text }))
-      entries.push(data)
+      addItem(entries, cleanObject({ ...parent, content: text }))
 
       if (val !== null) {
         // start a new subheading
-        entry = { ...entry, ...val, content: '' }
+        parent = { ...entry, ...val, content: '' }
       }
 
       // clean up contents array
@@ -213,16 +239,13 @@ const processMarkdown = (syntaxTree, entries, entry) => {
   }
 
   syntaxTree.forEach((node, index) => {
-    // skip first one which is the yaml
-    if (index > 1) {
-      const val = processNode(node)
-      if (val.anchor) {
-        handleAnchor(val)
-      }
-      // don't accept components embedded into the page
-      else if (val.text.charAt(0) !== '<' && val.text.charAt(val.text.length - 1) !== '>') {
-        contents.push(val.text)
-      }
+    const val = processNode(node, parent)
+    if (val.anchor) {
+      handleAnchor(val)
+    }
+    // don't accept components embedded into the page
+    else if (val.text.charAt(0) !== '<' && val.text.charAt(val.text.length - 1) !== '>') {
+      contents.push(val.text)
     }
   })
 
@@ -230,30 +253,32 @@ const processMarkdown = (syntaxTree, entries, entry) => {
   handleAnchor()
 }
 
-const processPage = (page, entry, entries, level = 0) => {
+const processPage = (page, entry, entries) => {
   const md = getFileContents(page)
-  const yaml = getYaml(md)
-  const { title, desc } = getYamlFields(yaml)
+  // const yaml = getYaml(md)
+  // const { title, desc } = getYamlFields(yaml)
 
+  // const level = getNextLevel(entry, title)
   const entryItem = {
     ...entry,
-    [ levelName + level ]: title,
-    content: desc,
+    // [ levelName + level ]: title,
+    // content: desc,
     anchor: 'Introduction'
   }
 
-  entries.push(cleanObject(createIndex(entryItem)))
+  addItem(entries, cleanObject(entryItem))
 
   const syntaxTree = mdParse(md)
   processMarkdown(syntaxTree, entries, entryItem)
 }
 
-const processChildren = (parent, entry, entries, level) => {
+const processChildren = (parent, entry, entries) => {
   if (parent.children) {
     parent.children.forEach(menuItem => {
       if (menuItem.external !== true) {
         let entryChild = { ...entry }
         if (menuItem.path) {
+          const level = getNextLevel(entry, menuItem.name)
           entryChild = {
             ...entry,
             [ levelName + (level) ]: menuItem.name,
@@ -263,17 +288,18 @@ const processChildren = (parent, entry, entries, level) => {
         }
 
         if (menuItem.children) {
-          processChildren(menuItem, entryChild, entries, level + 1)
+          processChildren(menuItem, entryChild, entries)
         }
         else {
-          processPage(intro + entryChild.url + '.md', entryChild, entries, level + 1)
+          processPage(intro + entryChild.url + '.md', entryChild, entries)
         }
       }
     })
   }
 }
 
-const processMenuItem = (menuItem, entries, level = 0) => {
+const processMenuItem = (menuItem, entries) => {
+  let level = 0
   const entryItem = {
     [ levelName + level ]: menuItem.name,
     content: '',
@@ -283,15 +309,16 @@ const processMenuItem = (menuItem, entries, level = 0) => {
 
   if (menuItem.external !== true) {
     if (menuItem.children) {
+      level = getNextLevel(entryItem, menuItem.name)
       const entryChild = {
         ...entryItem,
         [ levelName + level ]: menuItem.name,
         anchor: menuItem.name
       }
-      processChildren(menuItem, entryChild, entries, level)
+      processChildren(menuItem, entryChild, entries)
     }
     else {
-      processPage(intro + entryItem.url + '.md', entryItem, entries, level)
+      processPage(intro + entryItem.url + '.md', entryItem, entries)
     }
   }
 }
