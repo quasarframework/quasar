@@ -241,9 +241,10 @@ const processPage = (page, entry, entries, level = 0) => {
   const yaml = getYaml(md)
   const { title, desc } = getYamlFields(yaml)
 
+  const slug = slugify(title)
   const entryItem = {
     ...entry,
-    [ 'hierarchy_lvl' + level ]: title,
+    [ 'hierarchy_lvl' + level ]: slug,
     content: desc,
     anchor: 'Introduction'
   }
@@ -260,9 +261,10 @@ const processChildren = (parent, entry, entries, level) => {
       if (menuItem.external !== true) {
         let entryChild = { ...entry }
         if (menuItem.path) {
+          const slug = slugify(menuItem.name)
           entryChild = {
             ...entry,
-            [ 'hierarchy_lvl' + (level) ]: menuItem.name,
+            [ 'hierarchy_lvl' + (level) ]: slug,
             url: entry.url + '/' + menuItem.path
           }
         }
@@ -289,9 +291,10 @@ const processMenuItem = (menuItem, entries, level = 0) => {
 
   if (menuItem.external !== true) {
     if (menuItem.children) {
+      const slug = slugify(menuItem.name)
       const entryChild = {
         ...entryItem,
-        [ 'hierarchy_lvl' + level ]: menuItem.name
+        [ 'hierarchy_lvl' + level ]: slug
       }
       processChildren(menuItem, entryChild, entries, level)
     }
@@ -322,4 +325,3 @@ const run = () => {
 }
 
 run()
-sleep(3000)
