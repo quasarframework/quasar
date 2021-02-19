@@ -112,7 +112,6 @@ export default function useSearch (scope, $q, $route) {
     search,
     searchInputRef,
 
-    // searchPlaceholder: 'Search is not available yet',
     searchPlaceholder: computed(() => {
       return searchFocused.value === true
         ? 'Type to start searching...'

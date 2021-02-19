@@ -3,6 +3,8 @@ const path = require('path')
 const jsYaml = require('js-yaml')
 const SimpleMarkdown = require('simple-markdown')
 
+const { slugify } = require('./utils')
+
 // get the menu from assets folder
 const menu = require(path.resolve(__dirname, '../src/assets/menu.js'))
 // markdown parser (not perfect, but works well enough)
@@ -14,16 +16,6 @@ const intro = '../src/pages'
 
 let objectID = 1
 const getObjectID = () => objectID++
-
-const slugify = (str) => {
-  return encodeURIComponent(String(str).trim().replace(/\s+/g, '-'))
-}
-
-const sleep = (delay = 0) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, delay)
-  })
-}
 
 const createFolder = (folder) => {
   const dir = path.join(__dirname, '..', folder)
@@ -46,12 +38,6 @@ const createIndex = (data) => {
   }
   return {
     objectID: getObjectID(),
-    // hierarchy_radio_lvl0: null,
-    // hierarchy_radio_lvl1: null,
-    // hierarchy_radio_lvl2: null,
-    // hierarchy_radio_lvl3: null,
-    // hierarchy_radio_lvl4: null,
-    // hierarchy_radio_lvl5: null,
     hierarchy_lvl0: null,
     hierarchy_lvl1: null,
     hierarchy_lvl2: null,
@@ -309,19 +295,21 @@ const processMenuItem = (menuItem, entries, level = 0) => {
 const run = () => {
   const start = new Date().getTime()
 
-  createFolder('search')
+  createFolder('dist')
 
+  const fileName = path.resolve(__dirname, '../dist/indices.json')
   const entries = []
 
   menu.forEach(item => {
     processMenuItem(item, entries)
   })
 
-  fs.writeFileSync(path.resolve(__dirname, '../search/indices.json'), JSON.stringify(entries, null, 2), () => {})
+  fs.writeFileSync(fileName, JSON.stringify(entries, null, 2), () => {})
 
   const end = new Date().getTime()
   const time = end - start
   console.log(`Finished ${entries.length} indices in ${time}ms`)
+  console.log(`Generated ${fileName}`)
 }
 
 run()
