@@ -80,7 +80,7 @@
 
       q-separator
 
-      q-tab-panels.bg-code(v-model="exportTab", animated)
+      q-tab-panels(v-model="exportTab", animated)
         q-tab-panel.q-pa-none(name="sass")
           doc-code(copy, :code="sassExport")
 

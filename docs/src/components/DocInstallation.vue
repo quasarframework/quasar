@@ -10,7 +10,7 @@ q-card.doc-installation.q-my-lg(flat, bordered)
 
   q-separator
 
-  q-tab-panels.bg-code(v-model="currentTab", animated)
+  q-tab-panels(v-model="currentTab", animated)
     q-tab-panel.q-pa-none(name="Quasar CLI")
       doc-code(:code="QuasarCli")
 

@@ -14,10 +14,6 @@
   tab-size: 4
   hyphens: none
 
-@media (min-width: 1024px)
-  .doc-code, .doc-code__inner
-    font-size: 13px
-
 .doc-code
   overflow: visible
   padding: 0
@@ -32,10 +28,11 @@
     overflow: auto
 
     &--prerendered
-      border-width: 1px 1px 1px 3px
+      border-width: 1px 4px
       border-style: solid
       border-color: $separator-color
       border-left-color: $primary
+      border-right-color: $primary
       border-radius: $generic-border-radius
 
 .token.comment,
@@ -81,7 +78,6 @@
 .token.url,
 .token.variable
   color: #da5a20
-  // background: rgba(255, 255, 255, 0.5)
 
 .token.atrule,
 .token.attr-value,

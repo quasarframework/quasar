@@ -34,7 +34,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
 
       q-separator
 
-      q-tab-panels.bg-code.text-grey-3.text-weight-regular(
+      q-tab-panels.text-grey-3.text-weight-regular(
         v-model="currentTab",
         animated
       )
@@ -194,7 +194,6 @@ export default {
 .doc-example
 
   &__toolbar
-    background: $grey-1
     color: $grey-8
     > .q-btn
       color: $grey-7
