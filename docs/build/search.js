@@ -3,7 +3,7 @@ const path = require('path')
 const jsYaml = require('js-yaml')
 const SimpleMarkdown = require('simple-markdown')
 
-const { slugify } = require('./utils')
+const levelName = 'l'
 
 // get the menu from assets folder
 const menu = require(path.resolve(__dirname, '../src/assets/menu.js'))
@@ -25,7 +25,7 @@ const createFolder = (folder) => {
 }
 
 const createIndex = (data) => {
-  const requiredFields = [ 'hierarchy_lvl0', 'hierarchy_lvl1', 'url' ]
+  const requiredFields = [ levelName + '0', levelName + '1', 'url' ]
   const missingFields = requiredFields.filter(
     (requiredField) => !data[ requiredField ]
   )
@@ -38,17 +38,27 @@ const createIndex = (data) => {
   }
   return {
     objectID: getObjectID(),
-    hierarchy_lvl0: null,
-    hierarchy_lvl1: null,
-    hierarchy_lvl2: null,
-    hierarchy_lvl3: null,
-    hierarchy_lvl4: null,
-    hierarchy_lvl5: null,
-    hierarchy_lvl6: null,
+    [ levelName + '0' ]: null,
+    [ levelName + '1' ]: null,
+    [ levelName + '2' ]: null,
+    [ levelName + '3' ]: null,
+    [ levelName + '4' ]: null,
+    [ levelName + '5' ]: null,
+    [ levelName + '6' ]: null,
     content: null,
     anchor: null,
     ...data
   }
+}
+
+const cleanObject = (item) => {
+  const keys = Object.keys(item)
+  for (const key in keys) {
+    if (item[ keys[ key ] ] === null) {
+      delete item[ keys[ key ] ]
+    }
+  }
+  return item
 }
 
 // returns the contents of the associated file
@@ -138,10 +148,9 @@ const processNode = (node) => {
       }
       const level = text.indexOf(' ')
       const subheading = text.slice(level + 1)
-      const slug = slugify(subheading)
       const id = {
-        anchor: slug,
-        [ 'hierarchy_lvl' + (level) ]: subheading
+        [ levelName + (level) ]: subheading,
+        anchor: subheading
       }
       const data = buildParagraph(node.content, remaining, index + 1)
       id.content = data.text
@@ -155,10 +164,9 @@ const processNode = (node) => {
     const data = buildParagraph(node.content)
     const subheading = data.text
     const level = node.level
-    const slug = slugify(subheading)
     const id = {
-      [ 'hierarchy_lvl' + (level) ]: subheading,
-      anchor: slug
+      [ levelName + (level) ]: subheading,
+      anchor: subheading
     }
     return id
   }
@@ -191,7 +199,7 @@ const processMarkdown = (syntaxTree, entries, entry) => {
         .trim()
 
       // handle text from previous
-      const data = createIndex({ ...entry, content: text })
+      const data = cleanObject(createIndex({ ...entry, content: text }))
       entries.push(data)
 
       if (val !== null) {
@@ -229,12 +237,12 @@ const processPage = (page, entry, entries, level = 0) => {
 
   const entryItem = {
     ...entry,
-    [ 'hierarchy_lvl' + level ]: title,
+    [ levelName + level ]: title,
     content: desc,
     anchor: 'Introduction'
   }
 
-  entries.push(createIndex(entryItem))
+  entries.push(cleanObject(createIndex(entryItem)))
 
   const syntaxTree = mdParse(md)
   processMarkdown(syntaxTree, entries, entryItem)
@@ -246,12 +254,11 @@ const processChildren = (parent, entry, entries, level) => {
       if (menuItem.external !== true) {
         let entryChild = { ...entry }
         if (menuItem.path) {
-          const slug = slugify(menuItem.name)
           entryChild = {
             ...entry,
-            [ 'hierarchy_lvl' + (level) ]: menuItem.name,
+            [ levelName + (level) ]: menuItem.name,
             url: entry.url + '/' + menuItem.path,
-            anchor: slug
+            anchor: menuItem.name
           }
         }
 
@@ -268,8 +275,8 @@ const processChildren = (parent, entry, entries, level) => {
 
 const processMenuItem = (menuItem, entries, level = 0) => {
   const entryItem = {
-    hierarchy_lvl0: 'Documentation',
-    hierarchy_lvl1: menuItem.name,
+    [ levelName + '0' ]: 'Documentation',
+    [ levelName + '1' ]: menuItem.name,
     content: '',
     anchor: '',
     url: '/' + menuItem.path
@@ -277,11 +284,10 @@ const processMenuItem = (menuItem, entries, level = 0) => {
 
   if (menuItem.external !== true) {
     if (menuItem.children) {
-      const slug = slugify(menuItem.name)
       const entryChild = {
         ...entryItem,
-        [ 'hierarchy_lvl' + level ]: menuItem.name,
-        anchor: slug
+        [ levelName + level ]: menuItem.name,
+        anchor: menuItem.name
       }
       processChildren(menuItem, entryChild, entries, level)
     }
