@@ -76,7 +76,7 @@ const addItem = (entries, item) => {
   if (stripEmptyContent === true && (item.content === null || item.content === '')) {
     return
   }
-  entries.push(createIndex(item))
+  entries.push(cleanObject(createIndex(item)))
 }
 
 // returns the contents of the associated file
@@ -226,7 +226,7 @@ const processMarkdown = (syntaxTree, entries, entry) => {
         .trim()
 
       // handle text from previous
-      addItem(entries, cleanObject({ ...parent, content: text }))
+      addItem(entries, { ...parent, content: text })
 
       if (val !== null) {
         // start a new subheading
@@ -266,7 +266,7 @@ const processPage = (page, entry, entries) => {
     anchor: 'Introduction'
   }
 
-  addItem(entries, cleanObject(entryItem))
+  addItem(entries, entryItem)
 
   const syntaxTree = mdParse(md)
   processMarkdown(syntaxTree, entries, entryItem)
