@@ -20,6 +20,25 @@ const mdParse = SimpleMarkdown.defaultBlockParse
 // where the markdown lives
 const intro = '../src/pages'
 
+// bottom of the list (therefore higher index) gets sorted higher
+const processOrder = [
+  'Options & Helpers',
+  'Style & Identity',
+  'Quasar Utils',
+  'Vue Composables',
+  'Quasar Plugins',
+  'Vue Directives',
+  'Vue Components'
+]
+
+const sortedMenu = menu.sort((a, b) => {
+  const aIndex = processOrder.indexOf(a.name)
+  const bIndex = processOrder.indexOf(b.name)
+  if (aIndex > bIndex) return -1
+  if (aIndex < bIndex) return 1
+  return 0
+})
+
 let objectID = 1
 const getObjectID = () => objectID++
 
@@ -360,7 +379,7 @@ const run = () => {
   const fileName = path.resolve(__dirname, '../dist/indices.json')
   const entries = []
 
-  menu.forEach(item => {
+  sortedMenu.forEach(item => {
     processMenuItem(item, entries)
   })
 
