@@ -235,4 +235,26 @@ export default {
       font-size: 18px
     .time
       font-size: 38px
+
+.app-search-input,
+.app-search-input .q-field__control
+  height: 50px
+
+.app-search-input
+  .q-field__control
+    padding: 0 18px 0 16px !important
+  input
+    line-height: 38px
+  .q-field__prepend,
+  .q-field__append
+    height: 100%
+    cursor: text !important
+  kbd
+    font-size: .6em !important
+    min-width: 1.6em
+    min-height: 1.5em
+    font-weight: bold
+
+body.mobile .app-search-input kbd
+  display: none
 </style>

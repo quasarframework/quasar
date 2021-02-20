@@ -74,24 +74,6 @@ export default {
 </script>
 
 <style lang="sass">
-.app-search-input,
-.app-search-input .q-field__control
-  height: 50px
-
-.app-search-input
-  .q-field__control
-    padding: 0 18px 0 16px !important
-  input
-    line-height: 38px
-  .q-field__prepend,
-  .q-field__append
-    height: 100%
-    cursor: text !important
-  kbd
-    font-size: .6em !important
-    min-width: 1.6em
-    font-weight: bold
-
 .app-search
 
   &__instructions
