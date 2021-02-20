@@ -1,6 +1,7 @@
 ---
 title: Intersection
 desc: The QIntersection vue component, a wrapper over Quasar's Intersection directive.
+keys: QIntersection
 related:
   - /vue-directives/intersection
   - /options/transitions

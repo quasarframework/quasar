@@ -1,6 +1,7 @@
 ---
 title: Slider
 desc: The QSlider Vue component is a great way for the user to specify a number value between a minimum and maximum value, with optional steps between valid values.
+keys: QSlider
 related:
   - /vue-components/range
   - /vue-components/field

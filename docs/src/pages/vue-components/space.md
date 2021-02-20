@@ -1,6 +1,7 @@
 ---
 title: QSpace
 desc: The QSpace Vue component fills all the available space inside of a flexbox DOM element.
+keys: QSpace
 ---
 The purpose of QSpace (has no props) is to simply fill all available space inside of a flexbox DOM element.
 

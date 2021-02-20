@@ -1,6 +1,7 @@
 ---
 title: Pagination
 desc: The QPagination Vue component allows you to easily display a pagination control on a page.
+keys: QPagination
 ---
 The QPagination component is available for whenever a pagination system is required. It offers the user a simple UI for moving between items or pages.
 

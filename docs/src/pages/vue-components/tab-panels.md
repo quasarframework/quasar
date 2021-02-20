@@ -1,6 +1,7 @@
 ---
 title: Tab Panels
 desc: The QTabPanel Vue component is a way of displaying more information using less window real estate.
+keys: QTabPanel,QTabPanels
 related:
   - /vue-components/tabs
 ---

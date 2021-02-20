@@ -1,6 +1,7 @@
 ---
 title: Chip
 desc: The QChip Vue component is a simple UI block entity, representing for example more advanced underlying data, such as a contact, but in a compact way.
+keys: QChip
 related:
   - /vue-components/avatar
   - /vue-components/icon

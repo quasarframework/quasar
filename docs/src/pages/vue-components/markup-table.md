@@ -1,6 +1,7 @@
 ---
 title: Markup Table
 desc: The QMarkupTable Vue component is a helper wrapper which styles a native table.
+keys: QMarkupTable
 related:
   - /vue-components/table
 ---

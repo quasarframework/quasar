@@ -1,6 +1,7 @@
 ---
 title: Inner Loading
 desc: The QInnerLoading Vue component allows you to add a loading indicator within a component in the form of a local overlay.
+keys: QInnerLoading
 related:
   - /vue-components/linear-progress
   - /vue-components/circular-progress

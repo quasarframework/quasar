@@ -1,6 +1,7 @@
 ---
 title: Form
 desc: The QForm Vue component renders a form and allows easy validation of child form components like QInput, QSelect or QField.
+keys: QForm
 related:
   - /vue-components/input
   - /vue-components/select

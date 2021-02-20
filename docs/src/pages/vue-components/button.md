@@ -1,6 +1,7 @@
 ---
 title: Button
 desc: The QBtn Vue component is a button with features like shaping, loading state, ripple and more.
+keys: QBtn
 related:
   - /vue-components/button-group
   - /vue-components/button-dropdown

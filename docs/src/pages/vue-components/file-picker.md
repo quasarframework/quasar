@@ -1,6 +1,7 @@
 ---
 title: File Picker
 desc: The QFile Vue component is used as a file picker.
+keys: QFile
 related:
   - /vue-components/uploader
   - /vue-components/input

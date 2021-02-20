@@ -1,6 +1,7 @@
 ---
 title: Toolbar
 desc: The QToolbar and QToolbarTitle Vue components are usually part of QHeader or QFooter, but it can be used anywhere on the page.
+keys: QToolbar,QToolbarTitle
 related:
   - /layout/header-and-footer
   - /vue-components/icon

@@ -1,6 +1,7 @@
 ---
 title: Select
 desc: The QSelect Vue component has two types of selection - single or multiple. This component opens up a menu for the selection list and action. A filter can also be used for longer lists.
+keys: QSelect
 ---
 
 The QSelect component has two types of selection: single or multiple. This component opens up a menu for the selection list and action. A filter can also be used for longer lists.

@@ -1,6 +1,7 @@
 ---
 title: Banner
 desc: The QBanner Vue component displays a prominent message and related optional actions.
+keys: QBanner
 ---
 The QBanner component creates a banner element to display a prominent message and related optional actions.
 

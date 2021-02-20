@@ -1,6 +1,7 @@
 ---
 title: Uploader
 desc: The QUploader Vue component is a way for the user to upload files to a backend server.
+keys: QUploader
 related:
   - /vue-components/file-picker
 ---

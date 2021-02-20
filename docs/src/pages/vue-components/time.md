@@ -1,6 +1,7 @@
 ---
 title: QTime
 desc: The QTime component provides a method to input time.
+keys: QTime
 related:
   - /vue-components/date
   - /quasar-utils/date-utils

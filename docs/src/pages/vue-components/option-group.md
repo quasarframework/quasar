@@ -1,6 +1,7 @@
 ---
 title: Option Group
 desc: The QOptionGroup Vue component allows you better control for grouping binary form input components like checkboxes, radios or toggles.
+keys: QOptionGroup
 related:
   - /vue-components/radio
   - /vue-components/checkbox

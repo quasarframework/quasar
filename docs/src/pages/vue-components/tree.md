@@ -1,6 +1,7 @@
 ---
 title: Tree
 desc: The QTree is a highly configurable Vue component which displays hierarchical data, such as a table of contents in a tree structure.
+keys: QTree
 ---
 Quasar Tree represents a highly configurable component that displays hierarchical data, such as a table of contents in a tree structure.
 

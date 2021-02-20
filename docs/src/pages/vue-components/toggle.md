@@ -1,6 +1,7 @@
 ---
 title: Toggle
 desc: The QToggle component is a basic element for user input. You can use it for turning settings, features or true/false inputs on and off.
+keys: QToggle
 related:
   - /vue-components/checkbox
   - /vue-components/option-group

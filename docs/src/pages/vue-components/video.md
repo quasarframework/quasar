@@ -1,6 +1,7 @@
 ---
 title: Video
 desc: The QVideo Vue components makes embedding a video like Youtube easy. It also resizes to fit the container by default.
+keys: QVideo
 ---
 
 Using the QVideo component makes embedding a video like Youtube easy. It also resizes to fit the container by default.

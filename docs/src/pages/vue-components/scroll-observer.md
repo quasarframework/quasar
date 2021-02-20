@@ -1,6 +1,7 @@
 ---
 title: Scroll Observer
 desc: The QScrollObserver Vue component emits an event whenever the user scrolls the page or the parent scrollable container.
+keys: QScrollObserver
 related:
   - /vue-components/resize-observer
 ---

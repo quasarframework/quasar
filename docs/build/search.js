@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const SimpleMarkdown = require('simple-markdown')
+const { parseFrontMatter } = require('./md-loader-utils.js')
 
 const { slugify } = require('./utils')
 
@@ -13,8 +14,8 @@ const menu = require(path.resolve(__dirname, '../src/assets/menu.js'))
 // markdown parser (not perfect, but works well enough)
 const mdParse = SimpleMarkdown.defaultBlockParse
 
-// eslint-disable-next-line no-useless-escape
-const yamlBlockPattern = /^(?:\-\-\-)(.*?)(?:\-\-\-|\.\.\.)/s
+// // eslint-disable-next-line no-useless-escape
+// const yamlBlockPattern = /^(?:\-\-\-)(.*?)(?:\-\-\-|\.\.\.)/s
 
 // where the markdown lives
 const intro = '../src/pages'
@@ -42,7 +43,7 @@ const createIndex = (data) => {
     )
   }
   return {
-    objectID: getObjectID(),
+    id: getObjectID(),
     [ levelName + '0' ]: null,
     [ levelName + '1' ]: null,
     [ levelName + '2' ]: null,
@@ -50,6 +51,7 @@ const createIndex = (data) => {
     [ levelName + '4' ]: null,
     [ levelName + '5' ]: null,
     [ levelName + '6' ]: null,
+    keys: null,
     content: null,
     anchor: null,
     ...data
@@ -91,19 +93,7 @@ const getFileContents = (mdPath) => {
   })
 }
 
-// retrieves yaml from a markdown page
-const getYaml = (md) => {
-  return yamlBlockPattern.exec(md)[ 1 ]
-}
-
-const removeYaml = (md) => {
-  const yaml = getYaml(md)
-  md = md.substr(yaml.length + 6, md.length)
-  return md
-}
-
-// responsible for collection the text under
-// an anchor until it hits  the next anchor
+// responsible for collecting the text
 const buildParagraph = (content, remaining = '', skip = 0) => {
   const text = []
 
@@ -143,6 +133,7 @@ const buildParagraph = (content, remaining = '', skip = 0) => {
 
 const processNode = (node, entry) => {
   const text = []
+  let type = 'page-content'
   if (Array.isArray(node)) {
     node.forEach(leaf => {
       const data = processNode(leaf)
@@ -150,9 +141,10 @@ const processNode = (node, entry) => {
     })
   }
   else if (node.type === 'list' && node.items && Array.isArray(node.items)) {
+    type = 'page-list'
     node.items.forEach(leaf => {
       const data = buildParagraph(leaf)
-      text.push(data.text)
+      text.push('* ' + data.text)
     })
   }
   else if (node.type === 'paragraph' && Array.isArray(node.content)) {
@@ -189,6 +181,7 @@ const processNode = (node, entry) => {
     text.push(data.text)
   }
   else if (node.type === 'heading') {
+    type = 'page-heading'
     const data = buildParagraph(node.content)
     const subheading = data.text
     const level = getNextLevel(entry, subheading)
@@ -199,6 +192,8 @@ const processNode = (node, entry) => {
     return id
   }
   else if (node.type === 'blockQuote') {
+    // type = 'page-quote'
+    type = 'page-content'
     const data = processNode(node.content, entry)
     text.push(data.text)
   }
@@ -208,18 +203,29 @@ const processNode = (node, entry) => {
       text.push(data.text)
     }
   }
-  return { text: text.join(' ') }
+  return { text: text.join(' '), type }
+}
+
+const processTip = (val) => {
+  const start = val.text.indexOf('\n')
+  const end = val.text.lastIndexOf('\n')
+  // val.type = 'page-tip'
+  val.type = 'page-content'
+  val.text = val.text.substr(start + 1, val.text.length - start - (val.text.length - end) - 1)
+  return val
 }
 
 const processMarkdown = (syntaxTree, entries, entry) => {
   const contents = []
+  let type = 'page-content'
   let parent = { ...entry }
 
   const handleAnchor = (val = null) => {
+    const joiner = type === 'page-list' ? '' : ' '
     if (contents.length > 0) {
-      const text = contents.join(' ')
-        .replace(/\n/g, ' ')
-        .replace(/<br>/g, '')
+      const text = contents.join(joiner)
+        // .replace(/\n/g, ' ')
+        .replace(/<br>/g, '\n')
         .replace(/\|/g, '')
         .replace(/\s\s+/g, ' ')
         .replace(/::: tip/g, '')
@@ -230,12 +236,10 @@ const processMarkdown = (syntaxTree, entries, entry) => {
         .trim()
 
       // handle text from previous
-      addItem(entries, { ...parent, content: text })
+      addItem(entries, { ...parent, content: text, type })
 
-      if (val !== null) {
-        // start a new subheading
-        parent = { ...entry, ...val, content: '' }
-      }
+      // start a new index
+      parent = { ...entry, content: '' }
 
       // clean up contents array
       contents.splice(0, contents.length)
@@ -243,13 +247,23 @@ const processMarkdown = (syntaxTree, entries, entry) => {
   }
 
   syntaxTree.forEach((node, index) => {
-    const val = processNode(node, parent)
-    if (val.anchor) {
-      handleAnchor(val)
-    }
-    // don't accept components embedded into the page
-    else if (val.text.charAt(0) !== '<' && val.text.charAt(val.text.length - 1) !== '>') {
-      contents.push(val.text)
+    let val = processNode(node, parent)
+
+    if (val.text !== void 0 && val.text !== '') {
+      if (val.text.startsWith(':::') && val.text.endsWith(':::')) {
+        val = processTip(val)
+      }
+
+      if (val.anchor || type !== val.type) {
+        handleAnchor(val)
+        contents.push(val.text)
+      }
+      // don't accept components embedded into the page
+      else if (val.text.charAt(0) !== '<' && val.text.charAt(val.text.length - 1) !== '>') {
+        contents.push(val.text)
+      }
+
+      type = val.type
     }
   })
 
@@ -258,14 +272,30 @@ const processMarkdown = (syntaxTree, entries, entry) => {
 }
 
 const processPage = (page, entry, entries) => {
-  const md = removeYaml(getFileContents(page))
+  const md = getFileContents(page)
+  const frontMatter = parseFrontMatter(md)
+  let keys = null
+
+  if (frontMatter.data.keys) {
+    const data = frontMatter.data.keys.split(',')
+    keys = []
+    data.forEach(key => {
+      keys.push({ name: key })
+    })
+  }
 
   const entryItem = {
     ...entry,
+    keys,
+    l0: frontMatter.data.title,
+    content: frontMatter.data.desc,
+    type: 'page-header',
     anchor: 'introduction'
   }
 
-  const syntaxTree = mdParse(md)
+  addItem(entries, entryItem)
+
+  const syntaxTree = mdParse(frontMatter.content)
   processMarkdown(syntaxTree, entries, entryItem)
 }
 

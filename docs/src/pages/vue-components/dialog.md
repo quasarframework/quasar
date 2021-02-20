@@ -1,6 +1,7 @@
 ---
 title: Dialog
 desc: The QDialog component provides a UI for modals with functionalities like positioning, styling, maximizing and more.
+keys: QDialog
 related:
   - /quasar-plugins/dialog
   - /vue-directives/close-popup

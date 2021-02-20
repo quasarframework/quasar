@@ -1,6 +1,7 @@
 ---
 title: Floating Action Button
 desc: How to use the QFab component. Floating Action Buttons for your Quasar app.
+keys: QFab
 related:
   - /layout/layout
   - /layout/page
