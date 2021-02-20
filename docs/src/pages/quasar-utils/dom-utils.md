@@ -26,7 +26,7 @@ console.log(dom.offset(DomElement))
 ```
 
 ::: tip
-For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+For usage with the UMD build see [here](/start/umd#quasar-global-object).
 :::
 
 ## Offset on screen viewport

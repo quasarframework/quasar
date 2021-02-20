@@ -8,7 +8,7 @@ related:
 Quasar provides a set of useful functions to manipulate colors easily in most use cases, without the high additional cost of integrating dedicated libraries.
 
 ::: tip
-For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+For usage with the UMD build see [here](/start/umd#quasar-global-object).
 :::
 
 ## Color Conversion
@@ -73,7 +73,7 @@ console.log(getPaletteColor('primary')) // '#1976d2'
 console.log(getPaletteColor('red-2')) // '#ffcdd2'
 ```
 
-Assuming you've created [a custom color](/style/color-palette#Adding-Your-Own-Colors) and named it "my-color", then you can extract its value in JS:
+Assuming you've created [a custom color](/style/color-palette#adding-your-own-colors) and named it "my-color", then you can extract its value in JS:
 
 ```js
 console.log(getPaletteColor('my-color')) // '#...'

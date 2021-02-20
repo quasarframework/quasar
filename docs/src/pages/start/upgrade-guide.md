@@ -54,7 +54,7 @@ $ yarn add @quasar/extras@latest
 
 ## Migrate to v2 from v1
 
-**This guide refers to Quasar CLI & UMD projects**, but information from here can be used for Vue CLI too. For developers already using Vue CLI on your projects you can check out how to install the [vue-cli-plugin-quasar](/start/vue-cli-plugin) package that works with Quasar v2. You will also need to make a few changes to your main.js (and also upgrade your Vue CLI project to support Vue 3) too (best way currently is to generate a new Vue CLI project for Vue 3 and then following the [install steps](/start/vue-cli-plugin#Add-Vue-CLI-Quasar-Plugin) for the vue-cli-plugin-quasar and check out the changes incurred to that /src folder, then apply the same principle to your current Vue CLI project).
+**This guide refers to Quasar CLI & UMD projects**, but information from here can be used for Vue CLI too. For developers already using Vue CLI on your projects you can check out how to install the [vue-cli-plugin-quasar](/start/vue-cli-plugin) package that works with Quasar v2. You will also need to make a few changes to your main.js (and also upgrade your Vue CLI project to support Vue 3) too (best way currently is to generate a new Vue CLI project for Vue 3 and then following the [install steps](/start/vue-cli-plugin#add-vue-cli-quasar-plugin) for the vue-cli-plugin-quasar and check out the changes incurred to that /src folder, then apply the same principle to your current Vue CLI project).
 
 ### Intro
 
@@ -462,7 +462,7 @@ Added properties: "loading", "crossorigin", "fit", "no-spinner", "no-native-menu
 Removed properties: "transition", "basic" (now equivalent to "no-spinner" + "no-transition")
 Changed property "no-default-spinner" to "no-spinner".
 
-For the detailed changes, please view the API Card on [QImg](/vue-components/img#QImg-API) page.
+For the detailed changes, please view the API Card on [QImg](/vue-components/img#qimg-api) page.
 
 #### QPopupEdit
 
@@ -653,7 +653,7 @@ A few things changed:
   })
   ```
 2. The `parent` and `root` props have been removed. Due to the Vue 3 architecture, we can no longer use a "parent" component for the provide/inject functionality. But you'll still be able to use Vue Router/Vuex/etc. inside of your custom component.
-3. If invoking the Dialog plugin with a custom component then you need to add `emits: [ 'ok', 'cancel' ]` to your component as Vue 3 now requires an explicit list of events that the component might emit. You can also transform the component to Composition API. For detailed information please see [Invoking custom component](/quasar-plugins/dialog#Invoking-custom-component).
+3. If invoking the Dialog plugin with a custom component then you need to add `emits: [ 'ok', 'cancel' ]` to your component as Vue 3 now requires an explicit list of events that the component might emit. You can also transform the component to Composition API. For detailed information please see [Invoking custom component](/quasar-plugins/dialog#invoking-custom-component).
   ```js
   // the invoked component code
   export default {
@@ -706,7 +706,7 @@ export default {
 }
 ```
 
-For detailed information please see [Meta Plugin](/quasar-plugins/meta#Usage).
+For detailed information please see [Meta Plugin](/quasar-plugins/meta#usage).
 
 ### Quasar utils
 
@@ -800,7 +800,7 @@ The color CSS variable names (all the brand related ones) have changed:
 * There have been changes to the naming scheme of script and css tags to include the type of distubution. For example, the minified resources filenames now end in `.prod.js`/`.prod.css`. This was done to match Vue 3's own file naming scheme.
 
 ::: tip
-For an in-depth look at the necessary UMD scripts and tags, please use our [generator tool](/start/umd#Installation).
+For an in-depth look at the necessary UMD scripts and tags, please use our [generator tool](/start/umd#installation).
 :::
 
 ### Quasar App CLI

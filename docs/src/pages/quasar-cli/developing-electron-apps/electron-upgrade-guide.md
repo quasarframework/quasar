@@ -159,7 +159,7 @@ electron: {
 ### Renderer thread (/src)
 The [$q object](/options/the-q-object) no longer contains the `electron` property. You will need to use the [preload script](/quasar-cli/developing-electron-apps/electron-preload-script) to access it and provide it to the renderer thread.
 
-Furthermore, the [openURL](/quasar-utils/other-utils#Open-External-URL) util can no longer tap into Electron to open a new window. You will need to provide your own util from the preload script.
+Furthermore, the [openURL](/quasar-utils/other-utils#open-external-url) util can no longer tap into Electron to open a new window. You will need to provide your own util from the preload script.
 
 ::: danger
 You will need to transfer all the Node.js stuff away from your renderer thread (the UI code from /src) and into the preload script. Provide the same functionality through the `contextBridge` as seen in the preload script section above.
