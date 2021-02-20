@@ -30,35 +30,41 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     bordered
   )
     q-scroll-area(style="height: calc(100% - 51px); margin-top: 51px")
-      .row.justify-center.q-my-md
-        q-btn.doc-layout__main-btn(
-          type="a"
-          href="https://donate.quasar.dev"
-          target="_blank"
-          rel="noopener"
-          color="teal"
-          outline
-          :icon="mdiHeart"
-          label="Donate to Quasar"
-          padding="12px lg"
-          no-wrap
-        )
+      app-search-results(
+        v-if="searchResults !== null"
+        :results="searchResults"
+      )
 
-      .row.justify-center.q-my-md
-        q-btn.doc-layout__main-btn(
-          type="a"
-          href="https://bit.ly/3cTLXsO"
-          target="_blank"
-          color="primary"
-          outline
-          :icon="mdiFileDocumentEditOutline"
-          label="Survey results are out!"
-          no-caps
-          padding="12px lg"
-          no-wrap
-        )
+      template(v-else)
+        .row.justify-center.q-my-md
+          q-btn.doc-layout__main-btn(
+            type="a"
+            href="https://donate.quasar.dev"
+            target="_blank"
+            rel="noopener"
+            color="teal"
+            outline
+            :icon="mdiHeart"
+            label="Donate to Quasar"
+            padding="12px lg"
+            no-wrap
+          )
 
-      app-menu.q-mb-lg
+        .row.justify-center.q-my-md
+          q-btn.doc-layout__main-btn(
+            type="a"
+            href="https://bit.ly/3cTLXsO"
+            target="_blank"
+            color="primary"
+            outline
+            :icon="mdiFileDocumentEditOutline"
+            label="Survey results are out!"
+            no-caps
+            padding="12px lg"
+            no-wrap
+          )
+
+        app-menu.q-mb-lg
 
     .absolute-top.header
       form(
@@ -67,22 +73,24 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         autocomplete="off"
         spellcheck="false"
       )
-        q-input.full-width.doc-search(
+        q-input.full-width.app-search-input(
           ref="searchInputRef"
-          v-model="search"
+          v-model="searchTerms"
           dense
           square
           borderless
-          :placeholder="searchPlaceholder"
+          debounce="300"
+          @keyup="onSearchKeydown"
           @focus="onSearchFocus"
           @blur="onSearchBlur"
         )
-
+          template(v-slot:prepend)
+            q-icon(name="search")
           template(v-slot:append)
-            q-icon(
-              :name="mdiMagnify"
-              @click="onSearchIconClick"
-            )
+            q-icon.cursor-pointer(v-if="searchTerms" name="cancel" @click="onSearchClear")
+            .row.items-center.no-wrap.no-pointer-events(v-else-if="searchIsUnfocused")
+              kbd Ctrl
+              kbd /
 
       q-separator
 
@@ -100,11 +108,11 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       q-list.doc-toc.q-my-sm.text-grey-8
         q-item-label.text-uppercase.q-pl-md.q-pb-sm.text-grey-9(header v-if="tocList.length > 0").q-mb-xs Table of contents
         q-item(
-          v-for="tocItem in tocList",
-          :key="tocItem.id",
-          clickable,
-          v-ripple,
-          dense,
+          v-for="tocItem in tocList"
+          :key="tocItem.id"
+          clickable
+          v-ripple
+          dense
           @click="scrollTo(tocItem.id)",
           :active="activeToc === tocItem.id"
         )
@@ -127,8 +135,9 @@ import {
   mdiFileDocumentEditOutline
 } from '@quasar/extras/mdi-v5'
 
-import AppMenu from 'components/AppMenu'
-import HeaderMenu from 'components/HeaderMenu'
+import AppMenu from 'components/AppMenu.js'
+import AppSearchResults from 'components/AppSearchResults.vue'
+import HeaderMenu from 'components/HeaderMenu.vue'
 
 import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'
@@ -140,6 +149,7 @@ export default {
 
   components: {
     AppMenu,
+    AppSearchResults,
     HeaderMenu
   },
 
@@ -161,18 +171,12 @@ export default {
     useScroll(scope, $route)
     useSearch(scope, $q, $route)
 
-    scope.onSearchIconClick = () => {
-      scope.searchInputRef.value.focus()
-    }
-
     return scope
   }
 }
 </script>
 
 <style lang="sass">
-@import '../css/docsearch'
-
 @supports (backdrop-filter: none)
   .header
     background-color: rgba(0,0,0,.1)
@@ -187,23 +191,12 @@ export default {
   height: 25px
 
 .doc-layout__main-btn
-  width: 250px
+  width: 268px
 
 .doc-layout-avatar > div
   border-radius: 0
 
-.doc-search
-  .q-field__control
-    padding: 0 18px 0 16px !important
-  &.q-field--focused
-    .q-icon
-      color: #fff
-  .q-field__append
-    height: 100%
-
 .q-drawer--mobile
-  .doc-search .q-field__control
-    padding-right: 17px !important
   .doc-toc
     .q-item
       margin-left: 3px

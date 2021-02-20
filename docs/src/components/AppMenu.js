@@ -61,8 +61,7 @@ export default {
             defaultOpened: menu.opened || routePath.startsWith(path),
             expandSeparator: true,
             switchToggleSide: level > 0,
-            denseToggle: level > 0,
-            ripple: true
+            denseToggle: level > 0
           },
           () => menu.children.map(item => getDrawerMenu(
             item,
