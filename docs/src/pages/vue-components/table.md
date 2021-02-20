@@ -8,16 +8,17 @@ related:
 ---
 
 QTable is a component that allows you to display data in a tabular manner. It's generally called a datatable. It packs the following main features:
-  * Filtering
-  * Sorting
-  * Single / Multiple rows selection with custom selection actions
-  * Pagination (including server-side if required)
-  * Grid mode (you can use for example QCards to display data in a non-tabular manner)
-  * Total customization of rows and cells through scoped slots
-  * Ability to add additional row(s) at top or bottom of data rows
-  * Column picker (through QTableColumns component described in one of the sections)
-  * Custom top and/or bottom Table controls
-  * Responsive design
+
+* Filtering
+* Sorting
+* Single / Multiple rows selection with custom selection actions
+* Pagination (including server-side if required)
+* Grid mode (you can use for example QCards to display data in a non-tabular manner)
+* Total customization of rows and cells through scoped slots
+* Ability to add additional row(s) at top or bottom of data rows
+* Column picker (through QTableColumns component described in one of the sections)
+* Custom top and/or bottom Table controls
+* Responsive design
 
 ::: tip
 If you don't need pagination, sorting, filtering, and all other features of QTable, then you may want to check out [QMarkupTable](/vue-components/markup-table) component instead.
@@ -146,6 +147,7 @@ The example below shows how virtual scroll can be used along with a sticky heade
 <doc-example title="Virtual scroll with sticky header" file="QTable/VirtscrollSticky" />
 
 There are 2 utility CSS classes that control VirtualScroll size calculation:
+
 * Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
 * Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
 
@@ -198,8 +200,9 @@ In the example below, we let QTable deal with displaying the grid mode (not usin
 <doc-example title="Masonry like grid" file="QTable/GridMasonry" />
 
 However, if you want to fully customize the content, check the example below, where:
-  * We are using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
-  * We are using multiple selection.
+
+* We are using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
+* We are using multiple selection.
 
 <doc-example title="Grid style with slot" file="QTable/GridStyleSlot" />
 

@@ -12,6 +12,7 @@ When you create a Quasar project folder with Quasar CLI it will ask you if you w
 * .. or you can configure one yourself
 
 Two dot files will be created:
+
 * .eslintrc.js -- ESLint configuration, including rules
 * .eslintignore -- what ESLint should ignore when linting
 
@@ -42,6 +43,7 @@ build: {
 
 ## Lint Rules
 The linting rules can be removed, changed, or added. Notice some things:
+
 * Some rules are for the Standard, Airbnb or Prettier standards (whichever you chose when project was created). Example: 'brace-style'.
 * Some rules are for eslint-plugin-vue. Example: 'vue/max-attributes-per-line'.
 

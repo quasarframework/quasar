@@ -25,6 +25,7 @@ Below is an almost stripped down basic Carousel (it is just animated and only ha
 ### Transitions
 
 In the example below:
+
 * There are just a few transitions demoed. For a complete list of transitions, head to the [Transitions](/options/transitions) page.
 * You can also swipe with your finger (or swiping with the mouse -- clicking and quickly dragging to left/right then releasing).
 

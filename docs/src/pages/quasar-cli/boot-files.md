@@ -88,6 +88,7 @@ Please make sure you understand what problem boot files solve and when it is app
 Boot files fulfill one special purpose: they run code **before** the App's Vue root component is instantiated while giving you access to certain variables, which is required if you need to initialize a library, interfere with Vue Router, inject Vue prototype or inject the root instance of the Vue app.
 
 ### Examples of appropriate usage of boot files
+
 * Your Vue plugin has installation instructions, like needing to call `app.use()` on it.
 * Your Vue plugin requires instantiation of data that is added to the root instance - An example would be [vue-i18n](https://github.com/kazupon/vue-i18n/).
 * You want to add a global mixin using `app.mixin()`.

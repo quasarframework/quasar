@@ -114,10 +114,12 @@ Make sure that your `workboxOptions` match the Workbox mode that you have picked
 ### GenerateSW
 
 When to use GenerateSW:
+
 * You want to precache files.
 * You have simple runtime configuration needs (e.g. the configuration allows you to define routes and strategies).
 
 When NOT to use GenerateSW:
+
 * You want to use other Service Worker features (i.e. Web Push).
 * You want to import additional scripts or add additional logic.
 
@@ -128,12 +130,14 @@ Please check the available workboxOptions for this mode on [Workbox website](htt
 ### InjectManifest
 
 When to use InjectManifest:
+
 * You want more control over your service worker.
 * You want to precache files.
 * You have more complex needs in terms of routing.
 * You would like to use your service worker with other APIs (e.g. Web Push).
 
 When NOT to use InjectManifest:
+
 * You want the easiest path to adding a service worker to your site.
 
 ::: tip TIPS

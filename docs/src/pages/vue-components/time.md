@@ -77,6 +77,7 @@ If, for some reason, you need to use a custom ad-hoc locale rather than the curr
 <doc-example title="Dark" file="QTime/Dark" overflow dark />
 
 ### Limiting options
+
 * You can use the `hour-options`, `minute-options` and `second-options` props to limit user selection to certain times.
 * Alternatively, for a more in-depth way of limiting options, you can also supply a function (second example below) to `options-fn` prop.
 

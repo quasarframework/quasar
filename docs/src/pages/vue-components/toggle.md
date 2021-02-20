@@ -51,6 +51,7 @@ In the example below, as soon as you click on the first QToggle it starts toggli
 By default, QToggle follows this chain when toggling: indeterminate -> checked -> unchecked. However, you can change this behavior through the `toggle-order` prop. This property determines the order of the states and can be `tf` (default) or `ft` (`t` stands for state of true/checked while `f` for state of false/unchecked).
 
 Toggling order is:
+
 * if `toggle-indeterminate` is true, then: indet -> first state -> second state -> indet (and repeat)
 * otherwise (no toggle-indeterminate): indet -> first state -> second state -> first state -> second state -> ...
 

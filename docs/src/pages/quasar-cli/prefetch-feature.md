@@ -6,6 +6,7 @@ related:
 ---
 
 The PreFetch is a feature (**only available when using Quasar CLI**) which allows the components picked up by Vue Router (defined in `/src/router/routes.js`) to:
+
 * pre-fetch data
 * validate the route
 * redirect to another route, when some conditions aren't met (like user isn't logged in)
