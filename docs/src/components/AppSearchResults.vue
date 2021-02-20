@@ -1,6 +1,6 @@
 <template lang="pug">
 .app-search
-  .app-search__instructions.flex.flex-center(v-if="searchHasFocus")
+  .app-search__instructions.flex.flex-center(v-if="searchHasFocus" key="instr-focused")
     span Navigate
     kbd.q-ml-sm
       q-icon(:name="down")
@@ -12,7 +12,7 @@
     span Close
     kbd.q-ml-sm
       q-icon(:name="close")
-  .app-search__instructions.flex.flex-center(v-else)
+  .app-search__instructions.flex.flex-center(v-else key="instr-unfocused")
     span Type
     kbd.q-mx-sm.q-px-sm /
     span to focus on searchbox
@@ -23,24 +23,13 @@
   )
     .app-search__section-title.text-subtitle1 {{ categ }}
 
-    q-item.app-search__result(
+    component(
       v-for="entry in results.data[categ]"
       :key="entry.id"
-      :id="entry.id"
+      :is="entry.component"
+      :entry="entry"
       :active="entry.id === searchActiveId"
-      clickable
-      @click="entry.onClick"
-      @mouseenter="entry.onMouseenter"
     )
-      q-item-section
-        .app-search__result-title {{ entry.title }}
-        .app-search__result-content
-          span(
-            v-for="(item, index) in entry.content"
-            :key="index"
-            :class="item.class"
-          ) {{ item.str }}
-
       .app-search__result-overlay.flex.flex-center.absolute-right(v-if="entry.id === searchActiveId")
         kbd
           q-icon(:name="select")
@@ -51,8 +40,21 @@
 import { computed } from 'vue'
 import { mdiArrowUpBold, mdiArrowDownBold, mdiKeyboardReturn, mdiKeyboardEsc } from '@quasar/extras/mdi-v5'
 
+import ResultPageContent from 'components/search-results/ResultPageContent'
+import ResultPageLink from 'components/search-results/ResultPageLink'
+
+export const apiTypeToComponentMap = {
+  'page-content': ResultPageContent,
+  'page-link': ResultPageLink
+}
+
 export default {
   name: 'AppSearchResults',
+
+  components: {
+    ResultPageContent,
+    ResultPageLink
+  },
 
   props: {
     results: Object,
