@@ -109,6 +109,7 @@ export default {
     margin: 4px 16px 4px 0
     padding: 8px 8px 8px 16px
     border: 1px solid rgba(0, 0, 0, 0.12)
+    border-right: 4px solid $primary
     border-radius: 0 4px 4px 0
     position: relative
     cursor: pointer
