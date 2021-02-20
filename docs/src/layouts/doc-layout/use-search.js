@@ -4,10 +4,12 @@ import { useRouter } from 'vue-router'
 function fetchQuery (val, onResult, onError) {
   const xhr = new XMLHttpRequest()
   const data = JSON.stringify({
-    q: val, limit: 7, cropLength: 30, attributesToCrop: ['content'], attributesToHighlight: ['*']
+    q: val, limit: 7, cropLength: 50, attributesToCrop: ['content'], attributesToHighlight: ['*']
   })
 
   xhr.addEventListener('load', function () {
+    // console.log(this.responseText)
+    // console.log(JSON.parse(this.responseText))
     onResult(JSON.parse(this.responseText))
   })
 
@@ -22,10 +24,19 @@ function fetchQuery (val, onResult, onError) {
 }
 
 const contentRE = /(<em>|<\/em>)/
+const startsWithRE = /^[a-z0-9]/
+const endsWithRE = /[a-z0-9]$/
 
-function parseContent (str) {
+function parseContent (content) {
   let inToken = false
+
   const acc = []
+  const str = (
+    (startsWithRE.test(content) ? '...' : '') +
+    content +
+    (endsWithRE.test(content) ? '...' : '')
+  )
+
   str.split(contentRE).forEach(str => {
     if (str === '') {
       inToken = true
@@ -55,8 +66,11 @@ export default function useSearch (scope, $q, $route) {
       data: {}
     }
 
-    hits.forEach(entry => {
-      const hit = entry._formatted
+    hits.forEach(hit => {
+      // TODO
+      if (hit._formatted.content === '') {
+        return
+      }
 
       if (acc.data[ hit.l0 ] === void 0) {
         acc.categories.push(hit.l0)
@@ -66,7 +80,7 @@ export default function useSearch (scope, $q, $route) {
       acc.data[ hit.l0 ].push({
         id: hit.objectID,
         title: [ hit.l1, hit.l2, hit.l3, hit.l4, hit.l5 ].filter(e => e).join(' » '),
-        content: parseContent(hit.content),
+        content: parseContent(hit._formatted.content),
         onClick () {
           searchTerms.value = ''
           searchInputRef.value.blur()

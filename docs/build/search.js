@@ -4,7 +4,7 @@ const jsYaml = require('js-yaml')
 const SimpleMarkdown = require('simple-markdown')
 
 const levelName = 'l'
-const stripEmptyContent = false
+const stripEmptyContent = true
 
 // get the menu from assets folder
 const menu = require(path.resolve(__dirname, '../src/assets/menu.js'))
