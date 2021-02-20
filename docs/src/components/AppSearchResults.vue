@@ -1,6 +1,6 @@
 <template lang="pug">
 .app-search
-  .app-search__instructions.flex.flex-center
+  .app-search__instructions.flex.flex-center(:class="instructionsClass")
     span Navigate
     kbd.q-ml-sm
       q-icon(:name="down")
@@ -21,9 +21,12 @@
 
     q-item.app-search__result(
       v-for="entry in results.data[categ]"
-      :key="`entry_${entry.id}`"
+      :key="entry.id"
+      :id="entry.id"
+      :active="entry.id === searchActiveId"
       clickable
       @click="entry.onClick"
+      @mouseenter="entry.onMouseenter"
     )
       q-item-section
         .app-search__result-title {{ entry.title }}
@@ -34,16 +37,33 @@
             :class="item.class"
           ) {{ item.str }}
 
+      .app-search__result-overlay.flex.flex-center.absolute-right(v-if="entry.id === searchActiveId")
+        kbd
+          q-icon(:name="select")
+
 </template>
 
 <script>
+import { computed } from 'vue'
 import { mdiArrowUpBold, mdiArrowDownBold, mdiKeyboardReturn, mdiKeyboardEsc } from '@quasar/extras/mdi-v5'
 
 export default {
   name: 'AppSearchResults',
-  props: { results: Object },
-  setup () {
+
+  props: {
+    results: Object,
+    searchHasFocus: Boolean,
+    searchActiveId: String
+  },
+
+  setup (props) {
+    const instructionsClass = computed(() =>
+      `app-search__instructions--${props.searchHasFocus === true ? 'visible' : 'hidden'}`
+    )
+
     return {
+      instructionsClass,
+
       up: mdiArrowUpBold,
       down: mdiArrowDownBold,
       select: mdiKeyboardReturn,
@@ -54,10 +74,6 @@ export default {
 </script>
 
 <style lang="sass">
-// $search-color: scale-color($positive, $lightness: -35%)
-// $search-color: scale-color($negative, $lightness: -25%)
-$search-color: $primary
-
 .app-search-input,
 .app-search-input .q-field__control
   height: 50px
@@ -73,11 +89,15 @@ $search-color: $primary
     cursor: text !important
   kbd
     font-size: .6em !important
+    min-width: 1.6em
+    font-weight: bold
 
 .app-search
 
   &__instructions
     padding: 8px
+    transition: opacity .28s
+
     span
       font-size: .8em
       color: $grey
@@ -85,35 +105,60 @@ $search-color: $primary
       font-size: 1em
       color: #000
 
+    &--hidden
+      opacity: 0
+
   &__section
-    margin: 16px 12px 16px 0
+    margin: 16px 0
 
   &__section-title
     padding: 4px 0 8px 16px
     font-weight: 500
-    color: $search-color
+    color: $primary
 
   &__result
-    margin: 4px 0 4px 0
     padding: 8px 8px 8px 16px
-    border-radius: 0 4px 4px 0
     border: 1px solid rgba(0, 0, 0, 0.12)
+    border-width: 1px 0
+    position: relative
+    cursor: pointer
 
-  &__result-title
-    padding-bottom: 4px
-    color: $grey
-    font-size: .8em
+    & + &
+      border-top: 0
 
-  &__result-content
-    font-size: .9em
-    font-weight: 400
-    line-height: 1.2em
+    &-overlay
+      color: #fff
+      right: 4px
+      font-size: 22px
+      div
+        width: 1.2em
+        height: 1.2em
+        background: #fff
+        color: $primary
+        border-radius: 4px
 
-    &--token
-      background-color: scale-color($positive, $lightness: 60%)
-      border-radius: 4px
-      padding: 0 2px
-      color: #000
+    &-title
+      padding-bottom: 4px
+      color: $grey
+      font-size: .8em
+
+    &-content
+      font-size: .9em
+      font-weight: 400
+      line-height: 1.2em
+
+      &--token
+        background-color: scale-color($positive, $lightness: 60%)
+        border-radius: 4px
+        padding: 0 2px
+        color: #000
+
+  &__result.q-item--active
+    background: $primary
+    color: #fff
+
+    .app-search__result-title
+      color: #ddd
 
 body.mobile .app-search__instructions
   display: none

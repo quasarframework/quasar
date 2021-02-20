@@ -55,7 +55,8 @@ function parseContent (content) {
 export default function useSearch (scope, $q, $route) {
   const searchTerms = ref('')
   const searchResults = ref(null)
-  const searchIsUnfocused = ref(true)
+  const searchHasFocus = ref(false)
+  const searchActiveId = ref(null)
   const searchInputRef = ref(null)
 
   const $router = useRouter()
@@ -63,19 +64,30 @@ export default function useSearch (scope, $q, $route) {
   function parseResults (hits) {
     const acc = {
       categories: [],
-      data: {}
+      data: {},
+      ids: []
     }
 
     hits.forEach(hit => {
+      const id = 'search--' + hit.objectID
+
       if (acc.data[ hit.l0 ] === void 0) {
         acc.categories.push(hit.l0)
         acc.data[ hit.l0 ] = []
       }
 
+      acc.ids.push(id)
+
       acc.data[ hit.l0 ].push({
-        id: hit.objectID,
+        id,
         title: [ hit.l1, hit.l2, hit.l3, hit.l4, hit.l5 ].filter(e => e).join(' » '),
         content: parseContent(hit._formatted.content),
+
+        onMouseenter () {
+          if (searchHasFocus.value === true) {
+            searchActiveId.value = id
+          }
+        },
         onClick () {
           $router.push(hit.url + '#' + hit.anchor).catch(() => {})
           searchTerms.value = ''
@@ -93,7 +105,7 @@ export default function useSearch (scope, $q, $route) {
       String.fromCharCode(evt.keyCode) === '/'
     ) {
       evt.preventDefault()
-      searchTerms.value = ''
+      resetSearch()
 
       if (scope.leftDrawerState.value !== true) {
         scope.leftDrawerState.value = true
@@ -106,16 +118,18 @@ export default function useSearch (scope, $q, $route) {
   }
 
   function onSearchFocus () {
-    searchIsUnfocused.value = false
+    searchHasFocus.value = true
   }
 
   function onSearchBlur () {
-    searchIsUnfocused.value = true
+    searchHasFocus.value = false
+    searchActiveId.value = null
   }
 
   function resetSearch () {
     searchTerms.value = ''
     searchResults.value = null
+    searchActiveId.value = null
   }
 
   function onSearchClear () {
@@ -126,12 +140,29 @@ export default function useSearch (scope, $q, $route) {
   function onSearchKeydown (evt) {
     switch (evt.keyCode) {
       case 27: // escape
+        evt.preventDefault()
         resetSearch()
         break
       case 38: // up
       case 40: // down
+        evt.preventDefault()
+        if (searchResults.value !== null) {
+          if (searchActiveId.value === null) {
+            searchActiveId.value = searchResults.value.ids[ 0 ]
+          }
+          else {
+            const ids = searchResults.value.ids
+            const index = ids.indexOf(searchActiveId.value)
+            searchActiveId.value = ids[ (ids.length + index + (evt.keyCode === 38 ? -1 : 1)) % ids.length ]
+          }
+        }
         break
       case 13: // enter
+        evt.preventDefault()
+        evt.stopPropagation()
+        if (searchResults.value !== null && searchActiveId.value !== null) {
+          document.getElementById(searchActiveId.value).click(evt)
+        }
         break
     }
   }
@@ -148,11 +179,8 @@ export default function useSearch (scope, $q, $route) {
     }
     else if (val.length > 1) {
       fetchQuery(val, onResult, onError)
-      // onResult(hardcoded)
     }
   })
-
-  // onResult(hardcoded)
 
   onMounted(() => {
     // If we have a search string in the query (mostly from tab-to-search functionality),
@@ -184,7 +212,8 @@ export default function useSearch (scope, $q, $route) {
   Object.assign(scope, {
     searchTerms,
     searchResults,
-    searchIsUnfocused,
+    searchHasFocus,
+    searchActiveId,
     searchInputRef,
     resetSearch,
     onSearchKeydown,

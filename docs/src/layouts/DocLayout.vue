@@ -15,10 +15,10 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       q-btn.q-mx-xs(
         v-show="showRightDrawerToggler"
-        flat,
-        dense,
-        round,
-        @click="toggleRightDrawer",
+        flat
+        dense
+        round
+        @click="toggleRightDrawer"
         aria-label="Menu"
         :icon="mdiClipboardText"
       )
@@ -33,6 +33,8 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       app-search-results(
         v-if="searchResults !== null"
         :results="searchResults"
+        :search-has-focus="searchHasFocus"
+        :search-active-id="searchActiveId"
       )
 
       template(v-else)
@@ -80,7 +82,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           square
           borderless
           debounce="300"
-          @keyup="onSearchKeydown"
+          @keydown="onSearchKeydown"
           @focus="onSearchFocus"
           @blur="onSearchBlur"
         )
@@ -88,9 +90,8 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
             q-icon(name="search")
           template(v-slot:append)
             q-icon.cursor-pointer(v-if="searchTerms" name="cancel" @click="onSearchClear")
-            .row.items-center.no-wrap.no-pointer-events(v-else-if="searchIsUnfocused")
-              kbd Ctrl
-              kbd /
+            .row.items-center.no-wrap.no-pointer-events(v-else-if="!searchHasFocus")
+              kbd.flex.flex-center /
 
       q-separator
 

@@ -176,18 +176,7 @@ module.exports = function (ctx) {
 
     vendor: {
       remove: [
-        'quasar/dist/api',
-
-        // following are used by meilisearch/docs-searchbar
-        'meilisearch',
-        'docs-searchbar.js',
-        'autocomplete.js',
-        'hogan.js',
-        'request',
-        'stack-utils',
-        'to-factory',
-        'zepto',
-        'es6-promise'
+        'quasar/dist/api'
       ]
     }
   }
