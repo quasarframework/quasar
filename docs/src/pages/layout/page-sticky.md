@@ -1,6 +1,7 @@
 ---
 title: Layout QPageSticky
 desc: How to use the QPageSticky component. Statically place components on the layout without overlapping with header/footer/sidebars.
+keys: QPageSticky
 related:
   - /layout/layout
   - /layout/page

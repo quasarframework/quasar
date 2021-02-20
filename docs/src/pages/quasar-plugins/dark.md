@@ -1,6 +1,7 @@
 ---
 title: Dark Plugin
 desc: A Quasar plugin to toggle or configure the Dark Mode state of your app.
+keys: Dark
 related:
   - /style/dark-mode
   - /style/theme-builder

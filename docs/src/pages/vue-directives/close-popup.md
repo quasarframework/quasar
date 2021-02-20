@@ -1,6 +1,7 @@
 ---
 title: Close Popup Directive
 desc: Helper Vue directive when working with QDialog or QMenu.
+keys: close-popup
 related:
   - /vue-components/dialog
   - /vue-components/menu

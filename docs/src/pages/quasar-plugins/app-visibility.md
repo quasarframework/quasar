@@ -1,6 +1,7 @@
 ---
 title: App Visibility
 desc: A Quasar plugin that wraps the Page Visibility API, letting you know when your app is visible or in focus.
+keys: AppVisibility
 ---
 Quasar makes use of the Web [Page Visibility API](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API) which lets you know when a website/app is visible or in focus.
 

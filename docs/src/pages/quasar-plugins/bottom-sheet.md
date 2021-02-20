@@ -1,6 +1,7 @@
 ---
 title: Bottom Sheet Plugin
 desc: A Quasar plugin for displaying a list of user actions that slides up from the bottom edge of the app window.
+keys: BottomSheet
 related:
   - /quasar-plugins/dialog
   - /vue-components/dialog

@@ -1,6 +1,7 @@
 ---
 title: Layout
 desc: How to use the QLayout component. Manages the whole window of your Quasar app.
+keys: QLayout
 related:
   - /layout/header-and-footer
   - /layout/drawer

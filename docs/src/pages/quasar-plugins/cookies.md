@@ -1,6 +1,7 @@
 ---
 title: Cookies
 desc: A Quasar plugin which manages browser cookies over the standardized 'document.cookie', making it easy to read and write cookies even with SSR apps.
+keys: Cookies
 ---
 This is a wrapper over the standardized `document.cookie`.
 

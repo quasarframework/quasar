@@ -1,6 +1,7 @@
 ---
 title: LoadingBar
 desc: A Quasar plugin that wraps the QAjaxBar component for the easiest way of showing such a loading indicator in an app.
+keys: LoadingBar
 related:
   - /vue-components/ajax-bar
   - /vue-components/linear-progress

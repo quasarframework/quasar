@@ -1,6 +1,7 @@
 ---
 title: Dialog Plugin
 desc: A Quasar plugin that provides an easy way to display a prompt, choice, confirmation or alert in the form of a dialog.
+keys: Dialog
 related:
   - /vue-components/dialog
   - /quasar-plugins/bottom-sheet

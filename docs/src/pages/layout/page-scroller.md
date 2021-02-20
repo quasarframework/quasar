@@ -1,6 +1,7 @@
 ---
 title: Layout QPageScroller
 desc: How to use the QPageScroller component. Places components that will appear on screen after user scrolls the page.
+keys: QPageScroller
 related:
   - /layout/layout
   - /layout/page

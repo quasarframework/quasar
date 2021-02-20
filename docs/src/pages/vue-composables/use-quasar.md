@@ -1,6 +1,7 @@
 ---
 title: useQuasar composable
 desc: What is useQuasar() composable and how you can use it
+keys: useQuasar
 related:
   - /options/the-q-object
 ---

@@ -1,6 +1,7 @@
 ---
 title: Color Utils
 desc: A set of Quasar methods for changing app brand colors and manipulating color strings.
+keys: rgbToHex,rgbToHsv,hexToRgb,textToRgb,hsvToRgb,lighten,luminosity,brightness,blend,changeAlpha,getPaletteColor
 related:
   - style/color-palette
 ---

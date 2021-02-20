@@ -1,6 +1,7 @@
 ---
 title: Scrolling Utils
 desc: A set of Quasar methods related to scrolling, like getting scroll target or changing the scroll position of a page.
+keys: getScrollTarget,getVerticalScrollPosition,setVerticalScrollPosition,getHorizontalScrollPosition,setHorizontalScrollPosition,getScrollHeight,getScrollWidth,getScrollbarWidth
 ---
 
 ::: tip

@@ -1,6 +1,7 @@
 ---
 title: Other Utils
 desc: A set of miscellaneous Quasar methods for debouncing or throttling functions, deep copying objects, cross-platform URL opening or handling DOM events.
+keys: openURL,copyToClipboard,exportFile,debounce,frameDebounce,throttle,extend,uid,event
 ---
 
 ::: tip

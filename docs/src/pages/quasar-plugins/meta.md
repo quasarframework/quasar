@@ -1,6 +1,7 @@
 ---
 title: Quasar Meta Plugin
 desc: A Quasar plugin to easily handle the meta tags of an app, helping you to add SEO. It manages meta, style and script tags, html and body attributes and page titles.
+keys: Meta
 related:
   - /vue-composables/use-meta
 ---

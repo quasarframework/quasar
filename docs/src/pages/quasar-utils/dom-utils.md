@@ -1,6 +1,7 @@
 ---
 title: DOM Utils
 desc: A set of Quasar methods for DOM elements which helps you in retrieving the offset on screen viewport, getting and setting styles, waiting for the DOM to be ready and morphing DOM elements.
+keys: offset,style,height,width,css,ready
 ---
 
 ### Helping Tree-Shake

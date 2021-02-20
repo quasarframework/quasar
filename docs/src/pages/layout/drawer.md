@@ -1,6 +1,7 @@
 ---
 title: Layout Drawer
 desc: How to use the QDrawer component. The sidebars of your Quasar app.
+keys: QDrawer
 related:
   - /layout/layout
   - /vue-components/list-and-list-items

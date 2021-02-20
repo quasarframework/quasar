@@ -1,6 +1,7 @@
 ---
 title: Formatter Utils
 desc: A set of Quasar methods for formatting values. Capitalizing, padding, normalizing and more.
+keys: capitalize,humanStorageSize,between,normalizeToInterval,pad
 ---
 
 ### Helping Tree-Shake
