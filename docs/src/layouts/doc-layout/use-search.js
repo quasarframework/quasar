@@ -1,9 +1,16 @@
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount, markRaw } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { apiTypeToComponentMap } from 'components/AppSearchResults'
+import ResultEmpty from 'components/search-results/ResultEmpty'
+import ResultError from 'components/search-results/ResultError'
+
+let requestId = 0
 
 function fetchQuery (val, onResult, onError) {
+  requestId++
+  const localRequestId = requestId
+
   const xhr = new XMLHttpRequest()
   const data = JSON.stringify({
     q: val, limit: 7, cropLength: 50, attributesToCrop: ['content'], attributesToHighlight: ['content']
@@ -12,11 +19,11 @@ function fetchQuery (val, onResult, onError) {
   xhr.addEventListener('load', function () {
     // console.log(this.responseText)
     // console.log(JSON.parse(this.responseText))
-    onResult(JSON.parse(this.responseText))
+    localRequestId === requestId && onResult(JSON.parse(this.responseText))
   })
 
   xhr.addEventListener('error', () => {
-    onError()
+    localRequestId === requestId && onError()
   })
 
   xhr.open('POST', 'https://search.quasar.dev/indexes/quasar-v2/search')
@@ -35,6 +42,10 @@ export default function useSearch (scope, $q, $route) {
   const $router = useRouter()
 
   function parseResults (hits) {
+    if (hits.length === 0) {
+      return { masterComponent: markRaw(ResultEmpty) }
+    }
+
     const acc = {
       categories: [],
       data: {},
@@ -54,13 +65,14 @@ export default function useSearch (scope, $q, $route) {
         acc.data[ hit.l0 ] = []
       }
 
-      acc.data[ hit.l0 ].push({
+      const entry = {
         component: component.name,
         ...component.extractProps(hit),
 
         onMouseenter () {
+          console.log('xxx', searchHasFocus.value)
           if (searchHasFocus.value === true) {
-            searchActiveId.value = acc.data[ hit.l0 ].id
+            searchActiveId.value = entry.id
           }
         },
         onClick () {
@@ -68,7 +80,9 @@ export default function useSearch (scope, $q, $route) {
           searchTerms.value = ''
           searchInputRef.value.blur()
         }
-      })
+      }
+
+      acc.data[ hit.l0 ].push(entry)
     })
 
     // ensure that the ids are assigned in the right order
@@ -162,18 +176,20 @@ export default function useSearch (scope, $q, $route) {
     }
     : () => {}
 
-  function onResult (response) {
+  function onResultSuccess (response) {
     searchResults.value = parseResults(response.hits)
   }
 
-  function onError () {}
+  function onResultError () {
+    searchResults.value = { masterComponent: markRaw(ResultError) }
+  }
 
   watch(searchTerms, val => {
     if (!val) {
       resetSearch()
     }
-    else if (val.length > 1) {
-      fetchQuery(val, onResult, onError)
+    else {
+      fetchQuery(val, onResultSuccess, onResultError)
     }
   })
 

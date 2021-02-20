@@ -78,7 +78,7 @@ module.exports = function (ctx) {
 
       config: {
         loadingBar: {
-          color: 'orange',
+          color: 'primary',
           size: '4px'
         }
       },
