@@ -250,20 +250,24 @@ const processMarkdown = (syntaxTree, entries, entry) => {
     let val = processNode(node, parent)
 
     if (val.text !== void 0 && val.text !== '') {
-      if (val.text.startsWith(':::') && val.text.endsWith(':::')) {
-        val = processTip(val)
-      }
-
-      if (val.anchor || type !== val.type) {
-        handleAnchor(val)
-        contents.push(val.text)
-      }
       // don't accept components embedded into the page
-      else if (val.text.charAt(0) !== '<' && val.text.charAt(val.text.length - 1) !== '>') {
-        contents.push(val.text)
-      }
+      if (val.text.charAt(0) !== '<' && val.text.charAt(val.text.length - 1) !== '>') {
+        // look for tips
+        if (val.text.startsWith(':::') && val.text.endsWith(':::')) {
+          val = processTip(val)
+        }
 
-      type = val.type
+        console.log(val)
+        if (val.anchor || type !== val.type) {
+          handleAnchor(val)
+          contents.push(val.text)
+        }
+        else {
+          contents.push(val.text)
+        }
+
+        type = val.type
+      }
     }
   })
 
