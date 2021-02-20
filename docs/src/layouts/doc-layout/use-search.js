@@ -69,23 +69,18 @@ export default function useSearch (scope, $q, $route) {
     }
 
     hits.forEach(hit => {
-      const id = 'search--' + hit.objectID
-
       if (acc.data[ hit.l0 ] === void 0) {
         acc.categories.push(hit.l0)
         acc.data[ hit.l0 ] = []
       }
 
-      acc.ids.push(id)
-
       acc.data[ hit.l0 ].push({
-        id,
         title: [ hit.l1, hit.l2, hit.l3, hit.l4, hit.l5 ].filter(e => e).join(' » '),
         content: parseContent(hit._formatted.content),
 
         onMouseenter () {
           if (searchHasFocus.value === true) {
-            searchActiveId.value = id
+            searchActiveId.value = acc.data[ hit.l0 ].id
           }
         },
         onClick () {
@@ -93,6 +88,15 @@ export default function useSearch (scope, $q, $route) {
           searchTerms.value = ''
           searchInputRef.value.blur()
         }
+      })
+    })
+
+    let globalId = 0
+    acc.categories.forEach(categ => {
+      acc.data[ categ ].forEach(hit => {
+        const id = 'search--' + (++globalId)
+        hit.id = id
+        acc.ids.push(id)
       })
     })
 
@@ -105,7 +109,6 @@ export default function useSearch (scope, $q, $route) {
       String.fromCharCode(evt.keyCode) === '/'
     ) {
       evt.preventDefault()
-      resetSearch()
 
       if (scope.leftDrawerState.value !== true) {
         scope.leftDrawerState.value = true
@@ -137,35 +140,45 @@ export default function useSearch (scope, $q, $route) {
     searchInputRef.value.focus()
   }
 
-  function onSearchKeydown (evt) {
-    switch (evt.keyCode) {
-      case 27: // escape
-        evt.preventDefault()
-        resetSearch()
-        break
-      case 38: // up
-      case 40: // down
-        evt.preventDefault()
-        if (searchResults.value !== null) {
-          if (searchActiveId.value === null) {
-            searchActiveId.value = searchResults.value.ids[ 0 ]
+  const onSearchKeydown = $q.platform.is.desktop === true
+    ? evt => {
+      switch (evt.keyCode) {
+        case 27: // escape
+          evt.preventDefault()
+          resetSearch()
+          break
+        case 38: // up
+        case 40: // down
+          evt.preventDefault()
+          if (searchResults.value !== null) {
+            if (searchActiveId.value === null) {
+              searchActiveId.value = searchResults.value.ids[ 0 ]
+            }
+            else {
+              const ids = searchResults.value.ids
+              const index = ids.indexOf(searchActiveId.value)
+              searchActiveId.value = ids[ (ids.length + index + (evt.keyCode === 38 ? -1 : 1)) % ids.length ]
+            }
+
+            const target = document.getElementById(searchActiveId.value)
+            if (target.scrollIntoViewIfNeeded) {
+              target.scrollIntoViewIfNeeded()
+            }
+            else {
+              target.scrollIntoView({ block: 'center' })
+            }
           }
-          else {
-            const ids = searchResults.value.ids
-            const index = ids.indexOf(searchActiveId.value)
-            searchActiveId.value = ids[ (ids.length + index + (evt.keyCode === 38 ? -1 : 1)) % ids.length ]
+          break
+        case 13: // enter
+          evt.preventDefault()
+          evt.stopPropagation()
+          if (searchResults.value !== null && searchActiveId.value !== null) {
+            document.getElementById(searchActiveId.value).click(evt)
           }
-        }
-        break
-      case 13: // enter
-        evt.preventDefault()
-        evt.stopPropagation()
-        if (searchResults.value !== null && searchActiveId.value !== null) {
-          document.getElementById(searchActiveId.value).click(evt)
-        }
-        break
+          break
+      }
     }
-  }
+    : () => {}
 
   function onResult (response) {
     searchResults.value = parseResults(response.hits)

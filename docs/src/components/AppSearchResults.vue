@@ -1,6 +1,6 @@
 <template lang="pug">
 .app-search
-  .app-search__instructions.flex.flex-center(:class="instructionsClass")
+  .app-search__instructions.flex.flex-center(v-if="searchHasFocus")
     span Navigate
     kbd.q-ml-sm
       q-icon(:name="down")
@@ -12,6 +12,10 @@
     span Close
     kbd.q-ml-sm
       q-icon(:name="close")
+  .app-search__instructions.flex.flex-center(v-else)
+    span Type
+    kbd.q-mx-sm.q-px-sm /
+    span to focus on searchbox
 
   .app-search__section(
     v-for="categ in results.categories"
@@ -79,6 +83,7 @@ export default {
   &__instructions
     padding: 8px
     transition: opacity .28s
+    min-height: 38px
 
     span
       font-size: .8em
@@ -99,14 +104,12 @@ export default {
     color: $primary
 
   &__result
+    margin: 4px 16px 4px 0
     padding: 8px 8px 8px 16px
     border: 1px solid rgba(0, 0, 0, 0.12)
-    border-width: 1px 0
+    border-radius: 0 4px 4px 0
     position: relative
     cursor: pointer
-
-    & + &
-      border-top: 0
 
     &-overlay
       color: #fff
