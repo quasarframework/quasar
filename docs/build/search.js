@@ -3,6 +3,8 @@ const path = require('path')
 const jsYaml = require('js-yaml')
 const SimpleMarkdown = require('simple-markdown')
 
+const { slugify } = require('./utils')
+
 const levelName = 'l'
 const stripEmptyContent = true
 
@@ -176,7 +178,7 @@ const processNode = (node, entry) => {
       const level = getNextLevel(entry, subheading)
       const entryItem = {
         [ levelName + (level) ]: subheading,
-        anchor: subheading
+        anchor: slugify(subheading)
       }
       const data = buildParagraph(node.content, remaining, index + 1)
       entryItem.content = data.text
@@ -192,7 +194,7 @@ const processNode = (node, entry) => {
     const level = getNextLevel(entry, subheading)
     const id = {
       [ levelName + (level) ]: subheading,
-      anchor: subheading
+      anchor: slugify(subheading)
     }
     return id
   }
@@ -268,7 +270,7 @@ const processPage = (page, entry, entries) => {
     ...entry,
     // [ levelName + level ]: title,
     // content: desc,
-    anchor: 'Introduction'
+    anchor: 'introduction'
   }
 
   addItem(entries, entryItem)
@@ -288,7 +290,7 @@ const processChildren = (parent, entry, entries) => {
             ...entry,
             [ levelName + (level) ]: menuItem.name,
             url: entry.url + '/' + menuItem.path,
-            anchor: menuItem.name
+            anchor: slugify(menuItem.name)
           }
         }
 
@@ -318,7 +320,7 @@ const processMenuItem = (menuItem, entries) => {
       const entryChild = {
         ...entryItem,
         [ levelName + level ]: menuItem.name,
-        anchor: menuItem.name
+        anchor: slugify(menuItem.name)
       }
       processChildren(menuItem, entryChild, entries)
     }

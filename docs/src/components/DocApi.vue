@@ -1,7 +1,7 @@
 <template lang="pug">
 q-card.doc-api.q-my-lg(flat bordered)
   q-toolbar.text-grey-8
-    card-title(:title="nameBanner", prefix="API--")
+    card-title(:title="nameBanner" prefix="api--")
     q-space
     .col-auto.text-grey {{ typeBanner }}
 

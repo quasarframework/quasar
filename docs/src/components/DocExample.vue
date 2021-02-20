@@ -1,7 +1,7 @@
 <template lang="pug">
 q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
   q-toolbar.doc-example__toolbar
-    card-title(:title="title", :slugifiedTitle="slugifiedTitle")
+    card-title(:title="title" :slugifiedTitle="slugifiedTitle")
 
     q-space
 
@@ -112,7 +112,7 @@ export default {
     })
 
     const slugifiedTitle = computed(() => {
-      return 'Example--' + slugify(props.title)
+      return 'example--' + slugify(props.title)
     })
 
     function parseTemplate (target, template) {

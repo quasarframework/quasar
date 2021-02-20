@@ -2,7 +2,7 @@
 q-page.doc-page
 
   .row.items-start.no-wrap
-    .col.doc-heading.doc-h1#Introduction(v-if="title" @click="copyIntroductionHeading")
+    .col.doc-heading.doc-h1#introduction(v-if="title" @click="copyIntroductionHeading")
       span {{ title }}
       q-badge.q-ml-sm.doc-page__badge(v-if="badge") {{ badge }}
     a.doc-h1.doc-page__top-link.text-primary(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
@@ -137,7 +137,7 @@ export default {
       editHref,
 
       copyIntroductionHeading () {
-        copyHeading('Introduction')
+        copyHeading('introduction')
       },
 
       fabGithub,

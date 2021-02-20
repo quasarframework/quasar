@@ -42,7 +42,7 @@ export default function useToc (scope, $route) {
   const tocList = computed(() => {
     return $store.toc.length > 0
       ? [
-          { id: 'Introduction', title: 'Introduction' },
+          { id: 'introduction', title: 'Introduction' },
           ...$store.toc
         ]
       : $store.toc

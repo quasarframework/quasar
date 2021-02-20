@@ -67,11 +67,6 @@ export default function useSearch (scope, $q, $route) {
     }
 
     hits.forEach(hit => {
-      // TODO
-      if (hit._formatted.content === '') {
-        return
-      }
-
       if (acc.data[ hit.l0 ] === void 0) {
         acc.categories.push(hit.l0)
         acc.data[ hit.l0 ] = []
@@ -82,9 +77,9 @@ export default function useSearch (scope, $q, $route) {
         title: [ hit.l1, hit.l2, hit.l3, hit.l4, hit.l5 ].filter(e => e).join(' » '),
         content: parseContent(hit._formatted.content),
         onClick () {
+          $router.push(hit.url + '#' + hit.anchor).catch(() => {})
           searchTerms.value = ''
           searchInputRef.value.blur()
-          $router.push(hit.url + '#' + hit.anchor).catch(() => {})
         }
       })
     })

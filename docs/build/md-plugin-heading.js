@@ -4,9 +4,11 @@
 
 const { slugify } = require('./utils')
 
+const titleRE = /<\/?[^>]+(>|$)/g
+
 function parseContent (str) {
   const title = String(str)
-    .replace(/<\/?[^>]+(>|$)/g, '')
+    .replace(titleRE, '')
     .trim()
 
   return {
