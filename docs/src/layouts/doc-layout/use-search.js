@@ -1,7 +1,9 @@
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount, markRaw } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { apiTypeToComponentMap } from 'components/AppSearchResults'
+import ResultEmpty from 'components/search-results/ResultEmpty'
+import ResultError from 'components/search-results/ResultError'
 
 function fetchQuery (val, onResult, onError) {
   const xhr = new XMLHttpRequest()
@@ -15,9 +17,7 @@ function fetchQuery (val, onResult, onError) {
     onResult(JSON.parse(this.responseText))
   })
 
-  xhr.addEventListener('error', () => {
-    onError()
-  })
+  xhr.addEventListener('error', onError)
 
   xhr.open('POST', 'https://search.quasar.dev/indexes/quasar-v2/search')
   xhr.setRequestHeader('Content-Type', 'application/json')
@@ -35,6 +35,10 @@ export default function useSearch (scope, $q, $route) {
   const $router = useRouter()
 
   function parseResults (hits) {
+    if (hits.length === 0) {
+      return { masterComponent: markRaw(ResultEmpty) }
+    }
+
     const acc = {
       categories: [],
       data: {},
@@ -162,18 +166,20 @@ export default function useSearch (scope, $q, $route) {
     }
     : () => {}
 
-  function onResult (response) {
+  function onResultSuccess (response) {
     searchResults.value = parseResults(response.hits)
   }
 
-  function onError () {}
+  function onResultError () {
+    searchResults.value = { masterComponent: markRaw(ResultError) }
+  }
 
   watch(searchTerms, val => {
     if (!val) {
       resetSearch()
     }
-    else if (val.length > 1) {
-      fetchQuery(val, onResult, onError)
+    else {
+      fetchQuery(val, onResultSuccess, onResultError)
     }
   })
 

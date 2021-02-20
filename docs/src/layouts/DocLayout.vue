@@ -30,12 +30,17 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     bordered
   )
     q-scroll-area(style="height: calc(100% - 51px); margin-top: 51px")
-      app-search-results(
-        v-if="searchResults !== null"
-        :results="searchResults"
-        :search-has-focus="searchHasFocus"
-        :search-active-id="searchActiveId"
-      )
+      template(v-if="searchResults !== null")
+        component(
+          v-if="searchResults.masterComponent !== void 0"
+          :is="searchResults.masterComponent"
+        )
+        app-search-results(
+          v-else
+          :results="searchResults"
+          :search-has-focus="searchHasFocus"
+          :search-active-id="searchActiveId"
+        )
 
       template(v-else)
         .row.justify-center.q-my-md
