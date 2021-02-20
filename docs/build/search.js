@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const jsYaml = require('js-yaml')
 const SimpleMarkdown = require('simple-markdown')
 
 const { slugify } = require('./utils')
@@ -10,10 +9,13 @@ const stripEmptyContent = true
 
 // get the menu from assets folder
 const menu = require(path.resolve(__dirname, '../src/assets/menu.js'))
+
 // markdown parser (not perfect, but works well enough)
 const mdParse = SimpleMarkdown.defaultBlockParse
+
 // eslint-disable-next-line no-useless-escape
 const yamlBlockPattern = /^(?:\-\-\-)(.*?)(?:\-\-\-|\.\.\.)/s
+
 // where the markdown lives
 const intro = '../src/pages'
 
@@ -94,12 +96,10 @@ const getYaml = (md) => {
   return yamlBlockPattern.exec(md)[ 1 ]
 }
 
-// returns title and desc yaml field
-const getYamlFields = (yaml) => {
-  return {
-    title: jsYaml.load(yaml).title,
-    desc: jsYaml.load(yaml).desc
-  }
+const removeYaml = (md) => {
+  const yaml = getYaml(md)
+  md = md.substr(yaml.length + 6, md.length)
+  return md
 }
 
 // responsible for collection the text under
@@ -203,7 +203,7 @@ const processNode = (node, entry) => {
     text.push(data.text)
   }
   else {
-    if (node.type !== 'table' && node.type !== 'codeBlock') {
+    if (node.type !== 'table' && node.type !== 'codeBlock' && node.type !== 'newline') {
       const data = buildParagraph(node.content)
       text.push(data.text)
     }
@@ -243,16 +243,13 @@ const processMarkdown = (syntaxTree, entries, entry) => {
   }
 
   syntaxTree.forEach((node, index) => {
-    // skip yaml part
-    if (index > 1) {
-      const val = processNode(node, parent)
-      if (val.anchor) {
-        handleAnchor(val)
-      }
-      // don't accept components embedded into the page
-      else if (val.text.charAt(0) !== '<' && val.text.charAt(val.text.length - 1) !== '>') {
-        contents.push(val.text)
-      }
+    const val = processNode(node, parent)
+    if (val.anchor) {
+      handleAnchor(val)
+    }
+    // don't accept components embedded into the page
+    else if (val.text.charAt(0) !== '<' && val.text.charAt(val.text.length - 1) !== '>') {
+      contents.push(val.text)
     }
   })
 
@@ -261,19 +258,12 @@ const processMarkdown = (syntaxTree, entries, entry) => {
 }
 
 const processPage = (page, entry, entries) => {
-  const md = getFileContents(page)
-  // const yaml = getYaml(md)
-  // const { title, desc } = getYamlFields(yaml)
+  const md = removeYaml(getFileContents(page))
 
-  // const level = getNextLevel(entry, title)
   const entryItem = {
     ...entry,
-    // [ levelName + level ]: title,
-    // content: desc,
     anchor: 'introduction'
   }
-
-  addItem(entries, entryItem)
 
   const syntaxTree = mdParse(md)
   processMarkdown(syntaxTree, entries, entryItem)
