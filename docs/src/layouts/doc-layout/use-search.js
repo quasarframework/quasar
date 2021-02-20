@@ -65,13 +65,14 @@ export default function useSearch (scope, $q, $route) {
         acc.data[ hit.l0 ] = []
       }
 
-      acc.data[ hit.l0 ].push({
+      const entry = {
         component: component.name,
         ...component.extractProps(hit),
 
         onMouseenter () {
+          console.log('xxx', searchHasFocus.value)
           if (searchHasFocus.value === true) {
-            searchActiveId.value = acc.data[ hit.l0 ].id
+            searchActiveId.value = entry.id
           }
         },
         onClick () {
@@ -79,7 +80,9 @@ export default function useSearch (scope, $q, $route) {
           searchTerms.value = ''
           searchInputRef.value.blur()
         }
-      })
+      }
+
+      acc.data[ hit.l0 ].push(entry)
     })
 
     // ensure that the ids are assigned in the right order
