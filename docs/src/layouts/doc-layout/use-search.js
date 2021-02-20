@@ -5,7 +5,12 @@ import { apiTypeToComponentMap } from 'components/AppSearchResults'
 import ResultEmpty from 'components/search-results/ResultEmpty'
 import ResultError from 'components/search-results/ResultError'
 
+let requestId = 0
+
 function fetchQuery (val, onResult, onError) {
+  requestId++
+  const localRequestId = requestId
+
   const xhr = new XMLHttpRequest()
   const data = JSON.stringify({
     q: val, limit: 7, cropLength: 50, attributesToCrop: ['content'], attributesToHighlight: ['content']
@@ -14,10 +19,12 @@ function fetchQuery (val, onResult, onError) {
   xhr.addEventListener('load', function () {
     // console.log(this.responseText)
     // console.log(JSON.parse(this.responseText))
-    onResult(JSON.parse(this.responseText))
+    localRequestId === requestId && onResult(JSON.parse(this.responseText))
   })
 
-  xhr.addEventListener('error', onError)
+  xhr.addEventListener('error', () => {
+    localRequestId === requestId && onError()
+  })
 
   xhr.open('POST', 'https://search.quasar.dev/indexes/quasar-v2/search')
   xhr.setRequestHeader('Content-Type', 'application/json')
