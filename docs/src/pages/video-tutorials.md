@@ -1,6 +1,7 @@
 ---
 title: Video Tutorials
 desc: The list of video tutorials on Quasar created by the community.
+keys: Video Tutorials
 components:
   - video-tutorials/TutorialListing
   - introduction-to-quasar/IntroductionVideo

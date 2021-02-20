@@ -1,6 +1,7 @@
 ---
 title: Why Donate?
 desc: Quasar Team's manifesto on why it is essential to donate towards the development of the framework.
+keys: Donate
 components:
   - sponsors-and-backers/DonatingButtons
 ---
