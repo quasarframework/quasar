@@ -43,10 +43,6 @@ export const useMaskProps = {
   unmaskedValue: Boolean
 }
 
-export const useMaskEmits = [
-  'keydown'
-]
-
 export default function (props, emit, emitValue, inputRef) {
   let maskMarked, maskReplaced, computedMask, computedUnmask
 
@@ -438,8 +434,6 @@ export default function (props, emit, emitValue, inputRef) {
     ) {
       moveCursor.rightReverse(inp, start, end, true)
     }
-
-    emit('keydown', e)
   }
 
   function maskValue (val) {

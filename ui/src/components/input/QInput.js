@@ -1,7 +1,7 @@
 import { h, defineComponent, ref, computed, watch, onBeforeUnmount, onMounted, nextTick, getCurrentInstance } from 'vue'
 
 import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
-import useMask, { useMaskProps, useMaskEmits } from './use-mask.js'
+import useMask, { useMaskProps } from './use-mask.js'
 import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
 import useFileFormDomProps from '../../composables/private/use-file-dom-props.js'
 import useKeyComposition from '../../composables/private/use-key-composition.js'
@@ -37,7 +37,6 @@ export default defineComponent({
 
   emits: [
     ...useFieldEmits,
-    ...useMaskEmits,
     'paste', 'change'
   ],
 
