@@ -127,8 +127,9 @@ export default {
 
     &-title
       padding-bottom: 4px
-      color: $grey
       font-size: .8em
+    &-title, &-fade
+      color: $grey
 
     &-content
       font-size: .9em
@@ -145,7 +146,7 @@ export default {
     background: $primary
     color: #fff
 
-    .app-search__result-title
+    .app-search__result-title, .app-search__result-fade
       color: #ddd
 
 body.mobile .app-search__instructions

@@ -7,7 +7,9 @@ q-item.app-search__result(
   @mouseenter="entry.onMouseenter"
 )
   q-item-section
-    .app-search__result-content {{ entry.content }}
+    .app-search__result-content
+      span.app-search__result-fade.q-mr-xs Page:
+      span {{ entry.content }}
 
   slot
 </template>
