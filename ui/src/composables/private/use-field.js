@@ -536,7 +536,7 @@ export default function (state) {
       state.targetUid.value = getTargetUid()
     }
 
-    props.autofocus === true && focus()
+    props.autofocus === true && proxy.focus()
   })
 
   onBeforeUnmount(() => {
