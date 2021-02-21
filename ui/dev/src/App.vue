@@ -8,11 +8,11 @@
       style="padding: 11px; right: 11px; bottom: 10px; z-index: 6000;"
       class="rounded-borders shadow-4 fixed"
     >
-      <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" />
+      <q-btn dense flat size="sm" icon="visibility" @click="toggleSelector" class="absolute-top-right z-top" />
       <template v-if="showSelector">
         <q-toggle :model-value="$q.dark.isActive" @update:modelValue="$q.dark.toggle" :label="`Dark Mode (${$q.dark.mode})`" />
 
-        <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="lang = lang === 'en-us' ? 'he' : 'en-us'" class="absolute-bottom-right z-top" />
+        <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="switchRTL" class="absolute-bottom-right z-top" />
         <q-select
           label="Quasar Language"
           dense
@@ -73,6 +73,14 @@ export default {
       done()
     }
 
+    function switchRTL () {
+      lang.value = lang.value === 'en-US' ? 'he' : 'en-US'
+    }
+
+    function toggleSelector () {
+      showSelector.value = !showSelector.value
+    }
+
     onMounted(() => {
       window.$q = $q
       window.Quasar = Quasar
@@ -89,6 +97,8 @@ export default {
     return {
       lang,
       iconSet,
+      switchRTL,
+      toggleSelector,
       showSelector,
       resetScroll,
       langOptions: languages.map(lang => ({ label: lang.nativeName, value: lang.isoName })),
