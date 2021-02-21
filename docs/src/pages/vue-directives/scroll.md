@@ -14,6 +14,10 @@ This is a Vue directive which takes one parameter (a Function) and fires when us
 * There is one more scrolling-related directive available called [Scroll Fire](/vue-directives/scroll-fire).
 :::
 
+## Scroll API
+
+<doc-api file="Scroll" />
+
 ## Usage
 
 ```vue
@@ -62,6 +66,3 @@ export default {
 
 ### Determining Scrolling Container
 Please read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.
-
-## Scroll API
-<doc-api file="Scroll" />

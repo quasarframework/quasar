@@ -13,7 +13,12 @@ The Bottom Sheet always appears above any other components on the page, and must
 
 Bottom Sheets can be displayed as a list or as a grid, with icons or with avatars. They can be used either as a component in your Vue file templates, or as a globally available method.
 
+## BottomSheet API
+
+<doc-api file="BottomSheet" />
+
 ## Installation
+
 <doc-installation plugins="BottomSheet" />
 
 ## Usage
@@ -44,6 +49,3 @@ Also, when on a desktop browser, hitting the `ESCAPE` key also closes the Action
 ::: tip
 For an exhaustive list of options, please check API section.
 :::
-
-## BottomSheet API
-<doc-api file="BottomSheet" />

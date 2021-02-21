@@ -5,11 +5,16 @@ keys: Cookies
 ---
 This is a wrapper over the standardized `document.cookie`.
 
-> **NOTE**
->
-> In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.
+::: tip NOTE
+In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.
+:::
+
+## Cookies API
+
+<doc-api file="Cookies" />
 
 ## Installation
+
 <doc-installation plugins="Cookies" />
 
 ## Notes on SSR
@@ -230,6 +235,3 @@ setup () {
 ::: warning
 When a cookie was previously set with specific `path` and/or `domain` then it can be successfully removed only if the same attributes are passed in to remove() through the `options` parameter. This is in accordance to RFC6265.
 :::
-
-## Cookies API
-<doc-api file="Cookies" />

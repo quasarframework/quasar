@@ -17,6 +17,10 @@ Under the covers, it uses the [Intersection Observer API](https://developer.mozi
 Not all browsers support the Intersection Observer API. Most [modern browsers](https://caniuse.com/#search=intersection) do, but other browsers do not. If you need to support older browsers, you can install and import (into a boot file) the official W3C [polyfill](https://github.com/w3c/IntersectionObserver).
 :::
 
+## Intersection API
+
+<doc-api file="Intersection" />
+
 ## Usage
 
 Reading the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) first will be best in your understanding of how this directive works.
@@ -75,7 +79,3 @@ In the example below, we show multiple cards, but only the visible ones get rend
 ::: tip
 In the example above we used a Quasar transition. For a full list, please head to [Transitions](/options/transitions) page.
 :::
-
-## Intersection API
-
-<doc-api file="Intersection" />

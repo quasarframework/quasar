@@ -10,6 +10,14 @@ Quasar provides a wrapper over [Web Storage API](https://developer.mozilla.org/e
 Web Storage API only retrieves strings. **Quasar retrieves data with its original data type.** You tell it to store a Number then to retrieve it and it will still be a Number, not a string representation of the number as with Web Storage API. Same for JSON, Regular Expressions, Dates, Booleans and so on.
 :::
 
+## LocalStorage API
+
+<doc-api file="LocalStorage" />
+
+## SessionStorage API
+
+<doc-api file="SessionStorage" />
+
 ## Installation
 <doc-installation :plugins="['LocalStorage', 'SessionStorage']" />
 
@@ -74,11 +82,3 @@ Quasar Storage supports (but not limited to) the following data types out of the
 If you store any *other* data type, the returned value will be a String.
 
 So you can even store functions, but be careful that you need to eval() the returned value (which is a String representation of the function).
-
-## LocalStorage API
-
-<doc-api file="LocalStorage" />
-
-## SessionStorage API
-
-<doc-api file="SessionStorage" />
