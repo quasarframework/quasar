@@ -146,7 +146,7 @@ import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 
 setup () {
-  const $q = useQuasar
+  const $q = useQuasar()
   const drawerIsOpen = ref(true)
 
   function drawerToggled () {
