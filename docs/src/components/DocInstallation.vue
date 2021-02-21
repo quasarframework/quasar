@@ -54,7 +54,7 @@ export default {
 
     const quasarConf = computed(() => {
       return props.config !== void 0
-        ? `${props.config}: { /* look at QUASARCONFOPTIONS from the API card (bottom of page) */ }`
+        ? `${props.config}: { /* look at QUASARCONFOPTIONS from the API card */ }`
         : null
     })
 
