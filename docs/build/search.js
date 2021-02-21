@@ -142,6 +142,7 @@ const processTip = (node, entry) => {
 const processNode = (node, entry) => {
   const text = []
   let type = 'page-content'
+
   if (Array.isArray(node)) {
     node.forEach(leaf => {
       const data = processNode(leaf)
@@ -149,7 +150,6 @@ const processNode = (node, entry) => {
     })
   }
   else if (node.type === 'list' && node.items && Array.isArray(node.items)) {
-    type = 'page-list'
     node.items.forEach(leaf => {
       const data = buildParagraph(leaf)
       text.push('* ' + data.text)
@@ -189,7 +189,7 @@ const processNode = (node, entry) => {
     text.push(data.text)
   }
   else if (node.type === 'heading') {
-    type = 'page-heading'
+    type = 'page-link'
     const data = buildParagraph(node.content)
     const subheading = data.text
     const level = getNextLevel(entry, subheading)
@@ -200,7 +200,6 @@ const processNode = (node, entry) => {
     return id
   }
   else if (node.type === 'blockQuote') {
-    type = 'page-content'
     const data = processNode(node.content, entry)
     text.push(data.text)
   }
@@ -210,6 +209,7 @@ const processNode = (node, entry) => {
       text.push(data.text)
     }
   }
+
   return { text: text.join(' '), type }
 }
 
@@ -312,7 +312,7 @@ const processPage = (page, entry, entries) => {
     keys,
     l0: frontMatter.data.title,
     content: frontMatter.data.desc,
-    type: 'page-header',
+    type: 'page-link',
     anchor: 'introduction'
   }
 
