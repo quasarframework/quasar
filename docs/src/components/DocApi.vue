@@ -7,6 +7,10 @@ q-card.doc-api.q-my-lg(flat bordered)
 
   q-linear-progress(v-if="loading", color="primary", indeterminate)
 
+  template(v-else-if="nothingToShow")
+    q-separator
+    .doc-api__nothing-to-show.q-pa-md.text-italic.text-grey Nothing to display
+
   template(v-else)
     q-separator
 
@@ -250,6 +254,7 @@ export default {
     const loading = ref(true)
     const nameBanner = ref('Loading API...')
     const typeBanner = ref('Please wait...')
+    const nothingToShow = ref(false)
 
     const filter = ref('')
     const apiDef = ref({})
@@ -273,6 +278,12 @@ export default {
       typeBanner.value = `${type === 'plugin' ? 'Quasar' : 'Vue'} ${type.charAt(0).toUpperCase()}${type.substring(1)}`
 
       const tabs = Object.keys(api)
+
+      if (tabs.length === 0) {
+        nothingToShow.value = true
+        return
+      }
+
       tabsList.value = tabs
       currentTab.value = tabs[ 0 ]
 
@@ -304,6 +315,7 @@ export default {
       loading,
       nameBanner,
       typeBanner,
+      nothingToShow,
 
       filteredApi,
       filteredApiCount,
@@ -336,4 +348,7 @@ export default {
 
   .api-container
     max-height: 600px
+
+  &__nothing-to-show
+    font-size: .8em
 </style>

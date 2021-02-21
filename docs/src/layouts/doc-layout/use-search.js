@@ -70,7 +70,6 @@ export default function useSearch (scope, $q, $route) {
         ...component.extractProps(hit),
 
         onMouseenter () {
-          console.log('xxx', searchHasFocus.value)
           if (searchHasFocus.value === true) {
             searchActiveId.value = entry.id
           }
