@@ -64,13 +64,14 @@ const cleanObject = (item) => {
   return item
 }
 
-const getNextLevel = (item, text) => {
-  for (let index = 0; index < 7; ++index) {
-    if (item[ levelName + index ] === void 0 || item[ levelName + index ] === text) {
-      return index
+// deletes any levelName key higher than the passed value
+const deleteHigherThan = (item, level) => {
+  for (let index = level + 1; index < 7; ++index) {
+    if (item[ levelName + index ] !== void 0) {
+      delete item[ levelName + index ]
     }
   }
-  return 6 // highest
+  return item
 }
 
 // makes sure there is content before adding to array
@@ -115,6 +116,7 @@ const processNode = (node, prefix = '') => {
     type = 'page-link'
     const data = processNode(node.block)
     data.type = type
+    data.rank = node.rank
     return data
   }
   else if (node.type === 'image' ||
@@ -186,13 +188,13 @@ const processMarkdown = (syntaxTree, entries, entry) => {
 
     if (val.type === 'page-link') {
       handleAnchor()
-      const level = getNextLevel(parent, val.text)
+      const level = val.rank
       const entryItem = {
         [ levelName + (level) ]: val.text,
         anchor: slugify(val.text),
         type: val.type
       }
-      parent = { ...parent, ...entryItem }
+      parent = deleteHigherThan({ ...parent, ...entryItem }, level)
     }
     else {
       contents.push(val.text)
@@ -217,7 +219,6 @@ const processPage = (page, entry, entries) => {
   const entryItem = {
     ...entry,
     keys,
-    l0: frontMatter.data.title,
     content: frontMatter.data.desc,
     type: 'page-link',
     anchor: 'introduction'
@@ -239,7 +240,7 @@ const processChildren = (parent, entry, entries) => {
       if (menuItem.external !== true) {
         let entryChild = { ...entry }
         if (menuItem.path) {
-          const level = getNextLevel(entry, menuItem.name)
+          const level = 0
           entryChild = {
             ...entry,
             [ levelName + (level) ]: menuItem.name,
@@ -270,7 +271,7 @@ const processMenuItem = (menuItem, entries) => {
 
   if (menuItem.external !== true) {
     if (menuItem.children) {
-      level = getNextLevel(entryItem, menuItem.name)
+      level = 0
       const entryChild = {
         ...entryItem,
         [ levelName + level ]: menuItem.name,
