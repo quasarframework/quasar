@@ -98,10 +98,10 @@ export default {
       opacity: 0
 
   &__section
-    margin: 16px 0
+    margin: 4px 0
 
   &__section-title
-    padding: 4px 0 8px 16px
+    padding: 4px 0 4px 16px
     font-weight: 500
     color: $primary
 
