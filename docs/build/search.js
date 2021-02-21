@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const SimpleMarkdown = require('simple-markdown')
+const md = require('markdown-ast')
 const { parseFrontMatter } = require('./md-loader-utils.js')
 
 const { slugify } = require('./utils')
@@ -10,12 +10,6 @@ const stripEmptyContent = true
 
 // get the menu from assets folder
 const menu = require(path.resolve(__dirname, '../src/assets/menu.js'))
-
-// markdown parser (not perfect, but works well enough)
-const mdParse = SimpleMarkdown.defaultBlockParse
-
-// // eslint-disable-next-line no-useless-escape
-// const yamlBlockPattern = /^(?:\-\-\-)(.*?)(?:\-\-\-|\.\.\.)/s
 
 // where the markdown lives
 const intro = '../src/pages'
@@ -93,132 +87,59 @@ const getFileContents = (mdPath) => {
   })
 }
 
-// responsible for collecting the text
-const buildParagraph = (content, remaining = '', skip = 0) => {
-  const text = []
-
-  const addText = (data) => {
-    text.push(data)
-  }
-
-  addText(remaining)
-
-  content.forEach((node, index) => {
-    if (index >= skip) {
-      if (node.type === 'text' || node.type === 'inlineCode') {
-        addText(node.content)
-      }
-      else {
-        if (node.content && Array.isArray(node.content)) {
-          const data = buildParagraph(node.content)
-          addText(data.text)
-        }
-        else if (node.items && Array.isArray(node.items)) {
-          node.items.forEach(leaf => {
-            const data = buildParagraph(leaf)
-            addText(data.text)
-          })
-        }
-        else {
-          if (node.type !== 'image' && node.type !== 'codeBlock') {
-            console.log('Unknown node:', node)
-          }
-        }
-      }
-    }
-  })
-
-  return { text: text.join('') }
-}
-
-const processTip = (node, entry) => {
-  const val = processNode(node, entry)
-  if (val.text.startsWith(':::') && val.text.endsWith(':::') !== true) {
-    val.needMore = true
-  }
-  return val
-}
-
-const processNode = (node, entry) => {
+const processNode = (node, entry, prefix = '') => {
   const text = []
   let type = 'page-content'
+
   if (Array.isArray(node)) {
     node.forEach(leaf => {
-      const data = processNode(leaf)
+      const data = processNode(leaf, entry, prefix)
       text.push(data.text)
     })
   }
-  else if (node.type === 'list' && node.items && Array.isArray(node.items)) {
+  else if (node.type === 'link') {
+    const data = processNode(node.block, entry)
+    text.push(data.text)
+  }
+  else if (node.type === 'list' ||
+    node.type === 'quote') {
     type = 'page-list'
-    node.items.forEach(leaf => {
-      const data = buildParagraph(leaf)
-      text.push('* ' + data.text)
-    })
-  }
-  else if (node.type === 'paragraph' && Array.isArray(node.content)) {
-    if (node.content[ 0 ].type === 'text' && node.content[ 0 ].content.startsWith('#')) {
-      let text = ''
-      let remaining = ''
-      let index = 0
-      for (; index < node.content.length; ++index) {
-        let content = node.content[ index ].content
-        if (Array.isArray(content)) {
-          content = buildParagraph(content).text
-        }
-        const parts = content.split('\n')
-        text += parts[ 0 ]
-        if (parts.length > 1) {
-          parts.shift()
-          remaining += parts.join('')
-          break
-        }
-      }
-      const level2 = text.indexOf(' ')
-      const subheading = text.slice(level2 + 1)
-      const level = getNextLevel(entry, subheading)
-      const entryItem = {
-        [ levelName + (level) ]: subheading,
-        anchor: slugify(subheading)
-      }
-      const data = buildParagraph(node.content, remaining, index + 1)
-      entryItem.content = data.text
-      return entryItem
-    }
-
-    const data = buildParagraph(node.content)
+    const data = processNode(node.block, entry, ' ')
     text.push(data.text)
   }
-  else if (node.type === 'heading') {
+  else if (node.type === 'bold' ||
+    node.type === 'italic' ||
+    node.type === 'strike') {
+    const data = processNode(node.block, entry)
+    text.push(data.text)
+  }
+  else if (node.type === 'title') {
     type = 'page-heading'
-    const data = buildParagraph(node.content)
-    const subheading = data.text
-    const level = getNextLevel(entry, subheading)
-    const id = {
-      [ levelName + (level) ]: subheading,
-      anchor: slugify(subheading)
+    const data = processNode(node.block, entry)
+    const level = getNextLevel(entry, data.text)
+    const entryItem = {
+      [ levelName + (level) ]: data.text,
+      anchor: slugify(data.text)
     }
-    return id
+    return entryItem
   }
-  else if (node.type === 'blockQuote') {
-    type = 'page-content'
-    const data = processNode(node.content, entry)
-    text.push(data.text)
+  else if (node.type === 'image' ||
+    node.type === 'codeBlock') {
+    text.push('')
+  }
+  else if (node.type === 'codeSpan') {
+    text.push(prefix + node.code)
+  }
+  else if (node.type === 'text' ||
+    node.type === 'break' ||
+    node.type === 'codeSpan') {
+    text.push(prefix + node.text)
   }
   else {
-    if (node.type !== 'table' && node.type !== 'codeBlock' && node.type !== 'newline') {
-      const data = buildParagraph(node.content)
-      text.push(data.text)
-    }
+    console.log(node)
   }
-  return { text: text.join(' '), type }
-}
 
-const extractTip = (val) => {
-  const start = val.text.indexOf('\n')
-  const end = val.text.lastIndexOf('\n')
-  val.type = 'page-content'
-  val.text = val.text.substr(start + 1, val.text.length - start - (val.text.length - end) - 1)
-  return val
+  return { text: text.join(' ').replace(/\n/g, ''), type }
 }
 
 const processMarkdown = (syntaxTree, entries, entry) => {
@@ -226,15 +147,20 @@ const processMarkdown = (syntaxTree, entries, entry) => {
   let type = 'page-content'
   let parent = { ...entry }
 
-  const handleAnchor = (val = null) => {
+  const handleAnchor = () => {
     const joiner = type === 'page-list' ? '' : ' '
     if (contents.length > 0) {
       const text = contents.join(joiner)
         // .replace(/\n/g, ' ')
+        .replace(/<[^>]*\/>/g, '') // remove self-closing tags
         .replace(/<br>/g, '\n')
         .replace(/\|/g, '')
-        .replace(/\s\s+/g, ' ')
         .replace(/---/g, '')
+        .replace(/::: tip/g, '')
+        .replace(/::: warning/g, '')
+        .replace(/::: danger/g, '')
+        .replace(/:::/g, '')
+        .replace(/\s\s+/g, ' ') // change multi-space to 1 space
         .trim()
 
       // handle text from previous
@@ -248,50 +174,23 @@ const processMarkdown = (syntaxTree, entries, entry) => {
     }
   }
 
-  let tipData
   syntaxTree.forEach((node, index) => {
-    let val = processNode(node, parent)
+    const val = processNode(node, parent)
 
-    if (val.text !== void 0 && val.text !== '') {
-      // don't accept components embedded into the page
-      if (val.text.charAt(0) !== '<' && val.text.endsWith('/>') === false) {
-        if (tipData) {
-          if (val.text.endsWith(':::')) {
-            // we have ending tip
-            val.text = tipData.text + '\n' + val.text
-            tipData = void 0
-          }
-        }
-        else if (val.text.startsWith(':::')) {
-          if (!val.text.endsWith(':::')) {
-            // we need more data
-            tipData = val
-          }
-          else {
-            if (tipData !== void 0) {
-              tipData += '\n' + val.text
-            }
-          }
-        }
-
-        if (tipData === void 0) {
-          // look for tips
-          if (val.text.startsWith(':::') && val.text.endsWith(':::')) {
-            val = extractTip(val)
-          }
-
-          if (val.anchor || type !== val.type) {
-            handleAnchor(val)
-            contents.push(val.text)
-          }
-          else {
-            contents.push(val.text)
-          }
-
-          type = val.type
-        }
+    if (val.anchor || type !== val.type) {
+      handleAnchor()
+      if (val.anchor) {
+        parent = { ...parent, ...val }
+      }
+      else {
+        contents.push(val.text)
       }
     }
+    else {
+      contents.push(val.text)
+    }
+
+    type = val.type
   })
 
   // handle last bits on the page
@@ -299,8 +198,8 @@ const processMarkdown = (syntaxTree, entries, entry) => {
 }
 
 const processPage = (page, entry, entries) => {
-  const md = getFileContents(page)
-  const frontMatter = parseFrontMatter(md)
+  const contents = getFileContents(page)
+  const frontMatter = parseFrontMatter(contents)
   let keys = null
 
   if (frontMatter.data.keys) {
@@ -318,10 +217,14 @@ const processPage = (page, entry, entries) => {
 
   addItem(entries, entryItem)
 
-  const syntaxTree = mdParse(frontMatter.content)
-  processMarkdown(syntaxTree, entries, entryItem)
+  // get markdown ast
+  const ast = md(frontMatter.content)
+
+  // process ast
+  processMarkdown(ast, entries, entryItem)
 }
 
+// process child entries from menu.js
 const processChildren = (parent, entry, entries) => {
   if (parent.children) {
     parent.children.forEach(menuItem => {
