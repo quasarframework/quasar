@@ -12,6 +12,10 @@ The QMarkupTable is a way for you to simply wrap a native `<table>` in order to 
 For advanced functionality like pagination, sorting, filtering, and many more, you may want to check out [QTable](/vue-components/table) component instead.
 :::
 
+## QMarkupTable API
+
+<doc-api file="QMarkupTable" />
+
 ## Usage
 
 ::: warning
@@ -29,7 +33,3 @@ This component will *NOT* work as-is within the UMD version of Quasar. Browsers 
 <doc-example title="Dark" file="QMarkupTable/Dark" no-edit />
 
 <doc-example title="Customization" file="QMarkupTable/Customization" no-edit />
-
-## QMarkupTable API
-
-<doc-api file="QMarkupTable" />

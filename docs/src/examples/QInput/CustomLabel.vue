@@ -20,8 +20,8 @@
         </template>
 
         <template v-slot:label>
-          <strong class="text-deep-orange">You</strong>
-          can customize the <em class="q-px-sm bg-deep-orange text-white rounded-borders">label</em>
+          <span class="text-weight-bold text-deep-orange">You</span>
+          can customize the <span class="q-px-sm bg-deep-orange text-white text-italic rounded-borders">label</span>
         </template>
       </q-input>
     </div>

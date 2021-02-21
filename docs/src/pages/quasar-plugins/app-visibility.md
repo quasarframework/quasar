@@ -5,10 +5,16 @@ keys: AppVisibility
 ---
 Quasar makes use of the Web [Page Visibility API](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API) which lets you know when a website/app is visible or in focus.
 
+## AppVisibility API
+
+<doc-api file="AppVisibility" />
+
 ## Installation
+
 <doc-installation plugins="AppVisibility" scrollable />
 
 ## Usage
+
 ```js
 // outside of a Vue file
 import { AppVisibility } from 'quasar'
@@ -44,6 +50,3 @@ export default {
 }
 </script>
 ```
-
-## AppVisibility API
-<doc-api file="AppVisibility" />

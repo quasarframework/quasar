@@ -7,6 +7,10 @@ The QAvatar component creates a scalable, color-able element that can have text,
 
 It is often used with other components in their slots.
 
+## QAvatar API
+
+<doc-api file="QAvatar" />
+
 ## Usage
 
 ::: tip
@@ -22,6 +26,3 @@ The `size` property will determine the height and the width of the Avatar. The `
 <doc-example title="Rounded" file="QAvatar/Rounded" />
 
 <doc-example title="With other components" file="QAvatar/Integrated" />
-
-## QAvatar API
-<doc-api file="QAvatar" />

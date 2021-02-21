@@ -29,7 +29,11 @@ In order to create #1, the prompting input form, you have the `prompt` property 
 
 In order to create #2, the options selection form, you have the `options` property within the `opts` object.
 
+## Dialog API
+<doc-api file="Dialog" />
+
 ## Installation
+
 <doc-installation plugins="Dialog" />
 
 ## Usage
@@ -303,6 +307,3 @@ return {
   }
 }
 ```
-
-## Dialog API
-<doc-api file="Dialog" />

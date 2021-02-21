@@ -16,6 +16,11 @@ Chips can contain entities such as an avatar, text or an icon, optionally having
 Also check out [QBadge](/vue-components/badge).
 :::
 
+
+## QChip API
+
+<doc-api file="QChip" />
+
 ## Usage
 <doc-example title="Basic" file="QChip/Basic" />
 
@@ -34,6 +39,3 @@ Also check out [QBadge](/vue-components/badge).
 <doc-example title="Removable" file="QChip/Removable" />
 
 <doc-example title="Long label truncation" file="QChip/LongLabel" />
-
-## QChip API
-<doc-api file="QChip" />

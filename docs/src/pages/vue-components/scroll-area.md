@@ -8,6 +8,10 @@ related:
 
 The QScrollArea component offers a neat way of customizing the scrollbars by encapsulating your content. Think of it as a DOM element which has `overflow: auto`, but with your own custom styled scrollbar instead of browser's default one and a few nice features on top.
 
+## QScrollArea API
+
+<doc-api file="QScrollArea" />
+
 ## Usage
 
 The following examples are best seen on desktop as they make too little sense on a mobile device.
@@ -55,7 +59,3 @@ When content changes, the scrollbar appears then disappears again. You can set a
 Below is an example of using the `@scroll` event to synchronize the scrolling between two containers.
 
 <doc-example title="Synchronized" file="QScrollArea/Synchronized" />
-
-## QScrollArea API
-
-<doc-api file="QScrollArea" />

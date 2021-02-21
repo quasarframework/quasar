@@ -13,7 +13,12 @@ related:
 ---
 Loading is a feature that you can use to display an overlay with a spinner on top of your App's content to inform the user that a background operation is taking place. No need to add complex logic within your Pages for global background operations.
 
+## Loading API
+
+<doc-api file="Loading" />
+
 ## Installation
+
 <doc-installation plugins="Loading" config="loading" />
 
 ## Usage
@@ -72,6 +77,3 @@ Loading.hide()
 
 ### Setting Up Defaults
 Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.conf.js > framework > config > loading: {...} or by calling `Loading.setDefaults({...})` or `$q.loading.setDefaults({...})`.
-
-## Loading API
-<doc-api file="Loading" />

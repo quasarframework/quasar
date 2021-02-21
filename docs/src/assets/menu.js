@@ -129,11 +129,12 @@ const security = [
   {
     name: 'Report a vulnerability',
     path: 'report-a-vulnerability'
-  },
-  {
-    name: 'Get help!',
-    path: 'get-help'
   }
+  // Re-enable when ready again
+  // {
+  //   name: 'Get help!',
+  //   path: 'get-help'
+  // }
 ]
 
 const cli = [
@@ -1214,7 +1215,7 @@ module.exports = [
     icon: 'assignment_late',
     path: 'why-donate'
   },
-  // TODO enable when UI is ready
+  // TODO - enable when UI is ready
   // {
   //   name: 'API Explorer',
   //   icon: 'travel_explore',
@@ -1248,24 +1249,6 @@ module.exports = [
     icon: 'tune',
     path: 'options',
     children: options
-  },
-  {
-    name: 'Security',
-    icon: 'security',
-    path: 'security',
-    children: security
-  },
-  {
-    name: 'Quasar CLI',
-    icon: 'build',
-    path: 'quasar-cli',
-    children: cli
-  },
-  {
-    name: 'Icon Genie CLI',
-    icon: 'stars',
-    path: 'icongenie',
-    children: icongenie
   },
   {
     name: 'Style & Identity',
@@ -1302,6 +1285,24 @@ module.exports = [
     icon: 'developer_mode',
     path: 'vue-composables',
     children: composables
+  },
+  {
+    name: 'Security',
+    icon: 'security',
+    path: 'security',
+    children: security
+  },
+  {
+    name: 'Quasar CLI',
+    icon: 'build',
+    path: 'quasar-cli',
+    children: cli
+  },
+  {
+    name: 'Icon Genie CLI',
+    icon: 'stars',
+    path: 'icongenie',
+    children: icongenie
   },
   {
     name: 'App Extensions',

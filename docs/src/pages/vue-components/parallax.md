@@ -10,6 +10,10 @@ Parallax scrolling is a technique in computer graphics and web design, where bac
 
 QParallax takes care of a lot of quirks, including image/video size which can actually be smaller than the window width/height.
 
+## QParallax API
+
+<doc-api file="QParallax" />
+
 ## Usage
 
 <doc-example title="Image background" file="QParallax/Image" />
@@ -27,6 +31,3 @@ When using the `video` tag inside QParallax, you **must** provide the `width` an
 <doc-example title="Custom speed" file="QParallax/Speed" />
 
 <doc-example title="Using the slot" file="QParallax/ScopedSlot" />
-
-## QParallax API
-<doc-api file="QParallax" />

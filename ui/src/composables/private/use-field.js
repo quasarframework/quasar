@@ -173,7 +173,7 @@ export default function (state) {
 
   const floatingLabel = state.floatingLabel !== void 0
     ? computed(() => props.stackLabel === true || state.focused.value === true || state.floatingLabel.value === true)
-    : computed(() => props.stackLabel === true || state.focused.value === true)
+    : computed(() => props.stackLabel === true || state.focused.value === true || state.hasValue.value === true)
 
   const shouldRenderBottom = computed(() =>
     props.bottomSlots === true
@@ -536,7 +536,7 @@ export default function (state) {
       state.targetUid.value = getTargetUid()
     }
 
-    props.autofocus === true && focus()
+    props.autofocus === true && proxy.focus()
   })
 
   onBeforeUnmount(() => {

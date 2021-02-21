@@ -211,7 +211,7 @@ const processPage = (page, entry, entries) => {
     keys,
     l0: frontMatter.data.title,
     content: frontMatter.data.desc,
-    type: 'page-header',
+    type: 'page-link',
     anchor: 'introduction'
   }
 

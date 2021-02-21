@@ -13,6 +13,7 @@ Take full advantage of this feature by using it with **Quasar CLI**, especially 
 :::
 
 ## Installation
+
 <doc-installation plugins="Meta" />
 
 ## Usage
