@@ -6,7 +6,6 @@ const { parseFrontMatter } = require('./md-loader-utils.js')
 const { slugify } = require('./utils')
 
 const levelName = 'l'
-const stripEmptyContent = true
 
 // get the menu from assets folder
 const menu = require(path.resolve(__dirname, '../src/assets/menu.js'))
@@ -53,6 +52,9 @@ const createIndex = (data) => {
 }
 
 const cleanObject = (item) => {
+  if (item.content === '') {
+    item.content = null
+  }
   const keys = Object.keys(item)
   for (const key in keys) {
     if (item[ keys[ key ] ] === null) {
@@ -73,9 +75,6 @@ const getNextLevel = (item, text) => {
 
 // makes sure there is content before adding to array
 const addItem = (entries, item) => {
-  if (stripEmptyContent === true && (item.content === null || item.content === '')) {
-    return
-  }
   entries.push(cleanObject(createIndex(item)))
 }
 
@@ -87,41 +86,36 @@ const getFileContents = (mdPath) => {
   })
 }
 
-const processNode = (node, entry, prefix = '') => {
+const processNode = (node, prefix = '') => {
   const text = []
   let type = 'page-content'
 
   if (Array.isArray(node)) {
     node.forEach(leaf => {
-      const data = processNode(leaf, entry, prefix)
+      const data = processNode(leaf, prefix)
       text.push(data.text)
     })
   }
   else if (node.type === 'link') {
-    const data = processNode(node.block, entry)
+    const data = processNode(node.block)
     text.push(data.text)
   }
   else if (node.type === 'list' ||
     node.type === 'quote') {
-    type = 'page-list'
-    const data = processNode(node.block, entry, ' ')
+    const data = processNode(node.block, ' ')
     text.push(data.text)
   }
   else if (node.type === 'bold' ||
     node.type === 'italic' ||
     node.type === 'strike') {
-    const data = processNode(node.block, entry)
+    const data = processNode(node.block)
     text.push(data.text)
   }
   else if (node.type === 'title') {
-    type = 'page-heading'
-    const data = processNode(node.block, entry)
-    const level = getNextLevel(entry, data.text)
-    const entryItem = {
-      [ levelName + (level) ]: data.text,
-      anchor: slugify(data.text)
-    }
-    return entryItem
+    type = 'page-link'
+    const data = processNode(node.block)
+    data.type = type
+    return data
   }
   else if (node.type === 'image' ||
     node.type === 'codeBlock') {
@@ -136,6 +130,7 @@ const processNode = (node, entry, prefix = '') => {
     text.push(prefix + node.text)
   }
   else {
+    // unknown/unprocessed node type
     console.log(node)
   }
 
@@ -163,11 +158,23 @@ const processMarkdown = (syntaxTree, entries, entry) => {
         .replace(/\s\s+/g, ' ') // change multi-space to 1 space
         .trim()
 
+      if (text === '') {
+        // if text is empty, it's a link (ie: H2) with no
+        // content, but it will be a parent (ie: to an H3)
+        type = 'page-link'
+      }
+      else if (type === 'page-list') {
+        // page-list is needed because lists have no breaks
+        // when the text is joined, we need it done with a space
+        // here, we translate back to page-content
+        type = 'page-content'
+      }
+
       // handle text from previous
       addItem(entries, { ...parent, content: text, type })
 
       // start a new index
-      parent = { ...entry, content: '' }
+      parent = { ...parent, content: '' }
 
       // clean up contents array
       contents.splice(0, contents.length)
@@ -175,16 +182,17 @@ const processMarkdown = (syntaxTree, entries, entry) => {
   }
 
   syntaxTree.forEach((node, index) => {
-    const val = processNode(node, parent)
+    const val = processNode(node)
 
-    if (val.anchor || type !== val.type) {
+    if (val.type === 'page-link') {
       handleAnchor()
-      if (val.anchor) {
-        parent = { ...parent, ...val }
+      const level = getNextLevel(parent, val.text)
+      const entryItem = {
+        [ levelName + (level) ]: val.text,
+        anchor: slugify(val.text),
+        type: val.type
       }
-      else {
-        contents.push(val.text)
-      }
+      parent = { ...parent, ...entryItem }
     }
     else {
       contents.push(val.text)
