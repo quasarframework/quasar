@@ -1214,13 +1214,12 @@ module.exports = [
     icon: 'assignment_late',
     path: 'why-donate'
   },
-  // TODO enable when UI is ready
-  // {
-  //   name: 'API Explorer',
-  //   icon: 'travel_explore',
-  //   badge: 'new',
-  //   path: 'api-explorer'
-  // },
+  {
+    name: 'API Explorer',
+    icon: 'travel_explore',
+    badge: 'new',
+    path: 'api-explorer'
+  },
   {
     name: 'Video Tutorials',
     icon: 'ondemand_video',

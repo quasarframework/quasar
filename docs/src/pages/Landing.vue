@@ -124,7 +124,6 @@ import { useMeta } from 'quasar'
 
 import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
-import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
 import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
 // import SurveyCountdown from '../components/SurveyCountdown'
 
@@ -148,7 +147,6 @@ export default {
   components: {
     Sponsor,
     SponsorList,
-    LandingTopBar,
     // SurveyCountdown,
     IntroductionVideo
   },

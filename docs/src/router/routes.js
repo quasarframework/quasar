@@ -112,7 +112,11 @@ const routes = [
   // Always leave this as last one
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/Error404.vue')
+    component: DocLayout,
+    children: [{
+      path: '',
+      component: () => import('pages/Error404.vue')
+    }]
   }
 ]
 
