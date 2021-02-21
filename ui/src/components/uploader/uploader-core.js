@@ -77,6 +77,7 @@ export function getRenderer (getPlugin) {
   }
 
   const state = {
+    files: ref([]),
     queuedFiles: ref([]),
     uploadedFiles: ref([]),
     uploadedSize: ref(0),
@@ -96,7 +97,6 @@ export function getRenderer (getPlugin) {
     state.isBusy = ref(false)
   }
 
-  const files = ref([])
   const dnd = ref(false)
 
   const rootRef = ref(null)
@@ -118,7 +118,7 @@ export function getRenderer (getPlugin) {
     // if single selection and no files are queued:
     && (props.multiple === true || state.queuedFiles.value.length === 0)
     // if max-files is set and current number of files does not exceeds it:
-    && (props.maxFiles === void 0 || files.value.length < props.maxFilesNumber)
+    && (props.maxFiles === void 0 || state.files.value.length < props.maxFilesNumber)
     // if max-total-size is set and current upload size does not exceeds it:
     && (props.maxTotalSize === void 0 || uploadSize.value < props.maxTotalSizeNumber)
   )
@@ -169,7 +169,7 @@ export function getRenderer (getPlugin) {
       state.uploadedSize.value = 0
       uploadSize.value = 0
       revokeImgURLs()
-      files.value = []
+      state.files.value = []
       state.queuedFiles.value = []
       state.uploadedFiles.value = []
     }
@@ -200,7 +200,7 @@ export function getRenderer (getPlugin) {
       size: 0
     }
 
-    const localFiles = files.value.filter(f => {
+    const localFiles = state.files.value.filter(f => {
       if (statusList.indexOf(f.__status) === -1) {
         return true
       }
@@ -214,7 +214,7 @@ export function getRenderer (getPlugin) {
     })
 
     if (removed.files.length > 0) {
-      files.value = localFiles
+      state.files.value = localFiles
       cb(removed)
       emit('removed', removed.files)
     }
@@ -233,7 +233,7 @@ export function getRenderer (getPlugin) {
       uploadSize.value -= file.size
     }
 
-    files.value = files.value.filter(f => {
+    state.files.value = state.files.value.filter(f => {
       if (f.name !== file.name) {
         return true
       }
@@ -247,7 +247,7 @@ export function getRenderer (getPlugin) {
   }
 
   function revokeImgURLs () {
-    files.value.forEach(f => {
+    state.files.value.forEach(f => {
       f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
     })
   }
@@ -258,12 +258,12 @@ export function getRenderer (getPlugin) {
   }
 
   function addFilesToQueue (e, fileList) {
-    const processedFiles = processFiles(e, fileList, files.value, true)
+    const processedFiles = processFiles(e, fileList, state.files.value, true)
 
     if (processedFiles === void 0) { return }
 
     const localFiles = processedFiles
-      .filter(file => files.value.findIndex(f => file.name === f.name) === -1)
+      .filter(file => state.files.value.findIndex(f => file.name === f.name) === -1)
 
     const fileInput = getFileInput()
     if (fileInput !== void 0 && fileInput !== null) {
@@ -283,7 +283,7 @@ export function getRenderer (getPlugin) {
       }
     })
 
-    files.value = files.value.concat(localFiles)
+    state.files.value = state.files.value.concat(localFiles)
     state.queuedFiles.value = state.queuedFiles.value.concat(localFiles)
     emit('added', localFiles)
     props.autoUpload === true && state.upload()
@@ -369,7 +369,7 @@ export function getRenderer (getPlugin) {
       return slots.list(slotScope.value)
     }
 
-    return files.value.map(file => h('div', {
+    return state.files.value.map(file => h('div', {
       key: file.name,
       class: 'q-uploader__file relative-position'
         + (props.noThumbnails !== true && file.__img !== void 0 ? ' q-uploader__file--img' : '')
@@ -422,7 +422,7 @@ export function getRenderer (getPlugin) {
 
   onBeforeUnmount(() => {
     state.isUploading.value === true && state.abort()
-    files.value.length > 0 && revokeImgURLs()
+    state.files.value.length > 0 && revokeImgURLs()
   })
 
   const publicMethods = {
