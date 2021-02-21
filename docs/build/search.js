@@ -131,6 +131,14 @@ const buildParagraph = (content, remaining = '', skip = 0) => {
   return { text: text.join('') }
 }
 
+const processTip = (node, entry) => {
+  const val = processNode(node, entry)
+  if (val.text.startsWith(':::') && val.text.endsWith(':::') !== true) {
+    val.needMore = true
+  }
+  return val
+}
+
 const processNode = (node, entry) => {
   const text = []
   let type = 'page-content'
@@ -192,7 +200,6 @@ const processNode = (node, entry) => {
     return id
   }
   else if (node.type === 'blockQuote') {
-    // type = 'page-quote'
     type = 'page-content'
     const data = processNode(node.content, entry)
     text.push(data.text)
@@ -206,10 +213,9 @@ const processNode = (node, entry) => {
   return { text: text.join(' '), type }
 }
 
-const processTip = (val) => {
+const extractTip = (val) => {
   const start = val.text.indexOf('\n')
   const end = val.text.lastIndexOf('\n')
-  // val.type = 'page-tip'
   val.type = 'page-content'
   val.text = val.text.substr(start + 1, val.text.length - start - (val.text.length - end) - 1)
   return val
@@ -228,11 +234,7 @@ const processMarkdown = (syntaxTree, entries, entry) => {
         .replace(/<br>/g, '\n')
         .replace(/\|/g, '')
         .replace(/\s\s+/g, ' ')
-        .replace(/::: tip/g, '')
         .replace(/---/g, '')
-        .replace(/::: warning/g, '')
-        .replace(/::: danger/g, '')
-        .replace(/:::/g, '')
         .trim()
 
       // handle text from previous
@@ -246,27 +248,48 @@ const processMarkdown = (syntaxTree, entries, entry) => {
     }
   }
 
+  let tipData
   syntaxTree.forEach((node, index) => {
     let val = processNode(node, parent)
 
     if (val.text !== void 0 && val.text !== '') {
       // don't accept components embedded into the page
-      if (val.text.charAt(0) !== '<' && val.text.charAt(val.text.length - 1) !== '>') {
-        // look for tips
-        if (val.text.startsWith(':::') && val.text.endsWith(':::')) {
-          val = processTip(val)
+      if (val.text.charAt(0) !== '<' && val.text.endsWith('/>') === false) {
+        if (tipData) {
+          if (val.text.endsWith(':::')) {
+            // we have ending tip
+            val.text = tipData.text + '\n' + val.text
+            tipData = void 0
+          }
+        }
+        else if (val.text.startsWith(':::')) {
+          if (!val.text.endsWith(':::')) {
+            // we need more data
+            tipData = val
+          }
+          else {
+            if (tipData !== void 0) {
+              tipData += '\n' + val.text
+            }
+          }
         }
 
-        console.log(val)
-        if (val.anchor || type !== val.type) {
-          handleAnchor(val)
-          contents.push(val.text)
-        }
-        else {
-          contents.push(val.text)
-        }
+        if (tipData === void 0) {
+          // look for tips
+          if (val.text.startsWith(':::') && val.text.endsWith(':::')) {
+            val = extractTip(val)
+          }
 
-        type = val.type
+          if (val.anchor || type !== val.type) {
+            handleAnchor(val)
+            contents.push(val.text)
+          }
+          else {
+            contents.push(val.text)
+          }
+
+          type = val.type
+        }
       }
     }
   })
