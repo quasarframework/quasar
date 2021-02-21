@@ -15,6 +15,10 @@ The QRadio component is another basic element for user input. You can use this t
 Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Radios.
 :::
 
+## QRadio API
+
+<doc-api file="QRadio" />
+
 ## Usage
 
 ### Standard
@@ -66,6 +70,3 @@ In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRadio, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <doc-example title="Native form" file="QRadio/NativeForm" />
-
-## QRadio API
-<doc-api file="QRadio" />

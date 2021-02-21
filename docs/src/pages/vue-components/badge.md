@@ -5,6 +5,10 @@ keys: QBadge
 ---
 The QBadge component allows you to create a small badge for adding information like contextual data that needs to stand out and get noticed. It is also often useful in combination with other elements like a user avatar to show a number of new messages.
 
+## QBadge API
+
+<doc-api file="QBadge" />
+
 ## Usage
 
 <doc-example title="Basic" file="QBadge/Basic" />
@@ -18,6 +22,3 @@ The QBadge component allows you to create a small badge for adding information l
 <doc-example title="Outline design" file="QBadge/Outline" />
 
 <doc-example title="Rounded" file="QBadge/Rounded" />
-
-## QBadge API
-<doc-api file="QBadge" />

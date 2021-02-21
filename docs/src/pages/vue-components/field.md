@@ -12,6 +12,10 @@ QField allows you to display any form control (or almost anything as a matter of
 Do NOT wrap QInput, QFile or QSelect with QField as these components already inherit QField.
 :::
 
+## QField API
+
+<doc-api file="QField" />
+
 ## Design
 
 ::: tip
@@ -168,6 +172,3 @@ Depending on your needs, you might connect [Vuelidate](https://vuelidate.netlify
 You can also customize the slot for error message:
 
 <doc-example title="Slot for error message" file="QField/ValidationSlots" />
-
-## QField API
-<doc-api file="QField" />

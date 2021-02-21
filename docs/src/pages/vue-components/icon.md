@@ -18,6 +18,10 @@ There are multiple types of icons in Quasar: webfont-based, svg-based and image-
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
 :::
 
+## QIcon API
+
+<doc-api file="QIcon" />
+
 ## Size & colors
 The sizing of a QIcon is manipulated by the `font-size` CSS property. Also, QIcon inherits the current CSS text `color` used. For ease of use there are the QIcon `size` and `color` props.
 
@@ -551,6 +555,3 @@ setup () {
 ```
 
 Now we can use `<q-icon name="app:copy" />` or `<q-icon name="app:icon1" />` and QIcon will treat "app:copy" and "app:icon1" as if they were written as "fas fa-copy" and "img:/path/to/icon1.svg".
-
-## QIcon API
-<doc-api file="QIcon" />

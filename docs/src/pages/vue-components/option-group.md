@@ -11,6 +11,10 @@ related:
 
 The QOptionGroup component is a helper component that allows you better control for grouping binary (on or off, true or false, 1 or 0) form input components like checkboxes, radios or toggles. A good use for this component is for offering a set of options or settings to turn on and off.
 
+## QOptionGroup API
+
+<doc-api file="QOptionGroup" />
+
 ## Usage
 
 ### Standard
@@ -60,7 +64,3 @@ The objects within the `options` array can hold any of the props found in QToggl
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QOptionGroup, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <doc-example title="Native form" file="QOptionGroup/NativeForm" />
-
-
-## QOptionGroup API
-<doc-api file="QOptionGroup" />

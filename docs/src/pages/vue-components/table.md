@@ -24,6 +24,18 @@ QTable is a component that allows you to display data in a tabular manner. It's 
 If you don't need pagination, sorting, filtering, and all other features of QTable, then you may want to check out [QMarkupTable](/vue-components/markup-table) component instead.
 :::
 
+## QTable API
+<doc-api file="QTable" />
+
+## QTh API
+<doc-api file="QTh" />
+
+## QTr API
+<doc-api file="QTr" />
+
+## QTd API
+<doc-api file="QTd" />
+
 ## Defining the columns
 
 Let’s take an example of configuring the `columns` property. We are going to tell QTable that `row-key` is ‘name’, which **must** be unique. If this was data fetched from a database we would likely use the row **id**.
@@ -347,15 +359,3 @@ You could also make use of the `filteredSortedRows` internal computed property o
 Below is an example of keyboard navigation in the table using selected row. Use `ArrowUp`, `ArrowDown`, `PageUp`, `PageDown`, `Home` and `End` keys to navigate.
 
 <doc-example title="Keyboard navigation" file="QTable/KeyboardNavigation" />
-
-## QTable API
-<doc-api file="QTable" />
-
-## QTh API
-<doc-api file="QTh" />
-
-## QTr API
-<doc-api file="QTr" />
-
-## QTd API
-<doc-api file="QTd" />

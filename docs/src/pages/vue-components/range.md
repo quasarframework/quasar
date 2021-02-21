@@ -10,6 +10,10 @@ The QRange component is a great way to offer the user the selection of a sub-ran
 
 Also check out its “sibling”, the [QSlider](/vue-components/slider) component.
 
+## QRange API
+
+<doc-api file="QRange" />
+
 ## Usage
 
 Notice we are using an object for the selection, which holds values for both the lower value of the selected range - `rangeValues.min` and the higher value - `rangeValues.max`.
@@ -95,6 +99,3 @@ Using simple CSS you can get nice effects.
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRange, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QRange/NativeForm" />
-
-## QRange API
-<doc-api file="QRange" />

@@ -10,6 +10,11 @@ related:
 
 The QSplitter component allow containers to be split vertically and/or horizontally through a draggable separator bar.
 
+
+## QSplitter API
+
+<doc-api file="QSplitter" />
+
 ## Usage
 
 ::: warning
@@ -65,6 +70,3 @@ A QSplitter can be embedded in another QSplitter's `before` and/or `after` slots
 <doc-example title="Image Fun" file="QSplitter/ImageFun" />
 
 <doc-example title="Reactive Images" file="QSplitter/ReactiveImages" />
-
-## QSplitter API
-<doc-api file="QSplitter" />

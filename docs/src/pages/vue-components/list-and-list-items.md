@@ -17,6 +17,18 @@ List Items have the following pre-built child components:
 * **QItemSection** - An item section can have several uses for particular content. They are controlled via the `avatar`, `thumbnail` and `side` props. With no props, it will render the main section of your QItem (which spans to the fullest of available space).
 * **QItemLabel** - An item label is useful for predefined text content type within a QItemSection, or for header-like content of the QList itself.
 
+## QList API
+<doc-api file="QList" />
+
+## QItem API
+<doc-api file="QItem" />
+
+## QItemSection API
+<doc-api file="QItemSection" />
+
+## QItemLabel API
+<doc-api file="QItemLabel" />
+
 ## Usage
 
 ### Basic
@@ -83,15 +95,3 @@ You can use QItems together with Vue Router through `<router-link>` properties b
   </q-item-section>
 </q-item>
 ```
-
-## QList API
-<doc-api file="QList" />
-
-## QItem API
-<doc-api file="QItem" />
-
-## QItemSection API
-<doc-api file="QItemSection" />
-
-## QItemLabel API
-<doc-api file="QItemLabel" />
