@@ -54,7 +54,7 @@ export default {
 
     const quasarConf = computed(() => {
       return props.config !== void 0
-        ? `${props.config}: { /* look at QUASARCONFOPTIONS from the API card */ }`
+        ? `${props.config}: { /* look at QuasarConfOptions from the API card */ }`
         : null
     })
 
@@ -62,7 +62,7 @@ export default {
       if (props.plugins === void 0 && quasarConf.value === null) {
         return `/*
  * No installation step is necessary.
- * It gets installed by default by @quasar/app v3+.
+ * It gets installed by default by @quasar/app.
  */`
       }
 
@@ -129,9 +129,6 @@ app.use(Quasar, {
       }
 
       return `// main.js
-
-// This is needed ONLY if NOT chosen to import everything from Quasar
-// when you installed vue-cli-plugin-quasar.
 
 import {
   Quasar,

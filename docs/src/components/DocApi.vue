@@ -9,7 +9,7 @@ q-card.doc-api.q-my-lg(flat bordered)
 
   template(v-else-if="nothingToShow")
     q-separator
-    .doc-api__nothing-to-show.q-pa-md.text-italic.text-grey Nothing to display
+    .doc-api__nothing-to-show Nothing to display
 
   template(v-else)
     q-separator
@@ -22,7 +22,7 @@ q-card.doc-api.q-my-lg(flat bordered)
           :name="tab"
         )
           .row.no-wrap.items-center
-            span.q-mr-xs.text-uppercase.text-weight-medium {{ tab }}
+            span.q-mr-xs.text-capitalize.text-weight-medium {{ tab }}
             q-badge(v-if="filteredApiCount[tab].overall")
               | {{ filteredApiCount[tab].overall }}
 
@@ -47,7 +47,7 @@ q-card.doc-api.q-my-lg(flat bordered)
     q-tab-panels(v-model="currentTab", animated)
       q-tab-panel.q-pa-none(v-for="tab in tabsList", :name="tab", :key="tab")
         .row.no-wrap.api-container(v-if="innerTabsList[tab].length !== 1")
-          .col-auto.row.no-wrap.bg-grey-1.text-grey-7.q-py-sm
+          .col-auto.row.no-wrap.text-grey-7.q-py-sm
             q-tabs(
               v-model="currentInnerTab",
               active-color="primary",
@@ -77,7 +77,7 @@ q-card.doc-api.q-my-lg(flat bordered)
             transition-prev="slide-down",
             transition-next="slide-up"
           )
-            q-tab-panel(v-for="innerTab in innerTabsList[tab]", :name="innerTab", :key="innerTab", class="q-pa-none")
+            q-tab-panel.q-pa-none(v-for="innerTab in innerTabsList[tab]", :name="innerTab", :key="innerTab")
               DocApiEntry(:type="tab", :definition="filteredApi[tab][innerTab]")
 
         .api-container(v-else)
@@ -350,5 +350,8 @@ export default {
     max-height: 600px
 
   &__nothing-to-show
+    padding: 16px
+    color: $grey
     font-size: .8em
+    font-style: italic
 </style>
