@@ -54,7 +54,7 @@ export default {
 
   extractProps (hit) {
     return {
-      title: [ hit.l1, hit.l2, hit.l3, hit.l4, hit.l5 ].filter(e => e).join(' » '),
+      title: [ hit.l1, hit.l2, hit.l3, hit.l4, hit.l5, hit.l6 ].filter(e => e).join(' » '),
       content: parseContent(hit._formatted.content)
     }
   }

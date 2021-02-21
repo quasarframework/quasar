@@ -16,6 +16,13 @@ const intro = '../src/pages'
 let objectID = 1
 const getObjectID = () => objectID++
 
+const rankList = new Set()
+
+function parseRank (rank) {
+  rankList.add(rank - 1)
+  return rank - 1
+}
+
 const createFolder = (folder) => {
   const dir = path.join(__dirname, '..', folder)
   if (!fs.existsSync(dir)) {
@@ -24,37 +31,30 @@ const createFolder = (folder) => {
 }
 
 const createIndex = (data) => {
-  const requiredFields = [ levelName + '0', 'url' ]
-  const missingFields = requiredFields.filter(
-    (requiredField) => !data[ requiredField ]
-  )
-  if (missingFields.length) {
-    throw new Error(
-      `Missing fields for indexing page ${data.url}: ${missingFields.join(
-        ', '
-      )}`
-    )
-  }
   return {
-    id: getObjectID(),
-    [ levelName + '0' ]: null,
-    [ levelName + '1' ]: null,
-    [ levelName + '2' ]: null,
-    [ levelName + '3' ]: null,
-    [ levelName + '4' ]: null,
-    [ levelName + '5' ]: null,
-    [ levelName + '6' ]: null,
+    group: null,
+    menu: [],
+    [ levelName + 1 ]: null,
+    [ levelName + 2 ]: null,
+    [ levelName + 3 ]: null,
+    [ levelName + 4 ]: null,
+    [ levelName + 5 ]: null,
+    [ levelName + 6 ]: null,
     keys: null,
-    content: null,
-    anchor: null,
+    content: '',
+    anchor: '',
     ...data
   }
 }
 
 const cleanObject = (item) => {
   if (item.content === '') {
-    item.content = null
+    delete item.content
   }
+
+  item.url = item.url + (item.anchor ? '#' + item.anchor : '')
+  delete item.anchor
+
   const keys = Object.keys(item)
   for (const key in keys) {
     if (item[ keys[ key ] ] === null) {
@@ -64,19 +64,12 @@ const cleanObject = (item) => {
   return item
 }
 
-// deletes any levelName key higher than the passed value
-const deleteHigherThan = (item, level) => {
-  for (let index = level + 1; index < 7; ++index) {
-    if (item[ levelName + index ] !== void 0) {
-      delete item[ levelName + index ]
-    }
-  }
-  return item
-}
-
 // makes sure there is content before adding to array
 const addItem = (entries, item) => {
-  entries.push(cleanObject(createIndex(item)))
+  entries.push(cleanObject({
+    id: getObjectID(),
+    ...item
+  }))
 }
 
 // returns the contents of the associated file
@@ -116,7 +109,7 @@ const processNode = (node, prefix = '') => {
     type = 'page-link'
     const data = processNode(node.block)
     data.type = type
-    data.rank = node.rank
+    data.rank = parseRank(node.rank)
     return data
   }
   else if (node.type === 'image' ||
@@ -188,13 +181,12 @@ const processMarkdown = (syntaxTree, entries, entry) => {
 
     if (val.type === 'page-link') {
       handleAnchor()
-      const level = val.rank
-      const entryItem = {
-        [ levelName + (level) ]: val.text,
+      parent = {
+        ...parent,
+        [ levelName + val.rank ]: val.text,
         anchor: slugify(val.text),
         type: val.type
       }
-      parent = { ...parent, ...entryItem } // deleteHigherThan({ ...parent, ...entryItem }, level)
     }
     else {
       contents.push(val.text)
@@ -216,13 +208,13 @@ const processPage = (page, entry, entries) => {
     keys = frontMatter.data.keys.split(',').join(' ')
   }
 
-  const entryItem = {
+  const entryItem = createIndex({
     ...entry,
     keys,
     content: frontMatter.data.desc,
     type: 'page-link',
     anchor: 'introduction'
-  }
+  })
 
   addItem(entries, entryItem)
 
@@ -242,7 +234,7 @@ const processChildren = (parent, entry, entries) => {
         if (menuItem.path) {
           entryChild = {
             ...entry,
-            [ levelName + '1' ]: menuItem.name,
+            menu: entry.menu.concat(menuItem.name),
             url: entry.url + '/' + menuItem.path,
             anchor: slugify(menuItem.name)
           }
@@ -260,12 +252,10 @@ const processChildren = (parent, entry, entries) => {
 }
 
 const processMenuItem = (menuItem, entries) => {
-  const entryItem = {
-    [ levelName + '0' ]: menuItem.name,
-    content: '',
-    anchor: '',
+  const entryItem = createIndex({
+    group: menuItem.name,
     url: '/' + menuItem.path
-  }
+  })
 
   if (menuItem.external !== true) {
     if (menuItem.children) {
@@ -279,6 +269,10 @@ const processMenuItem = (menuItem, entries) => {
       processPage(intro + entryItem.url + '.md', entryItem, entries)
     }
   }
+}
+
+function getJsonSize (content) {
+  return (content.length / 1024).toFixed(2) + 'kb'
 }
 
 // -- Begin processing
@@ -295,17 +289,16 @@ const run = () => {
     processMenuItem(item, entries)
   })
 
-  entries.forEach(entry => {
-    entry.url = entry.url + '#' + entry.anchor
-    delete entry.anchor
-  })
-
-  fs.writeFileSync(fileName, JSON.stringify(entries, null, 2), () => {})
+  const content = JSON.stringify(entries, null, 2)
+  fs.writeFileSync(fileName, content, () => {})
 
   const end = new Date().getTime()
   const time = end - start
+
+  console.log('Headings found:', rankList)
   console.log(`Finished ${entries.length} indices in ${time}ms`)
   console.log(`Generated ${fileName}`)
+  console.log(`File size: ${getJsonSize(content)}`)
 }
 
 run()
