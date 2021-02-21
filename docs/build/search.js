@@ -8,7 +8,7 @@ const { slugify } = require('./utils')
 const levelName = 'l'
 
 // get the menu from assets folder
-const menu = require(path.resolve(__dirname, '../src/assets/menu.js'))
+const menu = require('../src/assets/menu.js')
 
 // where the markdown lives
 const intro = '../src/pages'
@@ -194,7 +194,7 @@ const processMarkdown = (syntaxTree, entries, entry) => {
         anchor: slugify(val.text),
         type: val.type
       }
-      parent = deleteHigherThan({ ...parent, ...entryItem }, level)
+      parent = { ...parent, ...entryItem } // deleteHigherThan({ ...parent, ...entryItem }, level)
     }
     else {
       contents.push(val.text)
@@ -240,10 +240,9 @@ const processChildren = (parent, entry, entries) => {
       if (menuItem.external !== true) {
         let entryChild = { ...entry }
         if (menuItem.path) {
-          const level = 0
           entryChild = {
             ...entry,
-            [ levelName + (level) ]: menuItem.name,
+            [ levelName + '1' ]: menuItem.name,
             url: entry.url + '/' + menuItem.path,
             anchor: slugify(menuItem.name)
           }
@@ -261,9 +260,8 @@ const processChildren = (parent, entry, entries) => {
 }
 
 const processMenuItem = (menuItem, entries) => {
-  let level = 0
   const entryItem = {
-    [ levelName + level ]: menuItem.name,
+    [ levelName + '0' ]: menuItem.name,
     content: '',
     anchor: '',
     url: '/' + menuItem.path
@@ -271,10 +269,8 @@ const processMenuItem = (menuItem, entries) => {
 
   if (menuItem.external !== true) {
     if (menuItem.children) {
-      level = 0
       const entryChild = {
         ...entryItem,
-        [ levelName + level ]: menuItem.name,
         anchor: slugify(menuItem.name)
       }
       processChildren(menuItem, entryChild, entries)
@@ -297,6 +293,11 @@ const run = () => {
 
   menu.forEach(item => {
     processMenuItem(item, entries)
+  })
+
+  entries.forEach(entry => {
+    entry.url = entry.url + '#' + entry.anchor
+    delete entry.anchor
   })
 
   fs.writeFileSync(fileName, JSON.stringify(entries, null, 2), () => {})

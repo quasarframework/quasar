@@ -13,7 +13,7 @@ function fetchQuery (val, onResult, onError) {
 
   const xhr = new XMLHttpRequest()
   const data = JSON.stringify({
-    q: val, limit: 7, cropLength: 50, attributesToCrop: ['content'], attributesToHighlight: ['content']
+    q: val, limit: 10, cropLength: 50, attributesToCrop: ['content'], attributesToHighlight: ['content']
   })
 
   xhr.addEventListener('load', function () {
@@ -75,7 +75,7 @@ export default function useSearch (scope, $q, $route) {
           }
         },
         onClick () {
-          $router.push(hit.url + '#' + hit.anchor).catch(() => {})
+          $router.push(hit.url).catch(() => {})
           searchTerms.value = ''
           searchInputRef.value.blur()
         }
