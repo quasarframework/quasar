@@ -7,6 +7,8 @@ const { setVerticalScrollPosition, getVerticalScrollPosition } = scroll
 let preventTocUpdate = false
 let scrollTimer
 
+const scrollDuration = 500
+
 function scrollPage (el, delay) {
   const { top } = el.getBoundingClientRect()
   const offset = Math.max(0, top + getVerticalScrollPosition(window) - 66)
@@ -54,6 +56,10 @@ export default function useScroll (scope, $route) {
     else {
       changeRouterHash(hashtag)
     }
+
+    setTimeout(() => {
+      scope.setActiveToc(getVerticalScrollPosition(window))
+    }, scrollDuration + 50)
   }
 
   function onScroll ({ position }) {
@@ -87,7 +93,7 @@ export default function useScroll (scope, $route) {
         }, 2000)
       }
 
-      scrollPage(el, immediate === true ? 0 : 500)
+      scrollPage(el, immediate === true ? 0 : scrollDuration)
     }
     else {
       preventTocUpdate = false

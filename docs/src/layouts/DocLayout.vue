@@ -112,7 +112,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       header-menu.q-mt-sm.text-primary.column(v-if="$q.screen.lt.sm", align="right")
 
       q-list.doc-toc.q-my-sm.text-grey-8
-        q-item-label.text-uppercase.q-pl-md.q-pb-sm.text-grey-9(header v-if="tocList.length > 0").q-mb-xs Table of contents
+        q-item-label.text-uppercase.q-pl-md.q-pb-sm.q-mb-xs.text-grey-9(header v-if="tocList.length > 0") Table of contents
         q-item(
           v-for="tocItem in tocList"
           :key="tocItem.id"
