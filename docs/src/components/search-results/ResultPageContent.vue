@@ -7,8 +7,8 @@ q-item.app-search__result(
   @mouseenter="entry.onMouseenter"
 )
   q-item-section
-    .app-search__result-title {{ entry.title }}
-    .app-search__result-content
+    .app-search__result-overlay {{ entry.path }}
+    .app-search__result-main
       span(
         v-for="(item, index) in entry.content"
         :key="index"
@@ -19,42 +19,20 @@ q-item.app-search__result(
 </template>
 
 <script>
-const contentRE = /(<em>|<\/em>)/
-const startsWithRE = /^[a-z0-9]/
-const endsWithRE = /[a-z0-9]$/
-
-function parseContent (content) {
-  let inToken = false
-
-  const acc = []
-  const str = (
-    (startsWithRE.test(content) ? '...' : '') +
-    content +
-    (endsWithRE.test(content) ? '...' : '')
-  )
-
-  str.split(contentRE).forEach(str => {
-    if (str === '') {
-      inToken = true
-    }
-    else if (str !== '<em>' && str !== '</em>') {
-      acc.push({
-        str,
-        class: inToken ? 'app-search__result-content--token' : null
-      })
-      inToken = !inToken
-    }
-  })
-  return acc
-}
+import { parseContent } from './results-utils'
 
 export default {
   name: 'ResultPageContent',
   props: { entry: Object, active: Boolean },
 
   extractProps (hit) {
+    const title = [
+      hit.menu !== void 0 ? hit.menu.join(' » ') : null,
+      [ hit.l1, hit.l2, hit.l3, hit.l4, hit.l5, hit.l6 ].filter(e => e).join(' » ')
+    ].filter(e => e).join(' | ')
+
     return {
-      title: [ hit.l1, hit.l2, hit.l3, hit.l4, hit.l5, hit.l6 ].filter(e => e).join(' » '),
+      path: title || hit.group,
       content: parseContent(hit._formatted.content)
     }
   }

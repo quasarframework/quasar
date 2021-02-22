@@ -47,8 +47,8 @@ export default function useSearch (scope, $q, $route) {
     }
 
     const acc = {
-      categories: [],
-      data: {},
+      groupList: [],
+      entries: {},
       ids: []
     }
 
@@ -60,9 +60,9 @@ export default function useSearch (scope, $q, $route) {
         return
       }
 
-      if (acc.data[ hit.l0 ] === void 0) {
-        acc.categories.push(hit.l0)
-        acc.data[ hit.l0 ] = []
+      if (acc.entries[ hit.group ] === void 0) {
+        acc.groupList.push(hit.group)
+        acc.entries[ hit.group ] = []
       }
 
       const entry = {
@@ -81,14 +81,14 @@ export default function useSearch (scope, $q, $route) {
         }
       }
 
-      acc.data[ hit.l0 ].push(entry)
+      acc.entries[ hit.group ].push(entry)
     })
 
     // ensure that the ids are assigned in the right order
     // otherwise keyboard up/down will not work correctly
     let globalId = 0
-    acc.categories.forEach(categ => {
-      acc.data[ categ ].forEach(hit => {
+    acc.groupList.forEach(group => {
+      acc.entries[ group ].forEach(hit => {
         const id = 'search--' + (++globalId)
         hit.id = id
         acc.ids.push(id)

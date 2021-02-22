@@ -52,6 +52,10 @@ const cleanObject = (item) => {
     delete item.content
   }
 
+  if (item.menu.length === 0) {
+    delete item.menu
+  }
+
   item.url = item.url + (item.anchor ? '#' + item.anchor : '')
   delete item.anchor
 

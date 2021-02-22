@@ -18,13 +18,13 @@
     span to focus on searchbox
 
   .app-search__section(
-    v-for="categ in results.categories"
-    :key="`categ_${categ}`"
+    v-for="group in results.groupList"
+    :key="`group_${group}`"
   )
-    .app-search__section-title.text-subtitle1 {{ categ }}
+    .app-search__section-title.text-subtitle1 {{ group }}
 
     component(
-      v-for="entry in results.data[categ]"
+      v-for="entry in results.entries[group]"
       :key="entry.id"
       :is="entry.component"
       :entry="entry"
@@ -125,28 +125,27 @@ export default {
         color: $primary
         border-radius: 4px
 
-    &-title
+    &-overlay
       padding-bottom: 4px
       font-size: .8em
-    &-title, &-fade
       color: $grey
 
-    &-content
+    &-main
       font-size: .9em
       font-weight: 400
       line-height: 1.2em
 
-      &--token
-        background-color: scale-color($positive, $lightness: 60%)
-        border-radius: 4px
-        padding: 0 2px
-        color: #000
+    &-token
+      background-color: scale-color($positive, $lightness: 60%)
+      border-radius: 4px
+      padding: 0 2px
+      color: #000
 
   &__result.q-item--active
     background: $primary
     color: #fff
 
-    .app-search__result-title, .app-search__result-fade
+    .app-search__result-overlay
       color: #ddd
 
 body.mobile .app-search__instructions

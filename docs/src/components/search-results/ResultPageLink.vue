@@ -7,21 +7,38 @@ q-item.app-search__result(
   @mouseenter="entry.onMouseenter"
 )
   q-item-section
-    .app-search__result-content
-      span.app-search__result-fade.q-mr-xs Page:
-      span {{ entry.content }}
+
+    template(v-if="entry.content")
+      .app-search__result-overlay {{ entry.path }}
+      .app-search__result-main
+        span(
+          v-for="(item, index) in entry.content"
+          :key="index"
+          :class="item.class"
+        ) {{ item.str }}
+
+    .app-search__result-main(v-else)
+      | {{ entry.path }}
 
   slot
 </template>
 
 <script>
+import { parseContent } from './results-utils'
+
 export default {
   name: 'ResultPageLink',
   props: { entry: Object, active: Boolean },
 
   extractProps (hit) {
+    const title = [
+      hit.menu !== void 0 ? hit.menu.join(' » ') : null,
+      [ hit.l1, hit.l2, hit.l3, hit.l4, hit.l5, hit.l6 ].filter(e => e).join(' » ')
+    ].filter(e => e).join(' | ')
+
     return {
-      content: [ hit.l0, hit.l1, hit.l2, hit.l3, hit.l4, hit.l5, hit.l6 ].filter(e => e).join(' » ')
+      path: title || hit.group,
+      content: parseContent(hit._formatted.content)
     }
   }
 }
