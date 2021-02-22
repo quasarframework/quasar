@@ -30,7 +30,7 @@
       :entry="entry"
       :active="entry.id === searchActiveId"
     )
-      .app-search__result-overlay.flex.flex-center.absolute-right(v-if="entry.id === searchActiveId")
+      .app-search__result-keyboard.flex.flex-center.absolute-right(v-if="entry.id === searchActiveId")
         kbd
           q-icon(:name="select")
 
@@ -114,7 +114,7 @@ export default {
     position: relative
     cursor: pointer
 
-    &-overlay
+    &-keyboard
       color: #fff
       right: 4px
       font-size: 22px
