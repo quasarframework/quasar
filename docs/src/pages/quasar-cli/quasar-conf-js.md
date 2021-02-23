@@ -357,66 +357,7 @@ sourceFiles: {
 
 ### Example setting env for dev/build
 
-There's two concepts that need to be understood here. The env variables from the terminal that are available in `/quasar.conf.js` file itself and the environment variables that you pass to your UI code.
-
-```js
-// quasar.conf.js
-
-// Accessing terminal variables
-console.log(process.env)
-
-module.exports = function (ctx) {
-  return {
-    // ...
-
-    build: {
-      // passing down to UI code from quasar.conf.js
-      env: {
-        API: ctx.dev
-          ? 'https://dev.api.com'
-          : 'https://prod.api.com'
-      }
-    }
-  }
-}
-```
-
-Then in your website/app you can access `process.env.API` and it's gonna point to one of those two links above, based on dev or production build type.
-
-You can even go one step further. Supply it with values taken from the `quasar dev/build` env variables:
-
-```
-# we set an env variable in terminal
-$ MY_API=api.com quasar build
-
-# then we pick it up in /quasar.conf.js
-build: {
-  env: {
-    API: ctx.dev
-      ? 'https://dev.' + process.env.MY_API
-      : 'https://prod.' + process.env.MY_API
-  }
-}
-```
-
-::: tip
-Also check out [Handling process.env](/quasar-cli/handling-process-env) page.
-:::
-
-#### Using dotenv
-
-Should you wish to use `.env` file(s), you can even use [dotenv](https://www.npmjs.com/package/dotenv) package. The following is just an example that passes env variables from the terminal right down to your UI's app code:
-
-```bash
-$ yarn add --dev dotenv
-```
-
-Then in your `/quasar.conf.js`:
-```
-build: {
-  env: require('dotenv').config().parsed
-}
-```
+Please refer to [Adding to process.env](/quasar-cli/handling-process-env#adding-to-process-env) section in our docs.
 
 ### Handling Webpack configuration
 In depth analysis on [Handling Webpack](/quasar-cli/handling-webpack) documentation page.

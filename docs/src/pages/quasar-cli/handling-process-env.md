@@ -79,16 +79,28 @@ if (process.env.MODE === 'electron') {
 
 ## Adding to process.env
 
-You can add your own definitions to `process.env` through `/quasar.conf.js` file:
+You can add your own definitions to `process.env` through `/quasar.conf.js` file.
+
+But first, there's two concepts that need to be understood here. The env variables from the terminal that are available in `/quasar.conf.js` file itself and the environment variables that you pass to your UI code.
 
 ```js
 // quasar.conf.js
 
-build: {
-  env: {
-    API: ctx.dev
-      ? 'https://dev.api.com'
-      : 'https://prod.api.com'
+// Accessing terminal variables
+console.log(process.env)
+
+module.exports = function (ctx) {
+  return {
+    // ...
+
+    build: {
+      // passing down to UI code from quasar.conf.js
+      env: {
+        API: ctx.dev
+          ? 'https://dev.api.com'
+          : 'https://prod.api.com'
+      }
+    }
   }
 }
 ```
@@ -111,4 +123,20 @@ build: {
 }
 ```
 
-Alternatively you can use our [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) or [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) App Extensions.
+#### Using dotenv
+
+Should you wish to use `.env` file(s), you can even use [dotenv](https://www.npmjs.com/package/dotenv) package. The following is just an example that passes env variables from the terminal right down to your UI's app code:
+
+```bash
+$ yarn add --dev dotenv
+```
+
+Then in your `/quasar.conf.js`:
+
+```
+build: {
+  env: require('dotenv').config().parsed
+}
+```
+
+Be sure to read the [dotenv documentation](https://www.npmjs.com/package/dotenv) and create the necessary .env files in the root of your Quasar CLI project.
