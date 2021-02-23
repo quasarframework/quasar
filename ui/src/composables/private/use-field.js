@@ -472,9 +472,9 @@ export default function (state) {
     let msg, key
 
     if (hasError.value === true) {
-      if (computedErrorMessage.value !== void 0) {
+      if (computedErrorMessage.value !== null) {
         msg = [ h('div', computedErrorMessage.value) ]
-        key = computedErrorMessage.value
+        key = `q--slot-error-${ computedErrorMessage.value }`
       }
       else {
         msg = hSlot(slots.error)
@@ -484,7 +484,7 @@ export default function (state) {
     else if (props.hideHint !== true || state.focused.value === true) {
       if (props.hint !== void 0) {
         msg = [ h('div', props.hint) ]
-        key = props.hint
+        key = `q--slot-hint-${ props.hint }`
       }
       else {
         msg = hSlot(slots.hint)

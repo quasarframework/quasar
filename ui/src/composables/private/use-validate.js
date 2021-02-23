@@ -47,7 +47,7 @@ export default function (focused, innerLoading) {
   const computedErrorMessage = computed(() => (
     typeof props.errorMessage === 'string' && props.errorMessage.length > 0
       ? props.errorMessage
-      : innerErrorMessage.value || ''
+      : innerErrorMessage.value
   ))
 
   watch(() => props.modelValue, () => {
