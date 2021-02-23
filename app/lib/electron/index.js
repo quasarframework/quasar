@@ -1,4 +1,6 @@
 const webpack = require('webpack')
+const chokidar = require('chokidar')
+const fs = require('fs')
 const debounce = require('lodash.debounce')
 
 const { log, warn, fatal } = require('../helpers/logger')
