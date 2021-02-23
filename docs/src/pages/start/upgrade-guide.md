@@ -584,7 +584,7 @@ Added "transition-duration" property.
 
 #### QUploader
 
-The QUploaderBase component has been removed in favor of the "useUploader" and "useUploaderXhr" composables.
+The QUploaderBase component has been removed in favor of the [createUploaderComponent](/vue-components/uploader#supporting-other-services) util.
 
 ### Quasar directives
 
