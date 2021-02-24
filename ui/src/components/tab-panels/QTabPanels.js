@@ -1,7 +1,7 @@
 import { defineComponent, computed, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import usePanel, { usePanelProps } from '../../composables/private/use-panel.js'
+import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
 
 import { hDir } from '../../utils/private/render.js'
 
@@ -12,6 +12,8 @@ export default defineComponent({
     ...usePanelProps,
     ...useDarkProps
   },
+
+  emits: usePanelEmits,
 
   setup (props, { slots }) {
     const vm = getCurrentInstance()
