@@ -61,7 +61,12 @@ export default {
 
     // if the '@capacitor/app' plugin is not installed
     // then we got nothing to do
-    if (capacitor && (window.Capacitor === void 0 || window.Capacitor.Plugins.App === void 0)) {
+    if (
+      // if we're on Capacitor mode
+      capacitor === true
+      // and it's also not in Capacitor's main instance
+      && (window.Capacitor === void 0 || window.Capacitor.Plugins.App === void 0)
+    ) {
       return
     }
 
