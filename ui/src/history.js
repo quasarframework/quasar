@@ -57,6 +57,12 @@ export default {
       return
     }
 
+    // if the '@capacitor/app' plugin is not installed
+    // then we got nothing to do
+    if (capacitor && (window.Capacitor === void 0 || window.Capacitor.Plugins.App === void 0)) {
+      return
+    }
+
     this.add = entry => {
       if (entry.condition === void 0) {
         entry.condition = getTrue
