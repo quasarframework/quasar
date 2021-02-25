@@ -259,7 +259,7 @@ export default defineComponent({
           getPanelContent(),
           'sl-cont',
           props.swipeable,
-          () => panelDirectives
+          () => panelDirectives.value
         )
       ].concat(getContent()))
     }

@@ -918,7 +918,6 @@ class QuasarConfFile {
     }
 
     if (this.ctx.mode.capacitor) {
-
       const { capVersion } = require('./capacitor/cap-cli')
       cfg.__versions.capacitor = capVersion
 
