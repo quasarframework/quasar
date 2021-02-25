@@ -40,7 +40,7 @@ $ quasar create <folder_name> --branch next
 
 ## After Quasar v2 is stable (out of beta):
 ## (Don't use the following for now as it will generate a Quasar UI v1 project!)
-$ quasar create <folder_name>
+# $ quasar create <folder_name>
 ```
 
 :::tip
