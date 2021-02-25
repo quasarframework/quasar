@@ -23,9 +23,20 @@ import createStore from 'app/<%= sourceFiles.store %>'
 <% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
-<% if (ctx.mode.capacitor && capacitor.hideSplashscreen !== false) { %>
-import { Plugins } from '@capacitor/core'
-const { SplashScreen } = Plugins
+<% if (ctx.mode.capacitor) { %>
+  <% if (__versions.capacitor <= 2) { %>
+  import { Plugins } from '@capacitor/core'
+  const { SplashScreen } = Plugins
+  <% } else /* Capacitor v3+ */ { %>
+  import '@capacitor/core'
+    <% if (__versions.capacitorPluginApp) { %>
+    // importing it so it can install itself (used by Quasar UI)
+    import { App as CapApp } from '@capacitor/app'
+    <% } %>
+    <% if (__versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
+    import { SplashScreen } from '@capacitor/splash-screen'
+    <% } %>
+  <% } %>
 <% } %>
 
 <% if (__needsAppMountHook === true) { %>
@@ -33,7 +44,7 @@ import { defineComponent } from 'vue'
 const RootComponent = defineComponent({
   mixins: [ AppComponent ],
   mounted () {
-    <% if (ctx.mode.capacitor && capacitor.hideSplashscreen !== false) { %>
+    <% if (ctx.mode.capacitor && __versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
     SplashScreen.hide()
     <% } %>
 
