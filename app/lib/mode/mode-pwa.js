@@ -7,7 +7,7 @@ const { spawnSync } = require('../helpers/spawn')
 const nodePackager = require('../helpers/node-packager')
 
 const pwaDeps = {
-  'workbox-webpack-plugin': '^5.0.0'
+  'workbox-webpack-plugin': '^6.0.0'
 }
 
 class Mode {
