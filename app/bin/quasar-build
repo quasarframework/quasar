@@ -135,6 +135,12 @@ function splitConfig (webpackConf, mode) {
     ]
   }
 
+  if (mode === 'pwa') {
+    return [
+      { webpack: webpackConf.renderer, name: 'Build' }
+    ]
+  }
+
   return [
     { webpack: webpackConf, name: 'Build' }
   ]
@@ -212,8 +218,7 @@ async function build () {
 
   regenerateTypesFeatureFlags(quasarConf)
 
-  let outputFolder = quasarConf.build.packagedDistDir ||
-  quasarConf.build.distDir
+  let outputFolder = quasarConf.build.packagedDistDir || quasarConf.build.distDir
 
   artifacts.clean(outputFolder)
   generator.build()
@@ -227,6 +232,13 @@ async function build () {
     log(`Extension(${hook.api.extId}): Running beforeBuild hook...`)
     await hook.fn(hook.api, { quasarConf })
   })
+
+  if (argv.mode === 'pwa') {
+    // need to build the custom service worker before renderer
+    Runner = require('../lib/pwa')
+    Runner.init(ctx)
+    await Runner.build(quasarConfFile, argv)
+  }
 
   log(`Compiling with Webpack...`)
 

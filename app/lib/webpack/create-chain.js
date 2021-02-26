@@ -324,6 +324,13 @@ module.exports = function (cfg, configName) {
 
   // DEVELOPMENT build
   if (cfg.ctx.dev) {
+    if (configName !== 'Server' && cfg.ctx.mode.pwa && cfg.pwa.workboxPluginMode === 'InjectManifest') {
+      // need to place it here before friendly-errors plugin
+      const CustomSwWarningPlugin = require('./pwa/plugin.custom-sw-warning')
+      chain.plugin('custom-sw-warning')
+        .use(CustomSwWarningPlugin)
+    }
+
     const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
     const { devCompilationSuccess } = require('../helpers/banner')
 

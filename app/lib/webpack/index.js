@@ -53,16 +53,39 @@ async function getSPA (cfg) {
 }
 
 async function getPWA (cfg) {
-  const chain = createChain(cfg, 'PWA')
+  // inner function so csw gets created first
+  // (affects progress bar order)
 
-  require('./spa')(chain, cfg) // extending a SPA
-  require('./pwa')(chain, cfg)
+  function getRenderer () {
+    const chain = createChain(cfg, 'PWA')
 
-  return await getWebpackConfig(chain, cfg, {
-    name: 'PWA',
-    hot: true,
+    require('./spa')(chain, cfg) // extending a SPA
+    require('./pwa')(chain, cfg)
+
+    return getWebpackConfig(chain, cfg, {
+      name: 'PWA',
+      hot: true,
+      invokeParams: { isClient: true, isServer: false }
+    })
+  }
+
+  if (cfg.pwa.workboxPluginMode !== 'InjectManifest') {
+    return { renderer: await getRenderer() }
+  }
+
+  const createCSW = require('./pwa/create-custom-sw')
+  const cswBuildName = 'Custom Service Worker'
+
+  // csw - custom service worker
+  const csw = await getWebpackConfig(createCSW(cfg, cswBuildName), cfg, {
+    name: cswBuildName,
+    cfgExtendBase: cfg.pwa,
+    hookSuffix: 'PwaCustomSW',
+    cmdSuffix: 'CustomSW',
     invokeParams: { isClient: true, isServer: false }
   })
+
+  return { csw, renderer: await getRenderer() }
 }
 
 async function getCordova (cfg) {

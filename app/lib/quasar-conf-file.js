@@ -550,8 +550,8 @@ class QuasarConfFile {
       router: 'src/router/index',
       store: 'src/store/index',
       indexHtmlTemplate: 'src/index.template.html',
-      registerServiceWorker: 'src-pwa/register-service-worker.js',
-      serviceWorker: 'src-pwa/custom-service-worker.js',
+      registerServiceWorker: 'src-pwa/register-service-worker',
+      serviceWorker: 'src-pwa/custom-service-worker',
       electronMain: 'src-electron/electron-main',
       electronPreload: 'src-electron/electron-preload',
       ssrServerIndex: 'src-ssr/index.js'

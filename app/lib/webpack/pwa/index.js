@@ -23,7 +23,7 @@ module.exports = function (chain, cfg) {
   }
   else {
     defaultOptions = {
-      swSrc: appPaths.resolve.app(cfg.sourceFiles.serviceWorker)
+      swSrc: appPaths.resolve.app('.quasar/pwa/service-worker.js')
     }
 
     log('[InjectManifest] Using your custom service-worker written file')
