@@ -1,8 +1,8 @@
 ---
-title: App Linter
+title: ESLint
 desc: How to configure a code linter in a Quasar app.
 ---
-Having a code linter in place is highly recommended and ensures your code looks legible. It also helps you capture some errors before even running the code.
+Having a code linter (like [ESLint](https://eslint.org/) in place is highly recommended and ensures your code looks legible. It also helps you capture some errors before even running the code.
 
 When you create a Quasar project folder with Quasar CLI it will ask you if you want a linter and which setup you want for ESLint:
 
@@ -30,13 +30,9 @@ If you chose ESLint when creating your project folder, you'll also notice that `
 
 ```js
 build: {
-  extendWebpack (cfg) {
-    cfg.module.rules.push({
-      enforce: 'pre',
-      test: /\.(js|vue)$/,
-      loader: 'eslint-loader',
-      exclude: /[\\/]node_modules[\\/]/
-    })
+  chainWebpack (chain) {
+    chain.plugin('eslint-webpack-plugin')
+      .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
   }
 }
 ```
@@ -85,16 +81,12 @@ In order for you to disable ESLint later, all you need to do is comment out (or 
 
 ```js
 build: {
-  extendWebpack (cfg) {
+  chainWebpack (chain) {
     /*
      * we comment out this block
      *
-    cfg.module.rules.push({
-      enforce: 'pre',
-      test: /\.(js|vue)$/,
-      loader: 'eslint-loader',
-      exclude: /[\\/]node_modules[\\/]/
-    })
+    chain.plugin('eslint-webpack-plugin')
+      .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
     */
   }
 }
