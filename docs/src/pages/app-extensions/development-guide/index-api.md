@@ -168,10 +168,10 @@ Chain webpack config
 ```js
 /**
  * @param {function} fn
- *   (cfg: ChainObject, invoke: Object {isClient, isServer}) => undefined
+ *   (chain: ChainObject, invoke: Object {isClient, isServer}) => undefined
  */
-api.chainWebpack((cfg, { isClient, isServer }, api) => {
-  // add/remove/change cfg (Webpack chain Object)
+api.chainWebpack((chain, { isClient, isServer }, api) => {
+  // add/remove/change chain (Webpack chain Object)
 })
 ```
 
@@ -196,10 +196,10 @@ Chain webpack config of the main electron process
 ```js
 /**
  * @param {function} fn
- *   (cfg: ChainObject) => undefined
+ *   (chain: ChainObject) => undefined
  */
-api.chainWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
-  // add/remove/change cfg (Webpack chain Object)
+api.chainWebpackMainElectronProcess((chain, { isClient, isServer }, api) => {
+  // add/remove/change chain (Webpack chain Object)
 })
 ```
 
@@ -222,10 +222,10 @@ Chain webpack config of the preload electron process
 ```js
 /**
  * @param {function} fn
- *   (cfg: ChainObject) => undefined
+ *   (chain: ChainObject) => undefined
  */
-api.chainWebpackPreloadElectronProcess((cfg, { isClient, isServer }, api) => {
-  // add/remove/change cfg (Webpack chain Object)
+api.chainWebpackPreloadElectronProcess((chain, { isClient, isServer }, api) => {
+  // add/remove/change chain (Webpack chain Object)
 })
 ```
 
@@ -249,10 +249,10 @@ Chain webpack config of SSR webserver (content of /src-ssr)
 ```js
 /**
  * @param {function} fn
- *   (cfg: ChainObject) => undefined
+ *   (chain: ChainObject) => undefined
  */
-api.chainWebpackWebserver ((cfg, { isClient, isServer }, api) => {
-  // add/remove/change cfg (Webpack chain Object)
+api.chainWebpackWebserver ((chain, { isClient, isServer }, api) => {
+  // add/remove/change chain (Webpack chain Object)
 })
 ```
 
@@ -267,6 +267,34 @@ Extend webpack config Object of SSR webserver (content of /src-ssr)
  */
 api.extendWebpackWebserver((cfg, { isClient, isServer }, api) => {
   // add/remove/change cfg (Webpack configuration Object)
+})
+```
+
+## api.chainWebpackCustomSW
+
+Chain webpack config for the custom service worker when using InjectManifest (content of /src-pwa/custom-service-worker.js):
+
+```js
+/**
+ * @param {function} fn
+ *   (cfg: ChainObject) => undefined
+ */
+api.chainWebpackCustomSW ((cfg, { isClient, isServer }, api) => {
+  // add/remove/change cfg (Webpack chain Object)
+})
+```
+
+## api.extendWebpackCustomSW
+
+Extend webpack config Object for the custom service worker when using InjectManifest (content of /src-pwa/custom-service-worker.js):
+
+```js
+/**
+ * @param {function} fn
+ *   (chain: Object) => undefined
+ */
+api.extendWebpackCustomSW((chain, { isClient, isServer }, api) => {
+  // add/remove/change chain (Webpack configuration Object)
 })
 ```
 
