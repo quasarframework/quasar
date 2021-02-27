@@ -60,6 +60,10 @@ electron: {
   chainWebpackMain (chain) {
     // chain is a webpack-chain instance
     // of the Webpack configuration
+
+    // example:
+    // chain.plugin('eslint-webpack-plugin')
+    //   .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
   },
 
   // optional; webpack config Object for
@@ -74,6 +78,10 @@ electron: {
   chainWebpackPreload (chain) {
     // chain is a webpack-chain instance
     // of the Webpack configuration
+
+    // example:
+    // chain.plugin('eslint-webpack-plugin')
+    //   .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
   }
 }
 ```

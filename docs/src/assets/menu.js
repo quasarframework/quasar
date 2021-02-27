@@ -321,6 +321,11 @@ const cli = [
       {
         name: 'Handling Service Worker',
         path: 'handling-service-worker'
+      },
+      {
+        name: 'PWA with Typescript',
+        badge: 'new',
+        path: 'pwa-with-typescript'
       }
     ]
   },
@@ -461,6 +466,11 @@ const cli = [
       {
         name: 'Frameless Electron Window',
         path: 'frameless-electron-window'
+      },
+      {
+        name: 'Electron with Typescript',
+        badge: 'new',
+        path: 'electron-with-typescript'
       },
       {
         name: 'Electron Security Concerns',
