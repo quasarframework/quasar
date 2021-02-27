@@ -481,6 +481,7 @@ export declare const matDisabledByDefault: string;
 export declare const matDiscFull: string;
 export declare const matDns: string;
 export declare const matDock: string;
+export declare const matDocumentScanner: string;
 export declare const matDoDisturb: string;
 export declare const matDoDisturbAlt: string;
 export declare const matDoDisturbOff: string;
