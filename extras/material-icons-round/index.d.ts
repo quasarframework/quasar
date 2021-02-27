@@ -481,6 +481,7 @@ export declare const roundDisabledByDefault: string;
 export declare const roundDiscFull: string;
 export declare const roundDns: string;
 export declare const roundDock: string;
+export declare const roundDocumentScanner: string;
 export declare const roundDoDisturb: string;
 export declare const roundDoDisturbAlt: string;
 export declare const roundDoDisturbOff: string;

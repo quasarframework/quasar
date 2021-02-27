@@ -481,6 +481,7 @@ export declare const outlinedDisabledByDefault: string;
 export declare const outlinedDiscFull: string;
 export declare const outlinedDns: string;
 export declare const outlinedDock: string;
+export declare const outlinedDocumentScanner: string;
 export declare const outlinedDoDisturb: string;
 export declare const outlinedDoDisturbAlt: string;
 export declare const outlinedDoDisturbOff: string;

@@ -481,6 +481,7 @@ export declare const sharpDisabledByDefault: string;
 export declare const sharpDiscFull: string;
 export declare const sharpDns: string;
 export declare const sharpDock: string;
+export declare const sharpDocumentScanner: string;
 export declare const sharpDoDisturb: string;
 export declare const sharpDoDisturbAlt: string;
 export declare const sharpDoDisturbOff: string;
