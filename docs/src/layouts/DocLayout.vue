@@ -90,6 +90,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           @keydown="onSearchKeydown"
           @focus="onSearchFocus"
           @blur="onSearchBlur"
+          placeholder="Search..."
         )
           template(v-slot:prepend)
             q-icon(name="search")
@@ -112,7 +113,6 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       header-menu.q-mt-sm.text-primary.column(v-if="$q.screen.lt.sm", align="right")
 
       q-list.doc-toc.q-my-sm.text-grey-8
-        q-item-label.q-pl-md.q-pb-sm.q-mb-xs.text-grey(header v-if="tocList.length > 0") Table of contents
         q-item(
           v-for="tocItem in tocList"
           :key="tocItem.id"
@@ -122,7 +122,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           @click="scrollTo(tocItem.id)",
           :active="activeToc === tocItem.id"
         )
-          q-item-section(v-if="tocItem.sub === true", side) •
+          q-item-section(v-if="tocItem.sub === true", side) »
           q-item-section {{ tocItem.title }}
 
   q-page-container
@@ -214,6 +214,9 @@ export default {
   margin-top: 1px
   margin-bottom: 1px
   font-size: 12px
+
+  .q-item__section--side
+    padding-right: 8px
 
   &.q-item--active
     background: scale-color($primary, $lightness: 90%)
