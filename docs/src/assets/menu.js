@@ -39,6 +39,7 @@ const gettingStarted = [
   },
   {
     name: 'Upgrade guide',
+    badge: 'new',
     path: 'upgrade-guide'
   },
   {

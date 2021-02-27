@@ -22,7 +22,7 @@ The Electron mode for Quasar v2 is an almost complete overhaul of the previous v
 * **Out of the box support for Typescript**. Just rename electron-main.js and electron-preload.js to electron-main.ts and electron-preload.ts.
 * Support for Electron 11 and preparing out of the box support for upcoming changes in Electron 12+ (without you needing to change anything in the future). One of changes are that we'll be using `contextIsolation` instead of the deprecated `Node Integration`.
 * The preload script no longer has the old limitations. You can import other js files with a relative path because the script is now bundled and passed through Babel (so you can use the `import X from Y` syntax too). You can also enable linting for it.
-* You can enable linting for the main thread file too.
+* You can enable linting for the main thread and the preload script too.
 * We've removed the default electron-main.dev.js support as it seems that it's not needed anymore. However, you can add it back by creating it and referencing it from electron-main (it's no longer detected by Quasar CLI automatically -- because we don't need to; more on this later).
 
 ### The /src-electron folder
@@ -133,10 +133,7 @@ electron: {
   chainWebpackMain (chain) {
     // example for its content (adds linting)
     chain.plugin('eslint-webpack-plugin')
-      .use(ESLintPlugin, [{
-        extensions: ['js'],
-        exclude: 'node_modules'
-      }])
+      .use(ESLintPlugin, [{ extensions: ['js'] }])
   },
 
   // was renamed from extendWebpack()
@@ -146,10 +143,7 @@ electron: {
   chainWebpackPreload (chain) {
     // example (adds linting)
     chain.plugin('eslint-webpack-plugin')
-      .use(ESLintPlugin, [{
-        extensions: ['js'],
-        exclude: 'node_modules'
-      }])
+      .use(ESLintPlugin, [{ extensions: ['js'] }])
   }
 
   // New!

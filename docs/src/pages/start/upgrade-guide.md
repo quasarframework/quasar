@@ -867,7 +867,40 @@ This is due to upstream breaking changes of `fork-ts-checker-webpack-plugin`.
 If you have a project using the Quasar Electron mode, then it's essential to read its own [Electron mode upgrade guide](/quasar-cli/developing-electron-apps/electron-upgrade-guide#Upgrading-from-Quasar-v1).
 :::
 
-Out of the box support for TS now available.
+Out of the box [support for TS](/quasar-cli/developing-electron-apps/electron-with-typescript) now available.
+
+You can also enable ESLint for the main thread and the preload script now:
+
+```js
+electron: {
+  chainWebpackMain (chain) {
+    chain.plugin('eslint-webpack-plugin')
+      .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
+  },
+
+  chainWebpackPreload (chain) {
+    chain.plugin('eslint-webpack-plugin')
+      .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
+  }
+}
+```
+
+### Quasar App CLI PWA mode
+
+If you are using Workbox in InjectManifest mode, then it's useful to know that the `/src-pwa/custom-service-worker.[js|ts]` is now being compiled too. This means that in your code you can now import with relative path too.
+
+You can now enable ESLint for the custom service worker too. And it [supports TS](/quasar-cli/developing-pwa/pwa-with-typescript) out of the box (in which case, rename the extension to `.ts`).
+
+Enabling ESLint for the custom service worker is done by editing quasar.conf.js:
+
+```js
+pwa: {
+  chainWebpackCustomSW (chain) {
+    chain.plugin('eslint-webpack-plugin')
+      .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
+  }
+}
+```
 
 ### Quasar Extras
 Nothing changed. You can use it as for Quasar UI v1.
