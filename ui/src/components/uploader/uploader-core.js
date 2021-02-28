@@ -81,7 +81,7 @@ export function getRenderer (getPlugin) {
     queuedFiles: ref([]),
     uploadedFiles: ref([]),
     uploadedSize: ref(0),
-
+ 
     updateFileStatus,
     isAlive () {
       return vm.isDeactivated !== true && vm.isUnmounted !== true
@@ -225,6 +225,7 @@ export function getRenderer (getPlugin) {
 
     if (file.__status === 'uploaded') {
       state.uploadedFiles.value = state.uploadedFiles.value.filter(f => f.name !== file.name)
+      uploadSize -= file.__uploaded
     }
     else if (file.__status === 'uploading') {
       file.__abort()
