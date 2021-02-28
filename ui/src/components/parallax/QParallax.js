@@ -83,7 +83,7 @@ export default defineComponent({
 
     let setPos = offset => {
       // apply it immediately without any delay
-      mediaEl.style.transform = `translate3D(-50%,${ Math.round(offset) }px, 0)`
+      mediaEl.style.transform = `translate3d(-50%,${ Math.round(offset) }px,0)`
     }
 
     function onResize () {
