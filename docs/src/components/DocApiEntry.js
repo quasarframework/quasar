@@ -292,7 +292,7 @@ describe.events = events => {
     }
     else {
       params.push(
-        h('div', { class: 'text-italic q-pa-xs' }, '*None*')
+        h('div', { class: 'text-italic q-py-xs q-px-md' }, '*None*')
       )
     }
 
