@@ -12,6 +12,9 @@ The QPageSticky component helps in placing DOM elements / components wrapped by 
 The great advantage of this is that the elements wrapped by this component will never overlap the layout header, footer or drawer(s), even if those are not configured to be fixed. In the latter case, the position will be offset so that the overlap won't occur.
 Try it out with a non-fixed footer for example. When user reaches bottom of screen and footer comes into view, the component will shift up so it won't overlap with the footer.
 
+## QPageSticky API
+<doc-api file="QPageSticky" />
+
 ## Usage
 ::: tip
 Since QPageSticky needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QPageSticky.
@@ -33,6 +36,3 @@ In the example below, click on the menu buttons to show/hide Drawers, scroll the
 By using expanded QPageSticky you can, for example, have a page-specific QToolbar as below.
 
 <doc-example title="Expanded" file="QPageSticky/Expanded" />
-
-## QPageSticky API
-<doc-api file="QPageSticky" />

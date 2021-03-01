@@ -17,6 +17,9 @@ The QLayout is a component designed to manage the entire window and wrap page co
 
 **QLayout is NOT mandatory**, but it does help you to better structure your website/app. It has a number of features which offer you major benefits in simplifying your website/app's layout design, right out of the box.
 
+## QLayout API
+<doc-api file="QLayout" />
+
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
@@ -84,6 +87,3 @@ In the example below, there is a containerized QLayout with drawers on each side
 <doc-example title="Containerized QLayout" file="QLayout/Container" />
 
 <doc-example title="In a QDialog" file="QLayout/ContainerDialog" />
-
-## QLayout API
-<doc-api file="QLayout" />

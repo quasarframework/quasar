@@ -8,6 +8,12 @@ related:
 
 We will be talking about encapsulating pages within a QLayout. If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
 
+## QPageContainer API
+<doc-api file="QPageContainer" />
+
+## QPage API
+<doc-api file="QPage" />
+
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
@@ -80,9 +86,3 @@ export default {
 }
 </script>
 ```
-
-## QPageContainer API
-<doc-api file="QPageContainer" />
-
-## QPage API
-<doc-api file="QPage" />
