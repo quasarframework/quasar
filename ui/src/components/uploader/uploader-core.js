@@ -109,7 +109,9 @@ export function getRenderer (getPlugin) {
     addFiles,
     onDragover,
     processFiles,
-    getDndNode
+    getDndNode,
+    maxFilesNumber,
+    maxTotalSizeNumber
   } = useFile({ editable, dnd, getFileInput, addFilesToQueue })
 
   const canAddFiles = computed(() =>
@@ -118,9 +120,9 @@ export function getRenderer (getPlugin) {
     // if single selection and no files are queued:
     && (props.multiple === true || state.queuedFiles.value.length === 0)
     // if max-files is set and current number of files does not exceeds it:
-    && (props.maxFiles === void 0 || state.files.value.length < props.maxFilesNumber)
+    && (props.maxFiles === void 0 || state.files.value.length < maxFilesNumber.value)
     // if max-total-size is set and current upload size does not exceeds it:
-    && (props.maxTotalSize === void 0 || uploadSize.value < props.maxTotalSizeNumber)
+    && (props.maxTotalSize === void 0 || uploadSize.value < maxTotalSizeNumber.value)
   )
 
   const canUpload = computed(() =>

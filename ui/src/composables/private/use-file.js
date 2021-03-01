@@ -194,6 +194,8 @@ export default function ({
     addFiles,
     onDragover,
     processFiles,
-    getDndNode
+    getDndNode,
+    maxFilesNumber,
+    maxTotalSizeNumber
   }
 }
