@@ -11,6 +11,7 @@ import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
 import { create, stop } from '../../utils/event.js'
 import cache from '../../utils/cache.js'
+import { focusNoScroll } from '../../utils/focus.js'
 
 let maximizedModals = 0
 
@@ -196,7 +197,7 @@ export default Vue.extend({
           this.__refocusTarget !== void 0 &&
           this.__portal.$el.contains(document.activeElement) === true
         ) {
-          this.__refocusTarget.focus()
+          focusNoScroll(this.__refocusTarget)
         }
         else {
           this.__focusFirst()
@@ -237,8 +238,10 @@ export default Vue.extend({
           this.__portal.$el.click()
         }
 
-        this.$emit('show', evt)
-      }, 300)
+        this.__setTimeout(() => {
+          this.$emit('show', evt)
+        }, 180)
+      }, 120)
     },
 
     __hide (evt) {
@@ -247,7 +250,7 @@ export default Vue.extend({
 
       // check null for IE
       if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
-        this.__refocusTarget.focus()
+        focusNoScroll(this.__refocusTarget)
       }
 
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))

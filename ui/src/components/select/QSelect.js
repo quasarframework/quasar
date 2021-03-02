@@ -564,9 +564,14 @@ export default Vue.extend({
       return this.innerOptionsValue.find(v => isDeepEqual(v, val)) !== void 0
     },
 
-    __selectInputText () {
+    __selectInputText (ev) {
       if (this.useInput === true && this.$refs.target !== void 0) {
         this.$refs.target.select()
+
+        // move selection to the end of text if coming from the main input
+        if (ev !== void 0 && ev.target === ev.srcElement) {
+          this.$refs.target.selectionStart = this.$refs.target.selectionEnd = this.$refs.target.value.length
+        }
       }
     },
 
@@ -1053,11 +1058,14 @@ export default Vue.extend({
     },
 
     __onInput (e) {
-      clearTimeout(this.inputTimer)
-
-      if (e && e.target && e.target.composing === true) {
+      if (e && e.target && (
+        e.target.composing === true ||
+        (e.type === 'compositionend' && e.target.value === this.inputValue)
+      )) {
         return
       }
+
+      clearTimeout(this.inputTimer)
 
       this.__setInputValue(e.target.value || '')
       // mark it here as user input so that if updateInputValue is called
@@ -1328,7 +1336,7 @@ export default Vue.extend({
           value: this.dialog,
           dark: this.isOptionsDark,
           position: this.useInput === true ? 'top' : void 0,
-          transitionShow: this.transitionShowComputed,
+          transitionShow: this.transitionShow,
           transitionHide: this.transitionHide
         },
         on: cache(this, 'dialog', {
@@ -1459,10 +1467,6 @@ export default Vue.extend({
             ? this.$scopedSlots['no-option'] !== void 0 || this.qListeners.filter !== void 0 || this.noOptions === false
             : true
         )
-
-      this.transitionShowComputed = this.hasDialog === true && this.useInput === true && this.$q.platform.is.ios === true
-        ? 'fade'
-        : this.transitionShow
     },
 
     __onPostRender () {

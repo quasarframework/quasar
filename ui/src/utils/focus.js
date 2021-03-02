@@ -24,6 +24,25 @@ export const KEY_SKIP_SELECTOR = [
   '.q-key-group-navigation--ignore-key *'
 ].join(',')
 
+export function focusNoScroll (el) {
+  const clone = el.cloneNode(true)
+  const parent = el.parentNode
+
+  clone.id = void 0
+  clone.removeAttribute('autofocus')
+  clone.removeAttribute('data-autofocus')
+
+  parent.insertBefore(clone, el)
+  el.classList.add('q-prevent-focus-scroll')
+
+  el.focus()
+
+  setTimeout(() => {
+    clone.remove()
+    el.classList.remove('q-prevent-focus-scroll')
+  }, 150)
+}
+
 export function changeFocusedElement (list, to, direction = 1, noWrap, start) {
   const lastIndex = list.length - 1
 
@@ -43,7 +62,7 @@ export function changeFocusedElement (list, to, direction = 1, noWrap, start) {
     return
   }
 
-  list[index].focus()
+  focusNoScroll(list[index])
 
   if (initialEl !== null) {
     initialEl._qKeyNavIgnore = false

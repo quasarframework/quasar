@@ -109,7 +109,6 @@ function apply (action) {
         window.scrollTo(0, 0)
         window.visualViewport.addEventListener('resize', onAppleResize, listenOpts.passiveCapture)
         window.visualViewport.addEventListener('scroll', onAppleResize, listenOpts.passiveCapture)
-        window.scrollTo(0, 0)
       }
       else {
         window.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
@@ -133,15 +132,17 @@ function apply (action) {
       }
     }
 
-    body.classList.remove('q-body--prevent-scroll')
-    body.classList.remove('q-body--force-scrollbar')
     document.qScrollPrevented = false
-
-    body.style.left = bodyLeft
-    body.style.top = bodyTop
-
-    window.scrollTo(scrollPositionX, scrollPositionY)
     maxScrollTop = void 0
+
+    requestAnimationFrame(() => {
+      body.classList.remove('q-body--prevent-scroll')
+      body.classList.remove('q-body--force-scrollbar')
+
+      body.style.left = bodyLeft
+      body.style.top = bodyTop
+      window.scrollTo(scrollPositionX, scrollPositionY)
+    })
   }
 }
 
