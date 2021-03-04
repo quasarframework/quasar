@@ -1018,13 +1018,21 @@ export default defineComponent({
       sort,
       resetVirtualScroll,
       scrollTo,
-      getCellValue,
-      computedRows,
-      computedRowsNumber
+      getCellValue
     })
 
     Object.defineProperty(vm.proxy, 'filteredSortedRows', {
       get: () => filteredSortedRows.value,
+      enumerable: true
+    })
+    
+    Object.defineProperty(vm.proxy, 'computedRows', {
+      get: () => computedRows.value,
+      enumerable: true
+    })
+    
+    Object.defineProperty(vm.proxy, 'computedRowsNumber', {
+      get: () => computedRowsNumber.value,
       enumerable: true
     })
 
