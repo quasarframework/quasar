@@ -1046,6 +1046,7 @@ export declare const matNetworkCell: string;
 export declare const matNetworkCheck: string;
 export declare const matNetworkLocked: string;
 export declare const matNetworkWifi: string;
+export declare const matNewLabel: string;
 export declare const matNewReleases: string;
 export declare const matNextPlan: string;
 export declare const matNextWeek: string;

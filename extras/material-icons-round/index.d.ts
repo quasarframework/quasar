@@ -1046,6 +1046,7 @@ export declare const roundNetworkCell: string;
 export declare const roundNetworkCheck: string;
 export declare const roundNetworkLocked: string;
 export declare const roundNetworkWifi: string;
+export declare const roundNewLabel: string;
 export declare const roundNewReleases: string;
 export declare const roundNextPlan: string;
 export declare const roundNextWeek: string;
