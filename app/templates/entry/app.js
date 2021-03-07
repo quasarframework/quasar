@@ -102,5 +102,7 @@ export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // different depending on whether we are in a browser or on the server.
   return {
     app,
+    <%= store ? 'store,' : '' %>
+    router
   }
 }
