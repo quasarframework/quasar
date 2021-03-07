@@ -28,7 +28,7 @@
 
     "lines": {
       "type": [ "Number", "String" ],
-      "desc": "Apply ellipsis when there's not enough space to render on the specified number of lines; If more than one line specified, then it will only work on webkit browsers because it uses the '-webkit-line-clamp' CSS property!",
+      "desc": "Apply ellipsis when there's not enough space to render on the specified number of lines;",
       "examples": [ "1", "3", ":lines=\"2\"" ],
       "category": "content|behavior"
     }
