@@ -5,9 +5,7 @@
 <% if (pkg.author) { %>  "author": <%= JSON.stringify(pkg.author) %>,<% } %>
   "private": true,
   "dependencies": {
-    "@capacitor/cli": "^3.0.0-beta.1",
-    "@capacitor/core": "^3.0.0-beta.1",
-    "@capacitor/app": "^0.3.3",
-    "@capacitor/splash-screen": "^0.3.3"
+    "@capacitor/cli": "^2.0.0",
+    "@capacitor/core": "^2.0.0"
   }
 }
