@@ -47,14 +47,6 @@ import createRouter from 'app/<%= sourceFiles.router %>'
   <% } %>
 <% } %>
 
-<% if (__needsAppMountHook === true) { %>
-import { defineComponent } from 'vue'
-const RootComponent = defineComponent({
-  mixins: [ AppComponent ],
-  mounted () {
-    <% if (ctx.mode.capacitor && __versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
-    SplashScreen.hide()
-    <% } %>
 
 export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // create store and router instances
@@ -79,7 +71,7 @@ export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
     <%= store ? 'store,' : '' %>
     render: h => h(App)<% if (__needsAppMountHook === true) { %>,
     mounted () {
-      <% if (ctx.mode.capacitor && capacitor.hideSplashscreen !== false) { %>
+      <% if (ctx.mode.capacitor && __versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
       SplashScreen.hide()
       <% } %>
 
@@ -110,5 +102,5 @@ export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // different depending on whether we are in a browser or on the server.
   return {
     app,
-    <%=  }
+  }
 }
