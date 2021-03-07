@@ -1,5 +1,5 @@
 {
-  "name": "@bazumax/quasar-app",
+  "name": "@quasar/app",
   "version": "2.1.16",
   "description": "Quasar Framework local CLI",
   "bin": {
