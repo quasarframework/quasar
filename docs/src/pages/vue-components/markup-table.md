@@ -32,5 +32,9 @@ This component will *NOT* work as-is within the UMD version of Quasar. Browsers 
 
 <doc-example title="Customization" file="QMarkupTable/Customization" />
 
+::: tip
+If you want to remove the hover effect on some rows or some cells add a `q-tr--no-hover` or `q-td--no-hover` class to them.
+:::
+
 ## QMarkupTable API
 <doc-api file="QMarkupTable" />

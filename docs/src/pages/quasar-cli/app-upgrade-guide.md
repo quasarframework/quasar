@@ -96,6 +96,19 @@ Following this guide should take you at most 5 minutes to complete.
 
 * If you are building with Electron replace `QUASAR_NODE_INTEGRATION` in your main thread file (/src-electron/main-process/main.js) with `process.env.QUASAR_NODE_INTEGRATION` (if it is present)
 
+* Also, if using Electron, make the following replacement in your /src-electron/main-process/main.js:
+  ```js
+  // OLD way
+  if (process.env.PROD) {
+    global.__statics = require('path').join(__dirname, 'statics').replace(/\\/g, '\\\\')
+  }
+
+  // NEW way (replace above with this)
+  if (process.env.PROD) {
+    global.__statics = __dirname
+  }
+  ```
+
 ### Optional steps
 
 The following steps are optional, but recommended.

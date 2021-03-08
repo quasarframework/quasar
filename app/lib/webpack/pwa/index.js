@@ -1,7 +1,6 @@
 const appPaths = require('../../app-paths')
 const PwaManifestPlugin = require('./plugin.pwa-manifest')
 const HtmlPwaPlugin = require('./plugin.html-pwa').plugin
-const getPackageJson = require('../../helpers/get-package-json')
 
 module.exports = function (chain, cfg) {
   // write manifest.json file
@@ -63,8 +62,7 @@ module.exports = function (chain, cfg) {
 
       opts.navigateFallback = `${cfg.build.publicPath}${htmlFile}`
 
-      const pkg = getPackageJson('workbox-webpack-plugin')
-      if (pkg.version.startsWith('4.') === false) {
+      if (cfg.__versions.workboxWebpackPlugin >= 5) {
         opts.navigateFallbackDenylist = opts.navigateFallbackDenylist || []
         opts.navigateFallbackDenylist.push(/service-worker\.js$/, /workbox-(.)*\.js$/)
       }
