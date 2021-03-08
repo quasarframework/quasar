@@ -13,7 +13,6 @@ const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
 const getPackageMajorVersion = require('./helpers/get-package-major-version')
-const { quasarVersion } = require('./helpers/banner')
 
 const transformAssetUrls = getDevlandFile('quasar/dist/transform-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
@@ -916,7 +915,6 @@ class QuasarConfFile {
     }
 
     if (this.ctx.mode.capacitor) {
-
       const { capVersion } = require('./capacitor/cap-cli')
       cfg.__versions.capacitor = capVersion
 
