@@ -12,7 +12,8 @@ const { needsAdditionalPolyfills } = require('./helpers/browsers-support')
 const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
-const getPackageJson = require('./helpers/get-package-json')
+const getPackageMajorVersion = require('./helpers/get-package-major-version')
+const { quasarVersion } = require('./helpers/banner')
 
 const transformAssetUrls = getDevlandFile('quasar/dist/transform-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
@@ -894,10 +895,6 @@ class QuasarConfFile {
       productDescription: cfg.build.productDescription
     }, cfg.htmlVariables)
 
-    if (this.ctx.mode.capacitor && cfg.capacitor.hideSplashscreen !== false) {
-      cfg.__needsAppMountHook = true
-    }
-
     cfg.__html = {
       minifyOptions: cfg.build.minify
         ? {
@@ -913,15 +910,37 @@ class QuasarConfFile {
     }
 
     // used by .quasar entry templates
+    cfg.__versions = {}
     cfg.__css = {
       quasarSrcExt: cssVariables.quasarSrcExt
     }
 
-    cfg.__versioning = {}
-    if (cfg.supportTS !== false) {
-      const { version } = getPackageJson('fork-ts-checker-webpack-plugin')
-      const [, major] = version.match(/^(\d+)\.(\d+)\.(\*|\d+)$/)
-      cfg.__versioning.tsChecker = `v${major}`
+    if (this.ctx.mode.capacitor) {
+
+      const { capVersion } = require('./capacitor/cap-cli')
+      cfg.__versions.capacitor = capVersion
+
+      const getCapPluginVersion = capVersion <= 2
+        ? () => true
+        : name => {
+          const version = getPackageMajorVersion(name, appPaths.capacitorDir)
+          return version === void 0
+            ? false
+            : version || true
+        }
+
+      Object.assign(cfg.__versions, {
+        capacitor: capVersion,
+        capacitorPluginApp: getCapPluginVersion('@capacitor/app'),
+        capacitorPluginSplashscreen: getCapPluginVersion('@capacitor/splash-screen')
+      })
+    }
+    else if (this.ctx.mode.pwa) {
+      cfg.__versions.workboxWebpackPlugin = getPackageMajorVersion('workbox-webpack-plugin')
+    }
+
+    if (this.ctx.mode.capacitor && cfg.__versions.capacitorPluginSplashscreen && cfg.capacitor.hideSplashscreen !== false) {
+      cfg.__needsAppMountHook = true
     }
 
     this.quasarConf = cfg
