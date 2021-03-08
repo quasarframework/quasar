@@ -561,7 +561,7 @@ export default function (state) {
         : null,
 
       h('div', {
-        class: 'q-field__inner relative-position col self-stretch column justify-center'
+        class: 'q-field__inner relative-position col self-stretch'
       }, [
         h('div', {
           ref: state.controlRef,
