@@ -249,9 +249,9 @@ export default defineComponent({
 
     function updateValue (change) {
       if (model.value.min !== props.modelValue.min || model.value.max !== props.modelValue.max) {
-        emit('update:modelValue', model.value)
+        emit('update:modelValue', { ...model.value })
       }
-      change === true && emit('change', model.value)
+      change === true && emit('change', { ...model.value })
     }
 
     function getDragging (event) {

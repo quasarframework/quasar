@@ -97,7 +97,7 @@
 </style>
 
 <script>
-import { reactive, computed } from 'vue'
+import { ref, computed } from 'vue'
 
 // min and max in the unit of the value
 const zones = [
@@ -118,12 +118,12 @@ const ticks = [
 
 export default {
   setup () {
-    const model = reactive({
+    const model = ref({
       min: -12,
       max: 9
     })
 
-    const range = reactive({
+    const range = ref({
       min: -20,
       max: 20,
       step: 1
@@ -195,8 +195,8 @@ export default {
       model,
       range,
 
-      leftLabelColor: computed(() => getLabelColor(model.min)),
-      rightLabelColor: computed(() => getLabelColor(model.max)),
+      leftLabelColor: computed(() => getLabelColor(model.value.min)),
+      rightLabelColor: computed(() => getLabelColor(model.value.max)),
 
       trackStyle,
 

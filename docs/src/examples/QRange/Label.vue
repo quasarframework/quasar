@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { ref } from 'vue'
 
 export default {
   setup () {
     return {
-      label: reactive({
+      label: ref({
         min: -12,
         max: 8
       })

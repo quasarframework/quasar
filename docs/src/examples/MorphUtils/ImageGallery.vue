@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { ref, reactive, onBeforeUpdate } from 'vue'
+import { ref, onBeforeUpdate } from 'vue'
 import { morph } from 'quasar'
 
 export default {
@@ -44,11 +44,11 @@ export default {
 
     const indexZoomed = ref(void 0)
     const images = ref(Array(24).fill(null).map((_, i) => 'https://picsum.photos/id/' + i + '/500/300'))
-    const imgLoaded = reactive({
+    const imgLoaded = {
       promise: Promise.resolve(),
       resolve: () => {},
       reject: () => {}
-    })
+    }
 
     function imgLoadedResolve () {
       imgLoaded.resolve()
@@ -129,7 +129,6 @@ export default {
       fullRef,
       indexZoomed,
       images,
-      imgLoaded,
       zoomImage,
 
       imgLoadedResolve,

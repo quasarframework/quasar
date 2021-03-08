@@ -36,22 +36,22 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { ref } from 'vue'
 
 export default {
   setup () {
     return {
-      bothNull: reactive({
+      bothNull: ref({
         min: null,
         max: null
       }),
 
-      minNull: reactive({
+      minNull: ref({
         min: null,
         max: 40
       }),
 
-      maxNull: reactive({
+      maxNull: ref({
         min: 20,
         max: null
       }),

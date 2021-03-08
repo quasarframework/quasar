@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { ref } from 'vue'
 
 export default {
   setup () {
     return {
-      model: reactive({ from: '2020/07/08', to: '2020/07/17' })
+      model: ref({ from: '2020/07/08', to: '2020/07/17' })
     }
   }
 }

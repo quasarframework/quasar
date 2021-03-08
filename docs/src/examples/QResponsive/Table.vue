@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { ref } from 'vue'
 
 const seed = [
   {
@@ -161,7 +161,7 @@ export default {
       rows,
       columns,
 
-      pagination: reactive({
+      pagination: ref({
         rowsPerPage: 0
       })
     }

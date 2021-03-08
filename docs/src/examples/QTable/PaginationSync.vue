@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { reactive, computed } from 'vue'
+import { ref, computed } from 'vue'
 
 const columns = [
   {
@@ -114,7 +114,7 @@ const rows = [
 
 export default {
   setup () {
-    const pagination = reactive({
+    const pagination = ref({
       sortBy: 'desc',
       descending: false,
       page: 2,
@@ -127,7 +127,7 @@ export default {
       columns,
       rows,
 
-      pagesNumber: computed(() => Math.ceil(rows.length / pagination.rowsPerPage))
+      pagesNumber: computed(() => Math.ceil(rows.length / pagination.value.rowsPerPage))
     }
   }
 }
