@@ -66,25 +66,25 @@ HMR works with Browser Extension development but does work slightly differently 
 
 Browser extensions runs in three different environments (more on upcoming pages) and it requires various environments for debugging.
 
-### Chrome
+### With Chrome
 
 You can find following places to investigate the errors and outputs from the console in DevTools:
 
-1. Popup - right click on the page or on the extension icon  a choose `Inspect` pop-up for DevTools. 
+1. Popup - right click on the page or on the extension icon  a choose `Inspect` pop-up for DevTools.
 2. Background scripts (e.g.: background-hooks.js) open DevTools from `Manage extensions - background page`.
 3. Content scripts - page where your script is injected.
 4. Extension Errors - list of errors related to the extension (e.g. manifest configuration) are available in `Manage extension - Errors`.
-  
-[Popup](https://user-images.githubusercontent.com/37825539/106393529-ea113400-63f7-11eb-876c-aa10c90a4615.png) 
 
-[Background scripts, Content scripts and Extension Errors](https://user-images.githubusercontent.com/37825539/106393533-eed5e800-63f7-11eb-8a31-b60d51673801.png)
+![Popup](https://cdn.quasar.dev/img/bex-debug-popup.png)
+
+![Background scripts, Content scripts and Extension Errors](https://cdn.quasar.dev/img/bex-debug-bg.png)
 
 If your code changes are not propagated to the browser you can try to:
 	- Update or Reload extension - from the Extensions list (screenshots)
 	- Restart browser
 	- Restart dev process
 
-For more information visit [Debugging extensions](https://developer.chrome.com/docs/extensions/mv2/tut_debugging/)
+For more information, please visit [Debugging extensions](https://developer.chrome.com/docs/extensions/mv2/tut_debugging/).
 
 ## Building for Production
 ```bash
