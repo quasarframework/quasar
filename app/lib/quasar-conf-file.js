@@ -940,7 +940,7 @@ class QuasarConfFile {
       cfg.__versions.workboxWebpackPlugin = getPackageMajorVersion('workbox-webpack-plugin')
     }
 
-    if (this.ctx.mode.capacitor && cfg.__versions.capacitorSplashscreen && cfg.capacitor.hideSplashscreen !== false) {
+    if (this.ctx.mode.capacitor && cfg.__versions.capacitorPluginSplashscreen && cfg.capacitor.hideSplashscreen !== false) {
       cfg.__needsAppMountHook = true
     }
 

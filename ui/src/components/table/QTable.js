@@ -1025,6 +1025,16 @@ export default defineComponent({
       get: () => filteredSortedRows.value,
       enumerable: true
     })
+    
+    Object.defineProperty(vm.proxy, 'computedRows', {
+      get: () => computedRows.value,
+      enumerable: true
+    })
+    
+    Object.defineProperty(vm.proxy, 'computedRowsNumber', {
+      get: () => computedRowsNumber.value,
+      enumerable: true
+    })
 
     return () => {
       const child = [ getTopDiv() ]

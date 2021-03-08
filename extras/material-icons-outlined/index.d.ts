@@ -1046,6 +1046,7 @@ export declare const outlinedNetworkCell: string;
 export declare const outlinedNetworkCheck: string;
 export declare const outlinedNetworkLocked: string;
 export declare const outlinedNetworkWifi: string;
+export declare const outlinedNewLabel: string;
 export declare const outlinedNewReleases: string;
 export declare const outlinedNextPlan: string;
 export declare const outlinedNextWeek: string;
