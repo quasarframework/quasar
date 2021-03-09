@@ -25,7 +25,7 @@ The new folder has the following structure:
         └── electron-main.js      # Main thread code for production
 ```
 
-### Electron-main.dev.js
+### electron-main.dev.js
 This file (`/src-electron/main-process/electron-main.dev.js`) is used specifically for development and is used to install dev-tools. Usually it should not have to be modified, but can be used to extend your development needs. After it sets up dev-tools it imports the `electron-main.js` which is the place you'll make most (if not all) of your changes.
 
 ### A note for Windows Users
