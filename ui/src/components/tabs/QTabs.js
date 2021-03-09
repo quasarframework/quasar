@@ -9,6 +9,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 import { stop, noop } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
 import cache from '../../utils/cache.js'
+import { isBuggyRTLScroll } from '../../utils/scroll.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -116,8 +117,8 @@ export default Vue.extend({
         noCaps: this.noCaps
       },
       scrollable: false,
-      leftArrow: true,
-      rightArrow: false,
+      startArrow: true,
+      endArrow: false,
       justify: false
     }
   },
@@ -175,6 +176,17 @@ export default Vue.extend({
   computed: {
     arrowsEnabled () {
       return this.$q.platform.is.desktop === true || this.mobileArrows === true
+    },
+
+    arrowIcons () {
+      const sides = this.vertical === true || this.$q.lang.rtl !== true
+        ? [ 'start', 'end' ]
+        : [ 'end', 'start' ]
+
+      return {
+        [sides[0]]: this.leftIcon || (this.vertical === true ? this.$q.iconSet.tabs.up : this.$q.iconSet.tabs.left),
+        [sides[1]]: this.rightIcon || (this.vertical === true ? this.$q.iconSet.tabs.down : this.$q.iconSet.tabs.right)
+      }
     },
 
     alignClass () {
@@ -297,6 +309,35 @@ export default Vue.extend({
       }
     },
 
+    __getScrollPosition (el) {
+      if (this.vertical === true) {
+        return el.scrollTop
+      }
+      return this.$q.lang.rtl !== true
+        ? el.scrollLeft
+        : (this.isBuggyRTLScroll === true ? el.scrollWidth - el.clientWidth : 1) - el.scrollLeft
+    },
+
+    __getScrollOffset (el) {
+      if (this.vertical === true) {
+        return el.offsetTop
+      }
+      return this.$q.lang.rtl !== true || this.isBuggyRTLScroll === true
+        ? el.offsetLeft
+        : el.offsetParent.offsetWidth - el.offsetLeft - el.clientWidth
+    },
+
+    __setScrollPosition (el, value) {
+      if (this.vertical === true) {
+        el.scrollTop = value
+      }
+      else {
+        el.scrollLeft = this.$q.lang.rtl !== true
+          ? value
+          : (this.isBuggyRTLScroll === true ? el.scrollWidth - el.clientWidth : 1) - value
+      }
+    },
+
     __animate (oldName, newName) {
       const
         oldTab = oldName !== void 0 && oldName !== null && oldName !== ''
@@ -336,36 +377,26 @@ export default Vue.extend({
       }
 
       if (newTab && this.scrollable === true) {
-        const
-          { left, width, top, height } = this.$refs.content.getBoundingClientRect(),
-          newPos = newTab.$el.getBoundingClientRect()
-
-        let offset = this.vertical === true ? newPos.top - top : newPos.left - left
-
-        if (offset < 0) {
-          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += Math.floor(offset)
-          this.__updateArrows()
-          return
-        }
-
-        offset += this.vertical === true ? newPos.height - height : newPos.width - width
-        if (offset > 0) {
-          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += Math.ceil(offset)
-          this.__updateArrows()
-        }
+        this.__scrollToTab(newTab.$el, void 0, true)
+      }
+      else {
+        this.__updateArrows()
       }
     },
 
     __updateArrowsFn () {
-      const
-        content = this.$refs.content,
-        rect = content.getBoundingClientRect(),
-        pos = this.vertical === true ? content.scrollTop : content.scrollLeft
+      const { content } = this.$refs
 
-      this.leftArrow = pos > 0
-      this.rightArrow = this.vertical === true
-        ? Math.ceil(pos + rect.height) < content.scrollHeight
-        : Math.ceil(pos + rect.width) < content.scrollWidth
+      if (content !== void 0) {
+        const
+          rect = content.getBoundingClientRect(),
+          pos = this.__getScrollPosition(content)
+
+        this.startArrow = pos > (this.vertical === true || this.$q.lang.rtl !== true ? 0 : 1)
+        this.endArrow = this.vertical === true
+          ? Math.ceil(pos + rect.height) < content.scrollHeight
+          : Math.ceil(pos + rect.width) < content.scrollWidth
+      }
     },
 
     __animScrollTo (value, onEnd) {
@@ -402,7 +433,7 @@ export default Vue.extend({
       const content = this.$refs.content
       const max = this.vertical === true ? content.scrollHeight - content.offsetHeight : content.scrollWidth - content.offsetWidth
 
-      let pos = this.vertical === true ? content.scrollTop : content.scrollLeft
+      let pos = this.__getScrollPosition(content)
       let done = false
 
       value = Math.max(0, Math.min(max, value))
@@ -418,7 +449,7 @@ export default Vue.extend({
         pos = value
       }
 
-      content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] = pos
+      this.__setScrollPosition(content, pos)
       this.__updateArrows()
 
       return done
@@ -430,32 +461,45 @@ export default Vue.extend({
       }
 
       const content = this.$refs.content
-      const startContent = this.vertical === true ? content.scrollTop : content.scrollLeft
+      const startContent = this.__getScrollPosition(content)
       const sizeContent = this.vertical === true ? content.offsetHeight : content.offsetWidth
-      const offsetContent = this.vertical === true || this.$q.lang.rtl !== true ? 0 : content.scrollWidth - sizeContent
+      const sizeScroll = this.vertical === true ? content.scrollHeight : content.scrollWidth
 
-      const startTab = this.vertical === true ? tab.offsetTop : tab.offsetLeft + offsetContent
+      const startTab = this.__getScrollOffset(tab)
       const endTab = startTab + (this.vertical === true ? tab.offsetHeight : tab.offsetWidth)
 
       const startsBefore = startTab < startContent
       const endsAfter = endTab > startContent + sizeContent
 
-      if (startsBefore === true || endsAfter === true) {
-        if (alignEnd === void 0) {
-          alignEnd = endsAfter === true && startsBefore !== true
+      if (startsBefore !== true && endsAfter !== true) {
+        alignEnd = void 0
+      }
+      else if (alignEnd === void 0) {
+        if (endTab >= sizeScroll - 1) {
+          alignEnd = true
         }
+        else if (startsBefore === true || (endsAfter === true && startTab < endTab - sizeContent)) {
+          alignEnd = false
+        }
+        else if (startsBefore !== endsAfter) {
+          alignEnd = endsAfter
+        }
+      }
 
+      if (alignEnd !== void 0) {
         this.__animScrollTo(
-          alignEnd === true ? endTab - sizeContent : startTab,
-          () => {
-            setTimeout(() => {
-              skipFocus !== true && tab && tab.focus()
-            })
-          }
+          alignEnd === true ? (endTab >= sizeScroll - 1 ? sizeScroll : endTab - sizeContent) : (startTab <= 1 ? 0 : startTab),
+          skipFocus !== true
+            ? () => {
+              setTimeout(() => {
+                tab && tab.focus()
+              })
+            }
+            : void 0
         )
       }
-      else {
-        skipFocus !== true && tab && tab.focus()
+      else if (skipFocus !== true) {
+        tab.focus()
       }
     },
 
@@ -522,7 +566,7 @@ export default Vue.extend({
           return false
         }
 
-        this.__scrollToTab(tabs[index], dir > 0)
+        this.__scrollToTab(tabs[index], dir === rtlDir)
         this.__recalculateScroll()
 
         return true
@@ -556,6 +600,10 @@ export default Vue.extend({
       : noop
   },
 
+  mounted () {
+    this.isBuggyRTLScroll = isBuggyRTLScroll()
+  },
+
   beforeDestroy () {
     clearTimeout(this.bufferTimer)
     clearTimeout(this.animateTimer)
@@ -577,10 +625,10 @@ export default Vue.extend({
 
     this.arrowsEnabled === true && child.push(
       h(QIcon, {
-        staticClass: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon',
-        class: this.leftArrow === true ? '' : 'q-tabs__arrow--faded',
-        props: { name: this.leftIcon || (this.vertical === true ? this.$q.iconSet.tabs.up : this.$q.iconSet.tabs.left) },
-        on: cache(this, 'onL', {
+        staticClass: 'q-tabs__arrow q-tabs__arrow--start absolute q-tab__icon',
+        class: this.startArrow === true ? '' : 'q-tabs__arrow--faded',
+        props: { name: this.arrowIcons.start },
+        on: cache(this, 'onS', {
           mousedown: this.__scrollToStart,
           touchstart: this.__scrollToStart,
           mouseup: this.__stopAnimScroll,
@@ -590,10 +638,10 @@ export default Vue.extend({
       }),
 
       h(QIcon, {
-        staticClass: 'q-tabs__arrow q-tabs__arrow--right absolute q-tab__icon',
-        class: this.rightArrow === true ? '' : 'q-tabs__arrow--faded',
-        props: { name: this.rightIcon || (this.vertical === true ? this.$q.iconSet.tabs.down : this.$q.iconSet.tabs.right) },
-        on: cache(this, 'onR', {
+        staticClass: 'q-tabs__arrow q-tabs__arrow--end absolute q-tab__icon',
+        class: this.endArrow === true ? '' : 'q-tabs__arrow--faded',
+        props: { name: this.arrowIcons.end },
+        on: cache(this, 'onE', {
           mousedown: this.__scrollToEnd,
           touchstart: this.__scrollToEnd,
           mouseup: this.__stopAnimScroll,
