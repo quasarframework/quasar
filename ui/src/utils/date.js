@@ -334,7 +334,7 @@ function getChange (date, mod, add) {
 
   Object.keys(mod).forEach(key => {
     if (key === 'months') {
-      setMonth(t, t.getMonth() + 1 + sign * mod.month)
+      setMonth(t, t.getMonth() + 1 + sign * mod.months)
       return
     }
 
