@@ -2,16 +2,15 @@ import { h, defineComponent, ref, computed, watch, Transition, nextTick, getCurr
 
 import QBtn from '../btn/QBtn.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useCache from '../../composables/use-cache.js'
+import useCache from '../../composables/private/use-cache.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from './use-datetime.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate, getDateDiff } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
-import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
+import { jalaaliMonthLength, toGregorian } from '../../utils/private/date-persian.js'
 
 const yearsInterval = 20
 const views = [ 'Calendar', 'Years', 'Months' ]
@@ -85,7 +84,9 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const isDark = useDark(props, $q)
     const { getCache } = useCache()
     const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
@@ -144,7 +145,7 @@ export default defineComponent({
     const normalizedModel = computed(() => (
       Array.isArray(props.modelValue) === true
         ? props.modelValue
-        : (props.modelValue !== null && props.modelValue !== void 0 ? [props.modelValue] : [])
+        : (props.modelValue !== null && props.modelValue !== void 0 ? [ props.modelValue ] : [])
     ))
 
     const daysModel = computed(() =>
@@ -787,7 +788,7 @@ export default defineComponent({
     function getViewModel (mask, locale) {
       const model = Array.isArray(props.modelValue) === true
         ? props.modelValue
-        : (props.modelValue ? [props.modelValue] : [])
+        : (props.modelValue ? [ props.modelValue ] : [])
 
       if (model.length === 0) {
         return getDefaultViewModel()
@@ -1051,8 +1052,7 @@ export default defineComponent({
     }
 
     // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       setToday, setView, offsetCalendar, setCalendarTo, setEditingRange
     })
 
@@ -1073,10 +1073,10 @@ export default defineComponent({
               + (view.value === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer'),
             tabindex: tabindex.value,
             ...getCache('vY', {
-              onClick: () => { view.value = 'Years' },
-              onKeyup: e => { e.keyCode === 13 && (view.value = 'Years') }
+              onClick () { view.value = 'Years' },
+              onKeyup (e) { e.keyCode === 13 && (view.value = 'Years') }
             })
-          }, [headerSubtitle.value]))
+          }, [ headerSubtitle.value ]))
         ]),
 
         h('div', {
@@ -1093,10 +1093,10 @@ export default defineComponent({
                 + (view.value === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer'),
               tabindex: tabindex.value,
               ...getCache('vC', {
-                onClick: () => { view.value = 'Calendar' },
-                onKeyup: e => { e.keyCode === 13 && (view.value = 'Calendar') }
+                onClick () { view.value = 'Calendar' },
+                onKeyup (e) { e.keyCode === 13 && (view.value = 'Calendar') }
               })
-            }, [headerTitle.value]))
+            }, [ headerTitle.value ]))
           ]),
 
           props.todayBtn === true ? h(QBtn, {
@@ -1191,7 +1191,7 @@ export default defineComponent({
 
           h('div', {
             class: 'q-date__calendar-weekdays row items-center no-wrap'
-          }, daysOfWeek.value.map(day => h('div', { class: 'q-date__calendar-item' }, [h('div', day)]))),
+          }, daysOfWeek.value.map(day => h('div', { class: 'q-date__calendar-item' }, [ h('div', day) ]))),
 
           h('div', {
             class: 'q-date__calendar-days-container relative-position overflow-hidden'

@@ -16,7 +16,6 @@ module.exports = function (ctx) {
     ],
 
     extras: [
-      'roboto-font',
       'material-icons'
     ],
 
@@ -79,7 +78,8 @@ module.exports = function (ctx) {
 
       config: {
         loadingBar: {
-          color: 'amber'
+          color: 'primary',
+          size: '4px'
         }
       },
 
@@ -112,7 +112,7 @@ module.exports = function (ctx) {
     animations: [ 'fadeIn', 'fadeOut' ],
 
     ssr: {
-      pwa: true
+      pwa: ctx.prod
     },
 
     pwa: {
@@ -129,9 +129,9 @@ module.exports = function (ctx) {
         ]
       },
       manifest: {
-        name: 'Quasar Documentation',
-        short_name: 'Quasar Docs',
-        description: 'Quasar Framework Documentation',
+        name: 'Quasar Next Documentation',
+        short_name: 'Quasar Next',
+        description: 'Quasar Framework Next Documentation',
         display: 'standalone',
         orientation: 'any',
         background_color: '#ffffff',
@@ -176,17 +176,7 @@ module.exports = function (ctx) {
 
     vendor: {
       remove: [
-        'quasar/dist/api',
-
-        // following are used by algolia
-        'algoliasearch',
-        'autocomplete.js',
-        'hogan.js',
-        'request',
-        'stack-utils',
-        'to-factory',
-        'zepto',
-        'es6-promise'
+        'quasar/dist/api'
       ]
     }
   }

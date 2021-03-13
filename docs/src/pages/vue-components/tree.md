@@ -1,11 +1,13 @@
 ---
 title: Tree
 desc: The QTree is a highly configurable Vue component which displays hierarchical data, such as a table of contents in a tree structure.
+keys: QTree
 ---
 Quasar Tree represents a highly configurable component that displays hierarchical data, such as a table of contents in a tree structure.
 
-## Installation
-<doc-installation components="QTree" />
+## QTree API
+
+<doc-api file="QTree" />
 
 ## Usage
 
@@ -85,9 +87,6 @@ You can apply a global tick strategy for a QTree and locally change the ticking 
 You can customize the filtering method by specifying the `filter-method` prop. The method below filters by input if it also has '(*)':
 
 <doc-example title="Custom filter" file="QTree/FilterCustom" />
-
-## QTree API
-<doc-api file="QTree" />
 
 ### Nodes model structure
 The following describes a node's properties that are taken into account by QTree's v-model.

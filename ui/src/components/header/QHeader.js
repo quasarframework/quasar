@@ -1,10 +1,9 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, nextTick, inject } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeUnmount, inject, getCurrentInstance } from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import useQuasar from '../../composables/use-quasar.js'
-import { hUniqueSlot } from '../../utils/render.js'
-import { layoutKey } from '../../utils/symbols.js'
+import { hUniqueSlot } from '../../utils/private/render.js'
+import { layoutKey } from '../../utils/private/symbols.js'
 
 export default defineComponent({
   name: 'QHeader',
@@ -31,7 +30,8 @@ export default defineComponent({
   emits: [ 'reveal', 'focusin' ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
+
     const $layout = inject(layoutKey, () => {
       console.error('QHeader needs to be child of QLayout')
     })
@@ -41,8 +41,8 @@ export default defineComponent({
 
     const fixed = computed(() =>
       props.reveal === true
-      || $layout.view.indexOf('H') > -1
-      || $layout.container === true
+      || $layout.view.value.indexOf('H') > -1
+      || $layout.isContainer.value === true
     )
 
     const offset = computed(() => {
@@ -60,8 +60,8 @@ export default defineComponent({
       || (fixed.value === true && revealed.value !== true)
     )
 
-    const revealOnFocus = computed(() => props.modelValue === true
-      && hidden.value === true && props.reveal === true
+    const revealOnFocus = computed(() =>
+      props.modelValue === true && hidden.value === true && props.reveal === true
     )
 
     const classes = computed(() =>
@@ -88,13 +88,7 @@ export default defineComponent({
     })
 
     function updateLayout (prop, val) {
-      // ensure state update is caught correctly by Vue diffing
-      // on all layout components, so nextTicking:
-      nextTick(() => {
-        if ($layout.header[ prop ] !== val) {
-          $layout.header[ prop ] = val
-        }
-      })
+      $layout.update('header', prop, val)
     }
 
     function updateLocal (prop, val) {
@@ -139,7 +133,7 @@ export default defineComponent({
       props.reveal === true && updateLocal(revealed,
         scroll.direction === 'up'
         || scroll.position <= props.revealOffset
-        || scroll.position - scroll.inflexionPosition < 100
+        || scroll.position - scroll.inflectionPoint < 100
       )
     })
 

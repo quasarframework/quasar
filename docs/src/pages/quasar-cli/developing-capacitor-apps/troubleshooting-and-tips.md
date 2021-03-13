@@ -4,7 +4,7 @@ desc: Tips and tricks for a Quasar hybrid mobile app with Capacitor.
 ---
 
 ## $q.capacitor
-While you are developing a Mobile App with Capacitor Mode, you can access `this.$q.capacitor` in your Vue files. This is an alias to the global `Capacitor` Object.
+While you are developing a Mobile App with Capacitor Mode, you can access `$q.capacitor` in your Vue files. This is an alias to the global `Capacitor` Object.
 
 ## Android Tips
 

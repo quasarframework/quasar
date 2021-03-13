@@ -2,13 +2,12 @@ import { h, defineComponent, computed, watch, onMounted, onBeforeUnmount, getCur
 
 import QBtn from '../btn/QBtn.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
 import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 
-import { isNumber } from '../../utils/is.js'
-import { hMergeSlot, hDir } from '../../utils/render.js'
+import { isNumber } from '../../utils/private/is.js'
+import { hMergeSlot, hDir } from '../../utils/private/render.js'
 
 const navigationPositionOptions = [ 'top', 'right', 'bottom', 'left' ]
 const controlTypeOptions = [ 'regular', 'flat', 'outline', 'push', 'unelevated' ]
@@ -63,21 +62,21 @@ export default defineComponent({
     ...usePanelEmits
   ],
 
-  setup (props, { slots, emit }) {
-    const $q = useQuasar()
+  setup (props, { slots }) {
+    const { proxy: { $q } } = getCurrentInstance()
+
     const isDark = useDark(props, $q)
 
     let timer, panelsLen
 
-    const vm = getCurrentInstance()
     const {
       updatePanelsList, getPanelContent,
       panelDirectives, goToPanel,
       previousPanel, nextPanel, getEnabledPanels,
       panelIndex
-    } = usePanel(props, emit, $q, vm)
+    } = usePanel()
 
-    const { inFullscreen } = useFullscreen(props, emit, vm)
+    const { inFullscreen } = useFullscreen()
 
     const style = computed(() => (
       inFullscreen.value !== true && props.height !== void 0
@@ -189,7 +188,7 @@ export default defineComponent({
                 size: 'sm',
                 ...controlProps.value
               },
-              onClick: () => { goToPanel(name) } // TODO vue3 - cache it
+              onClick: () => { goToPanel(name) }
             })
           })
         )
@@ -260,7 +259,7 @@ export default defineComponent({
           getPanelContent(),
           'sl-cont',
           props.swipeable,
-          () => panelDirectives
+          () => panelDirectives.value
         )
       ].concat(getContent()))
     }

@@ -10,7 +10,16 @@ But first, let's learn how we can configure the Electron build.
 
 ## Quasar.conf.js
 You may notice that `/quasar.conf.js` contains a property called `electron`.
+
 ```js
+// should you wish to change default files
+// (notice no extension, so it resolves to both .js and .ts)
+sourceFiles: {
+  electronMain: 'src-electron/electron-main',
+  electronPreload: 'src-electron/electron-preload'
+},
+
+// electron configuration
 electron: {
   bundler: 'packager', // or 'builder'
 
@@ -32,9 +41,6 @@ electron: {
   // Example: [ '--ignore-optional', '--some-other-param' ]
   unPackagedInstallParams: [],
 
-  // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
-  nodeIntegration: true,
-
   // optional; add/remove/change properties
   // of production generated package.json
   extendPackageJson (pkg) {
@@ -43,17 +49,39 @@ electron: {
   },
 
   // optional; webpack config Object for
-  // the Main Process ONLY (/src-electron/main-process/)
-  extendWebpack (cfg) {
+  // the Main Process ONLY (/src-electron/main-process/electron-main.js)
+  extendWebpackMain (cfg) {
     // directly change props of cfg;
     // no need to return anything
   },
 
-  // optional; EQUIVALENT to extendWebpack() but uses webpack-chain;
-  // for the Main Process ONLY (/src-electron/main-process/)
-  chainWebpack (chain) {
+  // optional; EQUIVALENT to extendWebpackMain() but uses webpack-chain;
+  // for the Main Process ONLY (/src-electron/main-process/electron-main.js)
+  chainWebpackMain (chain) {
     // chain is a webpack-chain instance
     // of the Webpack configuration
+
+    // example:
+    // chain.plugin('eslint-webpack-plugin')
+    //   .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
+  },
+
+  // optional; webpack config Object for
+  // the Preload Process ONLY (/src-electron/main-process/electron-preload.js)
+  extendWebpackPreload (cfg) {
+    // directly change props of cfg;
+    // no need to return anything
+  },
+
+  // optional; EQUIVALENT to extendWebpackPreload() but uses webpack-chain;
+  // for the Preload Process ONLY (/src-electron/main-process/electron-preload.js)
+  chainWebpackPreload (chain) {
+    // chain is a webpack-chain instance
+    // of the Webpack configuration
+
+    // example:
+    // chain.plugin('eslint-webpack-plugin')
+    //   .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
   }
 }
 ```

@@ -3,7 +3,7 @@
     <q-header class="bg-grey-3 text-grey-9" reveal height-hint="60">
       <q-toolbar class="GPLAY__toolbar text-grey-6">
         <q-btn
-          v-if="this.$q.platform.is.mobile || !leftDrawerOpen"
+          v-if="$q.platform.is.mobile || !leftDrawerOpen"
           flat
           dense
           round

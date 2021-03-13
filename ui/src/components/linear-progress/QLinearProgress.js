@@ -1,10 +1,9 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
-import { hMergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 
 const defaultSizes = {
   xs: 2,
@@ -48,8 +47,8 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const $q = useQuasar()
-    const isDark = useDark(props, $q)
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
     const sizeStyle = useSize(props, defaultSizes)
 
     const motion = computed(() => props.indeterminate === true || props.query === true)

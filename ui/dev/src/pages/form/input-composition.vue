@@ -66,7 +66,7 @@ export default {
         if (JSON.stringify(old[ 2 ]) === JSON.stringify(evtDump)) {
           old[ 1 ]++
 
-          this.log = [...this.log]
+          this.log = [ ...this.log ]
 
           return
         }

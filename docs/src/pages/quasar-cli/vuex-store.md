@@ -19,6 +19,8 @@ We won't go into details on how to configure or use Vuex since it has great docs
 
 By default, if you choose to use Vuex when you create a project folder with Quasar CLI, it will set you up on using Vuex modules. Each sub-folder of `/src/store` represents a Vuex Module.
 
+If you don't choose the Vuex option during project creation but would like to add it later then all you need to do is to check the next section and create the `src/store/index.js` file.
+
 ::: tip
 If Vuex Modules is too much for your website app, you can change `/src/store/index.js` and avoid importing any module.
 :::
@@ -50,39 +52,19 @@ Let's say that you want to create a "showcase" Vuex Module. You issue `$ quasar 
 We've created the new Vuex Module, but we haven't yet informed Vuex to use it. So we edit `/src/store/index.js` and add a reference to it:
 
 ```js
-import Vue from 'vue'
-import Vuex from 'vuex'
-
-// we first import the module
+import { createStore } from 'vuex'
 import showcase from './showcase'
 
-Vue.use(Vuex)
-
 export default function (/* { ssrContext } */) {
-  const Store = new Vuex.Store({
+  const Store = createStore({
     modules: {
-      // then we reference it
       showcase
     },
 
     // enable strict mode (adds overhead!)
-    // for dev mode only
-    strict: process.env.DEV
+    // for dev mode and --debug builds only
+    strict: process.env.DEBUGGING
   })
-
-  /*
-    if we want some HMR magic for it, we handle
-    the hot update like below. Notice we guard this
-    code with "process.env.DEV" -- so this doesn't
-    get into our production build (and it shouldn't).
-  */
-
-  if (process.env.DEV && module.hot) {
-    module.hot.accept(['./showcase'], () => {
-      const newShowcase = require('./showcase').default
-      Store.hotUpdate({ modules: { showcase: newShowcase } })
-    })
-  }
 
   return Store
 }
@@ -106,6 +88,7 @@ export default function () {
 ```
 
 In a Vue file:
+
 ```html
 <template>
   <div>
@@ -114,15 +97,22 @@ In a Vue file:
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
 export default {
-  computed: {
-    drawerState: {
-      get () {
-        return this.$store.state.showcase.drawerState
-      },
-      set (val) {
-        this.$store.commit('showcase/updateDrawerState', val)
+  setup () {
+    const $store = useStore()
+
+    const drawerState = computed({
+      get: () => $store.state.showcase.drawerState,
+      set: val => {
+        $store.commit('showcase/updateDrawerState', val)
       }
+    })
+
+    return {
+      drawerState
     }
   }
 }

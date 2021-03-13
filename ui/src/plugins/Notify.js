@@ -1,15 +1,13 @@
-import { h, defineComponent, createApp, ref, markRaw, TransitionGroup, getCurrentInstance } from 'vue'
+import { h, defineComponent, ref, markRaw, TransitionGroup, getCurrentInstance } from 'vue'
 
 import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
 import QBtn from '../components/btn/QBtn.js'
 import QSpinner from '../components/spinner/QSpinner.js'
 
-import useQuasar from '../composables/use-quasar.js'
-
 import { noop } from '../utils/event.js'
-import { createGlobalNode } from '../utils/global-nodes.js'
-import { provideQuasar } from '../install-quasar.js'
+import { createGlobalNode } from '../utils/private/global-nodes.js'
+import { createChildApp } from '../install-quasar.js'
 
 let uid = 0, vm
 const defaults = {}
@@ -67,7 +65,9 @@ const Notifications = defineComponent({
   name: 'QNotifications',
 
   setup () {
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const notificationsList = {}
     const notifRefs = []
 
@@ -383,8 +383,7 @@ const Notifications = defineComponent({
     }
 
     // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, { add })
+    Object.assign(proxy, { add })
 
     return () => h('div', { class: 'q-notifications' }, positionList.map(pos => {
       return h(TransitionGroup, {
@@ -404,11 +403,11 @@ const Notifications = defineComponent({
             : notif.message
         }
         else {
-          const msgNode = [notif.message]
+          const msgNode = [ notif.message ]
           msgChild = notif.caption
             ? [
                 h('div', msgNode),
-                h('div', { class: 'q-notification__caption' }, [notif.caption])
+                h('div', { class: 'q-notification__caption' }, [ notif.caption ])
               ]
             : msgNode
         }
@@ -466,7 +465,7 @@ const Notifications = defineComponent({
             key: `${ meta.uid }|${ meta.badge }`,
             class: notif.meta.badgeClass,
             style: notif.badgeStyle
-          }, [meta.badge])
+          }, [ meta.badge ])
         )
 
         return h('div', {
@@ -518,9 +517,7 @@ export default {
     $q.notify.registerType = this.registerType
 
     const el = createGlobalNode('q-notify')
-    const app = createApp(Notifications)
-
-    provideQuasar(app, $q)
+    const app = createChildApp(Notifications)
 
     vm = app.mount(el)
   }

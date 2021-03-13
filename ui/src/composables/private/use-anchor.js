@@ -1,9 +1,9 @@
-import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
-import { clearSelection } from '../../utils/selection.js'
+import { clearSelection } from '../../utils/private/selection.js'
 import { addEvt, cleanEvt, prevent } from '../../utils/event.js'
-import { getTouchTarget } from '../../utils/touch.js'
-import { isKeyCode } from '../../utils/key-composition.js'
+import { getTouchTarget } from '../../utils/private/touch.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
 
 export const useAnchorProps = {
   target: {
@@ -14,15 +14,13 @@ export const useAnchorProps = {
 }
 
 export default function ({
-  props,
-  vm,
   showing,
-  emit, // required for anything except QPopupProxy
-  $q, // required only if configureAnchorEl is missing
+  avoidEmit, // required for QPopupProxy (true)
   configureAnchorEl // optional
 }) {
+  const { props, proxy, emit } = getCurrentInstance()
+
   const anchorEl = ref(null)
-  const vmProxy = vm.proxy
 
   let touchTimer
 
@@ -41,20 +39,20 @@ export default function ({
 
     Object.assign(anchorEvents, {
       hide (evt) {
-        vmProxy.hide(evt)
+        proxy.hide(evt)
       },
 
       toggle (evt) {
-        vmProxy.toggle(evt)
+        proxy.toggle(evt)
       },
 
       toggleKey (evt) {
-        isKeyCode(evt, 13) === true && vmProxy.toggle(evt)
+        isKeyCode(evt, 13) === true && proxy.toggle(evt)
       },
 
       contextClick (evt) {
-        vmProxy.hide(evt)
-        nextTick(() => { vmProxy.show(evt) })
+        proxy.hide(evt)
+        nextTick(() => { proxy.show(evt) })
         prevent(evt)
       },
 
@@ -67,7 +65,7 @@ export default function ({
           return
         }
 
-        vmProxy.hide(evt)
+        proxy.hide(evt)
         anchorEl.value.classList.add('non-selectable')
 
         const target = getTouchTarget(evt.target)
@@ -79,7 +77,7 @@ export default function ({
         ])
 
         touchTimer = setTimeout(() => {
-          vmProxy.show(evt)
+          proxy.show(evt)
         }, 300)
       },
 
@@ -99,7 +97,7 @@ export default function ({
       let evts
 
       if (context === true) {
-        if ($q.platform.is.mobile === true) {
+        if (proxy.$q.platform.is.mobile === true) {
           evts = [
             [ anchorEl.value, 'touchstart', 'mobileTouch', 'passive' ]
           ]
@@ -139,7 +137,7 @@ export default function ({
       anchorEl.value = null
     }
     else if (props.target === true) {
-      setAnchorEl(vmProxy.$el.parentNode)
+      setAnchorEl(proxy.$el.parentNode)
     }
     else {
       let el = props.target
@@ -193,7 +191,7 @@ export default function ({
   onMounted(() => {
     pickAnchorEl()
 
-    if (emit !== void 0 && props.modelValue === true && anchorEl.value === null) {
+    if (avoidEmit !== true && props.modelValue === true && anchorEl.value === null) {
       emit('update:modelValue', false)
     }
   })

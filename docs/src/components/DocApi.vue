@@ -1,11 +1,15 @@
 <template lang="pug">
 q-card.doc-api.q-my-lg(flat bordered)
-  q-toolbar.text-grey-8.bg-white
-    card-title(:title="nameBanner", prefix="API--")
+  q-toolbar.text-grey-8
+    card-title(:title="nameBanner" prefix="api--")
     q-space
     .col-auto.text-grey {{ typeBanner }}
 
   q-linear-progress(v-if="loading", color="primary", indeterminate)
+
+  template(v-else-if="nothingToShow")
+    q-separator
+    .doc-api__nothing-to-show Nothing to display
 
   template(v-else)
     q-separator
@@ -18,7 +22,7 @@ q-card.doc-api.q-my-lg(flat bordered)
           :name="tab"
         )
           .row.no-wrap.items-center
-            span.q-mr-xs.text-uppercase.text-weight-medium {{ tab }}
+            span.q-mr-xs.text-capitalize.text-weight-medium {{ tab }}
             q-badge(v-if="filteredApiCount[tab].overall")
               | {{ filteredApiCount[tab].overall }}
 
@@ -43,7 +47,7 @@ q-card.doc-api.q-my-lg(flat bordered)
     q-tab-panels(v-model="currentTab", animated)
       q-tab-panel.q-pa-none(v-for="tab in tabsList", :name="tab", :key="tab")
         .row.no-wrap.api-container(v-if="innerTabsList[tab].length !== 1")
-          .col-auto.row.no-wrap.bg-grey-1.text-grey-7.q-py-sm
+          .col-auto.row.no-wrap.text-grey-7.q-py-sm
             q-tabs(
               v-model="currentInnerTab",
               active-color="primary",
@@ -73,7 +77,7 @@ q-card.doc-api.q-my-lg(flat bordered)
             transition-prev="slide-down",
             transition-next="slide-up"
           )
-            q-tab-panel(v-for="innerTab in innerTabsList[tab]", :name="innerTab", :key="innerTab", class="q-pa-none")
+            q-tab-panel.q-pa-none(v-for="innerTab in innerTabsList[tab]", :name="innerTab", :key="innerTab")
               DocApiEntry(:type="tab", :definition="filteredApi[tab][innerTab]")
 
         .api-container(v-else)
@@ -96,16 +100,15 @@ function getPropsCategories (props) {
     if (props[ key ] !== void 0) {
       const value = props[ key ]
 
-      if (!value.category) {
-        console.log(key, value)
-      }
       value.category.split('|').forEach(groupKey => {
         acc.add(groupKey)
       })
     }
   }
 
-  return Array.from(acc).sort()
+  return acc.size === 1
+    ? [defaultInnerTabName]
+    : Array.from(acc).sort()
 }
 
 function getInnerTabs (api, tabs, apiType) {
@@ -216,7 +219,7 @@ function getApiCount (parsedApi, tabs, innerTabs) {
         category: { [ categ ]: count }
       }
     }
-    if (tabCategories.length > 1) {
+    else {
       acc[ tab ].category = {}
 
       tabCategories.forEach(categ => {
@@ -251,6 +254,7 @@ export default {
     const loading = ref(true)
     const nameBanner = ref('Loading API...')
     const typeBanner = ref('Please wait...')
+    const nothingToShow = ref(false)
 
     const filter = ref('')
     const apiDef = ref({})
@@ -274,6 +278,12 @@ export default {
       typeBanner.value = `${type === 'plugin' ? 'Quasar' : 'Vue'} ${type.charAt(0).toUpperCase()}${type.substring(1)}`
 
       const tabs = Object.keys(api)
+
+      if (tabs.length === 0) {
+        nothingToShow.value = true
+        return
+      }
+
       tabsList.value = tabs
       currentTab.value = tabs[ 0 ]
 
@@ -305,6 +315,7 @@ export default {
       loading,
       nameBanner,
       typeBanner,
+      nothingToShow,
 
       filteredApi,
       filteredApiCount,
@@ -337,4 +348,10 @@ export default {
 
   .api-container
     max-height: 600px
+
+  &__nothing-to-show
+    padding: 16px
+    color: $grey
+    font-size: .8em
+    font-style: italic
 </style>

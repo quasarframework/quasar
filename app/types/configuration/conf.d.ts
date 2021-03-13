@@ -33,13 +33,14 @@ interface QuasarDevServerConfiguration
  * ```typescript
  * {
  *  rootComponent: 'src/App.vue',
- *  router: 'src/router',
- *  store: 'src/store',
+ *  router: 'src/router/index',
+ *  store: 'src/store/index',
  *  indexHtmlTemplate: 'src/index.template.html',
- *  registerServiceWorker: 'src-pwa/register-service-worker.js',
- *  serviceWorker: 'src-pwa/custom-service-worker.js',
- *  electronMainDev: 'src-electron/main-process/electron-main.dev.js',
- *  electronMainProd: 'src-electron/main-process/electron-main.js'
+ *  registerServiceWorker: 'src-pwa/register-service-worker',
+ *  serviceWorker: 'src-pwa/custom-service-worker',
+ *  electronMain: 'src-electron/main-process/electron-main',
+ *  electronPreload: 'src-electron/main-process/electron-preload'
+ *  ssrServerIndex: 'src-ssr/index.js'
  * }
  * ```
  */
@@ -50,8 +51,9 @@ type QuasarSourceFilesConfiguration = Partial<{
   indexHtmlTemplate: string;
   registerServiceWorker: string;
   serviceWorker: string;
-  electronMainDev: string;
-  electronMainProd: string;
+  electronMain: string;
+  electronPreload: string;
+  ssrServerIndex: string;
 }>;
 
 interface BaseQuasarConfiguration {

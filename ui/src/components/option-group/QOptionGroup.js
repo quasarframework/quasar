@@ -1,10 +1,9 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
 import QRadio from '../radio/QRadio.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QToggle from '../toggle/QToggle.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 const components = {
@@ -47,9 +46,11 @@ export default defineComponent({
     disable: Boolean
   },
 
-  emits: ['update:modelValue'],
+  emits: [ 'update:modelValue' ],
 
   setup (props, { emit }) {
+    const { proxy: { $q } } = getCurrentInstance()
+
     const arrayModel = Array.isArray(props.modelValue)
 
     if (props.type === 'radio') {
@@ -61,7 +62,6 @@ export default defineComponent({
       console.error('q-option-group: model should be array in your case')
     }
 
-    const $q = useQuasar()
     const isDark = useDark(props, $q)
 
     const component = computed(() => components[ props.type ])

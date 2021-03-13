@@ -44,10 +44,10 @@
 </template>
 
 <script>
-import { clone, colors } from 'quasar'
+import { clone, setCssVar } from 'quasar'
 
 const mainColors = [ 'primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning', 'black' ]
-const mainLightColors = ['white']
+const mainLightColors = [ 'white' ]
 let mainColorValuesOrig
 
 export default {
@@ -69,12 +69,12 @@ export default {
     },
     setColor (color, value) {
       this.mainColorValues[ color ] = value
-      colors.setBrand(color, value)
+      setCssVar(color, value)
     },
     undoColor (color) {
       const value = this.mainColorValuesOrig[ color ]
       this.mainColorValues[ color ] = value
-      colors.setBrand(color, value)
+      setCssVar(color, value)
     }
   },
   beforeMount () {

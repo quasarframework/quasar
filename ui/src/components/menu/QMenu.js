@@ -1,27 +1,26 @@
 import { h, defineComponent, ref, computed, watch, Transition, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
 import useScrollTarget from '../../composables/private/use-scroll-target.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import usePortal from '../../composables/private/use-portal.js'
 import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
-import useTick from '../../composables/use-tick.js'
-import useTimeout from '../../composables/use-timeout.js'
+import useTick from '../../composables/private/use-tick.js'
+import useTimeout from '../../composables/private/use-timeout.js'
 
-import { closePortalMenus } from '../../utils/portal.js'
+import { closePortalMenus } from '../../utils/private/portal.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
-import { hSlot } from '../../utils/render.js'
-import { addEscapeKey, removeEscapeKey } from '../../utils/escape-key.js'
-import { addFocusout, removeFocusout } from '../../utils/focusout.js'
+import { hSlot } from '../../utils/private/render.js'
+import { addEscapeKey, removeEscapeKey } from '../../utils/private/escape-key.js'
+import { addFocusout, removeFocusout } from '../../utils/private/focusout.js'
 import { childHasFocus } from '../../utils/dom.js'
-import { addClickOutside, removeClickOutside } from '../../utils/click-outside.js'
+import { addClickOutside, removeClickOutside } from '../../utils/private/click-outside.js'
 
 import {
   validatePosition, validateOffset, setPosition, parsePosition
-} from '../../utils/position-engine.js'
+} from '../../utils/private/position-engine.js'
 
 export default defineComponent({
   name: 'QMenu',
@@ -85,6 +84,9 @@ export default defineComponent({
     let refocusTarget = null, absoluteOffset, unwatchPosition, avoidAutoClose
 
     const vm = getCurrentInstance()
+    const { proxy } = vm
+    const { $q } = proxy
+
     const innerRef = ref(null)
     const showing = ref(false)
 
@@ -93,21 +95,15 @@ export default defineComponent({
       && props.noRouteDismiss !== true
     )
 
-    const $q = useQuasar()
     const isDark = useDark(props, $q)
     const { registerTick, removeTick, prepareTick } = useTick()
     const { registerTimeout, removeTimeout } = useTimeout()
     const { transition, transitionStyle } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
-    const { anchorEl, canShow } = useAnchor({
-      props, emit, vm, showing, $q
-    })
+    const { anchorEl, canShow } = useAnchor({ showing })
 
     const { hide } = useModelToggle({
-      props,
-      emit,
-      vm,
       showing, canShow, handleShow, handleHide,
       hideOnRouteChange,
       processOnMount: true
@@ -118,7 +114,7 @@ export default defineComponent({
     const clickOutsideProps = {
       anchorEl,
       innerRef,
-      getEl: () => vm.proxy.$el,
+      getEl: () => proxy.$el,
       onClickOutside (e) {
         if (props.persistent !== true && showing.value === true) {
           const targetClassList = e.target.classList
@@ -297,7 +293,7 @@ export default defineComponent({
       // if auto-close, then the ios double-tap fix which
       // issues a click should not close the menu
       if (avoidAutoClose !== true) {
-        closePortalMenus(vm.proxy, e)
+        closePortalMenus(proxy, e)
         emit('click', e)
       }
       else {
@@ -366,7 +362,7 @@ export default defineComponent({
     onBeforeUnmount(anchorCleanup)
 
     // expose public methods
-    Object.assign(vm.proxy, { focus, updatePosition })
+    Object.assign(proxy, { focus, updatePosition })
 
     return renderPortal
   }

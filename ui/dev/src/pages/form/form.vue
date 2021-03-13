@@ -1,9 +1,9 @@
 <template>
   <div class="q-pa-md" style="max-width: 500px">
-    <div>{{ native }}</div>
-    <div>{{ name }}</div>
-    <div>{{ age }}</div>
-    <div>{{ modelAsync }}</div>
+    <div>{{ native || 'null' }}</div>
+    <div>{{ name || 'null' }}</div>
+    <div>{{ age || 'null' }}</div>
+    <div>{{ modelAsync || 'null' }}</div>
 
     <q-toggle v-model="show" label="Show form" />
     <q-toggle v-model="autofocus" label="Autofocus" />
@@ -11,6 +11,7 @@
     <q-toggle v-model="greedy" label="Greedy" />
     <q-toggle v-model="loading" label="Loading" />
     <q-toggle v-model="customInput" label="Custom Input" />
+    <q-toggle v-model="titleIsDisabled" label="Disable Title QSelect" />
     <q-option-group class="q-mb-lg" inline v-model="autofocusEl" dense="dense" :options="autofocusEls" />
 
     <q-form
@@ -42,7 +43,7 @@
 
         <my-comp />
 
-        <!-- TODO vue3 <q-select
+        <q-select
           ref="title"
           name="title"
           v-model="title"
@@ -50,11 +51,12 @@
           :dark="dark"
           :color="dark ? 'yellow' : 'primary'"
           filled
+          :disable="titleIsDisabled"
           label="Title"
           :rules="[ val => !!val ]"
           :autofocus="autofocusEl === 4"
           clearable
-        /> -->
+        />
 
         <q-input
           ref="name"
@@ -181,23 +183,24 @@
 
 <script>
 import { h } from 'vue'
-import { QField, QCard, QCardSection, QFormChildBase } from 'quasar'
+import { QField, QCard, QCardSection, QFormChildMixin } from 'quasar'
 
 export default {
   components: {
     customInput: {
-      props: ['modelValue'],
+      props: [ 'modelValue' ],
       render () {
         return h(QField, {
-          modelValue: this.modelValue
+          modelValue: this.modelValue,
+          stackLabel: true
         }, {
-          control: () => this.modelValue
+          control: () => this.modelValue || 'null'
         })
       }
     },
 
     myComp: {
-      mixins: [QFormChildBase],
+      mixins: [ QFormChildMixin ],
 
       render () {
         return h('div', {}, [
@@ -205,7 +208,7 @@ export default {
             class: 'text-subtitle2',
             bordered: true,
             flat: true
-          }, () => h(QCardSection, () => ['a custom component']))
+          }, () => h(QCardSection, () => [ 'a custom component' ]))
         ])
       },
 
@@ -226,6 +229,8 @@ export default {
       modelAsync: null,
 
       accept: false,
+
+      titleIsDisabled: false,
 
       show: true,
       autofocus: true,

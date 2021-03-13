@@ -1,4 +1,4 @@
-import { ref, computed, watch, onBeforeUnmount } from 'vue'
+import { ref, computed, watch, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import useFormChild from '../use-form-child.js'
 import { testPattern } from '../../utils/patterns.js'
@@ -23,12 +23,14 @@ export const useValidateProps = {
   }
 }
 
-export default function (props, focused, vm, innerLoading) {
+export default function (focused, innerLoading) {
+  const { props, proxy } = getCurrentInstance()
+
   const innerError = ref(false)
   const innerErrorMessage = ref(null)
   const isDirtyModel = ref(null)
 
-  useFormChild({ validate, canFail: true })
+  useFormChild({ validate, resetValidation, requiresQForm: true })
 
   let validateIndex = 0, unwatchRules
 
@@ -45,7 +47,7 @@ export default function (props, focused, vm, innerLoading) {
   const computedErrorMessage = computed(() => (
     typeof props.errorMessage === 'string' && props.errorMessage.length > 0
       ? props.errorMessage
-      : innerErrorMessage.value || ''
+      : innerErrorMessage.value
   ))
 
   watch(() => props.modelValue, () => {
@@ -55,7 +57,7 @@ export default function (props, focused, vm, innerLoading) {
   watch(() => props.reactiveRules, val => {
     if (val === true) {
       if (unwatchRules === void 0) {
-        unwatchRules = watch('rules', () => {
+        unwatchRules = watch(() => props.rules, () => {
           validateIfNeeded(true)
         })
       }
@@ -196,7 +198,7 @@ export default function (props, focused, vm, innerLoading) {
   })
 
   // expose public methods
-  Object.assign(vm.proxy, { resetValidation, validate })
+  Object.assign(proxy, { resetValidation, validate })
 
   return {
     isDirtyModel,

@@ -1,6 +1,5 @@
-import { h, defineComponent, ref, computed, watch } from 'vue'
+import { h, defineComponent, ref, computed, watch, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
 import useSlider, {
@@ -13,7 +12,7 @@ import useSlider, {
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
-import { hDir } from '../../utils/render.js'
+import { hDir } from '../../utils/private/render.js'
 
 const dragType = {
   MIN: 0,
@@ -56,7 +55,7 @@ export default defineComponent({
   emits: useSliderEmits,
 
   setup (props, { emit }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
 
     const formAttrs = computed(() => {
       return {
@@ -80,21 +79,20 @@ export default defineComponent({
     const curMaxRatio = ref(0)
 
     const { state, methods } = useSlider({
-      props, emit, $q,
       updateValue, updatePosition, getDragging
     })
 
-    const modelMinRatio = computed(() =>
-      (model.value.min - props.min) / (props.max - props.min)
-    )
+    const modelMinRatio = computed(() => (
+      state.minMaxDiff.value === 0 ? 0 : (model.value.min - props.min) / state.minMaxDiff.value
+    ))
 
     const ratioMin = computed(() => (
       state.active.value === true ? curMinRatio.value : modelMinRatio.value
     ))
 
-    const modelMaxRatio = computed(() =>
-      (model.value.max - props.min) / (props.max - props.min)
-    )
+    const modelMaxRatio = computed(() => (
+      state.minMaxDiff.value === 0 ? 0 : (model.value.max - props.min) / state.minMaxDiff.value
+    ))
 
     const ratioMax = computed(() => (
       state.active.value === true ? curMaxRatio.value : modelMaxRatio.value
@@ -251,9 +249,9 @@ export default defineComponent({
 
     function updateValue (change) {
       if (model.value.min !== props.modelValue.min || model.value.max !== props.modelValue.max) {
-        emit('update:modelValue', model.value)
+        emit('update:modelValue', { ...model.value })
       }
-      change === true && emit('change', model.value)
+      change === true && emit('change', { ...model.value })
     }
 
     function getDragging (event) {
@@ -264,8 +262,7 @@ export default defineComponent({
           : (props.vertical === true
               ? minProps.domRef.value.offsetHeight / (2 * height)
               : minProps.domRef.value.offsetWidth / (2 * width)
-            ),
-        diff = props.max - props.min
+            )
 
       const dragging = {
         left,
@@ -274,8 +271,8 @@ export default defineComponent({
         height,
         valueMin: model.value.min,
         valueMax: model.value.max,
-        ratioMin: (model.value.min - props.min) / diff,
-        ratioMax: (model.value.max - props.min) / diff
+        ratioMin: modelMinRatio.value,
+        ratioMax: modelMaxRatio.value
       }
 
       const ratio = getRatio(event, dragging, state.isReversed.value, props.vertical)
@@ -391,9 +388,8 @@ export default defineComponent({
         curMaxRatio.value = pos.maxR
       }
       else {
-        const diff = props.max - props.min
-        curMinRatio.value = (model.value.min - props.min) / diff
-        curMaxRatio.value = (model.value.max - props.min) / diff
+        curMinRatio.value = state.minMaxDiff.value === 0 ? 0 : (model.value.min - props.min) / state.minMaxDiff.value
+        curMaxRatio.value = state.minMaxDiff.value === 0 ? 0 : (model.value.max - props.min) / state.minMaxDiff.value
       }
     }
 

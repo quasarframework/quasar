@@ -1,6 +1,5 @@
 import Platform from '../plugins/Platform.js'
 
-import { $q } from '../install-quasar.js'
 import { noop } from '../utils/event.js'
 
 function parseFeatures (winFeatures) {
@@ -26,9 +25,6 @@ function openWindow (url, reject, windowFeatures) {
         openExternal: true
       })
     }
-  }
-  else if ($q.electron !== void 0) {
-    return $q.electron.shell.openExternal(url)
   }
 
   const win = open(url, '_blank', parseFeatures(windowFeatures))

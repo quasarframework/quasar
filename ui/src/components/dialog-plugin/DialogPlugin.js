@@ -13,10 +13,9 @@ import QOptionGroup from '../option-group/QOptionGroup.js'
 
 import QSpinner from '../spinner/QSpinner.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-import { isKeyCode } from '../../utils/key-composition.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
 
 export default defineComponent({
   name: 'DialogPlugin',
@@ -53,7 +52,9 @@ export default defineComponent({
   emits: [ 'ok', 'hide' ],
 
   setup (props, { emit }) {
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const isDark = useDark(props, $q)
 
     const dialogRef = ref(null)
@@ -144,7 +145,7 @@ export default defineComponent({
       ripple: false,
       ...(Object(props.ok) === props.ok ? props.ok : { flat: true }),
       disable: okDisabled.value,
-      'data-autofocus': props.focus === 'ok' && hasForm.value !== true,
+      'data-autofocus': (props.focus === 'ok' && hasForm.value !== true) || void 0,
       onClick: onOk
     }))
 
@@ -153,7 +154,7 @@ export default defineComponent({
       label: cancelLabel.value,
       ripple: false,
       ...(Object(props.cancel) === props.cancel ? props.cancel : { flat: true }),
-      'data-autofocus': props.focus === 'cancel' && hasForm.value !== true,
+      'data-autofocus': (props.focus === 'cancel' && hasForm.value !== true) || void 0,
       onClick: onCancel
     }))
 
@@ -312,10 +313,7 @@ export default defineComponent({
     }
 
     // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, {
-      show, hide
-    })
+    Object.assign(proxy, { show, hide })
 
     return () => h(QDialog, {
       ref: dialogRef,

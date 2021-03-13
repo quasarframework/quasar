@@ -1,16 +1,14 @@
-import { h, defineComponent, ref, reactive, computed, provide, getCurrentInstance } from 'vue'
+import { h, defineComponent, ref, reactive, computed, provide, nextTick, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
-
-import useQuasar from '../../composables/use-quasar.js'
 
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import { getScrollbarWidth } from '../../utils/scroll.js'
-import { hMergeSlot } from '../../utils/render.js'
-import { layoutKey } from '../../utils/symbols.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { hMergeSlot } from '../../utils/private/render.js'
+import { layoutKey } from '../../utils/private/symbols.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 export default defineComponent({
   name: 'QLayout',
@@ -28,14 +26,14 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy: { $q } } = vm
 
     const rootRef = ref(null)
 
     // page related
     const height = ref($q.screen.height)
     const width = ref(props.container === true ? 0 : $q.screen.width)
-    const scroll = ref({ position: 0, direction: 'down', inflexionPosition: 0 })
+    const scroll = ref({ position: 0, direction: 'down', inflectionPoint: 0 })
 
     // container only prop
     const containerHeight = ref(0)
@@ -71,9 +69,17 @@ export default defineComponent({
 
     function onPageScroll (data) {
       if (props.container === true || document.qScrollPrevented !== true) {
-        scroll.value = data
+        const info = {
+          position: data.position.top,
+          direction: data.direction,
+          directionChanged: data.directionChanged,
+          inflectionPoint: data.inflectionPoint.top,
+          delta: data.delta.top
+        }
+
+        scroll.value = info
+        vmHasListener(vm, 'onScroll') === true && emit('scroll', info)
       }
-      vmHasListener(vm, 'onScroll') === true && emit('scroll', data)
     }
 
     function onPageResize (data) {
@@ -115,12 +121,12 @@ export default defineComponent({
       }
     }
 
-    let timer
+    let timer, updateCache = {}
 
-    provide(layoutKey, {
+    const $layout = {
       instances: {},
-      view: props.view,
-      container: props.container,
+      view: computed(() => props.view),
+      isContainer: computed(() => props.container),
 
       rootRef,
 
@@ -156,19 +162,27 @@ export default defineComponent({
         timer = setTimeout(() => {
           document.body.classList.remove('q-body--layout-animate')
           timer = void 0
-        }, 150)
+        }, 155)
+      },
+
+      update (part, prop, val) {
+        $layout[ part ][ prop ] = val
       }
-    })
+    }
+
+    provide(layoutKey, $layout)
 
     return () => {
+      const content = hMergeSlot(slots.default, [
+        h(QScrollObserver, { onScroll: onPageScroll }),
+        h(QResizeObserver, { onResize: onPageResize })
+      ])
+
       const layout = h('div', {
         class: classes.value,
         style: style.value,
         ref: props.container === true ? void 0 : rootRef
-      }, hMergeSlot(slots.default, [
-        h(QScrollObserver, { onScroll: onPageScroll }),
-        h(QResizeObserver, { onResize: onPageResize })
-      ]))
+      }, content)
 
       if (props.container === true) {
         return h('div', {
@@ -183,7 +197,7 @@ export default defineComponent({
             h('div', {
               class: 'scroll',
               style: targetChildStyle.value
-            }, [layout])
+            }, [ layout ])
           ])
         ])
       }

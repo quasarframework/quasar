@@ -1,14 +1,16 @@
 ---
 title: Select
 desc: The QSelect Vue component has two types of selection - single or multiple. This component opens up a menu for the selection list and action. A filter can also be used for longer lists.
+keys: QSelect
 ---
 
 The QSelect component has two types of selection: single or multiple. This component opens up a menu for the selection list and action. A filter can also be used for longer lists.
 
 In case you are looking for a dropdown "button" instead of "input" use [Button Dropdown](/vue-components/button-dropdown) instead.
 
-## Installation
-<doc-installation components="QSelect"/>
+## QSelect API
+
+<doc-api file="QSelect" />
 
 ## Design
 
@@ -105,6 +107,10 @@ If you use functions for custom props always check if the option is null. These 
 <doc-example title="Custom label, value and disable props" file="QSelect/OptionCustomProps" />
 
 ### Customizing menu options
+
+::: warning
+The list of options is rendered using virtual scroll, so if you render more than one element for an option you must set a `q-virtual-scroll--with-prev` class on all elements except the first one.
+:::
 
 <doc-example title="Options slot" file="QSelect/OptionSlot" />
 
@@ -227,7 +233,8 @@ The render performance is NOT affected much by the number of options, unless `ma
 Notice the infinite scroll in place which renders additional options as the user scrolls through the list.
 
 ::: tip
-To get the best performance while using lots of options freeze the array you are passing in the `options` prop using `Object.freeze(options)`.
+* (Composition API) To get the best performance while using lots of options, do not wrap the array that you are passing in the `options` prop with ref()/computed()/reactive()/etc. This allows Vue to skip making the list "responsive" to changes.
+* (Options API) To get the best performance while using lots of options, freeze the array that you are passing in the `options` prop using `Object.freeze(items)`. This allows Vue to skip making the list "responsive" to changes.
 :::
 
 <doc-example title="100k options" file="QSelect/RenderPerf" />
@@ -260,6 +267,3 @@ When the list of options is opened:
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QSelect, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <doc-example title="Native form" file="QSelect/NativeForm" />
-
-## QSelect API
-<doc-api file="QSelect" />

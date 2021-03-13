@@ -51,7 +51,7 @@ module.exports = function (api) {
 The first group does a compatibility check with Quasar (which is optional, but recommended). If your component is using features of Quasar that were available after a certain version, you can make sure that the version of Quasar installed is the correct one.
 
 ::: tip
-Not only can you do a `api.compatibleWith()` to check against Quasar packages, but with any other available packages (that you do not supply yourself through your App Extension) as well. Please read [Handling package dependencies](/app-extensions/development-guide/introduction#Handling-package-dependencies) section from the App Extension Development Guide > Introduction page for more information.
+Not only can you do a `api.compatibleWith()` to check against Quasar packages, but with any other available packages (that you do not supply yourself through your App Extension) as well. Please read [Handling package dependencies](/app-extensions/development-guide/introduction#handling-package-dependencies) section from the App Extension Development Guide > Introduction page for more information.
 :::
 
 The second group tells Quasar to call our custom function when the `extendQuasarConf` CLI life-cycle hook is called. It would look something like this:
@@ -66,7 +66,7 @@ function extendConf (conf) {
   conf.build.transpileDependencies.push(/quasar-app-extension-my-component[\\/]src/)
 
   // make sure my-component css goes through webpack to avoid ssr issues
-  conf.css.push('~quasar-app-extension-my-component/src/component/MyComponent.styl')
+  conf.css.push('~quasar-app-extension-my-component/src/component/MyComponent.sass')
 }
 ```
 
@@ -74,9 +74,10 @@ Finally, let's see how the boot file would look like. Make sure that you read th
 
 ```js
 // file: /src/boot/register-my-component.js
-import Vue from 'vue'
 import MyComponent from '../component/MyComponent.vue'
 
 // we globally register our component with Vue
-Vue.component('my-component', MyComponent)
+export default ({ app }) => {
+  app.component('my-component', MyComponent)
+}
 ```

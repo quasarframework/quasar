@@ -1,6 +1,7 @@
 ---
 title: Material Ripples
 desc: Vue directive for easily adding material ripples to your components and DOM elements.
+keys: material-ripple
 ---
 Material Ripple effect can easily be added to any DOM element (or component) through the `v-ripple` Quasar directive.
 
@@ -8,8 +9,9 @@ Material Ripple effect can easily be added to any DOM element (or component) thr
 Do not use this directive on components that already have material ripples baked in (example: `QBtn`). Rather configure the internal ripples through those component's `ripple` property.
 :::
 
-## Installing
-<doc-installation directives="Ripple" config="ripple" />
+## Ripple API
+
+<doc-api file="Ripple" />
 
 ## Usage
 
@@ -46,6 +48,3 @@ This is especially noticeable on touchscreens where if a user accidentally moves
 If for some reason you have a scenario where the ripples need to be disabled, then you can assign a Boolean as value for the directive:
 
 <doc-example title="Disable" file="Ripple/Disable" />
-
-## Ripple API
-<doc-api file="Ripple" />

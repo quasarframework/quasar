@@ -12,7 +12,6 @@ import QBtn from '../btn/QBtn.js'
 
 import getTableMiddle from './get-table-middle.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import { commonVirtPropsList } from '../virtual-scroll/use-virtual-scroll.js'
 import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
@@ -24,7 +23,7 @@ import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEm
 import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
 import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
 
-import { vmHasListener } from '../../utils/vm.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 const bottomClass = 'q-table__bottom row items-center'
 
@@ -121,9 +120,10 @@ export default defineComponent({
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy: { $q } } = vm
+
     const isDark = useDark(props, $q)
-    const { inFullscreen, toggleFullscreen } = useFullscreen(props, emit, vm)
+    const { inFullscreen, toggleFullscreen } = useFullscreen()
 
     const getRowKey = computed(() => (
       typeof props.rowKey === 'function'
@@ -143,7 +143,7 @@ export default defineComponent({
       + (props.bordered === true ? ' q-table--bordered' : '')
     )
 
-    const containerClass = computed(() =>
+    const __containerClass = computed(() =>
       `q-table__container q-table--${ props.separator }-separator column no-wrap`
       + (props.loading === true ? ' q-table--loading' : '')
       + (props.grid === true ? ' q-table--grid' : cardDefaultClass.value)
@@ -153,8 +153,12 @@ export default defineComponent({
       + (inFullscreen.value === true ? ' fullscreen scroll' : '')
     )
 
+    const containerClass = computed(() =>
+      __containerClass.value + (props.loading === true ? ' q-table--loading' : '')
+    )
+
     watch(
-      () => props.tableStyle + props.tableClass + props.tableHeaderStyle + props.tableHeaderClass + containerClass.value,
+      () => props.tableStyle + props.tableClass + props.tableHeaderStyle + props.tableHeaderClass + __containerClass.value,
       () => { hasVirtScroll.value === true && virtScrollRef.value !== null && virtScrollRef.value.reset() }
     )
 
@@ -165,7 +169,7 @@ export default defineComponent({
 
       requestServerInteraction,
       setPagination
-    } = useTablePaginationState(props, emit, vm, getCellValue)
+    } = useTablePaginationState(vm, getCellValue)
 
     const { computedFilterMethod } = useTableFilter(props, setPagination)
     const { isRowExpanded, setExpanded, updateExpanded } = useTableRowExpand(props, emit)
@@ -249,7 +253,7 @@ export default defineComponent({
       prevPage,
       nextPage,
       lastPage
-    } = useTablePagination(props, emit, $q, vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber)
+    } = useTablePagination(vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber)
 
     const nothingToDisplay = computed(() => computedRows.value.length === 0)
 
@@ -290,7 +294,7 @@ export default defineComponent({
 
           virtSlots.before = header === null
             ? () => topContent
-            : () => [header()].concat(topContent)
+            : () => [ header() ].concat(topContent)
         }
         else if (header !== null) {
           virtSlots.before = header
@@ -409,7 +413,7 @@ export default defineComponent({
                 dark: isDark.value,
                 dense: props.dense,
                 'onUpdate:modelValue': (adding, evt) => {
-                  updateSelection([key], [row], adding, evt)
+                  updateSelection([ key ], [ row ], adding, evt)
                 }
               })
             ]
@@ -432,6 +436,13 @@ export default defineComponent({
         data.class[ 'cursor-pointer' ] = true
         data.onDblclick = evt => {
           emit('row-dblclick', evt, row, pageIndex)
+        }
+      }
+
+      if (vmHasListener(vm, 'onContextmenu') === true) {
+        data.class[ 'cursor-pointer' ] = true
+        data.onContextmenu = evt => {
+          emit('row-contextmenu', evt, row, pageIndex)
         }
       }
 
@@ -505,7 +516,7 @@ export default defineComponent({
       hasSelectionMode.value === true && Object.defineProperty(data, 'selected', {
         get: () => isRowSelected(data.key),
         set: (adding, evt) => {
-          updateSelection([data.key], [data.row], adding, evt)
+          updateSelection([ data.key ], [ data.row ], adding, evt)
         },
         configurable: true,
         enumerable: true
@@ -552,7 +563,7 @@ export default defineComponent({
         topClass = 'q-table__top relative-position row items-center'
 
       if (top !== void 0) {
-        return h('div', { class: topClass }, [top(marginalsScope.value)])
+        return h('div', { class: topClass }, [ top(marginalsScope.value) ])
       }
 
       let child
@@ -739,7 +750,7 @@ export default defineComponent({
 
         const noData = slots[ 'no-data' ]
         const children = noData !== void 0
-          ? [noData({ message, icon: $q.iconSet.table.warning, filter: props.filter })]
+          ? [ noData({ message, icon: $q.iconSet.table.warning, filter: props.filter }) ]
           : [
               h(QIcon, {
                 class: 'q-table__bottom-nodata-icon',
@@ -754,7 +765,7 @@ export default defineComponent({
       const bottom = slots.bottom
 
       if (bottom !== void 0) {
-        return h('div', { class: bottomClass }, [bottom(marginalsScope.value)])
+        return h('div', { class: bottomClass }, [ bottom(marginalsScope.value) ])
       }
 
       const child = props.hideSelectedBanner !== true && hasSelectionMode.value === true && rowsSelectedNumber.value > 0
@@ -915,8 +926,8 @@ export default defineComponent({
         : scope => {
           const child = scope.cols.map(
             col => h('div', { class: 'q-table__grid-item-row' }, [
-              h('div', { class: 'q-table__grid-item-title' }, [col.label]),
-              h('div', { class: 'q-table__grid-item-value' }, [col.value])
+              h('div', { class: 'q-table__grid-item-title' }, [ col.label ]),
+              h('div', { class: 'q-table__grid-item-value' }, [ col.value ])
             ])
           )
 
@@ -931,7 +942,7 @@ export default defineComponent({
                     dark: isDark.value,
                     dense: props.dense,
                     'onUpdate:modelValue': (adding, evt) => {
-                      updateSelection([scope.key], [scope.row], adding, evt)
+                      updateSelection([ scope.key ], [ scope.row ], adding, evt)
                     }
                   })
                 ]
@@ -1014,9 +1025,19 @@ export default defineComponent({
       get: () => filteredSortedRows.value,
       enumerable: true
     })
+    
+    Object.defineProperty(vm.proxy, 'computedRows', {
+      get: () => computedRows.value,
+      enumerable: true
+    })
+    
+    Object.defineProperty(vm.proxy, 'computedRowsNumber', {
+      get: () => computedRowsNumber.value,
+      enumerable: true
+    })
 
     return () => {
-      const child = [getTopDiv()]
+      const child = [ getTopDiv() ]
       const data = { ref: rootRef, class: containerClass.value }
 
       if (props.grid === true) {

@@ -10,16 +10,15 @@ import QTab from '../tabs/QTab.js'
 import QTabPanels from '../tab-panels/QTabPanels.js'
 import QTabPanel from '../tab-panels/QTabPanel.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useCache from '../../composables/use-cache.js'
+import useCache from '../../composables/private/use-cache.js'
 import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
 import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
 import { stop } from '../../utils/event.js'
 import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
-import { hDir } from '../../utils/render.js'
+import { hDir } from '../../utils/private/render.js'
 
 const palette = [
   'rgb(255,204,204)', 'rgb(255,230,204)', 'rgb(255,255,204)', 'rgb(204,255,204)', 'rgb(204,255,230)', 'rgb(204,255,255)', 'rgb(204,230,255)', 'rgb(204,204,255)', 'rgb(230,204,255)', 'rgb(255,204,255)',
@@ -73,10 +72,10 @@ export default defineComponent({
 
   emits: [ 'update:modelValue', 'change' ],
 
-  setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
+  setup (props, { emit }) {
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
 
-    const $q = useQuasar()
     const isDark = useDark(props, $q)
     const { getCache } = useCache()
 
@@ -186,12 +185,12 @@ export default defineComponent({
 
     const spectrumDirective = computed(() => {
       // if editable.value === true
-      return [[
+      return [ [
         TouchPan,
         onSpectrumPan,
         void 0,
         { prevent: true, stop: true, mouse: true }
-      ]]
+      ] ]
     })
 
     watch(() => props.modelValue, v => {
@@ -309,14 +308,14 @@ export default defineComponent({
       evt !== void 0 && stop(evt)
 
       if (!/^[0-9]+$/.test(value)) {
-        change && vm.proxy.$forceUpdate()
+        change && proxy.$forceUpdate()
         return
       }
 
       const val = Math.floor(Number(value))
 
       if (val < 0 || val > max) {
-        change === true && vm.proxy.$forceUpdate()
+        change === true && proxy.$forceUpdate()
         return
       }
 
@@ -543,7 +542,7 @@ export default defineComponent({
                 },
                 onChange: stop,
                 onBlur: evt => {
-                  onEditorChange(evt, true) === true && vm.proxy.$forceUpdate()
+                  onEditorChange(evt, true) === true && proxy.$forceUpdate()
                   updateErrorIcon(false)
                 }
               })
@@ -808,7 +807,7 @@ export default defineComponent({
     }
 
     return () => {
-      const child = [getContent()]
+      const child = [ getContent() ]
 
       if (props.name !== void 0 && props.disable !== true) {
         injectFormInput(child, 'push')

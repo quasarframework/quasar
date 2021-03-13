@@ -1,6 +1,6 @@
 import { h, defineComponent, computed } from 'vue'
 
-import { hUniqueSlot } from '../../utils/render.js'
+import { hUniqueSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QChatMessage',
@@ -57,7 +57,7 @@ export default defineComponent({
               [ domProps.value.stamp ]: props.stamp
             })
           ]
-        : node => [node]
+        : node => [ node ]
 
       return props.text.map((msg, index) => h('div', {
         key: index,

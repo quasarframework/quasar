@@ -10,6 +10,7 @@ Because it saves development costs drastically. Only Quasar can do:
 <introduction-video />
 
 Also because:
+
 * It's based on Vue.js
 * You get a state-of-the-art UI (that follows Material Guidelines) for your **websites** and **apps** out of the box
 * Best support for desktop and **mobile browsers** (including iOS Safari!) out of the box

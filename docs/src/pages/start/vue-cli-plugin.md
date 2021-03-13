@@ -23,7 +23,7 @@ $ npm uninstall -g vue-cli
 $ yarn global remove vue-cli
 ```
 
-Install Vue CLI (v4+) as follows:
+Install Vue CLI (v4.5.11+) as follows:
 
 ```bash
 $ npm install -g @vue/cli
@@ -32,6 +32,7 @@ $ npm install -g @vue/cli
 If you don't yet have a project created with @vue/cli, then do so with the command below. **Make sure that you checkmark on Babel from the Vue CLI feature list prompt that will appear on screen**.
 
 ```bash
+# make sure to pick Vue 3 when asked:
 $ vue create my-app
 ```
 
@@ -43,8 +44,11 @@ Cross-platform support with Vue CLI is handled by community plugins. These are n
 :::
 
 ```bash
+# commands will change after Quasar v2 becomes stable (and out of beta)
+
 $ cd my-app
-$ vue add quasar
+$ yarn add --dev vue-cli-plugin-quasar@next
+$ vue invoke quasar
 ```
 
 The CLI will ask you if you want the plugin to replace some existing files. It is recommended that you do this, if you wish to have an example, so you can quickly develop your app.

@@ -12,7 +12,7 @@ You can install multiple icon libraries, but you must choose only one to use on 
 
 Quasar currently supports: [Material Icons](https://material.io/icons/), [Font Awesome](http://fontawesome.io/icons/), [Line Awesome](https://icons8.com/line-awesome), [Ionicons](https://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), and [Themify Icons](https://themify.me/themify-icons).
 
-It is also possible to use your own icons (as custom svgs or as images in any format) with any Quasar component, see the [QIcon](/vue-components/icon#Image-icons) page for more info on this.
+It is also possible to use your own icons (as custom svgs or as images in any format) with any Quasar component, see the [QIcon](/vue-components/icon#image-icons) page for more info on this.
 
 ::: tip
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [QIcon component](/vue-components/icon).
@@ -43,7 +43,7 @@ framework: {
 }
 ```
 
-For all available options, visit the [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/icon-set) repository.
+For all available options, visit the [GitHub](https://github.com/quasarframework/quasar/tree/vue3-work/ui/icon-set) repository.
 
 Full example of including MDI & Fontawesome and telling Quasar to use Fontawesome for its components.
 
@@ -64,7 +64,7 @@ Include the Quasar Icon Set tag for your Quasar version and also tell Quasar to 
 
 ```html
 <!-- include this after Quasar JS tag -->
-<script src="https://cdn.jsdelivr.net/npm/quasar@v1.0.0/dist/icon-set/fontawesome-v5.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quasar@v1.0.0/dist/icon-set/fontawesome-v5.umd.prod.js"></script>
 <script>
   Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
 </script>
@@ -81,7 +81,7 @@ import iconSet from 'quasar/icon-set/fontawesome-v5'
 // ...
 import { Quasar } from 'quasar'
 // ...
-Vue.use(Quasar, {
+app.use(Quasar, {
   // ...,
   iconSet: iconSet
 })
@@ -91,10 +91,7 @@ Vue.use(Quasar, {
 Quasar CLI: If your desired Quasar Icon Set must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-icon-set`. This will create `/src/boot/quasar-icon-set.js` file. Edit it to:
 
 ```js
-// for when you don't specify quasar.conf.js > framework: 'all'
 import { Quasar } from 'quasar'
-// OTHERWISE:
-import Quasar from 'quasar'
 
 export default async () => {
   const iconSetName = 'mdi-v5' // ... some logic to determine it (use Cookies Plugin?)
@@ -131,10 +128,7 @@ Notice the use of the [Webpack magic comment](https://webpack.js.org/api/module-
 When dealing with SSR, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
 
 ```js
-// for when you don't specify quasar.conf.js > framework: 'all'
 import { Quasar } from 'quasar'
-// OTHERWISE:
-import Quasar from 'quasar'
 
 // ! NOTICE ssrContext param:
 export default async ({ ssrContext }) => {
@@ -163,6 +157,25 @@ export default async ({ ssrContext }) => {
 Quasar Icon Set is reactive, so all components will update properly if you change the $q.iconSet object. Here is an example:
 
 ```js
+// Composition API variant
+import { useQuasar } from 'quasar'
+import mdiIconSet from 'quasar/icon-set/mdi-v5.js'
+
+setup () {
+  const $q = useQuasar()
+
+  function changeIconSetToMdiIconSet () {
+    $q.iconSet.set(mdiIconSet)
+  }
+
+  return {
+    changeIconSetToMdiIconSet
+  }
+}
+```
+
+```js
+// Options API variant
 import mdiIconSet from 'quasar/icon-set/mdi-v5.js'
 
 methods: {
@@ -176,6 +189,22 @@ methods: {
 If you want to change a specific icon to another, you can. Here is an example:
 
 ```js
+// Composition API variant
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  function changeQEditorHeaderIcon () {
+    $q.iconSet.editor.header1 = 'fas fa-font'
+  }
+
+  return { changeQEditorHeaderIcon }
+}
+```
+
+```js
+// Options API variant
 methods: {
   changeQEditorHeaderIcon () {
     this.$q.iconSet.editor.header1 = 'fas fa-font'

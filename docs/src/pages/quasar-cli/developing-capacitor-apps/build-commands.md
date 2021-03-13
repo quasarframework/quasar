@@ -24,6 +24,7 @@ In Android Studio, you will be greeted with a message recommending to upgrade th
 If you encounter any IDE errors then click on File > Invalidate caches and restart.
 
 <img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="q-mt-md fit rounded-borders" style="max-width: 350px">
+
 :::
 
 In order for you to be able to develop on a device emulator or directly on a phone (with Hot Module Reload included), Quasar CLI follows these steps:
@@ -71,4 +72,14 @@ In Android Studio, you will be greeted with a message recommending to upgrade th
 If you encounter any IDE errors then click on File > Invalidate caches and restart.
 
 <img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="q-mt-md fit rounded-borders" style="max-width: 350px">
+
 :::
+
+If you want a production build with debugging enabled for the UI code:
+
+```bash
+$ quasar build -m capacitor -T [ios|android] -d
+
+# ..or the longer form
+$ quasar build -m capacitor -T [ios|android] --debug
+```

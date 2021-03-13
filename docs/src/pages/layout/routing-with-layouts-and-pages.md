@@ -194,6 +194,7 @@ export default [
 ```
 
 Please notice a few things:
+
 * We are using lazy loading of layouts and pages (`() => import(<path>)`). If your website/app is small, then you can skip the lazy loading benefits as they could add more overhead than what it's worth:
   ```js
   import UserLayout from 'layouts/user'

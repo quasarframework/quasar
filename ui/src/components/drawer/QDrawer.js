@@ -1,18 +1,17 @@
 import { h, defineComponent, withDirectives, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, inject, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useHistory from '../../composables/private/use-history.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
-import useTimeout from '../../composables/use-timeout.js'
+import useTimeout from '../../composables/private/use-timeout.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
-import { hSlot, hDir } from '../../utils/render.js'
-import { layoutKey } from '../../utils/symbols.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { hSlot, hDir } from '../../utils/private/render.js'
+import { layoutKey } from '../../utils/private/symbols.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 const duration = 150
 
@@ -71,8 +70,8 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit, attrs }) {
-    const $q = useQuasar()
     const vm = getCurrentInstance()
+    const { proxy: { $q } } = vm
 
     const isDark = useDark(props, $q)
     const { preventBodyScroll } = usePreventScroll()
@@ -123,7 +122,7 @@ export default defineComponent({
         }
 
         applyBackdrop(1)
-        $layout.container !== true && preventBodyScroll(true)
+        $layout.isContainer.value !== true && preventBodyScroll(true)
       }
       else {
         applyBackdrop(0)
@@ -152,9 +151,6 @@ export default defineComponent({
     }
 
     const { show, hide } = useModelToggle({
-      props,
-      emit,
-      vm,
       showing,
       hideOnRouteChange,
       handleShow,
@@ -191,8 +187,8 @@ export default defineComponent({
     const fixed = computed(() =>
       props.overlay === true
       || props.miniToOverlay === true
-      || $layout.view.indexOf(rightSide.value ? 'R' : 'L') > -1
-      || ($q.platform.is.ios === true && $layout.container === true)
+      || $layout.view.value.indexOf(rightSide.value ? 'R' : 'L') > -1
+      || ($q.platform.is.ios === true && $layout.isContainer.value === true)
     )
 
     const onLayout = computed(() =>
@@ -263,6 +259,11 @@ export default defineComponent({
         : Object.assign(style, aboveStyle.value)
     })
 
+    const contentClass = computed(() =>
+      'q-drawer__content fit '
+      + ($layout.isContainer.value !== true ? 'scroll' : 'overflow-auto')
+    )
+
     const classes = computed(() =>
       `q-drawer q-drawer--${ props.side }`
       + (flagMiniAnimate.value === true ? ' q-drawer--mini-animate' : '')
@@ -287,7 +288,7 @@ export default defineComponent({
       // if props.noSwipeOpen !== true
       const dir = $q.lang.rtl === true ? props.side : otherSide.value
 
-      return [[
+      return [ [
         TouchPan,
         onOpenPan,
         void 0,
@@ -295,14 +296,14 @@ export default defineComponent({
           [ dir ]: true,
           mouse: true
         }
-      ]]
+      ] ]
     })
 
     const contentCloseDirective = computed(() => {
       // if belowBreakpoint.value === true && props.noSwipeClose !== true
       const dir = $q.lang.rtl === true ? otherSide.value : props.side
 
-      return [[
+      return [ [
         TouchPan,
         onClosePan,
         void 0,
@@ -310,14 +311,14 @@ export default defineComponent({
           [ dir ]: true,
           mouse: true
         }
-      ]]
+      ] ]
     })
 
     const backdropCloseDirective = computed(() => {
       // if showing.value === true && props.noSwipeBackdrop !== true
       const dir = $q.lang.rtl === true ? otherSide.value : props.side
 
-      return [[
+      return [ [
         TouchPan,
         onClosePan,
         void 0,
@@ -326,7 +327,7 @@ export default defineComponent({
           mouse: true,
           mouseAllDir: true
         }
-      ]]
+      ] ]
     })
 
     watch(belowBreakpoint, val => {
@@ -372,7 +373,7 @@ export default defineComponent({
 
     watch(() => props.behavior + props.breakpoint, updateBelowBreakpoint)
 
-    watch(() => $layout.container, val => {
+    watch($layout.isContainer, val => {
       showing.value === true && preventBodyScroll(val !== true)
     })
 
@@ -418,7 +419,7 @@ export default defineComponent({
       }
       else {
         if (
-          $layout.container === true
+          $layout.isContainer.value === true
           && rightSide.value === true
           && (belowBreakpoint.value === true || Math.abs(position) === size.value)
         ) {
@@ -443,7 +444,7 @@ export default defineComponent({
     function setScrollable (v) {
       const action = v === true
         ? 'remove'
-        : ($layout.container !== true ? 'add' : '')
+        : ($layout.isContainer.value !== true ? 'add' : '')
 
       action !== '' && document.body.classList[ action ]('q-body--drawer-toggle')
     }
@@ -541,13 +542,7 @@ export default defineComponent({
     }
 
     function updateLayout (prop, val) {
-      // ensure state update is caught correctly by Vue diffing
-      // on all layout components, so nextTicking:
-      nextTick(() => {
-        if ($layout[ props.side ][ prop ] !== val) {
-          $layout[ props.side ][ prop ] = val
-        }
-      })
+      $layout.update(props.side, prop, val)
     }
 
     function updateLocal (prop, val) {
@@ -652,14 +647,16 @@ export default defineComponent({
         )
       }
 
+      const mini = isMini.value === true && slots.mini !== void 0
       const content = [
         h('div', {
           ...attrs,
+          key: '' + mini, // required otherwise Vue will not diff correctly
           class: [
-            'q-drawer__content fit ' + ($layout.container === true ? 'overflow-auto' : 'scroll'),
+            contentClass.value,
             attrs.class
           ]
-        }, isMini.value === true && slots.mini !== void 0
+        }, mini === true
           ? slots.mini()
           : hSlot(slots.default)
         )

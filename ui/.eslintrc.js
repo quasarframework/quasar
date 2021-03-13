@@ -49,7 +49,7 @@ module.exports = {
     'operator-linebreak': [ 'error', 'before' ],
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
 
-    'array-bracket-spacing': [ 'error', 'always', { singleValue: false } ],
+    'array-bracket-spacing': [ 'error', 'always' ],
     'object-curly-spacing': [ 'error', 'always' ],
     'computed-property-spacing': [ 'error', 'always' ],
     'template-curly-spacing': [ 'error', 'always' ],

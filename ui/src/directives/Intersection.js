@@ -1,4 +1,5 @@
-import { isDeepEqual } from '../utils/is.js'
+import { isDeepEqual } from '../utils/private/is.js'
+import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
 
 const defaultCfg = {
   threshold: 0,
@@ -28,7 +29,7 @@ function update (el, ctx, value) {
     ctx.cfg = cfg
     ctx.observer !== void 0 && ctx.observer.unobserve(el)
 
-    ctx.observer = new IntersectionObserver(([entry]) => {
+    ctx.observer = new IntersectionObserver(([ entry ]) => {
       if (typeof ctx.handler === 'function') {
         // if observed element is part of a vue transition
         // then we need to be careful...
@@ -65,23 +66,25 @@ function destroy (el) {
   }
 }
 
-export default {
-  name: 'intersection',
+export default __QUASAR_SSR_SERVER__
+  ? { name: 'intersection', getSSRProps }
+  : {
+      name: 'intersection',
 
-  mounted (el, { modifiers, value }) {
-    const ctx = {
-      once: modifiers.once === true
+      mounted (el, { modifiers, value }) {
+        const ctx = {
+          once: modifiers.once === true
+        }
+
+        update(el, ctx, value)
+
+        el.__qvisible = ctx
+      },
+
+      updated (el, binding) {
+        const ctx = el.__qvisible
+        ctx !== void 0 && update(el, ctx, binding.value)
+      },
+
+      beforeUnmount: destroy
     }
-
-    update(el, ctx, value)
-
-    el.__qvisible = ctx
-  },
-
-  updated (el, binding) {
-    const ctx = el.__qvisible
-    ctx !== void 0 && update(el, ctx, binding.value)
-  },
-
-  beforeUnmount: destroy
-}

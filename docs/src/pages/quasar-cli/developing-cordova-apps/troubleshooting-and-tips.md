@@ -4,7 +4,7 @@ desc: Tips and tricks for a Quasar hybrid mobile app with Cordova.
 ---
 
 ## $q.cordova
-While you are developing a Mobile App with Cordova Mode, you can access `this.$q.cordova` in your Vue files. This is an alias to the global `cordova` Object.
+While you are developing a Mobile App with Cordova Mode, you can access `$q.cordova` in your Vue files. This is an alias to the global `cordova` Object.
 
 ## Android Tips
 
@@ -152,6 +152,7 @@ Now running `adb devices` should discover your device.
 
 ### Post-build debugging
 There are intermediate states to help with debugging, between `quasar dev` and distributing a completed app. If your app works fine on `quasar dev` but is not running properly after `quasar build`, you have two options:
+
 * go to your `src-cordova` directory and `cordova run [platform]`.
   * You will be running the final build, but you can still use Chrome DevTools Remote Debugging with a wired connection (see above), to inspect the internal web internals. You cannot do this while running the .apk file.
   * For more detail, read the Cordova [platform guide](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#using-buildjson) and the [CLI reference](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html)

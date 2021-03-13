@@ -1,6 +1,5 @@
 import { h, defineComponent, ref, computed, withDirectives, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
@@ -9,10 +8,16 @@ import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
-import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
-import { hMergeSlot } from '../../utils/render.js'
+import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 import debounce from '../../utils/debounce.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { vmHasListener } from '../../utils/private/vm.js'
+
+const axisList = [ 'vertical', 'horizontal' ]
+const dirProps = {
+  vertical: { offset: 'offsetY', scroll: 'scrollTop', dir: 'down', dist: 'y' },
+  horizontal: { offset: 'offsetX', scroll: 'scrollLeft', dir: 'right', dist: 'x' }
+}
 
 export default defineComponent({
   name: 'QScrollArea',
@@ -20,8 +25,14 @@ export default defineComponent({
   props: {
     ...useDarkProps,
 
-    barStyle: [ Array, String, Object ],
     thumbStyle: Object,
+    verticalThumbStyle: Object,
+    horizontalThumbStyle: Object,
+
+    barStyle: [ Array, String, Object ],
+    verticalBarStyle: [ Array, String, Object ],
+    horizontalBarStyle: [ Array, String, Object ],
+
     contentStyle: [ Array, String, Object ],
     contentActiveStyle: [ Array, String, Object ],
 
@@ -33,12 +44,10 @@ export default defineComponent({
     visible: {
       type: Boolean,
       default: null
-    },
-
-    horizontal: Boolean
+    }
   },
 
-  emits: ['scroll'],
+  emits: [ 'scroll' ],
 
   setup (props, { slots, emit }) {
     // state management
@@ -48,21 +57,30 @@ export default defineComponent({
 
     // other...
     const container = {
-      width: ref(0),
-      height: ref(0)
+      vertical: ref(0),
+      horizontal: ref(0)
     }
 
-    const scrollPosition = ref(0)
-    const scrollSize = ref(0)
+    const scroll = {
+      vertical: {
+        ref: ref(null),
+        position: ref(0),
+        size: ref(0)
+      },
+
+      horizontal: {
+        ref: ref(null),
+        position: ref(0),
+        size: ref(0)
+      }
+    }
 
     const vm = getCurrentInstance()
 
-    const $q = useQuasar()
-    const isDark = useDark(props, $q)
+    const isDark = useDark(props, vm.proxy.$q)
 
     let timer, panRefPos
 
-    const thumbRef = ref(null)
     const targetRef = ref(null)
 
     const classes = computed(() =>
@@ -70,102 +88,141 @@ export default defineComponent({
       + (isDark.value === true ? ' q-scrollarea--dark' : '')
     )
 
-    const containerSize = computed(() => container[ dirProps.value.suffix ].value)
-
-    const thumbHidden = computed(() =>
+    scroll.vertical.percentage = computed(() => {
+      const p = between(scroll.vertical.position.value / (scroll.vertical.size.value - container.vertical.value), 0, 1)
+      return Math.round(p * 10000) / 10000
+    })
+    scroll.vertical.thumbHidden = computed(() =>
       (
         (props.visible === null ? hover.value : props.visible) !== true
         && tempShowing.value === false
         && panning.value === false
-      ) || scrollSize.value <= containerSize.value
+      ) || scroll.vertical.size.value <= container.vertical.value + 1
     )
-
-    const thumbSize = computed(() =>
+    scroll.vertical.thumbSize = computed(() =>
       Math.round(
         between(
-          containerSize.value * containerSize.value / scrollSize.value,
+          container.vertical.value * container.vertical.value / scroll.vertical.size.value,
           50,
-          containerSize.value
+          container.vertical.value
         )
       )
     )
-
-    const style = computed(() => {
-      const pos = scrollPercentage.value * (containerSize.value - thumbSize.value)
+    scroll.vertical.style = computed(() => {
+      const thumbSize = scroll.vertical.thumbSize.value
+      const pos = scroll.vertical.percentage.value * (container.vertical.value - thumbSize)
       return {
         ...props.thumbStyle,
-        ...(props.horizontal === true
-          ? {
-              left: `${ pos }px`,
-              width: `${ thumbSize.value }px`
-            }
-          : {
-              top: `${ pos }px`,
-              height: `${ thumbSize.value }px`
-            })
+        ...props.verticalThumbStyle,
+        top: `${ pos }px`,
+        height: `${ thumbSize }px`
       }
     })
+    scroll.vertical.thumbClass = computed(() =>
+      'q-scrollarea__thumb q-scrollarea__thumb--v absolute-right'
+      + (scroll.vertical.thumbHidden.value === true ? ' q-scrollarea__thumb--invisible' : '')
+    )
+    scroll.vertical.barClass = computed(() =>
+      'q-scrollarea__bar q-scrollarea__bar--v absolute-right'
+      + (scroll.vertical.thumbHidden.value === true ? ' q-scrollarea__bar--invisible' : '')
+    )
+
+    scroll.horizontal.percentage = computed(() => {
+      const p = between(scroll.horizontal.position.value / (scroll.horizontal.size.value - container.horizontal.value), 0, 1)
+      return Math.round(p * 10000) / 10000
+    })
+    scroll.horizontal.thumbHidden = computed(() =>
+      (
+        (props.visible === null ? hover.value : props.visible) !== true
+        && tempShowing.value === false
+        && panning.value === false
+      ) || scroll.horizontal.size.value <= container.horizontal.value + 1
+    )
+    scroll.horizontal.thumbSize = computed(() =>
+      Math.round(
+        between(
+          container.horizontal.value * container.horizontal.value / scroll.horizontal.size.value,
+          50,
+          container.horizontal.value
+        )
+      )
+    )
+    scroll.horizontal.style = computed(() => {
+      const thumbSize = scroll.horizontal.thumbSize.value
+      const pos = scroll.horizontal.percentage.value * (container.horizontal.value - thumbSize)
+      return {
+        ...props.thumbStyle,
+        ...props.horizontalThumbStyle,
+        left: `${ pos }px`,
+        width: `${ thumbSize }px`
+      }
+    })
+    scroll.horizontal.thumbClass = computed(() =>
+      'q-scrollarea__thumb q-scrollarea__thumb--h absolute-bottom'
+      + (scroll.horizontal.thumbHidden.value === true ? ' q-scrollarea__thumb--invisible' : '')
+    )
+    scroll.horizontal.barClass = computed(() =>
+      'q-scrollarea__bar q-scrollarea__bar--h absolute-bottom'
+      + (scroll.horizontal.thumbHidden.value === true ? ' q-scrollarea__bar--invisible' : '')
+    )
 
     const mainStyle = computed(() => (
-      thumbHidden.value === true
+      scroll.vertical.thumbHidden.value === true || scroll.horizontal.thumbHidden.value === true
         ? props.contentStyle
         : props.contentActiveStyle
     ))
 
-    const scrollPercentage = computed(() => {
-      const p = between(scrollPosition.value / (scrollSize.value - containerSize.value), 0, 1)
-      return Math.round(p * 10000) / 10000
-    })
+    const thumbVertDir = [ [
+      TouchPan,
+      e => { onPanThumb(e, 'vertical') },
+      void 0,
+      {
+        vertical: true,
+        prevent: true,
+        mouse: true,
+        mouseAllDir: true
+      }
+    ] ]
 
-    const dirProps = computed(() => (
-      props.horizontal === true
-        ? { prefix: 'horizontal', suffix: 'width', scroll: 'scrollLeft', classSuffix: 'h absolute-bottom', dir: 'right', dist: 'x' }
-        : { prefix: 'vertical', suffix: 'height', scroll: 'scrollTop', classSuffix: 'v absolute-right', dir: 'down', dist: 'y' }
-    ))
-
-    const thumbClass = computed(() =>
-      `q-scrollarea__thumb q-scrollarea__thumb--${ dirProps.value.classSuffix }`
-      + (thumbHidden.value === true ? ' q-scrollarea__thumb--invisible' : '')
-    )
-
-    const barClass = computed(() =>
-      `q-scrollarea__bar q-scrollarea__bar--${ dirProps.value.classSuffix }`
-      + (thumbHidden.value === true ? ' q-scrollarea__bar--invisible' : '')
-    )
-
-    const thumbDirectives = computed(() => {
-      return [[
-        TouchPan,
-        onPanThumb,
-        void 0,
-        {
-          [ props.horizontal === true ? 'horizontal' : 'vertical' ]: true,
-          prevent: true,
-          mouse: true,
-          mouseAllDir: true
-        }
-      ]]
-    })
+    const thumbHorizDir = [ [
+      TouchPan,
+      e => { onPanThumb(e, 'horizontal') },
+      void 0,
+      {
+        horizontal: true,
+        prevent: true,
+        mouse: true,
+        mouseAllDir: true
+      }
+    ] ]
 
     // we have lots of listeners, so
     // ensure we're not emitting same info
     // multiple times
     const emitScroll = debounce(() => {
       const info = { ref: vm.proxy }
-      const { prefix } = dirProps.value
 
-      info[ prefix + 'Position' ] = scrollPosition.value
-      info[ prefix + 'Percentage' ] = scrollPercentage.value
-      info[ prefix + 'Size' ] = scrollSize.value
-      info[ prefix + 'ContainerSize' ] = containerSize.value
+      axisList.forEach(axis => {
+        const data = scroll[ axis ]
+
+        info[ axis + 'Position' ] = data.position.value
+        info[ axis + 'Percentage' ] = data.percentage.value
+        info[ axis + 'Size' ] = data.size.value
+        info[ axis + 'ContainerSize' ] = container[ axis ].value
+      })
 
       emit('scroll', info)
     }, 0)
 
-    function localSetScrollPosition (offset, duration) {
-      const fn = props.horizontal === true
-        ? setHorizontalScrollPosition
-        : setScrollPosition
+    function localSetScrollPosition (axis, offset, duration) {
+      if (axisList.includes(axis) === false) {
+        console.error('[QScrollArea]: wrong first param of setScrollPosition (vertical/horizontal)')
+        return
+      }
+
+      const fn = axis === 'vertical'
+        ? setVerticalScrollPosition
+        : setHorizontalScrollPosition
 
       fn(targetRef.value, offset, duration)
     }
@@ -173,46 +230,56 @@ export default defineComponent({
     function updateContainer ({ height, width }) {
       let change = false
 
-      if (container.width.value !== width) {
-        container.width.value = width
+      if (container.vertical.value !== height) {
+        container.vertical.value = height
         change = true
       }
 
-      if (container.height.value !== height) {
-        container.height.value = height
+      if (container.horizontal.value !== width) {
+        container.horizontal.value = width
         change = true
       }
 
       change === true && startTimer()
     }
 
-    function updateScroll (info) {
-      if (scrollPosition.value !== info.position) {
-        scrollPosition.value = info.position
-        startTimer()
+    function updateScroll ({ position }) {
+      let change = false
+
+      if (scroll.vertical.position.value !== position.top) {
+        scroll.vertical.position.value = position.top
+        change = true
       }
+
+      if (scroll.horizontal.position.value !== position.left) {
+        scroll.horizontal.position.value = position.left
+        change = true
+      }
+
+      change === true && startTimer()
     }
 
     function updateScrollSize ({ height, width }) {
-      if (props.horizontal === true) {
-        if (scrollSize.value !== width) {
-          scrollSize.value = width
-          startTimer()
-        }
+      if (scroll.horizontal.size.value !== width) {
+        scroll.horizontal.size.value = width
+        startTimer()
       }
-      else if (scrollSize.value !== height) {
-        scrollSize.value = height
+
+      if (scroll.vertical.size.value !== height) {
+        scroll.vertical.size.value = height
         startTimer()
       }
     }
 
-    function onPanThumb (e) {
+    function onPanThumb (e, axis) {
+      const data = scroll[ axis ]
+
       if (e.isFirst === true) {
-        if (thumbHidden.value === true) {
+        if (data.thumbHidden.value === true) {
           return
         }
 
-        panRefPos = scrollPosition.value
+        panRefPos = data.position.value
         panning.value = true
       }
       else if (panning.value !== true) {
@@ -223,23 +290,36 @@ export default defineComponent({
         panning.value = false
       }
 
-      const multiplier = (scrollSize.value - containerSize.value) / (containerSize.value - thumbSize.value)
-      const distance = e.distance[ dirProps.value.dist ]
-      const pos = panRefPos + (e.direction === dirProps.value.dir ? 1 : -1) * distance * multiplier
+      const dProp = dirProps[ axis ]
+      const containerSize = container[ axis ].value
 
-      setScroll(pos)
+      const multiplier = (data.size.value - containerSize) / (containerSize - data.thumbSize.value)
+      const distance = e.distance[ dProp.dist ]
+      const pos = panRefPos + (e.direction === dProp.dir ? 1 : -1) * distance * multiplier
+
+      setScroll(pos, axis)
     }
 
-    function onMousedown (evt) {
-      if (thumbHidden.value !== true) {
-        const pos = evt[ `offset${ props.horizontal === true ? 'X' : 'Y' }` ] - thumbSize.value / 2
-        setScroll(pos / containerSize.value * scrollSize.value)
+    function onMousedown (evt, axis) {
+      const data = scroll[ axis ]
+
+      if (data.thumbHidden.value !== true) {
+        const pos = evt[ dirProps[ axis ].offset ] - data.thumbSize.value / 2
+        setScroll(pos / container[ axis ].value * data.size.value, axis)
 
         // activate thumb pan
-        if (thumbRef.value !== null) {
-          thumbRef.value.dispatchEvent(new MouseEvent(evt.type, evt))
+        if (data.ref.value !== null) {
+          data.ref.value.dispatchEvent(new MouseEvent(evt.type, evt))
         }
       }
+    }
+
+    function onVerticalMousedown (evt) {
+      onMousedown(evt, 'vertical')
+    }
+
+    function onHorizontalMousedown (evt) {
+      onMousedown(evt, 'horizontal')
     }
 
     function startTimer () {
@@ -254,8 +334,8 @@ export default defineComponent({
       vmHasListener(vm, 'onScroll') === true && emitScroll()
     }
 
-    function setScroll (offset) {
-      targetRef.value[ dirProps.value.scroll ] = offset
+    function setScroll (offset, axis) {
+      targetRef.value[ dirProps[ axis ].scroll ] = offset
     }
 
     function onMouseenter () {
@@ -269,11 +349,15 @@ export default defineComponent({
     // expose public methods
     Object.assign(vm.proxy, {
       getScrollTarget: () => targetRef.value,
-      getScrollPosition: () => scrollPosition.value,
+      getScrollPosition: () => ({
+        top: scroll.vertical.position.value,
+        left: scroll.horizontal.position.value
+      }),
       setScrollPosition: localSetScrollPosition,
-      setScrollPercentage (percentage, duration) {
+      setScrollPercentage (axis, percentage, duration) {
         localSetScrollPosition(
-          percentage * (scrollSize.value - containerSize.value),
+          axis,
+          percentage * (scroll[ axis ].size.value - container[ axis ].value),
           duration
         )
       }
@@ -287,10 +371,10 @@ export default defineComponent({
       }, [
         h('div', {
           ref: targetRef,
-          class: 'scroll relative-position fit hide-scrollbar'
+          class: 'q-scrollarea__container scroll relative-position fit hide-scrollbar'
         }, [
           h('div', {
-            class: `absolute full-${ props.horizontal === true ? 'height' : 'width' }`,
+            class: 'q-scrollarea__content absolute',
             style: mainStyle.value
           }, hMergeSlot(slots.default, [
             h(QResizeObserver, {
@@ -299,7 +383,7 @@ export default defineComponent({
           ])),
 
           h(QScrollObserver, {
-            horizontal: props.horizontal,
+            axis: 'both',
             onScroll: updateScroll
           })
         ]),
@@ -309,20 +393,37 @@ export default defineComponent({
         }),
 
         h('div', {
-          class: barClass.value,
-          style: props.barStyle,
+          class: scroll.vertical.barClass.value,
+          style: [ props.barStyle, props.verticalBarStyle ],
           'aria-hidden': 'true',
-          onMousedown
+          onMousedown: onVerticalMousedown
+        }),
+
+        h('div', {
+          class: scroll.horizontal.barClass.value,
+          style: [ props.barStyle, props.horizontalBarStyle ],
+          'aria-hidden': 'true',
+          onMousedown: onHorizontalMousedown
         }),
 
         withDirectives(
           h('div', {
-            ref: thumbRef,
-            class: thumbClass.value,
-            style: style.value,
+            ref: scroll.vertical.ref,
+            class: scroll.vertical.thumbClass.value,
+            style: scroll.vertical.style.value,
             'aria-hidden': 'true'
           }),
-          thumbDirectives.value
+          thumbVertDir
+        ),
+
+        withDirectives(
+          h('div', {
+            ref: scroll.horizontal.ref,
+            class: scroll.horizontal.thumbClass.value,
+            style: scroll.horizontal.style.value,
+            'aria-hidden': 'true'
+          }),
+          thumbHorizDir
         )
       ])
     }

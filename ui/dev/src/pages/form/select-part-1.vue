@@ -663,12 +663,12 @@ export default {
       objectNullMultiple: null,
 
       stringEmitNullSingle: null,
-      stringEmitNullMultiple: [null],
+      stringEmitNullMultiple: [ null ],
 
       stringEmitSingle: 'Facebook',
-      stringEmitMultiple: ['Facebook'],
+      stringEmitMultiple: [ 'Facebook' ],
       objectEmitSingle: 'Facebook',
-      objectEmitMultiple: ['Facebook'],
+      objectEmitMultiple: [ 'Facebook' ],
 
       heavyModel: [],
       heavyList,
@@ -683,7 +683,7 @@ export default {
       this.stringNullSingle = null
       this.stringNullMultiple = null
       this.stringEmitNullSingle = null
-      this.stringEmitNullMultiple = [null]
+      this.stringEmitNullMultiple = [ null ]
       this.objectNullSingle = null
       this.objectNullMultiple = null
     },

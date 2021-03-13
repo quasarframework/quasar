@@ -1,68 +1,90 @@
 import { defineComponent, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../../utils/scroll.js'
+import { getScrollTarget, getVerticalScrollPosition, getHorizontalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts, noop } from '../../utils/event.js'
 
 const { passive } = listenOpts
+const axisValues = [ 'both', 'horizontal', 'vertical' ]
 
 export default defineComponent({
   name: 'QScrollObserver',
 
   props: {
+    axis: {
+      type: String,
+      validator: v => axisValues.includes(v),
+      default: 'vertical'
+    },
+
     debounce: [ String, Number ],
-    horizontal: Boolean,
 
     scrollTarget: {
       default: void 0
     }
   },
 
-  emits: ['scroll'],
+  emits: [ 'scroll' ],
 
   setup (props, { emit }) {
-    let position = 0
-    let direction = props.horizontal === true ? 'right' : 'down'
-    let directionChanged = false
-    let inflexionPosition = 0
+    const scroll = {
+      position: {
+        top: 0,
+        left: 0
+      },
 
-    let timer, localScrollTarget, parentEl
+      direction: 'down',
+      directionChanged: false,
+
+      delta: {
+        top: 0,
+        left: 0
+      },
+
+      inflectionPoint: {
+        top: 0,
+        left: 0
+      }
+    }
+
+    let timer = null, localScrollTarget, parentEl
 
     watch(() => props.scrollTarget, () => {
       unconfigureScrollTarget()
       configureScrollTarget()
     })
 
-    function getPosition () {
-      return {
-        position,
-        direction,
-        directionChanged,
-        inflexionPosition
-      }
-    }
-
     function emitEvent () {
-      const fn = props.horizontal === true
-        ? getHorizontalScrollPosition
-        : getScrollPosition
+      timer = null
 
-      const
-        curPos = Math.max(0, fn(localScrollTarget)),
-        delta = curPos - position,
-        curDir = props.horizontal === true
-          ? delta < 0 ? 'left' : 'right'
-          : delta < 0 ? 'up' : 'down'
+      const top = Math.max(0, getVerticalScrollPosition(localScrollTarget))
+      const left = getHorizontalScrollPosition(localScrollTarget)
 
-      directionChanged = direction !== curDir
-
-      if (directionChanged === true) {
-        direction = curDir
-        inflexionPosition = position
+      const delta = {
+        top: top - scroll.position.top,
+        left: left - scroll.position.left
       }
 
-      timer = null
-      position = curPos
-      emit('scroll', getPosition())
+      if (
+        (props.axis === 'vertical' && delta.top === 0)
+        || (props.axis === 'horizontal' && delta.left === 0)
+      ) {
+        return
+      }
+
+      const curDir = Math.abs(delta.top) >= Math.abs(delta.left)
+        ? (delta.top < 0 ? 'up' : 'down')
+        : (delta.left < 0 ? 'left' : 'right')
+
+      scroll.position = { top, left }
+      scroll.directionChanged = scroll.direction !== curDir
+      scroll.delta = delta
+
+      if (scroll.directionChanged === true) {
+        scroll.direction = curDir
+        scroll.inflectionPoint = scroll.position
+      }
+
+      emit('scroll', { ...scroll })
     }
 
     function configureScrollTarget () {
@@ -82,7 +104,7 @@ export default defineComponent({
       if (immediately === true || props.debounce === 0 || props.debounce === '0') {
         emitEvent()
       }
-      else if (!timer) {
+      else if (timer === null) {
         timer = props.debounce
           ? setTimeout(emitEvent, props.debounce)
           : requestAnimationFrame(emitEvent)
@@ -103,7 +125,10 @@ export default defineComponent({
     })
 
     // expose public methods
-    Object.assign(vm.proxy, { trigger, getPosition })
+    Object.assign(vm.proxy, {
+      trigger,
+      getPosition: () => scroll
+    })
 
     return noop
   }

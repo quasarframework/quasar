@@ -196,6 +196,12 @@
         </template>
       </q-field>
 
+      <q-field filled v-model="color" label="Pick a color" stack-label hint="Choose a color" tabindex="0">
+        <template v-slot:control="{ id, value, emitValue }">
+          <q-color class="col" no-header flat :id="id" :value="value" @input="emitValue" />
+        </template>
+      </q-field>
+
       <p class="caption">
         Tree select
       </p>
@@ -260,6 +266,7 @@ export default {
       border: false,
       dense: false,
       individualBorder: false,
+      color: null,
 
       selected: null,
       ticked: [],

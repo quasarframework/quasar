@@ -20,46 +20,41 @@ A boot file is a simple JavaScript file which can optionally export a function. 
 
 | Prop name | Description |
 | --- | --- |
-| `app` | Object with which the root component gets instantiated by Vue |
+| `app` | Vue app instance |
 | `router` | Instance of Vue Router from 'src/router/index.js' |
 | `store` | Instance of the app Vuex Store - **store only will be passed if your project uses Vuex (you have src/store)** |
-| `Vue` | Is same as if we do `import Vue from 'vue'` and it's there for convenience |
 | `ssrContext` | Available only on server-side, if building for SSR |
 | `urlPath` | The pathname (path + search) part of the URL. It also contains the hash on client-side. |
 | `publicPath` | The configured public path. |
 | `redirect` | Function to call to redirect to another URL. Accepts String (URL path) or a Vue Router location Object. |
 
 ```js
-export default ({ app, router, store, Vue }) => {
+export default ({ app, router, store }) => {
   // something to do
 }
 ```
 
-Starting with v1.0, boot files can also be async:
+Boot files can also be async:
 
 ```js
-export default async ({ app, router, store, Vue }) => {
+export default async ({ app, router, store }) => {
   // something to do
   await something()
 }
 ```
 
-Starting with v1.9, you can wrap the returned function with `boot` helper to get a better IDE autocomplete experience (through Typescript):
+You can wrap the returned function with `boot` helper to get a better IDE autocomplete experience (through Typescript):
 
 ```js
 import { boot } from 'quasar/wrappers'
 
-export default boot(async ({ app, router, store, Vue }) => {
+export default boot(async ({ app, router, store }) => {
   // something to do
   await something()
 })
 ```
 
 Notice we are using the [ES6 destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment). Only assign what you actually need/use.
-
-::: danger
-Never call `new Vue(App)` in your boot files as this will completely break your website/app. You don't need it since Quasar CLI takes care of instantiating your App with Vue.
-:::
 
 You may ask yourself why we need to export a function. This is actually optional, but before you decide to remove the default export, you need to understand when you need it:
 
@@ -69,7 +64,7 @@ You may ask yourself why we need to export a function. This is actually optional
 //  - Good place for import statements,
 //  - No access to router, Vuex store, ...
 
-export default async ({ app, router, store, Vue }) => {
+export default async ({ app, router, store }) => {
   // Code here has access to the Object param above, connecting
   // with other parts of your app;
 
@@ -93,10 +88,11 @@ Please make sure you understand what problem boot files solve and when it is app
 Boot files fulfill one special purpose: they run code **before** the App's Vue root component is instantiated while giving you access to certain variables, which is required if you need to initialize a library, interfere with Vue Router, inject Vue prototype or inject the root instance of the Vue app.
 
 ### Examples of appropriate usage of boot files
-* Your Vue plugin has installation instructions, like needing to call `Vue.use()` on it.
+
+* Your Vue plugin has installation instructions, like needing to call `app.use()` on it.
 * Your Vue plugin requires instantiation of data that is added to the root instance - An example would be [vue-i18n](https://github.com/kazupon/vue-i18n/).
-* You want to add a global mixin using `Vue.mixin()`.
-* You want to add something to the Vue prototype for convenient access - An example would be to conveniently use `this.$axios` inside your Vue files instead of importing Axios in each such file.
+* You want to add a global mixin using `app.mixin()`.
+* You want to add something to the Vue prototype for convenient access - An example would be to conveniently use `this.$axios` inside your Vue files instead of importing Axios in each such file. // TODO vue3
 * You want to interfere with the router - An example would be to use `router.beforeEach` for authentication
 * You want to interfere with the Vuex store instance - An example would be to use `vuex-router-sync` package
 * Configure aspects of libraries - An example would be to create an instance of Axios with a base URL; you can then inject it into Vue prototype and/or export it (so you can import the instance from anywhere else in your app)
@@ -120,7 +116,7 @@ This command creates a new file: `/src/boot/<name>.js` with the following conten
 
 // "async" is optional!
 // remove it if you don't need it
-export default async ({ /* app, router, store, Vue */ }) => {
+export default async ({ /* app, router, store */ }) => {
   // something to do
 }
 ```
@@ -130,7 +126,7 @@ You can also return a Promise:
 ```js
 // import something here
 
-export default ({ /* app, router, store, Vue */ }) => {
+export default ({ /* app, router, store */ }) => {
   return new Promise((resolve, reject) => {
     // do something
   })
@@ -251,51 +247,54 @@ In order to better understand how a boot file works and what it does, you need t
 ### Axios
 
 ```js
-import Vue from 'vue'
+import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 
-// we add it to Vue prototype
-// so we can reference it in Vue files
-// without the need to import axios
-Vue.prototype.$axios = axios
+const api = axios.create({ baseURL: 'https://api.example.com' })
 
-// Example: this.$axios will reference Axios now so you don't need stuff like vue-axios
+export default boot(({ app }) => {
+  // for use inside Vue files (Options API) through this.$axios and this.$api
+
+  app.config.globalProperties.$axios = axios
+  // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
+  //       so you won't necessarily have to import axios in each vue file
+
+  app.config.globalProperties.$api = api
+  // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
+  //       so you can easily perform requests against your app's API
+})
+
+export { axios, api }
 ```
 
 ### vue-i18n
 
 ```js
-import Vue from 'vue'
-// we import the external package
-import VueI18n from 'vue-i18n'
-
-// let's say we have a file in /src/i18n containing the language pack
+import { createI18n } from 'vue-i18n'
 import messages from 'src/i18n'
 
-// we tell Vue to use our Vue package:
-Vue.use(VueI18n)
+const i18n = createI18n({
+  locale: 'en-US',
+  messages
+})
 
-export default ({ app }) => {
-  // Set i18n instance on app;
-  // We inject it into root component by doing so;
-  // new Vue({..., i18n: ... }).$mount(...)
-  app.i18n = new VueI18n({
-    locale: 'en',
-    fallbackLocale: 'en',
-    messages
-  })
-}
+export default boot(({ app }) => {
+  // Set i18n instance on app
+  app.use(i18n)
+})
+
+export { i18n } // if you need this instance elsewhere
 ```
 
 ### Router authentication
 Some boot files might need to interfere with Vue Router configuration:
 
 ```js
-export default ({ router, store, Vue }) => {
+export default boot(({ router, store }) => {
   router.beforeEach((to, from, next) => {
     // Now you need to add your authentication logic here, like calling an API endpoint
   })
-}
+})
 ```
 
 ## Accessing data from boot files
@@ -310,29 +309,32 @@ Consider the following boot file for axios:
 ```js
 // axios boot file (src/boot/axios.js)
 
-import Vue from 'vue'
 import axios from 'axios'
 
 // We create our own axios instance and set a custom base URL.
 // Note that if we wouldn't set any config here we do not need
 // a named export, as we could just `import axios from 'axios'`
-const axiosInstance = axios.create({
+const api = axios.create({
   baseURL: 'https://api.example.com'
 })
 
-// for use inside Vue files through this.$axios
-Vue.prototype.$axios = axiosInstance
+// for use inside Vue files through this.$axios and this.$api
+// (only in Vue Options API form)
+export default ({ app }) => {
+  app.config.globalProperties.$axios = axios
+  app.config.globalProperties.$api = api
+}
 
 // Here we define a named export
 // that we can later use inside .js files:
-export { axiosInstance }
+export { axios, api }
 ```
 
 In any JavaScript file, you'll be able to import the axios instance like this.
 
 ```js
 // we import one of the named exports from src/boot/axios.js
-import { axiosInstance } from 'boot/axios'
+import { api } from 'boot/axios'
 ```
 
 Further reading on syntax: [ES6 import](https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/import), [ES6 export](https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export).

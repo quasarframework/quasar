@@ -1,12 +1,11 @@
 import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 
-import { hUniqueSlot } from '../../utils/render.js'
+import { hUniqueSlot } from '../../utils/private/render.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { isKeyCode } from '../../utils/key-composition.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
 
 export default defineComponent({
   name: 'QItem',
@@ -34,11 +33,11 @@ export default defineComponent({
 
   emits: [ 'click', 'keyup' ],
 
-  setup (props, { slots, emit, attrs }) {
-    const vm = getCurrentInstance()
-    const $q = useQuasar()
+  setup (props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance()
+
     const isDark = useDark(props, $q)
-    const { hasLink, linkProps, linkClass, linkTag, navigateToLink } = useRouterLink(props, vm, attrs)
+    const { hasLink, linkProps, linkClass, linkTag, navigateToLink } = useRouterLink()
 
     const rootRef = ref(null)
     const blurTargetRef = ref(null)

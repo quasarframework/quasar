@@ -1,5 +1,5 @@
 import { inject } from 'vue'
-import { quasarKey } from '../utils/symbols.js'
+import { quasarKey } from '../utils/private/symbols.js'
 
 /**
  * Returns the $q instance.

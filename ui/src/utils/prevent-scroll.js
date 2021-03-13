@@ -1,5 +1,5 @@
 import { getEventPath, listenOpts, stopAndPrevent } from '../utils/event.js'
-import { hasScrollbar, getScrollPosition, getHorizontalScrollPosition } from '../utils/scroll.js'
+import { hasScrollbar, getVerticalScrollPosition, getHorizontalScrollPosition } from '../utils/scroll.js'
 import { client } from '../plugins/Platform.js'
 
 let
@@ -92,7 +92,7 @@ function apply (action) {
     const { overflowY, overflowX } = window.getComputedStyle(body)
 
     scrollPositionX = getHorizontalScrollPosition(window)
-    scrollPositionY = getScrollPosition(window)
+    scrollPositionY = getVerticalScrollPosition(window)
     bodyLeft = body.style.left
     bodyTop = body.style.top
 

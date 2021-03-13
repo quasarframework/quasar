@@ -1,22 +1,21 @@
 import { h, defineComponent, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
 import useScrollTarget from '../../composables/private/use-scroll-target.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 import usePortal from '../../composables/private/use-portal.js'
 import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
-import useTick from '../../composables/use-tick.js'
-import useTimeout from '../../composables/use-timeout.js'
+import useTick from '../../composables/private/use-tick.js'
+import useTimeout from '../../composables/private/use-timeout.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
-import { getTouchTarget } from '../../utils/touch.js'
+import { getTouchTarget } from '../../utils/private/touch.js'
 import { addEvt, cleanEvt } from '../../utils/event.js'
-import { clearSelection } from '../../utils/selection.js'
-import { hSlot } from '../../utils/render.js'
+import { clearSelection } from '../../utils/private/selection.js'
+import { hSlot } from '../../utils/private/render.js'
 import {
   validatePosition, validateOffset, setPosition, parsePosition
-} from '../../utils/position-engine.js'
+} from '../../utils/private/position-engine.js'
 
 export default defineComponent({
   name: 'QTooltip',
@@ -82,9 +81,9 @@ export default defineComponent({
   setup (props, { slots, emit, attrs }) {
     let unwatchPosition, observer
 
-    const $q = useQuasar()
-
     const vm = getCurrentInstance()
+    const { proxy: { $q } } = vm
+
     const innerRef = ref(null)
     const showing = ref(false)
 
@@ -97,14 +96,9 @@ export default defineComponent({
     const { transition, transitionStyle } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
-    const { anchorEl, canShow, anchorEvents } = useAnchor({
-      props, emit, vm, showing, configureAnchorEl
-    })
+    const { anchorEl, canShow, anchorEvents } = useAnchor({ showing, configureAnchorEl })
 
     const { show, hide } = useModelToggle({
-      props,
-      emit,
-      vm,
       showing, canShow, handleShow, handleHide,
       hideOnRouteChange,
       processOnMount: true

@@ -11,6 +11,7 @@ const extensionRunner = require('./app-extension/extensions-runner')
 const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
+const getPackageMajorVersion = require('./helpers/get-package-major-version')
 const { quasarVersion } = require('./helpers/banner')
 
 const transformAssetUrls = getDevlandFile('quasar/dist/transforms/loader-asset-urls.json')
@@ -326,15 +327,23 @@ class QuasarConfFile {
 
     // make sure these exist
     cfg.__rootDefines = {
+      // vue
       __VUE_OPTIONS_API__: true,
       __VUE_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true,
 
+      // quasar
       __QUASAR_VERSION__: `'${quasarVersion}'`,
       __QUASAR_SSR__: this.ctx.mode.ssr === true,
       __QUASAR_SSR_SERVER__: false,
       __QUASAR_SSR_CLIENT__: false,
-      __QUASAR_SSR_PWA__: false
+      __QUASAR_SSR_PWA__: false,
+
+      // vue-i18n
+      __VUE_I18N_FULL_INSTALL__: true,
+      __VUE_I18N_LEGACY_API__: true,
+      __INTLIFY_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true
     }
+
     cfg.__needsAppMountHook = false
     cfg.__vueDevtools = false
     cfg.supportTS = cfg.supportTS || false
@@ -408,7 +417,9 @@ class QuasarConfFile {
       scopeHoisting: true,
       productName: this.pkg.productName,
       productDescription: this.pkg.description,
-      extractCSS: this.ctx.prod,
+      // need to force extraction for SSR due to
+      // missing functionality in vue-loader
+      extractCSS: this.ctx.prod || this.ctx.mode.ssr,
       sourceMap: this.ctx.dev,
       minify: this.ctx.prod && this.ctx.mode.bex !== true,
       distDir: path.join('dist', this.ctx.modeName),
@@ -480,7 +491,9 @@ class QuasarConfFile {
         gzip: false
       })
     }
-    if (this.ctx.dev) {
+    // need to force extraction for SSR due to
+    // missing functionality in vue-loader
+    if (this.ctx.dev && !this.ctx.mode.ssr) {
       cfg.build.extractCSS = false
     }
     if (this.ctx.debug) {
@@ -537,10 +550,10 @@ class QuasarConfFile {
       router: 'src/router/index',
       store: 'src/store/index',
       indexHtmlTemplate: 'src/index.template.html',
-      registerServiceWorker: 'src-pwa/register-service-worker.js',
-      serviceWorker: 'src-pwa/custom-service-worker.js',
-      electronMainDev: 'src-electron/main-process/electron-main.dev.js',
-      electronMainProd: 'src-electron/main-process/electron-main.js',
+      registerServiceWorker: 'src-pwa/register-service-worker',
+      serviceWorker: 'src-pwa/custom-service-worker',
+      electronMain: 'src-electron/electron-main',
+      electronPreload: 'src-electron/electron-preload',
       ssrServerIndex: 'src-ssr/index.js'
     }, cfg.sourceFiles)
 
@@ -565,21 +578,7 @@ class QuasarConfFile {
       cfg.ssr = merge({
         pwa: false,
         manualHydration: false,
-        directiveTransforms: {
-          // TODO vue3 - talk with Evan. any better way to declare SSR transforms?
-          // TODO vue3 - move to UI package once JSON API is ready
-          'close-popup': noopDirectiveTransform,
-          intersection: noopDirectiveTransform,
-          morph: noopDirectiveTransform,
-          mutation: noopDirectiveTransform,
-          ripple: noopDirectiveTransform,
-          scroll: noopDirectiveTransform,
-          'scroll-fire': noopDirectiveTransform,
-          'touch-hold': noopDirectiveTransform,
-          'touch-pan': noopDirectiveTransform,
-          'touch-repeat': noopDirectiveTransform,
-          'touch-swipe': noopDirectiveTransform
-        }
+        directiveTransforms: require('quasar/dist/ssr-directives/index.js')
       }, cfg.ssr)
 
       cfg.ssr.debug = this.ctx.debug
@@ -599,7 +598,7 @@ class QuasarConfFile {
 
       if (cfg.ssr.pwa) {
         await require('./mode/install-missing')('pwa')
-        this.__rootDefines.__QUASAR_SSR_PWA__ = true
+        cfg.__rootDefines.__QUASAR_SSR_PWA__ = true
       }
 
       this.ctx.mode.pwa = cfg.ctx.mode.pwa = !!cfg.ssr.pwa
@@ -799,98 +798,6 @@ class QuasarConfFile {
     if (this.ctx.mode.pwa) {
       cfg.build.env.SERVICE_WORKER_FILE = `${cfg.build.publicPath}service-worker.js`
     }
-
-    if (this.ctx.mode.electron) {
-      if (this.ctx.dev) {
-        cfg.electron = merge({
-          nodeIntegration: true
-        }, cfg.electron)
-
-        if (cfg.build.ignorePublicFolder !== true) {
-          cfg.__rootDefines.__statics = `"${appPaths.resolve.app('public').replace(/\\/g, '\\\\')}"`
-        }
-      }
-      else {
-        const bundler = require('./electron/bundler')
-
-        cfg.electron = merge({
-          nodeIntegration: true,
-          packager: {
-            asar: true,
-            icon: appPaths.resolve.electron('icons/icon'),
-            overwrite: true
-          },
-          builder: {
-            appId: 'quasar-app',
-            productName: this.pkg.productName || this.pkg.name || 'Quasar App',
-            directories: {
-              buildResources: appPaths.resolve.electron('')
-            }
-          }
-        }, cfg.electron, {
-          packager: {
-            dir: cfg.build.distDir,
-            out: cfg.build.packagedDistDir
-          },
-          builder: {
-            directories: {
-              app: cfg.build.distDir,
-              output: path.join(cfg.build.packagedDistDir, 'Packaged')
-            }
-          }
-        })
-
-        if (cfg.ctx.bundlerName) {
-          cfg.electron.bundler = cfg.ctx.bundlerName
-        }
-        else if (!cfg.electron.bundler) {
-          cfg.electron.bundler = bundler.getDefaultName()
-        }
-
-        if (this.opts.argv !== void 0) {
-          const { ensureElectronArgv } = require('./helpers/ensure-argv')
-          ensureElectronArgv(cfg.electron.bundler, this.opts.argv)
-        }
-
-        if (cfg.electron.bundler === 'packager') {
-          if (cfg.ctx.targetName) {
-            cfg.electron.packager.platform = cfg.ctx.targetName
-          }
-          if (cfg.ctx.archName) {
-            cfg.electron.packager.arch = cfg.ctx.archName
-          }
-        }
-        else {
-          cfg.electron.builder = {
-            config: cfg.electron.builder
-          }
-
-          if (cfg.ctx.targetName === 'mac' || cfg.ctx.targetName === 'darwin' || cfg.ctx.targetName === 'all') {
-            cfg.electron.builder.mac = []
-          }
-
-          if (cfg.ctx.targetName === 'linux' || cfg.ctx.targetName === 'all') {
-            cfg.electron.builder.linux = []
-          }
-
-          if (cfg.ctx.targetName === 'win' || cfg.ctx.targetName === 'win32' || cfg.ctx.targetName === 'all') {
-            cfg.electron.builder.win = []
-          }
-
-          if (cfg.ctx.archName) {
-            cfg.electron.builder[cfg.ctx.archName] = true
-          }
-
-          if (cfg.ctx.publish) {
-            cfg.electron.builder.publish = cfg.ctx.publish
-          }
-
-          bundler.ensureBuilderCompatibility()
-        }
-
-        bundler.ensureInstall(cfg.electron.bundler)
-      }
-    }
     else if (this.ctx.mode.bex) {
       cfg.bex = merge(cfg.bex, {
         builder: {
@@ -901,6 +808,85 @@ class QuasarConfFile {
         }
       })
     }
+    else if (this.ctx.mode.electron && this.ctx.prod) {
+      const bundler = require('./electron/bundler')
+
+      cfg.electron = merge({
+        packager: {
+          asar: true,
+          icon: appPaths.resolve.electron('icons/icon'),
+          overwrite: true
+        },
+        builder: {
+          appId: 'quasar-app',
+          productName: this.pkg.productName || this.pkg.name || 'Quasar App',
+          directories: {
+            buildResources: appPaths.resolve.electron('')
+          }
+        }
+      }, cfg.electron, {
+        packager: {
+          dir: cfg.build.distDir,
+          out: cfg.build.packagedDistDir
+        },
+        builder: {
+          directories: {
+            app: cfg.build.distDir,
+            output: path.join(cfg.build.packagedDistDir, 'Packaged')
+          }
+        }
+      })
+
+      if (cfg.ctx.bundlerName) {
+        cfg.electron.bundler = cfg.ctx.bundlerName
+      }
+      else if (!cfg.electron.bundler) {
+        cfg.electron.bundler = bundler.getDefaultName()
+      }
+
+      if (this.opts.argv !== void 0) {
+        const { ensureElectronArgv } = require('./helpers/ensure-argv')
+        ensureElectronArgv(cfg.electron.bundler, this.opts.argv)
+      }
+
+      if (cfg.electron.bundler === 'packager') {
+        if (cfg.ctx.targetName) {
+          cfg.electron.packager.platform = cfg.ctx.targetName
+        }
+        if (cfg.ctx.archName) {
+          cfg.electron.packager.arch = cfg.ctx.archName
+        }
+      }
+      else {
+        cfg.electron.builder = {
+          config: cfg.electron.builder
+        }
+
+        if (cfg.ctx.targetName === 'mac' || cfg.ctx.targetName === 'darwin' || cfg.ctx.targetName === 'all') {
+          cfg.electron.builder.mac = []
+        }
+
+        if (cfg.ctx.targetName === 'linux' || cfg.ctx.targetName === 'all') {
+          cfg.electron.builder.linux = []
+        }
+
+        if (cfg.ctx.targetName === 'win' || cfg.ctx.targetName === 'win32' || cfg.ctx.targetName === 'all') {
+          cfg.electron.builder.win = []
+        }
+
+        if (cfg.ctx.archName) {
+          cfg.electron.builder[cfg.ctx.archName] = true
+        }
+
+        if (cfg.ctx.publish) {
+          cfg.electron.builder.publish = cfg.ctx.publish
+        }
+
+        bundler.ensureBuilderCompatibility()
+      }
+
+      bundler.ensureInstall(cfg.electron.bundler)
+    }
 
     cfg.htmlVariables = merge({
       ctx: cfg.ctx,
@@ -910,10 +896,6 @@ class QuasarConfFile {
       productName: cfg.build.productName,
       productDescription: cfg.build.productDescription
     }, cfg.htmlVariables)
-
-    if (this.ctx.mode.capacitor && cfg.capacitor.hideSplashscreen !== false) {
-      cfg.__needsAppMountHook = true
-    }
 
     cfg.__html = {
       minifyOptions: cfg.build.minify
@@ -930,8 +912,36 @@ class QuasarConfFile {
     }
 
     // used by .quasar entry templates
+    cfg.__versions = {}
     cfg.__css = {
       quasarSrcExt: cssVariables.quasarSrcExt
+    }
+
+    if (this.ctx.mode.capacitor) {
+      const { capVersion } = require('./capacitor/cap-cli')
+      cfg.__versions.capacitor = capVersion
+
+      const getCapPluginVersion = capVersion <= 2
+        ? () => true
+        : name => {
+          const version = getPackageMajorVersion(name, appPaths.capacitorDir)
+          return version === void 0
+            ? false
+            : version || true
+        }
+
+      Object.assign(cfg.__versions, {
+        capacitor: capVersion,
+        capacitorPluginApp: getCapPluginVersion('@capacitor/app'),
+        capacitorPluginSplashscreen: getCapPluginVersion('@capacitor/splash-screen')
+      })
+    }
+    else if (this.ctx.mode.pwa) {
+      cfg.__versions.workboxWebpackPlugin = getPackageMajorVersion('workbox-webpack-plugin')
+    }
+
+    if (this.ctx.mode.capacitor && cfg.__versions.capacitorPluginSplashscreen && cfg.capacitor.hideSplashscreen !== false) {
+      cfg.__needsAppMountHook = true
     }
 
     this.quasarConf = cfg

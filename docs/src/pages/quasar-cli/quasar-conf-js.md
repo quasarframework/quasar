@@ -5,6 +5,7 @@ desc: Where, how and what you can configure in a Quasar app.
 Quasar makes use of some awesome development tools under its hood, like [Webpack](https://webpack.js.org/). One of the great things about Quasar is its handling of most of the complex configuration needed by the underlying tools for you. As a result, you don't even need to know Webpack or any of the other development tools in order to use Quasar.
 
 So what can you configure through `/quasar.conf.js`?
+
 * Quasar components, directives and plugins that you'll be using in your website/app
 * Default [Quasar Language Pack](/options/quasar-language-packs)
 * [Icon libraries](/options/installing-icon-libraries) that you wish to use
@@ -70,8 +71,8 @@ Or you can use a global CSS file for SPA mode and another one for Cordova mode w
 ```js
 module.exports = function (ctx) {
   css: [
-    ctx.mode.spa ? 'app-spa.styl' : null, // looks for /src/css/app-spa.styl
-    ctx.mode.cordova ? 'app-cordova.styl' : null  // looks for /src/css/app-cordova.styl
+    ctx.mode.spa ? 'app-spa.sass' : null, // looks for /src/css/app-spa.sass
+    ctx.mode.cordova ? 'app-cordova.sass' : null  // looks for /src/css/app-cordova.sass
   ]
 }
 ```
@@ -114,7 +115,7 @@ The possibilities are endless.
 
 ### IDE autocompletion
 
-Starting with v1.9, you can wrap the returned function with `configure()` helper to get a better IDE autocomplete experience (through Typescript):
+You can wrap the returned function with `configure()` helper to get a better IDE autocomplete experience (through Typescript):
 
 ```js
 const { configure } = require('quasar/wrappers')
@@ -153,7 +154,7 @@ Global CSS/Sass/... files from `/src/css/`, except for theme files, which are in
 // quasar.conf.js
 return {
   css: [
-    'app.styl', // referring to /src/css/app.styl
+    'app.sass', // referring to /src/css/app.sass
     '~some-library/style.css' // referring to node_modules/some-library/style.css
   ]
 }
@@ -210,7 +211,7 @@ return {
 }
 ```
 
-More on cssAddon [here](/layout/grid/introduction-to-flexbox#Flex-Addons).
+More on cssAddon [here](/layout/grid/introduction-to-flexbox#flex-addons).
 
 ### Property: devServer
 **Webpack devServer options**. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options. Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL.
@@ -349,46 +350,14 @@ sourceFiles: {
   indexHtmlTemplate: 'src/index.template.html',
   registerServiceWorker: 'src-pwa/register-service-worker.js',
   serviceWorker: 'src-pwa/custom-service-worker.js',
-  electronMainDev: 'src-electron/main-process/electron-main.dev.js',
-  electronMainProd: 'src-electron/main-process/electron-main.js'
+  electronMain: 'src-electron/electron-main.js',
+  electronPreload: 'src-electron/electron-preload.js'
 }
 ```
 
 ### Example setting env for dev/build
 
-```js
-build: {
-  env: {
-    API: ctx.dev
-      ? 'https://dev.api.com'
-      : 'https://prod.api.com'
-  }
-}
-```
-
-Then in your website/app you can access `process.env.API` and it's gonna point to one of those two links above, based on dev or production build type.
-
-You can even go one step further. Supply it with values taken from the `quasar dev/build` env variables:
-
-```
-# we set an env variable in terminal
-$ MY_API=api.com quasar build
-
-# then we pick it up in /quasar.conf.js
-build: {
-  env: {
-    API: ctx.dev
-      ? 'https://dev.' + process.env.MY_API
-      : 'https://prod.' + process.env.MY_API
-  }
-}
-```
-
-> Alternatively you can use our [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) or [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) App Extensions.
-
-::: tip
-Also check out [Handling process.env](/quasar-cli/handling-process-env) page.
-:::
+Please refer to [Adding to process.env](/quasar-cli/handling-process-env#adding-to-process-env) section in our docs.
 
 ### Handling Webpack configuration
 In depth analysis on [Handling Webpack](/quasar-cli/handling-webpack) documentation page.

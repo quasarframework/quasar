@@ -10,12 +10,6 @@
       "examples": [ "v-model=\"myValue\"" ]
     },
 
-    "auto-save": {
-      "type": "Boolean",
-      "desc": "Automatically save the model (if changed) when user clicks/taps outside of the popup; It does not apply to ESC key",
-      "category": "behavior"
-    },
-
     "title": {
       "type": "String",
       "desc": "Optional title (unless 'title' slot is used)",
@@ -41,6 +35,12 @@
       "desc": "Override Cancel button label",
       "examples": [ "Cancel" ],
       "category": "content"
+    },
+
+    "auto-save": {
+      "type": "Boolean",
+      "desc": "Automatically save the model (if changed) when user clicks/taps outside of the popup; It does not apply to ESC key",
+      "category": "behavior"
     },
 
     "color": {
@@ -154,12 +154,8 @@
   },
 
   "slots": {
-    "title": {
-      "desc": "Slot for custom title (overrides 'title' prop when used)"
-    },
-
     "default": {
-      "desc": "Used for injecting the form component",
+      "desc": "Used for injecting the form component; Do NOT destructure it",
       "scope": {
         "initialValue": {
           "type": "Any",

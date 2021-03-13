@@ -27,7 +27,7 @@ function getShouldExitFn (cfg) {
   }
 
   // Add default root path
-  const exitPaths = ['#/']
+  const exitPaths = [ '#/' ]
 
   // Add custom exit paths
   Array.isArray(cfg.backButtonExit) === true && exitPaths.push(
@@ -54,6 +54,17 @@ export default {
     const qConf = opts.cfg[ cordova === true ? 'cordova' : 'capacitor' ]
 
     if (qConf !== void 0 && qConf.backButton === false) {
+      return
+    }
+
+    // if the '@capacitor/app' plugin is not installed
+    // then we got nothing to do
+    if (
+      // if we're on Capacitor mode
+      capacitor === true
+      // and it's also not in Capacitor's main instance
+      && (window.Capacitor === void 0 || window.Capacitor.Plugins.App === void 0)
+    ) {
       return
     }
 

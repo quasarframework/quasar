@@ -8,11 +8,10 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { shouldIgnoreKey } from '../../utils/key-composition.js'
+import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 
 export default defineComponent({
   name: 'QTree',
@@ -76,8 +75,9 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const isDark = useDark(props, $q)
 
     const lazy = ref({})
@@ -159,7 +159,7 @@ export default defineComponent({
           parent,
           isParent,
           isLeaf,
-          localLazy,
+          lazy: localLazy,
           disabled: node.disabled,
           link: node.disabled !== true && (selectable === true || (expandable === true && (isParent === true || localLazy === true))),
           children: [],
@@ -329,7 +329,7 @@ export default defineComponent({
             lazy.value[ key ] = 'loaded'
             node[ props.childrenKey ] = Array.isArray(children) === true ? children : []
             nextTick(() => {
-              const localMeta = m.value[ key ]
+              const localMeta = meta.value[ key ]
               if (localMeta && localMeta.isParent === true) {
                 localSetExpanded(key, true)
               }
@@ -381,7 +381,7 @@ export default defineComponent({
           }
         }
 
-        target = target.concat([key])
+        target = target.concat([ key ])
           .filter((key, index, self) => self.indexOf(key) === index)
       }
       else {
@@ -424,7 +424,7 @@ export default defineComponent({
     }
 
     function getSlotScope (node, meta, key) {
-      const scope = { tree: vm.proxy, node, key, color: props.color, dark: isDark.value }
+      const scope = { tree: proxy, node, key, color: props.color, dark: isDark.value }
 
       Object.defineProperty(scope, 'expanded', {
         get: () => { return meta.expanded },
@@ -434,7 +434,7 @@ export default defineComponent({
       })
       Object.defineProperty(scope, 'ticked', {
         get: () => { return meta.ticked },
-        set: val => { val !== meta.ticked && setTicked([key], val) },
+        set: val => { val !== meta.ticked && setTicked([ key ], val) },
         configurable: true,
         enumerable: true
       })
@@ -518,7 +518,7 @@ export default defineComponent({
           onClick: (e) => {
             onClick(node, m, e)
           },
-          onKeypress: e => {
+          onKeypress (e) {
             if (shouldIgnoreKey(e) !== true) {
               if (e.keyCode === 13) { onClick(node, m, e, true) }
               else if (e.keyCode === 32) { onExpandClick(node, m, e, true) }
@@ -542,9 +542,7 @@ export default defineComponent({
                       class: 'q-tree__arrow q-mr-xs'
                     + (m.expanded === true ? ' q-tree__arrow--rotate' : ''),
                       name: computedIcon.value,
-                      onClick: e => {
-                        onExpandClick(node, m, e)
-                      }
+                      onClick (e) { onExpandClick(node, m, e) }
                     })
                   : null
               ),
@@ -594,7 +592,7 @@ export default defineComponent({
                   + (m.disabled === true ? ' q-tree__node--disabled' : '')
                 }, children)
               ]),
-              [[ vShow, m.expanded ]]
+              [ [ vShow, m.expanded ] ]
             ))
           : body
       ])
@@ -635,7 +633,7 @@ export default defineComponent({
         state = meta.indeterminateNextState
       }
       if (meta.strictTicking) {
-        setTicked([meta.key], state)
+        setTicked([ meta.key ], state)
       }
       else if (meta.leafTicking) {
         const keys = []
@@ -662,7 +660,7 @@ export default defineComponent({
     }
 
     // expose public methods
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       getNodeByKey,
       getTickedNodes,
       getExpandedNodes,

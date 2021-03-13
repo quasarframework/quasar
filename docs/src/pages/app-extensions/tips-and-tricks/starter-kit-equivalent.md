@@ -14,6 +14,7 @@ To see an example of what we will build, head over to [MyStarterKit full example
 :::
 
 We'll be creating an example App Extension which does the following:
+
 * it prompts the user what features it wants this App Extension to install
 * renders (copies) files into the hosting folder, according to the answers he gave
 * it extends /quasar.conf.js

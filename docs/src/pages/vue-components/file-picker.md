@@ -1,6 +1,7 @@
 ---
 title: File Picker
 desc: The QFile Vue component is used as a file picker.
+keys: QFile
 related:
   - /vue-components/uploader
   - /vue-components/input
@@ -12,8 +13,9 @@ QFile is a component which handles the user interaction for picking file(s).
 If you also want a component to also handle the upload for you, please consider using [QUploader](/vue-components/uploader) instead.
 :::
 
-## Installation
-<doc-installation components="QFile"/>
+## QFile API
+
+<doc-api file="QFile" />
 
 ## Design
 
@@ -100,6 +102,3 @@ You can also apply custom filters (which are executed after user picks files):
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QFile, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QFile/NativeForm" />
-
-## QFile API
-<doc-api file="QFile" />

@@ -1,15 +1,14 @@
-import { h, defineComponent, ref, computed, watch, getCurrentInstance, onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
 
 import QList from '../item/QList.js'
 import QMarkupTable from '../markup-table/QMarkupTable.js'
 import getTableMiddle from '../table/get-table-middle.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import { useVirtualScroll, useVirtualScrollProps, useVirtualScrollEmits } from './use-virtual-scroll.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
-import { hMergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 
 const comps = {
   list: QList,
@@ -45,10 +44,7 @@ export default defineComponent({
 
   emits: useVirtualScrollEmits,
 
-  setup (props, { slots, emit, attrs }) {
-    const vm = getCurrentInstance()
-    const $q = useQuasar()
-
+  setup (props, { slots, attrs }) {
     let localScrollTarget
     const rootRef = ref(null)
 
@@ -64,7 +60,6 @@ export default defineComponent({
       padVirtualScroll,
       onVirtualScrollEvt
     } = useVirtualScroll({
-      props, emit, $q, vm,
       virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl
     })
 

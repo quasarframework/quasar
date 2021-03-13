@@ -1,3 +1,5 @@
+import { createApp } from 'vue'
+
 import Platform from './plugins/Platform.js'
 import Screen from './plugins/Screen.js'
 import Dark from './plugins/Dark.js'
@@ -6,7 +8,7 @@ import Lang from './lang.js'
 import Body from './body.js'
 import IconSet from './icon-set.js'
 
-import { quasarKey } from './utils/symbols.js'
+import { quasarKey } from './utils/private/symbols.js'
 
 const autoInstalled = [
   Platform, Screen, Dark
@@ -15,16 +17,24 @@ const autoInstalled = [
 // to be used by client-side only
 export let $q
 export let appInstance
-export function provideQuasar (app, $q) {
-  app.config.globalProperties.$q = $q
-  app.provide(quasarKey, $q)
+
+export function createChildApp (appCfg) {
+  const app = createApp(appCfg)
+
+  app.config.globalProperties = appInstance.config.globalProperties
+
+  const { reload, ...appContext } = appInstance._context
+  Object.assign(app._context, appContext)
+
+  return app
 }
 
 // to be used by SSR client-side only
 const onSSRHydrated = []
 
 function prepareApp (app, uiOpts, pluginOpts) {
-  provideQuasar(app, pluginOpts.$q)
+  app.config.globalProperties.$q = pluginOpts.$q
+  app.provide(quasarKey, pluginOpts.$q)
 
   Platform.install(pluginOpts)
   Body.install(pluginOpts)

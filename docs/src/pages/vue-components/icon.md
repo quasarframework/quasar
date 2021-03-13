@@ -1,6 +1,7 @@
 ---
 title: Icon
 desc: The QIcon Vue component allows you to insert icons within other components or any other area of your pages.
+keys: QIcon
 related:
   - /options/installing-icon-libraries
   - /options/quasar-icon-sets
@@ -9,16 +10,17 @@ related:
 The QIcon component allows you to easily insert icons within other components or any other area of your pages.
 Quasar supports out of the box: [Material Icons](https://material.io/icons/), [Font Awesome](http://fontawesome.io/icons/), [Ionicons](https://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons) and [Line Awesome](https://icons8.com/line-awesome).
 
-Furthermore you can [add support by yourself](/vue-components/icon#Custom-mapping) for any icon lib.
+Furthermore you can [add support by yourself](/vue-components/icon#custom-mapping) for any icon lib.
 
-There are multiple types of icons in Quasar: webfont-based, svg-based (v1.7+) and image-based. You are not bound to using only one type in your website/app.
+There are multiple types of icons in Quasar: webfont-based, svg-based and image-based. You are not bound to using only one type in your website/app.
 
 ::: tip
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
 :::
 
-## Installing
-<doc-installation components="QIcon" />
+## QIcon API
+
+<doc-api file="QIcon" />
 
 ## Size & colors
 The sizing of a QIcon is manipulated by the `font-size` CSS property. Also, QIcon inherits the current CSS text `color` used. For ease of use there are the QIcon `size` and `color` props.
@@ -50,15 +52,15 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | Quasar IconSet name | Name prefix | Examples | Notes |
 | --- | --- | --- | --- |
 | material-icons | *None* | thumb_up | Notice the underline character instead of dash or space |
-| material-icons-outlined | o_ | o_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
-| material-icons-round | r_ | r_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
-| material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
+| material-icons-outlined | o_ | o_thumb_up | Notice the underline character instead of dash or space |
+| material-icons-round | r_ | r_thumb_up | Notice the underline character instead of dash or space |
+| material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | fontawesome-v5 | fa[s,r,l,d,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
 | mdi-v5/v4/v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters; Use only one of mdi-v5, mdi-v4 or mdi-v3 |
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters |
 | themify | ti- | ti-hand-point-up | Notice the use of dash characters |
-| line-awesome | la[s,r,l,d,b] la- | "las la-atom" | QIcon "name" property is same as "class" attribute value in Line Awesome docs examples (where they show `<i>` tags); **Quasar 1.8+ & @quasar/extras v1.5+** |
+| line-awesome | la[s,r,l,d,b] la- | "las la-atom" | QIcon "name" property is same as "class" attribute value in Line Awesome docs examples (where they show `<i>` tags); **@quasar/extras v1.5+** |
 
 ### Naming convention
 
@@ -154,7 +156,7 @@ If you are only using svg icons (and have configured a [Quasar Icon Set](/option
 
 ### Import guide
 
-Svg icons are supplied by `@quasar/extras` (although you can supply [your own svg icons](/vue-components/icon#Svg-icon-format) too!). Here's the ins and outs of the import syntax:
+Svg icons are supplied by `@quasar/extras` (although you can supply [your own svg icons](/vue-components/icon#svg-icon-format) too!). Here's the ins and outs of the import syntax:
 
 #### SVG Material Icons (Google)
 
@@ -463,13 +465,17 @@ Let's take both cases now.
 This is especially useful when you are using a custom icon library (that doesn't come with Quasar and its `@quasar/extras` package).
 
 ```js
-created () {
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
   // Example of adding support for
   // <q-icon name="app:...." />
   // This includes support for all "icon" props
   // of Quasar components
 
-  this.$q.iconMapFn = (iconName) => {
+  $q.iconMapFn = (iconName) => {
     // iconName is the content of QIcon "name" prop
 
     // your custom approach, the following
@@ -527,6 +533,8 @@ And also add "my-app-icon.woff2" and "my-app-icon.woff" files into the same fold
 #### 2. Simply mapping a few icons
 
 ```js
+import { useQuasar } from 'quasar'
+
 const myIcons = {
   'app:icon1': 'img:/path/to/icon1.svg',
   'app:icon2': 'img:/path/to/icon2.svg',
@@ -534,8 +542,10 @@ const myIcons = {
 }
 
 // ...
-created () {
-  this.$q.iconMapFn = (iconName) => {
+setup () {
+  const $q = useQuasar()
+
+  $q.iconMapFn = (iconName) => {
     const icon = myIcons[iconName]
     if (icon !== void 0) {
       return { icon: icon }
@@ -545,6 +555,3 @@ created () {
 ```
 
 Now we can use `<q-icon name="app:copy" />` or `<q-icon name="app:icon1" />` and QIcon will treat "app:copy" and "app:icon1" as if they were written as "fas fa-copy" and "img:/path/to/icon1.svg".
-
-## QIcon API
-<doc-api file="QIcon" />

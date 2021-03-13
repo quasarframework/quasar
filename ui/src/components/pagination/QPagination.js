@@ -3,11 +3,10 @@ import { h, defineComponent, ref, watch, computed, getCurrentInstance } from 'vu
 import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { between } from '../../utils/format.js'
-import { isKeyCode } from '../../utils/key-composition.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
 
 export default defineComponent({
   name: 'QPagination',
@@ -92,10 +91,12 @@ export default defineComponent({
     }
   },
 
-  emits: ['update:modelValue'],
+  emits: [ 'update:modelValue' ],
 
   setup (props, { emit }) {
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const isDark = useDark(props, $q)
 
     const newPage = ref(null)
@@ -195,8 +196,7 @@ export default defineComponent({
     }
 
     // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, { set, setByOffset })
+    Object.assign(proxy, { set, setByOffset })
 
     return () => {
       const
@@ -247,8 +247,8 @@ export default defineComponent({
           placeholder: inputPlaceholder.value,
           min: props.min,
           max: props.max,
-          onInput: value => { newPage.value = value },
-          onKeyup: e => { isKeyCode(e, 13) === true && updateModel() },
+          onInput (value) { newPage.value = value },
+          onKeyup (e) { isKeyCode(e, 13) === true && updateModel() },
           onBlur: updateModel
         }))
       }

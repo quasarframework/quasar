@@ -11,18 +11,17 @@ import QItemLabel from '../item/QItemLabel.js'
 import QMenu from '../menu/QMenu.js'
 import QDialog from '../dialog/QDialog.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
 import { useVirtualScroll, useVirtualScrollProps, useVirtualScrollEmits } from '../virtual-scroll/use-virtual-scroll.js'
 import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
 import useKeyComposition from '../../composables/private/use-key-composition.js'
 
-import { isDeepEqual } from '../../utils/is.js'
+import { isDeepEqual } from '../../utils/private/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
-import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition.js'
-import { hMergeSlot } from '../../utils/render.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { shouldIgnoreKey, isKeyCode } from '../../utils/private/key-composition.js'
+import { hMergeSlot } from '../../utils/private/render.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 const validateNewValueMode = v => [ 'add', 'add-unique', 'toggle' ].includes(v)
 const reEscapeList = '.*+?^${}()|[]\\'
@@ -109,6 +108,7 @@ export default defineComponent({
 
     transitionShow: String,
     transitionHide: String,
+    transitionDuration: [ String, Number ],
 
     behavior: {
       type: String,
@@ -130,9 +130,9 @@ export default defineComponent({
     'filter-abort', 'filter'
   ],
 
-  setup (props, { slots, emit, attrs }) {
+  setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy: { $q } } = vm
 
     const menu = ref(false)
     const dialog = ref(false)
@@ -176,18 +176,17 @@ export default defineComponent({
       scrollTo,
       setVirtualScrollSize
     } = useVirtualScroll({
-      props, emit, $q, vm,
       virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl,
       virtualScrollItemSizeComputed
     })
 
-    const state = useFieldState(props, attrs, $q)
+    const state = useFieldState()
 
     const innerValue = computed(() => {
       const
         mapNull = props.mapOptions === true && props.multiple !== true,
         val = props.modelValue !== void 0 && (props.modelValue !== null || mapNull === true)
-          ? (props.multiple === true && Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue])
+          ? (props.multiple === true && Array.isArray(props.modelValue) ? props.modelValue : [ props.modelValue ])
           : []
 
       if (props.mapOptions === true && Array.isArray(props.options) === true) {
@@ -384,9 +383,7 @@ export default defineComponent({
         onKeyup: onTargetAutocomplete,
         onKeypress: onTargetKeypress,
         onFocus: selectInputText,
-        onClick: e => {
-          hasDialog === true && stop(e)
-        }
+        onClick (e) { hasDialog === true && stop(e) }
       }
 
       evt.onCompositionstart = evt.onCompositionupdate = evt.onCompositionend = onComposition
@@ -457,7 +454,7 @@ export default defineComponent({
 
       if (innerValue.value.length === 0) {
         emit('add', { index: 0, value: val })
-        emit('update:modelValue', props.multiple === true ? [val] : val)
+        emit('update:modelValue', props.multiple === true ? [ val ] : val)
         return
       }
 
@@ -509,7 +506,7 @@ export default defineComponent({
       if (innerValue.value.length === 0) {
         const val = props.emitValue === true ? optValue : opt
         emit('add', { index: 0, value: val })
-        emit('update:modelValue', props.multiple === true ? [val] : val)
+        emit('update:modelValue', props.multiple === true ? [ val ] : val)
         return
       }
 
@@ -976,7 +973,7 @@ export default defineComponent({
         maxlength: props.maxlength,
         tabindex: props.tabindex,
         autocomplete: props.autocomplete,
-        'data-autofocus': fromDialog === true ? false : props.autofocus,
+        'data-autofocus': (fromDialog !== true && props.autofocus === true) || void 0,
         disabled: props.disable === true,
         readonly: props.readonly === true,
         ...inputControlEvents.value
@@ -1099,7 +1096,7 @@ export default defineComponent({
                 }
               }
 
-              typeof afterFn === 'function' && nextTick(() => { afterFn(this) })
+              typeof afterFn === 'function' && nextTick(() => { afterFn(vm.proxy) })
             })
           }
         },
@@ -1140,6 +1137,7 @@ export default defineComponent({
         square: squaredMenu.value,
         transitionShow: props.transitionShow,
         transitionHide: props.transitionHide,
+        transitionDuration: props.transitionDuration,
         separateClosePopup: true,
         onScrollPassive: onVirtualScrollEvt,
         onBeforeShow: onControlPopupShow,
@@ -1218,6 +1216,7 @@ export default defineComponent({
         position: props.useInput === true ? 'top' : void 0,
         transitionShow: transitionShowComputed,
         transitionHide: props.transitionHide,
+        transitionDuration: props.transitionDuration,
         onBeforeShow: onControlPopupShow,
         onBeforeHide: onDialogBeforeHide,
         onHide: onDialogHide,
@@ -1361,7 +1360,7 @@ export default defineComponent({
       state.onControlFocusout(e)
     }
 
-    onBeforeUpdate(() => {
+    function updatePreState () {
       hasDialog = $q.platform.is.mobile !== true && props.behavior !== 'dialog'
         ? false
         : props.behavior !== 'menu' && (
@@ -1373,9 +1372,12 @@ export default defineComponent({
       transitionShowComputed = $q.platform.is.ios === true && hasDialog === true && props.useInput === true
         ? 'fade'
         : props.transitionShow
-    })
+    }
 
+    onBeforeUpdate(updatePreState)
     onUpdated(updateMenuPosition)
+
+    updatePreState()
 
     onBeforeMount(() => {
       optionScopeCache = {
@@ -1413,7 +1415,9 @@ export default defineComponent({
       ),
 
       inputRef,
+      targetRef,
       hasValue,
+      showPopup,
 
       floatingLabel: computed(() =>
         (props.hideSelected === true
@@ -1436,16 +1440,14 @@ export default defineComponent({
       },
 
       controlEvents: {
-        onFocusin: e => {
-          state.onControlFocusin(e)
-        },
-        onFocusout: e => {
+        onFocusin (e) { state.onControlFocusin(e) },
+        onFocusout (e) {
           state.onControlFocusout(e, () => {
             resetInputValue()
             closeMenu()
           })
         },
-        onClick: e => {
+        onClick (e) {
           if (hasDialog !== true) {
             // label from QField will propagate click on the input (except IE)
             prevent(e)
@@ -1524,6 +1526,6 @@ export default defineComponent({
       )
     })
 
-    return useField({ props, slots, emit, attrs, $q, state })
+    return useField(state)
   }
 })

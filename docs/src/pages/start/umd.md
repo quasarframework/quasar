@@ -27,8 +27,8 @@ You can fork and use these links for reporting issues on GitHub too:
 
 | Supplier | URL |
 | --- | --- |
-| jsFiddle | [https://jsfiddle.quasar.dev](https://jsfiddle.quasar.dev) |
-| Codepen | [https://codepen.quasar.dev](https://codepen.quasar.dev) |
+| jsFiddle | [https://jsfiddle.net/rstoenescu/a2cuzods/](https://jsfiddle.net/rstoenescu/a2cuzods/) |
+| Codepen | [https://codepen.io/rstoenescu/pen/xxEvBLR?editors=101](https://codepen.io/rstoenescu/pen/xxEvBLR?editors=101) |
 
 These links (obviously) use the Quasar UMD version.
 
@@ -49,6 +49,15 @@ Quasar = {
   lang,
   iconSet
 }
+```
+
+Some usage examples:
+
+```js
+Quasar.QBtn
+Quasar.getCssVar('primary')
+Quasar.debounce(fn, 200)
+Quasar.Notify.create('Hi and welcome!')
 ```
 
 ## Quasar Config Object
@@ -108,7 +117,7 @@ An example. No need to install any directives in UMD version.
 An example. No need to install any plugins in UMD version.
 
 ```js
-Quasar.plugins.bottomSheet.create({...})
+Quasar.BottomSheet.create({...})
 ```
 
 ### Quasar Utils
@@ -125,10 +134,10 @@ Assuming you have already included the CDN link to your favorite Quasar Icon Set
 Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
 ```
 
-The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/icon-set).
+The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [GitHub](https://github.com/quasarframework/quasar/tree/vue3-work/ui/icon-set).
 
 ### Changing Quasar Language Pack
-Assuming you have already included the CDN link to your desired Quasar I18n Language (unless you want "en-us" language pack which is used by default), you can then tell Quasar to use it:
+Assuming you have already included the CDN link to your desired Quasar I18n Language (unless you want "en-US" language pack which is used by default), you can then tell Quasar to use it:
 
 ```js
 // example setting German language,
@@ -136,7 +145,7 @@ Assuming you have already included the CDN link to your desired Quasar I18n Lang
 Quasar.lang.set(Quasar.lang.de)
 
 // example setting Portuguese (Brazil) language:
-Quasar.lang.set(Quasar.lang.ptBr)
+Quasar.lang.set(Quasar.lang.ptBR)
 ```
 
-The list of available languages can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang). **If your desired language pack is not available yet, you can help by providing a PR.** We welcome any languages!
+The list of available languages can be found on [GitHub](https://github.com/quasarframework/quasar/tree/vue3-work/ui/lang). **If your desired language pack is not available yet, you can help by providing a PR.** We welcome any languages!

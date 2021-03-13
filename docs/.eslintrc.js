@@ -19,7 +19,7 @@ module.exports = {
   // required to lint *.vue files
   plugins: [
     'vue',
-    'quasar',
+    'quasar'
   ],
 
   globals: {

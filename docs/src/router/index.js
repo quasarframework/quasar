@@ -14,7 +14,7 @@ import routes from './routes'
  */
 
 export default function () {
-  const createHistory = process.env.MODE === 'ssr'
+  const createHistory = process.env.SERVER
     ? createMemoryHistory
     : createWebHistory
 

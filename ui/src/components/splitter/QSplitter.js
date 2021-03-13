@@ -1,11 +1,10 @@
-import { h, defineComponent, ref, computed, watch, nextTick } from 'vue'
+import { h, defineComponent, ref, computed, watch, nextTick, getCurrentInstance } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-import { hSlot, hMergeSlot, hDir } from '../../utils/render.js'
+import { hSlot, hMergeSlot, hDir } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QSplitter',
@@ -45,10 +44,10 @@ export default defineComponent({
     separatorStyle: [ Array, String, Object ]
   },
 
-  emits: ['update:modelValue'],
+  emits: [ 'update:modelValue' ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
     const isDark = useDark(props, $q)
 
     const rootRef = ref(null)
@@ -125,7 +124,7 @@ export default defineComponent({
 
     const sepDirective = computed(() => {
       // if props.disable !== true
-      return [[
+      return [ [
         TouchPan,
         pan,
         void 0,
@@ -136,7 +135,7 @@ export default defineComponent({
           mouse: true,
           mouseAllDir: true
         }
-      ]]
+      ] ]
     })
 
     function normalize (val, limits) {

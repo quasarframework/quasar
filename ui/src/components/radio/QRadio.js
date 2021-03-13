@@ -1,14 +1,13 @@
 import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 import useRefocusTarget from '../../composables/private/use-refocus-target.js'
 import { useFormProps, useFormInject } from '../../composables/private/use-form.js'
 
-import optionSizes from '../../utils/option-sizes.js'
+import optionSizes from '../../utils/private/option-sizes.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { hSlot, hMergeSlot } from '../../utils/render.js'
+import { hSlot, hMergeSlot } from '../../utils/private/render.js'
 
 const svg = h('svg', {
   class: 'q-radio__bg absolute non-selectable',
@@ -51,12 +50,12 @@ export default defineComponent({
     tabindex: [ String, Number ]
   },
 
-  emits: ['update:modelValue'],
+  emits: [ 'update:modelValue' ],
 
   setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
-    const $q = useQuasar()
-    const isDark = useDark(props, $q)
+    const { proxy } = getCurrentInstance()
+
+    const isDark = useDark(props, proxy.$q)
     const sizeStyle = useSize(props, optionSizes)
 
     const rootRef = ref(null)
@@ -131,10 +130,10 @@ export default defineComponent({
     }
 
     // expose public methods
-    Object.assign(vm.proxy, { set: onClick })
+    Object.assign(proxy, { set: onClick })
 
     return () => {
-      const content = [svg]
+      const content = [ svg ]
 
       props.disable !== true && injectFormInput(
         content,
@@ -154,7 +153,7 @@ export default defineComponent({
       }
 
       const label = props.label !== void 0
-        ? hMergeSlot(slots.default, [props.label])
+        ? hMergeSlot(slots.default, [ props.label ])
         : hSlot(slots.default)
 
       label !== void 0 && child.push(

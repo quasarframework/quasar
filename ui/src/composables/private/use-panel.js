@@ -1,9 +1,9 @@
-import { h, defineComponent, ref, computed, watch, nextTick, Transition, KeepAlive } from 'vue'
+import { h, defineComponent, ref, computed, watch, nextTick, getCurrentInstance, Transition, KeepAlive } from 'vue'
 
 import TouchSwipe from '../../directives/TouchSwipe.js'
 
-import { hSlot } from '../../utils/render.js'
-import { getNormalizedVNodes } from '../../utils/vm.js'
+import { hSlot } from '../../utils/private/render.js'
+import { getNormalizedVNodes } from '../../utils/private/vm.js'
 
 export const usePanelChildProps = {
   name: { required: true },
@@ -42,7 +42,9 @@ export const usePanelProps = {
 
 export const usePanelEmits = [ 'update:modelValue', 'before-transition', 'transition' ]
 
-export default function (props, emit, $q, vm) {
+export default function () {
+  const { props, emit, proxy } = getCurrentInstance()
+
   let panels, forcedPanelTransition
 
   const panelIndex = ref(null)
@@ -50,12 +52,12 @@ export default function (props, emit, $q, vm) {
 
   function onSwipe (evt) {
     const dir = props.vertical === true ? 'up' : 'left'
-    goToPanelByOffset(($q.lang.rtl === true ? -1 : 1) * (evt.direction === dir ? 1 : -1))
+    goToPanelByOffset((proxy.$q.lang.rtl === true ? -1 : 1) * (evt.direction === dir ? 1 : -1))
   }
 
   const panelDirectives = computed(() => {
     // if props.swipeable
-    return [[
+    return [ [
       TouchSwipe,
       onSwipe,
       void 0,
@@ -64,7 +66,7 @@ export default function (props, emit, $q, vm) {
         vertical: props.vertical,
         mouse: true
       }
-    ]]
+    ] ]
   })
 
   const transitionPrev = computed(() =>
@@ -113,7 +115,7 @@ export default function (props, emit, $q, vm) {
   function previousPanel () { goToPanelByOffset(-1) }
 
   // expose public methods
-  Object.assign(vm.proxy, {
+  Object.assign(proxy, {
     next: nextPanel,
     previous: previousPanel,
     goTo: goToPanel
@@ -206,7 +208,7 @@ export default function (props, emit, $q, vm) {
             class: 'q-panel scroll',
             key: contentKey.value,
             role: 'tabpanel'
-          }, [panel])
+          }, [ panel ])
         ]
   }
 

@@ -55,10 +55,37 @@ const NAME_PROP_COLOR = [
 
 function getDiv (col, propName, propValue, slot) {
   return h('div', { class: `api-row__item col-xs-12 col-sm-${col}` }, [
-    h('div', propName),
+    h('div', { class: 'api-row__type' }, propName),
     propValue !== void 0
       ? h('div', { class: 'api-row__value' }, propValue)
       : slot
+  ])
+}
+
+function getNameDiv (label, level) {
+  return h('div', { class: 'api-row__item col-xs-12 col-sm-12' }, [
+    h('div', { class: 'api-row__value' }, [
+      h(QBadge, {
+        color: NAME_PROP_COLOR[ level ],
+        label,
+        style: 'font-size: 1em; line-height: 1.2em'
+      })
+    ])
+  ])
+}
+
+function getExtendedNameDiv (label, level, type, required) {
+  const suffix = `${type ? ` : ${type}` : ''}${required ? ' - required!' : ''}`
+
+  return h('div', { class: 'api-row__item col-xs-12 col-sm-12' }, [
+    h('div', { class: 'api-row__value' }, [
+      h(QBadge, {
+        color: NAME_PROP_COLOR[ level ],
+        label,
+        style: 'font-size: 1em; line-height: 1.2em'
+      }),
+      suffix
+    ])
   ])
 }
 
@@ -68,23 +95,8 @@ function getProp (prop, propName, level, onlyChildren) {
 
   if (propName !== void 0) {
     child.push(
-      getDiv(4, 'Name', h(QBadge, {
-        color: NAME_PROP_COLOR[ level ],
-        label: propName
-      }))
+      getExtendedNameDiv(propName, level, type, type !== 'Function' && prop.required === true)
     )
-
-    if (type !== void 0) {
-      child.push(
-        getDiv(4, 'Type', type)
-      )
-    }
-
-    if (type !== 'Function' && prop.required === true) {
-      child.push(
-        getDiv(3, 'Required', 'yes')
-      )
-    }
 
     if (prop.reactive === true) {
       child.push(
@@ -280,16 +292,13 @@ describe.events = events => {
     }
     else {
       params.push(
-        h('div', { class: 'text-italic' }, '*None*')
+        h('div', { class: 'text-italic q-py-xs q-px-md' }, '*None*')
       )
     }
 
     child.push(
       h('div', { class: 'api-row row' }, [
-        getDiv(12, 'Name', h(QBadge, {
-          color: NAME_PROP_COLOR[ 0 ],
-          label: `@${eventName}${getEventParams(event)}`
-        })),
+        getNameDiv(`@${eventName}${getEventParams(event)}`, 0),
         event.addedIn !== void 0
           ? getDiv(12, 'Added in', event.addedIn)
           : null,
@@ -313,10 +322,7 @@ describe.methods = methods => {
     const method = methods[ methodName ]
 
     const nodes = [
-      getDiv(12, 'Name', h(QBadge, {
-        color: NAME_PROP_COLOR[ 0 ],
-        label: `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
-      })),
+      getNameDiv(`${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`, 0),
       method.addedIn !== void 0
         ? getDiv(12, 'Added in', method.addedIn)
         : null,
@@ -399,7 +405,7 @@ describe.modifiers = modifiers => {
 describe.injection = injection => {
   return [
     h('div', { class: 'api-row row' }, [
-      getDiv(12, 'Name', injection)
+      getNameDiv(injection, 0)
     ])
   ]
 }
@@ -407,9 +413,15 @@ describe.injection = injection => {
 describe.quasarConfOptions = conf => {
   const child = []
   const entry = [
-    getDiv(12, 'Property Name', [
-      h('span', { class: 'text-grey-5' }, 'quasar.conf.js > framework > config > '),
-      h('span', conf.propName)
+    h('div', { class: 'api-row__item col-xs-12 col-sm-12' }, [
+      h('div', { class: 'api-row__value' }, [
+        h('span', { class: 'api-row__type text-grey' }, 'quasar.conf.js > framework > config > '),
+        h(QBadge, {
+          color: NAME_PROP_COLOR[ 0 ],
+          label: conf.propName,
+          style: 'font-size: 1em; line-height: 1.2em'
+        })
+      ])
     ])
   ]
 
@@ -450,7 +462,7 @@ export default {
       const content = Object.keys(props.definition).length !== 0
         ? describe[ props.type ](props.definition)
         : [
-            h('div', { class: 'q-pa-md text-grey-9' }, [
+            h('div', { class: 'q-pa-md doc-api__nothing-to-show' }, [
               h('div', 'No matching entries found on this tab.'),
               h('div', 'Please check the other tabs/subtabs with a number badge on their label or refine the filter.')
             ])

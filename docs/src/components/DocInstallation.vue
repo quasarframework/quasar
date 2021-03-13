@@ -10,7 +10,7 @@ q-card.doc-installation.q-my-lg(flat, bordered)
 
   q-separator
 
-  q-tab-panels.bg-code(v-model="currentTab", animated)
+  q-tab-panels(v-model="currentTab", animated)
     q-tab-panel.q-pa-none(name="Quasar CLI")
       doc-code(:code="QuasarCli")
 
@@ -54,7 +54,7 @@ export default {
 
     const quasarConf = computed(() => {
       return props.config !== void 0
-        ? `${props.config}: { /* look at QUASARCONFOPTIONS from the API card (bottom of page) */ }`
+        ? `${props.config}: { /* look at QuasarConfOptions from the API card */ }`
         : null
     })
 
@@ -62,7 +62,7 @@ export default {
       if (props.plugins === void 0 && quasarConf.value === null) {
         return `/*
  * No installation step is necessary.
- * It gets installed by default by @quasar/app v3+.
+ * It gets installed by default by @quasar/app.
  */`
       }
 
@@ -129,9 +129,6 @@ app.use(Quasar, {
       }
 
       return `// main.js
-
-// This is needed ONLY if NOT chosen to import everything from Quasar
-// when you installed vue-cli-plugin-quasar.
 
 import {
   Quasar,

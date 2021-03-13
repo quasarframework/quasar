@@ -1,7 +1,7 @@
-import { ref, watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watch, onBeforeMount, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import History from '../../history.js'
-import { vmHasRouter } from '../../utils/vm.js'
+import { vmHasRouter } from '../../utils/private/vm.js'
 
 export const useFullscreenProps = {
   fullscreen: Boolean,
@@ -10,11 +10,14 @@ export const useFullscreenProps = {
 
 export const useFullscreenEmits = [ 'update:fullscreen', 'fullscreen' ]
 
-export default function (props, emit, vm) {
+export default function () {
+  const vm = getCurrentInstance()
+  const { props, emit, proxy } = vm
+
   let historyEntry, fullscreenFillerNode, container
   const inFullscreen = ref(false)
 
-  vmHasRouter(vm) === true && watch(() => vm.proxy.$route, () => {
+  vmHasRouter(vm) === true && watch(() => proxy.$route, () => {
     props.noRouteFullscreenExit !== true && exitFullscreen()
   })
 
@@ -44,9 +47,9 @@ export default function (props, emit, vm) {
     }
 
     inFullscreen.value = true
-    container = vm.proxy.$el.parentNode
-    container.replaceChild(fullscreenFillerNode, vm.proxy.$el)
-    document.body.appendChild(vm.proxy.$el)
+    container = proxy.$el.parentNode
+    container.replaceChild(fullscreenFillerNode, proxy.$el)
+    document.body.appendChild(proxy.$el)
     document.body.classList.add('q-body--fullscreen-mixin')
 
     historyEntry = {
@@ -65,12 +68,12 @@ export default function (props, emit, vm) {
       historyEntry = void 0
     }
 
-    container.replaceChild(vm.proxy.$el, fullscreenFillerNode)
+    container.replaceChild(proxy.$el, fullscreenFillerNode)
     document.body.classList.remove('q-body--fullscreen-mixin')
     inFullscreen.value = false
 
-    if (vm.proxy.$el.scrollIntoView !== void 0) {
-      setTimeout(() => { vm.proxy.$el.scrollIntoView() })
+    if (proxy.$el.scrollIntoView !== void 0) {
+      setTimeout(() => { proxy.$el.scrollIntoView() })
     }
   }
 
@@ -85,7 +88,7 @@ export default function (props, emit, vm) {
   onBeforeUnmount(exitFullscreen)
 
   // expose public methods
-  Object.assign(vm.proxy, {
+  Object.assign(proxy, {
     toggleFullscreen,
     setFullscreen,
     exitFullscreen

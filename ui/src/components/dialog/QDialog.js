@@ -1,17 +1,17 @@
 import { h, defineComponent, ref, computed, watch, onBeforeUnmount, nextTick, Transition, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useHistory from '../../composables/private/use-history.js'
-import useTimeout from '../../composables/use-timeout.js'
-import useTick from '../../composables/use-tick.js'
+import useTimeout from '../../composables/private/use-timeout.js'
+import useTick from '../../composables/private/use-tick.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
+import { useTransitionProps } from '../../composables/private/use-transition.js'
 import usePortal from '../../composables/private/use-portal.js'
 import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
 
 import { childHasFocus } from '../../utils/dom.js'
-import { hSlot } from '../../utils/render.js'
-import { addEscapeKey, removeEscapeKey } from '../../utils/escape-key.js'
-import { addFocusout, removeFocusout } from '../../utils/focusout.js'
+import { hSlot } from '../../utils/private/render.js'
+import { addEscapeKey, removeEscapeKey } from '../../utils/private/escape-key.js'
+import { addFocusout, removeFocusout } from '../../utils/private/focusout.js'
 
 let maximizedModals = 0
 
@@ -38,6 +38,10 @@ export default defineComponent({
 
   props: {
     ...useModelToggleProps,
+    ...useTransitionProps,
+
+    transitionShow: String,
+    transitionHide: String,
 
     persistent: Boolean,
     autoClose: Boolean,
@@ -61,10 +65,7 @@ export default defineComponent({
       default: 'standard',
       validator: val => val === 'standard'
         || [ 'top', 'bottom', 'left', 'right' ].includes(val)
-    },
-
-    transitionShow: String,
-    transitionHide: String
+    }
   },
 
   emits: [
@@ -74,6 +75,7 @@ export default defineComponent({
 
   setup (props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
+
     const innerRef = ref(null)
     const showing = ref(false)
     const transitionState = ref(false)
@@ -86,7 +88,6 @@ export default defineComponent({
       && props.seamless !== true
     )
 
-    const $q = useQuasar()
     const { preventBodyScroll } = usePreventScroll()
     const { registerTimeout, removeTimeout } = useTimeout()
     const { registerTick, removeTick, prepareTick } = useTick()
@@ -96,9 +97,6 @@ export default defineComponent({
     )
 
     const { hide } = useModelToggle({
-      props,
-      emit,
-      vm,
       showing,
       hideOnRouteChange,
       handleShow,
@@ -183,7 +181,7 @@ export default defineComponent({
       }
 
       registerTimeout(() => {
-        if ($q.platform.is.ios === true) {
+        if (vm.proxy.$q.platform.is.ios === true) {
           if (props.seamless !== true && document.activeElement) {
             const
               { top, bottom } = document.activeElement.getBoundingClientRect(),
@@ -231,7 +229,7 @@ export default defineComponent({
     function focus () {
       let node = innerRef.value
 
-      if (node !== null || node.contains(document.activeElement) === true) {
+      if (node === null || node.contains(document.activeElement) === true) {
         return
       }
 

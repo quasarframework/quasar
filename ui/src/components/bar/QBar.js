@@ -1,9 +1,8 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QBar',
@@ -14,8 +13,8 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const $q = useQuasar()
-    const isDark = useDark(props, $q)
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
 
     const classes = computed(() =>
       'q-bar row no-wrap items-center'

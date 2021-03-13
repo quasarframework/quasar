@@ -2,7 +2,7 @@ import { h, defineComponent, computed } from 'vue'
 
 import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QCardActions',

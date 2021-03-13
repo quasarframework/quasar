@@ -32,3 +32,12 @@ After installing PM2 on your server, your npm start script can look like this in
   "start": "pm2 start index.js"
 }
 ```
+
+## Deploying with Cleavr
+You can use [Cleavr](https://cleavr.io) to deploy Quasar SSR apps to several popular VPS providers. Cleavr will automatically set up PM2 with cluster mode enabled for your app.
+
+Add a new **NodeJS SSR** site to Cleavr and then configure the web app settings with the following: 
+
+- **Entry point:** index.js
+- **Build command:** npx quasar build --mode ssr
+- **Artifact path:** dist/ssr

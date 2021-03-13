@@ -342,7 +342,7 @@ import languages from 'quasar/lang/index.json'
 
 const localeOptions = languages.map(lang => ({
   label: lang.nativeName,
-  value: require(`quasar/lang/${ lang.isoName }.js`).default
+  value: require(`quasar/lang/${ lang.isoName }.js`)
 }))
 
 export default {

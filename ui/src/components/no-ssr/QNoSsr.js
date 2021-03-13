@@ -1,8 +1,8 @@
 import { h, defineComponent } from 'vue'
 
-import useCanRender from '../../composables/use-can-render.js'
+import useCanRender from '../../composables/private/use-can-render.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QNoSsr',
@@ -17,7 +17,7 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const { canRender } = useCanRender()
+    const canRender = useCanRender()
 
     return () => {
       const data = {}

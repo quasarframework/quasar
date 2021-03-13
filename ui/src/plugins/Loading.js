@@ -2,8 +2,8 @@ import { h, createApp, Transition, onMounted } from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
 
-import defineReactivePlugin from '../utils/define-reactive-plugin.js'
-import { createGlobalNode, removeGlobalNode } from '../utils/global-nodes.js'
+import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
+import { createGlobalNode, removeGlobalNode } from '../utils/private/global-nodes.js'
 import preventScroll from '../utils/prevent-scroll.js'
 
 let
@@ -19,9 +19,10 @@ const
     message: false,
     html: false,
     spinnerSize: 80,
-    spinnerColor: 'white',
-    messageColor: 'white',
+    spinnerColor: '',
+    messageColor: '',
     backgroundColor: 'black',
+    boxClass: '',
     spinner: QSpinner,
     customClass: ''
   },
@@ -80,6 +81,7 @@ const Plugin = defineReactivePlugin({
 
             const content = [
               h(props.spinner, {
+                class: 'q-loading__spinner',
                 color: props.spinnerColor,
                 size: props.spinnerSize
               })
@@ -87,15 +89,20 @@ const Plugin = defineReactivePlugin({
 
             props.message && content.push(
               h('div', {
-                class: `text-${ props.messageColor }`,
+                class: 'q-loading__message'
+                  + (props.messageColor ? ` text-${ props.messageColor }` : ''),
                 [ props.html === true ? 'innerHTML' : 'textContent' ]: props.message
               })
             )
 
             return h('div', {
-              class: 'q-loading fullscreen column flex-center z-max ' + props.customClass.trim(),
+              class: 'q-loading fullscreen flex flex-center z-max ' + props.customClass.trim(),
               key: props.uid
-            }, content)
+            }, [
+              h('div', {
+                class: 'q-loading__box column items-center ' + props.boxClass
+              }, content)
+            ])
           }
 
           return () => h(Transition, {

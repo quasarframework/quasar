@@ -1,4 +1,4 @@
-import defineReactivePlugin from '../utils/define-reactive-plugin.js'
+import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
 
 export default defineReactivePlugin({
   appVisible: false

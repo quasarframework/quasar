@@ -2,8 +2,8 @@ import { h, defineComponent, computed, inject } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import { hSlot, hUniqueSlot } from '../../utils/render.js'
-import { timelineKey } from '../../utils/symbols.js'
+import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
+import { timelineKey } from '../../utils/private/symbols.js'
 
 export default defineComponent({
   name: 'QTimelineEntry',
@@ -92,13 +92,13 @@ export default defineComponent({
 
       const content = [
         h('div', { class: 'q-timeline__subtitle' }, [
-          h('span', {}, hSlot(slots.subtitle, [props.subtitle]))
+          h('span', {}, hSlot(slots.subtitle, [ props.subtitle ]))
         ]),
 
         h('div', { class: dotClass.value }, dot),
 
         h('div', { class: 'q-timeline__content' }, [
-          h('h6', { class: 'q-timeline__title' }, hSlot(slots.title, [props.title]))
+          h('h6', { class: 'q-timeline__title' }, hSlot(slots.title, [ props.title ]))
         ].concat(child))
       ]
 

@@ -61,7 +61,12 @@ $ quasar [command name] --help
 Creates an App folder with initial project boilerplate.
 
 ```bash
-$ quasar create <folder_name>
+## Quasar UI v2 beta project
+$ quasar create <folder_name> --branch next
+
+## After Quasar v2 is stable (out of beta):
+## (Don't use the following for now as it will generate a Quasar UI v1 project!)
+# $ quasar create <folder_name>
 ```
 
 This command will use Quasar App Starter Kit by default, but you can specify a different one via `--kit` option.

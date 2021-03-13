@@ -6,7 +6,6 @@ import TouchPan from '../../directives/TouchPan.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import { useFormProps, useFormAttrs } from '../../composables/private/use-form.js'
 import { useCircularCommonProps } from '../circular-progress/use-circular-progress.js'
 
@@ -44,7 +43,8 @@ export default defineComponent({
   emits: [ 'update:modelValue', 'change', 'drag-value' ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
 
     const model = ref(props.modelValue)
     const dragging = ref(false)
@@ -128,12 +128,12 @@ export default defineComponent({
     }
 
     const directives = computed(() => {
-      return [[
+      return [ [
         TouchPan,
         pan,
         void 0,
         { prevent: true, stop: true, mouse: true }
-      ]]
+      ] ]
     })
 
     function updateCenterPosition () {
@@ -239,10 +239,8 @@ export default defineComponent({
       return h('input', formAttrs.value)
     }
 
-    const vm = getCurrentInstance()
-
     onMounted(() => {
-      $el = vm.proxy.$el
+      $el = proxy.$el
     })
 
     return () => {

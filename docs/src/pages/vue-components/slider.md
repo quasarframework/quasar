@@ -1,6 +1,7 @@
 ---
 title: Slider
 desc: The QSlider Vue component is a great way for the user to specify a number value between a minimum and maximum value, with optional steps between valid values.
+keys: QSlider
 related:
   - /vue-components/range
   - /vue-components/field
@@ -9,8 +10,9 @@ The QSlider is a great way for the user to specify a number value between a mini
 
 Also check its “sibling”, the [QRange](/vue-components/range) component.
 
-## Installation
-<doc-installation components="QSlider" />
+## QSlider API
+
+<doc-api file="QSlider" />
 
 ## Usage
 
@@ -79,6 +81,3 @@ The example below is better highlighting how QSlider handles label positioning s
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QSlider, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QSlider/NativeForm" />
-
-## QSlider API
-<doc-api file="QSlider" />

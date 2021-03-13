@@ -74,6 +74,17 @@ if (argv.help) {
   process.exit(0)
 }
 
+// TODO vue3 - remove when ready
+if (argv.mode === 'ssr') {
+  console.log(
+    '\n' +
+    '##############################################################\n' +
+    '# SSR mode is not *yet* supported and is disabled currently. #\n' +
+    '##############################################################\n'
+  )
+  process.exit(1)
+}
+
 const ensureArgv = require('../lib/helpers/ensure-argv')
 ensureArgv(argv, 'dev')
 
@@ -240,7 +251,7 @@ async function goLive () {
   })
 
   const generator = new Generator(quasarConfFile)
-  const ModeRunner = ['cordova', 'capacitor', 'electron', 'bex'].includes(argv.mode)
+  const ModeRunner = ['cordova', 'capacitor', 'electron', 'bex', 'pwa'].includes(argv.mode)
     ? require('../lib/' + argv.mode)
     : void 0
 
@@ -251,20 +262,27 @@ async function goLive () {
   function startDev (oldDevServer) {
     let devServer
 
-    return Promise.resolve()
-      .then(() => {
-        if (oldDevServer !== void 0) {
-          oldDevServer.stop()
-          oldDevServer = void 0
-        }
+    const runMain = () => {
+      if (oldDevServer !== void 0) {
+        oldDevServer.stop()
+        oldDevServer = void 0
+      }
 
-        generator.build()  // Update generated files
-        devServer = new DevServer(quasarConfFile) // Create new devserver
+      generator.build()  // Update generated files
+      devServer = new DevServer(quasarConfFile) // Create new devserver
 
-        return devServer.listen() // Start listening
-      })
-      .then(() => ModeRunner !== void 0 && ModeRunner.run(quasarConfFile, argv))
-      .then(() => devServer) // Pass new builder to watch chain
+      return devServer.listen() // Start listening
+    }
+
+    const runMode = () => ModeRunner !== void 0 && ModeRunner.run(quasarConfFile, argv)
+
+    let promise = Promise.resolve()
+
+    promise = argv.mode === 'pwa'
+      ? promise.then(runMode).then(runMain)
+      : promise.then(runMain).then(runMode)
+
+    return promise.then(() => devServer) // Pass new builder to watch chain
   }
 
   let dev = startDev().then(async (payload) => {

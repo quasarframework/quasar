@@ -1,6 +1,5 @@
 import { h, defineComponent, ref, computed, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import { between } from '../../utils/format.js'
 
 const
@@ -96,7 +95,7 @@ export default defineComponent({
   emits: [ 'start', 'stop' ],
 
   setup (props, { emit }) {
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
 
     const progress = ref(0)
     const onScreen = ref(false)
@@ -121,10 +120,10 @@ export default defineComponent({
         pos: props.position,
         active,
         horiz: horizontal.value,
-        reverse: $q.lang.rtl === true && [ 'top', 'bottom' ].includes(props.position)
+        reverse: proxy.$q.lang.rtl === true && [ 'top', 'bottom' ].includes(props.position)
           ? !props.reverse
           : props.reverse,
-        dir: $q.lang.rtl === true ? -1 : 1
+        dir: proxy.$q.lang.rtl === true ? -1 : 1
       })
 
       obj[ sizeProp.value ] = props.size
@@ -228,10 +227,7 @@ export default defineComponent({
     })
 
     // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, {
-      start, stop, increment
-    })
+    Object.assign(proxy, { start, stop, increment })
 
     return () => h('div', {
       class: classes.value,

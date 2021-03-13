@@ -1,6 +1,7 @@
 ---
 title: Toggle
 desc: The QToggle component is a basic element for user input. You can use it for turning settings, features or true/false inputs on and off.
+keys: QToggle
 related:
   - /vue-components/checkbox
   - /vue-components/option-group
@@ -13,8 +14,9 @@ The QToggle component is another basic element for user input. You can use this 
 Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.
 :::
 
-## Installation
-<doc-installation components="QToggle" />
+## QToggle API
+
+<doc-api file="QToggle" />
 
 ## Usage
 
@@ -53,6 +55,7 @@ In the example below, as soon as you click on the first QToggle it starts toggli
 By default, QToggle follows this chain when toggling: indeterminate -> checked -> unchecked. However, you can change this behavior through the `toggle-order` prop. This property determines the order of the states and can be `tf` (default) or `ft` (`t` stands for state of true/checked while `f` for state of false/unchecked).
 
 Toggling order is:
+
 * if `toggle-indeterminate` is true, then: indet -> first state -> second state -> indet (and repeat)
 * otherwise (no toggle-indeterminate): indet -> first state -> second state -> first state -> second state -> ...
 
@@ -93,6 +96,3 @@ You can also use [QOptionGroup](/vue-components/option-group), which simplifies 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QToggle, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <doc-example title="Native form" file="QToggle/NativeForm" />
-
-## QToggle API
-<doc-api file="QToggle" />

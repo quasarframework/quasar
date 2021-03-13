@@ -1,6 +1,7 @@
 ---
 title: Floating Action Button
 desc: How to use the QFab component. Floating Action Buttons for your Quasar app.
+keys: QFab
 related:
   - /layout/layout
   - /layout/page
@@ -10,8 +11,13 @@ A Floating Action Button (FAB) represents the primary action in a Page. But, it'
 
 Note that you don’t need a QLayout to use FABs.
 
-## Installation
-<doc-installation :components="['QFab', 'QFabAction']" />
+## QFab API
+
+<doc-api file="QFab" />
+
+## QFabAction API
+
+<doc-api file="QFabAction" />
 
 ## Usage
 There are two types of FABs: expandable (has sub-actions) and non-expandable.
@@ -74,9 +80,3 @@ The default padding for QFab is "md" and for QFabAction is "sm". However, you ca
 Below is a nice example of using [TouchPan](/vue-directives/touch-pan) for making the QFab draggable across the screen.
 
 <doc-example title="Draggable" file="QFab/Draggable" />
-
-## QFab API
-<doc-api file="QFab" />
-
-## QFabAction API
-<doc-api file="QFabAction" />

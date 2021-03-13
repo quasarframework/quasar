@@ -2,9 +2,7 @@ import { h, defineComponent, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import useQuasar from '../../composables/use-quasar.js'
-
-import { hSlot, hUniqueSlot } from '../../utils/render.js'
+import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QTh',
@@ -14,11 +12,11 @@ export default defineComponent({
     autoWidth: Boolean
   },
 
-  emits: ['click'],
+  emits: [ 'click' ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
     const vm = getCurrentInstance()
+    const { proxy: { $q } } = vm
 
     return () => {
       if (props.props === void 0) {

@@ -9,7 +9,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useValidate, { useValidateProps } from './use-validate.js'
 import useSplitAttrs from './use-split-attrs.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 import uid from '../../utils/uid.js'
 import { prevent, stopAndPrevent } from '../../utils/event.js'
 
@@ -73,8 +73,10 @@ export const useFieldProps = {
 
 export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popup-show', 'popup-hide' ]
 
-export function useFieldState (props, attrs, $q) {
-  const isDark = useDark(props, $q)
+export function useFieldState () {
+  const { props, attrs, proxy } = getCurrentInstance()
+
+  const isDark = useDark(props, proxy.$q)
 
   return {
     isDark,
@@ -115,15 +117,9 @@ export function useFieldState (props, attrs, $q) {
   }
 }
 
-export default function ({
-  props,
-  emit,
-  slots,
-  attrs,
-  $q,
-  state
-}) {
-  const vm = getCurrentInstance()
+export default function (state) {
+  const { props, emit, slots, attrs, proxy } = getCurrentInstance()
+  const { $q } = proxy
 
   let focusoutTimer
 
@@ -173,11 +169,11 @@ export default function ({
     hasError,
     computedErrorMessage,
     resetValidation
-  } = useValidate(props, state.focused, vm, state.innerLoading)
+  } = useValidate(state.focused, state.innerLoading)
 
   const floatingLabel = state.floatingLabel !== void 0
     ? computed(() => props.stackLabel === true || state.focused.value === true || state.floatingLabel.value === true)
-    : computed(() => props.stackLabel === true || state.focused.value === true)
+    : computed(() => props.stackLabel === true || state.focused.value === true || state.hasValue.value === true)
 
   const shouldRenderBottom = computed(() =>
     props.bottomSlots === true
@@ -394,7 +390,7 @@ export default function ({
           'inner-loading-append',
           slots.loading !== void 0
             ? slots.loading()
-            : [h(QSpinner, { color: props.color })]
+            : [ h(QSpinner, { color: props.color }) ]
         )
       )
     }
@@ -452,7 +448,7 @@ export default function ({
           ref: state.targetRef,
           class: 'q-field__native row',
           ...state.splitAttrs.attributes,
-          'data-autofocus': props.autofocus
+          'data-autofocus': props.autofocus === true || void 0
         }, slots.control(controlSlotScope.value))
       )
     }
@@ -476,9 +472,9 @@ export default function ({
     let msg, key
 
     if (hasError.value === true) {
-      if (computedErrorMessage.value !== void 0) {
-        msg = [h('div', computedErrorMessage.value)]
-        key = computedErrorMessage.value
+      if (computedErrorMessage.value !== null) {
+        msg = [ h('div', computedErrorMessage.value) ]
+        key = `q--slot-error-${ computedErrorMessage.value }`
       }
       else {
         msg = hSlot(slots.error)
@@ -487,8 +483,8 @@ export default function ({
     }
     else if (props.hideHint !== true || state.focused.value === true) {
       if (props.hint !== void 0) {
-        msg = [h('div', props.hint)]
-        key = props.hint
+        msg = [ h('div', props.hint) ]
+        key = `q--slot-hint-${ props.hint }`
       }
       else {
         msg = hSlot(slots.hint)
@@ -533,14 +529,14 @@ export default function ({
   }
 
   // expose public methods
-  Object.assign(vm.proxy, { focus, blur })
+  Object.assign(proxy, { focus, blur })
 
   onMounted(() => {
     if (isRuntimeSsrPreHydration === true && props.for === void 0) {
       state.targetUid.value = getTargetUid()
     }
 
-    props.autofocus === true && focus()
+    props.autofocus === true && proxy.focus()
   })
 
   onBeforeUnmount(() => {
@@ -565,7 +561,7 @@ export default function ({
         : null,
 
       h('div', {
-        class: 'q-field__inner relative-position col self-stretch column justify-center'
+        class: 'q-field__inner relative-position col self-stretch'
       }, [
         h('div', {
           ref: state.controlRef,

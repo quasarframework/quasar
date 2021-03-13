@@ -453,7 +453,7 @@ function arrayHasError (name, key, property, expected, propApi) {
   }
 }
 
-function fillAPI (apiType) {
+function fillAPI (apiType, list) {
   return file => {
     const
       name = path.basename(file),
@@ -464,81 +464,83 @@ function fillAPI (apiType) {
     if (apiType === 'component') {
       let hasError = false
 
-      const filePath = file.replace('.json', fs.existsSync(file.replace('.json', '.js')) ? '.js' : '.ts')
+      // QUploader has different definition
+      if (name !== 'QUploader.json') {
+        const filePath = file.replace('.json', fs.existsSync(file.replace('.json', '.js')) ? '.js' : '.ts')
 
-      const definition = fs.readFileSync(filePath, 'utf-8')
+        const definition = fs.readFileSync(filePath, 'utf-8')
 
-      let slotMatch
-      while ((slotMatch = slotRegex.exec(definition)) !== null) {
-        const slotName = (slotMatch[ 2 ] || slotMatch[ 3 ] || slotMatch[ 4 ] || slotMatch[ 5 ] || slotMatch[ 6 ] || slotMatch[ 7 ]).replace(/(\${.+})/g, '[name]')
+        let slotMatch
+        while ((slotMatch = slotRegex.exec(definition)) !== null) {
+          const slotName = (slotMatch[ 2 ] || slotMatch[ 3 ] || slotMatch[ 4 ] || slotMatch[ 5 ] || slotMatch[ 6 ] || slotMatch[ 7 ]).replace(/(\${.+})/g, '[name]')
 
-        if (!(api.slots || {})[ slotName ]) {
-          logError(`${ name }: missing "slot" -> "${ slotName }" definition`)
-          hasError = true // keep looping through to find as many as can be found before exiting
-        }
-        else if (api.slots[ slotName ].internal === true) {
-          delete api.slots[ slotName ]
-        }
-      }
-
-      ast.evaluate(definition, topSections[ apiType ], (prop, key, definition) => {
-        if (key.startsWith('__')) {
-          return
-        }
-
-        if (prop === 'props') {
-          key = key.replace(/([a-z])([A-Z])/g, '$1-$2')
-            .replace(/\s+/g, '-')
-            .toLowerCase()
-        }
-
-        if (api[ prop ] === void 0 || api[ prop ][ key ] === void 0) {
-          logError(`${ name }: missing "${ prop }" -> "${ key }" definition`)
-          hasError = true // keep looping through to find as many as can be found before exiting
-        }
-
-        if (api[ prop ][ key ].internal === true) {
-          delete api[ prop ][ key ]
-          return
-        }
-
-        if (definition) {
-          const propApi = api[ prop ][ key ]
-          if (typeof definition === 'string' && propApi.type !== definition) {
-            logError(`${ name }: wrong definition for prop "${ key }": expected "${ definition }" but found "${ propApi.type }"`)
+          if (!(api.slots || {})[ slotName ]) {
+            logError(`${ name }: missing "slot" -> "${ slotName }" definition`)
             hasError = true // keep looping through to find as many as can be found before exiting
           }
-          else if (Array.isArray(definition)) {
-            if (arrayHasError(name, key, 'type', definition, propApi)) {
-              hasError = true // keep looping through to find as many as can be found before exiting
-            }
-          }
-          else {
-            if (definition.type) {
-              if (Array.isArray(definition.type)) {
-                if (arrayHasError(name, key, 'type', definition.type, propApi)) {
-                  hasError = true
-                }
-              }
-              else if (propApi.type !== definition.type) {
-                logError(`${ name }: wrong definition for prop "${ key }" on "type": expected "${ definition.type }" but found "${ propApi.type }"`)
-                hasError = true // keep looping through to find as many as can be found before exiting
-              }
-            }
-
-            if (key !== 'value' && definition.required && Boolean(definition.required) !== propApi.required) {
-              logError(`${ name }: wrong definition for prop "${ key }" on "required": expected "${ definition.required }" but found "${ propApi.required }"`)
-              hasError = true // keep looping through to find as many as can be found before exiting
-            }
-
-            if (definition.validator && Array.isArray(definition.validator)) {
-              if (arrayHasError(name, key, 'values', definition.validator, propApi)) {
-                hasError = true // keep looping through to find as many as can be found before exiting
-              }
-            }
+          else if (api.slots[ slotName ].internal === true) {
+            delete api.slots[ slotName ]
           }
         }
-      })
+
+        ast.evaluate(definition, topSections[ apiType ], (prop, key, definition) => {
+          if (prop === 'props') {
+            key = key.replace(/([a-z])([A-Z])/g, '$1-$2')
+              .replace(/\s+/g, '-')
+              .toLowerCase()
+          }
+
+          if (api[ prop ] === void 0 || api[ prop ][ key ] === void 0) {
+            logError(`${ name }: missing "${ prop }" -> "${ key }" definition`)
+            hasError = true // keep looping through to find as many as can be found before exiting
+          }
+
+          if (definition) {
+            const propApi = api[ prop ][ key ]
+            if (typeof definition === 'string' && propApi.type !== definition) {
+              logError(`${ name }: wrong definition for prop "${ key }": expected "${ definition }" but found "${ propApi.type }"`)
+              hasError = true // keep looping through to find as many as can be found before exiting
+            }
+            else if (Array.isArray(definition)) {
+              if (arrayHasError(name, key, 'type', definition, propApi)) {
+                hasError = true // keep looping through to find as many as can be found before exiting
+              }
+            }
+            else {
+              if (definition.type) {
+                if (Array.isArray(definition.type)) {
+                  if (arrayHasError(name, key, 'type', definition.type, propApi)) {
+                    hasError = true
+                  }
+                }
+                else if (propApi.type !== definition.type) {
+                  logError(`${ name }: wrong definition for prop "${ key }" on "type": expected "${ definition.type }" but found "${ propApi.type }"`)
+                  hasError = true // keep looping through to find as many as can be found before exiting
+                }
+              }
+
+              if (key !== 'value' && definition.required && Boolean(definition.required) !== propApi.required) {
+                logError(`${ name }: wrong definition for prop "${ key }" on "required": expected "${ definition.required }" but found "${ propApi.required }"`)
+                hasError = true // keep looping through to find as many as can be found before exiting
+              }
+
+              if (definition.validator && Array.isArray(definition.validator)) {
+                if (arrayHasError(name, key, 'values', definition.validator, propApi)) {
+                  hasError = true // keep looping through to find as many as can be found before exiting
+                }
+              }
+            }
+          }
+        })
+      }
+
+      if (api.props !== void 0) {
+        for (const key in api.props) {
+          if (api.props[ key ].internal === true) {
+            delete api.props[ key ]
+          }
+        }
+      }
 
       if (hasError === true) {
         logError('Errors were found...exiting')
@@ -549,8 +551,11 @@ function fillAPI (apiType) {
     // copy API file to dest
     writeFile(filePath, JSON.stringify(api, null, 2))
 
+    const shortName = name.substring(0, name.length - 5)
+    list.push(shortName)
+
     return {
-      name: name.substring(0, name.length - 5),
+      name: shortName,
       api
     }
   }
@@ -591,21 +596,31 @@ function writeTransformAssetUrls (components) {
   )
 }
 
+function writeApiIndex (list) {
+  writeFile(
+    path.join(root, 'dist/transforms/api-list.json'),
+    JSON.stringify(list, null, 2)
+  )
+}
+
 module.exports.generate = function () {
   return new Promise((resolve) => {
+    const list = []
+
     const plugins = glob.sync(resolvePath('src/plugins/*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
-      .map(fillAPI('plugin'))
+      .map(fillAPI('plugin', list))
 
     const directives = glob.sync(resolvePath('src/directives/*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
-      .map(fillAPI('directive'))
+      .map(fillAPI('directive', list))
 
     const components = glob.sync(resolvePath('src/components/**/Q*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
-      .map(fillAPI('component'))
+      .map(fillAPI('component', list))
 
     writeTransformAssetUrls(components)
+    writeApiIndex(list)
 
     resolve({ components, directives, plugins })
   }).catch(err => {

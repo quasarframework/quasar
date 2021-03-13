@@ -2,12 +2,11 @@ import { h, defineComponent, computed, provide, getCurrentInstance } from 'vue'
 
 import StepHeader from './StepHeader.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import usePanel, { usePanelProps } from '../../composables/private/use-panel.js'
+import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
 
-import { stepperKey } from '../../utils/symbols.js'
-import { hSlot, hMergeSlot, hDir } from '../../utils/render.js'
+import { stepperKey } from '../../utils/private/symbols.js'
+import { hSlot, hMergeSlot, hDir } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QStepper',
@@ -33,16 +32,17 @@ export default defineComponent({
     errorColor: String
   },
 
-  setup (props, { slots, emit }) {
-    const $q = useQuasar()
-    const isDark = useDark(props, $q)
+  emits: usePanelEmits,
 
+  setup (props, { slots }) {
     const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
+
     const {
       updatePanelsList, isValidPanelName,
       updatePanelIndex, getPanelContent,
       getPanels, panelDirectives, goToPanel
-    } = usePanel(props, emit, $q, vm)
+    } = usePanel()
 
     provide(stepperKey, computed(() => ({
       goToPanel,
@@ -75,23 +75,28 @@ export default defineComponent({
         }, hSlot(slots.default))
 
         return top === void 0
-          ? [content]
+          ? [ content ]
           : top.concat(content)
       }
 
       return [
-        h('div', { class: headerClasses.value }, getPanels().map(panel => {
-          const step = panel.props
+        h(
+          'div',
+          { class: headerClasses.value },
+          getPanels().map(panel => {
+            const step = panel.props
 
-          return h(StepHeader, {
-            key: step.name,
-            stepper: props,
-            step,
-            goToPanel
+            return h(StepHeader, {
+              key: step.name,
+              stepper: props,
+              step,
+              goToPanel
+            })
           })
-        }))
-      ].concat(
+        ),
+
         top,
+
         hDir(
           'div',
           { class: 'q-stepper__content q-panel-parent' },
@@ -100,7 +105,7 @@ export default defineComponent({
           props.swipeable,
           () => panelDirectives.value
         )
-      )
+      ]
     }
 
     return () => {

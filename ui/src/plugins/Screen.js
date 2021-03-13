@@ -1,6 +1,6 @@
 import { isRuntimeSsrPreHydration } from './Platform.js'
 
-import defineReactivePlugin from '../utils/define-reactive-plugin.js'
+import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
 import { listenOpts, noop } from '../utils/event.js'
 import debounce from '../utils/debounce.js'
 

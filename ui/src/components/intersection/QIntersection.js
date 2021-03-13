@@ -4,8 +4,8 @@ import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import Intersection from '../../directives/Intersection.js'
 
-import { hSlot, hDir } from '../../utils/render.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { hSlot, hDir } from '../../utils/private/render.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 export default defineComponent({
   name: 'QIntersection',
@@ -30,7 +30,7 @@ export default defineComponent({
     disable: Boolean
   },
 
-  emits: ['visibility'],
+  emits: [ 'visibility' ],
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
@@ -56,12 +56,12 @@ export default defineComponent({
 
     const directives = computed(() => {
       // if hasDirective.value === true
-      return [[
+      return [ [
         Intersection,
         intersectionProps.value,
         void 0,
         { once: props.once }
-      ]]
+      ] ]
     })
 
     function trigger (entry) {
@@ -73,7 +73,7 @@ export default defineComponent({
 
     function getContent () {
       return showing.value === true
-        ? [h('div', { key: 'content' }, hSlot(slots.default))]
+        ? [ h('div', { key: 'content' }, hSlot(slots.default)) ]
         : void 0
     }
 

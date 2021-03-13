@@ -1,6 +1,7 @@
 ---
 title: Chat Message
 desc: The QChatMessage Vue component displays a chat entry containing one or more user messages.
+keys: QChatMessage
 ---
 
 Quasar supplies a chat component called QChatMessage which is really a chat entry that renders the data given by the props.
@@ -9,8 +10,9 @@ Quasar supplies a chat component called QChatMessage which is really a chat entr
 To mix messages with avatar and without avatar in the same thread, use a placeholder avatar image.
 :::
 
-## Installation
-<doc-installation components="QChatMessage" />
+## QChatMessage API
+
+<doc-api file="QChatMessage" />
 
 ## Usage
 
@@ -49,7 +51,3 @@ Always sanitize values if you do not trust the origin (if the value comes from u
 :::
 
 <doc-example title="Sanitized content" file="QChatMessage/Sanitize" />
-
-
-## QChatMessage API
-<doc-api file="QChatMessage" />

@@ -1,6 +1,6 @@
 import { h, defineComponent, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import useCanRender from '../../composables/use-can-render.js'
+import useCanRender from '../../composables/private/use-can-render.js'
 
 import { listenOpts, noop } from '../../utils/event.js'
 
@@ -22,7 +22,7 @@ export default defineComponent({
     }
   },
 
-  emits: ['resize'],
+  emits: [ 'resize' ],
 
   setup (props, { emit }) {
     if (__QUASAR_SSR_SERVER__) { return noop }
@@ -82,7 +82,7 @@ export default defineComponent({
       return noop
     }
     else { // no observer, so fallback to old iframe method
-      const { canRender } = useCanRender()
+      const canRender = useCanRender()
 
       let curDocView
 

@@ -1,6 +1,7 @@
 ---
 title: Button
 desc: The QBtn Vue component is a button with features like shaping, loading state, ripple and more.
+keys: QBtn
 related:
   - /vue-components/button-group
   - /vue-components/button-dropdown
@@ -12,8 +13,9 @@ The button component also comes with a spinner or loading effect. You would use 
 
 When not disabled or spinning, QBtn emits a `@click` event, as soon as it is clicked or tapped.
 
-## Installation
-<doc-installation components="QBtn" />
+## QBtn API
+
+<doc-api file="QBtn" />
 
 ## Usage
 
@@ -97,6 +99,3 @@ When placing a QBtn with type "submit" in one of the "before", "after", "prepend
 :::
 
 <doc-example title="Form Submission" file="QBtn/FormSubmission" />
-
-## QBtn API
-<doc-api file="QBtn" />

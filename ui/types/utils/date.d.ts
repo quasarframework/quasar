@@ -3,15 +3,17 @@ interface DateOptions {
   seconds?: number;
   minutes?: number;
   hours?: number;
-  month?: number;
-  year?: number;
 }
 
 export interface BuildDateOptions extends DateOptions {
   date?: number;
+  month?: number;
+  year?: number;
 }
 export interface ModifyDateOptions extends DateOptions {
   days?: number;
+  months?: number;
+  years?: number;
 }
 
 export interface DateLocale {
@@ -32,9 +34,9 @@ export namespace date {
   function isBetweenDates(date: Date | number | string, from: Date | number | string, to: Date | number | string, opts?: { inclusiveFrom: boolean; inclusiveTo: boolean; onlyDate: boolean }): boolean;
   function addToDate(date: Date | number | string, options: ModifyDateOptions): Date;
   function subtractFromDate(date: Date | number | string, options: ModifyDateOptions): Date;
-  function adjustDate(date: Date | number | string, options: ModifyDateOptions, utc?: boolean): Date;
-  function startOfDate(date: Date | number | string, option: DateUnitOptions, utc: boolean): Date;
-  function endOfDate(date: Date | number | string, option: DateUnitOptions, utc: boolean): Date;
+  function adjustDate(date: Date | number | string, options: BuildDateOptions, utc?: boolean): Date;
+  function startOfDate(date: Date | number | string, option: DateUnitOptions, utc?: boolean): Date;
+  function endOfDate(date: Date | number | string, option: DateUnitOptions, utc?: boolean): Date;
   function getMaxDate(date: Date | number | string, ...args: (Date | number | string)[]): Date;
   function getMinDate(date: Date | number | string, ...args: (Date | number | string)[]): Date;
   function getDateDiff(date: Date | number | string, subtract: Date | number | string, unit?: string): number;

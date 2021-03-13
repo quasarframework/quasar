@@ -28,29 +28,31 @@ q-card(flat bordered)
 
   q-separator
 
-  q-card-section.q-gutter-sm.column
-    q-select(
-      label="Quasar Language Pack"
-      dense
-      outlined
-      :options="langOptions"
-      emit-value
-      map-options
-      options-dense
-      v-model="lang"
-      style="width: 100%"
-    )
+  q-card-section.q-col-gutter-sm.row
+    .col-xs-12.col-md-6
+      q-select(
+        label="Quasar Language Pack"
+        dense
+        outlined
+        :options="langOptions"
+        emit-value
+        map-options
+        options-dense
+        v-model="lang"
+        style="width: 100%"
+      )
 
-    q-select(
-      label="Quasar Icon Set"
-      dense
-      outlined
-      :options="iconSetOptions"
-      options-dense
-      emit-value
-      map-options
-      v-model="iconSet"
-    )
+    .col-xs-12.col-md-6
+      q-select(
+        label="Quasar Icon Set"
+        dense
+        outlined
+        :options="iconSetOptions"
+        options-dense
+        emit-value
+        map-options
+        v-model="iconSet"
+      )
 
   q-separator
 
@@ -111,10 +113,10 @@ export default {
     const minified = ref(true)
     const rtl = ref(false)
     const cfgObject = ref(false)
-    const lang = ref('en-us')
+    const lang = ref('en-US')
     const iconSet = ref('material-icons')
 
-    function getUrl (url) {
+    function parseUrl (url) {
       const min = minified.value === false
         ? url.replace('.prod', '')
         : url
@@ -126,12 +128,12 @@ export default {
 
     function getCssTag (url) {
       // funky form below, otherwise vue-loader will misinterpret
-      return '<' + `link href="https://${getUrl(url)}" rel="stylesheet" type="text/css"` + '>'
+      return '<' + `link href="https://${parseUrl(url)}" rel="stylesheet" type="text/css"` + '>'
     }
 
     function getJsTag (url) {
       // funky form below, otherwise vue-loader will crash
-      return '<' + `script src="https://${getUrl(url)}"` + '><' + '/script>'
+      return '<' + `script src="https://${url}"` + '><' + '/script>'
     }
 
     const googleFonts = computed(() => {
@@ -159,33 +161,33 @@ export default {
 
     const configInstantiation = computed(() => {
       if (cfgObject.value === false) {
-        return 'config: {}'
+        return ''
       }
 
-      return `
+      return `, {
         config: {
+          /*
           brand: {
-            primary: '#e46262',
+            // primary: '#e46262',
             // ... or all other brand colors
           },
           notify: {...}, // default set of options for Notify Quasar plugin
           loading: {...}, // default set of options for Loading Quasar plugin
           loadingBar: { ... }, // settings for LoadingBar Quasar plugin
           // ..and many more (check Installation card on each Quasar component/directive/plugin)
-        }\n     `
+          */
+        }\n      }`
     })
 
     const postCreateApp = computed(() => {
       let str = ''
 
-      if (lang.value !== 'en-us' || iconSet.value !== 'material-icons') {
-        if (lang.value !== 'en-us') {
-          str += `Quasar.lang.set(Quasar.lang.${camelize(lang.value)})\n      `
-        }
+      if (lang.value !== 'en-US') {
+        str += `Quasar.lang.set(Quasar.lang.${lang.value.replace(/-/g, '')})\n      `
+      }
 
-        if (iconSet.value !== 'material-icons') {
-          str += `Quasar.iconSet.set(Quasar.iconSet.${camelize(iconSet.value)})\n      `
-        }
+      if (iconSet.value !== 'material-icons') {
+        str += `Quasar.iconSet.set(Quasar.iconSet.${camelize(iconSet.value)})\n      `
       }
 
       return str
@@ -203,7 +205,7 @@ export default {
         }
       })
 
-      app.use(Quasar, { ${configInstantiation.value} })
+      app.use(Quasar${configInstantiation.value})
       ${postCreateApp.value}app.mount('#q-app')
     `
 
@@ -213,11 +215,11 @@ export default {
 
     const body = computed(() => {
       const js = [
-        'cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js',
-        `cdn.jsdelivr.net/npm/quasar@${version}/dist/quasar.umd.prod.js`
+        parseUrl('cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js'),
+        parseUrl(`cdn.jsdelivr.net/npm/quasar@${version}/dist/quasar.umd.prod.js`)
       ]
 
-      if (lang.value !== 'en-us') {
+      if (lang.value !== 'en-US') {
         js.push(`cdn.jsdelivr.net/npm/quasar@${version}/dist/lang/${lang.value}.umd.prod.js`)
       }
 
@@ -225,9 +227,7 @@ export default {
         js.push(`cdn.jsdelivr.net/npm/quasar@${version}/dist/icon-set/${iconSet.value}.umd.prod.js`)
       }
 
-      return js
-        .map(url => getJsTag(url))
-        .join('\n    ')
+      return js.map(getJsTag).join('\n    ')
     })
 
     const output = computed(() => {

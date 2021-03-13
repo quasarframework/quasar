@@ -1,13 +1,15 @@
 ---
 title: Pagination
 desc: The QPagination Vue component allows you to easily display a pagination control on a page.
+keys: QPagination
 ---
 The QPagination component is available for whenever a pagination system is required. It offers the user a simple UI for moving between items or pages.
 
 There are two modes in which QPagination operates: with buttons only or with an inputbox. The latter allows the user to go to a specific page by clicking/tapping on the inputbox, typing the page number then hitting Enter key. If the new page number is within valid limits, the model will be changed accordingly.
 
-## Installation
-<doc-installation components="QPagination" />
+## QPagination API
+
+<doc-api file="QPagination" />
 
 ## Usage
 
@@ -38,7 +40,3 @@ There are two modes in which QPagination operates: with buttons only or with an 
 <doc-example title="With boundary links" file="QPagination/BoundaryLinks" />
 
 <doc-example title="With direction links" file="QPagination/DirectionLinks" />
-
-## QPagination API
-
-<doc-api file="QPagination" />

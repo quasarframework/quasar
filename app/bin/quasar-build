@@ -88,6 +88,17 @@ if (argv.help) {
   process.exit(0)
 }
 
+// TODO vue3 - remove when ready
+if (argv.mode === 'ssr') {
+  console.log(
+    '\n' +
+    '##############################################################\n' +
+    '# SSR mode is not *yet* supported and is disabled currently. #\n' +
+    '##############################################################\n'
+  )
+  process.exit(1)
+}
+
 const ensureArgv = require('../lib/helpers/ensure-argv')
 ensureArgv(argv, 'build')
 
@@ -109,10 +120,24 @@ function splitConfig (webpackConf, mode) {
     ]
   }
 
-  if (['electron', 'bex'].includes(mode)) {
+  if (mode === 'bex') {
     return [
       { webpack: webpackConf.renderer, name: 'Renderer process' },
       { webpack: webpackConf.main, name: 'Main process' }
+    ]
+  }
+
+  if (mode === 'electron') {
+    return [
+      { webpack: webpackConf.renderer, name: 'Renderer process' },
+      { webpack: webpackConf.preload, name: 'Preload process' },
+      { webpack: webpackConf.main, name: 'Main process' }
+    ]
+  }
+
+  if (mode === 'pwa') {
+    return [
+      { webpack: webpackConf.renderer, name: 'Build' }
     ]
   }
 
@@ -193,8 +218,7 @@ async function build () {
 
   regenerateTypesFeatureFlags(quasarConf)
 
-  let outputFolder = quasarConf.build.packagedDistDir ||
-  quasarConf.build.distDir
+  let outputFolder = quasarConf.build.packagedDistDir || quasarConf.build.distDir
 
   artifacts.clean(outputFolder)
   generator.build()
@@ -208,6 +232,13 @@ async function build () {
     log(`Extension(${hook.api.extId}): Running beforeBuild hook...`)
     await hook.fn(hook.api, { quasarConf })
   })
+
+  if (argv.mode === 'pwa') {
+    // need to build the custom service worker before renderer
+    Runner = require('../lib/pwa')
+    Runner.init(ctx)
+    await Runner.build(quasarConfFile, argv)
+  }
 
   log(`Compiling with Webpack...`)
 

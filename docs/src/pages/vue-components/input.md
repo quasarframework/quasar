@@ -1,12 +1,14 @@
 ---
 title: Input
 desc: The QInput Vue component is used to capture text input from the user.
+keys: QInput
 ---
 
 The QInput component is used to capture text input from the user. It uses `v-model`, similar to a regular input. It has support for errors and validation, and comes in a variety of styles, colors, and types.
 
-## Installation
-<doc-installation components="QInput"/>
+## QInput API
+
+<doc-api file="QInput" />
 
 ## Design
 
@@ -283,7 +285,7 @@ There are **helpers** for QInput `rules` prop: [full list](https://github.com/qu
 
 <doc-example title="Maximum length" file="QInput/ValidationMaxLength" />
 
-If you set `lazy-rules`, validation starts after first blur. Starting with v1.11+, if `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
+If you set `lazy-rules`, validation starts after first blur. If `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
 
 <doc-example title="Lazy rules" file="QInput/ValidationLazy" />
 
@@ -317,6 +319,3 @@ You can also customize the slot for error message:
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QInput, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QInput/NativeForm" />
-
-## QInput API
-<doc-api file="QInput" />

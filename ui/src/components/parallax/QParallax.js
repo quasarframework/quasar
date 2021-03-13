@@ -3,9 +3,9 @@ import { h, defineComponent, ref, watch, onMounted, onBeforeUnmount, getCurrentI
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 import { listenOpts } from '../../utils/event.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 const { passive } = listenOpts
 
@@ -29,7 +29,7 @@ export default defineComponent({
     }
   },
 
-  emits: ['scroll'],
+  emits: [ 'scroll' ],
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
@@ -83,7 +83,7 @@ export default defineComponent({
 
     let setPos = offset => {
       // apply it immediately without any delay
-      mediaEl.style.transform = `translate3D(-50%,${ Math.round(offset) }px, 0)`
+      mediaEl.style.transform = `translate3d(-50%,${ Math.round(offset) }px,0)`
     }
 
     function onResize () {

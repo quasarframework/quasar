@@ -1,6 +1,7 @@
 ---
 title: QDate
 desc: The QDate Vue component provides a method to input dates from Gregorian or Persian calendars.
+keys: QDate
 related:
   - /vue-components/time
   - /quasar-utils/date-utils
@@ -13,8 +14,9 @@ The QDate component provides a method to input date. Currently it supports Grego
 For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
 :::
 
-## Installation
-<doc-installation components="QDate" />
+## QDate API
+
+<doc-api file="QDate" />
 
 ## Usage
 
@@ -90,7 +92,7 @@ Clicking on the "Today" button sets date to current user date. Requires the head
 
 The default model mask is `YYYY/MM/DD`, however you can use custom ones too.
 
-The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#Format-for-display).
+The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#format-for-display).
 
 ::: warning Note on SSR
 Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
@@ -171,7 +173,7 @@ Connecting a QDate and QTime with same model on a QInput:
 
 <doc-example title="QDate and QTime with QInput" file="QDate/InputFull" overflow />
 
-The following are **helpers** for QInput `mask` and `rules` props. You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#Mask).
+The following are **helpers** for QInput `mask` and `rules` props. You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#mask).
 
 * Property `mask` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/mixins/mask.js#L2).
 * Property `rules` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns.js).
@@ -196,6 +198,3 @@ When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QDate, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QDate/NativeForm" />
-
-## QDate API
-<doc-api file="QDate" />

@@ -1,9 +1,8 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
-import { hSlot, hMergeSlot } from '../../utils/render.js'
+import { hSlot, hMergeSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QIcon',
@@ -23,7 +22,7 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
     const sizeStyle = useSize(props)
 
     const classes = computed(() =>
@@ -127,7 +126,10 @@ export default defineComponent({
       else {
         // "notranslate" class is for Google Translate
         // to avoid tampering with Material Icons ligature font
-        cls = 'material-icons notranslate'
+        //
+        // Caution: To be able to add suffix to the class name,
+        // keep the 'material-icons' at the end of the string.
+        cls = 'notranslate material-icons'
 
         if (icon.startsWith('o_') === true) {
           icon = icon.substring(2)
@@ -180,7 +182,7 @@ export default defineComponent({
         return h(
           'svg',
           data,
-          hMergeSlot(slots.default, [h('use', { 'xlink:href': type.value.src })])
+          hMergeSlot(slots.default, [ h('use', { 'xlink:href': type.value.src }) ])
         )
       }
 

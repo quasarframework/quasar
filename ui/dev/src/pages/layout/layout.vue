@@ -476,7 +476,7 @@
 </style>
 
 <script>
-import { colors } from 'quasar'
+import { setCssVar } from 'quasar'
 
 export default {
   data () {
@@ -547,7 +547,7 @@ export default {
   },
   watch: {
     mainColor (v) {
-      colors.setBrand('primary', v)
+      setCssVar('primary', v)
     }
   },
   methods: {
@@ -555,7 +555,7 @@ export default {
       console.log('drawer on layout:', v)
     },
     onScroll (data) {
-      // console.log('scroll', data.position)
+      // console.log('scroll', data)
     },
     goMini () {
       console.log('goMini')

@@ -1,10 +1,9 @@
-import { h, defineComponent, computed, provide } from 'vue'
+import { h, defineComponent, computed, provide, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-import { hSlot } from '../../utils/render.js'
-import { timelineKey } from '../../utils/symbols.js'
+import { hSlot } from '../../utils/private/render.js'
+import { timelineKey } from '../../utils/private/symbols.js'
 
 export default defineComponent({
   name: 'QTimeline',
@@ -29,8 +28,8 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const $q = useQuasar()
-    const isDark = useDark(props, $q)
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
 
     provide(timelineKey, props)
 

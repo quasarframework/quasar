@@ -6,11 +6,11 @@ desc: How to install the Quasar CLI on your development machine.
 Make sure that you have Node >=10 and NPM >=5 installed on your machine.
 
 ::: warning
-**Do not use any Node version higher than 12+**. Webpack 4 does not support any Node version higher than this and we cannot move to Webpack 5 without making breaking changes. However, we will support Webpack 5 in a future release.
+**Do not use any Node version higher than 14+**. Webpack 4 does not support any Node version higher than this and we cannot move to Webpack 5 without making breaking changes. However, we will support Webpack 5 in a future release.
 :::
 
 ::: warning
-**Do not use uneven versions of Node i.e. 11, 13, etc.** These versions are not tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
+**Do not use uneven versions of Node i.e. 13, 15, etc.** These versions are not tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
 :::
 
 ```bash
@@ -35,7 +35,12 @@ Under Windows, modify user's PATH environment variable. If you are using yarn th
 Then we create a project folder with Quasar CLI:
 
 ```bash
-$ quasar create <folder_name>
+## Quasar UI v2 beta project
+$ quasar create <folder_name> --branch next
+
+## After Quasar v2 is stable (out of beta):
+## (Don't use the following for now as it will generate a Quasar UI v1 project!)
+# $ quasar create <folder_name>
 ```
 
 :::tip

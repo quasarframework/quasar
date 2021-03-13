@@ -7,10 +7,10 @@ import Ripple from '../../directives/Ripple.js'
 
 import useBtn, { useBtnProps } from './use-btn.js'
 
-import { hMergeSlot, hDir } from '../../utils/render.js'
+import { hMergeSlot, hDir } from '../../utils/private/render.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
-import { getTouchTarget } from '../../utils/touch.js'
-import { isKeyCode } from '../../utils/key-composition.js'
+import { getTouchTarget } from '../../utils/private/touch.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
 
 const { passiveCapture } = listenOpts
 
@@ -31,14 +31,15 @@ export default defineComponent({
 
   emits: [ 'click', 'keydown', 'touchstart', 'mousedown', 'keyup' ],
 
-  setup (props, { slots, emit, attrs }) {
-    const vm = getCurrentInstance()
+  setup (props, { slots, emit }) {
+    const { proxy } = getCurrentInstance()
+
     const {
       classes, style, innerClasses,
       attributes,
       hasLink, isLink, navigateToLink,
       isActionable
-    } = useBtn(props, attrs, vm)
+    } = useBtn(props)
 
     const rootRef = ref(null)
     const blurTargetRef = ref(null)
@@ -53,7 +54,7 @@ export default defineComponent({
       props.ripple === false
         ? false
         : {
-            keyCodes: isLink.value === true ? [ 13, 32 ] : [13],
+            keyCodes: isLink.value === true ? [ 13, 32 ] : [ 13 ],
             ...(props.ripple === true ? {} : props.ripple)
           }
     ))
@@ -89,12 +90,12 @@ export default defineComponent({
 
     const directives = computed(() => {
       // if props.disable !== true && props.ripple !== false
-      return [[
+      return [ [
         Ripple,
         ripple.value,
         void 0,
         { center: props.round }
-      ]]
+      ] ]
     })
 
     const nodeProps = computed(() => ({
@@ -269,7 +270,7 @@ export default defineComponent({
     })
 
     // expose public methods
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       click: onClick
     })
 
@@ -286,7 +287,7 @@ export default defineComponent({
       )
 
       hasLabel.value === true && inner.push(
-        h('span', { class: 'block' }, [props.label])
+        h('span', { class: 'block' }, [ props.label ])
       )
 
       inner = hMergeSlot(slots.default, inner)
@@ -337,7 +338,7 @@ export default defineComponent({
                 h('span', {
                   key: 'loading',
                   class: 'absolute-full flex flex-center'
-                }, slots.loading !== void 0 ? slots.loading() : [h(QSpinner)])
+                }, slots.loading !== void 0 ? slots.loading() : [ h(QSpinner) ])
               ]
             : null
         ))

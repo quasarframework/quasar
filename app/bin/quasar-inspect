@@ -44,6 +44,17 @@ if (argv.help) {
   process.exit(0)
 }
 
+// TODO vue3 - remove when ready
+if (argv.mode === 'ssr') {
+  console.log(
+    '\n' +
+    '##############################################################\n' +
+    '# SSR mode is not *yet* supported and is disabled currently. #\n' +
+    '##############################################################\n'
+  )
+  process.exit(1)
+}
+
 require('../lib/helpers/ensure-argv')(argv, 'inspect')
 require('../lib/helpers/banner')(argv, argv.cmd)
 

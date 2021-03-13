@@ -1,8 +1,10 @@
+import { $q } from '../install-quasar.js'
+
 import { css } from '../utils/dom.js'
 import { position, stop, addEvt, cleanEvt } from '../utils/event.js'
-import { isKeyCode } from '../utils/key-composition.js'
+import { isKeyCode } from '../utils/private/key-composition.js'
 import throttle from '../utils/throttle.js'
-import { $q } from '../install-quasar.js'
+import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
 
 function showRipple (evt, el, ctx, forceCenter) {
   ctx.modifiers.stop === true && stop(evt)
@@ -71,69 +73,71 @@ function updateModifiers (ctx, { modifiers, value, arg }) {
   }
 }
 
-export default {
-  name: 'ripple',
+export default __QUASAR_SSR_SERVER__
+  ? { name: 'ripple', getSSRProps }
+  : {
+      name: 'ripple',
 
-  beforeMount (el, binding) {
-    const ctx = {
-      enabled: binding.value !== false,
-      modifiers: {},
-      abort: [],
+      beforeMount (el, binding) {
+        const ctx = {
+          enabled: binding.value !== false,
+          modifiers: {},
+          abort: [],
 
-      start (evt) {
-        if (
-          ctx.enabled === true
-          && evt.qSkipRipple !== true
-          && (
-            ctx.modifiers.early === true
-              ? [ 'mousedown', 'touchstart' ].includes(evt.type) === true
-              : evt.type === 'click'
-          )
-        ) {
-          showRipple(evt, el, ctx, evt.qKeyEvent === true)
+          start (evt) {
+            if (
+              ctx.enabled === true
+              && evt.qSkipRipple !== true
+              && (
+                ctx.modifiers.early === true
+                  ? [ 'mousedown', 'touchstart' ].includes(evt.type) === true
+                  : evt.type === 'click'
+              )
+            ) {
+              showRipple(evt, el, ctx, evt.qKeyEvent === true)
+            }
+          },
+
+          keystart: throttle(evt => {
+            if (
+              ctx.enabled === true
+              && evt.qSkipRipple !== true
+              && isKeyCode(evt, ctx.modifiers.keyCodes) === true
+              && evt.type === `key${ ctx.modifiers.early === true ? 'down' : 'up' }`
+            ) {
+              showRipple(evt, el, ctx, true)
+            }
+          }, 300)
+        }
+
+        updateModifiers(ctx, binding)
+
+        el.__qripple = ctx
+
+        addEvt(ctx, 'main', [
+          [ el, 'mousedown', 'start', 'passive' ],
+          [ el, 'touchstart', 'start', 'passive' ],
+          [ el, 'click', 'start', 'passive' ],
+          [ el, 'keydown', 'keystart', 'passive' ],
+          [ el, 'keyup', 'keystart', 'passive' ]
+        ])
+      },
+
+      updated (el, binding) {
+        if (binding.oldValue !== binding.value) {
+          const ctx = el.__qripple
+          ctx.enabled = binding.value !== false
+
+          if (ctx.enabled === true && Object(binding.value) === binding.value) {
+            updateModifiers(ctx, binding)
+          }
         }
       },
 
-      keystart: throttle(evt => {
-        if (
-          ctx.enabled === true
-          && evt.qSkipRipple !== true
-          && isKeyCode(evt, ctx.modifiers.keyCodes) === true
-          && evt.type === `key${ ctx.modifiers.early === true ? 'down' : 'up' }`
-        ) {
-          showRipple(evt, el, ctx, true)
-        }
-      }, 300)
-    }
-
-    updateModifiers(ctx, binding)
-
-    el.__qripple = ctx
-
-    addEvt(ctx, 'main', [
-      [ el, 'mousedown', 'start', 'passive' ],
-      [ el, 'touchstart', 'start', 'passive' ],
-      [ el, 'click', 'start', 'passive' ],
-      [ el, 'keydown', 'keystart', 'passive' ],
-      [ el, 'keyup', 'keystart', 'passive' ]
-    ])
-  },
-
-  updated (el, binding) {
-    if (binding.oldValue !== binding.value) {
-      const ctx = el.__qripple
-      ctx.enabled = binding.value !== false
-
-      if (ctx.enabled === true && Object(binding.value) === binding.value) {
-        updateModifiers(ctx, binding)
+      beforeUnmount (el) {
+        const ctx = el.__qripple
+        ctx.abort.forEach(fn => { fn() })
+        cleanEvt(ctx, 'main')
+        delete el._qripple
       }
     }
-  },
-
-  beforeUnmount (el) {
-    const ctx = el.__qripple
-    ctx.abort.forEach(fn => { fn() })
-    cleanEvt(ctx, 'main')
-    delete el._qripple
-  }
-}

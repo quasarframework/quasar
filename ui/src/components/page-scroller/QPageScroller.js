@@ -1,7 +1,7 @@
 import { h, defineComponent, ref, computed, watch, onBeforeUnmount, Transition } from 'vue'
 
 import usePageSticky, { usePageStickyProps } from '../page-sticky/use-page-sticky.js'
-import { getScrollTarget, setScrollPosition } from '../../utils/scroll.js'
+import { getScrollTarget, setVerticalScrollPosition } from '../../utils/scroll.js'
 
 export default defineComponent({
   name: 'QPageScroller',
@@ -26,27 +26,27 @@ export default defineComponent({
     }
   },
 
-  emits: ['click'],
+  emits: [ 'click' ],
 
   setup (props, { slots, emit }) {
-    const { $layout, getStickyContent } = usePageSticky(props)
+    const { $layout, getStickyContent } = usePageSticky()
     const rootRef = ref(null)
 
     let heightWatcher
 
+    const height = computed(() => (
+      $layout.isContainer.value === true
+        ? $layout.containerHeight.value
+        : $layout.height.value
+    ))
+
     function isVisible () {
       return props.reverse === true
-        ? props.height - $layout.scroll.value.position > props.scrollOffset
+        ? height.value - $layout.scroll.value.position > props.scrollOffset
         : $layout.scroll.value.position > props.scrollOffset
     }
 
     const showing = ref(isVisible())
-
-    const height = computed(() => (
-      $layout.container === true
-        ? $layout.containerHeight.value
-        : $layout.height.value
-    ))
 
     function updateVisibility () {
       const newVal = isVisible()
@@ -77,13 +77,14 @@ export default defineComponent({
     }
 
     function onClick (e) {
-      const target = $layout.container === true
+      const target = $layout.isContainer.value === true
         ? getScrollTarget(rootRef.value)
         : getScrollTarget($layout.rootRef.value)
 
-      setScrollPosition(
+      setVerticalScrollPosition(
         target,
-        props.reverse === true ? $layout.height.value : 0, props.duration
+        props.reverse === true ? $layout.height.value : 0,
+        props.duration
       )
 
       emit('click', e)
@@ -92,9 +93,10 @@ export default defineComponent({
     function getContent () {
       return showing.value === true
         ? h('div', {
+            ref: rootRef,
             class: 'q-page-scroller',
             onClick
-          }, [getStickyContent(slots)])
+          }, getStickyContent(slots))
         : null
     }
 
@@ -104,7 +106,7 @@ export default defineComponent({
 
     return () => h(
       Transition,
-      { name: 'q-transition--fade', ref: rootRef },
+      { name: 'q-transition--fade' },
       getContent
     )
   }

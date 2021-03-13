@@ -28,12 +28,12 @@ export default {
       scrollAreaRef,
 
       scroll () {
-        scrollAreaRef.value.setScrollPosition(position.value)
+        scrollAreaRef.value.setScrollPosition('vertical', position.value)
         position.value = Math.floor(Math.random() * 1001) * 20
       },
 
       animateScroll () {
-        scrollAreaRef.value.setScrollPosition(position.value, 300)
+        scrollAreaRef.value.setScrollPosition('vertical', position.value, 300)
         position.value = Math.floor(Math.random() * 1001) * 20
       }
     }

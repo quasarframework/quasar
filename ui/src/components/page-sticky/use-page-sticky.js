@@ -1,8 +1,7 @@
-import { h, computed, inject } from 'vue'
+import { h, computed, inject, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
-import { hSlot } from '../../utils/render.js'
-import { layoutKey } from '../../utils/symbols.js'
+import { hSlot } from '../../utils/private/render.js'
+import { layoutKey } from '../../utils/private/symbols.js'
 
 export const usePageStickyProps = {
   position: {
@@ -21,8 +20,9 @@ export const usePageStickyProps = {
   expand: Boolean
 }
 
-export default function (props) {
-  const $q = useQuasar()
+export default function () {
+  const { props, proxy } = getCurrentInstance()
+  const { $q } = proxy
 
   const $layout = inject(layoutKey, () => {
     console.error('QPageSticky needs to be child of QLayout')
@@ -106,7 +106,7 @@ export default function (props) {
     },
     props.expand === true
       ? content
-      : [h('div', content)]
+      : [ h('div', content) ]
     )
   }
 

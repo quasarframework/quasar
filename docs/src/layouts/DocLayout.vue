@@ -1,117 +1,132 @@
 <template lang="pug">
 q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
-  q-header.header(elevated)
-    q-toolbar
-      q-btn.q-mr-sm(flat, dense, round, @click="toggleLeftDrawer", aria-label="Menu", :icon="mdiMenu")
+  q-header.header.text-dark(bordered)
+    q-toolbar.q-px-none
+      q-btn.q-mx-sm.lt-md(flat, dense, round, @click="toggleLeftDrawer", aria-label="Menu", :icon="mdiMenu")
 
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
         q-avatar.doc-layout-avatar
           img(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
-        q-toolbar-title(shrink) Quasar
+        q-toolbar-title.text-weight-bold(shrink) Quasar
 
       q-space
 
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
-      q-btn.q-ml-xs(
+      q-btn.q-mx-xs(
         v-show="showRightDrawerToggler"
-        flat,
-        dense,
-        round,
-        @click="toggleRightDrawer",
+        flat
+        dense
+        round
+        @click="toggleRightDrawer"
         aria-label="Menu"
         :icon="mdiClipboardText"
       )
 
-  q-drawer(
+  q-drawer.doc-left-drawer(
     side="left"
     v-model="leftDrawerState"
     show-if-above
     bordered
-    class="doc-left-drawer"
   )
-    q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
-      //- survey-countdown.layout-countdown(
-      //-   color="primary"
-      //-   align-class="justify-start"
-      //-   padding-class="q-py-md"
-      //- )
-      q-separator.q-mb-lg
-
-      .row.justify-center.q-my-lg
-        q-btn(
-          type="a"
-          href="https://donate.quasar.dev"
-          target="_blank"
-          rel="noopener"
-          size="13px"
-          color="primary"
-          :icon="mdiHeartOutline"
-          label="Donate to Quasar"
+    q-scroll-area(style="height: calc(100% - 51px); margin-top: 51px")
+      template(v-if="searchResults !== null")
+        component(
+          v-if="searchResults.masterComponent !== void 0"
+          :is="searchResults.masterComponent"
+        )
+        app-search-results(
+          v-else
+          :results="searchResults"
+          :search-has-focus="searchHasFocus"
+          :search-active-id="searchActiveId"
         )
 
-      app-menu.q-my-lg
+      template(v-else)
+        .row.justify-center.q-my-md
+          q-btn.doc-layout__main-btn(
+            type="a"
+            href="https://donate.quasar.dev"
+            target="_blank"
+            rel="noopener"
+            color="teal"
+            outline
+            :icon="mdiHeart"
+            label="Donate to Quasar"
+            padding="12px lg"
+            no-wrap
+          )
 
-    .absolute-top.bg-white.layout-drawer-toolbar
+        .row.justify-center.q-my-md
+          q-btn.doc-layout__main-btn(
+            type="a"
+            href="https://bit.ly/3cTLXsO"
+            target="_blank"
+            color="primary"
+            outline
+            :icon="mdiFileDocumentEditOutline"
+            label="Survey results are out!"
+            no-caps
+            padding="12px lg"
+            no-wrap
+          )
+
+        app-menu.q-mb-lg
+
+    .absolute-top.header
       form(
         autocorrect="off"
         autocapitalize="off"
         autocomplete="off"
         spellcheck="false"
       )
-        q-input.full-width.doc-algolia.bg-primary(
-          ref="algoliaInputRef"
-          v-model="search"
+        q-input.full-width.app-search-input(
+          ref="searchInputRef"
+          v-model="searchTerms"
           dense
           square
-          dark
           borderless
-          :placeholder="searchPlaceholder"
+          debounce="300"
+          @keydown="onSearchKeydown"
           @focus="onSearchFocus"
           @blur="onSearchBlur"
+          placeholder="Search..."
         )
+          template(v-slot:prepend)
+            q-icon(name="search")
           template(v-slot:append)
-            q-icon(
-              :name="mdiMagnify"
-              @click="$refs.algoliaInputRef.focus()"
-            )
-      .layout-drawer-toolbar__shadow.absolute-full.overflow-hidden.no-pointer-events
+            q-icon.cursor-pointer(v-if="searchTerms" name="cancel" @click="onSearchClear")
+            .row.items-center.no-wrap.no-pointer-events(v-else-if="!searchHasFocus")
+              kbd.flex.flex-center /
+
+      q-separator
 
   q-drawer(
     v-if="hasRightDrawer"
     side="right"
     v-model="rightDrawerState"
     show-if-above
-    class="bg-grey-1"
-    :width="180"
+    :width="220"
     @on-layout="updateRightDrawerOnLayout"
   )
     q-scroll-area.fit
       header-menu.q-mt-sm.text-primary.column(v-if="$q.screen.lt.sm", align="right")
 
-      q-list.doc-toc.q-my-lg.text-grey-8
+      q-list.doc-toc.q-my-sm.text-grey-8
         q-item(
-          v-for="tocItem in tocList",
-          :key="tocItem.id",
-          clickable,
-          v-ripple,
-          dense,
+          v-for="tocItem in tocList"
+          :key="tocItem.id"
+          clickable
+          v-ripple
+          dense
           @click="scrollTo(tocItem.id)",
           :active="activeToc === tocItem.id"
         )
-          q-item-section(v-if="tocItem.sub === true", side) •
+          q-item-section(v-if="tocItem.sub === true", side) »
           q-item-section {{ tocItem.title }}
 
   q-page-container
     router-view
-    //- TODO vue3 - wait for router-view + transition bugfix
-    //- router-view(v-slot="{ Component }")
-    //-   transition(
-    //-     enter-active-class="animated fadeIn"
-    //-     leave-active-class="animated fadeOut"
-    //-     mode="out-in"
-    //-   )
-    //-     component(:is="Component")
 
   q-page-scroller
     q-btn(fab-mini, color="primary", glossy, :icon="mdiChevronUp")
@@ -122,24 +137,25 @@ import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
 
 import {
-  mdiMenu, mdiClipboardText, mdiHeartOutline, mdiMagnify, mdiChevronUp
+  mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp,
+  mdiFileDocumentEditOutline
 } from '@quasar/extras/mdi-v5'
 
-import AppMenu from 'components/AppMenu'
-import HeaderMenu from 'components/HeaderMenu'
-// import SurveyCountdown from 'components/SurveyCountdown'
+import AppMenu from 'components/AppMenu.js'
+import AppSearchResults from 'components/AppSearchResults.vue'
+import HeaderMenu from 'components/HeaderMenu.vue'
 
 import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'
 import useScroll from './doc-layout/use-scroll'
-import useAlgolia from './doc-layout/use-algolia'
+import useSearch from './doc-layout/use-search'
 
 export default {
   name: 'DocLayout',
 
   components: {
     AppMenu,
-    // SurveyCountdown,
+    AppSearchResults,
     HeaderMenu
   },
 
@@ -150,15 +166,16 @@ export default {
     const scope = {
       mdiMenu,
       mdiClipboardText,
-      mdiHeartOutline,
+      mdiHeart,
       mdiMagnify,
-      mdiChevronUp
+      mdiChevronUp,
+      mdiFileDocumentEditOutline
     }
 
     useToc(scope, $route)
     useDrawers(scope, $q, $route)
     useScroll(scope, $route)
-    useAlgolia(scope, $q, $route)
+    useSearch(scope, $q, $route)
 
     return scope
   }
@@ -166,44 +183,26 @@ export default {
 </script>
 
 <style lang="sass">
-@import '../css/docsearch'
+@supports (backdrop-filter: none)
+  .header
+    background-color: rgba(0,0,0,.1)
+    backdrop-filter: blur(7px)
 
-.header
-  background: linear-gradient(145deg, $primary 11%, $dark-primary 75%)
+@supports not (backdrop-filter: none)
+  .header
+    background-color: $grey-4
 
 .header-logo
   width: 25px
   height: 25px
 
+.doc-layout__main-btn
+  width: 268px
+
 .doc-layout-avatar > div
   border-radius: 0
 
-.layout-drawer-toolbar
-  > form
-    margin-right: -2px
-  &__shadow
-    bottom: -10px
-    &:after
-      content: ''
-      position: absolute
-      top: 0
-      right: 0
-      bottom: 10px
-      left: 0
-      box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2), 0 0px 10px rgba(0, 0, 0, 0.24)
-
-.doc-algolia
-  .q-field__control
-    padding: 0 18px 0 16px !important
-  &.q-field--focused
-    .q-icon
-      color: #fff
-
 .q-drawer--mobile
-  .layout-drawer-toolbar form
-    margin-right: -1px
-  .doc-algolia .q-field__control
-    padding-right: 17px !important
   .doc-toc
     .q-item
       margin-left: 3px
@@ -214,6 +213,10 @@ export default {
   border-radius: 10px 0 0 10px
   margin-top: 1px
   margin-bottom: 1px
+  font-size: 12px
+
+  .q-item__section--side
+    padding-right: 8px
 
   &.q-item--active
     background: scale-color($primary, $lightness: 90%)
@@ -242,7 +245,25 @@ export default {
     .time
       font-size: 38px
 
-.layout-countdown
-  background: linear-gradient(45deg, #e6f1fc 25%, #c3e0ff 25%, #c3e0ff 50%, #e6f1fc 50%, #e6f1fc 75%, #c3e0ff 75%, #c3e0ff)
-  background-size: 40px 40px
+.app-search-input,
+.app-search-input .q-field__control
+  height: 50px
+
+.app-search-input
+  .q-field__control
+    padding: 0 18px 0 16px !important
+  input
+    line-height: 38px
+  .q-field__prepend,
+  .q-field__append
+    height: 100%
+    cursor: text !important
+  kbd
+    font-size: .6em !important
+    min-width: 1.6em
+    min-height: 1.5em
+    font-weight: bold
+
+body.mobile .app-search-input kbd
+  display: none
 </style>

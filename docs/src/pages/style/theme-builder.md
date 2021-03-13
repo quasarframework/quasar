@@ -2,7 +2,7 @@
 title: Theming
 desc: Theme builder for a Quasar app with which you can play with the brand colors.
 components:
-  - theming/ThemeBuilder
+  - theming/ThemePicker
 related:
   - /style/dark-mode
 ---
@@ -13,4 +13,4 @@ One of the most important parts of a website/app is to build a brand for it. Fir
 
 Click on the colored buttons besides the layout below and when you are ready, hit the `Export` button at the bottom. Recommended way is to go with the Sass/SCSS form.
 
-<theme-builder class="q-py-lg" />
+<theme-picker class="q-py-lg" />

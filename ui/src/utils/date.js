@@ -1,8 +1,8 @@
 /* eslint no-fallthrough: 0 */
 
-import { isDate } from './is.js'
+import { isDate } from './private/is.js'
 import { pad, capitalize } from './format.js'
-import { jalaaliMonthLength } from './date-persian.js'
+import { jalaaliMonthLength } from './private/date-persian.js'
 import lang from '../lang.js'
 
 const
@@ -333,12 +333,12 @@ function getChange (date, mod, add) {
     sign = (add ? 1 : -1)
 
   Object.keys(mod).forEach(key => {
-    if (key === 'month') {
-      setMonth(t, t.getMonth() + 1 + sign * mod.month)
+    if (key === 'months') {
+      setMonth(t, t.getMonth() + 1 + sign * mod.months)
       return
     }
 
-    const op = key === 'year'
+    const op = key === 'years'
       ? 'FullYear'
       : capitalize(key === 'days' ? 'date' : key)
     t[ `set${ op }` ](t[ `get${ op }` ]() + sign * mod[ key ])

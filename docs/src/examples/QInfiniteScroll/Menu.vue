@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-center" style="height: 100px">
-    <q-btn color="brown" label="Menu with QInfiniteScroll">
+    <q-btn color="brown" label="Menu with QInfiniteScroll" no-caps>
       <q-menu
         anchor="bottom middle"
         self="top middle"
@@ -9,6 +9,9 @@
         <q-item-label header>
           Notifications
         </q-item-label>
+
+        <q-separator />
+
         <q-list ref="scrollTargetRef" class="scroll" style="max-height: 250px">
           <q-infinite-scroll @load="onLoadMenu" :offset="250" :scroll-target="scrollTargetRef">
             <q-item v-for="(item, index) in itemsMenu" :key="index">

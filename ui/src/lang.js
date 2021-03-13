@@ -1,20 +1,25 @@
 import { reactive } from 'vue'
 
-import langEn from '../lang/en-us.js'
+import langEn from '../lang/en-US.js'
 import { isRuntimeSsrPreHydration } from './plugins/Platform.js'
 
 function getLocale () {
   if (__QUASAR_SSR_SERVER__) { return }
 
-  const val
-    = navigator.language
-    || navigator.languages[ 0 ]
-    || navigator.browserLanguage
-    || navigator.userLanguage
-    || navigator.systemLanguage
+  const val = Array.isArray(navigator.languages) === true && navigator.languages.length > 0
+    ? navigator.languages[ 0 ]
+    : navigator.language
 
-  if (val) {
-    return val.toLowerCase()
+  if (typeof val === 'string') {
+    return val.split(/[-_]/).map((v, i) => (
+      i === 0
+        ? v.toLowerCase()
+        : (
+            i > 1 || v.length < 4
+              ? v.toUpperCase()
+              : (v[ 0 ].toUpperCase() + v.slice(1).toLowerCase())
+          )
+    )).join('-')
   }
 }
 
@@ -64,7 +69,7 @@ const Plugin = {
   },
 
   install (opts) {
-    const initialLang = opts.cfg.lang || langEn
+    const initialLang = opts.lang || langEn
 
     if (__QUASAR_SSR_SERVER__) {
       const { $q, ssrContext } = opts

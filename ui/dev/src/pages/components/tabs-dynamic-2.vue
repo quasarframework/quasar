@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import { colors } from 'quasar'
-const { setBrand, luminosity } = colors
+import { colors, setCssVar } from 'quasar'
+const { luminosity } = colors
 
 export default {
   data () {
@@ -152,7 +152,6 @@ export default {
 
     quasarCliExport () {
       return `// quasar.conf.js
-// (will not work for IE11)
 
 return {
   framework: {
@@ -175,30 +174,28 @@ return {
     },
 
     umdExport () {
-      return `// place before including Quasar UMD script
-// (will not work for IE11)
+      return `app.use(Quasar, {
+  config: {
+    brand: {
+      primary: '${ this.colors.primary }',
+      secondary: '${ this.colors.secondary }',
+      accent: '${ this.colors.accent }',
 
-window.quasarConfig = {
-  brand: {
-    primary: '${ this.colors.primary }',
-    secondary: '${ this.colors.secondary }',
-    accent: '${ this.colors.accent }',
+      dark: '${ this.colors.dark }',
 
-    dark: '${ this.colors.dark }',
-
-    positive: '${ this.colors.positive }',
-    negative: '${ this.colors.negative }',
-    info: '${ this.colors.info }',
-    warning: '${ this.colors.warning }'
+      positive: '${ this.colors.positive }',
+      negative: '${ this.colors.negative }',
+      info: '${ this.colors.info }',
+      warning: '${ this.colors.warning }'
+    }
   }
 }`
     },
 
     vueCliExport () {
       return `// main.js
-// (will not work for IE11)
 
-Vue.use(Quasar, {
+app.use(Quasar, {
   config: {
     brand: {
       primary: '${ this.colors.primary }',
@@ -219,7 +216,7 @@ Vue.use(Quasar, {
 
   methods: {
     update (color, val) {
-      setBrand(color, val, document.getElementById('theme-picker'))
+      setCssVar(color, val, document.getElementById('theme-picker'))
       this.dark[ color ] = luminosity(val) <= 0.4
     }
   }

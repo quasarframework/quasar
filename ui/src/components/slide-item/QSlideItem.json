@@ -128,6 +128,32 @@
       }
     },
 
+    "slide": {
+      "desc": "Emitted while user is sliding the item to one of the available sides",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "side": {
+              "type": "String",
+              "desc": "Side to which sliding is taking effect",
+              "values": [ "left", "right", "top", "bottom" ]
+            },
+            "ratio": {
+              "type": "Number",
+              "desc": "Ratio of how much of the required slide was performed (0..1)",
+              "examples": [ 0, 0.5, 1 ]
+            },
+            "isReset": {
+              "type": "Boolean",
+              "desc": "Ratio has been reset"
+            }
+          }
+        }
+      }
+    },
+
     "action": {
       "desc": "Emitted when user finished sliding the item to either sides",
       "params": {

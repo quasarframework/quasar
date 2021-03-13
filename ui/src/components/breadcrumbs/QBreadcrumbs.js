@@ -2,8 +2,8 @@ import { h, defineComponent, computed } from 'vue'
 
 import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
 
-import { hSlot } from '../../utils/render.js'
-import { getNormalizedVNodes } from '../../utils/vm.js'
+import { hSlot } from '../../utils/private/render.js'
+import { getNormalizedVNodes } from '../../utils/private/vm.js'
 
 export default defineComponent({
   name: 'QBreadcrumbs',
@@ -64,7 +64,7 @@ export default defineComponent({
             h('div', {
               class: 'flex items-center '
                 + (middle === true ? activeClass.value : 'q-breadcrumbs--last')
-            }, [comp])
+            }, [ comp ])
           )
 
           if (middle === true) {

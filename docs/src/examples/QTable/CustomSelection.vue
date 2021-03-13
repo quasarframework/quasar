@@ -187,11 +187,11 @@ export default {
 
         const operateSelection = added === true
           ? selRow => {
-              const selectedIndex = selected.value.indexOf(selRow)
-              if (selectedIndex === -1) {
-                selected.value = selected.value.concat(selRow)
-              }
+            const selectedIndex = selected.value.indexOf(selRow)
+            if (selectedIndex === -1) {
+              selected.value = selected.value.concat(selRow)
             }
+          }
           : selRow => {
             const selectedIndex = selected.value.indexOf(selRow)
             if (selectedIndex > -1) {

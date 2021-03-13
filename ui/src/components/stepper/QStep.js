@@ -5,8 +5,8 @@ import StepHeader from './StepHeader.js'
 
 import { usePanelChildProps } from '../../composables/private/use-panel.js'
 
-import { stepperKey } from '../../utils/symbols.js'
-import { hSlot } from '../../utils/render.js'
+import { stepperKey } from '../../utils/private/symbols.js'
+import { hSlot } from '../../utils/private/render.js'
 
 function getStepWrapper (slots, key) {
   return h('div', {
@@ -102,7 +102,7 @@ export default defineComponent({
               ? h(QSlideTransition, getStepContent)
               : getStepContent()
           ]
-        : [getStepContent()]
+        : [ getStepContent() ]
     )
   }
 })

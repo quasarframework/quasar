@@ -1,6 +1,6 @@
 import { ref, watch, nextTick } from 'vue'
 
-import { shouldIgnoreKey } from '../../utils/key-composition.js'
+import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 
 // leave NAMED_MASKS at top of file (code referenced from docs)
 const NAMED_MASKS = {
@@ -434,8 +434,6 @@ export default function (props, emit, emitValue, inputRef) {
     ) {
       moveCursor.rightReverse(inp, start, end, true)
     }
-
-    emit('keydown', e)
   }
 
   function maskValue (val) {

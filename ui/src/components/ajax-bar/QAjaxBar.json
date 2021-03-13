@@ -10,7 +10,7 @@
       "default": "top",
       "values": [ "top", "right", "bottom", "left" ],
       "examples": [ "bottom" ],
-      "category": "content"
+      "category": "style"
     },
 
     "size": {

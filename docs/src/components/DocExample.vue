@@ -1,7 +1,7 @@
 <template lang="pug">
 q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
   q-toolbar.doc-example__toolbar
-    card-title(:title="title", :slugifiedTitle="slugifiedTitle")
+    card-title(:title="title" :slugifiedTitle="slugifiedTitle")
 
     q-space
 
@@ -34,7 +34,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
 
       q-separator
 
-      q-tab-panels.bg-code.text-grey-3.text-weight-regular(
+      q-tab-panels.text-grey-3.text-weight-regular(
         v-model="currentTab",
         animated
       )
@@ -112,7 +112,7 @@ export default {
     })
 
     const slugifiedTitle = computed(() => {
-      return 'Example--' + slugify(props.title)
+      return 'example--' + slugify(props.title)
     })
 
     function parseTemplate (target, template) {
@@ -179,7 +179,7 @@ export default {
       slugifiedTitle,
 
       openGitHub () {
-        openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/src/examples/${props.file}.vue`)
+        openURL(`https://github.com/quasarframework/quasar/tree/vue3-work/docs/src/examples/${props.file}.vue`)
       },
 
       openCodepen () {
@@ -192,8 +192,8 @@ export default {
 
 <style lang="sass">
 .doc-example
+
   &__toolbar
-    background: white
     color: $grey-8
     > .q-btn
       color: $grey-7

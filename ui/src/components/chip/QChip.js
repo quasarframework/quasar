@@ -1,15 +1,14 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
 import Ripple from '../../directives/Ripple.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { hMergeSlotSafely, hDir } from '../../utils/render.js'
+import { hMergeSlotSafely, hDir } from '../../utils/private/render.js'
 
 const defaultSizes = {
   xs: 8,
@@ -63,7 +62,8 @@ export default defineComponent({
   emits: [ 'update:modelValue', 'update:selected', 'remove', 'click' ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
+
     const isDark = useDark(props, $q)
     const sizeStyle = useSize(props, defaultSizes)
 
@@ -141,7 +141,7 @@ export default defineComponent({
       )
 
       const label = props.label !== void 0
-        ? [h('div', { class: 'ellipsis' }, [props.label])]
+        ? [ h('div', { class: 'ellipsis' }, [ props.label ]) ]
         : void 0
 
       child.push(
@@ -190,7 +190,7 @@ export default defineComponent({
         getContent(),
         'ripple',
         props.ripple !== false,
-        () => [[ Ripple, props.ripple ]]
+        () => [ [ Ripple, props.ripple ] ]
       )
     }
   }

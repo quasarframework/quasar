@@ -1,6 +1,7 @@
 ---
 title: Touch Swipe Directive
 desc: Vue directive which triggers an event when the user swipes with the finger or mouse on a component or element.
+keys: touch-swipe
 related:
   - /vue-directives/touch-pan
   - /vue-directives/touch-hold
@@ -11,8 +12,9 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-swipe` on the lines below.
 
-## Installation
-<doc-installation directives="TouchSwipe" />
+## TouchSwipe API
+
+<doc-api file="TouchSwipe" />
 
 ## Usage
 Swipe with your mouse on the area below to see it in action. If using a mouse, you need to do it quick.
@@ -55,6 +57,3 @@ However, if you are using `capture` or `mouseCapture` modifiers then events will
 
 ## Note on HMR
 Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.
-
-## TouchSwipe API
-<doc-api file="TouchSwipe" />

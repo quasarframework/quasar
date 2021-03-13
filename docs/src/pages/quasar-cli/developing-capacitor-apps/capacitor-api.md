@@ -41,36 +41,42 @@ Now let's put this plugin to some good use. In one of your Quasar project's page
 </template>
 
 <script>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { Plugins } from '@capacitor/core'
 
 const { Geolocation } = Plugins
 
 export default {
-  data () {
-    return {
-      position: 'determining...'
-    }
-  },
-  methods: {
-    getCurrentPosition() {
-      Geolocation.getCurrentPosition().then(position => {
-        console.log('Current', position);
-        this.position = position
-      });
-    }
-  },
-  mounted () {
-    this.getCurrentPosition()
+  setup () {
+    const position = ref('determining...')
 
-    // we start listening
-    this.geoId = Geolocation.watchPosition({}, (position, err) => {
-      console.log('New GPS position')
-      this.position = position
+    function getCurrentPosition() {
+      Geolocation.getCurrentPosition().then(newPosition => {
+        console.log('Current', newPosition)
+        position.value = newPosition
+      })
+    }
+
+    let geoId
+
+    onMounted(() => {
+      getCurrentPosition()
+
+      // we start listening
+      geoId = Geolocation.watchPosition({}, (newPosition, err) => {
+        console.log('New GPS position')
+        position.value = newPosition
+      })
     })
-  },
-  beforeUnmount () {
-    // we do cleanup
-    Geolocation.clearWatch(this.geoId)
+
+    onBeforeUnmount(() => {
+      // we do cleanup
+      Geolocation.clearWatch(geoId)
+    })
+
+    return {
+      position
+    }
   }
 }
 </script>
@@ -96,18 +102,16 @@ Now let's put this API to some good use. In one of your Quasar project's pages/l
 </template>
 
 <script>
+import { ref } from 'vue'
 import { Plugins, CameraResultType } from '@capacitor/core'
 
 const { Camera } = Plugins
 
 export default {
-  data () {
-    return {
-      imageSrc: ''
-    }
-  },
-  methods: {
-    async captureImage () {
+  setup () {
+    const imageSrc = ref('')
+
+    async function captureImage () {
       const image = await Camera.getPhoto({
         quality: 90,
         allowEditing: true,
@@ -117,7 +121,12 @@ export default {
       // You can access the original file using image.path, which can be
       // passed to the Filesystem API to read the raw data of the image,
       // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-      this.imageSrc = image.webPath
+      imageSrc.value = image.webPath
+    }
+
+    return {
+      imageSrc,
+      captureImage
     }
   }
 }
@@ -146,7 +155,7 @@ Don't forget to call the boot script in `quasar.conf.js`
 boot: ['capacitor']
 ```
 
-Now you are able to use the Camera API not just in nativ Android or iOS, but also in web based projects like a SPA or PWA.
+Now you are able to use the Camera API not just in native Android or iOS, but also in web based projects like a SPA or PWA.
 
 
 ### Example: Device
@@ -168,22 +177,27 @@ Now let's put this API to some good use. In one of your Quasar project's pages/l
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
 import { Plugins } from '@capacitor/core'
 
 const { Device } = Plugins
 
 export default {
-  data () {
-    return {
-      model: 'Please wait...',
-      manufacturer: 'Please wait...'
-    }
-  },
-  mounted () {
-    Device.getInfo().then(info => {
-      this.model = info.model
-      this.manufacturer = info.manufacturer
+  setup () {
+    const model = ref('Please wait...')
+    const manufacturer = ref('Please wait...')
+
+    onMounted(() => {
+      Device.getInfo().then(info => {
+        model.value = info.model
+        manufacturer.value = info.manufacturer
+      })
     })
+
+    return {
+      model
+      manufacturer
+    }
   }
 }
 </script>

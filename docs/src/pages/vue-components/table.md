@@ -1,29 +1,40 @@
 ---
 title: Table
 desc: The QTable Vue component allows you to display data in a tabular manner and it's packed with a lot of related features. It's generally called a datatable.
+keys: QTable,QTh,QTr,QTd
 related:
   - /vue-components/markup-table
   - /vue-components/pagination
 ---
 
 QTable is a component that allows you to display data in a tabular manner. It's generally called a datatable. It packs the following main features:
-  * Filtering
-  * Sorting
-  * Single / Multiple rows selection with custom selection actions
-  * Pagination (including server-side if required)
-  * Grid mode (you can use for example QCards to display data in a non-tabular manner)
-  * Total customization of rows and cells through scoped slots
-  * Ability to add additional row(s) at top or bottom of data rows
-  * Column picker (through QTableColumns component described in one of the sections)
-  * Custom top and/or bottom Table controls
-  * Responsive design
+
+* Filtering
+* Sorting
+* Single / Multiple rows selection with custom selection actions
+* Pagination (including server-side if required)
+* Grid mode (you can use for example QCards to display data in a non-tabular manner)
+* Total customization of rows and cells through scoped slots
+* Ability to add additional row(s) at top or bottom of data rows
+* Column picker (through QTableColumns component described in one of the sections)
+* Custom top and/or bottom Table controls
+* Responsive design
 
 ::: tip
 If you don't need pagination, sorting, filtering, and all other features of QTable, then you may want to check out [QMarkupTable](/vue-components/markup-table) component instead.
 :::
 
-## Installation
-<doc-installation :components="['QTable', 'QTh', 'QTr', 'QTd']" />
+## QTable API
+<doc-api file="QTable" />
+
+## QTh API
+<doc-api file="QTh" />
+
+## QTr API
+<doc-api file="QTr" />
+
+## QTd API
+<doc-api file="QTd" />
 
 ## Defining the columns
 
@@ -73,7 +84,7 @@ columns: [ // array of Objects
     style: 'width: 500px',
     classes: 'my-special-class',
 
-    // (v1.3+) header th:
+    // header th:
     headerStyle: 'width: 500px',
     headerClasses: 'my-special-class'
   },
@@ -147,7 +158,8 @@ The example below shows how virtual scroll can be used along with a sticky heade
 
 <doc-example title="Virtual scroll with sticky header" file="QTable/VirtscrollSticky" />
 
-Starting with v1.8.4, there are 2 utility CSS classes that control VirtualScroll size calculation:
+There are 2 utility CSS classes that control VirtualScroll size calculation:
+
 * Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
 * Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
 
@@ -163,7 +175,7 @@ The property `row-key` must be set in order for selection to work properly.
 
 <doc-example title="Multiple selection" file="QTable/MultipleSelection" />
 
-<doc-example title="Selection cell slots (v1.14+)" file="QTable/SelectionSlots" />
+<doc-example title="Selection cell slots" file="QTable/SelectionSlots" />
 
 <doc-example title="Custom multiple selection" file="QTable/CustomSelection" />
 
@@ -200,8 +212,9 @@ In the example below, we let QTable deal with displaying the grid mode (not usin
 <doc-example title="Masonry like grid" file="QTable/GridMasonry" />
 
 However, if you want to fully customize the content, check the example below, where:
-  * We are using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
-  * We are using multiple selection.
+
+* We are using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
+* We are using multiple selection.
 
 <doc-example title="Grid style with slot" file="QTable/GridStyleSlot" />
 
@@ -213,11 +226,11 @@ Add unique (distinct) `key` on QTr if you generate more than one QTr from a row 
 
 <doc-example title="Internal expansion model" file="QTable/ExpandedRowInternal" />
 
-Starting with v1.8.3, an external expansion model can also be used:
+An external expansion model can also be used:
 
 <doc-example title="External expansion model" file="QTable/ExpandedRowExternal" />
 
-If you are using virtual scroll with QTable, you should know that starting with v1.8.4 there are 2 utility CSS classes that control VirtualScroll size calculation:
+If you are using virtual scroll with QTable, you should know that there are 2 utility CSS classes that control VirtualScroll size calculation:
 * Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
 * Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
 
@@ -283,7 +296,7 @@ Bellow, we use a slot which gets applied to each header cell:
 
 <doc-example title="Header-cell slot" file="QTable/SlotHeaderCell" />
 
-Starting with **v1.1.1+**, we can also customize only one particular header cell only. The syntax for this slot is `header-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+We can also customize only one particular header cell only. The syntax for this slot is `header-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
 
 <doc-example title="Header-cell-[name] slot" file="QTable/SlotHeaderCellName" />
 
@@ -291,7 +304,7 @@ Starting with **v1.1.1+**, we can also customize only one particular header cell
 
 <doc-example title="No Data Label" file="QTable/NoData" />
 
-Starting with **v1.1.1+**, there is also a "no-data" scoped slot (see below) that you can also to customize the messages for both when a filter doesn't returns any results or the table has no data to display. Also type something into the "Search" input.
+There is also a "no-data" scoped slot (see below) that you can also to customize the messages for both when a filter doesn't returns any results or the table has no data to display. Also type something into the "Search" input.
 
 <doc-example title="No Data Slot" file="QTable/NoDataSlot" />
 
@@ -333,7 +346,7 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 
 ## Exporting data
 
-Below is an example of a naive csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#Export-file) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.
+Below is an example of a naive csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#export-file) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.
 
 ::: tip
 You could also make use of the `filteredSortedRows` internal computed property of QTable should you want to export the user filtered + sorted data.
@@ -346,15 +359,3 @@ You could also make use of the `filteredSortedRows` internal computed property o
 Below is an example of keyboard navigation in the table using selected row. Use `ArrowUp`, `ArrowDown`, `PageUp`, `PageDown`, `Home` and `End` keys to navigate.
 
 <doc-example title="Keyboard navigation" file="QTable/KeyboardNavigation" />
-
-## QTable API
-<doc-api file="QTable" />
-
-## QTh API
-<doc-api file="QTh" />
-
-## QTr API
-<doc-api file="QTr" />
-
-## QTd API
-<doc-api file="QTd" />

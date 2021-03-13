@@ -11,7 +11,6 @@ import QCardSection from '../card/QCardSection.js'
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 export default defineComponent({
@@ -33,8 +32,8 @@ export default defineComponent({
   emits: [ 'ok', 'hide' ],
 
   setup (props, { emit }) {
-    const $q = useQuasar()
-    const isDark = useDark(props, $q)
+    const { proxy } = getCurrentInstance()
+    const isDark = useDark(props, proxy.$q)
 
     const dialogRef = ref(null)
 
@@ -70,10 +69,8 @@ export default defineComponent({
               action.class
             ],
             tabindex: 0,
-            onClick: () => onOk(action),
-            onKeyup: e => {
-              e.keyCode === 13 && onOk(action)
-            }
+            onClick () { onOk(action) },
+            onKeyup (e) { e.keyCode === 13 && onOk(action) }
           }, [
             h('div', { class: 'q-focus-helper' }),
 
@@ -104,10 +101,8 @@ export default defineComponent({
             tabindex: 0,
             clickable: true,
             dark: isDark.value,
-            onClick: () => onOk(action),
-            onKeyup: e => {
-              e.keyCode === 13 && onOk(action)
-            }
+            onClick () { onOk(action) },
+            onKeyup (e) { e.keyCode === 13 && onOk(action) }
           }, () => [
             h(
               QItemSection,
@@ -171,10 +166,7 @@ export default defineComponent({
     }
 
     // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, {
-      show, hide
-    })
+    Object.assign(proxy, { show, hide })
 
     return () => h(QDialog, {
       ref: dialogRef,

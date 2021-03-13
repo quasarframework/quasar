@@ -1,10 +1,9 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useSize from '../../composables/private/use-size.js'
 import { useCircularCommonProps } from './use-circular-progress.js'
 
-import { hMergeSlotSafely } from '../../utils/render.js'
+import { hMergeSlotSafely } from '../../utils/private/render.js'
 import { between } from '../../utils/format.js'
 
 const
@@ -28,7 +27,7 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
     const sizeStyle = useSize(props)
 
     const svgStyle = computed(() => {
@@ -120,7 +119,7 @@ export default defineComponent({
         h('div', {
           class: 'q-circular-progress__text absolute-full row flex-center content-center',
           style: { fontSize: props.fontSize }
-        }, slots.default !== void 0 ? slots.default() : [h('div', normalized.value)])
+        }, slots.default !== void 0 ? slots.default() : [ h('div', normalized.value) ])
       )
 
       return h('div', {

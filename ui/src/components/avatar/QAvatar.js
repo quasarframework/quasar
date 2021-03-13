@@ -4,7 +4,7 @@ import QIcon from '../icon/QIcon.js'
 
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
-import { hMergeSlotSafely } from '../../utils/render.js'
+import { hMergeSlotSafely } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QAvatar',
@@ -44,7 +44,7 @@ export default defineComponent({
 
     return () => {
       const icon = props.icon !== void 0
-        ? [h(QIcon, { name: props.icon })]
+        ? [ h(QIcon, { name: props.icon }) ]
         : void 0
 
       return h('div', {

@@ -2,7 +2,7 @@
 title: Screen Plugin
 desc: Quasar plugin that helps in writing a dynamic and responsive UI through Javascript code.
 ---
-The Quasar Screen plugin allows you to have a dynamic and responsive UI when dealing with your Javascript code. When possible, it is recommended to use the [responsive CSS classes](/style/visibility#Window-Width-Related) instead, for performance reasons.
+The Quasar Screen plugin allows you to have a dynamic and responsive UI when dealing with your Javascript code. When possible, it is recommended to use the [responsive CSS classes](/style/visibility#window-width-related) instead, for performance reasons.
 
 ## Installation
 You don't need to do anything. The Screen plugin gets installed automatically.
@@ -24,18 +24,25 @@ Notice `$q.screen` below. This is just a simple usage example.
 
 ```js
 // script part of a Vue component
+import { useQuasar } from 'quasar'
+import { computed } from 'vue'
+
 export default {
-  computed: {
-    buttonColor () {
-      return this.$q.screen.lt.md
+  setup () {
+    const $q = useQuasar()
+    const buttonColor = computed(() => {
+      return $q.screen.lt.md
         ? 'primary'
         : 'secondary'
-    }
+    })
+
+    return { buttonColor }
   }
 }
 ```
 
 We can also use the Screen plugin outside of a Vue component:
+
 ```js
 import { Screen } from 'quasar'
 
@@ -100,7 +107,13 @@ Examples:
 
 ```js
 // inside a Vue component:
-this.$q.screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  $q.screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
+}
 
 // outside of a Vue component:
 import { Screen } from 'quasar'

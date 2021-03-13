@@ -73,10 +73,10 @@ export const useBtnProps = {
   disable: Boolean
 }
 
-export default function (props, attrs, vm) {
+export default function (props) {
   const sizeStyle = useSize(props, defaultSizes)
   const alignClass = useAlign(props)
-  const { hasLink, linkProps, navigateToLink } = useRouterLink(props, vm, attrs)
+  const { hasLink, linkProps, navigateToLink } = useRouterLink()
 
   const style = computed(() => {
     const obj = props.fab === false && props.fabMini === false

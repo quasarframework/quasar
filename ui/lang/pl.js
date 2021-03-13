@@ -29,16 +29,14 @@ export default {
     noData: 'Brak dostępnych danych',
     noResults: 'Nie znaleziono pasujących wpisów',
     loading: 'Ładowanie...',
-    selectedRecords: function (rows) {
-      return rows > 1
+    selectedRecords: rows => (
+      rows > 1
         ? rows + ' zaznaczony(ch) wiersz(y).'
         : (rows === 0 ? 'Brak' : '1') + ' zaznaczony wiersz.'
-    },
+    ),
     recordsPerPage: 'Wierszy na stronę:',
     allRows: 'Wszystkie',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' z ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' z ' + total,
     columns: 'Kolumny'
   },
   editor: {

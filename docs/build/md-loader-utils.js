@@ -5,14 +5,14 @@ const
 function getComponentsImport (comp) {
   return comp.map(c => {
     const parts = c.split('/')
-    return `import ${parts[parts.length - 1]} from 'components/page-parts/${c}.vue'\n`
+    return `import ${parts[ parts.length - 1 ]} from 'components/page-parts/${c}.vue'\n`
   }).join('')
 }
 
 function getComponentsDeclaration (comp) {
   const list = comp.map(c => {
     const parts = c.split('/')
-    return parts[parts.length - 1]
+    return parts[ parts.length - 1 ]
   }).join(',')
 
   return `components: { ${list} },`

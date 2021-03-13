@@ -1,14 +1,13 @@
 import { h, ref, computed, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 import useRefocusTarget from '../../composables/private/use-refocus-target.js'
 import { useFormInject } from '../../composables/private/use-form.js'
 
-import optionSizes from '../../utils/option-sizes.js'
+import optionSizes from '../../utils/private/option-sizes.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { hSlot, hMergeSlot } from '../../utils/render.js'
+import { hSlot, hMergeSlot } from '../../utils/private/render.js'
 
 export const useCheckboxProps = {
   ...useDarkProps,
@@ -41,10 +40,12 @@ export const useCheckboxProps = {
   tabindex: [ String, Number ]
 }
 
-export const useCheckboxEmits = ['update:modelValue']
+export const useCheckboxEmits = [ 'update:modelValue' ]
 
-export default function (props, slots, emit, type, getInner) {
-  const $q = useQuasar()
+export default function (type, getInner) {
+  const { props, slots, emit, proxy } = getCurrentInstance()
+  const { $q } = proxy
+
   const isDark = useDark(props, $q)
 
   const rootRef = ref(null)
@@ -153,7 +154,7 @@ export default function (props, slots, emit, type, getInner) {
         return val
       }
 
-      return props.modelValue.concat([props.val])
+      return props.modelValue.concat([ props.val ])
     }
 
     if (isTrue.value === true) {
@@ -190,8 +191,7 @@ export default function (props, slots, emit, type, getInner) {
   const getInnerContent = getInner(isTrue, isIndeterminate)
 
   // expose public methods
-  const vm = getCurrentInstance()
-  Object.assign(vm.proxy, { toggle: onClick })
+  Object.assign(proxy, { toggle: onClick })
 
   return () => {
     const inner = getInnerContent()
@@ -214,7 +214,7 @@ export default function (props, slots, emit, type, getInner) {
     }
 
     const label = props.label !== void 0
-      ? hMergeSlot(slots.default, [props.label])
+      ? hMergeSlot(slots.default, [ props.label ])
       : hSlot(slots.default)
 
     label !== void 0 && child.push(

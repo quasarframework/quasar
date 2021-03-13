@@ -3,7 +3,12 @@ import getListingComponent from 'components/getListingComponent.js'
 import menu from 'assets/menu.js'
 import layoutGallery from 'assets/layout-gallery.js'
 
-const docsPages = []
+const docsPages = [
+  {
+    path: '',
+    component: () => import('pages/Landing.vue')
+  }
+]
 
 function parseMenuNode (node, __path) {
   const prefix = __path + (node.path !== void 0 ? '/' + node.path : '')
@@ -73,10 +78,6 @@ const routes = [
   })),
 
   {
-    path: '/',
-    component: () => import('pages/Landing.vue')
-  },
-  {
     path: '/start',
     redirect: '/start/pick-quasar-flavour'
   },
@@ -111,7 +112,11 @@ const routes = [
   // Always leave this as last one
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/Error404.vue')
+    component: DocLayout,
+    children: [{
+      path: '',
+      component: () => import('pages/Error404.vue')
+    }]
   }
 ]
 

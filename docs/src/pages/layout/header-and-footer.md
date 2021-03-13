@@ -1,6 +1,7 @@
 ---
 title: Layout Header and Footer
 desc: How to use the QHeader and QFooter components. The top and bottom bars of your Quasar app.
+keys: QHeader,QFooter
 related:
   - /layout/layout
   - /layout/page
@@ -12,10 +13,12 @@ related:
 
 QLayout allows you to configure your views as a 3x3 matrix, containing an optional Header and/or Footer (mostly used for navbar, but can be anything). If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
 
-## Installation
-Pick only what you are using from the list below.
 
-<doc-installation :components="['QHeader', 'QFooter']" />
+## QHeader API
+<doc-api file="QHeader" />
+
+## QFooter API
+<doc-api file="QFooter" />
 
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
@@ -56,9 +59,3 @@ In the example below, you could use Ionicons icons with `ion-ios-` prefix for QT
 The example below is especially useful if you build an Electron app and you hide the default app frame.
 
 <doc-example title="Desktop app-like" file="QHeader/AppLike" />
-
-## QHeader API
-<doc-api file="QHeader" />
-
-## QFooter API
-<doc-api file="QFooter" />

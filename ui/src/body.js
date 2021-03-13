@@ -1,6 +1,6 @@
-import { setBrand } from './utils/colors.js'
+import setCssVar from './utils/set-css-var.js'
 import { noop } from './utils/event.js'
-import { onKeyDownComposition } from './utils/key-composition.js'
+import { onKeyDownComposition } from './utils/private/key-composition.js'
 import { isRuntimeSsrPreHydration, client, iosCorrection } from './plugins/Platform.js'
 
 function getMobilePlatform (is) {
@@ -67,7 +67,7 @@ function applyClientSsrCorrections () {
 
 function setColors (brand) {
   for (const color in brand) {
-    setBrand(color, brand[ color ])
+    setCssVar(color, brand[ color ])
   }
 }
 

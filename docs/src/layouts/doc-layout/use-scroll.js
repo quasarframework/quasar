@@ -2,19 +2,21 @@ import { scroll } from 'quasar'
 import { watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 
-const { setScrollPosition, getScrollPosition } = scroll
+const { setVerticalScrollPosition, getVerticalScrollPosition } = scroll
 
 let preventTocUpdate = false
 let scrollTimer
 
+const scrollDuration = 500
+
 function scrollPage (el, delay) {
   const { top } = el.getBoundingClientRect()
-  const offset = Math.max(0, top + getScrollPosition(window) - 66)
+  const offset = Math.max(0, top + getVerticalScrollPosition(window) - 66)
 
   clearTimeout(scrollTimer)
 
   preventTocUpdate = true
-  setScrollPosition(window, offset, delay)
+  setVerticalScrollPosition(window, offset, delay)
 
   scrollTimer = setTimeout(() => {
     preventTocUpdate = false
@@ -34,7 +36,7 @@ export default function useScroll (scope, $route) {
 
   function changeRouterHash (hash) {
     if ($route.hash !== hash) {
-      $router.push({ hash }).catch(() => {})
+      $router.replace({ hash }).catch(() => {})
     }
     else {
       scrollToCurrentAnchor()
@@ -43,16 +45,21 @@ export default function useScroll (scope, $route) {
 
   function scrollTo (id) {
     clearTimeout(scrollTimer)
+    const hashtag = '#' + id
 
     if (scope.rightDrawerOnLayout.value !== true) {
       scope.rightDrawerState.value = false
       scrollTimer = setTimeout(() => {
-        changeRouterHash('#' + id)
+        changeRouterHash(hashtag)
       }, 300)
     }
     else {
-      changeRouterHash('#' + id)
+      changeRouterHash(hashtag)
     }
+
+    setTimeout(() => {
+      scope.setActiveToc(getVerticalScrollPosition(window))
+    }, scrollDuration + 50)
   }
 
   function onScroll ({ position }) {
@@ -60,7 +67,7 @@ export default function useScroll (scope, $route) {
       preventTocUpdate !== true &&
       (scope.rightDrawerOnLayout.value === true || scope.rightDrawerState.value !== true)
     ) {
-      scope.setActiveToc(position)
+      scope.setActiveToc(position.vertical)
     }
   }
 
@@ -86,7 +93,7 @@ export default function useScroll (scope, $route) {
         }, 2000)
       }
 
-      scrollPage(el, immediate === true ? 0 : 500)
+      scrollPage(el, immediate === true ? 0 : scrollDuration)
     }
     else {
       preventTocUpdate = false

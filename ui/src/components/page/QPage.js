@@ -1,9 +1,7 @@
-import { h, defineComponent, computed, inject } from 'vue'
+import { h, defineComponent, computed, inject, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
-
-import { hSlot } from '../../utils/render.js'
-import { pageContainerKey, layoutKey } from '../../utils/symbols.js'
+import { hSlot } from '../../utils/private/render.js'
+import { pageContainerKey, layoutKey } from '../../utils/private/symbols.js'
 
 export default defineComponent({
   name: 'QPage',
@@ -14,7 +12,7 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
 
     const $layout = inject(layoutKey)
     inject(pageContainerKey, () => {
@@ -27,7 +25,7 @@ export default defineComponent({
         + ($layout.footer.space === true ? $layout.footer.size : 0)
 
       if (typeof props.styleFn === 'function') {
-        const height = $layout.container === true
+        const height = $layout.isContainer.value === true
           ? $layout.containerHeight.value
           : $q.screen.height
 
@@ -35,11 +33,11 @@ export default defineComponent({
       }
 
       return {
-        minHeight: $layout.container === true
+        minHeight: $layout.isContainer.value === true
           ? ($layout.containerHeight.value - offset) + 'px'
           : (
               $q.screen.height === 0
-                ? `calc(100vh - ${ offset }px)`
+                ? (offset !== 0 ? `calc(100vh - ${ offset }px)` : '100vh')
                 : ($q.screen.height - offset) + 'px'
             )
       }

@@ -1,6 +1,5 @@
-import { h, defineComponent, ref, computed, watch } from 'vue'
+import { h, defineComponent, ref, computed, watch, getCurrentInstance } from 'vue'
 
-import useQuasar from '../../composables/use-quasar.js'
 import { useFormInject, useFormProps, useFormAttrs } from '../../composables/private/use-form.js'
 
 import useSlider, {
@@ -13,7 +12,7 @@ import useSlider, {
 
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { hDir } from '../../utils/render.js'
+import { hDir } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QSlider',
@@ -34,7 +33,8 @@ export default defineComponent({
   emits: useSliderEmits,
 
   setup (props, { emit }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
+
     const formAttrs = useFormAttrs(props)
     const injectFormInput = useFormInject(formAttrs)
 
@@ -43,11 +43,12 @@ export default defineComponent({
     const curRatio = ref(0)
 
     const { state, methods } = useSlider({
-      props, emit, $q,
       updateValue, updatePosition, getDragging
     })
 
-    const modelRatio = computed(() => (model.value - props.min) / (props.max - props.min))
+    const modelRatio = computed(() => (
+      state.minMaxDiff.value === 0 ? 0 : (model.value - props.min) / state.minMaxDiff.value
+    ))
     const ratio = computed(() => (state.active.value === true ? curRatio.value : modelRatio.value))
 
     const trackStyle = computed(() => ({
@@ -135,7 +136,9 @@ export default defineComponent({
       model.value = getModel(ratio, props.min, props.max, props.step, state.decimals.value)
       curRatio.value = props.snap !== true || props.step === 0
         ? ratio
-        : (model.value - props.min) / (props.max - props.min)
+        : (
+            state.minMaxDiff.value === 0 ? 0 : (model.value - props.min) / state.minMaxDiff.value
+          )
     }
 
     function onFocus () {

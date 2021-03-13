@@ -1,12 +1,11 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, nextTick, inject } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeUnmount, inject, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import useQuasar from '../../composables/use-quasar.js'
-import { hMergeSlot } from '../../utils/render.js'
-import { layoutKey } from '../../utils/symbols.js'
+import { hMergeSlot } from '../../utils/private/render.js'
+import { layoutKey } from '../../utils/private/symbols.js'
 
 export default defineComponent({
   name: 'QFooter',
@@ -29,7 +28,8 @@ export default defineComponent({
   emits: [ 'reveal', 'focusin' ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
+
     const $layout = inject(layoutKey, () => {
       console.error('QFooter needs to be child of QLayout')
     })
@@ -37,19 +37,19 @@ export default defineComponent({
     const size = ref(parseInt(props.heightHint, 10))
     const revealed = ref(true)
     const windowHeight = ref(
-      isRuntimeSsrPreHydration === true || $layout.container === true
+      isRuntimeSsrPreHydration === true || $layout.isContainer.value === true
         ? 0
         : window.innerHeight
     )
 
     const fixed = computed(() =>
       props.reveal === true
-      || $layout.view.indexOf('F') > -1
-      || $layout.container === true
+      || $layout.view.value.indexOf('F') > -1
+      || $layout.isContainer.value === true
     )
 
     const containerHeight = computed(() => (
-      $layout.container === true
+      $layout.isContainer.value === true
         ? $layout.containerHeight.value
         : windowHeight.value
     ))
@@ -101,13 +101,7 @@ export default defineComponent({
     })
 
     function updateLayout (prop, val) {
-      // ensure state update is caught correctly by Vue diffing
-      // on all layout components, so nextTicking:
-      nextTick(() => {
-        if ($layout.footer[ prop ] !== val) {
-          $layout.footer[ prop ] = val
-        }
-      })
+      $layout.update('footer', prop, val)
     }
 
     function updateLocal (prop, val) {
@@ -124,11 +118,11 @@ export default defineComponent({
     function updateRevealed () {
       if (props.reveal !== true) { return }
 
-      const { direction, position, inflexionPosition } = $layout.scroll.value
+      const { direction, position, inflectionPoint } = $layout.scroll.value
 
       updateLocal(revealed, (
         direction === 'up'
-        || position - inflexionPosition < 100
+        || position - inflectionPoint < 100
         || $layout.height.value - containerHeight.value - position - size.value < 300
       ))
     }
@@ -163,7 +157,7 @@ export default defineComponent({
     watch([ size, $layout.scroll, $layout.height ], updateRevealed)
 
     watch(() => $q.screen.height, val => {
-      $layout.container !== true && updateLocal(windowHeight, val)
+      $layout.isContainer.value !== true && updateLocal(windowHeight, val)
     })
 
     const instance = {}

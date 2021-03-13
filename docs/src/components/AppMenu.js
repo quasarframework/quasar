@@ -4,11 +4,14 @@ import {
   QItem,
   QItemSection,
   QIcon,
-  QBadge
+  QBadge,
+  Ripple
 } from 'quasar'
 
-import { getParentVm } from 'quasar/src/utils/vm.js'
-import { h, ref, watch, onBeforeUpdate } from 'vue'
+import { mdiArrowDownThinCircleOutline } from '@quasar/extras/mdi-v5'
+
+import { getParentVm } from 'quasar/src/utils/private/vm.js'
+import { h, ref, watch, onBeforeUpdate, withDirectives } from 'vue'
 import { useRoute } from 'vue-router'
 
 import Menu from 'assets/menu.js'
@@ -54,6 +57,7 @@ export default {
             label: menu.name,
             dense: true,
             icon: menu.icon,
+            expandIcon: mdiArrowDownThinCircleOutline,
             defaultOpened: menu.opened || routePath.startsWith(path),
             expandSeparator: true,
             switchToggleSide: level > 0,
@@ -102,7 +106,10 @@ export default {
         }, () => h(QBadge, { label: menu.badge }))
       )
 
-      return h(QItem, props, () => child)
+      return withDirectives(
+        h(QItem, props, () => child),
+        [[Ripple]]
+      )
     }
 
     return () => h(QList, { ref: rootRef, class: 'app-menu', dense: true }, () => Menu.map(

@@ -29,14 +29,14 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 
 export default {
   setup () {
     const submitResult = ref([])
 
     return {
-      range: reactive({
+      range: ref({
         min: 10,
         max: 50
       }),

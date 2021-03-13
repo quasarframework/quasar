@@ -4,7 +4,7 @@ import {
   DeepPartial,
   QuasarPluginOptions,
 } from "quasar";
-import Vue from "vue";
+import { Component } from "vue";
 
 interface QuasarMobileFrameworkInnerConfiguration {
   iosStatusBarPadding: boolean;
@@ -33,7 +33,7 @@ interface QuasarFrameworkInnerConfiguration {
     spinnerColor: string;
     messageColor: string;
     backgroundColor: string;
-    spinner: Vue;
+    spinner: Component;
     customClass: string;
   };
   loadingBar: { color: string; size: string; position: string };

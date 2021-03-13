@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { ref } from 'vue'
 
 export default {
   setup () {
     return {
-      step: reactive({
+      step: ref({
         min: 10,
         max: 20
       })

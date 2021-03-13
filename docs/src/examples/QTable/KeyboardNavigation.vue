@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed, nextTick } from 'vue'
+import { ref, computed, nextTick } from 'vue'
 
 const columns = [
   {
@@ -97,7 +97,7 @@ export default {
     const tableRef = ref(null)
 
     const navigationActive = ref(false)
-    const pagination = reactive({})
+    const pagination = ref({})
     const selected = ref([])
 
     return {
@@ -139,8 +139,8 @@ export default {
         }
 
         const currentIndex = selected.value.length > 0 ? computedRows.indexOf(selected.value[ 0 ]) : -1
-        const currentPage = pagination.page
-        const rowsPerPage = pagination.rowsPerPage === 0 ? computedRowsNumber : pagination.rowsPerPage
+        const currentPage = pagination.value.page
+        const rowsPerPage = pagination.value.rowsPerPage === 0 ? computedRowsNumber : pagination.value.rowsPerPage
         const lastIndex = computedRows.length - 1
         const lastPage = Math.ceil(computedRowsNumber / rowsPerPage)
 
@@ -188,10 +188,8 @@ export default {
             break
         }
 
-        if (page !== pagination.page) {
-          Object.assign(pagination, {
-            page
-          })
+        if (page !== pagination.value.page) {
+          pagination.value.page = page
 
           nextTick(() => {
             const { computedRows } = tableRef.value

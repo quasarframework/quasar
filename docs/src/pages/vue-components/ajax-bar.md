@@ -1,6 +1,7 @@
 ---
 title: Ajax Bar
 desc: The QAjaxBar Vue component displays a loading bar whenever an Ajax call is in progress.
+keys: QAjaxBar
 related:
   - /quasar-plugins/loading
   - /quasar-plugins/loading-bar
@@ -15,8 +16,9 @@ QAjaxBar is a component which displays a loading bar (like Youtube) whenever an 
 If you'd like **a simpler and more convenient way** to offer an Ajax Bar to your users, have a look at the [Loading Bar Plugin](/quasar-plugins/loading-bar), which is actually **the recommended way**.
 :::
 
-## Installation
-<doc-installation components="QAjaxBar" />
+## QAjaxBar API
+
+<doc-api file="QAjaxBar" />
 
 ## Usage
 The QAjaxBar component captures Ajax calls automatically (unless told not to).
@@ -28,9 +30,6 @@ The example below triggers events manually for demonstrating purposes only. This
 Please check out the API section for all properties that you can use.
 
 ## Tips
+
 * If multiple events are captured by Ajax Bar simultaneously, `@start` and `@stop` will still be triggered only once: when bar starts showing up and when it becomes hidden.
-
 * Each Ajax call makes a `start()` call when it is triggered. When it ends, it calls `stop()`. So yes, if you also manually trigger QAjaxBar you must call `start()` each time a new event is starting and `stop()` each time an event finished. QAjaxBar knows to handle multiple events simultaneously.
-
-## QAjaxBar API
-<doc-api file="QAjaxBar" />

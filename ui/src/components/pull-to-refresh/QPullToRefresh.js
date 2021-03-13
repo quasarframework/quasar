@@ -4,12 +4,10 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import TouchPan from '../../directives/TouchPan.js'
 
-import useQuasar from '../../composables/use-quasar.js'
-
-import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
+import { getScrollTarget, getVerticalScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
-import { hSlot, hDir } from '../../utils/render.js'
+import { hSlot, hDir } from '../../utils/private/render.js'
 
 const
   PULLER_HEIGHT = 40,
@@ -30,10 +28,11 @@ export default defineComponent({
     }
   },
 
-  emits: ['refresh'],
+  emits: [ 'refresh' ],
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
 
     const state = ref('pull')
     const pullRatio = ref(0)
@@ -76,7 +75,7 @@ export default defineComponent({
       }
 
       if (event.isFirst === true) {
-        if (getScrollPosition(localScrollTarget) !== 0) {
+        if (getVerticalScrollPosition(localScrollTarget) !== 0) {
           if (pulling.value === true) {
             pulling.value = false
             state.value = 'pull'
@@ -120,12 +119,12 @@ export default defineComponent({
         modifiers.mouse = true
       }
 
-      return [[
+      return [ [
         TouchPan,
         pull,
         void 0,
         modifiers
-      ]]
+      ] ]
     })
 
     const contentClass = computed(() =>
@@ -155,10 +154,8 @@ export default defineComponent({
       }, 300)
     }
 
-    const vm = getCurrentInstance()
-
     // expose public methods
-    Object.assign(vm.proxy, { trigger, updateScrollTarget })
+    Object.assign(proxy, { trigger, updateScrollTarget })
 
     let $el, localScrollTarget, timer
 
@@ -169,7 +166,7 @@ export default defineComponent({
     watch(() => props.scrollTarget, updateScrollTarget)
 
     onMounted(() => {
-      $el = vm.proxy.$el
+      $el = proxy.$el
       updateScrollTarget()
     })
 

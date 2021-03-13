@@ -50,7 +50,7 @@ module.exports = function (api) {
 The first group does a compatibility check with Quasar (which is optional, but recommended). If your component is using features of Quasar that were available after a certain version, you can make sure that the version of Quasar installed is the correct one.
 
 ::: tip
-Not only can you do a `api.compatibleWith()` to check against Quasar packages, but with any other available packages (that you do not supply yourself through your App Extension) as well. Please read [Handling package dependencies](/app-extensions/development-guide/introduction#Handling-package-dependencies) section from the App Extension Development Guide > Introduction page for more information.
+Not only can you do a `api.compatibleWith()` to check against Quasar packages, but with any other available packages (that you do not supply yourself through your App Extension) as well. Please read [Handling package dependencies](/app-extensions/development-guide/introduction#handling-package-dependencies) section from the App Extension Development Guide > Introduction page for more information.
 :::
 
 The second group tells Quasar to call our custom function when the `extendQuasarConf` CLI life-cycle hook is called. It would look something like this:
@@ -70,7 +70,6 @@ Finally, let's see how the boot file would look like. Make sure that you read th
 
 ```js
 // file: /src/boot/my-directive.js
-import Vue from 'vue'
 import MyDirective from '../directive/MyDirective.js'
 
 // We globally register our directive with Vue;
@@ -78,5 +77,7 @@ import MyDirective from '../directive/MyDirective.js'
 // but that should not be part of your directive name
 // https://vuejs.org/v2/guide/custom-directive.html
 // 'my-directive' will be used as 'v-my-directive'
-Vue.directive('my-directive', MyDirective)
+export default ({ app }) => {
+  app.directive('my-directive', MyDirective)
+}
 ```

@@ -3,14 +3,13 @@ import { h, defineComponent, ref, computed, watch, nextTick, onBeforeUnmount, ge
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import useQuasar from '../../composables/use-quasar.js'
-import useTick from '../../composables/use-tick.js'
-import useTimeout from '../../composables/use-timeout.js'
+import useTick from '../../composables/private/use-tick.js'
+import useTimeout from '../../composables/private/use-timeout.js'
 
 import { noop } from '../../utils/event.js'
-import { hSlot } from '../../utils/render.js'
-import { tabsKey } from '../../utils/symbols.js'
-import { vmHasListener } from '../../utils/vm.js'
+import { hSlot } from '../../utils/private/render.js'
+import { tabsKey } from '../../utils/private/symbols.js'
+import { vmHasListener } from '../../utils/private/vm.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -62,11 +61,11 @@ export default defineComponent({
     contentClass: String
   },
 
-  emits: ['update:modelValue'],
+  emits: [ 'update:modelValue' ],
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
-    const $q = useQuasar()
+    const { proxy: { $q } } = vm
 
     const { registerTick, prepareTick } = useTick()
     const { registerTimeout } = useTimeout()
@@ -126,12 +125,13 @@ export default defineComponent({
       'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar '
       + alignClass.value
       + (props.contentClass !== void 0 ? ` ${ props.contentClass }` : '')
+      + ($q.platform.is.mobile === true ? ' scroll' : '')
     )
 
     const domProps = computed(() => (
       props.vertical === true
-        ? { container: 'height', content: 'offsetHeight', posLeft: 'top', posRight: 'bottom' }
-        : { container: 'width', content: 'offsetWidth', posLeft: 'left', posRight: 'right' }
+        ? { container: 'height', content: 'offsetHeight', scroll: 'scrollHeight' }
+        : { container: 'width', content: 'offsetWidth', scroll: 'scrollWidth' }
     ))
 
     watch(() => props.modelValue, name => {
@@ -183,10 +183,13 @@ export default defineComponent({
     function updateContainer (domSize) {
       const
         size = domSize[ domProps.value.container ],
-        scrollSize = Array.prototype.reduce.call(
-          contentRef.value.children,
-          (acc, el) => acc + el[ domProps.value.content ],
-          0
+        scrollSize = Math.min(
+          contentRef.value[ domProps.value.scroll ],
+          Array.prototype.reduce.call(
+            contentRef.value.children,
+            (acc, el) => acc + el[ domProps.value.content ],
+            0
+          )
         ),
         scroll = size > 0 && scrollSize > size // when there is no tab, in Chrome, size === 0 and scrollSize === 1
 
@@ -264,15 +267,17 @@ export default defineComponent({
     }
 
     function updateArrowsFn () {
-      const
-        content = contentRef.value,
-        rect = content.getBoundingClientRect(),
-        pos = props.vertical === true ? content.scrollTop : content.scrollLeft
+      const content = contentRef.value
+      if (content !== null) {
+        const
+          rect = content.getBoundingClientRect(),
+          pos = props.vertical === true ? content.scrollTop : content.scrollLeft
 
-      leftArrow.value = pos > 0
-      rightArrow.value = props.vertical === true
-        ? Math.ceil(pos + rect.height) < content.scrollHeight
-        : Math.ceil(pos + rect.width) < content.scrollWidth
+        leftArrow.value = pos > 0
+        rightArrow.value = props.vertical === true
+          ? Math.ceil(pos + rect.height) < content.scrollHeight
+          : Math.ceil(pos + rect.width) < content.scrollWidth
+      }
     }
 
     function animScrollTo (value) {
@@ -415,7 +420,8 @@ export default defineComponent({
 
         h('div', {
           ref: contentRef,
-          class: innerClass.value
+          class: innerClass.value,
+          onScroll: localUpdateArrows
         }, hSlot(slots.default))
       ]
 

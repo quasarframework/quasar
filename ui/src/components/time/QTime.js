@@ -3,12 +3,11 @@ import { h, defineComponent, ref, computed, watch, withDirectives, Transition, n
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from '../date/use-datetime.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { pad } from '../../utils/format.js'
@@ -71,7 +70,8 @@ export default defineComponent({
   emits: useDatetimeEmits,
 
   setup (props, { slots, emit }) {
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
+
     const isDark = useDark(props, $q)
     const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
 
@@ -267,7 +267,7 @@ export default defineComponent({
     })
 
     const clockDirectives = computed(() => {
-      return [[
+      return [ [
         TouchPan,
         onPan,
         void 0,
@@ -276,7 +276,7 @@ export default defineComponent({
           prevent: true,
           mouse: true
         }
-      ]]
+      ] ]
     })
 
     watch(() => props.modelValue, v => {
@@ -872,7 +872,7 @@ export default defineComponent({
                       + (pos.val === current
                         ? ' q-time__clock-position--active ' + headerClass.value
                         : (pos.disable === true ? ' q-time__clock-position--disable' : ''))
-                  }, [h('span', pos.label)]))
+                  }, [ h('span', pos.label) ]))
                 ])
               ]),
               clockDirectives.value
@@ -895,7 +895,7 @@ export default defineComponent({
     }
 
     return () => {
-      const child = [getClock()]
+      const child = [ getClock() ]
 
       const def = hSlot(slots.default)
       def !== void 0 && child.push(

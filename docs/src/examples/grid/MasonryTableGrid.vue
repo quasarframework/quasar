@@ -41,7 +41,7 @@
 
 <script>
 import { useQuasar } from 'quasar'
-import { ref, reactive, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 const deserts = [
   'Frozen Yogurt',
@@ -81,13 +81,13 @@ export default {
     }
 
     const filter = ref('')
-    const pagination = reactive({
+    const pagination = ref({
       page: 1,
       rowsPerPage: getItemsPerPage()
     })
 
     watch(() => $q.screen.name, () => {
-      pagination.rowsPerPage = getItemsPerPage()
+      pagination.value.rowsPerPage = getItemsPerPage()
     })
 
     return {

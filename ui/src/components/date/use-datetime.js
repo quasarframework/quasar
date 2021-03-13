@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 
-import { toJalaali } from '../../utils/date-persian.js'
+import { toJalaali } from '../../utils/private/date-persian.js'
 import { pad } from '../../utils/format.js'
 
 const calendars = [ 'gregorian', 'persian' ]
@@ -34,7 +34,7 @@ export const useDatetimeProps = {
   disable: Boolean
 }
 
-export const useDatetimeEmits = ['update:modelValue']
+export const useDatetimeEmits = [ 'update:modelValue' ]
 
 export function getDayHash (date) {
   return date.year + '/' + pad(date.month) + '/' + pad(date.day)

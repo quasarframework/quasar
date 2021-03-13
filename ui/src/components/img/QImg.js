@@ -4,7 +4,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 const crossoriginValues = [ 'anonymous', 'use-credentials' ]
 const loadingValues = [ 'eager', 'lazy' ]
@@ -69,7 +69,6 @@ export default defineComponent({
     ]
 
     const position = ref(0)
-    const imgRef = ref(null)
 
     const isLoading = ref(false)
     const hasError = ref(false)
@@ -120,28 +119,37 @@ export default defineComponent({
       images[ position.value ].value = imgProps
     }
 
-    function onLoad () {
-      const img = imgRef.value
+    function onLoad ({ target }) {
+      // if component has been already destroyed
+      if (loadTimer === null) { return }
 
-      naturalRatio.value = img.naturalHeight === 0
+      clearTimeout(loadTimer)
+
+      naturalRatio.value = target.naturalHeight === 0
         ? 0.5
-        : img.naturalWidth / img.naturalHeight
+        : target.naturalWidth / target.naturalHeight
 
-      waitForCompleteness()
+      waitForCompleteness(target, 1)
     }
 
-    function waitForCompleteness () {
-      const img = imgRef.value
+    function waitForCompleteness (target, count) {
+      // protect against running forever
+      if (loadTimer === null || count === 1000) { return }
 
-      if (img.complete === true) {
-        onReady(img)
+      if (target.complete === true) {
+        onReady(target)
       }
       else {
-        loadTimer = setTimeout(waitForCompleteness, 50)
+        loadTimer = setTimeout(() => {
+          waitForCompleteness(target, count + 1)
+        }, 50)
       }
     }
 
     function onReady (img) {
+      // if component has been already destroyed
+      if (loadTimer === null) { return }
+
       position.value = position.value === 1 ? 0 : 1
       images[ position.value ].value = null
       isLoading.value = false
@@ -170,6 +178,7 @@ export default defineComponent({
       const img = images[ index ].value
 
       const data = {
+        key: 'img_' + index,
         class: imgClass.value,
         style: imgStyle.value,
         crossorigin: props.crossorigin,
@@ -182,7 +191,7 @@ export default defineComponent({
 
       if (position.value === index) {
         data.class += ' q-img__image--waiting'
-        Object.assign(data, { ref: imgRef, onLoad, onError })
+        Object.assign(data, { onLoad, onError })
       }
       else {
         data.class += ' q-img__image--loaded'
@@ -222,6 +231,7 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       clearTimeout(loadTimer)
+      loadTimer = null
     })
 
     return () => {

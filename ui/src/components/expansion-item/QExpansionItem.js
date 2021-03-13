@@ -1,4 +1,4 @@
-import { h, shallowReactive, defineComponent, ref, computed, watch, withDirectives, vShow, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, shallowReactive, defineComponent, ref, computed, watch, withDirectives, getCurrentInstance, vShow, onBeforeUnmount } from 'vue'
 
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
@@ -7,13 +7,12 @@ import QIcon from '../icon/QIcon.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
-import useQuasar from '../../composables/use-quasar.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 import uid from '../../utils/uid.js'
 
 const itemGroups = shallowReactive({})
@@ -63,9 +62,7 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
-
-    const $q = useQuasar()
+    const { proxy: { $q } } = getCurrentInstance()
     const isDark = useDark(props, $q)
 
     const showing = ref(
@@ -76,7 +73,7 @@ export default defineComponent({
 
     const blurTargetRef = ref(null)
 
-    const { hide, toggle } = useModelToggle({ props, emit, vm, showing })
+    const { hide, toggle } = useModelToggle({ showing })
 
     let uniqueId, exitGroup
 
@@ -293,10 +290,10 @@ export default defineComponent({
           class: 'q-expansion-item__content relative-position',
           style: contentStyle.value
         }, hSlot(slots.default)),
-        [[
+        [ [
           vShow,
           showing.value
-        ]]
+        ] ]
       )
     }
 
