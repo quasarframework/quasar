@@ -72,6 +72,11 @@
               "desc": "Wait a number of millisecond before showing; Not worth showing for 100ms for example then hiding it, so wait until you're sure it's a process that will take some considerable amount of time",
               "examples": [ 400 ]
             },
+            "update": {
+              "type": "Boolean",
+              "desc": "Update content without showing transition",
+              "addedIn": "v1.15.6"
+            },
             "message": {
               "type": "String",
               "desc": "Message to display",

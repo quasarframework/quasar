@@ -34,7 +34,11 @@ const Loading = {
       : { ...defaults, ...opts }
 
     props.customClass += ` text-${props.backgroundColor}`
-    props.uid = `l_${uid++}`
+
+    if (props.update !== true || vm === void 0) {
+      uid++
+    }
+    props.uid = `l_${uid}`
 
     this.isActive = true
 

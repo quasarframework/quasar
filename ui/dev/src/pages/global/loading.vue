@@ -3,6 +3,8 @@
     <div class="q-layout-padding">
       <p class="caption">
         Notify the user something is going on under the covers.
+
+        <q-toggle v-model="update" label="Update without transition" />
       </p>
       <div>
         {{ state }}
@@ -97,7 +99,8 @@ export default {
 
   data () {
     return {
-      showCount: 3
+      showCount: 3,
+      update: false
     }
   },
 
@@ -112,17 +115,20 @@ export default {
       spinnerColor: 'amber'
     })
     this.$q.loading.show({
-      message: 'With defaults'
+      message: 'With defaults',
+      update: this.update
     })
     setTimeout(() => {
       this.$q.loading.show({
         message: 'Discarded defaults',
-        ignoreDefaults: true
+        ignoreDefaults: true,
+        update: this.update
       })
       setTimeout(() => {
         this.$q.loading.hide()
         this.$q.loading.setDefaults({
-          spinnerColor: void 0
+          spinnerColor: void 0,
+          update: this.update
         })
       }, 1000)
     }, 1000)
@@ -130,7 +136,7 @@ export default {
 
   methods: {
     noMessage () {
-      show()
+      show({ update: this.update })
     },
     customLoading () {
       show({
@@ -138,30 +144,42 @@ export default {
         spinnerColor: 'amber',
         spinnerSize: 140,
         message: 'Some important process is in progress. Hang on...',
-        messageColor: 'orange'
+        messageColor: 'orange',
+        update: this.update
       })
     },
     withMessage () {
-      show({ message: 'Some <b class="text-negative">important</b> process is in progress. Hang on...' })
+      show({
+        message: 'Some <b class="text-negative">important</b> process is in progress. Hang on...',
+        update: this.update
+      })
     },
     withMessageSanitized () {
-      show({ message: 'Some <b class="text-negative">important</b> process is in progress. Hang on...', sanitize: true })
+      show({
+        message: 'Some <b class="text-negative">important</b> process is in progress. Hang on...',
+        sanitize: true,
+        update: this.update
+      })
     },
     changeMessage () {
-      Loading.show({ message: 'First message. Gonna change it in 3 seconds...' })
+      Loading.show({
+        message: 'First message. Gonna change it in 3 seconds...',
+        update: this.update
+      })
       setTimeout(() => {
         show({
           spinner: QSpinnerGears,
           spinnerColor: 'red',
           messageColor: 'black',
           backgroundColor: 'yellow',
-          message: 'Updated message'
+          message: 'Updated message',
+          update: this.update
         })
       }, 3000)
     },
     async showMultiple () {
       for (let i = 0; i < this.showCount; i++) {
-        Loading.show()
+        Loading.show({ update: this.update })
 
         await new Promise(resolve => setTimeout(resolve, 2000))
 
@@ -171,13 +189,13 @@ export default {
 
     shortLoading (timeout) {
       if (timeout === void 0) {
-        Loading.show({ delay: 500 })
-        Loading.show({ delay: 500 })
+        Loading.show({ delay: 500, update: this.update })
+        Loading.show({ delay: 500, update: this.update })
         Loading.hide()
       }
       else {
-        show({ delay: 500 }, timeout)
-        Loading.show({ delay: 500 })
+        show({ delay: 500, update: this.update }, timeout)
+        Loading.show({ delay: 500, update: this.update })
       }
     }
   }
