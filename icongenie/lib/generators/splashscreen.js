@@ -18,7 +18,7 @@ module.exports = async function (file, opts, done) {
       padding: opts.padding,
     });
 
-    const compositionArray = [{ input: await icon.toBuffer() }];
+    const compositionArray = [{ input: await icon.toBuffer(), blend: 'atop' }];
 
     // if this file is a possible nine patch:
     // - cleanup depending on --nine-patch command line option
@@ -48,8 +48,28 @@ module.exports = async function (file, opts, done) {
           right: 1,
           background: { r: 0, g: 0, b: 0, alpha: 1 },
         });
+
+         // clear corner pixels
+         ["northwest"].forEach(
+        //  ["northwest", "northeast", "southwest", "southeast"].forEach(
+          (gravity) => {
+            compositionArray.push({
+              input: {
+                create: {
+                  width: 1,
+                  height: 1,
+                  channels: 3,
+                  background: { r: 0, g: 0, b: 0, alpha: 0 },
+                },
+              },
+              gravity: gravity,
+              blend: "dest-out",
+            });
+          }
+        );
+
         // cut out non-stretchable areas
-        compositionArray.unshift(
+        compositionArray.push(
           {
             input: {
               create: {
@@ -80,23 +100,7 @@ module.exports = async function (file, opts, done) {
           }
         );
 
-        // clear corner pixels
-        ["northwest", "northeast", "southwest", "southeast"].forEach(
-          (gravity) => {
-            compositionArray.unshift({
-              input: {
-                create: {
-                  width: 1,
-                  height: 1,
-                  channels: 4,
-                  background: { r: 0, g: 0, b: 0, alpha: 1 },
-                },
-              },
-              gravity: gravity,
-              blend: "dest-out",
-            });
-          }
-        );
+       
       } else {
         const ninePatchAbsoluteName = file.absoluteName.replace(
           ".png",
