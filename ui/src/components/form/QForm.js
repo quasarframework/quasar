@@ -41,7 +41,7 @@ export default Vue.extend({
 
       this.validateIndex++
 
-      const components = this.getValidationComponents()
+      const components = this.getValidationComponents().filter(c => c.disable !== true)
 
       const emit = (res, ref) => {
         this.$emit('validation-' + (res === true ? 'success' : 'error'), ref)
