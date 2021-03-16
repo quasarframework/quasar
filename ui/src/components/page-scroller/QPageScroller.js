@@ -43,7 +43,7 @@ export default Vue.extend({
   computed: {
     height () {
       return this.layout.container === true
-        ? this.layout.containerHeight
+        ? this.layout.height - this.layout.containerHeight
         : this.layout.height
     },
 
@@ -78,14 +78,22 @@ export default Vue.extend({
   methods: {
     __isVisible () {
       return this.reverse === true
-        ? this.height - this.layout.scroll.position > this.scrollOffset
+        ? this.__getScrollHeight() - this.layout.scroll.position > this.scrollOffset
         : this.layout.scroll.position > this.scrollOffset
     },
 
+    __getScrollHeight () {
+      return 0
+    },
+
+    __getScrollHeightClient () {
+      return this.layout.container === true
+        ? this.height
+        : this.height - window.innerHeight
+    },
+
     __onClick (e) {
-      const target = this.layout.container === true
-        ? getScrollTarget(this.$el)
-        : getScrollTarget(this.layout.$el)
+      const target = getScrollTarget(this.layout.container === true ? this.$el : this.layout.$el)
 
       setScrollPosition(target, this.reverse === true ? this.layout.height : 0, this.duration)
       this.$emit('click', e)
@@ -119,6 +127,10 @@ export default Vue.extend({
       ]
       : null
     )
+  },
+
+  mounted () {
+    this.__getScrollHeight = this.__getScrollHeightClient
   },
 
   beforeDestroy () {
