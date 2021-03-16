@@ -94,17 +94,17 @@ export default Vue.extend({
     __show (evt) {
       this.__showPortal()
 
-      this.__nextTick(() => {
-        this.updatePosition()
-        this.__configureScrollTarget()
-      })
-
       if (this.unwatch === void 0) {
         this.unwatch = this.$watch(
           () => this.$q.screen.width + '|' + this.$q.screen.height + '|' + this.self + '|' + this.anchor + '|' + this.$q.lang.rtl,
           this.updatePosition
         )
       }
+
+      this.__nextTick(() => {
+        this.updatePosition()
+        this.__configureScrollTarget()
+      })
 
       this.__setTimeout(() => {
         this.$emit('show', evt)

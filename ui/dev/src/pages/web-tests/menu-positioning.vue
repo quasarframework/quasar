@@ -45,7 +45,7 @@
       Running Quasar v{{ version }}
     </div>
 
-    <div style="height: 100px"></div>
+    <div style="height: 200px"></div>
     Space below
   </div>
 </template>

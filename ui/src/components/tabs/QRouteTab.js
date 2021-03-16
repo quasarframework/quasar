@@ -81,10 +81,10 @@ export default Vue.extend({
       }
 
       if (keyboard === true) {
-        this.$el.focus(e)
+        this.$el.focus()
       }
       else {
-        this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus(e)
+        this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
       }
     },
 

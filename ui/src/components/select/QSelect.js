@@ -1328,7 +1328,7 @@ export default Vue.extend({
           value: this.dialog,
           dark: this.isOptionsDark,
           position: this.useInput === true ? 'top' : void 0,
-          transitionShow: this.transitionShowComputed,
+          transitionShow: this.transitionShow,
           transitionHide: this.transitionHide
         },
         on: cache(this, 'dialog', {
@@ -1459,10 +1459,6 @@ export default Vue.extend({
             ? this.$scopedSlots['no-option'] !== void 0 || this.qListeners.filter !== void 0 || this.noOptions === false
             : true
         )
-
-      this.transitionShowComputed = this.hasDialog === true && this.useInput === true && this.$q.platform.is.ios === true
-        ? 'fade'
-        : this.transitionShow
     },
 
     __onPostRender () {

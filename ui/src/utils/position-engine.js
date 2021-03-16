@@ -158,12 +158,17 @@ export function getTargetProps (el) {
 
 // cfg: { el, anchorEl, anchorOrigin, selfOrigin, offset, absoluteOffset, cover, fit, minHeight, minWidth, maxHeight, maxWidth, rtl }
 export function setPosition (cfg) {
+  const extEl = cfg.el
+
+  if (extEl.classList.contains('q-body--prevent-scroll-reposition') === true) {
+    return
+  }
+
   let anchorProps, targetProps
 
   const
-    extEl = cfg.el,
     intEl = extEl.children[0],
-    firstRender = intEl.style.visibility !== 'visible',
+    firstRender = intEl.style.opacity !== 1,
     fixedPositioned = isFixedPositioned(cfg.anchorEl),
     anchorOrigin = { ...cfg.anchorOrigin },
     selfOrigin = { ...cfg.selfOrigin },
@@ -375,7 +380,7 @@ export function setPosition (cfg) {
 
   if (firstRender === true) {
     requestAnimationFrame(() => {
-      intEl.style.visibility = 'visible'
+      intEl.style.opacity = 1
     })
   }
 }

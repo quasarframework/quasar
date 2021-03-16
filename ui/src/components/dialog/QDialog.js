@@ -11,6 +11,8 @@ import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
 import { create, stop } from '../../utils/event.js'
 import cache from '../../utils/cache.js'
+import { focusNoScroll, EDITABLE_SELECTOR } from '../../utils/focus.js'
+import { animScrollTo } from '../../utils/scroll.js'
 
 let maximizedModals = 0
 
@@ -196,7 +198,7 @@ export default Vue.extend({
           this.__refocusTarget !== void 0 &&
           this.__portal.$el.contains(document.activeElement) === true
         ) {
-          this.__refocusTarget.focus()
+          focusNoScroll(this.__refocusTarget)
         }
         else {
           this.__focusFirst()
@@ -208,12 +210,13 @@ export default Vue.extend({
       if (this.noFocus !== true) {
         // IE can have null document.activeElement
         document.activeElement !== null && document.activeElement.blur()
+
         this.__nextTick(this.focus)
       }
 
       this.__setTimeout(() => {
         if (this.$q.platform.is.ios === true) {
-          if (this.seamless !== true && document.activeElement) {
+          if (this.seamless !== true && document.activeElement && document.activeElement.matches(EDITABLE_SELECTOR) === true) {
             const
               { top, bottom } = document.activeElement.getBoundingClientRect(),
               { innerHeight } = window,
@@ -221,24 +224,31 @@ export default Vue.extend({
                 ? window.visualViewport.height
                 : innerHeight
 
-            if (top > 0 && bottom > height / 2) {
-              document.scrollingElement.scrollTop = Math.min(
-                document.scrollingElement.scrollHeight - height,
-                bottom >= innerHeight
-                  ? Infinity
-                  : Math.ceil(document.scrollingElement.scrollTop + bottom - height / 2)
+            if (top <= 0) {
+              document.scrollingElement.scrollTop = 0
+            }
+            else if (bottom > height / 1.5) {
+              animScrollTo(
+                document.scrollingElement,
+                Math.min(
+                  document.scrollingElement.scrollHeight - height,
+                  bottom >= innerHeight
+                    ? Infinity
+                    : Math.ceil(document.scrollingElement.scrollTop + bottom - height / 1.5)
+                ),
+                100
               )
             }
-
-            document.activeElement.scrollIntoView()
           }
 
           // required in order to avoid the "double-tap needed" issue
           this.__portal.$el.click()
         }
 
-        this.$emit('show', evt)
-      }, 300)
+        this.__setTimeout(() => {
+          this.$emit('show', evt)
+        }, 100)
+      }, 200)
     },
 
     __hide (evt) {
@@ -247,7 +257,7 @@ export default Vue.extend({
 
       // check null for IE
       if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
-        this.__refocusTarget.focus()
+        focusNoScroll(this.__refocusTarget)
       }
 
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))

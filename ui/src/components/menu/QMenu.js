@@ -190,14 +190,20 @@ export default Vue.extend({
 
       this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
 
-      // IE can have null document.activeElement
-      if (this.noFocus !== true && document.activeElement !== null) {
-        document.activeElement.blur()
-      }
+      if (this.noFocus !== true) {
+        // IE can have null document.activeElement
+        document.activeElement !== null && document.activeElement.blur()
 
-      this.__nextTick(() => {
-        this.updatePosition()
-      })
+        this.__nextTick(() => {
+          this.focus()
+          this.updatePosition()
+        })
+      }
+      else {
+        this.__nextTick(() => {
+          this.updatePosition()
+        })
+      }
 
       this.__setTimeout(() => {
         // required in order to avoid the "double-tap needed" issue
@@ -209,8 +215,6 @@ export default Vue.extend({
         }
 
         this.$emit('show', evt)
-
-        this.noFocus !== true && this.focus()
       }, 300)
     },
 
