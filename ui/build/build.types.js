@@ -404,6 +404,7 @@ function writeIndexDTS (apis) {
   //  and not directly referenced by any file
   writeLine(contents, `import './vue'`)
   writeLine(contents, `import './shim-icon-set'`)
+  writeLine(contents, `import './shim-lang'`)
 
   writeFile(resolvePath('index.d.ts'), contents.join(''))
 }
