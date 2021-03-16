@@ -402,6 +402,7 @@ function writeIndexDTS (apis) {
   //  which by defaults would be ignored because inside node_modules
   //  and not directly referenced by any file
   writeLine(contents, 'import \'./shim-icon-set\'')
+  writeLine(contents, 'import \'./shim-lang\'')
 
   writeFile(resolvePath('index.d.ts'), contents.join(''))
 }
