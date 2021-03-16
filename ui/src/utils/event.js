@@ -76,6 +76,19 @@ export function getEventPath (e) {
   }
 }
 
+export function eventOnAncestors (e, el) {
+  const { target } = e
+
+  while (el !== null && el !== void 0) {
+    if (el === target) {
+      return true
+    }
+    el = el.parentNode
+  }
+
+  return false
+}
+
 // Reasonable defaults
 const
   LINE_HEIGHT = 40,
@@ -174,6 +187,7 @@ export default {
   rightClick,
   position,
   getEventPath,
+  eventOnAncestors,
   getMouseWheelDistance,
   stop,
   prevent,
