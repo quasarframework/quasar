@@ -1,34 +1,27 @@
 <template>
-  <div class="q-pa-md">
-    <q-badge color="secondary">
-      Model: {{ standard.min }} to {{ standard.max }} (0 to 50)
-    </q-badge>
+  <div class="q-layout-padding">
+    <!--
+      This is for fast tests.
+      Use this page but don't add it into your commits (leave it outside
+      of your commit).
 
-    <q-range
-      v-model="standard"
-      :min="0"
-      :max="50"
-    />
-    <q-range
-      v-model="standard"
-      :min="0"
-      :max="50"
-      color="green"
-    />
+      For some test that you think it should be persistent,
+      make a new *.vue file here or in another folder under /dev/components.
+    -->
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+/* eslint-disable */
+import { h, ref, computed, watch, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 
 export default {
   setup () {
     return {
-      standard: ref({
-        min: 10,
-        max: 35
-      })
     }
   }
 }
 </script>
+
+<style lang="sass">
+</style>
