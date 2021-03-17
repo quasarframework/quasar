@@ -52,7 +52,7 @@ const Plugin = defineReactivePlugin({
     timeout = setTimeout(() => {
       timeout = void 0
 
-      const el = createGlobalNode('q-loading')
+      const el = createGlobalNode({ id: 'q-loading', cfg: this.$q.config.globalNode })
 
       app = createApp({
         name: 'QLoading',
@@ -140,6 +140,7 @@ const Plugin = defineReactivePlugin({
     }
 
     opts.$q.loading = this
+    this.$q = opts.$q
   }
 })
 

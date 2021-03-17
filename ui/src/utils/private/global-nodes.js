@@ -3,8 +3,12 @@ let target = __QUASAR_SSR_SERVER__
   ? void 0
   : document.body
 
-export function createGlobalNode (id) {
+export function createGlobalNode ({ id, cfg }) {
   const el = document.createElement('div')
+
+  if (cfg && typeof cfg.className === 'string' && cfg.className !== '') {
+    el.classList.add(cfg.className)
+  }
 
   if (id !== void 0) {
     el.id = id

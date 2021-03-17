@@ -91,7 +91,7 @@ export default function (DefaultComponent, supportsCustomComponent, pluginOpts) 
         }
       }
 
-    const el = createGlobalNode()
+    const el = createGlobalNode({ className: pluginOpts.$q.config.globalNode })
 
     let emittedOK = false
 

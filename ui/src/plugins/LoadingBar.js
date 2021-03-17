@@ -29,7 +29,7 @@ export default defineReactivePlugin({
         : { ...reqProps }
     )
 
-    const el = createGlobalNode('q-loading-bar')
+    const el = createGlobalNode({ id: 'q-loading-bar', cfg: $q.config.globalNode })
 
     const vm = createChildApp({
       name: 'LoadingBar',
