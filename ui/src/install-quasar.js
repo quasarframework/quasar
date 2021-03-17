@@ -14,11 +14,7 @@ const autoInstalled = [
   Platform, Screen, Dark
 ]
 
-// to be used by client-side only
-export let $q
-export let appInstance
-
-export function createChildApp (appCfg) {
+export function createChildApp (appCfg, appInstance) {
   const app = createApp(appCfg)
 
   app.config.globalProperties = appInstance.config.globalProperties
@@ -28,9 +24,6 @@ export function createChildApp (appCfg) {
 
   return app
 }
-
-// to be used by SSR client-side only
-const onSSRHydrated = []
 
 function prepareApp (app, uiOpts, pluginOpts) {
   app.config.globalProperties.$q = pluginOpts.$q
@@ -95,12 +88,7 @@ const installQuasar = __QUASAR_SSR_SERVER__
       })
     }
   : function (app, opts = {}) {
-    if (this.__qInstalled === true) { return }
-    this.__qInstalled = true
-
-    appInstance = app
-
-    $q = {
+    const $q = {
       version: __QUASAR_VERSION__,
       config: Object.freeze(opts.config || {})
     }
@@ -111,7 +99,7 @@ const installQuasar = __QUASAR_SSR_SERVER__
       cfg: $q.config,
       lang: opts.lang,
       iconSet: opts.iconSet,
-      onSSRHydrated
+      onSSRHydrated: []
     })
   }
 

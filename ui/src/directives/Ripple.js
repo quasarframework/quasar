@@ -1,5 +1,3 @@
-import { $q } from '../install-quasar.js'
-
 import { css } from '../utils/dom.js'
 import { position, stop, addEvt, cleanEvt } from '../utils/event.js'
 import { isKeyCode } from '../utils/private/key-composition.js'
@@ -62,8 +60,8 @@ function showRipple (evt, el, ctx, forceCenter) {
   }, 50)
 }
 
-function updateModifiers (ctx, { modifiers, value, arg }) {
-  const cfg = Object.assign({}, $q.config.ripple, modifiers, value)
+function updateModifiers (ctx, { modifiers, value, arg, instance }) {
+  const cfg = Object.assign({}, instance.$q.config.ripple, modifiers, value)
   ctx.modifiers = {
     early: cfg.early === true,
     stop: cfg.stop === true,
