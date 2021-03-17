@@ -110,7 +110,7 @@ export default {
     },
 
     slugifiedTitle () {
-      return 'Example--' + slugify(this.title)
+      return 'example--' + slugify(this.title)
     }
   },
 

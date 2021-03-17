@@ -2,13 +2,17 @@
  * Manages headings
  */
 
+const { slugify } = require('./utils')
+
+const titleRE = /<\/?[^>]+(>|$)/g
+
 function parseContent (str) {
   const title = String(str)
-    .replace(/<\/?[^>]+(>|$)/g, "")
+    .replace(titleRE, '')
     .trim()
 
   return {
-    id: encodeURIComponent(title.replace(/\s+/g, '-')),
+    id: slugify(title),
     title
   }
 }

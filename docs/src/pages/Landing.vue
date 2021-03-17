@@ -14,18 +14,12 @@
             img.landing__logo(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
             span rk
         .text-subtitle1 Build high-performance <strong>VueJS</strong> user interfaces in record time
-        //- .q-pt-sm.q-px-sm
-        //-   survey-countdown.landing-countdown.bg-primary.text-white.rounded-borders(
-        //-     color="white"
-        //-     text-color="primary"
-        //-     align-class="justify-center"
-        //-   )
         .text-subtitle1.q-pt-sm
           | Looking for
           q-icon.text-red-4.q-mx-sm(:name="mdiFire")
           doc-link.text-red-4.text-white(to="https://next.quasar.dev/start/upgrade-guide") Quasar v2 beta
           q-icon.text-red-4.q-mx-sm(:name="mdiFire")
-          | with Vue 3 docs?
+          | (Vue 3) docs?
         .q-pt-md.q-pl-sm
           .landing__hero-row.landing__hero-btns.q-gutter-sm.row.items-center.justify-center
             q-btn(color="white" text-color="primary" no-caps to="/start" label="Get Started")
@@ -182,7 +176,6 @@ import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
 import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
 import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
-// import SurveyCountdown from '../components/SurveyCountdown'
 
 import {
   fabGithub, fabTwitter, fabFacebook, fasMedkit,
@@ -202,7 +195,6 @@ export default {
     Sponsor,
     SponsorList,
     LandingTopBar,
-    // SurveyCountdown,
     IntroductionVideo
   },
 

@@ -7,10 +7,10 @@ related:
 ---
 
 ::: tip
-**This page refers to using [webfont icons](/vue-components/icon#Webfont-icons) only.** Svg icons do not need any installation step.
+**This page refers to using [webfont icons](/vue-components/icon#webfont-icons) only.** Svg icons do not need any installation step.
 :::
 
-You'll most likely want icons in your website/app and Quasar offers an easy way out of the box for the following icon libraries: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons) and [Line Awesome](https://icons8.com/line-awesome). But you can [add support for others](/vue-components/icon#Custom-mapping) by yourself.
+You'll most likely want icons in your website/app and Quasar offers an easy way out of the box for the following icon libraries: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons) and [Line Awesome](https://icons8.com/line-awesome). But you can [add support for others](/vue-components/icon#custom-mapping) by yourself.
 
 ::: tip
 In regards to webfont icons, you can choose to install one or more of these icon libraries.
@@ -50,7 +50,7 @@ You're now ready to use the [QIcon](/vue-components/icon) component.
 ## Using CDN as alternative
 If you want to make use of a CDN (Content Delivery Network), all you need to do is to include style tags in your `index.template.html` which point to the CDN URL.
 
-In case you follow this path, do not also add the icon sets that you want in `/quasar.conf.js > extras`. Play with the [UMD Installation Guide](/start/umd#Installation) and edit `index.template.html` as described there.
+In case you follow this path, do not also add the icon sets that you want in `/quasar.conf.js > extras`. Play with the [UMD Installation Guide](/start/umd#installation) and edit `index.template.html` as described there.
 
 ## Using Fontawesome-Pro
 If you have a Fontawesome 5 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions:

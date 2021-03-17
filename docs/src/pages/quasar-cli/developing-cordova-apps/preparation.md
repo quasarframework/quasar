@@ -99,7 +99,7 @@ To verify that everything is in order, type:
 $ cordova requirements
 ```
 
-> On some newer Debian-based operating systems you might face a very persistent problem when running `cordova requirements`. Please see the ["Android SDK not found" after installation](/quasar-cli/developing-cordova-apps/troubleshooting-and-tips#Android-SDK-not-found-after-installation-of-the-SDK) section for assistance.
+> On some newer Debian-based operating systems you might face a very persistent problem when running `cordova requirements`. Please see the ["Android SDK not found" after installation](/quasar-cli/developing-cordova-apps/troubleshooting-and-tips#android-sdk-not-found-after-installation-of-the-sdk) section for assistance.
 
 ### Switching to iOS WkWebView
 

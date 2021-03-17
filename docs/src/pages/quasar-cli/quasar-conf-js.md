@@ -13,8 +13,8 @@ So what can you configure through `/quasar.conf.js`?
 * [CSS animations](/options/animations) that you wish to use
 * [Boot Files](/quasar-cli/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
 * Global CSS/Stylus/... files to be included in the bundle
-* PWA [manifest](/quasar-cli/developing-pwa/configuring-pwa#Configuring-Manifest-File) and [Workbox options](/quasar-cli/developing-pwa/configuring-pwa#Quasar.conf.js)
-* [Electron Packager](/quasar-cli/developing-electron-apps/configuring-electron#Quasar.conf.js) and/or [Electron Builder](/quasar-cli/developing-electron-apps/configuring-electron#Quasar.conf.js)
+* PWA [manifest](/quasar-cli/developing-pwa/configuring-pwa#configuring-manifest-file) and [Workbox options](/quasar-cli/developing-pwa/configuring-pwa#quasar-conf-js)
+* [Electron Packager](/quasar-cli/developing-electron-apps/configuring-electron#quasar-conf-js) and/or [Electron Builder](/quasar-cli/developing-electron-apps/configuring-electron#quasar-conf-js)
 * IE11+ support
 * Extend Webpack config
 
@@ -217,7 +217,7 @@ return {
 }
 ```
 
-More on cssAddon [here](/layout/grid/introduction-to-flexbox#Flex-Addons).
+More on cssAddon [here](/layout/grid/introduction-to-flexbox#flex-addons).
 
 ### Property: devServer
 **Webpack devServer options**. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options. Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL.
