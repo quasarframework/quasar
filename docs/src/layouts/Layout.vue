@@ -44,20 +44,21 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         )
 
       template(v-else)
-        .row.justify-center.q-my-md
+        .row.justify-center.q-mt-md.q-mb-sm
           q-btn.doc-layout__main-btn(
             type="a"
             href="https://donate.quasar.dev"
             target="_blank"
             rel="noopener"
             color="primary"
+            unelevated
             :icon="mdiHeart"
             label="Donate to Quasar"
             padding="12px lg"
             no-wrap
           )
 
-        .row.justify-center.q-my-md
+        .row.justify-center.q-mt-sm.q-mb-md
           q-btn.doc-layout__main-btn(
             type="a"
             href="https://bit.ly/3cTLXsO"
@@ -113,7 +114,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     q-scroll-area.fit
       header-menu.q-mt-sm.text-primary.column(v-if="$q.screen.lt.sm", align="right")
 
-      q-list.doc-toc.q-my-lg.text-grey-8
+      q-list.doc-toc.q-my-sm.text-grey-8
         q-item(
           v-for="tocItem in tocList",
           :key="tocItem.id",
@@ -429,6 +430,7 @@ export default {
   border-radius: 10px 0 0 10px
   margin-top: 1px
   margin-bottom: 1px
+  font-size: 12px
 
   &.q-item--active
     background: scale-color($primary, $lightness: 90%)

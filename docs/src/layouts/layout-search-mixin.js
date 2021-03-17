@@ -36,7 +36,7 @@ export default {
     const searchQuery = this.$route.query.search
 
     if (searchQuery) {
-      this.leftDrawerState.value = true
+      this.leftDrawerState = true
     }
 
     if (this.$q.platform.is.desktop === true) {
@@ -159,8 +159,8 @@ export default {
       ) {
         evt.preventDefault()
 
-        if (this.leftDrawerState.value !== true) {
-          this.leftDrawerState.value = true
+        if (this.leftDrawerState !== true) {
+          this.leftDrawerState = true
         }
 
         setTimeout(() => {
