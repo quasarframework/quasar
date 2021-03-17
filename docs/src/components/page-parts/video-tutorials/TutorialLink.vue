@@ -6,7 +6,9 @@ q-card.full-width.column.tutorial-link.cursor-pointer(flat, bordered, @click.nat
   q-img(alt="Tutorial logo", :src="imgUrl")
   q-card-section
     div Created by: {{ author }}
-    div Language: {{ lang }}
+    div
+      | Language:
+      span.q-ml-xs.text-weight-bold {{ lang }}
 </template>
 
 <script>
