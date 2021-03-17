@@ -514,7 +514,7 @@ export default defineComponent({
           ...(__QUASAR_SSR_SERVER__
             ? { innerHTML: props.modelValue }
             : {}),
-          ...splitAttrs.listeners,
+          ...splitAttrs.listeners.value,
           onInput,
           onKeydown,
           onClick,

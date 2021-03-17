@@ -447,7 +447,7 @@ export default function (state) {
         h('div', {
           ref: state.targetRef,
           class: 'q-field__native row',
-          ...state.splitAttrs.attributes,
+          ...state.splitAttrs.attributes.value,
           'data-autofocus': props.autofocus === true || void 0
         }, slots.control(controlSlotScope.value))
       )

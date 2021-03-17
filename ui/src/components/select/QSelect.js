@@ -968,7 +968,7 @@ export default defineComponent({
         value: inputValue.value !== void 0 ? inputValue.value : '',
         // required for Android in order to show ENTER key when in form
         type: 'search',
-        ...state.splitAttrs.attributes,
+        ...state.splitAttrs.attributes.value,
         id: state.targetUid.value,
         maxlength: props.maxlength,
         tabindex: props.tabindex,
@@ -1181,7 +1181,7 @@ export default defineComponent({
           itemAligned: false,
           filled: true,
           stackLabel: inputValue.value.length > 0,
-          ...state.splitAttrs.listeners,
+          ...state.splitAttrs.listeners.value,
           onFocus: onDialogFieldFocus,
           onBlur: onDialogFieldBlur
         }, {
@@ -1510,7 +1510,7 @@ export default defineComponent({
 
         return h('div', {
           class: 'q-field__native row items-center',
-          ...state.splitAttrs.attributes
+          ...state.splitAttrs.attributes.value
         }, child)
       },
 

@@ -1,31 +1,33 @@
-import { onBeforeUpdate } from 'vue'
+import { ref, onBeforeUpdate } from 'vue'
 
 const listenerRE = /^on[A-Z]/
 
 export default function (attrs) {
-  const acc = {}
+  const acc = {
+    listeners: ref({}),
+    attributes: ref({})
+  }
 
   function update () {
-    acc.listeners = {}
-    acc.attributes = {}
+    const listeners = {}
+    const attributes = {}
 
     Object.keys(attrs).forEach(key => {
       if (listenerRE.test(key) === true) {
-        acc.listeners[ key ] = attrs[ key ]
+        listeners[ key ] = attrs[ key ]
       }
       else if (key !== 'class' && key !== 'style') {
-        acc.attributes[ key ] = attrs[ key ]
+        attributes[ key ] = attrs[ key ]
       }
     })
+
+    acc.listeners.value = listeners
+    acc.attributes.value = attributes
   }
 
   onBeforeUpdate(update)
 
   update()
 
-  /**
-   * The returned Object
-   * is NOT reactive, so do NOT destructure it!
-   */
   return acc
 }
