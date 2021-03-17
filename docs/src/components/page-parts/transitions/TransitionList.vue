@@ -75,6 +75,7 @@ export default {
 
   &__img
     height: inherit
+    width: inherit
     object-fit: cover
     object-position: 50% 50%
 
