@@ -187,7 +187,7 @@ export default defineComponent({
     }
 
     function onInput (e) {
-      if (e && e.target && e.target.composing === true) {
+      if (!e || !e.target || e.target.composing === true) {
         return
       }
 
@@ -203,6 +203,16 @@ export default defineComponent({
       }
       else {
         emitValue(val)
+
+        if (props.type !== 'number' && e.target === document.activeElement) {
+          const index = e.target.selectionEnd
+
+          index !== void 0 && nextTick(() => {
+            if (e.target === document.activeElement && val.indexOf(e.target.value) === 0) {
+              e.target.setSelectionRange(index, index)
+            }
+          })
+        }
       }
 
       // we need to trigger it immediately too,

@@ -308,7 +308,7 @@ export default defineComponent({
       evt !== void 0 && stop(evt)
 
       if (!/^[0-9]+$/.test(value)) {
-        change && proxy.$forceUpdate()
+        change === true && proxy.$forceUpdate()
         return
       }
 
