@@ -93,31 +93,6 @@ export default defineComponent({
       return evt
     })
 
-    const inputAttrs = computed(() => {
-      const attrs = {
-        tabindex: 0,
-        'data-autofocus': props.autofocus === true || void 0,
-        rows: props.type === 'textarea' ? 6 : void 0,
-        'aria-label': props.label,
-        name: nameProp.value,
-        ...state.splitAttrs.attributes.value,
-        id: state.targetUid.value,
-        maxlength: props.maxlength,
-        disabled: props.disable === true,
-        readonly: props.readonly === true
-      }
-
-      if (isTextarea.value === false) {
-        attrs.type = props.type
-      }
-
-      if (props.autogrow === true) {
-        attrs.rows = 1
-      }
-
-      return attrs
-    })
-
     watch(() => props.modelValue, v => {
       if (hasMask.value === true) {
         if (stopValueWatcher === true) {
@@ -161,7 +136,32 @@ export default defineComponent({
     watch(() => props.dense, () => {
       props.autogrow === true && nextTick(adjustHeight)
     })
+    
+    function inputAttrs () {
+      const attrs = {
+        tabindex: 0,
+        'data-autofocus': props.autofocus === true || void 0,
+        rows: props.type === 'textarea' ? 6 : void 0,
+        'aria-label': props.label,
+        name: nameProp.value,
+        ...state.splitAttrs.attributes.value,
+        id: state.targetUid.value,
+        maxlength: props.maxlength,
+        disabled: props.disable === true,
+        readonly: props.readonly === true
+      }
 
+      if (isTextarea.value === false) {
+        attrs.type = props.type
+      }
+
+      if (props.autogrow === true) {
+        attrs.rows = 1
+      }
+
+      return attrs
+    }
+    
     function focus () {
       const el = document.activeElement
       if (
@@ -348,7 +348,7 @@ export default defineComponent({
             props.inputClass
           ],
           style: props.inputStyle,
-          ...inputAttrs.value,
+          ...inputAttrs(),
           ...onEvents.value,
           ...(
             props.type !== 'file'
