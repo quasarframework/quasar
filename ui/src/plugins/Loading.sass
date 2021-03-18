@@ -4,16 +4,16 @@
   // override q-transition--fade's absolute position
   position: fixed !important
 
-  &:before
-    content: ''
+  &__backdrop
     position: fixed
     top: 0
     right: 0
     bottom: 0
     left: 0
-    background: currentColor
     opacity: .5
     z-index: -1
+    background-color: #000
+    transition: background-color .28s
 
   &__box
     border-radius: $generic-border-radius

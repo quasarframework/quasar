@@ -78,9 +78,11 @@ export default defineComponent({
     }
 
     function onClick (e) {
-      const target = $layout.isContainer.value === true
-        ? getScrollTarget(rootRef.value)
-        : getScrollTarget($layout.rootRef.value)
+      const target = getScrollTarget(
+        $layout.isContainer.value === true
+          ? rootRef.value
+          : $layout.rootRef.value
+      )
 
       setVerticalScrollPosition(
         target,

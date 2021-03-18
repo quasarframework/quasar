@@ -38,14 +38,15 @@ const Plugin = defineReactivePlugin({
       ? { ...originalDefaults, ...opts }
       : { ...defaults, ...opts }
 
-    props.customClass += ` text-${ props.backgroundColor }`
-    props.uid = `l_${ uid++ }`
-
     Plugin.isActive = true
 
     if (app !== void 0) {
+      props.uid = uid
       vm.$forceUpdate()
       return
+    }
+    else {
+      props.uid = ++uid
     }
 
     clearTimeout(timeout)
@@ -99,6 +100,10 @@ const Plugin = defineReactivePlugin({
               class: 'q-loading fullscreen flex flex-center z-max ' + props.customClass.trim(),
               key: props.uid
             }, [
+              h('div', {
+                class: `q-loading__backdrop bg-${ props.backgroundColor }`
+              }),
+
               h('div', {
                 class: 'q-loading__box column items-center ' + props.boxClass
               }, content)
