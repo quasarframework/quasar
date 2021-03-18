@@ -21,7 +21,7 @@ const
     spinnerSize: 80,
     spinnerColor: '',
     messageColor: '',
-    backgroundColor: 'black',
+    backgroundColor: '',
     boxClass: '',
     spinner: QSpinner,
     customClass: ''
@@ -45,11 +45,10 @@ const Plugin = defineReactivePlugin({
       vm.$forceUpdate()
       return
     }
-    else {
-      props.uid = ++uid
-    }
 
+    props.uid = ++uid
     clearTimeout(timeout)
+
     timeout = setTimeout(() => {
       timeout = void 0
 
@@ -101,7 +100,8 @@ const Plugin = defineReactivePlugin({
               key: props.uid
             }, [
               h('div', {
-                class: `q-loading__backdrop bg-${ props.backgroundColor }`
+                class: 'q-loading__backdrop'
+                  + (props.backgroundColor ? ` bg-${ props.backgroundColor }` : '')
               }),
 
               h('div', {
