@@ -43,7 +43,7 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
 
   function showPortal () {
     if (onGlobalDialog === false) {
-      portalEl = createGlobalNode({ cfg: $q.config.globalNode })
+      portalEl = createGlobalNode($q.config.globalNodes)
     }
 
     portalIsActive.value = true

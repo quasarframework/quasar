@@ -52,7 +52,7 @@ const Plugin = defineReactivePlugin({
     timeout = setTimeout(() => {
       timeout = void 0
 
-      const el = createGlobalNode({ id: 'q-loading', cfg: this.$q.config.globalNode })
+      const el = createGlobalNode({ ...this.globalNodesCfg, id: 'q-loading' })
 
       app = createApp({
         name: 'QLoading',
@@ -139,13 +139,13 @@ const Plugin = defineReactivePlugin({
     }
   },
 
-  install (opts) {
+  install ({ $q, cfg }) {
     if (__QUASAR_SSR_SERVER__ !== true) {
-      this.setDefaults(opts.cfg.loading)
+      this.setDefaults(cfg.loading)
     }
 
-    opts.$q.loading = this
-    this.$q = opts.$q
+    $q.loading = this
+    this.globalNodesCfg = cfg.globalNodes
   }
 })
 

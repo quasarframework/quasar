@@ -516,7 +516,7 @@ export default {
     $q.notify.setDefaults = this.setDefaults
     $q.notify.registerType = this.registerType
 
-    const el = createGlobalNode({ id: 'q-notify', cfg: $q.config.globalNode })
+    const el = createGlobalNode({ ...cfg.globalNodes, id: 'q-notify' })
     const app = createChildApp(Notifications, appInstance)
 
     vm = app.mount(el)
