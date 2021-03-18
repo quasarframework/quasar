@@ -25,7 +25,7 @@ export function merge (target, source) {
   }
 }
 
-export default function (DefaultComponent, supportsCustomComponent) {
+export default function (DefaultComponent, supportsCustomComponent, pluginOpts) {
   return pluginProps => {
     if (__QUASAR_SSR_SERVER__) { return ssrAPI }
 
@@ -91,7 +91,7 @@ export default function (DefaultComponent, supportsCustomComponent) {
         }
       }
 
-    const el = createGlobalNode()
+    const el = createGlobalNode({ className: pluginOpts.$q.config.globalNode })
 
     let emittedOK = false
 
@@ -123,7 +123,7 @@ export default function (DefaultComponent, supportsCustomComponent) {
           onHide
         })
       }
-    })
+    }, pluginOpts.app)
 
     let vm = app.mount(el)
 
