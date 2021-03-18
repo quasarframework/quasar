@@ -35,7 +35,7 @@ export default defineComponent({
 
     let heightWatcher
 
-    const containerHeight = computed(() => (
+    const scrollHeight = computed(() => $layout.height.value - (
       $layout.isContainer.value === true
         ? $layout.containerHeight.value
         : $q.screen.height
@@ -43,7 +43,7 @@ export default defineComponent({
 
     function isVisible () {
       return props.reverse === true
-        ? $layout.height.value - containerHeight.value - $layout.scroll.value.position > props.scrollOffset
+        ? scrollHeight.value - $layout.scroll.value.position > props.scrollOffset
         : $layout.scroll.value.position > props.scrollOffset
     }
 
@@ -59,7 +59,7 @@ export default defineComponent({
     function updateReverse () {
       if (props.reverse === true) {
         if (heightWatcher === void 0) {
-          heightWatcher = watch(containerHeight, updateVisibility)
+          heightWatcher = watch(scrollHeight, updateVisibility)
         }
       }
       else {
