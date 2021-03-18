@@ -66,16 +66,20 @@ function decode (value) {
 }
 
 export function getEmptyStorage () {
+  const getVal = () => null
+
   return {
-    has: noop,
-    getLength: noop,
-    getItem: noop,
-    getIndex: noop,
-    getAll: noop,
+    has: () => false,
+    getLength: () => 0,
+    getItem: getVal,
+    getIndex: getVal,
+    getKey: getVal,
+    getAll: () => {},
+    getAllKeys: () => [],
     set: noop,
     remove: noop,
     clear: noop,
-    isEmpty: noop
+    isEmpty: () => true
   }
 }
 
