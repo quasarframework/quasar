@@ -27,11 +27,11 @@
       </q-toolbar>
     </q-page-sticky>
 
-    <q-page-scroller position="bottom">
+    <q-page-scroller position="bottom" :scroll-offset="50">
       <q-btn fab icon="keyboard_arrow_up" color="red" />
     </q-page-scroller>
 
-    <q-page-scroller position="top" reverse :scroll-offset="2500">
+    <q-page-scroller position="top" reverse :scroll-offset="50">
       <q-btn fab icon="keyboard_arrow_down" color="red" />
     </q-page-scroller>
 

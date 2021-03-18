@@ -121,7 +121,7 @@ export default defineComponent({
       }
     }
 
-    let timer, updateCache = {}
+    let timer
 
     const $layout = {
       instances: {},

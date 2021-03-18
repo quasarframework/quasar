@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, Transition } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeUnmount, getCurrentInstance, Transition } from 'vue'
 
 import usePageSticky, { usePageStickyProps } from '../page-sticky/use-page-sticky.js'
 import { getScrollTarget, setVerticalScrollPosition } from '../../utils/scroll.js'
@@ -29,20 +29,21 @@ export default defineComponent({
   emits: [ 'click' ],
 
   setup (props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance()
     const { $layout, getStickyContent } = usePageSticky()
     const rootRef = ref(null)
 
     let heightWatcher
 
-    const height = computed(() => (
+    const containerHeight = computed(() => (
       $layout.isContainer.value === true
         ? $layout.containerHeight.value
-        : $layout.height.value
+        : $q.screen.height
     ))
 
     function isVisible () {
       return props.reverse === true
-        ? height.value - $layout.scroll.value.position > props.scrollOffset
+        ? $layout.height.value - containerHeight.value - $layout.scroll.value.position > props.scrollOffset
         : $layout.scroll.value.position > props.scrollOffset
     }
 
@@ -58,7 +59,7 @@ export default defineComponent({
     function updateReverse () {
       if (props.reverse === true) {
         if (heightWatcher === void 0) {
-          heightWatcher = watch(height, updateVisibility)
+          heightWatcher = watch(containerHeight, updateVisibility)
         }
       }
       else {
