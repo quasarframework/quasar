@@ -40,7 +40,7 @@
         />
 
         <q-btn
-          v-if="pagesNumber > 2"
+          v-if="scope.pagesNumber > 2"
           icon="last_page"
           color="grey-8"
           round
