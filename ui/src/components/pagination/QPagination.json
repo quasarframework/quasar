@@ -37,6 +37,15 @@
       "extends": "text-color"
     },
 
+    "active-color": {
+      "extends": "color",
+      "default": "primary"
+    },
+
+    "active-text-color": {
+      "extends": "text-color"
+    },
+
     "dark": {
       "extends": "dark",
       "desc": "Notify the component that the background is a dark color (useful when you are using it along with the 'input' prop)"
@@ -163,6 +172,12 @@
     "rounded": {
       "type": "Boolean",
       "desc": "Applies a more prominent border-radius for a squared shape button for all buttons",
+      "category": "style"
+    },
+
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design for current page button",
       "category": "style"
     },
 

@@ -4,9 +4,8 @@
       v-model="current"
       color="deep-orange"
       :max="5"
-      :boundary-links="true"
-    >
-    </q-pagination>
+      boundary-links
+    />
   </div>
 </template>
 

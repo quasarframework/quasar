@@ -5,9 +5,8 @@
       color="purple"
       :max="10"
       :max-pages="6"
-      :boundary-numbers="true"
-    >
-    </q-pagination>
+      boundary-numbers
+    />
   </div>
 </template>
 
