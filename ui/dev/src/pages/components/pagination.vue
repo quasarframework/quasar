@@ -16,12 +16,37 @@
       <q-pagination @change="onChange" @input="onInput" v-model="page"
                     :min="min"
                     :max="max"
+                    :input="inputType"
+                    :to-fn="toFn"
+                    padding="xs"
+                    direction-links
+                    boundary-links
+      />
+
+      <q-pagination @change="onChange" @input="onInput" v-model="page"
+                    :min="min"
+                    :max="max"
                     :boundary-links="boundaryLinks"
                     :direction-links="directionLinks"
                     :input="inputType"
                     :to-fn="toFn"
-                    outline
                     padding="xs"
+                    outline
+                    color="teal"
+                    class="q-my-md"
+      />
+
+      <q-pagination @change="onChange" @input="onInput" v-model="page"
+                    :min="min"
+                    :max="max"
+                    :boundary-links="boundaryLinks"
+                    :direction-links="directionLinks"
+                    :input="inputType"
+                    :to-fn="toFn"
+                    padding="xs"
+                    flat
+                    color="grey-5"
+                    active-color="primary"
       />
 
       <p class="caption">

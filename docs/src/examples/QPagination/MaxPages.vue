@@ -6,8 +6,7 @@
       :max="10"
       :max-pages="6"
       :boundary-numbers="false"
-    >
-    </q-pagination>
+    />
   </div>
 </template>
 
