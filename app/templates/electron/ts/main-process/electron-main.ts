@@ -20,9 +20,9 @@ if (process.env.PROD) {
   global.__statics = __dirname
 }
 
-let mainWindow: null | BrowserWindow = null
+let mainWindow: BrowserWindow | undefined
 
-async function createWindow() {
+function createWindow() {
   /**
    * Initial window options
    */
@@ -41,33 +41,21 @@ async function createWindow() {
     }
   })
 
-  if (process.env.APP_URL) {
-    try {
-      await mainWindow.loadURL(process.env.APP_URL)
-    } catch (error) {
-      throw new Error(`Failed loading main window: ${error as string}`)
-    }
-  }
+  void mainWindow.loadURL(process.env.APP_URL!)
 
   mainWindow.on('closed', () => {
-    mainWindow = null
+    mainWindow = undefined
   })
 }
 
-app.on('ready', () => {
-  void (async () => {
-    await createWindow()
-  })()
-})
+app.on('ready', createWindow)
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 app.on('activate', () => {
-  void (async () => {
-    if (mainWindow === null) {
-      await createWindow()
-    }
-  })()
+  if (mainWindow === null) {
+    createWindow()
+  }
 })
