@@ -2,7 +2,7 @@
 name: Feature request (Quasar v2)
 about: Suggest an idea for Quasar v2
 title: ''
-labels: Qv2, feature request
+labels: feature request
 assignees: ''
 
 ---

@@ -18,8 +18,6 @@ export default {
         this.$q.loading.show({
           spinner: QSpinnerGears,
           spinnerColor: 'red',
-          messageColor: 'black',
-          backgroundColor: 'yellow',
           message: 'Updated message'
         })
 

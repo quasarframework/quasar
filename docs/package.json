@@ -9,13 +9,13 @@
     "dev": "quasar dev",
     "dev:ssr": "quasar dev -m ssr",
     "build": "quasar build -m ssr",
+    "build:search": "node build/search.js",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
-    "docsearch.js": "^2.6.2",
     "prismjs": "^1.15.0",
     "quasar": "^1.0.0"
   },
@@ -32,6 +32,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.1.1",
     "gray-matter": "^4.0.2",
+    "markdown-ast": "^0.2.1",
     "markdown-it": "^10.0.0",
     "markdown-it-container": "^2.0.0",
     "pug": "^2.0.3",

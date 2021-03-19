@@ -9,7 +9,7 @@ export default {
   methods: {
     showLoading () {
       this.$q.loading.show({
-        message: 'Some important <b>process</b> is in progress.<br/><span class="text-primary">Hang on...</span>',
+        message: 'Some important <b>process</b> is in progress.<br/><span class="text-orange text-weight-bold">Hang on...</span>',
         sanitize: true
       })
 

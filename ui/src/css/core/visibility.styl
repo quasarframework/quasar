@@ -111,7 +111,7 @@ for type in desktop mobile native-mobile cordova capacitor electron touch within
   .xl-hide, .xs, .lt-sm, .sm, .lt-md, .md, .lt-lg, .lg, .lt-xl
     display: none !important
 
-.q-focus-helper
+.q-focus-helper, .q-focusable, .q-manual-focusable, .q-hoverable
   outline: 0
 
 body.desktop
@@ -146,9 +146,6 @@ body.desktop
       border-radius: $generic-border-radius
     &--round
       border-radius: 50%
-
-  .q-focusable, .q-manual-focusable, .q-hoverable
-    outline: 0
 
   .q-focusable:focus, .q-manual-focusable--focused, .q-hoverable:hover
     > .q-focus-helper

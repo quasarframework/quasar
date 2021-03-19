@@ -31,26 +31,48 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     content-class="doc-left-drawer"
   )
     q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
-      survey-link.layout-link(
-        color="primary"
-        align-class="justify-start"
-        padding-class="q-py-md"
-      )
-      q-separator.q-mb-lg
-
-      .row.justify-center.q-my-lg
-        q-btn(
-          type="a"
-          href="https://donate.quasar.dev"
-          target="_blank"
-          rel="noopener"
-          size="13px"
-          color="primary"
-          :icon="mdiHeartOutline"
-          label="Donate to Quasar"
+      template(v-if="searchResults !== null")
+        component(
+          v-if="searchResults.masterComponent !== void 0"
+          :is="searchResults.masterComponent"
+        )
+        app-search-results(
+          v-else
+          :results="searchResults"
+          :search-has-focus="searchHasFocus"
+          :search-active-id="searchActiveId"
         )
 
-      app-menu.q-my-lg
+      template(v-else)
+        .row.justify-center.q-mt-md.q-mb-sm
+          q-btn.doc-layout__main-btn(
+            type="a"
+            href="https://donate.quasar.dev"
+            target="_blank"
+            rel="noopener"
+            color="primary"
+            unelevated
+            :icon="mdiHeart"
+            label="Donate to Quasar"
+            padding="12px lg"
+            no-wrap
+          )
+
+        .row.justify-center.q-mt-sm.q-mb-md
+          q-btn.doc-layout__main-btn(
+            type="a"
+            href="https://bit.ly/3cTLXsO"
+            target="_blank"
+            color="primary"
+            outline
+            :icon="mdiFileDocumentEditOutline"
+            label="Survey results are out!"
+            no-caps
+            padding="12px lg"
+            no-wrap
+          )
+
+        app-menu.q-mb-lg
 
     .absolute-top.bg-white.layout-drawer-toolbar
       form(
@@ -59,22 +81,25 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         autocomplete="off"
         spellcheck="false"
       )
-        q-input.full-width.doc-algolia.bg-primary(
-          ref="docAlgolia"
-          v-model="search"
+        q-input.full-width.app-search-input.bg-primary(
+          ref="searchInputRef"
+          v-model="searchTerms"
           dense
           square
           dark
           borderless
-          :placeholder="searchPlaceholder"
+          debounce="300"
+          @keydown="onSearchKeydown"
           @focus="onSearchFocus"
           @blur="onSearchBlur"
+          placeholder="Search..."
         )
+          template(v-slot:prepend)
+            q-icon(name="search")
           template(v-slot:append)
-            q-icon(
-              :name="mdiMagnify"
-              @click="$refs.docAlgolia.focus()"
-            )
+            q-icon.cursor-pointer(v-if="searchTerms" name="cancel" @click="onSearchClear")
+            .row.items-center.no-wrap.no-pointer-events(v-else-if="!searchHasFocus")
+              kbd.flex.flex-center /
       .layout-drawer-toolbar__shadow.absolute-full.overflow-hidden.no-pointer-events
 
   q-drawer(
@@ -89,7 +114,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     q-scroll-area.fit
       header-menu.q-mt-sm.text-primary.column(v-if="$q.screen.lt.sm", align="right")
 
-      q-list.doc-toc.q-my-lg.text-grey-8
+      q-list.doc-toc.q-my-sm.text-grey-8
         q-item(
           v-for="tocItem in tocList",
           :key="tocItem.id",
@@ -118,39 +143,44 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 <script>
 import { scroll } from 'quasar'
 import {
-  mdiMenu, mdiClipboardText, mdiHeartOutline, mdiMagnify, mdiChevronUp
+  mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp,
+  mdiFileDocumentEditOutline
 } from '@quasar/extras/mdi-v5'
 
 import AppMenu from 'components/AppMenu'
 import HeaderMenu from 'components/HeaderMenu'
-import SurveyLink from 'components/SurveyLink'
+import AppSearchResults from 'components/AppSearchResults'
+
+import LayoutSearchMixin from './layout-search-mixin'
 
 const { setScrollPosition, getScrollPosition } = scroll
 
 export default {
   name: 'Layout',
 
+  mixins: [
+    LayoutSearchMixin
+  ],
+
   created () {
     this.preventTocUpdate = this.$route.hash.length > 1
 
     this.mdiMenu = mdiMenu
     this.mdiClipboardText = mdiClipboardText
-    this.mdiHeartOutline = mdiHeartOutline
+    this.mdiHeart = mdiHeart
     this.mdiMagnify = mdiMagnify
     this.mdiChevronUp = mdiChevronUp
+    this.mdiFileDocumentEditOutline = mdiFileDocumentEditOutline
   },
 
   components: {
     AppMenu,
-    SurveyLink,
-    HeaderMenu
+    HeaderMenu,
+    AppSearchResults
   },
 
   data () {
     return {
-      search: '',
-      searchFocused: false,
-
       leftDrawerState: false,
       rightDrawerState: false,
       rightDrawerOnLayout: false,
@@ -162,12 +192,6 @@ export default {
   },
 
   computed: {
-    searchPlaceholder () {
-      return this.searchFocused === true
-        ? 'Type to start searching...'
-        : (this.$q.platform.is.desktop === true ? `Type ' / ' to focus here...` : 'Search...')
-    },
-
     hasRightDrawer () {
       return this.tocList.length > 0 || this.$q.screen.lt.sm
     },
@@ -181,7 +205,7 @@ export default {
       const toc = this.$root.store.toc
       return toc.length > 0
         ? [
-          { id: 'Introduction', title: 'Introduction' },
+          { id: 'introduction', title: 'Introduction' },
           ...this.$root.store.toc
         ]
         : toc
@@ -212,7 +236,7 @@ export default {
       this.rightDrawerState = !this.rightDrawerState
     },
 
-    resetScroll (el, done) {
+    resetScroll (_, done) {
       document.documentElement.scrollTop = 0
       document.body.scrollTop = 0
       done()
@@ -300,30 +324,6 @@ export default {
       }
     },
 
-    focusOnSearch (evt) {
-      if (
-        evt.target.tagName !== 'INPUT' &&
-        String.fromCharCode(evt.keyCode) === '/'
-      ) {
-        evt.preventDefault()
-        this.search = ''
-        if (!this.leftDrawerState) {
-          this.leftDrawerState = true
-        }
-        setTimeout(() => {
-          this.$refs.docAlgolia.focus()
-        })
-      }
-    },
-
-    onSearchFocus () {
-      this.searchFocused = true
-    },
-
-    onSearchBlur () {
-      this.searchFocused = false
-    },
-
     scrollToCurrentAnchor (immediate) {
       const { hash } = this.$route
       const el = hash.length > 1
@@ -352,81 +352,29 @@ export default {
         this.preventTocUpdate = false
         this.updateActiveToc()
       }
-    },
-
-    initializeAlgolia () {
-      // If we have a search string in the query (mostly from tab-to-search functionality),
-      // we need to open the drawer to fill in the search string in the input later
-      const searchQuery = this.$route.query.search
-
-      if (searchQuery) {
-        this.leftDrawerState = true
-      }
-
-      import(
-        /* webpackChunkName: "algolia" */
-        'docsearch.js'
-      ).then(docsearch => {
-        docsearch.default({
-          apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
-          indexName: 'quasar-framework',
-          inputSelector: '.doc-algolia input',
-          algoliaOptions: {
-            hitsPerPage: 7
-          },
-          handleSelected: (a, b, suggestion, c, context) => {
-            const url = suggestion.url.replace('https://quasar.dev', '')
-
-            this.search = ''
-            this.$router.push(url).catch(() => {})
-            this.$refs.docAlgolia.blur()
-          }
-        })
-
-        if (this.$q.platform.is.desktop === true) {
-          window.addEventListener('keypress', this.focusOnSearch)
-        }
-
-        if (searchQuery) {
-          // Here we put search string from query into the input and open the search popup.
-          // Unfortunately, this input is managed completely by Algolia and their code doesn't seem to
-          // have a method of opening the popup programmatically, so we need to simulate typing on that input element.
-          // We also need to dispatch the event only after the input text is populated and Vue will
-          // do that in next render, so we schedule it on the next event loop iteration with setTimeout.
-          this.search = searchQuery
-          this.$refs.docAlgolia.focus()
-          setTimeout(() => {
-            this.$refs.docAlgolia.$refs.input.dispatchEvent(new Event('input', {}))
-          })
-        }
-      })
     }
   },
 
   mounted () {
     this.scrollToCurrentAnchor(true)
-    this.initializeAlgolia()
   },
 
   beforeDestroy () {
     clearTimeout(this.scrollTimer)
-
-    if (this.$q.platform.is.desktop === true) {
-      window.removeEventListener('keypress', this.focusOnSearch)
-    }
   }
 }
 </script>
 
 <style lang="sass">
-@import '../css/docsearch'
-
 .header
   background: linear-gradient(145deg, $primary 11%, $dark-primary 75%)
 
 .header-logo
   width: 25px
   height: 25px
+
+.doc-layout__main-btn
+  width: 248px
 
 .doc-layout-avatar > div
   border-radius: 0
@@ -445,9 +393,24 @@ export default {
       left: 0
       box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2), 0 0px 10px rgba(0, 0, 0, 0.24)
 
-.doc-algolia
+.app-search-input,
+.app-search-input .q-field__control
+  height: 50px
+
+.app-search-input
   .q-field__control
     padding: 0 18px 0 16px !important
+  input
+    line-height: 38px
+  .q-field__prepend,
+  .q-field__append
+    height: 100%
+    cursor: text !important
+  kbd
+    font-size: .6em !important
+    min-width: 1.6em
+    min-height: 1.5em
+    font-weight: bold
   &.q-field--focused
     .q-icon
       color: #fff
@@ -455,7 +418,7 @@ export default {
 .q-drawer--mobile
   .layout-drawer-toolbar form
     margin-right: -1px
-  .doc-algolia .q-field__control
+  .app-search-input .q-field__control
     padding-right: 17px !important
   .doc-toc
     .q-item
@@ -467,6 +430,7 @@ export default {
   border-radius: 10px 0 0 10px
   margin-top: 1px
   margin-bottom: 1px
+  font-size: 12px
 
   &.q-item--active
     background: scale-color($primary, $lightness: 90%)

@@ -151,17 +151,7 @@ module.exports = function (ctx) {
 
     vendor: {
       remove: [
-        'quasar/dist/api',
-
-        // following are used by algolia
-        'algoliasearch',
-        'autocomplete.js',
-        'hogan.js',
-        'request',
-        'stack-utils',
-        'to-factory',
-        'zepto',
-        'es6-promise'
+        'quasar/dist/api'
       ]
     }
   }

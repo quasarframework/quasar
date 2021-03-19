@@ -175,7 +175,7 @@ secure: true
 If true, the cookie transmission requires a secure protocol (HTTPS) and will NOT be sent over HTTP. Default value is `false`.
 
 ::: tip
-If using Quasar CLI and [on dev mode](/quasar-cli/quasar-conf-js#Property%3A-devServer), you can enable HTTPS through quasar.conf.js > devServer > https: true.
+If using Quasar CLI and [on dev mode](/quasar-cli/quasar-conf-js#property-devserver), you can enable HTTPS through quasar.conf.js > devServer > https: true.
 :::
 
 ### Option: other

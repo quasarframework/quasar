@@ -66,7 +66,7 @@ div
         q-item-section
           .row.no-wrap.items-center
             span Icon Genie CLI
-            q-badge.q-ml-sm new
+            //- q-badge.q-ml-sm new
 
       q-item(clickable, to="/style/theme-builder")
         q-item-section.text-teal(avatar)

@@ -28,7 +28,7 @@ console.log( format.humanStorageSize(13087) )
 ```
 
 ::: tip
-For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+For usage with the UMD build see [here](/start/umd#quasar-global-object).
 :::
 
 ## Capitalize

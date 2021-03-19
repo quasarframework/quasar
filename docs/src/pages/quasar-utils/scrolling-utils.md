@@ -4,11 +4,11 @@ desc: A set of Quasar methods related to scrolling, like getting scroll target o
 ---
 
 ::: tip
-For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+For usage with the UMD build see [here](/start/umd#quasar-global-object).
 :::
 
 ## Determine scrolling container
-Might be worthwhile to read how this is done [here](/vue-components/scroll-observer#Determining-Scrolling-Container).
+Might be worthwhile to read how this is done [here](/vue-components/scroll-observer#determining-scrolling-container).
 
 ```js
 import { scroll } from 'quasar'

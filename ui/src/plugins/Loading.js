@@ -34,16 +34,18 @@ const Loading = {
       : { ...defaults, ...opts }
 
     props.customClass += ` text-${props.backgroundColor}`
-    props.uid = `l_${uid++}`
 
     this.isActive = true
 
     if (vm !== void 0) {
+      props.uid = uid
       vm.$forceUpdate()
       return
     }
 
+    props.uid = ++uid
     clearTimeout(timeout)
+
     timeout = setTimeout(() => {
       timeout = void 0
 
@@ -89,6 +91,7 @@ const Loading = {
                   size: props.spinnerSize
                 }
               }),
+
               (props.message && h('div', {
                 class: `text-${props.messageColor}`,
                 domProps: {

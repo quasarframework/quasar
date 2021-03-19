@@ -184,7 +184,7 @@ export default Vue.extend({
     },
 
     __onInput (e) {
-      if (e && e.target && e.target.composing === true) {
+      if (!e || !e.target || e.target.composing === true) {
         return
       }
 
@@ -200,6 +200,16 @@ export default Vue.extend({
       }
       else {
         this.__emitValue(val)
+
+        if (this.type !== 'number' && e.target === document.activeElement) {
+          const index = e.target.selectionEnd
+
+          index !== void 0 && this.$nextTick(() => {
+            if (e.target === document.activeElement && val.indexOf(e.target.value) === 0) {
+              e.target.setSelectionRange(index, index)
+            }
+          })
+        }
       }
 
       // we need to trigger it immediately too,
