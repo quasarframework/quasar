@@ -197,8 +197,11 @@ export default function (focused, innerLoading) {
     unwatchRules !== void 0 && unwatchRules()
   })
 
-  // expose public methods
+  // expose public methods & props
   Object.assign(proxy, { resetValidation, validate })
+  Object.defineProperty(proxy, 'hasError', {
+    get: () => hasError.value
+  })
 
   return {
     isDirtyModel,
