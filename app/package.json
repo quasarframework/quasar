@@ -51,7 +51,7 @@
     "@types/terser-webpack-plugin": "3.0.0",
     "@types/webpack": "4.41.26",
     "@types/webpack-bundle-analyzer": "3.9.1",
-    "@types/webpack-dev-server": "3.11.1",
+    "@types/webpack-dev-server": "3.11.2",
     "@vue/compiler-sfc": "3.0.6",
     "@vue/server-renderer": "3.0.6",
     "archiver": "5.2.0",
