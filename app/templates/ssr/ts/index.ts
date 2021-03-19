@@ -15,7 +15,7 @@ import express from 'express'
 import compression from 'compression'
 
 import ssr from 'quasar-ssr'
-import extension from './extension'
+import { extendApp } from './extension'
 const app = express()
 const port = process.env.PORT || 3000
 
@@ -35,7 +35,7 @@ if (ssr.settings.pwa) {
 app.use(ssr.resolveUrl('/'), serve('.', true))
 
 // we extend the custom common dev & prod parts here
-extension.extendApp({ app, ssr })
+extendApp({ app, ssr })
 
 // this should be last get(), rendering with SSR
 app.get(ssr.resolveUrl('*'), (req, res) => {
