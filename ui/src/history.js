@@ -43,7 +43,7 @@ export default {
   remove: noop,
 
   install (opts) {
-    if (__QUASAR_SSR_SERVER__) { return }
+    if (__QUASAR_SSR_SERVER__ || this.__installed === true) { return }
 
     const { cordova, capacitor } = client.is
 

@@ -11,7 +11,7 @@ import * as composables from './composables.js'
 export default {
   version: __QUASAR_VERSION__,
   install (app, opts) {
-    installQuasar.call(this, app, {
+    installQuasar(app, {
       ...opts,
       components,
       directives,

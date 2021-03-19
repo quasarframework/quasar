@@ -25,41 +25,48 @@ export function createChildApp (appCfg, appInstance) {
   return app
 }
 
+function installPlugins (pluginOpts, pluginList) {
+  pluginList.forEach(Plugin => {
+    Plugin.install(pluginOpts)
+    Plugin.__installed = true
+  })
+}
+
 function prepareApp (app, uiOpts, pluginOpts) {
   app.config.globalProperties.$q = pluginOpts.$q
   app.provide(quasarKey, pluginOpts.$q)
 
-  Platform.install(pluginOpts)
-  Body.install(pluginOpts)
-  Dark.install(pluginOpts)
-  Screen.install(pluginOpts)
-  History.install(pluginOpts)
-  Lang.install(pluginOpts)
-  IconSet.install(pluginOpts)
+  installPlugins(pluginOpts, [
+    Platform,
+    Body,
+    Dark,
+    Screen,
+    History,
+    Lang,
+    IconSet
+  ])
 
-  uiOpts.components !== void 0 && Object.keys(uiOpts.components).forEach(key => {
-    const c = uiOpts.components[ key ]
+  uiOpts.components !== void 0 && Object.values(uiOpts.components).forEach(c => {
     if (Object(c) === c && c.name !== void 0) {
       app.component(c.name, c)
     }
   })
 
-  uiOpts.directives !== void 0 && Object.keys(uiOpts.directives).forEach(key => {
-    const d = uiOpts.directives[ key ]
+  uiOpts.directives !== void 0 && Object.values(uiOpts.directives).forEach(d => {
     if (Object(d) === d && d.name !== void 0) {
       app.directive(d.name, d)
     }
   })
 
-  uiOpts.plugins !== void 0 && Object.keys(uiOpts.plugins).forEach(key => {
-    const p = uiOpts.plugins[ key ]
-    if (typeof p.install === 'function' && autoInstalled.includes(p) === false) {
-      p.install(pluginOpts)
-    }
-  })
+  uiOpts.plugins !== void 0 && installPlugins(
+    pluginOpts,
+    Object.values(uiOpts.plugins).filter(
+      p => typeof p.install === 'function' && autoInstalled.includes(p) === false
+    )
+  )
 }
 
-const installQuasar = __QUASAR_SSR_SERVER__
+export default __QUASAR_SSR_SERVER__
   ? function (app, opts = {}, ssrContext) {
       const $q = {
         version: __QUASAR_VERSION__,
@@ -102,5 +109,3 @@ const installQuasar = __QUASAR_SSR_SERVER__
       onSSRHydrated: []
     })
   }
-
-export default installQuasar

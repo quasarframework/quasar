@@ -42,10 +42,9 @@ export default defineReactivePlugin({
   setDebounce: noop,
 
   install (opts) {
-    if (__QUASAR_SSR_SERVER__) {
-      opts.$q.screen = this
-      return
-    }
+    opts.$q.screen = this
+
+    if (__QUASAR_SSR_SERVER__ || this.__installed === true) { return }
 
     const classes = opts.cfg.screen !== void 0 && opts.cfg.screen.bodyClasses === true
 
@@ -161,7 +160,5 @@ export default defineReactivePlugin({
     else {
       start()
     }
-
-    opts.$q.screen = this
   }
 })

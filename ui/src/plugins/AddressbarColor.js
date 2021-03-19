@@ -46,6 +46,10 @@ function setColor (hexColor) {
 
 export default {
   install ({ $q, cfg }) {
+    $q.addressbarColor = this
+
+    if (this.__installed === true) { return }
+
     this.set = __QUASAR_SSR_SERVER__ !== true && Platform.is.mobile === true && (
       Platform.is.nativeMobile === true
       || Platform.is.winphone === true || Platform.is.safari === true
@@ -62,8 +66,6 @@ export default {
           }
         }
       : noop
-
-    $q.addressbarColor = this
 
     cfg.addressbarColor && this.set(cfg.addressbarColor)
   }

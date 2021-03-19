@@ -9,6 +9,17 @@ export default defineReactivePlugin({
       return
     }
 
+    const inject = () => {
+      Object.defineProperty($q, 'appVisible', {
+        get: () => this.appVisible
+      })
+    }
+
+    if (this.__installed === true) {
+      inject()
+      return
+    }
+
     let prop, evt
 
     if (typeof document.hidden !== 'undefined') { // Opera 12.10 and Firefox 18 and later support
@@ -24,16 +35,13 @@ export default defineReactivePlugin({
       evt = 'webkitvisibilitychange'
     }
 
-    const update = () => {
-      this.appVisible = !document[ prop ]
-    }
-
-    update()
-
     if (evt && typeof document[ prop ] !== 'undefined') {
-      Object.defineProperty($q, 'appVisible', {
-        get: () => this.appVisible
-      })
+      const update = () => {
+        this.appVisible = !document[ prop ]
+      }
+
+      update()
+      inject()
 
       document.addEventListener(evt, update, false)
     }

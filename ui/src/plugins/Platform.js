@@ -322,10 +322,13 @@ const Platform = {
       $q.platform = reactive(this)
     }
     else {
-      // we don't have any business with SSR, so
-      // directly applying...
-      Object.assign(this, client)
       $q.platform = this
+
+      if (this.__installed !== true) {
+        // we don't have any business with SSR, so
+        // directly applying...
+        Object.assign(this, client)
+      }
     }
   }
 }

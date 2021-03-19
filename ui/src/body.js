@@ -85,6 +85,8 @@ export default {
       return
     }
 
+    if (this.__installed === true) { return }
+
     const { cfg } = opts
 
     if (isRuntimeSsrPreHydration === true) {

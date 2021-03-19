@@ -64,6 +64,10 @@ const Plugin = defineReactivePlugin({
       return
     }
 
+    opts.$q.dark = this
+
+    if (this.__installed === true) { return }
+
     const initialVal = dark !== void 0 ? dark : false
 
     if (isRuntimeSsrPreHydration === true) {
@@ -84,8 +88,6 @@ const Plugin = defineReactivePlugin({
     else {
       this.set(initialVal)
     }
-
-    opts.$q.dark = this
   }
 })
 

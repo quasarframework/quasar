@@ -193,8 +193,11 @@ export default {
       opts.$q.cookies = getObject(opts.ssrContext)
     }
     else {
-      Object.assign(this, getObject())
       opts.$q.cookies = this
+
+      if (this.__installed !== true) {
+        Object.assign(this, getObject())
+      }
     }
   }
 }

@@ -249,7 +249,7 @@ export default {
         injectServerMeta(ssrContext)
       })
     }
-    else if (isRuntimeSsrPreHydration === true) {
+    else if (this.__installed !== true && isRuntimeSsrPreHydration === true) {
       currentClientMeta = window.__Q_META__
       document.getElementById('qmeta-init').remove()
     }

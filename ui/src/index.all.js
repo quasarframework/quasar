@@ -14,8 +14,7 @@ export * from './utils.js'
 export const Quasar = {
   version: __QUASAR_VERSION__,
   install (app, opts, ssrContext) {
-    installQuasar.call(
-      this,
+    installQuasar(
       app,
       { ...opts, components, directives },
       ssrContext

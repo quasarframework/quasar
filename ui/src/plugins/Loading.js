@@ -140,11 +140,14 @@ const Plugin = defineReactivePlugin({
   },
 
   install ({ $q, cfg }) {
+    $q.loading = this
+
+    if (this.__installed === true) { return }
+
     if (__QUASAR_SSR_SERVER__ !== true) {
       this.setDefaults(cfg.loading)
     }
 
-    $q.loading = this
     this.globalNodesCfg = cfg.globalNodes
   }
 })

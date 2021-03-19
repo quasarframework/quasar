@@ -507,14 +507,17 @@ export default {
     if (__QUASAR_SSR_SERVER__) {
       $q.notify = noop
       $q.notify.setDefaults = noop
+      $q.notify.registerType = noop
       return
     }
-
-    this.setDefaults(cfg.notify)
 
     $q.notify = function (opts) { return vm.add(opts) }
     $q.notify.setDefaults = this.setDefaults
     $q.notify.registerType = this.registerType
+
+    if (this.__installed === true) { return }
+
+    this.setDefaults(cfg.notify)
 
     const el = createGlobalNode({ ...cfg.globalNodes, id: 'q-notify' })
     const app = createChildApp(Notifications, appInstance)

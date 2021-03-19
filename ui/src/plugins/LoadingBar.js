@@ -18,10 +18,9 @@ export default defineReactivePlugin({
   setDefaults: noop,
 
   install ({ $q, cfg, app }) {
-    if (__QUASAR_SSR_SERVER__) {
-      $q.loadingBar = this
-      return
-    }
+    $q.loadingBar = this
+
+    if (__QUASAR_SSR_SERVER__ || this.__installed === true) { return }
 
     const props = ref(
       cfg.loadingBar !== void 0
@@ -57,7 +56,5 @@ export default defineReactivePlugin({
         }
       }
     })
-
-    $q.loadingBar = this
   }
 })
