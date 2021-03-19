@@ -12,13 +12,10 @@
  */
 import { extendApp } from 'quasar/wrappers'
 
-export default {
-  extendApp: extendApp(({ app, ssr }) => {
-    /*
-      Extend the parts of the express app that you
-      want to use with development server too.
-
-      Example: app.use(), app.get() etc
-    */
-  })
-}
+export const extendApp = extendApp(({ app, ssr }) => {
+  /*
+    Extend the parts of the express app that you
+    want to use with development server too.
+    Example: app.use(), app.get() etc
+  */
+})
