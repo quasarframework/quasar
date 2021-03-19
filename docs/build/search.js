@@ -117,7 +117,8 @@ const processNode = (node, prefix = '') => {
     return data
   }
   else if (node.type === 'image' ||
-    node.type === 'codeBlock') {
+    node.type === 'codeBlock' ||
+    node.type === 'border') {
     text.push('')
   }
   else if (node.type === 'codeSpan') {
