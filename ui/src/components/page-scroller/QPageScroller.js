@@ -41,10 +41,12 @@ export default Vue.extend({
   },
 
   computed: {
-    height () {
-      return this.layout.container === true
-        ? this.layout.containerHeight
-        : this.layout.height
+    scrollHeight () {
+      return this.layout.height - (
+        this.layout.container === true
+          ? this.layout.containerHeight
+          : this.$q.screen.height
+      )
     },
 
     onEvents () {
@@ -64,7 +66,7 @@ export default Vue.extend({
       handler (val) {
         if (val === true) {
           if (this.heightWatcher === void 0) {
-            this.heightWatcher = this.$watch('height', this.__updateVisibility)
+            this.heightWatcher = this.$watch('scrollHeight', this.__updateVisibility)
           }
         }
         else if (this.heightWatcher !== void 0) {
@@ -78,15 +80,12 @@ export default Vue.extend({
   methods: {
     __isVisible () {
       return this.reverse === true
-        ? this.height - this.layout.scroll.position > this.scrollOffset
+        ? this.scrollHeight - this.layout.scroll.position > this.scrollOffset
         : this.layout.scroll.position > this.scrollOffset
     },
 
     __onClick (e) {
-      const target = this.layout.container === true
-        ? getScrollTarget(this.$el)
-        : getScrollTarget(this.layout.$el)
-
+      const target = getScrollTarget(this.layout.container === true ? this.$el : this.layout.$el)
       setScrollPosition(target, this.reverse === true ? this.layout.height : 0, this.duration)
       this.$emit('click', e)
     },

@@ -32,7 +32,7 @@ To give you a bit of perspective, the lead developer and core-maintainer of Quas
 The rest of the team and all of the staff working the chat support lines and fixing code are still (as of June 2019) unpaid volunteers working uncountable hours. They are slowly becoming more and more responsible for units of the project and are an invaluable resource for the community that we must safeguard.
 
 
-### Finanicial Sponsorship to Guarantee Maintenance
+### Financial Sponsorship to Guarantee Maintenance
 Nothing is certain, other than the fact that `node_modules` is still the heaviest thing in the universe and that at a certain point regular financial support of some kind is needed in order to guarantee the maintenance of large open-source projects. [Reference](https://github.com/sfosc/sfosc/issues/65#issuecomment-491770533).
 
 That point in time for Quasar is right now and your support will make the difference.

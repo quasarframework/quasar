@@ -36,6 +36,9 @@ export default Vue.extend({
     },
     textColor: String,
 
+    activeColor: String,
+    activeTextColor: String,
+
     inputStyle: [Array, String, Object],
     inputClass: [Array, String, Object],
 
@@ -82,6 +85,7 @@ export default Vue.extend({
     round: Boolean,
     rounded: Boolean,
 
+    flat: Boolean,
     outline: Boolean,
     unelevated: Boolean,
     push: Boolean,
@@ -90,7 +94,7 @@ export default Vue.extend({
     dense: Boolean,
     padding: {
       type: String,
-      default: '6px 5px'
+      default: '3px 2px'
     }
   },
 
@@ -182,6 +186,14 @@ export default Vue.extend({
         ripple: this.ripple !== null
           ? this.ripple
           : true
+      }
+    },
+
+    activeBtnProps () {
+      return {
+        flat: this.flat,
+        color: this.activeColor || this.color,
+        textColor: this.activeTextColor || this.textColor
       }
     }
   },
@@ -371,16 +383,20 @@ export default Vue.extend({
         }, pgTo + 1))
       }
       for (let i = pgFrom; i <= pgTo; i++) {
-        const active = i === this.value
+        const btn = {
+          disable: this.disable,
+          flat: true,
+          label: i
+        }
+
+        if (i === this.value) {
+          Object.assign(btn, this.activeBtnProps)
+        }
+
         contentMiddle.push(this.__getBtn(h, {
           key: `bpg${i}`,
           style
-        }, {
-          disable: this.disable,
-          flat: !active,
-          textColor: active ? this.textColor : null,
-          label: i
-        }, i))
+        }, btn, i))
       }
     }
 

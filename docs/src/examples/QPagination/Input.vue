@@ -3,9 +3,8 @@
     <q-pagination
       v-model="current"
       :max="5"
-      :input="true"
-    >
-    </q-pagination>
+      input
+    />
   </div>
 </template>
 

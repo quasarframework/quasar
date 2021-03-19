@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="q-layout-padding">
-      <p class="caption">
+      <div class="q-my-md">
         Notify the user something is going on under the covers.
-      </p>
+      </div>
       <div>
         {{ state }}
       </div>
@@ -18,21 +18,26 @@
           Show With Message (Sanitized)
         </q-btn>
       </div>
-      <p class="caption">
+      <div class="q-my-md">
         ...with a custom spinner, colors and size.
-      </p>
+      </div>
       <q-btn push color="secondary" @click="customLoading()">
         Show custom Loading
       </q-btn>
-      <p class="caption">
+      <div class="q-my-md">
         Change Message while Being Displayed
-      </p>
-      <q-btn push color="secondary" @click="changeMessage()">
-        Show & Change
-      </q-btn>
-      <p class="caption">
+      </div>
+      <div class="q-gutter-sm">
+        <q-btn push color="secondary" @click="changeMessage">
+          Show & Change
+        </q-btn>
+        <q-btn push color="secondary" @click="changeMessage2">
+          Show & Change 2
+        </q-btn>
+      </div>
+      <div class="q-my-md">
         Show multiple times in a row
-      </p>
+      </div>
       <div>
         <q-input v-model.number="showCount" type="number" min="1" max="10" style="max-width: 150px;" filled />
         <q-btn class="q-mt-md" push color="secondary" @click="showMultiple()">
@@ -40,9 +45,9 @@
         </q-btn>
       </div>
 
-      <p class="caption">
+      <div class="q-my-md">
         Show for a short time - check .q-body--loading class on body
-      </p>
+      </div>
       <div class="row q-gutter-sm">
         <q-btn push color="black" @click="shortLoading()">
           Show and hide
@@ -159,6 +164,27 @@ export default {
         })
       }, 3000)
     },
+    changeMessage2 () {
+      Loading.show({ message: 'First message. Gonna change it in 1.5 seconds...' })
+      setTimeout(() => {
+        Loading.show({
+          spinner: QSpinnerGears,
+          message: 'Updated message'
+        })
+        setTimeout(() => {
+          Loading.show({
+            spinnerColor: 'red',
+            messageColor: 'black',
+            backgroundColor: 'yellow',
+            message: 'Updated message 2'
+          })
+          setTimeout(() => {
+            Loading.hide()
+          }, 2500)
+        }, 2500)
+      }, 2500)
+    },
+
     async showMultiple () {
       for (let i = 0; i < this.showCount; i++) {
         Loading.show()

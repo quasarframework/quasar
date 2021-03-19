@@ -218,7 +218,7 @@ Like previously mentioned, rows wrap content by default, so when 12 (or more) gr
 </div>
 ```
 
-Also check [Visibility](/style/visibility#Window-Width-Related) Style page to see thresholds on window width and these tokens (xs, sm, md, lg, xl) used on their own to hide or show DOM elements.
+Also check [Visibility](/style/visibility#window-width-related) Style page to see thresholds on window width and these tokens (xs, sm, md, lg, xl) used on their own to hide or show DOM elements.
 
 ## Flex Addons
 

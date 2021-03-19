@@ -442,6 +442,12 @@ export default Vue.extend({
     },
 
     __getTuneTab (h) {
+      const attrs = {
+        inputmode: 'numeric',
+        maxlength: 3,
+        readonly: this.editable !== true
+      }
+
       return [
         h('div', { staticClass: 'row items-center no-wrap' }, [
           h('div', ['R']),
@@ -460,13 +466,8 @@ export default Vue.extend({
             })
           }),
           h('input', {
-            domProps: {
-              value: this.model.r
-            },
-            attrs: {
-              maxlength: 3,
-              readonly: this.editable !== true
-            },
+            domProps: { value: this.model.r },
+            attrs,
             on: cache(this, 'rIn', {
               input: evt => this.__onNumericChange(evt.target.value, 'r', 255, evt),
               change: stop,
@@ -492,13 +493,8 @@ export default Vue.extend({
             })
           }),
           h('input', {
-            domProps: {
-              value: this.model.g
-            },
-            attrs: {
-              maxlength: 3,
-              readonly: this.editable !== true
-            },
+            domProps: { value: this.model.g },
+            attrs,
             on: cache(this, 'gIn', {
               input: evt => this.__onNumericChange(evt.target.value, 'g', 255, evt),
               change: stop,
@@ -524,13 +520,8 @@ export default Vue.extend({
             })
           }),
           h('input', {
-            domProps: {
-              value: this.model.b
-            },
-            attrs: {
-              maxlength: 3,
-              readonly: this.editable !== true
-            },
+            domProps: { value: this.model.b },
+            attrs,
             on: cache(this, 'bIn', {
               input: evt => this.__onNumericChange(evt.target.value, 'b', 255, evt),
               change: stop,
@@ -554,13 +545,8 @@ export default Vue.extend({
             })
           }),
           h('input', {
-            domProps: {
-              value: this.model.a
-            },
-            attrs: {
-              maxlength: 3,
-              readonly: this.editable !== true
-            },
+            domProps: { value: this.model.a },
+            attrs,
             on: cache(this, 'aIn', {
               input: evt => this.__onNumericChange(evt.target.value, 'a', 100, evt),
               change: stop,
@@ -638,7 +624,7 @@ export default Vue.extend({
       evt !== void 0 && stop(evt)
 
       if (!/^[0-9]+$/.test(value)) {
-        change && this.$forceUpdate()
+        change === true && this.$forceUpdate()
         return
       }
 

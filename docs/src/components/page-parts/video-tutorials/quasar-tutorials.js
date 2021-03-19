@@ -9,15 +9,6 @@ export default [
   },
 
   {
-    name: 'Desarrollo de aplicaciones PWA con Vuejs y Quasar Framework',
-    desc: 'Aprende a desarrollar una aplicacin web con comportamiento y apariencia mvil que sea capaz de trabajar Offline',
-    author: 'Israel Parra',
-    lang: 'Spanish',
-    link: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=507388.2075016&type=2&murl=https%3A%2F%2Fwww.udemy.com%2Fcourse%2Faplicaciones-pwa-con-vuejs-y-quasar-framework%2F',
-    imgUrl: 'https://i.udemycdn.com/course/480x270/2075016_4ea3_2.jpg'
-  },
-
-  {
     name: 'Weather App with Vue.js & Quasar (for Mobile, Desktop & Web)',
     desc: 'Use Vue.js & Quasar to create a Gorgeous Weather App from scratch & get it running & working on 5 different platforms: Android, iOS, Mac, Windows & Web.',
     author: 'Danny Connell',
@@ -69,5 +60,14 @@ export default [
     lang: 'Portuguese',
     link: 'https://youtube.com/playlist?list=PLBjvYfV_TvwL7srfoBB0QxP1P-iJ5sQnc',
     imgUrl: 'https://i.ytimg.com/vi/XFVXoC2wt1U/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLAHHzV8mQYsR9Cq5OTLajBMfqQqpQ'
+  },
+
+  {
+    name: 'Vuejs e Quasar',
+    desc: 'Para você que deseja aprender sobre Quasar e VueJS.',
+    author: 'Daniel',
+    lang: 'Brazilian-portuguese',
+    link: 'https://www.youtube.com/playlist?list=PL_E9qsiOi2ASNxKmPfrXAb1FaQRidVWMu',
+    imgUrl: 'http://img.youtube.com/vi/JGN8m2zC66w/maxresdefault.jpg'
   }
 ]

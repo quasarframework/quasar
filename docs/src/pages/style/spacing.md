@@ -152,7 +152,7 @@ Examples: `q-pa-xs-md q-pa-sm-sm q-px-md-lg q-py-md-md`
 | `q-` | `m` (margin) | `y` (top & bottom) | `auto` | `q-my-auto` (v1.9.12+) |
 
 ::: tip
-See more details about the [Flex Addons](/layout/grid/introduction-to-flexbox#Flex-Addons).
+See more details about the [Flex Addons](/layout/grid/introduction-to-flexbox#flex-addons).
 :::
 
 ## Other Related

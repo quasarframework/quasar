@@ -9,7 +9,7 @@ related:
 The QIcon component allows you to easily insert icons within other components or any other area of your pages.
 Quasar supports out of the box: [Material Icons](https://material.io/icons/), [Font Awesome](http://fontawesome.io/icons/), [Ionicons](https://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons) and [Line Awesome](https://icons8.com/line-awesome).
 
-Furthermore you can [add support by yourself](/vue-components/icon#Custom-mapping) for any icon lib.
+Furthermore you can [add support by yourself](/vue-components/icon#custom-mapping) for any icon lib.
 
 There are multiple types of icons in Quasar: webfont-based, svg-based (v1.7+) and image-based. You are not bound to using only one type in your website/app.
 
@@ -154,7 +154,7 @@ If you are only using svg icons (and have configured a [Quasar Icon Set](/option
 
 ### Import guide
 
-Svg icons are supplied by `@quasar/extras` (although you can supply [your own svg icons](/vue-components/icon#Svg-icon-format) too!). Here's the ins and outs of the import syntax:
+Svg icons are supplied by `@quasar/extras` (although you can supply [your own svg icons](/vue-components/icon#svg-icon-format) too!). Here's the ins and outs of the import syntax:
 
 #### SVG Material Icons (Google)
 

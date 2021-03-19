@@ -4,7 +4,7 @@ desc: A set of miscellaneous Quasar methods for debouncing or throttling functio
 ---
 
 ::: tip
-For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+For usage with the UMD build see [here](/start/umd#quasar-global-object).
 :::
 
 ## Open External URL

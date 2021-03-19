@@ -5,10 +5,10 @@ q-page.doc-page
     q-icon.text-negative.q-mx-sm(:name="mdiFire")
     | Looking for
     doc-link.q-mx-xs(to="https://next.quasar.dev/start/upgrade-guide") Quasar v2 beta
-    | with Vue 3 docs?
+    | (Vue 3) docs?
     q-icon.text-negative.q-mx-xs(:name="mdiFire")
 
-  h1.doc-heading.doc-h1#Introduction(v-if="title" @click="copyHeading('Introduction')")
+  h1.doc-heading.doc-h1#introduction(v-if="title" @click="copyHeading('introduction')")
     span {{ title }}
     q-badge.q-ml-sm.doc-page__badge(v-if="badge") {{ badge }}
     a.doc-page__top-link.float-right(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
