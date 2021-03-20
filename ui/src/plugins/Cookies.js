@@ -188,10 +188,6 @@ const Cookies = {
     }
     else {
       $q.cookies = this
-
-      if (this.__installed !== true) {
-        Object.assign(this, getObject())
-      }
     }
   }
 }
@@ -202,6 +198,10 @@ if (__QUASAR_SSR__) {
       return getObject(ssrContext)
     }
   }
+}
+
+if (__QUASAR_SSR_SERVER__ !== true) {
+  Object.assign(Cookies, getObject())
 }
 
 export default Cookies
