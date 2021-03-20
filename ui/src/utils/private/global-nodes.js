@@ -1,18 +1,21 @@
+import { globalConfig } from './global-config.js'
+
 const globalNodes = []
 let target = __QUASAR_SSR_SERVER__
   ? void 0
   : document.body
 
-export function createGlobalNode (opts) {
+export function createGlobalNode (id) {
   const el = document.createElement('div')
 
-  if (opts !== void 0) {
-    if (opts.id !== void 0) {
-      el.id = opts.id
-    }
+  if (id !== void 0) {
+    el.id = id
+  }
 
-    if (opts.class !== void 0) {
-      el.className = opts.class
+  if (globalConfig.globalNodes !== void 0) {
+    const cls = globalConfig.globalNodes.class
+    if (cls !== void 0) {
+      el.className = cls
     }
   }
 

@@ -9,17 +9,18 @@ import Body from './body.js'
 import IconSet from './icon-set.js'
 
 import { quasarKey } from './utils/private/symbols.js'
+import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './utils/private/global-config.js'
 
 const autoInstalled = [
   Platform, Screen, Dark
 ]
 
-export function createChildApp (appCfg, appInstance) {
+export function createChildApp (appCfg, parentApp) {
   const app = createApp(appCfg)
 
-  app.config.globalProperties = appInstance.config.globalProperties
+  app.config.globalProperties = parentApp.config.globalProperties
 
-  const { reload, ...appContext } = appInstance._context
+  const { reload, ...appContext } = parentApp._context
   Object.assign(app._context, appContext)
 
   return app
@@ -67,10 +68,10 @@ function prepareApp (app, uiOpts, pluginOpts) {
 }
 
 export default __QUASAR_SSR_SERVER__
-  ? function (app, opts = {}, ssrContext) {
+  ? function (parentApp, opts = {}, ssrContext) {
       const $q = {
         version: __QUASAR_VERSION__,
-        config: Object.freeze(opts.config || {})
+        config: opts.config || {}
       }
 
       ssrContext.$q = $q
@@ -83,27 +84,34 @@ export default __QUASAR_SSR_SERVER__
         bodyTags: ''
       })
 
-      app.config.globalProperties.ssrContext = ssrContext
+      parentApp.config.globalProperties.ssrContext = ssrContext
 
-      prepareApp(app, opts, {
-        app,
+      prepareApp(parentApp, opts, {
+        parentApp,
         $q,
-        cfg: $q.config,
         lang: opts.lang,
         iconSet: opts.iconSet,
         ssrContext
       })
     }
-  : function (app, opts = {}) {
-    const $q = {
-      version: __QUASAR_VERSION__,
-      config: Object.freeze(opts.config || {})
+  : function (parentApp, opts = {}) {
+    const $q = { version: __QUASAR_VERSION__ }
+
+    if (globalConfigIsFrozen === false) {
+      if (opts.config !== void 0) {
+        Object.assign(globalConfig, opts.config)
+      }
+
+      $q.config = { ...globalConfig }
+      freezeGlobalConfig()
+    }
+    else {
+      $q.config = opts.config || {}
     }
 
-    prepareApp(app, opts, {
-      app,
+    prepareApp(parentApp, opts, {
+      parentApp,
       $q,
-      cfg: $q.config,
       lang: opts.lang,
       iconSet: opts.iconSet,
       onSSRHydrated: []

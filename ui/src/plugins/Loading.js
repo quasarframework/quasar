@@ -13,20 +13,20 @@ let
   timeout,
   props = {}
 
-const
-  originalDefaults = {
-    delay: 0,
-    message: false,
-    html: false,
-    spinnerSize: 80,
-    spinnerColor: '',
-    messageColor: '',
-    backgroundColor: '',
-    boxClass: '',
-    spinner: QSpinner,
-    customClass: ''
-  },
-  defaults = { ...originalDefaults }
+const originalDefaults = {
+  delay: 0,
+  message: false,
+  html: false,
+  spinnerSize: 80,
+  spinnerColor: '',
+  messageColor: '',
+  backgroundColor: '',
+  boxClass: '',
+  spinner: QSpinner,
+  customClass: ''
+}
+
+const defaults = { ...originalDefaults }
 
 const Plugin = defineReactivePlugin({
   isActive: false
@@ -52,7 +52,7 @@ const Plugin = defineReactivePlugin({
     timeout = setTimeout(() => {
       timeout = void 0
 
-      const el = createGlobalNode({ ...this.globalNodesCfg, id: 'q-loading' })
+      const el = createGlobalNode('q-loading')
 
       app = createApp({
         name: 'QLoading',
@@ -139,16 +139,12 @@ const Plugin = defineReactivePlugin({
     }
   },
 
-  install ({ $q, cfg }) {
+  install ({ $q }) {
     $q.loading = this
 
-    if (this.__installed === true) { return }
-
-    if (__QUASAR_SSR_SERVER__ !== true) {
-      this.setDefaults(cfg.loading)
+    if (__QUASAR_SSR_SERVER__ !== true && $q.config.loading !== void 0) {
+      this.setDefaults($q.config.loading)
     }
-
-    this.globalNodesCfg = cfg.globalNodes
   }
 })
 

@@ -503,7 +503,7 @@ export default {
     }
   },
 
-  install ({ $q, cfg, app: appInstance }) {
+  install ({ $q, parentApp }) {
     if (__QUASAR_SSR_SERVER__) {
       $q.notify = noop
       $q.notify.setDefaults = noop
@@ -515,12 +515,14 @@ export default {
     $q.notify.setDefaults = this.setDefaults
     $q.notify.registerType = this.registerType
 
+    if ($q.config.notify !== void 0) {
+      this.setDefaults($q.config.notify)
+    }
+
     if (this.__installed === true) { return }
 
-    this.setDefaults(cfg.notify)
-
-    const el = createGlobalNode({ ...cfg.globalNodes, id: 'q-notify' })
-    const app = createChildApp(Notifications, appInstance)
+    const el = createGlobalNode('q-notify')
+    const app = createChildApp(Notifications, parentApp)
 
     vm = app.mount(el)
   }

@@ -1,4 +1,4 @@
-import { h, ref, onUnmounted, Teleport, getCurrentInstance } from 'vue'
+import { h, ref, onUnmounted, Teleport } from 'vue'
 
 import { noop } from '../../utils/event.js'
 import { createGlobalNode, removeGlobalNode } from '../../utils/private/global-nodes.js'
@@ -39,11 +39,9 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
   const onGlobalDialog = checkGlobalDialog === true && isOnGlobalDialog(vm)
   const portalIsActive = ref(false)
 
-  const { proxy: { $q } } = getCurrentInstance()
-
   function showPortal () {
     if (onGlobalDialog === false) {
-      portalEl = createGlobalNode($q.config.globalNodes)
+      portalEl = createGlobalNode()
     }
 
     portalIsActive.value = true

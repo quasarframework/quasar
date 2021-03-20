@@ -2,12 +2,12 @@ import BottomSheet from '../components/dialog-bottom-sheet/BottomSheet.js'
 import globalDialog from '../utils/private/global-dialog.js'
 
 export default {
-  install (pluginOpts) {
+  install ({ $q, parentApp }) {
     if (this.__installed === true) {
-      pluginOpts.$q.bottomSheet = this.create
+      $q.bottomSheet = globalDialog(BottomSheet, false, parentApp)
     }
     else {
-      this.create = pluginOpts.$q.bottomSheet = globalDialog(BottomSheet, false, pluginOpts)
+      this.create = $q.bottomSheet = globalDialog(BottomSheet, false, parentApp)
     }
   }
 }

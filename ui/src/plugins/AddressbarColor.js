@@ -45,28 +45,28 @@ function setColor (hexColor) {
 }
 
 export default {
-  install ({ $q, cfg }) {
+  install ({ $q }) {
     $q.addressbarColor = this
 
-    if (this.__installed === true) { return }
+    if (this.__installed !== true) {
+      this.set = __QUASAR_SSR_SERVER__ !== true && Platform.is.mobile === true && (
+        Platform.is.nativeMobile === true
+        || Platform.is.winphone === true || Platform.is.safari === true
+        || Platform.is.webkit === true || Platform.is.vivaldi === true
+      )
+        ? hexColor => {
+            const val = hexColor || getCssVar('primary')
 
-    this.set = __QUASAR_SSR_SERVER__ !== true && Platform.is.mobile === true && (
-      Platform.is.nativeMobile === true
-      || Platform.is.winphone === true || Platform.is.safari === true
-      || Platform.is.webkit === true || Platform.is.vivaldi === true
-    )
-      ? hexColor => {
-          const val = hexColor || getCssVar('primary')
-
-          if (Platform.is.nativeMobile === true && window.StatusBar) {
-            window.StatusBar.backgroundColorByHexString(val)
+            if (Platform.is.nativeMobile === true && window.StatusBar) {
+              window.StatusBar.backgroundColorByHexString(val)
+            }
+            else {
+              setColor(val)
+            }
           }
-          else {
-            setColor(val)
-          }
-        }
-      : noop
+        : noop
+    }
 
-    cfg.addressbarColor && this.set(cfg.addressbarColor)
+    $q.config.addressbarColor && this.set($q.config.addressbarColor)
   }
 }

@@ -181,19 +181,13 @@ export function getObject (ssr) {
   }
 }
 
-export default {
-  parseSSR (ssrContext) {
-    return ssrContext !== void 0
-      ? getObject(ssrContext)
-      : this
-  },
-
-  install (opts) {
+const Cookies = {
+  install ({ $q, ssrContext }) {
     if (__QUASAR_SSR_SERVER__) {
-      opts.$q.cookies = getObject(opts.ssrContext)
+      $q.cookies = getObject(ssrContext)
     }
     else {
-      opts.$q.cookies = this
+      $q.cookies = this
 
       if (this.__installed !== true) {
         Object.assign(this, getObject())
@@ -201,3 +195,13 @@ export default {
     }
   }
 }
+
+if (__QUASAR_SSR__) {
+  Cookies.parseSSR = ssrContext => {
+    if (ssrContext !== void 0) {
+      return getObject(ssrContext)
+    }
+  }
+}
+
+export default Cookies

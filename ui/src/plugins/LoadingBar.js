@@ -17,23 +17,30 @@ export default defineReactivePlugin({
   increment: noop,
   setDefaults: noop,
 
-  install ({ $q, cfg, app }) {
+  install ({ $q, parentApp }) {
     $q.loadingBar = this
 
-    if (__QUASAR_SSR_SERVER__ || this.__installed === true) { return }
+    if (__QUASAR_SSR_SERVER__) { return }
+
+    if (this.__installed === true) {
+      if ($q.config.loadingBar !== void 0) {
+        this.setDefaults($q.config.loadingBar)
+      }
+      return
+    }
 
     const props = ref(
-      cfg.loadingBar !== void 0
-        ? { ...cfg.loadingBar, ...reqProps }
+      $q.config.loadingBar !== void 0
+        ? { ...$q.config.loadingBar, ...reqProps }
         : { ...reqProps }
     )
 
-    const el = createGlobalNode({ ...cfg.globalNodes, id: 'q-loading-bar' })
+    const el = createGlobalNode('q-loading-bar')
 
     const vm = createChildApp({
       name: 'LoadingBar',
       setup: () => () => h(QAjaxBar, props.value)
-    }, app).mount(el)
+    }, parentApp).mount(el)
 
     Object.assign(this, {
       start: speed => {

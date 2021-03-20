@@ -171,10 +171,10 @@ export default {
     useMapFn (val) {
       if (val === true) {
         this.icon = TOP_ICON
-        this.$q.iconMapFn.value = customIconMapFn
+        this.$q.iconMapFn = customIconMapFn
       }
       else {
-        this.$q.iconMapFn.value = null
+        this.$q.iconMapFn = null
       }
     }
   },

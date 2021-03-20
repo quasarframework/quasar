@@ -1,5 +1,4 @@
-import { reactive } from 'vue'
-
+import defineReactivePlugin from './utils/private/define-reactive-plugin.js'
 import langEn from '../lang/en-US.js'
 import { isRuntimeSsrPreHydration } from './plugins/Platform.js'
 
@@ -23,7 +22,9 @@ function getLocale () {
   }
 }
 
-const Plugin = {
+const Plugin = defineReactivePlugin({
+  __langPack: {}
+}, {
   getLocale,
 
   set (langObject = langEn, ssrContext) {
@@ -60,7 +61,7 @@ const Plugin = {
 
       lang.set = Plugin.set
 
-      Object.assign(Plugin.__q.lang, lang)
+      Object.assign(Plugin.__langPack, lang)
 
       Plugin.props = lang
       Plugin.isoName = lang.isoName
@@ -68,11 +69,9 @@ const Plugin = {
     }
   },
 
-  install (opts) {
-    const initialLang = opts.lang || langEn
-
+  install ({ $q, lang, ssrContext }) {
     if (__QUASAR_SSR_SERVER__) {
-      const { $q, ssrContext } = opts
+      const initialLang = lang || langEn
 
       $q.lang = {}
       $q.lang.set = langObject => {
@@ -89,12 +88,16 @@ const Plugin = {
       }
     }
     else {
-      opts.$q.lang = reactive({})
+      $q.lang = Plugin.__langPack
 
-      this.__q = opts.$q
-      this.set(initialLang)
+      if (this.__installed === true) {
+        lang !== void 0 && this.set(lang)
+      }
+      else {
+        this.set(lang || langEn)
+      }
     }
   }
-}
+})
 
 export default Plugin
