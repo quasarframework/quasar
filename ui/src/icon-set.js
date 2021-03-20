@@ -27,7 +27,7 @@ const Plugin = defineReactivePlugin({
     if (__QUASAR_SSR_SERVER__) {
       const initialSet = iconSet || materialIcons
 
-      $q.iconMapFn = ssrContext.$q.config.iconMapFn || Plugin.iconMapFn || null
+      $q.iconMapFn = ssrContext.$q.config.iconMapFn || this.iconMapFn || null
       $q.iconSet = {}
       $q.iconSet.set = setObject => {
         this.set(setObject, ssrContext)
@@ -37,14 +37,14 @@ const Plugin = defineReactivePlugin({
     }
     else {
       if ($q.config.iconMapFn !== void 0) {
-        Plugin.iconMapFn = $q.config.iconMapFn
+        this.iconMapFn = $q.config.iconMapFn
       }
 
-      $q.iconSet = Plugin.__icons
+      $q.iconSet = this.__icons
 
       Object.defineProperty($q, 'iconMapFn', {
-        get: () => Plugin.iconMapFn,
-        set: val => { Plugin.iconMapFn = val }
+        get: () => this.iconMapFn,
+        set: val => { this.iconMapFn = val }
       })
 
       if (this.__installed === true) {
