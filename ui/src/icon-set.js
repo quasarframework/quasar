@@ -27,7 +27,7 @@ const Plugin = defineReactivePlugin({
     if (__QUASAR_SSR_SERVER__) {
       const initialSet = iconSet || materialIcons
 
-      $q.iconMapFn = ssrContext.$q.config.iconMapFn || null
+      $q.iconMapFn = ssrContext.$q.config.iconMapFn || Plugin.iconMapFn || null
       $q.iconSet = {}
       $q.iconSet.set = setObject => {
         this.set(setObject, ssrContext)
