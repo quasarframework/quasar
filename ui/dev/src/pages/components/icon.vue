@@ -171,9 +171,11 @@ export default {
     useMapFn (val) {
       if (val === true) {
         this.icon = TOP_ICON
+        // Quasar.iconSet.iconMapFn = customIconMapFn
         this.$q.iconMapFn = customIconMapFn
       }
       else {
+        // Quasar.iconSet.iconMapFn = null
         this.$q.iconMapFn = null
       }
     }

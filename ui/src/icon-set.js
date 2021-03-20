@@ -1,9 +1,8 @@
-import { ref } from 'vue'
-
 import defineReactivePlugin from './utils/private/define-reactive-plugin.js'
 import materialIcons from '../icon-set/material-icons.js'
 
 const Plugin = defineReactivePlugin({
+  iconMapFn: null,
   __icons: {}
 }, {
   set (setObject, ssrContext) {
@@ -37,15 +36,15 @@ const Plugin = defineReactivePlugin({
       $q.iconSet.set(initialSet)
     }
     else {
-      const iconMapFn = ref(null)
+      if ($q.config.iconMapFn !== void 0) {
+        Plugin.iconMapFn = $q.config.iconMapFn
+      }
 
       $q.iconSet = Plugin.__icons
 
-      Object.defineProperties($q, {
-        iconMapFn: {
-          get: () => iconMapFn.value,
-          set: val => { iconMapFn.value = val }
-        }
+      Object.defineProperty($q, 'iconMapFn', {
+        get: () => Plugin.iconMapFn,
+        set: val => { Plugin.iconMapFn = val }
       })
 
       if (this.__installed === true) {
