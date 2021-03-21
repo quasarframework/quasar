@@ -1,11 +1,10 @@
-import { h, defineComponent, ref, computed, Transition, getCurrentInstance } from 'vue'
+import { h, defineComponent, ref, computed, Transition } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import Intersection from '../../directives/Intersection.js'
 
 import { hSlot, hDir } from '../../utils/private/render.js'
-import { vmHasListener } from '../../utils/private/vm.js'
 
 export default defineComponent({
   name: 'QIntersection',
@@ -27,13 +26,12 @@ export default defineComponent({
       default: null
     },
 
-    disable: Boolean
+    disable: Boolean,
+
+    onVisibility: Function
   },
 
-  emits: [ 'visibility' ],
-
   setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
     const showing = ref(isRuntimeSsrPreHydration === true ? props.ssrPrerender : false)
 
     const intersectionProps = computed(() => (
@@ -67,7 +65,7 @@ export default defineComponent({
     function trigger (entry) {
       if (showing.value !== entry.isIntersecting) {
         showing.value = entry.isIntersecting
-        vmHasListener(vm, 'onVisibility') === true && emit('visibility', showing.value)
+        props.onVisibility !== void 0 && emit('visibility', showing.value)
       }
     }
 

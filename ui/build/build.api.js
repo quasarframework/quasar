@@ -485,9 +485,17 @@ function fillAPI (apiType, list) {
 
         ast.evaluate(definition, topSections[ apiType ], (prop, key, definition) => {
           if (prop === 'props') {
+            if (!key && definition.type === 'Function') {
+              // TODO
+              // wrong evaluation; example: QTabs: props > 'onUpdate:modelValue'
+              return
+            }
+
             key = key.replace(/([a-z])([A-Z])/g, '$1-$2')
               .replace(/\s+/g, '-')
               .toLowerCase()
+
+            if (/^on-/.test(key) === true) { return }
           }
 
           if (api[ prop ] === void 0 || api[ prop ][ key ] === void 0) {

@@ -12,7 +12,7 @@ import QMenu from '../menu/QMenu.js'
 import QDialog from '../dialog/QDialog.js'
 
 import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
-import { useVirtualScroll, useVirtualScrollProps, useVirtualScrollEmits } from '../virtual-scroll/use-virtual-scroll.js'
+import { useVirtualScroll, useVirtualScrollProps } from '../virtual-scroll/use-virtual-scroll.js'
 import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
 import useKeyComposition from '../../composables/private/use-key-composition.js'
 
@@ -21,7 +21,6 @@ import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 import { shouldIgnoreKey, isKeyCode } from '../../utils/private/key-composition.js'
 import { hMergeSlot } from '../../utils/private/render.js'
-import { vmHasListener } from '../../utils/private/vm.js'
 
 const validateNewValueMode = v => [ 'add', 'add-unique', 'toggle' ].includes(v)
 const reEscapeList = '.*+?^${}()|[]\\'
@@ -119,20 +118,22 @@ export default defineComponent({
     virtualScrollItemSize: {
       type: [ Number, String ],
       default: void 0
-    }
+    },
+
+    onNewValue: Function,
+    onFilter: Function
   },
 
   emits: [
     ...useFieldEmits,
-    ...useVirtualScrollEmits,
-    'add', 'remove', 'new-value', 'input-value',
+    'add', 'remove', 'input-value',
     'keyup', 'keypress', 'keydown',
-    'filter-abort', 'filter'
+    'filter-abort'
   ],
 
   setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
-    const { proxy: { $q } } = vm
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
 
     const menu = ref(false)
     const dialog = ref(false)
@@ -669,7 +670,7 @@ export default defineComponent({
       }
 
       const newValueModeValid = inputValue.value.length > 0
-        && (props.newValueMode !== void 0 || vmHasListener(vm, 'onNewValue') === true)
+        && (props.newValueMode !== void 0 || props.onNewValue !== void 0)
 
       const tabShouldSelect = e.shiftKey !== true
         && props.multiple !== true
@@ -844,7 +845,7 @@ export default defineComponent({
           }
         }
 
-        if (vmHasListener(vm, 'onNewValue') === true) {
+        if (props.onNewValue !== void 0) {
           emit('new-value', inputValue.value, done)
         }
         else {
@@ -1011,7 +1012,7 @@ export default defineComponent({
         state.localFocus()
       }
 
-      if (vmHasListener(vm, 'onFilter') === true) {
+      if (props.onFilter !== void 0) {
         inputTimer = setTimeout(() => {
           filter(inputValue.value)
         }, props.inputDebounce)
@@ -1040,7 +1041,7 @@ export default defineComponent({
     }
 
     function filter (val, keepClosed) {
-      if (vmHasListener(vm, 'onFilter') === void 0 || (keepClosed !== true && state.focused.value !== true)) {
+      if (props.onFilter === void 0 || (keepClosed !== true && state.focused.value !== true)) {
         return
       }
 
@@ -1096,7 +1097,7 @@ export default defineComponent({
                 }
               }
 
-              typeof afterFn === 'function' && nextTick(() => { afterFn(vm.proxy) })
+              typeof afterFn === 'function' && nextTick(() => { afterFn(proxy) })
             })
           }
         },
@@ -1302,7 +1303,7 @@ export default defineComponent({
         state.localFocus()
       }
 
-      if (vmHasListener(vm, 'onFilter') === true) {
+      if (props.onFilter !== void 0) {
         filter(inputValue.value)
       }
       else if (noOptions.value !== true || slots[ 'no-option' ] !== void 0) {
@@ -1365,7 +1366,7 @@ export default defineComponent({
         ? false
         : props.behavior !== 'menu' && (
           props.useInput === true
-            ? slots[ 'no-option' ] !== void 0 || vmHasListener(vm, 'onFilter') === true || noOptions.value === false
+            ? slots[ 'no-option' ] !== void 0 || props.onFilter !== void 0 || noOptions.value === false
             : true
         )
 
@@ -1393,7 +1394,7 @@ export default defineComponent({
     })
 
     // expose public methods
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       showPopup, hidePopup,
       removeAtIndex, add, toggleOption,
       setOptionIndex, moveOptionSelection,

@@ -11,7 +11,6 @@ import { between } from '../../utils/format.js'
 import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 import debounce from '../../utils/debounce.js'
-import { vmHasListener } from '../../utils/private/vm.js'
 
 const axisList = [ 'vertical', 'horizontal' ]
 const dirProps = {
@@ -44,10 +43,10 @@ export default defineComponent({
     visible: {
       type: Boolean,
       default: null
-    }
-  },
+    },
 
-  emits: [ 'scroll' ],
+    onScroll: Function
+  },
 
   setup (props, { slots, emit }) {
     // state management
@@ -331,7 +330,7 @@ export default defineComponent({
       }
 
       timer = setTimeout(() => { tempShowing.value = false }, props.delay)
-      vmHasListener(vm, 'onScroll') === true && emitScroll()
+      props.onScroll !== void 0 && emitScroll()
     }
 
     function setScroll (offset, axis) {

@@ -9,7 +9,6 @@ import useTimeout from '../../composables/private/use-timeout.js'
 import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'
 import { tabsKey } from '../../utils/private/symbols.js'
-import { vmHasListener } from '../../utils/private/vm.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -58,10 +57,10 @@ export default defineComponent({
 
     dense: Boolean,
 
-    contentClass: String
-  },
+    contentClass: String,
 
-  emits: [ 'update:modelValue' ],
+    'onUpdate:modelValue': Function
+  },
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
@@ -155,7 +154,7 @@ export default defineComponent({
         skipEmit !== true && emit('update:modelValue', name)
         if (
           setCurrent === true
-          || vmHasListener(vm, 'onUpdate:modelValue') === void 0
+          || props[ 'onUpdate:modelValue' ] !== void 0
         ) {
           animate(currentModel.value, name)
           currentModel.value = name

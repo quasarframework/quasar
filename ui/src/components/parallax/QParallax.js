@@ -1,11 +1,10 @@
-import { h, defineComponent, ref, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, defineComponent, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { hSlot } from '../../utils/private/render.js'
 import { listenOpts } from '../../utils/event.js'
-import { vmHasListener } from '../../utils/private/vm.js'
 
 const { passive } = listenOpts
 
@@ -26,14 +25,12 @@ export default defineComponent({
 
     scrollTarget: {
       default: void 0
-    }
+    },
+
+    onScroll: Function
   },
 
-  emits: [ 'scroll' ],
-
   setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
-
     const percentScrolled = ref(0)
     const rootRef = ref(null)
     const mediaParentRef = ref(null)
@@ -54,7 +51,7 @@ export default defineComponent({
 
     let update = percentage => {
       percentScrolled.value = percentage
-      vmHasListener(vm, 'onScroll') === true && emit('scroll', percentage)
+      props.onScroll !== void 0 && emit('scroll', percentage)
     }
 
     function updatePos () {

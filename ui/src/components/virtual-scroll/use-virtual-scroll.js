@@ -2,7 +2,6 @@ import { h, ref, computed, watch, onBeforeMount, onBeforeUnmount, nextTick, getC
 
 import debounce from '../../utils/debounce.js'
 import { noop } from '../../utils/event.js'
-import { vmHasListener } from '../../utils/private/vm.js'
 
 const aggBucketSize = 1000
 
@@ -235,10 +234,9 @@ export const commonVirtPropsList = Object.keys(commonVirtScrollProps)
 
 export const useVirtualScrollProps = {
   virtualScrollHorizontal: Boolean,
+  onVirtualScroll: Function,
   ...commonVirtScrollProps
 }
-
-export const useVirtualScrollEmits = [ 'virtual-scroll' ]
 
 export function useVirtualScroll ({
   virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl,
@@ -686,7 +684,7 @@ export function useVirtualScroll ({
 
   function emitScroll (index) {
     if (prevToIndex !== index) {
-      vmHasListener(vm, 'onVirtualScroll') === true && emit('virtual-scroll', {
+      props.onVirtualScroll !== void 0 && emit('virtual-scroll', {
         index,
         from: virtualScrollSliceRange.value.from,
         to: virtualScrollSliceRange.value.to - 1,
