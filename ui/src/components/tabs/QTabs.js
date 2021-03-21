@@ -433,7 +433,7 @@ export default defineComponent({
             + (leftArrow.value === true ? '' : ' q-tabs__arrow--faded'),
           name: props.leftIcon || $q.iconSet.tabs[ props.vertical === true ? 'up' : 'left' ],
           onMousedown: scrollToStart,
-          onTouchstart: scrollToStart,
+          onTouchstartPassive: scrollToStart,
           onMouseup: stopAnimScroll,
           onMouseleave: stopAnimScroll,
           onTouchend: stopAnimScroll
@@ -444,7 +444,7 @@ export default defineComponent({
             + (rightArrow.value === true ? '' : ' q-tabs__arrow--faded'),
           name: props.rightIcon || $q.iconSet.tabs[ props.vertical === true ? 'down' : 'right' ],
           onMousedown: scrollToEnd,
-          onTouchstart: scrollToEnd,
+          onTouchstartPassive: scrollToEnd,
           onMouseup: stopAnimScroll,
           onMouseleave: stopAnimScroll,
           onTouchend: stopAnimScroll

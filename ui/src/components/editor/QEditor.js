@@ -401,7 +401,7 @@ export default defineComponent({
       emit('mouseup', e)
     }
 
-    function onTouchstart () {
+    function onTouchstartPassive () {
       offsetBottom = void 0
     }
 
@@ -523,7 +523,7 @@ export default defineComponent({
 
           // clean saved scroll position
           onMousedown,
-          onTouchstart,
+          onTouchstartPassive,
 
           // save caret
           onMouseup,
