@@ -201,7 +201,7 @@ export default Vue.extend({
       else {
         this.__emitValue(val)
 
-        if (this.type !== 'number' && e.target === document.activeElement) {
+        if (['text', 'search', 'url', 'tel', 'password'].includes(this.type) && e.target === document.activeElement) {
           const index = e.target.selectionEnd
 
           index !== void 0 && this.$nextTick(() => {
