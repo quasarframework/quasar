@@ -181,7 +181,7 @@ export function getObject (ssr) {
   }
 }
 
-const Cookies = {
+const Plugin = {
   install ({ $q, ssrContext }) {
     if (__QUASAR_SSR_SERVER__) {
       $q.cookies = getObject(ssrContext)
@@ -193,7 +193,7 @@ const Cookies = {
 }
 
 if (__QUASAR_SSR__) {
-  Cookies.parseSSR = ssrContext => {
+  Plugin.parseSSR = ssrContext => {
     if (ssrContext !== void 0) {
       return getObject(ssrContext)
     }
@@ -201,7 +201,7 @@ if (__QUASAR_SSR__) {
 }
 
 if (__QUASAR_SSR_SERVER__ !== true) {
-  Object.assign(Cookies, getObject())
+  Object.assign(Plugin, getObject())
 }
 
-export default Cookies
+export default Plugin
