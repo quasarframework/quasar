@@ -204,7 +204,7 @@ export default defineComponent({
       else {
         emitValue(val)
 
-        if (props.type !== 'number' && e.target === document.activeElement) {
+        if ([ 'text', 'search', 'url', 'tel', 'password' ].includes(props.type) && e.target === document.activeElement) {
           const index = e.target.selectionEnd
 
           index !== void 0 && nextTick(() => {
