@@ -354,7 +354,7 @@ export default defineComponent({
             ? h('div', {
                 class: 'q-dialog__backdrop fixed-full',
                 'aria-hidden': 'true',
-                onClick: onBackdropClick
+                onMousedown: onBackdropClick
               })
             : null
         )),

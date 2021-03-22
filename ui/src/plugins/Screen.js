@@ -41,15 +41,26 @@ export default defineReactivePlugin({
   setSizes: noop,
   setDebounce: noop,
 
-  install (opts) {
-    if (__QUASAR_SSR_SERVER__) {
-      opts.$q.screen = this
+  install ({ $q, onSSRHydrated }) {
+    $q.screen = this
+
+    if (__QUASAR_SSR_SERVER__) { return }
+
+    if (this.__installed === true) {
+      if ($q.config.screen !== void 0) {
+        if ($q.config.screen.bodyClasses === false) {
+          document.body.classList.remove(`screen--${ this.name }`)
+        }
+        else {
+          this.__update(true)
+        }
+      }
       return
     }
 
-    const classes = opts.cfg.screen !== void 0 && opts.cfg.screen.bodyClasses === true
+    const classes = $q.config.screen !== void 0 && $q.config.screen.bodyClasses === true
 
-    const update = force => {
+    this.__update = force => {
       const
         w = window.innerWidth,
         h = window.innerHeight
@@ -129,14 +140,14 @@ export default defineReactivePlugin({
             this.sizes[ name ] = sizes[ name ]
           }
         })
-        update(true)
+        this.__update(true)
       }
 
       this.setDebounce = delay => {
         updateEvt !== void 0 && target.removeEventListener('resize', updateEvt, passive)
         updateEvt = delay > 0
-          ? debounce(update, delay)
-          : update
+          ? debounce(this.__update, delay)
+          : this.__update
         target.addEventListener('resize', updateEvt, passive)
       }
 
@@ -147,7 +158,7 @@ export default defineReactivePlugin({
         updateSizes = void 0 // free up memory
       }
       else {
-        update()
+        this.__update()
       }
 
       // due to optimizations, this would be left out otherwise
@@ -156,12 +167,10 @@ export default defineReactivePlugin({
     }
 
     if (isRuntimeSsrPreHydration === true) {
-      opts.onSSRHydrated.push(start)
+      onSSRHydrated.push(start)
     }
     else {
       start()
     }
-
-    opts.$q.screen = this
   }
 })

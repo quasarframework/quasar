@@ -117,15 +117,13 @@ export default defineComponent({
       getEl: () => proxy.$el,
       onClickOutside (e) {
         if (props.persistent !== true && showing.value === true) {
-          const targetClassList = e.target.classList
-
           hide(e)
 
           if (
             // always prevent touch event
             e.type === 'touchstart'
             // prevent click if it's on a dialog backdrop
-            || targetClassList.contains('q-dialog__backdrop')
+            || e.target.classList.contains('q-dialog__backdrop')
           ) {
             stopAndPrevent(e)
           }

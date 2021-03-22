@@ -4,9 +4,7 @@ import iconSet from './icon-set.js'
 
 export default {
   version: __QUASAR_VERSION__,
-  install () {
-    installQuasar.apply(this, arguments)
-  },
+  install: installQuasar,
   lang,
   iconSet
 }

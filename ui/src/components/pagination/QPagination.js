@@ -33,6 +33,9 @@ export default defineComponent({
     },
     textColor: String,
 
+    activeColor: String,
+    activeTextColor: String,
+
     inputStyle: [ Array, String, Object ],
     inputClass: [ Array, String, Object ],
 
@@ -79,6 +82,7 @@ export default defineComponent({
     round: Boolean,
     rounded: Boolean,
 
+    flat: Boolean,
     outline: Boolean,
     unelevated: Boolean,
     push: Boolean,
@@ -87,7 +91,7 @@ export default defineComponent({
     dense: Boolean,
     padding: {
       type: String,
-      default: '6px 5px'
+      default: '3px 2px'
     }
   },
 
@@ -165,6 +169,12 @@ export default defineComponent({
       ripple: props.ripple !== null
         ? props.ripple
         : true
+    }))
+
+    const activeBtnProps = computed(() => ({
+      flat: props.flat,
+      color: props.activeColor || props.color,
+      textColor: props.activeTextColor || props.textColor
     }))
 
     function set (value) {
@@ -247,7 +257,7 @@ export default defineComponent({
           placeholder: inputPlaceholder.value,
           min: props.min,
           max: props.max,
-          onInput (value) { newPage.value = value },
+          'onUpdate:modelValue' (value) { newPage.value = value },
           onKeyup (e) { isKeyCode(e, 13) === true && updateModel() },
           onBlur: updateModel
         }))
@@ -330,15 +340,16 @@ export default defineComponent({
           }, pgTo + 1))
         }
         for (let i = pgFrom; i <= pgTo; i++) {
-          const active = i === props.modelValue
-          contentMiddle.push(getBtn({
+          const btn = {
             key: `bpg${ i }`,
             style,
             disable: props.disable,
-            flat: !active,
-            textColor: active ? props.textColor : void 0,
             label: i
-          }, i))
+          }
+          if (i === props.modelValue) {
+            Object.assign(btn, activeBtnProps.value)
+          }
+          contentMiddle.push(getBtn(btn, i))
         }
       }
 

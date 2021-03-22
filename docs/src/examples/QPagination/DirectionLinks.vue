@@ -3,9 +3,8 @@
     <q-pagination
       v-model="current"
       :max="5"
-      :direction-links="true"
-    >
-    </q-pagination>
+      direction-links
+    />
   </div>
 </template>
 

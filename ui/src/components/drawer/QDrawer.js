@@ -11,7 +11,6 @@ import TouchPan from '../../directives/TouchPan.js'
 import { between } from '../../utils/format.js'
 import { hSlot, hDir } from '../../utils/private/render.js'
 import { layoutKey } from '../../utils/private/symbols.js'
-import { vmHasListener } from '../../utils/private/vm.js'
 
 const duration = 150
 
@@ -564,7 +563,7 @@ export default defineComponent({
       props.showIfAbove === true
       && props.modelValue !== true
       && showing.value === true
-      && vmHasListener(vm, 'onUpdate:modelValue') === true
+      && props[ 'onUpdate:modelValue' ] !== void 0
     ) {
       emit('update:modelValue', true)
     }

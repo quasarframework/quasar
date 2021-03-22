@@ -1,8 +1,10 @@
-import { ref, reactive } from 'vue'
-
+import defineReactivePlugin from './utils/private/define-reactive-plugin.js'
 import materialIcons from '../icon-set/material-icons.js'
 
-const Plugin = {
+const Plugin = defineReactivePlugin({
+  iconMapFn: null,
+  __icons: {}
+}, {
   set (setObject, ssrContext) {
     const def = { ...setObject, rtl: setObject.rtl === true }
 
@@ -17,37 +19,42 @@ const Plugin = {
     }
     else {
       def.set = Plugin.set
-      Object.assign(Plugin.__q.iconSet, def)
+      Object.assign(Plugin.__icons, def)
     }
   },
 
-  install (opts) {
-    const initialSet = opts.iconSet || materialIcons
-    const { $q } = opts
-
+  install ({ $q, iconSet, ssrContext }) {
     if (__QUASAR_SSR_SERVER__) {
-      $q.iconMapFn = null
+      const initialSet = iconSet || materialIcons
+
+      $q.iconMapFn = ssrContext.$q.config.iconMapFn || this.iconMapFn || null
       $q.iconSet = {}
       $q.iconSet.set = setObject => {
-        this.set(setObject, opts.ssrContext)
+        this.set(setObject, ssrContext)
       }
 
       $q.iconSet.set(initialSet)
     }
     else {
-      const iconMapFn = ref(null)
+      if ($q.config.iconMapFn !== void 0) {
+        this.iconMapFn = $q.config.iconMapFn
+      }
 
-      $q.iconSet = reactive({})
+      $q.iconSet = this.__icons
 
       Object.defineProperty($q, 'iconMapFn', {
-        get: () => iconMapFn.value,
-        set: val => { iconMapFn.value = val }
+        get: () => this.iconMapFn,
+        set: val => { this.iconMapFn = val }
       })
 
-      this.__q = $q
-      this.set(initialSet)
+      if (this.__installed === true) {
+        iconSet !== void 0 && this.set(iconSet)
+      }
+      else {
+        this.set(iconSet || materialIcons)
+      }
     }
   }
-}
+})
 
 export default Plugin

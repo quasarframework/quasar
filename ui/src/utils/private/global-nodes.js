@@ -1,3 +1,5 @@
+import { globalConfig } from './global-config.js'
+
 const globalNodes = []
 let target = __QUASAR_SSR_SERVER__
   ? void 0
@@ -8,6 +10,13 @@ export function createGlobalNode (id) {
 
   if (id !== void 0) {
     el.id = id
+  }
+
+  if (globalConfig.globalNodes !== void 0) {
+    const cls = globalConfig.globalNodes.class
+    if (cls !== void 0) {
+      el.className = cls
+    }
   }
 
   target.appendChild(el)

@@ -22,6 +22,17 @@
               Quasar App
             </q-toolbar-title>
 
+            <q-btn
+              class="q-mx-md"
+              type="a"
+              href="./index-multiapp.umd.html"
+              outline
+              color="white"
+              icon="launch"
+              label="To Multi-App"
+              no-caps
+            ></q-btn>
+
             <div>Quasar v{{ $q.version }} | Vue v{{ vueVersion }}</div>
           </q-toolbar>
         </q-header>
@@ -119,36 +130,25 @@
 
     <script>
       const app = Vue.createApp({
-        data () {
+        setup () {
           return {
             version: Quasar.version,
             vueVersion: Vue.version,
-            stars: 5,
-            drawerState: false
-          }
-        },
+            stars: Vue.ref(5),
+            drawerState: Vue.ref(false),
 
-        methods: {
-          launchUrl (url) {
-            Quasar.openURL('https://quasar.dev')
-          },
+            launchUrl (url) {
+              Quasar.openURL('https://quasar.dev')
+            },
 
-          onRefreshClick () {
-            window.location.reload()
+            onRefreshClick () {
+              window.location.reload()
+            }
           }
         }
       })
 
-      app.use(Quasar, {
-        // plugins: {
-        //   Notify: Quasar.Notify // or Quasar.plugins.Notify
-        // },
-        config: {
-          brand: {
-            primary: '#ff0000'
-          }
-        }
-      })
+      app.use(Quasar)
 
       Quasar.Notify.create('Startup notification')
 

@@ -1,6 +1,8 @@
 ---
 title: Upgrade Guide
 desc: How to upgrade Quasar from older versions to the latest one.
+components:
+  - upgrade-guide/UpgradeVideoLink
 ---
 
 ::: danger Quasar v2 beta
@@ -14,6 +16,12 @@ desc: How to upgrade Quasar from older versions to the latest one.
 ::: tip Composition and Options API
 You will notice that all of our documentation examples are using Vue 3's Composition API. This does NOT mean that you can't use the legacy Options API. On the contrary, maintaining Options API will actually help you on your upgrade path and make it a lot easier for you. After upgrading is done we do recommend switching to the Composition API, but by no means you are required to do so.
 :::
+
+### Video guide <q-badge align="top" label="New" />
+
+Clicking on the poster below will open a Youtube playlist on the process of upgrading your Quasar CLI project from Quasar v1 to Quasar v2. It may get out of sync as we progress with Quasar v2, but it may help you get started.
+
+<upgrade-video-link />
 
 ## Older v2 to latest v2
 
@@ -87,6 +95,8 @@ If you get stuck, check out the forums or visit our Discord server for help whic
 ::: warning Info
 It should be noted that we have tried our hardest to make sure everything in the Upgrade documentation is correct. However, because this has been a manual process, there are likely errors. If you find any, don't be afraid to make a PR and propose a change to make corrections.
 :::
+
+
 
 ### Initial Steps
 
@@ -305,7 +315,7 @@ export default function (/* { ssrContext } */) {
 
 This is a Vue 3 ecosystem upstream breaking change. Update src/boot/i18n.js file to match Vue-i18n v9's API. Vue-i18n comes with its own [breaking changes](https://vue-i18n-next.intlify.dev/guide/migration/breaking.html).
 
-Since this package isn't provided by `@quasar/app`, you must update the dependency in your project via `yarn add vue-i18n@rc`
+Since this package isn't provided by `@quasar/app`, you must update the dependency in your project via `yarn add vue-i18n@next`
 
 ```js
 // default src/boot/i18n.js content:

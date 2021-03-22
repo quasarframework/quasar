@@ -50,6 +50,9 @@
 </template>
 
 <script>
+import { ref, watch } from 'vue'
+import { useQuasar } from 'quasar'
+
 import matSet from 'quasar/icon-set/material-icons.js'
 import matOutlinedSet from 'quasar/icon-set/material-icons-outlined.js'
 import matRoundSet from 'quasar/icon-set/material-icons-round.js'
@@ -111,38 +114,28 @@ function customIconMapFn (iconName) {
 }
 
 export default {
-  created () {
-    this.iconOptions = [
-      { value: '', label: 'Empty name' },
-      { value: TOP_ICON, label: 'A Material icon' },
-      { value: matAddBox, label: 'A Material SVG icon' },
-      { value: 'o_add_box', label: 'A Material Outlined icon' },
-      { value: 'r_add_box', label: 'A Material Round icon' },
-      { value: 's_add_box', label: 'A Material Sharp icon' },
-      { value: 'mdi-airballoon', label: 'A MDI v5 icon' },
-      { value: mdiAirballoon, label: 'A MDI v5 SVG icon' },
-      { value: 'fab fa-github', label: 'A Fontawesome icon' },
-      { value: fabGithub, label: 'A Fontawesome SVG icon' },
-      { value: ionAirplane, label: 'A SVG Ionicon v5' },
-      { value: 'ion-airplane', label: 'A Ionicon v4 (platform dependent)' },
-      { value: 'ion-md-airplane', label: 'A Ionicon v4 (md)' },
-      { value: 'ion-ios-airplane', label: 'A Ionicon v4 (ios)' },
-      { value: ionMdAirplane, label: 'A SVG Ionicon v4 (md)' },
-      { value: ionIosAirplane, label: 'A SVG Ionicon v4 (ios)' },
-      { value: 'eva-paper-plane-outline', label: 'A Eva icon' },
-      { value: evaPaperPlaneOutline, label: 'A Eva SVG icon' },
-      { value: 'ti-fullscreen', label: 'A Themify icon' },
-      { value: tiFullscreen, label: 'A Themify SVG icon' },
-      { value: 'las la-atom', label: 'A Line Awesome icon' },
-      { value: laAtomSolid, label: 'A Line Awesome SVG icon' }
-    ]
-  },
+  setup () {
+    const useMapFn = ref(false)
+    const icon = ref(TOP_ICON)
 
-  data () {
+    const $q = useQuasar()
+
+    watch(useMapFn, val => {
+      if (val === true) {
+        icon.value = TOP_ICON
+        // Quasar.iconSet.iconMapFn = customIconMapFn
+        $q.iconMapFn = customIconMapFn
+      }
+      else {
+        // Quasar.iconSet.iconMapFn = null
+        $q.iconMapFn = null
+      }
+    })
+
     return {
-      useMapFn: false,
-      icon: TOP_ICON,
-      text: 'gigi',
+      useMapFn,
+      icon,
+      text: ref('gigi'),
       matAddBox,
       mdiAirballoon,
       ionMdAirplane,
@@ -150,38 +143,45 @@ export default {
       fabGithub,
       evaPaperPlaneOutline,
       tiFullscreen,
-      laAtomSolid
-    }
-  },
+      laAtomSolid,
 
-  computed: {
-    sets () {
-      return [
+      iconOptions: [
+        { value: '', label: 'Empty name' },
+        { value: TOP_ICON, label: 'A Material icon' },
+        { value: matAddBox, label: 'A Material SVG icon' },
+        { value: 'o_add_box', label: 'A Material Outlined icon' },
+        { value: 'r_add_box', label: 'A Material Round icon' },
+        { value: 's_add_box', label: 'A Material Sharp icon' },
+        { value: 'mdi-airballoon', label: 'A MDI v5 icon' },
+        { value: mdiAirballoon, label: 'A MDI v5 SVG icon' },
+        { value: 'fab fa-github', label: 'A Fontawesome icon' },
+        { value: fabGithub, label: 'A Fontawesome SVG icon' },
+        { value: ionAirplane, label: 'A SVG Ionicon v5' },
+        { value: 'ion-airplane', label: 'A Ionicon v4 (platform dependent)' },
+        { value: 'ion-md-airplane', label: 'A Ionicon v4 (md)' },
+        { value: 'ion-ios-airplane', label: 'A Ionicon v4 (ios)' },
+        { value: ionMdAirplane, label: 'A SVG Ionicon v4 (md)' },
+        { value: ionIosAirplane, label: 'A SVG Ionicon v4 (ios)' },
+        { value: 'eva-paper-plane-outline', label: 'A Eva icon' },
+        { value: evaPaperPlaneOutline, label: 'A Eva SVG icon' },
+        { value: 'ti-fullscreen', label: 'A Themify icon' },
+        { value: tiFullscreen, label: 'A Themify SVG icon' },
+        { value: 'las la-atom', label: 'A Line Awesome icon' },
+        { value: laAtomSolid, label: 'A Line Awesome SVG icon' }
+      ],
+
+      sets: [
         matSet, matOutlinedSet, matRoundSet, matSharpSet,
         mdiSet, fontawesomeSet, ioniconsV4Set, evaSet, themifySet,
         lineawesomeSet,
         svgMatSet, svgMatOutlinedSet, svgMatRoundSet, svgMatSharpSet,
         svgMdiSet, svgIoniconsV4Set, svgIoniconsSet, svgFontawesomeSet,
         svgEvaSet, svgThemifySet, svgLineawesomeSet
-      ].map(({ name, ...set }) => parseSet(name, set))
-    }
-  },
+      ].map(({ name, ...set }) => parseSet(name, set)),
 
-  watch: {
-    useMapFn (val) {
-      if (val === true) {
-        this.icon = TOP_ICON
-        this.$q.iconMapFn.value = customIconMapFn
+      clicked () {
+        console.log('clicked')
       }
-      else {
-        this.$q.iconMapFn.value = null
-      }
-    }
-  },
-
-  methods: {
-    clicked () {
-      console.log('clicked')
     }
   }
 }

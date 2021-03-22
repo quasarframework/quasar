@@ -181,20 +181,27 @@ export function getObject (ssr) {
   }
 }
 
-export default {
-  parseSSR (ssrContext) {
-    return ssrContext !== void 0
-      ? getObject(ssrContext)
-      : this
-  },
-
-  install (opts) {
+const Plugin = {
+  install ({ $q, ssrContext }) {
     if (__QUASAR_SSR_SERVER__) {
-      opts.$q.cookies = getObject(opts.ssrContext)
+      $q.cookies = getObject(ssrContext)
     }
     else {
-      Object.assign(this, getObject())
-      opts.$q.cookies = this
+      $q.cookies = this
     }
   }
 }
+
+if (__QUASAR_SSR__) {
+  Plugin.parseSSR = ssrContext => {
+    if (ssrContext !== void 0) {
+      return getObject(ssrContext)
+    }
+  }
+}
+
+if (__QUASAR_SSR_SERVER__ !== true) {
+  Object.assign(Plugin, getObject())
+}
+
+export default Plugin

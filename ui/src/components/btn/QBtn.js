@@ -70,7 +70,7 @@ export default defineComponent({
       if (props.loading === true) {
         return {
           onMousedown: onLoadingEvt,
-          onTouchstart: onLoadingEvt,
+          onTouchstartPassive: onLoadingEvt,
           onClick: onLoadingEvt,
           onKeydown: onLoadingEvt,
           onKeyup: onLoadingEvt
@@ -81,7 +81,7 @@ export default defineComponent({
           onClick,
           onKeydown,
           onMousedown,
-          onTouchstart
+          onTouchstartPassive
         }
       }
 
@@ -165,7 +165,7 @@ export default defineComponent({
       emit('keydown', e)
     }
 
-    function onTouchstart (e) {
+    function onTouchstartPassive (e) {
       if (touchTarget !== rootRef.value) {
         touchTarget !== null && cleanup()
         touchTarget = rootRef.value
@@ -261,7 +261,6 @@ export default defineComponent({
     }
 
     function onLoadingEvt (evt) {
-      stopAndPrevent(evt)
       evt.qSkipRipple = true
     }
 
@@ -270,9 +269,7 @@ export default defineComponent({
     })
 
     // expose public methods
-    Object.assign(proxy, {
-      click: onClick
-    })
+    Object.assign(proxy, { click: onClick })
 
     return () => {
       let inner = []

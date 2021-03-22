@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, nextTick, onBeforeUnmount, getCurrentInstance, provide } from 'vue'
+import { h, defineComponent, ref, computed, watch, nextTick, onBeforeUnmount, onActivated, getCurrentInstance, provide } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
@@ -9,7 +9,6 @@ import useTimeout from '../../composables/private/use-timeout.js'
 import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'
 import { tabsKey } from '../../utils/private/symbols.js'
-import { vmHasListener } from '../../utils/private/vm.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -58,10 +57,10 @@ export default defineComponent({
 
     dense: Boolean,
 
-    contentClass: String
-  },
+    contentClass: String,
 
-  emits: [ 'update:modelValue' ],
+    'onUpdate:modelValue': Function
+  },
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
@@ -155,7 +154,7 @@ export default defineComponent({
         skipEmit !== true && emit('update:modelValue', name)
         if (
           setCurrent === true
-          || vmHasListener(vm, 'onUpdate:modelValue') === void 0
+          || props[ 'onUpdate:modelValue' ] !== void 0
         ) {
           animate(currentModel.value, name)
           currentModel.value = name
@@ -414,6 +413,8 @@ export default defineComponent({
       unwatchRoute !== void 0 && unwatchRoute()
     })
 
+    onActivated(recalculateScroll)
+
     return () => {
       const child = [
         h(QResizeObserver, { onResize: updateContainer }),
@@ -431,7 +432,7 @@ export default defineComponent({
             + (leftArrow.value === true ? '' : ' q-tabs__arrow--faded'),
           name: props.leftIcon || $q.iconSet.tabs[ props.vertical === true ? 'up' : 'left' ],
           onMousedown: scrollToStart,
-          onTouchstart: scrollToStart,
+          onTouchstartPassive: scrollToStart,
           onMouseup: stopAnimScroll,
           onMouseleave: stopAnimScroll,
           onTouchend: stopAnimScroll
@@ -442,7 +443,7 @@ export default defineComponent({
             + (rightArrow.value === true ? '' : ' q-tabs__arrow--faded'),
           name: props.rightIcon || $q.iconSet.tabs[ props.vertical === true ? 'down' : 'right' ],
           onMousedown: scrollToEnd,
-          onTouchstart: scrollToEnd,
+          onTouchstartPassive: scrollToEnd,
           onMouseup: stopAnimScroll,
           onMouseleave: stopAnimScroll,
           onTouchend: stopAnimScroll

@@ -1,6 +1,6 @@
 {
   "name": "@quasar/extras",
-  "version": "1.9.19",
+  "version": "1.9.20",
   "description": "Quasar Framework fonts, icons and animations",
   "scripts": {
     "build": "node build/index.js"
@@ -27,7 +27,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "5.15.2",
+    "@fortawesome/fontawesome-free": "5.15.3",
     "@mdi/font": "5.9.55",
     "@mdi/svg": "5.9.55",
     "animate.css": "4.1.1",

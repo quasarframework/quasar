@@ -6,7 +6,6 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useCache from '../../composables/private/use-cache.js'
 
 import { hSlot } from '../../utils/private/render.js'
-import { vmHasListener } from '../../utils/private/vm.js'
 
 const slotsDef = [
   [ 'left', 'center', 'start', 'width' ],
@@ -24,14 +23,16 @@ export default defineComponent({
     leftColor: String,
     rightColor: String,
     topColor: String,
-    bottomColor: String
+    bottomColor: String,
+
+    onSlide: Function
   },
 
-  emits: [ 'action', 'top', 'right', 'bottom', 'left', 'slide' ],
+  emits: [ 'action', 'top', 'right', 'bottom', 'left' ],
 
   setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
-    const { proxy: { $q } } = vm
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
 
     const isDark = useDark(props, $q)
     const { getCacheWithFn } = useCache()
@@ -56,7 +57,7 @@ export default defineComponent({
     }
 
     function emitSlide (side, ratio, isReset) {
-      vmHasListener(vm, 'onSlide') === true && emit('slide', { side, ratio, isReset })
+      props.onSlide !== void 0 && emit('slide', { side, ratio, isReset })
     }
 
     function onPan (evt) {
@@ -164,7 +165,7 @@ export default defineComponent({
     })
 
     // expose public methods
-    Object.assign(vm.proxy, { reset })
+    Object.assign(proxy, { reset })
 
     return () => {
       const

@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, reactive, computed, provide, nextTick, getCurrentInstance } from 'vue'
+import { h, defineComponent, ref, reactive, computed, provide, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
@@ -8,7 +8,6 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import { getScrollbarWidth } from '../../utils/scroll.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 import { layoutKey } from '../../utils/private/symbols.js'
-import { vmHasListener } from '../../utils/private/vm.js'
 
 export default defineComponent({
   name: 'QLayout',
@@ -19,14 +18,15 @@ export default defineComponent({
       type: String,
       default: 'hhh lpr fff',
       validator: v => /^(h|l)h(h|r) lpr (f|l)f(f|r)$/.test(v.toLowerCase())
-    }
+    },
+
+    onScroll: Function,
+    onScrollHeight: Function,
+    onResize: Function
   },
 
-  emits: [ 'scroll', 'scroll-height', 'resize' ],
-
   setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
-    const { proxy: { $q } } = vm
+    const { proxy: { $q } } = getCurrentInstance()
 
     const rootRef = ref(null)
 
@@ -78,7 +78,7 @@ export default defineComponent({
         }
 
         scroll.value = info
-        vmHasListener(vm, 'onScroll') === true && emit('scroll', info)
+        props.onScroll !== void 0 && emit('scroll', info)
       }
     }
 
@@ -89,7 +89,7 @@ export default defineComponent({
       if (height.value !== newHeight) {
         resized = true
         height.value = newHeight
-        vmHasListener(vm, 'onScrollHeight') === true && emit('scroll-height', newHeight)
+        props.onScrollHeight !== void 0 && emit('scroll-height', newHeight)
         updateScrollbarWidth()
       }
       if (width.value !== newWidth) {
@@ -97,7 +97,7 @@ export default defineComponent({
         width.value = newWidth
       }
 
-      if (resized === true && vmHasListener(vm, 'onResize') === true) {
+      if (resized === true && props.onResize !== void 0) {
         emit('resize', data)
       }
     }
@@ -121,7 +121,7 @@ export default defineComponent({
       }
     }
 
-    let timer, updateCache = {}
+    let timer
 
     const $layout = {
       instances: {},

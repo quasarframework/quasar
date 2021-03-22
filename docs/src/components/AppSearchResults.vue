@@ -33,7 +33,6 @@
       .app-search__result-keyboard.flex.flex-center.absolute-right(v-if="entry.id === searchActiveId")
         kbd
           q-icon(:name="select")
-
 </template>
 
 <script>

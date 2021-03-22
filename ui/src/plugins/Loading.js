@@ -13,20 +13,20 @@ let
   timeout,
   props = {}
 
-const
-  originalDefaults = {
-    delay: 0,
-    message: false,
-    html: false,
-    spinnerSize: 80,
-    spinnerColor: '',
-    messageColor: '',
-    backgroundColor: 'black',
-    boxClass: '',
-    spinner: QSpinner,
-    customClass: ''
-  },
-  defaults = { ...originalDefaults }
+const originalDefaults = {
+  delay: 0,
+  message: false,
+  html: false,
+  spinnerSize: 80,
+  spinnerColor: '',
+  messageColor: '',
+  backgroundColor: '',
+  boxClass: '',
+  spinner: QSpinner,
+  customClass: ''
+}
+
+const defaults = { ...originalDefaults }
 
 const Plugin = defineReactivePlugin({
   isActive: false
@@ -38,17 +38,17 @@ const Plugin = defineReactivePlugin({
       ? { ...originalDefaults, ...opts }
       : { ...defaults, ...opts }
 
-    props.customClass += ` text-${ props.backgroundColor }`
-    props.uid = `l_${ uid++ }`
-
     Plugin.isActive = true
 
     if (app !== void 0) {
+      props.uid = uid
       vm.$forceUpdate()
       return
     }
 
+    props.uid = ++uid
     clearTimeout(timeout)
+
     timeout = setTimeout(() => {
       timeout = void 0
 
@@ -100,6 +100,11 @@ const Plugin = defineReactivePlugin({
               key: props.uid
             }, [
               h('div', {
+                class: 'q-loading__backdrop'
+                  + (props.backgroundColor ? ` bg-${ props.backgroundColor }` : '')
+              }),
+
+              h('div', {
                 class: 'q-loading__box column items-center ' + props.boxClass
               }, content)
             ])
@@ -134,12 +139,12 @@ const Plugin = defineReactivePlugin({
     }
   },
 
-  install (opts) {
-    if (__QUASAR_SSR_SERVER__ !== true) {
-      this.setDefaults(opts.cfg.loading)
-    }
+  install ({ $q }) {
+    $q.loading = this
 
-    opts.$q.loading = this
+    if (__QUASAR_SSR_SERVER__ !== true && $q.config.loading !== void 0) {
+      this.setDefaults($q.config.loading)
+    }
   }
 })
 

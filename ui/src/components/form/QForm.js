@@ -3,7 +3,6 @@ import { h, defineComponent, ref, onMounted, getCurrentInstance, nextTick, provi
 import { stopAndPrevent } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'
 import { formKey } from '../../utils/private/symbols.js'
-import { vmHasListener } from '../../utils/private/vm.js'
 
 export default defineComponent({
   name: 'QForm',
@@ -12,10 +11,12 @@ export default defineComponent({
     autofocus: Boolean,
     noErrorFocus: Boolean,
     noResetFocus: Boolean,
-    greedy: Boolean
+    greedy: Boolean,
+
+    onSubmit: Function
   },
 
-  emits: [ 'submit', 'reset', 'validation-success', 'validation-error' ],
+  emits: [ 'reset', 'validation-success', 'validation-error' ],
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
@@ -111,7 +112,7 @@ export default defineComponent({
 
       validate().then(val => {
         if (val === true) {
-          if (vmHasListener(vm, 'onSubmit') === true) {
+          if (props.onSubmit !== void 0) {
             emit('submit', evt)
           }
           else if (evt !== void 0 && evt.target !== void 0 && typeof evt.target.submit === 'function') {

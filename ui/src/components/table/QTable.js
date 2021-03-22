@@ -18,12 +18,10 @@ import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../com
 
 import { useTableSort, useTableSortProps } from './table-sort.js'
 import { useTableFilter, useTableFilterProps } from './table-filter.js'
-import { useTablePaginationState, useTablePagination, useTablePaginationProps, useTablePaginationEmits } from './table-pagination.js'
+import { useTablePaginationState, useTablePagination, useTablePaginationProps } from './table-pagination.js'
 import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEmits } from './table-row-selection.js'
 import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
 import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
-
-import { vmHasListener } from '../../utils/private/vm.js'
 
 const bottomClass = 'q-table__bottom row items-center'
 
@@ -99,6 +97,10 @@ export default defineComponent({
     hideNoData: Boolean,
     hidePagination: Boolean,
 
+    onRowClick: Function,
+    onRowDblclick: Function,
+    onRowContextmenu: Function,
+
     ...useDarkProps,
     ...useFullscreenProps,
 
@@ -111,9 +113,8 @@ export default defineComponent({
   },
 
   emits: [
-    'request', 'virtual-scroll', 'row-click', 'row-dblclick',
+    'request', 'virtual-scroll',
     ...useFullscreenEmits,
-    ...useTablePaginationEmits,
     ...useTableRowExpandEmits,
     ...useTableRowSelectionEmits
   ],
@@ -425,21 +426,21 @@ export default defineComponent({
 
       const data = { key, class: { selected } }
 
-      if (vmHasListener(vm, 'onRowClick') === true) {
+      if (props.onRowClick !== void 0) {
         data.class[ 'cursor-pointer' ] = true
         data.onClick = evt => {
           emit('row-click', evt, row, pageIndex)
         }
       }
 
-      if (vmHasListener(vm, 'onRowDblclick') === true) {
+      if (props.onRowDblclick !== void 0) {
         data.class[ 'cursor-pointer' ] = true
         data.onDblclick = evt => {
           emit('row-dblclick', evt, row, pageIndex)
         }
       }
 
-      if (vmHasListener(vm, 'onContextmenu') === true) {
+      if (props.onRowContextmenu !== void 0) {
         data.class[ 'cursor-pointer' ] = true
         data.onContextmenu = evt => {
           emit('row-contextmenu', evt, row, pageIndex)
@@ -962,18 +963,18 @@ export default defineComponent({
           }
 
           if (
-            vmHasListener(vm, 'onRowClick') === true
-            || vmHasListener(vm, 'onRowDblclick') === true
+            props.onRowClick !== void 0
+            || props.onRowDblclick !== void 0
           ) {
             data.class[ 0 ] += ' cursor-pointer'
 
-            if (vmHasListener(vm, 'onRowClick') === true) {
+            if (props.onRowClick !== void 0) {
               data.onClick = evt => {
                 emit('row-click', evt, scope.row, scope.pageIndex)
               }
             }
 
-            if (vmHasListener(vm, 'onRowDblclick') === true) {
+            if (props.onRowDblclick !== void 0) {
               data.onDblclick = evt => {
                 emit('row-dblclick', evt, scope.row, scope.pageIndex)
               }
@@ -1025,12 +1026,12 @@ export default defineComponent({
       get: () => filteredSortedRows.value,
       enumerable: true
     })
-    
+
     Object.defineProperty(vm.proxy, 'computedRows', {
       get: () => computedRows.value,
       enumerable: true
     })
-    
+
     Object.defineProperty(vm.proxy, 'computedRowsNumber', {
       get: () => computedRowsNumber.value,
       enumerable: true

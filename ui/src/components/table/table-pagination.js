@@ -1,5 +1,4 @@
 import { ref, computed, watch, nextTick } from 'vue'
-import { vmHasListener } from '../../utils/private/vm.js'
 
 function samePagination (oldPag, newPag) {
   for (const prop in newPag) {
@@ -25,10 +24,10 @@ export const useTablePaginationProps = {
   rowsPerPageOptions: {
     type: Array,
     default: () => [ 5, 7, 10, 15, 20, 25, 50, 0 ]
-  }
-}
+  },
 
-export const useTablePaginationEmits = [ 'update:pagination' ]
+  'onUpdate:pagination': Function
+}
 
 export function useTablePaginationState (vm, getCellValue) {
   const { props, emit } = vm
@@ -45,7 +44,7 @@ export function useTablePaginationState (vm, getCellValue) {
   )
 
   const computedPagination = computed(() => {
-    const pag = vmHasListener(vm, 'onUpdate:pagination') === true
+    const pag = props[ 'onUpdate:pagination' ] !== void 0
       ? { ...innerPagination.value, ...props.pagination }
       : innerPagination.value
 
@@ -91,7 +90,7 @@ export function useTablePaginationState (vm, getCellValue) {
 
     if (
       props.pagination !== void 0
-      && vmHasListener(vm, 'onUpdate:pagination') === true
+      && props[ 'onUpdate:pagination' ] !== void 0
     ) {
       emit('update:pagination', newPagination)
     }
@@ -193,7 +192,7 @@ export function useTablePagination (vm, innerPagination, computedPagination, isS
     setPagination({ page: pagesNumber.value })
   }
 
-  if (vmHasListener(vm, 'onUpdate:pagination') === true) {
+  if (props[ 'onUpdate:pagination' ] !== void 0) {
     emit('update:pagination', { ...computedPagination.value })
   }
 

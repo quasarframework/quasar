@@ -1,16 +1,18 @@
 import { watch, nextTick, onMounted, getCurrentInstance } from 'vue'
 
-import { vmHasRouter, vmHasListener } from '../../utils/private/vm.js'
+import { vmHasRouter } from '../../utils/private/vm.js'
 
 export const useModelToggleProps = {
   modelValue: {
     type: Boolean,
     default: null
-  }
+  },
+
+  'onUpdate:modelValue': Function
 }
 
 export const useModelToggleEmits = [
-  'update:modelValue', 'before-show', 'show', 'before-hide', 'hide'
+  'before-show', 'show', 'before-hide', 'hide'
 ]
 
 // handleShow/handleHide -> removeTick(), self (& emit show), prepareTick()
@@ -42,7 +44,7 @@ export default function ({
       return
     }
 
-    const listener = vmHasListener(vm, 'onUpdate:modelValue') === true
+    const listener = props[ 'onUpdate:modelValue' ] !== void 0
 
     if (listener === true && __QUASAR_SSR_SERVER__ !== true) {
       emit('update:modelValue', true)
@@ -81,7 +83,7 @@ export default function ({
       return
     }
 
-    const listener = vmHasListener(vm, 'onUpdate:modelValue') === true
+    const listener = props[ 'onUpdate:modelValue' ] !== void 0
 
     if (listener === true && __QUASAR_SSR_SERVER__ !== true) {
       emit('update:modelValue', false)
@@ -117,7 +119,7 @@ export default function ({
 
   function processModelChange (val) {
     if (props.disable === true && val === true) {
-      if (vmHasListener(vm, 'onUpdate:modelValue') === true) {
+      if (props[ 'onUpdate:modelValue' ] !== void 0) {
         emit('update:modelValue', false)
       }
     }

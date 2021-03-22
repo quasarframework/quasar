@@ -29,6 +29,11 @@ module.exports = function (ctx) {
     framework: {
       // iconSet: 'svg-mdi-v4',
       // config: { ripple: { early: true } },
+      // config: {
+      //   globalNodes: {
+      //     class: 'mimi'
+      //   }
+      // },
       plugins: [
         'AddressbarColor',
         'AppFullscreen',

@@ -68,7 +68,7 @@ export default defineComponent({
 
     const onEvents = computed(() => {
       const evt = {
-        ...state.splitAttrs.listeners,
+        ...state.splitAttrs.listeners.value,
         onInput,
         onPaste,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
@@ -100,7 +100,7 @@ export default defineComponent({
         rows: props.type === 'textarea' ? 6 : void 0,
         'aria-label': props.label,
         name: nameProp.value,
-        ...state.splitAttrs.attributes,
+        ...state.splitAttrs.attributes.value,
         id: state.targetUid.value,
         maxlength: props.maxlength,
         disabled: props.disable === true,
@@ -187,7 +187,7 @@ export default defineComponent({
     }
 
     function onInput (e) {
-      if (e && e.target && e.target.composing === true) {
+      if (!e || !e.target || e.target.composing === true) {
         return
       }
 
@@ -203,6 +203,16 @@ export default defineComponent({
       }
       else {
         emitValue(val)
+
+        if ([ 'text', 'search', 'url', 'tel', 'password' ].includes(props.type) && e.target === document.activeElement) {
+          const index = e.target.selectionEnd
+
+          index !== void 0 && nextTick(() => {
+            if (e.target === document.activeElement && val.indexOf(e.target.value) === 0) {
+              e.target.setSelectionRange(index, index)
+            }
+          })
+        }
       }
 
       // we need to trigger it immediately too,

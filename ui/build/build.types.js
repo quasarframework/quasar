@@ -365,7 +365,7 @@ function writeIndexDTS (apis) {
     const injectionDefs = injections[ key ]
     if (injectionDefs) {
       const injectionName = `${ key.toUpperCase().replace('$', '') }VueGlobals`
-      writeLine(contents, `import { ${ injectionName } } from "./globals";`)
+      writeLine(contents, `import { ${ injectionName }, BaseQGlobals } from "./globals";`)
       writeLine(contents, 'declare module "./globals" {')
       writeLine(contents, `export interface ${ injectionName } {`)
       for (const defKey in injectionDefs) {
@@ -394,7 +394,7 @@ function writeIndexDTS (apis) {
 
   quasarTypeContents.forEach(line => write(contents, line))
 
-  writeLine(contents, 'export const Quasar: { install: (app: App, options: Partial<QuasarPluginOptions>) => any }')
+  writeLine(contents, 'export const Quasar: { install: (app: App, options: Partial<QuasarPluginOptions>) => any } & BaseQGlobals')
   writeLine(contents, 'export default Quasar')
   writeLine(contents)
 
@@ -402,6 +402,7 @@ function writeIndexDTS (apis) {
   //  which by defaults would be ignored because inside node_modules
   //  and not directly referenced by any file
   writeLine(contents, 'import \'./shim-icon-set\'')
+  writeLine(contents, 'import \'./shim-lang\'')
 
   writeFile(resolvePath('index.d.ts'), contents.join(''))
 }

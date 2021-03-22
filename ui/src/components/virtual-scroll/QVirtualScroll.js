@@ -4,7 +4,7 @@ import QList from '../item/QList.js'
 import QMarkupTable from '../markup-table/QMarkupTable.js'
 import getTableMiddle from '../table/get-table-middle.js'
 
-import { useVirtualScroll, useVirtualScrollProps, useVirtualScrollEmits } from './use-virtual-scroll.js'
+import { useVirtualScroll, useVirtualScrollProps } from './use-virtual-scroll.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
@@ -41,8 +41,6 @@ export default defineComponent({
       default: void 0
     }
   },
-
-  emits: useVirtualScrollEmits,
 
   setup (props, { slots, attrs }) {
     let localScrollTarget

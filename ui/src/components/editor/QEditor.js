@@ -401,7 +401,7 @@ export default defineComponent({
       emit('mouseup', e)
     }
 
-    function onTouchstart () {
+    function onTouchstartPassive () {
       offsetBottom = void 0
     }
 
@@ -514,7 +514,7 @@ export default defineComponent({
           ...(__QUASAR_SSR_SERVER__
             ? { innerHTML: props.modelValue }
             : {}),
-          ...splitAttrs.listeners,
+          ...splitAttrs.listeners.value,
           onInput,
           onKeydown,
           onClick,
@@ -523,7 +523,7 @@ export default defineComponent({
 
           // clean saved scroll position
           onMousedown,
-          onTouchstart,
+          onTouchstartPassive,
 
           // save caret
           onMouseup,

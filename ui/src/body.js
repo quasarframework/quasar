@@ -74,10 +74,10 @@ function setColors (brand) {
 export default {
   install (opts) {
     if (__QUASAR_SSR_SERVER__) {
-      const { cfg, $q, ssrContext } = opts
-      const cls = getBodyClasses($q.platform, cfg)
+      const { $q, ssrContext } = opts
+      const cls = getBodyClasses($q.platform, $q.config)
 
-      if (cfg.screen !== void 0 && cfg.screen.bodyClass === true) {
+      if ($q.config.screen !== void 0 && $q.config.screen.bodyClass === true) {
         cls.push('screen--xs')
       }
 
@@ -85,17 +85,19 @@ export default {
       return
     }
 
-    const { cfg } = opts
+    const { $q } = opts
+
+    $q.config.brand !== void 0 && setColors($q.config.brand)
+
+    if (this.__installed === true) { return }
 
     if (isRuntimeSsrPreHydration === true) {
       applyClientSsrCorrections()
     }
     else {
-      const cls = getBodyClasses(client, cfg)
+      const cls = getBodyClasses(client, $q.config)
       document.body.classList.add.apply(document.body.classList, cls)
     }
-
-    cfg.brand !== void 0 && setColors(cfg.brand)
 
     if (client.is.ios === true) {
       // needed for iOS button active state

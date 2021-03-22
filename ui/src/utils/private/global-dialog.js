@@ -25,7 +25,7 @@ export function merge (target, source) {
   }
 }
 
-export default function (DefaultComponent, supportsCustomComponent) {
+export default function (DefaultComponent, supportsCustomComponent, parentApp) {
   return pluginProps => {
     if (__QUASAR_SSR_SERVER__) { return ssrAPI }
 
@@ -123,7 +123,7 @@ export default function (DefaultComponent, supportsCustomComponent) {
           onHide
         })
       }
-    })
+    }, parentApp)
 
     let vm = app.mount(el)
 

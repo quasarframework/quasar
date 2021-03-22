@@ -38,12 +38,12 @@ const Plugin = defineReactivePlugin({
     }
   },
 
-  install (opts) {
-    const { dark } = opts.cfg
-    this.isActive = dark === true
+  install ({ $q, onSSRHydrated, ssrContext }) {
+    const { dark } = $q.config
 
     if (__QUASAR_SSR_SERVER__) {
-      const { $q, ssrContext } = opts
+      this.isActive = dark === true
+
       $q.dark = {
         isActive: false,
         mode: false,
@@ -64,6 +64,14 @@ const Plugin = defineReactivePlugin({
       return
     }
 
+    $q.dark = this
+
+    if (this.__installed === true && dark === void 0) {
+      return
+    }
+
+    this.isActive = dark === true
+
     const initialVal = dark !== void 0 ? dark : false
 
     if (isRuntimeSsrPreHydration === true) {
@@ -76,7 +84,7 @@ const Plugin = defineReactivePlugin({
       this.set = ssrSet
       ssrSet(initialVal)
 
-      opts.onSSRHydrated.push(() => {
+      onSSRHydrated.push(() => {
         this.set = originalSet
         this.set(this.__fromSSR)
       })
@@ -84,8 +92,6 @@ const Plugin = defineReactivePlugin({
     else {
       this.set(initialVal)
     }
-
-    opts.$q.dark = this
   }
 })
 
