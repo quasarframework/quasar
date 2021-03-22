@@ -16,12 +16,14 @@
     <q-tab-panels
       v-model="tab"
       keep-alive
+      keep-alive-exclude="one"
       swipeable
       animated
       infinite
       class="text-black text-center"
     >
       <q-tab-panel name="one">
+        <strong class="text-negative">Panel excluded from keep-alive</strong>
         <keep-alive-test name="one" />
         <q-uploader
           multiple

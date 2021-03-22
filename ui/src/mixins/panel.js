@@ -8,7 +8,7 @@ import { stop } from '../utils/event.js'
 import { slot } from '../utils/slot.js'
 import cache from '../utils/cache.js'
 
-const PanelWrapper = Vue.extend({
+const PanelWrapperConfig = {
   name: 'QTabPanelWrapper',
 
   render (h) {
@@ -20,6 +20,10 @@ const PanelWrapper = Vue.extend({
       on: cache(this, 'stop', { input: stop })
     }, slot(this, 'default'))
   }
+}
+
+const PanelWrapper = Vue.extend({
+  ...PanelWrapperConfig
 })
 
 export const PanelParentMixin = {
@@ -90,6 +94,10 @@ export const PanelParentMixin = {
       this.keepAliveExclude !== void 0 && (props.exclude = this.keepAliveExclude)
       this.keepAliveMax !== void 0 && (props.max = this.keepAliveMax)
       return props
+    },
+
+    needDynamicKeepAlive () {
+      return this.keepAlive === true && (this.keepAliveInclude !== void 0 || this.keepAliveExclude !== void 0)
     }
   },
 
@@ -211,12 +219,24 @@ export const PanelParentMixin = {
         this.__updatePanelIndex() &&
         this.panels[this.panelIndex]
 
+      let wrapper = PanelWrapper
+
+      if (this.needDynamicKeepAlive === true) {
+        if (this.panelWrappers[this.contentKey] === void 0) {
+          this.panelWrappers[this.contentKey] = Vue.extend({
+            ...PanelWrapperConfig,
+            name: this.contentKey
+          })
+        }
+
+        wrapper = this.panelWrappers[this.contentKey]
+      }
+
       const content = this.keepAlive === true
         ? [
-          h('keep-alive', [
-            h(PanelWrapper, {
-              key: this.contentKey,
-              props: this.keepAliveProps
+          h('keep-alive', { props: this.keepAliveProps }, [
+            h(wrapper, {
+              key: this.contentKey
             }, [ panel ])
           ])
         ]
@@ -252,6 +272,10 @@ export const PanelParentMixin = {
     )
 
     return this.__renderPanels(h)
+  },
+
+  created () {
+    this.panelWrappers = {}
   }
 }
 

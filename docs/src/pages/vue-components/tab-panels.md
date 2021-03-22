@@ -25,7 +25,8 @@ Do not be mistaken by the "QTabPanels" component name. Panels do not require QTa
 :::
 
 ::: danger
-Please take notice of the Boolean `keep-alive` prop for QTabPanels, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QTabPanel.
+* Please take notice of the Boolean `keep-alive` prop for QTabPanels, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QTabPanel.
+* If you use `keep-alive-include` or `keep-alive-exclude` propa for QTabPanels you must use panel names that are valid component names (no spaces allowed, don't start with a number).
 :::
 
 ### Basic
