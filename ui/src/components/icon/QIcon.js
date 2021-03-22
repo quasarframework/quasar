@@ -15,7 +15,8 @@ const libMap = {
   'ion-logo': ionFn,
   'mdi-': i => `mdi ${ i }`,
   'iconfont ': sameFn,
-  'ti-': i => `themify-icon ${ i }`
+  'ti-': i => `themify-icon ${ i }`,
+  'bi-': i => `bootstrap-icons ${ i }`
 }
 
 const matMap = {

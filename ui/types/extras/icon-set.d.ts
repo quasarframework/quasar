@@ -102,4 +102,5 @@ export type QuasarIconSets =
   | "fontawesome-v5"
   | "ionicons-v4"
   | "eva-icons"
-  | "themify";
+  | "themify"
+  | "bootstrap-icons";
