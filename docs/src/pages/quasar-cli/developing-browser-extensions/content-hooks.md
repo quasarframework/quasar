@@ -43,8 +43,8 @@ export default function attachContentHooks (bridge) {
   bridge.on('highlight.content.event', event => {
     // Find a .some-class element and add our highlight CSS class.
     const el = document.querySelector('.some-class')
-    if (el !== void 0) {
-      el.addClass('bex-highlight')
+    if (el !== null) {
+      el.classList.add('bex-highlight')
     }
 
     // Not required but resolve our promise.
