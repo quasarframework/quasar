@@ -436,7 +436,7 @@ export default defineComponent({
 
     function removeAtIndexAndFocus (index) {
       removeAtIndex(index)
-      state.localFocus()
+      state.focus()
     }
 
     function add (opt, unique) {
@@ -500,7 +500,7 @@ export default defineComponent({
         return
       }
 
-      (hasDialog !== true || dialogFieldFocused.value === true) && state.localFocus()
+      (hasDialog !== true || dialogFieldFocused.value === true) && state.focus()
 
       selectInputText()
 
@@ -1009,7 +1009,7 @@ export default defineComponent({
         state.focused.value !== true
         && (hasDialog !== true || dialogFieldFocused.value === true)
       ) {
-        state.localFocus()
+        state.focus()
       }
 
       if (props.onFilter !== void 0) {
@@ -1296,11 +1296,11 @@ export default defineComponent({
         state.onControlFocusin(e)
         dialog.value = true
         nextTick(() => {
-          state.localFocus()
+          state.focus()
         })
       }
       else {
-        state.localFocus()
+        state.focus()
       }
 
       if (props.onFilter !== void 0) {

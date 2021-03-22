@@ -144,7 +144,7 @@ export default function (state) {
     clearValue,
     onControlFocusin,
     onControlFocusout,
-    localFocus
+    focus
   })
 
   if (state.computedCounter === void 0) {
@@ -262,15 +262,6 @@ export default function (state) {
     state.targetUid.value = getTargetUid(val)
   })
 
-  function focus () {
-    if (state.showPopup !== void 0) {
-      state.showPopup()
-      return
-    }
-
-    localFocus()
-  }
-
   function blur () {
     const el = document.activeElement
     if (el !== null && state.rootRef.value.contains(el)) {
@@ -343,7 +334,7 @@ export default function (state) {
     })
   }
 
-  function localFocus () {
+  function focus () {
     const el = document.activeElement
     let target = state.targetRef !== void 0 && state.targetRef.value
 
