@@ -169,6 +169,8 @@ Below are mask tokens:
 | `a` | Letter, transformed to lowercase |
 | `X` | Alphanumeric, transformed to uppercase for letters |
 | `x` | Alphanumeric, transformed to lowercase for letters |
+| `U` | Unicode alphanumeric, transformed to uppercase for letters |
+| `u` | Unicode alphanumeric, transformed to lowercase for letters |
 
 There are **helpers** for QInput `mask` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/mixins/mask.js#L2). You can use these for convenience (examples: "phone", "card") or write the string specifying your custom needs.
 
