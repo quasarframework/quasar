@@ -18,6 +18,7 @@ q-card(flat bordered)
     q-toggle(v-model="css['eva-icons']" label="Eva Icons")
     q-toggle(v-model="css.themify" label="Themify")
     q-toggle(v-model="css['line-awesome']" label="Line Awesome")
+    q-toggle(v-model="css['bootstrap-icons']" label="Bootstrap Icons")
 
   q-separator
 
@@ -106,6 +107,7 @@ export default {
       'eva-icons': false,
       themify: false,
       'line-awesome': false,
+      'bootstrap-icons': false,
 
       animate: false
     })
@@ -274,7 +276,9 @@ export default {
         { label: 'Themify (webfont)', value: 'themify' },
         { label: 'Themify (svg)', value: 'svg-themify' },
         { label: 'Line Awesome (webfont)', value: 'line-awesome' },
-        { label: 'Line Awesome (svg)', value: 'svg-line-awesome' }
+        { label: 'Line Awesome (svg)', value: 'svg-line-awesome' },
+        { label: 'Bootstrap Icons (webfont)', value: 'bootstrap-icons' },
+        { label: 'Bootstrap Icons (svg)', value: 'svg-bootstrap-icons' }
       ],
 
       css,

@@ -77,6 +77,11 @@ const iconTypes = [
         .replace(/^la[brs] la-/, 'la-')
     )
   },
+  {
+    name: 'bootstrap-icons',
+    regex: /^bi-/,
+    convert
+  },
   // must be last as it's a catch-all
   {
     name: 'material-icons',
