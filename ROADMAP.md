@@ -1,13 +1,8 @@
----
-title: Quasar Roadmap
-desc: What's next for Quasar Framework.
----
+## Quasar Framework Roadmap
 
 Where will Quasar be in one year, five years or ten years? It's up to you, the developers using Quasar.
 
 You, the community, are Quasar. We listen to your opinions and your needs. Which is why we encourage you to directly contact us on [Discord](https://chat.quasar.dev) or submit [Feature Requests](https://github.com/quasarframework/quasar/issues/new/choose). We carefully ponder on all the ideas and we decide along with the community what are the next steps to be taken.
-
-<q-btn push class="q-my-sm q-py-sm" no-caps color="primary" icon-right="launch" label="https://roadmap.quasar.dev" type="a" href="https://roadmap.quasar.dev" target="_blank" rel="noopener" />
 
 ### Important!
 
@@ -18,3 +13,27 @@ If you want to speed up the development of Quasar please consider donating to th
 If you're in a company and using Quasar for commercial projects, explain to your management the importance of monthly donations (eg. $200+) for open source projects: you're the one using it every day and this makes you the best suited person to convince them. Be creative! :)
 
 Quasar is saving your company tens of thousands of development hours (quite literally), which in turn is a pretty high money savings. Consider giving back a part of those savings to refuel the project itself ;)
+
+## Major milestones
+
+We are updating this section constantly in order to keep you up to date with our current (and new!) efforts.
+
+*The schedule may change based only on unforeseen and/or out of the ordinary circumstances.*
+
+### Q2 2021
+* Vite.js plugin for Quasar v2.
+* Upgrade the App CLI for Quasar v2 to Webpack v5.
+* Quasar v2 will become officially the "latest" version of Quasar. The documentation website (https://quasar.dev) will point to v2 and the v1 docs will live under https://v1.quasar.dev. The end of life for Quasar v1 will be March 2022 and we will keep on backporting fixes and new features from v2 to it until then.
+* Typescript projects created with Quasar CLI (for Quasar v2) will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form).
+
+### Q3 2021
+* First beta of a new CLI for Quasar based on Vite.js instead of Webpack (will have its own life along with the current Webpack-based CLI).
+
+### Q4 2021
+* The stable release of the new CLI based on Vite.js.
+
+### Q1 2022
+* Work starting on Quasar v3.
+
+### Q2 2022
+* April 1st 2022 marks the end of life for Quasar v1. It will no longer receive updates.

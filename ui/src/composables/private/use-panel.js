@@ -1,6 +1,8 @@
-import { h, defineComponent, ref, computed, watch, nextTick, getCurrentInstance, Transition, KeepAlive } from 'vue'
+import { h, ref, computed, watch, nextTick, getCurrentInstance, Transition, KeepAlive } from 'vue'
 
 import TouchSwipe from '../../directives/TouchSwipe.js'
+
+import useCache from '../../composables/private/use-cache.js'
 
 import { hSlot } from '../../utils/private/render.js'
 import { getNormalizedVNodes } from '../../utils/private/vm.js'
@@ -10,16 +12,14 @@ export const usePanelChildProps = {
   disable: Boolean
 }
 
-const PanelWrapper = defineComponent({
-  name: 'QTabPanelWrapper',
-
+const PanelWrapper = {
   setup (_, { slots }) {
     return () => h('div', {
       class: 'q-panel scroll',
       role: 'tabpanel'
     }, hSlot(slots.default))
   }
-})
+}
 
 export const usePanelProps = {
   modelValue: {
@@ -44,6 +44,7 @@ export const usePanelEmits = [ 'update:modelValue', 'before-transition', 'transi
 
 export default function () {
   const { props, emit, proxy } = getCurrentInstance()
+  const { getCacheWithFn } = useCache()
 
   let panels, forcedPanelTransition
 
@@ -83,13 +84,16 @@ export default function () {
       : String(props.modelValue)
   ))
 
-  const keepAliveProps = computed(() => {
-    const acc = {}
-    props.keepAliveInclude !== void 0 && (acc.include = props.keepAliveInclude)
-    props.keepAliveExclude !== void 0 && (acc.exclude = props.keepAliveExclude)
-    props.keepAliveMax !== void 0 && (acc.max = props.keepAliveMax)
-    return acc
-  })
+  const keepAliveProps = computed(() => ({
+    include: props.keepAliveInclude,
+    exclude: props.keepAliveExclude,
+    max: props.keepAliveMax
+  }))
+
+  const needsUniqueWrapper = computed(() =>
+    props.keepAliveInclude !== void 0
+    || props.keepAliveExclude !== void 0
+  )
 
   watch(() => props.modelValue, (newVal, oldVal) => {
     const index = isValidPanelName(newVal) === true
@@ -199,8 +203,14 @@ export default function () {
 
     return props.keepAlive === true
       ? [
-          h(KeepAlive, [
-            h(PanelWrapper, { key: contentKey.value, ...keepAliveProps.value }, () => panel)
+          h(KeepAlive, keepAliveProps.value, [
+            h(
+              needsUniqueWrapper.value === true
+                ? getCacheWithFn(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
+                : PanelWrapper,
+              { key: contentKey.value },
+              () => panel
+            )
           ])
         ]
       : [
