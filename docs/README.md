@@ -13,6 +13,10 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
 
 **Please read our manifest on [Why donations are important](https://quasar.dev/why-donate)**. If you'd like to become a donator, check out [Quasar Framework's Donator campaign](https://donate.quasar.dev).
 
+## Quasar Roadmap
+
+For our roadmap, please visit: [https://roadmap.quasar.dev](https://roadmap.quasar.dev)
+
 ## Documentation
 
 Head on to the Quasar Framework official website: [https://quasar.dev](https://quasar.dev)
