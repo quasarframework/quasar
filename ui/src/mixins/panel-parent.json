@@ -15,7 +15,7 @@
 
     "keep-alive-include": {
       "type": [ "String", "Array", "RegExp" ],
-      "desc": "Equivalent to using Vue's native include prop for <keep-alive>",
+      "desc": "Equivalent to using Vue's native include prop for <keep-alive>; Values must be valid Vue component names",
       "examples": [ "a,b", "/a|b/", "['a', 'b']" ],
       "category": "behavior",
       "addedIn": "v1.15.0"
@@ -23,7 +23,7 @@
 
     "keep-alive-exclude": {
       "type": [ "String", "Array", "RegExp" ],
-      "desc": "Equivalent to using Vue's native exclude prop for <keep-alive>",
+      "desc": "Equivalent to using Vue's native exclude prop for <keep-alive>; Values must be valid Vue component names",
       "examples": [ "a,b", "/a|b/", "['a', 'b']" ],
       "category": "behavior",
       "addedIn": "v1.15.0"
