@@ -23,7 +23,7 @@ For a complete list of available Quasar Languages, check [Quasar Languages on Gi
 Unless configured otherwise (see below), Quasar uses the `en-US` Language Pack by default.
 
 ### Hardcoded
-If the default Quasar Language Pack is not dynamically determined (does not depends on cookies for example), then you can:
+If the default Quasar Language Pack is not dynamically determined (does not depend on cookies for example), then you can:
 
 #### Quasar CLI
 Edit `/quasar.conf.js`:
