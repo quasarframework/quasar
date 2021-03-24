@@ -27,7 +27,7 @@
         <q-btn flat dense round size="0.65rem" icon="undo" @click="undoColor(color)" v-if="color !== 'white' && mainColorValues[color] !== mainColorValuesOrig[color]" />
       </div>
       <div v-if="currentColor" class="row justify-center items-end q-mt-md">
-        <q-color :model-value="mainColorValues[currentColor]" @update:modelValue="val => setColor(currentColor, val)" />
+        <q-color :model-value="mainColorValues[currentColor]" @update:model-value="val => setColor(currentColor, val)" />
       </div>
 
       <h5>Full Palette</h5>

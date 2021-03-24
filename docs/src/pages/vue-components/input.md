@@ -103,7 +103,7 @@ You'll be using `v-model.number` (notice the `number` modifier) along with `type
 :::
 
 ::: warning
-Do NOT use a `v-model` when QInput is of `type="file"`. Browser security policy does not allow a value to be set to such an input. As a result, you can only read it (attach an `@update:modelValue` event), but not write it.
+Do NOT use a `v-model` when QInput is of `type="file"`. Browser security policy does not allow a value to be set to such an input. As a result, you can only read it (attach an `@update:model-value` event), but not write it.
 :::
 
 <doc-example title="Input of file type" file="QInput/InputTypeFile" />
@@ -241,7 +241,7 @@ Or you can use money component:
   hint="Mask: $ #,###.00 #"
 >
   <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-    <money :id="id" class="q-field__input text-right" :model-value="value" @update:modelValue="emitValue" v-bind="moneyFormatForComponent" v-show="floatingLabel" />
+    <money :id="id" class="q-field__input text-right" :model-value="value" @update:model-value="emitValue" v-bind="moneyFormatForComponent" v-show="floatingLabel" />
   </template>
 </q-field>
 ```

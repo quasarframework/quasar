@@ -67,7 +67,7 @@
   },
 
   "events": {
-    "update:modelValue": {
+    "update:model-value": {
       "desc": "Emitted when the component needs to change the model; Is also used by v-model",
       "params": {
         "value": {

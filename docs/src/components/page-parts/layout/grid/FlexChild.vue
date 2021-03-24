@@ -4,23 +4,23 @@
       <q-btn :label="index" size="sm" flat dense :class="buttonClasses" @click="emitChange" />
       <q-btn :icon="mdiClose" size="xs" flat dense @click="onDelete"/>
     </div>
-    <q-input filled v-model="child.width" dense label="Width (ex: '200px', '20em')" @update:modelValue="emitChange">
+    <q-input filled v-model="child.width" dense label="Width (ex: '200px', '20em')" @update:model-value="emitChange">
       <template v-if="child.width.length > 0" v-slot:append>
         <q-btn :icon="mdiClose" size="xs" flat dense @click="child.width = ''"/>
       </template>
     </q-input>
 
-    <q-input filled v-model="child.height" dense label="Height (ex: '300px', '25em')" @update:modelValue="emitChange">
+    <q-input filled v-model="child.height" dense label="Height (ex: '300px', '25em')" @update:model-value="emitChange">
       <template v-if="child.height.length > 0" v-slot:append>
         <q-btn :icon="mdiClose" size="xs" flat dense @click="child.height = ''"/>
       </template>
     </q-input>
-    <q-select color="blue-12" v-model="child.widthGroup" :options="widthOptions" label="Width" emit-value map-options dense options-dense @update:modelValue="emitChange" />
-    <q-select color="blue-12" v-model="child.breakpointGroup" :options="breakpointOptions" label="Break Points" multiple emit-value map-options clearable dense options-dense @update:modelValue="emitChange" />
-    <q-select color="blue-12" v-model="child.alignmentGroup" :options="alignmentOptions" label="Alignment Options" emit-value map-options dense options-dense @update:modelValue="emitChange" />
-    <q-select color="blue-12" v-model="child.offsetGroup" :options="offsetOptions" label="Offset Options" emit-value map-options dense options-dense @update:modelValue="emitChange" />
-    <q-select color="blue-12" v-model="child.gutterGroup" :options="gutterOptions" label="Gutter Options" multiple emit-value map-options clearable dense options-dense @update:modelValue="emitChange" />
-    <q-select color="blue-12" v-model="child.colGutterGroup" :options="colGutterOptions" label="Col Gutter Options" multiple emit-value map-options clearable dense options-dense @update:modelValue="emitChange" />
+    <q-select color="blue-12" v-model="child.widthGroup" :options="widthOptions" label="Width" emit-value map-options dense options-dense @update:model-value="emitChange" />
+    <q-select color="blue-12" v-model="child.breakpointGroup" :options="breakpointOptions" label="Break Points" multiple emit-value map-options clearable dense options-dense @update:model-value="emitChange" />
+    <q-select color="blue-12" v-model="child.alignmentGroup" :options="alignmentOptions" label="Alignment Options" emit-value map-options dense options-dense @update:model-value="emitChange" />
+    <q-select color="blue-12" v-model="child.offsetGroup" :options="offsetOptions" label="Offset Options" emit-value map-options dense options-dense @update:model-value="emitChange" />
+    <q-select color="blue-12" v-model="child.gutterGroup" :options="gutterOptions" label="Gutter Options" multiple emit-value map-options clearable dense options-dense @update:model-value="emitChange" />
+    <q-select color="blue-12" v-model="child.colGutterGroup" :options="colGutterOptions" label="Col Gutter Options" multiple emit-value map-options clearable dense options-dense @update:model-value="emitChange" />
   </div>
 </template>
 

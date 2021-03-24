@@ -10,7 +10,7 @@
     >
       <q-btn dense flat size="sm" icon="visibility" @click="toggleSelector" class="absolute-top-right z-top" />
       <template v-if="showSelector">
-        <q-toggle :model-value="$q.dark.isActive" @update:modelValue="$q.dark.toggle" :label="`Dark Mode (${$q.dark.mode})`" />
+        <q-toggle :model-value="$q.dark.isActive" @update:model-value="$q.dark.toggle" :label="`Dark Mode (${$q.dark.mode})`" />
 
         <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="switchRTL" class="absolute-bottom-right z-top" />
         <q-select

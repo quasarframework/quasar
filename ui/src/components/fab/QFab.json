@@ -56,7 +56,7 @@
   },
 
   "events": {
-    "update:modelValue": {
+    "update:model-value": {
       "desc": "Emitted when fab actions are shown/hidden; Captured by v-model directive"
     }
   },

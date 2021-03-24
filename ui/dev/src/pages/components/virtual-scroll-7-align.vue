@@ -12,7 +12,7 @@
               :max="99999"
               label="Scroll to index"
               input-class="text-right"
-              @update:modelValue="onIndexChange"
+              @update:model-value="onIndexChange"
             />
 
             <q-option-group type="radio" v-model="alignMode" :options="alignModes" inline />

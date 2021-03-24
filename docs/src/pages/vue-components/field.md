@@ -79,7 +79,7 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon.
 
 ::: warning
-If using `clearable` you must use `v-model` or listen on `@update:modelValue` and update the value.
+If using `clearable` you must use `v-model` or listen on `@update:model-value` and update the value.
 :::
 
 <doc-example title="Clearable" file="QField/Clearable" />

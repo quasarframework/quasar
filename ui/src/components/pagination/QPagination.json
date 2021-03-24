@@ -218,8 +218,8 @@
   },
 
   "events": {
-    "update:modelValue": {
-      "extends": "update:modelValue",
+    "update:model-value": {
+      "extends": "update:model-value",
       "params": {
         "value": {
           "type": "String"

@@ -124,12 +124,12 @@
   },
 
   "events": {
-    "update:modelValue": {
-      "extends": "update:modelValue"
+    "update:model-value": {
+      "extends": "update:model-value"
     },
 
     "change": {
-      "extends": "update:modelValue",
+      "extends": "update:model-value",
       "desc": "Emitted on lazy model value change (after user slides then releases the thumb)"
     },
 

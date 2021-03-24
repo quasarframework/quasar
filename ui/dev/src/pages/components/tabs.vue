@@ -362,14 +362,14 @@
       </q-tabs>
 
       <h4>Tabs model (respect model): {{ tabModel }}</h4>
-      <q-tabs :dense="dense" :model-value="tabModel" @update:modelValue="onChangeTab1" class="bg-grey-1 text-teal">
+      <q-tabs :dense="dense" :model-value="tabModel" @update:model-value="onChangeTab1" class="bg-grey-1 text-teal">
         <q-tab name="one" label="One" />
         <q-tab name="two" label="Two -> One" />
         <q-tab name="three" label="Three (no way)" />
         <q-tab name="four" label="Four" />
         <q-tab name="five" label="Five" />
       </q-tabs>
-      <q-tabs :dense="dense" :model-value="tabModel" @update:modelValue="onChangeTab2" class="bg-grey-1 text-teal">
+      <q-tabs :dense="dense" :model-value="tabModel" @update:model-value="onChangeTab2" class="bg-grey-1 text-teal">
         <q-tab name="one" label="One -> Two" />
         <q-tab name="two" label="Two" />
         <q-tab name="three" label="Three" />

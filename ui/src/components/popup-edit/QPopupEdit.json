@@ -205,8 +205,8 @@
   },
 
   "events": {
-    "update:modelValue": {
-      "extends": "update:modelValue",
+    "update:model-value": {
+      "extends": "update:model-value",
       "desc": "Emitted when Popup gets cancelled in order to reset model to its initial value; Is also used by v-model"
     },
 
