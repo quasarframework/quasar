@@ -15,6 +15,7 @@ runJob('./ionicons-v5.js')
 runJob('./eva-icons.js')
 runJob('./themify.js')
 runJob('./line-awesome.js')
+runJob('./bootstrap-icons.js')
 
 // this one takes the longest
 runJob('./material-icons.js')

@@ -1,6 +1,6 @@
 {
   "name": "@quasar/extras",
-  "version": "1.9.20",
+  "version": "1.10.0",
   "description": "Quasar Framework fonts, icons and animations",
   "scripts": {
     "build": "node build/index.js"
@@ -31,6 +31,7 @@
     "@mdi/font": "5.9.55",
     "@mdi/svg": "5.9.55",
     "animate.css": "4.1.1",
+    "bootstrap-icons": "https://github.com/twbs/icons",
     "cross-fetch": "^3.0.6",
     "cross-spawn": "7.0.3",
     "eva-icons": "1.1.3",
