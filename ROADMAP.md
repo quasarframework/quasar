@@ -14,6 +14,18 @@ If you're in a company and using Quasar for commercial projects, explain to your
 
 Quasar is saving your company tens of thousands of development hours (quite literally), which in turn is a pretty high money savings. Consider giving back a part of those savings to refuel the project itself ;)
 
+## Support policy and schedule
+
+All major releases are typically supported for at least 12 months.
+LTS support ends 12 months after the release of a new major version.
+
+| Version | Status | Released   | Active support ends | LTS support ends |
+| ------- | ------ | ---------- | ------------------- | ---------------- |
+| 2.x     | Beta   | n/a        | After 01/04/2022    | After 01/04/2023 |
+| 1.x     | Active | 07/03/2019 | 01/04/2021          | 01/04/2022       |
+
+Quasar v0.x versions are no longer supported.
+
 ## Major milestones
 
 We are updating this section constantly in order to keep you up to date with our current (and new!) efforts.
