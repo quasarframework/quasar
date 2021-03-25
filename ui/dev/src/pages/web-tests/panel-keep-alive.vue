@@ -16,6 +16,7 @@
     <q-tab-panels
       v-model="tab"
       keep-alive
+      keep-alive-exclude="three"
       swipeable
       animated
       infinite
@@ -45,6 +46,7 @@
       </q-tab-panel>
 
       <q-tab-panel name="three">
+        <div class="text-weight-bold">Excluded from keep-alive</div>
         <keep-alive-test name="three" />
         <q-uploader
           multiple

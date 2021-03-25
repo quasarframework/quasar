@@ -24,8 +24,9 @@ Works great along with [QTabs](/vue-components/tabs) but it is not required to b
 Do not be mistaken by the "QTabPanels" component name. Panels do not require QTabs. They can be used as standalone too.
 :::
 
-::: danger
-Please take notice of the Boolean `keep-alive` prop for QTabPanels, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QTabPanel.
+::: danger Keep Alive
+* Please take notice of the Boolean `keep-alive` prop for QTabPanels, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QTabPanel.
+* Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QTabPanel `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).
 :::
 
 ### Basic
