@@ -6,8 +6,7 @@ related:
   - /options/quasar-icon-sets
 ---
 
-The QIcon component allows you to easily insert icons within other components or any other area of your pages.
-Quasar supports out of the box: [Material Icons](https://material.io/icons/), [Font Awesome](http://fontawesome.io/icons/), [Ionicons](https://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons) and [Line Awesome](https://icons8.com/line-awesome).
+Quasar supports out of the box: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons), [Line Awesome](https://icons8.com/line-awesome) and [Bootstrap Icons](https://icons.getbootstrap.com/).
 
 Furthermore you can [add support by yourself](/vue-components/icon#custom-mapping) for any icon lib.
 
@@ -59,6 +58,7 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters |
 | themify | ti- | ti-hand-point-up | Notice the use of dash characters |
 | line-awesome | la[s,r,l,d,b] la- | "las la-atom" | QIcon "name" property is same as "class" attribute value in Line Awesome docs examples (where they show `<i>` tags); **Quasar 1.8+ & @quasar/extras v1.5+** |
+| bootstrap-icons | bi- | bi-bug-fill | Notice the use of dash characters; **Quasar 1.15.8+ & @quasar/extras v1.10+** |
 
 ### Naming convention
 
@@ -96,6 +96,11 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 
 * Icon names are in hyphen-separated case and always begin with "la" prefix.
 * Go to [Line Awesome](https://icons8.com/line-awesome), look for your desired icon, click on it. A dialog box will appear. You'll see something like `<i class="lab la-behance-square"></i>`. Remember its name (eg. "lab la-behance-square") and use it.
+
+#### Bootstrap Icons
+
+* Icon names are in hyphen-separated case and always begin with "bi-" prefix.
+* Go to [Bootstrap Icons](https://icons.getbootstrap.com/), look for your desired icon. Remember its name (eg. "bi-bug-fill") and use it.
 
 ## Svg icons <q-badge align="top" label="Quasar v1.7+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.4+" />
 
@@ -151,6 +156,7 @@ If you are only using svg icons (and have configured a [Quasar Icon Set](/option
 | Eva Icons | svg-eva-icons | @quasar/extras/eva-icons | |
 | Themify Icons | svg-themify | @quasar/extras/themify | |
 | Line Awesome | svg-line-awesome | @quasar/extras/line-awesome | @quasar/extras v1.5+ |
+| Bootstrap Icons | svg-bootstrap-icons | @quasar/extras/bootstrap-icons | @quasar/extras v1.10+ |
 
 ### Import guide
 
@@ -216,6 +222,11 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 * Icon names are in camel-case and always begin with "la" prefix.
 * Go to [Line Awesome](https://icons8.com/line-awesome), look for your desired icon, click on it. A dialog box will appear. You'll see something like `<i class="lab la-behance-square"></i>`. This would translate to: `laBehanceSquare`. There is a special case though (only for solid icons!): if the prefix before "la-" is "las" (eg. `<i class="las la-atom"></i>`), then you need to suffix "la-atom" with "-solid" and camel-case the result (eg. `laAtomSolid`).
 * Import statement example: `import { laBehanceSquare } from '@quasar/extras/line-awesome'`.
+
+#### SVG Bootstrap Icons
+* Icon names are in camel-case and always begin with "bi" prefix.
+* Go to [Bootstrap Icons](https://icons.getbootstrap.com/), look for your desired icon. Remember its name (eg. "bi-bug-fill"), camel-case the result (eg. "biBugFill").
+* Import statement example: `import { biBugFill } from '@quasar/extras/bootstrap-icons'`.
 
 ### Svg icon format <q-badge align="top" label="enhanced on v1.11+" />
 

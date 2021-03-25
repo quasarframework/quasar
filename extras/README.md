@@ -34,8 +34,8 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Ionicons](https://ionicons.com/v4) | 4.6.3 | `ionicons-v4` | Ionicons font | | [License](ionicons-v4/LICENSE) |
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.3 | `eva-icons` | Eva Icons font | | [License](eva-icons/LICENSE) |
 | [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `themify` | Themify Icons font | | [License](themify/LICENSE) |
-| [Line Awesome](https://icons8.com/line-awesome) | 1.3.0 | `line-awesome` | Line Awesome font | Requires: @quasar/extras 1.5+ | [License](line-awesome/LICENSE.md) |
-| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.4.0 | `bootstrap-icons` | Bootstrap Icons font | Requires: Quasar v1.15.8+, @quasar/extras 1.10+ | [License](bootstrap-icons/LICENSE.md) |
+| [Line Awesome](https://icons8.com/line-awesome) | 1.3.0 | `line-awesome` | Line Awesome font | Requires: Quasar 1.8+, @quasar/extras 1.5+ | [License](line-awesome/LICENSE.md) |
+| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.4.0 | `bootstrap-icons` | Bootstrap Icons font | Requires: Quasar 1.15.8+, @quasar/extras 1.10+ | [License](bootstrap-icons/LICENSE.md) |
 | [Animate.css](https://animate.style/) | 4.1.1 | Use `animations` prop | Bundle of animations you can use in your website/app | | [License](animate/LICENSE) |
 
 > Install one of MDI v5, MDI v4 or MDI v3, but never together at the same time.
@@ -60,7 +60,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.3 | `svg-eva-icons` | `@quasar/extras/eva-icons` | | [License](eva-icons/LICENSE) |
 | [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `svg-themify` | `@quasar/extras/themify` | | [License](themify/LICENSE) |
 | [Line Awesome](https://icons8.com/line-awesome) | 1.3.0 | `svg-line-awesome` | `@quasar/extras/line-awesome` | Requires: Quasar 1.8+, @quasar/extras 1.5+ | [License](line-awesome/LICENSE.md) |
-| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.4.0 | `svg-bootstrap-icons` | `@quasar/extras/bootstrap-icons` | Requires: @quasar/extras 1.10+ | [License](bootstrap-icons/LICENSE.md) |
+| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.4.0 | `svg-bootstrap-icons` | `@quasar/extras/bootstrap-icons` | Requires: Quasar 1.15.8+, @quasar/extras 1.10+ | [License](bootstrap-icons/LICENSE.md) |
 
 Example:
 
