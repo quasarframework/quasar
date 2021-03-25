@@ -5,10 +5,10 @@ import getCssVar from '../utils/get-css-var.js'
 let metaValue
 
 function getProp () {
-  return Platform.is.winphone
+  return client.is.winphone
     ? 'msapplication-navbutton-color'
     : (
-        Platform.is.safari
+        client.is.safari
           ? 'apple-mobile-web-app-status-bar-style'
           : 'theme-color' // Chrome, Firefox OS, Opera, Vivaldi, ...
       )
