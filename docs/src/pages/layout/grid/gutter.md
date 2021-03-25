@@ -76,7 +76,7 @@ The `q-gutter-*` classes **do change** the external dimensions of the children, 
 <doc-example title="Children size compare" file="grid/ChildrenSizeCompare" />
 
 ::: warning
-Because `q-col-gutter-*` classes apply a **negative top and left padding** to the children you should not apply styling targeting background, padding or border related properties on the children. Instead you need to put the styled element inside the child and apply the styling on that element.
+Because `q-col-gutter-*` classes apply a **positive top and left padding** to the children you should not apply styling targeting background, padding or border related properties on the children. Instead you need to put the styled element inside the child and apply the styling on that element.
 :::
 
 <doc-example title="Children styling" file="grid/ChildrenStyling" />
