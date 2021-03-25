@@ -102,7 +102,9 @@ export default {
       { label: 'Themify', value: 'themify' },
       { label: 'SVG Themify', value: 'svg-themify' },
       { label: 'Line Awesome', value: 'line-awesome' },
-      { label: 'SVG Line Awesome', value: 'svg-line-awesome' }
+      { label: 'SVG Line Awesome', value: 'svg-line-awesome' },
+      { label: 'Bootstrap Icons', value: 'bootstrap-icons' },
+      { label: 'SVG Bootstrap Icons', value: 'svg-bootstrap-icons' }
     ]
   },
   mounted () {

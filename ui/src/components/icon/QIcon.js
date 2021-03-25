@@ -125,6 +125,9 @@ export default Vue.extend({
       else if (icon.startsWith('ti-') === true) {
         cls = `themify-icon ${icon}`
       }
+      else if (icon.startsWith('bi-') === true) {
+        cls = `bootstrap-icons ${icon}`
+      }
       else {
         cls = 'material-icons'
 

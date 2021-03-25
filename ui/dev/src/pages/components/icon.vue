@@ -58,6 +58,7 @@ import ioniconsV4Set from 'quasar/icon-set/ionicons-v4.js'
 import evaSet from 'quasar/icon-set/eva-icons.js'
 import themifySet from 'quasar/icon-set/themify.js'
 import lineawesomeSet from 'quasar/icon-set/line-awesome.js'
+import bootstrapiconsSet from 'quasar/icon-set/bootstrap-icons.js'
 
 import svgMatSet from 'quasar/icon-set/svg-material-icons.js'
 import svgMatOutlinedSet from 'quasar/icon-set/svg-material-icons-outlined.js'
@@ -70,6 +71,7 @@ import svgFontawesomeSet from 'quasar/icon-set/svg-fontawesome-v5.js'
 import svgEvaSet from 'quasar/icon-set/svg-eva-icons.js'
 import svgThemifySet from 'quasar/icon-set/svg-themify.js'
 import svgLineawesomeSet from 'quasar/icon-set/svg-line-awesome.js'
+import svgBootstrapiconsSet from 'quasar/icon-set/svg-bootstrap-icons.js'
 
 import { matAddBox } from '@quasar/extras/material-icons'
 import { mdiAirballoon } from '@quasar/extras/mdi-v5'
@@ -79,6 +81,7 @@ import { fabGithub } from '@quasar/extras/fontawesome-v5'
 import { evaPaperPlaneOutline } from '@quasar/extras/eva-icons'
 import { tiFullscreen } from '@quasar/extras/themify'
 import { laAtomSolid } from '@quasar/extras/line-awesome'
+import { biBugFill } from '@quasar/extras/bootstrap-icons'
 
 function parseSet (setName, set) {
   const icons = []
@@ -121,7 +124,9 @@ export default {
       { value: 'ti-fullscreen', label: 'A Themify icon' },
       { value: tiFullscreen, label: 'A Themify SVG icon' },
       { value: 'las la-atom', label: 'A Line Awesome icon' },
-      { value: laAtomSolid, label: 'A Line Awesome SVG icon' }
+      { value: laAtomSolid, label: 'A Line Awesome SVG icon' },
+      { value: 'bi-bug', label: 'A Bootstrap Icons icon' },
+      { value: biBugFill, label: 'A Bootstrap Icons SVG icon' }
     ]
   },
 
@@ -136,7 +141,8 @@ export default {
       fabGithub,
       evaPaperPlaneOutline,
       tiFullscreen,
-      laAtomSolid
+      laAtomSolid,
+      biBugFill
     }
   },
 
@@ -145,10 +151,10 @@ export default {
       return [
         matSet, matOutlinedSet, matRoundSet, matSharpSet,
         mdiSet, fontawesomeSet, ioniconsV4Set, evaSet, themifySet,
-        lineawesomeSet,
+        lineawesomeSet, bootstrapiconsSet,
         svgMatSet, svgMatOutlinedSet, svgMatRoundSet, svgMatSharpSet,
         svgMdiSet, svgIoniconsV4Set, svgIoniconsSet, svgFontawesomeSet,
-        svgEvaSet, svgThemifySet, svgLineawesomeSet
+        svgEvaSet, svgThemifySet, svgLineawesomeSet, svgBootstrapiconsSet
       ].map(({ name, ...set }) => parseSet(name, set))
     }
   },
