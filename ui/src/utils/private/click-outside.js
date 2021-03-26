@@ -41,7 +41,11 @@ function globalHandler (evt) {
         target === document.body
         || state.innerRef.value.contains(target) === false
       )
-      && hasModalsAbove(state.getEl()) !== true
+      && (
+        state.getEl !== void 0
+          ? hasModalsAbove(state.getEl()) !== true
+          : true
+      )
     ) {
       // mark the event as being processed by clickOutside
       // used to prevent refocus after menu close
