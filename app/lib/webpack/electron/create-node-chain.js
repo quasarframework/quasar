@@ -68,6 +68,11 @@ module.exports = (nodeType, cfg, configName) => {
       .use('ts-loader')
         .loader('ts-loader')
         .options({
+          // While `noEmit: true` is needed in the tsconfig preset to prevent VSCode errors,
+          // it prevents emitting transpiled files when run into node context
+          compilerOptions: {
+            noEmit: false
+          },
           onlyCompileBundledFiles: true,
           transpileOnly: false
         })
