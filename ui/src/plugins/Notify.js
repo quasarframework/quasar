@@ -106,7 +106,7 @@ function getComponent ($q) {
           notif.icon = notif.icon($q)
         }
 
-        if (notif.spinner === void 0) {
+        if (!notif.spinner) {
           notif.spinner = false
         }
         else {
