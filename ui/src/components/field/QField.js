@@ -12,6 +12,7 @@ import AttrsMixin from '../../mixins/attrs.js'
 import { slot } from '../../utils/slot.js'
 import uid from '../../utils/uid.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
+import { offsetRight } from '../../utils/dom'
 
 function getTargetUid (val) {
   return val === void 0 ? `f_${uid()}` : val
@@ -79,7 +80,8 @@ export default Vue.extend({
       // or menu handling for QSelect
       innerLoading: false,
       labelWidth: 0,
-      labelOffsetLeft: 0
+      labelOffsetLeft: 0,
+      labelOffsetRight: 0
     }
   },
 
@@ -93,7 +95,8 @@ export default Vue.extend({
     hasLabel () {
       this.__setLabelWidth()
       this.__setLabelOffset()
-    }
+    },
+    '$q.lang.rtl': '__setLabelOffset'
   },
 
   computed: {
@@ -216,8 +219,16 @@ export default Vue.extend({
 
     legendOffset () {
       return this.floatingLabel
-        ? this.labelOffsetLeft
+        ? this.$q.lang.rtl === true
+          ? this.labelOffsetRight
+          : this.labelOffsetLeft
         : 0
+    },
+
+    legendOffsetStyle () {
+      return this.$q.lang.rtl === true
+        ? 'right: -' + this.legendOffset + 'px'
+        : 'left: -' + this.legendOffset + 'px'
     },
 
     legendWidth () {
@@ -387,7 +398,7 @@ export default Vue.extend({
       this.hasLabel === true && node.push(
         h('div', {
           ref: 'label',
-          style: this.outlined ? `left: -${this.legendOffset}px` : void 0,
+          style: this.outlined ? this.legendOffsetStyle : void 0,
           staticClass: 'q-field__label no-pointer-events absolute ellipsis',
           class: this.labelClass
         }, [ slot(this, 'label', this.label) ])
@@ -476,9 +487,17 @@ export default Vue.extend({
 
     __setLabelOffset () {
       if (this.hasLabel) {
-        this.labelOffsetLeft = this.$refs['control-container']
-          ? this.$refs['control-container'].offsetLeft - 12
-          : 0
+        const controlContainer = this.$refs['control-container']
+        if (this.$q.lang.rtl === true) {
+          this.labelOffsetRight = controlContainer
+            ? offsetRight(controlContainer) - 12
+            : 0
+
+        } else {
+          this.labelOffsetLeft = controlContainer
+            ? controlContainer.offsetLeft - 12
+            : 0
+        }
       }
     },
 
