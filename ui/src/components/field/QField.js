@@ -77,7 +77,9 @@ export default Vue.extend({
 
       // used internally by validation for QInput
       // or menu handling for QSelect
-      innerLoading: false
+      innerLoading: false,
+      labelWidth: 0,
+      labelOffsetLeft: 0
     }
   },
 
@@ -86,6 +88,11 @@ export default Vue.extend({
       // don't transform targetUid into a computed
       // prop as it will break SSR
       this.targetUid = getTargetUid(val)
+    },
+
+    hasLabel () {
+      this.__setLabelWidth()
+      this.__setLabelOffset()
     }
   },
 
@@ -207,6 +214,18 @@ export default Vue.extend({
       }
     },
 
+    legendOffset () {
+      return this.floatingLabel
+        ? this.labelOffsetLeft
+        : 0
+    },
+
+    legendWidth () {
+      return this.floatingLabel
+        ? this.labelWidth
+        : 0
+    },
+
     controlSlotScope () {
       return {
         id: this.targetUid,
@@ -276,6 +295,7 @@ export default Vue.extend({
 
       node.push(
         h('div', {
+          ref: 'control-container',
           staticClass: 'q-field__control-container col relative-position row no-wrap q-anchor--skip'
         }, this.__getControlContainer(h))
       )
@@ -366,6 +386,8 @@ export default Vue.extend({
 
       this.hasLabel === true && node.push(
         h('div', {
+          ref: 'label',
+          style: this.outlined ? `left: -${this.legendOffset}px` : void 0,
           staticClass: 'q-field__label no-pointer-events absolute ellipsis',
           class: this.labelClass
         }, [ slot(this, 'label', this.label) ])
@@ -442,6 +464,22 @@ export default Vue.extend({
         staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip',
         key
       }, content)
+    },
+
+    __setLabelWidth () {
+      if (this.hasLabel) {
+        this.labelWidth = this.$refs.label
+          ? Math.min(this.$refs.label.scrollWidth * 0.75 + 6, this.$el.offsetWidth - 24)
+          : 0
+      }
+    },
+
+    __setLabelOffset () {
+      if (this.hasLabel) {
+        this.labelOffsetLeft = this.$refs['control-container']
+          ? this.$refs['control-container'].offsetLeft - 12
+          : 0
+      }
     },
 
     __onControlPopupShow (e) {
@@ -547,7 +585,17 @@ export default Vue.extend({
           class: this.contentClass,
           attrs: { tabindex: -1 },
           on: this.controlEvents
-        }, this.__getContent(h)),
+        }, [
+          this.outlined ? h('fieldset', [
+            h('legend', {
+              style: `width: ${this.legendWidth}px`
+            }, [
+              '‌'
+            ])
+          ]) : void 0,
+
+          this.__getContent(h)
+        ]),
 
         this.shouldRenderBottom === true
           ? this.__getBottom(h)
@@ -584,6 +632,11 @@ export default Vue.extend({
     }
 
     this.autofocus === true && this.focus()
+
+    if (this.outlined) {
+      this.__setLabelWidth()
+      this.__setLabelOffset()
+    }
   },
 
   beforeDestroy () {

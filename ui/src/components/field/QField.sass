@@ -180,7 +180,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
 
   &__label
     left: 0
-    right: 0
+    max-width: 100%
     top: 18px
     color: $input-label-color
     font-size: 16px
@@ -190,7 +190,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     text-decoration: inherit
     text-transform: inherit
     transform-origin: left top
-    transition: transform $field-transition, right $field-transition-label-right-up
+    transition: transform $field-transition, right $field-transition-label-right-up, left $field-transition-label-right-up
 
   &--float .q-field__label
     transform: translateY(-40%) scale(.75)
@@ -251,22 +251,44 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
         border-bottom-style: dashed
 
   &--outlined
-
     .q-field__control
       border-radius: $generic-border-radius
       padding: 0 12px
 
-      &:before
-        border: 1px solid rgba(0,0,0,.24)
-        transition: border-color $field-transition
-      &:hover:before
-        border-color: #000
+    &:hover fieldset
+      border-color: #000
 
-      &:after
-        height: inherit
-        border-radius: inherit
-        border: 2px solid transparent
-        transition: border-color $field-transition
+    fieldset
+      position: absolute
+      border-collapse: collapse
+      bottom: 0
+      left: 0
+      pointer-events: none
+      right: 0
+      top: -10px
+      border: 1px solid rgba(0,0,0,.24)
+      transition: border-color $field-transition
+      border-radius: $generic-border-radius
+      padding: 0 12px
+
+      legend
+        font-size: 14px
+        transition: width $field-transition
+        right: calc(-100% / 3)
+        margin-left: -.44rem
+
+    &.q-field--float .q-field__label
+      transform: translateY(-120%) scale(.75)
+      right: auto
+      transition: transform $field-transition, right $field-transition-label-right-down, left $field-transition-label-right-down
+
+
+    input.q-field__native, .q-field__input, div.q-field__prefix, div.q-field__suffix
+      padding-top: 7px
+
+    &.q-field--dense
+      input.q-field__native, .q-field__input, div.q-field__prefix, div.q-field__suffix
+        padding-top: 5px
 
     .q-field__native,
     .q-field__input
@@ -278,16 +300,13 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
       border-radius: 28px
 
     &.q-field--highlighted
-      // prevent rounded border imperfections to be seen through the :after border
-      .q-field__control:hover:before
-        border-color: transparent
-      .q-field__control:after
+      fieldset
         border-color: currentColor
         border-width: 2px
         transform: scale3d(1, 1, 1)
 
     &.q-field--readonly
-      .q-field__control:before
+      fieldset
         border-style: dashed
 
   &--standard
@@ -432,6 +451,9 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
 
     &.q-field--float .q-field__label
       transform: translateY(-30%) scale(.75)
+
+    &.q-field--outlined.q-field--float .q-field__label
+      transform: translateY(-75%) scale(.75)
 
     .q-field__native, .q-field__input
       &:-webkit-autofill + .q-field__label
