@@ -487,7 +487,7 @@ export default {
 
         let valChar = val[valIndex]
 
-        if (typeof maskDef === 'string') {
+        if (typeof maskDef === 'string' && valIndex >= 0) {
           output = maskDef + output
           valChar === maskDef && valIndex--
         }
