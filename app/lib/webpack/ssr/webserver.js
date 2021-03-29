@@ -32,6 +32,7 @@ module.exports = function (cfg, configName) {
 
   chain.externals([
     '@vue/server-renderer',
+    '@vue/compiler-sfc',
     '@quasar/ssr-helpers/create-renderer',
     './render-template.js',
     './quasar.server-manifest.json',

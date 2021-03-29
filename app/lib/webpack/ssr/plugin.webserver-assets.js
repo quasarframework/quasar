@@ -52,6 +52,7 @@ module.exports = class WebserverAssetsPlugin {
             'express': '^4.0.0',
             'vue': cliDeps.vue,
             '@vue/server-renderer': cliDeps['@vue/server-renderer'],
+            '@vue/compiler-sfc': cliDeps['@vue/compiler-sfc'],
             '@quasar/ssr-helpers': cliDeps['@quasar/ssr-helpers'],
             'vue-router': cliDeps['vue-router']
           },
