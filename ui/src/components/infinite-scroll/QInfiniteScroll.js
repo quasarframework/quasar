@@ -77,7 +77,7 @@ export default defineComponent({
 
       const heightBefore = getScrollHeight(localScrollTarget)
 
-      emit('load', index, stop => {
+      emit('load', index, isDone => {
         if (isWorking === true) {
           fetching.value = false
           nextTick(() => {
@@ -90,7 +90,7 @@ export default defineComponent({
               setVerticalScrollPosition(localScrollTarget, scrollPosition + heightDifference)
             }
 
-            if (stop === true) {
+            if (isDone === true) {
               stop()
             }
             else if (rootRef.value) {
