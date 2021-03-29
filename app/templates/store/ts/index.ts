@@ -1,5 +1,10 @@
 import { store } from 'quasar/wrappers'
-import { createStore } from 'vuex'
+import { InjectionKey } from 'vue'
+import {
+  createStore,
+  Store as VuexStore,
+  useStore as vuexUseStore,
+} from 'vuex'
 
 // import example from './module-example'
 // import { ExampleStateInterface } from './module-example/state';
@@ -20,6 +25,16 @@ export interface StateInterface {
   example: unknown;
 }
 
+// provide typings for `this.$store`
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $store: VuexStore<StateInterface>
+  }
+}
+
+// provide typings for `useStore` helper
+export const storeKey: InjectionKey<VuexStore<StateInterface>> = Symbol();
+
 export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({
     modules: {
@@ -33,3 +48,7 @@ export default store(function (/* { ssrContext } */) {
 
   return Store
 })
+
+export function useStore() {
+  return vuexUseStore(storeKey)
+}
