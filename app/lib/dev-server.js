@@ -207,8 +207,7 @@ module.exports = class DevServer {
         SsrExtension.getModule().extendApp({
           app,
           ssr: {
-            // TODO vue3
-            renderToString () {},
+            renderToString: renderSSR,
             settings: Object.assign(
               {},
               JSON.parse(cfg.ssr.__templateOpts),
