@@ -49,7 +49,7 @@ export default {
       // have a method of opening the popup programmatically, so we need to simulate typing on that input element.
       // We also need to dispatch the event only after the input text is populated and Vue will
       // do that in next render, so we schedule it on the next event loop iteration with setTimeout.
-      this.this.searchTerms = searchQuery
+      this.searchTerms = searchQuery
     }
   },
 
