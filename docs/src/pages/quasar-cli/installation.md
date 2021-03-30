@@ -22,6 +22,9 @@ $ npm install -g @quasar/cli
 ```
 
 ::: tip
+Installing https://volta.sh/ will help enforce an LTS version of Node for you.
+
+::: tip
 If you are using Yarn, make sure that the Yarn [global install location](https://yarnpkg.com/lang/en/docs/cli/global/) is in your PATH:
 
 ```bash
