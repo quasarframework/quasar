@@ -126,6 +126,9 @@
     "npm": ">= 5.6.0",
     "yarn": ">= 1.6.0"
   },
+  "volta": {
+    "node": "lts"
+  },
   "publishConfig": {
     "access": "public"
   }
