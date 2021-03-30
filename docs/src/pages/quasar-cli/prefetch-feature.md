@@ -260,7 +260,7 @@ interface StateInterface {
 }
 
 export default {
-  preFetch: preFetch<Store<StateInterface>>(({ store }) => {
+  preFetch: preFetch<StateInterface>(({ store }) => {
     // Do something with your newly-typed store parameter
   }),
 }
