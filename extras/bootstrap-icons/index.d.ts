@@ -1,4 +1,4 @@
-/* Bootstrap v1.4.0 */
+/* Bootstrap v1.4.1 */
 
 export declare const biAlarmFill: string;
 export declare const biAlarm: string;
