@@ -48,7 +48,7 @@ export default {
 ```
 To make sure all the pages in your application are automatically posted to Google Analytics, we create an app boot file:
 ```bash
-$ quasar new boot google-analytics
+$ quasar new boot google-analytics [--format ts]
 ```
 Then we edit the newly created file: `/src/boot/google-analytics.js`:
 ```
