@@ -227,7 +227,7 @@ export default defineComponent({
     }
 
     if (__QUASAR_SSR_SERVER__ !== true) {
-      if (__QUASAR_SSR_CLIENT__ && isRuntimeSsrPreHydration === true) {
+      if (__QUASAR_SSR_CLIENT__ && isRuntimeSsrPreHydration.value === true) {
         onMounted(() => {
           addImage(getCurrentSrc())
         })

@@ -37,7 +37,7 @@ export default defineComponent({
     const size = ref(parseInt(props.heightHint, 10))
     const revealed = ref(true)
     const windowHeight = ref(
-      isRuntimeSsrPreHydration === true || $layout.isContainer.value === true
+      isRuntimeSsrPreHydration.value === true || $layout.isContainer.value === true
         ? 0
         : window.innerHeight
     )

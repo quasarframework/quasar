@@ -166,7 +166,7 @@ export default defineReactivePlugin({
         && document.body.classList.add('screen--xs')
     }
 
-    if (isRuntimeSsrPreHydration === true) {
+    if (isRuntimeSsrPreHydration.value === true) {
       onSSRHydrated.push(start)
     }
     else {

@@ -74,7 +74,7 @@ const Plugin = defineReactivePlugin({
 
     const initialVal = dark !== void 0 ? dark : false
 
-    if (isRuntimeSsrPreHydration === true) {
+    if (isRuntimeSsrPreHydration.value === true) {
       const ssrSet = val => {
         this.__fromSSR = val
       }

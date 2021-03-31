@@ -1,6 +1,5 @@
 import defineReactivePlugin from './utils/private/define-reactive-plugin.js'
 import langEn from '../lang/en-US.js'
-import { isRuntimeSsrPreHydration } from './plugins/Platform.js'
 
 function getLocale () {
   if (__QUASAR_SSR_SERVER__) { return }
@@ -53,11 +52,9 @@ const Plugin = defineReactivePlugin({
       ssrContext.$q.lang = lang
     }
     else {
-      if (isRuntimeSsrPreHydration === false) {
-        const el = document.documentElement
-        el.setAttribute('dir', lang.rtl === true ? 'rtl' : 'ltr')
-        el.setAttribute('lang', lang.isoName)
-      }
+      const el = document.documentElement
+      el.setAttribute('dir', lang.rtl === true ? 'rtl' : 'ltr')
+      el.setAttribute('lang', lang.isoName)
 
       lang.set = Plugin.set
 
