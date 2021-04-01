@@ -35,7 +35,7 @@ function getCurvePath (x, y, rx, ry) {
 const decoders = {
   path (el) {
     const points = el.getAttribute('d')
-    return points.charAt(0).toUpperCase() + points.slice(1)
+    return (points.charAt(0) === 'm' ? 'M0 0z' : '') + points
   },
 
   circle (el) {
