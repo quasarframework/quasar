@@ -158,6 +158,7 @@ async function getSSR (cfg) {
       name: 'Webserver',
       cfgExtendBase: cfg.ssr,
       hookSuffix: 'Webserver',
+      cmdSuffix: 'Webserver',
       invokeParams: { isClient: false, isServer: true }
     }),
 

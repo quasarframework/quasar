@@ -250,6 +250,11 @@ const cli = [
         path: 'writing-universal-code'
       },
       {
+        name: 'Upgrade guide',
+        badge: 'new',
+        path: 'ssr-upgrade-guide'
+      },
+      {
         name: 'Preparation',
         path: 'preparation'
       },
@@ -261,6 +266,11 @@ const cli = [
         name: 'SSR Middleware',
         badge: 'new',
         path: 'ssr-middleware'
+      },
+      {
+        name: 'Vue SSR Directives',
+        badge: 'new',
+        path: 'vue-ssr-directives'
       },
       {
         name: 'App Icons for SSR',

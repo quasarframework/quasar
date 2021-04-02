@@ -550,7 +550,7 @@ class QuasarConfFile {
     if (this.ctx.mode.ssr) {
       cfg.ssr = merge({
         pwa: false,
-        manualHydration: false,
+        manualStoreHydration: false,
         prodPort: 3000, // gets superseeded in production by an eventual process.env.PORT
         prodCacheDuration: 1000 * 60 * 60 * 24 * 30,
         directiveTransforms: require('quasar/dist/ssr-directives/index.js')
