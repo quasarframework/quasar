@@ -1,10 +1,25 @@
+const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
 const WebpackProgress = require('../plugin.progress')
 const appPaths = require('../../app-paths')
 const WebserverAssetsPlugin = require('./plugin.webserver-assets')
 
-// Used only in production
+const flattenObject = (obj, prefix = 'process.env') => {
+  return Object.keys(obj)
+    .reduce((acc, k) => {
+      const pre = prefix.length ? prefix + '.' : ''
+
+      if (Object(obj[k]) === obj[k]) {
+        Object.assign(acc, flattenObject(obj[k], pre + k))
+      }
+      else {
+        acc[pre + k] = obj[k]
+      }
+
+      return acc
+    }, {})
+}
 
 module.exports = function (cfg, configName) {
   const { dependencies:appDeps = {} } = require(appPaths.resolve.app('package.json'))
@@ -77,6 +92,13 @@ module.exports = function (cfg, configName) {
 
   chain.optimization
     .noEmitOnErrors(true)
+
+  chain.plugin('define')
+    .use(webpack.DefinePlugin, [
+      // flatten the object keys
+      // example: some: { object } becomes 'process.env.some.object'
+      { ...flattenObject(cfg.build.env), ...cfg.__rootDefines }
+    ])
 
   if (cfg.build.showProgress) {
     chain.plugin('progress')

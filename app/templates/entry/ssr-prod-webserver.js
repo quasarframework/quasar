@@ -32,8 +32,8 @@ const renderer = createRenderer({
 })
 
 // util to serve files
-const defaultCache = 1000 * 60 * 60 * 24 * 30
-const serve = (path, cache = defaultCache) => express.static(resolve('www/' + path), {
+const prodCacheDuration = <%= ssr.prodCacheDuration %>
+const serve = (path, cache = prodCacheDuration) => express.static(resolve('www/' + path), {
   maxAge: cache
 })
 
@@ -52,11 +52,11 @@ injectMiddlewares({
   render: {
     vue: ssrContext => renderer(ssrContext, renderTemplate)
   }
-})
+}).then(() => {
+  // finally start listening to clients
+  const port = process.env.PORT || <%= ssr.prodPort %>
 
-// finally start listening to clients
-const port = process.env.PORT || 3000
-
-app.listen(port, () => {
-  console.log('Server listening at port ' + port)
+  app.listen(port, () => {
+    console.log('Server listening at port ' + port)
+  })
 })
