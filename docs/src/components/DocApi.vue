@@ -72,16 +72,16 @@ q-card.doc-api.q-my-lg(flat bordered)
           q-separator(vertical)
 
           q-tab-panels.col(
-            v-model="currentInnerTab",
-            animated,
-            transition-prev="slide-down",
+            v-model="currentInnerTab"
+            animated
+            transition-prev="slide-down"
             transition-next="slide-up"
           )
-            q-tab-panel.q-pa-none(v-for="innerTab in innerTabsList[tab]", :name="innerTab", :key="innerTab")
-              DocApiEntry(:type="tab", :definition="filteredApi[tab][innerTab]")
+            q-tab-panel.q-pa-none(v-for="innerTab in innerTabsList[tab]" :name="innerTab" :key="innerTab")
+              DocApiEntry(:type="tab" :definition="filteredApi[tab][innerTab]")
 
         .api-container(v-else)
-          DocApiEntry(:type="tab", :definition="filteredApi[tab][defaultInnerTabName]")
+          DocApiEntry(:type="tab" :definition="filteredApi[tab][defaultInnerTabName]")
 </template>
 
 <script>
