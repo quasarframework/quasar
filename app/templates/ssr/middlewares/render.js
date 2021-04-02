@@ -3,14 +3,20 @@
 // render the page with Vue
 
 export default ({ app, resolveUrl, render }) => {
+  // we capture any other Express route and hand it
+  // over to Vue and Vue Router to render our page
   app.get(resolveUrl('*'), (req, res) => {
     res.setHeader('Content-Type', 'text/html')
 
     render.vue({ req, res })
       .then(html => {
+        // now let's send the rendered html to the client
         res.send(html)
       })
       .catch(err => {
+        // oops, we had an error while rendering the page
+
+        // we were told to redirect to another URL
         if (err.url) {
           if (err.code) {
             res.redirect(err.code, err.url)
@@ -19,15 +25,24 @@ export default ({ app, resolveUrl, render }) => {
             res.redirect(err.url)
           }
         }
+        // hmm, Vue Router could not find the requested route
         else if (err.code === 404) {
           // Should reach here only if no "catch-all" route
           // is defined in /src/routes
           res.status(404).send('404 | Page Not Found')
         }
+        // well, we treat any other code as error;
+        // if we're in dev mode, then we can use Quasar CLI
+        // to display a nice error page that contains the stack
+        // and other useful information
         else if (process.env.DEV) {
           // render.error is available on dev only
           render.error({ err, req, res })
         }
+        // we're in production, so we should have another method
+        // to display something to the client when we encounter an error
+        // (for security reasons, it's not ok to display the same wealth
+        // of information as we do in development)
         else {
           // Render Error Page on production or
           // create a route (/src/routes) for an error page and redirect to it

@@ -301,6 +301,11 @@ const cli = [
         path: 'build-commands'
       },
       {
+        name: 'SSR with Typescript',
+        badge: 'new',
+        path: 'ssr-with-typescript'
+      },
+      {
         name: 'Deploying',
         path: 'deploying'
       }

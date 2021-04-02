@@ -913,6 +913,12 @@ pwa: {
 }
 ```
 
+### Quasar App CLI SSR mode
+
+If you have a project using the Quasar SSR mode, then it's essential to read its own [SSR mode upgrade guide](/quasar-cli/developing-ssr/ssr-upgrade-guide).
+
+Out of the box [support for TS](/quasar-cli/developing-ssr/ssr-with-typescript) now available.
+
 ### Quasar Extras
 Nothing changed. You can use it as for Quasar UI v1.
 
