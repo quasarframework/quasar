@@ -12,13 +12,16 @@ const openBrowser = require('./helpers/open-browser')
 const { log } = require('./helpers/logger')
 const ouchInstance = require('./helpers/cli-error-handling').getOuchInstance()
 
+const banner = '[Quasar Dev Webserver]'
 const compiledMiddlewareFile = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
 const renderError = ({ err, req, res }) => {
   ouchInstance.handleException(err, req, res, () => {
-    console.error(`${req.url} -> error during render`)
+    console.error(`${banner} ${req.url} -> error during render`)
     console.error(err.stack)
   })
 }
+
+const doubleSlashRE = /\/\//g
 
 module.exports = class DevServer {
   constructor (quasarConfFile) {
@@ -52,6 +55,11 @@ module.exports = class DevServer {
 
     let serverManifest, clientManifest, pwa, renderTemplate
 
+    const publicPath = cfg.build.publicPath
+    const resolveUrlPath = publicPath === '/'
+      ? url => url || '/'
+      : url => url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
+
     const { getIndexHtml } = require('./ssr/html-template')
     const templatePath = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
 
@@ -61,7 +69,7 @@ module.exports = class DevServer {
 
     this.htmlWatcher = chokidar.watch(templatePath).on('change', () => {
       updateTemplate()
-      console.log('[Quasar] index.template.html template updated.')
+      console.log(`${banner} index.template.html template updated.`)
     })
 
     updateTemplate()
@@ -85,7 +93,7 @@ module.exports = class DevServer {
 
           return renderer(ssrContext, renderTemplate)
             .then(html => {
-              console.log(`${ssrContext.req.url} -> request took: ${Date.now() - startTime}ms`)
+              console.log(`${banner} ${ssrContext.req.url} -> request took: ${Date.now() - startTime}ms`)
               return html
             })
         }
@@ -114,7 +122,7 @@ module.exports = class DevServer {
         startWebpackServer((app, shouldStartListening) => {
           const opts = {
             app,
-            resolveUrl: path => path,
+            resolveUrlPath,
             render: {
               error: renderError
             }

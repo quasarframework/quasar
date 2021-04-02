@@ -3,7 +3,7 @@
 // render the page with Vue
 
 export default ({ app, resolveUrl, render }) => {
-  app.get(resolveUrl('/*'), (req, res) => {
+  app.get(resolveUrl('*'), (req, res) => {
     res.setHeader('Content-Type', 'text/html')
 
     render.vue({ req, res })

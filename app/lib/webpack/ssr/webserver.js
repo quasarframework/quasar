@@ -20,6 +20,8 @@ module.exports = function (cfg, configName) {
   chain.target('node')
   chain.mode('production')
 
+  chain.resolve.alias.set('src-ssr', appPaths.ssrDir)
+
   if (cfg.ctx.dev) {
     chain.entry('webserver')
       .add(appPaths.resolve.app('.quasar/ssr-middlewares.js'))

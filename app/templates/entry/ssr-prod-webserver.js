@@ -18,7 +18,9 @@ const resolve = file => join(__dirname, file)
 
 const doubleSlashRE = /\/\//g
 const publicPath = `<%= build.publicPath %>`
-const resolveUrl = url => <% if (build.publicPath === '/') { %>url || '/'<% } else { %>url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath<% } %>
+const resolveUrlPath = publicPath === '/'
+  ? url => url || '/'
+  : url => url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
 
 // create the renderer
 const renderer = createRenderer({
@@ -30,22 +32,23 @@ const renderer = createRenderer({
 })
 
 // util to serve files
-const serve = (path, cache) => express.static(resolve('www/' + path), {
-  maxAge: cache ? 1000 * 60 * 60 * 24 * 30 : 0
+const defaultCache = 1000 * 60 * 60 * 24 * 30
+const serve = (path, cache = defaultCache) => express.static(resolve('www/' + path), {
+  maxAge: cache
 })
 
 // serve this with no cache, if built with PWA:
 <% if (ssr.pwa) { %>
-app.use(resolveUrl('/service-worker.js'), serve('service-worker.js'))
+app.use(resolveUrlPath('/service-worker.js'), serve('service-worker.js', 0))
 <% } %>
 
 // serve "www" folder
-app.use(resolveUrl('/'), serve('.', true))
+app.use(resolveUrlPath('/'), serve('.'))
 
 // inject custom middleware
 injectMiddlewares({
   app,
-  resolveUrl,
+  resolveUrlPath,
   render: {
     vue: ssrContext => renderer(ssrContext, renderTemplate)
   }

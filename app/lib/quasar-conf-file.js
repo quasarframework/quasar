@@ -556,7 +556,7 @@ class QuasarConfFile {
 
       if (cfg.ssr.middlewares.length > 0) {
         cfg.ssr.middlewares = cfg.ssr.middlewares.filter(_ => _)
-          .map(parseAssetProperty('../src-ssr/middlewares'))
+          .map(parseAssetProperty('src-ssr/middlewares'))
           .filter(asset => asset.path)
           .filter(uniquePathFilter)
       }
