@@ -54,10 +54,6 @@ function formatRouterBase (publicPath) {
   return formatPublicPath(match[5] || '')
 }
 
-function noopDirectiveTransform () {
-  return { props: [] }
-}
-
 function parseAssetProperty (prefix) {
   return asset => {
     if (typeof asset === 'string') {
@@ -129,31 +125,6 @@ class QuasarConfFile {
           opts.onAppChange()
         }
       }, 1000))
-
-      if (this.ctx.mode.ssr) {
-        const SsrExtension = require('./ssr/ssr-extension')
-
-        if (!SsrExtension.isValid()) {
-          process.exit(1)
-        }
-
-        chokidar
-        .watch(appPaths.ssrDir, { watchers: { chokidar: { ignoreInitial: true } } })
-        .on('change', debounce(async () => {
-          console.log()
-          log(`src-ssr/* changed`)
-
-          SsrExtension.deleteCache()
-
-          if (SsrExtension.isValid()) {
-            // trigger build update
-            opts.onBuildChange()
-          }
-          else {
-            warn(`[FAIL] Please fix the error then save the file so we can continue.`)
-          }
-        }, 1000))
-      }
     }
   }
 
@@ -206,6 +177,7 @@ class QuasarConfFile {
       extras: [],
       sourceFiles: {},
       ssr: {
+        middlewares: [],
         directiveTransforms: {}
       },
       pwa: {
@@ -308,8 +280,10 @@ class QuasarConfFile {
     if (this.watch) {
       const newConfigSnapshot = [
         cfg.build ? encode(cfg.build) : '',
-        cfg.ssr && cfg.ssr.pwa ? encode(cfg.ssr.pwa) : '',
-        cfg.ssr && cfg.ssr.directiveTransforms ? encode(cfg.ssr.directiveTransforms) : '',
+        cfg.ssr ? (
+          (cfg.ssr.pwa ? encode(cfg.ssr.pwa) : '') +
+          (cfg.ssr.directiveTransforms ? encode(cfg.ssr.directiveTransforms) : '')
+        ) : '',
         cfg.framework ? cfg.framework.autoImportComponentCase : '',
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
@@ -553,8 +527,7 @@ class QuasarConfFile {
       registerServiceWorker: 'src-pwa/register-service-worker',
       serviceWorker: 'src-pwa/custom-service-worker',
       electronMain: 'src-electron/electron-main',
-      electronPreload: 'src-electron/electron-preload',
-      ssrServerIndex: 'src-ssr/index.js'
+      electronPreload: 'src-electron/electron-preload'
     }, cfg.sourceFiles)
 
     appFilesValidations(cfg)
@@ -581,20 +554,12 @@ class QuasarConfFile {
         directiveTransforms: require('quasar/dist/ssr-directives/index.js')
       }, cfg.ssr)
 
-      cfg.ssr.debug = this.ctx.debug
-
-      cfg.ssr.__templateOpts = JSON.stringify({
-        ...cfg.ssr,
-        publicPath: cfg.build.publicPath
-      }, null, 2)
-
-      cfg.ssr.__templateFlags = {
-        meta: cfg.__meta
+      if (cfg.ssr.middlewares.length > 0) {
+        cfg.ssr.middlewares = cfg.ssr.middlewares.filter(_ => _)
+          .map(parseAssetProperty('../src-ssr/middlewares'))
+          .filter(asset => asset.path)
+          .filter(uniquePathFilter)
       }
-
-      const file = appPaths.resolve.app(cfg.sourceFiles.ssrServerIndex)
-      cfg.ssr.__dir = path.dirname(file)
-      cfg.ssr.__index = path.basename(file)
 
       if (cfg.ssr.pwa) {
         await require('./mode/install-missing')('pwa')

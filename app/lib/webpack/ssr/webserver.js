@@ -6,8 +6,6 @@ const WebserverAssetsPlugin = require('./plugin.webserver-assets')
 
 // Used only in production
 
-const ssrConfigFile = appPaths.resolve.app('.quasar/ssr-config.js')
-
 module.exports = function (cfg, configName) {
   const { dependencies:appDeps = {} } = require(appPaths.resolve.app('package.json'))
   const { dependencies:cliDeps = {} } = require(appPaths.resolve.cli('package.json'))
@@ -22,13 +20,25 @@ module.exports = function (cfg, configName) {
   chain.target('node')
   chain.mode('production')
 
-  chain.entry('webserver')
-    .add(appPaths.resolve.ssr('index.js'))
+  if (cfg.ctx.dev) {
+    chain.entry('webserver')
+      .add(appPaths.resolve.app('.quasar/ssr-middlewares.js'))
+
+    chain.output
+      .filename('compiled-middlewares.js')
+      .path(appPaths.resolve.app('.quasar/ssr'))
+  }
+  else {
+    chain.entry('webserver')
+      .add(appPaths.resolve.app('.quasar/ssr-prod-webserver.js'))
+
+    chain.output
+      .filename('index.js')
+      .path(cfg.build.distDir)
+  }
 
   chain.output
-    .filename('index.js')
     .libraryTarget('commonjs2')
-    .path(cfg.build.distDir)
 
   chain.externals([
     '@vue/server-renderer',
@@ -48,9 +58,6 @@ module.exports = function (cfg, configName) {
       __dirname: false,
       __filename: false
     })
-
-  chain.resolve.alias
-    .merge({ 'quasar-ssr': ssrConfigFile })
 
   chain.module.rule('node')
     .test(/\.node$/)
@@ -74,21 +81,23 @@ module.exports = function (cfg, configName) {
       .use(WebpackProgress, [{ name: configName }])
   }
 
-  chain.plugin('webserver-assets-plugin')
-    .use(WebserverAssetsPlugin, [ cfg ])
+  if (cfg.ctx.prod) {
+    chain.plugin('webserver-assets-plugin')
+      .use(WebserverAssetsPlugin, [ cfg ])
 
-  const patterns = [
-    appPaths.resolve.app('.npmrc'),
-    appPaths.resolve.app('.yarnrc')
-  ].map(filename => ({
-    from: filename,
-    to: '..',
-    noErrorOnMissing: true
-  }))
+    const patterns = [
+      appPaths.resolve.app('.npmrc'),
+      appPaths.resolve.app('.yarnrc')
+    ].map(filename => ({
+      from: filename,
+      to: '..',
+      noErrorOnMissing: true
+    }))
 
-  const CopyWebpackPlugin = require('copy-webpack-plugin')
-  chain.plugin('copy-webpack')
-    .use(CopyWebpackPlugin, [{ patterns }])
+    const CopyWebpackPlugin = require('copy-webpack-plugin')
+    chain.plugin('copy-webpack')
+      .use(CopyWebpackPlugin, [{ patterns }])
+  }
 
   // reset default webpack 4 minimizer
   chain.optimization.minimizers.delete('js')

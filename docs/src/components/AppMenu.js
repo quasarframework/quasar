@@ -9,13 +9,27 @@ import {
 } from 'quasar'
 
 import { mdiArrowDownThinCircleOutline } from '@quasar/extras/mdi-v5'
-
-import { getParentVm } from 'quasar/src/utils/private/vm.js'
 import { h, ref, watch, onBeforeUpdate, withDirectives } from 'vue'
 import { useRoute } from 'vue-router'
 
 import Menu from 'assets/menu.js'
 import './AppMenu.sass'
+
+function getParentVm (vm) {
+  if (vm.$parent !== void 0 && vm.$parent !== null) {
+    return vm.$parent
+  }
+
+  vm = vm.$.parent
+
+  while (vm !== void 0 && vm !== null) {
+    if (vm.proxy !== void 0 && vm.proxy !== null) {
+      return vm.proxy
+    }
+
+    vm = vm.parent
+  }
+}
 
 export default {
   name: 'AppMenu',

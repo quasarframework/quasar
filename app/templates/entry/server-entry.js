@@ -90,7 +90,7 @@ export default ssrContext => {
           <%= store ? 'store,' : '' %>
           ssrContext,
           redirect,
-          urlPath: ssrContext.url,
+          urlPath: ssrContext.req.url,
           publicPath
         })
       }
@@ -108,7 +108,7 @@ export default ssrContext => {
     app.use(router)
     <% if (store) { %>app.use(store, storeKey)<% } %>
 
-    const url = ssrContext.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '')<% } %>
+    const url = ssrContext.req.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '')<% } %>
     const { fullPath } = router.resolve(url)
 
     if (fullPath !== url) {
@@ -151,7 +151,7 @@ export default ssrContext => {
           ssrContext,
           currentRoute: router.currentRoute,
           redirect,
-          urlPath: ssrContext.url,
+          urlPath: ssrContext.req.url,
           publicPath
         })),
         Promise.resolve()
