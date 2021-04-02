@@ -9,7 +9,7 @@ components:
 * Until the final stable version is released, some aspects of the framework may change. We're not planning for additional changes, but unforeseen reported issues may require us to do breaking changes (unlikely, but keep this in mind). So please make sure that you read each v2 beta version's release notes carefully before upgrading.
 * We plan on finalizing the Webpack 5 upgrade for Quasar CLI as soon as possible. This may account as a possible breaking change when completed (if you are tampering with the Webpack config).
 * SSR support is temporarily disabled (but Quasar is SSR ready). There are [a few tickets](https://github.com/quasarframework/quasar/issues/7836#issuecomment-780096747) that we raised for Vue Team on Vue Core code that are critical for us and your experience. We will enable SSR (and also mark Quasar v2 as "stable") as soon as the tickets are tackled.
-* There is no IE11 support (because Vue 3 does NOT supports it either).
+* There is no IE11 support (because Vue 3 does NOT support it either).
 * We are still working on upgrading all of our App Extensions to Vue 3 and Quasar v2.
 * Considering the above, we still recommend starting a new project with Quasar v2.
 :::
