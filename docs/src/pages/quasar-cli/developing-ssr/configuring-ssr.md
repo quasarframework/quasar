@@ -14,7 +14,9 @@ return {
   ssr: {
     pwa: true/false, // should a PWA take over (default: false), or just a SPA?
     manualHydration: true/false, // Manually hydrate the store
-    componentCache: {...} // lru-cache package options,
+    prodPort: 3000, // The default port that the production server should use
+                    // (gets superseded if process.env.PORT is specified at runtime)
+    prodCacheDuration: 36000, // Tell browser when a file from the server should expire from cache (in ms)
 
     // optional; add/remove/change properties
     // of production generated package.json
@@ -24,16 +26,16 @@ return {
     },
 
     // optional; webpack config Object for
-    // the Webserver part ONLY (/src-ssr/)
-    // which is invoked for production (NOT for dev)
+    // the Webserver part ONLY
+    // which includes the SSR middleware
     extendWebpack (cfg) {
       // directly change props of cfg;
       // no need to return anything
     },
 
     // optional; EQUIVALENT to extendWebpack() but uses webpack-chain;
-    // the Webserver part ONLY (/src-ssr/)
-    // which is invoked for production (NOT for dev)
+    // the Webserver part ONLY
+    // which includes the SSR middleware
     chainWebpack (chain) {
       // chain is a webpack-chain instance
       // of the Webpack configuration

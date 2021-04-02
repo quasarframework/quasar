@@ -123,6 +123,7 @@ module.exports = class DevServer {
           const opts = {
             app,
             resolveUrlPath,
+            publicPath,
             render: {
               error: renderError
             }
@@ -213,18 +214,18 @@ module.exports = class DevServer {
           })
 
           if (cfg.ctx.mode.pwa) {
-            app.use(cfg.build.publicPath + 'manifest.json', (_, res) => {
+            app.use(resolveUrlPath('manifest.json'), (_, res) => {
               res.setHeader('Content-Type', 'application/json')
               res.send(pwa.manifest)
             })
-            app.use(cfg.build.publicPath + 'service-worker.js', (_, res) => {
+            app.use(resolveUrlPath('service-worker.js'), (_, res) => {
               res.setHeader('Content-Type', 'text/javascript')
               res.send(pwa.serviceWorker)
             })
           }
 
           if (cfg.build.ignorePublicFolder !== true) {
-            app.use(cfg.build.publicPath, express.static(appPaths.resolve.app('public'), {
+            app.use(resolveUrlPath('.'), express.static(appPaths.resolve.app('public'), {
               maxAge: 0
             }))
           }

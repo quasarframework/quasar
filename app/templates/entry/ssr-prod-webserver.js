@@ -49,6 +49,7 @@ app.use(resolveUrlPath('/'), serve('.'))
 injectMiddlewares({
   app,
   resolveUrlPath,
+  publicPath,
   render: {
     vue: ssrContext => renderer(ssrContext, renderTemplate)
   }

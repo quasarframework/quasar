@@ -258,6 +258,11 @@ const cli = [
         path: 'configuring-ssr'
       },
       {
+        name: 'SSR Middleware',
+        badge: 'new',
+        path: 'ssr-middleware'
+      },
+      {
         name: 'App Icons for SSR',
         path: 'app-icons-ssr'
       },

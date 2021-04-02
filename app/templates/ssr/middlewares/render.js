@@ -11,7 +11,6 @@ export default ({ app, resolveUrl, render }) => {
         res.send(html)
       })
       .catch(err => {
-        console.log('render.js renderVue callback ERR')
         if (err.url) {
           if (err.code) {
             res.redirect(err.code, err.url)
@@ -25,9 +24,8 @@ export default ({ app, resolveUrl, render }) => {
           // is defined in /src/routes
           res.status(404).send('404 | Page Not Found')
         }
-        // TODO process.env.DEV
-        else if (render.error !== void 0) {
-          // Available while on dev only
+        else if (process.env.DEV) {
+          // render.error is available on dev only
           render.error({ err, req, res })
         }
         else {
