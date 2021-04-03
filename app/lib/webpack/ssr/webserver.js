@@ -4,7 +4,7 @@ const WebpackChain = require('webpack-chain')
 const WebpackProgress = require('../plugin.progress')
 const appPaths = require('../../app-paths')
 const WebserverAssetsPlugin = require('./plugin.webserver-assets')
-const injectNodeBabel = require('../inject.node-babel')
+// const injectNodeBabel = require('../inject.node-babel')
 const injectNodeTypescript = require('../inject.node-typescript')
 
 const flattenObject = (obj, prefix = 'process.env') => {
@@ -102,7 +102,7 @@ module.exports = function (cfg, configName) {
       { ...flattenObject(cfg.build.env), ...cfg.__rootDefines }
     ])
 
-  injectNodeBabel(cfg, chain)
+  // injectNodeBabel(cfg, chain)
   injectNodeTypescript(cfg, chain)
 
   if (cfg.build.showProgress) {

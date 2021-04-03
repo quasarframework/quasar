@@ -163,10 +163,10 @@ Now let's see what it contains:
 // since it captures everything and tries to
 // render the page with Vue
 
-export default ({ app, resolveUrl, render }) => {
+export default ({ app, resolveUrlPath, render }) => {
   // we capture any other Express route and hand it
   // over to Vue and Vue Router to render our page
-  app.get(resolveUrl('*'), (req, res) => {
+  app.get(resolveUrlPath('*'), (req, res) => {
     res.setHeader('Content-Type', 'text/html')
 
     render.vue({ req, res })
