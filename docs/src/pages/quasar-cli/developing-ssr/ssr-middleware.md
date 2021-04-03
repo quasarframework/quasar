@@ -5,7 +5,7 @@ related:
   - /quasar-cli/quasar-conf-js
 ---
 
-The SSR middleware files fulfill one special purpose: they prepare the webserver that runs your app with additional functionality (Expressjs compatible middleware).
+The SSR middleware files fulfill one special purpose: they prepare the Nodejs server that runs your SSR app with additional functionality (Expressjs compatible middleware).
 
 With SSR middleware files, it is possible to split each of your dependencies into self-contained, easy to maintain files. It is also trivial to disable any of the SSR middleware files or even contextually determine which of the SSR middleware files get into the build through `quasar.conf.js` configuration.
 
@@ -19,14 +19,14 @@ You will need at least one SSR middleware file which handles the rendering of th
 
 ## Anatomy of a middleware file
 
-A SSR middleware file is a simple JavaScript file which exports a function. Quasar will then call the exported function when it prepares the Express app and additionally pass **an object** with the following properties to the function:
+A SSR middleware file is a simple JavaScript file which exports a function. Quasar will then call the exported function when it prepares the Nodejs server (Expressjs) app and additionally pass **an object** with the following properties to the function:
 
 | Prop name | Description |
 | --- | --- |
 | `app` | Express app instance; the "bread and butter" of any middleware since you'll be using it to configure the server |
 | `resolveUrlPath` | The pathname (path + search) part of the URL. It also contains the hash on client-side. |
 | `publicPath` | The configured public path. |
-| `render` | Object with two methods: `vue` and `error`. Explained in the "Required SSR middleware" section below. |
+| `render` | Object with two methods: `vue` and `error`. Explained in the "Required SSR middleware" section on this page. |
 
 ```js
 // import something here
@@ -146,7 +146,8 @@ In the example below we highlight that this middleware needs to be the last in t
 
 ssr: {
   middlewares: [
-    // .....
+    // ..... all other middlewares
+
     'render' // references /src-ssr/middlewares/render.js;
              // you can name the file however you want,
              // just make sure that it runs as last middleware
@@ -225,6 +226,10 @@ Now you've notice the `render` parameter that the exported function of the middl
 
 * Syntax: `<void> render.error({ err, req, res })`
 * Description: Displays a wealth of useful debug information (including the stack trace). It's available only in development and NOT in production.
+
+## Hot Module Reload
+
+While developing, whenever you change anything in the SSR middlewares, Quasar App CLI will automatically trigger a recompilation of client-side resources and apply the middleware changes to the Nodejs server (Expressjs).
 
 ## Examples of SSR middleware
 

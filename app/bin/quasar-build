@@ -169,6 +169,12 @@ async function build () {
     await installMissing(argv.mode, argv.target)
   }
 
+  if (argv.mode === 'ssr') {
+    const SSRDirectives = require('../lib/ssr/ssr-directives')
+    const directivesBuilder = new SSRDirectives()
+    await directivesBuilder.build()
+  }
+
   const QuasarConfFile = require('../lib/quasar-conf-file')
   const Generator = require('../lib/generator')
   const artifacts = require('../lib/artifacts')

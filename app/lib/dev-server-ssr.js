@@ -53,6 +53,19 @@ module.exports = class DevServer {
     const serverCompiler = webpack(webpackConf.server)
     const clientCompiler = webpack(webpackConf.client)
 
+    let tryToFinalize = () => {
+      if (serverManifest && clientManifest && this.webpackServer) {
+        tryToFinalize = () => {}
+        callback()
+
+        log(`The devserver is ready to be used`)
+
+        if (cfg.__devServer.open) {
+          openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
+        }
+      }
+    }
+
     let serverManifest, clientManifest, pwa, renderTemplate
 
     const publicPath = cfg.build.publicPath
@@ -98,16 +111,7 @@ module.exports = class DevServer {
             })
         }
 
-        if (callback !== null) {
-          this.webpackServer.listen(cfg.devServer.port, cfg.devServer.host, () => {
-            callback()
-            callback = null
-
-            if (cfg.__devServer.open) {
-              openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
-            }
-          })
-        }
+        tryToFinalize()
       }
     }
 
@@ -119,7 +123,7 @@ module.exports = class DevServer {
         delete require.cache[compiledMiddlewareFile]
         const injectMiddleware = require(compiledMiddlewareFile).default
 
-        startWebpackServer((app, shouldStartListening) => {
+        startWebpackServer(app => {
           const opts = {
             app,
             resolveUrlPath,
@@ -135,9 +139,7 @@ module.exports = class DevServer {
 
           injectMiddleware(opts)
 
-          if (shouldStartListening === true) {
-            this.webpackServer.listen(cfg.devServer.port, cfg.devServer.host)
-          }
+          this.webpackServer.listen(cfg.devServer.port, cfg.devServer.host, tryToFinalize)
         })
       }
 
@@ -145,8 +147,7 @@ module.exports = class DevServer {
     })
 
     this.handlers.push(
-      webserverCompiler.watch({}, () => {}),
-      webserverCompiler
+      webserverCompiler.watch({}, () => {})
     )
 
     serverCompiler.hooks.done.tapAsync('done-compiling', ({ compilation: { errors, warnings, assets }}, cb) => {
@@ -181,15 +182,13 @@ module.exports = class DevServer {
     })
 
     this.handlers.push(
-      serverCompiler.watch({}, () => {}),
-      clientCompiler,
-      serverCompiler
+      serverCompiler.watch({}, () => {})
     )
 
     const originalAfter = cfg.devServer.after
 
     // start building & launch server
-    const startWebpackServer = (cb, shouldStartListening = false) => {
+    const startWebpackServer = cb => {
       if (this.destroyed === true) {
         return
       }
@@ -199,7 +198,7 @@ module.exports = class DevServer {
         this.webpackServer = null
 
         server.close(() => {
-          startWebpackServer(cb, true)
+          this.destroyed !== true && startWebpackServer(cb)
         })
         return
       }
@@ -214,18 +213,18 @@ module.exports = class DevServer {
           })
 
           if (cfg.ctx.mode.pwa) {
-            app.use(resolveUrlPath('manifest.json'), (_, res) => {
+            app.use(resolveUrlPath('/manifest.json'), (_, res) => {
               res.setHeader('Content-Type', 'application/json')
               res.send(pwa.manifest)
             })
-            app.use(resolveUrlPath('service-worker.js'), (_, res) => {
+            app.use(resolveUrlPath('/service-worker.js'), (_, res) => {
               res.setHeader('Content-Type', 'text/javascript')
               res.send(pwa.serviceWorker)
             })
           }
 
           if (cfg.build.ignorePublicFolder !== true) {
-            app.use(resolveUrlPath('.'), express.static(appPaths.resolve.app('public'), {
+            app.use(resolveUrlPath('/'), express.static(appPaths.resolve.app('public'), {
               maxAge: 0
             }))
           }
@@ -233,8 +232,11 @@ module.exports = class DevServer {
           originalAfter && originalAfter(app)
 
           // allow this.webpackServer to be set
+          // as after hook is called immediately
           setTimeout(() => {
-            cb(app, shouldStartListening)
+            if (this.destroyed !== true) {
+              cb(app)
+            }
           })
         }
       })
@@ -254,7 +256,7 @@ module.exports = class DevServer {
     }
 
     return Promise.all(
-      this.handlers.map(handler => new Promise(resolve => { handler.close(resolve) }))
+      this.handlers.map(handler => new Promise(resolve => handler.close(resolve)))
     ).finally(() => {
       this.setInitialState()
     })

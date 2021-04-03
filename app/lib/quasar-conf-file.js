@@ -96,6 +96,10 @@ class QuasarConfFile {
     this.pkg = require(appPaths.resolve.app('package.json'))
     this.watch = opts.onBuildChange || opts.onAppChange
 
+    if (this.ctx.mode.ssr) {
+      this.ssrDirectivesFile = appPaths.resolve.app('.quasar/ssr/compiled-directives.js')
+    }
+
     if (this.watch) {
       // Start watching for quasar.config.js changes
       chokidar
@@ -104,28 +108,32 @@ class QuasarConfFile {
         console.log()
         log(`quasar.conf.js changed`)
 
-        try {
-          await this.prepare()
-        }
-        catch (e) {
-          if (e.message !== 'NETWORK_ERROR') {
-            console.error(e)
-            warn(`quasar.conf.js has JS errors. Please fix them then save file again.\n`)
+        if (this.reboot() !== false) {
+          if (this.webpackConfChanged) {
+            opts.onBuildChange()
           }
-
-          return
-        }
-
-        await this.compile()
-
-        if (this.webpackConfChanged) {
-          opts.onBuildChange()
-        }
-        else {
-          opts.onAppChange()
+          else {
+            opts.onAppChange()
+          }
         }
       }, 1000))
     }
+  }
+
+  async reboot () {
+    try {
+      await this.prepare()
+    }
+    catch (e) {
+      if (e.message !== 'NETWORK_ERROR') {
+        console.error(e)
+        warn(`quasar.conf.js has JS errors. Please fix them then save file again.\n`)
+      }
+
+      return false
+    }
+
+    await this.compile()
   }
 
   async prepare () {
@@ -139,6 +147,16 @@ class QuasarConfFile {
     }
     else {
       fatal(`[FAIL] Could not load quasar.conf.js config file`)
+    }
+
+    if (this.ctx.mode.ssr) {
+      if (fs.existsSync(this.ssrDirectivesFile)) {
+        delete require.cache[this.ssrDirectivesFile]
+        this.devlandSsrDirectives = require(this.ssrDirectivesFile).default
+      }
+      else {
+        fatal(`[FAIL] Could not load the compiled file of devland SSR directives`)
+      }
     }
 
     const initialConf = await quasarConfigFunction(this.ctx)
@@ -177,8 +195,7 @@ class QuasarConfFile {
       extras: [],
       sourceFiles: {},
       ssr: {
-        middlewares: [],
-        directiveTransforms: {}
+        middlewares: []
       },
       pwa: {
         workboxOptions: {},
@@ -280,10 +297,7 @@ class QuasarConfFile {
     if (this.watch) {
       const newConfigSnapshot = [
         cfg.build ? encode(cfg.build) : '',
-        cfg.ssr ? (
-          (cfg.ssr.pwa ? encode(cfg.ssr.pwa) : '') +
-          (cfg.ssr.directiveTransforms ? encode(cfg.ssr.directiveTransforms) : '')
-        ) : '',
+        cfg.ssr && cfg.ssr.pwa ? encode(cfg.ssr.pwa) : '',
         cfg.framework ? cfg.framework.autoImportComponentCase : '',
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
@@ -552,9 +566,13 @@ class QuasarConfFile {
         pwa: false,
         manualStoreHydration: false,
         prodPort: 3000, // gets superseeded in production by an eventual process.env.PORT
-        prodCacheDuration: 1000 * 60 * 60 * 24 * 30,
-        directiveTransforms: require('quasar/dist/ssr-directives/index.js')
-      }, cfg.ssr)
+        prodCacheDuration: 1000 * 60 * 60 * 24 * 30
+      }, cfg.ssr, {
+        directiveTransforms: { // not meant to be configurable directly by the user
+          ...require('quasar/dist/ssr-directives/index.js'),
+          ...this.devlandSsrDirectives
+        }
+      })
 
       if (cfg.ssr.middlewares.length > 0) {
         cfg.ssr.middlewares = cfg.ssr.middlewares.filter(_ => _)

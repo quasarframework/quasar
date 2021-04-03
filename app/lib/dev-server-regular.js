@@ -31,7 +31,9 @@ module.exports = class DevServer {
 
         this.__started = true
 
-        server.listen(cfg.devServer.port, cfg.devServer.host, () => {
+        this.server.listen(cfg.devServer.port, cfg.devServer.host, () => {
+          log(`The devserver is ready to be used`)
+
           resolve()
 
           if (alreadyNotified === false) {
@@ -52,6 +54,7 @@ module.exports = class DevServer {
   stop () {
     if (this.server !== null) {
       log(`Shutting down`)
+
       return new Promise(resolve => {
         this.server.close(resolve)
         this.server = null
