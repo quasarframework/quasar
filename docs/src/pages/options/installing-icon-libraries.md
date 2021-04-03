@@ -29,14 +29,11 @@ extras: [
 
 Webfont icons are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
 
-Adding more than one set (showing all options):
+Adding more than one set:
 ```js
 extras: [
   'material-icons',
-  'material-icons-outlined',
-  'material-icons-round',
-  'material-icons-sharp',
-  'mdi-v3',
+  'mdi-v5',
   'ionicons-v4',
   'eva-icons',
   'fontawesome-v5',
@@ -45,6 +42,8 @@ extras: [
   'bootstrap-icons'
 ]
 ```
+
+For all available options, visit the [GitHub](https://github.com/quasarframework/quasar/tree/dev/extras#webfonts) repository.
 
 You're now ready to use the [QIcon](/vue-components/icon) component.
 
@@ -57,7 +56,7 @@ In case you follow this path, do not also add the icon sets that you want in `/q
 If you have a Fontawesome 5 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions:
 
 1. Open the [Linked Accounts section](https://fontawesome.com/account) in Fontawesome's user account page to grab the npm TOKENID (login if necessary).
-2. Create or append TOKENID into the `.npmrc` file  (file path same as package.json):
+2. Create or append TOKENID into the `.npmrc` file (file path same as package.json):
   ```
   @fortawesome:registry=https://npm.fontawesome.com/
   //npm.fontawesome.com/:_authToken=TOKENID
