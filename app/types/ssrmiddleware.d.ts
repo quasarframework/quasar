@@ -6,10 +6,12 @@ interface RenderVueParams {
 }
 
 interface RenderError extends Error {
+  code: Response["statusCode"];
   url: Request["url"];
 }
 
 interface RenderErrorParams extends RenderVueParams {
+  
   err: RenderError;
 }
 
