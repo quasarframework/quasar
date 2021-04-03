@@ -4,6 +4,8 @@ const WebpackChain = require('webpack-chain')
 const WebpackProgress = require('../plugin.progress')
 const ExpressionDependency = require('./plugin.expression-dependency')
 const parseBuildEnv = require('../../helpers/parse-build-env')
+const injectNodeBabel = require('../inject.node-babel')
+const injectNodeTypescript = require('../inject.node-typescript')
 
 const appPaths = require('../../app-paths')
 
@@ -45,38 +47,8 @@ module.exports = (nodeType, cfg, configName) => {
   chain.plugin('expression-dependency')
     .use(ExpressionDependency)
 
-  if (cfg.build.transpile === true) {
-    chain.module.rule('babel')
-      .test(/\.js$/)
-      .exclude
-        .add(/node_modules/)
-        .end()
-      .use('babel-loader')
-        .loader('babel-loader')
-          .options({
-            extends: appPaths.resolve.app('babel.config.js')
-          })
-  }
-
-  if (cfg.supportTS !== false) {
-    chain.resolve.extensions
-      .merge([ '.ts' ])
-
-    chain.module
-      .rule('typescript')
-      .test(/\.ts$/)
-      .use('ts-loader')
-        .loader('ts-loader')
-        .options({
-          // While `noEmit: true` is needed in the tsconfig preset to prevent VSCode errors,
-          // it prevents emitting transpiled files when run into node context
-          compilerOptions: {
-            noEmit: false
-          },
-          onlyCompileBundledFiles: true,
-          transpileOnly: false
-        })
-  }
+  injectNodeBabel(cfg, chain)
+  injectNodeTypescript(cfg, chain)
 
   chain.module.rule('node')
     .test(/\.node$/)
