@@ -24,7 +24,7 @@ A SSR middleware file is a simple JavaScript file which exports a function. Quas
 ```js
 // import something here
 
-export default ({ app, resolveUrlPath, publicPath, folders, render }) => {
+export default ({ app, resolve, publicPath, folders, render, serve }) => {
   // something to do with the server "app"
 }
 ```
@@ -34,7 +34,7 @@ Boot files can also be async:
 ```js
 // import something here
 
-export default async ({ app, resolveUrlPath, publicPath, folders, render }) => {
+export default async ({ app, resolve, publicPath, folders, render, serve }) => {
   // something to do with the server "app"
   await something()
 }
@@ -45,7 +45,7 @@ You can wrap the returned function with `ssrMiddleware` helper to get a better I
 ```js
 import { ssrMiddleware } from 'quasar/wrappers'
 
-export default ssrMiddleware(async ({ app, resolveUrlPath, publicPath, folders, render }) => {
+export default ssrMiddleware(async ({ app, resolve, publicPath, folders, render, serve }) => {
   // something to do
   await something()
 })
@@ -58,44 +58,88 @@ Notice we are using the [ES6 destructuring assignment](https://developer.mozilla
 We are refering here to the Object received as parameter by the default exported function of the SSR middleware file.
 
 ```js
-export default ({ app, resolveUrlPath, publicPath, folders, render }) => {
+export default ({ app, resolve, publicPath, folders, render, serve }) => {
 ```
+
+Detailing the Object:
+
+```js
+{
+  app, // Expressjs app instance
+  resolve: {
+    urlPath(path)
+    root(arg1, arg2),
+    public(arg1, arg2)
+  },
+  publicPath, // String
+  folders: {
+    root,     // String
+    public    // String
+  },
+  render(ssrContext),
+  serve: {
+    static(path, opts),
+    error({ err, req, res })
+  }
+}
+```
+
+#### app
+
+This is the Expressjs app instance. The "bread and butter" of any middleware since you'll be using it to configure the webserver.
+
+#### resolve
 
 | Prop name | Description |
 | --- | --- |
-| `app` | Express app instance; the "bread and butter" of any middleware since you'll be using it to configure the server |
-| `resolveUrlPath` | Resolves a URL path, taking into account the configured quasar.conf.js > build > publicPath |
-| `publicPath` | The configured quasar.conf.js > build > publicPath |
-| `folders` | Usage: folders.root and folders.public. Paths for root folder and the public folder differ in production and development. |
-| `render` | Object with two methods: `vue()` and `error()`. Helpers for the actual SSR rendering and for debugging. |
+| `urlPath(path)` | Whenever you define a route (with app.use(), app.get(), app.post() etc), you should use the `resolve.urlPath()` method so that you'll also keep into account the configured publicPath (quasar.conf.js > build > publicPath). |
+| `root(path1[, path2, ...pathN])` | Resolve folder path to the root (of the project in dev and of the distributables in production). Under the covers, it does a `path.join()`. |
+| `public(path1[, path2, ...pathN])` | Resolve folder path to the "public" folder. Under the covers, it does a `path.join()`. |
 
-#### resolveUrlPath
+#### publicPath
 
-Whenever you use define a route (with app.use(), app.get(), app.post() etc), you should use the `resolveUrlPath()` method so that you'll also keep into account the configured publicPath (quasar.conf.js > build > publicPath).
+The configured quasar.conf.js > build > publicPath
 
 #### folders
 
 The `folders` is sometimes needed because the exact path to root folder and to the public folder differs in a production build than in a development build. So by using `folders` you won't need to mind about this.
 
-```js
-folders: {
-  root,  // String - path
-  public // String - path
-}
-```
+| Prop name | Description |
+| --- | --- |
+| `root` | Full path to the root (of the project in dev and of the distributables in production). |
+| `public` | Full path to the "public" folder. |
 
 #### render
-
-render.vue():
 
 * Syntax: `<Promise(String)> render.vue(ssrContext)`.
 * Description: Uses Vue and Vue Router to render the requested URL path. Returns the rendered HTML string to return to the client.
 
-render.error():
+
+#### serve
+
+serve.static():
+
+* Syntax: `<middlewareFn> serve.static(pathFromPublicFolder, opts)`
+* Description: It's essentially a wrapper over `express.static()` with a few convenient tweaks:
+  * the `pathFromPublicFolder` is a path resolved to the "public" folder out of the box
+  * the `opts` are the same as for `express.static()`
+  * `opts.maxAge` is used by default, taking into account the quasar.conf.js > ssr > maxAge configuration; this sets how long the respective file(s) can live in browser's cache
+
+  ```js
+  serve.static('my-file.json')
+
+  // is equivalent to:
+
+  express.static(resolve.public('my-file.json'), {
+    maxAge: ... // quasar.conf.js > ssr > maxAge
+  })
+  ```
+
+serve.error():
 
 * Syntax: `<void> render.error({ err, req, res })`
-* Description: Displays a wealth of useful debug information (including the stack trace). It's available only in development and NOT in production.
-
+* Description: Displays a wealth of useful debug information (including the stack trace).
+* It's available only in development and **NOT in production**.
 
 ## Usage of SSR middleware
 
@@ -124,7 +168,7 @@ You can also return a Promise:
 ```js
 // import something here
 
-export default ({ app, resolveUrlPath, publicPath, folders, render }) => {
+export default ({ app, resolve, publicPath, folders, render, serve }) => {
   return new Promise((resolve, reject) => {
     // something to do with the server "app"
   })
@@ -207,13 +251,13 @@ Now let's see what it contains:
 // since it captures everything and tries to
 // render the page with Vue
 
-export default ({ app, resolveUrlPath, render }) => {
+export default ({ app, resolve, render, serve }) => {
   // we capture any other Express route and hand it
   // over to Vue and Vue Router to render our page
-  app.get(resolveUrlPath('*'), (req, res) => {
+  app.get(resolve.urlPath('*'), (req, res) => {
     res.setHeader('Content-Type', 'text/html')
 
-    render.vue({ req, res })
+    render({ req, res })
       .then(html => {
         // now let's send the rendered html to the client
         res.send(html)
@@ -241,8 +285,8 @@ export default ({ app, resolveUrlPath, render }) => {
         // to display a nice error page that contains the stack
         // and other useful information
         else if (process.env.DEV) {
-          // render.error is available on dev only
-          render.error({ err, req, res })
+          // serve.error is available on dev only
+          serve.error({ err, req, res })
         }
         // we're in production, so we should have another method
         // to display something to the client when we encounter an error
@@ -289,8 +333,8 @@ export default ({ app }) => {
 The order in which the SSR middlewares are applied matters. So it might be wise to set the following one as the first (in quasar.conf.js > ssr > middlewares) so that it will be able to intercept all client requests.
 
 ```js
-export default ({ app, resolveUrlPath }) => {
-  app.all(resolveUrlPath('*'), (req, _, next) => {
+export default ({ app, resolve }) => {
+  app.all(resolve.urlPath('*'), (req, _, next) => {
     console.log('someone requested:', req.url)
     next()
   })

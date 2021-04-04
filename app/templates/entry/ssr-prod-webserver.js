@@ -14,7 +14,6 @@ import clientManifest from './quasar.client-manifest.json'
 import injectMiddlewares from './ssr-middlewares.js'
 
 const app = express()
-const resolve = file => join(__dirname, file)
 
 const doubleSlashRE = /\/\//g
 const publicPath = `<%= build.publicPath %>`
@@ -22,8 +21,24 @@ const resolveUrlPath = publicPath === '/'
   ? url => url || '/'
   : url => url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
 
+const rootFolder = __dirname
+const publicFolder = join(__dirname, 'www')
+
+function resolvePublicFolder () {
+  return join(publicFolder, ...arguments)
+}
+
+const serveStatic = (path, opts = {}) => {
+  return express.static(resolvePublicFolder(path), {
+    ...opts,
+    maxAge: opts.maxAge === void 0
+      ? <%= ssr.maxAge %>
+      : opts.maxAge
+  })
+}
+
 // create the renderer
-const renderer = createRenderer({
+const render = createRenderer({
   vueRenderToString: renderToString,
   basedir: __dirname,
   serverManifest,
@@ -31,31 +46,30 @@ const renderer = createRenderer({
   publicPath
 })
 
-// util to serve files
-const prodCacheDuration = <%= ssr.prodCacheDuration %>
-const serve = (path, cache = prodCacheDuration) => express.static(resolve('www/' + path), {
-  maxAge: cache
-})
-
 <% if (ssr.pwa) { %>
 // serve this with no cache, if built with PWA:
-app.use(resolveUrlPath('/service-worker.js'), serve('service-worker.js', 0))
+app.use(resolveUrlPath('/service-worker.js'), serveStatic('service-worker.js', { maxAge: 0 }))
 <% } %>
 
-// serve "www" folder
-app.use(resolveUrlPath('/'), serve('.'))
+// serve "www" folder (includes the "public" folder)
+app.use(resolveUrlPath('/'), serveStatic('.'))
 
 // inject custom middleware
 injectMiddlewares({
   app,
-  resolveUrlPath,
+  resolve: {
+    urlPath: resolveUrlPath,
+    root () { return join(rootFolder, ...arguments) },
+    public: resolvePublicFolder
+  },
   publicPath,
   folders: {
-    root: __dirname,
-    public: join(__dirname, 'www')
+    root: rootFolder,
+    public: publicFolder
   },
-  render: {
-    vue: ssrContext => renderer(ssrContext, renderTemplate)
+  render: ssrContext => render(ssrContext, renderTemplate),
+  serve: {
+    static: serveStatic
   }
 }).then(() => {
   // finally start listening to clients
