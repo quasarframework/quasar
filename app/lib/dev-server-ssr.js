@@ -1,4 +1,5 @@
 const fs = require('fs')
+const { join } = require('path')
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 const chokidar = require('chokidar')
@@ -30,7 +31,6 @@ module.exports = class DevServer {
   }
 
   setInitialState () {
-    this.renderVueFn = null
     this.handlers = []
 
     this.htmlWatcher = null
@@ -66,12 +66,28 @@ module.exports = class DevServer {
       }
     }
 
-    let serverManifest, clientManifest, pwa, renderTemplate
+    let serverManifest, clientManifest, pwa, renderTemplate, renderWithVue
 
     const publicPath = cfg.build.publicPath
     const resolveUrlPath = publicPath === '/'
       ? url => url || '/'
       : url => url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
+
+    const rootFolder = appPaths.appDir
+    const publicFolder = appPaths.resolve.app('public')
+
+    function resolvePublicFolder () {
+      return join(publicFolder, ...arguments)
+    }
+
+    const serveStatic = (path, opts = {}) => {
+      return express.static(resolvePublicFolder(path), {
+        ...opts,
+        maxAge: opts.maxAge === void 0
+          ? cfg.ssr.maxAge
+          : opts.maxAge
+      })
+    }
 
     const { getIndexHtml } = require('./ssr/html-template')
     const templatePath = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
@@ -101,7 +117,7 @@ module.exports = class DevServer {
 
         const renderer = createRenderer(renderOptions)
 
-        this.renderVueFn = ssrContext => {
+        renderWithVue = ssrContext => {
           const startTime = Date.now()
 
           return renderer(ssrContext, renderTemplate)
@@ -124,24 +140,24 @@ module.exports = class DevServer {
         const injectMiddleware = require(compiledMiddlewareFile).default
 
         startWebpackServer(app => {
-          const opts = {
+          injectMiddleware({
             app,
-            resolveUrlPath,
+            resolve: {
+              urlPath: resolveUrlPath,
+              root () { return join(rootFolder, ...arguments) },
+              public: resolvePublicFolder
+            },
             publicPath,
             folders: {
-              root: appPaths.appDir,
-              public: appPaths.resolve.app('public')
+              root: rootFolder,
+              public: publicFolder
             },
-            render: {
+            render: ssrContext => renderWithVue(ssrContext),
+            serve: {
+              static: serveStatic,
               error: renderError
             }
-          }
-
-          Object.defineProperty(opts.render, 'vue', {
-            get: () => this.renderVueFn
           })
-
-          injectMiddleware(opts)
 
           this.webpackServer.listen(cfg.devServer.port, cfg.devServer.host, tryToFinalize)
         })
@@ -211,8 +227,8 @@ module.exports = class DevServer {
         ...cfg.devServer,
 
         after: app => {
-          // obsolete hot updates should be discarded immediately
-          app.get(/\.hot-update\.json$/, (_, res) => {
+          // obsolete hot updates & js maps should be discarded immediately
+          app.get(/(\.hot-update\.json|\.js\.map)$/, (_, res) => {
             res.status(404).send('404')
           })
 
@@ -228,9 +244,7 @@ module.exports = class DevServer {
           }
 
           if (cfg.build.ignorePublicFolder !== true) {
-            app.use(resolveUrlPath('/'), express.static(appPaths.resolve.app('public'), {
-              maxAge: 0
-            }))
+            app.use(resolveUrlPath('/'), serveStatic('.', { maxAge: 0 }))
           }
 
           originalAfter && originalAfter(app)

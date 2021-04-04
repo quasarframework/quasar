@@ -6,13 +6,13 @@ desc: Managing the common 404 and 500 HTTP errors in a Quasar server-side render
 The handling of the 404 & 500 errors on SSR is a bit different than on the other modes (like SPA). If you check out `/src-ssr/middlewares/render.js`, you will notice the following section:
 
 ```js
-export default ({ app, resolveUrl, render }) => {
+export default ({ app, resolve, render, serve }) => {
   // we capture any other Express route and hand it
   // over to Vue and Vue Router to render our page
-  app.get(resolveUrl('*'), (req, res) => {
+  app.get(resolve.urlPath('*'), (req, res) => {
     res.setHeader('Content-Type', 'text/html')
 
-    render.vue({ req, res })
+    render({ req, res })
       .then(html => {
         // now let's send the rendered html to the client
         res.send(html)
@@ -40,8 +40,8 @@ export default ({ app, resolveUrl, render }) => {
         // to display a nice error page that contains the stack
         // and other useful information
         else if (process.env.DEV) {
-          // render.error is available on dev only
-          render.error({ err, req, res })
+          // serve.error is available on dev only
+          serve.error({ err, req, res })
         }
         // we're in production, so we should have another method
         // to display something to the client when we encounter an error
@@ -88,7 +88,7 @@ On the `/src-ssr/middlewares/render.js` example at the top of the page, notice t
   else {
     // We got a 500 error here;
     // We redirect to our "error500" route newly defined at step #1.
-    res.redirect(resolveUrlPath('error500')) // keep account of publicPath though!
+    res.redirect(resolve.urlPath('error500')) // keep account of publicPath though!
   }
   ```
 

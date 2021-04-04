@@ -20,8 +20,10 @@ return {
     prodPort: 3000, // The default port that the production server should use
                     // (gets superseded if process.env.PORT is specified at runtime)
 
-    prodCacheDuration: 1000 * 60 * 60 * 24 * 30,
-        // Tell browser when a file from the server should expire from cache (in ms)
+    maxAge: 1000 * 60 * 60 * 24 * 30,
+        // Tell browser when a file from the server should expire from cache
+        // (the default value, in ms)
+        // Has effect only when server.static() is used
 
     // optional; add/remove/change properties
     // of production generated package.json

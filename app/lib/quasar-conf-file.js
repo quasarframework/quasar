@@ -566,7 +566,7 @@ class QuasarConfFile {
         pwa: false,
         manualStoreHydration: false,
         prodPort: 3000, // gets superseeded in production by an eventual process.env.PORT
-        prodCacheDuration: 1000 * 60 * 60 * 24 * 30
+        maxAge: 1000 * 60 * 60 * 24 * 30
       }, cfg.ssr, {
         directiveTransforms: { // not meant to be configurable directly by the user
           ...require('quasar/dist/ssr-directives/index.js'),
