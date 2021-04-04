@@ -2,13 +2,13 @@
 // since it captures everything and tries to
 // render the page with Vue
 
-export default ({ app, resolveUrlPath, render }) => {
+export default ({ app, resolve, render, serve }) => {
   // we capture any other Express route and hand it
   // over to Vue and Vue Router to render our page
-  app.get(resolveUrlPath('*'), (req, res) => {
+  app.get(resolve.urlPath('*'), (req, res) => {
     res.setHeader('Content-Type', 'text/html')
 
-    render.vue({ req, res })
+    render({ req, res })
       .then(html => {
         // now let's send the rendered html to the client
         res.send(html)
@@ -36,8 +36,8 @@ export default ({ app, resolveUrlPath, render }) => {
         // to display a nice error page that contains the stack
         // and other useful information
         else if (process.env.DEV) {
-          // render.error is available on dev only
-          render.error({ err, req, res })
+          // serve.error is available on dev only
+          serve.error({ err, req, res })
         }
         // we're in production, so we should have another method
         // to display something to the client when we encounter an error
