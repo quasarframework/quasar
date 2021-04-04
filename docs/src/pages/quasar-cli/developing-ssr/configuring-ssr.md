@@ -20,7 +20,8 @@ return {
     prodPort: 3000, // The default port that the production server should use
                     // (gets superseded if process.env.PORT is specified at runtime)
 
-    prodCacheDuration: 36000, // Tell browser when a file from the server should expire from cache (in ms)
+    prodCacheDuration: 1000 * 60 * 60 * 24 * 30,
+        // Tell browser when a file from the server should expire from cache (in ms)
 
     // optional; add/remove/change properties
     // of production generated package.json
@@ -91,7 +92,7 @@ return {
     // optional; webpack config Object for
     // the Webserver part ONLY (/src-ssr/)
     // which is invoked for production (NOT for dev)
-    extendWebpack (cfg) {
+    extendWebpackWebserver (cfg) {
       // directly change props of cfg;
       // no need to return anything
     },
@@ -99,7 +100,7 @@ return {
     // optional; EQUIVALENT to extendWebpack() but uses webpack-chain;
     // the Webserver part ONLY (/src-ssr/)
     // which is invoked for production (NOT for dev)
-    chainWebpack (chain) {
+    chainWebpackWebserver (chain) {
       // chain is a webpack-chain instance
       // of the Webpack configuration
     }
