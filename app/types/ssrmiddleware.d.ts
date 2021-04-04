@@ -23,7 +23,7 @@ interface SsrMiddlewareServe {
    * - the opts are the same as for express.static()
    * - opts.maxAge is used by default, taking into account the quasar.conf.js > ssr > maxAge configuration; this sets how long the respective file(s) can live in browser's cache
    */
-  static: (path: string, options: ServeStaticOptions<Response>) => RequestHandler<Response>;
+  static: (path: string, options?: ServeStaticOptions<Response>) => RequestHandler<Response>;
   /**
    * Displays a wealth of useful debug information (including the stack trace).
    * Warning: It's available only in development and NOT in production.
