@@ -1,6 +1,6 @@
 import { Express, Request, Response } from "express";
 
-interface RenderParams extends Record<string, any> {
+interface RenderParams {
   req: Request;
   res: Response;
 }
