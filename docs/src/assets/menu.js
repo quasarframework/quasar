@@ -146,7 +146,7 @@ const cli = [
     path: 'installation'
   },
   {
-    name: 'Upgrade guide (v2)',
+    name: 'Upgrade guide',
     path: 'app-upgrade-guide'
   },
   {

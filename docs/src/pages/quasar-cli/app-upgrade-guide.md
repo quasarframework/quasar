@@ -8,7 +8,11 @@ related:
 > * This guide refers to upgrading a Quasar app from `@quasar/app` v1 to using v2.
 > * Please note that `@quasar/app` and `quasar` are different packages (one is the Quasar App CLI and one is the Quasar UI), each one with its own version.
 
-## What's new in v2
+::: warn
+This does not refers to Quasar v2, but to App CLI v2.
+:::
+
+## What's new in App CLI v2
 
 * [Browser compatibility](/quasar-cli/browser-compatibility) is now more clearly expressed.
 * The JS transpilation (with the help of Babel) has been rethought from the ground up (now using core-js v3). It will now transpile based on the [Browser compatibility](/quasar-cli/browser-compatibility) that you configure. It will no longer go transpiling directly to ES5, but it will look for exactly what JS features need transpiling based on the configured browsers. Be mindful about it though, as it is sufficient to add one "bad apple" in the options list and that will dumb down your code back to ES5.
