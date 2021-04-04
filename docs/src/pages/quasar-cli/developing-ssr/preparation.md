@@ -24,7 +24,7 @@ A new folder will appear in your project folder (which is explained in detail on
 ```bash
 .
 └── src-ssr/
-    ├── middlewares  # SSR middleware files
-    └── directives   # Vue directives in SSR format
+    ├── middlewares/  # SSR middleware files
+    └── directives/   # SSR transformations for Vue directives
 ```
 

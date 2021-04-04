@@ -68,8 +68,8 @@ Adding SSR mode to a Quasar project means a new folder will be created: `/src-ss
 ```bash
 .
 └── src-ssr/
-    ├── middlewares  # SSR middleware files
-    └── directives   # Vue directives in SSR format
+    ├── middlewares/  # SSR middleware files
+    └── directives/   # SSR transformations for Vue directives
 ```
 
 You can freely edit these files. Each of the two folders are detailed in their own doc pages (check left-side menu).
