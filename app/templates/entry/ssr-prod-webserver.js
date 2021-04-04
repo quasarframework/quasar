@@ -37,8 +37,8 @@ const serve = (path, cache = prodCacheDuration) => express.static(resolve('www/'
   maxAge: cache
 })
 
-// serve this with no cache, if built with PWA:
 <% if (ssr.pwa) { %>
+// serve this with no cache, if built with PWA:
 app.use(resolveUrlPath('/service-worker.js'), serve('service-worker.js', 0))
 <% } %>
 
@@ -50,6 +50,10 @@ injectMiddlewares({
   app,
   resolveUrlPath,
   publicPath,
+  folders: {
+    root: __dirname,
+    public: join(__dirname, 'www')
+  },
   render: {
     vue: ssrContext => renderer(ssrContext, renderTemplate)
   }

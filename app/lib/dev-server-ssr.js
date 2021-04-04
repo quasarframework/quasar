@@ -128,6 +128,10 @@ module.exports = class DevServer {
             app,
             resolveUrlPath,
             publicPath,
+            folders: {
+              root: appPaths.appDir,
+              public: appPaths.resolve.app('public')
+            },
             render: {
               error: renderError
             }

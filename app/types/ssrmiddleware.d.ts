@@ -11,8 +11,12 @@ interface RenderError extends Error {
 }
 
 interface RenderErrorParams extends RenderVueParams {
-  
   err: RenderError;
+}
+
+interface SsrMiddlewareFolders {
+  root: string;
+  public: string;
 }
 
 interface SsrMiddlewareRender {
@@ -23,6 +27,7 @@ interface SsrMiddlewareRender {
 interface SsrMiddlewareParams {
   app: Express;
   resolveUrlPath: (url: string) => string;
+  folders: SsrMiddlewareFolders;
   publicPath: string;
   render: SsrMiddlewareRender;
 }
