@@ -51,6 +51,6 @@ So here we go:
 4. You will then have to port the old logic by using the SSR middleware files, which should be really easy (since you'll end up copy-pasting most of the old code into the middleware files).
 5. Review quasar.conf.js > ssr properties. Most of the old props have been removed and replaced by [new ones](/quasar-cli/developing-ssr/configuring-ssr#quasar-conf-js).
 
-Also remember that the files that you create under `src-ssr/middlewares` need to also be declared under quasar.conf.js > ssr > middlewares. This is because their order matters, just like how the order of applying any Expressjs middleware matters too.
+Also remember that the files that you create in the `src-ssr/middlewares` folder need to also be declared under quasar.conf.js > ssr > middlewares. This is because their order matters, just like how the order of applying any Expressjs middleware matters too. You can use the `$ quasar new ssrmiddleware <name>` command to speed things up.
 
 Always keep the original `render` middleware as last one in the list.
