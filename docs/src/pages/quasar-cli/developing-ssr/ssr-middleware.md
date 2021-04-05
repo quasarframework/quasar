@@ -55,7 +55,7 @@ Notice we are using the [ES6 destructuring assignment](https://developer.mozilla
 
 ## Middleware object parameter
 
-We are refering here to the Object received as parameter by the default exported function of the SSR middleware file.
+We are referring here to the Object received as parameter by the default exported function of the SSR middleware file.
 
 ```js
 export default ({ app, resolve, publicPath, folders, render, serve }) => {
