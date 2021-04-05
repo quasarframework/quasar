@@ -258,7 +258,7 @@ async function goLive () {
 
   if (['cordova', 'capacitor', 'electron', 'bex', 'pwa'].includes(argv.mode)) {
     const ModeRunner = require('../lib/' + argv.mode)
-    ModeRunner.init(ctx, onBuildChange)
+    ModeRunner.init(ctx)
     runMode = () => ModeRunner.run(quasarConfFile, argv)
   }
   else {
