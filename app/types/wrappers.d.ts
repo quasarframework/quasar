@@ -31,7 +31,7 @@ declare module "quasar/wrappers" {
 
   function store(callback: StoreCallback): StoreCallback;
 
-  function ssrmiddleware(
+  function ssrMiddleware(
     callback: SsrMiddlewareCallback
   ): SsrMiddlewareCallback;
 }
