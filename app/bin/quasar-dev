@@ -203,7 +203,10 @@ async function goLive () {
     const SSRDirectives = require('../lib/ssr/ssr-directives')
     const directivesBuilder = new SSRDirectives(async () => {
       log(`Changes on the SSR directives detected. Rebuilding app...`)
-      if (quasarConfFile.reboot() !== false) {
+
+      const result = await quasarConfFile.reboot()
+
+      if (result !== false) {
         dev = dev.then(startDev)
       }
     })

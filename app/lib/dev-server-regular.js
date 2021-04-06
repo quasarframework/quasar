@@ -4,7 +4,7 @@ const WebpackDevServer = require('webpack-dev-server')
 const openBrowser = require('./helpers/open-browser')
 const { log } = require('./helpers/logger')
 
-let alreadyNotified = false
+let openedBrowser = false
 
 module.exports = class DevServer {
   constructor (quasarConfFile) {
@@ -36,8 +36,8 @@ module.exports = class DevServer {
 
           resolve()
 
-          if (alreadyNotified === false) {
-            alreadyNotified = true
+          if (openedBrowser === false) {
+            openedBrowser = true
 
             if (cfg.__devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
               openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })

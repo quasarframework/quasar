@@ -108,7 +108,9 @@ class QuasarConfFile {
         console.log()
         log(`quasar.conf.js changed`)
 
-        if (this.reboot() !== false) {
+        const result = await this.reboot()
+
+        if (result !== false) {
           if (this.webpackConfChanged) {
             opts.onBuildChange()
           }
