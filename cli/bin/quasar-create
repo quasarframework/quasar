@@ -9,9 +9,10 @@ const argv = parseArgs(process.argv.slice(2), {
     k: 'kit',
     c: 'clone',
     o: 'offline',
-    h: 'help'
+    h: 'help',
+    n: 'nogit'
   },
-  boolean: ['c', 'o', 'h'],
+  boolean: ['c', 'o', 'h', 'n'],
   string: ['k', 'b']
 })
 
@@ -21,7 +22,7 @@ if (argv.help) {
     Creates a Quasar App or App Extension project folder
 
   Usage
-    $ quasar create <project-name> [--kit <kit-name>] [--branch <version-name>]
+    $ quasar create <project-name> [--kit <kit-name>] [--branch <version-name>] [--nogit]
 
   App Examples
     $ quasar create my-project
@@ -46,6 +47,7 @@ if (argv.help) {
     --branch, -b   Use specific branch of the starter kit
     --clone, -c    Use git clone
     --offline, -o  Use a cached starter kit
+    --nogit, -n    Avoid intializing Git repo when project generation completes
     --help, -h     Displays this message
   `)
   process.exit(0)
@@ -75,6 +77,7 @@ const rm = require('rimraf').sync
 const generate = require('../lib/generate')
 const logger = require('../lib/logger')
 const { isLocalPath, getTemplatePath } = require('../lib/local-path')
+const { initializeGit } = require('../lib/initialize-git')
 
 let template = argv.kit
   ? (
@@ -131,11 +134,7 @@ function run () {
 
   const templatePath = getTemplatePath(template)
   if (exists(templatePath)) {
-    generate(name, templatePath, to, err => {
-      if (err) logger.fatal(err)
-      console.log()
-      logger.success('Generated "%s".', name)
-    })
+    generate(name, templatePath, to, onGenerationCompleted)
   }
   else {
     logger.fatal('Local template "%s" not found.', template)
@@ -158,13 +157,16 @@ function downloadAndGenerate (template) {
       logger.fatal('Failed to download repo ' + template + ': ' + err.message.trim())
     }
 
-    generate(name, tmp, to, err => {
-      if (err) {
-        logger.fatal(err)
-      }
-
-      console.log()
-      logger.success('Generated "%s".', name)
-    })
+    generate(name, tmp, to, onGenerationCompleted)
   })
+}
+
+async function onGenerationCompleted(err) {
+  if (err) {
+    logger.fatal(err)
+  }
+
+  if(!argv.nogit) {
+    await initializeGit(to)
+  }
 }

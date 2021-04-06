@@ -67,15 +67,16 @@ module.exports = function generate (name, src, dest, done) {
   metalsmith.clean(false)
     .source('.') // start from template root instead of `./src` which is Metalsmith's default for `source`
     .destination(dest)
-    .build((err, files) => {
-      done(err)
+    .build(async (err, files) => {
       if (typeof opts.complete === 'function') {
         const helpers = { chalk, logger, files }
-        opts.complete(data, helpers)
+        await opts.complete(data, helpers)
       }
       else {
         logMessage(opts.completeMessage, data)
       }
+
+      done(err)
     })
 
   return data

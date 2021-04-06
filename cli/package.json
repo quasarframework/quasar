@@ -52,6 +52,7 @@
     "cors": "2.8.5",
     "cross-spawn": "7.0.3",
     "download-git-repo": "3.0.2",
+    "execa": "^5.0.0",
     "express": "4.17.1",
     "fs-extra": "9.0.1",
     "handlebars": "4.7.6",
