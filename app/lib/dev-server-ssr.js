@@ -24,6 +24,8 @@ const renderError = ({ err, req, res }) => {
 
 const doubleSlashRE = /\/\//g
 
+let openedBrowser = false
+
 module.exports = class DevServer {
   constructor (quasarConfFile) {
     this.quasarConfFile = quasarConfFile
@@ -53,20 +55,24 @@ module.exports = class DevServer {
     const serverCompiler = webpack(webpackConf.server)
     const clientCompiler = webpack(webpackConf.client)
 
+    let serverManifest, clientManifest, pwa, renderTemplate, renderWithVue, webpackServerListening = false
+
     let tryToFinalize = () => {
-      if (serverManifest && clientManifest && this.webpackServer) {
+      if (serverManifest && clientManifest && webpackServerListening === true) {
         tryToFinalize = () => {}
         callback()
 
         log(`The devserver is ready to be used`)
 
-        if (cfg.__devServer.open) {
-          openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
+        if (openedBrowser === false) {
+          openedBrowser = true
+
+          if (cfg.__devServer.open) {
+            openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
+          }
         }
       }
     }
-
-    let serverManifest, clientManifest, pwa, renderTemplate, renderWithVue
 
     const publicPath = cfg.build.publicPath
     const resolveUrlPath = publicPath === '/'
@@ -159,7 +165,10 @@ module.exports = class DevServer {
             }
           })
 
-          this.webpackServer.listen(cfg.devServer.port, cfg.devServer.host, tryToFinalize)
+          this.webpackServer.listen(cfg.devServer.port, cfg.devServer.host, () => {
+            webpackServerListening = true
+            tryToFinalize()
+          })
         })
       }
 
@@ -216,6 +225,7 @@ module.exports = class DevServer {
       if (this.webpackServer !== null) {
         const server = this.webpackServer
         this.webpackServer = null
+        webpackServerListening = false
 
         server.close(() => {
           this.destroyed !== true && startWebpackServer(cb)
