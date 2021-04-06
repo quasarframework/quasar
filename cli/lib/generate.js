@@ -70,13 +70,18 @@ module.exports = function generate (name, src, dest, done) {
     .build(async (err, files) => {
       if (typeof opts.complete === 'function') {
         const helpers = { chalk, logger, files }
-        await opts.complete(data, helpers)
+        // To preserve backwards compatibility of possible custom starter kits,
+        // we won't run the `done` callback, which manages git initialization,
+        // if the `complete` function doesn't return a Promise (as the updated starter kits do)
+        const completitionPromiseOrResult = opts.complete(data, helpers)
+        if(completitionPromiseOrResult instanceof Promise) {
+          await completitionPromiseOrResult
+          done(err)
+        }
       }
       else {
         logMessage(opts.completeMessage, data)
       }
-
-      done(err)
     })
 
   return data
