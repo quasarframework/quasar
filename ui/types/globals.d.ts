@@ -20,8 +20,12 @@ export interface GlobalsTypesHolder {
   [index: string]: any;
 }
 
-export interface GlobalQuasarLanguage extends QuasarLanguage {
-  set(lang: QuasarLanguage): void;
+export interface GlobalQuasarLanguage
+  extends QuasarLanguage,
+    HasSsr<
+      { set(lang: QuasarLanguage, ssrContext: any): void },
+      { set(lang: QuasarLanguage): void }
+    > {
   /** Returns undefined when in SSR mode or when it cannot determine current language. */
   getLocale(): string | undefined;
 }
