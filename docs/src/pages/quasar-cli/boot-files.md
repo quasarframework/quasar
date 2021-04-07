@@ -108,7 +108,7 @@ Boot files fulfill one special purpose: they run code **before** the App's Vue r
 The first step is always to generate a new boot file using Quasar CLI:
 
 ```bash
-$ quasar new boot <name>
+$ quasar new boot <name> [--format ts]
 ```
 
 Where `<name>` should be exchanged by a suitable name for your boot file.

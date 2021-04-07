@@ -88,7 +88,7 @@ Vue.use(Quasar, {
 ```
 
 ### Dynamical (non-SSR)
-Quasar CLI: If your desired Quasar Icon Set must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-icon-set`. This will create `/src/boot/quasar-icon-set.js` file. Edit it to:
+Quasar CLI: If your desired Quasar Icon Set must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-icon-set [--format ts]`. This will create `/src/boot/quasar-icon-set.js` file. Edit it to:
 
 ```js
 // for when you don't specify quasar.conf.js > framework: 'all'
