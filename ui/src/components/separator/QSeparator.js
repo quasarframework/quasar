@@ -39,16 +39,16 @@ export default defineComponent({
         : 'horizontal'
     ))
 
-    const classPrefix = computed(() => ` q-separator--${ orientation.value }`)
+    const orientClass = computed(() => ` q-separator--${ orientation.value }`)
 
     const insetClass = computed(() => (
       props.inset !== false
-        ? `${ classPrefix.value }-${ insetMap[ props.inset ] }`
+        ? `${ orientClass.value }-${ insetMap[ props.inset ] }`
         : ''
     ))
 
     const classes = computed(() =>
-      `q-separator q-separator${ classPrefix.value }${ insetClass.value }`
+      `q-separator${ orientClass.value }${ insetClass.value }`
       + (props.color !== void 0 ? ` bg-${ props.color }` : '')
       + (isDark.value === true ? ' q-separator--dark' : '')
     )
