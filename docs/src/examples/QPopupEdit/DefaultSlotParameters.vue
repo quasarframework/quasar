@@ -12,7 +12,7 @@
             :rules="[
               val => scope.validate(scope.value) || 'More than 5 chars required'
             ]"
-            @update:modelValue="scope.emitValue"
+            @update:model-value="scope.emitValue"
           >
             <template v-slot:after>
               <q-btn

@@ -61,6 +61,10 @@ export default async function (createAppFn<%= ctx.mode.ssr ? ', ssrContext' : ''
   const store = typeof createStore === 'function'
     ? await createStore({<%= ctx.mode.ssr ? 'ssrContext' : '' %>})
     : createStore
+
+
+  // obtain Vuex injection key in case we use TypeScript
+  const { storeKey } = await import('app/src/store/index');
   <% } %>
   const router = typeof createRouter === 'function'
     ? await createRouter({<%= ctx.mode.ssr ? 'ssrContext' + (store ? ',' : '') : '' %><%= store ? 'store' : '' %>})
@@ -89,7 +93,7 @@ export default async function (createAppFn<%= ctx.mode.ssr ? ', ssrContext' : ''
   // different depending on whether we are in a browser or on the server.
   return {
     app,
-    <%= store ? 'store,' : '' %>
+    <%= store ? 'store, storeKey,' : '' %>
     router
   }
 }

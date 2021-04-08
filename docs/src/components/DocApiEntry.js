@@ -148,7 +148,7 @@ function getProp (prop, propName, level, onlyChildren) {
         h(
           'div',
           { class: 'api-row--indent api-row__value' },
-          prop.values.map(val => h('div', { class: 'api-row__example' }, val))
+          prop.values.map(val => h('div', { class: 'api-row__example' }, '' + val))
         )
       )
     )
@@ -235,7 +235,7 @@ function getProp (prop, propName, level, onlyChildren) {
         h(
           'div',
           { class: 'api-row--indent api-row__value' },
-          prop.examples.map(example => h('div', { class: 'api-row__example' }, example))
+          prop.examples.map(example => h('div', { class: 'api-row__example' }, '' + example))
         )
       )
     )

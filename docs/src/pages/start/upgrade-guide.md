@@ -9,7 +9,7 @@ components:
 * Until the final stable version is released, some aspects of the framework may change. We're not planning for additional changes, but unforeseen reported issues may require us to do breaking changes (unlikely, but keep this in mind). So please make sure that you read each v2 beta version's release notes carefully before upgrading.
 * We plan on finalizing the Webpack 5 upgrade for Quasar CLI as soon as possible. This may account as a possible breaking change when completed (if you are tampering with the Webpack config).
 * SSR support is temporarily disabled (but Quasar is SSR ready). There are [a few tickets](https://github.com/quasarframework/quasar/issues/7836#issuecomment-780096747) that we raised for Vue Team on Vue Core code that are critical for us and your experience. We will enable SSR (and also mark Quasar v2 as "stable") as soon as the tickets are tackled.
-* There is no IE11 support (because Vue 3 does NOT supports it either).
+* There is no IE11 support (because Vue 3 does NOT support it either).
 * We are still working on upgrading all of our App Extensions to Vue 3 and Quasar v2.
 * Considering the above, we still recommend starting a new project with Quasar v2.
 :::
@@ -206,7 +206,7 @@ Along with Vue3, there is a new major version of [Vue Router v4](https://next.ro
 
 #### Vue 3 breaking changes examples
 
-One of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to the `model-value` + `@update:modelValue` combo, instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files, then you don't need to worry about it as vue-loader correctly translates it for you.
+One of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to the `model-value` + `@update:model-value` combo, instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files, then you don't need to worry about it as vue-loader correctly translates it for you.
 
 Also, if you emit custom events from your Vue components, you will need to explicitly specify them like below:
 
@@ -368,7 +368,7 @@ If you use TypeScript, prepare to reload VSCode many times, as all upgrades will
 
 #### Vue 3 and v-model
 
-The `v-model` is now an alias to the `model-value` + `@update:modelValue` combo, instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files then you don't need to worry about it as vue-loader correctly translates it for you.
+The `v-model` is now an alias to the `model-value` + `@update:model-value` combo, instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files then you don't need to worry about it as vue-loader correctly translates it for you.
 
 Suggestion: you may want to do a search and replace for `:value` and `@input`. Please be careful on replacing the `:value` as some components (QLinearProgress, QCircularProgress) are not tied to v-model and still use `value` as a property.
 
@@ -398,7 +398,7 @@ Now by default, the "label", "name", "text" and "stamp" are protected from XSS a
 
 #### QDate
 
-When `@update:modelValue` event (equivalent of the old `@input`) is triggered, the contents of the first parameter no longer contain the (deprecated) `changed` prop.
+When `@update:model-value` event (equivalent of the old `@input`) is triggered, the contents of the first parameter no longer contain the (deprecated) `changed` prop.
 
 #### QExpansionItem
 
@@ -912,6 +912,12 @@ pwa: {
   }
 }
 ```
+
+### Quasar App CLI SSR mode
+
+If you have a project using the Quasar SSR mode, then it's essential to read its own [SSR mode upgrade guide](/quasar-cli/developing-ssr/ssr-upgrade-guide).
+
+Out of the box [support for TS](/quasar-cli/developing-ssr/ssr-with-typescript) now available.
 
 ### Quasar Extras
 Nothing changed. You can use it as for Quasar UI v1.

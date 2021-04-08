@@ -88,17 +88,6 @@ if (argv.help) {
   process.exit(0)
 }
 
-// TODO vue3 - remove when ready
-if (argv.mode === 'ssr') {
-  console.log(
-    '\n' +
-    '##############################################################\n' +
-    '# SSR mode is not *yet* supported and is disabled currently. #\n' +
-    '##############################################################\n'
-  )
-  process.exit(1)
-}
-
 const ensureArgv = require('../lib/helpers/ensure-argv')
 ensureArgv(argv, 'build')
 
@@ -178,6 +167,12 @@ async function build () {
   if (argv.mode !== 'spa') {
     const installMissing = require('../lib/mode/install-missing')
     await installMissing(argv.mode, argv.target)
+  }
+
+  if (argv.mode === 'ssr') {
+    const SSRDirectives = require('../lib/ssr/ssr-directives')
+    const directivesBuilder = new SSRDirectives()
+    await directivesBuilder.build()
   }
 
   const QuasarConfFile = require('../lib/quasar-conf-file')

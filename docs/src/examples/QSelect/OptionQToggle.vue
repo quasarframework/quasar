@@ -20,7 +20,7 @@
               <q-item-label v-html="opt.label" ></q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-toggle :model-value="selected" @update:modelValue="toggleOption(opt)" />
+              <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
             </q-item-section>
           </q-item>
         </template>

@@ -244,7 +244,7 @@ api.extendWebpackPreloadElectronProcess((cfg, { isClient, isServer }, api) => {
 
 ## api.chainWebpackWebserver
 
-Chain webpack config of SSR webserver (content of /src-ssr)
+Chain webpack config of SSR webserver (includes the SSR middlewares from /src-ssr/middlewares)
 
 ```js
 /**
@@ -253,12 +253,13 @@ Chain webpack config of SSR webserver (content of /src-ssr)
  */
 api.chainWebpackWebserver ((chain, { isClient, isServer }, api) => {
   // add/remove/change chain (Webpack chain Object)
+  // isClient is always "false" and isServer is always "true"
 })
 ```
 
 ## api.extendWebpackWebserver
 
-Extend webpack config Object of SSR webserver (content of /src-ssr)
+Extend webpack config Object of SSR webserver (includes the SSR middlewares from /src-ssr/middlewares)
 
 ```js
 /**
@@ -267,6 +268,7 @@ Extend webpack config Object of SSR webserver (content of /src-ssr)
  */
 api.extendWebpackWebserver((cfg, { isClient, isServer }, api) => {
   // add/remove/change cfg (Webpack configuration Object)
+  // isClient is always "false" and isServer is always "true"
 })
 ```
 

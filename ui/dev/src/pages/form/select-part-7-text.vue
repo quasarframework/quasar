@@ -23,7 +23,7 @@
         fill-input
         hide-selected
         @filter="filterOptions"
-        @update:modelValue-value="val => { model = val }"
+        @update:model-value-value="val => { model = val }"
       >
         <template v-slot:no-option>
           <q-item>

@@ -9,7 +9,7 @@
           outlined
           :min="0"
           :max="255"
-          @update:modelValue="val => { table1.value !== null && table1.value.scrollTo(val) }"
+          @update:model-value="val => { table1.value !== null && table1.value.scrollTo(val) }"
         />
 
         <q-table
@@ -48,7 +48,7 @@
           outlined
           :min="0"
           :max="255"
-          @update:modelValue="val => { table2.value !== null && table2.value.scrollTo(val, 'center-force') }"
+          @update:model-value="val => { table2.value !== null && table2.value.scrollTo(val, 'center-force') }"
         />
 
         <q-table

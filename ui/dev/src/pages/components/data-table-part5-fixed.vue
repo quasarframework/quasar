@@ -90,7 +90,7 @@
         :max="pagination.rowsPerPage === 0 ? listSize : pagination.rowsPerPage - 1"
         label="Scroll to index"
         input-class="text-right"
-        @update:modelValue="onIndexChange"
+        @update:model-value="onIndexChange"
       />
     </div>
 

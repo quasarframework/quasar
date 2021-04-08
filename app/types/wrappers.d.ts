@@ -13,6 +13,8 @@ declare module "quasar/wrappers" {
   import { PrefetchCallback } from "@quasar/app";
   import { RouteCallback } from "@quasar/app";
   import { StoreCallback } from "@quasar/app";
+  import { SsrMiddlewareCallback } from "@quasar/app";
+
   function boot<TState = any>(
     callback: BootCallback<TState>
   ): BootCallback<TState>;
@@ -28,4 +30,8 @@ declare module "quasar/wrappers" {
   ): RouteCallback<TState>;
 
   function store(callback: StoreCallback): StoreCallback;
+
+  function ssrMiddleware(
+    callback: SsrMiddlewareCallback
+  ): SsrMiddlewareCallback;
 }

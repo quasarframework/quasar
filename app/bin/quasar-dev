@@ -74,17 +74,6 @@ if (argv.help) {
   process.exit(0)
 }
 
-// TODO vue3 - remove when ready
-if (argv.mode === 'ssr') {
-  console.log(
-    '\n' +
-    '##############################################################\n' +
-    '# SSR mode is not *yet* supported and is disabled currently. #\n' +
-    '##############################################################\n'
-  )
-  process.exit(1)
-}
-
 const ensureArgv = require('../lib/helpers/ensure-argv')
 ensureArgv(argv, 'dev')
 
@@ -190,7 +179,9 @@ async function goLive () {
     await installMissing(argv.mode, argv.target)
   }
 
-  const DevServer = require('../lib/dev-server')
+  const DevServer = argv.mode === 'ssr'
+    ? require('../lib/dev-server-ssr')
+    : require('../lib/dev-server-regular')
   const QuasarConfFile = require('../lib/quasar-conf-file')
   const Generator = require('../lib/generator')
   const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
@@ -207,6 +198,21 @@ async function goLive () {
 
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
+
+  if (argv.mode === 'ssr') {
+    const SSRDirectives = require('../lib/ssr/ssr-directives')
+    const directivesBuilder = new SSRDirectives(async () => {
+      log(`Changes on the SSR directives detected. Rebuilding app...`)
+
+      const result = await quasarConfFile.reboot()
+
+      if (result !== false) {
+        dev = dev.then(startDev)
+      }
+    })
+
+    await directivesBuilder.run()
+  }
 
   const quasarConfFile = new QuasarConfFile(ctx, {
     port: argv.port,
@@ -251,12 +257,15 @@ async function goLive () {
   })
 
   const generator = new Generator(quasarConfFile)
-  const ModeRunner = ['cordova', 'capacitor', 'electron', 'bex', 'pwa'].includes(argv.mode)
-    ? require('../lib/' + argv.mode)
-    : void 0
+  let runMode
 
-  if (ModeRunner !== void 0) {
+  if (['cordova', 'capacitor', 'electron', 'bex', 'pwa'].includes(argv.mode)) {
+    const ModeRunner = require('../lib/' + argv.mode)
     ModeRunner.init(ctx)
+    runMode = () => ModeRunner.run(quasarConfFile, argv)
+  }
+  else {
+    runMode = () => {}
   }
 
   function startDev (oldDevServer) {
@@ -273,8 +282,6 @@ async function goLive () {
 
       return devServer.listen() // Start listening
     }
-
-    const runMode = () => ModeRunner !== void 0 && ModeRunner.run(quasarConfFile, argv)
 
     let promise = Promise.resolve()
 

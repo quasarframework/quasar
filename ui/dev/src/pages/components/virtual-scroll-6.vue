@@ -70,7 +70,7 @@
               :debounce="3000"
               label="Scroll to index"
               input-class="text-right"
-              @update:modelValue="onIndexChange"
+              @update:model-value="onIndexChange"
             />
           </div>
           <q-toggle v-model="setSize" label="Preset size" />

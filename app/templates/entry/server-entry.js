@@ -73,7 +73,7 @@ function redirectBrowser (url, router, reject, httpStatusCode) {
 // return a Promise that resolves to the app instance.
 export default ssrContext => {
   return new Promise(async (resolve, reject) => {
-    const { app, router<%= store ? ', store' : '' %> } = await createQuasarApp(createApp, ssrContext)
+    const { app, router<%= store ? ', store, storeKey' : '' %> } = await createQuasarApp(createApp, ssrContext)
 
     <% if (bootNames.length > 0) { %>
     let hasRedirected = false
@@ -90,7 +90,7 @@ export default ssrContext => {
           <%= store ? 'store,' : '' %>
           ssrContext,
           redirect,
-          urlPath: ssrContext.url,
+          urlPath: ssrContext.req.url,
           publicPath
         })
       }
@@ -106,9 +106,9 @@ export default ssrContext => {
     <% } %>
 
     app.use(router)
-    <% if (store) { %>app.use(store)<% } %>
+    <% if (store) { %>app.use(store, storeKey)<% } %>
 
-    const url = ssrContext.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '')<% } %>
+    const url = ssrContext.req.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '')<% } %>
     const { fullPath } = router.resolve(url)
 
     if (fullPath !== url) {
@@ -151,7 +151,7 @@ export default ssrContext => {
           ssrContext,
           currentRoute: router.currentRoute,
           redirect,
-          urlPath: ssrContext.url,
+          urlPath: ssrContext.req.url,
           publicPath
         })),
         Promise.resolve()

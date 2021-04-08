@@ -6,6 +6,7 @@ related:
 ---
 
 ## Quasar.conf.js
+
 This is the place where you can configure some SSR options. Like if you want the client side to takeover as a SPA (Single Page Application -- the default behaviour), or as a PWA (Progressive Web App).
 
 ```js
@@ -13,8 +14,16 @@ return {
   // ...
   ssr: {
     pwa: true/false, // should a PWA take over (default: false), or just a SPA?
-    manualHydration: true/false, // Manually hydrate the store
-    componentCache: {...} // lru-cache package options,
+
+    manualStoreHydration: true/false, // Manually hydrate the store
+
+    prodPort: 3000, // The default port that the production server should use
+                    // (gets superseded if process.env.PORT is specified at runtime)
+
+    maxAge: 1000 * 60 * 60 * 24 * 30,
+        // Tell browser when a file from the server should expire from cache
+        // (the default value, in ms)
+        // Has effect only when server.static() is used
 
     // optional; add/remove/change properties
     // of production generated package.json
@@ -23,18 +32,18 @@ return {
       // no need to return anything
     },
 
-    // optional; webpack config Object for
-    // the Webserver part ONLY (/src-ssr/)
-    // which is invoked for production (NOT for dev)
-    extendWebpack (cfg) {
+    // optional;
+    // handles the Webserver webpack config ONLY
+    // which includes the SSR middleware
+    extendWebpackWebserver (cfg) {
       // directly change props of cfg;
       // no need to return anything
     },
 
     // optional; EQUIVALENT to extendWebpack() but uses webpack-chain;
-    // the Webserver part ONLY (/src-ssr/)
-    // which is invoked for production (NOT for dev)
-    chainWebpack (chain) {
+    // handles the Webserver webpack config ONLY
+    // which includes the SSR middleware
+    chainWebpackWebserver (chain) {
       // chain is a webpack-chain instance
       // of the Webpack configuration
     }
@@ -56,15 +65,17 @@ build: {
 If you want more information, please see this page that goes into more detail about [handling webpack](/quasar-cli/handling-webpack) in the `quasar.conf.js` file.
 
 ## Nodejs Server
-Adding SSR mode to a Quasar project means a new folder will be created: `/src-ssr`, which contains SSR specific files which define your production Node webserver:
+
+Adding SSR mode to a Quasar project means a new folder will be created: `/src-ssr`, which contains SSR specific files:
+
 ```bash
 .
 └── src-ssr/
-    ├── index.js      # Production Node webserver serving the app
-    └── extension.js  # Common code for production & development server
+    ├── middlewares/  # SSR middleware files
+    └── directives/   # SSR transformations for Vue directives
 ```
 
-You can freely edit these files. You're not required to use an Express server. Simply choose whatever fits you best and tweak however you want.
+You can freely edit these files. Each of the two folders are detailed in their own doc pages (check left-side menu).
 
 Notice a few things:
 
@@ -72,11 +83,7 @@ Notice a few things:
 
 2. If you import anything from node_modules, then make sure that the package is specified in package.json > dependencies and NOT in devDependencies.
 
-3. Do not change the names of these two files. You can however add any additional files that you may need. Just take into consideration that if you want common configuration of the Node webserver for both production & development, you need to add that to `/src-ssr/extension.js` file.
-
-4. When `/src-ssr/extension.js` is used by the development server, it assumes the configuration is ready to be used by an Express server. So plan accordingly. If you switch to another server, you may want to decouple extension.js from the production server (index.js).
-
-5. The `/src-ssr` is built through a Webpack config for production (only). **You will see this marked as "Webserver" when Quasar App CLI builds your app.** You can chain/extend the Webpack configuration of these files through quasar.conf.js:
+3. The `/src-ssr/middlewares` is built through a separate Webpack config. **You will see this marked as "Webserver" when Quasar App CLI builds your app.** You can chain/extend the Webpack configuration of these files through quasar.conf.js:
 
 ```js
 return {
@@ -87,7 +94,7 @@ return {
     // optional; webpack config Object for
     // the Webserver part ONLY (/src-ssr/)
     // which is invoked for production (NOT for dev)
-    extendWebpack (cfg) {
+    extendWebpackWebserver (cfg) {
       // directly change props of cfg;
       // no need to return anything
     },
@@ -95,7 +102,7 @@ return {
     // optional; EQUIVALENT to extendWebpack() but uses webpack-chain;
     // the Webserver part ONLY (/src-ssr/)
     // which is invoked for production (NOT for dev)
-    chainWebpack (chain) {
+    chainWebpackWebserver (chain) {
       // chain is a webpack-chain instance
       // of the Webpack configuration
     }
@@ -104,9 +111,11 @@ return {
 ```
 
 ## Helping SEO
+
 One of the main reasons when you develop a SSR instead of a SPA is for taking care of the SEO. And SEO can be greatly improved by using the [Quasar Meta Plugin](/quasar-plugins/meta) to manage dynamic html markup required by the search engines.
 
 ## Boot Files
+
 When running on SSR mode, your application code needs to be isomorphic or "universal", which means that it must run both on a Node context and in the browser. This applies to your [Boot Files](/quasar-cli/boot-files) too.
 
 However, there are cases where you only want some boot files to run only on the server or only on the client-side. You can achieve that by specifying:

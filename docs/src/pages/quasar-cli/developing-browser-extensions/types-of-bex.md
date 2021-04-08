@@ -136,7 +136,7 @@ Then in our Quasar app (/src), we have a function that toggles the drawer and se
 resize the IFrame thus allowing our whole app to be visible:
 
 ```html
-<q-drawer :model-value="drawerIsOpen" @update:modelValue="drawerToggled">
+<q-drawer :model-value="drawerIsOpen" @update:model-value="drawerToggled">
   Some Content
 </q-drawer>
 ```

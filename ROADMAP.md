@@ -14,6 +14,18 @@ If you're in a company and using Quasar for commercial projects, explain to your
 
 Quasar is saving your company tens of thousands of development hours (quite literally), which in turn is a pretty high money savings. Consider giving back a part of those savings to refuel the project itself ;)
 
+## Support policy and schedule
+
+All major releases are typically supported for at least 12 months.
+LTS support ends 12 months after the release of a new major version.
+
+| Version | Status | Released   | Active support ends | LTS support ends |
+| ------- | ------ | ---------- | ------------------- | ---------------- |
+| 2.x     | Beta   | n/a        | After 01/04/2022    | After 01/04/2023 |
+| 1.x     | Active | 07/03/2019 | 01/04/2021          | 01/04/2022       |
+
+Quasar v0.x versions are no longer supported.
+
 ## Major milestones
 
 We are updating this section constantly in order to keep you up to date with our current (and new!) efforts.
@@ -22,15 +34,22 @@ We are updating this section constantly in order to keep you up to date with our
 
 ### Q2 2021
 * Vite.js plugin for Quasar v2.
-* Upgrade the App CLI for Quasar v2 to Webpack v5.
+* Upgrade the App CLI for Quasar v2 to Webpack v5 ([reference](https://github.com/quasarframework/quasar/issues/8102))
 * Quasar v2 will become officially the "latest" version of Quasar. The documentation website (https://quasar.dev) will point to v2 and the v1 docs will live under https://v1.quasar.dev. The end of life for Quasar v1 will be March 2022 and we will keep on backporting fixes and new features from v2 to it until then.
-* Typescript projects created with Quasar CLI (for Quasar v2) will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form).
+* Migration to Qv2 of most used testing AEs (`@quasar/testing`, `@quasar/testing-unit-jest`, `@quasar/testing-e2e-cypress`)
+* Typescript projects created with Quasar CLI (for Quasar v2) will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form). ([reference](https://github.com/quasarframework/quasar/issues/8572))
+* New maintainers recruiting and mentoring
+
 
 ### Q3 2021
 * First beta of a new CLI for Quasar based on Vite.js instead of Webpack (will have its own life along with the current Webpack-based CLI).
+* Creation of official Quasar Organizational chart
+* Allow to save starter kit options as JSON profiles ([reference](https://github.com/quasarframework/quasar/issues/5537))
+* Quasar.Conf 2021
 
 ### Q4 2021
 * The stable release of the new CLI based on Vite.js.
+* Advanced layouts/pages scaffolding (this will be a paid service)
 
 ### Q1 2022
 * Work starting on Quasar v3.

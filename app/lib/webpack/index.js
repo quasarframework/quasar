@@ -143,38 +143,36 @@ async function getElectron (cfg) {
 
 async function getSSR (cfg) {
   const client = createChain(cfg, 'Client')
-  const server = createChain(cfg, 'Server')
-
   require('./ssr/client')(client, cfg)
   if (cfg.ctx.mode.pwa) {
     require('./pwa')(client, cfg) // extending a PWA
   }
 
+  const server = createChain(cfg, 'Server')
   require('./ssr/server')(server, cfg)
 
-  const webpackCfg = {
+  const webserver = require('./ssr/webserver')(cfg, 'Webserver')
+
+  return {
+    webserver: await getWebpackConfig(webserver, cfg, {
+      name: 'Webserver',
+      cfgExtendBase: cfg.ssr,
+      hookSuffix: 'Webserver',
+      cmdSuffix: 'Webserver',
+      invokeParams: { isClient: false, isServer: true }
+    }),
+
     client: await getWebpackConfig(client, cfg, {
       name: 'Client',
       hot: true,
       invokeParams: { isClient: true, isServer: false }
     }),
+
     server: await getWebpackConfig(server, cfg, {
       name: 'Server',
       invokeParams: { isClient: false, isServer: true }
     })
   }
-
-  if (cfg.ctx.prod) {
-    const webserverChain = require('./ssr/webserver')(cfg, 'Webserver')
-    webpackCfg.webserver = await getWebpackConfig(webserverChain, cfg, {
-      name: 'Webserver',
-      cfgExtendBase: cfg.ssr,
-      hookSuffix: 'Webserver',
-      invokeParams: { isClient: false, isServer: true }
-    })
-  }
-
-  return webpackCfg
 }
 
 async function getBEX (cfg) {

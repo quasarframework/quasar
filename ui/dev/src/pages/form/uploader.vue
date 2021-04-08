@@ -271,7 +271,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@update:modelValue', JSON.stringify(val))
+      console.log('@update:model-value', JSON.stringify(val))
     },
     onAdded (files) {
       console.log(`@added ${ files.length || 0 } files`)

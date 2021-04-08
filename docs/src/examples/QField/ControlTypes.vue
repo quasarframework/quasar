@@ -5,7 +5,7 @@
         filled
         :hint="`Slider with value ${ slider }`"
         :model-value="slider"
-        @update:modelValue="val => (val === null && (slider = 50))"
+        @update:model-value="val => (val === null && (slider = 50))"
         clearable
       >
         <template v-slot:control>
@@ -25,7 +25,7 @@
         filled
         :hint="`Range between ${ range.min } and ${ range.max }`"
         :model-value="range"
-        @update:modelValue="val => (val === null && (range = { min: 0, max: 100}))"
+        @update:model-value="val => (val === null && (range = { min: 0, max: 100}))"
         clearable
       >
         <template v-slot:control>
@@ -42,7 +42,7 @@
         filled
         :hint="`Knob with value ${ knob }`"
         :model-value="knob"
-        @update:modelValue="val => (val === null && (knob = 50))"
+        @update:model-value="val => (val === null && (knob = 50))"
         clearable
       >
         <template v-slot:control>

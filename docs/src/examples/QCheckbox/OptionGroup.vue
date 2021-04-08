@@ -2,7 +2,6 @@
   <div class="q-pa-md">
     <q-option-group
       :options="options"
-      label="Notifications"
       type="checkbox"
       v-model="group"
     />

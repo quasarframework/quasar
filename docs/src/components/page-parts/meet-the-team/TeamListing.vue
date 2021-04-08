@@ -1,16 +1,19 @@
 <template lang="pug">
-.row.items-stretch.q-gutter-sm
-  team-member(
-    v-for="m in team"
-    :key="m.name"
-    :name="m.name"
-    :role="m.role"
-    :avatar="m.avatar"
-    :email="m.email"
-    :twitter="m.twitter"
-    :github="m.github"
-    :desc="m.desc"
-  )
+div
+  template(v-for="category in team" :key="category")
+    h4.text-primary {{ category.name }}
+    .row.items-stretch.q-gutter-sm
+      team-member(
+        v-for="m in category.members"
+        :key="m.name"
+        :name="m.name"
+        :role="m.role"
+        :avatar="m.avatar"
+        :email="m.email"
+        :twitter="m.twitter"
+        :github="m.github"
+        :desc="m.desc"
+      )
 </template>
 
 <script>

@@ -189,7 +189,7 @@ export default defineComponent({
         data,
         getContent(),
         'ripple',
-        props.ripple !== false,
+        props.ripple !== false && props.disable !== true,
         () => [ [ Ripple, props.ripple ] ]
       )
     }

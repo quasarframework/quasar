@@ -466,7 +466,7 @@
 
       <q-input v-bind="props" v-model="undef" label="Model undefined" />
 
-      <q-input :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" filled v-model="events" label="Events" @update:modelValue="onInput" @focus="onFocus" @blur="onBlur">
+      <q-input :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" filled v-model="events" label="Events" @update:model-value="onInput" @focus="onFocus" @blur="onBlur">
         <template v-slot:prepend><q-icon name="event" /></template>
         <template v-slot:append>
           <q-icon name="close" @click="events = ''" class="cursor-pointer" />
@@ -680,7 +680,7 @@ export default {
       console.log('@focus', e)
     },
     onInput (val) {
-      console.log('@update:modelValue', JSON.stringify(val))
+      console.log('@update:model-value', JSON.stringify(val))
     },
     onChange (val) {
       console.log('@change', JSON.stringify(val))

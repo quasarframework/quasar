@@ -37,7 +37,7 @@ export default defineComponent({
 
     // container only prop
     const containerHeight = ref(0)
-    const scrollbarWidth = ref(isRuntimeSsrPreHydration === true ? 0 : getScrollbarWidth())
+    const scrollbarWidth = ref(isRuntimeSsrPreHydration.value === true ? 0 : getScrollbarWidth())
 
     const classes = computed(() =>
       'q-layout q-layout--'

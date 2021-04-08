@@ -523,7 +523,7 @@ export default function (state) {
   Object.assign(proxy, { focus, blur })
 
   onMounted(() => {
-    if (isRuntimeSsrPreHydration === true && props.for === void 0) {
+    if (isRuntimeSsrPreHydration.value === true && props.for === void 0) {
       state.targetUid.value = getTargetUid()
     }
 

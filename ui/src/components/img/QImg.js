@@ -1,10 +1,9 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, Transition } from 'vue'
+import { h, defineComponent, ref, computed, watch, onMounted, onBeforeUnmount, Transition } from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
-
 import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
-
 import { hSlot } from '../../utils/private/render.js'
+import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 const crossoriginValues = [ 'anonymous', 'use-credentials' ]
 const loadingValues = [ 'eager', 'lazy' ]
@@ -227,12 +226,21 @@ export default defineComponent({
       ))
     }
 
-    addImage(getCurrentSrc())
+    if (__QUASAR_SSR_SERVER__ !== true) {
+      if (__QUASAR_SSR_CLIENT__ && isRuntimeSsrPreHydration.value === true) {
+        onMounted(() => {
+          addImage(getCurrentSrc())
+        })
+      }
+      else {
+        addImage(getCurrentSrc())
+      }
 
-    onBeforeUnmount(() => {
-      clearTimeout(loadTimer)
-      loadTimer = null
-    })
+      onBeforeUnmount(() => {
+        clearTimeout(loadTimer)
+        loadTimer = null
+      })
+    }
 
     return () => {
       const content = []
@@ -254,7 +262,7 @@ export default defineComponent({
       }
 
       content.push(
-        h(Transition, { name: 'q-transition--fade', appear: true }, getContent)
+        h(Transition, { name: 'q-transition--fade' }, getContent)
       )
 
       return h('div', {

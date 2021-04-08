@@ -23,10 +23,10 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | --- | --- | --- | --- | --- | --- |
 | Roboto Font | CDN v20 | `roboto-font` | Recommended font along Material theme | | [License](roboto-font/LICENSE) |
 | Roboto Font Latin Extended | CDN v20 | `roboto-font-latin-ext` | Recommended font along Material theme | | [License](roboto-font-latin-ext/LICENSE) |
-| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v81 | `material-icons` | Material icons font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons/LICENSE) |
-| [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v51 | `material-icons-outlined` | Material icons outlined font | Requires: @quasar/extras 1.2.0+ | [License](material-icons-outlined/LICENSE) |
-| [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v50 | `material-icons-round` | Material icons round font | Requires: @quasar/extras 1.2.0+ | [License](material-icons-round/LICENSE) |
-| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v51 | `material-icons-sharp` | Material icons sharp font | Requires: @quasar/extras 1.2.0+ | [License](material-icons-sharp/LICENSE) |
+| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v82 | `material-icons` | Material icons font | Requires: @quasar/extras 1.2.0+ | [License](material-icons/LICENSE) |
+| [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v52 | `material-icons-outlined` | Material icons outlined font | Requires: @quasar/extras 1.2.0+ | [License](material-icons-outlined/LICENSE) |
+| [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v51 | `material-icons-round` | Material icons round font | Requires: @quasar/extras 1.2.0+ | [License](material-icons-round/LICENSE) |
+| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v52 | `material-icons-sharp` | Material icons sharp font | Requires: @quasar/extras 1.2.0+ | [License](material-icons-sharp/LICENSE) |
 | [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.9.55 | `mdi-v5` | Extended Material Design icons font | | [License](mdi-v5/LICENSE) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/license.md) |
 | MDI v3 (Material Design Icons) | 3.6.95 | `mdi-v3` | Extended Material Design icons font | | [License](mdi-v3/LICENSE) |
@@ -47,15 +47,15 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 
 | Vendor | Version | Quasar IconSet name | Import Icons from | Notes | License |
 | --- | --- | --- | --- | --- | --- |
-| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v81 | `svg-material-icons` | `@quasar/extras/material-icons` | | [License](material-icons/LICENSE) |
-| [Material Icons Outlined](https://material.io/tools/icons/?style=outlined) (Google) | CDN v51 | `svg-material-icons-outlined` | `@quasar/extras/material-icons-outlined` | Requires: @quasar/extras 1.9+ | [License](material-icons-outlined/LICENSE) |
-| [Material Icons Round](https://material.io/tools/icons/?style=round) (Google) | CDN v50 | `svg-material-icons-round` | `@quasar/extras/material-icons-round` | Requires: @quasar/extras 1.9+ | [License](material-icons-round/LICENSE) |
-| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) (Google) | CDN v51 | `svg-material-icons-sharp` | `@quasar/extras/material-icons-sharp` | Requires: @quasar/extras 1.9+ | [License](material-icons-sharp/LICENSE) |
+| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v82 | `svg-material-icons` | `@quasar/extras/material-icons` | | [License](material-icons/LICENSE) |
+| [Material Icons Outlined](https://material.io/tools/icons/?style=outlined) (Google) | CDN v52 | `svg-material-icons-outlined` | `@quasar/extras/material-icons-outlined` | Requires: @quasar/extras 1.9+ | [License](material-icons-outlined/LICENSE) |
+| [Material Icons Round](https://material.io/tools/icons/?style=round) (Google) | CDN v51 | `svg-material-icons-round` | `@quasar/extras/material-icons-round` | Requires: @quasar/extras 1.9+ | [License](material-icons-round/LICENSE) |
+| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) (Google) | CDN v52 | `svg-material-icons-sharp` | `@quasar/extras/material-icons-sharp` | Requires: @quasar/extras 1.9+ | [License](material-icons-sharp/LICENSE) |
 | [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.9.55 | `svg-mdi-v5` | `@quasar/extras/mdi-v5` | | [License](mdi-v5/LICENSE) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | [License](mdi-v4/license.md) |
 | [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.15.3 | `svg-fontawesome-v5` | `@quasar/extras/fontawesome-v5` | | [License](fontawesome-v5/LICENSE.txt) |
-| [Ionicons v5](https://ionicons.com/) | 5.5.0 | `svg-ionicons-v5` | `@quasar/extras/ionicons-v5` | Requires: @quasar/extras 1.7+ | [Icon License](ionicons-v5/LICENSE) |
-| [Ionicons v4](https://ionicons.com/v4/) | 4.6.3 | `svg-ionicons-v4` | `@quasar/extras/ionicons-v4` | No icon font (woof) files for Ionicons since v4.6.3 | [Icon License](ionicons-v4/LICENSE) |
+| [Ionicons v5](https://ionicons.com/) | 5.5.1 | `svg-ionicons-v5` | `@quasar/extras/ionicons-v5` | Requires: @quasar/extras 1.7+; The Quasar Icon Set requires Quasar v1.11+ | [Icon License](ionicons-v5/LICENSE) |
+| [Ionicons v4](https://ionicons.com/v4/) | 4.6.3 | `svg-ionicons-v4` | `@quasar/extras/ionicons-v4` | No icon font (woof)  files for Ionicons since v4.6.3 | [Icon License](ionicons-v4/LICENSE) |
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.3 | `svg-eva-icons` | `@quasar/extras/eva-icons` | | [License](eva-icons/LICENSE) |
 | [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `svg-themify` | `@quasar/extras/themify` | | [License](themify/LICENSE) |
 | [Line Awesome](https://icons8.com/line-awesome) | 1.3.0 | `svg-line-awesome` | `@quasar/extras/line-awesome` | Requires: @quasar/extras 1.5+ | [License](line-awesome/LICENSE.md) |
@@ -137,7 +137,7 @@ Ask questions at the official community Discord server: [https://chat.quasar.dev
 Head on to the official community forum: [https://forum.quasar.dev](https://forum.quasar.dev)
 
 ## Semver
-Using [semver 2.0](http://semver.org/) notation for 'quasar-extras' package.
+Using [semver 2.0](http://semver.org/) notation for '@quasar/extras' package.
 
 ## License
 

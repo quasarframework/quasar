@@ -112,7 +112,11 @@ module.exports = function (ctx) {
     animations: [ 'fadeIn', 'fadeOut' ],
 
     ssr: {
-      pwa: ctx.prod
+      pwa: ctx.prod,
+      middlewares: [
+        ctx.prod ? 'compression' : '',
+        'render'
+      ]
     },
 
     pwa: {

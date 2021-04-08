@@ -2,7 +2,7 @@
   <div class="q-pa-md column items-start q-gutter-y-md">
     <q-file
       :model-value="files"
-      @update:modelValue="updateFiles"
+      @update:model-value="updateFiles"
       label="Pick files"
       outlined
       multiple

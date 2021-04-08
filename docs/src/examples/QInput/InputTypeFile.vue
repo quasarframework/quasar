@@ -4,18 +4,18 @@
       <!--
         Due to browser security policy,
         we can only read the value, but not
-        write to it, so we only have an @update:modelValue listener
+        write to it, so we only have an @update:model-value listener
       -->
 
       <q-input
-        @update:modelValue="val => { file = val[0] }"
+        @update:model-value="val => { file = val[0] }"
         filled
         type="file"
         hint="Native file"
       />
 
       <q-input
-        @update:modelValue="val => { files = val }"
+        @update:model-value="val => { files = val }"
         multiple
         filled
         type="file"

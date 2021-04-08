@@ -106,7 +106,7 @@ function getComponent ($q) {
           notif.icon = notif.icon($q)
         }
 
-        if (notif.spinner === void 0) {
+        if (!notif.spinner) {
           notif.spinner = false
         }
         else {
@@ -505,7 +505,7 @@ export default {
       this.setDefaults($q.config.notify)
     }
 
-    if (this.__installed !== true) {
+    if (__QUASAR_SSR_SERVER__ !== true && this.__installed !== true) {
       const el = createGlobalNode('q-notify')
       createChildApp(getComponent($q), parentApp).mount(el)
     }

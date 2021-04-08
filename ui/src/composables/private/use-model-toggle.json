@@ -8,7 +8,7 @@
   },
 
   "events": {
-    "update:modelValue": {
+    "update:model-value": {
       "desc": "Emitted when showing/hidden state changes; Is also used by v-model",
       "params": {
         "value": {

@@ -4,13 +4,13 @@ import { ref, onMounted } from 'vue'
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 export default function () {
-  const canRender = ref(!isRuntimeSsrPreHydration)
+  const canRender = ref(!isRuntimeSsrPreHydration.value)
 
-  onMounted(() => {
-    if (canRender.value === false) {
+  if (canRender.value === false) {
+    onMounted(() => {
       canRender.value = true
-    }
-  })
+    })
+  }
 
   return canRender
 }

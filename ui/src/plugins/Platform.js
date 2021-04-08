@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-mixed-operators */
 
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 
 /**
  * __ QUASAR_SSR __            -> runs on SSR on client or server
@@ -12,9 +12,11 @@ import { reactive } from 'vue'
  *                              (needs runtime detection)
  */
 
-export let isRuntimeSsrPreHydration = __QUASAR_SSR_SERVER__ || (
-  __QUASAR_SSR_CLIENT__ && (
-    __QUASAR_SSR_PWA__ ? document.body.getAttribute('data-server-rendered') !== null : true
+export let isRuntimeSsrPreHydration = ref(
+  __QUASAR_SSR_SERVER__ || (
+    __QUASAR_SSR_CLIENT__ && (
+      __QUASAR_SSR_PWA__ ? document.body.getAttribute('data-server-rendered') !== null : true
+    )
   )
 )
 
@@ -302,7 +304,7 @@ const Platform = {
     if (__QUASAR_SSR_SERVER__) {
       $q.platform = this.parseSSR(opts.ssrContext)
     }
-    else if (isRuntimeSsrPreHydration === true) {
+    else if (isRuntimeSsrPreHydration.value === true) {
       // must match with server-side before
       // client taking over in order to prevent
       // hydration errors
@@ -312,7 +314,7 @@ const Platform = {
       // the rest of the props; we also avoid
       // hydration errors
       opts.onSSRHydrated.push(() => {
-        isRuntimeSsrPreHydration = false
+        isRuntimeSsrPreHydration.value = false
         Object.assign($q.platform, client)
         iosCorrection = void 0
       })

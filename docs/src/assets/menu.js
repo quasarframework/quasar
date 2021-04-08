@@ -250,12 +250,27 @@ const cli = [
         path: 'writing-universal-code'
       },
       {
+        name: 'Upgrade guide',
+        badge: 'new',
+        path: 'ssr-upgrade-guide'
+      },
+      {
         name: 'Preparation',
         path: 'preparation'
       },
       {
         name: 'Configuring SSR',
         path: 'configuring-ssr'
+      },
+      {
+        name: 'SSR Middleware',
+        badge: 'new',
+        path: 'ssr-middleware'
+      },
+      {
+        name: 'Vue SSR Directives',
+        badge: 'new',
+        path: 'vue-ssr-directives'
       },
       {
         name: 'App Icons for SSR',
@@ -284,6 +299,11 @@ const cli = [
       {
         name: 'Build Commands',
         path: 'build-commands'
+      },
+      {
+        name: 'SSR with Typescript',
+        badge: 'new',
+        path: 'ssr-with-typescript'
       },
       {
         name: 'Deploying',

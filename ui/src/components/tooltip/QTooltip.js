@@ -10,9 +10,10 @@ import useTimeout from '../../composables/private/use-timeout.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { getTouchTarget } from '../../utils/private/touch.js'
-import { addEvt, cleanEvt } from '../../utils/event.js'
+import { stopAndPrevent, addEvt, cleanEvt } from '../../utils/event.js'
 import { clearSelection } from '../../utils/private/selection.js'
 import { hSlot } from '../../utils/private/render.js'
+import { addClickOutside, removeClickOutside } from '../../utils/private/click-outside.js'
 import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/private/position-engine.js'
@@ -107,6 +108,39 @@ export default defineComponent({
     Object.assign(anchorEvents, { delayShow, delayHide })
 
     const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent)
+
+    // if we're on mobile, let's improve the experience
+    // by closing it when user taps outside of it
+    if ($q.platform.is.mobile === true) {
+      const clickOutsideProps = {
+        anchorEl,
+        innerRef,
+        onClickOutside (e) {
+          hide(e)
+
+          // prevent click if it's on a dialog backdrop
+          if (e.target.classList.contains('q-dialog__backdrop')) {
+            stopAndPrevent(e)
+          }
+
+          return true
+        }
+      }
+
+      const hasClickOutside = computed(() =>
+        // it doesn't has external model
+        // (null is the default value)
+        props.modelValue === null
+        // and it's not persistent
+        && props.persistent !== true
+        && showing.value === true
+      )
+
+      watch(hasClickOutside, val => {
+        const fn = val === true ? addClickOutside : removeClickOutside
+        fn(clickOutsideProps)
+      })
+    }
 
     function handleShow (evt) {
       removeTick()
