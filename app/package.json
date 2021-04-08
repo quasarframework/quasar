@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Quasar Framework local CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -48,10 +48,10 @@
     "@types/electron-packager": "14.0.0",
     "@types/express": "4.17.11",
     "@types/lru-cache": "5.1.0",
-    "@types/terser-webpack-plugin": "3.0.0",
-    "@types/webpack": "4.41.26",
-    "@types/webpack-bundle-analyzer": "3.8.0",
-    "@types/webpack-dev-server": "3.11.2",
+    "@types/terser-webpack-plugin": "4.2.1",
+    "@types/webpack": "4.41.27",
+    "@types/webpack-bundle-analyzer": "3.9.2",
+    "@types/webpack-dev-server": "3.11.3",
     "archiver": "5.0.2",
     "autoprefixer": "9.8.6",
     "browserslist": "^4.14.7",
@@ -125,6 +125,9 @@
     "node": ">= 10.0.0",
     "npm": ">= 5.6.0",
     "yarn": ">= 1.6.0"
+  },
+  "volta": {
+    "node": "lts"
   },
   "publishConfig": {
     "access": "public"

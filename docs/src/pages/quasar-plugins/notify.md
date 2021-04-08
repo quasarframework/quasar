@@ -155,7 +155,7 @@ We'll describe setting the defaults through a [boot file](/quasar-cli/boot-files
 First we create the boot file. Let's name it "notify-defaults.js".
 
 ```bash
-$ quasar new boot notify-defaults
+$ quasar new boot notify-defaults [--format ts]
 ```
 
 Add the created notify-defaults.js file to the boot array in `quasar.conf.js`:

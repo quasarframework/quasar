@@ -16,7 +16,7 @@ Newer mobile browsers have the ability to specify a color for the addressbar, li
 
 ## Usage
 
-We create boot file to initialize its usage: `$ quasar new boot addressbar-color`. A file is created (`/src/boot/addressbar-color.js`). We edit it:
+We create boot file to initialize its usage: `$ quasar new boot addressbar-color [--format ts]`. A file is created (`/src/boot/addressbar-color.js`). We edit it:
 
 ```js
 // file: /src/boot/addressbar-color.js

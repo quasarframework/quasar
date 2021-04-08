@@ -13,6 +13,7 @@ module.exports = function (ctx) {
       'eva-icons',
       'themify',
       'line-awesome',
+      'bootstrap-icons',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font',
