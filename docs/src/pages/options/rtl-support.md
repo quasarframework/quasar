@@ -133,7 +133,7 @@ To enable RTL UIs in UMD you need to include the RTL equivalent CSS tag for your
 </html>
 ```
 
-Check what tags you need to include in your HTML files by generating a sample with `$ quasar create <folder> --kit umd` and answering with "Yes" to the RTL question and specifying an RTL language for Quasar Language Pack.
+Check what tags you need to include in your HTML files by using our [UMD tag generator](/start/umd) and making sure that you tick the "RTL CSS support" checkbox.
 Also notice the `<html dir="rtl">` tag at the beginning of the generated html file -- you'll need that too.
 
 ::: warning CAVEAT
