@@ -4,7 +4,7 @@ const path = require('path')
 const fs = require('fs')
 const rollup = require('rollup')
 const uglify = require('uglify-es')
-const nodeResolve = require('@rollup/plugin-node-resolve')
+const { nodeResolve } = require('@rollup/plugin-node-resolve')
 // const typescript = require('rollup-plugin-typescript2')
 const replace = require('@rollup/plugin-replace')
 
@@ -213,7 +213,12 @@ function genConfig (opts) {
   opts.rollup.input.plugins = [ ...rollupPluginsModern ]
 
   if (opts.build.replace !== void 0) {
-    opts.rollup.input.plugins.unshift(replace(opts.build.replace))
+    opts.rollup.input.plugins.unshift(
+      replace({
+        preventAssignment: true,
+        values: opts.build.replace
+      })
+    )
   }
 
   opts.rollup.input.external = opts.rollup.input.external || []
