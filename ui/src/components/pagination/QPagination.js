@@ -121,7 +121,7 @@ export default Vue.extend({
       },
       set (val) {
         val = parseInt(val, 10)
-        if (this.disable || isNaN(val) || val === 0) {
+        if (this.disable || isNaN(val)) {
           return
         }
         const value = between(val, this.min, this.max)
