@@ -103,7 +103,10 @@ module.exports = function (cfg, configName) {
         .loader('ts-loader')
         .options({
           onlyCompileBundledFiles: true,
-          transpileOnly: false
+          transpileOnly: false,
+          compilerOptions: {
+            noEmit: false,
+          }
         })
   }
 
