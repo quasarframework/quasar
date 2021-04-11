@@ -1,5 +1,5 @@
 const semver = require('semver')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 
 const appPaths = require('../app-paths')
 const { fatal } = require('../helpers/logger')

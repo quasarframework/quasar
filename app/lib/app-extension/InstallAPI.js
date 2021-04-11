@@ -1,6 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const semver = require('semver')
 
 const appPaths = require('../app-paths')
