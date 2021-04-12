@@ -13,6 +13,8 @@ declare module "quasar/wrappers" {
   import { PrefetchCallback } from "@quasar/app";
   import { RouteCallback } from "@quasar/app";
   import { StoreCallback } from "@quasar/app";
+
+  /** Some arguments are available only if you enable the related mode: `store` when using the Store, `ssrContext` when using SSR, etc */
   function boot<TStore = any>(
     callback: BootCallback<TStore>
   ): BootCallback<TStore>;
