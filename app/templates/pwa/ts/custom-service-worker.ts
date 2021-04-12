@@ -6,7 +6,7 @@
 
 import { precacheAndRoute } from 'workbox-precaching';
 
-declare const self: ServiceWorkerGlobalScope;
+declare const self: ServiceWorkerGlobalScope & typeof globalThis;
 
 // Use with precache injection
 precacheAndRoute(self.__WB_MANIFEST);
