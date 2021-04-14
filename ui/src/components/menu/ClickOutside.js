@@ -63,7 +63,7 @@ export default {
 
         if (
           evt.qClickOutside !== true &&
-          target !== void 0 &&
+          document.body.contains(target) === true &&
           target.nodeType !== 8 &&
           // directives that prevent click by using pointer-events none generate click on html element
           target !== document.documentElement &&
