@@ -482,12 +482,12 @@ export default {
 
       let valIndex = val.length - 1, output = ''
 
-      for (let maskIndex = mask.length - 1; maskIndex >= 0; maskIndex--) {
+      for (let maskIndex = mask.length - 1; maskIndex >= 0  && valIndex >= 0; maskIndex--) {
         const maskDef = mask[maskIndex]
 
         let valChar = val[valIndex]
 
-        if (typeof maskDef === 'string' && valIndex >= 0) {
+        if (typeof maskDef === 'string') {
           output = maskDef + output
           valChar === maskDef && valIndex--
         }
