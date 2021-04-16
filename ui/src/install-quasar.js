@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 
-import Platform from './plugins/Platform.js'
+import Platform, { isRuntimeSsrPreHydration } from './plugins/Platform.js'
 import Screen from './plugins/Screen.js'
 import Dark from './plugins/Dark.js'
 import History from './history.js'
@@ -11,8 +11,14 @@ import IconSet from './icon-set.js'
 import { quasarKey } from './utils/private/symbols.js'
 import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './utils/private/global-config.js'
 
-const autoInstalled = [
-  Platform, Screen, Dark
+const autoInstalledPlugins = [
+  Platform,
+  Body,
+  Dark,
+  Screen,
+  History,
+  Lang,
+  IconSet
 ]
 
 export function createChildApp (appCfg, parentApp) {
@@ -37,15 +43,7 @@ function prepareApp (app, uiOpts, pluginOpts) {
   app.config.globalProperties.$q = pluginOpts.$q
   app.provide(quasarKey, pluginOpts.$q)
 
-  installPlugins(pluginOpts, [
-    Platform,
-    Body,
-    Dark,
-    Screen,
-    History,
-    Lang,
-    IconSet
-  ])
+  installPlugins(pluginOpts, autoInstalledPlugins)
 
   uiOpts.components !== void 0 && Object.values(uiOpts.components).forEach(c => {
     if (Object(c) === c && c.name !== void 0) {
@@ -62,9 +60,16 @@ function prepareApp (app, uiOpts, pluginOpts) {
   uiOpts.plugins !== void 0 && installPlugins(
     pluginOpts,
     Object.values(uiOpts.plugins).filter(
-      p => typeof p.install === 'function' && autoInstalled.includes(p) === false
+      p => typeof p.install === 'function' && autoInstalledPlugins.includes(p) === false
     )
   )
+
+  if (isRuntimeSsrPreHydration.value === true) {
+    pluginOpts.$q.onSSRHydrated = () => {
+      pluginOpts.onSSRHydrated.forEach(fn => { fn() })
+      pluginOpts.$q.onSSRHydrated = () => {}
+    }
+  }
 }
 
 export default __QUASAR_SSR_SERVER__

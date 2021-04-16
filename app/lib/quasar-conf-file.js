@@ -567,6 +567,7 @@ class QuasarConfFile {
       cfg.ssr = merge({
         pwa: false,
         manualStoreHydration: false,
+        manualPostHydrationTrigger: false,
         prodPort: 3000, // gets superseeded in production by an eventual process.env.PORT
         maxAge: 1000 * 60 * 60 * 24 * 30
       }, cfg.ssr, {
@@ -575,6 +576,10 @@ class QuasarConfFile {
           ...this.devlandSsrDirectives
         }
       })
+
+      if (cfg.ssr.manualPostHydrationTrigger !== true) {
+        cfg.__needsAppMountHook = true
+      }
 
       if (cfg.ssr.middlewares.length > 0) {
         cfg.ssr.middlewares = cfg.ssr.middlewares.filter(_ => _)
