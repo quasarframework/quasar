@@ -20,7 +20,13 @@ export interface GlobalsTypesHolder {
   [index: string]: any;
 }
 
-export interface GlobalQuasarLanguage
+export interface GlobalQuasarLanguage extends QuasarLanguage {
+  set(lang: QuasarLanguage): void;
+  /** Returns undefined when in SSR mode or when it cannot determine current language. */
+  getLocale(): string | undefined;
+}
+
+export interface GlobalQuasarLanguageSingleton
   extends QuasarLanguage,
     HasSsr<
       { set(lang: QuasarLanguage, ssrContext: any): void },
@@ -30,7 +36,11 @@ export interface GlobalQuasarLanguage
   getLocale(): string | undefined;
 }
 
-export interface GlobalQuasarIconSet
+export interface GlobalQuasarIconSet extends QuasarIconSet {
+  set(iconSet: QuasarIconSet): void;
+}
+
+export interface GlobalQuasarIconSetSingleton
   extends QuasarIconSet,
     HasSsr<
       // QSsrContext interface depends on q/app, making it available into UI package adds complexity without any real benefit
@@ -46,6 +56,12 @@ export interface BaseQGlobals {
   version: string;
   lang: GlobalQuasarLanguage;
   iconSet: GlobalQuasarIconSet;
+}
+
+export interface QSingletonGlobals {
+  version: string;
+  lang: GlobalQuasarLanguageSingleton;
+  iconSet: GlobalQuasarIconSetSingleton;
 }
 
 export interface QVueGlobals
