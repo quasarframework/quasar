@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const WebpackChain = require('webpack-chain')
 const { VueLoaderPlugin } = require('vue-loader')
 

@@ -1,5 +1,5 @@
 const ExtractLoader = require('mini-css-extract-plugin').loader
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const path = require('path')
 
 const appPaths = require('../app-paths')

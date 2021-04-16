@@ -165,7 +165,7 @@ const mapping = {
     reference: `src/router/routes${ext}`
   },
   component: {
-    folder: 'components',
+    folder: 'src/components',
     ext: '.vue'
   },
   store: {

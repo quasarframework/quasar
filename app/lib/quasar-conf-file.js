@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
 const debounce = require('lodash.debounce')
 const { underline, green } = require('chalk')

@@ -67,7 +67,7 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
   ```
 4. Create new boot file:
   ```bash
-  $ quasar new boot fontawesome-pro
+  $ quasar new boot fontawesome-pro [--format ts]
   ```
 5. Edit `/quasar.conf.js`:
   ```js

@@ -43,7 +43,7 @@ module.exports = function (chain, cfg) {
   if (cfg.ctx.mode.ssr) {
     // if Object form:
     if (cfg.ssr.pwa && cfg.ssr.pwa !== true) {
-      const merge = require('webpack-merge')
+      const { merge } = require('webpack-merge')
       opts = merge(opts, cfg.ssr.pwa)
     }
 

@@ -103,7 +103,12 @@ module.exports = function (cfg, configName) {
         .loader('ts-loader')
         .options({
           onlyCompileBundledFiles: true,
-          transpileOnly: false
+          transpileOnly: false,
+          // While `noEmit: true` is needed in the tsconfig preset to prevent VSCode errors,
+          // it prevents emitting transpiled files when run into node context
+          compilerOptions: {
+            noEmit: false,
+          }
         })
   }
 

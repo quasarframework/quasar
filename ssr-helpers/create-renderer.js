@@ -3,6 +3,8 @@
  */
 
 const { extname } = require('path')
+const serialize = require('serialize-javascript')
+
 const createBundle = require('./lib/create-bundle')
 
 const jsRE = /\.js(\?[^.]+)?$/
@@ -103,13 +105,24 @@ function renderStyles (renderContext, usedAsyncFiles, ssrContext) {
   )
 }
 
-function renderScripts(renderContext, usedAsyncFiles) {
+const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
+
+function renderVuexState (ssrContext, nonce) {
+  if (ssrContext.state !== void 0) {
+    const state = serialize(ssrContext.state, { isJSON: true })
+    return `<script${nonce}>window.__INITIAL_STATE__=${state};${autoRemove}</script>`
+  }
+
+  return ''
+}
+
+function renderScripts(renderContext, usedAsyncFiles, nonce) {
   if (renderContext.preloadFiles.length > 0) {
     const initial = renderContext.preloadFiles.filter(({ file }) => jsRE.test(file))
     const async = usedAsyncFiles.filter(({ file }) => jsRE.test(file))
 
     return [ initial[0] ].concat(async, initial.slice(1))
-      .map(({ file }) => `<script src="${renderContext.publicPath}${file}" defer></script>`)
+      .map(({ file }) => `<script${nonce} src="${renderContext.publicPath}${file}" defer></script>`)
       .join('')
   }
 
@@ -148,10 +161,17 @@ module.exports = function createRenderer (opts) {
 
       ssrContext._onRenderedList.forEach(fn => { fn() })
 
+      const nonce = ssrContext.nonce !== void 0
+        ? ` nonce="${ ssrContext.nonce }" `
+        : ''
+
       Object.assign(ssrContext._meta, {
         resourceApp,
         resourceStyles: renderStyles(renderContext, usedAsyncFiles, ssrContext),
-        resourceScripts: renderScripts(renderContext, usedAsyncFiles)
+        resourceScripts: (
+          renderVuexState(ssrContext, nonce)
+          + renderScripts(renderContext, usedAsyncFiles, nonce)
+        )
       })
 
       return renderTemplate(ssrContext)

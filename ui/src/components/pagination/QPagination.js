@@ -108,7 +108,7 @@ export default defineComponent({
       get: () => props.modelValue,
       set: val => {
         val = parseInt(val, 10)
-        if (props.disable || isNaN(val) || val === 0) {
+        if (props.disable || isNaN(val)) {
           return
         }
         const value = between(val, props.min, props.max)
