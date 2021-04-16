@@ -144,9 +144,13 @@ export default ssrContext => {
       // which is resolved when the action is complete and store state has been
       // updated.
       matchedComponents
-      .filter(c => c && c.preFetch)
+      .filter(c => {
+        if (typeof c.preFetch === 'function') return true
+        if (c.__c && typeof c.__c.preFetch === 'function') return true
+        return false
+      })
       .reduce(
-        (promise, c) => promise.then(() => hasRedirected === false && c.preFetch({
+        (promise, c) => promise.then(() => hasRedirected === false && (c.__c ? c.__c : c).preFetch({
           <% if (store) { %>store,<% } %>
           ssrContext,
           currentRoute: router.currentRoute,

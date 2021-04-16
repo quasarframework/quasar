@@ -60,8 +60,14 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>, publicPat
           m.path.indexOf('/:') > -1 // does it has params?
         ))
       })
-      .filter(m => m.c && typeof m.c.preFetch === 'function')
-      .map(m => m.c.preFetch)
+      .filter(m => {
+        if (m.c && typeof m.c.preFetch === 'function') return true
+        if (m.c && m.c.__c && typeof m.c.__c.preFetch === 'function') return true
+        return false
+      })
+      .map(m => {
+        return m.c.__c ? m.c.__c.preFetch : m.c.preFetch
+      })
 
     <% if (!ctx.mode.ssr) { %>
     if (appPrefetch === true) {
