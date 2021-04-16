@@ -118,7 +118,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 
     rule.use('postcss-loader')
       .loader('postcss-loader')
-      .options(postCssOpts)
+      .options({ postcssOptions: postCssOpts })
 
     if (loader) {
       rule.use(loader)

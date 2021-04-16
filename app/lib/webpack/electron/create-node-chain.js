@@ -64,9 +64,6 @@ module.exports = (nodeType, cfg, configName) => {
   chain.resolveLoader.modules
     .merge(resolveModules)
 
-  chain.optimization
-    .noEmitOnErrors(true)
-
   if (cfg.build.showProgress) {
     chain.plugin('progress')
       .use(WebpackProgress, [{ name: configName }])
@@ -108,9 +105,8 @@ module.exports = (nodeType, cfg, configName) => {
         .minimizer('js')
         .use(TerserPlugin, [{
           terserOptions: cfg.build.uglifyOptions,
-          cache: true,
-          parallel: true,
-          sourceMap: cfg.build.sourceMap
+          extractComments: false,
+          parallel: true
         }])
     }
   }

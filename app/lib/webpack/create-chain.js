@@ -210,8 +210,10 @@ module.exports = function (cfg, configName) {
       ])
   }
 
+  // TODO: change to Asset Management when webpack-chain is webpack5 compatible
   chain.module.rule('images')
     .test(/\.(png|jpe?g|gif|svg|webp|avif|ico)(\?.*)?$/)
+    .type('javascript/auto')
     .use('url-loader')
       .loader('url-loader')
       .options({
@@ -220,8 +222,10 @@ module.exports = function (cfg, configName) {
         name: `img/[name]${fileHash}.[ext]`
       })
 
+  // TODO: change to Asset Management when webpack-chain is webpack5 compatible
   chain.module.rule('fonts')
     .test(/\.(woff2?|eot|ttf|otf)(\?.*)?$/)
+    .type('javascript/auto')
     .use('url-loader')
       .loader('url-loader')
       .options({
@@ -230,8 +234,10 @@ module.exports = function (cfg, configName) {
         name: `fonts/[name]${fileHash}.[ext]`
       })
 
+  // TODO: change to Asset Management when webpack-chain is webpack5 compatible
   chain.module.rule('media')
     .test(/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/)
+    .type('javascript/auto')
     .use('url-loader')
       .loader('url-loader')
       .options({
@@ -255,10 +261,10 @@ module.exports = function (cfg, configName) {
   chain.module // fixes https://github.com/graphql/graphql-js/issues/1272
     .rule('mjs')
     .test(/\.mjs$/)
+    .type('javascript/auto')
     .include
       .add(/[\\/]node_modules[\\/]/)
       .end()
-    .type('javascript/auto')
 
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin)
@@ -286,7 +292,7 @@ module.exports = function (cfg, configName) {
 
     chain.optimization.splitChunks({
       cacheGroups: {
-        vendors: {
+        defaultVendors: {
           name: 'vendor',
           chunks: 'all',
           priority: -10,
@@ -331,28 +337,20 @@ module.exports = function (cfg, configName) {
         .use(CustomSwWarningPlugin)
     }
 
-    const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-    const { devCompilationSuccess } = require('../helpers/banner')
+    // TODO: webpack5 - replace with inhouse reporting system
+    // const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+    // const { devCompilationSuccess } = require('../helpers/banner')
 
-    chain.optimization
-      .noEmitOnErrors(true)
-
-    chain.plugin('friendly-errors')
-      .use(FriendlyErrorsPlugin, [{
-        clearConsole: true,
-        compilationSuccessInfo: ['spa', 'pwa', 'ssr'].includes(cfg.ctx.modeName)
-          ? { notes: [ devCompilationSuccess(cfg.ctx, cfg.build.APP_URL, appPaths.appDir, cfg.__transpileBanner) ] }
-          : undefined
-      }])
+    // chain.plugin('friendly-errors')
+    //   .use(FriendlyErrorsPlugin, [{
+    //     clearConsole: true,
+    //     compilationSuccessInfo: ['spa', 'pwa', 'ssr'].includes(cfg.ctx.modeName)
+    //       ? { notes: [ devCompilationSuccess(cfg.ctx, cfg.build.APP_URL, appPaths.appDir, cfg.__transpileBanner) ] }
+    //       : undefined
+    //   }])
   }
   // PRODUCTION build
   else {
-    // keep module.id stable when vendor modules does not change
-    chain.plugin('hashed-module-ids')
-      .use(webpack.HashedModuleIdsPlugin, [{
-        hashDigest: 'hex'
-      }])
-
     if (
       cfg.build.ignorePublicFolder !== true &&
       configName !== 'Server'
@@ -406,40 +404,21 @@ module.exports = function (cfg, configName) {
         .use(TerserPlugin, [{
           terserOptions: cfg.build.uglifyOptions,
           extractComments: false,
-          cache: true,
-          parallel: true,
-          sourceMap: cfg.build.sourceMap
+          parallel: true
         }])
     }
 
     if (configName !== 'Server') {
       // dedupe & minify CSS (only if extracted)
       if (cfg.build.extractCSS && cfg.build.minify) {
-        const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-
-        const cssProcessorOptions = {
-          parser: require('postcss-safe-parser'),
-          autoprefixer: { disable: true }
-        }
-        if (cfg.build.sourceMap) {
-          cssProcessorOptions.map = { inline: false }
-        }
+        const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
         // We are using this plugin so that possible
         // duplicated CSS = require(different components) can be deduped.
-        chain.plugin('optimize-css')
-          .use(OptimizeCSSPlugin, [{
-            canPrint: false,
-            cssProcessor: require('cssnano'),
-            cssProcessorOptions,
-            cssProcessorPluginOptions: {
-              preset: ['default', {
-                mergeLonghand: false,
-                convertValues: false,
-                cssDeclarationSorter: false,
-                reduceTransforms: false
-              }]
-            }
+        chain.optimization
+          .minimizer('css')
+          .use(CssMinimizerPlugin, [{
+            parallel: true
           }])
       }
 

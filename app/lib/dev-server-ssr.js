@@ -7,6 +7,8 @@ const chokidar = require('chokidar')
 const express = require('express')
 const { renderToString } = require('@vue/server-renderer')
 const createRenderer = require('@quasar/ssr-helpers/create-renderer')
+const { getClientManifest } = require('./webpack/ssr/plugin.client-side')
+const { getServerManifest } = require('./webpack/ssr/plugin.server-side')
 
 const appPaths = require('./app-paths')
 const openBrowser = require('./helpers/open-browser')
@@ -58,6 +60,8 @@ module.exports = class DevServer {
     let serverManifest, clientManifest, pwa, renderTemplate, renderWithVue, webpackServerListening = false
 
     let tryToFinalize = () => {
+      // TODO: remove after webpack5 work is complete
+      // console.log('tryToFinalize', serverManifest !== void 0, clientManifest !== void 0, webpackServerListening === true)
       if (serverManifest && clientManifest && webpackServerListening === true) {
         tryToFinalize = () => {}
         callback()
@@ -115,6 +119,9 @@ module.exports = class DevServer {
     }
 
     const update = () => {
+      // TODO: remove after webpack5 work is complete
+      // console.log('update()', serverManifest !== void 0, clientManifest !== void 0)
+
       if (serverManifest && clientManifest) {
         Object.assign(renderOptions, {
           serverManifest,
@@ -138,12 +145,18 @@ module.exports = class DevServer {
     }
 
     webserverCompiler.hooks.done.tapAsync('done-compiling', ({ compilation: { errors, warnings }}, cb) => {
+      // TODO: remove after webpack5 work is complete
+      // console.log('webserverCompiler in done()')
+
       errors.forEach(err => console.error('[Webserver]', err))
       warnings.forEach(err => console.warn('[Webserver]', err))
 
       if (errors.length === 0) {
         delete require.cache[compiledMiddlewareFile]
         const injectMiddleware = require(compiledMiddlewareFile).default
+
+        // TODO: remove after webpack5 work is complete
+        // console.log('webserverCompiler HIT!')
 
         startWebpackServer(app => {
           injectMiddleware({
@@ -163,15 +176,20 @@ module.exports = class DevServer {
               static: serveStatic,
               error: renderError
             }
-          })
+          }).then(() => {
+            this.webpackServer.listen(cfg.devServer.port, cfg.devServer.host, () => {
+              webpackServerListening = true
 
-          this.webpackServer.listen(cfg.devServer.port, cfg.devServer.host, () => {
-            webpackServerListening = true
-            tryToFinalize()
+              // TODO: remove after webpack5 work is complete
+              // console.log('webserverCompiler HIT final!')
+              tryToFinalize()
+            })
           })
         })
       }
 
+      // TODO: remove after webpack5 work is complete
+      // console.log('webserverCompiler done!')
       cb()
     })
 
@@ -179,42 +197,131 @@ module.exports = class DevServer {
       webserverCompiler.watch({}, () => {})
     )
 
-    serverCompiler.hooks.done.tapAsync('done-compiling', ({ compilation: { errors, warnings, assets }}, cb) => {
-      errors.forEach(err => console.error('[Server]', err))
-      warnings.forEach(err => console.warn('[Server]', err))
+    serverCompiler.hooks.compilation.tap('quasar-ssr-server-plugin', compilation => {
+      compilation.hooks.processAssets.tapAsync(
+        { name: 'quasar-ssr-server-plugin', state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
+        (_, callback) => {
+          if (compilation.errors.length === 0) {
+            serverManifest = getServerManifest(compilation)
 
-      if (errors.length === 0) {
-        serverManifest = JSON.parse(assets['../quasar.server-manifest.json'].source())
-        update()
-      }
-
-      cb()
-    })
-
-    clientCompiler.hooks.done.tapAsync('done-compiling', ({ compilation: { errors, warnings, assets }}, cb) => {
-      errors.forEach(err => console.error('[Client]', err))
-      warnings.forEach(err => console.warn('[Client]', err))
-
-      if (errors.length === 0) {
-        if (cfg.ctx.mode.pwa) {
-          pwa = {
-            manifest: assets['manifest.json'].source(),
-            serviceWorker: assets['service-worker.js'].source()
+            // TODO: remove after webpack5 work is complete
+            // console.log('serverCompiler calling update()!')
+            update()
           }
+
+          // TODO: remove after webpack5 work is complete
+          // console.log('serverCompiler emit is done!')
+          callback()
         }
-
-        clientManifest = JSON.parse(assets['../quasar.client-manifest.json'].source())
-        update()
-      }
-
-      cb()
+      )
     })
+
+    // serverCompiler.hooks.done.tapAsync('SSRServerDoneCompiling', (stats, cb) => {
+    //   if (stats.hasErrors() === true) {
+    //     const info = stats.toJson()
+    //     const errNumber = info.errors.length
+    //     const errDetails = `${errNumber} error${errNumber > 1 ? 's' : ''}`
+
+    //     warn()
+    //     warn(chalk.red(`[Server] ${errDetails} encountered:\n`))
+
+    //     info.errors.forEach(err => {
+    //       console.error('[Server]', err)
+    //     })
+
+    //     warn()
+    //     warn(chalk.red(`[Server:FAIL] Build failed with ${errDetails}. Check log above.\n`))
+    //     // console.log(compilation)
+    //     // compilation.errors.forEach(err => console.error('[Server]', err))
+    //     // compilation.warnings.forEach(err => console.warn('[Server]', err))
+    //   }
+
+    //   if (stats.hasWarnings() === true) {
+    //     const info = stats.toJson()
+    //     const errNumber = info.warnings.length
+    //     const errDetails = `${errNumber} warning${errNumber > 1 ? 's' : ''}`
+
+    //     warn()
+    //     warn(chalk.red(`[Server] ${errDetails} encountered:\n`))
+
+    //     info.warnings.forEach(err => {
+    //       console.warn('[Server]', err)
+    //     })
+
+    //     warn()
+    //   }
+
+    //   console.log('serverCompiler done!')
+    //   cb()
+    // })
+
+    clientCompiler.hooks.compilation.tap('quasar-ssr-server-plugin', compilation => {
+      compilation.hooks.processAssets.tapAsync(
+        { name: 'quasar-ssr-server-plugin', state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
+        (_, callback) => {
+          if (compilation.errors.length === 0) {
+            if (cfg.ctx.mode.pwa) {
+              pwa = {
+                manifest: compilation.getAsset('manifest.json').source.source(),
+                serviceWorker: compilation.getAsset('service-worker.js').source.source()
+              }
+            }
+
+            clientManifest = getClientManifest(compilation)
+
+            // TODO: remove after webpack5 work is complete
+            // console.log('clientCompiler calling update()!')
+            update()
+          }
+
+          // TODO: remove after webpack5 work is complete
+          // console.log('serverCompiler emit is done!')
+          callback()
+        }
+      )
+    })
+
+    // clientCompiler.hooks.done.tapAsync('SSRClientDoneCompiling', ({ compilation: { errors, warnings, assets }}, cb) => {
+    //   if (stats.hasErrors() === true) {
+    //     const info = stats.toJson()
+    //     const errNumber = info.errors.length
+    //     const errDetails = `${errNumber} error${errNumber > 1 ? 's' : ''}`
+
+    //     warn()
+    //     warn(chalk.red(`[Client] ${errDetails} encountered:\n`))
+
+    //     info.errors.forEach(err => {
+    //       console.error('[Client]', err)
+    //     })
+
+    //     warn()
+    //     warn(chalk.red(`[Client:FAIL] Build failed with ${errDetails}. Check log above.\n`))
+    //   }
+
+    //   if (stats.hasWarnings() === true) {
+    //     const info = stats.toJson()
+    //     const errNumber = info.warnings.length
+    //     const errDetails = `${errNumber} warning${errNumber > 1 ? 's' : ''}`
+
+    //     warn()
+    //     warn(chalk.red(`[Client] ${errDetails} encountered:\n`))
+
+    //     info.warnings.forEach(err => {
+    //       console.warn('[Client]', err)
+    //     })
+
+    //     warn()
+    //   }
+
+    //   console.log('clientCompiler done!')
+    //   cb()
+    // })
 
     this.handlers.push(
       serverCompiler.watch({}, () => {})
     )
 
-    const originalAfter = cfg.devServer.after
+    const originalAfter = cfg.devServer.onAfterSetupMiddleware
 
     // start building & launch server
     const startWebpackServer = cb => {
@@ -236,7 +343,9 @@ module.exports = class DevServer {
       this.webpackServer = new WebpackDevServer(clientCompiler, {
         ...cfg.devServer,
 
-        after: app => {
+        onAfterSetupMiddleware: opts => {
+          const { app } = opts
+
           // obsolete hot updates & js maps should be discarded immediately
           app.get(/(\.hot-update\.json|\.js\.map)$/, (_, res) => {
             res.status(404).send('404')
@@ -257,15 +366,11 @@ module.exports = class DevServer {
             app.use(resolveUrlPath('/'), serveStatic('.', { maxAge: 0 }))
           }
 
-          originalAfter && originalAfter(app)
+          originalAfter && originalAfter(opts)
 
-          // allow this.webpackServer to be set
-          // as after hook is called immediately
-          setTimeout(() => {
-            if (this.destroyed !== true) {
-              cb(app)
-            }
-          })
+          if (this.destroyed !== true) {
+            cb(app)
+          }
         }
       })
     }

@@ -136,15 +136,13 @@ module.exports = function (cfg, configName) {
 
   // DEVELOPMENT build
   if (cfg.ctx.dev) {
-    const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+    // TODO: webpack5 - replace with inhouse reporting system
+    // const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
-    chain.optimization
-      .noEmitOnErrors(true)
-
-    chain.plugin('friendly-errors')
-      .use(FriendlyErrorsPlugin, [{
-        clearConsole: true
-      }])
+    // chain.plugin('friendly-errors')
+    //   .use(FriendlyErrorsPlugin, [{
+    //     clearConsole: true
+    //   }])
   }
 
   return chain

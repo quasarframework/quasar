@@ -322,7 +322,7 @@ class QuasarConfFile {
       __VUE_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true,
 
       // quasar
-      __QUASAR_VERSION__: `'${quasarVersion}'`,
+      __QUASAR_VERSION__: JSON.stringify(quasarVersion),
       __QUASAR_SSR__: this.ctx.mode.ssr === true,
       __QUASAR_SSR_SERVER__: false,
       __QUASAR_SSR_CLIENT__: false,
@@ -421,8 +421,8 @@ class QuasarConfFile {
       transpile: true,
       // transpileDependencies: [], // leaving here for completeness
       devtool: this.ctx.dev
-        ? '#cheap-module-eval-source-map'
-        : '#source-map',
+        ? 'eval-cheap-module-source-map'
+        : 'source-map',
       // env: {}, // leaving here for completeness
       uglifyOptions: {
         compress: {
@@ -592,36 +592,41 @@ class QuasarConfFile {
     }
 
     if (this.ctx.dev) {
-      const originalBefore = cfg.devServer.before
+      const originalBefore = cfg.devServer.onBeforeSetupMiddleware
       const openInEditor = require('launch-editor-middleware')
 
-      delete cfg.devServer.before
+      delete cfg.devServer.onBeforeSetupMiddleware
 
       cfg.devServer = merge({
-        publicPath: cfg.build.publicPath,
         hot: true,
-        inline: true,
-        overlay: true,
-        quiet: true,
-        noInfo: true,
-        disableHostCheck: true,
+        firewall: false,
         compress: true,
-        open: true
+        open: true,
+        dev: {
+          publicPath: cfg.build.publicPath,
+          stats: false
+        }
       },
       this.ctx.mode.ssr === true
-        ? {}
+        ? {
+            dev: { index: false },
+            static: {
+              serveIndex: false
+            }
+          }
         : {
-          historyApiFallback: cfg.build.vueRouterMode === 'history'
-            ? { index: `${cfg.build.publicPath || '/'}${cfg.build.htmlFilename}` }
-            : false,
-          index: cfg.build.htmlFilename
-        },
+            historyApiFallback: cfg.build.vueRouterMode === 'history'
+              ? { index: `${cfg.build.publicPath || '/'}${cfg.build.htmlFilename}` }
+              : false,
+            dev: {
+              index: cfg.build.htmlFilename
+            }
+          },
       cfg.devServer,
       {
-        contentBase: false,
-        watchContentBase: false,
+        onBeforeSetupMiddleware: opts => {
+          const { app } = opts
 
-        before: (app, server, compiler) => {
           if (!this.ctx.mode.ssr) {
             const express = require('express')
 
@@ -639,7 +644,7 @@ class QuasarConfFile {
 
           app.use('/__open-in-editor', openInEditor(void 0, appPaths.appDir))
 
-          originalBefore && originalBefore(app, server, compiler)
+          originalBefore && originalBefore(opts)
         }
       })
 

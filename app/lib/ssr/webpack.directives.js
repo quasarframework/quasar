@@ -69,9 +69,6 @@ module.exports = function () {
   chain.resolveLoader.modules
     .merge(resolveModules)
 
-  chain.optimization
-    .noEmitOnErrors(true)
-
   chain.plugin('banner')
     .use(webpack.BannerPlugin, [{
       raw: true,

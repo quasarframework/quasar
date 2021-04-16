@@ -21,11 +21,11 @@ module.exports = class DevServer {
     return new Promise(resolve => {
       const compiler = webpack(webpackConf.renderer || webpackConf)
 
-      compiler.hooks.done.tap('done-compiling', compiler => {
+      compiler.hooks.done.tap('done-compiling', stats => {
         if (this.__started) { return }
 
         // start dev server if there are no errors
-        if (compiler.compilation.errors && compiler.compilation.errors.length > 0) {
+        if (stats.hasErrors() === true) {
           return
         }
 

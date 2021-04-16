@@ -4,7 +4,6 @@ const extensionRunner = require('../app-extension/extensions-runner')
 
 async function getWebpackConfig (chain, cfg, {
   name,
-  hot,
   cfgExtendBase = cfg.build,
   hookSuffix = '',
   cmdSuffix = '',
@@ -32,10 +31,21 @@ async function getWebpackConfig (chain, cfg, {
     await cfgExtendBase[ 'extendWebpack' + cmdSuffix ](webpackConfig, invokeParams)
   }
 
-  if (hot && cfg.ctx.dev && cfg.devServer.hot) {
-    // tap entries for HMR
-    require('webpack-dev-server').addDevServerEntrypoints(webpackConfig, cfg.devServer)
+  if (cfg.ctx.dev) {
+    webpackConfig.optimization = webpackConfig.optimization || {}
+    webpackConfig.optimization.emitOnErrors = false
+
+    webpackConfig.infrastructureLogging = Object.assign(
+      { colors: true, level: 'warn' },
+      webpackConfig.infrastructureLogging
+    )
   }
+  else {
+    // webpackConfig.cache = false // webpackConfig.cache || { type: 'filesystem' }
+  }
+
+  // TODO: enable when webpack5 work is complete
+  webpackConfig.cache = false
 
   return webpackConfig
 }
@@ -47,7 +57,6 @@ async function getSPA (cfg) {
 
   return await getWebpackConfig(chain, cfg, {
     name: 'SPA',
-    hot: true,
     invokeParams: { isClient: true, isServer: false }
   })
 }
@@ -64,7 +73,6 @@ async function getPWA (cfg) {
 
     return getWebpackConfig(chain, cfg, {
       name: 'PWA',
-      hot: true,
       invokeParams: { isClient: true, isServer: false }
     })
   }
@@ -95,7 +103,6 @@ async function getCordova (cfg) {
 
   return await getWebpackConfig(chain, cfg, {
     name: 'Cordova',
-    hot: true,
     invokeParams: { isClient: true, isServer: false }
   })
 }
@@ -106,7 +113,6 @@ async function getCapacitor (cfg) {
 
   return await getWebpackConfig(chain, cfg, {
     name: 'Capacitor',
-    hot: true,
     invokeParams: { isClient: true, isServer: false }
   })
 }
@@ -121,7 +127,6 @@ async function getElectron (cfg) {
   return {
     renderer: await getWebpackConfig(rendererChain, cfg, {
       name: 'Renderer process',
-      hot: true,
       invokeParams: { isClient: true, isServer: false }
     }),
     preload: await getWebpackConfig(preloadChain, cfg, {
@@ -164,7 +169,6 @@ async function getSSR (cfg) {
 
     client: await getWebpackConfig(client, cfg, {
       name: 'Client',
-      hot: true,
       invokeParams: { isClient: true, isServer: false }
     }),
 
@@ -187,7 +191,6 @@ async function getBEX (cfg) {
   return {
     renderer: await getWebpackConfig(rendererChain, cfg, {
       name: 'Renderer process',
-      hot: true,
       invokeParams: { isClient: true, isServer: false }
     }),
     main: await getWebpackConfig(mainChain, cfg, {
