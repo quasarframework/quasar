@@ -9,7 +9,9 @@ const createBundle = require('./lib/create-bundle')
 
 const jsRE = /\.js(\?[^.]+)?$/
 const cssRE = /\.css(\?[^.]+)?$/
+const jsCssRE = /\.(js|css)($|\?)/
 const queryRE = /\?.*/
+const trailingSlashRE = /([^/])$/
 
 /**
  * Creates a mapper that maps components used during a server-side render
@@ -52,7 +54,7 @@ function mapIdToFile (id, clientManifest) {
       // only include async files or non-js, non-css assets
       if (
         clientManifest.async.includes(file) ||
-        (/\.(js|css)($|\?)/.test(file) === false)
+        (jsCssRE.test(file) === false)
       ) {
         files.push(file)
       }
@@ -76,7 +78,7 @@ function normalizeFile (file) {
 function ensureTrailingSlash (path) {
   return path === ''
     ? path
-    : path.replace(/([^/])$/, '$1/')
+    : path.replace(trailingSlashRE, '$1/')
 }
 
 function createRenderContext ({ clientManifest, publicPath }) {
