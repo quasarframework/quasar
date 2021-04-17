@@ -121,7 +121,7 @@ module.exports = (stats, outputFolder, name) => {
     drawHorizontalLine: index => tableIndexDelimiters.includes(index)
   })
 
-  console.log(` ${bold(green(name))} summary on css/js/json (the rest are omitted):`)
+  console.log(` Summary for "${bold(green(name))}" (only css/js/json)`)
   console.log(' ' + output.replace(/\n/g, '\n '))
 
   if (stats.hasWarnings()) {

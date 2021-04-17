@@ -45,8 +45,6 @@ module.exports = class DevServer {
     const cfg = this.quasarConfFile.quasarConf
     const webpackConf = this.quasarConfFile.webpackConf
 
-    log(`Booting up...`)
-
     return new Promise(resolve => {
       this.start(webpackConf, cfg, resolve)
     })
@@ -54,8 +52,8 @@ module.exports = class DevServer {
 
   start (webpackConf, cfg, callback) {
     const webserverCompiler = webpack(webpackConf.webserver)
-    const serverCompiler = webpack(webpackConf.server)
-    const clientCompiler = webpack(webpackConf.client)
+    const serverCompiler = webpack(webpackConf.serverSide)
+    const clientCompiler = webpack(webpackConf.clientSide)
 
     let serverManifest, clientManifest, pwa, renderTemplate, renderWithVue, webpackServerListening = false
 

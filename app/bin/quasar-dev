@@ -95,8 +95,6 @@ async function parseAddress ({ host, port }) {
     this.chosenHost = host
   }
 
-  log(`Checking listening address availability (${host}:${port})...`)
-
   try {
     const openPort = await findPort(port, host)
     if (port !== openPort) {

@@ -96,48 +96,19 @@ banner(argv, 'build')
 
 const { log, warn, fatal } = require('../lib/helpers/logger')
 const { printWebpackErrors } = require('../lib/helpers/print-webpack-issue')
+const { splitWebpackConfig } = require('../lib/webpack/symbols')
 
 const chalk = require('chalk')
 const path = require('path')
 const webpack = require('webpack')
 
-function splitConfig (webpackConf, mode) {
-  if (mode === 'ssr') {
-    return [
-      { webpack: webpackConf.server, name: 'Server' },
-      { webpack: webpackConf.client, name: 'Client' },
-      { webpack: webpackConf.webserver, name: 'Webserver' }
-    ]
-  }
-
-  if (mode === 'bex') {
-    return [
-      { webpack: webpackConf.renderer, name: 'Renderer process' },
-      { webpack: webpackConf.main, name: 'Main process' }
-    ]
-  }
-
-  if (mode === 'electron') {
-    return [
-      { webpack: webpackConf.renderer, name: 'Renderer process' },
-      { webpack: webpackConf.preload, name: 'Preload process' },
-      { webpack: webpackConf.main, name: 'Main process' }
-    ]
-  }
+function parseWebpackConfig (cfg, mode) {
+  let data = splitWebpackConfig(cfg, mode)
 
   if (mode === 'pwa') {
-    return [
-      { webpack: webpackConf.renderer, name: 'PWA' }
-    ]
+    // CSW needs to be compiled separately, before UI
+    data = data.filter(entry => entry.name !== 'csw')
   }
-
-  return [
-    { webpack: webpackConf, name: 'Build' }
-  ]
-}
-
-function parseWebpackConfig (cfg, mode) {
-  const data = splitConfig(cfg, mode)
 
   return {
     configs: data.map(d => d.webpack),

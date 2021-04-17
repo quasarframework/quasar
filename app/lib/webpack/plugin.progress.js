@@ -1,15 +1,10 @@
 const { ProgressPlugin } = require('webpack')
 const throttle = require('lodash.throttle')
 const chalk = require('chalk')
-const { log } = require('../helpers/logger')
 const logUpdate = require('log-update')
 
-const isMinimalTerminal = require('../helpers/is-minimal-terminal')
-const logLine = isMinimalTerminal
-  ? () => {}
-  : logUpdate.create(process.stdout, { showCursor: true })
-
 const compilations = {}
+const logLine = logUpdate.create(process.stdout, { showCursor: true })
 
 const barLength = 20
 const barProgressFactor = barLength / 100
@@ -60,7 +55,7 @@ function printState () {
 
 const render = throttle(printState, 200)
 
-module.exports = class WebpackProgress extends ProgressPlugin {
+module.exports = class WebpackProgressPlugin extends ProgressPlugin {
   constructor (opts = {}) {
     super({
       handler: (percent, msg, ...details) => {
@@ -85,16 +80,13 @@ module.exports = class WebpackProgress extends ProgressPlugin {
     }
   }
 
-  get state () {
-    return compilations[this.opts.name]
-  }
-
   updateProgress (percent, msg, details) {
+    const state = compilations[this.opts.name]
     const progress = Math.floor(percent * 100)
-    const wasRunning = this.state.running
+    const wasRunning = state.running
     const running = progress < 100
 
-    Object.assign(this.state, {
+    Object.assign(state, {
       progress,
       msg: running && msg ? msg : '',
       details,
@@ -102,23 +94,11 @@ module.exports = class WebpackProgress extends ProgressPlugin {
     })
 
     if (!wasRunning && running) {
-      this.state.startTime = +new Date()
-
-      if (isMinimalTerminal) {
-        log(`Compiling ${this.state.name}...`)
-      }
+      state.startTime = +new Date()
     }
     else if (wasRunning && !running) {
-      const diff = +new Date() - this.state.startTime
-      this.state.doneStamp = `done in ${diff} ms`
-
-      if (isMinimalTerminal) {
-        log(`Compiled ${this.state.name} ${this.state.doneStamp}`)
-      }
-    }
-
-    if (isMinimalTerminal) {
-      return
+      const diff = +new Date() - state.startTime
+      state.doneStamp = `done in ${diff} ms`
     }
 
     if (running && isRunningGlobally()) {

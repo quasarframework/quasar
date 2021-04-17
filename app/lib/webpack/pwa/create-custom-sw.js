@@ -2,9 +2,10 @@ const path = require('path')
 const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
-const parseBuildEnv = require('../../helpers/parse-build-env')
 const appPaths = require('../../app-paths')
-const WebpackProgress = require('../plugin.progress')
+const parseBuildEnv = require('../../helpers/parse-build-env')
+const isMinimalTerminal = require('../../helpers/is-minimal-terminal')
+const { WebpackStatusPlugin } = require('../plugin.status')
 
 function getDependenciesRegex (list) {
   const deps = list.map(dep => {
@@ -129,21 +130,14 @@ module.exports = function (cfg, configName) {
     .hints(false)
     .maxAssetSize(500000)
 
-  if (cfg.build.showProgress) {
+  if (isMinimalTerminal !== true && cfg.build.showProgress) {
+    const WebpackProgressPlugin = require('../plugin.progress')
     chain.plugin('progress')
-      .use(WebpackProgress, [{ name: configName }])
+      .use(WebpackProgressPlugin, [{ name: configName }])
   }
 
-  // DEVELOPMENT build
-  if (cfg.ctx.dev) {
-    // TODO: webpack5 - replace with inhouse reporting system
-    // const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-
-    // chain.plugin('friendly-errors')
-    //   .use(FriendlyErrorsPlugin, [{
-    //     clearConsole: true
-    //   }])
-  }
+  chain.plugin('status')
+    .use(WebpackStatusPlugin, [{ name: configName, cfg }])
 
   return chain
 }

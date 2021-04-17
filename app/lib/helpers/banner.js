@@ -109,15 +109,5 @@ module.exports = function (argv, cmd, details) {
   }
 }
 
-module.exports.devCompilationSuccess = function (ctx, url, appDir, transpileBanner) {
-  return [
-    ` App dir........... ${green(appDir)}`,
-    ` App URL........... ${green(url)}`,
-    ` Dev mode.......... ${green(ctx.modeName + (ctx.mode.ssr && ctx.mode.pwa ? ' + pwa' : ''))}`,
-    ` Pkg quasar........ ${green('v' + quasarVersion)}`,
-    ` Pkg @quasar/app... ${green('v' + cliAppVersion)}`,
-    ` Transpiled JS..... ${transpileBanner}`
-  ].join('\n') + '\n'
-}
-
 module.exports.quasarVersion = quasarVersion
+module.exports.cliAppVersion = cliAppVersion

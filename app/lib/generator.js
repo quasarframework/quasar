@@ -51,7 +51,6 @@ class Generator {
   }
 
   build () {
-    log(`Generating Webpack entry point`)
     const data = this.quasarConfFile.quasarConf
 
     // ensure .quasar folder

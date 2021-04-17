@@ -1,7 +1,9 @@
-const { ProgressPlugin } = require('webpack')
-const throttle = require('lodash.throttle')
+const { green } = require('chalk')
 
+const appPaths = require('../app-paths')
 const { success, info, clearConsole } = require('../helpers/status')
+const { quasarVersion, cliAppVersion } = require('../helpers/banner')
+const isMinimalTerminal = require('../helpers/is-minimal-terminal')
 // const { log } = require('../helpers/logger')
 const { printWebpackWarnings, printWebpackErrors } = require('../helpers/print-webpack-issue')
 
@@ -11,30 +13,59 @@ function canPrintStatus () {
   return Object.values(compilations).some(c => c.ready === false) === false
 }
 
-function printStatusBanner (banner) {
-  clearConsole()
-  success('Devserver is ready', 'DONE')
+function printReadyBanner (banner) {
+  // need setTimeout() because of Webpack's progress plugin
+  // which does not immediately trigger the update, so our
+  // own progress plugin does not have a chance to clear its output
+  setTimeout(() => {
+    const webpackCompilations = Object.values(compilations).map(c => `"${c.name}"`).join(', ')
 
-  if (banner) {
-    console.log(banner)
-  }
+    clearConsole()
+    success(`Compiled: ${webpackCompilations}`, 'DONE')
 
-  Object.values(compilations).forEach(c => {
-    if (c.stats !== null) {
-      printWebpackWarnings(c.stats)
+    if (banner !== null) {
+      console.log(banner)
     }
+
+    Object.values(compilations).forEach(c => {
+      if (c.stats !== null) {
+        printWebpackWarnings(c.stats)
+      }
+    })
   })
 }
 
-module.exports.printStatusBanner = printStatusBanner
+function getBanner (cfg) {
+  if (['spa', 'pwa', 'ssr'].includes(cfg.ctx.modeName) === false) {
+    return null
+  }
 
-module.exports.WebpackPluginStatus = class WebpackPluginStatus {
-  // { name, banner }
-  constructor (opts) {
-    this.opts = opts
+  return [
+    ` App dir........... ${green(appPaths.appDir)}`,
+    ` App URL........... ${green(cfg.build.APP_URL)}`,
+    ` Dev mode.......... ${green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : ''))}`,
+    ` Pkg quasar........ ${green('v' + quasarVersion)}`,
+    ` Pkg @quasar/app... ${green('v' + cliAppVersion)}`,
+    ` Transpiled JS..... ${cfg.__transpileBanner}`
+  ].join('\n') + '\n'
+}
 
-    compilations[opts.name] = {
-      name: opts.name,
+module.exports.printReadyBanner = printReadyBanner
+
+module.exports.WebpackStatusPlugin = class WebpackStatusPlugin {
+  constructor ({ name, cfg }) {
+    const enableStartHooks = isMinimalTerminal || cfg.build.showProgress !== true
+
+    this.opts = {
+      name,
+      banner: getBanner(cfg),
+      initHook: enableStartHooks === true,
+      recompileHook: enableStartHooks === true && cfg.ctx.dev === true,
+      readyHook: cfg.ctx.dev === true
+    }
+
+    compilations[name] = {
+      name,
       ready: false,
       stats: null
     }
@@ -43,13 +74,19 @@ module.exports.WebpackPluginStatus = class WebpackPluginStatus {
   apply (compiler) {
     const target = compilations[this.opts.name]
 
-    compiler.hooks.invalid.tap('QuasarStatusPlugin', () => {
+    this.opts.initHook && compiler.hooks.initialize.tap('QuasarStatusPlugin', () => {
       target.ready = false
       target.stats = null
-      info('Compiling...', 'WAIT')
+      info(`Compiling "${this.opts.name}"...`, 'WAIT')
     })
 
-    compiler.hooks.done.tap('QuasarStatusPlugin', stats => {
+    this.opts.recompileHook && compiler.hooks.invalid.tap('QuasarStatusPlugin', () => {
+      target.ready = false
+      target.stats = null
+      info(`"${this.opts.name}" is being recompiled...`, 'WAIT')
+    })
+
+    this.opts.readyHook && compiler.hooks.done.tap('QuasarStatusPlugin', stats => {
       target.stats = null
 
       if (stats.hasErrors() === true) {
@@ -65,7 +102,7 @@ module.exports.WebpackPluginStatus = class WebpackPluginStatus {
         }
 
         if (canPrintStatus() === true) {
-          printStatusBanner(this.opts.banner)
+          printReadyBanner(this.opts.banner)
         }
       }
     })

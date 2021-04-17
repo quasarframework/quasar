@@ -126,12 +126,6 @@ interface QuasarStaticBuildConfiguration {
    */
   gzip: boolean;
   /**
-   * Use Webpack scope hoisting for slightly better runtime performance.
-   *
-   * @default true
-   */
-  scopeHoisting: boolean;
-  /**
    * Show analysis of build bundle with webpack-bundle-analyzer.
    * When providing an object, it represents webpack-bundle-analyzer config options.
    */

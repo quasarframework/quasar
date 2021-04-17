@@ -139,8 +139,6 @@ class QuasarConfFile {
   }
 
   async prepare () {
-    log(`Reading quasar.conf.js`)
-
     let quasarConfigFunction
 
     if (fs.existsSync(this.filename)) {
@@ -404,7 +402,6 @@ class QuasarConfFile {
       },
 
       showProgress: true,
-      scopeHoisting: true,
       productName: this.pkg.productName,
       productDescription: this.pkg.description,
       // need to force extraction for SSR due to

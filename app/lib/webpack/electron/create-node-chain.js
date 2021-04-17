@@ -1,13 +1,14 @@
 const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
-const WebpackProgress = require('../plugin.progress')
 const ExpressionDependency = require('./plugin.expression-dependency')
 const parseBuildEnv = require('../../helpers/parse-build-env')
 const injectNodeBabel = require('../inject.node-babel')
 const injectNodeTypescript = require('../inject.node-typescript')
 
 const appPaths = require('../../app-paths')
+const isMinimalTerminal = require('../../helpers/is-minimal-terminal')
+const { WebpackStatusPlugin } = require('../plugin.status')
 
 const tempElectronDir = '.quasar/electron'
 
@@ -64,10 +65,14 @@ module.exports = (nodeType, cfg, configName) => {
   chain.resolveLoader.modules
     .merge(resolveModules)
 
-  if (cfg.build.showProgress) {
+  if (isMinimalTerminal !== true && cfg.build.showProgress) {
+    const WebpackProgressPlugin = require('../plugin.progress')
     chain.plugin('progress')
-      .use(WebpackProgress, [{ name: configName }])
+      .use(WebpackProgressPlugin, [{ name: configName }])
   }
+
+    chain.plugin('status')
+      .use(WebpackStatusPlugin, [{ name: configName, cfg }])
 
   const env = {
     ...cfg.build.env,
@@ -85,11 +90,8 @@ module.exports = (nodeType, cfg, configName) => {
     ])
 
   if (cfg.ctx.prod) {
-    // Scope hoisting ala Rollupjs
-    if (cfg.build.scopeHoisting) {
-      chain.optimization
-        .concatenateModules(true)
-    }
+    chain.optimization
+      .concatenateModules(true)
 
     if (cfg.ctx.debug) {
       // reset default webpack 4 minimizer

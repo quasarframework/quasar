@@ -16,10 +16,8 @@ module.exports = class DevServer {
     const cfg = this.quasarConfFile.quasarConf
     const webpackConf = this.quasarConfFile.webpackConf
 
-    log(`Booting up...`)
-
     return new Promise(resolve => {
-      const compiler = webpack(webpackConf.renderer || webpackConf)
+      const compiler = webpack(webpackConf.renderer)
 
       compiler.hooks.done.tap('done-compiling', stats => {
         if (this.__started) { return }

@@ -2,13 +2,9 @@ const { join } = require('path')
 const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
-const WebpackProgress = require('../webpack/plugin.progress')
 const appPaths = require('../app-paths')
 
 const entryFile = join(__dirname, 'runtime.ssr-directives.js')
-// const injectNodeBabel = require('../inject.node-babel')
-// const injectNodeTypescript = require('../inject.node-typescript')
-
 const banner = `
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
