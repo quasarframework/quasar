@@ -119,7 +119,7 @@ class ElectronRunner {
         { cwd: cfg.build.distDir },
         code => {
           if (code) {
-            fatal(`[FAIL] ${nodePackager} failed installing dependencies`)
+            fatal(`${nodePackager} failed installing dependencies`, 'FAIL')
           }
           resolve()
         }
@@ -170,7 +170,7 @@ class ElectronRunner {
           })
           .catch(err => {
             log()
-            warn(`[FAIL] ${pkgName} could not build`)
+            warn(`${pkgName} could not build`, 'FAIL')
             log()
             console.error(err + '\n')
             reject()

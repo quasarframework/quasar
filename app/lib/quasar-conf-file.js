@@ -148,7 +148,7 @@ class QuasarConfFile {
       quasarConfigFunction = require(this.filename)
     }
     else {
-      fatal(`[FAIL] Could not load quasar.conf.js config file`)
+      fatal('Could not load quasar.conf.js config file', 'FAIL')
     }
 
     if (this.ctx.mode.ssr) {
@@ -157,7 +157,7 @@ class QuasarConfFile {
         this.devlandSsrDirectives = require(this.ssrDirectivesFile).default
       }
       else {
-        fatal(`[FAIL] Could not load the compiled file of devland SSR directives`)
+        fatal('Could not load the compiled file of devland SSR directives', 'FAIL')
       }
     }
 

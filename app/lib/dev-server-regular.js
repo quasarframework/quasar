@@ -32,8 +32,6 @@ module.exports = class DevServer {
         this.__started = true
 
         this.server.listen(cfg.devServer.port, cfg.devServer.host, () => {
-          log(`The devserver is ready to be used`)
-
           resolve()
 
           if (openedBrowser === false) {

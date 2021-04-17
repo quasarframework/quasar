@@ -217,7 +217,6 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        esModule: false,
         limit: 10000,
         name: `img/[name]${fileHash}.[ext]`
       })
@@ -229,7 +228,6 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        esModule: false,
         limit: 10000,
         name: `fonts/[name]${fileHash}.[ext]`
       })
@@ -241,7 +239,6 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        esModule: false,
         limit: 10000,
         name: `media/[name]${fileHash}.[ext]`
       })
@@ -337,17 +334,15 @@ module.exports = function (cfg, configName) {
         .use(CustomSwWarningPlugin)
     }
 
-    // TODO: webpack5 - replace with inhouse reporting system
-    // const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-    // const { devCompilationSuccess } = require('../helpers/banner')
-
-    // chain.plugin('friendly-errors')
-    //   .use(FriendlyErrorsPlugin, [{
-    //     clearConsole: true,
-    //     compilationSuccessInfo: ['spa', 'pwa', 'ssr'].includes(cfg.ctx.modeName)
-    //       ? { notes: [ devCompilationSuccess(cfg.ctx, cfg.build.APP_URL, appPaths.appDir, cfg.__transpileBanner) ] }
-    //       : undefined
-    //   }])
+    const { WebpackPluginStatus } = require('./plugin.status')
+    const { devCompilationSuccess } = require('../helpers/banner')
+    chain.plugin('compile-status')
+      .use(WebpackPluginStatus, [{
+        name: configName,
+        banner: ['spa', 'pwa', 'ssr'].includes(cfg.ctx.modeName)
+          ? require('../helpers/banner').devCompilationSuccess(cfg.ctx, cfg.build.APP_URL, appPaths.appDir, cfg.__transpileBanner)
+          : null
+      }])
   }
   // PRODUCTION build
   else {

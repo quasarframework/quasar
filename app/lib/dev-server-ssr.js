@@ -66,8 +66,6 @@ module.exports = class DevServer {
         tryToFinalize = () => {}
         callback()
 
-        log(`The devserver is ready to be used`)
-
         if (openedBrowser === false) {
           openedBrowser = true
 
