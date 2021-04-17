@@ -36,7 +36,9 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
     if (isCustom === true) {
       const { component, componentProps } = pluginProps
 
-      DialogComponent = component
+      DialogComponent = (typeof component === 'string')
+        ? parentApp.component(component)
+        : component
       props = componentProps
     }
     else {
