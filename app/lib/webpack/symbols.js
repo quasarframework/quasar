@@ -1,11 +1,11 @@
 
 const webpackNames = {
   spa: {
-    renderer: 'User Interface'
+    renderer: 'UI'
   },
 
   pwa: {
-    renderer: 'User Interface',
+    renderer: 'UI',
     csw: 'Custom Service Worker'
   },
 
@@ -16,22 +16,22 @@ const webpackNames = {
   },
 
   cordova: {
-    renderer: 'User Interface'
+    renderer: 'UI'
   },
 
   capacitor: {
-    renderer: 'User Interface'
+    renderer: 'UI'
   },
 
   electron: {
-    renderer: 'Renderer process',
-    preload: 'Preload process',
-    main: 'Main process'
+    renderer: 'Renderer',
+    preload: 'Preload',
+    main: 'Main'
   },
 
   bex: {
-    renderer: 'Renderer process',
-    main: 'Main process'
+    renderer: 'Renderer',
+    main: 'Main'
   }
 }
 

@@ -81,7 +81,7 @@ module.exports.WebpackStatusPlugin = class WebpackStatusPlugin {
           setTimeout(() => {
             clearConsole()
             errors.forEach(entry => { printWebpackErrors(entry.errors) })
-            error(`Please check the log above for details.\n`, 'COMPILATION FAILED')
+            error('Please check the log above for details.\n', 'COMPILATION FAILED')
           })
           return
         }
@@ -93,7 +93,7 @@ module.exports.WebpackStatusPlugin = class WebpackStatusPlugin {
             const webpackCompilations = compilations.map(c => `"${c.name}"`).join(', ')
 
             clearConsole()
-            success(`Compiled: ${webpackCompilations}`, 'DONE')
+            success(`Compiled: ${webpackCompilations}`, 'READY')
 
             if (this.opts.banner !== null) {
               console.log(this.opts.banner)
@@ -105,7 +105,7 @@ module.exports.WebpackStatusPlugin = class WebpackStatusPlugin {
         if (warnings.length > 0) {
           setTimeout(() => {
             warnings.forEach(entry => { printWebpackWarnings(entry.warnings) })
-            warning(`Compilation succeeded but there are warning(s). Please check the log above.\n`)
+            warning('Compilation succeeded but there are warning(s). Please check the log above.\n')
           })
         }
       }
