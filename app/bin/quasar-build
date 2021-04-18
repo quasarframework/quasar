@@ -94,11 +94,10 @@ ensureArgv(argv, 'build')
 const banner = require('../lib/helpers/banner')
 banner(argv, 'build')
 
-const { log, warn, fatal } = require('../lib/helpers/logger')
+const { log, fatal } = require('../lib/helpers/logger')
 const { printWebpackErrors } = require('../lib/helpers/print-webpack-issue')
 const { splitWebpackConfig } = require('../lib/webpack/symbols')
 
-const chalk = require('chalk')
 const path = require('path')
 const webpack = require('webpack')
 
@@ -232,8 +231,7 @@ async function build () {
       }
 
       const summary = printWebpackErrors(stats)
-      warn(chalk.red(`${webpackData.name[index]} failed with ${summary}. Check log above.\n`), 'FAIL')
-      process.exit(1)
+      fatal(`for "${webpackData.name[index]}" with ${summary}. Please check the log above.\n`, 'COMPILATION FAILED')
     })
 
     const printWebpackStats = require('../lib/helpers/print-webpack-stats')

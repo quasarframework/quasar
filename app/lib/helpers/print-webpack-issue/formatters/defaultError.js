@@ -4,7 +4,7 @@
  */
 
 const { concat } = require('../utils')
-const { redPill, yellowPill } = require('../../status')
+const { redPill, yellowPill } = require('../../logger')
 
 const pillMap = {
   error: redPill('ERROR'),

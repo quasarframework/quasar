@@ -1,39 +1,12 @@
 const { green } = require('chalk')
 
 const appPaths = require('../app-paths')
-const { success, info, clearConsole } = require('../helpers/status')
+const { success, info, error, warning, clearConsole } = require('../helpers/logger')
 const { quasarVersion, cliAppVersion } = require('../helpers/banner')
 const isMinimalTerminal = require('../helpers/is-minimal-terminal')
-// const { log } = require('../helpers/logger')
 const { printWebpackWarnings, printWebpackErrors } = require('../helpers/print-webpack-issue')
 
-const compilations = {}
-
-function canPrintStatus () {
-  return Object.values(compilations).some(c => c.ready === false) === false
-}
-
-function printReadyBanner (banner) {
-  // need setTimeout() because of Webpack's progress plugin
-  // which does not immediately trigger the update, so our
-  // own progress plugin does not have a chance to clear its output
-  setTimeout(() => {
-    const webpackCompilations = Object.values(compilations).map(c => `"${c.name}"`).join(', ')
-
-    clearConsole()
-    success(`Compiled: ${webpackCompilations}`, 'DONE')
-
-    if (banner !== null) {
-      console.log(banner)
-    }
-
-    Object.values(compilations).forEach(c => {
-      if (c.stats !== null) {
-        printWebpackWarnings(c.stats)
-      }
-    })
-  })
-}
+const compilations = []
 
 function getBanner (cfg) {
   if (['spa', 'pwa', 'ssr'].includes(cfg.ctx.modeName) === false) {
@@ -50,8 +23,6 @@ function getBanner (cfg) {
   ].join('\n') + '\n'
 }
 
-module.exports.printReadyBanner = printReadyBanner
-
 module.exports.WebpackStatusPlugin = class WebpackStatusPlugin {
   constructor ({ name, cfg }) {
     const enableStartHooks = isMinimalTerminal || cfg.build.showProgress !== true
@@ -64,47 +35,85 @@ module.exports.WebpackStatusPlugin = class WebpackStatusPlugin {
       readyHook: cfg.ctx.dev === true
     }
 
-    compilations[name] = {
+    this.state = {
       name,
-      ready: false,
-      stats: null
+      idle: true,
+      compiled: false,
+      warnings: null,
+      errors: null
     }
+
+    compilations.push(this.state)
+  }
+
+  resetStats () {
+    this.state.errors = null
+    this.state.warnings = null
   }
 
   apply (compiler) {
-    const target = compilations[this.opts.name]
-
     this.opts.initHook && compiler.hooks.initialize.tap('QuasarStatusPlugin', () => {
-      target.ready = false
-      target.stats = null
-      info(`Compiling "${this.opts.name}"...`, 'WAIT')
+      this.state.idle = false
+      this.resetStats()
+      info(`Compiling of "${this.opts.name}" in progress...`, 'WAIT')
     })
 
     this.opts.recompileHook && compiler.hooks.invalid.tap('QuasarStatusPlugin', () => {
-      target.ready = false
-      target.stats = null
+      this.state.idle = false
+      this.resetStats()
       info(`"${this.opts.name}" is being recompiled...`, 'WAIT')
     })
 
     this.opts.readyHook && compiler.hooks.done.tap('QuasarStatusPlugin', stats => {
-      target.stats = null
+      this.state.idle = true
+      this.resetStats()
 
-      if (stats.hasErrors() === true) {
-        target.ready = false
-        clearConsole()
-        printWebpackErrors(stats)
+      if (stats.hasErrors()) {
+        this.state.errors = stats
       }
-      else {
-        target.ready = true
+      else if (stats.hasWarnings()) {
+        this.state.warnings = stats
+      }
 
-        if (stats.hasWarnings()) {
-          target.stats = stats
+      if (compilations.every(entry => entry.idle === true)) {
+        const errors = compilations.filter(entry => entry.errors !== null)
+        if (errors.length > 0) {
+          setTimeout(() => {
+            clearConsole()
+            errors.forEach(entry => { printWebpackErrors(entry.errors) })
+            error(`Please check the log above for details.\n`, 'COMPILATION FAILED')
+          })
+          return
         }
 
-        if (canPrintStatus() === true) {
-          printReadyBanner(this.opts.banner)
+        this.state.compiled = true
+
+        if (compilations.every(entry => entry.compiled === true)) {
+          setTimeout(() => {
+            const webpackCompilations = compilations.map(c => `"${c.name}"`).join(', ')
+
+            clearConsole()
+            success(`Compiled: ${webpackCompilations}`, 'DONE')
+
+            if (this.opts.banner !== null) {
+              console.log(this.opts.banner)
+            }
+          })
+        }
+
+        const warnings = compilations.filter(entry => entry.warnings !== null)
+        if (warnings.length > 0) {
+          setTimeout(() => {
+            warnings.forEach(entry => { printWebpackWarnings(entry.warnings) })
+            warning(`Compilation succeeded but there are warning(s). Please check the log above.\n`)
+          })
         }
       }
+    })
+
+    compiler.hooks.watchClose.tap('QuasarStatusPlugin', () => {
+      const index = compilations.indexOf(this.state)
+      compilations.splice(index, 1)
     })
   }
 }

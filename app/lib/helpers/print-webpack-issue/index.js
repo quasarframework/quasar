@@ -8,15 +8,6 @@ const formatErrors = require('./formatErrors')
 const transformErrors = require('./transformErrors')
 
 function extract (stats, severity) {
-  if (stats.stats !== void 0) {
-    const errors = stats.stats
-      .reduce((errors, stats) => errors.concat(extract(stats, severity)), [])
-
-    // Dedupe to avoid showing the same error many times when multiple
-    // compilers depend on the same module.
-    return uniqueBy(errors, error => error.message)
-  }
-
   const type = severity + 's'
 
   const findErrorsRecursive = compilation => {
@@ -50,13 +41,6 @@ function display (stats, severity) {
   const summary = `${topErrors.length} ${severity}${topErrors.length > 1 ? 's' : ''}`
 
   warn()
-
-  if (severity === 'error') {
-    warn(`Failed to compile with ${summary}:\n`, 'FAIL')
-  }
-  else {
-    warn(`Compiled with ${summary}:\n`)
-  }
 
   formatErrors(topErrors, severity).forEach(entry => {
     console.log(entry)

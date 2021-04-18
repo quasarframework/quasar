@@ -49,7 +49,7 @@ module.exports = class DevServer {
 
   stop () {
     if (this.server !== null) {
-      log(`Shutting down`)
+      log(`Restarting devserver`)
 
       return new Promise(resolve => {
         this.server.close(resolve)

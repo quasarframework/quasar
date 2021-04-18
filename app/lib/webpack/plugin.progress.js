@@ -3,7 +3,7 @@ const throttle = require('lodash.throttle')
 const chalk = require('chalk')
 const logUpdate = require('log-update')
 
-const compilations = {}
+const compilations = []
 const logLine = logUpdate.create(process.stdout, { showCursor: true })
 
 const barLength = 20
@@ -21,14 +21,13 @@ const barString = Array.apply(null, { length: barLength })
 let maxLengthName = 0
 
 function isRunningGlobally () {
-  return Object.values(compilations).find(c => c.running) !== void 0
+  return compilations.find(c => c.running) !== void 0
 }
 
 function printState () {
-  const threads = Object.values(compilations)
-  const prefixLen = threads.length - 1
+  const prefixLen = compilations.length - 1
 
-  const lines = threads.map((state, index) => {
+  const lines = compilations.map((state, index) => {
     const prefix = index < prefixLen ? '├──' : '└──'
 
     const name = chalk.green(state.name.padEnd(maxLengthName))
@@ -65,28 +64,45 @@ module.exports = class WebpackProgressPlugin extends ProgressPlugin {
 
     this.opts = opts
 
-    if (this.state) { return }
-
     const len = opts.name.length
 
     if (len > maxLengthName) {
       maxLengthName = len
     }
 
-    compilations[opts.name] = {
+    this.state = {
       name: opts.name,
       progress: 0,
       running: false
     }
+
+    compilations.push(this.state)
+  }
+
+  apply (compiler) {
+    super.apply(compiler)
+
+    compiler.hooks.watchClose.tap('QuasarProgressPlugin', () => {
+      const index = compilations.indexOf(this.state)
+      compilations.splice(index, 1)
+
+      render.cancel()
+      logLine.done()
+
+      this.destroyed = true
+    })
   }
 
   updateProgress (percent, msg, details) {
-    const state = compilations[this.opts.name]
+    // it may still be called even after compilation was closed
+    // due to Webpack's delayed call of handler
+    if (this.destroyed === true) { return }
+
     const progress = Math.floor(percent * 100)
-    const wasRunning = state.running
+    const wasRunning = this.state.running
     const running = progress < 100
 
-    Object.assign(state, {
+    Object.assign(this.state, {
       progress,
       msg: running && msg ? msg : '',
       details,
@@ -94,11 +110,11 @@ module.exports = class WebpackProgressPlugin extends ProgressPlugin {
     })
 
     if (!wasRunning && running) {
-      state.startTime = +new Date()
+      this.state.startTime = +new Date()
     }
     else if (wasRunning && !running) {
-      const diff = +new Date() - state.startTime
-      state.doneStamp = `done in ${diff} ms`
+      const diff = +new Date() - this.state.startTime
+      this.state.doneStamp = `done in ${diff} ms`
     }
 
     if (running && isRunningGlobally()) {
