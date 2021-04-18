@@ -5,6 +5,7 @@
 
 import { join } from 'path'
 import express from 'express'
+import staticServe from 'serve-static'
 import { renderToString } from '@vue/server-renderer'
 import createRenderer from '@quasar/ssr-helpers/create-renderer'
 
@@ -29,7 +30,7 @@ function resolvePublicFolder () {
 }
 
 const serveStatic = (path, opts = {}) => {
-  return express.static(resolvePublicFolder(path), {
+  return staticServe(resolvePublicFolder(path), {
     ...opts,
     maxAge: opts.maxAge === void 0
       ? <%= ssr.maxAge %>

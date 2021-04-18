@@ -4,7 +4,8 @@ const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 const chokidar = require('chokidar')
 
-const express = require('express')
+const staticServe = require('serve-static')
+
 const { renderToString } = require('@vue/server-renderer')
 const createRenderer = require('@quasar/ssr-helpers/create-renderer')
 const { getClientManifest } = require('./webpack/ssr/plugin.client-side')
@@ -87,7 +88,7 @@ module.exports = class DevServer {
     }
 
     const serveStatic = (path, opts = {}) => {
-      return express.static(resolvePublicFolder(path), {
+      return staticServe(resolvePublicFolder(path), {
         ...opts,
         maxAge: opts.maxAge === void 0
           ? cfg.ssr.maxAge

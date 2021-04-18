@@ -99,6 +99,7 @@
     "sass": "1.32.8",
     "sass-loader": "11.0.1",
     "semver": "7.3.5",
+    "serve-static": "^1.14.1",
     "strip-ansi": "6.0.0",
     "table": "6.1.0",
     "terser-webpack-plugin": "5.1.1",

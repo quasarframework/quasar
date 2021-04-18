@@ -18,9 +18,9 @@ interface RenderErrorParams extends RenderParams {
 
 interface SsrMiddlewareServe {
   /**
-   * It's essentially a wrapper over express.static() with a few convenient tweaks:
+   * It's essentially a wrapper over serve-static with a few convenient tweaks:
    * - the pathFromPublicFolder is a path resolved to the "public" folder out of the box
-   * - the opts are the same as for express.static()
+   * - the opts are the same as for serve-static
    * - opts.maxAge is used by default, taking into account the quasar.conf.js > ssr > maxAge configuration; this sets how long the respective file(s) can live in browser's cache
    */
   static: (path: string, options?: ServeStaticOptions<Response>) => RequestHandler<Response>;
@@ -61,7 +61,7 @@ interface SsrMiddlewareParams {
   publicPath: string;
   folders: SsrMiddlewareFolders;
   /**
-   * Uses Vue and Vue Router to render the requested URL path. 
+   * Uses Vue and Vue Router to render the requested URL path.
    * @returns the rendered HTML string to return to the client
    */
   render: SsrMiddlewareRender;

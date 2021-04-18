@@ -630,17 +630,17 @@ class QuasarConfFile {
           const { app } = opts
 
           if (!this.ctx.mode.ssr) {
-            const express = require('express')
+            const serveStatic = require('serve-static')
 
             if (cfg.build.ignorePublicFolder !== true) {
-              app.use((cfg.build.publicPath || '/'), express.static(appPaths.resolve.app('public'), {
+              app.use((cfg.build.publicPath || '/'), serveStatic(appPaths.resolve.app('public'), {
                 maxAge: 0
               }))
             }
 
             if (this.ctx.mode.cordova) {
               const folder = appPaths.resolve.cordova(`platforms/${this.ctx.targetName}/platform_www`)
-              app.use('/', express.static(folder, { maxAge: 0 }))
+              app.use('/', serveStatic(folder, { maxAge: 0 }))
             }
           }
 
