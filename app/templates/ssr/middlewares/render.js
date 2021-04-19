@@ -1,4 +1,4 @@
-import { ssrMiddleware } from 'quasar/wrappers';
+import { ssrMiddleware } from 'quasar/wrappers'
 
 // This middleware should execute as last one
 // since it captures everything and tries to
