@@ -39,6 +39,7 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
       DialogComponent = (typeof component === 'string')
         ? parentApp.component(component)
         : component
+
       props = componentProps
     }
     else {
