@@ -177,9 +177,6 @@ async function goLive () {
     await installMissing(argv.mode, argv.target)
   }
 
-  const DevServer = argv.mode === 'ssr'
-    ? quasarConf.ssr.devServer || require('../lib/dev-server-ssr')
-    : require('../lib/dev-server-regular')
   const QuasarConfFile = require('../lib/quasar-conf-file')
   const Generator = require('../lib/generator')
   const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
@@ -238,6 +235,10 @@ async function goLive () {
 
   const quasarConf = quasarConfFile.quasarConf
 
+  const DevServer = argv.mode === 'ssr'
+    ? quasarConf.ssr.devServer || require('../lib/dev-server-ssr')
+    : require('../lib/dev-server-regular')
+  
   regenerateTypesFeatureFlags(quasarConf)
 
   if (quasarConf.__vueDevtools !== false) {
