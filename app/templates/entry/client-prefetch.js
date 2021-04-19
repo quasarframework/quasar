@@ -22,7 +22,7 @@ import { isRunningOnPWA } from './ssr-pwa'
 import App from 'app/<%= sourceFiles.rootComponent %>'
 let appPrefetch =
   typeof App.preFetch === 'function' ||
-  (App.__c && typeof App.__c.preFetch === 'function');
+  (App.__c && typeof App.__c.preFetch === 'function')
 <% } %>
 
 function getMatchedComponents (to, router) {

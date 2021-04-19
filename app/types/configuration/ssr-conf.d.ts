@@ -1,4 +1,3 @@
-// TODO vue3 - add directiveTransforms type from vue pkg
 export interface QuasarSsrConfiguration {
   /**
    * If a PWA should take over or just a SPA.
