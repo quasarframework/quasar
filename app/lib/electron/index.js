@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 
-const { log, warn, fatal } = require('../helpers/logger')
+const { log, warn, fatal, success } = require('../helpers/logger')
 const { spawn } = require('../helpers/spawn')
 const appPaths = require('../app-paths')
 const nodePackager = require('../helpers/node-packager')
@@ -138,7 +138,7 @@ class ElectronRunner {
         bundlePromise
           .then(() => {
             log()
-            log(`[SUCCESS] ${pkgName} built the app`)
+            success(`${pkgName} built the app`, 'SUCCESS')
             log()
             resolve()
           })

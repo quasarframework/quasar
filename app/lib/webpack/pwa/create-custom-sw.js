@@ -4,8 +4,7 @@ const WebpackChain = require('webpack-chain')
 
 const appPaths = require('../../app-paths')
 const parseBuildEnv = require('../../helpers/parse-build-env')
-const isMinimalTerminal = require('../../helpers/is-minimal-terminal')
-const { WebpackStatusPlugin } = require('../plugin.status')
+const WebpackProgressPlugin = require('../plugin.progress')
 
 function getDependenciesRegex (list) {
   const deps = list.map(dep => {
@@ -116,10 +115,9 @@ module.exports = function (cfg, configName) {
   chain.module // fixes https://github.com/graphql/graphql-js/issues/1272
     .rule('mjs')
     .test(/\.mjs$/)
+    .type('javascript/auto')
     .include
       .add(/[\\/]node_modules[\\/]/)
-      .end()
-    .type('javascript/auto')
 
   chain.plugin('define')
     .use(webpack.DefinePlugin, [
@@ -130,14 +128,8 @@ module.exports = function (cfg, configName) {
     .hints(false)
     .maxAssetSize(500000)
 
-  if (isMinimalTerminal !== true && cfg.build.showProgress) {
-    const WebpackProgressPlugin = require('../plugin.progress')
-    chain.plugin('progress')
-      .use(WebpackProgressPlugin, [{ name: configName }])
-  }
-
-  chain.plugin('status')
-    .use(WebpackStatusPlugin, [{ name: configName, cfg }])
+  chain.plugin('progress')
+    .use(WebpackProgressPlugin, [{ name: configName, cfg }])
 
   return chain
 }

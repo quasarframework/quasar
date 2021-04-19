@@ -7,8 +7,7 @@ const injectNodeBabel = require('../inject.node-babel')
 const injectNodeTypescript = require('../inject.node-typescript')
 
 const appPaths = require('../../app-paths')
-const isMinimalTerminal = require('../../helpers/is-minimal-terminal')
-const { WebpackStatusPlugin } = require('../plugin.status')
+const WebpackProgressPlugin = require('../plugin.progress')
 
 const tempElectronDir = '.quasar/electron'
 
@@ -65,14 +64,8 @@ module.exports = (nodeType, cfg, configName) => {
   chain.resolveLoader.modules
     .merge(resolveModules)
 
-  if (isMinimalTerminal !== true && cfg.build.showProgress) {
-    const WebpackProgressPlugin = require('../plugin.progress')
-    chain.plugin('progress')
-      .use(WebpackProgressPlugin, [{ name: configName }])
-  }
-
-    chain.plugin('status')
-      .use(WebpackStatusPlugin, [{ name: configName, cfg }])
+  chain.plugin('progress')
+    .use(WebpackProgressPlugin, [{ name: configName, cfg }])
 
   const env = {
     ...cfg.build.env,

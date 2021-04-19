@@ -21,8 +21,6 @@ class PwaRunner {
 
     const cswCompiler = webpack(quasarConfFile.webpackConf.csw)
 
-    log(`Building the custom service worker...`)
-
     return new Promise(resolve => {
       this.cswWatcher = cswCompiler.watch({}, async (err, stats) => {
         if (err) {
@@ -30,23 +28,10 @@ class PwaRunner {
           return
         }
 
-        log(`Webpack built the custom service worker`)
-        log()
-        process.stdout.write(stats.toString({
-          colors: true,
-          modules: false,
-          children: false,
-          chunks: false,
-          chunkModules: false
-        }) + '\n')
-        log()
+        if (stats.hasErrors() === false) {
+          resolve()
 
-        if (stats.hasErrors()) {
-          warn(`The custom service worker build failed with errors`)
-          return
         }
-
-        resolve()
       })
     })
   }
@@ -55,8 +40,6 @@ class PwaRunner {
     if (quasarConfFile.quasarConf.pwa.workboxPluginMode !== 'InjectManifest') {
       return
     }
-
-    log(`Building the custom service worker...`)
 
     return new Promise(resolve => {
       webpack(quasarConfFile.webpackConf.csw, async (err, stats) => {
@@ -71,29 +54,9 @@ class PwaRunner {
         }
 
         if (stats.hasErrors() !== true) {
-          const printWebpackStats = require('../helpers/print-webpack-stats')
-
-          console.log()
-          printWebpackStats(stats, quasarConfFile.webpackConf.csw.output.path, 'Custom Service Worker')
-
-          return resolve()
+          resolve()
         }
 
-        const info = stats.toJson()
-        const errNumber = info.errors.length
-        const errDetails = `${errNumber} error${errNumber > 1 ? 's' : ''}`
-
-        warn()
-        warn(chalk.red(`${errDetails} encountered:\n`))
-
-        info.errors.forEach(err => {
-          console.error(err)
-        })
-
-        warn()
-        warn(chalk.red(`[FAIL] Custom service worker build failed with ${errDetails}. Check log above.\n`))
-
-        process.exit(1)
       })
     })
   }

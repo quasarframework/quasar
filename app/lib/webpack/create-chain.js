@@ -4,10 +4,9 @@ const { merge } = require('webpack-merge')
 const WebpackChain = require('webpack-chain')
 const { VueLoaderPlugin } = require('vue-loader')
 
-const isMinimalTerminal = require('../helpers/is-minimal-terminal')
+const WebpackProgressPlugin = require('./plugin.progress')
 const BootDefaultExport = require('./plugin.boot-default-export')
 const parseBuildEnv = require('../helpers/parse-build-env')
-const { WebpackStatusPlugin } = require('./plugin.status')
 
 const appPaths = require('../app-paths')
 const injectStyleRules = require('./inject.style-rules')
@@ -263,7 +262,6 @@ module.exports = function (cfg, configName) {
     .type('javascript/auto')
     .include
       .add(/[\\/]node_modules[\\/]/)
-      .end()
 
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin)
@@ -273,12 +271,6 @@ module.exports = function (cfg, configName) {
       parseBuildEnv(cfg.build.env, getRootDefines(cfg.__rootDefines, configName))
     ])
 
-  if (isMinimalTerminal !== true && cfg.build.showProgress) {
-    const WebpackProgressPlugin = require('./plugin.progress')
-    chain.plugin('progress')
-      .use(WebpackProgressPlugin, [{ name: configName }])
-  }
-
   if (cfg.ctx.dev && configName !== webpackNames.ssr.serverSide && cfg.ctx.mode.pwa && cfg.pwa.workboxPluginMode === 'InjectManifest') {
     // need to place it here before the status plugin
     const CustomSwWarningPlugin = require('./pwa/plugin.custom-sw-warning')
@@ -286,8 +278,8 @@ module.exports = function (cfg, configName) {
       .use(CustomSwWarningPlugin)
   }
 
-  chain.plugin('status')
-    .use(WebpackStatusPlugin, [{ name: configName, cfg }])
+  chain.plugin('progress')
+    .use(WebpackProgressPlugin, [{ name: configName, cfg }])
 
   chain.plugin('boot-default-export')
     .use(BootDefaultExport)

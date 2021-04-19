@@ -4,8 +4,7 @@ const WebpackChain = require('webpack-chain')
 const appPaths = require('../../app-paths')
 const WebserverAssetsPlugin = require('./plugin.webserver-assets')
 const injectNodeTypescript = require('../inject.node-typescript')
-const isMinimalTerminal = require('../../helpers/is-minimal-terminal')
-const { WebpackStatusPlugin } = require('../plugin.status')
+const WebpackProgressPlugin = require('../plugin.progress')
 
 const flattenObject = (obj, prefix = 'process.env') => {
   return Object.keys(obj)
@@ -101,14 +100,8 @@ module.exports = function (cfg, configName) {
 
   injectNodeTypescript(cfg, chain)
 
-  if (isMinimalTerminal !== true && cfg.build.showProgress) {
-    const WebpackProgressPlugin = require('../plugin.progress')
-    chain.plugin('progress')
-      .use(WebpackProgressPlugin, [{ name: configName }])
-  }
-
-  chain.plugin('status')
-    .use(WebpackStatusPlugin, [{ name: configName, cfg }])
+  chain.plugin('progress')
+    .use(WebpackProgressPlugin, [{ name: configName, cfg }])
 
   if (cfg.ctx.prod) {
     chain.plugin('webserver-assets-plugin')
