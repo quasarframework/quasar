@@ -1,7 +1,7 @@
 import { TerserPluginOptions } from "terser-webpack-plugin";
+import { Configuration as WebpackConfiguration } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import * as WebpackChain from "webpack-chain";
-import { WebpackConfiguration } from "../ts-helpers";
 import { QuasarHookParams } from "./conf";
 
 interface InvokeParams {
@@ -11,8 +11,6 @@ interface InvokeParams {
 
 interface QuasarStaticBuildConfiguration {
   /**
-   * @version `@quasar/app` 2.0+
-   *
    * Transpile JS code with Babel
    *
    * @default true
@@ -25,8 +23,6 @@ interface QuasarStaticBuildConfiguration {
    */
   transpileDependencies: (RegExp | string)[];
   /**
-   * @version `@quasar/app` 1.3.4+
-   *
    * Add support for also referencing assets for custom tags props.
    *
    * @example { 'my-img-comp': 'src', 'my-avatar': [ 'src', 'placeholder-src' ]}
@@ -150,7 +146,10 @@ interface QuasarStaticBuildConfiguration {
    * When providing a function, the function will receive a boolean that is true for client side styles and false otherwise and the path to the style file
    *
    */
-  rtl: boolean | object | ((isClientCSS: boolean, resourcePath: string) => object);
+  rtl:
+    | boolean
+    | object
+    | ((isClientCSS: boolean, resourcePath: string) => object);
 }
 
 /**

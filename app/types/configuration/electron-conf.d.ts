@@ -2,17 +2,15 @@ import { Configuration as ElectronBuilderConfiguration } from "electron-builder"
 import {
   arch,
   Options as ElectronPackagerOptions,
-  platform
+  platform,
 } from "electron-packager";
+import { Configuration as WebpackConfiguration } from "webpack";
 import * as WebpackChain from "webpack-chain";
-import { WebpackConfiguration } from "../ts-helpers";
 
 export type QuasarElectronBundlersInternal = "builder" | "packager";
 
 interface QuasarBaseElectronConfiguration {
   /**
-   * @version `@quasar/app` 1.9.6+
-   *
    * Add/remove/change properties of production generated package.json
    */
   extendPackageJson?: (pkg: { [index in string]: any }) => void;
