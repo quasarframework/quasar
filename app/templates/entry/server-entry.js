@@ -137,16 +137,19 @@ export default ssrContext => {
         redirectBrowser(url, router, reject, httpStatusCode)
       }
 
-      App.preFetch !== void 0 && matchedComponents.unshift(App)
-
+      // Class components return the component options (and the preFetch hook) inside __c property
+      if (typeof App.preFetch === 'function' || App.__c && typeof App.__c.preFetch === 'function') {
+        matchedComponents.unshift(App)
+      }
       // Call preFetch hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,
       // which is resolved when the action is complete and store state has been
       // updated.
       matchedComponents
-      .filter(c => c && c.preFetch)
+      // Class components return the component options (and the preFetch hook) inside __c property
+      .filter(c => (typeof c.preFetch === 'function') || (c.__c && typeof c.__c.preFetch === 'function'))
       .reduce(
-        (promise, c) => promise.then(() => hasRedirected === false && c.preFetch({
+        (promise, c) => promise.then(() => hasRedirected === false && (c.__c ? c.__c : c).preFetch({
           <% if (store) { %>store,<% } %>
           ssrContext,
           currentRoute: router.currentRoute,

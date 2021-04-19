@@ -17,9 +17,12 @@ import { LoadingBar } from 'quasar'
 import { isRunningOnPWA } from './ssr-pwa'
 <% } %>
 
+// Class components return the component options (and the preFetch hook) inside __c property
 <% if (!ctx.mode.ssr || ctx.mode.pwa) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
-let appPrefetch = typeof App.preFetch === 'function'
+let appPrefetch =
+  typeof App.preFetch === 'function' ||
+  (App.__c && typeof App.__c.preFetch === 'function');
 <% } %>
 
 function getMatchedComponents (to, router) {
@@ -60,18 +63,19 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>, publicPat
           m.path.indexOf('/:') > -1 // does it has params?
         ))
       })
-      .filter(m => m.c && typeof m.c.preFetch === 'function')
-      .map(m => m.c.preFetch)
+      // Class components return the component options (and the preFetch hook) inside __c property
+      .filter(m => (m.c && typeof m.c.preFetch === 'function') || (m.c && m.c.__c && typeof m.c.__c.preFetch === 'function'))
+      .map(m => m.c.__c ? m.c.__c.preFetch : m.c.preFetch)
 
     <% if (!ctx.mode.ssr) { %>
     if (appPrefetch === true) {
       appPrefetch = false
-      preFetchList.unshift(App.preFetch)
+      preFetchList.unshift(App.preFetch ? App.preFetch : App.__c.preFetch);
     }
     <% } else if (ctx.mode.pwa) { %>
     if (isRunningOnPWA === true && appPrefetch === true) {
       appPrefetch = false
-      preFetchList.unshift(App.preFetch)
+      preFetchList.unshift(App.preFetch ? App.preFetch : App.__c.preFetch);
     }
     <% } %>
 
