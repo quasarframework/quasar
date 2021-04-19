@@ -9,6 +9,8 @@ export interface QuasarSsrConfiguration {
    */
   pwa?: boolean | object;
 
+  devServer: Function;
+
   /**
    * @version `@quasar/app` 1.9.6+
    *

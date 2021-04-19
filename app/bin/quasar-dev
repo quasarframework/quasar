@@ -178,7 +178,7 @@ async function goLive () {
   }
 
   const DevServer = argv.mode === 'ssr'
-    ? require('../lib/dev-server-ssr')
+    ? quasarConf.ssr.devServer || require('../lib/dev-server-ssr')
     : require('../lib/dev-server-regular')
   const QuasarConfFile = require('../lib/quasar-conf-file')
   const Generator = require('../lib/generator')
