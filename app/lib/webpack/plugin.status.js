@@ -8,30 +8,34 @@ const { printWebpackWarnings, printWebpackErrors } = require('../helpers/print-w
 
 const compilations = []
 
+const greenTop = green('┌─')
+const greenMid = green('├─')
+const greenBot = green('└─')
+
 function getBanner (cfg) {
   if (['spa', 'pwa', 'ssr'].includes(cfg.ctx.modeName) === false) {
     return null
   }
 
   return [
-    ` App dir........... ${green(appPaths.appDir)}`,
-    ` App URL........... ${green(cfg.build.APP_URL)}`,
-    ` Dev mode.......... ${green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : ''))}`,
-    ` Pkg quasar........ ${green('v' + quasarVersion)}`,
-    ` Pkg @quasar/app... ${green('v' + cliAppVersion)}`,
-    ` Transpiled JS..... ${cfg.__transpileBanner}`
+    ` ${greenTop} App dir........... ${green(appPaths.appDir)}`,
+    ` ${greenMid} App URL........... ${green(cfg.build.APP_URL)}`,
+    ` ${greenMid} Dev mode.......... ${green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : ''))}`,
+    ` ${greenMid} Pkg quasar........ ${green('v' + quasarVersion)}`,
+    ` ${greenMid} Pkg @quasar/app... ${green('v' + cliAppVersion)}`,
+    ` ${greenBot} Transpiled JS..... ${cfg.__transpileBanner}`
   ].join('\n') + '\n'
 }
 
 module.exports.WebpackStatusPlugin = class WebpackStatusPlugin {
   constructor ({ name, cfg }) {
-    const enableStartHooks = isMinimalTerminal || cfg.build.showProgress !== true
+    const hasProgressPlugin = isMinimalTerminal || cfg.build.showProgress !== true
 
     this.opts = {
       name,
       banner: getBanner(cfg),
-      initHook: enableStartHooks === true,
-      recompileHook: enableStartHooks === true && cfg.ctx.dev === true,
+      initHook: hasProgressPlugin === true,
+      recompileHook: hasProgressPlugin === true && cfg.ctx.dev === true,
       readyHook: cfg.ctx.dev === true
     }
 
@@ -76,12 +80,13 @@ module.exports.WebpackStatusPlugin = class WebpackStatusPlugin {
       }
 
       if (compilations.every(entry => entry.idle === true)) {
-        const errors = compilations.filter(entry => entry.errors !== null)
-        if (errors.length > 0) {
+        const entriesWithErrors = compilations.filter(entry => entry.errors !== null)
+        if (entriesWithErrors.length > 0) {
           setTimeout(() => {
             clearConsole()
-            errors.forEach(entry => { printWebpackErrors(entry.errors) })
-            error('Please check the log above for details.\n', 'COMPILATION FAILED')
+            entriesWithErrors.forEach(entry => { printWebpackErrors(entry.name, entry.errors) })
+            console.log()
+            error('Please check the log above for details.', 'COMPILATION FAILED')
           })
           return
         }
@@ -101,10 +106,10 @@ module.exports.WebpackStatusPlugin = class WebpackStatusPlugin {
           })
         }
 
-        const warnings = compilations.filter(entry => entry.warnings !== null)
-        if (warnings.length > 0) {
+        const entriesWithWarnings = compilations.filter(entry => entry.warnings !== null)
+        if (entriesWithWarnings.length > 0) {
           setTimeout(() => {
-            warnings.forEach(entry => { printWebpackWarnings(entry.warnings) })
+            entriesWithWarnings.forEach(entry => { printWebpackWarnings(entry.name, entry.warnings) })
             warning('Compilation succeeded but there are warning(s). Please check the log above.\n')
           })
         }

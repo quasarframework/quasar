@@ -1,20 +1,12 @@
 
-/**
- * Initially forked from friendly-errors-webpack-plugin 2.0.0-beta.2
- */
-
-function isEslintError (e) {
-  return e.originalStack.some(
-    stackframe => stackframe.fileName && stackframe.fileName.indexOf('eslint-loader') > 0
-  )
-}
+const eslintError = require('../formatters/eslintError')
 
 module.exports = function transform (error) {
-  return isEslintError(error) === true
+  return error.name === 'ESLintError'
     ? {
         ...error,
-        name: 'Lint error',
-        type: 'lint-error',
+        __severity: 100,
+        __formatter: eslintError
       }
     : error
 }

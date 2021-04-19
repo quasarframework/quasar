@@ -2,10 +2,9 @@
  * Initially forked from friendly-errors-webpack-plugin 2.0.0-beta.2
  */
 
-const { warn } = require('../logger')
 const { uniqueBy } = require('./utils')
-const formatErrors = require('./formatErrors')
 const transformErrors = require('./transformErrors')
+const { getError, getWarning, infoPill } = require('../logger')
 
 function extract (stats, severity) {
   const type = severity + 's'
@@ -26,35 +25,38 @@ function extract (stats, severity) {
 
 function getMaxSeverityErrors (errors) {
   const maxSeverity = errors.reduce(
-    (res, curr) => (curr.severity > res ? curr.severity : res),
+    (res, curr) => (curr.__severity > res ? curr.__severity : res),
     0
   )
 
-  return errors.filter(e => e.severity === maxSeverity)
+  return errors.filter(e => e.__severity === maxSeverity)
 }
 
-function display (stats, severity) {
+function display (stats, severity, titleFn) {
   const errors = extract(stats, severity)
+
+  // Please leave this comment for easy debugging
+  // console.log(errors.map(err => Object.keys(err).map(key => key + '---' + typeof(err[key]) + '---' + err[key])))
 
   const errorsBag = transformErrors(errors)
   const topErrors = getMaxSeverityErrors(errorsBag)
   const summary = `${topErrors.length} ${severity}${topErrors.length > 1 ? 's' : ''}`
+  const printLog = console[severity === 'error' ? 'error' : 'warn']
 
-  warn()
-
-  formatErrors(topErrors, severity).forEach(entry => {
-    console.log(entry)
+  topErrors.forEach(err => {
+    printLog()
+    err.__formatter(err, printLog, titleFn)
   })
 
-  warn()
+  printLog()
 
   return summary
 }
 
-module.exports.printWebpackWarnings = function printWebpackWarnings (stats) {
-  return display(stats, 'warning')
+module.exports.printWebpackWarnings = function printWebpackWarnings (webpackName, stats) {
+  return display(stats, 'warning', title => getWarning(infoPill(webpackName) + ' ' + title))
 }
 
-module.exports.printWebpackErrors = function printWebpackErrors (stats) {
-  return display(stats, 'error')
+module.exports.printWebpackErrors = function printWebpackErrors (webpackName, stats) {
+  return display(stats, 'error', title => getError(infoPill(webpackName) + ' ' + title))
 }

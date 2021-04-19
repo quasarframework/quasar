@@ -206,8 +206,6 @@ async function build () {
     await Runner.build(quasarConfFile, argv)
   }
 
-  log(`Compiling with Webpack...`)
-
   let webpackData = parseWebpackConfig(webpackConf, argv.mode)
 
   webpack(webpackData.configs, async (err, stats) => {
@@ -223,14 +221,15 @@ async function build () {
 
     artifacts.add(outputFolder)
 
-    const statsArray = stats.stats || [ stats ]
+    const statsArray = stats.stats
 
     statsArray.forEach((stats, index) => {
       if (stats.hasErrors() !== true) {
         return
       }
 
-      const summary = printWebpackErrors(stats)
+      const summary = printWebpackErrors(webpackData.name[index], stats)
+      console.log()
       fatal(`for "${webpackData.name[index]}" with ${summary}. Please check the log above.\n`, 'COMPILATION FAILED')
     })
 

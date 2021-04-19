@@ -125,7 +125,7 @@ module.exports = (stats, outputFolder, name) => {
   console.log(' ' + output.replace(/\n/g, '\n '))
 
   if (stats.hasWarnings()) {
-    const summary = printWebpackWarnings(stats)
+    const summary = printWebpackWarnings(name, stats)
     warn(`Build succeeded, but with ${summary}. Check log above.\n`)
   }
 }

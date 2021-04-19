@@ -11,9 +11,11 @@ const readline = require('readline')
  * Main approach - App CLI related
  */
 
-const banner = 'App ·'
-const logBanner = green(banner)
-const warnBanner = red(banner)
+const dot = '•'
+const banner = 'App ' + dot
+const greenBanner = green(banner)
+const redBanner = red(banner)
+const yellowBanner = yellow(banner)
 
 module.exports.clearConsole = process.stdout.isTTY
   ? () => {
@@ -26,7 +28,7 @@ module.exports.clearConsole = process.stdout.isTTY
   : () => {}
 
 module.exports.log = function (msg) {
-  console.log(msg ? ` ${logBanner} ${msg}` : '')
+  console.log(msg ? ` ${greenBanner} ${msg}` : '')
 }
 
 module.exports.warn = function (msg, pill) {
@@ -35,7 +37,7 @@ module.exports.warn = function (msg, pill) {
       ? bgYellow.black('', pill, '') + ' '
       : ''
 
-    console.warn(` ${warnBanner} ⚠️  ${pillBanner}${msg}`)
+    console.warn(` ${yellowBanner} ⚠️  ${pillBanner}${msg}`)
   }
   else {
     console.warn()
@@ -48,7 +50,7 @@ module.exports.fatal = function (msg, pill) {
       ? bgRed.black('', pill, '') + ' '
       : ''
 
-    console.error(` ${warnBanner} ⚠️  ${pillBanner}${msg}`)
+    console.error(` ${redBanner} ⚠️  ${pillBanner}${msg}`)
   }
   else {
     console.error()
@@ -61,27 +63,39 @@ module.exports.fatal = function (msg, pill) {
  * Extended approach - Compilation status & pills
  */
 
-const greenPill = msg => bgGreen.black('', msg, '')
-const inversePill = msg => inverse('', msg, '')
-const redPill = msg => bgRed.black('', msg, '')
-const yellowPill = msg => bgYellow.black('', msg, '')
+const successPill = msg => bgGreen.black('', msg, '')
+const infoPill = msg => inverse('', msg, '')
+const errorPill = msg => bgRed.black('', msg, '')
+const warningPill = msg => bgYellow.black('', msg, '')
 
-module.exports.greenPill = greenPill
+module.exports.successPill = successPill
 module.exports.success = function (msg, title = 'SUCCESS') {
-  console.log(`\n ${greenPill(title)} ${green(msg)}\n`)
+  console.log(`\n ${greenBanner} ${successPill(title)} ${green(dot + ' ' + msg)}\n`)
+}
+module.exports.getSuccess = function (msg, title) {
+  return ` ${greenBanner} ${successPill(title)} ${green(dot + ' ' + msg)}`
 }
 
-module.exports.inversePill = inversePill
+module.exports.infoPill = infoPill
 module.exports.info = function (msg, title = 'INFO') {
-  console.log(`\n ${inversePill(title)} ${msg}\n`)
+  console.log(`\n ${greenBanner} ${infoPill(title)} ${green(dot)} ${msg}\n`)
+}
+module.exports.getInfo = function (msg, title) {
+  return ` ${greenBanner} ${infoPill(title)} ${green(dot)} ${msg}`
 }
 
-module.exports.redPill = redPill
+module.exports.errorPill = errorPill
 module.exports.error = function (msg, title = 'ERROR') {
-  console.log(`\n ${redPill(title)} ${red(msg)}\n`)
+  console.log(`\n ${redBanner} ${errorPill(title)} ${red(dot + ' ' + msg)}\n`)
+}
+module.exports.getError = function (msg, title = 'ERROR') {
+  return ` ${redBanner} ${errorPill(title)} ${red(dot + ' ' + msg)}`
 }
 
-module.exports.yellowPill = yellowPill
+module.exports.warningPill = warningPill
 module.exports.warning = function (msg, title = 'WARNING') {
-  console.log(`\n ${yellowPill(title)} ${yellow(msg)}\n`)
+  console.log(`\n ${yellowBanner} ${warningPill(title)} ${yellow(dot + ' ' + msg)}\n`)
+}
+module.exports.getWarning = function (msg, title = 'WARNING') {
+  return ` ${yellowBanner} ${warningPill(title)} ${yellow(dot + ' ' + msg)}`
 }

@@ -104,7 +104,7 @@ module.exports = class DevServer {
 
     this.htmlWatcher = chokidar.watch(templatePath).on('change', () => {
       updateTemplate()
-      console.log(`${banner} index.template.html template updated.`)
+      // console.log(`${banner} index.template.html template updated.`)
     })
 
     updateTemplate()
@@ -140,14 +140,11 @@ module.exports = class DevServer {
       }
     }
 
-    webserverCompiler.hooks.done.tapAsync('done-compiling', ({ compilation: { errors, warnings }}, cb) => {
+    webserverCompiler.hooks.done.tap('done-compiling', stats => {
       // TODO: remove after webpack5 work is complete
       // console.log('webserverCompiler in done()')
 
-      errors.forEach(err => console.error('[Webserver]', err))
-      warnings.forEach(err => console.warn('[Webserver]', err))
-
-      if (errors.length === 0) {
+      if (stats.hasErrors() === false) {
         delete require.cache[compiledMiddlewareFile]
         const injectMiddleware = require(compiledMiddlewareFile).default
 
@@ -173,6 +170,8 @@ module.exports = class DevServer {
               error: renderError
             }
           }).then(() => {
+            if (this.destroyed === true) { return }
+
             this.webpackServer.listen(cfg.devServer.port, cfg.devServer.host, () => {
               webpackServerListening = true
 
@@ -186,14 +185,14 @@ module.exports = class DevServer {
 
       // TODO: remove after webpack5 work is complete
       // console.log('webserverCompiler done!')
-      cb()
+      callback()
     })
 
     this.handlers.push(
       webserverCompiler.watch({}, () => {})
     )
 
-    serverCompiler.hooks.compilation.tap('quasar-ssr-server-plugin', compilation => {
+    serverCompiler.hooks.thisCompilation.tap('quasar-ssr-server-plugin', compilation => {
       compilation.hooks.processAssets.tapAsync(
         { name: 'quasar-ssr-server-plugin', state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
         (_, callback) => {
@@ -212,46 +211,7 @@ module.exports = class DevServer {
       )
     })
 
-    // serverCompiler.hooks.done.tapAsync('SSRServerDoneCompiling', (stats, cb) => {
-    //   if (stats.hasErrors() === true) {
-    //     const info = stats.toJson()
-    //     const errNumber = info.errors.length
-    //     const errDetails = `${errNumber} error${errNumber > 1 ? 's' : ''}`
-
-    //     warn()
-    //     warn(chalk.red(`[Server] ${errDetails} encountered:\n`))
-
-    //     info.errors.forEach(err => {
-    //       console.error('[Server]', err)
-    //     })
-
-    //     warn()
-    //     warn(chalk.red(`[Server:FAIL] Build failed with ${errDetails}. Check log above.\n`))
-    //     // console.log(compilation)
-    //     // compilation.errors.forEach(err => console.error('[Server]', err))
-    //     // compilation.warnings.forEach(err => console.warn('[Server]', err))
-    //   }
-
-    //   if (stats.hasWarnings() === true) {
-    //     const info = stats.toJson()
-    //     const errNumber = info.warnings.length
-    //     const errDetails = `${errNumber} warning${errNumber > 1 ? 's' : ''}`
-
-    //     warn()
-    //     warn(chalk.red(`[Server] ${errDetails} encountered:\n`))
-
-    //     info.warnings.forEach(err => {
-    //       console.warn('[Server]', err)
-    //     })
-
-    //     warn()
-    //   }
-
-    //   console.log('serverCompiler done!')
-    //   cb()
-    // })
-
-    clientCompiler.hooks.compilation.tap('quasar-ssr-server-plugin', compilation => {
+    clientCompiler.hooks.thisCompilation.tap('quasar-ssr-server-plugin', compilation => {
       compilation.hooks.processAssets.tapAsync(
         { name: 'quasar-ssr-server-plugin', state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
         (_, callback) => {
@@ -277,42 +237,6 @@ module.exports = class DevServer {
       )
     })
 
-    // clientCompiler.hooks.done.tapAsync('SSRClientDoneCompiling', ({ compilation: { errors, warnings, assets }}, cb) => {
-    //   if (stats.hasErrors() === true) {
-    //     const info = stats.toJson()
-    //     const errNumber = info.errors.length
-    //     const errDetails = `${errNumber} error${errNumber > 1 ? 's' : ''}`
-
-    //     warn()
-    //     warn(chalk.red(`[Client] ${errDetails} encountered:\n`))
-
-    //     info.errors.forEach(err => {
-    //       console.error('[Client]', err)
-    //     })
-
-    //     warn()
-    //     warn(chalk.red(`[Client:FAIL] Build failed with ${errDetails}. Check log above.\n`))
-    //   }
-
-    //   if (stats.hasWarnings() === true) {
-    //     const info = stats.toJson()
-    //     const errNumber = info.warnings.length
-    //     const errDetails = `${errNumber} warning${errNumber > 1 ? 's' : ''}`
-
-    //     warn()
-    //     warn(chalk.red(`[Client] ${errDetails} encountered:\n`))
-
-    //     info.warnings.forEach(err => {
-    //       console.warn('[Client]', err)
-    //     })
-
-    //     warn()
-    //   }
-
-    //   console.log('clientCompiler done!')
-    //   cb()
-    // })
-
     this.handlers.push(
       serverCompiler.watch({}, () => {})
     )
@@ -321,9 +245,7 @@ module.exports = class DevServer {
 
     // start building & launch server
     const startWebpackServer = cb => {
-      if (this.destroyed === true) {
-        return
-      }
+      if (this.destroyed === true) { return }
 
       if (this.webpackServer !== null) {
         const server = this.webpackServer

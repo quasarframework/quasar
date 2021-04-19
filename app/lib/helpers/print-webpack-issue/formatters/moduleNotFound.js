@@ -1,93 +1,22 @@
 
-/**
- * Initially forked from friendly-errors-webpack-plugin 2.0.0-beta.2
- */
+const { bold } = require('chalk')
+const { removeFileLoaders } = require('../utils')
+const nodePackager = require('../../node-packager')
 
- const { concat } = require('../utils')
+const depRE = /Can't resolve '(.*)' in/
+const relativeRE = /^(\.\/|\.\.\/)/
+const cmd = nodePackager === 'yarn'
+  ? 'yarn add'
+  : 'npm install --save'
 
-function isRelative (module) {
-  return module.startsWith('./') || module.startsWith('../')
-}
+module.exports = function format (error, printLog, titleFn) {
+  const dependency = error.message.match(depRE)[1]
 
-function formatFileList (files) {
-  const length = files.length
-  return length === 0
-    ? ''
-    : ` in ${files[0]}${files[1] ? `, ${files[1]}` : ''}${length > 2 ? ` and ${length - 2} other${length === 3 ? '' : 's'}` : ''}`
-}
+  printLog(titleFn(removeFileLoaders(error.file)))
+  printLog()
+  printLog(`Module not found: Can't resolve imported dependency "${bold.underline.yellow(dependency)}"`)
 
-function formatGroup (group) {
-  const files = group.errors.map(e => e.file).filter(Boolean)
-  return `* ${group.module}${formatFileList(files)}`
-}
-
-
-function forgetToInstall (missingDependencies) {
-  const moduleNames = missingDependencies.map(missingDependency => missingDependency.module)
-
-  return missingDependencies.length === 1
-    ? `To install it, you can run: npm install --save ${moduleNames.join(' ')}`
-    : `To install them, you can run: npm install --save ${moduleNames.join(' ')}`
-}
-
-function dependenciesNotFound (dependencies) {
-  if (dependencies.length === 0) { return }
-
-  return concat(
-    dependencies.length === 1 ? 'This dependency was not found:' : 'These dependencies were not found:',
-    '',
-    dependencies.map(formatGroup),
-    '',
-    forgetToInstall(dependencies)
-  )
-}
-
-function relativeModulesNotFound (modules) {
-  if (modules.length === 0) { return }
-
-  return concat(
-    modules.length === 1 ? 'This relative module was not found:' : 'These relative modules were not found:',
-    '',
-    modules.map(formatGroup)
-  )
-}
-
-function groupModules (errors) {
-  const missingModule = new Map()
-
-  errors.forEach((error) => {
-    if (!missingModule.has(error.module)) {
-      missingModule.set(error.module, [])
-    }
-    missingModule.get(error.module).push(error)
-  })
-
-  return Array.from(missingModule.keys()).map(module => ({
-    module: module,
-    relative: isRelative(module),
-    errors: missingModule.get(module),
-  }))
-}
-
-function formatErrors (errors) {
-  if (errors.length === 0) {
-    return []
+  if (relativeRE.test(dependency) === false) {
+    printLog(`Did you forget to install it? You can run: ${bold(`${cmd} ${dependency}`)}`)
   }
-
-  const groups = groupModules(errors)
-
-  const dependencies = groups.filter(group => !group.relative)
-  const relativeModules = groups.filter(group => group.relative)
-
-  return concat(
-    dependenciesNotFound(dependencies),
-    dependencies.length && relativeModules.length ? ['', ''] : null,
-    relativeModulesNotFound(relativeModules)
-  )
-}
-
-module.exports = function format (errors) {
-  return formatErrors(errors.filter((e) => (
-    e.type === 'module-not-found'
-  )))
 }
