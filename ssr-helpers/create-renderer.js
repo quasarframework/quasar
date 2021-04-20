@@ -163,7 +163,7 @@ module.exports = function createRenderer (opts) {
         .mapFiles(Array.from(ssrContext._modules))
         .map(normalizeFile)
 
-      ssrContext.onRenderedList.forEach(fn => { fn() })
+      onRenderedList.forEach(fn => { fn() })
 
       // maintain compatibility with some well-known Vue plugins
       // like @vue/apollo-ssr:

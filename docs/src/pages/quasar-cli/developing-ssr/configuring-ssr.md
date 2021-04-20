@@ -188,13 +188,11 @@ return {
 
 Just make sure that your app is consistent, though.
 
-When a boot file runs on the server, you will have access to one more parameter (called `ssrContext`) on the default exported function:
+When a boot file runs on the server, you will have access to one more parameter (called [ssrContext](/quasar-cli/developing-ssr/ssr-context-object)) on the default exported function:
 
 ```js
 // some boot file
 export default ({ app, ..., ssrContext }) => {
-  // ssrContext has: { url, req, res }
-
   // You can add props to the ssrContext then use them in the src/index.template.html.
   // Example - let's say we ssrContext.someProp = 'some value', then in index template we can reference it:
   // {{ someProp }}

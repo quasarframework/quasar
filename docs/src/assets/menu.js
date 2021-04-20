@@ -263,6 +263,11 @@ const cli = [
         path: 'configuring-ssr'
       },
       {
+        name: 'ssrContext',
+        badge: 'update',
+        path: 'ssr-context-object'
+      },
+      {
         name: 'SSR Middleware',
         badge: 'new',
         path: 'ssr-middleware'

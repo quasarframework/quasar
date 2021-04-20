@@ -44,7 +44,7 @@
   "dependencies": {
     "@quasar/babel-preset-app": "2.0.1",
     "@quasar/fastclick": "1.1.4",
-    "@quasar/ssr-helpers": "2.0.2",
+    "@quasar/ssr-helpers": "2.1.0",
     "@types/cordova": "0.0.34",
     "@types/electron-packager": "14.0.0",
     "@types/express": "4.17.11",

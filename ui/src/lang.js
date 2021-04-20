@@ -44,11 +44,11 @@ const Plugin = defineReactivePlugin({
 
       lang.set = ssrContext.$q.lang.set
 
-      ssrContext._meta.htmlAttrs = ssrContext.Q_PREV_LANG !== void 0
-        ? ssrContext._meta.htmlAttrs.replace(ssrContext.Q_PREV_LANG, attrs)
+      ssrContext._meta.htmlAttrs = ssrContext.__qPrevLang !== void 0
+        ? ssrContext._meta.htmlAttrs.replace(ssrContext.__qPrevLang, attrs)
         : attrs
 
-      ssrContext.Q_PREV_LANG = attrs
+      ssrContext.__qPrevLang = attrs
       ssrContext.$q.lang = lang
     }
     else {

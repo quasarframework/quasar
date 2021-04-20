@@ -16,6 +16,7 @@ There is a major problem with this approach: with a growing project, your `main.
 With boot files, it is possible to split each of your dependencies into self-contained, easy to maintain files. It is also trivial to disable any of the boot files or even contextually determine which of the boot files get into the build through `quasar.conf.js` configuration.
 
 ## Anatomy of a boot file
+
 A boot file is a simple JavaScript file which can optionally export a function. Quasar will then call the exported function when it boots the application and additionally pass **an object** with the following properties to the function:
 
 | Prop name | Description |
@@ -23,7 +24,7 @@ A boot file is a simple JavaScript file which can optionally export a function. 
 | `app` | Vue app instance |
 | `router` | Instance of Vue Router from 'src/router/index.js' |
 | `store` | Instance of the app Vuex Store - **store only will be passed if your project uses Vuex (you have src/store)** |
-| `ssrContext` | Available only on server-side, if building for SSR |
+| `ssrContext` | Available only on server-side, if building for SSR. [More info](/quasar-cli/developing-ssr/ssr-context-object) |
 | `urlPath` | The pathname (path + search) part of the URL. It also contains the hash on client-side. |
 | `publicPath` | The configured public path. |
 | `redirect` | Function to call to redirect to another URL. Accepts String (URL path) or a Vue Router location Object. |

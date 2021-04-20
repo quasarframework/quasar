@@ -70,6 +70,10 @@ export default function (/* { ssrContext } */) {
 }
 ```
 
+::: tip
+If you are developing a SSR app, then you can check out the [ssrContext](/quasar-cli/developing-ssr/ssr-context-object) Object that gets supplied server-side.
+:::
+
 Now we can use this Vuex Module in our Vue files. Here is a quick example. Assume we configured `drawerState` in the state and added `updateDrawerState` mutation.
 
 ```js
