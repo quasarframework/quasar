@@ -149,10 +149,12 @@ module.exports = function createRenderer (opts) {
 
   return async function renderToString (ssrContext, renderTemplate) {
     try {
+      const onRenderedList = []
+
       Object.assign(ssrContext, {
         _modules: new Set(),
         _meta: {},
-        _onRenderedList: []
+        onRendered: fn => { onRenderedList.push(fn) }
       })
 
       const app = await runApp(ssrContext)
@@ -161,7 +163,11 @@ module.exports = function createRenderer (opts) {
         .mapFiles(Array.from(ssrContext._modules))
         .map(normalizeFile)
 
-      ssrContext._onRenderedList.forEach(fn => { fn() })
+      ssrContext.onRenderedList.forEach(fn => { fn() })
+
+      // maintain compatibility with some well-known Vue plugins
+      // like @vue/apollo-ssr:
+      typeof ssrContext.rendered === 'function' && ssrContext.rendered()
 
       const nonce = ssrContext.nonce !== void 0
         ? ` nonce="${ ssrContext.nonce }" `
