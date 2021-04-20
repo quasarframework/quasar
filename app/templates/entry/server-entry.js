@@ -165,7 +165,7 @@ export default ssrContext => {
         (promise, preFetchFn) => promise.then(() => hasRedirected === false && preFetchFn({
           <% if (store) { %>store,<% } %>
           ssrContext,
-          currentRoute: router.currentRoute,
+          currentRoute: router.currentRoute.value,
           redirect,
           urlPath: ssrContext.req.url,
           publicPath
