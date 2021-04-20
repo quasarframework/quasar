@@ -152,6 +152,22 @@ export default {
 }
 ```
 
+For the Options API approach, if you depend on the state of the component to compute the meta Object, then you can supply a Function instead of the Object itself:
+
+```js
+export default {
+  mixins: [
+    createMetaMixin(function () {
+      // "this" here refers to your component
+      return {
+        // assuming `this.myTitle` exists in your mixed in component
+        title: this.myTitle
+      }
+    })
+  ]
+}
+```
+
 ## How It Works
 Metas are computed from .vue files in the order their vue components are activated by Vue Router (let’s call this a chain for further explanations). Example: App.vue > SomeLayout.vue > IndexPage.vue > …?
 

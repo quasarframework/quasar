@@ -1,18 +1,18 @@
-import { QuasarAnimations, QuasarIconSets, QuasarFonts } from "quasar";
-import { WebpackConfiguration } from "../ts-helpers";
+import { QuasarAnimations, QuasarFonts, QuasarIconSets } from "quasar";
+import * as WebpackDevServer from "webpack-dev-server";
 import { QuasarBootConfiguration } from "./boot";
 import { QuasarBuildConfiguration } from "./build";
-import { QuasarPwaConfiguration } from "./pwa-conf";
-import { QuasarSsrConfiguration } from "./ssr-conf";
 import { QuasarCapacitorConfiguration } from "./capacitor-conf";
+import { QuasarCordovaConfiguration } from "./cordova-conf";
 import { QuasarElectronConfiguration } from "./electron-conf";
 import { QuasarFrameworkConfiguration } from "./framework-conf";
-import { QuasarCordovaConfiguration } from "./cordova-conf";
+import { QuasarPwaConfiguration } from "./pwa-conf";
+import { QuasarSsrConfiguration } from "./ssr-conf";
 
 type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];
 
 interface QuasarDevServerConfiguration
-  extends Omit<WebpackConfiguration["devServer"], "open"> {
+  extends Omit<WebpackDevServer.Configuration, "open"> {
   /**
    * Behind the scenes, webpack devServer `open` property is always set to false
    *  and that feature is delegated to `open` library.
@@ -38,8 +38,8 @@ interface QuasarDevServerConfiguration
  *  indexHtmlTemplate: 'src/index.template.html',
  *  registerServiceWorker: 'src-pwa/register-service-worker',
  *  serviceWorker: 'src-pwa/custom-service-worker',
- *  electronMain: 'src-electron/main-process/electron-main',
- *  electronPreload: 'src-electron/main-process/electron-preload'
+ *  electronMain: 'src-electron/electron-main',
+ *  electronPreload: 'src-electron/electron-preload'
  *  ssrServerIndex: 'src-ssr/index.js'
  * }
  * ```

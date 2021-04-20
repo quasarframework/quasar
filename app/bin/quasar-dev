@@ -95,8 +95,6 @@ async function parseAddress ({ host, port }) {
     this.chosenHost = host
   }
 
-  log(`Checking listening address availability (${host}:${port})...`)
-
   try {
     const openPort = await findPort(port, host)
     if (port !== openPort) {
@@ -161,7 +159,7 @@ function startVueDevtools () {
     nodePackager,
     cmdParam.concat('@vue/devtools'),
     { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => warn('Failed to install vue-devtools')
+    () => fatal('Failed to install vue-devtools', 'FAIL')
   )
 
   // a small delay is a must, otherwise require.resolve
@@ -233,7 +231,7 @@ async function goLive () {
   }
   catch (e) {
     console.log(e)
-    fatal(`[FAIL] quasar.conf.js has JS errors`)
+    fatal('quasar.conf.js has JS errors', 'FAIL')
   }
 
   await quasarConfFile.compile()

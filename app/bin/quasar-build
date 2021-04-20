@@ -94,49 +94,20 @@ ensureArgv(argv, 'build')
 const banner = require('../lib/helpers/banner')
 banner(argv, 'build')
 
-const { log, warn, fatal } = require('../lib/helpers/logger')
+const { log, fatal } = require('../lib/helpers/logger')
+const { printWebpackErrors } = require('../lib/helpers/print-webpack-issue')
+const { splitWebpackConfig } = require('../lib/webpack/symbols')
 
-const chalk = require('chalk')
 const path = require('path')
 const webpack = require('webpack')
 
-function splitConfig (webpackConf, mode) {
-  if (mode === 'ssr') {
-    return [
-      { webpack: webpackConf.server, name: 'Server' },
-      { webpack: webpackConf.client, name: 'Client' },
-      { webpack: webpackConf.webserver, name: 'Webserver' }
-    ]
-  }
-
-  if (mode === 'bex') {
-    return [
-      { webpack: webpackConf.renderer, name: 'Renderer process' },
-      { webpack: webpackConf.main, name: 'Main process' }
-    ]
-  }
-
-  if (mode === 'electron') {
-    return [
-      { webpack: webpackConf.renderer, name: 'Renderer process' },
-      { webpack: webpackConf.preload, name: 'Preload process' },
-      { webpack: webpackConf.main, name: 'Main process' }
-    ]
-  }
+function parseWebpackConfig (cfg, mode) {
+  let data = splitWebpackConfig(cfg, mode)
 
   if (mode === 'pwa') {
-    return [
-      { webpack: webpackConf.renderer, name: 'Build' }
-    ]
+    // CSW needs to be compiled separately, before UI
+    data = data.filter(entry => entry.name !== 'csw')
   }
-
-  return [
-    { webpack: webpackConf, name: 'Build' }
-  ]
-}
-
-function parseWebpackConfig (cfg, mode) {
-  const data = splitConfig(cfg, mode)
 
   return {
     configs: data.map(d => d.webpack),
@@ -201,8 +172,8 @@ async function build () {
     await quasarConfFile.prepare()
   }
   catch (e) {
-    console.log(e)
-    fatal(`[FAIL] quasar.conf.js has JS errors`)
+    console.error(e)
+    fatal('quasar.conf.js has JS errors', 'FAIL')
   }
 
   await quasarConfFile.compile()
@@ -235,8 +206,6 @@ async function build () {
     await Runner.build(quasarConfFile, argv)
   }
 
-  log(`Compiling with Webpack...`)
-
   let webpackData = parseWebpackConfig(webpackConf, argv.mode)
 
   webpack(webpackData.configs, async (err, stats) => {
@@ -252,28 +221,16 @@ async function build () {
 
     artifacts.add(outputFolder)
 
-    const statsArray = stats.stats || [ stats ]
+    const statsArray = stats.stats
 
-    statsArray.forEach(stat => {
-      if (stat.hasErrors() !== true) {
+    statsArray.forEach((stats, index) => {
+      if (stats.hasErrors() !== true) {
         return
       }
 
-      const info = stat.toJson()
-      const errNumber = info.errors.length
-      const errDetails = `${errNumber} error${errNumber > 1 ? 's' : ''}`
-
-      warn()
-      warn(chalk.red(`${errDetails} encountered:\n`))
-
-      info.errors.forEach(err => {
-        console.error(err)
-      })
-
-      warn()
-      warn(chalk.red(`[FAIL] Build failed with ${errDetails}. Check log above.\n`))
-
-      process.exit(1)
+      const summary = printWebpackErrors(webpackData.name[index], stats)
+      console.log()
+      fatal(`for "${webpackData.name[index]}" with ${summary}. Please check the log above.\n`, 'COMPILATION FAILED')
     })
 
     const printWebpackStats = require('../lib/helpers/print-webpack-stats')

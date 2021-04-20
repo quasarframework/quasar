@@ -1,4 +1,3 @@
-// TODO vue3 - add directiveTransforms type from vue pkg
 export interface QuasarSsrConfiguration {
   /**
    * If a PWA should take over or just a SPA.
@@ -10,8 +9,6 @@ export interface QuasarSsrConfiguration {
   pwa?: boolean | object;
 
   /**
-   * @version `@quasar/app` 1.9.6+
-   *
    * Add/remove/change properties of production generated package.json
    */
   extendPackageJson?: (pkg: { [index in string]: any }) => void;

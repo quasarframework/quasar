@@ -1,13 +1,13 @@
 const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
-const WebpackProgress = require('../plugin.progress')
 const ExpressionDependency = require('./plugin.expression-dependency')
 const parseBuildEnv = require('../../helpers/parse-build-env')
 const injectNodeBabel = require('../inject.node-babel')
 const injectNodeTypescript = require('../inject.node-typescript')
 
 const appPaths = require('../../app-paths')
+const WebpackProgressPlugin = require('../plugin.progress')
 
 const tempElectronDir = '.quasar/electron'
 
@@ -64,13 +64,8 @@ module.exports = (nodeType, cfg, configName) => {
   chain.resolveLoader.modules
     .merge(resolveModules)
 
-  chain.optimization
-    .noEmitOnErrors(true)
-
-  if (cfg.build.showProgress) {
-    chain.plugin('progress')
-      .use(WebpackProgress, [{ name: configName }])
-  }
+  chain.plugin('progress')
+    .use(WebpackProgressPlugin, [{ name: configName, cfg }])
 
   const env = {
     ...cfg.build.env,
@@ -88,11 +83,8 @@ module.exports = (nodeType, cfg, configName) => {
     ])
 
   if (cfg.ctx.prod) {
-    // Scope hoisting ala Rollupjs
-    if (cfg.build.scopeHoisting) {
-      chain.optimization
-        .concatenateModules(true)
-    }
+    chain.optimization
+      .concatenateModules(true)
 
     if (cfg.ctx.debug) {
       // reset default webpack 4 minimizer
@@ -108,9 +100,8 @@ module.exports = (nodeType, cfg, configName) => {
         .minimizer('js')
         .use(TerserPlugin, [{
           terserOptions: cfg.build.uglifyOptions,
-          cache: true,
-          parallel: true,
-          sourceMap: cfg.build.sourceMap
+          extractComments: false,
+          parallel: true
         }])
     }
   }

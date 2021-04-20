@@ -1,11 +1,10 @@
 const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
-const WebpackProgress = require('../plugin.progress')
 const appPaths = require('../../app-paths')
 const WebserverAssetsPlugin = require('./plugin.webserver-assets')
-// const injectNodeBabel = require('../inject.node-babel')
 const injectNodeTypescript = require('../inject.node-typescript')
+const WebpackProgressPlugin = require('../plugin.progress')
 
 const flattenObject = (obj, prefix = 'process.env') => {
   return Object.keys(obj)
@@ -16,7 +15,7 @@ const flattenObject = (obj, prefix = 'process.env') => {
         Object.assign(acc, flattenObject(obj[k], pre + k))
       }
       else {
-        acc[pre + k] = obj[k]
+        acc[pre + k] = JSON.stringify(obj[k])
       }
 
       return acc
@@ -35,7 +34,7 @@ module.exports = function (cfg, configName) {
   ]
 
   chain.target('node')
-  chain.mode('production')
+  chain.mode(cfg.ctx.prod ? 'production' : 'development')
 
   chain.resolve.alias.set('src-ssr', appPaths.ssrDir)
 
@@ -92,9 +91,6 @@ module.exports = function (cfg, configName) {
   chain.resolveLoader.modules
     .merge(resolveModules)
 
-  chain.optimization
-    .noEmitOnErrors(true)
-
   chain.plugin('define')
     .use(webpack.DefinePlugin, [
       // flatten the object keys
@@ -102,13 +98,10 @@ module.exports = function (cfg, configName) {
       { ...flattenObject(cfg.build.env), ...cfg.__rootDefines }
     ])
 
-  // injectNodeBabel(cfg, chain)
   injectNodeTypescript(cfg, chain)
 
-  if (cfg.build.showProgress) {
-    chain.plugin('progress')
-      .use(WebpackProgress, [{ name: configName }])
-  }
+  chain.plugin('progress')
+    .use(WebpackProgressPlugin, [{ name: configName, cfg }])
 
   if (cfg.ctx.prod) {
     chain.plugin('webserver-assets-plugin')

@@ -2,9 +2,9 @@ const path = require('path')
 const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
-const parseBuildEnv = require('../../helpers/parse-build-env')
 const appPaths = require('../../app-paths')
-const WebpackProgress = require('../plugin.progress')
+const parseBuildEnv = require('../../helpers/parse-build-env')
+const WebpackProgressPlugin = require('../plugin.progress')
 
 function getDependenciesRegex (list) {
   const deps = list.map(dep => {
@@ -103,17 +103,21 @@ module.exports = function (cfg, configName) {
         .loader('ts-loader')
         .options({
           onlyCompileBundledFiles: true,
-          transpileOnly: false
+          transpileOnly: false,
+          // While `noEmit: true` is needed in the tsconfig preset to prevent VSCode errors,
+          // it prevents emitting transpiled files when run into node context
+          compilerOptions: {
+            noEmit: false,
+          }
         })
   }
 
   chain.module // fixes https://github.com/graphql/graphql-js/issues/1272
     .rule('mjs')
     .test(/\.mjs$/)
+    .type('javascript/auto')
     .include
       .add(/[\\/]node_modules[\\/]/)
-      .end()
-    .type('javascript/auto')
 
   chain.plugin('define')
     .use(webpack.DefinePlugin, [
@@ -124,23 +128,8 @@ module.exports = function (cfg, configName) {
     .hints(false)
     .maxAssetSize(500000)
 
-  if (cfg.build.showProgress) {
-    chain.plugin('progress')
-      .use(WebpackProgress, [{ name: configName }])
-  }
-
-  // DEVELOPMENT build
-  if (cfg.ctx.dev) {
-    const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-
-    chain.optimization
-      .noEmitOnErrors(true)
-
-    chain.plugin('friendly-errors')
-      .use(FriendlyErrorsPlugin, [{
-        clearConsole: true
-      }])
-  }
+  chain.plugin('progress')
+    .use(WebpackProgressPlugin, [{ name: configName, cfg }])
 
   return chain
 }

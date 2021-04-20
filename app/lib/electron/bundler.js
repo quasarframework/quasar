@@ -2,7 +2,7 @@ const fs = require('fs')
 
 const appPaths = require('../app-paths')
 const getPackage = require('../helpers/get-package')
-const { log, warn, fatal } = require('../helpers/logger')
+const { log, fatal } = require('../helpers/logger')
 
 const versions = {
   packager: '14.1.1',
@@ -25,7 +25,7 @@ function installBundler (bundlerName) {
     nodePackager,
     cmdParam.concat([`electron-${bundlerName}@${'^' + versions[bundlerName]}`]),
     { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => warn(`Failed to install electron-${bundlerName}`)
+    () => fatal(`Failed to install electron-${bundlerName}`, 'FAIL')
   )
 }
 

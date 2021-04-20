@@ -15,7 +15,13 @@ return {
   ssr: {
     pwa: true/false, // should a PWA take over (default: false), or just a SPA?
 
-    manualStoreHydration: true/false, // Manually hydrate the store
+    manualStoreHydration: true/false,
+        // Manually hydrate the store.
+        // This is detailed in a subsection below
+
+    manualPostHydrationTrigger: true/false,
+        // Manually trigger the post-hydration logic on client-side.
+        // This is detailed in a subsection below
 
     prodPort: 3000, // The default port that the production server should use
                     // (gets superseded if process.env.PORT is specified at runtime)
@@ -63,6 +69,54 @@ build: {
 ```
 
 If you want more information, please see this page that goes into more detail about [handling webpack](/quasar-cli/handling-webpack) in the `quasar.conf.js` file.
+
+### Manually triggering store hydration
+
+By default, Quasar CLI takes care of hydrating the Vuex store (if you use it) on client-side.
+
+However, should you wish to manually hydrate it yourself, you need to set quasar.conf.js > ssr > manualStoreHydration: true. Then you need to call `store.replaceState(window.__INITIAL_STATE__)` yourself. One good example is doing it from [a boot file](/quasar-cli/boot-files):
+
+```js
+// some_boot_file
+// MAKE SURE TO CONFIGURE THIS BOOT FILE
+// TO RUN ONLY ON CLIENT-SIDE
+
+export default ({ store }) => {
+  store.replaceState(window.__INITIAL_STATE__)
+}
+```
+
+### Manually triggering post-hydration
+
+By default, Quasar CLI wraps your App component and calls `$q.onSSRHydrated()` on the client-side when this wrapper component gets mounted. This is the moment that the client-side takes over. You don't need to configure anything for this to happen.
+
+However should you wish to override the moment when this happens, you need to set quasar.conf.js > ssr > manualPostHydrationTrigger: true. For whatever your reason is (very custom use-case), this is an example of manually triggering the post hydration:
+
+```js
+// App.vue - Composition API
+
+import { onMounted } from 'vue'
+import { useQuasar } from 'quasar'
+export default {
+  // ....
+  setup () {
+    // ...
+    const $q = useQuasar()
+    onMounted(() => {
+      $q.onSSRHydrated()
+    })
+  }
+}
+```
+
+```js
+// App.vue - Options API
+export default {
+  mounted () {
+    this.$q.onSSRHydrated()
+  }
+}
+```
 
 ## Nodejs Server
 
@@ -134,13 +188,11 @@ return {
 
 Just make sure that your app is consistent, though.
 
-When a boot file runs on the server, you will have access to one more parameter (called `ssrContext`) on the default exported function:
+When a boot file runs on the server, you will have access to one more parameter (called [ssrContext](/quasar-cli/developing-ssr/ssr-context-object)) on the default exported function:
 
 ```js
 // some boot file
 export default ({ app, ..., ssrContext }) => {
-  // ssrContext has: { url, req, res }
-
   // You can add props to the ssrContext then use them in the src/index.template.html.
   // Example - let's say we ssrContext.someProp = 'some value', then in index template we can reference it:
   // {{ someProp }}

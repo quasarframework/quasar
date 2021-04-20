@@ -127,7 +127,7 @@ function createFile (asset, file) {
   const relativePath = path.relative(appPaths.appDir, file)
 
   if (fs.existsSync(file)) {
-    warn(`[SKIPPED] ${relativePath} already exists.`)
+    warn(`${relativePath} already exists.`, 'SKIPPED')
     console.log()
     return
   }
@@ -139,7 +139,7 @@ function createFile (asset, file) {
     err => {
       if (err) {
         console.warn(err)
-        warn(`[FAIL] Could not generate ${relativePath}.`)
+        warn(`Could not generate ${relativePath}.`, 'FAIL')
         return
       }
 
@@ -200,7 +200,7 @@ if (asset.install) {
       err => {
         if (err) {
           console.warn(err)
-          warn(`[FAIL] Could not generate ${asset.folder}.`)
+          warn(`Could not generate ${asset.folder}.`, 'FAIL')
           return
         }
 

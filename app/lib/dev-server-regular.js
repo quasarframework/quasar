@@ -16,24 +16,20 @@ module.exports = class DevServer {
     const cfg = this.quasarConfFile.quasarConf
     const webpackConf = this.quasarConfFile.webpackConf
 
-    log(`Booting up...`)
-
     return new Promise(resolve => {
-      const compiler = webpack(webpackConf.renderer || webpackConf)
+      const compiler = webpack(webpackConf.renderer)
 
-      compiler.hooks.done.tap('done-compiling', compiler => {
+      compiler.hooks.done.tap('done-compiling', stats => {
         if (this.__started) { return }
 
         // start dev server if there are no errors
-        if (compiler.compilation.errors && compiler.compilation.errors.length > 0) {
+        if (stats.hasErrors() === true) {
           return
         }
 
         this.__started = true
 
         this.server.listen(cfg.devServer.port, cfg.devServer.host, () => {
-          log(`The devserver is ready to be used`)
-
           resolve()
 
           if (openedBrowser === false) {
@@ -53,7 +49,7 @@ module.exports = class DevServer {
 
   stop () {
     if (this.server !== null) {
-      log(`Shutting down`)
+      log(`Restarting devserver`)
 
       return new Promise(resolve => {
         this.server.close(resolve)

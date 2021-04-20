@@ -1,5 +1,5 @@
 const ExtractLoader = require('mini-css-extract-plugin').loader
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const path = require('path')
 
 const appPaths = require('../app-paths')
@@ -118,7 +118,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 
     rule.use('postcss-loader')
       .loader('postcss-loader')
-      .options(postCssOpts)
+      .options({ postcssOptions: postCssOpts })
 
     if (loader) {
       rule.use(loader)

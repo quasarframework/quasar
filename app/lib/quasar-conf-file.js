@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
 const debounce = require('lodash.debounce')
 const { underline, green } = require('chalk')
@@ -139,8 +139,6 @@ class QuasarConfFile {
   }
 
   async prepare () {
-    log(`Reading quasar.conf.js`)
-
     let quasarConfigFunction
 
     if (fs.existsSync(this.filename)) {
@@ -148,7 +146,7 @@ class QuasarConfFile {
       quasarConfigFunction = require(this.filename)
     }
     else {
-      fatal(`[FAIL] Could not load quasar.conf.js config file`)
+      fatal('Could not load quasar.conf.js config file', 'FAIL')
     }
 
     if (this.ctx.mode.ssr) {
@@ -157,7 +155,7 @@ class QuasarConfFile {
         this.devlandSsrDirectives = require(this.ssrDirectivesFile).default
       }
       else {
-        fatal(`[FAIL] Could not load the compiled file of devland SSR directives`)
+        fatal('Could not load the compiled file of devland SSR directives', 'FAIL')
       }
     }
 
@@ -322,7 +320,7 @@ class QuasarConfFile {
       __VUE_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true,
 
       // quasar
-      __QUASAR_VERSION__: `'${quasarVersion}'`,
+      __QUASAR_VERSION__: JSON.stringify(quasarVersion),
       __QUASAR_SSR__: this.ctx.mode.ssr === true,
       __QUASAR_SSR_SERVER__: false,
       __QUASAR_SSR_CLIENT__: false,
@@ -404,7 +402,6 @@ class QuasarConfFile {
       },
 
       showProgress: true,
-      scopeHoisting: true,
       productName: this.pkg.productName,
       productDescription: this.pkg.description,
       // need to force extraction for SSR due to
@@ -421,8 +418,8 @@ class QuasarConfFile {
       transpile: true,
       // transpileDependencies: [], // leaving here for completeness
       devtool: this.ctx.dev
-        ? '#cheap-module-eval-source-map'
-        : '#source-map',
+        ? 'eval-cheap-module-source-map'
+        : 'source-map',
       // env: {}, // leaving here for completeness
       uglifyOptions: {
         compress: {
@@ -567,6 +564,7 @@ class QuasarConfFile {
       cfg.ssr = merge({
         pwa: false,
         manualStoreHydration: false,
+        manualPostHydrationTrigger: false,
         prodPort: 3000, // gets superseeded in production by an eventual process.env.PORT
         maxAge: 1000 * 60 * 60 * 24 * 30
       }, cfg.ssr, {
@@ -575,6 +573,10 @@ class QuasarConfFile {
           ...this.devlandSsrDirectives
         }
       })
+
+      if (cfg.ssr.manualPostHydrationTrigger !== true) {
+        cfg.__needsAppMountHook = true
+      }
 
       if (cfg.ssr.middlewares.length > 0) {
         cfg.ssr.middlewares = cfg.ssr.middlewares.filter(_ => _)
@@ -592,36 +594,41 @@ class QuasarConfFile {
     }
 
     if (this.ctx.dev) {
-      const originalBefore = cfg.devServer.before
+      const originalBefore = cfg.devServer.onBeforeSetupMiddleware
       const openInEditor = require('launch-editor-middleware')
 
-      delete cfg.devServer.before
+      delete cfg.devServer.onBeforeSetupMiddleware
 
       cfg.devServer = merge({
-        publicPath: cfg.build.publicPath,
         hot: true,
-        inline: true,
-        overlay: true,
-        quiet: true,
-        noInfo: true,
-        disableHostCheck: true,
+        firewall: false,
         compress: true,
-        open: true
+        open: true,
+        dev: {
+          publicPath: cfg.build.publicPath,
+          stats: false
+        }
       },
       this.ctx.mode.ssr === true
-        ? {}
+        ? {
+            dev: { index: false },
+            static: {
+              serveIndex: false
+            }
+          }
         : {
-          historyApiFallback: cfg.build.vueRouterMode === 'history'
-            ? { index: `${cfg.build.publicPath || '/'}${cfg.build.htmlFilename}` }
-            : false,
-          index: cfg.build.htmlFilename
-        },
+            historyApiFallback: cfg.build.vueRouterMode === 'history'
+              ? { index: `${cfg.build.publicPath || '/'}${cfg.build.htmlFilename}` }
+              : false,
+            dev: {
+              index: cfg.build.htmlFilename
+            }
+          },
       cfg.devServer,
       {
-        contentBase: false,
-        watchContentBase: false,
+        onBeforeSetupMiddleware: opts => {
+          const { app } = opts
 
-        before: (app, server, compiler) => {
           if (!this.ctx.mode.ssr) {
             const express = require('express')
 
@@ -639,7 +646,7 @@ class QuasarConfFile {
 
           app.use('/__open-in-editor', openInEditor(void 0, appPaths.appDir))
 
-          originalBefore && originalBefore(app, server, compiler)
+          originalBefore && originalBefore(opts)
         }
       })
 

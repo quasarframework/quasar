@@ -11,11 +11,13 @@ class BexPackager {
   }
 
   apply (compiler) {
-    compiler.hooks.done.tap('done-compiling', () => {
-      this.setupDirectories()
-      this.fixManifest()
-      this.bundleChrome()
-      this.bundleFirefox()
+    compiler.hooks.done.tap('done-compiling', stats => {
+      if (stats.hasErrors() === false) {
+        this.setupDirectories()
+        this.fixManifest()
+        this.bundleChrome()
+        this.bundleFirefox()
+      }
     })
   }
 

@@ -1,5 +1,4 @@
 const compileTemplate = require('lodash.template')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const { fillBaseTag } = require('../webpack/plugin.html-addons')
 const { fillPwaTags } = require('../webpack/pwa/plugin.html-pwa')
@@ -60,6 +59,65 @@ function injectSsrInterpolation (html) {
   )
 }
 
+const htmlRegExp = /(<html[^>]*>)/i
+const headRegExp = /(<\/head\s*>)/i
+const bodyRegExp = /(<\/body\s*>)/i
+
+/**
+ * forked and adapted from html-webpack-plugin as
+ * it's no longer exporting this method
+ */
+function injectAssetsIntoHtml (html, assetTags) {
+  const body = assetTags.bodyTags.map(entry => htmlTagObjectToString(entry, false))
+  const head = assetTags.headTags.map(entry => htmlTagObjectToString(entry, false))
+
+  if (body.length) {
+    if (bodyRegExp.test(html)) {
+      // Append assets to body element
+      html = html.replace(bodyRegExp, match => body.join('') + match)
+    }
+    else {
+      // Append scripts to the end of the file if no <body> element exists:
+      html += body.join('')
+    }
+  }
+
+  if (head.length) {
+    // Create a head tag if none exists
+    if (!headRegExp.test(html)) {
+      if (!htmlRegExp.test(html)) {
+        html = '<head></head>' + html
+      }
+      else {
+        html = html.replace(htmlRegExp, match => match + '<head></head>')
+      }
+    }
+
+    // Append assets to head element
+    html = html.replace(headRegExp, match => head.join('') + match)
+  }
+
+  return html
+}
+
+/**
+ * forked and adapted from html-webpack-plugin as
+ * it's no longer exporting this method
+ */
+function htmlTagObjectToString (tagDefinition) {
+  const attributes = Object.keys(tagDefinition.attributes || {})
+    .filter(attributeName => tagDefinition.attributes[attributeName] === '' || tagDefinition.attributes[attributeName])
+    .map(attributeName => (
+      tagDefinition.attributes[attributeName] === true
+        ? attributeName
+        : attributeName + '="' + tagDefinition.attributes[attributeName] + '"'
+    ))
+
+  return '<' + [tagDefinition.tagName].concat(attributes).join(' ') + '>' +
+    (tagDefinition.innerHTML || '') +
+    (tagDefinition.voidTag ? '' : '</' + tagDefinition.tagName + '>')
+}
+
 module.exports.getIndexHtml = function (template, cfg) {
   const compiled = compileTemplate(template)
   let html = compiled(cfg.htmlVariables)
@@ -71,8 +129,7 @@ module.exports.getIndexHtml = function (template, cfg) {
   }
 
   if (data.bodyTags.length > 0 || data.headTags.length > 0) {
-    const htmlCtx = { options: { xhtml: false } }
-    html = HtmlWebpackPlugin.prototype.injectAssetsIntoHtml.call(htmlCtx, html, {}, data)
+    html = injectAssetsIntoHtml(html, data)
   }
 
   if (cfg.build.appBase) {

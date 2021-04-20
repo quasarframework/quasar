@@ -40,17 +40,26 @@ import createRouter from 'app/<%= sourceFiles.router %>'
 <% } %>
 
 <% if (__needsAppMountHook === true) { %>
-import { defineComponent } from 'vue'
+import { defineComponent<%= ctx.mode.ssr && ssr.manualPostHydrationTrigger !== true ? ', h, onMounted, getCurrentInstance' : '' %> } from 'vue'
 const RootComponent = defineComponent({
-  mixins: [ AppComponent ],
-  mounted () {
-    <% if (ctx.mode.capacitor && __versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
-    SplashScreen.hide()
-    <% } %>
+  name: 'AppWrapper',
+  setup (props) {
+    onMounted(() => {
+      <% if (ctx.mode.capacitor && __versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
+      SplashScreen.hide()
+      <% } %>
 
-    <% if (__vueDevtools !== false) { %>
-    vueDevtools.connect('<%= __vueDevtools.host %>', <%= __vueDevtools.port %>)
-    <% } %>
+      <% if (__vueDevtools !== false) { %>
+      vueDevtools.connect('<%= __vueDevtools.host %>', <%= __vueDevtools.port %>)
+      <% } %>
+
+      <% if (ctx.mode.ssr && ssr.manualPostHydrationTrigger !== true) { %>
+      const { proxy: { $q } } = getCurrentInstance()
+      $q.onSSRHydrated !== void 0 && $q.onSSRHydrated()
+      <% } %>
+    })
+
+    return () => h(AppComponent, props)
   }
 })
 <% } %>

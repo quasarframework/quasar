@@ -1,6 +1,6 @@
 const extensionJson = require('./extension-json')
 const Extension = require('./Extension')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 
 class ExtensionsRunner {
   constructor () {

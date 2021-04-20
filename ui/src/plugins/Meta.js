@@ -245,7 +245,7 @@ export default {
       const { ssrContext } = opts
 
       ssrContext.__qMetaList = []
-      ssrContext._onRenderedList.push(() => {
+      ssrContext.onRendered(() => {
         injectServerMeta(ssrContext)
       })
     }

@@ -123,6 +123,10 @@ export default {
 </script>
 ```
 
+::: tip
+If you are developing a SSR app, then you can check out the [ssrContext](/quasar-cli/developing-ssr/ssr-context-object) Object that gets supplied server-side.
+:::
+
 ```js
 // related action for Promise example
 // ...

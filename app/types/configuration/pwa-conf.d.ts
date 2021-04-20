@@ -1,5 +1,5 @@
+import { Configuration as WebpackConfiguration } from "webpack";
 import * as WebpackChain from "webpack-chain";
-import { WebpackConfiguration } from "../ts-helpers";
 
 // Derived from https://developer.mozilla.org/en-US/docs/Web/Manifest
 type PwaManifestDirection = "ltr" | "rtl" | "auto";

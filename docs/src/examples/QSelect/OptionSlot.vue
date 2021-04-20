@@ -15,10 +15,7 @@
         options-selected-class="text-deep-orange"
       >
         <template v-slot:option="scope">
-          <q-item
-            v-bind="scope.itemProps"
-            v-on="scope.itemEvents"
-          >
+          <q-item v-bind="scope.itemProps">
             <q-item-section avatar>
               <q-icon :name="scope.opt.icon" />
             </q-item-section>

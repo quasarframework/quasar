@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 
-const { log, warn, fatal } = require('../helpers/logger')
+const { log, warn, fatal, success } = require('../helpers/logger')
 const { spawn } = require('../helpers/spawn')
 const appPaths = require('../app-paths')
 const nodePackager = require('../helpers/node-packager')
@@ -33,8 +33,6 @@ class ElectronRunner {
     const mainCompiler = webpack(quasarConfFile.webpackConf.main)
     const preloadCompiler = webpack(quasarConfFile.webpackConf.preload)
 
-    log(`Building main & preload Electron processes...`)
-
     let mainReady = false
     let preloadReady = false
 
@@ -45,19 +43,7 @@ class ElectronRunner {
           return
         }
 
-        log(`Webpack built Electron main process`)
-        log()
-        process.stdout.write(stats.toString({
-          colors: true,
-          modules: false,
-          children: false,
-          chunks: false,
-          chunkModules: false
-        }) + '\n')
-        log()
-
         if (stats.hasErrors()) {
-          warn(`Electron main build failed with errors`)
           return
         }
 
@@ -79,19 +65,7 @@ class ElectronRunner {
           return
         }
 
-        log(`Webpack built Electron preload process`)
-        log()
-        process.stdout.write(stats.toString({
-          colors: true,
-          modules: false,
-          children: false,
-          chunks: false,
-          chunkModules: false
-        }) + '\n')
-        log()
-
         if (stats.hasErrors()) {
-          warn(`Electron preload build failed with errors`)
           return
         }
 
@@ -119,7 +93,7 @@ class ElectronRunner {
         { cwd: cfg.build.distDir },
         code => {
           if (code) {
-            fatal(`[FAIL] ${nodePackager} failed installing dependencies`)
+            fatal(`${nodePackager} failed installing dependencies`, 'FAIL')
           }
           resolve()
         }
@@ -164,13 +138,13 @@ class ElectronRunner {
         bundlePromise
           .then(() => {
             log()
-            log(`[SUCCESS] ${pkgName} built the app`)
+            success(`${pkgName} built the app`, 'SUCCESS')
             log()
             resolve()
           })
           .catch(err => {
             log()
-            warn(`[FAIL] ${pkgName} could not build`)
+            warn(`${pkgName} could not build`, 'FAIL')
             log()
             console.error(err + '\n')
             reject()
@@ -208,7 +182,6 @@ class ElectronRunner {
   }
 
   __startElectron (extraParams) {
-    log(`Booting up Electron process...`)
     this.pid = spawn(
       getPackage('electron'),
       [
