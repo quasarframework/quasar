@@ -55,7 +55,7 @@ const RootComponent = defineComponent({
 
       <% if (ctx.mode.ssr && ssr.manualPostHydrationTrigger !== true) { %>
       const { proxy: { $q } } = getCurrentInstance()
-      $q.onSSRHydrated()
+      $q.onSSRHydrated !== void 0 && $q.onSSRHydrated()
       <% } %>
     })
 

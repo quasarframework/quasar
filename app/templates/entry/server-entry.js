@@ -35,6 +35,14 @@ import createQuasarApp from './app.js'
 
 <% if (preFetch) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
+const appPrefetch = typeof App.preFetch === 'function'
+  ? App.preFetch
+  : (
+    // Class components return the component options (and the preFetch hook) inside __c property
+    App.__c !== void 0 && typeof App.__c.preFetch === 'function'
+      ? App.__c.preFetch
+      : false
+    )
 <% } %>
 
 <%
@@ -120,9 +128,8 @@ export default ssrContext => {
 
     // wait until router has resolved possible async hooks
     router.isReady().then(() => {
-      const matchedComponents = router.currentRoute.value.matched
+      let matchedComponents = router.currentRoute.value.matched
         .flatMap(record => Object.values(record.components))
-        .map(m => m)
 
       // no matched routes
       if (matchedComponents.length === 0) {
@@ -130,26 +137,32 @@ export default ssrContext => {
       }
 
       <% if (preFetch) { %>
-
       let hasRedirected = false
       const redirect = (url, httpStatusCode) => {
         hasRedirected = true
         redirectBrowser(url, router, reject, httpStatusCode)
       }
 
-      // Class components return the component options (and the preFetch hook) inside __c property
-      if (typeof App.preFetch === 'function' || App.__c && typeof App.__c.preFetch === 'function') {
-        matchedComponents.unshift(App)
+      // filter and convert all components to their preFetch methods
+      matchedComponents = matchedComponents
+        .filter(m => (
+          typeof m.preFetch === 'function'
+          // Class components return the component options (and the preFetch hook) inside __c property
+          || (m.__c !== void 0 && typeof m.__c.preFetch === 'function')
+        ))
+        .map(m => m.__c !== void 0 ? m.__c.preFetch : m.preFetch)
+
+      if (appPrefetch !== false) {
+        matchedComponents.unshift(appPrefetch)
       }
+
       // Call preFetch hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,
       // which is resolved when the action is complete and store state has been
       // updated.
       matchedComponents
-      // Class components return the component options (and the preFetch hook) inside __c property
-      .filter(c => (typeof c.preFetch === 'function') || (c.__c && typeof c.__c.preFetch === 'function'))
       .reduce(
-        (promise, c) => promise.then(() => hasRedirected === false && (c.__c ? c.__c : c).preFetch({
+        (promise, preFetchFn) => promise.then(() => hasRedirected === false && preFetchFn({
           <% if (store) { %>store,<% } %>
           ssrContext,
           currentRoute: router.currentRoute,
