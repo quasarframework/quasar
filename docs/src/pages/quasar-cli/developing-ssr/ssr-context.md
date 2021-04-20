@@ -85,4 +85,6 @@ More information on the purpose of the "nonce" property is available on [MDN](ht
 
 The `req` and `res` are Express.js's objects for the current server client. One use-case for `req` is accessing `req.url` to get the URL that the client is requesting.
 
+::: tip
 Feel free to inject your own stuff into ssrContext too, but do NOT tamper with any of the private props (props that start with an underscore, eg. `_someProp`).
+:::
