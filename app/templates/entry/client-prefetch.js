@@ -104,8 +104,8 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>, publicPat
     preFetchList.reduce(
       (promise, preFetch) => promise.then(() => hasRedirected === false && preFetch({
         <% if (store) { %>store,<% } %>
-        currentRoute: to.value,
-        previousRoute: from.value,
+        currentRoute: to,
+        previousRoute: from,
         redirect,
         urlPath,
         publicPath
