@@ -46,7 +46,7 @@ async function getWebpackConfig (chain, cfg, {
   }
 
   // TODO: enable when webpack5 work is complete
-  webpackConfig.cache = false
+  // webpackConfig.cache = false
 
   return webpackConfig
 }
