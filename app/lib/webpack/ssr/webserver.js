@@ -101,7 +101,7 @@ module.exports = function (cfg, configName) {
   injectNodeTypescript(cfg, chain)
 
   chain.plugin('progress')
-    .use(WebpackProgressPlugin, [{ name: configName, cfg }])
+    .use(WebpackProgressPlugin, [{ name: configName, cfg, hasExternalWork: true }])
 
   if (cfg.ctx.prod) {
     chain.plugin('webserver-assets-plugin')

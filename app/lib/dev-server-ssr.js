@@ -9,6 +9,8 @@ const { renderToString } = require('@vue/server-renderer')
 const createRenderer = require('@quasar/ssr-helpers/create-renderer')
 const { getClientManifest } = require('./webpack/ssr/plugin.client-side')
 const { getServerManifest } = require('./webpack/ssr/plugin.server-side')
+const { doneExternalWork } = require('./webpack/plugin.progress')
+const { webpackNames } = require('./webpack/symbols')
 
 const appPaths = require('./app-paths')
 const openBrowser = require('./helpers/open-browser')
@@ -40,16 +42,10 @@ module.exports = class DevServer {
     this.webpackServer = null
   }
 
-  async listen () {
+  listen () {
     const cfg = this.quasarConfFile.quasarConf
     const webpackConf = this.quasarConfFile.webpackConf
 
-    return new Promise(resolve => {
-      this.start(webpackConf, cfg, resolve)
-    })
-  }
-
-  start (webpackConf, cfg, callback) {
     const webserverCompiler = webpack(webpackConf.webserver)
     const serverCompiler = webpack(webpackConf.serverSide)
     const clientCompiler = webpack(webpackConf.clientSide)
@@ -57,11 +53,8 @@ module.exports = class DevServer {
     let serverManifest, clientManifest, renderTemplate, renderWithVue, webpackServerListening = false
 
     let tryToFinalize = () => {
-      // TODO: remove after webpack5 work is complete
-      // console.log('tryToFinalize', serverManifest !== void 0, clientManifest !== void 0, webpackServerListening === true)
       if (serverManifest && clientManifest && webpackServerListening === true) {
         tryToFinalize = () => {}
-        callback()
 
         if (openedBrowser === false) {
           openedBrowser = true
@@ -103,7 +96,7 @@ module.exports = class DevServer {
 
     this.htmlWatcher = chokidar.watch(templatePath).on('change', () => {
       updateTemplate()
-      // console.log(`${banner} index.template.html template updated.`)
+      console.log(`${banner} index.template.html template updated.`)
     })
 
     updateTemplate()
@@ -114,9 +107,6 @@ module.exports = class DevServer {
     }
 
     const update = () => {
-      // TODO: remove after webpack5 work is complete
-      // console.log('update()', serverManifest !== void 0, clientManifest !== void 0)
-
       if (serverManifest && clientManifest) {
         Object.assign(renderOptions, {
           serverManifest,
@@ -140,15 +130,9 @@ module.exports = class DevServer {
     }
 
     webserverCompiler.hooks.done.tap('done-compiling', stats => {
-      // TODO: remove after webpack5 work is complete
-      // console.log('webserverCompiler in done()')
-
       if (stats.hasErrors() === false) {
         delete require.cache[compiledMiddlewareFile]
         const injectMiddleware = require(compiledMiddlewareFile).default
-
-        // TODO: remove after webpack5 work is complete
-        // console.log('webserverCompiler HIT!')
 
         startWebpackServer(app => {
           injectMiddleware({
@@ -173,18 +157,12 @@ module.exports = class DevServer {
 
             this.webpackServer.listen(cfg.devServer.port, cfg.devServer.host, () => {
               webpackServerListening = true
-
-              // TODO: remove after webpack5 work is complete
-              // console.log('webserverCompiler HIT final!')
               tryToFinalize()
+              doneExternalWork(webpackNames.ssr.webserver)
             })
           })
         })
       }
-
-      // TODO: remove after webpack5 work is complete
-      // console.log('webserverCompiler done!')
-      callback()
     })
 
     this.handlers.push(
@@ -197,14 +175,9 @@ module.exports = class DevServer {
         (_, callback) => {
           if (compilation.errors.length === 0) {
             serverManifest = getServerManifest(compilation)
-
-            // TODO: remove after webpack5 work is complete
-            // console.log('serverCompiler calling update()!')
             update()
           }
 
-          // TODO: remove after webpack5 work is complete
-          // console.log('serverCompiler emit is done!')
           callback()
         }
       )
@@ -216,14 +189,9 @@ module.exports = class DevServer {
         (_, callback) => {
           if (compilation.errors.length === 0) {
             clientManifest = getClientManifest(compilation)
-
-            // TODO: remove after webpack5 work is complete
-            // console.log('clientCompiler calling update()!')
             update()
           }
 
-          // TODO: remove after webpack5 work is complete
-          // console.log('serverCompiler emit is done!')
           callback()
         }
       )
