@@ -285,7 +285,7 @@ The example below shows how you can use a slot to customize the entire header ro
 
 <doc-example title="Header slot" file="QTable/SlotHeader" />
 
-Bellow, we use a slot which gets applied to each header cell:
+Below, we use a slot which gets applied to each header cell:
 
 <doc-example title="Header-cell slot" file="QTable/SlotHeaderCell" />
 
