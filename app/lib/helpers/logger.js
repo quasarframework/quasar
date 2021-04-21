@@ -70,7 +70,7 @@ const warningPill = msg => bgYellow.black('', msg, '')
 
 module.exports.successPill = successPill
 module.exports.success = function (msg, title = 'SUCCESS') {
-  console.log(`\n ${greenBanner} ${successPill(title)} ${green(dot + ' ' + msg)}\n`)
+  console.log(` ${greenBanner} ${successPill(title)} ${green(dot + ' ' + msg)}`)
 }
 module.exports.getSuccess = function (msg, title) {
   return ` ${greenBanner} ${successPill(title)} ${green(dot + ' ' + msg)}`
@@ -78,7 +78,7 @@ module.exports.getSuccess = function (msg, title) {
 
 module.exports.infoPill = infoPill
 module.exports.info = function (msg, title = 'INFO') {
-  console.log(`\n ${greenBanner} ${infoPill(title)} ${green(dot)} ${msg}\n`)
+  console.log(` ${greenBanner} ${infoPill(title)} ${green(dot)} ${msg}`)
 }
 module.exports.getInfo = function (msg, title) {
   return ` ${greenBanner} ${infoPill(title)} ${green(dot)} ${msg}`
@@ -86,7 +86,7 @@ module.exports.getInfo = function (msg, title) {
 
 module.exports.errorPill = errorPill
 module.exports.error = function (msg, title = 'ERROR') {
-  console.log(`\n ${redBanner} ${errorPill(title)} ${red(dot + ' ' + msg)}\n`)
+  console.log(` ${redBanner} ${errorPill(title)} ${red(dot + ' ' + msg)}`)
 }
 module.exports.getError = function (msg, title = 'ERROR') {
   return ` ${redBanner} ${errorPill(title)} ${red(dot + ' ' + msg)}`
@@ -94,7 +94,7 @@ module.exports.getError = function (msg, title = 'ERROR') {
 
 module.exports.warningPill = warningPill
 module.exports.warning = function (msg, title = 'WARNING') {
-  console.log(`\n ${yellowBanner} ${warningPill(title)} ${yellow(dot + ' ' + msg)}\n`)
+  console.log(` ${yellowBanner} ${warningPill(title)} ${yellow(dot + ' ' + msg)}`)
 }
 module.exports.getWarning = function (msg, title = 'WARNING') {
   return ` ${yellowBanner} ${warningPill(title)} ${yellow(dot + ' ' + msg)}`
