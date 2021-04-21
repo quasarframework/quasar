@@ -137,24 +137,22 @@ function printStatus () {
 
   const entriesWithErrors = compilations.filter(entry => entry.errors !== null)
   if (entriesWithErrors.length > 0) {
-    setTimeout(() => {
-      isDev === true && clearConsole()
+    isDev === true && clearConsole()
 
-      entriesWithErrors.forEach(entry => { printWebpackErrors(entry.name, entry.errors) })
-      console.log()
-      error('Please check the log above for details.\n', 'COMPILATION FAILED')
+    entriesWithErrors.forEach(entry => { printWebpackErrors(entry.name, entry.errors) })
+    console.log()
+    error('Please check the log above for details.\n', 'COMPILATION FAILED')
 
-      if (isDev === false) {
-        process.exit(1)
-      }
-    })
+    if (isDev === false) {
+      process.exit(1)
+    }
 
     return
   }
 
   if (isDev === true) {
     if (compilations.every(entry => entry.compiled === true)) {
-      setTimeout(printReadyBanner)
+      printReadyBanner()
     }
   }
   else if (isCompilationIdle() === false || isExternalProgressIdle() === false) {
@@ -163,11 +161,9 @@ function printStatus () {
 
   const entriesWithWarnings = compilations.filter(entry => entry.warnings !== null)
   if (entriesWithWarnings.length > 0) {
-    setTimeout(() => {
-      entriesWithWarnings.forEach(entry => { printWebpackWarnings(entry.name, entry.warnings) })
-      console.log()
-      warning('Compilation succeeded but there are warning(s). Please check the log above.\n')
-    })
+    entriesWithWarnings.forEach(entry => { printWebpackWarnings(entry.name, entry.warnings) })
+    console.log()
+    warning('Compilation succeeded but there are warning(s). Please check the log above.\n')
   }
 }
 
@@ -310,5 +306,5 @@ module.exports = class WebpackProgressPlugin extends ProgressPlugin {
 module.exports.doneExternalWork = function doneExternalWork (webpackName) {
   const state = compilations.find(entry => entry.name === webpackName)
   state.externalWork = false
-  setTimeout(printStatus)
+  printStatus()
 }
