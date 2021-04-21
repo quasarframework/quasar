@@ -199,7 +199,10 @@ async function build () {
     await hook.fn(hook.api, { quasarConf })
   })
 
-  if (argv.mode === 'pwa') {
+  // using quasarConfFile.ctx instead of argv.mode
+  // because SSR might also have PWA enabled but we
+  // can only know it after parsing the quasar.conf file
+  if (quasarConfFile.ctx.mode.pwa === true) {
     // need to build the custom service worker before renderer
     Runner = require('../lib/pwa')
     Runner.init(ctx)

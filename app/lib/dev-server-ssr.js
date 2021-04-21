@@ -12,7 +12,6 @@ const { getServerManifest } = require('./webpack/ssr/plugin.server-side')
 
 const appPaths = require('./app-paths')
 const openBrowser = require('./helpers/open-browser')
-const { log } = require('./helpers/logger')
 const ouchInstance = require('./helpers/cli-error-handling').getOuchInstance()
 
 const banner = '[Quasar Dev Webserver]'
@@ -55,7 +54,7 @@ module.exports = class DevServer {
     const serverCompiler = webpack(webpackConf.serverSide)
     const clientCompiler = webpack(webpackConf.clientSide)
 
-    let serverManifest, clientManifest, pwa, renderTemplate, renderWithVue, webpackServerListening = false
+    let serverManifest, clientManifest, renderTemplate, renderWithVue, webpackServerListening = false
 
     let tryToFinalize = () => {
       // TODO: remove after webpack5 work is complete
@@ -216,13 +215,6 @@ module.exports = class DevServer {
         { name: 'quasar-ssr-server-plugin', state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
         (_, callback) => {
           if (compilation.errors.length === 0) {
-            if (cfg.ctx.mode.pwa) {
-              pwa = {
-                manifest: compilation.getAsset('manifest.json').source.source(),
-                serviceWorker: compilation.getAsset('service-worker.js').source.source()
-              }
-            }
-
             clientManifest = getClientManifest(compilation)
 
             // TODO: remove after webpack5 work is complete
@@ -269,17 +261,6 @@ module.exports = class DevServer {
             res.status(404).send('404')
           })
 
-          if (cfg.ctx.mode.pwa) {
-            app.use(resolveUrlPath('/manifest.json'), (_, res) => {
-              res.setHeader('Content-Type', 'application/json')
-              res.send(pwa.manifest)
-            })
-            app.use(resolveUrlPath('/service-worker.js'), (_, res) => {
-              res.setHeader('Content-Type', 'text/javascript')
-              res.send(pwa.serviceWorker)
-            })
-          }
-
           if (cfg.build.ignorePublicFolder !== true) {
             app.use(resolveUrlPath('/'), serveStatic('.', { maxAge: 0 }))
           }
@@ -295,7 +276,6 @@ module.exports = class DevServer {
   }
 
   stop () {
-    log(`Shutting down`)
     this.destroyed = true
 
     if (this.htmlWatcher !== null) {

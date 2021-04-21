@@ -36,10 +36,13 @@ module.exports = function (cfg, configName) {
 
   chain.output
     .filename(`service-worker.js`)
-    .libraryTarget('commonjs2')
+    .libraryTarget('commonjs2') // need it to correctly reference externalized libs
     .path(
       appPaths.resolve.app('.quasar/pwa')
     )
+
+  // externalize all workbox-* deps
+  chain.externals([ /^workbox-/ ])
 
   chain.resolve.symlinks(false)
 

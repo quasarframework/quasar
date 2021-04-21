@@ -257,8 +257,8 @@ async function goLive () {
   const generator = new Generator(quasarConfFile)
   let runMode
 
-  if (['cordova', 'capacitor', 'electron', 'bex', 'pwa'].includes(argv.mode)) {
-    const ModeRunner = require('../lib/' + argv.mode)
+  if (['cordova', 'capacitor', 'electron', 'bex', 'pwa', 'ssr'].includes(argv.mode)) {
+    const ModeRunner = require('../lib/' + (argv.mode === 'ssr' ? 'pwa' : argv.mode))
     ModeRunner.init(ctx)
     runMode = () => ModeRunner.run(quasarConfFile, argv)
   }
@@ -283,7 +283,10 @@ async function goLive () {
 
     let promise = Promise.resolve()
 
-    promise = argv.mode === 'pwa'
+    // using quasarConfFile.ctx instead of argv.mode
+    // because SSR might also have PWA enabled but we
+    // can only know it after parsing the quasar.conf file
+    promise = quasarConfFile.ctx.mode.pwa === true
       ? promise.then(runMode).then(runMain)
       : promise.then(runMain).then(runMode)
 
