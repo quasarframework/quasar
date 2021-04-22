@@ -57,8 +57,8 @@
     "url": "https://donate.quasar.dev"
   },
   "engines": {
-    "node": ">= 12.13.0",
-    "npm": ">= 6.12.0",
+    "node": ">= 12.22.1",
+    "npm": ">= 6.14.12",
     "yarn": ">= 1.17.3"
   },
   "publishConfig": {

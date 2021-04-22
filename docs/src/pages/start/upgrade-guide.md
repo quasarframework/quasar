@@ -78,7 +78,7 @@ Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots o
 * Quasar Stylus variables are no longer available (only Sass/SCSS). This does NOT mean that you can't use Stylus anymore though.
 * SSR build mode is NOT **yet** supported. If your project relies on SSR, you might want to hold off on upgrading for now.
 * Not all of our official App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions for them.
-* Node v10 reached it's End Of Life and its support has been dropped. Be sure to update Node and npm/yarn on your system accordingly to new constraits.
+* Node v10 reached it's End Of Life and its support has been dropped. Be sure to update Node and npm/yarn on your system accordingly to new constraits, which include fixes for latest know security issues.
 :::
 
 Before you start with this journey of upgrading your project from v1 to v2, you should know a few additional things:
@@ -118,7 +118,7 @@ Before starting, it is highly suggested to make a copy of your current working p
   $ yarn add --dev stylus stylus-loader
   ```
 2) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
-3) **Upgrade** Node to at least v12.13.0, npm to at least v6.12.0 and yarn to at least v1.17.3.
+3) **Upgrade** Node to at least v12.22.1, npm to at least v6.14.12 and yarn to at least v1.17.3.
 4) **Install**: `quasar` v2 and `@quasar/app` v3 beta packages from the npm tag named "next":
   ```bash
   $ yarn add quasar@next
