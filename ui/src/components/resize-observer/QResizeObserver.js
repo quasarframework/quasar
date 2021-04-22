@@ -114,11 +114,7 @@ export default defineComponent({
         onObjLoad()
       })
 
-     onBeforeUnmount(() => {
-        cleanup()
-      })
-
-
+      onBeforeUnmount(cleanup)
 
       return () => {
         if (canRender.value === true) {
