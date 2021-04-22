@@ -118,7 +118,7 @@ Before starting, it is highly suggested to make a copy of your current working p
   $ yarn add --dev stylus stylus-loader
   ```
 2) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
-3. **Upgrade** Node to at least v12.13.0, npm to at least v6.12.0 and yarn to at least v1.17.3.
+3) **Upgrade** Node to at least v12.13.0, npm to at least v6.12.0 and yarn to at least v1.17.3.
 4) **Install**: `quasar` v2 and `@quasar/app` v3 beta packages from the npm tag named "next":
   ```bash
   $ yarn add quasar@next
