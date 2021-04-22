@@ -3,18 +3,14 @@ title: Quasar CLI Installation
 desc: How to install the Quasar CLI on your development machine.
 ---
 
-Make sure that you have Node >=10 and NPM >=5 installed on your machine.
-
-::: warning
-**Do not use any Node version higher than 14+**. Webpack 4 does not support any Node version higher than this and we cannot move to Webpack 5 without making breaking changes. However, we will support Webpack 5 in a future release.
-:::
+Make sure that you have Node >=12.13 and NPM >=6.12 installed on your machine.
 
 ::: warning
 **Do not use uneven versions of Node i.e. 13, 15, etc.** These versions are not tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
 :::
 
 ```bash
-# Node.js >=10 is required.
+# Node.js >=12.13 is required.
 
 $ yarn global add @quasar/cli
 # or
