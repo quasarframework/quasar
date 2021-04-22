@@ -78,6 +78,7 @@ Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots o
 * Quasar Stylus variables are no longer available (only Sass/SCSS). This does NOT mean that you can't use Stylus anymore though.
 * SSR build mode is NOT **yet** supported. If your project relies on SSR, you might want to hold off on upgrading for now.
 * Not all of our official App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions for them.
+* Node v10 reached it's End Of Life and its support has been dropped. Be sure to update Node and npm/yarn on your system accordingly to new constraits, which include fixes for latest know security issues.
 :::
 
 Before you start with this journey of upgrading your project from v1 to v2, you should know a few additional things:
@@ -117,12 +118,13 @@ Before starting, it is highly suggested to make a copy of your current working p
   $ yarn add --dev stylus stylus-loader
   ```
 2) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
-3) **Install**: `quasar` v2 and `@quasar/app` v3 beta packages from the npm tag named "next":
+3) **Upgrade** Node to at least v12.22.1, npm to at least v6.14.12 and yarn to at least v1.17.3.
+4) **Install**: `quasar` v2 and `@quasar/app` v3 beta packages from the npm tag named "next":
   ```bash
   $ yarn add quasar@next
   $ yarn add --dev @quasar/app@next
   ```
-4) If you are using ESLint, then edit `/.eslintrc.js`:
+5) If you are using ESLint, then edit `/.eslintrc.js`:
   ```js
   // old way
   extends: {
@@ -146,7 +148,7 @@ Before starting, it is highly suggested to make a copy of your current working p
   "eslint-plugin-vue": "^7.0.0",
   "eslint-webpack-plugin": "^2.4.0"
   ```
-5) Edit quasar.conf.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
+6) Edit quasar.conf.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
   ```js
   // old way
   framework: {
@@ -158,8 +160,8 @@ Before starting, it is highly suggested to make a copy of your current working p
     lang: 'en-US'
   }
   ```
-6) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
-7) Upgrade your other project dependencies (especially ESLint related ones).
+7) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
+8) Upgrade your other project dependencies (especially ESLint related ones).
 
 #### Option 2: Create a project
 

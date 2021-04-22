@@ -22,7 +22,7 @@ This means you need your logo in about 100+ different sizes with representative 
 
 ## Installation of Icon Genie
 
-Node.js >=10 is required.
+Node.js >=12.22.1 is required.
 
 ```
 $ yarn global add @quasar/icongenie
