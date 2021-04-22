@@ -305,11 +305,6 @@ const Platform = {
       $q.platform = this.parseSSR(opts.ssrContext)
     }
     else if (isRuntimeSsrPreHydration.value === true) {
-      // must match with server-side before
-      // client taking over in order to prevent
-      // hydration errors
-      Object.assign(this, client, iosCorrection, ssrClient)
-
       // takeover should increase accuracy for
       // the rest of the props; we also avoid
       // hydration errors
@@ -325,12 +320,6 @@ const Platform = {
     }
     else {
       $q.platform = this
-
-      if (this.__installed !== true) {
-        // we don't have any business with SSR, so
-        // directly applying...
-        Object.assign(this, client)
-      }
     }
   }
 }
@@ -348,6 +337,16 @@ if (__QUASAR_SSR_SERVER__) {
 else {
   iosEmulated = client.is.ios === true
     && window.navigator.vendor.toLowerCase().indexOf('apple') === -1
+
+  if (isRuntimeSsrPreHydration.value === true) {
+    // must match with server-side before
+    // client taking over in order to prevent
+    // hydration errors
+    Object.assign(Platform, client, iosCorrection, ssrClient)
+  }
+  else {
+    Object.assign(Platform, client)
+  }
 }
 
 export default Platform
