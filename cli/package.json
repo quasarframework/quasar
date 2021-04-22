@@ -38,9 +38,9 @@
     "url": "https://donate.quasar.dev"
   },
   "engines": {
-    "node": ">= 12.22.1",
-    "npm": ">= 6.14.12",
-    "yarn": ">= 1.17.3"
+    "node": ">= 10.0.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
   },
   "dependencies": {
     "async": "3.2.0",
