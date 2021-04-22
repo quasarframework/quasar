@@ -599,6 +599,13 @@ class QuasarConfFile {
 
       delete cfg.devServer.onBeforeSetupMiddleware
 
+      // TODO: remove it when webpack-dev-server goes 4.0.0-beta.3
+      // This is to prepare in advance one of webpack-dev-server's breaking changes
+      if (cfg.devServer.devMiddleware !== void 0) {
+        cfg.devServer.dev = cfg.devServer.devMiddleware
+        delete cfg.devServer.devMiddleware
+      }
+
       cfg.devServer = merge({
         hot: true,
         firewall: false,
