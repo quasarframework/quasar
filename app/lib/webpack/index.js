@@ -41,12 +41,6 @@ async function getWebpackConfig (chain, cfg, {
       webpackConfig.infrastructureLogging
     )
   }
-  else {
-    // webpackConfig.cache = false // webpackConfig.cache || { type: 'filesystem' }
-  }
-
-  // TODO: enable when webpack5 work is complete
-  // webpackConfig.cache = false
 
   return webpackConfig
 }
