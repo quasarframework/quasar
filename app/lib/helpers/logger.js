@@ -47,10 +47,10 @@ module.exports.warn = function (msg, pill) {
 module.exports.fatal = function (msg, pill) {
   if (msg !== void 0) {
     const pillBanner = pill !== void 0
-      ? bgRed.black('', pill, '') + ' '
+      ? errorPill(pill) + ' '
       : ''
 
-    console.error(` ${redBanner} ⚠️  ${pillBanner}${msg}`)
+    console.error(`\n ${redBanner} ⚠️  ${pillBanner}${msg}\n`)
   }
   else {
     console.error()
@@ -65,7 +65,7 @@ module.exports.fatal = function (msg, pill) {
 
 const successPill = msg => bgGreen.black('', msg, '')
 const infoPill = msg => inverse('', msg, '')
-const errorPill = msg => bgRed.black('', msg, '')
+const errorPill = msg => bgRed.white('', msg, '')
 const warningPill = msg => bgYellow.black('', msg, '')
 
 module.exports.successPill = successPill

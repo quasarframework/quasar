@@ -52,7 +52,7 @@ const { log, fatal } = require('../lib/helpers/logger')
 if (argv.mode !== 'spa') {
   const getMode = require('../lib/mode/index')
   if (getMode(argv.mode).isInstalled !== true) {
-    fatal('Requested mode for inspection is NOT installed.\n')
+    fatal('Requested mode for inspection is NOT installed.')
   }
 }
 

@@ -233,7 +233,7 @@ async function build () {
 
       const summary = printWebpackErrors(webpackData.name[index], stats)
       console.log()
-      fatal(`for "${webpackData.name[index]}" with ${summary}. Please check the log above.\n`, 'COMPILATION FAILED')
+      fatal(`for "${webpackData.name[index]}" with ${summary}. Please check the log above.`, 'COMPILATION FAILED')
     })
 
     const printWebpackStats = require('../lib/helpers/print-webpack-stats')

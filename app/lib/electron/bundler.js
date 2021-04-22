@@ -42,7 +42,7 @@ module.exports.bundlerIsInstalled = bundlerIsInstalled
 
 module.exports.ensureInstall = function (bundlerName) {
   if (!isValidName(bundlerName)) {
-    fatal(`Unknown bundler "${ bundlerName }" for Electron\n`)
+    fatal(`Unknown bundler "${ bundlerName }" for Electron`)
   }
 
   if (!bundlerIsInstalled(bundlerName)) {
