@@ -766,15 +766,16 @@ class QuasarConfFile {
     }
 
     if (this.ctx.dev) {
-      const host = cfg.devServer.host === '0.0.0.0'
-        ? 'localhost'
-        : cfg.devServer.host
-
       const urlPath = cfg.build.vueRouterMode === 'hash'
         ? (cfg.build.htmlFilename !== 'index.html' ? (cfg.build.publicPath ? '' : '/') + cfg.build.htmlFilename : '')
         : ''
 
-      cfg.build.APP_URL = `http${cfg.devServer.https ? 's' : ''}://${host}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
+      cfg.__getUrl = hostname => `http${cfg.devServer.https ? 's' : ''}://${hostname}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
+      cfg.build.APP_URL = cfg.__getUrl(
+        cfg.devServer.host === '0.0.0.0'
+          ? 'localhost'
+          : cfg.devServer.host
+      )
     }
     else if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.bex) {
       cfg.build.APP_URL = 'index.html'

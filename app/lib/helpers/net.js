@@ -18,6 +18,23 @@ module.exports.getExternalNetworkInterface = function () {
   return devices
 }
 
+module.exports.getIPs = function () {
+  const networkInterfaces = os.networkInterfaces()
+  const list = []
+
+  for (let deviceName of Object.keys(networkInterfaces)) {
+    const networkInterface = networkInterfaces[deviceName]
+
+    for (let networkAddress of networkInterface) {
+      if (networkAddress.family === 'IPv4') {
+        list.push(networkAddress.address)
+      }
+    }
+  }
+
+  return list
+}
+
 module.exports.findClosestOpenPort = async function (port, host) {
   let portProposal = port
 

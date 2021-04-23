@@ -11,6 +11,7 @@ const progressLog = require('../helpers/progress-log')
 
 let maxLengthName = 0
 let isDev = false
+let ipList
 
 const compilations = []
 
@@ -20,6 +21,16 @@ function isCompilationIdle () {
 
 function isExternalProgressIdle () {
   return compilations.every(entry => entry.externalWork === false)
+}
+
+function getIPList () {
+  // expensive operation, so cache the response
+  if (ipList === void 0) {
+    const { getIPs } = require('../helpers/net')
+    ipList = getIPs().map(ip => ip === '127.0.0.1' ? 'localhost' : ip)
+  }
+
+  return ipList
 }
 
 function createState (name, hasExternalWork) {
@@ -120,13 +131,17 @@ function getReadyBanner (cfg) {
     return false
   }
 
+  const urlList = cfg.devServer.host === '0.0.0.0'
+    ? getIPList().map(ip => chalk.green(cfg.__getUrl(ip))).join(`\n                       `)
+    : chalk.green(cfg.build.APP_URL)
+
   return [
     ` ${greenTop} App dir........... ${chalk.green(appPaths.appDir)}`,
-    ` ${greenMid} App URL........... ${chalk.green(cfg.build.APP_URL)}`,
     ` ${greenMid} Dev mode.......... ${chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : ''))}`,
     ` ${greenMid} Pkg quasar........ ${chalk.green('v' + quasarVersion)}`,
     ` ${greenMid} Pkg @quasar/app... ${chalk.green('v' + cliAppVersion)}`,
-    ` ${greenBot} Transpiled JS..... ${cfg.__transpileBanner}`
+    ` ${greenMid} Transpiled JS..... ${cfg.__transpileBanner}`,
+    ` ${greenBot} App URL........... ${urlList}`
   ].join('\n') + '\n'
 }
 
