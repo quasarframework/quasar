@@ -68,7 +68,6 @@ export interface QVueGlobals
   extends HasCapacitor<{ capacitor: any }>,
     HasBex<{ bex: GlobalsTypesHolder["bex"] }>,
     HasCordova<{ cordova: GlobalsTypesHolder["cordova"] }>,
-    HasElectron<{ electron: GlobalsTypesHolder["electron"] }>,
     HasSsr<
       { iconMapFn?: GlobalQuasarIconMapFn, onSSRHydrated?: () => void },
       { iconMapFn: GlobalQuasarIconMapFn }
