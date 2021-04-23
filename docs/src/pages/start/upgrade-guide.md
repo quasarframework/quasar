@@ -837,6 +837,7 @@ This section refers to "@quasar/app" v3 package which supports Vue 3 and Quasar 
 * Remove quasar.conf.js > framework > importStrategy. Auto import works so great that is now used by default and as the only option.
 * The url-loader configuration has been enhanced so it now also supports "ico" files out of the box
 * Removed support for quasar.conf.js > framework > `importStrategy: 'all'` since the auto import feature has become so good anyways (so it's now enabled by default)..
+* If you have been using quasar.conf.js > build > rtl in the form of an Object, then you must match [these options](https://github.com/elchininet/postcss-rtlcss) now, since we've switched from the unmaintained postcss-rtl to postcss-rtlcss package.
 
 If you have boot files, where you access and change the `$q` Object through `Vue.prototype.$q`, then you need to adapt this:
 

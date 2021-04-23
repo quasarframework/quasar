@@ -92,7 +92,7 @@
     "ouch": "2.0.0",
     "postcss": "^8.2.10",
     "postcss-loader": "5.2.0",
-    "postcss-rtl": "1.7.3",
+    "postcss-rtlcss": "3.3.0",
     "pretty-error": "3.0.3",
     "register-service-worker": "1.7.2",
     "sass": "1.32.11",

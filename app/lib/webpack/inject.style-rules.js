@@ -4,8 +4,7 @@ const path = require('path')
 
 const appPaths = require('../app-paths')
 const cssVariables = require('../helpers/css-variables')
-const postCssConfig = require(appPaths.resolve.app('.postcssrc.js'))
-
+const postCssConfigFile = appPaths.resolve.app('.postcssrc.js')
 const quasarCssPaths = [ path.join('node_modules', 'quasar'), path.join('node_modules', '@quasar') ]
 
 function injectRule (chain, pref, lang, test, loader, loaderOptions) {
@@ -83,15 +82,18 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
         })
     }
 
-    const postCssOpts = { sourceMap: pref.sourceMap, ...postCssConfig }
+    // need a fresh copy, otherwise plugins
+    // will keep on adding making N duplicates for each one
+    delete require.cache[postCssConfigFile]
+    const postCssOpts = { sourceMap: pref.sourceMap, ...require(postCssConfigFile) }
 
     if (pref.rtl) {
-      const postcssRTL = require('postcss-rtl')
+      const postcssRTL = require('postcss-rtlcss')
       const postcssRTLOptions = pref.rtl === true ? {} : pref.rtl
 
       if (
         typeof postCssConfig.plugins !== 'function' &&
-        (postcssRTLOptions.fromRTL === true || typeof postcssRTLOptions === 'function')
+        (postcssRTLOptions.source === 'ltr' || typeof postcssRTLOptions === 'function')
       ) {
         postCssConfig.plugins = postCssConfig.plugins || []
 
@@ -104,7 +106,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
               ? postcssRTLOptions(isClientCSS, ctx.resourcePath)
               : {
                 ...postcssRTLOptions,
-                fromRTL: isClientCSS
+                source: isClientCSS ? 'ltr' : 'rtl'
               }
           ))
 
