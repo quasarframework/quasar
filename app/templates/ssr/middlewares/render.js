@@ -10,7 +10,7 @@ export default ssrMiddleware(({ app, resolve, render, serve }) => {
   app.get(resolve.urlPath('*'), (req, res) => {
     res.setHeader('Content-Type', 'text/html')
 
-    render({ req, res })
+    render(/* the ssrContext: */ { req, res })
       .then(html => {
         // now let's send the rendered html to the client
         res.send(html)
