@@ -70,7 +70,7 @@ export interface QVueGlobals
     HasCordova<{ cordova: GlobalsTypesHolder["cordova"] }>,
     HasElectron<{ electron: GlobalsTypesHolder["electron"] }>,
     HasSsr<
-      { iconMapFn?: GlobalQuasarIconMapFn },
+      { iconMapFn?: GlobalQuasarIconMapFn, onSSRHydrated?: () => void },
       { iconMapFn: GlobalQuasarIconMapFn }
     >,
     BaseQGlobals {}
