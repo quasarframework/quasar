@@ -8,6 +8,10 @@ This is a wrapper over the standardized `document.cookie`.
 >
 > In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.
 
+::: tip
+With Electron version >= v1.12.2 the Cookie Plugin isn't functional in the Electron Enviroment. You may want to look up the [Electron Cookies](https://www.electronjs.org/docs/api/cookies) documentation.
+:::
+
 ## Installation
 <doc-installation plugins="Cookies" />
 
@@ -30,6 +34,7 @@ function (ssrContext) {
 The `ssrContext` is available in [boot files](/quasar-cli/boot-files) or [preFetch feature](/quasar-cli/prefetch-feature) where it is supplied as parameter.
 
 The reason for this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Cookies needs to be bound to each request separately.
+
 
 ## Read a Cookie
 
