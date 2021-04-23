@@ -1,5 +1,6 @@
 import { Configuration as WebpackConfiguration } from "webpack";
 import * as WebpackChain from "webpack-chain";
+
 export interface QuasarSsrConfiguration {
   /**
    * If a PWA should take over or just a SPA.

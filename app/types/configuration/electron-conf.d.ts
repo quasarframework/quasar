@@ -14,13 +14,22 @@ interface QuasarBaseElectronConfiguration {
    * Add/remove/change properties of production generated package.json
    */
   extendPackageJson?: (pkg: { [index in string]: any }) => void;
-  /** Webpack config object for the Main Process ONLY (`/src-electron/main-process/`) */
-  extendWebpack?: (config: WebpackConfiguration) => void;
+
+  /** Webpack config object for the Main Process ONLY (`/src-electron/electron-main`) */
+  extendWebpackMain?: (config: WebpackConfiguration) => void;
   /**
-   * Equivalent to `extendWebpack()` but uses `webpack-chain` instead,
-   *  for the Main Process ONLY (`/src-electron/main-process/`)
+   * Equivalent to `extendWebpackMain()` but uses `webpack-chain` instead,
+   *  for the Main Process ONLY (`/src-electron/electron-main`)
    */
-  chainWebpack?: (chain: WebpackChain) => void;
+  chainWebpackMain?: (chain: WebpackChain) => void;
+
+  /** Webpack config object for the Preload Process ONLY (`/src-electron/electron-preload`) */
+  extendWebpackPreload?: (config: WebpackConfiguration) => void;
+  /**
+   * Equivalent to `extendWebpackPreload()` but uses `webpack-chain` instead,
+   *  for the Preload Process ONLY (`/src-electron/electron-preload`)
+   */
+  chainWebpackPreload?: (chain: WebpackChain) => void;
 
   /**
    * You have to choose to use either packager or builder.
@@ -34,7 +43,25 @@ interface QuasarBaseElectronConfiguration {
    *  or we haven’t found the recipe yet.
    */
   // This property definition is here merely to avoid duplicating the TSDoc
-  bundler: QuasarElectronBundlersInternal;
+  bundler?: QuasarElectronBundlersInternal;
+
+  /**
+   * electron-packager options
+   */
+  packager?: any;
+
+  /**
+   * electron-builder options
+   */
+  builder?: any;
+
+  /**
+   * Specify additional parameters when yarn/npm installing
+   * the UnPackaged folder, right before bundling with either
+   * electron packager or electron builder;
+   * Example: [ '--ignore-optional', '--some-other-param' ]
+   */
+  unPackagedInstallParams?: string[];
 }
 
 interface QuasarElectronPackagerConfiguration
