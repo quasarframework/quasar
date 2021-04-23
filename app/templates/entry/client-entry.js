@@ -164,9 +164,6 @@ async function start ({ app, router<%= store ? ', store, storeKey' : '' %> }<%= 
         app.mount('#q-app')
       }, false) // on deviceready
     <% } else { %>
-      <% if (ctx.mode.capacitor) { %>
-      app.config.globalProperties.$q.capacitor = window.Capacitor
-      <% } %>
       app.mount('#q-app')
     <% } %>
 
