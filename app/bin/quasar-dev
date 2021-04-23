@@ -217,11 +217,11 @@ async function goLive () {
     host: argv.hostname,
     onAddress: parseAddress,
     onBuildChange () {
-      log(`Build changes detected. Rebuilding app...`)
+      log(`Rebuilding app...`)
       dev = dev.then(startDev)
     },
     onAppChange () {
-      log(`App changes detected. Updating app...`)
+      log(`Updating app...`)
       generator.build()
     }
   })
@@ -269,9 +269,9 @@ async function goLive () {
   function startDev (oldDevServer) {
     let devServer
 
-    const runMain = () => {
+    const runMain = async () => {
       if (oldDevServer !== void 0) {
-        oldDevServer.stop()
+        await oldDevServer.stop()
         oldDevServer = void 0
       }
 

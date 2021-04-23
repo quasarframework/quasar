@@ -111,7 +111,7 @@ class QuasarConfFile {
         const result = await this.reboot()
 
         if (result !== false) {
-          if (this.webpackConfChanged) {
+          if (this.webpackConfChanged === true) {
             opts.onBuildChange()
           }
           else {
@@ -462,11 +462,9 @@ class QuasarConfFile {
     if (cfg.build.transpile === true) {
       cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
       cfg.__transpileBanner = green(`yes (Babel)`)
-      log(`Transpiling JS (Babel active)`)
     }
     else {
       cfg.__transpileBanner = 'no'
-      log(underline('Not transpiling JS'))
     }
 
     cfg.__loadingBar = cfg.framework.plugins.includes('LoadingBar')
@@ -948,7 +946,10 @@ class QuasarConfFile {
     }
 
     this.quasarConf = cfg
-    this.webpackConf = await require('./webpack')(cfg)
+
+    if (this.webpackConfChanged !== false) {
+      this.webpackConf = await require('./webpack')(cfg)
+    }
   }
 }
 

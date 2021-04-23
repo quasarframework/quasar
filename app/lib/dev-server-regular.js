@@ -12,7 +12,7 @@ module.exports = class DevServer {
     this.server = null
   }
 
-  async listen () {
+  listen () {
     const cfg = this.quasarConfFile.quasarConf
     const webpackConf = this.quasarConfFile.webpackConf
 
@@ -49,8 +49,6 @@ module.exports = class DevServer {
 
   stop () {
     if (this.server !== null) {
-      log(`Restarting devserver`)
-
       return new Promise(resolve => {
         this.server.close(resolve)
         this.server = null
