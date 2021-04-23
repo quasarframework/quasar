@@ -914,6 +914,8 @@ electron: {
 
 If you are using Workbox in InjectManifest mode, then it's useful to know that the `/src-pwa/custom-service-worker.[js|ts]` is now being compiled too. This means that in your code you can now import with relative path too.
 
+Due to the upgrade to Webpack 5, you will need to also upgrade `workbox-webpack-plugin` to v6+.
+
 You can now enable ESLint for the custom service worker too. And it [supports TS](/quasar-cli/developing-pwa/pwa-with-typescript) out of the box (in which case, rename the extension to `.ts`).
 
 Enabling ESLint for the custom service worker is done by editing quasar.conf.js:

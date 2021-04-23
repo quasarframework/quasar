@@ -568,7 +568,9 @@ class QuasarConfFile {
         prodPort: 3000, // gets superseeded in production by an eventual process.env.PORT
         maxAge: 1000 * 60 * 60 * 24 * 30
       }, cfg.ssr, {
-        directiveTransforms: { // not meant to be configurable directly by the user
+        // not meant to be configurable directly by the user,
+        // which is why we're overriding it here
+        directiveTransforms: {
           ...require('quasar/dist/ssr-directives/index.js'),
           ...this.devlandSsrDirectives
         }
