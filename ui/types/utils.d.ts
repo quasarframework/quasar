@@ -76,7 +76,7 @@ export function setCssVar(
   element?: Element
 ): void;
 
-export function createMetaMixin(options: MetaOptions): ComponentOptionsMixin;
+export function createMetaMixin(options: MetaOptions | (() => MetaOptions)): ComponentOptionsMixin;
 
 interface InjectPluginFnHelpers {
   queuedFiles: Ref<File[]>;
