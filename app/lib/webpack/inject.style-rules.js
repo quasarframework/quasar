@@ -85,7 +85,8 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
     // need a fresh copy, otherwise plugins
     // will keep on adding making N duplicates for each one
     delete require.cache[postCssConfigFile]
-    const postCssOpts = { sourceMap: pref.sourceMap, ...require(postCssConfigFile) }
+    const postCssConfig = require(postCssConfigFile)
+    const postCssOpts = { sourceMap: pref.sourceMap, ...postCssConfig }
 
     if (pref.rtl) {
       const postcssRTL = require('postcss-rtlcss')
