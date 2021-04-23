@@ -115,7 +115,6 @@
     "webpack-merge": "5.7.3",
     "webpack-node-externals": "3.0.0",
     "write-file-webpack-plugin": "4.5.1",
-    "yargs": "15.4.1",
     "zlib": "1.0.5"
   },
   "engines": {
