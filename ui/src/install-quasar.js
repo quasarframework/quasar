@@ -79,15 +79,28 @@ export default __QUASAR_SSR_SERVER__
         config: opts.config || {}
       }
 
-      ssrContext.$q = $q
-
-      Object.assign(ssrContext._meta, {
-        htmlAttrs: '',
-        headTags: '',
-        bodyClasses: '',
-        bodyAttrs: 'data-server-rendered',
-        bodyTags: ''
+      Object.assign(ssrContext, {
+        $q,
+        _meta: {
+          htmlAttrs: '',
+          headTags: '',
+          bodyClasses: '',
+          bodyAttrs: 'data-server-rendered',
+          bodyTags: ''
+        }
       })
+
+      if (ssrContext._modules === void 0) {
+        // not OK. means the SSR build is not using @quasar/ssr-helpers,
+        // but we shouldn't crash the app
+        ssrContext._modules = []
+      }
+
+      if (ssrContext.onRendered === void 0) {
+        // not OK. means the SSR build is not using @quasar/ssr-helpers,
+        // but we shouldn't crash the app
+        ssrContext.onRendered = () => {}
+      }
 
       parentApp.config.globalProperties.ssrContext = ssrContext
 
