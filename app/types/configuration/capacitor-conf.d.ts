@@ -15,4 +15,11 @@ export interface QuasarCapacitorConfiguration {
    * @default [ 'sync', ctx.targetName ]
    */
   capacitorCliPreparationParams?: string[];
+
+  /** If not present, will look for `package.json > name` */
+  appName?: string;
+  /** If not present, will look for `package.json > version` */
+  version?: string;
+  /** If not present, will look for `package.json > description` */
+  description?: string;
 }
