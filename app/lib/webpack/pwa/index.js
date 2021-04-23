@@ -61,11 +61,8 @@ module.exports = function (chain, cfg) {
         : cfg.build.htmlFilename
 
       opts.navigateFallback = `${cfg.build.publicPath}${htmlFile}`
-
-      if (cfg.__versions.workboxWebpackPlugin >= 5) {
-        opts.navigateFallbackDenylist = opts.navigateFallbackDenylist || []
-        opts.navigateFallbackDenylist.push(/service-worker\.js$/, /workbox-(.)*\.js$/)
-      }
+      opts.navigateFallbackDenylist = opts.navigateFallbackDenylist || []
+      opts.navigateFallbackDenylist.push(/service-worker\.js$/, /workbox-(.)*\.js$/)
     }
   }
 
