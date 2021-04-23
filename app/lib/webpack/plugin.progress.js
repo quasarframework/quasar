@@ -108,9 +108,7 @@ const renderBars = throttle(printBars, 200)
  * Status related
  */
 
-const greenTop = chalk.green('┌─')
-const greenMid = chalk.green('├─')
-const greenBot = chalk.green('└─')
+const greenBanner = chalk.green('»')
 
 let readyBanner = false
 
@@ -132,16 +130,16 @@ function getReadyBanner (cfg) {
   }
 
   const urlList = cfg.devServer.host === '0.0.0.0'
-    ? getIPList().map(ip => chalk.green(cfg.__getUrl(ip))).join(`\n                       `)
+    ? getIPList().map(ip => chalk.green(cfg.__getUrl(ip))).join(`\n                      `)
     : chalk.green(cfg.build.APP_URL)
 
   return [
-    ` ${greenTop} App dir........... ${chalk.green(appPaths.appDir)}`,
-    ` ${greenMid} Dev mode.......... ${chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : ''))}`,
-    ` ${greenMid} Pkg quasar........ ${chalk.green('v' + quasarVersion)}`,
-    ` ${greenMid} Pkg @quasar/app... ${chalk.green('v' + cliAppVersion)}`,
-    ` ${greenMid} Transpiled JS..... ${cfg.__transpileBanner}`,
-    ` ${greenBot} App URL........... ${urlList}`
+    ` ${greenBanner} App dir........... ${chalk.green(appPaths.appDir)}`,
+    ` ${greenBanner} App URL........... ${urlList}`,
+    ` ${greenBanner} Dev mode.......... ${chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : ''))}`,
+    ` ${greenBanner} Pkg quasar........ ${chalk.green('v' + quasarVersion)}`,
+    ` ${greenBanner} Pkg @quasar/app... ${chalk.green('v' + cliAppVersion)}`,
+    ` ${greenBanner} Transpiled JS..... ${cfg.__transpileBanner}`
   ].join('\n') + '\n'
 }
 
@@ -197,8 +195,6 @@ module.exports = class WebpackProgressPlugin extends ProgressPlugin {
       super({ handler: () => {} })
     }
 
-    this.state = createState(name, hasExternalWork)
-
     this.opts = {
       name,
       useBars,
@@ -215,8 +211,6 @@ module.exports = class WebpackProgressPlugin extends ProgressPlugin {
     }
 
     compiler.hooks.watchClose.tap('QuasarProgressPlugin', () => {
-      this.destroyed = true
-
       const index = compilations.indexOf(this.state)
       compilations.splice(index, 1)
 
@@ -236,9 +230,8 @@ module.exports = class WebpackProgressPlugin extends ProgressPlugin {
     })
 
     compiler.hooks.compile.tap('QuasarProgressPlugin', () => {
-      if (this.destroyed === true) {
+      if (this.state === void 0) {
         this.state = createState(this.opts.name, this.opts.hasExternalWork)
-        this.destroyed = false
       }
       else {
         this.resetStats()
@@ -305,7 +298,7 @@ module.exports = class WebpackProgressPlugin extends ProgressPlugin {
   updateBars (percent, msg, details) {
     // it may still be called even after compilation was closed
     // due to Webpack's delayed call of handler
-    if (this.destroyed === true) { return }
+    if (this.state === void 0) { return }
 
     const progress = Math.floor(percent * 100)
     const running = progress < 100
