@@ -414,7 +414,6 @@ class QuasarConfFile {
       ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
                                           // will mess up SSR
       vueRouterMode: 'hash',
-      forceDevPublicPath: false,
       transpile: true,
       // transpileDependencies: [], // leaving here for completeness
       devtool: this.ctx.dev

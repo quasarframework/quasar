@@ -24,11 +24,23 @@ export interface QuasarSsrConfiguration {
   manualPostHydrationTrigger?: boolean;
 
   /**
+   * The default port (3000) that the production server should use
+   * (gets superseded if process.env.PORT is specified at runtime)
+   */
+  prodPort?: number;
+
+  /**
    * Tell browser when a file from the server should expire from cache
    * (the default value, in ms)
    * Has effect only when server.static() is used
    */
   maxAge?: number;
+
+  /**
+   * List of middleware files in src-ssr/middlewares
+   * Order is important.
+   */
+  middlewares?: string[];
 
   /**
    * Add/remove/change properties of production generated package.json

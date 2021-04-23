@@ -31,6 +31,12 @@ return {
         // (the default value, in ms)
         // Has effect only when server.static() is used
 
+    // List of SSR middleware files (src-ssr/middlewares/*). Order is important.
+    middlewares: [
+      // ...
+      'render' // Should not be missing, and should be last in the list.
+    ],
+
     // optional; add/remove/change properties
     // of production generated package.json
     extendPackageJson (pkg) {
