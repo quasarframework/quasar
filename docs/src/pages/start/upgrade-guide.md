@@ -7,10 +7,9 @@ components:
 
 ::: danger Quasar v2 beta
 * Until the final stable version is released, some aspects of the framework may change. We're not planning for additional changes, but unforeseen reported issues may require us to do breaking changes (unlikely, but keep this in mind). So please make sure that you read each v2 beta version's release notes carefully before upgrading.
-* We plan on finalizing the Webpack 5 upgrade for Quasar CLI as soon as possible. This may account as a possible breaking change when completed (if you are tampering with the Webpack config).
-* SSR support is temporarily disabled (but Quasar is SSR ready). There are [a few tickets](https://github.com/quasarframework/quasar/issues/7836#issuecomment-780096747) that we raised for Vue Team on Vue Core code that are critical for us and your experience. We will enable SSR (and also mark Quasar v2 as "stable") as soon as the tickets are tackled.
-* There is no IE11 support (because Vue 3 does NOT support it either).
-* We are still working on upgrading all of our App Extensions to Vue 3 and Quasar v2.
+* In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
+* There is no IE11 support because Vue 3 does NOT (and will not) support it either.
+* There may be some App Extensions that are not yet ported to Vue 3 and Quasar v2.
 * Considering the above, we still recommend starting a new project with Quasar v2.
 :::
 
@@ -75,8 +74,8 @@ Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots o
 
 ::: warning IMPORTANT!
 * No IE11 support - Vue 3 does not support IE11 either. If IE11 support is mandatory for your project(s), then continue using Quasar UI v1.
+* In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
 * Quasar Stylus variables are no longer available (only Sass/SCSS). This does NOT mean that you can't use Stylus anymore though.
-* SSR build mode is NOT **yet** supported. If your project relies on SSR, you might want to hold off on upgrading for now.
 * Not all of our official App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions for them.
 * Node v10 reached it's End Of Life and its support has been dropped. Be sure to update Node and npm/yarn on your system accordingly to new constraits, which include fixes for latest know security issues.
 :::
@@ -127,11 +126,17 @@ Before starting, it is highly suggested to make a copy of your current working p
 5) If you are using ESLint, then edit `/.eslintrc.js`:
   ```js
   // old way
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
   extends: {
     'plugin:vue/essential' // or equivalent
   }
 
   // NEW way
+  parserOptions: {
+    parser: '@babel/eslint-parser'
+  },
   extends: {
     'plugin:vue/vue3-essential' // or equivalent
   }
@@ -140,14 +145,17 @@ Before starting, it is highly suggested to make a copy of your current working p
   Also upgrade ESLint deps. Example:
 
   ```js
+  "@babel/eslint-parser": "^7.0.0", // replaces babel-eslint !
   "eslint": "^7.14.0",
   "eslint-config-standard": "^16.0.2",
   "eslint-plugin-import": "^2.19.1",
   "eslint-plugin-node": "^11.0.0",
-  "eslint-plugin-promise": "^4.2.1",
+  "eslint-plugin-promise": "^5.1.0",
+  "eslint-plugin-quasar": "^1.0.0",
   "eslint-plugin-vue": "^7.0.0",
   "eslint-webpack-plugin": "^2.4.0"
   ```
+
 6) Edit quasar.conf.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
   ```js
   // old way
@@ -173,6 +181,10 @@ You can generate a new Quasar v2 project as shown below and then you can port yo
 $ quasar create <folder_name> --branch next
 # NOTE: the above will change when v2 is released as stable
 ```
+
+### Webpack v5
+
+In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
 
 ### App.vue
 
