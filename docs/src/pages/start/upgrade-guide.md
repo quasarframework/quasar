@@ -5,12 +5,10 @@ components:
   - upgrade-guide/UpgradeVideoLink
 ---
 
-::: danger Quasar v2 beta
-* Until the final stable version is released, some aspects of the framework may change. We're not planning for additional changes, but unforeseen reported issues may require us to do breaking changes (unlikely, but keep this in mind). So please make sure that you read each v2 beta version's release notes carefully before upgrading.
-* In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
+::: danger Quasar v2
+* In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your installed webpack plugins accordingly.
 * There is no IE11 support because Vue 3 does NOT (and will not) support it either.
 * There may be some App Extensions that are not yet ported to Vue 3 and Quasar v2.
-* Considering the above, we still recommend starting a new project with Quasar v2.
 :::
 
 ::: tip Composition and Options API
@@ -77,7 +75,7 @@ Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots o
 * In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
 * Quasar Stylus variables are no longer available (only Sass/SCSS). This does NOT mean that you can't use Stylus anymore though.
 * Not all of our official App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions for them.
-* Node v10 reached it's End Of Life and its support has been dropped. Be sure to update Node and npm/yarn on your system accordingly to new constraits, which include fixes for latest know security issues.
+* Node v10 reached its End Of Life and so support for it has been dropped. Be sure to update Node (to at least v12.22.1) and npm/yarn on your system accordingly to the new constraits, which include fixes for latest know security issues.
 :::
 
 Before you start with this journey of upgrading your project from v1 to v2, you should know a few additional things:
@@ -168,8 +166,9 @@ Before starting, it is highly suggested to make a copy of your current working p
     lang: 'en-US'
   }
   ```
-7) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
-8) Upgrade your other project dependencies (especially ESLint related ones).
+7) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible).
+8) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
+9) Upgrade your other project dependencies (especially ESLint related ones).
 
 #### Option 2: Create a project
 
@@ -185,6 +184,16 @@ $ quasar create <folder_name> --branch next
 ### Webpack v5
 
 In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
+
+As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server) and [webpack-dev-middleware v4](https://github.com/webpack/webpack-dev-middleware) which come with their own breaking changes. This influences quasar.conf.js > devServer options. Below are some of the most used props:
+
+| Prop name | Type | Description |
+| --- | --- | --- |
+| devMiddleware | Object | Configuration supplied to webpack-dev-middleware v4 |
+| https | Boolean/Object | Same as before with webpack 4 |
+| onBeforeSetupMiddleware | Function | Replaces "before" |
+| onAfterSetupMiddleware | Function | Replaces "after" |
+| proxy | Object/Array | Same as before with webpack 4 |
 
 ### App.vue
 
@@ -724,8 +733,13 @@ import { createMetaMixin } from 'quasar'
 
 export default {
   mixins: [
-    createMetaMixin({
-      // ...definition
+    createMetaMixin({ /* ...definition */})
+    // OR dynamic:
+    createMetaMixin(function () {
+      // "this" here refers to the vue component
+      return {
+        /* ...definition... */
+      }
     })
   ]
 }
