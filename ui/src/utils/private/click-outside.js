@@ -31,7 +31,6 @@ function globalHandler (evt) {
 
   for (let i = registeredList.length - 1; i >= 0; i--) {
     const state = registeredList[ i ]
-
     if (
       (
         state.anchorEl.value === null
@@ -39,7 +38,7 @@ function globalHandler (evt) {
       )
       && (
         target === document.body
-        || state.innerRef.value.contains(target) === false
+        || (state.innerRef.value  !== null && state.innerRef.value.contains(target) === false)
       )
       && (
         state.getEl !== void 0
