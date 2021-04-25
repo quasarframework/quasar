@@ -48,6 +48,12 @@ export default {
             : (A === B ? 0 : dir)
         })
       }
+    },
+
+    columnSortOrder: {
+      type: String,
+      validator: v => v === 'ad' || v === 'da',
+      default: 'ad'
     }
   },
 
@@ -63,24 +69,43 @@ export default {
 
   methods: {
     sort (col /* String(col name) or Object(col definition) */) {
+      let sortOrder = this.columnSortOrder
+
       if (col === Object(col)) {
+        if (col.sortOrder) {
+          sortOrder = col.sortOrder
+        }
+
         col = col.name
+      }
+      else if (this.columns[col].sortOrder) {
+        sortOrder = this.columns[col].sortOrder
       }
 
       let { sortBy, descending } = this.computedPagination
 
       if (sortBy !== col) {
         sortBy = col
-        descending = false
+        descending = sortOrder === 'da'
       }
       else if (this.binaryStateSort === true) {
         descending = !descending
       }
       else if (descending === true) {
-        sortBy = null
+        if (sortOrder === 'ad') {
+          sortBy = null
+        }
+        else {
+          descending = false
+        }
       }
-      else {
-        descending = true
+      else { // ascending
+        if (sortOrder === 'ad') {
+          descending = true
+        }
+        else {
+          sortBy = null
+        }
       }
 
       this.setPagination({ sortBy, descending, page: 1 })
