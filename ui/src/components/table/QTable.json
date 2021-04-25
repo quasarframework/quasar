@@ -199,6 +199,12 @@
             "examples": [ "-1", "0", "1" ]
           }
         },
+        "sortOrder": {
+          "type": "String",
+          "desc": "Set column sort order: 'ad' (ascending-descending) or 'da' (descending-ascending); Overrides the 'column-sort-order' prop",
+          "values": [ "ad", "da" ],
+          "default": "ad"
+        },
         "format": {
           "type": "Function",
           "desc": "Function you can apply to format your data",
@@ -331,6 +337,14 @@
     "binary-state-sort": {
       "type": "Boolean",
       "desc": "Skip the third state (unsorted) when user toggles column sort direction",
+      "category": "sorting"
+    },
+
+    "column-sort-order": {
+      "type": "String",
+      "desc": "Set column sort order: 'ad' (ascending-descending) or 'da' (descending-ascending); It gets applied to all columns unless a column has its own sortOrder specified in the 'columns' definition prop",
+      "values": [ "ad", "da" ],
+      "default": "ad",
       "category": "sorting"
     },
 

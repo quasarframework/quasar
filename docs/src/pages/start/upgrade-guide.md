@@ -5,7 +5,7 @@ components:
   - upgrade-guide/UpgradeVideoLink
 ---
 
-::: danger Quasar v2
+::: danger Quasar UI v2
 * In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your installed webpack plugins accordingly.
 * There is no IE11 support because Vue 3 does NOT (and will not) support it either.
 * There may be some App Extensions that are not yet ported to Vue 3 and Quasar v2.
@@ -600,7 +600,9 @@ The `@scroll` event parameter now has a slightly different content:
 
 #### QTable
 
-Renamed the "data" property to "rows" (to solve TS conflict issue with "data" incorrectly inferred as the "data()" method of a Vue component)
+Renamed the "data" property to "rows" (to solve TS conflict issue with "data" incorrectly inferred as the "data()" method of a Vue component).
+
+New prop: "column-sort-order". Also, new "columns" definition prop: "sortOrder".
 
 #### QTable/QTree
 
