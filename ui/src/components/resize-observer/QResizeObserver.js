@@ -8,28 +8,28 @@ const hasObserver = typeof ResizeObserver !== 'undefined'
 const resizeProps = hasObserver === true
   ? {}
   : {
-      style: 'display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;',
-      url: '#blank'
-    }
+    style: 'display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;',
+    url: 'about:blank'
+  }
 
 export default defineComponent({
   name: 'QResizeObserver',
 
   props: {
     debounce: {
-      type: [ String, Number ],
+      type: [String, Number],
       default: 100
     }
   },
 
-  emits: [ 'resize' ],
+  emits: ['resize'],
 
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     if (__QUASAR_SSR_SERVER__) { return noop }
 
     let timer, targetEl, size = { width: -1, height: -1 }
 
-    function trigger (now) {
+    function trigger(now) {
       if (now === true || props.debounce === 0 || props.debounce === '0') {
         onResize()
       }
@@ -38,15 +38,18 @@ export default defineComponent({
       }
     }
 
-    function onResize () {
-      timer = void 0
+    function onResize() {
+      if (targetEl) {
 
-      const { offsetWidth: width, offsetHeight: height } = targetEl
+        timer = void 0
+        const { width, height } = targetEl
 
-      if (width !== size.width || height !== size.height) {
-        size = { width, height }
-        emit('resize', size)
+        if (width !== size.width || height !== size.height) {
+          size = { width, height }
+          emit('resize', size)
+        }
       }
+
     }
 
     const vm = getCurrentInstance()
@@ -59,11 +62,13 @@ export default defineComponent({
 
       onMounted(() => {
         targetEl = vm.proxy.$el.parentNode
+        if (targetEl) {
+          observer = new ResizeObserver(trigger)
+          observer.observe(targetEl)
 
-        observer = new ResizeObserver(trigger)
-        observer.observe(targetEl)
+          onResize()
+        }
 
-        onResize()
       })
 
       onBeforeUnmount(() => {
@@ -86,7 +91,7 @@ export default defineComponent({
 
       let curDocView
 
-      function cleanup () {
+      function cleanup() {
         clearTimeout(timer)
 
         if (curDocView !== void 0) {
@@ -98,7 +103,7 @@ export default defineComponent({
         }
       }
 
-      function onObjLoad () {
+      function onObjLoad() {
         cleanup()
 
         if (targetEl && targetEl.contentDocument) {
@@ -111,7 +116,11 @@ export default defineComponent({
 
       onMounted(() => {
         targetEl = vm.proxy.$el
-        onObjLoad()
+        if (targetEl) {
+
+          onObjLoad()
+
+        }
       })
 
       onBeforeUnmount(cleanup)
