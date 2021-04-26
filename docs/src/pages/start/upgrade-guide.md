@@ -75,7 +75,7 @@ Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots o
 * In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
 * Quasar Stylus variables are no longer available (only Sass/SCSS). This does NOT mean that you can't use Stylus anymore though.
 * Not all of our official App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions for them.
-* Node v10 reached its End Of Life and so support for it has been dropped. Be sure to update Node (to at least v12.22.1) and npm/yarn on your system accordingly to the new constraits, which include fixes for latest know security issues.
+* Node v10 reached its End Of Life and so support for it has been dropped. Be sure to update Node (to at least v12.22.1) and npm/yarn on your system accordingly to the new constraits, which include fixes for latest know security issues. This Node version also include native ESM module support, which will help us futher modernize Quasar codebase under the hood during Quasar v2 lifecycle without breaking changes.
 :::
 
 Before you start with this journey of upgrading your project from v1 to v2, you should know a few additional things:
@@ -116,6 +116,18 @@ Before starting, it is highly suggested to make a copy of your current working p
   ```
 2) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
 3) **Upgrade** Node to at least v12.22.1, npm to at least v6.14.12 and yarn to at least v1.17.3.
+  ```bash
+  # if you are already using a lts/erbium version (eg. 12.14.0), take note of its version, it should be listed at "lts/erbium" row
+  $ nvm list
+
+  # if you're using `nvm` helper on Linux (https://github.com/nvm-sh/nvm)
+  $ nvm install 12.22.1 && nvm alias default lts/erbium && nvm use default
+  # if you're using `nvm` helper on Windows (https://github.com/coreybutler/nvm-windows)
+  $ nvm install 12.22.1 && nvm use 12.22.1
+
+  # uninstall previous "lts/erbium" version, we suppose 12.14.0 was already installed in our case
+  nvm uninstall 12.14.0
+  ```
 4) **Install**: `quasar` v2 and `@quasar/app` v3 beta packages from the npm tag named "next":
   ```bash
   $ yarn add quasar@next

@@ -177,6 +177,5 @@ interface QuasarDynamicBuildConfiguration {
   minify?: boolean;
 }
 
-export type QuasarBuildConfiguration = Partial<
-  QuasarStaticBuildConfiguration & QuasarDynamicBuildConfiguration
->;
+export type QuasarBuildConfiguration = QuasarStaticBuildConfiguration &
+  QuasarDynamicBuildConfiguration;
