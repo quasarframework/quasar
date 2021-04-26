@@ -65,10 +65,10 @@ export default defineComponent({
         
         if (targetEl) {
 
-            observer = new ResizeObserver(trigger)
-            observer.observe(targetEl)
+          observer = new ResizeObserver(trigger)
+          observer.observe(targetEl)
 
-            onResize()
+          onResize()
           }
 
       })
