@@ -140,6 +140,10 @@ export default defineComponent({
         const fn = val === true ? addClickOutside : removeClickOutside
         fn(clickOutsideProps)
       })
+
+      onBeforeUnmount(() => {
+        removeClickOutside(clickOutsideProps)
+      })
     }
 
     function handleShow (evt) {

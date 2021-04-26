@@ -44,17 +44,17 @@ interface QuasarDevServerConfiguration
  * }
  * ```
  */
-type QuasarSourceFilesConfiguration = Partial<{
-  rootComponent: string;
-  router: string;
-  store: string;
-  indexHtmlTemplate: string;
-  registerServiceWorker: string;
-  serviceWorker: string;
-  electronMain: string;
-  electronPreload: string;
-  ssrServerIndex: string;
-}>;
+interface QuasarSourceFilesConfiguration {
+  rootComponent?: string;
+  router?: string;
+  store?: string;
+  indexHtmlTemplate?: string;
+  registerServiceWorker?: string;
+  serviceWorker?: string;
+  electronMain?: string;
+  electronPreload?: string;
+  ssrServerIndex?: string;
+}
 
 interface BaseQuasarConfiguration {
   /** Boot files to load. Order is important. */

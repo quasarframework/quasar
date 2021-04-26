@@ -273,10 +273,8 @@ export default defineComponent({
       if (hiding === true || showing.value === true) {
         removeFocusout(onFocusout)
         unconfigureScrollTarget()
-        if (props.persistent !== true) {
-          removeClickOutside(clickOutsideProps)
-          removeEscapeKey(onEscapeKey)
-        }
+        removeClickOutside(clickOutsideProps)
+        removeEscapeKey(onEscapeKey)
       }
     }
 

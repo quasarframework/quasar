@@ -1,11 +1,12 @@
 import {
   ComponentOptionsMixin,
   ComponentPropsOptions,
+  ComponentPublicInstance,
   DefineComponent,
   EmitsOptions,
   ExtractPropTypes,
   Ref,
-  SetupContext
+  SetupContext,
 } from 'vue';
 import { MetaOptions } from './meta';
 
@@ -33,7 +34,7 @@ export function extend<R>(target: object, ...sources: any[]): R;
 export function openURL<F extends (...args: any[]) => any>(
   url: string,
   reject?: F,
-  windowFeatures?: Object,
+  windowFeatures?: Object
 ): void;
 export function throttle<F extends (...args: any[]) => any>(
   fn: F,
@@ -76,7 +77,17 @@ export function setCssVar(
   element?: Element
 ): void;
 
-export function createMetaMixin(options: MetaOptions | (() => MetaOptions)): ComponentOptionsMixin;
+interface CreateMetaMixinContext extends ComponentPublicInstance {
+  [index: string]: any;
+}
+
+export function createMetaMixin<
+  CustomInstanceProperties extends Record<string, any> = {}
+>(
+  options:
+    | MetaOptions
+    | ((this: CreateMetaMixinContext & CustomInstanceProperties) => MetaOptions)
+): ComponentOptionsMixin;
 
 interface InjectPluginFnHelpers {
   queuedFiles: Ref<File[]>;
