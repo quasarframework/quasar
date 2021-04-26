@@ -93,7 +93,7 @@ export default defineComponent({
 
       let curDocView
 
-      function cleanup() {
+      function cleanup () {
         clearTimeout(timer)
 
         if (curDocView !== void 0) {
