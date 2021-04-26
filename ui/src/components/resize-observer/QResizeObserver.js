@@ -62,8 +62,8 @@ export default defineComponent({
 
       onMounted(() => {
          targetEl = vm.proxy.$el.parentNode
+        
         if (targetEl) {
-
 
             observer = new ResizeObserver(trigger)
             observer.observe(targetEl)
