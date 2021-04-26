@@ -1,22 +1,18 @@
 import { Request, Response } from "express";
-import { HasSsr } from "quasar";
+import { HasSsr, QVueGlobals } from "quasar";
+import { HasStoreParam } from "./store";
 
-interface QSsrContext {
+interface QSsrContext extends HasStoreParam {
   req: Request;
   res: Response;
 
   /**
    * The $q object
    */
-  $q?: object;
-
-  /**
-   * The state of the Vuex store;
-   * gets filled in by Vuex itself
-   */
-  state?: any;
+  $q: QVueGlobals;
 
   /** The global "nonce" attribute to use */
+  // TODO: migrate to a `quasar.conf.js` property?
   nonce?: string;
 
   /**
@@ -25,7 +21,8 @@ interface QSsrContext {
    * to access ssrContext again after it has been fully processed.
    * Example: ssrContext.onRendered(() => { ... })
    */
-  onRendered?: (fn: () => void) => void;
+  // TODO: migrate to a `quasar.conf.js` property?
+  onRendered: (fn: () => void) => void;
 
   /**
    * Set this to a function which will be executed server-side
@@ -36,7 +33,8 @@ interface QSsrContext {
    * (like @vue/apollo-ssr)
    * Example: ssrContext.rendered = () => { ... }
    */
-  rendered?: () => void | void;
+  // TODO: migrate to a `quasar.conf.js` property?
+  rendered?: () => void;
 }
 
 export type HasSsrParam = HasSsr<{ ssrContext?: QSsrContext | null }>;

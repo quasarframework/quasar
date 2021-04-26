@@ -43,17 +43,10 @@ interface QuasarBaseElectronConfiguration {
    *  or we haven’t found the recipe yet.
    */
   // This property definition is here merely to avoid duplicating the TSDoc
-  bundler?: QuasarElectronBundlersInternal;
-
-  /**
-   * electron-packager options
-   */
-  packager?: any;
-
-  /**
-   * electron-builder options
-   */
-  builder?: any;
+  // It should not be optional, as TS cannot infer the discriminated union based on the absence of a field
+  // Futhermore, making it optional here won't change the exported interface which is the union
+  // of the two derivate interfaces where `bundler` is set without optionality
+  bundler: QuasarElectronBundlersInternal;
 
   /**
    * Specify additional parameters when yarn/npm installing
