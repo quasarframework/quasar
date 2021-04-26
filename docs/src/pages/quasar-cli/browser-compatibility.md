@@ -41,7 +41,7 @@ In order to support Internet Explorer 11, you'll need to edit browserslist from 
 ]
 ```
 
-That's it. This will inject the Promise polyfill, along with some other smaller polyfills, adding an extra ~6k worth of code (minified) to your bundle. Check [Github](https://github.com/quasarframework/quasar/tree/dev/ui/src/ie-compat) to see it.
+That's it. This will inject the Promise polyfill, along with some other smaller polyfills, adding an extra ~6k worth of code (minified) to your bundle. Check [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/src/ie-compat) to see it.
 
 ::: tip IE Polyfills
 Quasar CLI is smart enough to include the IE polyfills only if it is really needed. An Electron app for example doesn't need it and as a result, even if you leave `ie 11` in your package.json > browserslist it won't add the polyfills.

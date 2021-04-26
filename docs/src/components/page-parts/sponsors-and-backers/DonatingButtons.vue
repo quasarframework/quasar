@@ -14,7 +14,7 @@
         <q-icon left :name="fabGithub" />
 
         <div class="text-center">
-          Github Sponsorship
+          GitHub Sponsorship
         </div>
       </div>
     </q-btn>
