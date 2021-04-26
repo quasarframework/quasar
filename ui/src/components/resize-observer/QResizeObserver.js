@@ -1,4 +1,4 @@
-import { h, defineComponent, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, defineComponent, onMounted, onBeforeUnmount, getCurrentInstance, nextTick } from 'vue'
 
 import useCanRender from '../../composables/private/use-can-render.js'
 
@@ -9,7 +9,7 @@ const resizeProps = hasObserver === true
   ? {}
   : {
       style: 'display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;',
-      url: '#blank'
+      url: 'about:blank'
     }
 
 export default defineComponent({
@@ -41,11 +41,13 @@ export default defineComponent({
     function onResize () {
       timer = void 0
 
-      const { offsetWidth: width, offsetHeight: height } = targetEl
+      if (targetEl) {
+        const { offsetWidth: width, offsetHeight: height } = targetEl
 
-      if (width !== size.width || height !== size.height) {
-        size = { width, height }
-        emit('resize', size)
+        if (width !== size.width || height !== size.height) {
+          size = { width, height }
+          emit('resize', size)
+        }
       }
     }
 
@@ -58,12 +60,15 @@ export default defineComponent({
       let observer
 
       onMounted(() => {
-        targetEl = vm.proxy.$el.parentNode
+        nextTick(() => {
+          targetEl = vm.proxy.$el.parentNode
 
-        observer = new ResizeObserver(trigger)
-        observer.observe(targetEl)
-
-        onResize()
+          if (targetEl) {
+            observer = new ResizeObserver(trigger)
+            observer.observe(targetEl)
+            onResize()
+          }
+        })
       })
 
       onBeforeUnmount(() => {
@@ -104,14 +109,15 @@ export default defineComponent({
         if (targetEl && targetEl.contentDocument) {
           curDocView = targetEl.contentDocument.defaultView
           curDocView.addEventListener('resize', trigger, listenOpts.passive)
+          onResize()
         }
-
-        onResize()
       }
 
       onMounted(() => {
-        targetEl = vm.proxy.$el
-        onObjLoad()
+        nextTick(() => {
+          targetEl = vm.proxy.$el
+          targetEl && onObjLoad()
+        })
       })
 
       onBeforeUnmount(cleanup)
