@@ -64,7 +64,7 @@ Even a small donation could mean a huge difference to them, not least because it
 ## Donating
 You can help Quasar Development by making a monthly pledge through Patreon or send a one-time donation through Paypal. If you are representing a company who wants to become a **Sponsor** and need an invoice for your donations, please send an email to `razvan.stoenescu [at] gmail [dot] com`.
 
-Donating through the **Github Sponsorship is recommended** because Github will also match your donation (making it worth double your amount).
+Donating through the **GitHub Sponsorship is recommended** because GitHub will also match your donation (making it worth double your amount).
 
 <donating-buttons />
 
