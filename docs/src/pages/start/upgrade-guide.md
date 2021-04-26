@@ -178,7 +178,7 @@ Before starting, it is highly suggested to make a copy of your current working p
     lang: 'en-US'
   }
   ```
-7) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible).
+7) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.conf.js > [devServer config](/quasar-cli/quasar-conf-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
 8) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
 9) Upgrade your other project dependencies (especially ESLint related ones).
 
@@ -206,6 +206,8 @@ As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server
 | onBeforeSetupMiddleware | Function | Replaces "before" |
 | onAfterSetupMiddleware | Function | Replaces "after" |
 | proxy | Object/Array | Same as before with webpack 4 |
+
+More on quasar.conf.js > [devServer](/quasar-cli/quasar-conf-js#property-devserver).
 
 ### App.vue
 

@@ -138,7 +138,7 @@ Let's take each option one by one:
 | htmlVariables | Object | Add variables that you can use in index.template.html. |
 | framework | Object/String | What Quasar components/directives/plugins to import, what Quasar language pack to use, what Quasar icon set to use for Quasar components. |
 | animations | Object/String | What [CSS animations](/options/animations) to import. Example: _['bounceInLeft', 'bounceOutRight']_ |
-| devServer | Object | Webpack dev server [options](https://webpack.js.org/configuration/dev-server/) (at the time of writing, not yet updated for webpack-dev-server v4). Some properties are overwritten based on the Quasar mode you're using in order to ensure a correct config. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL. |
+| devServer | Object | Webpack devServer options. Some properties are overwritten based on the Quasar mode you're using in order to ensure a correct config. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL. |
 | build | Object | Build configuration options. |
 | sourceFiles | Object | Change the default name of parts of your app. |
 | cordova | Object | Cordova specific [config](/quasar-cli/developing-cordova-apps/configuring-cordova). |
@@ -214,7 +214,7 @@ return {
 More on cssAddon [here](/layout/grid/introduction-to-flexbox#flex-addons).
 
 ### Property: devServer
-**Webpack devServer options**. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options (at the time of writing, not yet updated for webpack-dev-server v4). Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL.
+**Webpack devServer options**. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options (**at the time of writing this, the Webpack team has not yet updated the website for webpack-dev-server v4**). Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL.
 
 Most used properties are:
 
