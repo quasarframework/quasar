@@ -8,28 +8,28 @@ const hasObserver = typeof ResizeObserver !== 'undefined'
 const resizeProps = hasObserver === true
   ? {}
   : {
-    style: 'display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;',
-    url: 'about:blank'
-  }
+      style: 'display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;',
+      url: 'about:blank'
+    }
 
 export default defineComponent({
   name: 'QResizeObserver',
 
   props: {
     debounce: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 100
     }
   },
 
-  emits: ['resize'],
+  emits: [ 'resize' ],
 
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     if (__QUASAR_SSR_SERVER__) { return noop }
 
     let timer, targetEl, size = { width: -1, height: -1 }
 
-    function trigger(now) {
+    function trigger (now) {
       if (now === true || props.debounce === 0 || props.debounce === '0') {
         onResize()
       }
@@ -40,8 +40,8 @@ export default defineComponent({
 
     function onResize() {
       if (targetEl) {
-
         timer = void 0
+        
         const { width, height } = targetEl
 
         if (width !== size.width || height !== size.height) {
@@ -58,16 +58,18 @@ export default defineComponent({
     Object.assign(vm.proxy, { trigger })
 
     if (hasObserver === true) {
-      let observer
+        let observer
 
       onMounted(() => {
-        targetEl = vm.proxy.$el.parentNode
+         targetEl = vm.proxy.$el.parentNode
         if (targetEl) {
-          observer = new ResizeObserver(trigger)
-          observer.observe(targetEl)
 
-          onResize()
-        }
+
+            observer = new ResizeObserver(trigger)
+            observer.observe(targetEl)
+
+            onResize()
+          }
 
       })
 
