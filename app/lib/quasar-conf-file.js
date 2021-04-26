@@ -118,7 +118,7 @@ class QuasarConfFile {
 
         await this.compile()
 
-        if (this.webpackConfChanged) {
+        if (this.webpackConfChanged === true) {
           opts.onBuildChange()
         }
         else {
@@ -942,7 +942,10 @@ class QuasarConfFile {
     }
 
     this.quasarConf = cfg
-    this.webpackConf = await require('./webpack')(cfg)
+
+    if (this.webpackConfChanged !== false) {
+      this.webpackConf = await require('./webpack')(cfg)
+    }
   }
 }
 

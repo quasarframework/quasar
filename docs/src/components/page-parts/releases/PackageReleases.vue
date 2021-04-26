@@ -81,7 +81,7 @@ export default {
         .replace(/\*([\S ]*?)\*/g, '<em>$1</em>')
         .replace(/```([\S]+)/g, '<code class="doc-code__inner doc-code__inner--prerendered release__code">')
         .replace(/```\n/g, '</code>')
-        .replace(/`([\w ]+)`/g, '<code class="doc-token">$1</code>')
+        .replace(/`(.*?)`/g, '<code class="doc-token">$1</code>')
         .replace(/#([\d]+)/g, '<a class="doc-link" href="https://github.com/quasarframework/quasar/issues/$1" target="_blank">#$1</a>')
         .replace(/^&gt; ([\S ]+)$/gm, '<div class="release__blockquote">$1</div>')
         .replace(/\[([\S ]*?)\]\((\S*?)\)/g, '<a class="doc-link" href="$2" target="_blank">$1</a>')

@@ -10,7 +10,7 @@ In order for creating an App Extension project folder, please first read the [De
 :::
 
 ::: tip Full Example
-To see an example of what we will build, head over to [full example](https://github.com/quasarframework/app-extension-examples/tree/master/inject-quasar-plugin), which is a github repo with this App Extension.
+To see an example of what we will build, head over to [full example](https://github.com/quasarframework/app-extension-examples/tree/master/inject-quasar-plugin), which is a GitHub repo with this App Extension.
 :::
 
 We will only need the /index.js script for this, because we can use the [Index API](/app-extensions/development-guide/index-api) to configure quasar.conf.js from the host app to include our required Quasar Plugin.

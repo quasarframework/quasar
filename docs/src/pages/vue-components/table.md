@@ -62,6 +62,10 @@ columns: [ // array of Objects
     //   * is 0 then leave a and b unchanged with respect to each other, but sorted with respect to all different elements
     //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first
 
+    // (optional; requires Quasar v1.15.11+) override 'column-sort-order' prop;
+    // sets column sort order: 'ad' (ascending-descending) or 'da' (descending-ascending)
+    sortOrder: 'ad', // or 'da'
+
     // (optional) you can format the data with a function
     format: (val, row) => `${val}%`,
     // one more format example:
@@ -285,7 +289,7 @@ The example below shows how you can use a slot to customize the entire header ro
 
 <doc-example title="Header slot" file="QTable/SlotHeader" />
 
-Bellow, we use a slot which gets applied to each header cell:
+Below, we use a slot which gets applied to each header cell:
 
 <doc-example title="Header-cell slot" file="QTable/SlotHeaderCell" />
 
