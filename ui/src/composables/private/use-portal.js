@@ -40,7 +40,7 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
   const portalIsActive = ref(false)
 
   function showPortal () {
-    if (onGlobalDialog === false) {
+    if (onGlobalDialog === false && portalEl === null) {
       portalEl = createGlobalNode()
     }
 
