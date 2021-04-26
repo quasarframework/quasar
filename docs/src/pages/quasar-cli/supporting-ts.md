@@ -163,7 +163,10 @@ module.exports = function (ctx) {
   return {
     supportTS: {
       tsCheckerConfig: {
-        eslint: true
+        eslint: {
+          enabled: true,
+          files: './src/**/*.{ts,tsx,js,jsx,vue}'
+        }
       }
     },
     ....

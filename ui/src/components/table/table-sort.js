@@ -5,7 +5,12 @@ import { isNumber, isDate } from '../../utils/private/is.js'
 
 export const useTableSortProps = {
   sortMethod: Function,
-  binaryStateSort: Boolean
+  binaryStateSort: Boolean,
+  columnSortOrder: {
+    type: String,
+    validator: v => v === 'ad' || v === 'da',
+    default: 'ad'
+  }
 }
 
 export function useTableSort (props, computedPagination, colList, setPagination) {
@@ -66,24 +71,43 @@ export function useTableSort (props, computedPagination, colList, setPagination)
   ))
 
   function sort (col /* String(col name) or Object(col definition) */) {
+    let sortOrder = props.columnSortOrder
+
     if (col === Object(col)) {
+      if (col.sortOrder) {
+        sortOrder = col.sortOrder
+      }
+
       col = col.name
+    }
+    else if (props.columns[ col ].sortOrder) {
+      sortOrder = props.columns[ col ].sortOrder
     }
 
     let { sortBy, descending } = computedPagination.value
 
     if (sortBy !== col) {
       sortBy = col
-      descending = false
+      descending = sortOrder === 'da'
     }
     else if (props.binaryStateSort === true) {
       descending = !descending
     }
     else if (descending === true) {
-      sortBy = null
+      if (sortOrder === 'ad') {
+        sortBy = null
+      }
+      else {
+        descending = false
+      }
     }
-    else {
-      descending = true
+    else { // ascending
+      if (sortOrder === 'ad') {
+        descending = true
+      }
+      else {
+        sortBy = null
+      }
     }
 
     setPagination({ sortBy, descending, page: 1 })

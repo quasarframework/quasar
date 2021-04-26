@@ -5,7 +5,7 @@ module.exports = async function () {
   const interfaces = await getExternalNetworkInterface()
 
   if (interfaces.length === 0) {
-    fatal(`No external IP detected. Can't run without one. Manually specify one?\n`)
+    fatal(`No external IP detected. Can't run without one. Manually specify one?`)
   }
 
   if (interfaces.length === 1) {

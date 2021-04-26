@@ -20,6 +20,7 @@
       :hide-no-data="hideNoData"
       :hide-pagination="hidePagination"
       no-hover
+      column-sort-order="da"
     >
       <template v-slot:body="props">
         <q-tr :props="props">
@@ -181,7 +182,7 @@ export default {
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, style: 'width: 10px' },
+        { name: 'fat', sortOrder: 'ad', label: 'Fat (g)', field: 'fat', sortable: true, style: 'width: 10px' },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },

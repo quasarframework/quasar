@@ -196,11 +196,11 @@ class ElectronRunner {
         }
         else if (code) {
           warn()
-          fatal(`Electron process ended with error code: ${code}\n`)
+          fatal(`Electron process ended with error code: ${code}`)
         }
         else { // else it wasn't killed by us
           warn()
-          fatal('Electron process was killed. Exiting...\n')
+          fatal('Electron process was killed. Exiting...')
         }
       }
     )

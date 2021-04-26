@@ -27,6 +27,32 @@ export default ({ ..., ssrContext }) { /* ... */ }
 preFetch ({ ..., ssrContext }) { /* ... */ }
 ```
 
+You can also access the ssrContext in your Vue components. Below are two examples, one with Composition API and one with Options API:
+
+```js
+// Composition API
+import { useSSRContext } from 'vue'
+
+export default {
+  // ...
+  setup () {
+    // we need to guard it and call it only on SSR server-side:
+    const ssrContext = process.env.SERVER ? useSSRContext() : null
+    // ...do something with it
+  }
+}
+```
+
+```js
+// Options API
+export default {
+  // ...
+  created () { // can be any other Vue component lifecycle hook
+    this.ssrContext
+  }
+}
+```
+
 ## Anatomy of ssrContext
 
 ```js
@@ -59,4 +85,6 @@ More information on the purpose of the "nonce" property is available on [MDN](ht
 
 The `req` and `res` are Express.js's objects for the current server client. One use-case for `req` is accessing `req.url` to get the URL that the client is requesting.
 
+::: tip
 Feel free to inject your own stuff into ssrContext too, but do NOT tamper with any of the private props (props that start with an underscore, eg. `_someProp`).
+:::

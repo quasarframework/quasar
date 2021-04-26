@@ -217,11 +217,11 @@ async function goLive () {
     host: argv.hostname,
     onAddress: parseAddress,
     onBuildChange () {
-      log(`Build changes detected. Rebuilding app...`)
+      log(`Rebuilding app...`)
       dev = dev.then(startDev)
     },
     onAppChange () {
-      log(`App changes detected. Updating app...`)
+      log(`Updating app...`)
       generator.build()
     }
   })
@@ -257,8 +257,8 @@ async function goLive () {
   const generator = new Generator(quasarConfFile)
   let runMode
 
-  if (['cordova', 'capacitor', 'electron', 'bex', 'pwa'].includes(argv.mode)) {
-    const ModeRunner = require('../lib/' + argv.mode)
+  if (['cordova', 'capacitor', 'electron', 'bex', 'pwa', 'ssr'].includes(argv.mode)) {
+    const ModeRunner = require('../lib/' + (argv.mode === 'ssr' ? 'pwa' : argv.mode))
     ModeRunner.init(ctx)
     runMode = () => ModeRunner.run(quasarConfFile, argv)
   }
@@ -269,9 +269,9 @@ async function goLive () {
   function startDev (oldDevServer) {
     let devServer
 
-    const runMain = () => {
+    const runMain = async () => {
       if (oldDevServer !== void 0) {
-        oldDevServer.stop()
+        await oldDevServer.stop()
         oldDevServer = void 0
       }
 
@@ -283,7 +283,10 @@ async function goLive () {
 
     let promise = Promise.resolve()
 
-    promise = argv.mode === 'pwa'
+    // using quasarConfFile.ctx instead of argv.mode
+    // because SSR might also have PWA enabled but we
+    // can only know it after parsing the quasar.conf file
+    promise = quasarConfFile.ctx.mode.pwa === true
       ? promise.then(runMode).then(runMain)
       : promise.then(runMain).then(runMode)
 

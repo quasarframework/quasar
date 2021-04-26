@@ -30,6 +30,7 @@ module.exports = function (argv, cmd, details) {
  ${cmd === 'dev' ? 'Dev mode..........' : 'Build mode........'} ${green(argv.mode)}
  Pkg quasar........ ${green('v' + quasarVersion)}
  Pkg @quasar/app... ${green('v' + cliAppVersion)}
+ Pkg webpack....... ${green('v5')}
  Debugging......... ${cmd === 'dev' || argv.debug ? green('enabled') : grey('no')}`
 
   if (cmd === 'build') {

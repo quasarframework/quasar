@@ -22,6 +22,7 @@ div
     ref="apiRef"
     :key="item"
     :file="item"
+    page-link
   )
 </template>
 

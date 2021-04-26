@@ -8,7 +8,7 @@ const entryFile = join(__dirname, 'runtime.ssr-directives.js')
 const banner = `
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
- * DO NOT EDIT.
+ * DO NOT EDIT IT. INSTEAD, EDIT DIRECTlY IN /src-ssr/directives
  **/
 `
 

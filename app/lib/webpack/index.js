@@ -41,14 +41,21 @@ async function getWebpackConfig (chain, cfg, {
       webpackConfig.infrastructureLogging
     )
   }
-  else {
-    // webpackConfig.cache = false // webpackConfig.cache || { type: 'filesystem' }
-  }
-
-  // TODO: enable when webpack5 work is complete
-  webpackConfig.cache = false
 
   return webpackConfig
+}
+
+function getCSW (cfg) {
+  const createCSW = require('./pwa/create-custom-sw')
+
+  // csw - custom service worker
+  return getWebpackConfig(createCSW(cfg, webpackNames.pwa.csw), cfg, {
+    name: webpackNames.pwa.csw,
+    cfgExtendBase: cfg.pwa,
+    hookSuffix: 'PwaCustomSW',
+    cmdSuffix: 'CustomSW',
+    invokeParams: { isClient: true, isServer: false }
+  })
 }
 
 async function getSPA (cfg) {
@@ -80,22 +87,10 @@ async function getPWA (cfg) {
     })
   }
 
-  if (cfg.pwa.workboxPluginMode !== 'InjectManifest') {
-    return { renderer: await getRenderer() }
+  return {
+    ...(cfg.pwa.workboxPluginMode === 'InjectManifest' ? { csw: await getCSW(cfg) } : {}),
+    renderer: await getRenderer()
   }
-
-  const createCSW = require('./pwa/create-custom-sw')
-
-  // csw - custom service worker
-  const csw = await getWebpackConfig(createCSW(cfg, webpackNames.pwa.csw), cfg, {
-    name: webpackNames.pwa.csw,
-    cfgExtendBase: cfg.pwa,
-    hookSuffix: 'PwaCustomSW',
-    cmdSuffix: 'CustomSW',
-    invokeParams: { isClient: true, isServer: false }
-  })
-
-  return { csw, renderer: await getRenderer() }
 }
 
 async function getCordova (cfg) {
@@ -165,6 +160,8 @@ async function getSSR (cfg) {
   const webserver = require('./ssr/webserver')(cfg, webpackNames.ssr.webserver)
 
   return {
+    ...(cfg.pwa.workboxPluginMode === 'InjectManifest' ? { csw: await getCSW(cfg) } : {}),
+
     webserver: await getWebpackConfig(webserver, cfg, {
       name: webpackNames.ssr.webserver,
       cfgExtendBase: cfg.ssr,

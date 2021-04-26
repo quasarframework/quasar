@@ -96,7 +96,7 @@ banner(argv, 'build')
 
 const { log, fatal } = require('../lib/helpers/logger')
 const { printWebpackErrors } = require('../lib/helpers/print-webpack-issue')
-const { splitWebpackConfig } = require('../lib/webpack/symbols')
+const { webpackNames, splitWebpackConfig } = require('../lib/webpack/symbols')
 
 const path = require('path')
 const webpack = require('webpack')
@@ -106,7 +106,7 @@ function parseWebpackConfig (cfg, mode) {
 
   if (mode === 'pwa') {
     // CSW needs to be compiled separately, before UI
-    data = data.filter(entry => entry.name !== 'csw')
+    data = data.filter(entry => entry.name !== webpackNames.pwa.csw)
   }
 
   return {
@@ -199,7 +199,10 @@ async function build () {
     await hook.fn(hook.api, { quasarConf })
   })
 
-  if (argv.mode === 'pwa') {
+  // using quasarConfFile.ctx instead of argv.mode
+  // because SSR might also have PWA enabled but we
+  // can only know it after parsing the quasar.conf file
+  if (quasarConfFile.ctx.mode.pwa === true) {
     // need to build the custom service worker before renderer
     Runner = require('../lib/pwa')
     Runner.init(ctx)
@@ -230,7 +233,7 @@ async function build () {
 
       const summary = printWebpackErrors(webpackData.name[index], stats)
       console.log()
-      fatal(`for "${webpackData.name[index]}" with ${summary}. Please check the log above.\n`, 'COMPILATION FAILED')
+      fatal(`for "${webpackData.name[index]}" with ${summary}. Please check the log above.`, 'COMPILATION FAILED')
     })
 
     const printWebpackStats = require('../lib/helpers/print-webpack-stats')

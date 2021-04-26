@@ -265,7 +265,7 @@ const cli = [
       {
         name: 'ssrContext',
         badge: 'update',
-        path: 'ssr-context-object'
+        path: 'ssr-context'
       },
       {
         name: 'SSR Middleware',

@@ -5,13 +5,10 @@ components:
   - upgrade-guide/UpgradeVideoLink
 ---
 
-::: danger Quasar v2 beta
-* Until the final stable version is released, some aspects of the framework may change. We're not planning for additional changes, but unforeseen reported issues may require us to do breaking changes (unlikely, but keep this in mind). So please make sure that you read each v2 beta version's release notes carefully before upgrading.
-* We plan on finalizing the Webpack 5 upgrade for Quasar CLI as soon as possible. This may account as a possible breaking change when completed (if you are tampering with the Webpack config).
-* SSR support is temporarily disabled (but Quasar is SSR ready). There are [a few tickets](https://github.com/quasarframework/quasar/issues/7836#issuecomment-780096747) that we raised for Vue Team on Vue Core code that are critical for us and your experience. We will enable SSR (and also mark Quasar v2 as "stable") as soon as the tickets are tackled.
-* There is no IE11 support (because Vue 3 does NOT support it either).
-* We are still working on upgrading all of our App Extensions to Vue 3 and Quasar v2.
-* Considering the above, we still recommend starting a new project with Quasar v2.
+::: danger Quasar UI v2
+* In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your installed webpack plugins accordingly.
+* There is no IE11 support because Vue 3 does NOT (and will not) support it either.
+* There may be some App Extensions that are not yet ported to Vue 3 and Quasar v2.
 :::
 
 ::: tip Composition and Options API
@@ -75,9 +72,10 @@ Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots o
 
 ::: warning IMPORTANT!
 * No IE11 support - Vue 3 does not support IE11 either. If IE11 support is mandatory for your project(s), then continue using Quasar UI v1.
+* In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
 * Quasar Stylus variables are no longer available (only Sass/SCSS). This does NOT mean that you can't use Stylus anymore though.
-* SSR build mode is NOT **yet** supported. If your project relies on SSR, you might want to hold off on upgrading for now.
 * Not all of our official App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions for them.
+* Node v10 reached its End Of Life and so support for it has been dropped. Be sure to update Node (to at least v12.22.1) and npm/yarn on your system accordingly to the new constraits, which include fixes for latest know security issues.
 :::
 
 Before you start with this journey of upgrading your project from v1 to v2, you should know a few additional things:
@@ -117,19 +115,26 @@ Before starting, it is highly suggested to make a copy of your current working p
   $ yarn add --dev stylus stylus-loader
   ```
 2) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
-3) **Install**: `quasar` v2 and `@quasar/app` v3 beta packages from the npm tag named "next":
+3) **Upgrade** Node to at least v12.22.1, npm to at least v6.14.12 and yarn to at least v1.17.3.
+4) **Install**: `quasar` v2 and `@quasar/app` v3 beta packages from the npm tag named "next":
   ```bash
   $ yarn add quasar@next
   $ yarn add --dev @quasar/app@next
   ```
-4) If you are using ESLint, then edit `/.eslintrc.js`:
+5) If you are using ESLint, then edit `/.eslintrc.js`:
   ```js
   // old way
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
   extends: {
     'plugin:vue/essential' // or equivalent
   }
 
   // NEW way
+  parserOptions: {
+    parser: '@babel/eslint-parser'
+  },
   extends: {
     'plugin:vue/vue3-essential' // or equivalent
   }
@@ -138,15 +143,18 @@ Before starting, it is highly suggested to make a copy of your current working p
   Also upgrade ESLint deps. Example:
 
   ```js
+  "@babel/eslint-parser": "^7.0.0", // replaces babel-eslint !
   "eslint": "^7.14.0",
   "eslint-config-standard": "^16.0.2",
   "eslint-plugin-import": "^2.19.1",
   "eslint-plugin-node": "^11.0.0",
-  "eslint-plugin-promise": "^4.2.1",
+  "eslint-plugin-promise": "^5.1.0",
+  "eslint-plugin-quasar": "^1.0.0",
   "eslint-plugin-vue": "^7.0.0",
   "eslint-webpack-plugin": "^2.4.0"
   ```
-5) Edit quasar.conf.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
+
+6) Edit quasar.conf.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
   ```js
   // old way
   framework: {
@@ -158,8 +166,9 @@ Before starting, it is highly suggested to make a copy of your current working p
     lang: 'en-US'
   }
   ```
-6) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
-7) Upgrade your other project dependencies (especially ESLint related ones).
+7) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible).
+8) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
+9) Upgrade your other project dependencies (especially ESLint related ones).
 
 #### Option 2: Create a project
 
@@ -171,6 +180,20 @@ You can generate a new Quasar v2 project as shown below and then you can port yo
 $ quasar create <folder_name> --branch next
 # NOTE: the above will change when v2 is released as stable
 ```
+
+### Webpack v5
+
+In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
+
+As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server) and [webpack-dev-middleware v4](https://github.com/webpack/webpack-dev-middleware) which come with their own breaking changes. This influences quasar.conf.js > devServer options. Below are some of the most used props:
+
+| Prop name | Type | Description |
+| --- | --- | --- |
+| devMiddleware | Object | Configuration supplied to webpack-dev-middleware v4 |
+| https | Boolean/Object | Same as before with webpack 4 |
+| onBeforeSetupMiddleware | Function | Replaces "before" |
+| onAfterSetupMiddleware | Function | Replaces "after" |
+| proxy | Object/Array | Same as before with webpack 4 |
 
 ### App.vue
 
@@ -577,7 +600,9 @@ The `@scroll` event parameter now has a slightly different content:
 
 #### QTable
 
-Renamed the "data" property to "rows" (to solve TS conflict issue with "data" incorrectly inferred as the "data()" method of a Vue component)
+Renamed the "data" property to "rows" (to solve TS conflict issue with "data" incorrectly inferred as the "data()" method of a Vue component).
+
+New prop: "column-sort-order". Also, new "columns" definition prop: "sortOrder".
 
 #### QTable/QTree
 
@@ -710,8 +735,13 @@ import { createMetaMixin } from 'quasar'
 
 export default {
   mixins: [
-    createMetaMixin({
-      // ...definition
+    createMetaMixin({ /* ...definition */})
+    // OR dynamic:
+    createMetaMixin(function () {
+      // "this" here refers to the vue component
+      return {
+        /* ...definition... */
+      }
     })
   ]
 }
@@ -823,6 +853,7 @@ This section refers to "@quasar/app" v3 package which supports Vue 3 and Quasar 
 * Remove quasar.conf.js > framework > importStrategy. Auto import works so great that is now used by default and as the only option.
 * The url-loader configuration has been enhanced so it now also supports "ico" files out of the box
 * Removed support for quasar.conf.js > framework > `importStrategy: 'all'` since the auto import feature has become so good anyways (so it's now enabled by default)..
+* If you have been using quasar.conf.js > build > rtl in the form of an Object, then you must match [these options](https://github.com/elchininet/postcss-rtlcss) now, since we've switched from the unmaintained postcss-rtl to postcss-rtlcss package.
 
 If you have boot files, where you access and change the `$q` Object through `Vue.prototype.$q`, then you need to adapt this:
 
@@ -899,6 +930,8 @@ electron: {
 ### Quasar App CLI PWA mode
 
 If you are using Workbox in InjectManifest mode, then it's useful to know that the `/src-pwa/custom-service-worker.[js|ts]` is now being compiled too. This means that in your code you can now import with relative path too.
+
+Due to the upgrade to Webpack 5, you will need to also upgrade `workbox-webpack-plugin` to v6+.
 
 You can now enable ESLint for the custom service worker too. And it [supports TS](/quasar-cli/developing-pwa/pwa-with-typescript) out of the box (in which case, rename the extension to `.ts`).
 

@@ -32,7 +32,7 @@ function getBrowsersList () {
   }
   catch (err) {
     warn(`${err.name}: ${err.message}`)
-    fatal('Please revise /package.json > browserslist -- invalid entry!\n')
+    fatal('Please revise /package.json > browserslist -- invalid entry!')
   }
 }
 
@@ -40,7 +40,7 @@ function getSupportData () {
   const browsers = getBrowsersList()
 
   if (browsers.length === 0) {
-    fatal('Please revise /package.json > browserslist -- no browsers specified!\n')
+    fatal('Please revise /package.json > browserslist -- no browsers specified!')
   }
 
   const versions = {}

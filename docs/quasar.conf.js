@@ -1,6 +1,8 @@
 // Configuration for your app
 const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin')
+const { merge } = require('webpack-merge')
+const transformAssetUrls = require('quasar/dist/transforms/loader-asset-urls.json')
 
 module.exports = function (ctx) {
   return {
@@ -23,11 +25,11 @@ module.exports = function (ctx) {
 
     build: {
       vueRouterMode: 'history',
-      showProgress: false, // ctx.dev,
+      showProgress: ctx.dev,
       distDir: 'dist/quasar.dev',
       // analyze: true,
 
-      chainWebpack (chain) {
+      chainWebpack (chain, { isServer }) {
         chain.plugin('eslint-webpack-plugin')
           .use(ESLintPlugin, [{
             extensions: [ 'js', 'vue' ],
@@ -50,16 +52,26 @@ module.exports = function (ctx) {
         rule.use('v-loader')
           .loader('vue-loader')
           .options({
-            productionMode: ctx.prod,
+            isServerBuild: isServer === true,
             compilerOptions: {
-              preserveWhitespace: false
+              preserveWhitespace: false,
+              ...(
+                isServer
+                  ? { ssr: true, directiveTransforms: require('quasar/dist/ssr-directives/index.js') }
+                  : {}
+              )
             },
-            transformAssetUrls: {
-              video: 'src',
-              source: 'src',
-              img: 'src',
-              image: 'xlink:href'
-            }
+            transformAssetUrls: merge({
+              base: null,
+              includeAbsolute: false,
+              tags: {
+                video: [ 'src', 'poster' ],
+                source: ['src'],
+                img: ['src'],
+                image: [ 'xlink:href', 'href' ],
+                use: [ 'xlink:href', 'href' ]
+              }
+            }, transformAssetUrls)
           })
 
         rule.use('md-loader')

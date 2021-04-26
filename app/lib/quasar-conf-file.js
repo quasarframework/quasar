@@ -111,7 +111,7 @@ class QuasarConfFile {
         const result = await this.reboot()
 
         if (result !== false) {
-          if (this.webpackConfChanged) {
+          if (this.webpackConfChanged === true) {
             opts.onBuildChange()
           }
           else {
@@ -414,7 +414,6 @@ class QuasarConfFile {
       ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
                                           // will mess up SSR
       vueRouterMode: 'hash',
-      forceDevPublicPath: false,
       transpile: true,
       // transpileDependencies: [], // leaving here for completeness
       devtool: this.ctx.dev
@@ -462,11 +461,9 @@ class QuasarConfFile {
     if (cfg.build.transpile === true) {
       cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
       cfg.__transpileBanner = green(`yes (Babel)`)
-      log(`Transpiling JS (Babel active)`)
     }
     else {
       cfg.__transpileBanner = 'no'
-      log(underline('Not transpiling JS'))
     }
 
     cfg.__loadingBar = cfg.framework.plugins.includes('LoadingBar')
@@ -568,7 +565,9 @@ class QuasarConfFile {
         prodPort: 3000, // gets superseeded in production by an eventual process.env.PORT
         maxAge: 1000 * 60 * 60 * 24 * 30
       }, cfg.ssr, {
-        directiveTransforms: { // not meant to be configurable directly by the user
+        // not meant to be configurable directly by the user,
+        // which is why we're overriding it here
+        directiveTransforms: {
           ...require('quasar/dist/ssr-directives/index.js'),
           ...this.devlandSsrDirectives
         }
@@ -598,6 +597,13 @@ class QuasarConfFile {
       const openInEditor = require('launch-editor-middleware')
 
       delete cfg.devServer.onBeforeSetupMiddleware
+
+      // TODO: remove it when webpack-dev-server goes 4.0.0-beta.3
+      // This is to prepare in advance one of webpack-dev-server's breaking changes
+      if (cfg.devServer.devMiddleware !== void 0) {
+        cfg.devServer.dev = cfg.devServer.devMiddleware
+        delete cfg.devServer.devMiddleware
+      }
 
       cfg.devServer = merge({
         hot: true,
@@ -759,15 +765,16 @@ class QuasarConfFile {
     }
 
     if (this.ctx.dev) {
-      const host = cfg.devServer.host === '0.0.0.0'
-        ? 'localhost'
-        : cfg.devServer.host
-
       const urlPath = cfg.build.vueRouterMode === 'hash'
         ? (cfg.build.htmlFilename !== 'index.html' ? (cfg.build.publicPath ? '' : '/') + cfg.build.htmlFilename : '')
         : ''
 
-      cfg.build.APP_URL = `http${cfg.devServer.https ? 's' : ''}://${host}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
+      cfg.__getUrl = hostname => `http${cfg.devServer.https ? 's' : ''}://${hostname}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
+      cfg.build.APP_URL = cfg.__getUrl(
+        cfg.devServer.host === '0.0.0.0'
+          ? 'localhost'
+          : cfg.devServer.host
+      )
     }
     else if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.bex) {
       cfg.build.APP_URL = 'index.html'
@@ -939,7 +946,10 @@ class QuasarConfFile {
     }
 
     this.quasarConf = cfg
-    this.webpackConf = await require('./webpack')(cfg)
+
+    if (this.webpackConfChanged !== false) {
+      this.webpackConf = await require('./webpack')(cfg)
+    }
   }
 }
 

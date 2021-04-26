@@ -3,7 +3,10 @@ q-card.doc-api.q-my-lg(flat bordered)
   q-toolbar.text-grey-8
     card-title(:title="nameBanner" prefix="api--")
     q-space
-    .col-auto.text-grey {{ typeBanner }}
+
+    .col-auto(v-if="pageLink")
+      q-btn(icon="launch" label="Docs" color="primary" no-caps unelevated :to="docPath")
+    .col-auto.text-grey(v-else) {{ typeBanner }}
 
   q-linear-progress(v-if="loading", color="primary", indeterminate)
 
@@ -245,7 +248,9 @@ export default {
     file: {
       type: String,
       required: true
-    }
+    },
+
+    pageLink: Boolean
   },
 
   setup (props) {
@@ -255,6 +260,8 @@ export default {
     const nameBanner = ref('Loading API...')
     const typeBanner = ref('Please wait...')
     const nothingToShow = ref(false)
+
+    const docPath = ref('')
 
     const filter = ref('')
     const apiDef = ref({})
@@ -276,6 +283,7 @@ export default {
     function parseApiFile (name, { type, behavior, meta, addedIn, ...api }) {
       nameBanner.value = name
       typeBanner.value = `${type === 'plugin' ? 'Quasar' : 'Vue'} ${type.charAt(0).toUpperCase()}${type.substring(1)}`
+      docPath.value = meta.docsUrl.replace(/^https:\/\/v[\d]+\.quasar\.dev/, '')
 
       const tabs = Object.keys(api)
 
@@ -316,6 +324,7 @@ export default {
       nameBanner,
       typeBanner,
       nothingToShow,
+      docPath,
 
       filteredApi,
       filteredApiCount,

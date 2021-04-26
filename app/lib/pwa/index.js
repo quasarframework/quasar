@@ -1,7 +1,4 @@
 const webpack = require('webpack')
-const chalk = require('chalk')
-
-const { log, warn } = require('../helpers/logger')
 
 class PwaRunner {
   constructor () {
@@ -10,12 +7,19 @@ class PwaRunner {
 
   init () {}
 
+  shouldAbort (quasarConfFile) {
+    return (
+      quasarConfFile.quasarConf.pwa.workboxPluginMode !== 'InjectManifest'
+      || (quasarConfFile.quasarConf.ctx.mode.ssr === true && quasarConfFile.quasarConf.ctx.mode.pwa !== true)
+    )
+  }
+
   async run (quasarConfFile) {
     if (this.cswWatcher) {
       await this.stop()
     }
 
-    if (quasarConfFile.quasarConf.pwa.workboxPluginMode !== 'InjectManifest') {
+    if (this.shouldAbort(quasarConfFile)) {
       return
     }
 
@@ -30,14 +34,13 @@ class PwaRunner {
 
         if (stats.hasErrors() === false) {
           resolve()
-
         }
       })
     })
   }
 
   build (quasarConfFile) {
-    if (quasarConfFile.quasarConf.pwa.workboxPluginMode !== 'InjectManifest') {
+    if (this.shouldAbort(quasarConfFile)) {
       return
     }
 
