@@ -58,10 +58,10 @@ export default defineComponent({
     Object.assign(vm.proxy, { trigger })
 
     if (hasObserver === true) {
-       let observer
+      let observer
 
       onMounted(() => {
-         targetEl = vm.proxy.$el.parentNode
+        targetEl = vm.proxy.$el.parentNode
         
         if (targetEl) {
 
