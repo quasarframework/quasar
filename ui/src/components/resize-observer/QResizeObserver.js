@@ -38,7 +38,7 @@ export default defineComponent({
       }
     }
 
-    function onResize() {
+    function onResize () {
       if (targetEl) {
         timer = void 0
         
@@ -105,7 +105,7 @@ export default defineComponent({
         }
       }
 
-      function onObjLoad() {
+      function onObjLoad () {
         cleanup()
 
         if (targetEl && targetEl.contentDocument) {
