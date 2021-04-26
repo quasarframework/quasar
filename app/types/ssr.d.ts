@@ -12,7 +12,6 @@ interface QSsrContext extends HasStoreParam {
   $q: QVueGlobals;
 
   /** The global "nonce" attribute to use */
-  // TODO: migrate to a `quasar.conf.js` property?
   nonce?: string;
 
   /**
@@ -21,7 +20,6 @@ interface QSsrContext extends HasStoreParam {
    * to access ssrContext again after it has been fully processed.
    * Example: ssrContext.onRendered(() => { ... })
    */
-  // TODO: migrate to a `quasar.conf.js` property?
   onRendered: (fn: () => void) => void;
 
   /**
@@ -33,7 +31,6 @@ interface QSsrContext extends HasStoreParam {
    * (like @vue/apollo-ssr)
    * Example: ssrContext.rendered = () => { ... }
    */
-  // TODO: migrate to a `quasar.conf.js` property?
   rendered?: () => void;
 }
 

@@ -21,7 +21,6 @@ module.exports = function regenerateTypesFeatureFlags(quasarConf) {
     'pwa',
     'cordova',
     'capacitor',
-    'electron',
     'ssr',
     'store',
     'bex'
