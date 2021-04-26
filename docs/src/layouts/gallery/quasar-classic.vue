@@ -39,7 +39,7 @@
             <q-icon name="code" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Github</q-item-label>
+            <q-item-label>GitHub</q-item-label>
             <q-item-label caption>github.com/quasarframework</q-item-label>
           </q-item-section>
         </q-item>

@@ -123,7 +123,7 @@ div
       q-item(clickable, tag="a", href="https://github.com/quasarframework", rel="noopener", target="_blank")
         q-item-section(avatar)
           q-icon(:name="fabGithub")
-        q-item-section.text-no-wrap Github Repositories
+        q-item-section.text-no-wrap GitHub Repositories
 
       q-item-label.q-mt-md(header) Social
 
@@ -154,7 +154,7 @@ div
       q-item(clickable, tag="a", href="https://donate.quasar.dev", target="_blank", rel="noopener")
         q-item-section(avatar)
           q-icon(:name="mdiCharity")
-        q-item-section Sponsorship
+        q-item-section.text-no-wrap GitHub Sponsorship
 </template>
 
 <script>
