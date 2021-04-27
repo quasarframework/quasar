@@ -1,9 +1,13 @@
 ---
 title: Upgrade guide on SSR
 desc: Upgrading instructions from Quasar v1 to v2 when dealing with SSR.
+related:
+  - /quasar-cli/developing-ssr/configuring-ssr
+  - /quasar-cli/developing-ssr/ssr-context
+  - /quasar-cli/developing-ssr/ssr-middleware
 ---
 
-This page refers only to upgrading a Quasar v1 app (with Vue 2) to a Quasar v2 one (with Vue 3).
+This page refers only to upgrading a Quasar UI v1 app (with Vue 2) to a Quasar UI v2 one (with Vue 3).
 ## Upgrading from Quasar v1
 
 The SSR mode for Quasar v2 is an almost complete overhaul of the previous version, significantly improving the developer experience. Some of the changes were needed due to the architectural requirements of Vue 3.
@@ -54,3 +58,8 @@ So here we go:
 Also remember that the files that you create in the `src-ssr/middlewares` folder need to also be declared under quasar.conf.js > ssr > middlewares. This is because their order matters, just like how the order of applying any Expressjs middleware matters too. You can use the `$ quasar new ssrmiddleware <name>` command to speed things up.
 
 Always keep the original `render` middleware as last one in the list.
+
+### Tips
+
+* You might want to check out [the new configuration](/quasar-cli/developing-ssr/configuring-ssr) properties available through quasar.conf.js > ssr.
+* You might want to check out [the ssrContext](/quasar-cli/developing-ssr/ssr-context) page which describes in detail what properties you can use from it.

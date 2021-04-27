@@ -209,6 +209,10 @@ As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server
 
 More on quasar.conf.js > [devServer](/quasar-cli/quasar-conf-js#property-devserver).
 
+::: warning
+At the moment of writing these lines, [webpack-chain](https://github.com/neutrinojs/webpack-chain) has not been updated to fully support Webpack 5. This has impact over all quasar.conf.js > chainWebpack{...} methods. While these methods will still work, the newer parts of the configuration introduced in Webpack 5 are not (yet) available. For those parts, the `extendWebpack*` methods should be used, until webpack-chain is fully Webpack 5 compatible.
+:::
+
 ### App.vue
 
 You'll need to edit src/App.vue and remove the wrapper `<div id="q-app">`. You don't (and should NOT) need it anymore.
