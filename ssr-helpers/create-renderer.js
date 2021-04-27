@@ -84,7 +84,7 @@ function ensureTrailingSlash (path) {
 function createRenderContext ({ clientManifest, publicPath }) {
   return {
     clientManifest,
-    publicPath: ensureTrailingSlash(publicPath || clientManifest.publicPath || '/'),
+    publicPath: ensureTrailingSlash(clientManifest.publicPath || publicPath || '/'),
     preloadFiles: (clientManifest.initial || []).map(normalizeFile),
     mapFiles: createMapper(clientManifest)
   }
