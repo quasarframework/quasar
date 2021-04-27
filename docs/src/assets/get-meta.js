@@ -5,7 +5,7 @@ export default function (title, desc) {
       content: title
     },
     ogTitle: {
-      name: 'og:title',
+      property: 'og:title',
       content: title
     },
     twitterTitle: {
@@ -18,7 +18,7 @@ export default function (title, desc) {
       content: desc
     },
     ogDesc: {
-      name: 'og:description',
+      property: 'og:description',
       content: desc
     },
     twitterDesc: {
