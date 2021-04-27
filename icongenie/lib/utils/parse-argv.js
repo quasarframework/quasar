@@ -124,6 +124,13 @@ function padding (value, argv) {
     : sizes
 }
 
+function platform (value) {
+  if (value && !["ios", "android"].includes(value)) {
+    die(`Unknown platform value specified (${value})`)
+  }
+}
+
+
 function ninePatch (value, argv) {
   if (!value) {
     argv.ninePatch = false;
@@ -270,6 +277,7 @@ const parsers = {
   quality,
   filter,
   padding,
+  platform,
   ninePatch,
   icon,
   background,

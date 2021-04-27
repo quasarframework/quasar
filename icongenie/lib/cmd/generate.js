@@ -28,6 +28,7 @@ function printBanner (assetsOf, params) {
  Background source file..... ${params.background ? green(params.background) : 'none'}
  Assets of.................. ${green(assetsOf)}
  Generator filter........... ${params.filter ? green(params.filter) : 'none'}
+ Capacitor/Cordova filter... ${params.platform ? green(params.platform) : 'none'}
  Svg color.................. ${green(params.svgColor)}
  Png color.................. ${green(params.pngColor)}
  Splashscreen color......... ${green(params.splashscreenColor)}
@@ -109,6 +110,12 @@ async function generateFromProfile (profile) {
     )
   }
 
+  if (params.platform) {
+    uniqueFiles = uniqueFiles.filter(
+      file => !file.platform || file.platform.endsWith(params.platform)
+    )
+  }
+
   if (uniqueFiles.length === 0) {
     warn(`No assets to generate! No mode/include specified, filter too specific or the respective Quasar mode(s) are not installed`)
     return Promise.resolve(0)
@@ -155,7 +162,7 @@ module.exports = function generate (argv) {
   profile.params = mergeObjects({}, profile.params)
   
   parseArgv(profile.params, [
-    'quality', 'filter', 'padding', 'ninePatch',
+    'quality', 'filter', 'padding', 'platform', 'ninePatch',
     'icon', 'background',
     'splashscreenIconRatio',
     // order matters:

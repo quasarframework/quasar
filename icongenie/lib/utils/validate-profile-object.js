@@ -20,6 +20,7 @@ const baseParamsSchema = {
   padding: Joi.array().items(
     Joi.number().integer().min(0)
   ).min(1).max(2),
+  platform: Joi.string().valid("ios", "android"),
   ninePatch: Joi.alternatives().try(
     Joi.boolean(),
     Joi.array().items(Joi.number().integer().min(0)).min(2).max(2)

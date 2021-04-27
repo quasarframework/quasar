@@ -18,6 +18,7 @@ const argv = parseArgs(process.argv.slice(2), {
     'o', 'a',
     'i', 'b', 'include', 'f', 'q',
     'padding',
+    'platform',
     'nine-patch',
     'theme-color',
     'png-color',

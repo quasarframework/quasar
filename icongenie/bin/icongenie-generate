@@ -17,6 +17,7 @@ const argv = parseArgs(processArgv, {
   string: [
     'p', 'i', 'b', 'm', 'f', 'q',
     'padding',
+    'platform',
     'nine-patch',
     'theme-color',
     'png-color',
@@ -91,6 +92,13 @@ if (argv.help) {
                             [all|${modes}]
                           Multiple can be specified, separated by ",":
                             spa,cordova
+
+    --platform            Limit cordova and capacitor asset generation to a mobile platform;
+                          Default: all
+                          Values: ios, android
+                          Example: "--platform android" generate icons and splashscreen for
+                          Android platform only.  Together with --icon one can use platform
+                          specific base icons
 
     --filter, -f          Filter the available generators; when used, it can
                           generate only one type of asset instead of all
