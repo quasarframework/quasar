@@ -34,7 +34,7 @@ We are updating this section constantly in order to keep you up to date with our
 
 ### Q2 2021
 * Vite.js plugin for Quasar v2.
-* Upgrade the App CLI for Quasar v2 to Webpack v5 ([reference](https://github.com/quasarframework/quasar/issues/8102))
+* ✌️ (DONE) Upgrade the App CLI for Quasar v2 to Webpack v5 ([reference](https://github.com/quasarframework/quasar/issues/8102))
 * Quasar v2 will become officially the "latest" version of Quasar. The documentation website (https://quasar.dev) will point to v2 and the v1 docs will live under https://v1.quasar.dev. The end of life for Quasar v1 will be March 2022 and we will keep on backporting fixes and new features from v2 to it until then.
 * Migration to Qv2 of most used testing AEs (`@quasar/testing`, `@quasar/testing-unit-jest`, `@quasar/testing-e2e-cypress`)
 * Typescript projects created with Quasar CLI (for Quasar v2) will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form). ([reference](https://github.com/quasarframework/quasar/issues/8572))
