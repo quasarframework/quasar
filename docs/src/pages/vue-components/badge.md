@@ -22,5 +22,7 @@ The QBadge component allows you to create a small badge for adding information l
 
 <doc-example title="Rounded" file="QBadge/Round" />
 
+<doc-example title="Indicators" file="QBadge/Indicators" />
+
 ## QBadge API
 <doc-api file="QBadge" />
