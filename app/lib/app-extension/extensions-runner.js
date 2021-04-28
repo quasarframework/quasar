@@ -14,7 +14,7 @@ class ExtensionsRunner {
     this.hooks = {}
     for (let ext of this.extensions) {
       const hooks = await ext.run(ctx)
-      this.hooks = merge(this.hooks, hooks)
+      this.hooks = merge({}, this.hooks, hooks)
     }
   }
 

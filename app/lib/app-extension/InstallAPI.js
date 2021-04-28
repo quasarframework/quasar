@@ -56,7 +56,7 @@ module.exports = class InstallAPI {
    */
   mergePersistentConf (cfg = {}) {
     const currentCfg = this.getPersistentConf()
-    this.setPersistentConf(merge(currentCfg, cfg))
+    this.setPersistentConf(merge({}, currentCfg, cfg))
   }
 
   /**
@@ -175,7 +175,7 @@ module.exports = class InstallAPI {
     }
 
     const filePath = appPaths.resolve.app('package.json')
-    const pkg = merge(require(filePath), extPkg)
+    const pkg = merge({}, require(filePath), extPkg)
 
     fs.writeFileSync(
       filePath,
@@ -211,7 +211,7 @@ module.exports = class InstallAPI {
       //  for example JSON with comments or JSON5.
       // Notable examples are TS 'tsconfig.json' or VSCode 'settings.json'
       try {
-        const data = merge(fs.existsSync(filePath) ? require(filePath) : {}, newData)
+        const data = merge({}, fs.existsSync(filePath) ? require(filePath) : {}, newData)
 
         fs.writeFileSync(
           appPaths.resolve.app(file),

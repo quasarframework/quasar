@@ -128,6 +128,7 @@ module.exports = function (cfg, configName) {
     .loader('vue-loader')
     .options(
       merge(
+        {},
         cfg.build.vueLoaderOptions,
         {
           isServerBuild: configName === webpackNames.ssr.serverSide,

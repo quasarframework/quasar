@@ -270,7 +270,7 @@ class QuasarConfFile {
           throw new Error('NETWORK_ERROR')
         }
 
-        cfg.devServer = merge(cfg.devServer, to)
+        cfg.devServer = merge({}, cfg.devServer, to)
         this.address = {
           from: addr,
           to: {
@@ -800,7 +800,7 @@ class QuasarConfFile {
       cfg.build.env.SERVICE_WORKER_FILE = `${cfg.build.publicPath}service-worker.js`
     }
     else if (this.ctx.mode.bex) {
-      cfg.bex = merge(cfg.bex, {
+      cfg.bex = merge({}, cfg.bex, {
         builder: {
           directories: {
             input: cfg.build.distDir,
