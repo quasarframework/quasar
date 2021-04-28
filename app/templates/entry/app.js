@@ -40,7 +40,7 @@ import createRouter from 'app/<%= sourceFiles.router %>'
 <% } %>
 
 <% if (__needsAppMountHook === true) { %>
-import { defineComponent<%= ctx.mode.ssr && ssr.manualPostHydrationTrigger !== true ? ', h, onMounted, getCurrentInstance' : '' %> } from 'vue'
+import { defineComponent, h, onMounted<%= ctx.mode.ssr && ssr.manualPostHydrationTrigger !== true ? ', getCurrentInstance' : '' %> } from 'vue'
 const RootComponent = defineComponent({
   name: 'AppWrapper',
   setup (props) {
