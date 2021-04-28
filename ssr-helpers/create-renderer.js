@@ -81,10 +81,10 @@ function ensureTrailingSlash (path) {
     : path.replace(trailingSlashRE, '$1/')
 }
 
-function createRenderContext ({ clientManifest, publicPath }) {
+function createRenderContext (clientManifest) {
   return {
     clientManifest,
-    publicPath: ensureTrailingSlash(clientManifest.publicPath || publicPath || '/'),
+    publicPath: ensureTrailingSlash(clientManifest.publicPath || '/'),
     preloadFiles: (clientManifest.initial || []).map(normalizeFile),
     mapFiles: createMapper(clientManifest)
   }
@@ -132,7 +132,7 @@ function renderScripts(renderContext, usedAsyncFiles, nonce) {
 }
 
 module.exports = function createRenderer (opts) {
-  const renderContext = createRenderContext(opts)
+  const renderContext = createRenderContext(opts.clientManifest)
   const { evaluateEntry, rewriteErrorTrace } = createBundle(opts)
 
   async function runApp(ssrContext) {
