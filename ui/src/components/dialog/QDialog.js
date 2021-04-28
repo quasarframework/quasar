@@ -80,7 +80,7 @@ export default defineComponent({
     const showing = ref(false)
     const transitionState = ref(false)
 
-    let shakeTimeout, refocusTarget = null, isMaximized
+    let shakeTimeout, refocusTarget = null, isMaximized, avoidAutoClose
 
     const hideOnRouteChange = computed(() =>
       props.persistent !== true
@@ -203,7 +203,9 @@ export default defineComponent({
           }
 
           // required in order to avoid the "double-tap needed" issue
+          avoidAutoClose = true
           innerRef.value.click()
+          avoidAutoClose = false
         }
 
         emit('show', evt)
@@ -299,8 +301,10 @@ export default defineComponent({
     }
 
     function onAutoClose (e) {
-      hide(e)
-      emit('click', e)
+      if (avoidAutoClose !== true) {
+        hide(e)
+        emit('click', e)
+      }
     }
 
     function onBackdropClick (e) {
