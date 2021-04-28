@@ -4,19 +4,25 @@ import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import StepHeader from './StepHeader.js'
 
 import { usePanelChildProps } from '../../composables/private/use-panel.js'
+import useCache from '../../composables/private/use-cache.js'
 
 import { stepperKey } from '../../utils/private/symbols.js'
 import { hSlot } from '../../utils/private/render.js'
 
-function getStepWrapper (slots, key) {
+function getStepWrapper (slots) {
   return h('div', {
-    class: 'q-stepper__step-content',
-    key
+    class: 'q-stepper__step-content'
   }, [
     h('div', {
       class: 'q-stepper__step-inner'
     }, hSlot(slots.default))
   ])
+}
+
+const PanelWrapper = {
+  setup (_, { slots }) {
+    return () => getStepWrapper(slots)
+  }
 }
 
 export default defineComponent({
@@ -54,6 +60,8 @@ export default defineComponent({
       console.error('QStep needs to be child of QStepper')
     })
 
+    const { getCacheWithFn } = useCache()
+
     const rootRef = ref(null)
 
     const isActive = computed(() => $stepper.value.modelValue === props.name)
@@ -71,20 +79,36 @@ export default defineComponent({
       }
     })
 
+    const contentKey = computed(() => (
+      typeof props.name === 'string' || typeof props.name === 'number'
+        ? props.name
+        : String(props.name)
+    ))
+
     function getStepContent () {
       const vertical = $stepper.value.vertical
-      return vertical === true && $stepper.value.keepAlive === true
-        ? h(
-            KeepAlive,
-            isActive.value === true
-              ? getStepWrapper(slots, props.name)
-              : void 0
-          )
-        : (
-            vertical !== true || isActive.value === true
-              ? getStepWrapper(slots)
-              : void 0
-          )
+
+      if (vertical === true && $stepper.value.keepAlive === true) {
+        return h(
+          KeepAlive,
+          $stepper.value.keepAliveProps.value,
+          isActive.value === true
+            ? [
+                h(
+                  $stepper.value.needsUniqueKeepAliveWrapper.value === true
+                    ? getCacheWithFn(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
+                    : PanelWrapper,
+                  { key: contentKey.value },
+                  slots.default
+                )
+              ]
+            : void 0
+        )
+      }
+
+      return vertical !== true || isActive.value === true
+        ? getStepWrapper(slots)
+        : void 0
     }
 
     return () => h(

@@ -41,11 +41,14 @@ export default defineComponent({
     const {
       updatePanelsList, isValidPanelName,
       updatePanelIndex, getPanelContent,
-      getPanels, panelDirectives, goToPanel
+      getPanels, panelDirectives, goToPanel,
+      keepAliveProps, needsUniqueKeepAliveWrapper
     } = usePanel()
 
     provide(stepperKey, computed(() => ({
       goToPanel,
+      keepAliveProps,
+      needsUniqueKeepAliveWrapper,
       ...props
     })))
 
