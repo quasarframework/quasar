@@ -8,10 +8,12 @@ import usePanel, { usePanelProps, usePanelEmits } from '../../composables/privat
 import { stepperKey } from '../../utils/private/symbols.js'
 import { hSlot, hMergeSlot, hDir } from '../../utils/private/render.js'
 
+const camelRE = /(-\w)/g
+
 function camelizeProps (props) {
   const acc = {}
   Object.keys(props).forEach(key => {
-    const newKey = key.replace(/(-\w)/g, m => m[ 1 ].toUpperCase())
+    const newKey = key.replace(camelRE, m => m[ 1 ].toUpperCase())
     acc[ newKey ] = props[ key ]
   })
   return acc
