@@ -8,6 +8,15 @@ import usePanel, { usePanelProps, usePanelEmits } from '../../composables/privat
 import { stepperKey } from '../../utils/private/symbols.js'
 import { hSlot, hMergeSlot, hDir } from '../../utils/private/render.js'
 
+function camelizeProps (props) {
+  const acc = {}
+  Object.keys(props).forEach(key => {
+    const newKey = key.replace(/(-\w)/g, m => m[ 1 ].toUpperCase())
+    acc[ newKey ] = props[ key ]
+  })
+  return acc
+}
+
 export default defineComponent({
   name: 'QStepper',
 
@@ -87,7 +96,7 @@ export default defineComponent({
           'div',
           { class: headerClasses.value },
           getPanels().map(panel => {
-            const step = panel.props
+            const step = camelizeProps(panel.props)
 
             return h(StepHeader, {
               key: step.name,
