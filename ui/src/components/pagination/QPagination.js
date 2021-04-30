@@ -340,27 +340,39 @@ export default Vue.extend({
       }
       if (boundaryStart) {
         const active = this.min === this.value
+        const btn = {
+          disable: this.disable,
+          flat: !active,
+          label: this.min
+        }
+
+        if (active) {
+          btn.color = this.activeColor || this.color
+          btn.textColor = this.activeTextColor || this.textColor
+        }
+
         contentStart.push(this.__getBtn(h, {
           key: 'bns',
           style
-        }, {
-          disable: this.disable,
-          flat: !active,
-          textColor: active ? this.textColor : null,
-          label: this.min
-        }, this.min))
+        }, btn, this.min))
       }
       if (boundaryEnd) {
         const active = this.max === this.value
+        const btn = {
+          disable: this.disable,
+          flat: !active,
+          label: this.max
+        }
+
+        if (active) {
+          btn.color = this.activeColor || this.color
+          btn.textColor = this.activeTextColor || this.textColor
+        }
+
         contentEnd.unshift(this.__getBtn(h, {
           key: 'bne',
           style
-        }, {
-          disable: this.disable,
-          flat: !active,
-          textColor: active ? this.textColor : null,
-          label: this.max
-        }, this.max))
+        }, btn, this.max))
       }
       if (ellipsesStart) {
         contentStart.push(this.__getBtn(h, {
