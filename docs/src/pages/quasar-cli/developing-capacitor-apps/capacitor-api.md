@@ -196,7 +196,7 @@ export default {
     })
 
     return {
-      model
+      model,
       manufacturer
     }
   }
