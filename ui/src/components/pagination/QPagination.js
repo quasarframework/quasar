@@ -345,8 +345,9 @@ export default Vue.extend({
           style
         }, {
           disable: this.disable,
-          flat: !active,
-          textColor: active ? this.textColor : null,
+          flat: active !== true,
+          color: active === true && this.activeColor ? this.activeColor : this.color,
+          textColor: active === true && this.activeTextColor ? this.activeTextColor : this.textColor,
           label: this.min
         }, this.min))
       }
@@ -357,8 +358,9 @@ export default Vue.extend({
           style
         }, {
           disable: this.disable,
-          flat: !active,
-          textColor: active ? this.textColor : null,
+          flat: active !== true,
+          color: active === true && this.activeColor ? this.activeColor : this.color,
+          textColor: active === true && this.activeTextColor ? this.activeTextColor : this.textColor,
           label: this.max
         }, this.max))
       }
