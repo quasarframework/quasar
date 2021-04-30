@@ -101,6 +101,22 @@
       />
 
       <p class="caption">
+        Page buttons - with active-color
+      </p>
+      <q-pagination @change="onChange" @input="onInput" v-model="page" color="red" active-color="primary" type="select"
+                    :min="min"
+                    :max="max"
+                    :boundary-links="boundaryLinks"
+                    :boundary-numbers="boundaryNumbers"
+                    :direction-links="directionLinks"
+                    :ellipses="ellipses"
+                    :max-pages="maxPages"
+                    :input="inputType"
+                    :input-style="inputStyle"
+                    :to-fn="toFn"
+      />
+
+      <p class="caption">
         Page buttons - disabled
       </p>
       <q-pagination @change="onChange" @input="onInput" v-model="page" color="red" type="select" disable
