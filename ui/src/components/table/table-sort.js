@@ -80,8 +80,11 @@ export function useTableSort (props, computedPagination, colList, setPagination)
 
       col = col.name
     }
-    else if (props.columns[ col ].sortOrder) {
-      sortOrder = props.columns[ col ].sortOrder
+    else {
+      const def = colList.value.find(def => def.name === col)
+      if (def !== void 0 && def.sortOrder) {
+        sortOrder = def.sortOrder
+      }
     }
 
     let { sortBy, descending } = computedPagination.value
