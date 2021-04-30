@@ -78,8 +78,11 @@ export default {
 
         col = col.name
       }
-      else if (this.columns[col].sortOrder) {
-        sortOrder = this.columns[col].sortOrder
+      else {
+        const def = this.colList.find(def => def.name === col)
+        if (def !== void 0 && def.sortOrder) {
+          sortOrder = def.sortOrder
+        }
       }
 
       let { sortBy, descending } = this.computedPagination
