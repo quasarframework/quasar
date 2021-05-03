@@ -605,6 +605,11 @@ class QuasarConfFile {
         delete cfg.devServer.devMiddleware
       }
 
+      if (this.ctx.mode.bex === true) {
+        cfg.devServer.dev = cfg.devServer.dev || {}
+        cfg.devServer.dev.writeToDisk = true
+      }
+
       cfg.devServer = merge({
         hot: true,
         firewall: false,
