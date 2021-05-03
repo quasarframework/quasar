@@ -3,10 +3,10 @@ const fs = require('fs')
 const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
 const debounce = require('lodash.debounce')
-const { underline, green } = require('chalk')
+const { green } = require('chalk')
 
 const appPaths = require('./app-paths')
-const { log, warn, fatal } = require('./helpers/logger')
+const { log, warn, fatal, error } = require('./helpers/logger')
 const extensionRunner = require('./app-extension/extensions-runner')
 const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
@@ -16,6 +16,7 @@ const { quasarVersion } = require('./helpers/banner')
 
 const transformAssetUrls = getDevlandFile('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
+const ssrDirectivesFile = appPaths.resolve.app('.quasar/ssr/compiled-directives.js')
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -96,10 +97,6 @@ class QuasarConfFile {
     this.pkg = require(appPaths.resolve.app('package.json'))
     this.watch = opts.onBuildChange || opts.onAppChange
 
-    if (this.ctx.mode.ssr) {
-      this.ssrDirectivesFile = appPaths.resolve.app('.quasar/ssr/compiled-directives.js')
-    }
-
     if (this.watch) {
       // Start watching for quasar.config.js changes
       chokidar
@@ -150,12 +147,15 @@ class QuasarConfFile {
     }
 
     if (this.ctx.mode.ssr) {
-      if (fs.existsSync(this.ssrDirectivesFile)) {
-        delete require.cache[this.ssrDirectivesFile]
-        this.devlandSsrDirectives = require(this.ssrDirectivesFile).default
+      try {
+        delete require.cache[ssrDirectivesFile]
+        this.devlandSsrDirectives = require(ssrDirectivesFile).default
       }
-      else {
-        fatal('Could not load the compiled file of devland SSR directives', 'FAIL')
+      catch (err) {
+        error('Could not load the compiled file of devland SSR directives:\n', 'FAIL')
+        console.log(err)
+        console.log()
+        process.exit(1)
       }
     }
 
