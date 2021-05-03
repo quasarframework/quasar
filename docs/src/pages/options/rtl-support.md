@@ -29,8 +29,8 @@ Let's discuss about each of these requirements:
 2. *RTL support needs to be enabled*.
   You need to set "rtl" to "true" under quasar.conf.js > "build". What this does is it compiles CSS for both your website/app code and for Quasar components and add corresponding RTL CSS rules automatically. Your CSS bundle will slightly increase in size due to the addition of these CSS rules.
 
-3. Optional: *Enable fromRTL flag*.
-  By default, Quasar assumes that all styles are written in LTR direction and generates corresponding RTL styles for them. Should you wish to write your own css directly in RTL then you need to set quasar.conf.js > "build" > rtl > "source" to `ltr`.
+3. Optional: *Treat devland source CSS as RTL*.
+  By default, Quasar assumes that all styles are written in LTR direction and generates corresponding RTL styles for them. Should you wish to write your own css directly in RTL then you need to set quasar.conf.js > "build" > rtl > "source" to `rtl`.
 
 ## Configuration
 
