@@ -10,6 +10,7 @@ const quasarCssPaths = [
   path.join('node_modules', 'quasar', 'src'),
   path.join('node_modules', '@quasar')
 ]
+const urlRE = /^(\.?\.\/|~)/
 
 function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)
@@ -47,6 +48,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 
     const cssLoaderOptions = {
       sourceMap: pref.sourceMap,
+      url: url => urlRE.test(url),
       importLoaders:
         1 + // stylePostLoader injected by vue-loader
         1 + // postCSS loader
