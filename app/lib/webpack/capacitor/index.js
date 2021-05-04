@@ -1,6 +1,5 @@
 const appPaths = require('../../app-paths')
 const injectHtml = require('../inject.html')
-const injectHotUpdate = require('../inject.hot-update')
 
 const capNodeModules = appPaths.resolve.capacitor('node_modules')
 
@@ -14,5 +13,4 @@ module.exports = function (chain, cfg) {
     .merge([ capNodeModules ])
 
   injectHtml(chain, cfg)
-  injectHotUpdate(chain, cfg)
 }

@@ -3,8 +3,11 @@ const fse = require('fs-extra')
 
 const appPaths = require('../../app-paths')
 const artifacts = require('../../artifacts')
+const injectHtml = require('../inject.html')
 
 module.exports = function (chain, cfg) {
+  injectHtml(chain, cfg)
+
   const rootPath = cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir
   const outputPath = path.join(rootPath, 'www')
 

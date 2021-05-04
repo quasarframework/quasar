@@ -1,6 +1,5 @@
 const path = require('path')
 
-const injectHotUpdate = require('../inject.hot-update')
 const injectHtml = require('../inject.html')
 const { QuasarSSRClientPlugin } = require('./plugin.client-side')
 
@@ -25,8 +24,6 @@ module.exports = function (chain, cfg) {
 
     injectHtml(chain, cfg, templateParam)
   }
-
-  injectHotUpdate(chain, cfg)
 
   if (cfg.ctx.prod) {
     chain.plugin('quasar-ssr-client')
