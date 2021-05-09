@@ -114,6 +114,7 @@ export default defineComponent({
 
   emits: [
     'request', 'virtual-scroll',
+    'row-click', 'row-dblclick', 'row-contextmenu',
     ...useFullscreenEmits,
     ...useTableRowExpandEmits,
     ...useTableRowSelectionEmits
