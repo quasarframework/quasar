@@ -20,7 +20,7 @@ module.exports = function qInstall (component, type, items) {
     targetComponent[type] = items
   }
   else {
-    for (var i in items) {
+    for (const i in items) {
       if (target[i] === void 0) {
         target[i] = items[i]
       }
