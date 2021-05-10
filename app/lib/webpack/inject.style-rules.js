@@ -5,7 +5,12 @@ const path = require('path')
 const appPaths = require('../app-paths')
 const cssVariables = require('../helpers/css-variables')
 const postCssConfigFile = appPaths.resolve.app('.postcssrc.js')
-const quasarCssPaths = [ path.join('node_modules', 'quasar'), path.join('node_modules', '@quasar') ]
+const quasarCssPaths = [
+  path.join('node_modules', 'quasar', 'dist'),
+  path.join('node_modules', 'quasar', 'src'),
+  path.join('node_modules', '@quasar')
+]
+const urlRE = /^(\.?\.\/|~)/
 
 function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)
@@ -43,6 +48,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 
     const cssLoaderOptions = {
       sourceMap: pref.sourceMap,
+      url: url => urlRE.test(url),
       importLoaders:
         1 + // stylePostLoader injected by vue-loader
         1 + // postCSS loader
@@ -86,7 +92,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
     // will keep on adding making N duplicates for each one
     delete require.cache[postCssConfigFile]
     const postCssConfig = require(postCssConfigFile)
-    const postCssOpts = { sourceMap: pref.sourceMap, ...postCssConfig }
+    let postCssOpts = { sourceMap: pref.sourceMap, ...postCssConfig }
 
     if (pref.rtl) {
       const postcssRTL = require('postcss-rtlcss')
@@ -96,10 +102,10 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
         typeof postCssConfig.plugins !== 'function' &&
         (postcssRTLOptions.source === 'ltr' || typeof postcssRTLOptions === 'function')
       ) {
-        postCssConfig.plugins = postCssConfig.plugins || []
+        const originalPlugins = postCssOpts.plugins ? [ ...postCssOpts.plugins ] : []
 
-        postCssOpts.plugins = ctx => {
-          const plugins = [ ...postCssConfig.plugins ]
+        postCssOpts = ctx => {
+          const plugins = [ ...originalPlugins ]
           const isClientCSS = quasarCssPaths.every(item => ctx.resourcePath.indexOf(item) === -1)
 
           plugins.push(postcssRTL(
@@ -107,11 +113,11 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
               ? postcssRTLOptions(isClientCSS, ctx.resourcePath)
               : {
                 ...postcssRTLOptions,
-                source: isClientCSS ? 'ltr' : 'rtl'
+                source: isClientCSS ? 'rtl' : 'ltr'
               }
           ))
 
-          return plugins
+          return { sourceMap: pref.sourceMap, plugins }
         }
       }
       else {

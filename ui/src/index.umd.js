@@ -12,10 +12,10 @@ export default {
   version: __QUASAR_VERSION__,
   install (app, opts) {
     installQuasar(app, {
-      ...opts,
       components,
       directives,
-      plugins
+      plugins,
+      ...opts
     })
   },
   lang,

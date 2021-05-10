@@ -1,6 +1,6 @@
 const glob = require('glob')
 const path = require('path')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const fs = require('fs')
 
 const root = path.resolve(__dirname, '..')
@@ -24,6 +24,7 @@ function getMixedInAPI (api, mainFile) {
     const content = require(mixinFile)
 
     api = merge(
+      {},
       content.mixins !== void 0
         ? getMixedInAPI(content, mixinFile)
         : content,
@@ -184,6 +185,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
     }
 
     api[ itemName ] = merge(
+      {},
       extendApi[ masterType ][ obj.extends ],
       api[ itemName ]
     )

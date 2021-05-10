@@ -139,17 +139,17 @@ Before starting, it is highly suggested to make a copy of your current working p
   parserOptions: {
     parser: 'babel-eslint'
   },
-  extends: {
+  extends: [
     'plugin:vue/essential' // or equivalent
-  }
+  ]
 
   // NEW way
   parserOptions: {
     parser: '@babel/eslint-parser'
   },
-  extends: {
+  extends: [
     'plugin:vue/vue3-essential' // or equivalent
-  }
+  ]
   ```
 
   Also upgrade ESLint deps. Example:
@@ -208,6 +208,10 @@ As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server
 | proxy | Object/Array | Same as before with webpack 4 |
 
 More on quasar.conf.js > [devServer](/quasar-cli/quasar-conf-js#property-devserver).
+
+::: warning
+At the moment of writing these lines, [webpack-chain](https://github.com/neutrinojs/webpack-chain) has not been updated to fully support Webpack 5. This has impact over all quasar.conf.js > chainWebpack{...} methods. While these methods will still work, the newer parts of the configuration introduced in Webpack 5 are not (yet) available. For those parts, the `extendWebpack*` methods should be used, until webpack-chain is fully Webpack 5 compatible.
+:::
 
 ### App.vue
 
@@ -866,7 +870,6 @@ This section refers to "@quasar/app" v3 package which supports Vue 3 and Quasar 
 * New quasar.conf.js > build > vueLoaderOptions prop
 * Remove quasar.conf.js > framework > importStrategy. Auto import works so great that is now used by default and as the only option.
 * The url-loader configuration has been enhanced so it now also supports "ico" files out of the box
-* Removed support for quasar.conf.js > framework > `importStrategy: 'all'` since the auto import feature has become so good anyways (so it's now enabled by default)..
 * If you have been using quasar.conf.js > build > rtl in the form of an Object, then you must match [these options](https://github.com/elchininet/postcss-rtlcss) now, since we've switched from the unmaintained postcss-rtl to postcss-rtlcss package.
 
 If you have boot files, where you access and change the `$q` Object through `Vue.prototype.$q`, then you need to adapt this:

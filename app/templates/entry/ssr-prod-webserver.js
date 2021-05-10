@@ -42,8 +42,7 @@ const render = createRenderer({
   vueRenderToString: renderToString,
   basedir: __dirname,
   serverManifest,
-  clientManifest,
-  publicPath
+  clientManifest
 })
 
 <% if (ssr.pwa) { %>

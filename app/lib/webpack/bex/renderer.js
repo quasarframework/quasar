@@ -3,8 +3,11 @@ const fse = require('fs-extra')
 
 const appPaths = require('../../app-paths')
 const artifacts = require('../../artifacts')
+const injectHtml = require('../inject.html')
 
 module.exports = function (chain, cfg) {
+  injectHtml(chain, cfg)
+
   const rootPath = cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir
   const outputPath = path.join(rootPath, 'www')
 
@@ -36,12 +39,6 @@ module.exports = function (chain, cfg) {
   if (cfg.ctx.dev) {
     // Clean old dir
     artifacts.clean(outputPath)
-
-    // Extensions need to be manually added to the browser
-    // so we need the dev files available for them to be targeted.
-    const WriteFilePlugin = require('write-file-webpack-plugin')
-    chain.plugin('write-file-webpack-plugin')
-      .use(WriteFilePlugin)
   }
   else {
     // We need this bundled in with the rest of the source to match the manifest instructions.

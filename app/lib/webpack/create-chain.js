@@ -50,14 +50,6 @@ module.exports = function (cfg, configName) {
     appPaths.resolve.cli('node_modules')
   ]
 
-  if (configName === 'Capacitor') {
-    // need to also look into /src-capacitor
-    // for deps like @capacitor/core
-    resolveModules.push(
-      appPaths.resolve.capacitor('node_modules')
-    )
-  }
-
   chain.entry('app').add(appPaths.resolve.app('.quasar/client-entry.js'))
   chain.mode(cfg.ctx.dev ? 'development' : 'production')
   chain.devtool(cfg.build.sourceMap ? cfg.build.devtool : false)
@@ -136,6 +128,7 @@ module.exports = function (cfg, configName) {
     .loader('vue-loader')
     .options(
       merge(
+        {},
         cfg.build.vueLoaderOptions,
         {
           isServerBuild: configName === webpackNames.ssr.serverSide,
@@ -218,6 +211,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
+        esModule: false,
         limit: 10000,
         name: `img/[name]${fileHash}.[ext]`
       })
@@ -229,6 +223,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
+        esModule: false,
         limit: 10000,
         name: `fonts/[name]${fileHash}.[ext]`
       })
@@ -240,6 +235,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
+        esModule: false,
         limit: 10000,
         name: `media/[name]${fileHash}.[ext]`
       })

@@ -1,7 +1,5 @@
 const webpack = require('webpack')
 
-const { log, warn } = require('../helpers/logger')
-
 class BexRunner {
   constructor () {
     this.watcher = null
@@ -15,22 +13,15 @@ class BexRunner {
     const compiler = webpack(quasarConfFile.webpackConf.main)
 
     return new Promise(resolve => {
-      log(`Building background process...`)
-
       this.watcher = compiler.watch({}, (err, stats) => {
         if (err) {
           console.log(err)
           return
         }
 
-        log(`Webpack built background process`)
-
-        if (stats.hasErrors()) {
-          warn(`BEX Background build failed with errors`)
-          return
+        if (stats.hasErrors() !== true) {
+          resolve()
         }
-
-        resolve()
       })
     })
   }

@@ -1,6 +1,6 @@
 const path = require('path')
 const sass = require('sass')
-const rtl = require('postcss-rtl')
+const rtl = require('postcss-rtlcss')
 const postcss = require('postcss')
 const cssnano = require('cssnano')
 const autoprefixer = require('autoprefixer')

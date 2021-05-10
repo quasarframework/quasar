@@ -90,7 +90,7 @@ export default function () {
     max: props.keepAliveMax
   }))
 
-  const needsUniqueWrapper = computed(() =>
+  const needsUniqueKeepAliveWrapper = computed(() =>
     props.keepAliveInclude !== void 0
     || props.keepAliveExclude !== void 0
   )
@@ -205,7 +205,7 @@ export default function () {
       ? [
           h(KeepAlive, keepAliveProps.value, [
             h(
-              needsUniqueWrapper.value === true
+              needsUniqueKeepAliveWrapper.value === true
                 ? getCacheWithFn(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
                 : PanelWrapper,
               { key: contentKey.value },
@@ -264,6 +264,9 @@ export default function () {
     getPanels,
 
     isValidPanelName,
+
+    keepAliveProps,
+    needsUniqueKeepAliveWrapper,
 
     goToPanelByOffset,
     goToPanel,

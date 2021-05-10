@@ -30,10 +30,10 @@ Assuming that you've installed Capacitor mode already, this is how your dependen
 
 ```
 dependencies: {
-  "@capacitor/cli": "^3.0.0-beta.1",
-  "@capacitor/core": "^3.0.0-beta.1",
-  "@capacitor/app": "^0.3.3",
-  "@capacitor/splash-screen": "^0.3.3"
+  "@capacitor/app": "^0.3.7",
+  "@capacitor/cli": "^3.0.0-rc.1",
+  "@capacitor/core": "^3.0.0-rc.1",
+  "@capacitor/splash-screen": "^0.3.7"
 }
 ```
 

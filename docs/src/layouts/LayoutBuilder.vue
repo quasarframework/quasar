@@ -153,7 +153,7 @@
               <div class="q-pt-lg q-pb-sm text-grey-8">Header</div>
 
               <div class="q-pl-lg q-gutter-y-sm">
-                <q-toggle v-model="cfg.headerReveal" label="Header Reaveal" />
+                <q-toggle v-model="cfg.headerReveal" label="Header Reveal" />
                 <q-select
                   v-model="cfg.headerSep"
                   label="Separator type"

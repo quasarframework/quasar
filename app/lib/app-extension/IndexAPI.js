@@ -65,7 +65,7 @@ module.exports = class IndexAPI {
    */
   mergePersistentConf (cfg = {}) {
     const currentCfg = this.getPersistentConf()
-    this.setPersistentConf(merge(currentCfg, cfg))
+    this.setPersistentConf(merge({}, currentCfg, cfg))
   }
 
   /**

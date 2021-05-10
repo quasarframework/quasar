@@ -40,7 +40,7 @@ const metaData = {
     equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' },
     // note: for Open Graph type metadata you will need to use SSR, to ensure page is rendered by the server
     ogTitle:  {
-      name: 'og:title',
+      property: 'og:title',
       // optional; similar to titleTemplate, but allows templating with other meta properties
       template (ogTitle) {
         return `${ogTitle} - My Website`
@@ -87,6 +87,8 @@ export default {
 }
 ```
 
+If you depend on the state of the component to compute the meta Object, then you can supply a Function instead of the Object itself. For more information, check the "Reactive" section on this page.
+
 ### Options API
 
 ```js
@@ -106,7 +108,7 @@ const metaData = {
     equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' },
     // note: for Open Graph type metadata you will need to use SSR, to ensure page is rendered by the server
     ogTitle:  {
-      name: 'og:title',
+      property: 'og:title',
       // optional; similar to titleTemplate, but allows templating with other meta properties
       template (ogTitle) {
         return `${ogTitle} - My Website`

@@ -16,7 +16,7 @@ export const Quasar = {
   install (app, opts, ssrContext) {
     installQuasar(
       app,
-      { ...opts, components, directives },
+      { components, directives, ...opts },
       ssrContext
     )
   },

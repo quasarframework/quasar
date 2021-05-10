@@ -44,7 +44,7 @@ module.exports = function (chain, cfg) {
     // if Object form:
     if (cfg.ssr.pwa && cfg.ssr.pwa !== true) {
       const { merge } = require('webpack-merge')
-      opts = merge(opts, cfg.ssr.pwa)
+      opts = merge({}, opts, cfg.ssr.pwa)
     }
 
     opts.exclude = opts.exclude || []
