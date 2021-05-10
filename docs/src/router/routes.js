@@ -61,7 +61,17 @@ menu.forEach(node => {
   parseMenuNode(node, '')
 })
 
+const redirects = [
+  { from: '/quasar-cli/supporting-ie', to: '/quasar-cli/browser-compatibility' },
+  { from: '/quasar-cli/modern-build', to: '/quasar-cli/browser-compatibility' }
+]
+
 const routes = [
+  ...redirects.map(entry => ({
+    path: entry.from,
+    redirect: entry.to
+  })),
+
   {
     path: '/',
     component: () => import('pages/Landing.vue')
@@ -96,13 +106,13 @@ const routes = [
         }
       }
     ]
-  }))
-]
+  })),
 
-// Always leave this as last one
-routes.push({
-  path: process.env.MODE === 'ssr' ? '/not-found' : '*',
-  component: () => import('pages/Error404.vue')
-})
+  // Always leave this as last one
+  {
+    path: '*',
+    component: () => import('pages/Error404.vue')
+  }
+]
 
 export default routes

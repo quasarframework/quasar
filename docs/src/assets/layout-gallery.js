@@ -1,7 +1,7 @@
 const list = [
   { name: 'Youtube', path: 'youtube' },
   { name: 'Google Play', path: 'google-play' },
-  { name: 'Github', path: 'github' },
+  { name: 'GitHub', path: 'github' },
   { name: 'Google Photos', path: 'google-photos' },
   { name: 'Google News', path: 'google-news' },
   { name: 'Whatsapp', path: 'whatsapp' },

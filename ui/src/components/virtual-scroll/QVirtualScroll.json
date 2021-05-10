@@ -5,6 +5,8 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/virtual-scroll"
   },
 
+  "addedIn": "v1.1.0",
+
   "props": {
     "type": {
       "type": "String",

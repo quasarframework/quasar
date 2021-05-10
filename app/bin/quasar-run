@@ -35,9 +35,7 @@ if (!extId && argv.help) {
   process.exit(0)
 }
 
-const logger = require('../lib/helpers/logger')
-const log = logger('app:run')
-const warn = logger('app:run', 'red')
+const { log, warn } = require('../lib/helpers/logger')
 
 function getArgv (argv) {
   const { _, ...params } = argv
@@ -56,7 +54,7 @@ async function run () {
 
   const list = () => {
     if (Object.keys(hooks.commands).length === 0) {
-      warn(`⚠️  "${extId}" app extension has no commands registered`)
+      warn(`"${extId}" app extension has no commands registered`)
       return
     }
 
@@ -76,7 +74,7 @@ async function run () {
   }
   if (!hooks.commands[cmd]) {
     warn()
-    warn(`⚠️  "${extId}" app extension has no command called "${cmd}"`)
+    warn(`"${extId}" app extension has no command called "${cmd}"`)
     warn()
     list()
     process.exit(1)

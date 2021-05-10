@@ -18,7 +18,7 @@ build: {
 ## How it works
 RTL is tightly coupled to [Quasar Language Packs](/options/quasar-language-packs). **When Quasar is set to use an RTL language** (language pack has "rtl" prop set to "true") and **RTL support is enabled** (check step above for quasar.conf.js), then the UI will dynamically transform Quasar & your website/app code for RTL.
 
-Let's discuss about each of these two requirements:
+Let's discuss about each of these requirements:
 
 1. *Quasar needs to be set to use an RTL language*.
   See [Quasar Language Packs](/options/quasar-language-packs) on how you can set a language. You can set a language as default or dynamically set one.
@@ -26,10 +26,13 @@ Let's discuss about each of these two requirements:
 2. *RTL support needs to be enabled*.
   You need to set "rtl" to "true" under quasar.conf.js > "build". What this does is it compiles CSS for both your website/app code and for Quasar components and add corresponding RTL CSS rules automatically. Your CSS bundle will slightly increase in size due to the addition of these CSS rules.
 
+3. Optional: *Enable fromRTL flag*.
+  By default, Quasar assumes that all styles are written in LTR direction and generates corresponding RTL styles for them. Should you wish to write your own css directly in RTL then you need to set quasar.conf.js > "build" > rtl > "fromRTL" to `true`.
+
 ## Things to keep in mind
 * Both RTL and non-RTL Quasar language packs will work together and dynamically switch to/from RTL. So only choosing an RTL Quasar language pack will trigger the RTL UI for you. You don't need separate builds of your app (one for non-RTL and one for RTL-only). The RTL is dynamically changed for you automatically.
 * You can dynamically detect if you are on RTL mode by taking a look at Boolean `this.$q.lang.rtl`. More info on [Vue Prototype Injections](/options/vue-prototype-injections).
-* You need to be careful when writing your own CSS. Like mentioned above, Quasar will automatically add RTL rules based on your CSS code. So writing:
+* You need to be careful when writing your own CSS. Like mentioned above, Quasar will automatically add RTL (LTR if quasar.conf.js > build > rtl > fromRTL is set to true) rules based on your CSS code. So writing:
 
 ```css
 .my-class {
@@ -130,7 +133,7 @@ To enable RTL UIs in UMD you need to include the RTL equivalent CSS tag for your
 </html>
 ```
 
-Check what tags you need to include in your HTML files by generating a sample with `$ quasar create <folder> --kit umd` and answering with "Yes" to the RTL question and specifying an RTL language for Quasar Language Pack.
+Check what tags you need to include in your HTML files by using our [UMD tag generator](/start/umd) and making sure that you tick the "RTL CSS support" checkbox.
 Also notice the `<html dir="rtl">` tag at the beginning of the generated html file -- you'll need that too.
 
 ::: warning CAVEAT

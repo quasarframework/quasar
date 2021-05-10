@@ -20,6 +20,20 @@ div
 
       q-separator.q-mb-sm.q-mt-md
 
+      q-item-label(header) Beta Releases
+      q-item(
+        clickable
+        tag="a"
+        :href="`https://next.quasar.dev/start/upgrade-guide`"
+        target="_blank"
+        rel="noopener"
+      )
+        q-item-section.text-negative(avatar)
+          q-icon(:name="mdiFire")
+        q-item-section v2 beta docs
+
+      q-separator.q-mb-sm.q-mt-md
+
       q-item-label(header) Older Releases
       q-item(
         v-for="version in ['17', '16', '15', '14', '13']"
@@ -52,7 +66,7 @@ div
         q-item-section
           .row.no-wrap.items-center
             span Icon Genie CLI
-            q-badge.q-ml-sm new
+            //- q-badge.q-ml-sm new
 
       q-item(clickable, to="/style/theme-builder")
         q-item-section.text-teal(avatar)
@@ -64,7 +78,7 @@ div
           q-icon(:name="mdiInvertColors")
         q-item-section Dark Mode
 
-      q-item(clickable, tag="a", href="/layout-builder", target="_blank")
+      q-item(clickable, tag="a", href="layout-builder", target="_blank")
         q-item-section.text-primary(avatar)
           q-icon(:name="mdiViewDashboard")
         q-item-section Layout Builder
@@ -114,7 +128,7 @@ div
       q-item(clickable, tag="a", href="https://github.com/quasarframework", rel="noopener", target="_blank")
         q-item-section(avatar)
           q-icon(:name="fabGithub")
-        q-item-section Github Repositories
+        q-item-section GitHub Repositories
 
       q-item-label.q-mt-md(header) Social
 
@@ -145,7 +159,7 @@ div
       q-item(clickable, tag="a", href="https://donate.quasar.dev", target="_blank", rel="noopener")
         q-item-section(avatar)
           q-icon(:name="mdiCharity")
-        q-item-section Github Sponsorship
+        q-item-section GitHub Sponsorship
 </template>
 
 <script>
@@ -158,8 +172,8 @@ import {
   mdiBlogger, mdiForum, mdiChat, mdiBullhorn,
   mdiViewDashboard, mdiShoppingMusic, mdiClipboardText,
   mdiBugCheck, mdiFlare, mdiFilePlus, mdiPaletteSwatch,
-  mdiInvertColors, mdiCharity, mdiStarCircle
-} from '@quasar/extras/mdi-v4'
+  mdiInvertColors, mdiCharity, mdiStarCircle, mdiFire
+} from '@quasar/extras/mdi-v5'
 
 export default {
   name: 'HeaderMenu',
@@ -191,6 +205,7 @@ export default {
     this.mdiInvertColors = mdiInvertColors
     this.mdiCharity = mdiCharity
     this.mdiStarCircle = mdiStarCircle
+    this.mdiFire = mdiFire
   }
 }
 </script>

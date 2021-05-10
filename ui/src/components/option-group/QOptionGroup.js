@@ -5,8 +5,9 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 import QToggle from '../toggle/QToggle.js'
 
 import DarkMixin from '../../mixins/dark.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 const components = {
   radio: QRadio,
@@ -19,7 +20,7 @@ const typeValues = Object.keys(components)
 export default Vue.extend({
   name: 'QOptionGroup',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, ListenersMixin ],
 
   props: {
     value: {
@@ -73,7 +74,7 @@ export default Vue.extend({
         }
 
         if (this.disable === true) {
-          attrs['aria-disabled'] = ''
+          attrs['aria-disabled'] = 'true'
         }
 
         return attrs
@@ -104,23 +105,23 @@ export default Vue.extend({
     return h('div', {
       class: this.classes,
       attrs: this.attrs,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, this.options.map(opt => h('div', [
       h(this.component, {
         props: {
           value: this.value,
           val: opt.value,
-          name: this.name || opt.name,
+          name: opt.name === void 0 ? this.name : opt.name,
           disable: this.disable || opt.disable,
           label: opt.label,
-          leftLabel: this.leftLabel || opt.leftLabel,
-          color: opt.color || this.color,
+          leftLabel: opt.leftLabel === void 0 ? this.leftLabel : opt.leftLabel,
+          color: opt.color === void 0 ? this.color : opt.color,
           checkedIcon: opt.checkedIcon,
           uncheckedIcon: opt.uncheckedIcon,
           dark: opt.dark || this.isDark,
-          size: opt.size || this.size,
+          size: opt.size === void 0 ? this.size : opt.size,
           dense: this.dense,
-          keepColor: opt.keepColor || this.keepColor
+          keepColor: opt.keepColor === void 0 ? this.keepColor : opt.keepColor
         },
         on: cache(this, 'inp', {
           input: this.__update

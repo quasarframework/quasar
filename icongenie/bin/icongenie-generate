@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 const parseArgs = require('minimist')
+const processArgv = process.argv.slice(2)
 
-const argv = parseArgs(process.argv.slice(2), {
+const argv = parseArgs(processArgv, {
   alias: {
     p: 'profile', // config file
     i: 'icon',
@@ -12,7 +13,7 @@ const argv = parseArgs(process.argv.slice(2), {
     q: 'quality',
     h: 'help'
   },
-  boolean: [ 'h' ],
+  boolean: [ 'h', 'skip-trim' ],
   string: [
     'p', 'i', 'b', 'm', 'f', 'q',
     'padding',
@@ -23,6 +24,12 @@ const argv = parseArgs(process.argv.slice(2), {
     'splashscreen-icon-ratio'
   ]
 })
+
+// if user hasn't explicitly specified this, then
+// we shouldn't take it into account
+if (processArgv.includes('--skip-trim') === false) {
+  delete argv['skip-trim']
+}
 
 const { green } = require('chalk')
 
@@ -62,7 +69,8 @@ if (argv.help) {
                             - min resolution: 64x64 px (the higher the better!!)
                             - with transparency
                           Best results are with a square image (height = width)
-                          Image will be trimmed automatically (also see "padding" param)
+                          Image will be trimmed automatically
+                            (also see "skip-trim" and "padding" param)
                           Path can be absolute, or relative to the root of the
                             Quasar project folder
                           Recommended min size: 1024x1024 px
@@ -91,6 +99,8 @@ if (argv.help) {
                             - higher quality --> bigger filesize & slower to create
                             - lower quality  --> smaller filesize & faster to create
 
+    --skip-trim           Do not trim the icon source file
+
     --padding             Apply fixed padding to the icon after trimming it;
                           Syntax: <horiz: number>,<vert: number>
                           Default: 0,0
@@ -98,7 +108,7 @@ if (argv.help) {
                             10px to bottom, 5px to left side and 5px to rightside
 
     --theme-color         Theme color to use for all generators requiring a color;
-                          It gets overriden if any generator color is also specified;
+                          It gets overridden if any generator color is also specified;
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee

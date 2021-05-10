@@ -155,9 +155,9 @@ The best way to start upgrading your project is to follow these steps:
   }
   ```
 
-10) In `quasar.conf.js`: **rename** the value `fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v4` and `ionicons` to `ionicons-v4` inside the `extras` section, if you use them. Even if you don't use them it is still good practice to rename them in case you do use them in the future.
+10) In `quasar.conf.js`: **rename** the value `fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v5` and `ionicons` to `ionicons-v4` inside the `extras` section, if you use them. Even if you don't use them it is still good practice to rename them in case you do use them in the future.
 
-11) In `quasar.conf.js` > `framework` > `iconSet` do same **rename** replacements as above to its value (`fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v4` and `ionicons` to `ionicons-v4`)
+11) In `quasar.conf.js` > `framework` > `iconSet` do same **rename** replacements as above to its value (`fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v5` and `ionicons` to `ionicons-v4`)
 
 12) In `quasar.conf.js`: **rename** in `framework` > `i18n` to `lang`
 
@@ -535,7 +535,7 @@ The structure looks the same, but some functions have been renamed.
 #### QAlert
 
 - **replaced** by [QBanner](/vue-components/banner)
-- The properties `type` and `color` are now managed by a [background css class](/style/color-palette#Using-as-CSS-Classes).
+- The properties `type` and `color` are now managed by a [background css class](/style/color-palette#using-as-css-classes).
 
 <div class="row">
   <div class="inline-block q-pa-md">
@@ -572,7 +572,7 @@ The structure looks the same, but some functions have been renamed.
 
 #### QAutocomplete
 
-- **removed**, built into [QSelect](/vue-components/select#Filtering-and-autocomplete), which is far more powerfull and offers a lot more options for your autocomplete needs; make sure you get accustomed to all the features of QSelect
+- **removed**, built into [QSelect](/vue-components/select#filtering-and-autocomplete), which is far more powerfull and offers a lot more options for your autocomplete needs; make sure you get accustomed to all the features of QSelect
 
 #### QBreadcrumbs
 
@@ -2225,7 +2225,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 #### QToggle
 
 - Type of `val` was changed from `object` to `any`
-- `checked-icon` and `indeterminate-icon` were dropped to make `QCheckbox` more compliant with Material Standards. If you still need similar functionality, consider using `QToggle` with [icons](/vue-components/toggle#Example--Icons).
+- `checked-icon` and `indeterminate-icon` were dropped to make `QCheckbox` more compliant with Material Standards. If you still need similar functionality, consider using `QToggle` with [icons](/vue-components/toggle#example--icons).
 
 <div class="row">
   <div class="inline-block q-pa-md">

@@ -1,3 +1,41 @@
+// there are some icons that are needed but not available
+// so we import them from MDI as svgs
+
+import {
+  mdiFormatBold,
+  mdiFormatItalic,
+  mdiFormatStrikethroughVariant,
+  mdiFormatUnderline,
+  mdiFormatListBulleted,
+  mdiFormatListNumbered,
+  mdiFormatSubscript,
+  mdiFormatSuperscript,
+  mdiFormatAlignLeft,
+  mdiFormatAlignCenter,
+  mdiFormatAlignRight,
+  mdiFormatAlignJustify,
+  mdiFormatIndentDecrease,
+  mdiFormatIndentIncrease,
+  mdiFormatClear,
+  mdiFormatColorText,
+  mdiFormatSize,
+  mdiMinus,
+  mdiFormatHeader1,
+  mdiFormatHeader2,
+  mdiFormatHeader3,
+  mdiFormatHeader4,
+  mdiFormatHeader5,
+  mdiFormatHeader6,
+  mdiNumeric1Box,
+  mdiNumeric2Box,
+  mdiNumeric3Box,
+  mdiNumeric4Box,
+  mdiNumeric5Box,
+  mdiNumeric6Box,
+  mdiNumeric7Box,
+  mdiFormatFont
+} from '@quasar/extras/mdi-v5'
+
 export default {
   name: 'ionicons-v4',
   type: {
@@ -42,37 +80,51 @@ export default {
     now: 'ion-time',
     today: 'ion-calendar'
   },
-  editor: { // requires Material icons for some as Ionicons simply does not have everything needed
-    bold: 'format_bold',
-    italic: 'format_italic',
-    strikethrough: 'strikethrough_s',
-    underline: 'format_underlined',
-    unorderedList: 'format_list_bulleted',
-    orderedList: 'format_list_numbered',
-    subscript: 'vertical_align_bottom',
-    superscript: 'vertical_align_top',
+  editor: {
     hyperlink: 'ion-link',
     toggleFullscreen: 'ion-expand',
     quote: 'ion-quote',
-    left: 'format_align_left',
-    center: 'format_align_center',
-    right: 'format_align_right',
-    justify: 'format_align_justify',
     print: 'ion-print',
-    outdent: 'format_indent_decrease',
-    indent: 'format_indent_increase',
-    removeFormat: 'format_clear',
-    formatting: 'text_format',
-    fontSize: 'format_size',
-    align: 'format_align_left',
-    hr: 'remove',
     undo: 'ion-undo',
     redo: 'ion-redo',
-    heading: 'format_size',
     code: 'ion-code',
-    size: 'format_size',
-    font: 'font_download',
-    viewSource: 'ion-ios-code'
+    viewSource: 'ion-ios-code',
+
+    bold: mdiFormatBold,
+    italic: mdiFormatItalic,
+    strikethrough: mdiFormatStrikethroughVariant,
+    underline: mdiFormatUnderline,
+    unorderedList: mdiFormatListBulleted,
+    orderedList: mdiFormatListNumbered,
+    subscript: mdiFormatSubscript,
+    superscript: mdiFormatSuperscript,
+    left: mdiFormatAlignLeft,
+    center: mdiFormatAlignCenter,
+    right: mdiFormatAlignRight,
+    justify: mdiFormatAlignJustify,
+    outdent: mdiFormatIndentDecrease,
+    indent: mdiFormatIndentIncrease,
+    removeFormat: mdiFormatClear,
+    formatting: mdiFormatColorText,
+    fontSize: mdiFormatSize,
+    align: mdiFormatAlignLeft,
+    hr: mdiMinus,
+    heading: mdiFormatSize,
+    heading1: mdiFormatHeader1,
+    heading2: mdiFormatHeader2,
+    heading3: mdiFormatHeader3,
+    heading4: mdiFormatHeader4,
+    heading5: mdiFormatHeader5,
+    heading6: mdiFormatHeader6,
+    size: mdiFormatSize,
+    size1: mdiNumeric1Box,
+    size2: mdiNumeric2Box,
+    size3: mdiNumeric3Box,
+    size4: mdiNumeric4Box,
+    size5: mdiNumeric5Box,
+    size6: mdiNumeric6Box,
+    size7: mdiNumeric7Box,
+    font: mdiFormatFont
   },
   expansionItem: {
     icon: 'ion-arrow-dropdown',
@@ -87,10 +139,10 @@ export default {
     error: 'ion-alert'
   },
   pagination: {
-    first: 'ion-skip-backward',
-    prev: 'ion-arrow-back',
-    next: 'ion-arrow-forward',
-    last: 'ion-skip-forward'
+    first: 'ion-ios-skip-backward',
+    prev: 'ion-ios-arrow-back',
+    next: 'ion-ios-arrow-forward',
+    last: 'ion-ios-skip-forward'
   },
   rating: {
     icon: 'ion-star'
@@ -109,8 +161,10 @@ export default {
   table: {
     arrowUp: 'ion-arrow-up',
     warning: 'ion-warning',
+    firstPage: 'ion-ios-return-left',
     prevPage: 'ion-ios-arrow-back',
-    nextPage: 'ion-ios-arrow-forward'
+    nextPage: 'ion-ios-arrow-forward',
+    lastPage: 'ion-ios-return-right'
   },
   tree: {
     icon: 'ion-play'

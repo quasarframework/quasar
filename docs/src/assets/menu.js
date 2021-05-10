@@ -146,83 +146,80 @@ const cli = [
     path: 'installation'
   },
   {
+    name: 'Upgrade guide',
+    path: 'app-upgrade-guide'
+  },
+  {
     name: 'quasar.conf.js',
     path: 'quasar-conf-js'
   },
   {
-    name: 'Testing & Auditing',
-    path: 'testing-and-auditing'
+    name: 'Browser Compatibility',
+    path: 'browser-compatibility'
   },
   {
-    name: 'CLI Documentation',
-    path: 'cli-documentation',
-    children: [
-      {
-        name: 'Supporting IE',
-        path: 'supporting-ie'
-      },
-      {
-        name: 'Supporting TypeScript',
-        badge: 'new',
-        path: 'supporting-ts'
-      },
-      {
-        name: 'Directory Structure',
-        path: 'directory-structure'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Commands List',
-        path: 'commands-list'
-      },
-      {
-        name: 'CSS Preprocessors',
-        path: 'css-preprocessors'
-      },
-      {
-        name: 'Routing',
-        path: 'routing'
-      },
-      {
-        name: 'Lazy Loading - Code Splitting',
-        path: 'lazy-loading'
-      },
-      {
-        name: 'Handling Assets',
-        path: 'handling-assets'
-      },
-      {
-        name: 'Boot Files',
-        path: 'boot-files'
-      },
-      {
-        name: 'Prefetch Feature',
-        path: 'prefetch-feature'
-      },
-      {
-        name: 'API Proxying',
-        path: 'api-proxying'
-      },
-      {
-        name: 'Handling Webpack',
-        path: 'handling-webpack'
-      },
-      {
-        name: 'Handling process.env',
-        path: 'handling-process-env'
-      },
-      {
-        name: 'Vuex Store',
-        path: 'vuex-store'
-      },
-      {
-        name: 'Linter',
-        path: 'linter'
-      }
-    ]
+    name: 'Supporting TypeScript',
+    path: 'supporting-ts'
+  },
+  {
+    name: 'Directory Structure',
+    path: 'directory-structure'
+  },
+  {
+    name: 'Build Commands',
+    path: 'build-commands'
+  },
+  {
+    name: 'Commands List',
+    path: 'commands-list'
+  },
+  {
+    name: 'CSS Preprocessors',
+    path: 'css-preprocessors'
+  },
+  {
+    name: 'Routing',
+    path: 'routing'
+  },
+  {
+    name: 'Lazy Loading - Code Splitting',
+    path: 'lazy-loading'
+  },
+  {
+    name: 'Handling Assets',
+    path: 'handling-assets'
+  },
+  {
+    name: 'Boot Files',
+    path: 'boot-files'
+  },
+  {
+    name: 'Prefetch Feature',
+    path: 'prefetch-feature'
+  },
+  {
+    name: 'API Proxying',
+    path: 'api-proxying'
+  },
+  {
+    name: 'Handling Webpack',
+    path: 'handling-webpack'
+  },
+  {
+    name: 'Handling process.env',
+    path: 'handling-process-env'
+  },
+  {
+    name: 'Vuex Store',
+    path: 'vuex-store'
+  },
+  {
+    name: 'Linter',
+    path: 'linter'
+  },
+  {
+    name: 'Testing & Auditing',
+    path: 'testing-and-auditing'
   },
   {
     name: 'Developing SPA',
@@ -339,6 +336,53 @@ const cli = [
     path: 'developing-mobile-apps'
   },
   {
+    name: 'Developing Capacitor Apps',
+    path: 'developing-capacitor-apps',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Capacitor versions',
+        badge: 'new',
+        path: 'capacitor-version-support'
+      },
+      {
+        name: 'Configuring Capacitor',
+        path: 'configuring-capacitor'
+      },
+      {
+        name: 'App Icons for Capacitor',
+        path: 'app-icons-capacitor'
+      },
+      {
+        name: 'Capacitor API',
+        path: 'capacitor-api'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Troubleshooting and Tips',
+        path: 'troubleshooting-and-tips'
+      },
+      {
+        name: 'Managing Google Analytics',
+        path: 'managing-google-analytics'
+      },
+      {
+        name: 'Publishing to Store',
+        path: 'publishing-to-store'
+      }
+    ]
+  },
+  {
     name: 'Developing Cordova Apps',
     path: 'developing-cordova-apps',
     children: [
@@ -361,48 +405,6 @@ const cli = [
       {
         name: 'Cordova Plugins',
         path: 'cordova-plugins'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Troubleshooting and Tips',
-        path: 'troubleshooting-and-tips'
-      },
-      {
-        name: 'Managing Google Analytics',
-        path: 'managing-google-analytics'
-      },
-      {
-        name: 'Publishing to Store',
-        path: 'publishing-to-store'
-      }
-    ]
-  },
-  {
-    name: 'Developing Capacitor Apps',
-    path: 'developing-capacitor-apps',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
-        name: 'Preparation',
-        path: 'preparation'
-      },
-      {
-        name: 'Configuring Capacitor',
-        path: 'configuring-capacitor'
-      },
-      {
-        name: 'App Icons for Capacitor',
-        path: 'app-icons-capacitor'
-      },
-      {
-        name: 'Capacitor API',
-        path: 'capacitor-api'
       },
       {
         name: 'Build Commands',
@@ -638,7 +640,6 @@ const layout = [
       },
       {
         name: 'Flexbox patterns',
-        badge: 'new',
         path: 'flexbox-patterns'
       },
       {
@@ -708,6 +709,10 @@ const directives = [
     path: 'mutation'
   },
   {
+    name: 'Morph',
+    path: 'morph'
+  },
+  {
     name: 'Scroll',
     path: 'scroll'
   },
@@ -760,7 +765,6 @@ const plugins = [
   },
   {
     name: 'Dialog',
-    badge: 'update',
     path: 'dialog'
   },
   {
@@ -781,7 +785,6 @@ const plugins = [
   },
   {
     name: 'Notify',
-    badge: 'update',
     path: 'notify'
   }
 ]
@@ -867,7 +870,6 @@ const components = [
   },
   {
     name: 'Floating Action Button',
-    badge: 'update',
     path: 'floating-action-button'
   },
   {
@@ -885,7 +887,6 @@ const components = [
       },
       {
         name: 'File picker',
-        badge: 'new',
         path: 'file-picker'
       },
       {
@@ -1022,7 +1023,6 @@ const components = [
   },
   {
     name: 'Scroll Area',
-    badge: 'update',
     path: 'scroll-area'
   },
   {
@@ -1180,6 +1180,10 @@ const utils = [
   {
     name: 'DOM Utils',
     path: 'dom-utils'
+  },
+  {
+    name: 'Morph Utils',
+    path: 'morph-utils'
   },
   {
     name: 'Formatter Utils',

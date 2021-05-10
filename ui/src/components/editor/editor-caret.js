@@ -24,10 +24,40 @@ function getBlockElement (el, parent) {
   return getBlockElement(el.parentNode)
 }
 
-function isChildOf (el, parent) {
+function isChildOf (el, parent, orSame) {
   return !el || el === document.body
     ? false
-    : (parent === document ? document.body : parent).contains(el.parentNode)
+    : (orSame === true && el === parent) || (parent === document ? document.body : parent).contains(el.parentNode)
+}
+
+function createRange (node, chars, range) {
+  if (!range) {
+    range = document.createRange()
+    range.selectNode(node)
+    range.setStart(node, 0)
+  }
+
+  if (chars.count === 0) {
+    range.setEnd(node, chars.count)
+  }
+  else if (chars.count > 0) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      if (node.textContent.length < chars.count) {
+        chars.count -= node.textContent.length
+      }
+      else {
+        range.setEnd(node, chars.count)
+        chars.count = 0
+      }
+    }
+    else {
+      for (let lp = 0; chars.count !== 0 && lp < node.childNodes.length; lp++) {
+        range = createRange(node.childNodes[lp], chars, range)
+      }
+    }
+  }
+
+  return range
 }
 
 const urlRegex = /^https?:\/\//
@@ -44,7 +74,7 @@ export class Caret {
       const sel = document.getSelection()
 
       // only when the selection in element
-      if (isChildOf(sel.anchorNode, this.el) && isChildOf(sel.focusNode, this.el)) {
+      if (isChildOf(sel.anchorNode, this.el, true) && isChildOf(sel.focusNode, this.el, true)) {
         return sel
       }
     }
@@ -115,6 +145,44 @@ export class Caret {
     }
   }
 
+  savePosition () {
+    let charCount = -1, node
+    const
+      selection = document.getSelection(),
+      parentEl = this.el.parentNode
+
+    if (selection.focusNode && isChildOf(selection.focusNode, parentEl)) {
+      node = selection.focusNode
+      charCount = selection.focusOffset
+
+      while (node && node !== parentEl) {
+        if (node !== this.el && node.previousSibling) {
+          node = node.previousSibling
+          charCount += node.textContent.length
+        }
+        else {
+          node = node.parentNode
+        }
+      }
+    }
+
+    this.savedPos = charCount
+  }
+
+  restorePosition (length = 0) {
+    if (this.savedPos > 0 && this.savedPos < length) {
+      const
+        selection = window.getSelection(),
+        range = createRange(this.el, { count: this.savedPos })
+
+      if (range) {
+        range.collapse(false)
+        selection.removeAllRanges()
+        selection.addRange(range)
+      }
+    }
+  }
+
   hasParent (name, spanLevel) {
     const el = spanLevel
       ? this.parent
@@ -140,6 +208,10 @@ export class Caret {
   }
 
   is (cmd, param) {
+    if (this.selection === null) {
+      return false
+    }
+
     switch (cmd) {
       case 'formatBlock':
         if (param === 'DIV' && this.parent === this.el) {
@@ -227,7 +299,9 @@ export class Caret {
         const url = selection ? selection.toString() : ''
 
         if (!url.length) {
-          return
+          if (!this.range || !this.range.cloneContents().querySelector('img')) {
+            return
+          }
         }
 
         this.vm.editLinkUrl = urlRegex.test(url) ? url : 'https://'

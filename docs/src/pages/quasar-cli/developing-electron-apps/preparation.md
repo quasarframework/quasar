@@ -19,13 +19,13 @@ The new folder has the following structure:
     ├── icons/                 # Icons of your app for all platforms
     |   ├── icon.icns             # Icon file for Darwin (MacOS) platform
     |   ├── icon.ico              # Icon file for win32 (Windows) platform
-    |   └── linux-256x256.png     # Icon file for Linux platform
+    |   └── linux-512x512.png     # Icon file for Linux platform (when using electron-builder)
     └── main-process/          # Main thread source code
         ├── electron-main.dev.js  # Main thread code while developing; read below
         └── electron-main.js      # Main thread code for production
 ```
 
-### Electron-main.dev.js
+### electron-main.dev.js
 This file (`/src-electron/main-process/electron-main.dev.js`) is used specifically for development and is used to install dev-tools. Usually it should not have to be modified, but can be used to extend your development needs. After it sets up dev-tools it imports the `electron-main.js` which is the place you'll make most (if not all) of your changes.
 
 ### A note for Windows Users

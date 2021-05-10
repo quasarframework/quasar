@@ -1,6 +1,6 @@
 ---
 title: The Role of the Project Maintainer
-desc: Play with Quasar on a jsFiddle, Codepen or Codesandbox templates.
+desc: The role of a Quasar project manager
 ---
 
 ## Your Profile

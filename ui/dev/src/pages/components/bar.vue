@@ -1,7 +1,7 @@
 <template>
   <div class="q-layout-padding q-mx-auto" style="max-width: 600px">
     <div class="q-gutter-y-lg">
-      <q-bar>
+      <q-bar @click="onClick">
         <q-btn dense flat round icon="lens" size="8.5px" color="red" />
         <q-btn dense flat round icon="lens" size="8.5px" color="yellow" />
         <q-btn dense flat round icon="lens" size="8.5px" color="green" />
@@ -92,3 +92,13 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    onClick (evt) {
+      console.log(evt)
+    }
+  }
+}
+</script>

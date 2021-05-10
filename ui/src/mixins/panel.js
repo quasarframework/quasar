@@ -2,25 +2,29 @@ import Vue from 'vue'
 
 import TouchSwipe from '../directives/TouchSwipe.js'
 
+import ListenersMixin from './listeners.js'
+
 import { stop } from '../utils/event.js'
 import { slot } from '../utils/slot.js'
-import { cache } from '../utils/vm.js'
+import cache, { cacheWithFn } from '../utils/cache.js'
+
+function getPanelWrapper (h) {
+  return h('div', {
+    staticClass: 'q-panel scroll',
+    attrs: { role: 'tabpanel' },
+    // stop propagation of content emitted @input
+    // which would tamper with Panel's model
+    on: cache(this, 'stop', { input: stop })
+  }, slot(this, 'default'))
+}
 
 const PanelWrapper = Vue.extend({
-  name: 'QTabPanelWrapper',
-
-  render (h) {
-    return h('div', {
-      staticClass: 'q-panel scroll',
-      attrs: { role: 'tabpanel' },
-      // stop propagation of content emitted @input
-      // which would tamper with Panel's model
-      on: cache(this, 'stop', { input: stop })
-    }, slot(this, 'default'))
-  }
+  render: getPanelWrapper
 })
 
 export const PanelParentMixin = {
+  mixins: [ ListenersMixin ],
+
   directives: {
     TouchSwipe
   },
@@ -38,7 +42,10 @@ export const PanelParentMixin = {
     transitionPrev: String,
     transitionNext: String,
 
-    keepAlive: Boolean
+    keepAlive: Boolean,
+    keepAliveInclude: [ String, Array, RegExp ],
+    keepAliveExclude: [ String, Array, RegExp ],
+    keepAliveMax: Number
   },
 
   data () {
@@ -75,6 +82,19 @@ export const PanelParentMixin = {
 
     transitionNextComputed () {
       return this.transitionNext || `slide-${this.vertical === true ? 'up' : 'left'}`
+    },
+
+    keepAliveProps () {
+      return {
+        include: this.keepAliveInclude,
+        exclude: this.keepAliveExclude,
+        max: this.keepAliveMax
+      }
+    },
+
+    needsUniqueWrapper () {
+      return this.keepAliveInclude !== void 0 ||
+        this.keepAliveExclude !== void 0
     }
   },
 
@@ -119,28 +139,17 @@ export const PanelParentMixin = {
 
     __getPanelIndex (name) {
       return this.panels.findIndex(panel => {
-        const opt = panel.componentOptions
-        return opt &&
-          opt.propsData.name === name &&
-          opt.propsData.disable !== '' &&
-          opt.propsData.disable !== true
+        const opt = panel.componentOptions.propsData
+        return opt.name === name &&
+          opt.disable !== '' &&
+          opt.disable !== true
       })
     },
 
-    __getAllPanels () {
-      return this.panels.filter(
-        panel => panel.componentOptions !== void 0 &&
-          this.__isValidPanelName(panel.componentOptions.propsData.name)
-      )
-    },
-
-    __getAvailablePanels () {
+    __getEnabledPanels () {
       return this.panels.filter(panel => {
-        const opt = panel.componentOptions
-        return opt &&
-          opt.propsData.name !== void 0 &&
-          opt.propsData.disable !== '' &&
-          opt.propsData.disable !== true
+        const opt = panel.componentOptions.propsData
+        return opt.disable !== '' && opt.disable !== true
       })
     },
 
@@ -209,10 +218,17 @@ export const PanelParentMixin = {
 
       const content = this.keepAlive === true
         ? [
-          h('keep-alive', [
-            h(PanelWrapper, {
-              key: this.contentKey
-            }, [ panel ])
+          h('keep-alive', { props: this.keepAliveProps }, [
+            h(
+              this.needsUniqueWrapper === true
+                ? cacheWithFn(this, this.contentKey, () => Vue.extend({
+                  name: this.contentKey,
+                  render: getPanelWrapper
+                }))
+                : PanelWrapper,
+              { key: this.contentKey },
+              [ panel ]
+            )
           ])
         ]
         : [
@@ -239,12 +255,20 @@ export const PanelParentMixin = {
   },
 
   render (h) {
-    this.panels = slot(this, 'default', [])
+    this.panels = slot(this, 'default', []).filter(
+      panel => panel !== void 0 &&
+        panel.componentOptions !== void 0 &&
+        panel.componentOptions.propsData !== void 0 &&
+        this.__isValidPanelName(panel.componentOptions.propsData.name)
+    )
+
     return this.__renderPanels(h)
   }
 }
 
 export const PanelChildMixin = {
+  mixins: [ ListenersMixin ],
+
   props: {
     name: {
       required: true

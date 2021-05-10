@@ -1,9 +1,12 @@
 import Vue from 'vue'
 
+import ListenersMixin from '../../mixins/listeners.js'
 import { uniqueSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QChatMessage',
+
+  mixins: [ ListenersMixin ],
 
   props: {
     sent: Boolean,
@@ -140,7 +143,7 @@ export default Vue.extend({
 
     return h('div', {
       class: `q-message q-message-${this.op}`,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, child)
   }
 })

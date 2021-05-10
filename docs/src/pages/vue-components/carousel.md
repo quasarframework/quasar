@@ -14,8 +14,9 @@ The QCarousel component allows you to display more information with less real es
 If the QCarouselSlide content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 :::
 
-::: danger
-Please take notice of the Boolean `keep-alive` prop for QCarousel, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QCarouselSlide.
+::: danger Keep Alive
+* Please take notice of the Boolean `keep-alive` prop for QCarousel, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QCarouselSlide.
+* Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QCarouselSlide `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).
 :::
 
 ### Basic
@@ -46,6 +47,12 @@ The notion of "control" here refers to the arrows and navigation buttons. Since 
 
 <doc-example title="Navigation position" file="QCarousel/NavigationPosition" />
 
+### Custom navigation <q-badge align="top" label="v1.13.2+" />
+
+For a full list of properties of the `navigation-icon` slot, please consult the API card.
+
+<doc-example title="Custom navigation" file="QCarousel/CustomNavigation" />
+
 ### Auto padding
 
 Below is an example with which you can play with different QCarousel settings so you can see the padding (or lack of) in action:
@@ -71,6 +78,8 @@ Don't use the property `navigation` along with `thumbnails` as the first superce
 :::
 
 ### Infinite and autoplay
+
+You can pause autoplay when the pointer is over the carousel or over a region of interest.
 
 <doc-example title="Autoplay" file="QCarousel/InfiniteAutoplay" />
 

@@ -16,10 +16,37 @@
       <q-pagination @change="onChange" @input="onInput" v-model="page"
                     :min="min"
                     :max="max"
+                    :input="inputType"
+                    :to-fn="toFn"
+                    padding="xs"
+                    direction-links
+                    boundary-links
+      />
+
+      <q-pagination @change="onChange" @input="onInput" v-model="page"
+                    :min="min"
+                    :max="max"
                     :boundary-links="boundaryLinks"
                     :direction-links="directionLinks"
                     :input="inputType"
                     :to-fn="toFn"
+                    padding="xs"
+                    outline
+                    color="teal"
+                    class="q-my-md"
+      />
+
+      <q-pagination @change="onChange" @input="onInput" v-model="page"
+                    :min="min"
+                    :max="max"
+                    :boundary-links="boundaryLinks"
+                    :direction-links="directionLinks"
+                    :input="inputType"
+                    :to-fn="toFn"
+                    padding="xs"
+                    flat
+                    color="grey-5"
+                    active-color="primary"
       />
 
       <p class="caption">
@@ -61,6 +88,22 @@
         Page buttons
       </p>
       <q-pagination @change="onChange" @input="onInput" v-model="page" color="red" type="select"
+                    :min="min"
+                    :max="max"
+                    :boundary-links="boundaryLinks"
+                    :boundary-numbers="boundaryNumbers"
+                    :direction-links="directionLinks"
+                    :ellipses="ellipses"
+                    :max-pages="maxPages"
+                    :input="inputType"
+                    :input-style="inputStyle"
+                    :to-fn="toFn"
+      />
+
+      <p class="caption">
+        Page buttons - with active-color
+      </p>
+      <q-pagination @change="onChange" @input="onInput" v-model="page" color="red" active-color="primary" type="select"
                     :min="min"
                     :max="max"
                     :boundary-links="boundaryLinks"

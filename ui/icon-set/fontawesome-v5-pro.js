@@ -27,7 +27,7 @@ export default {
   },
   carousel: {
     left: 'fal fa-chevron-left',
-    right: 'fal fa-chevron-right', // TODO
+    right: 'fal fa-chevron-right',
     up: 'fal fa-chevron-up',
     down: 'fal fa-chevron-down',
     navigationIcon: 'fal fa-circle'
@@ -109,8 +109,10 @@ export default {
   table: {
     arrowUp: 'fal fa-long-arrow-up',
     warning: 'fal fa-exclamation-triangle',
+    firstPage: 'fal fa-step-backward',
     prevPage: 'fal fa-chevron-left',
-    nextPage: 'fal fa-chevron-right'
+    nextPage: 'fal fa-chevron-right',
+    lastPage: 'fal fa-step-forward'
   },
   tree: {
     icon: 'fal fa-play'

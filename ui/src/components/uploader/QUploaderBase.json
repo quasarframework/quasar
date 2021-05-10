@@ -61,6 +61,10 @@
 
     "readonly": {
       "extends": "readonly"
+    },
+
+    "max-files": {
+      "addedIn": "v1.11.2"
     }
   },
 

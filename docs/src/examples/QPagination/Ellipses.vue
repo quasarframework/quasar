@@ -7,8 +7,7 @@
       :max-pages="5"
       :ellipses="false"
       :boundary-numbers="false"
-    >
-    </q-pagination>
+    />
   </div>
 </template>
 

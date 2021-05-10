@@ -1,20 +1,27 @@
+import ListenersMixin from './listeners.js'
+
 const labelPositions = ['top', 'right', 'bottom', 'left']
 
 export default {
+  mixins: [ ListenersMixin ],
+
   props: {
     type: {
       type: String,
       default: 'a'
     },
+
     outline: Boolean,
     push: Boolean,
     flat: Boolean,
     unelevated: Boolean,
+
     color: String,
     textColor: String,
     glossy: Boolean,
 
     square: Boolean,
+    padding: String,
 
     label: {
       type: [ String, Number ],
@@ -32,7 +39,9 @@ export default {
     labelClass: [ Array, String, Object ],
     labelStyle: [ Array, String, Object ],
 
-    disable: Boolean
+    disable: Boolean,
+
+    tabindex: [ Number, String ]
   },
 
   computed: {

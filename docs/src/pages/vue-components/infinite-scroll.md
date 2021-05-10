@@ -26,7 +26,7 @@ Scroll to the bottom to see QInfiniteScroll in action.
 
 <doc-example title="Basic" file="QInfiniteScroll/Basic" scrollable />
 
-<doc-example title="Custom Scroll Target Container" file="QInfiniteScroll/Container" scrollable />
+<doc-example title="Custom Scroll Target Container" file="QInfiniteScroll/Container" />
 
 <doc-example title="Reverse (Messenger style)" file="QInfiniteScroll/Reverse" scrollable />
 
@@ -40,6 +40,8 @@ If you pass a custom scroll target container with `scroll-target` prop you must 
 
 If the scroll target container cannot be overflowed you'll get a forever loading situation.
 :::
+
+<doc-example title="Usage in QMenu" file="QInfiniteScroll/Menu" />
 
 ## QInfiniteScroll API
 <doc-api file="QInfiniteScroll" />

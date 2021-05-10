@@ -2,14 +2,15 @@ import Vue from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
 import { isSSR } from './Platform.js'
-import { cache } from '../utils/vm.js'
+import cache from '../utils/cache.js'
 import { preventScroll } from '../mixins/prevent-scroll.js'
 
 let
   vm,
   uid = 0,
   timeout,
-  props = {},
+  props = {}
+const
   originalDefaults = {
     delay: 0,
     message: false,
@@ -33,16 +34,18 @@ const Loading = {
       : { ...defaults, ...opts }
 
     props.customClass += ` text-${props.backgroundColor}`
-    props.uid = `l_${uid++}`
 
     this.isActive = true
 
     if (vm !== void 0) {
+      props.uid = uid
       vm.$forceUpdate()
       return
     }
 
+    props.uid = ++uid
     clearTimeout(timeout)
+
     timeout = setTimeout(() => {
       timeout = void 0
 
@@ -88,6 +91,7 @@ const Loading = {
                   size: props.spinnerSize
                 }
               }),
+
               (props.message && h('div', {
                 class: `text-${props.messageColor}`,
                 domProps: {

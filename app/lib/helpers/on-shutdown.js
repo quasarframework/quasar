@@ -1,4 +1,4 @@
-const log = require('./logger')('app:on-shutdown')
+const { log } = require('./logger')
 
 module.exports = function (fn, msg) {
   const cleanup = () => {

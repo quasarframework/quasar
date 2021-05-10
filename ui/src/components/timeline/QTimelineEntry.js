@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot, uniqueSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
@@ -14,6 +16,8 @@ export default Vue.extend({
       }
     }
   },
+
+  mixins: [ ListenersMixin ],
 
   props: {
     heading: Boolean,
@@ -72,7 +76,7 @@ export default Vue.extend({
 
       return h('div', {
         staticClass: 'q-timeline__heading',
-        on: this.$listeners
+        on: { ...this.qListeners }
       }, this.reverse === true ? content.reverse() : content)
     }
 
@@ -113,7 +117,7 @@ export default Vue.extend({
     return h('li', {
       staticClass: 'q-timeline__entry',
       class: this.classes,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, this.reverse === true ? content.reverse() : content)
   }
 })

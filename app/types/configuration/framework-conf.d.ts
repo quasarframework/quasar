@@ -2,8 +2,15 @@ import {
   QuasarIconSets,
   QuasarLanguageCodes,
   DeepPartial,
-  QuasarPluginOptions
+  QuasarPluginOptions,
 } from "quasar";
+import Vue from "vue";
+
+interface QuasarMobileFrameworkInnerConfiguration {
+  iosStatusBarPadding: boolean;
+  backButton: boolean;
+  backButtonExit: boolean | "*" | string[];
+}
 
 interface QuasarFrameworkInnerConfiguration {
   brand: {
@@ -16,13 +23,8 @@ interface QuasarFrameworkInnerConfiguration {
     info: string;
     warning: string;
   };
-  capacitor: {
-    iosStatusBarPadding: boolean;
-  };
-  cordova: {
-    iosStatusBarPadding: boolean;
-    backButtonExit: boolean;
-  };
+  capacitor: QuasarMobileFrameworkInnerConfiguration;
+  cordova: QuasarMobileFrameworkInnerConfiguration;
   dark: boolean | "auto";
   loading: {
     delay: number;
@@ -53,27 +55,19 @@ interface QuasarBaseFrameworkObjectConfiguration {
 
 interface QuasarAutoFrameworkObjectConfiguration
   extends QuasarBaseFrameworkObjectConfiguration {
-  all: "auto";
+  importStrategy: "auto";
   /** @default 'kebab' */
   autoImportComponentCase?: "kebab" | "pascal" | "combined";
-}
-
-interface QuasarAllFrameworkObjectConfiguration
-  extends QuasarBaseFrameworkObjectConfiguration {
-  all: true;
-}
-
-interface QuasarManualFrameworkObjectConfiguration
-  extends QuasarBaseFrameworkObjectConfiguration {
-  all: false;
   components?: (keyof QuasarPluginOptions["components"])[];
   directives?: (keyof QuasarPluginOptions["directives"])[];
 }
 
-declare module "quasar" {
-  type QuasarFrameworkConfiguration =
-    | "all" // Equal to `{ all: true }`
-    | QuasarAutoFrameworkObjectConfiguration
-    | QuasarAllFrameworkObjectConfiguration
-    | QuasarManualFrameworkObjectConfiguration;
+interface QuasarAllFrameworkObjectConfiguration
+  extends QuasarBaseFrameworkObjectConfiguration {
+  importStrategy: "all";
 }
+
+export type QuasarFrameworkConfiguration =
+  | "all" // Equal to `{ importStrategy: 'all' }`
+  | QuasarAutoFrameworkObjectConfiguration
+  | QuasarAllFrameworkObjectConfiguration;

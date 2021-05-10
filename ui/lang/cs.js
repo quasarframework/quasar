@@ -23,7 +23,8 @@ export default {
       '_'),
     monthsShort: 'Led_Úno_Bře_Dub_Kvě_Čvn_Čvc_Srp_Zář_Říj_Lis_Pro'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dny'
   },
   table: {
     noData: 'Žádná data k dispozici',

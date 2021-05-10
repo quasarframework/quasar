@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if ! command -v parallel &>/dev/null; then
+  echo Please install parallel
+  echo sudo apt install parallel
+  exit
+fi
+
 FILE="roboto-font.css"
 FONT_FOLDER="web-font"
 AGENT_WOFF="Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko"

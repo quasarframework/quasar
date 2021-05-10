@@ -20,7 +20,7 @@ export default Vue.extend({
       return h('div', {
         class: this.classes,
         directives: this.panelDirectives,
-        on: this.$listeners
+        on: { ...this.qListeners }
       }, this.__getPanelContent(h))
     }
   }

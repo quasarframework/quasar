@@ -28,6 +28,15 @@
       "category": "content"
     },
 
+    "children-key": {
+      "type": "String",
+      "desc": "The property name of each node object that holds the list of children of the node",
+      "default": "children",
+      "examples": [ "roles", "relatives" ],
+      "category": "content",
+      "addedIn":"v1.11.3"
+    },
+
     "no-connectors": {
       "type": "Boolean",
       "desc": "Do not display the connector lines between nodes",

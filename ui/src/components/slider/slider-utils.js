@@ -33,7 +33,7 @@ export function getModel (ratio, min, max, step, decimals) {
   return between(model, min, max)
 }
 
-export let SliderMixin = {
+export const SliderMixin = {
   mixins: [ DarkMixin, FormMixin ],
 
   directives: {
@@ -96,8 +96,7 @@ export let SliderMixin = {
       return `q-slider q-slider${this.axis} q-slider--${this.active === true ? '' : 'in'}active` +
         (this.isReversed === true ? ' q-slider--reversed' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '') +
-        (this.disable === true ? ' disabled' : '') +
-        (this.editable === true ? ' q-slider--editable' : '') +
+        (this.disable === true ? ' disabled' : ' q-slider--enabled' + (this.editable === true ? ' q-slider--editable' : '')) +
         (this.focus === 'both' ? ' q-slider--focus' : '') +
         (this.label || this.labelAlways === true ? ' q-slider--label' : '') +
         (this.labelAlways === true ? ' q-slider--label-always' : '') +
@@ -106,7 +105,7 @@ export let SliderMixin = {
     },
 
     editable () {
-      return !this.disable && !this.readonly
+      return this.disable !== true && this.readonly !== true && this.min < this.max
     },
 
     decimals () {
@@ -117,11 +116,19 @@ export let SliderMixin = {
       return this.step === 0 ? 1 : this.step
     },
 
+    minMaxDiff () {
+      return this.max - this.min
+    },
+
     markerStyle () {
-      return {
-        backgroundSize: this.vertical === true
-          ? '2px ' + (100 * this.computedStep / (this.max - this.min)) + '%'
-          : (100 * this.computedStep / (this.max - this.min)) + '% 2px'
+      if (this.minMaxDiff !== 0) {
+        const size = 100 * this.computedStep / this.minMaxDiff
+
+        return {
+          backgroundSize: this.vertical === true
+            ? '2px ' + size + '%'
+            : size + '% 2px'
+        }
       }
     },
 
@@ -160,10 +167,10 @@ export let SliderMixin = {
       }
 
       if (this.disable === true) {
-        attrs['aria-disabled'] = ''
+        attrs['aria-disabled'] = 'true'
       }
       else if (this.readonly === true) {
-        attrs['aria-readonly'] = ''
+        attrs['aria-readonly'] = 'true'
       }
 
       return attrs
@@ -194,7 +201,8 @@ export let SliderMixin = {
           focusable: 'false', /* needed for IE11 */
           viewBox: '0 0 20 20',
           width: '20',
-          height: '20'
+          height: '20',
+          'aria-hidden': 'true'
         }
       }, [
         h('path', {
@@ -230,6 +238,7 @@ export let SliderMixin = {
           // only if touch, because we also have mousedown/up:
           event.touch === true && this.__updateValue(true)
           this.dragging = void 0
+          this.$emit('pan', 'end')
         }
         this.active = false
       }
@@ -238,6 +247,7 @@ export let SliderMixin = {
         this.__updatePosition(event.evt)
         this.__updateValue()
         this.active = true
+        this.$emit('pan', 'start')
       }
       else {
         this.__updatePosition(event.evt)

@@ -9,11 +9,19 @@
  *
  * Boot files are your "main.js"
  **/
+
+<% if (__vueDevtools !== false) { %>
+import vueDevtools from '@vue/devtools'
+<% } %>
+
 import Vue from 'vue'
 import './import-quasar.js'
 
 <% if (ctx.mode.ssr) { %>
-import <%= framework.all === true ? 'Quasar' : '{ Quasar }' %> from 'quasar'
+import <%= framework.importStrategy === 'all' ? 'Quasar' : '{ Quasar }' %> from 'quasar'
+<% if (ctx.mode.pwa) { %>
+import { isRunningOnPWA } from './ssr-pwa'
+<% } %>
 <% } %>
 
 import App from 'app/<%= sourceFiles.rootComponent %>'
@@ -23,14 +31,22 @@ import createStore from 'app/<%= sourceFiles.store %>'
 <% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
-<% if (ctx.mode.capacitor && capacitor.hideSplashscreen !== false) { %>
-import { Plugins } from '@capacitor/core'
-const { SplashScreen } = Plugins
+<% if (ctx.mode.capacitor) { %>
+  <% if (__versions.capacitor <= 2) { %>
+  import { Plugins } from '@capacitor/core'
+  const { SplashScreen } = Plugins
+  <% } else /* Capacitor v3+ */ { %>
+  import '@capacitor/core'
+    <% if (__versions.capacitorPluginApp) { %>
+    // importing it so it can install itself (used by Quasar UI)
+    import { App as CapApp } from '@capacitor/app'
+    <% } %>
+    <% if (__versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
+    import { SplashScreen } from '@capacitor/splash-screen'
+    <% } %>
+  <% } %>
 <% } %>
 
-<% if (__vueDevtools !== false) { %>
-import vueDevtools from '@vue/devtools'
-<% } %>
 
 export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // create store and router instances
@@ -51,12 +67,11 @@ export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // Here we inject the router, store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    <% if (!ctx.mode.ssr) { %>el: '#q-app',<% } %>
     router,
     <%= store ? 'store,' : '' %>
     render: h => h(App)<% if (__needsAppMountHook === true) { %>,
     mounted () {
-      <% if (ctx.mode.capacitor && capacitor.hideSplashscreen !== false) { %>
+      <% if (ctx.mode.capacitor && __versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
       SplashScreen.hide()
       <% } %>
 
@@ -66,8 +81,20 @@ export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
     }<% } %>
   }
 
+
   <% if (ctx.mode.ssr) { %>
+    <% if (ctx.mode.pwa) { %>
+  if (isRunningOnPWA === true) {
+    app.el = '#q-app'
+  }
+  else {
+    Quasar.ssrUpdate({ app, ssr: ssrContext })
+  }
+    <% } else { %>
   Quasar.ssrUpdate({ app, ssr: ssrContext })
+    <% } %>
+  <% } else { %>
+  app.el = '#q-app'
   <% } %>
 
   // expose the app, the router and the store.

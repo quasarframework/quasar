@@ -8,7 +8,7 @@ import FileMixin, { FileValueMixin } from '../../mixins/file.js'
 
 import { isSSR } from '../../plugins/Platform'
 import { humanStorageSize } from '../../utils/format.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QFile',
@@ -21,9 +21,9 @@ export default Vue.extend({
       ? {}
       : [ File, FileList, Array ],
 
+    append: Boolean,
     useChips: Boolean,
     displayValue: [ String, Number ],
-    maxFiles: [ Number, String ],
 
     tabindex: {
       type: [ String, Number ],
@@ -76,6 +76,24 @@ export default Vue.extend({
 
       const max = this.maxFiles
       return `${this.innerValue.length}${max !== void 0 ? ' / ' + max : ''} (${this.totalSize})`
+    },
+
+    inputAttrs () {
+      return {
+        tabindex: -1,
+        type: 'file',
+        title: '', // try to remove default tooltip,
+        accept: this.accept,
+        capture: this.capture,
+        name: this.nameProp,
+        ...this.qAttrs,
+        id: this.targetUid,
+        disabled: this.editable !== true
+      }
+    },
+
+    isAppending () {
+      return this.multiple === true && this.append === true
     }
   },
 
@@ -107,11 +125,11 @@ export default Vue.extend({
     },
 
     __addFiles (e, fileList) {
-      const files = this.__processFiles(e, fileList)
+      const files = this.__processFiles(e, fileList, this.innerValue, this.isAppending)
 
       files !== void 0 && this.__emitValue(
-        this.maxFiles !== void 0
-          ? files.slice(0, parseInt(this.maxFiles, 10))
+        this.isAppending === true
+          ? this.innerValue.concat(files)
           : files
       )
     },
@@ -187,16 +205,7 @@ export default Vue.extend({
       const data = {
         ref: 'input',
         staticClass: 'q-field__input fit absolute-full cursor-pointer',
-        attrs: {
-          tabindex: -1,
-          type: 'file',
-          title: '', // try to remove default tooltip,
-          accept: this.accept,
-          name: this.nameProp,
-          ...this.$attrs,
-          id: this.targetUid,
-          disabled: this.editable !== true
-        },
+        attrs: this.inputAttrs,
         domProps: this.formDomProps,
         on: cache(this, 'input', {
           change: this.__addFiles
@@ -213,6 +222,9 @@ export default Vue.extend({
 
   created () {
     this.fieldClass = 'q-file q-field--auto-height'
-    this.type = 'file' // necessary for QField's clearable
+
+    // necessary for QField's clearable
+    // and FileValueMixin
+    this.type = 'file'
   }
 })

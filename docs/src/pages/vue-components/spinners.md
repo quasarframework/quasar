@@ -13,13 +13,11 @@ related:
 A Spinner is used to show the user a timely process is currently taking place. It is an important UX feature, which gives the user the feeling the system is continuing to work for longer term activities, like grabbing data from the server or some heavy calculations.
 
 ## Installation
-<doc-installation components="QSpinner" />
-
 ::: tip
-If you need a specific spinner, choose one from the list below.
+Choose your spinner from the list below (you'll only need to specify the ones that you are using) if any installation is required.
 :::
 
-<doc-installation :components="[ 'QSpinnerAudio', 'QSpinnerBall', 'QSpinnerBars', 'QSpinnerComment', 'QSpinnerCube', 'QSpinnerDots', 'QSpinnerFacebook', 'QSpinnerGears', 'QSpinnerGrid', 'QSpinnerHearts', 'QSpinnerHourglass', 'QSpinnerInfinity', 'QSpinnerIos', 'QSpinnerOval', 'QSpinnerPie', 'QSpinnerPuff', 'QSpinnerRadio', 'QSpinnerRings', 'QSpinnerTail' ]" />
+<doc-installation :components="[ 'QSpinner', 'QSpinnerAudio', 'QSpinnerBall', 'QSpinnerBars', 'QSpinnerBox', 'QSpinnerClock', 'QSpinnerComment', 'QSpinnerCube', 'QSpinnerDots', 'QSpinnerFacebook', 'QSpinnerGears', 'QSpinnerGrid', 'QSpinnerHearts', 'QSpinnerHourglass', 'QSpinnerInfinity', 'QSpinnerIos', 'QSpinnerOrbit', 'QSpinnerOval', 'QSpinnerPie', 'QSpinnerPuff', 'QSpinnerRadio', 'QSpinnerRings', 'QSpinnerTail' ]" />
 
 ## Usage
 

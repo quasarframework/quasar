@@ -1,14 +1,16 @@
 import Vue from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
+
 import RatioMixin from '../../mixins/ratio.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QImg',
 
-  mixins: [ RatioMixin ],
+  mixins: [ ListenersMixin, RatioMixin ],
 
   props: {
     src: String,
@@ -226,7 +228,7 @@ export default Vue.extend({
         ? [
           h('img', {
             staticClass: 'absolute-full fit',
-            attrs: { src: this.url }
+            attrs: { src: this.url, 'aria-hidden': 'true' }
           })
         ]
         : void 0
@@ -292,7 +294,7 @@ export default Vue.extend({
       class: this.classes,
       style: this.style,
       attrs: this.attrs,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, [
       h('div', { style: this.ratioStyle }),
       this.__getImage(h),

@@ -1,6 +1,6 @@
 ---
 title: DOM Utils
-desc: A set of Quasar methods for DOM elements which helps you in retrieving the offset on screen viewport, getting and setting styles and waiting for the DOM to be ready.
+desc: A set of Quasar methods for DOM elements which helps you in retrieving the offset on screen viewport, getting and setting styles, waiting for the DOM to be ready and morphing DOM elements.
 ---
 
 ### Helping Tree-Shake
@@ -26,7 +26,7 @@ console.log(dom.offset(DomElement))
 ```
 
 ::: tip
-For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+For usage with the UMD build see [here](/start/umd#quasar-global-object).
 :::
 
 ## Offset on screen viewport

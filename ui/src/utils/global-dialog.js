@@ -5,7 +5,23 @@ import { isSSR } from '../plugins/Platform.js'
 const ssrAPI = {
   onOk: () => ssrAPI,
   okCancel: () => ssrAPI,
-  hide: () => ssrAPI
+  hide: () => ssrAPI,
+  update: () => ssrAPI
+}
+
+export function merge (target, source) {
+  for (const key in source) {
+    if (key !== 'spinner' && Object(source[key]) === source[key]) {
+      target[key] = Object(target[key]) !== target[key]
+        ? {}
+        : { ...target[key] }
+
+      merge(target[key], source[key])
+    }
+    else {
+      target[key] = source[key]
+    }
+  }
 }
 
 export default function (DefaultComponent) {
@@ -14,6 +30,17 @@ export default function (DefaultComponent) {
 
     klass !== void 0 && (props.cardClass = klass)
     style !== void 0 && (props.cardStyle = style)
+
+    const isCustom = component !== void 0
+    let DialogComponent, attrs
+
+    if (isCustom === true) {
+      DialogComponent = component
+    }
+    else {
+      DialogComponent = DefaultComponent
+      attrs = props
+    }
 
     const
       okFns = [],
@@ -34,6 +61,28 @@ export default function (DefaultComponent) {
         },
         hide () {
           vm.$refs.dialog.hide()
+          return API
+        },
+        update ({ className, class: klass, style, component, root, parent, ...cfg }) {
+          if (vm !== null) {
+            klass !== void 0 && (cfg.cardClass = klass)
+            style !== void 0 && (cfg.cardStyle = style)
+
+            if (isCustom === true) {
+              Object.assign(props, cfg)
+            }
+            else {
+              merge(props, cfg)
+
+              // need to change "attrs" reference to
+              // actually reflect it in underlying component
+              // when we force update it
+              attrs = { ...props }
+            }
+
+            vm.$forceUpdate()
+          }
+
           return API
         }
       }
@@ -60,16 +109,6 @@ export default function (DefaultComponent) {
       }
     }
 
-    Vue.observable(props)
-
-    const DialogComponent = component !== void 0
-      ? component
-      : DefaultComponent
-
-    const attrs = component === void 0
-      ? props
-      : void 0
-
     let vm = new Vue({
       name: 'QGlobalDialog',
 
@@ -86,7 +125,14 @@ export default function (DefaultComponent) {
       },
 
       mounted () {
-        this.$refs.dialog.show()
+        if (this.$refs.dialog !== void 0) {
+          this.$refs.dialog.show()
+        }
+        else {
+          on['hook:mounted'] = () => {
+            this.$refs.dialog !== void 0 && this.$refs.dialog.show()
+          }
+        }
       }
     })
 

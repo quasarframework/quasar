@@ -5,7 +5,7 @@ q-card(flat bordered)
     div Cannot connect to GitHub. Please try again later.
   q-card-section.row.no-wrap.items-center(v-else-if="loading")
     q-spinner.q-mr-sm(size="24px" color="primary")
-    div Loading release notes from Github...
+    div Loading release notes from GitHub...
   template(v-else)
     q-tabs.text-grey-7(v-model="currentPackage" align="left" active-color="primary" active-bg-color="blue-1" indicator-color="primary")
       q-tab(v-for="(packageReleases, packageName) in packages" :label="packageName" :name="packageName" :key="packageName")

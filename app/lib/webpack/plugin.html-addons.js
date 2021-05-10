@@ -1,3 +1,5 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 function makeTag (tagName, attributes, closeTag = false) {
   return {
     tagName,
@@ -17,7 +19,7 @@ function makeScriptTag (innerHTML) {
 function fillBaseTag (html, base) {
   return html.replace(
     /(<head[^>]*)(>)/i,
-    (found, start, end) => `${start}${end}<base href="${base}">`
+    (_, start, end) => `${start}${end}<base href="${base}">`
   )
 }
 
@@ -30,27 +32,26 @@ module.exports.plugin = class HtmlAddonsPlugin {
 
   apply (compiler) {
     compiler.hooks.compilation.tap('webpack-plugin-html-addons', compilation => {
-      if (this.cfg.build.appBase) {
-        compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tapAsync('webpack-plugin-html-base-tag', (data, callback) => {
-          data.html = fillBaseTag(data.html, this.cfg.build.appBase)
-          callback(null, data)
-        })
-      }
+      const hooks = HtmlWebpackPlugin.getHooks(compilation)
 
-      compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync('webpack-plugin-html-addons', (data, callback) => {
+      hooks.afterTemplateExecution.tapAsync('webpack-plugin-html-addons', (data, callback) => {
+        if (this.cfg.build.appBase) {
+          data.html = fillBaseTag(data.html, this.cfg.build.appBase)
+        }
+
         if (this.cfg.ctx.mode.cordova) {
-          data.body.unshift(
+          data.bodyTags.unshift(
             makeTag('script', { src: 'cordova.js' }, true)
           )
         }
-        else if (this.cfg.ctx.mode.electron && this.cfg.ctx.prod && this.cfg.electron.nodeIntegration === true) {
+        else if (this.cfg.ctx.mode.electron && this.cfg.ctx.prod && this.cfg.electron.nodeIntegration) {
           // set statics path in production;
           // the reason we add this is here is because the folder path
           // needs to be evaluated at runtime
           const bodyScript = `
-            window.__statics = require('path').join(__dirname, 'statics').replace(/\\\\/g, '\\\\');
+            window.__statics = __dirname
           `
-          data.body.push(
+          data.bodyTags.push(
             makeScriptTag(bodyScript)
           )
         }

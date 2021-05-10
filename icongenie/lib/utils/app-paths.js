@@ -1,11 +1,11 @@
-const fs = require('fs')
+const { existsSync } = require('fs')
 const { normalize, join, sep } = require('path')
 
 function getAppDir () {
   let dir = process.cwd()
 
   while (dir.length && dir[dir.length - 1] !== sep) {
-    if (fs.existsSync(join(dir, 'quasar.conf.js'))) {
+    if (existsSync(join(dir, 'quasar.conf.js'))) {
       return dir
     }
 

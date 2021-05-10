@@ -4,12 +4,13 @@ import HistoryMixin from '../../mixins/history.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
+import AttrsMixin, { ariaHidden } from '../../mixins/attrs.js'
 
 import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
 import { slot } from '../../utils/slot.js'
 import { create, stop } from '../../utils/event.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 let maximizedModals = 0
 
@@ -32,7 +33,13 @@ const transitions = {
 export default Vue.extend({
   name: 'QDialog',
 
-  mixins: [ HistoryMixin, ModelToggleMixin, PortalMixin, PreventScrollMixin ],
+  mixins: [
+    AttrsMixin,
+    HistoryMixin,
+    ModelToggleMixin,
+    PortalMixin,
+    PreventScrollMixin
+  ],
 
   props: {
     persistent: Boolean,
@@ -119,6 +126,22 @@ export default Vue.extend({
       return this.persistent !== true &&
         this.noRouteDismiss !== true &&
         this.seamless !== true
+    },
+
+    onEvents () {
+      const on = {
+        ...this.qListeners,
+        // stop propagating these events from children
+        input: stop,
+        'popup-show': stop,
+        'popup-hide': stop
+      }
+
+      if (this.autoClose === true) {
+        on.click = this.__onAutoClose
+      }
+
+      return on
     }
   },
 
@@ -136,6 +159,7 @@ export default Vue.extend({
 
     shake () {
       this.focus()
+      this.$emit('shake')
 
       const node = this.__getInnerNode()
 
@@ -197,24 +221,14 @@ export default Vue.extend({
                 : innerHeight
 
             if (top > 0 && bottom > height / 2) {
-              const scrollTop = Math.min(
+              document.scrollingElement.scrollTop = Math.min(
                 document.scrollingElement.scrollHeight - height,
                 bottom >= innerHeight
                   ? Infinity
                   : Math.ceil(document.scrollingElement.scrollTop + bottom - height / 2)
               )
-
-              const fn = () => {
-                requestAnimationFrame(() => {
-                  document.scrollingElement.scrollTop += Math.ceil((scrollTop - document.scrollingElement.scrollTop) / 8)
-                  if (document.scrollingElement.scrollTop !== scrollTop) {
-                    fn()
-                  }
-                })
-              }
-
-              fn()
             }
+
             document.activeElement.scrollIntoView()
           }
 
@@ -285,7 +299,7 @@ export default Vue.extend({
 
     __onAutoClose (e) {
       this.hide(e)
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+      this.qListeners.click !== void 0 && this.$emit('click', e)
     },
 
     __onBackdropClick (e) {
@@ -309,29 +323,18 @@ export default Vue.extend({
     },
 
     __renderPortal (h) {
-      const on = {
-        ...this.$listeners,
-        // stop propagating these events from children
-        input: stop,
-        'popup-show': stop,
-        'popup-hide': stop
-      }
-
-      if (this.autoClose === true) {
-        on.click = this.__onAutoClose
-      }
-
       return h('div', {
-        staticClass: 'q-dialog fullscreen no-pointer-events',
+        staticClass: `q-dialog fullscreen no-pointer-events q-dialog--${this.useBackdrop === true ? 'modal' : 'seamless'}`,
         class: this.contentClass,
         style: this.contentStyle,
-        attrs: this.$attrs
+        attrs: this.qAttrs
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }
         }, this.useBackdrop === true ? [
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
+            attrs: ariaHidden,
             on: cache(this, 'bkdrop', {
               click: this.__onBackdropClick
             })
@@ -346,7 +349,7 @@ export default Vue.extend({
             staticClass: 'q-dialog__inner flex no-pointer-events',
             class: this.classes,
             attrs: { tabindex: -1 },
-            on
+            on: this.onEvents
           }, slot(this, 'default')) : null
         ])
       ])

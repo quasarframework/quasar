@@ -19,9 +19,9 @@ $ icongenie
     --version, -v Print Quasar Icon Genie CLI version
 
   Commands
-    generate, g   Generate App icons & splashscreens
+    generate, g   Generate App icons & splash screens
     verify, v     Verify your Quasar app's icons &
-                    splashscreens
+                    splash screens
     profile, p    Create Icon Genie profile files
     help, h       Display this message
 ```
@@ -34,11 +34,11 @@ $ icongenie [command_name] --help
 
 ## Generate
 
-The `generate` command is used for generating app icons and splashscreens. It's at the heart of Icon Genie as it does the heavy lifting.
+The `generate` command is used for generating app icons and splash screens. It's at the heart of Icon Genie as it does the heavy lifting.
 
-Take a look below at usage and some examples. The most important parameter to note is `--icon` (or `-i`), which takes a transparent PNG as input for your app's icons and splashscreens. Minimum size of the PNG is 64x64px, but it is highly recommended to go above 1024x1024px.
+Take a look below at usage and some examples. The most important parameter to note is `--icon` (or `-i`), which takes a transparent PNG as input for your app's icons and splash screens. Minimum size of the PNG is 64x64px, but it is highly recommended to go above 1024x1024px.
 
-For splashscreens, you may want to combine it with the `--background` (or `-b`) if you want your icon to be placed on top of a background.
+For splash screens, you may want to combine it with the `--background` (or `-b`) if you want your icon to be placed on top of a background.
 
 You may also want to use the `--profile` (or `-p`) parameter, which can run one or more Icon Genie [profile files](/icongenie/profile-files).
 
@@ -46,7 +46,7 @@ You may also want to use the `--profile` (or `-p`) parameter, which can run one 
 $ icongenie generate -h
 
   Description
-    Generate App icons & splashscreens
+    Generate App icons & splash screens
 
   Usage
     $ icongenie generate [options]
@@ -75,12 +75,13 @@ $ icongenie generate -h
                             - min resolution: 64x64 px (the higher the better!!)
                             - with transparency
                           Best results are with a square image (height = width)
-                          Image will be trimmed automatically (also see "padding" param)
+                          Image will be trimmed automatically
+                            (also see "skip-trim" and "padding" param)
                           Path can be absolute, or relative to the root of the
                             Quasar project folder
                           Recommended min size: 1024x1024 px
 
-    --background, -b      Path to optional background source file (for splashscreens);
+    --background, -b      Path to optional background source file (for splash screens);
                           must be:
                             - a .png file
                             - min resolution: 128x128 px (the higher the better!!)
@@ -104,6 +105,8 @@ $ icongenie generate -h
                             - higher quality --> bigger filesize & slower to create
                             - lower quality  --> smaller filesize & faster to create
 
+    --skip-trim           Do not trim the icon source file
+
     --padding             Apply fixed padding to the icon after trimming it;
                           Syntax: <horiz: number>,<vert: number>
                           Default: 0,0
@@ -111,7 +114,7 @@ $ icongenie generate -h
                             10px to bottom, 5px to left side and 5px to rightside
 
     --theme-color         Theme color to use for all generators requiring a color;
-                          It gets overriden if any generator color is also specified;
+                          It gets overridden if any generator color is also specified;
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee
@@ -161,13 +164,13 @@ $ icongenie generate -h
 
 ## Verify
 
-The `verify` command confirms that you have all required app icons and splashscreens in the right place and that each file has the correct resolution in pixels.
+The `verify` command confirms that you have all required app icons and splash screens in the right place and that each file has the correct resolution in pixels.
 
 ```bash
 $ icongenie -h
 
   Description
-    Verifies your Quasar App's icons and splashscreens
+    Verifies your Quasar App's icons and splash screens
     for all installed modes.
 
   Usage
@@ -260,12 +263,13 @@ $ icongenie profile -h
                             - min resolution: 64x64 px (the higher the better!!)
                             - with transparency
                           Best results are with a square image (height = width)
-                          Image will be trimmed automatically (also see "padding" param)
+                          Image will be trimmed automatically
+                            (also see "skip-trim" and "padding" param)
                           Path can be absolute, or relative to the root of the
                             Quasar project folder
                           Recommended min size: 1024x1024 px
 
-    --background, -b      Path to optional background source file (for splashscreens);
+    --background, -b      Path to optional background source file (for splash screens);
                           must be:
                             - a .png file
                             - min resolution: 128x128 px (the higher the better!!)
@@ -288,6 +292,8 @@ $ icongenie profile -h
                             - higher quality --> bigger filesize & slower to create
                             - lower quality  --> smaller filesize & faster to create
 
+    --skip-trim           Do not trim the icon source file
+
     --padding             Apply fixed padding to the icon after trimming it;
                           Syntax: <horiz: number>,<vert: number>
                           Default: 0,0
@@ -296,7 +302,7 @@ $ icongenie profile -h
 
     --theme-color         Prefill the params.themeColor property;
                           Theme color to use for all generators requiring a color;
-                          It gets overriden if any generator color is also specified;
+                          It gets overridden if any generator color is also specified;
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee

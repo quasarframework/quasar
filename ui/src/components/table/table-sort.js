@@ -6,7 +6,7 @@ export default {
     sortMethod: {
       type: Function,
       default (data, sortBy, descending) {
-        const col = this.columns.find(def => def.name === sortBy)
+        const col = this.colList.find(def => def.name === sortBy)
         if (col === void 0 || col.field === void 0) {
           return data
         }
@@ -48,6 +48,12 @@ export default {
             : (A === B ? 0 : dir)
         })
       }
+    },
+
+    columnSortOrder: {
+      type: String,
+      validator: v => v === 'ad' || v === 'da',
+      default: 'ad'
     }
   },
 
@@ -56,31 +62,53 @@ export default {
       const { sortBy } = this.computedPagination
 
       if (sortBy) {
-        return this.columns.find(def => def.name === sortBy) || null
+        return this.colList.find(def => def.name === sortBy) || null
       }
     }
   },
 
   methods: {
     sort (col /* String(col name) or Object(col definition) */) {
+      let sortOrder = this.columnSortOrder
+
       if (col === Object(col)) {
+        if (col.sortOrder) {
+          sortOrder = col.sortOrder
+        }
+
         col = col.name
+      }
+      else {
+        const def = this.colList.find(def => def.name === col)
+        if (def !== void 0 && def.sortOrder) {
+          sortOrder = def.sortOrder
+        }
       }
 
       let { sortBy, descending } = this.computedPagination
 
       if (sortBy !== col) {
         sortBy = col
-        descending = false
+        descending = sortOrder === 'da'
       }
       else if (this.binaryStateSort === true) {
         descending = !descending
       }
       else if (descending === true) {
-        sortBy = null
+        if (sortOrder === 'ad') {
+          sortBy = null
+        }
+        else {
+          descending = false
+        }
       }
-      else {
-        descending = true
+      else { // ascending
+        if (sortOrder === 'ad') {
+          descending = true
+        }
+        else {
+          sortBy = null
+        }
       }
 
       this.setPagination({ sortBy, descending, page: 1 })

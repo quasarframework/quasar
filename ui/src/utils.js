@@ -10,6 +10,7 @@ import extend from './utils/extend.js'
 import format from './utils/format.js'
 import frameDebounce from './utils/frame-debounce.js'
 import openURL from './utils/open-url.js'
+import morph from './utils/morph.js'
 import patterns from './utils/patterns.js'
 import scroll from './utils/scroll.js'
 import throttle from './utils/throttle.js'
@@ -29,6 +30,7 @@ export {
   frameDebounce,
   noop,
   openURL,
+  morph,
   patterns,
   scroll,
   throttle,

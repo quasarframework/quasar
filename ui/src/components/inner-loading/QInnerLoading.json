@@ -17,7 +17,8 @@
     },
 
     "color": {
-      "extends": "color"
+      "extends": "color",
+      "desc": "Color name for component from the Quasar Color Palette for the inner Spinner (unless using the default slot)"
     },
 
     "size": {

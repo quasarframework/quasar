@@ -5,6 +5,8 @@
 
   "injection": "$q.dark",
 
+  "addedIn": "v1.3.0",
+
   "props": {
     "isActive": {
       "type": "Boolean",

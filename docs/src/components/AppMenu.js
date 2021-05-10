@@ -7,6 +7,8 @@ import {
   QList
 } from 'quasar'
 
+import { mdiArrowDownThinCircleOutline } from '@quasar/extras/mdi-v5'
+
 import Menu from 'assets/menu.js'
 import './AppMenu.sass'
 
@@ -37,9 +39,10 @@ export default {
             key: `${menu.name}-${path}`,
             props: {
               label: menu.name,
-              dense: level > 0,
+              dense: true,
               icon: menu.icon,
-              defaultOpened: menu.opened,
+              expandIcon: mdiArrowDownThinCircleOutline,
+              defaultOpened: menu.opened || this.routePath.startsWith(path),
               expandSeparator: true,
               switchToggleSide: level > 0,
               denseToggle: level > 0
@@ -56,7 +59,7 @@ export default {
 
       const props = {
         to: path,
-        dense: level > 0,
+        dense: true,
         insetLevel: level > 1 ? 1.2 : level
       }
 
@@ -98,9 +101,13 @@ export default {
   },
 
   render (h) {
-    return h(QList, { staticClass: 'app-menu' }, Menu.map(
+    return h(QList, { staticClass: 'app-menu', props: { dense: true } }, Menu.map(
       item => this.getDrawerMenu(h, item, '/' + item.path, 0)
     ))
+  },
+
+  created () {
+    this.routePath = this.$route.path
   },
 
   mounted () {

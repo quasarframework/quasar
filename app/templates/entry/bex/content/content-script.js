@@ -47,7 +47,7 @@ function injectScript (url) {
 }
 
 if (document instanceof HTMLDocument) {
-  injectScript(chrome.extension.getURL('www/bex-dom.js'))
+  injectScript(chrome.extension.getURL(process.env.DEV ? 'www/bex-dom.js' : 'www/js/bex-dom.js'))
 }
 
 // Listen for event from the web page

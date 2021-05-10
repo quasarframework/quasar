@@ -1,5 +1,6 @@
 const { existsSync, lstatSync } = require('fs')
 const { resolve, normalize, join } = require('path')
+const untildify = require('untildify')
 
 const getPngSize = require('./get-png-size')
 const { warn } = require('./logger')
@@ -17,7 +18,7 @@ function profile (value, argv) {
     return
   }
 
-  const profilePath = resolve(process.cwd(), value)
+  const profilePath = resolve(process.cwd(), untildify(value))
 
   if (!existsSync(profilePath)) {
     die(`Profile param does not point to a file or folder that exists!`)
@@ -133,7 +134,7 @@ function icon (value, argv) {
 
   const { appDir } = require('./app-paths')
 
-  argv.icon = resolve(appDir, value)
+  argv.icon = resolve(appDir, untildify(value))
 
   if (!existsSync(argv.icon)) {
     die(`Path to source icon file does not exists: "${value}"`)
@@ -157,7 +158,7 @@ function background (value, argv) {
 
   const { appDir } = require('./app-paths')
 
-  argv.background = resolve(appDir, value)
+  argv.background = resolve(appDir, untildify(value))
 
   if (!existsSync(argv.background)) {
     die(`Path to background source file does not exists: "${value}"`)

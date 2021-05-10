@@ -64,16 +64,14 @@ export default {
     },
 
     QuasarCli () {
-      const parts = []
+      if (this.plugins === void 0 && this.quasarConf === void 0) {
+        return `/*
+ * No installation step is necessary.
+ * It gets installed by default by @quasar/app v2+.
+ */`
+      }
 
-      ;[ 'components', 'directives' ].forEach(type => {
-        if (this[type] !== void 0) {
-          parts.push(`// NOT needed if using auto-import feature:
-    ${type}: [
-      ${this.nameAsString(this[type], 6)}
-    ]`)
-        }
-      })
+      const parts = []
 
       if (this.plugins !== void 0) {
         parts.push(`plugins: [

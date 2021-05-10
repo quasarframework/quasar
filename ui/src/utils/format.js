@@ -41,7 +41,7 @@ export function pad (v, length = 2, char = '0') {
     return v
   }
 
-  let val = '' + v
+  const val = '' + v
   return val.length >= length
     ? val
     : new Array(length - val.length + 1).join(char) + val

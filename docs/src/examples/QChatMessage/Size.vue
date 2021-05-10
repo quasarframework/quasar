@@ -14,7 +14,7 @@
         avatar="https://cdn.quasar.dev/img/avatar5.jpg"
         :text="[
           'doing fine, how r you?',
-          'I just feel like typing a really, really, REALY long message to annoy you...'
+          'I just feel like typing a really, really, REALLY long message to annoy you...'
         ]"
         size="6"
         stamp="4 minutes ago"

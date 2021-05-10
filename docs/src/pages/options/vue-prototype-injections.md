@@ -19,7 +19,7 @@ Quasar injects Vue prototype with `$q` object:
 
 You can use it globally inside a Vue context (component script or template) like this:
 
-```vue
+```html
 <!-- inside a Vue template -->
 <template>
   <div>

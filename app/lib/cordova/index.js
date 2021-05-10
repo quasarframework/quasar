@@ -1,6 +1,6 @@
 const fse = require('fs-extra')
 
-const log = require('../helpers/logger')('app:cordova')
+const { log, fatal } = require('../helpers/logger')
 const CordovaConfig = require('./cordova-config')
 const { spawn } = require('../helpers/spawn')
 const onShutdown = require('../helpers/on-shutdown')
@@ -26,8 +26,8 @@ class CordovaRunner {
     }
   }
 
-  async run (quasarConfig, argv) {
-    const cfg = quasarConfig.getBuildConfig()
+  async run (quasarConfFile, argv) {
+    const cfg = quasarConfFile.quasarConf
     const url = cfg.build.APP_URL
 
     if (this.url === url) {
@@ -62,8 +62,8 @@ class CordovaRunner {
     )
   }
 
-  async build (quasarConfig, argv) {
-    const cfg = quasarConfig.getBuildConfig()
+  async build (quasarConfFile, argv) {
+    const cfg = quasarConfFile.quasarConf
     const buildPath = appPaths.resolve.cordova(
       this.target === 'android'
         ? 'platforms/android/app/build/outputs'
@@ -117,8 +117,7 @@ class CordovaRunner {
         code => {
           this.__cleanup()
           if (code) {
-            warn(`⚠️  [FAIL] Cordova CLI has failed`)
-            process.exit(1)
+            fatal(`[FAIL] Cordova CLI has failed`)
           }
           resolve()
         }

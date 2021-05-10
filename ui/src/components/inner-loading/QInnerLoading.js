@@ -1,13 +1,15 @@
 import Vue from 'vue'
 
+import QSpinner from '../spinner/QSpinner.js'
+
 import TransitionMixin from '../../mixins/transition.js'
 import DarkMixin from '../../mixins/dark.js'
-import QSpinner from '../spinner/QSpinner.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 export default Vue.extend({
   name: 'QInnerLoading',
 
-  mixins: [ DarkMixin, TransitionMixin ],
+  mixins: [ ListenersMixin, DarkMixin, TransitionMixin ],
 
   props: {
     showing: Boolean,
@@ -26,7 +28,7 @@ export default Vue.extend({
           {
             staticClass: 'q-inner-loading absolute-full column flex-center',
             class: this.isDark === true ? 'q-inner-loading--dark' : null,
-            on: this.$listeners
+            on: { ...this.qListeners }
           },
           this.$scopedSlots.default !== void 0
             ? this.$scopedSlots.default()

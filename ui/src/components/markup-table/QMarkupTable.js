@@ -1,12 +1,14 @@
 import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QMarkupTable',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, ListenersMixin ],
 
   props: {
     dense: Boolean,
@@ -37,7 +39,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-markup-table q-table__container q-table__card',
       class: this.classes,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, [
       h('table', { staticClass: 'q-table' }, slot(this, 'default'))
     ])

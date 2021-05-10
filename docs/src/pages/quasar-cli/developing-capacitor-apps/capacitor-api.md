@@ -113,10 +113,10 @@ export default {
         allowEditing: true,
         resultType: CameraResultType.Uri
       })
-      // image.webPath will contain a path that can be set as an image src.
-      // You can access the original file using image.path, which can be
-      // passed to the Filesystem API to read the raw data of the image,
-      // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
+      // The result will vary on the value of the resultType option.
+      // CameraResultType.Uri - Get the result from image.webPath
+      // CameraResultType.Base64 - Get the result from image.base64String
+      // CameraResultType.DataUrl - Get the result from image.dataUrl
       this.imageSrc = image.webPath
     }
   }
@@ -124,7 +124,7 @@ export default {
 </script>
 ```
 
-Some Capacitor plugins, such as Camera, have web-based UI available when not running natively but in an standard web browser. To enable these controls, add @ionic/pwa-elements to your proyect:
+Some Capacitor plugins, such as Camera, have a web-based UI available when not running natively but in a standard web browser. To enable these controls, add @ionic/pwa-elements to your project:
 
 ```bash
 $ npm install @ionic/pwa-elements

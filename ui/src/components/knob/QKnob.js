@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import FormMixin from '../../mixins/form.js'
@@ -71,14 +71,15 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return {
-        disabled: this.disable,
-        'q-knob--editable': this.editable
-      }
+      return 'q-knob non-selectable' + (
+        this.editable === true
+          ? ' q-knob--editable'
+          : (this.disable === true ? ' disabled' : '')
+      )
     },
 
     editable () {
-      return !this.disable && !this.readonly
+      return this.disable === false && this.readonly === false
     },
 
     decimals () {
@@ -89,7 +90,12 @@ export default Vue.extend({
       return this.step === 0 ? 1 : this.step
     },
 
-    events () {
+    computedInstantFeedback () {
+      return this.instantFeedback === true ||
+        this.dragging === true
+    },
+
+    onEvents () {
       return this.$q.platform.is.mobile === true
         ? { click: this.__click }
         : {
@@ -177,7 +183,6 @@ export default Vue.extend({
     __activate (evt) {
       this.__updateCenterPosition()
       this.__updatePosition(evt)
-      this.__updateValue()
     },
 
     __updatePosition (evt, change) {
@@ -243,20 +248,17 @@ export default Vue.extend({
 
   render (h) {
     const data = {
-      staticClass: 'q-knob non-selectable',
       class: this.classes,
-
       attrs: this.attrs,
-
       props: {
         ...this.$props,
         value: this.model,
-        instantFeedback: this.dragging
+        instantFeedback: this.computedInstantFeedback
       }
     }
 
     if (this.editable === true) {
-      data.on = this.events
+      data.on = this.onEvents
       data.directives = cache(this, 'dir', [{
         name: 'touch-pan',
         value: this.__pan,

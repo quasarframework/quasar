@@ -53,7 +53,7 @@ function shouldPreventScroll (e) {
 function onAppleScroll (e) {
   if (e.target === document) {
     // required, otherwise iOS blocks further scrolling
-    // until the mobile scrollbar dissapears
+    // until the mobile scrollbar dissappears
     document.scrollingElement.scrollTop = document.scrollingElement.scrollTop // eslint-disable-line
   }
 }
@@ -103,6 +103,7 @@ function apply (action) {
     }
 
     body.classList.add('q-body--prevent-scroll')
+    document.qScrollPrevented = true
     if (client.is.ios === true) {
       if (hasViewport === true) {
         window.scrollTo(0, 0)
@@ -134,6 +135,7 @@ function apply (action) {
 
     body.classList.remove('q-body--prevent-scroll')
     body.classList.remove('q-body--force-scrollbar')
+    document.qScrollPrevented = false
 
     body.style.left = bodyLeft
     body.style.top = bodyTop

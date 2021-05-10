@@ -3,6 +3,9 @@
 body
   background-color: $grey-1
 
+ul
+  margin: 0 0 16px
+
 .bg-code
   background-color: $code-color
 
@@ -34,7 +37,7 @@ blockquote .doc-token
   .doc-token
     color: #000
 
-  > p
+  > p, > ul
     margin-bottom: 0
 
   &--tip
@@ -126,17 +129,24 @@ blockquote .doc-token
 kbd
   white-space: nowrap
   display: inline-block
-  padding: 2px 4px
-  text-transform: uppercase
+  padding: 2px 4px 4px
   line-height: 1
-  border: 1px solid rgba(0,0,0,.12)
-  border-radius: 5px
-  color: #fff
-  background-color: $grey-7
-  box-shadow: $shadow-2
+  font-size: .8em
+  color: $grey-8
+  background: linear-gradient(-225deg,#d5dbe4,#f8f8f8)
+  border-radius: 4px
+  box-shadow: inset 0 -2px 0 0 #cdcde6,inset 0 0 1px 1px #fff,0 1px 2px 1px rgba(30,35,90,0.4)
+  margin: 0 .2em
 
 .doc-gdpr
   max-width: 360px
 
 .q-page > .q-badge + .doc-example
   margin-top: 0
+
+body.q-scroll--lock .q-page
+  > *
+    overflow-anchor: none
+
+  > .q-scroll--anchor
+    overflow-anchor: auto

@@ -3,8 +3,8 @@
     <q-btn to="/start/pick-quasar-flavour" label="To Docs index" outline color="purple" />
     <q-btn to="/start/pick-quasar-flavour" label="To Docs index in 2s" @click="linkClick" glossy color="purple" />
 
-    <q-btn type="a" href="/start/pick-quasar-flavour" label="Type 'a'" push color="purple" />
-    <q-btn type="a" href="/start/pick-quasar-flavour" target="_blank" label="Type 'a' - external" color="purple" />
+    <q-btn type="a" href="start/pick-quasar-flavour" label="Type 'a'" push color="purple" />
+    <q-btn type="a" href="start/pick-quasar-flavour" target="_blank" label="Type 'a' - external" color="purple" />
   </div>
 </template>
 

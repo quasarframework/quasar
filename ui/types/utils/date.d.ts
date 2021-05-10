@@ -26,15 +26,15 @@ export type DateUnitOptions = "second" | "minute" | "hour" | "day" | "month" | "
 export namespace date {
   function isValid(date: number | string): boolean;
   function extractDate(str: string, mask: string, locale?: DateLocale): Date;
-  function buildDate(options: BuildDateOptions, utc?: boolean): string;
-  function getDayOfWeek(date: Date | number | string): number;
+  function buildDate(options: BuildDateOptions, utc?: boolean): Date;
+  function getDayOfWeek(date: Date): number;
   function getWeekOfYear(date: Date | number | string): number;
   function isBetweenDates(date: Date | number | string, from: Date | number | string, to: Date | number | string, opts?: { inclusiveFrom: boolean; inclusiveTo: boolean; onlyDate: boolean }): boolean;
   function addToDate(date: Date | number | string, options: ModifyDateOptions): Date;
   function subtractFromDate(date: Date | number | string, options: ModifyDateOptions): Date;
-  function adjustDate(date: Date | number | string, options: ModifyDateOptions, utc?: boolean): Date;
-  function startOfDate(date: Date | number | string, option: DateUnitOptions): Date;
-  function endOfDate(date: Date | number | string, option: DateUnitOptions): Date;
+  function adjustDate(date: Date | number | string, options: BuildDateOptions, utc?: boolean): Date;
+  function startOfDate(date: Date | number | string, option: DateUnitOptions, utc?: boolean): Date;
+  function endOfDate(date: Date | number | string, option: DateUnitOptions, utc?: boolean): Date;
   function getMaxDate(date: Date | number | string, ...args: (Date | number | string)[]): Date;
   function getMinDate(date: Date | number | string, ...args: (Date | number | string)[]): Date;
   function getDateDiff(date: Date | number | string, subtract: Date | number | string, unit?: string): number;

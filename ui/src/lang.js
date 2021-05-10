@@ -1,68 +1,85 @@
 import Vue from 'vue'
 
 import langEn from '../lang/en-us.js'
-import { isSSR } from './plugins/Platform.js'
+import { isSSR, fromSSR } from './plugins/Platform.js'
+
+function getLocale () {
+  if (isSSR === true) { return }
+
+  const val =
+    navigator.language ||
+    navigator.languages[0] ||
+    navigator.browserLanguage ||
+    navigator.userLanguage ||
+    navigator.systemLanguage
+
+  if (val) {
+    return val.toLowerCase()
+  }
+}
 
 export default {
+  getLocale,
+
   install ($q, queues, lang) {
-    if (isSSR === true) {
-      queues.server.push((q, ctx) => {
-        const
-          opt = {
-            lang: q.lang.isoName,
-            dir: q.lang.rtl === true ? 'rtl' : 'ltr'
-          },
-          fn = ctx.ssr.setHtmlAttrs
+    const initialLang = lang || langEn
 
-        if (typeof fn === 'function') {
-          fn(opt)
-        }
-        else {
-          ctx.ssr.Q_HTML_ATTRS = Object.keys(opt)
-            .map(key => `${key}=${opt[key]}`)
-            .join(' ')
-        }
-      })
-    }
-
-    this.set = (lang = langEn) => {
-      lang.set = this.set
-      lang.getLocale = this.getLocale
-      lang.rtl = lang.rtl === true || false
-
-      if (isSSR === false) {
-        const el = document.documentElement
-        el.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
-        el.setAttribute('lang', lang.isoName)
+    this.set = (langObject = langEn, ssrContext) => {
+      const lang = {
+        ...langObject,
+        rtl: langObject.rtl === true,
+        getLocale
       }
 
-      if (isSSR === true || $q.lang !== void 0) {
-        $q.lang = lang
+      if (isSSR === true) {
+        if (ssrContext === void 0) {
+          console.error('SSR ERROR: second param required: Quasar.lang.set(lang, ssrContext)')
+          return
+        }
+
+        const dir = lang.rtl === true ? 'rtl' : 'ltr'
+        const attrs = `lang=${lang.isoName} dir=${dir}`
+
+        lang.set = ssrContext.$q.lang.set
+
+        ssrContext.Q_HTML_ATTRS = ssrContext.Q_PREV_LANG !== void 0
+          ? ssrContext.Q_HTML_ATTRS.replace(ssrContext.Q_PREV_LANG, attrs)
+          : attrs
+
+        ssrContext.Q_PREV_LANG = attrs
+        ssrContext.$q.lang = lang
       }
       else {
-        Vue.util.defineReactive($q, 'lang', lang)
-      }
+        if (fromSSR === false) {
+          const el = document.documentElement
+          el.setAttribute('dir', lang.rtl === true ? 'rtl' : 'ltr')
+          el.setAttribute('lang', lang.isoName)
+        }
 
-      this.isoName = lang.isoName
-      this.nativeName = lang.nativeName
-      this.props = lang
+        lang.set = this.set
+        $q.lang = this.props = lang
+        this.isoName = lang.isoName
+        this.nativeName = lang.nativeName
+      }
     }
 
-    this.set(lang)
-  },
+    if (isSSR === true) {
+      queues.server.push((q, ctx) => {
+        q.lang = {}
+        q.lang.set = langObject => {
+          this.set(langObject, ctx.ssr)
+        }
 
-  getLocale () {
-    if (isSSR === true) { return }
+        q.lang.set(initialLang)
+      })
 
-    let val =
-      navigator.language ||
-      navigator.languages[0] ||
-      navigator.browserLanguage ||
-      navigator.userLanguage ||
-      navigator.systemLanguage
-
-    if (val) {
-      return val.toLowerCase()
+      this.isoName = initialLang.isoName
+      this.nativeName = initialLang.nativeName
+      this.props = initialLang
+    }
+    else {
+      Vue.util.defineReactive($q, 'lang', {})
+      this.set(initialLang)
     }
   }
 }

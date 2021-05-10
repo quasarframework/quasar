@@ -32,7 +32,7 @@ To give you a bit of perspective, the lead developer and core-maintainer of Quas
 The rest of the team and all of the staff working the chat support lines and fixing code are still (as of June 2019) unpaid volunteers working uncountable hours. They are slowly becoming more and more responsible for units of the project and are an invaluable resource for the community that we must safeguard.
 
 
-### Finanicial Sponsorship to Guarantee Maintenance
+### Financial Sponsorship to Guarantee Maintenance
 Nothing is certain, other than the fact that `node_modules` is still the heaviest thing in the universe and that at a certain point regular financial support of some kind is needed in order to guarantee the maintenance of large open-source projects. [Reference](https://github.com/sfosc/sfosc/issues/65#issuecomment-491770533).
 
 That point in time for Quasar is right now and your support will make the difference.
@@ -64,7 +64,7 @@ Even a small donation could mean a huge difference to them, not least because it
 ## Donating
 You can help Quasar Development by making a monthly pledge through Patreon or send a one-time donation through Paypal. If you are representing a company who wants to become a **Sponsor** and need an invoice for your donations, please send an email to `razvan.stoenescu [at] gmail [dot] com`.
 
-Donating through the **Github Sponsorship is recommended** because Github will also match your donation (making it worth double your amount).
+Donating through the **GitHub Sponsorship is recommended** because GitHub will also match your donation (making it worth double your amount).
 
 <donating-buttons />
 

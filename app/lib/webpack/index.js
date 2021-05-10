@@ -1,5 +1,5 @@
 const createChain = require('./create-chain')
-const log = require('../helpers/logger')('app:webpack')
+const { log } = require('../helpers/logger')
 const extensionRunner = require('../app-extension/extensions-runner')
 
 async function getWebpackConfig (chain, cfg, {
@@ -41,6 +41,7 @@ async function getWebpackConfig (chain, cfg, {
 
 async function getSPA (cfg) {
   const chain = createChain(cfg, 'SPA')
+
   require('./spa')(chain, cfg)
 
   return await getWebpackConfig(chain, cfg, {
@@ -52,6 +53,7 @@ async function getSPA (cfg) {
 
 async function getPWA (cfg) {
   const chain = createChain(cfg, 'PWA')
+
   require('./spa')(chain, cfg) // extending a SPA
   require('./pwa')(chain, cfg)
 
@@ -64,6 +66,7 @@ async function getPWA (cfg) {
 
 async function getCordova (cfg) {
   const chain = createChain(cfg, 'Cordova')
+
   require('./cordova')(chain, cfg)
 
   return await getWebpackConfig(chain, cfg, {
@@ -99,7 +102,8 @@ async function getElectron (cfg) {
     main: await getWebpackConfig(mainChain, cfg, {
       name: 'Main process',
       cfgExtendBase: cfg.electron,
-      hookSuffix: 'MainElectronProcess'
+      hookSuffix: 'MainElectronProcess',
+      invokeParams: { isClient: false, isServer: true }
     })
   }
 }
@@ -132,7 +136,8 @@ async function getSSR (cfg) {
     webpackCfg.webserver = await getWebpackConfig(webserverChain, cfg, {
       name: 'Webserver',
       cfgExtendBase: cfg.ssr,
-      hookSuffix: 'Webserver'
+      hookSuffix: 'Webserver',
+      invokeParams: { isClient: false, isServer: true }
     })
   }
 
@@ -141,10 +146,12 @@ async function getSSR (cfg) {
 
 async function getBEX (cfg) {
   const rendererChain = createChain(cfg, 'Renderer process')
-  const mainChain = require('./bex/main')(cfg, 'Main process')
+  const mainChain = createChain(cfg, 'Main process')
 
   require('./bex/renderer')(rendererChain, cfg) // before SPA so we can set some vars
   require('./spa')(rendererChain, cfg) // extending a SPA
+
+  require('./bex/main')(mainChain, cfg)
 
   return {
     renderer: await getWebpackConfig(rendererChain, cfg, {
@@ -154,7 +161,8 @@ async function getBEX (cfg) {
     }),
     main: await getWebpackConfig(mainChain, cfg, {
       name: 'Main process',
-      hookSuffix: 'MainBexProcess'
+      hookSuffix: 'MainBexProcess',
+      invokeParams: { isClient: true, isServer: false }
     })
   }
 }

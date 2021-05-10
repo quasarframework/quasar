@@ -2,9 +2,7 @@
 
 const parseArgs = require('minimist')
 
-const logger = require('../lib/helpers/logger')
-const log = logger('app:mode')
-const warn = logger('app:mode', 'red')
+const { log, warn, fatal } = require('../lib/helpers/logger')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -17,10 +15,10 @@ const argv = parseArgs(process.argv.slice(2), {
 function showHelp() {
   console.log(`
   Description
-    Add/Remove support for PWA / Cordova / Capacitor / Electron modes.
+    Add/Remove support for PWA / BEX / Cordova / Capacitor / Electron modes.
 
   Usage
-    $ quasar mode [add|remove] [pwa|ssr|cordova|capacitor|electron] [--yes]
+    $ quasar mode [add|remove] [pwa|ssr|bex|cordova|capacitor|electron] [--yes]
 
     # determine what modes are currently installed:
     $ quasar mode
@@ -40,7 +38,7 @@ if (argv.help) {
 
 if (argv._.length !== 0 && argv._.length !== 2) {
   console.log()
-  warn(`⚠️  Wrong number of parameters (${argv._.length}).`)
+  warn(`Wrong number of parameters (${argv._.length}).`)
   showHelp()
   process.exit(1)
 }
@@ -53,15 +51,13 @@ async function run () {
 
   if (!['add', 'remove'].includes(action)) {
     console.log()
-    warn(`⚠️  Unknown action specified (${ action }).`)
+    warn(`Unknown action specified (${ action }).`)
     showHelp()
     process.exit(1)
   }
 
   if (![undefined, 'pwa', 'cordova', 'capacitor', 'electron', 'ssr', 'bex'].includes(mode)) {
-    warn(`⚠️  Unknown mode "${ mode }" to ${action}`)
-    warn()
-    process.exit(1)
+    fatal(`Unknown mode "${ mode }" to ${action}\n`)
   }
 
   const cliMode = getMode(mode)
@@ -85,7 +81,7 @@ async function run () {
     }
   }
 
-  cliMode[action]()
+  await cliMode[action]()
 }
 
 function displayModes () {

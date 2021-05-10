@@ -100,11 +100,11 @@ export default Vue.extend({
     },
 
     modelMinRatio () {
-      return (this.model.min - this.min) / (this.max - this.min)
+      return this.minMaxDiff === 0 ? 0 : (this.model.min - this.min) / this.minMaxDiff
     },
 
     modelMaxRatio () {
-      return (this.model.max - this.min) / (this.max - this.min)
+      return this.minMaxDiff === 0 ? 0 : (this.model.max - this.min) / this.minMaxDiff
     },
 
     trackStyle () {
@@ -255,23 +255,21 @@ export default Vue.extend({
           : (this.vertical === true
             ? this.$refs.minThumb.offsetHeight / (2 * height)
             : this.$refs.minThumb.offsetWidth / (2 * width)
-          ),
-        diff = this.max - this.min
+          )
 
-      let dragging = {
+      const dragging = {
         left,
         top,
         width,
         height,
         valueMin: this.model.min,
         valueMax: this.model.max,
-        ratioMin: (this.model.min - this.min) / diff,
-        ratioMax: (this.model.max - this.min) / diff
+        ratioMin: this.modelMinRatio,
+        ratioMax: this.modelMaxRatio
       }
 
-      let
-        ratio = getRatio(event, dragging, this.isReversed, this.vertical),
-        type
+      const ratio = getRatio(event, dragging, this.isReversed, this.vertical)
+      let type
 
       if (this.dragOnlyRange !== true && ratio < dragging.ratioMin + sensitivity) {
         type = dragType.MIN
@@ -303,10 +301,10 @@ export default Vue.extend({
     },
 
     __updatePosition (event, dragging = this.dragging) {
-      let
+      const
         ratio = getRatio(event, dragging, this.isReversed, this.vertical),
-        model = getModel(ratio, this.min, this.max, this.step, this.decimals),
-        pos
+        model = getModel(ratio, this.min, this.max, this.step, this.decimals)
+      let pos
 
       switch (dragging.type) {
         case dragType.MIN:
@@ -352,7 +350,7 @@ export default Vue.extend({
           break
 
         case dragType.RANGE:
-          let
+          const
             ratioDelta = ratio - dragging.offsetRatio,
             minR = between(dragging.ratioMin + ratioDelta, 0, 1 - dragging.rangeRatio),
             modelDelta = model - dragging.offsetModel,
@@ -383,9 +381,8 @@ export default Vue.extend({
         this.curMaxRatio = pos.maxR
       }
       else {
-        const diff = this.max - this.min
-        this.curMinRatio = (this.model.min - this.min) / diff
-        this.curMaxRatio = (this.model.max - this.min) / diff
+        this.curMinRatio = this.minMaxDiff === 0 ? 0 : (this.model.min - this.min) / this.minMaxDiff
+        this.curMaxRatio = this.minMaxDiff === 0 ? 0 : (this.model.max - this.min) / this.minMaxDiff
       }
     },
 

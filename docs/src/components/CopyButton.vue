@@ -22,7 +22,7 @@
 
 <script>
 import { copyToClipboard } from 'quasar'
-import { mdiContentCopy } from '@quasar/extras/mdi-v4'
+import { mdiContentCopy } from '@quasar/extras/mdi-v5'
 
 export default {
   props: {

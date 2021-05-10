@@ -43,10 +43,24 @@ electron: {
 ```
 
 ::: tip
-Starting with "@quasar/app" v1.7+ you can edit your main thread file to set `nodeIntegration: QUASAR_NODE_INTEGRATION`. The `QUASAR_NODE_INTEGRATION` is a macro injected by Quasar so that you'll have only one place to edit your Node Integration state: quasar.conf.js.
+Starting with "@quasar/app" v2.0+ you can edit your main thread file to set `nodeIntegration: process.env.QUASAR_NODE_INTEGRATION`. The `QUASAR_NODE_INTEGRATION` env variable is injected by Quasar so that you'll have only one place to edit your Node Integration state: quasar.conf.js.
 :::
 
-### Legacy warning
+### Legacy warnings
+
+**If your version of "@quasar/app" is greater than v1.7 and lower than v2.0**, then you also need to use `QUASAR_NODE_INTEGRATION` in your main thread file (/src-electron/main-process/main.js):
+
+```js
+// file: /src-electron/main-process/main.js
+
+mainWindow = new BrowserWindow({
+  // ..
+
+  webPreferences: {
+    nodeIntegration: QUASAR_NODE_INTEGRATION
+  }
+})
+```
 
 **If your version of "@quasar/app" is lower than v1.7**, then you also need to edit your main thread file (/src-electron/main-process/main.js):
 

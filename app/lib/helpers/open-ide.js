@@ -4,7 +4,7 @@ const open = require('open')
 const { execSync } = require('child_process')
 
 const appPaths = require('../app-paths')
-const warn = require('./logger')('app:open-ide', 'red')
+const { warn, fatal } = require('./logger')
 
 function findXcodeWorkspace (folder) {
   const root = fs.readdirSync(folder)
@@ -74,11 +74,10 @@ function runLinux (mode, bin, target) {
     }
   }
   else if (target === 'ios') {
-    warn(`⚠️  iOS target not supported on Linux`)
-    process.exit(1)
+    fatal(`iOS target not supported on Linux`)
   }
 
-  warn(`⚠️  Cannot determine path to IDE executable`)
+  warn(`Cannot determine path to IDE executable`)
   console.log(' Please set quasar.conf.js > bin > linuxAndroidStudio with the escaped path to your studio.sh')
   console.log(` Example: '/usr/local/android-studio/bin/studio.sh'`)
   process.exit(1)
@@ -130,11 +129,10 @@ function runWindows (mode, bin, target) {
     }
   }
   else if (target === 'ios') {
-    warn(`⚠️  iOS target not supported on Windows`)
-    process.exit(1)
+    fatal(`iOS target not supported on Windows`)
   }
 
-  warn(`⚠️  Cannot determine path to IDE executable`)
+  warn(`Cannot determine path to IDE executable`)
   console.log(' Please set quasar.conf.js > bin > windowsAndroidStudio with the escaped path to your studio64.exe')
   console.log(` Example: 'C:\\\\Program Files\\\\Android\\\\Android Studio\\\\bin\\\\studio64.exe'`)
   process.exit(1)
@@ -171,7 +169,6 @@ module.exports = function (mode, bin, target, dev) {
     case 'win32':
       return runWindows(mode, bin, target)
     default:
-      warn(`⚠️  Unsupported host OS for opening the IDE`)
-      process.exit(1)
+      fatal(`Unsupported host OS for opening the IDE`)
   }
 }

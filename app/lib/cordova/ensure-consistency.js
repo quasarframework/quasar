@@ -4,9 +4,7 @@ const fse = require('fs-extra')
 const { spawnSync } = require('../helpers/spawn')
 const appPaths = require('../app-paths')
 
-const logger = require('../helpers/logger')
-const log = logger('app:ensure-consistency')
-const warn = logger('app:ensure-consistency', 'red')
+const { log, fatal } = require('../helpers/logger')
 
 function ensureWWW (forced) {
   const www = appPaths.resolve.cordova('www')
@@ -32,8 +30,7 @@ function ensureDeps () {
     [ 'install' ],
     { cwd: appPaths.cordovaDir, env: { ...process.env, NODE_ENV: 'development' } },
     () => {
-      warn(`⚠️  [FAIL] npm failed installing dependencies in /src-cordova`)
-      process.exit(1)
+      fatal(`[FAIL] npm failed installing dependencies in /src-cordova`)
     }
   )
 }

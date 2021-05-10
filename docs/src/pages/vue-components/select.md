@@ -106,6 +106,10 @@ If you use functions for custom props always check if the option is null. These 
 
 ### Customizing menu options
 
+::: warning
+The list of options is rendered using virtual scroll, so if you render more than one element for an option you must set a `q-virtual-scroll--with-prev` class on all elements except the first one.
+:::
+
 <doc-example title="Options slot" file="QSelect/OptionSlot" />
 
 Here is another example where we add a QToggle to each option. The possibilities are endless.
@@ -254,6 +258,8 @@ When QSelect is focused:
 
 When the list of options is opened:
   - pressing <kbd>ARROW UP</kbd> or <kbd>ARROW DOWN</kbd> will navigate up or down in the list of options
+  - pressing <kbd>PAGE UP</kbd> or <kbd>PAGE DOWN</kbd> will navigate one page up or down in the list of options
+  - pressing <kbd>HOME</kbd> or <kbd>END</kbd> will navigate to the start or end of the list of options (only if you are not using `use-input`, or the input is empty)
   - when navigating using arrow keys, navigation will wrap when reaching the start or end of the list
   - pressing <kbd>ENTER</kbd> (or <kbd>SPACE</kbd> when `use-input` is not set, or <kbd>TAB</kbd> when `multiple` is not set) when an option is selected in the list will:
     - select the option and close the list of options if `multiple` is not set

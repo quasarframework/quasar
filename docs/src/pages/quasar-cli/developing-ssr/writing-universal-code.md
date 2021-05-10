@@ -59,7 +59,7 @@ For browser-only APIs, the common approach is to lazily access them inside clien
 ## Boot Files
 Note that if a 3rd party library is not written with universal usage in mind, it could be tricky to integrate it into a server-rendered app. You *might* be able to get it working by mocking some of the globals, but it would be hacky and may interfere with the environment detection code of other libraries.
 
-When you add a 3rd party library to your project (through a [Boot File](/quasar-cli/cli-documentation/boot-files)), take into consideration whether it can run on server and on client. If it needs to run only on server or only on client, then specify this in quasar.conf.js:
+When you add a 3rd party library to your project (through a [Boot File](/quasar-cli/boot-files)), take into consideration whether it can run on server and on client. If it needs to run only on server or only on client, then specify this in quasar.conf.js:
 
 ```js
 // quasar.conf.js
@@ -76,7 +76,7 @@ return {
 ## Data Pre-Fetching and State
 During SSR, we are essentially rendering a "snapshot" of our app, so if the app relies on some asynchronous data, this data need to be pre-fetched and resolved before we start the rendering process.
 
-The Quasar CLI [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature) has been created to solve this problem. Take a few moments to read about it.
+The Quasar CLI [PreFetch Feature](/quasar-cli/prefetch-feature) has been created to solve this problem. Take a few moments to read about it.
 
 <q-separator class="q-mt-xl" />
 

@@ -1,6 +1,6 @@
 import { client } from '../plugins/Platform.js'
-import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget, shouldStart } from '../utils/touch.js'
-import { position, leftClick, stopAndPrevent, preventDraggable, noop } from '../utils/event.js'
+import { getModifierDirections, getTouchTarget, shouldStart } from '../utils/touch.js'
+import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, preventDraggable, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
 function parseArg (arg) {
@@ -19,10 +19,29 @@ function parseArg (arg) {
   return data
 }
 
+function destroy (el) {
+  const ctx = el.__qtouchswipe
+
+  if (ctx !== void 0) {
+    cleanEvt(ctx, 'main')
+    cleanEvt(ctx, 'temp')
+
+    client.is.firefox === true && preventDraggable(el, false)
+    ctx.styleCleanup !== void 0 && ctx.styleCleanup()
+
+    delete el.__qtouchswipe
+  }
+}
+
 export default {
   name: 'touch-swipe',
 
   bind (el, { value, arg, modifiers }) {
+    if (el.__qtouchswipe !== void 0) {
+      destroy(el)
+      el.__qtouchswipe_destroyed = true
+    }
+
     // early return, we don't need to do anything
     if (modifiers.mouse !== true && client.has.touch !== true) {
       return
@@ -223,10 +242,6 @@ export default {
       }
     }
 
-    if (el.__qtouchswipe) {
-      el.__qtouchswipe_old = el.__qtouchswipe
-    }
-
     el.__qtouchswipe = ctx
 
     modifiers.mouse === true && addEvt(ctx, 'main', [
@@ -239,21 +254,20 @@ export default {
     ])
   },
 
-  update (el, binding) {
-    el.__qtouchswipe !== void 0 && updateModifiers(el.__qtouchswipe, binding)
+  update (el, { oldValue, value }) {
+    const ctx = el.__qtouchswipe
+    if (ctx !== void 0 && oldValue !== value) {
+      typeof value !== 'function' && ctx.end()
+      ctx.handler = value
+    }
   },
 
   unbind (el) {
-    const ctx = el.__qtouchswipe_old || el.__qtouchswipe
-
-    if (ctx !== void 0) {
-      cleanEvt(ctx, 'main')
-      cleanEvt(ctx, 'temp')
-
-      client.is.firefox === true && preventDraggable(el, false)
-      ctx.styleCleanup !== void 0 && ctx.styleCleanup()
-
-      delete el[el.__qtouchswipe_old ? '__qtouchswipe_old' : '__qtouchswipe']
+    if (el.__qtouchswipe_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qtouchswipe_destroyed
     }
   }
 }
