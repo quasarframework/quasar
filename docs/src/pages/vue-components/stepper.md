@@ -23,6 +23,10 @@ If the QStep content also has images and you want to use swipe actions to naviga
 * Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QStep `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).
 :::
 
+::: tip
+If your QStepper is wrapped inside a QForm - you may need to use the Boolean `all-steps` prop. It will keep the inactive QStep(s) constantly mounted - so that their validation rules can still have a chance to fire when the form is submitted. 
+:::
+
 ### Horizontal
 
 <doc-example title="Horizontal" file="QStepper/TypeHorizontal" />
