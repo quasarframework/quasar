@@ -139,17 +139,17 @@ Before starting, it is highly suggested to make a copy of your current working p
   parserOptions: {
     parser: 'babel-eslint'
   },
-  extends: {
+  extends: [
     'plugin:vue/essential' // or equivalent
-  }
+  ]
 
   // NEW way
   parserOptions: {
     parser: '@babel/eslint-parser'
   },
-  extends: {
+  extends: [
     'plugin:vue/vue3-essential' // or equivalent
-  }
+  ]
   ```
 
   Also upgrade ESLint deps. Example:
