@@ -67,7 +67,7 @@ To start a dev server with HMR, run the command below:
 $ quasar dev -m capacitor -T [android|ios]
 ```
 
-Once the dev server is ready, your IDE will open (Android Studio or Xcode)and from there you can manually select the emulator (or multiple ones simultaneously!) and install the dev app on it/them. You can also run the dev app on a connected mobile/tablet device.
+Once the dev server is ready, your IDE will open (Android Studio or Xcode) and from there you can manually select the emulator (or multiple ones simultaneously!) and install the dev app on it/them. You can also run the dev app on a connected mobile/tablet device.
 
 ::: warning
 In Android Studio, you will be greeted with a message recommending to upgrade the Gradle version. **DO NOT UPGRADE GRADLE** as it will break the Capacitor project. Same goes for any other requested upgrades.
