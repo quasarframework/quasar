@@ -116,7 +116,7 @@ export default ssrContext => {
     app.use(router)
     <% if (store) { %>app.use(store, storeKey)<% } %>
 
-    const url = ssrContext.req.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '')<% } %>
+    const url = ssrContext.req.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '/')<% } %>
     const { fullPath } = router.resolve(url)
 
     if (fullPath !== url) {
