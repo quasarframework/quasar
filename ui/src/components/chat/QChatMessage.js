@@ -52,43 +52,42 @@ export default Vue.extend({
   },
 
   methods: {
-    __getText (h) {
+    __getText (h, contentList, withSlots) {
       const
         domPropText = this.textSanitize === true ? 'textContent' : 'innerHTML',
         domPropStamp = this.stampSanitize === true ? 'textContent' : 'innerHTML'
 
-      return this.text.map((msg, index) => h('div', {
+      const withStamp = this.stamp
+        ? node => [
+          node,
+          h('div', {
+            staticClass: 'q-message-stamp',
+            domProps: { [domPropStamp]: this.stamp }
+          })
+        ]
+        : node => [ node ]
+
+      if (
+        withSlots === true &&
+        contentList.some(entry => entry.tag === void 0 && entry.text !== void 0) === true
+      ) {
+        return [
+          h('div', { class: this.messageClass }, [
+            h('div', { class: this.textClass }, withStamp(h('div', contentList)))
+          ])
+        ]
+      }
+
+      const content = withSlots === true
+        ? (contentList.length > 1 ? text => text : text => h('div', [ text ]))
+        : text => h('div', { domProps: { [domPropText]: text } })
+
+      return contentList.map((msg, index) => h('div', {
         key: index,
         class: this.messageClass
       }, [
-        h('div', { class: this.textClass }, [
-          h('div', { domProps: { [domPropText]: msg } }),
-          this.stamp
-            ? h('div', {
-              staticClass: 'q-message-stamp',
-              domProps: { [domPropStamp]: this.stamp }
-            })
-            : null
-        ])
+        h('div', { class: this.textClass }, withStamp(content(msg)))
       ]))
-    },
-
-    __getMessage (h) {
-      const content = uniqueSlot(this, 'default', [])
-
-      this.stamp !== void 0 && content.push(
-        h('div', {
-          staticClass: 'q-message-stamp',
-          domProps: { [this.stampSanitize === true ? 'textContent' : 'innerHTML']: this.stamp }
-        })
-      )
-
-      return h('div', { class: this.messageClass }, [
-        h('div', {
-          staticClass: 'q-message-text-content',
-          class: this.textClass
-        }, content)
-      ])
     }
   },
 
@@ -117,11 +116,11 @@ export default Vue.extend({
     )
 
     this.text !== void 0 && msg.push(
-      this.__getText(h)
+      this.__getText(h, this.text)
     )
 
     this.$scopedSlots.default !== void 0 && msg.push(
-      this.__getMessage(h)
+      this.__getText(h, this.$scopedSlots.default(), true)
     )
 
     container.push(
