@@ -19,7 +19,6 @@
 
       <q-chat-message
         name="Jane"
-        :text="['Already building an app with it..']"
         bg-color="amber"
       >
         <template v-slot:avatar>
@@ -28,6 +27,11 @@
             src="https://cdn.quasar.dev/img/avatar2.jpg"
           >
         </template>
+
+        <div>
+          Already building an app with it...
+          <img src="https://cdn.quasar.dev/img/discord-qeart.png" class="my-emoticon">
+        </div>
 
         <q-spinner-dots size="2rem" />
       </q-chat-message>

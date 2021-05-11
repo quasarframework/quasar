@@ -1,6 +1,6 @@
 import { h, defineComponent, computed } from 'vue'
 
-import { hUniqueSlot } from '../../utils/private/render.js'
+import { getNormalizedVNodes } from '../../utils/private/vm.js'
 
 export default defineComponent({
   name: 'QChatMessage',
@@ -48,7 +48,7 @@ export default defineComponent({
       label: props.labelHtml === true ? 'innerHTML' : 'textContent'
     }))
 
-    function getText () {
+    function getText (contentList, withSlots) {
       const withStamp = props.stamp
         ? node => [
             node,
@@ -59,35 +59,16 @@ export default defineComponent({
           ]
         : node => [ node ]
 
-      return props.text.map((msg, index) => h('div', {
+      const content = withSlots === true
+        ? (contentList.length > 1 ? text => text : text => h('div', [ text ]))
+        : text => h('div', { [ domProps.value.msg ]: text })
+
+      return contentList.map((msg, index) => h('div', {
         key: index,
         class: messageClass.value
       }, [
-        h(
-          'div',
-          { class: textClass.value },
-          withStamp(
-            h('div', { [ domProps.value.msg ]: msg })
-          )
-        )
+        h('div', { class: textClass.value }, withStamp(content(msg)))
       ]))
-    }
-
-    function getMessage () {
-      const content = hUniqueSlot(slots.default, [])
-
-      props.stamp !== void 0 && content.push(
-        h('div', {
-          class: 'q-message-stamp',
-          [ domProps.value.stamp ]: props.stamp
-        })
-      )
-
-      return h('div', { class: messageClass.value }, [
-        h('div', {
-          class: 'q-message-text-content ' + textClass.value
-        }, content)
-      ])
     }
 
     return () => {
@@ -115,9 +96,16 @@ export default defineComponent({
         })
       )
 
-      props.text !== void 0 && msg.push(getText())
+      props.text !== void 0 && msg.push(getText(props.text))
 
-      slots.default !== void 0 && msg.push(getMessage())
+      if (slots.default !== void 0) {
+        msg.push(
+          getText(
+            getNormalizedVNodes(slots.default()),
+            true
+          )
+        )
+      }
 
       container.push(
         h('div', { class: sizeClass.value }, msg)
