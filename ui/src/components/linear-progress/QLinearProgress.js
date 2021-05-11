@@ -13,10 +13,10 @@ const defaultSizes = {
   xl: 14
 }
 
-function width (val, reverse) {
+function width (val, reverse, $q) {
   return {
     transform: reverse === true
-      ? `translateX(100%) scale3d(${ -val },1,1)`
+      ? `translateX(${ $q.lang.rtl === true ? '-' : '' }100%) scale3d(${ -val },1,1)`
       : `scale3d(${ val },1,1)`
   }
 }
@@ -47,8 +47,8 @@ export default defineComponent({
   },
 
   setup (props, { slots }) {
-    const vm = getCurrentInstance()
-    const isDark = useDark(props, vm.proxy.$q)
+    const { proxy } = getCurrentInstance()
+    const isDark = useDark(props, proxy.$q)
     const sizeStyle = useSize(props, defaultSizes)
 
     const motion = computed(() => props.indeterminate === true || props.query === true)
@@ -60,7 +60,7 @@ export default defineComponent({
       + (props.rounded === true ? ' rounded-borders' : '')
     )
 
-    const trackStyle = computed(() => width(props.buffer !== void 0 ? props.buffer : 1, props.reverse))
+    const trackStyle = computed(() => width(props.buffer !== void 0 ? props.buffer : 1, props.reverse, proxy.$q))
     const trackClass = computed(() =>
       'q-linear-progress__track absolute-full'
       + ` q-linear-progress__track--with${ props.instantFeedback === true ? 'out' : '' }-transition`
@@ -68,7 +68,7 @@ export default defineComponent({
       + (props.trackColor !== void 0 ? ` bg-${ props.trackColor }` : '')
     )
 
-    const modelStyle = computed(() => width(motion.value === true ? 1 : props.value, props.reverse))
+    const modelStyle = computed(() => width(motion.value === true ? 1 : props.value, props.reverse, proxy.$q))
     const modelClass = computed(() =>
       'q-linear-progress__model absolute-full'
       + ` q-linear-progress__model--with${ props.instantFeedback === true ? 'out' : '' }-transition`
@@ -76,6 +76,9 @@ export default defineComponent({
     )
 
     const stripeStyle = computed(() => ({ width: `${ props.value * 100 }%` }))
+    const stripeClass = computed(() =>
+      `q-linear-progress__stripe absolute-${ props.reverse === true ? 'right' : 'left' }`
+    )
 
     return () => {
       const child = [
@@ -92,7 +95,7 @@ export default defineComponent({
 
       props.stripe === true && motion.value === false && child.push(
         h('div', {
-          class: 'q-linear-progress__stripe absolute-full',
+          class: stripeClass.value,
           style: stripeStyle.value
         })
       )
