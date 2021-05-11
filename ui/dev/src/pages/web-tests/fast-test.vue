@@ -1,94 +1,13 @@
 <template>
-  <div class="q-pa-md">
-    <q-chat-message
-      name="me"
-      avatar="https://cdn.quasar.dev/img/avatar3.jpg"
-      stamp="7 minutes ago"
-      sent
-      text-color="white"
-      bg-color="primary"
-    >
-      Have you seen Quasar?
-      <img src="https://cdn.quasar.dev/img/discord-omq.png" class="my-emoticon">
-    </q-chat-message>
+  <div class="q-layout-padding">
+    <!--
+      This is for fast tests.
+      Use this page but don't add it into your commits (leave it outside
+      of your commit).
 
-    <q-chat-message
-      v-for="(msg,i) in messages"
-      :name="msg.name"
-      :avatar="msg.avatar"
-      :stamp="msg.stamp"
-      :text="msg.text"
-      :sent="msg.status === 'sent'"
-      :bg-color="msg.bgColor"
-      :text-color="msg.textColor"
-      :key="'c'+i"
-    />
-
-    <q-chat-message
-      v-for="(msg,i) in messages"
-      :name="msg.name"
-      :avatar="msg.avatar"
-      :stamp="msg.stamp"
-      :sent="msg.status === 'sent'"
-      :bg-color="msg.bgColor"
-      :text-color="msg.textColor"
-      :key="'b'+i"
-    >
-      <div v-for="(text, j) in msg.text" :key="'d'+j">{{ text }}</div>
-    </q-chat-message>
-
-    <q-chat-message
-      v-for="(msg,i) in messages"
-      :name="msg.name"
-      :avatar="msg.avatar"
-      :stamp="msg.stamp"
-      :sent="msg.status === 'sent'"
-      :bg-color="msg.bgColor"
-      :text-color="msg.textColor"
-      :key="i"
-    >
-      <div>A</div>
-      <div>B</div>
-    </q-chat-message>
-
-    <q-chat-message
-      v-for="(msg,i) in messages"
-      :name="msg.name"
-      :avatar="msg.avatar"
-      :stamp="msg.stamp"
-      :sent="msg.status === 'sent'"
-      :bg-color="msg.bgColor"
-      :text-color="msg.textColor"
-      :key="'a' + i"
-    >
-      Weeee
-    </q-chat-message>
-
-    <q-chat-message
-      name="me"
-      avatar="https://cdn.quasar.dev/img/avatar3.jpg"
-      stamp="7 minutes ago"
-      sent
-      text-color="white"
-      bg-color="primary"
-    >
-      <div>
-        Hey there!
-      </div>
-
-      <div>
-        Have you seen Quasar?
-        <img src="https://cdn.quasar.dev/img/discord-omq.png" class="my-emoticon">
-      </div>
-    </q-chat-message>
-
-    <q-chat-message
-      name="Jane"
-      avatar="https://cdn.quasar.dev/img/avatar5.jpg"
-      bg-color="amber"
-    >
-      <q-spinner-dots size="2rem" />
-    </q-chat-message>
+      For some test that you think it should be persistent,
+      make a new *.vue file here or in another folder under /dev/components.
+    -->
   </div>
 </template>
 
@@ -98,28 +17,9 @@
 export default {
   data () {
     return {
-      messages: [
-        {
-          avatar: 'https://cdn.quasar.dev/img/avatar3.jpg',
-          text: ['> message 1 should support markdown', '> message 2  should support markdown', '> message 3 should support markdown'],
-          action: {
-            icon: 'check',
-            color: 'positive',
-            name: 'check me'
-          },
-          stamp: '14 minutes ago',
-          status: 'sent',
-          name: 'ping',
-          bgColor: 'primary',
-          textColor: 'white'
-        }
-      ]
     }
   },
   methods: {
-    someAction(something) {
-        console.log(something)
-      }
   }
 }
 </script>
