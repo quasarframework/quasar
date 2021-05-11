@@ -30,7 +30,7 @@
 
         <div>
           Already building an app with it...
-          <img src="https://cdn.quasar.dev/img/discord-qeart.png" class="my-emoticon">
+          <img src="https://cdn.quasar.dev/img/discord-qeart.png" class="my-emoji">
         </div>
 
         <q-spinner-dots size="2rem" />
@@ -38,3 +38,10 @@
     </div>
   </div>
 </template>
+
+<style lang="sass">
+.my-emoji
+  vertical-align: middle
+  height: 2em
+  width: 2em
+</style>
