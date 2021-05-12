@@ -60,7 +60,8 @@ export default Vue.extend({
           keyup: this.__onLoadingEvt
         }
       }
-      else if (this.isActionable === true) {
+
+      if (this.isActionable === true) {
         const on = {
           ...this.qListeners,
           click: this.click,
@@ -75,7 +76,10 @@ export default Vue.extend({
         return on
       }
 
-      return {}
+      return {
+        // needed; especially for disabled <a> tags
+        click: stopAndPrevent
+      }
     },
 
     directives () {
