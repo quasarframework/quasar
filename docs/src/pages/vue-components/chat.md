@@ -40,7 +40,7 @@ Using the property `sent` is intended for the sender of the chat message. The ot
 
 <doc-example title="Default slot" file="QChatMessage/SlotDefault" />
 
-<doc-example title="Avatar slot" file="QChatMessage/SlotAvatar" />
+<doc-example title="Avatar/Stamp/Name slots" file="QChatMessage/SlotAvatarStampName" />
 
 ### Sanitization
 

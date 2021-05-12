@@ -1,14 +1,16 @@
 <template>
   <div class="q-pa-md row justify-center">
+    <!-- The "name" and "stamp" slots require Quasar v1.15.14+ -->
+
     <div style="width: 100%; max-width: 400px">
       <q-chat-message
-        name="me"
-        stamp="7 minutes ago"
         :text="['Have you seen Quasar?']"
         sent
         text-color="white"
         bg-color="primary"
       >
+        <template v-slot:name>me</template>
+        <template v-slot:stamp>7 minutes ago</template>
         <template v-slot:avatar>
           <img
             class="q-message-avatar q-message-avatar--sent"
@@ -18,9 +20,9 @@
       </q-chat-message>
 
       <q-chat-message
-        name="Jane"
         bg-color="amber"
       >
+        <template v-slot:name>Mary</template>
         <template v-slot:avatar>
           <img
             class="q-message-avatar q-message-avatar--received"

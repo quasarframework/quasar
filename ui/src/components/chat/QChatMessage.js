@@ -52,20 +52,28 @@ export default Vue.extend({
   },
 
   methods: {
-    __getText (h, contentList, withSlots) {
-      const
-        domPropText = this.textSanitize === true ? 'textContent' : 'innerHTML',
-        domPropStamp = this.stampSanitize === true ? 'textContent' : 'innerHTML'
+    __wrapStamp (h, node) {
+      if (this.$slots.stamp !== void 0) {
+        return [ node, h('div', { staticClass: 'q-message-stamp' }, this.$slots.stamp) ]
+      }
 
-      const withStamp = this.stamp
-        ? node => [
+      if (this.stamp) {
+        const domPropStamp = this.stampSanitize === true ? 'textContent' : 'innerHTML'
+
+        return [
           node,
           h('div', {
             staticClass: 'q-message-stamp',
             domProps: { [domPropStamp]: this.stamp }
           })
         ]
-        : node => [ node ]
+      }
+
+      return [ node ]
+    },
+
+    __getText (h, contentList, withSlots) {
+      const domPropText = this.textSanitize === true ? 'textContent' : 'innerHTML'
 
       if (
         withSlots === true &&
@@ -73,7 +81,7 @@ export default Vue.extend({
       ) {
         return [
           h('div', { class: this.messageClass }, [
-            h('div', { class: this.textClass }, withStamp(h('div', contentList)))
+            h('div', { class: this.textClass }, this.__wrapStamp(h, h('div', contentList)))
           ])
         ]
       }
@@ -86,7 +94,7 @@ export default Vue.extend({
         key: index,
         class: this.messageClass
       }, [
-        h('div', { class: this.textClass }, withStamp(content(msg)))
+        h('div', { class: this.textClass }, this.__wrapStamp(h, content(msg)))
       ]))
     }
   },
@@ -108,12 +116,21 @@ export default Vue.extend({
 
     const msg = []
 
-    this.name !== void 0 && msg.push(
-      h('div', {
-        class: `q-message-name q-message-name--${this.op}`,
-        domProps: { [this.nameSanitize === true ? 'textContent' : 'innerHTML']: this.name }
-      })
-    )
+    if (this.$slots.name !== void 0) {
+      msg.push(
+        h('div', {
+          class: `q-message-name q-message-name--${this.op}`
+        }, this.$slots.name)
+      )
+    }
+    else if (this.name !== void 0) {
+      msg.push(
+        h('div', {
+          class: `q-message-name q-message-name--${this.op}`,
+          domProps: { [this.nameSanitize === true ? 'textContent' : 'innerHTML']: this.name }
+        })
+      )
+    }
 
     this.text !== void 0 && msg.push(
       this.__getText(h, this.text)
