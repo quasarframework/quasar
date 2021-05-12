@@ -4,6 +4,7 @@
     <q-toggle v-model="customStyle" label="Custom style" />
     <q-toggle v-model="alwaysVisible" toggle-indeterminate label="Always visible" />
     <q-toggle v-model="darkVariant" toggle-indeterminate label="Dark variant" />
+    <q-toggle v-model="focusable" label="Focusable" />
 
     <div style="height: 200px;" />
 
@@ -19,6 +20,7 @@
       :thumbStyle="customThumbStyle"
       :vertical-thumb-style="customVThumbStyle"
       :horizontal-thumb-style="customHThumbStyle"
+      :tabindex="focusable === true ? 0 : void 0"
     >
       <div :class="{ 'flex no-wrap' : horizontal }">
         <div style="margin-top: 150px" />
@@ -36,6 +38,7 @@
       class="bg-dark text-white q-mt-lg"
       :visible="alwaysVisible"
       dark
+      :tabindex="focusable === true ? 0 : void 0"
     >
       <div :class="{ 'flex no-wrap' : horizontal }">
         <div style="margin-top: 150px" />
@@ -119,7 +122,8 @@ export default {
       number: 10,
       horizontal: false,
       alwaysVisible: true,
-      customStyle: false
+      customStyle: false,
+      focusable: true
     }
   },
 
