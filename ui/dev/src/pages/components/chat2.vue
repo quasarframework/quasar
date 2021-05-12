@@ -10,7 +10,7 @@
         :sent="msg.status === 'sent'"
         :bg-color="msg.bgColor"
         :text-color="msg.textColor"
-        :key="i"
+        :key="'a'+i"
       />
 
       <q-chat-message
@@ -21,9 +21,9 @@
         :sent="msg.status === 'sent'"
         :bg-color="msg.bgColor"
         :text-color="msg.textColor"
-        :key="i"
+        :key="'b'+i"
       >
-        <div v-for="(text, j) in msg.text" :key="j">{{ text }}</div>
+        <div v-for="(text, j) in msg.text" :key="'c'+j">{{ text }}</div>
       </q-chat-message>
 
       <q-chat-message
@@ -34,7 +34,7 @@
         :sent="msg.status === 'sent'"
         :bg-color="msg.bgColor"
         :text-color="msg.textColor"
-        :key="i"
+        :key="'d'+i"
       >
         <div>A</div>
         <div>B</div>
@@ -48,7 +48,7 @@
         :sent="msg.status === 'sent'"
         :bg-color="msg.bgColor"
         :text-color="msg.textColor"
-        :key="i"
+        :key="'e'+i"
       >
         Weeee
       </q-chat-message>
@@ -95,16 +95,13 @@
 </template>
 
 <script>
-/* eslint-disable */
-import { h, ref, computed, watch, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
-
 export default {
   setup () {
     return {
       messages: [
         {
           avatar: 'https://cdn.quasar.dev/img/avatar3.jpg',
-          text: ['> message 1 should support markdown', '> message 2  should support markdown', '> message 3 should support markdown'],
+          text: [ '> message 1 should support markdown', '> message 2  should support markdown', '> message 3 should support markdown' ],
           action: {
             icon: 'check',
             color: 'positive',
@@ -118,7 +115,7 @@ export default {
         }
       ],
 
-      someAction(something) {
+      someAction (something) {
         console.log(something)
       }
     }
