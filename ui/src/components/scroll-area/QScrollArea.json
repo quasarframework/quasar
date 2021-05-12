@@ -60,7 +60,8 @@
     },
 
     "tabindex": {
-      "extends": "tabindex"
+      "extends": "tabindex",
+      "addedIn": "v1.15.15"
     }
   },
 
