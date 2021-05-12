@@ -37,7 +37,9 @@ export default Vue.extend({
       default: null
     },
 
-    horizontal: Boolean
+    horizontal: Boolean,
+
+    tabindex: [String, Number]
   },
 
   data () {
@@ -138,6 +140,12 @@ export default Vue.extend({
         },
         value: this.__panThumb
       }]
+    },
+
+    scrollAttrs () {
+      if (this.tabindex !== void 0) {
+        return { tabindex: this.tabindex }
+      }
     }
   },
 
@@ -267,7 +275,8 @@ export default Vue.extend({
     }, [
       h('div', {
         ref: 'target',
-        staticClass: 'scroll relative-position fit hide-scrollbar'
+        staticClass: 'scroll relative-position fit hide-scrollbar',
+        attrs: this.scrollAttrs
       }, [
         h('div', {
           staticClass: 'absolute',
