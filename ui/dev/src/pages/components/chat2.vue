@@ -80,6 +80,16 @@
       >
         <q-spinner-dots size="2rem" />
       </q-chat-message>
+
+      <q-chat-message
+        name="Jane"
+        avatar="https://cdn.quasar.dev/img/avatar5.jpg"
+        bg-color="amber"
+      >
+        <template v-slot:stamp>My stamp!</template>
+        <template v-slot:name>My name!</template>
+        Hello
+      </q-chat-message>
     </div>
   </div>
 </template>
@@ -117,4 +127,8 @@ export default {
 </script>
 
 <style lang="sass">
+.my-emoticon
+  width: 24px
+  height: 24px
+  vertical-align: middle
 </style>

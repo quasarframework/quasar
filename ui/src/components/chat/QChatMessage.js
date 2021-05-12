@@ -48,17 +48,25 @@ export default defineComponent({
       label: props.labelHtml === true ? 'innerHTML' : 'textContent'
     }))
 
-    function getText (contentList, withSlots) {
-      const withStamp = props.stamp
-        ? node => [
-            node,
-            h('div', {
-              class: 'q-message-stamp',
-              [ domProps.value.stamp ]: props.stamp
-            })
-          ]
-        : node => [ node ]
+    function wrapStamp (node) {
+      if (slots.stamp !== void 0) {
+        return [ node, h('div', { class: 'q-message-stamp' }, slots.stamp()) ]
+      }
 
+      if (props.stamp) {
+        return [
+          node,
+          h('div', {
+            class: 'q-message-stamp',
+            [ domProps.value.stamp ]: props.stamp
+          })
+        ]
+      }
+
+      return [ node ]
+    }
+
+    function getText (contentList, withSlots) {
       const content = withSlots === true
         ? (contentList.length > 1 ? text => text : text => h('div', [ text ]))
         : text => h('div', { [ domProps.value.msg ]: text })
@@ -67,7 +75,7 @@ export default defineComponent({
         key: index,
         class: messageClass.value
       }, [
-        h('div', { class: textClass.value }, withStamp(content(msg)))
+        h('div', { class: textClass.value }, wrapStamp(content(msg)))
       ]))
     }
 
@@ -89,14 +97,19 @@ export default defineComponent({
 
       const msg = []
 
-      props.name !== void 0 && msg.push(
-        h('div', {
-          class: `q-message-name q-message-name--${ op.value }`,
-          [ domProps.value.name ]: props.name
-        })
-      )
-
-      props.text !== void 0 && msg.push(getText(props.text))
+      if (slots.name !== void 0) {
+        msg.push(
+          h('div', { class: `q-message-name q-message-name--${ op.value }` }, slots.name())
+        )
+      }
+      else if (props.name !== void 0) {
+        msg.push(
+          h('div', {
+            class: `q-message-name q-message-name--${ op.value }`,
+            [ domProps.value.name ]: props.name
+          })
+        )
+      }
 
       if (slots.default !== void 0) {
         msg.push(
@@ -105,6 +118,9 @@ export default defineComponent({
             true
           )
         )
+      }
+      else if (props.text !== void 0) {
+        msg.push(getText(props.text))
       }
 
       container.push(
