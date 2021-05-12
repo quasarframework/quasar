@@ -76,7 +76,8 @@ export default defineComponent({
           onKeyup: onLoadingEvt
         }
       }
-      else if (isActionable.value === true) {
+
+      if (isActionable.value === true) {
         return {
           onClick,
           onKeydown,
@@ -85,7 +86,10 @@ export default defineComponent({
         }
       }
 
-      return {}
+      return {
+        // needed; especially for disabled <a> tags
+        onClick: stopAndPrevent
+      }
     })
 
     const directives = computed(() => {
