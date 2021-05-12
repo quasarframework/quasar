@@ -254,7 +254,11 @@ export default {
 
         if (['deleteContentBackward', 'deleteContentForward'].indexOf(inputType) > -1) {
           const cursor = this.reverseFillMask === true
-            ? Math.max(0, masked.length - (masked === this.maskReplaced ? 0 : Math.min(preMasked.length, endReverse) + 1)) + 1
+            ? (
+              end === 0
+                ? (masked.length > preMasked.length ? 1 : 0)
+                : Math.max(0, masked.length - (masked === this.maskReplaced ? 0 : Math.min(preMasked.length, endReverse) + 1)) + 1
+            )
             : end
           inp.setSelectionRange(cursor, cursor, 'forward')
 
@@ -264,7 +268,13 @@ export default {
         if (this.reverseFillMask === true) {
           if (changed === true) {
             const cursor = Math.max(0, masked.length - (masked === this.maskReplaced ? 0 : Math.min(preMasked.length, endReverse + 1)))
-            this.__moveCursorRightReverse(inp, cursor, cursor)
+
+            if (cursor === 1 && end === 1) {
+              inp.setSelectionRange(cursor, cursor, 'forward')
+            }
+            else {
+              this.__moveCursorRightReverse(inp, cursor, cursor)
+            }
           }
           else {
             const cursor = masked.length - endReverse
@@ -482,7 +492,7 @@ export default {
 
       let valIndex = val.length - 1, output = ''
 
-      for (let maskIndex = mask.length - 1; maskIndex >= 0; maskIndex--) {
+      for (let maskIndex = mask.length - 1; maskIndex >= 0 && valIndex > -1; maskIndex--) {
         const maskDef = mask[maskIndex]
 
         let valChar = val[valIndex]
