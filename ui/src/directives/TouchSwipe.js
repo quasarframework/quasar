@@ -238,11 +238,16 @@ export default __QUASAR_SSR_SERVER__
         ])
       },
 
-      updated (el, { oldValue, value }) {
+      updated (el, mod) {
         const ctx = el.__qtouchswipe
-        if (ctx !== void 0 && oldValue !== value) {
-          typeof value !== 'function' && ctx.end()
-          ctx.handler = value
+
+        if (ctx !== void 0) {
+          if (mod.oldValue !== mod.value) {
+            typeof mod.value !== 'function' && ctx.end()
+            ctx.handler = mod.value
+          }
+
+          ctx.direction = getModifierDirections(mod)
         }
       },
 

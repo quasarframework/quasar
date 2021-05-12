@@ -45,6 +45,8 @@ export default defineComponent({
       default: null
     },
 
+    tabindex: [ String, Number ],
+
     onScroll: Function
   },
 
@@ -370,7 +372,8 @@ export default defineComponent({
       }, [
         h('div', {
           ref: targetRef,
-          class: 'q-scrollarea__container scroll relative-position fit hide-scrollbar'
+          class: 'q-scrollarea__container scroll relative-position fit hide-scrollbar',
+          tabindex: props.tabindex !== void 0 ? props.tabindex : void 0
         }, [
           h('div', {
             class: 'q-scrollarea__content absolute',

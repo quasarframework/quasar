@@ -430,7 +430,7 @@ export default {
 ```
 
 ## Handling Vue Events
-You will notice throughout the documentation that some Quasar components have a section called "Vue Events". **Do not confuse** these Vue events with the [Global Event Bus](/options/global-event-bus) as these two have nothing in common.
+You will notice throughout the documentation that some Quasar components have a section called "Vue Events".
 
 Example of "Vue Events":
 

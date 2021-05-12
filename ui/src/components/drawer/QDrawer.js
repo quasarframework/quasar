@@ -450,6 +450,13 @@ export default defineComponent({
 
     function animateMini () {
       clearTimeout(timerMini)
+
+      if (vm.proxy && vm.proxy.$el) {
+        // need to speed it up and apply it immediately,
+        // even faster than Vue's nextTick!
+        vm.proxy.$el.classList.add('q-drawer--mini-animate')
+      }
+
       flagMiniAnimate.value = true
       timerMini = setTimeout(() => {
         flagMiniAnimate.value = false

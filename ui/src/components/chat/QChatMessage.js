@@ -1,6 +1,6 @@
 import { h, defineComponent, computed } from 'vue'
 
-import { hUniqueSlot } from '../../utils/private/render.js'
+import { getNormalizedVNodes } from '../../utils/private/vm.js'
 
 export default defineComponent({
   name: 'QChatMessage',
@@ -48,46 +48,35 @@ export default defineComponent({
       label: props.labelHtml === true ? 'innerHTML' : 'textContent'
     }))
 
-    function getText () {
-      const withStamp = props.stamp
-        ? node => [
-            node,
-            h('div', {
-              class: 'q-message-stamp',
-              [ domProps.value.stamp ]: props.stamp
-            })
-          ]
-        : node => [ node ]
+    function wrapStamp (node) {
+      if (slots.stamp !== void 0) {
+        return [ node, h('div', { class: 'q-message-stamp' }, slots.stamp()) ]
+      }
 
-      return props.text.map((msg, index) => h('div', {
+      if (props.stamp) {
+        return [
+          node,
+          h('div', {
+            class: 'q-message-stamp',
+            [ domProps.value.stamp ]: props.stamp
+          })
+        ]
+      }
+
+      return [ node ]
+    }
+
+    function getText (contentList, withSlots) {
+      const content = withSlots === true
+        ? (contentList.length > 1 ? text => text : text => h('div', [ text ]))
+        : text => h('div', { [ domProps.value.msg ]: text })
+
+      return contentList.map((msg, index) => h('div', {
         key: index,
         class: messageClass.value
       }, [
-        h(
-          'div',
-          { class: textClass.value },
-          withStamp(
-            h('div', { [ domProps.value.msg ]: msg })
-          )
-        )
+        h('div', { class: textClass.value }, wrapStamp(content(msg)))
       ]))
-    }
-
-    function getMessage () {
-      const content = hUniqueSlot(slots.default, [])
-
-      props.stamp !== void 0 && content.push(
-        h('div', {
-          class: 'q-message-stamp',
-          [ domProps.value.stamp ]: props.stamp
-        })
-      )
-
-      return h('div', { class: messageClass.value }, [
-        h('div', {
-          class: 'q-message-text-content ' + textClass.value
-        }, content)
-      ])
     }
 
     return () => {
@@ -108,16 +97,31 @@ export default defineComponent({
 
       const msg = []
 
-      props.name !== void 0 && msg.push(
-        h('div', {
-          class: `q-message-name q-message-name--${ op.value }`,
-          [ domProps.value.name ]: props.name
-        })
-      )
+      if (slots.name !== void 0) {
+        msg.push(
+          h('div', { class: `q-message-name q-message-name--${ op.value }` }, slots.name())
+        )
+      }
+      else if (props.name !== void 0) {
+        msg.push(
+          h('div', {
+            class: `q-message-name q-message-name--${ op.value }`,
+            [ domProps.value.name ]: props.name
+          })
+        )
+      }
 
-      props.text !== void 0 && msg.push(getText())
-
-      slots.default !== void 0 && msg.push(getMessage())
+      if (slots.default !== void 0) {
+        msg.push(
+          getText(
+            getNormalizedVNodes(slots.default()),
+            true
+          )
+        )
+      }
+      else if (props.text !== void 0) {
+        msg.push(getText(props.text))
+      }
 
       container.push(
         h('div', { class: sizeClass.value }, msg)

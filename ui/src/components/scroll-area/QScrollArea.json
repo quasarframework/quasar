@@ -76,6 +76,10 @@
       "default": 1000,
       "examples": [ 500, ":delay=\"550\"" ],
       "category": "behavior"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
     }
   },
 
