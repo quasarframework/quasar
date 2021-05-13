@@ -1,11 +1,11 @@
-import { RouteRecordRaw, RouteLocationRaw, RouteLocationNormalizedLoaded } from "vue-router";
+import { RouteLocationRaw, RouteLocationNormalizedLoaded } from "vue-router";
 import { HasSsrParam } from "./ssr";
 import { HasStoreParam } from "./store";
 
 interface PreFetchOptions<TState> extends HasSsrParam, HasStoreParam<TState> {
   currentRoute: RouteLocationNormalizedLoaded;
   previousRoute: RouteLocationNormalizedLoaded;
-  redirect: (url: RouteRecordRaw | RouteLocationRaw) => void;
+  redirect: (url: RouteLocationRaw) => void;
   urlPath: string;
   publicPath: string;
 }
