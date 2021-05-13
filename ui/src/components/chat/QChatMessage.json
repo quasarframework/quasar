@@ -106,6 +106,10 @@
 
     "stamp": {
       "desc": "Slot for stamp; Overrides the 'stamp' prop"
+    },
+
+    "label": {
+      "desc": "Slot for label; Overrides the 'label' prop"
     }
   }
 }
