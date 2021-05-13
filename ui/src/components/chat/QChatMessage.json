@@ -112,6 +112,11 @@
     "stamp": {
       "desc": "Slot for stamp; Overrides the 'stamp' prop",
       "addedIn": "v1.15.14"
+    },
+
+    "label": {
+      "desc": "Slot for label; Overrides the 'label' prop",
+      "addedIn": "v1.15.15"
     }
   }
 }

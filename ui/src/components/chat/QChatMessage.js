@@ -53,8 +53,8 @@ export default Vue.extend({
 
   methods: {
     __wrapStamp (h, node) {
-      if (this.$slots.stamp !== void 0) {
-        return [ node, h('div', { staticClass: 'q-message-stamp' }, this.$slots.stamp) ]
+      if (this.$scopedSlots.stamp !== void 0) {
+        return [ node, h('div', { staticClass: 'q-message-stamp' }, this.$scopedSlots.stamp()) ]
       }
 
       if (this.stamp) {
@@ -116,11 +116,11 @@ export default Vue.extend({
 
     const msg = []
 
-    if (this.$slots.name !== void 0) {
+    if (this.$scopedSlots.name !== void 0) {
       msg.push(
         h('div', {
           class: `q-message-name q-message-name--${this.op}`
-        }, this.$slots.name)
+        }, this.$scopedSlots.name())
       )
     }
     else if (this.name !== void 0) {
@@ -146,12 +146,19 @@ export default Vue.extend({
 
     const child = []
 
-    this.label && child.push(
-      h('div', {
-        staticClass: 'q-message-label text-center',
-        domProps: { [this.labelSanitize === true ? 'textContent' : 'innerHTML']: this.label }
-      })
-    )
+    if (this.$scopedSlots.label !== void 0) {
+      child.push(
+        h('div', { staticClass: 'q-message-label' }, this.$scopedSlots.label())
+      )
+    }
+    else if (this.label !== void 0) {
+      child.push(
+        h('div', {
+          staticClass: 'q-message-label',
+          domProps: { [this.labelSanitize === true ? 'textContent' : 'innerHTML']: this.label }
+        })
+      )
+    }
 
     child.push(
       h('div', { class: this.containerClass }, container)
