@@ -10,7 +10,28 @@ const quasarCssPaths = [
   path.join('node_modules', 'quasar', 'src'),
   path.join('node_modules', '@quasar')
 ]
-const urlRE = /^(\.?\.\/|~)/
+
+const absoluteUrlRE = /^[a-z][a-z0-9+.-]*:/i
+const protocolRelativeRE = /^\/\//
+const templateUrlRE = /^[{}[\]#*;,'§$%&(=?`´^°<>]/
+const rootRelativeUrlRE = /^\//
+
+/**
+ * Inspired by loader-utils > isUrlRequest()
+ * Mimics Webpack v4 & css-loader v3 behavior
+ */
+function shouldRequireUrl (url) {
+  return (
+    // an absolute url and it is not `windows` path like `C:\dir\file`:
+    (absoluteUrlRE.test(url) === true && path.win32.isAbsolute(url) === false)
+    // a protocol-relative:
+    || protocolRelativeRE.test(url) === true
+    // some kind of url for a template:
+    || templateUrlRE.test(url) === true
+    // not a request if root isn't set and it's a root-relative url
+    || rootRelativeUrlRE.test(url) === true
+  ) === false
+}
 
 function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)
@@ -48,7 +69,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 
     const cssLoaderOptions = {
       sourceMap: pref.sourceMap,
-      url: url => urlRE.test(url),
+      url: shouldRequireUrl,
       importLoaders:
         1 + // stylePostLoader injected by vue-loader
         1 + // postCSS loader
