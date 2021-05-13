@@ -129,12 +129,19 @@ export default defineComponent({
 
       const child = []
 
-      props.label && child.push(
-        h('div', {
-          class: 'q-message-label text-center',
-          [ domProps.value.label ]: props.label
-        })
-      )
+      if (slots.label !== void 0) {
+        child.push(
+          h('div', { class: 'q-message-label' }, slots.label())
+        )
+      }
+      else if (props.label !== void 0) {
+        child.push(
+          h('div', {
+            class: 'q-message-label',
+            [ domProps.value.label ]: props.label
+          })
+        )
+      }
 
       child.push(
         h('div', { class: containerClass.value }, container)
