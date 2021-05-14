@@ -5,13 +5,18 @@
         name="me"
         avatar="https://cdn.quasar.dev/img/avatar3.jpg"
         stamp="7 minutes ago"
-        :text="['Hey there!']"
         sent
         text-color="white"
         bg-color="primary"
       >
-        Have you seen Quasar?
-        <img src="https://cdn.quasar.dev/img/discord-omq.png" class="my-emoticon">
+        <div>
+          Hey there!
+        </div>
+
+        <div>
+          Have you seen Quasar?
+          <img src="https://cdn.quasar.dev/img/discord-omq.png" class="my-emoticon">
+        </div>
       </q-chat-message>
 
       <q-chat-message

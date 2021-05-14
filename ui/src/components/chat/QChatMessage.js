@@ -52,43 +52,50 @@ export default Vue.extend({
   },
 
   methods: {
-    __getText (h) {
-      const
-        domPropText = this.textSanitize === true ? 'textContent' : 'innerHTML',
-        domPropStamp = this.stampSanitize === true ? 'textContent' : 'innerHTML'
+    __wrapStamp (h, node) {
+      if (this.$scopedSlots.stamp !== void 0) {
+        return [ node, h('div', { staticClass: 'q-message-stamp' }, this.$scopedSlots.stamp()) ]
+      }
 
-      return this.text.map((msg, index) => h('div', {
+      if (this.stamp) {
+        const domPropStamp = this.stampSanitize === true ? 'textContent' : 'innerHTML'
+
+        return [
+          node,
+          h('div', {
+            staticClass: 'q-message-stamp',
+            domProps: { [domPropStamp]: this.stamp }
+          })
+        ]
+      }
+
+      return [ node ]
+    },
+
+    __getText (h, contentList, withSlots) {
+      const domPropText = this.textSanitize === true ? 'textContent' : 'innerHTML'
+
+      if (
+        withSlots === true &&
+        contentList.some(entry => entry.tag === void 0 && entry.text !== void 0) === true
+      ) {
+        return [
+          h('div', { class: this.messageClass }, [
+            h('div', { class: this.textClass }, this.__wrapStamp(h, h('div', contentList)))
+          ])
+        ]
+      }
+
+      const content = withSlots === true
+        ? (contentList.length > 1 ? text => text : text => h('div', [ text ]))
+        : text => h('div', { domProps: { [domPropText]: text } })
+
+      return contentList.map((msg, index) => h('div', {
         key: index,
         class: this.messageClass
       }, [
-        h('div', { class: this.textClass }, [
-          h('div', { domProps: { [domPropText]: msg } }),
-          this.stamp
-            ? h('div', {
-              staticClass: 'q-message-stamp',
-              domProps: { [domPropStamp]: this.stamp }
-            })
-            : null
-        ])
+        h('div', { class: this.textClass }, this.__wrapStamp(h, content(msg)))
       ]))
-    },
-
-    __getMessage (h) {
-      const content = uniqueSlot(this, 'default', [])
-
-      this.stamp !== void 0 && content.push(
-        h('div', {
-          staticClass: 'q-message-stamp',
-          domProps: { [this.stampSanitize === true ? 'textContent' : 'innerHTML']: this.stamp }
-        })
-      )
-
-      return h('div', { class: this.messageClass }, [
-        h('div', {
-          staticClass: 'q-message-text-content',
-          class: this.textClass
-        }, content)
-      ])
     }
   },
 
@@ -109,19 +116,28 @@ export default Vue.extend({
 
     const msg = []
 
-    this.name !== void 0 && msg.push(
-      h('div', {
-        class: `q-message-name q-message-name--${this.op}`,
-        domProps: { [this.nameSanitize === true ? 'textContent' : 'innerHTML']: this.name }
-      })
-    )
+    if (this.$scopedSlots.name !== void 0) {
+      msg.push(
+        h('div', {
+          class: `q-message-name q-message-name--${this.op}`
+        }, this.$scopedSlots.name())
+      )
+    }
+    else if (this.name !== void 0) {
+      msg.push(
+        h('div', {
+          class: `q-message-name q-message-name--${this.op}`,
+          domProps: { [this.nameSanitize === true ? 'textContent' : 'innerHTML']: this.name }
+        })
+      )
+    }
 
     this.text !== void 0 && msg.push(
-      this.__getText(h)
+      this.__getText(h, this.text)
     )
 
     this.$scopedSlots.default !== void 0 && msg.push(
-      this.__getMessage(h)
+      this.__getText(h, this.$scopedSlots.default(), true)
     )
 
     container.push(
@@ -130,12 +146,19 @@ export default Vue.extend({
 
     const child = []
 
-    this.label && child.push(
-      h('div', {
-        staticClass: 'q-message-label text-center',
-        domProps: { [this.labelSanitize === true ? 'textContent' : 'innerHTML']: this.label }
-      })
-    )
+    if (this.$scopedSlots.label !== void 0) {
+      child.push(
+        h('div', { staticClass: 'q-message-label' }, this.$scopedSlots.label())
+      )
+    }
+    else if (this.label !== void 0) {
+      child.push(
+        h('div', {
+          staticClass: 'q-message-label',
+          domProps: { [this.labelSanitize === true ? 'textContent' : 'innerHTML']: this.label }
+        })
+      )
+    }
 
     child.push(
       h('div', { class: this.containerClass }, container)

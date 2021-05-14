@@ -57,6 +57,11 @@
       "type": "Boolean",
       "desc": "Register for horizontal scroll instead of vertical (which is default)",
       "category": "behavior"
+    },
+
+    "tabindex": {
+      "extends": "tabindex",
+      "addedIn": "v1.15.15"
     }
   },
 
