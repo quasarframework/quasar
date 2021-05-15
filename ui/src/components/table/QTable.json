@@ -233,9 +233,9 @@
           "examples": [ "width: 500px" ]
         },
         "classes": {
-          "type": "String",
+          "type": [ "String", "Function" ],
           "desc": "Classes to add on normal cells of the column",
-          "examples": [ "my-special-class" ]
+          "examples": [ "my-special-class", "row => (row.calories % 2 === 0 ? 'bg-green' : 'bg-yellow')" ]
         },
         "headerStyle": {
           "type": "String",

@@ -162,51 +162,50 @@
     "getScroll": {
       "desc": "Get the current scroll information",
       "returns": {
-        "info": {
-          "type": "Object",
-          "__exemption": [ "examples" ],
-          "definition": {
-            "verticalPosition": {
-              "type": "Number",
-              "desc": "Vertical scroll position (in px)",
-              "__exemption": [ "examples" ]
-            },
-            "verticalPercentage": {
-              "type": "Number",
-              "desc": "Vertical scroll percentage (0.0 <= x <= 1.0)",
-              "__exemption": [ "examples" ]
-            },
-            "verticalSize": {
-              "type": "Number",
-              "desc": "Vertical scroll size (in px)",
-              "__exemption": [ "examples" ]
-            },
-            "verticalContainerSize": {
-              "type": "Number",
-              "desc": "Height of the container (in px)",
-              "__exemption": [ "examples" ]
-            },
+        "type": "Object",
+        "desc": "Scroll information",
+        "__exemption": [ "examples" ],
+        "definition": {
+          "verticalPosition": {
+            "type": "Number",
+            "desc": "Vertical scroll position (in px)",
+            "__exemption": [ "examples" ]
+          },
+          "verticalPercentage": {
+            "type": "Number",
+            "desc": "Vertical scroll percentage (0.0 <= x <= 1.0)",
+            "__exemption": [ "examples" ]
+          },
+          "verticalSize": {
+            "type": "Number",
+            "desc": "Vertical scroll size (in px)",
+            "__exemption": [ "examples" ]
+          },
+          "verticalContainerSize": {
+            "type": "Number",
+            "desc": "Height of the container (in px)",
+            "__exemption": [ "examples" ]
+          },
 
-            "horizontalPosition": {
-              "type": "Number",
-              "desc": "Horizontal scroll position (in px)",
-              "__exemption": [ "examples" ]
-            },
-            "horizontalPercentage": {
-              "type": "Number",
-              "desc": "Horizontal scroll percentage (0.0 <= x <= 1.0)",
-              "__exemption": [ "examples" ]
-            },
-            "horizontalSize": {
-              "type": "Number",
-              "desc": "Horizontal scroll size (in px)",
-              "__exemption": [ "examples" ]
-            },
-            "horizontalContainerSize": {
-              "type": "Number",
-              "desc": "Width of the container (in px)",
-              "__exemption": [ "examples" ]
-            }
+          "horizontalPosition": {
+            "type": "Number",
+            "desc": "Horizontal scroll position (in px)",
+            "__exemption": [ "examples" ]
+          },
+          "horizontalPercentage": {
+            "type": "Number",
+            "desc": "Horizontal scroll percentage (0.0 <= x <= 1.0)",
+            "__exemption": [ "examples" ]
+          },
+          "horizontalSize": {
+            "type": "Number",
+            "desc": "Horizontal scroll size (in px)",
+            "__exemption": [ "examples" ]
+          },
+          "horizontalContainerSize": {
+            "type": "Number",
+            "desc": "Width of the container (in px)",
+            "__exemption": [ "examples" ]
           }
         }
       }

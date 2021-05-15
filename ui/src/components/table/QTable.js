@@ -398,8 +398,8 @@ export default defineComponent({
           return slot !== void 0
             ? slot(getBodyCellScope({ key, row, pageIndex, col }))
             : h('td', {
-              class: col.__tdClass,
-              style: col.style
+              class: col.__tdClass(row),
+              style: col.__tdStyle(row)
             }, getCellValue(col, row))
         })
 

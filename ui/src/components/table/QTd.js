@@ -31,9 +31,11 @@ export default defineComponent({
 
       if (col === void 0) { return }
 
+      const row = props.props.row
+
       return h('td', {
-        class: classes.value + ' ' + col.__tdClass,
-        style: col.style
+        class: col.__tdClass(row),
+        style: col.__tdStyle(row)
       }, hSlot(slots.default))
     }
   }
