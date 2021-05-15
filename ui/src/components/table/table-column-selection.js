@@ -35,15 +35,17 @@ export function useTableColumnSelection (props, computedPagination, hasSelection
 
     return cols.map(col => {
       const align = col.align || 'right'
-      const tdClass = `text-${ align }`
-      const def = {
+      const alignClass = `text-${ align }`
+
+      return {
         ...col,
         align,
         __iconClass: `q-table__sort-icon q-table__sort-icon--${ align }`,
-        __thClass: tdClass
+        __thClass: alignClass
           + (col.headerClasses !== void 0 ? ' ' + col.headerClasses : '')
           + (col.sortable === true ? ' sortable' : '')
           + (col.name === sortBy ? ` sorted ${ descending === true ? 'sort-desc' : '' }` : ''),
+
         __tdStyle: col.style !== void 0
           ? (
               typeof col.style !== 'function'
@@ -51,16 +53,15 @@ export function useTableColumnSelection (props, computedPagination, hasSelection
                 : col.style
             )
           : () => null,
+
         __tdClass: col.classes !== void 0
           ? (
               typeof col.classes !== 'function'
-                ? () => tdClass + ' ' + col.classes
-                : row => tdClass + ' ' + col.classes(row)
+                ? () => alignClass + ' ' + col.classes
+                : row => alignClass + ' ' + col.classes(row)
             )
-          : () => tdClass
+          : () => alignClass
       }
-
-      return def
     })
   })
 

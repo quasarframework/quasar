@@ -16,6 +16,7 @@ export default defineComponent({
     const classes = computed(() =>
       'q-td' + (props.autoWidth === true ? ' q-table--col-auto-width' : '')
       + (props.noHover === true ? ' q-td--no-hover' : '')
+      + ' '
     )
 
     return () => {
@@ -34,7 +35,7 @@ export default defineComponent({
       const row = props.props.row
 
       return h('td', {
-        class: col.__tdClass(row),
+        class: classes.value + col.__tdClass(row),
         style: col.__tdStyle(row)
       }, hSlot(slots.default))
     }
