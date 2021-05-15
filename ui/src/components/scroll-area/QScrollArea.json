@@ -109,7 +109,7 @@
             },
             "verticalPercentage": {
               "type": "Number",
-              "desc": "Vertical scroll percentage (0.0 < x < 1.0)",
+              "desc": "Vertical scroll percentage (0.0 <= x <= 1.0)",
               "__exemption": [ "examples" ]
             },
             "verticalSize": {
@@ -130,7 +130,7 @@
             },
             "horizontalPercentage": {
               "type": "Number",
-              "desc": "Horizontal scroll percentage (0.0 < x < 1.0)",
+              "desc": "Horizontal scroll percentage (0.0 <= x <= 1.0)",
               "__exemption": [ "examples" ]
             },
             "horizontalSize": {
@@ -159,6 +159,59 @@
       }
     },
 
+    "getScroll": {
+      "desc": "Get the current scroll information",
+      "returns": {
+        "info": {
+          "type": "Object",
+          "__exemption": [ "examples" ],
+          "definition": {
+            "verticalPosition": {
+              "type": "Number",
+              "desc": "Vertical scroll position (in px)",
+              "__exemption": [ "examples" ]
+            },
+            "verticalPercentage": {
+              "type": "Number",
+              "desc": "Vertical scroll percentage (0.0 <= x <= 1.0)",
+              "__exemption": [ "examples" ]
+            },
+            "verticalSize": {
+              "type": "Number",
+              "desc": "Vertical scroll size (in px)",
+              "__exemption": [ "examples" ]
+            },
+            "verticalContainerSize": {
+              "type": "Number",
+              "desc": "Height of the container (in px)",
+              "__exemption": [ "examples" ]
+            },
+
+            "horizontalPosition": {
+              "type": "Number",
+              "desc": "Horizontal scroll position (in px)",
+              "__exemption": [ "examples" ]
+            },
+            "horizontalPercentage": {
+              "type": "Number",
+              "desc": "Horizontal scroll percentage (0.0 <= x <= 1.0)",
+              "__exemption": [ "examples" ]
+            },
+            "horizontalSize": {
+              "type": "Number",
+              "desc": "Horizontal scroll size (in px)",
+              "__exemption": [ "examples" ]
+            },
+            "horizontalContainerSize": {
+              "type": "Number",
+              "desc": "Width of the container (in px)",
+              "__exemption": [ "examples" ]
+            }
+          }
+        }
+      }
+    },
+
     "getScrollPosition": {
       "desc": "Get current scroll position",
       "returns": {
@@ -176,6 +229,26 @@
           }
         },
         "examples": [ "{ top: 10, left: 0 }" ]
+      }
+    },
+
+    "getScrollPercentage": {
+      "desc": "Get current scroll position in percentage (0.0 <= x <= 1.0)",
+      "returns": {
+        "type": "Object",
+        "definition": {
+          "top": {
+            "type": "Number",
+            "desc": "Scroll percentage (0.0 <= x <= 1.0) offset from top (vertical)",
+            "examples": [ 0.12 ]
+          },
+          "left": {
+            "type": "Number",
+            "desc": "Scroll percentage (0.0 <= x <= 1.0) offset from left (horizontal)",
+            "examples": [ 0.92 ]
+          }
+        },
+        "examples": [ "{ top: 0.212, left: 0 }" ]
       }
     },
 
@@ -203,7 +276,7 @@
     },
 
     "setScrollPercentage": {
-      "desc": "Set scroll position to a percentage (0.0 < x < 1.0) of the total scrolling size; If a duration (in milliseconds) is specified then the scroll is animated",
+      "desc": "Set scroll position to a percentage (0.0 <= x <= 1.0) of the total scrolling size; If a duration (in milliseconds) is specified then the scroll is animated",
       "params": {
         "axis": {
           "type": "String",
@@ -213,7 +286,7 @@
         },
         "offset": {
           "type": "Number",
-          "desc": "Scroll percentage (0.0 < x < 1.0) of the total scrolling size",
+          "desc": "Scroll percentage (0.0 <= x <= 1.0) of the total scrolling size",
           "required": true,
           "examples": [ 220 ]
         },

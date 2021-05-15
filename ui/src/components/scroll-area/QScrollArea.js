@@ -197,11 +197,8 @@ export default defineComponent({
       }
     ] ]
 
-    // we have lots of listeners, so
-    // ensure we're not emitting same info
-    // multiple times
-    const emitScroll = debounce(() => {
-      const info = { ref: vm.proxy }
+    function getScroll () {
+      const info = {}
 
       axisList.forEach(axis => {
         const data = scroll[ axis ]
@@ -212,6 +209,15 @@ export default defineComponent({
         info[ axis + 'ContainerSize' ] = container[ axis ].value
       })
 
+      return info
+    }
+
+    // we have lots of listeners, so
+    // ensure we're not emitting same info
+    // multiple times
+    const emitScroll = debounce(() => {
+      const info = getScroll()
+      info.ref = vm.proxy
       emit('scroll', info)
     }, 0)
 
@@ -350,9 +356,14 @@ export default defineComponent({
     // expose public methods
     Object.assign(vm.proxy, {
       getScrollTarget: () => targetRef.value,
+      getScroll,
       getScrollPosition: () => ({
         top: scroll.vertical.position.value,
         left: scroll.horizontal.position.value
+      }),
+      getScrollPercentage: () => ({
+        top: scroll.vertical.percentage.value,
+        left: scroll.horizontal.percentage.value
       }),
       setScrollPosition: localSetScrollPosition,
       setScrollPercentage (axis, percentage, duration) {
@@ -390,9 +401,7 @@ export default defineComponent({
           })
         ]),
 
-        h(QResizeObserver, {
-          onResize: updateContainer
-        }),
+        h(QResizeObserver, { onResize: updateContainer }),
 
         h('div', {
           class: scroll.vertical.barClass.value,

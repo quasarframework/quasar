@@ -65,11 +65,14 @@
     <q-btn @click="scroll3">
       Scroll to 90%
     </q-btn>
+    <q-btn @click="getInfo">
+      getScroll()
+    </q-btn>
 
     <div style="height: 250px" />
 
     <q-scroll-area
-      ref="scroll"
+      ref="scroll2"
       class="bg-yellow"
       style="width: 400px; height: 200px;"
       :visible="alwaysVisible"
@@ -184,6 +187,11 @@ export default {
     },
     scroll3 () {
       this.$refs.scroll.setScrollPercentage(this.axis, 0.9, 1000)
+    },
+    getInfo () {
+      console.log('getScroll()', this.$refs.scroll.getScroll())
+      console.log('getScrollPosition()', this.$refs.scroll.getScrollPosition())
+      console.log('getScrollPercentage()', this.$refs.scroll.getScrollPercentage())
     }
   }
 }
