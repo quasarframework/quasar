@@ -90,7 +90,9 @@ export default defineComponent({
     )
 
     scroll.vertical.percentage = computed(() => {
-      const p = between(scroll.vertical.position.value / (scroll.vertical.size.value - container.vertical.value), 0, 1)
+      const diff = scroll.vertical.size.value - container.vertical.value
+      if (diff <= 0) { return 0 }
+      const p = between(scroll.vertical.position.value / diff, 0, 1)
       return Math.round(p * 10000) / 10000
     })
     scroll.vertical.thumbHidden = computed(() =>
@@ -129,7 +131,9 @@ export default defineComponent({
     )
 
     scroll.horizontal.percentage = computed(() => {
-      const p = between(scroll.horizontal.position.value / (scroll.horizontal.size.value - container.horizontal.value), 0, 1)
+      const diff = scroll.horizontal.size.value - container.horizontal.value
+      if (diff <= 0) { return 0 }
+      const p = between(scroll.horizontal.position.value / diff, 0, 1)
       return Math.round(p * 10000) / 10000
     })
     scroll.horizontal.thumbHidden = computed(() =>
