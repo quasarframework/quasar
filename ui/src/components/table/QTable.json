@@ -238,14 +238,20 @@
           }
         },
         "style": {
-          "type": "String",
-          "desc": "Style to apply on normal cells of the column",
-          "examples": [ "width: 500px" ]
+          "type": [ "String", "Function" ],
+          "desc": "Style to apply on normal cells of the column; The Function form requires v1.15.15+",
+          "examples": [
+            "width: 500px",
+            "row => (row.calories % 2 === 0 ? 'width:10px' : 'font-size:2em')"
+          ]
         },
         "classes": {
-          "type": "String",
-          "desc": "Classes to add on normal cells of the column",
-          "examples": [ "my-special-class" ]
+          "type": [ "String", "Function" ],
+          "desc": "Classes to add on normal cells of the column; The Function form requires v1.15.15+",
+          "examples": [
+            "my-special-class",
+            "row => (row.calories % 2 === 0 ? 'bg-green' : 'bg-yellow')"
+          ]
         },
         "headerStyle": {
           "type": "String",

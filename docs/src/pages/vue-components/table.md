@@ -75,7 +75,9 @@ columns: [ // array of Objects
 
     // body td:
     style: 'width: 500px',
+    // or as Function (requires v1.15.15+) --> style: row => ... (return String/Array/Object)
     classes: 'my-special-class',
+    // or as Function (requires v1.15.15+) --> classes: row => ... (return String)
 
     // (v1.3+) header th:
     headerStyle: 'width: 500px',

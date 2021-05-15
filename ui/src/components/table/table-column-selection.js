@@ -34,16 +34,32 @@ export default {
 
       return cols.map(col => {
         const align = col.align || 'right'
+        const alignClass = `text-${align}`
 
         return {
           ...col,
           align,
           __iconClass: `q-table__sort-icon q-table__sort-icon--${align}`,
-          __thClass: `text-${align}` +
+          __thClass: alignClass +
             (col.headerClasses !== void 0 ? ' ' + col.headerClasses : '') +
             (col.sortable === true ? ' sortable' : '') +
             (col.name === sortBy ? ` sorted ${descending === true ? 'sort-desc' : ''}` : ''),
-          __tdClass: `text-${align}${col.classes !== void 0 ? ' ' + col.classes : ''}`
+
+          __tdStyle: col.style !== void 0
+            ? (
+              typeof col.style !== 'function'
+                ? () => col.style
+                : col.style
+            )
+            : () => null,
+
+          __tdClass: col.classes !== void 0
+            ? (
+              typeof col.classes !== 'function'
+                ? () => alignClass + ' ' + col.classes
+                : row => alignClass + ' ' + col.classes(row)
+            )
+            : () => alignClass
         }
       })
     },
