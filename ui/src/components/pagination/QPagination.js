@@ -112,7 +112,9 @@ export default defineComponent({
           return
         }
         const value = between(val, props.min, props.max)
-        emit('update:modelValue', value)
+        if (props.modelValue !== value) {
+          emit('update:modelValue', value)
+        }
       }
     })
 
