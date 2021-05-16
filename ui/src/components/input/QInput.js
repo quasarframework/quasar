@@ -206,13 +206,15 @@ export default Vue.extend({
         this.__emitValue(val)
 
         if (['text', 'search', 'url', 'tel', 'password'].includes(this.type) && e.target === document.activeElement) {
-          const index = e.target.selectionEnd
+          const { selectionStart, selectionEnd } = e.target
 
-          index !== void 0 && this.$nextTick(() => {
-            if (e.target === document.activeElement && val.indexOf(e.target.value) === 0) {
-              e.target.setSelectionRange(index, index)
-            }
-          })
+          if (selectionStart !== void 0 && selectionEnd !== void 0) {
+            this.$nextTick(() => {
+              if (e.target === document.activeElement && val.indexOf(e.target.value) === 0) {
+                e.target.setSelectionRange(selectionStart, selectionEnd)
+              }
+            })
+          }
         }
       }
 
