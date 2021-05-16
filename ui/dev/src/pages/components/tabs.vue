@@ -598,20 +598,18 @@ export default {
     },
 
     routeNavDelay (e, go) {
-      e.navigate = false
-
+      e.preventDefault()
       setTimeout(go, 2000)
     },
 
     routeNavPass () {},
 
     routeNavCancel (e) {
-      e.navigate = false
+      e.preventDefault()
     },
 
     routeNavChange (e, go) {
-      e.navigate = false
-
+      e.preventDefault()
       go({ name: 'r.1.1' })
     }
   }

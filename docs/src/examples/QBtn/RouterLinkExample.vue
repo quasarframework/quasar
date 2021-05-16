@@ -46,7 +46,7 @@
 export default {
   setup () {
     function linkClick (e, go) {
-      e.navigate = false // we choose when we navigate
+      e.preventDefault() // we choose when we navigate
 
       // console.log('triggering navigation in 3s')
       setTimeout(() => {

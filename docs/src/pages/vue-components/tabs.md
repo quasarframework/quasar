@@ -155,7 +155,7 @@ QRouteTab becomes "active" depending on your app's route and not due to the v-mo
 export default {
   methods: {
     navDelay (e, go) {
-      e.navigate = false // we cancel the default navigation
+      e.preventDefault() // we cancel the default navigation
 
       // console.log('triggering navigation in 2s')
       setTimeout(() => {
@@ -165,12 +165,11 @@ export default {
     },
 
     navCancel (e) {
-      e.navigate = false // we cancel the default navigation
+      e.preventDefault() // we cancel the default navigation
     },
 
     navRedirect (e, go) {
-      e.navigate = false // we cancel the default navigation
-
+      e.preventDefault() // we cancel the default navigation
       go({ query: { tab: '2', noScroll: true } })
     },
 

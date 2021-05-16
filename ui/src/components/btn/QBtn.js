@@ -140,13 +140,18 @@ export default defineComponent({
         }
       }
 
-      const go = () => {
-        navigateToLink(e)
-      }
+      if (hasLink.value === true) {
+        const go = () => {
+          e.__qNavigate = true
+          navigateToLink(e)
+        }
 
-      emit('click', e, go)
-      // TODO vue3 - not accounting for e.navigate
-      hasLink.value === true && e.navigate !== false && go()
+        emit('click', e, go)
+        e.defaultPrevented !== true && go()
+      }
+      else {
+        emit('click', e)
+      }
     }
 
     function onKeydown (e) {

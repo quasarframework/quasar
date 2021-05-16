@@ -421,6 +421,24 @@ All slots are now acting in the same manner as the scoped slots in Vue 2. If you
 
 Use "class" and "style" attributes instead of "content-class" / "content-style" props for the above mentioned Quasar components.
 
+### QBtn/QRouteTab
+
+If you were using the `to` prop and delaying navigation in your `@click` handler:
+
+```
+// OLD way
+function onClick (e, go) {
+  e.navigate = false // <<<--- this changed
+  // ...maybe later call go()?
+}
+
+// NEW way
+function onClick (e, go) {
+  e.preventDefault() // <<<--- this changed
+  // ...maybe later call go()?
+}
+```
+
 #### QBreadcrumbsEl
 
 Removed "append" prop because Vue Router v4 [has also dropped it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).

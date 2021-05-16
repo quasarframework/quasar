@@ -79,12 +79,18 @@ export default function (props, slots, emit, routerProps) {
 
     if (props.disable !== true) {
       if (routerProps !== void 0) {
-        const go = () => {
-          routerProps.navigateToLink(e)
-        }
+        if (routerProps.hasLink.value === true) {
+          const go = () => {
+            e.__qNavigate = true
+            routerProps.navigateToLink(e)
+          }
 
-        emit('click', e, go)
-        routerProps.hasLink.value === true && e.navigate !== false && go()
+          emit('click', e, go)
+          e.defaultPrevented !== true && go()
+        }
+        else {
+          emit('click', e)
+        }
       }
       else {
         emit('click', e)

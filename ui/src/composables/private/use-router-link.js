@@ -179,7 +179,8 @@ export default function () {
       || e.metaKey || e.altKey || e.ctrlKey || e.shiftKey
 
       // don't redirect when preventDefault called
-      || e.defaultPrevented
+      // ...unless calling go() from @click(e, go)
+      || (e.__qNavigate !== true && e.defaultPrevented === true)
 
       // don't redirect on right click
       || (e.button !== undefined && e.button !== 0)
