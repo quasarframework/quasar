@@ -373,7 +373,11 @@ export default defineComponent({
 
     // expose public methods
     const vm = getCurrentInstance()
-    Object.assign(vm.proxy, { focus, select })
+    Object.assign(vm.proxy, {
+      focus,
+      select,
+      getNativeElement: () => inputRef.value
+    })
 
     return renderFn
   }

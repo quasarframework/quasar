@@ -117,6 +117,15 @@
 
     "select": {
       "desc": "Select input text"
+    },
+
+    "getNativeElement": {
+      "desc": "Get the native input/textarea DOM Element",
+      "returns": {
+        "type": "Object",
+        "desc": "The underlying native input/textarea DOM Element",
+        "__exemption": [ "examples" ]
+      }
     }
   }
 }
