@@ -174,6 +174,10 @@ export default Vue.extend({
       this.$refs.input !== void 0 && this.$refs.input.select()
     },
 
+    getNativeElement () {
+      return this.$refs.input
+    },
+
     __onPaste (e) {
       if (this.hasMask === true && this.reverseFillMask !== true) {
         const inp = e.target
