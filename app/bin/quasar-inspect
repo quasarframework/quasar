@@ -105,7 +105,7 @@ async function inspect () {
     log(`Showing Webpack config for "${cfgEntry.name}" with depth of ${depth}`)
     console.log()
     console.log(
-      util.inspect(cfgEntry.webpackCfg, {
+      util.inspect(cfgEntry.webpack, {
         showHidden: true,
         depth: depth,
         colors: true,
