@@ -598,16 +598,9 @@ class QuasarConfFile {
 
       delete cfg.devServer.onBeforeSetupMiddleware
 
-      // TODO: remove it when webpack-dev-server goes 4.0.0-beta.3
-      // This is to prepare in advance one of webpack-dev-server's breaking changes
-      if (cfg.devServer.devMiddleware !== void 0) {
-        cfg.devServer.dev = cfg.devServer.devMiddleware
-        delete cfg.devServer.devMiddleware
-      }
-
       if (this.ctx.mode.bex === true) {
-        cfg.devServer.dev = cfg.devServer.dev || {}
-        cfg.devServer.dev.writeToDisk = true
+        cfg.devServer.devMiddleware = cfg.devServer.devMiddleware || {}
+        cfg.devServer.devMiddleware.writeToDisk = true
       }
 
       cfg.devServer = merge({
@@ -615,14 +608,14 @@ class QuasarConfFile {
         firewall: false,
         compress: true,
         open: true,
-        dev: {
+        devMiddleware: {
           publicPath: cfg.build.publicPath,
           stats: false
         }
       },
       this.ctx.mode.ssr === true
         ? {
-            dev: { index: false },
+            devMiddleware: { index: false },
             static: {
               serveIndex: false
             }
@@ -631,7 +624,7 @@ class QuasarConfFile {
             historyApiFallback: cfg.build.vueRouterMode === 'history'
               ? { index: `${cfg.build.publicPath || '/'}${cfg.build.htmlFilename}` }
               : false,
-            dev: {
+            devMiddleware: {
               index: cfg.build.htmlFilename
             }
           },
