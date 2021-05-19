@@ -727,9 +727,9 @@ export default defineComponent({
       setCalendarTo(today.value.year, today.value.month)
     }
 
-    function setView (view) {
-      if (viewIsValid(view) === true) {
-        view.value = view
+    function setView (viewMode) {
+      if (viewIsValid(viewMode) === true) {
+        view.value = viewMode
       }
     }
 
