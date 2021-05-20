@@ -75,7 +75,7 @@ export default defineComponent({
       }
 
       if (event.isFirst === true) {
-        if (getVerticalScrollPosition(localScrollTarget) !== 0) {
+        if (getVerticalScrollPosition(localScrollTarget) !== 0 || event.direction !== "down") {
           if (pulling.value === true) {
             pulling.value = false
             state.value = 'pull'
