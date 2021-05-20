@@ -127,7 +127,7 @@ export default Vue.extend({
       }
 
       if (event.isFirst === true) {
-        if (getScrollPosition(this.__scrollTarget) !== 0) {
+        if (getScrollPosition(this.__scrollTarget) !== 0 || event.direction !== 'down') {
           if (this.pulling === true) {
             this.pulling = false
             this.state = 'pull'
