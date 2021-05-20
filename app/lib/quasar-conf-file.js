@@ -608,6 +608,11 @@ class QuasarConfFile {
         firewall: false,
         compress: true,
         open: true,
+        client: {
+          overlay: {
+            warnings: false
+          }
+        },
         devMiddleware: {
           publicPath: cfg.build.publicPath,
           stats: false
