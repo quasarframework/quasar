@@ -146,8 +146,8 @@ export default {
 <template>
   <!-- ...... -->
   <q-select
-    v-model="lang"
-    :options="langOptions"
+    v-model="locale"
+    :options="localeOptions"
     label="Quasar Language"
     dense
     borderless
@@ -166,15 +166,10 @@ import { useI18n } from 'vue-i18n'
 export default {
   setup () {
     const { locale } = useI18n({ useScope: 'global' })
-    const lang = ref(locale)
-
-    watch(lang, val => {
-      locale.value = val
-    })
 
     return {
-      lang,
-      langOptions: [
+      locale,
+      localeOptions: [
         { value: 'en-US', label: 'English' },
         { value: 'de', label: 'German' }
       ]
