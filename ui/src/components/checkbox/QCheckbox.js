@@ -2,6 +2,27 @@ import { h, defineComponent } from 'vue'
 
 import useCheckbox, { useCheckboxProps, useCheckboxEmits } from './use-checkbox.js'
 
+const bgNode = h('div', {
+  class: 'q-checkbox__bg absolute'
+}, [
+  h('svg', {
+    class: 'q-checkbox__svg fit absolute-full',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true'
+  }, [
+    h('path', {
+      class: 'q-checkbox__truthy',
+      fill: 'none',
+      d: 'M1.73,12.91 8.1,19.28 22.79,4.59'
+    }),
+
+    h('path', {
+      class: 'q-checkbox__indet',
+      d: 'M4,14H20V10H4'
+    })
+  ])
+])
+
 export default defineComponent({
   name: 'QCheckbox',
 
@@ -9,30 +30,6 @@ export default defineComponent({
   emits: useCheckboxEmits,
 
   setup () {
-    const bgNode = [
-      h('div', {
-        class: 'q-checkbox__bg absolute'
-      }, [
-        h('svg', {
-          class: 'q-checkbox__svg fit absolute-full',
-          viewBox: '0 0 24 24',
-          'aria-hidden': 'true'
-        }, [
-          h('path', {
-            class: 'q-checkbox__truthy',
-            fill: 'none',
-            d: 'M1.73,12.91 8.1,19.28 22.79,4.59'
-          }),
-
-          h('path', {
-            class: 'q-checkbox__indet',
-            d: 'M4,14H20V10H4'
-          })
-        ])
-      ])
-    ]
-
-    const getInner = () => () => bgNode
-    return useCheckbox('checkbox', getInner)
+    return useCheckbox('checkbox', () => () => [ bgNode ])
   }
 })

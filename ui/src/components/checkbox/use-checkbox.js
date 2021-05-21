@@ -3,7 +3,7 @@ import { h, ref, computed, getCurrentInstance } from 'vue'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 import useRefocusTarget from '../../composables/private/use-refocus-target.js'
-import { useFormInject } from '../../composables/private/use-form.js'
+import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
 import optionSizes from '../../utils/private/option-sizes.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -12,6 +12,7 @@ import { hSlot, hMergeSlot } from '../../utils/private/render.js'
 export const useCheckboxProps = {
   ...useDarkProps,
   ...useSizeProps,
+  ...useFormProps,
 
   modelValue: {
     required: true,
