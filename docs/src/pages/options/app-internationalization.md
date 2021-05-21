@@ -168,10 +168,6 @@ export default {
     const { locale } = useI18n({ useScope: 'global' })
     const lang = ref(locale)
 
-    watch(lang, val => {
-      locale.value = val
-    })
-
     return {
       lang,
       langOptions: [
