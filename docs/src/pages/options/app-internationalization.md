@@ -169,7 +169,7 @@ export default {
 
     return {
       locale,
-      langOptions: [
+      localeOptions: [
         { value: 'en-US', label: 'English' },
         { value: 'de', label: 'German' }
       ]
