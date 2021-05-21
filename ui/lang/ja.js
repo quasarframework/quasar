@@ -28,7 +28,7 @@ export default {
     },
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true, // true
-    pluralDay: '日々'
+    pluralDay: '日間'
   },
   table: {
     noData: 'データがありません', // 'No data available',
