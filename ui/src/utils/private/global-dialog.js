@@ -130,16 +130,29 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
 
     let vm = app.mount(el)
 
+    function show () {
+      if (dialogRef.value.show !== void 0) {
+        dialogRef.value.show()
+      }
+      else if ( // account for "script setup" way of declaring component
+        vm.$.subTree
+        && vm.$.subTree.component
+        && vm.$.subTree.component.proxy
+        && vm.$.subTree.component.proxy.show
+      ) {
+        vm.$.subTree.component.proxy.show()
+      }
+      else {
+        console.error('[Quasar] Incorrectly defined Dialog component')
+      }
+    }
+
     if (dialogRef.value !== null) {
-      dialogRef.value.show()
+      show()
     }
     else if (typeof DialogComponent.__asyncLoader === 'function') {
       DialogComponent.__asyncLoader().then(() => {
-        nextTick(() => {
-          if (dialogRef.value !== null) {
-            dialogRef.value.show()
-          }
-        })
+        nextTick(show)
       })
     }
 
