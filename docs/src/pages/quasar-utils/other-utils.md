@@ -72,22 +72,44 @@ copyToClipboard('some text')
 
 ## Export file
 
-The following is a helper to trigger a file download.
+The following is a helper to trigger the browser to start downloading a file with the specified content.
 
 ```js
-import { exportFile } from 'quasar'
-
-// mimeType is optional;
-// default mimeType is "text/plain"
-(status) exportFile(fileName, rawData[, mimeType])
+/**
+ * Forces browser to download file with specified content
+ *
+ * @param {*} fileName - String
+ * @param {*} rawData - String | ArrayBuffer | ArrayBufferView | Blob
+ * @param {*} opts - String (mimeType) or Object
+ *                   Object form: { mimeType?: String, byteOrderMark?: String | Uint8Array, encoding?: String }
+ * @returns Boolean | Error
+ */
 ```
 
-The simplest example:
+The `opts` parameter is optional and can be a String (mimeType) or an Object with the following form:
+
+ * **mimeType** (optional)
+
+   Examples: 'application/octect-stream' (default), 'text/plain', 'application/json', 'text/plain;charset=UTF-8', 'video/mp4', 'image/png', 'application/pdf'
+   [https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
+
+ * **byteOrderMark** (optional)
+
+   (BOM) Example: '\uFEFF'
+   [https://en.wikipedia.org/wiki/Byte_order_mark](https://en.wikipedia.org/wiki/Byte_order_mark)
+
+ * **encoding** (optional)
+
+   Performs a TextEncoder.encode() over the rawData;
+   Example: 'windows-1252' (ANSI, a subset of ISO-8859-1)
+   [https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder](https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder)
+
+Examples:
 
 ```js
 import { exportFile } from 'quasar'
 
-const status = exportFile('important.txt', 'Some important content')
+const status = exportFile('important.txt', 'some content')
 
 if (status === true) {
   // browser allowed it
@@ -95,6 +117,23 @@ if (status === true) {
 else {
   // browser denied it
   console.log('Error: ' + status)
+}
+```
+
+```js
+import { exportFile } from 'quasar'
+
+const status = exportFile('file.csv', 'éà; ça; 12\nà@€; çï; 13', {
+  encoding: 'windows-1252',
+  mimeType: 'text/csv;charset=windows-1252;'
+})
+
+if (status === true) {
+  // browser allowed it
+}
+else {
+  // browser denied it
+  console.error('Error: ' + status)
 }
 ```
 
