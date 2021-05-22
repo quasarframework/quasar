@@ -32,7 +32,7 @@ export function debounce<F extends (...args: any[]) => any>(
 ): F & { cancel(): void };
 export function exportFile(
   fileName: string,
-  rawData: BlobPart,
+  rawData: string | ArrayBuffer | ArrayBufferView | Blob,
   opts?: string | ExportFileOpts
 ): true | Error;
 export function extend<R>(deep: boolean, target: any, ...sources: any[]): R;
