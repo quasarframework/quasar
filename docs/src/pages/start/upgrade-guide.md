@@ -656,7 +656,7 @@ The `@scroll` event parameter now has a slightly different content:
 
 Renamed the "data" property to "rows" (to solve TS conflict issue with "data" incorrectly inferred as the "data()" method of a Vue component).
 
-New prop: "column-sort-order". Also, new "columns" definition prop: "sortOrder".
+New prop: "column-sort-order". New "columns" definition prop ("sortOrder") and now "style" and "classes" can be Functions too.
 
 #### QTable/QTree
 
@@ -817,6 +817,10 @@ The object literal property names provided for methods "addToDate" and "subtract
 | minutes | minutes | - |
 | seconds | seconds | - |
 | milliseconds | milliseconds | - |
+
+#### exportFile util
+
+The exportFile() util (forces browser to download a file with your specified content) is enhanced with new features: you can specify bom (byte order mark) and/or a text encoding. [More info](/quasar-utils/other-utils#export-file).
 
 #### scroll utils
 
