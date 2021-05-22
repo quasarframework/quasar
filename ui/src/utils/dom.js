@@ -6,6 +6,10 @@ export function offset (el) {
   return { top, left }
 }
 
+export function offsetRight (el) {
+  return (el.offsetParent.offsetWidth - el.offsetWidth) - el.offsetLeft
+}
+
 export function style (el, property) {
   return window.getComputedStyle(el).getPropertyValue(property)
 }
