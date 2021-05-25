@@ -28,9 +28,9 @@ We can use the userData directory, which is reserved specifically for our applic
 // electron-main or electron-preload
 
 import path from 'path'
-import { remote } from 'electron'
+import { app } from '@electron/remote'
 
-const filePath = path.join(remote.app.getPath('userData'), '/some.file')
+const filePath = path.join(app.getPath('userData'), '/some.file')
 ```
 
 If for some reason, you have important files that you are storing in the /public folder, you can access those too by following the code below. To understand why you need to access them this way, please read the "Using __dirname & __filename" section above.

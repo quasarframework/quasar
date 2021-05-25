@@ -9,10 +9,21 @@ A nice combo is to use frameless Electron window along with [QBar](/vue-componen
 
 ## Main thread
 ### Setting frameless window
-In your `src-electron/main-process/electron-main.js` file we will make an edit to these lines:
+Firstly, install the `@electron/remote` dependency into your app.
+
+```bash
+$ yarn add @electron/remote
+// or:
+$ npm install @electron/remote
+```
+
+Then, in your `src-electron/main-process/electron-main.js` file, make some edits to these lines:
 
 ```js
 // src-electron/main-process/electron-main.js
+
+import { initialize } from '@electron/remote/main' // <-- add this
+initialize() // <-- add this
 
 mainWindow = new BrowserWindow({
   width: 1000,
@@ -34,9 +45,8 @@ Since we can't directly access Electron from within the renderer thread, we'll n
 ```js
 // src-electron/main-process/electron-preload.js
 
-import { contextBridge, remote } from 'electron'
-
-const { BrowserWindow } = remote
+import { contextBridge } from 'electron'
+import { BrowserWindow } from '@electron/remote'
 
 contextBridge.exposeInMainWorld('myWindowAPI', {
   minimize () {
