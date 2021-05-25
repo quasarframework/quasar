@@ -22,6 +22,9 @@ Then, in your `src-electron/main-process/electron-main.js` file, make some edits
 ```js
 // src-electron/main-process/electron-main.js
 
+import { initialize } from '@electron/remote/main' // <-- add this
+initialize() // <-- add this
+
 mainWindow = new BrowserWindow({
   width: 1000,
   height: 600,
@@ -32,8 +35,6 @@ mainWindow = new BrowserWindow({
     // ...
   }
 })
-
-require('@electron/remote/main').initialize() // <-- and add this
 ```
 
 Notice that we need to explicitly enable the remote module too. We'll be using it in the preload script to provide the renderer thread with the window minimize/maximize/close functionality.
@@ -45,7 +46,6 @@ Since we can't directly access Electron from within the renderer thread, we'll n
 // src-electron/main-process/electron-preload.js
 
 import { contextBridge } from 'electron'
-
 import { BrowserWindow } from '@electron/remote'
 
 contextBridge.exposeInMainWorld('myWindowAPI', {
