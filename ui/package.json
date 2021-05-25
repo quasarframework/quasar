@@ -61,11 +61,11 @@
   },
   "homepage": "https://quasar.dev",
   "devDependencies": {
+    "@babel/eslint-parser": "^7.13.14",
     "@quasar/app": "^3.0.0-alpha.6",
     "@quasar/extras": "^1.10.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-replace": "^2.3.3",
-    "@babel/eslint-parser": "^7.13.14",
     "babel-preset-es2015-rollup": "^3.0.0",
     "eslint": "^7.4.0",
     "eslint-config-standard": "^16.0.2",
