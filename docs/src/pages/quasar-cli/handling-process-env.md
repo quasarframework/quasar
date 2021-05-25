@@ -31,8 +31,8 @@ if (process.env.DEV) {
 // "quasar dev/build -m <mode>"
 // (defaults to 'spa' if -m parameter is not specified)
 if (process.env.MODE === 'electron') {
-  const { remote } = require('electron')
-  const win = remote.BrowserWindow.getFocusedWindow()
+  const { BrowserWindow } = require('@electron/remote')
+  const win = BrowserWindow.getFocusedWindow()
 
   if (win.isMaximized()) {
     win.unmaximize()
