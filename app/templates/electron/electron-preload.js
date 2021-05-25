@@ -9,7 +9,7 @@
  *
  * Example (injects window.myAPI.doAThing() into renderer thread):
  *
- *   const { contextBridge } = require('electron')
+ *   import { contextBridge } from 'electron'
  *
  *   contextBridge.exposeInMainWorld('myAPI', {
  *     doAThing: () => {}
