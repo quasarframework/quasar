@@ -25,7 +25,10 @@ export default defineComponent({
       }
 
       const name = vm.vnode.key
-      const col = props.props.colsMap?.[ name ] || props.props.col
+      const col = (
+        (props.props.colsMap !== void 0 ? props.props.colsMap[ name ] : null)
+        || props.props.col
+      )
 
       if (col === void 0) { return }
 
