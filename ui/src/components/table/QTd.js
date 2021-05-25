@@ -18,7 +18,7 @@ export default Vue.extend({
   computed: {
     classes () {
       return 'q-td' + (this.autoWidth === true ? ' q-table--col-auto-width' : '') +
-        (this.noHover === true ? ' q-td--no-hover' : '')
+        (this.noHover === true ? ' q-td--no-hover' : '') + ' '
     }
   },
 
@@ -40,10 +40,12 @@ export default Vue.extend({
 
     if (col === void 0) { return }
 
+    const row = this.props.row
+
     return h('td', {
       on,
-      style: col.style,
-      class: this.classes + ' ' + col.__tdClass
+      style: col.__tdStyle(row),
+      class: this.classes + col.__tdClass(row)
     }, slot(this, 'default'))
   }
 })

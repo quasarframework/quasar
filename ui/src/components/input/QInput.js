@@ -174,6 +174,10 @@ export default Vue.extend({
       this.$refs.input !== void 0 && this.$refs.input.select()
     },
 
+    getNativeElement () {
+      return this.$refs.input
+    },
+
     __onPaste (e) {
       if (this.hasMask === true && this.reverseFillMask !== true) {
         const inp = e.target
@@ -202,13 +206,15 @@ export default Vue.extend({
         this.__emitValue(val)
 
         if (['text', 'search', 'url', 'tel', 'password'].includes(this.type) && e.target === document.activeElement) {
-          const index = e.target.selectionEnd
+          const { selectionStart, selectionEnd } = e.target
 
-          index !== void 0 && this.$nextTick(() => {
-            if (e.target === document.activeElement && val.indexOf(e.target.value) === 0) {
-              e.target.setSelectionRange(index, index)
-            }
-          })
+          if (selectionStart !== void 0 && selectionEnd !== void 0) {
+            this.$nextTick(() => {
+              if (e.target === document.activeElement && val.indexOf(e.target.value) === 0) {
+                e.target.setSelectionRange(selectionStart, selectionEnd)
+              }
+            })
+          }
         }
       }
 

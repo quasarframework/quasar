@@ -28,8 +28,8 @@ export default {
           return slot !== void 0
             ? slot(this.__getBodyCellScope({ key, row, pageIndex, col }))
             : h('td', {
-              class: col.__tdClass,
-              style: col.style
+              class: col.__tdClass(row),
+              style: col.__tdStyle(row)
             }, this.getCellValue(col, row))
         })
 
