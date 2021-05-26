@@ -17,10 +17,11 @@ If you want to have your own video tutorial listed here, please email `razvan.st
 
 ## Quasar v2 video tutorials
 
-**Why not submit yours as first one?**
+<tutorial-listing which="quasar-v2" />
+
 ## Quasar v1 (legacy) video tutorials
 
-<tutorial-listing which="quasar" />
+<tutorial-listing which="quasar-v1" />
 
 ## Vue 2 (legacy) video tutorials
 
