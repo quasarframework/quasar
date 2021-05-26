@@ -50,16 +50,16 @@
       padding-left: 0 !important
 
     &--left, &--top
-      > div
+      &:not(.q-dialog__inner--animating) > div
         border-top-left-radius: 0
     &--right, &--top
-      > div
+      &:not(.q-dialog__inner--animating) > div
         border-top-right-radius: 0
     &--left, &--bottom
-      > div
+      &:not(.q-dialog__inner--animating) > div
         border-bottom-left-radius: 0
     &--right, &--bottom
-      > div
+      &:not(.q-dialog__inner--animating) > div
         border-bottom-right-radius: 0
 
     &--fullwidth

@@ -80,6 +80,7 @@ export default defineComponent({
     const innerRef = ref(null)
     const showing = ref(false)
     const transitionState = ref(false)
+    const animating = ref(false)
 
     let shakeTimeout, refocusTarget = null, isMaximized, avoidAutoClose
 
@@ -111,6 +112,7 @@ export default defineComponent({
       'q-dialog__inner flex no-pointer-events'
       + ` q-dialog__inner--${ props.maximized === true ? 'maximized' : 'minimized' }`
       + ` q-dialog__inner--${ props.position } ${ positionClass[ props.position ] }`
+      + (animating.value === true ? ' q-dialog__inner--animating' : '')
       + (props.fullWidth === true ? ' q-dialog__inner--fullwidth' : '')
       + (props.fullHeight === true ? ' q-dialog__inner--fullheight' : '')
       + (props.square === true ? ' q-dialog__inner--square' : '')
@@ -139,6 +141,12 @@ export default defineComponent({
         ? { onClick: onAutoClose }
         : {}
     ))
+
+    const rootClasses = computed(() => [
+      'q-dialog fullscreen no-pointer-events '
+        + `q-dialog--${ useBackdrop.value === true ? 'modal' : 'seamless' }`,
+      attrs.class
+    ])
 
     watch(showing, val => {
       nextTick(() => {
@@ -174,6 +182,7 @@ export default defineComponent({
 
       updateMaximized(props.maximized)
       showPortal()
+      animating.value = true
 
       if (props.noFocus !== true) {
         document.activeElement !== null && document.activeElement.blur()
@@ -210,6 +219,7 @@ export default defineComponent({
         }
 
         showPortal(true) // done showing portal
+        animating.value = false
         emit('show', evt)
       }, props.transitionDuration)
     }
@@ -219,6 +229,7 @@ export default defineComponent({
       removeTick()
       removeFromHistory()
       cleanup(true)
+      animating.value = true
 
       if (refocusTarget !== null) {
         refocusTarget.focus()
@@ -226,6 +237,7 @@ export default defineComponent({
 
       registerTimeout(() => {
         hidePortal()
+        animating.value = false
         emit('hide', evt)
       }, props.transitionDuration)
     }
@@ -353,11 +365,7 @@ export default defineComponent({
     function renderPortalContent () {
       return h('div', {
         ...attrs,
-        class: [
-          'q-dialog fullscreen no-pointer-events '
-            + `q-dialog--${ useBackdrop.value === true ? 'modal' : 'seamless' }`,
-          attrs.class
-        ]
+        class: rootClasses.value
       }, [
         h(Transition, {
           name: 'q-transition--fade',
