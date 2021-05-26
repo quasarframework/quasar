@@ -51,7 +51,7 @@
       "examples": [
         "map",
         "ion-add",
-        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
+        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
         "img:statics/path/to/some_image.png"
       ],
       "category": "content"

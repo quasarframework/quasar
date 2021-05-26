@@ -13,7 +13,7 @@
 
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
           </q-avatar>
           Layout Builder
         </q-toolbar-title>
@@ -502,7 +502,7 @@ export default {
 ` : ''}
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
           </q-avatar>
           Title
         </q-toolbar-title>${pick.right ? `
@@ -547,7 +547,7 @@ export default {
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
           </q-avatar>
           <div>Title</div>
         </q-toolbar-title>

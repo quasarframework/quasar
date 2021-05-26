@@ -300,7 +300,7 @@
         <template v-slot:prepend><q-icon name="event" /></template>
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo-v2/128/logo.png">
           </q-avatar>
         </template>
       </q-input>

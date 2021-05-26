@@ -31,7 +31,7 @@
         </q-toolbar>
         <q-toolbar v-if="extraRow" inset>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo-v2/128/logo.png">
           </q-avatar>
           <q-toolbar-title>
             <strong>Quasar</strong> Framework

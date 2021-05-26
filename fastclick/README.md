@@ -1,4 +1,4 @@
-![Quasar Framework logo](https://cdn.quasar.dev/logo/svg/quasar-logo-full-inline.svg)
+![Quasar Framework logo](https://cdn.quasar.dev/logo-v2/header.png)
 
 # Fastclick for Quasar Framework
 > This is a fork of the original Fastclick and is being used and maintained by Quasar Framework.<br>

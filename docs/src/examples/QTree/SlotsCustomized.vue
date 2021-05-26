@@ -7,7 +7,7 @@
     >
       <template v-slot:header-root="prop">
         <div class="row items-center">
-          <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" class="avatar q-mr-sm">
+          <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" class="avatar q-mr-sm">
           <div>
             {{ prop.node.label }}
             <q-badge color="orange" class="q-ml-sm">New!</q-badge>

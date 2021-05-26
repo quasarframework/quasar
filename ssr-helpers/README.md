@@ -1,4 +1,4 @@
-![Quasar Framework logo](https://cdn.quasar.dev/logo/svg/quasar-logo-full-inline.svg)
+![Quasar Framework logo](https://cdn.quasar.dev/logo-v2/header.png)
 
 # SSR helpers for Quasar Framework
 > This package contains forks of multiple other packages and is being used and maintained by Quasar Framework.<br>

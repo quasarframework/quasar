@@ -28,7 +28,7 @@
       <q-input color="teal" outlined v-model="text" label="Label">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
           </q-avatar>
         </template>
       </q-input>
