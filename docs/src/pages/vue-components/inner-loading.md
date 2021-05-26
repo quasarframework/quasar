@@ -29,5 +29,7 @@ QInnerLoading must be the last element inside its parent so it can appear on top
 
 <doc-example title="Basic" file="QInnerLoading/Basic" />
 
+<doc-example title="Lable" file="QInnerLoading/Label" />
+
 ## QInnerLoading API
 <doc-api file="QInnerLoading" />
