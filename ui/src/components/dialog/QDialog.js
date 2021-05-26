@@ -12,6 +12,7 @@ import { childHasFocus } from '../../utils/dom.js'
 import { hSlot } from '../../utils/private/render.js'
 import { addEscapeKey, removeEscapeKey } from '../../utils/private/escape-key.js'
 import { addFocusout, removeFocusout } from '../../utils/private/focusout.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
 
 let maximizedModals = 0
 
@@ -208,6 +209,7 @@ export default defineComponent({
           avoidAutoClose = false
         }
 
+        showPortal(true) // done showing portal
         emit('show', evt)
       }, props.transitionDuration)
     }
@@ -229,14 +231,16 @@ export default defineComponent({
     }
 
     function focus () {
-      let node = innerRef.value
+      addFocusFn(() => {
+        let node = innerRef.value
 
-      if (node === null || node.contains(document.activeElement) === true) {
-        return
-      }
+        if (node === null || node.contains(document.activeElement) === true) {
+          return
+        }
 
-      node = node.querySelector('[autofocus], [data-autofocus]') || node
-      node.focus()
+        node = node.querySelector('[autofocus], [data-autofocus]') || node
+        node.focus()
+      })
     }
 
     function shake () {
@@ -250,7 +254,12 @@ export default defineComponent({
         node.classList.add('q-animate--scale')
         clearTimeout(shakeTimeout)
         shakeTimeout = setTimeout(() => {
-          node.classList.remove('q-animate--scale')
+          if (innerRef.value !== null) {
+            node.classList.remove('q-animate--scale')
+            // some platforms (like desktop Chrome)
+            // require calling focus() again
+            focus()
+          }
         }, 170)
       }
     }

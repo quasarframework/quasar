@@ -1,6 +1,7 @@
 import { h, defineComponent, ref, onMounted, getCurrentInstance, nextTick, provide } from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
 import { hSlot } from '../../utils/private/render.js'
 import { formKey } from '../../utils/private/symbols.js'
 
@@ -136,10 +137,14 @@ export default defineComponent({
     }
 
     function focus () {
-      const target = rootRef.value.querySelector('[autofocus], [data-autofocus]')
-        || Array.prototype.find.call(rootRef.value.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
+      addFocusFn(() => {
+        if (rootRef.value === null) { return }
 
-      target !== null && target !== void 0 && target.focus()
+        const target = rootRef.value.querySelector('[autofocus], [data-autofocus]')
+          || Array.prototype.find.call(rootRef.value.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
+
+        target !== null && target !== void 0 && target.focus()
+      })
     }
 
     provide(formKey, {

@@ -168,6 +168,7 @@ export default defineComponent({
       }
 
       registerTimeout(() => {
+        showPortal(true) // done showing portal
         emit('show', evt)
       }, props.transitionDuration)
     }

@@ -1,6 +1,7 @@
 import { h, ref, onUnmounted, Teleport } from 'vue'
 
 import { noop } from '../../utils/event.js'
+import { addFocusWaitFlag, removeFocusWaitFlag } from '../../utils/private/focus-manager.js'
 import { createGlobalNode, removeGlobalNode } from '../../utils/private/global-nodes.js'
 import { portalList } from '../../utils/private/portal.js'
 
@@ -25,9 +26,11 @@ function isOnGlobalDialog (vm) {
 // You MUST specify "inheritAttrs: false" in your component
 
 export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
+  const portalIsActive = ref(false)
+
   if (__QUASAR_SSR_SERVER__) {
     return {
-      portalIsActive: ref(false),
+      portalIsActive,
 
       showPortal: noop,
       hidePortal: noop,
@@ -36,10 +39,15 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
   }
 
   let portalEl = null
+  const focusObj = {}
   const onGlobalDialog = checkGlobalDialog === true && isOnGlobalDialog(vm)
-  const portalIsActive = ref(false)
 
-  function showPortal () {
+  function showPortal (isReady) {
+    if (isReady === true) {
+      removeFocusWaitFlag(focusObj)
+      return
+    }
+
     if (onGlobalDialog === false && portalEl === null) {
       portalEl = createGlobalNode()
     }
@@ -48,9 +56,12 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
 
     // register portal
     portalList.push(vm.proxy)
+
+    addFocusWaitFlag(focusObj)
   }
 
   function hidePortal () {
+    removeFocusWaitFlag(focusObj)
     portalIsActive.value = false
 
     // unregister portal

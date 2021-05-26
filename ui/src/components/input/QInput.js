@@ -7,6 +7,7 @@ import useFileFormDomProps from '../../composables/private/use-file-dom-props.js
 import useKeyComposition from '../../composables/private/use-key-composition.js'
 
 import { stop } from '../../utils/event.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
 
 export default defineComponent({
   name: 'QInput',
@@ -163,14 +164,16 @@ export default defineComponent({
     })
 
     function focus () {
-      const el = document.activeElement
-      if (
-        inputRef.value !== null
-        && inputRef.value !== el
-        && (el === null || el.id !== state.targetUid.value)
-      ) {
-        inputRef.value.focus()
-      }
+      addFocusFn(() => {
+        const el = document.activeElement
+        if (
+          inputRef.value !== null
+          && inputRef.value !== el
+          && (el === null || el.id !== state.targetUid.value)
+        ) {
+          inputRef.value.focus()
+        }
+      })
     }
 
     function select () {

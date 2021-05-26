@@ -12,6 +12,7 @@ import useSplitAttrs from './use-split-attrs.js'
 import { hSlot } from '../../utils/private/render.js'
 import uid from '../../utils/uid.js'
 import { prevent, stopAndPrevent } from '../../utils/event.js'
+import { addFocusFn, removeFocusFn } from '../../utils/private/focus-manager.js'
 
 function getTargetUid (val) {
   return val === void 0 ? `f_${ uid() }` : val
@@ -262,7 +263,26 @@ export default function (state) {
     state.targetUid.value = getTargetUid(val)
   })
 
+  let focusFn
+
+  function focus () {
+    focusFn !== void 0 && removeFocusFn(focusFn)
+    focusFn = addFocusFn(() => {
+      focusFn = void 0
+      const el = document.activeElement
+      let target = state.targetRef !== void 0 && state.targetRef.value
+
+      if (target && (el === null || el.id !== state.targetUid.value)) {
+        target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
+        if (target && target !== el) {
+          target.focus()
+        }
+      }
+    })
+  }
+
   function blur () {
+    focusFn !== void 0 && removeFocusFn(focusFn)
     const el = document.activeElement
     if (el !== null && state.rootRef.value.contains(el)) {
       el.blur()
@@ -332,16 +352,6 @@ export default function (state) {
         isDirtyModel.value = false
       }
     })
-  }
-
-  function focus () {
-    const el = document.activeElement
-    let target = state.targetRef !== void 0 && state.targetRef.value
-
-    if (target && (el === null || el.id !== state.targetUid.value)) {
-      target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
-      target && target !== el && target.focus()
-    }
   }
 
   function getContent () {

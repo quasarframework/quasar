@@ -10,6 +10,7 @@ import useSplitAttrs from '../../composables/private/use-split-attrs.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'
 import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
 
 export default defineComponent({
   name: 'QEditor',
@@ -451,7 +452,9 @@ export default defineComponent({
     }
 
     function focus () {
-      contentRef.value !== null && contentRef.value.focus()
+      addFocusFn(() => {
+        contentRef.value !== null && contentRef.value.focus()
+      })
     }
 
     function getContentEl () {

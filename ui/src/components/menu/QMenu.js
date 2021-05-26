@@ -21,6 +21,7 @@ import { addClickOutside, removeClickOutside } from '../../utils/private/click-o
 import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/private/position-engine.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
 
 export default defineComponent({
   name: 'QMenu',
@@ -175,12 +176,14 @@ export default defineComponent({
     })
 
     function focus () {
-      let node = innerRef.value
+      addFocusFn(() => {
+        let node = innerRef.value
 
-      if (node && node.contains(document.activeElement) !== true) {
-        node = node.querySelector('[autofocus], [data-autofocus]') || node
-        node.focus()
-      }
+        if (node && node.contains(document.activeElement) !== true) {
+          node = node.querySelector('[autofocus], [data-autofocus]') || node
+          node.focus()
+        }
+      })
     }
 
     function handleShow (evt) {
@@ -234,6 +237,7 @@ export default defineComponent({
         }
 
         updatePosition()
+        showPortal(true) // done showing portal
         emit('show', evt)
       }, props.transitionDuration)
     }
