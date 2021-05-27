@@ -161,8 +161,8 @@ function parseApi (api, tabs, innerTabs) {
 }
 
 function passesFilter (filter, name, desc) {
-  return (name.toLowerCase().indexOf(filter) > -1) ||
-    (desc !== void 0 && desc.toLowerCase().indexOf(filter) > -1)
+  return (name.toLowerCase().indexOf(filter.toLowerCase()) > -1) ||
+    (desc !== void 0 && desc.toLowerCase().indexOf(filter.toLowerCase()) > -1)
 }
 
 function getFilteredApi (parsedApi, filter, tabs, innerTabs) {
