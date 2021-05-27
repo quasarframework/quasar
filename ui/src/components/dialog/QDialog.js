@@ -11,6 +11,7 @@ import EscapeKey from '../../utils/escape-key.js'
 import { slot } from '../../utils/slot.js'
 import { create, stop } from '../../utils/event.js'
 import cache from '../../utils/cache.js'
+import { addFocusFn } from '../../utils/focus-manager.js'
 
 let maximizedModals = 0
 
@@ -149,14 +150,16 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      let node = this.__getInnerNode()
+      addFocusFn(() => {
+        let node = this.__getInnerNode()
 
-      if (node === void 0 || node.contains(document.activeElement) === true) {
-        return
-      }
+        if (node === void 0 || node.contains(document.activeElement) === true) {
+          return
+        }
 
-      node = node.querySelector('[autofocus], [data-autofocus]') || node
-      node.focus()
+        node = node.querySelector('[autofocus], [data-autofocus]') || node
+        node.focus()
+      })
     },
 
     shake () {
@@ -240,6 +243,7 @@ export default Vue.extend({
         }
 
         this.animating = false
+        this.__showPortal(true)
         this.$emit('show', evt)
       }, 300)
     },
