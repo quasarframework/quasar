@@ -161,8 +161,8 @@ function parseApi (api, tabs, innerTabs) {
 }
 
 function passesFilter (filter, name, desc) {
-  return (name.toLowerCase().indexOf(filter.toLowerCase()) > -1) ||
-    (desc !== void 0 && desc.toLowerCase().indexOf(filter.toLowerCase()) > -1)
+  return (name.toLowerCase().indexOf(filter) > -1) ||
+    (desc !== void 0 && desc.toLowerCase().indexOf(filter) > -1)
 }
 
 function getFilteredApi (parsedApi, filter, tabs, innerTabs) {
@@ -277,7 +277,7 @@ export default {
     })
 
     const inputIcon = computed(() => filter.value !== '' ? mdiClose : mdiMagnify)
-    const filteredApi = computed(() => getFilteredApi(apiDef.value, filter.value, tabsList.value, innerTabsList.value))
+    const filteredApi = computed(() => getFilteredApi(apiDef.value, filter.value.toLowerCase(), tabsList.value, innerTabsList.value))
     const filteredApiCount = computed(() => getApiCount(filteredApi.value, tabsList.value, innerTabsList.value))
 
     function parseApiFile (name, { type, behavior, meta, addedIn, ...api }) {
