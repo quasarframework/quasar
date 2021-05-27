@@ -277,7 +277,7 @@ export default {
     })
 
     const inputIcon = computed(() => filter.value !== '' ? mdiClose : mdiMagnify)
-    const filteredApi = computed(() => getFilteredApi(apiDef.value, filter.value, tabsList.value, innerTabsList.value))
+    const filteredApi = computed(() => getFilteredApi(apiDef.value, filter.value.toLowerCase(), tabsList.value, innerTabsList.value))
     const filteredApiCount = computed(() => getApiCount(filteredApi.value, tabsList.value, innerTabsList.value))
 
     function parseApiFile (name, { type, behavior, meta, addedIn, ...api }) {
