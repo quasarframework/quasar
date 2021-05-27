@@ -7,7 +7,8 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
         q-avatar.doc-layout-avatar
           img(src="https://cdn.quasar.dev/logo-v2/svg/logo.svg")
-        q-toolbar-title.text-weight-bold(shrink) Quasar
+        q-toolbar-title.text-weight-bold(shrink)
+          img.logotype(src="https://cdn.quasar.dev/logo-v2/svg/logotype.svg")
 
       q-space
 
@@ -224,12 +225,16 @@ export default {
 .doc-left-drawer
   overflow: inherit !important
 
-.quasar-logo
+.doc-layout-avatar
   img
     transform: rotate(0deg)
     transition: transform .8s ease-in-out
   &:hover img
     transform: rotate(-360deg)
+
+.logotype
+  height: 19px
+  vertical-align: middle
 
 .q-page-container :target
   scroll-margin-top: ($toolbar-min-height + 16px)
