@@ -1,10 +1,6 @@
 let queue = []
 const waitFlags = []
 
-setInterval(() => {
-  console.log(queue.length, waitFlags.length)
-}, 2500)
-
 export function addFocusWaitFlag (flag) {
   waitFlags.push(flag)
 }
