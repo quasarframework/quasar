@@ -2,7 +2,7 @@
   <div>
     <div class="q-layout-padding q-mx-auto" style="max-width: 500px">
       <router-link tag="a" to="/layout-quick/a" class="cursor-pointer row justify-center" style="margin-bottom: 25px">
-        <img src="https://cdn.quasar.dev/img/quasar-logo.png">
+        <img src="https://cdn.quasar.dev/logo-v2/128/logo.png">
       </router-link>
       <div class="text-caption text-center">
         Quasar v{{ $q.version }}

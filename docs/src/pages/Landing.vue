@@ -3,7 +3,7 @@ q-page.landing
   section.landing__hero.flex.flex-center
     .row.items-center.justify-center.landing__hero-inner
       .landing__hero-logo.col-12.col-md-4.row
-        img.landing__logo-image(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
+        img.landing__logo-image(src="https://cdn.quasar.dev/logo-v2/svg/logo.svg")
       .landing__hero-text.col-12.col-md-8.column.justify-center
         .text-h1.text-bold.text-primary Quasar Framework
         .text-subtitle1.q-py-md.text-grey-8.row.landing__hero-quote

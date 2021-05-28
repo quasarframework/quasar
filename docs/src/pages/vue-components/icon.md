@@ -409,8 +409,8 @@ You can also make an icon point to an image URL instead of relying on any webfon
 **All icon related props of Quasar components can make use of this.**
 
 ```html
-<q-icon name="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
-<q-btn icon="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" ... />
+<q-icon name="img:https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+<q-btn icon="img:https://cdn.quasar.dev/logo-v2/svg/logo.svg" ... />
 
 <!-- reference from /public: -->
 <q-icon name="img:my/path/to/some.svg" />
