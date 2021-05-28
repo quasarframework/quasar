@@ -1,5 +1,10 @@
 @import './prism-theme.sass'
 
+.text-brand-primary
+  color: $brand-primary !important
+.bg-brand-primary
+  background-color: $brand-primary !important
+
 body
   background-color: #fff
   font-family: $font-family
@@ -16,11 +21,11 @@ ul
   display: inline-block
   padding: 2px 4px
   line-height: 1
-  border: 1px dotted $primary
+  border: 1px dotted $brand-primary
   border-radius: 5px
   font-family: inherit
   background-color: #fff
-  color: $primary
+  color: $brand-primary
 
 blockquote .doc-token
   background: scale-color($grey, $lightness: 60%)
@@ -77,7 +82,7 @@ blockquote .doc-token
     padding-bottom: 8px
 
 .doc-heading
-  color: $primary
+  color: $brand-primary
   cursor: pointer
 
   &:after
@@ -136,7 +141,7 @@ blockquote .doc-token
   .q-icon
     font-size: 20px
     margin-right: 8px
-    color: $primary
+    color: $brand-primary
 
 kbd
   white-space: nowrap

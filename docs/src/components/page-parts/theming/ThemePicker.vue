@@ -72,7 +72,7 @@
 
   q-dialog(v-model="exportDialog")
     q-card
-      q-tabs.text-grey-7(v-model="exportTab", active-color="primary" align="justify")
+      q-tabs.text-grey-7(v-model="exportTab", active-color="brand-primary" align="justify")
         q-tab(name="sass", no-caps, label="Sass")
         q-tab(name="scss", no-caps, label="SCSS")
         q-tab(name="quasar-cli", no-caps, label="Quasar CLI")
@@ -99,7 +99,7 @@
       q-separator
 
       q-card-actions(align="right")
-        q-btn(color="primary", flat, label="Close", v-close-popup)
+        q-btn(color="brand-primary", flat, label="Close", v-close-popup)
 </template>
 
 <script>
@@ -121,7 +121,7 @@ export default {
 
   setup () {
     const colors = reactive({
-      primary: '#00B4FF',
+      primary: '#1976d2',
       secondary: '#26A69A',
       accent: '#9C27B0',
 

@@ -49,7 +49,7 @@ div
         q-item-section.text-no-wrap Awesome List
 
       q-item(to="/app-extensions/discover")
-        q-item-section.text-primary(avatar)
+        q-item-section.text-brand-primary(avatar)
           q-icon(:name="mdiFilePlus")
         q-item-section.text-no-wrap App Extensions
 
@@ -74,7 +74,7 @@ div
         q-item-section.text-no-wrap Dark Mode
 
       q-item(clickable, tag="a", href="layout-builder", target="_blank")
-        q-item-section.text-primary(avatar)
+        q-item-section.text-brand-primary(avatar)
           q-icon(:name="mdiViewDashboard")
         q-item-section.text-no-wrap Layout Builder
 
@@ -98,7 +98,7 @@ div
         q-item-section Codepen
 
       q-item(clickable, tag="a", href="https://jsfiddle.net/rstoenescu/a2cuzods/", target="_blank", rel="noopener")
-        q-item-section.text-primary(avatar)
+        q-item-section.text-brand-primary(avatar)
           q-icon(:name="fabJsfiddle")
         q-item-section jsFiddle
 
@@ -111,7 +111,7 @@ div
     q-list(dense padding)
 
       q-item(clickable, tag="a", href="https://chat.quasar.dev", rel="noopener", target="_blank")
-        q-item-section.text-primary(avatar)
+        q-item-section.text-brand-primary(avatar)
           q-icon(:name="mdiChat")
         q-item-section.text-no-wrap Discord Chat
 
@@ -128,7 +128,7 @@ div
       q-item-label.q-mt-md(header) Social
 
       q-item(clickable, tag="a", href="https://blog.quasar.dev", rel="noopener", target="_blank")
-        q-item-section.text-primary(avatar)
+        q-item-section.text-brand-primary(avatar)
           q-icon(:name="mdiBlogger")
         q-item-section Blog
 
@@ -143,7 +143,7 @@ div
         q-item-section Twitter
 
       q-item(clickable, tag="a", href="https://facebook.quasar.dev", target="_blank", rel="noopener")
-        q-item-section.text-primary(avatar)
+        q-item-section.text-blue-8(avatar)
           q-icon(:name="fabFacebook")
         q-item-section
           .row.no-wrap.items-center

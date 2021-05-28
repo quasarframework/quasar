@@ -48,7 +48,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
       q-separator.doc-example__separator
 
   .row
-    q-linear-progress(v-if="loading", color="primary", indeterminate)
+    q-linear-progress(v-if="loading", color="brand-primary", indeterminate)
     component.col.doc-example__content(v-else, :is="component", :class="componentClass")
 
   doc-codepen(v-if="!loading", ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle")

@@ -117,7 +117,7 @@ export default {
       menu.badge !== void 0 && child.push(
         h(QItemSection, {
           side: true
-        }, () => h(QBadge, { label: menu.badge }))
+        }, () => h(QBadge, { label: menu.badge, color: 'brand-primary' }))
       )
 
       return withDirectives(

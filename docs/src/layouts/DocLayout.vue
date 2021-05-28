@@ -63,7 +63,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
             type="a"
             href="https://bit.ly/3cTLXsO"
             target="_blank"
-            color="primary"
+            color="brand-primary"
             outline
             :icon="mdiFileDocumentEditOutline"
             label="Survey results are out!"
@@ -111,7 +111,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     @on-layout="updateRightDrawerOnLayout"
   )
     q-scroll-area.fit
-      header-menu.q-mt-sm.text-primary.column(v-if="$q.screen.lt.sm", align="right")
+      header-menu.q-mt-sm.text-brand-primary.column(v-if="$q.screen.lt.sm", align="right")
 
       q-list.doc-toc.q-my-sm.text-grey-8
         q-item(
@@ -130,7 +130,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     router-view
 
   q-page-scroller
-    q-btn(fab-mini, color="primary", glossy, :icon="mdiChevronUp")
+    q-btn(fab-mini, color="brand-primary", glossy, :icon="mdiChevronUp")
 </template>
 
 <script>

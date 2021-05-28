@@ -1,7 +1,7 @@
 <template lang="pug">
 .relative
   q-btn(
-    color="primary"
+    color="brand-primary"
     round
     dense
     flat

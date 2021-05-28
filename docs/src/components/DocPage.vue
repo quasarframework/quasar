@@ -4,14 +4,14 @@ q-page.doc-page
   .doc-h1.row.items-start.no-wrap
     .col.doc-heading#introduction(v-if="title" @click="copyIntroductionHeading")
       span {{ title }}
-      q-badge.q-ml-sm.doc-page__badge(v-if="badge") {{ badge }}
-    a.doc-page__top-link.text-primary.flex.flex-center(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
+      q-badge.q-ml-sm.doc-page__badge(v-if="badge" color="brand-primary" :label="badge")
+    a.doc-page__top-link.text-brand-primary.flex.flex-center(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
       q-icon(:name="mdiPencil")
       q-tooltip
         span Caught a mistake? Edit page in browser
         q-icon.q-ml-xs(:name="mdiFlash" size="2em")
 
-  .doc-page-nav.text-primary(v-if="related !== void 0")
+  .doc-page-nav.text-brand-primary(v-if="related !== void 0")
     .q-gutter-md.flex
       router-link.q-link.doc-page-related.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.bg-grey-3(
         v-for="link in related"
@@ -27,7 +27,7 @@ q-page.doc-page
 
   slot
 
-  .doc-page-nav.doc-page-nav__footer.text-primary.q-pb-xl(v-if="nav !== void 0")
+  .doc-page-nav.doc-page-nav__footer.text-brand-primary.q-pb-xl(v-if="nav !== void 0")
     .text-h6.q-pb-md Ready for more?
     .q-gutter-md.flex
       router-link.q-link.doc-page-related.doc-page-related-bordered.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.bg-grey-1(
@@ -186,7 +186,7 @@ export default {
   border: 1px solid rgba(0,0,0,.1)
 
   &:hover
-    color: $primary
+    color: $brand-primary
 
 .doc-page-related-bordered
   border: 1px solid $separator-color
@@ -200,7 +200,7 @@ export default {
     a
       text-decoration: none
       outline: 0
-      color: $primary
+      color: $brand-primary
       transition: color .28s
 
       &:hover

@@ -33,7 +33,7 @@ You are likely going to need the following components - QLayout, QHeader, QToolb
 Keep an eye on your developer console for handy helpers on which components are being used but not declared in your quasar.conf.js file.
 :::
 
-<q-btn push color="primary" icon-right="launch" label="Layout Builder" type="a" href="layout-builder" target="_blank" rel="noopener noreferrer" />
+<q-btn push color="brand-primary" icon-right="launch" label="Layout Builder" type="a" href="layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ## Usage
 

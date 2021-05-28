@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   template(v-for="category in team" :key="category")
-    h4.text-primary {{ category.name }}
+    h4.text-brand-primary {{ category.name }}
     .row.items-stretch.q-gutter-sm
       team-member(
         v-for="m in category.members"

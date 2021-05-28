@@ -2,16 +2,16 @@
 q-page.landing
   section.landing__hero.flex.flex-center
     .row.items-center.justify-center.landing__hero-inner
-      .landing__hero-logo.col-12.flex.flex-center.q-mb-xl
+      .landing__hero-logo.col-12.flex.flex-center.q-mb-lg
         img.landing__logo-image(src="https://cdn.quasar.dev/logo-v2/svg/logo-vertical.svg")
       .landing__hero-text.col-12.column.items-center
-        .text-h4.landing__hero-text-main.text-bold.text-primary QUASAR FRAMEWORK
-        .q-pt-xs.q-pb-lg.text-grey-6.landing__hero-quote.text-center
+        //- .text-h4.landing__hero-text-main.text-bold.text-brand-primary.q-pb-xs QUASAR FRAMEWORK
+        .q-pb-lg.text-grey-6.landing__hero-quote.text-center
           | Effortlessly build high-performance & high-quality
           | <span class="text-bold text-no-wrap">Vue 3</span> user interfaces in record time
         .landing__hero-row.q-gutter-sm.row.items-center
-          q-btn(color="primary" unelevated no-caps to="/introduction-to-quasar" label="Why Quasar?")
-          q-btn(color="primary" outline no-caps to="/start" label="Get Started")
+          q-btn(color="brand-primary" unelevated no-caps to="/introduction-to-quasar" label="Why Quasar?")
+          q-btn(color="brand-primary" outline no-caps to="/start" label="Get Started")
           q-btn(color="accent" unelevated no-caps to="/video-tutorials" label="Video Tutorials")
 
   section.landing__front.text-center
@@ -86,7 +86,7 @@ q-page.landing
         .col-12.col-sm-8.column.items-center
           h4 Quasar Icon Genie
           .q-mt-lg.q-mb-xl Consumes a source icon and automatically clones, scales, minifies and places the (needed) 100+ generated icons and splash screens in the appropriate directories for you.
-          q-btn(color="primary", unelevated, no-caps, no-wrap, :icon-right="mdiLaunch", label="IconGenie", to="/icongenie/introduction")
+          q-btn(color="brand-primary", unelevated, no-caps, no-wrap, :icon-right="mdiLaunch", label="IconGenie", to="/icongenie/introduction")
 
   section.landing__footer.flex.flex-center
     div.text-center
@@ -209,6 +209,10 @@ export default {
     &-text-main
       font-size: 24px
 
+    &-quote
+      padding-top: 70px
+      font-size: 16px
+
     .text-h1
       font-size: 5.2rem
       line-height: 5.2rem
@@ -254,7 +258,7 @@ export default {
       padding: 2px 3px
 
       &:hover
-        color: $primary
+        color: $brand-primary
 
   &__footer
     padding-top: 72px !important
@@ -266,7 +270,7 @@ export default {
     a
       text-decoration: none
       outline: 0
-      color: $primary
+      color: $brand-primary
       transition: color .28s
 
       &:hover
@@ -275,6 +279,8 @@ export default {
 @media (max-width: 1092px)
   .landing
     &__hero
+      &-quote
+        padding-top: 40px
       .text-h1
         font-size: 3.5rem
         line-height: 4.05rem

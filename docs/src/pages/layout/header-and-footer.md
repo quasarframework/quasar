@@ -23,7 +23,7 @@ QLayout allows you to configure your views as a 3x3 matrix, containing an option
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
-<q-btn push color="primary" icon-right="launch" label="Layout Builder" type="a" href="layout-builder" target="_blank" rel="noopener noreferrer" />
+<q-btn push color="brand-primary" icon-right="launch" label="Layout Builder" type="a" href="layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ## Usage
 ::: tip

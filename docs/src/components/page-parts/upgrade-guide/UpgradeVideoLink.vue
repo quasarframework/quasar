@@ -22,7 +22,7 @@ export default {
 
   &__overlay
     border-radius: $generic-border-radius
-    background: $primary
+    background: $brand-primary
     opacity: 0
     transition: opacity .28s
 
