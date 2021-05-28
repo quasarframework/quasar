@@ -2,14 +2,13 @@
 q-page.landing
   section.landing__hero.flex.flex-center
     .row.items-center.justify-center.landing__hero-inner
-      .landing__hero-logo.col-12.col-md-4.row
-        img.landing__logo-image(src="https://cdn.quasar.dev/logo-v2/svg/logo.svg")
-      .landing__hero-text.col-12.col-md-8.column.justify-center
-        .text-h1.text-bold.text-primary Quasar Framework
-        .text-subtitle1.q-py-md.text-grey-8.row.landing__hero-quote
-          div
-            | Effortlessly build high-performance & high-quality
-            | <span class="text-bold text-no-wrap">Vue 3</span> user interfaces in record time
+      .landing__hero-logo.col-12.flex.flex-center.q-mb-xl
+        img.landing__logo-image(src="https://cdn.quasar.dev/logo-v2/svg/logo-vertical.svg")
+      .landing__hero-text.col-12.column.items-center
+        .text-h4.landing__hero-text-main.text-bold.text-primary QUASAR FRAMEWORK
+        .q-pt-xs.q-pb-lg.text-grey-6.landing__hero-quote.text-center
+          | Effortlessly build high-performance & high-quality
+          | <span class="text-bold text-no-wrap">Vue 3</span> user interfaces in record time
         .landing__hero-row.q-gutter-sm.row.items-center
           q-btn(color="primary" unelevated no-caps to="/introduction-to-quasar" label="Why Quasar?")
           q-btn(color="primary" outline no-caps to="/start" label="Get Started")
@@ -207,23 +206,16 @@ export default {
     &-inner
       max-width: 650px !important
 
-    &-logo
-      padding-right: 20px
-      justify-content: flex-end
-
-    &-text
-      text-align: left
-
-    &-quote
-      max-width: 390px
+    &-text-main
+      font-size: 24px
 
     .text-h1
       font-size: 5.2rem
       line-height: 5.2rem
 
   &__logo-image
-    width: 220px
-    height: 220px
+    width: 280px
+    height: 280px
 
   &__icongenie-logo
     max-width: 220px !important

@@ -121,7 +121,7 @@ export default {
 
   setup () {
     const colors = reactive({
-      primary: '#027BE3',
+      primary: '#00B4FF',
       secondary: '#26A69A',
       accent: '#9C27B0',
 

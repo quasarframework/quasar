@@ -21,7 +21,7 @@
       <q-input dark outlined v-model="text" :readonly="readonly" :disable="disable">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg">
           </q-avatar>
         </template>
       </q-input>

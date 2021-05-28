@@ -11,6 +11,7 @@
       <img
         v-scroll-fire="bounceImage"
         src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
+        style="height: 100px; width: 100px;"
       >
     </p>
 
