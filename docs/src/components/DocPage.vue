@@ -1,12 +1,11 @@
 <template lang="pug">
 q-page.doc-page
 
-  .text-right.text-bold
-    q-icon.text-negative.q-mx-sm(:name="mdiFire")
-    | Looking for
-    doc-link.q-mx-xs(to="https://v2.quasar.dev/start/upgrade-guide") Quasar v2 beta
-    | (Vue 3) docs?
-    q-icon.text-negative.q-mx-xs(:name="mdiFire")
+  .row.justify-end.doc-page__upgrade-banner
+    q-badge.items-center(color="grey-3" text-color="dark")
+      span Upgrade to
+      doc-link.q-mx-xs(to="https://v2.quasar.dev/start/upgrade-guide") Quasar v2
+      span and use Vue.js 3
 
   .doc-h1.row.items-start.no-wrap
     .col.doc-heading#introduction(v-if="title" @click="copyIntroductionHeading")
@@ -96,7 +95,7 @@ import {
 import {
   mdiBlogger, mdiForum, mdiChat, mdiCharity,
   mdiPencil, mdiLaunch, mdiFlash,
-  mdiChevronLeft, mdiChevronRight, mdiFire
+  mdiChevronLeft, mdiChevronRight
 } from '@quasar/extras/mdi-v5'
 
 import getMeta from 'assets/get-meta'
@@ -123,7 +122,6 @@ export default {
     this.mdiFlash = mdiFlash
     this.mdiChevronLeft = mdiChevronLeft
     this.mdiChevronRight = mdiChevronRight
-    this.mdiFire = mdiFire
 
     this.$root.store.toc = this.toc !== void 0 ? this.toc : []
   },
@@ -168,6 +166,12 @@ export default {
 
   > div, > pre
     margin-bottom: 22px
+
+  &__upgrade-banner
+    margin-bottom: 0 !important
+    > div
+      padding: 8px
+      border: 1px dashed $brand-primary
 
   &__top-link
     color: inherit

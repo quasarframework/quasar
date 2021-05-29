@@ -1,5 +1,6 @@
 <template lang="pug">
 q-page.landing
+  h1.landing__title Quasar Framework
   section.landing__hero.flex.flex-center
     .row.items-center.justify-center.landing__hero-inner
       .landing__hero-logo.col-12.flex.flex-center.q-mb-lg
@@ -8,7 +9,8 @@ q-page.landing
         //- .text-h4.landing__hero-text-main.text-bold.text-brand-primary.q-pb-xs QUASAR FRAMEWORK
         .q-pb-lg.text-grey-6.landing__hero-quote.text-center
           | Effortlessly build high-performance & high-quality
-          | <span class="text-bold text-no-wrap">Vue 3</span> user interfaces in record time
+          | <span class="text-bold text-no-wrap">Vue.js 2</span> user interfaces in record time
+        q-btn.q-mb-md(color="accent" outline no-caps type="a" href="https://v2.quasar.dev" target="_blank" label="Looking for Quasar v2 with Vue 3?")
         .landing__hero-row.q-gutter-sm.row.items-center
           q-btn(color="brand-primary" unelevated no-caps to="/introduction-to-quasar" label="Why Quasar?")
           q-btn(color="brand-primary" outline no-caps to="/start" label="Get Started")
@@ -184,6 +186,12 @@ export default {
 <style lang="sass">
 .landing
 
+  &__title
+    font-size: 0
+    line-height: 0
+    opacity: 0
+    margin: 0 !important
+
   > section
     display: flex
     justify-content: center
@@ -274,7 +282,7 @@ export default {
   .landing
     &__hero
       &-quote
-        padding-top: 40px
+        padding-top: 30px
       .text-h1
         font-size: 3.5rem
         line-height: 4.05rem
