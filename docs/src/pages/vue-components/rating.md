@@ -5,6 +5,10 @@ desc: The QRating Vue component allows the user to rate items. It's usually know
 
 Quasar Rating is a Component which allows users to rate items, usually known as “Star Rating”.
 
+## QRating API
+
+<doc-api file="QRating" />
+
 ## Installation
 
 <doc-installation components="QRating" />
@@ -62,7 +66,3 @@ Apart from the standard sizes below, you can define your own through the `size` 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRating, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QRating/NativeForm" />
-
-## QRating API
-
-<doc-api file="QRating" />

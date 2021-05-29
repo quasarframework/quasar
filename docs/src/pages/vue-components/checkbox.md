@@ -14,6 +14,8 @@ The QCheckbox component is another basic element for user input. You can use thi
 Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.
 :::
 
+## QCheckbox API
+<doc-api file="QCheckbox" />
 
 ## Installation
 <doc-installation components="QCheckbox" />
@@ -93,6 +95,3 @@ In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QCheckbox, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <doc-example title="Native form" file="QCheckbox/NativeForm" />
-
-## QCheckbox API
-<doc-api file="QCheckbox" />

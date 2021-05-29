@@ -11,6 +11,9 @@ The QExpansionItem component allows the hiding of content that is not immediatel
 
 They are basically [QItem](/vue-components/list-and-list-items) components wrapped with additional functionality. So they can be included in QLists and inherit QItem component properties.
 
+## QExpansionItem API
+<doc-api file="QExpansionItem" />
+
 ## Installation
 <doc-installation components="QExpansionItem" />
 
@@ -53,6 +56,3 @@ The behavior below of toggling by expand icon only is especially useful when hav
 <doc-example title="Accordion mode" file="QExpansionItem/Accordion" />
 
 <doc-example title="Popup mode" file="QExpansionItem/Popup" />
-
-## QExpansionItem API
-<doc-api file="QExpansionItem" />

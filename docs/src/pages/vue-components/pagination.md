@@ -6,6 +6,10 @@ The QPagination component is available for whenever a pagination system is requi
 
 There are two modes in which QPagination operates: with buttons only or with an inputbox. The latter allows the user to go to a specific page by clicking/tapping on the inputbox, typing the page number then hitting Enter key. If the new page number is within valid limits, the model will be changed accordingly.
 
+## QPagination API
+
+<doc-api file="QPagination" />
+
 ## Installation
 <doc-installation components="QPagination" />
 
@@ -44,7 +48,3 @@ There are two modes in which QPagination operates: with buttons only or with an 
 The following are a few examples, but not an exhaustive list:
 
 <doc-example title="Styles" file="QPagination/Styles" />
-
-## QPagination API
-
-<doc-api file="QPagination" />

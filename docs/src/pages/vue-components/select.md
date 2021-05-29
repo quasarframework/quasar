@@ -7,6 +7,9 @@ The QSelect component has two types of selection: single or multiple. This compo
 
 In case you are looking for a dropdown "button" instead of "input" use [Button Dropdown](/vue-components/button-dropdown) instead.
 
+## QSelect API
+<doc-api file="QSelect" />
+
 ## Installation
 <doc-installation components="QSelect"/>
 
@@ -270,6 +273,3 @@ When the list of options is opened:
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QSelect, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <doc-example title="Native form" file="QSelect/NativeForm" />
-
-## QSelect API
-<doc-api file="QSelect" />

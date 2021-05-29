@@ -12,6 +12,9 @@ related:
 There is also a [Scroll](/vue-directives/scroll) directive which fires whenever user scrolls the page.
 :::
 
+## ScrollFire API
+<doc-api file="ScrollFire" />
+
 ## Installation
 <doc-installation directives="ScrollFire" />
 
@@ -25,7 +28,3 @@ For performance purposes, the scroll listener function injected is by default de
 
 ### Determining Scrolling Container
 Please read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.
-
-## ScrollFire API
-<doc-api file="ScrollFire" />
-

@@ -7,6 +7,9 @@ related:
 ---
 The QImg component makes working with images (any picture format) easy and also adds a nice loading effect to it along with many other features (example: the ability to set an aspect ratio).
 
+## QImg API
+<doc-api file="QImg" />
+
 ## Installation
 <doc-installation components="QImg" />
 
@@ -77,6 +80,3 @@ When you are using this option always take care to have the content of the `defa
 :::
 
 <doc-example title="Native context menu" file="QImg/ContextMenu" />
-
-## QImg API
-<doc-api file="QImg" />

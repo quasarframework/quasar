@@ -8,6 +8,25 @@ related:
 Steppers display progress through a sequence of logical and numbered steps. They may also be used for navigation.
 They're usually useful when the user has to follow steps to complete a process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
 
+## QStepper API
+
+<doc-api file="QStepper" />
+
+## QStep API
+
+<doc-api file="QStep" />
+
+## QStepperNavigation API
+
+This component allows you to place buttons within `QStepper` or `QStep` to
+navigate through the steps. It is up to you to add whatever buttons you require.
+
+::: tip
+To use global navigation, you must add it to the `QStepper` 'navigation' slot.
+:::
+
+<doc-api file="QStepperNavigation" />
+
 ## Installation
 
 <doc-installation :components="['QStepper', 'QStep', 'QStepperNavigation']" />
@@ -69,22 +88,3 @@ Starting with Quasar v1.9.13+, you can use the `header-class` prop to apply any 
 ### Message slot
 
 <doc-example title="Message slot with fixed height steps" file="QStepper/MessageSlot" />
-
-## QStepper API
-
-<doc-api file="QStepper" />
-
-## QStep API
-
-<doc-api file="QStep" />
-
-## QStepperNavigation API
-
-This component allows you to place buttons within `QStepper` or `QStep` to
-navigate through the steps. It is up to you to add whatever buttons you require.
-
-::: tip
-To use global navigation, you must add it to the `QStepper` 'navigation' slot.
-:::
-
-<doc-api file="QStepperNavigation" />

@@ -10,6 +10,9 @@ QLayout allows you to configure your views as a 3x3 matrix, containing optional 
 
 QDrawer is the sidebar part of your QLayout.
 
+## QDrawer API
+<doc-api file="QDrawer" />
+
 ## Installation
 <doc-installation components="QDrawer" />
 
@@ -91,6 +94,3 @@ The overlay mode prevents the drawer from occupying space on the layout and rath
 On the example below, click the menu icon to see the drawer in action. It's best viewed on a desktop with a window of at least 500px width (this is the breakpoint that is set on this demo).
 
 <doc-example title="Overlay mode" file="QDrawer/OverlayMode" />
-
-## QDrawer API
-<doc-api file="QDrawer" />

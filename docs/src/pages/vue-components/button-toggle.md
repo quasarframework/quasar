@@ -11,6 +11,9 @@ related:
 ---
 The QBtnToggle component is another basic element for user input, similar to QRadio but with buttons. You can use this to supply a way for the user to pick an option from multiple choices.
 
+## QBtnToggle API
+<doc-api file="QBtnToggle" />
+
 ## Installation
 <doc-installation components="QBtnToggle" />
 
@@ -47,6 +50,3 @@ First QBtnToggle below has tooltips on each button. Second QBtnToggle has custom
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QBtnToggle, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <doc-example title="Native form" file="QBtnToggle/NativeForm" />
-
-## QBtnToggle API
-<doc-api file="QBtnToggle" />

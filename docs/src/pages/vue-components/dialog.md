@@ -20,6 +20,9 @@ Dialogs can also be used as a globally available method for more basic use cases
 Rather than cluttering your .vue templates with QDialogs, it's best if you write a component for your dialog and use the [Dialog Plugin](/quasar-plugins/dialog#invoking-custom-component) to invoke it from anywhere in your app.
 :::
 
+## QDialog API
+<doc-api file="QDialog" />
+
 ## Installation
 <doc-installation components="QDialog" directives="ClosePopup" />
 
@@ -124,6 +127,3 @@ return {
   }
 }
 ```
-
-## QDialog API
-<doc-api file="QDialog" />

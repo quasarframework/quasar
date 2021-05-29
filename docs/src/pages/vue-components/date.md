@@ -13,6 +13,9 @@ The QDate component provides a method to input date. Currently it supports Grego
 For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
 :::
 
+## QDate API
+<doc-api file="QDate" />
+
 ## Installation
 <doc-installation components="QDate" />
 
@@ -196,6 +199,3 @@ When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QDate, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QDate/NativeForm" />
-
-## QDate API
-<doc-api file="QDate" />

@@ -15,6 +15,9 @@ Chips can contain entities such as an avatar, text or an icon, optionally having
 Also check out [QBadge](/vue-components/badge).
 :::
 
+## QChip API
+<doc-api file="QChip" />
+
 ## Installation
 <doc-installation components="QChip" />
 
@@ -38,6 +41,3 @@ Custom sizes (below) have been introduced in v1.2.2+:
 <doc-example title="Removable" file="QChip/Removable" />
 
 <doc-example title="Long label truncation" file="QChip/LongLabel" />
-
-## QChip API
-<doc-api file="QChip" />

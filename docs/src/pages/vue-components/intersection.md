@@ -17,6 +17,9 @@ Under the covers, it uses the [Intersection Observer API](https://developer.mozi
 Not all browsers support the Intersection Observer API. Most [modern browsers](https://caniuse.com/#search=intersection) do, but other browsers, **like IE 11**, do not. If you need to support older browsers, you can install and import (into a boot file) the official W3C [polyfill](https://github.com/w3c/IntersectionObserver).
 :::
 
+## QIntersection API
+<doc-api file="QIntersection" />
+
 ## Installation
 <doc-installation components="QIntersection" />
 
@@ -57,6 +60,3 @@ Triggering only once means, however, that you lose the benefit of freeing up the
 The example below uses the `root` property and therefore can be seen in a Codepen (which hosts in an iframe).
 
 <doc-example title="Root viewport" file="QIntersection/Root" scrollable />
-
-## QIntersection API
-<doc-api file="QIntersection" />

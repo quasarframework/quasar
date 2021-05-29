@@ -12,6 +12,9 @@ related:
 
 The QCircularProgress component displays a colored circular progress. The bar can either have a determinate progress, or an indeterminate animation. It should be used to inform the user that an action is occurring in the background.
 
+## QCircularProgress API
+<doc-api file="QCircularProgress" />
+
 ## Installation
 <doc-installation components="QCircularProgress" />
 
@@ -33,6 +36,3 @@ In the example below, `show-value` property also enables the default slot, so yo
 <doc-example title="Indeterminate state" file="QCircularProgress/Indeterminate" />
 
 <doc-example title="Standard sizes" file="QCircularProgress/StandardSizes" />
-
-## QCircularProgress API
-<doc-api file="QCircularProgress" />

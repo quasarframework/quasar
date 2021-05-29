@@ -11,6 +11,9 @@ Newer mobile browsers have the ability to specify a color for the addressbar, li
 
 ![Mobile Addressbar Coloring](https://cdn.quasar.dev/img/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
 
+## AddressbarColor API
+<doc-api file="AddressbarColor" />
+
 ## Installation
 <doc-installation plugins="AddressbarColor" />
 
@@ -54,6 +57,3 @@ export default {
 ::: tip
 Calling `set()` with no parameters will use the primary color.
 :::
-
-## AddressbarColor API
-<doc-api file="AddressbarColor" />

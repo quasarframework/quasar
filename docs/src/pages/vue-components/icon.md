@@ -16,6 +16,9 @@ There are multiple types of icons in Quasar: webfont-based, svg-based (v1.7+) an
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
 :::
 
+## QIcon API
+<doc-api file="QIcon" />
+
 ## Installing
 <doc-installation components="QIcon" />
 
@@ -557,6 +560,3 @@ created () {
 ```
 
 Now we can use `<q-icon name="app:copy" />` or `<q-icon name="app:icon1" />` and QIcon will treat "app:copy" and "app:icon1" as if they were written as "fas fa-copy" and "img:/path/to/icon1.svg".
-
-## QIcon API
-<doc-api file="QIcon" />

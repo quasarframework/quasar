@@ -11,6 +11,9 @@ The QMarkupTable is a way for you to simply wrap a native `<table>` in order to 
 For advanced functionality like pagination, sorting, filtering, and many more, you may want to check out [QTable](/vue-components/table) component instead.
 :::
 
+## QMarkupTable API
+<doc-api file="QMarkupTable" />
+
 ## Installation
 <doc-installation components="QMarkupTable" />
 
@@ -35,6 +38,3 @@ This component will *NOT* work as-is within the UMD version of Quasar. Browsers 
 ::: tip
 If you want to remove the hover effect on some rows or some cells add a `q-tr--no-hover` or `q-td--no-hover` class to them.
 :::
-
-## QMarkupTable API
-<doc-api file="QMarkupTable" />

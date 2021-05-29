@@ -11,6 +11,9 @@ The QColor component provides a method to input colors.
 For handling colors, also check out [Quasar Color Utils](/quasar-utils/color-utils).
 :::
 
+## QColor API
+<doc-api file="QColor" />
+
 ## Installation
 <doc-installation components="QColor" />
 
@@ -67,6 +70,3 @@ You can also pick the default view, like in example below, where we also specify
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QColor, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QColor/NativeForm" />
-
-## QColor API
-<doc-api file="QColor" />

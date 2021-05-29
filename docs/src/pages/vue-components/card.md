@@ -11,6 +11,15 @@ With so much content to display at once, and often so little screen real-estate,
 
 The QCard component is intentionally lightweight and essentially a containing element that is capable of "hosting" any other component that is appropriate.
 
+## QCard API
+<doc-api file="QCard" />
+
+## QCardSection API
+<doc-api file="QCardSection" />
+
+## QCardActions API
+<doc-api file="QCardActions" />
+
 ## Installation
 <doc-installation :components="['QCard', 'QCardSection', 'QCardActions']" />
 
@@ -59,13 +68,3 @@ It's recommended that you use QImg component instead of native `<img>` when deal
 On the example below, click on the round button on the bottom right to see the expansion in action.
 
 <doc-example title="Expandable" file="QCard/Expandable" />
-
-## QCard API
-<doc-api file="QCard" />
-
-## QCardSection API
-<doc-api file="QCardSection" />
-
-## QCardActions API
-<doc-api file="QCardActions" />
-

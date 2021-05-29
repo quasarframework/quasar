@@ -9,6 +9,9 @@ The QBar is a small component for creating the top bar on different types of mob
 
 QBar is especially useful for frame-less Electron apps where you integrate it in the QHeader.
 
+## QBar API
+<doc-api file="QBar" />
+
 ## Installation
 <doc-installation components="QBar" />
 
@@ -40,6 +43,3 @@ For responsiveness, use [Visibility](/style/visibility#window-width-related) Qua
 QBar component can come in really handy when developing Electron apps, especially if you choose to use a frameless window.
 
 Read more on [Frameless Electron Window](/quasar-cli/developing-electron-apps/frameless-electron-window) page.
-
-## QBar API
-<doc-api file="QBar" />

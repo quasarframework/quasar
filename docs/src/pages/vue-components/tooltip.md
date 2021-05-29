@@ -8,6 +8,9 @@ components:
 ---
 The QTooltip component is to be used when you want to offer the user more information about a certain area in your App. When hovering the mouse over the target element (or quickly tapping on mobile platforms), the tooltip will appear.
 
+## QTooltip API
+<doc-api file="QTooltip" />
+
 ## Installation
 <doc-installation components="QTooltip" />
 
@@ -45,6 +48,3 @@ The final position of QTooltip popup is calculated so that it will be displayed 
 For horizontal positioning you can use `start` and `end` when you want to automatically take into account if on RTL or non-RTL. `start` and `end` mean "left" for non-RTL and "right" for RTL.
 
 <tooltip-positioning />
-
-## QTooltip API
-<doc-api file="QTooltip" />

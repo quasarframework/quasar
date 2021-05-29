@@ -5,6 +5,18 @@ desc: The QCarousel Vue component allows you to display a series of slides, usef
 
 The QCarousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards or an image gallery too.
 
+## QCarousel API
+
+<doc-api file="QCarousel" />
+
+## QCarouselControl API
+
+<doc-api file="QCarouselControl" />
+
+## QCarouselSlide API
+
+<doc-api file="QCarouselSlide" />
+
 ## Installation
 <doc-installation :components="['QCarousel', 'QCarouselControl', 'QCarouselSlide']" />
 
@@ -98,15 +110,3 @@ Please note how [QScrollArea](/vue-components/scroll-area) is used in the two ex
 ### Fullscreen
 
 <doc-example title="Fullscreen" file="QCarousel/Fullscreen" />
-
-## QCarousel API
-
-<doc-api file="QCarousel" />
-
-## QCarouselControl API
-
-<doc-api file="QCarouselControl" />
-
-## QCarouselSlide API
-
-<doc-api file="QCarouselSlide" />

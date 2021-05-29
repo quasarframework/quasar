@@ -13,6 +13,9 @@ The QTime component provides a method to input time.
 For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
 :::
 
+## QTime API
+<doc-api file="QTime" />
+
 ## Installation
 <doc-installation components="QTime" />
 
@@ -112,6 +115,3 @@ You can use the default slot for adding buttons:
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QTime, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QTime/NativeForm" />
-
-## QTime API
-<doc-api file="QTime" />
