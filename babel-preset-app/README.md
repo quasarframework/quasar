@@ -1,4 +1,4 @@
-![Quasar Framework logo](https://cdn.quasar.dev/logo/svg/quasar-logo-full-inline.svg)
+![Quasar Framework logo](https://cdn.quasar.dev/logo-v2/header.png)
 
 # Quasar Framework CLI Babel Preset
 
