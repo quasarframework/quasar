@@ -12,9 +12,6 @@ QParallax takes care of a lot of quirks, including image/video size which can ac
 ## QParallax API
 <doc-api file="QParallax" />
 
-## Installation
-<doc-installation components="QParallax" />
-
 ## Usage
 
 <doc-example title="Image background" file="QParallax/Image" />

@@ -21,10 +21,6 @@ Not all browsers support the Intersection Observer API. Most [modern browsers](h
 
 <doc-api file="Intersection" />
 
-## Installation
-
-<doc-installation directives="Intersection" />
-
 ## Usage
 
 Reading the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) first will be best in your understanding of how this directive works.

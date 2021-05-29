@@ -19,9 +19,6 @@ There is one more scrolling-related directive available called [Scroll Fire](/vu
 ## Scroll API
 <doc-api file="Scroll" />
 
-## Installation
-<doc-installation directives="Scroll" />
-
 ## Usage
 ``` vue
 <template>

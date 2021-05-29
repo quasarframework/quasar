@@ -10,9 +10,6 @@ There are two modes in which QPagination operates: with buttons only or with an 
 
 <doc-api file="QPagination" />
 
-## Installation
-<doc-installation components="QPagination" />
-
 ## Usage
 
 ### Standard

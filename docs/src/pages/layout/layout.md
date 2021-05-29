@@ -19,11 +19,6 @@ The QLayout is a component designed to manage the entire window and wrap page co
 ## QLayout API
 <doc-api file="QLayout" />
 
-## Installation
-In the card below we're installing all Quasar components related to a QLayout, but **you should cherry-pick** only what you are using from this list. Only QLayout is required.
-
-<doc-installation :components="[ 'QLayout', 'QPageContainer', 'QPage', 'QHeader', 'QFooter',    'QDrawer', 'QPageSticky', 'QPageScroller' ]" />
-
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 

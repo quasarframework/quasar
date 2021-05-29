@@ -11,9 +11,6 @@ We will be describing `v-touch-repeat` on the lines below.
 ## TouchRepeat API
 <doc-api file="TouchRepeat" />
 
-## Installation
-<doc-installation directives="TouchRepeat" />
-
 ## Usage
 Click and hold with your mouse on the area below to see it in action.
 Notice that on touch capable devices the scrolling is not blocked.

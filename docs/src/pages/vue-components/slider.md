@@ -12,9 +12,6 @@ Also check its “sibling”, the [QRange](/vue-components/range) component.
 ## QSlider API
 <doc-api file="QSlider" />
 
-## Installation
-<doc-installation components="QSlider" />
-
 ## Usage
 
 ### Standard

@@ -13,9 +13,6 @@ QDrawer is the sidebar part of your QLayout.
 ## QDrawer API
 <doc-api file="QDrawer" />
 
-## Installation
-<doc-installation components="QDrawer" />
-
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 

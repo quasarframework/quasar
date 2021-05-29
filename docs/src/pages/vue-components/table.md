@@ -34,9 +34,6 @@ If you don't need pagination, sorting, filtering, and all other features of QTab
 ## QTd API
 <doc-api file="QTd" />
 
-## Installation
-<doc-installation :components="['QTable', 'QTh', 'QTr', 'QTd']" />
-
 ## Defining the columns
 
 Let’s take an example of configuring the `columns` property. We are going to tell QTable that `row-key` is ‘name’, which **must** be unique. If this was data fetched from a database we would likely use the row **id**.

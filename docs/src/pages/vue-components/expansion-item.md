@@ -14,9 +14,6 @@ They are basically [QItem](/vue-components/list-and-list-items) components wrapp
 ## QExpansionItem API
 <doc-api file="QExpansionItem" />
 
-## Installation
-<doc-installation components="QExpansionItem" />
-
 ## Usage
 
 ### Basic

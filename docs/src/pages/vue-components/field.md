@@ -14,9 +14,6 @@ Do NOT wrap QInput, QFile or QSelect with QField as these components already inh
 ## QField API
 <doc-api file="QField" />
 
-## Installation
-<doc-installation components="QField"/>
-
 ## Design
 
 ::: tip

@@ -7,9 +7,6 @@ The QBadge component allows you to create a small badge for adding information l
 ## QBadge API
 <doc-api file="QBadge" />
 
-## Installation
-<doc-installation components="QBadge" />
-
 ## Usage
 
 <doc-example title="Basic" file="QBadge/Basic" />

@@ -20,9 +20,6 @@ Not all browsers support the Intersection Observer API. Most [modern browsers](h
 ## QIntersection API
 <doc-api file="QIntersection" />
 
-## Installation
-<doc-installation components="QIntersection" />
-
 ## Usage
 
 ::: warning

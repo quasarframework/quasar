@@ -12,9 +12,6 @@ The QForm component renders a `<form>` DOM element and allows you to easily vali
 ## QForm API
 <doc-api file="QForm" />
 
-## Installation
-<doc-installation components="QForm" />
-
 ## Usage
 
 ::: warning

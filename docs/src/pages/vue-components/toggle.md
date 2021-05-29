@@ -16,9 +16,6 @@ Please also refer to the [QOptionGroup](/vue-components/option-group) on other p
 ## QToggle API
 <doc-api file="QToggle" />
 
-## Installation
-<doc-installation components="QToggle" />
-
 ## Usage
 
 ### Basic

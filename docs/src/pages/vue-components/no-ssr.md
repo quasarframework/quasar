@@ -13,9 +13,6 @@ Alternatively, you can also use it to render content only on server-side and it 
 ## QNoSsr API
 <doc-api file="QNoSsr" />
 
-## Installation
-<doc-installation components="QNoSsr" />
-
 ## Usage
 
 ### Basic

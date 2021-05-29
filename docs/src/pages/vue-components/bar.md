@@ -12,9 +12,6 @@ QBar is especially useful for frame-less Electron apps where you integrate it in
 ## QBar API
 <doc-api file="QBar" />
 
-## Installation
-<doc-installation components="QBar" />
-
 ## Usage
 
 ::: tip

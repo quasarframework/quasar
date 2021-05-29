@@ -16,9 +16,6 @@ Note that you don’t need a QLayout to use FABs.
 ## QFabAction API
 <doc-api file="QFabAction" />
 
-## Installation
-<doc-installation :components="['QFab', 'QFabAction']" />
-
 ## Usage
 There are two types of FABs: expandable (has sub-actions) and non-expandable.
 

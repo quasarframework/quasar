@@ -88,9 +88,6 @@ What you'd like instead, is when you hit the Logout button, the `window.history.
 ## Directive v-go-back
 Let's rewrite the Logout button to act as we would actually want it to work, which is to make `window.history.length` be 1 again. We're going to install the directive:
 
-<doc-installation directives="GoBack" />
-
-Then we use it:
 ``` html
 <!-- Logout button -->
 <q-btn

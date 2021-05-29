@@ -16,9 +16,6 @@ QTimeline has 3 layouts:
 ## QTimelineEntry API
 <doc-api file="QTimelineEntry" />
 
-## Installation
-<doc-installation :components="['QTimeline', 'QTimelineEntry']" />
-
 ## Usage
 
 ### Basic

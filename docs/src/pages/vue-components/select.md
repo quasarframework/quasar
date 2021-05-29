@@ -10,9 +10,6 @@ In case you are looking for a dropdown "button" instead of "input" use [Button D
 ## QSelect API
 <doc-api file="QSelect" />
 
-## Installation
-<doc-installation components="QSelect"/>
-
 ## Design
 
 ### Overview

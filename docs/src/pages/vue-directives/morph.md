@@ -14,10 +14,6 @@ Under the covers, it uses the Quasar [Morph function util](/quasar-utils/morph-u
 
 <doc-api file="Morph" />
 
-## Installation
-
-<doc-installation directives="Morph" />
-
 ## Usage
 
 Reading the [Morph function util](/quasar-utils/morph-utils) first will be best in your understanding of how this directive works.

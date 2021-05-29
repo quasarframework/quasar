@@ -13,9 +13,6 @@ The QOptionGroup component is a helper component that allows you better control 
 ## QOptionGroup API
 <doc-api file="QOptionGroup" />
 
-## Installation
-<doc-installation components="QOptionGroup" />
-
 ## Usage
 
 ### Standard

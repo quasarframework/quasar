@@ -9,9 +9,6 @@ QResponsive is a component which forces the content to maintain an aspect ratio 
 ## QResponsive API
 <doc-api file="QResponsive" />
 
-## Installation
-<doc-installation components="QResponsive" />
-
 ## Usage
 
 ::: tip TIPS

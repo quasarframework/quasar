@@ -11,10 +11,6 @@ This directive is a helper when dealing with [QDialog](/vue-components/dialog) a
 ## ClosePopup API
 <doc-api file="ClosePopup" />
 
-## Installation
-
-<doc-installation directives="ClosePopup" />
-
 ## Usage
 
 ### Basic

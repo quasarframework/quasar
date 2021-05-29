@@ -8,9 +8,6 @@ The QInput component is used to capture text input from the user. It uses `v-mod
 ## QInput API
 <doc-api file="QInput" />
 
-## Installation
-<doc-installation components="QInput"/>
-
 ## Design
 
 ::: warning

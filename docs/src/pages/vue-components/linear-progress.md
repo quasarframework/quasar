@@ -14,9 +14,6 @@ The QLinearProgress component displays a colored loading bar. The bar can either
 ## QLinearProgress API
 <doc-api file="QLinearProgress" />
 
-## Installation
-<doc-installation components="QLinearProgress" />
-
 ## Usage
 
 ### Determined state

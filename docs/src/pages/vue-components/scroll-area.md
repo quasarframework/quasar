@@ -11,10 +11,6 @@ The QScrollArea component offers a neat way of customizing the scrollbars by enc
 
 <doc-api file="QScrollArea" />
 
-## Installation
-
-<doc-installation components="QScrollArea" />
-
 ## Usage
 
 The following examples are best seen on desktop as they make too little sense on a mobile device.

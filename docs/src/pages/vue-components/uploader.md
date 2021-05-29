@@ -14,9 +14,6 @@ If all you want is an input file, you might want to consider using [QFile](/vue-
 ## QUploader API
 <doc-api file="QUploader" />
 
-## Installation
-<doc-installation components="QUploader" />
-
 ## Usage
 
 ::: warning

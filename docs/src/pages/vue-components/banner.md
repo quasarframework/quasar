@@ -9,9 +9,6 @@ According to the Material Design spec, the banner should be "displayed at the to
 ## QBanner API
 <doc-api file="QBanner" />
 
-## Installation
-<doc-installation components="QBanner" />
-
 ## Usage
 
 <doc-example title="Basic" file="QBanner/Basic" />

@@ -28,9 +28,6 @@ List Items have the following pre-built child components:
 ## QItemLabel API
 <doc-api file="QItemLabel" />
 
-## Installation
-<doc-installation :components="['QList', 'QItem', 'QItemSection', 'QItemLabel']" />
-
 ## Usage
 
 ### Basic

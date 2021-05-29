@@ -16,9 +16,6 @@ For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/
 ## QTime API
 <doc-api file="QTime" />
 
-## Installation
-<doc-installation components="QTime" />
-
 ## Usage
 
 Notice that the model is a String only.

@@ -14,9 +14,6 @@ For advanced functionality like pagination, sorting, filtering, and many more, y
 ## QMarkupTable API
 <doc-api file="QMarkupTable" />
 
-## Installation
-<doc-installation components="QMarkupTable" />
-
 ## Usage
 
 ::: warning

@@ -15,9 +15,6 @@ When not disabled or spinning, QBtn emits a `@click` event, as soon as it is cli
 ## QBtn API
 <doc-api file="QBtn" />
 
-## Installation
-<doc-installation components="QBtn" />
-
 ## Usage
 
 ### Standard

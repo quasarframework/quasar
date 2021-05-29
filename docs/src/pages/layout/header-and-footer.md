@@ -18,11 +18,6 @@ QLayout allows you to configure your views as a 3x3 matrix, containing an option
 ## QFooter API
 <doc-api file="QFooter" />
 
-## Installation
-Pick only what you are using from the list below.
-
-<doc-installation :components="['QHeader', 'QFooter']" />
-
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 

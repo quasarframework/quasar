@@ -9,9 +9,6 @@ It is often used with other components in their slots.
 ## QAvatar API
 <doc-api file="QAvatar" />
 
-## Installation
-<doc-installation components="QAvatar" />
-
 ## Usage
 
 ::: tip

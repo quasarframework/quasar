@@ -27,10 +27,6 @@ To use global navigation, you must add it to the `QStepper` 'navigation' slot.
 
 <doc-api file="QStepperNavigation" />
 
-## Installation
-
-<doc-installation :components="['QStepper', 'QStep', 'QStepperNavigation']" />
-
 ## Usage
 
 ::: tip

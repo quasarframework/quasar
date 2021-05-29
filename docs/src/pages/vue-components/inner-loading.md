@@ -15,9 +15,6 @@ The QInnerLoading component allows you to add a progress animation within a comp
 ## QInnerLoading API
 <doc-api file="QInnerLoading" />
 
-## Installation
-<doc-installation components="QInnerLoading" />
-
 If using a custom [Spinner](/vue-components/spinners), add it to the list of components. Example: `QSpinnerGears`.
 
 ## Usage

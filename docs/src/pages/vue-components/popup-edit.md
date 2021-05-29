@@ -14,9 +14,6 @@ This component injects a [QMenu](/vue-components/menu) into its parent DOM eleme
 
 <doc-api file="QPopupEdit" />
 
-## Installation
-<doc-installation components="QPopupEdit" />
-
 ## Usage
 
 ::: warning

@@ -16,9 +16,6 @@ If you also want a component to also handle the upload for you, please consider 
 ## QFile API
 <doc-api file="QFile" />
 
-## Installation
-<doc-installation components="QFile"/>
-
 ## Design
 
 ::: warning

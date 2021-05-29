@@ -10,9 +10,6 @@ The QImg component makes working with images (any picture format) easy and also 
 ## QImg API
 <doc-api file="QImg" />
 
-## Installation
-<doc-installation components="QImg" />
-
 ## Usage
 
 ### Basic

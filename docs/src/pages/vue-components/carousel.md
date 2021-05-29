@@ -17,9 +17,6 @@ The QCarousel component allows you to display more information with less real es
 
 <doc-api file="QCarouselSlide" />
 
-## Installation
-<doc-installation :components="['QCarousel', 'QCarouselControl', 'QCarouselSlide']" />
-
 ## Usage
 
 ::: tip

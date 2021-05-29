@@ -11,9 +11,6 @@ The QBreadcrumbs component is used as a navigational aid in UI. It allows users 
 ## QBreadcrumbsEl API
 <doc-api file="QBreadcrumbsEl" />
 
-## Installation
-<doc-installation :components="['QBreadcrumbs', 'QBreadcrumbsEl']" />
-
 ## Usage
 <doc-example title="Basic" file="QBreadcrumbs/Basic" />
 

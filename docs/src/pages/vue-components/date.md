@@ -16,9 +16,6 @@ For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/
 ## QDate API
 <doc-api file="QDate" />
 
-## Installation
-<doc-installation components="QDate" />
-
 ## Usage
 
 ::: warning

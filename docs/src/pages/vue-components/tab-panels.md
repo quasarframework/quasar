@@ -18,9 +18,6 @@ Works great along with [QTabs](/vue-components/tabs) but it is not required to b
 
 <doc-api file="QTabPanel" />
 
-## Installation
-<doc-installation :components="['QTabPanels', 'QTabPanel']" />
-
 ## Usage
 
 ::: tip

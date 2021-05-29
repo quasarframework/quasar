@@ -18,9 +18,6 @@ Also check out [QBadge](/vue-components/badge).
 ## QChip API
 <doc-api file="QChip" />
 
-## Installation
-<doc-installation components="QChip" />
-
 ## Usage
 <doc-example title="Basic" file="QChip/Basic" />
 

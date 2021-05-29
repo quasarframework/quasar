@@ -12,9 +12,6 @@ The QPullToRefresh is a component that allows the user to pull down in order to 
 ## QPullToRefresh API
 <doc-api file="QPullToRefresh" />
 
-## Installation
-<doc-installation components="QPullToRefresh" />
-
 ## Usage
 
 ### Basic

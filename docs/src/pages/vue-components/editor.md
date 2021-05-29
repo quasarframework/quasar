@@ -13,9 +13,6 @@ The QEditor component is a WYSIWYG (“what you see is what you get”) editor c
 ## QEditor API
 <doc-api file="QEditor" />
 
-## Installation
-<doc-installation components="QEditor" />
-
 ## Examples
 <doc-example title="Default editor" file="QEditor/Basic" />
 

@@ -20,9 +20,6 @@ The QCard component is intentionally lightweight and essentially a containing el
 ## QCardActions API
 <doc-api file="QCardActions" />
 
-## Installation
-<doc-installation :components="['QCard', 'QCardSection', 'QCardActions']" />
-
 ## Usage
 
 ::: tip

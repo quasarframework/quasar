@@ -17,9 +17,6 @@ Please also refer to the [QOptionGroup](/vue-components/option-group) on other p
 ## QRadio API
 <doc-api file="QRadio" />
 
-## Installation
-<doc-installation components="QRadio" />
-
 ## Usage
 
 ### Standard

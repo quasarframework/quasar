@@ -12,9 +12,6 @@ You can conveniently group [QBtn](/vue-components/button) and [QBtnDropdown](/vu
 ## QBtnGroup API
 <doc-api file="QBtnGroup" />
 
-## Installation
-<doc-installation components="QBtnGroup" />
-
 ## Usage
 <doc-example title="Examples" file="QBtnGroup/Group" />
 

@@ -19,9 +19,6 @@ Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) a
 ## QIcon API
 <doc-api file="QIcon" />
 
-## Installing
-<doc-installation components="QIcon" />
-
 ## Size & colors
 The sizing of a QIcon is manipulated by the `font-size` CSS property. Also, QIcon inherits the current CSS text `color` used. For ease of use there are the QIcon `size` and `color` props.
 

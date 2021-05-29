@@ -15,9 +15,6 @@ The QCircularProgress component displays a colored circular progress. The bar ca
 ## QCircularProgress API
 <doc-api file="QCircularProgress" />
 
-## Installation
-<doc-installation components="QCircularProgress" />
-
 ## Usage
 By default, QCircularProgress inherits current text color (as arc progress color and inner label color) and current font size (as component size). For customization, you can use the size and color related props.
 

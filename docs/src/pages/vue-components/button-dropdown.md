@@ -12,9 +12,6 @@ In case you are looking for a dropdown "input" instead of "button" use [Select](
 ## QBtnDropdown API
 <doc-api file="QBtnDropdown" />
 
-## Installation
-<doc-installation components="QBtnDropdown" />
-
 ## Usage
 
 <doc-example title="Basic" file="QBtnDropdown/Basic" />

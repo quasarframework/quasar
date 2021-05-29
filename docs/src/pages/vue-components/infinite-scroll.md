@@ -12,9 +12,6 @@ The QInfiniteScroll component allows you to load new content as the user scrolls
 ## QInfiniteScroll API
 <doc-api file="QInfiniteScroll" />
 
-## Installation
-<doc-installation components="QInfiniteScroll" />
-
 ## Usage
 
 ::: tip

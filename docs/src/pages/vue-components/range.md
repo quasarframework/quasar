@@ -12,9 +12,6 @@ Also check out its “sibling”, the [QSlider](/vue-components/slider) componen
 ## QRange API
 <doc-api file="QRange" />
 
-## Installation
-<doc-installation components="QRange" />
-
 ## Usage
 
 Notice we are using an object for the selection, which holds values for both the lower value of the selected range - `rangeValues.min` and the higher value - `rangeValues.max`.

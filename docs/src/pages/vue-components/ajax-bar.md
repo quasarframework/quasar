@@ -18,9 +18,6 @@ If you'd like **a simpler and more convenient way** to offer an Ajax Bar to your
 ## QAjaxBar API
 <doc-api file="QAjaxBar" />
 
-## Installation
-<doc-installation components="QAjaxBar" />
-
 ## Usage
 The QAjaxBar component captures Ajax calls automatically (unless told not to).
 

@@ -23,9 +23,6 @@ Rather than cluttering your .vue templates with QDialogs, it's best if you write
 ## QDialog API
 <doc-api file="QDialog" />
 
-## Installation
-<doc-installation components="QDialog" directives="ClosePopup" />
-
 ## Usage
 
 ::: warning Note

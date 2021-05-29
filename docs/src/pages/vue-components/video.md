@@ -12,9 +12,6 @@ You may also want to check our own HTML 5 video player component: [QMediaPlayer]
 ## QVideo API
 <doc-api file="QVideo" />
 
-## Installation
-<doc-installation components="QVideo" />
-
 ## Usage
 
 ### Basic

@@ -24,13 +24,6 @@ The API below applies to all spinners, except for QSpinner. Making an example wi
 
 <doc-api file="QSpinnerCube" />
 
-## Installation
-::: tip
-Choose your spinner from the list below (you'll only need to specify the ones that you are using) if any installation is required.
-:::
-
-<doc-installation :components="[ 'QSpinner', 'QSpinnerAudio', 'QSpinnerBall', 'QSpinnerBars', 'QSpinnerBox', 'QSpinnerClock', 'QSpinnerComment', 'QSpinnerCube', 'QSpinnerDots', 'QSpinnerFacebook', 'QSpinnerGears', 'QSpinnerGrid', 'QSpinnerHearts', 'QSpinnerHourglass', 'QSpinnerInfinity', 'QSpinnerIos', 'QSpinnerOrbit', 'QSpinnerOval', 'QSpinnerPie', 'QSpinnerPuff', 'QSpinnerRadio', 'QSpinnerRings', 'QSpinnerTail' ]" />
-
 ## Usage
 
 <doc-example title="QSpinner" file="QSpinner/Default" />

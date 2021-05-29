@@ -14,9 +14,6 @@ The QMenu component is a convenient way to show menus. Goes very well with [QLis
 ## QMenu API
 <doc-api file="QMenu" />
 
-## Installation
-<doc-installation components="QMenu" directives="ClosePopup" />
-
 ## Usage
 
 The idea with QMenu is to place it inside your DOM element / component that you want to be the trigger as direct child. Don’t worry about QMenu content inheriting CSS from the container as the QMenu will be injected as a direct child of `<body>` through a Quasar Portal.

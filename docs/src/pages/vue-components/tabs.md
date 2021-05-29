@@ -27,11 +27,6 @@ Works great along with [QTabPanels](/vue-components/tab-panels), a component whi
 
 <doc-api file="QRouteTab" />
 
-## Installation
-Cherry-pick only what you are using from list below.
-
-<doc-installation :components="['QTabs', 'QTab', 'QRouteTab']" />
-
 ::: warning
 QRouteTab won't and cannot work with the UMD version because in that environment you don't have Vue Router.
 :::

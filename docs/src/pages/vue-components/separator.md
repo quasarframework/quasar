@@ -8,9 +8,6 @@ The QSeparator component is used to separate sections of text, other components,
 ## QSeparator API
 <doc-api file="QSeparator" />
 
-## Installation
-<doc-installation components="QSeparator" />
-
 ## Usage
 Take the following just as examples. Doesn't mean you can use QSeparator only on QCard, QList or QToolbar.
 

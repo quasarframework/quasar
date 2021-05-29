@@ -7,9 +7,6 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 ## QTree API
 <doc-api file="QTree" />
 
-## Installation
-<doc-installation components="QTree" />
-
 ## Usage
 
 ### Basic

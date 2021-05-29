@@ -15,9 +15,6 @@ There is also a [Scroll](/vue-directives/scroll) directive which fires whenever 
 ## ScrollFire API
 <doc-api file="ScrollFire" />
 
-## Installation
-<doc-installation directives="ScrollFire" />
-
 ## Usage
 
 <doc-example title="Basic" file="ScrollFire/Basic" scrollable />

@@ -13,9 +13,6 @@ There are currently two types of QVirtualScroll: "list" (using QItems) and "tabl
 ## QVirtualScroll API
 <doc-api file="QVirtualScroll" />
 
-## Installation
-<doc-installation components="QVirtualScroll" />
-
 ## Usage
 
 ::: tip
