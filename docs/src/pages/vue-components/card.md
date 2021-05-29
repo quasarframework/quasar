@@ -11,8 +11,14 @@ With so much content to display at once, and often so little screen real-estate,
 
 The QCard component is intentionally lightweight and essentially a containing element that is capable of "hosting" any other component that is appropriate.
 
-## Installation
-<doc-installation :components="['QCard', 'QCardSection', 'QCardActions']" />
+## QCard API
+<doc-api file="QCard" />
+
+## QCardSection API
+<doc-api file="QCardSection" />
+
+## QCardActions API
+<doc-api file="QCardActions" />
 
 ## Usage
 
@@ -37,7 +43,7 @@ Below are some of the custom alignments that you can use for the actions through
 
 <doc-example title="Card with parallax" file="QCard/Parallax" />
 
-### Horizontal <q-badge align="top" label="v1.7+" />
+### Horizontal <q-badge align="top" color="brand-primary" label="v1.7+" />
 
 On the examples below, notice the QCardSection with `horizontal` prop on it that wraps other QCardSections. Also note that you can directly use `col-*` classes on children of horizontal QCardSection in order to control the size.
 
@@ -59,13 +65,3 @@ It's recommended that you use QImg component instead of native `<img>` when deal
 On the example below, click on the round button on the bottom right to see the expansion in action.
 
 <doc-example title="Expandable" file="QCard/Expandable" />
-
-## QCard API
-<doc-api file="QCard" />
-
-## QCardSection API
-<doc-api file="QCardSection" />
-
-## QCardActions API
-<doc-api file="QCardActions" />
-

@@ -14,9 +14,8 @@ The QCheckbox component is another basic element for user input. You can use thi
 Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.
 :::
 
-
-## Installation
-<doc-installation components="QCheckbox" />
+## QCheckbox API
+<doc-api file="QCheckbox" />
 
 ## Usage
 
@@ -40,7 +39,7 @@ In the second row in the example below, the property `keep-color` is being used 
 
 <doc-example title="On a dark background" file="QCheckbox/OnDarkBackground" dark />
 
-### Sizes <q-badge align="top" label="v1.8+" />
+### Sizes <q-badge align="top" color="brand-primary" label="v1.8+" />
 
 Apart from the standard sizes below, you can define your own through the `size` property (last one is a custom size).
 
@@ -52,7 +51,7 @@ In the example below, as soon as you click on the first checkbox it starts toggl
 
 <doc-example title="Indeterminate state" file="QCheckbox/IndeterminateState" />
 
-### Toggle order <q-badge align="top" label="v1.12+" />
+### Toggle order <q-badge align="top" color="brand-primary" label="v1.12+" />
 
 By default, QCheckbox follows this chain when toggling: indeterminate -> checked -> unchecked. However, you can change this behavior through the `toggle-order` prop. This property determines the order of the states and can be `tf` (default) or `ft` (`t` stands for state of true/checked while `f` for state of false/unchecked).
 
@@ -88,11 +87,8 @@ In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so
 
 <doc-example title="Disable" file="QCheckbox/Disable" />
 
-### Native form submit <q-badge align="top" label="v1.9+" />
+### Native form submit <q-badge align="top" color="brand-primary" label="v1.9+" />
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QCheckbox, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <doc-example title="Native form" file="QCheckbox/NativeForm" />
-
-## QCheckbox API
-<doc-api file="QCheckbox" />

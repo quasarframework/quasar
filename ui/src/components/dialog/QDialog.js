@@ -11,6 +11,7 @@ import EscapeKey from '../../utils/escape-key.js'
 import { slot } from '../../utils/slot.js'
 import { create, stop } from '../../utils/event.js'
 import cache from '../../utils/cache.js'
+import { addFocusFn } from '../../utils/focus-manager.js'
 
 let maximizedModals = 0
 
@@ -72,7 +73,8 @@ export default Vue.extend({
 
   data () {
     return {
-      transitionState: this.showing
+      transitionState: this.showing,
+      animating: false
     }
   },
 
@@ -99,6 +101,7 @@ export default Vue.extend({
     classes () {
       return `q-dialog__inner--${this.maximized === true ? 'maximized' : 'minimized'} ` +
         `q-dialog__inner--${this.position} ${positionClass[this.position]}` +
+        (this.animating === true ? ' q-dialog__inner--animating' : '') +
         (this.fullWidth === true ? ' q-dialog__inner--fullwidth' : '') +
         (this.fullHeight === true ? ' q-dialog__inner--fullheight' : '') +
         (this.square === true ? ' q-dialog__inner--square' : '')
@@ -147,14 +150,16 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      let node = this.__getInnerNode()
+      addFocusFn(() => {
+        let node = this.__getInnerNode()
 
-      if (node === void 0 || node.contains(document.activeElement) === true) {
-        return
-      }
+        if (node === void 0 || node.contains(document.activeElement) === true) {
+          return
+        }
 
-      node = node.querySelector('[autofocus], [data-autofocus]') || node
-      node.focus()
+        node = node.querySelector('[autofocus], [data-autofocus]') || node
+        node.focus()
+      })
     },
 
     shake () {
@@ -203,6 +208,7 @@ export default Vue.extend({
       })
 
       this.__showPortal()
+      this.animating = true
 
       if (this.noFocus !== true) {
         // IE can have null document.activeElement
@@ -236,6 +242,8 @@ export default Vue.extend({
           this.__portal.$el.click()
         }
 
+        this.animating = false
+        this.__showPortal(true)
         this.$emit('show', evt)
       }, 300)
     },
@@ -243,6 +251,7 @@ export default Vue.extend({
     __hide (evt) {
       this.__removeHistory()
       this.__cleanup(true)
+      this.animating = true
 
       // check null for IE
       if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
@@ -253,6 +262,7 @@ export default Vue.extend({
 
       this.__setTimeout(() => {
         this.__hidePortal()
+        this.animating = false
         this.$emit('hide', evt)
       }, 300)
     },

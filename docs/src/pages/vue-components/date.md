@@ -13,8 +13,8 @@ The QDate component provides a method to input date. Currently it supports Grego
 For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
 :::
 
-## Installation
-<doc-installation components="QDate" />
+## QDate API
+<doc-api file="QDate" />
 
 ## Usage
 
@@ -32,7 +32,7 @@ For landscape mode, you can use it along with `$q.screen` to make QDate responsi
 
 <doc-example title="Landscape" file="QDate/Landscape" overflow />
 
-### Multiple selection <q-badge align="top" label="v1.13+" />
+### Multiple selection <q-badge align="top" color="brand-primary" label="v1.13+" />
 
 Notice below that the model is an Array and we specify the "multiple" prop.
 
@@ -40,7 +40,7 @@ Clicking on an already selected day will deselect it.
 
 <doc-example title="Multiple days" file="QDate/SelectionMultiple" overflow />
 
-### Range selection <q-badge align="top" label="v1.13+" />
+### Range selection <q-badge align="top" color="brand-primary" label="v1.13+" />
 
 Notice in the examples below that the model is an Object (single selection) or an Array of Objects (multiple selection).
 
@@ -145,13 +145,13 @@ The `options` property is only partially compatible with the `range` prop. Range
 
 <doc-example title="Options" file="QDate/Options" overflow />
 
-### Applying navigation boundaries <q-badge align="top" label="v1.13+" />
+### Applying navigation boundaries <q-badge align="top" color="brand-primary" label="v1.13+" />
 
 In the example below the navigation is restricted between 2020/07 and 2020/09.
 
 <doc-example title="Navigation boundaries" file="QDate/NavigationBoundaries" overflow />
 
-### With additional buttons <q-badge align="top" label="v1.2.8+" />
+### With additional buttons <q-badge align="top" color="brand-primary" label="v1.2.8+" />
 
 You can use the default slot for adding buttons:
 
@@ -189,13 +189,10 @@ You can couple this with a Quasar [language pack](/options/quasar-language-packs
 When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 :::
 
-<q-btn type="a" href="https://codepen.io/rstoenescu/pen/MWKpbNa" target="_blank" label="See example" icon-right="launch" color="primary" />
+<q-btn type="a" href="https://codepen.io/rstoenescu/pen/MWKpbNa" target="_blank" label="See example" icon-right="launch" color="brand-primary" />
 
-### Native form submit <q-badge align="top" label="v1.9+" />
+### Native form submit <q-badge align="top" color="brand-primary" label="v1.9+" />
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QDate, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QDate/NativeForm" />
-
-## QDate API
-<doc-api file="QDate" />

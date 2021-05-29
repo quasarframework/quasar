@@ -16,8 +16,8 @@ One alternative to using this directive is to place a [QScrollObserver](/vue-com
 There is one more scrolling-related directive available called [Scroll Fire](/vue-directives/scroll-fire).
 :::
 
-## Installation
-<doc-installation directives="Scroll" />
+## Scroll API
+<doc-api file="Scroll" />
 
 ## Usage
 ``` vue
@@ -67,6 +67,3 @@ export default {
 
 ### Determining Scrolling Container
 Please read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.
-
-## Scroll API
-<doc-api file="Scroll" />

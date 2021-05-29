@@ -9,6 +9,9 @@ Helpers are built into Quasar to detect the Platform (and its capabilities) with
 Based on your needs, you might also want to check the [Style & Identity &gt; Visibility](/style/visibility) page to see how you can achieve the same effect using CSS alone. This latter method will render your DOM elements or components regardless of platform though, so choose wisely on how you want to handle the performance of your app.
 :::
 
+## API
+<doc-api file="Platform" />
+
 ## Usage
 Usage inside a Vue component JS:
 
@@ -117,6 +120,3 @@ function (ssrContext) {
 The `ssrContext` is available in [boot files](/quasar-cli/boot-files). And also in the [preFetch](/quasar-cli/prefetch-feature) feature, where it is supplied as a parameter.
 
 The reason for all this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Platform needs to be bound to each request separately.
-
-## API
-<doc-api file="Platform" />

@@ -4,7 +4,7 @@
       <q-toolbar class="bg-primary text-white rounded-borders">
         <q-btn round dense flat icon="menu" class="q-mr-xs" />
         <q-avatar class="gt-xs">
-          <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+          <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
         </q-avatar>
 
         <q-space />
@@ -13,8 +13,8 @@
             <div class="self-center no-outline" tabindex="0">Time is {{value}}</div>
           </template>
           <template v-slot:append>
-            <q-btn flat round dense :disable="value < 10" icon="replay_10" @click.stop="value -= 10" />
-            <q-btn flat round dense :disable="value > 90" icon="forward_10" @click.stop="value += 10" />
+            <q-btn color="white" flat round dense :disable="value < 10" icon="replay_10" @click.stop="value -= 10" />
+            <q-btn color="white" flat round dense :disable="value > 90" icon="forward_10" @click.stop="value += 10" />
           </template>
         </q-field>
       </q-toolbar>

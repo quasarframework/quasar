@@ -216,7 +216,7 @@ api.extendWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
 })
 ```
 
-## api.chainWebpackWebserver <q-badge align="top" label="@quasar/app v1.5+" />
+## api.chainWebpackWebserver <q-badge align="top" color="brand-primary" label="@quasar/app v1.5+" />
 
 Chain webpack config of SSR webserver (content of /src-ssr)
 
@@ -230,7 +230,7 @@ api.chainWebpackWebserver ((cfg, { isClient, isServer }, api) => {
 })
 ```
 
-## api.extendWebpackWebserver <q-badge align="top" label="@quasar/app v1.5+" />
+## api.extendWebpackWebserver <q-badge align="top" color="brand-primary" label="@quasar/app v1.5+" />
 
 Extend webpack config Object of SSR webserver (content of /src-ssr)
 
@@ -395,7 +395,7 @@ api.afterBuild((api, { quasarConf }) => {
 })
 ```
 
-## api.onPublish <q-badge align="top" label="@quasar/app v1.0.0-rc.7+" />
+## api.onPublish <q-badge align="top" color="brand-primary" label="@quasar/app v1.0.0-rc.7+" />
 
 Run hook if publishing was requested (`$ quasar build -P`), after Quasar built app for production and the afterBuild hook (if specified) was executed.
 

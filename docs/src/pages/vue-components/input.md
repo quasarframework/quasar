@@ -5,8 +5,8 @@ desc: The QInput Vue component is used to capture text input from the user.
 
 The QInput component is used to capture text input from the user. It uses `v-model`, similar to a regular input. It has support for errors and validation, and comes in a variety of styles, colors, and types.
 
-## Installation
-<doc-installation components="QInput"/>
+## QInput API
+<doc-api file="QInput" />
 
 ## Design
 
@@ -118,7 +118,7 @@ When you need QInput to grow along with its content, then use the `autogrow` pro
 
 <doc-example title="Prefix and suffix" file="QInput/PrefixSuffix" />
 
-### Custom Label <q-badge align="top" label="v1.12.9+" />
+### Custom Label <q-badge align="top" color="brand-primary" label="v1.12.9+" />
 
 Using the `label` slot you can customize the aspect of the label or add special features as `QTooltip`.
 
@@ -130,7 +130,7 @@ If you want to interact with the content of the label (QTooltip) add the `all-po
 
 <doc-example title="Custom label" file="QInput/CustomLabel" />
 
-### Shadow text <q-badge align="top" label="v1.10+" />
+### Shadow text <q-badge align="top" color="brand-primary" label="v1.10+" />
 
 <doc-example title="Shadow text" file="QInput/ShadowText" />
 
@@ -312,11 +312,8 @@ You can also customize the slot for error message:
 
 <doc-example title="Slot for error message" file="QInput/ValidationSlots" />
 
-## Native form submit <q-badge align="top" label="v1.9+" />
+## Native form submit <q-badge align="top" color="brand-primary" label="v1.9+" />
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QInput, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QInput/NativeForm" />
-
-## QInput API
-<doc-api file="QInput" />

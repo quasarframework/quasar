@@ -6,8 +6,8 @@ desc: The QResponsive Vue component forces the content to maintain an aspect rat
 
 QResponsive is a component which forces the content to maintain an aspect ratio based on its width.
 
-## Installation
-<doc-installation components="QResponsive" />
+## QResponsive API
+<doc-api file="QResponsive" />
 
 ## Usage
 
@@ -49,6 +49,3 @@ Notice that we will not supply a `height` prop to QCarousel when we use QRespons
 Apply the max height (or max width, etc etc) directly on the QResponsive component through a CSS class or inline. Remember that it is still your responsibility to ensure that the content won't overflow the container.
 
 <doc-example title="On QCard" file="QResponsive/MaxHeight" />
-
-## QResponsive API
-<doc-api file="QResponsive" />

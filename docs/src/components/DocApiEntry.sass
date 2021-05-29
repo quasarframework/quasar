@@ -1,35 +1,37 @@
 .api-row
   padding: 8px 16px 4px
   font-weight: 300
-  color: $grey-7
-
-  &--big-padding
-    padding: 16px
+  color: $grey
 
   & + &
     border-top: 1px solid #ddd
 
   &__item
+    min-height: 25px
     margin-bottom: 4px
 
   &__subitem
     padding: 4px 0 0 16px
     border-radius: 5px
     > div
-      border: 1px solid #eee !important
+      border: 1px solid rgba(0,0,0,.12) !important
       border-radius: inherit
     > div + div
       margin-top: 4px
 
+  &__type
+    font-family: $font-family-avenir
+
   &__value
     font-weight: 400
-    color: black
+    color: #000
 
   &--indent
     padding-left: 16px
 
   &__example
-    background: $grey-3
+    background-color: #eee
+    border: 1px solid #ddd
     margin: 4px
     padding: 2px 4px
     border-radius: $generic-border-radius

@@ -11,8 +11,8 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-hold` directive on the lines below.
 
-## Installation
-<doc-installation directives="TouchHold" />
+## TouchHold API
+<doc-api file="TouchHold" />
 
 ## Usage
 <doc-example title="Basic" file="TouchHold/Basic" />
@@ -57,6 +57,3 @@ However, if you are using `capture` or `mouseCapture` modifiers then events will
 
 ## Note on HMR
 Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.
-
-## TouchHold API
-<doc-api file="TouchHold" />

@@ -81,7 +81,7 @@ You can use a starter kit stored into any publicly accessible Git repository by 
 The preferred way to build reusable code and UI Components into Quasar ecosystem are App Extensions. Use a custom starter kit only if you really know what you're doing and be aware that it will make more difficult for the Quasar team to provide you assistance.
 :::
 
-## Upgrade <q-badge align="top" label="@quasar/cli v1.1+ specs" />
+## Upgrade <q-badge align="top" color="brand-primary" label="@quasar/cli v1.1+ specs" />
 
 Check (and optionally) upgrade Quasar packages from a Quasar project folder:
 

@@ -6,7 +6,7 @@
       no-caps
       push
       color="white"
-      text-color="primary"
+      text-color="brand-primary"
       type="a"
       :href="sourceLink"
       target="_blank"

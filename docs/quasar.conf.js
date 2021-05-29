@@ -104,48 +104,48 @@ module.exports = function (ctx) {
         ]
       },
       manifest: {
-        name: 'Quasar Documentation',
-        short_name: 'Quasar Docs',
-        description: 'Quasar Framework Documentation',
+        name: 'Quasar v1 Docs',
+        short_name: 'Quasar v1',
+        description: 'Quasar Framework v1 Documentation',
         display: 'standalone',
         orientation: 'any',
-        background_color: '#ffffff',
-        theme_color: '#027be3',
+        background_color: '#000000',
+        theme_color: '#00B4FF',
         icons: [
           {
-            src: 'https://cdn.quasar.dev/app-icons/icon-128x128.png',
+            src: 'https://cdn.quasar.dev/logo-v2/favicon/icon-128x128.png',
             sizes: '128x128',
             type: 'image/png'
           },
           {
-            src: 'https://cdn.quasar.dev/app-icons/icon-192x192.png',
+            src: 'https://cdn.quasar.dev/logo-v2/favicon/icon-192x192.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'https://cdn.quasar.dev/app-icons/icon-256x256.png',
+            src: 'https://cdn.quasar.dev/logo-v2/favicon/icon-256x256.png',
             sizes: '256x256',
             type: 'image/png'
           },
           {
-            src: 'https://cdn.quasar.dev/app-icons/icon-384x384.png',
+            src: 'https://cdn.quasar.dev/logo-v2/favicon/icon-384x384.png',
             sizes: '384x384',
             type: 'image/png'
           },
           {
-            src: 'https://cdn.quasar.dev/app-icons/icon-512x512.png',
+            src: 'https://cdn.quasar.dev/logo-v2/favicon/icon-512x512.png',
             sizes: '512x512',
             type: 'image/png'
           }
         ]
       },
       metaVariables: {
-        appleTouchIcon120: 'https://cdn.quasar.dev/app-icons/apple-icon-120x120.png',
-        appleTouchIcon180: 'https://cdn.quasar.dev/app-icons/apple-icon-180x180.png',
-        appleTouchIcon152: 'https://cdn.quasar.dev/app-icons/apple-icon-152x152.png',
-        appleTouchIcon167: 'https://cdn.quasar.dev/app-icons/apple-icon-167x167.png',
-        appleSafariPinnedTab: 'https://cdn.quasar.dev/app-icons/safari-pinned-tab.svg',
-        msapplicationTileImage: 'https://cdn.quasar.dev/app-icons/ms-icon-144x144.png'
+        appleTouchIcon120: 'https://cdn.quasar.dev/logo-v2/favicon/apple-icon-120x120.png',
+        appleTouchIcon180: 'https://cdn.quasar.dev/logo-v2/favicon/apple-icon-180x180.png',
+        appleTouchIcon152: 'https://cdn.quasar.dev/logo-v2/favicon/apple-icon-152x152.png',
+        appleTouchIcon167: 'https://cdn.quasar.dev/logo-v2/favicon/apple-icon-167x167.png',
+        appleSafariPinnedTab: 'https://cdn.quasar.dev/logo-v2/favicon/safari-pinned-tab.svg',
+        msapplicationTileImage: 'https://cdn.quasar.dev/logo-v2/favicon/ms-icon-144x144.png'
       }
     },
 

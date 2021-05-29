@@ -10,9 +10,9 @@ related:
 
 Under the covers, it uses the Quasar [Morph function util](/quasar-utils/morph-utils).
 
-## Installation
+## Morph API
 
-<doc-installation directives="Morph" />
+<doc-api file="Morph" />
 
 ## Usage
 
@@ -28,7 +28,3 @@ This directive morphs one element in a group into another. The morphing is activ
 <doc-example title="Morph between multiple elements in a group" file="Morph/BasicGroup" />
 
 <doc-example title="Morph a button into a card" file="Morph/Card" />
-
-## Morph API
-
-<doc-api file="Morph" />

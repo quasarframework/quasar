@@ -1,26 +1,25 @@
 <template lang="pug">
 q-page.doc-page
 
-  .text-right.text-bold
-    q-icon.text-negative.q-mx-sm(:name="mdiFire")
-    | Looking for
-    doc-link.q-mx-xs(to="https://next.quasar.dev/start/upgrade-guide") Quasar v2 beta
-    | (Vue 3) docs?
-    q-icon.text-negative.q-mx-xs(:name="mdiFire")
+  .row.justify-end.doc-page__upgrade-banner
+    q-badge.items-center(color="grey-3" text-color="dark")
+      span Upgrade to
+      doc-link.q-mx-xs(to="https://v2.quasar.dev/start/upgrade-guide") Quasar v2
+      span and use Vue.js 3
 
-  h1.doc-heading.doc-h1#introduction(v-if="title" @click="copyHeading('introduction')")
-    span {{ title }}
-    q-badge.q-ml-sm.doc-page__badge(v-if="badge") {{ badge }}
-    a.doc-page__top-link.float-right(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
-      q-icon(:name="mdiPencil", @click.stop)
-        q-tooltip Improve page
+  .doc-h1.row.items-start.no-wrap
+    .col.doc-heading#introduction(v-if="title" @click="copyIntroductionHeading")
+      span {{ title }}
+      q-badge.q-ml-sm.doc-page__badge(v-if="badge" color="brand-primary" :label="badge")
+    a.doc-page__top-link.text-brand-primary.flex.flex-center(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
+      q-icon(:name="mdiPencil")
+      q-tooltip
+        span Caught a mistake? Edit page in browser
+        q-icon.q-ml-xs(:name="mdiFlash" size="2em")
 
-  slot
-
-  .doc-page-nav.text-primary.q-pb-lg(v-if="related !== void 0")
-    .text-h6.q-pb-md Related
+  .doc-page-nav.text-brand-primary(v-if="related !== void 0")
     .q-gutter-md.flex
-      router-link.q-link.doc-page-related.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.bg-grey-4(
+      router-link.q-link.doc-page-related.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.bg-grey-3(
         v-for="link in related"
         :key="link.category + link.path"
         :to="link.path"
@@ -32,10 +31,12 @@ q-page.doc-page
 
           q-icon.q-ml-lg(:name="mdiLaunch")
 
-  .doc-page-nav.text-primary.q-pb-xl(v-if="nav !== void 0")
+  slot
+
+  .doc-page-nav.doc-page-nav__footer.text-brand-primary.q-pb-xl(v-if="nav !== void 0")
     .text-h6.q-pb-md Ready for more?
     .q-gutter-md.flex
-      router-link.q-link.doc-page-related.doc-page-related-bordered.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.bg-white(
+      router-link.q-link.doc-page-related.doc-page-related-bordered.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.bg-grey-1(
         v-for="link in nav"
         :key="link.category + link.path"
         :to="link.path"
@@ -55,7 +56,8 @@ q-page.doc-page
     q-separator.q-mb-sm
 
     .q-mb-md(v-if="noEdit === false")
-      | Caught a mistake? <doc-link :to="editHref">Suggest an edit on GitHub</doc-link>
+      span Caught a mistake?
+      doc-link.q-ml-xs(:to="editHref") Edit this page in browser
 
     .doc-page-footer__icons.row.items-center.q-gutter-sm
       a(href="https://github.quasar.dev", target="_blank", rel="noopener")
@@ -92,10 +94,11 @@ import {
 
 import {
   mdiBlogger, mdiForum, mdiChat, mdiCharity,
-  mdiPencil, mdiLaunch,
-  mdiChevronLeft, mdiChevronRight, mdiFire
+  mdiPencil, mdiLaunch, mdiFlash,
+  mdiChevronLeft, mdiChevronRight
 } from '@quasar/extras/mdi-v5'
 
+import getMeta from 'assets/get-meta'
 import { copyHeading } from 'assets/page-utils'
 
 const year = (new Date()).getFullYear()
@@ -104,6 +107,8 @@ export default {
   name: 'DocPage',
 
   created () {
+    this.year = year
+
     this.fabGithub = fabGithub
     this.fabTwitter = fabTwitter
     this.fabFacebook = fabFacebook
@@ -114,9 +119,11 @@ export default {
     this.mdiCharity = mdiCharity
     this.mdiPencil = mdiPencil
     this.mdiLaunch = mdiLaunch
+    this.mdiFlash = mdiFlash
     this.mdiChevronLeft = mdiChevronLeft
     this.mdiChevronRight = mdiChevronRight
-    this.mdiFire = mdiFire
+
+    this.$root.store.toc = this.toc !== void 0 ? this.toc : []
   },
 
   props: {
@@ -124,13 +131,16 @@ export default {
     related: Array,
     nav: Array,
     noEdit: Boolean,
-    badge: String
+    badge: String,
+    metaTitle: String,
+    metaDesc: String,
+    toc: Array
   },
 
-  data () {
-    return {
-      year
-    }
+  meta () {
+    return this.metaDesc !== void 0
+      ? { title: this.metaTitle, meta: getMeta(this.metaTitle + ' | Quasar Framework', this.metaDesc) }
+      : { title: this.metaTitle }
   },
 
   computed: {
@@ -140,7 +150,9 @@ export default {
   },
 
   methods: {
-    copyHeading
+    copyIntroductionHeading () {
+      copyHeading('introduction')
+    }
   }
 }
 </script>
@@ -148,13 +160,18 @@ export default {
 <style lang="sass">
 .doc-page
   padding: 16px 46px
-  font-weight: 300
   max-width: 900px
   margin-left: auto
   margin-right: auto
 
   > div, > pre
     margin-bottom: 22px
+
+  &__upgrade-banner
+    margin-bottom: 0 !important
+    > div
+      padding: 8px
+      border: 1px dashed $brand-primary
 
   &__top-link
     color: inherit
@@ -174,13 +191,12 @@ export default {
   border: 1px solid rgba(0,0,0,.1)
 
   &:hover
-    color: $primary
+    color: $brand-primary
 
 .doc-page-related-bordered
   border: 1px solid $separator-color
 
 .doc-page-footer
-  font-size: 12px
   padding: 36px 0 16px
 
   &__icons
@@ -189,15 +205,17 @@ export default {
     a
       text-decoration: none
       outline: 0
-      color: $primary
+      color: $brand-primary
       transition: color .28s
 
       &:hover
         color: $grey-8
 
 .doc-page-nav
-  margin: 68px 0 0
-  margin-bottom: 0 !important
+
+  &__footer
+    margin: 68px 0 0
+    margin-bottom: 0 !important
 
   .q-link
     position: relative

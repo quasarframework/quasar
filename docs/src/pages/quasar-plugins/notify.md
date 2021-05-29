@@ -4,6 +4,9 @@ desc: A Quasar plugin to display animated messages to users like notifications, 
 ---
 Notify is a Quasar plugin that can display animated messages (floating above everything in your pages) to users in the form of a notification. They are useful for alerting the user of an event and can even engage the user through actions. Also known as a toast or snackbar.
 
+## Notify API
+<doc-api file="Notify" />
+
 ## Installation
 <doc-installation plugins="Notify" config="notify" />
 
@@ -33,7 +36,7 @@ this.$q.notify({...})
 If you define any actions, the notification will automatically be dismissed when the user picks it.
 :::
 
-### With caption <q-badge align="top" label="v1.5.5+" />
+### With caption <q-badge align="top" color="brand-primary" label="v1.5.5+" />
 
 <doc-example title="Caption" file="Notify/Caption" />
 
@@ -61,7 +64,7 @@ If you define any actions, the notification will automatically be dismissed when
 For a full list of options, check the API section.
 :::
 
-### Grouping <q-badge align="top" label="v1.9+" />
+### Grouping <q-badge align="top" color="brand-primary" label="v1.9+" />
 
 Each notification has an underlying unique group which is computed out of the message + caption + multiLine + actions labels + position. When multiple notifications get triggered with the same group, instead of showing all of them and flooding the view, only the first one remains on screen along with a badge. The badge content represents the number of times that the same notification has been triggered (and with same position) since the first one appeared on screen.
 
@@ -71,13 +74,13 @@ However, if you wish to disable this behavior, specify `group: false`. In the ex
 
 <doc-example title="Custom badge" file="Notify/GroupingCustomBadge" />
 
-### Timeout progress <q-badge align="top" label="v1.9+" />
+### Timeout progress <q-badge align="top" color="brand-primary" label="v1.9+" />
 
 Should you wish, there is a way to tell the user when the notification will disappear from the screen. That's for the cases when timeout is not set to 0.
 
 <doc-example title="Timeout progress" file="Notify/TimeoutProgress" />
 
-### Updatable notifications <q-badge align="top" label="v1.14+" />
+### Updatable notifications <q-badge align="top" color="brand-primary" label="v1.14+" />
 
 Should you have an ongoing process and you want to inform the user of its progress without blocking what he is currently doing, then you can generate an updatable notification. It's useful to also show a spinner while at it.
 
@@ -85,7 +88,7 @@ Please note in the example below that we are explicitly setting "group: false" (
 
 <doc-example title="Updatable" file="Notify/Updatable" />
 
-### Predefined types <q-badge align="top" label="v1.9+" />
+### Predefined types <q-badge align="top" color="brand-primary" label="v1.9+" />
 
 There are four predefined types out of the box that you can use: "positive", "negative", "warning" and "info":
 
@@ -197,6 +200,3 @@ this.$q.notify.setDefaults({
   actions: [{ icon: 'close', color: 'white' }]
 })
 ```
-
-## Notify API
-<doc-api file="Notify" />

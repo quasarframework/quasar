@@ -12,6 +12,9 @@ This is a wrapper over the standardized `document.cookie`.
 With Electron version >= v1.12.2 the Cookie Plugin isn't functional in the Electron Enviroment. You may want to look up the [Electron Cookies](https://www.electronjs.org/docs/api/cookies) documentation.
 :::
 
+## Cookies API
+<doc-api file="Cookies" />
+
 ## Installation
 <doc-installation plugins="Cookies" />
 
@@ -215,6 +218,3 @@ this.$q.cookies.remove('cookie_name', options)
 ::: warning
 When a cookie was previously set with specific `path` and/or `domain` then it can be successfully removed only if the same attributes are passed in to remove() through the `options` parameter. This is in accordance to RFC6265.
 :::
-
-## Cookies API
-<doc-api file="Cookies" />

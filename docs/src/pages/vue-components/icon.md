@@ -16,8 +16,8 @@ There are multiple types of icons in Quasar: webfont-based, svg-based (v1.7+) an
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
 :::
 
-## Installing
-<doc-installation components="QIcon" />
+## QIcon API
+<doc-api file="QIcon" />
 
 ## Size & colors
 The sizing of a QIcon is manipulated by the `font-size` CSS property. Also, QIcon inherits the current CSS text `color` used. For ease of use there are the QIcon `size` and `color` props.
@@ -102,7 +102,7 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 * Icon names are in hyphen-separated case and always begin with "bi-" prefix.
 * Go to [Bootstrap Icons](https://icons.getbootstrap.com/), look for your desired icon. Remember its name (eg. "bi-bug-fill") and use it.
 
-## Svg icons <q-badge align="top" label="Quasar v1.7+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.4+" />
+## Svg icons <q-badge align="top" color="brand-primary" label="Quasar v1.7+" /> <q-badge align="top" color="brand-primary" class="q-ml-xs" label="@quasar/extras v1.4+" />
 
 There are many advantages of using only svg icons in your website/app:
 * Better app footprint -- only used icons will be included in the final build (treeshaking in action)
@@ -168,19 +168,19 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "mat" and camel-case the result (eg. "matAllInbox").
 * Import statement example: `import { matAllInbox } from '@quasar/extras/material-icons'`.
 
-#### SVG Material Icons Outlined (Google) <q-badge align="top" label="Quasar v1.12.13+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.9+" />
+#### SVG Material Icons Outlined (Google) <q-badge align="top" color="brand-primary" label="Quasar v1.12.13+" /> <q-badge align="top" color="brand-primary" class="q-ml-xs" label="@quasar/extras v1.9+" />
 
 * Icon names are in camel-case and always begin with "outlined" prefix.
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "outlined" and camel-case the result (eg. "outlinedAllInbox").
 * Import statement example: `import { outlinedAllInbox } from '@quasar/extras/material-icons-outlined'`.
 
-#### SVG Material Icons Sharp (Google) <q-badge align="top" label="Quasar v1.12.13+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.9+" />
+#### SVG Material Icons Sharp (Google) <q-badge align="top" color="brand-primary" label="Quasar v1.12.13+" /> <q-badge align="top" color="brand-primary" class="q-ml-xs" label="@quasar/extras v1.9+" />
 
 * Icon names are in camel-case and always begin with "sharp" prefix.
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "sharp" and camel-case the result (eg. "sharpAllInbox").
 * Import statement example: `import { sharpAllInbox } from '@quasar/extras/material-icons-sharp'`.
 
-#### SVG Material Icons Round (Google) <q-badge align="top" label="Quasar v1.12.13+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.9+" />
+#### SVG Material Icons Round (Google) <q-badge align="top" color="brand-primary" label="Quasar v1.12.13+" /> <q-badge align="top" color="brand-primary" class="q-ml-xs" label="@quasar/extras v1.9+" />
 
 * Icon names are in camel-case and always begin with "round" prefix.
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "round" and camel-case the result (eg. "roundAllInbox").
@@ -228,7 +228,7 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 * Go to [Bootstrap Icons](https://icons.getbootstrap.com/), look for your desired icon. Remember its name (eg. "bi-bug-fill"), camel-case the result (eg. "biBugFill").
 * Import statement example: `import { biBugFill } from '@quasar/extras/bootstrap-icons'`.
 
-### Svg icon format <q-badge align="top" label="enhanced on v1.11+" />
+### Svg icon format <q-badge align="top" color="brand-primary" label="enhanced on v1.11+" />
 
 You can also supply your own svg icons. An svg icon is essentially a String with the following syntax:
 
@@ -341,7 +341,7 @@ Examples:
 </svg>
 ```
 
-## SVG-use way <q-badge align="top" label="v1.13+" />
+## SVG-use way <q-badge align="top" color="brand-primary" label="v1.13+" />
 
 This svg method allows you to store the SVG files as static assets and reference them.
 
@@ -381,7 +381,7 @@ By default, the parent svg's viewBox is "0 0 24 24". However, you can also speci
 <q-icon name="svguse:icons.svg#icon-1|10 15 40 40" />
 ```
 
-## Inlined svg <q-badge align="top" label="v1.7+" />
+## Inlined svg <q-badge align="top" color="brand-primary" label="v1.7+" />
 
 If you don't want to use the webfont or svg variants from above, note that QIcon also supports one inlined `<svg>` tag (the content of the svg can be anything, not only a path).
 
@@ -406,8 +406,8 @@ You can also make an icon point to an image URL instead of relying on any webfon
 **All icon related props of Quasar components can make use of this.**
 
 ```html
-<q-icon name="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
-<q-btn icon="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" ... />
+<q-icon name="img:https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+<q-btn icon="img:https://cdn.quasar.dev/logo-v2/svg/logo.svg" ... />
 
 <!-- reference from /public: -->
 <q-icon name="img:my/path/to/some.svg" />
@@ -440,7 +440,7 @@ You can also base64 encode an image and supply it. The example below is with a Q
 img:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" ... />
 ```
 
-## Custom mapping <q-badge align="top" label="v1.4+" />
+## Custom mapping <q-badge align="top" color="brand-primary" label="v1.4+" />
 
 Should you want, you can customize the mapping of icon names. This can be done by overriding `$q.iconMapFn`. The recommended place to do it is in the `created()` hook of your `/src/App.vue` component.
 
@@ -557,6 +557,3 @@ created () {
 ```
 
 Now we can use `<q-icon name="app:copy" />` or `<q-icon name="app:icon1" />` and QIcon will treat "app:copy" and "app:icon1" as if they were written as "fas fa-copy" and "img:/path/to/icon1.svg".
-
-## QIcon API
-<doc-api file="QIcon" />

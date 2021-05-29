@@ -16,8 +16,17 @@ List Items have the following pre-built child components:
 
 * **QItemLabel** - An item label is useful for predefined text content type within a QItemSection, or for header-like content of the QList itself.
 
-## Installation
-<doc-installation :components="['QList', 'QItem', 'QItemSection', 'QItemLabel']" />
+## QList API
+<doc-api file="QList" />
+
+## QItem API
+<doc-api file="QItem" />
+
+## QItemSection API
+<doc-api file="QItemSection" />
+
+## QItemLabel API
+<doc-api file="QItemLabel" />
 
 ## Usage
 
@@ -85,15 +94,3 @@ You can use QItems together with Vue Router through `<router-link>` properties b
   </q-item-section>
 </q-item>
 ```
-
-## QList API
-<doc-api file="QList" />
-
-## QItem API
-<doc-api file="QItem" />
-
-## QItemSection API
-<doc-api file="QItemSection" />
-
-## QItemLabel API
-<doc-api file="QItemLabel" />

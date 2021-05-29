@@ -10,8 +10,13 @@ Tab panels are a way of displaying more information using less window real estat
 Works great along with [QTabs](/vue-components/tabs) but it is not required to be used with it.
 :::
 
-## Installation
-<doc-installation :components="['QTabPanels', 'QTabPanel']" />
+## QTabPanels API
+
+<doc-api file="QTabPanels" />
+
+## QTabPanel API
+
+<doc-api file="QTabPanel" />
 
 ## Usage
 
@@ -63,14 +68,6 @@ In the example below, use your mouse to swipe through the panels or, if on a tou
 
 <doc-example title="Swipeable and infinite" file="QTabPanels/Swipeable" />
 
-### Vertical swipeable and infinite <q-badge align="top" label="v1.9+" />
+### Vertical swipeable and infinite <q-badge align="top" color="brand-primary" label="v1.9+" />
 
 <doc-example title="Vertical swipeable and infinite" file="QTabPanels/VerticalSwipeable" />
-
-## QTabPanels API
-
-<doc-api file="QTabPanels" />
-
-## QTabPanel API
-
-<doc-api file="QTabPanel" />

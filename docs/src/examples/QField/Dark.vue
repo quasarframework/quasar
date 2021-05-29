@@ -33,7 +33,7 @@
 
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg">
           </q-avatar>
         </template>
       </q-field>

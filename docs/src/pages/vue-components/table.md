@@ -22,8 +22,17 @@ QTable is a component that allows you to display data in a tabular manner. It's 
 If you don't need pagination, sorting, filtering, and all other features of QTable, then you may want to check out [QMarkupTable](/vue-components/markup-table) component instead.
 :::
 
-## Installation
-<doc-installation :components="['QTable', 'QTh', 'QTr', 'QTd']" />
+## QTable API
+<doc-api file="QTable" />
+
+## QTh API
+<doc-api file="QTh" />
+
+## QTr API
+<doc-api file="QTr" />
+
+## QTd API
+<doc-api file="QTd" />
 
 ## Defining the columns
 
@@ -105,7 +114,7 @@ columns: [ // array of Objects
 You can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense="$q.screen.lt.md"`. More info: [Screen Plugin](/options/screen-plugin).
 :::
 
-## Omitting columns definition <q-badge align="top" label="v1.12+" />
+## Omitting columns definition <q-badge align="top" color="brand-primary" label="v1.12+" />
 
 You can omit specifying the `columns`. QTable will infer the columns from the properties of the first row of the data. Note that labels are uppercased and sorting is enabled:
 
@@ -135,7 +144,7 @@ Sticky headers and columns are achieved through CSS with `position: sticky`. Thi
 
 <doc-example title="No header/footer" file="QTable/NoHeaderFooter" />
 
-## Virtual scrolling <q-badge align="top" label="v1.2+" />
+## Virtual scrolling <q-badge align="top" color="brand-primary" label="v1.2+" />
 
 Notice that when enabling virtual scroll you will need to specify the `table-style` (with a max-height) prop. In the example below, we are also forcing QTable to display all rows at once (note the use of `pagination` and `rows-per-page-options` props).
 
@@ -233,7 +242,7 @@ If you are using virtual scroll with QTable, you should know that starting with 
 
 <doc-example title="Before/After slots (header/footer)" file="QTable/BeforeAfterHeaderFooter" />
 
-## Pagination <q-badge align="top" label="enhanced on v1.12+" />
+## Pagination <q-badge align="top" color="brand-primary" label="enhanced on v1.12+" />
 
 ::: warning
 On Quasar <= v1.11, the `pagination` prop usage required the ".sync" modifier. With v1.12+ this is not longer mandatory, but if you want to control the Table’s pagination from your own components, then it is still a must-do. Example: `pagination.sync="pagination"`.
@@ -307,7 +316,7 @@ Starting with **v1.1.1+**, there is also a "no-data" scoped slot (see below) tha
 
 <doc-example title="No Data Slot" file="QTable/NoDataSlot" />
 
-## Handling bottom layer <q-badge align="top" label="v1.12+" />
+## Handling bottom layer <q-badge align="top" color="brand-primary" label="v1.12+" />
 
 There are a few properties that you can use to hide the bottom layer or specific parts of it. You can play with it below:
 
@@ -360,15 +369,3 @@ You could also make use of the `filteredSortedRows` internal computed property o
 Below is an example of keyboard navigation in the table using selected row. Use `ArrowUp`, `ArrowDown`, `PageUp`, `PageDown`, `Home` and `End` keys to navigate.
 
 <doc-example title="Keyboard navigation" file="QTable/KeyboardNavigation" />
-
-## QTable API
-<doc-api file="QTable" />
-
-## QTh API
-<doc-api file="QTh" />
-
-## QTr API
-<doc-api file="QTr" />
-
-## QTd API
-<doc-api file="QTd" />

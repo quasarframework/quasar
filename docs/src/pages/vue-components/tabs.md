@@ -15,10 +15,17 @@ One common use case for this component is in Layout’s header/footer. Please re
 Works great along with [QTabPanels](/vue-components/tab-panels), a component which refers strictly to the panels (tab content) themselves.
 :::
 
-## Installation
-Cherry-pick only what you are using from list below.
+## QTabs API
 
-<doc-installation :components="['QTabs', 'QTab', 'QRouteTab']" />
+<doc-api file="QTabs" />
+
+## QTab API
+
+<doc-api file="QTab" />
+
+## QRouteTab API
+
+<doc-api file="QRouteTab" />
 
 ::: warning
 QRouteTab won't and cannot work with the UMD version because in that environment you don't have Vue Router.
@@ -174,15 +181,3 @@ export default {
 }
 </script>
 ```
-
-## QTabs API
-
-<doc-api file="QTabs" />
-
-## QTab API
-
-<doc-api file="QTab" />
-
-## QRouteTab API
-
-<doc-api file="QRouteTab" />

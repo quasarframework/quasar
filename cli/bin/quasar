@@ -84,7 +84,9 @@ else {
         console.log(`\n ${chalk.red(`Error`)} Unknown command "${ cmd }"`)
 
         if (cmd.indexOf('-') === 0) {
-          console.log(`\n ${chalk.red(`Error`)} Command must come before the options`)
+          console.log(`\n ${chalk.red(`Error`)} Command must come before the options\n`)
+          require(`./quasar-help`)
+          process.exit(1)
         }
 
         console.log()
