@@ -7,7 +7,7 @@ Where will Quasar be in one year, five years or ten years? It's up to you, the d
 
 You, the community, are Quasar. We listen to your opinions and your needs. Which is why we encourage you to directly contact us on [Discord](https://chat.quasar.dev) or submit [Feature Requests](https://github.com/quasarframework/quasar/issues/new/choose). We carefully ponder on all the ideas and we decide along with the community what are the next steps to be taken.
 
-<q-btn push class="q-my-sm q-py-sm" no-caps color="primary" icon-right="launch" label="https://roadmap.quasar.dev" type="a" href="https://roadmap.quasar.dev" target="_blank" rel="noopener" />
+<q-btn push class="q-my-sm q-py-sm" no-caps color="brand-primary" icon-right="launch" label="https://roadmap.quasar.dev" type="a" href="https://roadmap.quasar.dev" target="_blank" rel="noopener" />
 
 ### Important!
 

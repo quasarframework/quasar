@@ -288,7 +288,7 @@
             <q-separator />
 
             <q-card-actions align="right">
-              <q-btn color="primary" flat label="Close" v-close-popup />
+              <q-btn color="brand-primary" flat label="Close" v-close-popup />
             </q-card-actions>
           </q-card>
         </q-dialog>

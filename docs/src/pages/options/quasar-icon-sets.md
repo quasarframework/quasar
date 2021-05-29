@@ -127,7 +127,7 @@ boot: [
 Notice the use of the [Webpack magic comment](https://webpack.js.org/api/module-methods/#magic-comments) - `webpackInclude`. Otherwise all the available icon set files will be bundled, resulting in an increase in the compilation time and the bundle size. See [Caveat for dynamic imports](https://quasar.dev/quasar-cli/lazy-loading#Caveat-for-dynamic-imports)
 :::
 
-### Dynamical (SSR) <q-badge align="top" label="v1.11+" />
+### Dynamical (SSR) <q-badge align="top" color="brand-primary" label="v1.11+" />
 When dealing with SSR, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
 
 ```js

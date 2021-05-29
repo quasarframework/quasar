@@ -176,7 +176,7 @@ return {
 }
 ```
 
-### Property: framework <q-badge align="top" label="@quasar/app v2 specs" />
+### Property: framework <q-badge align="top" color="brand-primary" label="@quasar/app v2 specs" />
 Tells the CLI what Quasar components/directives/plugins to import, what Quasar I18n language pack to use, what icon set to use for Quasar components and more.
 
 Filling "components" and "directives" is required only if "all" is set to `false`.
@@ -278,7 +278,7 @@ devServer: {
 }
 ```
 
-### Property: build <q-badge align="top" label="@quasar/app v2 specs" />
+### Property: build <q-badge align="top" color="brand-primary" label="@quasar/app v2 specs" />
 | Property | Type | Description |
 | --- | --- | --- |
 | transpile | Boolean | Enables or disables Babel transpiling. |
@@ -323,7 +323,7 @@ The following properties of `build` are automatically configured by Quasar CLI d
 
 If, for example, you run "quasar build --debug", sourceMap and extractCSS will be set to "true" regardless of what you configure.
 
-### Property: htmlVariables <q-badge align="top" label="@quasar/app v2 specs" />
+### Property: htmlVariables <q-badge align="top" color="brand-primary" label="@quasar/app v2 specs" />
 
 You can define and then reference variables in `src/index.template.html`, like this:
 ```js
@@ -361,7 +361,7 @@ sourceFiles: {
 }
 ```
 
-### Example setting env for dev/build <q-badge align="top" label="@quasar/app v2 specs" />
+### Example setting env for dev/build <q-badge align="top" color="brand-primary" label="@quasar/app v2 specs" />
 
 There's two concepts that need to be understood here. The env variables from the terminal that are available in `/quasar.conf.js` file itself and the environment variables that you pass to your UI code.
 

@@ -8,8 +8,8 @@
         .row.items-center.no-wrap.q-px-md.q-py-sm
           div {{ layout.name }}
           q-space
-          q-btn(type="a", :href="layout.demoLink", target="_blank", size="12px" flat, round, color="primary", :icon="mdiOpenInNew")
-          q-btn(type="a", :href="layout.sourceLink", , target="_blank", size="12px" flat, round, :icon="mdiCodeTags")
+          q-btn(type="a", :href="layout.demoLink", target="_blank", size="12px" flat, round, color="brand-primary", :icon="mdiOpenInNew")
+          q-btn(type="a", :href="layout.sourceLink", , target="_blank", size="12px" flat, round, color="grey-7", :icon="mdiCodeTags")
 
         q-separator
 

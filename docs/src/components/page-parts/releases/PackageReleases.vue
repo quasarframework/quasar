@@ -5,7 +5,7 @@ q-splitter.release__splitter(:value="20" :limits="[14, 90]")
       q-input(v-model="search" dense square standout color="white" placeholder="Search..." input-class="text-center" clearable)
         template(#append)
           q-icon(:name="mdiMagnify")
-      q-tabs.text-grey-7(vertical v-model="selectedVersion"  active-color="primary" active-bg-color="blue-1" indicator-color="primary")
+      q-tabs.text-grey-7(vertical v-model="selectedVersion"  active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
         q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label")
           .q-tab__label {{ releaseInfo.version }}
           small.text-grey-7 {{ releaseInfo.date }}

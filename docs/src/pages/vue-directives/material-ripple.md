@@ -33,7 +33,7 @@ You can also configure if the ripple should always start from center or not, reg
 
 <doc-example title="Positioning" file="Ripple/Positioning" />
 
-### Triggering early <q-badge align="top" label="v1.9.8+" />
+### Triggering early <q-badge align="top" color="brand-primary" label="v1.9.8+" />
 
 By default, the Ripple directive is triggered on click or keyup. However, you can change that and make it trigger earlier, on the first user interaction (mousedown, touchstart, keydown). Please note that in most situations the event sets may overlap (small delay between first and last user interaction) and there is no difference in the user perception, but in certain conditions it may lead to misleading the user.
 

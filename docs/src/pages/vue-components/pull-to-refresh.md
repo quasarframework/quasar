@@ -28,7 +28,7 @@ To refresh, pull down (with mouse or through finger touch) on the content below 
 
 <doc-example title="Custom icon" file="QPullToRefresh/Icon" />
 
-### Custom coloring <q-badge align="top" label="v1.9.5+" />
+### Custom coloring <q-badge align="top" color="brand-primary" label="v1.9.5+" />
 
 <doc-example title="Custom coloring" file="QPullToRefresh/CustomColoring" />
 
