@@ -13,6 +13,7 @@ import { create, stop, position, stopAndPreventClick } from '../../utils/event.j
 import EscapeKey from '../../utils/escape-key.js'
 
 import { slot } from '../../utils/slot.js'
+import { addFocusFn } from '../../utils/focus-manager.js'
 
 import {
   validatePosition, validateOffset, setPosition, parsePosition
@@ -129,14 +130,16 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      let node = this.__portal !== void 0 && this.__portal.$refs !== void 0
-        ? this.__portal.$refs.inner
-        : void 0
+      addFocusFn(() => {
+        let node = this.__portal !== void 0 && this.__portal.$refs !== void 0
+          ? this.__portal.$refs.inner
+          : void 0
 
-      if (node !== void 0 && node.contains(document.activeElement) !== true) {
-        node = node.querySelector('[autofocus], [data-autofocus]') || node
-        node.focus()
-      }
+        if (node !== void 0 && node.contains(document.activeElement) !== true) {
+          node = node.querySelector('[autofocus], [data-autofocus]') || node
+          node.focus()
+        }
+      })
     },
 
     __show (evt) {
@@ -195,6 +198,7 @@ export default Vue.extend({
         }
 
         this.updatePosition()
+        this.__showPortal(true)
         this.$emit('show', evt)
       }, 300)
     },

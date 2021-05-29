@@ -12,6 +12,7 @@ import AttrsMixin from '../../mixins/attrs.js'
 import { slot } from '../../utils/slot.js'
 import uid from '../../utils/uid.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
+import { addFocusFn, removeFocusFn } from '../../utils/focus-manager.js'
 
 function getTargetUid (val) {
   return val === void 0 ? `f_${uid()}` : val
@@ -237,15 +238,19 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      if (this.showPopup !== void 0) {
-        this.showPopup()
-        return
-      }
+      this.focusFn !== void 0 && removeFocusFn(this.focusFn)
+      this.focusFn = addFocusFn(() => {
+        if (this.showPopup !== void 0) {
+          this.showPopup()
+          return
+        }
 
-      this.__focus()
+        this.__focus()
+      })
     },
 
     blur () {
+      this.focusFn !== void 0 && removeFocusFn(this.focusFn)
       const el = document.activeElement
       // IE can have null document.activeElement
       if (el !== null && this.$el.contains(el)) {
