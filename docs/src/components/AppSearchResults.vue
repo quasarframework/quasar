@@ -99,13 +99,13 @@ export default {
   &__section-title
     padding: 4px 0 4px 16px
     font-weight: 500
-    color: $primary
+    color: $brand-primary
 
   &__result
     margin: 4px 16px 4px 0
     padding: 8px 8px 8px 16px
     border: 1px solid rgba(0, 0, 0, 0.12)
-    border-right: 4px solid $primary
+    border-right: 4px solid $brand-primary
     border-radius: 0 4px 4px 0
     position: relative
     cursor: pointer
@@ -118,7 +118,7 @@ export default {
         width: 1.2em
         height: 1.2em
         background: #fff
-        color: $primary
+        color: $brand-primary
         border-radius: 4px
 
     &-overlay
@@ -138,7 +138,7 @@ export default {
       color: #000
 
   &__result.q-item--active
-    background: $primary
+    background: $brand-primary
     color: #fff
 
     .app-search__result-overlay

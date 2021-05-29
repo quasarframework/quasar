@@ -1,18 +1,18 @@
 <template lang="pug">
-  router-link.doc-link(
-    v-if="internal === true"
-    tag="a"
-    :to="to"
-  )
-    slot
-  a.doc-link(
-    v-else
-    :href="to"
-    target="_blank"
-    rel="noopener"
-  )
-    slot
-    q-icon(:name="mdiLaunch")
+router-link.doc-link(
+  v-if="internal === true"
+  tag="a"
+  :to="to"
+)
+  slot
+a.doc-link(
+  v-else
+  :href="to"
+  target="_blank"
+  rel="noopener"
+)
+  slot
+  q-icon(:name="mdiLaunch")
 </template>
 
 <script>
@@ -41,7 +41,7 @@ export default {
 
 <style lang="sass">
 .doc-link
-  color: $primary
+  color: $brand-primary
   font-weight: 500
   text-decoration: none
   outline: 0

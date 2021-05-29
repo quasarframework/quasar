@@ -105,8 +105,8 @@ export default {
   .q-markup-table
     white-space: normal
 .release__blockquote
-  background: rgba($primary, .05)
-  border: 1px solid $primary
+  background: rgba($brand-primary, .05)
+  border: 1px solid $brand-primary
   padding: 4px 8px
   border-radius: $generic-border-radius
 .release__code

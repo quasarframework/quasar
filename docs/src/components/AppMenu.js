@@ -94,7 +94,7 @@ export default {
         menu.badge !== void 0
           ? h(QItemSection, {
             props: { side: true }
-          }, [ h(QBadge, [ menu.badge ]) ])
+          }, [ h(QBadge, { props: { color: 'brand-primary' } }, [ menu.badge ]) ])
           : null
       ])
     }

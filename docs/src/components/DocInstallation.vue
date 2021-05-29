@@ -1,6 +1,6 @@
 <template lang="pug">
 q-card.doc-installation.q-my-lg(flat, bordered)
-  q-tabs.text-grey-7.bg-white(v-model="currentTab", align="left", indicator-color="primary", dense, :breakpoint="0")
+  q-tabs.text-grey-7.bg-white(v-model="currentTab", align="left", indicator-color="brand-primary", dense, :breakpoint="0")
     q-tab(
       v-for="tab in ['Quasar CLI', 'UMD', 'Vue CLI']"
       :key="`installation-${tab}`"

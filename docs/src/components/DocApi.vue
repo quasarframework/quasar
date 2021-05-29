@@ -5,13 +5,13 @@ q-card.doc-api.q-my-lg(flat bordered)
     q-space
     .col-auto.text-grey {{ type }}
 
-  q-linear-progress(v-if="loading", color="primary", indeterminate)
+  q-linear-progress(v-if="loading", color="brand-primary", indeterminate)
 
   template(v-else)
     q-separator
 
     div.bg-grey-2.text-grey-7.flex.no-wrap
-      q-tabs.col(v-model="currentTab", indicator-color="primary", align="left", :breakpoint="0", dense)
+      q-tabs.col(v-model="currentTab", active-color="brand-primary", indicator-color="brand-primary", align="left", :breakpoint="0", dense)
         q-tab(
           v-for="tab in tabs"
           :key="`api-tab-${tab}`"
@@ -19,7 +19,7 @@ q-card.doc-api.q-my-lg(flat bordered)
         )
           .row.no-wrap.items-center
             span.q-mr-xs.text-uppercase.text-weight-medium {{ tab }}
-            q-badge(v-if="tabCount[tab]") {{ tabCount[tab] }}
+            q-badge(v-if="tabCount[tab]" color="brand-primary" :label="tabCount[tab]")
 
       q-input.q-mx-sm(
         v-if="$q.screen.gt.xs"
@@ -45,8 +45,8 @@ q-card.doc-api.q-my-lg(flat bordered)
           .col-auto.row.no-wrap.bg-grey-1.text-grey-7.q-py-lg
             q-tabs(
               v-model="currentInnerTab[tab]",
-              active-color="primary",
-              indicator-color="primary",
+              active-color="brand-primary",
+              indicator-color="brand-primary",
               :breakpoint="0",
               vertical,
               dense,
@@ -59,9 +59,9 @@ q-card.doc-api.q-my-lg(flat bordered)
                 :name="category"
               )
                 .row.no-wrap.items-center.self-stretch
-                  span.q-mr-xs.text-capitalize.text-weight-medium {{ category }}
+                  span.q-mr-xs.text-weight-medium {{ category }}
                   .col
-                  q-badge(v-if="apiInnerCount(tab, category)") {{ formattedApiInnerCount(tab, category) }}
+                  q-badge(v-if="apiInnerCount(tab, category)" color="brand-primary" :label="formattedApiInnerCount(tab, category)")
 
           q-separator(vertical)
 

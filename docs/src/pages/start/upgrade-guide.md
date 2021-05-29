@@ -177,7 +177,7 @@ The best way to start upgrading your project is to follow these steps:
   // to match your app's branding.
   // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
-  $primary   = #027BE3
+  $primary   = #1976d2
   $secondary = #26A69A
   $accent    = #9C27B0
 

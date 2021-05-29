@@ -46,6 +46,6 @@ export default {
     transition: color .28s, background .28s
 
   &:hover .quasar-sponsor__title
-    background: $primary
+    background: $brand-primary
     color: #fff
 </style>
