@@ -140,12 +140,12 @@ module.exports = function (ctx) {
         ]
       },
       metaVariables: {
-        appleTouchIcon120: 'https://cdn.quasar.dev/app-icons/apple-icon-120x120.png',
-        appleTouchIcon180: 'https://cdn.quasar.dev/app-icons/apple-icon-180x180.png',
-        appleTouchIcon152: 'https://cdn.quasar.dev/app-icons/apple-icon-152x152.png',
-        appleTouchIcon167: 'https://cdn.quasar.dev/app-icons/apple-icon-167x167.png',
-        appleSafariPinnedTab: 'https://cdn.quasar.dev/app-icons/safari-pinned-tab.svg',
-        msapplicationTileImage: 'https://cdn.quasar.dev/app-icons/ms-icon-144x144.png'
+        appleTouchIcon120: 'https://cdn.quasar.dev/logo-v2/favicon/apple-icon-120x120.png',
+        appleTouchIcon180: 'https://cdn.quasar.dev/logo-v2/favicon/apple-icon-180x180.png',
+        appleTouchIcon152: 'https://cdn.quasar.dev/logo-v2/favicon/apple-icon-152x152.png',
+        appleTouchIcon167: 'https://cdn.quasar.dev/logo-v2/favicon/apple-icon-167x167.png',
+        appleSafariPinnedTab: 'https://cdn.quasar.dev/logo-v2/favicon/safari-pinned-tab.svg',
+        msapplicationTileImage: 'https://cdn.quasar.dev/logo-v2/favicon/ms-icon-144x144.png'
       }
     },
 
