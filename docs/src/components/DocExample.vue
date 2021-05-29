@@ -21,7 +21,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
         v-model="currentTab",
         align="left",
         :active-color="dark ? 'amber' : void 0",
-        :indicator-color="dark ? 'amber' : 'primary'",
+        :indicator-color="dark ? 'amber' : 'brand-primary'",
         dense,
         :breakpoint="0"
       )

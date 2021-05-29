@@ -26,8 +26,7 @@ q-card.doc-api.q-my-lg(flat bordered)
         )
           .row.no-wrap.items-center
             span.q-mr-xs.text-capitalize.text-weight-medium {{ tab }}
-            q-badge(v-if="filteredApiCount[tab].overall")
-              | {{ filteredApiCount[tab].overall }}
+            q-badge(v-if="filteredApiCount[tab].overall" :label="filteredApiCount[tab].overall")
 
       q-input.q-mx-sm(
         v-if="$q.screen.gt.xs"
@@ -69,8 +68,7 @@ q-card.doc-api.q-my-lg(flat bordered)
                 .row.no-wrap.items-center.self-stretch
                   span.q-mr-xs.text-capitalize.text-weight-medium {{ innerTab }}
                   .col
-                  q-badge(v-if="filteredApiCount[tab].category[innerTab]")
-                    | {{ filteredApiCount[tab].category[innerTab] }}
+                  q-badge(v-if="filteredApiCount[tab].category[innerTab]" :label="filteredApiCount[tab].category[innerTab]")
 
           q-separator(vertical)
 

@@ -90,7 +90,7 @@ module.exports = function (ctx) {
 
       config: {
         loadingBar: {
-          color: 'primary',
+          color: 'brand-primary',
           size: '4px'
         }
       },
@@ -146,13 +146,13 @@ module.exports = function (ctx) {
         ]
       },
       manifest: {
-        name: 'Quasar Next Documentation',
-        short_name: 'Quasar Next',
-        description: 'Quasar Framework Next Documentation',
+        name: 'Quasar v2 Docs',
+        short_name: 'Quasar v2',
+        description: 'Quasar Framework v2 Documentation',
         display: 'standalone',
         orientation: 'any',
-        background_color: '#ffffff',
-        theme_color: '#027be3',
+        background_color: '#000000',
+        theme_color: '#00B4FF',
         icons: [
           {
             src: 'https://cdn.quasar.dev/logo-v2/favicon/icon-128x128.png',

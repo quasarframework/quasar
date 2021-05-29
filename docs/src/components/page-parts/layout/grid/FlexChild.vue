@@ -193,7 +193,7 @@ export default {
     onMounted(emitChange)
 
     const buttonClasses = computed(() => {
-      return 'text-white ' + (props.index === props.selectedIndex ? 'bg-primary' : 'bg-grey')
+      return 'text-white ' + (props.index === props.selectedIndex ? 'bg-brand-primary' : 'bg-grey')
     })
 
     const styles = computed(() => {

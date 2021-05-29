@@ -450,7 +450,7 @@ describe.quasarConfOptions = conf => {
 }
 
 export default {
-  name: 'ApiRows',
+  name: 'DocApiEntry',
 
   props: {
     type: String,
