@@ -10,8 +10,11 @@ QTimeline has 3 layouts:
 - `comfortable` is showing headings, titles and content on the **timeline-specified side** of the time line (default on right) and the subtitles on the other side
 - `loose` is showing headings on center, titles and content on the **entry-specified side** of the time line (default on right) and the subtitles on the other side
 
-## Installation
-<doc-installation :components="['QTimeline', 'QTimelineEntry']" />
+## QTimeline API
+<doc-api file="QTimeline" />
+
+## QTimelineEntry API
+<doc-api file="QTimelineEntry" />
 
 ## Usage
 
@@ -50,9 +53,3 @@ The examples below uses `$q.screen` to detect changes in window size to see all 
 :::
 
 <doc-example title="Responsive layout" file="QTimeline/Responsive" scrollable />
-
-## QTimeline API
-<doc-api file="QTimeline" />
-
-## QTimelineEntry API
-<doc-api file="QTimelineEntry" />

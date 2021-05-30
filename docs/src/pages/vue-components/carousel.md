@@ -5,8 +5,17 @@ desc: The QCarousel Vue component allows you to display a series of slides, usef
 
 The QCarousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards or an image gallery too.
 
-## Installation
-<doc-installation :components="['QCarousel', 'QCarouselControl', 'QCarouselSlide']" />
+## QCarousel API
+
+<doc-api file="QCarousel" />
+
+## QCarouselControl API
+
+<doc-api file="QCarouselControl" />
+
+## QCarouselSlide API
+
+<doc-api file="QCarouselSlide" />
 
 ## Usage
 
@@ -33,21 +42,21 @@ In the example below:
 
 <doc-example title="Transitions, bottom navigation, arrows and auto padding" file="QCarousel/Transitions" />
 
-### Vertical <q-badge align="top" label="v1.9+" />
+### Vertical <q-badge align="top" color="brand-primary" label="v1.9+" />
 
 <doc-example title="Vertical mode" file="QCarousel/Vertical" />
 
-### Control type <q-badge align="top" label="v1.9+" />
+### Control type <q-badge align="top" color="brand-primary" label="v1.9+" />
 
 The notion of "control" here refers to the arrows and navigation buttons. Since they are buttons, you can also pick their type to better match your design. You also benefit from the `control-color` and `control-text-color` props.
 
 <doc-example title="Control Type" file="QCarousel/ControlType" />
 
-### Navigation position <q-badge align="top" label="v1.9+" />
+### Navigation position <q-badge align="top" color="brand-primary" label="v1.9+" />
 
 <doc-example title="Navigation position" file="QCarousel/NavigationPosition" />
 
-### Custom navigation <q-badge align="top" label="v1.13.2+" />
+### Custom navigation <q-badge align="top" color="brand-primary" label="v1.13.2+" />
 
 For a full list of properties of the `navigation-icon` slot, please consult the API card.
 
@@ -87,7 +96,7 @@ You can pause autoplay when the pointer is over the carousel or over a region of
 
 <doc-example title="Controls" file="QCarousel/Controls" />
 
-### With QScrollArea <q-badge align="top" label="v1.9+" />
+### With QScrollArea <q-badge align="top" color="brand-primary" label="v1.9+" />
 
 Please note how [QScrollArea](/vue-components/scroll-area) is used in the two examples below. Also note the `q-carousel--padding` CSS helper class in the second example.
 
@@ -98,15 +107,3 @@ Please note how [QScrollArea](/vue-components/scroll-area) is used in the two ex
 ### Fullscreen
 
 <doc-example title="Fullscreen" file="QCarousel/Fullscreen" />
-
-## QCarousel API
-
-<doc-api file="QCarousel" />
-
-## QCarouselControl API
-
-<doc-api file="QCarouselControl" />
-
-## QCarouselSlide API
-
-<doc-api file="QCarouselSlide" />

@@ -11,8 +11,8 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-pan` on the lines below.
 
-## Installation
-<doc-installation directives="TouchPan" />
+## TouchPan API
+<doc-api file="TouchPan" />
 
 ## Usage
 Click then pan in a direction with your mouse on the area below to see it in action.
@@ -84,6 +84,3 @@ Below is a nice example on using TouchPan on a QFab. You can drag it across the 
 
 ## Note on HMR
 Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.
-
-## TouchPan API
-<doc-api file="TouchPan" />

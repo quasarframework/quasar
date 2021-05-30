@@ -5,8 +5,11 @@ desc: The QBreadcrumbs Vue component is a navigational aid for your UI. It allow
 
 The QBreadcrumbs component is used as a navigational aid in UI. It allows users to keep track of their location within programs, documents, or websites. Most common use is it's in a [QToolbar](/vue-components/toolbar), but it's not limited to it.
 
-## Installation
-<doc-installation :components="['QBreadcrumbs', 'QBreadcrumbsEl']" />
+## QBreadcrumbs API
+<doc-api file="QBreadcrumbs" />
+
+## QBreadcrumbsEl API
+<doc-api file="QBreadcrumbsEl" />
 
 ## Usage
 <doc-example title="Basic" file="QBreadcrumbs/Basic" />
@@ -22,9 +25,3 @@ The example below won't work with UMD version (so in Codepen/jsFiddle too) becau
 <doc-example title="Gutters" file="QBreadcrumbs/Gutters" />
 
 <doc-example title="Align" file="QBreadcrumbs/Align" />
-
-## QBreadcrumbs API
-<doc-api file="QBreadcrumbs" />
-
-## QBreadcrumbsEl API
-<doc-api file="QBreadcrumbsEl" />

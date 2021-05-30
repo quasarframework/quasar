@@ -12,8 +12,8 @@ The button component also comes with a spinner or loading effect. You would use 
 
 When not disabled or spinning, QBtn emits a `@click` event, as soon as it is clicked or tapped.
 
-## Installation
-<doc-installation components="QBtn" />
+## QBtn API
+<doc-api file="QBtn" />
 
 ## Usage
 
@@ -51,7 +51,7 @@ When not disabled or spinning, QBtn emits a `@click` event, as soon as it is cli
 
 <doc-example title="Button size" file="QBtn/ButtonSize" />
 
-### Padding <q-badge align="top" label="v1.11+" />
+### Padding <q-badge align="top" color="brand-primary" label="v1.11+" />
 
 The default padding is "xs md". However, you can use `padding` prop to customize it:
 
@@ -97,6 +97,3 @@ When placing a QBtn with type "submit" in one of the "before", "after", "prepend
 :::
 
 <doc-example title="Form Submission" file="QBtn/FormSubmission" />
-
-## QBtn API
-<doc-api file="QBtn" />

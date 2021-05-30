@@ -9,8 +9,8 @@ related:
 
 The QInfiniteScroll component allows you to load new content as the user scrolls the page.
 
-## Installation
-<doc-installation components="QInfiniteScroll" />
+## QInfiniteScroll API
+<doc-api file="QInfiniteScroll" />
 
 ## Usage
 
@@ -42,6 +42,3 @@ If the scroll target container cannot be overflowed you'll get a forever loading
 :::
 
 <doc-example title="Usage in QMenu" file="QInfiniteScroll/Menu" />
-
-## QInfiniteScroll API
-<doc-api file="QInfiniteScroll" />

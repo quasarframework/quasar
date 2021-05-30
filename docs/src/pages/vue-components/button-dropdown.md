@@ -9,8 +9,8 @@ QBtnDropdown is a very convenient dropdown button. Goes very well with [QList](/
 
 In case you are looking for a dropdown "input" instead of "button" use [Select](/vue-components/select) instead.
 
-## Installation
-<doc-installation components="QBtnDropdown" />
+## QBtnDropdown API
+<doc-api file="QBtnDropdown" />
 
 ## Usage
 
@@ -33,6 +33,3 @@ In case you are looking for a dropdown "input" instead of "button" use [Select](
 The following example won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.
 
 <doc-example title="Split and router link on main" file="QBtnDropdown/Link" no-edit />
-
-## QBtnDropdown API
-<doc-api file="QBtnDropdown" />

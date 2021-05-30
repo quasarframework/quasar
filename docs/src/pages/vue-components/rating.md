@@ -5,9 +5,9 @@ desc: The QRating Vue component allows the user to rate items. It's usually know
 
 Quasar Rating is a Component which allows users to rate items, usually known as “Star Rating”.
 
-## Installation
+## QRating API
 
-<doc-installation components="QRating" />
+<doc-api file="QRating" />
 
 ## Usage
 
@@ -27,21 +27,21 @@ In the example below, when using the `icon-selected` prop, notice we can still u
 
 <doc-example title="Different icon for each rating" file="QRating/ArrayIcon" />
 
-### Colors <q-badge align="top" label="v1.5+" />
+### Colors <q-badge align="top" color="brand-primary" label="v1.5+" />
 
 When using the `color-selected` prop, notice we can still use `color` as well. The latter becomes the color(s) of the icons when they are not selected.
 
 <doc-example title="Different color for each rating" file="QRating/Colors" />
 
-### Floating number <q-badge align="top" label="v1.7.4+" />
+### Floating number <q-badge align="top" color="brand-primary" label="v1.7.4+" />
 
 <doc-example title="Different icon and color when half selected" file="QRating/HalfSelected" />
 
-### No dimming <q-badge align="top" label="v1.7.4+" />
+### No dimming <q-badge align="top" color="brand-primary" label="v1.7.4+" />
 
 <doc-example title="No dimming" file="QRating/NoDimming" />
 
-### Tooltips <q-badge align="top" label="v1.5+" />
+### Tooltips <q-badge align="top" color="brand-primary" label="v1.5+" />
 
 Notice how we can add tooltips to each icon in the example below.
 
@@ -57,12 +57,8 @@ Apart from the standard sizes below, you can define your own through the `size` 
 
 <doc-example title="Readonly and disable" file="QRating/ReadonlyDisable" />
 
-### Native form submit <q-badge align="top" label="v1.9+" />
+### Native form submit <q-badge align="top" color="brand-primary" label="v1.9+" />
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRating, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QRating/NativeForm" />
-
-## QRating API
-
-<doc-api file="QRating" />

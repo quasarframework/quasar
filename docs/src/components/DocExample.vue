@@ -21,7 +21,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
         v-model="currentTab",
         align="left",
         :active-color="dark ? 'amber' : void 0",
-        :indicator-color="dark ? 'amber' : 'primary'",
+        :indicator-color="dark ? 'amber' : 'brand-primary'",
         dense,
         :breakpoint="0"
       )
@@ -48,7 +48,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
       q-separator.doc-example__separator
 
   .row
-    q-linear-progress(v-if="loading", color="primary", indeterminate)
+    q-linear-progress(v-if="loading", color="brand-primary", indeterminate)
     component.col.doc-example__content(v-else, :is="component", :class="componentClass")
 
   codepen(ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle")

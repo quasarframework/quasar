@@ -13,8 +13,8 @@ QFile is a component which handles the user interaction for picking file(s).
 If you also want a component to also handle the upload for you, please consider using [QUploader](/vue-components/uploader) instead.
 :::
 
-## Installation
-<doc-installation components="QFile"/>
+## QFile API
+<doc-api file="QFile" />
 
 ## Design
 
@@ -53,7 +53,7 @@ Under the covers, QFile uses a native input. Due to browser security policy, it 
 
 <doc-example title="Multiple files" file="QFile/BasicMultiple" />
 
-### Appending files <q-badge align="top" label="v1.11.3+" />
+### Appending files <q-badge align="top" color="brand-primary" label="v1.11.3+" />
 
 By default, QFile replaces the model each time the user selects any files through the popup. However, when you are accepting multiple files (`multiple` prop) you can change this behavior and append the new selection to the model rather than replacing its old value.
 
@@ -96,11 +96,8 @@ You can also apply custom filters (which are executed after user picks files):
 <doc-example title="Filter" file="QFile/RestrictionFilter" />
 
 
-### Native form submit <q-badge align="top" label="v1.9+" />
+### Native form submit <q-badge align="top" color="brand-primary" label="v1.9+" />
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QFile, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QFile/NativeForm" />
-
-## QFile API
-<doc-api file="QFile" />

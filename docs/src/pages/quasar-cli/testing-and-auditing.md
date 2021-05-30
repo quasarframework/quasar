@@ -15,7 +15,7 @@ Testing is not in and of itself hard. The most complicated part is setting up th
 
 Testing has its own documentation website (https://testing.quasar.dev), so head there for full info.
 
-<q-btn color="primary" label="testing.quasar.dev" icon-right="launch" no-caps type="a"  href="https://testing.quasar.dev" target="_blank" />
+<q-btn color="brand-primary" label="testing.quasar.dev" icon-right="launch" no-caps type="a"  href="https://testing.quasar.dev" target="_blank" />
 
 ## Installing
 

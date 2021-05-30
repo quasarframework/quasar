@@ -13,7 +13,7 @@ Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
 
 ...within the same project folder, ensuring you are **following the best Quasar practices while everything will simply work out of the box**.
 
-<q-btn push no-caps color="primary" icon-right="launch" label="Install Quasar CLI" to="/quasar-cli/installation" class="q-mt-md" />
+<q-btn push no-caps color="brand-primary" icon-right="launch" label="Install Quasar CLI" to="/quasar-cli/installation" class="q-mt-md" />
 
 ## What's Included
 

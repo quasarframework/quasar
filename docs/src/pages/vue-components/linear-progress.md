@@ -11,9 +11,8 @@ related:
 
 The QLinearProgress component displays a colored loading bar. The bar can either have a determinate progress or an indeterminate animation. It should be used to inform the user that an action is occurring in the background.
 
-
-## Installation
-<doc-installation components="QLinearProgress" />
+## QLinearProgress API
+<doc-api file="QLinearProgress" />
 
 ## Usage
 
@@ -54,6 +53,3 @@ To add a label to the progress bar you can use the default slot. Take care to:
   - set a text color for the label so that it is visible both on the filled and unfilled areas, or use text-shadow CSS, or use a QBadge as in the example below
 
 <doc-example title="With a label" file="QLinearProgress/Label" />
-
-## QLinearProgress API
-<doc-api file="QLinearProgress" />

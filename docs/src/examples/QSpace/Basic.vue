@@ -11,7 +11,7 @@
 
     <div class="row no-wrap items-center q-mt-md q-pa-sm bg-grey-3 rounded-borders">
       <q-avatar>
-        <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+        <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
       </q-avatar>
 
       <q-space />

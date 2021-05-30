@@ -11,8 +11,8 @@ Quasar supplies a way for you to upload files through the QUploader component.
 If all you want is an input file, you might want to consider using [QFile](/vue-components/file-picker) picker component instead.
 :::
 
-## Installation
-<doc-installation components="QUploader" />
+## QUploader API
+<doc-api file="QUploader" />
 
 ## Usage
 
@@ -275,7 +275,7 @@ cors = CORS()
 cors.init_app(app, resource={r"/api/*": {"origins": "*"}})
 
 @app.route('/upload', methods=['POST'])
-def upload():        
+def upload():
     for fname in request.files:
         f = request.files.get(fname)
         print(f)
@@ -369,6 +369,3 @@ export default {
   }
 }
 ```
-
-## QUploader API
-<doc-api file="QUploader" />

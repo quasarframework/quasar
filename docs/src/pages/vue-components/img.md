@@ -7,8 +7,8 @@ related:
 ---
 The QImg component makes working with images (any picture format) easy and also adds a nice loading effect to it along with many other features (example: the ability to set an aspect ratio).
 
-## Installation
-<doc-installation components="QImg" />
+## QImg API
+<doc-api file="QImg" />
 
 ## Usage
 
@@ -24,7 +24,7 @@ The QImg component makes working with images (any picture format) easy and also 
 
 <doc-example title="Captions" file="QImg/Caption" />
 
-### Image style <q-badge align="top" label="v1.4+" />
+### Image style <q-badge align="top" color="brand-primary" label="v1.4+" />
 
 In the example below, we add a blur and sepia effect. Furthermore, we make use of the `rounded-borders` CSS helper class.
 
@@ -68,7 +68,7 @@ For `sizes` property, please read about Resolution Switching: [Different Sizes](
 For `srcset` property, please read about Resolution Switching: [Same size, different resolutions](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Same_size_different_resolutions).
 :::
 
-### Native context menu <q-badge align="top" label="v1.8.4+" />
+### Native context menu <q-badge align="top" color="brand-primary" label="v1.8.4+" />
 
 In the example below we enable native context menu on the images.
 
@@ -77,6 +77,3 @@ When you are using this option always take care to have the content of the `defa
 :::
 
 <doc-example title="Native context menu" file="QImg/ContextMenu" />
-
-## QImg API
-<doc-api file="QImg" />

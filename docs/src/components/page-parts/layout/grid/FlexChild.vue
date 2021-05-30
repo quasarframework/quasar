@@ -202,7 +202,7 @@ export default {
 
   computed: {
     buttonClasses () {
-      return 'text-white ' + (this.index === this.selectedIndex ? 'bg-primary' : 'bg-grey')
+      return 'text-white ' + (this.index === this.selectedIndex ? 'bg-brand-primary' : 'bg-grey')
     },
 
     styles () {

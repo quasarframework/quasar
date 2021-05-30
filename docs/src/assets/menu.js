@@ -1216,6 +1216,12 @@ module.exports = [
     path: 'why-donate'
   },
   {
+    name: 'API Explorer',
+    icon: 'travel_explore',
+    badge: 'new',
+    path: 'api-explorer'
+  },
+  {
     name: 'Video Tutorials',
     icon: 'ondemand_video',
     path: 'video-tutorials'

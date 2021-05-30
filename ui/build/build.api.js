@@ -491,7 +491,7 @@ function arrayHasError (name, key, property, expected, propApi) {
   }
 }
 
-function fillAPI (apiType) {
+function fillAPI (apiType, list) {
   return file => {
     const
       name = path.basename(file),
@@ -596,6 +596,9 @@ function fillAPI (apiType) {
     // copy API file to dest
     writeFile(filePath, JSON.stringify(api, null, 2))
 
+    const shortName = name.substring(0, name.length - 5)
+    list.push(shortName)
+
     return {
       name: name.substring(0, name.length - 5),
       api
@@ -628,21 +631,31 @@ function writeTransformAssetUrls (components) {
   )
 }
 
+function writeApiIndex (list) {
+  writeFile(
+    path.join(root, 'dist/api-list.json'),
+    JSON.stringify(list, null, 2)
+  )
+}
+
 module.exports.generate = function () {
   return new Promise((resolve) => {
+    const list = []
+
     const plugins = glob.sync(resolvePath('src/plugins/*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
-      .map(fillAPI('plugin'))
+      .map(fillAPI('plugin', list))
 
     const directives = glob.sync(resolvePath('src/directives/*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
-      .map(fillAPI('directive'))
+      .map(fillAPI('directive', list))
 
     const components = glob.sync(resolvePath('src/components/**/Q*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
-      .map(fillAPI('component'))
+      .map(fillAPI('component', list))
 
     writeTransformAssetUrls(components)
+    writeApiIndex(list)
 
     resolve({ components, directives, plugins })
   }).catch(err => {

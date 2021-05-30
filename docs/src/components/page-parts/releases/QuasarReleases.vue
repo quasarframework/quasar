@@ -4,10 +4,10 @@ q-card(flat bordered)
     q-icon.q-mr-sm(name="warning" size="24px" color="negative")
     div Cannot connect to GitHub. Please try again later.
   q-card-section.row.no-wrap.items-center(v-else-if="loading")
-    q-spinner.q-mr-sm(size="24px" color="primary")
+    q-spinner.q-mr-sm(size="24px" color="brand-primary")
     div Loading release notes from GitHub...
   template(v-else)
-    q-tabs.text-grey-7(v-model="currentPackage" align="left" active-color="primary" active-bg-color="blue-1" indicator-color="primary")
+    q-tabs.text-grey-7(v-model="currentPackage" align="left" active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
       q-tab(v-for="(packageReleases, packageName) in packages" :label="packageName" :name="packageName" :key="packageName")
     q-separator
     q-tab-panels.packages-container(v-model="currentPackage" animated)

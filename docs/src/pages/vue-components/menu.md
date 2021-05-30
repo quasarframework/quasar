@@ -11,8 +11,8 @@ components:
 
 The QMenu component is a convenient way to show menus. Goes very well with [QList](/vue-components/list-and-list-items) as dropdown content, but it's by no means limited to it.
 
-## Installation
-<doc-installation components="QMenu" directives="ClosePopup" />
+## QMenu API
+<doc-api file="QMenu" />
 
 ## Usage
 
@@ -75,6 +75,3 @@ The final position of QMenu popup is calculated so that it will be displayed on 
 For horizontal positioning you can use `start` and `end` when you want to automatically take into account if on RTL or non-RTL. `start` and `end` mean "left" for non-RTL and "right" for RTL.
 
 <menu-positioning />
-
-## QMenu API
-<doc-api file="QMenu" />
