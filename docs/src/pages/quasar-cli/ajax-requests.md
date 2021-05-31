@@ -33,6 +33,10 @@ Also make sure to yarn/npm install the `axios` package.
 Be sure to check out [Prefetch Feature](/quasar-cli/prefetch-feature) if you are using Quasar CLI.
 :::
 
+::: tip
+To use `$q.notify` in your ajax requests, you'll first need to [install the Notify plugin](https://next.quasar.dev/quasar-plugins/notify#installation).
+:::
+
 Usage in your single file components methods will be like:
 ```js
 import { api } from 'boot/axios'
