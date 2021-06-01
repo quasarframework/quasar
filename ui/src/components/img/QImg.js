@@ -18,11 +18,14 @@ export default defineComponent({
     src: String,
     srcset: String,
     sizes: String,
+
     alt: String,
     crossorigin: {
       type: String,
       validator: val => crossoriginValues.includes(val)
     },
+    draggable: Boolean,
+
     loading: {
       type: String,
       default: 'lazy',
@@ -56,7 +59,7 @@ export default defineComponent({
 
   emits: [ 'load', 'error' ],
 
-  setup (props, { slots, emit }) {
+  setup (props, { slots, attrs, emit }) {
     const naturalRatio = ref(0.5)
     const ratioStyle = useRatio(props, naturalRatio)
 
@@ -178,6 +181,7 @@ export default defineComponent({
 
       const data = {
         key: 'img_' + index,
+        ...attrs,
         class: imgClass.value,
         style: imgStyle.value,
         crossorigin: props.crossorigin,
@@ -185,6 +189,7 @@ export default defineComponent({
         width: props.width,
         loading: props.loading,
         'aria-hidden': 'true',
+        draggable: props.draggable,
         ...img
       }
 

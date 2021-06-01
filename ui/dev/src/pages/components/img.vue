@@ -52,6 +52,7 @@
         alt="Image"
         style="max-width: 400px"
         :no-native-menu="noNativeMenu"
+        draggable
       >
         <template v-slot:loading>
           <div class="text-h2 text-white">

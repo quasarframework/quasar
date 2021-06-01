@@ -120,6 +120,12 @@
       "category": "content"
     },
 
+    "draggable": {
+      "type": "Boolean",
+      "desc": "Adds the native 'draggable' attribute",
+      "category": "behavior"
+    },
+
     "img-class": {
       "type": [ "Array", "String", "Object" ],
       "desc": "Class definitions to be attributed to the container of image; Does not apply to the caption",
