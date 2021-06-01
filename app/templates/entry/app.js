@@ -15,7 +15,6 @@ import vueDevtools from '@vue/devtools'
 <% } %>
 
 import { Quasar } from 'quasar'
-import quasarUserOptions from './quasar-user-options.js'
 import <%= __needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
 
 <% if (store) { %>
@@ -64,13 +63,12 @@ const RootComponent = defineComponent({
 })
 <% } %>
 
-export default async function (createAppFn<%= ctx.mode.ssr ? ', ssrContext' : '' %>) {
+export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? ', ssrContext' : '' %>) {
   // create store and router instances
   <% if (store) { %>
   const store = typeof createStore === 'function'
     ? await createStore({<%= ctx.mode.ssr ? 'ssrContext' : '' %>})
     : createStore
-
 
   // obtain Vuex injection key in case we use TypeScript
   const { storeKey } = await import('app/<%= sourceFiles.store %>');

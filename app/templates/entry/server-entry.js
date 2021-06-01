@@ -32,6 +32,7 @@ import '<%= asset.path %>'
 <% }) %>
 
 import createQuasarApp from './app.js'
+import quasarUserOptions from './quasar-user-options.js'
 
 <% if (preFetch) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
@@ -75,13 +76,15 @@ function redirectBrowser (url, router, reject, httpStatusCode) {
   reject({ url: normalized, code: httpStatusCode })
 }
 
+const { components, directives, ...qUserOptions } = quasarUserOptions
+
 // This is where we perform data-prefetching to determine the
 // state of our application before actually rendering it.
 // Since data fetching is async, this function is expected to
 // return a Promise that resolves to the app instance.
 export default ssrContext => {
   return new Promise(async (resolve, reject) => {
-    const { app, router<%= store ? ', store, storeKey' : '' %> } = await createQuasarApp(createApp, ssrContext)
+    const { app, router<%= store ? ', store, storeKey' : '' %> } = await createQuasarApp(createApp, qUserOptions, ssrContext)
 
     <% if (bootNames.length > 0) { %>
     let hasRedirected = false

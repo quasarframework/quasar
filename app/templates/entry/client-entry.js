@@ -45,6 +45,7 @@ import '<%= asset.path %>'
 <% }) %>
 
 import createQuasarApp from './app.js'
+import quasarUserOptions from './quasar-user-options.js'
 
 <% if (ctx.mode.pwa) { %>
 import 'app/<%= sourceFiles.registerServiceWorker %>'
@@ -241,7 +242,7 @@ createQuasarApp(<%=
   ctx.mode.ssr
     ? (ctx.mode.pwa ? 'isRunningOnPWA ? createApp : createSSRApp' : 'createSSRApp')
     : 'createApp'
-%>)
+%>, quasarUserOptions)
 <% if (bootEntries.length > 0) { %>
   .then(app => {
     return Promise.all([
