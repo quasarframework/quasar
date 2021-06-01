@@ -27,7 +27,6 @@ Below is a list of official app-extensions created by members of the Quasar team
 
 | Alias | Description |
 | --- | --- |
-| [@quasar/icon-genie](https://github.com/quasarframework/app-extension-icon-genie) | Cross-platform construction kit to generate all app-icons (favicons, .ico, .icns) for distributables |
 | [@quasar/obyte](https://github.com/quasarframework/app-extension-obyte) | Work with the Obyte Blockchain |
 
 ### Components
