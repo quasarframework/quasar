@@ -230,7 +230,8 @@ export default defineComponent({
     // expose public methods
     Object.assign(proxy, {
       removeAtIndex,
-      removeFile
+      removeFile,
+      getNativeElement: () => inputRef.value
     })
 
     return useField(state)

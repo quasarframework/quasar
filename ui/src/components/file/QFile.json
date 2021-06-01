@@ -165,6 +165,15 @@
           "__exemption": [ "examples" ]
         }
       }
+    },
+
+    "getNativeElement": {
+      "desc": "Get the native input DOM Element",
+      "returns": {
+        "type": "Object",
+        "desc": "The underlying native input DOM Element",
+        "__exemption": [ "examples" ]
+      }
     }
   }
 }
