@@ -69,6 +69,14 @@ export default [
         avatar: 'luke_diebold.png',
         github: 'ldiebold',
         desc: 'Creates video tutorials, podcasts and shows for Quasar Framework.'
+      },
+
+      {
+        name: 'Niccolò Menozzi',
+        role: 'Senior designer',
+        avatar: 'niccolo_menozzi.jpg',
+        github: 'NiccoloMenozzi',
+        desc: 'UX manager, brand management, communication, business strategy.'
       }
     ]
   },
