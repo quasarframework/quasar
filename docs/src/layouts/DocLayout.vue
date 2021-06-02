@@ -117,6 +117,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         q-item(
           v-for="tocItem in tocList"
           :key="tocItem.id"
+          :id="'toc--'+tocItem.id"
           clickable
           v-ripple
           dense
