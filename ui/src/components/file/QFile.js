@@ -127,7 +127,20 @@ export default Vue.extend({
     __addFiles (e, fileList) {
       const files = this.__processFiles(e, fileList, this.innerValue, this.isAppending)
 
-      files !== void 0 && this.__emitValue(
+      // if nothing to do...
+      if (files === void 0) { return }
+
+      // protect against input @change being called in a loop
+      // like it happens on Safari, so don't emit same thing:
+      if (
+        this.multiple === true
+          ? this.value && files.every(f => this.innerValue.includes(f))
+          : this.value === files[ 0 ]
+      ) {
+        return
+      }
+
+      this.__emitValue(
         this.isAppending === true
           ? this.innerValue.concat(files)
           : files
