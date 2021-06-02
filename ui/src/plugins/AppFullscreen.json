@@ -29,9 +29,9 @@
       "desc": "Request going into Fullscreen (with optional target)",
       "params": {
         "target": {
-          "type": "String",
-          "desc": "Optional CSS selector of target to request Fullscreen on",
-          "examples": [ "div.dashboard div.description" ]
+          "type": "Element",
+          "desc": "Optional Element of target to request Fullscreen on",
+          "examples": [ "document.getElementById('example')" ]
         }
       },
       "returns": {
@@ -58,9 +58,9 @@
       "desc": "Request toggling Fullscreen mode (with optional target if requesting going into Fullscreen only)",
       "params": {
         "target": {
-          "type": "String",
-          "desc": "Optional CSS selector of target to request Fullscreen on",
-          "examples": [ "div.dashboard div.description" ]
+          "type": "Element",
+          "desc": "Optional Element of target to request Fullscreen on",
+          "examples": [ "document.getElementById('example')" ]
         }
       },
       "returns": {
