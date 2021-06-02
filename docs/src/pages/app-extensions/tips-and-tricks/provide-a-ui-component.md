@@ -10,7 +10,7 @@ In order for creating an App Extension project folder, please first read the [De
 :::
 
 ::: tip Full Example
-To see an example of what we will build, head over to [MyComponent full example](https://github.com/quasarframework/app-extension-examples/tree/master/my-component), which is a GitHub repo with this App Extension.
+To see an example of what we will build, head over to [MyComponent full example](https://github.com/quasarframework/app-extension-examples/tree/v2/my-component), which is a GitHub repo with this App Extension.
 :::
 
 Create a folder structure to keep your code modularized and organized. For instance, for a UI component, create a structure that looks like this:
