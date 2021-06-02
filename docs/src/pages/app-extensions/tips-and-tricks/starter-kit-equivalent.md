@@ -10,7 +10,7 @@ In order for creating an App Extension project folder, please first read the [De
 :::
 
 ::: tip Full Example
-To see an example of what we will build, head over to [MyStarterKit full example](https://github.com/quasarframework/app-extension-examples/tree/master/my-starter-kit), which is a github repo with this App Extension.
+To see an example of what we will build, head over to [MyStarterKit full example](https://github.com/quasarframework/app-extension-examples/tree/v1/my-starter-kit), which is a github repo with this App Extension.
 :::
 
 We'll be creating an example App Extension which does the following:
