@@ -376,16 +376,16 @@ export default __QUASAR_SSR_SERVER__
         ])
       },
 
-      updated (el, mod) {
+      updated (el, bindings) {
         const ctx = el.__qtouchpan
 
         if (ctx !== void 0) {
-          if (mod.oldValue !== mod.value) {
+          if (bindings.oldValue !== bindings.value) {
             typeof value !== 'function' && ctx.end()
-            ctx.handler = mod.value
+            ctx.handler = bindings.value
           }
 
-          ctx.direction = getModifierDirections(mod)
+          ctx.direction = getModifierDirections(bindings.modifiers)
         }
       },
 

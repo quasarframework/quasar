@@ -36,8 +36,6 @@ export default __QUASAR_SSR_SERVER__
         const ctx = {
           handler: value,
           sensitivity: parseArg(arg),
-
-          modifiers: modifiers,
           direction: getModifierDirections(modifiers),
 
           noop,
@@ -238,16 +236,16 @@ export default __QUASAR_SSR_SERVER__
         ])
       },
 
-      updated (el, mod) {
+      updated (el, bindings) {
         const ctx = el.__qtouchswipe
 
         if (ctx !== void 0) {
-          if (mod.oldValue !== mod.value) {
-            typeof mod.value !== 'function' && ctx.end()
-            ctx.handler = mod.value
+          if (bindings.oldValue !== bindings.value) {
+            typeof bindings.value !== 'function' && ctx.end()
+            ctx.handler = bindings.value
           }
 
-          ctx.direction = getModifierDirections(mod)
+          ctx.direction = getModifierDirections(bindings.modifiers)
         }
       },
 
