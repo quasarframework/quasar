@@ -10,7 +10,7 @@ To create an App Extension project folder, please first read the [Development Gu
 :::
 
 ::: tip Full Example
-To see an example of what we will build, head over to [MyDirective full example](https://github.com/quasarframework/app-extension-examples/tree/master/my-directive), which is a GitHub repo with this App Extension.
+To see an example of what we will build, head over to [MyDirective full example](https://github.com/quasarframework/app-extension-examples/tree/v2/my-directive), which is a GitHub repo with this App Extension.
 :::
 
 Create a folder structure to keep your code modularized and organized. For instance, for a directive, create a structure that looks like this:
@@ -75,7 +75,7 @@ import MyDirective from '../directive/MyDirective.js'
 // We globally register our directive with Vue;
 // Remember that all directives in Vue will start with 'v-'
 // but that should not be part of your directive name
-// https://vuejs.org/v2/guide/custom-directive.html
+// https://v3.vuejs.org/guide/custom-directive.html#custom-directives
 // 'my-directive' will be used as 'v-my-directive'
 export default ({ app }) => {
   app.directive('my-directive', MyDirective)

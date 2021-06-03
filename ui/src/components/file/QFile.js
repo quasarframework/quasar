@@ -131,7 +131,20 @@ export default defineComponent({
     function addFilesToQueue (e, fileList) {
       const files = processFiles(e, fileList, innerValue.value, isAppending.value)
 
-      files !== void 0 && emitValue(
+      // if nothing to do...
+      if (files === void 0) { return }
+
+      // protect against input @change being called in a loop
+      // like it happens on Safari, so don't emit same thing:
+      if (
+        props.multiple === true
+          ? props.modelValue && files.every(f => innerValue.value.includes(f))
+          : props.modelValue === files[ 0 ]
+      ) {
+        return
+      }
+
+      emitValue(
         isAppending.value === true
           ? innerValue.value.concat(files)
           : files

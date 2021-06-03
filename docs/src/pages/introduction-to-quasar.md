@@ -114,7 +114,7 @@ Quasar comes equipped with over 40 language packs out of the box. On top of that
 And finally, it’s worth mentioning the significant amount of time taken to write great, bloat-free, focused and complete documentation so that developers can quickly pick up Quasar. We put special effort into our documentation to make sure there is no confusion.
 
 ## Underlying technologies
-[Vue](https://vuejs.org/), [Node.js](https://nodejs.org/), [Webpack](https://webpack.js.org/), [Cordova](https://cordova.apache.org/), [Capacitor](https://capacitor.ionicframework.com), [Electron](https://electronjs.org/).
+[Vue](https://v3.vuejs.org/), [Node.js](https://nodejs.org/), [Webpack](https://webpack.js.org/), [Cordova](https://cordova.apache.org/), [Capacitor](https://capacitor.ionicframework.com), [Electron](https://electronjs.org/).
 
 Except for Vue, which only takes half a day to pick up and will change your life forever, there is no requirement for you to know the other technologies. They are all integrated and configured in Quasar for you.
 

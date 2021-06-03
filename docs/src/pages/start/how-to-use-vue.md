@@ -57,7 +57,7 @@ You can specify you want your chosen preprocessor to handle the CSS code that yo
 
 ## Using Quasar Directives
 
-Quasar comes with a few custom [Vue Directives](https://vuejs.org/v2/guide/custom-directive.html). These directives can be applied on almost any DOM element or Component.
+Quasar comes with a few custom [Vue Directives](https://v3.vuejs.org/guide/custom-directive.html). These directives can be applied on almost any DOM element or Component.
 
 Example of a Quasar directive:
 

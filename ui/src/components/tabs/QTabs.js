@@ -180,6 +180,11 @@ export default defineComponent({
     }
 
     function updateContainer (domSize) {
+      // it can be called faster than component being initialized
+      // so we need to protect against that case
+      // (one example of such case is the docs release notes page)
+      if (domProps.value === void 0) { return }
+
       const
         size = domSize[ domProps.value.container ],
         scrollSize = Math.min(

@@ -29,6 +29,10 @@ function updateActiveToc (position, tocList, activeToc) {
 
   if (last !== void 0) {
     activeToc.value = last
+    const tocEl = document.getElementById('toc--' + last)
+    if (tocEl) {
+      tocEl.scrollIntoView({ block: 'nearest' })
+    }
   }
 }
 

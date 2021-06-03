@@ -3,7 +3,7 @@ title: Ajax Requests
 desc: Using Axios for fetching data in a Quasar app.
 ---
 
-> Quasar recommends Axios during project initialization: `Use Axios for Ajax calls? (Y/n)`
+> We recommend selecting Axios during project initialization.
 
 If you haven't selected Axios during the project initialization then you should create a new boot file `axios.js` that looks like this:
 (Here you can also specify additional settings for your axios instance)

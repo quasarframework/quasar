@@ -12,7 +12,7 @@ We have collected some best practices for those of you new to the security theat
 
 ### User Input and the Dangers of v-html
 
-The `v-html` directive is a wonderful way to programmatically render markup, but even the Vue docs come with [this warning](https://vuejs.org/v2/guide/syntax.html#Raw-HTML):
+The `v-html` directive is a wonderful way to programmatically render markup, but even the Vue docs come with [this warning](https://v3.vuejs.org/api/directives.html#v-html):
 > "Dynamically rendering arbitrary HTML on your website can be very dangerous because it can easily lead to XSS vulnerabilities. Only use HTML interpolation on trusted content and never on user-provided content."
 
 If you don't know what that means, take a quick look at what OWASP has to say about [XSS (aka cross-site scripting)](https://owasp.org/www-community/attacks/xss/).

@@ -122,7 +122,7 @@ Over time we consolidated a set of rules which we follow and following them will
 - Capitalize titles, see [How to Use Capitalize My Title](https://capitalizemytitle.com/).
 - Use the present tense.
 - Be concise, avoid text / code duplication.
-- Link to the external sources which are used as master information sources and are usually updated more frequently, like [Mozilla MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Vue.js API](https://vuejs.org/v2/api/) rather than compiled tutorials which tend to be outdated soon.
+- Link to the external sources which are used as master information sources and are usually updated more frequently, like [Mozilla MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Vue.js API](https://v3.vuejs.org/api/) rather than compiled tutorials which tend to be outdated soon.
 - Do the proofreading before opening a PR
 - Do not repeat texts from other sources, but keep only things which are relevant and shows in a context Quasar specific features
 - Use official names. For example use `Firebase` instead of `firebase`
