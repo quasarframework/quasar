@@ -9,7 +9,6 @@ import useBtn, { useBtnProps } from './use-btn.js'
 
 import { hMergeSlot, hDir } from '../../utils/private/render.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
-import { getTouchTarget } from '../../utils/private/touch.js'
 import { isKeyCode } from '../../utils/private/key-composition.js'
 
 const { passiveCapture } = listenOpts
@@ -179,7 +178,7 @@ export default defineComponent({
         touchTarget !== null && cleanup()
         touchTarget = rootRef.value
 
-        localTouchTargetEl = getTouchTarget(e.target)
+        localTouchTargetEl = e.target
         localTouchTargetEl.addEventListener('touchcancel', onPressEnd, passiveCapture)
         localTouchTargetEl.addEventListener('touchend', onPressEnd, passiveCapture)
       }

@@ -2,7 +2,6 @@ import { ref, watch, onMounted, onBeforeUnmount, nextTick, getCurrentInstance } 
 
 import { clearSelection } from '../../utils/private/selection.js'
 import { addEvt, cleanEvt, prevent } from '../../utils/event.js'
-import { getTouchTarget } from '../../utils/private/touch.js'
 import { isKeyCode } from '../../utils/private/key-composition.js'
 
 export const useAnchorProps = {
@@ -68,7 +67,7 @@ export default function ({
         proxy.hide(evt)
         anchorEl.value.classList.add('non-selectable')
 
-        const target = getTouchTarget(evt.target)
+        const target = evt.target
         addEvt(anchorEvents, 'anchor', [
           [ target, 'touchmove', 'mobileCleanup', 'passive' ],
           [ target, 'touchend', 'mobileCleanup', 'passive' ],

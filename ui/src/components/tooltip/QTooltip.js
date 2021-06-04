@@ -9,7 +9,6 @@ import useTick from '../../composables/private/use-tick.js'
 import useTimeout from '../../composables/private/use-timeout.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
-import { getTouchTarget } from '../../utils/private/touch.js'
 import { stopAndPrevent, addEvt, cleanEvt } from '../../utils/event.js'
 import { clearSelection } from '../../utils/private/selection.js'
 import { hSlot } from '../../utils/private/render.js'
@@ -223,7 +222,7 @@ export default defineComponent({
         clearSelection()
         document.body.classList.add('non-selectable')
 
-        const target = getTouchTarget(anchorEl.value)
+        const target = anchorEl.value
         const evts = [ 'touchmove', 'touchcancel', 'touchend', 'click' ]
           .map(e => ([ target, e, '__delayHide', 'passiveCapture' ]))
 
