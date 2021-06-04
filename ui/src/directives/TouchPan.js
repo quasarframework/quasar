@@ -1,5 +1,5 @@
 import { client } from '../plugins/Platform.js'
-import { getModifierDirections, getTouchTarget, shouldStart } from '../utils/touch.js'
+import { getModifierDirections, shouldStart } from '../utils/touch.js'
 import { addEvt, cleanEvt, position, leftClick, prevent, stop, stopAndPrevent, preventDraggable, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
@@ -179,7 +179,7 @@ export default {
 
       touchStart (evt) {
         if (shouldStart(evt, ctx)) {
-          const target = getTouchTarget(evt.target)
+          const target = evt.target
 
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'move', 'notPassiveCapture' ],
