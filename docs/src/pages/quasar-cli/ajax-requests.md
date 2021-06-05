@@ -8,7 +8,6 @@ desc: Using Axios for fetching data in a Quasar app.
 Then you should create a new boot file `axios.js` that looks like this:
 (Here you can also specify additional settings for your axios instance)
 
-
 ```js
 // src/boot/axios.js
 
@@ -29,15 +28,13 @@ export { axios, api }
 
 Also make sure to yarn/npm install the `axios` package.
 
-::: tip
-Be sure to check out [Prefetch Feature](/quasar-cli/prefetch-feature) if you are using Quasar CLI.
-:::
-
-::: tip
-To use `$q.notify` in your ajax requests, you'll first need to [install the Notify plugin](https://next.quasar.dev/quasar-plugins/notify#installation).
+::: tip TIPS
+* Be sure to check out [Prefetch Feature](/quasar-cli/prefetch-feature) if you are using Quasar CLI.
+* The example below uses the Quasar's [Notify plugin](/quasar-plugins/notify) which you'll need to install.
 :::
 
 Usage in your single file components methods will be like:
+
 ```js
 import { api } from 'boot/axios'
 
@@ -60,6 +57,7 @@ methods: {
 ```
 
 Usage in Vuex Actions for globally adding headers to axios (such as during authentication):
+
 ```js
 import { api } from 'boot/axios'
 
