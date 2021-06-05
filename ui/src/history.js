@@ -63,9 +63,9 @@ export default {
     // then we got nothing to do
     if (
       // if we're on Capacitor mode
-      capacitor === true
+      capacitor === true &&
       // and it's also not in Capacitor's main instance
-      && (window.Capacitor === void 0 || window.Capacitor.Plugins.App === void 0)
+      (window.Capacitor === void 0 || window.Capacitor.Plugins.App === void 0)
     ) {
       return
     }

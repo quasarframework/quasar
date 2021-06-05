@@ -118,7 +118,7 @@ export default {
   },
 
   methods: {
-    someAction(something) {
+    someAction (something) {
       console.log(something)
     }
   }
