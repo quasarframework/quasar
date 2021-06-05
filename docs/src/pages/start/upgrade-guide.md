@@ -321,7 +321,7 @@ export default function (/* { store, ssrContext } */) {
 
 ```js
 // default src/router/routes.js content:
-export default [
+const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
@@ -334,7 +334,7 @@ export default [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: Error404
+    component: () => import('pages/Error404.vue')
   }
 ]
 
