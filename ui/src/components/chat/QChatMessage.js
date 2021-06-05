@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 import ListenersMixin from '../../mixins/listeners.js'
-import { uniqueSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QChatMessage',

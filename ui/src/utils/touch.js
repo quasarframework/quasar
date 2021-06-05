@@ -1,5 +1,3 @@
-import { isSSR, client, iosEmulated } from '../plugins/Platform.js'
-
 const directions = [ 'left', 'right', 'up', 'down', 'horizontal', 'vertical' ]
 
 const modifiersAll = {

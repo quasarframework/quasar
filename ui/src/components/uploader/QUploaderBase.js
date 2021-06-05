@@ -253,9 +253,9 @@ export default Vue.extend({
 
       const files = processedFiles
         .filter(file => this.files.findIndex(f => file.name === f.name) === -1)
-      
+
       if (files === void 0) { return }
-      
+
       const fileInput = this.__getFileInput()
       if (fileInput !== void 0) {
         fileInput.value = ''
