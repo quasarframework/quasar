@@ -8,7 +8,6 @@ desc: Using Axios for fetching data in a Quasar app.
 If you haven't selected Axios during the project initialization then you should create a new boot file `axios.js` that looks like this:
 (Here you can also specify additional settings for your axios instance)
 
-
 ```js
 // src/boot/axios.js
 
@@ -38,7 +37,7 @@ Also make sure to yarn/npm install the `axios` package.
 Be sure to check out [Prefetch Feature](/quasar-cli/prefetch-feature) if you are using Quasar CLI.
 :::
 
-Usage in your single file components methods will be like:
+Usage in your single file components methods will be like below. Notice that in the next example we're using the Quasar's [Notify plugin](/quasar-plugins/notify) (through `this.$q.notify`) which you'll need to install (follow the link earlier).
 
 ```js
 import { api } from 'boot/axios'
