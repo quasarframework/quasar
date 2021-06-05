@@ -28,12 +28,11 @@ export { axios, api }
 
 Also make sure to yarn/npm install the `axios` package.
 
-::: tip TIPS
-* Be sure to check out [Prefetch Feature](/quasar-cli/prefetch-feature) if you are using Quasar CLI.
-* The example below uses the Quasar's [Notify plugin](/quasar-plugins/notify) which you'll need to install.
+::: tip
+Be sure to check out [Prefetch Feature](/quasar-cli/prefetch-feature) if you are using Quasar CLI.
 :::
 
-Usage in your single file components methods will be like:
+Usage in your single file components methods will be like below. Notice that in the next example we're using the Quasar's [Notify plugin](/quasar-plugins/notify) (through `this.$q.notify`) which you'll need to install (follow the link earlier).
 
 ```js
 import { api } from 'boot/axios'
