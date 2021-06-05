@@ -170,8 +170,8 @@ export default Vue.extend({
     __getHeader (h) {
       let child
 
-      if (this.$scopedSlots.header !== void 0) {
-        child = this.$scopedSlots.header() ? this.$scopedSlots.header().slice() : []
+      if (this.$scopedSlots.header !== void 0 && this.$scopedSlots.header()) {
+        child = this.$scopedSlots.header().slice()
       }
       else {
         child = [
