@@ -1,5 +1,3 @@
-import { client, iosEmulated } from '../../plugins/Platform.js'
-
 const modifiersAll = {
   left: true,
   right: true,
