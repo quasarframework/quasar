@@ -35,7 +35,7 @@ export default defineComponent({
     const showing = ref(isRuntimeSsrPreHydration.value === true ? props.ssrPrerender : false)
 
     const intersectionProps = computed(() => (
-      props.margin !== void 0 || props.threshold !== void 0
+      props.root !== void 0 || props.margin !== void 0 || props.threshold !== void 0
         ? {
             handler: trigger,
             cfg: {
