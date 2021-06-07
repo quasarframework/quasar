@@ -1299,7 +1299,7 @@ export default Vue.extend({
 
     __emitImmediately (reason) {
       const date = this.daysModel[0] !== void 0 && this.daysModel[0].dateHash !== null
-        ? this.daysModel[0]
+        ? { ...this.daysModel[0] }
         : { ...this.viewModel } // inherit day, hours, minutes, milliseconds...
 
       // nextTick required because of animation delay in viewModel
