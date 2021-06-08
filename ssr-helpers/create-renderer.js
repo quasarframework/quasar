@@ -3,11 +3,15 @@
  */
 
 const { extname } = require('path')
+const serialize = require('serialize-javascript')
+
 const createBundle = require('./lib/create-bundle')
 
 const jsRE = /\.js(\?[^.]+)?$/
 const cssRE = /\.css(\?[^.]+)?$/
+const jsCssRE = /\.(js|css)($|\?)/
 const queryRE = /\?.*/
+const trailingSlashRE = /([^/])$/
 
 /**
  * Creates a mapper that maps components used during a server-side render
@@ -28,7 +32,10 @@ function createMapper (clientManifest) {
       const mapped = map.get(moduleIds[i])
       if (mapped) {
         for (let j = 0; j < mapped.length; j++) {
-          res.add(mapped[j])
+          const entry = mapped[j]
+          if (entry !== void 0) {
+            res.add(mapped[j])
+          }
         }
       }
     }
@@ -47,7 +54,7 @@ function mapIdToFile (id, clientManifest) {
       // only include async files or non-js, non-css assets
       if (
         clientManifest.async.includes(file) ||
-        (/\.(js|css)($|\?)/.test(file) === false)
+        (jsCssRE.test(file) === false)
       ) {
         files.push(file)
       }
@@ -71,19 +78,19 @@ function normalizeFile (file) {
 function ensureTrailingSlash (path) {
   return path === ''
     ? path
-    : path.replace(/([^/])$/, '$1/')
+    : path.replace(trailingSlashRE, '$1/')
 }
 
-function createRenderContext ({ clientManifest, publicPath }) {
+function createRenderContext (clientManifest) {
   return {
     clientManifest,
-    publicPath: ensureTrailingSlash(publicPath || clientManifest.publicPath || '/'),
+    publicPath: ensureTrailingSlash(clientManifest.publicPath || '/'),
     preloadFiles: (clientManifest.initial || []).map(normalizeFile),
     mapFiles: createMapper(clientManifest)
   }
 }
 
-function renderStyles (ssrContext, renderContext, usedAsyncFiles) {
+function renderStyles (renderContext, usedAsyncFiles, ssrContext) {
   const initial = renderContext.preloadFiles
   const cssFiles = initial.concat(usedAsyncFiles).filter(({ file }) => cssRE.test(file))
 
@@ -100,13 +107,24 @@ function renderStyles (ssrContext, renderContext, usedAsyncFiles) {
   )
 }
 
-function renderScripts(renderContext, usedAsyncFiles) {
+const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
+
+function renderVuexState (ssrContext, nonce) {
+  if (ssrContext.state !== void 0) {
+    const state = serialize(ssrContext.state, { isJSON: true })
+    return `<script${nonce}>window.__INITIAL_STATE__=${state};${autoRemove}</script>`
+  }
+
+  return ''
+}
+
+function renderScripts(renderContext, usedAsyncFiles, nonce) {
   if (renderContext.preloadFiles.length > 0) {
     const initial = renderContext.preloadFiles.filter(({ file }) => jsRE.test(file))
     const async = usedAsyncFiles.filter(({ file }) => jsRE.test(file))
 
     return [ initial[0] ].concat(async, initial.slice(1))
-      .map(({ file }) => `<script src="${renderContext.publicPath}${file}" defer></script>`)
+      .map(({ file }) => `<script${nonce} src="${renderContext.publicPath}${file}" defer></script>`)
       .join('')
   }
 
@@ -114,7 +132,7 @@ function renderScripts(renderContext, usedAsyncFiles) {
 }
 
 module.exports = function createRenderer (opts) {
-  const renderContext = createRenderContext(opts)
+  const renderContext = createRenderContext(opts.clientManifest)
   const { evaluateEntry, rewriteErrorTrace } = createBundle(opts)
 
   async function runApp(ssrContext) {
@@ -131,24 +149,37 @@ module.exports = function createRenderer (opts) {
 
   return async function renderToString (ssrContext, renderTemplate) {
     try {
+      const onRenderedList = []
+
       Object.assign(ssrContext, {
-        _registeredComponents: [],
+        _modules: new Set(),
         _meta: {},
-        _onRenderedList: []
+        onRendered: fn => { onRenderedList.push(fn) }
       })
 
       const app = await runApp(ssrContext)
       const resourceApp = await opts.vueRenderToString(app, ssrContext)
+      const usedAsyncFiles = renderContext
+        .mapFiles(Array.from(ssrContext._modules))
+        .map(normalizeFile)
 
-      const registered = Array.from(ssrContext._registeredComponents)
-      const usedAsyncFiles = renderContext.mapFiles(registered).map(normalizeFile)
+      onRenderedList.forEach(fn => { fn() })
 
-      ssrContext._onRenderedList.forEach(fn => { fn() })
+      // maintain compatibility with some well-known Vue plugins
+      // like @vue/apollo-ssr:
+      typeof ssrContext.rendered === 'function' && ssrContext.rendered()
+
+      const nonce = ssrContext.nonce !== void 0
+        ? ` nonce="${ ssrContext.nonce }" `
+        : ''
 
       Object.assign(ssrContext._meta, {
         resourceApp,
-        resourceStyles: renderStyles(ssrContext, renderContext, usedAsyncFiles),
-        resourceScripts: renderScripts(renderContext, usedAsyncFiles)
+        resourceStyles: renderStyles(renderContext, usedAsyncFiles, ssrContext),
+        resourceScripts: (
+          renderVuexState(ssrContext, nonce)
+          + renderScripts(renderContext, usedAsyncFiles, nonce)
+        )
       })
 
       return renderTemplate(ssrContext)

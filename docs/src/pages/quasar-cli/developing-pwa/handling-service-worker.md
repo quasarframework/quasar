@@ -67,9 +67,10 @@ const fs = require('fs')
 
 devServer: {
   https: {
+    cacert: fs.readFileSync('/path/to/ca.pem'),
+    pfx: fs.readFileSync('/path/to/server.pfx'),
     key: fs.readFileSync('/path/to/server.key'),
-    cert: fs.readFileSync('/path/to/server.crt'),
-    ca: fs.readFileSync('/path/to/ca.pem'),
+    cert: fs.readFileSync('/path/to/server.crt')
   }
 }
 ```

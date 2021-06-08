@@ -1,5 +1,6 @@
-import { closePortals, getPortalVm } from '../mixins/portal.js'
-import { isKeyCode } from '../utils/key-composition.js'
+import { closePortals, getPortalVm } from '../utils/private/portal.js'
+import { isKeyCode } from '../utils/private/key-composition.js'
+import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
 
 /*
  * depth
@@ -20,44 +21,46 @@ function getDepth (value) {
   return isNaN(depth) ? 0 : depth
 }
 
-export default {
-  name: 'close-popup',
+export default __QUASAR_SSR_SERVER__
+  ? { name: 'close-popup', getSSRProps }
+  : {
+      name: 'close-popup',
 
-  beforeMount (el, { value }) {
-    const ctx = {
-      depth: getDepth(value),
+      beforeMount (el, { value }) {
+        const ctx = {
+          depth: getDepth(value),
 
-      handler (evt) {
-        // allow @click to be emitted
-        ctx.depth !== 0 && setTimeout(() => {
-          const vm = getPortalVm(el)
-          if (vm !== void 0) {
-            closePortals(vm, evt, ctx.depth)
+          handler (evt) {
+            // allow @click to be emitted
+            ctx.depth !== 0 && setTimeout(() => {
+              const vm = getPortalVm(el)
+              if (vm !== void 0) {
+                closePortals(vm, evt, ctx.depth)
+              }
+            })
+          },
+
+          handlerKey (evt) {
+            isKeyCode(evt, 13) === true && ctx.handler(evt)
           }
-        })
+        }
+
+        el.__qclosepopup = ctx
+
+        el.addEventListener('click', ctx.handler)
+        el.addEventListener('keyup', ctx.handlerKey)
       },
 
-      handlerKey (evt) {
-        isKeyCode(evt, 13) === true && ctx.handler(evt)
+      updated (el, { value, oldValue }) {
+        if (value !== oldValue) {
+          el.__qclosepopup.depth = getDepth(value)
+        }
+      },
+
+      beforeUnmount (el) {
+        const ctx = el.__qclosepopup
+        el.removeEventListener('click', ctx.handler)
+        el.removeEventListener('keyup', ctx.handlerKey)
+        delete el.__qclosepopup
       }
     }
-
-    el.__qclosepopup = ctx
-
-    el.addEventListener('click', ctx.handler)
-    el.addEventListener('keyup', ctx.handlerKey)
-  },
-
-  updated (el, { value, oldValue }) {
-    if (value !== oldValue) {
-      el.__qclosepopup.depth = getDepth(value)
-    }
-  },
-
-  beforeUnmount (el) {
-    const ctx = el.__qclosepopup
-    el.removeEventListener('click', ctx.handler)
-    el.removeEventListener('keyup', ctx.handlerKey)
-    delete el.__qclosepopup
-  }
-}

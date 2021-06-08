@@ -23,22 +23,20 @@ export default {
     monthsShort: 'Jan_Feb_Már_Ápr_Máj_Jún_Júl_Aug_Szep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'napok'
+    pluralDay: 'nap'
   },
   table: {
     noData: 'Nincs elérhető adat',
     noResults: 'Nincsenek egyező találatok',
     loading: 'Betöltés...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 kiválasztott elem.'
         : (rows === 0 ? 'Nincs' : rows) + ' kiválasztott elem.'
-    },
+    ),
     recordsPerPage: 'Elemek száma oldalanként:',
     allRows: 'Összes',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' / ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
     columns: 'Oszlopok'
   },
   editor: {

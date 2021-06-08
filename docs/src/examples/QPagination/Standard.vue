@@ -3,16 +3,17 @@
     <q-pagination
       v-model="current"
       :max="5"
-    >
-    </q-pagination>
+    />
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      current: 3
+      current: ref(3)
     }
   }
 }

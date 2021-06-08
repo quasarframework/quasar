@@ -35,11 +35,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      color: '#FF00FF',
-      secondColor: '#027be3'
+      color: ref('#FF00FF'),
+      secondColor: ref('#027be3')
     }
   }
 }

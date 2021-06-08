@@ -1,19 +1,18 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 
-import FormMixin from '../../mixins/form.js'
-import RippleMixin from '../../mixins/ripple.js'
+import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
-import { hMergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QBtnToggle',
 
-  mixins: [ RippleMixin, FormMixin ],
-
   props: {
+    ...useFormProps,
+
     modelValue: {
       required: true
     },
@@ -57,112 +56,111 @@ export default defineComponent({
 
     spread: Boolean,
 
-    clearable: Boolean
+    clearable: Boolean,
+
+    ripple: {
+      type: [ Boolean, Object ],
+      default: true
+    }
   },
 
   emits: [ 'update:modelValue', 'clear', 'click' ],
 
-  computed: {
-    hasActiveValue () {
-      return this.options.find(opt => opt.value === this.modelValue) !== void 0
-    },
+  setup (props, { slots, emit }) {
+    const hasActiveValue = computed(() =>
+      props.options.find(opt => opt.value === props.modelValue) !== void 0
+    )
 
-    formAttrs () {
+    const formAttrs = computed(() => ({
+      type: 'hidden',
+      name: props.name,
+      value: props.modelValue
+    }))
+
+    const injectFormInput = useFormInject(formAttrs)
+
+    const btnOptions = computed(() => props.options.map((item, i) => {
+      const { attrs, value, slot, ...opt } = item
+
       return {
-        type: 'hidden',
-        name: this.name,
-        value: this.modelValue
-      }
-    },
+        slot,
+        props: {
+          key: i,
+          onClick (e) { set(value, item, e) },
 
-    btnOptions () {
-      return this.options.map((item, i) => {
-        const { attrs, value, slot, ...opt } = item
+          ...attrs,
+          ...opt,
 
-        return {
-          slot,
-          props: {
-            key: i,
-            onClick: e => this.__set(value, item, e),
+          outline: props.outline,
+          flat: props.flat,
+          rounded: props.rounded,
+          push: props.push,
+          unelevated: props.unelevated,
+          dense: props.dense,
 
-            ...attrs,
-            ...opt,
+          disable: props.disable === true || opt.disable === true,
 
-            outline: this.outline,
-            flat: this.flat,
-            rounded: this.rounded,
-            push: this.push,
-            unelevated: this.unelevated,
-            dense: this.dense,
+          // Options that come from the button specific options first, then from general props
+          color: value === props.modelValue
+            ? mergeOpt(opt, 'toggleColor')
+            : mergeOpt(opt, 'color'),
+          textColor: value === props.modelValue
+            ? mergeOpt(opt, 'toggleTextColor')
+            : mergeOpt(opt, 'textColor'),
+          noCaps: mergeOpt(opt, 'noCaps') === true,
+          noWrap: mergeOpt(opt, 'noWrap') === true,
 
-            disable: this.disable === true || opt.disable === true,
-
-            // Options that come from the button specific options first, then from general props
-            color: value === this.modelValue
-              ? this.__mergeOpt(opt, 'toggleColor')
-              : this.__mergeOpt(opt, 'color'),
-            textColor: value === this.modelValue
-              ? this.__mergeOpt(opt, 'toggleTextColor')
-              : this.__mergeOpt(opt, 'textColor'),
-            noCaps: this.__mergeOpt(opt, 'noCaps') === true,
-            noWrap: this.__mergeOpt(opt, 'noWrap') === true,
-
-            size: this.__mergeOpt(opt, 'size'),
-            padding: this.__mergeOpt(opt, 'padding'),
-            ripple: this.__mergeOpt(opt, 'ripple'),
-            stack: this.__mergeOpt(opt, 'stack') === true,
-            stretch: this.__mergeOpt(opt, 'stretch') === true
-          }
+          size: mergeOpt(opt, 'size'),
+          padding: mergeOpt(opt, 'padding'),
+          ripple: mergeOpt(opt, 'ripple'),
+          stack: mergeOpt(opt, 'stack') === true,
+          stretch: mergeOpt(opt, 'stretch') === true
         }
-      })
-    }
-  },
+      }
+    }))
 
-  methods: {
-    __set (value, opt, e) {
-      if (this.readonly !== true) {
-        if (this.modelValue === value) {
-          if (this.clearable === true) {
-            this.$emit('update:modelValue', null, null)
-            this.$emit('clear')
+    function set (value, opt, e) {
+      if (props.readonly !== true) {
+        if (props.modelValue === value) {
+          if (props.clearable === true) {
+            emit('update:modelValue', null, null)
+            emit('clear')
           }
         }
         else {
-          this.$emit('update:modelValue', value, opt)
+          emit('update:modelValue', value, opt)
         }
 
-        this.$emit('click', e)
+        emit('click', e)
       }
-    },
+    }
 
-    __mergeOpt (opt, key) {
-      return opt[key] === void 0 ? this[key] : opt[key]
-    },
+    function mergeOpt (opt, key) {
+      return opt[ key ] === void 0 ? props[ key ] : opt[ key ]
+    }
 
-    __getContent () {
-      const child = this.btnOptions.map(opt => {
-        return h(QBtn, opt.props, opt.slot !== void 0 ? this.$slots[opt.slot] : void 0)
+    function getContent () {
+      const child = btnOptions.value.map(opt => {
+        return h(QBtn, opt.props, opt.slot !== void 0 ? slots[ opt.slot ] : void 0)
       })
 
-      if (this.name !== void 0 && this.disable !== true && this.hasActiveValue === true) {
-        this.__injectFormInput(child, 'push')
+      if (props.name !== void 0 && props.disable !== true && hasActiveValue.value === true) {
+        injectFormInput(child, 'push')
       }
 
-      return hMergeSlot(child, this, 'default')
+      return hMergeSlot(slots.default, child)
     }
-  },
 
-  render () {
-    return h(QBtnGroup, {
+    return () => h(QBtnGroup, {
       class: 'q-btn-toggle',
-      outline: this.outline,
-      flat: this.flat,
-      rounded: this.rounded,
-      push: this.push,
-      stretch: this.stretch,
-      unelevated: this.unelevated,
-      glossy: this.glossy,
-      spread: this.spread
-    }, this.__getContent)
+      outline: props.outline,
+      flat: props.flat,
+      rounded: props.rounded,
+      push: props.push,
+      stretch: props.stretch,
+      unelevated: props.unelevated,
+      glossy: props.glossy,
+      spread: props.spread
+    }, getContent)
   }
 })

@@ -9,7 +9,7 @@ const hexBytes = new Array(256)
 
 // Pre-calculate toString(16) for speed
 for (let i = 0; i < 256; i++) {
-  hexBytes[i] = (i + 0x100).toString(16).substr(1)
+  hexBytes[ i ] = (i + 0x100).toString(16).substr(1)
 }
 
 // Use best available PRNG
@@ -18,10 +18,10 @@ const randomBytes = (() => {
   const lib = typeof crypto !== 'undefined'
     ? crypto
     : (
-      typeof window !== 'undefined'
-        ? window.msCrypto // IE11
-        : void 0
-    )
+        typeof window !== 'undefined'
+          ? window.crypto || window.msCrypto
+          : void 0
+      )
 
   if (lib !== void 0) {
     if (lib.randomBytes !== void 0) {
@@ -29,7 +29,7 @@ const randomBytes = (() => {
     }
     if (lib.getRandomValues !== void 0) {
       return n => {
-        var bytes = new Uint8Array(n)
+        const bytes = new Uint8Array(n)
         lib.getRandomValues(bytes)
         return bytes
       }
@@ -58,15 +58,15 @@ export default function () {
   }
 
   const b = Array.prototype.slice.call(buf, bufIdx, (bufIdx += 16))
-  b[6] = (b[6] & 0x0f) | 0x40
-  b[8] = (b[8] & 0x3f) | 0x80
+  b[ 6 ] = (b[ 6 ] & 0x0f) | 0x40
+  b[ 8 ] = (b[ 8 ] & 0x3f) | 0x80
 
-  return hexBytes[b[0]] + hexBytes[b[1]] +
-    hexBytes[b[2]] + hexBytes[b[3]] + '-' +
-    hexBytes[b[4]] + hexBytes[b[5]] + '-' +
-    hexBytes[b[6]] + hexBytes[b[7]] + '-' +
-    hexBytes[b[8]] + hexBytes[b[9]] + '-' +
-    hexBytes[b[10]] + hexBytes[b[11]] +
-    hexBytes[b[12]] + hexBytes[b[13]] +
-    hexBytes[b[14]] + hexBytes[b[15]]
+  return hexBytes[ b[ 0 ] ] + hexBytes[ b[ 1 ] ]
+    + hexBytes[ b[ 2 ] ] + hexBytes[ b[ 3 ] ] + '-'
+    + hexBytes[ b[ 4 ] ] + hexBytes[ b[ 5 ] ] + '-'
+    + hexBytes[ b[ 6 ] ] + hexBytes[ b[ 7 ] ] + '-'
+    + hexBytes[ b[ 8 ] ] + hexBytes[ b[ 9 ] ] + '-'
+    + hexBytes[ b[ 10 ] ] + hexBytes[ b[ 11 ] ]
+    + hexBytes[ b[ 12 ] ] + hexBytes[ b[ 13 ] ]
+    + hexBytes[ b[ 14 ] ] + hexBytes[ b[ 15 ] ]
 }

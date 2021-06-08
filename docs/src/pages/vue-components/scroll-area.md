@@ -1,15 +1,16 @@
 ---
 title: Scroll Area
 desc: The QScrollArea Vue component offers a way of customizing the scrollbars for all desktop browsers.
+keys: QScrollArea
 related:
   - /layout/drawer
 ---
 
 The QScrollArea component offers a neat way of customizing the scrollbars by encapsulating your content. Think of it as a DOM element which has `overflow: auto`, but with your own custom styled scrollbar instead of browser's default one and a few nice features on top.
 
-## Installation
+## QScrollArea API
 
-<doc-installation components="QScrollArea" />
+<doc-api file="QScrollArea" />
 
 ## Usage
 
@@ -21,7 +22,11 @@ You can also take a look at [Layout Drawer](/layout/drawer) to see some more exa
 
 ### Basic
 
-<doc-example title="Basic" file="QScrollArea/Basic" />
+<doc-example title="Vertical content" file="QScrollArea/Vertical" />
+
+<doc-example title="Horizontal content" file="QScrollArea/Horizontal" />
+
+<doc-example title="Vertical and horizontal content" file="QScrollArea/VertHoriz" />
 
 ### Styled
 
@@ -29,11 +34,11 @@ You can also take a look at [Layout Drawer](/layout/drawer) to see some more exa
 
 <doc-example title="Styled" file="QScrollArea/Styled" />
 
-### Dark <q-badge align="top" label="v1.9+" />
+### Dark
 
 <doc-example title="Dark" file="QScrollArea/Dark" />
 
-### Controlling scrollbar visibility <q-badge align="top" label="v1.3+" />
+### Controlling scrollbar visibility
 
 When using the `visible` Boolean prop, the default mouse over/leave behavior is disabled, leaving you in full control of the scrollbar visibility.
 
@@ -49,16 +54,8 @@ When content changes, the scrollbar appears then disappears again. You can set a
 
 <doc-example title="Scroll Position" file="QScrollArea/ScrollPosition" />
 
-### Horizontal mode
-
-<doc-example title="Horizontal mode" file="QScrollArea/Horizontal" />
-
-### Scroll event <q-badge align="top" label="v1.9.3+" />
+### Scroll event
 
 Below is an example of using the `@scroll` event to synchronize the scrolling between two containers.
 
 <doc-example title="Synchronized" file="QScrollArea/Synchronized" />
-
-## QScrollArea API
-
-<doc-api file="QScrollArea" />

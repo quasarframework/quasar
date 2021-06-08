@@ -199,8 +199,8 @@ export default {
   computed: {
     limits () {
       return this.modelUnit === '%'
-        ? this.funkyLimits === true ? [70, 100] : [10, 90]
-        : this.funkyLimits === true ? [100, 500] : [0, Infinity]
+        ? this.funkyLimits === true ? [ 70, 100 ] : [ 10, 90 ]
+        : this.funkyLimits === true ? [ 100, 500 ] : [ 0, Infinity ]
     }
   },
 
@@ -213,12 +213,12 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .stylish-splitter
-  border 3px solid $deep-orange
-  height 700px
+  border: 3px solid $deep-orange
+  height: 700px
 .test-separator
-  position absolute
-  left auto
-  right 0
+  position: absolute
+  left: auto
+  right: 0
 </style>

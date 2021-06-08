@@ -20,8 +20,18 @@ There are two places in `/quasar.conf.js` where you can configure Quasar specifi
 ```js
 return {
   capacitor: {
-    // requires @quasar/app v1.3+
-    hideSplashscreen: false // disables auto-hiding the Splashscreen by Quasar CLI
+    // (Optional!)
+    hideSplashscreen: false, // disables auto-hiding the Splashscreen by Quasar CLI
+
+    // (Optional!)
+    capacitorCliPreparationParams: [ 'sync', ctx.targetName ],
+
+    // (Optional) If not present, will look for package.json > name
+    appName: '...', // string
+    // (Optional) If not present, will look for package.json > version
+    version: '...', // string
+    // (Optional) If not present, will look for package.json > description
+    description: '...', // string
   }
 }
 ```
@@ -48,12 +58,10 @@ return {
     config: {
       capacitor: {
         // Quasar handles app exit on mobile phone back button.
-        // Requires Quasar v1.9.3+ for true/false, v1.12.6+ for '*' wildcard and array values
         backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
 
         // On the other hand, the following completely
         // disables Quasar's back button management.
-        // Requires Quasar v1.14.1+
         backButton: true/false
       }
     }

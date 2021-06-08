@@ -1,15 +1,15 @@
 {
-  "mixins": [ "mixins/fullscreen" ],
+  "mixins": [ "composables/private/use-fullscreen" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/table"
+    "docsUrl": "https://v2.quasar.dev/vue-components/table"
   },
 
   "props": {
-    "data": {
+    "rows": {
       "type": "Array",
       "desc": "Rows of data to display",
-      "examples": [ ":data=\"myData\"" ],
+      "examples": [ ":rows=\"myData\"" ],
       "category": "general"
     },
 
@@ -24,52 +24,65 @@
     "virtual-scroll": {
       "type": "Boolean",
       "desc": "Display data using QVirtualScroll (for non-grid mode only)",
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-slice-size": {
-      "type": "Number",
-      "desc": "Number of rows to render in the virtual list",
+      "type": [ "Number", "String" ],
+      "desc": "Minimum number of rows to render in the virtual list",
       "default": "30",
-      "examples": [ ":virtual-scroll-slice-size=\"60\"" ],
+      "examples": [ "virtual-scroll-slice-size=\"60\"" ],
       "category": "virtual-scroll",
       "addedIn": "v1.2.0"
+    },
+
+    "virtual-scroll-slice-ratio-before": {
+      "type": [ "Number", "String" ],
+      "desc": "Ratio of number of rows in visible zone to render before it",
+      "default": "1",
+      "examples": [ "virtual-scroll-slice-ratio-before=\"0.3\"" ],
+      "category": "virtual-scroll",
+      "addedIn": "v1.14.7"
+    },
+
+    "virtual-scroll-slice-ratio-after": {
+      "type": [ "Number", "String" ],
+      "desc": "Ratio of number of rows in visible zone to render after it",
+      "default": "1",
+      "examples": [ "virtual-scroll-slice-ratio-after=\"2\"" ],
+      "category": "virtual-scroll",
+      "addedIn": "v1.14.7"
     },
 
     "virtual-scroll-item-size": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "desc": "Default size in pixels of a row; This value is used for rendering the initial table; Try to use a value close to the minimum size of a row",
       "default": "48 (24 if dense)",
-      "examples": [ ":virtual-scroll-item-size=\"48\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "examples": [ "virtual-scroll-item-size=\"48\"" ],
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-sticky-size-start": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision",
       "default": "0",
-      "examples": [ ":virtual-scroll-sticky-size-start=\"48\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "examples": [ "virtual-scroll-sticky-size-start=\"48\"" ],
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-sticky-size-end": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "desc": "Size in pixels of the sticky footer part (if using one); A correct value will improve scroll precision",
       "default": "0",
-      "examples": [ ":virtual-scroll-sticky-size-end=\"48\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "examples": [ "virtual-scroll-sticky-size-end=\"48\"" ],
+      "category": "virtual-scroll"
     },
 
     "table-colspan": {
       "type": [ "Number", "String" ],
       "desc": "The number of columns in the table (you need this if you use table-layout: fixed)",
       "examples": [ "table-colspan=\"12\"" ],
-      "category": "virtual-scroll|content",
-      "addedIn": "v1.13.0"
+      "category": "virtual-scroll|content"
     },
 
     "color": {
@@ -79,26 +92,22 @@
 
     "icon-first-page": {
       "extends": "icon",
-      "desc": "Icon name following Quasar convention for stepping to first page; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.12.0"
+      "desc": "Icon name following Quasar convention for stepping to first page; Make sure you have the icon library installed unless you are using 'img:' prefix"
     },
 
     "icon-prev-page": {
       "extends": "icon",
-      "desc": "Icon name following Quasar convention for stepping to previous page; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.12.0"
+      "desc": "Icon name following Quasar convention for stepping to previous page; Make sure you have the icon library installed unless you are using 'img:' prefix"
     },
 
     "icon-next-page": {
       "extends": "icon",
-      "desc": "Icon name following Quasar convention for stepping to next page; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.12.0"
+      "desc": "Icon name following Quasar convention for stepping to next page; Make sure you have the icon library installed unless you are using 'img:' prefix"
     },
 
     "icon-last-page": {
       "extends": "icon",
-      "desc": "Icon name following Quasar convention for stepping to last page; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.12.0"
+      "desc": "Icon name following Quasar convention for stepping to last page; Make sure you have the icon library installed unless you are using 'img:' prefix"
     },
 
     "grid": {
@@ -190,6 +199,12 @@
             "examples": [ "-1", "0", "1" ]
           }
         },
+        "sortOrder": {
+          "type": "String",
+          "desc": "Set column sort order: 'ad' (ascending-descending) or 'da' (descending-ascending); Overrides the 'column-sort-order' prop",
+          "values": [ "ad", "da" ],
+          "default": "ad"
+        },
         "format": {
           "type": "Function",
           "desc": "Function you can apply to format your data",
@@ -213,26 +228,30 @@
           }
         },
         "style": {
-          "type": "String",
+          "type": [ "String", "Function" ],
           "desc": "Style to apply on normal cells of the column",
-          "examples": [ "width: 500px" ]
+          "examples": [
+            "width: 500px",
+            "row => (row.calories % 2 === 0 ? 'width:10px' : 'font-size:2em')"
+          ]
         },
         "classes": {
-          "type": "String",
+          "type": [ "String", "Function" ],
           "desc": "Classes to add on normal cells of the column",
-          "examples": [ "my-special-class" ]
+          "examples": [
+            "my-special-class",
+            "row => (row.calories % 2 === 0 ? 'bg-green' : 'bg-yellow')"
+          ]
         },
         "headerStyle": {
           "type": "String",
           "desc": "Style to apply on header cells of the column",
-          "examples": [ "width: 500px" ],
-          "addedIn": "v1.3.0"
+          "examples": [ "width: 500px" ]
         },
         "headerClasses": {
           "type": "String",
           "desc": "Classes to add on header cells of the column",
-          "examples": [ "my-special-class" ],
-          "addedIn": "v1.3.0"
+          "examples": [ "my-special-class" ]
         }
       }
     },
@@ -275,22 +294,19 @@
     "hide-selected-banner": {
       "type": "Boolean",
       "desc": "Hide the selected rows banner (if any)",
-      "category": "content",
-      "addedIn": "v1.12.0"
+      "category": "content"
     },
 
     "hide-no-data": {
       "type": "Boolean",
       "desc": "Hide the default no data bottom layer",
-      "category": "content",
-      "addedIn": "v1.12.0"
+      "category": "content"
     },
 
     "hide-pagination": {
       "type": "Boolean",
       "desc": "Hide the pagination controls at the bottom",
-      "category": "content",
-      "addedIn": "v1.12.0"
+      "category": "content"
     },
 
     "dark": {
@@ -327,6 +343,14 @@
     "binary-state-sort": {
       "type": "Boolean",
       "desc": "Skip the third state (unsorted) when user toggles column sort direction",
+      "category": "sorting"
+    },
+
+    "column-sort-order": {
+      "type": "String",
+      "desc": "Set column sort order: 'ad' (ascending-descending) or 'da' (descending-ascending); It gets applied to all columns unless a column has its own sortOrder specified in the 'columns' definition prop",
+      "values": [ "ad", "da" ],
+      "default": "ad",
       "category": "sorting"
     },
 
@@ -453,8 +477,7 @@
         "background-color: #ff0000",
         ":card-container-style=\"{ backgroundColor: '#ff0000' }\""
       ],
-      "category": "style",
-      "addedIn": "v1.4.0"
+      "category": "style"
     },
 
     "card-container-class": {
@@ -465,8 +488,7 @@
         "justify-center",
         ":card-container-class=\"{ 'my-special-class': [Boolean condition] }\""
       ],
-      "category": "style",
-      "addedIn": "v1.4.0"
+      "category": "style"
     },
 
     "card-style": {
@@ -497,8 +519,7 @@
         "text-h1",
         ":title-class=\"{ 'text-h1': [Boolean condition] }\""
       ],
-      "category": "style",
-      "addedIn": "v1.13.2"
+      "category": "style"
     },
 
     "filter": {
@@ -565,7 +586,7 @@
 
     "pagination": {
       "type": "Object",
-      "desc": "Pagination object; You can use the '.sync' modifier on it if you want to have access on the current pagination in your components; When not using the .sync modifier it simply initializes the pagination on first render",
+      "desc": "Pagination object; You can also use the 'v-model:pagination' for synching; When not synching it simply initializes the pagination on first render",
       "definition": {
         "sortBy": {
           "type": "String",
@@ -593,7 +614,8 @@
         }
       },
       "examples": [
-        ":pagination.sync=\"myPagination\""
+        ":pagination=\"myInitialPagination\"",
+        "v-model:pagination=\"myPagination\""
       ],
       "category": "pagination"
     },
@@ -620,10 +642,9 @@
     "selected": {
       "type": "Array",
       "desc": "Keeps the user selection array",
-      "sync": true,
       "default": "[]",
       "examples": [
-        ":selected.sync=\"selection\""
+        "v-model:selected=\"selection\""
       ],
       "category": "selection"
     },
@@ -631,13 +652,11 @@
     "expanded": {
       "type": "Array",
       "desc": "Keeps the array with expanded rows keys",
-      "sync": true,
       "default": "[]",
       "examples": [
-        ":expanded.sync=\"expanded\""
+        "v-model:expanded=\"expanded\""
       ],
-      "category": "expansion",
-      "addedIn": "v1.8.3"
+      "category": "expansion"
     },
 
     "sort-method": {
@@ -674,12 +693,9 @@
 
   "slots": {
     "loading": {
-      "desc": "Override default effect when table is in loading state; Suggestion: QInnerLoading",
-      "addedIn": "v1.8.0"
-    }
-  },
+      "desc": "Override default effect when table is in loading state; Suggestion: QInnerLoading"
+    },
 
-  "scopedSlots": {
     "item": {
       "desc": "Slot to use for defining an item when in 'grid' mode; Suggestion: QCard",
       "scope": {
@@ -724,8 +740,7 @@
               "examples": [ "calories" ]
             }
           },
-          "returns": null,
-          "addedIn": "v1.14.0"
+          "returns": null
         },
         "selected": {
           "type": "Boolean",
@@ -739,16 +754,13 @@
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         }
       }
     },
@@ -797,8 +809,7 @@
               "examples": [ "calories" ]
             }
           },
-          "returns": null,
-          "addedIn": "v1.14.0"
+          "returns": null
         },
         "selected": {
           "type": "Boolean",
@@ -812,16 +823,13 @@
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         },
         "__trClass": {
           "type": "String",
@@ -847,8 +855,7 @@
         "key": {
           "type": "Any",
           "desc": "Row's key",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "__exemption": [ "examples" ]
         },
         "row": {
           "type": "Object",
@@ -868,14 +875,12 @@
         "cols": {
           "type": "Object",
           "desc": "Column definitions",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "__exemption": [ "examples" ]
         },
         "colsMap": {
           "type": "Object",
           "desc": "Column mapping (key is column name, value is column object)",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "__exemption": [ "examples" ]
         },
         "sort": {
           "type": "Function",
@@ -888,8 +893,7 @@
               "examples": [ "calories" ]
             }
           },
-          "returns": null,
-          "addedIn": "v1.14.0"
+          "returns": null
         },
         "selected": {
           "type": "Boolean",
@@ -903,16 +907,13 @@
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         }
       }
     },
@@ -933,8 +934,7 @@
         "key": {
           "type": "Any",
           "desc": "Row's key",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "__exemption": [ "examples" ]
         },
         "row": {
           "type": "Object",
@@ -954,14 +954,12 @@
         "cols": {
           "type": "Object",
           "desc": "Column definitions",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "__exemption": [ "examples" ]
         },
         "colsMap": {
           "type": "Object",
           "desc": "Column mapping (key is column name, value is column object)",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "__exemption": [ "examples" ]
         },
         "sort": {
           "type": "Function",
@@ -974,33 +972,27 @@
               "examples": [ "calories" ]
             }
           },
-          "returns": null,
-          "addedIn": "v1.14.0"
+          "returns": null
         },
         "selected": {
           "type": "Boolean",
           "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         }
       }
     },
@@ -1034,27 +1026,22 @@
         "selected": {
           "type": "Boolean",
           "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         },
         "__trClass": {
           "type": "String",
@@ -1102,27 +1089,22 @@
         "selected": {
           "type": "Boolean",
           "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         }
       }
     },
@@ -1161,30 +1143,24 @@
         "selected": {
           "type": "Boolean",
           "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
-          "reactive": true,
-          "addedIn": "v1.14.0"
+          "reactive": true
         },
         "color": {
           "extends": "color",
-          "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "default": "grey-8"
         },
         "dark": {
-          "extends": "dark",
-          "addedIn": "v1.14.0"
+          "extends": "dark"
         },
         "dense": {
-          "extends": "dense",
-          "addedIn": "v1.14.0"
+          "extends": "dense"
         }
-      },
-      "addedIn": "v1.1.1"
+      }
     },
 
     "body-selection": {
@@ -1253,8 +1229,7 @@
         "dense": {
           "extends": "dense"
         }
-      },
-      "addedIn": "v1.14.0"
+      }
     },
 
     "header-selection": {
@@ -1303,8 +1278,7 @@
         "dense": {
           "extends": "dense"
         }
-      },
-      "addedIn": "v1.14.0"
+      }
     },
 
     "top-row": {
@@ -1374,8 +1348,7 @@
           "type": "Function",
           "desc": "Navigates to first page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "prevPage": {
           "type": "Function",
@@ -1393,8 +1366,7 @@
           "type": "Function",
           "desc": "Navigates to last page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1454,8 +1426,7 @@
           "type": "Function",
           "desc": "Navigates to first page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "prevPage": {
           "type": "Function",
@@ -1473,8 +1444,7 @@
           "type": "Function",
           "desc": "Navigates to last page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1534,8 +1504,7 @@
           "type": "Function",
           "desc": "Navigates to first page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "prevPage": {
           "type": "Function",
@@ -1553,8 +1522,7 @@
           "type": "Function",
           "desc": "Navigates to last page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1614,8 +1582,7 @@
           "type": "Function",
           "desc": "Navigates to first page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "prevPage": {
           "type": "Function",
@@ -1633,8 +1600,7 @@
           "type": "Function",
           "desc": "Navigates to last page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1694,8 +1660,7 @@
           "type": "Function",
           "desc": "Navigates to first page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "prevPage": {
           "type": "Function",
@@ -1713,8 +1678,7 @@
           "type": "Function",
           "desc": "Navigates to last page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1774,8 +1738,7 @@
           "type": "Function",
           "desc": "Navigates to first page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "prevPage": {
           "type": "Function",
@@ -1793,8 +1756,7 @@
           "type": "Function",
           "desc": "Navigates to last page",
           "params": null,
-          "returns": null,
-          "addedIn": "v1.12.0"
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1846,11 +1808,9 @@
         "index": {
           "type": "Number",
           "desc": "Index of the row in the current page",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.13.0"
+          "__exemption": [ "examples" ]
         }
-      },
-      "addedIn": "v1.2.6"
+      }
     },
 
     "row-dblclick": {
@@ -1872,11 +1832,33 @@
         "index": {
           "type": "Number",
           "desc": "Index of the row in the current page",
-          "__exemption": [ "examples" ],
-          "addedIn": "v1.13.0"
+          "__exemption": [ "examples" ]
         }
-      },
-      "addedIn": "v1.5.10"
+      }
+    },
+
+    "row-contextmenu": {
+      "desc": "Emitted when user right clicks/long taps on a row; Is not emitted when using body/row/item scoped slots",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+
+        "row": {
+          "type": "Object",
+          "desc": "The row upon which user has right clicked/long tapped",
+          "__exemption": [ "examples" ]
+        },
+
+        "index": {
+          "type": "Number",
+          "desc": "Index of the row in the current page",
+          "__exemption": [ "examples" ]
+        }
+      }
     },
 
     "request": {
@@ -2011,8 +1993,7 @@
               "type": "Object",
               "desc": "JS event object",
               "required": true,
-              "__exemption": [ "examples" ],
-              "addedIn":"v1.11.2"
+              "__exemption": [ "examples" ]
             }
           }
         }
@@ -2020,7 +2001,7 @@
     },
 
     "update:pagination": {
-      "desc": "Used by Vue on 'pagination.sync' prop for updating its value",
+      "desc": "Used by Vue on 'v-model:pagination' for updating its value",
       "params": {
         "newPagination": {
           "type": "Object",
@@ -2051,7 +2032,7 @@
     },
 
     "update:selected": {
-      "desc": "Used by Vue on 'selected.sync' prop for updating its value",
+      "desc": "Used by Vue on 'v-model:selected' prop for updating its value",
       "params": {
         "newSelected": {
           "type": "Array",
@@ -2064,7 +2045,7 @@
     },
 
     "update:expanded": {
-      "desc": "Used by Vue on 'expanded.sync' prop for updating its value",
+      "desc": "Used by Vue on 'v-model:expanded' prop for updating its value",
       "params": {
         "newExpanded": {
           "type": "Array",
@@ -2073,8 +2054,7 @@
             "[ 'row-a', 'row-b' ]"
           ]
         }
-      },
-      "addedIn": "v1.8.3"
+      }
     },
 
     "virtual-scroll": {
@@ -2106,8 +2086,7 @@
             }
           }
         }
-      },
-      "addedIn": "v1.4.1"
+      }
     }
   },
 
@@ -2199,7 +2178,7 @@
     },
 
     "setPagination": {
-      "desc": "Unless using an external pagination Object (through 'pagination.sync' prop), you can use this method and force the internal pagination to change",
+      "desc": "Unless using an external pagination Object (through 'v-model:pagination' prop), you can use this method and force the internal pagination to change",
       "params": {
         "pagination": {
           "type": "Object",
@@ -2235,8 +2214,7 @@
     },
 
     "firstPage": {
-      "desc": "Navigates to first page",
-      "addedIn": "v1.12.0"
+      "desc": "Navigates to first page"
     },
 
     "prevPage": {
@@ -2248,8 +2226,7 @@
     },
 
     "lastPage": {
-      "desc": "Navigates to last page",
-      "addedIn": "v1.12.0"
+      "desc": "Navigates to last page"
     },
 
     "isRowSelected": {
@@ -2285,8 +2262,7 @@
       "returns": {
         "type": "Boolean",
         "desc": "Is row expanded or not?"
-      },
-      "addedIn": "v1.8.3"
+      }
     },
 
     "setExpanded": {
@@ -2298,8 +2274,7 @@
           "required": true,
           "examples": [ "[ 'row-a', 'row-b' ]" ]
         }
-      },
-      "addedIn": "v1.8.3"
+      }
     },
 
     "sort": {
@@ -2330,9 +2305,14 @@
           "desc": "The index of the row in page (0 based)",
           "required": true,
           "examples": [ "1", 23 ]
+        },
+        "edge": {
+          "type": "String",
+          "desc": "Only for virtual scroll - the edge to align to if the row is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise); If the '-force' version is used then it always aligns",
+          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ],
+          "addedIn": "v1.14.7"
         }
-      },
-      "addedIn": "v1.7.2"
+      }
     }
   }
 }

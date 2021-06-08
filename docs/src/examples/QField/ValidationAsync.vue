@@ -1,9 +1,9 @@
 <template>
   <div class="q-pa-md" style="max-width: 350px">
     <q-field
-      ref="slider"
+      ref="fieldRef"
       filled
-      :value="slider"
+      :model-value="slider"
       hint="Pick between 10 and 60"
       :rules="[ myRule ]"
     >
@@ -25,38 +25,41 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const fieldRef = ref(null)
+
     return {
-      slider: 10
-    }
-  },
+      slider: ref(10),
+      fieldRef,
 
-  methods: {
-    myRule (val) {
-      // simulating a delay
+      myRule (val) {
+        // simulating a delay
 
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // call
-          //  resolve(true)
-          //     --> content is valid
-          //  resolve(false)
-          //     --> content is NOT valid, no error message
-          //  resolve(error_message)
-          //     --> content is NOT valid, we have error message
-          resolve((val >= 10 && val <= 60) || 'Please set value to maximum 60')
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            // call
+            //  resolve(true)
+            //     --> content is valid
+            //  resolve(false)
+            //     --> content is NOT valid, no error message
+            //  resolve(error_message)
+            //     --> content is NOT valid, we have error message
+            resolve((val >= 10 && val <= 60) || 'Please set value to maximum 60')
 
-          // calling reject(...) will also mark the input
-          // as having an error, but there will not be any
-          // error message displayed below the input
-          // (only in browser console)
-        }, 1000)
-      })
-    },
+            // calling reject(...) will also mark the input
+            // as having an error, but there will not be any
+            // error message displayed below the input
+            // (only in browser console)
+          }, 1000)
+        })
+      },
 
-    reset () {
-      this.$refs.slider.resetValidation()
+      reset () {
+        fieldRef.value.resetValidation()
+      }
     }
   }
 }

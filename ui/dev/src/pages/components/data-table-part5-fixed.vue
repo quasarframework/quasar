@@ -90,7 +90,7 @@
         :max="pagination.rowsPerPage === 0 ? listSize : pagination.rowsPerPage - 1"
         label="Scroll to index"
         input-class="text-right"
-        @update:modelValue="onIndexChange"
+        @update:model-value="onIndexChange"
       />
     </div>
 
@@ -252,7 +252,8 @@ export default {
       title: 'QDataTable',
       filter: '',
       loading: false,
-      visibleColumns: ['index', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
+      selected: [],
+      visibleColumns: [ 'index', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
       separator: 'horizontal',
       pagination: {
         rowsPerPage: 0
@@ -273,7 +274,7 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `~${val}`,
+          format: val => `~${ val }`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
@@ -306,7 +307,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .table-sticky
   .q-table__top,
   .q-table__bottom,

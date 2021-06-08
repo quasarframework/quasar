@@ -1,14 +1,4 @@
-import { h, defineComponent, withDirectives } from 'vue'
-
-import { testPattern } from '../../utils/patterns.js'
-import throttle from '../../utils/throttle.js'
-import { stop } from '../../utils/event.js'
-import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
-import { hDir } from '../../utils/render.js'
-
-import CacheMixin from '../../mixins/cache.js'
-import DarkMixin from '../../mixins/dark.js'
-import FormMixin from '../../mixins/form.js'
+import { h, defineComponent, ref, computed, watch, nextTick, getCurrentInstance } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
@@ -19,6 +9,16 @@ import QTabs from '../tabs/QTabs.js'
 import QTab from '../tabs/QTab.js'
 import QTabPanels from '../tab-panels/QTabPanels.js'
 import QTabPanel from '../tab-panels/QTabPanel.js'
+
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useCache from '../../composables/private/use-cache.js'
+import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
+
+import { testPattern } from '../../utils/patterns.js'
+import throttle from '../../utils/throttle.js'
+import { stop } from '../../utils/event.js'
+import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
+import { hDir } from '../../utils/private/render.js'
 
 const palette = [
   'rgb(255,204,204)', 'rgb(255,230,204)', 'rgb(255,255,204)', 'rgb(204,255,204)', 'rgb(204,255,230)', 'rgb(204,255,255)', 'rgb(204,230,255)', 'rgb(204,204,255)', 'rgb(230,204,255)', 'rgb(255,204,255)',
@@ -38,22 +38,23 @@ const thumbPath = 'M5 5 h10 v10 h-10 v-10 z'
 export default defineComponent({
   name: 'QColor',
 
-  mixins: [ CacheMixin, DarkMixin, FormMixin ],
-
   props: {
+    ...useDarkProps,
+    ...useFormProps,
+
     modelValue: String,
 
     defaultValue: String,
     defaultView: {
       type: String,
       default: 'spectrum',
-      validator: v => ['spectrum', 'tune', 'palette'].includes(v)
+      validator: v => [ 'spectrum', 'tune', 'palette' ].includes(v)
     },
 
     formatModel: {
       type: String,
       default: 'auto',
-      validator: v => ['auto', 'hex', 'rgb', 'hexa', 'rgba'].includes(v)
+      validator: v => [ 'auto', 'hex', 'rgb', 'hexa', 'rgba' ].includes(v)
     },
 
     palette: Array,
@@ -71,493 +72,196 @@ export default defineComponent({
 
   emits: [ 'update:modelValue', 'change' ],
 
-  data () {
-    return {
-      topView: this.formatModel === 'auto'
+  setup (props, { emit }) {
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
+    const isDark = useDark(props, $q)
+    const { getCache } = useCache()
+
+    const spectrumRef = ref(null)
+    const errorIconRef = ref(null)
+
+    const forceHex = computed(() => (
+      props.formatModel === 'auto'
+        ? null
+        : props.formatModel.indexOf('hex') > -1
+    ))
+
+    const forceAlpha = computed(() => (
+      props.formatModel === 'auto'
+        ? null
+        : props.formatModel.indexOf('a') > -1
+    ))
+
+    const topView = ref(
+      props.formatModel === 'auto'
         ? (
-          (this.modelValue === void 0 || this.modelValue === null || this.modelValue === '' || this.modelValue.startsWith('#'))
-            ? 'hex'
-            : 'rgb'
-        )
-        : (this.formatModel.startsWith('hex') ? 'hex' : 'rgb'),
-      view: this.defaultView,
-      model: this.__parseModel(this.modelValue || this.defaultValue)
-    }
-  },
+            (props.modelValue === void 0 || props.modelValue === null || props.modelValue === '' || props.modelValue.startsWith('#'))
+              ? 'hex'
+              : 'rgb'
+          )
+        : (props.formatModel.startsWith('hex') ? 'hex' : 'rgb')
+    )
 
-  watch: {
-    modelValue (v) {
-      const model = this.__parseModel(v || this.defaultValue)
-      if (model.hex !== this.model.hex) {
-        this.model = model
-      }
-    },
+    const view = ref(props.defaultView)
+    const model = ref(parseModel(props.modelValue || props.defaultValue))
 
-    defaultValue (v) {
-      if (!this.modelValue && v) {
-        const model = this.__parseModel(v)
-        if (model.hex !== this.model.hex) {
-          this.model = model
-        }
-      }
-    }
-  },
+    const editable = computed(() => props.disable !== true && props.readonly !== true)
 
-  computed: {
-    editable () {
-      return this.disable !== true && this.readonly !== true
-    },
+    const isHex = computed(() =>
+      props.modelValue === void 0
+      || props.modelValue === null
+      || props.modelValue === ''
+      || props.modelValue.startsWith('#')
+    )
 
-    forceHex () {
-      return this.formatModel === 'auto'
-        ? null
-        : this.formatModel.indexOf('hex') > -1
-    },
+    const isOutputHex = computed(() => (
+      forceHex.value !== null
+        ? forceHex.value
+        : isHex.value
+    ))
 
-    forceAlpha () {
-      return this.formatModel === 'auto'
-        ? null
-        : this.formatModel.indexOf('a') > -1
-    },
+    const formAttrs = computed(() => ({
+      type: 'hidden',
+      name: props.name,
+      value: model.value[ isOutputHex.value === true ? 'hex' : 'rgb' ]
+    }))
 
-    isHex () {
-      return this.modelValue === void 0 ||
-        this.modelValue === null ||
-        this.modelValue === '' ||
-        this.modelValue.startsWith('#')
-    },
+    const injectFormInput = useFormInject(formAttrs)
 
-    isOutputHex () {
-      return this.forceHex !== null
-        ? this.forceHex
-        : this.isHex
-    },
+    const hasAlpha = computed(() => (
+      forceAlpha.value !== null
+        ? forceAlpha.value
+        : model.value.a !== void 0
+    ))
 
-    formAttrs () {
-      return {
-        type: 'hidden',
-        name: this.name,
-        value: this.model[ this.isOutputHex === true ? 'hex' : 'rgb' ]
-      }
-    },
+    const currentBgColor = computed(() => ({
+      backgroundColor: model.value.rgb || '#000'
+    }))
 
-    hasAlpha () {
-      if (this.forceAlpha !== null) {
-        return this.forceAlpha
-      }
-      return this.model.a !== void 0
-    },
-
-    currentBgColor () {
-      return {
-        backgroundColor: this.model.rgb || '#000'
-      }
-    },
-
-    headerClass () {
-      const light = this.model.a !== void 0 && this.model.a < 65
+    const headerClass = computed(() => {
+      const light = model.value.a !== void 0 && model.value.a < 65
         ? true
-        : luminosity(this.model) > 0.4
+        : luminosity(model.value) > 0.4
 
-      return 'q-color-picker__header-content absolute-full' +
-        ` q-color-picker__header-content--${light ? 'light' : 'dark'}`
-    },
+      return 'q-color-picker__header-content absolute-full'
+        + ` q-color-picker__header-content--${ light ? 'light' : 'dark' }`
+    })
 
-    spectrumStyle () {
-      return {
-        background: `hsl(${this.model.h},100%,50%)`
-      }
-    },
+    const spectrumStyle = computed(() => ({
+      background: `hsl(${ model.value.h },100%,50%)`
+    }))
 
-    spectrumPointerStyle () {
-      return {
-        top: `${100 - this.model.v}%`,
-        [this.$q.lang.rtl === true ? 'right' : 'left']: `${this.model.s}%`
-      }
-    },
+    const spectrumPointerStyle = computed(() => ({
+      top: `${ 100 - model.value.v }%`,
+      [ $q.lang.rtl === true ? 'right' : 'left' ]: `${ model.value.s }%`
+    }))
 
-    inputsArray () {
-      const inp = ['r', 'g', 'b']
-      if (this.hasAlpha === true) {
-        inp.push('a')
-      }
-      return inp
-    },
-
-    computedPalette () {
-      return this.palette !== void 0 && this.palette.length > 0
-        ? this.palette
+    const computedPalette = computed(() => (
+      props.palette !== void 0 && props.palette.length > 0
+        ? props.palette
         : palette
-    },
+    ))
 
-    classes () {
-      return 'q-color-picker' +
-        (this.bordered === true ? ' q-color-picker--bordered' : '') +
-        (this.square === true ? ' q-color-picker--square no-border-radius' : '') +
-        (this.flat === true ? ' q-color-picker--flat no-shadow' : '') +
-        (this.disable === true ? ' disabled' : '') +
-        (this.isDark === true ? ' q-color-picker--dark q-dark' : '')
-    },
+    const classes = computed(() =>
+      'q-color-picker'
+      + (props.bordered === true ? ' q-color-picker--bordered' : '')
+      + (props.square === true ? ' q-color-picker--square no-border-radius' : '')
+      + (props.flat === true ? ' q-color-picker--flat no-shadow' : '')
+      + (props.disable === true ? ' disabled' : '')
+      + (isDark.value === true ? ' q-color-picker--dark q-dark' : '')
+    )
 
-    attrs () {
-      if (this.disable === true) {
+    const attributes = computed(() => {
+      if (props.disable === true) {
         return { 'aria-disabled': 'true' }
       }
-      if (this.readonly === true) {
+      if (props.readonly === true) {
         return { 'aria-readonly': 'true' }
       }
-    },
+      return {}
+    })
 
-    spectrumDirective () {
-      // if this.editable === true
-      return [[
+    const spectrumDirective = computed(() => {
+      // if editable.value === true
+      return [ [
         TouchPan,
-        this.__spectrumPan,
+        onSpectrumPan,
         void 0,
         { prevent: true, stop: true, mouse: true }
-      ]]
-    },
-  },
+      ] ]
+    })
 
-  created () {
-    this.__spectrumChange = throttle(this.__spectrumChange, 20)
-  },
+    watch(() => props.modelValue, v => {
+      const localModel = parseModel(v || props.defaultValue)
+      if (localModel.hex !== model.value.hex) {
+        model.value = localModel
+      }
+    })
 
-  render () {
-    const child = [ this.__getContent() ]
+    watch(() => props.defaultValue, v => {
+      if (!props.modelValue && v) {
+        const localModel = parseModel(v)
+        if (localModel.hex !== model.value.hex) {
+          model.value = localModel
+        }
+      }
+    })
 
-    if (this.name !== void 0 && this.disable !== true) {
-      this.__injectFormInput(child, 'push')
+    function updateModel (rgb, change) {
+      // update internally
+      model.value.hex = rgbToHex(rgb)
+      model.value.rgb = rgbToString(rgb)
+      model.value.r = rgb.r
+      model.value.g = rgb.g
+      model.value.b = rgb.b
+      model.value.a = rgb.a
+
+      const value = model.value[ isOutputHex.value === true ? 'hex' : 'rgb' ]
+
+      // emit new value
+      emit('update:modelValue', value)
+      change === true && emit('change', value)
     }
 
-    this.noHeader !== true && child.unshift(
-      this.__getHeader()
-    )
+    function parseModel (v) {
+      const alpha = forceAlpha.value !== void 0
+        ? forceAlpha.value
+        : (
+            props.formatModel === 'auto'
+              ? null
+              : props.formatModel.indexOf('a') > -1
+          )
 
-    this.noFooter !== true && child.push(
-      this.__getFooter()
-    )
-
-    return h('div', {
-      class: this.classes,
-      ...this.attrs
-    }, child)
-  },
-
-  methods: {
-    __getHeader () {
-      return h('div', {
-        class: 'q-color-picker__header relative-position overflow-hidden'
-      }, [
-        h('div', { class: 'q-color-picker__header-bg absolute-full' }),
-
-        h('div', {
-          class: this.headerClass,
-          style: this.currentBgColor
-        }, [
-          h(QTabs, {
-            modelValue: this.topView,
-            dense: true,
-            align: 'justify',
-            ...this.__getCache('topVTab', {
-              'onUpdate:modelValue': val => { this.topView = val }
-            })
-          }, () => [
-            h(QTab, {
-              label: 'HEX' + (this.hasAlpha === true ? 'A' : ''),
-              name: 'hex',
-              ripple: false
-            }),
-
-            h(QTab, {
-              label: 'RGB' + (this.hasAlpha === true ? 'A' : ''),
-              name: 'rgb',
-              ripple: false
-            })
-          ]),
-
-          h('div', {
-            class: 'q-color-picker__header-banner row flex-center no-wrap'
-          }, [
-            h('input', {
-              class: 'fit',
-              value: this.model[this.topView],
-              ...(this.editable !== true
-                ? { readonly: true }
-                : {}
-              ),
-              ...this.__getCache('topIn', {
-                'onUpdate:modelValue': evt => {
-                  this.__updateErrorIcon(this.__onEditorChange(evt) === true)
-                },
-                onChange: stop,
-                onBlur: evt => {
-                  this.__onEditorChange(evt, true) === true && this.$forceUpdate()
-                  this.__updateErrorIcon(false)
-                }
-              })
-            }),
-
-            h(QIcon, {
-              ref: 'errorIcon',
-              class: 'q-color-picker__error-icon absolute no-pointer-events',
-              name: this.$q.iconSet.type.negative
-            })
-          ])
-        ])
-      ])
-    },
-
-    __getContent () {
-      return h(QTabPanels, {
-        modelValue: this.view,
-        animated: true
-      }, () => [
-        h(QTabPanel, {
-          class: 'q-color-picker__spectrum-tab overflow-hidden',
-          name: 'spectrum'
-        }, this.__getSpectrumTab),
-
-        h(QTabPanel, {
-          class: 'q-pa-md q-color-picker__tune-tab',
-          name: 'tune'
-        }, this.__getTuneTab),
-
-        h(QTabPanel, {
-          class: 'q-color-picker__palette-tab',
-          name: 'palette'
-        }, this.__getPaletteTab)
-      ])
-    },
-
-    __getFooter () {
-      return h('div', {
-        class: 'q-color-picker__footer relative-position overflow-hidden'
-      }, [
-        h(QTabs, {
-          class: 'absolute-full',
-          modelValue: this.view,
-          dense: true,
-          align: 'justify',
-          ...this.__getCache('ftIn', {
-            'onUpdate:modelValue': val => { this.view = val }
-          })
-        }, () => [
-          h(QTab, {
-            icon: this.$q.iconSet.colorPicker.spectrum,
-            name: 'spectrum',
-            ripple: false
-          }),
-
-          h(QTab, {
-            icon: this.$q.iconSet.colorPicker.tune,
-            name: 'tune',
-            ripple: false
-          }),
-
-          h(QTab, {
-            icon: this.$q.iconSet.colorPicker.palette,
-            name: 'palette',
-            ripple: false
-          })
-        ])
-      ])
-    },
-
-    __getSpectrumTab () {
-      const data = {
-        ref: 'spectrum',
-        class: 'q-color-picker__spectrum non-selectable relative-position cursor-pointer' +
-          (this.editable !== true ? ' readonly' : ''),
-        style: this.spectrumStyle,
-        ...(this.editable === true
-          ? {
-            onClick: this.__spectrumClick,
-            onMousedown: this.__activate
-          }
-          : {}
-        )
+      if (typeof v !== 'string' || v.length === 0 || testPattern.anyColor(v.replace(/ /g, '')) !== true) {
+        return {
+          h: 0,
+          s: 0,
+          v: 0,
+          r: 0,
+          g: 0,
+          b: 0,
+          a: alpha === true ? 100 : void 0,
+          hex: void 0,
+          rgb: void 0
+        }
       }
 
-      const child = [
-        h('div', { style: { paddingBottom: '100%' } }),
-        h('div', { class: 'q-color-picker__spectrum-white absolute-full' }),
-        h('div', { class: 'q-color-picker__spectrum-black absolute-full' }),
-        h('div', {
-          class: 'absolute',
-          style: this.spectrumPointerStyle
-        }, [
-          this.model.hex !== void 0
-            ? h('div', { class: 'q-color-picker__spectrum-circle' })
-            : null
-        ])
-      ]
+      const model = textToRgb(v)
 
-      const sliders = [
-        h('div', { class: 'q-color-picker__hue non-selectable' }, [
-          h(QSlider, {
-            modelValue: this.model.h,
-            min: 0,
-            max: 360,
-            fillHandleAlways: true,
-            readonly: this.editable !== true,
-            thumbPath,
-            'onUpdate:modelValue': this.__onHueChange,
-            ...this.__getCache('lazyhue', {
-              onChange: val => this.__onHueChange(val, true)
-            })
-          })
-        ])
-      ]
+      if (alpha === true && model.a === void 0) {
+        model.a = 100
+      }
 
-      this.hasAlpha === true && sliders.push(
-        h('div', { class: 'q-color-picker__alpha non-selectable' }, [
-          h(QSlider, {
-            modelValue: this.model.a,
-            min: 0,
-            max: 100,
-            fillHandleAlways: true,
-            readonly: this.editable !== true,
-            thumbPath,
-            ...this.__getCache('alphaSlide', {
-              'onUpdate:modelValue': value => this.__onNumericChange(value, 'a', 100),
-              onChange: value => this.__onNumericChange(value, 'a', 100, void 0, true)
-            })
-          })
-        ])
-      )
+      model.hex = rgbToHex(model)
+      model.rgb = rgbToString(model)
 
-      return [
-        hDir('div', data, child, 'spec', this.editable, () => this.spectrumDirective),
-        h('div', { class: 'q-color-picker__sliders' }, sliders)
-      ]
-    },
+      return Object.assign(model, rgbToHsv(model))
+    }
 
-    __getTuneTab () {
-      return [
-        h('div', { class: 'row items-center no-wrap' }, [
-          h('div', 'R'),
-          h(QSlider, {
-            modelValue: this.model.r,
-            min: 0,
-            max: 255,
-            color: 'red',
-            dark: this.isDark,
-            readonly: this.editable !== true,
-            ...this.__getCache('rSlide', {
-              'onUpdate:modelValue': value => this.__onNumericChange(value, 'r', 255),
-              onChange: value => this.__onNumericChange(value, 'r', 255, void 0, true)
-            })
-          }),
-          h('input', {
-            value: this.model.r,
-            maxlength: 3,
-            readonly: this.editable !== true,
-            onChange: stop,
-            ...this.__getCache('rIn', {
-              onInput: evt => this.__onNumericChange(evt.target.value, 'r', 255, evt),
-              onBlur: evt => this.__onNumericChange(evt.target.value, 'r', 255, evt, true)
-            })
-          })
-        ]),
-
-        h('div', { class: 'row items-center no-wrap' }, [
-          h('div', 'G'),
-          h(QSlider, {
-            modelValue: this.model.g,
-            min: 0,
-            max: 255,
-            color: 'green',
-            dark: this.isDark,
-            readonly: this.editable !== true,
-            ...this.__getCache('gSlide', {
-              'onUpdate:modelValue': value => this.__onNumericChange(value, 'g', 255),
-              onChange: value => this.__onNumericChange(value, 'g', 255, void 0, true)
-            })
-          }),
-          h('input', {
-            value: this.model.g,
-            maxlength: 3,
-            readonly: this.editable !== true,
-            onChange: stop,
-            ...this.__getCache('gIn', {
-              onInput: evt => this.__onNumericChange(evt.target.value, 'g', 255, evt),
-              onBlur: evt => this.__onNumericChange(evt.target.value, 'g', 255, evt, true)
-            })
-          })
-        ]),
-
-        h('div', { class: 'row items-center no-wrap' }, [
-          h('div', 'B'),
-          h(QSlider, {
-            modelValue: this.model.b,
-            min: 0,
-            max: 255,
-            color: 'blue',
-            readonly: this.editable !== true,
-            dark: this.isDark,
-            ...this.__getCache('bSlide', {
-              'onUpdate:modelValue': value => this.__onNumericChange(value, 'b', 255),
-              onChange: value => this.__onNumericChange(value, 'b', 255, void 0, true)
-            })
-          }),
-          h('input', {
-            value: this.model.b,
-            maxlength: 3,
-            readonly: this.editable !== true,
-            onChange: stop,
-            ...this.__getCache('bIn', {
-              onInput: evt => this.__onNumericChange(evt.target.value, 'b', 255, evt),
-              onBlur: evt => this.__onNumericChange(evt.target.value, 'b', 255, evt, true)
-            })
-          })
-        ]),
-
-        this.hasAlpha === true ? h('div', { class: 'row items-center no-wrap' }, [
-          h('div', 'A'),
-          h(QSlider, {
-            modelValue: this.model.a,
-            color: 'grey',
-            readonly: this.editable !== true,
-            dark: this.isDark,
-            ...this.__getCache('aSlide', {
-              'onUpdate:modelValue': value => this.__onNumericChange(value, 'a', 100),
-              onChange: value => this.__onNumericChange(value, 'a', 100, void 0, true)
-            })
-          }),
-          h('input', {
-            value: this.model.a,
-            maxlength: 3,
-            readonly: this.editable !== true,
-            onChange: stop,
-            ...this.__getCache('aIn', {
-              onInput: evt => this.__onNumericChange(evt.target.value, 'a', 100, evt),
-              onBlur: evt => this.__onNumericChange(evt.target.value, 'a', 100, evt, true)
-            })
-          })
-        ]) : null
-      ]
-    },
-
-    __getPaletteTab () {
-      return [
-        h('div', {
-          class: 'row items-center q-color-picker__palette-rows' +
-            (this.editable === true ? ' q-color-picker__palette-rows--editable' : '')
-        }, this.computedPalette.map(color => h('div', {
-          class: 'q-color-picker__cube col-auto',
-          style: { backgroundColor: color },
-          ...(this.editable === true ? this.__getCache('palette#' + color, {
-            onClick: () => {
-              this.__onPalettePick(color)
-            }
-          }) : {})
-        })))
-      ]
-    },
-
-    __onSpectrumChange (left, top, change) {
-      const panel = this.$refs.spectrum
+    function changeSpectrum (left, top, change) {
+      const panel = spectrumRef.value
       if (panel === void 0) { return }
 
       const
@@ -567,7 +271,7 @@ export default defineComponent({
 
       let x = Math.min(width, Math.max(0, left - rect.left))
 
-      if (this.$q.lang.rtl === true) {
+      if ($q.lang.rtl === true) {
         x = width - x
       }
 
@@ -576,81 +280,81 @@ export default defineComponent({
         s = Math.round(100 * x / width),
         v = Math.round(100 * Math.max(0, Math.min(1, -(y / height) + 1))),
         rgb = hsvToRgb({
-          h: this.model.h,
+          h: model.value.h,
           s,
           v,
-          a: this.hasAlpha === true ? this.model.a : void 0
+          a: hasAlpha.value === true ? model.value.a : void 0
         })
 
-      this.model.s = s
-      this.model.v = v
-      this.__update(rgb, change)
-    },
+      model.value.s = s
+      model.value.v = v
+      updateModel(rgb, change)
+    }
 
-    __onHueChange (val, change) {
+    function onHueChange (val, change) {
       const h = Math.round(val)
       const rgb = hsvToRgb({
         h,
-        s: this.model.s,
-        v: this.model.v,
-        a: this.hasAlpha === true ? this.model.a : void 0
+        s: model.value.s,
+        v: model.value.v,
+        a: hasAlpha.value === true ? model.value.a : void 0
       })
 
-      this.model.h = h
-      this.__update(rgb, change)
-    },
+      model.value.h = h
+      updateModel(rgb, change)
+    }
 
-    __onNumericChange (value, formatModel, max, evt, change) {
+    function onNumericChange (value, formatModel, max, evt, change) {
       evt !== void 0 && stop(evt)
 
       if (!/^[0-9]+$/.test(value)) {
-        change && this.$forceUpdate()
+        change === true && proxy.$forceUpdate()
         return
       }
 
       const val = Math.floor(Number(value))
 
       if (val < 0 || val > max) {
-        change === true && this.$forceUpdate()
+        change === true && proxy.$forceUpdate()
         return
       }
 
       const rgb = {
-        r: formatModel === 'r' ? val : this.model.r,
-        g: formatModel === 'g' ? val : this.model.g,
-        b: formatModel === 'b' ? val : this.model.b,
-        a: this.hasAlpha === true
-          ? (formatModel === 'a' ? val : this.model.a)
+        r: formatModel === 'r' ? val : model.value.r,
+        g: formatModel === 'g' ? val : model.value.g,
+        b: formatModel === 'b' ? val : model.value.b,
+        a: hasAlpha.value === true
+          ? (formatModel === 'a' ? val : model.value.a)
           : void 0
       }
 
       if (formatModel !== 'a') {
         const hsv = rgbToHsv(rgb)
-        this.model.h = hsv.h
-        this.model.s = hsv.s
-        this.model.v = hsv.v
+        model.value.h = hsv.h
+        model.value.s = hsv.s
+        model.value.v = hsv.v
       }
 
-      this.__update(rgb, change)
+      updateModel(rgb, change)
 
       if (evt !== void 0 && change !== true && evt.target.selectionEnd !== void 0) {
         const index = evt.target.selectionEnd
-        this.$nextTick(() => {
+        nextTick(() => {
           evt.target.setSelectionRange(index, index)
         })
       }
-    },
+    }
 
-    __onEditorChange (evt, change) {
+    function onEditorChange (evt, change) {
       let rgb
       const inp = evt.target.value
 
       stop(evt)
 
-      if (this.topView === 'hex') {
+      if (topView.value === 'hex') {
         if (
-          inp.length !== (this.hasAlpha === true ? 9 : 7) ||
-          !/^#[0-9A-Fa-f]+$/.test(inp)
+          inp.length !== (hasAlpha.value === true ? 9 : 7)
+          || !/^#[0-9A-Fa-f]+$/.test(inp)
         ) {
           return true
         }
@@ -663,186 +367,464 @@ export default defineComponent({
         if (!inp.endsWith(')')) {
           return true
         }
-        else if (this.hasAlpha !== true && inp.startsWith('rgb(')) {
+        else if (hasAlpha.value !== true && inp.startsWith('rgb(')) {
           model = inp.substring(4, inp.length - 1).split(',').map(n => parseInt(n, 10))
 
           if (
-            model.length !== 3 ||
-            !/^rgb\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\)$/.test(inp)
+            model.length !== 3
+            || !/^rgb\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\)$/.test(inp)
           ) {
             return true
           }
         }
-        else if (this.hasAlpha === true && inp.startsWith('rgba(')) {
+        else if (hasAlpha.value === true && inp.startsWith('rgba(')) {
           model = inp.substring(5, inp.length - 1).split(',')
 
           if (
-            model.length !== 4 ||
-            !/^rgba\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3},(0|0\.[0-9]+[1-9]|0\.[1-9]+|1)\)$/.test(inp)
+            model.length !== 4
+            || !/^rgba\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3},(0|0\.[0-9]+[1-9]|0\.[1-9]+|1)\)$/.test(inp)
           ) {
             return true
           }
 
           for (let i = 0; i < 3; i++) {
-            const v = parseInt(model[i], 10)
+            const v = parseInt(model[ i ], 10)
             if (v < 0 || v > 255) {
               return true
             }
-            model[i] = v
+            model[ i ] = v
           }
 
-          const v = parseFloat(model[3])
+          const v = parseFloat(model[ 3 ])
           if (v < 0 || v > 1) {
             return true
           }
-          model[3] = v
+          model[ 3 ] = v
         }
         else {
           return true
         }
 
         if (
-          model[0] < 0 || model[0] > 255 ||
-          model[1] < 0 || model[1] > 255 ||
-          model[2] < 0 || model[2] > 255 ||
-          (this.hasAlpha === true && (model[3] < 0 || model[3] > 1))
+          model[ 0 ] < 0 || model[ 0 ] > 255
+          || model[ 1 ] < 0 || model[ 1 ] > 255
+          || model[ 2 ] < 0 || model[ 2 ] > 255
+          || (hasAlpha.value === true && (model[ 3 ] < 0 || model[ 3 ] > 1))
         ) {
           return true
         }
 
         rgb = {
-          r: model[0],
-          g: model[1],
-          b: model[2],
-          a: this.hasAlpha === true
-            ? model[3] * 100
+          r: model[ 0 ],
+          g: model[ 1 ],
+          b: model[ 2 ],
+          a: hasAlpha.value === true
+            ? model[ 3 ] * 100
             : void 0
         }
       }
 
       const hsv = rgbToHsv(rgb)
-      this.model.h = hsv.h
-      this.model.s = hsv.s
-      this.model.v = hsv.v
+      model.value.h = hsv.h
+      model.value.s = hsv.s
+      model.value.v = hsv.v
 
-      this.__update(rgb, change)
+      updateModel(rgb, change)
 
       if (change !== true) {
         const index = evt.target.selectionEnd
-        this.$nextTick(() => {
+        nextTick(() => {
           evt.target.setSelectionRange(index, index)
         })
       }
-    },
+    }
 
-    __onPalettePick (color) {
-      const def = this.__parseModel(color)
+    function onPalettePick (color) {
+      const def = parseModel(color)
       const rgb = { r: def.r, g: def.g, b: def.b, a: def.a }
 
       if (rgb.a === void 0) {
-        rgb.a = this.model.a
+        rgb.a = model.value.a
       }
 
-      this.model.h = def.h
-      this.model.s = def.s
-      this.model.v = def.v
+      model.value.h = def.h
+      model.value.s = def.s
+      model.value.v = def.v
 
-      this.__update(rgb, true)
-    },
+      updateModel(rgb, true)
+    }
 
-    __update (rgb, change) {
-      // update internally
-      this.model.hex = rgbToHex(rgb)
-      this.model.rgb = rgbToString(rgb)
-      this.model.r = rgb.r
-      this.model.g = rgb.g
-      this.model.b = rgb.b
-      this.model.a = rgb.a
-
-      const value = this.model[this.isOutputHex === true ? 'hex' : 'rgb']
-
-      // emit new value
-      this.$emit('update:modelValue', value)
-      change === true && this.$emit('change', value)
-    },
-
-    __updateErrorIcon (val) {
-      // we MUST avoid vue triggering a render,
-      // so manually changing this
-      if (this.$refs.errorIcon) {
-        this.$refs.errorIcon.$el.style.opacity = val ? 1 : 0
-      }
-    },
-
-    __parseModel (v) {
-      const forceAlpha = this.forceAlpha !== void 0
-        ? this.forceAlpha
-        : (
-          this.formatModel === 'auto'
-            ? null
-            : this.formatModel.indexOf('a') > -1
-        )
-
-      if (typeof v !== 'string' || v.length === 0 || testPattern.anyColor(v.replace(/ /g, '')) !== true) {
-        return {
-          h: 0,
-          s: 0,
-          v: 0,
-          r: 0,
-          g: 0,
-          b: 0,
-          a: forceAlpha === true ? 100 : void 0,
-          hex: void 0,
-          rgb: void 0
-        }
-      }
-
-      const model = textToRgb(v)
-
-      if (forceAlpha === true && model.a === void 0) {
-        model.a = 100
-      }
-
-      model.hex = rgbToHex(model)
-      model.rgb = rgbToString(model)
-
-      return Object.assign(model, rgbToHsv(model))
-    },
-
-    __spectrumPan (evt) {
+    function onSpectrumPan (evt) {
       if (evt.isFinal) {
-        this.__onSpectrumChange(
+        changeSpectrum(
           evt.position.left,
           evt.position.top,
           true
         )
       }
       else {
-        this.__spectrumChange(evt)
+        onSpectrumChange(evt)
       }
-    },
+    }
 
-    // throttled in created()
-    __spectrumChange (evt) {
-      this.__onSpectrumChange(
-        evt.position.left,
-        evt.position.top
-      )
-    },
+    const onSpectrumChange = throttle(
+      evt => { changeSpectrum(evt.position.left, evt.position.top) },
+      20
+    )
 
-    __spectrumClick (evt) {
-      this.__onSpectrumChange(
+    function onSpectrumClick (evt) {
+      changeSpectrum(
         evt.pageX - window.pageXOffset,
         evt.pageY - window.pageYOffset,
         true
       )
-    },
+    }
 
-    __activate (evt) {
-      this.__onSpectrumChange(
+    function onActivate (evt) {
+      changeSpectrum(
         evt.pageX - window.pageXOffset,
         evt.pageY - window.pageYOffset
       )
+    }
+
+    function updateErrorIcon (val) {
+      // we MUST avoid vue triggering a render,
+      // so manually changing this
+      if (errorIconRef.value !== null) {
+        errorIconRef.value.$el.style.opacity = val ? 1 : 0
+      }
+    }
+
+    function getHeader () {
+      return h('div', {
+        class: 'q-color-picker__header relative-position overflow-hidden'
+      }, [
+        h('div', { class: 'q-color-picker__header-bg absolute-full' }),
+
+        h('div', {
+          class: headerClass.value,
+          style: currentBgColor.value
+        }, [
+          h(QTabs, {
+            modelValue: topView.value,
+            dense: true,
+            align: 'justify',
+            ...getCache('topVTab', {
+              'onUpdate:modelValue': val => { topView.value = val }
+            })
+          }, () => [
+            h(QTab, {
+              label: 'HEX' + (hasAlpha.value === true ? 'A' : ''),
+              name: 'hex',
+              ripple: false
+            }),
+
+            h(QTab, {
+              label: 'RGB' + (hasAlpha.value === true ? 'A' : ''),
+              name: 'rgb',
+              ripple: false
+            })
+          ]),
+
+          h('div', {
+            class: 'q-color-picker__header-banner row flex-center no-wrap'
+          }, [
+            h('input', {
+              class: 'fit',
+              value: model.value[ topView.value ],
+              ...(editable.value !== true
+                ? { readonly: true }
+                : {}
+              ),
+              ...getCache('topIn', {
+                onInput: evt => {
+                  updateErrorIcon(onEditorChange(evt) === true)
+                },
+                onChange: stop,
+                onBlur: evt => {
+                  onEditorChange(evt, true) === true && proxy.$forceUpdate()
+                  updateErrorIcon(false)
+                }
+              })
+            }),
+
+            h(QIcon, {
+              ref: errorIconRef,
+              class: 'q-color-picker__error-icon absolute no-pointer-events',
+              name: $q.iconSet.type.negative
+            })
+          ])
+        ])
+      ])
+    }
+
+    function getContent () {
+      return h(QTabPanels, {
+        modelValue: view.value,
+        animated: true
+      }, () => [
+        h(QTabPanel, {
+          class: 'q-color-picker__spectrum-tab overflow-hidden',
+          name: 'spectrum'
+        }, getSpectrumTab),
+
+        h(QTabPanel, {
+          class: 'q-pa-md q-color-picker__tune-tab',
+          name: 'tune'
+        }, getTuneTab),
+
+        h(QTabPanel, {
+          class: 'q-color-picker__palette-tab',
+          name: 'palette'
+        }, getPaletteTab)
+      ])
+    }
+
+    function getFooter () {
+      return h('div', {
+        class: 'q-color-picker__footer relative-position overflow-hidden'
+      }, [
+        h(QTabs, {
+          class: 'absolute-full',
+          modelValue: view.value,
+          dense: true,
+          align: 'justify',
+          ...getCache('ftIn', {
+            'onUpdate:modelValue': val => { view.value = val }
+          })
+        }, () => [
+          h(QTab, {
+            icon: $q.iconSet.colorPicker.spectrum,
+            name: 'spectrum',
+            ripple: false
+          }),
+
+          h(QTab, {
+            icon: $q.iconSet.colorPicker.tune,
+            name: 'tune',
+            ripple: false
+          }),
+
+          h(QTab, {
+            icon: $q.iconSet.colorPicker.palette,
+            name: 'palette',
+            ripple: false
+          })
+        ])
+      ])
+    }
+
+    function getSpectrumTab () {
+      const data = {
+        ref: spectrumRef,
+        class: 'q-color-picker__spectrum non-selectable relative-position cursor-pointer'
+          + (editable.value !== true ? ' readonly' : ''),
+        style: spectrumStyle.value,
+        ...(editable.value === true
+          ? {
+              onClick: onSpectrumClick,
+              onMousedown: onActivate
+            }
+          : {}
+        )
+      }
+
+      const child = [
+        h('div', { style: { paddingBottom: '100%' } }),
+        h('div', { class: 'q-color-picker__spectrum-white absolute-full' }),
+        h('div', { class: 'q-color-picker__spectrum-black absolute-full' }),
+        h('div', {
+          class: 'absolute',
+          style: spectrumPointerStyle.value
+        }, [
+          model.value.hex !== void 0
+            ? h('div', { class: 'q-color-picker__spectrum-circle' })
+            : null
+        ])
+      ]
+
+      const sliders = [
+        h('div', { class: 'q-color-picker__hue non-selectable' }, [
+          h(QSlider, {
+            modelValue: model.value.h,
+            min: 0,
+            max: 360,
+            fillHandleAlways: true,
+            readonly: editable.value !== true,
+            thumbPath,
+            'onUpdate:modelValue': onHueChange,
+            ...getCache('lazyhue', {
+              onChange: val => onHueChange(val, true)
+            })
+          })
+        ])
+      ]
+
+      hasAlpha.value === true && sliders.push(
+        h('div', { class: 'q-color-picker__alpha non-selectable' }, [
+          h(QSlider, {
+            modelValue: model.value.a,
+            min: 0,
+            max: 100,
+            fillHandleAlways: true,
+            readonly: editable.value !== true,
+            thumbPath,
+            ...getCache('alphaSlide', {
+              'onUpdate:modelValue': value => onNumericChange(value, 'a', 100),
+              onChange: value => onNumericChange(value, 'a', 100, void 0, true)
+            })
+          })
+        ])
+      )
+
+      return [
+        hDir('div', data, child, 'spec', editable.value, () => spectrumDirective.value),
+        h('div', { class: 'q-color-picker__sliders' }, sliders)
+      ]
+    }
+
+    function getTuneTab () {
+      return [
+        h('div', { class: 'row items-center no-wrap' }, [
+          h('div', 'R'),
+          h(QSlider, {
+            modelValue: model.value.r,
+            min: 0,
+            max: 255,
+            color: 'red',
+            dark: isDark.value,
+            readonly: editable.value !== true,
+            ...getCache('rSlide', {
+              'onUpdate:modelValue': value => onNumericChange(value, 'r', 255),
+              onChange: value => onNumericChange(value, 'r', 255, void 0, true)
+            })
+          }),
+          h('input', {
+            value: model.value.r,
+            maxlength: 3,
+            readonly: editable.value !== true,
+            onChange: stop,
+            ...getCache('rIn', {
+              onInput: evt => onNumericChange(evt.target.value, 'r', 255, evt),
+              onBlur: evt => onNumericChange(evt.target.value, 'r', 255, evt, true)
+            })
+          })
+        ]),
+
+        h('div', { class: 'row items-center no-wrap' }, [
+          h('div', 'G'),
+          h(QSlider, {
+            modelValue: model.value.g,
+            min: 0,
+            max: 255,
+            color: 'green',
+            dark: isDark.value,
+            readonly: editable.value !== true,
+            ...getCache('gSlide', {
+              'onUpdate:modelValue': value => onNumericChange(value, 'g', 255),
+              onChange: value => onNumericChange(value, 'g', 255, void 0, true)
+            })
+          }),
+          h('input', {
+            value: model.value.g,
+            maxlength: 3,
+            readonly: editable.value !== true,
+            onChange: stop,
+            ...getCache('gIn', {
+              onInput: evt => onNumericChange(evt.target.value, 'g', 255, evt),
+              onBlur: evt => onNumericChange(evt.target.value, 'g', 255, evt, true)
+            })
+          })
+        ]),
+
+        h('div', { class: 'row items-center no-wrap' }, [
+          h('div', 'B'),
+          h(QSlider, {
+            modelValue: model.value.b,
+            min: 0,
+            max: 255,
+            color: 'blue',
+            readonly: editable.value !== true,
+            dark: isDark.value,
+            ...getCache('bSlide', {
+              'onUpdate:modelValue': value => onNumericChange(value, 'b', 255),
+              onChange: value => onNumericChange(value, 'b', 255, void 0, true)
+            })
+          }),
+          h('input', {
+            value: model.value.b,
+            maxlength: 3,
+            readonly: editable.value !== true,
+            onChange: stop,
+            ...getCache('bIn', {
+              onInput: evt => onNumericChange(evt.target.value, 'b', 255, evt),
+              onBlur: evt => onNumericChange(evt.target.value, 'b', 255, evt, true)
+            })
+          })
+        ]),
+
+        hasAlpha.value === true ? h('div', { class: 'row items-center no-wrap' }, [
+          h('div', 'A'),
+          h(QSlider, {
+            modelValue: model.value.a,
+            color: 'grey',
+            readonly: editable.value !== true,
+            dark: isDark.value,
+            ...getCache('aSlide', {
+              'onUpdate:modelValue': value => onNumericChange(value, 'a', 100),
+              onChange: value => onNumericChange(value, 'a', 100, void 0, true)
+            })
+          }),
+          h('input', {
+            value: model.value.a,
+            maxlength: 3,
+            readonly: editable.value !== true,
+            onChange: stop,
+            ...getCache('aIn', {
+              onInput: evt => onNumericChange(evt.target.value, 'a', 100, evt),
+              onBlur: evt => onNumericChange(evt.target.value, 'a', 100, evt, true)
+            })
+          })
+        ]) : null
+      ]
+    }
+
+    function getPaletteTab () {
+      return [
+        h('div', {
+          class: 'row items-center q-color-picker__palette-rows'
+            + (editable.value === true ? ' q-color-picker__palette-rows--editable' : '')
+        }, computedPalette.value.map(color => h('div', {
+          class: 'q-color-picker__cube col-auto',
+          style: { backgroundColor: color },
+          ...(editable.value === true ? getCache('palette#' + color, {
+            onClick: () => {
+              onPalettePick(color)
+            }
+          }) : {})
+        })))
+      ]
+    }
+
+    return () => {
+      const child = [ getContent() ]
+
+      if (props.name !== void 0 && props.disable !== true) {
+        injectFormInput(child, 'push')
+      }
+
+      props.noHeader !== true && child.unshift(
+        getHeader()
+      )
+
+      props.noFooter !== true && child.push(
+        getFooter()
+      )
+
+      return h('div', {
+        class: classes.value,
+        ...attributes.value
+      }, child)
     }
   }
 })

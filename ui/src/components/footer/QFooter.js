@@ -1,21 +1,14 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeUnmount, inject, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import { hMergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/private/render.js'
+import { layoutKey } from '../../utils/private/symbols.js'
 
 export default defineComponent({
   name: 'QFooter',
-
-  inject: {
-    layout: {
-      default () {
-        console.error('QFooter needs to be child of QLayout')
-      }
-    }
-  },
 
   props: {
     modelValue: {
@@ -34,182 +27,174 @@ export default defineComponent({
 
   emits: [ 'reveal', 'focusin' ],
 
-  data () {
-    return {
-      size: parseInt(this.heightHint, 10),
-      revealed: true,
-      windowHeight: isRuntimeSsrPreHydration === true || this.layout.container ? 0 : window.innerHeight
-    }
-  },
+  setup (props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance()
 
-  watch: {
-    modelValue (val) {
-      this.__update('space', val)
-      this.__updateLocal('revealed', true)
-      this.layout.__animate()
-    },
+    const $layout = inject(layoutKey, () => {
+      console.error('QFooter needs to be child of QLayout')
+    })
 
-    offset (val) {
-      this.__update('offset', val)
-    },
+    const size = ref(parseInt(props.heightHint, 10))
+    const revealed = ref(true)
+    const windowHeight = ref(
+      isRuntimeSsrPreHydration.value === true || $layout.isContainer.value === true
+        ? 0
+        : window.innerHeight
+    )
 
-    reveal (val) {
-      val === false && this.__updateLocal('revealed', this.modelValue)
-    },
+    const fixed = computed(() =>
+      props.reveal === true
+      || $layout.view.value.indexOf('F') > -1
+      || $layout.isContainer.value === true
+    )
 
-    revealed (val) {
-      this.layout.__animate()
-      this.$emit('reveal', val)
-    },
+    const containerHeight = computed(() => (
+      $layout.isContainer.value === true
+        ? $layout.containerHeight.value
+        : windowHeight.value
+    ))
 
-    'layout.scroll': '__updateRevealed',
-
-    'layout.height': '__updateRevealed',
-
-    size: '__updateRevealed',
-
-    '$q.screen.height' (val) {
-      this.layout.container !== true && this.__updateLocal('windowHeight', val)
-    }
-  },
-
-  computed: {
-    fixed () {
-      return this.reveal === true ||
-        this.layout.view.indexOf('F') > -1 ||
-        this.layout.container === true
-    },
-
-    containerHeight () {
-      return this.layout.container === true
-        ? this.layout.containerHeight
-        : this.windowHeight
-    },
-
-    offset () {
-      if (this.modelValue !== true) {
+    const offset = computed(() => {
+      if (props.modelValue !== true) {
         return 0
       }
-      if (this.fixed === true) {
-        return this.revealed === true ? this.size : 0
+      if (fixed.value === true) {
+        return revealed.value === true ? size.value : 0
       }
-      const offset = this.layout.scroll.position + this.containerHeight + this.size - this.layout.height
+      const offset = $layout.scroll.value.position + containerHeight.value + size.value - $layout.height.value
       return offset > 0 ? offset : 0
-    },
+    })
 
-    hidden () {
-      return this.modelValue !== true || (this.fixed === true && this.revealed !== true)
-    },
+    const hidden = computed(() =>
+      props.modelValue !== true || (fixed.value === true && revealed.value !== true)
+    )
 
-    revealOnFocus () {
-      return this.modelValue === true && this.hidden === true && this.reveal === true
-    },
+    const revealOnFocus = computed(() =>
+      props.modelValue === true && hidden.value === true && props.reveal === true
+    )
 
-    classes () {
-      return 'q-footer q-layout__section--marginal ' +
-        (this.fixed === true ? 'fixed' : 'absolute') + '-bottom' +
-        (this.bordered === true ? ' q-footer--bordered' : '') +
-        (this.hidden === true ? ' q-footer--hidden' : '') +
-        (
-          this.modelValue !== true
-            ? ' q-layout--prevent-focus' + (this.fixed !== true ? ' hidden' : '')
-            : ''
-        )
-    },
+    const classes = computed(() =>
+      'q-footer q-layout__section--marginal '
+      + (fixed.value === true ? 'fixed' : 'absolute') + '-bottom'
+      + (props.bordered === true ? ' q-footer--bordered' : '')
+      + (hidden.value === true ? ' q-footer--hidden' : '')
+      + (
+        props.modelValue !== true
+          ? ' q-layout--prevent-focus' + (fixed.value !== true ? ' hidden' : '')
+          : ''
+      )
+    )
 
-    style () {
+    const style = computed(() => {
       const
-        view = this.layout.rows.bottom,
+        view = $layout.rows.value.bottom,
         css = {}
 
-      if (view[0] === 'l' && this.layout.left.space === true) {
-        css[this.$q.lang.rtl === true ? 'right' : 'left'] = `${this.layout.left.size}px`
+      if (view[ 0 ] === 'l' && $layout.left.space === true) {
+        css[ $q.lang.rtl === true ? 'right' : 'left' ] = `${ $layout.left.size }px`
       }
-      if (view[2] === 'r' && this.layout.right.space === true) {
-        css[this.$q.lang.rtl === true ? 'left' : 'right'] = `${this.layout.right.size}px`
+      if (view[ 2 ] === 'r' && $layout.right.space === true) {
+        css[ $q.lang.rtl === true ? 'left' : 'right' ] = `${ $layout.right.size }px`
       }
 
       return css
+    })
+
+    function updateLayout (prop, val) {
+      $layout.update('footer', prop, val)
     }
-  },
 
-  render () {
-    const child = hMergeSlot([
-      h(QResizeObserver, {
-        debounce: 0,
-        onResize: this.__onResize
-      })
-    ], this, 'default')
-
-    this.elevated === true && child.push(
-      h('div', {
-        class: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
-      })
-    )
-
-    return h('footer', {
-      class: this.classes,
-      style: this.style,
-      onFocusin: this.__onFocusin
-    }, child)
-  },
-
-  created () {
-    this.layout.instances.footer = this
-    this.modelValue === true && this.__update('size', this.size)
-    this.__update('space', this.modelValue)
-    this.__update('offset', this.offset)
-  },
-
-  beforeUnmount () {
-    if (this.layout.instances.footer === this) {
-      this.layout.instances.footer = void 0
-      this.__update('size', 0)
-      this.__update('offset', 0)
-      this.__update('space', false)
-    }
-  },
-
-  methods: {
-    __onResize ({ height }) {
-      this.__updateLocal('size', height)
-      this.__update('size', height)
-    },
-
-    __update (prop, val) {
-      // ensure state update is caught correctly by Vue diffing
-      // on all layout components, so nextTicking:
-      this.$nextTick(() => {
-        if (this.layout.footer[prop] !== val) {
-          this.layout.footer[prop] = val
-        }
-      })
-    },
-
-    __updateLocal (prop, val) {
-      if (this[prop] !== val) {
-        this[prop] = val
+    function updateLocal (prop, val) {
+      if (prop.value !== val) {
+        prop.value = val
       }
-    },
+    }
 
-    __updateRevealed () {
-      if (this.reveal !== true) { return }
+    function onResize ({ height }) {
+      updateLocal(size, height)
+      updateLayout('size', height)
+    }
 
-      const { direction, position, inflexionPosition } = this.layout.scroll
+    function updateRevealed () {
+      if (props.reveal !== true) { return }
 
-      this.__updateLocal('revealed', (
-        direction === 'up' ||
-        position - inflexionPosition < 100 ||
-        this.layout.height - this.containerHeight - position - this.size < 300
+      const { direction, position, inflectionPoint } = $layout.scroll.value
+
+      updateLocal(revealed, (
+        direction === 'up'
+        || position - inflectionPoint < 100
+        || $layout.height.value - containerHeight.value - position - size.value < 300
       ))
-    },
+    }
 
-    __onFocusin (evt) {
-      if (this.revealOnFocus === true) {
-        this.__updateLocal('revealed', true)
+    function onFocusin (evt) {
+      if (revealOnFocus.value === true) {
+        updateLocal(revealed, true)
       }
 
-      this.$emit('focusin', evt)
+      emit('focusin', evt)
+    }
+
+    watch(() => props.modelValue, val => {
+      updateLayout('space', val)
+      updateLocal(revealed, true)
+      $layout.animate()
+    })
+
+    watch(offset, val => {
+      updateLayout('offset', val)
+    })
+
+    watch(() => props.reveal, val => {
+      val === false && updateLocal(revealed, props.modelValue)
+    })
+
+    watch(revealed, val => {
+      $layout.animate()
+      emit('reveal', val)
+    })
+
+    watch([ size, $layout.scroll, $layout.height ], updateRevealed)
+
+    watch(() => $q.screen.height, val => {
+      $layout.isContainer.value !== true && updateLocal(windowHeight, val)
+    })
+
+    const instance = {}
+
+    $layout.instances.footer = instance
+    props.modelValue === true && updateLayout('size', size.value)
+    updateLayout('space', props.modelValue)
+    updateLayout('offset', offset.value)
+
+    onBeforeUnmount(() => {
+      if ($layout.instances.footer === instance) {
+        $layout.instances.footer = void 0
+        updateLayout('size', 0)
+        updateLayout('offset', 0)
+        updateLayout('space', false)
+      }
+    })
+
+    return () => {
+      const child = hMergeSlot(slots.default, [
+        h(QResizeObserver, {
+          debounce: 0,
+          onResize
+        })
+      ])
+
+      props.elevated === true && child.push(
+        h('div', {
+          class: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
+        })
+      )
+
+      return h('footer', {
+        class: classes.value,
+        style: style.value,
+        onFocusin
+      }, child)
     }
   }
 })

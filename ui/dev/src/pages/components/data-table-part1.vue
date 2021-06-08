@@ -810,7 +810,7 @@ export default {
       selectionToggle: false,
       loading: false,
       color: 'amber',
-      visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
+      visibleColumns: [ 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
       separator: 'horizontal',
       selected: [],
       gridHeader: false,
@@ -833,7 +833,7 @@ export default {
           style: 'background: #26a69a',
           headerStyle: 'background: #26a69a',
           field: row => row.name,
-          format: val => `~${val}`,
+          format: val => `~${ val }`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
@@ -1016,9 +1016,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .q-table + .q-table
-  margin-top 25px
+  margin-top: 25px
 .text-pre-wrap
-  white-space pre-wrap
+  white-space: pre-wrap
 </style>

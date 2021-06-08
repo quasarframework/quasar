@@ -4,7 +4,9 @@ desc: How to prefetch data and initialize your Vuex store, validate the route an
 related:
   - /quasar-cli/quasar-conf-js
 ---
+
 The PreFetch is a feature (**only available when using Quasar CLI**) which allows the components picked up by Vue Router (defined in `/src/router/routes.js`) to:
+
 * pre-fetch data
 * validate the route
 * redirect to another route, when some conditions aren't met (like user isn't logged in)
@@ -86,39 +88,44 @@ Now, let's see how the hooks are called when the user visits these routes in the
 ## Usage
 The hook is defined as a custom static function called `preFetch` on our route components. Note that because this function will be called before the components are instantiated, it doesn't have access to `this`.
 
-``` html
+```html
 <!-- some .vue component used as route -->
 <template>
   <div>{{ item.title }}</div>
 </template>
 
 <script>
+import { useStore } from 'vuex'
+
 export default {
   // our hook here
   preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
-    // urlPath and publicPath requires @quasar/app v2+
-
     // fetch data, validate route and optionally redirect to some other route...
 
     // ssrContext is available only server-side in SSR mode
 
-    // No access to "this" here as preFetch() is called before
-    // the component gets instantiated.
+    // No access to "this" here
 
     // Return a Promise if you are running an async job
     // Example:
     return store.dispatch('fetchItem', currentRoute.params.id)
   },
 
-  computed: {
+  setup () {
+    const $store = useStore()
+
     // display the item from store state.
-    item () {
-      return this.$store.state.items[this.$route.params.id]
-    }
+    const item = computed(() => $store.state.items[this.$route.params.id])
+
+    return { item }
   }
 }
 </script>
 ```
+
+::: tip
+If you are developing a SSR app, then you can check out the [ssrContext](/quasar-cli/developing-ssr/ssr-context) Object that gets supplied server-side.
+:::
 
 ```js
 // related action for Promise example
@@ -193,13 +200,16 @@ export default {
 
 Now, we can use `store.registerModule()` to lazy-register this module in a route component's `preFetch()` hook:
 
-```js
+```html
 // inside a route component
 <template>
   <div>{{ fooCount }}</div>
 </template>
 
 <script>
+import { useStore } from 'vuex'
+import { onMounted, onUnmounted } from 'vue'
+
 // import the module here instead of in `src/store/index.js`
 import fooStoreModule from 'store/foo'
 
@@ -208,19 +218,27 @@ export default {
     store.registerModule('foo', fooStoreModule)
     return store.dispatch('foo/inc')
   },
-  mounted () {
-    // Preserve the previous state if it was injected from the server
-    this.$store.registerModule('foo', fooStoreModule, { preserveState: true })
-  },
-  // IMPORTANT: avoid duplicate module registration on the client
-  // when the route is visited multiple times.
-  destroyed () {
-    this.$store.unregisterModule('foo')
-  },
 
-  computed: {
-    fooCount () {
-      return this.$store.state.foo.count
+  setup () {
+    const $store = useStore()
+
+    onMounted(() => {
+      // Preserve the previous state if it was injected from the server
+      $store.registerModule('foo', fooStoreModule, { preserveState: true })
+    })
+
+    onUnmounted(() => {
+      // IMPORTANT: avoid duplicate module registration on the client
+      // when the route is visited multiple times.
+      $store.unregisterModule('foo')
+    })
+
+    const fooCount = computed(() => {
+      return $store.state.foo.count
+    })
+
+    return {
+      fooCount
     }
   }
 }
@@ -234,7 +252,8 @@ Don't forget to use the `preserveState: true` option for `registerModule` so we 
 :::
 
 ### Usage with TypeScript
-Starting with v1.9, you can use `preFetch` helper to type-hint the store parameter (which will otherwise have an `any` type):
+
+You can use `preFetch` helper to type-hint the store parameter (which will otherwise have an `any` type):
 
 ```js
 import { preFetch } from 'quasar/wrappers'
@@ -245,7 +264,7 @@ interface StateInterface {
 }
 
 export default {
-  preFetch: preFetch<Store<StateInterface>>(({ store }) => {
+  preFetch: preFetch<StateInterface>(({ store }) => {
     // Do something with your newly-typed store parameter
   }),
 }

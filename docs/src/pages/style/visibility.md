@@ -51,6 +51,10 @@ You can combine the visibility classes with the `inline` class for inline-blocks
 Example: `<span class="gt-sm inline">...</span>`
 :::
 
+::: tip
+If you want to e.g. show hide based on JavaScript properties, you can use the [Screen Plugin](/options/screen-plugin).
+:::
+
 ## Platform Related
 Visible only on:
 
@@ -60,7 +64,7 @@ Visible only on:
 | `mobile-only` | Visible only on mobile |
 | `native-mobile-only` | Visible only on Cordova/Capacitor |
 | `cordova-only` | Visible only on Cordova wrapped Apps |
-| `capacitor-only` | Visible only on Cordova wrapped Apps |
+| `capacitor-only` | Visible only on Capacitor wrapped Apps |
 | `electron-only` | Visible only on Electron wrapped Apps |
 | `touch-only` | Visible only on touch capable platforms |
 | `platform-ios-only` | Visible only on an iOS platform |

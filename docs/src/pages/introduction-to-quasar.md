@@ -10,6 +10,7 @@ Because it saves development costs drastically. Only Quasar can do:
 <introduction-video />
 
 Also because:
+
 * It's based on Vue.js
 * You get a state-of-the-art UI (that follows Material Guidelines) for your **websites** and **apps** out of the box
 * Best support for desktop and **mobile browsers** (including iOS Safari!) out of the box
@@ -104,7 +105,7 @@ We are always attentive to the security of Quasar and the security of apps built
 When developers encounter a problem they can’t solve, they can visit the Quasar [forum](https://forum.quasar.dev/) or our [Discord chat server](https://chat.quasar.dev). The community is always there to help you. You can also get updates on new versions and features by following us on [Twitter](https://twitter.quasar.dev). You can also get special service as a [backer/sponsor](https://donate.quasar.dev) and help make sure Quasar stays relevant for you in the future too!
 
 #### A wide range of platform support
-Google Chrome, Firefox, IE11/Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry, MacOS, Linux, Windows.
+Google Chrome, Firefox, Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry, MacOS, Linux, Windows.
 
 #### Quasar Language Packs
 Quasar comes equipped with over 40 language packs out of the box. On top of that, if your language pack is missing, it takes just 5 minutes to add it.
@@ -113,7 +114,7 @@ Quasar comes equipped with over 40 language packs out of the box. On top of that
 And finally, it’s worth mentioning the significant amount of time taken to write great, bloat-free, focused and complete documentation so that developers can quickly pick up Quasar. We put special effort into our documentation to make sure there is no confusion.
 
 ## Underlying technologies
-[Vue](https://vuejs.org/), [Node.js](https://nodejs.org/), [Webpack](https://webpack.js.org/), [Cordova](https://cordova.apache.org/), [Capacitor](https://capacitor.ionicframework.com), [Electron](https://electronjs.org/).
+[Vue](https://v3.vuejs.org/), [Node.js](https://nodejs.org/), [Webpack](https://webpack.js.org/), [Cordova](https://cordova.apache.org/), [Capacitor](https://capacitor.ionicframework.com), [Electron](https://electronjs.org/).
 
 Except for Vue, which only takes half a day to pick up and will change your life forever, there is no requirement for you to know the other technologies. They are all integrated and configured in Quasar for you.
 

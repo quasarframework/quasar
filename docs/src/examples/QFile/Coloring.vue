@@ -28,7 +28,7 @@
       <q-file color="teal" outlined v-model="model" label="Label">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
           </q-avatar>
         </template>
       </q-file>
@@ -50,10 +50,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model: null
+      model: ref(null)
     }
   }
 }

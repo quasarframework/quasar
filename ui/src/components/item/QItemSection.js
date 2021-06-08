@@ -1,6 +1,6 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QItemSection',
@@ -13,18 +13,16 @@ export default defineComponent({
     noWrap: Boolean
   },
 
-  computed: {
-    classes () {
-      return 'q-item__section column' +
-        ` q-item__section--${this.avatar === true || this.side === true || this.thumbnail === true ? 'side' : 'main'}` +
-        (this.top === true ? ' q-item__section--top justify-start' : ' justify-center') +
-        (this.avatar === true ? ' q-item__section--avatar' : '') +
-        (this.thumbnail === true ? ' q-item__section--thumbnail' : '') +
-        (this.noWrap === true ? ' q-item__section--nowrap' : '')
-    }
-  },
+  setup (props, { slots }) {
+    const classes = computed(() =>
+      'q-item__section column'
+      + ` q-item__section--${ props.avatar === true || props.side === true || props.thumbnail === true ? 'side' : 'main' }`
+      + (props.top === true ? ' q-item__section--top justify-start' : ' justify-center')
+      + (props.avatar === true ? ' q-item__section--avatar' : '')
+      + (props.thumbnail === true ? ' q-item__section--thumbnail' : '')
+      + (props.noWrap === true ? ' q-item__section--nowrap' : '')
+    )
 
-  render () {
-    return h('div', { class: this.classes }, hSlot(this, 'default'))
+    return () => h('div', { class: classes.value }, hSlot(slots.default))
   }
 })

@@ -1,6 +1,7 @@
 ---
 title: Stepper
 desc: The QStepper Vue component conveys progress through a sequence of numbered steps. It may also be used for navigation. It's usually useful when the user has to follow steps to complete a process, like in a wizard.
+keys: QStepper,QStep,QStepperNavigation
 related:
   - /options/transitions
 ---
@@ -8,9 +9,24 @@ related:
 Steppers display progress through a sequence of logical and numbered steps. They may also be used for navigation.
 They're usually useful when the user has to follow steps to complete a process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
 
-## Installation
+## QStepper API
 
-<doc-installation :components="['QStepper', 'QStep', 'QStepperNavigation']" />
+<doc-api file="QStepper" />
+
+## QStep API
+
+<doc-api file="QStep" />
+
+## QStepperNavigation API
+
+This component allows you to place buttons within `QStepper` or `QStep` to
+navigate through the steps. It is up to you to add whatever buttons you require.
+
+::: tip
+To use global navigation, you must add it to the `QStepper` 'navigation' slot.
+:::
+
+<doc-api file="QStepperNavigation" />
 
 ## Usage
 
@@ -18,8 +34,9 @@ They're usually useful when the user has to follow steps to complete a process, 
 If the QStep content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 :::
 
-::: danger
-Please take notice of the Boolean `keep-alive` prop for QStepper, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QStep.
+::: danger Keep Alive
+* Please take notice of the Boolean `keep-alive` prop for QStepper, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QStep.
+* Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QStep `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).
 :::
 
 ### Horizontal
@@ -61,29 +78,10 @@ You can also use `prefix` prop (max 2 characters) instead of an icon for each st
 
 <doc-example title="Dark" file="QStepper/Dark" />
 
-Starting with Quasar v1.9.13+, you can use the `header-class` prop to apply any CSS class(es) to the header. In the example below, we are applying bolded text:
+You can use the `header-class` prop to apply any CSS class(es) to the header. In the example below, we are applying bolded text:
 
 <doc-example title="Header Class" file="QStepper/HeaderClass" />
 
 ### Message slot
 
 <doc-example title="Message slot with fixed height steps" file="QStepper/MessageSlot" />
-
-## QStepper API
-
-<doc-api file="QStepper" />
-
-## QStep API
-
-<doc-api file="QStep" />
-
-## QStepperNavigation API
-
-This component allows you to place buttons within `QStepper` or `QStep` to
-navigate through the steps. It is up to you to add whatever buttons you require.
-
-::: tip
-To use global navigation, you must add it to the `QStepper` 'navigation' slot.
-:::
-
-<doc-api file="QStepperNavigation" />

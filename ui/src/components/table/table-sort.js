@@ -1,25 +1,32 @@
-import { sortDate } from '../../utils/sort.js'
-import { isNumber, isDate } from '../../utils/is.js'
+import { computed } from 'vue'
 
-export default {
-  props: {
-    sortMethod: Function
-  },
+import { sortDate } from '../../utils/private/sort.js'
+import { isNumber, isDate } from '../../utils/private/is.js'
 
-  computed: {
-    columnToSort () {
-      const { sortBy } = this.computedPagination
+export const useTableSortProps = {
+  sortMethod: Function,
+  binaryStateSort: Boolean,
+  columnSortOrder: {
+    type: String,
+    validator: v => v === 'ad' || v === 'da',
+    default: 'ad'
+  }
+}
 
-      if (sortBy) {
-        return this.colList.find(def => def.name === sortBy) || null
-      }
-    },
+export function useTableSort (props, computedPagination, colList, setPagination) {
+  const columnToSort = computed(() => {
+    const { sortBy } = computedPagination.value
 
-    computedSortMethod () {
-      return this.sortMethod !== void 0
-        ? this.sortMethod
-        : (data, sortBy, descending) => {
-          const col = this.colList.find(def => def.name === sortBy)
+    return sortBy
+      ? colList.value.find(def => def.name === sortBy) || null
+      : null
+  })
+
+  const computedSortMethod = computed(() => (
+    props.sortMethod !== void 0
+      ? props.sortMethod
+      : (data, sortBy, descending) => {
+          const col = colList.value.find(def => def.name === sortBy)
           if (col === void 0 || col.field === void 0) {
             return data
           }
@@ -28,7 +35,7 @@ export default {
             dir = descending === true ? -1 : 1,
             val = typeof col.field === 'function'
               ? v => col.field(v)
-              : v => v[col.field]
+              : v => v[ col.field ]
 
           return data.sort((a, b) => {
             let
@@ -54,39 +61,64 @@ export default {
               return (A - B) * dir
             }
 
-            [A, B] = [A, B].map(s => (s + '').toLocaleString().toLowerCase())
+            [ A, B ] = [ A, B ].map(s => (s + '').toLocaleString().toLowerCase())
 
             return A < B
               ? -1 * dir
               : (A === B ? 0 : dir)
           })
         }
+  ))
+
+  function sort (col /* String(col name) or Object(col definition) */) {
+    let sortOrder = props.columnSortOrder
+
+    if (col === Object(col)) {
+      if (col.sortOrder) {
+        sortOrder = col.sortOrder
+      }
+
+      col = col.name
     }
-  },
-
-  methods: {
-    sort (col /* String(col name) or Object(col definition) */) {
-      if (col === Object(col)) {
-        col = col.name
+    else {
+      const def = colList.value.find(def => def.name === col)
+      if (def !== void 0 && def.sortOrder) {
+        sortOrder = def.sortOrder
       }
+    }
 
-      let { sortBy, descending } = this.computedPagination
+    let { sortBy, descending } = computedPagination.value
 
-      if (sortBy !== col) {
-        sortBy = col
-        descending = false
-      }
-      else if (this.binaryStateSort === true) {
-        descending = !descending
-      }
-      else if (descending === true) {
+    if (sortBy !== col) {
+      sortBy = col
+      descending = sortOrder === 'da'
+    }
+    else if (props.binaryStateSort === true) {
+      descending = !descending
+    }
+    else if (descending === true) {
+      if (sortOrder === 'ad') {
         sortBy = null
       }
       else {
+        descending = false
+      }
+    }
+    else { // ascending
+      if (sortOrder === 'ad') {
         descending = true
       }
-
-      this.setPagination({ sortBy, descending, page: 1 })
+      else {
+        sortBy = null
+      }
     }
+
+    setPagination({ sortBy, descending, page: 1 })
+  }
+
+  return {
+    columnToSort,
+    computedSortMethod,
+    sort
   }
 }

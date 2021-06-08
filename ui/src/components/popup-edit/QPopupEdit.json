@@ -1,21 +1,13 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/popup-edit"
+    "docsUrl": "https://v2.quasar.dev/vue-components/popup-edit"
   },
 
   "props": {
-    "value": {
-      "extends": "value",
+    "model-value": {
+      "extends": "model-value",
       "type": "Any",
-      "examples": [ "v-model=\"myValue\"" ],
-      "category": "model"
-    },
-
-    "auto-save": {
-      "type": "Boolean",
-      "desc": "Automatically save the model (if changed) when user clicks/taps outside of the popup; It does not apply to ESC key",
-      "category": "behavior",
-      "addedIn": "v1.9.0"
+      "examples": [ "v-model=\"myValue\"" ]
     },
 
     "title": {
@@ -43,6 +35,12 @@
       "desc": "Override Cancel button label",
       "examples": [ "Cancel" ],
       "category": "content"
+    },
+
+    "auto-save": {
+      "type": "Boolean",
+      "desc": "Automatically save the model (if changed) when user clicks/taps outside of the popup; It does not apply to ESC key",
+      "category": "behavior"
     },
 
     "color": {
@@ -91,9 +89,9 @@
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom middle", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "examples": [ "top left", "bottom right" ],
       "category": "position"
@@ -103,9 +101,9 @@
       "type": "String",
       "desc": "Two values setting the menu's own position relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom middle", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "examples": [ "top left", "bottom right" ],
       "category": "position"
@@ -156,14 +154,8 @@
   },
 
   "slots": {
-    "title": {
-      "desc": "Slot for custom title (overrides 'title' prop when used)"
-    }
-  },
-
-  "scopedSlots": {
     "default": {
-      "desc": "Used for injecting the form component",
+      "desc": "Used for injecting the form component; Do NOT destructure it",
       "scope": {
         "initialValue": {
           "type": "Any",
@@ -201,14 +193,20 @@
           "desc": "Function that cancels the editing and reverts the value to the initialValue",
           "params": null,
           "returns": null
+        },
+        "updatePosition": {
+          "type": "Function",
+          "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the component without significant performance drawbacks so the optimal solution is for you to call this method when you need it",
+          "params": null,
+          "returns": null
         }
       }
     }
   },
 
   "events": {
-    "input": {
-      "extends": "input",
+    "update:model-value": {
+      "extends": "update:model-value",
       "desc": "Emitted when Popup gets cancelled in order to reset model to its initial value; Is also used by v-model"
     },
 
@@ -271,13 +269,15 @@
     },
 
     "show": {
-      "extends": "show",
-      "addedIn": "v1.12.0"
+      "extends": "show"
     },
 
     "hide": {
-      "extends": "hide",
-      "addedIn": "v1.12.0"
+      "extends": "hide"
+    },
+
+    "updatePosition": {
+      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the component without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
     }
   }
 }

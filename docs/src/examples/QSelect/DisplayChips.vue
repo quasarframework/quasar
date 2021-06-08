@@ -36,11 +36,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      modelSingle: 'Apple',
-      modelMultiple: [ 'Facebook' ],
+      modelSingle: ref('Apple'),
+      modelMultiple: ref(['Facebook']),
 
       options: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'

@@ -6,15 +6,16 @@
       </div>
 
       <p class="caption">
-        Default (@input, @change)
+        Default (@update:model-value, @change)
       </p>
       <div class="q-gutter-sm">
         <q-knob
+          name="test"
           v-model="model"
           :min="min"
           :max="max"
           @change="onChange"
-          @input="onInput"
+          @update:model-value="onInput"
         />
         <q-knob
           v-model="model"
@@ -28,7 +29,7 @@
           :min="min"
           :max="max"
           :angle="90"
-          @update:modelValue="onInput"
+          @update:model-value="onInput"
           @change="val => { model = val; onChange(val) }"
         />
       </div>
@@ -191,7 +192,7 @@ export default {
   },
   watch: {
     model (val, old) {
-      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     }
   },
   methods: {
@@ -199,7 +200,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:model-value', JSON.stringify(val))
     }
   }
 }

@@ -36,10 +36,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      targetEl: '#target-img-1'
+      targetEl: ref('#target-img-1')
     }
   }
 }

@@ -1,10 +1,10 @@
-import { h, createApp, Transition } from 'vue'
+import { h, createApp, Transition, onMounted } from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
 
-import defineReactivePlugin from '../utils/define-reactive-plugin.js'
-import { createGlobalNode, removeGlobalNode } from '../utils/global-nodes.js'
-import { preventScroll } from '../mixins/prevent-scroll.js'
+import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
+import { createGlobalNode, removeGlobalNode } from '../utils/private/global-nodes.js'
+import preventScroll from '../utils/prevent-scroll.js'
 
 let
   app,
@@ -13,19 +13,20 @@ let
   timeout,
   props = {}
 
-const
-  originalDefaults = {
-    delay: 0,
-    message: false,
-    html: false,
-    spinnerSize: 80,
-    spinnerColor: 'white',
-    messageColor: 'white',
-    backgroundColor: 'black',
-    spinner: QSpinner,
-    customClass: ''
-  },
-  defaults = { ...originalDefaults }
+const originalDefaults = {
+  delay: 0,
+  message: false,
+  html: false,
+  spinnerSize: 80,
+  spinnerColor: '',
+  messageColor: '',
+  backgroundColor: '',
+  boxClass: '',
+  spinner: QSpinner,
+  customClass: ''
+}
+
+const defaults = { ...originalDefaults }
 
 const Plugin = defineReactivePlugin({
   isActive: false
@@ -37,17 +38,17 @@ const Plugin = defineReactivePlugin({
       ? { ...originalDefaults, ...opts }
       : { ...defaults, ...opts }
 
-    props.customClass += ` text-${props.backgroundColor}`
-    props.uid = `l_${uid++}`
-
     Plugin.isActive = true
 
     if (app !== void 0) {
+      props.uid = uid
       vm.$forceUpdate()
       return
     }
 
+    props.uid = ++uid
     clearTimeout(timeout)
+
     timeout = setTimeout(() => {
       timeout = void 0
 
@@ -56,12 +57,12 @@ const Plugin = defineReactivePlugin({
       app = createApp({
         name: 'QLoading',
 
-        mounted () {
-          preventScroll(true)
-        },
+        setup () {
+          onMounted(() => {
+            preventScroll(true)
+          })
 
-        methods: {
-          __onAfterLeave () {
+          function onAfterLeave () {
             // might be called to finalize
             // previous leave, even if it was cancelled
             if (Plugin.isActive !== true && app !== void 0) {
@@ -71,15 +72,16 @@ const Plugin = defineReactivePlugin({
               app = void 0
               vm = void 0
             }
-          },
+          }
 
-          __getContent () {
+          function getContent () {
             if (Plugin.isActive !== true) {
               return null
             }
 
             const content = [
               h(props.spinner, {
+                class: 'q-loading__spinner',
                 color: props.spinnerColor,
                 size: props.spinnerSize
               })
@@ -87,24 +89,32 @@ const Plugin = defineReactivePlugin({
 
             props.message && content.push(
               h('div', {
-                class: `text-${props.messageColor}`,
+                class: 'q-loading__message'
+                  + (props.messageColor ? ` text-${ props.messageColor }` : ''),
                 [ props.html === true ? 'innerHTML' : 'textContent' ]: props.message
               })
             )
 
             return h('div', {
-              class: 'q-loading fullscreen column flex-center z-max ' + props.customClass.trim(),
+              class: 'q-loading fullscreen flex flex-center z-max ' + props.customClass.trim(),
               key: props.uid
-            }, content)
-          }
-        },
+            }, [
+              h('div', {
+                class: 'q-loading__backdrop'
+                  + (props.backgroundColor ? ` bg-${ props.backgroundColor }` : '')
+              }),
 
-        render () {
-          return h(Transition, {
+              h('div', {
+                class: 'q-loading__box column items-center ' + props.boxClass
+              }, content)
+            ])
+          }
+
+          return () => h(Transition, {
             name: 'q-transition--fade',
             appear: true,
-            onAfterLeave: this.__onAfterLeave
-          }, this.__getContent)
+            onAfterLeave
+          }, getContent)
         }
       })
 
@@ -129,12 +139,12 @@ const Plugin = defineReactivePlugin({
     }
   },
 
-  install (opts) {
-    if (__QUASAR_SSR_SERVER__ !== true) {
-      this.setDefaults(opts.cfg.loading)
-    }
+  install ({ $q }) {
+    $q.loading = this
 
-    opts.$q.loading = this
+    if (__QUASAR_SSR_SERVER__ !== true && $q.config.loading !== void 0) {
+      this.setDefaults($q.config.loading)
+    }
   }
 })
 

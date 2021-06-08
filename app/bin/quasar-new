@@ -22,6 +22,7 @@ function showHelp () {
     $ quasar new <c|component> [-f <option>] <component_file_name>
     $ quasar new <b|boot> [-f ts] <boot_name>
     $ quasar new <s|store> [-f ts] <store_module_name>
+    $ quasar new ssrmiddleware <middleware_name>
 
     # Examples:
 
@@ -81,7 +82,7 @@ function showError (message, param) {
   showHelp()
 }
 
-if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store', 'b', 'boot'].includes(type)) {
+if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store', 'b', 'boot', 'ssrmiddleware'].includes(type)) {
   showError('Invalid asset type', type)
 }
 
@@ -118,7 +119,7 @@ function getPaths (asset, names) {
     const hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext))
     const ext = hasExtension ? '' : asset.ext
 
-    return appPaths.resolve.src(path.join(asset.folder, name + ext))
+    return appPaths.resolve.app(path.join(asset.folder, name + ext))
   })
 }
 
@@ -126,7 +127,7 @@ function createFile (asset, file) {
   const relativePath = path.relative(appPaths.appDir, file)
 
   if (fs.existsSync(file)) {
-    warn(`[SKIPPED] ${relativePath} already exists.`)
+    warn(`${relativePath} already exists.`, 'SKIPPED')
     console.log()
     return
   }
@@ -138,7 +139,7 @@ function createFile (asset, file) {
     err => {
       if (err) {
         console.warn(err)
-        warn(`[FAIL] Could not generate ${relativePath}.`)
+        warn(`Could not generate ${relativePath}.`, 'FAIL')
         return
       }
 
@@ -154,28 +155,33 @@ function createFile (asset, file) {
 const ext = isTypeScript ? '.ts' : '.js'
 const mapping = {
   page: {
-    folder: 'pages',
+    folder: 'src/pages',
     ext: '.vue',
     reference: `src/router/routes${ext}`
   },
   layout: {
-    folder: 'layouts',
+    folder: 'src/layouts',
     ext: '.vue',
     reference: `src/router/routes${ext}`
   },
   component: {
-    folder: 'components',
+    folder: 'src/components',
     ext: '.vue'
   },
   store: {
-    folder: 'store',
+    folder: 'src/store',
     install: true,
     reference: `src/store/index${ext}`
   },
   boot: {
-    folder: 'boot',
+    folder: 'src/boot',
     ext,
     reference: 'quasar.conf.js > boot'
+  },
+  ssrmiddleware: {
+    folder: 'src-ssr/middlewares',
+    ext: '.js',
+    reference: 'quasar.conf.js > ssr > middlewares'
   }
 }
 
@@ -184,7 +190,7 @@ const asset = mapping[type]
 const filesToCreate = getPaths(asset, names)
 
 if (asset.install) {
-  const folder = appPaths.resolve.src(asset.folder)
+  const folder = appPaths.resolve.app(asset.folder)
 
   if (!fs.existsSync(folder)) {
     fse.mkdirp(folder)
@@ -194,11 +200,11 @@ if (asset.install) {
       err => {
         if (err) {
           console.warn(err)
-          warn(`[FAIL] Could not generate src/${asset.folder}.`)
+          warn(`Could not generate ${asset.folder}.`, 'FAIL')
           return
         }
 
-        log(`Generated src/${asset.folder}`)
+        log(`Generated ${asset.folder}`)
         log()
       }
     )

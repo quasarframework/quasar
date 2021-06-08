@@ -408,7 +408,7 @@
           class="col-2"
           v-bind="props"
           :model-value="stringSingle"
-          @update:modelValue="val => stringSingle = val === null ? '' : val"
+          @update:model-value="val => stringSingle = val === null ? '' : val"
           label="Input"
         />
       </div>
@@ -425,7 +425,7 @@
         <q-input
           v-bind="props"
           :model-value="stringSingle"
-          @update:modelValue="val => stringSingle = val === null ? '' : val"
+          @update:model-value="val => stringSingle = val === null ? '' : val"
           label="Input"
           prefix="A"
         />
@@ -476,7 +476,7 @@
         <q-input
           v-bind="props"
           :model-value="stringSingle"
-          @update:modelValue="val => stringSingle = val === null ? '' : val"
+          @update:model-value="val => stringSingle = val === null ? '' : val"
           prefix="A"
         />
 
@@ -564,7 +564,7 @@ export default {
       optionsCover: false,
 
       stringSingle: 'Facebook',
-      stringMultiple: ['Facebook', 'Twitter'],
+      stringMultiple: [ 'Facebook', 'Twitter' ],
       stringOptions: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
       ],
@@ -663,18 +663,18 @@ export default {
       objectNullMultiple: null,
 
       stringEmitNullSingle: null,
-      stringEmitNullMultiple: [null],
+      stringEmitNullMultiple: [ null ],
 
       stringEmitSingle: 'Facebook',
-      stringEmitMultiple: ['Facebook'],
+      stringEmitMultiple: [ 'Facebook' ],
       objectEmitSingle: 'Facebook',
-      objectEmitMultiple: ['Facebook'],
+      objectEmitMultiple: [ 'Facebook' ],
 
       heavyModel: [],
       heavyList,
 
       bogusModel: 'bogus',
-      bogusMultiModel: ['bogus', 'gigi']
+      bogusMultiModel: [ 'bogus', 'gigi' ]
     }
   },
 
@@ -683,21 +683,21 @@ export default {
       this.stringNullSingle = null
       this.stringNullMultiple = null
       this.stringEmitNullSingle = null
-      this.stringEmitNullMultiple = [null]
+      this.stringEmitNullMultiple = [ null ]
       this.objectNullSingle = null
       this.objectNullMultiple = null
     },
 
     resetBogus () {
       this.bogusModel = 'bogus'
-      this.bogusMultiModel = ['bogus', 'gigi']
+      this.bogusMultiModel = [ 'bogus', 'gigi' ]
     }
   },
 
   computed: {
     props () {
       return {
-        [this.type]: true,
+        [ this.type ]: true,
         readonly: this.readonly,
         disable: this.disable,
         dense: this.dense,

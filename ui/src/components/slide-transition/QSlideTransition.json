@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/slide-transition"
+    "docsUrl": "https://v2.quasar.dev/vue-components/slide-transition"
   },
 
   "props": {
@@ -27,13 +27,11 @@
 
   "events": {
     "show": {
-      "extends": "after-show",
-      "addedIn": "v1.9.0"
+      "extends": "after-show"
     },
 
     "hide": {
-      "extends": "after-hide",
-      "addedIn": "v1.9.0"
+      "extends": "after-hide"
     }
   }
 }

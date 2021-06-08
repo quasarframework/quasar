@@ -1,9 +1,7 @@
 const path = require('path')
-const QuasarSSRClientPlugin = require('@quasar/ssr-helpers/webpack-client-plugin')
 
-const injectClientSpecifics = require('../inject.client-specifics')
-const injectHotUpdate = require('../inject.hot-update')
 const injectHtml = require('../inject.html')
+const { QuasarSSRClientPlugin } = require('./plugin.client-side')
 
 module.exports = function (chain, cfg) {
   if (cfg.ctx.prod) {
@@ -27,11 +25,10 @@ module.exports = function (chain, cfg) {
     injectHtml(chain, cfg, templateParam)
   }
 
-  injectClientSpecifics(chain, cfg)
-  injectHotUpdate(chain, cfg)
-
-  chain.plugin('quasar-ssr-client')
-    .use(QuasarSSRClientPlugin, [{
-      filename: '../quasar.client-manifest.json'
-    }])
+  if (cfg.ctx.prod) {
+    chain.plugin('quasar-ssr-client')
+      .use(QuasarSSRClientPlugin, [{
+        filename: '../quasar.client-manifest.json'
+      }])
+  }
 }

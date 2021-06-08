@@ -189,9 +189,9 @@ export default {
       input2: '12:35 PM',
 
       timeLimit: '10:56',
-      hourOptions: [9, 10, 11, 13, 15],
-      minuteOptions: [0, 15, 30, 45],
-      secondOptions: [0, 10, 20, 30, 40, 50]
+      hourOptions: [ 9, 10, 11, 13, 15 ],
+      minuteOptions: [ 0, 15, 30, 45 ],
+      secondOptions: [ 0, 10, 20, 30, 40, 50 ]
     }
   },
 
@@ -216,7 +216,7 @@ export default {
 
   methods: {
     onInput (val) {
-      console.log('@input', val)
+      console.log('@update:model-value', val)
     },
 
     optionsFn (hr, min, sec) {

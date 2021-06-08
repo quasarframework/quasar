@@ -1,12 +1,26 @@
+const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
-const WebpackProgress = require('../plugin.progress')
 const appPaths = require('../../app-paths')
 const WebserverAssetsPlugin = require('./plugin.webserver-assets')
+const injectNodeTypescript = require('../inject.node-typescript')
+const WebpackProgressPlugin = require('../plugin.progress')
 
-// Used only in production
+const flattenObject = (obj, prefix = 'process.env') => {
+  return Object.keys(obj)
+    .reduce((acc, k) => {
+      const pre = prefix.length ? prefix + '.' : ''
 
-const ssrConfigFile = appPaths.resolve.app('.quasar/ssr-config.js')
+      if (Object(obj[k]) === obj[k]) {
+        Object.assign(acc, flattenObject(obj[k], pre + k))
+      }
+      else {
+        acc[pre + k] = JSON.stringify(obj[k])
+      }
+
+      return acc
+    }, {})
+}
 
 module.exports = function (cfg, configName) {
   const { dependencies:appDeps = {} } = require(appPaths.resolve.app('package.json'))
@@ -20,18 +34,33 @@ module.exports = function (cfg, configName) {
   ]
 
   chain.target('node')
-  chain.mode('production')
+  chain.mode(cfg.ctx.prod ? 'production' : 'development')
 
-  chain.entry('webserver')
-    .add(appPaths.resolve.ssr('index.js'))
+  chain.resolve.alias.set('src-ssr', appPaths.ssrDir)
+
+  if (cfg.ctx.dev) {
+    chain.entry('webserver')
+      .add(appPaths.resolve.app('.quasar/ssr-middlewares.js'))
+
+    chain.output
+      .filename('compiled-middlewares.js')
+      .path(appPaths.resolve.app('.quasar/ssr'))
+  }
+  else {
+    chain.entry('webserver')
+      .add(appPaths.resolve.app('.quasar/ssr-prod-webserver.js'))
+
+    chain.output
+      .filename('index.js')
+      .path(cfg.build.distDir)
+  }
 
   chain.output
-    .filename('index.js')
     .libraryTarget('commonjs2')
-    .path(cfg.build.distDir)
 
   chain.externals([
     '@vue/server-renderer',
+    '@vue/compiler-sfc',
     '@quasar/ssr-helpers/create-renderer',
     './render-template.js',
     './quasar.server-manifest.json',
@@ -48,9 +77,6 @@ module.exports = function (cfg, configName) {
       __filename: false
     })
 
-  chain.resolve.alias
-    .merge({ 'quasar-ssr': ssrConfigFile })
-
   chain.module.rule('node')
     .test(/\.node$/)
     .use('node-loader')
@@ -65,29 +91,35 @@ module.exports = function (cfg, configName) {
   chain.resolveLoader.modules
     .merge(resolveModules)
 
-  chain.optimization
-    .noEmitOnErrors(true)
+  chain.plugin('define')
+    .use(webpack.DefinePlugin, [
+      // flatten the object keys
+      // example: some: { object } becomes 'process.env.some.object'
+      { ...flattenObject(cfg.build.env), ...cfg.__rootDefines }
+    ])
 
-  if (cfg.build.showProgress) {
-    chain.plugin('progress')
-      .use(WebpackProgress, [{ name: configName }])
+  injectNodeTypescript(cfg, chain)
+
+  chain.plugin('progress')
+    .use(WebpackProgressPlugin, [{ name: configName, cfg, hasExternalWork: true }])
+
+  if (cfg.ctx.prod) {
+    chain.plugin('webserver-assets-plugin')
+      .use(WebserverAssetsPlugin, [ cfg ])
+
+    const patterns = [
+      appPaths.resolve.app('.npmrc'),
+      appPaths.resolve.app('.yarnrc')
+    ].map(filename => ({
+      from: filename,
+      to: '..',
+      noErrorOnMissing: true
+    }))
+
+    const CopyWebpackPlugin = require('copy-webpack-plugin')
+    chain.plugin('copy-webpack')
+      .use(CopyWebpackPlugin, [{ patterns }])
   }
-
-  chain.plugin('webserver-assets-plugin')
-    .use(WebserverAssetsPlugin, [ cfg ])
-
-  const patterns = [
-    appPaths.resolve.app('.npmrc'),
-    appPaths.resolve.app('.yarnrc')
-  ].map(filename => ({
-    from: filename,
-    to: '..',
-    noErrorOnMissing: true
-  }))
-
-  const CopyWebpackPlugin = require('copy-webpack-plugin')
-  chain.plugin('copy-webpack')
-    .use(CopyWebpackPlugin, [{ patterns }])
 
   // reset default webpack 4 minimizer
   chain.optimization.minimizers.delete('js')

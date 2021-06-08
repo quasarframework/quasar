@@ -6,7 +6,7 @@
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleLeftDrawer"
           aria-label="Menu"
           icon="menu"
           class="q-mx-md"
@@ -27,7 +27,7 @@
         </q-input>
 
         <q-btn v-if="$q.screen.gt.xs" flat dense no-wrap color="primary" icon="add" no-caps label="Create" class="q-ml-sm q-px-md">
-          <q-menu anchor="top right" self="top right">
+          <q-menu anchor="top end" self="top end">
             <q-list class="text-grey-8" style="min-width: 100px">
               <q-item aria-hidden="true">
                 <q-item-section class="text-uppercase text-grey-7" style="font-size: 0.7rem">Create New</q-item-section>
@@ -167,14 +167,25 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   name: 'GooglePhotosLayout',
 
-  data () {
+  setup () {
+    const leftDrawerOpen = ref(false)
+    const search = ref('')
+    const storage = ref(0.26)
+
+    function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
+    }
+
     return {
-      leftDrawerOpen: false,
-      search: '',
-      storage: 0.26,
+      leftDrawerOpen,
+      search,
+      storage,
+
       links1: [
         { icon: 'photo', text: 'Photos' },
         { icon: 'photo_album', text: 'Albums' },
@@ -198,7 +209,9 @@ export default {
         { icon: 'library_books', text: 'Animation' },
         { icon: 'dashboard', text: 'Collage' },
         { icon: 'book', text: 'Photo book' }
-      ]
+      ],
+
+      toggleLeftDrawer
     }
   }
 }

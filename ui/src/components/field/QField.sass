@@ -41,7 +41,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
 
   &__bottom
     font-size: 12px
-    min-height: 12px
+    min-height: 20px
     line-height: 1
     color: rgba(0,0,0,.54)
     padding: 8px 12px 0
@@ -78,8 +78,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     height: inherit
 
   &__control
-    color: $primary
-    color: var(--q-color-primary)
+    color: var(--q-primary)
     height: 56px
     max-width: 100%
     outline: none
@@ -96,10 +95,17 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
       border-radius: inherit
 
   &__shadow
+    top: 8px
     opacity: 0
     overflow: hidden
     white-space: pre-wrap
     transition: opacity $field-transition
+
+    + .q-field__native
+      &::placeholder
+        transition: opacity $field-transition
+      &:focus::placeholder
+        opacity: 0
 
   &__native, &__prefix, &__suffix, &__input
     font-weight: 400
@@ -190,7 +196,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     right: calc(-100% / 3)
     transition: transform $field-transition, right $field-transition-label-right-down
 
-  &--focused
+  &--highlighted
     .q-field__label
       color: currentColor
     .q-field__shadow
@@ -223,7 +229,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     &.q-field--rounded .q-field__control
       border-radius: 28px 28px 0 0
 
-    &.q-field--focused
+    &.q-field--highlighted
       .q-field__control
         &:before
           opacity: 1
@@ -234,7 +240,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     &.q-field--dark
       .q-field__control, .q-field__control:before
         background: rgba(255,255,255,.07)
-      &.q-field--focused .q-field__control:before
+      &.q-field--highlighted .q-field__control:before
         background: rgba(255,255,255,.1)
 
     &.q-field--readonly
@@ -270,7 +276,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     &.q-field--rounded .q-field__control
       border-radius: 28px
 
-    &.q-field--focused
+    &.q-field--highlighted
       // prevent rounded border imperfections to be seen through the :after border
       .q-field__control:hover:before
         border-color: transparent
@@ -303,7 +309,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
         background: currentColor
         transition: transform $field-transition
 
-    &.q-field--focused
+    &.q-field--highlighted
       .q-field__control:after
         transform: scale3d(1, 1, 1)
 
@@ -322,7 +328,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__input
       color: #fff
 
-    &:not(.q-field--focused) .q-field__label, .q-field__marginal, .q-field__bottom
+    &:not(.q-field--highlighted) .q-field__label, .q-field__marginal, .q-field__bottom
       color: rgba(255,255,255,.7)
 
   &--standout
@@ -344,7 +350,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     &.q-field--rounded .q-field__control
       border-radius: 28px
 
-    &.q-field--focused
+    &.q-field--highlighted
       .q-field__control
         box-shadow: $shadow-2
         background: #000
@@ -362,7 +368,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
         background: rgba(255,255,255,.07)
         &:before
           background: rgba(255,255,255,.07)
-      &.q-field--focused
+      &.q-field--highlighted
         .q-field__control
           background: #fff
         .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append, .q-field__input
@@ -376,6 +382,9 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
       line-height: 24px
       padding-top: 24px
       padding-bottom: 8px
+
+    .q-field__shadow
+      top: 0
 
     &:not(.q-field--float)
       .q-field__prefix, .q-field__suffix
@@ -399,6 +408,8 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
         padding-bottom: 2px
 
   &--dense
+    .q-field__shadow
+      top: 0
     .q-field__control, .q-field__marginal
       height: 40px
     .q-field__bottom
@@ -414,8 +425,9 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     .q-field__append + .q-field__append
       padding-left: 2px
 
-    .q-avatar
-      font-size: 24px
+    .q-field__marginal
+      .q-avatar
+        font-size: 24px
 
     &.q-field--float .q-field__label
       transform: translateY(-30%) scale(.75)
@@ -438,8 +450,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
       animation: q-field-label .36s
 
     .q-field__bottom
-      color: $negative
-      color: var(--q-color-negative)
+      color: var(--q-negative)
 
   &__focusable-action
     opacity: 0.6

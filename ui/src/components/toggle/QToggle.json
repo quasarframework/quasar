@@ -1,8 +1,8 @@
 {
-  "mixins": [ "mixins/checkbox" ],
+  "mixins": [ "components/checkbox/use-checkbox" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/toggle"
+    "docsUrl": "https://v2.quasar.dev/vue-components/toggle"
   },
 
   "props": {
@@ -28,26 +28,12 @@
       "type": "String",
       "desc": "The icon to be used when the model is indeterminate",
       "examples": [ "help" ],
-      "category": "content",
-      "addedIn": "v1.8.0"
+      "category": "content"
     },
 
     "icon-color": {
       "extends": "color",
-      "desc": "Override default icon color (for truthy state only); Color name for component from the Quasar Color Palette",
-      "addedIn": "v1.8.0"
-    },
-
-    "indeterminate-value": {
-      "addedIn": "v1.8.0"
-    },
-
-    "toggle-indeterminate": {
-      "addedIn": "v1.8.0"
-    },
-
-    "size": {
-      "addedIn": "v1.8.0"
+      "desc": "Override default icon color (for truthy state only); Color name for component from the Quasar Color Palette"
     }
   }
 }

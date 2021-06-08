@@ -10,10 +10,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      file: null
+      file: ref(null)
     }
   }
 }

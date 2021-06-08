@@ -1,28 +1,24 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, computed, provide, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
-import FabMixin from '../../mixins/fab.js'
-import ModelToggleMixin from '../../mixins/model-toggle.js'
+import useFab, { useFabProps } from './use-fab.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
-import { hSlot, hMergeSlot } from '../../utils/render.js'
+import { hSlot, hMergeSlot } from '../../utils/private/render.js'
+import { fabKey } from '../../utils/private/symbols.js'
 
-const directions = ['up', 'right', 'down', 'left']
+const directions = [ 'up', 'right', 'down', 'left' ]
 const alignValues = [ 'left', 'center', 'right' ]
 
 export default defineComponent({
   name: 'QFab',
 
-  mixins: [ FabMixin, ModelToggleMixin ],
-
-  provide () {
-    return {
-      __qFab: this
-    }
-  },
-
   props: {
+    ...useFabProps,
+    ...useModelToggleProps,
+
     icon: String,
     activeIcon: String,
 
@@ -46,84 +42,89 @@ export default defineComponent({
     }
   },
 
-  data () {
-    return {
-      showing: this.modelValue === true
-    }
-  },
+  emits: useModelToggleEmits,
 
-  computed: {
-    hideOnRouteChange () {
-      return this.persistent !== true
-    },
+  setup (props, { slots }) {
+    const triggerRef = ref(null)
+    const showing = ref(props.modelValue === true)
 
-    classes () {
-      return 'q-fab z-fab row inline justify-center' +
-        ` q-fab--align-${this.verticalActionsAlign} ${this.formClass}` +
-        (this.showing === true ? ' q-fab--opened' : '')
-    },
+    const { proxy: { $q } } = getCurrentInstance()
+    const { formClass, labelProps } = useFab(props, showing)
 
-    actionClass () {
-      return 'q-fab__actions flex no-wrap inline' +
-        ` q-fab__actions--${this.direction}`
-    }
-  },
+    const hideOnRouteChange = computed(() => props.persistent !== true)
 
-  methods: {
-    __onChildClick (evt) {
-      this.hide(evt)
+    const { hide, toggle } = useModelToggle({
+      showing,
+      hideOnRouteChange
+    })
 
-      if (this.$refs.trigger && this.$refs.trigger.$el) {
-        this.$refs.trigger.$el.focus()
-      }
-    },
+    const classes = computed(() =>
+      'q-fab z-fab row inline justify-center'
+      + ` q-fab--align-${ props.verticalActionsAlign } ${ formClass.value }`
+      + (showing.value === true ? ' q-fab--opened' : '')
+    )
 
-    __getTriggerContent () {
+    const actionClass = computed(() =>
+      'q-fab__actions flex no-wrap inline'
+      + ` q-fab__actions--${ props.direction }`
+    )
+
+    function getTriggerContent () {
       const child = []
 
-      this.hideIcon !== true && child.push(
+      props.hideIcon !== true && child.push(
         h('div', { class: 'q-fab__icon-holder' }, [
           h(QIcon, {
             class: 'q-fab__icon absolute-full',
-            name: this.icon || this.$q.iconSet.fab.icon
+            name: props.icon || $q.iconSet.fab.icon
           }),
 
           h(QIcon, {
             class: 'q-fab__active-icon absolute-full',
-            name: this.activeIcon || this.$q.iconSet.fab.activeIcon
+            name: props.activeIcon || $q.iconSet.fab.activeIcon
           })
         ])
       )
 
-      this.label !== '' && child[this.labelProps.action](
-        h('div', this.labelProps.data, [ this.label ])
+      props.label !== '' && child[ labelProps.value.action ](
+        h('div', labelProps.value.data, [ props.label ])
       )
 
-      return hMergeSlot(child, this, 'tooltip')
+      return hMergeSlot(slots.tooltip, child)
     }
-  },
 
-  render () {
-    return h('div', {
-      class: this.classes
+    provide(fabKey, {
+      showing,
+
+      onChildClick (evt) {
+        hide(evt)
+
+        if (triggerRef.value !== null) {
+          triggerRef.value.$el.focus()
+        }
+      }
+    })
+
+    return () => h('div', {
+      class: classes.value
     }, [
       h(QBtn, {
-        ref: 'trigger',
-        class: this.formClass,
-        ...this.$props,
+        ref: triggerRef,
+        class: formClass.value,
+        ...props,
         noWrap: true,
-        stack: this.stacked,
+        stack: props.stacked,
         align: void 0,
         icon: void 0,
         label: void 0,
         noCaps: true,
         fab: true,
-        'aria-expanded': this.showing === true ? 'true' : 'false',
+        'aria-expanded': showing.value === true ? 'true' : 'false',
         'aria-haspopup': 'true',
-        onClick: this.toggle
-      }, this.__getTriggerContent),
+        onClick: toggle
+      }, getTriggerContent),
 
-      h('div', { class: this.actionClass }, hSlot(this, 'default'))
+      h('div', { class: actionClass.value }, hSlot(slots.default))
     ])
   }
 })

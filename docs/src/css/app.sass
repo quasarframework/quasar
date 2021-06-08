@@ -1,37 +1,47 @@
 @import './prism-theme.sass'
 
+.text-brand-primary
+  color: $brand-primary !important
+.bg-brand-primary
+  background-color: $brand-primary !important
+
 body
-  background-color: $grey-1
+  background-color: #fff
+  font-family: $font-family
+  -webkit-font-smoothing: auto
+
+strong
+  font-weight: bold
 
 ul
   margin: 0 0 16px
-
-.bg-code
-  background-color: $code-color
 
 .doc-token
   white-space: nowrap
   display: inline-block
   padding: 2px 4px
   line-height: 1
-  border: 1px solid $grey-5
+  border: 1px dotted $brand-primary
   border-radius: 5px
   font-family: inherit
   background-color: #fff
+  color: $brand-primary
 
 blockquote .doc-token
   background: scale-color($grey, $lightness: 60%)
   color: $grey-9
 
 .doc-note
-  background-color: $grey-3
+  font-family: $font-family-avenir
+  background-color: $grey-2
   border-radius: $generic-border-radius
   margin: 16px 0
   padding: 16px 24px
   font-size: 1em
+  line-height: 1.35em
   border-width: 0 5px
   border-style: solid
-  border-color: $grey
+  border-color: $grey-3
   letter-spacing: .5px
 
   .doc-token
@@ -41,39 +51,38 @@ blockquote .doc-token
     margin-bottom: 0
 
   &--tip
-    background-color: scale-color($positive, $lightness: 75%)
-    border-color: $positive
+    background-color: scale-color($positive, $lightness: 85%)
+    border-color: scale-color($positive, $lightness: 60%)
     .doc-token
       border-width: 0
-      color: #fff
-      background: $positive
+      background: scale-color($positive, $lightness: 60%)
     .doc-link
       color: scale-color($positive, $lightness: -35%)
 
   &--warning
-    background-color: scale-color($warning, $lightness: 50%)
-    border-color: $warning
+    background-color: scale-color($warning, $lightness: 80%)
+    border-color: scale-color($warning, $lightness: 50%)
     .doc-token
       border-width: 0
-      background: $warning
+      background: scale-color($warning, $lightness: 40%)
     .doc-link
       color: scale-color($warning, $lightness: -45%)
 
   &--danger
-    background-color: scale-color($negative, $lightness: 80%)
-    border-color: $negative
+    background-color: scale-color($negative, $lightness: 90%)
+    border-color: scale-color($negative, $lightness: 60%)
     .doc-token
       border-width: 0
-      color: #fff
-      background: $negative
+      background: scale-color($negative, $lightness: 60%)
     .doc-link
       color: scale-color($negative, $lightness: -25%)
 
   &__title
     font-weight: 500
+    padding-bottom: 8px
 
 .doc-heading
-  color: $primary
+  color: $brand-primary
   cursor: pointer
 
   &:after
@@ -83,31 +92,39 @@ blockquote .doc-token
     opacity: 1
 
 .doc-h1
-  font-size: 2rem
-  line-height: 2rem
+  font-size: 3rem
+  line-height: 3rem
   padding: 1rem 0
-  font-weight: 500
-  margin: 0 0 2rem
+  font-weight: 600
+  margin: 0 0 .5em !important
+
+  a
+    height: 3rem
+  .q-icon
+    font-size: 2rem
 
 .doc-h2
-  font-size: 1.5rem
-  line-height: 1.5rem
+  font-size: 2rem
+  line-height: 2rem
   padding: 0.5rem 0
-  font-weight: 500
+  font-weight: 600
   border-bottom: 1px solid #ccc
   margin: 4rem 0 1.5rem
 
 .doc-h3
-  font-size: 1.1rem
-  line-height: 1.1rem
+  font-size: 1.7rem
+  line-height: 1.7rem
   padding: 0.45rem 0
-  margin: 2rem 0 1rem
+  margin: 2.5rem 0 1.5rem
 
 .doc-h4
-  font-size: 1rem
-  line-height: 1rem
+  font-size: 1.4rem
+  line-height: 1.4rem
   padding: 0.25rem 0
-  margin: 1.5rem 0
+  margin: 1.6rem 0 1.3rem
+
+  &:before
+    content: '» '
 
 .doc-h5
   font-size: 0.9rem
@@ -124,22 +141,29 @@ blockquote .doc-token
   .q-icon
     font-size: 20px
     margin-right: 8px
-    color: $primary
+    color: $brand-primary
 
 kbd
   white-space: nowrap
   display: inline-block
-  padding: 2px 4px
-  text-transform: uppercase
+  padding: 2px 4px 4px
   line-height: 1
-  border: 1px solid rgba(0,0,0,.12)
-  border-radius: 5px
-  color: #fff
-  background-color: $grey-7
-  box-shadow: $shadow-2
+  font-size: .8em
+  color: $grey-8
+  background: linear-gradient(-225deg,#d5dbe4,#f8f8f8)
+  border-radius: 4px
+  box-shadow: inset 0 -2px 0 0 #cdcde6,inset 0 0 1px 1px #fff,0 1px 2px 1px rgba(30,35,90,0.4)
+  margin: 0 .2em
 
 .doc-gdpr
   max-width: 360px
 
 .q-page > .q-badge + .doc-example
   margin-top: 0
+
+body.q-scroll--lock .q-page
+  > *
+    overflow-anchor: none
+
+  > .q-scroll--anchor
+    overflow-anchor: auto

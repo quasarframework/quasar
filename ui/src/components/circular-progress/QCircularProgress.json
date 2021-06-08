@@ -1,12 +1,8 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "composables/private/use-size" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/circular-progress"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/circular-progress"
   },
 
   "props": {
@@ -101,6 +97,11 @@
   "slots": {
     "default": {
       "desc": "Used for component content only if 'show-value' prop is set; Make sure the content has enough space to be displayed inside the component"
+    },
+
+    "internal": {
+      "desc": "Used by QKnob internally",
+      "internal": true
     }
   }
 }

@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, getCurrentInstance } from 'vue'
 
 import QDialog from '../dialog/QDialog.js'
 
@@ -11,14 +11,14 @@ import QCardSection from '../card/QCardSection.js'
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
-import DarkMixin from '../../mixins/dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 export default defineComponent({
   name: 'BottomSheetPlugin',
 
-  mixins: [ DarkMixin ],
-
   props: {
+    ...useDarkProps,
+
     title: String,
     message: String,
     actions: Array,
@@ -31,143 +31,147 @@ export default defineComponent({
 
   emits: [ 'ok', 'hide' ],
 
-  methods: {
-    show () {
-      this.$refs.dialog.show()
-    },
+  setup (props, { emit }) {
+    const { proxy } = getCurrentInstance()
+    const isDark = useDark(props, proxy.$q)
 
-    hide () {
-      this.$refs.dialog.hide()
-    },
+    const dialogRef = ref(null)
 
-    onOk (action) {
-      this.$emit('ok', action)
-      this.hide()
-    },
+    function show () {
+      dialogRef.value.show()
+    }
 
-    onHide () {
-      this.$emit('hide')
-    },
+    function hide () {
+      dialogRef.value.hide()
+    }
 
-    __getGrid () {
-      return this.actions.map(action => {
+    function onOk (action) {
+      emit('ok', action)
+      hide()
+    }
+
+    function onHide () {
+      emit('hide')
+    }
+
+    function getGrid () {
+      return props.actions.map(action => {
         const img = action.avatar || action.img
 
         return action.label === void 0
           ? h(QSeparator, {
-            class: 'col-all',
-            dark: this.isDark
-          })
+              class: 'col-all',
+              dark: isDark.value
+            })
           : h('div', {
             class: [
               'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
               action.class
             ],
             tabindex: 0,
-            onClick: () => this.onOk(action),
-            onKeyup: e => {
-              e.keyCode === 13 && this.onOk(action)
-            }
+            onClick () { onOk(action) },
+            onKeyup (e) { e.keyCode === 13 && onOk(action) }
           }, [
             h('div', { class: 'q-focus-helper' }),
 
             action.icon
               ? h(QIcon, { name: action.icon, color: action.color })
               : (
-                img
-                  ? h('img', {
-                    class: action.avatar ? 'q-bottom-sheet__avatar' : '',
-                    src: img
-                  })
-                  : h('div', { class: 'q-bottom-sheet__empty-icon' })
-              ),
+                  img
+                    ? h('img', {
+                        class: action.avatar ? 'q-bottom-sheet__avatar' : '',
+                        src: img
+                      })
+                    : h('div', { class: 'q-bottom-sheet__empty-icon' })
+                ),
 
             h('div', action.label)
           ])
       })
-    },
+    }
 
-    __getList () {
-      return this.actions.map(action => {
+    function getList () {
+      return props.actions.map(action => {
         const img = action.avatar || action.img
 
         return action.label === void 0
-          ? h(QSeparator, { spaced: true, dark: this.isDark })
+          ? h(QSeparator, { spaced: true, dark: isDark.value })
           : h(QItem, {
             class: [ 'q-bottom-sheet__item', action.classes ],
             tabindex: 0,
             clickable: true,
-            dark: this.isDark,
-            onClick: () => this.onOk(action),
-            onKeyup: e => {
-              e.keyCode === 13 && this.onOk(action)
-            }
+            dark: isDark.value,
+            onClick () { onOk(action) },
+            onKeyup (e) { e.keyCode === 13 && onOk(action) }
           }, () => [
             h(
               QItemSection,
               { avatar: true },
-              () => action.icon
-                ? h(QIcon, { name: action.icon, color: action.color })
-                : (
-                  img
-                    ? h('img', {
-                      class: action.avatar ? 'q-bottom-sheet__avatar' : '',
-                      src: img
-                    })
-                    : null
-                )
+              () => (
+                action.icon
+                  ? h(QIcon, { name: action.icon, color: action.color })
+                  : (
+                      img
+                        ? h('img', {
+                            class: action.avatar ? 'q-bottom-sheet__avatar' : '',
+                            src: img
+                          })
+                        : null
+                    )
+              )
             ),
 
             h(QItemSection, () => action.label)
           ])
       })
-    },
+    }
 
-    __getCardContent () {
+    function getCardContent () {
       const child = []
 
-      this.title && child.push(
+      props.title && child.push(
         h(QCardSection, {
           class: 'q-dialog__title'
-        }, () => this.title)
+        }, () => props.title)
       )
 
-      this.message && child.push(
+      props.message && child.push(
         h(QCardSection, {
           class: 'q-dialog__message'
-        }, () => this.message)
+        }, () => props.message)
       )
 
       child.push(
-        this.grid === true
+        props.grid === true
           ? h('div', {
-            class: 'row items-stretch justify-start'
-          }, this.__getGrid())
-          : h('div', this.__getList())
+              class: 'row items-stretch justify-start'
+            }, getGrid())
+          : h('div', getList())
       )
 
       return child
-    },
+    }
 
-    __getContent () {
+    function getContent () {
       return [
         h(QCard, {
           class: [
-            `q-bottom-sheet q-bottom-sheet--${this.grid === true ? 'grid' : 'list'}` +
-            (this.isDark === true ? ' q-bottom-sheet--dark q-dark' : ''),
-            this.cardClass
+            `q-bottom-sheet q-bottom-sheet--${ props.grid === true ? 'grid' : 'list' }`
+            + (isDark.value === true ? ' q-bottom-sheet--dark q-dark' : ''),
+            props.cardClass
           ],
-          style: this.cardStyle
-        }, this.__getCardContent)
+          style: props.cardStyle
+        }, getCardContent)
       ]
     }
-  },
 
-  render () {
-    return h(QDialog, {
-      ref: 'dialog',
+    // expose public methods
+    Object.assign(proxy, { show, hide })
+
+    return () => h(QDialog, {
+      ref: dialogRef,
       position: 'bottom',
-      onHide: this.onHide
-    }, this.__getContent)
+      onHide
+    }, getContent)
   }
 })

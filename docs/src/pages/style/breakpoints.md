@@ -17,13 +17,13 @@ Quasar uses the following CSS breakpoints:
 
 To learn how to use them, please visit the [Visibility](/style/visibility) page.
 
-You might also want to take a look at the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox#Responsive-Design) on the "Responsive Design" section.
+You might also want to take a look at the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox#responsive-design) on the "Responsive Design" section.
 
-### Sass and Stylus
+### Sass
 
-You can also use the breakpoints in Stylus:
+You can also use the breakpoints in Sass:
 
-```
+```sass
 @media (max-width: $breakpoint-xs-max)
   font-size: 10px
 ```
@@ -42,11 +42,9 @@ $sizes.<breakpoint>
 // replace <breakpoint> with xs, sm, md, lg or xl
 ```
 
-Starting with **Quasar v1.5.3+**, [if enabled (only)](/options/screen-plugin#How-to-enable-body-classes), you can also style your content based on a particular set of CSS classes applied to document.body: `screen--xs`, `screen--sm`, ..., `screen--xl`.
+[If enabled (only)](/options/screen-plugin#how-to-enable-body-classes), you can also style your content based on a particular set of CSS classes applied to document.body: `screen--xs`, `screen--sm`, ..., `screen--xl`.
 
-```css
-// v1.5.3+
-
+```sass
 .my-div
   body.screen--xs &
     color: #000

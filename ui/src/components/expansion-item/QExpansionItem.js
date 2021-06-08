@@ -1,4 +1,4 @@
-import { h, shallowReactive, defineComponent, withDirectives, vShow } from 'vue'
+import { h, shallowReactive, defineComponent, ref, computed, watch, withDirectives, getCurrentInstance, vShow, onBeforeUnmount } from 'vue'
 
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
@@ -7,27 +7,25 @@ import QIcon from '../icon/QIcon.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
-import { routerLinkProps } from '../../mixins/router-link.js'
-import ModelToggleMixin from '../../mixins/model-toggle.js'
-import DarkMixin from '../../mixins/dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import { useRouterLinkProps } from '../../composables/private/use-router-link.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 import uid from '../../utils/uid.js'
 
 const itemGroups = shallowReactive({})
-const LINK_PROPS = Object.keys(routerLinkProps)
+const LINK_PROPS = Object.keys(useRouterLinkProps)
 
 export default defineComponent({
   name: 'QExpansionItem',
 
-  mixins: [
-    DarkMixin,
-    ModelToggleMixin,
-    { props: routerLinkProps }
-  ],
-
   props: {
+    ...useRouterLinkProps,
+    ...useModelToggleProps,
+    ...useDarkProps,
+
     icon: String,
 
     label: String,
@@ -58,163 +56,168 @@ export default defineComponent({
     headerClass: [ Array, String, Object ]
   },
 
-  emits: [ 'click', 'after-show', 'after-hide' ],
+  emits: [
+    ...useModelToggleEmits,
+    'click', 'after-show', 'after-hide'
+  ],
 
-  data () {
-    return {
-      showing: this.modelValue !== null
-        ? this.modelValue
-        : this.defaultOpened
-    }
-  },
+  setup (props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance()
+    const isDark = useDark(props, $q)
 
-  watch: {
-    group (name) {
-      this.exitGroup !== void 0 && this.exitGroup()
-      name !== void 0 && this.__enterGroup()
-    }
-  },
+    const showing = ref(
+      props.modelValue !== null
+        ? props.modelValue
+        : props.defaultOpened
+    )
 
-  computed: {
-    classes () {
-      return 'q-expansion-item q-item-type' +
-        ` q-expansion-item--${this.showing === true ? 'expanded' : 'collapsed'}` +
-        ` q-expansion-item--${this.popup === true ? 'popup' : 'standard'}`
-    },
+    const blurTargetRef = ref(null)
 
-    contentStyle () {
-      if (this.contentInsetLevel !== void 0) {
-        const dir = this.$q.lang.rtl === true ? 'Right' : 'Left'
-        return {
-          [ 'padding' + dir ]: (this.contentInsetLevel * 56) + 'px'
-        }
+    const { hide, toggle } = useModelToggle({ showing })
+
+    let uniqueId, exitGroup
+
+    const classes = computed(() =>
+      'q-expansion-item q-item-type'
+      + ` q-expansion-item--${ showing.value === true ? 'expanded' : 'collapsed' }`
+      + ` q-expansion-item--${ props.popup === true ? 'popup' : 'standard' }`
+    )
+
+    const contentStyle = computed(() => {
+      if (props.contentInsetLevel === void 0) {
+        return null
       }
-    },
 
-    isClickable () {
-      return this.hasLink === true || this.expandIconToggle !== true
-    },
+      const dir = $q.lang.rtl === true ? 'Right' : 'Left'
+      return {
+        [ 'padding' + dir ]: (props.contentInsetLevel * 56) + 'px'
+      }
+    })
 
-    expansionIcon () {
-      return this.expandedIcon !== void 0 && this.showing === true
-        ? this.expandedIcon
-        : this.expandIcon || this.$q.iconSet.expansionItem[this.denseToggle === true ? 'denseIcon' : 'icon']
-    },
+    const hasLink = computed(() =>
+      props.disable !== true && props.to !== void 0 && props.to !== null && props.to !== ''
+    )
 
-    activeToggleIcon () {
-      return this.disable !== true && (this.hasLink === true || this.expandIconToggle === true)
-    },
-
-    hasLink () {
-      return this.disable !== true && this.to !== void 0 && this.to !== null && this.to !== ''
-    },
-
-    linkProps () {
-      const props = {}
+    const linkProps = computed(() => {
+      const acc = {}
       LINK_PROPS.forEach(key => {
-        props[key] = this[key]
+        acc[ key ] = props[ key ]
       })
-      return props
+      return acc
+    })
+
+    const isClickable = computed(() =>
+      hasLink.value === true || props.expandIconToggle !== true
+    )
+
+    const expansionIcon = computed(() => (
+      props.expandedIcon !== void 0 && showing.value === true
+        ? props.expandedIcon
+        : props.expandIcon || $q.iconSet.expansionItem[ props.denseToggle === true ? 'denseIcon' : 'icon' ]
+    ))
+
+    const activeToggleIcon = computed(() =>
+      props.disable !== true && (hasLink.value === true || props.expandIconToggle === true)
+    )
+
+    watch(() => props.group, name => {
+      exitGroup !== void 0 && exitGroup()
+      name !== void 0 && enterGroup()
+    })
+
+    function onHeaderClick (e) {
+      hasLink.value !== true && toggle(e)
+      emit('click', e)
     }
-  },
 
-  methods: {
-    __onHeaderClick (e) {
-      this.hasLink !== true && this.toggle(e)
-      this.$emit('click', e)
-    },
+    function toggleIconKeyboard (e) {
+      e.keyCode === 13 && toggleIcon(e, true)
+    }
 
-    __toggleIconKeyboard (e) {
-      e.keyCode === 13 && this.__toggleIcon(e, true)
-    },
-
-    __toggleIcon (e, keyboard) {
-      keyboard !== true && this.$refs.blurTarget && this.$refs.blurTarget.focus()
-      this.toggle(e)
+    function toggleIcon (e, keyboard) {
+      keyboard !== true && blurTargetRef.value !== null && blurTargetRef.value.focus()
+      toggle(e)
       stopAndPrevent(e)
-    },
+    }
 
-    __onShow () {
-      this.$emit('after-show')
-    },
+    function onShow () {
+      emit('after-show')
+    }
 
-    __onHide () {
-      this.$emit('after-hide')
-    },
+    function onHide () {
+      emit('after-hide')
+    }
 
-    __enterGroup () {
-      if (this.uid === void 0) {
-        this.uid = uid()
+    function enterGroup () {
+      if (uniqueId === void 0) {
+        uniqueId = uid()
       }
 
-      if (this.showing === true) {
-        itemGroups[this.group] = this.uid
+      if (showing.value === true) {
+        itemGroups[ props.group ] = uniqueId
       }
 
-      const show = this.$watch(
-        'showing',
-        val => {
-          if (val === true) {
-            itemGroups[this.group] = this.uid
-          }
-          else if (itemGroups[this.group] === this.uid) {
-            delete itemGroups[this.group]
-          }
+      const show = watch(showing, val => {
+        if (val === true) {
+          itemGroups[ props.group ] = uniqueId
         }
-      )
+        else if (itemGroups[ props.group ] === uniqueId) {
+          delete itemGroups[ props.group ]
+        }
+      })
 
-      const group = this.$watch(
-        () => itemGroups[this.group],
+      const group = watch(
+        () => itemGroups[ props.group ],
         (val, oldVal) => {
-          if (oldVal === this.uid && val !== void 0 && val !== this.uid) {
-            this.hide()
+          if (oldVal === uniqueId && val !== void 0 && val !== uniqueId) {
+            hide()
           }
         }
       )
 
-      this.exitGroup = () => {
+      exitGroup = () => {
         show()
         group()
 
-        if (itemGroups[this.group] === this.uid) {
-          delete itemGroups[this.group]
+        if (itemGroups[ props.group ] === uniqueId) {
+          delete itemGroups[ props.group ]
         }
 
-        this.exitGroup = void 0
+        exitGroup = void 0
       }
-    },
+    }
 
-    __getToggleIcon () {
+    function getToggleIcon () {
       const data = {
         class: [
-          `q-focusable relative-position cursor-pointer` +
-            `${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
-          this.expandIconClass
+          'q-focusable relative-position cursor-pointer'
+            + `${ props.denseToggle === true && props.switchToggleSide === true ? ' items-end' : '' }`,
+          props.expandIconClass
         ],
-        side: this.switchToggleSide !== true,
-        avatar: this.switchToggleSide
+        side: props.switchToggleSide !== true,
+        avatar: props.switchToggleSide
       }
 
       const child = [
         h(QIcon, {
-          class: 'q-expansion-item__toggle-icon' +
-            (this.expandedIcon === void 0 && this.showing === true
+          class: 'q-expansion-item__toggle-icon'
+            + (props.expandedIcon === void 0 && showing.value === true
               ? ' q-expansion-item__toggle-icon--rotated'
               : ''),
-          name: this.expansionIcon
+          name: expansionIcon.value
         })
       ]
 
-      if (this.activeToggleIcon === true) {
+      if (activeToggleIcon.value === true) {
         Object.assign(data, {
           tabindex: 0,
-          onClick: this.__toggleIcon,
-          onKeyup: this.__toggleIconKeyboard
+          onClick: toggleIcon,
+          onKeyup: toggleIconKeyboard
         })
 
         child.unshift(
           h('div', {
-            ref: 'blurTarget',
+            ref: blurTargetRef,
             class: 'q-expansion-item__toggle-focus q-icon q-focus-helper q-focus-helper--rounded',
             tabindex: -1
           })
@@ -222,121 +225,113 @@ export default defineComponent({
       }
 
       return h(QItemSection, data, () => child)
-    },
+    }
 
-    __getHeaderChild () {
+    function getHeaderChild () {
       let child
 
-      if (this.$slots.header !== void 0) {
-        child = this.$slots.header().slice()
+      if (slots.header !== void 0) {
+        child = slots.header().slice()
       }
       else {
         child = [
           h(QItemSection, () => [
-            h(QItemLabel, { lines: this.labelLines }, () => this.label || ''),
+            h(QItemLabel, { lines: props.labelLines }, () => props.label || ''),
 
-            this.caption
-              ? h(QItemLabel, { lines: this.captionLines, caption: true }, () => this.caption)
+            props.caption
+              ? h(QItemLabel, { lines: props.captionLines, caption: true }, () => props.caption)
               : null
           ])
         ]
 
-        this.icon && child[this.switchToggleSide === true ? 'push' : 'unshift'](
+        props.icon && child[ props.switchToggleSide === true ? 'push' : 'unshift' ](
           h(QItemSection, {
-            side: this.switchToggleSide === true,
-            avatar: this.switchToggleSide !== true
-          }, () => h(QIcon, { name: this.icon }))
+            side: props.switchToggleSide === true,
+            avatar: props.switchToggleSide !== true
+          }, () => h(QIcon, { name: props.icon }))
         )
       }
 
-      this.disable !== true && child[this.switchToggleSide === true ? 'unshift' : 'push'](
-        this.__getToggleIcon()
+      props.disable !== true && child[ props.switchToggleSide === true ? 'unshift' : 'push' ](
+        getToggleIcon()
       )
 
       return child
-    },
+    }
 
-    __getHeader () {
+    function getHeader () {
       const data = {
         ref: 'item',
-        style: this.headerStyle,
-        class: this.headerClass,
-        dark: this.isDark,
-        disable: this.disable,
-        dense: this.dense,
-        insetLevel: this.headerInsetLevel
+        style: props.headerStyle,
+        class: props.headerClass,
+        dark: isDark.value,
+        disable: props.disable,
+        dense: props.dense,
+        insetLevel: props.headerInsetLevel
       }
 
-      if (this.isClickable === true) {
+      if (isClickable.value === true) {
         data.clickable = true
-        data.onClick = this.__onHeaderClick
+        data.onClick = onHeaderClick
 
-        this.hasLink === true && Object.assign(
+        hasLink.value === true && Object.assign(
           data,
-          this.linkProps
+          linkProps.value
         )
       }
 
-      return h(QItem, data, this.__getHeaderChild)
-    },
+      return h(QItem, data, getHeaderChild)
+    }
 
-    __getTransitionChild () {
+    function getTransitionChild () {
       return withDirectives(
         h('div', {
           key: 'e-content',
           class: 'q-expansion-item__content relative-position',
-          style: this.contentStyle
-        }, hSlot(this, 'default')),
-        [[
+          style: contentStyle.value
+        }, hSlot(slots.default)),
+        [ [
           vShow,
-          this.showing
-        ]]
+          showing.value
+        ] ]
       )
-    },
+    }
 
-    __getContent () {
+    function getContent () {
       const node = [
-        this.__getHeader(),
+        getHeader(),
 
         h(QSlideTransition, {
-          duration: this.duration,
-          onShow: this.__onShow,
-          onHide: this.__onHide
-        }, this.__getTransitionChild)
+          duration: props.duration,
+          onShow,
+          onHide
+        }, getTransitionChild)
       ]
 
-      if (this.expandSeparator === true) {
+      if (props.expandSeparator === true) {
         node.push(
           h(QSeparator, {
             class: 'q-expansion-item__border q-expansion-item__border--top absolute-top',
-            dark: this.isDark
+            dark: isDark.value
           }),
           h(QSeparator, {
             class: 'q-expansion-item__border q-expansion-item__border--bottom absolute-bottom',
-            dark: this.isDark
+            dark: isDark.value
           })
         )
       }
 
       return node
     }
-  },
 
-  render () {
-    return h('div', {
-      class: this.classes
-    }, [
-      h('div', { class: 'q-expansion-item__container relative-position' }, this.__getContent())
+    props.group !== void 0 && enterGroup()
+
+    onBeforeUnmount(() => {
+      exitGroup !== void 0 && exitGroup()
+    })
+
+    return () => h('div', { class: classes.value }, [
+      h('div', { class: 'q-expansion-item__container relative-position' }, getContent())
     ])
-  },
-
-  created () {
-    this.uid = void 0
-    this.exitGroup = void 0
-    this.group !== void 0 && this.__enterGroup()
-  },
-
-  beforeUnmount () {
-    this.exitGroup !== void 0 && this.exitGroup()
   }
 })

@@ -1,3 +1,5 @@
+import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
+
 const defaultCfg = {
   childList: true,
   subtree: true,
@@ -32,28 +34,30 @@ function destroy (el) {
   }
 }
 
-export default {
-  name: 'mutation',
+export default __QUASAR_SSR_SERVER__
+  ? { name: 'mutation', getSSRProps }
+  : {
+      name: 'mutation',
 
-  mounted (el, { modifiers: { once, ...mod }, value }) {
-    const ctx = {
-      once,
-      opts: Object.keys(mod).length === 0
-        ? defaultCfg
-        : mod
+      mounted (el, { modifiers: { once, ...mod }, value }) {
+        const ctx = {
+          once,
+          opts: Object.keys(mod).length === 0
+            ? defaultCfg
+            : mod
+        }
+
+        update(el, ctx, value)
+
+        el.__qmutation = ctx
+      },
+
+      updated (el, { oldValue, value }) {
+        const ctx = el.__qmutation
+        if (ctx !== void 0 && oldValue !== value) {
+          update(el, ctx, value)
+        }
+      },
+
+      beforeUnmount: destroy
     }
-
-    update(el, ctx, value)
-
-    el.__qmutation = ctx
-  },
-
-  updated (el, { oldValue, value }) {
-    const ctx = el.__qmutation
-    if (ctx !== void 0 && oldValue !== value) {
-      update(el, ctx, value)
-    }
-  },
-
-  beforeUnmount: destroy
-}

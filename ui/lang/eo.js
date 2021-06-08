@@ -29,16 +29,14 @@ export default {
     noData: 'Neniu datumo afiŝenda',
     noResults: 'Neniu datumo trovita',
     loading: 'Ŝarĝado...',
-    selectedRecords: function (rows) {
-      return rows > 0
+    selectedRecords: rows => (
+      rows > 0
         ? rows + ' ' + (rows === 1 ? 'elektita linio' : 'elektitaj linioj') + '.'
         : 'Neniu elektita linio.'
-    },
+    ),
     recordsPerPage: 'Linioj po paĝoj:',
     allRows: 'Ĉiuj',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' el ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' el ' + total,
     columns: 'Kolumnoj'
   },
   editor: {

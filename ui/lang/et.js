@@ -29,16 +29,14 @@ export default {
     noData: 'Andmeid ei ole',
     noResults: 'Sobivaid kirjeid ei leitud',
     loading: 'Laadimine...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 kirje valitud.'
         : rows + ' kirjet valitud.'
-    },
+    ),
     recordsPerPage: 'Kirjed lehel:',
     allRows: 'Kõik',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' / ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
     columns: 'Veerud'
   },
   editor: {

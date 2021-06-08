@@ -1,9 +1,8 @@
 const fs = require('fs')
 
-const appPath = require('../app-paths')
-const getPackageJson = require('../helpers/get-package-json')
+const appPaths = require('../app-paths')
 const getPackage = require('../helpers/get-package')
-const { log, warn, fatal } = require('../helpers/logger')
+const { log, fatal } = require('../helpers/logger')
 
 const versions = {
   packager: '14.1.1',
@@ -25,20 +24,25 @@ function installBundler (bundlerName) {
   spawnSync(
     nodePackager,
     cmdParam.concat([`electron-${bundlerName}@${'^' + versions[bundlerName]}`]),
-    { cwd: appPath.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => warn(`Failed to install electron-${bundlerName}`)
+    { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
+    () => fatal(`Failed to install electron-${bundlerName}`, 'FAIL')
   )
 }
 
 function bundlerIsInstalled (bundlerName) {
-  return getPackageJson(`electron-${bundlerName}`) !== void 0
+  const appPkg = require(appPaths.resolve.app('package.json'))
+  const pgkName = `electron-${bundlerName}`
+  return (
+    (appPkg.devDependencies && appPkg.devDependencies[pgkName])
+    || (appPkg.dependencies && appPkg.dependencies[pgkName])
+  ) !== void 0
 }
 
 module.exports.bundlerIsInstalled = bundlerIsInstalled
 
 module.exports.ensureInstall = function (bundlerName) {
   if (!isValidName(bundlerName)) {
-    fatal(`Unknown bundler "${ bundlerName }" for Electron\n`)
+    fatal(`Unknown bundler "${ bundlerName }" for Electron`)
   }
 
   if (!bundlerIsInstalled(bundlerName)) {
@@ -63,7 +67,7 @@ module.exports.getBundler = function (bundlerName) {
 }
 
 module.exports.ensureBuilderCompatibility = function () {
-  if (fs.existsSync(appPath.resolve.electron('icons/linux-256x256.png'))) {
+  if (fs.existsSync(appPaths.resolve.electron('icons/linux-256x256.png'))) {
     console.log()
     console.log(`\n ⚠️  electron-builder requires a change to your src-electron/icons folder:
   * replace linux-256x256.png with a 512x512 px png file named "linux-512x512.png"

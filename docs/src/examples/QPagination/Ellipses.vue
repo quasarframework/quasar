@@ -7,16 +7,17 @@
       :max-pages="5"
       :ellipses="false"
       :boundary-numbers="false"
-    >
-    </q-pagination>
+    />
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      current: 5
+      current: ref(5)
     }
   }
 }

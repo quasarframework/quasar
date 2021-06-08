@@ -4,6 +4,7 @@ desc: How to use the Quasar CLI, the premium developer experience for free.
 ---
 
 Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
+
 * a SPA (Single Page Application/Website),
 * a SSR (Server-side Rendered App/Website),
 * a PWA (Progressive Web App),
@@ -13,11 +14,12 @@ Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
 
 ...within the same project folder, ensuring you are **following the best Quasar practices while everything will simply work out of the box**.
 
-<q-btn push no-caps color="primary" icon-right="launch" label="Install Quasar CLI" to="/quasar-cli/installation" class="q-mt-md" />
+<q-btn push no-caps color="brand-primary" icon-right="launch" label="Install Quasar CLI" to="/quasar-cli/installation" class="q-mt-md" />
 
 ## What's Included
 
 While developing with Dev Server (`$ quasar dev`):
+
 * Babel, so you can write ES6 code
 * Webpack + vue-loader for Vue SFC (single file components)
 * State preserving hot-reload
@@ -29,6 +31,7 @@ While developing with Dev Server (`$ quasar dev`):
 * ...many more
 
 Developing for production (`$ quasar build`):
+
 * Javascript minified with [UglifyJS](https://github.com/mishoo/UglifyJS2)
 * HTML minified with [html-minifier](https://github.com/kangax/html-minifier)
 * CSS across all components extracted (and auto-prefixed) into a single file and minified with [cssnano](https://github.com/ben-eb/cssnano)

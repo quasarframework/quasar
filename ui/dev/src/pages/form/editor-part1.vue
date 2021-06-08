@@ -214,8 +214,8 @@ export default {
   },
   watch: {
     btnType (val) {
-      ['push', 'outline', 'flat'].forEach(type => {
-        this[type] = type === val
+      [ 'push', 'outline', 'flat' ].forEach(type => {
+        this[ type ] = type === val
       })
     }
   },
@@ -238,33 +238,33 @@ export default {
       this.$q.notify({
         icon: 'spellcheck',
         color: 'secondary',
-        message: `I'll sure run the spellcheck. Later.`
+        message: 'I\'ll sure run the spellcheck. Later.'
       })
     },
     importSomething () {
       this.$q.notify({
         color: 'accent',
-        message: `Importing...`
+        message: 'Importing...'
       })
     },
     add (name) {
       const edit = this.$refs.editor
       this.$refs.token.hide()
       edit.caret.restore()
-      edit.runCmd('insertHTML', `&nbsp;<div class="editor_token row inline items-center" contenteditable="false">&nbsp;<span>${name}</span>&nbsp;<i class="q-icon material-icons cursor-pointer" onclick="this.parentNode.parentNode.removeChild(this.parentNode)">close</i></div>&nbsp;`)
+      edit.runCmd('insertHTML', `&nbsp;<div class="editor_token row inline items-center" contenteditable="false">&nbsp;<span>${ name }</span>&nbsp;<i class="q-icon material-icons cursor-pointer" onclick="this.parentNode.parentNode.removeChild(this.parentNode)">close</i></div>&nbsp;`)
       edit.focus()
     }
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .editor_token
-  background rgba(0, 0, 0, .6)
-  color white
-  padding 3px
+  background: rgba(0, 0, 0, .6)
+  color: white
+  padding: 3px
   &, .q-icon
-    border-radius 3px
+    border-radius: 3px
   .q-icon
-    background rgba(0, 0, 0, .2)
+    background: rgba(0, 0, 0, .2)
 </style>

@@ -19,12 +19,16 @@ For example, let's say we want to react to a button being pressed on our Quasar 
 ```js
 // Quasar App, /src
 
-methods: {
-  myButtonClickHandler () {
-    this.$q.bex.send('highlight.content.event', { someData: 'someValue '}).then(r => {
+setup () {
+  const $q = useQuasar()
+
+  function myButtonClickHandler () {
+    $q.bex.send('highlight.content.event', { someData: 'someValue '}).then(r => {
       console.log('Text has been highlighted')
     })
   }
+
+  return { myButtonClickHandler }
 }
 ```
 
@@ -43,8 +47,8 @@ export default function attachContentHooks (bridge) {
   bridge.on('highlight.content.event', event => {
     // Find a .some-class element and add our highlight CSS class.
     const el = document.querySelector('.some-class')
-    if (el !== void 0) {
-      el.addClass('bex-highlight')
+    if (el !== null) {
+      el.classList.add('bex-highlight')
     }
 
     // Not required but resolve our promise.

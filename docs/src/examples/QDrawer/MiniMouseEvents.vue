@@ -19,7 +19,7 @@
         :width="200"
         :breakpoint="500"
         bordered
-        content-class="bg-grey-3"
+        class="bg-grey-3"
       >
         <q-scroll-area class="fit">
           <q-list padding>
@@ -80,11 +80,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      drawer: false,
-      miniState: true
+      drawer: ref(false),
+      miniState: ref(true)
     }
   }
 }

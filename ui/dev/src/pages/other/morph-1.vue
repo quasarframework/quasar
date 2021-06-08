@@ -195,7 +195,7 @@ export default {
       if (this.cancel1 === void 0 || this.cancel1() === false) {
         this.cancel1 = morph({
           from: () => {
-            const ref = this.$refs[this.toggle1 === true ? 'flipTo1' : 'flipFrom1']
+            const ref = this.$refs[ this.toggle1 === true ? 'flipTo1' : 'flipFrom1' ]
             return ref ? ref.$el || ref : null
           },
           onToggle,

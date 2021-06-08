@@ -21,7 +21,7 @@
 </template>
 
 <script>
-const data = [
+const rows = [
   {
     name: 'Frozen Yogurt',
     calories: 159,
@@ -140,17 +140,11 @@ const heavyList = []
 // adding same data multiple times to
 // create a huge list
 for (let i = 0; i <= 1000; i++) {
-  Array.prototype.push.apply(heavyList, data)
+  Array.prototype.push.apply(heavyList, rows)
 }
 
-// we are not going to change this array,
-// so why not freeze it to avoid Vue adding overhead
-// with state change detection
-Object.freeze(heavyList)
-Object.freeze(columns)
-
 export default {
-  data () {
+  setup () {
     return {
       heavyList,
       columns

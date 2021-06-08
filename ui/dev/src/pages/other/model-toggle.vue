@@ -199,7 +199,7 @@ export default {
   },
   computed: {
     showHideSequenceArr () {
-      return this.showHideSequence.toLowerCase().split('').filter(v => ['s', 'h', 't'].indexOf(v) > -1)
+      return this.showHideSequence.toLowerCase().split('').filter(v => [ 's', 'h', 't' ].indexOf(v) > -1)
     },
     showHideSequenceEndStatus () {
       const
@@ -207,7 +207,7 @@ export default {
         len = filtered.length
       return len === 0
         ? 'N/A'
-        : (filtered[len - 1] === 's' ? 'opened' : 'closed')
+        : (filtered[ len - 1 ] === 's' ? 'opened' : 'closed')
     }
   },
   methods: {
@@ -215,14 +215,14 @@ export default {
       const len = seq.length
 
       for (let i = 0; i < len; i++) {
-        if (seq[i] === 't') {
+        if (seq[ i ] === 't') {
           this.$nextTick(() => {
             this.runSequence(ref, seq.slice(i + 1))
           })
 
           return
         }
-        ref[seq[i] === 's' ? 'show' : 'hide']()
+        ref[ seq[ i ] === 's' ? 'show' : 'hide' ]()
       }
     }
   }

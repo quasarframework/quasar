@@ -5,27 +5,33 @@
 </template>
 
 <script>
-export default {
-  methods: {
-    showNotif () {
-      this.$q.notify({
-        message: 'Jim just pinged you.',
-        color: 'primary',
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        actions: [
-          { label: 'Dismiss', color: 'white', handler: () => { /* ... */ } }
-        ]
-      })
+import { useQuasar } from 'quasar'
 
-      this.$q.notify({
-        message: 'Jim just pinged you.',
-        color: 'primary',
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        actions: [
-          { label: 'Reply', color: 'yellow', handler: () => { /* ... */ } },
-          { label: 'Dismiss', color: 'white', handler: () => { /* ... */ } }
-        ]
-      })
+export default {
+  setup () {
+    const $q = useQuasar()
+
+    return {
+      showNotif () {
+        $q.notify({
+          message: 'Jim just pinged you.',
+          color: 'primary',
+          avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+          actions: [
+            { label: 'Dismiss', color: 'white', handler: () => { /* ... */ } }
+          ]
+        })
+
+        $q.notify({
+          message: 'Jim just pinged you.',
+          color: 'primary',
+          avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+          actions: [
+            { label: 'Reply', color: 'yellow', handler: () => { /* ... */ } },
+            { label: 'Dismiss', color: 'white', handler: () => { /* ... */ } }
+          ]
+        })
+      }
     }
   }
 }

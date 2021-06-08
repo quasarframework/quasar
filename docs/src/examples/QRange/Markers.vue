@@ -28,13 +28,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      marker: {
+      marker: ref({
         min: 6,
         max: 8
-      }
+      })
     }
   }
 }

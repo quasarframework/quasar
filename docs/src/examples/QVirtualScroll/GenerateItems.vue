@@ -13,68 +13,95 @@
 </template>
 
 <script>
+import { QChatMessage, QSkeleton } from 'quasar'
+import { h, defineComponent, ref, onBeforeMount, onBeforeUnmount } from 'vue'
+
+const AsyncComponent = defineComponent({
+  props: {
+    index: Number,
+    sent: Boolean
+  },
+
+  setup (props) {
+    const asyncContent = ref(null)
+
+    let timer
+
+    onBeforeMount(() => {
+      timer = setTimeout(() => {
+        asyncContent.value = {
+          sent: props.sent,
+          name: props.sent === true ? 'me' : 'Someone else',
+          avatar: props.sent === true ? 'https://cdn.quasar.dev/img/avatar4.jpg' : 'https://cdn.quasar.dev/img/avatar3.jpg',
+          stamp: `${Math.floor(props.index / 1000)} minutes ago`,
+          text: [`Message with id ${props.index}`]
+        }
+      }, 300 + Math.random() * 2000)
+    })
+
+    onBeforeUnmount(() => {
+      clearTimeout(timer)
+    })
+
+    return () => {
+      if (asyncContent.value === Object(asyncContent.value)) {
+        return h(QChatMessage, {
+          class: 'q-mx-sm',
+          key: props.index,
+          ...asyncContent.value
+        })
+      }
+
+      const content = [
+        h(QSkeleton, {
+          class: 'on-left on-right',
+          animation: 'none',
+          type: 'text',
+          width: '150px',
+          height: '100px'
+        })
+      ]
+
+      content[ props.sent === true ? 'push' : 'unshift' ](
+        h(QSkeleton, {
+          animation: 'none',
+          type: 'QAvatar'
+        })
+      )
+
+      return h('div', {
+        class: `row no-wrap items-center q-mx-sm justify-${props.sent === true ? 'end' : 'start'}`,
+        style: 'height: 78px',
+        key: props.index
+      }, content)
+    }
+  }
+})
+
+const size = ref(100000)
+const allItems = Array(size.value).fill(null).map((_, index) => ({
+  index,
+  sent: Math.random() > 0.5
+}))
+
 export default {
   components: {
-    asyncComponent: {
-      props: {
-        index: Number,
-        sent: Boolean
-      },
-
-      data () {
-        return {
-          asyncContent: null
-        }
-      },
-
-      mounted () {
-        this.timer = setTimeout(() => {
-          this.asyncContent = {
-            sent: this.sent,
-            name: this.sent === true ? 'me' : 'Someone else',
-            avatar: this.sent === true ? 'https://cdn.quasar.dev/img/avatar4.jpg' : 'https://cdn.quasar.dev/img/avatar3.jpg',
-            stamp: `${Math.floor(this.index / 1000)} minutes ago`,
-            text: [ `Message with id ${this.index}` ]
-          }
-        }, 300 + Math.random() * 2000)
-      },
-
-      beforeDestroy () {
-        clearTimeout(this.timer)
-      },
-
-      render (h) {
-        return h('q-chat-message', {
-          staticClass: 'q-mx-sm',
-          props: this.asyncContent === null
-            ? {
-              sent: this.sent,
-              text: [ `Retrieving message ${this.index}` ]
-            }
-            : this.asyncContent
-        })
-      }
-    }
+    AsyncComponent
   },
 
-  data () {
+  setup () {
     return {
-      size: 100000
-    }
-  },
+      size,
 
-  methods: {
-    getItems (from, size) {
-      const items = []
+      getItems (from, size) {
+        const items = []
 
-      for (let i = 0; i < size; i++) {
-        items.push({
-          index: this.size - from - i,
-          sent: Math.random() > 0.5
-        })
+        for (let i = 0; i < size; i++) {
+          items.push(allItems[ from + i ])
+        }
+
+        return Object.freeze(items)
       }
-
-      return Object.freeze(items)
     }
   }
 }

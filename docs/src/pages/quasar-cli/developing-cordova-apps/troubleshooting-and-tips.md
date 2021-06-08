@@ -4,7 +4,7 @@ desc: Tips and tricks for a Quasar hybrid mobile app with Cordova.
 ---
 
 ## $q.cordova
-While you are developing a Mobile App with Cordova Mode, you can access `this.$q.cordova` in your Vue files. This is an alias to the global `cordova` Object.
+While you are developing a Mobile App with Cordova Mode, you can access `$q.cordova` in your Vue files. This is an alias to the global `cordova` Object.
 
 ## Android Tips
 
@@ -102,7 +102,7 @@ You may bump into `?????? no permissions` problem when trying to run your App di
 
 Here's how you fix this:
 
-``` bash
+```bash
 # create the .rules file and insert the content
 # from below this example
 sudo vim /etc/udev/rules.d/51-android.rules
@@ -152,6 +152,7 @@ Now running `adb devices` should discover your device.
 
 ### Post-build debugging
 There are intermediate states to help with debugging, between `quasar dev` and distributing a completed app. If your app works fine on `quasar dev` but is not running properly after `quasar build`, you have two options:
+
 * go to your `src-cordova` directory and `cordova run [platform]`.
   * You will be running the final build, but you can still use Chrome DevTools Remote Debugging with a wired connection (see above), to inspect the internal web internals. You cannot do this while running the .apk file.
   * For more detail, read the Cordova [platform guide](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#using-buildjson) and the [CLI reference](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html)
@@ -229,6 +230,6 @@ body.cordova .my-selector {
 ### Disabling iOS rubber band effect
 When building an iOS app with Cordova and you want to [disable the rubber band effect](https://www.youtube.com/watch?v=UjuNGpU29Mk), add this to your `/src-cordova/config.xml`:
 
-``` xml
+```xml
 <preference name="DisallowOverscroll" value="true" />
 ```

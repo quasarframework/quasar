@@ -32,28 +32,15 @@ function getBrowsersList () {
   }
   catch (err) {
     warn(`${err.name}: ${err.message}`)
-    fatal('Please revise /package.json > browserslist -- invalid entry!\n')
+    fatal('Please revise /package.json > browserslist -- invalid entry!')
   }
-}
-
-function needsAdditionalPolyfills (ctx) {
-  if (
-    ctx.mode.electron ||
-    ctx.mode.cordova ||
-    ctx.mode.capacitor ||
-    ctx.mode.capacitor
-  ) {
-    return false
-  }
-
-  return getBrowsersList().includes('ie 11')
 }
 
 function getSupportData () {
   const browsers = getBrowsersList()
 
   if (browsers.length === 0) {
-    fatal('Please revise /package.json > browserslist -- no browsers specified!\n')
+    fatal('Please revise /package.json > browserslist -- no browsers specified!')
   }
 
   const versions = {}
@@ -91,12 +78,11 @@ function getBrowsersBanner () {
 
   const { coverage, lines } = getSupportData()
 
-  browserBannerCache = ` Configured browser support (at least ${coverage}% of global marketshare):\n` +
+  browserBannerCache = ` Configured browser support (>= ${coverage}% of global marketshare):\n` +
     lines.join('\n') + '\n'
 
   return browserBannerCache
 }
 
 module.exports.getBrowsersList = getBrowsersList
-module.exports.needsAdditionalPolyfills = needsAdditionalPolyfills
 module.exports.getBrowsersBanner = getBrowsersBanner

@@ -6,7 +6,7 @@
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleLeftDrawer"
           aria-label="Menu"
           icon="menu"
         />
@@ -20,7 +20,7 @@
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
-      content-class="bg-grey-8"
+      class="bg-grey-8"
     >
       <q-list dark>
         <q-item-label header>Essential Links</q-item-label>
@@ -38,7 +38,7 @@
             <q-icon name="code" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Github</q-item-label>
+            <q-item-label>GitHub</q-item-label>
             <q-item-label caption>github.com/quasarframework</q-item-label>
           </q-item-section>
         </q-item>
@@ -88,12 +88,21 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   name: 'MyLayout',
 
-  data () {
+  setup () {
+    const leftDrawerOpen = ref(false)
+
+    function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
+    }
+
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen,
+      toggleLeftDrawer
     }
   }
 }

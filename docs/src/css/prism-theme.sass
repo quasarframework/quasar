@@ -20,10 +20,7 @@
   border-radius: $generic-border-radius
 
   &__inner
-    background-image: linear-gradient(transparent 50%, $code-color 50%)
-    background-size: 3em 3em
-    background-origin: content-box
-    background-attachment: local
+    background-color: $grey-2
     max-height: inherit
     height: inherit
     padding: 1em
@@ -31,10 +28,11 @@
     overflow: auto
 
     &--prerendered
-      border-width: 1px 1px 1px 3px
+      border-width: 1px 4px
       border-style: solid
       border-color: $separator-color
-      border-left-color: $primary
+      border-left-color: $brand-primary
+      border-right-color: $brand-primary
       border-radius: $generic-border-radius
 
 .token.comment,
@@ -79,8 +77,7 @@
 .token.entity,
 .token.url,
 .token.variable
-  color: #a67f59
-  background: rgba(255, 255, 255, 0.5)
+  color: #da5a20
 
 .token.atrule,
 .token.attr-value,

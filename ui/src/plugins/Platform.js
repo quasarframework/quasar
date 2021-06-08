@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-mixed-operators */
 
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 
 /**
  * __ QUASAR_SSR __            -> runs on SSR on client or server
@@ -12,9 +12,11 @@ import { reactive } from 'vue'
  *                              (needs runtime detection)
  */
 
-export let isRuntimeSsrPreHydration = __QUASAR_SSR_SERVER__ || (
-  __QUASAR_SSR_CLIENT__ && (
-    __QUASAR_SSR_PWA__ ? document.body.getAttribute('data-server-rendered') !== null : true
+export let isRuntimeSsrPreHydration = ref(
+  __QUASAR_SSR_SERVER__ || (
+    __QUASAR_SSR_CLIENT__ && (
+      __QUASAR_SSR_PWA__ ? document.body.getAttribute('data-server-rendered') !== null : true
+    )
   )
 )
 
@@ -22,45 +24,45 @@ export let iosEmulated = false
 export let iosCorrection
 
 function getMatch (userAgent, platformMatch) {
-  const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
-    /(opr)[\/]([\w.]+)/.exec(userAgent) ||
-    /(vivaldi)[\/]([\w.]+)/.exec(userAgent) ||
-    /(chrome|crios)[\/]([\w.]+)/.exec(userAgent) ||
-    /(iemobile)[\/]([\w.]+)/.exec(userAgent) ||
-    /(version)(applewebkit)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent) ||
-    /(webkit)[\/]([\w.]+).*(version)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent) ||
-    /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent) ||
-    /(webkit)[\/]([\w.]+)/.exec(userAgent) ||
-    /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent) ||
-    /(msie) ([\w.]+)/.exec(userAgent) ||
-    (userAgent.indexOf('trident') >= 0 && /(rv)(?::| )([\w.]+)/.exec(userAgent)) ||
-    (userAgent.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(userAgent)) ||
-    []
+  const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent)
+    || /(opr)[\/]([\w.]+)/.exec(userAgent)
+    || /(vivaldi)[\/]([\w.]+)/.exec(userAgent)
+    || /(chrome|crios)[\/]([\w.]+)/.exec(userAgent)
+    || /(iemobile)[\/]([\w.]+)/.exec(userAgent)
+    || /(version)(applewebkit)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent)
+    || /(webkit)[\/]([\w.]+).*(version)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent)
+    || /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent)
+    || /(webkit)[\/]([\w.]+)/.exec(userAgent)
+    || /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent)
+    || /(msie) ([\w.]+)/.exec(userAgent)
+    || (userAgent.indexOf('trident') >= 0 && /(rv)(?::| )([\w.]+)/.exec(userAgent))
+    || (userAgent.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(userAgent))
+    || []
 
   return {
-    browser: match[5] || match[3] || match[1] || '',
-    version: match[2] || match[4] || '0',
-    versionNumber: match[4] || match[2] || '0',
-    platform: platformMatch[0] || ''
+    browser: match[ 5 ] || match[ 3 ] || match[ 1 ] || '',
+    version: match[ 2 ] || match[ 4 ] || '0',
+    versionNumber: match[ 4 ] || match[ 2 ] || '0',
+    platform: platformMatch[ 0 ] || ''
   }
 }
 
 function getPlatformMatch (userAgent) {
-  return /(ipad)/.exec(userAgent) ||
-    /(ipod)/.exec(userAgent) ||
-    /(windows phone)/.exec(userAgent) ||
-    /(iphone)/.exec(userAgent) ||
-    /(kindle)/.exec(userAgent) ||
-    /(silk)/.exec(userAgent) ||
-    /(android)/.exec(userAgent) ||
-    /(win)/.exec(userAgent) ||
-    /(mac)/.exec(userAgent) ||
-    /(linux)/.exec(userAgent) ||
-    /(cros)/.exec(userAgent) ||
-    /(playbook)/.exec(userAgent) ||
-    /(bb)/.exec(userAgent) ||
-    /(blackberry)/.exec(userAgent) ||
-    []
+  return /(ipad)/.exec(userAgent)
+    || /(ipod)/.exec(userAgent)
+    || /(windows phone)/.exec(userAgent)
+    || /(iphone)/.exec(userAgent)
+    || /(kindle)/.exec(userAgent)
+    || /(silk)/.exec(userAgent)
+    || /(android)/.exec(userAgent)
+    || /(win)/.exec(userAgent)
+    || /(mac)/.exec(userAgent)
+    || /(linux)/.exec(userAgent)
+    || /(cros)/.exec(userAgent)
+    || /(playbook)/.exec(userAgent)
+    || /(bb)/.exec(userAgent)
+    || /(blackberry)/.exec(userAgent)
+    || []
 }
 
 const hasTouch = __QUASAR_SSR_SERVER__
@@ -93,26 +95,26 @@ function getPlatform (UA) {
     browser = {}
 
   if (matched.browser) {
-    browser[matched.browser] = true
+    browser[ matched.browser ] = true
     browser.version = matched.version
     browser.versionNumber = parseInt(matched.versionNumber, 10)
   }
 
   if (matched.platform) {
-    browser[matched.platform] = true
+    browser[ matched.platform ] = true
   }
 
-  const knownMobiles = browser.android ||
-    browser.ios ||
-    browser.bb ||
-    browser.blackberry ||
-    browser.ipad ||
-    browser.iphone ||
-    browser.ipod ||
-    browser.kindle ||
-    browser.playbook ||
-    browser.silk ||
-    browser['windows phone']
+  const knownMobiles = browser.android
+    || browser.ios
+    || browser.bb
+    || browser.blackberry
+    || browser.ipad
+    || browser.iphone
+    || browser.ipod
+    || browser.kindle
+    || browser.playbook
+    || browser.silk
+    || browser[ 'windows phone' ]
 
   // These are all considered mobile platforms, meaning they run a mobile browser
   if (knownMobiles === true || userAgent.indexOf('mobile') > -1) {
@@ -143,31 +145,25 @@ function getPlatform (UA) {
     browser.ios = true
   }
 
-  if (browser['windows phone']) {
+  if (browser[ 'windows phone' ]) {
     browser.winphone = true
-    delete browser['windows phone']
+    delete browser[ 'windows phone' ]
   }
 
   // Chrome, Opera 15+, Vivaldi and Safari are webkit based browsers
   if (
-    browser.chrome ||
-    browser.opr ||
-    browser.safari ||
-    browser.vivaldi ||
+    browser.chrome
+    || browser.opr
+    || browser.safari
+    || browser.vivaldi
     // we expect unknown, non iOS mobile browsers to be webkit based
-    (
-      browser.mobile === true &&
-      browser.ios !== true &&
-      knownMobiles !== true
+    || (
+      browser.mobile === true
+      && browser.ios !== true
+      && knownMobiles !== true
     )
   ) {
     browser.webkit = true
-  }
-
-  // IE11 has a new token so we will assign it msie to avoid breaking changes
-  if (browser.rv || browser.iemobile) {
-    matched.browser = 'ie'
-    browser.ie = true
   }
 
   // Blackberry browsers are marked as Safari on BlackBerry
@@ -235,15 +231,15 @@ function getPlatform (UA) {
       }
 
       if (
-        hasTouch === true &&
-        browser.mac === true &&
-        (
-          (browser.desktop === true && browser.safari === true) ||
-          (
-            browser.nativeMobile === true &&
-            browser.android !== true &&
-            browser.ios !== true &&
-            browser.ipad !== true
+        hasTouch === true
+        && browser.mac === true
+        && (
+          (browser.desktop === true && browser.safari === true)
+          || (
+            browser.nativeMobile === true
+            && browser.android !== true
+            && browser.ios !== true
+            && browser.ipad !== true
           )
         )
       ) {
@@ -282,24 +278,24 @@ const ssrClient = {
 export const client = __QUASAR_SSR_SERVER__
   ? ssrClient
   : {
-    userAgent,
-    is: getPlatform(userAgent),
-    has: {
-      touch: hasTouch,
-      webStorage: (() => {
-        try {
-          if (window.localStorage) {
-            return true
+      userAgent,
+      is: getPlatform(userAgent),
+      has: {
+        touch: hasTouch,
+        webStorage: (() => {
+          try {
+            if (window.localStorage) {
+              return true
+            }
           }
-        }
-        catch (e) {}
-        return false
-      })()
-    },
-    within: {
-      iframe: window.self !== window.top
+          catch (e) {}
+          return false
+        })()
+      },
+      within: {
+        iframe: window.self !== window.top
+      }
     }
-  }
 
 const Platform = {
   install (opts) {
@@ -308,17 +304,12 @@ const Platform = {
     if (__QUASAR_SSR_SERVER__) {
       $q.platform = this.parseSSR(opts.ssrContext)
     }
-    else if (isRuntimeSsrPreHydration === true) {
-      // must match with server-side before
-      // client taking over in order to prevent
-      // hydration errors
-      Object.assign(this, client, iosCorrection, ssrClient)
-
+    else if (isRuntimeSsrPreHydration.value === true) {
       // takeover should increase accuracy for
       // the rest of the props; we also avoid
       // hydration errors
       opts.onSSRHydrated.push(() => {
-        isRuntimeSsrPreHydration = false
+        isRuntimeSsrPreHydration.value = false
         Object.assign($q.platform, client)
         iosCorrection = void 0
       })
@@ -328,9 +319,6 @@ const Platform = {
       $q.platform = reactive(this)
     }
     else {
-      // we don't have any business with SSR, so
-      // directly applying...
-      Object.assign(this, client)
       $q.platform = this
     }
   }
@@ -338,7 +326,7 @@ const Platform = {
 
 if (__QUASAR_SSR_SERVER__) {
   Platform.parseSSR = (ssrContext) => {
-    const userAgent = ssrContext.req.headers['user-agent'] || ssrContext.req.headers['User-Agent'] || ''
+    const userAgent = ssrContext.req.headers[ 'user-agent' ] || ssrContext.req.headers[ 'User-Agent' ] || ''
     return {
       ...client,
       userAgent,
@@ -347,8 +335,18 @@ if (__QUASAR_SSR_SERVER__) {
   }
 }
 else {
-  iosEmulated = client.is.ios === true &&
-    window.navigator.vendor.toLowerCase().indexOf('apple') === -1
+  iosEmulated = client.is.ios === true
+    && window.navigator.vendor.toLowerCase().indexOf('apple') === -1
+
+  if (isRuntimeSsrPreHydration.value === true) {
+    // must match with server-side before
+    // client taking over in order to prevent
+    // hydration errors
+    Object.assign(Platform, client, iosCorrection, ssrClient)
+  }
+  else {
+    Object.assign(Platform, client)
+  }
 }
 
 export default Platform

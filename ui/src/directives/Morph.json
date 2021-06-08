@@ -1,9 +1,7 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-directives/morph"
+    "docsUrl": "https://v2.quasar.dev/vue-directives/morph"
   },
-
-  "addedIn": "v1.13.0",
 
   "value": {
     "type": [ "Object", "Any" ],

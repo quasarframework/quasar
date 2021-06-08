@@ -105,7 +105,7 @@ So how can we limit the number of chunks created in this case? The idea is to li
 4. Use [Webpack magic comments](https://webpack.js.org/api/module-methods/#magic-comments) `webpackInclude` and `webpackExclude` to constrain the bundled chunks with a regular expression, for example:
   ```js
   await import(
-    /* webpackInclude: /(ar|en-us|ro)\.js$/ */
+    /* webpackInclude: /(ar|en-US|ro)\.js$/ */
     'quasar/lang/' + langIso
   )
     .then(lang => {

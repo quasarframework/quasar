@@ -1,11 +1,7 @@
-// TODO vue3
-// import Vue from 'vue'
-import Vuex from 'vuex'
+import { store } from 'quasar/wrappers'
+import { createStore } from 'vuex'
 
 // import example from './module-example'
-
-// TODO vue3
-// Vue.use(Vuex)
 
 /*
  * If not building with SSR mode, you can
@@ -16,16 +12,16 @@ import Vuex from 'vuex'
  * with the Store instance.
  */
 
-export default function (/* { ssrContext } */) {
-  const Store = new Vuex.Store({
+export default store(function (/* { ssrContext } */) {
+  const Store = createStore({
     modules: {
       // example
     },
 
     // enable strict mode (adds overhead!)
-    // for dev mode only
-    strict: process.env.DEV
+    // for dev mode and --debug builds only
+    strict: process.env.DEBUGGING
   })
 
   return Store
-}
+})

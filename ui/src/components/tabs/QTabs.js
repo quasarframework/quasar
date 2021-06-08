@@ -1,34 +1,27 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, computed, watch, nextTick, onBeforeUnmount, onActivated, getCurrentInstance, provide } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import TimeoutMixin from '../../mixins/timeout.js'
-import EmitListenersMixin from '../../mixins/emit-listeners.js'
+import useTick from '../../composables/private/use-tick.js'
+import useTimeout from '../../composables/private/use-timeout.js'
 
 import { noop } from '../../utils/event.js'
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
+import { tabsKey } from '../../utils/private/symbols.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
-    ? ['left', 'right']
-    : ['top', 'bottom']
+    ? [ 'left', 'right' ]
+    : [ 'top', 'bottom' ]
 
-  return `absolute-${top === true ? pos[0] : pos[1]}${color ? ` text-${color}` : ''}`
+  return `absolute-${ top === true ? pos[ 0 ] : pos[ 1 ] }${ color ? ` text-${ color }` : '' }`
 }
 
 const alignValues = [ 'left', 'center', 'right', 'justify' ]
 
 export default defineComponent({
   name: 'QTabs',
-
-  mixins: [ TimeoutMixin, EmitListenersMixin ],
-
-  provide () {
-    return {
-      __qTabs: this
-    }
-  },
 
   props: {
     modelValue: [ Number, String ],
@@ -64,157 +57,175 @@ export default defineComponent({
 
     dense: Boolean,
 
-    contentClass: String
+    contentClass: String,
+
+    'onUpdate:modelValue': Function
   },
 
-  emits: [ 'update:modelValue' ],
+  setup (props, { slots, emit }) {
+    const vm = getCurrentInstance()
+    const { proxy: { $q } } = vm
 
-  data () {
-    return {
-      currentModel: this.modelValue,
-      scrollable: false,
-      leftArrow: true,
-      rightArrow: false,
-      justify: false
-    }
-  },
+    const { registerTick, prepareTick } = useTick()
+    const { registerTimeout } = useTimeout()
 
-  watch: {
-    modelValue (name) {
-      this.__updateModel({ name, setCurrent: true, skipEmit: true })
-    },
+    const rootRef = ref(null)
+    const contentRef = ref(null)
 
-    outsideArrows () {
-      this.$nextTick(this.__recalculateScroll())
-    },
+    const currentModel = ref(props.modelValue)
+    const scrollable = ref(false)
+    const leftArrow = ref(true)
+    const rightArrow = ref(false)
+    const justify = ref(false)
 
-    arrowsEnabled (v) {
-      this.__updateArrows = v === true
-        ? this.__updateArrowsFn
+    const arrowsEnabled = computed(() =>
+      $q.platform.is.desktop === true || props.mobileArrows === true
+    )
+
+    const tabList = []
+
+    let localFromRoute = false, animateTimer, scrollTimer, unwatchRoute
+    let localUpdateArrows = arrowsEnabled.value === true
+      ? updateArrowsFn
+      : noop
+
+    const tabProps = computed(() => ({
+      activeColor: props.activeColor,
+      activeBgColor: props.activeBgColor,
+      indicatorClass: getIndicatorClass(
+        props.indicatorColor,
+        props.switchIndicator,
+        props.vertical
+      ),
+      narrowIndicator: props.narrowIndicator,
+      inlineLabel: props.inlineLabel,
+      noCaps: props.noCaps
+    }))
+
+    const alignClass = computed(() => {
+      const align = scrollable.value === true
+        ? 'left'
+        : (justify.value === true ? 'justify' : props.align)
+
+      return `q-tabs__content--align-${ align }`
+    })
+
+    const classes = computed(() =>
+      'q-tabs row no-wrap items-center'
+      + ` q-tabs--${ scrollable.value === true ? '' : 'not-' }scrollable`
+      + ` q-tabs--${ props.vertical === true ? 'vertical' : 'horizontal' }`
+      + ` q-tabs__arrows--${ arrowsEnabled.value === true && props.outsideArrows === true ? 'outside' : 'inside' }`
+      + (props.dense === true ? ' q-tabs--dense' : '')
+      + (props.shrink === true ? ' col-shrink' : '')
+      + (props.stretch === true ? ' self-stretch' : '')
+    )
+
+    const innerClass = computed(() =>
+      'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar '
+      + alignClass.value
+      + (props.contentClass !== void 0 ? ` ${ props.contentClass }` : '')
+      + ($q.platform.is.mobile === true ? ' scroll' : '')
+    )
+
+    const domProps = computed(() => (
+      props.vertical === true
+        ? { container: 'height', content: 'offsetHeight', scroll: 'scrollHeight' }
+        : { container: 'width', content: 'offsetWidth', scroll: 'scrollWidth' }
+    ))
+
+    watch(() => props.modelValue, name => {
+      updateModel({ name, setCurrent: true, skipEmit: true })
+    })
+
+    watch(() => props.outsideArrows, () => {
+      nextTick(recalculateScroll())
+    })
+
+    watch(arrowsEnabled, v => {
+      localUpdateArrows = v === true
+        ? updateArrowsFn
         : noop
 
-      this.$nextTick(this.__recalculateScroll())
-    }
-  },
+      nextTick(recalculateScroll())
+    })
 
-  computed: {
-    tabProps () {
-      return {
-        activeColor: this.activeColor,
-        activeBgColor: this.activeBgColor,
-        indicatorClass: getIndicatorClass(
-          this.indicatorColor,
-          this.switchIndicator,
-          this.vertical
-        ),
-        narrowIndicator: this.narrowIndicator,
-        inlineLabel: this.inlineLabel,
-        noCaps: this.noCaps
-      }
-    },
-
-    arrowsEnabled () {
-      return this.$q.platform.is.desktop === true || this.mobileArrows === true
-    },
-
-    alignClass () {
-      const align = this.scrollable === true
-        ? 'left'
-        : (this.justify === true ? 'justify' : this.align)
-
-      return `q-tabs__content--align-${align}`
-    },
-
-    classes () {
-      return 'q-tabs row no-wrap items-center' +
-        ` q-tabs--${this.scrollable === true ? '' : 'not-'}scrollable` +
-        ` q-tabs--${this.vertical === true ? 'vertical' : 'horizontal'}` +
-        ` q-tabs__arrows--${this.arrowsEnabled === true && this.outsideArrows === true ? 'outside' : 'inside'}` +
-        (this.dense === true ? ' q-tabs--dense' : '') +
-        (this.shrink === true ? ' col-shrink' : '') +
-        (this.stretch === true ? ' self-stretch' : '')
-    },
-
-    innerClass () {
-      return 'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar ' +
-        this.alignClass +
-        (this.contentClass !== void 0 ? ` ${this.contentClass}` : '')
-    },
-
-    domProps () {
-      return this.vertical === true
-        ? { container: 'height', content: 'scrollHeight', posLeft: 'top', posRight: 'bottom' }
-        : { container: 'width', content: 'scrollWidth', posLeft: 'left', posRight: 'right' }
-    }
-  },
-
-  methods: {
-    __updateModel ({ name, setCurrent, skipEmit, fromRoute }) {
-      if (this.currentModel !== name) {
-        skipEmit !== true && this.$emit('update:modelValue', name)
+    function updateModel ({ name, setCurrent, skipEmit, fromRoute }) {
+      if (currentModel.value !== name) {
+        skipEmit !== true && emit('update:modelValue', name)
         if (
-          setCurrent === true ||
-          this.emitListeners['onUpdate:modelValue'] === void 0
+          setCurrent === true
+          || props[ 'onUpdate:modelValue' ] !== void 0
         ) {
-          this.__animate(this.currentModel, name)
-          this.currentModel = name
+          animate(currentModel.value, name)
+          currentModel.value = name
         }
       }
 
       if (fromRoute !== void 0) {
-        this.fromRoute = fromRoute
+        localFromRoute = fromRoute
       }
-    },
+    }
 
-    __recalculateScroll () {
-      this.__nextTick(() => {
-        if (this.$.isDeactivated !== true && this.$.isUnmounted !== true) {
-          this.__updateContainer({
-            width: this.$el.offsetWidth,
-            height: this.$el.offsetHeight
+    function recalculateScroll () {
+      registerTick(() => {
+        if (vm.isDeactivated !== true && vm.isUnmounted !== true) {
+          updateContainer({
+            width: rootRef.value.offsetWidth,
+            height: rootRef.value.offsetHeight
           })
         }
       })
 
-      this.__prepareTick()
-    },
+      prepareTick()
+    }
 
-    __updateContainer (domSize) {
+    function updateContainer (domSize) {
+      // it can be called faster than component being initialized
+      // so we need to protect against that case
+      // (one example of such case is the docs release notes page)
+      if (domProps.value === void 0) { return }
+
       const
-        size = domSize[this.domProps.container],
-        scrollSize = this.$refs.content[this.domProps.content],
+        size = domSize[ domProps.value.container ],
+        scrollSize = Math.min(
+          contentRef.value[ domProps.value.scroll ],
+          Array.prototype.reduce.call(
+            contentRef.value.children,
+            (acc, el) => acc + el[ domProps.value.content ],
+            0
+          )
+        ),
         scroll = size > 0 && scrollSize > size // when there is no tab, in Chrome, size === 0 and scrollSize === 1
 
-      if (this.scrollable !== scroll) {
-        this.scrollable = scroll
+      if (scrollable.value !== scroll) {
+        scrollable.value = scroll
       }
 
       // Arrows need to be updated even if the scroll status was already true
-      scroll === true && this.$nextTick(() => this.__updateArrows())
+      scroll === true && nextTick(localUpdateArrows)
 
-      const justify = size < parseInt(this.breakpoint, 10)
+      const localJustify = size < parseInt(props.breakpoint, 10)
 
-      if (this.justify !== justify) {
-        this.justify = justify
+      if (justify.value !== localJustify) {
+        justify.value = localJustify
       }
-    },
+    }
 
-    __animate (oldName, newName) {
+    function animate (oldName, newName) {
       const
-        tabList = this.tabList.map(tab => tab()),
         oldTab = oldName !== void 0 && oldName !== null && oldName !== ''
-          ? tabList.find(tab => tab.name === oldName)
+          ? tabList.find(tab => tab.name.value === oldName)
           : null,
         newTab = newName !== void 0 && newName !== null && newName !== ''
-          ? tabList.find(tab => tab.name === newName)
+          ? tabList.find(tab => tab.name.value === newName)
           : null
 
       if (oldTab && newTab) {
         const
-          oldEl = oldTab.$el.getElementsByClassName('q-tab__indicator')[0],
-          newEl = newTab.$el.getElementsByClassName('q-tab__indicator')[0]
+          oldEl = oldTab.tabIndicatorRef.value,
+          newEl = newTab.tabIndicatorRef.value
 
-        clearTimeout(this.animateTimer)
+        clearTimeout(animateTimer)
 
         oldEl.style.transition = 'none'
         oldEl.style.transform = 'none'
@@ -225,80 +236,83 @@ export default defineComponent({
           oldPos = oldEl.getBoundingClientRect(),
           newPos = newEl.getBoundingClientRect()
 
-        newEl.style.transform = this.vertical === true
-          ? `translate3d(0,${oldPos.top - newPos.top}px,0) scale3d(1,${newPos.height ? oldPos.height / newPos.height : 1},1)`
-          : `translate3d(${oldPos.left - newPos.left}px,0,0) scale3d(${newPos.width ? oldPos.width / newPos.width : 1},1,1)`
+        newEl.style.transform = props.vertical === true
+          ? `translate3d(0,${ oldPos.top - newPos.top }px,0) scale3d(1,${ newPos.height ? oldPos.height / newPos.height : 1 },1)`
+          : `translate3d(${ oldPos.left - newPos.left }px,0,0) scale3d(${ newPos.width ? oldPos.width / newPos.width : 1 },1,1)`
 
         // allow scope updates to kick in (QRouteTab needs more time)
-        this.$nextTick(() => {
-          this.animateTimer = setTimeout(() => {
+        nextTick(() => {
+          animateTimer = setTimeout(() => {
             newEl.style.transition = 'transform .25s cubic-bezier(.4, 0, .2, 1)'
             newEl.style.transform = 'none'
           }, 70)
         })
       }
 
-      if (newTab && this.scrollable === true) {
+      if (newTab && scrollable.value === true) {
         const
-          { left, width, top, height } = this.$refs.content.getBoundingClientRect(),
-          newPos = newTab.$el.getBoundingClientRect()
+          { left, width, top, height } = contentRef.value.getBoundingClientRect(),
+          newPos = newTab.rootRef.value.getBoundingClientRect()
 
-        let offset = this.vertical === true ? newPos.top - top : newPos.left - left
+        let offset = props.vertical === true ? newPos.top - top : newPos.left - left
 
         if (offset < 0) {
-          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += Math.floor(offset)
-          this.__updateArrows()
+          contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.floor(offset)
+          localUpdateArrows()
           return
         }
 
-        offset += this.vertical === true ? newPos.height - height : newPos.width - width
+        offset += props.vertical === true ? newPos.height - height : newPos.width - width
         if (offset > 0) {
-          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += Math.ceil(offset)
-          this.__updateArrows()
+          contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.ceil(offset)
+          localUpdateArrows()
         }
       }
-    },
+    }
 
-    __updateArrowsFn () {
-      const
-        content = this.$refs.content,
-        rect = content.getBoundingClientRect(),
-        pos = this.vertical === true ? content.scrollTop : content.scrollLeft
+    function updateArrowsFn () {
+      const content = contentRef.value
+      if (content !== null) {
+        const
+          rect = content.getBoundingClientRect(),
+          pos = props.vertical === true ? content.scrollTop : content.scrollLeft
 
-      this.leftArrow = pos > 0
-      this.rightArrow = this.vertical === true
-        ? Math.ceil(pos + rect.height) < content.scrollHeight
-        : Math.ceil(pos + rect.width) < content.scrollWidth
-    },
+        leftArrow.value = pos > 0
+        rightArrow.value = props.vertical === true
+          ? Math.ceil(pos + rect.height) < content.scrollHeight
+          : Math.ceil(pos + rect.width) < content.scrollWidth
+      }
+    }
 
-    __animScrollTo (value) {
-      this.__stopAnimScroll()
-      this.__scrollTowards(value)
+    function animScrollTo (value) {
+      stopAnimScroll()
+      scrollTowards(value)
 
-      this.scrollTimer = setInterval(() => {
-        if (this.__scrollTowards(value)) {
-          this.__stopAnimScroll()
+      scrollTimer = setInterval(() => {
+        if (scrollTowards(value)) {
+          stopAnimScroll()
         }
       }, 5)
-    },
+    }
 
-    __scrollToStart () {
-      this.__animScrollTo(0)
-    },
+    function scrollToStart () {
+      animScrollTo(0)
+    }
 
-    __scrollToEnd () {
-      this.__animScrollTo(9999)
-    },
+    function scrollToEnd () {
+      animScrollTo(9999)
+    }
 
-    __stopAnimScroll () {
-      clearInterval(this.scrollTimer)
-    },
+    function stopAnimScroll () {
+      clearInterval(scrollTimer)
+    }
 
-    __scrollTowards (value) {
-      const content = this.$refs.content
+    function scrollTowards (value) {
+      const content = contentRef.value
       let
-        pos = this.vertical === true ? content.scrollTop : content.scrollLeft,
+        pos = props.vertical === true ? content.scrollTop : content.scrollLeft,
         done = false
+
       const direction = value < pos ? -1 : 1
 
       pos += direction * 5
@@ -307,63 +321,63 @@ export default defineComponent({
         pos = 0
       }
       else if (
-        (direction === -1 && pos <= value) ||
-        (direction === 1 && pos >= value)
+        (direction === -1 && pos <= value)
+        || (direction === 1 && pos >= value)
       ) {
         done = true
         pos = value
       }
 
-      content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] = pos
-      this.__updateArrows()
+      content[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] = pos
+      localUpdateArrows()
+
       return done
-    },
+    }
 
-    __getRouteList () {
-      return this.tabList.filter(tab => tab().hasLink === true)
-    },
+    function getRouteList () {
+      return tabList.filter(tab => tab.routerProps !== void 0 && tab.routerProps.hasLink.value === true)
+    }
 
-    // do not use directly; use __verifyRouteModel() instead
-    __updateActiveRoute () {
-      let href = '', name = null, wasActive = this.fromRoute
+    // do not use directly; use verifyRouteModel() instead
+    function updateActiveRoute () {
+      let href = '', name = null, wasActive = localFromRoute
 
-      this.__getRouteList().map(getTab => {
-        const tab = getTab()
-
+      getRouteList().forEach(tab => {
         if (
-          (tab.exact === true ? tab.linkIsExactActive : tab.linkIsActive) === true &&
-          tab.linkRoute.href.length > href.length
+          tab.routerProps !== void 0
+          && tab.routerProps[ tab.routerProps.exact.value === true ? 'linkIsExactActive' : 'linkIsActive' ].value === true
+          && tab.routerProps.linkRoute.value.href.length > href.length
         ) {
-          href = tab.linkRoute.href
-          name = tab.name
+          href = tab.routerProps.linkRoute.value.href
+          name = tab.name.value
         }
-        else if (this.currentModel === tab.name) {
+        else if (currentModel.value === tab.name.value) {
           wasActive = true
         }
       })
 
       if (wasActive === true || name !== null) {
-        this.__updateModel({ name, setCurrent: true, fromRoute: true })
+        updateModel({ name, setCurrent: true, fromRoute: true })
       }
-    },
+    }
 
-    __verifyRouteModel () {
-      this.__setTimeout(this.__updateActiveRoute)
-    },
+    function verifyRouteModel () {
+      registerTimeout(updateActiveRoute)
+    }
 
-    __registerTab (getTab) {
-      this.tabList.push(getTab)
+    function registerTab (getTab) {
+      tabList.push(getTab)
 
-      const routeList = this.__getRouteList()
+      const routeList = getRouteList()
 
       if (routeList.length > 0) {
-        if (this.unwatchRoute === void 0) {
-          this.unwatchRoute = this.$watch('$route', this.__verifyRouteModel)
+        if (unwatchRoute === void 0) {
+          unwatchRoute = watch(() => vm.proxy.$route, verifyRouteModel)
         }
 
-        this.__verifyRouteModel()
+        verifyRouteModel()
       }
-    },
+    }
 
     /*
      * Vue has an aggressive diff (in-place replacement) so we cannot
@@ -372,72 +386,80 @@ export default defineComponent({
      * if it's a route one to make the necessary updates. We need to
      * always check the existing list again and infer the changes.
      */
-    __unregisterTab (getTab) {
-      this.tabList.splice(this.tabList.indexOf(getTab), 1)
+    function unregisterTab (tabData) {
+      tabList.splice(tabList.indexOf(tabData), 1)
 
-      if (this.unwatchRoute !== void 0) {
-        const routeList = this.__getRouteList()
+      if (unwatchRoute !== void 0) {
+        const routeList = getRouteList()
 
         if (routeList.length === 0) {
-          this.unwatchRoute()
-          this.unwatchRoute = void 0
+          unwatchRoute()
+          unwatchRoute = void 0
         }
 
-        this.__verifyRouteModel()
+        verifyRouteModel()
       }
     }
-  },
 
-  render () {
-    const child = [
-      h(QResizeObserver, { onResize: this.__updateContainer }),
+    provide(tabsKey, {
+      currentModel,
+      tabProps,
 
-      h('div', {
-        ref: 'content',
-        class: this.innerClass
-      }, hSlot(this, 'default'))
-    ]
+      registerTab,
+      unregisterTab,
 
-    this.arrowsEnabled === true && child.push(
-      h(QIcon, {
-        class: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon' +
-          (this.leftArrow === true ? '' : ' q-tabs__arrow--faded'),
-        name: this.leftIcon || (this.vertical === true ? this.$q.iconSet.tabs.up : this.$q.iconSet.tabs.left),
-        onMousedown: this.__scrollToStart,
-        onTouchstart: this.__scrollToStart,
-        onMouseup: this.__stopAnimScroll,
-        onMouseleave: this.__stopAnimScroll,
-        onTouchend: this.__stopAnimScroll
-      }),
+      verifyRouteModel,
+      updateModel,
+      recalculateScroll
+    })
 
-      h(QIcon, {
-        class: 'q-tabs__arrow q-tabs__arrow--right absolute q-tab__icon' +
-          (this.rightArrow === true ? '' : ' q-tabs__arrow--faded'),
-        name: this.rightIcon || (this.vertical === true ? this.$q.iconSet.tabs.down : this.$q.iconSet.tabs.right),
-        onMousedown: this.__scrollToEnd,
-        onTouchstart: this.__scrollToEnd,
-        onMouseup: this.__stopAnimScroll,
-        onMouseleave: this.__stopAnimScroll,
-        onTouchend: this.__stopAnimScroll
-      })
-    )
+    onBeforeUnmount(() => {
+      clearTimeout(animateTimer)
+      unwatchRoute !== void 0 && unwatchRoute()
+    })
 
-    return h('div', {
-      class: this.classes,
-      role: 'tablist'
-    }, child)
-  },
+    onActivated(recalculateScroll)
 
-  created () {
-    this.tabList = []
-    this.fromRoute = false
-    this.__updateArrows = this.arrowsEnabled === true
-      ? this.__updateArrowsFn
-      : noop
-  },
+    return () => {
+      const child = [
+        h(QResizeObserver, { onResize: updateContainer }),
 
-  beforeUnmount () {
-    clearTimeout(this.animateTimer)
-    this.unwatchRoute !== void 0 && this.unwatchRoute()
+        h('div', {
+          ref: contentRef,
+          class: innerClass.value,
+          onScroll: localUpdateArrows
+        }, hSlot(slots.default))
+      ]
+
+      arrowsEnabled.value === true && child.push(
+        h(QIcon, {
+          class: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon'
+            + (leftArrow.value === true ? '' : ' q-tabs__arrow--faded'),
+          name: props.leftIcon || $q.iconSet.tabs[ props.vertical === true ? 'up' : 'left' ],
+          onMousedown: scrollToStart,
+          onTouchstartPassive: scrollToStart,
+          onMouseup: stopAnimScroll,
+          onMouseleave: stopAnimScroll,
+          onTouchend: stopAnimScroll
+        }),
+
+        h(QIcon, {
+          class: 'q-tabs__arrow q-tabs__arrow--right absolute q-tab__icon'
+            + (rightArrow.value === true ? '' : ' q-tabs__arrow--faded'),
+          name: props.rightIcon || $q.iconSet.tabs[ props.vertical === true ? 'down' : 'right' ],
+          onMousedown: scrollToEnd,
+          onTouchstartPassive: scrollToEnd,
+          onMouseup: stopAnimScroll,
+          onMouseleave: stopAnimScroll,
+          onTouchend: stopAnimScroll
+        })
+      )
+
+      return h('div', {
+        ref: rootRef,
+        class: classes.value,
+        role: 'tablist'
+      }, child)
+    }
   }
 })

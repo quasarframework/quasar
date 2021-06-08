@@ -30,7 +30,7 @@ function ensureDeps () {
     [ 'install' ],
     { cwd: appPaths.cordovaDir, env: { ...process.env, NODE_ENV: 'development' } },
     () => {
-      fatal(`[FAIL] npm failed installing dependencies in /src-cordova`)
+      fatal('npm failed installing dependencies in /src-cordova', 'FAIL')
     }
   )
 }

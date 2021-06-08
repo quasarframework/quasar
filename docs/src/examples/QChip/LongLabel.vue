@@ -49,42 +49,47 @@
     </div>
 
     <div class="row items-center q-mt-sm">
-      <q-btn color="primary" label="Reset" @click="reset" class="q-mr-sm" />
+      <q-btn color="primary" label="Reset" @click="onResetClick" class="q-mr-sm" />
       <q-toggle v-model="truncate" label="Truncate labels" />
     </div>
   </div>
 </template>
 
-<style lang="sass" scoped>
-.truncate-chip-labels > .q-chip
-  max-width: 140px
-</style>
-
 <script>
-export default {
-  data () {
-    return {
-      truncate: true,
+import { ref } from 'vue'
 
-      vanilla: true,
-      chocolate: true,
-      strawberry: true,
-      cookies: true,
+export default {
+  setup () {
+    const vanilla = ref(true)
+    const chocolate = ref(true)
+    const strawberry = ref(true)
+    const cookies = ref(true)
+
+    return {
+      truncate: ref(true),
+
+      vanilla,
+      chocolate,
+      strawberry,
+      cookies,
 
       vanillaLabel: 'I want vanilla flavoured ice cream',
       chocolateLabel: 'I want chocolate flavoured ice cream',
       strawberryLabel: 'I want strawberry flavoured ice cream',
-      cookiesLabel: 'I want cookies flavoured ice cream'
-    }
-  },
+      cookiesLabel: 'I want cookies flavoured ice cream',
 
-  methods: {
-    reset () {
-      this.vanilla = true
-      this.chocolate = true
-      this.strawberry = true
-      this.cookies = true
+      onResetClick () {
+        vanilla.value = true
+        chocolate.value = true
+        strawberry.value = true
+        cookies.value = true
+      }
     }
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.truncate-chip-labels > .q-chip
+  max-width: 140px
+</style>

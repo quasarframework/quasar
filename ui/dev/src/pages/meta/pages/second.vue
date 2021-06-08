@@ -24,8 +24,6 @@
         </div>
       </q-card-section>
     </q-card>
-
-    <pre>{{ __qMeta.val }}</pre>
   </q-page>
 </template>
 
@@ -33,13 +31,16 @@
 </style>
 
 <script>
-import { createMetaMixin } from 'quasar'
+import { useMeta } from 'quasar'
+import { onMounted, onUnmounted } from 'vue'
 
 export default {
   name: 'PageSecond',
 
-  mixins: [
-    createMetaMixin({
+  setup () {
+    console.log('created second.vue')
+
+    useMeta({
       title: 'PAGE 2',
       meta: {
         description: { name: 'description', content: 'Page 2' }
@@ -54,15 +55,14 @@ export default {
         'third-page': 'w'
       }
     })
-  ],
-  created () {
-    console.log('created second.vue')
-  },
-  mounted () {
-    console.log('mounted second.vue')
-  },
-  unmounted () {
-    console.log('unmounted second.vue')
+
+    onMounted(() => {
+      console.log('mounted second.vue')
+    })
+
+    onUnmounted(() => {
+      console.log('unmounted second.vue')
+    })
   }
 }
 </script>

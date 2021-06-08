@@ -14,7 +14,7 @@
         <q-icon left :name="fabGithub" />
 
         <div class="text-center">
-          Github Sponsorship
+          GitHub Sponsorship
         </div>
       </div>
     </q-btn>
@@ -51,9 +51,11 @@ import {
 export default {
   name: 'DonatingButtons',
 
-  created () {
-    this.fabGithub = fabGithub
-    this.fabPaypal = fabPaypal
+  setup () {
+    return {
+      fabGithub,
+      fabPaypal
+    }
   }
 }
 </script>

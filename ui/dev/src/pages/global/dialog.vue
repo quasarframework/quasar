@@ -172,7 +172,7 @@
       <q-card>
         <q-toolbar>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
           </q-avatar>
 
           <q-toolbar-title><span class="text-weight-bold">Quasar</span> Framework</q-toolbar-title>
@@ -209,7 +209,7 @@
         </q-card-section>
 
         <q-card-section>
-          <q-input v-model="address" autofocus />
+          <q-input v-model="address" autofocus clearable />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
@@ -672,6 +672,7 @@
             v-model="select"
             :options="selectOptions"
             label="Select"
+            clearable
           />
         </q-card-section>
 
@@ -682,6 +683,7 @@
             v-model="select"
             :options="selectOptions"
             label="Select"
+            clearable
           />
           <q-select
             v-model="select"
@@ -689,15 +691,17 @@
             use-input
             label="Select - Use input"
             @filter="filterFn"
+            clearable
           />
-          <q-input v-model="text1" autofocus label="Text 1" />
-          <q-input v-model="text2" label="Text 2" />
-          <q-input v-model="text3" type="textarea" label="Text 3 - textarea" />
+          <q-input v-model="text1" autofocus label="Text 1" clearable />
+          <q-input v-model="text2" label="Text 2" clearable />
+          <q-input v-model="text3" type="textarea" label="Text 3 - textarea" clearable />
           <q-select
             v-model="selectMultiple"
             :options="selectOptions"
             multiple
             label="Select multiple"
+            clearable
           />
           <q-select
             v-model="selectMultiple"
@@ -706,6 +710,7 @@
             multiple
             label="Select multiple - Use input"
             @filter="filterFn"
+            clearable
           />
         </q-card-section>
       </q-card>
@@ -871,7 +876,7 @@ export default {
 
       select: 'ten',
       selectMultiple: [],
-      selectOptions: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+      selectOptions: [ 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten' ],
       selectOptionsFiltered: [],
 
       closePopupTest: false,
@@ -895,7 +900,7 @@ export default {
     openSpecialPosition (position) {
       this.$q.dialog({
         title: 'Positioned',
-        message: `This dialog appears from ${position}.`,
+        message: `This dialog appears from ${ position }.`,
         position
       })
     },

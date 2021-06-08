@@ -47,12 +47,6 @@
 
     "icon": {
       "desc": "Slot for replacing the default dropdown icon"
-    }
-  },
-
-  "scopedSlots": {
-    "default": {
-      "extends": "default"
     },
 
     "item": {
@@ -61,8 +55,8 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:model-value": {
+      "extends": "update:model-value"
     },
 
     "click": {
@@ -78,7 +72,7 @@
 
   "methods": {
     "show": {
-     "extends": "show"
+      "extends": "show"
     },
 
     "showNow": {

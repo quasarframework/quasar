@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/chat"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/chat"
   },
 
   "props": {
@@ -102,6 +98,18 @@
 
     "avatar": {
       "desc": "Slot for avatar; Suggestion: QAvatar, img"
+    },
+
+    "name": {
+      "desc": "Slot for name; Overrides the 'name' prop"
+    },
+
+    "stamp": {
+      "desc": "Slot for stamp; Overrides the 'stamp' prop"
+    },
+
+    "label": {
+      "desc": "Slot for label; Overrides the 'label' prop"
     }
   }
 }

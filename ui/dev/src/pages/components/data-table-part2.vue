@@ -174,32 +174,32 @@
     >
       <template v-slot:header="props">
         <q-tr :props="props">
-          <q-th rowspan="2" @click="props.sort(props.cols[0].name)" :class="props.cols[0].__thClass">
+          <th rowspan="2" @click="props.sort(props.cols[0].name)" :class="props.cols[0].__thClass">
             {{ props.cols[0].label }} <q-icon :class="props.cols[0].__iconClass" name="arrow_upward" />
-          </q-th>
-          <q-th @click="props.sort(props.cols[1].name)" :class="props.cols[1].__thClass">
+          </th>
+          <th @click="props.sort(props.cols[1].name)" :class="props.cols[1].__thClass">
             {{ props.cols[1].label }} <q-icon :class="props.cols[1].__iconClass" name="arrow_upward" />
-          </q-th>
-          <q-th @click="props.sort(props.cols[3].name)" :class="props.cols[3].__thClass">
+          </th>
+          <th @click="props.sort(props.cols[3].name)" :class="props.cols[3].__thClass">
             {{ props.cols[3].label }} <q-icon :class="props.cols[3].__iconClass" name="arrow_upward" />
-          </q-th>
-          <q-th @click="props.sort(props.cols[5].name)" :class="props.cols[5].__thClass">
+          </th>
+          <th @click="props.sort(props.cols[5].name)" :class="props.cols[5].__thClass">
             {{ props.cols[5].label }} <q-icon :class="props.cols[5].__iconClass" name="arrow_upward" />
-          </q-th>
-          <q-th rowspan="2" @click="props.sort(props.cols[7].name)" :class="props.cols[7].__thClass">
+          </th>
+          <th rowspan="2" @click="props.sort(props.cols[7].name)" :class="props.cols[7].__thClass">
             {{ props.cols[7].label }} <q-icon :class="props.cols[7].__iconClass" name="arrow_upward" />
-          </q-th>
+          </th>
         </q-tr>
         <q-tr>
-          <q-th @click="props.sort(props.cols[2].name)" :class="props.cols[2].__thClass">
+          <th @click="props.sort(props.cols[2].name)" :class="props.cols[2].__thClass">
             {{ props.cols[2].label }} <q-icon :class="props.cols[2].__iconClass" name="arrow_upward" />
-          </q-th>
-          <q-th @click="props.sort(props.cols[4].name)" :class="props.cols[4].__thClass">
+          </th>
+          <th @click="props.sort(props.cols[4].name)" :class="props.cols[4].__thClass">
             {{ props.cols[4].label }} <q-icon :class="props.cols[4].__iconClass" name="arrow_upward" />
-          </q-th>
-          <q-th @click="props.sort(props.cols[6].name)" :class="props.cols[6].__thClass">
+          </th>
+          <th @click="props.sort(props.cols[6].name)" :class="props.cols[6].__thClass">
             {{ props.cols[6].label }} <q-icon :class="props.cols[6].__iconClass" name="arrow_upward" />
-          </q-th>
+          </th>
         </q-tr>
       </template>
       <template v-slot:body="props">
@@ -465,7 +465,7 @@ export default {
       serverData: [],
       loading: false,
       loadingDyn: false,
-      visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
+      visibleColumns: [ 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
       selected: [],
 
       columns: [
@@ -485,8 +485,8 @@ export default {
         { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
-      data: [...data],
-      dataDyn: [...data]
+      data: [ ...data ],
+      dataDyn: [ ...data ]
     }
   },
   methods: {
@@ -495,45 +495,45 @@ export default {
     },
 
     request (props) {
-      this.loading = true
-      console.log('REQUEST', props)
-      setTimeout(() => {
-        this.serverPagination = props.pagination
+      // this.loading = true
+      // console.log('REQUEST', props)
+      // setTimeout(() => {
+      //   this.serverPagination = props.pagination
 
-        const
-          table = this.$refs.server,
-          { page, rowsPerPage, sortBy, descending } = props.pagination
-        let rows = this.data.slice()
+      //   const
+      //     table = this.$refs.server,
+      //     { page, rowsPerPage, sortBy, descending } = props.pagination
+      //   let rows = this.data.slice()
 
-        if (props.filter) {
-          console.log('filter hit')
-          rows = table.computedFilterMethod(rows, props.filter)
-        }
+      //   if (props.filter) {
+      //     console.log('filter hit')
+      //     rows = table.computedFilterMethod(rows, props.filter)
+      //   }
 
-        if (sortBy) {
-          rows = table.computedSortMethod(rows, sortBy, descending)
-        }
+      //   if (sortBy) {
+      //     rows = table.computedSortMethod(rows, sortBy, descending)
+      //   }
 
-        this.serverPagination.rowsNumber = rows.length
+      //   this.serverPagination.rowsNumber = rows.length
 
-        if (rowsPerPage) {
-          rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-        }
+      //   if (rowsPerPage) {
+      //     rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
+      //   }
 
-        this.serverData = rows
-        this.loading = false
-      }, 1500)
+      //   this.serverData = rows
+      //   this.loading = false
+      // }, 1500)
     },
     moveRowUp (name) {
       const rowIndex = this.data.findIndex(t => t.name === name)
       if (rowIndex > -1 && rowIndex > 0) {
-        this.data.splice(rowIndex - 1, 0, this.data.splice(rowIndex, 1)[0])
+        this.data.splice(rowIndex - 1, 0, this.data.splice(rowIndex, 1)[ 0 ])
       }
     },
     moveRowDown (name) {
       const rowIndex = this.data.findIndex(t => t.name === name)
       if (rowIndex > -1 && rowIndex < this.data.length - 1) {
-        this.data.splice(rowIndex + 1, 0, this.data.splice(rowIndex, 1)[0])
+        this.data.splice(rowIndex + 1, 0, this.data.splice(rowIndex, 1)[ 0 ])
       }
     },
     addRow () {
@@ -541,13 +541,13 @@ export default {
       setTimeout(() => {
         const
           addPoint = Math.floor(Math.random() * (this.dataDyn.length + 1)),
-          row = data[Math.floor(Math.random() * data.length)]
+          row = data[ Math.floor(Math.random() * data.length) ]
         if (!row.__count) {
           row.__count = 0
         }
         row.__count += 1
-        const addRow = extend({}, row, { name: `${row.name} (${row.__count})` })
-        this.dataDyn = [...this.dataDyn.slice(0, addPoint), addRow, ...this.dataDyn.slice(addPoint)]
+        const addRow = extend({}, row, { name: `${ row.name } (${ row.__count })` })
+        this.dataDyn = [ ...this.dataDyn.slice(0, addPoint), addRow, ...this.dataDyn.slice(addPoint) ]
         this.loadingDyn = false
       }, 500)
     },
@@ -555,7 +555,7 @@ export default {
       this.loadingDyn = true
       setTimeout(() => {
         const removePoint = Math.floor(Math.random() * this.dataDyn.length)
-        this.dataDyn = [...this.dataDyn.slice(0, removePoint), ...this.dataDyn.slice(removePoint + 1)]
+        this.dataDyn = [ ...this.dataDyn.slice(0, removePoint), ...this.dataDyn.slice(removePoint + 1) ]
         this.loadingDyn = false
       }, 500)
     }
@@ -570,5 +570,5 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 </style>

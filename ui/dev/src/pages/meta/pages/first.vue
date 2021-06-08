@@ -28,8 +28,6 @@
         <q-btn no-caps color="secondary" @click="toggleTitle" label="Toggle first page title" />
       </q-card-section>
     </q-card>
-
-    <pre>{{ __qMetaOptions }}</pre>
   </q-page>
 </template>
 
@@ -37,7 +35,8 @@
 </style>
 
 <script>
-import { createMetaMixin } from 'quasar'
+import { useMeta } from 'quasar'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 function timeout (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -46,11 +45,20 @@ function timeout (ms) {
 export default {
   name: 'PageIndex',
 
-  mixins: [
-    createMetaMixin(function () {
+  async preFetch () {
+    console.log('called prefetch')
+    await timeout(1000)
+  },
+
+  setup () {
+    console.log('created first.vue')
+
+    const title = ref('Page 1')
+
+    useMeta(() => {
       console.log('running meta fn in first.vue')
       return {
-        title: this.title,
+        title: title.value,
         meta: {
           description: { name: 'description', content: 'Page 1' }
         },
@@ -58,36 +66,26 @@ export default {
           google: { rel: 'stylesheet', href: 'http://bogus.com/1' }
         },
         noscript: {
-          default: `This is for non-JS`
+          default: 'This is for non-JS'
         }
       }
     })
-  ],
-  data () {
+
+    onMounted(() => {
+      console.log('mounted first.vue')
+    })
+
+    onUnmounted(() => {
+      console.log('unmounted first.vue')
+    })
+
     return {
-      title: 'Page 1'
+      toggleTitle () {
+        title.value = title.value === 'Page 1'
+          ? 'Page 1 Extended'
+          : 'Page 1'
+      }
     }
-  },
-  async preFetch () {
-    console.log('called prefetch')
-    await timeout(1000)
-  },
-  methods: {
-    toggleTitle () {
-      this.title = this.title === 'Page 1'
-        ? 'Page 1 Extended'
-        : 'Page 1'
-    }
-  },
-  created () {
-    console.log('created first.vue')
-  },
-  mounted () {
-    // this.title = 'beep'
-    console.log('mounted first.vue')
-  },
-  unmounted () {
-    console.log('unmounted second.vue')
   }
 }
 </script>

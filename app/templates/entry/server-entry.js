@@ -32,10 +32,18 @@ import '<%= asset.path %>'
 <% }) %>
 
 import createQuasarApp from './app.js'
+import quasarUserOptions from './quasar-user-options.js'
 
 <% if (preFetch) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
-const appOptions = App.options /* Vue.extend() */ || App
+const appPrefetch = typeof App.preFetch === 'function'
+  ? App.preFetch
+  : (
+    // Class components return the component options (and the preFetch hook) inside __c property
+    App.__c !== void 0 && typeof App.__c.preFetch === 'function'
+      ? App.__c.preFetch
+      : false
+    )
 <% } %>
 
 <%
@@ -58,13 +66,17 @@ const doubleSlashRE = /\/\//
 const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 <% } %>
 
-function redirectBrowser (url, router, reject) {
+const bootFiles = [<%= bootNames.join(',') %>].filter(boot => typeof boot === 'function')
+
+function redirectBrowser (url, router, reject, httpStatusCode) {
   const normalized = Object(url) === url
     ? <%= build.publicPath === '/' ? 'router.resolve(url).fullPath' : 'addPublicPath(router.resolve(url).fullPath)' %>
     : url
 
-  reject({ url: normalized })
+  reject({ url: normalized, code: httpStatusCode })
 }
+
+const { components, directives, ...qUserOptions } = quasarUserOptions
 
 // This is where we perform data-prefetching to determine the
 // state of our application before actually rendering it.
@@ -72,30 +84,24 @@ function redirectBrowser (url, router, reject) {
 // return a Promise that resolves to the app instance.
 export default ssrContext => {
   return new Promise(async (resolve, reject) => {
-    const { app, router<%= store ? ', store' : '' %> } = await createQuasarApp(createApp, ssrContext)
+    const { app, router<%= store ? ', store, storeKey' : '' %> } = await createQuasarApp(createApp, qUserOptions, ssrContext)
 
     <% if (bootNames.length > 0) { %>
     let hasRedirected = false
-    const redirect = url => {
+    const redirect = (url, httpStatusCode) => {
       hasRedirected = true
-      redirectBrowser(url, router, reject)
+      redirectBrowser(url, router, reject, httpStatusCode)
     }
 
-    const bootFiles = [<%= bootNames.join(',') %>]
     for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
-      if (typeof bootFiles[i] !== 'function') {
-        continue
-      }
-
       try {
         await bootFiles[i]({
           app,
           router,
           <%= store ? 'store,' : '' %>
-          Vue,
           ssrContext,
           redirect,
-          urlPath: ssrContext.url,
+          urlPath: ssrContext.req.url,
           publicPath
         })
       }
@@ -110,11 +116,14 @@ export default ssrContext => {
     }
     <% } %>
 
-    const url = ssrContext.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '')<% } %>
+    app.use(router)
+    <% if (store) { %>app.use(store, storeKey)<% } %>
+
+    const url = ssrContext.req.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '/')<% } %>
     const { fullPath } = router.resolve(url)
 
     if (fullPath !== url) {
-      return reject({ url: fullPath })
+      return reject({ url: <%= build.publicPath === '/' ? 'fullPath' : 'addPublicPath(fullPath)' %> })
     }
 
     // set router's location
@@ -122,9 +131,8 @@ export default ssrContext => {
 
     // wait until router has resolved possible async hooks
     router.isReady().then(() => {
-      const matchedComponents = router.currentRoute.value.matched
+      let matchedComponents = router.currentRoute.value.matched
         .flatMap(record => Object.values(record.components))
-        .map(m => m.options /* Vue.extend() */ || m)
 
       // no matched routes
       if (matchedComponents.length === 0) {
@@ -132,28 +140,37 @@ export default ssrContext => {
       }
 
       <% if (preFetch) { %>
-
       let hasRedirected = false
-      const redirect = url => {
+      const redirect = (url, httpStatusCode) => {
         hasRedirected = true
-        redirectBrowser(url, router, reject)
+        redirectBrowser(url, router, reject, httpStatusCode)
       }
 
-      appOptions.preFetch !== void 0 && matchedComponents.unshift(appOptions)
+      // filter and convert all components to their preFetch methods
+      matchedComponents = matchedComponents
+        .filter(m => (
+          typeof m.preFetch === 'function'
+          // Class components return the component options (and the preFetch hook) inside __c property
+          || (m.__c !== void 0 && typeof m.__c.preFetch === 'function')
+        ))
+        .map(m => m.__c !== void 0 ? m.__c.preFetch : m.preFetch)
+
+      if (appPrefetch !== false) {
+        matchedComponents.unshift(appPrefetch)
+      }
 
       // Call preFetch hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,
       // which is resolved when the action is complete and store state has been
       // updated.
       matchedComponents
-      .filter(c => c && c.preFetch)
       .reduce(
-        (promise, c) => promise.then(() => hasRedirected === false && c.preFetch({
+        (promise, preFetchFn) => promise.then(() => hasRedirected === false && preFetchFn({
           <% if (store) { %>store,<% } %>
           ssrContext,
-          currentRoute: router.currentRoute,
+          currentRoute: router.currentRoute.value,
           redirect,
-          urlPath: ssrContext.url,
+          urlPath: ssrContext.req.url,
           publicPath
         })),
         Promise.resolve()

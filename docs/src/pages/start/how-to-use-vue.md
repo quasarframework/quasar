@@ -2,7 +2,7 @@
 title: How To Use Vue
 desc: Quick tutorial about Vue principles and how to use it with Quasar.
 ---
-Before you begin with Quasar, it is a good idea to get acquainted with ES6 and have a fairly good knowledge about how Vue works. ([Quick overview of ES6](https://github.com/lukehoban/es6features) and [ES6 complete list of features](http://es6-features.org/#Constants) -- don't worry, you don't need to understand ALL of ES6). For devs experienced with reactive UIs, the [Vue documentation](https://vuejs.org/v2/guide/) itself takes a half-day at most to read top-to-bottom and will help you understand how Quasar components can be used and configured.
+Before you begin with Quasar, it is a good idea to get acquainted with ES6 and have a fairly good knowledge about how Vue 3 works. ([Quick overview of ES6](https://github.com/lukehoban/es6features) and [ES6 complete list of features](http://es6-features.org/#Constants) -- don't worry, you don't need to understand ALL of ES6). For devs experienced with reactive UIs, the [Vue 3 documentation](https://v3.vuejs.org/) itself takes a half-day at most to read top-to-bottom and will help you understand how Quasar components can be used and configured.
 
 ::: tip
 If you are a total beginner to Vue and reactive UI libraries and want a good tutorial, we recommend you take a look at [Vue and Quasar video tutorials](/video-tutorials).
@@ -11,7 +11,8 @@ If you are a total beginner to Vue and reactive UI libraries and want a good tut
 After reading the Vue documentation, let's clear up some of the most frequently asked questions, like *"How can I use Quasar components, Vue properties, methods and events"*.
 
 ## Vue Single File Components (SFC)
-You'll be building your Quasar app using `*.vue` files which contain multiple sections: `template` (HTML), `script` (Javascript) and `style` (CSS/Stylus/SASS/SCSS/Less) all in the same file.
+
+You'll be building your Quasar app using `*.vue` files which contain multiple sections: `template` (HTML), `script` (Javascript) and `style` (CSS/SASS/SCSS/Stylus/Less) all in the same file.
 
 ```html
 <template>
@@ -35,9 +36,9 @@ export default {
 ```
 
 ### CSS preprocessors
-For the `<style>` tag, you can also use whatever CSS preprocessor you want. [Sass/SCSS](https://sass-lang.com) (recommended) and [Stylus](http://stylus-lang.com/) are available out of the box.
+For the `<style>` tag, you can also use whatever CSS preprocessor you want. [Sass/SCSS](https://sass-lang.com) (recommended) is available out of the box.
 
-You can specify you want your chosen preprocessor to handle the CSS code you're writing:
+You can specify you want your chosen preprocessor to handle the CSS code that you're writing:
 
 ```html
 <!-- notice lang="sass" -->
@@ -52,40 +53,19 @@ You can specify you want your chosen preprocessor to handle the CSS code you're 
   font-size: 15px;
 }
 </style>
-
-<!-- notice lang="stylus" -->
-<style lang="stylus">
-.some-div
-  font-size 15px
-</style>
 ```
 
 ## Using Quasar Directives
-Quasar comes with a few custom [Vue Directives](https://vuejs.org/v2/guide/custom-directive.html). These directives can be applied on almost any DOM element or Component.
+
+Quasar comes with a few custom [Vue Directives](https://v3.vuejs.org/guide/custom-directive.html). These directives can be applied on almost any DOM element or Component.
 
 Example of a Quasar directive:
+
 ```html
 <div v-ripple>Click Me</div>
 ```
 
 > Notice how Ripple is used in the HTML template as `v-ripple`. Vue directives are prefixed with `v-`.
-
-In order for you to use any of the directives that Quasar supplies, you first need to tell Quasar you want it embedded. Open `/quasar.conf.js` file and add the following reference:
-
-```js
-framework: {
-  directives: ['Ripple']
-}
-```
-
-Let's take another example. We now also want TouchPan and TouchSwipe directives, so we add them too in `/quasar.conf.js`:
-```js
-framework: {
-  directives: ['Ripple', 'TouchPan', 'TouchSwipe']
-}
-```
-
-Now we can write in your Vue files template:
 
 ```html
 <div v-touch-pan="handler">...</div>
@@ -97,6 +77,7 @@ Now we can write in your Vue files template:
 Quasar components have names beginning with "Q" like "QBtn" or "QElementResizeObserver". In order to use them, you need to add a reference to them in `/quasar.conf.js`.
 
 Let's take the following example with a QBtn and QIcon and then we'll see how to embed these components in our app:
+
 ```html
 <div>
   <q-btn @click="doSomething" label="Do something" />
@@ -106,24 +87,21 @@ Let's take the following example with a QBtn and QIcon and then we'll see how to
 
 > Notice how QBtn is used in the Vue HTML template as `<q-btn>`. If we'd import QElementResizeObserver, then we'd use it in template as `<q-element-resize-observer>`.
 
-Now on `/quasar.conf.js`, you would add:
-```js
-framework: {
-  components: ['QBtn', 'QIcon']
-}
-```
-
 ## Using Quasar Plugins
 Quasar Plugins are features that you can use both in your Vue files as well as outside of them, like Notify, BottomSheet, AppVisibility and so on.
 
-In order to use them, you need to add a reference to them in `/quasar.conf.js`:
+::: warning
+**Before using them in your app**, you need to add a reference to them in `/quasar.conf.js` (as shown below).
+:::
+
 ```js
 framework: {
-  plugins: ['Notify', 'BottomSheet']
+  plugins: [ 'Notify', 'BottomSheet' ]
 }
 ```
 
-Let's take Notify as an example and see how we can then use it. In a Vue file, you'd write something like this:
+Let's take Notify as an example and see how we can then use it. In a Vue file, you'd write something like this (Composition API):
+
 ```html
 <template>
   <div>
@@ -142,6 +120,29 @@ Let's take Notify as an example and see how we can then use it. In a Vue file, y
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+
+export default {
+  setup () {
+    const $q = useQuasar()
+
+    function showNotification () {
+      $q.notify('Some other message')
+    }
+
+    return {
+      showNotification
+    }
+  }
+}
+</script>
+```
+
+> Notice that in the template area we're using `$q.<plugin-name>`.
+
+An equivalent script section in Options API:
+
+```js
 export default {
   methods: {
     showNotification () {
@@ -149,29 +150,16 @@ export default {
     }
   }
 }
-</script>
 ```
 
-> Notice that in the template area we're using `$q.<plugin-name>` and in our script we say `this.$q.<plugin-name>`.
-
 Now let's see an example of Notify being used outside of a Vue file:
+
 ```js
 import { Notify } from 'quasar'
 
 // ...
 Notify.create('My message')
 ```
-
-### Importing All Components and Directives for Quick Test
-Referencing all Quasar Components, Directives and Plugins can be tiresome when you just want to do a quick test. In this case, you can tell Quasar to import them all by editing `/quasar.conf.js` like this:
-
-```js
-framework: 'all'
-```
-
-::: warning
-This **will not** take advantage of tree shaking, causing your bundle to become bloated with unnecessary/unused code. **Not recommended for production**. Use this only for quick testing purposes.
-:::
 
 ### Self-Closing Tags
 
@@ -191,7 +179,7 @@ Self-closing means the above template is the equivalent to:
 <q-icon name="cloud"></q-icon>
 ```
 
-Both forms are valid and can be used. It works the same with regular DOM elements:
+Both forms are valid and can be used, except for UMD where you must explicitly close the tags. It works the same with regular DOM elements:
 
 ```html
 <div class="col" />
@@ -215,17 +203,25 @@ Let's take some examples with a bogus Quasar component (we will call it QBogus) 
 ### Boolean Property
 A boolean property means it only accepts a strictly Boolean value. The values will not be cast to Boolean, so you must ensure you are using a true Boolean.
 
+::: tip
+In Quasar, all Boolean properties have `false` as the default value. As a result, you don't have to explictly assign them the `false` value.
+:::
+
 If you are trying to control that property and change it dynamically at runtime, then bind it to a variable in your scope:
+
 ```html
 <template>
   <q-bogus :infinite="myInfiniteVariable" />
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const myInfiniteVariable = ref(false)
     return {
-      myInfiniteVariable: false
+      myInfiniteVariable
     }
   }
 }
@@ -266,11 +262,14 @@ As you can imagine, Strings are required as a value for this type of property.
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    // notice String as value
+    const mySize = ref('16px')
     return {
-      // notice String as value
-      mySize: '16px'
+      mySize
     }
   }
 }
@@ -278,6 +277,7 @@ export default {
 ```
 
 ### Number Property
+
 ```html
 <template>
   <!--
@@ -291,11 +291,14 @@ export default {
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    // notice Number as value
+    const myNumber = ref(50)
     return {
-      // notice Number as value
-      myNumber: 50
+      myNumber
     }
   }
 }
@@ -321,14 +324,16 @@ export default {
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
-    return {
-      myColumns: {
-        key: 'value',
-        anotherKey: 'another value'
-      }
-    }
+  setup () {
+    const myColumns = ref({
+      key: 'value',
+      anotherKey: 'another value'
+    })
+
+    return { myColumns }
   }
 }
 </script>
@@ -347,7 +352,7 @@ export default {
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       myOffset: [10, 20]
     }
@@ -365,7 +370,41 @@ You will notice throughout the documentation that some Quasar components have me
 | `previous(doneFn)` | Goes to previous slide. |
 | `toggleFullscreen()` | Toggles fullscreen mode. |
 
-In order for you to access these methods, you will need to set a Vue reference on the component first. Here's an example:
+In order for you to access these methods, you will need to set a Vue reference on the component first. Here's an example with Composition API:
+
+```html
+<template>
+  <!--
+    Notice ref="myRef". We will use the name
+    assigned to "ref" in the script part below
+  -->
+  <q-bogus ref="myRef" />
+</template>
+
+<script>
+import { ref, onMounted } from 'vue'
+
+export default {
+  setup () {
+    const myRef = ref(null)
+
+    // after the component has mounted into DOM:
+    onMounted(() => {
+      // we call "next()" method of our component
+      myRef.value.next()
+    })
+    // calling before mount point might result in errors
+    // as Vue hasn't yet prepared the Vue reference
+
+    // we expose myRef to the scope so Vue
+    // can use it in the template as well
+    return { myRef }
+  }
+}
+</script>
+```
+
+And here is the same example, but with Options API:
 
 ```html
 <template>
@@ -385,13 +424,13 @@ export default {
     this.$refs.myRef.next()
   }
   // calling before mount point might result in errors
-  // as Vue hasn't yet prepared the Vue references
+  // as Vue hasn't yet prepared the Vue reference
 }
 </script>
 ```
 
 ## Handling Vue Events
-You will notice throughout the documentation that some Quasar components have a section called "Vue Events". **Do not confuse** these Vue events with the [Global Event Bus](/options/global-event-bus) as these two have nothing in common.
+You will notice throughout the documentation that some Quasar components have a section called "Vue Events".
 
 Example of "Vue Events":
 
@@ -409,23 +448,22 @@ In order for you to catch these events, when they are triggered, you will need t
 
 <script>
 export default {
-  methods: {
-    doSomething () {
+  setup () {
+    function doSomething () {
       // this method has been called (in this case)
       // because @show event was triggered by QBogus component
-    },
-    doSomethingElse () {
+    }
+
+    function doSomethingElse () {
       // this method has been called (in this case)
       // because @hide event was triggered by QBogus component
+    }
+
+    return {
+      doSomething,
+      doSomethingElse
     }
   }
 }
 </script>
-```
-
-There are times when you need to access native DOM events on a Quasar component too, like the native `@click`. Do not confuse native events with the Vue events emitted by the component. They are different things. Let's take an example: let's say we have a component (QBogus) that emits `@show` and `@hide`, but doesn't emit a `@click` event. `@click` being a native DOM event, we can still catch it with the `.native` modifier:
-
-```html
-<!-- Notice "@click.native" -->
-<q-bogus @click.native="myMethod" />
 ```

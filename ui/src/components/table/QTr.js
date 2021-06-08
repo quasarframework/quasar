@@ -1,6 +1,6 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QTr',
@@ -10,15 +10,13 @@ export default defineComponent({
     noHover: Boolean
   },
 
-  computed: {
-    classes () {
-      return 'q-tr' +
-        (this.props === void 0 || this.props.header === true ? '' : ' ' + this.props.__trClass) +
-        (this.noHover === true ? ' q-tr--no-hover' : '')
-    }
-  },
+  setup (props, { slots }) {
+    const classes = computed(() =>
+      'q-tr'
+      + (props.props === void 0 || props.props.header === true ? '' : ' ' + props.props.__trClass)
+      + (props.noHover === true ? ' q-tr--no-hover' : '')
+    )
 
-  render () {
-    return h('tr', { class: this.classes }, hSlot(this, 'default'))
+    return () => h('tr', { class: classes.value }, hSlot(slots.default))
   }
 })

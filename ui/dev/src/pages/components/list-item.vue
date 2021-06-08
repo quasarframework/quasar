@@ -39,7 +39,7 @@
 
         <q-item clickable v-ripple>
           <q-item-section avatar>
-            <q-icon color="primary" name="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
+            <q-icon color="primary" name="img:https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
           </q-item-section>
           <q-item-section>List item</q-item-section>
         </q-item>
@@ -809,8 +809,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .my-link
-  color white
-  background $deep-orange
+  color: white
+  background: $deep-orange
 </style>

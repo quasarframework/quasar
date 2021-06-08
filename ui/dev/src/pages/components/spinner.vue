@@ -18,6 +18,7 @@
           class="col"
           dense
           outlined
+          emit-value
           v-model="color"
           float-label
           label="Quick Pick"
@@ -48,24 +49,41 @@
         <q-spinner :color="color" :size="size" style="margin-left: 1rem;" />
       </h6>
 
+      <q-spinner-gears :color="color" />
       <h6>
-        <q-spinner-gears :color="color" :size="size" />
-        <q-spinner-gears :color="color" :size="size" />
+        <q-spinner-gears :color="color" size="md" />
+        <q-spinner-gears :color="color" size="xl" />
       </h6>
     </div>
   </div>
 </template>
 
 <script>
+import {
+  QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock,
+  QSpinnerComment, QSpinnerCube, QSpinnerDots, QSpinnerFacebook, QSpinnerGears,
+  QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos,
+  QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings,
+  QSpinnerTail
+} from 'quasar'
+
 export default {
+  components: {
+    QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock, // eslint-disable-line
+    QSpinnerComment, QSpinnerCube, QSpinnerDots, QSpinnerFacebook, QSpinnerGears, // eslint-disable-line
+    QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos, // eslint-disable-line
+    QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings, // eslint-disable-line
+    QSpinnerTail
+  },
+
   data () {
     return {
       size: 36,
       color: 'primary',
       spinners: [
-        'audio', 'ball', 'bars', 'comment',
+        'audio', 'ball', 'bars', 'box', 'clock', 'comment',
         'cube', 'dots', 'facebook', 'gears', 'grid', 'hearts',
-        'hourglass', 'infinity', 'ios', 'oval',
+        'hourglass', 'infinity', 'ios', 'orbit', 'oval',
         'pie', 'puff', 'radio', 'rings', 'tail'
       ],
       colorOptions: [

@@ -43,7 +43,7 @@ export default {
         return
       }
 
-      this.fileS = this.fileM.splice(0, 1)[0]
+      this.fileS = this.fileM.splice(0, 1)[ 0 ]
     }
   }
 }

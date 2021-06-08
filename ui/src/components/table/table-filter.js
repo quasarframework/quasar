@@ -1,25 +1,15 @@
-export default {
-  props: {
-    filter: [ String, Object ],
-    filterMethod: Function
-  },
+import { computed, watch, nextTick } from 'vue'
 
-  watch: {
-    filter: {
-      handler () {
-        this.$nextTick(() => {
-          this.setPagination({ page: 1 }, true)
-        })
-      },
-      deep: true
-    }
-  },
+export const useTableFilterProps = {
+  filter: [ String, Object ],
+  filterMethod: Function
+}
 
-  computed: {
-    computedFilterMethod () {
-      return this.filterMethod !== void 0
-        ? this.filterMethod
-        : (rows, terms, cols, cellValue) => {
+export function useTableFilter (props, setPagination) {
+  const computedFilterMethod = computed(() => (
+    props.filterMethod !== void 0
+      ? props.filterMethod
+      : (rows, terms, cols, cellValue) => {
           const lowerTerms = terms ? terms.toLowerCase() : ''
           return rows.filter(
             row => cols.some(col => {
@@ -29,6 +19,17 @@ export default {
             })
           )
         }
-    }
-  }
+  ))
+
+  watch(
+    () => props.filter,
+    () => {
+      nextTick(() => {
+        setPagination({ page: 1 }, true)
+      })
+    },
+    { deep: true }
+  )
+
+  return { computedFilterMethod }
 }

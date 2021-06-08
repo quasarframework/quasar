@@ -1,7 +1,6 @@
 const appPaths = require('../../app-paths')
 const PwaManifestPlugin = require('./plugin.pwa-manifest')
 const HtmlPwaPlugin = require('./plugin.html-pwa').plugin
-const getPackageJson = require('../../helpers/get-package-json')
 
 module.exports = function (chain, cfg) {
   // write manifest.json file
@@ -24,7 +23,7 @@ module.exports = function (chain, cfg) {
   }
   else {
     defaultOptions = {
-      swSrc: appPaths.resolve.app(cfg.sourceFiles.serviceWorker)
+      swSrc: appPaths.resolve.app('.quasar/pwa/service-worker.js')
     }
 
     log('[InjectManifest] Using your custom service-worker written file')
@@ -44,8 +43,8 @@ module.exports = function (chain, cfg) {
   if (cfg.ctx.mode.ssr) {
     // if Object form:
     if (cfg.ssr.pwa && cfg.ssr.pwa !== true) {
-      const merge = require('webpack-merge')
-      opts = merge(opts, cfg.ssr.pwa)
+      const { merge } = require('webpack-merge')
+      opts = merge({}, opts, cfg.ssr.pwa)
     }
 
     opts.exclude = opts.exclude || []
@@ -62,12 +61,8 @@ module.exports = function (chain, cfg) {
         : cfg.build.htmlFilename
 
       opts.navigateFallback = `${cfg.build.publicPath}${htmlFile}`
-
-      const pkg = getPackageJson('workbox-webpack-plugin')
-      if (pkg.version.startsWith('4.') === false) {
-        opts.navigateFallbackDenylist = opts.navigateFallbackDenylist || []
-        opts.navigateFallbackDenylist.push(/service-worker\.js$/, /workbox-(.)*\.js$/)
-      }
+      opts.navigateFallbackDenylist = opts.navigateFallbackDenylist || []
+      opts.navigateFallbackDenylist.push(/service-worker\.js$/, /workbox-(.)*\.js$/)
     }
   }
 

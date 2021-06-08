@@ -4,11 +4,11 @@ const
   class2type = {}
 
 'Boolean Number String Function Array Date RegExp Object'.split(' ').forEach(name => {
-  class2type['[object ' + name + ']'] = name.toLowerCase()
+  class2type[ '[object ' + name + ']' ] = name.toLowerCase()
 })
 
 function type (obj) {
-  return obj === null ? String(obj) : class2type[toString.call(obj)] || 'object'
+  return obj === null ? String(obj) : class2type[ toString.call(obj) ] || 'object'
 }
 
 function isPlainObject (obj) {
@@ -16,14 +16,14 @@ function isPlainObject (obj) {
     return false
   }
 
-  if (obj.constructor &&
-    !hasOwn.call(obj, 'constructor') &&
-    !hasOwn.call(obj.constructor.prototype, 'isPrototypeOf')) {
+  if (obj.constructor
+    && !hasOwn.call(obj, 'constructor')
+    && !hasOwn.call(obj.constructor.prototype, 'isPrototypeOf')) {
     return false
   }
 
   let key
-  for (key in obj) {}
+  for (key in obj) {} // eslint-disable-line
 
   return key === undefined || hasOwn.call(obj, key)
 }
@@ -31,14 +31,14 @@ function isPlainObject (obj) {
 export default function extend () {
   let
     options, name, src, copy, copyIsArray, clone,
-    target = arguments[0] || {},
+    target = arguments[ 0 ] || {},
     i = 1,
     deep = false
   const length = arguments.length
 
   if (typeof target === 'boolean') {
     deep = target
-    target = arguments[1] || {}
+    target = arguments[ 1 ] || {}
     i = 2
   }
 
@@ -52,10 +52,10 @@ export default function extend () {
   }
 
   for (; i < length; i++) {
-    if ((options = arguments[i]) !== null) {
+    if ((options = arguments[ i ]) !== null) {
       for (name in options) {
-        src = target[name]
-        copy = options[name]
+        src = target[ name ]
+        copy = options[ name ]
 
         if (target === copy) {
           continue
@@ -70,10 +70,10 @@ export default function extend () {
             clone = src && isPlainObject(src) ? src : {}
           }
 
-          target[name] = extend(deep, clone, copy)
+          target[ name ] = extend(deep, clone, copy)
         }
         else if (copy !== undefined) {
-          target[name] = copy
+          target[ name ] = copy
         }
       }
     }

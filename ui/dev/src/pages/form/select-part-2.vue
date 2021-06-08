@@ -479,11 +479,8 @@
             @blur="onBlur"
           >
             <template v-slot:option="scope">
-              <div>
-                <q-item
-                  v-bind="scope.itemProps"
-                  :key="scope.index"
-                >
+              <div :key="scope.index">
+                <q-item v-bind="scope.itemProps">
                   <q-item-section>
                     <q-item-label>
                       Option - {{ scope.opt.label }} - {{ scope.index }}
@@ -524,11 +521,8 @@
             @virtual-scroll="onScroll"
           >
             <template v-slot:option="scope">
-              <div>
-                <q-item
-                  v-bind="scope.itemProps"
-                  :key="scope.index"
-                >
+              <div :key="scope.index">
+                <q-item v-bind="scope.itemProps">
                   <q-item-section>
                     <q-item-label>
                       Option - {{ scope.opt.label }} - {{ scope.index }}
@@ -568,11 +562,8 @@
             @blur="onBlur"
           >
             <template v-slot:option="scope">
-              <div>
-                <q-item
-                  v-bind="scope.itemProps"
-                  :key="scope.index"
-                >
+              <div :key="scope.index">
+                <q-item v-bind="scope.itemProps">
                   <q-item-section>
                     <q-item-label>
                       Option - {{ scope.opt.label }} - {{ scope.index }}
@@ -611,11 +602,8 @@
             @blur="onBlur"
           >
             <template v-slot:option="scope">
-              <div>
-                <q-item
-                  v-bind="scope.itemProps"
-                  :key="scope.index"
-                >
+              <div :key="scope.index">
+                <q-item v-bind="scope.itemProps">
                   <q-item-section>
                     <q-item-label>
                       Option - {{ scope.opt.label }} - {{ scope.index }}
@@ -753,7 +741,7 @@ export default {
       modelAdd: null,
 
       stringSingle: 'Facebook',
-      stringMultiple: ['Facebook', 'Twitter'],
+      stringMultiple: [ 'Facebook', 'Twitter' ],
       stringOptions,
 
       objectSingle: {
@@ -961,8 +949,8 @@ export default {
     },
 
     prefilter (ref) {
-      this.$refs[ref].updateInputValue('Opt 123')
-      this.$refs[ref].showPopup()
+      this.$refs[ ref ].updateInputValue('Opt 123')
+      this.$refs[ ref ].showPopup()
     },
 
     onSubmit () {
@@ -991,7 +979,7 @@ export default {
   computed: {
     props () {
       return {
-        [this.type]: true,
+        [ this.type ]: true,
         readonly: this.readonly,
         disable: this.disable,
         dense: this.dense,
@@ -1020,9 +1008,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .select-card
-  transition .3s background-color
+  transition: .3s background-color
   &:not(.disabled):hover
-    background $grey-3
+    background: $grey-3
 </style>

@@ -3,7 +3,7 @@ title: Discover App Extensions
 desc: Look up official and community Quasar App Extensions.
 ---
 
-<q-btn push class="q-py-xs" no-caps color="primary" icon-right="search" label="Look up extensions" type="a" href="https://www.npmjs.com/search?q=quasar-app-extension" target="_blank" rel="noopener" />
+<q-btn push class="q-py-xs" no-caps color="brand-primary" icon-right="search" label="Look up extensions" type="a" href="https://www.npmjs.com/search?q=quasar-app-extension" target="_blank" rel="noopener" />
 
 ## Community App Extensions
 
@@ -27,9 +27,6 @@ Below is a list of official app-extensions created by members of the Quasar team
 
 | Alias | Description |
 | --- | --- |
-| [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) | A slightly opinionated management tool to use dotenv in your application |
-| [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) | A less slightly opinionated management tool to propagate variables to the browser for a variety of unlimited environments (dev, prod, test, etc) to use in your application |
-| [@quasar/icon-genie](https://github.com/quasarframework/app-extension-icon-genie) | Cross-platform construction kit to generate all app-icons (favicons, .ico, .icns) for distributables |
 | [@quasar/obyte](https://github.com/quasarframework/app-extension-obyte) | Work with the Obyte Blockchain |
 
 ### Components

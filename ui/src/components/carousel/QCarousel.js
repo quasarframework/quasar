@@ -1,30 +1,44 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 
-import DarkMixin from '../../mixins/dark.js'
-import { PanelParentMixin } from '../../mixins/panel.js'
-import FullscreenMixin from '../../mixins/fullscreen.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
+import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 
-import { isNumber } from '../../utils/is.js'
-import { hMergeSlot, hDir } from '../../utils/render.js'
+import { isNumber } from '../../utils/private/is.js'
+import { hMergeSlot, hDir } from '../../utils/private/render.js'
+
+const navigationPositionOptions = [ 'top', 'right', 'bottom', 'left' ]
+const controlTypeOptions = [ 'regular', 'flat', 'outline', 'push', 'unelevated' ]
 
 export default defineComponent({
   name: 'QCarousel',
 
-  mixins: [ DarkMixin, PanelParentMixin, FullscreenMixin ],
-
   props: {
+    ...useDarkProps,
+    ...usePanelProps,
+    ...useFullscreenProps,
+
+    transitionPrev: { // usePanelParentProps override
+      type: String,
+      default: 'fade'
+    },
+    transitionNext: { // usePanelParentProps override
+      type: String,
+      default: 'fade'
+    },
+
     height: String,
     padding: Boolean,
 
-    controlType: {
-      type: String,
-      validator: v => [ 'regular', 'flat', 'outline', 'push', 'unelevated' ].includes(v),
-      default: 'flat'
-    },
     controlColor: String,
     controlTextColor: String,
+    controlType: {
+      type: String,
+      validator: v => controlTypeOptions.includes(v),
+      default: 'flat'
+    },
 
     autoplay: [ Number, Boolean ],
 
@@ -35,7 +49,7 @@ export default defineComponent({
     navigation: Boolean,
     navigationPosition: {
       type: String,
-      validator: v => [ 'top', 'right', 'bottom', 'left' ].includes(v)
+      validator: v => navigationPositionOptions.includes(v)
     },
     navigationIcon: String,
     navigationActiveIcon: String,
@@ -43,125 +57,126 @@ export default defineComponent({
     thumbnails: Boolean
   },
 
-  computed: {
-    style () {
-      if (this.inFullscreen !== true && this.height !== void 0) {
-        return {
-          height: this.height
-        }
-      }
-    },
+  emits: [
+    ...useFullscreenEmits,
+    ...usePanelEmits
+  ],
 
-    direction () {
-      return this.vertical === true ? 'vertical' : 'horizontal'
-    },
+  setup (props, { slots }) {
+    const { proxy: { $q } } = getCurrentInstance()
 
-    classes () {
-      return `q-carousel q-panel-parent q-carousel--with${this.padding === true ? '' : 'out'}-padding` +
-        (this.inFullscreen === true ? ' fullscreen' : '') +
-        (this.isDark === true ? ' q-carousel--dark q-dark' : '') +
-        (this.arrows === true ? ` q-carousel--arrows-${this.direction}` : '') +
-        (this.navigation === true ? ` q-carousel--navigation-${this.navigationPositionComputed}` : '')
-    },
+    const isDark = useDark(props, $q)
 
-    arrowIcons () {
+    let timer, panelsLen
+
+    const {
+      updatePanelsList, getPanelContent,
+      panelDirectives, goToPanel,
+      previousPanel, nextPanel, getEnabledPanels,
+      panelIndex
+    } = usePanel()
+
+    const { inFullscreen } = useFullscreen()
+
+    const style = computed(() => (
+      inFullscreen.value !== true && props.height !== void 0
+        ? { height: props.height }
+        : {}
+    ))
+
+    const direction = computed(() => (props.vertical === true ? 'vertical' : 'horizontal'))
+
+    const classes = computed(() =>
+      `q-carousel q-panel-parent q-carousel--with${ props.padding === true ? '' : 'out' }-padding`
+      + (inFullscreen.value === true ? ' fullscreen' : '')
+      + (isDark.value === true ? ' q-carousel--dark q-dark' : '')
+      + (props.arrows === true ? ` q-carousel--arrows-${ direction.value }` : '')
+      + (props.navigation === true ? ` q-carousel--navigation-${ navigationPosition.value }` : '')
+    )
+
+    const arrowIcons = computed(() => {
       const ico = [
-        this.prevIcon || this.$q.iconSet.carousel[this.vertical === true ? 'up' : 'left'],
-        this.nextIcon || this.$q.iconSet.carousel[this.vertical === true ? 'down' : 'right']
+        props.prevIcon || $q.iconSet.carousel[ props.vertical === true ? 'up' : 'left' ],
+        props.nextIcon || $q.iconSet.carousel[ props.vertical === true ? 'down' : 'right' ]
       ]
 
-      return this.vertical === false && this.$q.lang.rtl === true
+      return props.vertical === false && $q.lang.rtl === true
         ? ico.reverse()
         : ico
-    },
+    })
 
-    navIcon () {
-      return this.navigationIcon || this.$q.iconSet.carousel.navigationIcon
-    },
+    const navIcon = computed(() => props.navigationIcon || $q.iconSet.carousel.navigationIcon)
+    const navActiveIcon = computed(() => props.navigationActiveIcon || navIcon.value)
+    const navigationPosition = computed(() => props.navigationPosition
+      || (props.vertical === true ? 'right' : 'bottom')
+    )
 
-    navActiveIcon () {
-      return this.navigationActiveIcon || this.navIcon
-    },
+    const controlProps = computed(() => ({
+      color: props.controlColor,
+      textColor: props.controlTextColor,
+      round: true,
+      [ props.controlType ]: true,
+      dense: true
+    }))
 
-    navigationPositionComputed () {
-      return this.navigationPosition || (this.vertical === true ? 'right' : 'bottom')
-    },
-
-    controlProps () {
-      return {
-        color: this.controlColor,
-        textColor: this.controlTextColor,
-        round: true,
-        [ this.controlType ]: true,
-        dense: true
+    watch(() => props.modelValue, () => {
+      if (props.autoplay) {
+        clearInterval(timer)
+        startTimer()
       }
-    },
+    })
 
-    transitionPrevComputed () {
-      return this.transitionPrev || `fade`
-    },
-
-    transitionNextComputed () {
-      return this.transitionNext || `fade`
-    }
-  },
-
-  watch: {
-    modelValue () {
-      if (this.autoplay) {
-        clearInterval(this.timer)
-        this.__startTimer()
-      }
-    },
-
-    autoplay (val) {
+    watch(() => props.autoplay, val => {
       if (val) {
-        this.__startTimer()
+        startTimer()
       }
       else {
-        clearInterval(this.timer)
+        clearInterval(timer)
       }
+    })
+
+    function startTimer () {
+      timer = setTimeout(nextPanel, isNumber(props.autoplay) ? props.autoplay : 5000)
     }
-  },
 
-  methods: {
-    __startTimer () {
-      this.timer = setTimeout(
-        this.next,
-        isNumber(this.autoplay) ? this.autoplay : 5000
-      )
-    },
+    onMounted(() => {
+      props.autoplay && startTimer()
+    })
 
-    __getNavigationContainer (type, mapping) {
+    onBeforeUnmount(() => {
+      clearInterval(timer)
+    })
+
+    function getNavigationContainer (type, mapping) {
       return h('div', {
-        class: 'q-carousel__control q-carousel__navigation no-wrap absolute flex' +
-          ` q-carousel__navigation--${type} q-carousel__navigation--${this.navigationPositionComputed}` +
-          (this.controlColor !== void 0 ? ` text-${this.controlColor}` : '')
+        class: 'q-carousel__control q-carousel__navigation no-wrap absolute flex'
+          + ` q-carousel__navigation--${ type } q-carousel__navigation--${ navigationPosition.value }`
+          + (props.controlColor !== void 0 ? ` text-${ props.controlColor }` : '')
       }, [
         h('div', {
           class: 'q-carousel__navigation-inner flex flex-center no-wrap'
-        }, this.__getEnabledPanels().map(mapping))
+        }, getEnabledPanels().map(mapping))
       ])
-    },
+    }
 
-    __getContent () {
+    function getContent () {
       const node = []
 
-      if (this.navigation === true) {
-        const fn = this.$slots['navigation-icon'] !== void 0
-          ? this.$slots['navigation-icon']
+      if (props.navigation === true) {
+        const fn = slots[ 'navigation-icon' ] !== void 0
+          ? slots[ 'navigation-icon' ]
           : opts => h(QBtn, {
             key: 'nav' + opts.name,
-            class: `q-carousel__navigation-icon q-carousel__navigation-icon--${opts.active === true ? '' : 'in'}active`,
+            class: `q-carousel__navigation-icon q-carousel__navigation-icon--${ opts.active === true ? '' : 'in' }active`,
             ...opts.btnProps,
             onClick: opts.onClick
           })
 
-        const maxIndex = this.panels.length - 1
+        const maxIndex = panelsLen - 1
         node.push(
-          this.__getNavigationContainer('buttons', (panel, index) => {
+          getNavigationContainer('buttons', (panel, index) => {
             const name = panel.props.name
-            const active = this.panelIndex === index
+            const active = panelIndex.value === index
 
             return fn({
               index,
@@ -169,93 +184,84 @@ export default defineComponent({
               name,
               active,
               btnProps: {
-                icon: active === true ? this.navActiveIcon : this.navIcon,
+                icon: active === true ? navActiveIcon.value : navIcon.value,
                 size: 'sm',
-                ...this.controlProps
+                ...controlProps.value
               },
-              onClick: () => { this.goTo(name) }
+              onClick: () => { goToPanel(name) }
             })
           })
         )
       }
-      else if (this.thumbnails === true) {
-        const color = this.controlColor !== void 0
-          ? ` text-${this.controlColor}`
+      else if (props.thumbnails === true) {
+        const color = props.controlColor !== void 0
+          ? ` text-${ props.controlColor }`
           : ''
 
-        node.push(this.__getNavigationContainer('thumbnails', panel => {
+        node.push(getNavigationContainer('thumbnails', panel => {
           const slide = panel.props
 
           return h('img', {
             key: 'tmb#' + slide.name,
-            class: `q-carousel__thumbnail q-carousel__thumbnail--${slide.name === this.modelValue ? '' : 'in'}active` + color,
-            src: slide.imgSrc || slide['img-src'],
-            onClick: () => { this.goTo(slide.name) }
+            class: `q-carousel__thumbnail q-carousel__thumbnail--${ slide.name === props.modelValue ? '' : 'in' }active` + color,
+            src: slide.imgSrc || slide[ 'img-src' ],
+            onClick: () => { goToPanel(slide.name) }
           })
         }))
       }
 
-      if (this.arrows === true && this.panelIndex >= 0) {
-        if (this.infinite === true || this.panelIndex > 0) {
+      if (props.arrows === true && panelIndex.value >= 0) {
+        if (props.infinite === true || panelIndex.value > 0) {
           node.push(
             h('div', {
               key: 'prev',
-              class: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${this.direction} absolute flex flex-center`
+              class: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${ direction.value } absolute flex flex-center`
             }, [
               h(QBtn, {
-                icon: this.arrowIcons[0],
-                ...this.controlProps,
-                onClick: this.previous
+                icon: arrowIcons.value[ 0 ],
+                ...controlProps.value,
+                onClick: previousPanel
               })
             ])
           )
         }
 
-        if (this.infinite === true || this.panelIndex < this.panels.length - 1) {
+        if (props.infinite === true || panelIndex.value < panelsLen - 1) {
           node.push(
             h('div', {
               key: 'next',
-              class: `q-carousel__control q-carousel__arrow q-carousel__next-arrow` +
-                ` q-carousel__next-arrow--${this.direction} absolute flex flex-center`
+              class: 'q-carousel__control q-carousel__arrow q-carousel__next-arrow'
+                + ` q-carousel__next-arrow--${ direction.value } absolute flex flex-center`
             }, [
               h(QBtn, {
-                icon: this.arrowIcons[1],
-                ...this.controlProps,
-                onClick: this.next
+                icon: arrowIcons.value[ 1 ],
+                ...controlProps.value,
+                onClick: nextPanel
               })
             ])
           )
         }
       }
 
-      return hMergeSlot(node, this, 'control')
-    },
+      return hMergeSlot(slots.control, node)
+    }
 
-    __renderPanels () {
+    return () => {
+      panelsLen = updatePanelsList(slots)
+
       return h('div', {
-        class: this.classes,
-        style: this.style
+        class: classes.value,
+        style: style.value
       }, [
         hDir(
           'div',
           { class: 'q-carousel__slides-container' },
-          this.__getPanelContent(),
+          getPanelContent(),
           'sl-cont',
-          this.swipeable,
-          () => this.panelDirectives
+          props.swipeable,
+          () => panelDirectives.value
         )
-      ].concat(this.__getContent()))
+      ].concat(getContent()))
     }
-  },
-
-  mounted () {
-    this.autoplay && this.__startTimer()
-  },
-
-  beforeUnmount () {
-    clearInterval(this.timer)
-  },
-
-  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
-  render: PanelParentMixin.render
+  }
 })

@@ -39,13 +39,13 @@ Apart from answering questions and sharing resources in the forum and chat, ther
 
 ## Reporting an Issue
 
-* [GitHub](https://github.com/quasarframework/quasar/issues): If you have a bug to report or feature to request, that’s what the GitHub issues are for.
+* [GitHub](https://github.com/quasarframework/quasar/issues): If you have a bug to report or feature to request, that’s what the GitHub issues are for. Make sure that you specify that your bug is related to Quasar v2.
 
 ::: danger Reporting a vulnerability
 Please do not report security vulnerabilities with public GitHub issue reports. Follow the [Report a vulnerability](/security/report-a-vulnerability) steps for security issues.
 :::
 
-If you've found a problem in Quasar which is not a security risk, do a search on GitHub under [Issues](https://github.com/quasarframework/quasar/issues) to check if it is already answered or even fixed in the development branch (`dev`).
+If you've found a problem in Quasar which is not a security risk, do a search on GitHub under [Issues](https://github.com/quasarframework/quasar/issues) to check if it is already answered or even fixed in the development branch (`vue3-work`).
 
 - The issue list of the [main repo](https://github.com/quasarframework/quasar) is **exclusively** for bug reports and feature requests. Non-conforming issues will be closed immediately.
 
@@ -114,7 +114,7 @@ You can help improve the Quasar documentation by making it more coherent, consis
 Use a pencil icon in the top right corner of every documentation page. Edit the source file, preview the changes, add a description of your change and hit `Propose a file change` and on the next screen `Create pull request`.
 :::
 
-For larger edits change the Quasar source files (located [here](https://github.com/quasarframework/quasar/tree/dev/docs/src/pages) on GitHub).
+For larger edits change the Quasar source files (located [here](https://github.com/quasarframework/quasar/tree/vue3-work/docs/src/pages) on GitHub).
 
 ### Documentation Best Practices
 
@@ -122,7 +122,7 @@ Over time we consolidated a set of rules which we follow and following them will
 - Capitalize titles, see [How to Use Capitalize My Title](https://capitalizemytitle.com/).
 - Use the present tense.
 - Be concise, avoid text / code duplication.
-- Link to the external sources which are used as master information sources and are usually updated more frequently, like [Mozilla MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Vue.js API](https://vuejs.org/v2/api/) rather than compiled tutorials which tend to be outdated soon.
+- Link to the external sources which are used as master information sources and are usually updated more frequently, like [Mozilla MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Vue.js API](https://v3.vuejs.org/api/) rather than compiled tutorials which tend to be outdated soon.
 - Do the proofreading before opening a PR
 - Do not repeat texts from other sources, but keep only things which are relevant and shows in a context Quasar specific features
 - Use official names. For example use `Firebase` instead of `firebase`
@@ -132,8 +132,8 @@ Over time we consolidated a set of rules which we follow and following them will
 
 Navigate to the Quasar [GitHub repository](https://github.com/quasarframework/quasar) and press "Fork" in the upper right-hand corner.
 
-::: warning Select dev branch
-Make sure you have `dev` branch selected and this is where all the work is done.
+::: warning Select vue3-work branch
+Make sure you have `vue3-work` branch selected and this is where all the work is done.
 :::
 
 #### Clone the forked repository
@@ -141,6 +141,7 @@ To be able to change the documentation, you need to clone forked repository:
 
 ```bash
 $ git clone https://github.com/your-user-name/quasar.git
+$ git checkout vue3-work
 ```
 
 #### Install dependencies
@@ -154,7 +155,7 @@ $ yarn # or npm install
 #### Running documentation against your local repository
 
 ```bash
-$ quasar dev # or quasar dev -m ssr
+$ quasar dev
 ```
 
 The documentation runs against your local cloned repository.
@@ -181,17 +182,17 @@ It's pretty likely that other changes to master have happened while you were wor
 $ git remote add upstream https://github.com/quasarframework/quasar.git
 ```
 
-2. Check out your fork's local `dev` branch.
+2. Check out your fork's local `vue3-work` branch.
 
 ```bash
-$ git checkout dev
-> Switched to branch 'dev'
+$ git checkout vue3-work
+> Switched to branch 'vue3-work'
 ```
 
-3. Merge the changes from `upstream/dev` into your local `dev` branch. This brings your fork's `dev` branch into sync with the upstream repository, without losing your local changes.
+3. Merge the changes from `upstream/vue3-work` into your local `vue3-work` branch. This brings your fork's `vue3-work` branch into sync with the upstream repository, without losing your local changes.
 
 ```bash
-$ git merge upstream/dev
+$ git merge upstream/vue3-work
 ```
 
 No conflicts? Tests still pass? Change still seems reasonable to you? Then move on and open a pull request to apply your changes to the dev branch in main Quasar repository.
@@ -222,7 +223,7 @@ An article [Look at the source code](https://medium.com/quasar-framework/wip-loo
 
 - The `master` branch is basically just a snapshot of the latest stable release. All development should be done in dedicated branches. **Do not submit PRs against the `master` branch.**
 
-- Checkout a topic branch from the relevant branch, e.g. `dev`, and merge back against that branch.
+- Checkout a topic branch from the relevant branch, e.g. `vue3-work`, and merge back against that branch.
 
 - **DO NOT** check in `dist` in the commits.
 
@@ -237,7 +238,7 @@ An article [Look at the source code](https://medium.com/quasar-framework/wip-loo
 
 #### Development Setup
 
-You will need [Node.js](http://nodejs.org) version **8.9+** along [Yarn](https://yarnpkg.com/) or [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
+You will need [Node.js](http://nodejs.org) version **12.22.1+** along [Yarn](https://yarnpkg.com/) or [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
 
 After cloning the repo run:
 
@@ -270,19 +271,17 @@ $ yarn lint # or: npm run lint
 
 - `src` - contains the source code, obviously. The codebase is written in ES2015.
 
-  - `components` - JS, Stylus and JSON (API) files for Quasar Vue components
+  - `components` - JS, Sass and JSON (API) files for Quasar Vue components
+
+  - `composables` - Quasar's composables for Vue 3 Composition API
 
   - `directives` - Vue directives supplied by Quasar
 
   - `plugins` - Quasar plugins
 
-  - `css` - Stylus definitions and core code for Quasar themes
-
-  - `mixins` - code for global mixins that are internal to Quasar
+  - `css` - Sass definitions and core code for Quasar themes
 
   - `utils` - utilities used by the framework and exported to the public API
-
-  - `ie-compat` - code for IE11 compatibility
 
 - `lang` - Quasar language packs
 

@@ -61,6 +61,16 @@
         @focus="onTextFillEvent"
       />
 
+      <q-input
+        v-bind="props"
+        v-model="textFill"
+        placeholder="Fill value and shadow text"
+        hint="Press TAB to autocomplete suggested value or ESC to cancel suggestion"
+        :shadow-text="textFillValue"
+        @keydown="onTextFillEvent"
+        @focus="onTextFillEvent"
+      />
+
       <q-input v-bind="props" v-model="text" required label="Required" placeholder="Write something" color="green" />
 
       <q-field v-bind="props" v-model="text" required label="Required - Custom input">
@@ -76,6 +86,8 @@
       <q-input v-bind="props" v-model="number" type="number" step="0.1" label="Number - step 0.1" placeholder="Write a number" />
 
       <q-input v-bind="props" v-model="email" type="email" label="eMail" placeholder="Write an email address" />
+
+      <q-input v-bind="props" type="date" v-model="date" label="Date" stack-label clearable />
 
       <q-input v-bind="props" v-model="text" label="Tooltip and menu">
         <template v-slot:prepend>
@@ -288,7 +300,7 @@
         <template v-slot:prepend><q-icon name="event" /></template>
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo-v2/128/logo.png">
           </q-avatar>
         </template>
       </q-input>
@@ -454,7 +466,7 @@
 
       <q-input v-bind="props" v-model="undef" label="Model undefined" />
 
-      <q-input :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" filled v-model="events" label="Events" @input="onInput" @focus="onFocus" @blur="onBlur">
+      <q-input :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" filled v-model="events" label="Events" @update:model-value="onInput" @focus="onFocus" @blur="onBlur">
         <template v-slot:prepend><q-icon name="event" /></template>
         <template v-slot:append>
           <q-icon name="close" @click="events = ''" class="cursor-pointer" />
@@ -580,6 +592,7 @@ export default {
       invalid: '123',
       number: 1.1,
       email: 'a',
+      date: null,
 
       prefix: null,
       suffix: null,
@@ -620,7 +633,7 @@ export default {
         dense: this.dense,
         clearable: true,
         square: this.square,
-        style: { fontSize: `${this.fontSize}px` }
+        style: { fontSize: `${ this.fontSize }px` }
       }
 
       if (this.rows !== '') {
@@ -646,7 +659,7 @@ export default {
         empty = typeof this.textFill !== 'string' || this.textFill.length === 0
 
       if (empty === true) {
-        return t.split('\n')[0]
+        return t.split('\n')[ 0 ]
       }
       else if (t.indexOf(this.textFill) !== 0) {
         return ''
@@ -656,7 +669,7 @@ export default {
         .split(this.textFill)
         .slice(1)
         .join(this.textFill)
-        .split('\n')[0]
+        .split('\n')[ 0 ]
     }
   },
   methods: {
@@ -667,7 +680,7 @@ export default {
       console.log('@focus', e)
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:model-value', JSON.stringify(val))
     },
     onChange (val) {
       console.log('@change', JSON.stringify(val))
@@ -699,6 +712,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-</style>

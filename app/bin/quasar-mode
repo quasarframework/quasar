@@ -57,7 +57,7 @@ async function run () {
   }
 
   if (![undefined, 'pwa', 'cordova', 'capacitor', 'electron', 'ssr', 'bex'].includes(mode)) {
-    fatal(`Unknown mode "${ mode }" to ${action}\n`)
+    fatal(`Unknown mode "${ mode }" to ${action}`)
   }
 
   const cliMode = getMode(mode)

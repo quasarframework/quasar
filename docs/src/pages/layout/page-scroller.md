@@ -1,6 +1,7 @@
 ---
 title: Layout QPageScroller
 desc: How to use the QPageScroller component. Places components that will appear on screen after user scrolls the page.
+keys: QPageScroller
 related:
   - /layout/layout
   - /layout/page
@@ -13,8 +14,8 @@ Try it out with a non-fixed footer for example. When user reaches bottom of scre
 
 Essentially QPageScroller is very similar to QPageSticky. Whereas a QPageSticky component is always visible, a QPageScroller component only appears after a `scroll-offset` (property) is reached. Once visible, the user can click on it to quickly get back to the top of the page via `duration` property.
 
-## Installation
-<doc-installation components="QPageScroller" />
+## QPageScroller API
+<doc-api file="QPageScroller" />
 
 ## Usage
 ::: tip
@@ -34,9 +35,6 @@ Since QPageScroller needs a layout and QLayout by default manages the entire win
 
 <doc-example title="Expanded" file="QPageScroller/Expanded" />
 
-### Reverse <q-badge align="top" label="v1.9+" />
+### Reverse
 
 <doc-example title="Reverse" file="QPageScroller/Reverse" />
-
-## QPageScroller API
-<doc-api file="QPageScroller" />

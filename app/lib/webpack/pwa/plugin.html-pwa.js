@@ -8,12 +8,13 @@ function makeTag (tagName, attributes) {
   }
 }
 
-function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn }}) {
+function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn, useCredentials }}) {
   data.headTags.push(
     // Add to home screen for Android and modern mobile browsers
     makeTag('link', {
       rel: 'manifest',
-      href: 'manifest.json'
+      href: 'manifest.json',
+      ...(useCredentials ? { crossorigin: 'use-credentials' } : {})
     })
   )
 

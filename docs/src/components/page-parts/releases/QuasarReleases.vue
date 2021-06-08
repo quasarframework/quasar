@@ -4,10 +4,10 @@ q-card(flat bordered)
     q-icon.q-mr-sm(name="warning" size="24px" color="negative")
     div Cannot connect to GitHub. Please try again later.
   q-card-section.row.no-wrap.items-center(v-else-if="loading")
-    q-spinner.q-mr-sm(size="24px" color="primary")
-    div Loading release notes from Github...
+    q-spinner.q-mr-sm(size="24px" color="brand-primary")
+    div Loading release notes from GitHub...
   template(v-else)
-    q-tabs.text-grey-7(v-model="currentPackage" align="left" active-color="primary" active-bg-color="blue-1" indicator-color="primary")
+    q-tabs.text-grey-7(v-model="currentPackage" align="left" active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
       q-tab(v-for="(packageReleases, packageName) in packages" :label="packageName" :name="packageName" :key="packageName")
     q-separator
     q-tab-panels.packages-container(v-model="currentPackage" animated)
@@ -16,10 +16,19 @@ q-card(flat bordered)
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
 import { date } from 'quasar'
+
 import PackageReleases from './PackageReleases'
 
 const { extractDate } = date
+const packagesDefinitions = {
+  quasar: [],
+  '@quasar/app': [],
+  '@quasar/cli': [],
+  '@quasar/extras': [],
+  '@quasar/icongenie': []
+}
 
 export default {
   name: 'QuasarReleases',
@@ -28,40 +37,22 @@ export default {
     PackageReleases
   },
 
-  data () {
-    return {
-      loading: true,
-      error: false,
+  setup () {
+    const loading = ref(false)
+    const error = ref(false)
+    const packages = ref(packagesDefinitions)
+    const currentPackage = ref('quasar')
+    const versions = ref({})
 
-      packages: {
-        quasar: [],
-        '@quasar/app': [],
-        '@quasar/cli': [],
-        '@quasar/extras': [],
-        '@quasar/icongenie': []
-      },
-
-      currentPackage: 'quasar',
-      versions: {}
-    }
-  },
-
-  mounted () {
-    this.queryReleases()
-  },
-
-  methods: {
-    queryReleases (page = 1) {
-      this.loading = true
-      this.error = false
+    function queryReleases (page = 1) {
+      loading.value = true
+      error.value = false
 
       const latestVersions = {}
-
-      const self = this,
-        xhrQuasar = new XMLHttpRequest()
+      const xhrQuasar = new XMLHttpRequest()
 
       xhrQuasar.addEventListener('load', function () {
-        self.loading = false
+        loading.value = false
         const releases = JSON.parse(this.responseText)
 
         if (releases.length === 0) {
@@ -82,8 +73,8 @@ export default {
             continue
           }
 
-          if (self.packages[packageName] === void 0) {
-            self.packages[packageName] = []
+          if (packages.value[ packageName ] === void 0) {
+            packages.value[ packageName ] = []
           }
 
           const releaseInfo = {
@@ -92,27 +83,36 @@ export default {
             body: release.body,
             label: `${packageName} v${version}`
           }
-          self.packages[packageName].push(releaseInfo)
+          packages.value[ packageName ].push(releaseInfo)
 
-          if (latestVersions[packageName] === void 0) {
-            latestVersions[packageName] = releaseInfo.label
+          if (latestVersions[ packageName ] === void 0) {
+            latestVersions[ packageName ] = releaseInfo.label
           }
         }
 
         if (!stopQuery) {
-          self.queryReleases(page + 1)
+          queryReleases(page + 1)
         }
 
-        self.versions = Object.assign(latestVersions, self.versions)
-        self.$forceUpdate()
+        versions.value = Object.assign(latestVersions, versions.value)
       })
 
       xhrQuasar.addEventListener('error', () => {
-        this.error = true
+        error.value = true
       })
 
       xhrQuasar.open('GET', `https://api.github.com/repos/quasarframework/quasar/releases?page=${page}&per_page=100`)
       xhrQuasar.send()
+    }
+
+    onMounted(() => { queryReleases() })
+
+    return {
+      loading,
+      error,
+      packages,
+      currentPackage,
+      versions
     }
   }
 }

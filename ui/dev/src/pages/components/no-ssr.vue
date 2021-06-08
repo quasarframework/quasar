@@ -72,8 +72,8 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .no-ssr-page
   .q-title
-    margin-top 42px
+    margin-top: 42px
 </style>

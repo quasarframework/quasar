@@ -1,13 +1,11 @@
 import { h, defineComponent } from 'vue'
 
-import CanRenderMixin from '../../mixins/can-render.js'
+import useCanRender from '../../composables/private/use-can-render.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QNoSsr',
-
-  mixins: [ CanRenderMixin ],
 
   props: {
     tag: {
@@ -18,27 +16,31 @@ export default defineComponent({
     placeholder: String
   },
 
-  render () {
-    const data = {}
+  setup (props, { slots }) {
+    const canRender = useCanRender()
 
-    if (this.canRender === true) {
-      const node = hSlot(this, 'default')
-      return node === void 0
-        ? node
-        : (node.length > 1 ? h(this.tag, data, node) : node[0])
-    }
+    return () => {
+      const data = {}
 
-    data.class = 'q-no-ssr-placeholder'
+      if (canRender.value === true) {
+        const node = hSlot(slots.default)
+        return node === void 0
+          ? node
+          : (node.length > 1 ? h(props.tag, data, node) : node[ 0 ])
+      }
 
-    const node = hSlot(this, 'placeholder')
-    if (node !== void 0) {
-      return node.length > 1
-        ? h(this.tag, data, node)
-        : node[0]
-    }
+      data.class = 'q-no-ssr-placeholder'
 
-    if (this.placeholder !== void 0) {
-      return h(this.tag, data, this.placeholder)
+      const node = hSlot(slots.placeholder)
+      if (node !== void 0) {
+        return node.length > 1
+          ? h(props.tag, data, node)
+          : node[ 0 ]
+      }
+
+      if (props.placeholder !== void 0) {
+        return h(props.tag, data, props.placeholder)
+      }
     }
   }
 })

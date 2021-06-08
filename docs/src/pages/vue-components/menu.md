@@ -1,6 +1,7 @@
 ---
 title: QMenu
 desc: The QMenu Vue component is a convenient way to show menus.
+keys: QMenu
 related:
   - /vue-directives/close-popup
   - /options/transitions
@@ -11,8 +12,9 @@ components:
 
 The QMenu component is a convenient way to show menus. Goes very well with [QList](/vue-components/list-and-list-items) as dropdown content, but it's by no means limited to it.
 
-## Installation
-<doc-installation components="QMenu" directives="ClosePopup" />
+## QMenu API
+
+<doc-api file="QMenu" />
 
 ## Usage
 
@@ -72,7 +74,6 @@ The example below shows how to create a re-usable menu that can be shared with d
 The position of QMenu can be customized. It keeps account of the `anchor` and `self` optional props.
 The final position of QMenu popup is calculated so that it will be displayed on the available screen real estate, switching to the right-side and/or top-side when necessary.
 
-<menu-positioning />
+For horizontal positioning you can use `start` and `end` when you want to automatically take into account if on RTL or non-RTL. `start` and `end` mean "left" for non-RTL and "right" for RTL.
 
-## QMenu API
-<doc-api file="QMenu" />
+<menu-positioning />

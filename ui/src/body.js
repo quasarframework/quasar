@@ -1,6 +1,6 @@
-import { setBrand } from './utils/colors.js'
+import setCssVar from './utils/set-css-var.js'
 import { noop } from './utils/event.js'
-import { onKeyDownComposition } from './utils/key-composition.js'
+import { onKeyDownComposition } from './utils/private/key-composition.js'
 import { isRuntimeSsrPreHydration, client, iosCorrection } from './plugins/Platform.js'
 
 function getMobilePlatform (is) {
@@ -11,7 +11,7 @@ function getMobilePlatform (is) {
 function getBodyClasses ({ is, has, within }, cfg) {
   const cls = [
     is.desktop === true ? 'desktop' : 'mobile',
-    `${has.touch === false ? 'no-' : ''}touch`
+    `${ has.touch === false ? 'no-' : '' }touch`
   ]
 
   if (is.mobile === true) {
@@ -26,8 +26,8 @@ function getBodyClasses ({ is, has, within }, cfg) {
     cls.push('native-mobile')
 
     if (
-      is.ios === true &&
-      (cfg[type] === void 0 || cfg[type].iosStatusBarPadding !== false)
+      is.ios === true
+      && (cfg[ type ] === void 0 || cfg[ type ].iosStatusBarPadding !== false)
     ) {
       cls.push('q-ios-padding')
     }
@@ -67,17 +67,17 @@ function applyClientSsrCorrections () {
 
 function setColors (brand) {
   for (const color in brand) {
-    setBrand(color, brand[color])
+    setCssVar(color, brand[ color ])
   }
 }
 
 export default {
   install (opts) {
     if (__QUASAR_SSR_SERVER__) {
-      const { cfg, $q, ssrContext } = opts
-      const cls = getBodyClasses($q.platform, cfg)
+      const { $q, ssrContext } = opts
+      const cls = getBodyClasses($q.platform, $q.config)
 
-      if (cfg.screen !== void 0 && cfg.screen.bodyClass === true) {
+      if ($q.config.screen !== void 0 && $q.config.screen.bodyClass === true) {
         cls.push('screen--xs')
       }
 
@@ -85,24 +85,19 @@ export default {
       return
     }
 
-    const { cfg } = opts
+    const { $q } = opts
 
-    if (isRuntimeSsrPreHydration === true) {
+    $q.config.brand !== void 0 && setColors($q.config.brand)
+
+    if (this.__installed === true) { return }
+
+    if (isRuntimeSsrPreHydration.value === true) {
       applyClientSsrCorrections()
     }
     else {
-      const cls = getBodyClasses(client, cfg)
-
-      // handle IE11
-      if (client.is.ie === true && client.is.versionNumber === 11) {
-        cls.forEach(c => document.body.classList.add(c))
-      }
-      else {
-        document.body.classList.add.apply(document.body.classList, cls)
-      }
+      const cls = getBodyClasses(client, $q.config)
+      document.body.classList.add.apply(document.body.classList, cls)
     }
-
-    cfg.brand !== void 0 && setColors(cfg.brand)
 
     if (client.is.ios === true) {
       // needed for iOS button active state

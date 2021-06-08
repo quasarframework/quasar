@@ -39,14 +39,18 @@ One of the benefits of this naming scheme is that it makes Quasar App Extensions
 App Extensions can be installed, executed and also uninstalled. The following guide discusses this in an abstract way. For details about individual extensions and how to work with them, please consult their respective repositories.
 
 ### Installing an App Extension
-```
+
+```bash
 $ quasar ext add <ext-id>
 ```
+
 This command will find and install the extension's module. After installation is complete, there may be one or more prompts asking you to make choices or add information needed by the extension. When the installation is concluded, you will be returned to the command line.
 
 ### List Installed App Extensions
+
 There are several ways to "discover" what App Extensions have been installed:
-```
+
+```bash
 $ quasar ext
 $ quasar info
 $ cat quasar.extensions.json
@@ -59,22 +63,21 @@ Nevertheless, each and every App Extension will be initialized during `quasar de
 
 ### Updating an App Extension
 You may need to update your extension, and this is done with the same command as used for installation:
-```
+
+```bash
 $ quasar ext add <ext-id>
 ```
+
 ::: warning
 Reinstalling the extension MIGHT overwrite files that you have changed. You will be presented with the option to overwrite the files detected.
-
 :::
-
 
 ### Removing an App Extension
 You can remove an App Extension from being hooked from the Quasar CLI by running this command. Depending upon the author and the extension itself, you may have to manually clean up files though.
-```
+
+```bash
 $ quasar ext remove <ext-id>
 ```
-
-
 
 ## List of official app-extensions
 Check out [Discover App Extensions](/app-extensions/discover) page.

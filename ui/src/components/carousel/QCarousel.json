@@ -1,18 +1,13 @@
 {
-  "mixins": [ "mixins/panel-parent", "mixins/fullscreen" ],
+  "mixins": [ "composables/private/use-panel", "composables/private/use-fullscreen" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/carousel"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/carousel"
   },
 
   "props": {
     "dark": {
-      "extends": "dark",
-      "addedIn": "v1.3.0"
+      "extends": "dark"
     },
 
     "height": {
@@ -33,16 +28,14 @@
 
     "control-text-color": {
       "extends": "color",
-      "desc": "Color name for text color of QCarousel button controls (arrows, navigation) from the Quasar Color Palette",
-      "addedIn": "v1.9.0"
+      "desc": "Color name for text color of QCarousel button controls (arrows, navigation) from the Quasar Color Palette"
     },
 
     "control-type": {
       "type": "String",
       "desc": "Type of button to use for controls (arrows, navigation)",
       "values": [ "regular", "flat", "outline", "push", "unelevated" ],
-      "category": "style",
-      "addedIn": "v1.9.0"
+      "category": "style"
     },
 
     "autoplay": {
@@ -83,8 +76,7 @@
       "default": "bottom/right",
       "values": [ "top", "right", "bottom", "left" ],
       "examples": [ "left" ],
-      "category": "content",
-      "addedIn": "v1.9.0"
+      "category": "content"
     },
 
     "navigation-icon": {
@@ -93,8 +85,7 @@
 
     "navigation-active-icon": {
       "extends": "icon",
-      "desc": "Icon name following Quasar convention for the active (current slide) navigation icon; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.13.2"
+      "desc": "Icon name following Quasar convention for the active (current slide) navigation icon; Make sure you have the icon library installed unless you are using 'img:' prefix"
     },
 
     "thumbnails": {
@@ -111,10 +102,8 @@
 
     "control": {
       "desc": "Slot specific for QCarouselControl"
-    }
-  },
+    },
 
-  "scopedSlots": {
     "navigation-icon": {
       "desc": "Slot for navigation icon/btn; Suggestion: QBtn",
       "scope": {
@@ -155,8 +144,7 @@
           },
           "returns": null
         }
-      },
-      "addedIn": "v1.13.2"
+      }
     }
   }
 }

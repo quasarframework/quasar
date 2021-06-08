@@ -12,19 +12,21 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      items: [ {}, {}, {}, {}, {}, {}, {}, {}, {} ]
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    refresh (done) {
-      setTimeout(() => {
-        this.items.push({}, {}, {}, {}, {}, {}, {})
-        done()
-      }, 1000)
+export default {
+  setup () {
+    const items = ref([ {}, {}, {}, {}, {}, {}, {}, {}, {} ])
+
+    return {
+      items,
+
+      refresh (done) {
+        setTimeout(() => {
+          items.value.push({}, {}, {}, {}, {}, {}, {})
+          done()
+        }, 1000)
+      }
     }
   }
 }

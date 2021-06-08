@@ -1,35 +1,42 @@
-import { defineComponent } from 'vue'
+import { defineComponent, computed, getCurrentInstance } from 'vue'
 
-import DarkMixin from '../../mixins/dark.js'
-import { PanelParentMixin } from '../../mixins/panel.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
 
-import { hDir } from '../../utils/render.js'
+import { hDir } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QTabPanels',
 
-  mixins: [ DarkMixin, PanelParentMixin ],
-
-  computed: {
-    classes () {
-      return 'q-tab-panels q-panel-parent' +
-        (this.isDark === true ? ' q-tab-panels--dark q-dark' : '')
-    }
+  props: {
+    ...usePanelProps,
+    ...useDarkProps
   },
 
-  methods: {
-    __renderPanels () {
+  emits: usePanelEmits,
+
+  setup (props, { slots }) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
+
+    const { updatePanelsList, getPanelContent, panelDirectives } = usePanel()
+
+    const classes = computed(() =>
+      'q-tab-panels q-panel-parent'
+      + (isDark.value === true ? ' q-tab-panels--dark q-dark' : '')
+    )
+
+    return () => {
+      updatePanelsList(slots)
+
       return hDir(
         'div',
-        { class: this.classes },
-        this.__getPanelContent(),
+        { class: classes.value },
+        getPanelContent(),
         'pan',
-        this.swipeable,
-        () => this.panelDirectives
+        props.swipeable,
+        () => panelDirectives.value
       )
     }
-  },
-
-  // TODO vue3 - render() required for SSR explicitly even though declared in mixin
-  render: PanelParentMixin.render
+  }
 })

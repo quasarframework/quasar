@@ -15,13 +15,13 @@ const useStatement = [ `config: ${JSON.stringify(framework.config)}` ]
 if (framework.lang) { %>
 import lang from 'quasar/lang/<%= framework.lang %>'
 <%
-  useStatement.push('lang: lang')
+  useStatement.push('lang')
 }
 
 if (framework.iconSet) { %>
 import iconSet from 'quasar/icon-set/<%= framework.iconSet %>'
 <%
-  useStatement.push('iconSet: iconSet')
+  useStatement.push('iconSet')
 }
 %>
 

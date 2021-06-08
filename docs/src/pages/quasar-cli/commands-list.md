@@ -61,7 +61,12 @@ $ quasar [command name] --help
 Creates an App folder with initial project boilerplate.
 
 ```bash
-$ quasar create <folder_name>
+## Quasar UI v2 beta project
+$ quasar create <folder_name> --branch next
+
+## After Quasar v2 is stable (out of beta):
+## (Don't use the following for now as it will generate a Quasar UI v1 project!)
+# $ quasar create <folder_name>
 ```
 
 This command will use Quasar App Starter Kit by default, but you can specify a different one via `--kit` option.
@@ -81,7 +86,7 @@ You can use a starter kit stored into any publicly accessible Git repository by 
 The preferred way to build reusable code and UI Components into Quasar ecosystem are App Extensions. Use a custom starter kit only if you really know what you're doing and be aware that it will make more difficult for the Quasar team to provide you assistance.
 :::
 
-## Upgrade <q-badge align="top" label="@quasar/cli v1.1+ specs" />
+## Upgrade
 
 Check (and optionally) upgrade Quasar packages from a Quasar project folder:
 

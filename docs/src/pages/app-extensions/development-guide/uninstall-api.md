@@ -46,6 +46,26 @@ api.resolve.electron('some-file.js')
 ## api.appDir
 Contains the full path (String) to the root of the app on which this App Extension is running.
 
+## api.hasPackage
+
+Determine if some package is installed in the host app through a semver condition.
+
+Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
+
+```js
+/**
+ * @param {string} packageName
+ * @param {string} (optional) semverCondition
+ * @return {boolean} package is installed and meets optional semver condition
+ */
+if (api.hasPackage('vuelidate')) {
+  // hey, this app has it (any version of it)
+}
+if (api.hasPackage('quasar', '^1.0.0')) {
+  // hey, this app has v1 installed
+}
+```
+
 ## api.hasExtension
 Check if another app extension is installed.
 
@@ -59,6 +79,21 @@ Check if another app extension is installed.
 if (api.hasExtension(extId)) {
   // hey, we have it
 }
+```
+
+## api.getPackageVersion
+
+Get the version of a host app package.
+
+```js
+/**
+ * @param {string} packageName
+ * @return {string|undefined} version of app's package
+ */
+console.log( api.getPackageVersion(packageName) )
+// output examples:
+//   1.1.3
+//   undefined (when package not found)
 ```
 
 ## api.removePath

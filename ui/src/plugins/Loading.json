@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/quasar-plugins/loading"
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/loading"
   },
 
   "injection": "$q.loading",
@@ -21,6 +21,11 @@
       "html": {
         "extends": "html",
         "desc": "Force render the message as HTML; This can lead to XSS attacks so make sure that you sanitize the content"
+      },
+      "boxClass": {
+        "type": "String",
+        "desc": "Content wrapped element custom classes",
+        "examples": [ "bg-amber text-black", "q-pa-xl" ]
       },
       "spinnerSize": {
         "type": "Number",
@@ -45,7 +50,7 @@
       },
       "customClass": {
         "type": "String",
-        "desc": "Add a CSS class to easily customize the component",
+        "desc": "Add a CSS class to the container element to easily customize the component",
         "examples": [ "my-class" ]
       }
     }
@@ -109,8 +114,7 @@
             },
             "ignoreDefaults": {
               "type": "Boolean",
-              "desc": "Ignore the default configuration (set by setDefaults()) for this instance only",
-              "addedIn": "v1.1.0"
+              "desc": "Ignore the default configuration (set by setDefaults()) for this instance only"
             }
           }
         }

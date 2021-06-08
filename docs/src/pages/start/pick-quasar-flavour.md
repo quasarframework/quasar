@@ -9,11 +9,11 @@ There are three ways of using Quasar. Pick the one that suits you best:
 
 - [UMD/Standalone](/start/umd) (embed into an existing project through CDN, progressive integration)
 - [Quasar CLI](/start/quasar-cli) (**the premium developer experience and highly recommended**)
-- [Vue CLI 3 plugin](/start/vue-cli-plugin)
+- [Vue CLI plugin](/start/vue-cli-plugin)
 
 Here's a quick comparison:
 
-| Feature                                                                                    | Quasar UMD | Quasar CLI | Vue CLI 3 Plugin              |
+| Feature                                                                                    | Quasar UMD | Quasar CLI | Vue CLI Plugin              |
 | ------------------------------------------------------------------------------------------ | ------- | ---------- | ----------------------------- |
 | Ability to embed into an existing project                                                  | **Yes** | -          | **Yes, if it is Vue CLI app** |
 | Progressive integration of Quasar                                                          | **Yes** | -          | -                             |
@@ -45,5 +45,5 @@ Although you may get a similar multi-platform support via the Vue CLI and some V
 
 So, let's get you going with **Quasar's CLI**! You'll be up and running with a new project in a matter of minutes.
 
-<q-btn push no-caps color="primary" icon-right="launch" label="Install Quasar CLI" to="/quasar-cli/installation" class="q-mt-sm q-mb-lg" />
+<q-btn push no-caps color="brand-primary" icon-right="launch" label="Install Quasar CLI" to="/quasar-cli/installation" class="q-mt-sm q-mb-lg" />
 

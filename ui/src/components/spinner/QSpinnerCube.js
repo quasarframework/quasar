@@ -1,13 +1,13 @@
 import { h, defineComponent } from 'vue'
 
-import mixin from './spinner-mixin.js'
+import useSpinner, { useSpinnerProps } from './use-spinner.js'
 
 const svg = [
   h('rect', {
     x: '0',
     y: '0',
     width: ' 100',
-    height:'100',
+    height: '100',
     fill: 'none'
   }),
   h('g', {
@@ -17,7 +17,7 @@ const svg = [
       x: '-20',
       y: '-20',
       width: ' 40',
-      height:'40',
+      height: '40',
       fill: 'currentColor',
       opacity: '0.9'
     }, [
@@ -42,7 +42,7 @@ const svg = [
       x: '-20',
       y: '-20',
       width: ' 40',
-      height:'40',
+      height: '40',
       fill: 'currentColor',
       opacity: '0.8'
     }, [
@@ -67,7 +67,7 @@ const svg = [
       x: '-20',
       y: '-20',
       width: ' 40',
-      height:'40',
+      height: '40',
       fill: 'currentColor',
       opacity: '0.7'
     }, [
@@ -92,7 +92,7 @@ const svg = [
       x: '-20',
       y: '-20',
       width: ' 40',
-      height:'40',
+      height: '40',
       fill: 'currentColor',
       opacity: '0.6'
     }, [
@@ -115,14 +115,15 @@ const svg = [
 export default defineComponent({
   name: 'QSpinnerCube',
 
-  mixins: [ mixin ],
+  props: useSpinnerProps,
 
-  render () {
-    return h('svg', {
-      class: this.classes,
-      focusable: 'false' /* needed for IE11 */,
-      width: this.cSize,
-      height: this.cSize,
+  setup (props) {
+    const { cSize, classes } = useSpinner(props)
+
+    return () => h('svg', {
+      class: classes.value,
+      width: cSize.value,
+      height: cSize.value,
       xmlns: 'http://www.w3.org/2000/svg',
       viewBox: '0 0 100 100',
       preserveAspectRatio: 'xMidYMid'

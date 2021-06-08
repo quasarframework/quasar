@@ -15,18 +15,17 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      date: '2019/02/01',
-      events: [ '2019/02/01', '2019/02/05', '2019/02/06', '2019/02/09', '2019/02/23' ]
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    eventsFn (date) {
-      const parts = date.split('/')
-      return parts[2] % 2 === 0
+export default {
+  setup () {
+    return {
+      date: ref('2019/02/01'),
+      events: [ '2019/02/01', '2019/02/05', '2019/02/06', '2019/02/09', '2019/02/23' ],
+      eventsFn (date) {
+        const parts = date.split('/')
+        return parts[ 2 ] % 2 === 0
+      }
     }
   }
 }

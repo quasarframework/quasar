@@ -3,17 +3,20 @@
     <q-option-group
       v-model="group"
       :options="options"
-      :dark="true"
+      dark
       color="yellow"
     />
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      group: 'op1',
+      group: ref('op1'),
+
       options: [
         {
           label: 'Option 1',

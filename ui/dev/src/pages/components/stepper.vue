@@ -45,7 +45,7 @@
       >
         <q-step :name="1" :prefix="prefix ? 1 : ''" :done="useDone && step > 1" :header-nav="headerNavStep ? step > 1 : true" title="Ad style" icon="map" :caption="caption ? 'Some caption' : null">
           <q-input v-model="myInput" />
-          <div>{{ myInput }}</div>
+          <div>{{ myInput || 'null' }}</div>
           <keep-alive-test name="one" />
           <q-date v-model="date" />
           <q-fab color="purple" icon="keyboard_arrow_up" direction="up">
@@ -189,12 +189,12 @@ export default {
 
       methods: {
         log (what) {
-          console.log(`[KeepAliveTest > ${this.name}] ${what}`)
+          console.log(`[KeepAliveTest > ${ this.name }] ${ what }`)
         }
       },
 
       render () {
-        return h('div', [ 'keep alive test ' + this.name ])
+        return h('div', 'keep alive test ' + this.name)
       }
     }
   },

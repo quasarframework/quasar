@@ -196,6 +196,12 @@
         </template>
       </q-field>
 
+      <q-field filled v-model="color" label="Pick a color" stack-label hint="Choose a color" tabindex="0">
+        <template v-slot:control="{ id, value, emitValue }">
+          <q-color class="col" no-header flat :id="id" :value="value" @input="emitValue" />
+        </template>
+      </q-field>
+
       <p class="caption">
         Tree select
       </p>
@@ -260,6 +266,7 @@ export default {
       border: false,
       dense: false,
       individualBorder: false,
+      color: null,
 
       selected: null,
       ticked: [],
@@ -333,12 +340,12 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .fields-border
   .q-field, .q-item
-    border 1px solid currentColor
+    border: 1px solid currentColor
 
 .fields-individual-border
   .q-field__before, .q-field__after, .q-field__content, .q-field__bottom, .q-item
-    border 1px solid currentColor
+    border: 1px solid currentColor
 </style>

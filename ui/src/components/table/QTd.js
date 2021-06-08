@@ -1,6 +1,6 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QTd',
@@ -11,29 +11,33 @@ export default defineComponent({
     noHover: Boolean
   },
 
-  computed: {
-    classes () {
-      return 'q-td' + (this.autoWidth === true ? ' q-table--col-auto-width' : '') +
-        (this.noHover === true ? ' q-td--no-hover' : '')
+  setup (props, { slots }) {
+    const vm = getCurrentInstance()
+    const classes = computed(() =>
+      'q-td' + (props.autoWidth === true ? ' q-table--col-auto-width' : '')
+      + (props.noHover === true ? ' q-td--no-hover' : '')
+      + ' '
+    )
+
+    return () => {
+      if (props.props === void 0) {
+        return h('td', { class: classes.value }, hSlot(slots.default))
+      }
+
+      const name = vm.vnode.key
+      const col = (
+        (props.props.colsMap !== void 0 ? props.props.colsMap[ name ] : null)
+        || props.props.col
+      )
+
+      if (col === void 0) { return }
+
+      const { row } = props.props
+
+      return h('td', {
+        class: classes.value + col.__tdClass(row),
+        style: col.__tdStyle(row)
+      }, hSlot(slots.default))
     }
-  },
-
-  render () {
-    if (this.props === void 0) {
-      return h('td', { class: this.classes }, hSlot(this, 'default'))
-    }
-
-    const name = this.$.vnode.key
-
-    const col = this.props.colsMap !== void 0 && name
-      ? this.props.colsMap[name]
-      : this.props.col
-
-    if (col === void 0) { return }
-
-    return h('td', {
-      class: this.classes + ' ' + col.__tdClass,
-      style: col.style
-    }, hSlot(this, 'default'))
   }
 })

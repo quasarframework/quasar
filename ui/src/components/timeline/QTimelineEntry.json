@@ -1,12 +1,6 @@
 {
-  "mixins": [ "mixins/tag" ],
-
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/timeline"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/timeline"
   },
 
   "props": {
@@ -17,6 +11,7 @@
     },
 
     "tag": {
+      "extends": "tag",
       "desc": "Tag to use, if of type 'heading' only",
       "default": "h3",
       "examples": [ "h1" ]

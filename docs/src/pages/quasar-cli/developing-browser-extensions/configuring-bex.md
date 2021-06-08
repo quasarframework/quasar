@@ -41,7 +41,7 @@ Given content scripts run in the web page context, this means that only BEX's th
 Any styles you want to be made available to your web page (not your Quasar App) should be included in `src-bex/css/content-css.css` as this file ia automatically injected into the `manifest.json` file.
 
 :::warning
-This must be native CSS as it's not preprocessed via SASS / Stylus.
+This must be native CSS as it's not preprocessed via Sass.
 :::
 
 ## Hook Files

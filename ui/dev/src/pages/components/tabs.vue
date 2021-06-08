@@ -362,14 +362,14 @@
       </q-tabs>
 
       <h4>Tabs model (respect model): {{ tabModel }}</h4>
-      <q-tabs :dense="dense" :model-value="tabModel" @update:modelValue="onChangeTab1" class="bg-grey-1 text-teal">
+      <q-tabs :dense="dense" :model-value="tabModel" @update:model-value="onChangeTab1" class="bg-grey-1 text-teal">
         <q-tab name="one" label="One" />
         <q-tab name="two" label="Two -> One" />
         <q-tab name="three" label="Three (no way)" />
         <q-tab name="four" label="Four" />
         <q-tab name="five" label="Five" />
       </q-tabs>
-      <q-tabs :dense="dense" :model-value="tabModel" @update:modelValue="onChangeTab2" class="bg-grey-1 text-teal">
+      <q-tabs :dense="dense" :model-value="tabModel" @update:model-value="onChangeTab2" class="bg-grey-1 text-teal">
         <q-tab name="one" label="One -> Two" />
         <q-tab name="two" label="Two" />
         <q-tab name="three" label="Three" />
@@ -419,23 +419,28 @@
           swipeable
           animated
           infinite
+          keep-alive
           class="text-center"
         >
           <q-tab-panel :name="panelTest ? 'two' : 'one'">
             <q-btn dense round icon="map" class="absolute-bottom-right" />
             Tab One <strong v-if="panelTest">(Swapped)</strong> <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
+            <keep-alive-test name="one" />
           </q-tab-panel>
 
           <q-tab-panel :name="panelTest ? 'one' : 'two'">
             Tab Two <strong v-if="panelTest">(Swapped)</strong>  <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
+            <keep-alive-test name="two" />
           </q-tab-panel>
 
           <q-tab-panel name="three">
             Tab Three <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
+            <keep-alive-test name="three" />
           </q-tab-panel>
 
           <q-tab-panel disable name="four">
             Tab Four <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
+            <keep-alive-test name="four" />
           </q-tab-panel>
         </q-tab-panels>
       </div>
@@ -504,7 +509,60 @@
 </template>
 
 <script>
+import { h, ref, onBeforeMount, onMounted, onBeforeUnmount, onActivated, onDeactivated } from 'vue'
+import { uid } from 'quasar'
+
 export default {
+  components: {
+    KeepAliveTest: {
+      name: 'KeepAliveTest',
+
+      props: {
+        name: String
+      },
+
+      setup (props) {
+        const counter = ref(0)
+        const id = uid()
+
+        function log (what) {
+          console.log(`[KeepAliveTest > ${ props.name } / ${ id }] ${ what }`)
+        }
+
+        log('created')
+
+        onBeforeMount(() => {
+          log('onBeforeMount')
+        })
+
+        onMounted(() => {
+          log('onMounted')
+        })
+
+        onBeforeUnmount(() => {
+          log('onBeforeUnmount')
+        })
+
+        onActivated(() => {
+          log('onActivated')
+        })
+
+        onDeactivated(() => {
+          log('onDeactivated')
+        })
+
+        function onClick () {
+          counter.value += 1
+        }
+
+        return () => h('div', {
+          class: 'q-pa-sm bg-grey-2 cursor-pointer',
+          onClick
+        }, `${ props.name } - clicked ${ counter.value } times [${ id }]`)
+      }
+    }
+  },
+
   data () {
     return {
       text: '',
@@ -540,45 +598,43 @@ export default {
     },
 
     routeNavDelay (e, go) {
-      e.navigate = false
-
+      e.preventDefault()
       setTimeout(go, 2000)
     },
 
     routeNavPass () {},
 
     routeNavCancel (e) {
-      e.navigate = false
+      e.preventDefault()
     },
 
     routeNavChange (e, go) {
-      e.navigate = false
-
+      e.preventDefault()
       go({ name: 'r.1.1' })
     }
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .q-tabs.vertical-tabs
-  margin-bottom 0
+  margin-bottom: 0
 .tabs-demo .q-tabs
-  margin-bottom 24px
+  margin-bottom: 24px
 .tabs-demo .q-toolbar .q-tabs
-  margin-bottom 0
+  margin-bottom: 0
 
 .router-link
-  display block
-  text-align center
-  text-decoration none
-  color black
-  padding 2px
-  border 1px solid black
+  display: block
+  text-align: center
+  text-decoration: none
+  color: black
+  padding: 2px
+  border: 1px solid black
 
   &-active
-    background-color #ee9
+    background-color: #ee9
 
   &-exact-active
-    background-color #9e9
+    background-color: #9e9
 </style>

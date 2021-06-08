@@ -27,22 +27,27 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 Then in our Quasar App, we'd listen for this in one of our component lifecycle hooks, like so:
 
 ```js
+import { useQuasar } from 'quasar'
+import { onBeforeUnmount } from 'vue'
+
 export default {
-  methods: {
+  setup () {
+    const $q = useQuasar()
+
     // Our function which receives the URL sent by the background script.
-    doOnTabOpened (url) {
+    function doOnTabOpened (url) {
       console.log('New Browser Tab Openend: ', url)
     }
-  },
 
-  created () {
     // Add our listener
-    this.$q.bex.on('bex.tab.opened', this.doOnTabOpened)
-  },
+    $q.bex.on('bex.tab.opened', doOnTabOpened)
 
-  beforeDestroy () {
     // Don't forget to clean it up
-    this.$q.bex.off('bex.tab.opened', this.doOnTabOpened)
+    onBeforeUnmount(() => {
+      $q.bex.off('bex.tab.opened', doOnTabOpened)
+    })
+
+    return {}
   }
 }
 ```

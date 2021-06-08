@@ -4,12 +4,12 @@
       grid
       :card-container-class="cardContainerClass"
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       row-key="name"
       :filter="filter"
       hide-header
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
       :rows-per-page-options="rowsPerPageOptions"
     >
       <template v-slot:top-right>
@@ -40,6 +40,9 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { ref, computed, watch } from 'vue'
+
 const deserts = [
   'Frozen Yogurt',
   'Ice cream sandwich',
@@ -52,66 +55,63 @@ const deserts = [
   'Donut',
   'KitKat'
 ]
-const data = []
+
+const rows = []
 
 deserts.forEach(name => {
   for (let i = 0; i < 24; i++) {
-    data.push({ name: name + ' (' + i + ')', calories: 20 + Math.ceil(50 * Math.random()) })
+    rows.push({ name: name + ' (' + i + ')', calories: 20 + Math.ceil(50 * Math.random()) })
   }
 })
 
-data.sort(() => (-1 + Math.floor(3 * Math.random())))
+rows.sort(() => (-1 + Math.floor(3 * Math.random())))
 
 export default {
-  data () {
+  setup () {
+    const $q = useQuasar()
+
+    function getItemsPerPage () {
+      if ($q.screen.lt.sm) {
+        return 3
+      }
+      if ($q.screen.lt.md) {
+        return 6
+      }
+      return 9
+    }
+
+    const filter = ref('')
+    const pagination = ref({
+      page: 1,
+      rowsPerPage: getItemsPerPage()
+    })
+
+    watch(() => $q.screen.name, () => {
+      pagination.value.rowsPerPage = getItemsPerPage()
+    })
+
     return {
-      filter: '',
-      pagination: {
-        page: 1,
-        rowsPerPage: this.getItemsPerPage()
-      },
+      rows,
+
+      filter,
+      pagination,
+
       columns: [
         { name: 'name', label: 'Name', field: 'name' },
         { name: 'calories', label: 'Calories (g)', field: 'calories' }
       ],
-      data
-    }
-  },
 
-  computed: {
-    cardContainerClass () {
-      if (this.$q.screen.gt.xs) {
-        return 'grid-masonry grid-masonry--' + (this.$q.screen.gt.sm ? '3' : '2')
-      }
+      cardContainerClass: computed(() => {
+        return $q.screen.gt.xs
+          ? 'grid-masonry grid-masonry--' + ($q.screen.gt.sm ? '3' : '2')
+          : null
+      }),
 
-      return void 0
-    },
-
-    rowsPerPageOptions () {
-      if (this.$q.screen.gt.xs) {
-        return this.$q.screen.gt.sm ? [ 3, 6, 9 ] : [ 3, 6 ]
-      }
-
-      return [ 3 ]
-    }
-  },
-
-  watch: {
-    '$q.screen.name' () {
-      this.pagination.rowsPerPage = this.getItemsPerPage()
-    }
-  },
-
-  methods: {
-    getItemsPerPage () {
-      const { screen } = this.$q
-      if (screen.lt.sm) {
-        return 3
-      }
-      if (screen.lt.md) {
-        return 6
-      }
-      return 9
+      rowsPerPageOptions: computed(() => {
+        return $q.screen.gt.xs
+          ? $q.screen.gt.sm ? [ 3, 6, 9 ] : [ 3, 6 ]
+          : [3]
+      })
     }
   }
 }

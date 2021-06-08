@@ -1,47 +1,34 @@
-import { defineComponent } from 'vue'
+import { defineComponent, computed, watch } from 'vue'
 
-import QTab from './QTab.js'
-import RouterLinkMixin from '../../mixins/router-link.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
+import useTab, { useTabProps, useTabEmits } from './use-tab.js'
 
 export default defineComponent({
   name: 'QRouteTab',
 
-  mixins: [ QTab, RouterLinkMixin ],
-
   props: {
+    ...useRouterLinkProps,
+    ...useTabProps,
     to: { required: true }
   },
 
-  watch: {
-    name: '__pingQTabs',
-    'linkRoute.href': '__pingQTabs',
-    exact: '__pingQTabs'
-  },
+  emits: useTabEmits,
 
-  methods: {
-    __onClick (e, keyboard) {
-      keyboard !== true && this.$refs.blurTarget && this.$refs.blurTarget.focus()
+  setup (props, { slots, emit }) {
+    const exact = computed(() => props.exact)
+    const { hasLink, linkTag, linkProps, linkRoute, navigateToLink, linkIsExactActive, linkIsActive } = useRouterLink()
 
-      if (this.disable !== true) {
-        const go = () => {
-          this.navigateToLink(e)
-        }
-
-        this.$emit('click', e, go)
-        this.hasLink === true && e.navigate !== false && go()
-      }
-    },
-
-    __pingQTabs () {
-      this.__qTabs.__verifyRouteModel()
-    }
-  },
-
-  render () {
-    return this.__renderTab(
-      this.linkTag,
-      this.linkProps,
-      this.__getContent()
+    const { renderTab, $tabs } = useTab(
+      props,
+      slots,
+      emit,
+      { exact, hasLink, navigateToLink, linkRoute, linkIsExactActive, linkIsActive }
     )
+
+    watch(() => props.name + props.exact + (linkRoute.value || {}).href, () => {
+      $tabs.verifyRouteModel()
+    })
+
+    return () => renderTab(linkTag.value, linkProps.value)
   }
 })

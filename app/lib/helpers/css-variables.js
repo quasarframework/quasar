@@ -7,13 +7,11 @@ const cssVariables = {
   quasarSrcExt: 'css',
 
   appFile: {
-    styl: fs.existsSync(appPaths.resolve.src('css/quasar.variables.styl')),
     scss: fs.existsSync(appPaths.resolve.src('css/quasar.variables.scss')),
     sass: fs.existsSync(appPaths.resolve.src('css/quasar.variables.sass'))
   },
 
   loaders: {
-    styl: join(__dirname, '../webpack/loader.quasar-stylus-variables'),
     scss: join(__dirname, '../webpack/loader.quasar-scss-variables'),
     sass: join(__dirname, '../webpack/loader.quasar-sass-variables')
   }

@@ -83,13 +83,13 @@ $ quasar mode add cordova
 ## 3. Add Platform
 To switch to the cordova project, type:
 
-```
+```bash
 $ cd src-cordova
 ```
 
 Target platforms get installed on demand by Quasar CLI. However, if you want to add a platform manually, type:
 
-```
+```bash
 $ cordova platform add [android|ios]
 ```
 
@@ -166,4 +166,5 @@ In Android Studio, you will be greeted with a message recommending to upgrade th
 If you encounter any IDE errors then click on File > Invalidate caches and restart.
 
 <img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="q-mt-md fit rounded-borders" style="max-width: 350px">
+
 :::

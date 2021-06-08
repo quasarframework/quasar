@@ -18,21 +18,21 @@
 </template>
 
 <script>
-import { createMetaMixin } from 'quasar'
+import { useMeta } from 'quasar'
 
 export default {
   name: 'LayoutDefault',
 
-  mixins: [
-    createMetaMixin({
+  setup () {
+    useMeta({
       title: 'Layout 2',
       link: {
-        google: { template: chunk => `${chunk}/addition` }
+        google: { template: chunk => `${ chunk }/addition` }
       },
       bodyAttr: {
         layout: 2
       }
     })
-  ]
+  }
 }
 </script>

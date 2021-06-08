@@ -1,7 +1,10 @@
-$transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
+// default easing is easeOutCubic
+
+\:root
+  --q-transition-duration: .3s
+  --q-transition-easing: cubic-bezier(0.215,0.61,0.355,1)
 
 .q-transition
-
   &--slide-right,
   &--slide-left,
   &--slide-up,
@@ -23,7 +26,7 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
   &--slide-down
     &-enter-active,
     &-leave-active
-      transition: transform .3s $transition-easing
+      transition: transform var(--q-transition-duration) var(--q-transition-easing)
 
   &--slide-right
     &-enter-from
@@ -55,7 +58,7 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
   &--jump-down
     &-enter-active,
     &-leave-active
-      transition: opacity .3s, transform .3s
+      transition: opacity var(--q-transition-duration), transform var(--q-transition-duration)
     &-enter-from,
     &-leave-to
       opacity: 0
@@ -88,9 +91,8 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
   &--fade
     &-enter-active,
     &-leave-active
-      transition: opacity .3s ease-out
+      transition: opacity var(--q-transition-duration) ease-out
     &-enter-from,
-    &-leave-from,
     &-leave-to
       opacity: 0
 
@@ -98,9 +100,8 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
   &--scale
     &-enter-active,
     &-leave-active
-      transition: opacity .3s, transform .3s $transition-easing
+      transition: opacity var(--q-transition-duration), transform var(--q-transition-duration) var(--q-transition-easing)
     &-enter-from,
-    &-leave-from,
     &-leave-to
       opacity: 0
       transform: scale3d(0, 0, 1)
@@ -108,10 +109,9 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
   &--rotate
     &-enter-active,
     &-leave-active
-      transition: opacity .3s, transform .3s $transition-easing
+      transition: opacity var(--q-transition-duration), transform var(--q-transition-duration) var(--q-transition-easing)
       transform-style: preserve-3d
     &-enter-from,
-    &-leave-from,
     &-leave-to
       opacity: 0
       transform: scale3d(0, 0, 1) rotate3d(0, 0, 1, 90deg)
@@ -122,7 +122,7 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
   &--flip-down
     &-enter-active,
     &-leave-active
-      transition: transform .3s
+      transition: transform var(--q-transition-duration)
       backface-visibility: hidden
     &-enter-to,
     &-leave-from

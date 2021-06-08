@@ -1,6 +1,6 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QItemLabel',
@@ -12,35 +12,31 @@ export default defineComponent({
     lines: [ Number, String ]
   },
 
-  computed: {
-    parsedLines () {
-      return parseInt(this.lines, 10)
-    },
+  setup (props, { slots }) {
+    const parsedLines = computed(() => parseInt(props.lines, 10))
 
-    classes () {
-      return 'q-item__label' +
-        (this.overline === true ? ' q-item__label--overline text-overline' : '') +
-        (this.caption === true ? ' q-item__label--caption text-caption' : '') +
-        (this.header === true ? ' q-item__label--header' : '') +
-        (this.parsedLines === 1 ? ' ellipsis' : '')
-    },
+    const classes = computed(() =>
+      'q-item__label'
+      + (props.overline === true ? ' q-item__label--overline text-overline' : '')
+      + (props.caption === true ? ' q-item__label--caption text-caption' : '')
+      + (props.header === true ? ' q-item__label--header' : '')
+      + (parsedLines.value === 1 ? ' ellipsis' : '')
+    )
 
-    style () {
-      if (this.lines !== void 0 && this.parsedLines > 1) {
-        return {
-          overflow: 'hidden',
-          display: '-webkit-box',
-          '-webkit-box-orient': 'vertical',
-          '-webkit-line-clamp': this.parsedLines
-        }
-      }
-    }
-  },
+    const style = computed(() => {
+      return props.lines !== void 0 && parsedLines.value > 1
+        ? {
+            overflow: 'hidden',
+            display: '-webkit-box',
+            '-webkit-box-orient': 'vertical',
+            '-webkit-line-clamp': parsedLines.value
+          }
+        : null
+    })
 
-  render () {
-    return h('div', {
-      style: this.style,
-      class: this.classes
-    }, hSlot(this, 'default'))
+    return () => h('div', {
+      style: style.value,
+      class: classes.value
+    }, hSlot(slots.default))
   }
 })

@@ -1,9 +1,9 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/tabs"
+    "docsUrl": "https://v2.quasar.dev/vue-components/tabs"
   },
 
-  "mixins": [ "components/tabs/QTab", "mixins/router-link" ],
+  "mixins": [ "components/tabs/QTab", "composables/private/use-router-link" ],
 
   "props": {
     "to": {
@@ -19,9 +19,7 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object; If you want to cancel navigation set synchronously 'evt.navigate' to false",
-          "__exemption": [
-            "examples"
-          ]
+          "__exemption": [ "examples" ]
         },
         "navigateFn": {
           "type": "Function",
@@ -51,8 +49,7 @@
           },
           "returns": null
         }
-      },
-      "addedIn": "v1.13.0"
+      }
     }
   }
 }

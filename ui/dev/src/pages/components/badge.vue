@@ -15,6 +15,12 @@
         12 <q-icon name="warning" color="white" class="q-ml-xs" />
       </q-badge>
 
+      <q-badge color="yellow" rounded />
+
+      <q-badge color="green" rounded />
+
+      <q-badge color="red" rounded />
+
       <div class="text-h6">
         Badge <q-badge color="primary">
           v1.0.0+
@@ -110,6 +116,14 @@
         </q-badge>
       </q-btn>
 
+      <q-btn dense color="purple" round icon="email" class="q-ml-md">
+        <q-badge color="red" floating rounded />
+      </q-btn>
+
+      <q-btn dense round flat icon="email">
+        <q-badge color="red" floating rounded transparent />
+      </q-btn>
+
       <div class="text-h4">
         Title
         <q-badge transparent align="middle" color="orange">
@@ -180,6 +194,16 @@
         <q-badge outline align="middle" color="primary">
           v1.0.0
         </q-badge>
+      </div>
+
+      <div>
+        Some text <q-badge color="red" label="1" rounded />
+      </div>
+      <div>
+        Some text <q-badge color="green" label="999+" rounded />
+      </div>
+      <div>
+        <q-badge color="blue" rounded class="q-mr-sm" />Some text
       </div>
     </div>
   </div>

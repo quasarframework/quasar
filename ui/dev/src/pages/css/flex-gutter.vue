@@ -80,13 +80,13 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .q-col-gutter-demo
   .my-container + .my-container
-    margin-top 25px
+    margin-top: 25px
   .my-container
-    border 1px solid rgba(0, 0, 0, .2)
+    border: 1px solid rgba(0, 0, 0, .2)
   .my-content
-    background rgba(0, 0, 0, .1)
-    border 1px solid black
+    background: rgba(0, 0, 0, .1)
+    border: 1px solid black
 </style>

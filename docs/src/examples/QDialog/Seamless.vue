@@ -24,16 +24,12 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      seamless: false
-    }
-  },
+import { ref } from 'vue'
 
-  computed: {
-    contentSize () {
-      return this.moreContent ? 150 : 5
+export default {
+  setup () {
+    return {
+      seamless: ref(false)
     }
   }
 }

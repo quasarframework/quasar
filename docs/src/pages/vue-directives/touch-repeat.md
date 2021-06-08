@@ -1,6 +1,7 @@
 ---
 title: Touch Repeat Directive
 desc: Vue directive which triggers an event at specified intervals of time while the user touches and holds on a component or element.
+keys: touch-repeat
 ---
 Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and `v-touch-repeat`.
 
@@ -8,8 +9,9 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-repeat` on the lines below.
 
-## Installation
-<doc-installation directives="TouchRepeat" />
+## TouchRepeat API
+
+<doc-api file="TouchRepeat" />
 
 ## Usage
 Click and hold with your mouse on the area below to see it in action.
@@ -30,14 +32,14 @@ Below is an example of applying TouchRepeat to QBtn. Notice how we play with the
 ### Handling Mouse Events
 When you want to handle mouse events too, use the `mouse` modifier:
 
-``` html
+```html
 <div v-touch-repeat.mouse="myHandler">...</div>
 ```
 
 ### Handling Key Events
 When you want to handle key events too, use [keycodes](https://keycode.info/) as modifiers:
 
-``` html
+```html
 <div v-touch-repeat.65.70="myHandler">...</div>
 ```
 
@@ -46,7 +48,7 @@ There are some special modifiers that you do not require to write the equivalent
 ### Inhibiting TouchRepeat
 When you want to inhibit TouchRepeat, you can do so by stopping propagation of the `touchstart`/`mousedown`/`keydown` events from the inner content:
 
-``` html
+```html
 <div v-touch-repeat.mouse.enter="userHasHold">
   <!-- ...content -->
   <div @touchstart.stop @mousedown.stop @keydown.stop>
@@ -64,6 +66,3 @@ However, if you are using `capture`, `mouseCapture` or `keyCapture` modifiers th
 
 ## Note on HMR
 Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.
-
-## TouchRepeat API
-<doc-api file="TouchRepeat" />

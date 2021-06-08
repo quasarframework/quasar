@@ -1,10 +1,13 @@
+@import './helpers/string.sass'
+@import './helpers/math.sass'
+
 @import './variables.sass'
 @import './normalize.sass'
 
 @import '../components/icon/QIcon.sass'
 
-/* Mixins */
-@import '../mixins/panel.sass'
+/* Composables */
+@import '../composables/private/use-panel.sass'
 
 /* Components */
 @import '../components/ajax-bar/QAjaxBar.sass'
@@ -97,6 +100,3 @@
 @import './core/typography.sass'
 @import './core/visibility.sass'
 @import './core/dark.sass'
-
-/* IE Compat */
-@import '../ie-compat/ie.sass'

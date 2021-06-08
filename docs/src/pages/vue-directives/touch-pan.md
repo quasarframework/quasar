@@ -1,6 +1,7 @@
 ---
 title: Touch Pan Directive
 desc: Vue directive which triggers an event when the user drags the finger or mouse on a component or element.
+keys: touch-pan
 related:
   - /vue-directives/touch-swipe
   - /vue-directives/touch-hold
@@ -11,8 +12,9 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-pan` on the lines below.
 
-## Installation
-<doc-installation directives="TouchPan" />
+## TouchPan API
+
+<doc-api file="TouchPan" />
 
 ## Usage
 Click then pan in a direction with your mouse on the area below to see it in action.
@@ -43,7 +45,7 @@ Example on capturing panning on custom directions. For this, use modifiers: `up`
 ### Handling Mouse Events
 When you want to handle mouse events too, use the `mouse` modifier:
 
-``` html
+```html
 <!--
   directive will also be triggered by mouse actions
 -->
@@ -53,14 +55,14 @@ When you want to handle mouse events too, use the `mouse` modifier:
 ### Preventing Scroll (on touch capable devices)
 By default, the directive does not block page scrolling. If you want to prevent scrolling, then use the `prevent` modifier.
 
-``` html
+```html
 <div v-touch-pan.prevent="userHasPanned">...</div>
 ```
 
 ### Inhibiting TouchPan
 When you want to inhibit TouchPan, you can do so by stopping propagation of the `touchstart`/`mousedown` events from the inner content:
 
-``` html
+```html
 <div v-touch-pan.mouse="userHasHold">
   <!-- ...content -->
   <div @touchstart.stop @mousedown.stop>
@@ -84,6 +86,3 @@ Below is a nice example on using TouchPan on a QFab. You can drag it across the 
 
 ## Note on HMR
 Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.
-
-## TouchPan API
-<doc-api file="TouchPan" />

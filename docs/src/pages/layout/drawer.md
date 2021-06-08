@@ -1,6 +1,7 @@
 ---
 title: Layout Drawer
 desc: How to use the QDrawer component. The sidebars of your Quasar app.
+keys: QDrawer
 related:
   - /layout/layout
   - /vue-components/list-and-list-items
@@ -10,13 +11,13 @@ QLayout allows you to configure your views as a 3x3 matrix, containing optional 
 
 QDrawer is the sidebar part of your QLayout.
 
-## Installation
-<doc-installation components="QDrawer" />
+## QDrawer API
+<doc-api file="QDrawer" />
 
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
-<q-btn push color="primary" icon-right="launch" label="Layout Builder" type="a" href="layout-builder" target="_blank" rel="noopener noreferrer" />
+<q-btn push color="brand-primary" icon-right="launch" label="Layout Builder" type="a" href="layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ## Usage
 ::: tip
@@ -59,7 +60,7 @@ There are some CSS classes that will help you customize the drawer when dealing 
 | `q-mini-drawer-hide` | Hide when drawer is in "mini" mode. |
 | `q-mini-drawer-only` | Show only when drawer is in "mini" mode. |
 
-You can also write your own CSS classes based on the fact that QLayoutDrawer has `q-layout-drawer-normal` CSS class when in "normal" mode and `q-layout-drawer-mini` when in "mini" mode. Also, when drawer is in "mobile" behavior, it gets `q-layout-drawer-mobile` CSS class.
+You can also write your own CSS classes based on the fact that QLayoutDrawer has `q-drawer--standard` CSS class when in "normal" mode and `q-drawer--mini` when in "mini" mode. Also, when drawer is in "mobile" behavior, it gets `q-drawer--mobile` CSS class.
 
 #### Mouseover/mouseout trigger
 
@@ -91,6 +92,3 @@ The overlay mode prevents the drawer from occupying space on the layout and rath
 On the example below, click the menu icon to see the drawer in action. It's best viewed on a desktop with a window of at least 500px width (this is the breakpoint that is set on this demo).
 
 <doc-example title="Overlay mode" file="QDrawer/OverlayMode" />
-
-## QDrawer API
-<doc-api file="QDrawer" />

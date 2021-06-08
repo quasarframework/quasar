@@ -5,13 +5,19 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+
 export default {
-  methods: {
-    showNotif () {
-      this.$q.notify({
-        message: '<em>I can</em> <span style="color: red">use</span> <strong>HTML</strong>',
-        html: true
-      })
+  setup () {
+    const $q = useQuasar()
+
+    return {
+      showNotif () {
+        $q.notify({
+          message: '<em>I can</em> <span style="color: red">use</span> <strong>HTML</strong>',
+          html: true
+        })
+      }
     }
   }
 }

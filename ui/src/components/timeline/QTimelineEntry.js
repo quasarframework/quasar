@@ -1,19 +1,12 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed, inject } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import { hSlot, hUniqueSlot } from '../../utils/render.js'
+import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
+import { timelineKey } from '../../utils/private/symbols.js'
 
 export default defineComponent({
   name: 'QTimelineEntry',
-
-  inject: {
-    __qTimeline: {
-      default () {
-        console.error('QTimelineEntry needs to be child of QTimeline')
-      }
-    }
-  },
 
   props: {
     heading: Boolean,
@@ -24,7 +17,7 @@ export default defineComponent({
     side: {
       type: String,
       default: 'right',
-      validator: v => ['left', 'right'].includes(v)
+      validator: v => [ 'left', 'right' ].includes(v)
     },
 
     icon: String,
@@ -37,79 +30,81 @@ export default defineComponent({
     body: String
   },
 
-  computed: {
-    classes () {
-      return `q-timeline__entry q-timeline__entry--${this.side}` +
-        (this.icon !== void 0 || this.avatar !== void 0 ? ' q-timeline__entry--icon' : '')
-    },
+  setup (props, { slots }) {
+    const $timeline = inject(timelineKey, () => {
+      console.error('QTimelineEntry needs to be child of QTimeline')
+    })
 
-    dotClass () {
-      return `q-timeline__dot text-${this.color || this.__qTimeline.color}`
-    },
+    const classes = computed(() =>
+      `q-timeline__entry q-timeline__entry--${ props.side }`
+      + (props.icon !== void 0 || props.avatar !== void 0 ? ' q-timeline__entry--icon' : '')
+    )
 
-    reverse () {
-      return this.__qTimeline.layout === 'comfortable' && this.__qTimeline.side === 'left'
-    }
-  },
+    const dotClass = computed(() =>
+      `q-timeline__dot text-${ props.color || $timeline.color }`
+    )
 
-  render () {
-    const child = hUniqueSlot(this, 'default', [])
+    const reverse = computed(() =>
+      $timeline.layout === 'comfortable' && $timeline.side === 'left'
+    )
 
-    if (this.body !== void 0) {
-      child.unshift(this.body)
-    }
+    return () => {
+      const child = hUniqueSlot(slots.default, [])
 
-    if (this.heading === true) {
+      if (props.body !== void 0) {
+        child.unshift(props.body)
+      }
+
+      if (props.heading === true) {
+        const content = [
+          h('div'),
+          h('div'),
+          h(
+            props.tag,
+            { class: 'q-timeline__heading-title' },
+            child
+          )
+        ]
+
+        return h('div', {
+          class: 'q-timeline__heading'
+        }, reverse.value === true ? content.reverse() : content)
+      }
+
+      let dot
+
+      if (props.icon !== void 0) {
+        dot = [
+          h(QIcon, {
+            class: 'row items-center justify-center',
+            name: props.icon
+          })
+        ]
+      }
+      else if (props.avatar !== void 0) {
+        dot = [
+          h('img', {
+            class: 'q-timeline__dot-img',
+            src: props.avatar
+          })
+        ]
+      }
+
       const content = [
-        h('div'),
-        h('div'),
-        h(
-          this.tag,
-          { class: 'q-timeline__heading-title' },
-          child
-        )
+        h('div', { class: 'q-timeline__subtitle' }, [
+          h('span', {}, hSlot(slots.subtitle, [ props.subtitle ]))
+        ]),
+
+        h('div', { class: dotClass.value }, dot),
+
+        h('div', { class: 'q-timeline__content' }, [
+          h('h6', { class: 'q-timeline__title' }, hSlot(slots.title, [ props.title ]))
+        ].concat(child))
       ]
 
-      return h('div', {
-        class: 'q-timeline__heading'
-      }, this.reverse === true ? content.reverse() : content)
+      return h('li', {
+        class: classes.value
+      }, reverse.value === true ? content.reverse() : content)
     }
-
-    let dot
-
-    if (this.icon !== void 0) {
-      dot = [
-        h(QIcon, {
-          class: 'row items-center justify-center',
-          name: this.icon
-        })
-      ]
-    }
-    else if (this.avatar !== void 0) {
-      dot = [
-        h('img', {
-          class: 'q-timeline__dot-img',
-          src: this.avatar
-        })
-      ]
-    }
-
-    const content = [
-      h('div', { class: 'q-timeline__subtitle' }, [
-        h('span', {}, hSlot(this, 'subtitle', [ this.subtitle ]))
-      ]),
-
-      h('div', {
-        class: this.dotClass
-      }, dot),
-
-      h('div', { class: 'q-timeline__content' }, [
-        h('h6', { class: 'q-timeline__title' }, hSlot(this, 'title', [ this.title ]))
-      ].concat(child))
-    ]
-
-    return h('li', {
-      class: this.classes
-    }, this.reverse === true ? content.reverse() : content)
   }
 })

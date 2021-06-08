@@ -115,7 +115,7 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `~${val}`,
+          format: val => `~${ val }`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
@@ -249,9 +249,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .q-table + .q-table
-  margin-top 25px
+  margin-top: 25px
 .text-pre-wrap
-  white-space pre-wrap
+  white-space: pre-wrap
 </style>

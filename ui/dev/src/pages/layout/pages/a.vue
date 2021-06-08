@@ -78,7 +78,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .page-a-padding
-  padding 55px 125px
+  padding: 55px 125px
 </style>

@@ -1,14 +1,14 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
 
 import QList from '../item/QList.js'
 import QMarkupTable from '../markup-table/QMarkupTable.js'
 import getTableMiddle from '../table/get-table-middle.js'
 
-import VirtualScroll from '../../mixins/virtual-scroll.js'
+import { useVirtualScroll, useVirtualScrollProps } from './use-virtual-scroll.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
-import { hMergeSlot } from '../../utils/render.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 
 const comps = {
   list: QList,
@@ -20,9 +20,9 @@ const typeOptions = [ 'list', 'table', '__qtable' ]
 export default defineComponent({
   name: 'QVirtualScroll',
 
-  mixins: [ VirtualScroll ],
-
   props: {
+    ...useVirtualScrollProps,
+
     type: {
       type: String,
       default: 'list',
@@ -42,111 +42,120 @@ export default defineComponent({
     }
   },
 
-  computed: {
-    virtualScrollLength () {
-      return this.itemsSize >= 0 && this.itemsFn !== void 0
-        ? parseInt(this.itemsSize, 10)
-        : (Array.isArray(this.items) ? this.items.length : 0)
-    },
+  setup (props, { slots, attrs }) {
+    let localScrollTarget
+    const rootRef = ref(null)
 
-    virtualScrollScope () {
-      if (this.virtualScrollLength === 0) {
+    const virtualScrollLength = computed(() => (
+      props.itemsSize >= 0 && props.itemsFn !== void 0
+        ? parseInt(props.itemsSize, 10)
+        : (Array.isArray(props.items) ? props.items.length : 0)
+    ))
+
+    const {
+      virtualScrollSliceRange,
+      localResetVirtualScroll,
+      padVirtualScroll,
+      onVirtualScrollEvt
+    } = useVirtualScroll({
+      virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl
+    })
+
+    const virtualScrollScope = computed(() => {
+      if (virtualScrollLength.value === 0) {
         return []
       }
 
       const mapFn = (item, i) => ({
-        index: this.virtualScrollSliceRange.from + i,
+        index: virtualScrollSliceRange.value.from + i,
         item
       })
 
-      return this.itemsFn === void 0
-        ? this.items.slice(this.virtualScrollSliceRange.from, this.virtualScrollSliceRange.to).map(mapFn)
-        : this.itemsFn(this.virtualScrollSliceRange.from, this.virtualScrollSliceRange.to - this.virtualScrollSliceRange.from).map(mapFn)
-    },
+      return props.itemsFn === void 0
+        ? props.items.slice(virtualScrollSliceRange.value.from, virtualScrollSliceRange.value.to).map(mapFn)
+        : props.itemsFn(virtualScrollSliceRange.value.from, virtualScrollSliceRange.value.to - virtualScrollSliceRange.value.from).map(mapFn)
+    })
 
-    classes () {
-      return 'q-virtual-scroll q-virtual-scroll' + (this.virtualScrollHorizontal === true ? '--horizontal' : '--vertical') +
-        (this.scrollTarget !== void 0 ? '' : ' scroll')
-    },
+    const classes = computed(() =>
+      'q-virtual-scroll q-virtual-scroll' + (props.virtualScrollHorizontal === true ? '--horizontal' : '--vertical')
+      + (props.scrollTarget !== void 0 ? '' : ' scroll')
+    )
 
-    attrs () {
-      return this.scrollTarget !== void 0 ? {} : { tabindex: 0 }
+    const attributes = computed(() => (
+      props.scrollTarget !== void 0 ? {} : { tabindex: 0 }
+    ))
+
+    watch(virtualScrollLength, () => {
+      localResetVirtualScroll()
+    })
+
+    watch(() => props.scrollTarget, () => {
+      unconfigureScrollTarget()
+      configureScrollTarget()
+    })
+
+    function getVirtualScrollEl () {
+      return rootRef.value.$el || rootRef.value
     }
-  },
 
-  watch: {
-    virtualScrollLength () {
-      this.__resetVirtualScroll()
-    },
-
-    scrollTarget () {
-      this.__unconfigureScrollTarget()
-      this.__configureScrollTarget()
+    function getVirtualScrollTarget () {
+      return localScrollTarget
     }
-  },
 
-  methods: {
-    __getVirtualScrollEl () {
-      return this.$el
-    },
+    function configureScrollTarget () {
+      localScrollTarget = getScrollTarget(getVirtualScrollEl(), props.scrollTarget)
+      localScrollTarget.addEventListener('scroll', onVirtualScrollEvt, listenOpts.passive)
+    }
 
-    __getVirtualScrollTarget () {
-      return this.__scrollTarget
-    },
-
-    __configureScrollTarget () {
-      this.__scrollTarget = getScrollTarget(this.$el, this.scrollTarget)
-      this.__scrollTarget.addEventListener('scroll', this.__onVirtualScrollEvt, listenOpts.passive)
-    },
-
-    __unconfigureScrollTarget () {
-      if (this.__scrollTarget !== void 0) {
-        this.__scrollTarget.removeEventListener('scroll', this.__onVirtualScrollEvt, listenOpts.passive)
-        this.__scrollTarget = void 0
+    function unconfigureScrollTarget () {
+      if (localScrollTarget !== void 0) {
+        localScrollTarget.removeEventListener('scroll', onVirtualScrollEvt, listenOpts.passive)
+        localScrollTarget = void 0
       }
-    },
+    }
 
-    __getVirtualChildren () {
-      let child = this.__padVirtualScroll(
-        this.type === 'list' ? 'div' : 'tbody',
-        this.virtualScrollScope.map(this.$slots.default)
+    function __getVirtualChildren () {
+      let child = padVirtualScroll(
+        props.type === 'list' ? 'div' : 'tbody',
+        virtualScrollScope.value.map(slots.default)
       )
 
-      if (this.$slots.before !== void 0) {
-        child = this.$slots.before().concat(child)
+      if (slots.before !== void 0) {
+        child = slots.before().concat(child)
       }
 
-      return hMergeSlot(child, this, 'after')
-    }
-  },
-
-  render () {
-    if (this.$slots.default === void 0) {
-      console.error(`QVirtualScroll: default scoped slot is required for rendering`, this)
-      return
+      return hMergeSlot(slots.after, child)
     }
 
-    return this.type === '__qtable'
-      ? getTableMiddle(
-        { class: 'q-table__middle ' + this.classes },
-        this.__getVirtualChildren()
-      )
-      : h(comps[this.type], {
-        ...this.$attrs,
-        class: [ this.$attrs.class, this.classes ],
-        ...this.attrs
-      }, this.__getVirtualChildren)
-  },
+    onBeforeMount(() => {
+      localResetVirtualScroll()
+    })
 
-  beforeMount () {
-    this.__resetVirtualScroll()
-  },
+    onMounted(() => {
+      configureScrollTarget()
+    })
 
-  mounted () {
-    this.__configureScrollTarget()
-  },
+    onBeforeUnmount(() => {
+      unconfigureScrollTarget()
+    })
 
-  beforeUnmount () {
-    this.__unconfigureScrollTarget()
+    return () => {
+      if (slots.default === void 0) {
+        console.error('QVirtualScroll: default scoped slot is required for rendering')
+        return
+      }
+
+      return props.type === '__qtable'
+        ? getTableMiddle(
+            { ref: rootRef, class: 'q-table__middle ' + classes.value },
+            __getVirtualChildren()
+          )
+        : h(comps[ props.type ], {
+          ...attrs,
+          ref: rootRef,
+          class: [ attrs.class, classes.value ],
+          ...attributes.value
+        }, __getVirtualChildren)
+    }
   }
 })

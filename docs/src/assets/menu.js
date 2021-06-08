@@ -39,6 +39,7 @@ const gettingStarted = [
   },
   {
     name: 'Upgrade guide',
+    badge: 'new',
     path: 'upgrade-guide'
   },
   {
@@ -72,8 +73,8 @@ const contributionGuide = [
 
 const options = [
   {
-    name: 'Vue Prototype Injections',
-    path: 'vue-prototype-injections'
+    name: 'The $q object',
+    path: 'the-q-object'
   },
   {
     name: 'App Icons',
@@ -118,26 +119,23 @@ const options = [
   {
     name: 'Transitions',
     path: 'transitions'
-  },
-  {
-    name: 'Global Event Bus',
-    path: 'global-event-bus'
   }
 ]
 
 const security = [
   {
-    name: `DO's and DON'Ts`,
+    name: 'DO\'s and DON\'Ts',
     path: 'dos-and-donts'
   },
   {
     name: 'Report a vulnerability',
     path: 'report-a-vulnerability'
-  },
-  {
-    name: 'Get help!',
-    path: 'get-help'
   }
+  // Re-enable when ready again
+  // {
+  //   name: 'Get help!',
+  //   path: 'get-help'
+  // }
 ]
 
 const cli = [
@@ -146,17 +144,11 @@ const cli = [
     path: 'installation'
   },
   {
-    name: 'Upgrade guide (v2)',
-    badge: 'new',
-    path: 'app-upgrade-guide'
-  },
-  {
     name: 'quasar.conf.js',
     path: 'quasar-conf-js'
   },
   {
     name: 'Browser Compatibility',
-    badge: 'new',
     path: 'browser-compatibility'
   },
   {
@@ -258,12 +250,32 @@ const cli = [
         path: 'writing-universal-code'
       },
       {
+        name: 'Upgrade guide',
+        badge: 'new',
+        path: 'ssr-upgrade-guide'
+      },
+      {
         name: 'Preparation',
         path: 'preparation'
       },
       {
         name: 'Configuring SSR',
         path: 'configuring-ssr'
+      },
+      {
+        name: 'ssrContext',
+        badge: 'update',
+        path: 'ssr-context'
+      },
+      {
+        name: 'SSR Middleware',
+        badge: 'new',
+        path: 'ssr-middleware'
+      },
+      {
+        name: 'Vue SSR Directives',
+        badge: 'new',
+        path: 'vue-ssr-directives'
       },
       {
         name: 'App Icons for SSR',
@@ -292,6 +304,11 @@ const cli = [
       {
         name: 'Build Commands',
         path: 'build-commands'
+      },
+      {
+        name: 'SSR with Typescript',
+        badge: 'new',
+        path: 'ssr-with-typescript'
       },
       {
         name: 'Deploying',
@@ -330,12 +347,64 @@ const cli = [
       {
         name: 'Handling Service Worker',
         path: 'handling-service-worker'
+      },
+      {
+        name: 'PWA with Typescript',
+        badge: 'new',
+        path: 'pwa-with-typescript'
       }
     ]
   },
   {
     name: 'Developing Mobile Apps',
     path: 'developing-mobile-apps'
+  },
+  {
+    name: 'Developing Capacitor Apps',
+    path: 'developing-capacitor-apps',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Capacitor versions',
+        badge: 'new',
+        path: 'capacitor-version-support'
+      },
+      {
+        name: 'Configuring Capacitor',
+        path: 'configuring-capacitor'
+      },
+      {
+        name: 'App Icons for Capacitor',
+        path: 'app-icons-capacitor'
+      },
+      {
+        name: 'Capacitor API',
+        path: 'capacitor-api'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Troubleshooting and Tips',
+        path: 'troubleshooting-and-tips'
+      },
+      {
+        name: 'Managing Google Analytics',
+        path: 'managing-google-analytics'
+      },
+      {
+        name: 'Publishing to Store',
+        path: 'publishing-to-store'
+      }
+    ]
   },
   {
     name: 'Developing Cordova Apps',
@@ -380,54 +449,17 @@ const cli = [
     ]
   },
   {
-    name: 'Developing Capacitor Apps',
-    path: 'developing-capacitor-apps',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
-        name: 'Preparation',
-        path: 'preparation'
-      },
-      {
-        name: 'Configuring Capacitor',
-        path: 'configuring-capacitor'
-      },
-      {
-        name: 'App Icons for Capacitor',
-        path: 'app-icons-capacitor'
-      },
-      {
-        name: 'Capacitor API',
-        path: 'capacitor-api'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Troubleshooting and Tips',
-        path: 'troubleshooting-and-tips'
-      },
-      {
-        name: 'Managing Google Analytics',
-        path: 'managing-google-analytics'
-      },
-      {
-        name: 'Publishing to Store',
-        path: 'publishing-to-store'
-      }
-    ]
-  },
-  {
     name: 'Developing Electron Apps',
     path: 'developing-electron-apps',
     children: [
       {
         name: 'Introduction',
         path: 'introduction'
+      },
+      {
+        name: 'Upgrade guide',
+        path: 'electron-upgrade-guide',
+        badge: 'new'
       },
       {
         name: 'Preparation',
@@ -442,8 +474,8 @@ const cli = [
         path: 'app-icons-electron'
       },
       {
-        name: 'Node Integration',
-        path: 'node-integration'
+        name: 'Build Commands',
+        path: 'build-commands'
       },
       {
         name: 'Preload Script',
@@ -454,16 +486,17 @@ const cli = [
         path: 'electron-packages'
       },
       {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Electron Static Assets',
-        path: 'electron-static-assets'
+        name: 'Accessing files',
+        path: 'electron-accessing-files'
       },
       {
         name: 'Frameless Electron Window',
         path: 'frameless-electron-window'
+      },
+      {
+        name: 'Electron with Typescript',
+        badge: 'new',
+        path: 'electron-with-typescript'
       },
       {
         name: 'Electron Security Concerns',
@@ -604,10 +637,6 @@ const style = [
     path: 'sass-scss-variables'
   },
   {
-    name: 'Stylus Variables',
-    path: 'stylus-variables'
-  },
-  {
     name: 'Other Helper Classes',
     path: 'other-helper-classes'
   }
@@ -681,111 +710,6 @@ const layout = [
   {
     name: 'Page Scroller',
     path: 'page-scroller'
-  }
-]
-
-const directives = [
-  {
-    name: 'Close Popup',
-    path: 'close-popup'
-  },
-  {
-    name: 'Go Back (Handling Back Button)',
-    path: 'go-back'
-  },
-  {
-    name: 'Intersection',
-    path: 'intersection'
-  },
-  {
-    name: 'Material Ripples',
-    path: 'material-ripple'
-  },
-  {
-    name: 'Mutation',
-    path: 'mutation'
-  },
-  {
-    name: 'Morph',
-    badge: 'new',
-    path: 'morph'
-  },
-  {
-    name: 'Scroll',
-    path: 'scroll'
-  },
-  {
-    name: 'Scroll Fire',
-    path: 'scroll-fire'
-  },
-  {
-    name: 'Touch Hold',
-    path: 'touch-hold'
-  },
-  {
-    name: 'Touch Pan',
-    path: 'touch-pan'
-  },
-  {
-    name: 'Touch Repeat',
-    path: 'touch-repeat'
-  },
-  {
-    name: 'Touch Swipe',
-    path: 'touch-swipe'
-  }
-]
-
-const plugins = [
-  {
-    name: 'Addressbar Color',
-    path: 'addressbar-color'
-  },
-  {
-    name: 'App Fullscreen',
-    path: 'app-fullscreen'
-  },
-  {
-    name: 'App Visibility',
-    path: 'app-visibility'
-  },
-  {
-    name: 'Bottom Sheet',
-    path: 'bottom-sheet'
-  },
-  {
-    name: 'Cookies',
-    path: 'cookies'
-  },
-  {
-    name: 'Dark',
-    path: 'dark'
-  },
-  {
-    name: 'Dialog',
-    badge: 'update',
-    path: 'dialog'
-  },
-  {
-    name: 'Loading',
-    path: 'loading'
-  },
-  {
-    name: 'Loading Bar',
-    path: 'loading-bar'
-  },
-  {
-    name: 'Local/Session Storage',
-    path: 'web-storage'
-  },
-  {
-    name: 'Meta',
-    path: 'meta'
-  },
-  {
-    name: 'Notify',
-    badge: 'update',
-    path: 'notify'
   }
 ]
 
@@ -931,14 +855,12 @@ const components = [
       },
       {
         name: 'Date Picker',
-        badge: 'update',
         path: 'date'
       }
     ]
   },
   {
     name: 'Icon',
-    badge: 'update',
     path: 'icon'
   },
   {
@@ -1061,7 +983,6 @@ const components = [
   },
   {
     name: 'Table',
-    badge: 'update',
     path: 'table'
   },
   {
@@ -1099,6 +1020,123 @@ const components = [
   {
     name: 'Virtual Scroll',
     path: 'virtual-scroll'
+  }
+]
+
+const directives = [
+  {
+    name: 'Close Popup',
+    path: 'close-popup'
+  },
+  {
+    name: 'Intersection',
+    path: 'intersection'
+  },
+  {
+    name: 'Material Ripples',
+    path: 'material-ripple'
+  },
+  {
+    name: 'Mutation',
+    path: 'mutation'
+  },
+  {
+    name: 'Morph',
+    path: 'morph'
+  },
+  {
+    name: 'Scroll',
+    path: 'scroll'
+  },
+  {
+    name: 'Scroll Fire',
+    path: 'scroll-fire'
+  },
+  {
+    name: 'Touch Hold',
+    path: 'touch-hold'
+  },
+  {
+    name: 'Touch Pan',
+    path: 'touch-pan'
+  },
+  {
+    name: 'Touch Repeat',
+    path: 'touch-repeat'
+  },
+  {
+    name: 'Touch Swipe',
+    path: 'touch-swipe'
+  }
+]
+
+const plugins = [
+  {
+    name: 'Addressbar Color',
+    path: 'addressbar-color'
+  },
+  {
+    name: 'App Fullscreen',
+    path: 'app-fullscreen'
+  },
+  {
+    name: 'App Visibility',
+    path: 'app-visibility'
+  },
+  {
+    name: 'Bottom Sheet',
+    path: 'bottom-sheet'
+  },
+  {
+    name: 'Cookies',
+    path: 'cookies'
+  },
+  {
+    name: 'Dark',
+    path: 'dark'
+  },
+  {
+    name: 'Dialog',
+    path: 'dialog'
+  },
+  {
+    name: 'Loading',
+    path: 'loading'
+  },
+  {
+    name: 'Loading Bar',
+    path: 'loading-bar'
+  },
+  {
+    name: 'Local/Session Storage',
+    path: 'web-storage'
+  },
+  {
+    name: 'Meta',
+    path: 'meta'
+  },
+  {
+    name: 'Notify',
+    path: 'notify'
+  }
+]
+
+const composables = [
+  {
+    name: 'useQuasar',
+    path: 'use-quasar'
+  },
+  {
+    name: 'useDialogPluginComponent',
+    path: 'use-dialog-plugin-component'
+  },
+  {
+    name: 'useFormChild',
+    path: 'use-form-child'
+  },
+  {
+    name: 'useMeta',
+    path: 'use-meta'
   }
 ]
 
@@ -1186,7 +1224,6 @@ const utils = [
   },
   {
     name: 'Morph Utils',
-    badge: 'new',
     path: 'morph-utils'
   },
   {
@@ -1220,6 +1257,12 @@ module.exports = [
     path: 'why-donate'
   },
   {
+    name: 'API Explorer',
+    icon: 'travel_explore',
+    badge: 'new',
+    path: 'api-explorer'
+  },
+  {
     name: 'Video Tutorials',
     icon: 'ondemand_video',
     path: 'video-tutorials'
@@ -1242,28 +1285,10 @@ module.exports = [
     children: contributionGuide
   },
   {
-    name: 'Quasar Options & Helpers',
+    name: 'Options & Helpers',
     icon: 'tune',
     path: 'options',
     children: options
-  },
-  {
-    name: 'Security',
-    icon: 'security',
-    path: 'security',
-    children: security
-  },
-  {
-    name: 'Quasar CLI',
-    icon: 'build',
-    path: 'quasar-cli',
-    children: cli
-  },
-  {
-    name: 'Icon Genie CLI',
-    icon: 'stars',
-    path: 'icongenie',
-    children: icongenie
   },
   {
     name: 'Style & Identity',
@@ -1294,6 +1319,30 @@ module.exports = [
     icon: 'extension',
     path: 'quasar-plugins',
     children: plugins
+  },
+  {
+    name: 'Vue Composables',
+    icon: 'developer_mode',
+    path: 'vue-composables',
+    children: composables
+  },
+  {
+    name: 'Security',
+    icon: 'security',
+    path: 'security',
+    children: security
+  },
+  {
+    name: 'Quasar CLI',
+    icon: 'build',
+    path: 'quasar-cli',
+    children: cli
+  },
+  {
+    name: 'Icon Genie CLI',
+    icon: 'stars',
+    path: 'icongenie',
+    children: icongenie
   },
   {
     name: 'App Extensions',

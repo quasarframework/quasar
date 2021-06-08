@@ -1,32 +1,27 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import { PanelChildMixin } from '../../mixins/panel.js'
+import { usePanelChildProps } from '../../composables/private/use-panel.js'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QCarouselSlide',
 
-  mixins: [ PanelChildMixin ],
-
   props: {
+    ...usePanelChildProps,
     imgSrc: String
   },
 
-  computed: {
-    style () {
-      if (this.imgSrc) {
-        return {
-          backgroundImage: `url("${this.imgSrc}")`
-        }
-      }
-    }
-  },
+  setup (props, { slots }) {
+    const style = computed(() => (
+      props.imgSrc
+        ? { backgroundImage: `url("${ props.imgSrc }")` }
+        : {}
+    ))
 
-  render () {
-    return h('div', {
+    return () => h('div', {
       class: 'q-carousel__slide',
-      style: this.style
-    }, hSlot(this, 'default'))
+      style: style.value
+    }, hSlot(slots.default))
   }
 })

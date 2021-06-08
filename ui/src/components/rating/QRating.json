@@ -1,17 +1,13 @@
 {
-  "mixins": [ "mixins/size", "mixins/form" ],
+  "mixins": [ "composables/private/use-size", "composables/private/use-form" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/rating"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/rating"
   },
 
   "props": {
-    "value": {
-      "extends": "value",
+    "model-value": {
+      "extends": "model-value",
       "type": "Number",
       "examples": [ ":value=\"2\"" ]
     },
@@ -30,7 +26,7 @@
       "examples": [
         "map",
         "ion-add",
-        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
+        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
         "img:statics/path/to/some_image.png"
       ],
       "category": "content"
@@ -42,11 +38,10 @@
       "examples": [
         "map",
         "ion-add",
-        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
+        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
         "img:statics/path/to/some_image.png"
       ],
-      "category": "content",
-      "addedIn": "v1.1.0"
+      "category": "content"
     },
 
     "icon-half": {
@@ -55,11 +50,10 @@
       "examples": [
         "map",
         "ion-add",
-        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
+        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
         "img:statics/path/to/some_image.png"
       ],
-      "category": "content",
-      "addedIn": "v1.7.4"
+      "category": "content"
     },
 
     "color": {
@@ -72,22 +66,19 @@
     "color-selected": {
       "extends": "color",
       "type": [ "String", "Array" ],
-      "desc": "Color name from the Quasar Palette for selected icons",
-      "addedIn": "v1.5.0"
+      "desc": "Color name from the Quasar Palette for selected icons"
     },
 
     "color-half": {
       "extends": "color",
       "type": [ "String", "Array" ],
-      "desc": "Color name from the Quasar Palette for half selected icons",
-      "addedIn": "v1.7.4"
+      "desc": "Color name from the Quasar Palette for half selected icons"
     },
 
     "no-dimming": {
       "type": "Boolean",
       "desc": "Does not lower opacity for unselected icons",
-      "category": "style",
-      "addedIn": "v1.7.4"
+      "category": "style"
     },
 
     "no-reset": {
@@ -106,15 +97,14 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:model-value": {
+      "extends": "update:model-value"
     }
   },
 
   "slots": {
-    "tip-[index]": {
-      "desc": "Slot to define the tooltip of icon at '[index]' (1-based); Suggestion: QTooltip",
-      "addedIn": "v1.5.0"
+    "tip-[name]": {
+      "desc": "Slot to define the tooltip of icon at '[name]' where name is a 1-based index; Suggestion: QTooltip"
     }
   }
 }

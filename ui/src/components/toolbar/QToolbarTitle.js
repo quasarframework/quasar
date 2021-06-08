@@ -1,6 +1,6 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QToolbarTitle',
@@ -9,14 +9,12 @@ export default defineComponent({
     shrink: Boolean
   },
 
-  computed: {
-    classes () {
-      return 'q-toolbar__title ellipsis' +
-        (this.shrink === true ? ' col-shrink' : '')
-    }
-  },
+  setup (props, { slots }) {
+    const classes = computed(() =>
+      'q-toolbar__title ellipsis'
+      + (props.shrink === true ? ' col-shrink' : '')
+    )
 
-  render () {
-    return h('div', { class: this.classes }, hSlot(this, 'default'))
+    return () => h('div', { class: classes.value }, hSlot(slots.default))
   }
 })

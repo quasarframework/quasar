@@ -31,7 +31,7 @@
         </q-toolbar>
         <q-toolbar v-if="extraRow" inset>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
           </q-avatar>
           <q-toolbar-title>
             <strong>Quasar</strong> Framework
@@ -468,15 +468,15 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
   .fit-min
-    min-width 100%
-    min-height 100%
-    height 0px
+    min-width: 100%
+    min-height: 100%
+    height: 0px
 </style>
 
 <script>
-import { colors } from 'quasar'
+import { setCssVar } from 'quasar'
 
 export default {
   data () {
@@ -510,15 +510,15 @@ export default {
 
       scrolling: true,
 
-      topleft: v[0],
-      topcenter: v[1],
-      topright: v[2],
-      middleleft: v[4],
-      middlecenter: v[5],
-      middleright: v[6],
-      bottomleft: v[8],
-      bottomcenter: v[9],
-      bottomright: v[10],
+      topleft: v[ 0 ],
+      topcenter: v[ 1 ],
+      topright: v[ 2 ],
+      middleleft: v[ 4 ],
+      middlecenter: v[ 5 ],
+      middleright: v[ 6 ],
+      bottomleft: v[ 8 ],
+      bottomcenter: v[ 9 ],
+      bottomright: v[ 10 ],
       drawerBehaviorOptions: [
         { label: 'Behave Normal', value: 'default' },
         { label: 'Behave Mobile', value: 'mobile' },
@@ -533,11 +533,11 @@ export default {
   computed: {
     view () {
       const
-        top = `${this.topleft}${this.topcenter}${this.topright}`,
-        middle = `${this.middleleft}${this.middlecenter}${this.middleright}`,
-        bottom = `${this.bottomleft}${this.bottomcenter}${this.bottomright}`
+        top = `${ this.topleft }${ this.topcenter }${ this.topright }`,
+        middle = `${ this.middleleft }${ this.middlecenter }${ this.middleright }`,
+        bottom = `${ this.bottomleft }${ this.bottomcenter }${ this.bottomright }`
 
-      return `${top} ${middle} ${bottom}`
+      return `${ top } ${ middle } ${ bottom }`
     },
     marginalClass () {
       return this.whiteLayout
@@ -547,7 +547,7 @@ export default {
   },
   watch: {
     mainColor (v) {
-      colors.setBrand(`primary`, v)
+      setCssVar('primary', v)
     }
   },
   methods: {
@@ -555,7 +555,7 @@ export default {
       console.log('drawer on layout:', v)
     },
     onScroll (data) {
-      // console.log('scroll', data.position)
+      // console.log('scroll', data)
     },
     goMini () {
       console.log('goMini')

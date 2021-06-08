@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/parallax"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/parallax"
   },
 
   "props": {
@@ -48,10 +44,8 @@
 
     "media": {
       "desc": "Slot for describing <img> or <video> tags"
-    }
-  },
+    },
 
-  "scopedSlots": {
     "content": {
       "desc": "Scoped slot for describing content that gets displayed on top of the component; If specified, it overrides the default slot",
       "scope": {

@@ -1,6 +1,6 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 const alignValues = [ 'top', 'middle', 'bottom' ]
 
@@ -15,6 +15,7 @@ export default defineComponent({
     transparent: Boolean,
     multiLine: Boolean,
     outline: Boolean,
+    rounded: Boolean,
 
     label: [ Number, String ],
 
@@ -24,36 +25,35 @@ export default defineComponent({
     }
   },
 
-  computed: {
-    style () {
-      if (this.align !== void 0) {
-        return { verticalAlign: this.align }
-      }
-    },
+  setup (props, { slots }) {
+    const style = computed(() => {
+      return props.align !== void 0
+        ? { verticalAlign: props.align }
+        : null
+    })
 
-    classes () {
-      const text = this.outline === true
-        ? this.color || this.textColor
-        : this.textColor
+    const classes = computed(() => {
+      const text = props.outline === true
+        ? props.color || props.textColor
+        : props.textColor
 
-      return 'q-badge flex inline items-center no-wrap' +
-        ` q-badge--${this.multiLine === true ? 'multi' : 'single'}-line` +
-        (this.outline === true
+      return 'q-badge flex inline items-center no-wrap'
+        + ` q-badge--${ props.multiLine === true ? 'multi' : 'single' }-line`
+        + (props.outline === true
           ? ' q-badge--outline'
-          : (this.color !== void 0 ? ` bg-${this.color}` : '')
-        ) +
-        (text !== void 0 ? ` text-${text}` : '') +
-        (this.floating === true ? ' q-badge--floating' : '') +
-        (this.transparent === true ? ' q-badge--transparent' : '')
-    }
-  },
+          : (props.color !== void 0 ? ` bg-${ props.color }` : '')
+        )
+        + (text !== void 0 ? ` text-${ text }` : '')
+        + (props.floating === true ? ' q-badge--floating' : '')
+        + (props.rounded === true ? ' q-badge--rounded' : '')
+        + (props.transparent === true ? ' q-badge--transparent' : '')
+    })
 
-  render () {
-    return h('div', {
-      class: this.classes,
-      style: this.style,
+    return () => h('div', {
+      class: classes.value,
+      style: style.value,
       role: 'alert',
-      'aria-label': this.label
-    }, this.label !== void 0 ? [ this.label ] : hSlot(this, 'default'))
+      'aria-label': props.label
+    }, props.label !== void 0 ? props.label : hSlot(slots.default))
   }
 })

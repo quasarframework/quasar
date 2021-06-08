@@ -1,5 +1,8 @@
 // Configuration for your app
 const path = require('path')
+const ESLintPlugin = require('eslint-webpack-plugin')
+const { merge } = require('webpack-merge')
+const transformAssetUrls = require('quasar/dist/transforms/loader-asset-urls.json')
 
 module.exports = function (ctx) {
   return {
@@ -15,7 +18,6 @@ module.exports = function (ctx) {
     ],
 
     extras: [
-      'roboto-font',
       'material-icons'
     ],
 
@@ -27,12 +29,12 @@ module.exports = function (ctx) {
       distDir: 'dist/quasar.dev',
       // analyze: true,
 
-      chainWebpack (chain) {
-        chain.module.rule('eslint')
-          .pre()
-          .exclude.add(/node_modules|\.md\.js$/).end()
-          .test(/\.(js|vue)$/)
-          .use('eslint-loader').loader('eslint-loader')
+      chainWebpack (chain, { isServer }) {
+        chain.plugin('eslint-webpack-plugin')
+          .use(ESLintPlugin, [{
+            extensions: [ 'js', 'vue' ],
+            exclude: [ 'node_modules', '.md.js' ]
+          }])
 
         chain.resolve.alias
           .merge({
@@ -50,16 +52,26 @@ module.exports = function (ctx) {
         rule.use('v-loader')
           .loader('vue-loader')
           .options({
-            productionMode: ctx.prod,
+            isServerBuild: isServer === true,
             compilerOptions: {
-              preserveWhitespace: false
+              preserveWhitespace: false,
+              ...(
+                isServer
+                  ? { ssr: true, directiveTransforms: require('quasar/dist/ssr-directives/index.js') }
+                  : {}
+              )
             },
-            transformAssetUrls: {
-              video: 'src',
-              source: 'src',
-              img: 'src',
-              image: 'xlink:href'
-            }
+            transformAssetUrls: merge({
+              base: null,
+              includeAbsolute: false,
+              tags: {
+                video: [ 'src', 'poster' ],
+                source: ['src'],
+                img: ['src'],
+                image: [ 'xlink:href', 'href' ],
+                use: [ 'xlink:href', 'href' ]
+              }
+            }, transformAssetUrls)
           })
 
         rule.use('md-loader')
@@ -74,20 +86,50 @@ module.exports = function (ctx) {
     },
 
     framework: {
-      importStrategy: 'all',
       iconSet: 'svg-mdi-v5',
 
       config: {
         loadingBar: {
-          color: 'amber'
+          color: 'brand-primary',
+          size: '4px'
         }
-      }
+      },
+
+      components: [
+        'QMarkupTable', // required md-plugin-table
+        'QBtn', // used directly in some .md files
+        'QBadge', // used directly in some .md files
+        'QSeparator' // used directly in some .md files
+      ],
+
+      plugins: [
+        'AddressbarColor',
+        'AppFullscreen',
+        'AppVisibility',
+        'BottomSheet',
+        'Cookies',
+        'Dark',
+        'Dialog',
+        'Loading',
+        'LoadingBar',
+        'LocalStorage',
+        'Meta',
+        'Notify',
+        'Platform',
+        'Screen',
+        'SessionStorage'
+      ]
     },
 
     animations: [ 'fadeIn', 'fadeOut' ],
 
     ssr: {
-      pwa: true
+      pwa: ctx.prod,
+      prodPort: 3010,
+      middlewares: [
+        ctx.prod ? 'compression' : '',
+        'render'
+      ]
     },
 
     pwa: {
@@ -104,64 +146,54 @@ module.exports = function (ctx) {
         ]
       },
       manifest: {
-        name: 'Quasar Documentation',
-        short_name: 'Quasar Docs',
-        description: 'Quasar Framework Documentation',
+        name: 'Quasar v2 Docs',
+        short_name: 'Quasar v2',
+        description: 'Quasar Framework v2 Documentation',
         display: 'standalone',
-        orientation: 'portrait',
-        background_color: '#ffffff',
-        theme_color: '#027be3',
+        orientation: 'any',
+        background_color: '#000000',
+        theme_color: '#00B4FF',
         icons: [
           {
-            src: 'https://cdn.quasar.dev/app-icons/icon-128x128.png',
+            src: 'https://cdn.quasar.dev/logo-v2/favicon/icon-128x128.png',
             sizes: '128x128',
             type: 'image/png'
           },
           {
-            src: 'https://cdn.quasar.dev/app-icons/icon-192x192.png',
+            src: 'https://cdn.quasar.dev/logo-v2/favicon/icon-192x192.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'https://cdn.quasar.dev/app-icons/icon-256x256.png',
+            src: 'https://cdn.quasar.dev/logo-v2/favicon/icon-256x256.png',
             sizes: '256x256',
             type: 'image/png'
           },
           {
-            src: 'https://cdn.quasar.dev/app-icons/icon-384x384.png',
+            src: 'https://cdn.quasar.dev/logo-v2/favicon/icon-384x384.png',
             sizes: '384x384',
             type: 'image/png'
           },
           {
-            src: 'https://cdn.quasar.dev/app-icons/icon-512x512.png',
+            src: 'https://cdn.quasar.dev/logo-v2/favicon/icon-512x512.png',
             sizes: '512x512',
             type: 'image/png'
           }
         ]
       },
       metaVariables: {
-        appleTouchIcon120: 'https://cdn.quasar.dev/app-icons/apple-icon-120x120.png',
-        appleTouchIcon180: 'https://cdn.quasar.dev/app-icons/apple-icon-180x180.png',
-        appleTouchIcon152: 'https://cdn.quasar.dev/app-icons/apple-icon-152x152.png',
-        appleTouchIcon167: 'https://cdn.quasar.dev/app-icons/apple-icon-167x167.png',
-        appleSafariPinnedTab: 'https://cdn.quasar.dev/app-icons/safari-pinned-tab.svg',
-        msapplicationTileImage: 'https://cdn.quasar.dev/app-icons/ms-icon-144x144.png'
+        appleTouchIcon120: 'https://cdn.quasar.dev/logo-v2/favicon/apple-icon-120x120.png',
+        appleTouchIcon180: 'https://cdn.quasar.dev/logo-v2/favicon/apple-icon-180x180.png',
+        appleTouchIcon152: 'https://cdn.quasar.dev/logo-v2/favicon/apple-icon-152x152.png',
+        appleTouchIcon167: 'https://cdn.quasar.dev/logo-v2/favicon/apple-icon-167x167.png',
+        appleSafariPinnedTab: 'https://cdn.quasar.dev/logo-v2/favicon/safari-pinned-tab.svg',
+        msapplicationTileImage: 'https://cdn.quasar.dev/logo-v2/favicon/ms-icon-144x144.png'
       }
     },
 
     vendor: {
       remove: [
-        'quasar/dist/api',
-
-        // following are used by algolia
-        'algoliasearch',
-        'autocomplete.js',
-        'hogan.js',
-        'request',
-        'stack-utils',
-        'to-factory',
-        'zepto',
-        'es6-promise'
+        'quasar/dist/api'
       ]
     }
   }

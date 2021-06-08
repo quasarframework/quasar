@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, ref, computed, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import { between } from '../../utils/format.js'
 
@@ -16,12 +16,12 @@ function translate ({ p, pos, active, horiz, reverse, dir }) {
   if (horiz) {
     if (reverse) { x = -1 }
     if (pos === 'bottom') { y = -1 }
-    return { transform: `translate3d(${x * (p - 100)}%,${active ? 0 : y * -200}%,0)` }
+    return { transform: `translate3d(${ x * (p - 100) }%,${ active ? 0 : y * -200 }%,0)` }
   }
 
   if (reverse) { y = -1 }
   if (pos === 'right') { x = -1 }
-  return { transform: `translate3d(${active ? 0 : dir * x * -200}%,${y * (p - 100)}%,0)` }
+  return { transform: `translate3d(${ active ? 0 : dir * x * -200 }%,${ y * (p - 100) }%,0)` }
 }
 
 function inc (p, amount) {
@@ -94,150 +94,145 @@ export default defineComponent({
 
   emits: [ 'start', 'stop' ],
 
-  data () {
-    return {
-      calls: 0,
-      progress: 0,
-      onScreen: false,
-      animate: true
-    }
-  },
+  setup (props, { emit }) {
+    const { proxy } = getCurrentInstance()
 
-  computed: {
-    classes () {
-      return `q-loading-bar q-loading-bar--${this.position}` +
-        (this.color !== void 0 ? ` bg-${this.color}` : '') +
-        (this.animate === true ? '' : ' no-transition')
-    },
+    const progress = ref(0)
+    const onScreen = ref(false)
+    const animate = ref(true)
 
-    style () {
-      const active = this.onScreen
+    let calls = 0, timer, speed
 
-      const o = translate({
-        p: this.progress,
-        pos: this.position,
+    const classes = computed(() =>
+      `q-loading-bar q-loading-bar--${ props.position }`
+      + (props.color !== void 0 ? ` bg-${ props.color }` : '')
+      + (animate.value === true ? '' : ' no-transition')
+    )
+
+    const horizontal = computed(() => props.position === 'top' || props.position === 'bottom')
+    const sizeProp = computed(() => (horizontal.value === true ? 'height' : 'width'))
+
+    const style = computed(() => {
+      const active = onScreen.value
+
+      const obj = translate({
+        p: progress.value,
+        pos: props.position,
         active,
-        horiz: this.horizontal,
-        reverse: this.$q.lang.rtl === true && ['top', 'bottom'].includes(this.position)
-          ? !this.reverse
-          : this.reverse,
-        dir: this.$q.lang.rtl === true ? -1 : 1
+        horiz: horizontal.value,
+        reverse: proxy.$q.lang.rtl === true && [ 'top', 'bottom' ].includes(props.position)
+          ? !props.reverse
+          : props.reverse,
+        dir: proxy.$q.lang.rtl === true ? -1 : 1
       })
 
-      o[this.sizeProp] = this.size
-      o.opacity = active ? 1 : 0
+      obj[ sizeProp.value ] = props.size
+      obj.opacity = active ? 1 : 0
 
-      return o
-    },
+      return obj
+    })
 
-    horizontal () {
-      return this.position === 'top' || this.position === 'bottom'
-    },
-
-    sizeProp () {
-      return this.horizontal === true ? 'height' : 'width'
-    },
-
-    attrs () {
-      return this.onScreen === true
+    const attributes = computed(() => (
+      onScreen.value === true
         ? {
-          role: 'progressbar',
-          'aria-valuemin': 0,
-          'aria-valuemax': 100,
-          'aria-valuenow': this.progress
-        }
+            role: 'progressbar',
+            'aria-valuemin': 0,
+            'aria-valuemax': 100,
+            'aria-valuenow': progress.value
+          }
         : { 'aria-hidden': 'true' }
-    }
-  },
+    ))
 
-  methods: {
-    start (speed = 300) {
-      const oldSpeed = this.speed
-      this.speed = Math.max(0, speed) || 0
+    function start (newSpeed = 300) {
+      const oldSpeed = speed
+      speed = Math.max(0, newSpeed) || 0
 
-      this.calls++
+      calls++
 
-      if (this.calls > 1) {
-        if (oldSpeed === 0 && speed > 0) {
-          this.__work()
+      if (calls > 1) {
+        if (oldSpeed === 0 && newSpeed > 0) {
+          planNextStep()
         }
-        else if (oldSpeed > 0 && speed <= 0) {
-          clearTimeout(this.timer)
+        else if (oldSpeed > 0 && newSpeed <= 0) {
+          clearTimeout(timer)
         }
         return
       }
 
-      clearTimeout(this.timer)
-      this.$emit('start')
+      clearTimeout(timer)
+      emit('start')
 
-      this.progress = 0
+      progress.value = 0
 
-      if (this.onScreen === true) { return }
+      if (onScreen.value === true) { return }
 
-      this.onScreen = true
-      this.animate = false
-      this.timer = setTimeout(() => {
-        this.animate = true
-        speed > 0 && this.__work()
+      onScreen.value = true
+      animate.value = false
+      timer = setTimeout(() => {
+        animate.value = true
+        newSpeed > 0 && planNextStep()
       }, 100)
-    },
+    }
 
-    increment (amount) {
-      if (this.calls > 0) {
-        this.progress = inc(this.progress, amount)
+    function increment (amount) {
+      if (calls > 0) {
+        progress.value = inc(progress.value, amount)
       }
-    },
+    }
 
-    stop () {
-      this.calls = Math.max(0, this.calls - 1)
-      if (this.calls > 0) { return }
+    function stop () {
+      calls = Math.max(0, calls - 1)
+      if (calls > 0) { return }
 
-      clearTimeout(this.timer)
-      this.$emit('stop')
+      clearTimeout(timer)
+      emit('stop')
 
       const end = () => {
-        this.animate = true
-        this.progress = 100
-        this.timer = setTimeout(() => {
-          this.onScreen = false
+        animate.value = true
+        progress.value = 100
+        timer = setTimeout(() => {
+          onScreen.value = false
         }, 1000)
       }
 
-      if (this.progress === 0) {
-        this.timer = setTimeout(end, 1)
+      if (progress.value === 0) {
+        timer = setTimeout(end, 1)
       }
       else {
         end()
       }
-    },
+    }
 
-    __work () {
-      if (this.progress < 100) {
-        this.timer = setTimeout(() => {
-          this.increment()
-          this.__work()
-        }, this.speed)
+    function planNextStep () {
+      if (progress.value < 100) {
+        timer = setTimeout(() => {
+          increment()
+          planNextStep()
+        }, speed)
       }
     }
-  },
 
-  render () {
-    return h('div', {
-      class: this.classes,
-      style: this.style,
-      ...this.attrs
+    let hijacked
+
+    onMounted(() => {
+      if (props.skipHijack !== true) {
+        hijacked = true
+        highjackAjax(start, stop)
+      }
     })
-  },
 
-  mounted () {
-    if (this.skipHijack !== true) {
-      this.hijacked = true
-      highjackAjax(this.start, this.stop)
-    }
-  },
+    onBeforeUnmount(() => {
+      clearTimeout(timer)
+      hijacked === true && restoreAjax(start, stop)
+    })
 
-  beforeUnmount () {
-    clearTimeout(this.timer)
-    this.hijacked === true && restoreAjax(this.start, this.stop)
+    // expose public methods
+    Object.assign(proxy, { start, stop, increment })
+
+    return () => h('div', {
+      class: classes.value,
+      style: style.value,
+      ...attributes.value
+    })
   }
 })

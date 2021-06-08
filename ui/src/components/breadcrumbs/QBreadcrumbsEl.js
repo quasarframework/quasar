@@ -1,17 +1,16 @@
-import { h, defineComponent } from 'vue'
-
-import { hMergeSlot } from '../../utils/render.js'
+import { h, defineComponent, computed } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import RouterLinkMixin from '../../mixins/router-link.js'
+import { hMergeSlot } from '../../utils/private/render.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 
 export default defineComponent({
   name: 'QBreadcrumbsEl',
 
-  mixins: [ RouterLinkMixin ],
-
   props: {
+    ...useRouterLinkProps,
+
     label: String,
     icon: String,
 
@@ -21,22 +20,38 @@ export default defineComponent({
     }
   },
 
-  render () {
-    const child = []
+  setup (props, { slots }) {
+    const { linkTag, linkProps, hasLink, navigateToLink } = useRouterLink()
 
-    this.icon !== void 0 && child.push(
-      h(QIcon, {
-        class: 'q-breadcrumbs__el-icon' +
-          (this.label !== void 0 ? ' q-breadcrumbs__el-icon--with-label' : ''),
-        name: this.icon
-      })
+    const data = computed(() => {
+      const acc = { ...linkProps.value }
+      if (hasLink.value === true) {
+        acc.onClick = navigateToLink
+      }
+      return acc
+    })
+
+    const iconClass = computed(() =>
+      'q-breadcrumbs__el-icon'
+      + (props.label !== void 0 ? ' q-breadcrumbs__el-icon--with-label' : '')
     )
 
-    this.label !== void 0 && child.push(this.label)
+    return () => {
+      const child = []
 
-    return h(this.linkTag, {
-      class: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
-      ...this.linkProps
-    }, hMergeSlot(child, this, 'default'))
+      props.icon !== void 0 && child.push(
+        h(QIcon, {
+          class: iconClass.value,
+          name: props.icon
+        })
+      )
+
+      props.label !== void 0 && child.push(props.label)
+
+      return h(linkTag.value, {
+        class: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
+        ...data.value
+      }, hMergeSlot(slots.default, child))
+    }
   }
 })

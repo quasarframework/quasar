@@ -42,33 +42,36 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const submitEmpty = ref(false)
+    const submitResult = ref([])
+
     return {
-      file: null,
-      files: null,
+      file: ref(null),
+      files: ref(null),
 
-      submitEmpty: false,
-      submitResult: []
-    }
-  },
+      submitEmpty,
+      submitResult,
 
-  methods: {
-    onSubmit (evt) {
-      const formData = new FormData(evt.target)
-      const submitResult = []
+      onSubmit (evt) {
+        const formData = new FormData(evt.target)
+        const data = []
 
-      for (const [ name, value ] of formData.entries()) {
-        if (value.name.length > 0) {
-          submitResult.push({
-            name,
-            value: value.name
-          })
+        for (const [ name, value ] of formData.entries()) {
+          if (value.name.length > 0) {
+            data.push({
+              name,
+              value: value.name
+            })
+          }
         }
-      }
 
-      this.submitResult = submitResult
-      this.submitEmpty = submitResult.length === 0
+        submitResult.value = data
+        submitEmpty.value = data.length === 0
+      }
     }
   }
 }

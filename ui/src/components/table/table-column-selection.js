@@ -1,65 +1,88 @@
-import { isNumber } from '../../utils/is.js'
+import { computed } from 'vue'
 
-export default {
-  props: {
-    visibleColumns: Array
-  },
+import { isNumber } from '../../utils/private/is.js'
 
-  computed: {
-    colList () {
-      if (this.columns !== void 0) {
-        return this.columns
-      }
+export const useTableColumnSelectionProps = {
+  visibleColumns: Array
+}
 
-      // we infer columns from first row
-      const row = this.rows[0]
+export function useTableColumnSelection (props, computedPagination, hasSelectionMode) {
+  const colList = computed(() => {
+    if (props.columns !== void 0) {
+      return props.columns
+    }
 
-      return row !== void 0
-        ? Object.keys(row).map(name => ({
+    // we infer columns from first row
+    const row = props.rows[ 0 ]
+
+    return row !== void 0
+      ? Object.keys(row).map(name => ({
           name,
           label: name.toUpperCase(),
           field: name,
-          align: isNumber(row[name]) ? 'right' : 'left',
+          align: isNumber(row[ name ]) ? 'right' : 'left',
           sortable: true
         }))
-        : []
-    },
+      : []
+  })
 
-    computedCols () {
-      const { sortBy, descending } = this.computedPagination
+  const computedCols = computed(() => {
+    const { sortBy, descending } = computedPagination.value
 
-      const cols = this.visibleColumns !== void 0
-        ? this.colList.filter(col => col.required === true || this.visibleColumns.includes(col.name) === true)
-        : this.colList
+    const cols = props.visibleColumns !== void 0
+      ? colList.value.filter(col => col.required === true || props.visibleColumns.includes(col.name) === true)
+      : colList.value
 
-      return cols.map(col => {
-        const align = col.align || 'right'
+    return cols.map(col => {
+      const align = col.align || 'right'
+      const alignClass = `text-${ align }`
 
-        return {
-          ...col,
-          align,
-          __iconClass: `q-table__sort-icon q-table__sort-icon--${align}`,
-          __thClass: `text-${align}` +
-            (col.headerClasses !== void 0 ? ' ' + col.headerClasses : '') +
-            (col.sortable === true ? ' sortable' : '') +
-            (col.name === sortBy ? ` sorted ${descending === true ? 'sort-desc' : ''}` : ''),
-          __tdClass: `text-${align}${col.classes !== void 0 ? ' ' + col.classes : ''}`
-        }
-      })
-    },
+      return {
+        ...col,
+        align,
+        __iconClass: `q-table__sort-icon q-table__sort-icon--${ align }`,
+        __thClass: alignClass
+          + (col.headerClasses !== void 0 ? ' ' + col.headerClasses : '')
+          + (col.sortable === true ? ' sortable' : '')
+          + (col.name === sortBy ? ` sorted ${ descending === true ? 'sort-desc' : '' }` : ''),
 
-    computedColsMap () {
-      const names = {}
-      this.computedCols.forEach(col => {
-        names[col.name] = col
-      })
-      return names
-    },
+        __tdStyle: col.style !== void 0
+          ? (
+              typeof col.style !== 'function'
+                ? () => col.style
+                : col.style
+            )
+          : () => null,
 
-    computedColspan () {
-      return this.tableColspan !== void 0
-        ? this.tableColspan
-        : this.computedCols.length + (this.hasSelectionMode === true ? 1 : 0)
-    }
+        __tdClass: col.classes !== void 0
+          ? (
+              typeof col.classes !== 'function'
+                ? () => alignClass + ' ' + col.classes
+                : row => alignClass + ' ' + col.classes(row)
+            )
+          : () => alignClass
+      }
+    })
+  })
+
+  const computedColsMap = computed(() => {
+    const names = {}
+    computedCols.value.forEach(col => {
+      names[ col.name ] = col
+    })
+    return names
+  })
+
+  const computedColspan = computed(() => {
+    return props.tableColspan !== void 0
+      ? props.tableColspan
+      : computedCols.value.length + (hasSelectionMode.value === true ? 1 : 0)
+  })
+
+  return {
+    colList,
+    computedCols,
+    computedColsMap,
+    computedColspan
   }
 }

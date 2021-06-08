@@ -1,6 +1,7 @@
 ---
 title: QTime
 desc: The QTime component provides a method to input time.
+keys: QTime
 related:
   - /vue-components/date
   - /quasar-utils/date-utils
@@ -13,8 +14,9 @@ The QTime component provides a method to input time.
 For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
 :::
 
-## Installation
-<doc-installation components="QTime" />
+## QTime API
+
+<doc-api file="QTime" />
 
 ## Usage
 
@@ -46,7 +48,7 @@ Clicking on the "Now" button sets time to current user time:
 
 The default model mask is `HH:mm` (or `HH:mm:ss` when using `with-seconds` prop), however you can use custom masks too.
 
-The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#Format-for-display).
+The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#format-for-display).
 
 ::: warning Note on SSR
 Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
@@ -79,6 +81,7 @@ If, for some reason, you need to use a custom ad-hoc locale rather than the curr
 <doc-example title="Dark" file="QTime/Dark" overflow dark />
 
 ### Limiting options
+
 * You can use the `hour-options`, `minute-options` and `second-options` props to limit user selection to certain times.
 * Alternatively, for a more in-depth way of limiting options, you can also supply a function (second example below) to `options-fn` prop.
 
@@ -92,7 +95,7 @@ Connecting a QDate and QTime with same model on a QInput:
 
 <doc-example title="QDate and QTime with QInput" file="QTime/InputFull" overflow />
 
-The following are **helpers** for QInput `mask` and `rules` props. You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#Mask).
+The following are **helpers** for QInput `mask` and `rules` props. You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#mask).
 
 * Property `mask` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/mixins/mask.js#L2).
 * Property `rules` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns.js).
@@ -101,17 +104,14 @@ Examples: "date", "time", "fulltime".
 
 More info: [QInput](/vue-components/input).
 
-### With additional buttons <q-badge align="top" label="v1.2.8+" />
+### With additional buttons
 
 You can use the default slot for adding buttons:
 
 <doc-example title="With additional buttons" file="QTime/AdditionalButtons" overflow />
 
-### Native form submit <q-badge align="top" label="v1.9+" />
+### Native form submit
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QTime, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QTime/NativeForm" />
-
-## QTime API
-<doc-api file="QTime" />

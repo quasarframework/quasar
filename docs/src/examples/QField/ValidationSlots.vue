@@ -2,7 +2,7 @@
   <div class="q-pa-md" style="max-width: 300px">
     <q-field
       filled
-      :value="slider"
+      :model-value="slider"
       label="Move it above 30"
       bottom-slots
       hint="Max value is 30"
@@ -19,16 +19,15 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      slider: 10
-    }
-  },
+import { ref, computed } from 'vue'
 
-  computed: {
-    isValid () {
-      return this.slider <= 30
+export default {
+  setup () {
+    const slider = ref(10)
+
+    return {
+      slider,
+      isValid: computed(() => slider.value <= 30)
     }
   }
 }

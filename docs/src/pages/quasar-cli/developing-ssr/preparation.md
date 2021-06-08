@@ -24,7 +24,7 @@ A new folder will appear in your project folder (which is explained in detail on
 ```bash
 .
 └── src-ssr/
-    ├── index.js      # Production Node webserver serving the app
-    └── extension.js  # Common code for production & development server
+    ├── middlewares/  # SSR middleware files
+    └── directives/   # SSR transformations for Vue directives
 ```
 

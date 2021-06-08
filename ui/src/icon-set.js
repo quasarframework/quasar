@@ -1,14 +1,12 @@
-import { reactive } from 'vue'
-
+import defineReactivePlugin from './utils/private/define-reactive-plugin.js'
 import materialIcons from '../icon-set/material-icons.js'
 
-const state = reactive({
-  iconMapFn: void 0
-})
-
-export default {
+const Plugin = defineReactivePlugin({
+  iconMapFn: null,
+  __icons: {}
+}, {
   set (setObject, ssrContext) {
-    const def = { ...setObject }
+    const def = { ...setObject, rtl: setObject.rtl === true }
 
     if (__QUASAR_SSR_SERVER__) {
       if (ssrContext === void 0) {
@@ -17,36 +15,46 @@ export default {
       }
 
       def.set = ssrContext.$q.iconSet.set
-      ssrContext.$q.iconSet = def
+      Object.assign(ssrContext.$q.iconSet, def)
     }
     else {
-      def.set = this.set
-      this.__q.iconSet = def
+      def.set = Plugin.set
+      Object.assign(Plugin.__icons, def)
     }
   },
 
-  install (opts) {
-    const initialSet = opts.iconSet || materialIcons
-    const { $q } = opts
-
+  install ({ $q, iconSet, ssrContext }) {
     if (__QUASAR_SSR_SERVER__) {
+      const initialSet = iconSet || materialIcons
+
+      $q.iconMapFn = ssrContext.$q.config.iconMapFn || this.iconMapFn || null
       $q.iconSet = {}
       $q.iconSet.set = setObject => {
-        this.set(setObject, opts.ssrContext)
+        this.set(setObject, ssrContext)
       }
 
       $q.iconSet.set(initialSet)
     }
     else {
-      $q.iconSet = reactive({})
+      if ($q.config.iconMapFn !== void 0) {
+        this.iconMapFn = $q.config.iconMapFn
+      }
+
+      $q.iconSet = this.__icons
 
       Object.defineProperty($q, 'iconMapFn', {
-        get: () => state.iconMapFn,
-        set: val => { state.iconMapFn = val }
+        get: () => this.iconMapFn,
+        set: val => { this.iconMapFn = val }
       })
 
-      this.__q = $q
-      this.set(initialSet)
+      if (this.__installed === true) {
+        iconSet !== void 0 && this.set(iconSet)
+      }
+      else {
+        this.set(iconSet || materialIcons)
+      }
     }
   }
-}
+})
+
+export default Plugin

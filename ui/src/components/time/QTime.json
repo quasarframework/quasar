@@ -1,23 +1,18 @@
 {
-  "mixins": [ "mixins/datetime" ],
+  "mixins": [ "components/date/use-datetime" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/time"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/time"
   },
 
   "props": {
-    "value": {
-      "extends": "value",
-      "required": true,
-      "desc": "Time of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+    "model-value": {
+      "extends": "model-value",
+      "type": "String",
+      "desc": "Time of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "examples": [
         "v-model=\"currentTime\""
-      ],
-      "category": "model"
+      ]
     },
 
     "format24h": {
@@ -34,8 +29,7 @@
       "examples": [
         "1995/02/23"
       ],
-      "category": "model",
-      "addedIn": "v1.9.0"
+      "category": "model"
     },
 
     "mask": {
@@ -112,14 +106,13 @@
 
   "slots": {
     "default": {
-      "desc": "This is where additional buttons can go",
-      "addedIn": "v1.2.8"
+      "desc": "This is where additional buttons can go"
     }
   },
 
   "events": {
-    "input": {
-      "extends": "input",
+    "update:model-value": {
+      "extends": "update:model-value",
       "params": {
         "value": {
           "type": "String"
@@ -165,8 +158,7 @@
             },
             "changed": {
               "type": "Boolean",
-              "desc": "Did the model change?",
-              "addedIn": "v1.1.1"
+              "desc": "Did the model change?"
             }
           }
         }
@@ -176,8 +168,7 @@
 
   "methods": {
     "setNow": {
-      "desc": "Change model to current moment",
-      "addedIn": "v1.1.7"
+      "desc": "Change model to current moment"
     }
   }
 }

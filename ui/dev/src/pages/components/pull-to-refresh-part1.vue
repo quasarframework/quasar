@@ -75,16 +75,16 @@
   </q-layout>
 </template>
 
-<style lang="stylus">
-  .no-height
-    height 0
+<style lang="sass">
+.no-height
+  height: 0
 </style>
 
 <script>
 export default {
   data () {
     return {
-      items: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+      items: [ {}, {}, {}, {}, {}, {}, {}, {}, {} ],
       guardTop: true,
       guardBottom: true,
       header: true,
@@ -93,7 +93,7 @@ export default {
       scroll: false,
       scrollArea: false,
       selectModel: null,
-      selectOptions: Array(50).fill(null).map((_, index) => `Option ${index + 1}`)
+      selectOptions: Array(50).fill(null).map((_, index) => `Option ${ index + 1 }`)
     }
   },
   watch: {

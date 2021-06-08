@@ -20,6 +20,7 @@
       :hide-no-data="hideNoData"
       :hide-pagination="hidePagination"
       no-hover
+      column-sort-order="da"
     >
       <template v-slot:body="props">
         <q-tr :props="props">
@@ -55,6 +56,14 @@
         </q-tr>
       </template>
     </q-table>
+
+    <q-table
+      class="q-mt-md"
+      title="classes() & style() with no slots"
+      :rows="rows"
+      :columns="columns"
+      row-key="name"
+    />
   </div>
 </template>
 
@@ -177,11 +186,17 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `${val}`,
+          format: val => `${ val }`,
           sortable: true
         },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, style: 'width: 10px' },
+        {
+          name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true,
+          classes: row => (row.calories % 2 === 0 ? 'bg-green text-white' : 'bg-yellow')
+        },
+        {
+          name: 'fat', sortOrder: 'ad', label: 'Fat (g)', field: 'fat', sortable: true,
+          style: row => 'width:10px' + (row.fat % 2 === 0 ? ';font-size: 2em' : '')
+        },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },

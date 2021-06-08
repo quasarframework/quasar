@@ -1,6 +1,7 @@
 ---
 title: Meet the Team
 desc: The list of people behind Quasar Framework.
+keys: Team
 components:
   - meet-the-team/TeamListing
 ---

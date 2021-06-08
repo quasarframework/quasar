@@ -1,16 +1,16 @@
 {
-  "mixins": [ "mixins/size", "mixins/form" ],
+  "mixins": [ "composables/private/use-size", "composables/private/use-form" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/knob"
+    "docsUrl": "https://v2.quasar.dev/vue-components/knob"
   },
 
   "props": {
-    "value": {
+    "model-value": {
+      "extends": "model-value",
       "type": "Number",
-      "desc": "Any number to indicate the given value of the knob. Either use this property (along with a listener for 'input' event) OR use the v-model directive",
-      "examples": [ "v-model=\"myValue\"" ],
-      "category": "model"
+      "desc": "Any number to indicate the given value of the knob. Either use this property (along with a listener for 'update:modelValue' event) OR use the v-model directive",
+      "examples": [ "v-model=\"myValue\"" ]
     },
 
     "min": {
@@ -38,8 +38,7 @@
     "instant-feedback": {
       "type": "Boolean",
       "desc": "No animation when model changes",
-      "category": "behavior",
-      "addedIn": "v1.11.0"
+      "category": "behavior"
     },
 
     "color": {
@@ -106,8 +105,8 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input",
+    "update:model-value": {
+      "extends": "update:model-value",
       "params": {
         "value": {
           "type": "Number",

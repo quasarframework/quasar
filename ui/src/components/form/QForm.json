@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/form"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/form"
   },
 
   "props": {
@@ -29,8 +25,7 @@
     "greedy": {
       "type": "Boolean",
       "desc": "Validate all fields in form (by default it stops after finding the first invalid field with synchronous validation)",
-      "category": "behavior",
-      "addedIn": "v1.1.1"
+      "category": "behavior"
     }
   },
 
@@ -61,8 +56,7 @@
           "desc": "Vue reference to the first component that triggered the validation error",
           "__exemption": [ "examples" ]
         }
-      },
-      "addedIn": "v1.9.9"
+      }
     }
   },
 
@@ -120,8 +114,7 @@
         "type": "Array",
         "desc": "Vue components that support Quasar validation API",
         "__exemption": [ "examples" ]
-      },
-      "addedIn": "v1.10.0"
+      }
     }
   }
 }

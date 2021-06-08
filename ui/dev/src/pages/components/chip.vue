@@ -412,7 +412,7 @@ export default {
   methods: {
     resetRemovable () {
       for (let i = 1; i <= 5; i++) {
-        this['close' + i] = true
+        this[ 'close' + i ] = true
       }
     },
     clickable () {

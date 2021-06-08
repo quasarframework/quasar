@@ -1,24 +1,29 @@
-import { reactive } from 'vue'
-
-import langEn from '../lang/en-us.js'
-import { isRuntimeSsrPreHydration } from './plugins/Platform.js'
+import defineReactivePlugin from './utils/private/define-reactive-plugin.js'
+import langEn from '../lang/en-US.js'
 
 function getLocale () {
   if (__QUASAR_SSR_SERVER__) { return }
 
-  const val =
-    navigator.language ||
-    navigator.languages[0] ||
-    navigator.browserLanguage ||
-    navigator.userLanguage ||
-    navigator.systemLanguage
+  const val = Array.isArray(navigator.languages) === true && navigator.languages.length > 0
+    ? navigator.languages[ 0 ]
+    : navigator.language
 
-  if (val) {
-    return val.toLowerCase()
+  if (typeof val === 'string') {
+    return val.split(/[-_]/).map((v, i) => (
+      i === 0
+        ? v.toLowerCase()
+        : (
+            i > 1 || v.length < 4
+              ? v.toUpperCase()
+              : (v[ 0 ].toUpperCase() + v.slice(1).toLowerCase())
+          )
+    )).join('-')
   }
 }
 
-export default {
+const Plugin = defineReactivePlugin({
+  __langPack: {}
+}, {
   getLocale,
 
   set (langObject = langEn, ssrContext) {
@@ -35,36 +40,35 @@ export default {
       }
 
       const dir = lang.rtl === true ? 'rtl' : 'ltr'
-      const attrs = `lang=${lang.isoName} dir=${dir}`
+      const attrs = `lang=${ lang.isoName } dir=${ dir }`
 
       lang.set = ssrContext.$q.lang.set
 
-      ssrContext._meta.htmlAttrs = ssrContext.Q_PREV_LANG !== void 0
-        ? ssrContext._meta.htmlAttrs.replace(ssrContext.Q_PREV_LANG, attrs)
+      ssrContext._meta.htmlAttrs = ssrContext.__qPrevLang !== void 0
+        ? ssrContext._meta.htmlAttrs.replace(ssrContext.__qPrevLang, attrs)
         : attrs
 
-      ssrContext.Q_PREV_LANG = attrs
+      ssrContext.__qPrevLang = attrs
       ssrContext.$q.lang = lang
     }
     else {
-      if (isRuntimeSsrPreHydration === false) {
-        const el = document.documentElement
-        el.setAttribute('dir', lang.rtl === true ? 'rtl' : 'ltr')
-        el.setAttribute('lang', lang.isoName)
-      }
+      const el = document.documentElement
+      el.setAttribute('dir', lang.rtl === true ? 'rtl' : 'ltr')
+      el.setAttribute('lang', lang.isoName)
 
-      lang.set = this.set
-      this.__q.lang = this.props = lang
-      this.isoName = lang.isoName
-      this.nativeName = lang.nativeName
+      lang.set = Plugin.set
+
+      Object.assign(Plugin.__langPack, lang)
+
+      Plugin.props = lang
+      Plugin.isoName = lang.isoName
+      Plugin.nativeName = lang.nativeName
     }
   },
 
-  install (opts) {
-    const initialLang = opts.cfg.lang || langEn
-
+  install ({ $q, lang, ssrContext }) {
     if (__QUASAR_SSR_SERVER__) {
-      const { $q, ssrContext } = opts
+      const initialLang = lang || langEn
 
       $q.lang = {}
       $q.lang.set = langObject => {
@@ -81,9 +85,16 @@ export default {
       }
     }
     else {
-      opts.$q.lang = reactive({})
-      this.__q = opts.$q
-      this.set(initialLang)
+      $q.lang = Plugin.__langPack
+
+      if (this.__installed === true) {
+        lang !== void 0 && this.set(lang)
+      }
+      else {
+        this.set(lang || langEn)
+      }
     }
   }
-}
+})
+
+export default Plugin

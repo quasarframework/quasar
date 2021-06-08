@@ -1,6 +1,6 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import { hSlot } from '../../utils/render.js'
+import { hSlot } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'QToolbar',
@@ -9,14 +9,12 @@ export default defineComponent({
     inset: Boolean
   },
 
-  computed: {
-    classes () {
-      return 'q-toolbar row no-wrap items-center' +
-        (this.inset === true ? ' q-toolbar--inset' : '')
-    }
-  },
+  setup (props, { slots }) {
+    const classes = computed(() =>
+      'q-toolbar row no-wrap items-center'
+      + (props.inset === true ? ' q-toolbar--inset' : '')
+    )
 
-  render () {
-    return h('div', { class: this.classes }, hSlot(this, 'default'))
+    return () => h('div', { class: classes.value }, hSlot(slots.default))
   }
 })

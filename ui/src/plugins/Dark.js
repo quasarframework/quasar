@@ -1,4 +1,4 @@
-import defineReactivePlugin from '../utils/define-reactive-plugin.js'
+import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
 import { isRuntimeSsrPreHydration } from './Platform.js'
 
 const Plugin = defineReactivePlugin({
@@ -28,8 +28,8 @@ const Plugin = defineReactivePlugin({
 
     Plugin.isActive = val === true
 
-    document.body.classList.remove(`body--${val === true ? 'light' : 'dark'}`)
-    document.body.classList.add(`body--${val === true ? 'dark' : 'light'}`)
+    document.body.classList.remove(`body--${ val === true ? 'light' : 'dark' }`)
+    document.body.classList.add(`body--${ val === true ? 'dark' : 'light' }`)
   },
 
   toggle () {
@@ -38,19 +38,19 @@ const Plugin = defineReactivePlugin({
     }
   },
 
-  install (opts) {
-    const { dark } = opts.cfg
-    this.isActive = dark === true
+  install ({ $q, onSSRHydrated, ssrContext }) {
+    const { dark } = $q.config
 
     if (__QUASAR_SSR_SERVER__) {
-      const { $q, ssrContext } = opts
+      this.isActive = dark === true
+
       $q.dark = {
         isActive: false,
         mode: false,
         set: val => {
           ssrContext._meta.bodyClasses = ssrContext._meta.bodyClasses
             .replace(' body--light', '')
-            .replace(' body--dark', '') + ` body--${val === true ? 'dark' : 'light'}`
+            .replace(' body--dark', '') + ` body--${ val === true ? 'dark' : 'light' }`
 
           $q.dark.isActive = val === true
           $q.dark.mode = val
@@ -64,9 +64,17 @@ const Plugin = defineReactivePlugin({
       return
     }
 
+    $q.dark = this
+
+    if (this.__installed === true && dark === void 0) {
+      return
+    }
+
+    this.isActive = dark === true
+
     const initialVal = dark !== void 0 ? dark : false
 
-    if (isRuntimeSsrPreHydration === true) {
+    if (isRuntimeSsrPreHydration.value === true) {
       const ssrSet = val => {
         this.__fromSSR = val
       }
@@ -76,7 +84,7 @@ const Plugin = defineReactivePlugin({
       this.set = ssrSet
       ssrSet(initialVal)
 
-      opts.onSSRHydrated.push(() => {
+      onSSRHydrated.push(() => {
         this.set = originalSet
         this.set(this.__fromSSR)
       })
@@ -84,8 +92,6 @@ const Plugin = defineReactivePlugin({
     else {
       this.set(initialVal)
     }
-
-    opts.$q.dark = this
   }
 })
 
