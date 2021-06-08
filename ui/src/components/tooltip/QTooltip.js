@@ -6,7 +6,6 @@ import PortalMixin from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
-import { getTouchTarget } from '../../utils/touch.js'
 import { addEvt, cleanEvt } from '../../utils/event.js'
 import { clearSelection } from '../../utils/selection.js'
 import { slot } from '../../utils/slot.js'
@@ -157,7 +156,7 @@ export default Vue.extend({
         clearSelection()
         document.body.classList.add('non-selectable')
 
-        const target = getTouchTarget(this.anchorEl)
+        const target = this.anchorEl
         const evts = ['touchmove', 'touchcancel', 'touchend', 'click']
           .map(e => ([ target, e, '__delayHide', 'passiveCapture' ]))
 

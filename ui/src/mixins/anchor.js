@@ -1,6 +1,5 @@
 import { clearSelection } from '../utils/selection.js'
 import { addEvt, cleanEvt, prevent, listenOpts } from '../utils/event.js'
-import { getTouchTarget } from '../utils/touch.js'
 import { isKeyCode } from '../utils/key-composition.js'
 
 export default {
@@ -85,7 +84,7 @@ export default {
       this.hide(evt)
       this.anchorEl.classList.add('non-selectable')
 
-      const target = getTouchTarget(evt.target)
+      const target = evt.target
       addEvt(this, 'anchor', [
         [ target, 'touchmove', '__mobileCleanup', 'passive' ],
         [ target, 'touchend', '__mobileCleanup', 'passive' ],

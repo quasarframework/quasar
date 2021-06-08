@@ -1,5 +1,4 @@
 import { client } from '../plugins/Platform.js'
-import { getTouchTarget } from '../utils/touch.js'
 import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 import { isKeyCode } from '../utils/key-composition.js'
@@ -107,7 +106,7 @@ export default {
 
       touchStart (evt) {
         if (evt.target !== void 0 && typeof ctx.handler === 'function') {
-          const target = getTouchTarget(evt.target)
+          const target = evt.target
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'move', 'passiveCapture' ],
             [ target, 'touchcancel', 'end', 'notPassiveCapture' ],

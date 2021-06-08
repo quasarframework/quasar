@@ -7,7 +7,6 @@ import BtnMixin from '../../mixins/btn.js'
 
 import { mergeSlot } from '../../utils/slot.js'
 import { stop, prevent, stopAndPrevent, listenOpts, noop } from '../../utils/event.js'
-import { getTouchTarget } from '../../utils/touch.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 
 const { passiveCapture } = listenOpts
@@ -179,7 +178,7 @@ export default Vue.extend({
       if (touchTarget !== this.$el) {
         touchTarget !== void 0 && this.__cleanup()
         touchTarget = this.$el
-        const target = this.touchTargetEl = getTouchTarget(e.target)
+        const target = this.touchTargetEl = e.target
         target.addEventListener('touchcancel', this.__onPressEnd, passiveCapture)
         target.addEventListener('touchend', this.__onPressEnd, passiveCapture)
       }

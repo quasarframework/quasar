@@ -41,7 +41,7 @@ export default Vue.extend({
 
   computed: {
     value () {
-      return this.margin !== void 0 || this.threshold !== void 0
+      return this.root !== void 0 || this.margin !== void 0 || this.threshold !== void 0
         ? {
           handler: this.__trigger,
           cfg: {

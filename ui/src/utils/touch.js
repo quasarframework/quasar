@@ -1,5 +1,3 @@
-import { isSSR, client, iosEmulated } from '../plugins/Platform.js'
-
 const directions = [ 'left', 'right', 'up', 'down', 'horizontal', 'vertical' ]
 
 const modifiersAll = {
@@ -43,13 +41,6 @@ export function getModifierDirections (mod) {
 
   return dir
 }
-
-export const getTouchTarget = isSSR === false && iosEmulated !== true && (
-  client.is.ios === true ||
-  window.navigator.vendor.toLowerCase().indexOf('apple') > -1
-)
-  ? () => document
-  : target => target
 
 export function shouldStart (evt, ctx) {
   return ctx.event === void 0 &&

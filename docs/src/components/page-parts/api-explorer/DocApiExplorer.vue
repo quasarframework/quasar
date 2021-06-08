@@ -38,13 +38,10 @@ export default {
     DocApi
   },
 
-  created () {
-    this.options = apiList
-  },
-
   data () {
     return {
-      item: ''
+      item: '',
+      options: [ ...apiList ]
     }
   },
 
@@ -52,7 +49,7 @@ export default {
     filterFn (val, update) {
       update(() => {
         const needle = val.toLowerCase()
-        this.options.value = apiList.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        this.options = apiList.filter(v => v.toLowerCase().indexOf(needle) !== -1)
       })
     }
   }
