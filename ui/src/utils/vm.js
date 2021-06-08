@@ -1,9 +1,6 @@
 export function getVmOfNode (el) {
   for (let node = el; node !== null; node = node.parentNode) {
     // node.__vue__ can be null if the instance was destroyed
-    if (node.__vue__ === null) {
-      return
-    }
     if (node.__vue__ !== void 0) {
       return node.__vue__
     }
@@ -11,6 +8,11 @@ export function getVmOfNode (el) {
 }
 
 export function isVmChildOf (childVm, parentVm) {
+  // node.__vue__ can be null if the instance was destroyed
+  if (childVm === null || parentVm === null) {
+    return null
+  }
+
   for (let vm = childVm; vm !== void 0; vm = vm.$parent) {
     if (vm === parentVm) {
       return true
