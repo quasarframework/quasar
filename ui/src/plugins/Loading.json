@@ -86,6 +86,11 @@
               "extends": "html",
               "desc": "Render the message as HTML; This can lead to XSS attacks so make sure that you sanitize the message first"
             },
+            "boxClass": {
+              "type": "String",
+              "desc": "Content wrapped element custom classes",
+              "examples": [ "bg-amber text-black", "q-pa-xl" ]
+            },
             "spinnerSize": {
               "type": "Number",
               "desc": "Spinner size (in pixels)",
