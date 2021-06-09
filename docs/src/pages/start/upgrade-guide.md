@@ -165,8 +165,14 @@ Before starting, it is highly suggested to make a copy of your current working p
   "eslint-plugin-vue": "^7.0.0",
   "eslint-webpack-plugin": "^2.4.0"
   ```
+6) If you are using Vuex, you will need to manually install it:
+  ```bash
+  $ yarn add vuex@4
+  # or
+  $ npm install vuex@4
+  ```
 
-6) Edit quasar.conf.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
+7) Edit quasar.conf.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
   ```js
   // old way
   framework: {
@@ -178,9 +184,9 @@ Before starting, it is highly suggested to make a copy of your current working p
     lang: 'en-US'
   }
   ```
-7) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.conf.js > [devServer config](/quasar-cli/quasar-conf-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
-8) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
-9) Upgrade your other project dependencies (especially ESLint related ones).
+8) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.conf.js > [devServer config](/quasar-cli/quasar-conf-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
+9) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
+10) Upgrade your other project dependencies (especially ESLint related ones).
 
 #### Option 2: Create a project
 
@@ -345,9 +351,13 @@ If you use TypeScript, you must replace the `RouteConfig` interface occurrences 
 
 ### Vuex v4
 
-::: tip
-For Quasar CLI projects, you don't need to manually install/upgrade the `vuex` package as "@quasar/app" v3 is already supplying the correct version of Vuex for you.
-:::
+First step that you need to take is that you need to manually install Vuex into your app.
+
+```bash
+$ yarn add vuex@4
+# or:
+$ npm install vuex@4
+```
 
 This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
 
