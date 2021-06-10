@@ -6,7 +6,8 @@ function getAndroidIcons (entries) {
   entries.forEach(entry => {
     const icon = {
       generator: 'png',
-      folder: `src-capacitor/android/app/src/main/res/mipmap-${entry[0]}`
+      folder: `src-capacitor/android/app/src/main/res/mipmap-${entry[0]}`,
+      platform: 'capacitor-android'
     }
 
     list.push({
@@ -37,7 +38,9 @@ function getAndroidSplashscreen (entries) {
   entries.forEach(entry => {
     const icon = {
       generator: 'splashscreen',
-      name: 'splash.png'
+      name: 'splash.png',
+      ninePatchCheck: true,
+      platform: 'capacitor-android'
     }
 
     list.push({
@@ -72,7 +75,8 @@ function getIosIcon (name) {
         ? parseFloat(size) * parseInt(multiplier,10)
         : parseFloat(size)
     ],
-    background: true
+    background: true,
+    platform: 'capacitor-ios'
   }
 }
 
@@ -92,10 +96,12 @@ module.exports = [
   {
     generator: 'splashscreen',
     name: 'splash.png',
+    ninePatchCheck: true,
     folder: 'src-capacitor/android/app/src/main/res/drawable',
     sizes: [
       [ 480, 320 ]
-    ]
+    ],
+    platform: 'capacitor-android'
   },
 
   ...getAndroidSplashscreen([
@@ -135,20 +141,23 @@ module.exports = [
     generator: 'splashscreen',
     name: 'splash-2732x2732-1.png',
     folder: 'src-capacitor/ios/App/App/Assets.xcassets/Splash.imageset',
-    sizes: [ 2732 ]
+    sizes: [ 2732 ],
+    platform: 'capacitor-ios'
   },
 
   {
     generator: 'splashscreen',
     name: 'splash-2732x2732-2.png',
     folder: 'src-capacitor/ios/App/App/Assets.xcassets/Splash.imageset',
-    sizes: [ 2732 ]
+    sizes: [ 2732 ],
+    platform: 'capacitor-ios'
   },
 
   {
     generator: 'splashscreen',
     name: 'splash-2732x2732.png',
     folder: 'src-capacitor/ios/App/App/Assets.xcassets/Splash.imageset',
-    sizes: [ 2732 ]
+    sizes: [ 2732 ],
+    platform: 'capacitor-ios'
   }
 ]

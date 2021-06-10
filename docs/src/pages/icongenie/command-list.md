@@ -112,6 +112,14 @@ $ icongenie generate -h
                           Default: 0,0
                           Example: "--padding 10,5" means apply 10px padding to top
                             10px to bottom, 5px to left side and 5px to rightside
+                            
+    --nine-patch          Generate Nine Patch based splash screens for Android if 
+                          splashscreen-icon-ratio > 0. Specify which percentage of the
+                          splashscreen will be used for stretching as x%, y%
+                          Default: none
+                          Example: "--nine-patch 5,10" defines 5% of image width both left
+                          and right and 10% of image height both top and bottom as stretchable
+                          areas.
 
     --theme-color         Theme color to use for all generators requiring a color;
                           It gets overridden if any generator color is also specified;

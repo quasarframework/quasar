@@ -19,20 +19,22 @@ const validateProfileObject = require('../utils/validate-profile-object')
 
 function printBanner (assetsOf, params) {
   console.log(` Generating files with the following options:
- ==========================
- Quasar project folder..... ${green(appDir)}
- ${green(`Quality level............. ${params.quality}/12`)}
- Icon source file.......... ${green(params.icon)}
- Icon trimming............. ${params.skipTrim ? 'no' : green('yes')}
- Icon padding.............. ${green(`horizontal: ${params.padding[0]}; vertical: ${params.padding[1]}`)}
- Background source file.... ${params.background ? green(params.background) : 'none'}
- Assets of................. ${green(assetsOf)}
- Generator filter.......... ${params.filter ? green(params.filter) : 'none'}
- Svg color................. ${green(params.svgColor)}
- Png color................. ${green(params.pngColor)}
- Splashscreen color........ ${green(params.splashscreenColor)}
- Splashscreen icon ratio... ${green(params.splashscreenIconRatio)}%
- ==========================
+ ===========================
+ Quasar project folder...... ${green(appDir)}
+ ${green(`Quality level.............. ${params.quality}/12`)}
+ Icon source file........... ${green(params.icon)}
+ Icon trimming.............. ${params.skipTrim ? 'no' : green('yes')}
+ Icon padding............... ${green(`horizontal: ${params.padding[0]}; vertical: ${params.padding[1]}`)}
+ Background source file..... ${params.background ? green(params.background) : 'none'}
+ Assets of.................. ${green(assetsOf)}
+ Generator filter........... ${params.filter ? green(params.filter) : 'none'}
+ Capacitor/Cordova filter... ${params.platform ? green(params.platform) : 'none'}
+ Svg color.................. ${green(params.svgColor)}
+ Png color.................. ${green(params.pngColor)}
+ Splashscreen color......... ${green(params.splashscreenColor)}
+ Splashscreen icon ratio.... ${green(params.splashscreenIconRatio)}%
+ Splash Nine Patch (Android) ${params.ninePatch ? green(`horizontal: ${params.ninePatch[0]}%, vertical: ${params.ninePatch[1]}%`) : 'no'}
+ ===========================
 `)
 }
 
@@ -108,6 +110,12 @@ async function generateFromProfile (profile) {
     )
   }
 
+  if (params.platform) {
+    uniqueFiles = uniqueFiles.filter(
+      file => !file.platform || file.platform.endsWith(params.platform)
+    )
+  }
+
   if (uniqueFiles.length === 0) {
     warn(`No assets to generate! No mode/include specified, filter too specific or the respective Quasar mode(s) are not installed`)
     return Promise.resolve(0)
@@ -152,9 +160,9 @@ module.exports = function generate (argv) {
   }
 
   profile.params = mergeObjects({}, profile.params)
-
+  
   parseArgv(profile.params, [
-    'quality', 'filter', 'padding',
+    'quality', 'filter', 'padding', 'platform', 'ninePatch',
     'icon', 'background',
     'splashscreenIconRatio',
     // order matters:

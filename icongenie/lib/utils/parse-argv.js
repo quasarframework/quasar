@@ -124,6 +124,38 @@ function padding (value, argv) {
     : sizes
 }
 
+function platform (value) {
+  if (value && !["ios", "android"].includes(value)) {
+    die(`Unknown platform value specified (${value})`)
+  }
+}
+
+
+function ninePatch (value, argv) {
+  if (!value) {
+    argv.ninePatch = false;
+    return
+  }
+
+  const sizes = (Array.isArray(value) ? value : value.split(','))
+    .map(val => parseInt(val, 10))
+
+  if (sizes.length != 2) {
+    die(`Invalid number of nine patch sizes specified`)
+  }
+
+  sizes.forEach(size => {
+    if (isNaN(size)) {
+      die(`Invalid nine patch sizes specified (not numbers)`)
+    }
+    if (size < 0) {
+      die(`Invalid nine patch sizes specified (not all positive numbers)`)
+    }
+  })
+
+  argv.ninePatch = sizes;
+}
+
 function icon (value, argv) {
   if (!value) {
     warn(`No source icon file specified, so using the sample one`)
@@ -245,6 +277,8 @@ const parsers = {
   quality,
   filter,
   padding,
+  platform,
+  ninePatch,
   icon,
   background,
   splashscreenIconRatio,
