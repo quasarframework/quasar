@@ -154,7 +154,7 @@ export default defineComponent({
         skipEmit !== true && emit('update:modelValue', name)
         if (
           setCurrent === true
-          || props[ 'onUpdate:modelValue' ] !== void 0
+          || props[ 'onUpdate:modelValue' ] === void 0
         ) {
           animate(currentModel.value, name)
           currentModel.value = name
