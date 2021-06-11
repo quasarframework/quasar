@@ -1593,6 +1593,8 @@ export declare const outlinedSwapHorizontalCircle: string;
 export declare const outlinedSwapVert: string;
 export declare const outlinedSwapVerticalCircle: string;
 export declare const outlinedSwipe: string;
+export declare const outlinedSwitchAccessShortcut: string;
+export declare const outlinedSwitchAccessShortcutAdd: string;
 export declare const outlinedSwitchAccount: string;
 export declare const outlinedSwitchCamera: string;
 export declare const outlinedSwitchLeft: string;
