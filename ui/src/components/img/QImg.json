@@ -127,18 +127,17 @@
     },
 
     "img-class": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Class definitions to be attributed to the container of image; Does not apply to the caption",
+      "type": "String",
+      "desc": "CSS classes to be attributed to the native img element",
       "examples": [
-        "my-special-class",
-        ":img-class=\"{ 'my-special-class': <condition> }\""
+        "my-special-class"
       ],
       "category": "style"
     },
 
     "img-style": {
       "type": "Object",
-      "desc": "Apply CSS to the container of the image; Does not apply to the caption",
+      "desc": "Apply CSS to the native img element",
       "examples": [ ":img-style=\"{ transform: 'rotate(45deg)' }\" "],
       "category": "style"
     },
