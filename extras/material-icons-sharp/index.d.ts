@@ -1593,6 +1593,8 @@ export declare const sharpSwapHorizontalCircle: string;
 export declare const sharpSwapVert: string;
 export declare const sharpSwapVerticalCircle: string;
 export declare const sharpSwipe: string;
+export declare const sharpSwitchAccessShortcut: string;
+export declare const sharpSwitchAccessShortcutAdd: string;
 export declare const sharpSwitchAccount: string;
 export declare const sharpSwitchCamera: string;
 export declare const sharpSwitchLeft: string;

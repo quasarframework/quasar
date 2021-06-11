@@ -1593,6 +1593,8 @@ export declare const roundSwapHorizontalCircle: string;
 export declare const roundSwapVert: string;
 export declare const roundSwapVerticalCircle: string;
 export declare const roundSwipe: string;
+export declare const roundSwitchAccessShortcut: string;
+export declare const roundSwitchAccessShortcutAdd: string;
 export declare const roundSwitchAccount: string;
 export declare const roundSwitchCamera: string;
 export declare const roundSwitchLeft: string;

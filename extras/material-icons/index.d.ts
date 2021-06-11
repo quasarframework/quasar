@@ -1593,6 +1593,8 @@ export declare const matSwapHorizontalCircle: string;
 export declare const matSwapVert: string;
 export declare const matSwapVerticalCircle: string;
 export declare const matSwipe: string;
+export declare const matSwitchAccessShortcut: string;
+export declare const matSwitchAccessShortcutAdd: string;
 export declare const matSwitchAccount: string;
 export declare const matSwitchCamera: string;
 export declare const matSwitchLeft: string;
