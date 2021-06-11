@@ -241,7 +241,7 @@
         <q-route-tab name="tabs" to="/components/tabs" exact label="/tabs" />
         <q-route-tab name="tabs/a" to="/components/tabs/a" exact label="/tabs/a" />
         <q-route-tab name="tabs/a *" to="/components/tabs/a" label="/tabs/a *" />
-        <q-route-tab name="tabs/a#1" to="/components/tabs/a#1" exact label="/tabs/a#1" />
+        <q-route-tab active-class="gigi" name="tabs/a#1" to="/components/tabs/a#1" exact label="/tabs/a#1" />
         <q-route-tab name="tabs/a/a" to="/components/tabs/a/a" exact label="/tabs/a/a" />
         <q-route-tab name="tabs/a/a *" to="/components/tabs/a/a" label="/tabs/a/a *" />
         <q-route-tab name="tabs/a/a#1" to="/components/tabs/a/a#1" exact label="/tabs/a/a#1" />

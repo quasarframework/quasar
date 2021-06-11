@@ -15,20 +15,22 @@ export default defineComponent({
   emits: useTabEmits,
 
   setup (props, { slots, emit }) {
-    const exact = computed(() => props.exact)
-    const { hasLink, linkTag, linkProps, linkRoute, navigateToLink, linkIsExactActive, linkIsActive } = useRouterLink()
+    const rData = useRouterLink()
 
     const { renderTab, $tabs } = useTab(
       props,
       slots,
       emit,
-      { exact, hasLink, navigateToLink, linkRoute, linkIsExactActive, linkIsActive }
+      {
+        exact: computed(() => props.exact),
+        ...rData
+      }
     )
 
-    watch(() => props.name + props.exact + (linkRoute.value || {}).href, () => {
+    watch(() => props.name + props.exact + (rData.linkRoute.value || {}).href, () => {
       $tabs.verifyRouteModel()
     })
 
-    return () => renderTab(linkTag.value, linkProps.value)
+    return () => renderTab(rData.linkTag.value, rData.linkProps.value)
   }
 })
