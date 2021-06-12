@@ -46,7 +46,7 @@ export default defineComponent({
       default: '50% 50%'
     },
 
-    imgClass: [ Array, String, Object ],
+    imgClass: String,
     imgStyle: Object,
 
     noSpinner: Boolean,
