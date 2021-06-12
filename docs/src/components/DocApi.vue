@@ -213,8 +213,8 @@ function getApiCount (parsedApi, tabs, innerTabs) {
     if (tabCategories.length === 1) {
       const categ = tabCategories[0]
 
-      const hasNativeEvents = tab === "events" && Object.keys(parsedApi.events.__default.$listeners).length
-      const count = hasNativeEvents ? Object.keys(tabApi[categ]).length - 1 : Object.keys(tabApi[categ]).length
+      const hasNativeEvents = tab === "events" && tabApi[categ].$listeners !== void 0
+      const count = Object.keys(tabApi[categ]).length - (hasNativeEvents === true ? 1 : 0)
 
       acc[tab] = {
         overall: count,
