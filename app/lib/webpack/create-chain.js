@@ -361,7 +361,7 @@ module.exports = function (cfg, configName) {
     }
 
     chain.optimization
-      .concatenateModules(true)
+      .concatenateModules(cfg.ctx.mode.ssr !== true)
 
     if (cfg.ctx.debug) {
       // reset default webpack 4 minimizer

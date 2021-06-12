@@ -56,7 +56,6 @@ function getServerManifest (compilation) {
 
     // do not emit anything else for server
     compilation.deleteAsset(asset.name)
-    // delete compilation.assets[asset.name]
   })
 
   return serverManifest
