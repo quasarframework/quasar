@@ -1,6 +1,9 @@
 const spaEntries = require('./spa')
 
+/* def: width, height, pixel-ratio */
 function getAppleLaunch (def) {
+  const media = `(device-width: ${def[0] / def[2]}px) and (device-height: ${def[1] / def[2]}px) and (-webkit-device-pixel-ratio: ${def[2]})`
+
   return {
     generator: 'splashscreen',
     name: 'apple-launch-{size}.png',
@@ -8,7 +11,7 @@ function getAppleLaunch (def) {
     sizes: [
       [ def[0], def[1] ]
     ],
-    tag: `${def[3]}\n<link rel="apple-touch-startup-image" media="${def[2]}" href="icons/{name}">`
+    tag: `${def[3]}\n<link rel="apple-touch-startup-image" media="${media}" href="icons/{name}">`
   }
 }
 
@@ -51,15 +54,17 @@ module.exports = [
   },
 
   ...[
-    [ 828, 1792, '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPhone XR -->' ],
-    [ 1125, 2436, '(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)', '<!-- iPhone X, XS -->' ],
-    [ 1242, 2688, '(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)', '<!-- iPhone XS Max -->' ],
-    [ 750, 1334, '(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPhone 8, 7, 6s, 6 -->' ],
-    [ 1242, 2208, '(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)', '<!-- iPhone 8 Plus, 7 Plus, 6s Plus, 6 Plus -->' ],
-    [ 640, 1136, '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPhone 5 -->' ],
-    [ 1536, 2048, '(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPad Mini, Air, 9.7" -->' ],
-    [ 1668, 2224, '(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPad Pro 10.5" -->' ],
-    [ 1668, 2388, '(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPad Pro 11" -->' ],
-    [ 2048, 2732, '(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)', '<!-- iPad Pro 12.9" -->' ]
+    [ 1284, 2778, 3, '<!-- iPhone 12 Pro Max -->' ],
+    [ 1170, 2532, 3, '<!-- iPhone 12, 12 Pro -->' ],
+    [ 828, 1792, 2, '<!-- iPhone XR, 11 -->' ],
+    [ 1125, 2436, 3, '<!-- iPhone X, XS, 12 mini, 11 Pro -->' ],
+    [ 1242, 2688, 3, '<!-- iPhone XS Max, 11 Pro Max -->' ],
+    [ 750, 1334, 2, '<!-- iPhone 8, 7, 6s, 6 -->' ],
+    [ 1242, 2208, 3, '<!-- iPhone 8 Plus, 7 Plus, 6s Plus, 6 Plus -->' ],
+    [ 1620, 2160, 2, '<!-- iPad 10.2" -->' ],
+    [ 1536, 2048, 2, '<!-- iPad Mini, Air, 9.7" -->' ],
+    [ 1668, 2224, 2, '<!-- iPad Pro 10.5" -->' ],
+    [ 1668, 2388, 2, '<!-- iPad Pro 11" -->' ],
+    [ 2048, 2732, 2, '<!-- iPad Pro 12.9" -->' ]
   ].map(getAppleLaunch)
 ]
