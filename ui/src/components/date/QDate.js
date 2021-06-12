@@ -932,7 +932,7 @@ export default defineComponent({
 
     function emitImmediately (reason) {
       const date = daysModel.value[ 0 ] !== void 0 && daysModel.value[ 0 ].dateHash !== null
-        ? daysModel.value[ 0 ]
+        ? { ...daysModel.value[ 0 ] }
         : { ...viewModel.value } // inherit day, hours, minutes, milliseconds...
 
       // nextTick required because of animation delay in viewModel
