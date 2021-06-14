@@ -170,48 +170,65 @@ export default Vue.extend({
       return this.__getDnd(h, 'file')
     },
 
+    __getFiller (h) {
+      return [
+        h('input', {
+          class: [ this.inputClass, 'q-file__filler' ],
+          style: this.inputStyle
+        })
+      ]
+    },
+
     __getSelection (h) {
       if (this.$scopedSlots.file !== void 0) {
-        return this.innerValue.map((file, index) => this.$scopedSlots.file({ index, file, ref: this }))
+        return this.innerValue.length === 0
+          ? this.__getFiller(h)
+          : this.innerValue.map((file, index) => this.$scopedSlots.file({ index, file, ref: this }))
       }
 
       if (this.$scopedSlots.selected !== void 0) {
-        return this.$scopedSlots.selected({ files: this.innerValue, ref: this })
+        return this.innerValue.length === 0
+          ? this.__getFiller(h)
+          : this.$scopedSlots.selected({ files: this.innerValue, ref: this })
       }
 
       if (this.useChips === true) {
-        return this.innerValue.map((file, i) => h(QChip, {
-          key: 'file-' + i,
-          props: {
-            removable: this.editable,
-            dense: true,
-            textColor: this.color,
-            tabindex: this.tabindex
-          },
-          on: cache(this, 'rem#' + i, {
-            remove: () => { this.removeAtIndex(i) }
-          })
-        }, [
-          h('span', {
-            staticClass: 'ellipsis',
-            domProps: {
-              textContent: file.name
-            }
-          })
-        ]))
+        return this.innerValue.length === 0
+          ? this.__getFiller(h)
+          : this.innerValue.map((file, i) => h(QChip, {
+            key: 'file-' + i,
+            props: {
+              removable: this.editable,
+              dense: true,
+              textColor: this.color,
+              tabindex: this.tabindex
+            },
+            on: cache(this, 'rem#' + i, {
+              remove: () => { this.removeAtIndex(i) }
+            })
+          }, [
+            h('span', {
+              staticClass: 'ellipsis',
+              domProps: {
+                textContent: file.name
+              }
+            })
+          ]))
       }
 
-      return [
-        h('div', {
-          style: this.inputStyle,
-          class: this.inputClass,
-          domProps: {
-            textContent: this.displayValue !== void 0
-              ? this.displayValue
-              : this.selectedString
-          }
-        })
-      ]
+      const textContent = this.displayValue !== void 0
+        ? this.displayValue
+        : this.selectedString
+
+      return textContent.length > 0
+        ? [
+          h('div', {
+            style: this.inputStyle,
+            class: this.inputClass,
+            domProps: { textContent }
+          })
+        ]
+        : this.__getFiller(h)
     },
 
     __getInput (h) {
