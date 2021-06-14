@@ -183,7 +183,7 @@ export default defineComponent({
       // it can be called faster than component being initialized
       // so we need to protect against that case
       // (one example of such case is the docs release notes page)
-      if (domProps.value === void 0) { return }
+      if (domProps.value === void 0 || contentRef.value === null) { return }
 
       const
         size = domSize[ domProps.value.container ],
