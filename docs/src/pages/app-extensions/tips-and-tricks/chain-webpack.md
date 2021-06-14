@@ -56,7 +56,7 @@ const chainWebpack = function (ctx, chain) {
     .options({
       productionMode: ctx.prod,
       compilerOptions: {
-        whitespace: false // whitespace?: 'preserve' | 'condense'
+        whitespace: 'preserve' // whitespace?: 'preserve' | 'condense'
       },
       transformAssetUrls: {
         video: 'src',
