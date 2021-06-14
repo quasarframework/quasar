@@ -401,6 +401,7 @@ export default {
   &__img
     transform: rotate(0deg)
     transition: transform .8s ease-in-out
+    width: 100%
   &:hover &__img
     transform: rotate(-360deg)
 
