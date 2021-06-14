@@ -1,6 +1,6 @@
 {
   "name": "@quasar/icongenie",
-  "version": "2.3.3",
+  "version": "2.4.0",
   "description": "A Quasar tool for generating all your Quasar App's icons and splashscreens",
   "bin": {
     "icongenie": "./bin/icongenie"
@@ -50,7 +50,7 @@
     "png2icons": "^2.0.1",
     "potrace": "^2.1.5",
     "read-chunk": "^3.2.0",
-    "sharp": "^0.25.2",
+    "sharp": "^0.28.3",
     "svgo": "^1.3.2",
     "untildify": "^4.0.0",
     "update-notifier": "^4.1.0"
