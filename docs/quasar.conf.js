@@ -53,13 +53,6 @@ module.exports = function (ctx) {
           .loader('vue-loader')
           .options({
             isServerBuild: isServer === true,
-            compilerOptions: {
-              ...(
-                isServer
-                  ? { ssr: true, directiveTransforms: require('quasar/dist/ssr-directives/index.js') }
-                  : {}
-              )
-            },
             transformAssetUrls: merge({
               base: null,
               includeAbsolute: false,
