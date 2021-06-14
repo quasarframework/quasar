@@ -54,7 +54,6 @@ module.exports = function (ctx) {
           .options({
             isServerBuild: isServer === true,
             compilerOptions: {
-              whitespace: 'preserve', // whitespace?: 'preserve' | 'condense'
               ...(
                 isServer
                   ? { ssr: true, directiveTransforms: require('quasar/dist/ssr-directives/index.js') }
