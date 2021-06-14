@@ -190,9 +190,9 @@ export default defineComponent({
     function getInput () {
       const data = {
         ref: inputRef,
-        class: 'q-field__input fit absolute-full cursor-pointer',
         ...inputAttrs.value,
         ...formDomProps.value,
+        class: 'q-field__input fit absolute-full cursor-pointer',
         onChange: addFilesToQueue
       }
 
@@ -204,6 +204,7 @@ export default defineComponent({
     }
 
     Object.assign(state, {
+      inheritAttrs: true,
       fieldClass: { value: 'q-file q-field--auto-height' },
       emitValue,
       hasValue,

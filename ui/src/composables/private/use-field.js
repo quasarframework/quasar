@@ -545,12 +545,18 @@ export default function (state) {
   })
 
   return function renderField () {
+    console.log([
+      classes.value,
+      attrs.class
+    ])
     return h('label', {
       ref: state.rootRef,
-      class: [
-        classes.value,
-        attrs.class
-      ],
+      class: state.inheritAttrs !== true
+        ? [
+            classes.value,
+            attrs.class
+          ]
+        : classes.value,
       style: attrs.style,
       ...attributes.value
     }, [
