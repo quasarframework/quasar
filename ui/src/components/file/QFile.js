@@ -151,40 +151,59 @@ export default defineComponent({
       )
     }
 
+    function getFiller () {
+      return [
+        h('input', {
+          class: [ props.inputClass, 'q-file__filler' ],
+          style: props.inputStyle
+        })
+      ]
+    }
+
     function getSelection () {
       if (slots.file !== void 0) {
-        return innerValue.value.map(
-          (file, index) => slots.file({ index, file, ref: this })
-        )
+        return innerValue.value.length === 0
+          ? getFiller()
+          : innerValue.value.map(
+            (file, index) => slots.file({ index, file, ref: this })
+          )
       }
 
       if (slots.selected !== void 0) {
-        return slots.selected({ files: innerValue.value, ref: this })
+        return innerValue.value.length === 0
+          ? getFiller()
+          : slots.selected({ files: innerValue.value, ref: this })
       }
 
       if (props.useChips === true) {
-        return innerValue.value.map((file, i) => h(QChip, {
-          key: 'file-' + i,
-          removable: state.editable.value,
-          dense: true,
-          textColor: props.color,
-          tabindex: props.tabindex,
-          onRemove: () => { removeAtIndex(i) }
-        }, () => h('span', {
-          class: 'ellipsis',
-          textContent: file.name
-        })))
+        return innerValue.value.length === 0
+          ? getFiller()
+          : innerValue.value.map((file, i) => h(QChip, {
+            key: 'file-' + i,
+            removable: state.editable.value,
+            dense: true,
+            textColor: props.color,
+            tabindex: props.tabindex,
+            onRemove: () => { removeAtIndex(i) }
+          }, () => h('span', {
+            class: 'ellipsis',
+            textContent: file.name
+          })))
       }
 
-      return [
-        h('div', {
-          class: props.inputClass,
-          style: props.inputStyle,
-          textContent: props.displayValue !== void 0
-            ? props.displayValue
-            : selectedString.value
-        })
-      ]
+      const textContent = props.displayValue !== void 0
+        ? props.displayValue
+        : selectedString.value
+
+      return textContent.length > 0
+        ? [
+            h('div', {
+              class: props.inputClass,
+              style: props.inputStyle,
+              textContent
+            })
+          ]
+        : getFiller()
     }
 
     function getInput () {
