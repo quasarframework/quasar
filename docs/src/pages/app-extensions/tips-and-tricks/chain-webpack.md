@@ -55,9 +55,6 @@ const chainWebpack = function (ctx, chain) {
     .loader('vue-loader')
     .options({
       productionMode: ctx.prod,
-      compilerOptions: {
-        preserveWhitespace: false
-      },
       transformAssetUrls: {
         video: 'src',
         source: 'src',

@@ -52,15 +52,11 @@ module.exports = function (ctx) {
         rule.use('v-loader')
           .loader('vue-loader')
           .options({
-            isServerBuild: isServer === true,
-            compilerOptions: {
-              preserveWhitespace: false,
-              ...(
-                isServer
-                  ? { ssr: true, directiveTransforms: require('quasar/dist/ssr-directives/index.js') }
-                  : {}
-              )
-            },
+            ...(
+              isServer === true
+                ? { ssr: true, directiveTransforms: require('quasar/dist/ssr-directives/index.js') }
+                : {}
+            ),
             transformAssetUrls: merge({
               base: null,
               includeAbsolute: false,
