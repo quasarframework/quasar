@@ -86,7 +86,12 @@ module.exports = function (ctx) {
     animations: [],
 
     ssr: {
-      pwa: false
+      pwa: false,
+
+      middlewares: [
+        ctx.prod ? 'compression' : '',
+        'render' // keep this as last one
+      ]
     },
 
     pwa: {
