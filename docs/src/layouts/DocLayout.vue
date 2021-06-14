@@ -5,10 +5,8 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       q-btn.q-mx-sm.lt-md(flat, dense, round, @click="toggleLeftDrawer", aria-label="Menu", :icon="mdiMenu")
 
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
-        q-avatar
-          img.quasar-logo__img(src="https://cdn.quasar.dev/logo-v2/svg/logo.svg")
-        q-toolbar-title.text-weight-bold(shrink)
-          img.quasar-logo__logotype(src="https://cdn.quasar.dev/logo-v2/svg/logotype.svg")
+        img.quasar-logo__img(src="https://cdn.quasar.dev/logo-v2/svg/logo.svg")
+        img.quasar-logo__logotype(src="https://cdn.quasar.dev/logo-v2/svg/logotype.svg")
 
       q-space
 
@@ -227,6 +225,10 @@ export default {
   &__img
     transform: rotate(0deg)
     transition: transform .8s ease-in-out
+    width: 38px
+    height: 38px
+    margin-right: 8px
+
   &:hover &__img
     transform: rotate(-360deg)
 
