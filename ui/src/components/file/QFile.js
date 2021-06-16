@@ -155,7 +155,8 @@ export default defineComponent({
       return [
         h('input', {
           class: [ props.inputClass, 'q-file__filler' ],
-          style: props.inputStyle
+          style: props.inputStyle,
+          tabindex: -1
         })
       ]
     }
