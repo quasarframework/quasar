@@ -183,8 +183,7 @@ export default Vue.extend({
       return [
         h('input', {
           class: [ this.inputClass, 'q-file__filler' ],
-          style: this.inputStyle,
-          tabindex: -1
+          style: this.inputStyle
         })
       ]
     },
