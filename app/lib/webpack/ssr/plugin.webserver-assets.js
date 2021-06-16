@@ -59,10 +59,6 @@ module.exports = class WebserverAssetsPlugin {
       quasar: { ssr: true }
     }
 
-    if (this.cfg.store) {
-      pkg.dependencies.vuex = cliDeps.vuex
-    }
-
     if (this.cfg.ssr.extendPackageJson) {
       this.cfg.ssr.extendPackageJson(pkg)
     }
