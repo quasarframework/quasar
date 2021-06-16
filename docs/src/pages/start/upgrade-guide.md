@@ -114,8 +114,7 @@ Before starting, it is highly suggested to make a copy of your current working p
   # only if you still want to use Stylus (but without Quasar Stylus variables)
   $ yarn add --dev stylus stylus-loader
   ```
-2) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
-3) **Upgrade** Node to at least v12.22.1, npm to at least v6.14.12 and yarn to at least v1.17.3.
+2) **Upgrade** Node to at least v12.22.1, npm to at least v6.14.12 and yarn to at least v1.17.3.
   ```bash
   # if you are already using a lts/erbium version (eg. 12.14.0), take note of its version, it should be listed at "lts/erbium" row
   $ nvm list
@@ -128,11 +127,12 @@ Before starting, it is highly suggested to make a copy of your current working p
   # uninstall previous "lts/erbium" version, we suppose 12.14.0 was already installed in our case
   nvm uninstall 12.14.0
   ```
-4) **Install**: `quasar` v2 and `@quasar/app` v3 beta packages from the npm tag named "next":
+3) **Install**: `@quasar/app` v3 beta and `quasar` v2 packages from the npm tag named "next":
   ```bash
-  $ yarn add quasar@next
   $ yarn add --dev @quasar/app@next
+  $ yarn add quasar@next
   ```
+4) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json`/`yarn.lock` file, then run `npm install`/`yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
 5) If you are using ESLint, then edit `/.eslintrc.js`:
   ```js
   // old way
@@ -206,7 +206,7 @@ In order to support Node 13+ (and for many other benefits) we have **upgraded We
 #### Nodejs polyfills
 Webpack v5 removed the Nodejs polyfills for the web client builds. If you are using packages for the web client that rely on Nodejs API (they shouldn't!), you will get errors saying that some packages are missing. Examples: `Buffer`, `crypto`, `os`, `path`.
 
-These need to be addressed by the package owners. But if you don't want to wait and just want to run your app/website (with a bit of risk), then you can manually install [node-polyfill-webpack-plugin](https://www.npmjs.com/package/node-polyfill-webpack-plugin) (yarn add --dev node-polyfill-webpack-plugin) then reference it in quasar.conf.js > build > chainWebpack. Example:
+These need to be addressed by the package owners. But if you don't want to wait and just want to run your app/website (with a bit of risk), then you can manually install [node-polyfill-webpack-plugin](https://www.npmjs.com/package/node-polyfill-webpack-plugin) (`yarn add --dev node-polyfill-webpack-plugin`) then reference it in quasar.conf.js > build > chainWebpack. Example:
 
 ```
 // quasar.conf.js
@@ -409,7 +409,22 @@ export { i18n }
 
 If you use TypeScript, remove the existing augmentation of 'vue/types/vue' as it has been integrated into the upstream package.
 If you use TypeScript and ESLint, due to an [upstream types generation problem](https://github.com/intlify/vue-i18n-next/issues/324), `useI18n` composable will generate a "@typescript-eslint/unbound-method" linting warning when used to destructure `t`, `te` and similar methods.
-Until the problem is solved upstream, we recommended to stick to the legacy API when possible or disable that rule every time you use `useI18n`.
+Until the problem is solved upstream, we recommended to create your own `useI18n` helper into the boot file
+
+```js
+export function useI18n() {
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  const { t, te, d, n, ...globalApi } = i18n.global;
+
+  return {
+    t: t.bind(i18n),
+    d: d.bind(i18n),
+    te: te.bind(i18n),
+    n: n.bind(i18n),
+    ...globalApi,
+  };
+}
+```
 
 ### @vue/composition-api
 
@@ -667,6 +682,8 @@ The `@scroll` event parameter now has a slightly different content:
 Renamed the "data" property to "rows" (to solve TS conflict issue with "data" incorrectly inferred as the "data()" method of a Vue component).
 
 New prop: "column-sort-order". New "columns" definition prop ("sortOrder") and now "style" and "classes" can be Functions too.
+
+Due to the new v-model feature of Vue 3, which replaces the ".sync" modifier, `:pagination.sync="..."` now need to be used as `v-model:pagination="..."`
 
 #### QTable/QTree
 
