@@ -63,6 +63,11 @@
       "desc": "Color name for selected nodes (from the Quasar Color Palette)"
     },
 
+    "selected-background": {
+      "extends": "selected-color",
+      "desc": "Background color name for selected nodes (from the Quasar Color Palette)"
+    },
+
     "dark": {
       "extends": "dark"
     },

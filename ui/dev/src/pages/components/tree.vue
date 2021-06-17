@@ -21,6 +21,10 @@
           <div class="col-xs-12 col-md-4">
             <q-input v-model="filter" label="Filter" />
           </div>
+          <div class="col-xs-12 col-md-4">
+            <q-input v-model="selectedColor" label="Selected Color" />
+            <q-input v-model="selectedBackground" label="Selected Background" />
+          </div>
           <div class="col-6 scroll" style="height: 6em;">
             <span class="text-bold">Ticked</span>:<br>{{ ticked }}
           </div>
@@ -50,6 +54,8 @@
           :dark="dark"
           :accordion="accordion"
           :color="color"
+          :selected-color="selectedColor"
+          :selected-background="selectedBackground"
           :filter="filter"
           :no-connectors="noConnectors"
           @lazy-load="onLazyLoad"
@@ -121,6 +127,8 @@ export default {
     */
 
     return {
+      selectedColor: 'white',
+      selectedBackground: 'secondary',
       noConnectors: false,
       selected: null,
       tickStrategy: 'leaf',

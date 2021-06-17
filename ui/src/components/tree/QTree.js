@@ -37,6 +37,7 @@ export default Vue.extend({
     controlColor: String,
     textColor: String,
     selectedColor: String,
+    selectedBackground: String,
 
     icon: String,
 
@@ -456,6 +457,19 @@ export default Vue.extend({
       }
     },
 
+    __getNodeWrapperClass (meta, bgClass) {
+      let classList = {
+        'q-tree__node--link q-hoverable q-focusable': meta.link,
+        'q-tree__node--selected': meta.selected,
+        'q-tree__node--disabled': meta.disabled
+      }
+      if (meta.selected && this.selectedBackground) {
+        const bgClass = `bg-${this.selectedBackground}`
+        classList[bgClass] = true
+      }
+      return classList
+    },
+
     __getNode (h, node) {
       const
         key = node[this.nodeKey],
@@ -492,11 +506,7 @@ export default Vue.extend({
       }, [
         h('div', {
           staticClass: 'q-tree__node-header relative-position row no-wrap items-center',
-          class: {
-            'q-tree__node--link q-hoverable q-focusable': meta.link,
-            'q-tree__node--selected': meta.selected,
-            'q-tree__node--disabled': meta.disabled
-          },
+          class: this.__getNodeWrapperClass(meta),
           attrs: { tabindex: meta.link ? 0 : -1 },
           on: {
             click: (e) => {
@@ -537,7 +547,7 @@ export default Vue.extend({
               staticClass: 'q-mr-xs',
               props: {
                 value: meta.indeterminate === true ? null : meta.ticked,
-                color: this.computedControlColor,
+                color: meta.selected && this.selectedColor ? this.selectedColor : this.computedControlColor,
                 dark: this.isDark,
                 dense: true,
                 keepColor: true,
