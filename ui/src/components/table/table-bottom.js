@@ -43,11 +43,11 @@ export default {
 
         const noData = this.$scopedSlots['no-data']
         const children = noData !== void 0
-          ? [ noData({ message, icon: this.$q.iconSet.table.warning, filter: this.filter }) ]
+          ? [ noData({ message, icon: this.loadingIcon || this.$q.iconSet.table.warning, size: this.loadingIconSize, filter: this.filter }) ]
           : [
             h(QIcon, {
               staticClass: 'q-table__bottom-nodata-icon',
-              props: { name: this.$q.iconSet.table.warning }
+              props: { name: this.loadingIcon || this.$q.iconSet.table.warning, size: this.loadingIconSize }
             }),
             message
           ]

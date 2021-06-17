@@ -391,6 +391,25 @@
       "category": "content"
     },
 
+    "loading-icon": {
+      "type": "String",
+      "desc": "Override default icon to display when table is in loading state (see 'loading' prop)",
+      "examples": [
+        "hourglass_empty"
+      ],
+      "category": "content"
+    },
+
+    "loading-icon-size": {
+      "type": "String",
+      "desc": "Override default loading icon size (see 'loading-icon' prop)",
+      "default": "md",
+      "examples": [
+        "hourglass_empty"
+      ],
+      "category": "content"
+    },
+
     "selected-rows-label": {
       "type": "Function",
       "desc": "Text to display when user selected at least one row; For best performance, reference it from your scope and do not define it inline",

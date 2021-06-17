@@ -90,6 +90,8 @@ export default Vue.extend({
     noDataLabel: String,
     noResultsLabel: String,
     loadingLabel: String,
+    loadingIcon: String,
+    loadingIconSize: String,
     selectedRowsLabel: Function,
     rowsPerPageLabel: String,
     paginationLabel: Function,
