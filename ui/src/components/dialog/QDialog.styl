@@ -1,3 +1,5 @@
+$dialog-minimized-padding = 24px
+
 .q-dialog
 
   &__title
@@ -28,7 +30,7 @@
         min-width: 64px
 
     &--minimized
-      padding: 24px
+      padding: $dialog-minimized-padding
       > div
         max-height: calc(100vh - 48px)
 
@@ -84,9 +86,12 @@ body.q-ios-padding .q-dialog__inner
   padding-top: $ios-statusbar-height !important
   padding-top: env(safe-area-inset-top) !important
   padding-bottom: env(safe-area-inset-bottom) !important
+  &--minimized
+    padding-top: "calc(env(safe-area-inset-top) + %s) !important" % $dialog-minimized-padding
+    padding-bottom: "calc(env(safe-area-inset-bottom) + %s) !important" % $dialog-minimized-padding
   > div
     // quotes are stylus workaround to not error when parsing env()
-    max-height: "calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important" % $ios-statusbar-height
+    max-height: "calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - (%s * 2)) !important" % $dialog-minimized-padding
 
 @media (max-width: $breakpoint-xs-max)
   .q-dialog__inner

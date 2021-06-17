@@ -84,8 +84,11 @@ body.q-ios-padding .q-dialog__inner
   padding-top: $ios-statusbar-height !important
   padding-top: env(safe-area-inset-top) !important
   padding-bottom: env(safe-area-inset-bottom) !important
+  &--minimized
+    padding-top: calc(env(safe-area-inset-top) + 24px) !important
+    padding-bottom: calc(env(safe-area-inset-bottom) + 24px) !important
   > div
-    max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important
+    max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - (24px * 2)) !important
 
 @media (max-width: $breakpoint-xs-max)
   .q-dialog__inner
