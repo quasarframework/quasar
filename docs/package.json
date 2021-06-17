@@ -31,6 +31,7 @@
     "eslint-plugin-quasar": "^1.0.0",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.1.1",
+    "fuzzysort": "^1.1.4",
     "gray-matter": "^4.0.2",
     "markdown-ast": "^0.2.1",
     "markdown-it": "^10.0.0",
