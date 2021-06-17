@@ -141,6 +141,28 @@
       "type": "Boolean",
       "desc": "Current screen width fits exactly 'xl' breakpoint",
       "reactive": true
+    },
+
+    "portrait": {
+      "type": "Boolean",
+      "desc": "Screen orientation portrait",
+      "reactive": true
+    },
+
+    "landscape": {
+      "type": "Boolean",
+      "desc": "Screen orientation landscape",
+      "reactive": true
+    },
+
+    "orientation": {
+      "type": "String",
+      "desc": "Screen orientation as string",
+      "values": [ "landscape", "portrait" ],
+      "examples": [
+        "orientation: 'landscape'"
+      ],
+      "reactive": true
     }
   },
 

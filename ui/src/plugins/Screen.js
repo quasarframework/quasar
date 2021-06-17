@@ -12,6 +12,7 @@ export default {
   height: 0,
 
   name: 'xs',
+  orientation: 'portrait',
 
   sizes: {
     sm: 600,
@@ -37,6 +38,9 @@ export default {
   md: false,
   lg: false,
   xl: false,
+
+  portrait: true,
+  landscape: false,
 
   setSizes: noop,
   setDebounce: noop,
@@ -93,6 +97,18 @@ export default {
           document.body.classList.add(`screen--${s}`)
         }
         this.name = s
+      }
+
+      if (window.matchMedia('(orientation: portrait)').matches) {
+        // you're in PORTRAIT mode
+        this.portrait = true
+        this.landscape = false
+        this.orientation = 'portrait'
+      }
+      else {
+        this.portrait = false
+        this.landscape = true
+        this.orientation = 'landscape'
       }
     }
 
