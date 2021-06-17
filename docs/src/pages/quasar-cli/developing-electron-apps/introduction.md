@@ -5,6 +5,7 @@ desc: Introduction about the technology behind Quasar desktop apps.
 [Electron](https://electronjs.org/) (formerly known as Atom Shell) is an open-source framework created by Cheng Zhao, and now developed by GitHub. **It allows for the development of desktop GUI applications** using front and back end components originally developed for web applications: Node.js runtime for the backend and Chromium for the frontend. Electron is the main GUI framework behind several notable open-source projects including GitHub's Atom and Microsoft's Visual Studio Code source code editors, the Tidal music streaming service desktop application and the Light Table IDE, in addition to the freeware desktop client for the Discord chat service.
 
 Each Electron app has two threads: one is the main thread (dealing with the App window and bootup), and one is the renderer thread (which is basically your web code UI).
+Comparing with client-server architecture, main thread can be considered as server and renderer threads as clients because all clients (renderer threads) are initiated by and communicate with server(main thread) and each client (renderer thread) executes in isolation and independent of other clients (renderer threads). However the server (main thread) has access to all clients (renderer threads).
 
 ## Renderer Thread
 Electron uses Chromium for displaying web pages in a separate process called the render process. This thread deals with your UI code in `/src` folder.
