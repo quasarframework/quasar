@@ -65,6 +65,12 @@ $toggle-transition = .22s cubic-bezier(.4,0,.2,1)
         .q-icon
           color: #fff
           opacity: 1
+    &--falsy-color
+
+      .q-toggle__thumb
+
+        &:after
+          background-color: currentColor
 
   &.disabled
     opacity: .75 !important

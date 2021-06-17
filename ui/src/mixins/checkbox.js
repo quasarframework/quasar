@@ -32,6 +32,7 @@ export default {
     leftLabel: Boolean,
 
     color: String,
+    falseColor: String,
     keepColor: Boolean,
     dense: Boolean,
 
@@ -79,12 +80,14 @@ export default {
     },
 
     innerClass () {
-      const state = this.isTrue === true ? 'truthy' : (this.isFalse === true ? 'falsy' : 'indet')
+      const state = this.isTrue === true ? 'truthy' : (this.isFalse === true ? (this.falseColor === void 0 ? 'falsy' : 'falsy-color') : 'indet')
       const color = this.color !== void 0 && (
         this.keepColor === true ||
         (this.type === 'toggle' ? this.isTrue === true : this.isFalse !== true)
       )
         ? ` text-${this.color}`
+        : this.falseColor !== void 0 && this.isFalse === true
+        ? ` text-${this.falseColor}`
         : ''
 
       return `q-${this.type}__inner--${state}${color}`
