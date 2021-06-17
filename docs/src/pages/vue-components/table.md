@@ -196,6 +196,9 @@ Please note that columns marked as `required` (in the column definition) cannot 
 Below is an example with the user being able to edit “in place” with the help of **QPopupEdit** component. Please note that we are using the `body` scoped slot. **QPopupEdit** won’t work with cell scoped slots.
 :::
 
+Please note that columns with popup editing are not sortable, since the sorting will change during the input with v-model.
+To be able to combine, sorting and popup editing, make a copy of the variable before editing and change the original upon saving.
+
 <doc-example title="Popup editing" file="QTable/PopupEditing" />
 
 ## Grid style
