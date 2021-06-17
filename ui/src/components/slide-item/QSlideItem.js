@@ -22,9 +22,13 @@ export default Vue.extend({
 
   props: {
     leftColor: String,
+    leftColorActive: String,
     rightColor: String,
+    rightColorActive: String,
     topColor: String,
-    bottomColor: String
+    topColorActive: String,
+    bottomColor: String,
+    bottomColorActive: String
   },
 
   directives: {
@@ -37,6 +41,13 @@ export default Vue.extend({
         ? { left: 'right', right: 'left' }
         : { left: 'left', right: 'right' }
     }
+
+  },
+
+  data () {
+    return {
+      scale: 0
+    }
   },
 
   methods: {
@@ -47,6 +58,18 @@ export default Vue.extend({
 
     __emitSlide (side, ratio, isReset) {
       this.qListeners.slide !== void 0 && this.$emit('slide', { side, ratio, isReset })
+    },
+
+    __sliderBackgroundColor (dir) {
+      const defaultColor = this[dir + 'Color'] !== void 0
+        ? ` bg-${this[dir + 'Color']}`
+        : ''
+      return (
+        this.scale === 1
+          ? this[dir + 'Color' + 'Active'] !== void 0
+            ? ` bg-${this[dir + 'Color' + 'Active']}`
+            : defaultColor
+          : defaultColor)
     },
 
     __pan (evt) {
@@ -136,6 +159,8 @@ export default Vue.extend({
 
       this.__scale = Math.max(0, Math.min(1, (dist - 40) / this.__size[showing]))
 
+      this.scale = this.__scale
+
       node.style.transform = `translate${this.__axis}(${dist * dir / Math.abs(dir)}px)`
       this.$refs[`${showing}Content`].style.transform = `scale(${this.__scale})`
 
@@ -161,8 +186,7 @@ export default Vue.extend({
         content.push(
           h('div', {
             ref: dir,
-            class: `q-slide-item__${dir} absolute-full row no-wrap items-${slot[1]} justify-${slot[2]}` +
-              (this[dir + 'Color'] !== void 0 ? ` bg-${this[dir + 'Color']}` : '')
+            class: `q-slide-item__${dir} absolute-full row no-wrap items-${slot[1]} justify-${slot[2]}` + this.__sliderBackgroundColor(dir)
           }, [
             h('div', { ref: dir + 'Content' }, this.$scopedSlots[dir]())
           ])
