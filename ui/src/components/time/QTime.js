@@ -405,9 +405,11 @@ export default Vue.extend({
     __goToNextView () {
       if (this.view === 'Hour') {
         this.view = 'Minute'
+        this.__setMinute(0)
       }
       else if (this.withSeconds && this.view === 'Minute') {
         this.view = 'Second'
+        this.__setSecond(0)
       }
     },
 
