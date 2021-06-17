@@ -278,6 +278,15 @@
       "category": "column"
     },
 
+    "label-format": {
+      "type": "Function",
+      "desc": "Function to show a different label when you are omitting columns definition",
+      "examples": [
+        ":label-format=\"customLabelFormatter\""
+      ],
+      "category": "column"
+    },
+
     "loading": {
       "type": "Boolean",
       "desc": "Put Table into 'loading' state; Notify the user something is happening behind the covers",

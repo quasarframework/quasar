@@ -2,7 +2,13 @@ import { isNumber } from '../../utils/is.js'
 
 export default {
   props: {
-    visibleColumns: Array
+    visibleColumns: Array,
+    labelFormat: {
+      type: Function,
+      default (name) {
+        return name.toUpperCase()
+      }
+    }
   },
 
   computed: {
@@ -17,7 +23,7 @@ export default {
       return row !== void 0
         ? Object.keys(row).map(name => ({
           name,
-          label: name.toUpperCase(),
+          label: this.labelFormat(name),
           field: name,
           align: isNumber(row[name]) ? 'right' : 'left',
           sortable: true
