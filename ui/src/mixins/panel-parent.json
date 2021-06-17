@@ -7,6 +7,12 @@
       "category": "model"
     },
 
+    "all-panels": {
+      "type": "Boolean",
+      "desc": "Prevents inactive panels from being unmounted - so that when you wrap the container (QStepper or QTabPanels) with a QForm, the validation rules inside inactive panels will still fire",
+      "category": "behavior"
+    },
+
     "keep-alive": {
       "type": "Boolean",
       "desc": "Equivalent to using Vue's native <keep-alive> component on the content",

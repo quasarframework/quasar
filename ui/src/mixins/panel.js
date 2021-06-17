@@ -45,7 +45,8 @@ export const PanelParentMixin = {
     keepAlive: Boolean,
     keepAliveInclude: [ String, Array, RegExp ],
     keepAliveExclude: [ String, Array, RegExp ],
-    keepAliveMax: Number
+    keepAliveMax: Number,
+    allPanels: Boolean
   },
 
   data () {
@@ -216,37 +217,50 @@ export const PanelParentMixin = {
         this.__updatePanelIndex() &&
         this.panels[this.panelIndex]
 
-      const content = this.keepAlive === true
-        ? [
-          h('keep-alive', { props: this.keepAliveProps }, [
-            h(
-              this.needsUniqueWrapper === true
-                ? cacheWithFn(this, this.contentKey, () => Vue.extend({
-                  name: this.contentKey,
-                  render: getPanelWrapper
-                }))
-                : PanelWrapper,
-              { key: this.contentKey },
-              [ panel ]
-            )
-          ])
-        ]
-        : [
+      const content = this.allPanels === true // ensure all panels are always mounted - to avoid form validation rules misses
+        ? this.panels.map((panelItem, panelIndex) =>
           h('div', {
+            directives: [{ name: 'show', value: panelIndex === this.panelIndex }],
             staticClass: 'q-panel scroll',
-            key: this.contentKey,
+            key: panelItem.key,
             attrs: { role: 'tabpanel' },
             // stop propagation of content emitted @input
             // which would tamper with Panel's model
             on: cache(this, 'stop', { input: stop })
-          }, [ panel ])
-        ]
+          }, [ panelItem ])
+        )
+        : this.keepAlive === true
+          ? [
+            h('keep-alive', { props: this.keepAliveProps }, [
+              h(
+                this.needsUniqueWrapper === true
+                  ? cacheWithFn(this, this.contentKey, () => Vue.extend({
+                    name: this.contentKey,
+                    render: getPanelWrapper
+                  }))
+                  : PanelWrapper,
+                { key: this.contentKey },
+                [ panel ]
+              )
+            ])
+          ]
+          : [
+            h('div', {
+              staticClass: 'q-panel scroll',
+              key: this.contentKey,
+              attrs: { role: 'tabpanel' },
+              // stop propagation of content emitted @input
+              // which would tamper with Panel's model
+              on: cache(this, 'stop', { input: stop })
+            }, [ panel ])
+          ]
 
       return this.animated === true
         ? [
-          h('transition', {
+          h(content.length > 1 ? 'transition-group' : 'transition', {
             props: {
-              name: this.panelTransition
+              name: this.panelTransition,
+              mode: 'out-in'
             }
           }, content)
         ]
