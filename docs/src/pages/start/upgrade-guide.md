@@ -127,13 +127,14 @@ Before starting, it is highly suggested to make a copy of your current working p
   # uninstall previous "lts/erbium" version, we suppose 12.14.0 was already installed in our case
   nvm uninstall 12.14.0
   ```
-3) **Install**: `@quasar/app` v3 beta and `quasar` v2 packages from the npm tag named "next":
+3) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
+4) **Install**: `@quasar/app` v3 beta and `quasar` v2 packages from the npm tag named "next":
   ```bash
   $ yarn add --dev @quasar/app@next
   $ yarn add quasar@next
   ```
-4) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json`/`yarn.lock` file, then run `npm install`/`yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
-5) If you are using ESLint, then edit `/.eslintrc.js`:
+5) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json`/`yarn.lock` file, then run `npm install`/`yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
+6) If you are using ESLint, then edit `/.eslintrc.js`:
   ```js
   // old way
   parserOptions: {
@@ -165,14 +166,14 @@ Before starting, it is highly suggested to make a copy of your current working p
   "eslint-plugin-vue": "^7.0.0",
   "eslint-webpack-plugin": "^2.4.0"
   ```
-6) If you are using Vuex, you will need to manually install it:
+7) If you are using Vuex, you will need to manually install it:
   ```bash
   $ yarn add vuex@4
   # or
   $ npm install vuex@4
   ```
 
-7) Edit quasar.conf.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
+8) Edit quasar.conf.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
   ```js
   // old way
   framework: {
@@ -184,9 +185,9 @@ Before starting, it is highly suggested to make a copy of your current working p
     lang: 'en-US'
   }
   ```
-8) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.conf.js > [devServer config](/quasar-cli/quasar-conf-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
-9) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
-10) Upgrade your other project dependencies (especially ESLint related ones).
+9) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.conf.js > [devServer config](/quasar-cli/quasar-conf-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
+10) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
+11) Upgrade your other project dependencies (especially ESLint related ones).
 
 #### Option 2: Create a project
 
