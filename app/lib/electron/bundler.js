@@ -5,7 +5,7 @@ const getPackage = require('../helpers/get-package')
 const { log, fatal } = require('../helpers/logger')
 
 const versions = {
-  packager: '14.1.1',
+  packager: '15.2.0',
   builder: '22.4.0'
 }
 
