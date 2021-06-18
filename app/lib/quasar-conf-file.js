@@ -886,8 +886,6 @@ class QuasarConfFile {
         if (cfg.ctx.publish) {
           cfg.electron.builder.publish = cfg.ctx.publish
         }
-
-        bundler.ensureBuilderCompatibility()
       }
 
       bundler.ensureInstall(cfg.electron.bundler)

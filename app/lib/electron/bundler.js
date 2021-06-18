@@ -65,15 +65,3 @@ module.exports.getDefaultName = function () {
 module.exports.getBundler = function (bundlerName) {
   return getPackage(`electron-${bundlerName}`)
 }
-
-module.exports.ensureBuilderCompatibility = function () {
-  if (fs.existsSync(appPaths.resolve.electron('icons/linux-256x256.png'))) {
-    console.log()
-    console.log(`\n ⚠️  electron-builder requires a change to your src-electron/icons folder:
-  * replace linux-256x256.png with a 512x512 px png file named "linux-512x512.png"
-  * make sure to delete the old linux-256x256.png file
-`)
-    console.log()
-    process.exit(1)
-  }
-}
