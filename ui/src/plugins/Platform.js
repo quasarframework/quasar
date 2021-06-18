@@ -12,13 +12,13 @@ import { ref, reactive } from 'vue'
  *                              (needs runtime detection)
  */
 
-export let isRuntimeSsrPreHydration = ref(
-  __QUASAR_SSR_SERVER__ || (
+export const isRuntimeSsrPreHydration = __QUASAR_SSR_SERVER__
+  ? { value: true }
+  : ref(
     __QUASAR_SSR_CLIENT__ && (
       __QUASAR_SSR_PWA__ ? document.body.getAttribute('data-server-rendered') !== null : true
     )
   )
-)
 
 export let iosEmulated = false
 export let iosCorrection

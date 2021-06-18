@@ -183,12 +183,9 @@ export function getObject (ssr) {
 
 const Plugin = {
   install ({ $q, ssrContext }) {
-    if (__QUASAR_SSR_SERVER__) {
-      $q.cookies = getObject(ssrContext)
-    }
-    else {
-      $q.cookies = this
-    }
+    $q.cookies = __QUASAR_SSR_SERVER__
+      ? getObject(ssrContext)
+      : this
   }
 }
 
