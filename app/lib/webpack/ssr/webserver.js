@@ -121,16 +121,15 @@ module.exports = function (cfg, configName) {
       .use(CopyWebpackPlugin, [{ patterns }])
   }
 
-  // reset default webpack 4 minimizer
-  chain.optimization.minimizers.delete('js')
-  // also:
-  chain.optimization.minimize(false)
+  if (cfg.ctx.debug || (cfg.ctx.prod && cfg.build.minify !== true)) {
+    // reset default webpack 4 minimizer
+    chain.optimization.minimizers.delete('js')
+    // also:
+    chain.optimization.minimize(false)
+  }
 
   chain.performance
     .hints(false)
-
-  chain.optimization
-    .concatenateModules(true)
 
   return chain
 }
