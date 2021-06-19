@@ -8,6 +8,7 @@ import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 const crossoriginValues = [ 'anonymous', 'use-credentials' ]
 const loadingValues = [ 'eager', 'lazy' ]
 const fitValues = [ 'cover', 'fill', 'contain', 'none', 'scale-down' ]
+const defaultRatio = 16 / 9
 
 export default defineComponent({
   name: 'QImg',
@@ -33,6 +34,10 @@ export default defineComponent({
     },
     width: String,
     height: String,
+    initialRatio: {
+      type: [ Number, String ],
+      default: defaultRatio
+    },
 
     placeholderSrc: String,
 
@@ -60,7 +65,7 @@ export default defineComponent({
   emits: [ 'load', 'error' ],
 
   setup (props, { slots, attrs, emit }) {
-    const naturalRatio = ref(0.5)
+    const naturalRatio = ref(props.initialRatio)
     const ratioStyle = useRatio(props, naturalRatio)
 
     let loadTimer

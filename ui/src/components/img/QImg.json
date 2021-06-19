@@ -62,6 +62,17 @@
       "category": "style"
     },
 
+    "initial-ratio": {
+      "type": [ "String", "Number" ],
+      "desc": "Use it when not specifying 'ratio' but still wanting an initial aspect ratio",
+      "default": "16/9",
+      "examples": [
+        "(Number format) :initial-ratio=\"16/9\"",
+        "(String format) initial-ratio=\"1\""
+      ],
+      "category": "style"
+    },
+
     "width": {
       "type": "String",
       "desc": "Forces image width; Must also include the unit (px or %)",
