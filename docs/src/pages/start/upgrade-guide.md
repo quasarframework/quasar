@@ -81,7 +81,7 @@ Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots o
 Before you start with this journey of upgrading your project from v1 to v2, you should know a few additional things:
 1) Read the documentation before asking questions on Discord server or forums.
 2) Prepare a CodePen so staff can help you, if you think you've found an issue.
-3) Dig into the [Quasar source code](https://github.com/quasarframework/quasar/tree/vue3-work) (it'll help you understand the framework as well as teach you best practices for programming with Vue).
+3) Dig into the [Quasar source code](https://github.com/quasarframework/quasar/tree/dev) (it'll help you understand the framework as well as teach you best practices for programming with Vue).
 4) Don't use framework components as mixins unless absolutely necessary (wrap them if you need to).
 5) Don't target inner component stuff with CSS selectors unless absolutely necessary.
 6) We recommend `yarn` whenever possible because of its speed and efficient use. However, when using globals, we still recommend using `npm`, especially if you use `nvm` (Node Version Manager).
@@ -196,8 +196,8 @@ Second option is to create a fresh project and port to it bit by bit. We see thi
 You can generate a new Quasar v2 project as shown below and then you can port your app to it.
 
 ```bash
-$ quasar create <folder_name> --branch next
-# NOTE: the above will change when v2 is released as stable
+# Quasar UI v2 project
+$ quasar create <folder_name>
 ```
 
 ### Webpack v5

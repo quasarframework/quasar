@@ -45,7 +45,7 @@ Apart from answering questions and sharing resources in the forum and chat, ther
 Please do not report security vulnerabilities with public GitHub issue reports. Follow the [Report a vulnerability](/security/report-a-vulnerability) steps for security issues.
 :::
 
-If you've found a problem in Quasar which is not a security risk, do a search on GitHub under [Issues](https://github.com/quasarframework/quasar/issues) to check if it is already answered or even fixed in the development branch (`vue3-work`).
+If you've found a problem in Quasar which is not a security risk, do a search on GitHub under [Issues](https://github.com/quasarframework/quasar/issues) to check if it is already answered or even fixed in the development branch (`dev`).
 
 - The issue list of the [main repo](https://github.com/quasarframework/quasar) is **exclusively** for bug reports and feature requests. Non-conforming issues will be closed immediately.
 
@@ -114,7 +114,7 @@ You can help improve the Quasar documentation by making it more coherent, consis
 Use a pencil icon in the top right corner of every documentation page. Edit the source file, preview the changes, add a description of your change and hit `Propose a file change` and on the next screen `Create pull request`.
 :::
 
-For larger edits change the Quasar source files (located [here](https://github.com/quasarframework/quasar/tree/vue3-work/docs/src/pages) on GitHub).
+For larger edits change the Quasar source files (located [here](https://github.com/quasarframework/quasar/tree/dev/docs/src/pages) on GitHub).
 
 ### Documentation Best Practices
 
@@ -132,8 +132,8 @@ Over time we consolidated a set of rules which we follow and following them will
 
 Navigate to the Quasar [GitHub repository](https://github.com/quasarframework/quasar) and press "Fork" in the upper right-hand corner.
 
-::: warning Select vue3-work branch
-Make sure you have `vue3-work` branch selected and this is where all the work is done.
+::: warning Select dev branch
+Make sure you have `dev` branch selected and this is where all the work is done.
 :::
 
 #### Clone the forked repository
@@ -141,7 +141,7 @@ To be able to change the documentation, you need to clone forked repository:
 
 ```bash
 $ git clone https://github.com/your-user-name/quasar.git
-$ git checkout vue3-work
+$ git checkout dev
 ```
 
 #### Install dependencies
@@ -182,17 +182,17 @@ It's pretty likely that other changes to master have happened while you were wor
 $ git remote add upstream https://github.com/quasarframework/quasar.git
 ```
 
-2. Check out your fork's local `vue3-work` branch.
+2. Check out your fork's local `dev` branch.
 
 ```bash
-$ git checkout vue3-work
-> Switched to branch 'vue3-work'
+$ git checkout dev
+> Switched to branch 'dev'
 ```
 
-3. Merge the changes from `upstream/vue3-work` into your local `vue3-work` branch. This brings your fork's `vue3-work` branch into sync with the upstream repository, without losing your local changes.
+3. Merge the changes from `upstream/dev` into your local `dev` branch. This brings your fork's `dev` branch into sync with the upstream repository, without losing your local changes.
 
 ```bash
-$ git merge upstream/vue3-work
+$ git merge upstream/dev
 ```
 
 No conflicts? Tests still pass? Change still seems reasonable to you? Then move on and open a pull request to apply your changes to the dev branch in main Quasar repository.
@@ -223,7 +223,7 @@ An article [Look at the source code](https://medium.com/quasar-framework/wip-loo
 
 - The `master` branch is basically just a snapshot of the latest stable release. All development should be done in dedicated branches. **Do not submit PRs against the `master` branch.**
 
-- Checkout a topic branch from the relevant branch, e.g. `vue3-work`, and merge back against that branch.
+- Checkout a topic branch from the relevant branch, e.g. `dev`, and merge back against that branch.
 
 - **DO NOT** check in `dist` in the commits.
 

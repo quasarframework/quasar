@@ -179,7 +179,7 @@ export default {
       slugifiedTitle,
 
       openGitHub () {
-        openURL(`https://github.com/quasarframework/quasar/tree/vue3-work/docs/src/examples/${props.file}.vue`)
+        openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/src/examples/${props.file}.vue`)
       },
 
       openCodepen () {

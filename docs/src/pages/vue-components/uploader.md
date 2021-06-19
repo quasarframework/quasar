@@ -358,7 +358,7 @@ export default createUploaderComponent({
 ```
 
 ::: tip TIPS
-* For the default XHR implementation in the form of such a plugin, check out [source code](https://github.com/quasarframework/quasar/blob/vue3-work/ui/src/components/uploader/xhr-uploader-plugin.js).
+* For the default XHR implementation in the form of such a plugin, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/xhr-uploader-plugin.js).
 * For the UMD version use `Quasar.createUploaderComponent({ ... })`.
 :::
 
