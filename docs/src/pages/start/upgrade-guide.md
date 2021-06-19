@@ -46,10 +46,10 @@ If you're using a code editor terminal instead of an external one and you run `q
 ### With Vue CLI
 
 ```bash
-$ yarn upgrade quasar@next
+$ yarn upgrade quasar
 ```
 
-Optionally, you may also want to make sure that you have the latest `vue-cli-plugin-quasar@next` package.
+Optionally, you may also want to make sure that you have the latest `vue-cli-plugin-quasar` package.
 
 It's highly recommended to keep `@quasar/extras` package up to date too:
 
@@ -128,10 +128,10 @@ Before starting, it is highly suggested to make a copy of your current working p
   nvm uninstall 12.14.0
   ```
 3) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
-4) **Install**: `@quasar/app` v3 beta and `quasar` v2 packages from the npm tag named "next":
+4) **Install**: `@quasar/app` v3 and `quasar` v2 packages:
   ```bash
-  $ yarn add --dev @quasar/app@next
-  $ yarn add quasar@next
+  $ yarn add --dev @quasar/app@3
+  $ yarn add quasar@2
   ```
 5) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json`/`yarn.lock` file, then run `npm install`/`yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
 6) If you are using ESLint, then edit `/.eslintrc.js`:

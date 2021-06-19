@@ -64,7 +64,7 @@ Include the Quasar Icon Set tag for your Quasar version and also tell Quasar to 
 
 ```html
 <!-- include this after Quasar JS tag -->
-<script src="https://cdn.jsdelivr.net/npm/quasar@v1.0.0/dist/icon-set/fontawesome-v5.umd.prod.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quasar@v2/dist/icon-set/fontawesome-v5.umd.prod.js"></script>
 <script>
   Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
 </script>

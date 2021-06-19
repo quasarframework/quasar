@@ -44,11 +44,8 @@ Cross-platform support with Vue CLI is handled by community plugins. These are n
 :::
 
 ```bash
-# commands will change after Quasar v2 becomes stable (and out of beta)
-
 $ cd my-app
-$ yarn add --dev vue-cli-plugin-quasar@next
-$ vue invoke quasar
+$ vue add quasar
 ```
 
 The CLI will ask you if you want the plugin to replace some existing files. It is recommended that you do this, if you wish to have an example, so you can quickly develop your app.
