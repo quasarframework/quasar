@@ -221,9 +221,7 @@ An article [Look at the source code](https://medium.com/quasar-framework/wip-loo
 
 #### Pull Request Guidelines
 
-- The `master` branch is basically just a snapshot of the latest stable release. All development should be done in dedicated branches. **Do not submit PRs against the `master` branch.**
-
-- Checkout a topic branch from the relevant branch, e.g. `dev`, and merge back against that branch.
+- Checkout a topic branch from the relevant branch, e.g. `dev` (Qv2) or `v1` (Qv1), and merge back against that branch.
 
 - **DO NOT** check in `dist` in the commits.
 
