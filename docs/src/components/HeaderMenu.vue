@@ -25,7 +25,7 @@ div
         key="v1-link"
         clickable
         tag="a"
-        :href="`https://v1.quasar.dev/`"
+        href="https://v1.quasar.dev/"
         target="_blank"
         rel="noopener"
       )
