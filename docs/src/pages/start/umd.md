@@ -27,8 +27,8 @@ You can fork and use these links for reporting issues on GitHub too:
 
 | Supplier | URL |
 | --- | --- |
-| jsFiddle | [https://jsfiddle.quasar.dev](https://jsfiddle.quasar.dev) |
-| Codepen | [https://codepen.quasar.dev](https://codepen.quasar.dev) |
+| jsFiddle | [https://jsfiddle.net/rstoenescu/rmaodk0f](https://jsfiddle.net/rstoenescu/rmaodk0f) |
+| Codepen | [https://codepen.io/rstoenescu/pen/VgQbdx](https://codepen.io/rstoenescu/pen/VgQbdx) |
 
 These links (obviously) use the Quasar UMD version.
 

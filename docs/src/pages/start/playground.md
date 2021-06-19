@@ -7,8 +7,8 @@ You can fork and use these links for reporting issues on GitHub too. These links
 
 | Supplier | URL |
 | --- | --- |
-| jsFiddle | [https://jsfiddle.quasar.dev](https://jsfiddle.quasar.dev) |
-| Codepen | [https://codepen.quasar.dev](https://codepen.quasar.dev) |
+| jsFiddle | [https://jsfiddle.net/rstoenescu/rmaodk0f](https://jsfiddle.net/rstoenescu/rmaodk0f) |
+| Codepen | [https://codepen.io/rstoenescu/pen/VgQbdx](https://codepen.io/rstoenescu/pen/VgQbdx) |
 
 Make sure to read [about it](/start/umd) before diving in. When you use jsFiddle/Codepen you can skip the Installation section.
 
@@ -18,4 +18,4 @@ For more intricate Quasar code examples, like when using boot files, Vuex, etc, 
 
 | Supplier | URL |
 | --- | --- |
-| Codesandbox | [https://codesandbox.quasar.dev](https://codesandbox.quasar.dev) |
+| Codesandbox | [https://codesandbox.io/s/github/quasarframework/quasar-codesandbox](https://codesandbox.io/s/github/quasarframework/quasar-codesandbox) |

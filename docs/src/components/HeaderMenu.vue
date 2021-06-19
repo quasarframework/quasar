@@ -2,7 +2,7 @@
 div
   q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, :label="`v${$q.version}`", auto-close)
     q-list(dense padding)
-      q-item-label(header) Latest (v{{ $q.version }})
+      q-item-label(header) Quasar UI v{{ $q.version }}
       q-item(clickable, to="/start/release-notes")
         q-item-section.text-teal(avatar)
           q-icon(:name="mdiClipboardText")
@@ -24,7 +24,7 @@ div
       q-item(
         clickable
         tag="a"
-        :href="`https://next.quasar.dev/start/upgrade-guide`"
+        :href="`https://v2.quasar.dev/start/upgrade-guide`"
         target="_blank"
         rel="noopener"
       )
@@ -98,17 +98,17 @@ div
 
       q-item-label.q-mt-md(header) Playground
 
-      q-item(clickable, tag="a", href="https://codepen.quasar.dev", target="_blank", rel="noopener")
+      q-item(clickable, tag="a", href="https://codepen.io/rstoenescu/pen/VgQbdx", target="_blank", rel="noopener")
         q-item-section.text-brown-5(avatar)
           q-icon(:name="fabCodepen")
         q-item-section Codepen
 
-      q-item(clickable, tag="a", href="https://jsfiddle.quasar.dev", target="_blank", rel="noopener")
+      q-item(clickable, tag="a", href="https://jsfiddle.net/rstoenescu/rmaodk0f", target="_blank", rel="noopener")
         q-item-section.text-brand-primary(avatar)
           q-icon(:name="fabJsfiddle")
         q-item-section jsFiddle
 
-      q-item(clickable, tag="a", href="https://codesandbox.quasar.dev", target="_blank", rel="noopener")
+      q-item(clickable, tag="a", href="https://codesandbox.io/s/github/quasarframework/quasar-codesandbox", target="_blank", rel="noopener")
         q-item-section.text-black(avatar)
           q-icon(:name="fasCubes")
         q-item-section Codesandbox
@@ -138,7 +138,7 @@ div
           q-icon(:name="mdiBlogger")
         q-item-section Blog
 
-      q-item(clickable, tag="a", href="https://forum.quasar.dev/category/1/announcements", target="_blank", rel="noopener")
+      q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar/discussions/categories/announcements", target="_blank", rel="noopener")
         q-item-section.text-purple(avatar)
           q-icon(:name="mdiBullhorn")
         q-item-section Announcements
