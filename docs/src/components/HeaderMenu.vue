@@ -132,7 +132,7 @@ div
           q-icon(:name="mdiBlogger")
         q-item-section Blog
 
-      q-item(clickable, tag="a", href="https://forum.quasar.dev/category/1/announcements", target="_blank", rel="noopener")
+      q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar/discussions/categories/announcements", target="_blank", rel="noopener")
         q-item-section.text-purple(avatar)
           q-icon(:name="mdiBullhorn")
         q-item-section Announcements
