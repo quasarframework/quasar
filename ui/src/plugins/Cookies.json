@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/quasar-plugins/cookies"
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/cookies"
   },
 
   "injection": "$q.cookies",
@@ -74,8 +74,7 @@
             "sameSite": {
               "type": "String",
               "desc": "SameSite cookie option (not supported by IE11)",
-              "examples": [ "Strict", "Lax" ],
-              "addedIn": "v1.1.1"
+              "examples": [ "Strict", "Lax" ]
             },
             "httpOnly": {
               "type": "Boolean",
@@ -88,8 +87,7 @@
             "other": {
               "type": "String",
               "desc": "Raw string for other cookie options; To be used as a last resort for possible newer props that are currently not yet implemented in Quasar",
-              "examples": [ "SomeNewCookieProp" ],
-              "addedIn": "v1.1.1"
+              "examples": [ "SomeNewCookieProp" ]
             }
           }
         }

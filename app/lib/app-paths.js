@@ -14,7 +14,7 @@ function getAppDir () {
 
   const { fatal } = require('./helpers/logger')
 
-  fatal(`Error. This command must be executed inside a Quasar v1+ project folder.\n`)
+  fatal(`Error. This command must be executed inside a Quasar v1+ project folder.`)
 }
 
 const appDir = getAppDir()

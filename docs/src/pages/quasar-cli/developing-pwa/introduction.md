@@ -8,6 +8,7 @@ This can work in conjunction with Cordova to provide a multiple deploy targets f
 
 ## What is Required
 To be considered a Progressive Web App, your app must be:
+
 * Progressive - Work for every user, regardless of browser choice, because they are built with progressive enhancement as a core tenet.
 * Responsive - Fit any form factor, desktop, mobile, tablet, or whatever is next.
 * Connectivity independent - Enhanced with service workers to work offline or on low quality networks.

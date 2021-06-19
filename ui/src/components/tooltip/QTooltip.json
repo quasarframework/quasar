@@ -1,8 +1,8 @@
 {
-  "mixins": [ "mixins/model-toggle", "mixins/portal" ],
+  "mixins": [ "composables/private/use-model-toggle", "composables/private/use-portal", "composables/private/use-transition" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/tooltip"
+    "docsUrl": "https://v2.quasar.dev/vue-components/tooltip"
   },
 
   "props": {
@@ -19,15 +19,11 @@
     },
 
     "transition-show": {
-      "extends": "transition",
-      "default": "jump-down",
-      "category": "behavior"
+      "default": "jump-down"
     },
 
     "transition-hide": {
-      "extends": "transition",
-      "default": "jump-up",
-      "category": "behavior"
+      "default": "jump-up"
     },
 
     "anchor": {
@@ -99,8 +95,7 @@
       "desc": "Configure Tooltip to disappear with delay",
       "default": 0,
       "examples": [ ":hide-delay=\"650\"" ],
-      "category": "behavior",
-      "addedIn": "v1.9.5"
+      "category": "behavior"
     }
   },
 

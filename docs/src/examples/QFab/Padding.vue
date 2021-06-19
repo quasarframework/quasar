@@ -36,17 +36,17 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      fab1: false,
-      fab2: false
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    onClick () {
-      // console.log('Clicked on a fab action')
+export default {
+  setup () {
+    return {
+      fab1: ref(false),
+      fab2: ref(false),
+
+      onClick () {
+        // console.log('Clicked on a fab action')
+      }
     }
   }
 }

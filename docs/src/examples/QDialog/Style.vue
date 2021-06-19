@@ -55,7 +55,7 @@
           <q-space />
 
           <q-btn dense flat icon="close" v-close-popup>
-            <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
         </q-bar>
 
@@ -90,13 +90,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      icon: false,
-      bar: false,
-      bar2: false,
-      toolbar: false
+      icon: ref(false),
+      bar: ref(false),
+      bar2: ref(false),
+      toolbar: ref(false)
     }
   }
 }

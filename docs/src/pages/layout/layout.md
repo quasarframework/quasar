@@ -1,6 +1,7 @@
 ---
 title: Layout
 desc: How to use the QLayout component. Manages the whole window of your Quasar app.
+keys: QLayout
 related:
   - /layout/header-and-footer
   - /layout/drawer
@@ -76,10 +77,6 @@ These settings are completely up to you to use as you'd like. You could even go 
 
 ### Containerized QLayout
 By default, QLayout is managing the entire window. However, you can also use QLayout as a container (with specific height and width) to isolate it somewhere in your pages.
-
-::: danger
-Not supported in IE11.
-:::
 
 ::: warning
 Please note that it **requires a CSS height (or min-height) being set explicitly**, otherwise it can't and it won't work.

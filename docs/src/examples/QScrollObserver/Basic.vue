@@ -6,16 +6,17 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      scrollInfo: {}
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    onScroll (info) {
-      this.scrollInfo = info
+export default {
+  setup () {
+    const scrollInfo = ref({})
+
+    return {
+      scrollInfo,
+      onScroll (info) {
+        scrollInfo.value = info
+      }
     }
   }
 }

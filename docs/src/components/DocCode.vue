@@ -1,10 +1,9 @@
 <template lang="pug">
 div
-  code-prism(:lang="lang")
-    slot
+  code-prism(:lang="lang", :code="code")
 
   .absolute(style="top: 8px; right: 8px;")
-    copy-button(:text="getMarkup")
+    copy-button(:text="code")
 </template>
 
 <script>
@@ -20,15 +19,11 @@ export default {
   },
 
   props: {
+    code: String,
+
     lang: {
       type: String,
       default: 'js'
-    }
-  },
-
-  methods: {
-    getMarkup () {
-      return this.$el.querySelector('pre').innerText
     }
   }
 }

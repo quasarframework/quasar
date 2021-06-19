@@ -28,7 +28,7 @@
           :target="targetEl"
           anchor="center middle"
           self="center middle"
-          content-class="bg-black"
+          class="bg-black"
         >Quasar Rulz!</q-tooltip>
       </q-img>
     </div>
@@ -36,10 +36,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      targetEl: '#target-img-1'
+      targetEl: ref('#target-img-1')
     }
   }
 }

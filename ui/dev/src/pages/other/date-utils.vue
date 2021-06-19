@@ -117,12 +117,12 @@ export default {
         common = '',
         i = 0
 
-      while (text[i] === original[i] && i < text.length && i < original.length) {
-        common += text[i]
+      while (text[ i ] === original[ i ] && i < text.length && i < original.length) {
+        common += text[ i ]
         i += 1
       }
 
-      return `<span class="bg-yellow">${common}</span>${text.slice(common.length)}`
+      return `<span class="bg-yellow">${ common }</span>${ text.slice(common.length) }`
     }
   }
 }

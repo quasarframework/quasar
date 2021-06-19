@@ -35,7 +35,7 @@ export default {
 
       if (index !== void 0 && index !== indexZoomed) {
         this.cancel = morph({
-          from: this.$refs.refThumb[index].$el,
+          from: this.$refs.refThumb[ index ].$el,
           onToggle: () => { this.indexZoomed = index },
           duration: 500,
           onEnd: end => {
@@ -47,11 +47,11 @@ export default {
       }
 
       if (
-        indexZoomed !== void 0 &&
-        (this.cancel === void 0 || this.cancel() === false)
+        indexZoomed !== void 0
+        && (this.cancel === void 0 || this.cancel() === false)
       ) {
         morph({
-          from: this.$refs.refThumb[indexZoomed].$el,
+          from: this.$refs.refThumb[ indexZoomed ].$el,
           waitFor: 100,
           duration: 300
         })

@@ -26,24 +26,26 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const stringOptions = [
   'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
 ]
 
 export default {
-  data () {
-    return {
-      model: null,
-      options: stringOptions
-    }
-  },
+  setup () {
+    const options = ref(stringOptions)
 
-  methods: {
-    filterFn (val, update, abort) {
-      update(() => {
-        const needle = val.toLowerCase()
-        this.options = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-      })
+    return {
+      model: ref(null),
+      options,
+
+      filterFn (val, update, abort) {
+        update(() => {
+          const needle = val.toLowerCase()
+          options.value = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        })
+      }
     }
   }
 }

@@ -1,6 +1,7 @@
 ---
 title: Button Toggle
 desc: The QBtnToggle Vue component is a basic element for user input, similar to QRadio but with buttons.
+keys: QBtnToggle
 related:
   - /vue-components/button
   - /vue-components/tabs
@@ -12,6 +13,7 @@ related:
 The QBtnToggle component is another basic element for user input, similar to QRadio but with buttons. You can use this to supply a way for the user to pick an option from multiple choices.
 
 ## QBtnToggle API
+
 <doc-api file="QBtnToggle" />
 
 ## Usage
@@ -42,7 +44,7 @@ First QBtnToggle below has tooltips on each button. Second QBtnToggle has custom
 
 <doc-example title="Disable and readonly" file="QBtnToggle/DisableReadonly" />
 
-### Native form submit <q-badge align="top" color="brand-primary" label="v1.9+" />
+### Native form submit
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QBtnToggle, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 

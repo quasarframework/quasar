@@ -44,11 +44,16 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const submitResult = ref([])
+
     return {
-      preferred: 'rock',
-      accepted: [],
+      preferred: ref('rock'),
+      accepted: ref([]),
+      submitResult,
 
       options: [
         {
@@ -65,23 +70,19 @@ export default {
         }
       ],
 
-      submitResult: []
-    }
-  },
+      onSubmit (evt) {
+        const formData = new FormData(evt.target)
+        const data = []
 
-  methods: {
-    onSubmit (evt) {
-      const formData = new FormData(evt.target)
-      const submitResult = []
+        for (const [ name, value ] of formData.entries()) {
+          data.push({
+            name,
+            value
+          })
+        }
 
-      for (const [ name, value ] of formData.entries()) {
-        submitResult.push({
-          name,
-          value
-        })
+        submitResult.value = data
       }
-
-      this.submitResult = submitResult
     }
   }
 }

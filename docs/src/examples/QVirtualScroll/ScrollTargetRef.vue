@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
+
 const maxSize = 10000
 const heavyList = []
 
@@ -42,15 +44,19 @@ for (let i = 0; i < maxSize; i++) {
 Object.freeze(heavyList)
 
 export default {
-  data () {
+  setup () {
+    const virtualListScrollTargetRef = ref(null)
+    const scrollTarget = ref(null)
+
+    onMounted(() => {
+      scrollTarget.value = virtualListScrollTargetRef.value
+    })
+
     return {
       heavyList,
-      scrollTarget: void 0
+      virtualListScrollTargetRef,
+      scrollTarget
     }
-  },
-
-  mounted () {
-    this.scrollTarget = this.$refs.virtualListScrollTargetRef
   }
 }
 </script>

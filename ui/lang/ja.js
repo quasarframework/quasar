@@ -21,11 +21,9 @@ export default {
     daysShort: '日_月_火_水_木_金_土'.split('_'), // 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
     months: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'), // 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
     monthsShort: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'), // 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
-    headerTitle: function (date) {
-      return new Intl.DateTimeFormat('ja-JP', {
-        weekday: 'short', month: 'short', day: 'numeric'
-      }).format(date)
-    },
+    headerTitle: date => new Intl.DateTimeFormat('ja-JP', {
+      weekday: 'short', month: 'short', day: 'numeric'
+    }).format(date),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true, // true
     pluralDay: '日間'
@@ -34,16 +32,10 @@ export default {
     noData: 'データがありません', // 'No data available',
     noResults: '検索結果がありません', // 'No matching records found',
     loading: '読込中...', // 'Loading...',
-    selectedRecords: function (rows) {
-      return rows > 0
-        ? rows + '行を選択中'
-        : '行を選択'
-    },
+    selectedRecords: rows => (rows > 0 ? rows + '行を選択中' : '行を選択'),
     recordsPerPage: 'ページあたりの行数', // 'Rows per page:',
     allRows: '全て', // 'All',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' ／ ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' ／ ' + total,
     columns: '列' // 'Columns'
   },
   editor: {

@@ -32,27 +32,29 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const submitResult = ref([])
+
     return {
-      quality: 3,
-      submitResult: []
-    }
-  },
+      quality: ref(3),
+      submitResult,
 
-  methods: {
-    onSubmit (evt) {
-      const formData = new FormData(evt.target)
-      const submitResult = []
+      onSubmit (evt) {
+        const formData = new FormData(evt.target)
+        const data = []
 
-      for (const [ name, value ] of formData.entries()) {
-        submitResult.push({
-          name,
-          value
-        })
+        for (const [ name, value ] of formData.entries()) {
+          data.push({
+            name,
+            value
+          })
+        }
+
+        submitResult.value = data
       }
-
-      this.submitResult = submitResult
     }
   }
 }

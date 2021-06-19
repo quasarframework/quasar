@@ -1,5 +1,7 @@
+import { Notify } from 'quasar'
+
 export function copyToClipboard (text) {
-  var textArea = document.createElement('textarea')
+  const textArea = document.createElement('textarea')
   textArea.className = 'fixed-top'
   textArea.value = text
   document.body.appendChild(textArea)
@@ -19,7 +21,7 @@ export function copyHeading (id) {
   }
 
   if ('replaceState' in history) {
-    history.replaceState('', '', `${location.pathname}#${id}`)
+    history.replaceState(history.state, '', `${location.pathname}#${id}`)
   }
   else {
     window.location.hash = '#' + id
@@ -33,12 +35,10 @@ export function copyHeading (id) {
 
   copyToClipboard(text)
 
-  this.$q.notify({
+  Notify.create({
     message: 'Anchor has been copied to clipboard.',
-    color: 'white',
-    textColor: 'brand-primary',
     position: 'top',
-    actions: [ { icon: 'close', color: 'brand-primary', dense: true, round: true } ],
+    actions: [{ icon: 'cancel', color: 'white', dense: true, round: true }],
     timeout: 2000
   })
 }

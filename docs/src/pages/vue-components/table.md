@@ -1,22 +1,24 @@
 ---
 title: Table
 desc: The QTable Vue component allows you to display data in a tabular manner and it's packed with a lot of related features. It's generally called a datatable.
+keys: QTable,QTh,QTr,QTd
 related:
   - /vue-components/markup-table
   - /vue-components/pagination
 ---
 
 QTable is a component that allows you to display data in a tabular manner. It's generally called a datatable. It packs the following main features:
-  * Filtering
-  * Sorting
-  * Single / Multiple rows selection with custom selection actions
-  * Pagination (including server-side if required)
-  * Grid mode (you can use for example QCards to display data in a non-tabular manner)
-  * Total customization of rows and cells through scoped slots
-  * Ability to add additional row(s) at top or bottom of data rows
-  * Column picker (through QTableColumns component described in one of the sections)
-  * Custom top and/or bottom Table controls
-  * Responsive design
+
+* Filtering
+* Sorting
+* Single / Multiple rows selection with custom selection actions
+* Pagination (including server-side if required)
+* Grid mode (you can use for example QCards to display data in a non-tabular manner)
+* Total customization of rows and cells through scoped slots
+* Ability to add additional row(s) at top or bottom of data rows
+* Column picker (through QTableColumns component described in one of the sections)
+* Custom top and/or bottom Table controls
+* Responsive design
 
 ::: tip
 If you don't need pagination, sorting, filtering, and all other features of QTable, then you may want to check out [QMarkupTable](/vue-components/markup-table) component instead.
@@ -71,7 +73,7 @@ columns: [ // array of Objects
     //   * is 0 then leave a and b unchanged with respect to each other, but sorted with respect to all different elements
     //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first
 
-    // (optional; requires Quasar v1.15.11+) override 'column-sort-order' prop;
+    // (optional) override 'column-sort-order' prop;
     // sets column sort order: 'ad' (ascending-descending) or 'da' (descending-ascending)
     sortOrder: 'ad', // or 'da'
 
@@ -84,11 +86,11 @@ columns: [ // array of Objects
 
     // body td:
     style: 'width: 500px',
-    // or as Function (requires v1.15.15+) --> style: row => ... (return String/Array/Object)
+    // or as Function --> style: row => ... (return String/Array/Object)
     classes: 'my-special-class',
-    // or as Function (requires v1.15.15+) --> classes: row => ... (return String)
+    // or as Function --> classes: row => ... (return String)
 
-    // (v1.3+) header th:
+    // header th:
     headerStyle: 'width: 500px',
     headerClasses: 'my-special-class'
   },
@@ -114,7 +116,7 @@ columns: [ // array of Objects
 You can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense="$q.screen.lt.md"`. More info: [Screen Plugin](/options/screen-plugin).
 :::
 
-## Omitting columns definition <q-badge align="top" color="brand-primary" label="v1.12+" />
+## Omitting columns definition
 
 You can omit specifying the `columns`. QTable will infer the columns from the properties of the first row of the data. Note that labels are uppercased and sorting is enabled:
 
@@ -144,7 +146,7 @@ Sticky headers and columns are achieved through CSS with `position: sticky`. Thi
 
 <doc-example title="No header/footer" file="QTable/NoHeaderFooter" />
 
-## Virtual scrolling <q-badge align="top" color="brand-primary" label="v1.2+" />
+## Virtual scrolling
 
 Notice that when enabling virtual scroll you will need to specify the `table-style` (with a max-height) prop. In the example below, we are also forcing QTable to display all rows at once (note the use of `pagination` and `rows-per-page-options` props).
 
@@ -158,11 +160,12 @@ You can have both virtual scroll and pagination:
 
 <doc-example title="Virtual scroll and pagination" file="QTable/VirtscrollPagination" />
 
-The example below shows how virtual scroll can be used along with a sticky header. Notice the `virtual-scroll-sticky-start` prop which is set to the header height. Also note that this will NOT work in IE11 due to the lack of support for CSS prop "position" with value "sticky".
+The example below shows how virtual scroll can be used along with a sticky header. Notice the `virtual-scroll-sticky-start` prop which is set to the header height.
 
 <doc-example title="Virtual scroll with sticky header" file="QTable/VirtscrollSticky" />
 
-Starting with v1.8.4, there are 2 utility CSS classes that control VirtualScroll size calculation:
+There are 2 utility CSS classes that control VirtualScroll size calculation:
+
 * Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
 * Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
 
@@ -178,7 +181,7 @@ The property `row-key` must be set in order for selection to work properly.
 
 <doc-example title="Multiple selection" file="QTable/MultipleSelection" />
 
-<doc-example title="Selection cell slots (v1.14+)" file="QTable/SelectionSlots" />
+<doc-example title="Selection cell slots" file="QTable/SelectionSlots" />
 
 <doc-example title="Custom multiple selection" file="QTable/CustomSelection" />
 
@@ -215,8 +218,9 @@ In the example below, we let QTable deal with displaying the grid mode (not usin
 <doc-example title="Masonry like grid" file="QTable/GridMasonry" />
 
 However, if you want to fully customize the content, check the example below, where:
-  * We are using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
-  * We are using multiple selection.
+
+* We are using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
+* We are using multiple selection.
 
 <doc-example title="Grid style with slot" file="QTable/GridStyleSlot" />
 
@@ -228,11 +232,11 @@ Add unique (distinct) `key` on QTr if you generate more than one QTr from a row 
 
 <doc-example title="Internal expansion model" file="QTable/ExpandedRowInternal" />
 
-Starting with v1.8.3, an external expansion model can also be used:
+An external expansion model can also be used:
 
 <doc-example title="External expansion model" file="QTable/ExpandedRowExternal" />
 
-If you are using virtual scroll with QTable, you should know that starting with v1.8.4 there are 2 utility CSS classes that control VirtualScroll size calculation:
+If you are using virtual scroll with QTable, you should know that there are 2 utility CSS classes that control VirtualScroll size calculation:
 * Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
 * Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
 
@@ -242,11 +246,7 @@ If you are using virtual scroll with QTable, you should know that starting with 
 
 <doc-example title="Before/After slots (header/footer)" file="QTable/BeforeAfterHeaderFooter" />
 
-## Pagination <q-badge align="top" color="brand-primary" label="enhanced on v1.12+" />
-
-::: warning
-On Quasar <= v1.11, the `pagination` prop usage required the ".sync" modifier. With v1.12+ this is not longer mandatory, but if you want to control the Table’s pagination from your own components, then it is still a must-do. Example: `pagination.sync="pagination"`.
-:::
+## Pagination
 
 ::: tip
 When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See *"Server side pagination, filter and sorting"* section.
@@ -258,7 +258,7 @@ The first example highlights how to configure the initial pagination:
 
 <doc-example title="Initial pagination" file="QTable/PaginationInitial" />
 
-The second example uses the ".sync" modifier because we want to access its current value at any time. A use-case for the technique below can be to control the pagination from outside of QTable.
+The second example uses the "v-model:pagination" directive because we want to access its current value at any time. A use-case for the technique below can be to control the pagination from outside of QTable.
 
 <doc-example title="Synchronized pagination" file="QTable/PaginationSync" />
 
@@ -271,8 +271,6 @@ For learning purposes, we will customize the pagination controls with the defaul
 ## Loading state
 
 <doc-example title="Default loading" file="QTable/Loading" />
-
-The example below requires Quasar v1.8+:
 
 <doc-example title="Custom loading state" file="QTable/CustomLoading" />
 
@@ -304,7 +302,7 @@ Below, we use a slot which gets applied to each header cell:
 
 <doc-example title="Header-cell slot" file="QTable/SlotHeaderCell" />
 
-Starting with **v1.1.1+**, we can also customize only one particular header cell only. The syntax for this slot is `header-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+We can also customize only one particular header cell only. The syntax for this slot is `header-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
 
 <doc-example title="Header-cell-[name] slot" file="QTable/SlotHeaderCellName" />
 
@@ -312,11 +310,11 @@ Starting with **v1.1.1+**, we can also customize only one particular header cell
 
 <doc-example title="No Data Label" file="QTable/NoData" />
 
-Starting with **v1.1.1+**, there is also a "no-data" scoped slot (see below) that you can also to customize the messages for both when a filter doesn't returns any results or the table has no data to display. Also type something into the "Search" input.
+There is also a "no-data" scoped slot (see below) that you can also to customize the messages for both when a filter doesn't returns any results or the table has no data to display. Also type something into the "Search" input.
 
 <doc-example title="No Data Slot" file="QTable/NoDataSlot" />
 
-## Handling bottom layer <q-badge align="top" color="brand-primary" label="v1.12+" />
+## Handling bottom layer
 
 There are a few properties that you can use to hide the bottom layer or specific parts of it. You can play with it below:
 
@@ -336,8 +334,6 @@ First example below uses `$q.screen.lt.md` (for enabling dense mode) and the sec
 
 <doc-example title="Using grid prop" file="QTable/ResponsiveGrid" />
 
-The example above is essentially mimicking the earlier Quasar versions of the table behavior.
-
 ## Server side pagination, filter and sorting
 
 When your database contains a big number of rows for a Table, obviously it’s not feasible to load them all for multiple reasons (memory, UI rendering performance, …). Instead, you can load only a Table page. Whenever the user wants to navigate to another Table page, or wants to sort by a column or wants to filter the Table, a **request** is sent to the **server** to fetch the partially paged data.
@@ -356,7 +352,7 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 
 ## Exporting data
 
-Below is an example of a naive csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#Export-file) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.
+Below is an example of a naive csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#export-file) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.
 
 ::: tip
 You could also make use of the `filteredSortedRows` internal computed property of QTable should you want to export the user filtered + sorted data.

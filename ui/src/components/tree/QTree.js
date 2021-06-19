@@ -1,21 +1,24 @@
-import Vue from 'vue'
+import {
+  h, defineComponent, ref, computed, watch,
+  withDirectives, vShow, nextTick, getCurrentInstance, onBeforeUpdate
+} from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
-import DarkMixin from '../../mixins/dark.js'
+
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { shouldIgnoreKey } from '../../utils/key-composition.js'
-import cache from '../../utils/cache.js'
+import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QTree',
 
-  mixins: [ DarkMixin ],
-
   props: {
+    ...useDarkProps,
+
     nodes: {
       type: Array,
       required: true
@@ -43,24 +46,17 @@ export default Vue.extend({
     tickStrategy: {
       type: String,
       default: 'none',
-      validator: v => ['none', 'strict', 'leaf', 'leaf-filtered'].includes(v)
+      validator: v => [ 'none', 'strict', 'leaf', 'leaf-filtered' ].includes(v)
     },
-    ticked: Array, // sync
-    expanded: Array, // sync
-    selected: {}, // sync
+    ticked: Array, // v-model:ticked
+    expanded: Array, // v-model:expanded
+    selected: {}, // v-model:selected
 
     defaultExpandAll: Boolean,
     accordion: Boolean,
 
     filter: String,
-    filterMethod: {
-      type: Function,
-      default (node, filter) {
-        const filt = filter.toLowerCase()
-        return node[this.labelKey] &&
-          node[this.labelKey].toLowerCase().indexOf(filt) > -1
-      }
-    },
+    filterMethod: Function,
 
     duration: Number,
     noConnectors: Boolean,
@@ -69,49 +65,75 @@ export default Vue.extend({
     noResultsLabel: String
   },
 
-  computed: {
-    classes () {
-      return `q-tree` +
-        (this.noConnectors === true ? ` q-tree--no-connectors` : '') +
-        (this.isDark === true ? ` q-tree--dark` : '') +
-        (this.color !== void 0 ? ` text-${this.color}` : '')
-    },
+  emits: [
+    'update:expanded',
+    'update:ticked',
+    'update:selected',
+    'lazy-load',
+    'after-show',
+    'after-hide'
+  ],
 
-    hasSelection () {
-      return this.selected !== void 0
-    },
+  setup (props, { slots, emit }) {
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
 
-    computedIcon () {
-      return this.icon || this.$q.iconSet.tree.icon
-    },
+    const isDark = useDark(props, $q)
 
-    computedControlColor () {
-      return this.controlColor || this.color
-    },
+    const lazy = ref({})
+    const innerTicked = ref(props.ticked || [])
+    const innerExpanded = ref(props.expanded || [])
 
-    textColorClass () {
-      if (this.textColor !== void 0) {
-        return `text-${this.textColor}`
-      }
-    },
+    let blurTargets = {}
 
-    selectedColorClass () {
-      const color = this.selectedColor || this.color
-      if (color) {
-        return `text-${color}`
-      }
-    },
+    onBeforeUpdate(() => {
+      blurTargets = {}
+    })
 
-    meta () {
+    const classes = computed(() =>
+      'q-tree'
+      + (props.noConnectors === true ? ' q-tree--no-connectors' : '')
+      + (isDark.value === true ? ' q-tree--dark' : '')
+      + (props.color !== void 0 ? ` text-${ props.color }` : '')
+    )
+
+    const hasSelection = computed(() => props.selected !== void 0)
+
+    const computedIcon = computed(() => props.icon || $q.iconSet.tree.icon)
+
+    const computedControlColor = computed(() => props.controlColor || props.color)
+
+    const textColorClass = computed(() => (
+      props.textColor !== void 0
+        ? ` text-${ props.textColor }`
+        : ''
+    ))
+
+    const selectedColorClass = computed(() => {
+      const color = props.selectedColor || props.color
+      return color ? ` text-${ color }` : ''
+    })
+
+    const computedFilterMethod = computed(() => (
+      props.filterMethod !== void 0
+        ? props.filterMethod
+        : (node, filter) => {
+            const filt = filter.toLowerCase()
+            return node[ props.labelKey ]
+            && node[ props.labelKey ].toLowerCase().indexOf(filt) > -1
+          }
+    ))
+
+    const meta = computed(() => {
       const meta = {}
 
       const travel = (node, parent) => {
-        const tickStrategy = node.tickStrategy || (parent ? parent.tickStrategy : this.tickStrategy)
+        const tickStrategy = node.tickStrategy || (parent ? parent.tickStrategy : props.tickStrategy)
         const
-          key = node[this.nodeKey],
-          isParent = node[this.childrenKey] && node[this.childrenKey].length > 0,
+          key = node[ props.nodeKey ],
+          isParent = node[ props.childrenKey ] && node[ props.childrenKey ].length > 0,
           isLeaf = isParent !== true,
-          selectable = node.disabled !== true && this.hasSelection === true && node.selectable !== false,
+          selectable = node.disabled !== true && hasSelection.value === true && node.selectable !== false,
           expandable = node.disabled !== true && node.expandable !== false,
           hasTicking = tickStrategy !== 'none',
           strictTicking = tickStrategy === 'strict',
@@ -123,13 +145,13 @@ export default Vue.extend({
           tickable = false
         }
 
-        let lazy = node.lazy
+        let localLazy = node.lazy
         if (
-          lazy === true &&
-          this.lazy[key] !== void 0 &&
-          Array.isArray(node[this.childrenKey]) === true
+          localLazy === true
+          && lazy.value[ key ] !== void 0
+          && Array.isArray(node[ props.childrenKey ]) === true
         ) {
-          lazy = this.lazy[key]
+          localLazy = lazy.value[ key ]
         }
 
         const m = {
@@ -137,17 +159,17 @@ export default Vue.extend({
           parent,
           isParent,
           isLeaf,
-          lazy,
+          lazy: localLazy,
           disabled: node.disabled,
-          link: node.disabled !== true && (selectable === true || (expandable === true && (isParent === true || lazy === true))),
+          link: node.disabled !== true && (selectable === true || (expandable === true && (isParent === true || localLazy === true))),
           children: [],
-          matchesFilter: this.filter ? this.filterMethod(node, this.filter) : true,
+          matchesFilter: props.filter ? computedFilterMethod.value(node, props.filter) : true,
 
-          selected: key === this.selected && selectable === true,
+          selected: key === props.selected && selectable === true,
           selectable,
-          expanded: isParent === true ? this.innerExpanded.includes(key) : false,
+          expanded: isParent === true ? innerExpanded.value.includes(key) : false,
           expandable,
-          noTick: node.noTick === true || (strictTicking !== true && lazy && lazy !== 'loaded'),
+          noTick: node.noTick === true || (strictTicking !== true && localLazy && localLazy !== 'loaded'),
           tickable,
           tickStrategy,
           hasTicking,
@@ -155,25 +177,25 @@ export default Vue.extend({
           leafFilteredTicking,
           leafTicking,
           ticked: strictTicking === true
-            ? this.innerTicked.includes(key)
-            : (isLeaf === true ? this.innerTicked.includes(key) : false)
+            ? innerTicked.value.includes(key)
+            : (isLeaf === true ? innerTicked.value.includes(key) : false)
         }
 
-        meta[key] = m
+        meta[ key ] = m
 
         if (isParent === true) {
-          m.children = node[this.childrenKey].map(n => travel(n, m))
+          m.children = node[ props.childrenKey ].map(n => travel(n, m))
 
-          if (this.filter) {
+          if (props.filter) {
             if (m.matchesFilter !== true) {
               m.matchesFilter = m.children.some(n => n.matchesFilter)
             }
             else if (
-              m.noTick !== true &&
-              m.disabled !== true &&
-              m.tickable === true &&
-              leafFilteredTicking === true &&
-              m.children.every(n => n.matchesFilter !== true || n.noTick === true || n.tickable !== true) === true
+              m.noTick !== true
+              && m.disabled !== true
+              && m.tickable === true
+              && leafFilteredTicking === true
+              && m.children.every(n => n.matchesFilter !== true || n.noTick === true || n.tickable !== true) === true
             ) {
               m.tickable = false
             }
@@ -191,7 +213,7 @@ export default Vue.extend({
 
               if (m.indeterminate !== true) {
                 const sel = m.children
-                  .reduce((acc, meta) => meta.ticked === true ? acc + 1 : acc, 0)
+                  .reduce((acc, meta) => (meta.ticked === true ? acc + 1 : acc), 0)
 
                 if (sel === m.children.length) {
                   m.ticked = true
@@ -212,31 +234,19 @@ export default Vue.extend({
         return m
       }
 
-      this.nodes.forEach(node => travel(node, null))
+      props.nodes.forEach(node => travel(node, null))
       return meta
-    }
-  },
+    })
 
-  data () {
-    return {
-      lazy: {},
-      innerTicked: this.ticked || [],
-      innerExpanded: this.expanded || []
-    }
-  },
+    watch(() => props.ticked, val => {
+      innerTicked.value = val
+    })
 
-  watch: {
-    ticked (val) {
-      this.innerTicked = val
-    },
+    watch(() => props.expanded, val => {
+      innerExpanded.value = val
+    })
 
-    expanded (val) {
-      this.innerExpanded = val
-    }
-  },
-
-  methods: {
-    getNodeByKey (key) {
+    function getNodeByKey (key) {
       const reduce = [].reduce
 
       const find = (result, node) => {
@@ -246,120 +256,120 @@ export default Vue.extend({
         if (Array.isArray(node) === true) {
           return reduce.call(Object(node), find, result)
         }
-        if (node[this.nodeKey] === key) {
+        if (node[ props.nodeKey ] === key) {
           return node
         }
-        if (node[this.childrenKey]) {
-          return find(null, node[this.childrenKey])
+        if (node[ props.childrenKey ]) {
+          return find(null, node[ props.childrenKey ])
         }
       }
 
-      return find(null, this.nodes)
-    },
+      return find(null, props.nodes)
+    }
 
-    getTickedNodes () {
-      return this.innerTicked.map(key => this.getNodeByKey(key))
-    },
+    function getTickedNodes () {
+      return innerTicked.value.map(key => getNodeByKey(key))
+    }
 
-    getExpandedNodes () {
-      return this.innerExpanded.map(key => this.getNodeByKey(key))
-    },
+    function getExpandedNodes () {
+      return innerExpanded.value.map(key => getNodeByKey(key))
+    }
 
-    isExpanded (key) {
-      return key && this.meta[key]
-        ? this.meta[key].expanded
+    function isExpanded (key) {
+      return key && meta.value[ key ]
+        ? meta.value[ key ].expanded
         : false
-    },
+    }
 
-    collapseAll () {
-      if (this.expanded !== void 0) {
-        this.$emit('update:expanded', [])
+    function collapseAll () {
+      if (props.expanded !== void 0) {
+        emit('update:expanded', [])
       }
       else {
-        this.innerExpanded = []
+        innerExpanded.value = []
       }
-    },
+    }
 
-    expandAll () {
+    function expandAll () {
       const
-        expanded = this.innerExpanded,
+        expanded = innerExpanded.value,
         travel = node => {
-          if (node[this.childrenKey] && node[this.childrenKey].length > 0) {
+          if (node[ props.childrenKey ] && node[ props.childrenKey ].length > 0) {
             if (node.expandable !== false && node.disabled !== true) {
-              expanded.push(node[this.nodeKey])
-              node[this.childrenKey].forEach(travel)
+              expanded.push(node[ props.nodeKey ])
+              node[ props.childrenKey ].forEach(travel)
             }
           }
         }
 
-      this.nodes.forEach(travel)
+      props.nodes.forEach(travel)
 
-      if (this.expanded !== void 0) {
-        this.$emit('update:expanded', expanded)
+      if (props.expanded !== void 0) {
+        emit('update:expanded', expanded)
       }
       else {
-        this.innerExpanded = expanded
+        innerExpanded.value = expanded
       }
-    },
+    }
 
-    setExpanded (key, state, node = this.getNodeByKey(key), meta = this.meta[key]) {
-      if (meta.lazy && meta.lazy !== 'loaded') {
-        if (meta.lazy === 'loading') {
+    function setExpanded (key, state, node = getNodeByKey(key), m = meta.value[ key ]) {
+      if (m.lazy && m.lazy !== 'loaded') {
+        if (m.lazy === 'loading') {
           return
         }
 
-        this.$set(this.lazy, key, 'loading')
-        if (Array.isArray(node[this.childrenKey]) !== true) {
-          this.$set(node, this.childrenKey, [])
+        lazy.value[ key ] = 'loading'
+        if (Array.isArray(node[ props.childrenKey ]) !== true) {
+          node[ props.childrenKey ] = []
         }
-        this.$emit('lazy-load', {
+        emit('lazy-load', {
           node,
           key,
           done: children => {
-            this.lazy[key] = 'loaded'
-            this.$set(node, this.childrenKey, Array.isArray(children) === true ? children : [])
-            this.$nextTick(() => {
-              const m = this.meta[key]
-              if (m && m.isParent === true) {
-                this.__setExpanded(key, true)
+            lazy.value[ key ] = 'loaded'
+            node[ props.childrenKey ] = Array.isArray(children) === true ? children : []
+            nextTick(() => {
+              const localMeta = meta.value[ key ]
+              if (localMeta && localMeta.isParent === true) {
+                localSetExpanded(key, true)
               }
             })
           },
           fail: () => {
-            this.$delete(this.lazy, key)
-            if (node[this.childrenKey].length === 0) {
-              this.$delete(node, this.childrenKey)
+            delete lazy.value[ key ]
+            if (node[ props.childrenKey ].length === 0) {
+              delete node[ props.childrenKey ]
             }
           }
         })
       }
-      else if (meta.isParent === true && meta.expandable === true) {
-        this.__setExpanded(key, state)
+      else if (m.isParent === true && m.expandable === true) {
+        localSetExpanded(key, state)
       }
-    },
+    }
 
-    __setExpanded (key, state) {
-      let target = this.innerExpanded
-      const emit = this.expanded !== void 0
+    function localSetExpanded (key, state) {
+      let target = innerExpanded.value
+      const shouldEmit = props.expanded !== void 0
 
-      if (emit === true) {
+      if (shouldEmit === true) {
         target = target.slice()
       }
 
       if (state) {
-        if (this.accordion) {
-          if (this.meta[key]) {
+        if (props.accordion) {
+          if (meta.value[ key ]) {
             const collapse = []
-            if (this.meta[key].parent) {
-              this.meta[key].parent.children.forEach(m => {
+            if (meta.value[ key ].parent) {
+              meta.value[ key ].parent.children.forEach(m => {
                 if (m.key !== key && m.expandable === true) {
                   collapse.push(m.key)
                 }
               })
             }
             else {
-              this.nodes.forEach(node => {
-                const k = node[this.nodeKey]
+              props.nodes.forEach(node => {
+                const k = node[ props.nodeKey ]
                 if (k !== key) {
                   collapse.push(k)
                 }
@@ -378,25 +388,25 @@ export default Vue.extend({
         target = target.filter(k => k !== key)
       }
 
-      if (emit === true) {
-        this.$emit(`update:expanded`, target)
+      if (shouldEmit === true) {
+        emit('update:expanded', target)
       }
       else {
-        this.innerExpanded = target
+        innerExpanded.value = target
       }
-    },
+    }
 
-    isTicked (key) {
-      return key && this.meta[key]
-        ? this.meta[key].ticked
+    function isTicked (key) {
+      return key && meta.value[ key ]
+        ? meta.value[ key ].ticked
         : false
-    },
+    }
 
-    setTicked (keys, state) {
-      let target = this.innerTicked
-      const emit = this.ticked !== void 0
+    function setTicked (keys, state) {
+      let target = innerTicked.value
+      const shouldEmit = props.ticked !== void 0
 
-      if (emit === true) {
+      if (shouldEmit === true) {
         target = target.slice()
       }
 
@@ -408,78 +418,87 @@ export default Vue.extend({
         target = target.filter(k => keys.includes(k) === false)
       }
 
-      if (emit === true) {
-        this.$emit(`update:ticked`, target)
+      if (shouldEmit === true) {
+        emit('update:ticked', target)
       }
-    },
+    }
 
-    __getSlotScope (node, meta, key) {
-      const scope = { tree: this, node, key, color: this.color, dark: this.isDark }
+    function getSlotScope (node, meta, key) {
+      const scope = { tree: proxy, node, key, color: props.color, dark: isDark.value }
 
       Object.defineProperty(scope, 'expanded', {
         get: () => { return meta.expanded },
-        set: val => { val !== meta.expanded && this.setExpanded(key, val) },
+        set: val => { val !== meta.expanded && setExpanded(key, val) },
         configurable: true,
         enumerable: true
       })
       Object.defineProperty(scope, 'ticked', {
         get: () => { return meta.ticked },
-        set: val => { val !== meta.ticked && this.setTicked([ key ], val) },
+        set: val => { val !== meta.ticked && setTicked([ key ], val) },
         configurable: true,
         enumerable: true
       })
 
       return scope
-    },
+    }
 
-    __getChildren (h, nodes) {
+    function getChildren (nodes) {
       return (
-        this.filter
-          ? nodes.filter(n => this.meta[n[this.nodeKey]].matchesFilter)
+        props.filter
+          ? nodes.filter(n => meta.value[ n[ props.nodeKey ] ].matchesFilter)
           : nodes
-      ).map(child => this.__getNode(h, child))
-    },
+      ).map(child => getNode(child))
+    }
 
-    __getNodeMedia (h, node) {
+    function getNodeMedia (node) {
       if (node.icon !== void 0) {
         return h(QIcon, {
-          staticClass: `q-tree__icon q-mr-sm`,
-          props: { name: node.icon, color: node.iconColor }
+          class: 'q-tree__icon q-mr-sm',
+          name: node.icon,
+          color: node.iconColor
         })
       }
       const src = node.img || node.avatar
       if (src) {
         return h('img', {
-          staticClass: `q-tree__${node.img ? 'img' : 'avatar'} q-mr-sm`,
-          attrs: { src }
+          class: `q-tree__${ node.img ? 'img' : 'avatar' } q-mr-sm`,
+          src
         })
       }
-    },
+    }
 
-    __getNode (h, node) {
+    function onShow () {
+      emit('after-show')
+    }
+
+    function onHide () {
+      emit('after-hide')
+    }
+
+    function getNode (node) {
       const
-        key = node[this.nodeKey],
-        meta = this.meta[key],
+        key = node[ props.nodeKey ],
+        m = meta.value[ key ],
         header = node.header
-          ? this.$scopedSlots[`header-${node.header}`] || this.$scopedSlots['default-header']
-          : this.$scopedSlots['default-header']
+          ? slots[ `header-${ node.header }` ] || slots[ 'default-header' ]
+          : slots[ 'default-header' ]
 
-      const children = meta.isParent === true
-        ? this.__getChildren(h, node[this.childrenKey])
+      const children = m.isParent === true
+        ? getChildren(node[ props.childrenKey ])
         : []
 
-      const isParent = children.length > 0 || (meta.lazy && meta.lazy !== 'loaded')
+      const isParent = children.length > 0 || (m.lazy && m.lazy !== 'loaded')
 
       let body = node.body
-        ? this.$scopedSlots[`body-${node.body}`] || this.$scopedSlots['default-body']
-        : this.$scopedSlots['default-body']
+        ? slots[ `body-${ node.body }` ] || slots[ 'default-body' ]
+        : slots[ 'default-body' ]
       const slotScope = header !== void 0 || body !== void 0
-        ? this.__getSlotScope(node, meta, key)
+        ? getSlotScope(node, m, key)
         : null
 
       if (body !== void 0) {
-        body = h('div', { staticClass: 'q-tree__node-body relative-position' }, [
-          h('div', { class: this.textColorClass }, [
+        body = h('div', { class: 'q-tree__node-body relative-position' }, [
+          h('div', { class: textColorClass.value }, [
             body(slotScope)
           ])
         ])
@@ -487,145 +506,134 @@ export default Vue.extend({
 
       return h('div', {
         key,
-        staticClass: 'q-tree__node relative-position',
-        class: { 'q-tree__node--parent': isParent, 'q-tree__node--child': !isParent }
+        class: 'q-tree__node relative-position'
+          + ` q-tree__node--${ isParent === true ? 'parent' : 'child' }`
       }, [
         h('div', {
-          staticClass: 'q-tree__node-header relative-position row no-wrap items-center',
-          class: {
-            'q-tree__node--link q-hoverable q-focusable': meta.link,
-            'q-tree__node--selected': meta.selected,
-            'q-tree__node--disabled': meta.disabled
+          class: 'q-tree__node-header relative-position row no-wrap items-center'
+            + (m.link === true ? ' q-tree__node--link q-hoverable q-focusable' : '')
+            + (m.selected === true ? ' q-tree__node--selected' : '')
+            + (m.disabled === true ? ' q-tree__node--disabled' : ''),
+          tabindex: m.link === true ? 0 : -1,
+          onClick: (e) => {
+            onClick(node, m, e)
           },
-          attrs: { tabindex: meta.link ? 0 : -1 },
-          on: {
-            click: (e) => {
-              this.__onClick(node, meta, e)
-            },
-            keypress: e => {
-              if (shouldIgnoreKey(e) !== true) {
-                if (e.keyCode === 13) { this.__onClick(node, meta, e, true) }
-                else if (e.keyCode === 32) { this.__onExpandClick(node, meta, e, true) }
-              }
+          onKeypress (e) {
+            if (shouldIgnoreKey(e) !== true) {
+              if (e.keyCode === 13) { onClick(node, m, e, true) }
+              else if (e.keyCode === 32) { onExpandClick(node, m, e, true) }
             }
           }
         }, [
-          h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: `blurTarget_${meta.key}` }),
+          h('div', {
+            class: 'q-focus-helper',
+            tabindex: -1,
+            ref: el => { blurTargets[ m.key ] = el }
+          }),
 
-          meta.lazy === 'loading'
+          m.lazy === 'loading'
             ? h(QSpinner, {
-              staticClass: 'q-tree__spinner q-mr-xs',
-              props: { color: this.computedControlColor }
-            })
+                class: 'q-tree__spinner q-mr-xs',
+                color: computedControlColor.value
+              })
             : (
-              isParent === true
-                ? h(QIcon, {
-                  staticClass: 'q-tree__arrow q-mr-xs',
-                  class: { 'q-tree__arrow--rotate': meta.expanded },
-                  props: { name: this.computedIcon },
-                  on: {
-                    click: e => {
-                      this.__onExpandClick(node, meta, e)
-                    }
-                  }
-                })
-                : null
-            ),
+                isParent === true
+                  ? h(QIcon, {
+                      class: 'q-tree__arrow q-mr-xs'
+                    + (m.expanded === true ? ' q-tree__arrow--rotate' : ''),
+                      name: computedIcon.value,
+                      onClick (e) { onExpandClick(node, m, e) }
+                    })
+                  : null
+              ),
 
-          meta.hasTicking === true && meta.noTick !== true
+          m.hasTicking === true && m.noTick !== true
             ? h(QCheckbox, {
-              staticClass: 'q-mr-xs',
-              props: {
-                value: meta.indeterminate === true ? null : meta.ticked,
-                color: this.computedControlColor,
-                dark: this.isDark,
+                class: 'q-mr-xs',
+                modelValue: m.indeterminate === true ? null : m.ticked,
+                color: computedControlColor.value,
+                dark: isDark.value,
                 dense: true,
                 keepColor: true,
-                disable: meta.tickable !== true
-              },
-              on: {
-                keydown: stopAndPrevent,
-                input: v => {
-                  this.__onTickedClick(meta, v)
+                disable: m.tickable !== true,
+                onKeydown: stopAndPrevent,
+                'onUpdate:modelValue': v => {
+                  onTickedClick(m, v)
                 }
-              }
-            })
+              })
             : null,
 
           h('div', {
-            'staticClass': 'q-tree__node-header-content col row no-wrap items-center',
-            class: meta.selected ? this.selectedColorClass : this.textColorClass
+            class: 'q-tree__node-header-content col row no-wrap items-center'
+              + (m.selected === true ? selectedColorClass.value : textColorClass.value)
           }, [
             header
               ? header(slotScope)
               : [
-                this.__getNodeMedia(h, node),
-                h('div', node[this.labelKey])
-              ]
+                  getNodeMedia(node),
+                  h('div', node[ props.labelKey ])
+                ]
           ])
         ]),
 
         isParent === true
           ? h(QSlideTransition, {
-            props: { duration: this.duration },
-            on: cache(this, 'slide', {
-              show: () => { this.$emit('after-show') },
-              hide: () => { this.$emit('after-hide') }
-            })
-          }, [
-            h('div', {
-              staticClass: 'q-tree__node-collapsible',
-              class: this.textColorClass,
-              directives: [{ name: 'show', value: meta.expanded }]
-            }, [
-              body,
-
+              duration: props.duration,
+              onShow,
+              onHide
+            }, () => withDirectives(
               h('div', {
-                staticClass: 'q-tree__children',
-                class: { 'q-tree__node--disabled': meta.disabled }
-              }, children)
-            ])
-          ])
+                class: 'q-tree__node-collapsible' + textColorClass.value,
+                key: `${ key }__q`
+              }, [
+                body,
+                h('div', {
+                  class: 'q-tree__children'
+                  + (m.disabled === true ? ' q-tree__node--disabled' : '')
+                }, children)
+              ]),
+              [ [ vShow, m.expanded ] ]
+            ))
           : body
       ])
-    },
+    }
 
-    __blur (key) {
-      const blurTarget = this.$refs[`blurTarget_${key}`]
-      blurTarget !== void 0 && blurTarget.focus()
-    },
+    function blur (key) {
+      const blurTarget = blurTargets[ key ]
+      blurTarget && blurTarget.focus()
+    }
 
-    __onClick (node, meta, e, keyboard) {
-      keyboard !== true && this.__blur(meta.key)
+    function onClick (node, meta, e, keyboard) {
+      keyboard !== true && blur(meta.key)
 
-      if (this.hasSelection) {
+      if (hasSelection.value) {
         if (meta.selectable) {
-          this.$emit('update:selected', meta.key !== this.selected ? meta.key : null)
+          emit('update:selected', meta.key !== props.selected ? meta.key : null)
         }
       }
       else {
-        this.__onExpandClick(node, meta, e, keyboard)
+        onExpandClick(node, meta, e, keyboard)
       }
 
       if (typeof node.handler === 'function') {
         node.handler(node)
       }
-    },
+    }
 
-    __onExpandClick (node, meta, e, keyboard) {
+    function onExpandClick (node, meta, e, keyboard) {
       if (e !== void 0) {
         stopAndPrevent(e)
       }
-      keyboard !== true && this.__blur(meta.key)
-      this.setExpanded(meta.key, !meta.expanded, node, meta)
-    },
+      keyboard !== true && blur(meta.key)
+      setExpanded(meta.key, !meta.expanded, node, meta)
+    }
 
-    __onTickedClick (meta, state) {
+    function onTickedClick (meta, state) {
       if (meta.indeterminate === true) {
         state = meta.indeterminateNextState
       }
       if (meta.strictTicking) {
-        this.setTicked([ meta.key ], state)
+        setTicked([ meta.key ], state)
       }
       else if (meta.leafTicking) {
         const keys = []
@@ -639,37 +647,48 @@ export default Vue.extend({
             }
           }
           else if (
-            meta.noTick !== true &&
-            meta.tickable === true &&
-            (meta.leafFilteredTicking !== true || meta.matchesFilter === true)
+            meta.noTick !== true
+            && meta.tickable === true
+            && (meta.leafFilteredTicking !== true || meta.matchesFilter === true)
           ) {
             keys.push(meta.key)
           }
         }
         travel(meta)
-        this.setTicked(keys, state)
+        setTicked(keys, state)
       }
     }
-  },
 
-  render (h) {
-    const children = this.__getChildren(h, this.nodes)
+    // expose public methods
+    Object.assign(proxy, {
+      getNodeByKey,
+      getTickedNodes,
+      getExpandedNodes,
+      isExpanded,
+      collapseAll,
+      expandAll,
+      setExpanded,
+      isTicked,
+      setTicked
+    })
 
-    return h(
-      'div', {
-        class: this.classes
-      },
-      children.length === 0
-        ? (
-          this.filter
-            ? this.noResultsLabel || this.$q.lang.tree.noResults
-            : this.noNodesLabel || this.$q.lang.tree.noNodes
-        )
-        : children
-    )
-  },
+    props.defaultExpandAll === true && expandAll()
 
-  created () {
-    this.defaultExpandAll === true && this.expandAll()
+    return () => {
+      const children = getChildren(props.nodes)
+
+      return h(
+        'div', {
+          class: classes.value
+        },
+        children.length === 0
+          ? (
+              props.filter
+                ? props.noResultsLabel || $q.lang.tree.noResults
+                : props.noNodesLabel || $q.lang.tree.noNodes
+            )
+          : children
+      )
+    }
   }
 })

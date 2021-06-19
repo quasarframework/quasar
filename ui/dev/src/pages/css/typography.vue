@@ -58,19 +58,19 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .test-height .test-row
-  position relative
-  margin-bottom 16px
+  position: relative
+  margin-bottom: 16px
   &:after
-    position absolute
-    content ''
-    top -8px
-    bottom -8px
-    left -8px
-    right -8px
-    background-color transparent
-    border 8px solid rgba(255, 0, 0, .6)
+    position: absolute
+    content: ''
+    top: -8px
+    bottom: -8px
+    left: -8px
+    right: -8px
+    background-color: transparent
+    border: 8px solid rgba(255, 0, 0, .6)
 </style>
 
 <script>
@@ -99,7 +99,7 @@ export default {
       ],
       fonts,
       testHeight: false,
-      testFont: fonts[0]
+      testFont: fonts[ 0 ]
     }
   },
   computed: {
@@ -107,7 +107,7 @@ export default {
       return this.testHeight ? ' [Apjyq]' : ''
     },
     testFonts () {
-      return fonts.map(f => ({ label: `Font ${f}`, value: f }))
+      return fonts.map(f => ({ label: `Font ${ f }`, value: f }))
     }
   }
 }

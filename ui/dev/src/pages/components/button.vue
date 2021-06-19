@@ -10,24 +10,24 @@
       </a>
       <q-toggle v-model="tag" :label="tag === 'button' ? 'Button' : 'Link'" true-value="button" false-value="a" />
       <div class="q-gutter-sm">
-        <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']">
-          <q-btn :key="`n_1_1_${ n }`" :type="tag" :size="n" dense icon="android" color="primary" />
-          <q-btn :key="`n_1_2_${ n }`" :type="tag" :size="n" icon="android" color="primary" />
-          <q-btn :key="`n_1_3_${ n }`" :type="tag" :size="n" label="Test" color="primary" />
-          <q-btn :key="`n_1_4_${ n }`" :type="tag" :size="n" icon="android" color="primary" label="Test" />
-          <q-btn :key="`n_1_5_${ n }`" :type="tag" :size="n" round icon="android" color="primary" />
-          <q-btn :key="`n_1_6_${ n }`" :type="tag" :size="n" round icon="android" color="primary" dense />
-          <q-btn gigi="true" :key="`n_1_7_${ n }`" :type="tag" :size="n" label="Test" color="primary" />
-          <span :key="`n_1_8_${ n }`">{{ n }}</span>
-          <br :key="`n_1_9_${ n }`"><br :key="`n_1_10_${ n }`">
+        <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']" :key="`n_1_1_${ n }`">
+          <q-btn :type="tag" :size="n" dense icon="android" color="primary" />
+          <q-btn :type="tag" :size="n" icon="android" color="primary" />
+          <q-btn :type="tag" :size="n" label="Test" color="primary" />
+          <q-btn :type="tag" :size="n" icon="android" color="primary" label="Test" />
+          <q-btn :type="tag" :size="n" round icon="android" color="primary" />
+          <q-btn :type="tag" :size="n" round icon="android" color="primary" dense />
+          <q-btn gigi="true" :type="tag" :size="n" label="Test" color="primary" />
+          <span>{{ n }}</span>
+          <br><br>
         </template>
-        <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']">
-          <q-btn :key="`n_2_1_${ n }`" :type="tag" :size="n" dense label="Test" color="primary" />
-          <q-btn :key="`n_2_2_${ n }`" :type="tag" :size="n" dense icon="android" color="primary" />
-          <q-btn :key="`n_2_3_${ n }`" :type="tag" :size="n" dense icon="android" color="primary" label="Test" />
-          <q-btn :key="`n_2_4_${ n }`" :type="tag" :size="n" dense round icon="android" color="primary" />
-          <span :key="`n_2_5_${ n }`">{{ n }}</span>
-          <br :key="`n_2_6_${ n }`"><br :key="`n_2_7_${ n }`">
+        <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']" :key="`n_2_1_${ n }`">
+          <q-btn :type="tag" :size="n" dense label="Test" color="primary" />
+          <q-btn :type="tag" :size="n" dense icon="android" color="primary" />
+          <q-btn :type="tag" :size="n" dense icon="android" color="primary" label="Test" />
+          <q-btn :type="tag" :size="n" dense round icon="android" color="primary" />
+          <span>{{ n }}</span>
+          <br><br>
         </template>
       </div>
       <div class="q-gutter-sm">
@@ -88,7 +88,7 @@
               <q-input v-model="test" />
             </div>
             <div class="col">
-              <q-input :value="testC" @change="v => testC = v.target.value" />
+              <q-input :model-value="testC" @change="v => testC = v.target.value" />
             </div>
             <div class="col">
               <q-input type="number" v-model="testN" />
@@ -150,75 +150,121 @@
 
       <div class="q-gutter-md q-py-md">
         <q-btn color="primary" :type="tag" :loading="!!loading[0]" @click="simulateProgress(0)" label="Button">
-          <q-spinner-oval slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-oval />
+          </template>
         </q-btn>
         <q-btn color="primary" :type="tag" :loading="!!loading[1]" @click="simulateProgress(1)" label="Button">
-          <span slot="loading">Loading...</span>
+          <template v-slot:loading>
+            <span>Loading...</span>
+          </template>
         </q-btn>
         <q-btn push color="primary" :type="tag" :loading="!!loading[0]" @click="simulateProgress(0)" label="Button">
-          <q-spinner-oval slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-oval />
+          </template>
         </q-btn>
         <q-btn push color="primary" :type="tag" :loading="!!loading[1]" @click="simulateProgress(1)" label="Button">
-          <span slot="loading">Loading...</span>
+          <template v-slot:loading>
+            <span>Loading...</span>
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[2]" color="orange" @click="simulateProgress(2)" label="Button">
-          <q-spinner-bars slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-bars />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[3]" color="secondary" @click="simulateProgress(3)" label="Button">
-          <q-spinner-circles slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-cube />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[4]" color="amber" @click="simulateProgress(4)" label="Button">
-          <q-spinner-comment slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-comment />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[5]" color="primary" size="xs" @click="simulateProgress(5)" label="Button">
-          <q-spinner-cube slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-cube />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[6]" color="primary" size="sm" @click="simulateProgress(6)" label="Button">
-          <q-spinner-dots slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-dots />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[7]" color="primary" size="md" @click="simulateProgress(7)" label="Button">
-          <q-spinner-facebook slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-facebook />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[8]" color="primary" size="lg" @click="simulateProgress(8)" label="Button">
-          <q-spinner-grid slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-grid />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[9]" color="primary" size="xl" @click="simulateProgress(9)" label="Button">
-          <q-spinner-hearts slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-hearts />
+          </template>
         </q-btn>
         <q-btn :type="tag" size="xs" round :loading="!!loading[10]" @click="simulateProgress(10)" color="primary" icon="mail">
-          <q-spinner-hourglass slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-hourglass />
+          </template>
         </q-btn>
         <q-btn :type="tag" size="sm" round :loading="!!loading[11]" @click="simulateProgress(11)" color="primary" icon="mail">
-          <q-spinner-infinity slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-infinity />
+          </template>
         </q-btn>
         <q-btn :type="tag" round :loading="!!loading[12]" @click="simulateProgress(12)" color="primary" icon="mail">
-          <q-spinner-pie slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-pie />
+          </template>
         </q-btn>
         <q-btn :type="tag" size="lg" round :loading="!!loading[13]" @click="simulateProgress(13)" color="primary" icon="mail">
-          <q-spinner-puff slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-puff />
+          </template>
         </q-btn>
         <q-btn :type="tag" size="xl" round :loading="!!loading[14]" @click="simulateProgress(14)" color="primary" icon="mail">
-          <q-spinner-gears slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-gears />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[15]" color="orange" @click="simulateProgress(15)" label="Button">
-          <q-spinner-radio slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-radio />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[16]" color="orange" @click="simulateProgress(16)" label="Button">
-          <q-spinner-rings slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-rings />
+          </template>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[17]" color="orange" @click="simulateProgress(17)" label="Button">
-          <q-spinner-tail slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-tail />
+          </template>
         </q-btn>
 
         <q-btn :type="tag" color="primary" :loading="!!loading[18]" size="sm" @click="simulateProgress(18)" icon-right="alarm" label="Button">
-          <q-spinner-audio slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-audio />
+          </template>
         </q-btn>
         <q-btn :type="tag" round :loading="!!loading[19]" @click="simulateProgress(19)" color="primary" size="lg" icon="alarm">
-          <q-spinner-ball slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-ball />
+          </template>
         </q-btn>
 
         <q-btn :type="tag" round :loading="!!loading[20]" color="black" @click="simulateProgress(20)" icon="camera_rear">
-          <q-spinner-gears slot="loading" />
+          <template v-slot:loading>
+            <q-spinner-gears />
+          </template>
         </q-btn>
 
         <br>
@@ -288,18 +334,22 @@
       <div class="q-gutter-md q-py-md">
         <q-btn :type="tag" :loading="loading2" :percentage="percentage" color="primary" @click="startProgress">
           Btn with progress
-          <span slot="loading" class="row items-center">
-            <q-spinner class="on-left" />
-            Computing...
-          </span>
+          <template v-slot:loading>
+            <span class="row items-center">
+              <q-spinner class="on-left" />
+              Computing...
+            </span>
+          </template>
         </q-btn>
 
         <q-btn push :type="tag" :loading="loading2" :percentage="percentage" color="primary" @click="startProgress">
           Btn with progress
-          <span slot="loading" class="row items-center">
-            <q-spinner class="on-left" />
-            Computing...
-          </span>
+          <template v-slot:loading>
+            <span class="row items-center">
+              <q-spinner class="on-left" />
+              Computing...
+            </span>
+          </template>
         </q-btn>
 
         <q-btn :type="tag" round :loading="loading2" :percentage="percentage" color="primary" @click="startProgress" icon="wifi" />
@@ -682,13 +732,13 @@ export default {
   data () {
     return {
       icon: 'alarm',
-      sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
+      sizes: [ 'xs', 'sm', 'md', 'lg', 'xl' ],
       colors: [
         'primary', 'secondary', 'accent', 'positive', 'negative', 'warning', 'info', '', 'light', 'dark',
         'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green',
         'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'
       ],
-      extras: ['flat', 'outline', 'round', 'rounded', 'push', 'glossy'],
+      extras: [ 'flat', 'outline', 'round', 'rounded', 'push', 'glossy' ],
       loading: {},
       loading2: false,
       percentage: 0,
@@ -718,17 +768,17 @@ export default {
     simulateProgress (index) {
       const timeout = setTimeout(() => {
         if (index in this.loading) {
-          this.loading = extend({}, this.loading, { [index]: false })
+          this.loading = extend({}, this.loading, { [ index ]: false })
         }
       }, 5 * 60 * 1000)
-      this.loading = extend({}, this.loading, { [index]: timeout })
+      this.loading = extend({}, this.loading, { [ index ]: timeout })
     },
     stopProgress () {
       Object.values(this.loading).filter(t => t).map(t => clearTimeout(t))
       this.loading = {}
     },
     submit () {
-      this.$q.notify(`Submit called with: [${this.test}], [${this.testC}], [${this.testN}]`)
+      this.$q.notify(`Submit called with: [${ this.test }], [${ this.testC }], [${ this.testN }]`)
     },
     reset () {
       this.test = 'Initial value'
@@ -739,7 +789,7 @@ export default {
       this.$q.notify('Click called')
     },
     linkClick (e, go) {
-      e.navigate = false // we choose when we navigate
+      e.preventDefault() // we choose when we navigate
 
       console.log('triggering navigation in 2s')
       setTimeout(() => {
@@ -752,7 +802,7 @@ export default {
       abort === true && e.preventDefault()
     }
   },
-  beforeDestroy () {
+  beforeUnmount () {
     clearInterval(this.interval)
   }
 }

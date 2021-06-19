@@ -39,7 +39,7 @@ Apart from answering questions and sharing resources in the forum and chat, ther
 
 ## Reporting an Issue
 
-* [GitHub](https://github.com/quasarframework/quasar/issues): If you have a bug to report or feature to request, that’s what the GitHub issues are for.
+* [GitHub](https://github.com/quasarframework/quasar/issues): If you have a bug to report or feature to request, that’s what the GitHub issues are for. Make sure that you specify that your bug is related to Quasar v2.
 
 ::: danger Reporting a vulnerability
 Please do not report security vulnerabilities with public GitHub issue reports. Follow the [Report a vulnerability](/security/report-a-vulnerability) steps for security issues.
@@ -122,7 +122,7 @@ Over time we consolidated a set of rules which we follow and following them will
 - Capitalize titles, see [How to Use Capitalize My Title](https://capitalizemytitle.com/).
 - Use the present tense.
 - Be concise, avoid text / code duplication.
-- Link to the external sources which are used as master information sources and are usually updated more frequently, like [Mozilla MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Vue.js API](https://vuejs.org/v2/api/) rather than compiled tutorials which tend to be outdated soon.
+- Link to the external sources which are used as master information sources and are usually updated more frequently, like [Mozilla MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Vue.js API](https://v3.vuejs.org/api/) rather than compiled tutorials which tend to be outdated soon.
 - Do the proofreading before opening a PR
 - Do not repeat texts from other sources, but keep only things which are relevant and shows in a context Quasar specific features
 - Use official names. For example use `Firebase` instead of `firebase`
@@ -141,6 +141,7 @@ To be able to change the documentation, you need to clone forked repository:
 
 ```bash
 $ git clone https://github.com/your-user-name/quasar.git
+$ git checkout dev
 ```
 
 #### Install dependencies
@@ -154,7 +155,7 @@ $ yarn # or npm install
 #### Running documentation against your local repository
 
 ```bash
-$ quasar dev # or quasar dev -m ssr
+$ quasar dev
 ```
 
 The documentation runs against your local cloned repository.
@@ -220,9 +221,7 @@ An article [Look at the source code](https://medium.com/quasar-framework/wip-loo
 
 #### Pull Request Guidelines
 
-- The `master` branch is basically just a snapshot of the latest stable release. All development should be done in dedicated branches. **Do not submit PRs against the `master` branch.**
-
-- Checkout a topic branch from the relevant branch, e.g. `dev`, and merge back against that branch.
+- Checkout a topic branch from the relevant branch, e.g. `dev` (Qv2) or `v1` (Qv1), and merge back against that branch.
 
 - **DO NOT** check in `dist` in the commits.
 
@@ -237,7 +236,7 @@ An article [Look at the source code](https://medium.com/quasar-framework/wip-loo
 
 #### Development Setup
 
-You will need [Node.js](http://nodejs.org) version **8.9+** along [Yarn](https://yarnpkg.com/) or [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
+You will need [Node.js](http://nodejs.org) version **12.22.1+** along [Yarn](https://yarnpkg.com/) or [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
 
 After cloning the repo run:
 
@@ -270,19 +269,17 @@ $ yarn lint # or: npm run lint
 
 - `src` - contains the source code, obviously. The codebase is written in ES2015.
 
-  - `components` - JS, Stylus and JSON (API) files for Quasar Vue components
+  - `components` - JS, Sass and JSON (API) files for Quasar Vue components
+
+  - `composables` - Quasar's composables for Vue 3 Composition API
 
   - `directives` - Vue directives supplied by Quasar
 
   - `plugins` - Quasar plugins
 
-  - `css` - Stylus definitions and core code for Quasar themes
-
-  - `mixins` - code for global mixins that are internal to Quasar
+  - `css` - Sass definitions and core code for Quasar themes
 
   - `utils` - utilities used by the framework and exported to the public API
-
-  - `ie-compat` - code for IE11 compatibility
 
 - `lang` - Quasar language packs
 

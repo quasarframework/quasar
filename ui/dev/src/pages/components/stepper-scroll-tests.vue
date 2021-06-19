@@ -345,7 +345,7 @@ export default {
       inputEmptyModel: null,
       inputNumModel: 1,
       selectModel: 'Opt 1',
-      options: ['Opt 1', 'Opt 2', 'Opt 3'],
+      options: [ 'Opt 1', 'Opt 2', 'Opt 3' ],
       autofocus: true
     }
   }

@@ -29,16 +29,14 @@ export default {
     noData: 'Engin gögn tiltæk',
     noResults: 'Engar samsvarandi skrár fundust',
     loading: 'Augnablik...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 færsla valin.'
         : (rows === 0 ? 'Engar' : rows) + ' færslur valdar.'
-    },
+    ),
     recordsPerPage: 'Færslur á hverri síðu:',
     allRows: 'Allar',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' af ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' af ' + total,
     columns: 'Dálkar'
   },
   editor: {

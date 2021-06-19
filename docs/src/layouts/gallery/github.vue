@@ -32,7 +32,6 @@
           <template v-slot:option="scope">
             <q-item
               v-bind="scope.itemProps"
-              v-on="scope.itemEvents"
               class="GL__select-GL__menu-link"
             >
               <q-item-section side>
@@ -160,6 +159,7 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import { fabGithub } from '@quasar/extras/fontawesome-v5'
 
 const stringOptions = [
@@ -170,21 +170,18 @@ const stringOptions = [
 export default {
   name: 'MyLayout',
 
-  data () {
-    return {
-      text: '',
-      options: null,
-      filteredOptions: []
-    }
-  },
+  setup () {
+    const text = ref('')
+    const options = ref(null)
+    const filteredOptions = ref([])
+    const search = ref(null) // $refs.search
 
-  methods: {
-    filter (val, update) {
-      if (this.options === null) {
+    function filter (val, update) {
+      if (options.value === null) {
         // load data
         setTimeout(() => {
-          this.options = stringOptions
-          this.$refs.search.filter('')
+          options.value = stringOptions
+          search.value.filter('')
         }, 2000)
         update()
         return
@@ -192,13 +189,13 @@ export default {
 
       if (val === '') {
         update(() => {
-          this.filteredOptions = this.options.map(op => ({ label: op }))
+          filteredOptions.value = options.value.map(op => ({ label: op }))
         })
         return
       }
 
       update(() => {
-        this.filteredOptions = [
+        filteredOptions.value = [
           {
             label: val,
             type: 'In this repository'
@@ -207,16 +204,23 @@ export default {
             label: val,
             type: 'All GitHub'
           },
-          ...this.options
+          ...options.value
             .filter(op => op.toLowerCase().includes(val.toLowerCase()))
             .map(op => ({ label: op }))
         ]
       })
     }
-  },
 
-  created () {
-    this.fabGithub = fabGithub
+    return {
+      fabGithub,
+
+      text,
+      options,
+      filteredOptions,
+      search,
+
+      filter
+    }
   }
 }
 </script>

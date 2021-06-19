@@ -6,7 +6,7 @@
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleLeftDrawer"
           aria-label="Menu"
           icon="menu"
         />
@@ -21,7 +21,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-grey-2"
+      class="bg-grey-2"
     >
       <q-list>
         <q-item-label header>Essential Links</q-item-label>
@@ -89,12 +89,21 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   name: 'MyLayout',
 
-  data () {
+  setup () {
+    const leftDrawerOpen = ref(false)
+
+    function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
+    }
+
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen,
+      toggleLeftDrawer
     }
   }
 }

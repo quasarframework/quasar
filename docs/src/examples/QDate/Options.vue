@@ -20,22 +20,23 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      date: '2019/02/01',
-      options: [ '2019/02/01', '2019/02/05', '2019/02/06', '2019/02/09', '2019/02/23' ]
-    }
-  },
+      date: ref('2019/02/01'),
 
-  methods: {
-    optionsFn (date) {
-      return date >= '2019/02/03' && date <= '2019/02/15'
-    },
+      options: [ '2019/02/01', '2019/02/05', '2019/02/06', '2019/02/09', '2019/02/23' ],
 
-    optionsFn2 (date) {
-      const parts = date.split('/')
-      return parts[2] % 2 === 0
+      optionsFn (date) {
+        return date >= '2019/02/03' && date <= '2019/02/15'
+      },
+
+      optionsFn2 (date) {
+        const parts = date.split('/')
+        return parts[ 2 ] % 2 === 0
+      }
     }
   }
 }

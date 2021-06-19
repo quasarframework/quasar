@@ -37,11 +37,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      time: '10:56',
-      timeWithSeconds: '10:56:00'
+      time: ref('10:56'),
+      timeWithSeconds: ref('10:56:00')
     }
   }
 }

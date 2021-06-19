@@ -13,7 +13,7 @@
 export default {
   data () {
     return {
-      types: ['xs', 'gt-xs', 'lt-sm', 'sm', 'gt-sm', 'lt-md', 'md', 'gt-md', 'lt-lg', 'lg', 'gt-lg', 'lt-xl', 'xl']
+      types: [ 'xs', 'gt-xs', 'lt-sm', 'sm', 'gt-sm', 'lt-md', 'md', 'gt-md', 'lt-lg', 'lg', 'gt-lg', 'lt-xl', 'xl' ]
     }
   },
 

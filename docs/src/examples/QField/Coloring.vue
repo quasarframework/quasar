@@ -48,7 +48,7 @@
         </template>
       </q-field>
 
-      <q-field color="orange" standout bottom-slots :value="text" label="Label" stack-label counter clearable>
+      <q-field color="orange" standout bottom-slots :model-value="text" label="Label" stack-label counter clearable>
         <template v-slot:prepend>
           <q-icon name="place" />
         </template>
@@ -68,10 +68,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      text: 'Field content'
+      text: ref('Field content')
     }
   }
 }

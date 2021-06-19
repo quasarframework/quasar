@@ -1,20 +1,24 @@
-import Vue from 'vue'
+import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
 
-import DarkMixin from '../../mixins/dark.js'
-import TagMixin from '../../mixins/tag.js'
-import { RouterLinkMixin } from '../../mixins/router-link.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 
-import { uniqueSlot } from '../../utils/slot.js'
+import { hUniqueSlot } from '../../utils/private/render.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { isKeyCode } from '../../utils/key-composition.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QItem',
 
-  mixins: [ DarkMixin, RouterLinkMixin, TagMixin, ListenersMixin ],
-
   props: {
+    ...useDarkProps,
+    ...useRouterLinkProps,
+
+    tag: {
+      type: String,
+      default: 'div'
+    },
+
     active: Boolean,
 
     clickable: Boolean,
@@ -27,79 +31,80 @@ export default Vue.extend({
     manualFocus: Boolean
   },
 
-  computed: {
-    isActionable () {
-      return this.clickable === true ||
-        this.hasRouterLink === true ||
-        this.tag === 'a' ||
-        this.tag === 'label'
-    },
+  emits: [ 'click', 'keyup' ],
 
-    isClickable () {
-      return this.disable !== true && this.isActionable === true
-    },
+  setup (props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance()
 
-    classes () {
-      return {
-        'q-item--clickable q-link cursor-pointer': this.isClickable,
-        'q-focusable q-hoverable': this.isClickable === true && this.manualFocus === false,
+    const isDark = useDark(props, $q)
+    const { hasLink, linkProps, linkClass, linkTag, navigateToLink } = useRouterLink()
 
-        'q-manual-focusable': this.isClickable === true && this.manualFocus === true,
-        'q-manual-focusable--focused': this.isClickable === true && this.focused === true,
+    const rootRef = ref(null)
+    const blurTargetRef = ref(null)
 
-        'q-item--dense': this.dense,
-        'q-item--dark': this.isDark,
-        'q-item--active': this.active,
-        [this.activeClass]: this.active === true && this.hasRouterLink !== true && this.activeClass !== void 0,
+    const isActionable = computed(() =>
+      props.clickable === true
+        || hasLink.value === true
+        || props.tag === 'a'
+        || props.tag === 'label'
+    )
 
-        'disabled': this.disable
+    const isClickable = computed(() =>
+      props.disable !== true && isActionable.value === true
+    )
+
+    const classes = computed(() =>
+      'q-item q-item-type row no-wrap'
+      + (props.dense === true ? ' q-item--dense' : '')
+      + (isDark.value === true ? ' q-item--dark' : '')
+      + (
+        hasLink.value === true
+          ? linkClass.value
+          : (
+              props.active === true
+                ? `${ props.activeClass !== void 0 ? ` ${ props.activeClass }` : '' } q-item--active`
+                : ''
+            )
+      )
+      + (props.disable === true ? ' disabled' : '')
+      + (
+        isClickable.value === true
+          ? ' q-item--clickable q-link cursor-pointer '
+            + (props.manualFocus === true ? 'q-manual-focusable' : 'q-focusable q-hoverable')
+            + (props.focused === true ? ' q-manual-focusable--focused' : '')
+          : ''
+      )
+    )
+
+    const style = computed(() => {
+      if (props.insetLevel === void 0) {
+        return null
       }
-    },
 
-    style () {
-      if (this.insetLevel !== void 0) {
-        const dir = this.$q.lang.rtl === true ? 'Right' : 'Left'
-        return {
-          ['padding' + dir]: (16 + this.insetLevel * 56) + 'px'
+      const dir = $q.lang.rtl === true ? 'Right' : 'Left'
+      return {
+        [ 'padding' + dir ]: (16 + props.insetLevel * 56) + 'px'
+      }
+    })
+
+    function onClick (e) {
+      if (isClickable.value === true) {
+        if (blurTargetRef.value !== null) {
+          if (e.qKeyEvent !== true && document.activeElement === rootRef.value) {
+            blurTargetRef.value.focus()
+          }
+          else if (document.activeElement === blurTargetRef.value) {
+            rootRef.value.focus()
+          }
         }
-      }
-    },
 
-    onEvents () {
-      return {
-        ...this.qListeners,
-        click: this.__onClick,
-        keyup: this.__onKeyup
+        hasLink.value === true && navigateToLink(e)
+        emit('click', e)
       }
     }
-  },
 
-  methods: {
-    __getContent (h) {
-      const child = uniqueSlot(this, 'default', [])
-      this.isClickable === true && child.unshift(
-        h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' })
-      )
-      return child
-    },
-
-    __onClick (e) {
-      if (this.isClickable === true) {
-        if (this.$refs.blurTarget !== void 0) {
-          if (e.qKeyEvent !== true && document.activeElement === this.$el) {
-            this.$refs.blurTarget.focus()
-          }
-          else if (document.activeElement === this.$refs.blurTarget) {
-            this.$el.focus()
-          }
-        }
-
-        this.$emit('click', e)
-      }
-    },
-
-    __onKeyup (e) {
-      if (this.isClickable === true && isKeyCode(e, 13) === true) {
+    function onKeyup (e) {
+      if (isClickable.value === true && isKeyCode(e, 13) === true) {
         stopAndPrevent(e)
 
         // for ripple
@@ -108,43 +113,44 @@ export default Vue.extend({
         // for click trigger
         const evt = new MouseEvent('click', e)
         evt.qKeyEvent = true
-        this.$el.dispatchEvent(evt)
+        rootRef.value.dispatchEvent(evt)
       }
 
-      this.$emit('keyup', e)
-    }
-  },
-
-  render (h) {
-    const data = {
-      staticClass: 'q-item q-item-type row no-wrap',
-      class: this.classes,
-      style: this.style,
-      [ this.hasRouterLink === true ? 'nativeOn' : 'on' ]: this.onEvents
+      emit('keyup', e)
     }
 
-    if (this.isClickable === true) {
-      data.attrs = {
-        tabindex: this.tabindex || '0'
+    function getContent () {
+      const child = hUniqueSlot(slots.default, [])
+
+      isClickable.value === true && child.unshift(
+        h('div', { class: 'q-focus-helper', tabindex: -1, ref: blurTargetRef })
+      )
+
+      return child
+    }
+
+    return () => {
+      const data = {
+        ref: rootRef,
+        class: classes.value,
+        style: style.value,
+        onClick,
+        onKeyup
       }
-    }
-    else if (this.isActionable === true) {
-      data.attrs = {
-        'aria-disabled': 'true'
+
+      if (isClickable.value === true) {
+        data.tabindex = props.tabindex || '0'
+        Object.assign(data, linkProps.value)
       }
+      else if (isActionable.value === true) {
+        data[ 'aria-disabled' ] = 'true'
+      }
+
+      return h(
+        linkTag.value,
+        data,
+        getContent()
+      )
     }
-
-    if (this.hasRouterLink === true) {
-      data.tag = 'a'
-      data.props = this.routerLinkProps
-
-      return h('router-link', data, this.__getContent(h))
-    }
-
-    return h(
-      this.tag,
-      data,
-      this.__getContent(h)
-    )
   }
 })

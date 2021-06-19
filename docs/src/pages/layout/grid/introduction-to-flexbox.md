@@ -40,7 +40,7 @@ One of the following CSS classes is mandatory for the parent in order for ones o
 | `column reverse` | Flex column with `flex-direction` set to `column-reverse` |
 
 Example:
-``` html
+```html
 <div class="row">
   <div>First column</div>
   <div>Second column</div>
@@ -83,7 +83,7 @@ The next classes **align a flex container's lines** within when there is extra s
 Quasar uses a 12 point column system for distributing the size of row children. Here are some examples of the available CSS helper classes:
 
 
-``` html
+```html
 <div class="row">
   <div class="col-8">two thirds</div>
   <div class="col-2">one sixth</div>
@@ -160,7 +160,7 @@ This allows you, among other things, to dynamically stack rows vertically on sma
 By default, flex items are laid out in source order. However, the order property controls the order in which they appear in the flex container. If you need more granularity, use `order` CSS property and assign the desired value.
 
 Example:
-``` html
+```html
 <div class="row">
   <div style="order: 2">Second column</div>
   <div class="order-last">Third column</div>
@@ -189,7 +189,7 @@ Example: `col-md-7`, `offset-lg-3`, `col-xs-auto`.
 
 A full example: let's say we have a row with three children. In extra small windows, we need to stack the children vertically, In small windows we need to display them side by side (each having equal width), and starting with medium windows we should display them all on same line:
 
-``` html
+```html
 <div class="row">
   <div class="col-xs-12 col-sm-6 col-md-4">
     col

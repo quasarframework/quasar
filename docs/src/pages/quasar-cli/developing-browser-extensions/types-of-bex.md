@@ -136,23 +136,31 @@ Then in our Quasar app (/src), we have a function that toggles the drawer and se
 resize the IFrame thus allowing our whole app to be visible:
 
 ```html
-<q-drawer :value="drawerIsOpen" @input="drawerToggled">
+<q-drawer :model-value="drawerIsOpen" @update:model-value="drawerToggled">
   Some Content
 </q-drawer>
 ```
 
 ```js
-methods: {
-  drawerToggled () {
-    this.$q.bex
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+
+setup () {
+  const $q = useQuasar()
+  const drawerIsOpen = ref(true)
+
+  function drawerToggled () {
+    $q.bex
       .send('wb.drawer.toggle', {
-        open: this.drawerIsOpen // So it knows to make it bigger / smaller
+        open: drawerIsOpen.value // So it knows to make it bigger / smaller
       })
       .then(r => {
         // Only set this once the promise has resolved so we can see the entire slide animation.
-        this.drawerIsOpen = !this.drawerIsOpen
+        drawerIsOpen.value = !drawerIsOpen.value
       })
   }
+
+  return { drawerToggled }
 }
 ```
 

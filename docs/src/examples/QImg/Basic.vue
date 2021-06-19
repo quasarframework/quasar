@@ -11,16 +11,17 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      url: 'https://placeimg.com/500/300/nature'
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    refresh () {
-      this.url = 'https://placeimg.com/500/300/nature?t=' + Math.random()
+export default {
+  setup () {
+    const url = ref('https://placeimg.com/500/300/nature')
+
+    return {
+      url,
+      refresh () {
+        url.value = 'https://placeimg.com/500/300/nature?t=' + Math.random()
+      }
     }
   }
 }

@@ -13,15 +13,12 @@
 
 <script>
 /* eslint-disable */
-const profilePic = 'https://cdn.quasar.dev/img/avatar.png'
-const placeholderPic = 'https://cdn.quasar.dev/img/avatar5.jpg'
+import { h, ref, computed, watch, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 
 export default {
-  data () {
+  setup () {
     return {
     }
-  },
-  methods: {
   }
 }
 </script>

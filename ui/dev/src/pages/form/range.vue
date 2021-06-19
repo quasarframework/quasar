@@ -18,8 +18,8 @@
       </p>
 
       <div class="row justify-around">
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50" />
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label :left-label-value="labelLeftValue(standalone.min)" :right-label-value="labelRightValue(standalone.max)" />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @update:model-value="onInput" v-model="standalone" :min="0" :max="50" />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @update:model-value="onInput" :model-value="standalone" :min="0" :max="50" label :left-label-value="labelLeftValue(standalone.min)" :right-label-value="labelRightValue(standalone.max)" />
         <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
         <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" label-color="orange" label-text-color="black" :min="0" :max="50" label :left-label-value="labelLeftValue(standalone.min)" :right-label-value="labelRightValue(standalone.max)" />
       </div>
@@ -112,8 +112,8 @@
       </p>
 
       <div class="row justify-around">
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @input="onInput" v-model="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { range = val; onChange(val); }" @input="onInput" :value="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @update:model-value="onInput" v-model="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { range = val; onChange(val); }" @update:model-value="onInput" :model-value="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
       </div>
 
       <p class="caption">
@@ -133,7 +133,7 @@
 
       <div class="row justify-around">
         <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="onlyRange" :min="0" :max="100" :step="5" drag-only-range label :left-label-value="labelLeftValue(onlyRange.min)" :right-label-value="labelRightValue(onlyRange.max)" />
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" :value="onlyRange" @change="val => { onlyRange = val }" :min="0" :max="100" :step="5" drag-only-range label :left-label-value="labelLeftValue(onlyRange.min)" :right-label-value="labelRightValue(onlyRange.max)" />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" :model-value="onlyRange" @change="val => { onlyRange = val }" :min="0" :max="100" :step="5" drag-only-range label :left-label-value="labelLeftValue(onlyRange.min)" :right-label-value="labelRightValue(onlyRange.max)" />
       </div>
 
       <p class="caption">
@@ -299,16 +299,16 @@ export default {
   },
   watch: {
     'standalone.min' (val, old) {
-      console.log(`Changed [min] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed [min] from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     },
     'standalone.max' (val, old) {
-      console.log(`Changed [max] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed [max] from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     },
     'range.min' (val, old) {
-      console.log(`Changed [min] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed [min] from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     },
     'range.max' (val, old) {
-      console.log(`Changed [max] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed [max] from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     }
   },
   methods: {
@@ -316,7 +316,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:model-value', JSON.stringify(val))
     },
     getNullLabel (val) {
       return val === null ? 'null' : val

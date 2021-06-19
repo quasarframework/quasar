@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/layout/page"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/layout/page"
   },
 
   "props": {
@@ -26,8 +22,7 @@
         "height": {
           "type": "Number",
           "desc": "Value in pixels of container height (if containerized) or window height otherwise",
-          "examples": [ 1200 ],
-          "addedIn": "v1.7.4"
+          "examples": [ 1200 ]
         }
       },
       "returns": {

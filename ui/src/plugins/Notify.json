@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/quasar-plugins/notify"
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/notify"
   },
 
   "injection": "$q.notify",
@@ -11,8 +11,7 @@
       "type": {
         "type": "String",
         "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'negative', 'warning', 'info', 'ongoing')",
-        "examples": [ "negative", "custom-type" ],
-        "addedIn": "v1.9.0"
+        "examples": [ "negative", "custom-type" ]
       },
 
       "color": {
@@ -32,13 +31,12 @@
       "caption": {
         "type": "String",
         "desc": "The content of your optional caption",
-        "examples": [ "5 minutes ago" ],
-        "addedIn": "v1.5.5"
+        "examples": [ "5 minutes ago" ]
       },
 
       "html": {
         "type": "Boolean",
-        "desc": "Render message as HTML; This can lead to XSS attacks, so make sure that you sanitize the message first"
+        "desc": "Render the message as HTML; This can lead to XSS attacks so make sure that you sanitize the message first"
       },
 
       "icon": {
@@ -57,8 +55,7 @@
 
       "spinner": {
         "type": "Boolean",
-        "desc": "Useful for notifications that are updated; Displays the default Quasar spinner instead of an avatar or icon",
-        "addedIn": "v1.14.0"
+        "desc": "Useful for notifications that are updated; Displays the default Quasar spinner instead of an avatar or icon"
       },
 
       "position": {
@@ -77,19 +74,16 @@
         "type": [ "Boolean", "String", "Number" ],
         "desc": "Override the auto generated group with custom one; Grouped notifications cannot be updated; String or number value inform this is part of a specific group, regardless of its options; When a new notification is triggered with same group name, it replaces the old one and shows a badge with how many times the notification was triggered",
         "default": "(message + caption + multiline + actions labels + position)",
-        "examples": [ "my-group" ],
-        "addedIn": "v1.9.0"
+        "examples": [ "my-group" ]
       },
 
       "badgeColor": {
         "extends": "color",
-        "desc": "Color name for the badge from the Quasar Color Palette",
-        "addedIn": "v1.9.0"
+        "desc": "Color name for the badge from the Quasar Color Palette"
       },
       "badgeTextColor": {
         "extends": "color",
-        "desc": "Color name for the badge text from the Quasar Color Palette",
-        "addedIn": "v1.9.0"
+        "desc": "Color name for the badge text from the Quasar Color Palette"
       },
       "badgePosition": {
         "type": "String",
@@ -99,38 +93,33 @@
           "top-left", "top-right",
           "bottom-left", "bottom-right"
         ],
-        "examples": [ "bottom-right" ],
-        "addedIn": "v1.9.5"
+        "examples": [ "bottom-right" ]
       },
       "badgeStyle": {
         "type": "String",
         "desc": "Style definitions to be attributed to the badge",
         "examples": [
           "background-color: #ff0000"
-        ],
-        "addedIn": "v1.9.0"
+        ]
       },
       "badgeClass": {
         "type": "String",
         "desc": "Class definitions to be attributed to the badge",
         "examples": [
           "my-special-class"
-        ],
-        "addedIn": "v1.9.0"
+        ]
       },
 
       "progress": {
         "type": "Boolean",
-        "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)",
-        "addedIn": "v1.9.0"
+        "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)"
       },
       "progressClass": {
         "type": "String",
         "desc": "Class definitions to be attributed to the progress bar",
         "examples": [
           "my-special-class"
-        ],
-        "addedIn": "v1.9.0"
+        ]
       },
 
       "classes": {
@@ -145,8 +134,7 @@
         "type": "Object",
         "desc": "Key-value for attributes to be set on the notification",
         "examples": [ "{ role: 'alertdialog' }" ],
-        "__exemption": [ "definition" ],
-        "addedIn": "v1.13.0"
+        "__exemption": [ "definition" ]
       },
 
       "timeout": {
@@ -181,8 +169,7 @@
             "type": {
               "type": "String",
               "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'negative', 'warning', 'info', 'ongoing')",
-              "examples": [ "negative", "custom-type" ],
-              "addedIn": "v1.9.0"
+              "examples": [ "negative", "custom-type" ]
             },
 
             "color": {
@@ -202,8 +189,7 @@
             "caption": {
               "type": "String",
               "desc": "The content of your optional caption",
-              "examples": [ "5 minutes ago" ],
-              "addedIn": "v1.5.5"
+              "examples": [ "5 minutes ago" ]
             },
 
             "html": {
@@ -228,8 +214,7 @@
             "spinner": {
               "type": [ "Boolean", "Component" ],
               "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
-              "__exemption": [ "examples" ],
-              "addedIn": "v1.14.0"
+              "__exemption": [ "examples" ]
             },
 
             "position": {
@@ -248,19 +233,16 @@
               "type": [ "Boolean", "String", "Number" ],
               "desc": "Override the auto generated group with custom one; Grouped notifications cannot be updated; String or number value inform this is part of a specific group, regardless of its options; When a new notification is triggered with same group name, it replaces the old one and shows a badge with how many times the notification was triggered",
               "default": "(message + caption + multiline + actions labels + position)",
-              "examples": [ "my-group" ],
-              "addedIn": "v1.9.0"
+              "examples": [ "my-group" ]
             },
 
             "badgeColor": {
               "extends": "color",
-              "desc": "Color name for the badge from the Quasar Color Palette",
-              "addedIn": "v1.9.0"
+              "desc": "Color name for the badge from the Quasar Color Palette"
             },
             "badgeTextColor": {
               "extends": "color",
-              "desc": "Color name for the badge text from the Quasar Color Palette",
-              "addedIn": "v1.9.0"
+              "desc": "Color name for the badge text from the Quasar Color Palette"
             },
             "badgePosition": {
               "type": "String",
@@ -270,8 +252,7 @@
                 "top-left", "top-right",
                 "bottom-left", "bottom-right"
               ],
-              "examples": [ "bottom-right" ],
-              "addedIn": "v1.9.5"
+              "examples": [ "bottom-right" ]
             },
             "badgeStyle": {
               "type": [ "Array", "String", "Object" ],
@@ -279,8 +260,7 @@
               "examples": [
                 "background-color: #ff0000",
                 ":content-style=\"{ backgroundColor: '#ff0000' }\""
-              ],
-              "addedIn": "v1.9.0"
+              ]
             },
             "badgeClass": {
               "type": [ "Array", "String", "Object" ],
@@ -288,14 +268,12 @@
               "examples": [
                 "my-special-class",
                 ":content-class=\"{ 'my-special-class': <condition> }\""
-              ],
-              "addedIn": "v1.9.0"
+              ]
             },
 
             "progress": {
               "type": "Boolean",
-              "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)",
-              "addedIn": "v1.9.0"
+              "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)"
             },
             "progressClass": {
               "type": [ "Array", "String", "Object" ],
@@ -303,8 +281,7 @@
               "examples": [
                 "my-special-class",
                 ":content-class=\"{ 'my-special-class': <condition> }\""
-              ],
-              "addedIn": "v1.9.0"
+              ]
             },
 
             "classes": {
@@ -319,8 +296,7 @@
               "type": "Object",
               "desc": "Key-value for attributes to be set on the notification",
               "examples": [ "{ role: 'alertdialog' }" ],
-              "__exemption": [ "definition" ],
-              "addedIn": "v1.13.0"
+              "__exemption": [ "definition" ]
             },
 
             "timeout": {
@@ -361,8 +337,7 @@
 
             "ignoreDefaults": {
               "type": "Boolean",
-              "desc": "Ignore the default configuration (set by setDefaults()) for this instance only",
-              "addedIn": "v1.1.0"
+              "desc": "Ignore the default configuration (set by setDefaults()) for this instance only"
             }
           },
           "required": true,
@@ -400,8 +375,7 @@
               "caption": {
                 "type": "String",
                 "desc": "The content of your optional caption",
-                "examples": [ "5 minutes ago" ],
-                "addedIn": "v1.5.5"
+                "examples": [ "5 minutes ago" ]
               },
 
               "html": {
@@ -426,14 +400,12 @@
               "spinner": {
                 "type": [ "Boolean", "Component" ],
                 "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
-                "__exemption": [ "examples" ],
-                "addedIn": "v1.14.0"
+                "__exemption": [ "examples" ]
               },
 
               "progress": {
                 "type": "Boolean",
-                "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)",
-                "addedIn": "v1.9.0"
+                "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)"
               },
               "progressClass": {
                 "type": [ "Array", "String", "Object" ],
@@ -441,8 +413,7 @@
                 "examples": [
                   "my-special-class",
                   ":content-class=\"{ 'my-special-class': <condition> }\""
-                ],
-                "addedIn": "v1.9.0"
+                ]
               },
 
               "classes": {
@@ -457,8 +428,7 @@
                 "type": "Object",
                 "desc": "Key-value for attributes to be set on the notification",
                 "examples": [ "{ role: 'alertdialog' }" ],
-                "__exemption": [ "definition" ],
-                "addedIn": "v1.13.0"
+                "__exemption": [ "definition" ]
               },
 
               "timeout": {
@@ -499,11 +469,9 @@
 
               "ignoreDefaults": {
                 "type": "Boolean",
-                "desc": "Ignore the default configuration (set by setDefaults()) for this instance only",
-                "addedIn": "v1.1.0"
+                "desc": "Ignore the default configuration (set by setDefaults()) for this instance only"
               }
-            },
-            "addedIn": "v1.14.0"
+            }
           }
         },
         "returns": null
@@ -520,8 +488,7 @@
             "type": {
               "type": "String",
               "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'negative', 'warning', 'info', 'ongoing')",
-              "examples": [ "negative", "custom-type" ],
-              "addedIn": "v1.9.0"
+              "examples": [ "negative", "custom-type" ]
             },
 
             "color": {
@@ -541,8 +508,7 @@
             "caption": {
               "type": "String",
               "desc": "The content of your optional caption",
-              "examples": [ "5 minutes ago" ],
-              "addedIn": "v1.5.5"
+              "examples": [ "5 minutes ago" ]
             },
 
             "html": {
@@ -567,8 +533,7 @@
             "spinner": {
               "type": [ "Boolean", "Component" ],
               "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
-              "__exemption": [ "examples" ],
-              "addedIn": "v1.14.0"
+              "__exemption": [ "examples" ]
             },
 
             "position": {
@@ -585,13 +550,11 @@
 
             "badgeColor": {
               "extends": "color",
-              "desc": "Color name for the badge from the Quasar Color Palette",
-              "addedIn": "v1.9.0"
+              "desc": "Color name for the badge from the Quasar Color Palette"
             },
             "badgeTextColor": {
               "extends": "color",
-              "desc": "Color name for the badge text from the Quasar Color Palette",
-              "addedIn": "v1.9.0"
+              "desc": "Color name for the badge text from the Quasar Color Palette"
             },
             "badgePosition": {
               "type": "String",
@@ -601,8 +564,7 @@
                 "top-left", "top-right",
                 "bottom-left", "bottom-right"
               ],
-              "examples": [ "bottom-right" ],
-              "addedIn": "v1.9.5"
+              "examples": [ "bottom-right" ]
             },
             "badgeStyle": {
               "type": [ "Array", "String", "Object" ],
@@ -610,8 +572,7 @@
               "examples": [
                 "background-color: #ff0000",
                 ":content-style=\"{ backgroundColor: '#ff0000' }\""
-              ],
-              "addedIn": "v1.9.0"
+              ]
             },
             "badgeClass": {
               "type": [ "Array", "String", "Object" ],
@@ -619,14 +580,12 @@
               "examples": [
                 "my-special-class",
                 ":content-class=\"{ 'my-special-class': <condition> }\""
-              ],
-              "addedIn": "v1.9.0"
+              ]
             },
 
             "progress": {
               "type": "Boolean",
-              "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)",
-              "addedIn": "v1.9.0"
+              "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)"
             },
             "progressClass": {
               "type": [ "Array", "String", "Object" ],
@@ -634,8 +593,7 @@
               "examples": [
                 "my-special-class",
                 ":content-class=\"{ 'my-special-class': <condition> }\""
-              ],
-              "addedIn": "v1.9.0"
+              ]
             },
 
             "classes": {
@@ -650,8 +608,7 @@
               "type": "Object",
               "desc": "Key-value for attributes to be set on the notification",
               "examples": [ "{ role: 'alertdialog' }" ],
-              "__exemption": [ "definition" ],
-              "addedIn": "v1.13.0"
+              "__exemption": [ "definition" ]
             },
 
             "timeout": {
@@ -697,7 +654,6 @@
     },
 
     "registerType": {
-      "addedIn": "v1.9.0",
       "desc": "Register a new type of notification (or override an existing one)",
       "params": {
         "typeName": {
@@ -714,8 +670,7 @@
             "type": {
               "type": "String",
               "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'negative', 'warning', 'info', 'ongoing')",
-              "examples": [ "negative", "custom-type" ],
-              "addedIn": "v1.9.0"
+              "examples": [ "negative", "custom-type" ]
             },
 
             "color": {
@@ -735,8 +690,7 @@
             "caption": {
               "type": "String",
               "desc": "The content of your optional caption",
-              "examples": [ "5 minutes ago" ],
-              "addedIn": "v1.5.5"
+              "examples": [ "5 minutes ago" ]
             },
 
             "html": {
@@ -761,8 +715,7 @@
             "spinner": {
               "type": [ "Boolean", "Component" ],
               "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
-              "__exemption": [ "examples" ],
-              "addedIn": "v1.14.0"
+              "__exemption": [ "examples" ]
             },
 
             "position": {
@@ -779,13 +732,11 @@
 
             "badgeColor": {
               "extends": "color",
-              "desc": "Color name for the badge from the Quasar Color Palette",
-              "addedIn": "v1.9.0"
+              "desc": "Color name for the badge from the Quasar Color Palette"
             },
             "badgeTextColor": {
               "extends": "color",
-              "desc": "Color name for the badge text from the Quasar Color Palette",
-              "addedIn": "v1.9.0"
+              "desc": "Color name for the badge text from the Quasar Color Palette"
             },
             "badgePosition": {
               "type": "String",
@@ -795,8 +746,7 @@
                 "top-left", "top-right",
                 "bottom-left", "bottom-right"
               ],
-              "examples": [ "bottom-right" ],
-              "addedIn": "v1.9.5"
+              "examples": [ "bottom-right" ]
             },
             "badgeStyle": {
               "type": [ "Array", "String", "Object" ],
@@ -804,8 +754,7 @@
               "examples": [
                 "background-color: #ff0000",
                 ":content-style=\"{ backgroundColor: '#ff0000' }\""
-              ],
-              "addedIn": "v1.9.0"
+              ]
             },
             "badgeClass": {
               "type": [ "Array", "String", "Object" ],
@@ -813,14 +762,12 @@
               "examples": [
                 "my-special-class",
                 ":content-class=\"{ 'my-special-class': <condition> }\""
-              ],
-              "addedIn": "v1.9.0"
+              ]
             },
 
             "progress": {
               "type": "Boolean",
-              "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)",
-              "addedIn": "v1.9.0"
+              "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)"
             },
             "progressClass": {
               "type": [ "Array", "String", "Object" ],
@@ -828,8 +775,7 @@
               "examples": [
                 "my-special-class",
                 ":content-class=\"{ 'my-special-class': <condition> }\""
-              ],
-              "addedIn": "v1.9.0"
+              ]
             },
 
             "classes": {
@@ -844,8 +790,7 @@
               "type": "Object",
               "desc": "Key-value for attributes to be set on the notification",
               "examples": [ "{ role: 'alertdialog' }" ],
-              "__exemption": [ "definition" ],
-              "addedIn": "v1.13.0"
+              "__exemption": [ "definition" ]
             },
 
             "timeout": {

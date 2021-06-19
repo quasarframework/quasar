@@ -1,22 +1,25 @@
 <template>
   <div class="q-layout-padding">
-    <q-toggle v-model="horizontal" label="Horizontal" />
+    <q-toggle v-model="horizontal" label="Horizontal content" />
     <q-toggle v-model="customStyle" label="Custom style" />
     <q-toggle v-model="alwaysVisible" toggle-indeterminate label="Always visible" />
     <q-toggle v-model="darkVariant" toggle-indeterminate label="Dark variant" />
     <q-toggle v-model="focusable" label="Focusable" />
 
-    <div style="height: 300px;" />
+    <div style="height: 200px;" />
 
     <q-scroll-area
       v-if="!darkVariant"
       ref="scroll"
       style="width: 400px; height: 500px;"
       class="bg-yellow"
-      :horizontal="horizontal"
       :visible="alwaysVisible"
-      :bar-style="customStyle === true ? customBarStyle : void 0"
-      :thumb-style="customStyle === true ? customThumbStyle : void 0"
+      :bar-style="customBarStyle"
+      :vertical-bar-style="customVBarStyle"
+      :horizontal-bar-style="customHBarStyle"
+      :thumbStyle="customThumbStyle"
+      :vertical-thumb-style="customVThumbStyle"
+      :horizontal-thumb-style="customHThumbStyle"
       :tabindex="focusable === true ? 0 : void 0"
     >
       <div :class="{ 'flex no-wrap' : horizontal }">
@@ -33,7 +36,6 @@
       ref="scroll"
       style="width: 400px; height: 500px;"
       class="bg-dark text-white q-mt-lg"
-      :horizontal="horizontal"
       :visible="alwaysVisible"
       dark
       :tabindex="focusable === true ? 0 : void 0"
@@ -63,8 +65,55 @@
     <q-btn @click="scroll3">
       Scroll to 90%
     </q-btn>
+    <q-btn @click="getInfo">
+      getScroll()
+    </q-btn>
 
-    <div style="height: 1000px" />
+    <div style="height: 250px" />
+
+    <q-scroll-area
+      ref="scroll2"
+      class="bg-yellow"
+      style="width: 400px; height: 200px;"
+      :visible="alwaysVisible"
+      :bar-style="customBarStyle"
+      :vertical-bar-style="customVBarStyle"
+      :horizontal-bar-style="customHBarStyle"
+      :thumbStyle="customThumbStyle"
+      :vertical-thumb-style="customVThumbStyle"
+      :horizontal-thumb-style="customHThumbStyle"
+    >
+      <div class="flex no-wrap">
+        <div style="margin-top: 150px" />
+        <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
+          {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <q-btn label="Click" color="primary" />
+        </div>
+      </div>
+      <div class="flex no-wrap">
+        <div style="margin-top: 150px" />
+        <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
+          {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <q-btn label="Click" color="primary" />
+        </div>
+      </div>
+      <div class="flex no-wrap">
+        <div style="margin-top: 150px" />
+        <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
+          {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <q-btn label="Click" color="primary" />
+        </div>
+      </div>
+      <div class="flex no-wrap">
+        <div style="margin-top: 150px" />
+        <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
+          {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <q-btn label="Click" color="primary" />
+        </div>
+      </div>
+    </q-scroll-area>
+
+    <div style="height: 300px" />
   </div>
 </template>
 
@@ -76,45 +125,73 @@ export default {
       number: 10,
       horizontal: false,
       alwaysVisible: true,
-      customStyle: true,
+      customStyle: false,
       focusable: true
     }
   },
 
   computed: {
+    axis () {
+      return this.horizontal === true ? 'horizontal' : 'vertical'
+    },
+
     customBarStyle () {
-      return {
-        background: '#666',
-        borderStyle: 'solid',
-        borderColor: 'transparent',
-        borderWidth: this.horizontal === true ? '6px 0' : '0 6px',
-        backgroundClip: 'content-box',
-        [this.horizontal === true ? 'height' : 'width']: '16px'
-      }
+      return this.customStyle === true
+        ? {
+            backgroundColor: '#666',
+            borderStyle: 'solid',
+            borderColor: 'transparent',
+            backgroundClip: 'content-box'
+          }
+        : null
+    },
+    customVBarStyle () {
+      return this.customStyle === true
+        ? { borderWidth: '0 10px', width: '24px' }
+        : null
+    },
+    customHBarStyle () {
+      return this.customStyle === true
+        ? { borderWidth: '10px 0', height: '24px' }
+        : null
     },
 
     customThumbStyle () {
-      return {
-        background: '#000',
-        borderRadius: '4px',
-        borderStyle: 'solid',
-        borderColor: 'transparent',
-        borderWidth: this.horizontal === true ? '2px 0' : '0 2px',
-        backgroundClip: 'content-box',
-        [this.horizontal === true ? 'height' : 'width']: '16px'
-      }
+      return this.customStyle === true
+        ? {
+            backgroundColor: '#888',
+            borderRadius: '7px',
+            borderStyle: 'solid',
+            borderColor: 'transparent'
+          }
+        : null
+    },
+    customVThumbStyle () {
+      return this.customStyle === true
+        ? { borderWidth: '0 2px', width: '24px' }
+        : null
+    },
+    customHThumbStyle () {
+      return this.customStyle === true
+        ? { borderWidth: '2px 0', height: '24px' }
+        : null
     }
   },
 
   methods: {
     scroll () {
-      this.$refs.scroll.setScrollPosition(125)
+      this.$refs.scroll.setScrollPosition(this.axis, 125)
     },
     scroll2 () {
-      this.$refs.scroll.setScrollPosition(525, 1000)
+      this.$refs.scroll.setScrollPosition(this.axis, 525, 1000)
     },
     scroll3 () {
-      this.$refs.scroll.setScrollPercentage(0.9, 1000)
+      this.$refs.scroll.setScrollPercentage(this.axis, 0.9, 1000)
+    },
+    getInfo () {
+      console.log('getScroll()', this.$refs.scroll.getScroll())
+      console.log('getScrollPosition()', this.$refs.scroll.getScrollPosition())
+      console.log('getScrollPercentage()', this.$refs.scroll.getScrollPercentage())
     }
   }
 }

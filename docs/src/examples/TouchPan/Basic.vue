@@ -25,26 +25,29 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const info = ref(null)
+    const panning = ref(false)
+
     return {
-      info: null,
-      panning: false
-    }
-  },
+      info,
+      panning,
 
-  methods: {
-    handlePan ({ evt, ...info }) {
-      this.info = info
+      handlePan ({ evt, ...newInfo }) {
+        info.value = newInfo
 
-      // native Javascript event
-      // console.log(evt)
+        // native Javascript event
+        // console.log(evt)
 
-      if (info.isFirst) {
-        this.panning = true
-      }
-      else if (info.isFinal) {
-        this.panning = false
+        if (newInfo.isFirst) {
+          panning.value = true
+        }
+        else if (newInfo.isFinal) {
+          panning.value = false
+        }
       }
     }
   }

@@ -16,4 +16,5 @@ export * from "./prefetch";
 export * from "./boot";
 export * from "./configuration";
 export * from "./route";
+export * from "./ssrmiddleware";
 import "./wrappers";

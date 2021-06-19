@@ -1,19 +1,18 @@
 {
-  "mixins": [ "mixins/fullscreen" ],
+  "mixins": [ "composables/private/use-fullscreen" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/editor"
+    "docsUrl": "https://v2.quasar.dev/vue-components/editor"
   },
 
   "props": {
-    "value": {
+    "model-value": {
+      "extends": "model-value",
       "type": "String",
-      "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "required": true,
+      "desc": "Model of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "examples": [
         "v-model=\"content\""
-      ],
-      "category": "model"
+      ]
     },
 
     "readonly": {
@@ -35,8 +34,7 @@
     },
 
     "dark": {
-      "extends": "dark",
-      "addedIn": "v1.3.0"
+      "extends": "dark"
     },
 
     "disable": {
@@ -220,8 +218,7 @@
       "type": "String",
       "desc": "Paragraph tag to be used",
       "values": [ "div", "p" ],
-      "category": "behavior",
-      "addedIn": "v1.14.4"
+      "category": "behavior"
     },
 
     "content-style": {
@@ -245,14 +242,13 @@
       "type": "String",
       "desc": "Text to display as placeholder",
       "examples": [ "Type your story here ..." ],
-      "category": "content",
-      "addedIn": "v1.9.12"
+      "category": "content"
     }
   },
 
   "events": {
-    "input": {
-      "extends": "input",
+    "update:model-value": {
+      "extends": "update:model-value",
       "params": {
         "value": {
           "type": "String",

@@ -3,7 +3,7 @@ const fse = require('fs-extra')
 const compileTemplate = require('lodash.template')
 
 const appPaths = require('../app-paths')
-const { log, warn } = require('../helpers/logger')
+const { log, warn, fatal } = require('../helpers/logger')
 const { spawnSync } = require('../helpers/spawn')
 const nodePackager = require('../helpers/node-packager')
 
@@ -117,7 +117,7 @@ class Mode {
         nodePackager,
         cmdParam.concat(`@capacitor/${target}@^${capVersion}.0.0-beta.0`),
         { cwd: appPaths.capacitorDir, env: { ...process.env, NODE_ENV: 'development' } },
-        () => warn('Failed to install Capacitor platform')
+        () => fatal('Failed to install Capacitor platform', 'FAIL')
       )
     }
 

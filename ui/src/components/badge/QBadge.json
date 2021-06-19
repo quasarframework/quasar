@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/badge"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/badge"
   },
 
   "props": {
@@ -25,7 +21,7 @@
     "transparent": {
       "type": "Boolean",
       "desc": "Applies a 0.8 opacity; Useful especially for floating QBadge",
-      "category": "content"
+      "category": "style"
     },
 
     "multi-line": {
@@ -51,15 +47,13 @@
     "outline": {
       "type": "Boolean",
       "desc": "Use 'outline' design (colored text and borders only)",
-      "category": "content",
-      "addedIn": "v1.4.5"
+      "category": "style"
     },
 
     "rounded": {
       "type": "Boolean",
       "desc": "Makes a rounded shaped badge",
-      "category": "style",
-      "addedIn": "v1.15.2"
+      "category": "style"
     }
   },
 

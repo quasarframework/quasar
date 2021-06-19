@@ -1,26 +1,52 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/scroll-area"
+    "docsUrl": "https://v2.quasar.dev/vue-components/scroll-area"
   },
 
   "props": {
     "dark": {
-      "extends": "dark",
-      "addedIn": "v1.9.0"
+      "extends": "dark"
     },
 
     "bar-style": {
       "type": [ "Array", "String", "Object"],
-      "desc": "Object with CSS properties and values for styling the custom scrollbar",
+      "desc": "Object with CSS properties and values for custom styling the scrollbars (both vertical and horizontal)",
+      "examples": [ ":bar-style=\"{ borderRadius: '5px', background: 'red', opacity: 1 }\"" ],
+      "category": "style"
+    },
+
+    "vertical-bar-style": {
+      "type": [ "Array", "String", "Object"],
+      "desc": "Object with CSS properties and values for custom styling the vertical scrollbar; Is applied on top of 'bar-style' prop",
       "examples": [ ":bar-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
-      "category": "style",
-      "addedIn": "v1.5.0"
+      "category": "style"
+    },
+
+    "horizontal-bar-style": {
+      "type": [ "Array", "String", "Object"],
+      "desc": "Object with CSS properties and values for custom styling the horizontal scrollbar; Is applied on top of 'bar-style' prop",
+      "examples": [ ":bar-style=\"{ bottom: '4px', borderRadius: '5px', background: 'red', height: '10px', opacity: 1 }\"" ],
+      "category": "style"
     },
 
     "thumb-style": {
       "type": "Object",
-      "desc": "Object with CSS properties and values for styling the thumb of custom scrollbar",
+      "desc": "Object with CSS properties and values for custom styling the thumb of scrollbars (both vertical and horizontal)",
       "examples": [ ":thumb-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
+      "category": "style"
+    },
+
+    "vertical-thumb-style": {
+      "type": "Object",
+      "desc": "Object with CSS properties and values for custom styling the thumb of the vertical scrollbar; Is applied on top of 'thumb-style' prop",
+      "examples": [ ":thumb-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
+      "category": "style"
+    },
+
+    "horizontal-thumb-style": {
+      "type": "Object",
+      "desc": "Object with CSS properties and values for custom styling the thumb of the horizontal scrollbar; Is applied on top of 'thumb-style' prop",
+      "examples": [ ":thumb-style=\"{ bottom: '4px', borderRadius: '5px', background: 'red', height: '10px', opacity: 1 }\"" ],
       "category": "style"
     },
 
@@ -41,8 +67,7 @@
     "visible": {
       "type": "Boolean",
       "desc": "Manually control the visibility of the scrollbar; Overrides default mouse over/leave behavior",
-      "category": "behavior",
-      "addedIn": "v1.3.0"
+      "category": "behavior"
     },
 
     "delay": {
@@ -53,15 +78,8 @@
       "category": "behavior"
     },
 
-    "horizontal": {
-      "type": "Boolean",
-      "desc": "Register for horizontal scroll instead of vertical (which is default)",
-      "category": "behavior"
-    },
-
     "tabindex": {
-      "extends": "tabindex",
-      "addedIn": "v1.15.15"
+      "extends": "tabindex"
     }
   },
 
@@ -86,49 +104,48 @@
             },
             "verticalPosition": {
               "type": "Number",
-              "desc": "Vertical scroll position (in px); available only if QScrollArea is NOT in horizontal mode",
+              "desc": "Vertical scroll position (in px)",
               "__exemption": [ "examples" ]
             },
             "verticalPercentage": {
               "type": "Number",
-              "desc": "Vertical scroll percentage (0.0 < x < 1.0); available only if QScrollArea is NOT in horizontal mode",
+              "desc": "Vertical scroll percentage (0.0 <= x <= 1.0)",
               "__exemption": [ "examples" ]
             },
             "verticalSize": {
               "type": "Number",
-              "desc": "Vertical scroll size (in px); available only if QScrollArea is NOT in horizontal mode",
+              "desc": "Vertical scroll size (in px)",
               "__exemption": [ "examples" ]
             },
             "verticalContainerSize": {
               "type": "Number",
-              "desc": "Height of the container (in px); available only if QScrollArea is NOT in horizontal mode",
+              "desc": "Height of the container (in px)",
               "__exemption": [ "examples" ]
             },
 
             "horizontalPosition": {
               "type": "Number",
-              "desc": "Horizontal scroll position (in px); available only if QScrollArea is in horizontal mode",
+              "desc": "Horizontal scroll position (in px)",
               "__exemption": [ "examples" ]
             },
             "horizontalPercentage": {
               "type": "Number",
-              "desc": "Horizontal scroll percentage (0.0 < x < 1.0); available only if QScrollArea is in horizontal mode",
+              "desc": "Horizontal scroll percentage (0.0 <= x <= 1.0)",
               "__exemption": [ "examples" ]
             },
             "horizontalSize": {
               "type": "Number",
-              "desc": "Horizontal scroll size (in px); available only if QScrollArea is in horizontal mode",
+              "desc": "Horizontal scroll size (in px)",
               "__exemption": [ "examples" ]
             },
             "horizontalContainerSize": {
               "type": "Number",
-              "desc": "Width of the container (in px); available only if QScrollArea is in horizontal mode",
+              "desc": "Width of the container (in px)",
               "__exemption": [ "examples" ]
             }
           }
         }
-      },
-      "addedIn": "v1.9.3"
+      }
     }
   },
 
@@ -142,18 +159,107 @@
       }
     },
 
+    "getScroll": {
+      "desc": "Get the current scroll information",
+      "returns": {
+        "type": "Object",
+        "desc": "Scroll information",
+        "__exemption": [ "examples" ],
+        "definition": {
+          "verticalPosition": {
+            "type": "Number",
+            "desc": "Vertical scroll position (in px)",
+            "__exemption": [ "examples" ]
+          },
+          "verticalPercentage": {
+            "type": "Number",
+            "desc": "Vertical scroll percentage (0.0 <= x <= 1.0)",
+            "__exemption": [ "examples" ]
+          },
+          "verticalSize": {
+            "type": "Number",
+            "desc": "Vertical scroll size (in px)",
+            "__exemption": [ "examples" ]
+          },
+          "verticalContainerSize": {
+            "type": "Number",
+            "desc": "Height of the container (in px)",
+            "__exemption": [ "examples" ]
+          },
+
+          "horizontalPosition": {
+            "type": "Number",
+            "desc": "Horizontal scroll position (in px)",
+            "__exemption": [ "examples" ]
+          },
+          "horizontalPercentage": {
+            "type": "Number",
+            "desc": "Horizontal scroll percentage (0.0 <= x <= 1.0)",
+            "__exemption": [ "examples" ]
+          },
+          "horizontalSize": {
+            "type": "Number",
+            "desc": "Horizontal scroll size (in px)",
+            "__exemption": [ "examples" ]
+          },
+          "horizontalContainerSize": {
+            "type": "Number",
+            "desc": "Width of the container (in px)",
+            "__exemption": [ "examples" ]
+          }
+        }
+      }
+    },
+
     "getScrollPosition": {
       "desc": "Get current scroll position",
       "returns": {
-        "type": "Number",
-        "desc": "Scroll position offset from top (in pixels)",
-        "examples": [ 110 ]
+        "type": "Object",
+        "definition": {
+          "top": {
+            "type": "Number",
+            "desc": "Scroll offset from top (vertical)",
+            "examples": [ 120 ]
+          },
+          "left": {
+            "type": "Number",
+            "desc": "Scroll offset from left (horizontal)",
+            "examples": [ 10 ]
+          }
+        },
+        "examples": [ "{ top: 10, left: 0 }" ]
+      }
+    },
+
+    "getScrollPercentage": {
+      "desc": "Get current scroll position in percentage (0.0 <= x <= 1.0)",
+      "returns": {
+        "type": "Object",
+        "definition": {
+          "top": {
+            "type": "Number",
+            "desc": "Scroll percentage (0.0 <= x <= 1.0) offset from top (vertical)",
+            "examples": [ 0.12 ]
+          },
+          "left": {
+            "type": "Number",
+            "desc": "Scroll percentage (0.0 <= x <= 1.0) offset from left (horizontal)",
+            "examples": [ 0.92 ]
+          }
+        },
+        "examples": [ "{ top: 0.212, left: 0 }" ]
       }
     },
 
     "setScrollPosition": {
       "desc": "Set scroll position to an offset; If a duration (in milliseconds) is specified then the scroll is animated",
       "params": {
+        "axis": {
+          "type": "String",
+          "desc": "Scroll axis",
+          "values": [ "vertical", "horizontal" ],
+          "required": true
+        },
         "offset": {
           "type": "Number",
           "desc": "Scroll position offset from top (in pixels)",
@@ -169,11 +275,17 @@
     },
 
     "setScrollPercentage": {
-      "desc": "Set scroll position to a percentage (0.0 < x < 1.0) of the total scrolling size; If a duration (in milliseconds) is specified then the scroll is animated",
+      "desc": "Set scroll position to a percentage (0.0 <= x <= 1.0) of the total scrolling size; If a duration (in milliseconds) is specified then the scroll is animated",
       "params": {
+        "axis": {
+          "type": "String",
+          "desc": "Scroll axis",
+          "values": [ "vertical", "horizontal" ],
+          "required": true
+        },
         "offset": {
           "type": "Number",
-          "desc": "Scroll percentage (0.0 < x < 1.0) of the total scrolling size",
+          "desc": "Scroll percentage (0.0 <= x <= 1.0) of the total scrolling size",
           "required": true,
           "examples": [ 220 ]
         },
@@ -182,8 +294,7 @@
           "desc": "Duration (in milliseconds) enabling animated scroll",
           "examples": [ 300 ]
         }
-      },
-      "addedIn": "v1.13.2"
+      }
     }
   }
 }

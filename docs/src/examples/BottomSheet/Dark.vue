@@ -6,10 +6,14 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+
 export default {
-  methods: {
-    show (grid) {
-      this.$q.bottomSheet({
+  setup () {
+    const $q = useQuasar()
+
+    function show (grid) {
+      $q.bottomSheet({
         dark: true,
         message: 'Bottom Sheet message',
         grid,
@@ -61,6 +65,8 @@ export default {
         // console.log('I am triggered on both OK and Cancel')
       })
     }
+
+    return { show }
   }
 }
 </script>

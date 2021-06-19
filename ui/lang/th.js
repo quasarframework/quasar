@@ -19,7 +19,7 @@ export default {
   date: {
     days: 'อาทิตย์_จันทร์_อังคาร_พุธ_พฤหัสบดี_ศุกร์_เสาร์'.split('_'),
     daysShort: 'อา._จ._อ._พ._พฤ._ศ._ส.'.split('_'),
-    months: 'มกราคม_กุมภาพันธ์_มีนาคม_เมษายน_พฤษภาคม_มิถุนายน_กรกฎาคม_สิงหาคม_กันยายน_ตุลาคม_พฤศจิกายน_ธันวาคม'.split('_'),
+    months: 'มกราคม_กุมภาพันธ์_มีนาคม_เมษายน_พฤษภาคม_มิถุนายน_กรกฎาคม_สิงหาคม_กันยายน_ตุลาคม_พฤศจิการยน_ธันวาคม'.split('_'),
     monthsShort: 'ม.ค._ก.พ._มี.ค._เม.ย._พ.ค._มิ.ย._ก.ค._ส.ค._ก.ย._ต.ค._พ.ย._ธ.ค.'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
@@ -29,16 +29,14 @@ export default {
     noData: 'ไม่มีข้อมูล',
     noResults: 'ไม่มีผลลัพธ์',
     loading: 'กำลังโหลด...',
-    selectedRecords: function (rows) {
-      return rows > 0
+    selectedRecords: rows => (
+      rows > 0
         ? 'เลือกทั้งหมด ' + rows + ' แถว'
         : 'ไม่มีแถวที่ถูกเลือก'
-    },
+    ),
     recordsPerPage: 'แถวต่อหน้า:',
     allRows: 'แถวทั้งหมด',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' of ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' of ' + total,
     columns: 'คอลัมน์'
   },
   editor: {

@@ -1,14 +1,14 @@
 <template lang="pug">
-  q-card.full-width.column.tutorial-link.cursor-pointer(flat, bordered, @click.native="openWebsite")
-    q-card-section.col.tutorial-link__title
-      .text-subtitle2 {{ name }}
-      .q-mt-sm {{ desc }}
-    q-img(alt="Tutorial logo", :src="imgUrl")
-    q-card-section
-      div Created by: {{ author }}
-      div
-        | Language:
-        span.q-ml-xs.text-weight-bold {{ lang }}
+q-card.full-width.column.tutorial-link.cursor-pointer(flat, bordered, @click.native="openWebsite")
+  q-card-section.col.tutorial-link__title
+    .text-subtitle2 {{ name }}
+    .q-mt-sm {{ desc }}
+  q-img(alt="Tutorial logo", :src="imgUrl")
+  q-card-section
+    div Created by: {{ author }}
+    div
+      | Language:
+      span.q-ml-xs.text-weight-bold {{ lang }}
 </template>
 
 <script>
@@ -26,9 +26,11 @@ export default {
     imgUrl: String
   },
 
-  methods: {
-    openWebsite () {
-      openURL(this.link)
+  setup (props) {
+    return {
+      openWebsite () {
+        openURL(props.link)
+      }
     }
   }
 }

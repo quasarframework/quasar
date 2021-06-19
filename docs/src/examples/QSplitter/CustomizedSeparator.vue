@@ -26,10 +26,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      splitterModel: 50 // start at 50%
+      splitterModel: ref(50) // start at 50%
     }
   }
 }

@@ -17,7 +17,7 @@ class ExtensionJson {
     }
     catch (e) {
       console.log(e)
-      fatal(`[FAIL] quasar.extensions.json is malformed`)
+      fatal('quasar.extensions.json is malformed', 'FAIL')
     }
   }
 

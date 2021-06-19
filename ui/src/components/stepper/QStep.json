@@ -1,13 +1,9 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/stepper"
+    "docsUrl": "https://v2.quasar.dev/vue-components/stepper"
   },
 
-  "mixins": [ "mixins/panel-child" ],
-
-  "behavior": {
-    "$listeners": true
-  },
+  "mixins": [ "composables/private/use-panel.child" ],
 
   "props": {
     "icon": {

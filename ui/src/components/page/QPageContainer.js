@@ -1,52 +1,42 @@
-import Vue from 'vue'
+import { h, defineComponent, computed, provide, inject, getCurrentInstance } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
+import { hSlot } from '../../utils/private/render.js'
+import { pageContainerKey, layoutKey } from '../../utils/private/symbols.js'
 
-import { slot } from '../../utils/slot.js'
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QPageContainer',
 
-  mixins: [ ListenersMixin ],
+  setup (_, { slots }) {
+    const { proxy: { $q } } = getCurrentInstance()
 
-  inject: {
-    layout: {
-      default () {
-        console.error('QPageContainer needs to be child of QLayout')
-      }
-    }
-  },
+    const $layout = inject(layoutKey, () => {
+      console.error('QPageContainer needs to be child of QLayout')
+    })
 
-  provide: {
-    pageContainer: true
-  },
+    provide(pageContainerKey, true)
 
-  computed: {
-    style () {
+    const style = computed(() => {
       const css = {}
 
-      if (this.layout.header.space === true) {
-        css.paddingTop = `${this.layout.header.size}px`
+      if ($layout.header.space === true) {
+        css.paddingTop = `${ $layout.header.size }px`
       }
-      if (this.layout.right.space === true) {
-        css[`padding${this.$q.lang.rtl === true ? 'Left' : 'Right'}`] = `${this.layout.right.size}px`
+      if ($layout.right.space === true) {
+        css[ `padding${ $q.lang.rtl === true ? 'Left' : 'Right' }` ] = `${ $layout.right.size }px`
       }
-      if (this.layout.footer.space === true) {
-        css.paddingBottom = `${this.layout.footer.size}px`
+      if ($layout.footer.space === true) {
+        css.paddingBottom = `${ $layout.footer.size }px`
       }
-      if (this.layout.left.space === true) {
-        css[`padding${this.$q.lang.rtl === true ? 'Right' : 'Left'}`] = `${this.layout.left.size}px`
+      if ($layout.left.space === true) {
+        css[ `padding${ $q.lang.rtl === true ? 'Right' : 'Left' }` ] = `${ $layout.left.size }px`
       }
 
       return css
-    }
-  },
+    })
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-page-container',
-      style: this.style,
-      on: { ...this.qListeners }
-    }, slot(this, 'default'))
+    return () => h('div', {
+      class: 'q-page-container',
+      style: style.value
+    }, hSlot(slots.default))
   }
 })

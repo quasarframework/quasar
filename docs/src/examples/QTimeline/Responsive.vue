@@ -86,10 +86,17 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { computed } from 'vue'
+
 export default {
-  computed: {
-    layout () {
-      return this.$q.screen.lt.sm ? 'dense' : (this.$q.screen.lt.md ? 'comfortable' : 'loose')
+  setup () {
+    const $q = useQuasar()
+
+    return {
+      layout: computed(() => {
+        return $q.screen.lt.sm ? 'dense' : ($q.screen.lt.md ? 'comfortable' : 'loose')
+      })
     }
   }
 }

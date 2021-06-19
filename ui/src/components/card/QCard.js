@@ -1,36 +1,37 @@
-import Vue from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import DarkMixin from '../../mixins/dark.js'
-import TagMixin from '../../mixins/tag.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-import { slot } from '../../utils/slot.js'
+import { hSlot } from '../../utils/private/render.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QCard',
 
-  mixins: [ ListenersMixin, DarkMixin, TagMixin ],
-
   props: {
+    ...useDarkProps,
+
+    tag: {
+      type: String,
+      default: 'div'
+    },
+
     square: Boolean,
     flat: Boolean,
     bordered: Boolean
   },
 
-  computed: {
-    classes () {
-      return 'q-card' +
-        (this.isDark === true ? ' q-card--dark q-dark' : '') +
-        (this.bordered === true ? ' q-card--bordered' : '') +
-        (this.square === true ? ' q-card--square no-border-radius' : '') +
-        (this.flat === true ? ' q-card--flat no-shadow' : '')
-    }
-  },
+  setup (props, { slots }) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
 
-  render (h) {
-    return h(this.tag, {
-      class: this.classes,
-      on: { ...this.qListeners }
-    }, slot(this, 'default'))
+    const classes = computed(() =>
+      'q-card'
+      + (isDark.value === true ? ' q-card--dark q-dark' : '')
+      + (props.bordered === true ? ' q-card--bordered' : '')
+      + (props.square === true ? ' q-card--square no-border-radius' : '')
+      + (props.flat === true ? ' q-card--flat no-shadow' : '')
+    )
+
+    return () => h(props.tag, { class: classes.value }, hSlot(slots.default))
   }
 })

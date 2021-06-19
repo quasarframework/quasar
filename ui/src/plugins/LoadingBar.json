@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/quasar-plugins/loading-bar"
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/loading-bar"
   },
 
   "injection": "$q.loadingBar",

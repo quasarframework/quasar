@@ -22,12 +22,12 @@ function parseMenuNode (node, __path) {
           const to = node.external === true
             ? node.path
             : (
-              prefix + (
-                node.path !== void 0
-                  ? '/' + node.path
-                  : (node.listPath !== void 0 ? '/' + node.listPath : '')
+                prefix + (
+                  node.path !== void 0
+                    ? '/' + node.path
+                    : (node.listPath !== void 0 ? '/' + node.listPath : '')
+                )
               )
-            )
 
           if (node.external !== true && node.listPath !== void 0) {
             docsPages.push({
@@ -111,11 +111,12 @@ const routes = [
 
   // Always leave this as last one
   {
-    path: '*',
+    path: '/:catchAll(.*)*',
     component: DocLayout,
-    children: [
-      { path: '', component: () => import('pages/Error404.vue') }
-    ]
+    children: [{
+      path: '',
+      component: () => import('pages/Error404.vue')
+    }]
   }
 ]
 

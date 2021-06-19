@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/separator"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/separator"
   },
 
   "props": {
@@ -36,8 +32,7 @@
     },
 
     "size": {
-      "extends": "size",
-      "addedIn": "v1.12.0"
+      "extends": "size"
     },
 
     "color": {

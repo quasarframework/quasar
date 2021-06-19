@@ -39,7 +39,7 @@
 
         <q-item clickable v-ripple>
           <q-item-section avatar>
-            <q-icon color="primary" name="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
+            <q-icon color="primary" name="img:https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
           </q-item-section>
           <q-item-section>List item</q-item-section>
         </q-item>
@@ -128,35 +128,35 @@
           <q-item-section avatar>
             <q-icon name="bluetooth" />
           </q-item-section>
-          <q-item-section>Inactive link</q-item-section>
+          <q-item-section>Inactive link (/; exact)</q-item-section>
         </q-item>
 
         <q-item to="/" exact disable>
           <q-item-section avatar>
             <q-icon name="bluetooth" />
           </q-item-section>
-          <q-item-section>Inactive link - Disabled</q-item-section>
+          <q-item-section>Inactive link - Disabled (/; exact)</q-item-section>
         </q-item>
 
         <q-item :to="$route.path">
           <q-item-section avatar>
             <q-icon name="signal_wifi_off" />
           </q-item-section>
-          <q-item-section>Active link</q-item-section>
+          <q-item-section>Active link (current route)</q-item-section>
         </q-item>
 
         <q-item to="/" exact>
           <q-item-section avatar>
             <q-icon name="bluetooth" />
           </q-item-section>
-          <q-item-section>Inactive link</q-item-section>
+          <q-item-section>Inactive link (/; exact)</q-item-section>
         </q-item>
 
         <q-item :to="$route.path">
           <q-item-section avatar>
             <q-icon name="signal_wifi_off" />
           </q-item-section>
-          <q-item-section>Active link</q-item-section>
+          <q-item-section>Active link (current route)</q-item-section>
         </q-item>
 
         <!-- check .my-link CSS class below -->
@@ -164,7 +164,7 @@
           <q-item-section avatar>
             <q-icon name="signal_wifi_off" />
           </q-item-section>
-          <q-item-section>Customized active link</q-item-section>
+          <q-item-section>Customized active link (/components/list-item)</q-item-section>
         </q-item>
       </q-list>
 
@@ -809,8 +809,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .my-link
-  color white
-  background $deep-orange
+  color: white
+  background: $deep-orange
 </style>

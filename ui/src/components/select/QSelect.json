@@ -1,17 +1,16 @@
 {
-  "mixins": [ "components/field/__QField", "mixins/virtual-scroll", "mixins/form" ],
+  "mixins": [ "composables/private/use-field", "components/virtual-scroll/use-virtual-scroll", "composables/private/use-form" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/select"
+    "docsUrl": "https://v2.quasar.dev/vue-components/select"
   },
 
   "props": {
-    "value": {
+    "model-value": {
+      "extends": "model-value",
       "type": [ "Number", "String", "Array" ],
-      "desc": "Model of the component; Must be Array if using 'multiple' prop; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "required": true,
-      "examples": [ "v-model=\"myModel\"" ],
-      "category": "model"
+      "desc": "Model of the component; Must be Array if using 'multiple' prop; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "examples": [ "v-model=\"myModel\"" ]
     },
 
     "multiple": {
@@ -27,9 +26,9 @@
       "category": "selection"
     },
 
-    "display-value-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render selected option(s); Use it when the selected option(s) might be unsafe (from user input); Does NOT apply when using 'selected' or 'selected-item' slots!",
+    "display-value-html": {
+      "extends": "html",
+      "desc": "Force render the selected option(s) as HTML; This can lead to XSS attacks so make sure that you sanitize the content; Does NOT apply when using 'selected' or 'selected-item' slots!",
       "category": "selection"
     },
 
@@ -119,9 +118,9 @@
       "category": "options"
     },
 
-    "options-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT apply when using 'option' slot!",
+    "options-html": {
+      "extends": "html",
+      "desc": "Force render the options as HTML; This can lead to XSS attacks so make sure that you sanitize the content; Does NOT apply when using 'option' slot!",
       "category": "options"
     },
 
@@ -134,8 +133,7 @@
     "menu-shrink": {
       "type": "Boolean",
       "desc": "Allow the options list to be narrower than the field (only in menu mode)",
-      "category": "options",
-      "addedIn": "v1.9.2"
+      "category": "options"
     },
 
     "menu-anchor": {
@@ -147,8 +145,7 @@
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "examples": [ "top left", "bottom right" ],
-      "category": "position",
-      "addedIn": "v1.9.2"
+      "category": "position"
     },
 
     "menu-self": {
@@ -160,16 +157,14 @@
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "examples": [ "top left", "bottom right" ],
-      "category": "position",
-      "addedIn": "v1.9.2"
+      "category": "position"
     },
 
     "menu-offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the options list horizontally and vertically in pixels (only in menu mode)",
       "examples": [ "[8, 8]", "[5, 10]" ],
-      "category": "position",
-      "addedIn": "v1.9.2"
+      "category": "position"
     },
 
     "popup-content-class": {
@@ -243,8 +238,7 @@
         "my-special-class",
         ":input-class=\"{ 'my-special-class': <condition> }\""
       ],
-      "category": "style",
-      "addedIn": "v1.1.7"
+      "category": "style"
     },
 
     "input-style": {
@@ -254,8 +248,7 @@
         "background-color: #ff0000",
         ":input-style=\"{ backgroundColor: '#ff0000' }\""
       ],
-      "category": "style",
-      "addedIn": "v1.1.7"
+      "category": "style"
     },
 
     "tabindex": {
@@ -267,7 +260,7 @@
       "desc": "Autocomplete attribute for field",
       "examples": [ "autocomplete=\"country\"" ],
       "category": "behavior",
-      "addedIn": "v1.15.0"
+      "addedIn": "v1.14.8"
     },
 
     "transition-show": {
@@ -284,6 +277,14 @@
       "category": "behavior"
     },
 
+    "transition-duration": {
+      "type": [ "String", "Number" ],
+      "desc": "Transition duration when hiding the menu/dialog (in milliseconds, without unit)",
+      "default": 300,
+      "examples": [ 500, "1200" ],
+      "category": "behavior"
+    },
+
     "behavior": {
       "type": "String",
       "desc": "Overrides the default dynamic mode of showing as menu on desktop and dialog on mobiles",
@@ -291,8 +292,7 @@
         "default", "menu", "dialog"
       ],
       "default": "default",
-      "category": "behavior",
-      "addedIn": "v1.1.0"
+      "category": "behavior"
     }
   },
 
@@ -306,16 +306,13 @@
     },
 
     "before-options": {
-      "desc": "Template slot for the elements that should be rendered before the list of options",
-      "addedIn": "v1.1.0"
+      "desc": "Template slot for the elements that should be rendered before the list of options"
     },
-    "after-options": {
-      "desc": "Template slot for the elements that should be rendered after the list of options",
-      "addedIn": "v1.1.0"
-    }
-  },
 
-  "scopedSlots": {
+    "after-options": {
+      "desc": "Template slot for the elements that should be rendered after the list of options"
+    },
+
     "no-option": {
       "desc": "What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>",
       "scope": {
@@ -425,19 +422,14 @@
           "type": "Object",
           "desc": "Computed properties passed down to QItem",
           "__exemption": [ "examples" ]
-        },
-        "itemEvents": {
-          "type": "Object",
-          "desc": "Computed events passed down to QItem",
-          "__exemption": [ "examples" ]
         }
       }
     }
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:model-value": {
+      "extends": "update:model-value"
     },
 
     "input-value": {
@@ -449,8 +441,7 @@
           "required": true,
           "__exemption": [ "examples" ]
         }
-      },
-      "addedIn": "v1.9.9"
+      }
     },
 
     "remove": {
@@ -554,8 +545,7 @@
                   "__exemption": [ "examples" ]
                 }
               },
-              "returns": null,
-              "addedIn": "v1.7.4"
+              "returns": null
             }
           },
           "returns": null
@@ -581,8 +571,7 @@
           "desc": "JS event object",
           "__exemption": [ "examples" ]
         }
-      },
-      "addedIn": "v1.1.3"
+      }
     },
 
     "popup-hide": {
@@ -593,8 +582,7 @@
           "desc": "JS event object",
           "__exemption": [ "examples" ]
         }
-      },
-      "addedIn": "v1.1.3"
+      }
     }
   },
 
@@ -651,8 +639,7 @@
         },
         "keepOpen": {
           "type": "Boolean",
-          "desc": "Don't close the menu and do not clear the filter",
-          "addedIn": "v1.7.4"
+          "desc": "Don't close the menu and do not clear the filter"
         }
       }
     },
@@ -680,11 +667,9 @@
         },
         "skipInputValue": {
           "type": "Boolean",
-          "desc": "Don't set input-value on navigation",
-          "addedIn": "v1.8.0"
+          "desc": "Don't set input-value on navigation"
         }
-      },
-      "addedIn": "v1.7.4"
+      }
     },
 
     "filter": {
@@ -731,8 +716,7 @@
       "returns": {
         "type": "Boolean",
         "desc": "Option is selected or not"
-      },
-      "addedIn": "v1.9.5"
+      }
     },
 
     "getEmittingOptionValue": {
@@ -749,8 +733,7 @@
         "type": "Any",
         "desc": "Emitting model value of said option",
         "__exemption": [ "examples" ]
-      },
-      "addedIn": "v1.9.5"
+      }
     },
 
     "getOptionValue": {
@@ -767,8 +750,7 @@
         "type": "Any",
         "desc": "Model value of said option",
         "__exemption": [ "examples" ]
-      },
-      "addedIn": "v1.9.5"
+      }
     },
 
     "getOptionLabel": {
@@ -785,8 +767,7 @@
         "type": "Any",
         "desc": "Label of said option",
         "__exemption": [ "examples" ]
-      },
-      "addedIn": "v1.9.5"
+      }
     },
 
     "isOptionDisabled": {
@@ -802,8 +783,7 @@
       "returns": {
         "type": "Boolean",
         "desc": "Option is disabled or not"
-      },
-      "addedIn": "v1.9.5"
+      }
     }
   }
 }

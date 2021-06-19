@@ -1,7 +1,6 @@
-import Vue from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 const insetMap = {
   true: 'inset',
@@ -17,12 +16,12 @@ export const margins = {
   xl: 24
 }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QSeparator',
 
-  mixins: [ DarkMixin, ListenersMixin ],
-
   props: {
+    ...useDarkProps,
+
     spaced: [ Boolean, String ],
     inset: [ Boolean, String ],
     vertical: Boolean,
@@ -30,66 +29,57 @@ export default Vue.extend({
     size: String
   },
 
-  computed: {
-    orientation () {
-      return this.vertical === true
+  setup (props) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
+
+    const orientation = computed(() => (
+      props.vertical === true
         ? 'vertical'
         : 'horizontal'
-    },
+    ))
 
-    classPrefix () {
-      return ` q-separator--${this.orientation}`
-    },
+    const orientClass = computed(() => ` q-separator--${ orientation.value }`)
 
-    insetClass () {
-      return this.inset !== false
-        ? `${this.classPrefix}-${insetMap[this.inset]}`
+    const insetClass = computed(() => (
+      props.inset !== false
+        ? `${ orientClass.value }-${ insetMap[ props.inset ] }`
         : ''
-    },
+    ))
 
-    classes () {
-      return `q-separator${this.classPrefix}${this.insetClass}` +
-        (this.color !== void 0 ? ` bg-${this.color}` : '') +
-        (this.isDark === true ? ' q-separator--dark' : '')
-    },
+    const classes = computed(() =>
+      `q-separator${ orientClass.value }${ insetClass.value }`
+      + (props.color !== void 0 ? ` bg-${ props.color }` : '')
+      + (isDark.value === true ? ' q-separator--dark' : '')
+    )
 
-    style () {
-      const style = {}
+    const style = computed(() => {
+      const acc = {}
 
-      if (this.size !== void 0) {
-        style[ this.vertical === true ? 'width' : 'height' ] = this.size
+      if (props.size !== void 0) {
+        acc[ props.vertical === true ? 'width' : 'height' ] = props.size
       }
 
-      if (this.spaced !== false) {
-        const size = this.spaced === true
-          ? `${margins.md}px`
-          : this.spaced in margins ? `${margins[this.spaced]}px` : this.spaced
+      if (props.spaced !== false) {
+        const size = props.spaced === true
+          ? `${ margins.md }px`
+          : props.spaced in margins ? `${ margins[ props.spaced ] }px` : props.spaced
 
-        const props = this.vertical === true
+        const dir = props.vertical === true
           ? [ 'Left', 'Right' ]
           : [ 'Top', 'Bottom' ]
 
-        style[`margin${props[0]}`] = style[`margin${props[1]}`] = size
+        acc[ `margin${ dir[ 0 ] }` ] = acc[ `margin${ dir[ 1 ] }` ] = size
       }
 
-      return style
-    },
+      return acc
+    })
 
-    attrs () {
-      return {
-        role: 'separator',
-        'aria-orientation': this.orientation
-      }
-    }
-  },
-
-  render (h) {
-    return h('hr', {
-      staticClass: 'q-separator',
-      class: this.classes,
-      style: this.style,
-      attrs: this.attrs,
-      on: { ...this.qListeners }
+    return () => h('hr', {
+      class: classes.value,
+      style: style.value,
+      role: 'separator',
+      'aria-orientation': orientation.value
     })
   }
 })

@@ -1,5 +1,6 @@
-import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../utils/scroll.js'
+import { getScrollTarget, getVerticalScrollPosition, getHorizontalScrollPosition } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
+import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
 
 function update (ctx, { value, oldValue }) {
   if (typeof value !== 'function') {
@@ -13,50 +14,36 @@ function update (ctx, { value, oldValue }) {
   }
 }
 
-function destroy (el) {
-  const ctx = el.__qscroll
-  if (ctx !== void 0) {
-    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
-    delete el.__qscroll
-  }
-}
+export default __QUASAR_SSR_SERVER__
+  ? { name: 'scroll', getSSRProps }
+  : {
+      name: 'scroll',
 
-export default {
-  name: 'scroll',
+      mounted (el, binding) {
+        const ctx = {
+          scrollTarget: getScrollTarget(el),
+          scroll () {
+            ctx.handler(
+              getVerticalScrollPosition(ctx.scrollTarget),
+              getHorizontalScrollPosition(ctx.scrollTarget)
+            )
+          }
+        }
 
-  inserted (el, binding) {
-    if (el.__qscroll !== void 0) {
-      destroy(el)
-      el.__qscroll_destroyed = true
-    }
+        update(ctx, binding)
 
-    const ctx = {
-      scrollTarget: getScrollTarget(el),
-      scroll () {
-        ctx.handler(
-          getScrollPosition(ctx.scrollTarget),
-          getHorizontalScrollPosition(ctx.scrollTarget)
-        )
+        el.__qscroll = ctx
+      },
+
+      updated (el, binding) {
+        if (el.__qscroll !== void 0 && binding.oldValue !== binding.value) {
+          update(el.__qscroll, binding)
+        }
+      },
+
+      beforeUnmount (el) {
+        const ctx = el.__qscroll
+        ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
+        delete el.__qscroll
       }
     }
-
-    update(ctx, binding)
-
-    el.__qscroll = ctx
-  },
-
-  update (el, binding) {
-    if (el.__qscroll !== void 0 && binding.oldValue !== binding.value) {
-      update(el.__qscroll, binding)
-    }
-  },
-
-  unbind (el) {
-    if (el.__qscroll_destroyed === void 0) {
-      destroy(el)
-    }
-    else {
-      delete el.__qscroll_destroyed
-    }
-  }
-}

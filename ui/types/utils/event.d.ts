@@ -25,5 +25,4 @@ export namespace event {
   function prevent(evt: Event): void;
   function stopAndPrevent(evt: Event): void;
   function preventDraggable(el: Element, status: boolean): void;
-  function create(name: string, opts?: EventInit): Event;
 }

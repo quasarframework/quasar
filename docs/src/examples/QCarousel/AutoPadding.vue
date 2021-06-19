@@ -76,15 +76,26 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      padding: true,
-      vertical: false,
-      arrows: true,
-      navigation: true,
+import { ref, watch } from 'vue'
 
-      navPos: 'bottom',
+export default {
+  setup () {
+    const navPos = ref('bottom')
+    const vertical = ref(false)
+
+    watch(vertical, val => {
+      navPos.value = val === true
+        ? 'right'
+        : 'bottom'
+    })
+
+    return {
+      padding: ref(true),
+      vertical,
+      arrows: ref(true),
+      navigation: ref(true),
+
+      navPos,
       navigationPositions: [
         { value: 'top', label: 'top' },
         { value: 'right', label: 'right' },
@@ -92,16 +103,8 @@ export default {
         { value: 'left', label: 'left' }
       ],
 
-      slide: 'style',
+      slide: ref('style'),
       lorem: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
-    }
-  },
-
-  watch: {
-    vertical (val) {
-      this.navPos = val === true
-        ? 'right'
-        : 'bottom'
     }
   }
 }

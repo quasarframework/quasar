@@ -9,8 +9,6 @@ export type QuasarCordovaTargets =
   | "windows";
 
 export interface QuasarCordovaConfiguration {
-  /** If not present, will look for `package.json > cordovaId` */
-  id?: string;
   /** If not present, will look for `package.json > version` */
   version?: string;
   /** If not present, will look for `package.json > description` */

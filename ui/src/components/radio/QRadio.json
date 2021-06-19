@@ -1,17 +1,15 @@
 {
-  "mixins": [ "mixins/size", "mixins/form" ],
+  "mixins": [ "composables/private/use-size", "composables/private/use-form" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/radio"
+    "docsUrl": "https://v2.quasar.dev/vue-components/radio"
   },
 
   "props": {
-    "value": {
-      "extends": "value",
+    "model-value": {
+      "extends": "model-value",
       "type": [ "Number", "String" ],
-      "required": true,
-      "examples": [ "v-model=\"option\"" ],
-      "category": "model"
+      "examples": [ "v-model=\"option\"" ]
     },
 
     "val": {
@@ -45,10 +43,6 @@
       "category": "behavior"
     },
 
-    "size": {
-      "addedIn": "v1.8.0"
-    },
-
     "dark": {
       "extends": "dark"
     },
@@ -73,7 +67,7 @@
   },
 
   "events": {
-    "input": {
+    "update:model-value": {
       "desc": "Emitted when the component needs to change the model; Is also used by v-model",
       "params": {
         "value": {
@@ -86,8 +80,7 @@
           "type": "Object",
           "desc": "JS event object",
           "required": true,
-          "__exemption": [ "examples" ],
-          "addedIn":"v1.11.2"
+          "__exemption": [ "examples" ]
         }
       }
     }

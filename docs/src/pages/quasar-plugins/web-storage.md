@@ -1,6 +1,7 @@
 ---
 title: Local/Session Storage Plugins
 desc: A Quasar plugin that wraps the Local/Session Storage, retrieving data with its original JS type.
+keys: LocalStorage,SessionStorage
 ---
 
 Quasar provides a wrapper over [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API).
@@ -26,7 +27,7 @@ When running the code server-side on SSR builds, this feature can't work. Web St
 
 ## Usage
 
-``` js
+```js
 // outside of a Vue file
 import { LocalStorage, SessionStorage } from 'quasar'
 
@@ -37,21 +38,26 @@ SessionStorage.set(key, value)
 let value = SessionStorage.getItem(key)
 ```
 
-``` js
+```js
 // inside of a Vue file
+import { useQuasar } from 'quasar'
 
-this.$q.localStorage.set(key, value)
-let value = this.$q.localStorage.getItem(key)
+setup () {
+  const $q = useQuasar()
 
-this.$q.sessionStorage.set(key, value)
-let value = this.$q.sessionStorage.getItem(key)
+  $q.localStorage.set(key, value)
+  const value = $q.localStorage.getItem(key)
+
+  $q.sessionStorage.set(key, value)
+  const otherValue = $q.sessionStorage.getItem(key)
+}
 ```
 
 For a bulletproof approach when setting a value, it's best to also catch any potential errors raised by the underlying Local/Session Storage Web API, like when exceeding quota:
 
 ```js
 try {
-  this.$q.localStorage.set(key, value)
+  $q.localStorage.set(key, value)
 } catch (e) {
   // data wasn't successfully saved due to
   // a Web Storage API error

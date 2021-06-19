@@ -3,15 +3,17 @@ interface DateOptions {
   seconds?: number;
   minutes?: number;
   hours?: number;
-  month?: number;
-  year?: number;
 }
 
 export interface BuildDateOptions extends DateOptions {
   date?: number;
+  month?: number;
+  year?: number;
 }
 export interface ModifyDateOptions extends DateOptions {
   days?: number;
+  months?: number;
+  years?: number;
 }
 
 export interface DateLocale {

@@ -1,45 +1,32 @@
-import Vue from 'vue'
+import { h, defineComponent, withDirectives, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, inject, getCurrentInstance } from 'vue'
 
-import HistoryMixin from '../../mixins/history.js'
-import ModelToggleMixin from '../../mixins/model-toggle.js'
-import PreventScrollMixin from '../../mixins/prevent-scroll.js'
-import DarkMixin from '../../mixins/dark.js'
+import useHistory from '../../composables/private/use-history.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
+import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
+import useTimeout from '../../composables/private/use-timeout.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
-import { slot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
-import { ariaHidden } from '../../mixins/attrs'
+import { hSlot, hDir } from '../../utils/private/render.js'
+import { layoutKey } from '../../utils/private/symbols.js'
 
 const duration = 150
 
-const mouseEvents = [
-  'mouseover', 'mouseout', 'mouseenter', 'mouseleave'
-]
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QDrawer',
 
-  inject: {
-    layout: {
-      default () {
-        console.error('QDrawer needs to be child of QLayout')
-      }
-    }
-  },
-
-  mixins: [ DarkMixin, HistoryMixin, ModelToggleMixin, PreventScrollMixin ],
-
-  directives: {
-    TouchPan
-  },
+  inheritAttrs: false,
 
   props: {
+    ...useModelToggleProps,
+    ...useDarkProps,
+
     side: {
       type: String,
       default: 'left',
-      validator: v => ['left', 'right'].includes(v)
+      validator: v => [ 'left', 'right' ].includes(v)
     },
 
     width: {
@@ -62,14 +49,12 @@ export default Vue.extend({
 
     behavior: {
       type: String,
-      validator: v => ['default', 'desktop', 'mobile'].includes(v),
+      validator: v => [ 'default', 'desktop', 'mobile' ].includes(v),
       default: 'default'
     },
 
     bordered: Boolean,
     elevated: Boolean,
-    contentStyle: [String, Object, Array],
-    contentClass: [String, Object, Array],
 
     overlay: Boolean,
     persistent: Boolean,
@@ -78,636 +63,631 @@ export default Vue.extend({
     noSwipeBackdrop: Boolean
   },
 
-  data () {
-    const belowBreakpoint = (
-      this.behavior === 'mobile' ||
-      (this.behavior !== 'desktop' && this.layout.totalWidth <= this.breakpoint)
+  emits: [
+    ...useModelToggleEmits,
+    'on-layout', 'mini-state'
+  ],
+
+  setup (props, { slots, emit, attrs }) {
+    const vm = getCurrentInstance()
+    const { proxy: { $q } } = vm
+
+    const isDark = useDark(props, $q)
+    const { preventBodyScroll } = usePreventScroll()
+    const { registerTimeout } = useTimeout()
+
+    const $layout = inject(layoutKey, () => {
+      console.error('QDrawer needs to be child of QLayout')
+    })
+
+    let lastDesktopState, timerMini, layoutTotalWidthWatcher
+
+    const belowBreakpoint = ref(
+      props.behavior === 'mobile'
+      || (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
     )
 
-    return {
-      belowBreakpoint,
-      showing: this.showIfAbove === true && belowBreakpoint === false
+    const isMini = computed(() =>
+      props.mini === true && belowBreakpoint.value !== true
+    )
+
+    const size = computed(() => (
+      isMini.value === true
+        ? props.miniWidth
+        : props.width
+    ))
+
+    const showing = ref(
+      props.showIfAbove === true && belowBreakpoint.value === false
         ? true
-        : this.value === true
-    }
-  },
+        : props.modelValue === true
+    )
 
-  watch: {
-    belowBreakpoint (val) {
-      if (val === true) { // from lg to xs
-        this.lastDesktopState = this.showing
-        this.showing === true && this.hide(false)
-      }
-      else if (
-        this.overlay === false &&
-        this.behavior !== 'mobile' &&
-        this.lastDesktopState !== false
-      ) { // from xs to lg
-        if (this.showing === true) {
-          this.__applyPosition(0)
-          this.__applyBackdrop(0)
-          this.__cleanup()
+    const hideOnRouteChange = computed(() =>
+      props.persistent !== true
+      && (belowBreakpoint.value === true || onScreenOverlay.value === true)
+    )
+
+    function handleShow (evt, noEvent) {
+      addToHistory()
+
+      evt !== false && $layout.animate()
+      applyPosition(0)
+
+      if (belowBreakpoint.value === true) {
+        const otherInstance = $layout.instances[ otherSide.value ]
+        if (otherInstance !== void 0 && otherInstance.belowBreakpoint === true) {
+          otherInstance.hide(false)
         }
-        else {
-          this.show(false)
-        }
+
+        applyBackdrop(1)
+        $layout.isContainer.value !== true && preventBodyScroll(true)
       }
-    },
-
-    'layout.totalWidth' (val) {
-      this.__updateLocal('belowBreakpoint', (
-        this.behavior === 'mobile' ||
-        (this.behavior !== 'desktop' && val <= this.breakpoint)
-      ))
-    },
-
-    side (newSide, oldSide) {
-      if (this.layout.instances[oldSide] === this) {
-        this.layout.instances[oldSide] = void 0
-        this.layout[oldSide].space = false
-        this.layout[oldSide].offset = 0
+      else {
+        applyBackdrop(0)
+        evt !== false && setScrollable(false)
       }
 
-      this.layout.instances[newSide] = this
-      this.layout[newSide].size = this.size
-      this.layout[newSide].space = this.onLayout
-      this.layout[newSide].offset = this.offset
-    },
-
-    behavior (val) {
-      this.__updateLocal('belowBreakpoint', (
-        val === 'mobile' ||
-        (val !== 'desktop' && this.layout.totalWidth <= this.breakpoint)
-      ))
-    },
-
-    breakpoint (val) {
-      this.__updateLocal('belowBreakpoint', (
-        this.behavior === 'mobile' ||
-        (this.behavior !== 'desktop' && this.layout.totalWidth <= val)
-      ))
-    },
-
-    'layout.container' (val) {
-      this.showing === true && this.__preventScroll(val !== true)
-    },
-
-    'layout.scrollbarWidth' () {
-      this.__applyPosition(this.showing === true ? 0 : void 0)
-    },
-
-    offset (val) {
-      this.__update('offset', val)
-    },
-
-    onLayout (val) {
-      this.$emit('on-layout', val)
-      this.__update('space', val)
-    },
-
-    rightSide () {
-      this.__applyPosition()
-    },
-
-    size (val) {
-      this.__applyPosition()
-      this.__updateSizeOnLayout(this.miniToOverlay, val)
-    },
-
-    miniToOverlay (val) {
-      this.__updateSizeOnLayout(val, this.size)
-    },
-
-    '$q.lang.rtl' () {
-      this.__applyPosition()
-    },
-
-    mini () {
-      if (this.value === true) {
-        this.__animateMini()
-        this.layout.__animate()
-      }
-    },
-
-    isMini (val) {
-      this.$emit('mini-state', val)
+      registerTimeout(() => {
+        evt !== false && setScrollable(true)
+        noEvent !== true && emit('show', evt)
+      }, duration)
     }
-  },
 
-  computed: {
-    rightSide () {
-      return this.side === 'right'
-    },
+    function handleHide (evt, noEvent) {
+      removeFromHistory()
 
-    otherSide () {
-      return this.rightSide === true ? 'left' : 'right'
-    },
+      evt !== false && $layout.animate()
 
-    offset () {
-      return this.showing === true && this.belowBreakpoint === false && this.overlay === false
-        ? (this.miniToOverlay === true ? this.miniWidth : this.size)
+      applyBackdrop(0)
+      applyPosition(stateDirection.value * size.value)
+
+      cleanup()
+
+      noEvent !== true && registerTimeout(() => {
+        emit('hide', evt)
+      }, duration)
+    }
+
+    const { show, hide } = useModelToggle({
+      showing,
+      hideOnRouteChange,
+      handleShow,
+      handleHide
+    })
+
+    const { addToHistory, removeFromHistory } = useHistory(showing, hide, hideOnRouteChange)
+
+    const instance = {
+      belowBreakpoint,
+      hide
+    }
+
+    const rightSide = computed(() => props.side === 'right')
+
+    const stateDirection = computed(() =>
+      ($q.lang.rtl === true ? -1 : 1) * (rightSide.value === true ? 1 : -1)
+    )
+
+    const flagBackdropBg = ref(0)
+    const flagPanning = ref(false)
+    const flagMiniAnimate = ref(false)
+    const flagContentPosition = ref( // starting with "hidden" for SSR
+      size.value * stateDirection.value
+    )
+
+    const otherSide = computed(() => (rightSide.value === true ? 'left' : 'right'))
+    const offset = computed(() => (
+      showing.value === true && belowBreakpoint.value === false && props.overlay === false
+        ? (props.miniToOverlay === true ? props.miniWidth : size.value)
         : 0
-    },
+    ))
 
-    size () {
-      return this.isMini === true
-        ? this.miniWidth
-        : this.width
-    },
+    const fixed = computed(() =>
+      props.overlay === true
+      || props.miniToOverlay === true
+      || $layout.view.value.indexOf(rightSide.value ? 'R' : 'L') > -1
+      || ($q.platform.is.ios === true && $layout.isContainer.value === true)
+    )
 
-    fixed () {
-      return this.overlay === true ||
-        this.miniToOverlay === true ||
-        this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1 ||
-        (this.$q.platform.is.ios && this.layout.container === true)
-    },
+    const onLayout = computed(() =>
+      props.overlay === false
+      && showing.value === true
+      && belowBreakpoint.value === false
+    )
 
-    onLayout () {
-      return this.showing === true && this.belowBreakpoint === false && this.overlay === false
-    },
+    const onScreenOverlay = computed(() =>
+      props.overlay === true
+      && showing.value === true
+      && belowBreakpoint.value === false
+    )
 
-    onScreenOverlay () {
-      return this.showing === true && this.belowBreakpoint === false && this.overlay === true
-    },
+    const backdropClass = computed(() =>
+      'fullscreen q-drawer__backdrop'
+      + (showing.value === false && flagPanning.value === false ? ' hidden' : '')
+    )
 
-    backdropClass () {
-      return this.showing === false ? 'hidden' : null
-    },
+    const backdropStyle = computed(() => ({
+      backgroundColor: `rgba(0,0,0,${ flagBackdropBg.value * 0.4 })`
+    }))
 
-    headerSlot () {
-      return this.rightSide === true
-        ? this.layout.rows.top[2] === 'r'
-        : this.layout.rows.top[0] === 'l'
-    },
+    const headerSlot = computed(() => (
+      rightSide.value === true
+        ? $layout.rows.value.top[ 2 ] === 'r'
+        : $layout.rows.value.top[ 0 ] === 'l'
+    ))
 
-    footerSlot () {
-      return this.rightSide === true
-        ? this.layout.rows.bottom[2] === 'r'
-        : this.layout.rows.bottom[0] === 'l'
-    },
+    const footerSlot = computed(() => (
+      rightSide.value === true
+        ? $layout.rows.value.bottom[ 2 ] === 'r'
+        : $layout.rows.value.bottom[ 0 ] === 'l'
+    ))
 
-    aboveStyle () {
+    const aboveStyle = computed(() => {
       const css = {}
 
-      if (this.layout.header.space === true && this.headerSlot === false) {
-        if (this.fixed === true) {
-          css.top = `${this.layout.header.offset}px`
+      if ($layout.header.space === true && headerSlot.value === false) {
+        if (fixed.value === true) {
+          css.top = `${ $layout.header.offset }px`
         }
-        else if (this.layout.header.space === true) {
-          css.top = `${this.layout.header.size}px`
+        else if ($layout.header.space === true) {
+          css.top = `${ $layout.header.size }px`
         }
       }
 
-      if (this.layout.footer.space === true && this.footerSlot === false) {
-        if (this.fixed === true) {
-          css.bottom = `${this.layout.footer.offset}px`
+      if ($layout.footer.space === true && footerSlot.value === false) {
+        if (fixed.value === true) {
+          css.bottom = `${ $layout.footer.offset }px`
         }
-        else if (this.layout.footer.space === true) {
-          css.bottom = `${this.layout.footer.size}px`
+        else if ($layout.footer.space === true) {
+          css.bottom = `${ $layout.footer.size }px`
         }
       }
 
       return css
-    },
+    })
 
-    style () {
-      const style = { width: `${this.size}px` }
-      return this.belowBreakpoint === true
-        ? style
-        : Object.assign(style, this.aboveStyle)
-    },
-
-    classes () {
-      return `q-drawer--${this.side}` +
-        (this.bordered === true ? ' q-drawer--bordered' : '') +
-        (this.isDark === true ? ' q-drawer--dark q-dark' : '') +
-        (this.showing !== true ? ' q-layout--prevent-focus' : '') +
-        (
-          this.belowBreakpoint === true
-            ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'
-            : ` q-drawer--${this.isMini === true ? 'mini' : 'standard'}` +
-            (this.fixed === true || this.onLayout !== true ? ' fixed' : '') +
-            (this.overlay === true || this.miniToOverlay === true ? ' q-drawer--on-top' : '') +
-            (this.headerSlot === true ? ' q-drawer--top-padding' : '')
-        )
-    },
-
-    stateDirection () {
-      return (this.$q.lang.rtl === true ? -1 : 1) * (this.rightSide === true ? 1 : -1)
-    },
-
-    isMini () {
-      return this.mini === true && this.belowBreakpoint !== true
-    },
-
-    onNativeEvents () {
-      if (this.belowBreakpoint !== true) {
-        const evt = {
-          '!click': e => { this.$emit('click', e) }
-        }
-
-        mouseEvents.forEach(name => {
-          evt[name] = e => {
-            this.qListeners[name] !== void 0 && this.$emit(name, e)
-          }
-        })
-
-        return evt
+    const style = computed(() => {
+      const style = {
+        width: `${ size.value }px`,
+        transform: `translateX(${ flagContentPosition.value }px)`
       }
-    },
 
-    hideOnRouteChange () {
-      return this.persistent !== true &&
-        (this.belowBreakpoint === true || this.onScreenOverlay === true)
-    },
+      return belowBreakpoint.value === true
+        ? style
+        : Object.assign(style, aboveStyle.value)
+    })
 
-    openDirective () {
-      const dir = this.$q.lang.rtl === true ? this.side : this.otherSide
+    const contentClass = computed(() =>
+      'q-drawer__content fit '
+      + ($layout.isContainer.value !== true ? 'scroll' : 'overflow-auto')
+    )
 
-      return [{
-        name: 'touch-pan',
-        value: this.__openByTouch,
-        modifiers: {
+    const classes = computed(() =>
+      `q-drawer q-drawer--${ props.side }`
+      + (flagMiniAnimate.value === true ? ' q-drawer--mini-animate' : '')
+      + (props.bordered === true ? ' q-drawer--bordered' : '')
+      + (isDark.value === true ? ' q-drawer--dark q-dark' : '')
+      + (
+        flagPanning.value === true
+          ? ' no-transition'
+          : (showing.value === true ? '' : ' q-layout--prevent-focus')
+      )
+      + (
+        belowBreakpoint.value === true
+          ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'
+          : ` q-drawer--${ isMini.value === true ? 'mini' : 'standard' }`
+          + (fixed.value === true || onLayout.value !== true ? ' fixed' : '')
+          + (props.overlay === true || props.miniToOverlay === true ? ' q-drawer--on-top' : '')
+          + (headerSlot.value === true ? ' q-drawer--top-padding' : '')
+      )
+    )
+
+    const openDirective = computed(() => {
+      // if props.noSwipeOpen !== true
+      const dir = $q.lang.rtl === true ? props.side : otherSide.value
+
+      return [ [
+        TouchPan,
+        onOpenPan,
+        void 0,
+        {
           [ dir ]: true,
           mouse: true
         }
-      }]
-    },
+      ] ]
+    })
 
-    contentCloseDirective () {
-      if (this.noSwipeClose !== true) {
-        const dir = this.$q.lang.rtl === true ? this.otherSide : this.side
+    const contentCloseDirective = computed(() => {
+      // if belowBreakpoint.value === true && props.noSwipeClose !== true
+      const dir = $q.lang.rtl === true ? otherSide.value : props.side
 
-        return [{
-          name: 'touch-pan',
-          value: this.__closeByTouch,
-          modifiers: {
-            [ dir ]: true,
-            mouse: true
-          }
-        }]
+      return [ [
+        TouchPan,
+        onClosePan,
+        void 0,
+        {
+          [ dir ]: true,
+          mouse: true
+        }
+      ] ]
+    })
+
+    const backdropCloseDirective = computed(() => {
+      // if showing.value === true && props.noSwipeBackdrop !== true
+      const dir = $q.lang.rtl === true ? otherSide.value : props.side
+
+      return [ [
+        TouchPan,
+        onClosePan,
+        void 0,
+        {
+          [ dir ]: true,
+          mouse: true,
+          mouseAllDir: true
+        }
+      ] ]
+    })
+
+    watch(belowBreakpoint, val => {
+      if (val === true) { // from lg to xs
+        lastDesktopState = showing.value
+        showing.value === true && hide(false)
       }
-    },
-
-    backdropCloseDirective () {
-      if (this.noSwipeBackdrop !== true) {
-        const dir = this.$q.lang.rtl === true ? this.otherSide : this.side
-
-        return [{
-          name: 'touch-pan',
-          value: this.__closeByTouch,
-          modifiers: {
-            [ dir ]: true,
-            mouse: true,
-            mouseAllDir: true
-          }
-        }]
+      else if (
+        props.overlay === false
+        && props.behavior !== 'mobile'
+        && lastDesktopState !== false
+      ) { // from xs to lg
+        if (showing.value === true) {
+          applyPosition(0)
+          applyBackdrop(0)
+          cleanup()
+        }
+        else {
+          show(false)
+        }
       }
-    }
-  },
+    })
 
-  methods: {
-    __applyPosition (position) {
+    watch($layout.totalWidth, val => {
+      updateLocal(belowBreakpoint, (
+        props.behavior === 'mobile'
+        || (props.behavior !== 'desktop' && val <= props.breakpoint)
+      ))
+    })
+
+    watch(() => props.side, (newSide, oldSide) => {
+      if ($layout.instances[ oldSide ] === instance) {
+        $layout.instances[ oldSide ] = void 0
+        $layout[ oldSide ].space = false
+        $layout[ oldSide ].offset = 0
+      }
+
+      $layout.instances[ newSide ] = instance
+      $layout[ newSide ].size = size.value
+      $layout[ newSide ].space = onLayout.value
+      $layout[ newSide ].offset = offset.value
+    })
+
+    watch(() => props.behavior + props.breakpoint, updateBelowBreakpoint)
+
+    watch($layout.isContainer, val => {
+      showing.value === true && preventBodyScroll(val !== true)
+    })
+
+    watch($layout.scrollbarWidth, () => {
+      applyPosition(showing.value === true ? 0 : void 0)
+    })
+
+    watch(offset, val => { updateLayout('offset', val) })
+
+    watch(onLayout, val => {
+      emit('on-layout', val)
+      updateLayout('space', val)
+    })
+
+    watch(rightSide, () => { applyPosition() })
+
+    watch(size, val => {
+      applyPosition()
+      updateSizeOnLayout(props.miniToOverlay, val)
+    })
+
+    watch(() => props.miniToOverlay, val => {
+      updateSizeOnLayout(val, size.value)
+    })
+
+    watch(() => $q.lang.rtl, () => { applyPosition() })
+
+    watch(() => props.mini, () => {
+      if (props.modelValue === true) {
+        animateMini()
+        $layout.animate()
+      }
+    })
+
+    watch(isMini, val => { emit('mini-state', val) })
+
+    function applyPosition (position) {
       if (position === void 0) {
-        this.$nextTick(() => {
-          position = this.showing === true ? 0 : this.size
-          this.__applyPosition(this.stateDirection * position)
+        nextTick(() => {
+          position = showing.value === true ? 0 : size.value
+          applyPosition(stateDirection.value * position)
         })
-      }
-      else if (this.$refs.content !== void 0) {
-        if (
-          this.layout.container === true &&
-          this.rightSide === true &&
-          (this.belowBreakpoint === true || Math.abs(position) === this.size)
-        ) {
-          position += this.stateDirection * this.layout.scrollbarWidth
-        }
-
-        if (this.__lastPosition !== position) {
-          this.$refs.content.style.transform = `translateX(${position}px)`
-          this.__lastPosition = position
-        }
-      }
-    },
-
-    __applyBackdrop (x, retry) {
-      if (this.$refs.backdrop !== void 0) {
-        this.$refs.backdrop.style.backgroundColor =
-          this.lastBackdropBg = `rgba(0,0,0,${x * 0.4})`
       }
       else {
-        // rendered nodes might not have
-        // picked up this.showing change yet,
-        // so we need one retry
-        retry !== true && this.$nextTick(() => {
-          this.__applyBackdrop(x, true)
-        })
-      }
-    },
+        if (
+          $layout.isContainer.value === true
+          && rightSide.value === true
+          && (belowBreakpoint.value === true || Math.abs(position) === size.value)
+        ) {
+          position += stateDirection.value * $layout.scrollbarWidth.value
+        }
 
-    __setBackdropVisible (v) {
-      if (this.$refs.backdrop !== void 0) {
-        this.$refs.backdrop.classList[v === true ? 'remove' : 'add']('hidden')
+        flagContentPosition.value = position
       }
-    },
+    }
 
-    __setScrollable (v) {
+    function updateBelowBreakpoint () {
+      updateLocal(belowBreakpoint, (
+        props.behavior === 'mobile'
+        || (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
+      ))
+    }
+
+    function applyBackdrop (x) {
+      flagBackdropBg.value = x
+    }
+
+    function setScrollable (v) {
       const action = v === true
         ? 'remove'
-        : (this.layout.container !== true ? 'add' : '')
+        : ($layout.isContainer.value !== true ? 'add' : '')
 
-      action !== '' && document.body.classList[action]('q-body--drawer-toggle')
-    },
+      action !== '' && document.body.classList[ action ]('q-body--drawer-toggle')
+    }
 
-    __animateMini () {
-      if (this.timerMini !== void 0) {
-        clearTimeout(this.timerMini)
+    function animateMini () {
+      clearTimeout(timerMini)
+
+      if (vm.proxy && vm.proxy.$el) {
+        // need to speed it up and apply it immediately,
+        // even faster than Vue's nextTick!
+        vm.proxy.$el.classList.add('q-drawer--mini-animate')
       }
-      else if (this.$el !== void 0) {
-        this.$el.classList.add('q-drawer--mini-animate')
-      }
-      this.timerMini = setTimeout(() => {
-        this.$el !== void 0 && this.$el.classList.remove('q-drawer--mini-animate')
-        this.timerMini = void 0
+
+      flagMiniAnimate.value = true
+      timerMini = setTimeout(() => {
+        flagMiniAnimate.value = false
       }, 150)
-    },
+    }
 
-    __openByTouch (evt) {
-      if (this.showing !== false) {
+    function onOpenPan (evt) {
+      if (showing.value !== false) {
         // some browsers might capture and trigger this
         // even if Drawer has just been opened (but animation is still pending)
         return
       }
 
       const
-        width = this.size,
+        width = size.value,
         position = between(evt.distance.x, 0, width)
 
       if (evt.isFinal === true) {
-        const
-          el = this.$refs.content,
-          opened = position >= Math.min(75, width)
-
-        el.classList.remove('no-transition')
+        const opened = position >= Math.min(75, width)
 
         if (opened === true) {
-          this.show()
+          show()
         }
         else {
-          this.layout.__animate()
-          this.__applyBackdrop(0)
-          this.__applyPosition(this.stateDirection * width)
-          el.classList.remove('q-drawer--delimiter')
-          el.classList.add('q-layout--prevent-focus')
-          this.__setBackdropVisible(false)
+          $layout.animate()
+          applyBackdrop(0)
+          applyPosition(stateDirection.value * width)
         }
 
+        flagPanning.value = false
         return
       }
 
-      this.__applyPosition(
-        (this.$q.lang.rtl === true ? this.rightSide !== true : this.rightSide)
+      applyPosition(
+        ($q.lang.rtl === true ? rightSide.value !== true : rightSide.value)
           ? Math.max(width - position, 0)
           : Math.min(0, position - width)
       )
-      this.__applyBackdrop(
+      applyBackdrop(
         between(position / width, 0, 1)
       )
 
       if (evt.isFirst === true) {
-        const el = this.$refs.content
-        el.classList.add('no-transition')
-        el.classList.add('q-drawer--delimiter')
-        el.classList.remove('q-layout--prevent-focus')
-        this.__setBackdropVisible(true)
+        flagPanning.value = true
       }
-    },
+    }
 
-    __closeByTouch (evt) {
-      if (this.showing !== true) {
+    function onClosePan (evt) {
+      if (showing.value !== true) {
         // some browsers might capture and trigger this
         // even if Drawer has just been closed (but animation is still pending)
         return
       }
 
       const
-        width = this.size,
-        dir = evt.direction === this.side,
-        position = (this.$q.lang.rtl === true ? dir !== true : dir)
+        width = size.value,
+        dir = evt.direction === props.side,
+        position = ($q.lang.rtl === true ? dir !== true : dir)
           ? between(evt.distance.x, 0, width)
           : 0
 
       if (evt.isFinal === true) {
         const opened = Math.abs(position) < Math.min(75, width)
-        this.$refs.content.classList.remove('no-transition')
 
         if (opened === true) {
-          this.layout.__animate()
-          this.__applyBackdrop(1)
-          this.__applyPosition(0)
+          $layout.animate()
+          applyBackdrop(1)
+          applyPosition(0)
         }
         else {
-          this.hide()
+          hide()
         }
 
+        flagPanning.value = false
         return
       }
 
-      this.__applyPosition(this.stateDirection * position)
-      this.__applyBackdrop(between(1 - position / width, 0, 1))
+      applyPosition(stateDirection.value * position)
+      applyBackdrop(between(1 - position / width, 0, 1))
 
       if (evt.isFirst === true) {
-        this.$refs.content.classList.add('no-transition')
+        flagPanning.value = true
       }
-    },
-
-    __show (evt, noEvent) {
-      this.__addHistory()
-
-      this.__setBackdropVisible(true)
-      evt !== false && this.layout.__animate()
-      this.__applyPosition(0)
-
-      if (this.belowBreakpoint === true) {
-        const otherSide = this.layout.instances[this.otherSide]
-        if (otherSide !== void 0 && otherSide.belowBreakpoint === true) {
-          otherSide.hide(false)
-        }
-
-        this.__applyBackdrop(1)
-        this.layout.container !== true && this.__preventScroll(true)
-      }
-      else {
-        this.__applyBackdrop(0)
-        evt !== false && this.__setScrollable(false)
-      }
-
-      this.__setTimeout(() => {
-        evt !== false && this.__setScrollable(true)
-        noEvent !== true && this.$emit('show', evt)
-      }, duration)
-    },
-
-    __hide (evt, noEvent) {
-      this.__removeHistory()
-
-      evt !== false && this.layout.__animate()
-
-      this.__applyBackdrop(0)
-      this.__applyPosition(this.stateDirection * this.size)
-      this.__setBackdropVisible(false)
-
-      this.__cleanup()
-
-      noEvent !== true && this.__setTimeout(() => {
-        this.$emit('hide', evt)
-      }, duration)
-    },
-
-    __cleanup () {
-      this.__preventScroll(false)
-      this.__setScrollable(true)
-    },
-
-    __update (prop, val) {
-      if (this.layout[this.side][prop] !== val) {
-        this.layout[this.side][prop] = val
-      }
-    },
-
-    __updateLocal (prop, val) {
-      if (this[prop] !== val) {
-        this[prop] = val
-      }
-    },
-
-    __updateSizeOnLayout (miniToOverlay, size) {
-      this.__update('size', miniToOverlay === true ? this.miniWidth : size)
     }
-  },
 
-  created () {
-    this.layout.instances[this.side] = this
-    this.__updateSizeOnLayout(this.miniToOverlay, this.size)
-    this.__update('space', this.onLayout)
-    this.__update('offset', this.offset)
+    function cleanup () {
+      preventBodyScroll(false)
+      setScrollable(true)
+    }
+
+    function updateLayout (prop, val) {
+      $layout.update(props.side, prop, val)
+    }
+
+    function updateLocal (prop, val) {
+      if (prop.value !== val) {
+        prop.value = val
+      }
+    }
+
+    function updateSizeOnLayout (miniToOverlay, size) {
+      updateLayout('size', miniToOverlay === true ? props.miniWidth : size)
+    }
+
+    $layout.instances[ props.side ] = instance
+    updateSizeOnLayout(props.miniToOverlay, size.value)
+    updateLayout('space', onLayout.value)
+    updateLayout('offset', offset.value)
 
     if (
-      this.showIfAbove === true &&
-      this.value !== true &&
-      this.showing === true &&
-      this.qListeners.input !== void 0
+      props.showIfAbove === true
+      && props.modelValue !== true
+      && showing.value === true
+      && props[ 'onUpdate:modelValue' ] !== void 0
     ) {
-      this.$emit('input', true)
-    }
-  },
-
-  mounted () {
-    this.$emit('on-layout', this.onLayout)
-    this.$emit('mini-state', this.isMini)
-
-    this.lastDesktopState = this.showIfAbove === true
-
-    const fn = () => {
-      const action = this.showing === true ? 'show' : 'hide'
-      this[`__${action}`](false, true)
+      emit('update:modelValue', true)
     }
 
-    if (this.layout.totalWidth !== 0) {
-      // make sure that all computed properties
-      // have been updated before calling __show/__hide()
-      this.$nextTick(fn)
-      return
-    }
+    onMounted(() => {
+      emit('on-layout', onLayout.value)
+      emit('mini-state', isMini.value)
 
-    this.watcher = this.$watch('layout.totalWidth', () => {
-      this.watcher()
-      this.watcher = void 0
+      lastDesktopState = props.showIfAbove === true
 
-      if (this.showing === false && this.showIfAbove === true && this.belowBreakpoint === false) {
-        this.show(false)
+      const fn = () => {
+        const action = showing.value === true ? handleShow : handleHide
+        action(false, true)
       }
-      else {
-        fn()
+
+      if ($layout.totalWidth.value !== 0) {
+        // make sure that all computed properties
+        // have been updated before calling handleShow/handleHide()
+        nextTick(fn)
+        return
+      }
+
+      layoutTotalWidthWatcher = watch($layout.totalWidth, () => {
+        layoutTotalWidthWatcher()
+        layoutTotalWidthWatcher = void 0
+
+        if (showing.value === false && props.showIfAbove === true && belowBreakpoint.value === false) {
+          show(false)
+        }
+        else {
+          fn()
+        }
+      })
+    })
+
+    onBeforeUnmount(() => {
+      layoutTotalWidthWatcher !== void 0 && layoutTotalWidthWatcher()
+      clearTimeout(timerMini)
+
+      showing.value === true && cleanup()
+
+      if ($layout.instances[ props.side ] === instance) {
+        $layout.instances[ props.side ] = void 0
+        updateLayout('size', 0)
+        updateLayout('offset', 0)
+        updateLayout('space', false)
       }
     })
-  },
 
-  beforeDestroy () {
-    this.watcher !== void 0 && this.watcher()
-    clearTimeout(this.timerMini)
+    return () => {
+      const child = []
 
-    this.showing === true && this.__cleanup()
+      if (belowBreakpoint.value === true) {
+        props.noSwipeOpen === false && child.push(
+          withDirectives(
+            h('div', {
+              key: 'open',
+              class: `q-drawer__opener fixed-${ props.side }`,
+              'aria-hidden': 'true'
+            }),
+            openDirective.value
+          )
+        )
 
-    if (this.layout.instances[this.side] === this) {
-      this.layout.instances[this.side] = void 0
-      this.__update('size', 0)
-      this.__update('offset', 0)
-      this.__update('space', false)
-    }
-  },
+        child.push(
+          hDir(
+            'div',
+            {
+              ref: 'backdrop',
+              class: backdropClass.value,
+              style: backdropStyle.value,
+              'aria-hidden': 'true',
+              onClick: hide
+            },
+            void 0,
+            'backdrop',
+            props.noSwipeBackdrop !== true && showing.value === true,
+            () => backdropCloseDirective.value
+          )
+        )
+      }
 
-  render (h) {
-    const child = []
-
-    if (this.belowBreakpoint === true) {
-      this.noSwipeOpen !== true && child.push(
+      const mini = isMini.value === true && slots.mini !== void 0
+      const content = [
         h('div', {
-          staticClass: `q-drawer__opener fixed-${this.side}`,
-          attrs: ariaHidden,
-          directives: this.openDirective
-        })
-      )
+          ...attrs,
+          key: '' + mini, // required otherwise Vue will not diff correctly
+          class: [
+            contentClass.value,
+            attrs.class
+          ]
+        }, mini === true
+          ? slots.mini()
+          : hSlot(slots.default)
+        )
+      ]
+
+      if (props.elevated === true && showing.value === true) {
+        content.push(
+          h('div', {
+            class: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
+          })
+        )
+      }
 
       child.push(
-        h('div', {
-          ref: 'backdrop',
-          staticClass: 'fullscreen q-drawer__backdrop',
-          class: this.backdropClass,
-          attrs: ariaHidden,
-          style: this.lastBackdropBg !== void 0
-            ? { backgroundColor: this.lastBackdropBg }
-            : null,
-          on: cache(this, 'bkdrop', { click: this.hide }),
-          directives: this.showing === false
-            ? void 0
-            : this.backdropCloseDirective
-        })
+        hDir(
+          'aside',
+          { ref: 'content', class: classes.value, style: style.value },
+          content,
+          'contentclose',
+          props.noSwipeClose !== true && belowBreakpoint.value === true,
+          () => contentCloseDirective.value
+        )
       )
+
+      return h('div', { class: 'q-drawer-container' }, child)
     }
-
-    const content = [
-      h('div', {
-        staticClass: 'q-drawer__content fit ' + (this.layout.container === true ? 'overflow-auto' : 'scroll'),
-        class: this.contentClass,
-        style: this.contentStyle
-      }, this.isMini === true && this.$scopedSlots.mini !== void 0
-        ? this.$scopedSlots.mini()
-        : slot(this, 'default')
-      )
-    ]
-
-    if (this.elevated === true && this.showing === true) {
-      content.push(
-        h('div', {
-          staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
-        })
-      )
-    }
-
-    child.push(
-      h('aside', {
-        ref: 'content',
-        staticClass: `q-drawer`,
-        class: this.classes,
-        style: this.style,
-        on: this.onNativeEvents,
-        directives: this.belowBreakpoint === true
-          ? this.contentCloseDirective
-          : void 0
-      }, content)
-    )
-
-    return h('div', { staticClass: 'q-drawer-container' }, child)
   }
 })

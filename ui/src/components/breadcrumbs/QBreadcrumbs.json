@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/breadcrumbs"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/breadcrumbs"
   },
 
   "props": {
@@ -51,10 +47,8 @@
   "slots": {
     "default": {
       "extends": "default"
-    }
-  },
+    },
 
-  "scopedSlots": {
     "separator": {
       "desc": "HTML or component you can slot in to separate the breadcrumbs",
       "scope": {}

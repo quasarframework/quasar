@@ -1,106 +1,135 @@
-import Vue from 'vue'
+import { defineComponent, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
-import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../../utils/scroll.js'
+import { getScrollTarget, getVerticalScrollPosition, getHorizontalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts, noop } from '../../utils/event.js'
 
 const { passive } = listenOpts
+const axisValues = [ 'both', 'horizontal', 'vertical' ]
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QScrollObserver',
 
   props: {
+    axis: {
+      type: String,
+      validator: v => axisValues.includes(v),
+      default: 'vertical'
+    },
+
     debounce: [ String, Number ],
-    horizontal: Boolean,
 
     scrollTarget: {
       default: void 0
     }
   },
 
-  render: noop, // eslint-disable-line
+  emits: [ 'scroll' ],
 
-  data () {
-    return {
-      pos: 0,
-      dir: this.horizontal === true ? 'right' : 'down',
-      dirChanged: false,
-      dirChangePos: 0
-    }
-  },
+  setup (props, { emit }) {
+    const scroll = {
+      position: {
+        top: 0,
+        left: 0
+      },
 
-  watch: {
-    scrollTarget () {
-      this.__unconfigureScrollTarget()
-      this.__configureScrollTarget()
-    }
-  },
+      direction: 'down',
+      directionChanged: false,
 
-  methods: {
-    getPosition () {
-      return {
-        position: this.pos,
-        direction: this.dir,
-        directionChanged: this.dirChanged,
-        inflexionPosition: this.dirChangePos
-      }
-    },
+      delta: {
+        top: 0,
+        left: 0
+      },
 
-    trigger (immediately) {
-      if (immediately === true || this.debounce === 0 || this.debounce === '0') {
-        this.__emit()
-      }
-      else if (!this.timer) {
-        this.timer = this.debounce
-          ? setTimeout(this.__emit, this.debounce)
-          : requestAnimationFrame(this.__emit)
-      }
-    },
-
-    __emit () {
-      const fn = this.horizontal === true
-        ? getHorizontalScrollPosition
-        : getScrollPosition
-
-      const
-        pos = Math.max(0, fn(this.__scrollTarget)),
-        delta = pos - this.pos,
-        dir = this.horizontal === true
-          ? delta < 0 ? 'left' : 'right'
-          : delta < 0 ? 'up' : 'down'
-
-      this.dirChanged = this.dir !== dir
-
-      if (this.dirChanged) {
-        this.dir = dir
-        this.dirChangePos = this.pos
-      }
-
-      this.timer = null
-      this.pos = pos
-      this.$emit('scroll', this.getPosition())
-    },
-
-    __configureScrollTarget () {
-      this.__scrollTarget = getScrollTarget(this.$el.parentNode, this.scrollTarget)
-      this.__scrollTarget.addEventListener('scroll', this.trigger, passive)
-      this.trigger(true)
-    },
-
-    __unconfigureScrollTarget () {
-      if (this.__scrollTarget !== void 0) {
-        this.__scrollTarget.removeEventListener('scroll', this.trigger, passive)
-        this.__scrollTarget = void 0
+      inflectionPoint: {
+        top: 0,
+        left: 0
       }
     }
-  },
 
-  mounted () {
-    this.__configureScrollTarget()
-  },
+    let timer = null, localScrollTarget, parentEl
 
-  beforeDestroy () {
-    clearTimeout(this.timer)
-    cancelAnimationFrame(this.timer)
-    this.__unconfigureScrollTarget()
+    watch(() => props.scrollTarget, () => {
+      unconfigureScrollTarget()
+      configureScrollTarget()
+    })
+
+    function emitEvent () {
+      timer = null
+
+      const top = Math.max(0, getVerticalScrollPosition(localScrollTarget))
+      const left = getHorizontalScrollPosition(localScrollTarget)
+
+      const delta = {
+        top: top - scroll.position.top,
+        left: left - scroll.position.left
+      }
+
+      if (
+        (props.axis === 'vertical' && delta.top === 0)
+        || (props.axis === 'horizontal' && delta.left === 0)
+      ) {
+        return
+      }
+
+      const curDir = Math.abs(delta.top) >= Math.abs(delta.left)
+        ? (delta.top < 0 ? 'up' : 'down')
+        : (delta.left < 0 ? 'left' : 'right')
+
+      scroll.position = { top, left }
+      scroll.directionChanged = scroll.direction !== curDir
+      scroll.delta = delta
+
+      if (scroll.directionChanged === true) {
+        scroll.direction = curDir
+        scroll.inflectionPoint = scroll.position
+      }
+
+      emit('scroll', { ...scroll })
+    }
+
+    function configureScrollTarget () {
+      localScrollTarget = getScrollTarget(parentEl, props.scrollTarget)
+      localScrollTarget.addEventListener('scroll', trigger, passive)
+      trigger(true)
+    }
+
+    function unconfigureScrollTarget () {
+      if (localScrollTarget !== void 0) {
+        localScrollTarget.removeEventListener('scroll', trigger, passive)
+        localScrollTarget = void 0
+      }
+    }
+
+    function trigger (immediately) {
+      if (immediately === true || props.debounce === 0 || props.debounce === '0') {
+        emitEvent()
+      }
+      else if (timer === null) {
+        timer = props.debounce
+          ? setTimeout(emitEvent, props.debounce)
+          : requestAnimationFrame(emitEvent)
+      }
+    }
+
+    const vm = getCurrentInstance()
+
+    onMounted(() => {
+      parentEl = vm.proxy.$el.parentNode
+      configureScrollTarget()
+    })
+
+    onBeforeUnmount(() => {
+      clearTimeout(timer)
+      cancelAnimationFrame(timer)
+      unconfigureScrollTarget()
+    })
+
+    // expose public methods
+    Object.assign(vm.proxy, {
+      trigger,
+      getPosition: () => scroll
+    })
+
+    return noop
   }
 })

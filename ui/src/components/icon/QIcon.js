@@ -1,18 +1,46 @@
-import Vue from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import SizeMixin from '../../mixins/size.js'
-import TagMixin from '../../mixins/tag.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useSize, { useSizeProps } from '../../composables/private/use-size.js'
+import { hSlot, hMergeSlot } from '../../utils/private/render.js'
 
-import { slot, mergeSlot } from '../../utils/slot.js'
+const sameFn = i => i
+const ionFn = i => `ionicons ${ i }`
 
-export default Vue.extend({
+const libMap = {
+  'icon-': sameFn, // fontawesome equiv
+  'bt-': i => `bt ${ i }`,
+  'eva-': i => `eva ${ i }`,
+  'ion-md': ionFn,
+  'ion-ios': ionFn,
+  'ion-logo': ionFn,
+  'mdi-': i => `mdi ${ i }`,
+  'iconfont ': sameFn,
+  'ti-': i => `themify-icon ${ i }`,
+  'bi-': i => `bootstrap-icons ${ i }`
+}
+
+const matMap = {
+  o_: '-outlined',
+  r_: '-round',
+  s_: '-sharp'
+}
+
+const libRE = new RegExp('^(' + Object.keys(libMap).join('|') + ')')
+const matRE = new RegExp('^(' + Object.keys(matMap).join('|') + ')')
+const mRE = /^M/
+const imgRE = /^img:/
+const svgUseRE = /^svguse:/
+const ionRE = /^ion-/
+const faLaRE = /^[l|f]a[s|r|l|b|d]? /
+
+export default defineComponent({
   name: 'QIcon',
 
-  mixins: [ ListenersMixin, SizeMixin, TagMixin ],
-
   props: {
+    ...useSizeProps,
+
     tag: {
+      type: String,
       default: 'i'
     },
 
@@ -22,36 +50,37 @@ export default Vue.extend({
     right: Boolean
   },
 
-  computed: {
-    classes () {
-      // "notranslate" class is for Google Translate
-      // to avoid tampering with Material Icons ligature font
-      return 'q-icon notranslate' +
-        (this.left === true ? ' on-left' : '') +
-        (this.right === true ? ' on-right' : '') +
-        (this.color !== void 0 ? ` text-${this.color}` : '')
-    },
+  setup (props, { slots }) {
+    const { proxy: { $q } } = getCurrentInstance()
+    const sizeStyle = useSize(props)
 
-    type () {
+    const classes = computed(() =>
+      'q-icon'
+      + (props.left === true ? ' on-left' : '')
+      + (props.right === true ? ' on-right' : '')
+      + (props.color !== void 0 ? ` text-${ props.color }` : '')
+    )
+
+    const type = computed(() => {
       let cls
-      let icon = this.name
+      let icon = props.name
 
       if (!icon) {
         return {
           none: true,
-          cls: this.classes
+          cls: classes.value
         }
       }
 
-      if (this.$q.iconMapFn !== void 0) {
-        const res = this.$q.iconMapFn(icon)
+      if ($q.iconMapFn !== null) {
+        const res = $q.iconMapFn(icon)
         if (res !== void 0) {
           if (res.icon !== void 0) {
             icon = res.icon
           }
           else {
             return {
-              cls: res.cls + ' ' + this.classes,
+              cls: res.cls + ' ' + classes.value,
               content: res.content !== void 0
                 ? res.content
                 : ' '
@@ -60,142 +89,114 @@ export default Vue.extend({
         }
       }
 
-      if (icon.startsWith('M') === true) {
+      if (mRE.test(icon) === true) {
         const [ def, viewBox ] = icon.split('|')
 
         return {
           svg: true,
-          cls: this.classes,
+          cls: classes.value,
           nodes: def.split('&&').map(path => {
             const [ d, style, transform ] = path.split('@@')
-            return this.$createElement('path', {
-              attrs: {
-                d,
-                transform
-              },
-              style
+            return h('path', {
+              style,
+              d,
+              transform
             })
           }),
           viewBox: viewBox !== void 0 ? viewBox : '0 0 24 24'
         }
       }
 
-      if (icon.startsWith('img:') === true) {
+      if (imgRE.test(icon) === true) {
         return {
           img: true,
-          cls: this.classes,
+          cls: classes.value,
           src: icon.substring(4)
         }
       }
 
-      if (icon.startsWith('svguse:') === true) {
+      if (svgUseRE.test(icon) === true) {
         const [ def, viewBox ] = icon.split('|')
 
         return {
           svguse: true,
-          cls: this.classes,
+          cls: classes.value,
           src: def.substring(7),
           viewBox: viewBox !== void 0 ? viewBox : '0 0 24 24'
         }
       }
 
       let content = ' '
+      const matches = icon.match(libRE)
 
-      if (/^[l|f]a[s|r|l|b|d]{0,1} /.test(icon) || icon.startsWith('icon-') === true) {
+      if (matches !== null) {
+        cls = libMap[ matches[ 1 ] ](icon)
+      }
+      else if (faLaRE.test(icon) === true) {
         cls = icon
       }
-      else if (icon.startsWith('bt-') === true) {
-        cls = `bt ${icon}`
-      }
-      else if (icon.startsWith('eva-') === true) {
-        cls = `eva ${icon}`
-      }
-      else if (/^ion-(md|ios|logo)/.test(icon) === true) {
-        cls = `ionicons ${icon}`
-      }
-      else if (icon.startsWith('ion-') === true) {
-        cls = `ionicons ion-${this.$q.platform.is.ios === true ? 'ios' : 'md'}${icon.substr(3)}`
-      }
-      else if (icon.startsWith('mdi-') === true) {
-        cls = `mdi ${icon}`
-      }
-      else if (icon.startsWith('iconfont ') === true) {
-        cls = `${icon}`
-      }
-      else if (icon.startsWith('ti-') === true) {
-        cls = `themify-icon ${icon}`
-      }
-      else if (icon.startsWith('bi-') === true) {
-        cls = `bootstrap-icons ${icon}`
+      else if (ionRE.test(icon) === true) {
+        cls = `ionicons ion-${ $q.platform.is.ios === true ? 'ios' : 'md' }${ icon.substr(3) }`
       }
       else {
-        cls = 'material-icons'
+        // "notranslate" class is for Google Translate
+        // to avoid tampering with Material Icons ligature font
+        //
+        // Caution: To be able to add suffix to the class name,
+        // keep the 'material-icons' at the end of the string.
+        cls = 'notranslate material-icons'
 
-        if (icon.startsWith('o_') === true) {
+        const matches = icon.match(matRE)
+        if (matches !== null) {
           icon = icon.substring(2)
-          cls += '-outlined'
-        }
-        else if (icon.startsWith('r_') === true) {
-          icon = icon.substring(2)
-          cls += '-round'
-        }
-        else if (icon.startsWith('s_') === true) {
-          icon = icon.substring(2)
-          cls += '-sharp'
+          cls += matMap[ matches[ 1 ] ]
         }
 
         content = icon
       }
 
       return {
-        cls: cls + ' ' + this.classes,
+        cls: cls + ' ' + classes.value,
         content
       }
-    }
-  },
+    })
 
-  render (h) {
-    const data = {
-      class: this.type.cls,
-      style: this.sizeStyle,
-      on: { ...this.qListeners },
-      attrs: {
+    return () => {
+      const data = {
+        class: type.value.cls,
+        style: sizeStyle.value,
         'aria-hidden': 'true',
         role: 'presentation'
       }
+
+      if (type.value.none === true) {
+        return h(props.tag, data, hSlot(slots.default))
+      }
+
+      if (type.value.img === true) {
+        data.src = type.value.src
+        return h('img', data)
+      }
+
+      if (type.value.svg === true) {
+        data.viewBox = type.value.viewBox
+
+        return h('svg', data, hMergeSlot(slots.default, type.value.nodes))
+      }
+
+      if (type.value.svguse === true) {
+        data.viewBox = type.value.viewBox
+
+        return h(
+          'svg',
+          data,
+          hMergeSlot(slots.default, [ h('use', { 'xlink:href': type.value.src }) ])
+        )
+      }
+
+      return h(props.tag, data, hMergeSlot(slots.default, [
+        type.value.content
+      ]))
     }
-
-    if (this.type.none === true) {
-      return h(this.tag, data, slot(this, 'default'))
-    }
-
-    if (this.type.img === true) {
-      data.attrs.src = this.type.src
-      return h('img', data)
-    }
-
-    if (this.type.svg === true) {
-      data.attrs.focusable = 'false' /* needed for IE11 */
-      data.attrs.viewBox = this.type.viewBox
-
-      return h('svg', data, mergeSlot(this.type.nodes, this, 'default'))
-    }
-    if (this.type.svguse === true) {
-      data.attrs.focusable = 'false' /* needed for IE11 */
-      data.attrs.viewBox = this.type.viewBox
-
-      return h('svg', data, [
-        h('use', {
-          attrs: {
-            'xlink:href': this.type.src
-          }
-        }),
-        mergeSlot(this.type.nodes, this, 'default')
-      ])
-    }
-
-    return h(this.tag, data, mergeSlot([
-      this.type.content
-    ], this, 'default'))
   }
 })

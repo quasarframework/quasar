@@ -7,7 +7,7 @@
     border-radius: inherit
     align-self: stretch
 
-    .q-btn__wrapper:before
+    &:before
       box-shadow: none
 
     .q-badge--floating
@@ -24,21 +24,18 @@
       > .q-btn:last-child
         border-top-right-radius: inherit
         border-bottom-right-radius: inherit
-  > .q-btn-group:not(:first-child) > .q-btn:first-child
-    .q-btn__wrapper:before
-      border-left: 0
-  > .q-btn-group:not(:last-child) > .q-btn:last-child
-    .q-btn__wrapper:before
-      border-right: 0
+  > .q-btn-group:not(:first-child) > .q-btn:first-child:before
+    border-left: 0
+  > .q-btn-group:not(:last-child) > .q-btn:last-child:before
+    border-right: 0
   > .q-btn-item:not(:last-child)
     border-top-right-radius: 0
     border-bottom-right-radius: 0
   > .q-btn-item:not(:first-child)
     border-top-left-radius: 0
     border-bottom-left-radius: 0
-  > .q-btn-item.q-btn--standard
-    .q-btn__wrapper:before
-      z-index: -1
+  > .q-btn-item.q-btn--standard:before
+    z-index: -1
 
   &--push
     border-radius: $button-push-border-radius
@@ -47,13 +44,15 @@
       &.q-btn--actionable
         transform: none
 
-        .q-btn__wrapper
-          transition: margin-top $button-transition, margin-bottom $button-transition, box-shadow $button-transition
+        .q-btn__content
+          transition: margin-top $button-transition, margin-bottom $button-transition
+
         &:active,
         &.q-btn--active
-          .q-btn__wrapper
+          .q-btn__content
             margin-top: 2px
             margin-bottom: -2px
+
   &--rounded
     border-radius: $button-rounded-border-radius
 
@@ -63,12 +62,10 @@
   &--outline
     > .q-separator
       display: none
-    > .q-btn-item + .q-btn-item
-      .q-btn__wrapper:before
-        border-left: 0
-    > .q-btn-item:not(:last-child)
-      .q-btn__wrapper:before
-        border-right: 0
+    > .q-btn-item + .q-btn-item:before
+      border-left: 0
+    > .q-btn-item:not(:last-child):before
+      border-right: 0
 
   &--stretch
     align-self: stretch

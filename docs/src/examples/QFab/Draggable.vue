@@ -26,26 +26,29 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const fabPos = ref([ 18, 18 ])
+    const draggingFab = ref(false)
+
     return {
-      fabPos: [ 18, 18 ],
-      draggingFab: false
-    }
-  },
+      fabPos,
+      draggingFab,
 
-  methods: {
-    onClick () {
-      // console.log('Clicked on a fab action')
-    },
+      onClick () {
+        // console.log('Clicked on a fab action')
+      },
 
-    moveFab (ev) {
-      this.draggingFab = ev.isFirst !== true && ev.isFinal !== true
+      moveFab (ev) {
+        draggingFab.value = ev.isFirst !== true && ev.isFinal !== true
 
-      this.fabPos = [
-        this.fabPos[0] - ev.delta.x,
-        this.fabPos[1] - ev.delta.y
-      ]
+        fabPos.value = [
+          fabPos.value[ 0 ] - ev.delta.x,
+          fabPos.value[ 1 ] - ev.delta.y
+        ]
+      }
     }
   }
 }

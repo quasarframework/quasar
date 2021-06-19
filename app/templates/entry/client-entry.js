@@ -9,9 +9,20 @@
  *
  * Boot files are your "main.js"
  **/
-<% if (__supportsIE) { %>
-import 'quasar/dist/quasar.ie.polyfills.js'
+
+<% if (ctx.mode.ssr && ctx.mode.pwa) { %>
+import { createSSRApp, createApp } from 'vue'
+import { isRunningOnPWA } from './ssr-pwa'
+<% } else { %>
+import { <%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %> } from 'vue'
 <% } %>
+
+<% if (ctx.mode.bex) { %>
+import { uid } from 'quasar'
+import BexBridge from './bex/bridge'
+<% } %>
+
+<% const bootEntries = boot.filter(asset => asset.client !== false) %>
 
 <% extras.length > 0 && extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
@@ -33,42 +44,15 @@ import 'quasar/src/css/flex-addon.<%= __css.quasarSrcExt %>'
 import '<%= asset.path %>'
 <% }) %>
 
-import Vue from 'vue'
-import createApp from './app.js'
+import createQuasarApp from './app.js'
+import quasarUserOptions from './quasar-user-options.js'
 
 <% if (ctx.mode.pwa) { %>
 import 'app/<%= sourceFiles.registerServiceWorker %>'
-<% if (ctx.mode.ssr) { %>
-import { isRunningOnPWA } from './ssr-pwa'
 <% } %>
-<% } %>
-
-<%
-const bootNames = []
-if (boot.length > 0) {
-  function hash (str) {
-    const name = str.replace(/\W+/g, '')
-    return name.charAt(0).toUpperCase() + name.slice(1)
-  }
-  boot.filter(asset => asset.client !== false).forEach(asset => {
-    let importName = 'qboot_' + hash(asset.path)
-    bootNames.push(importName)
-%>
-import <%= importName %> from '<%= asset.path %>'
-<% }) } %>
 
 <% if (preFetch) { %>
 import { addPreFetchHooks } from './client-prefetch.js'
-<% } %>
-
-<% if (ctx.mode.electron && electron.nodeIntegration === true) { %>
-import electron from 'electron'
-Vue.prototype.$q.electron = electron
-<% } %>
-
-<% if (ctx.dev || ctx.debug) { %>
-Vue.config.devtools = true
-Vue.config.productionTip = false
 <% } %>
 
 <% if (ctx.dev) { %>
@@ -91,10 +75,8 @@ const doubleSlashRE = /\/\//
 const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 <% } %>
 
-async function start () {
-  const { app, <%= store ? 'store, ' : '' %>router } = await createApp()
-
-  <% if (ctx.mode.ssr && store && ssr.manualHydration !== true) { %>
+async function start ({ app, router<%= store ? ', store, storeKey' : '' %> }<%= bootEntries.length > 0 ? ', bootFiles' : '' %>) {
+  <% if (ctx.mode.ssr && store && ssr.manualStoreHydration !== true) { %>
   // prime the store with server-initialized state.
   // the state is determined during SSR and inlined in the page markup.
   if (<% if (ctx.mode.pwa) { %>isRunningOnPWA !== true && <% } %>window.__INITIAL_STATE__) {
@@ -102,31 +84,25 @@ async function start () {
   }
   <% } %>
 
-  <% if (bootNames.length > 0) { %>
+  <% if (bootEntries.length > 0) { %>
   let hasRedirected = false
   const redirect = url => {
     hasRedirected = true
     const normalized = Object(url) === url
-      ? <%= build.publicPath.length <= 1 ? 'router.resolve(url).route.fullPath' : 'addPublicPath(router.resolve(url).route.fullPath)' %>
+      ? <%= build.publicPath.length <= 1 ? 'router.resolve(url).fullPath' : 'addPublicPath(router.resolve(url).fullPath)' %>
       : url
 
     window.location.href = normalized
   }
 
   const urlPath = window.location.href.replace(window.location.origin, '')
-  const bootFiles = [<%= bootNames.join(',') %>]
 
   for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
-    if (typeof bootFiles[i] !== 'function') {
-      continue
-    }
-
     try {
       await bootFiles[i]({
         app,
         router,
         <%= store ? 'store,' : '' %>
-        Vue,
         ssrContext: null,
         redirect,
         urlPath,
@@ -149,25 +125,26 @@ async function start () {
   }
   <% } %>
 
+  app.use(router)
+  <% if (store) { %>app.use(store, storeKey)<% } %>
+
   <% if (ctx.mode.ssr) { %>
     <% if (ctx.mode.pwa) { %>
       if (isRunningOnPWA === true) {
         <% if (preFetch) { %>
         addPreFetchHooks(router<%= store ? ', store' : '' %>)
         <% } %>
-        new Vue(app)
+        app.mount('#q-app')
       }
       else {
     <% } %>
-    const appInstance = new Vue(app)
-
     // wait until router has resolved all async before hooks
     // and async components...
-    router.onReady(() => {
+    router.isReady().then(() => {
       <% if (preFetch) { %>
       addPreFetchHooks(router<%= store ? ', store' : '' %>, publicPath)
       <% } %>
-      appInstance.$mount('#q-app')
+      app.mount('#q-app')
     })
     <% if (ctx.mode.pwa) { %>
     }
@@ -180,28 +157,80 @@ async function start () {
     <% } %>
 
     <% if (ctx.mode.cordova) { %>
-    document.addEventListener('deviceready', () => {
-    Vue.prototype.$q.cordova = window.cordova
-    <% } else if (ctx.mode.capacitor) { %>
-    Vue.prototype.$q.capacitor = window.Capacitor
-    <% } %>
-
-    <% if (!ctx.mode.bex) { %>
-      new Vue(app)
-    <% } %>
-
-    <% if (ctx.mode.cordova) { %>
-    }, false) // on deviceready
+      document.addEventListener('deviceready', () => {
+        app.config.globalProperties.$q.cordova = window.cordova
+        app.mount('#q-app')
+      }, false) // on deviceready
+    <% } else if (!ctx.mode.bex) { %>
+      app.mount('#q-app')
     <% } %>
 
     <% if (ctx.mode.bex) { %>
-      let vApp = null
-      window.QBexInit = function (shell) {
-        shell.connect(bridge => {
+      function connect () {
+        const buildConnection = (id, cb) => {
+          const port = chrome.runtime.connect({
+            name: 'app:' + id
+          })
+
+          let disconnected = false
+          port.onDisconnect.addListener(() => {
+            disconnected = true
+          })
+
+          let bridge = new BexBridge({
+            listen (fn) {
+              port.onMessage.addListener(fn)
+            },
+            send (data) {
+              if (!disconnected) {
+                port.postMessage(data)
+              }
+            }
+          })
+
+          cb(bridge)
+        }
+
+        const fallbackConnection = cb => {
+          // If we're not in a proper web browser tab, generate an id so we have a unique connection to whatever it is.
+          // this could be the popup window or the options window (As they don't have tab ids)
+          // If dev tools is available, it means we're on it. Use that for the id.
+          const tabId = chrome.devtools ? chrome.devtools.inspectedWindow.tabId : uid()
+          buildConnection(tabId, cb)
+        }
+
+        const shellConnect = cb => {
+          if (chrome.tabs && !chrome.devtools) {
+            // If we're on a web browser tab, use the current tab id to connect to the app.
+            chrome.tabs.getCurrent(tab => {
+              if (tab && tab.id) {
+                buildConnection(tab.id, cb)
+              }
+              else {
+                fallbackConnection(cb)
+              }
+            })
+          }
+          else {
+            fallbackConnection(cb)
+          }
+        }
+
+        shellConnect(bridge => {
           window.QBexBridge = bridge
-          Vue.prototype.$q.bex = window.QBexBridge
-          vApp = new Vue(app)
+          app.config.globalProperties.$q.bex = window.QBexBridge
+          app.mount('#q-app')
         })
+      }
+
+      if (chrome.runtime.id) {
+        // Chrome ~73 introduced a change which requires the background connection to be
+        // active before the client this makes sure the connection has had time before progressing.
+        // Could also implement a ping pattern and connect when a valid response is received
+        // but this way seems less overhead.
+        setTimeout(() => {
+          connect()
+        }, 300)
       }
     <% } %>
 
@@ -209,4 +238,25 @@ async function start () {
 
 }
 
-start()
+createQuasarApp(<%=
+  ctx.mode.ssr
+    ? (ctx.mode.pwa ? 'isRunningOnPWA ? createApp : createSSRApp' : 'createSSRApp')
+    : 'createApp'
+%>, quasarUserOptions)
+<% if (bootEntries.length > 0) { %>
+  .then(app => {
+    return Promise.all([
+      <% bootEntries.forEach((asset, index) => { %>
+      import(/* webpackMode: "eager" */ '<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
+      <% }) %>
+    ]).then(bootFiles => {
+      const boot = bootFiles
+        .map(entry => entry.default)
+        .filter(entry => typeof entry === 'function')
+
+      start(app, boot)
+    })
+  })
+<% } else { %>
+  .then(start)
+<% } %>

@@ -1,37 +1,40 @@
 .q-img
   position: relative
-  width: $img-width
+  width: 100%
   display: inline-block
   vertical-align: middle
+  overflow: hidden
 
   &__loading .q-spinner
     font-size: $img-loading-font-size
 
+  &__container
+    border-radius: inherit
+
   &__image
     border-radius: inherit
-    background-repeat: $img-background-repeat
+    width: 100%
+    height: 100%
+    opacity: 0
+
+    &--with-transition
+      transition: opacity .28s ease-in
+
+    &--loaded
+      opacity: 1
 
   &__content
-    overflow: hidden
     border-radius: inherit
+    pointer-events: none
 
     > div
+      pointer-events: all
       position: $img-content-position
       padding: $img-content-padding
       color: $img-content-color
       background: $img-content-background
 
-  &--menu
-    .q-img
-      &__image
-        pointer-events: none
-
-        > img
-          pointer-events: all
-          opacity: 0
-
-      &__content
-        pointer-events: none
-
-        > div
-          pointer-events: all
+  &--no-menu
+    .q-img__image,
+    .q-img__placeholder
+      pointer-events: none

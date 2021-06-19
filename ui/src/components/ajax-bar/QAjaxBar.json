@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/ajax-bar"
+    "docsUrl": "https://v2.quasar.dev/vue-components/ajax-bar"
   },
 
   "props": {
@@ -10,7 +10,7 @@
       "default": "top",
       "values": [ "top", "right", "bottom", "left" ],
       "examples": [ "bottom" ],
-      "category": "content"
+      "category": "style"
     },
 
     "size": {

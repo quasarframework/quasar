@@ -6,7 +6,6 @@
   outline: 0
   border: 0
   vertical-align: middle
-  padding: 0
   font-size: $button-font-size
   line-height: $button-line-height
   text-decoration: none
@@ -17,6 +16,9 @@
   text-align: center
   width: auto
   height: auto
+  cursor: default
+  padding: $button-padding
+  min-height: 2.572em
 
   .q-icon, .q-spinner
     font-size: $button-line-height
@@ -24,29 +26,22 @@
   &.disabled
     opacity: .7 !important
 
-  &__wrapper
-    padding: $button-padding
-    min-height: 2.572em
+  &:before
+    content: ''
+    display: block
+    position: absolute
+    left: 0
+    right: 0
+    top: 0
+    bottom: 0
     border-radius: inherit
-    width: 100%
-    height: 100%
-
-    &:before
-      content: ''
-      display: block
-      position: absolute
-      left: 0
-      right: 0
-      top: 0
-      bottom: 0
-      border-radius: inherit
-      box-shadow: $button-shadow
+    box-shadow: $button-shadow
 
   &--actionable
     cursor: pointer
 
     &.q-btn--standard
-      .q-btn__wrapper:before
+      &:before
         // This places the button active raise shadow behind adjacent elements
         // Active raise shadow will still be visible under adjacent transparent elements, this is ok and coherent with a desired transparency effect.
         // Visible active raise shadow can be removed by specifying a background color to the button
@@ -54,7 +49,7 @@
         transition: box-shadow $button-transition
       &:active,
       &.q-btn--active
-        .q-btn__wrapper:before
+        &:before
           box-shadow: $button-shadow-active
 
 
@@ -67,26 +62,26 @@
   &--outline
     background: transparent !important
 
-    .q-btn__wrapper:before
+    &:before
       border: 1px solid currentColor
 
   &--push
     border-radius: $button-push-border-radius
 
-    .q-btn__wrapper:before
+    &:before
       border-bottom: 3px solid rgba(0,0,0,.15)
 
     &.q-btn--actionable
       transition: transform $button-transition
 
-      .q-btn__wrapper:before
-        transition: top $button-transition, bottom $button-transition, border-bottom-width $button-transition
+      &:before
+        transition: border-width $button-transition
 
       &:active,
       &.q-btn--active
         transform: translateY(2px)
 
-        .q-btn__wrapper:before
+        &:before
           border-bottom-width: 0
 
   &--rounded
@@ -95,40 +90,42 @@
   &--round
     border-radius: 50%
 
-    .q-btn__wrapper
-      padding: 0
-      min-width: 3em
-      min-height: 3em
+    padding: 0
+    min-width: 3em
+    min-height: 3em
 
   &--flat, &--outline, &--unelevated
-    .q-btn__wrapper:before
+    &:before
       box-shadow: none
 
   &--dense
-    .q-btn__wrapper
-      padding: $button-dense-padding
-      min-height: 2em
+    padding: $button-dense-padding
+    min-height: 2em
+
     &.q-btn--round
-      .q-btn__wrapper
-        padding: 0
-        min-height: 2.4em
-        min-width: 2.4em
+      padding: 0
+      min-height: 2.4em
+      min-width: 2.4em
+
     .on-left
       margin-right: 6px
+
     .on-right
       margin-left: 6px
 
   &--fab, &--fab-mini
     .q-icon
       font-size: 24px
+
   &--fab
+    padding: 16px
+    min-height: 56px
+    min-width: 56px
+
     .q-icon
       margin: auto
-    .q-btn__wrapper
-      padding: 16px
-      min-height: 56px
-      min-width: 56px
-  &--fab-mini .q-btn__wrapper
+
+  &--fab-mini
     padding: 8px
     min-height: 40px
     min-width: 40px

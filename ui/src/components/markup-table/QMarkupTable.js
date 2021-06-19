@@ -1,47 +1,49 @@
-import Vue from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-import { slot } from '../../utils/slot.js'
+import { hSlot } from '../../utils/private/render.js'
 
-export default Vue.extend({
+const separatorValues = [ 'horizontal', 'vertical', 'cell', 'none' ]
+
+export default defineComponent({
   name: 'QMarkupTable',
 
-  mixins: [ DarkMixin, ListenersMixin ],
-
   props: {
+    ...useDarkProps,
+
     dense: Boolean,
     flat: Boolean,
     bordered: Boolean,
     square: Boolean,
+    wrapCells: Boolean,
+
     separator: {
       type: String,
       default: 'horizontal',
-      validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
-    },
-    wrapCells: Boolean
-  },
-
-  computed: {
-    classes () {
-      return `q-table--${this.separator}-separator` +
-        (this.isDark === true ? ` q-table--dark q-table__card--dark q-dark` : '') +
-        (this.dense === true ? ` q-table--dense` : '') +
-        (this.flat === true ? ` q-table--flat` : '') +
-        (this.bordered === true ? ` q-table--bordered` : '') +
-        (this.square === true ? ` q-table--square` : '') +
-        (this.wrapCells === false ? ` q-table--no-wrap` : '')
+      validator: v => separatorValues.includes(v)
     }
   },
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-markup-table q-table__container q-table__card',
-      class: this.classes,
-      on: { ...this.qListeners }
+  setup (props, { slots }) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
+
+    const classes = computed(() =>
+      'q-markup-table q-table__container q-table__card'
+      + ` q-table--${ props.separator }-separator`
+      + (isDark.value === true ? ' q-table--dark q-table__card--dark q-dark' : '')
+      + (props.dense === true ? ' q-table--dense' : '')
+      + (props.flat === true ? ' q-table--flat' : '')
+      + (props.bordered === true ? ' q-table--bordered' : '')
+      + (props.square === true ? ' q-table--square' : '')
+      + (props.wrapCells === false ? ' q-table--no-wrap' : '')
+    )
+
+    return () => h('div', {
+      class: classes.value
     }, [
-      h('table', { staticClass: 'q-table' }, slot(this, 'default'))
+      h('table', { class: 'q-table' }, hSlot(slots.default))
     ])
   }
 })

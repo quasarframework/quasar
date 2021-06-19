@@ -22,17 +22,17 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      basicModel: null,
-      limitModel: null
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    getNullLabel (val) {
-      return val === null ? 'null' : val
+export default {
+  setup () {
+    return {
+      basicModel: ref(null),
+      limitModel: ref(null),
+
+      getNullLabel (val) {
+        return val === null ? 'null' : val
+      }
     }
   }
 }

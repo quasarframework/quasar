@@ -58,21 +58,21 @@ export default {
         composed: evt.composed
       }
 
-      const filtered = this.log.filter(r => r[0] === evt.type)
+      const filtered = this.log.filter(r => r[ 0 ] === evt.type)
 
       if (filtered.length > 0) {
-        const old = filtered[0]
+        const old = filtered[ 0 ]
 
-        if (JSON.stringify(old[2]) === JSON.stringify(evtDump)) {
-          old[1]++
+        if (JSON.stringify(old[ 2 ]) === JSON.stringify(evtDump)) {
+          old[ 1 ]++
 
-          this.log = [...this.log]
+          this.log = [ ...this.log ]
 
           return
         }
       }
 
-      this.log.unshift([evt.type, 1, evtDump])
+      this.log.unshift([ evt.type, 1, evtDump ])
     },
 
     resetLog () {

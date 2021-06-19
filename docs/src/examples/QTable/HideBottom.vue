@@ -10,11 +10,11 @@
 
     <q-table
       title="Treats"
-      :data="records"
+      :rows="rows"
       :columns="columns"
       row-key="name"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
       :hide-bottom="hideBottom"
       :hide-selected-banner="hideSelectedBanner"
       :hide-no-data="hideNoData"
@@ -24,7 +24,24 @@
 </template>
 
 <script>
-const records = [
+import { ref, computed } from 'vue'
+
+const columns = [
+  {
+    name: 'name',
+    required: true,
+    label: 'Dessert (100g serving)',
+    align: 'left',
+    field: row => row.name,
+    format: val => `${val}`,
+    sortable: true
+  },
+  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
+  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' }
+]
+
+const rows = [
   {
     name: 'Frozen Yogurt',
     calories: 159,
@@ -88,38 +105,22 @@ const records = [
 ]
 
 export default {
-  data () {
+  setup () {
+    const hasData = ref(true)
+
     return {
-      hasData: true,
-      hideBottom: false,
-      hideSelectedBanner: false,
-      hideNoData: false,
-      hidePagination: false,
+      hasData,
+      hideBottom: ref(false),
+      hideSelectedBanner: ref(false),
+      hideNoData: ref(false),
+      hidePagination: ref(false),
 
-      selected: [ records[1] ],
+      selected: ref([rows[ 1 ]]),
 
-      columns: [
-        {
-          name: 'name',
-          required: true,
-          label: 'Dessert (100g serving)',
-          align: 'left',
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' }
-      ]
-    }
-  },
+      columns,
+      rows,
 
-  computed: {
-    records () {
-      return this.hasData === true
-        ? records
-        : []
+      records: computed(() => hasData.value === true ? rows : [])
     }
   }
 }

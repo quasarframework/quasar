@@ -1,6 +1,7 @@
 ---
 title: Pull to refresh
 desc: The QPullToRefresh Vue component allows the user to pull down in order to refresh or retrieve the newest content on a page.
+keys: QPullToRefresh
 related:
   - /vue-components/infinite-scroll
   - /vue-components/intersection
@@ -10,6 +11,7 @@ related:
 The QPullToRefresh is a component that allows the user to pull down in order to refresh page content (or retrieve the newest content).
 
 ## QPullToRefresh API
+
 <doc-api file="QPullToRefresh" />
 
 ## Usage
@@ -28,7 +30,7 @@ To refresh, pull down (with mouse or through finger touch) on the content below 
 
 <doc-example title="Custom icon" file="QPullToRefresh/Icon" />
 
-### Custom coloring <q-badge align="top" color="brand-primary" label="v1.9.5+" />
+### Custom coloring
 
 <doc-example title="Custom coloring" file="QPullToRefresh/CustomColoring" />
 

@@ -23,10 +23,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      value: 50
+      value: ref(50)
     }
   }
 }

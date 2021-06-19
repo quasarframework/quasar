@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     focus (index) {
-      const el = this.$refs[`focus_${index}`]
+      const el = this.$refs[ `focus_${ index }` ]
       el !== void 0 && el.focus()
     }
   }

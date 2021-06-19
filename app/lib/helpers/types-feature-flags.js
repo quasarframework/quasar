@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const fse = require('fs-extra')
 
-const { warn } = require('./logger')
+const { log } = require('./logger')
 const getMode = require('../mode/index')
 const appPaths = require('../app-paths')
 
@@ -21,7 +21,6 @@ module.exports = function regenerateTypesFeatureFlags(quasarConf) {
     'pwa',
     'cordova',
     'capacitor',
-    'electron',
     'ssr',
     'store',
     'bex'
@@ -40,7 +39,7 @@ module.exports = function regenerateTypesFeatureFlags(quasarConf) {
 
     if (isFeatureInstalled && !fs.existsSync(destFlagPath)) {
       fse.copySync(sourceFlagPath, destFlagPath)
-      warn(`'${feature}' feature flag was missing and has been regenerated`)
+      log(`'${feature}' feature flag was missing and has been regenerated`)
     }
   }
 }

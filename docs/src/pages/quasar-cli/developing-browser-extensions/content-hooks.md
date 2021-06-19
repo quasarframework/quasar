@@ -19,12 +19,16 @@ For example, let's say we want to react to a button being pressed on our Quasar 
 ```js
 // Quasar App, /src
 
-methods: {
-  myButtonClickHandler () {
-    this.$q.bex.send('highlight.content.event', { someData: 'someValue '}).then(r => {
+setup () {
+  const $q = useQuasar()
+
+  function myButtonClickHandler () {
+    $q.bex.send('highlight.content.event', { someData: 'someValue '}).then(r => {
       console.log('Text has been highlighted')
     })
   }
+
+  return { myButtonClickHandler }
 }
 ```
 

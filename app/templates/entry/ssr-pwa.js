@@ -1,2 +1,2 @@
 export const isRunningOnPWA = typeof window !== 'undefined' &&
-  document.querySelector('[data-server-rendered]') === null
+  document.body.getAttribute('data-server-rendered') === null

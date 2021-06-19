@@ -21,27 +21,30 @@
 </template>
 
 <script>
+import { ref, onBeforeUnmount } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const counter = ref(0)
+    let timer
+
+    function stopCounting () {
+      clearInterval(timer)
+    }
+
+    onBeforeUnmount(stopCounting)
+
     return {
-      counter: 0
+      counter,
+
+      startCounting () {
+        timer = setInterval(() => {
+          counter.value++
+        }, 1000)
+      },
+
+      stopCounting
     }
-  },
-
-  methods: {
-    startCounting () {
-      this.timer = setInterval(() => {
-        this.counter++
-      }, 1000)
-    },
-
-    stopCounting () {
-      clearInterval(this.timer)
-    }
-  },
-
-  beforeDestroy () {
-    this.stopCounting()
   }
 }
 </script>

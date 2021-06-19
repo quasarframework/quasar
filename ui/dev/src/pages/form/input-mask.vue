@@ -138,7 +138,7 @@ export default {
     },
 
     variableMask1 () {
-      if (this.variableMaskValue1[1] === '8' || (this.variableMaskValue1[1] === '.' && this.variableMaskValue1[2] === '8')) {
+      if (this.variableMaskValue1[ 1 ] === '8' || (this.variableMaskValue1[ 1 ] === '.' && this.variableMaskValue1[ 2 ] === '8')) {
         return '#.###.###'
       }
       else {
@@ -147,7 +147,7 @@ export default {
     },
 
     variableMask2 () {
-      if (this.variableMaskValue2[1] === '8' || (this.variableMaskValue2[1] === '.' && this.variableMaskValue2[2] === '8')) {
+      if (this.variableMaskValue2[ 1 ] === '8' || (this.variableMaskValue2[ 1 ] === '.' && this.variableMaskValue2[ 2 ] === '8')) {
         return '#.###.###'
       }
       else {
@@ -156,7 +156,7 @@ export default {
     },
 
     variableMask3 () {
-      if (this.variableMaskValue3[1] === '8' || (this.variableMaskValue3[1] === '.' && this.variableMaskValue3[2] === '8')) {
+      if (this.variableMaskValue3[ 1 ] === '8' || (this.variableMaskValue3[ 1 ] === '.' && this.variableMaskValue3[ 2 ] === '8')) {
         return '#.###.###'
       }
       else {

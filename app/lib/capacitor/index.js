@@ -143,7 +143,7 @@ class CapacitorRunner {
           this.__cleanup()
 
           if (code) {
-            fatal(`[FAIL] Capacitor CLI has failed`)
+            fatal('Capacitor CLI has failed', 'FAIL')
           }
 
           resolve && resolve()

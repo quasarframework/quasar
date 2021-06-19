@@ -14,10 +14,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      current: 3
+      current: ref(3)
     }
   }
 }

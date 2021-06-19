@@ -30,6 +30,7 @@ If applicable, add screenshots to help explain your problem.
 Quasar Version:
 @quasar/app Version:
 Quasar mode:
+<<<<<<< HEAD
   - [ ] SPA
   - [ ] SSR
   - [ ] PWA
@@ -47,6 +48,23 @@ Tested on:
   - [ ] Capacitor
   - [ ] BEX
 
+=======
+  [ ] SPA
+  [ ] SSR
+  [ ] PWA
+  [ ] Electron
+  [ ] Cordova
+  [ ] Capacitor
+  [ ] BEX
+Tested on:
+  [ ] SPA
+  [ ] SSR
+  [ ] PWA
+  [ ] Electron
+  [ ] Cordova
+  [ ] Capacitor
+  [ ] BEX
+>>>>>>> vue3-work
 OS:
 Node:
 NPM:

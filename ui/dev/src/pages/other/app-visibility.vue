@@ -40,10 +40,10 @@ export default {
       const date = new Date()
 
       this.eventList.unshift({
-        timestamp: pad(date.getHours()) + ':' +
-            pad(date.getMinutes()) + ':' + pad(date.getSeconds()) + '.' +
-            date.getMilliseconds(),
-        label: ` App became ${state ? 'visible' : 'hidden'}`
+        timestamp: pad(date.getHours()) + ':'
+            + pad(date.getMinutes()) + ':' + pad(date.getSeconds()) + '.'
+            + date.getMilliseconds(),
+        label: ` App became ${ state ? 'visible' : 'hidden' }`
       })
     }
   }

@@ -6,7 +6,6 @@
         <q-tabs class="text-grey-7" v-model="exportTab" active-color="primary" align="justify">
           <q-tab name="sass" no-caps label="Sass" />
           <q-tab name="scss" no-caps label="SCSS" />
-          <q-tab name="styl" no-caps label="Stylus" />
           <q-tab name="quasar-cli" no-caps label="Quasar CLI" />
           <q-tab name="umd" no-caps label="UMD" />
           <q-tab name="vue-cli" no-caps label="Vue CLI" />
@@ -21,10 +20,6 @@
 
           <q-tab-panel class="q-pa-none" name="scss">
             <pre>{{ scssExport }}</pre>
-          </q-tab-panel>
-
-          <q-tab-panel class="q-pa-none" name="styl">
-            <pre>{{ stylusExport }}</pre>
           </q-tab-panel>
 
           <q-tab-panel class="q-pa-none" name="quasar-cli">
@@ -51,8 +46,8 @@
 </template>
 
 <script>
-import { colors } from 'quasar'
-const { setBrand, luminosity } = colors
+import { colors, setCssVar } from 'quasar'
+const { luminosity } = colors
 
 export default {
   data () {
@@ -85,8 +80,8 @@ export default {
       darkMode: false,
       exportDialog: false,
       exportTab: 'sass',
-      list: ['primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning'],
-      sideColors: ['secondary', 'dark', 'positive', 'negative', 'info', 'warning']
+      list: [ 'primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning' ],
+      sideColors: [ 'secondary', 'dark', 'positive', 'negative', 'info', 'warning' ]
     }
   },
 
@@ -132,59 +127,46 @@ export default {
     },
 
     sassExport () {
-      return `// src/css/quasar.variables.sass\n\n` +
-        `$primary   : ${this.colors.primary}\n` +
-        `$secondary : ${this.colors.secondary}\n` +
-        `$accent    : ${this.colors.accent}\n\n` +
-        `$dark      : ${this.colors.dark}\n\n` +
-        `$positive  : ${this.colors.positive}\n` +
-        `$negative  : ${this.colors.negative}\n` +
-        `$info      : ${this.colors.info}\n` +
-        `$warning   : ${this.colors.warning}`
+      return '// src/css/quasar.variables.sass\n\n'
+        + `$primary   : ${ this.colors.primary }\n`
+        + `$secondary : ${ this.colors.secondary }\n`
+        + `$accent    : ${ this.colors.accent }\n\n`
+        + `$dark      : ${ this.colors.dark }\n\n`
+        + `$positive  : ${ this.colors.positive }\n`
+        + `$negative  : ${ this.colors.negative }\n`
+        + `$info      : ${ this.colors.info }\n`
+        + `$warning   : ${ this.colors.warning }`
     },
 
     scssExport () {
-      return `// src/css/quasar.variables.scss\n\n` +
-        `$primary   : ${this.colors.primary};\n` +
-        `$secondary : ${this.colors.secondary};\n` +
-        `$accent    : ${this.colors.accent};\n\n` +
-        `$dark      : ${this.colors.dark};\n\n` +
-        `$positive  : ${this.colors.positive};\n` +
-        `$negative  : ${this.colors.negative};\n` +
-        `$info      : ${this.colors.info};\n` +
-        `$warning   : ${this.colors.warning};`
-    },
-
-    stylusExport () {
-      return `// src/css/quasar.variables.styl\n\n` +
-        `$primary   = ${this.colors.primary}\n` +
-        `$secondary = ${this.colors.secondary}\n` +
-        `$accent    = ${this.colors.accent}\n\n` +
-        `$dark      = ${this.colors.dark}\n\n` +
-        `$positive  = ${this.colors.positive}\n` +
-        `$negative  = ${this.colors.negative}\n` +
-        `$info      = ${this.colors.info}\n` +
-        `$warning   = ${this.colors.warning}`
+      return '// src/css/quasar.variables.scss\n\n'
+        + `$primary   : ${ this.colors.primary };\n`
+        + `$secondary : ${ this.colors.secondary };\n`
+        + `$accent    : ${ this.colors.accent };\n\n`
+        + `$dark      : ${ this.colors.dark };\n\n`
+        + `$positive  : ${ this.colors.positive };\n`
+        + `$negative  : ${ this.colors.negative };\n`
+        + `$info      : ${ this.colors.info };\n`
+        + `$warning   : ${ this.colors.warning };`
     },
 
     quasarCliExport () {
       return `// quasar.conf.js
-// (will not work for IE11)
 
 return {
   framework: {
     config: {
       brand: {
-        primary: '${this.colors.primary}',
-        secondary: '${this.colors.secondary}',
-        accent: '${this.colors.accent}',
+        primary: '${ this.colors.primary }',
+        secondary: '${ this.colors.secondary }',
+        accent: '${ this.colors.accent }',
 
-        dark: '${this.colors.dark}',
+        dark: '${ this.colors.dark }',
 
-        positive: '${this.colors.positive}',
-        negative: '${this.colors.negative}',
-        info: '${this.colors.info}',
-        warning: '${this.colors.warning}'
+        positive: '${ this.colors.positive }',
+        negative: '${ this.colors.negative }',
+        info: '${ this.colors.info }',
+        warning: '${ this.colors.warning }'
       }
     }
   }
@@ -192,42 +174,40 @@ return {
     },
 
     umdExport () {
-      return `// place before including Quasar UMD script
-// (will not work for IE11)
+      return `app.use(Quasar, {
+  config: {
+    brand: {
+      primary: '${ this.colors.primary }',
+      secondary: '${ this.colors.secondary }',
+      accent: '${ this.colors.accent }',
 
-window.quasarConfig = {
-  brand: {
-    primary: '${this.colors.primary}',
-    secondary: '${this.colors.secondary}',
-    accent: '${this.colors.accent}',
+      dark: '${ this.colors.dark }',
 
-    dark: '${this.colors.dark}',
-
-    positive: '${this.colors.positive}',
-    negative: '${this.colors.negative}',
-    info: '${this.colors.info}',
-    warning: '${this.colors.warning}'
+      positive: '${ this.colors.positive }',
+      negative: '${ this.colors.negative }',
+      info: '${ this.colors.info }',
+      warning: '${ this.colors.warning }'
+    }
   }
 }`
     },
 
     vueCliExport () {
       return `// main.js
-// (will not work for IE11)
 
-Vue.use(Quasar, {
+app.use(Quasar, {
   config: {
     brand: {
-      primary: '${this.colors.primary}',
-      secondary: '${this.colors.secondary}',
-      accent: '${this.colors.accent}',
+      primary: '${ this.colors.primary }',
+      secondary: '${ this.colors.secondary }',
+      accent: '${ this.colors.accent }',
 
-      dark: '${this.colors.dark}',
+      dark: '${ this.colors.dark }',
 
-      positive: '${this.colors.positive}',
-      negative: '${this.colors.negative}',
-      info: '${this.colors.info}',
-      warning: '${this.colors.warning}'
+      positive: '${ this.colors.positive }',
+      negative: '${ this.colors.negative }',
+      info: '${ this.colors.info }',
+      warning: '${ this.colors.warning }'
     }
   }
 })`
@@ -236,8 +216,8 @@ Vue.use(Quasar, {
 
   methods: {
     update (color, val) {
-      setBrand(color, val, document.getElementById('theme-picker'))
-      this.dark[color] = luminosity(val) <= 0.4
+      setCssVar(color, val, document.getElementById('theme-picker'))
+      this.dark[ color ] = luminosity(val) <= 0.4
     }
   }
 }

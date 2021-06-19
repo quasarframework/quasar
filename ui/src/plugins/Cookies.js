@@ -1,5 +1,3 @@
-import { isSSR } from './Platform.js'
-
 function encode (string) {
   return encodeURIComponent(string)
 }
@@ -49,10 +47,10 @@ function parseExpireString (str) {
   const minutes = str.match(/(\d+)m/)
   const seconds = str.match(/(\d+)s/)
 
-  if (days) { timestamp += days[1] * 864e+5 }
-  if (hours) { timestamp += hours[1] * 36e+5 }
-  if (minutes) { timestamp += minutes[1] * 6e+4 }
-  if (seconds) { timestamp += seconds[1] * 1000 }
+  if (days) { timestamp += days[ 1 ] * 864e+5 }
+  if (hours) { timestamp += hours[ 1 ] * 36e+5 }
+  if (minutes) { timestamp += minutes[ 1 ] * 6e+4 }
+  if (seconds) { timestamp += seconds[ 1 ] * 1000 }
 
   return timestamp === 0
     ? str
@@ -81,7 +79,7 @@ function set (key, val, opts = {}, ssr) {
     }
   }
 
-  const keyValue = `${encode(key)}=${stringifyCookieValue(val)}`
+  const keyValue = `${ encode(key) }=${ stringifyCookieValue(val) }`
 
   const cookie = [
     keyValue,
@@ -113,14 +111,14 @@ function set (key, val, opts = {}, ssr) {
       const val = get(key, ssr)
       if (val !== undefined) {
         all = all
-          .replace(`${key}=${val}; `, '')
-          .replace(`; ${key}=${val}`, '')
-          .replace(`${key}=${val}`, '')
+          .replace(`${ key }=${ val }; `, '')
+          .replace(`; ${ key }=${ val }`, '')
+          .replace(`${ key }=${ val }`, '')
       }
     }
     else {
       all = all
-        ? `${keyValue}; ${all}`
+        ? `${ keyValue }; ${ all }`
         : cookie
     }
 
@@ -144,12 +142,12 @@ function get (key, ssr) {
     cookie
 
   for (; i < l; i++) {
-    parts = cookies[i].split('=')
+    parts = cookies[ i ].split('=')
     name = decode(parts.shift())
     cookie = parts.join('=')
 
     if (!key) {
-      result[name] = cookie
+      result[ name ] = cookie
     }
     else if (key === name) {
       result = read(cookie)
@@ -183,22 +181,24 @@ export function getObject (ssr) {
   }
 }
 
-export default {
-  parseSSR (ssrContext) {
-    return ssrContext !== void 0
+const Plugin = {
+  install ({ $q, ssrContext }) {
+    $q.cookies = __QUASAR_SSR_SERVER__
       ? getObject(ssrContext)
       : this
-  },
+  }
+}
 
-  install ({ $q, queues }) {
-    if (isSSR === true) {
-      queues.server.push((q, ctx) => {
-        q.cookies = getObject(ctx.ssr)
-      })
-    }
-    else {
-      Object.assign(this, getObject())
-      $q.cookies = this
+if (__QUASAR_SSR__) {
+  Plugin.parseSSR = ssrContext => {
+    if (ssrContext !== void 0) {
+      return getObject(ssrContext)
     }
   }
 }
+
+if (__QUASAR_SSR_SERVER__ !== true) {
+  Object.assign(Plugin, getObject())
+}
+
+export default Plugin

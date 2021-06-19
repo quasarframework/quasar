@@ -1,9 +1,9 @@
 {
-  "mixins": [ "mixins/model-toggle", "mixins/fab" ],
+  "mixins": [ "composables/private/use-model-toggle", "components/fab/use-fab" ],
 
   "props": {
-    "value": {
-      "desc": "Controls state of fab actions (showing/hidden); Works best with v-model directive, otherwise use along listening to 'input' event",
+    "model-value": {
+      "desc": "Controls state of fab actions (showing/hidden); Works best with v-model directive, otherwise use along listening to 'update:modelValue' event",
       "category": "model"
     },
 
@@ -18,8 +18,7 @@
     "hide-icon": {
       "type": "Boolean",
       "desc": "Hide the icon (don't use any)",
-      "category": "style|content",
-      "addedIn": "v1.9.14"
+      "category": "style|content"
     },
 
     "direction": {
@@ -36,8 +35,7 @@
       "desc": "The side of the Fab where Fab Actions will expand (only when direction is 'up' or 'down')",
       "default": "center",
       "values": [ "left", "center", "right" ],
-      "category": "style|content",
-      "addedIn": "v1.9.0"
+      "category": "style|content"
     },
 
     "persistent": {
@@ -58,7 +56,7 @@
   },
 
   "events": {
-    "input": {
+    "update:model-value": {
       "desc": "Emitted when fab actions are shown/hidden; Captured by v-model directive"
     }
   },

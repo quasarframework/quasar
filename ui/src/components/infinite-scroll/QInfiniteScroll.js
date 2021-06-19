@@ -1,17 +1,13 @@
-import Vue from 'vue'
-
-import ListenersMixin from '../../mixins/listeners.js'
+import { h, defineComponent, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import debounce from '../../utils/debounce.js'
 import { height } from '../../utils/dom.js'
-import { getScrollTarget, getScrollHeight, getScrollPosition, setScrollPosition } from '../../utils/scroll.js'
+import { getScrollTarget, getScrollHeight, getVerticalScrollPosition, setVerticalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
-import { slot, uniqueSlot } from '../../utils/slot.js'
+import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QInfiniteScroll',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     offset: {
@@ -34,183 +30,186 @@ export default Vue.extend({
     reverse: Boolean
   },
 
-  data () {
-    return {
-      index: this.initialIndex || 0,
-      fetching: false,
-      working: true
-    }
-  },
+  emits: [ 'load' ],
 
-  watch: {
-    disable (val) {
-      if (val === true) {
-        this.stop()
-      }
-      else {
-        this.resume()
-      }
-    },
+  setup (props, { slots, emit }) {
+    const fetching = ref(false)
+    const rootRef = ref(null)
 
-    scrollTarget () {
-      this.updateScrollTarget()
-    },
+    let index = props.initialIndex || 0
+    let isWorking = true
+    let localScrollTarget, poll
 
-    debounce (val) {
-      this.__setDebounce(val)
-    }
-  },
+    const classes = computed(() =>
+      'q-infinite-scroll__loading'
+      + (fetching.value === true ? '' : ' invisible')
+    )
 
-  methods: {
-    poll () {
-      if (this.disable === true || this.fetching === true || this.working === false) {
+    function immediatePoll () {
+      if (props.disable === true || fetching.value === true || isWorking === false) {
         return
       }
 
       const
-        scrollHeight = getScrollHeight(this.__scrollTarget),
-        scrollPosition = getScrollPosition(this.__scrollTarget),
-        containerHeight = height(this.__scrollTarget)
+        scrollHeight = getScrollHeight(localScrollTarget),
+        scrollPosition = getVerticalScrollPosition(localScrollTarget),
+        containerHeight = height(localScrollTarget)
 
-      if (this.reverse === false) {
-        if (scrollPosition + containerHeight + this.offset >= scrollHeight) {
-          this.trigger()
+      if (props.reverse === false) {
+        if (scrollPosition + containerHeight + props.offset >= scrollHeight) {
+          trigger()
         }
       }
       else {
-        if (scrollPosition < this.offset) {
-          this.trigger()
+        if (scrollPosition < props.offset) {
+          trigger()
         }
       }
-    },
+    }
 
-    trigger () {
-      if (this.disable === true || this.fetching === true || this.working === false) {
+    function trigger () {
+      if (props.disable === true || fetching.value === true || isWorking === false) {
         return
       }
 
-      this.index++
-      this.fetching = true
+      index++
+      fetching.value = true
 
-      const heightBefore = getScrollHeight(this.__scrollTarget)
+      const heightBefore = getScrollHeight(localScrollTarget)
 
-      this.$emit('load', this.index, stop => {
-        if (this.working === true) {
-          this.fetching = false
-          this.$nextTick(() => {
-            if (this.reverse === true) {
+      emit('load', index, isDone => {
+        if (isWorking === true) {
+          fetching.value = false
+          nextTick(() => {
+            if (props.reverse === true) {
               const
-                heightAfter = getScrollHeight(this.__scrollTarget),
-                scrollPosition = getScrollPosition(this.__scrollTarget),
+                heightAfter = getScrollHeight(localScrollTarget),
+                scrollPosition = getVerticalScrollPosition(localScrollTarget),
                 heightDifference = heightAfter - heightBefore
 
-              setScrollPosition(this.__scrollTarget, scrollPosition + heightDifference)
+              setVerticalScrollPosition(localScrollTarget, scrollPosition + heightDifference)
             }
 
-            if (stop === true) {
-              this.stop()
+            if (isDone === true) {
+              stop()
             }
-            else {
-              this.$el.closest('body') && this.poll()
+            else if (rootRef.value) {
+              rootRef.value.closest('body') && poll()
             }
           })
         }
       })
-    },
+    }
 
-    reset () {
-      this.index = 0
-    },
+    function reset () {
+      index = 0
+    }
 
-    resume () {
-      if (this.working === false) {
-        this.working = true
-        this.__scrollTarget.addEventListener('scroll', this.poll, listenOpts.passive)
-      }
-      this.immediatePoll()
-    },
-
-    stop () {
-      if (this.working === true) {
-        this.working = false
-        this.fetching = false
-        this.__scrollTarget.removeEventListener('scroll', this.poll, listenOpts.passive)
-      }
-    },
-
-    updateScrollTarget () {
-      if (this.__scrollTarget && this.working === true) {
-        this.__scrollTarget.removeEventListener('scroll', this.poll, listenOpts.passive)
+    function resume () {
+      if (isWorking === false) {
+        isWorking = true
+        localScrollTarget.addEventListener('scroll', poll, listenOpts.passive)
       }
 
-      this.__scrollTarget = getScrollTarget(this.$el, this.scrollTarget)
+      immediatePoll()
+    }
 
-      if (this.working === true) {
-        this.__scrollTarget.addEventListener('scroll', this.poll, listenOpts.passive)
+    function stop () {
+      if (isWorking === true) {
+        isWorking = false
+        fetching.value = false
+        localScrollTarget.removeEventListener('scroll', poll, listenOpts.passive)
       }
-    },
+    }
 
-    setIndex (index) {
-      this.index = index
-    },
+    function updateScrollTarget () {
+      if (localScrollTarget && isWorking === true) {
+        localScrollTarget.removeEventListener('scroll', poll, listenOpts.passive)
+      }
 
-    __setDebounce (val) {
+      localScrollTarget = getScrollTarget(rootRef.value, props.scrollTarget)
+
+      if (isWorking === true) {
+        localScrollTarget.addEventListener('scroll', poll, listenOpts.passive)
+      }
+    }
+
+    function setIndex (newIndex) {
+      index = newIndex
+    }
+
+    // expose public methods
+    const vm = getCurrentInstance()
+    Object.assign(vm.proxy, {
+      poll: () => poll.apply(null, arguments),
+      trigger, stop, reset, resume, setIndex
+    })
+
+    function setDebounce (val) {
       val = parseInt(val, 10)
 
-      const oldPoll = this.poll
+      const oldPoll = poll
 
-      this.poll = val <= 0
-        ? this.immediatePoll
-        : debounce(this.immediatePoll, isNaN(val) === true ? 100 : val)
+      poll = val <= 0
+        ? immediatePoll
+        : debounce(immediatePoll, isNaN(val) === true ? 100 : val)
 
-      if (this.__scrollTarget && this.working === true) {
+      if (localScrollTarget && isWorking === true) {
         if (oldPoll !== void 0) {
-          this.__scrollTarget.removeEventListener('scroll', oldPoll, listenOpts.passive)
+          localScrollTarget.removeEventListener('scroll', oldPoll, listenOpts.passive)
         }
 
-        this.__scrollTarget.addEventListener('scroll', this.poll, listenOpts.passive)
+        localScrollTarget.addEventListener('scroll', poll, listenOpts.passive)
       }
     }
-  },
 
-  mounted () {
-    this.immediatePoll = this.poll
-    this.__setDebounce(this.debounce)
+    watch(() => props.disable, val => {
+      if (val === true) {
+        stop()
+      }
+      else {
+        resume()
+      }
+    })
 
-    this.updateScrollTarget()
+    watch(() => props.scrollTarget, updateScrollTarget)
+    watch(() => props.debounce, setDebounce)
 
-    if (this.reverse === true) {
-      const
-        scrollHeight = getScrollHeight(this.__scrollTarget),
-        containerHeight = height(this.__scrollTarget)
+    onBeforeUnmount(() => {
+      if (isWorking === true) {
+        localScrollTarget.removeEventListener('scroll', poll, listenOpts.passive)
+      }
+    })
 
-      setScrollPosition(this.__scrollTarget, scrollHeight - containerHeight)
+    onMounted(() => {
+      setDebounce(props.debounce)
+
+      updateScrollTarget()
+
+      if (props.reverse === true) {
+        const
+          scrollHeight = getScrollHeight(localScrollTarget),
+          containerHeight = height(localScrollTarget)
+
+        setVerticalScrollPosition(localScrollTarget, scrollHeight - containerHeight)
+      }
+
+      immediatePoll()
+    })
+
+    return () => {
+      const child = hUniqueSlot(slots.default, [])
+
+      if (props.disable !== true && isWorking === true) {
+        child[ props.reverse === false ? 'push' : 'unshift' ](
+          h('div', { class: classes.value }, hSlot(slots.loading))
+        )
+      }
+
+      return h('div', {
+        class: 'q-infinite-scroll',
+        ref: rootRef
+      }, child)
     }
-
-    this.immediatePoll()
-  },
-
-  beforeDestroy () {
-    if (this.working === true) {
-      this.__scrollTarget.removeEventListener('scroll', this.poll, listenOpts.passive)
-    }
-  },
-
-  render (h) {
-    const child = uniqueSlot(this, 'default', [])
-
-    if (this.disable !== true && this.working === true) {
-      child[this.reverse === false ? 'push' : 'unshift'](
-        h('div', {
-          staticClass: 'q-infinite-scroll__loading',
-          class: this.fetching === true ? '' : 'invisible'
-        }, slot(this, 'loading'))
-      )
-    }
-
-    return h('div', {
-      staticClass: 'q-infinite-scroll',
-      on: { ...this.qListeners }
-    }, child)
   }
 })

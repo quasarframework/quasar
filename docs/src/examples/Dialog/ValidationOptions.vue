@@ -7,10 +7,14 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+
 export default {
-  methods: {
-    radio () {
-      this.$q.dialog({
+  setup () {
+    const $q = useQuasar()
+
+    function radio () {
+      $q.dialog({
         title: 'Options',
         message: 'Choose your option, but make sure it\'s the second one :)',
         options: {
@@ -29,10 +33,10 @@ export default {
       }).onOk(data => {
         // console.log('>>>> OK, received', data)
       })
-    },
+    }
 
-    checkbox () {
-      this.$q.dialog({
+    function checkbox () {
+      $q.dialog({
         title: 'Options',
         message: 'Choose your options, but make sure you also pick the second one.',
         options: {
@@ -51,10 +55,10 @@ export default {
       }).onOk(data => {
         // console.log('>>>> OK, received', data)
       })
-    },
+    }
 
-    toggle () {
-      this.$q.dialog({
+    function toggle () {
+      $q.dialog({
         title: 'Options',
         message: 'Choose your options, but make sure you also pick the first two.',
         options: {
@@ -74,6 +78,8 @@ export default {
         // console.log('>>>> OK, received', data)
       })
     }
+
+    return { radio, checkbox, toggle }
   }
 }
 </script>

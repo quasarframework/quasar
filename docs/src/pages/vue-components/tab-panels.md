@@ -1,6 +1,7 @@
 ---
 title: Tab Panels
 desc: The QTabPanel Vue component is a way of displaying more information using less window real estate.
+keys: QTabPanel,QTabPanels
 related:
   - /vue-components/tabs
 ---
@@ -68,6 +69,6 @@ In the example below, use your mouse to swipe through the panels or, if on a tou
 
 <doc-example title="Swipeable and infinite" file="QTabPanels/Swipeable" />
 
-### Vertical swipeable and infinite <q-badge align="top" color="brand-primary" label="v1.9+" />
+### Vertical swipeable and infinite
 
 <doc-example title="Vertical swipeable and infinite" file="QTabPanels/VerticalSwipeable" />

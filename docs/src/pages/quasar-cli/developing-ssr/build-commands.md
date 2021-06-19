@@ -20,3 +20,11 @@ $ quasar build -m ssr
 $ quasar build --mode ssr
 ```
 
+If you want a production build with debugging enabled:
+
+```bash
+$ quasar build -m ssr -d
+
+# ..or the longer form
+$ quasar build -m ssr --debug
+```

@@ -14,17 +14,8 @@
 import vueDevtools from '@vue/devtools'
 <% } %>
 
-import Vue from 'vue'
-import './import-quasar.js'
-
-<% if (ctx.mode.ssr) { %>
-import <%= framework.importStrategy === 'all' ? 'Quasar' : '{ Quasar }' %> from 'quasar'
-<% if (ctx.mode.pwa) { %>
-import { isRunningOnPWA } from './ssr-pwa'
-<% } %>
-<% } %>
-
-import App from 'app/<%= sourceFiles.rootComponent %>'
+import { Quasar } from 'quasar'
+import <%= __needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
 
 <% if (store) { %>
 import createStore from 'app/<%= sourceFiles.store %>'
@@ -47,30 +38,12 @@ import createRouter from 'app/<%= sourceFiles.router %>'
   <% } %>
 <% } %>
 
-
-export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
-  // create store and router instances
-  <% if (store) { %>
-  const store = typeof createStore === 'function'
-    ? await createStore({Vue<%= ctx.mode.ssr ? ', ssrContext' : '' %>})
-    : createStore
-  <% } %>
-  const router = typeof createRouter === 'function'
-    ? await createRouter({Vue<%= ctx.mode.ssr ? ', ssrContext' : '' %><%= store ? ', store' : '' %>})
-    : createRouter
-  <% if (store) { %>
-  // make router instance available in store
-  store.$router = router
-  <% } %>
-
-  // Create the app instantiation Object.
-  // Here we inject the router, store to all child components,
-  // making them available everywhere as `this.$router` and `this.$store`.
-  const app = {
-    router,
-    <%= store ? 'store,' : '' %>
-    render: h => h(App)<% if (__needsAppMountHook === true) { %>,
-    mounted () {
+<% if (__needsAppMountHook === true) { %>
+import { defineComponent, h, onMounted<%= ctx.mode.ssr && ssr.manualPostHydrationTrigger !== true ? ', getCurrentInstance' : '' %> } from 'vue'
+const RootComponent = defineComponent({
+  name: 'AppWrapper',
+  setup (props) {
+    onMounted(() => {
       <% if (ctx.mode.capacitor && __versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
       SplashScreen.hide()
       <% } %>
@@ -78,31 +51,56 @@ export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
       <% if (__vueDevtools !== false) { %>
       vueDevtools.connect('<%= __vueDevtools.host %>', <%= __vueDevtools.port %>)
       <% } %>
-    }<% } %>
-  }
 
+      <% if (ctx.mode.ssr && ssr.manualPostHydrationTrigger !== true) { %>
+      const { proxy: { $q } } = getCurrentInstance()
+      $q.onSSRHydrated !== void 0 && $q.onSSRHydrated()
+      <% } %>
+    })
 
-  <% if (ctx.mode.ssr) { %>
-    <% if (ctx.mode.pwa) { %>
-  if (isRunningOnPWA === true) {
-    app.el = '#q-app'
+    return () => h(AppComponent, props)
   }
-  else {
-    Quasar.ssrUpdate({ app, ssr: ssrContext })
-  }
-    <% } else { %>
-  Quasar.ssrUpdate({ app, ssr: ssrContext })
-    <% } %>
-  <% } else { %>
-  app.el = '#q-app'
+})
+<% } %>
+
+export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? ', ssrContext' : '' %>) {
+  // create store and router instances
+  <% if (store) { %>
+  const store = typeof createStore === 'function'
+    ? await createStore({<%= ctx.mode.ssr ? 'ssrContext' : '' %>})
+    : createStore
+
+  // obtain Vuex injection key in case we use TypeScript
+  const { storeKey } = await import('app/<%= sourceFiles.store %>');
+  <% } %>
+  const router = typeof createRouter === 'function'
+    ? await createRouter({<%= ctx.mode.ssr ? 'ssrContext' + (store ? ',' : '') : '' %><%= store ? 'store' : '' %>})
+    : createRouter
+  <% if (store) { %>
+  // make router instance available in store
+  store.$router = router
   <% } %>
 
-  // expose the app, the router and the store.
-  // note we are not mounting the app here, since bootstrapping will be
+  // Create the app instance.
+  // Here we inject into it the Quasar UI, the router & possibly the store.
+  const app = createAppFn(RootComponent)
+
+  <% if (ctx.dev || ctx.debug) { %>
+  app.config.devtools = true
+  <% } %>
+
+  app.use(Quasar, quasarUserOptions<%= ctx.mode.ssr ? ', ssrContext' : '' %>)
+
+  <% if (ctx.mode.capacitor) { %>
+  app.config.globalProperties.$q.capacitor = window.Capacitor
+  <% } %>
+
+  // Expose the app, the router and the store.
+  // Note that we are not mounting the app here, since bootstrapping will be
   // different depending on whether we are in a browser or on the server.
   return {
     app,
-    <%= store ? 'store,' : '' %>
+    <%= store ? 'store, storeKey,' : '' %>
     router
   }
 }

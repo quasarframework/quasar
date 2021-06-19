@@ -11,7 +11,7 @@ The shadows are in accordance to Material Design specifications (24 levels of de
 | --- | --- |
 | `no-shadow` | Remove any shadow |
 | `inset-shadow` | Set an inset shadow on top |
-| `inset-shadow-down` | Set an inset shadow on bottom (**v1.14.7+**) |
+| `inset-shadow-down` | Set an inset shadow on bottom |
 | `shadow-1` | Set a depth of 1 |
 | `shadow-2` | Set a depth of 2 |
 | `shadow-N` | Where `N` is an integer from 1 to 24. |

@@ -50,10 +50,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model: null,
+      model: ref(null),
 
       options: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'

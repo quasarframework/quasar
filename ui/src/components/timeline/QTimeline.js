@@ -1,22 +1,16 @@
-import Vue from 'vue'
+import { h, defineComponent, computed, provide, getCurrentInstance } from 'vue'
 
-import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-import { slot } from '../../utils/slot.js'
+import { hSlot } from '../../utils/private/render.js'
+import { timelineKey } from '../../utils/private/symbols.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QTimeline',
 
-  mixins: [ DarkMixin, ListenersMixin ],
-
-  provide () {
-    return {
-      __timeline: this
-    }
-  },
-
   props: {
+    ...useDarkProps,
+
     color: {
       type: String,
       default: 'primary'
@@ -24,27 +18,26 @@ export default Vue.extend({
     side: {
       type: String,
       default: 'right',
-      validator: v => ['left', 'right'].includes(v)
+      validator: v => [ 'left', 'right' ].includes(v)
     },
     layout: {
       type: String,
       default: 'dense',
-      validator: v => ['dense', 'comfortable', 'loose'].includes(v)
+      validator: v => [ 'dense', 'comfortable', 'loose' ].includes(v)
     }
   },
 
-  computed: {
-    classes () {
-      return `q-timeline--${this.layout} q-timeline--${this.layout}--${this.side}` +
-        (this.isDark === true ? ' q-timeline--dark' : '')
-    }
-  },
+  setup (props, { slots }) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
 
-  render (h) {
-    return h('ul', {
-      staticClass: 'q-timeline',
-      class: this.classes,
-      on: { ...this.qListeners }
-    }, slot(this, 'default'))
+    provide(timelineKey, props)
+
+    const classes = computed(() =>
+      `q-timeline q-timeline--${ props.layout } q-timeline--${ props.layout }--${ props.side }`
+      + (isDark.value === true ? ' q-timeline--dark' : '')
+    )
+
+    return () => h('ul', { class: classes.value }, hSlot(slots.default))
   }
 })

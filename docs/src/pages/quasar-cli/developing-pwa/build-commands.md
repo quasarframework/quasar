@@ -29,3 +29,12 @@ $ quasar build -m pwa
 # ..or the longer form:
 $ quasar build --mode pwa
 ```
+
+If you want a production build with debugging enabled:
+
+```bash
+$ quasar build -m pwa -d
+
+# ..or the longer form
+$ quasar build -m pwa --debug
+```

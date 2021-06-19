@@ -9,7 +9,7 @@ Full list of Quasar CLI commands: [Commands List](/quasar-cli/commands-list).
 :::
 
 ### Development
-> Starts a Node.js local development server.
+Starts a Node.js local development server.
 
 ``` bash
 # run development server (with default theme)
@@ -39,7 +39,7 @@ $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 ```
 
 ### Production
-> Build assets for production.
+Build assets for production.
 
 ``` bash
 # build for production

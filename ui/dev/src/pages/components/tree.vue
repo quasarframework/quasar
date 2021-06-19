@@ -28,7 +28,7 @@
             <span class="text-bold">Expanded</span>:<br>{{ expanded }}
           </div>
           <div v-if="selectableNodes" class="col-xs-12 col-md-6" style="min-height: 60px">
-            <span class="text-bold">Selected</span>:<br>{{ selected }}
+            <span class="text-bold">Selected</span>:<br>{{ selected || 'null' }}
           </div>
           <div class="col-xs-12 col-md-6">
             <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />
@@ -43,10 +43,10 @@
           :nodes="nodes"
           node-key="key"
           children-key="subnodes"
-          :selected.sync="selected"
+          v-model:selected="selected"
           :tick-strategy="tickStrategy"
-          :ticked.sync="ticked"
-          :expanded.sync="expanded"
+          v-model:ticked="ticked"
+          v-model:expanded="expanded"
           :dark="dark"
           :accordion="accordion"
           :color="color"
@@ -476,14 +476,15 @@ export default {
         const label = node.label.replace(' - Lazy load', '')
 
         done([
-          { label: `${label}.1` },
-          { label: `${label}.2` },
-          { label: `${label}.3`, lazy: true },
+          { label: `${ label }.1`, key: `${ label }.1` },
+          { label: `${ label }.2`, key: `${ label }.2` },
+          { label: `${ label }.3`, key: `${ label }.3`, lazy: true },
           {
-            label: `${label}.4`,
+            label: `${ label }.4`,
+            key: `${ label }.4`,
             subnodes: [
-              { label: `${label}.4.1`, lazy: true },
-              { label: `${label}.4.2`, lazy: true }
+              { label: `${ label }.4.1`, key: `${ label }.4.1`, lazy: true },
+              { label: `${ label }.4.2`, key: `${ label }.4.2`, lazy: true }
             ]
           }
         ])

@@ -1,6 +1,7 @@
 ---
 title: Fullscreen Plugin
 desc: A Quasar plugin to toggle the fullscreen state of your app through the Web Fullscreen API.
+keys: AppFullScreen
 ---
 There are times when you want your website or App to run in fullscreen.
 Quasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API).
@@ -10,6 +11,7 @@ Please note that the behavior is different depending on the platform the code is
 :::
 
 ## AppFullscreen API
+
 <doc-api file="AppFullscreen" />
 
 ## Installation
@@ -20,49 +22,55 @@ Please note that the behavior is different depending on the platform the code is
 For an exhaustive list of properties and methods, please check out the API section.
 :::
 
-``` js
+```js
 // outside of a Vue file
 import { AppFullscreen } from 'quasar'
 
 // Requesting fullscreen mode:
 AppFullscreen.request()
-  .then(() => { // v1.5.0+
+  .then(() => {
     // success!
   })
-  .catch(err => { // v1.5.0+
+  .catch(err => {
     // oh, no!!!
   })
 
 // Exiting fullscreen mode:
 AppFullscreen.exit()
-  .then(() => { // v1.5.0+
+  .then(() => {
     // success!
   })
-  .catch(err => { // v1.5.0+
+  .catch(err => {
     // oh, no!!!
   })
 ```
 
-``` js
+```js
 // inside of a Vue file
 
-// Requesting fullscreen mode:
-this.$q.fullscreen.request()
-  .then(() => { // v1.5.0+
-    // success!
-  })
-  .catch(err => { // v1.5.0+
-    // oh, no!!!
-  })
+import { useQuasar } from 'quasar'
 
-// Exiting fullscreen mode:
-this.$q.fullscreen.exit()
-  .then(() => { // v1.5.0+
-    // success!
-  })
-  .catch(err => { // v1.5.0+
-    // oh, no!!!
-  })
+setup () {
+  const $q = useQuasar()
+
+  // Requesting fullscreen mode:
+  $q.fullscreen.request()
+    .then(() => {
+      // success!
+    })
+    .catch(err => {
+      // oh, no!!!
+    })
+
+  // Exiting fullscreen mode:
+  $q.fullscreen.exit()
+    .then(() => {
+      // success!
+    })
+    .catch(err => {
+      // oh, no!!!
+    })
+}
 ```
 
 <doc-example title="Basic" file="AppFullscreen/Basic" />
@@ -79,15 +87,20 @@ It all depends on the Web Fullscreen API support of the platform the code is run
 
 ## Watching for fullscreen changes
 
-``` vue
+```vue
 <template>...</template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { watch } from 'vue'
+
 export default {
-  watch: {
-    '$q.fullscreen.isActive' (val) {
+  setup () {
+    const $q = useQuasar()
+
+    watch(() => $q.fullscreen.isActive, val => {
       console.log(val ? 'In fullscreen now' : 'Exited fullscreen')
-    }
+    })
   }
 }
 </script>

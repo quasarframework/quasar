@@ -1,6 +1,7 @@
 ---
 title: Tabs
 desc: The QTabs, QTab and QRouteTab Vue components are a way of helping the user navigate between pages or tab panels.
+keys: QTabs,QTab,QRouteTab
 related:
   - /vue-components/tab-panels
   - /vue-components/button-toggle
@@ -27,20 +28,17 @@ Works great along with [QTabPanels](/vue-components/tab-panels), a component whi
 
 <doc-api file="QRouteTab" />
 
-::: warning
-QRouteTab won't and cannot work with the UMD version because in that environment you don't have Vue Router.
-:::
-
 ## Usage
 
-::: tip
-QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action.
+::: tip TIPS
+* QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action.
+* On a desktop you will see chevrons on either side that can be clicked.
+* On a mobile, you can pan the tabs with your finger.
+* If you want to force arrows to be visible on mobile use `mobile-arrows` prop.
+:::
 
-On a desktop you will see chevrons on either side that can be clicked.
-
-On a mobile, you can pan the tabs with your finger.
-
-If you want to force arrows to be visible on mobile use `mobile-arrows` prop.
+::: warning
+QRouteTab won't and cannot work with the UMD version if you don't also install Vue Router.
 :::
 
 ### Basic
@@ -75,7 +73,7 @@ In the examples below, please notice the last two QTabs: indicator at top and no
 
 ### Tab notifications
 
-There are multiple ways to display tab notifications: with a QBadge, through an alert dot or (v1.9.14+) an alert icon (can be any).
+There are multiple ways to display tab notifications: with a QBadge, through an alert dot or an alert icon (can be any).
 
 <doc-example title="Tab notifications" file="QTabs/Notifying" />
 
@@ -157,7 +155,7 @@ QRouteTab becomes "active" depending on your app's route and not due to the v-mo
 export default {
   methods: {
     navDelay (e, go) {
-      e.navigate = false // we cancel the default navigation
+      e.preventDefault() // we cancel the default navigation
 
       // console.log('triggering navigation in 2s')
       setTimeout(() => {
@@ -167,12 +165,11 @@ export default {
     },
 
     navCancel (e) {
-      e.navigate = false // we cancel the default navigation
+      e.preventDefault() // we cancel the default navigation
     },
 
     navRedirect (e, go) {
-      e.navigate = false // we cancel the default navigation
-
+      e.preventDefault() // we cancel the default navigation
       go({ query: { tab: '2', noScroll: true } })
     },
 

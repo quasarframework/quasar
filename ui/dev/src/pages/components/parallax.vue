@@ -42,12 +42,12 @@
             right: 0
           }"
         >
-          <img src="https://cdn.quasar.dev/img/quasar-logo.png" style="width: 150px; height: 150px">
+          <img src="https://cdn.quasar.dev/logo-v2/128/logo-dark.png" style="width: 150px; height: 150px">
           <div class="text-h3 text-white text-center">
             Quasar Framework
           </div>
           <div class="text-h6 text-grey-3 text-center">
-            Scoped slot
+            Using content slot
           </div>
         </div>
       </template>

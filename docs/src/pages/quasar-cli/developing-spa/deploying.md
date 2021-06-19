@@ -26,6 +26,7 @@ Common choices for web servers are [nginx](https://www.nginx.com/), [Caddy](http
 The web server requires no special setup (unless you built with Vue Router in "history" mode in `quasar.conf.js`). The main requirement is to be able to serve static files from a directory, so consult the documentation of your web server on how to set up static file serving.
 
 An example config for nginx may look like this:
+
 ```
 server {
     listen 80 http2;
@@ -111,7 +112,7 @@ The Vercel CLI should now display information regarding your deployment, like th
 ### Vercel configuration tips
 You should consider adding some additional configurations to your project.
 
-* Since Vercel expects the _build_ script to be defined, you may add in `package.json` the following scripts: 
+* Since Vercel expects the _build_ script to be defined, you may add in `package.json` the following scripts:
 ```json
   {
     ..

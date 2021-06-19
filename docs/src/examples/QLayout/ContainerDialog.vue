@@ -69,12 +69,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      dialog: false,
-      drawerLeft: false,
-      drawerRight: true
+      dialog: ref(false),
+      drawerLeft: ref(false),
+      drawerRight: ref(true)
     }
   }
 }

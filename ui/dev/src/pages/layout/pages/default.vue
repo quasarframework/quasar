@@ -45,9 +45,9 @@
   </q-page>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .page-default-padding
-  padding-top calc(2.5rem + 50px)
+  padding-top: calc(2.5rem + 50px)
 </style>
 
 <script>

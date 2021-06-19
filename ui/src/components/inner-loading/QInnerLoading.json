@@ -1,12 +1,8 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "composables/private/use-size", "composables/private/use-transition" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/inner-loading"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/inner-loading"
   },
 
   "props": {
@@ -24,16 +20,6 @@
     "size": {
       "desc": "Size in CSS units, including unit name, or standard size name (xs|sm|md|lg|xl), for the inner Spinner (unless using the default slot)",
       "default": "42px"
-    },
-
-    "transition-show": {
-      "extends": "transition",
-      "default": "fade"
-    },
-
-    "transition-hide": {
-      "extends": "transition",
-      "default": "fade"
     },
 
     "dark": {

@@ -9,15 +9,18 @@
         :max="9999"
         label="Scroll to index"
         input-class="text-right"
+        outlined
       />
       <q-btn
         class="q-ml-sm"
         label="Go"
         no-caps
         color="primary"
-        @click="$refs.virtualListRef.scrollTo(virtualListIndex, 'start-force')"
+        @click="executeScroll"
       />
     </div>
+
+    <q-separator />
 
     <q-virtual-scroll
       ref="virtualListRef"
@@ -45,6 +48,8 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
+
 const maxSize = 10000
 const heavyList = []
 
@@ -54,23 +59,27 @@ for (let i = 0; i < maxSize; i++) {
   })
 }
 
-Object.freeze(heavyList)
-
 export default {
-  data () {
+  setup () {
+    const virtualListRef = ref(null)
+    const virtualListIndex = ref(1200)
+
+    onMounted(() => {
+      virtualListRef.value.scrollTo(virtualListIndex.value)
+    })
+
     return {
       heavyList,
-      virtualListIndex: 1200
-    }
-  },
+      virtualListRef,
+      virtualListIndex,
 
-  mounted () {
-    this.$refs.virtualListRef.scrollTo(this.virtualListIndex)
-  },
+      onVirtualScroll ({ index }) {
+        virtualListIndex.value = index
+      },
 
-  methods: {
-    onVirtualScroll ({ index }) {
-      this.virtualListIndex = index
+      executeScroll () {
+        virtualListRef.value.scrollTo(virtualListIndex.value, 'start-force')
+      }
     }
   }
 }

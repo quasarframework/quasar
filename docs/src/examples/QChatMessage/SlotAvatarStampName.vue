@@ -1,7 +1,5 @@
 <template>
   <div class="q-pa-md row justify-center">
-    <!-- The "name" and "stamp" slots require Quasar v1.15.14+ -->
-
     <div style="width: 100%; max-width: 400px">
       <q-chat-message
         :text="['Have you seen Quasar?']"

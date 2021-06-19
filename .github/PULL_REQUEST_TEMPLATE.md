@@ -25,7 +25,7 @@ If yes, please describe the impact and migration path for existing applications:
 
 **The PR fulfills these requirements:**
 
-- [ ] It's submitted to the `dev` branch and _not_ the `master` branch
+- [ ] It's submitted to the `dev` branch (or `v[X]` branch)
 - [ ] When resolving a specific issue, it's referenced in the PR's title (e.g. `fix: #xxx[,#xxx]`, where "xxx" is the issue number)
 - [ ] It's been tested on a Cordova (iOS, Android) app
 - [ ] It's been tested on a Electron app

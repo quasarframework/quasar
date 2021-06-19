@@ -33,18 +33,20 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      password: '',
-      isPwd: true,
+import { ref } from 'vue'
 
-      email: '',
-      search: '',
-      tel: '',
-      url: '',
-      time: '',
-      date: ''
+export default {
+  setup () {
+    return {
+      password: ref(''),
+      isPwd: ref(true),
+
+      email: ref(''),
+      search: ref(''),
+      tel: ref(''),
+      url: ref(''),
+      time: ref(''),
+      date: ref('')
     }
   }
 }

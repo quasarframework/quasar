@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <q-dialog attr="test" v-model="alert" content-class="test-class" no-esc-dismiss>
+    <q-dialog attr="test" v-model="alert" class="test-class" no-esc-dismiss>
       <q-card>
         <q-card-section>
           <div class="text-h6">
@@ -58,7 +58,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog attr="test" :value="alert" content-class="test-class" no-esc-dismiss seamless position="bottom">
+    <q-dialog attr="test" :model-value="alert" class="test-class" no-esc-dismiss seamless position="bottom">
       <q-card>
         <q-card-section>
           <div class="text-h6">
@@ -150,7 +150,7 @@
           <q-space />
 
           <q-btn dense flat icon="close" v-close-popup>
-            <q-tooltip content-class="bg-white text-primary">
+            <q-tooltip class="bg-white text-primary">
               Close
             </q-tooltip>
           </q-btn>
@@ -172,7 +172,7 @@
       <q-card>
         <q-toolbar>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
           </q-avatar>
 
           <q-toolbar-title><span class="text-weight-bold">Quasar</span> Framework</q-toolbar-title>
@@ -296,17 +296,17 @@
           <q-space />
 
           <q-btn dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
-            <q-tooltip v-if="maximizedToggle" content-class="bg-white text-primary">
+            <q-tooltip v-if="maximizedToggle" class="bg-white text-primary">
               Minimize
             </q-tooltip>
           </q-btn>
           <q-btn dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle">
-            <q-tooltip v-if="!maximizedToggle" content-class="bg-white text-primary">
+            <q-tooltip v-if="!maximizedToggle" class="bg-white text-primary">
               Maximize
             </q-tooltip>
           </q-btn>
           <q-btn dense flat icon="close" v-close-popup>
-            <q-tooltip content-class="bg-white text-primary">
+            <q-tooltip class="bg-white text-primary">
               Close
             </q-tooltip>
           </q-btn>
@@ -876,7 +876,7 @@ export default {
 
       select: 'ten',
       selectMultiple: [],
-      selectOptions: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+      selectOptions: [ 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten' ],
       selectOptionsFiltered: [],
 
       closePopupTest: false,
@@ -900,7 +900,7 @@ export default {
     openSpecialPosition (position) {
       this.$q.dialog({
         title: 'Positioned',
-        message: `This dialog appears from ${position}.`,
+        message: `This dialog appears from ${ position }.`,
         position
       })
     },

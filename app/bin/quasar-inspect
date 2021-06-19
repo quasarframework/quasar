@@ -52,31 +52,14 @@ const { log, fatal } = require('../lib/helpers/logger')
 if (argv.mode !== 'spa') {
   const getMode = require('../lib/mode/index')
   if (getMode(argv.mode).isInstalled !== true) {
-    fatal('Requested mode for inspection is NOT installed.\n')
+    fatal('Requested mode for inspection is NOT installed.')
   }
 }
 
 const QuasarConfFile = require('../lib/quasar-conf-file')
+const { splitWebpackConfig } = require('../lib/webpack/symbols')
 
 const depth = parseInt(argv.depth, 10) || Infinity
-
-function getCfgEntries (webpackConf, mode) {
-  if (mode === 'ssr') {
-    return [
-      { name: 'Server', webpackCfg: webpackConf.server },
-      { name: 'Client', webpackCfg: webpackConf.client }
-    ]
-  }
-
-  if (mode === 'electron' || mode === 'bex') {
-    return [
-      { name: 'Renderer', webpackCfg: webpackConf.renderer },
-      { name: 'Main', webpackCfg: webpackConf.main }
-    ]
-  }
-
-  return [ { name: 'Main', webpackCfg: webpackConf } ]
-}
 
 async function inspect () {
   const extensionRunner = require('../lib/app-extension/extensions-runner')
@@ -102,28 +85,27 @@ async function inspect () {
   }
   catch (e) {
     console.log(e)
-    fatal(`[FAIL] quasar.conf.js has JS errors`)
+    fatal('quasar.conf.js has JS errors', 'FAIL')
   }
 
   await quasarConfFile.compile()
 
   const util = require('util')
-  let cfgEntries = getCfgEntries(quasarConfFile.webpackConf, argv.mode)
+  const cfgEntries = splitWebpackConfig(quasarConfFile.webpackConf, argv.mode)
 
   if (argv.path) {
     const dot = require('dot-prop')
-    cfgEntries = cfgEntries.map(cfgEntry => ({
-      name: cfgEntry.name,
-      webpackCfg: dot.get(cfgEntry.webpackCfg, argv.path)
-    }))
+    cfgEntries.forEach(entry => {
+      entry.webpack = dot.get(entry.webpack, argv.path)
+    })
   }
 
   cfgEntries.forEach(cfgEntry => {
     console.log()
-    log(`Showing Webpack config "${cfgEntry.name}" with depth of ${depth}`)
+    log(`Showing Webpack config for "${cfgEntry.name}" with depth of ${depth}`)
     console.log()
     console.log(
-      util.inspect(cfgEntry.webpackCfg, {
+      util.inspect(cfgEntry.webpack, {
         showHidden: true,
         depth: depth,
         colors: true,

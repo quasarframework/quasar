@@ -1,35 +1,33 @@
-import Vue from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import DarkMixin from '../../mixins/dark.js'
-import { getSizeMixin } from '../../mixins/size.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
-import { mergeSlot } from '../../utils/slot.js'
+import { hMergeSlot } from '../../utils/private/render.js'
+
+const defaultSizes = {
+  xs: 2,
+  sm: 4,
+  md: 6,
+  lg: 10,
+  xl: 14
+}
 
 function width (val, reverse, $q) {
   return {
     transform: reverse === true
-      ? `translateX(${$q.lang.rtl === true ? '-' : ''}100%) scale3d(${-val},1,1)`
-      : `scale3d(${val},1,1)`
+      ? `translateX(${ $q.lang.rtl === true ? '-' : '' }100%) scale3d(${ -val },1,1)`
+      : `scale3d(${ val },1,1)`
   }
 }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QLinearProgress',
 
-  mixins: [
-    ListenersMixin,
-    DarkMixin,
-    getSizeMixin({
-      xs: 2,
-      sm: 4,
-      md: 6,
-      lg: 10,
-      xl: 14
-    })
-  ],
-
   props: {
+    ...useDarkProps,
+    ...useSizeProps,
+
     value: {
       type: Number,
       default: 0
@@ -48,83 +46,70 @@ export default Vue.extend({
     instantFeedback: Boolean
   },
 
-  computed: {
-    motion () {
-      return this.indeterminate === true || this.query === true
-    },
+  setup (props, { slots }) {
+    const { proxy } = getCurrentInstance()
+    const isDark = useDark(props, proxy.$q)
+    const sizeStyle = useSize(props, defaultSizes)
 
-    classes () {
-      return 'q-linear-progress' +
-        (this.color !== void 0 ? ` text-${this.color}` : '') +
-        (this.reverse === true || this.query === true ? ' q-linear-progress--reverse' : '') +
-        (this.rounded === true ? ' rounded-borders' : '')
-    },
+    const motion = computed(() => props.indeterminate === true || props.query === true)
 
-    trackStyle () {
-      return width(this.buffer !== void 0 ? this.buffer : 1, this.reverse, this.$q)
-    },
+    const classes = computed(() =>
+      'q-linear-progress'
+      + (props.color !== void 0 ? ` text-${ props.color }` : '')
+      + (props.reverse === true || props.query === true ? ' q-linear-progress--reverse' : '')
+      + (props.rounded === true ? ' rounded-borders' : '')
+    )
 
-    trackClass () {
-      return `q-linear-progress__track--with${this.instantFeedback === true ? 'out' : ''}-transition` +
-        ` q-linear-progress__track--${this.isDark === true ? 'dark' : 'light'}` +
-        (this.trackColor !== void 0 ? ` bg-${this.trackColor}` : '')
-    },
+    const trackStyle = computed(() => width(props.buffer !== void 0 ? props.buffer : 1, props.reverse, proxy.$q))
+    const trackClass = computed(() =>
+      'q-linear-progress__track absolute-full'
+      + ` q-linear-progress__track--with${ props.instantFeedback === true ? 'out' : '' }-transition`
+      + ` q-linear-progress__track--${ isDark.value === true ? 'dark' : 'light' }`
+      + (props.trackColor !== void 0 ? ` bg-${ props.trackColor }` : '')
+    )
 
-    modelStyle () {
-      return width(this.motion === true ? 1 : this.value, this.reverse, this.$q)
-    },
+    const modelStyle = computed(() => width(motion.value === true ? 1 : props.value, props.reverse, proxy.$q))
+    const modelClass = computed(() =>
+      'q-linear-progress__model absolute-full'
+      + ` q-linear-progress__model--with${ props.instantFeedback === true ? 'out' : '' }-transition`
+      + ` q-linear-progress__model--${ motion.value === true ? 'in' : '' }determinate`
+    )
 
-    modelClasses () {
-      return `q-linear-progress__model--with${this.instantFeedback === true ? 'out' : ''}-transition` +
-        ` q-linear-progress__model--${this.motion === true ? 'in' : ''}determinate`
-    },
+    const stripeStyle = computed(() => ({ width: `${ props.value * 100 }%` }))
+    const stripeClass = computed(() =>
+      `q-linear-progress__stripe absolute-${ props.reverse === true ? 'right' : 'left' }`
+    )
 
-    stripeStyle () {
-      return { width: (this.value * 100) + '%' }
-    },
+    return () => {
+      const child = [
+        h('div', {
+          class: trackClass.value,
+          style: trackStyle.value
+        }),
 
-    stripeClass () {
-      return this.reverse === true ? 'absolute-right' : 'absolute-left'
-    },
+        h('div', {
+          class: modelClass.value,
+          style: modelStyle.value
+        })
+      ]
 
-    attrs () {
-      return {
+      props.stripe === true && motion.value === false && child.push(
+        h('div', {
+          class: stripeClass.value,
+          style: stripeStyle.value
+        })
+      )
+
+      return h('div', {
+        class: classes.value,
+        style: sizeStyle.value,
         role: 'progressbar',
         'aria-valuemin': 0,
         'aria-valuemax': 1,
-        'aria-valuenow': this.indeterminate === true ? void 0 : this.value
-      }
+        'aria-valuenow': props.indeterminate === true
+          ? void 0
+          : props.value
+      }, hMergeSlot(slots.default, child))
     }
-  },
-
-  render (h) {
-    const child = [
-      h('div', {
-        staticClass: 'q-linear-progress__track absolute-full',
-        style: this.trackStyle,
-        class: this.trackClass
-      }),
-
-      h('div', {
-        staticClass: 'q-linear-progress__model absolute-full',
-        style: this.modelStyle,
-        class: this.modelClasses
-      })
-    ]
-
-    this.stripe === true && this.motion === false && child.push(
-      h('div', {
-        staticClass: 'q-linear-progress__stripe',
-        style: this.stripeStyle,
-        class: this.stripeClass
-      })
-    )
-
-    return h('div', {
-      style: this.sizeStyle,
-      class: this.classes,
-      attrs: this.attrs,
-      on: { ...this.qListeners }
-    }, mergeSlot(child, this, 'default'))
   }
 })

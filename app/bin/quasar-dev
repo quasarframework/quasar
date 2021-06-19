@@ -87,15 +87,13 @@ async function parseAddress ({ host, port }) {
     host = this.chosenHost
   }
   else if (
-    ['cordova', 'capacitor', 'bex'].includes(argv.mode) &&
+    ['cordova', 'capacitor'].includes(argv.mode) &&
     (!host || ['0.0.0.0', 'localhost', '127.0.0.1', '::1'].includes(host.toLowerCase()))
   ) {
     const getExternalIP = require('../lib/helpers/get-external-ip')
     host = await getExternalIP()
     this.chosenHost = host
   }
-
-  log(`Checking listening address availability (${host}:${port})...`)
 
   try {
     const openPort = await findPort(port, host)
@@ -161,7 +159,7 @@ function startVueDevtools () {
     nodePackager,
     cmdParam.concat('@vue/devtools'),
     { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => warn('Failed to install vue-devtools')
+    () => fatal('Failed to install vue-devtools', 'FAIL')
   )
 
   // a small delay is a must, otherwise require.resolve
@@ -179,7 +177,9 @@ async function goLive () {
     await installMissing(argv.mode, argv.target)
   }
 
-  const DevServer = require('../lib/dev-server')
+  const DevServer = argv.mode === 'ssr'
+    ? require('../lib/dev-server-ssr')
+    : require('../lib/dev-server-regular')
   const QuasarConfFile = require('../lib/quasar-conf-file')
   const Generator = require('../lib/generator')
   const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
@@ -197,16 +197,31 @@ async function goLive () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
+  if (argv.mode === 'ssr') {
+    const SSRDirectives = require('../lib/ssr/ssr-directives')
+    const directivesBuilder = new SSRDirectives(async () => {
+      log(`Changes on the SSR directives detected. Rebuilding app...`)
+
+      const result = await quasarConfFile.reboot()
+
+      if (result !== false) {
+        dev = dev.then(startDev)
+      }
+    })
+
+    await directivesBuilder.run()
+  }
+
   const quasarConfFile = new QuasarConfFile(ctx, {
     port: argv.port,
     host: argv.hostname,
     onAddress: parseAddress,
     onBuildChange () {
-      log(`Build changes detected. Rebuilding app...`)
+      log(`Rebuilding app...`)
       dev = dev.then(startDev)
     },
     onAppChange () {
-      log(`App changes detected. Updating app...`)
+      log(`Updating app...`)
       generator.build()
     }
   })
@@ -216,7 +231,7 @@ async function goLive () {
   }
   catch (e) {
     console.log(e)
-    fatal(`[FAIL] quasar.conf.js has JS errors`)
+    fatal('quasar.conf.js has JS errors', 'FAIL')
   }
 
   await quasarConfFile.compile()
@@ -240,31 +255,42 @@ async function goLive () {
   })
 
   const generator = new Generator(quasarConfFile)
-  const ModeRunner = ['cordova', 'capacitor', 'electron', 'bex'].includes(argv.mode)
-    ? require('../lib/' + argv.mode)
-    : void 0
+  let runMode
 
-  if (ModeRunner !== void 0) {
+  if (['cordova', 'capacitor', 'electron', 'bex', 'pwa', 'ssr'].includes(argv.mode)) {
+    const ModeRunner = require('../lib/' + (argv.mode === 'ssr' ? 'pwa' : argv.mode))
     ModeRunner.init(ctx)
+    runMode = () => ModeRunner.run(quasarConfFile, argv)
+  }
+  else {
+    runMode = () => {}
   }
 
   function startDev (oldDevServer) {
     let devServer
 
-    return Promise.resolve()
-      .then(() => {
-        if (oldDevServer !== void 0) {
-          oldDevServer.stop()
-          oldDevServer = void 0
-        }
+    const runMain = async () => {
+      if (oldDevServer !== void 0) {
+        await oldDevServer.stop()
+        oldDevServer = void 0
+      }
 
-        generator.build()  // Update generated files
-        devServer = new DevServer(quasarConfFile) // Create new devserver
+      generator.build()  // Update generated files
+      devServer = new DevServer(quasarConfFile) // Create new devserver
 
-        return devServer.listen() // Start listening
-      })
-      .then(() => ModeRunner !== void 0 && ModeRunner.run(quasarConfFile, argv))
-      .then(() => devServer) // Pass new builder to watch chain
+      return devServer.listen() // Start listening
+    }
+
+    let promise = Promise.resolve()
+
+    // using quasarConfFile.ctx instead of argv.mode
+    // because SSR might also have PWA enabled but we
+    // can only know it after parsing the quasar.conf file
+    promise = quasarConfFile.ctx.mode.pwa === true
+      ? promise.then(runMode).then(runMain)
+      : promise.then(runMain).then(runMode)
+
+    return promise.then(() => devServer) // Pass new builder to watch chain
   }
 
   let dev = startDev().then(async (payload) => {

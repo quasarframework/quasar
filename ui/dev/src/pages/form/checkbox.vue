@@ -53,7 +53,7 @@
       <p class="caption">
         Tests
       </p>
-      <q-checkbox @change="onChange" @input="onInput" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-checkbox @change="onChange" @update:model-value="onInput" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-checkbox v-model="checked" label="Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <q-checkbox v-model="checked" label="Checkbox Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
@@ -135,7 +135,7 @@
         type="checkbox"
         color="secondary"
         v-model="group"
-        @input="onInput"
+        @update:model-value="onInput"
         :dark="dark" :dense="dense"
         :keep-color="keepColor"
         :options="[
@@ -187,8 +187,8 @@
         <q-field v-model="checked" label="Checkbox field" stack-label :dark="dark" :dense="dense">
           <template v-slot:control="{ value, emitValue }">
             <q-checkbox
-              :value="value"
-              @input="emitValue"
+              :model-value="value"
+              @update:model-value="emitValue"
               color="orange"
               :dark="dark"
               :dense="dense"
@@ -243,16 +243,16 @@
 export default {
   data () {
     const
-      trueVal = [true],
-      falseVal = [false]
+      trueVal = [ true ],
+      falseVal = [ false ]
 
     return {
       val: true,
       ind: false,
       checked: true,
       orderModel: 'bogus',
-      group: ['op2'],
-      selection: ['one', 'two', 'three'],
+      group: [ 'op2' ],
+      selection: [ 'one', 'two', 'three' ],
       dark: null,
       dense: false,
       keepColor: false,
@@ -261,12 +261,12 @@ export default {
       trueVal,
       falseVal,
       modelArr: falseVal,
-      modelArrComplex: [falseVal, trueVal]
+      modelArrComplex: [ falseVal, trueVal ]
     }
   },
   watch: {
     group (val, old) {
-      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     }
   },
   methods: {
@@ -274,7 +274,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:model-value', JSON.stringify(val))
     },
     onFocus () {
       console.log('focused')

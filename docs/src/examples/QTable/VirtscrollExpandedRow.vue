@@ -2,9 +2,9 @@
   <div class="q-pa-md">
     <q-table
       style="height: 400px"
-      ref="table"
+      ref="tableRef"
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       :table-colspan="9"
       row-key="index"
@@ -12,7 +12,7 @@
       :virtual-scroll-item-size="48"
       :pagination="pagination"
       :rows-per-page-options="[0]"
-      :expanded.sync="expanded"
+      v-model:expanded="expanded"
     >
 
       <template v-slot:header="props">
@@ -55,6 +55,27 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
+
+const columns = [
+  {
+    name: 'desc',
+    required: true,
+    label: 'Dessert (100g serving)',
+    align: 'left',
+    field: row => row.name,
+    format: val => `${val}`,
+    sortable: true
+  },
+  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, style: 'width: 10px' },
+  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
+  { name: 'protein', label: 'Protein (g)', field: 'protein' },
+  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
+  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+]
+
 const seed = [
   {
     name: 'Frozen Yogurt',
@@ -160,48 +181,32 @@ const seed = [
 
 const seedSize = seed.length
 
-let data = []
+let rows = []
 for (let i = 0; i < 1000; i++) {
-  data = data.concat(seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 })))
+  rows = rows.concat(seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 })))
 }
-Object.freeze(data)
 
-const expanded = data.filter((r, i) => i % 3 === 0).map(r => r.index)
+const initialExpanded = rows.filter((r, i) => i % 3 === 0).map(r => r.index)
 
 export default {
-  data () {
-    return {
-      expanded,
+  setup () {
+    const tableRef = ref(null)
 
-      columns: [
-        {
-          name: 'desc',
-          required: true,
-          label: 'Dessert (100g serving)',
-          align: 'left',
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, style: 'width: 10px' },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-        { name: 'protein', label: 'Protein (g)', field: 'protein' },
-        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-      ],
+    onMounted(() => {
+      tableRef.value.scrollTo(5000)
+    })
+
+    return {
+      tableRef,
+
+      expanded: ref(initialExpanded),
+      columns,
+      rows,
 
       pagination: {
         rowsPerPage: 0
-      },
-
-      data
+      }
     }
-  },
-
-  mounted () {
-    this.$refs.table.$refs.virtScroll.scrollTo(5000)
   }
 }
 </script>

@@ -27,18 +27,20 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      precision: {
-        min: 0.2,
-        max: 0.7
-      },
+import { ref } from 'vue'
 
-      zeroPrecision: {
+export default {
+  setup () {
+    return {
+      precision: ref({
         min: 0.2,
         max: 0.7
-      }
+      }),
+
+      zeroPrecision: ref({
+        min: 0.2,
+        max: 0.7
+      })
     }
   }
 }

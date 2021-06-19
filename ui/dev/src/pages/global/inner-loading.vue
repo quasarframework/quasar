@@ -24,7 +24,7 @@
         </div>
       </transition>
 
-      <q-inner-loading :showing="showing">
+      <q-inner-loading :showing="showing" transition-duration="1000">
         <q-spinner-gears size="50px" color="primary" />
       </q-inner-loading>
     </div>
@@ -54,7 +54,7 @@ export default {
       setTimeout(() => {
         this.showing = false
         this.showSimulatedReturnData = true
-      }, 3000)
+      }, 5000)
     }
   }
 }

@@ -87,26 +87,26 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .ripple-example
-  border-radius 3px
-  cursor pointer
-  color white
-  display flex
-  align-items center
-  justify-content center
-  user-select none
+  border-radius: 3px
+  cursor: pointer
+  color: white
+  display: flex
+  align-items: center
+  justify-content: center
+  user-select: none
 
   &:focus
-    outline 1px solid $grey
-    outline-offset 3px
+    outline: 1px solid $grey
+    outline-offset: 3px
 
   & + &
-    margin-top 24px
+    margin-top: 24px
 
 .ripple-round
-  width 150px
-  height 150px
-  border-radius 50%
-  margin-top 0 !important
+  width: 150px
+  height: 150px
+  border-radius: 50%
+  margin-top: 0 !important
 </style>

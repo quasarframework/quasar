@@ -1,11 +1,9 @@
 {
-  "mixins": [ "mixins/virtual-scroll" ],
+  "mixins": [ "components/virtual-scroll/use-virtual-scroll" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/virtual-scroll"
+    "docsUrl": "https://v2.quasar.dev/vue-components/virtual-scroll"
   },
-
-  "addedIn": "v1.1.0",
 
   "props": {
     "type": {
@@ -76,10 +74,8 @@
 
     "after": {
       "desc": "Template slot for the elements that should be rendered after the list; Suggestion: tfoot after a table"
-    }
-  },
+    },
 
-  "scopedSlots": {
     "default": {
       "desc": "Template slot for defining the list item; Suggestion: QItem",
       "scope": {

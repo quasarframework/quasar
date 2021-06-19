@@ -2,11 +2,11 @@
   <div class="q-pa-md">
     <q-table
       title="Treats"
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
     >
       <template v-slot:header-selection="scope">
         <q-toggle v-model="scope.selected" />
@@ -20,11 +20,11 @@
     <q-table
       class="q-mt-md"
       title="Treats"
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
     >
       <template v-slot:header="props">
         <q-tr :props="props">
@@ -75,7 +75,7 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `${val}`,
+          format: val => `${ val }`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },

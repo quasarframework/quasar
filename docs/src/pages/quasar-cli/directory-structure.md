@@ -14,9 +14,9 @@ If you are a beginner, all you'll need to care about is `/quasar.conf.js` (Quasa
 ├── src/
 │   ├── assets/              # dynamic assets (processed by webpack)
 │   ├── components/          # .vue components used in pages & layouts
-│   ├── css/                 # CSS/Stylus/Sass/... files for your app
-|   |   ├── app.styl
-|   │   └── quasar.variables.styl # Quasar Stylus variables for you to tweak
+│   ├── css/                 # CSS/Sass/... files for your app
+|   |   ├── app.sass
+|   │   └── quasar.variables.sass # Quasar Sass variables for you to tweak
 │   ├── layouts/             # layout .vue files
 │   ├── pages/               # page .vue files
 │   ├── boot/                # boot files (app initialization code)
@@ -45,7 +45,6 @@ If you are a beginner, all you'll need to care about is `/quasar.conf.js` (Quasa
 ├── .eslintignore            # ESlint ignore paths
 ├── .eslintrc.js             # ESlint config
 ├── .postcssrc.js            # PostCSS config
-├── .stylintrc               # Stylus lint config
 ├── .gitignore               # GIT ignore paths
 ├── package.json             # npm scripts and dependencies
 └── README.md                # readme for your website/App

@@ -35,11 +35,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model1: 'Sunday, Apr 28, 2019',
-      model2: 'Month ( March ) 14th, Year ( 2019 )'
+      model1: ref('Sunday, Apr 28, 2019'),
+      model2: ref('Month ( March ) 14th, Year ( 2019 )')
     }
   }
 }

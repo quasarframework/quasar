@@ -92,7 +92,7 @@ export default {
 
       while (value === this.modelBox) {
         const i = Math.floor(Math.random() * boxValues.length)
-        value = boxValues[i]
+        value = boxValues[ i ]
       }
 
       this.modelBox = value

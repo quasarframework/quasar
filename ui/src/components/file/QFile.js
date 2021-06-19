@@ -1,23 +1,24 @@
-import Vue from 'vue'
+import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
 
-import QField from '../field/QField.js'
 import QChip from '../chip/QChip.js'
 
-import { FormFieldMixin } from '../../mixins/form.js'
-import FileMixin, { FileValueMixin } from '../../mixins/file.js'
+import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
+import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
+import useFile, { useFileProps, useFileEmits } from '../../composables/private/use-file.js'
+import useFileFormDomProps from '../../composables/private/use-file-dom-props.js'
 
-import { isSSR } from '../../plugins/Platform'
 import { humanStorageSize } from '../../utils/format.js'
-import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QFile',
 
-  mixins: [ QField, FileMixin, FormFieldMixin, FileValueMixin ],
-
   props: {
+    ...useFieldProps,
+    ...useFormProps,
+    ...useFileProps,
+
     /* SSR does not know about File & FileList */
-    value: isSSR === true
+    modelValue: __QUASAR_SSR_SERVER__
       ? {}
       : [ File, FileList, Array ],
 
@@ -36,96 +37,99 @@ export default Vue.extend({
     inputStyle: [ Array, String, Object ]
   },
 
-  data () {
-    return {
-      dnd: false
-    }
-  },
+  emits: [
+    ...useFieldEmits,
+    ...useFileEmits
+  ],
 
-  computed: {
-    innerValue () {
-      return Object(this.value) === this.value
-        ? ('length' in this.value ? Array.from(this.value) : [ this.value ])
+  setup (props, { slots, emit, attrs }) {
+    const { proxy } = getCurrentInstance()
+
+    const state = useFieldState()
+
+    const inputRef = ref(null)
+    const dnd = ref(false)
+    const nameProp = useFormInputNameAttr(props)
+
+    const {
+      pickFiles,
+      onDragover,
+      processFiles,
+      getDndNode
+    } = useFile({ editable: state.editable, dnd, getFileInput, addFilesToQueue })
+
+    const formDomProps = useFileFormDomProps(props)
+
+    const innerValue = computed(() => (
+      Object(props.modelValue) === props.modelValue
+        ? ('length' in props.modelValue ? Array.from(props.modelValue) : [ props.modelValue ])
         : []
-    },
+    ))
 
-    selectedString () {
-      return this.innerValue
+    const hasValue = computed(() => fieldValueIsFilled(innerValue.value))
+
+    const selectedString = computed(() =>
+      innerValue.value
         .map(file => file.name)
         .join(', ')
-    },
+    )
 
-    totalSize () {
-      return humanStorageSize(
-        this.innerValue.reduce((acc, file) => acc + file.size, 0)
+    const totalSize = computed(() =>
+      humanStorageSize(
+        innerValue.value.reduce((acc, file) => acc + file.size, 0)
       )
-    },
+    )
 
-    counterProps () {
-      return {
-        totalSize: this.totalSize,
-        filesNumber: this.innerValue.length,
-        maxFiles: this.maxFiles
-      }
-    },
+    const counterProps = computed(() => ({
+      totalSize: totalSize.value,
+      filesNumber: innerValue.value.length,
+      maxFiles: props.maxFiles
+    }))
 
-    computedCounter () {
-      if (this.counterLabel !== void 0) {
-        return this.counterLabel(this.counterProps)
-      }
+    const inputAttrs = computed(() => ({
+      tabindex: -1,
+      type: 'file',
+      title: '', // try to remove default tooltip,
+      accept: props.accept,
+      capture: props.capture,
+      name: nameProp.value,
+      ...attrs,
+      id: state.targetUid.value,
+      disabled: state.editable.value !== true
+    }))
 
-      const max = this.maxFiles
-      return `${this.innerValue.length}${max !== void 0 ? ' / ' + max : ''} (${this.totalSize})`
-    },
+    const isAppending = computed(() =>
+      props.multiple === true && props.append === true
+    )
 
-    inputAttrs () {
-      return {
-        tabindex: -1,
-        type: 'file',
-        title: '', // try to remove default tooltip,
-        accept: this.accept,
-        capture: this.capture,
-        name: this.nameProp,
-        ...this.qAttrs,
-        id: this.targetUid,
-        disabled: this.editable !== true
-      }
-    },
-
-    isAppending () {
-      return this.multiple === true && this.append === true
-    }
-  },
-
-  methods: {
-    removeAtIndex (index) {
-      const files = this.innerValue.slice()
+    function removeAtIndex (index) {
+      const files = innerValue.value.slice()
       files.splice(index, 1)
-      this.__emitValue(files)
-    },
+      emitValue(files)
+    }
 
-    removeFile (file) {
-      const index = this.innerValue.findIndex(file)
+    function removeFile (file) {
+      const index = innerValue.value.findIndex(file)
       if (index > -1) {
-        this.removeAtIndex(index)
+        removeAtIndex(index)
       }
-    },
+    }
 
-    __emitValue (files) {
-      this.$emit('input', this.multiple === true ? files : files[0])
-    },
+    function emitValue (files) {
+      emit('update:modelValue', props.multiple === true ? files : files[ 0 ])
+    }
 
-    __onKeyup (e) {
+    function onKeyup (e) {
       // only on ENTER
-      e.keyCode === 13 && this.pickFiles(e)
-    },
+      e.keyCode === 13 && pickFiles(e)
+    }
 
-    __getFileInput () {
-      return this.$refs.input
-    },
+    function getFileInput () {
+      return inputRef.value
+    }
 
-    __addFiles (e, fileList) {
-      const files = this.__processFiles(e, fileList, this.innerValue, this.isAppending)
+    function addFilesToQueue (e, fileList) {
+      const files = processFiles(e, fileList, innerValue.value, isAppending.value)
 
       // if nothing to do...
       if (files === void 0) { return }
@@ -133,129 +137,137 @@ export default Vue.extend({
       // protect against input @change being called in a loop
       // like it happens on Safari, so don't emit same thing:
       if (
-        this.multiple === true
-          ? this.value && files.every(f => this.innerValue.includes(f))
-          : this.value === files[ 0 ]
+        props.multiple === true
+          ? props.modelValue && files.every(f => innerValue.value.includes(f))
+          : props.modelValue === files[ 0 ]
       ) {
         return
       }
 
-      this.__emitValue(
-        this.isAppending === true
-          ? this.innerValue.concat(files)
+      emitValue(
+        isAppending.value === true
+          ? innerValue.value.concat(files)
           : files
       )
-    },
+    }
 
-    __getControl (h) {
-      const data = {
-        ref: 'target',
-        staticClass: 'q-field__native row items-center cursor-pointer',
-        attrs: {
-          tabindex: this.tabindex
-        }
-      }
-
-      if (this.editable === true) {
-        data.on = cache(this, 'native', {
-          dragover: this.__onDragOver,
-          keyup: this.__onKeyup
-        })
-      }
-
-      return h('div', data, [ this.__getInput(h) ].concat(this.__getSelection(h)))
-    },
-
-    __getControlChild (h) {
-      return this.__getDnd(h, 'file')
-    },
-
-    __getFiller (h) {
+    function getFiller () {
       return [
         h('input', {
-          class: [ this.inputClass, 'q-file__filler' ],
-          style: this.inputStyle,
+          class: [ props.inputClass, 'q-file__filler' ],
+          style: props.inputStyle,
           tabindex: -1
         })
       ]
-    },
+    }
 
-    __getSelection (h) {
-      if (this.$scopedSlots.file !== void 0) {
-        return this.innerValue.length === 0
-          ? this.__getFiller(h)
-          : this.innerValue.map((file, index) => this.$scopedSlots.file({ index, file, ref: this }))
+    function getSelection () {
+      if (slots.file !== void 0) {
+        return innerValue.value.length === 0
+          ? getFiller()
+          : innerValue.value.map(
+            (file, index) => slots.file({ index, file, ref: this })
+          )
       }
 
-      if (this.$scopedSlots.selected !== void 0) {
-        return this.innerValue.length === 0
-          ? this.__getFiller(h)
-          : this.$scopedSlots.selected({ files: this.innerValue, ref: this })
+      if (slots.selected !== void 0) {
+        return innerValue.value.length === 0
+          ? getFiller()
+          : slots.selected({ files: innerValue.value, ref: this })
       }
 
-      if (this.useChips === true) {
-        return this.innerValue.length === 0
-          ? this.__getFiller(h)
-          : this.innerValue.map((file, i) => h(QChip, {
+      if (props.useChips === true) {
+        return innerValue.value.length === 0
+          ? getFiller()
+          : innerValue.value.map((file, i) => h(QChip, {
             key: 'file-' + i,
-            props: {
-              removable: this.editable,
-              dense: true,
-              textColor: this.color,
-              tabindex: this.tabindex
-            },
-            on: cache(this, 'rem#' + i, {
-              remove: () => { this.removeAtIndex(i) }
-            })
-          }, [
-            h('span', {
-              staticClass: 'ellipsis',
-              domProps: {
-                textContent: file.name
-              }
-            })
-          ]))
+            removable: state.editable.value,
+            dense: true,
+            textColor: props.color,
+            tabindex: props.tabindex,
+            onRemove: () => { removeAtIndex(i) }
+          }, () => h('span', {
+            class: 'ellipsis',
+            textContent: file.name
+          })))
       }
 
-      const textContent = this.displayValue !== void 0
-        ? this.displayValue
-        : this.selectedString
+      const textContent = props.displayValue !== void 0
+        ? props.displayValue
+        : selectedString.value
 
       return textContent.length > 0
         ? [
-          h('div', {
-            style: this.inputStyle,
-            class: this.inputClass,
-            domProps: { textContent }
-          })
-        ]
-        : this.__getFiller(h)
-    },
+            h('div', {
+              class: props.inputClass,
+              style: props.inputStyle,
+              textContent
+            })
+          ]
+        : getFiller()
+    }
 
-    __getInput (h) {
+    function getInput () {
       const data = {
-        ref: 'input',
-        staticClass: 'q-field__input fit absolute-full cursor-pointer',
-        attrs: this.inputAttrs,
-        domProps: this.formDomProps,
-        on: cache(this, 'input', {
-          change: this.__addFiles
-        })
+        ref: inputRef,
+        ...inputAttrs.value,
+        ...formDomProps.value,
+        class: 'q-field__input fit absolute-full cursor-pointer',
+        onChange: addFilesToQueue
       }
 
-      if (this.multiple === true) {
-        data.attrs.multiple = true
+      if (props.multiple === true) {
+        data.multiple = true
       }
 
       return h('input', data)
     }
-  },
 
-  created () {
-    this.fieldClass = 'q-file q-field--auto-height'
+    Object.assign(state, {
+      inheritAttrs: true,
+      fieldClass: { value: 'q-file q-field--auto-height' },
+      emitValue,
+      hasValue,
+      inputRef,
+      innerValue,
 
-    // necessary for QField's clearable
-    // and FileValueMixin
-    this.type = 'file'
+      floatingLabel: computed(() =>
+        hasValue.value === true
+        || fieldValueIsFilled(props.displayValue)
+      ),
+
+      computedCounter: computed(() => {
+        if (props.counterLabel !== void 0) {
+          return props.counterLabel(counterProps.value)
+        }
+
+        const max = props.maxFiles
+        return `${ innerValue.value.length }${ max !== void 0 ? ' / ' + max : '' } (${ totalSize.value })`
+      }),
+
+      getControlChild: () => getDndNode('file'),
+      getControl: () => {
+        const data = {
+          ref: state.targetRef,
+          class: 'q-field__native row items-center cursor-pointer',
+          tabindex: props.tabindex
+        }
+
+        if (state.editable.value === true) {
+          Object.assign(data, { onDragover, onKeyup })
+        }
+
+        return h('div', data, [ getInput() ].concat(getSelection()))
+      }
+    })
+
+    // expose public methods
+    Object.assign(proxy, {
+      removeAtIndex,
+      removeFile,
+      getNativeElement: () => inputRef.value
+    })
+
+    return useField(state)
   }
 })

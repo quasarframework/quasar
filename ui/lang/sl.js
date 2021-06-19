@@ -29,16 +29,14 @@ export default {
     noData: 'Ni dosegljivih podatkov',
     noResults: 'Ne najdem ustreznic',
     loading: 'Nalagam...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 izbrana vrstica.'
         : (rows === 2 ? '2 izbrani vrstici.' : (rows === 0 ? 'Ni' : rows) + ' izbranih vrstic.')
-    },
+    ),
     recordsPerPage: 'Vrstic na stran:',
     allRows: 'Vse',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' od ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' od ' + total,
     columns: 'Stolpci'
   },
   editor: {

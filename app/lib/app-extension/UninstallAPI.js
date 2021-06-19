@@ -1,7 +1,9 @@
 const { removeSync } = require('fs-extra')
+const semver = require('semver')
 
 const appPaths = require('../app-paths')
 const extensionJson = require('./extension-json')
+const getPackageJson = require('../helpers/get-package-json')
 
 /**
  * API for extension's /uninstall.js script
@@ -29,6 +31,29 @@ module.exports = class UninstallAPI {
   }
 
   /**
+   * Check if an app package is installed. Can also
+   * check its version against specific semver condition.
+   *
+   * Example of semver condition:
+   *   '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
+   *
+   * @param {string} packageName
+   * @param {string} (optional) semverCondition
+   * @return {boolean} package is installed and meets optional semver condition
+   */
+  hasPackage (packageName, semverCondition) {
+    const json = getPackageJson(packageName)
+
+    if (json === void 0) {
+      return false
+    }
+
+    return semverCondition !== void 0
+      ? semver.satisfies(json.version, semverCondition)
+      : true
+  }
+
+  /**
    * Check if another app extension is installed.
    *
    * @param {string} extId
@@ -36,6 +61,19 @@ module.exports = class UninstallAPI {
    */
   hasExtension (extId) {
     return extensionJson.has(extId)
+  }
+
+  /**
+   * Get the version of an an app's package.
+   *
+   * @param {string} packageName
+   * @return {string|undefined} version of app's package
+   */
+  getPackageVersion (packageName) {
+    const json = getPackageJson(packageName)
+    return json !== void 0
+      ? json.version
+      : void 0
   }
 
   /**

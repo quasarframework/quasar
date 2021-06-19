@@ -1,15 +1,7 @@
 {
-  "mixins": [ "mixins/tag" ],
-
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/skeleton"
+    "docsUrl": "https://v2.quasar.dev/vue-components/skeleton"
   },
-
-  "behavior": {
-    "$listeners": true
-  },
-
-  "addedIn": "v1.6.0",
 
   "props": {
     "dark": {
@@ -70,6 +62,8 @@
     },
 
     "tag": {
+      "extends": "tag",
+      "default": "div",
       "examples": [ "div", "span" ]
     }
   },

@@ -16,7 +16,7 @@
         ref="carousel"
         swipeable
         animated
-        :fullscreen.sync="fullscreen"
+        v-model:fullscreen="fullscreen"
         v-model="slide"
         control-color="orange"
         navigation
@@ -263,15 +263,16 @@
       <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
       <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
 
-      <q-carousel-control
-        slot="control"
-        position="top-right"
-        :offset="[18, 18]"
-        class="text-white"
-        style="background: rgba(0, 0, 0, .3); padding: 4px; border-radius: 4px"
-      >
-        <q-toggle dark color="amber" v-model="autoplay" label="Auto Play" />
-      </q-carousel-control>
+      <template v-slot:control>
+        <q-carousel-control
+          position="top-right"
+          :offset="[18, 18]"
+          class="text-white"
+          style="background: rgba(0, 0, 0, .3); padding: 4px; border-radius: 4px"
+        >
+          <q-toggle dark color="amber" v-model="autoplay" label="Auto Play" />
+        </q-carousel-control>
+      </template>
     </q-carousel>
 
     <div class="caption">
@@ -285,7 +286,7 @@
       thumbnails
       control-color="yellow"
       infinite
-      :fullscreen.sync="full"
+      v-model:fullscreen="full"
     >
       <q-carousel-slide :name="0" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
       <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
@@ -331,9 +332,11 @@
       <q-carousel-slide :name="10" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
       <q-carousel-slide :name="11" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
 
-      <q-carousel-control slot="control" position="bottom" :offset="[0, 0]">
-        <q-linear-progress :value="(slide2 - 1) / 11" height="6px" stripe color="amber" />
-      </q-carousel-control>
+      <template v-slot:control>
+        <q-carousel-control position="bottom" :offset="[0, 0]">
+          <q-linear-progress :value="(slide2 - 1) / 11" height="6px" stripe color="amber" />
+        </q-carousel-control>
+      </template>
     </q-carousel>
   </div>
 </template>
@@ -353,7 +356,7 @@ export default {
     padding: true,
     vertical: false,
     navigationPosition: void 0,
-    navigationPositions: [void 0, 'top', 'bottom', 'left', 'right'],
+    navigationPositions: [ void 0, 'top', 'bottom', 'left', 'right' ],
     lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
     colors: [
       'primary',
@@ -386,14 +389,14 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .docs-carousel
   p.caption:not(:first-of-type)
-    margin-top 38px
+    margin-top: 38px
   .custom-caption
-    text-align center
-    padding 12px
-    color white
+    text-align: center
+    padding: 12px
+    color: white
 .test-scroll-container
   background: rgba(255,255,255,.3)
   border-radius: $generic-border-radius

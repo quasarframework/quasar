@@ -27,18 +27,21 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      dialog: false,
-      position: 'top'
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    open (position) {
-      this.position = position
-      this.dialog = true
+export default {
+  setup () {
+    const dialog = ref(false)
+    const position = ref('top')
+
+    return {
+      dialog,
+      position,
+
+      open (pos) {
+        position.value = pos
+        dialog.value = true
+      }
     }
   }
 }

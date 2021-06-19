@@ -1,7 +1,7 @@
 ---
 title: Dark Plugin
 desc: A Quasar plugin to toggle or configure the Dark Mode state of your app.
-badge: v1.3+
+keys: Dark
 related:
   - /style/dark-mode
   - /style/theme-builder
@@ -12,6 +12,7 @@ For a better understanding of this Quasar plugin, please head to the Style & Ide
 :::
 
 ## Dark API
+
 <doc-api file="Dark" />
 
 ## Installation
@@ -25,35 +26,43 @@ Do not manually assign a value to `isActive` or `mode` from below. Instead, use 
 
 ### Inside of a Vue file
 
-``` js
-// get status
-console.log(this.$q.dark.isActive) // true, false
+```js
+import { useQuasar } from 'quasar'
+setup () {
+  const $q = useQuasar()
 
-// get configured status
-console.log(this.$q.dark.mode) // "auto", true, false
+  // get status
+  console.log($q.dark.isActive) // true, false
 
-// set status
-this.$q.dark.set(true) // or false or "auto"
+  // get configured status
+  console.log($q.dark.mode) // "auto", true, false
 
-// toggle
-this.$q.dark.toggle()
+  // set status
+  $q.dark.set(true) // or false or "auto"
+
+  // toggle
+  $q.dark.toggle()
+}
 ```
 
-On a **SSR build**, you can set this from a `created` hook from your `/src/App.vue`:
+On a **SSR build**, you may want to set this from your `/src/App.vue`:
 
-```
+```js
+import { useQuasar } from 'quasar'
+
 export default {
-  // ...
+  setup () {
+    const $q = useQuasar()
 
-  created () {
-    this.$q.dark.set(true)
+    // calling here; equivalent to when component is created
+    $q.dark.set(true)
   }
 }
 ```
 
 ### Outside of a Vue file
 
-``` js
+```js
 // Warning! This method will not
 // work on SSR builds.
 
@@ -87,20 +96,26 @@ framework: {
 ## Note about SSR
 
 When on a SSR build:
+
 * `import { Dark } from 'quasar'` method of using Dark mode will not error out but it will not work (won't do anything). But you can use the other two ways (see previous section). We recommend through quasar.conf.js.
 * It's preferred to avoid setting Dark mode to 'auto' for SSR builds. It's because the client dark mode preference cannot be inferred, so SSR will always render in light mode then when the client takes over, it will switch to Dark (if it will be the case). As a result, a quick flicker of the screen will occur.
 
 ## Watching for status change
 
-``` vue
+```vue
 <template>...</template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { watch } from 'vue'
+
 export default {
-  watch: {
-    '$q.dark.isActive' (val) {
+  setup () {
+    const $q = useQuasar()
+
+    watch(() => $q.dark.isActive, val => {
       console.log(val ? 'On dark mode' : 'On light mode')
-    }
+    })
   }
 }
 </script>

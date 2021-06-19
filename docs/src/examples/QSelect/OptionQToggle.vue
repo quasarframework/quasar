@@ -14,16 +14,13 @@
           emit-value
           map-options
       >
-        <template v-slot:option="{ itemProps, itemEvents, opt, selected, toggleOption }">
-          <q-item
-            v-bind="itemProps"
-            v-on="itemEvents"
-          >
+        <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
+          <q-item v-bind="itemProps">
             <q-item-section>
               <q-item-label v-html="opt.label" ></q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-toggle :value="selected" @input="toggleOption(opt)" />
+              <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
             </q-item-section>
           </q-item>
         </template>
@@ -33,10 +30,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model: [],
+      model: ref([]),
+
       options: [
         {
           label: 'Google',
