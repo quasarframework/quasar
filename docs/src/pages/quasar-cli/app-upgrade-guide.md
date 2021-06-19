@@ -81,7 +81,7 @@ Following this guide should take you at most 5 minutes to complete.
 
 * You can upgrade your /src-capacitor dependencies to Capacitor v2 (which supports Android X); full support is included (thanks to help from Capacitor team) for both versions now; please review the Capacitor (v1 to v2) upgrade guide too! helpful links: [announcement on capacitor v2](https://ionicframework.com/blog/announcing-capacitor-2-0/), [upgrade guide](https://capacitor.ionicframework.com/docs/android/updating/#from-1-5-1-to-2-0-0), [release notes](https://github.com/ionic-team/capacitor/releases/tag/2.0.0)
 
-* For Typescript devs: Make sure that you also upgrade the `quasar` package to v.12.6+. Internal types of features related only to Quasar CLI (eg. `BootFileParams`) have been moved under `@quasar/app` (previously they were provided by `quasar` package). If you have any reference to them in your code, change the import statement to use `@quasar/app` or consider switching to use the much cleaner wrapper functions provided by `quasar/wrappers`
+* For Typescript devs: Make sure that you also upgrade the `quasar` package to v1.12.6+. Internal types of features related only to Quasar CLI (eg. `BootFileParams`) have been moved under `@quasar/app` (previously they were provided by `quasar` package). If you have any reference to them in your code, change the import statement to use `@quasar/app` or consider switching to use the much cleaner wrapper functions provided by `quasar/wrappers`
 
 * The `webpack-html-plugin` package has been upgraded to v4; if you have tampered with the default config for it, please [review it](https://github.com/jantimon/html-webpack-plugin/blob/master/CHANGELOG.md#400-2020-03-23)
 

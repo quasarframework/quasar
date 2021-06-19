@@ -35,7 +35,7 @@ Under Windows, modify user's PATH environment variable. If you are using yarn th
 Then we create a project folder with Quasar CLI:
 
 ```bash
-$ quasar create <folder_name>
+$ quasar create <folder_name> --branch v1
 ```
 
 :::tip

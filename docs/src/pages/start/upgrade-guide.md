@@ -31,7 +31,7 @@ If you're using a code editor terminal instead of the real one, you run `quasar 
 
 ### With Vue CLI
 ```bash
-$ yarn upgrade quasar@latest
+$ yarn upgrade quasar@1
 ```
 
 You may also want to make sure you have the latest of `@quasar/extras` package too:

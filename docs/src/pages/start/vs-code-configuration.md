@@ -42,7 +42,7 @@ To edit the settings, use the command `Open Settings JSON` in the Command Palett
 
 ```bash
 # I selected default values for all options to create this guide
-$ quasar create qt
+$ quasar create qt --branch v1
 
 # Verify it runs without error
 $ cd qt
@@ -82,7 +82,7 @@ To edit the settings use the command `Open Settings JSON` in the Command Palette
 ```bash
 # I selected default values for all options to create this guide
 # except for the linting profile, I selected prettier instead of standard
-$ quasar create qtp
+$ quasar create qtp --branch v1
 
 # Verify it runs without error
 $ cd qtp
