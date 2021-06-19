@@ -100,6 +100,10 @@ module.exports = function (cfg, configName) {
       { ...flattenObject(cfg.build.env), ...cfg.__rootDefines }
     ])
 
+  // we include it already in cfg.build.env
+  chain.optimization
+    .nodeEnv(false)
+
   injectNodeTypescript(cfg, chain)
 
   chain.plugin('progress')

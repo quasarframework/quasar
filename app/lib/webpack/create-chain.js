@@ -267,6 +267,9 @@ module.exports = function (cfg, configName) {
       parseBuildEnv(cfg.build.env, getRootDefines(cfg.__rootDefines, configName))
     ])
 
+  chain.optimization
+    .nodeEnv(false)
+
   if (cfg.ctx.dev && configName !== webpackNames.ssr.serverSide && cfg.ctx.mode.pwa && cfg.pwa.workboxPluginMode === 'InjectManifest') {
     // need to place it here before the status plugin
     const CustomSwWarningPlugin = require('./pwa/plugin.custom-sw-warning')

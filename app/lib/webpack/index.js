@@ -150,6 +150,7 @@ async function getElectron (cfg) {
 async function getSSR (cfg) {
   const client = createChain(cfg, webpackNames.ssr.clientSide)
   require('./ssr/client')(client, cfg)
+
   if (cfg.ctx.mode.pwa) {
     require('./pwa')(client, cfg) // extending a PWA
   }

@@ -35,7 +35,7 @@ module.exports = function (cfg, configName) {
   chain.devtool(cfg.build.sourceMap ? cfg.build.devtool : false)
 
   chain.output
-    .filename(`service-worker.js`)
+    .filename('service-worker.js')
     .libraryTarget('commonjs2') // need it to correctly reference externalized libs
     .path(
       appPaths.resolve.app('.quasar/pwa')
@@ -126,6 +126,10 @@ module.exports = function (cfg, configName) {
     .use(webpack.DefinePlugin, [
       parseBuildEnv(cfg.build.env, cfg.__rootDefines)
     ])
+
+  // we include it already in cfg.build.env
+  chain.optimization
+    .nodeEnv(false)
 
   chain.performance
     .hints(false)

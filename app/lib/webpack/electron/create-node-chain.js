@@ -82,6 +82,10 @@ module.exports = (nodeType, cfg, configName) => {
       parseBuildEnv(env, cfg.__rootDefines)
     ])
 
+  // we include it already in cfg.build.env
+  chain.optimization
+    .nodeEnv(false)
+
   if (cfg.ctx.prod) {
     chain.optimization
       .concatenateModules(true)
