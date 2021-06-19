@@ -6,6 +6,8 @@ const WebserverAssetsPlugin = require('./plugin.webserver-assets')
 const injectNodeTypescript = require('../inject.node-typescript')
 const WebpackProgressPlugin = require('../plugin.progress')
 
+const nodeEnvBanner = `if(process.env.NODE_ENV===void 0){process.env.NODE_ENV='production'}`
+
 const flattenObject = (obj, prefix = 'process.env') => {
   return Object.keys(obj)
     .reduce((acc, k) => {
@@ -104,6 +106,15 @@ module.exports = function (cfg, configName) {
     .use(WebpackProgressPlugin, [{ name: configName, cfg, hasExternalWork: true }])
 
   if (cfg.ctx.prod) {
+    // we need to set process.env.NODE_ENV to 'production'
+    // (unless it's already set to something)
+    // in order for externalized vue/vuex/etc packages to run the
+    // production code (*.cjs.prod.js) instead of the dev one
+    chain.plugin('node-env-banner')
+      .use(webpack.BannerPlugin, [
+        { banner: nodeEnvBanner, raw: true, entryOnly: true }
+      ])
+
     chain.plugin('webserver-assets-plugin')
       .use(WebserverAssetsPlugin, [ cfg ])
 
