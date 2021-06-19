@@ -27,7 +27,7 @@ extras: [
 ]
 ```
 
-Webfont icons are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
+Webfont icons are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/v1/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
 
 Adding more than one set:
 ```js
@@ -43,7 +43,7 @@ extras: [
 ]
 ```
 
-For all available options, visit the [GitHub](https://github.com/quasarframework/quasar/tree/dev/extras#webfonts) repository.
+For all available options, visit the [GitHub](https://github.com/quasarframework/quasar/tree/v1/extras#webfonts) repository.
 
 You're now ready to use the [QIcon](/vue-components/icon) component.
 

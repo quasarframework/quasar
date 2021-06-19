@@ -17,7 +17,7 @@ Hi! I’m really excited that you are interested in contributing to Quasar. Befo
 
   - For more complicated questions, you can use [the official forum](https://forum.quasar.dev/). Make sure to provide enough information when asking your questions - this makes it easier for others to help you!
 
-- Try to search for your issue, it may have already been answered or even fixed in the development branch (`dev`).
+- Try to search for your issue, it may have already been answered or even fixed in the development branch (`v1`).
 
 - Check if the issue is reproducible with the latest stable version of Quasar. If you are using a pre-release, please indicate the specific version you are using.
 
@@ -33,9 +33,7 @@ Hi! I’m really excited that you are interested in contributing to Quasar. Befo
 
 ## Pull Request Guidelines
 
-- The `master` branch is basically just a snapshot of the latest stable release. All development should be done in dedicated branches. **Do not submit PRs against the `master` branch.**
-
-- Checkout a topic branch from the relevant branch, e.g. `dev`, and merge back against that branch.
+- Checkout a topic branch from the relevant branch, e.g. `v1`, and merge back against that branch.
 
 - **DO NOT** checkin `dist` in the commits.
 

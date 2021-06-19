@@ -25,6 +25,6 @@ We can promise you that your Javascript and Vue.js skills will reach the stars!
 
 | Project | Required Skills | Links |
 | --- | --- | --- | --- |
-| Cordova mode | Apache Cordova | [repo](https://github.com/quasarframework/quasar/tree/dev/cli) |
-| Capacitor mode | Capacitor | [repo](https://github.com/quasarframework/quasar/tree/dev/cli) |
-| Electron mode | Maintenance and enhancements | [repo](https://github.com/quasarframework/quasar/tree/dev/cli) |
+| Cordova mode | Apache Cordova | [repo](https://github.com/quasarframework/quasar/tree/v1/app) |
+| Capacitor mode | Capacitor | [repo](https://github.com/quasarframework/quasar/tree/v1/app) |
+| Electron mode | Maintenance and enhancements | [repo](https://github.com/quasarframework/quasar/tree/v1/app) |

@@ -45,7 +45,7 @@ Apart from answering questions and sharing resources in the forum and chat, ther
 Please do not report security vulnerabilities with public GitHub issue reports. Follow the [Report a vulnerability](/security/report-a-vulnerability) steps for security issues.
 :::
 
-If you've found a problem in Quasar which is not a security risk, do a search on GitHub under [Issues](https://github.com/quasarframework/quasar/issues) to check if it is already answered or even fixed in the development branch (`dev`).
+If you've found a problem in Quasar which is not a security risk, do a search on GitHub under [Issues](https://github.com/quasarframework/quasar/issues) to check if it is already answered or even fixed in the development branch (`v1`).
 
 - The issue list of the [main repo](https://github.com/quasarframework/quasar) is **exclusively** for bug reports and feature requests. Non-conforming issues will be closed immediately.
 
@@ -114,7 +114,7 @@ You can help improve the Quasar documentation by making it more coherent, consis
 Use a pencil icon in the top right corner of every documentation page. Edit the source file, preview the changes, add a description of your change and hit `Propose a file change` and on the next screen `Create pull request`.
 :::
 
-For larger edits change the Quasar source files (located [here](https://github.com/quasarframework/quasar/tree/dev/docs/src/pages) on GitHub).
+For larger edits change the Quasar source files (located [here](https://github.com/quasarframework/quasar/tree/v1/docs/src/pages) on GitHub).
 
 ### Documentation Best Practices
 
@@ -132,8 +132,8 @@ Over time we consolidated a set of rules which we follow and following them will
 
 Navigate to the Quasar [GitHub repository](https://github.com/quasarframework/quasar) and press "Fork" in the upper right-hand corner.
 
-::: warning Select dev branch
-Make sure you have `dev` branch selected and this is where all the work is done.
+::: warning Select v1 branch
+Make sure you have `v1` branch selected and this is where all the work is done.
 :::
 
 #### Clone the forked repository
@@ -181,14 +181,14 @@ It's pretty likely that other changes to master have happened while you were wor
 $ git remote add upstream https://github.com/quasarframework/quasar.git
 ```
 
-2. Check out your fork's local `dev` branch.
+2. Check out your fork's local `v1` branch.
 
 ```bash
-$ git checkout dev
-> Switched to branch 'dev'
+$ git checkout v1
+> Switched to branch 'v1'
 ```
 
-3. Merge the changes from `upstream/dev` into your local `dev` branch. This brings your fork's `dev` branch into sync with the upstream repository, without losing your local changes.
+3. Merge the changes from `upstream/v1` into your local `v1` branch. This brings your fork's `v1` branch into sync with the upstream repository, without losing your local changes.
 
 ```bash
 $ git merge upstream/dev
@@ -220,9 +220,7 @@ An article [Look at the source code](https://medium.com/quasar-framework/wip-loo
 
 #### Pull Request Guidelines
 
-- The `master` branch is basically just a snapshot of the latest stable release. All development should be done in dedicated branches. **Do not submit PRs against the `master` branch.**
-
-- Checkout a topic branch from the relevant branch, e.g. `dev`, and merge back against that branch.
+- Checkout a topic branch from the relevant branch, e.g. `v1`, and merge back against that branch.
 
 - **DO NOT** check in `dist` in the commits.
 
