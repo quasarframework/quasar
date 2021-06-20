@@ -48,26 +48,12 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
             href="https://donate.quasar.dev"
             target="_blank"
             rel="noopener"
-            color="teal"
+            color="brand-primary"
             outline
             :icon="mdiHeart"
             label="Donate to Quasar"
-            padding="12px lg"
             no-wrap
-          )
-
-        .row.justify-center.q-my-md
-          q-btn.doc-layout__main-btn(
-            type="a"
-            href="https://bit.ly/3cTLXsO"
-            target="_blank"
-            color="brand-primary"
-            outline
-            :icon="mdiFileDocumentEditOutline"
-            label="Survey results are out!"
             no-caps
-            padding="12px lg"
-            no-wrap
           )
 
         app-menu.q-mb-lg
@@ -89,7 +75,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           @keydown="onSearchKeydown"
           @focus="onSearchFocus"
           @blur="onSearchBlur"
-          placeholder="Search..."
+          placeholder="Search Quasar v1..."
         )
           template(v-slot:prepend)
             q-icon(name="search")
@@ -134,8 +120,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 <script>
 import { scroll } from 'quasar'
 import {
-  mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp,
-  mdiFileDocumentEditOutline
+  mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp
 } from '@quasar/extras/mdi-v5'
 
 import AppMenu from 'components/AppMenu'
@@ -161,7 +146,6 @@ export default {
     this.mdiHeart = mdiHeart
     this.mdiMagnify = mdiMagnify
     this.mdiChevronUp = mdiChevronUp
-    this.mdiFileDocumentEditOutline = mdiFileDocumentEditOutline
   },
 
   components: {
@@ -367,7 +351,7 @@ export default {
     background-color: $grey-4
 
 .doc-layout__main-btn
-  width: 268px
+  width: 200px
 
 .q-drawer--mobile
   .doc-toc
