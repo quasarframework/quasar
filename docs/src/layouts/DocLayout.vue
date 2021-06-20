@@ -48,26 +48,12 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
             href="https://donate.quasar.dev"
             target="_blank"
             rel="noopener"
-            color="teal"
+            color="brand-primary"
             outline
             :icon="mdiHeart"
             label="Donate to Quasar"
-            padding="12px lg"
             no-wrap
-          )
-
-        .row.justify-center.q-my-md
-          q-btn.doc-layout__main-btn(
-            type="a"
-            href="https://bit.ly/3cTLXsO"
-            target="_blank"
-            color="brand-primary"
-            outline
-            :icon="mdiFileDocumentEditOutline"
-            label="Survey results are out!"
             no-caps
-            padding="12px lg"
-            no-wrap
           )
 
         app-menu.q-mb-lg
@@ -137,8 +123,7 @@ import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
 
 import {
-  mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp,
-  mdiFileDocumentEditOutline
+  mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp
 } from '@quasar/extras/mdi-v5'
 
 import AppMenu from 'components/AppMenu.js'
@@ -168,8 +153,7 @@ export default {
       mdiClipboardText,
       mdiHeart,
       mdiMagnify,
-      mdiChevronUp,
-      mdiFileDocumentEditOutline
+      mdiChevronUp
     }
 
     useToc(scope, $route)
@@ -193,7 +177,7 @@ export default {
     background-color: $grey-4
 
 .doc-layout__main-btn
-  width: 268px
+  width: 200px
 
 .q-drawer--mobile
   .doc-toc
