@@ -366,10 +366,6 @@ export default {
   .header
     background-color: $grey-4
 
-.header-logo
-  width: 25px
-  height: 25px
-
 .doc-layout__main-btn
   width: 268px
 
@@ -402,6 +398,7 @@ export default {
     width: 38px
     height: 38px
     margin-right: 8px
+    border-radius: 50%
 
   &:hover &__img
     transform: rotate(-360deg)
