@@ -92,17 +92,17 @@ div
 
       q-item-label.q-mt-md(header) Playground
 
-      q-item(clickable, tag="a", href="https://codepen.io/rstoenescu/pen/xxEvBLR?editors=101", target="_blank", rel="noopener")
+      q-item(clickable, tag="a", href="https://codepen.quasar.dev", target="_blank", rel="noopener")
         q-item-section.text-brown-5(avatar)
           q-icon(:name="fabCodepen")
         q-item-section Codepen
 
-      q-item(clickable, tag="a", href="https://jsfiddle.net/rstoenescu/a2cuzods/", target="_blank", rel="noopener")
+      q-item(clickable, tag="a", href="https://jsfiddle.quasar.dev", target="_blank", rel="noopener")
         q-item-section.text-brand-primary(avatar)
           q-icon(:name="fabJsfiddle")
         q-item-section jsFiddle
 
-      q-item(clickable, tag="a", href="https://codesandbox.io/s/optimistic-poitras-4t3m3", target="_blank", rel="noopener")
+      q-item(clickable, tag="a", href="https://codesandbox.quasar.dev", target="_blank", rel="noopener")
         q-item-section.text-black(avatar)
           q-icon(:name="fasCubes")
         q-item-section Codesandbox
