@@ -1,14 +1,15 @@
 ---
 title: Timeline
 desc: The QTimeline Vue component displays a list of events in chronological order. It is typically a graphic design showing a long bar labelled with dates alongside itself and usually events.
+keys: QTimeline,QTimelineEntry
 ---
 The QTimeline component displays a list of events in chronological order. It is typically a graphic design showing a long bar labelled with dates alongside itself and usually events. Timelines can use any time scale, depending on the subject and data.
 
 QTimeline has 3 layouts:
 
-- `dense` (default) is showing headings, titles, subtitles and content on the **timeline-specified side** of the time line (default on right)
-- `comfortable` is showing headings, titles and content on the **timeline-specified side** of the time line (default on right) and the subtitles on the other side
-- `loose` is showing headings on center, titles and content on the **entry-specified side** of the time line (default on right) and the subtitles on the other side
+* `dense` (default) is showing headings, titles, subtitles and content on the **timeline-specified side** of the time line (default on right)
+* `comfortable` is showing headings, titles and content on the **timeline-specified side** of the time line (default on right) and the subtitles on the other side
+* `loose` is showing headings on center, titles and content on the **entry-specified side** of the time line (default on right) and the subtitles on the other side
 
 ## QTimeline API
 <doc-api file="QTimeline" />

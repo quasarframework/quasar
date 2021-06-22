@@ -150,13 +150,13 @@ export default {
         progress: true,
         actions: twoActions
           ? [
-            { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) },
-            { label: 'Dismiss', color: 'yellow', handler: () => console.log('dismiss wooow ' + random) }
-          ]
+              { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) },
+              { label: 'Dismiss', color: 'yellow', handler: () => console.log('dismiss wooow ' + random) }
+            ]
           : (random > 40
-            ? [ { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) } ]
-            : null
-          ),
+              ? [ { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) } ]
+              : null
+            ),
         timeout: Math.random() * 5000 + 8000
       })
       /*
@@ -249,7 +249,7 @@ export default {
       html: true
     })
     // this.$q.notify.setDefaults({
-    //   actions: [{ icon: 'close', handler () { console.log('cloooose') } }]
+    //   actions: [ { icon: 'close', handler () { console.log('cloooose') } } ]
     // })
     this.$q.notify({
       message: 'You need to know about this!',

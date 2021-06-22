@@ -31,11 +31,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model1: '2019-02-15',
-      model2: '03-21-2019'
+      model1: ref('2019-02-15'),
+      model2: ref('03-21-2019')
     }
   }
 }

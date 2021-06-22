@@ -5,34 +5,42 @@
 </template>
 
 <script>
-import { QSpinnerGears } from 'quasar'
+import { useQuasar, QSpinnerGears } from 'quasar'
+import { onBeforeUnmount } from 'vue'
 
 export default {
-  methods: {
-    showLoading () {
-      this.$q.loading.show({
-        message: 'First message. Gonna change it in 3 seconds...'
-      })
+  setup () {
+    const $q = useQuasar()
+    let timer
 
-      this.timer = setTimeout(() => {
-        this.$q.loading.show({
-          spinner: QSpinnerGears,
-          spinnerColor: 'red',
-          message: 'Updated message'
+    onBeforeUnmount(() => {
+      if (timer !== void 0) {
+        clearTimeout(timer)
+        $q.loading.hide()
+      }
+    })
+
+    return {
+      showLoading () {
+        $q.loading.show({
+          message: 'First message. Gonna change it in 3 seconds...'
         })
 
-        this.timer = setTimeout(() => {
-          this.$q.loading.hide()
-          this.timer = void 0
-        }, 2000)
-      }, 2000)
-    }
-  },
+        timer = setTimeout(() => {
+          $q.loading.show({
+            spinner: QSpinnerGears,
+            spinnerColor: 'red',
+            messageColor: 'black',
+            backgroundColor: 'yellow',
+            message: 'Updated message'
+          })
 
-  beforeDestroy () {
-    if (this.timer !== void 0) {
-      clearTimeout(this.timer)
-      this.$q.loading.hide()
+          timer = setTimeout(() => {
+            $q.loading.hide()
+            timer = void 0
+          }, 2000)
+        }, 2000)
+      }
     }
   }
 }

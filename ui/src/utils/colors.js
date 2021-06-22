@@ -8,10 +8,10 @@ export function rgbToHex ({ r, g, b, a }) {
   b = Math.round(b)
 
   if (
-    r > 255 ||
-    g > 255 ||
-    b > 255 ||
-    (alpha && a > 100)
+    r > 255
+    || g > 255
+    || b > 255
+    || (alpha && a > 100)
   ) {
     throw new TypeError('Expected 3 numbers below 256 (and optionally one below 100)')
   }
@@ -24,7 +24,7 @@ export function rgbToHex ({ r, g, b, a }) {
 }
 
 export function rgbToString ({ r, g, b, a }) {
-  return `rgb${a !== void 0 ? 'a' : ''}(${r},${g},${b}${a !== void 0 ? ',' + (a / 100) : ''})`
+  return `rgb${ a !== void 0 ? 'a' : '' }(${ r },${ g },${ b }${ a !== void 0 ? ',' + (a / 100) : '' })`
 }
 
 export function hexToRgb (hex) {
@@ -35,10 +35,10 @@ export function hexToRgb (hex) {
   hex = hex.replace(/^#/, '')
 
   if (hex.length === 3) {
-    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
+    hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ]
   }
   else if (hex.length === 4) {
-    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3]
+    hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] + hex[ 3 ] + hex[ 3 ]
   }
 
   const num = parseInt(hex, 16)
@@ -151,13 +151,13 @@ export function textToRgb (str) {
   }
 
   const rgb = {
-    r: Math.min(255, parseInt(m[2], 10)),
-    g: Math.min(255, parseInt(m[3], 10)),
-    b: Math.min(255, parseInt(m[4], 10))
+    r: Math.min(255, parseInt(m[ 2 ], 10)),
+    g: Math.min(255, parseInt(m[ 3 ], 10)),
+    b: Math.min(255, parseInt(m[ 4 ], 10))
   }
 
-  if (m[1]) {
-    const alpha = parseFloat(m[5])
+  if (m[ 1 ]) {
+    const alpha = parseFloat(m[ 5 ])
     rgb.a = Math.min(1, isNaN(alpha) === true ? 1 : alpha) * 100
   }
 
@@ -181,9 +181,9 @@ export function lighten (color, percent) {
     B = rgb.b
 
   return '#' + (
-    0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
-    (Math.round((t - G) * p) + G) * 0x100 +
-    (Math.round((t - B) * p) + B)
+    0x1000000 + (Math.round((t - R) * p) + R) * 0x10000
+    + (Math.round((t - G) * p) + G) * 0x100
+    + (Math.round((t - B) * p) + B)
   ).toString(16).slice(1)
 }
 
@@ -263,31 +263,6 @@ export function changeAlpha (color, offset) {
   })
 }
 
-export function setBrand (color, value, element = document.body) {
-  if (typeof color !== 'string') {
-    throw new TypeError('Expected a string as color')
-  }
-  if (typeof value !== 'string') {
-    throw new TypeError('Expected a string as value')
-  }
-  if (!(element instanceof Element)) {
-    throw new TypeError('Expected a DOM element')
-  }
-
-  element.style.setProperty(`--q-color-${color}`, value)
-}
-
-export function getBrand (color, element = document.body) {
-  if (typeof color !== 'string') {
-    throw new TypeError('Expected a string as color')
-  }
-  if (!(element instanceof Element)) {
-    throw new TypeError('Expected a DOM element')
-  }
-
-  return getComputedStyle(element).getPropertyValue(`--q-color-${color}`).trim() || null
-}
-
 export function getPaletteColor (colorName) {
   if (typeof colorName !== 'string') {
     throw new TypeError('Expected a string as color')
@@ -295,7 +270,7 @@ export function getPaletteColor (colorName) {
 
   const el = document.createElement('div')
 
-  el.className = `text-${colorName} invisible fixed no-pointer-events`
+  el.className = `text-${ colorName } invisible fixed no-pointer-events`
   document.body.appendChild(el)
 
   const result = getComputedStyle(el).getPropertyValue('color')
@@ -304,9 +279,6 @@ export function getPaletteColor (colorName) {
 
   return rgbToHex(textToRgb(result))
 }
-
-// TODO: remove in v2
-export const stringToRgb = textToRgb
 
 export default {
   rgbToHex,
@@ -319,7 +291,5 @@ export default {
   brightness,
   blend,
   changeAlpha,
-  setBrand,
-  getBrand,
   getPaletteColor
 }

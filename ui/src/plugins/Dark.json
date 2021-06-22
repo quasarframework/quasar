@@ -1,11 +1,9 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/quasar-plugins/dark"
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/dark"
   },
 
   "injection": "$q.dark",
-
-  "addedIn": "v1.3.0",
 
   "props": {
     "isActive": {

@@ -27,10 +27,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      standard: 10
+      standard: ref(10)
     }
   }
 }

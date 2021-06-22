@@ -62,8 +62,8 @@
 import { fabApple } from '@quasar/extras/fontawesome-v5'
 
 export default {
-  created () {
-    this.fabApple = fabApple
+  setup () {
+    return { fabApple }
   }
 }
 </script>

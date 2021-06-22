@@ -29,16 +29,14 @@ export default {
     noData: 'គ្មានទិន្ន័យ',
     noResults: 'គ្មានទិន្ន័យដូច',
     loading: 'កំពុងផ្ទេរទិន្នន័យ...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 ជួរដេកត្រូវបានជ្រើសរើស'
         : (rows === 0 ? 'មិនមាន' : rows) + ' ជួរដេកត្រូវបានជ្រើសរើស'
-    },
+    ),
     recordsPerPage: 'ជួរដេកក្នុងមួយទំព័រ:',
     allRows: 'ទាំងអស់',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' នៃ ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' នៃ ' + total,
     columns: 'ជួរឈរ'
   },
   editor: {

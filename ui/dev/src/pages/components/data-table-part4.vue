@@ -10,11 +10,11 @@
 
     <q-table
       title="Treats"
-      :data="rows"
+      :rows="rows"
       :columns="columns"
       row-key="name"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
       :hide-bottom="hideBottom"
       :hide-selected-banner="hideSelectedBanner"
       :hide-no-data="hideNoData"
@@ -47,7 +47,7 @@
         <q-tr v-show="props.expand" :props="props" no-hover>
           <q-td colspan="100%">
             <q-table
-              :data="rows"
+              :rows="rows"
               :columns="columns"
             >
               <q-tr :props="props" />
@@ -60,7 +60,7 @@
     <q-table
       class="q-mt-md"
       title="classes() & style() with no slots"
-      :data="rows"
+      :rows="rows"
       :columns="columns"
       row-key="name"
     />
@@ -186,15 +186,15 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `${val}`,
+          format: val => `${ val }`,
           sortable: true
         },
         {
-          name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true, // eslint-disable-line
+          name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true,
           classes: row => (row.calories % 2 === 0 ? 'bg-green text-white' : 'bg-yellow')
         },
         {
-          name: 'fat', sortOrder: 'ad', label: 'Fat (g)', field: 'fat', sortable: true, // eslint-disable-line
+          name: 'fat', sortOrder: 'ad', label: 'Fat (g)', field: 'fat', sortable: true,
           style: row => 'width:10px' + (row.fat % 2 === 0 ? ';font-size: 2em' : '')
         },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },

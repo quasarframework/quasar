@@ -64,35 +64,38 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const submitEmpty = ref(false)
+    const submitResult = ref([])
+
     return {
-      acceptAgreement: false,
-      subscribeNewsletter: null,
+      acceptAgreement: ref(false),
+      subscribeNewsletter: ref(null),
 
-      genreRock: 'rock',
-      genreFunk: false,
-      genrePop: 'pop',
+      genreRock: ref('rock'),
+      genreFunk: ref(false),
+      genrePop: ref('pop'),
 
-      submitEmpty: false,
-      submitResult: []
-    }
-  },
+      submitEmpty,
+      submitResult,
 
-  methods: {
-    onSubmit (evt) {
-      const formData = new FormData(evt.target)
-      const submitResult = []
+      onSubmit (evt) {
+        const formData = new FormData(evt.target)
+        const data = []
 
-      for (const [ name, value ] of formData.entries()) {
-        submitResult.push({
-          name,
-          value
-        })
+        for (const [ name, value ] of formData.entries()) {
+          data.push({
+            name,
+            value
+          })
+        }
+
+        submitResult.value = data
+        submitEmpty.value = data.length === 0
       }
-
-      this.submitResult = submitResult
-      this.submitEmpty = submitResult.length === 0
     }
   }
 }

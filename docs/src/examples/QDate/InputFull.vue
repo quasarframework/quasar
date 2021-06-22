@@ -29,10 +29,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      date: '2019-02-01 12:44'
+      date: ref('2019-02-01 12:44')
     }
   }
 }

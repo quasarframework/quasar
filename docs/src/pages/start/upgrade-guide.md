@@ -1,13 +1,27 @@
 ---
 title: Upgrade Guide
 desc: How to upgrade Quasar from older versions to the latest one.
+components:
+  - upgrade-guide/UpgradeVideoLink
 ---
 
-:::tip
-Quasar's v1 version is now on a stable API.
+::: danger Quasar UI v2
+* In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your installed webpack plugins accordingly.
+* There is no IE11 support because Vue 3 does NOT (and will not) support it either.
+* There may be some App Extensions that are not yet ported to Vue 3 and Quasar v2.
 :::
 
-## Upgrading from older v1 to latest v1
+::: tip Composition and Options API
+You will notice that all of our documentation examples are using Vue 3's Composition API. This does NOT mean that you can't use the legacy Options API. On the contrary, maintaining Options API will actually help you on your upgrade path and make it a lot easier for you. After upgrading is done we do recommend switching to the Composition API, but by no means you are required to do so.
+:::
+
+### Video guide <q-badge align="top" color="brand-primary" label="New" />
+
+Clicking on the poster below will open a Youtube playlist on the process of upgrading your Quasar CLI project from Quasar v1 to Quasar v2. It may get out of sync as we progress with Quasar v2, but it may help you get started.
+
+<upgrade-video-link />
+
+## Older v2 to latest v2
 
 ### With UMD
 Simply replace the version string in all the CSS and JS tags that refer to Quasar to the newer version.
@@ -16,7 +30,7 @@ Simply replace the version string in all the CSS and JS tags that refer to Quasa
 
 ```bash
 # run these commands inside
-# of a Quasar v1 project
+# of a Quasar UI v2 project
 
 # check for upgradable packages
 $ quasar upgrade
@@ -26,2421 +40,1005 @@ $ quasar upgrade --install
 ```
 
 ::: warning Note for code editor terminals
-If you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%* then restart your code editor.
+If you're using a code editor terminal instead of an external one and you run `quasar upgrade` and get the error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%*, then restart your code editor.
 :::
 
 ### With Vue CLI
+
 ```bash
-$ yarn upgrade quasar@latest
+$ yarn upgrade quasar
 ```
 
-You may also want to make sure you have the latest of `@quasar/extras` package too:
+Optionally, you may also want to make sure that you have the latest `vue-cli-plugin-quasar` package.
+
+It's highly recommended to keep `@quasar/extras` package up to date too:
 
 ```bash
+# optional, but recommended
 $ yarn add @quasar/extras@latest
 ```
 
-## Upgrading from 0.x to v1
+## Migrate to v2 from v1
 
-Before you start down this journey of upgrading Quasar Legacy to Quasar v1 you should know a few things:
+**This guide refers to Quasar CLI & UMD projects**, but information from here can be used for Vue CLI too. For developers already using Vue CLI on your projects you can check out how to install the [vue-cli-plugin-quasar](/start/vue-cli-plugin) package that works with Quasar v2. You will also need to make a few changes to your main.js (and also upgrade your Vue CLI project to support Vue 3) too (best way currently is to generate a new Vue CLI project for Vue 3 and then following the [install steps](/start/vue-cli-plugin#add-vue-cli-quasar-plugin) for the vue-cli-plugin-quasar and check out the changes incurred to that /src folder, then apply the same principle to your current Vue CLI project).
+
+### Intro
+
+We've put in a lot of work, so the transition from Quasar v1 to v2 is as painless as possible. Don't be afraid by the length of this page, as it doesn't reflect the effort that you need to put into upgrading your app to Quasar v2 (we just tried to make it as complete as possible). The API of Quasar components, directives and plugins has minor changes, but we kept the breaking changes to a bare minimum. We've also added some new cool features to some components.
+
+Quasar UI v2 is based on Vue 3, as opposed to the previous version which was based on Vue 2. This means that your app code (Vue components, directives, etc) should be Vue 3 compliant too, not just the Quasar UI source-code. If you are using additional libraries in your app, please make sure that you are using their Vue 3 versions.
+
+Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots of significant performance enhancements in Quasar's algorithms too!__ You'll love it!
+
+::: warning IMPORTANT!
+* No IE11 support - Vue 3 does not support IE11 either. If IE11 support is mandatory for your project(s), then continue using Quasar UI v1.
+* In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
+* Quasar Stylus variables are no longer available (only Sass/SCSS). This does NOT mean that you can't use Stylus anymore though.
+* Not all of our official App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions for them.
+* Node v10 reached its End Of Life and so support for it has been dropped. Be sure to update Node (to at least v12.22.1) and npm/yarn on your system accordingly to the new constraits, which include fixes for latest know security issues. This Node version also include native ESM module support, which will help us futher modernize Quasar codebase under the hood during Quasar v2 lifecycle without breaking changes.
+:::
+
+Before you start with this journey of upgrading your project from v1 to v2, you should know a few additional things:
 1) Read the documentation before asking questions on Discord server or forums.
-2) Prepare a CodePen so staff can help you.
-3) Dig into the Quasar source code (it'll help you understand the framework as well as teach you best practices for programming with Vue).
-4) Don't use framework components as mixins unless absolutely necessary (wrap them if you need).
+2) Prepare a CodePen so staff can help you, if you think you've found an issue.
+3) Dig into the [Quasar source code](https://github.com/quasarframework/quasar/tree/dev) (it'll help you understand the framework as well as teach you best practices for programming with Vue).
+4) Don't use framework components as mixins unless absolutely necessary (wrap them if you need to).
 5) Don't target inner component stuff with CSS selectors unless absolutely necessary.
 6) We recommend `yarn` whenever possible because of its speed and efficient use. However, when using globals, we still recommend using `npm`, especially if you use `nvm` (Node Version Manager).
 7) Use `git` for repository management and make regular commits, it is like taking notes on the process and lets you revert to a previous state in case you get stuck.
 8) Use Quasar boot files for any pre-mounting app routines.
-9) Be very cautious when using other libraries - Quasar can't ensure they will be fully compatible
-10) Finally, become a [backer/sponsor](https://donate.quasar.dev) and get access to the special Discord support chat room for priority support.
+9) Finally, become a [backer/sponsor](https://donate.quasar.dev) and get access to the special Discord support chat room for priority support. This also helps the project survive.
 
-### Introduction to Upgrading
-
-While upgrading Legacy Quasar projects appears like a reasonable choice, it may not always present itself as the best solution. Just be aware that there are alternative measures that may be faster and more efficient. For instance, sometimes it is best to create a new project and port your old project. In this manner, if you do it slowly and methodologically you can see issues and resolve them quickly. This is the opposite of upgrading a project in-place, which can break everything simultaneously. Should you go with the upgrade, we have assembled the steps needed below. However, you will still need to update any Quasar components that went through a revision to get to v1.
-
-In either case, when you build out your project as you go through this process, you may get a build error that gives no valid information and you will have no idea what might be causing it. Should this happen to you, we recommend running `quasar build` instead of `quasar dev` as the production build will sometimes give different information (from webpack) than the dev build.
-
-If you get stuck, check out the forums and visit Discord server for help. Not just from staff, but from the community as well.
-
-Whichever path you take, good luck!
+If you get stuck, check out the forums or visit our Discord server for help which comes not just from staff, but from the community as well.
 
 ::: warning Info
-It should be noted that we have tried our hardest to make sure everything in the Upgrade documentation is correct. However, because this has been a manual process there are likely errors. If you find any, don't be afraid to make a PR and propose a change to that which needs to be corrected.
+It should be noted that we have tried our hardest to make sure everything in the Upgrade documentation is correct. However, because this has been a manual process, there are likely errors. If you find any, don't be afraid to make a PR and propose a change to make corrections.
 :::
+
+
 
 ### Initial Steps
 
-The best way to start upgrading your project is to follow these steps:
+There are two paths you can follow. They are described below. Choose the path that fits your needs best. We do, however, recommend the first option.
 
-1) First, **verify** your current info with `quasar info`:
-  ```bash
-  Global packages
-    quasar-cli                    0.17.23
+#### Option 1: Convert a project
 
-  Important local packages
-    quasar-cli                    0.17.23 (Quasar Framework CLI)
-    quasar-framework              0.17.19 (Build responsive SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase)
-    quasar-extras                 2.0.9   (Quasar Framework fonts, icons and animations)
-  ```
-  This shows the Legacy Quasar versions (we'll do this again at end of the steps to verify upgrade)
-
-2) **Remove** local `quasar-cli` package
-  ```bash
-  $ yarn remove quasar-cli
-  ```
-
-3) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file
-
-4) **Install**: `quasar` and `@quasar/extras` as dependency
-  ```bash
-  $ yarn add quasar @quasar/extras
-  ```
-
-5) **Install**: `@quasar/app` as development dependency
-  ```bash
-  $ yarn add --dev @quasar/app
-  ```
-
-6) **Re-install** all the npm packages
-  ```bash
-  $ yarn
-  ```
-
-7) **Babel Upgrade**
-
-  Start by **removing** the old `.babelrc` and **creating** a new `babel.config.js`
-
-  Then update your `babel.config.js` to
-
-  ```js
-  module.exports = {
-    presets: [
-      '@quasar/babel-preset-app'
-    ]
-  }
-  ```
-
-8) **Rename** the folder `src/plugins` to `src/boot`
-
-9) In `quasar.conf.js`: **rename** the key section `plugins` to `boot`
-
-  ```js
-  module.exports = function (ctx) {
-    return {
-      // app plugins (/src/plugins)
-      plugins: [
-      ],
-
-  ```
-
-  should look like this:
-
-  ```js
-  module.exports = function (ctx) {
-    return {
-      // app boot (/src/boot)
-      boot: [
-      ],
-
-  ```
-
-  Do not get the Quasar plugins mixed up. _Do not_ change this:
-
-  ```js
-  // Quasar plugins
-  framework: {
-    plugins: [ // do NOT edit here
-      'Notify'
-    ]
-  }
-  ```
-
-10) In `quasar.conf.js`: **rename** the value `fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v5` and `ionicons` to `ionicons-v4` inside the `extras` section, if you use them. Even if you don't use them it is still good practice to rename them in case you do use them in the future.
-
-11) In `quasar.conf.js` > `framework` > `iconSet` do same **rename** replacements as above to its value (`fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v5` and `ionicons` to `ionicons-v4`)
-
-12) In `quasar.conf.js`: **rename** in `framework` > `i18n` to `lang`
-
-13) In `quasar.conf.js`: **remove** all references to `ctx.theme`
-
-14) **Create** the file `quasar.variables.styl` (or .sass, .scss -- recommended!) in the folder `~/src/css`, if does not already exist. Add the following to it (or move the contents from `~/src/css/themes/common.variables.styl`):
-
-  ```stylus
-  // Quasar Stylus Variables
-  // --------------------------------------------------
-  // To customize the look and feel of this app, you can override
-  // the Stylus variables found in Quasar's source Stylus files.
-
-  // Check documentation for full list of Quasar variables
-
-  // It's highly recommended to change the default colors
-  // to match your app's branding.
-  // Tip: Use the "Theme Builder" on Quasar's documentation website.
-
-  $primary   = #1976d2
-  $secondary = #26A69A
-  $accent    = #9C27B0
-
-  $positive  = #21BA45
-  $negative  = #C10015
-  $info      = #31CCEC
-  $warning   = #F2C037
-  ```
-
-15) In the folder `~/src/css`, **remove** the `themes` folder.
-
-16) **Remove** the global Legacy Quasar `quasar-cli` and **install** the new `@quasar/cli`. (You will still be able to run legacy 0.17 projects with it)
-
-**Remove** global Quasar CLI (use Yarn or NPM, depending with which you've installed it in the first place):
-
-```bash
-$ yarn global remove quasar-cli
-# or (depending on what you've installed it with)
-$ npm remove -g quasar-cli
-```
-
-**Install** global Quasar CLI
-
-```bash
-$ yarn global add @quasar/cli
-# or
-$ npm install -g @quasar/cli
-```
-
-::: tip
-If you are using Yarn, make sure that the Yarn [global install location](https://yarnpkg.com/lang/en/docs/cli/global/) is in your PATH:
-
-```bash
-# in ~/.bashrc or equivalent
-export PATH="$(yarn global bin):$PATH"
-```
+::: danger Important!
+This guide assumes that you are currently using a `@quasar/app` v2 project.
 :::
 
-17) Last, but not least, do a sanity check with `quasar info`:
+Before starting, it is highly suggested to make a copy of your current working project or create a new branch with git.
 
+1) **Stylus related**: Are you using Stylus and Quasar Stylus variables? Then before anything, convert all those files to Sass/SCSS (including src/css/app.styl -> src/css/app.sass or app.scss). If you still want to use Stylus in your project (without Quasar Stylus variables), then you'll also need to install the stylus related packages (which are no longer supplied by "@quasar/app" out of the box):
   ```bash
-  Global packages
-    @quasar/cli - 1.0.5
+  # only if you still want to use Stylus (but without Quasar Stylus variables)
+  $ yarn add --dev stylus stylus-loader
+  ```
+2) **Upgrade** Node to at least v12.22.1, npm to at least v6.14.12 and yarn to at least v1.17.3.
+  ```bash
+  # if you are already using a lts/erbium version (eg. 12.14.0), take note of its version, it should be listed at "lts/erbium" row
+  $ nvm list
 
-  Important local packages
-    quasar - 1.9.0 -- High performance, Material Design 2, full front end stack with Vue.js -- build SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase
-    @quasar/app - 1.5.4 -- Quasar Framework App CLI
-    @quasar/extras - 1.5.1 -- Quasar Framework fonts, icons and animations
+  # if you're using `nvm` helper on Linux (https://github.com/nvm-sh/nvm)
+  $ nvm install 12.22.1 && nvm alias default lts/erbium && nvm use default
+  # if you're using `nvm` helper on Windows (https://github.com/coreybutler/nvm-windows)
+  $ nvm install 12.22.1 && nvm use 12.22.1
+
+  # uninstall previous "lts/erbium" version, we suppose 12.14.0 was already installed in our case
+  nvm uninstall 12.14.0
+  ```
+3) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
+4) **Install**: `@quasar/app` v3 and `quasar` v2 packages:
+  ```bash
+  $ yarn add --dev @quasar/app@3
+  $ yarn add quasar@2
+  ```
+5) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json`/`yarn.lock` file, then run `npm install`/`yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
+6) If you are using ESLint, then edit `/.eslintrc.js`:
+  ```js
+  // old way
+  parserOptions: {
+    parser: 'babel-eslint'
+  },
+  extends: [
+    'plugin:vue/essential' // or equivalent
+  ]
+
+  // NEW way
+  parserOptions: {
+    parser: '@babel/eslint-parser'
+  },
+  extends: [
+    'plugin:vue/vue3-essential' // or equivalent
+  ]
   ```
 
-  Notice the versions that are different from step 1.
+  Also upgrade ESLint deps. Example:
 
----
+  ```js
+  "@babel/eslint-parser": "^7.0.0", // replaces babel-eslint !
+  "eslint": "^7.14.0",
+  "eslint-config-standard": "^16.0.2",
+  "eslint-plugin-import": "^2.19.1",
+  "eslint-plugin-node": "^11.0.0",
+  "eslint-plugin-promise": "^5.1.0",
+  "eslint-plugin-quasar": "^1.0.0",
+  "eslint-plugin-vue": "^7.0.0",
+  "eslint-webpack-plugin": "^2.4.0"
+  ```
+7) If you are using Vuex, you will need to manually install it:
+  ```bash
+  $ yarn add vuex@4
+  # or
+  $ npm install vuex@4
+  ```
 
-> All that remains now, is fixing your pages and components for correctness.
-The information below can be used as a reference.
+8) Edit quasar.conf.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
+  ```js
+  // old way
+  framework: {
+    lang: 'en-us'
+  }
 
-### Build Themes
+  // NEW way
+  framework: {
+    lang: 'en-US'
+  }
+  ```
+9) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.conf.js > [devServer config](/quasar-cli/quasar-conf-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
+10) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
+11) Upgrade your other project dependencies (especially ESLint related ones).
 
-The iOS theme is no longer available, BUT as you will see, it's also not necessary anymore:
-* There are examples in the docs of how to make different components look and feel like iOS
-* You can hook into `$q.platform.is.ios` to help you in setting component props differently
-* The new components are very easy to customize (much easier than in Legacy Quasar)
+#### Option 2: Create a project
 
-### Quasar CLI
+Second option is to create a fresh project and port to it bit by bit. We see this option as a worst case scenario (where you encounter problems with Vue 3 and Vue Router v4 rather than with Quasar itself) and we only mention it for the completeness of this guide.
 
-- To create a new project use `quasar create` instead of `quasar init`
-- The `--theme, -t` option is no longer available as a build option.
-- `quasar describe` was added for command-line help with Quasar components, etc.
-- `quasar inspect` is a new option to see generated Webpack config.
-- `quasar ext` is a new option for management of Quasar App Extensions.
-- `quasar new plugin ...` is now `quasar new boot ...`
+You can generate a new Quasar v2 project as shown below and then you can port your app to it.
 
-### Build Output
-
-The dist folder now strips out the `-mat` and `-ios` suffixes because there's only one theme now. As a result, `dist/spa-mat`, `dist/electron-ios`, `dist/pwa-mat` etc now become `dist/spa`, `dist/electron`, `dist/pwa`.
-
-### Animation
-
-- The JS and CSS animations were removed for v1. If you need them, you can add them manually to your quasar project by pulling them directly out of the v0.17 repository and adding them to your project.
-- [motion.styl](https://github.com/quasarframework/quasar/blob/v0.17/src/css/core/motion.styl)
-- [animate.js](https://github.com/quasarframework/quasar/blob/v0.17/src/utils/animate.js)
-
-### Misc
-
-- `this.$q.i18n` was changed to `this.$q.lang`
-- ```import('quasar-framework/i18n/' + lang)``` was changed to ```import('quasar/lang/' + lang)``` where `lang` would be `en-us` etc.
-- The language pack `en-uk` was changed to `en-gb`
-- `this.$q.icons` was changed to `this.$q.iconSet`
-- In previous versions you would access an imported language packs isoName with:
-
-```js
- import('quasar/lang/' + locale).then(lang => {
-   // Access the isoName with - lang.default.lang
- })
+```bash
+# Quasar UI v2 project
+$ quasar create <folder_name>
 ```
 
-This now needs changing to
+### Webpack v5
 
-```js
- import('quasar/lang/' + locale).then(lang => {
-   // Access the isoName with - lang.default.isoName
- })
+In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
+
+#### Nodejs polyfills
+Webpack v5 removed the Nodejs polyfills for the web client builds. If you are using packages for the web client that rely on Nodejs API (they shouldn't!), you will get errors saying that some packages are missing. Examples: `Buffer`, `crypto`, `os`, `path`.
+
+These need to be addressed by the package owners. But if you don't want to wait and just want to run your app/website (with a bit of risk), then you can manually install [node-polyfill-webpack-plugin](https://www.npmjs.com/package/node-polyfill-webpack-plugin) (`yarn add --dev node-polyfill-webpack-plugin`) then reference it in quasar.conf.js > build > chainWebpack. Example:
+
+```
+// quasar.conf.js
+build: {
+  chainWebpack (chain) {
+    const nodePolyfillWebpackPlugin = require('node-polyfill-webpack-plugin')
+    chain.plugin('node-polyfill').use(nodePolyfillWebpackPlugin)
+  }
+}
 ```
 
-### Color Palette
+#### Webpack devserver
+As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server) and [webpack-dev-middleware v4](https://github.com/webpack/webpack-dev-middleware) which come with their own breaking changes. This influences quasar.conf.js > devServer options. Below are some of the most used props:
 
-The colors `faded`, `dark`, `light` were removed. If you need those, re-add them in a new Stylus file.
+| Prop name | Type | Description |
+| --- | --- | --- |
+| devMiddleware | Object | Configuration supplied to webpack-dev-middleware v4 |
+| https | Boolean/Object | Same as before with webpack 4 |
+| onBeforeSetupMiddleware | Function | Replaces "before" |
+| onAfterSetupMiddleware | Function | Replaces "after" |
+| proxy | Object/Array | Same as before with webpack 4 |
 
-   ```stylus
-   // Variables
-   $light = #bdbdbd
-   $dark = #424242
-   $faded = #777
+More on quasar.conf.js > [devServer](/quasar-cli/quasar-conf-js#property-devserver).
 
-   // CSS3 Root Variables
-   :root
-     --q-color-light $light
-     --q-color-light-d darken($light, 10%)
-     --q-color-faded $faded
-     --q-color-dark $dark
+#### webpack-chain
 
-   // CSS Classes
-   .text-faded
-     color $faded !important
-     color var(--q-color-faded) !important
-   .bg-faded
-     background $faded !important
-     background var(--q-color-faded) !important
+::: warning
+At the moment of writing these lines, [webpack-chain](https://github.com/neutrinojs/webpack-chain) has not been updated to fully support Webpack 5. This has impact over all quasar.conf.js > chainWebpack{...} methods. While these methods will still work, the newer parts of the configuration introduced in Webpack 5 are not (yet) available. For those parts, the `extendWebpack*` methods should be used, until webpack-chain is fully Webpack 5 compatible.
+:::
 
-   .text-light
-     color $light !important
-     color var(--q-color-light) !important
-   .bg-light
-     background $light !important
-     background var(--q-color-light) !important
+### App.vue
 
-   .text-dark
-     color $dark !important
-     color var(--q-color-dark) !important
-   .bg-dark
-     background $dark !important
-     background var(--q-color-dark) !important
+You'll need to edit src/App.vue and remove the wrapper `<div id="q-app">`. You don't (and should NOT) need it anymore.
 
-   .text-faded
-     color $faded !important
-     color var(--q-color-faded) !important
-   .bg-faded
-     background $faded !important
-     background var(--q-color-faded) !important
-   ```
-
-### CSS
-
-#### Color
-
-- The `tertiary` color was renamed to `accent`. This applies to *Brand Colors* as well as *Color List*.
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-|Legacy|v1|
-|-|-|
-|`$tertiary`|`$accent`|
-|`.bg-tertiary`| `.bg-accent` |
-|`.text-tertiary`|`.text-accent`|
-
+```html
+<!-- old way -->
+<template>
+  <div id="q-app">
+    <router-view />
   </div>
-</div>
+</template>
 
-### Style & Identity
+<!-- NEW way -->
+<template>
+  <router-view />
+</template>
+```
 
-<div class="row">
-  <div class="inline-block q-pa-md">
+### Vue 3
 
-#### Headings
+::: tip
+For Quasar CLI projects, you don't need to manually install/upgrade the `vue` package as "@quasar/app" v3 is already supplying the correct version of Vue for you.
+:::
 
-||Legacy|v1|
-|-|-|-|
-|h1|`.q-display-4`|`.text-h1`|
-|h2|`.q-display-3`|`.text-h2`|
-|h3|`.q-display-2`|`.text-h3` |
-|h4|`.q-display-1`|`.text-h4` |
-|h5|`.q-headline`|`.text-h5` |
-|h6|`.q-title`|`.text-h6` |
-||`.q-subheading`|`.text-subtitle1` or `.text-subtitle2` |
-||`.q-body-1`|`.text-body1` |
-||`.q-body-2`|`.text-body2` |
-||`.q-caption`|`.text-caption` |
-|||`.text-overline` |
+Since you will also switch to [Vue 3](https://v3.vuejs.org), it's best that you also take a look at its [migration guide](https://v3.vuejs.org/guide/migration/introduction.html) **after**  finishing reading this migration guide.
 
-  </div>
-  <div class="inline-block q-pa-md">
+If you're using .vue files, you'll most likely have a fairly easy transition because 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://v3.vuejs.org/guide/single-file-component.html) and instructing Vue 3 on what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)).
 
-#### Text Types
+We suggest that you first convert your project to Quasar v2 while maintaining Options API (because your components are already in Options API form and you probably want to ensure everything is working first). After this transition, you can convert all your Vue components to Composition API, but in no way is this a requirement.
 
-|Legacy|v1|
-|-|-|
-|`.quote`||
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-#### CSS Helper Classes
-
-|Legacy|v1|
-|-|-|
-|`.capitalize`|`.text-capitalize`|
-|`.lowercase`|`.text-lowercase`|
-|`.uppercase`|`.text-uppercase`|
+Along with Vue3, there is a new major version of [Vue Router v4](https://next.router.vuejs.org), which has its own [breaking changes](https://next.router.vuejs.org/guide/migration/) you should be aware of. There's also the new [Vuex v4](https://vuex.vuejs.org/) too.
 
-  </div>
-  <div class="inline-block q-pa-md">
+#### Vue 3 breaking changes examples
 
-#### CSS Visibility
+One of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to the `model-value` + `@update:model-value` combo, instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files, then you don't need to worry about it as vue-loader correctly translates it for you.
 
-|Legacy|v1|
-|-|-|
-|`.highlight-and-fade`||
-|`.mat-only`||
-|`.ios-only`||
-|`.mat-hide`||
-|`.ios-hide`||
+Also, if you emit custom events from your Vue components, you will need to explicitly specify them like below:
 
-  </div>
-  <div class="inline-block q-pa-md">
+```html
+<script>
+// your Vue component;
+// let's assume that we emit 'ok' and 'myEvent' events
+// from this component
 
-#### Mouse Related
+export default {
+  // ...
+  emits: [ 'ok', 'myEvent' ],
+  // ...
+}
+</script>
+```
 
-|Legacy|v1|
-|-|-|
-||`.cursor-inherit`|
-||`.cursor-none`|
-||`.cursor-not-allowed`|
+### Vue.js Devtools
+If you'd like to use the Vue.js Devtools with Vue 3, you'll need to replace your current browser extension with the [v6 one](https://chrome.google.com/webstore/detail/vuejs-devtools/ljjemllljcmogpfapbkkighbhhppjdbg).
 
-  </div>
-  <div class="inline-block q-pa-md">
+### Vue Router v4
 
-#### Border Related
+::: tip
+For Quasar CLI projects, you don't need to manually install/upgrade the `vue-router` package as "@quasar/app" v3 is already supplying the correct version of Vue Router for you.
+:::
 
-|Legacy|v1|
-|-|-|
-|`.round-borders`|`.rounded-borders`|
-||`.no-border`|
-||`.no-border-radius`|
-||`.no-box-shadow`|
+This is a Vue 3 ecosystem upstream breaking change. Update src/router files to match Vue Router v4's API. Vue Router v4 comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/index.html). Especially note below how we are dealing with the 404 error.
 
-  </div>
-</div>
+```js
+// default src/router/index.js content:
 
-### Layout & Grid
+import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
+import routes from './routes'
 
-<div class="row">
-  <div class="inline-block q-pa-md">
+export default function (/* { store, ssrContext } */) {
+  const createHistory = process.env.SERVER
+    ? createMemoryHistory
+    : process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory
 
-#### Grid Row
+  const Router = createRouter({
+    scrollBehavior: () => ({ left: 0, top: 0 }),
+    routes,
 
-|Legacy|v1|
-|-|-|
-||`.order-first`|
-||`.order-none`|
-||`.order-last`|
-||`.offset-<size>-<columns>`|
+    // Leave this as is and make changes in quasar.conf.js instead!
+    // quasar.conf.js -> build -> vueRouterMode
+    // quasar.conf.js -> build -> publicPath
+    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+  })
 
-<br>
+  return Router
+}
+```
 
-**`size`** is one of `xs`, `sm`, `md`, `lg` or `xl`.<br>
-**`columns`** is 1 through 12
+```js
+// default src/router/routes.js content:
+const routes = [
+  {
+    path: '/',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Index.vue') }
+    ]
+  },
 
-  </div>
-  <div class="inline-block q-pa-md">
+  // Always leave this as last one,
+  // but you can also remove it
+  {
+    path: '/:catchAll(.*)*',
+    component: () => import('pages/Error404.vue')
+  }
+]
 
-#### Grid Column
+export default routes
+```
 
-|Legacy|v1|
-|-|-|
-||`.col-auto`|
-||`.col-xs-auto`|
-||`.col-sm-auto`|
-||`.col-md-auto`|
-||`.col-lg-auto`|
-||`.col-xl-auto`|
-||`.col-shrink`|
+If you use TypeScript, you must replace the `RouteConfig` interface occurrences with `RouteRecordRaw`.
 
-  </div>
-  <div class="inline-block q-pa-md">
+### Vuex v4
 
-#### Grid Gutter
+First step that you need to take is that you need to manually install Vuex into your app.
 
-|Legacy|v1|
-|-|-|
-|`.gutter-xs`|`.q-gutter-xs`|
-|`.gutter-sm`|`.q-gutter-sm`|
-|`.gutter-md`|`.q-gutter-md`|
-|`.gutter-lg`|`.q-gutter-lg`|
-|`.gutter-xl`|`.q-gutter-xl`|
-||`.q-gutter-none`|
-||`.q-col-gutter-xs`|
-||`.q-col-gutter-sm`|
-||`.q-col-gutter-md`|
-||`.q-col-gutter-lg`|
-||`.q-col-gutter-xl`|
+```bash
+$ yarn add vuex@4
+# or:
+$ npm install vuex@4
+```
 
-  </div>
-</div>
+This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
 
-### Directives
+```js
+// default src/store/index.js content:
+import { createStore } from 'vuex'
+// import example from './module-example'
 
-- BackToTop **was dropped** in favor of [Page Scroller](/layout/page-scroller).
+export default function (/* { ssrContext } */) {
+  const Store = createStore({
+    modules: {
+      // example
+    },
 
-<div class="row">
-  <div class="inline-block q-pa-md">
+    // enable strict mode (adds overhead!)
+    // for dev mode and --debug builds only
+    strict: process.env.DEBUGGING
+  })
 
-|Legacy|v1|
-|-|-|
-|`v-close-overlay`|`v-close-popup`|
-|`v-back-to-top`||
+  return Store
+}
+```
 
-  </div>
-</div>
+### Vue-i18n v9
 
-If you are using the new [QMenu](/vue-components/menu) component, you can alternatively use the `auto-close` property.
+This is a Vue 3 ecosystem upstream breaking change. Update src/boot/i18n.js file to match Vue-i18n v9's API. Vue-i18n comes with its own [breaking changes](https://vue-i18n-next.intlify.dev/guide/migration/breaking.html).
 
-### Plugins
+Since this package isn't provided by `@quasar/app`, you must update the dependency in your project via `yarn add vue-i18n@next`
 
-#### Action Sheet
+```js
+// default src/boot/i18n.js content:
 
-- renamed to [**Bottom Sheet**](/quasar-plugins/bottom-sheet)
+import { createI18n } from 'vue-i18n'
+import messages from 'src/i18n'
+// you'll need to create the src/i18n/index.js file too
 
-#### Local/Session Storage
+const i18n = createI18n({
+  locale: 'en-US',
+  messages
+})
 
-The structure looks the same, but some functions have been renamed.
+export default ({ app }) => {
+  // Set i18n instance on app
+  app.use(i18n)
+}
 
-<div class="row">
-  <div class="inline-block q-pa-md">
+export { i18n }
+```
 
-|Legacy|v1|
-|-|-|
-|`LocalStorage.get.item(key)`|`LocalStorage.getItem(key)`|
-|`SessionStorage.get.item(key)`|`SessionStorage.getItem(key)`|
-|`this.$q.localStorage.get.item(key)`|`this.$q.localStorage.getItem(key)`|
-|`this.$q.sessionStorage.get.item(key)`|`this.$q.sessionStorage.getItem(key)`|
+If you use TypeScript, remove the existing augmentation of 'vue/types/vue' as it has been integrated into the upstream package.
+If you use TypeScript and ESLint, due to an [upstream types generation problem](https://github.com/intlify/vue-i18n-next/issues/324), `useI18n` composable will generate a "@typescript-eslint/unbound-method" linting warning when used to destructure `t`, `te` and similar methods.
+Until the problem is solved upstream, we recommended to create your own `useI18n` helper into the boot file
 
-  </div>
-</div>
+```js
+export function useI18n() {
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  const { t, te, d, n, ...globalApi } = i18n.global;
 
-### Components
+  return {
+    t: t.bind(i18n),
+    d: d.bind(i18n),
+    te: te.bind(i18n),
+    n: n.bind(i18n),
+    ...globalApi,
+  };
+}
+```
 
-- The components below are in alphabetical order for easier access.
+### @vue/composition-api
 
-#### QActionSheet
+If you've been using Composition API package for Vue 2, you'll need to change all imports to point towards the Vue package.
 
-- **was dropped** in favor of [BottomSheet](/quasar-plugins/bottom-sheet) (from code) or using a [QDialog](/vue-components/dialog) with `position="bottom"` (from the template).
+  ```js
+  // OLD, @vue/composition-api way
+  import { ref } from '@vue/composition-api'
 
-#### QAlert
+  // New Vue 3 way
+  import { ref } from 'vue'
+  ```
 
-- **replaced** by [QBanner](/vue-components/banner)
-- The properties `type` and `color` are now managed by a [background css class](/style/color-palette#using-as-css-classes).
+If you were using the deprecated `context.root` object, you must refactor your code to avoid using it, as it's not available anymore.
 
-<div class="row">
-  <div class="inline-block q-pa-md">
+Delete `src/boot/composition-api` boot file and the corresponding entry from `quasar.conf.js`. Then uninstall the `@vue/composition-api` package:
 
-**QBanner Properties**
+```bash
+$ yarn remove @vue/composition-api
+```
 
-|Legacy|v1|
-|-|-|
-|`actions`||
-|`avatar`||
-|`color`||
-|`detail`||
-|`icon`||
-|`message`||
-|`text-color`||
-|`type`||
-||`dense`|
-||`inline-actions`|
-||`rounded`|
+If you use TypeScript, prepare to reload VSCode many times, as all upgrades will cause typings cache problems.
 
-  </div>
-  <div class="inline-block q-pa-md">
+### Quasar components
 
-**QBanner Slots**
+#### Vue 3 and v-model
 
-|Legacy|v1|
-|-|-|
-||`default`|
-||`avatar`|
-||`action`|
+The `v-model` is now an alias to the `model-value` + `@update:model-value` combo, instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files then you don't need to worry about it as vue-loader correctly translates it for you.
 
-  </div>
-</div>
+Suggestion: you may want to do a search and replace for `:value` and `@input`. Please be careful on replacing the `:value` as some components (QLinearProgress, QCircularProgress) are not tied to v-model and still use `value` as a property.
 
-#### QAutocomplete
+#### Vue 3 and scoped slots
 
-- **removed**, built into [QSelect](/vue-components/select#filtering-and-autocomplete), which is far more powerfull and offers a lot more options for your autocomplete needs; make sure you get accustomed to all the features of QSelect
+All slots are now acting in the same manner as the scoped slots in Vue 2. If you're using Options API, then you can do a search and replace for `this.$scopedSlots` (and replace it with `this.$slots`).
 
-#### QBreadcrumbs
+#### QDrawer/QDialog/QMenu/QTooltip
 
-<div class="row">
-  <div class="inline-block q-pa-md">
+Use "class" and "style" attributes instead of "content-class" / "content-style" props for the above mentioned Quasar components.
 
-**QBreadcrumbs Properties**
+### QBtn/QRouteTab
 
-|Legacy|v1|
-|-|-|
-|`color`||
-||`gutter`|
-||`separator-color`|
+If you were using the `to` prop and delaying navigation in your `@click` handler:
 
-  </div>
-</div>
+```
+// OLD way
+function onClick (e, go) {
+  e.navigate = false // <<<--- this changed
+  // ...maybe later call go()?
+}
+
+// NEW way
+function onClick (e, go) {
+  e.preventDefault() // <<<--- this changed
+  // ...maybe later call go()?
+}
+```
 
 #### QBreadcrumbsEl
 
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QBreadcrumbsEl Properties**
-
-|Legacy|v1|
-|-|-|
-|`color`||
-|`event`||
-
-  </div>
-</div>
-
-#### QBtn
-
-- Type of `align` was changed from `string` to `any`
-- Type of `tabindex` was changed from `number` to `number|string`
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QBtn Properties**
-
-|Legacy|v1|
-|-|-|
-|`no-ripple`||
-|`repeat-timeout`||
-|`wait-for-ripple`||
-||`ripple`|
-||`stack`|
-||`stretch`|
-||`unelevated`|
-
-  </div>
-</div>
-
-#### QBtnDropdown
-
-- Type of `align` was changed from `string` to `any`
-- Type of `tabindex` was changed from `number` to `number|string`
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QBtnDropdown Properties**
-
-|Legacy|v1|
-|-|-|
-|`dark-percentage`||
-|`no-ripple`||
-|`percentage`||
-|`popover-anchor`||
-|`popover-self`||
-|`repeat-timeout`||
-|`wait-for-ripple`||
-||`auto-close`|
-||`cover`|
-||`menu-anchor`|
-||`menu-self`|
-||`persistent`|
-||`ripple`|
-||`stack`|
-||`stretch`|
-||`unelevated`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QBtnDropdown Events**
-
-|Legacy|v1|
-|-|-|
-||`@before-hide(evt)`|
-||`@before-show(evt)`|
-||`@hide(evt)`|
-||`@show(evt)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QBtnDropdown Methods**
-
-|Legacy|v1|
-|-|-|
-||`hide(evt)`|
-||`show(evt)`|
-||`toggle(evt)`|
-
-  </div>
-</div>
-
-#### QBtnGroup
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QBtnGroup Properties**
-
-|Legacy|v1|
-|-|-|
-||`glossy`|
-||`stretch`|
-||`unelevated`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-  </div>
-</div>
-
-#### QBtnToggle
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QBtnToggle Properties**
-
-|Legacy|v1|
-|-|-|
-|`no-ripple`||
-|`wait-for-ripple`||
-||`ripple`|
-||`stack`|
-||`stretch`|
-||`unelevated`|
-
-  </div>
-</div>
-
-#### QCard
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QCard Properties**
-
-|Legacy|v1|
-|-|-|
-|`color`||
-|`inline`||
-|`text-color`||
-||`bordered`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QCard Slots**
-
-|Legacy|v1|
-|-|-|
-|`overlay`||
-
-  </div>
-</div>
-
-#### QCardTitle
-
-- **removed**, use QCardSection of [QCard](/vue-components/card)
-
-#### QCardMain
-
-- **removed**, use QCardSection of [QCard](/vue-components/card)
-
-#### QCardMedia
-
-- **removed**, use QCardSection of [QCard](/vue-components/card) or directly place an `<img>` or QParallax.
-
-#### QCardSeparator
-
-- **removed**, use [QSeparator](/vue-components/separator)
-
-#### QCarousel
-
-- Type of `thumbnails` was changed from `array` to `boolean`
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QCarousel Properties**
-
-|Legacy|v1|
-|-|-|
-|`animation`||
-|`color`||
-|`easing`||
-|`handle-arrow-keys`||
-|`no-swipe`||
-|`quick-nav`||
-|`quick-nav-icon`||
-|`quick-nav-position`||
-|`swipe-easing`||
-|`thumbnails-horizontal`||
-|`thumbnails-icon`||
-||`animated`|
-||`control-color`|
-||`navigation`|
-||`navigation-icon`|
-||`next-icon`|
-||`padding`|
-||`prev-icon`|
-||`swipeable`|
-||`transition-next`|
-||`transition-prev`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QCarousel Events**
-
-|Legacy|v1|
-|-|-|
-|`@input(index)`|`@input(value)`|
-|`@slide`||
-|`@slide-trigger`||
-||`@before-transition`|
-||`transition`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QCarousel Methods**
-
-|Legacy|v1|
-|-|-|
-|`goToSlide(slideNum)`|`goTo(panelName)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QCarousel Slots**
-
-|Legacy|v1|
-|-|-|
-|`control-button`||
-|`control-full`||
-|`control-nav`||
-|`control-progress`||
-|`quick-nav`||
-
-  </div>
-</div>
-
-#### QCarouselControl
-
-- Type of `offset` was changed from `array of 2 numbers` to `array`
-
-#### QCarouselSlide
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QCarouselSlide Properties**
-
-|Legacy|v1|
-|-|-|
-||`disable`|
-||`name`|
-
-  </div>
-</div>
+Removed "append" prop because Vue Router v4 [has also dropped it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
+Added "tag" and "ripple" properties.
 
 #### QChatMessage
 
-- Type of `size` was changed from `array` to `string`
-- Type of `text` was changed from `array` to `string`
+Now by default, the "label", "name", "text" and "stamp" are protected from XSS attacks. This means that all of the `*-sanitize` props have been dropped, as this behavior has now become the standard in Quasar. Should you wish to display HTML as content for these props, you now need to explicitly specify them through new Boolean props (`*-html`).
 
+| Removed Boolean prop | New opposite equivalent Boolean prop |
+| --- | --- |
+| label-sanitize | label-html |
+| name-sanitize | name-html |
+| text-sanitize | text-html |
+| stamp-sanitize | stamp-html |
 
-#### QCheckbox
+#### QDate
 
-- Type of `val` was changed from `object` to `any`
+When `@update:model-value` event (equivalent of the old `@input`) is triggered, the contents of the first parameter no longer contain the (deprecated) `changed` prop.
 
-<div class="row">
-  <div class="inline-block q-pa-md">
+#### QExpansionItem
 
-**QCheckbox Properties**
+Removed the "append" property because Vue Router v4 [has also dropped it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
 
-|Legacy|v1|
-|-|-|
-|`checked-icon`||
-|`indeterminate-icon`||
-|`no-focus`||
-|`readonly`||
-|`unchecked-icon`||
-||`dense`|
-||`tabindex`|
+#### (New) Connecting to QForm
 
-  </div>
-  <div class="inline-block q-pa-md">
+Should you wish to create your own Vue components that need to connect to a parent QForm (for validation purposes), we've made it easier for you:
 
-**QCheckbox Methods**
+```js
+// Composition API variant
 
-|Legacy|v1|
-|-|-|
-||`toggle()`|
+import { useFormChild } from 'quasar'
 
-  </div>
-</div>
+useFormChild ({
+  validate,     // Function returning a Boolean (or a Promise resolving to a Boolean)
+  resetValidation, // Optional function which resets validation
+  requiresQForm // Boolean -> if "true" and your component
+                //   is not wrapped by QForm it then displays
+                //   an error message
+})
 
-#### QChip
+// some component
+export default {
+  setup () {
+    // required! should return a Boolean
+    function validate () {
+      console.log('called my-comp.validate()')
+      return true
+    }
 
-<div class="row">
-  <div class="inline-block q-pa-md">
+    function resetValidation () {
+      // ...
+    }
 
-**QChip Properties**
+    useFormChild({ validate, resetValidation, requiresQForm: true })
+  }
+}
+```
 
-|Legacy|v1|
-|-|-|
-|`avatar`||
-|`closable`||
-|`detail`||
-|`floating`||
-|`pointing`||
-|`small`||
-|`tag`||
-||`clickable`|
-||`disable`|
-||`label`|
-||`outline`|
-||`removable`|
-||`ripple`|
-||`selected`|
-||`tabindex`|
+```js
+// Options API variant
 
-  </div>
-  <div class="inline-block q-pa-md">
+import { QFormChildMixin } from 'quasar'
 
-**QChip Events**
+// some component
+export default {
+  mixins: [ QFormChildMixin ],
 
-|Legacy|v1|
-|-|-|
-|`@hide()`||
-||`@update:selected(state)`|
-||`@remove(state)`|
+  methods: {
+    // required! should return a Boolean
+    validate () {
+      console.log('called my-comp.validate()')
+      return true
+    },
 
-  </div>
-</div>
+    // optional
+    resetValidation () {
+      // ...
+    }
+  },
 
-#### QChipsInput
+  // ...
+}
+```
 
-- **removed**, built into [QSelect](/vue-components/select)
+#### QImg
 
-#### QCollapsible
+This component has been redesigned from the ground up. It now makes use of a more modern API. The immediate effects are that it uses less RAM memory and runtime is much faster.
 
-- **replaced** by [QExpansionItem](/vue-components/expansion-item)
+Added properties: "loading", "crossorigin", "fit", "no-spinner", "no-native-menu", "no-transition".
+Removed properties: "transition", "basic" (now equivalent to "no-spinner" + "no-transition")
+Changed property "no-default-spinner" to "no-spinner".
 
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QExpansionItem Properties**
-
-|Legacy|v1|
-|-|-|
-||`active-class`|
-||`append`|
-||`caption`|
-||`content-inset-level`|
-||`dark`|
-||`default-opened`|
-||`dense`|
-||`dense-toggle`|
-||`disable`|
-||`duration`|
-||`exact`|
-||`exact-active-class`|
-||`expand-icon`|
-||`expand-icon-class`|
-||`expand-icon-toggle`|
-||`expand-separator`|
-||`group`|
-||`header-class`|
-||`header-inset-level`|
-||`header-style`|
-||`icon`|
-||`label`|
-||`popup`|
-||`switch-toggle-side`|
-||`to`|
-||`replace`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QExpansionItem Events**
-
-|Legacy|v1|
-|-|-|
-||`@before-hide(evt)`|
-||`@before-show(evt)`|
-||`@hide(evt)`|
-||`@input(value)`|
-||`@show(evt)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QExpansionItem Methods**
-
-|Legacy|v1|
-|-|-|
-||`show(evt)`|
-||`toggle(evt)`|
-||`hide(evt)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QExpansionItem Slots**
-
-|Legacy|v1|
-|-|-|
-||`header`|
-
-  </div>
-</div>
-
-#### QColorPicker
-
-- **replaced** by [QColor](/vue-components/color)
-- Type of `default-value` was changed from `string|object` to `string`
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QColor Properties**
-
-|Legacy|v1|
-|-|-|
-|`after`||
-|`align`||
-|`before`||
-|`cancel-label`||
-|`clear-value`||
-|`clearable`||
-|`color`||
-|`display-value`||
-|`error`||
-|`float-label`||
-|`hide-underline`||
-|`inverted`||
-|`inverted-light`||
-|`modal`||
-|`no-parent-value`||
-|`ok-label`||
-|`placeholder`||
-|`popover`||
-|`prefix`||
-|`stack-label`||
-|`suffix`||
-|`warning`||
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QColor Events**
-
-|Legacy|v1|
-|-|-|
-|`@clear(clearVal)`||
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QColor Methods**
-
-|Legacy|v1|
-|-|-|
-|`clear()`||
-|`hide()`||
-|`show()`||
-|`toggle()`||
-
-  </div>
-</div>
-
-#### QContextMenu
-
-- **removed**, use [QMenu](/vue-components/menu) with `context-menu` prop
-
-#### QDatePicker
-
-- **replaced** by [QDate](/vue-components/date)
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QDate Properties**
-
-|Legacy|v1|
-|-|-|
-||`color`|
-||`dark`|
-||`disable`|
-||`disable-year-month`|
-||`event-color`|
-||`events`|
-||`first-day-of-week`|
-||`landscape`|
-||`minimal`|
-||`options`|
-||`readonly`|
-||`text-color`|
-||`today-btn`|
-
-  </div>
-</div>
-
-
-#### QDatetime
-
-- **removed**, use [QDate](/vue-components/date) and [QTime](/vue-components/time)
-
-#### QDatetimePicker
-
-- **removed**, use [QDate](/vue-components/date) and [QTime](/vue-components/time)
-
-#### QDialog
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QDialog Properties**
-
-|Legacy|v1|
-|-|-|
-|`cancel`||
-|`color`||
-|`ok`||
-|`message`||
-|`options`||
-|`prevent-close`|`persistent`|
-|`prompt`||
-|`stack-buttons`||
-|`title`||
-||`content-class`|
-||`content-style`|
-||`full-height`|
-||`full-width`|
-||`maximized`|
-||`seamless`|
-||`no-refocus`|
-||`no-focus`|
-||`auto-close`|
-||`transition-hide`|
-||`transition-show`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QDialog Events**
-
-|Legacy|v1|
-|-|-|
-|`@ok()`||
-|`@cancel()`||
-|`@hide()`||
-|`@show()`||
-||`@before-hide`|
-||`@before-show`|
-||`@shake`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QDialog Methods**
-
-|Legacy|v1|
-|-|-|
-||`hide(evt)`|
-||`show(evt)`|
-||`toggle(evt)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QDialog Slots**
-
-|Legacy|v1|
-|-|-|
-|`body`||
-|`buttons`||
-|`message`||
-|`title`||
-
-  </div>
-</div>
-
-#### QFab (Floating Action Button)
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QFab Events**
-
-|Legacy|v1|
-|-|-|
-|`@hide()`||
-|`@show()`||
-||`@before-hide(evt)`|
-||`@before-show(evt)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QFab Slots**
-
-|Legacy|v1|
-|-|-|
-||`tooltip`|
-
-  </div>
-</div>
-
-#### QFabAction
-
-
-#### QField
-
-- **updated**, **completely new**
-- Do NOT use to wrap QInput or QSelect; the functionality of QField is now built into [QInput](/vue-components/input) and [QSelect](/vue-components/select).
-
-If you use it to wrap Input, just move all attributes from QField to QInput. If you use `error` and `error-label`, enable `bottom-slots` on QInput and change `error-label` to `error-message`.
-
-#### QIcon
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QIcon Properties**
-
-|Legacy|v1|
-|-|-|
-||`left`|
-||`right`|
-
-  </div>
-</div>
-
-#### QInfiniteScroll
-
-Replace `:handler` with `@load`.
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QInfiniteScroll Properties**
-
-|Legacy|v1|
-|-|-|
-|`handler`||
-|`inline`||
-||`disable`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QInfiniteScroll Events**
-
-|Legacy|v1|
-|-|-|
-||`@load(index, done)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QInfiniteScroll Methods**
-
-|Legacy|v1|
-|-|-|
-|`loadMore()`|`trigger`|
-||`updateScrollTarget`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QInfiniteScroll Slots**
-
-|Legacy|v1|
-|-|-|
-|`message`|`loading`|
-
-  </div>
-</div>
-
-#### QInnerLoading
-
-- Type of `size` was changed from `string|number` to `string`
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QInnerLoading Properties**
-
-|Legacy|v1|
-|-|-|
-|`visible`||
-||`showing`|
-||`transition-hide`|
-||`transition-show`|
-
-  </div>
-</div>
-
-#### QInput
-
-- Type of `stack-label` was changed from `string` to `boolean`
-- Type of `autofocus` was changed from `boolean|string` to `boolean`
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QInput Properties**
-
-|Legacy|v1|
-|-|-|
-|`after`||
-|`align`||
-|`before`||
-|`clear-value`||
-|`decimals`||
-|`float-label`||
-|`hide-underline`||
-|`initial-show-password`||
-|`inverted`||
-|`inverted-light`||
-|`lower-case`||
-|`max-height`||
-|`no-parent-field`||
-|`no-pass-toggle`||
-|`numeric-keyboard-toggle`||
-|`step`||
-|`upper-case`||
-|`warning`||
-||`autogrow`|
-||`bg-color`|
-||`borderless`|
-||`bottom-slots`|
-||`counter`|
-||`debounce`|
-||`dense`|
-||`error-message`|
-||`fill-mask`|
-||`filled`|
-||`hide-hint`|
-||`hint`|
-||`input-class`|
-||`input-style`|
-||`items-aligned`|
-||`label`|
-||`lazy-rules`|
-||`mask`|
-||`maxlength`|
-||`outlined`|
-||`rounded`|
-||`rules`|
-||`square`|
-||`standout`|
-||`unmasked-value`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QInput Methods**
-
-|Legacy|v1|
-|-|-|
-|`clear()`||
-|`select()`||
-|`togglePass()`||
-||`resetValidation()`|
-||`validate(value)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QInput Slots**
-
-|Legacy|v1|
-|-|-|
-||`prepend`|
-||`append`|
-||`before`|
-||`after`|
-||`error`|
-||`hint`|
-||`counter`|
-
-  </div>
-</div>
-
-#### QItem
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QItem Properties**
-
-|Legacy|v1|
-|-|-|
-|`event`||
-|`highlight`||
-|`inset-separator`||
-|`link`||
-|`multiline`||
-|`separator`||
-|`sparse`||
-||`clickable`|
-||`disabled`|
-||`focused`|
-||`inset-level`|
-||`manual-focus`|
-||`tabindex`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QItem Events**
-
-|Legacy|v1|
-|-|-|
-||`@click(evt)`|
-||`@keyup(evt)`|
-
-  </div>
-</div>
-
-#### QItemMain
-
-- **removed**, use [QItemLabel](/vue-components/list-and-list-items)
-
-#### QItemSeparator
-
-- **replaced** by [QSeparator](/vue-components/separator)
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QSeparator Properties**
-
-|Legacy|v1|
-|-|-|
-||`color`|
-||`dark`|
-||`inset`|
-||`spaced`|
-||`vertical`|
-
-  </div>
-</div>
-
-#### QItemSide
-
-- **removed**, use [QItemSection](/vue-components/list-and-list-items)
-
-#### QItemTile
-
-- **removed**, use [QItemSection](/vue-components/list-and-list-items)
-- `QItemTile` with `label` property, use [QItemLabel](/vue-components/list-and-list-items) with `header` property
-- `QItemTile` with `sublabel` property, use [QItemLabel](/vue-components/list-and-list-items) with `caption` property
-
-#### QJumbotron
-
-- **removed**, use [QCard](/vue-components/card)
-
-#### QKnob
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QKnob Properties**
-
-|Legacy|v1|
-|-|-|
-|`decimals`||
-|`line-width`||
-||`angle`|
-||`center-color`|
-||`font-size`|
-||`show-value`|
-||`tabindex`|
-||`thickness`|
-
-  </div>
-</div>
-
-#### QLayout
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QLayout Properties**
-
-|Legacy|v1|
-|-|-|
-|`@resize()`|`@resize(size)`|
-|`@scroll()`|`@scroll(details)`|
-|`@scroll-height()`|`@scroll-height(height)`|
-
-  </div>
-</div>
-
-#### QLayoutDrawer
-
-- **renamed** to **QDrawer**
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QDrawer Properties**
-
-|Legacy|v1|
-|-|-|
-|`no-hide-on-route-change`||
-||`bordered`|
-||`elevated`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QDrawer Methods**
-
-|Legacy|v1|
-|-|-|
-|`on-layout`||
-||`hide`|
-||`show`|
-||`toggle`|
-
-  </div>
-</div>
-
-#### QLayoutHeader & QLayoutFooter
-
-- **renamed** to [QHeader](/layout/header-and-footer) and [QFooter](/layout/header-and-footer), respectively
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QFooter Properties**
-
-|Legacy|v1|
-|-|-|
-||`bordered`|
-||`elevated`|
-||`reveal`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QHeader Properties**
-
-|Legacy|v1|
-|-|-|
-||`bordered`|
-||`elevated`|
-||`reveal`|
-||`reveal-offset`|
-
-  </div>
-</div>
-
-#### QList
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QList Properties**
-
-|Legacy|v1|
-|-|-|
-|`highlight`||
-|`inset-separator`||
-|`link`||
-|`no-border`||
-|`sparse`||
-|`striped`||
-|`striped-odd`||
-
-  </div>
-</div>
-
-#### QListHeader
-
-- **removed**, use [QItemLabel](/vue-components/list-and-list-items) with `header` property
-
-#### QModal
-
-- **removed**, use [QDialog](/vue-components/dialog)
-
-#### QModalLayout
-
-- **removed**, use [QDialog](/vue-components/dialog) with a [QLayout](/layout/layout) (and its `container` prop)
-
-#### QOptionGroup
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QOptionGroup Properties**
-
-|Legacy|v1|
-|-|-|
-|`no-parent-group`||
-|`readonly`||
-||`dense`|
-
-  </div>
-</div>
-
-#### QPagination
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QPagination Methods**
-
-|Legacy|v1|
-|-|-|
-||`set(pageNumber)`|
-||`setOffset(offset)`|
-
-  </div>
-</div>
-
-#### QParallax
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QParallax Events**
-
-|Legacy|v1|
-|-|-|
-||`@scroll(percentage)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QParallax Slots**
-
-|Legacy|v1|
-|-|-|
-|`loading`||
-||`content`|
-
-  </div>
-</div>
-
-#### QPopover
-
-- **replaced** by [QMenu](/vue-components/menu)
-- Type of `anchor` was changed from `object` to `string`
-- Type of `self` was changed from `object` to `string`
-- Type of `offset` was changed from `array of 2 numbers` to `array`
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QMenu Properties**
-
-|Legacy|v1|
-|-|-|
-|`anchor-click`||
-|`disabled`||
-|`keep-on-screen`||
-||`auto-close`|
-||`context-class`|
-||`context-menu`|
-||`context-style`|
-||`max-width`|
-||`no-parent-event`|
-||`target`|
-||`transition-hide`|
-||`transition-show`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QMenu Events**
-
-|Legacy|v1|
-|-|-|
-||`@before-hide(evt)`|
-||`@before-show(evt)`|
-||`@escape-key`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QMenu Methods**
-
-|Legacy|v1|
-|-|-|
-||`hide(evt)`|
-||`show(evt)`|
-||`toggle(evt)`|
-||`updatePosition()`|
-
-  </div>
-</div>
+For the detailed changes, please view the API Card on [QImg](/vue-components/img#qimg-api) page.
 
 #### QPopupEdit
 
-<div class="row">
-  <div class="inline-block q-pa-md">
+Some performance improvements have been made on this component and as a result you will need to now use the default slot.
 
-**QPopupEdit Properties**
+```html
+<!-- old way -->
+<q-popup-edit
+  content-class="bg-primary text-white"
+  buttons
+  color="white"
+  v-model="myModel"
+>
+  <q-input
+    type="textarea"
+    dark
+    color="white"
+    v-model="myModel"
+    autofocus
+  />
+</q-popup-edit>
+```
 
-|Legacy|v1|
-|-|-|
-|`keep-on-screen`||
-|`validate`||
+The NEW way is below. Notice `v-slot="scope"` is applied directly on `<q-popup-edit>` and using `scope.value` instead of `myModel` for the inner `<q-input>` component:
 
-  </div>
-  <div class="inline-block q-pa-md">
+```html
+<q-popup-edit
+  class="bg-primary text-white"
+  buttons
+  color="white"
+  v-model="myModel"
+  v-slot="scope"
+>
+  <q-input
+    type="textarea"
+    dark
+    color="white"
+    v-model="scope.value"
+    autofocus
+    @keyup.enter="scope.set"
+  />
+</q-popup-edit>
+```
 
-**QPopupEdit Methods**
+For more detailed information on the usage, please read [QPopupEdit](/vue-components/popup-edit)'s page.
 
-|Legacy|v1|
-|-|-|
-||`cancel()`|
-||`set()`|
+#### QLayout
 
-  </div>
-  <div class="inline-block q-pa-md">
+The `@scroll` event parameter now has a slightly different content:
 
-**QPopupEdit Slots**
-
-|Legacy|v1|
-|-|-|
-||`title`|
-
-  </div>
-</div>
-
-#### QProgress
-
-- **replaced** by [QLinearProgress](/vue-components/linear-progress) (alternatively, use [QCircularProgress](/vue-components/circular-progress))
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QLinearProgress Properties**
-
-|Legacy|v1|
-|-|-|
-|`animate`||
-|`height`||
-|`keep-on-percentage`||
-||`dark`|
-||`query`|
-||`reverse`|
-||`rounded`|
-||`track-color`|
-
-  </div>
-</div>
-
-#### QPullToRefresh
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QPullToRefresh Properties**
-
-|Legacy|v1|
-|-|-|
-|`handler`|use `refresh` event|
-|`distance`||
-|`inline`||
-|`pull-message`||
-|`release-message`||
-|`refresh-icon`||
-|`refresh-message`||
-||`icon`|
-||`no-mouse`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QPullToRefresh Events**
-
-|Legacy|v1|
-|-|-|
-||`@refresh(done)`|
-
-  </div>
-</div>
-
-#### QRadio
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QRadio Properties**
-
-|Legacy|v1|
-|-|-|
-|`checked-icon`||
-|`no-focus`||
-|`readonly`||
-|`unchecked-icon`||
-
-  </div>
-</div>
-
-#### QRange
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QRange Properties**
-
-|Legacy|v1|
-|-|-|
-|`decimals`||
-|`error`||
-|`fill-handle-always`||
-|`square`||
-|`warning`||
-
-  </div>
-</div>
-
-#### QRating
-
-- Type of `max` was changed from `number` to `string|number`
-
-#### QResizeObservable
-
-- **renamed** to [QResizeObserver](/vue-components/resize-observer)
+```js
+{
+  position, // Number (pixels from top)
+  direction, // String ("top", "bottom")
+  directionChanged, // Boolean
+  inflectionPoint, // last position (from the top) when direction changed - Number (pixels)
+  delta // difference since last @scroll update - Number (pixels)
+}
+```
 
 #### QRouteTab
 
-- Type of `name` was changed from `string` to `string|number`
-- Type of `alert` was changed from `boolean` to `boolean|string`
-- Type of `label` was changed from `string` to `string|number`
-- Type of `to` was changed from `string|object` to `any`
-- Do not use `slot="title"` on it anymore
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QRouteTab Properties**
-
-|Legacy|v1|
-|-|-|
-|`color`||
-|`count`||
-|`hidden`||
-|`hide`||
-
-  </div>
-</div>
-
-<div class="inline-block q-pa-md">
-
-**QRouteTab Methods**
-
-|Legacy|v1|
-|-|-|
-|`select()`||
-
-  </div>
-</div>
+Added "ripple" property.
 
 #### QScrollArea
 
-- Type of `delay` was changed from `number` to `string|number`
+QScrollArea has been redesigned so that it now supports both vertical and horizontal scrolling simultaneously.
 
-#### QScrollObservable
+* Added props: "vertical-bar-style" and "horizontal-bar-style" (that come on top of "bar-style" which is applied to both vertical and horizontal scrolling bars)
+* Added props: "vertical-thumb-style" and "horizontal-thumb-style" (that come on top of "thumb-style" which is applied to both vertical and horizontal scrolling bar thumbs)
+* Removed prop: "horizontal" (now obsolete as QScrollArea support both vertical and horizontal scrolling simultaneously)
+* The "getScrollPosition" method now returns an Object of the form `{ top, left }` (example: `{ top: 5, left: 0 }`)
+* The "setScrollPosition" and "setScrollPercentage" methods now require a new first param (named "axis" with values either "horizontal" or "vertical"): (axis, offset[, duration])
 
-- **renamed** to [QScrollObserver](/vue-components/scroll-observer)
+#### QScrollObserver
 
+Replaced property "horizontal" with "axis" (String: "vertical", "horizontal", "both"; default value: "vertical").
 
+The `@scroll` event parameter now has a slightly different content:
 
-#### QSearch
-
-- **removed**, use [QInput](/vue-components/input) with `debounce` property (and optionally some icons on `append` or `prepend` slots)
+```js
+{
+  position: {
+    top, left // Numbers (pixels)
+  },
+  direction, // String ("top", "right", "bottom" or "left")
+  directionChanged, // Boolean
+  inflectionPoint: { // last position when direction changed
+    top, left // Numbers (pixels)
+  },
+  delta: { // difference since last @scroll update
+    top, left // Numbers (pixels)
+  }
+}
+```
 
 #### QSelect
 
-- Type of `stack-label` was changed from `string` to `boolean`
-- Type of `display-value` was changed from `string` to `string|number`
-- When the option list is an array of objects (as opposed to simple strings or numbers), upgraders may want to turn on the `emit-value` and `map-options` flags to preserve the behavior of previous versions. 1.0 defaults to emitting the entire object, not just the `value` property, upon selection.
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QSelect Properties**
-
-|Legacy|v1|
-|-|-|
-|`after`||
-|`before`||
-|`chips`||
-|`chips-bg-color`||
-|`chips-color`||
-|`clear-value`||
-|`filter`||
-|`filter-placeholder`||
-|`float-label`||
-|`hide-underline`||
-|`inverted`||
-|`inverted-light`||
-|`no-parent-field`||
-|`popup-cover`||
-|`popup-max-height`||
-|`radio`||
-|`separator`||
-|`toggle`||
-|`warning`||
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QSelect Slots**
-
-|Legacy|v1|
-|-|-|
-||`prepend`|
-||`append`|
-||`before`|
-||`after`|
-||`error`|
-||`hint`|
-||`counter`|
-||`selected`|
-||`no-option`|
-||`loading`|
-||`selected-item`|
-||`option`|
-
-  </div>
-
-</div>
-
-#### QSlider
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QSlider Properties**
-
-|Legacy|v1|
-|-|-|
-|`decimals`||
-|`error`||
-|`fill-handle-always`||
-|`square`||
-|`warning`||
-
-  </div>
-</div>
-
-#### QSpinnerMat
-
-- **removed**, use [QSpinner](/vue-components/spinners)
-
-#### QStep
-
-- Type of `name` was changed from `string|number` to `any`
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QStep Properties**
-
-|Legacy|v1|
-|-|-|
-|`default`||
-|`order`||
-|`subtitle`||
-
-  </div>
-</div>
-
-#### QStepper
-
-- Type of `done-icon` was changed from `boolean` to `string`
-- Type of `active-icon` was changed from `boolean` to `string`
-- Type of `error-icon` was changed from `boolean` to `string`
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QStepper Properties**
-
-|Legacy|v1|
-|-|-|
-|`color`||
-|`contractable`||
-|`no-header-navigation`||
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QStepper Slots**
-
-|Legacy|v1|
-|-|-|
-||`navigation`|
-
-  </div>
-</div>
-
-#### QTab
-
-- Type of `name` was changed from `string` to `string|number`
-- Type of `alert` was changed from `boolean` to `boolean|string`
-- Type of `label` was changed from `string` to `string|number`
-- Type of `tabindex` was changed from `number` to `string`
-- Do not use `slot="title"` on it anymore
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QTab Properties**
-
-|Legacy|v1|
-|-|-|
-|`color`||
-|`count`||
-|`default`||
-|`hidden`||
-|`hide`||
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QTab Slots**
-
-|Legacy|v1|
-|-|-|
-|`title`||
-
-  </div>
-</div>
-
-<div class="inline-block q-pa-md">
-
-**QTab Methods**
-
-|Legacy|v1|
-|-|-|
-|`select()`||
-
-  </div>
-</div>
+* The "itemEvents" prop has been dropped from the "option" slot. That information is now contained within the "itemProps". This change is a logical result Vue 3's flattening of the rendering function's second parameter ("on", "props" etc. merged together into a single Object).
+* New method: "blur()"
 
 #### QTable
 
-`filter` - type changed from `String` to `String,Object`
+Renamed the "data" property to "rows" (to solve TS conflict issue with "data" incorrectly inferred as the "data()" method of a Vue component).
 
-<div class="row">
-  <div class="inline-block q-pa-md">
+New prop: "column-sort-order". New "columns" definition prop ("sortOrder") and now "style" and "classes" can be Functions too.
 
-**QTable Properties**
+Due to the new v-model feature of Vue 3, which replaces the ".sync" modifier, `:pagination.sync="..."` now need to be used as `v-model:pagination="..."`
 
-|Legacy|v1|
-|-|-|
-|`selected-rows-label`||
-|`pagination-label`||
-||`bordered`|
-||`flat`|
-||`wrap-cells`|
+#### QTable/QTree
 
-  </div>
-  <div class="inline-block q-pa-md">
+Due to the new v-model feature of Vue 3, which replaces the ".sync" modifier, the following properties need to be used differently:
 
-**QTable Events**
+| Old way | New way |
+| --- | --- |
+| pagination.sync="varName" | v-model:pagination="varName" |
+| selected.sync="varName" | v-model:selected="varName" |
+| expanded.sync="varName" | v-model:expanded="varName" |
 
-|Legacy|v1|
-|-|-|
-|`@fullscreen()`||
-|`@request()`|`@request(pagination, filter, getCellValue)`|
-||`@update:pagination(newPagination)`|
-||`@update:selected(newSelected)`|
+#### QTooltip/QMenu
 
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QTable Methods**
-
-|Legacy|v1|
-|-|-|
-||`clearSelection()`|
-||`isRowSelected(key)`|
-||`nextPage()`|
-||`prevPage()`|
-||`requestServerInteraction(props)`|
-||`setPagination(pagination, forceServerRequest)`|
-||`sort(col)`|
-||`toggleFullscreen()`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QTable Slots**
-
-|Legacy|v1|
-|-|-|
-||`body-cell`|
-||`header-cell`|
-
-  </div>
-</div>
-
-
-#### QTableColumns
-
-- **removed**, use a `QSelect` with columns as options (see docs for example)
-
-#### QTabPane
-
-- **removed**, use [QTabPanels](/vue-components/tab-panels) and [QTabPanel](/vue-components/tab-panels) (outside of a QTabs)
-
-#### QTabs
-
-Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs with QTabPanes, remove them from the QTab container and put them into separate QTabPanel container. Put `v-model` on both containers and point it to the same variable. If you have `default` on some tab, put its name as default value of the model.
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QTabs Properties**
-
-|Legacy|v1|
-|-|-|
-|`animated`||
-|`color`||
-|`glossy`||
-|`inverted`||
-|`panes-container-class`||
-|`position`||
-|`swipeable`||
-|`text-color`||
-|`two-lines`||
-|`underline-color`|`indicator-color`|
-|`no-pane-border`||
-||`breakpoint`|
-||`active-color`|
-||`active-bg-color`|
-||`indicator-color`|
-||`left-icon`|
-||`right-icon`|
-||`switch-indicator`|
-||`narrow-indicator`|
-||`inline-label`|
-||`no-caps`|
-||`dense`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QTab Events**
-
-|Legacy|v1|
-|-|-|
-|`select`||
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QTabs Methods**
-
-|Legacy|v1|
-|-|-|
-|`go(offset)`||
-|`next()`||
-|`previous()`||
-|`selectTab(name)`||
-
-  </div>
-</div>
-
-#### QTimeline
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QTimeline Properties**
-
-|Legacy|v1|
-|-|-|
-|`no-hover`||
-|`responsive`||
-
-  </div>
-</div>
-
-#### QTimelineEntry
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QTimelineEntry Slots**
-
-|Legacy|v1|
-|-|-|
-|`subtitle`||
-|`title`||
-
-  </div>
-</div>
-
-#### QTimePicker
-
-- **replaced** by [QTime](/vue-components/time)
-
-**QTime Properties**
-
-|Legacy|v1|
-|-|-|
-||`color`|
-||`dark`|
-||`disable`|
-||`format24h`|
-||`hour-options`|
-||`landscape`|
-||`minute-options`|
-||`now-btn`|
-||`options`|
-||`readonly`|
-||`second-options`|
-||`text-color`|
-||`with-seconds`|
-
-  </div>
-
-</div>
-
-#### QToggle
-
-- Type of `val` was changed from `object` to `any`
-- `checked-icon` and `indeterminate-icon` were dropped to make `QCheckbox` more compliant with Material Standards. If you still need similar functionality, consider using `QToggle` with [icons](/vue-components/toggle#example--icons).
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QToggle Properties**
-
-|Legacy|v1|
-|-|-|
-|`no-focus`||
-|`readonly`||
-||`dense`|
-||`tabindex`|
-
-  </div>
-</div>
-
-#### QToolbar
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QToolbar Properties**
-
-|Legacy|v1|
-|-|-|
-|`color`||
-|`glossy`||
-|`inverted`||
-|`shrink`||
-|`text-color`||
-||`inset`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QToolbar Slots**
-
-|Legacy|v1|
-|-|-|
-|`subtitle`||
-
-  </div>
-</div>
-
-#### QTooltip
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QTooltip Properties**
-
-|Legacy|v1|
-|-|-|
-|`disabled`||
-||`content-class`|
-||`content-style`|
-||`max-width`|
-||`target`|
-||`transition-hide`|
-||`transition-show`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QTooltip Events**
-
-|Legacy|v1|
-|-|-|
-||`@before-hide(evt)`|
-||`@before-show(evt)`|
-||`@hide(evt)`|
-||`@input(value)`|
-||`@show(evt)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QTooltip Methods**
-
-|Legacy|v1|
-|-|-|
-||`updatePosition()`|
-
-  </div>
-</div>
-
-#### QTree
-
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QTree Properties**
-
-|Legacy|v1|
-|-|-|
-||`selected-color`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QTree Events**
-
-|Legacy|v1|
-|-|-|
-||`@lazy-load(details)`|
-||`@update:expanded(expanded)`|
-||`@update:selected(target)`|
-||`@update:ticked(target)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QTree Methods**
-
-|Legacy|v1|
-|-|-|
-||`setExpanded(key, state)`|
-||`setTicked(keys, state)`|
-
-  </div>
-</div>
+Added "transition-duration" property.
 
 #### QUploader
 
-- Type of `headers` was changed from `object` to `function|array`
-- Type of `url` was changed from `string` to `function|string`
-- Type of `method` was changed from `string` to `function|string`
+The QUploaderBase component has been removed in favor of the [createUploaderComponent](/vue-components/uploader#supporting-other-services) util.
 
-<div class="row">
-  <div class="inline-block q-pa-md">
+### Quasar directives
 
-**QUploader Properties**
+The only breaking change in this section is that **we've removed the GoBack directive**. Use the router reference instead to push/replace/go(-1).
 
-|Legacy|v1|
-|-|-|
-|`additional-fields`|`form-fields`|
-|`after`||
-|`align`||
-|`auto-expand`||
-|`before`||
-|`clear-value`||
-|`clearable`||
-|`error`||
-|`expand-style`||
-|`extensions`||
-|`float-label`||
-|`hide-underline`||
-|`hide-upload-button`|`hide-upload-btn`|
-|`hide-upload-progress`||
-|`inverted`||
-|`inverted-light`||
-|`name`||
-|`no-content-type`||
-|`no-parent-field`||
-|`placeholder`||
-|`prefix`||
-|`stack-label`||
-|`suffix`||
-|`upload-factory`||
-|`url-factory`||
-|`warning`||
-||`accept`|
-||`auto-upload`|
-||`factory`|
-||`batch`|
-||`bordered`|
-||`field-name`|
-||`label`|
-||`flat`|
-||`max-file-size`|
-||`max-total-size`|
-||`square`|
-||`text-color`|
+```js
+// Composition API variant
+import { useRouter } from 'vue-router'
 
-  </div>
-  <div class="inline-block q-pa-md">
+setup () {
+  const $router = useRouter()
 
-**QUploader Events**
+  // go back by one record, the same as $router.back()
+  $router.go(-1)
+}
+```
 
-|Legacy|v1|
-|-|-|
-|`@fail(file, xhr)`|`@failed({ files, xhr })`|
-|`@remove:abort(file)`||
-|`@remove:cancel(file)`||
-|`@remove:done(file)`||
-|`@uploaded(file, xhr)`|`@uploaded({ files, xhr })`|
-||`@uploading({ files, xhr })`|
+```js
+// Options API variant inside your component
+this.$router.go(-1)
+}
+```
 
-  </div>
-  <div class="inline-block q-pa-md">
+### Quasar plugins
 
-**QUploader Methods**
+#### Loading plugin
 
-|Legacy|v1|
-|-|-|
-|`add(files)`|`addFiles(files)`|
-|`pick()`|`pickFiles()`|
-||`removeFile(file)`|
-||`removeQueuedFiles()`|
-||`removeUploadedFiles()`|
+* Added "boxClass" property
+* By default, the message is protected from XSS attacks. Should you wish to display HTML content with the "message" prop, you should also specify "html: true". This behavior is completely opposite to that of Quasar v1, where you had the prop "sanitize" (not available anymore; enabled now by default) to NOT display HTML.
 
-  </div>
-  <div class="inline-block q-pa-md">
+#### Dialog plugin
+A few things changed:
 
-**QUploader Slots**
+1. If you are using the Dialog plugin with a custom component, then you must now supply the component properties under "componentProps":
 
-|Legacy|v1|
-|-|-|
-||`header`|
-||`list`|
+  ```js
+  // OLD, DEPRECATED v1 way
+  const dialog = this.$q.dialog({ // or Dialog.create({...})
+    component: MyVueComponent,
+    someProp: someValue,
+    // ...
+  })
 
-  </div>
+  // New v2 way (Composition API)
+  import { useQuasar } from 'quasar'
 
-</div>
+  setup () {
+    const $q = useQuasar()
+    // ...
+    const dialog = $q.dialog({ // or Dialog.create({...})
+      component: MyVueComponent,
+      componentProps: {
+        someProp: someValue,
+        // ...
+      }
+    })
+  }
 
-#### QWindowResizeObservable
+  // New v2 way (Options API)
+  const dialog = this.$q.dialog({ // or Dialog.create({...})
+    component: MyVueComponent,
+    componentProps: {
+      someProp: someValue,
+      // ...
+    }
+  })
+  ```
+2. The `parent` and `root` props have been removed. Due to the Vue 3 architecture, we can no longer use a "parent" component for the provide/inject functionality. But you'll still be able to use Vue Router/Vuex/etc. inside of your custom component.
+3. If invoking the Dialog plugin with a custom component then you need to add `emits: [ 'ok', 'cancel' ]` to your component as Vue 3 now requires an explicit list of events that the component might emit. You can also transform the component to Composition API. For detailed information please see [Invoking custom component](/quasar-plugins/dialog#invoking-custom-component).
+  ```js
+  // the invoked component code
+  export default {
+    // ...
+    emits: [ 'ok', 'cancel' ],
+    // ...
+  }
+  ```
 
-- **removed**, directly use `this.$q.screen.width` and `this.$q.screen.height` (or create a watcher on them)
+#### Meta plugin
+
+```js
+// v1 way (OLD, DEPRECATED)
+// some .vue file
+export default {
+  meta: {
+    // ...definition
+  }
+}
+```
+
+The new way (Composition API or Options API):
+
+```js
+// Composition API variant
+// for some .vue file
+import { useMeta } from 'quasar'
+
+export default {
+  setup () {
+    // Needs to be called directly under the setup() method!
+    useMeta({
+      // ...definition
+    })
+  }
+}
+```
+
+```js
+// Options API variant
+// for some .vue file
+import { createMetaMixin } from 'quasar'
+
+export default {
+  mixins: [
+    createMetaMixin({ /* ...definition */})
+    // OR dynamic:
+    createMetaMixin(function () {
+      // "this" here refers to the vue component
+      return {
+        /* ...definition... */
+      }
+    })
+  ]
+}
+```
+
+For detailed information please see [Meta Plugin](/quasar-plugins/meta#usage).
+
+### Quasar utils
+
+#### date utils
+The object literal property names provided for methods "addToDate" and "subtractFromDate" have been normalized: [#7414](https://github.com/quasarframework/quasar/issues/7414).
+
+| Old | New | Changed? |
+| --- | --- | --- |
+| year | years | **Yes** |
+| month | months | **Yes** |
+| days | days | - |
+| hours | hours | - |
+| minutes | minutes | - |
+| seconds | seconds | - |
+| milliseconds | milliseconds | - |
+
+#### exportFile util
+
+The exportFile() util (forces browser to download a file with your specified content) is enhanced with new features: you can specify bom (byte order mark) and/or a text encoding. [More info](/quasar-utils/other-utils#export-file).
+
+#### scroll utils
+
+| Old method name | NEW method name |
+| --- | --- |
+| getScrollPosition | getVerticalScrollPosition |
+| animScrollTo | animVerticalScrollTo |
+| setScrollPosition | setVerticalScrollPosition |
+
+#### color utils
+
+Removed "getBrand" and "setBrand" from color utils. They are replaced by "getCssVar" and "setCssVar":
+
+```js
+// OLD, DEPRECATED v1 way:
+import { colors } from 'quasar'
+
+const { getBrand, setBrand } = colors
+const primaryColor = getBrand('primary')
+setBrand('primary', '#f3c')
+
+// NEW v2 way:
+import { getCssVar, setCssVar } from 'quasar'
+
+const primaryColor = getCssVar('primary')
+setCssVar('primary', '#f3c')
+```
+
+### Quasar language packs
+We have changed the language pack filenames to reflect the standard naming used by browsers. This will allow you to use `$q.lang.getLocale()` when you want to dynamically import the Quasar language pack file.
+
+Full list of changes:
+| Old name | New name |
+| --- | --- |
+| en-us | en-US |
+| en-gb | en-GB |
+| az-latn | az-Latn |
+| fa-ir | fa-IR |
+| ko-kr | ko-KR |
+| kur-CKB | kur-CKB |
+| nb-no | nb-NO |
+| pt-br | pt-BR |
+| zh-hans | zh-CN |
+| zh-hant | zh-TW |
+
+If you have configured a default Quasar language pack in your quasar.conf.js, then you need to edit it:
+
+```js
+// old way
+framework: {
+  lang: 'en-us'
+}
+
+// NEW way
+framework: {
+  lang: 'en-US'
+}
+```
+
+You'll also need to edit all your dynamic imports from `quasar/lang/` to match the new syntax.
+
+### Quasar CSS
+
+The color CSS variable names (all the brand related ones) have changed:
+
+```
+// old
+--q-color-primary, --q-color-secondary, ...
+
+// new
+--q-primary, --q-secondary, ...
+```
+
+### Quasar UMD
+* Due to the new Vue 3 architecture, the code for bootstrapping the app has changed and you will need to adapt [accordingly](/start/umd).
+* There have been changes to the naming scheme of script and css tags to include the type of distubution. For example, the minified resources filenames now end in `.prod.js`/`.prod.css`. This was done to match Vue 3's own file naming scheme.
+
+::: tip
+For an in-depth look at the necessary UMD scripts and tags, please use our [generator tool](/start/umd#installation).
+:::
+
+### Quasar App CLI
+
+This section refers to "@quasar/app" v3 package which supports Vue 3 and Quasar UI v2.
+
+* Dropped support for `src/css/quasar.variables.styl`. Also, if you still want to use Stylus as preprocessor (but without the Quasar Stylus variables) then you need to manually yarn/npm install `stylus` and `stylus-loader` as dev dependencies into your project ("@quasar/app" does not supply them anymore).
+* New quasar.conf.js > build > vueLoaderOptions prop
+* Remove quasar.conf.js > framework > importStrategy. Auto import works so great that is now used by default and as the only option.
+* The url-loader configuration has been enhanced so it now also supports "ico" files out of the box
+* If you have been using quasar.conf.js > build > rtl in the form of an Object, then you must match [these options](https://github.com/elchininet/postcss-rtlcss) now, since we've switched from the unmaintained postcss-rtl to postcss-rtlcss package.
+
+If you have boot files, where you access and change the `$q` Object through `Vue.prototype.$q`, then you need to adapt this:
+
+```js
+// old way in boot file
+Vue.prototype.$q.iconSet.chip.remove = 'fas fa-times-circle'
+
+// NEW way
+export default ({ app }) => {
+  app.config.globalProperties.$q.iconSet.chip.remove = 'fas fa-times-circle'
+}
+```
+
+Nothing changed in regards to how App Extensions work. Please note that not all of our App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions of them.
+
+#### TypeScript
+
+Update `src/shims-vue.d.ts` as such:
+
+```js
+// Mocks all files ending in `.vue` showing them as plain Vue instances
+declare module '*.vue' {
+  import { ComponentOptions } from 'vue';
+  const component: ComponentOptions;
+  export default component;
+}
+```
+
+If you use ESLint, update the property into `quasar.conf.js`:
+
+```js
+// old way
+supportTS: {
+  tsCheckerConfig: { eslint: true },
+},
+
+// new way
+supportTS: {
+  tsCheckerConfig: {
+    eslint: {
+      enabled: true,
+      files: './src/**/*.{ts,tsx,js,jsx,vue}',
+    },
+  },
+},
+```
+
+This is due to upstream breaking changes of `fork-ts-checker-webpack-plugin`.
+
+### Quasar App CLI Electron mode
+
+::: warning
+If you have a project using the Quasar Electron mode, then it's essential to read its own [Electron mode upgrade guide](/quasar-cli/developing-electron-apps/electron-upgrade-guide#Upgrading-from-Quasar-v1).
+:::
+
+Out of the box [support for TS](/quasar-cli/developing-electron-apps/electron-with-typescript) now available.
+
+You can also enable ESLint for the main thread and the preload script now:
+
+```js
+electron: {
+  chainWebpackMain (chain) {
+    chain.plugin('eslint-webpack-plugin')
+      .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
+  },
+
+  chainWebpackPreload (chain) {
+    chain.plugin('eslint-webpack-plugin')
+      .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
+  }
+}
+```
+
+### Quasar App CLI PWA mode
+
+If you are using Workbox in InjectManifest mode, then it's useful to know that the `/src-pwa/custom-service-worker.[js|ts]` is now being compiled too. This means that in your code you can now import with relative path too.
+
+Due to the upgrade to Webpack 5, you will need to also upgrade `workbox-webpack-plugin` to v6+.
+
+You can now enable ESLint for the custom service worker too. And it [supports TS](/quasar-cli/developing-pwa/pwa-with-typescript) out of the box (in which case, rename the extension to `.ts`).
+
+Enabling ESLint for the custom service worker is done by editing quasar.conf.js:
+
+```js
+pwa: {
+  chainWebpackCustomSW (chain) {
+    chain.plugin('eslint-webpack-plugin')
+      .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
+  }
+}
+```
+
+### Quasar App CLI SSR mode
+
+If you have a project using the Quasar SSR mode, then it's essential to read its own [SSR mode upgrade guide](/quasar-cli/developing-ssr/ssr-upgrade-guide).
+
+Out of the box [support for TS](/quasar-cli/developing-ssr/ssr-with-typescript) now available.
+
+### Quasar Extras
+Nothing changed. You can use it as for Quasar UI v1.
+
+### Quasar Icon Genie
+Nothing changed. You can use it the same way as for "@quasar/app" v1 or v2 projects.

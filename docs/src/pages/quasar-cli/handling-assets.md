@@ -56,7 +56,7 @@ Please note that whenever you bind "src" to a variable in your Vue scope, it mus
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       /*
         Referencing /public.
@@ -75,7 +75,7 @@ You can force serving static assets by binding `src` to a value with Vue. Instea
 
 In order for Webpack to return the correct asset paths, you need to use `require('./relative/path/to/file.jpg')`, which will get processed by `file-loader` and returns the resolved URL. For example:
 
-``` js
+```js
 computed: {
   background () {
     return require('./bgs/' + this.id + '.jpg')

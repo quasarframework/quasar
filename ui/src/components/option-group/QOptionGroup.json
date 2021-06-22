@@ -1,20 +1,15 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "composables/private/use-size" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/option-group"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/option-group"
   },
 
   "props": {
-    "value": {
-      "extends": "value",
+    "model-value": {
+      "extends": "model-value",
       "type": "Any",
-      "examples": [ "v-model=\"group\"" ],
-      "category": "model"
+      "examples": [ "v-model=\"group\"" ]
     },
 
     "options": {
@@ -30,8 +25,7 @@
       "type": "String",
       "desc": "Used to specify the name of the controls; Useful if dealing with forms submitted directly to a URL",
       "examples": [ "car_id" ],
-      "category": "behavior",
-      "addedIn": "v1.9.0"
+      "category": "behavior"
     },
 
     "type": {
@@ -51,10 +45,6 @@
       "type": "Boolean",
       "desc": "Should the color (if specified any) be kept when input components are unticked?",
       "category": "behavior"
-    },
-
-    "size": {
-      "addedIn": "v1.8.0"
     },
 
     "dark": {
@@ -83,8 +73,8 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:model-value": {
+      "extends": "update:model-value"
     }
   }
 }

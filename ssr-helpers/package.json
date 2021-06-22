@@ -1,0 +1,30 @@
+{
+  "name": "@quasar/ssr-helpers",
+  "version": "2.1.1",
+  "description": "Quasar Framework helper package for SSR",
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "license": "MIT",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "homepage": "https://quasar.dev",
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
+  "engines": {
+    "node": ">= 12.22.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "serialize-javascript": "^5.0.1"
+  }
+}

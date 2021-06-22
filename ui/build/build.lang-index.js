@@ -1,8 +1,8 @@
-const
-  glob = require('glob'),
-  path = require('path'),
-  fs = require('fs'),
-  { logError, writeFile } = require('./build.utils')
+const glob = require('glob')
+const path = require('path')
+const fs = require('fs')
+
+const { logError, writeFile } = require('./build.utils')
 
 const
   root = path.resolve(__dirname, '..'),
@@ -11,12 +11,12 @@ const
 function parse (prop, txt) {
   const
     propIndex = txt.indexOf(prop),
-    startIndex = txt.indexOf(`'`, propIndex) + 1
+    startIndex = txt.indexOf('\'', propIndex) + 1
 
-  let stopIndex = txt.indexOf(`'`, startIndex)
+  let stopIndex = txt.indexOf('\'', startIndex)
 
   while (txt.charAt(stopIndex - 1) === '\\') {
-    stopIndex = txt.indexOf(`'`, stopIndex + 1)
+    stopIndex = txt.indexOf('\'', stopIndex + 1)
   }
 
   return txt.substring(startIndex, stopIndex).replace('\\', '')
@@ -44,14 +44,14 @@ module.exports.generate = function () {
     try {
       oldLangJson = fs.readFileSync(langFile, 'utf-8')
     }
-    catch (e) { }
+    catch (e) {}
 
     return newLangJson.split(/[\n\r]+/).join('\n') !== oldLangJson.split(/[\n\r]+/).join('\n')
       ? writeFile(langFile, newLangJson)
       : Promise.resolve()
   }
   catch (err) {
-    logError(`build.lang-index.js: something went wrong...`)
+    logError('build.lang-index.js: something went wrong...')
     console.log()
     console.error(err)
     console.log()

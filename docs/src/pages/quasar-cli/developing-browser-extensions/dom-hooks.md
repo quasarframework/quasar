@@ -47,23 +47,24 @@ export default function detectQuasar (bridge) {
     })
   }
   else { // CLI
+    let isVue3 = false
     setTimeout(() => {
       const all = document.querySelectorAll('*')
       let el
       for (let i = 0; i < all.length; i++) {
-        if (all[i].__vue__) {
+        if (all[i].__vue__ || all[i].__vue_app__) {
           el = all[i]
+          isVue3 = all[i].__vue_app__ !== void 0
           break
         }
       }
 
       if (el) {
-        let Vue = Object.getPrototypeOf(el.__vue__).constructor
-        while (Vue.super) {
-          Vue = Vue.super
-        }
-        if (Vue.prototype.$q) {
-          initQuasar(bridge, Vue.prototype.$q)
+        const Vue = isVue3 ? el.__vue_app__ : Object.getPrototypeOf(el.__vue__).constructor
+
+        const quasar = isVue3 ? Vue.config.globalProperties.$q : Vue.prototype.$q
+        if (quasar) {
+          initQuasar(bridge, quasar, Vue)
         }
       }
     }, 100)

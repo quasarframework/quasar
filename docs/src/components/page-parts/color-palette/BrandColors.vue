@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       brandColors: [
         'primary',

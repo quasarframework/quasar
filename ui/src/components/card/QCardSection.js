@@ -1,30 +1,25 @@
-import Vue from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import TagMixin from '../../mixins/tag.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import { hSlot } from '../../utils/private/render.js'
 
-import { slot } from '../../utils/slot.js'
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QCardSection',
 
-  mixins: [ ListenersMixin, TagMixin ],
-
   props: {
+    tag: {
+      type: String,
+      default: 'div'
+    },
+
     horizontal: Boolean
   },
 
-  computed: {
-    classes () {
-      return 'q-card__section ' +
-        `q-card__section--${this.horizontal === true ? 'horiz row no-wrap' : 'vert'}`
-    }
-  },
+  setup (props, { slots }) {
+    const classes = computed(() =>
+      'q-card__section'
+      + ` q-card__section--${ props.horizontal === true ? 'horiz row no-wrap' : 'vert' }`
+    )
 
-  render (h) {
-    return h(this.tag, {
-      class: this.classes,
-      on: { ...this.qListeners }
-    }, slot(this, 'default'))
+    return () => h(props.tag, { class: classes.value }, hSlot(slots.default))
   }
 })

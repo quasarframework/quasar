@@ -31,7 +31,7 @@
         :breakpoint="700"
         behavior="desktop"
         bordered
-        content-class="bg-grey-3"
+        class="bg-grey-3"
       >
         <q-scroll-area class="fit">
           <div class="q-pa-sm">
@@ -47,7 +47,7 @@
         :width="150"
         :breakpoint="500"
         behavior="desktop"
-        content-class="bg-grey-3"
+        class="bg-grey-3"
       >
         <q-scroll-area class="fit">
           <div class="q-pa-sm">
@@ -94,11 +94,16 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const $q = useQuasar()
+
     return {
-      drawerLeft: this.$q.screen.width > 700,
-      drawerRight: this.$q.screen.width > 500
+      drawerLeft: ref($q.screen.width > 700),
+      drawerRight: ref($q.screen.width > 500)
     }
   }
 }

@@ -3,16 +3,16 @@ title: Icon Genie CLI Installation
 desc: How to install the Icon Genie CLI on your development machine.
 ---
 
-Make sure that you have Node >=10 and NPM >=5 installed on your machine.
+Make sure that you have Node >=12.22.1 and NPM >=6.14.12 installed on your machine.
 
 ::: warning
-**Do not use uneven versions of Node i.e. 11, 13, etc.** These versions aren't tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
+**Do not use uneven versions of Node i.e. 13, 15 etc.** These versions aren't tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
 :::
 
 You will be installing the Icon Genie CLI globally. You don't need to install it in your project folder.
 
 ```bash
-# Node.js >=10 is required.
+# Node.js >=12.22.1 is required.
 
 $ yarn global add @quasar/icongenie
 # or

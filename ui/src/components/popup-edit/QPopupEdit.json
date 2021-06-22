@@ -1,21 +1,13 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/popup-edit"
+    "docsUrl": "https://v2.quasar.dev/vue-components/popup-edit"
   },
 
   "props": {
-    "value": {
-      "extends": "value",
+    "model-value": {
+      "extends": "model-value",
       "type": "Any",
-      "examples": [ "v-model=\"myValue\"" ],
-      "category": "model"
-    },
-
-    "auto-save": {
-      "type": "Boolean",
-      "desc": "Automatically save the model (if changed) when user clicks/taps outside of the popup; It does not apply to ESC key",
-      "category": "behavior",
-      "addedIn": "v1.9.0"
+      "examples": [ "v-model=\"myValue\"" ]
     },
 
     "title": {
@@ -45,23 +37,10 @@
       "category": "content"
     },
 
-    "content-class": {
-      "type": "String",
-      "desc": "Class definitions to be attributed to the content",
-      "examples": [
-        "my-special-class"
-      ],
-      "category": "style"
-    },
-
-    "content-style": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Style definitions to be attributed to the content",
-      "examples": [
-        "background-color: #ff0000",
-        ":content-style=\"{ color: '#ff0000' }\""
-      ],
-      "category": "style"
+    "auto-save": {
+      "type": "Boolean",
+      "desc": "Automatically save the model (if changed) when user clicks/taps outside of the popup; It does not apply to ESC key",
+      "category": "behavior"
     },
 
     "color": {
@@ -175,14 +154,8 @@
   },
 
   "slots": {
-    "title": {
-      "desc": "Slot for custom title (overrides 'title' prop when used)"
-    }
-  },
-
-  "scopedSlots": {
     "default": {
-      "desc": "Used for injecting the form component",
+      "desc": "Used for injecting the form component; Do NOT destructure it",
       "scope": {
         "initialValue": {
           "type": "Any",
@@ -193,18 +166,6 @@
           "type": "Any",
           "desc": "Current value",
           "examples": [ 0.241, "Text" ]
-        },
-        "emitValue": {
-          "type": "Function",
-          "desc": "Function that emits an @input event in the context of the popup edit",
-          "params": {
-            "value": {
-              "type": "Any",
-              "desc": "Value to be emitted",
-              "examples": [ 0, "Changed text" ]
-            }
-          },
-          "returns": null
         },
         "validate": {
           "type": "Function",
@@ -232,14 +193,20 @@
           "desc": "Function that cancels the editing and reverts the value to the initialValue",
           "params": null,
           "returns": null
+        },
+        "updatePosition": {
+          "type": "Function",
+          "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the component without significant performance drawbacks so the optimal solution is for you to call this method when you need it",
+          "params": null,
+          "returns": null
         }
       }
     }
   },
 
   "events": {
-    "input": {
-      "extends": "input",
+    "update:model-value": {
+      "extends": "update:model-value",
       "desc": "Emitted when Popup gets cancelled in order to reset model to its initial value; Is also used by v-model"
     },
 
@@ -302,13 +269,15 @@
     },
 
     "show": {
-      "extends": "show",
-      "addedIn": "v1.12.0"
+      "extends": "show"
     },
 
     "hide": {
-      "extends": "hide",
-      "addedIn": "v1.12.0"
+      "extends": "hide"
+    },
+
+    "updatePosition": {
+      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the component without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
     }
   }
 }

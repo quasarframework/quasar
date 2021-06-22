@@ -3,7 +3,7 @@
     <q-responsive :ratio="4/3" style="max-width: 700px">
       <q-table
         title="Treats; ratio 4/3"
-        :data="data"
+        :rows="data"
         :columns="columns"
         row-key="index"
         no-hover
@@ -13,7 +13,7 @@
         ref="table"
         :pagination="pagination"
         :rows-per-page-options="[0]"
-        :expanded.sync="expanded"
+        v-model:expanded="expanded"
       >
         <template v-slot:body="props">
           <q-tr :props="props" :key="`m_${props.row.index}`" no-hover>

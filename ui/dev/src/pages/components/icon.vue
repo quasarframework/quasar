@@ -1,6 +1,8 @@
 <template>
   <div class="q-layout-padding">
     <div class="q-gutter-x-md">
+      <q-toggle v-model="useMapFn" label="Use iconMapFn" />
+
       <q-icon :name="icon" class="gigi" @click="clicked" size="5rem" />
 
       <span>text</span>
@@ -40,14 +42,17 @@
     </div>
 
     <div class="q-mt-xl">
-      <q-icon name="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
-      <q-icon size="100px" name="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
-      <q-input v-model="text" clearable clear-icon="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
+      <q-icon name="img:https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+      <q-icon size="100px" name="img:https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+      <q-input v-model="text" clearable clear-icon="img:https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
     </div>
   </div>
 </template>
 
 <script>
+import { ref, watch } from 'vue'
+import { useQuasar } from 'quasar'
+
 import matSet from 'quasar/icon-set/material-icons.js'
 import matOutlinedSet from 'quasar/icon-set/material-icons-outlined.js'
 import matRoundSet from 'quasar/icon-set/material-icons-round.js'
@@ -83,14 +88,16 @@ import { tiFullscreen } from '@quasar/extras/themify'
 import { laAtomSolid } from '@quasar/extras/line-awesome'
 import { biBugFill } from '@quasar/extras/bootstrap-icons'
 
+const TOP_ICON = 'add_box'
+
 function parseSet (setName, set) {
   const icons = []
   Object.keys(set).forEach(key => {
-    const prop = set[key]
+    const prop = set[ key ]
     Object.keys(prop).forEach(name => {
-      const val = prop[name]
+      const val = prop[ name ]
       if (typeof val === 'string') {
-        icons.push({ name: `${key}/${name}`, val })
+        icons.push({ name: `${ key }/${ name }`, val })
       }
     })
   })
@@ -100,40 +107,38 @@ function parseSet (setName, set) {
   }
 }
 
-export default {
-  created () {
-    this.iconOptions = [
-      { value: '', label: 'Empty name' },
-      { value: 'add_box', label: 'A Material icon' },
-      { value: matAddBox, label: 'A Material SVG icon' },
-      { value: 'o_add_box', label: 'A Material Outlined icon' },
-      { value: 'r_add_box', label: 'A Material Round icon' },
-      { value: 's_add_box', label: 'A Material Sharp icon' },
-      { value: 'mdi-airballoon', label: 'A MDI v5 icon' },
-      { value: mdiAirballoon, label: 'A MDI v5 SVG icon' },
-      { value: 'fab fa-github', label: 'A Fontawesome icon' },
-      { value: fabGithub, label: 'A Fontawesome SVG icon' },
-      { value: ionAirplane, label: 'A SVG Ionicon v5' },
-      { value: 'ion-airplane', label: 'A Ionicon v4 (platform dependent)' },
-      { value: 'ion-md-airplane', label: 'A Ionicon v4 (md)' },
-      { value: 'ion-ios-airplane', label: 'A Ionicon v4 (ios)' },
-      { value: ionMdAirplane, label: 'A SVG Ionicon v4 (md)' },
-      { value: ionIosAirplane, label: 'A SVG Ionicon v4 (ios)' },
-      { value: 'eva-paper-plane-outline', label: 'A Eva icon' },
-      { value: evaPaperPlaneOutline, label: 'A Eva SVG icon' },
-      { value: 'ti-fullscreen', label: 'A Themify icon' },
-      { value: tiFullscreen, label: 'A Themify SVG icon' },
-      { value: 'las la-atom', label: 'A Line Awesome icon' },
-      { value: laAtomSolid, label: 'A Line Awesome SVG icon' },
-      { value: 'bi-bug', label: 'A Bootstrap Icons icon' },
-      { value: biBugFill, label: 'A Bootstrap Icons SVG icon' }
-    ]
-  },
-
-  data () {
+function customIconMapFn (iconName) {
+  if (iconName === TOP_ICON) {
     return {
-      icon: 'add_box',
-      text: 'gigi',
+      cls: 'material-icons',
+      content: 'map'
+    }
+  }
+}
+
+export default {
+  setup () {
+    const useMapFn = ref(false)
+    const icon = ref(TOP_ICON)
+
+    const $q = useQuasar()
+
+    watch(useMapFn, val => {
+      if (val === true) {
+        icon.value = TOP_ICON
+        // Quasar.iconSet.iconMapFn = customIconMapFn
+        $q.iconMapFn = customIconMapFn
+      }
+      else {
+        // Quasar.iconSet.iconMapFn = null
+        $q.iconMapFn = null
+      }
+    })
+
+    return {
+      useMapFn,
+      icon,
+      text: ref('gigi'),
       matAddBox,
       mdiAirballoon,
       ionMdAirplane,
@@ -142,26 +147,47 @@ export default {
       evaPaperPlaneOutline,
       tiFullscreen,
       laAtomSolid,
-      biBugFill
-    }
-  },
+      biBugFill,
 
-  computed: {
-    sets () {
-      return [
+      iconOptions: [
+        { value: '', label: 'Empty name' },
+        { value: TOP_ICON, label: 'A Material icon' },
+        { value: matAddBox, label: 'A Material SVG icon' },
+        { value: 'o_add_box', label: 'A Material Outlined icon' },
+        { value: 'r_add_box', label: 'A Material Round icon' },
+        { value: 's_add_box', label: 'A Material Sharp icon' },
+        { value: 'mdi-airballoon', label: 'A MDI v5 icon' },
+        { value: mdiAirballoon, label: 'A MDI v5 SVG icon' },
+        { value: 'fab fa-github', label: 'A Fontawesome icon' },
+        { value: fabGithub, label: 'A Fontawesome SVG icon' },
+        { value: ionAirplane, label: 'A SVG Ionicon v5' },
+        { value: 'ion-airplane', label: 'A Ionicon v4 (platform dependent)' },
+        { value: 'ion-md-airplane', label: 'A Ionicon v4 (md)' },
+        { value: 'ion-ios-airplane', label: 'A Ionicon v4 (ios)' },
+        { value: ionMdAirplane, label: 'A SVG Ionicon v4 (md)' },
+        { value: ionIosAirplane, label: 'A SVG Ionicon v4 (ios)' },
+        { value: 'eva-paper-plane-outline', label: 'A Eva icon' },
+        { value: evaPaperPlaneOutline, label: 'A Eva SVG icon' },
+        { value: 'ti-fullscreen', label: 'A Themify icon' },
+        { value: tiFullscreen, label: 'A Themify SVG icon' },
+        { value: 'las la-atom', label: 'A Line Awesome icon' },
+        { value: laAtomSolid, label: 'A Line Awesome SVG icon' },
+        { value: 'bi-bug', label: 'A Bootstrap Icons icon' },
+        { value: biBugFill, label: 'A Bootstrap Icons SVG icon' }
+      ],
+
+      sets: [
         matSet, matOutlinedSet, matRoundSet, matSharpSet,
         mdiSet, fontawesomeSet, ioniconsV4Set, evaSet, themifySet,
         lineawesomeSet, bootstrapiconsSet,
         svgMatSet, svgMatOutlinedSet, svgMatRoundSet, svgMatSharpSet,
         svgMdiSet, svgIoniconsV4Set, svgIoniconsSet, svgFontawesomeSet,
         svgEvaSet, svgThemifySet, svgLineawesomeSet, svgBootstrapiconsSet
-      ].map(({ name, ...set }) => parseSet(name, set))
-    }
-  },
+      ].map(({ name, ...set }) => parseSet(name, set)),
 
-  methods: {
-    clicked () {
-      console.log('clicked')
+      clicked () {
+        console.log('clicked')
+      }
     }
   }
 }

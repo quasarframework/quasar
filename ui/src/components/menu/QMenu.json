@@ -1,18 +1,13 @@
 {
-  "mixins": [ "mixins/model-toggle", "mixins/portal", "mixins/anchor" ],
+  "mixins": [ "composables/private/use-model-toggle", "composables/private/use-portal", "composables/private/use-anchor", "composables/private/use-transition" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/menu"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/menu"
   },
 
   "props": {
     "dark": {
-      "extends": "dark",
-      "addedIn": "v1.3.0"
+      "extends": "dark"
     },
 
     "fit": {
@@ -77,8 +72,7 @@
     "no-route-dismiss": {
       "type": "Boolean",
       "desc": "Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set",
-      "category": "behavior",
-      "addedIn": "v1.13.0"
+      "category": "behavior"
     },
 
     "auto-close": {
@@ -90,8 +84,7 @@
     "separate-close-popup": {
       "type": "Boolean",
       "desc": "Separate from parent menu, marking it as a separate closing point for v-close-popup (without this, chained menus close all together)",
-      "category": "behavior",
-      "addedIn": "v1.1.0"
+      "category": "behavior"
     },
 
     "square": {
@@ -122,18 +115,6 @@
       "extends": "size",
       "desc": "The maximum width of the menu; Size in CSS units, including unit name",
       "category": "style"
-    },
-
-    "transition-show": {
-      "extends": "transition",
-      "default": "fade",
-      "category": "behavior"
-    },
-
-    "transition-hide": {
-      "extends": "transition",
-      "default": "fade",
-      "category": "behavior"
     }
   },
 

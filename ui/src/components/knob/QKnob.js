@@ -1,30 +1,30 @@
-import Vue from 'vue'
+import { h, defineComponent, ref, computed, watch, onMounted, withDirectives, getCurrentInstance } from 'vue'
+
+import QCircularProgress from '../circular-progress/QCircularProgress.js'
+import TouchPan from '../../directives/TouchPan.js'
 
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
-import { slot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
 
-import QCircularProgress from '../circular-progress/QCircularProgress.js'
-import FormMixin from '../../mixins/form.js'
-import TouchPan from '../../directives/TouchPan.js'
+import { useFormProps, useFormAttrs } from '../../composables/private/use-form.js'
+import { useCircularCommonProps } from '../circular-progress/use-circular-progress.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
-const keyCodes = [34, 37, 40, 33, 39, 38]
+const keyCodes = [ 34, 37, 40, 33, 39, 38 ]
+const commonPropsName = Object.keys(useCircularCommonProps)
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QKnob',
 
-  mixins: [
-    { props: QCircularProgress.options.props },
-    FormMixin
-  ],
-
-  directives: {
-    TouchPan
-  },
-
   props: {
+    ...useFormProps,
+    ...useCircularCommonProps,
+
+    modelValue: {
+      type: Number,
+      required: true
+    },
+
     step: {
       type: Number,
       default: 1,
@@ -32,7 +32,7 @@ export default Vue.extend({
     },
 
     tabindex: {
-      type: [Number, String],
+      type: [ Number, String ],
       default: 0
     },
 
@@ -40,121 +40,121 @@ export default Vue.extend({
     readonly: Boolean
   },
 
-  data () {
-    return {
-      model: this.value,
-      dragging: false
-    }
-  },
+  emits: [ 'update:modelValue', 'change', 'drag-value' ],
 
-  watch: {
-    value (value) {
-      if (value < this.min) {
-        this.model = this.min
+  setup (props, { slots, emit }) {
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
+    const model = ref(props.modelValue)
+    const dragging = ref(false)
+
+    let centerPosition, $el
+
+    watch(() => props.modelValue, val => {
+      if (val < props.min) {
+        model.value = props.min
       }
-      else if (value > this.max) {
-        this.model = this.max
+      else if (val > props.max) {
+        model.value = props.max
       }
       else {
-        if (value !== this.model) {
-          this.model = value
+        if (val !== model.value) {
+          model.value = val
         }
         return
       }
 
-      if (this.model !== this.value) {
-        this.$emit('input', this.model)
-        this.$emit('change', this.model)
+      if (model.value !== props.modelValue) {
+        emit('update:modelValue', model.value)
+        emit('change', model.value)
       }
-    }
-  },
+    })
 
-  computed: {
-    classes () {
-      return 'q-knob non-selectable' + (
-        this.editable === true
+    const editable = computed(() => props.disable === false && props.readonly === false)
+
+    const classes = computed(() =>
+      'q-knob non-selectable' + (
+        editable.value === true
           ? ' q-knob--editable'
-          : (this.disable === true ? ' disabled' : '')
+          : (props.disable === true ? ' disabled' : '')
       )
-    },
+    )
 
-    editable () {
-      return this.disable === false && this.readonly === false
-    },
+    const decimals = computed(() => (String(props.step).trim('0').split('.')[ 1 ] || '').length)
+    const step = computed(() => (props.step === 0 ? 1 : props.step))
+    const instantFeedback = computed(() => props.instantFeedback === true || dragging.value === true)
 
-    decimals () {
-      return (String(this.step).trim('0').split('.')[1] || '').length
-    },
+    const onEvents = $q.platform.is.mobile === true
+      ? computed(() => (editable.value === true ? { onClick } : {}))
+      : computed(() => (
+        editable.value === true
+          ? {
+              onMousedown,
+              onClick,
+              onKeydown,
+              onKeyup
+            }
+          : {}
+      ))
 
-    computedStep () {
-      return this.step === 0 ? 1 : this.step
-    },
+    const attrs = computed(() => (
+      editable.value === true
+        ? { tabindex: props.tabindex }
+        : { [ `aria-${ props.disable === true ? 'disabled' : 'readonly' }` ]: 'true' }
+    ))
 
-    computedInstantFeedback () {
-      return this.instantFeedback === true ||
-        this.dragging === true
-    },
+    const circularProps = computed(() => {
+      const agg = {}
+      commonPropsName.forEach(name => {
+        agg[ name ] = props[ name ]
+      })
+      return agg
+    })
 
-    onEvents () {
-      return this.$q.platform.is.mobile === true
-        ? { click: this.__click }
-        : {
-          mousedown: this.__activate,
-          click: this.__click,
-          keydown: this.__keydown,
-          keyup: this.__keyup
-        }
-    },
-
-    attrs () {
-      const attrs = {
-        role: 'slider',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
-        'aria-valuenow': this.value
+    function pan (event) {
+      if (event.isFinal) {
+        updatePosition(event.evt, true)
+        dragging.value = false
       }
-
-      if (this.editable === true) {
-        attrs.tabindex = this.tabindex
+      else if (event.isFirst) {
+        updateCenterPosition()
+        dragging.value = true
+        updatePosition(event.evt)
       }
       else {
-        attrs[`aria-${this.disable === true ? 'disabled' : 'readonly'}`] = ''
+        updatePosition(event.evt)
       }
-
-      return attrs
     }
-  },
 
-  methods: {
-    __updateCenterPosition () {
-      const { top, left, width, height } = this.$el.getBoundingClientRect()
-      this.centerPosition = {
+    const directives = computed(() => {
+      return [ [
+        TouchPan,
+        pan,
+        void 0,
+        { prevent: true, stop: true, mouse: true }
+      ] ]
+    })
+
+    function updateCenterPosition () {
+      const { top, left, width, height } = $el.getBoundingClientRect()
+      centerPosition = {
         top: top + height / 2,
         left: left + width / 2
       }
-    },
+    }
 
-    __pan (event) {
-      if (event.isFinal) {
-        this.__updatePosition(event.evt, true)
-        this.dragging = false
-      }
-      else if (event.isFirst) {
-        this.__updateCenterPosition()
-        this.dragging = true
-        this.__updatePosition(event.evt)
-      }
-      else {
-        this.__updatePosition(event.evt)
-      }
-    },
+    function onMousedown (evt) {
+      updateCenterPosition()
+      updatePosition(evt)
+    }
 
-    __click (evt) {
-      this.__updateCenterPosition()
-      this.__updatePosition(evt, true)
-    },
+    function onClick (evt) {
+      updateCenterPosition()
+      updatePosition(evt, true)
+    }
 
-    __keydown (evt) {
+    function onKeydown (evt) {
       if (!keyCodes.includes(evt.keyCode)) {
         return
       }
@@ -162,120 +162,117 @@ export default Vue.extend({
       stopAndPrevent(evt)
 
       const
-        step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
-        offset = [34, 37, 40].includes(evt.keyCode) ? -step : step
+        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * step.value,
+        offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -stepVal : stepVal
 
-      this.model = between(
-        parseFloat((this.model + offset).toFixed(this.decimals)),
-        this.min,
-        this.max
+      model.value = between(
+        parseFloat((model.value + offset).toFixed(decimals.value)),
+        props.min,
+        props.max
       )
 
-      this.__updateValue()
-    },
+      updateValue()
+    }
 
-    __keyup (evt) {
-      if (keyCodes.includes(evt.keyCode)) {
-        this.__updateValue(true)
-      }
-    },
-
-    __activate (evt) {
-      this.__updateCenterPosition()
-      this.__updatePosition(evt)
-    },
-
-    __updatePosition (evt, change) {
+    function updatePosition (evt, change) {
       const
-        center = this.centerPosition,
         pos = position(evt),
-        height = Math.abs(pos.top - center.top),
+        height = Math.abs(pos.top - centerPosition.top),
         distance = Math.sqrt(
-          height ** 2 +
-          Math.abs(pos.left - center.left) ** 2
+          height ** 2
+          + Math.abs(pos.left - centerPosition.left) ** 2
         )
 
       let angle = Math.asin(height / distance) * (180 / Math.PI)
 
-      if (pos.top < center.top) {
-        angle = center.left < pos.left ? 90 - angle : 270 + angle
+      if (pos.top < centerPosition.top) {
+        angle = centerPosition.left < pos.left ? 90 - angle : 270 + angle
       }
       else {
-        angle = center.left < pos.left ? angle + 90 : 270 - angle
+        angle = centerPosition.left < pos.left ? angle + 90 : 270 - angle
       }
 
-      if (this.angle) {
-        angle = normalizeToInterval(angle - this.angle, 0, 360)
+      if (props.angle) {
+        angle = normalizeToInterval(angle - props.angle, 0, 360)
       }
 
-      if (this.$q.lang.rtl === true) {
+      if ($q.lang.rtl === true) {
         angle = 360 - angle
       }
 
-      let model = this.min + (angle / 360) * (this.max - this.min)
+      let newModel = props.min + (angle / 360) * (props.max - props.min)
 
-      if (this.step !== 0) {
-        const
-          step = this.computedStep,
-          modulo = model % step
+      if (step.value !== 0) {
+        const modulo = newModel % step.value
 
-        model = model - modulo +
-          (Math.abs(modulo) >= step / 2 ? (modulo < 0 ? -1 : 1) * step : 0)
+        newModel = newModel - modulo
+          + (Math.abs(modulo) >= step.value / 2 ? (modulo < 0 ? -1 : 1) * step.value : 0)
 
-        model = parseFloat(model.toFixed(this.decimals))
+        newModel = parseFloat(newModel.toFixed(decimals.value))
       }
 
-      model = between(model, this.min, this.max)
+      newModel = between(newModel, props.min, props.max)
 
-      this.$emit('drag-value', model)
+      emit('drag-value', newModel)
 
-      if (this.model !== model) {
-        this.model = model
+      if (model.value !== newModel) {
+        model.value = newModel
       }
 
-      this.__updateValue(change)
-    },
-
-    __updateValue (change) {
-      this.value !== this.model && this.$emit('input', this.model)
-      change === true && this.$emit('change', this.model)
-    },
-
-    __getNameInput () {
-      return this.$createElement('input', { attrs: this.formAttrs })
+      updateValue(change)
     }
-  },
 
-  render (h) {
-    const data = {
-      class: this.classes,
-      attrs: this.attrs,
-      props: {
-        ...this.$props,
-        value: this.model,
-        instantFeedback: this.computedInstantFeedback
+    function onKeyup (evt) {
+      if (keyCodes.includes(evt.keyCode)) {
+        updateValue(true)
       }
     }
 
-    if (this.editable === true) {
-      data.on = this.onEvents
-      data.directives = cache(this, 'dir', [{
-        name: 'touch-pan',
-        value: this.__pan,
-        modifiers: {
-          prevent: true,
-          stop: true,
-          mouse: true
+    function updateValue (change) {
+      props.modelValue !== model.value && emit('update:modelValue', model.value)
+      change === true && emit('change', model.value)
+    }
+
+    const formAttrs = useFormAttrs(props)
+
+    function getNameInput () {
+      return h('input', formAttrs.value)
+    }
+
+    onMounted(() => {
+      $el = proxy.$el
+    })
+
+    return () => {
+      const data = {
+        class: classes.value,
+        role: 'slider',
+        'aria-valuemin': props.min,
+        'aria-valuemax': props.max,
+        'aria-valuenow': props.modelValue,
+        ...attrs.value,
+        ...circularProps.value,
+        value: model.value,
+        instantFeedback: instantFeedback.value,
+        ...onEvents.value
+      }
+
+      const child = {
+        default: slots.default
+      }
+
+      if (editable.value === true) {
+        if (props.name !== void 0) {
+          child.internal = getNameInput
         }
-      }])
 
-      if (this.name !== void 0) {
-        data.scopedSlots = {
-          internal: this.__getNameInput
-        }
+        return withDirectives(
+          h(QCircularProgress, data, child),
+          directives.value
+        )
       }
-    }
 
-    return h(QCircularProgress, data, slot(this, 'default'))
+      return h(QCircularProgress, data, child)
+    }
   }
 })

@@ -11,10 +11,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model: 'Febrero 22, 2019 - 21:02',
+      model: ref('Febrero 22, 2019 - 21:02'),
 
       myLocale: {
         /* starting with Sunday */

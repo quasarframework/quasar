@@ -1,6 +1,7 @@
 ---
 title: Button
 desc: The QBtn Vue component is a button with features like shaping, loading state, ripple and more.
+keys: QBtn
 related:
   - /vue-components/button-group
   - /vue-components/button-dropdown
@@ -13,6 +14,7 @@ The button component also comes with a spinner or loading effect. You would use 
 When not disabled or spinning, QBtn emits a `@click` event, as soon as it is clicked or tapped.
 
 ## QBtn API
+
 <doc-api file="QBtn" />
 
 ## Usage
@@ -51,7 +53,7 @@ When not disabled or spinning, QBtn emits a `@click` event, as soon as it is cli
 
 <doc-example title="Button size" file="QBtn/ButtonSize" />
 
-### Padding <q-badge align="top" color="brand-primary" label="v1.11+" />
+### Padding
 
 The default padding is "xs md". However, you can use `padding` prop to customize it:
 
@@ -79,7 +81,7 @@ The two examples below won't work with UMD version (so in Codepen/jsFiddle too) 
 
 For more convoluted use-cases, you can also directly use the native Vue `<router-link>` component to wrap a QBtn. This also gives the opportunity to control the state according to app's current route:
 
-<doc-example title="Scoped slot of RouterLink" file="QBtn/RouterLink" no-edit />
+<doc-example title="Scoped slot of RouterLink" file="QBtn/RouterLinkExample" no-edit />
 
 ### Other options
 

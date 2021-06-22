@@ -113,9 +113,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .custom-bottom-sheet
-  color #33c
-  background-color #ee9
-  padding 40px
+  color: #33c
+  background-color: #ee9
+  padding: 40px
 </style>

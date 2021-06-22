@@ -1,6 +1,8 @@
+import { ref, computed, watch, nextTick } from 'vue'
+
 function samePagination (oldPag, newPag) {
   for (const prop in newPag) {
-    if (newPag[prop] !== oldPag[prop]) {
+    if (newPag[ prop ] !== oldPag[ prop ]) {
       return false
     }
   }
@@ -17,141 +19,195 @@ function fixPagination (p) {
   return p
 }
 
-export default {
-  props: {
-    pagination: Object,
-    rowsPerPageOptions: {
-      type: Array,
-      default: () => [ 5, 7, 10, 15, 20, 25, 50, 0 ]
-    }
+export const useTablePaginationProps = {
+  pagination: Object,
+  rowsPerPageOptions: {
+    type: Array,
+    default: () => [ 5, 7, 10, 15, 20, 25, 50, 0 ]
   },
 
-  computed: {
-    computedPagination () {
-      const pag = this.qListeners['update:pagination'] !== void 0
-        ? { ...this.innerPagination, ...this.pagination }
-        : this.innerPagination
+  'onUpdate:pagination': Function
+}
 
-      return fixPagination(pag)
-    },
+export function useTablePaginationState (vm, getCellValue) {
+  const { props, emit } = vm
 
-    firstRowIndex () {
-      const { page, rowsPerPage } = this.computedPagination
-      return (page - 1) * rowsPerPage
-    },
+  const innerPagination = ref(
+    Object.assign({
+      sortBy: null,
+      descending: false,
+      page: 1,
+      rowsPerPage: props.rowsPerPageOptions.length > 0
+        ? props.rowsPerPageOptions[ 0 ]
+        : 5
+    }, props.pagination)
+  )
 
-    lastRowIndex () {
-      const { page, rowsPerPage } = this.computedPagination
-      return page * rowsPerPage
-    },
+  const computedPagination = computed(() => {
+    const pag = props[ 'onUpdate:pagination' ] !== void 0
+      ? { ...innerPagination.value, ...props.pagination }
+      : innerPagination.value
 
-    isFirstPage () {
-      return this.computedPagination.page === 1
-    },
+    return fixPagination(pag)
+  })
 
-    pagesNumber () {
-      return this.computedPagination.rowsPerPage === 0
-        ? 1
-        : Math.max(
-          1,
-          Math.ceil(this.computedRowsNumber / this.computedPagination.rowsPerPage)
-        )
-    },
+  const isServerSide = computed(() => computedPagination.value.rowsNumber !== void 0)
 
-    isLastPage () {
-      return this.lastRowIndex === 0
-        ? true
-        : this.computedPagination.page >= this.pagesNumber
-    },
+  function sendServerRequest (pagination) {
+    requestServerInteraction({
+      pagination,
+      filter: props.filter
+    })
+  }
 
-    computedRowsPerPageOptions () {
-      const opts = this.rowsPerPageOptions.includes(this.innerPagination.rowsPerPage)
-        ? this.rowsPerPageOptions
-        : [ this.innerPagination.rowsPerPage ].concat(this.rowsPerPageOptions)
-
-      return opts.map(count => ({
-        label: count === 0 ? this.$q.lang.table.allRows : '' + count,
-        value: count
-      }))
-    }
-  },
-
-  watch: {
-    pagesNumber (lastPage, oldLastPage) {
-      if (lastPage === oldLastPage) {
-        return
-      }
-
-      const currentPage = this.computedPagination.page
-      if (lastPage && !currentPage) {
-        this.setPagination({ page: 1 })
-      }
-      else if (lastPage < currentPage) {
-        this.setPagination({ page: lastPage })
-      }
-    }
-  },
-
-  methods: {
-    __sendServerRequest (pagination) {
-      this.requestServerInteraction({
-        pagination,
-        filter: this.filter
+  function requestServerInteraction (prop = {}) {
+    nextTick(() => {
+      emit('request', {
+        pagination: prop.pagination || computedPagination.value,
+        filter: prop.filter || props.filter,
+        getCellValue
       })
-    },
+    })
+  }
 
-    setPagination (val, forceServerRequest) {
-      const newPagination = fixPagination({
-        ...this.computedPagination,
-        ...val
-      })
+  function setPagination (val, forceServerRequest) {
+    const newPagination = fixPagination({
+      ...computedPagination.value,
+      ...val
+    })
 
-      if (samePagination(this.computedPagination, newPagination)) {
-        if (this.isServerSide === true && forceServerRequest === true) {
-          this.__sendServerRequest(newPagination)
-        }
-        return
+    if (samePagination(computedPagination.value, newPagination)) {
+      if (isServerSide.value === true && forceServerRequest === true) {
+        sendServerRequest(newPagination)
       }
-
-      if (this.isServerSide === true) {
-        this.__sendServerRequest(newPagination)
-        return
-      }
-
-      if (this.pagination !== void 0 && this.qListeners['update:pagination'] !== void 0) {
-        this.$emit('update:pagination', newPagination)
-      }
-      else {
-        this.innerPagination = newPagination
-      }
-    },
-
-    firstPage () {
-      this.setPagination({ page: 1 })
-    },
-
-    prevPage () {
-      const { page } = this.computedPagination
-      if (page > 1) {
-        this.setPagination({ page: page - 1 })
-      }
-    },
-
-    nextPage () {
-      const { page, rowsPerPage } = this.computedPagination
-      if (this.lastRowIndex > 0 && page * rowsPerPage < this.computedRowsNumber) {
-        this.setPagination({ page: page + 1 })
-      }
-    },
-
-    lastPage () {
-      this.setPagination({ page: this.pagesNumber })
+      return
     }
-  },
 
-  created () {
-    if (this.qListeners['update:pagination'] !== void 0) {
-      this.$emit('update:pagination', { ...this.computedPagination })
+    if (isServerSide.value === true) {
+      sendServerRequest(newPagination)
+      return
     }
+
+    if (
+      props.pagination !== void 0
+      && props[ 'onUpdate:pagination' ] !== void 0
+    ) {
+      emit('update:pagination', newPagination)
+    }
+    else {
+      innerPagination.value = newPagination
+    }
+  }
+
+  return {
+    innerPagination,
+    computedPagination,
+    isServerSide,
+
+    requestServerInteraction,
+    setPagination
+  }
+}
+
+export function useTablePagination (vm, innerPagination, computedPagination, isServerSide, setPagination, filteredSortedRowsNumber) {
+  const { props, emit, proxy: { $q } } = vm
+
+  const computedRowsNumber = computed(() => (
+    isServerSide.value === true
+      ? computedPagination.value.rowsNumber || 0
+      : filteredSortedRowsNumber.value
+  ))
+
+  const firstRowIndex = computed(() => {
+    const { page, rowsPerPage } = computedPagination.value
+    return (page - 1) * rowsPerPage
+  })
+
+  const lastRowIndex = computed(() => {
+    const { page, rowsPerPage } = computedPagination.value
+    return page * rowsPerPage
+  })
+
+  const isFirstPage = computed(() => computedPagination.value.page === 1)
+
+  const pagesNumber = computed(() => (
+    computedPagination.value.rowsPerPage === 0
+      ? 1
+      : Math.max(
+        1,
+        Math.ceil(computedRowsNumber.value / computedPagination.value.rowsPerPage)
+      )
+  ))
+
+  const isLastPage = computed(() => (
+    lastRowIndex.value === 0
+      ? true
+      : computedPagination.value.page >= pagesNumber.value
+  ))
+
+  const computedRowsPerPageOptions = computed(() => {
+    const opts = props.rowsPerPageOptions.includes(innerPagination.value.rowsPerPage)
+      ? props.rowsPerPageOptions
+      : [ innerPagination.value.rowsPerPage ].concat(props.rowsPerPageOptions)
+
+    return opts.map(count => ({
+      label: count === 0 ? $q.lang.table.allRows : '' + count,
+      value: count
+    }))
+  })
+
+  watch(pagesNumber, (lastPage, oldLastPage) => {
+    if (lastPage === oldLastPage) {
+      return
+    }
+
+    const currentPage = computedPagination.value.page
+    if (lastPage && !currentPage) {
+      setPagination({ page: 1 })
+    }
+    else if (lastPage < currentPage) {
+      setPagination({ page: lastPage })
+    }
+  })
+
+  function firstPage () {
+    setPagination({ page: 1 })
+  }
+
+  function prevPage () {
+    const { page } = computedPagination.value
+    if (page > 1) {
+      setPagination({ page: page - 1 })
+    }
+  }
+
+  function nextPage () {
+    const { page, rowsPerPage } = computedPagination.value
+    if (lastRowIndex.value > 0 && page * rowsPerPage < computedRowsNumber.value) {
+      setPagination({ page: page + 1 })
+    }
+  }
+
+  function lastPage () {
+    setPagination({ page: pagesNumber.value })
+  }
+
+  if (props[ 'onUpdate:pagination' ] !== void 0) {
+    emit('update:pagination', { ...computedPagination.value })
+  }
+
+  return {
+    firstRowIndex,
+    lastRowIndex,
+    isFirstPage,
+    isLastPage,
+    pagesNumber,
+    computedRowsPerPageOptions,
+    computedRowsNumber,
+
+    firstPage,
+    prevPage,
+    nextPage,
+    lastPage
   }
 }

@@ -76,7 +76,7 @@ import {
 
 import {
   mdiFormatSubscript,
-  mdiFormatSuperscript
+  mdiFormatSuperscript,
 } from '@quasar/extras/mdi-v5'
 
 

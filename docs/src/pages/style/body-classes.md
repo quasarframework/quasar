@@ -19,4 +19,4 @@ Quasar attaches some very useful helper CSS classes to document.body which you c
 | electron | When client is on an [Electron](/quasar-cli/developing-electron-apps/introduction) app |
 | bex | When app runs from a browser extension |
 | within-iframe | When app runs from an iframe |
-| `screen--*` | If [enabled (only)](/options/screen-plugin#How-to-enable-body-classes), tells current window breakpoint (`screen--xs`, `screen--sm`, ..., `screen--xl`) (**Quasar v1.5.3+**) |
+| `screen--*` | If [enabled (only)](/options/screen-plugin#how-to-enable-body-classes), tells current window breakpoint (`screen--xs`, `screen--sm`, ..., `screen--xl`) |

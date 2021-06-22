@@ -1,6 +1,7 @@
 ---
 title: Close Popup Directive
 desc: Helper Vue directive when working with QDialog or QMenu.
+keys: close-popup
 related:
   - /vue-components/dialog
   - /vue-components/menu
@@ -9,6 +10,7 @@ related:
 This directive is a helper when dealing with [QDialog](/vue-components/dialog) and [QMenu](/vue-components/menu) components. When attached to a DOM element or component then that component will close the QDialog or QMenu (whichever is first parent) when clicked/tapped.
 
 ## ClosePopup API
+
 <doc-api file="ClosePopup" />
 
 ## Usage
@@ -19,7 +21,7 @@ This directive is a helper when dealing with [QDialog](/vue-components/dialog) a
 
 <doc-example title="With a QDialog" file="ClosePopup/Dialog" />
 
-### Closing multiple levels <q-badge align="top" color="brand-primary" label="v1.1+" />
+### Closing multiple levels
 
 You can also close multiple levels of popups by supplying a level number to the directive:
 

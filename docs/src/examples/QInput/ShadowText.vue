@@ -44,106 +44,109 @@
 
 <script>
 import { event } from 'quasar'
+import { ref, computed } from 'vue'
 
 const { stopAndPrevent } = event
 
 export default {
-  data () {
-    return {
-      inputModel: '',
-      textareaModel: '',
-
-      inputFillCancelled: false,
-      textareaFillCancelled: false
-    }
-  },
-
-  computed: {
-    inputShadowText () {
-      if (this.inputFillCancelled === true) {
+  setup () {
+    const inputModel = ref('')
+    const inputFillCancelled = ref(false)
+    const inputShadowText = computed(() => {
+      if (inputFillCancelled.value === true) {
         return ''
       }
 
       const t = 'Text filled when you press TAB'
-      const empty = typeof this.inputModel !== 'string' || this.inputModel.length === 0
+      const empty = typeof inputModel.value !== 'string' || inputModel.value.length === 0
 
       if (empty === true) {
         return t
       }
-      else if (t.indexOf(this.inputModel) !== 0) {
+      else if (t.indexOf(inputModel.value) !== 0) {
         return ''
       }
 
       return t
-        .split(this.inputModel)
+        .split(inputModel.value)
         .slice(1)
-        .join(this.inputModel)
-    },
+        .join(inputModel.value)
+    })
 
-    textareaShadowText () {
-      if (this.textareaFillCancelled === true) {
+    const textareaModel = ref('')
+    const textareaFillCancelled = ref(false)
+    const textareaShadowText = computed(() => {
+      if (textareaFillCancelled.value === true) {
         return ''
       }
 
       const
         t = 'This text\nwill be filled\non multiple lines\nwhen you press TAB',
-        empty = typeof this.textareaModel !== 'string' || this.textareaModel.length === 0
+        empty = typeof textareaModel.value !== 'string' || textareaModel.value.length === 0
 
       if (empty === true) {
-        return t.split('\n')[0]
+        return t.split('\n')[ 0 ]
       }
-      else if (t.indexOf(this.textareaModel) !== 0) {
+      else if (t.indexOf(textareaModel.value) !== 0) {
         return ''
       }
 
       return t
-        .split(this.textareaModel)
+        .split(textareaModel.value)
         .slice(1)
-        .join(this.textareaModel)
-        .split('\n')[0]
-    }
-  },
+        .join(textareaModel.value)
+        .split('\n')[ 0 ]
+    })
 
-  methods: {
-    processInputFill (e) {
-      if (e === void 0) {
-        return
-      }
+    return {
+      inputModel,
+      inputFillCancelled,
+      inputShadowText,
 
-      if (e.keyCode === 27) {
-        if (this.inputFillCancelled !== true) {
-          this.inputFillCancelled = true
+      processInputFill (e) {
+        if (e === void 0) {
+          return
         }
-      }
-      else if (e.keyCode === 9) {
-        if (this.inputFillCancelled !== true && this.inputShadowText.length > 0) {
-          stopAndPrevent(e)
-          this.inputModel = (typeof this.inputModel === 'string' ? this.inputModel : '') + this.inputShadowText
-        }
-      }
-      else if (this.inputFillCancelled === true) {
-        this.inputFillCancelled = false
-      }
-    },
 
-    processTextareaFill (e) {
-      if (e === void 0) {
-        return
-      }
+        if (e.keyCode === 27) {
+          if (inputFillCancelled.value !== true) {
+            inputFillCancelled.value = true
+          }
+        }
+        else if (e.keyCode === 9) {
+          if (inputFillCancelled.value !== true && this.inputShadowText.length > 0) {
+            stopAndPrevent(e)
+            inputModel.value = (typeof inputModel.value === 'string' ? inputModel.value : '') + this.inputShadowText
+          }
+        }
+        else if (inputFillCancelled.value === true) {
+          inputFillCancelled.value = false
+        }
+      },
 
-      if (e.keyCode === 27) {
-        if (this.textareaFillCancelled !== true) {
-          this.textareaFillCancelled = true
+      textareaModel,
+      textareaFillCancelled,
+      textareaShadowText,
+
+      processTextareaFill (e) {
+        if (e === void 0) {
+          return
         }
-      }
-      else if (e.keyCode === 9) {
-        if (this.textareaFillCancelled !== true && this.textareaShadowText.length > 0) {
-          stopAndPrevent(e)
-          this.textareaModel = (typeof this.textareaModel === 'string' ? this.textareaModel : '') + this.textareaShadowText
+
+        if (e.keyCode === 27) {
+          if (textareaFillCancelled.value !== true) {
+            textareaFillCancelled.value = true
+          }
         }
-      }
-      else if (this.textareaFillCancelled === true) {
-        this.textareaFillCancelled = false
+        else if (e.keyCode === 9) {
+          if (textareaFillCancelled.value !== true && this.textareaShadowText.length > 0) {
+            stopAndPrevent(e)
+            textareaModel.value = (typeof textareaModel.value === 'string' ? textareaModel.value : '') + this.textareaShadowText
+          }
+        }
+        else if (textareaFillCancelled.value === true) {
+          textareaFillCancelled.value = false
+        }
       }
     }
   }

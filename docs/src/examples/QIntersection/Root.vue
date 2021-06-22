@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div ref="myList" class="row justify-center q-gutter-sm">
+    <div ref="myListRef" class="row justify-center q-gutter-sm">
       <q-intersection
         v-for="index in 60"
         :key="index"
@@ -22,10 +22,15 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue'
+
 export default {
-  computed: {
-    listEl () {
-      return this.$refs.myList ? this.$refs.myList.$el : null
+  setup () {
+    const myListRef = ref(null)
+
+    return {
+      myListRef,
+      listEl: computed(() => myListRef.value ? myListRef.value.$el : null)
     }
   }
 }

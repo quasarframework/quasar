@@ -1,13 +1,9 @@
-import Vue from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
+import { hSlot } from '../../utils/private/render.js'
 
-import { slot } from '../../utils/slot.js'
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QItemLabel',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     overline: Boolean,
@@ -16,34 +12,31 @@ export default Vue.extend({
     lines: [ Number, String ]
   },
 
-  computed: {
-    classes () {
-      return {
-        'q-item__label--overline text-overline': this.overline,
-        'q-item__label--caption text-caption': this.caption,
-        'q-item__label--header': this.header,
-        'ellipsis': parseInt(this.lines, 10) === 1
-      }
-    },
+  setup (props, { slots }) {
+    const parsedLines = computed(() => parseInt(props.lines, 10))
 
-    style () {
-      if (this.lines !== void 0 && parseInt(this.lines, 10) > 1) {
-        return {
-          overflow: 'hidden',
-          display: '-webkit-box',
-          '-webkit-box-orient': 'vertical',
-          '-webkit-line-clamp': this.lines
-        }
-      }
-    }
-  },
+    const classes = computed(() =>
+      'q-item__label'
+      + (props.overline === true ? ' q-item__label--overline text-overline' : '')
+      + (props.caption === true ? ' q-item__label--caption text-caption' : '')
+      + (props.header === true ? ' q-item__label--header' : '')
+      + (parsedLines.value === 1 ? ' ellipsis' : '')
+    )
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-item__label',
-      style: this.style,
-      class: this.classes,
-      on: { ...this.qListeners }
-    }, slot(this, 'default'))
+    const style = computed(() => {
+      return props.lines !== void 0 && parsedLines.value > 1
+        ? {
+            overflow: 'hidden',
+            display: '-webkit-box',
+            '-webkit-box-orient': 'vertical',
+            '-webkit-line-clamp': parsedLines.value
+          }
+        : null
+    })
+
+    return () => h('div', {
+      style: style.value,
+      class: classes.value
+    }, hSlot(slots.default))
   }
 })

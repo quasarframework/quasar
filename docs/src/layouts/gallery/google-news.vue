@@ -6,7 +6,7 @@
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleLeftDrawer"
           aria-label="Menu"
           icon="menu"
           class="q-mr-sm"
@@ -104,7 +104,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-white"
+      class="bg-white"
       :width="280"
     >
       <q-scroll-area class="fit">
@@ -157,22 +157,51 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import { fasGlobeAmericas, fasFlask } from '@quasar/extras/fontawesome-v5'
 
 export default {
   name: 'GoogleNewsLayout',
 
-  data () {
+  setup () {
+    const leftDrawerOpen = ref(false)
+    const search = ref('')
+    const showAdvanced = ref(false)
+    const showDateOptions = ref(false)
+    const exactPhrase = ref('')
+    const hasWords = ref('')
+    const excludeWords = ref('')
+    const byWebsite = ref('')
+    const byDate = ref('Any time')
+
+    function onClear () {
+      exactPhrase.value = ''
+      hasWords.value = ''
+      excludeWords.value = ''
+      byWebsite.value = ''
+      byDate.value = 'Any time'
+    }
+
+    function changeDate (option) {
+      byDate.value = option
+      showDateOptions.value = false
+    }
+
+    function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
+    }
+
     return {
-      leftDrawerOpen: false,
-      search: '',
-      showAdvanced: false,
-      showDateOptions: false,
-      exactPhrase: '',
-      hasWords: '',
-      excludeWords: '',
-      byWebsite: '',
-      byDate: 'Any time',
+      leftDrawerOpen,
+      search,
+      showAdvanced,
+      showDateOptions,
+      exactPhrase,
+      hasWords,
+      excludeWords,
+      byWebsite,
+      byDate,
+
       links1: [
         { icon: 'web', text: 'Top stories' },
         { icon: 'person', text: 'For you' },
@@ -197,22 +226,11 @@ export default {
         { icon: 'open_in_new', text: 'Get the iOS app' },
         { icon: '', text: 'Send feedback' },
         { icon: 'open_in_new', text: 'Help' }
-      ]
-    }
-  },
+      ],
 
-  methods: {
-    onClear () {
-      this.exactPhrase = ''
-      this.hasWords = ''
-      this.excludeWords = ''
-      this.byWebsite = ''
-      this.byDate = 'Any time'
-    },
-
-    changeDate (option) {
-      this.byDate = option
-      this.showDateOptions = false
+      onClear,
+      changeDate,
+      toggleLeftDrawer
     }
   }
 }

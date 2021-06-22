@@ -1,6 +1,7 @@
 ---
 title: Bottom Sheet Plugin
 desc: A Quasar plugin for displaying a list of user actions that slides up from the bottom edge of the app window.
+keys: BottomSheet
 related:
   - /quasar-plugins/dialog
   - /vue-components/dialog
@@ -13,20 +14,26 @@ The Bottom Sheet always appears above any other components on the page, and must
 Bottom Sheets can be displayed as a list or as a grid, with icons or with avatars. They can be used either as a component in your Vue file templates, or as a globally available method.
 
 ## BottomSheet API
+
 <doc-api file="BottomSheet" />
 
 ## Installation
+
 <doc-installation plugins="BottomSheet" />
 
 ## Usage
 
-``` js
+```js
 // outside of a Vue file
 import { BottomSheet } from 'quasar'
-(Object) BottomSheet.create({ ... })
+BottomSheet.create({ ... }) // returns Object
 
 // inside of a Vue file
-(Object) this.$q.bottomSheet({ ... })
+import { useQuasar } from 'quasar'
+setup () {
+  const $q = useQuasar()
+  $q.bottomSheet({ ... }) // returns Object
+}
 ```
 
 ::: tip

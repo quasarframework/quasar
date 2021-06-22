@@ -3,18 +3,14 @@ title: Quasar CLI Installation
 desc: How to install the Quasar CLI on your development machine.
 ---
 
-Make sure that you have Node >=10 and NPM >=5 installed on your machine.
+Make sure that you have Node >=12.22.1 and NPM >=6.14.12 installed on your machine.
 
 ::: warning
-**Do not use any Node version higher than 12**. Webpack 4 does not support any Node version higher than 12 (Node 12 is supported) and we cannot move to Webpack 5 without making breaking changes. If you require Node.js 14+, please take a look at [Quasar v2](https://v2.quasar.dev) instead (which is based on Webpack 5).
-:::
-
-::: warning
-**Do not use uneven versions of Node i.e. 11, 13, etc.** These versions are not tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
+**Do not use uneven versions of Node i.e. 13, 15, etc.** These versions are not tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
 :::
 
 ```bash
-# Node.js >=10 is required.
+# Node.js >=12.22.1 is required.
 
 $ yarn global add @quasar/cli
 # or
@@ -35,6 +31,7 @@ Under Windows, modify user's PATH environment variable. If you are using yarn th
 Then we create a project folder with Quasar CLI:
 
 ```bash
+## Quasar UI v2
 $ quasar create <folder_name>
 ```
 
@@ -45,7 +42,7 @@ Some **advanced** scenarios require to use a custom starter kit (eg. testing or 
 :::tip WSL2
 Microsoft's recommended [Nodejs development environment setup in WSL2](https://docs.microsoft.com/en-us/windows/nodejs/setup-on-wsl2).
 
-When using WSL2 (Windows Subsystem for Linux) [Microsoft recommends](https://docs.microsoft.com/en-us/windows/wsl/compare-versions#performance-across-os-file-systems) keeping files in the linux file sytem to maximize performance.  Projects will build around 3X slower and HMR (Hot Module Reload) will not work ([without a hack](/quasar-cli/quasar-conf-js#docker-and-wsl-issues-with-hmr)) if the project files are on the Windows mount instead of the local linux file system.  This is also true in Docker for Windows based development environments.
+When using WSL2 (Windows Subsystem for Linux) [Microsoft recommends](https://docs.microsoft.com/en-us/windows/wsl/compare-versions#performance-across-os-file-systems) keeping files in the linux file sytem to maximize performance.  Projects will build around 3X slower and HMR (Hot Module Reload) will not work ([without a hack](/quasar-cli/quasar-conf-js#Docker-and-WSL-Issues-with-HRM)) if the project files are on the Windows mount instead of the local linux file system.  This is also true in Docker for Windows based development environments.
 :::
 
 Note that you don't need separate projects if you want to build any of the available platforms. This one project can seamlessly handle all of them.

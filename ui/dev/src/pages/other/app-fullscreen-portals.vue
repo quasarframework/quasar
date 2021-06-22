@@ -277,7 +277,7 @@ export default {
   data () {
     return {
       model: null,
-      options: ['Option 1', 'Option 2', 'Option 3'],
+      options: [ 'Option 1', 'Option 2', 'Option 3' ],
 
       dialog1: false,
       dialog2: false,
@@ -305,17 +305,15 @@ export default {
 
     showSimpleDialog () {
       this.$q.dialog({
-        html: true,
-        parent: this.$refs.panel,
         title: 'Confirmation required',
-        message: `Are you sure?`,
+        message: 'Are you sure?',
         cancel: {
           flat: true,
-          'no-caps': true,
+          noCaps: true,
           label: 'Cancel'
         },
         ok: {
-          'no-caps': true,
+          noCaps: true,
           color: 'negative',
           label: 'Confirm'
         },

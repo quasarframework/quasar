@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const nextMorphStep = {
   btn: 'card1',
   card1: 'card2',
@@ -56,15 +58,14 @@ const nextMorphStep = {
 }
 
 export default {
-  data () {
-    return {
-      morphGroupModel: 'btn'
-    }
-  },
+  setup () {
+    const morphGroupModel = ref('btn')
 
-  methods: {
-    nextMorph () {
-      this.morphGroupModel = nextMorphStep[this.morphGroupModel]
+    return {
+      morphGroupModel,
+      nextMorph () {
+        morphGroupModel.value = nextMorphStep[ morphGroupModel.value ]
+      }
     }
   }
 }

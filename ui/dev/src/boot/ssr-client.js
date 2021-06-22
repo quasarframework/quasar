@@ -6,7 +6,7 @@ export default ({ router }) => {
   router.beforeEach((to, _, next) => {
     if (reload) {
       window.location.href = to.fullPath
-      return
+      return false
     }
     reload = true
     next()

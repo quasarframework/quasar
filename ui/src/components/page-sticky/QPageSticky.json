@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/layout/page-sticky"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/layout/page-sticky"
   },
 
   "props": {

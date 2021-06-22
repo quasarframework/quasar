@@ -9,8 +9,7 @@ q-page.landing
         //- .text-h4.landing__hero-text-main.text-bold.text-brand-primary.q-pb-xs QUASAR FRAMEWORK
         .q-pb-lg.text-grey-6.landing__hero-quote.text-center
           | Effortlessly build high-performance & high-quality
-          | <span class="text-bold text-no-wrap">Vue.js 2</span> user interfaces in record time
-        q-btn.q-mb-md(color="accent" outline no-caps type="a" href="https://v2.quasar.dev" target="_blank" label="Looking for Quasar v2 with Vue 3?")
+          | <span class="text-bold text-no-wrap">Vue.js 3</span> user interfaces in record time
         .landing__hero-row.q-gutter-sm.row.items-center
           q-btn(color="brand-primary" unelevated no-caps to="/introduction-to-quasar" label="Why Quasar?")
           q-btn(color="brand-primary" outline no-caps to="/start" label="Get Started")
@@ -121,6 +120,8 @@ q-page.landing
 </template>
 
 <script>
+import { useMeta } from 'quasar'
+
 import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
 import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
@@ -137,6 +138,7 @@ import {
   mdiChat, mdiForum
 } from '@quasar/extras/mdi-v5'
 
+import { useDocStore } from 'assets/doc-store.js'
 import features from 'assets/features.js'
 
 export default {
@@ -149,36 +151,39 @@ export default {
     IntroductionVideo
   },
 
-  meta: {
-    title: 'Quasar Framework',
-    titleTemplate: ''
-  },
+  setup () {
+    useMeta({
+      title: 'Quasar Framework',
+      titleTemplate: ''
+    })
 
-  created () {
-    this.$root.store.toc = []
+    const $store = useDocStore()
+    $store.toc = []
 
-    this.year = (new Date()).getFullYear()
-    this.features = features
+    return {
+      year: (new Date()).getFullYear(),
+      features,
 
-    this.fabGithub = fabGithub
-    this.fabTwitter = fabTwitter
-    this.fabFacebook = fabFacebook
-    this.fasMedkit = fasMedkit
-    this.fabApple = fabApple
-    this.fabWindows = fabWindows
-    this.fabLinux = fabLinux
-    this.fabAndroid = fabAndroid
-    this.fabChrome = fabChrome
-    this.fabFirefox = fabFirefox
-    this.fabEdge = fabEdge
-    this.fabSafari = fabSafari
-    this.fabGoogle = fabGoogle
+      fabGithub,
+      fabTwitter,
+      fabFacebook,
+      fasMedkit,
+      fabApple,
+      fabWindows,
+      fabLinux,
+      fabAndroid,
+      fabChrome,
+      fabFirefox,
+      fabEdge,
+      fabSafari,
+      fabGoogle,
 
-    this.mdiChevronDown = mdiChevronDown
-    this.mdiLaunch = mdiLaunch
-    this.mdiBlogger = mdiBlogger
-    this.mdiChat = mdiChat
-    this.mdiForum = mdiForum
+      mdiChevronDown,
+      mdiLaunch,
+      mdiBlogger,
+      mdiChat,
+      mdiForum
+    }
   }
 }
 </script>
@@ -282,7 +287,7 @@ export default {
   .landing
     &__hero
       &-quote
-        padding-top: 30px
+        padding-top: 40px
       .text-h1
         font-size: 3.5rem
         line-height: 4.05rem

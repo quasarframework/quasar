@@ -1,12 +1,8 @@
 {
-  "mixins": [ "mixins/router-link", "mixins/tag" ],
+  "mixins": [ "composables/private/use-router-link" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/list-and-list-items"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/list-and-list-items"
   },
 
   "props": {
@@ -42,7 +38,9 @@
     },
 
     "tag": {
+      "extends": "tag",
       "desc": "HTML tag to render; Suggestion: use 'label' when encapsulating a QCheckbox/QRadio/QToggle so that when user clicks/taps on the whole item it will trigger a model change for the mentioned components",
+      "default": "div",
       "examples": [ "a", "label", "div" ]
     },
 

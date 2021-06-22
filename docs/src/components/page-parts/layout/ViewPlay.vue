@@ -3,7 +3,7 @@
 
     <div class="q-mt-lg q-mb-sm rounded-borders overflow-hidden shadow-2">
       <div class="row">
-        <div class="col-3 q-pa-md flex flex-center" :class="topL === 'h' ? 'bg-brand-primary text-white' : 'bg-orange text-grey-9'">
+        <div class="col-3 q-pa-md flex flex-center" :class="topL === 'h' ? 'bg-primary text-white' : 'bg-orange text-grey-9'">
           <q-option-group
             inline
             color="white"
@@ -13,7 +13,7 @@
             :options="[{ label: 'l', value: 'l'}, { label: 'h', value: 'h'}]"
           />
         </div>
-        <div class="col-6 q-pa-md flex flex-center bg-brand-primary text-white">
+        <div class="col-6 q-pa-md flex flex-center bg-primary text-white">
           <q-option-group
             inline
             color="white"
@@ -23,7 +23,7 @@
             :options="[{ label: 'h', value: 'h'}, { label: 'H', value: 'H'}]"
           />
         </div>
-        <div class="col-3 q-pa-md flex flex-center" :class="topR === 'h' ? 'bg-brand-primary text-white' : 'bg-orange text-grey-9'">
+        <div class="col-3 q-pa-md flex flex-center" :class="topR === 'h' ? 'bg-primary text-white' : 'bg-orange text-grey-9'">
           <q-option-group
             inline
             color="white"
@@ -105,30 +105,45 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue'
+
 export default {
-  data () {
-    return {
-      topL: 'h',
-      topC: 'H',
-      topR: 'h',
+  name: 'ViewPlay',
 
-      middleL: 'L',
-      middleR: 'r',
+  setup () {
+    const topL = ref('h')
+    const topC = ref('H')
+    const topR = ref('h')
 
-      bottomL: 'f',
-      bottomC: 'F',
-      bottomR: 'f'
-    }
-  },
+    const middleL = ref('L')
+    const middleR = ref('r')
 
-  computed: {
-    view () {
+    const bottomL = ref('f')
+    const bottomC = ref('F')
+    const bottomR = ref('f')
+
+    const view = computed(() => {
       const
-        top = `${this.topL}${this.topC}${this.topR}`,
-        middle = `${this.middleL}p${this.middleR}`,
-        bottom = `${this.bottomL}${this.bottomC}${this.bottomR}`
+        top = `${topL.value}${topC.value}${topR.value}`,
+        middle = `${middleL.value}p${middleR.value}`,
+        bottom = `${bottomL.value}${bottomC.value}${bottomR.value}`
 
       return `${top} ${middle} ${bottom}`
+    })
+
+    return {
+      topL,
+      topC,
+      topR,
+
+      middleL,
+      middleR,
+
+      bottomL,
+      bottomC,
+      bottomR,
+
+      view
     }
   }
 }

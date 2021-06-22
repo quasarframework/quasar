@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const boxValues = [
   'topleft',
   'topright',
@@ -51,23 +53,22 @@ const boxValues = [
 ]
 
 export default {
-  data () {
+  setup () {
+    const morphGroupModel = ref('topleft')
+
     return {
-      morphGroupModel: 'topleft'
-    }
-  },
+      morphGroupModel,
+      nextMorph () {
+        let value = morphGroupModel.value
 
-  methods: {
-    nextMorph () {
-      let value = this.morphGroupModel
+        // pick random box, other than current one
+        while (value === morphGroupModel.value) {
+          const i = Math.floor(Math.random() * boxValues.length)
+          value = boxValues[ i ]
+        }
 
-      // pick random box, other than current one
-      while (value === this.morphGroupModel) {
-        const i = Math.floor(Math.random() * boxValues.length)
-        value = boxValues[i]
+        morphGroupModel.value = value
       }
-
-      this.morphGroupModel = value
     }
   }
 }

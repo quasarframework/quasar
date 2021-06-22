@@ -1,24 +1,20 @@
-import Vue from 'vue'
+import { h, defineComponent, ref, computed, Transition } from 'vue'
 
-import { onSSR } from '../../plugins/Platform.js'
+import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import Intersection from '../../directives/Intersection.js'
 
-import TagMixin from '../../mixins/tag.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import { hSlot, hDir } from '../../utils/private/render.js'
 
-import { slot } from '../../utils/slot.js'
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QIntersection',
 
-  mixins: [ TagMixin, ListenersMixin ],
-
-  directives: {
-    Intersection
-  },
-
   props: {
+    tag: {
+      type: String,
+      default: 'div'
+    },
+
     once: Boolean,
     transition: String,
 
@@ -30,70 +26,72 @@ export default Vue.extend({
       default: null
     },
 
-    disable: Boolean
+    disable: Boolean,
+
+    onVisibility: Function
   },
 
-  data () {
-    return {
-      showing: onSSR === true ? this.ssrPrerender : false
-    }
-  },
+  setup (props, { slots, emit }) {
+    const showing = ref(isRuntimeSsrPreHydration.value === true ? props.ssrPrerender : false)
 
-  computed: {
-    value () {
-      return this.root !== void 0 || this.margin !== void 0 || this.threshold !== void 0
+    const intersectionProps = computed(() => (
+      props.root !== void 0 || props.margin !== void 0 || props.threshold !== void 0
         ? {
-          handler: this.__trigger,
-          cfg: {
-            root: this.root,
-            rootMargin: this.margin,
-            threshold: this.threshold
+            handler: trigger,
+            cfg: {
+              root: props.root,
+              rootMargin: props.margin,
+              threshold: props.threshold
+            }
           }
-        }
-        : this.__trigger
-    },
+        : trigger
+    ))
 
-    directives () {
-      if (this.disable !== true && (onSSR !== true || this.once !== true || this.ssrPrerender !== true)) {
-        return [{
-          name: 'intersection',
-          value: this.value,
-          modifiers: {
-            once: this.once
-          }
-        }]
-      }
-    }
-  },
-
-  methods: {
-    __trigger (entry) {
-      if (this.showing !== entry.isIntersecting) {
-        this.showing = entry.isIntersecting
-
-        if (this.qListeners.visibility !== void 0) {
-          this.$emit('visibility', this.showing)
-        }
-      }
-    }
-  },
-
-  render (h) {
-    const content = this.showing === true
-      ? [ h('div', { key: 'content' }, slot(this, 'default')) ]
-      : void 0
-
-    return h(this.tag, {
-      staticClass: 'q-intersection',
-      on: { ...this.qListeners },
-      directives: this.directives
-    }, this.transition
-      ? [
-        h('transition', {
-          props: { name: 'q-transition--' + this.transition }
-        }, content)
-      ]
-      : content
+    const hasDirective = computed(() =>
+      props.disable !== true
+      && (isRuntimeSsrPreHydration.value !== true || props.once !== true || props.ssrPrerender !== true)
     )
+
+    const directives = computed(() => {
+      // if hasDirective.value === true
+      return [ [
+        Intersection,
+        intersectionProps.value,
+        void 0,
+        { once: props.once }
+      ] ]
+    })
+
+    function trigger (entry) {
+      if (showing.value !== entry.isIntersecting) {
+        showing.value = entry.isIntersecting
+        props.onVisibility !== void 0 && emit('visibility', showing.value)
+      }
+    }
+
+    function getContent () {
+      return showing.value === true
+        ? [ h('div', { key: 'content' }, hSlot(slots.default)) ]
+        : void 0
+    }
+
+    return () => {
+      const child = props.transition
+        ? [
+            h(Transition, {
+              name: 'q-transition--' + props.transition
+            }, getContent)
+          ]
+        : getContent()
+
+      return hDir(
+        props.tag,
+        { class: 'q-intersection' },
+        child,
+        'main',
+        hasDirective.value,
+        () => directives.value
+      )
+    }
   }
 })

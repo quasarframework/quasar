@@ -38,7 +38,7 @@
         </template>
       </q-field>
 
-      <q-field dark standout bottom-slots :value="text" label="Label" stack-label counter :readonly="readonly" :disable="disable">
+      <q-field dark standout bottom-slots :model-value="text" label="Label" stack-label counter :readonly="readonly" :disable="disable">
         <template v-slot:prepend>
           <q-icon name="place" />
         </template>
@@ -70,19 +70,19 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const readonly = ref(false)
+    const disable = ref(false)
+
     return {
-      text: 'Field content',
+      text: ref('Field content'),
+      readonly,
+      disable,
 
-      readonly: false,
-      disable: false
-    }
-  },
-
-  computed: {
-    tabindex () {
-      return this.disable === true || this.readonly === true ? -1 : 0
+      tabindex: computed(() => disable.value === true || readonly.value === true ? -1 : 0)
     }
   }
 }

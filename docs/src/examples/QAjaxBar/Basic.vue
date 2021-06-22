@@ -13,20 +13,29 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  methods: {
+  setup () {
+    const bar = ref(null)
+
     // we manually trigger it (this is not needed if we
     // don't skip Ajax calls hijacking)
-    trigger () {
-      const bar = this.$refs.bar
+    function trigger () {
+      const barRef = bar.value
+      barRef.start()
 
-      bar.start()
-
-      this.timer = setTimeout(() => {
-        if (this.$refs.bar) {
-          this.$refs.bar.stop()
+      setTimeout(() => {
+        const barRef = bar.value
+        if (barRef) {
+          barRef.stop()
         }
       }, Math.random() * 3000 + 1000)
+    }
+
+    return {
+      bar,
+      trigger
     }
   }
 }

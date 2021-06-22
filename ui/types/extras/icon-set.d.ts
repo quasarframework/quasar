@@ -5,7 +5,7 @@ type QuasarIconSetArrow = "up" | "right" | "down" | "left" | "dropdown";
 type QuasarIconSetChevron = "left" | "right";
 type QuasarIconSetColorPicker = "spectrum" | "tune" | "palette";
 type QuasarIconSetPullToRefresh = "icon";
-type QuasarIconSetCarousel = "left" | "right" | "navigationIcon" | "thumbnails";
+type QuasarIconSetCarousel = "left" | "right" | "up" | "down" | "navigationIcon";
 type QuasarIconSetChip = "remove" | "selected";
 type QuasarIconSetDatetime = "arrowLeft" | "arrowRight" | "now" | "today";
 type QuasarIconSetEditor =
@@ -59,7 +59,7 @@ type QuasarIconSetPagination = "first" | "prev" | "next" | "last";
 type QuasarIconSetRating = "icon";
 type QuasarIconSetStepper = "done" | "active" | "error";
 type QuasarIconSetTabs = "left" | "right" | "up" | "down";
-type QuasarIconSetTable = "arrowUp" | "warning" | "prevPage" | "nextPage";
+type QuasarIconSetTable = "arrowUp" | "warning" | "firstPage" | "prevPage" | "nextPage" | "lastPage";
 type QuasarIconSetTree = "icon";
 type QuasarIconSetUploader =
   | "done"

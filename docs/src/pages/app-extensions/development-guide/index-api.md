@@ -153,7 +153,7 @@ module.exports = function (api, ctx) {
     // the regex above matches those files too!
 
     // make sure my-ext css goes through webpack
-    conf.css.push('~quasar-app-extension-my-ext/src/component/my-ext.styl')
+    conf.css.push('~quasar-app-extension-my-ext/src/component/my-ext.sass')
   })
 }
 ```
@@ -168,10 +168,10 @@ Chain webpack config
 ```js
 /**
  * @param {function} fn
- *   (cfg: ChainObject, invoke: Object {isClient, isServer}) => undefined
+ *   (chain: ChainObject, invoke: Object {isClient, isServer}) => undefined
  */
-api.chainWebpack((cfg, { isClient, isServer }, api) => {
-  // add/remove/change cfg (Webpack chain Object)
+api.chainWebpack((chain, { isClient, isServer }, api) => {
+  // add/remove/change chain (Webpack chain Object)
 })
 ```
 
@@ -191,20 +191,20 @@ api.extendWebpack((cfg, { isClient, isServer }, api) => {
 ```
 
 ## api.chainWebpackMainElectronProcess
-Chain webpack config of main electron process
+Chain webpack config of the main electron process
 
 ```js
 /**
  * @param {function} fn
- *   (cfg: ChainObject) => undefined
+ *   (chain: ChainObject) => undefined
  */
-api.chainWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
-  // add/remove/change cfg (Webpack chain Object)
+api.chainWebpackMainElectronProcess((chain, { isClient, isServer }, api) => {
+  // add/remove/change chain (Webpack chain Object)
 })
 ```
 
 ## api.extendWebpackMainElectronProcess
-Extend webpack config Object of main electron process
+Extend webpack config Object of the main electron process
 
 ```js
 /**
@@ -216,23 +216,50 @@ api.extendWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
 })
 ```
 
-## api.chainWebpackWebserver <q-badge align="top" color="brand-primary" label="@quasar/app v1.5+" />
-
-Chain webpack config of SSR webserver (content of /src-ssr)
+## api.chainWebpackPreloadElectronProcess
+Chain webpack config of the preload electron process
 
 ```js
 /**
  * @param {function} fn
- *   (cfg: ChainObject) => undefined
+ *   (chain: ChainObject) => undefined
  */
-api.chainWebpackWebserver ((cfg, { isClient, isServer }, api) => {
-  // add/remove/change cfg (Webpack chain Object)
+api.chainWebpackPreloadElectronProcess((chain, { isClient, isServer }, api) => {
+  // add/remove/change chain (Webpack chain Object)
 })
 ```
 
-## api.extendWebpackWebserver <q-badge align="top" color="brand-primary" label="@quasar/app v1.5+" />
+## api.extendWebpackPreloadElectronProcess
+Extend webpack config Object of the preload electron process
 
-Extend webpack config Object of SSR webserver (content of /src-ssr)
+```js
+/**
+ * @param {function} fn
+ *   (cfg: Object) => undefined
+ */
+api.extendWebpackPreloadElectronProcess((cfg, { isClient, isServer }, api) => {
+  // add/remove/change cfg (Webpack configuration Object)
+})
+```
+
+## api.chainWebpackWebserver
+
+Chain webpack config of SSR webserver (includes the SSR middlewares from /src-ssr/middlewares)
+
+```js
+/**
+ * @param {function} fn
+ *   (chain: ChainObject) => undefined
+ */
+api.chainWebpackWebserver ((chain, { isClient, isServer }, api) => {
+  // add/remove/change chain (Webpack chain Object)
+  // isClient is always "false" and isServer is always "true"
+})
+```
+
+## api.extendWebpackWebserver
+
+Extend webpack config Object of SSR webserver (includes the SSR middlewares from /src-ssr/middlewares)
 
 ```js
 /**
@@ -241,6 +268,35 @@ Extend webpack config Object of SSR webserver (content of /src-ssr)
  */
 api.extendWebpackWebserver((cfg, { isClient, isServer }, api) => {
   // add/remove/change cfg (Webpack configuration Object)
+  // isClient is always "false" and isServer is always "true"
+})
+```
+
+## api.chainWebpackCustomSW
+
+Chain webpack config for the custom service worker when using InjectManifest (content of /src-pwa/custom-service-worker.js):
+
+```js
+/**
+ * @param {function} fn
+ *   (cfg: ChainObject) => undefined
+ */
+api.chainWebpackCustomSW ((cfg, { isClient, isServer }, api) => {
+  // add/remove/change cfg (Webpack chain Object)
+})
+```
+
+## api.extendWebpackCustomSW
+
+Extend webpack config Object for the custom service worker when using InjectManifest (content of /src-pwa/custom-service-worker.js):
+
+```js
+/**
+ * @param {function} fn
+ *   (chain: Object) => undefined
+ */
+api.extendWebpackCustomSW((chain, { isClient, isServer }, api) => {
+  // add/remove/change chain (Webpack configuration Object)
 })
 ```
 
@@ -395,7 +451,7 @@ api.afterBuild((api, { quasarConf }) => {
 })
 ```
 
-## api.onPublish <q-badge align="top" color="brand-primary" label="@quasar/app v1.0.0-rc.7+" />
+## api.onPublish
 
 Run hook if publishing was requested (`$ quasar build -P`), after Quasar built app for production and the afterBuild hook (if specified) was executed.
 

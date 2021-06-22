@@ -1,3 +1,6 @@
+import { Configuration as WebpackConfiguration } from "webpack";
+import * as WebpackChain from "webpack-chain";
+
 // Derived from https://developer.mozilla.org/en-US/docs/Web/Manifest
 type PwaManifestDirection = "ltr" | "rtl" | "auto";
 
@@ -81,6 +84,19 @@ export interface QuasarPwaConfiguration {
    */
   workboxOptions?: object;
   manifest?: PwaManifestOptions;
+
+  /**
+   * Webpack config object for the custom service worker ONLY (`/src-pwa/custom-service-worker`)
+   *  when pwa > workboxPluginMode is set to InjectManifest
+   */
+  extendWebpackCustomSW?: (config: WebpackConfiguration) => void;
+  /**
+   * Equivalent to `extendWebpackCustomSW()` but uses `webpack-chain` instead,
+   *  for the custom service worker ONLY (`/src-pwa/custom-service-worker`)
+   *  when pwa > workboxPluginMode is set to InjectManifest
+   */
+  chainWebpackCustomSW?: (chain: WebpackChain) => void;
+
   /**
    * @default
    * ```typescript

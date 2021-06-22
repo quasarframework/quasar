@@ -20,7 +20,7 @@
         :width="200"
         :breakpoint="700"
         bordered
-        content-class="bg-grey-3"
+        class="bg-grey-3"
       >
         <q-scroll-area class="fit">
           <div class="q-pa-sm">
@@ -35,7 +35,7 @@
         bordered
         :width="200"
         :breakpoint="500"
-        content-class="bg-grey-3"
+        class="bg-grey-3"
       >
         <q-scroll-area class="fit">
           <div class="q-pa-sm">
@@ -80,11 +80,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      drawerLeft: false,
-      drawerRight: true
+      drawerLeft: ref(false),
+      drawerRight: ref(true)
     }
   }
 }

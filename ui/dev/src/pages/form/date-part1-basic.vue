@@ -20,7 +20,7 @@
           v-model="date"
           v-bind="props"
           :style="style"
-          @input="inputLog"
+          @update:model-value="inputLog"
           flat bordered
           navigation-min-year-month="2018/05"
           navigation-max-year-month="2019/03"
@@ -35,7 +35,7 @@
           v-model="date"
           v-bind="props"
           :style="style"
-          @input="inputLog"
+          @update:model-value="inputLog"
           flat bordered
           emit-immediately
         />
@@ -45,7 +45,7 @@
           v-bind="props"
           :style="style"
           landscape
-          @input="inputLog"
+          @update:model-value="inputLog"
           flat bordered
         />
 
@@ -54,7 +54,7 @@
           v-bind="props"
           :style="style"
           landscape
-          @input="inputLog"
+          @update:model-value="inputLog"
           flat bordered
         >
           <div class="row items-center justify-end q-gutter-sm">
@@ -69,7 +69,7 @@
           v-model="date"
           v-bind="props"
           :style="style"
-          @input="inputLog"
+          @update:model-value="inputLog"
         />
       </div>
 
@@ -190,15 +190,17 @@
         />
 
         <q-input :dark="dark" filled v-model="dateNeg">
-          <q-icon slot="append" name="event" class="cursor-pointer" @click.prevent>
-            <q-popup-proxy>
-              <q-date
-                v-model="dateNeg"
-                v-bind="props"
-                :style="style"
-              />
-            </q-popup-proxy>
-          </q-icon>
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer" @click.prevent>
+              <q-popup-proxy>
+                <q-date
+                  v-model="dateNeg"
+                  v-bind="props"
+                  :style="style"
+                />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
         </q-input>
       </div>
 
@@ -226,19 +228,21 @@
       </div>
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="input" mask="date" :rules="['date']">
-          <q-icon slot="append" name="event" class="cursor-pointer" @click.prevent>
-            <q-popup-proxy>
-              <q-date
-                v-model="input"
-                v-bind="props"
-                :style="style"
-              >
-                <div class="row items-center justify-end">
-                  <q-btn v-close-popup label="Close" color="primary" flat />
-                </div>
-              </q-date>
-            </q-popup-proxy>
-          </q-icon>
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer" @click.prevent>
+              <q-popup-proxy>
+                <q-date
+                  v-model="input"
+                  v-bind="props"
+                  :style="style"
+                >
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="Close" color="primary" flat />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
         </q-input>
       </div>
 
@@ -256,7 +260,7 @@
                   mask="YYYY-MM-DD HH:mm"
                   today-btn
                   :style="style"
-                  @input="() => { $refs.qDateProxy1.hide() }"
+                  @update:model-value="() => { $refs.qDateProxy1.hide() }"
                 />
               </q-popup-proxy>
             </q-icon>
@@ -265,7 +269,7 @@
                 <q-time
                   v-model="inputFull"
                   mask="YYYY-MM-DD HH:mm"
-                  @input="() => { $refs.qDateProxy2.hide() }"
+                  @update:model-value="() => { $refs.qDateProxy2.hide() }"
                 />
               </q-popup-proxy>
             </q-icon>
@@ -282,7 +286,7 @@
                   mask="YYYY-MM-DD HH:mm"
                   today-btn
                   :style="style"
-                  @input="() => { $refs.qDateProxy3.hide() }"
+                  @update:model-value="() => { $refs.qDateProxy3.hide() }"
                 />
               </q-popup-proxy>
             </q-icon>
@@ -293,7 +297,7 @@
                 <q-time
                   v-model="inputFull"
                   mask="YYYY-MM-DD HH:mm"
-                  @input="() => { $refs.qDateProxy4.hide() }"
+                  @update:model-value="() => { $refs.qDateProxy4.hide() }"
                 />
               </q-popup-proxy>
             </q-icon>
@@ -311,7 +315,7 @@
                   today-btn
                   default-view="Years"
                   :style="style"
-                  @input="() => { $refs.qDateProxy5.hide() }"
+                  @update:model-value="() => { $refs.qDateProxy5.hide() }"
                 />
               </q-popup-proxy>
             </q-icon>
@@ -322,7 +326,7 @@
                 <q-time
                   v-model="inputFull"
                   mask="YYYY-MM-DD HH:mm"
-                  @input="() => { $refs.qDateProxy6.hide() }"
+                  @update:model-value="() => { $refs.qDateProxy6.hide() }"
                 />
               </q-popup-proxy>
             </q-icon>
@@ -338,7 +342,7 @@ import languages from 'quasar/lang/index.json'
 
 const localeOptions = languages.map(lang => ({
   label: lang.nativeName,
-  value: require(`quasar/lang/${lang.isoName}.js`).default
+  value: require(`quasar/lang/${ lang.isoName }.js`)
 }))
 
 export default {
@@ -380,13 +384,13 @@ export default {
     },
     events () {
       return this.persian === true
-        ? ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
-        : ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
+        ? [ '1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28' ]
+        : [ '2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23' ]
     },
     options () {
       return this.persian === true
-        ? ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
-        : ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
+        ? [ '1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28' ]
+        : [ '2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23' ]
     },
     props () {
       return {
@@ -431,15 +435,15 @@ export default {
   },
   methods: {
     eventFn (date) {
-      return date[9] % 3 === 0
+      return date[ 9 ] % 3 === 0
     },
 
     eventColor (date) {
-      return date[9] % 2 === 0 ? 'teal' : 'orange'
+      return date[ 9 ] % 2 === 0 ? 'teal' : 'orange'
     },
 
     optionsFn (date) {
-      return date[9] % 3 === 0
+      return date[ 9 ] % 3 === 0
     },
 
     optionsFn2 (date) {
@@ -449,7 +453,7 @@ export default {
     },
 
     inputLog (value, reason, date) {
-      console.log('@input', value, reason, date)
+      console.log('@update:model-value', value, reason, date)
     }
   }
 }

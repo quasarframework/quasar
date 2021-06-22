@@ -1,40 +1,36 @@
-import Vue from 'vue'
+import { h, defineComponent, ref, computed, watch, nextTick, inject, KeepAlive } from 'vue'
 
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import StepHeader from './StepHeader.js'
 
-import { PanelChildMixin } from '../../mixins/panel.js'
+import { usePanelChildProps } from '../../composables/private/use-panel.js'
+import useCache from '../../composables/private/use-cache.js'
 
-import { slot } from '../../utils/slot.js'
+import { stepperKey } from '../../utils/private/symbols.js'
+import { hSlot } from '../../utils/private/render.js'
 
-const StepWrapper = Vue.extend({
-  name: 'QStepWrapper',
+function getStepWrapper (slots) {
+  return h('div', {
+    class: 'q-stepper__step-content'
+  }, [
+    h('div', {
+      class: 'q-stepper__step-inner'
+    }, hSlot(slots.default))
+  ])
+}
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-stepper__step-content'
-    }, [
-      h('div', {
-        staticClass: 'q-stepper__step-inner'
-      }, slot(this, 'default'))
-    ])
+const PanelWrapper = {
+  setup (_, { slots }) {
+    return () => getStepWrapper(slots)
   }
-})
+}
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QStep',
 
-  inject: {
-    stepper: {
-      default () {
-        console.error('QStep needs to be child of QStepper')
-      }
-    }
-  },
-
-  mixins: [ PanelChildMixin ],
-
   props: {
+    ...usePanelChildProps,
+
     icon: String,
     color: String,
     title: {
@@ -59,62 +55,78 @@ export default Vue.extend({
     error: Boolean
   },
 
-  computed: {
-    isActive () {
-      return this.stepper.value === this.name
-    }
-  },
+  setup (props, { slots }) {
+    const $stepper = inject(stepperKey, () => {
+      console.error('QStep needs to be child of QStepper')
+    })
 
-  watch: {
-    isActive (active) {
+    const { getCacheWithFn } = useCache()
+
+    const rootRef = ref(null)
+
+    const isActive = computed(() => $stepper.value.modelValue === props.name)
+
+    watch(isActive, active => {
       if (
-        active === true &&
-        this.stepper.vertical === true
+        active === true
+        && $stepper.value.vertical === true
       ) {
-        this.$nextTick(() => {
-          if (this.$el !== void 0) {
-            this.$el.scrollTop = 0
+        nextTick(() => {
+          if (rootRef.value !== null) {
+            rootRef.value.scrollTop = 0
           }
         })
       }
+    })
+
+    const contentKey = computed(() => (
+      typeof props.name === 'string' || typeof props.name === 'number'
+        ? props.name
+        : String(props.name)
+    ))
+
+    function getStepContent () {
+      const vertical = $stepper.value.vertical
+
+      if (vertical === true && $stepper.value.keepAlive === true) {
+        return h(
+          KeepAlive,
+          $stepper.value.keepAliveProps.value,
+          isActive.value === true
+            ? [
+                h(
+                  $stepper.value.needsUniqueKeepAliveWrapper.value === true
+                    ? getCacheWithFn(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
+                    : PanelWrapper,
+                  { key: contentKey.value },
+                  slots.default
+                )
+              ]
+            : void 0
+        )
+      }
+
+      return vertical !== true || isActive.value === true
+        ? getStepWrapper(slots)
+        : void 0
     }
-  },
 
-  render (h) {
-    const vertical = this.stepper.vertical
-    const content = vertical === true && this.stepper.keepAlive === true
-      ? h(
-        'keep-alive',
-        this.isActive === true
-          ? [ h(StepWrapper, { key: this.name }, slot(this, 'default')) ]
-          : void 0
-      )
-      : (
-        vertical !== true || this.isActive === true
-          ? StepWrapper.options.render.call(this, h)
-          : void 0
-      )
-
-    return h(
+    return () => h(
       'div',
-      {
-        staticClass: 'q-stepper__step',
-        on: { ...this.qListeners }
-      },
-      vertical === true
+      { ref: rootRef, class: 'q-stepper__step' },
+      $stepper.value.vertical === true
         ? [
-          h(StepHeader, {
-            props: {
-              stepper: this.stepper,
-              step: this
-            }
-          }),
+            h(StepHeader, {
+              stepper: $stepper.value,
+              step: props,
+              goToPanel: $stepper.value.goToPanel
+            }),
 
-          this.stepper.animated === true
-            ? h(QSlideTransition, [ content ])
-            : content
-        ]
-        : [ content ]
+            $stepper.value.animated === true
+              ? h(QSlideTransition, getStepContent)
+              : getStepContent()
+          ]
+        : [ getStepContent() ]
     )
   }
 })

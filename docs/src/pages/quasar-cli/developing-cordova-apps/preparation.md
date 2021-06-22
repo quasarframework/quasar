@@ -83,13 +83,13 @@ $ quasar mode add cordova
 ## 3. Add Platform
 To switch to the cordova project, type:
 
-```
+```bash
 $ cd src-cordova
 ```
 
 Target platforms get installed on demand by Quasar CLI. However, if you want to add a platform manually, type:
 
-```
+```bash
 $ cordova platform add [android|ios]
 ```
 
@@ -99,7 +99,7 @@ To verify that everything is in order, type:
 $ cordova requirements
 ```
 
-> On some newer Debian-based operating systems you might face a very persistent problem when running `cordova requirements`. Please see the ["Android SDK not found" after installation](/quasar-cli/developing-cordova-apps/troubleshooting-and-tips#android-sdk-not-found-after-installation-of-the-sdk) section for assistance.
+> On some newer Debian-based operating systems you might face a very persistent problem when running `cordova requirements`. Please see the ["Android SDK not found" after installation](/quasar-cli/developing-cordova-apps/troubleshooting-and-tips#Android-SDK-not-found-after-installation-of-the-SDK) section for assistance.
 
 ### Switching to iOS WkWebView
 
@@ -166,4 +166,5 @@ In Android Studio, you will be greeted with a message recommending to upgrade th
 If you encounter any IDE errors then click on File > Invalidate caches and restart.
 
 <img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="q-mt-md fit rounded-borders" style="max-width: 350px">
+
 :::

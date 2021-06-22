@@ -8,17 +8,17 @@
 
     <div class="q-gutter-md">
       <div>Single {{ day || 'none ' }}:</div>
-      <q-date v-model="day" today-btn @input="onInput" :no-unset="noUnset" />
+      <q-date v-model="day" today-btn @update:model-value="onInput" :no-unset="noUnset" />
 
       <div>Multiple {{ days || 'none ' }}:</div>
-      <q-date v-model="days" multiple today-btn @input="onInput" :no-unset="noUnset" />
+      <q-date v-model="days" multiple today-btn @update:model-value="onInput" :no-unset="noUnset" />
 
       <div>Range {{ dayRange || 'none ' }}:</div>
-      <q-date v-model="dayRange" today-btn range @input="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" :no-unset="noUnset" />
+      <q-date v-model="dayRange" today-btn range @update:model-value="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" :no-unset="noUnset" />
 
       <div>Multiple + Range {{ daysRange || 'none ' }}:</div>
       <div class="row no-wrap">
-        <q-date ref="daysRange" v-model="daysRange" multiple today-btn range @input="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" :no-unset="noUnset" />
+        <q-date ref="daysRange" v-model="daysRange" multiple today-btn range @update:model-value="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" :no-unset="noUnset" />
         <div class="q-gutter-sm q-ml-sm">
           <q-btn label="setEditingRange(from)" @click="setRangeFrom" no-caps />
           <q-btn label="setEditingRange(from, to)" @click="setRangeFromTo" no-caps />
@@ -84,7 +84,7 @@ export default {
     },
 
     onInput (value, reason, details) {
-      console.log('@input:', value, reason, details)
+      console.log('@update:model-value:', value, reason, details)
     },
 
     onRangeStart (payload) {

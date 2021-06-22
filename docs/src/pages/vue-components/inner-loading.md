@@ -1,6 +1,7 @@
 ---
 title: Inner Loading
 desc: The QInnerLoading Vue component allows you to add a loading indicator within a component in the form of a local overlay.
+keys: QInnerLoading
 related:
   - /vue-components/linear-progress
   - /vue-components/circular-progress
@@ -13,9 +14,8 @@ related:
 The QInnerLoading component allows you to add a progress animation within a component. Much like the [Loading Plugin](/quasar-plugins/loading), its purpose is to offer visual confirmation to the user that some process is happening in the background, which takes an excessive amount of time. QInnerLoading will add an opaque overlay over the delayed element along with a [Spinner](/vue-components/spinners).
 
 ## QInnerLoading API
-<doc-api file="QInnerLoading" />
 
-If using a custom [Spinner](/vue-components/spinners), add it to the list of components. Example: `QSpinnerGears`.
+<doc-api file="QInnerLoading" />
 
 ## Usage
 

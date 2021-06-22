@@ -1,15 +1,16 @@
 {
-  "mixins": [ "mixins/btn", "mixins/model-toggle" ],
+  "mixins": [ "components/btn/use-btn", "composables/private/use-model-toggle" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/button-dropdown"
+    "docsUrl": "https://v2.quasar.dev/vue-components/button-dropdown"
   },
 
   "props": {
-    "value": {
-      "desc": "Controls Menu show/hidden state; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "examples": [ "v-model=\"menuState\"" ],
-      "category": "model"
+    "model-value": {
+      "extends": "model-value",
+      "type": "Boolean",
+      "desc": "Controls Menu show/hidden state; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "examples": [ "v-model=\"menuState\"" ]
     },
 
     "split": {
@@ -19,8 +20,7 @@
     },
 
     "dropdown-icon": {
-      "extends": "icon",
-      "addedIn": "v1.1.6"
+      "extends": "icon"
     },
 
     "disable-main-btn": {
@@ -38,8 +38,7 @@
     "no-icon-animation": {
       "type": "Boolean",
       "desc": "Disables the rotation of the dropdown icon when state is toggled",
-      "category": "style",
-      "addedIn": "v1.12.0"
+      "category": "style"
     },
 
     "content-style": {
@@ -77,8 +76,7 @@
     "no-route-dismiss": {
       "type": "Boolean",
       "desc": "Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set",
-      "category": "behavior",
-      "addedIn": "v1.13.2"
+      "category": "behavior"
     },
 
     "auto-close": {
@@ -117,8 +115,7 @@
       "type": "Array",
       "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
       "examples": [ "[8, 8]", "[5, 10]" ],
-      "category": "position",
-      "addedIn": "v1.9.2"
+      "category": "position"
     }
   },
 

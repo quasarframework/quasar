@@ -74,25 +74,28 @@ Now let's put this plugin to some good use. In one of your Quasar project's page
 </template>
 
 <script>
+import { ref, onBeforeUnmount } from 'vue'
+
 export default {
-  data () {
-    return {
-      batteryStatus: 'determining...'
+  setup () {
+    const batteryStatus = ref('determining...')
+
+    function updateBatteryStatus (status) {
+      batteryStatus.value = `Level: ${status.level}, plugged: ${status.isPlugged}`
     }
-  },
-  methods: {
-    updateBatteryStatus (status) {
-      this.batteryStatus = `Level: ${status.level}, plugged: ${status.isPlugged}`
-    }
-  },
-  created () {
+
     // we register the event like on plugin's doc page
-    window.addEventListener('batterystatus', this.updateBatteryStatus, false)
-  },
-  beforeDestroy () {
-    // we do some cleanup;
-    // we need to remove the event listener
-    window.removeEventListener('batterystatus', this.updateBatteryStatus, false)
+    window.addEventListener('batterystatus', updateBatteryStatus, false)
+
+    onBeforeUnmount(() => {
+      // we do some cleanup;
+      // we need to remove the event listener
+      window.removeEventListener('batterystatus', updateBatteryStatus, false)
+    })
+
+    return {
+      batteryStatus
+    }
   }
 }
 </script>
@@ -127,25 +130,31 @@ Now let's put this plugin to some good use. In one of your Quasar project's page
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+
 export default {
-  data () {
-    return {
-      imageSrc: ''
-    }
-  },
-  methods: {
-    captureImage () {
+  setup () {
+    const $q = useQuasar()
+    const imageSrc = ref('')
+
+    function captureImage () {
       navigator.camera.getPicture(
         data => { // on success
-          this.imageSrc = `data:image/jpeg;base64,${data}`
+          imageSrc.value = `data:image/jpeg;base64,${data}`
         },
         () => { // on fail
-          this.$q.notify('Could not access device camera.')
+          $q.notify('Could not access device camera.')
         },
         {
           // camera options
         }
       )
+    }
+
+    return {
+      imageSrc,
+      captureImage
     }
   }
 }
@@ -175,18 +184,24 @@ Now let's put this plugin to some good use. If you need the information of your 
 <template>
   <div>
     <q-page class="flex flex-center">
-      <div>IMEI {{IMEI}}</div>
+      <div>IMEI: {{ IMEI }}</div>
     </q-page>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
-    return {
-      IMEI: window.device === void 0
+  setup () {
+    const imei = ref(
+      window.device === void 0
         ? 'Run this on a mobile/tablet device'
         : window.device
+    )
+
+    return {
+      imei
     }
   }
 }

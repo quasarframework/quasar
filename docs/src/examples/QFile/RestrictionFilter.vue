@@ -26,30 +26,33 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const $q = useQuasar()
+
     return {
-      filesMaxSize: null,
-      filesPng: null
-    }
-  },
+      filesMaxSize: ref(null),
+      filesPng: ref(null),
 
-  methods: {
-    checkFileSize (files) {
-      return files.filter(file => file.size < 2048)
-    },
+      checkFileSize (files) {
+        return files.filter(file => file.size < 2048)
+      },
 
-    checkFileType (files) {
-      return files.filter(file => file.type === 'image/png')
-    },
+      checkFileType (files) {
+        return files.filter(file => file.type === 'image/png')
+      },
 
-    onRejected (rejectedEntries) {
-      // Notify plugin needs to be installed
-      // https://quasar.dev/quasar-plugins/notify#Installation
-      this.$q.notify({
-        type: 'negative',
-        message: `${rejectedEntries.length} file(s) did not pass validation constraints`
-      })
+      onRejected (rejectedEntries) {
+        // Notify plugin needs to be installed
+        // https://quasar.dev/quasar-plugins/notify#Installation
+        $q.notify({
+          type: 'negative',
+          message: `${rejectedEntries.length} file(s) did not pass validation constraints`
+        })
+      }
     }
   }
 }

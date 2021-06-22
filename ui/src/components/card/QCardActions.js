@@ -1,30 +1,25 @@
-import Vue from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import AlignMixin from '../../mixins/align.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
 
-import { slot } from '../../utils/slot.js'
+import { hSlot } from '../../utils/private/render.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QCardActions',
 
-  mixins: [ ListenersMixin, AlignMixin ],
-
   props: {
+    ...useAlignProps,
     vertical: Boolean
   },
 
-  computed: {
-    classes () {
-      return `q-card__actions--${this.vertical === true ? 'vert column' : 'horiz row'} ${this.alignClass}`
-    }
-  },
+  setup (props, { slots }) {
+    const alignClass = useAlign(props)
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-card__actions',
-      class: this.classes,
-      on: { ...this.qListeners }
-    }, slot(this, 'default'))
+    const classes = computed(() =>
+      `q-card__actions ${ alignClass.value }`
+      + ` q-card__actions--${ props.vertical === true ? 'vert column' : 'horiz row' }`
+    )
+
+    return () => h('div', { class: classes.value }, hSlot(slots.default))
   }
 })

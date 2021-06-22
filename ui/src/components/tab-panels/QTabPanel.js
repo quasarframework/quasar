@@ -1,17 +1,14 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
-import { PanelChildMixin } from '../../mixins/panel.js'
-import { slot } from '../../utils/slot.js'
+import { usePanelChildProps } from '../../composables/private/use-panel.js'
+import { hSlot } from '../../utils/private/render.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QTabPanel',
 
-  mixins: [ PanelChildMixin ],
+  props: usePanelChildProps,
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-tab-panel',
-      on: { ...this.qListeners }
-    }, slot(this, 'default'))
+  setup (_, { slots }) {
+    return () => h('div', { class: 'q-tab-panel' }, hSlot(slots.default))
   }
 })

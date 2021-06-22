@@ -1,8 +1,8 @@
 <template lang="pug">
 div
-  template(v-for="category in team")
-    h4.text-brand-primary(:key="`categ_${category.name}`") {{ category.name }}
-    .row.items-stretch.q-gutter-sm(:key="`members_${category.name}`")
+  template(v-for="category in team" :key="category")
+    h4.text-brand-primary {{ category.name }}
+    .row.items-stretch.q-gutter-sm
       team-member(
         v-for="m in category.members"
         :key="m.name"
@@ -27,8 +27,8 @@ export default {
     TeamMember
   },
 
-  created () {
-    this.team = team
+  setup () {
+    return { team }
   }
 }
 </script>

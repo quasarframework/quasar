@@ -1,5 +1,8 @@
 // Configuration for your app
 const path = require('path')
+const ESLintPlugin = require('eslint-webpack-plugin')
+const { merge } = require('webpack-merge')
+const transformAssetUrls = require('quasar/dist/transforms/loader-asset-urls.json')
 
 module.exports = function (ctx) {
   return {
@@ -15,7 +18,6 @@ module.exports = function (ctx) {
     ],
 
     extras: [
-      'roboto-font',
       'material-icons'
     ],
 
@@ -27,12 +29,12 @@ module.exports = function (ctx) {
       distDir: 'dist/quasar.dev',
       // analyze: true,
 
-      chainWebpack (chain) {
-        chain.module.rule('eslint')
-          .pre()
-          .exclude.add(/node_modules|\.md\.js$/).end()
-          .test(/\.(js|vue)$/)
-          .use('eslint-loader').loader('eslint-loader')
+      chainWebpack (chain, { isServer }) {
+        chain.plugin('eslint-webpack-plugin')
+          .use(ESLintPlugin, [{
+            extensions: [ 'js', 'vue' ],
+            exclude: [ 'node_modules', '.md.js' ]
+          }])
 
         chain.resolve.alias
           .merge({
@@ -50,16 +52,22 @@ module.exports = function (ctx) {
         rule.use('v-loader')
           .loader('vue-loader')
           .options({
-            productionMode: ctx.prod,
-            compilerOptions: {
-              preserveWhitespace: false
-            },
-            transformAssetUrls: {
-              video: 'src',
-              source: 'src',
-              img: 'src',
-              image: 'xlink:href'
-            }
+            ...(
+              isServer === true
+                ? { ssr: true, directiveTransforms: require('quasar/dist/ssr-directives/index.js') }
+                : {}
+            ),
+            transformAssetUrls: merge({
+              base: null,
+              includeAbsolute: false,
+              tags: {
+                video: [ 'src', 'poster' ],
+                source: ['src'],
+                img: ['src'],
+                image: [ 'xlink:href', 'href' ],
+                use: [ 'xlink:href', 'href' ]
+              }
+            }, transformAssetUrls)
           })
 
         rule.use('md-loader')
@@ -74,20 +82,50 @@ module.exports = function (ctx) {
     },
 
     framework: {
-      importStrategy: 'all',
       iconSet: 'svg-mdi-v5',
 
       config: {
         loadingBar: {
-          color: 'amber'
+          color: 'brand-primary',
+          size: '4px'
         }
-      }
+      },
+
+      components: [
+        'QMarkupTable', // required md-plugin-table
+        'QBtn', // used directly in some .md files
+        'QBadge', // used directly in some .md files
+        'QSeparator' // used directly in some .md files
+      ],
+
+      plugins: [
+        'AddressbarColor',
+        'AppFullscreen',
+        'AppVisibility',
+        'BottomSheet',
+        'Cookies',
+        'Dark',
+        'Dialog',
+        'Loading',
+        'LoadingBar',
+        'LocalStorage',
+        'Meta',
+        'Notify',
+        'Platform',
+        'Screen',
+        'SessionStorage'
+      ]
     },
 
     animations: [ 'fadeIn', 'fadeOut' ],
 
     ssr: {
-      pwa: true
+      pwa: ctx.prod,
+      prodPort: 3010,
+      middlewares: [
+        ctx.prod ? 'compression' : '',
+        'render'
+      ]
     },
 
     pwa: {
@@ -104,9 +142,9 @@ module.exports = function (ctx) {
         ]
       },
       manifest: {
-        name: 'Quasar v1 Docs',
-        short_name: 'Quasar v1',
-        description: 'Quasar Framework v1 Documentation',
+        name: 'Quasar v2 Docs',
+        short_name: 'Quasar v2',
+        description: 'Quasar Framework v2 Documentation',
         display: 'standalone',
         orientation: 'any',
         background_color: '#000000',

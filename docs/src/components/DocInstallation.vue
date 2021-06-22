@@ -10,18 +10,19 @@ q-card.doc-installation.q-my-lg(flat, bordered)
 
   q-separator
 
-  q-tab-panels.bg-code(v-model="currentTab", animated)
+  q-tab-panels(v-model="currentTab", animated)
     q-tab-panel.q-pa-none(name="Quasar CLI")
-      doc-code {{ QuasarCli }}
+      doc-code(:code="QuasarCli")
 
     q-tab-panel.q-pa-none(name="UMD")
-      doc-code {{ UMD }}
+      doc-code(:code="UMD")
 
     q-tab-panel.q-pa-none(name="Vue CLI")
-      doc-code {{ VueCli }}
+      doc-code(:code="VueCli")
 </template>
 
 <script>
+import { ref, computed } from 'vue'
 import DocCode from './DocCode.vue'
 
 export default {
@@ -38,14 +39,10 @@ export default {
     config: String
   },
 
-  data () {
-    return {
-      currentTab: 'Quasar CLI'
-    }
-  },
+  setup (props) {
+    const currentTab = ref('Quasar CLI')
 
-  methods: {
-    nameAsString (name, indent, quotes = true) {
+    function nameAsString (name, indent, quotes = true) {
       const wrapper = quotes
         ? str => `'${str}'`
         : str => str
@@ -54,34 +51,32 @@ export default {
         ? name.map(wrapper).join(',\n' + ''.padStart(indent, ' '))
         : wrapper(name)
     }
-  },
 
-  computed: {
-    quasarConf () {
-      return this.config !== void 0
-        ? `${this.config}: { /* look at QUASARCONFOPTIONS from the API card (bottom of page) */ }`
-        : void 0
-    },
+    const quasarConf = computed(() => {
+      return props.config !== void 0
+        ? `${props.config}: { /* look at QuasarConfOptions from the API card */ }`
+        : null
+    })
 
-    QuasarCli () {
-      if (this.plugins === void 0 && this.quasarConf === void 0) {
+    const QuasarCli = computed(() => {
+      if (props.plugins === void 0 && quasarConf.value === null) {
         return `/*
  * No installation step is necessary.
- * It gets installed by default by @quasar/app v2+.
+ * It gets installed by default by @quasar/app.
  */`
       }
 
       const parts = []
 
-      if (this.plugins !== void 0) {
+      if (props.plugins !== void 0) {
         parts.push(`plugins: [
-      ${this.nameAsString(this.plugins, 6)}
+      ${nameAsString(props.plugins, 6)}
     ]`)
       }
 
-      if (this.quasarConf !== void 0) {
+      if (quasarConf.value !== null) {
         parts.push(`config: {
-      ${this.quasarConf}
+      ${quasarConf.value}
     }`)
       }
 
@@ -92,16 +87,18 @@ return {
     ${parts.join(',\n    ')}
   }
 }`
-    },
+    })
 
-    UMD () {
-      const config = this.quasarConf !== void 0
+    const UMD = computed(() => {
+      const config = quasarConf.value !== null
         ? `
 
 // Optional;
 // Place the global quasarConfig Object in a script tag BEFORE your Quasar script tag
-window.quasarConfig = {
-  ${this.quasarConf}
+app.use(Quasar, {
+  config: {
+    ${quasarConf.value}
+  }
 }`
         : ''
 
@@ -111,39 +108,44 @@ window.quasarConfig = {
  */`
 
       return content + config
-    },
+    })
 
-    VueCli () {
+    const VueCli = computed(() => {
       const types = [], imports = []
 
       ;[ 'components', 'directives', 'plugins' ].forEach(type => {
-        if (this[type] !== void 0) {
-          imports.push(this.nameAsString(this[type], 2, false))
+        if (props[ type ] !== void 0) {
+          imports.push(nameAsString(props[ type ], 2, false))
           types.push(`${type}: {
-    ${this.nameAsString(this[type], 4, false)}
+    ${nameAsString(props[ type ], 4, false)}
   }`)
         }
       })
 
-      if (this.quasarConf !== void 0) {
+      if (quasarConf.value !== null) {
         types.push(`config: {
-    ${this.quasarConf}
+    ${quasarConf.value}
   }`)
       }
 
       return `// main.js
-
-// This is needed ONLY if NOT chosen to import everything from Quasar
-// when you installed vue-cli-plugin-quasar.
 
 import {
   Quasar,
   ${imports.join(',\n  ')}
 } from 'quasar'
 
-Vue.use(Quasar, {
+app.use(Quasar, {
   ${types.join(',\n  ')}
 })`
+    })
+
+    return {
+      currentTab,
+
+      QuasarCli,
+      UMD,
+      VueCli
     }
   }
 }

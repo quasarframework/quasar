@@ -27,9 +27,7 @@
         <q-btn flat dense round size="0.65rem" icon="undo" @click="undoColor(color)" v-if="color !== 'white' && mainColorValues[color] !== mainColorValuesOrig[color]" />
       </div>
       <div v-if="currentColor" class="row justify-center items-end q-mt-md">
-        <div class="q-px-md q-py-sm shadow-2">
-          <q-color :value="mainColorValues[currentColor]" @input="val => setColor(currentColor, val)" />
-        </div>
+        <q-color :model-value="mainColorValues[currentColor]" @update:model-value="val => setColor(currentColor, val)" />
       </div>
 
       <h5>Full Palette</h5>
@@ -46,10 +44,10 @@
 </template>
 
 <script>
-import { clone, colors } from 'quasar'
+import { clone, setCssVar } from 'quasar'
 
-const mainColors = ['primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning', 'black']
-const mainLightColors = ['white']
+const mainColors = [ 'primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning', 'black' ]
+const mainLightColors = [ 'white' ]
 let mainColorValuesOrig
 
 export default {
@@ -60,7 +58,7 @@ export default {
       mainColorValues: {},
       mainColorValuesOrig: {},
       currentColor: null,
-      colors: ['red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey']
+      colors: [ 'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey' ]
     }
   },
   methods: {
@@ -70,21 +68,21 @@ export default {
       }, 300)
     },
     setColor (color, value) {
-      this.mainColorValues[color] = value
-      colors.setBrand(color, value)
+      this.mainColorValues[ color ] = value
+      setCssVar(color, value)
     },
     undoColor (color) {
-      const value = this.mainColorValuesOrig[color]
-      this.mainColorValues[color] = value
-      colors.setBrand(color, value)
+      const value = this.mainColorValuesOrig[ color ]
+      this.mainColorValues[ color ] = value
+      setCssVar(color, value)
     }
   },
   beforeMount () {
     const style = getComputedStyle(document.body)
-    const mainColorValues = [...mainColors, ...mainLightColors]
-      .filter(c => !['white', 'black'].includes(c))
+    const mainColorValues = [ ...mainColors, ...mainLightColors ]
+      .filter(c => ![ 'white', 'black' ].includes(c))
       .reduce((acc, color) => {
-        acc[color] = style.getPropertyValue(`--q-color-${color}`).trim() || null
+        acc[ color ] = style.getPropertyValue(`--q-color-${ color }`).trim() || null
         return acc
       }, {})
     if (!mainColorValuesOrig) {
@@ -96,26 +94,26 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 #view-colors
   div.main-color
-    width 130px
-    margin 5px
-    height 40px
+    width: 130px
+    margin: 5px
+    height: 40px
 
   .detailed-color
-    width 100%
+    width: 100%
 
   div.detailed-color
-    height 55px
+    height: 55px
 
   div.detail
-    margin-bottom 25px
-    max-width 400px
-    min-width 135px
-    display inline-block
-    margin-right 5px
+    margin-bottom: 25px
+    max-width: 400px
+    min-width: 135px
+    display: inline-block
+    margin-right: 5px
 
   h5
-    margin-bottom 5px
+    margin-bottom: 5px
 </style>

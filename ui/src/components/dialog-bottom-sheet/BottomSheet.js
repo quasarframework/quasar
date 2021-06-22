@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent, ref, getCurrentInstance } from 'vue'
 
 import QDialog from '../dialog/QDialog.js'
 
@@ -11,167 +11,167 @@ import QCardSection from '../card/QCardSection.js'
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
-import DarkMixin from '../../mixins/dark.js'
-import AttrsMixin from '../../mixins/attrs.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-import cache from '../../utils/cache.js'
-
-export default Vue.extend({
+export default defineComponent({
   name: 'BottomSheetPlugin',
 
-  mixins: [ DarkMixin, AttrsMixin ],
-
-  inheritAttrs: false,
-
   props: {
+    ...useDarkProps,
+
     title: String,
     message: String,
     actions: Array,
 
     grid: Boolean,
 
-    cardClass: [String, Array, Object],
-    cardStyle: [String, Array, Object]
+    cardClass: [ String, Array, Object ],
+    cardStyle: [ String, Array, Object ]
   },
 
-  computed: {
-    dialogProps () {
-      return {
-        ...this.qAttrs,
-        position: 'bottom'
-      }
+  emits: [ 'ok', 'hide' ],
+
+  setup (props, { emit }) {
+    const { proxy } = getCurrentInstance()
+    const isDark = useDark(props, proxy.$q)
+
+    const dialogRef = ref(null)
+
+    function show () {
+      dialogRef.value.show()
     }
-  },
 
-  methods: {
-    show () {
-      this.$refs.dialog.show()
-    },
+    function hide () {
+      dialogRef.value.hide()
+    }
 
-    hide () {
-      this.$refs.dialog.hide()
-    },
+    function onOk (action) {
+      emit('ok', action)
+      hide()
+    }
 
-    onOk (action) {
-      this.$emit('ok', action)
-      this.hide()
-    },
+    function onHide () {
+      emit('hide')
+    }
 
-    __getGrid (h) {
-      return this.actions.map(action => {
+    function getGrid () {
+      return props.actions.map(action => {
         const img = action.avatar || action.img
 
         return action.label === void 0
           ? h(QSeparator, {
-            staticClass: 'col-all',
-            props: { dark: this.isDark }
-          })
+              class: 'col-all',
+              dark: isDark.value
+            })
           : h('div', {
-            staticClass: 'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
-            class: action.classes,
-            attrs: { tabindex: 0 },
-            on: {
-              click: () => this.onOk(action),
-              keyup: e => {
-                e.keyCode === 13 && this.onOk(action)
-              }
-            }
+            class: [
+              'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
+              action.class
+            ],
+            tabindex: 0,
+            onClick () { onOk(action) },
+            onKeyup (e) { e.keyCode === 13 && onOk(action) }
           }, [
-            h('div', { staticClass: 'q-focus-helper' }),
+            h('div', { class: 'q-focus-helper' }),
 
             action.icon
-              ? h(QIcon, { props: { name: action.icon, color: action.color } })
+              ? h(QIcon, { name: action.icon, color: action.color })
               : (
-                img
-                  ? h('img', {
-                    attrs: { src: img },
-                    staticClass: action.avatar ? 'q-bottom-sheet__avatar' : null
-                  })
-                  : h('div', { staticClass: 'q-bottom-sheet__empty-icon' })
-              ),
-
-            h('div', [ action.label ])
-          ])
-      })
-    },
-
-    __getList (h) {
-      return this.actions.map(action => {
-        const img = action.avatar || action.img
-
-        return action.label === void 0
-          ? h(QSeparator, { props: { spaced: true, dark: this.isDark } })
-          : h(QItem, {
-            staticClass: 'q-bottom-sheet__item',
-            class: action.classes,
-            props: {
-              tabindex: 0,
-              clickable: true,
-              dark: this.isDark
-            },
-            on: {
-              click: () => this.onOk(action),
-              keyup: e => {
-                e.keyCode === 13 && this.onOk(action)
-              }
-            }
-          }, [
-            h(QItemSection, { props: { avatar: true } }, [
-              action.icon
-                ? h(QIcon, { props: { name: action.icon, color: action.color } })
-                : (
                   img
                     ? h('img', {
-                      attrs: { src: img },
-                      staticClass: action.avatar ? 'q-bottom-sheet__avatar' : null
-                    })
-                    : null
-                )
-            ]),
-            h(QItemSection, [ action.label ])
+                        class: action.avatar ? 'q-bottom-sheet__avatar' : '',
+                        src: img
+                      })
+                    : h('div', { class: 'q-bottom-sheet__empty-icon' })
+                ),
+
+            h('div', action.label)
           ])
       })
     }
-  },
 
-  render (h) {
-    const child = []
+    function getList () {
+      return props.actions.map(action => {
+        const img = action.avatar || action.img
 
-    this.title && child.push(
-      h(QCardSection, {
-        staticClass: 'q-dialog__title'
-      }, [ this.title ])
-    )
+        return action.label === void 0
+          ? h(QSeparator, { spaced: true, dark: isDark.value })
+          : h(QItem, {
+            class: [ 'q-bottom-sheet__item', action.classes ],
+            tabindex: 0,
+            clickable: true,
+            dark: isDark.value,
+            onClick () { onOk(action) },
+            onKeyup (e) { e.keyCode === 13 && onOk(action) }
+          }, () => [
+            h(
+              QItemSection,
+              { avatar: true },
+              () => (
+                action.icon
+                  ? h(QIcon, { name: action.icon, color: action.color })
+                  : (
+                      img
+                        ? h('img', {
+                            class: action.avatar ? 'q-bottom-sheet__avatar' : '',
+                            src: img
+                          })
+                        : null
+                    )
+              )
+            ),
 
-    this.message && child.push(
-      h(QCardSection, {
-        staticClass: 'q-dialog__message'
-      }, [ this.message ])
-    )
-
-    child.push(
-      this.grid === true
-        ? h('div', {
-          staticClass: 'row items-stretch justify-start'
-        }, this.__getGrid(h))
-        : h('div', this.__getList(h))
-    )
-
-    return h(QDialog, {
-      ref: 'dialog',
-      props: this.dialogProps,
-      on: cache(this, 'hide', {
-        hide: () => {
-          this.$emit('hide')
-        }
+            h(QItemSection, () => action.label)
+          ])
       })
-    }, [
-      h(QCard, {
-        staticClass: `q-bottom-sheet q-bottom-sheet--${this.grid === true ? 'grid' : 'list'}` +
-          (this.isDark === true ? ' q-bottom-sheet--dark q-dark' : ''),
-        style: this.cardStyle,
-        class: this.cardClass
-      }, child)
-    ])
+    }
+
+    function getCardContent () {
+      const child = []
+
+      props.title && child.push(
+        h(QCardSection, {
+          class: 'q-dialog__title'
+        }, () => props.title)
+      )
+
+      props.message && child.push(
+        h(QCardSection, {
+          class: 'q-dialog__message'
+        }, () => props.message)
+      )
+
+      child.push(
+        props.grid === true
+          ? h('div', {
+              class: 'row items-stretch justify-start'
+            }, getGrid())
+          : h('div', getList())
+      )
+
+      return child
+    }
+
+    function getContent () {
+      return [
+        h(QCard, {
+          class: [
+            `q-bottom-sheet q-bottom-sheet--${ props.grid === true ? 'grid' : 'list' }`
+            + (isDark.value === true ? ' q-bottom-sheet--dark q-dark' : ''),
+            props.cardClass
+          ],
+          style: props.cardStyle
+        }, getCardContent)
+      ]
+    }
+
+    // expose public methods
+    Object.assign(proxy, { show, hide })
+
+    return () => h(QDialog, {
+      ref: dialogRef,
+      position: 'bottom',
+      onHide
+    }, getContent)
   }
 })

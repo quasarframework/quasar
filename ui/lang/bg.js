@@ -29,16 +29,14 @@ export default {
     noData: 'Няма данни',
     noResults: 'Нищо не е намерено',
     loading: 'Зареждане...',
-    selectedRecords: function (rows) {
-      return rows > 1
+    selectedRecords: rows => (
+      rows > 1
         ? rows + ' избрани реда.'
         : (rows === 0 ? 'Няма' : '1') + ' избрани редове.'
-    },
+    ),
     recordsPerPage: 'Редове на страница:',
     allRows: 'Всички',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' от ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' от ' + total,
     columns: 'Колони'
   },
   editor: {

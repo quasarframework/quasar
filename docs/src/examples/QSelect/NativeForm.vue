@@ -47,11 +47,16 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const submitEmpty = ref(false)
+    const submitResult = ref([])
+
     return {
-      preferred: 'rock',
-      accepted: [],
+      preferred: ref('rock'),
+      accepted: ref([]),
 
       options: [
         {
@@ -68,25 +73,23 @@ export default {
         }
       ],
 
-      submitEmpty: false,
-      submitResult: []
-    }
-  },
+      submitEmpty,
+      submitResult,
 
-  methods: {
-    onSubmit (evt) {
-      const formData = new FormData(evt.target)
-      const submitResult = []
+      onSubmit (evt) {
+        const formData = new FormData(evt.target)
+        const data = []
 
-      for (const [ name, value ] of formData.entries()) {
-        submitResult.push({
-          name,
-          value
-        })
+        for (const [ name, value ] of formData.entries()) {
+          data.push({
+            name,
+            value
+          })
+        }
+
+        submitResult.value = data
+        submitEmpty.value = data.length === 0
       }
-
-      this.submitResult = submitResult
-      this.submitEmpty = submitResult.length === 0
     }
   }
 }

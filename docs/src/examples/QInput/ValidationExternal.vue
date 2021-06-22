@@ -13,16 +13,15 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      model: ''
-    }
-  },
+import { ref, computed } from 'vue'
 
-  computed: {
-    isValid () {
-      return this.model.length <= 3
+export default {
+  setup () {
+    const model = ref('')
+
+    return {
+      model,
+      isValid: computed(() => model.value.length <= 3)
     }
   }
 }

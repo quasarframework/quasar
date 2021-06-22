@@ -36,29 +36,29 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      bothNull: {
+      bothNull: ref({
         min: null,
         max: null
-      },
+      }),
 
-      minNull: {
+      minNull: ref({
         min: null,
         max: 40
-      },
+      }),
 
-      maxNull: {
+      maxNull: ref({
         min: 20,
         max: null
-      }
-    }
-  },
+      }),
 
-  methods: {
-    getNullLabel (val) {
-      return val === null ? 'null' : val
+      getNullLabel (val) {
+        return val === null ? 'null' : val
+      }
     }
   }
 }

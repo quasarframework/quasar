@@ -68,10 +68,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      dialog: false
+      dialog: ref(false)
     }
   }
 }

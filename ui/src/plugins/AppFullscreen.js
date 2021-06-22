@@ -1,14 +1,21 @@
-import Vue from 'vue'
-
-import { isSSR } from './Platform.js'
+import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
+import { changeGlobalNodesTarget } from '../utils/private/global-nodes.js'
 
 const prefixes = {}
 
-// needed for consistency across browsers,
-// including IE11 which does not return anything
+function getFullscreenElement () {
+  return (
+    document.fullscreenElement
+    || document.mozFullScreenElement
+    || document.webkitFullscreenElement
+    || document.msFullscreenElement
+  )
+}
+
+// needed for consistency across browsers
 function promisify (target, fn) {
   try {
-    const res = target[fn]()
+    const res = target[ fn ]()
     return res === void 0
       ? Promise.resolve()
       : res
@@ -18,76 +25,86 @@ function promisify (target, fn) {
   }
 }
 
-export default {
-  isCapable: false,
+const Plugin = defineReactivePlugin({
   isActive: false,
-  activeEl: null,
+  activeEl: null
+}, {
+  isCapable: false,
 
   request (target) {
-    if (this.isCapable === true && this.isActive === false) {
+    if (Plugin.isCapable === true && Plugin.isActive === false) {
       const el = target || document.documentElement
-      return promisify(el, prefixes.request).then(() => {
-        this.activeEl = el
-      })
+      return promisify(el, prefixes.request)
     }
 
-    return this.__getErr()
+    return Plugin.__getErr()
   },
 
   exit () {
-    return this.isCapable === true && this.isActive === true
-      ? promisify(document, prefixes.exit).then(() => {
-        this.activeEl = null
-      })
-      : this.__getErr()
+    return Plugin.isCapable === true && Plugin.isActive === true
+      ? promisify(document, prefixes.exit)
+      : Plugin.__getErr()
   },
 
   toggle (target) {
-    return this.isActive === true
-      ? this.exit()
-      : this.request(target)
+    return Plugin.isActive === true
+      ? Plugin.exit()
+      : Plugin.request(target)
   },
 
   install ({ $q }) {
     $q.fullscreen = this
+  }
+})
 
-    if (isSSR === true) { return }
-
+if (__QUASAR_SSR_SERVER__ !== true) {
+  function init () {
     prefixes.request = [
       'requestFullscreen',
       'msRequestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'
-    ].find(request => document.documentElement[request] !== void 0)
+    ].find(request => document.documentElement[ request ] !== void 0)
 
-    this.isCapable = prefixes.request !== void 0
+    Plugin.isCapable = prefixes.request !== void 0
 
-    if (this.isCapable === false) {
+    if (Plugin.isCapable === false) {
       // it means the browser does NOT support it
-      this.__getErr = () => Promise.reject('Not capable')
+      Plugin.__getErr = () => Promise.reject('Not capable')
       return
     }
 
-    this.__getErr = () => Promise.resolve()
+    Plugin.__getErr = () => Promise.resolve()
 
     prefixes.exit = [
       'exitFullscreen',
       'msExitFullscreen', 'mozCancelFullScreen', 'webkitExitFullscreen'
-    ].find(exit => document[exit])
+    ].find(exit => document[ exit ])
 
-    this.isActive = !!(document.fullscreenElement ||
-      document.mozFullScreenElement ||
-      document.webkitFullscreenElement ||
-      document.msFullscreenElement)
+    Plugin.isActive = !!getFullscreenElement()
 
     ;[
       'onfullscreenchange',
       'onmsfullscreenchange', 'onwebkitfullscreenchange'
     ].forEach(evt => {
-      document[evt] = () => {
-        this.isActive = this.isActive === false
+      document[ evt ] = () => {
+        Plugin.isActive = Plugin.isActive === false
+
+        if (Plugin.isActive === false) {
+          Plugin.activeEl = null
+          changeGlobalNodesTarget(document.body)
+        }
+        else {
+          Plugin.activeEl = getFullscreenElement()
+          changeGlobalNodesTarget(
+            Plugin.activeEl === document.documentElement
+              ? document.body
+              : Plugin.activeEl
+          )
+        }
       }
     })
-
-    Vue.util.defineReactive(this, 'isActive', this.isActive)
-    Vue.util.defineReactive(this, 'activeEl', this.activeEl)
   }
+
+  init()
 }
+
+export default Plugin

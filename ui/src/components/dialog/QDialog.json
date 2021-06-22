@@ -1,12 +1,8 @@
 {
-  "mixins": [ "mixins/model-toggle", "mixins/portal" ],
+  "mixins": [ "composables/private/use-model-toggle", "composables/private/use-portal" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/dialog"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/dialog"
   },
 
   "props": {
@@ -75,14 +71,12 @@
 
     "transition-show": {
       "extends": "transition",
-      "default": "scale",
-      "category": "behavior"
+      "default": "scale"
     },
 
     "transition-hide": {
       "extends": "transition",
-      "default": "scale",
-      "category": "behavior"
+      "default": "scale"
     },
 
     "square": {

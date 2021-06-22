@@ -77,10 +77,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      link: 'inbox'
+      link: ref('inbox')
     }
   }
 }

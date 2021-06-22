@@ -2,12 +2,12 @@ const fs = require('fs')
 const fse = require('fs-extra')
 
 const appPaths = require('../app-paths')
-const { log, warn } = require('../helpers/logger')
+const { log, warn, fatal } = require('../helpers/logger')
 const { spawnSync } = require('../helpers/spawn')
 const nodePackager = require('../helpers/node-packager')
 
 const pwaDeps = {
-  'workbox-webpack-plugin': '^5.0.0'
+  'workbox-webpack-plugin': '^6.0.0'
 }
 
 class Mode {
@@ -32,7 +32,7 @@ class Mode {
         return `${dep}@${pwaDeps[dep]}`
       })),
       { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => warn('Failed to install PWA dependencies')
+      () => fatal('Failed to install PWA dependencies', 'FAIL')
     )
 
     log(`Creating PWA source folder...`)
@@ -68,7 +68,7 @@ class Mode {
       nodePackager,
       cmdParam.concat(deps),
       { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => warn('Failed to uninstall PWA dependencies')
+      () => fatal('Failed to uninstall PWA dependencies', 'FAIL')
     )
 
     log(`PWA support was removed`)

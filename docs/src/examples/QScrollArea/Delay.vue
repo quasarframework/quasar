@@ -19,22 +19,24 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const number = ref(4)
+
     return {
-      number: 4
-    }
-  },
+      number,
 
-  methods: {
-    less () {
-      if (this.number > 1) {
-        this.number--
+      less () {
+        if (number.value > 1) {
+          number.value--
+        }
+      },
+
+      more () {
+        number.value++
       }
-    },
-
-    more () {
-      this.number++
     }
   }
 }

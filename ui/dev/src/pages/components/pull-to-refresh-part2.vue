@@ -20,7 +20,7 @@
 export default {
   data () {
     return {
-      items: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+      items: [ {}, {}, {}, {}, {}, {}, {}, {}, {} ],
       disable: false
     }
   },

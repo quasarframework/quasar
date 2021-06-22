@@ -1,11 +1,13 @@
 ---
 title: Separator
 desc: The QSeparator Vue component is used to separate sections of text or other components or elements. It creates a colored line across the width of the parent. It can be horizontal or vertical.
+keys: QSeparator
 ---
 
 The QSeparator component is used to separate sections of text, other components, etc... It creates a colored line across the width of the parent. It can be horizontal or vertical.
 
 ## QSeparator API
+
 <doc-api file="QSeparator" />
 
 ## Usage

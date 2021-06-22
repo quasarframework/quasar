@@ -1,13 +1,9 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/img"
+    "docsUrl": "https://v2.quasar.dev/vue-components/img"
   },
 
-  "mixins": [ "mixins/ratio" ],
-
-  "behavior": {
-    "$listeners": true
-  },
+  "mixins": [ "composables/private/use-ratio" ],
 
   "props": {
     "src": {
@@ -25,7 +21,7 @@
 
     "srcset": {
       "type": "String",
-      "desc": "Same syntax as <img> srcset attribute.",
+      "desc": "Same syntax as <img> srcset attribute",
       "link": "https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes",
       "examples": [
         "elva-fairy-320w.jpg 320w, elva-fairy-480w.jpg 480w"
@@ -35,41 +31,12 @@
 
     "sizes": {
       "type": "String",
-      "desc": "Same syntax as <img> sizes attribute.",
+      "desc": "Same syntax as <img> sizes attribute",
       "link": "https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes",
       "examples": [
         "(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
       ],
       "category": "model"
-    },
-
-    "width": {
-      "type": "String",
-      "desc": "Forces image width; Must also include the unit (px or %)",
-      "examples": [
-        "280px",
-        "70%"
-      ],
-      "category": "model",
-      "addedIn": "v1.9.0"
-    },
-
-    "height": {
-      "type": "String",
-      "desc": "Forces image height; Must also include the unit (px or %)",
-      "examples": [
-        "280px",
-        "70%"
-      ],
-      "category": "model",
-      "addedIn": "v1.9.0"
-    },
-
-    "alt": {
-      "type": "String",
-      "desc": "Specifies an alternate text for the image, if the image cannot be displayed",
-      "examples": [ "Two cats" ],
-      "category": "content"
     },
 
     "placeholder-src": {
@@ -85,26 +52,6 @@
       "category": "model"
     },
 
-    "basic": {
-      "type": "Boolean",
-      "desc": "Do not use transitions; faster render",
-      "category": "content"
-    },
-
-    "contain": {
-      "type": "Boolean",
-      "desc": "Make sure that the image getting displayed is fully contained, regardless if additional blank space besides the image is needed on horizontal or vertical",
-      "category": "content"
-    },
-
-    "position": {
-      "type": "String",
-      "desc": "Equivalent to CSS background-position property",
-      "default": "50% 50%",
-      "examples": [ "0 0", "20px 50px" ],
-      "category": "content"
-    },
-
     "ratio": {
       "type": [ "String", "Number" ],
       "desc": "Force the component to maintain an aspect ratio",
@@ -112,31 +59,98 @@
         "(Number format) :ratio=\"16/9\"",
         "(String format) ratio=\"1\""
       ],
+      "category": "style"
+    },
+
+    "initial-ratio": {
+      "type": [ "String", "Number" ],
+      "desc": "Use it when not specifying 'ratio' but still wanting an initial aspect ratio",
+      "default": "16/9",
+      "examples": [
+        "(Number format) :initial-ratio=\"16/9\"",
+        "(String format) initial-ratio=\"1\""
+      ],
+      "category": "style"
+    },
+
+    "width": {
+      "type": "String",
+      "desc": "Forces image width; Must also include the unit (px or %)",
+      "examples": [
+        "280px",
+        "70%"
+      ],
+      "category": "style"
+    },
+
+    "height": {
+      "type": "String",
+      "desc": "Forces image height; Must also include the unit (px or %)",
+      "examples": [
+        "280px",
+        "70%"
+      ],
+      "category": "style"
+    },
+
+    "loading": {
+      "type": "String",
+      "desc": "Lazy or immediate load; Same syntax as <img> loading attribute",
+      "default": "lazy",
+      "values": [ "lazy", "eager" ],
+      "category": "behavior"
+    },
+
+    "crossorigin": {
+      "type": "String",
+      "desc": "Same syntax as <img> crossorigin attribute",
+      "values": [ "anonymous", "use-credentials" ],
+      "category": "behavior"
+    },
+
+    "fit": {
+      "type": "String",
+      "desc": "How the image will fit into the container; Equivalent of the object-fit prop; Can be coordinated with 'position' prop",
+      "default": "cover",
+      "values": [ "cover", "fill", "contain", "none", "scale-down" ],
+      "category": "style"
+    },
+
+    "position": {
+      "type": "String",
+      "desc": "The alignment of the image into the container; Equivalent of the object-position CSS prop",
+      "default": "50% 50%",
+      "examples": [ "0 0", "20px 50px" ],
+      "category": "style"
+    },
+
+    "alt": {
+      "type": "String",
+      "desc": "Specifies an alternate text for the image, if the image cannot be displayed",
+      "examples": [ "Two cats" ],
       "category": "content"
     },
 
-    "transition": {
-      "extends": "transition",
-      "default": "fade"
+    "draggable": {
+      "type": "Boolean",
+      "desc": "Adds the native 'draggable' attribute",
+      "category": "behavior"
     },
 
     "img-class": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Class definitions to be attributed to the container of image; Does not apply to the caption",
+      "type": "String",
+      "desc": "CSS classes to be attributed to the native img element",
       "examples": [
-        "my-special-class",
-        ":img-class=\"{ 'my-special-class': <condition> }\""
+        "my-special-class"
       ],
-      "category": "style",
-      "addedIn": "v1.4.0"
+      "category": "style"
     },
 
     "img-style": {
       "type": "Object",
-      "desc": "Apply CSS to the container of the image; Does not apply to the caption",
+      "desc": "Apply CSS to the native img element",
       "examples": [ ":img-style=\"{ transform: 'rotate(45deg)' }\" "],
-      "category": "style",
-      "addedIn": "v1.5.11"
+      "category": "style"
     },
 
     "spinner-color": {
@@ -151,18 +165,22 @@
       "category": "style"
     },
 
-    "no-default-spinner": {
+    "no-spinner": {
       "type": "Boolean",
-      "desc": "Do not display the default spinner when loading images (unless you are specifying one through the 'loading' slot)",
-      "category": "content",
-      "addedIn": "v1.1.0"
+      "desc": "Do not display the default spinner while waiting for the image to be loaded; It is overriden by the 'loading' slot when one is present",
+      "category": "behavior"
     },
 
-    "native-context-menu": {
+    "no-native-menu": {
       "type": "Boolean",
-      "desc": "Enable the native context menu of the image",
-      "category": "behavior",
-      "addedIn": "v1.8.4"
+      "desc": "Disables the native context menu for the image",
+      "category": "behavior"
+    },
+
+    "no-transition": {
+      "type": "Boolean",
+      "desc": "Disable default transition when switching between old and new image",
+      "category": "behavior"
     }
   },
 

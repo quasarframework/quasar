@@ -1,26 +1,22 @@
 {
-  "mixins": [ "components/field/__QField", "mixins/file", "mixins/form" ],
+  "mixins": [ "composables/private/use-field", "composables/private/use-file", "composables/private/use-form" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/file"
+    "docsUrl": "https://v2.quasar.dev/vue-components/file"
   },
 
-  "addedIn": "v1.8.0",
-
   "props": {
-    "value": {
+    "model-value": {
+      "extends": "model-value",
       "type": [ "File", "FileList", "Array" ],
-      "desc": "Model of the component; Must be FileList or Array if using 'multiple' prop; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "required": true,
-      "examples": [ "v-model=\"myModel\"" ],
-      "category": "model"
+      "desc": "Model of the component; Must be FileList or Array if using 'multiple' prop; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "examples": [ "v-model=\"myModel\"" ]
     },
 
     "append": {
       "type": "Boolean",
       "desc": "Append file(s) to current model rather than replacing them; Has effect only when using 'multiple' mode",
-      "category": "behavior",
-      "addedIn": "v1.11.3"
+      "category": "behavior"
     },
 
     "display-value": {
@@ -98,7 +94,7 @@
     }
   },
 
-  "scopedSlots": {
+  "slots": {
     "file": {
       "desc": "Override default node to render a file from the user picked list",
       "scope": {
@@ -141,20 +137,12 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:model-value": {
+      "extends": "update:model-value"
     }
   },
 
   "methods": {
-    "focus": {
-      "desc": "Focus component"
-    },
-
-    "blur": {
-      "desc": "Blur component (lose focus)"
-    },
-
     "removeAtIndex": {
       "desc": "Remove file located at specific index in the model",
       "params": {
@@ -176,6 +164,15 @@
           "required": true,
           "__exemption": [ "examples" ]
         }
+      }
+    },
+
+    "getNativeElement": {
+      "desc": "Get the native input DOM Element",
+      "returns": {
+        "type": "Object",
+        "desc": "The underlying native input DOM Element",
+        "__exemption": [ "examples" ]
       }
     }
   }

@@ -1,36 +1,34 @@
 <template>
   <div>
     <div class="q-layout-padding">
-      <q-field
-        icon="format size"
-        :label="`Size: ${size}px`"
-      >
-        <q-slider label v-model="size" :min="20" :max="256" />
-      </q-field>
+      <div class="q-mt-md">
+        <q-slider label label-always :label-value="size + 'px'" v-model="size" :min="20" :max="256" />
+      </div>
 
-      <q-field
-        icon="palette"
-        label="Color"
-      >
-        <div class="row no-wrap">
-          <q-input
-            v-model="color"
-            class="col"
-            float-label="Color Palette"
-          />
-          <q-select
-            class="col"
-            v-model="color"
-            float-label="Quick Pick"
-            emit-value
-            :options="colorOptions"
-          />
-        </div>
-      </q-field>
+      <div class="row no-wrap q-col-gutter-md">
+        <q-input
+          v-model="color"
+          dense
+          outlined
+          class="col"
+          float-label
+          label="Color Palette"
+        />
+        <q-select
+          class="col"
+          dense
+          outlined
+          emit-value
+          v-model="color"
+          float-label
+          label="Quick Pick"
+          :options="colorOptions"
+        />
+      </div>
 
-      <p class="caption">
+      <h6>
         Hover over them to see their names
-      </p>
+      </h6>
 
       <div style="margin-top: 20px">
         <div v-for="spinner in spinners" :key="spinner" class="inline-block q-ma-xs">
@@ -45,16 +43,39 @@
         </div>
       </div>
 
-      <p class="caption">
+      <h6>
         Default Spinner:
         <q-spinner :color="color" :size="size" style="margin-left: 1rem;" />
-      </p>
+        <q-spinner :color="color" :size="size" style="margin-left: 1rem;" />
+      </h6>
+
+      <q-spinner-gears :color="color" />
+      <h6>
+        <q-spinner-gears :color="color" size="md" />
+        <q-spinner-gears :color="color" size="xl" />
+      </h6>
     </div>
   </div>
 </template>
 
 <script>
+import {
+  QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock,
+  QSpinnerComment, QSpinnerCube, QSpinnerDots, QSpinnerFacebook, QSpinnerGears,
+  QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos,
+  QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings,
+  QSpinnerTail
+} from 'quasar'
+
 export default {
+  components: {
+    QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock, // eslint-disable-line
+    QSpinnerComment, QSpinnerCube, QSpinnerDots, QSpinnerFacebook, QSpinnerGears, // eslint-disable-line
+    QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos, // eslint-disable-line
+    QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings, // eslint-disable-line
+    QSpinnerTail
+  },
+
   data () {
     return {
       size: 36,

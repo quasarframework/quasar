@@ -86,6 +86,7 @@ q-card.doc-api.q-my-lg(flat bordered)
 </template>
 
 <script>
+import { ref, computed, watch, onMounted } from 'vue'
 import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v5'
 
 import CardTitle from './CardTitle.vue'
@@ -97,8 +98,8 @@ function getPropsCategories (props) {
   const acc = new Set()
 
   for (const key in props) {
-    if (props[key] !== void 0) {
-      const value = props[key]
+    if (props[ key ] !== void 0) {
+      const value = props[ key ]
 
       value.category.split('|').forEach(groupKey => {
         acc.add(groupKey)
@@ -107,7 +108,7 @@ function getPropsCategories (props) {
   }
 
   return acc.size === 1
-    ? [ defaultInnerTabName ]
+    ? [defaultInnerTabName]
     : Array.from(acc).sort()
 }
 
@@ -115,9 +116,9 @@ function getInnerTabs (api, tabs, apiType) {
   const acc = {}
 
   tabs.forEach(tab => {
-    acc[tab] = apiType === 'component' && tab === 'props'
-      ? getPropsCategories(api[tab])
-      : [ defaultInnerTabName ]
+    acc[ tab ] = apiType === 'component' && tab === 'props'
+      ? getPropsCategories(api[ tab ])
+      : [defaultInnerTabName]
   })
 
   return acc
@@ -127,30 +128,30 @@ function parseApi (api, tabs, innerTabs) {
   const acc = {}
 
   tabs.forEach(tab => {
-    const apiValue = api[tab]
+    const apiValue = api[ tab ]
 
-    if (innerTabs[tab].length > 1) {
+    if (innerTabs[ tab ].length > 1) {
       const inner = {}
 
-      innerTabs[tab].forEach(subTab => {
-        inner[subTab] = {}
+      innerTabs[ tab ].forEach(subTab => {
+        inner[ subTab ] = {}
       })
 
       for (const key in apiValue) {
-        if (apiValue[key] !== void 0) {
-          const value = apiValue[key]
+        if (apiValue[ key ] !== void 0) {
+          const value = apiValue[ key ]
 
           value.category.split('|').forEach(groupKey => {
-            inner[groupKey][key] = value
+            inner[ groupKey ][ key ] = value
           })
         }
       }
 
-      acc[tab] = inner
+      acc[ tab ] = inner
     }
     else {
-      acc[tab] = {}
-      acc[tab][defaultInnerTabName] = apiValue
+      acc[ tab ] = {}
+      acc[ tab ][ defaultInnerTabName ] = apiValue
     }
   })
 
@@ -170,22 +171,22 @@ function getFilteredApi (parsedApi, filter, tabs, innerTabs) {
   const acc = {}
 
   tabs.forEach(tab => {
-    const tabApi = parsedApi[tab]
-    const tabCategories = innerTabs[tab]
+    const tabApi = parsedApi[ tab ]
+    const tabCategories = innerTabs[ tab ]
 
-    acc[tab] = {}
+    acc[ tab ] = {}
     tabCategories.forEach(categ => {
       const subTabs = {}
-      const categoryEntries = tabApi[categ]
+      const categoryEntries = tabApi[ categ ]
 
       for (const name in categoryEntries) {
-        const entry = categoryEntries[name]
+        const entry = categoryEntries[ name ]
         if (passesFilter(filter, name, entry.desc) === true) {
-          subTabs[name] = entry
+          subTabs[ name ] = entry
         }
       }
 
-      acc[tab][categ] = subTabs
+      acc[ tab ][ categ ] = subTabs
     })
   })
 
@@ -196,38 +197,36 @@ function getApiCount (parsedApi, tabs, innerTabs) {
   const acc = {}
 
   tabs.forEach(tab => {
-    const tabApi = parsedApi[tab]
-    const tabCategories = innerTabs[tab]
+    const tabApi = parsedApi[ tab ]
+    const tabCategories = innerTabs[ tab ]
 
     if ([ 'value', 'arg', 'quasarConfOptions', 'injection' ].includes(tab)) {
-      acc[tab] = {
-        overall: Object.keys(tabApi[tabCategories[0]]).length === 0
+      acc[ tab ] = {
+        overall: Object.keys(tabApi[ tabCategories[ 0 ] ]).length === 0
           ? 0
           : 1
       }
       return
     }
 
-    acc[tab] = { overall: 0 }
+    acc[ tab ] = { overall: 0 }
 
     if (tabCategories.length === 1) {
-      const categ = tabCategories[0]
+      const categ = tabCategories[ 0 ]
+      const count = Object.keys(tabApi[ categ ]).length
 
-      const hasNativeEvents = tab === "events" && tabApi[categ].$listeners !== void 0
-      const count = Object.keys(tabApi[categ]).length - (hasNativeEvents === true ? 1 : 0)
-
-      acc[tab] = {
+      acc[ tab ] = {
         overall: count,
-        category: { [categ]: count }
+        category: { [ categ ]: count }
       }
     }
     else {
-      acc[tab].category = {}
+      acc[ tab ].category = {}
 
       tabCategories.forEach(categ => {
-        const count = Object.keys(tabApi[categ]).length
-        acc[tab].category[categ] = count
-        acc[tab].overall += count
+        const count = Object.keys(tabApi[ categ ]).length
+        acc[ tab ].category[ categ ] = count
+        acc[ tab ].overall += count
       })
     }
   })
@@ -252,101 +251,93 @@ export default {
     pageLink: Boolean
   },
 
-  created () {
-    this.defaultInnerTabName = defaultInnerTabName
-  },
+  setup (props) {
+    const inputRef = ref(null)
 
-  mounted () {
-    import(
-      /* webpackChunkName: "quasar-api" */
-      /* webpackMode: "lazy-once" */
-      'quasar/dist/api/' + this.file + '.json'
-    ).then(json => {
-      this.parseApiFile(this.file, json.default)
-      this.loading = false
+    const loading = ref(true)
+    const nameBanner = ref('Loading API...')
+    const typeBanner = ref('Please wait...')
+    const nothingToShow = ref(false)
+
+    const docPath = ref('')
+
+    const filter = ref('')
+    const apiDef = ref({})
+
+    const tabsList = ref([])
+    const innerTabsList = ref({})
+
+    const currentTab = ref(null)
+    const currentInnerTab = ref(null)
+
+    watch(currentTab, val => {
+      currentInnerTab.value = innerTabsList.value[ val ][ 0 ]
     })
-  },
 
-  data () {
-    return {
-      inputRef: null,
+    const inputIcon = computed(() => filter.value !== '' ? mdiClose : mdiMagnify)
+    const filteredApi = computed(() => getFilteredApi(apiDef.value, filter.value.toLowerCase(), tabsList.value, innerTabsList.value))
+    const filteredApiCount = computed(() => getApiCount(filteredApi.value, tabsList.value, innerTabsList.value))
 
-      loading: true,
-      nameBanner: 'Loading API...',
-      typeBanner: 'Please wait...',
-      nothingToShow: false,
-
-      docPath: '',
-
-      filter: '',
-      apiDef: {},
-
-      tabsList: [],
-      innerTabsList: {},
-
-      currentTab: null,
-      currentInnerTab: null
-    }
-  },
-
-  watch: {
-    currentTab (val) {
-      this.currentInnerTab = this.innerTabsList[val][0]
-    }
-  },
-
-  computed: {
-    inputIcon () {
-      return this.filter.value !== '' ? mdiClose : mdiMagnify
-    },
-
-    filteredApi () {
-      return getFilteredApi(this.apiDef, this.filter.toLowerCase(), this.tabsList, this.innerTabsList)
-    },
-
-    filteredApiCount () {
-      return getApiCount(this.filteredApi, this.tabsList, this.innerTabsList)
-    }
-  },
-
-  methods: {
-    parseApiFile (name, { type, behavior, meta, addedIn, ...api }) {
-      this.nameBanner = name
-      this.typeBanner = `${type === 'plugin' ? 'Quasar' : 'Vue'} ${type.charAt(0).toUpperCase()}${type.substring(1)}`
-      this.docPath = meta.docsUrl.replace(/^https:\/\/v[\d]+\.quasar\.dev/, '')
+    function parseApiFile (name, { type, behavior, meta, addedIn, ...api }) {
+      nameBanner.value = name
+      typeBanner.value = `${type === 'plugin' ? 'Quasar' : 'Vue'} ${type.charAt(0).toUpperCase()}${type.substring(1)}`
+      docPath.value = meta.docsUrl.replace(/^https:\/\/v[\d]+\.quasar\.dev/, '')
 
       const tabs = Object.keys(api)
 
-      if (
-        behavior !== void 0 &&
-        behavior.$listeners !== void 0
-      ) {
-        !tabs.includes('events') && tabs.push('events')
-        api.events = {
-          $listeners: behavior.$listeners,
-          ...(api.events || {})
-        }
-      }
-
       if (tabs.length === 0) {
-        this.nothingToShow = true
+        nothingToShow.value = true
         return
       }
 
-      this.tabsList = tabs
-      this.currentTab = tabs[0]
+      tabsList.value = tabs
+      currentTab.value = tabs[ 0 ]
 
       const subTabs = getInnerTabs(api, tabs, type)
-      this.innerTabsList = subTabs
-      this.apiDef = parseApi(api, tabs, subTabs)
-    },
+      innerTabsList.value = subTabs
+      apiDef.value = parseApi(api, tabs, subTabs)
+    }
 
-    onFilterClick () {
-      if (this.filter !== '') {
-        this.filter = ''
+    function onFilterClick () {
+      if (filter.value !== '') {
+        filter.value = ''
       }
 
-      this.$refs.inputRef.focus()
+      inputRef.value.focus()
+    }
+
+    onMounted(() => {
+      import(
+        /* webpackChunkName: "quasar-api" */
+        /* webpackMode: "lazy-once" */
+        'quasar/dist/api/' + props.file + '.json'
+      ).then(json => {
+        parseApiFile(props.file, json.default)
+        loading.value = false
+      })
+    })
+
+    return {
+      loading,
+      nameBanner,
+      typeBanner,
+      nothingToShow,
+      docPath,
+
+      filteredApi,
+      filteredApiCount,
+
+      tabsList,
+      innerTabsList,
+      defaultInnerTabName,
+
+      currentTab,
+      currentInnerTab,
+
+      inputRef,
+      filter,
+      inputIcon,
+      onFilterClick
     }
   }
 }

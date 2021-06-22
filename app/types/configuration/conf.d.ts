@@ -1,18 +1,18 @@
-import { QuasarAnimations, QuasarIconSets, QuasarFonts } from "quasar";
-import { WebpackConfiguration } from "../ts-helpers";
+import { QuasarAnimations, QuasarFonts, QuasarIconSets } from "quasar";
+import * as WebpackDevServer from "webpack-dev-server";
 import { QuasarBootConfiguration } from "./boot";
 import { QuasarBuildConfiguration } from "./build";
-import { QuasarPwaConfiguration } from "./pwa-conf";
-import { QuasarSsrConfiguration } from "./ssr-conf";
 import { QuasarCapacitorConfiguration } from "./capacitor-conf";
+import { QuasarCordovaConfiguration } from "./cordova-conf";
 import { QuasarElectronConfiguration } from "./electron-conf";
 import { QuasarFrameworkConfiguration } from "./framework-conf";
-import { QuasarCordovaConfiguration } from "./cordova-conf";
+import { QuasarPwaConfiguration } from "./pwa-conf";
+import { QuasarSsrConfiguration } from "./ssr-conf";
 
 type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];
 
 interface QuasarDevServerConfiguration
-  extends Omit<WebpackConfiguration["devServer"], "open"> {
+  extends Omit<WebpackDevServer.Configuration, "open"> {
   /**
    * Behind the scenes, webpack devServer `open` property is always set to false
    *  and that feature is delegated to `open` library.
@@ -33,26 +33,28 @@ interface QuasarDevServerConfiguration
  * ```typescript
  * {
  *  rootComponent: 'src/App.vue',
- *  router: 'src/router',
- *  store: 'src/store',
+ *  router: 'src/router/index',
+ *  store: 'src/store/index',
  *  indexHtmlTemplate: 'src/index.template.html',
- *  registerServiceWorker: 'src-pwa/register-service-worker.js',
- *  serviceWorker: 'src-pwa/custom-service-worker.js',
- *  electronMainDev: 'src-electron/main-process/electron-main.dev.js',
- *  electronMainProd: 'src-electron/main-process/electron-main.js'
+ *  registerServiceWorker: 'src-pwa/register-service-worker',
+ *  serviceWorker: 'src-pwa/custom-service-worker',
+ *  electronMain: 'src-electron/electron-main',
+ *  electronPreload: 'src-electron/electron-preload'
+ *  ssrServerIndex: 'src-ssr/index.js'
  * }
  * ```
  */
-type QuasarSourceFilesConfiguration = Partial<{
-  rootComponent: string;
-  router: string;
-  store: string;
-  indexHtmlTemplate: string;
-  registerServiceWorker: string;
-  serviceWorker: string;
-  electronMainDev: string;
-  electronMainProd: string;
-}>;
+interface QuasarSourceFilesConfiguration {
+  rootComponent?: string;
+  router?: string;
+  store?: string;
+  indexHtmlTemplate?: string;
+  registerServiceWorker?: string;
+  serviceWorker?: string;
+  electronMain?: string;
+  electronPreload?: string;
+  ssrServerIndex?: string;
+}
 
 interface BaseQuasarConfiguration {
   /** Boot files to load. Order is important. */
@@ -83,12 +85,8 @@ interface BaseQuasarConfiguration {
   /** Add variables that you can use in index.template.html. */
   htmlVariables?: { [index: string]: string };
   /**
-   * What is the import strategy for Quasar,
-   * what Quasar language pack to use, what Quasar icon
+   * What Quasar language pack to use, what Quasar icon
    * set to use for Quasar components.
-   *
-   * When not specified it's treated as `{ importStrategy: 'auto' }`
-   * When equal to `all` it's treated as `{ importStrategy: 'all' }`
    */
   framework?: QuasarFrameworkConfiguration;
   /**

@@ -1,7 +1,9 @@
 <template>
   <div class="q-layout-padding">
     <q-input filled v-model="filter" label="Search" debounce="300">
-      <q-icon slot="append" name="search" />
+      <template v-slot:append>
+        <q-icon name="search" />
+      </template>
     </q-input>
 
     <div>
@@ -17,7 +19,7 @@
       table-style="max-height: 500px"
       class="table-sticky"
       :separator="separator"
-      :data="data"
+      :rows="data"
       :columns="columns"
       :title="title"
       :filter="filter"
@@ -26,7 +28,7 @@
       row-key="index"
       virtual-scroll
       :virtual-scroll-sticky-start="dense ? 24 : 48"
-      :pagination.sync="pagination"
+      v-model:selected="selected"
       :rows-per-page-options="[0]"
     />
 
@@ -35,7 +37,7 @@
       :dense="dense"
       table-style="max-height: 500px"
       :separator="separator"
-      :data="data"
+      :rows="data"
       :columns="columns"
       :title="title"
       :filter="filter"
@@ -52,7 +54,7 @@
       table-style="max-height: 500px"
       class="table-sticky"
       :separator="separator"
-      :data="data"
+      :rows="data"
       :columns="columns"
       :title="title"
       :filter="filter"
@@ -62,7 +64,7 @@
       :virtual-scroll="pagination.rowsPerPage === 0"
       :virtual-scroll-sticky-start="dense ? 24 : 48"
       @virtual-scroll="onVirtualScroll"
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
     >
       <template v-slot:header="props">
         <q-tr :props="props">
@@ -83,12 +85,12 @@
     <div class="q-pa-md">
       <q-input
         type="number"
-        :value="listIndex"
+        :model-value="listIndex"
         :min="0"
         :max="pagination.rowsPerPage === 0 ? listSize : pagination.rowsPerPage - 1"
         label="Scroll to index"
         input-class="text-right"
-        @input="onIndexChange"
+        @update:model-value="onIndexChange"
       />
     </div>
 
@@ -98,7 +100,7 @@
       table-style="max-height: 500px"
       class="table-sticky"
       :separator="separator"
-      :data="data"
+      :rows="data"
       :columns="columns"
       :title="title"
       :filter="filter"
@@ -107,7 +109,7 @@
       row-key="index"
       virtual-scroll
       :virtual-scroll-sticky-start="dense ? 24 : 48"
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
     >
       <template v-slot:header="props">
         <q-tr :props="props">
@@ -250,7 +252,8 @@ export default {
       title: 'QDataTable',
       filter: '',
       loading: false,
-      visibleColumns: ['index', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
+      selected: [],
+      visibleColumns: [ 'index', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
       separator: 'horizontal',
       pagination: {
         rowsPerPage: 0
@@ -271,7 +274,7 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `~${val}`,
+          format: val => `~${ val }`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
@@ -304,7 +307,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .table-sticky
   .q-table__top,
   .q-table__bottom,

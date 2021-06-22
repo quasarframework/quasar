@@ -34,10 +34,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      notifications: [ 'friend' ]
+      notifications: ref(['friend'])
     }
   }
 }

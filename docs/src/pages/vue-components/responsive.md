@@ -1,12 +1,13 @@
 ---
 title: Responsive
-badge: "v1.9+"
 desc: The QResponsive Vue component forces the content to maintain an aspect ratio based on its width.
+keys: QResponsive
 ---
 
 QResponsive is a component which forces the content to maintain an aspect ratio based on its width.
 
 ## QResponsive API
+
 <doc-api file="QResponsive" />
 
 ## Usage

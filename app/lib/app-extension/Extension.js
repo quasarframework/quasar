@@ -282,7 +282,7 @@ module.exports = class Extension {
       nodePackager,
       cmdParam.concat(this.packageFullName),
       { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => warn(`Failed to install ${this.packageFullName}`)
+      () => fatal(`Failed to install ${this.packageFullName}`, 'FAIL')
     )
   }
 

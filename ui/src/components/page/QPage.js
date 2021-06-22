@@ -1,66 +1,55 @@
-import Vue from 'vue'
+import { h, defineComponent, computed, inject, getCurrentInstance } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
+import { hSlot } from '../../utils/private/render.js'
+import { pageContainerKey, layoutKey } from '../../utils/private/symbols.js'
 
-import { slot } from '../../utils/slot.js'
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QPage',
-
-  mixins: [ ListenersMixin ],
-
-  inject: {
-    pageContainer: {
-      default () {
-        console.error('QPage needs to be child of QPageContainer')
-      }
-    },
-    layout: {}
-  },
 
   props: {
     padding: Boolean,
     styleFn: Function
   },
 
-  computed: {
-    style () {
-      const offset =
-        (this.layout.header.space === true ? this.layout.header.size : 0) +
-        (this.layout.footer.space === true ? this.layout.footer.size : 0)
+  setup (props, { slots }) {
+    const { proxy: { $q } } = getCurrentInstance()
 
-      if (typeof this.styleFn === 'function') {
-        const height = this.layout.container === true
-          ? this.layout.containerHeight
-          : this.$q.screen.height
+    const $layout = inject(layoutKey)
+    inject(pageContainerKey, () => {
+      console.error('QPage needs to be child of QPageContainer')
+    })
 
-        return this.styleFn(offset, height)
+    const style = computed(() => {
+      const offset
+        = ($layout.header.space === true ? $layout.header.size : 0)
+        + ($layout.footer.space === true ? $layout.footer.size : 0)
+
+      if (typeof props.styleFn === 'function') {
+        const height = $layout.isContainer.value === true
+          ? $layout.containerHeight.value
+          : $q.screen.height
+
+        return props.styleFn(offset, height)
       }
 
       return {
-        minHeight: this.layout.container === true
-          ? (this.layout.containerHeight - offset) + 'px'
+        minHeight: $layout.isContainer.value === true
+          ? ($layout.containerHeight.value - offset) + 'px'
           : (
-            this.$q.screen.height === 0
-              ? `calc(100vh - ${offset}px)`
-              : (this.$q.screen.height - offset) + 'px'
-          )
+              $q.screen.height === 0
+                ? (offset !== 0 ? `calc(100vh - ${ offset }px)` : '100vh')
+                : ($q.screen.height - offset) + 'px'
+            )
       }
-    },
+    })
 
-    classes () {
-      if (this.padding === true) {
-        return 'q-layout-padding'
-      }
-    }
-  },
+    const classes = computed(() =>
+      `q-page ${ props.padding === true ? ' q-layout-padding' : '' }`
+    )
 
-  render (h) {
-    return h('main', {
-      staticClass: 'q-page',
-      style: this.style,
-      class: this.classes,
-      on: { ...this.qListeners }
-    }, slot(this, 'default'))
+    return () => h('main', {
+      class: classes.value,
+      style: style.value
+    }, hSlot(slots.default))
   }
 })

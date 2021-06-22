@@ -10,10 +10,11 @@ In order for creating an App Extension project folder, please first read the [De
 :::
 
 ::: tip Full Example
-To see an example of what we will build, head over to [MyStarterKit full example](https://github.com/quasarframework/app-extension-examples/tree/v1/my-starter-kit), which is a github repo with this App Extension.
+To see an example of what we will build, head over to [MyStarterKit full example](https://github.com/quasarframework/app-extension-examples/tree/v2/my-starter-kit), which is a github repo with this App Extension.
 :::
 
 We'll be creating an example App Extension which does the following:
+
 * it prompts the user what features it wants this App Extension to install
 * renders (copies) files into the hosting folder, according to the answers he gave
 * it extends /quasar.conf.js
@@ -64,8 +65,8 @@ module.exports = function (api) {
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
   // package or a minimum version of "@quasar/app" CLI
-  api.compatibleWith('quasar', '^1.0.0')
-  api.compatibleWith('@quasar/app', '^1.0.0')
+  api.compatibleWith('quasar', '^2.0.0')
+  api.compatibleWith('@quasar/app', '^3.0.0')
 
   // We render some files into the hosting project
 
@@ -100,8 +101,8 @@ module.exports = function (api) {
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
   // package or a minimum version of "@quasar/app" CLI
-  api.compatibleWith('quasar', '^1.0.0')
-  api.compatibleWith('@quasar/app', '^1.0.0')
+  api.compatibleWith('quasar', '^2.0.0')
+  api.compatibleWith('@quasar/app', '^3.0.0')
 
   // Here we extend /quasar.conf.js;
   // (extendQuasarConf() will be defined later in this tutorial, continue reading)

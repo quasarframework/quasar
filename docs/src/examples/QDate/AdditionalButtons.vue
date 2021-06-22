@@ -20,21 +20,24 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const date = ref('2019/03/01')
+    const proxyDate = ref('2019/03/01')
+
     return {
-      date: '2019/03/01',
-      proxyDate: '2019/03/01'
-    }
-  },
+      date,
+      proxyDate,
 
-  methods: {
-    updateProxy () {
-      this.proxyDate = this.date
-    },
+      updateProxy () {
+        proxyDate.value = date.value
+      },
 
-    save () {
-      this.date = this.proxyDate
+      save () {
+        date.value = proxyDate.value
+      }
     }
   }
 }

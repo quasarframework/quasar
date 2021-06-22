@@ -29,8 +29,8 @@
         :options="stringOptions"
         label="Single"
       >
-        <q-icon slot="prepend" name="event" />
-        <q-icon slot="append" name="search" />
+        <template v-slot:prepend><q-icon name="event" /></template>
+        <template v-slot:append><q-icon name="search" /></template>
       </q-select>
 
       <q-select
@@ -40,8 +40,8 @@
         popup-content-class="bg-amber"
         label="Single - Colored popup"
       >
-        <q-icon slot="prepend" name="event" />
-        <q-icon slot="append" name="search" />
+        <template v-slot:prepend><q-icon name="event" /></template>
+        <template v-slot:append><q-icon name="search" /></template>
       </q-select>
 
       <div>{{ stringMultiple }}</div>
@@ -205,10 +205,7 @@
         options-selected-class="text-deep-orange"
       >
         <template v-slot:option="scope">
-          <q-item
-            v-bind="scope.itemProps"
-            v-on="scope.itemEvents"
-          >
+          <q-item v-bind="scope.itemProps">
             <q-item-section avatar @click.stop>
               <q-icon tabindex="0" :name="scope.opt.icon" />
               <q-menu v-if="scope.opt.disable !== true">
@@ -218,7 +215,10 @@
               </q-menu>
             </q-item-section>
             <q-item-section>
-              <q-item-label v-html="scope.opt.label" />
+              <q-item-label v-if="scope.html" v-html="scope.opt.label" />
+              <q-item-label v-else >
+                {{ scope.opt.label }}
+              </q-item-label>
               <q-item-label caption>
                 {{ scope.opt.description }}
               </q-item-label>
@@ -235,15 +235,15 @@
         multiple
       >
         <template v-slot:option="scope">
-          <q-item
-            v-bind="scope.itemProps"
-            v-on="scope.itemEvents"
-          >
+          <q-item v-bind="scope.itemProps">
             <q-item-section avatar>
               <q-icon tabindex="0" :name="scope.opt.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label v-html="scope.opt.label" />
+              <q-item-label v-if="scope.html" v-html="scope.opt.label" />
+              <q-item-label v-else >
+                {{ scope.opt.label }}
+              </q-item-label>
               <q-item-label caption>
                 {{ scope.opt.description }}
               </q-item-label>
@@ -272,7 +272,10 @@
             text-color="primary"
           >
             <q-avatar color="primary" text-color="white" :icon="scope.opt.icon" />
-            <span v-html="scope.opt.label" />
+            <span v-if="scope.html" v-html="scope.opt.label" />
+            <span v-else>
+              {{ scope.opt.label }}
+            </span>
           </q-chip>
         </template>
       </q-select>
@@ -318,7 +321,10 @@
             color="white"
             text-color="teal"
           >
-            <span v-html="scope.opt.label" />
+            <span v-if="scope.html" v-html="scope.opt.label" />
+            <span v-else>
+              {{ scope.opt.label }}
+            </span>
           </q-chip>
         </template>
       </q-select>
@@ -401,8 +407,8 @@
         <q-input
           class="col-2"
           v-bind="props"
-          :value="stringSingle"
-          @input="val => stringSingle = val === null ? '' : val"
+          :model-value="stringSingle"
+          @update:model-value="val => stringSingle = val === null ? '' : val"
           label="Input"
         />
       </div>
@@ -418,8 +424,8 @@
 
         <q-input
           v-bind="props"
-          :value="stringSingle"
-          @input="val => stringSingle = val === null ? '' : val"
+          :model-value="stringSingle"
+          @update:model-value="val => stringSingle = val === null ? '' : val"
           label="Input"
           prefix="A"
         />
@@ -469,8 +475,8 @@
 
         <q-input
           v-bind="props"
-          :value="stringSingle"
-          @input="val => stringSingle = val === null ? '' : val"
+          :model-value="stringSingle"
+          @update:model-value="val => stringSingle = val === null ? '' : val"
           prefix="A"
         />
 
@@ -558,7 +564,7 @@ export default {
       optionsCover: false,
 
       stringSingle: 'Facebook',
-      stringMultiple: ['Facebook', 'Twitter'],
+      stringMultiple: [ 'Facebook', 'Twitter' ],
       stringOptions: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
       ],
@@ -619,14 +625,14 @@ export default {
           label: '<span class="text-primary">Safe</span> option with <b>HTML</b>',
           value: 'safe_option_with_html',
           description: 'It does not come from user',
-          icon: 'golf_course'
+          icon: 'golf_course',
+          html: true
         },
         {
           label: '<span class="text-negative">Unsafe</span> option with <b>HTML</b>',
           value: 'unsafe_option_with_html',
-          description: 'It comea from user - you should sanitize',
-          icon: 'golf_course',
-          sanitize: true
+          description: 'It comes from user - you should sanitize',
+          icon: 'golf_course'
         }
       ],
 
@@ -657,18 +663,18 @@ export default {
       objectNullMultiple: null,
 
       stringEmitNullSingle: null,
-      stringEmitNullMultiple: [null],
+      stringEmitNullMultiple: [ null ],
 
       stringEmitSingle: 'Facebook',
-      stringEmitMultiple: ['Facebook'],
+      stringEmitMultiple: [ 'Facebook' ],
       objectEmitSingle: 'Facebook',
-      objectEmitMultiple: ['Facebook'],
+      objectEmitMultiple: [ 'Facebook' ],
 
       heavyModel: [],
       heavyList,
 
       bogusModel: 'bogus',
-      bogusMultiModel: ['bogus', 'gigi']
+      bogusMultiModel: [ 'bogus', 'gigi' ]
     }
   },
 
@@ -677,21 +683,21 @@ export default {
       this.stringNullSingle = null
       this.stringNullMultiple = null
       this.stringEmitNullSingle = null
-      this.stringEmitNullMultiple = [null]
+      this.stringEmitNullMultiple = [ null ]
       this.objectNullSingle = null
       this.objectNullMultiple = null
     },
 
     resetBogus () {
       this.bogusModel = 'bogus'
-      this.bogusMultiModel = ['bogus', 'gigi']
+      this.bogusMultiModel = [ 'bogus', 'gigi' ]
     }
   },
 
   computed: {
     props () {
       return {
-        [this.type]: true,
+        [ this.type ]: true,
         readonly: this.readonly,
         disable: this.disable,
         dense: this.dense,
@@ -715,9 +721,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .select-card
-  transition .3s background-color
+  transition: .3s background-color
   &:not(.disabled):hover
-    background $grey-3
+    background: $grey-3
 </style>

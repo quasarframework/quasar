@@ -1,15 +1,18 @@
 ---
 title: Form
 desc: The QForm Vue component renders a form and allows easy validation of child form components like QInput, QSelect or QField.
+keys: QForm
 related:
   - /vue-components/input
   - /vue-components/select
   - /vue-components/field
+  - /vue-composables/use-form-child
 ---
 
-The QForm component renders a `<form>` DOM element and allows you to easily validate child form components (like [QInput](/vue-components/input#internal-validation), [QSelect](/vue-components/select) or your [QField](/vue-components/field) wrapped components) that have the **internal validation** (NOT the external one) through `rules` associated with them.
+The QForm component renders a `<form>` DOM element and allows you to easily validate child form components (like [QInput](/vue-components/input#Internal-validation), [QSelect](/vue-components/select) or your [QField](/vue-components/field) wrapped components) that have the **internal validation** (NOT the external one) through `rules` associated with them.
 
 ## QForm API
+
 <doc-api file="QForm" />
 
 ## Usage
@@ -34,10 +37,42 @@ In order for the user to be able to activate the `@submit` or `@reset` events on
 
 Alternatively, you can give the QForm a Vue ref name and call the `validate` and `resetValidation` functions directly:
 
-```
-<q-form ref="myForm">
+```js
+// Composition API variant
 
-// and then in code:
+// <q-form ref="myForm">
+
+setup () {
+  const myForm = ref(null)
+
+  function validate () {
+    myForm.value.validate().then(success => {
+      if (success) {
+        // yay, models are correct
+      }
+      else {
+        // oh no, user has filled in
+        // at least one invalid value
+      }
+    })
+  }
+
+  // to reset validations:
+  function reset () {
+    myForm.value.resetValidation()
+  }
+
+  return {
+    myForm,
+    // ...
+  }
+}
+```
+
+```js
+// Options API variant
+
+// <q-form ref="myForm">
 
 this.$refs.myForm.validate().then(success => {
   if (success) {
@@ -78,7 +113,7 @@ If you are using the native `action` and `method` attributes on a QForm, please 
 * If a listener on `@submit` IS present on the QForm then the listener will be called if the validation is successful. In order to do a native submit in this case:
 
 ```html
-<q-form action="https://some-url.com" method="post" @submit="onSubmit">
+<q-form action="https://some-url.com" method="post" @submit.prevent="onSubmit">
   <q-input name="firstname" ...>
   <!-- ... -->
 </q-form>
@@ -88,8 +123,55 @@ If you are using the native `action` and `method` attributes on a QForm, please 
 methods: {
   onSubmit (evt) {
     console.log('@submit - do something here', evt)
-
     evt.target.submit()
   }
+}
+```
+
+## Child communication
+
+By default, all the Quasar form components communicate with the parent QForm instance. If, for some reason, you are creating your own form component (**that doesn't wraps a Quasar form component**), then you can make QForm aware of it by using:
+
+```js
+// Composition API variant
+
+import { useFormChild } from 'quasar'
+
+setup () {
+  // function validate () { ... }
+
+  useFormChild({
+    validate, // Function; Can be async;
+              // Should return a Boolean (or a Promise resolving to a Boolean)
+    resetValidation,    // Optional function which resets validation
+    requiresQForm: true // should it error out if no parent QForm is found?
+  })
+}
+```
+
+```js
+// Options API variant
+
+import { QFormChildMixin } from 'quasar'
+
+// some component
+export default {
+  mixins: [ QFormChildMixin ],
+
+  methods: {
+    // required! should return a Boolean
+    // or a Promise resolving to a Boolean
+    validate () {
+      console.log('called my-comp.validate()')
+      return true
+    },
+
+    // optional function
+    resetValidation () {
+      // ...
+    }
+  },
+
+  // ...
 }
 ```

@@ -72,6 +72,8 @@
 </template>
 
 <script>
+import { h } from 'vue'
+
 export default {
   components: {
     KeepAliveTest: {
@@ -93,21 +95,21 @@ export default {
         this.log('mounted')
       },
 
-      beforeDestroy () {
-        this.log('beforeDestroy')
+      beforeUnmount () {
+        this.log('beforeUnmount')
       },
 
-      destroyed () {
+      unmounted () {
         this.log('destroyed')
       },
 
       methods: {
         log (what) {
-          console.log(`[KeepAliveTest > ${this.name}] ${what}`)
+          console.log(`[KeepAliveTest > ${ this.name }] ${ what }`)
         }
       },
 
-      render (h) {
+      render () {
         return h('div', [ 'keep alive test ' + this.name ])
       }
     }

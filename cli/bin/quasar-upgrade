@@ -66,7 +66,7 @@ if (!fs.existsSync(path.join(root, 'node_modules'))) {
 
 const pkg = require(path.join(root, 'package.json'))
 
-const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta)?/
+const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta|rc)?/
 
 function getLatestVersion (packager, packageName, curVersion) {
   let versions
@@ -99,7 +99,7 @@ function getLatestVersion (packager, packageName, curVersion) {
   const majorSyntax = argv.major ? `(\\d+)` : major
   const regex = new RegExp(
     prerelease || argv.prerelease
-      ? `^${majorSyntax}\\.(\\d+)\\.(\\d+)-?(alpha|beta)?`
+      ? `^${majorSyntax}\\.(\\d+)\\.(\\d+)-?(alpha|beta|rc)?`
       : `^${majorSyntax}\\.(\\d+)\\.(\\d+)$`
   )
 

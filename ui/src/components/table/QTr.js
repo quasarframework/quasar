@@ -1,30 +1,22 @@
-import Vue from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
+import { hSlot } from '../../utils/private/render.js'
 
-import { slot } from '../../utils/slot.js'
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QTr',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     props: Object,
     noHover: Boolean
   },
 
-  computed: {
-    classes () {
-      return 'q-tr' + (this.props === void 0 || this.props.header === true ? '' : ' ' + this.props.__trClass) +
-        (this.noHover === true ? ' q-tr--no-hover' : '')
-    }
-  },
+  setup (props, { slots }) {
+    const classes = computed(() =>
+      'q-tr'
+      + (props.props === void 0 || props.props.header === true ? '' : ' ' + props.props.__trClass)
+      + (props.noHover === true ? ' q-tr--no-hover' : '')
+    )
 
-  render (h) {
-    return h('tr', {
-      on: { ...this.qListeners },
-      class: this.classes
-    }, slot(this, 'default'))
+    return () => h('tr', { class: classes.value }, hSlot(slots.default))
   }
 })

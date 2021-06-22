@@ -241,36 +241,8 @@ function printSlots ({ slots }) {
   }
 
   for (let slot in slots) {
-    console.log('\n   ' + chalk.green(slot))
-    console.log('     ' + slots[slot].desc)
-  }
-}
-
-function printScopedSlots ({ scopedSlots }) {
-  const keys = Object.keys(scopedSlots || {})
-
-  console.log('\n ' + chalk.underline('Scoped Slots'))
-
-  if (keys.length === 0) {
-    console.log('\n   ' + chalk.italic('*No scoped slots*'))
-    return
-  }
-
-  if (argv.filter) {
-    keys.forEach(key => {
-      if (key.indexOf(argv.filter) === -1) {
-        delete scopedSlots[key]
-      }
-    })
-    if (Object.keys(scopedSlots).length === 0) {
-      console.log('\n   ' + chalk.italic('*No matching scoped slots*'))
-      return
-    }
-  }
-
-  for (let slot in scopedSlots) {
     console.log()
-    printProp(scopedSlots[slot], slot, 3)
+    printProp(slots[slot], slot, 3)
   }
 }
 
@@ -279,14 +251,8 @@ function printEvents ({ events, behavior = {} }) {
 
   console.log('\n ' + chalk.underline('Events'))
 
-  if (behavior.$listeners !== void 0) {
-    console.log(`\n   ${chalk.italic(behavior.$listeners.desc)}`)
-  }
-
   if (keys.length === 0) {
-    if (behavior.$listeners === void 0) {
-      console.log('\n   ' + chalk.italic('*No events*'))
-    }
+    console.log('\n   ' + chalk.italic('*No events*'))
     return
   }
 
@@ -462,7 +428,6 @@ function describe (api) {
       apiParts.quasar === true && printQuasarConfOptions(api)
       apiParts.props === true && printProperties(api)
       apiParts.slots === true && printSlots(api)
-      apiParts.slots === true && printScopedSlots(api)
       apiParts.events === true && printEvents(api)
       apiParts.methods === true && printMethods(api)
       break

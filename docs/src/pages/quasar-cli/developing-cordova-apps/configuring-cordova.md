@@ -21,6 +21,27 @@ For determining the values for each of the properties mentioned above, Quasar CL
 1. Looks in `/quasar.conf.js` for a "cordova" Object. Does it have "version", "description" and/or "androidVersionCode"? If yes, it will use them.
 2. If not, then it looks into your `/package.json` for "cordovaId", "version" and "description" fields.
 
+```js
+return {
+  capacitor: {
+    // If not present, will look for package.json > version
+    version: '..', // string
+    // If not present, will look for package.json > description
+    description: '...', // string
+    androidVersionCode: '..', // string
+
+    /**
+     * Enable Xcode modern build even if after considering iOS-Cordova issues.
+     * You can enable it if you know what you are doing,
+     *  for example if you want to specify the build type in your “build.json”.
+     *
+     * Default: false
+     */
+    noIosLegacyBuildFlag: true/false
+  }
+}
+```
+
 Other options you can configure:
 
 ```js
@@ -32,12 +53,10 @@ return {
         iosStatusBarPadding: true/false,
 
         // Quasar handles app exit on mobile phone back button.
-        // Requires Quasar v1.9.3+ for true/false, v1.12.6+ for '*' wildcard and array values
         backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
 
         // On the other hand, the following completely
         // disables Quasar's back button management.
-        // Requires Quasar v1.14.1+
         backButton: true/false
       }
     }

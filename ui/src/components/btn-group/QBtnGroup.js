@@ -1,13 +1,9 @@
-import Vue from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
+import { hSlot } from '../../utils/private/render.js'
 
-import { slot } from '../../utils/slot.js'
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QBtnGroup',
-
-  mixin: [ ListenersMixin ],
 
   props: {
     unelevated: Boolean,
@@ -20,20 +16,16 @@ export default Vue.extend({
     spread: Boolean
   },
 
-  computed: {
-    classes () {
-      return ['unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch', 'glossy']
-        .filter(t => this[t] === true)
-        .map(t => `q-btn-group--${t}`).join(' ')
-    }
-  },
+  setup (props, { slots }) {
+    const classes = computed(() => {
+      const cls = [ 'unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch', 'glossy' ]
+        .filter(t => props[ t ] === true)
+        .map(t => `q-btn-group--${ t }`).join(' ')
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-btn-group row no-wrap ' +
-        (this.spread === true ? 'q-btn-group--spread' : 'inline'),
-      class: this.classes,
-      on: { ...this.qListeners }
-    }, slot(this, 'default'))
+      return `q-btn-group row no-wrap${ cls.length > 0 ? ' ' + cls : '' }`
+        + (props.spread === true ? ' q-btn-group--spread' : ' inline')
+    })
+
+    return () => h('div', { class: classes.value }, hSlot(slots.default))
   }
 })

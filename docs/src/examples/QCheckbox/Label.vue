@@ -13,11 +13,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      left: true,
-      right: false
+      left: ref(true),
+      right: ref(false)
     }
   }
 }

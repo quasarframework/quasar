@@ -7,24 +7,23 @@ If you are not vigilant when building Electron apps, you will probably be placin
 Especially when working "in the open", i.e. as an open-source project, you will definitely want to consider hardening your application with code-signing and integrity checking. (See "Tips" section)
 
 ::: danger
-Under no circumstances should you load and execute remote code with Node.js integration enabled. Instead, use only local files (packaged together with your application) to execute Node.js code.
+Under no circumstances should you load and execute remote code. Instead, use only local files (packaged together with your application) to execute Node.js code in your main thread and/or preload script.
 :::
 
 ## Checklist: Security Recommendations
 The Electron team itself makes the following recommendations:
 
-1.  [Only load secure content](https://electronjs.org/docs/tutorial/security#1-only-load-secure-content)
-2.  [Disable the Node.js integration in all renderers that display remote content](https://electronjs.org/docs/tutorial/security#2-disable-nodejs-integration-for-remote-content). How to [turn it off in Quasar](/quasar-cli/developing-electron-apps/node-integration).
+1.  Make sure that you leave `webPreferences` > `contextIsolation` set to `true`. Use the [preload script](/quasar-cli/developing-electron-apps/electron-preload-script) to inject only must-have APIs to the renderer thread.
+2.  If you must load remote content and cannot work around that, then [only load secure content](https://electronjs.org/docs/tutorial/security#1-only-load-secure-content)
 3.  [Use  `ses.setPermissionRequestHandler()`  in all sessions that load remote content](https://electronjs.org/docs/tutorial/security#4-handle-session-permission-requests-from-remote-content)
-4.  [Define a  `Content-Security-Policy`](https://electronjs.org/docs/tutorial/security#6-define-a-content-security-policy)  and use restrictive rules (i.e.  `script-src 'self'`)
-5.  [Do not disable  `webSecurity`](https://electronjs.org/docs/tutorial/security#5-do-not-disable-websecurity)
-6.  [Do not set  `allowRunningInsecureContent`  to  `true`](https://electronjs.org/docs/tutorial/security#7-do-not-set-allowrunninginsecurecontent-to-true)
-7.  [Do not enable experimental features](https://electronjs.org/docs/tutorial/security#8-do-not-enable-experimental-features)
-8.  [Do not use  `enableBlinkFeatures`](https://electronjs.org/docs/tutorial/security#9-do-not-use-enableblinkfeatures)
-9.  [`<webview>`: Do not use  `allowpopups`](https://electronjs.org/docs/tutorial/security#10-do-not-use-allowpopups)
-10.  [`<webview>`: Verify options and params](https://electronjs.org/docs/tutorial/security#11-verify-webview-options-before-creation)
-11.  [Disable or limit navigation](https://electronjs.org/docs/tutorial/security#12-disable-or-limit-navigation)
-12.  [Disable or limit creation of new windows](https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows)
+4.  [Do not disable  `webSecurity`](https://electronjs.org/docs/tutorial/security#5-do-not-disable-websecurity)
+5.  [Do not set  `allowRunningInsecureContent`  to  `true`](https://electronjs.org/docs/tutorial/security#7-do-not-set-allowrunninginsecurecontent-to-true)
+6.  [Do not enable experimental features](https://electronjs.org/docs/tutorial/security#8-do-not-enable-experimental-features)
+7.  [Do not use  `enableBlinkFeatures`](https://electronjs.org/docs/tutorial/security#9-do-not-use-enableblinkfeatures)
+8.  [`<webview>`: Do not use `allowpopups`](https://electronjs.org/docs/tutorial/security#10-do-not-use-allowpopups)
+9.  [`<webview>`: Verify options and params](https://electronjs.org/docs/tutorial/security#11-verify-webview-options-before-creation)
+10.  [Disable or limit navigation](https://electronjs.org/docs/tutorial/security#12-disable-or-limit-navigation)
+11.  [Disable or limit creation of new windows](https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows)
 
 Except for items 3 and 4 above, Electron will put a warning in the dev console if one of the these issues have been detected.
 
@@ -46,14 +45,18 @@ If the user of your application has secrets like wallet addresses, personal info
 4. think about the user-experience
 
 #### Disable developer tools in production
+
 You probably don't want rogue hoody-wearing menaces to be executing something like this in the console of your app:
-```
+
+```js
 window.location='https://evilsite.com/looks-just-like-your-app'
 ```
+
 The key-combination <kbd>CTRL</kbd>+<kbd>SHIFT</kbd>+<kbd>I</kbd> (or <kbd>ALT</kbd>+<kbd>CMD</kbd>+<kbd>I</kbd> on Mac) will open the dev tools and enable inspection of the application. It will even enable some degree of modification. Prevent the simple `evil maid` attack by catching these keypresses and `return false`.
 
 #### Publish checksums
 When you have built your binary blobs and want to publish them e.g. on GitHub, use `shasum` and post these results somewhere prominent (like on the GitHub release page for your project) and potentially on a public blockchain, such as [Steem](https://steemworld.org/@quasarframework).
+
 ```bash
 $ shasum -a 256 myApp-v1.0.0_darwin-x64.dmg
 40ed03e0fb3c422e554c7e75d41ba71405a4a49d560b1bf92a00ea6f5cbd8daa myApp-v1.0.0_darwin-x64.dmg

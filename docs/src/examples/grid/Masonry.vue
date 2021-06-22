@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
 
-    <q-btn class="q-mb-md" color="primary" label="Regenerate layout" @click="generateCells" />
+    <q-btn class="q-mb-md" color="primary" label="Regenerate layout" @click="onClick" />
 
     <div class="column example-container">
       <div class="flex-break hidden"></div>
@@ -20,6 +20,27 @@
 
   </div>
 </template>
+
+<script>
+import { ref } from 'vue'
+
+const generateCells = () => Array(24).fill(null).map((_, cell) => (
+  Array(2 + Math.ceil(3 * Math.random())).fill(null).map((_, text) => `Cell ${cell + 1} - ${text + 1}`)
+))
+
+export default {
+  setup () {
+    const cells = ref(generateCells())
+
+    return {
+      cells,
+      onClick () {
+        cells.value = generateCells()
+      }
+    }
+  }
+}
+</script>
 
 <style lang="sass" scoped>
 .flex-break
@@ -46,23 +67,3 @@ $x: 4
       padding: 4px 8px
       box-shadow: inset 0 0 0 2px $grey-6
 </style>
-
-<script>
-const generateCells = () => Array(24).fill(null).map((_, cell) => (
-  Array(2 + Math.ceil(3 * Math.random())).fill(null).map((_, text) => `Cell ${cell + 1} - ${text + 1}`)
-))
-
-export default {
-  data () {
-    return {
-      cells: generateCells()
-    }
-  },
-
-  methods: {
-    generateCells () {
-      this.cells = generateCells()
-    }
-  }
-}
-</script>

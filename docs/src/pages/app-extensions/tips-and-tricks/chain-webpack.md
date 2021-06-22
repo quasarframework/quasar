@@ -10,7 +10,7 @@ In order for creating an App Extension project folder, please first read the [De
 :::
 
 ::: tip Full Example
-To see an example of what we will build, head over to [full example](https://github.com/quasarframework/app-extension-examples/tree/v1/chain-webpack), which is a GitHub repo with this App Extension.
+To see an example of what we will build, head over to [full example](https://github.com/quasarframework/app-extension-examples/tree/v2/chain-webpack), which is a GitHub repo with this App Extension.
 :::
 
 We will only need the /index.js script for this, because we can use the [Index API](/app-extensions/development-guide/index-api) to configure quasar.conf.js from the host app to include our Webpack chaining.
@@ -31,8 +31,8 @@ module.exports = function (api) {
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
   // package or a minimum version of "@quasar/app" CLI
-  api.compatibleWith('quasar', '^1.0.0')
-  api.compatibleWith('@quasar/app', '^1.0.0')
+  api.compatibleWith('quasar', '^2.0.0')
+  api.compatibleWith('@quasar/app', '^3.0.0')
 
   // chain webpack
   api.chainWebpack((chain) => chainWebpack(api.ctx, chain))
@@ -55,9 +55,6 @@ const chainWebpack = function (ctx, chain) {
     .loader('vue-loader')
     .options({
       productionMode: ctx.prod,
-      compilerOptions: {
-        preserveWhitespace: false
-      },
       transformAssetUrls: {
         video: 'src',
         source: 'src',

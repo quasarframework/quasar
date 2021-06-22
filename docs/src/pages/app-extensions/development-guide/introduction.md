@@ -13,7 +13,7 @@ An App Extension is an npm package. There are two official kits for creating App
 ```bash
 $ quasar create my-ext --kit app-extension
 # or
-$ quasar create my-ext --kit ui
+$ quasar create my-ui --kit ui
 ```
 
 It will prompt you about your specific needs. Do you need an install script, an uninstall script, will you be prompting the user with some questions? Pick only what you will be using. You can manually add these later if you decide otherwise.

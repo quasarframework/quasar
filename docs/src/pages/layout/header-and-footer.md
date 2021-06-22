@@ -1,6 +1,7 @@
 ---
 title: Layout Header and Footer
 desc: How to use the QHeader and QFooter components. The top and bottom bars of your Quasar app.
+keys: QHeader,QFooter
 related:
   - /layout/layout
   - /layout/page
@@ -11,6 +12,7 @@ related:
 ---
 
 QLayout allows you to configure your views as a 3x3 matrix, containing an optional Header and/or Footer (mostly used for navbar, but can be anything). If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
+
 
 ## QHeader API
 <doc-api file="QHeader" />

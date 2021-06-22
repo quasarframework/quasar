@@ -2,10 +2,10 @@ const fs = require('fs')
 
 const appPaths = require('../app-paths')
 const getPackage = require('../helpers/get-package')
-const { log, warn, fatal } = require('../helpers/logger')
+const { log, fatal } = require('../helpers/logger')
 
 const versions = {
-  packager: '14.1.1',
+  packager: '15.2.0',
   builder: '22.4.0'
 }
 
@@ -25,7 +25,7 @@ function installBundler (bundlerName) {
     nodePackager,
     cmdParam.concat([`electron-${bundlerName}@${'^' + versions[bundlerName]}`]),
     { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => warn(`Failed to install electron-${bundlerName}`)
+    () => fatal(`Failed to install electron-${bundlerName}`, 'FAIL')
   )
 }
 
@@ -42,7 +42,7 @@ module.exports.bundlerIsInstalled = bundlerIsInstalled
 
 module.exports.ensureInstall = function (bundlerName) {
   if (!isValidName(bundlerName)) {
-    fatal(`Unknown bundler "${ bundlerName }" for Electron\n`)
+    fatal(`Unknown bundler "${ bundlerName }" for Electron`)
   }
 
   if (!bundlerIsInstalled(bundlerName)) {
@@ -64,16 +64,4 @@ module.exports.getDefaultName = function () {
 
 module.exports.getBundler = function (bundlerName) {
   return getPackage(`electron-${bundlerName}`)
-}
-
-module.exports.ensureBuilderCompatibility = function () {
-  if (fs.existsSync(appPaths.resolve.electron('icons/linux-256x256.png'))) {
-    console.log()
-    console.log(`\n ⚠️  electron-builder requires a change to your src-electron/icons folder:
-  * replace linux-256x256.png with a 512x512 px png file named "linux-512x512.png"
-  * make sure to delete the old linux-256x256.png file
-`)
-    console.log()
-    process.exit(1)
-  }
 }

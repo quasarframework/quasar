@@ -1,15 +1,13 @@
-const
-  path = require('path')
+const path = require('path')
 
-const
-  { logError, writeFile, kebabCase } = require('./build.utils'),
-  resolve = file => path.resolve(__dirname, '../dist/vetur', file)
+const { logError, writeFile, kebabCase } = require('./build.utils')
+const resolve = file => path.resolve(__dirname, '../dist/vetur', file)
 
 function getTags (data) {
   const tags = {}
 
   data.forEach(comp => {
-    tags[comp.name] = {
+    tags[ comp.name ] = {
       attributes: Object.keys(comp.props),
       description: ''
     }
@@ -23,9 +21,9 @@ function getAttributes (data) {
 
   data.forEach(comp => {
     Object.keys(comp.props).forEach(propName => {
-      const prop = comp.props[propName]
+      const prop = comp.props[ propName ]
 
-      attrs[`${comp.name}/${propName}`] = {
+      attrs[ `${ comp.name }/${ propName }` ] = {
         type: Array.isArray(prop.type)
           ? prop.type.map(t => t.toLowerCase()).join('|')
           : prop.type.toLowerCase(),
@@ -55,7 +53,7 @@ module.exports.generate = function ({ components }) {
     )
   }
   catch (err) {
-    logError(`build.vetur.js: something went wrong...`)
+    logError('build.vetur.js: something went wrong...')
     console.log()
     console.error(err)
     console.log()

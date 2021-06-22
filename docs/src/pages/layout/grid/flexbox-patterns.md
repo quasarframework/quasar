@@ -14,7 +14,7 @@ Here are some common patterns for using [Flexbox](https://css-tricks.com/snippet
 ## Flex row / column break
 You can define a CSS class that would force the element it is applied on to create a row / column break in a flex layout.
 
-``` css
+```sass
 .flex-break
   flex: 1 0 100% !important
 .row
@@ -30,7 +30,7 @@ Take care not to use `no-wrap` when defining the flex container, and insert a `d
 You can use `q-py-##` on row breaking elements or `q-px-##` on column breaking elements to increase the space.
 :::
 
-``` html
+```html
 <div class="row">
   <div>Col 1 / Row 1</div>
   <div>Col 2 / Row 1</div>
@@ -60,7 +60,7 @@ You must know how many columns you want use for the layout. Also for best visual
 
 The general CSS formula for `$x` number of columns is:
 
-``` css
+```scss
 $x: 3;
 
 @for $i from 1 through ($x - 1) {
@@ -76,7 +76,7 @@ $x: 3;
 
 Example, supossing you want a 4 column layout:
 
-``` css
+```sass
 .item:nth-child(4n+1)
   order: 1
 .item:nth-child(4n+2)
@@ -95,7 +95,7 @@ For the HTML there are some requirements that should be followed:
 
 Example, supossing you want a 4 column layout:
 
-``` html
+```html
 <div class="column">
   <div class="flex-break hidden"></div>
   <div class="flex-break"></div>
@@ -114,7 +114,7 @@ Example, supossing you want a 4 column layout:
 ## Masonry with pseudo selectors to break rows / columns
 When it's not easy or not possible to insert the elements for row / column break and you need 2 or 3 rows / column you can use pseudo selectors.
 
-``` css
+```sass
 .container-class
   &--2-rows
     :before

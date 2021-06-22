@@ -1,13 +1,9 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/breadcrumbs"
+    "docsUrl": "https://v2.quasar.dev/vue-components/breadcrumbs"
   },
 
-  "mixins": [ "mixins/router-link" ],
-
-  "behavior": {
-    "$listeners": true
-  },
+  "mixins": [ "composables/private/use-router-link" ],
 
   "props": {
     "label": {
@@ -19,6 +15,16 @@
 
     "icon": {
       "extends": "icon"
+    },
+
+    "tag": {
+      "extends": "tag",
+      "default": "span",
+      "examples": [ "div", "span" ]
+    },
+
+    "ripple": {
+      "extends": "ripple"
     }
   },
 

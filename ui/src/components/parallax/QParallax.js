@@ -1,19 +1,15 @@
-import Vue from 'vue'
-
-import ListenersMixin from '../../mixins/listeners.js'
+import { h, defineComponent, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { slot } from '../../utils/slot.js'
+import { hSlot } from '../../utils/private/render.js'
 import { listenOpts } from '../../utils/event.js'
 
 const { passive } = listenOpts
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QParallax',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     src: String,
@@ -29,143 +25,142 @@ export default Vue.extend({
 
     scrollTarget: {
       default: void 0
-    }
-  },
-
-  data () {
-    return {
-      scrolling: false,
-      percentScrolled: 0
-    }
-  },
-
-  watch: {
-    height () {
-      this.working === true && this.__updatePos()
     },
 
-    scrollTarget () {
-      if (this.working === true) {
-        this.__stop()
-        this.__start()
+    onScroll: Function
+  },
+
+  setup (props, { slots, emit }) {
+    const percentScrolled = ref(0)
+    const rootRef = ref(null)
+    const mediaParentRef = ref(null)
+    const mediaRef = ref(null)
+
+    let isWorking, mediaEl, mediaHeight, resizeHandler, observer, localScrollTarget
+
+    watch(() => props.height, () => {
+      isWorking === true && updatePos()
+    })
+
+    watch(() => props.scrollTarget, () => {
+      if (isWorking === true) {
+        stop()
+        start()
       }
+    })
+
+    let update = percentage => {
+      percentScrolled.value = percentage
+      props.onScroll !== void 0 && emit('scroll', percentage)
     }
-  },
 
-  methods: {
-    __update (percentage) {
-      this.percentScrolled = percentage
-      this.qListeners.scroll !== void 0 && this.$emit('scroll', percentage)
-    },
-
-    __updatePos () {
+    function updatePos () {
       let containerTop, containerHeight, containerBottom
 
-      if (this.__scrollTarget === window) {
+      if (localScrollTarget === window) {
         containerTop = 0
         containerHeight = window.innerHeight
         containerBottom = containerHeight
       }
       else {
-        containerTop = offset(this.__scrollTarget).top
-        containerHeight = height(this.__scrollTarget)
+        containerTop = offset(localScrollTarget).top
+        containerHeight = height(localScrollTarget)
         containerBottom = containerTop + containerHeight
       }
 
-      const top = offset(this.$el).top
-      const bottom = top + this.height
+      const top = offset(rootRef.value).top
+      const bottom = top + props.height
 
-      if (this.observer !== void 0 || (bottom > containerTop && top < containerBottom)) {
-        const percent = (containerBottom - top) / (this.height + containerHeight)
-        this.__setPos((this.mediaHeight - this.height) * percent * this.speed)
-        this.__update(percent)
+      if (observer !== void 0 || (bottom > containerTop && top < containerBottom)) {
+        const percent = (containerBottom - top) / (props.height + containerHeight)
+        setPos((mediaHeight - props.height) * percent * props.speed)
+        update(percent)
       }
-    },
+    }
 
-    __setPos (offset) {
+    let setPos = offset => {
       // apply it immediately without any delay
-      this.media.style.transform = `translate3d(-50%,${Math.round(offset)}px,0)`
-    },
+      mediaEl.style.transform = `translate3d(-50%,${ Math.round(offset) }px,0)`
+    }
 
-    __onResize () {
-      this.mediaHeight = this.media.naturalHeight || this.media.videoHeight || height(this.media)
-      this.working === true && this.__updatePos()
-    },
+    function onResize () {
+      mediaHeight = mediaEl.naturalHeight || mediaEl.videoHeight || height(mediaEl)
+      isWorking === true && updatePos()
+    }
 
-    __start () {
-      this.working = true
-      this.__scrollTarget = getScrollTarget(this.$el, this.scrollTarget)
-      this.__scrollTarget.addEventListener('scroll', this.__updatePos, passive)
-      window.addEventListener('resize', this.__resizeHandler, passive)
-      this.__updatePos()
-    },
+    function start () {
+      isWorking = true
+      localScrollTarget = getScrollTarget(rootRef.value, props.scrollTarget)
+      localScrollTarget.addEventListener('scroll', updatePos, passive)
+      window.addEventListener('resize', resizeHandler, passive)
+      updatePos()
+    }
 
-    __stop () {
-      if (this.working === true) {
-        this.working = false
-        this.__scrollTarget.removeEventListener('scroll', this.__updatePos, passive)
-        window.removeEventListener('resize', this.__resizeHandler, passive)
-        this.__scrollTarget = void 0
+    function stop () {
+      if (isWorking === true) {
+        isWorking = false
+        localScrollTarget.removeEventListener('scroll', updatePos, passive)
+        window.removeEventListener('resize', resizeHandler, passive)
+        localScrollTarget = void 0
       }
     }
-  },
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-parallax',
-      style: { height: `${this.height}px` },
-      on: { ...this.qListeners }
-    }, [
-      h('div', {
-        ref: 'mediaParent',
-        staticClass: 'q-parallax__media absolute-full'
-      }, this.$scopedSlots.media !== void 0 ? this.$scopedSlots.media() : [
-        h('img', {
-          ref: 'media',
-          attrs: {
-            src: this.src
-          }
+    onMounted(() => {
+      setPos = frameDebounce(setPos)
+      update = frameDebounce(update)
+      resizeHandler = frameDebounce(onResize)
+
+      mediaEl = slots.media !== void 0
+        ? mediaParentRef.value.children[ 0 ]
+        : mediaRef.value
+
+      mediaEl.onload = mediaEl.onloadstart = mediaEl.loadedmetadata = onResize
+      onResize()
+      mediaEl.style.display = 'initial'
+
+      if (window.IntersectionObserver !== void 0) {
+        observer = new IntersectionObserver(entries => {
+          const fn = entries[ 0 ].isIntersecting === true ? start : stop
+          fn()
         })
-      ]),
 
-      h(
-        'div',
-        { staticClass: 'q-parallax__content absolute-full column flex-center' },
-        this.$scopedSlots.content !== void 0
-          ? this.$scopedSlots.content({ percentScrolled: this.percentScrolled })
-          : slot(this, 'default')
-      )
-    ])
-  },
+        observer.observe(rootRef.value)
+      }
+      else {
+        start()
+      }
+    })
 
-  mounted () {
-    this.__setPos = frameDebounce(this.__setPos)
-    this.__update = frameDebounce(this.__update)
-    this.__resizeHandler = frameDebounce(this.__onResize)
+    onBeforeUnmount(() => {
+      stop()
+      observer !== void 0 && observer.disconnect()
+      mediaEl.onload = mediaEl.onloadstart = mediaEl.loadedmetadata = null
+    })
 
-    this.media = this.$scopedSlots.media !== void 0
-      ? this.$refs.mediaParent.children[0]
-      : this.$refs.media
+    return () => {
+      return h('div', {
+        ref: rootRef,
+        class: 'q-parallax',
+        style: { height: `${ props.height }px` }
+      }, [
+        h('div', {
+          ref: mediaParentRef,
+          class: 'q-parallax__media absolute-full'
+        }, slots.media !== void 0 ? slots.media() : [
+          h('img', {
+            ref: mediaRef,
+            src: props.src
+          })
+        ]),
 
-    this.media.onload = this.media.onloadstart = this.media.loadedmetadata = this.__onResize
-    this.__onResize()
-    this.media.style.display = 'initial'
-
-    if (window.IntersectionObserver !== void 0) {
-      this.observer = new IntersectionObserver(entries => {
-        this[entries[0].isIntersecting === true ? '__start' : '__stop']()
-      })
-
-      this.observer.observe(this.$el)
+        h(
+          'div',
+          { class: 'q-parallax__content absolute-full column flex-center' },
+          slots.content !== void 0
+            ? slots.content({ percentScrolled: percentScrolled.value })
+            : hSlot(slots.default)
+        )
+      ])
     }
-    else {
-      this.__start()
-    }
-  },
-
-  beforeDestroy () {
-    this.__stop()
-    this.observer !== void 0 && this.observer.disconnect()
-    this.media.onload = this.media.onloadstart = this.media.loadedmetadata = null
   }
 })

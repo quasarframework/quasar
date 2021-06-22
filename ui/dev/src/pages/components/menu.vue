@@ -33,7 +33,7 @@
 
         <q-btn color="primary" label="Decoupled">
           <q-menu
-            :value="toggle"
+            :model-value="toggle"
             ref="popover11"
             persistent
             transition-show="jump-up"
@@ -93,7 +93,7 @@
         </q-btn>
 
         <q-btn color="primary" label="Menu with select">
-          <q-menu cover @show="log('@show cover')" @hide="log('@hide cover')" content-class="q-pa-md">
+          <q-menu cover @show="log('@show cover')" @hide="log('@hide cover')" class="q-pa-md">
             <div class="column q-gutter-md">
               <q-select v-model="selectModelS" :options="selectOptions" behavior="menu" filled label="Select single - menu" clearable />
               <q-select v-model="selectModelM" :options="selectOptions" behavior="menu" filled multiple label="Select multiple - menu" clearable />
@@ -206,6 +206,7 @@
                 :anchor="anchor"
                 :self="self"
                 auto-close
+                transition-duration="1000"
               >
                 <q-list style="min-width: 400px">
                   <q-item
@@ -541,7 +542,7 @@
           <q-img
             src="https://cdn.quasar.dev/img/map.png"
             style="height: 150px; width: 200px;"
-            @click.native="showNotify(), $refs.popover3.hide()"
+            @click="showNotify(), $refs.popover3.hide()"
             tabindex="0"
           />
         </q-menu>
@@ -565,7 +566,7 @@
             v-for="n in 20"
             :key="n"
             clickable
-            @click.native="showNotify(), $refs.popover5.hide()"
+            @click="showNotify(), $refs.popover5.hide()"
           >
             <q-item-section>Label</q-item-section>
           </q-item>
@@ -581,7 +582,7 @@ export default {
     const list = []
     for (let i = 0; i < 26 * 30; i += 1) {
       const c = String.fromCharCode(97 + (i % 26))
-      const v = `${c}${c}${c}${c}${c}#${i}`
+      const v = `${ c }${ c }${ c }${ c }${ c }#${ i }`
       list.push({ label: v, value: v })
     }
     return {
@@ -617,10 +618,10 @@ export default {
   },
   computed: {
     anchor () {
-      return `${this.anchorOrigin.vertical} ${this.anchorOrigin.horizontal}`
+      return `${ this.anchorOrigin.vertical } ${ this.anchorOrigin.horizontal }`
     },
     self () {
-      return `${this.selfOrigin.vertical} ${this.selfOrigin.horizontal}`
+      return `${ this.selfOrigin.vertical } ${ this.selfOrigin.horizontal }`
     }
   },
   methods: {

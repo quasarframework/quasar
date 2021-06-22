@@ -27,7 +27,8 @@ div
 </template>
 
 <script>
-import apiList from 'quasar/dist/api-list.json'
+import { ref } from 'vue'
+import apiList from 'quasar/dist/transforms/api-list.json'
 
 import DocApi from 'components/DocApi'
 
@@ -38,19 +39,21 @@ export default {
     DocApi
   },
 
-  data () {
-    return {
-      item: '',
-      options: [ ...apiList ]
-    }
-  },
+  setup () {
+    const item = ref('')
+    const options = ref(apiList)
 
-  methods: {
-    filterFn (val, update) {
+    function filterFn (val, update) {
       update(() => {
         const needle = val.toLowerCase()
-        this.options = apiList.filter(v => v.toLowerCase().indexOf(needle) !== -1)
+        options.value = apiList.filter(v => v.toLowerCase().indexOf(needle) > -1)
       })
+    }
+
+    return {
+      item,
+      options,
+      filterFn
     }
   }
 }

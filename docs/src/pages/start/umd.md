@@ -39,12 +39,10 @@ When you embed Quasar UMD into a webpage you'll get a `Quasar` global Object inj
 Quasar = {
   version, // Quasar version
 
-  plugins, // Quasar plugins
-  utils, // Quasar utils
-
-  // if you want to extend Quasar's components or directives
-  components,
-  directives,
+  ...components,
+  ...directives,
+  ...plugins, // Quasar plugins
+  ...utils, // Quasar utils
 
   // if you want to change current icon set or Quasar Language pack
   // (must include CDN links so they are available first!)
@@ -53,13 +51,21 @@ Quasar = {
 }
 ```
 
-## Init Configuration
-There are some configuration options for Quasar & Quasar plugins. For the Quasar UMD version you can define the following before including the Quasar script tag:
+Some usage examples:
 
-```html
-<script>
-  // optional
-  window.quasarConfig = {
+```js
+Quasar.QBtn
+Quasar.getCssVar('primary')
+Quasar.debounce(fn, 200)
+Quasar.Notify.create('Hi and welcome!')
+```
+
+## Quasar Config Object
+There are some configuration options for Quasar & Quasar plugins:
+
+```js
+app.use(Quasar, {
+  config: {
     brand: { // this will NOT work on IE 11
       primary: '#e46262',
       // ... or all other brand colors
@@ -69,7 +75,7 @@ There are some configuration options for Quasar & Quasar plugins. For the Quasar
     loadingBar: { ... }, // settings for LoadingBar Quasar plugin
     // ..and many more
   }
-</script>
+})
 ```
 
 ## Usage
@@ -102,6 +108,7 @@ An example. No need to install any component in UMD version.
 
 ### Quasar Directives
 An example. No need to install any directives in UMD version.
+
 ```html
 <div v-ripple>...</div>
 ```
@@ -110,14 +117,14 @@ An example. No need to install any directives in UMD version.
 An example. No need to install any plugins in UMD version.
 
 ```js
-Quasar.plugins.bottomSheet.create({...})
+Quasar.BottomSheet.create({...})
 ```
 
 ### Quasar Utils
 An example.
 
 ```js
-Quasar.utils.openURL('https://quasar.dev')
+Quasar.openURL('https://quasar.dev')
 ```
 
 ### Changing Quasar Icon Set
@@ -130,7 +137,7 @@ Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
 The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/icon-set).
 
 ### Changing Quasar Language Pack
-Assuming you have already included the CDN link to your desired Quasar I18n Language (unless you want "en-us" language pack which is used by default), you can then tell Quasar to use it:
+Assuming you have already included the CDN link to your desired Quasar I18n Language (unless you want "en-US" language pack which is used by default), you can then tell Quasar to use it:
 
 ```js
 // example setting German language,
@@ -138,7 +145,7 @@ Assuming you have already included the CDN link to your desired Quasar I18n Lang
 Quasar.lang.set(Quasar.lang.de)
 
 // example setting Portuguese (Brazil) language:
-Quasar.lang.set(Quasar.lang.ptBr)
+Quasar.lang.set(Quasar.lang.ptBR)
 ```
 
 The list of available languages can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang). **If your desired language pack is not available yet, you can help by providing a PR.** We welcome any languages!

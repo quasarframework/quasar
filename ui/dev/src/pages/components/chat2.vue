@@ -96,12 +96,12 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       messages: [
         {
           avatar: 'https://cdn.quasar.dev/img/avatar3.jpg',
-          text: ['> message 1 should support markdown', '> message 2  should support markdown', '> message 3 should support markdown'],
+          text: [ '> message 1 should support markdown', '> message 2  should support markdown', '> message 3 should support markdown' ],
           action: {
             icon: 'check',
             color: 'positive',
@@ -113,13 +113,11 @@ export default {
           bgColor: 'primary',
           textColor: 'white'
         }
-      ]
-    }
-  },
+      ],
 
-  methods: {
-    someAction (something) {
-      console.log(something)
+      someAction (something) {
+        console.log(something)
+      }
     }
   }
 }

@@ -15,6 +15,7 @@ You'll need to include a `<script>` tag provided by Google in `/src/index.templa
 :::
 
 ## Prerequisites
+
 * Make sure all your routes have a name and path parameter specified. Otherwise, they cannot be posted to the `ga.logPage` function. Please refer to [Routing](/quasar-cli/routing) for more info on routing.
 * Have Basic knowledge of Google Analytics
 
@@ -48,12 +49,16 @@ export default {
   }
 }
 ```
+
 To make sure all the pages in your application are automatically posted to Google Analytics, we create an app boot file:
+
 ```bash
 $ quasar new boot google-analytics [--format ts]
 ```
+
 Then we edit the newly created file: `/src/boot/google-analytics.js`:
-```
+
+```js
 import ga from 'analytics.js'
 
 export default ({ router }) => {
@@ -62,8 +67,10 @@ export default ({ router }) => {
   })
 }
 ```
+
 Finally we register the app boot file in `/quasar.conf.js`. We can do so only for Cordova wrapped apps if we want:
-```
+
+```js
 boot: [
   ctx.mode.cordova ? 'google-analytics' : ''
 ]

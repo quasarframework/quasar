@@ -1,8 +1,11 @@
 import { Cookies, Notify, openURL } from 'quasar'
 
 if (Cookies.has('gdpr') !== true) {
+  const policyUrl = 'https://www.iubenda.com/privacy-policy/40685560/cookie-policy?an=no&s_ck=false&newmarkup=yes'
+
   Notify.create({
-    message: `Our third-party tools use cookies, which are necessary for its functioning and required to achieve the purposes illustrated in the cookie policy.`,
+    message: 'Our third-party tools use cookies, which are necessary for its functioning' +
+      ' and required to achieve the purposes illustrated in the cookie policy.',
     multiline: true,
     classes: 'doc-gdpr',
     timeout: 0,
@@ -20,7 +23,7 @@ if (Cookies.has('gdpr') !== true) {
         color: 'grey',
         noDismiss: true,
         handler () {
-          openURL('https://www.iubenda.com/privacy-policy/40685560/cookie-policy?an=no&s_ck=false&newmarkup=yes')
+          openURL(policyUrl)
         }
       }
     ]

@@ -5,7 +5,7 @@
       <q-btn :label="`Animate to ${position}px`" color="primary" @click="animateScroll" />
     </div>
 
-    <q-scroll-area ref="scrollArea" style="height: 150px; max-width: 300px;">
+    <q-scroll-area ref="scrollAreaRef" style="height: 150px; max-width: 300px;">
       <ol>
         <li v-for="n in 1000" :key="n">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -16,22 +16,26 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const position = ref(300)
+    const scrollAreaRef = ref(null)
+
     return {
-      position: 300
-    }
-  },
+      position,
+      scrollAreaRef,
 
-  methods: {
-    scroll () {
-      this.$refs.scrollArea.setScrollPosition(this.position)
-      this.position = Math.floor(Math.random() * 1001) * 20
-    },
+      scroll () {
+        scrollAreaRef.value.setScrollPosition('vertical', position.value)
+        position.value = Math.floor(Math.random() * 1001) * 20
+      },
 
-    animateScroll () {
-      this.$refs.scrollArea.setScrollPosition(this.position, 300)
-      this.position = Math.floor(Math.random() * 1001) * 20
+      animateScroll () {
+        scrollAreaRef.value.setScrollPosition('vertical', position.value, 300)
+        position.value = Math.floor(Math.random() * 1001) * 20
+      }
     }
   }
 }

@@ -45,10 +45,12 @@
 
         <q-toggle v-model="toggleOn" />
         <q-btn color="indigo" label="External Model">
-          <q-tooltip :value="toggleOn" :no-parent-event="true" anchor="top middle" self="bottom middle" :offset="[18, 18]" transition-show="flip-right" transition-hide="flip-left">
+          <q-tooltip :model-value="toggleOn" :no-parent-event="true" anchor="top middle" self="bottom middle" :offset="[18, 18]" transition-show="flip-right" transition-hide="flip-left">
             <strong>Tooltip</strong> on <em>top</em> (<q-icon name="keyboard_arrow_up" />)
           </q-tooltip>
         </q-btn>
+
+        <q-btn color="primary" label="Dialog" @click="dialog = true" />
       </div>
 
       <div class="q-gutter-y-md">
@@ -206,6 +208,19 @@
         </q-card>
       </div>
 
+      <q-dialog v-model="dialog" transition-show="scale" transition-hide="scale">
+        <q-card class="bg-teal text-white" style="width: 300px">
+          <q-card-section class="q-pa-xl">
+            <span>This area has a QTooltip</span>
+            <q-tooltip>Some tooltip</q-tooltip>
+          </q-card-section>
+
+          <q-card-actions align="right" class="bg-white text-teal">
+            <q-btn flat label="OK" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
       <div style="margin-bottom: 700px;" />
     </div>
   </div>
@@ -224,15 +239,16 @@ export default {
       color: true,
       anchorOrigin: { vertical: 'bottom', horizontal: 'middle' },
       selfOrigin: { vertical: 'top', horizontal: 'middle' },
-      targetEl: '#target-img-1'
+      targetEl: '#target-img-1',
+      dialog: false
     }
   },
   computed: {
     anchor () {
-      return `${this.anchorOrigin.vertical} ${this.anchorOrigin.horizontal}`
+      return `${ this.anchorOrigin.vertical } ${ this.anchorOrigin.horizontal }`
     },
     self () {
-      return `${this.selfOrigin.vertical} ${this.selfOrigin.horizontal}`
+      return `${ this.selfOrigin.vertical } ${ this.selfOrigin.horizontal }`
     }
   },
   methods: {

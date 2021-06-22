@@ -1,27 +1,42 @@
-import Vue from 'vue'
+import { defineComponent, computed, getCurrentInstance } from 'vue'
 
-import DarkMixin from '../../mixins/dark.js'
-import { PanelParentMixin } from '../../mixins/panel.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
 
-export default Vue.extend({
+import { hDir } from '../../utils/private/render.js'
+
+export default defineComponent({
   name: 'QTabPanels',
 
-  mixins: [ DarkMixin, PanelParentMixin ],
-
-  computed: {
-    classes () {
-      return 'q-tab-panels q-panel-parent' +
-        (this.isDark === true ? ' q-tab-panels--dark q-dark' : '')
-    }
+  props: {
+    ...usePanelProps,
+    ...useDarkProps
   },
 
-  methods: {
-    __renderPanels (h) {
-      return h('div', {
-        class: this.classes,
-        directives: this.panelDirectives,
-        on: { ...this.qListeners }
-      }, this.__getPanelContent(h))
+  emits: usePanelEmits,
+
+  setup (props, { slots }) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
+
+    const { updatePanelsList, getPanelContent, panelDirectives } = usePanel()
+
+    const classes = computed(() =>
+      'q-tab-panels q-panel-parent'
+      + (isDark.value === true ? ' q-tab-panels--dark q-dark' : '')
+    )
+
+    return () => {
+      updatePanelsList(slots)
+
+      return hDir(
+        'div',
+        { class: classes.value },
+        getPanelContent(),
+        'pan',
+        props.swipeable,
+        () => panelDirectives.value
+      )
     }
   }
 })

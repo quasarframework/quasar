@@ -1,10 +1,12 @@
 ---
 title: Tree
 desc: The QTree is a highly configurable Vue component which displays hierarchical data, such as a table of contents in a tree structure.
+keys: QTree
 ---
 Quasar Tree represents a highly configurable component that displays hierarchical data, such as a table of contents in a tree structure.
 
 ## QTree API
+
 <doc-api file="QTree" />
 
 ## Usage
@@ -13,7 +15,7 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 <doc-example title="Basic" file="QTree/Basic" />
 
-### No connector lines <q-badge align="top" color="brand-primary" label="v1.5.10+" />
+### No connector lines
 
 <doc-example title="No connectors" file="QTree/NoConnectors" />
 
@@ -58,14 +60,17 @@ In the example below, sibling nodes get contracted when one gets expanded.
 <doc-example title="Lazy loading nodes" file="QTree/LazyLoad" />
 
 ### Selection vs ticking, expansion
+
 * Selection (through QTree `selected` prop) refers to the currently selected node (gets highlighted with different background).
 * Ticking (through QTree `ticked` prop) refers to the checkbox associated with each node.
 * Expansion (through QTree `expanded` prop) refers to the nodes that are expanded.
 
-All properties above require to be dynamically bound using `.sync` modifier in order for them to work correctly (`v-bind:<prop_name>.sync` or `:<prop_name>.sync`).
+All properties above require to be dynamically bound using `v-model:<prop_name>` directive in order for them to work correctly (example: `v-model:expanded`).
+
 <doc-example title="Syncing node properties" file="QTree/Sync" />
 
 ### Tick strategy
+
 There are three ticking strategy: 'leaf', 'leaf-filtered', 'strict' with an additional (and default) 'none' which disables ticking.
 
 | Strategy | Description |

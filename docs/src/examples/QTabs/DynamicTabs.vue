@@ -4,7 +4,7 @@
       <q-list>
         <q-item v-for="item in allTabs" :key="item.tab.name" tag="label" dense v-ripple>
           <q-item-section side>
-            <q-checkbox :value="item.selected" @input="status => { setTabSelected(item.tab, status) }" />
+            <q-checkbox :model-value="item.selected" @update:model-value="status => { setTabSelected(item.tab, status) }" />
           </q-item-section>
 
           <q-item-section>
@@ -39,7 +39,9 @@
 </template>
 
 <script>
-const allTabs = [
+import { ref, computed } from 'vue'
+
+const tabsDefinition = [
   { name: 'mails', icon: 'mail', label: 'Mails' },
   { name: 'alarms', icon: 'alarm', label: 'Alarms' },
   { name: 'movies', icon: 'movie', label: 'Movies' },
@@ -49,32 +51,30 @@ const allTabs = [
 ]
 
 export default {
-  data () {
+  setup () {
+    const tabs = ref(tabsDefinition.slice(0, 1))
+
     return {
-      tab: 'mails',
-      tabs: allTabs.slice(0, 1)
-    }
-  },
+      tab: ref('mails'),
+      tabs,
 
-  computed: {
-    allTabs () {
-      return allTabs.map(tab => ({
-        tab,
-        selected: this.tabs.indexOf(tab) > -1
-      }))
-    }
-  },
+      allTabs: computed(() => {
+        return tabsDefinition.map(tab => ({
+          tab,
+          selected: tabs.value.indexOf(tab) > -1
+        }))
+      }),
 
-  methods: {
-    setTabSelected (tab, status) {
-      if (status === true) {
-        this.tabs.push(tab)
-      }
-      else {
-        const index = this.tabs.indexOf(tab)
+      setTabSelected (tab, status) {
+        if (status === true) {
+          tabs.value.push(tab)
+        }
+        else {
+          const index = tabs.value.indexOf(tab)
 
-        if (index > -1) {
-          this.tabs.splice(index, 1)
+          if (index > -1) {
+            tabs.value.splice(index, 1)
+          }
         }
       }
     }

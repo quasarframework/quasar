@@ -48,26 +48,12 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
             href="https://donate.quasar.dev"
             target="_blank"
             rel="noopener"
-            color="teal"
+            color="brand-primary"
             outline
             :icon="mdiHeart"
             label="Donate to Quasar"
-            padding="12px lg"
             no-wrap
-          )
-
-        .row.justify-center.q-my-md
-          q-btn.doc-layout__main-btn(
-            type="a"
-            href="https://bit.ly/3cTLXsO"
-            target="_blank"
-            color="brand-primary"
-            outline
-            :icon="mdiFileDocumentEditOutline"
-            label="Survey results are out!"
             no-caps
-            padding="12px lg"
-            no-wrap
           )
 
         app-menu.q-mb-lg
@@ -89,7 +75,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           @keydown="onSearchKeydown"
           @focus="onSearchFocus"
           @blur="onSearchBlur"
-          placeholder="Search..."
+          placeholder="Search Quasar v2..."
         )
           template(v-slot:prepend)
             q-icon(name="search")
@@ -115,6 +101,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         q-item(
           v-for="tocItem in tocList"
           :key="tocItem.id"
+          :id="'toc--'+tocItem.id"
           clickable
           v-ripple
           dense
@@ -132,226 +119,49 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 </template>
 
 <script>
-import { scroll } from 'quasar'
+import { useQuasar } from 'quasar'
+import { useRoute } from 'vue-router'
+
 import {
-  mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp,
-  mdiFileDocumentEditOutline
+  mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp
 } from '@quasar/extras/mdi-v5'
 
-import AppMenu from 'components/AppMenu'
-import HeaderMenu from 'components/HeaderMenu'
-import AppSearchResults from 'components/AppSearchResults'
+import AppMenu from 'components/AppMenu.js'
+import AppSearchResults from 'components/AppSearchResults.vue'
+import HeaderMenu from 'components/HeaderMenu.vue'
 
-import LayoutSearchMixin from './layout-search-mixin'
-
-const { setScrollPosition, getScrollPosition } = scroll
+import useToc from './doc-layout/use-toc'
+import useDrawers from './doc-layout/use-drawers'
+import useScroll from './doc-layout/use-scroll'
+import useSearch from './doc-layout/use-search'
 
 export default {
-  name: 'Layout',
-
-  mixins: [
-    LayoutSearchMixin
-  ],
-
-  created () {
-    this.preventTocUpdate = this.$route.hash.length > 1
-
-    this.mdiMenu = mdiMenu
-    this.mdiClipboardText = mdiClipboardText
-    this.mdiHeart = mdiHeart
-    this.mdiMagnify = mdiMagnify
-    this.mdiChevronUp = mdiChevronUp
-    this.mdiFileDocumentEditOutline = mdiFileDocumentEditOutline
-  },
+  name: 'DocLayout',
 
   components: {
     AppMenu,
-    HeaderMenu,
-    AppSearchResults
+    AppSearchResults,
+    HeaderMenu
   },
 
-  data () {
-    return {
-      leftDrawerState: false,
-      rightDrawerState: false,
-      rightDrawerOnLayout: false,
+  setup () {
+    const $q = useQuasar()
+    const $route = useRoute()
 
-      activeToc: this.$route.hash.length > 1
-        ? this.$route.hash.substring(1)
-        : void 0
+    const scope = {
+      mdiMenu,
+      mdiClipboardText,
+      mdiHeart,
+      mdiMagnify,
+      mdiChevronUp
     }
-  },
 
-  computed: {
-    hasRightDrawer () {
-      return this.tocList.length > 0 || this.$q.screen.lt.sm
-    },
+    useToc(scope, $route)
+    useDrawers(scope, $q, $route)
+    useScroll(scope, $route)
+    useSearch(scope, $q, $route)
 
-    showRightDrawerToggler () {
-      return this.hasRightDrawer === true &&
-        this.rightDrawerOnLayout === false
-    },
-
-    tocList () {
-      const toc = this.$root.store.toc
-      return toc.length > 0
-        ? [
-          { id: 'introduction', title: 'Introduction' },
-          ...this.$root.store.toc
-        ]
-        : toc
-    }
-  },
-
-  watch: {
-    $route (newRoute, oldRoute) {
-      this.leftDrawerState = this.$q.screen.width > 1023
-      setTimeout(() => {
-        this.scrollToCurrentAnchor(newRoute.path !== oldRoute.path)
-      })
-    },
-
-    hasRightDrawer (shown) {
-      if (shown === false) {
-        this.rightDrawerState = false
-      }
-    }
-  },
-
-  methods: {
-    toggleLeftDrawer () {
-      this.leftDrawerState = !this.leftDrawerState
-    },
-
-    toggleRightDrawer () {
-      this.rightDrawerState = !this.rightDrawerState
-    },
-
-    resetScroll (_, done) {
-      document.documentElement.scrollTop = 0
-      document.body.scrollTop = 0
-      done()
-    },
-
-    changeRouterHash (hash) {
-      if (this.$route.hash !== hash) {
-        this.$router.push({ hash }).catch(() => {})
-      }
-      else {
-        this.scrollToCurrentAnchor()
-      }
-    },
-
-    scrollTo (id) {
-      clearTimeout(this.scrollTimer)
-
-      if (this.rightDrawerOnLayout !== true) {
-        this.rightDrawerState = false
-        this.scrollTimer = setTimeout(() => {
-          this.changeRouterHash('#' + id)
-        }, 300)
-      }
-      else {
-        this.changeRouterHash('#' + id)
-      }
-    },
-
-    scrollPage (el, delay) {
-      const { top } = el.getBoundingClientRect()
-      const offset = Math.max(0, getScrollPosition(window) + top - 66)
-
-      clearTimeout(this.scrollTimer)
-
-      this.preventTocUpdate = true
-      setScrollPosition(window, offset, delay)
-
-      this.scrollTimer = setTimeout(() => {
-        this.preventTocUpdate = false
-      }, delay + 10)
-    },
-
-    updateRightDrawerOnLayout (state) {
-      this.rightDrawerOnLayout = state
-    },
-
-    onScroll ({ position }) {
-      if (
-        this.preventTocUpdate !== true &&
-        (this.rightDrawerOnLayout === true || this.rightDrawerState !== true)
-      ) {
-        this.updateActiveToc(position)
-      }
-    },
-
-    updateActiveToc (position) {
-      if (position === void 0) {
-        position = getScrollPosition(window)
-      }
-
-      const toc = this.tocList
-      let last
-
-      for (const i in toc) {
-        const section = toc[i]
-        const item = document.getElementById(section.id)
-
-        if (item === null) {
-          continue
-        }
-
-        if (item.offsetTop >= position + 155) {
-          if (last === void 0) {
-            last = section.id
-          }
-          break
-        }
-        else {
-          last = section.id
-        }
-      }
-
-      if (last !== void 0) {
-        this.activeToc = last
-      }
-    },
-
-    scrollToCurrentAnchor (immediate) {
-      const { hash } = this.$route
-      const el = hash.length > 1
-        ? document.getElementById(hash.substring(1))
-        : null
-
-      if (el !== null) {
-        if (immediate === true) {
-          let anchorEl = el
-          while (anchorEl.parentElement !== null && anchorEl.parentElement.classList.contains('q-page') !== true) {
-            anchorEl = anchorEl.parentElement
-          }
-
-          document.body.classList.add('q-scroll--lock')
-          anchorEl.classList.add('q-scroll--anchor')
-
-          setTimeout(() => {
-            document.body.classList.remove('q-scroll--lock')
-            anchorEl && anchorEl.classList.remove('q-scroll--anchor')
-          }, 2000)
-        }
-
-        this.scrollPage(el, immediate === true ? 0 : 500)
-      }
-      else {
-        this.preventTocUpdate = false
-        this.updateActiveToc()
-      }
-    }
-  },
-
-  mounted () {
-    this.scrollToCurrentAnchor(true)
-  },
-
-  beforeDestroy () {
-    clearTimeout(this.scrollTimer)
+    return scope
   }
 }
 </script>
@@ -366,12 +176,8 @@ export default {
   .header
     background-color: $grey-4
 
-.header-logo
-  width: 25px
-  height: 25px
-
 .doc-layout__main-btn
-  width: 268px
+  width: 200px
 
 .q-drawer--mobile
   .doc-toc
@@ -390,7 +196,7 @@ export default {
     padding-right: 8px
 
   &.q-item--active
-    background: scale-color($brand-primary, $lightness: 90%)
+    background: scale-color($primary, $lightness: 90%)
 
 .doc-left-drawer
   overflow: inherit !important
@@ -402,6 +208,7 @@ export default {
     width: 38px
     height: 38px
     margin-right: 8px
+    border-radius: 50%
 
   &:hover &__img
     transform: rotate(-360deg)

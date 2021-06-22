@@ -9,10 +9,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      group: [],
+      group: ref([]),
+
       options: [
         { label: 'Battery too low', value: 'bat' },
         { label: 'Friend request', value: 'friend', color: 'green' },

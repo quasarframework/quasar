@@ -1,7 +1,7 @@
 ---
 title: Mutation Directive
 desc: Vue directive that uses Mutation Observer API to watch for changes being made to the DOM tree.
-badge: "v1.3+"
+keys: mutation
 ---
 
 "Mutation" is a Quasar directive that provides the ability to watch for changes being made to the DOM tree and call a method when these are triggered.

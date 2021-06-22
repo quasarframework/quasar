@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md" style="max-width: 400px">
     <q-field
-      ref="field"
+      ref="fieldRef"
       filled
       v-model="date"
       label="Required Field"
@@ -23,19 +23,24 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      date: ''
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    resetValidation () {
-      this.$refs.field.resetValidation()
-    },
-    resetDate () {
-      this.date = ''
+export default {
+  setup () {
+    const date = ref('')
+    const fieldRef = ref(null)
+
+    return {
+      date,
+      fieldRef,
+
+      resetValidation () {
+        fieldRef.value.resetValidation()
+      },
+
+      resetDate () {
+        date.value = ''
+      }
     }
   }
 }

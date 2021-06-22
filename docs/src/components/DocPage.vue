@@ -1,12 +1,6 @@
 <template lang="pug">
 q-page.doc-page
 
-  .row.justify-end.doc-page__upgrade-banner
-    q-badge.items-center(color="grey-3" text-color="dark")
-      span Upgrade to
-      doc-link.q-mx-xs(to="https://v2.quasar.dev/start/upgrade-guide") Quasar v2
-      span and use Vue.js 3
-
   .doc-h1.row.items-start.no-wrap
     .col.doc-heading#introduction(v-if="title" @click="copyIntroductionHeading")
       span {{ title }}
@@ -88,43 +82,29 @@ q-page.doc-page
 </template>
 
 <script>
+import { useMeta } from 'quasar'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+
 import {
   fabGithub, fabTwitter, fabFacebook
 } from '@quasar/extras/fontawesome-v5'
 
 import {
   mdiBlogger, mdiForum, mdiChat, mdiCharity,
-  mdiPencil, mdiLaunch, mdiFlash,
-  mdiChevronLeft, mdiChevronRight
+  mdiPencil, mdiLaunch,
+  mdiChevronLeft, mdiChevronRight,
+  mdiFlash
 } from '@quasar/extras/mdi-v5'
 
-import getMeta from 'assets/get-meta'
 import { copyHeading } from 'assets/page-utils'
+import getMeta from 'assets/get-meta'
+import { useDocStore } from 'assets/doc-store.js'
 
 const year = (new Date()).getFullYear()
 
 export default {
   name: 'DocPage',
-
-  created () {
-    this.year = year
-
-    this.fabGithub = fabGithub
-    this.fabTwitter = fabTwitter
-    this.fabFacebook = fabFacebook
-
-    this.mdiBlogger = mdiBlogger
-    this.mdiForum = mdiForum
-    this.mdiChat = mdiChat
-    this.mdiCharity = mdiCharity
-    this.mdiPencil = mdiPencil
-    this.mdiLaunch = mdiLaunch
-    this.mdiFlash = mdiFlash
-    this.mdiChevronLeft = mdiChevronLeft
-    this.mdiChevronRight = mdiChevronRight
-
-    this.$root.store.toc = this.toc !== void 0 ? this.toc : []
-  },
 
   props: {
     title: String,
@@ -137,21 +117,42 @@ export default {
     toc: Array
   },
 
-  meta () {
-    return this.metaDesc !== void 0
-      ? { title: this.metaTitle, meta: getMeta(this.metaTitle + ' | Quasar Framework', this.metaDesc) }
-      : { title: this.metaTitle }
-  },
+  setup (props) {
+    useMeta(
+      props.metaDesc !== void 0
+        ? { title: props.metaTitle, meta: getMeta(props.metaTitle + ' | Quasar Framework', props.metaDesc) }
+        : { title: props.metaTitle }
+    )
 
-  computed: {
-    editHref () {
-      return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${this.$route.path}.md`
-    }
-  },
+    const $store = useDocStore()
+    $store.toc = props.toc !== void 0 ? props.toc : []
 
-  methods: {
-    copyIntroductionHeading () {
-      copyHeading('introduction')
+    const $route = useRoute()
+    const editHref = computed(() => {
+      return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${$route.path}.md`
+    })
+
+    return {
+      year,
+      editHref,
+
+      copyIntroductionHeading () {
+        copyHeading('introduction')
+      },
+
+      fabGithub,
+      fabTwitter,
+      fabFacebook,
+
+      mdiBlogger,
+      mdiForum,
+      mdiChat,
+      mdiCharity,
+      mdiPencil,
+      mdiLaunch,
+      mdiChevronLeft,
+      mdiChevronRight,
+      mdiFlash
     }
   }
 }
@@ -166,12 +167,6 @@ export default {
 
   > div, > pre
     margin-bottom: 22px
-
-  &__upgrade-banner
-    margin-bottom: 0 !important
-    > div
-      padding: 8px
-      border: 1px dashed $brand-primary
 
   &__top-link
     color: inherit

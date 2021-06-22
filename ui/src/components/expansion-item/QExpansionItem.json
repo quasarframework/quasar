@@ -1,13 +1,13 @@
 {
-  "mixins": [ "mixins/model-toggle", "mixins/router-link" ],
+  "mixins": [ "composables/private/use-model-toggle", "composables/private/use-router-link" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/expansion-item"
+    "docsUrl": "https://v2.quasar.dev/vue-components/expansion-item"
   },
 
   "props": {
-    "value": {
-      "desc": "Model of the component defining 'open' state; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+    "model-value": {
+      "desc": "Model of the component defining 'open' state; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "category": "model"
     },
 
@@ -21,8 +21,7 @@
 
     "expanded-icon": {
       "extends": "icon",
-      "desc": "Expand icon name (following Quasar convention) for when QExpansionItem is expanded; When used, it also disables the rotation animation of the expand icon; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.4.5"
+      "desc": "Expand icon name (following Quasar convention) for when QExpansionItem is expanded; When used, it also disables the rotation animation of the expand icon; Make sure you have the icon library installed unless you are using 'img:' prefix"
     },
 
     "expand-icon-class": {
@@ -166,13 +165,11 @@
 
   "events": {
     "after-show": {
-      "extends": "after-show",
-      "addedIn": "v1.9.0"
+      "extends": "after-show"
     },
 
     "after-hide": {
-      "extends": "after-hide",
-      "addedIn": "v1.9.0"
+      "extends": "after-hide"
     }
   }
 }

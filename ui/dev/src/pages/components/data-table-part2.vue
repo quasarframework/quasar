@@ -6,14 +6,14 @@
     <q-table
       ref="server"
       color="primary"
-      :data="serverData"
+      :rows="serverData"
       :columns="columns"
       title="Server side data"
       :filter="filter"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
       :row-key="getRowKey"
-      :pagination.sync="serverPagination"
+      v-model:pagination="serverPagination"
       @request="request"
       :loading="loading"
       flat
@@ -22,14 +22,16 @@
     >
       <template v-slot:top-right>
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-          <q-icon slot="append" name="search" />
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
         </q-input>
       </template>
     </q-table>
 
     <h4>Client-side</h4>
     <q-table
-      :data="data"
+      :rows="data"
       :columns="columns"
       title="Client side data"
       row-key="name"
@@ -40,7 +42,7 @@
     <q-table
       dark
       class="bg-black"
-      :data="data"
+      :rows="data"
       :columns="columns"
       title="Client side"
       row-key="name"
@@ -49,7 +51,7 @@
     <h4>No separator</h4>
     <q-table
       separator="none"
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
     />
@@ -57,7 +59,7 @@
     <h4>Column separator</h4>
     <q-table
       separator="vertical"
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
     />
@@ -65,14 +67,14 @@
     <h4>Cell separator</h4>
     <q-table
       separator="cell"
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
     />
 
     <h4>No top/bottom</h4>
     <q-table
-      :data="data"
+      :rows="data"
       :columns="columns"
       :filter="filter"
       :loading="loading"
@@ -84,7 +86,7 @@
 
     <h4>Custom top</h4>
     <q-table
-      :data="dataDyn"
+      :rows="dataDyn"
       :columns="columns"
       :filter="filterDyn"
       :loading="loadingDyn"
@@ -97,14 +99,16 @@
         <q-btn class="on-right" flat dense color="primary" :disable="loadingDyn" icon="refresh" label="Refresh" />
         <div class="col" />
         <q-input borderless dense debounce="300" color="primary" v-model="filterDyn">
-          <q-icon slot="append" name="search" />
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
         </q-input>
       </template>
     </q-table>
 
     <h4>Filter, Column selection</h4>
     <q-table
-      :data="data"
+      :rows="data"
       title="Filter, Column selection"
       :columns="columns"
       :filter="filter"
@@ -115,7 +119,9 @@
     >
       <template v-slot:top-right>
         <q-input borderless dense debounce="300" color="primary" class="q-mr-sm" v-model="filter">
-          <q-icon slot="append" name="search" />
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
         </q-input>
         <q-select
           v-model="visibleColumns"
@@ -160,7 +166,7 @@
 
     <h4>Custom header/body</h4>
     <q-table
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
       table-style="height: 400px"
@@ -168,32 +174,32 @@
     >
       <template v-slot:header="props">
         <q-tr :props="props">
-          <q-th rowspan="2" @click="props.sort(props.cols[0].name)" :class="props.cols[0].__thClass">
+          <th rowspan="2" @click="props.sort(props.cols[0].name)" :class="props.cols[0].__thClass">
             {{ props.cols[0].label }} <q-icon :class="props.cols[0].__iconClass" name="arrow_upward" />
-          </q-th>
-          <q-th @click="props.sort(props.cols[1].name)" :class="props.cols[1].__thClass">
+          </th>
+          <th @click="props.sort(props.cols[1].name)" :class="props.cols[1].__thClass">
             {{ props.cols[1].label }} <q-icon :class="props.cols[1].__iconClass" name="arrow_upward" />
-          </q-th>
-          <q-th @click="props.sort(props.cols[3].name)" :class="props.cols[3].__thClass">
+          </th>
+          <th @click="props.sort(props.cols[3].name)" :class="props.cols[3].__thClass">
             {{ props.cols[3].label }} <q-icon :class="props.cols[3].__iconClass" name="arrow_upward" />
-          </q-th>
-          <q-th @click="props.sort(props.cols[5].name)" :class="props.cols[5].__thClass">
+          </th>
+          <th @click="props.sort(props.cols[5].name)" :class="props.cols[5].__thClass">
             {{ props.cols[5].label }} <q-icon :class="props.cols[5].__iconClass" name="arrow_upward" />
-          </q-th>
-          <q-th rowspan="2" @click="props.sort(props.cols[7].name)" :class="props.cols[7].__thClass">
+          </th>
+          <th rowspan="2" @click="props.sort(props.cols[7].name)" :class="props.cols[7].__thClass">
             {{ props.cols[7].label }} <q-icon :class="props.cols[7].__iconClass" name="arrow_upward" />
-          </q-th>
+          </th>
         </q-tr>
         <q-tr>
-          <q-th @click="props.sort(props.cols[2].name)" :class="props.cols[2].__thClass">
+          <th @click="props.sort(props.cols[2].name)" :class="props.cols[2].__thClass">
             {{ props.cols[2].label }} <q-icon :class="props.cols[2].__iconClass" name="arrow_upward" />
-          </q-th>
-          <q-th @click="props.sort(props.cols[4].name)" :class="props.cols[4].__thClass">
+          </th>
+          <th @click="props.sort(props.cols[4].name)" :class="props.cols[4].__thClass">
             {{ props.cols[4].label }} <q-icon :class="props.cols[4].__iconClass" name="arrow_upward" />
-          </q-th>
-          <q-th @click="props.sort(props.cols[6].name)" :class="props.cols[6].__thClass">
+          </th>
+          <th @click="props.sort(props.cols[6].name)" :class="props.cols[6].__thClass">
             {{ props.cols[6].label }} <q-icon :class="props.cols[6].__iconClass" name="arrow_upward" />
-          </q-th>
+          </th>
         </q-tr>
       </template>
       <template v-slot:body="props">
@@ -232,7 +238,7 @@
 
     <h4>Extra top/bottom rows</h4>
     <q-table
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
     >
@@ -262,29 +268,29 @@
 
     <h4>Single selection</h4>
     <q-table
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
       selection="single"
-      :selected.sync="selected"
+      v-model:selected="selected"
     />
 
     <h4>Multiple selection</h4>
     <q-table
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
     />
 
     <h4>Selection actions</h4>
     <q-table
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
       color="secondary"
       title="Select some rows"
     >
@@ -298,23 +304,23 @@
 
     <h4>Dense selection</h4>
     <q-table
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
       selection="single"
       dense
-      :selected.sync="selected"
+      v-model:selected="selected"
     />
     <h4>No Data - Default</h4>
     <q-table
-      :data="[]"
+      :rows="[]"
       :columns="columns"
       title="No Data"
       row-key="name"
     />
     <h4>No Data - Label</h4>
     <q-table
-      :data="[]"
+      :rows="[]"
       :columns="columns"
       no-data-label="I didn't find anything for you"
       title="No Data"
@@ -322,7 +328,7 @@
     />
     <h4>No Data - Slot</h4>
     <q-table
-      :data="[]"
+      :rows="[]"
       :columns="columns"
       no-data-label="I didn't find anything for you"
       title="No Data"
@@ -459,7 +465,7 @@ export default {
       serverData: [],
       loading: false,
       loadingDyn: false,
-      visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
+      visibleColumns: [ 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
       selected: [],
 
       columns: [
@@ -479,8 +485,8 @@ export default {
         { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
-      data: [...data],
-      dataDyn: [...data]
+      data: [ ...data ],
+      dataDyn: [ ...data ]
     }
   },
   methods: {
@@ -489,45 +495,45 @@ export default {
     },
 
     request (props) {
-      this.loading = true
-      console.log('REQUEST', props)
-      setTimeout(() => {
-        this.serverPagination = props.pagination
+      // this.loading = true
+      // console.log('REQUEST', props)
+      // setTimeout(() => {
+      //   this.serverPagination = props.pagination
 
-        const
-          table = this.$refs.server,
-          { page, rowsPerPage, sortBy, descending } = props.pagination
-        let rows = this.data.slice()
+      //   const
+      //     table = this.$refs.server,
+      //     { page, rowsPerPage, sortBy, descending } = props.pagination
+      //   let rows = this.data.slice()
 
-        if (props.filter) {
-          console.log('filter hit')
-          rows = table.filterMethod(rows, props.filter)
-        }
+      //   if (props.filter) {
+      //     console.log('filter hit')
+      //     rows = table.computedFilterMethod(rows, props.filter)
+      //   }
 
-        if (sortBy) {
-          rows = table.sortMethod(rows, sortBy, descending)
-        }
+      //   if (sortBy) {
+      //     rows = table.computedSortMethod(rows, sortBy, descending)
+      //   }
 
-        this.serverPagination.rowsNumber = rows.length
+      //   this.serverPagination.rowsNumber = rows.length
 
-        if (rowsPerPage) {
-          rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-        }
+      //   if (rowsPerPage) {
+      //     rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
+      //   }
 
-        this.serverData = rows
-        this.loading = false
-      }, 1500)
+      //   this.serverData = rows
+      //   this.loading = false
+      // }, 1500)
     },
     moveRowUp (name) {
       const rowIndex = this.data.findIndex(t => t.name === name)
       if (rowIndex > -1 && rowIndex > 0) {
-        this.data.splice(rowIndex - 1, 0, this.data.splice(rowIndex, 1)[0])
+        this.data.splice(rowIndex - 1, 0, this.data.splice(rowIndex, 1)[ 0 ])
       }
     },
     moveRowDown (name) {
       const rowIndex = this.data.findIndex(t => t.name === name)
       if (rowIndex > -1 && rowIndex < this.data.length - 1) {
-        this.data.splice(rowIndex + 1, 0, this.data.splice(rowIndex, 1)[0])
+        this.data.splice(rowIndex + 1, 0, this.data.splice(rowIndex, 1)[ 0 ])
       }
     },
     addRow () {
@@ -535,13 +541,13 @@ export default {
       setTimeout(() => {
         const
           addPoint = Math.floor(Math.random() * (this.dataDyn.length + 1)),
-          row = data[Math.floor(Math.random() * data.length)]
+          row = data[ Math.floor(Math.random() * data.length) ]
         if (!row.__count) {
           row.__count = 0
         }
         row.__count += 1
-        const addRow = extend({}, row, { name: `${row.name} (${row.__count})` })
-        this.dataDyn = [...this.dataDyn.slice(0, addPoint), addRow, ...this.dataDyn.slice(addPoint)]
+        const addRow = extend({}, row, { name: `${ row.name } (${ row.__count })` })
+        this.dataDyn = [ ...this.dataDyn.slice(0, addPoint), addRow, ...this.dataDyn.slice(addPoint) ]
         this.loadingDyn = false
       }, 500)
     },
@@ -549,7 +555,7 @@ export default {
       this.loadingDyn = true
       setTimeout(() => {
         const removePoint = Math.floor(Math.random() * this.dataDyn.length)
-        this.dataDyn = [...this.dataDyn.slice(0, removePoint), ...this.dataDyn.slice(removePoint + 1)]
+        this.dataDyn = [ ...this.dataDyn.slice(0, removePoint), ...this.dataDyn.slice(removePoint + 1) ]
         this.loadingDyn = false
       }, 500)
     }
@@ -564,5 +570,5 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 </style>

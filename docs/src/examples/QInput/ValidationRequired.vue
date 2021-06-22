@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-input
-      ref="input"
+      ref="inputRef"
       filled
       v-model="model"
       label="Required Field"
@@ -13,16 +13,19 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      model: ''
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    reset () {
-      this.$refs.input.resetValidation()
+export default {
+  setup () {
+    const inputRef = ref(null)
+
+    return {
+      model: ref(''),
+      inputRef,
+
+      reset () {
+        inputRef.value.resetValidation()
+      }
     }
   }
 }

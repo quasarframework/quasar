@@ -82,13 +82,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      small: false,
-      medium: false,
-      fullWidth: false,
-      fullHeight: false
+      small: ref(false),
+      medium: ref(false),
+      fullWidth: ref(false),
+      fullHeight: ref(false)
     }
   }
 }

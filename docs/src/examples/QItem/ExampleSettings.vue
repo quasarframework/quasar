@@ -151,20 +151,22 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      check1: true,
-      check2: false,
-      check3: false,
+      check1: ref(true),
+      check2: ref(false),
+      check3: ref(false),
 
-      notif1: true,
-      notif2: true,
-      notif3: false,
+      notif1: ref(true),
+      notif2: ref(true),
+      notif3: ref(false),
 
-      volume: 6,
-      brightness: 3,
-      mic: 8
+      volume: ref(6),
+      brightness: ref(3),
+      mic: ref(8)
     }
   }
 }

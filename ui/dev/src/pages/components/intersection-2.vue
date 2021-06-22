@@ -38,7 +38,7 @@ export default {
       visible: true,
       once: false,
       transition: 'scale',
-      tags: ['div', 'blockquote']
+      tags: [ 'div', 'blockquote' ]
     }
   }
 }

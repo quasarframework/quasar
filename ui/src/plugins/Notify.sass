@@ -59,17 +59,14 @@ body.q-ios-padding .q-notifications__list
     opacity: 0.7
 
   &__actions
-    color: $primary
-    color: var(--q-color-primary)
+    color: var(--q-primary)
 
   &__badge
     animation: q-notif-badge .42s
     padding: 4px 8px
     position: absolute
-    background: $negative
     box-shadow: $shadow-1
-    background-color: $negative
-    background-color: var(--q-color-negative)
+    background-color: var(--q-negative)
     color: #fff
     border-radius: $generic-border-radius
     font-size: 12px
@@ -135,23 +132,23 @@ body.q-ios-padding .q-notifications__list
       &--with-media
         padding-left: 25px
 
-  &--top-left-enter, &--top-left-leave-to,
-  &--top-enter, &--top-leave-to,
-  &--top-right-enter, &--top-right-leave-to
+  &--top-left-enter-from, &--top-left-leave-to,
+  &--top-enter-from, &--top-leave-to,
+  &--top-right-enter-from, &--top-right-leave-to
     opacity: 0
     transform: translateY(-50px)
     z-index: ($z-notify - 1)
 
-  &--left-enter, &--left-leave-to,
-  &--center-enter, &--center-leave-to,
-  &--right-enter, &--right-leave-to
+  &--left-enter-from, &--left-leave-to,
+  &--center-enter-from, &--center-leave-to,
+  &--right-enter-from, &--right-leave-to
     opacity: 0
     transform: rotateX(90deg)
     z-index: ($z-notify - 1)
 
-  &--bottom-left-enter, &--bottom-left-leave-to,
-  &--bottom-enter, &--bottom-leave-to,
-  &--bottom-right-enter, &--bottom-right-leave-to
+  &--bottom-left-enter-from, &--bottom-left-leave-to,
+  &--bottom-enter-from, &--bottom-leave-to,
+  &--bottom-right-enter-from, &--bottom-right-leave-to
     opacity: 0
     transform: translateY(50px)
     z-index: ($z-notify - 1)

@@ -1,13 +1,9 @@
-import Vue from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
+import { hSlot } from '../../utils/private/render.js'
 
-import { slot } from '../../utils/slot.js'
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QItemSection',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     avatar: Boolean,
@@ -17,27 +13,16 @@ export default Vue.extend({
     noWrap: Boolean
   },
 
-  computed: {
-    classes () {
-      const side = this.avatar || this.side || this.thumbnail
+  setup (props, { slots }) {
+    const classes = computed(() =>
+      'q-item__section column'
+      + ` q-item__section--${ props.avatar === true || props.side === true || props.thumbnail === true ? 'side' : 'main' }`
+      + (props.top === true ? ' q-item__section--top justify-start' : ' justify-center')
+      + (props.avatar === true ? ' q-item__section--avatar' : '')
+      + (props.thumbnail === true ? ' q-item__section--thumbnail' : '')
+      + (props.noWrap === true ? ' q-item__section--nowrap' : '')
+    )
 
-      return {
-        'q-item__section--top': this.top,
-        'q-item__section--avatar': this.avatar,
-        'q-item__section--thumbnail': this.thumbnail,
-        'q-item__section--side': side,
-        'q-item__section--nowrap': this.noWrap,
-        'q-item__section--main': !side,
-        [`justify-${this.top ? 'start' : 'center'}`]: true
-      }
-    }
-  },
-
-  render (h) {
-    return h('div', {
-      staticClass: 'q-item__section column',
-      class: this.classes,
-      on: { ...this.qListeners }
-    }, slot(this, 'default'))
+    return () => h('div', { class: classes.value }, hSlot(slots.default))
   }
 })

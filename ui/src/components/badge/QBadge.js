@@ -1,13 +1,11 @@
-import Vue from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
+import { hSlot } from '../../utils/private/render.js'
 
-import { slot } from '../../utils/slot.js'
+const alignValues = [ 'top', 'middle', 'bottom' ]
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QBadge',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     color: String,
@@ -19,52 +17,43 @@ export default Vue.extend({
     outline: Boolean,
     rounded: Boolean,
 
-    label: [Number, String],
+    label: [ Number, String ],
 
     align: {
       type: String,
-      validator: v => ['top', 'middle', 'bottom'].includes(v)
+      validator: v => alignValues.includes(v)
     }
   },
 
-  computed: {
-    style () {
-      if (this.align !== void 0) {
-        return { verticalAlign: this.align }
-      }
-    },
+  setup (props, { slots }) {
+    const style = computed(() => {
+      return props.align !== void 0
+        ? { verticalAlign: props.align }
+        : null
+    })
 
-    classes () {
-      const text = this.outline === true
-        ? this.color || this.textColor
-        : this.textColor
+    const classes = computed(() => {
+      const text = props.outline === true
+        ? props.color || props.textColor
+        : props.textColor
 
-      return 'q-badge flex inline items-center no-wrap' +
-        ` q-badge--${this.multiLine === true ? 'multi' : 'single'}-line` +
-        (this.outline === true
+      return 'q-badge flex inline items-center no-wrap'
+        + ` q-badge--${ props.multiLine === true ? 'multi' : 'single' }-line`
+        + (props.outline === true
           ? ' q-badge--outline'
-          : (this.color !== void 0 ? ` bg-${this.color}` : '')
-        ) +
-        (text !== void 0 ? ` text-${text}` : '') +
-        (this.floating === true ? ' q-badge--floating' : '') +
-        (this.rounded === true ? ' q-badge--rounded' : '') +
-        (this.transparent === true ? ' q-badge--transparent' : '')
-    },
+          : (props.color !== void 0 ? ` bg-${ props.color }` : '')
+        )
+        + (text !== void 0 ? ` text-${ text }` : '')
+        + (props.floating === true ? ' q-badge--floating' : '')
+        + (props.rounded === true ? ' q-badge--rounded' : '')
+        + (props.transparent === true ? ' q-badge--transparent' : '')
+    })
 
-    attrs () {
-      return {
-        role: 'alert',
-        'aria-label': this.label
-      }
-    }
-  },
-
-  render (h) {
-    return h('div', {
-      style: this.style,
-      class: this.classes,
-      attrs: this.attrs,
-      on: { ...this.qListeners }
-    }, this.label !== void 0 ? [ this.label ] : slot(this, 'default'))
+    return () => h('div', {
+      class: classes.value,
+      style: style.value,
+      role: 'alert',
+      'aria-label': props.label
+    }, props.label !== void 0 ? props.label : hSlot(slots.default))
   }
 })

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/quasar-plugins/app-fullscreen"
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/app-fullscreen"
   },
 
   "injection": "$q.fullscreen",
@@ -19,8 +19,7 @@
     "activeEl": {
       "type": "Object",
       "desc": "The DOM element used as root for fullscreen, otherwise 'null'",
-      "__exemption": [ "examples" ],
-      "addedIn": "v1.12.5"
+      "__exemption": [ "examples" ]
     }
   },
 

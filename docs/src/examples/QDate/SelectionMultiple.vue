@@ -9,10 +9,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      days: [ '2019/02/01', '2019/02/10' ]
+      days: ref([ '2019/02/01', '2019/02/10' ])
     }
   }
 }

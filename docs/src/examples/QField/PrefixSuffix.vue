@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
-      <q-field filled :value="email" suffix="@gmail.com">
+      <q-field filled :model-value="email" suffix="@gmail.com">
         <template v-slot:before>
           <q-icon name="mail" />
         </template>
@@ -11,7 +11,7 @@
         </template>
       </q-field>
 
-      <q-field outlined :value="number" prefix="$">
+      <q-field outlined :model-value="number" prefix="$">
         <template v-slot:control>
           <div class="self-center full-width no-outline" tabindex="0">{{number}}</div>
         </template>
@@ -23,7 +23,7 @@
         </template>
       </q-field>
 
-      <q-field standout :value="email" prefix="Email:" suffix="@gmail.com">
+      <q-field standout :model-value="email" prefix="Email:" suffix="@gmail.com">
         <template v-slot:prepend>
           <q-icon name="mail" />
         </template>
@@ -37,11 +37,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      email: 'john.doe',
-      number: 123
+      email: ref('john.doe'),
+      number: ref(123)
     }
   }
 }

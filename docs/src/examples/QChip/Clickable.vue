@@ -18,9 +18,11 @@
 
 <script>
 export default {
-  methods: {
-    onClick () {
-      // console.log('Clicked on a QChip')
+  setup () {
+    return {
+      onClick () {
+        // console.log('Clicked on a QChip')
+      }
     }
   }
 }

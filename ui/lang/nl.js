@@ -29,16 +29,14 @@ export default {
     noData: 'Geen gegevens beschikbaar',
     noResults: 'Geen records gevonden',
     loading: 'Laden...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 record geselecteerd.'
         : (rows === 0 ? 'Geen' : rows) + ' geselecteerde records.'
-    },
+    ),
     recordsPerPage: 'Records per pagina:',
     allRows: 'Alle',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' van ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' van ' + total,
     columns: 'Kolommen'
   },
   editor: {
