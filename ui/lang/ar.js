@@ -14,7 +14,7 @@ export default {
     update: 'تحديث',
     create: 'إنشاء',
     search: 'بحث',
-    filter: 'تنقية',
+    filter: 'تصفية',
     refresh: 'تحديث'
   },
   date: {
