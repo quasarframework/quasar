@@ -281,16 +281,7 @@ export const client = __QUASAR_SSR_SERVER__
       userAgent,
       is: getPlatform(userAgent),
       has: {
-        touch: hasTouch,
-        webStorage: (() => {
-          try {
-            if (window.localStorage) {
-              return true
-            }
-          }
-          catch (e) {}
-          return false
-        })()
+        touch: hasTouch
       },
       within: {
         iframe: window.self !== window.top
@@ -335,6 +326,29 @@ if (__QUASAR_SSR_SERVER__) {
   }
 }
 else {
+  // do not access window.localStorage without
+  // devland actually using it as this will get
+  // reported under "Cookies" in Google Chrome
+  let hasWebStorage
+  Object.defineProperty(client.has, 'webStorage', {
+    get: () => {
+      if (hasWebStorage !== void 0) {
+        return hasWebStorage
+      }
+
+      try {
+        if (window.localStorage) {
+          hasWebStorage = true
+          return true
+        }
+      }
+      catch (e) {}
+
+      hasWebStorage = false
+      return false
+    }
+  })
+
   iosEmulated = client.is.ios === true
     && window.navigator.vendor.toLowerCase().indexOf('apple') === -1
 
