@@ -9,7 +9,7 @@ export default function ({ validate, resetValidation, requiresQForm }) {
     const { props, proxy } = getCurrentInstance()
 
     // export public method (so it can be used in QForm)
-    Object.assign(proxy, validate)
+    Object.assign(proxy, { validate })
 
     watch(() => props.disable, val => {
       if (val === true) {
