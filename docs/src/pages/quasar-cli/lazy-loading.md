@@ -49,9 +49,10 @@ export default {
 Now let's change this and make the component be loaded on demand only, using dynamic imports:
 ```html
 <script>
+import { defineAsyncComponent } from 'vue'
 export default {
   components: {
-    SomeComponent: () => import('components/SomeComponent'),
+    SomeComponent: defineAsyncComponent(() => import('components/SomeComponent')),
   }
 }
 </script>
