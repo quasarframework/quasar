@@ -125,7 +125,7 @@ export default Vue.extend({
         return
       }
 
-      this.index++ // TODO: in case direction === both index should be index range [number, number]?
+      this.index++ // in case direction === both, should index be index-range [number, number]?
       this[isTop ? 'fetchingTop' : 'fetchingBottom'] = true
 
       const heightBefore = getScrollHeight(this.__scrollTarget)
@@ -155,7 +155,7 @@ export default Vue.extend({
     },
 
     reset () {
-      this.index = 0 // TODO: do what with this?
+      this.index = 0
     },
 
     resume () {
