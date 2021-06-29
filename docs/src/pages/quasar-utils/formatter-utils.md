@@ -47,7 +47,7 @@ import { format } from 'quasar'
 const { humanStorageSize } = format
 
 console.log( humanStorageSize(13087) )
-// 12.78 kB
+// 12.8 KiB
 ```
 
 ## Normalize Number to Interval
