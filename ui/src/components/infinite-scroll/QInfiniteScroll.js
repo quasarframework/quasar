@@ -77,7 +77,7 @@ export default Vue.extend({
         this.stop()
       }
       else if (val && this.disable !== true) {
-        this.resume()
+        this.$nextTick(() => this.resume())
       }
     }
   },
