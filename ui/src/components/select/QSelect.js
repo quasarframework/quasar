@@ -1449,15 +1449,13 @@ export default defineComponent({
           })
         },
         onClick (e) {
-          if (hasDialog !== true) {
-            // label from QField will propagate click on the input (except IE)
-            prevent(e)
+          // label from QField will propagate click on the input
+          prevent(e)
 
-            if (menu.value === true) {
-              closeMenu()
-              targetRef.value !== null && targetRef.value.focus()
-              return
-            }
+          if (hasDialog !== true && menu.value === true) {
+            closeMenu()
+            targetRef.value !== null && targetRef.value.focus()
+            return
           }
 
           showPopup(e)
