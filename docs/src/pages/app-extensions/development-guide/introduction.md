@@ -125,11 +125,13 @@ Additionally, if you would like to have HMR (hot module reload) capabilities in 
 devServer: {
   // be sure to change <myextid> below to
   // your App Extension name:
-  watchFiles: '/node_modules/quasar-app-extension-<myextid>/*'
+  watchFiles: [
+    '/node_modules/quasar-app-extension-<myextid>/*'
+  ]
 }
 ```
 
-And you have to extend the Webpack config, assuming you are using the [`chainWebpack`](/quasar-cli/handling-webpack#usage-with-quasar-conf-js) method, your `quasar.conf.js > build > chainWebpack` should look like this:
+And you might want to to extend the Webpack config. Assuming you are using the [`chainWebpack`](/quasar-cli/handling-webpack#usage-with-quasar-conf-js) method, your `quasar.conf.js > build > chainWebpack` should look like this:
 
 ```js
 chainWebpack (chain) {
