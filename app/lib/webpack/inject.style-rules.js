@@ -96,16 +96,18 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
         .loader('postcss-loader')
         .options({
           sourceMap: pref.sourceMap,
-          plugins: [
-            require('cssnano')({
-              preset: [ 'default', {
-                mergeLonghand: false,
-                convertValues: false,
-                cssDeclarationSorter: false,
-                reduceTransforms: false
-              } ]
-            })
-          ]
+          postcssOptions: {
+            plugins: [
+              require('cssnano')({
+                preset: [ 'default', {
+                  mergeLonghand: false,
+                  convertValues: false,
+                  cssDeclarationSorter: false,
+                  reduceTransforms: false
+                } ]
+              })
+            ]
+          }
         })
     }
 
