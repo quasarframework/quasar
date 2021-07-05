@@ -97,6 +97,10 @@ export default Vue.extend({
       return this.type === 'textarea' || this.autogrow === true
     },
 
+    isTypeText () {
+      return this.isTextarea === true || ['text', 'search', 'url', 'tel', 'password'].includes(this.type)
+    },
+
     fieldClass () {
       return `q-${this.isTextarea === true ? 'textarea' : 'input'}` +
         (this.autogrow === true ? ' q-textarea--autogrow' : '')
@@ -208,7 +212,7 @@ export default Vue.extend({
       else {
         this.__emitValue(val)
 
-        if (['text', 'search', 'url', 'tel', 'password'].includes(this.type) && e.target === document.activeElement) {
+        if (this.isTypeText === true && e.target === document.activeElement) {
           const { selectionStart, selectionEnd } = e.target
 
           if (selectionStart !== void 0 && selectionEnd !== void 0) {

@@ -111,7 +111,7 @@ export default {
     __updateMaskInternals () {
       this.hasMask = this.mask !== void 0 &&
         this.mask.length > 0 &&
-        ['text', 'search', 'url', 'tel', 'password'].includes(this.type)
+        this.isTypeText === true
 
       if (this.hasMask === false) {
         this.computedUnmask = void 0
