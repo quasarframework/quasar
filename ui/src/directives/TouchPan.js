@@ -158,7 +158,6 @@ export default __QUASAR_SSR_SERVER__
           },
 
           touchStart (evt) {
-            console.log('touchStart')
             if (shouldStart(evt, ctx)) {
               const target = evt.target
 
