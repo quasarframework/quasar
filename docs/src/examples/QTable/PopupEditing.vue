@@ -9,7 +9,7 @@
     >
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="desc" :props="props">
+          <q-td key="name" :props="props">
             {{ props.row.name }}
             <q-popup-edit v-model="props.row.name">
               <q-input v-model="props.row.name" dense autofocus counter />
