@@ -224,7 +224,7 @@ export default defineComponent({
 
         const target = anchorEl.value
         const evts = [ 'touchmove', 'touchcancel', 'touchend', 'click' ]
-          .map(e => ([ target, e, '__delayHide', 'passiveCapture' ]))
+          .map(e => ([ target, e, 'delayHide', 'passiveCapture' ]))
 
         addEvt(anchorEvents, 'tooltipTemp', evts)
       }

@@ -22,13 +22,6 @@ import { date } from 'quasar'
 import PackageReleases from './PackageReleases'
 
 const { extractDate } = date
-const packagesDefinitions = {
-  quasar: [],
-  '@quasar/app': [],
-  '@quasar/cli': [],
-  '@quasar/extras': [],
-  '@quasar/icongenie': []
-}
 
 export default {
   name: 'QuasarReleases',
@@ -38,6 +31,13 @@ export default {
   },
 
   setup () {
+    const packagesDefinitions = {
+      quasar: [],
+      '@quasar/app': [],
+      '@quasar/cli': [],
+      '@quasar/extras': [],
+      '@quasar/icongenie': []
+    }
     const loading = ref(false)
     const error = ref(false)
     const packages = ref(packagesDefinitions)

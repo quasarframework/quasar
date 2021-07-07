@@ -45,7 +45,7 @@ export default {
     const options = ref(stringOptions)
 
     return {
-      model: null,
+      model: ref(null),
       stringOptions,
       options,
 
