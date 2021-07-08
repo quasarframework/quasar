@@ -182,10 +182,10 @@ Or with a [boot file](/quasar-cli/boot-files):
 // For Quasar CLI
 // Do NOT run this boot file for SSR mode
 
-import { setCssProperty } from 'quasar'
+import { setCssVar } from 'quasar'
 
 export default () => {
-  setCssProperty('primary', '#ff0000')
+  setCssVar('primary', '#ff0000')
 }
 ```
 
