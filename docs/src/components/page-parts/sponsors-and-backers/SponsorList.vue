@@ -14,6 +14,7 @@ q-intersection(once)
     sponsor(img="dreamonkey.png" name="Dreamonkey" url="https://dreamonkey.com/")
     sponsor(img="ib-langenthal.svg" name="IB Langenthal AG" url="https://ib-langenthal.ch/")
     sponsor(img="debricked.png" name="Debricked AB" url="https://debricked.com/")
+    sponsor(img="qintil.png" name="Qintil Technology Ltd" url="https://qintil.com/")
 </template>
 
 <script>
