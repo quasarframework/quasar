@@ -10,7 +10,7 @@ related:
 QFile is a component which handles the user interaction for picking file(s).
 
 :::tip
-If you also want a component to also handle the upload for you, please consider using [QUploader](/vue-components/uploader) instead.
+If you also want a component to handle the upload for you, please consider using [QUploader](/vue-components/uploader) instead.
 :::
 
 ## QFile API

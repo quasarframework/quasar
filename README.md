@@ -98,6 +98,15 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
         </a>
       </td>
     </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://ib-langenthal.ch/" target="_blank">
+          <img width="222px" height="52px" src="https://cdn.quasar.dev/sponsors/qintil.png">
+        </a>
+      </td>
+      <td align="center" valign="middle"></td>
+    </tr>
   </tbody>
 </table>
 
