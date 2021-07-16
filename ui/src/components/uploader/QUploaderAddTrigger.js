@@ -1,17 +1,13 @@
-import Vue from 'vue'
+import { defineComponent, inject } from 'vue'
 
-export default Vue.extend({
+import { uploaderKey } from '../../utils/private/symbols.js'
+
+export default defineComponent({
   name: 'QUploaderAddTrigger',
 
-  inject: {
-    __qUploaderGetInput: {
-      default () {
-        console.error('QUploaderAddTrigger needs to be child of QUploader')
-      }
-    }
-  },
-
-  render (h) {
-    return this.__qUploaderGetInput(h)
+  setup () {
+    return inject(uploaderKey, () => {
+      console.error('QUploaderAddTrigger needs to be child of QUploader')
+    })
   }
 })

@@ -14,7 +14,7 @@ Accessing `process.env` can help you in many ways:
 | --- | --- | --- |
 | `process.env.DEV` | Boolean | Code runs in development mode |
 | `process.env.PROD` | Boolean | Code runs in production mode |
-| `process.env.DEBUGGING` | Boolean | (**@quasar/app v2.1.3+**) Code runs in development mode or `--debug` flag was set for production mode |
+| `process.env.DEBUGGING` | Boolean | Code runs in development mode or `--debug` flag was set for production mode |
 | `process.env.CLIENT` | Boolean | Code runs on client (not on server) |
 | `process.env.SERVER` | Boolean | Code runs on server (not on client) |
 | `process.env.MODE` | String | Quasar CLI mode (`spa`, `pwa`, ...) |
@@ -31,8 +31,8 @@ if (process.env.DEV) {
 // "quasar dev/build -m <mode>"
 // (defaults to 'spa' if -m parameter is not specified)
 if (process.env.MODE === 'electron') {
-  const { remote } = require('electron')
-  const win = remote.BrowserWindow.getFocusedWindow()
+  const { BrowserWindow } = require('@electron/remote')
+  const win = BrowserWindow.getFocusedWindow()
 
   if (win.isMaximized()) {
     win.unmaximize()
@@ -77,18 +77,30 @@ if (process.env.MODE === 'electron') {
 }
 ```
 
-## Adding to process.env <q-badge align="top" color="brand-primary" label="@quasar/app v2 specs" />
+## Adding to process.env
 
-You can add your own definitions to `process.env` through `/quasar.conf.js` file:
+You can add your own definitions to `process.env` through `/quasar.conf.js` file.
+
+But first, there's two concepts that need to be understood here. The env variables from the terminal that are available in `/quasar.conf.js` file itself and the environment variables that you pass to your UI code.
 
 ```js
 // quasar.conf.js
 
-build: {
-  env: {
-    API: ctx.dev
-      ? 'https://dev.api.com'
-      : 'https://prod.api.com'
+// Accessing terminal variables
+console.log(process.env)
+
+module.exports = function (ctx) {
+  return {
+    // ...
+
+    build: {
+      // passing down to UI code from quasar.conf.js
+      env: {
+        API: ctx.dev
+          ? 'https://dev.api.com'
+          : 'https://prod.api.com'
+      }
+    }
   }
 }
 ```
@@ -111,4 +123,20 @@ build: {
 }
 ```
 
+#### Using dotenv
 
+Should you wish to use `.env` file(s), you can even use [dotenv](https://www.npmjs.com/package/dotenv) package. The following is just an example that passes env variables from the terminal right down to your UI's app code:
+
+```bash
+$ yarn add --dev dotenv
+```
+
+Then in your `/quasar.conf.js`:
+
+```
+build: {
+  env: require('dotenv').config().parsed
+}
+```
+
+Be sure to read the [dotenv documentation](https://www.npmjs.com/package/dotenv) and create the necessary .env files in the root of your Quasar CLI project.

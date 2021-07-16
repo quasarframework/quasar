@@ -31,11 +31,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model1: '01:51 PM',
-      model2: '08*22**10'
+      model1: ref('01:51 PM'),
+      model2: ref('08*22**10')
     }
   }
 }

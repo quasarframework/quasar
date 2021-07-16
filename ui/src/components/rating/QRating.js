@@ -1,39 +1,37 @@
-import Vue from 'vue'
+import { h, defineComponent, ref, computed, onBeforeUpdate, getCurrentInstance } from 'vue'
+
+import QIcon from '../icon/QIcon.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
-import QIcon from '../icon/QIcon.js'
 
-import SizeMixin from '../../mixins/size.js'
-import FormMixin from '../../mixins/form.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useSize, { useSizeProps } from '../../composables/private/use-size.js'
+import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 
-import cache from '../../utils/cache.js'
-import { slot } from '../../utils/slot.js'
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QRating',
 
-  mixins: [ SizeMixin, FormMixin, ListenersMixin ],
-
   props: {
-    value: {
+    ...useSizeProps,
+    ...useFormProps,
+
+    modelValue: {
       type: Number,
       required: true
     },
 
     max: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 5
     },
 
-    icon: [String, Array],
-    iconHalf: [String, Array],
-    iconSelected: [String, Array],
+    icon: [ String, Array ],
+    iconHalf: [ String, Array ],
+    iconSelected: [ String, Array ],
 
-    color: [String, Array],
-    colorHalf: [String, Array],
-    colorSelected: [String, Array],
+    color: [ String, Array ],
+    colorHalf: [ String, Array ],
+    colorSelected: [ String, Array ],
 
     noReset: Boolean,
     noDimming: Boolean,
@@ -42,165 +40,177 @@ export default Vue.extend({
     disable: Boolean
   },
 
-  data () {
-    return {
-      mouseModel: 0
-    }
-  },
+  emits: [ 'update:modelValue' ],
 
-  computed: {
-    editable () {
-      return this.readonly !== true && this.disable !== true
-    },
+  setup (props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance()
 
-    classes () {
-      return `q-rating--${this.editable === true ? '' : 'non-'}editable` +
-        (this.noDimming === true ? ' q-rating--no-dimming' : '') +
-        (this.disable === true ? ' disabled' : '') +
-        (this.color !== void 0 && Array.isArray(this.color) === false ? ` text-${this.color}` : '')
-    },
+    const sizeStyle = useSize(props)
+    const formAttrs = useFormAttrs(props)
+    const injectFormInput = useFormInject(formAttrs)
 
-    iconData () {
+    const mouseModel = ref(0)
+
+    let iconRefs = {}
+
+    const editable = computed(() =>
+      props.readonly !== true && props.disable !== true
+    )
+
+    const classes = computed(() =>
+      'q-rating row inline items-center'
+      + ` q-rating--${ editable.value === true ? '' : 'non-' }editable`
+      + (props.noDimming === true ? ' q-rating--no-dimming' : '')
+      + (props.disable === true ? ' disabled' : '')
+      + (
+        props.color !== void 0 && Array.isArray(props.color) === false
+          ? ` text-${ props.color }`
+          : ''
+      )
+    )
+
+    const iconData = computed(() => {
       const
-        iconLen = Array.isArray(this.icon) === true ? this.icon.length : 0,
-        selIconLen = Array.isArray(this.iconSelected) === true ? this.iconSelected.length : 0,
-        halfIconLen = Array.isArray(this.iconHalf) === true ? this.iconHalf.length : 0,
-        colorLen = Array.isArray(this.color) === true ? this.color.length : 0,
-        selColorLen = Array.isArray(this.colorSelected) === true ? this.colorSelected.length : 0,
-        halfColorLen = Array.isArray(this.colorHalf) === true ? this.colorHalf.length : 0
+        iconLen = Array.isArray(props.icon) === true ? props.icon.length : 0,
+        selIconLen = Array.isArray(props.iconSelected) === true ? props.iconSelected.length : 0,
+        halfIconLen = Array.isArray(props.iconHalf) === true ? props.iconHalf.length : 0,
+        colorLen = Array.isArray(props.color) === true ? props.color.length : 0,
+        selColorLen = Array.isArray(props.colorSelected) === true ? props.colorSelected.length : 0,
+        halfColorLen = Array.isArray(props.colorHalf) === true ? props.colorHalf.length : 0
 
       return {
         iconLen,
-        icon: iconLen > 0 ? this.icon[iconLen - 1] : this.icon,
+        icon: iconLen > 0 ? props.icon[ iconLen - 1 ] : props.icon,
         selIconLen,
-        selIcon: selIconLen > 0 ? this.iconSelected[selIconLen - 1] : this.iconSelected,
+        selIcon: selIconLen > 0 ? props.iconSelected[ selIconLen - 1 ] : props.iconSelected,
         halfIconLen,
-        halfIcon: halfIconLen > 0 ? this.iconHalf[selIconLen - 1] : this.iconHalf,
+        halfIcon: halfIconLen > 0 ? props.iconHalf[ selIconLen - 1 ] : props.iconHalf,
         colorLen,
-        color: colorLen > 0 ? this.color[colorLen - 1] : this.color,
+        color: colorLen > 0 ? props.color[ colorLen - 1 ] : props.color,
         selColorLen,
-        selColor: selColorLen > 0 ? this.colorSelected[selColorLen - 1] : this.colorSelected,
+        selColor: selColorLen > 0 ? props.colorSelected[ selColorLen - 1 ] : props.colorSelected,
         halfColorLen,
-        halfColor: halfColorLen > 0 ? this.colorHalf[halfColorLen - 1] : this.colorHalf
+        halfColor: halfColorLen > 0 ? props.colorHalf[ halfColorLen - 1 ] : props.colorHalf
       }
-    },
+    })
 
-    attrs () {
-      if (this.disable === true) {
+    const attributes = computed(() => {
+      if (props.disable === true) {
         return { 'aria-disabled': 'true' }
       }
-      if (this.readonly === true) {
+      if (props.readonly === true) {
         return { 'aria-readonly': 'true' }
       }
-    }
-  },
+    })
 
-  methods: {
-    __set (value) {
-      if (this.editable === true) {
+    function set (value) {
+      if (editable.value === true) {
         const
-          model = between(parseInt(value, 10), 1, parseInt(this.max, 10)),
-          newVal = this.noReset !== true && this.value === model ? 0 : model
+          model = between(parseInt(value, 10), 1, parseInt(props.max, 10)),
+          newVal = props.noReset !== true && props.modelValue === model ? 0 : model
 
-        newVal !== this.value && this.$emit('input', newVal)
-        this.mouseModel = 0
+        newVal !== props.modelValue && emit('update:modelValue', newVal)
+        mouseModel.value = 0
       }
-    },
+    }
 
-    __setHoverValue (value) {
-      if (this.editable === true) {
-        this.mouseModel = value
+    function setHoverValue (value) {
+      if (editable.value === true) {
+        mouseModel.value = value
       }
-    },
+    }
 
-    __keyup (e, i) {
+    function onKeyup (e, i) {
       switch (e.keyCode) {
         case 13:
         case 32:
-          this.__set(i)
+          set(i)
           return stopAndPrevent(e)
         case 37: // LEFT ARROW
         case 40: // DOWN ARROW
-          if (this.$refs[`rt${i - 1}`]) {
-            this.$refs[`rt${i - 1}`].focus()
+          if (iconRefs[ `rt${ i - 1 }` ]) {
+            iconRefs[ `rt${ i - 1 }` ].$el.focus()
           }
           return stopAndPrevent(e)
         case 39: // RIGHT ARROW
         case 38: // UP ARROW
-          if (this.$refs[`rt${i + 1}`]) {
-            this.$refs[`rt${i + 1}`].focus()
+          if (iconRefs[ `rt${ i + 1 }` ]) {
+            iconRefs[ `rt${ i + 1 }` ].$el.focus()
           }
           return stopAndPrevent(e)
       }
     }
-  },
 
-  render (h) {
-    const
-      child = [],
-      tabindex = this.editable === true ? 0 : null,
-      icons = this.iconData,
-      ceil = Math.ceil(this.value)
+    function resetMouseModel () {
+      mouseModel.value = 0
+    }
 
-    const halfIndex = this.iconHalf === void 0 || ceil === this.value
-      ? -1
-      : ceil
+    onBeforeUpdate(() => {
+      iconRefs = {}
+    })
 
-    for (let i = 1; i <= this.max; i++) {
+    return () => {
       const
-        active = (this.mouseModel === 0 && this.value >= i) || (this.mouseModel > 0 && this.mouseModel >= i),
-        half = halfIndex === i && this.mouseModel < i,
-        exSelected = this.mouseModel > 0 && (half === true ? ceil : this.value) >= i && this.mouseModel < i,
-        name = half === true
-          ? (i <= icons.halfIconLen ? this.iconHalf[i - 1] : icons.halfIcon)
-          : (
-            icons.selIcon !== void 0 && (active === true || exSelected === true)
-              ? (i <= icons.selIconLen ? this.iconSelected[i - 1] : icons.selIcon)
-              : (i <= icons.iconLen ? this.icon[i - 1] : icons.icon)
-          ),
-        color = half === true
-          ? (i <= icons.halfColorLen ? this.colorHalf[i - 1] : icons.halfColor)
-          : (
-            icons.selColor !== void 0 && active === true
-              ? (i <= icons.selColorLen ? this.colorSelected[i - 1] : icons.selColor)
-              : (i <= icons.colorLen ? this.color[i - 1] : icons.color)
-          )
+        child = [],
+        tabindex = editable.value === true ? 0 : null,
+        icons = iconData.value,
+        ceil = Math.ceil(props.modelValue)
 
-      child.push(
-        h(QIcon, {
-          key: i,
-          ref: `rt${i}`,
-          staticClass: 'q-rating__icon',
-          class: {
-            'q-rating__icon--active': active === true || half === true,
-            'q-rating__icon--exselected': exSelected,
-            'q-rating__icon--hovered': this.mouseModel === i,
-            [`text-${color}`]: color !== void 0
-          },
-          props: { name: name || this.$q.iconSet.rating.icon },
-          attrs: { tabindex },
-          on: cache(this, 'i#' + i, {
-            click: () => { this.__set(i) },
-            mouseover: () => { this.__setHoverValue(i) },
-            mouseout: () => { this.mouseModel = 0 },
-            focus: () => { this.__setHoverValue(i) },
-            blur: () => { this.mouseModel = 0 },
-            keyup: e => { this.__keyup(e, i) }
-          })
-        }, slot(this, `tip-${i}`))
-      )
+      const halfIndex = props.iconHalf === void 0 || ceil === props.modelValue
+        ? -1
+        : ceil
+
+      for (let i = 1; i <= props.max; i++) {
+        const
+          active = (mouseModel.value === 0 && props.modelValue >= i) || (mouseModel.value > 0 && mouseModel.value >= i),
+          half = halfIndex === i && mouseModel.value < i,
+          exSelected = mouseModel.value > 0 && (half === true ? ceil : props.modelValue) >= i && mouseModel.value < i,
+          name = half === true
+            ? (i <= icons.halfIconLen ? props.iconHalf[ i - 1 ] : icons.halfIcon)
+            : (
+                icons.selIcon !== void 0 && (active === true || exSelected === true)
+                  ? (i <= icons.selIconLen ? props.iconSelected[ i - 1 ] : icons.selIcon)
+                  : (i <= icons.iconLen ? props.icon[ i - 1 ] : icons.icon)
+              ),
+          color = half === true
+            ? (i <= icons.halfColorLen ? props.colorHalf[ i - 1 ] : icons.halfColor)
+            : (
+                icons.selColor !== void 0 && active === true
+                  ? (i <= icons.selColorLen ? props.colorSelected[ i - 1 ] : icons.selColor)
+                  : (i <= icons.colorLen ? props.color[ i - 1 ] : icons.color)
+              ),
+          classes = 'q-rating__icon'
+            + (active === true || half === true ? ' q-rating__icon--active' : '')
+            + (exSelected === true ? ' q-rating__icon--exselected' : '')
+            + (mouseModel.value === i ? ' q-rating__icon--hovered' : '')
+            + (color !== void 0 ? ` text-${ color }` : '')
+
+        child.push(
+          h(QIcon, {
+            key: i,
+            ref: vm => { iconRefs[ `rt${ i }` ] = vm },
+            class: classes,
+            name: name || $q.iconSet.rating.icon,
+            tabindex,
+            onClick () { set(i) },
+            onMouseover () { setHoverValue(i) },
+            onMouseout: resetMouseModel,
+            onFocus () { setHoverValue(i) },
+            onBlur: resetMouseModel,
+            onKeyup (e) { onKeyup(e, i) }
+          }, slots[ `tip-${ i }` ])
+        )
+      }
+
+      if (props.name !== void 0 && props.disable !== true) {
+        injectFormInput(child, 'push')
+      }
+
+      return h('div', {
+        class: classes.value,
+        style: sizeStyle.value,
+        ...attributes.value
+      }, child)
     }
-
-    if (this.name !== void 0 && this.disable !== true) {
-      this.__injectFormInput(child, 'push')
-    }
-
-    return h('div', {
-      staticClass: 'q-rating row inline items-center',
-      class: this.classes,
-      style: this.sizeStyle,
-      attrs: this.attrs,
-      on: { ...this.qListeners }
-    }, child)
   }
 })

@@ -1,0 +1,51 @@
+{
+  "props": {
+    "model-value": {
+      "type": "Boolean",
+      "desc": "Model of the component defining shown/hidden state; Either use this property (along with a listener for 'update:model-value' event) OR use v-model directive",
+      "category": "model"
+    }
+  },
+
+  "events": {
+    "update:model-value": {
+      "desc": "Emitted when showing/hidden state changes; Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "desc": "New state (showing/hidden)"
+        }
+      }
+    },
+
+    "show": {
+      "extends": "show"
+    },
+
+    "before-show": {
+      "extends": "before-show"
+    },
+
+    "hide": {
+      "extends": "hide"
+    },
+
+    "before-hide": {
+      "extends": "before-hide"
+    }
+  },
+
+  "methods": {
+    "show": {
+      "extends": "show"
+    },
+
+    "hide": {
+      "extends": "hide"
+    },
+
+    "toggle": {
+      "extends": "toggle"
+    }
+  }
+}

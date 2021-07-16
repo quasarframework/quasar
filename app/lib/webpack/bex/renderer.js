@@ -3,8 +3,11 @@ const fse = require('fs-extra')
 
 const appPaths = require('../../app-paths')
 const artifacts = require('../../artifacts')
+const injectHtml = require('../inject.html')
 
 module.exports = function (chain, cfg) {
+  injectHtml(chain, cfg)
+
   const rootPath = cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir
   const outputPath = path.join(rootPath, 'www')
 
@@ -25,10 +28,6 @@ module.exports = function (chain, cfg) {
   chain.output
     .path(outputPath) // Output to our src-bex/www folder or dist/bex/unpacked/www.
 
-  // Bundle our bex files for inclusion via the manifest.json
-  chain.entry('bex-init')
-    .add(appPaths.resolve.app('.quasar/bex/init/index.js'))
-
   // We shouldn't minify BEX code. This option is disabled by default for BEX mode in quasar-conf.js.
   // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/Source_Code_Submission#Provide_your_extension_source_code
   chain.optimization.minimize(cfg.build.minify)
@@ -36,12 +35,6 @@ module.exports = function (chain, cfg) {
   if (cfg.ctx.dev) {
     // Clean old dir
     artifacts.clean(outputPath)
-
-    // Extensions need to be manually added to the browser
-    // so we need the dev files available for them to be targeted.
-    const WriteFilePlugin = require('write-file-webpack-plugin')
-    chain.plugin('write-file-webpack-plugin')
-      .use(WriteFilePlugin)
   }
   else {
     // We need this bundled in with the rest of the source to match the manifest instructions.

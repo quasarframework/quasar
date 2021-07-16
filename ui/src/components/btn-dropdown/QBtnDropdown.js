@@ -1,26 +1,22 @@
-import Vue from 'vue'
-
-import BtnMixin from '../../mixins/btn.js'
-import AttrsMixin from '../../mixins/attrs.js'
+import { h, defineComponent, ref, computed, watch, onMounted, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
-import { slot } from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
-import cache from '../../utils/cache.js'
+import { useBtnProps } from '../btn/use-btn.js'
 
-export default Vue.extend({
+import { stop } from '../../utils/event.js'
+import { hSlot } from '../../utils/private/render.js'
+
+export default defineComponent({
   name: 'QBtnDropdown',
 
-  mixins: [ BtnMixin, AttrsMixin ],
-
-  inheritAttrs: false,
-
   props: {
-    value: Boolean,
+    ...useBtnProps,
+
+    modelValue: Boolean,
     split: Boolean,
     dropdownIcon: String,
 
@@ -48,173 +44,171 @@ export default Vue.extend({
     noIconAnimation: Boolean
   },
 
-  data () {
-    return {
-      showing: this.value
-    }
-  },
+  emits: [ 'update:modelValue', 'click', 'before-show', 'show', 'before-hide', 'hide' ],
 
-  watch: {
-    value (val) {
-      this.$refs.menu !== void 0 && this.$refs.menu[val ? 'show' : 'hide']()
-    },
+  setup (props, { slots, emit }) {
+    const { proxy } = getCurrentInstance()
 
-    split () {
-      this.hide()
-    }
-  },
+    const showing = ref(props.modelValue)
+    const menuRef = ref(null)
 
-  render (h) {
-    const label = slot(this, 'label', [])
-    const attrs = {
-      'aria-expanded': this.showing === true ? 'true' : 'false',
-      'aria-haspopup': 'true'
-    }
+    const attributes = computed(() => {
+      const acc = {
+        'aria-expanded': showing.value === true ? 'true' : 'false',
+        'aria-haspopup': 'true'
+      }
 
-    if (
-      this.disable === true ||
-      (
-        (this.split === false && this.disableMainBtn === true) ||
-        this.disableDropdown === true
-      )
-    ) {
-      attrs['aria-disabled'] = 'true'
-    }
+      if (
+        props.disable === true
+        || (
+          (props.split === false && props.disableMainBtn === true)
+          || props.disableDropdown === true
+        )
+      ) {
+        acc[ 'aria-disabled' ] = 'true'
+      }
 
-    const Arrow = [
-      h(QIcon, {
-        props: { name: this.dropdownIcon || this.$q.iconSet.arrow.dropdown },
-        class: 'q-btn-dropdown__arrow' +
-          (this.showing === true && this.noIconAnimation === false ? ' rotate-180' : '') +
-          (this.split === false ? ' q-btn-dropdown__arrow-container' : '')
-      })
-    ]
+      return acc
+    })
 
-    this.disableDropdown !== true && Arrow.push(
-      h(QMenu, {
-        ref: 'menu',
-        props: {
-          cover: this.cover,
-          fit: true,
-          persistent: this.persistent,
-          noRouteDismiss: this.noRouteDismiss,
-          autoClose: this.autoClose,
-          anchor: this.menuAnchor,
-          self: this.menuSelf,
-          offset: this.menuOffset,
-          contentClass: this.contentClass,
-          contentStyle: this.contentStyle,
-          separateClosePopup: true
-        },
-        on: cache(this, 'menu', {
-          'before-show': e => {
-            this.showing = true
-            this.$emit('before-show', e)
-          },
-          show: e => {
-            this.$emit('show', e)
-            this.$emit('input', true)
-          },
-          'before-hide': e => {
-            this.showing = false
-            this.$emit('before-hide', e)
-          },
-          hide: e => {
-            this.$emit('hide', e)
-            this.$emit('input', false)
-          }
-        })
-      }, slot(this, 'default'))
+    const iconClass = computed(() =>
+      'q-btn-dropdown__arrow'
+      + (showing.value === true && props.noIconAnimation === false ? ' rotate-180' : '')
+      + (props.split === false ? ' q-btn-dropdown__arrow-container' : '')
     )
 
-    if (this.split === false) {
-      return h(QBtn, {
-        class: 'q-btn-dropdown q-btn-dropdown--simple',
-        props: {
-          ...this.$props,
-          disable: this.disable === true || this.disableMainBtn === true,
-          noWrap: true,
-          round: false
-        },
-        attrs: {
-          ...this.qAttrs,
-          ...attrs
-        },
-        on: cache(this, 'nonSpl', {
-          click: e => {
-            this.$emit('click', e)
-          }
+    watch(() => props.modelValue, val => {
+      menuRef.value !== null && menuRef.value[ val ? 'show' : 'hide' ]()
+    })
+
+    watch(() => props.split, hide)
+
+    function onBeforeShow (e) {
+      showing.value = true
+      emit('before-show', e)
+    }
+
+    function onShow (e) {
+      emit('show', e)
+      emit('update:modelValue', true)
+    }
+
+    function onBeforeHide (e) {
+      showing.value = false
+      emit('before-hide', e)
+    }
+
+    function onHide (e) {
+      emit('hide', e)
+      emit('update:modelValue', false)
+    }
+
+    function onClick (e) {
+      emit('click', e)
+    }
+
+    function onClickHide (e) {
+      stop(e)
+      hide()
+      emit('click', e)
+    }
+
+    function toggle (evt) {
+      menuRef.value !== null && menuRef.value.toggle(evt)
+    }
+
+    function show (evt) {
+      menuRef.value !== null && menuRef.value.show(evt)
+    }
+
+    function hide (evt) {
+      menuRef.value !== null && menuRef.value.hide(evt)
+    }
+
+    // expose public methods
+    Object.assign(proxy, {
+      show, hide, toggle
+    })
+
+    onMounted(() => {
+      props.modelValue === true && show()
+    })
+
+    return () => {
+      const Arrow = [
+        h(QIcon, {
+          class: iconClass.value,
+          name: props.dropdownIcon || proxy.$q.iconSet.arrow.dropdown
         })
-      }, label.concat(Arrow))
+      ]
+
+      props.disableDropdown !== true && Arrow.push(
+        h(QMenu, {
+          ref: menuRef,
+          class: props.contentClass,
+          style: props.contentStyle,
+          cover: props.cover,
+          fit: true,
+          persistent: props.persistent,
+          noRouteDismiss: props.noRouteDismiss,
+          autoClose: props.autoClose,
+          anchor: props.menuAnchor,
+          self: props.menuSelf,
+          offset: props.menuOffset,
+          separateClosePopup: true,
+          onBeforeShow,
+          onShow,
+          onBeforeHide,
+          onHide
+        }, slots.default)
+      )
+
+      if (props.split === false) {
+        return h(QBtn, {
+          class: 'q-btn-dropdown q-btn-dropdown--simple',
+          ...props,
+          disable: props.disable === true || props.disableMainBtn === true,
+          noWrap: true,
+          round: false,
+          ...attributes.value,
+          onClick
+        }, () => hSlot(slots.label, []).concat(Arrow))
+      }
+
+      return h(QBtnGroup, {
+        class: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item',
+        outline: props.outline,
+        flat: props.flat,
+        rounded: props.rounded,
+        push: props.push,
+        unelevated: props.glossy,
+        stretch: props.stretch
+      }, () => [
+        h(QBtn, {
+          class: 'q-btn-dropdown--current',
+          ...props,
+          disable: props.disable === true || props.disableMainBtn === true,
+          noWrap: true,
+          iconRight: props.iconRight,
+          round: false,
+          onClick: onClickHide
+        }, slots.label),
+
+        h(QBtn, {
+          class: 'q-btn-dropdown__arrow-container q-anchor--skip',
+          ...attributes.value,
+          disable: props.disable === true || props.disableDropdown === true,
+          outline: props.outline,
+          flat: props.flat,
+          rounded: props.rounded,
+          push: props.push,
+          size: props.size,
+          color: props.color,
+          textColor: props.textColor,
+          dense: props.dense,
+          ripple: props.ripple
+        }, () => Arrow)
+      ])
     }
-
-    const Btn = h(QBtn, {
-      class: 'q-btn-dropdown--current',
-      props: {
-        ...this.$props,
-        disable: this.disable === true || this.disableMainBtn === true,
-        noWrap: true,
-        iconRight: this.iconRight,
-        round: false
-      },
-      attrs: this.qAttrs,
-      on: cache(this, 'spl', {
-        click: e => {
-          stop(e) // prevent showing the menu on click
-          this.hide()
-          this.$emit('click', e)
-        }
-      })
-    }, label)
-
-    return h(QBtnGroup, {
-      props: {
-        outline: this.outline,
-        flat: this.flat,
-        rounded: this.rounded,
-        push: this.push,
-        unelevated: this.unelevated,
-        glossy: this.glossy,
-        stretch: this.stretch
-      },
-      staticClass: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item'
-    }, [
-      Btn,
-
-      h(QBtn, {
-        staticClass: 'q-btn-dropdown__arrow-container q-anchor--skip',
-        attrs,
-        props: {
-          disable: this.disable === true || this.disableDropdown === true,
-          outline: this.outline,
-          flat: this.flat,
-          rounded: this.rounded,
-          push: this.push,
-          size: this.size,
-          color: this.color,
-          textColor: this.textColor,
-          dense: this.dense,
-          ripple: this.ripple
-        }
-      }, Arrow)
-    ])
-  },
-
-  methods: {
-    toggle (evt) {
-      this.$refs.menu && this.$refs.menu.toggle(evt)
-    },
-
-    show (evt) {
-      this.$refs.menu && this.$refs.menu.show(evt)
-    },
-
-    hide (evt) {
-      this.$refs.menu && this.$refs.menu.hide(evt)
-    }
-  },
-
-  mounted () {
-    this.value === true && this.show()
   }
 })

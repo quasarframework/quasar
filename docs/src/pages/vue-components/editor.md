@@ -1,6 +1,7 @@
 ---
 title: Editor (WYSIWYG)
 desc: The QEditor Vue component is a WYSIWYG editor that enables writing and pasting HTML.
+keys: QEditor
 ---
 
 The QEditor component is a WYSIWYG (“what you see is what you get”) editor component that enables the user to write and even paste HTML. It uses the so-called Design Mode and the cross-browser `contentEditable` interface. Here are some go-to reference pages from the MDN webdocs with more detailed information about the underlying technology:
@@ -11,6 +12,7 @@ The QEditor component is a WYSIWYG (“what you see is what you get”) editor c
 - [contentEditable spec](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable)
 
 ## QEditor API
+
 <doc-api file="QEditor" />
 
 ## Examples

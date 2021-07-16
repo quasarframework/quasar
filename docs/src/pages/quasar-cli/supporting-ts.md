@@ -1,6 +1,5 @@
 ---
 title: Supporting TypeScript
-badge: "@quasar/app v1.6+"
 desc: How to enable support for TypeScript in a Quasar app.
 related:
   - /quasar-cli/quasar-conf-js
@@ -164,7 +163,10 @@ module.exports = function (ctx) {
   return {
     supportTS: {
       tsCheckerConfig: {
-        eslint: true
+        eslint: {
+          enabled: true,
+          files: './src/**/*.{ts,tsx,js,jsx,vue}'
+        }
       }
     },
     ....

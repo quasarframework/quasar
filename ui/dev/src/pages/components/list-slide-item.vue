@@ -3,9 +3,13 @@
     <h1>Pan the items below</h1>
 
     <q-list bordered separator>
-      <q-slide-item @left="onLeft" @right="onRight" @click.native="onClickItem">
-        <q-icon slot="left" name="done" />
-        <q-icon slot="right" name="alarm" />
+      <q-slide-item @left="onLeft" @right="onRight" @click="onClickItem">
+        <template v-slot:left>
+          <q-icon name="done" />
+        </template>
+        <template v-slot:right>
+          <q-icon name="alarm" />
+        </template>
 
         <q-item>
           <q-item-section avatar>
@@ -15,9 +19,13 @@
         </q-item>
       </q-slide-item>
 
-      <q-slide-item @left="onLeft" @right="onRight" @click.native="onClickItem">
-        <q-icon slot="left" name="done" />
-        <q-icon slot="right" name="alarm" />
+      <q-slide-item @left="onLeft" @right="onRight" @click="onClickItem">
+        <template v-slot:left>
+          <q-icon name="done" />
+        </template>
+        <template v-slot:right>
+          <q-icon name="alarm" />
+        </template>
 
         <q-item to="/">
           <q-item-section avatar>
@@ -28,12 +36,16 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <div slot="left">
-          Left
-        </div>
-        <div slot="right">
-          Right content.. long
-        </div>
+        <template v-slot:top>
+          <div>
+            Left
+          </div>
+        </template>
+        <template v-slot:bottom>
+          <div>
+            Right content.. long
+          </div>
+        </template>
 
         <q-item>
           <q-item-section avatar>
@@ -44,12 +56,16 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <div slot="left" class="row items-center">
-          <q-icon left name="done" /> Left
-        </div>
-        <div slot="right" class="row items-center">
-          Right content.. long <q-icon right name="alarm" />
-        </div>
+        <template v-slot:left>
+          <div class="row items-center">
+            <q-icon left name="done" /> Left
+          </div>
+        </template>
+        <template v-slot:right>
+          <div class="row items-center">
+            Right content.. long <q-icon right name="alarm" />
+          </div>
+        </template>
 
         <q-item>
           <q-item-section avatar>
@@ -60,12 +76,16 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight" left-color="red" right-color="purple">
-        <div slot="left" class="row items-center">
-          <q-icon left name="done" /> Left
-        </div>
-        <div slot="right" class="row items-center">
-          Right content.. long <q-icon right name="alarm" />
-        </div>
+        <template v-slot:left>
+          <div class="row items-center">
+            <q-icon left name="done" /> Left
+          </div>
+        </template>
+        <template v-slot:right>
+          <div class="row items-center">
+            Right content.. long <q-icon right name="alarm" />
+          </div>
+        </template>
 
         <q-item>
           <q-item-section avatar>
@@ -76,12 +96,16 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight" left-color="amber" right-color="primary">
-        <div slot="left" class="row items-center text-black">
-          <q-icon left name="done" /> Left
-        </div>
-        <div slot="right" class="row items-center">
-          Right content.. long <q-icon right name="alarm" />
-        </div>
+        <template v-slot:left>
+          <div class="row items-center text-black">
+            <q-icon left name="done" /> Left
+          </div>
+        </template>
+        <template v-slot:right>
+          <div class="row items-center">
+            Right content.. long <q-icon right name="alarm" />
+          </div>
+        </template>
 
         <q-item class="bg-black text-white">
           <q-item-section avatar>
@@ -92,7 +116,9 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <q-icon slot="left" name="arrow_right" />
+        <template v-slot:left>
+          <q-icon name="arrow_right" />
+        </template>
 
         <q-item>
           <q-item-section avatar>
@@ -103,7 +129,9 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <q-icon slot="right" name="arrow_left" />
+        <template v-slot:right>
+          <q-icon name="arrow_left" />
+        </template>
 
         <q-item>
           <q-item-section avatar>
@@ -123,8 +151,12 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <q-icon slot="left" name="arrow_right" />
-        <q-icon slot="right" name="arrow_left" />
+        <template v-slot:left>
+          <q-icon name="arrow_right" />
+        </template>
+        <template v-slot:right>
+          <q-icon name="arrow_left" />
+        </template>
 
         <q-item>
           <q-item-section avatar>
@@ -138,8 +170,12 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <q-icon slot="left" name="alarm" />
-        <q-icon slot="right" name="alarm" />
+        <template v-slot:left>
+          <q-icon name="alarm" />
+        </template>
+        <template v-slot:right>
+          <q-icon name="alarm" />
+        </template>
 
         <q-item>
           <q-item-section avatar>
@@ -153,8 +189,12 @@
       </q-slide-item>
 
       <q-slide-item @top="onTop" @bottom="onBottom">
-        <q-icon slot="top" name="alarm" />
-        <q-icon slot="bottom" name="alarm" />
+        <template v-slot:top>
+          <q-icon name="alarm" />
+        </template>
+        <template v-slot:bottom>
+          <q-icon name="alarm" />
+        </template>
 
         <q-item style="height: 200px; width: 200px;">
           <q-item-section avatar>
@@ -165,10 +205,18 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight" @top="onTop" @bottom="onBottom">
-        <q-icon slot="left" name="alarm" />
-        <q-icon slot="right" name="alarm" />
-        <q-icon slot="top" name="alarm" />
-        <q-icon slot="bottom" name="alarm" />
+        <template v-slot:left>
+          <q-icon name="alarm" />
+        </template>
+        <template v-slot:right>
+          <q-icon name="alarm" />
+        </template>
+        <template v-slot:top>
+          <q-icon name="alarm" />
+        </template>
+        <template v-slot:bottom>
+          <q-icon name="alarm" />
+        </template>
 
         <q-item style="height: 200px; width: 200px;">
           <q-item-section avatar>
@@ -183,8 +231,12 @@
       <div class="row">
         <div class="col-4">
           <q-slide-item @top="onTop" @bottom="onBottom">
-            <q-icon slot="top" name="link" />
-            <q-icon slot="bottom" name="link_off" />
+            <template v-slot:top>
+              <q-icon name="link" />
+            </template>
+            <template v-slot:bottom>
+              <q-icon name="link_off" />
+            </template>
 
             <q-item style="height: 200px; width: 200px;">
               <q-item-section avatar>
@@ -197,8 +249,12 @@
 
         <div class="col-4">
           <q-slide-item @top="onTop" @bottom="onBottom">
-            <q-icon slot="top" name="link" />
-            <q-icon slot="bottom" name="link_off" />
+            <template v-slot:top>
+              <q-icon name="link" />
+            </template>
+            <template v-slot:bottom>
+              <q-icon name="link_off" />
+            </template>
 
             <q-item style="height: 200px; width: 200px;">
               <q-item-section avatar>
@@ -211,8 +267,12 @@
 
         <div class="col-4">
           <q-slide-item @top="onTop" @bottom="onBottom">
-            <q-icon slot="top" name="link" />
-            <q-icon slot="bottom" name="link_off" />
+            <template v-slot:top>
+              <q-icon name="link" />
+            </template>
+            <template v-slot:bottom>
+              <q-icon name="link_off" />
+            </template>
 
             <q-item style="height: 200px; width: 200px;">
               <q-item-section avatar>
@@ -232,12 +292,16 @@
     <q-toggle v-model="slot2Active" label="Right active" />
 
     <q-slide-item @left="onLeft" @right="onRight">
-      <div v-if="slot1Active" slot="left">
-        Left
-      </div>
-      <div v-if="slot2Active" slot="right">
-        Right content.. long
-      </div>
+      <template v-slot:left v-if="slot1Active">
+        <div>
+          Left
+        </div>
+      </template>
+      <template v-slot:right v-if="slot2Active">
+        <div>
+          Right content.. long
+        </div>
+      </template>
 
       <q-item>
         <q-item-section avatar>
@@ -273,9 +337,11 @@
     <div>Dynamic slots using @slide event</div>
 
     <q-slide-item :left-color="leftColor" @left="onLeft" @slide="onSlide">
-      <div slot="left" class="row items-center">
-        {{ leftMessage }}
-      </div>
+      <template v-slot:left>
+        <div>
+          {{ leftMessage }}
+        </div>
+      </template>
 
       <q-item>
         <q-item-section avatar>

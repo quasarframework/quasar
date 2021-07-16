@@ -27,10 +27,10 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .shadow-box
-  width 110px
-  height 110px
-  margin 25px
-  border-radius 5px
+  width: 110px
+  height: 110px
+  margin: 25px
+  border-radius: 5px
 </style>

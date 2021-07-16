@@ -1,12 +1,12 @@
 <template>
   <q-layout view="lHh lpr fFf">
-    <q-header :value="header">
+    <q-header :model-value="header">
       <q-toolbar>
         <q-toolbar-title>Pull To Refresh - Header</q-toolbar-title>
       </q-toolbar>
     </q-header>
 
-    <q-footer :value="footer">
+    <q-footer :model-value="footer">
       <q-toolbar>
         <q-toolbar-title>Pull To Refresh - Footer</q-toolbar-title>
       </q-toolbar>
@@ -75,16 +75,16 @@
   </q-layout>
 </template>
 
-<style lang="stylus">
-  .no-height
-    height 0
+<style lang="sass">
+.no-height
+  height: 0
 </style>
 
 <script>
 export default {
   data () {
     return {
-      items: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+      items: [ {}, {}, {}, {}, {}, {}, {}, {}, {} ],
       guardTop: true,
       guardBottom: true,
       header: true,
@@ -93,7 +93,7 @@ export default {
       scroll: false,
       scrollArea: false,
       selectModel: null,
-      selectOptions: Array(50).fill(null).map((_, index) => `Option ${index + 1}`)
+      selectOptions: Array(50).fill(null).map((_, index) => `Option ${ index + 1 }`)
     }
   },
   watch: {

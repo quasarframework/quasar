@@ -112,12 +112,12 @@ chip: {
 _Then_, override it in your `/src/boot/fontawesome-pro.js`
 
 ```js
-import Vue from 'vue'
-
 import '@fortawesome/fontawesome-pro/css/fontawesome.min.css'
 import '@fortawesome/fontawesome-pro/css/solid.min.css'
 import '@fortawesome/fontawesome-pro/css/light.min.css'
 
 // example
-Vue.prototype.$q.iconSet.chip.remove = 'fas fa-times-circle'
+export default ({ app }) => {
+  app.config.globalProperties.$q.iconSet.chip.remove = 'fas fa-times-circle'
+}
 ```

@@ -10,22 +10,17 @@
  * @param {items}     Object containing components or directives
  */
 module.exports = function qInstall (component, type, items) {
-  var opt
+  const targetComponent = component.__vccOpts !== void 0
+    ? component.__vccOpts
+    : component
 
-  if (typeof component.exports === 'function') {
-    opt = component.exports.extendOptions
-    opt[type] = component.exports.options[type]
+  const target = targetComponent[type]
+
+  if (target === void 0) {
+    targetComponent[type] = items
   }
   else {
-    opt = component.options
-  }
-
-  if (opt[type] === void 0) {
-    opt[type] = items
-  }
-  else {
-    var target = opt[type]
-    for (var i in items) {
+    for (const i in items) {
       if (target[i] === void 0) {
         target[i] = items[i]
       }

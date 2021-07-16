@@ -18,10 +18,10 @@
         <q-btn label="Positioned" flat color="primary" @click="positioned" />
         <q-btn label="Stacked Buttons" flat color="primary" @click="stacked" />
         <q-btn label="Auto Closing" flat color="primary" @click="autoClose" />
-        <q-btn label="Custom component with Parent" no-caps flat color="primary" @click="customComponentWithParent(false)" />
-        <q-btn label="Custom component w/o Parent" no-caps flat color="primary" @click="customComponentNoParent(false)" />
-        <q-btn label="Custom component with Parent (async)" no-caps flat color="primary" @click="customComponentWithParent(true)" />
-        <q-btn label="Custom component w/o Parent (async)" no-caps flat color="primary" @click="customComponentNoParent(true)" />
+        <q-btn label="Custom component (Compo)" no-caps flat color="primary" @click="customComponentCompositionApi(false)" />
+        <q-btn label="Custom component (Compo;Async)" no-caps flat color="primary" @click="customComponentCompositionApi(true)" />
+        <q-btn label="Custom component (Opt)" no-caps flat color="primary" @click="customComponentOptionsApi(false)" />
+        <q-btn label="Custom component (Opt;Async)" no-caps flat color="primary" @click="customComponentOptionsApi(true)" />
         <q-btn label="With HTML" flat color="primary" @click="unsafe" />
         <q-btn label="Prompt (validation)" flat color="primary" @click="promptValidation" />
         <q-btn label="Radio (validation)" flat color="primary" @click="radioValidation" />
@@ -85,12 +85,12 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-btn label="Custom component with Parent" no-caps flat color="primary" @click="customComponentWithParent" />
+                <q-btn label="Custom component" no-caps flat color="primary" @click="customComponent(false)" />
               </q-item-section>
             </q-item>
             <q-item>
               <q-item-section>
-                <q-btn label="Custom component w/o Parent" no-caps flat color="primary" @click="customComponentNoParent" />
+                <q-btn label="Custom component (async)" no-caps flat color="primary" @click="customComponent(true)" />
               </q-item-section>
             </q-item>
             <q-item>
@@ -112,16 +112,14 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
+
 import { QSpinnerGears, QSpinnerCube } from 'quasar'
 
-import DialogComponentWithParent from './dialog-component-with-parent.js'
-import DialogComponentNoParent from './dialog-component-no-parent.js'
+import DialogComponentOptionsApi from './dialog-component-options-api.js'
+import DialogComponentCompositionApi from './dialog-component-composition-api.js'
 
 export default {
-  provide: {
-    providedTest: 'Provide/Inject works!'
-  },
-
   data () {
     return {
       dark: null
@@ -436,7 +434,7 @@ export default {
       const interval = setInterval(() => {
         percentage = Math.min(100, percentage + Math.floor(Math.random() * 22))
         dialog.update({
-          message: `Uploading... ${percentage}%`
+          message: `Uploading... ${ percentage }%`
         })
 
         if (percentage === 100) {
@@ -483,7 +481,7 @@ export default {
 
       this.dialogHandler = this.$q.dialog({
         title: 'Alert',
-        message: `Autoclosing in ${seconds} seconds.`,
+        message: `Autoclosing in ${ seconds } seconds.`,
         dark: this.dark
       }).onOk(() => {
         console.log('OK')
@@ -500,7 +498,7 @@ export default {
           seconds--
           if (seconds > 0) {
             this.dialogHandler.update({
-              message: `Autoclosing in ${seconds} second${seconds > 1 ? 's' : ''}.`
+              message: `Autoclosing in ${ seconds } second${ seconds > 1 ? 's' : '' }.`
             })
           }
           else {
@@ -514,14 +512,14 @@ export default {
       }, 1000)
     },
 
-    customComponentWithParent (async) {
+    customComponentOptionsApi (async) {
       this.dialogHandler = this.$q.dialog({
-        parent: this,
-        component: async !== true ? DialogComponentWithParent : () => import('./dialog-component-with-parent.js'),
-        // props forwarded to component:
-        text: 'gigi'
-      }).onOk(() => {
-        console.log('OK')
+        component: async !== true ? DialogComponentOptionsApi : defineAsyncComponent(() => import('./dialog-component-options-api.js')),
+        componentProps: {
+          text: 'Works'
+        }
+      }).onOk(payload => {
+        console.log('OK', payload)
       }).onCancel(() => {
         console.log('Cancel')
       }).onDismiss(() => {
@@ -529,13 +527,14 @@ export default {
       })
     },
 
-    customComponentNoParent (async) {
+    customComponentCompositionApi (async) {
       this.dialogHandler = this.$q.dialog({
-        component: async !== true ? DialogComponentNoParent : () => import('./dialog-component-no-parent.js'),
-        // props forwarded to component:
-        text: 'gigi'
-      }).onOk(() => {
-        console.log('OK')
+        component: async !== true ? DialogComponentCompositionApi : defineAsyncComponent(() => import('./dialog-component-composition-api.js')),
+        componentProps: {
+          text: 'Works'
+        }
+      }).onOk(payload => {
+        console.log('OK', payload)
       }).onCancel(() => {
         console.log('Cancel')
       }).onDismiss(() => {
@@ -569,9 +568,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .custom-dialog
-  color #33c
-  background-color #ee9
-  padding 40px
+  color: #33c
+  background-color: #ee9
+  padding: 40px
 </style>

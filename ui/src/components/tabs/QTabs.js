@@ -1,72 +1,38 @@
-import Vue from 'vue'
+import { h, defineComponent, ref, computed, watch, nextTick, onBeforeUnmount, onActivated, getCurrentInstance, provide } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import TimeoutMixin from '../../mixins/timeout.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useTick from '../../composables/private/use-tick.js'
+import useTimeout from '../../composables/private/use-timeout.js'
 
-import { stop, noop } from '../../utils/event.js'
-import { slot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
+import { noop } from '../../utils/event.js'
+import { hSlot } from '../../utils/private/render.js'
+import { tabsKey } from '../../utils/private/symbols.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
-    ? ['left', 'right']
-    : ['top', 'bottom']
+    ? [ 'left', 'right' ]
+    : [ 'top', 'bottom' ]
 
-  return `absolute-${top === true ? pos[0] : pos[1]}${color ? ` text-${color}` : ''}`
+  return `absolute-${ top === true ? pos[ 0 ] : pos[ 1 ] }${ color ? ` text-${ color }` : '' }`
 }
 
-function bufferPrioritySort (t1, t2) {
-  if (t1.priorityMatched === t2.priorityMatched) {
-    return t2.priorityHref - t1.priorityHref
-  }
-  return t2.priorityMatched - t1.priorityMatched
-}
+const alignValues = [ 'left', 'center', 'right', 'justify' ]
 
-function bufferCleanSelected (t) {
-  t.selected = false
-  return t
-}
-
-const
-  bufferFilters = [
-    t => t.selected === true && t.exact === true && t.redirected !== true,
-    t => t.selected === true && t.exact === true,
-    t => t.selected === true && t.redirected !== true,
-    t => t.selected === true,
-    t => t.exact === true && t.redirected !== true,
-    t => t.redirected !== true,
-    t => t.exact === true,
-    t => true
-  ],
-  bufferFiltersLen = bufferFilters.length
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QTabs',
 
-  mixins: [ TimeoutMixin, ListenersMixin ],
-
-  provide () {
-    return {
-      tabs: this.tabs,
-      __recalculateScroll: this.__recalculateScroll,
-      __activateTab: this.__activateTab,
-      __activateRoute: this.__activateRoute
-    }
-  },
-
   props: {
-    value: [Number, String],
+    modelValue: [ Number, String ],
 
     align: {
       type: String,
       default: 'center',
-      validator: v => ['left', 'center', 'right', 'justify'].includes(v)
+      validator: v => alignValues.includes(v)
     },
     breakpoint: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 600
     },
 
@@ -91,220 +57,175 @@ export default Vue.extend({
 
     dense: Boolean,
 
-    contentClass: String
+    contentClass: String,
+
+    'onUpdate:modelValue': Function
   },
 
-  data () {
-    return {
-      tabs: {
-        current: this.value,
-        activeColor: this.activeColor,
-        activeBgColor: this.activeBgColor,
-        indicatorClass: getIndicatorClass(
-          this.indicatorColor,
-          this.switchIndicator,
-          this.vertical
-        ),
-        narrowIndicator: this.narrowIndicator,
-        inlineLabel: this.inlineLabel,
-        noCaps: this.noCaps
-      },
-      scrollable: false,
-      leftArrow: true,
-      rightArrow: false,
-      justify: false
-    }
-  },
+  setup (props, { slots, emit }) {
+    const vm = getCurrentInstance()
+    const { proxy: { $q } } = vm
 
-  watch: {
-    value (name) {
-      this.__activateTab(name, true, true)
-    },
+    const { registerTick, prepareTick } = useTick()
+    const { registerTimeout } = useTimeout()
 
-    activeColor (v) {
-      this.tabs.activeColor = v
-    },
+    const rootRef = ref(null)
+    const contentRef = ref(null)
 
-    activeBgColor (v) {
-      this.tabs.activeBgColor = v
-    },
+    const currentModel = ref(props.modelValue)
+    const scrollable = ref(false)
+    const leftArrow = ref(true)
+    const rightArrow = ref(false)
+    const justify = ref(false)
 
-    vertical (v) {
-      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, this.switchIndicator, v)
-    },
+    const arrowsEnabled = computed(() =>
+      $q.platform.is.desktop === true || props.mobileArrows === true
+    )
 
-    indicatorColor (v) {
-      this.tabs.indicatorClass = getIndicatorClass(v, this.switchIndicator, this.vertical)
-    },
+    const tabList = []
 
-    switchIndicator (v) {
-      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, v, this.vertical)
-    },
+    let localFromRoute = false, animateTimer, scrollTimer, unwatchRoute
+    let localUpdateArrows = arrowsEnabled.value === true
+      ? updateArrowsFn
+      : noop
 
-    narrowIndicator (v) {
-      this.tabs.narrowIndicator = v
-    },
+    const tabProps = computed(() => ({
+      activeColor: props.activeColor,
+      activeBgColor: props.activeBgColor,
+      indicatorClass: getIndicatorClass(
+        props.indicatorColor,
+        props.switchIndicator,
+        props.vertical
+      ),
+      narrowIndicator: props.narrowIndicator,
+      inlineLabel: props.inlineLabel,
+      noCaps: props.noCaps
+    }))
 
-    inlineLabel (v) {
-      this.tabs.inlineLabel = v
-    },
-
-    noCaps (v) {
-      this.tabs.noCaps = v
-    },
-
-    outsideArrows () {
-      this.$nextTick(this.__recalculateScroll())
-    },
-
-    arrowsEnabled (v) {
-      this.__updateArrows = v === true
-        ? this.__updateArrowsFn
-        : noop
-
-      this.$nextTick(this.__recalculateScroll())
-    }
-  },
-
-  computed: {
-    arrowsEnabled () {
-      return this.$q.platform.is.desktop === true || this.mobileArrows === true
-    },
-
-    alignClass () {
-      const align = this.scrollable === true
+    const alignClass = computed(() => {
+      const align = scrollable.value === true
         ? 'left'
-        : (this.justify === true ? 'justify' : this.align)
+        : (justify.value === true ? 'justify' : props.align)
 
-      return `q-tabs__content--align-${align}`
-    },
+      return `q-tabs__content--align-${ align }`
+    })
 
-    classes () {
-      return `q-tabs--${this.scrollable === true ? '' : 'not-'}scrollable` +
-        ` q-tabs--${this.vertical === true ? 'vertical' : 'horizontal'}` +
-        ` q-tabs__arrows--${this.arrowsEnabled === true && this.outsideArrows === true ? 'outside' : 'inside'}` +
-        (this.dense === true ? ' q-tabs--dense' : '') +
-        (this.shrink === true ? ' col-shrink' : '') +
-        (this.stretch === true ? ' self-stretch' : '')
-    },
+    const classes = computed(() =>
+      'q-tabs row no-wrap items-center'
+      + ` q-tabs--${ scrollable.value === true ? '' : 'not-' }scrollable`
+      + ` q-tabs--${ props.vertical === true ? 'vertical' : 'horizontal' }`
+      + ` q-tabs__arrows--${ arrowsEnabled.value === true && props.outsideArrows === true ? 'outside' : 'inside' }`
+      + (props.dense === true ? ' q-tabs--dense' : '')
+      + (props.shrink === true ? ' col-shrink' : '')
+      + (props.stretch === true ? ' self-stretch' : '')
+    )
 
-    innerClass () {
-      return this.alignClass +
-        (this.contentClass !== void 0 ? ` ${this.contentClass}` : '') +
-        (this.$q.platform.is.mobile === true ? ' scroll' : '')
-    },
+    const innerClass = computed(() =>
+      'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar '
+      + alignClass.value
+      + (props.contentClass !== void 0 ? ` ${ props.contentClass }` : '')
+      + ($q.platform.is.mobile === true ? ' scroll' : '')
+    )
 
-    domProps () {
-      return this.vertical === true
+    const domProps = computed(() => (
+      props.vertical === true
         ? { container: 'height', content: 'offsetHeight', scroll: 'scrollHeight' }
         : { container: 'width', content: 'offsetWidth', scroll: 'scrollWidth' }
-    },
+    ))
 
-    onEvents () {
-      return {
-        input: stop,
-        ...this.qListeners
+    watch(() => props.modelValue, name => {
+      updateModel({ name, setCurrent: true, skipEmit: true })
+    })
+
+    watch(() => props.outsideArrows, () => {
+      nextTick(recalculateScroll())
+    })
+
+    watch(arrowsEnabled, v => {
+      localUpdateArrows = v === true
+        ? updateArrowsFn
+        : noop
+
+      nextTick(recalculateScroll())
+    })
+
+    function updateModel ({ name, setCurrent, skipEmit, fromRoute }) {
+      if (currentModel.value !== name) {
+        skipEmit !== true && emit('update:modelValue', name)
+        if (
+          setCurrent === true
+          || props[ 'onUpdate:modelValue' ] === void 0
+        ) {
+          animate(currentModel.value, name)
+          currentModel.value = name
+        }
+      }
+
+      if (fromRoute !== void 0) {
+        localFromRoute = fromRoute
       }
     }
-  },
 
-  methods: {
-    __activateTab (name, setCurrent, skipEmit) {
-      if (this.tabs.current !== name) {
-        skipEmit !== true && this.$emit('input', name)
-        if (setCurrent === true || this.qListeners.input === void 0) {
-          this.__animate(this.tabs.current, name)
-          this.tabs.current = name
+    function recalculateScroll () {
+      registerTick(() => {
+        if (vm.isDeactivated !== true && vm.isUnmounted !== true) {
+          updateContainer({
+            width: rootRef.value.offsetWidth,
+            height: rootRef.value.offsetHeight
+          })
         }
-      }
-    },
-
-    __activateRoute (params) {
-      if (this.bufferRoute !== this.$route && this.buffer.length > 0) {
-        clearTimeout(this.bufferTimer)
-        this.bufferTimer = void 0
-        this.buffer.length = 0
-      }
-      this.bufferRoute = this.$route
-
-      if (params !== void 0) {
-        if (params.remove === true) {
-          this.buffer = this.buffer.filter(t => t.name !== params.name)
-        }
-        else {
-          this.buffer.push(params)
-        }
-      }
-
-      if (this.bufferTimer === void 0) {
-        this.bufferTimer = setTimeout(() => {
-          let tabs = []
-
-          for (let i = 0; i < bufferFiltersLen && tabs.length === 0; i++) {
-            tabs = this.buffer.filter(bufferFilters[i])
-          }
-
-          tabs.sort(bufferPrioritySort)
-          this.__activateTab(tabs.length === 0 ? null : tabs[0].name, true)
-          this.buffer = this.buffer.map(bufferCleanSelected)
-          this.bufferTimer = void 0
-        }, 1)
-      }
-    },
-
-    __recalculateScroll () {
-      this.__nextTick(() => {
-        this._isDestroyed !== true && this.__updateContainer({
-          width: this.$el.offsetWidth,
-          height: this.$el.offsetHeight
-        })
       })
 
-      this.__prepareTick()
-    },
+      prepareTick()
+    }
 
-    __updateContainer (domSize) {
+    function updateContainer (domSize) {
+      // it can be called faster than component being initialized
+      // so we need to protect against that case
+      // (one example of such case is the docs release notes page)
+      if (domProps.value === void 0 || contentRef.value === null) { return }
+
       const
-        size = domSize[this.domProps.container],
+        size = domSize[ domProps.value.container ],
         scrollSize = Math.min(
-          this.$refs.content[this.domProps.scroll],
+          contentRef.value[ domProps.value.scroll ],
           Array.prototype.reduce.call(
-            this.$refs.content.children,
-            (acc, el) => acc + el[this.domProps.content],
+            contentRef.value.children,
+            (acc, el) => acc + el[ domProps.value.content ],
             0
           )
         ),
         scroll = size > 0 && scrollSize > size // when there is no tab, in Chrome, size === 0 and scrollSize === 1
 
-      if (this.scrollable !== scroll) {
-        this.scrollable = scroll
+      if (scrollable.value !== scroll) {
+        scrollable.value = scroll
       }
 
       // Arrows need to be updated even if the scroll status was already true
-      scroll === true && this.$nextTick(() => this.__updateArrows())
+      scroll === true && nextTick(localUpdateArrows)
 
-      const justify = size < parseInt(this.breakpoint, 10)
+      const localJustify = size < parseInt(props.breakpoint, 10)
 
-      if (this.justify !== justify) {
-        this.justify = justify
+      if (justify.value !== localJustify) {
+        justify.value = localJustify
       }
-    },
+    }
 
-    __animate (oldName, newName) {
+    function animate (oldName, newName) {
       const
         oldTab = oldName !== void 0 && oldName !== null && oldName !== ''
-          ? this.$children.find(tab => tab.name === oldName)
+          ? tabList.find(tab => tab.name.value === oldName)
           : null,
         newTab = newName !== void 0 && newName !== null && newName !== ''
-          ? this.$children.find(tab => tab.name === newName)
+          ? tabList.find(tab => tab.name.value === newName)
           : null
 
       if (oldTab && newTab) {
         const
-          oldEl = oldTab.$el.getElementsByClassName('q-tab__indicator')[0],
-          newEl = newTab.$el.getElementsByClassName('q-tab__indicator')[0]
+          oldEl = oldTab.tabIndicatorRef.value,
+          newEl = newTab.tabIndicatorRef.value
 
-        clearTimeout(this.animateTimer)
+        clearTimeout(animateTimer)
 
         oldEl.style.transition = 'none'
         oldEl.style.transform = 'none'
@@ -315,80 +236,83 @@ export default Vue.extend({
           oldPos = oldEl.getBoundingClientRect(),
           newPos = newEl.getBoundingClientRect()
 
-        newEl.style.transform = this.vertical === true
-          ? `translate3d(0,${oldPos.top - newPos.top}px,0) scale3d(1,${newPos.height ? oldPos.height / newPos.height : 1},1)`
-          : `translate3d(${oldPos.left - newPos.left}px,0,0) scale3d(${newPos.width ? oldPos.width / newPos.width : 1},1,1)`
+        newEl.style.transform = props.vertical === true
+          ? `translate3d(0,${ oldPos.top - newPos.top }px,0) scale3d(1,${ newPos.height ? oldPos.height / newPos.height : 1 },1)`
+          : `translate3d(${ oldPos.left - newPos.left }px,0,0) scale3d(${ newPos.width ? oldPos.width / newPos.width : 1 },1,1)`
 
         // allow scope updates to kick in (QRouteTab needs more time)
-        this.$nextTick(() => {
-          this.animateTimer = setTimeout(() => {
+        nextTick(() => {
+          animateTimer = setTimeout(() => {
             newEl.style.transition = 'transform .25s cubic-bezier(.4, 0, .2, 1)'
             newEl.style.transform = 'none'
           }, 70)
         })
       }
 
-      if (newTab && this.scrollable === true) {
+      if (newTab && scrollable.value === true) {
         const
-          { left, width, top, height } = this.$refs.content.getBoundingClientRect(),
-          newPos = newTab.$el.getBoundingClientRect()
+          { left, width, top, height } = contentRef.value.getBoundingClientRect(),
+          newPos = newTab.rootRef.value.getBoundingClientRect()
 
-        let offset = this.vertical === true ? newPos.top - top : newPos.left - left
+        let offset = props.vertical === true ? newPos.top - top : newPos.left - left
 
         if (offset < 0) {
-          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += Math.floor(offset)
-          this.__updateArrows()
+          contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.floor(offset)
+          localUpdateArrows()
           return
         }
 
-        offset += this.vertical === true ? newPos.height - height : newPos.width - width
+        offset += props.vertical === true ? newPos.height - height : newPos.width - width
         if (offset > 0) {
-          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += Math.ceil(offset)
-          this.__updateArrows()
+          contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.ceil(offset)
+          localUpdateArrows()
         }
       }
-    },
+    }
 
-    __updateArrowsFn () {
-      const
-        content = this.$refs.content,
-        rect = content.getBoundingClientRect(),
-        pos = this.vertical === true ? content.scrollTop : content.scrollLeft
+    function updateArrowsFn () {
+      const content = contentRef.value
+      if (content !== null) {
+        const
+          rect = content.getBoundingClientRect(),
+          pos = props.vertical === true ? content.scrollTop : content.scrollLeft
 
-      this.leftArrow = pos > 0
-      this.rightArrow = this.vertical === true
-        ? Math.ceil(pos + rect.height) < content.scrollHeight
-        : Math.ceil(pos + rect.width) < content.scrollWidth
-    },
+        leftArrow.value = pos > 0
+        rightArrow.value = props.vertical === true
+          ? Math.ceil(pos + rect.height) < content.scrollHeight
+          : Math.ceil(pos + rect.width) < content.scrollWidth
+      }
+    }
 
-    __animScrollTo (value) {
-      this.__stopAnimScroll()
-      this.__scrollTowards(value)
+    function animScrollTo (value) {
+      stopAnimScroll()
+      scrollTowards(value)
 
-      this.scrollTimer = setInterval(() => {
-        if (this.__scrollTowards(value)) {
-          this.__stopAnimScroll()
+      scrollTimer = setInterval(() => {
+        if (scrollTowards(value)) {
+          stopAnimScroll()
         }
       }, 5)
-    },
+    }
 
-    __scrollToStart () {
-      this.__animScrollTo(0)
-    },
+    function scrollToStart () {
+      animScrollTo(0)
+    }
 
-    __scrollToEnd () {
-      this.__animScrollTo(9999)
-    },
+    function scrollToEnd () {
+      animScrollTo(9999)
+    }
 
-    __stopAnimScroll () {
-      clearInterval(this.scrollTimer)
-    },
+    function stopAnimScroll () {
+      clearInterval(scrollTimer)
+    }
 
-    __scrollTowards (value) {
-      const content = this.$refs.content
+    function scrollTowards (value) {
+      const content = contentRef.value
       let
-        pos = this.vertical === true ? content.scrollTop : content.scrollLeft,
+        pos = props.vertical === true ? content.scrollTop : content.scrollLeft,
         done = false
+
       const direction = value < pos ? -1 : 1
 
       pos += direction * 5
@@ -397,82 +321,145 @@ export default Vue.extend({
         pos = 0
       }
       else if (
-        (direction === -1 && pos <= value) ||
-        (direction === 1 && pos >= value)
+        (direction === -1 && pos <= value)
+        || (direction === 1 && pos >= value)
       ) {
         done = true
         pos = value
       }
 
-      content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] = pos
-      this.__updateArrows()
+      content[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] = pos
+      localUpdateArrows()
+
       return done
     }
-  },
 
-  activated () {
-    this.__recalculateScroll()
-  },
+    function getRouteList () {
+      return tabList.filter(tab => tab.routerProps !== void 0 && tab.routerProps.hasLink.value === true)
+    }
 
-  created () {
-    this.buffer = []
-    this.__updateArrows = this.arrowsEnabled === true
-      ? this.__updateArrowsFn
-      : noop
-  },
+    // do not use directly; use verifyRouteModel() instead
+    function updateActiveRoute () {
+      let href = '', name = null, wasActive = localFromRoute
 
-  beforeDestroy () {
-    clearTimeout(this.bufferTimer)
-    clearTimeout(this.animateTimer)
-  },
-
-  render (h) {
-    const child = [
-      h(QResizeObserver, {
-        on: cache(this, 'resize', { resize: this.__updateContainer })
-      }),
-
-      h('div', {
-        ref: 'content',
-        staticClass: 'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar',
-        class: this.innerClass,
-        on: this.arrowsEnabled === true ? cache(this, 'scroll', { scroll: this.__updateArrowsFn }) : void 0
-      }, slot(this, 'default'))
-    ]
-
-    this.arrowsEnabled === true && child.push(
-      h(QIcon, {
-        staticClass: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon',
-        class: this.leftArrow === true ? '' : 'q-tabs__arrow--faded',
-        props: { name: this.leftIcon || (this.vertical === true ? this.$q.iconSet.tabs.up : this.$q.iconSet.tabs.left) },
-        on: cache(this, 'onL', {
-          mousedown: this.__scrollToStart,
-          touchstart: this.__scrollToStart,
-          mouseup: this.__stopAnimScroll,
-          mouseleave: this.__stopAnimScroll,
-          touchend: this.__stopAnimScroll
-        })
-      }),
-
-      h(QIcon, {
-        staticClass: 'q-tabs__arrow q-tabs__arrow--right absolute q-tab__icon',
-        class: this.rightArrow === true ? '' : 'q-tabs__arrow--faded',
-        props: { name: this.rightIcon || (this.vertical === true ? this.$q.iconSet.tabs.down : this.$q.iconSet.tabs.right) },
-        on: cache(this, 'onR', {
-          mousedown: this.__scrollToEnd,
-          touchstart: this.__scrollToEnd,
-          mouseup: this.__stopAnimScroll,
-          mouseleave: this.__stopAnimScroll,
-          touchend: this.__stopAnimScroll
-        })
+      getRouteList().forEach(tab => {
+        if (
+          tab.routerProps !== void 0
+          && tab.routerProps[ tab.routerProps.exact.value === true ? 'linkIsExactActive' : 'linkIsActive' ].value === true
+          && tab.routerProps.linkRoute.value.href.length > href.length
+        ) {
+          href = tab.routerProps.linkRoute.value.href
+          name = tab.name.value
+        }
+        else if (currentModel.value === tab.name.value) {
+          wasActive = true
+        }
       })
-    )
 
-    return h('div', {
-      staticClass: 'q-tabs row no-wrap items-center',
-      class: this.classes,
-      on: this.onEvents,
-      attrs: { role: 'tablist' }
-    }, child)
+      if (wasActive === true || name !== null) {
+        updateModel({ name, setCurrent: true, fromRoute: true })
+      }
+    }
+
+    function verifyRouteModel () {
+      registerTimeout(updateActiveRoute)
+    }
+
+    function registerTab (getTab) {
+      tabList.push(getTab)
+
+      const routeList = getRouteList()
+
+      if (routeList.length > 0) {
+        if (unwatchRoute === void 0) {
+          unwatchRoute = watch(() => vm.proxy.$route, verifyRouteModel)
+        }
+
+        verifyRouteModel()
+      }
+    }
+
+    /*
+     * Vue has an aggressive diff (in-place replacement) so we cannot
+     * ensure that the instance getting destroyed is the actual tab
+     * reported here. As a result, we cannot use its name or check
+     * if it's a route one to make the necessary updates. We need to
+     * always check the existing list again and infer the changes.
+     */
+    function unregisterTab (tabData) {
+      tabList.splice(tabList.indexOf(tabData), 1)
+
+      if (unwatchRoute !== void 0) {
+        const routeList = getRouteList()
+
+        if (routeList.length === 0) {
+          unwatchRoute()
+          unwatchRoute = void 0
+        }
+
+        verifyRouteModel()
+      }
+    }
+
+    provide(tabsKey, {
+      currentModel,
+      tabProps,
+
+      registerTab,
+      unregisterTab,
+
+      verifyRouteModel,
+      updateModel,
+      recalculateScroll
+    })
+
+    onBeforeUnmount(() => {
+      clearTimeout(animateTimer)
+      unwatchRoute !== void 0 && unwatchRoute()
+    })
+
+    onActivated(recalculateScroll)
+
+    return () => {
+      const child = [
+        h(QResizeObserver, { onResize: updateContainer }),
+
+        h('div', {
+          ref: contentRef,
+          class: innerClass.value,
+          onScroll: localUpdateArrows
+        }, hSlot(slots.default))
+      ]
+
+      arrowsEnabled.value === true && child.push(
+        h(QIcon, {
+          class: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon'
+            + (leftArrow.value === true ? '' : ' q-tabs__arrow--faded'),
+          name: props.leftIcon || $q.iconSet.tabs[ props.vertical === true ? 'up' : 'left' ],
+          onMousedown: scrollToStart,
+          onTouchstartPassive: scrollToStart,
+          onMouseup: stopAnimScroll,
+          onMouseleave: stopAnimScroll,
+          onTouchend: stopAnimScroll
+        }),
+
+        h(QIcon, {
+          class: 'q-tabs__arrow q-tabs__arrow--right absolute q-tab__icon'
+            + (rightArrow.value === true ? '' : ' q-tabs__arrow--faded'),
+          name: props.rightIcon || $q.iconSet.tabs[ props.vertical === true ? 'down' : 'right' ],
+          onMousedown: scrollToEnd,
+          onTouchstartPassive: scrollToEnd,
+          onMouseup: stopAnimScroll,
+          onMouseleave: stopAnimScroll,
+          onTouchend: stopAnimScroll
+        })
+      )
+
+      return h('div', {
+        ref: rootRef,
+        class: classes.value,
+        role: 'tablist'
+      }, child)
+    }
   }
 })

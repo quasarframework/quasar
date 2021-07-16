@@ -2,75 +2,64 @@ import debounce from '../utils/debounce.js'
 import { height, offset } from '../utils/dom.js'
 import { getScrollTarget } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
+import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
+
+const { passive } = listenOpts
 
 function update (ctx, { value, oldValue }) {
   if (typeof value !== 'function') {
-    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
+    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, passive)
     return
   }
 
   ctx.handler = value
   if (typeof oldValue !== 'function') {
-    ctx.scrollTarget.addEventListener('scroll', ctx.scroll, listenOpts.passive)
+    ctx.scrollTarget.addEventListener('scroll', ctx.scroll, passive)
     ctx.scroll()
   }
 }
 
-function destroy (el) {
-  const ctx = el.__qscrollfire
-  if (ctx !== void 0) {
-    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
-    delete el.__qscrollfire
-  }
-}
+export default __QUASAR_SSR_SERVER__
+  ? { name: 'scroll-fire', getSSRProps }
+  : {
+      name: 'scroll-fire',
 
-export default {
-  name: 'scroll-fire',
+      mounted (el, binding) {
+        const ctx = {
+          scrollTarget: getScrollTarget(el),
+          scroll: debounce(() => {
+            let containerBottom, elBottom
 
-  inserted (el, binding) {
-    if (el.__qscrollfire !== void 0) {
-      destroy(el)
-      el.__qscrollfire_destroyed = true
-    }
+            if (ctx.scrollTarget === window) {
+              elBottom = el.getBoundingClientRect().bottom
+              containerBottom = window.innerHeight
+            }
+            else {
+              elBottom = offset(el).top + height(el)
+              containerBottom = offset(ctx.scrollTarget).top + height(ctx.scrollTarget)
+            }
 
-    const ctx = {
-      scrollTarget: getScrollTarget(el),
-      scroll: debounce(() => {
-        let containerBottom, elBottom
-
-        if (ctx.scrollTarget === window) {
-          elBottom = el.getBoundingClientRect().bottom
-          containerBottom = window.innerHeight
-        }
-        else {
-          elBottom = offset(el).top + height(el)
-          containerBottom = offset(ctx.scrollTarget).top + height(ctx.scrollTarget)
+            if (elBottom > 0 && elBottom < containerBottom) {
+              ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, passive)
+              ctx.handler(el)
+            }
+          }, 25)
         }
 
-        if (elBottom > 0 && elBottom < containerBottom) {
-          ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
-          ctx.handler(el)
+        update(ctx, binding)
+
+        el.__qscrollfire = ctx
+      },
+
+      updated (el, binding) {
+        if (binding.value !== binding.oldValue) {
+          update(el.__qscrollfire, binding)
         }
-      }, 25)
-    }
+      },
 
-    update(ctx, binding)
-
-    el.__qscrollfire = ctx
-  },
-
-  update (el, binding) {
-    if (el.__qscrollfire !== void 0 && binding.value !== binding.oldValue) {
-      update(el.__qscrollfire, binding)
+      beforeUnmount (el) {
+        const ctx = el.__qscrollfire
+        ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, passive)
+        delete el.__qscrollfire
+      }
     }
-  },
-
-  unbind (el) {
-    if (el.__qscrollfire_destroyed === void 0) {
-      destroy(el)
-    }
-    else {
-      delete el.__qscrollfire_destroyed
-    }
-  }
-}

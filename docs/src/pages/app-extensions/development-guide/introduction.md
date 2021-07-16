@@ -8,12 +8,13 @@ This section of the docs deals with creating your own App Extensions.
 It is assumed you have already installed one of the official App Extensions. Having this experience at your disposal is going to be very valuable when you start building your own App Extensions. If you run into problems, please visit our Discord server's channel `#app-extensions`.
 
 ## Getting started
+
 An App Extension is an npm package. There are two official kits for creating App Extensions. The official `App Extension` starter kit should be used to create App Extensions that do not provide a UI, like a component or directive, unless the objective is to install a 3rd-party library into Vue. The second official kit is the `UI` kit. This has a `ui` folder for creating your component/directive, a `ui/dev` Quasar application for testing your component/directive in isolation, and an `app-extension` folder for creating the App Extension that will be used for injecting your component/directive via the Quasar CLI into a Quasar app. The UI kit can also be used such that your component/directive can also be used with Vue CLI or UMD.
 
 ```bash
 $ quasar create my-ext --kit app-extension
 # or
-$ quasar create my-ext --kit ui
+$ quasar create my-ui --kit ui
 ```
 
 It will prompt you about your specific needs. Do you need an install script, an uninstall script, will you be prompting the user with some questions? Pick only what you will be using. You can manually add these later if you decide otherwise.
@@ -63,11 +64,11 @@ When using the `UI` kit, you will have two npm packages; one for the App Extensi
 
 ## App Extension Scripts description
 
-| Name | Description |
-| --- | --- |
-| `src/prompts.js` | Handles the prompts when installing the App Extension |
-| `src/install.js` | Extends the installation procedure of the App Extension |
-| `src/index.js` | Is executed on `quasar dev` and `quasar build` |
+| Name               | Description                                               |
+| ------------------ | --------------------------------------------------------- |
+| `src/prompts.js`   | Handles the prompts when installing the App Extension     |
+| `src/install.js`   | Extends the installation procedure of the App Extension   |
+| `src/index.js`     | Is executed on `quasar dev` and `quasar build`            |
 | `src/uninstall.js` | Extends the uninstallation procedure of the App Extension |
 
 ## Handling package dependencies
@@ -101,6 +102,7 @@ $ yarn add --dev file://path/to/our/app/ext/root
 # or
 $ yarn add --dev link://path/to/our/app/ext/root
 ```
+
 You will need to figure out which command works best for your environment.
 
 ::: warning
@@ -116,21 +118,29 @@ $ quasar ext invoke my-ext
 
 This will trigger the installation of our new App Extension. You need to redo these two steps each time you make changes and you want to test them.
 
-Additionally, if you would like to have HMR (hot module reload) capabilities in your test app while developing your App Extension, then your `quasar.conf.js > devServer > watchOptions` would look like this:
+Additionally, if you would like to have HMR (hot module reload) capabilities in your test app while developing your App Extension, then your `quasar.conf.js > devServer > watchFiles` would look like this:
 
 ```js
 // quasar.conf.js
 devServer: {
-  watchOptions: {
-    ignored: [
-      'node_modules',
-
-      // be sure to change <myextid> below to
-      // your App Extension name:
-      '!node_modules/quasar-app-extension-<myextid>'
-    ]
-  }
+  // be sure to change <myextid> below to
+  // your App Extension name:
+  watchFiles: [
+    '/node_modules/quasar-app-extension-<myextid>/*'
+  ]
 }
+```
+
+And you might want to to extend the Webpack config. Assuming you are using the [`chainWebpack`](/quasar-cli/handling-webpack#usage-with-quasar-conf-js) method, your `quasar.conf.js > build > chainWebpack` should look like this:
+
+```js
+chainWebpack (chain) {
+  chain.merge({
+    snapshot: {
+      managedPaths: []
+    }
+  })
+},
 ```
 
 ### Uninstall script
@@ -201,6 +211,7 @@ Learn more about what you can do with the [Index API](/app-extensions/developmen
 :::
 
 ## Publishing
+
 When you finalized your App Extension and you're ready to deploy it, all you need to do is to publish it to the npm repository.
 
 Inside of your App Extension folder, run [yarn publish](https://yarnpkg.com/lang/en/docs/cli/publish/) or [npm publish](https://docs.npmjs.com/cli/publish). Both do the same thing.

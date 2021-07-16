@@ -1,161 +1,132 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
-import mixin from './spinner-mixin.js'
+import useSpinner, { useSpinnerProps } from './use-spinner.js'
 
-export default Vue.extend({
+const svg = [
+  h('rect', {
+    x: '0',
+    y: '0',
+    width: ' 100',
+    height: '100',
+    fill: 'none'
+  }),
+  h('g', {
+    transform: 'translate(25 25)'
+  }, [
+    h('rect', {
+      x: '-20',
+      y: '-20',
+      width: ' 40',
+      height: '40',
+      fill: 'currentColor',
+      opacity: '0.9'
+    }, [
+      h('animateTransform', {
+        attributeName: 'transform',
+        type: 'scale',
+        from: '1.5',
+        to: '1',
+        repeatCount: 'indefinite',
+        begin: '0s',
+        dur: '1s',
+        calcMode: 'spline',
+        keySplines: '0.2 0.8 0.2 0.8',
+        keyTimes: '0;1'
+      })
+    ])
+  ]),
+  h('g', {
+    transform: 'translate(75 25)'
+  }, [
+    h('rect', {
+      x: '-20',
+      y: '-20',
+      width: ' 40',
+      height: '40',
+      fill: 'currentColor',
+      opacity: '0.8'
+    }, [
+      h('animateTransform', {
+        attributeName: 'transform',
+        type: 'scale',
+        from: '1.5',
+        to: '1',
+        repeatCount: 'indefinite',
+        begin: '0.1s',
+        dur: '1s',
+        calcMode: 'spline',
+        keySplines: '0.2 0.8 0.2 0.8',
+        keyTimes: '0;1'
+      })
+    ])
+  ]),
+  h('g', {
+    transform: 'translate(25 75)'
+  }, [
+    h('rect', {
+      x: '-20',
+      y: '-20',
+      width: ' 40',
+      height: '40',
+      fill: 'currentColor',
+      opacity: '0.7'
+    }, [
+      h('animateTransform', {
+        attributeName: 'transform',
+        type: 'scale',
+        from: '1.5',
+        to: '1',
+        repeatCount: 'indefinite',
+        begin: '0.3s',
+        dur: '1s',
+        calcMode: 'spline',
+        keySplines: '0.2 0.8 0.2 0.8',
+        keyTimes: '0;1'
+      })
+    ])
+  ]),
+  h('g', {
+    transform: 'translate(75 75)'
+  }, [
+    h('rect', {
+      x: '-20',
+      y: '-20',
+      width: ' 40',
+      height: '40',
+      fill: 'currentColor',
+      opacity: '0.6'
+    }, [
+      h('animateTransform', {
+        attributeName: 'transform',
+        type: 'scale',
+        from: '1.5',
+        to: '1',
+        repeatCount: 'indefinite',
+        begin: '0.2s',
+        dur: '1s',
+        calcMode: 'spline',
+        keySplines: '0.2 0.8 0.2 0.8',
+        keyTimes: '0;1'
+      })
+    ])
+  ])
+]
+
+export default defineComponent({
   name: 'QSpinnerCube',
 
-  mixins: [mixin],
+  props: useSpinnerProps,
 
-  render (h) {
-    return h('svg', {
-      staticClass: 'q-spinner',
-      class: this.classes,
-      on: { ...this.qListeners },
-      attrs: {
-        focusable: 'false' /* needed for IE11 */,
-        'width': this.cSize,
-        'height': this.cSize,
-        'xmlns': 'http://www.w3.org/2000/svg',
-        'viewBox': '0 0 100 100',
-        'preserveAspectRatio': 'xMidYMid'
-      }
-    }, [
-      h('rect', {
-        attrs: {
-          'x': '0',
-          'y': '0',
-          'width': '100',
-          'height': '100',
-          'fill': 'none'
-        }
-      }),
-      h('g', {
-        attrs: {
-          'transform': 'translate(25 25)'
-        }
-      }, [
-        h('rect', {
-          attrs: {
-            'x': '-20',
-            'y': '-20',
-            'width': '40',
-            'height': '40',
-            'fill': 'currentColor',
-            'opacity': '0.9'
-          }
-        }, [
-          h('animateTransform', {
-            attrs: {
-              'attributeName': 'transform',
-              'type': 'scale',
-              'from': '1.5',
-              'to': '1',
-              'repeatCount': 'indefinite',
-              'begin': '0s',
-              'dur': '1s',
-              'calcMode': 'spline',
-              'keySplines': '0.2 0.8 0.2 0.8',
-              'keyTimes': '0;1'
-            }
-          })
-        ])
-      ]),
-      h('g', {
-        attrs: {
-          'transform': 'translate(75 25)'
-        }
-      }, [
-        h('rect', {
-          attrs: {
-            'x': '-20',
-            'y': '-20',
-            'width': '40',
-            'height': '40',
-            'fill': 'currentColor',
-            'opacity': '0.8'
-          }
-        }, [
-          h('animateTransform', {
-            attrs: {
-              'attributeName': 'transform',
-              'type': 'scale',
-              'from': '1.5',
-              'to': '1',
-              'repeatCount': 'indefinite',
-              'begin': '0.1s',
-              'dur': '1s',
-              'calcMode': 'spline',
-              'keySplines': '0.2 0.8 0.2 0.8',
-              'keyTimes': '0;1'
-            }
-          })
-        ])
-      ]),
-      h('g', {
-        attrs: {
-          'transform': 'translate(25 75)'
-        }
-      }, [
-        h('rect', {
-          staticClass: 'cube',
-          attrs: {
-            'x': '-20',
-            'y': '-20',
-            'width': '40',
-            'height': '40',
-            'fill': 'currentColor',
-            'opacity': '0.7'
-          }
-        }, [
-          h('animateTransform', {
-            attrs: {
-              'attributeName': 'transform',
-              'type': 'scale',
-              'from': '1.5',
-              'to': '1',
-              'repeatCount': 'indefinite',
-              'begin': '0.3s',
-              'dur': '1s',
-              'calcMode': 'spline',
-              'keySplines': '0.2 0.8 0.2 0.8',
-              'keyTimes': '0;1'
-            }
-          })
-        ])
-      ]),
-      h('g', {
-        attrs: {
-          'transform': 'translate(75 75)'
-        }
-      }, [
-        h('rect', {
-          staticClass: 'cube',
-          attrs: {
-            'x': '-20',
-            'y': '-20',
-            'width': '40',
-            'height': '40',
-            'fill': 'currentColor',
-            'opacity': '0.6'
-          }
-        }, [
-          h('animateTransform', {
-            attrs: {
-              'attributeName': 'transform',
-              'type': 'scale',
-              'from': '1.5',
-              'to': '1',
-              'repeatCount': 'indefinite',
-              'begin': '0.2s',
-              'dur': '1s',
-              'calcMode': 'spline',
-              'keySplines': '0.2 0.8 0.2 0.8',
-              'keyTimes': '0;1'
-            }
-          })
-        ])
-      ])
-    ])
+  setup (props) {
+    const { cSize, classes } = useSpinner(props)
+
+    return () => h('svg', {
+      class: classes.value,
+      width: cSize.value,
+      height: cSize.value,
+      xmlns: 'http://www.w3.org/2000/svg',
+      viewBox: '0 0 100 100',
+      preserveAspectRatio: 'xMidYMid'
+    }, svg)
   }
 })

@@ -16,7 +16,9 @@ q-card(flat bordered)
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
 import { date } from 'quasar'
+
 import PackageReleases from './PackageReleases'
 
 const { extractDate } = date
@@ -28,40 +30,29 @@ export default {
     PackageReleases
   },
 
-  data () {
-    return {
-      loading: true,
-      error: false,
-
-      packages: {
-        quasar: [],
-        '@quasar/app': [],
-        '@quasar/cli': [],
-        '@quasar/extras': [],
-        '@quasar/icongenie': []
-      },
-
-      currentPackage: 'quasar',
-      versions: {}
+  setup () {
+    const packagesDefinitions = {
+      quasar: [],
+      '@quasar/app': [],
+      '@quasar/cli': [],
+      '@quasar/extras': [],
+      '@quasar/icongenie': []
     }
-  },
+    const loading = ref(false)
+    const error = ref(false)
+    const packages = ref(packagesDefinitions)
+    const currentPackage = ref('quasar')
+    const versions = ref({})
 
-  mounted () {
-    this.queryReleases()
-  },
-
-  methods: {
-    queryReleases (page = 1) {
-      this.loading = true
-      this.error = false
+    function queryReleases (page = 1) {
+      loading.value = true
+      error.value = false
 
       const latestVersions = {}
-
-      const self = this,
-        xhrQuasar = new XMLHttpRequest()
+      const xhrQuasar = new XMLHttpRequest()
 
       xhrQuasar.addEventListener('load', function () {
-        self.loading = false
+        loading.value = false
         const releases = JSON.parse(this.responseText)
 
         if (releases.length === 0) {
@@ -82,8 +73,8 @@ export default {
             continue
           }
 
-          if (self.packages[packageName] === void 0) {
-            self.packages[packageName] = []
+          if (packages.value[ packageName ] === void 0) {
+            packages.value[ packageName ] = []
           }
 
           const releaseInfo = {
@@ -92,27 +83,36 @@ export default {
             body: release.body,
             label: `${packageName} v${version}`
           }
-          self.packages[packageName].push(releaseInfo)
+          packages.value[ packageName ].push(releaseInfo)
 
-          if (latestVersions[packageName] === void 0) {
-            latestVersions[packageName] = releaseInfo.label
+          if (latestVersions[ packageName ] === void 0) {
+            latestVersions[ packageName ] = releaseInfo.label
           }
         }
 
         if (!stopQuery) {
-          self.queryReleases(page + 1)
+          queryReleases(page + 1)
         }
 
-        self.versions = Object.assign(latestVersions, self.versions)
-        self.$forceUpdate()
+        versions.value = Object.assign(latestVersions, versions.value)
       })
 
       xhrQuasar.addEventListener('error', () => {
-        this.error = true
+        error.value = true
       })
 
       xhrQuasar.open('GET', `https://api.github.com/repos/quasarframework/quasar/releases?page=${page}&per_page=100`)
       xhrQuasar.send()
+    }
+
+    onMounted(() => { queryReleases() })
+
+    return {
+      loading,
+      error,
+      packages,
+      currentPackage,
+      versions
     }
   }
 }

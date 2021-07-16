@@ -1,84 +1,78 @@
-import Vue from 'vue'
+import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/Ripple.js'
 
-import AttrsMixin from '../../mixins/attrs.js'
+import { hDir } from '../../utils/private/render.js'
 
-import cache from '../../utils/cache.js'
-
-export default Vue.extend({
+export default defineComponent({
   name: 'StepHeader',
-
-  mixins: [ AttrsMixin ],
-
-  directives: {
-    Ripple
-  },
 
   props: {
     stepper: {},
-    step: {}
+    step: {},
+    goToPanel: Function
   },
 
-  computed: {
-    isActive () {
-      return this.stepper.value === this.step.name
-    },
+  setup (props, { attrs }) {
+    const { proxy: { $q } } = getCurrentInstance()
+    const blurRef = ref(null)
 
-    isDisable () {
-      const opt = this.step.disable
+    const isActive = computed(() => props.stepper.modelValue === props.step.name)
+
+    const isDisable = computed(() => {
+      const opt = props.step.disable
       return opt === true || opt === ''
-    },
+    })
 
-    isError () {
-      const opt = this.step.error
+    const isError = computed(() => {
+      const opt = props.step.error
       return opt === true || opt === ''
-    },
+    })
 
-    isDone () {
-      const opt = this.step.done
-      return this.isDisable === false && (opt === true || opt === '')
-    },
+    const isDone = computed(() => {
+      const opt = props.step.done
+      return isDisable.value === false && (opt === true || opt === '')
+    })
 
-    headerNav () {
+    const headerNav = computed(() => {
       const
-        opt = this.step.headerNav,
+        opt = props.step.headerNav,
         nav = opt === true || opt === '' || opt === void 0
 
-      return this.isDisable === false &&
-        this.stepper.headerNav &&
-        nav
-    },
+      return isDisable.value === false
+        && props.stepper.headerNav
+        && nav
+    })
 
-    hasPrefix () {
-      return this.step.prefix &&
-        this.isActive === false &&
-        this.isError === false &&
-        this.isDone === false
-    },
+    const hasPrefix = computed(() => {
+      return props.step.prefix
+        && isActive.value === false
+        && isError.value === false
+        && isDone.value === false
+    })
 
-    icon () {
-      if (this.isActive === true) {
-        return this.step.activeIcon || this.stepper.activeIcon || this.$q.iconSet.stepper.active
+    const icon = computed(() => {
+      if (isActive.value === true) {
+        return props.step.activeIcon || props.stepper.activeIcon || $q.iconSet.stepper.active
       }
-      if (this.isError === true) {
-        return this.step.errorIcon || this.stepper.errorIcon || this.$q.iconSet.stepper.error
+      if (isError.value === true) {
+        return props.step.errorIcon || props.stepper.errorIcon || $q.iconSet.stepper.error
       }
-      if (this.isDisable === false && this.isDone === true) {
-        return this.step.doneIcon || this.stepper.doneIcon || this.$q.iconSet.stepper.done
+      if (isDisable.value === false && isDone.value === true) {
+        return props.step.doneIcon || props.stepper.doneIcon || $q.iconSet.stepper.done
       }
 
-      return this.step.icon || this.stepper.inactiveIcon
-    },
+      return props.step.icon || props.stepper.inactiveIcon
+    })
 
-    color () {
-      const errorColor = this.isError === true
-        ? this.step.errorColor || this.stepper.errorColor
+    const color = computed(() => {
+      const errorColor = isError.value === true
+        ? props.step.errorColor || props.stepper.errorColor
         : void 0
 
-      if (this.isActive === true) {
-        const color = this.step.activeColor || this.stepper.activeColor || this.step.color
+      if (isActive.value === true) {
+        const color = props.step.activeColor || props.stepper.activeColor || props.step.color
         return color !== void 0
           ? color
           : errorColor
@@ -86,87 +80,86 @@ export default Vue.extend({
       if (errorColor !== void 0) {
         return errorColor
       }
-      if (this.isDisable === false && this.isDone === true) {
-        return this.step.doneColor || this.stepper.doneColor || this.step.color || this.stepper.inactiveColor
+      if (isDisable.value === false && isDone.value === true) {
+        return props.step.doneColor || props.stepper.doneColor || props.step.color || props.stepper.inactiveColor
       }
 
-      return this.step.color || this.stepper.inactiveColor
-    },
-
-    classes () {
-      return `q-stepper__tab col-grow flex items-center no-wrap relative-position` +
-        (this.color !== void 0 ? ` text-${this.color}` : '') +
-        (this.isError === true ? ' q-stepper__tab--error' : '') +
-        (this.isActive === true ? ' q-stepper__tab--active' : '') +
-        (this.isDone === true ? ' q-stepper__tab--done' : '') +
-        (this.headerNav === true ? ' q-stepper__tab--navigation q-focusable q-hoverable' : '') +
-        (this.isDisable === true ? ' q-stepper__tab--disabled' : '')
-    }
-  },
-
-  methods: {
-    activate () {
-      this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
-      this.isActive === false && this.stepper.goTo(this.step.name)
-    },
-
-    keyup (e) {
-      if (e.keyCode === 13 && this.isActive === false) {
-        this.stepper.goTo(this.step.name)
-      }
-    }
-  },
-
-  render (h) {
-    const data = { class: this.classes }
-
-    if (this.stepper.headerNav === true) {
-      data.directives = [{
-        name: 'ripple',
-        value: this.headerNav
-      }]
-    }
-
-    this.headerNav === true && Object.assign(data, {
-      on: cache(this, 'headnavon', {
-        click: this.activate,
-        keyup: this.keyup
-      }),
-      attrs: this.isDisable === true
-        ? { tabindex: -1, 'aria-disabled': 'true' }
-        : { tabindex: this.qAttrs.tabindex || 0 }
+      return props.step.color || props.stepper.inactiveColor
     })
 
-    const child = [
-      h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }),
+    const classes = computed(() => {
+      return 'q-stepper__tab col-grow flex items-center no-wrap relative-position'
+        + (color.value !== void 0 ? ` text-${ color.value }` : '')
+        + (isError.value === true ? ' q-stepper__tab--error' : '')
+        + (isActive.value === true ? ' q-stepper__tab--active' : '')
+        + (isDone.value === true ? ' q-stepper__tab--done' : '')
+        + (headerNav.value === true ? ' q-stepper__tab--navigation q-focusable q-hoverable' : '')
+        + (isDisable.value === true ? ' q-stepper__tab--disabled' : '')
+    })
 
-      h('div', { staticClass: 'q-stepper__dot row flex-center q-stepper__line relative-position' }, [
-        h('span', { staticClass: 'row flex-center' }, [
-          this.hasPrefix === true
-            ? this.step.prefix
-            : h(QIcon, { props: { name: this.icon } })
-        ])
-      ])
-    ]
+    function onActivate () {
+      blurRef.value !== null && blurRef.value.focus()
+      isActive.value === false && props.goToPanel(props.step.name)
+    }
 
-    if (this.step.title !== void 0 && this.step.title !== null) {
-      const content = [
-        h('div', { staticClass: 'q-stepper__title' }, [ this.step.title ])
-      ]
+    function onKeyup (e) {
+      if (e.keyCode === 13 && isActive.value === false) {
+        props.goToPanel(props.step.name)
+      }
+    }
 
-      if (this.step.caption !== void 0 && this.step.caption !== null) {
-        content.push(
-          h('div', { staticClass: 'q-stepper__caption' }, [ this.step.caption ])
+    return () => {
+      const data = { class: classes.value }
+
+      if (headerNav.value === true) {
+        data.onClick = onActivate
+        data.onKeyup = onKeyup
+
+        Object.assign(data,
+          isDisable.value === true
+            ? { tabindex: -1, 'aria-disabled': 'true' }
+            : { tabindex: attrs.tabindex || 0 }
         )
       }
 
-      child.push(
-        h('div', {
-          staticClass: 'q-stepper__label q-stepper__line relative-position'
-        }, content)
+      const child = [
+        h('div', { class: 'q-focus-helper', tabindex: -1, ref: blurRef }),
+
+        h('div', { class: 'q-stepper__dot row flex-center q-stepper__line relative-position' }, [
+          h('span', { class: 'row flex-center' }, [
+            hasPrefix.value === true
+              ? props.step.prefix
+              : h(QIcon, { name: icon.value })
+          ])
+        ])
+      ]
+
+      if (props.step.title !== void 0 && props.step.title !== null) {
+        const content = [
+          h('div', { class: 'q-stepper__title' }, props.step.title)
+        ]
+
+        if (props.step.caption !== void 0 && props.step.caption !== null) {
+          content.push(
+            h('div', { class: 'q-stepper__caption' }, props.step.caption)
+          )
+        }
+
+        child.push(
+          h('div', {
+            class: 'q-stepper__label q-stepper__line relative-position'
+          }, content)
+        )
+      }
+
+      return hDir(
+        'div',
+        data,
+        child,
+        'head',
+        props.stepper.headerNav === true && headerNav.value !== false,
+        () => [ [ Ripple, headerNav.value ] ]
       )
     }
-
-    return h('div', data, child)
   }
 })

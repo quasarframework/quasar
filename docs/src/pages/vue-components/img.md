@@ -1,6 +1,7 @@
 ---
 title: QImg
 desc: The QImg Vue component makes working with responsive images easy and also adds a nice loading effect to them along with many other features like custom aspect ratio and captions.
+keys: QImg
 related:
   - /vue-components/spinners
   - /options/transitions
@@ -8,6 +9,7 @@ related:
 The QImg component makes working with images (any picture format) easy and also adds a nice loading effect to it along with many other features (example: the ability to set an aspect ratio).
 
 ## QImg API
+
 <doc-api file="QImg" />
 
 ## Usage
@@ -24,23 +26,21 @@ The QImg component makes working with images (any picture format) easy and also 
 
 <doc-example title="Captions" file="QImg/Caption" />
 
-### Image style <q-badge align="top" color="brand-primary" label="v1.4+" />
+### Image style
 
 In the example below, we add a blur and sepia effect. Furthermore, we make use of the `rounded-borders` CSS helper class.
 
 <doc-example title="Custom image style" file="QImg/CustomImageStyle" />
 
-### Contain mode
+### Fit mode
 
-Contain mode (example below) will force-show the whole image, which usually leads to empty space (horizontally or vertically) besides the image. The second image doesn't uses the contain mode and it's there for comparison purposes.
+There are multiple ways in which the image can be displayed through the `fit` property: 'cover', 'fill' (default), 'contain', 'none', 'scale-down'. It is basically the same thing as the CSS prop called [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit).
 
-<doc-example title="Contain mode" file="QImg/Contain" />
+Some modes lead to empty space (horizontally or vertically) besides the image.
 
-### Transitions
+You can also configure the position through `position` property, which is equivalent to the CSS [object-position](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position) one. Its default value is "50% 50%".
 
-Use the `basic` property which disables transitions (and it also renders the component faster):
-
-<doc-example title="Transitions" file="QImg/Transitions" />
+<doc-example title="Fit modes" file="QImg/FitModes" />
 
 ### Loading states
 
@@ -68,9 +68,17 @@ For `sizes` property, please read about Resolution Switching: [Different Sizes](
 For `srcset` property, please read about Resolution Switching: [Same size, different resolutions](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Same_size_different_resolutions).
 :::
 
-### Native context menu <q-badge align="top" color="brand-primary" label="v1.8.4+" />
+### Render on demand
 
-In the example below we enable native context menu on the images.
+For browsers that natively support the [loading="lazy" DOM attribute](https://caniuse.com/loading-lazy-attr) you can take advantage of it. Quasar will use it and tell the browser to request the image and render it only if the image is currently being displayed on screen (or when it is scrolled into the screen).
+
+One alternative is to use the [QIntersection](/vue-components/intersection) component as a wrapper or [Intersection](/vue-directives/intersection) directive.
+
+<doc-example title="Native lazy loading" file="QImg/LoadingLazy" />
+
+### No native context menu
+
+In the example below we disable the native context menu on the images.
 
 ::: warning
 When you are using this option always take care to have the content of the `default` or `error` slots wrapped in a `div` element, or add a `all-pointer-events` class on the element.

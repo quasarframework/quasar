@@ -7,7 +7,7 @@ export default [
         role: 'Creator, Lead Dev & Architect',
         avatar: 'razvan_stoenescu.jpeg',
         email: 'razvan@quasar.dev',
-        twitter: 'quasarframework',
+        twitter: 'rstoenescu1',
         github: 'rstoenescu',
         desc: 'Architecture and development of Quasar on all fronts'
       },

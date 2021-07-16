@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/infinite-scroll"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/infinite-scroll"
   },
 
   "props": {
@@ -21,8 +17,7 @@
       "desc": "Debounce amount (in milliseconds)",
       "default": 100,
       "examples": [ "0", "530" ],
-      "category": "behavior",
-      "addedIn": "v1.1.0"
+      "category": "behavior"
     },
 
     "initial-index": {
@@ -30,8 +25,7 @@
       "desc": "Initialize the pagination index (used for the @load event)",
       "default": 0,
       "examples": [ 2, 3 ],
-      "category": "behavior",
-      "addedIn": "v1.13.0"
+      "category": "behavior"
     },
 
     "scroll-target": {
@@ -105,8 +99,7 @@
     },
 
     "setIndex": {
-      "desc": "Overwrite the current pagination index",
-      "addedIn": "v1.13.0"
+      "desc": "Overwrite the current pagination index"
     },
 
     "updateScrollTarget": {

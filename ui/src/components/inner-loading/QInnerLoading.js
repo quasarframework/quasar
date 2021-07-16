@@ -1,54 +1,57 @@
-import Vue from 'vue'
+import { h, defineComponent, computed, Transition, getCurrentInstance } from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
 
-import TransitionMixin from '../../mixins/transition.js'
-import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QInnerLoading',
 
-  mixins: [ ListenersMixin, DarkMixin, TransitionMixin ],
-
   props: {
+    ...useDarkProps,
+    ...useTransitionProps,
+
     showing: Boolean,
     color: String,
 
     size: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 42
     }
   },
 
-  render (h) {
-    const child = this.showing === true
-      ? [
-        h('div',
-          {
-            staticClass: 'q-inner-loading absolute-full column flex-center',
-            class: this.isDark === true ? 'q-inner-loading--dark' : null,
-            on: { ...this.qListeners }
-          },
-          this.$scopedSlots.default !== void 0
-            ? this.$scopedSlots.default()
-            : [
-              h(QSpinner, {
-                props: {
-                  size: this.size,
-                  color: this.color
-                }
-              })
-            ]
-        )
-      ]
-      : void 0
+  setup (props, { slots }) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
 
-    return h('transition', {
-      props: {
-        name: this.transition,
-        appear: true
-      }
-    }, child)
+    const { transition, transitionStyle } = useTransition(props, computed(() => props.showing))
+
+    const classes = computed(() =>
+      'q-inner-loading absolute-full column flex-center'
+      + (isDark.value === true ? ' q-inner-loading--dark' : '')
+    )
+
+    function getContent () {
+      return props.showing === true
+        ? h(
+            'div',
+            { class: classes.value, style: transitionStyle.value },
+            slots.default !== void 0
+              ? slots.default()
+              : [
+                  h(QSpinner, {
+                    size: props.size,
+                    color: props.color
+                  })
+                ]
+          )
+        : null
+    }
+
+    return () => h(Transition, {
+      name: transition.value,
+      appear: true
+    }, getContent)
   }
 })

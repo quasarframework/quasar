@@ -364,7 +364,7 @@
       <q-toggle v-model="fullWidth" label="Full width" />
     </div>
     <div class="column q-gutter-y-md items-start">
-      <q-btn-dropdown :class="fullWidth ? 'self-stretch' : ''" persistent v-model="toggle" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
+      <q-btn-dropdown :class="fullWidth ? 'self-stretch' : ''" persistent @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
         <q-list>
           <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-popup @click="showNotification">
             <q-item-section avatar>
@@ -528,7 +528,7 @@
         </q-list>
       </q-btn-dropdown>
 
-      <q-btn-dropdown :class="fullWidth ? 'full-width' : ''" persistent v-model="toggle" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
+      <q-btn-dropdown :class="fullWidth ? 'full-width' : ''" persistent @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
         <q-list>
           <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-popup @click="showNotification">
             <q-item-section avatar>
@@ -713,7 +713,7 @@ export default {
         { split: true, dense: false, disable: true },
         { split: true, dense: true, disable: true }
       ],
-      sizes: ['sm', 'md', 'lg'],
+      sizes: [ 'sm', 'md', 'lg' ],
       labelA: '',
       disableMainBtn: false,
       disableDropdown: false
@@ -738,7 +738,7 @@ export default {
     },
     hideDropdown (index) {
       console.log(this.$refs)
-      this.$refs.first[index].hide()
+      this.$refs.first[ index ].hide()
     },
     showNotification () {
       this.$q.notify('wow')

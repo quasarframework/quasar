@@ -1,25 +1,20 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/splitter"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/splitter"
   },
 
   "props": {
-    "value": {
+    "model-value": {
+      "extends": "model-value",
       "type": "Number",
-      "desc": "Model of the component defining the size of first panel (or second if using reverse) in the unit specified (for '%' it's the split ratio percent - 0.0 < x < 100.0; for 'px' it's the size in px); Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "examples": [ "v-model=\"ratio\"" ],
-      "category": "model"
+      "desc": "Model of the component defining the size of first panel (or second if using reverse) in the unit specified (for '%' it's the split ratio percent - 0.0 < x < 100.0; for 'px' it's the size in px); Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "examples": [ "v-model=\"ratio\"" ]
     },
 
     "reverse": {
       "type": "Boolean",
       "desc": "Apply the model size to the second panel (by default it applies to the first)",
-      "category": "model",
-      "addedIn": "v1.2.6"
+      "category": "model"
     },
 
     "unit": {
@@ -27,8 +22,7 @@
       "desc": "CSS unit for the model",
       "default": "%",
       "values": [ "%", "px" ],
-      "category": "model",
-      "addedIn": "v1.2.6"
+      "category": "model"
     },
 
     "emit-immediately": {
@@ -121,7 +115,7 @@
   },
 
   "events": {
-    "input": {
+    "update:model-value": {
       "desc": "Emitted when component's model value changes; Is also used by v-model",
       "params": {
         "value": {

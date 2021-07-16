@@ -108,7 +108,7 @@ Examples: `q-pa-xs-md q-pa-sm-sm q-px-md-lg q-py-md-md`
 | `q-` | `m` (margin) | `t` (top) | `md` (medium) | `q-mt-md` |
 | `q-` | `m` (margin) | `t` (top) | `lg` (large) | `q-mt-lg` |
 | `q-` | `m` (margin) | `t` (top) | `xl` (extra large) | `q-mt-xl` |
-| `q-` | `m` (margin) | `t` (top) | `auto` | `q-mt-auto` (v1.9.12+) |
+| `q-` | `m` (margin) | `t` (top) | `auto` | `q-mt-auto` |
 | `q-` | `m` (margin) | `r` (right) | `none` | `q-mr-none` |
 | `q-` | `m` (margin) | `r` (right) | `xs` (extra small) | `q-mr-xs` |
 | `q-` | `m` (margin) | `r` (right) | `sm` (small) | `q-mr-sm` |
@@ -122,7 +122,7 @@ Examples: `q-pa-xs-md q-pa-sm-sm q-px-md-lg q-py-md-md`
 | `q-` | `m` (margin) | `b` (bottom) | `md` (medium) | `q-mb-md` |
 | `q-` | `m` (margin) | `b` (bottom) | `lg` (large) | `q-mb-lg` |
 | `q-` | `m` (margin) | `b` (bottom) | `xl` (extra large) | `q-mb-xl` |
-| `q-` | `m` (margin) | `b` (bottom) | `auto` | `q-mb-auto` (v1.9.12+) |
+| `q-` | `m` (margin) | `b` (bottom) | `auto` | `q-mb-auto` |
 | `q-` | `m` (margin) | `l` (left) | `none` | `q-ml-none` |
 | `q-` | `m` (margin) | `l` (left) | `xs` (extra small) | `q-ml-xs` |
 | `q-` | `m` (margin) | `l` (left) | `sm` (small) | `q-ml-sm` |
@@ -149,7 +149,7 @@ Examples: `q-pa-xs-md q-pa-sm-sm q-px-md-lg q-py-md-md`
 | `q-` | `m` (margin) | `y` (top & bottom) | `md` (medium) | `q-my-md` |
 | `q-` | `m` (margin) | `y` (top & bottom) | `lg` (large) | `q-my-lg` |
 | `q-` | `m` (margin) | `y` (top & bottom) | `xl` (extra large) | `q-my-xl` |
-| `q-` | `m` (margin) | `y` (top & bottom) | `auto` | `q-my-auto` (v1.9.12+) |
+| `q-` | `m` (margin) | `y` (top & bottom) | `auto` | `q-my-auto` |
 
 ::: tip
 See more details about the [Flex Addons](/layout/grid/introduction-to-flexbox#flex-addons).

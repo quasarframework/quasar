@@ -14,7 +14,7 @@ export default {
     update: 'تحديث',
     create: 'إنشاء',
     search: 'بحث',
-    filter: 'ترشيح',
+    filter: 'تنقية',
     refresh: 'تحديث'
   },
   date: {
@@ -30,20 +30,18 @@ export default {
     noData: 'لا توجد بيانات',
     noResults: 'لا توجد نتائج',
     loading: 'جارٍ التحميل...',
-    selectedRecords: function (rows) {
-      return rows === 0
+    selectedRecords: rows => (
+      rows === 0
         ? 'لا توجد مُدخَلات محدّدة.'
         : rows === 1
           ? 'مُدخَلة واحدة محدّدة.'
           : rows === 2
             ? 'مُدخَلتان محدّدتان.'
             : 'عدد المُدخَلات المحدّدة ' + rows + '.'
-    },
+    ),
     recordsPerPage: 'عدد المُدخَلات في كل صفحة:',
     allRows: 'الكل',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' من ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' من ' + total,
     columns: 'أعمدة'
   },
   editor: {

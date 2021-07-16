@@ -5,23 +5,26 @@
         Notify the user something is going on under the covers.
       </div>
       <div>
-        {{ state }}
+        {{ stateInner }} | {{ stateOuter }}
       </div>
       <div class="q-gutter-sm">
-        <q-btn push color="secondary" @click="noMessage()">
+        <q-btn push color="secondary" @click="noMessage">
           Show
         </q-btn>
-        <q-btn push color="primary" @click="withMessage()">
-          Show With Message
+        <q-btn push color="primary" @click="withHtmlMessage">
+          HTML Message
         </q-btn>
-        <q-btn push color="primary" @click="withMessageSanitized()">
-          Show With Message (Sanitized)
+        <q-btn push color="primary" @click="withMessageSanitized">
+          Sanitized Message
+        </q-btn>
+        <q-btn push color="secondary" @click="withBox">
+          With box
         </q-btn>
       </div>
       <div class="q-my-md">
         ...with a custom spinner, colors and size.
       </div>
-      <q-btn push color="secondary" @click="customLoading()">
+      <q-btn push color="secondary" @click="customLoading">
         Show custom Loading
       </q-btn>
       <div class="q-my-md">
@@ -40,7 +43,7 @@
       </div>
       <div>
         <q-input v-model.number="showCount" type="number" min="1" max="10" style="max-width: 150px;" filled />
-        <q-btn class="q-mt-md" push color="secondary" @click="showMultiple()">
+        <q-btn class="q-mt-md" push color="secondary" @click="showMultiple">
           Show Multiple Times
         </q-btn>
       </div>
@@ -70,8 +73,11 @@
 import {
   Loading,
   QSpinnerFacebook,
-  QSpinnerGears
+  QSpinnerGears,
+  useQuasar
 } from 'quasar'
+
+import { ref, computed, onMounted } from 'vue'
 
 function show (options, timeout = 3000) {
   Loading.show(options)
@@ -100,110 +106,117 @@ export default {
   },
   */
 
-  data () {
-    return {
-      showCount: 3
-    }
-  },
+  setup () {
+    const showCount = ref(3)
+    const $q = useQuasar()
 
-  computed: {
-    state () {
-      return Loading.isActive
-    }
-  },
-
-  mounted () {
-    this.$q.loading.setDefaults({
-      spinnerColor: 'amber'
-    })
-    this.$q.loading.show({
-      message: 'With defaults'
-    })
-    setTimeout(() => {
-      this.$q.loading.show({
-        message: 'Discarded defaults',
-        ignoreDefaults: true
+    onMounted(() => {
+      $q.loading.setDefaults({
+        spinnerColor: 'amber'
+      })
+      $q.loading.show({
+        message: 'With defaults'
       })
       setTimeout(() => {
-        this.$q.loading.hide()
-        this.$q.loading.setDefaults({
-          spinnerColor: void 0
-        })
-      }, 1000)
-    }, 1000)
-  },
-
-  methods: {
-    noMessage () {
-      show()
-    },
-    customLoading () {
-      show({
-        spinner: QSpinnerFacebook,
-        spinnerColor: 'amber',
-        spinnerSize: 140,
-        message: 'Some important process is in progress. Hang on...',
-        messageColor: 'orange'
-      })
-    },
-    withMessage () {
-      show({ message: 'Some <b class="text-negative">important</b> process is in progress. Hang on...' })
-    },
-    withMessageSanitized () {
-      show({ message: 'Some <b class="text-negative">important</b> process is in progress. Hang on...', sanitize: true })
-    },
-    changeMessage () {
-      Loading.show({ message: 'First message. Gonna change it in 3 seconds...' })
-      setTimeout(() => {
-        show({
-          spinner: QSpinnerGears,
-          spinnerColor: 'red',
-          messageColor: 'black',
-          backgroundColor: 'yellow',
-          message: 'Updated message'
-        })
-      }, 3000)
-    },
-    changeMessage2 () {
-      Loading.show({ message: 'First message. Gonna change it in 1.5 seconds...' })
-      setTimeout(() => {
-        Loading.show({
-          spinner: QSpinnerGears,
-          message: 'Updated message'
+        $q.loading.show({
+          message: 'Discarded defaults',
+          ignoreDefaults: true
         })
         setTimeout(() => {
-          Loading.show({
+          $q.loading.hide()
+          $q.loading.setDefaults({
+            spinnerColor: void 0
+          })
+        }, 1000)
+      }, 1000)
+    })
+
+    return {
+      showCount,
+      stateInner: computed(() => $q.loading.isActive),
+      stateOuter: computed(() => Loading.isActive),
+
+      noMessage () {
+        show()
+      },
+      customLoading () {
+        show({
+          spinner: QSpinnerFacebook,
+          spinnerColor: 'amber',
+          spinnerSize: 140,
+          message: 'Some important process is in progress. Hang on...',
+          messageColor: 'orange'
+        })
+      },
+      withHtmlMessage () {
+        show({
+          message: 'Some <b class="text-orange">important</b> process is in progress. Hang on...',
+          html: true
+        })
+      },
+      withMessageSanitized () {
+        show({
+          message: 'Some <b class="text-orange">important</b> process is in progress. Hang on...'
+        })
+      },
+      withBox () {
+        show({
+          message: 'Please wait...',
+          boxClass: 'bg-white text-grey-9'
+        })
+      },
+      changeMessage () {
+        Loading.show({ message: 'First message. Gonna change it in 3 seconds...' })
+        setTimeout(() => {
+          show({
+            spinner: QSpinnerGears,
             spinnerColor: 'red',
             messageColor: 'black',
             backgroundColor: 'yellow',
-            message: 'Updated message 2'
+            message: 'Updated message'
+          })
+        }, 3000)
+      },
+      changeMessage2 () {
+        Loading.show({ message: 'First message. Gonna change it in 1.5 seconds...' })
+        setTimeout(() => {
+          Loading.show({
+            spinner: QSpinnerGears,
+            message: 'Updated message'
           })
           setTimeout(() => {
-            Loading.hide()
+            Loading.show({
+              spinnerColor: 'red',
+              messageColor: 'black',
+              backgroundColor: 'yellow',
+              message: 'Updated message 2'
+            })
+            setTimeout(() => {
+              Loading.hide()
+            }, 2500)
           }, 2500)
         }, 2500)
-      }, 2500)
-    },
+      },
+      async showMultiple () {
+        for (let i = 0; i < showCount.value; i++) {
+          Loading.show()
 
-    async showMultiple () {
-      for (let i = 0; i < this.showCount; i++) {
-        Loading.show()
+          await new Promise(resolve => setTimeout(resolve, 2000))
 
-        await new Promise(resolve => setTimeout(resolve, 2000))
+          Loading.hide()
+        }
+      },
 
-        Loading.hide()
-      }
-    },
-
-    shortLoading (timeout) {
-      if (timeout === void 0) {
-        Loading.show({ delay: 500 })
-        Loading.show({ delay: 500 })
-        Loading.hide()
-      }
-      else {
-        show({ delay: 500 }, timeout)
-        Loading.show({ delay: 500 })
+      shortLoading (timeout) {
+        if (timeout === void 0) {
+          Loading.show({ delay: 500 })
+          Loading.show({ delay: 500 })
+          Loading.hide()
+        }
+        else {
+          show({ delay: 500 }, timeout)
+          Loading.show({ delay: 500 })
+        }
       }
     }
   }

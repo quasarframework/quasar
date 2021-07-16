@@ -1,47 +1,42 @@
-import Vue from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import DarkMixin from '../../mixins/dark.js'
-import RippleMixin from '../../mixins/ripple.js'
-import { getSizeMixin } from '../../mixins/size.js'
+import Ripple from '../../directives/Ripple.js'
+
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { mergeSlotSafely } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
+import { hMergeSlotSafely, hDir } from '../../utils/private/render.js'
 
-export default Vue.extend({
+const defaultSizes = {
+  xs: 8,
+  sm: 10,
+  md: 14,
+  lg: 20,
+  xl: 24
+}
+
+export default defineComponent({
   name: 'QChip',
 
-  mixins: [
-    RippleMixin,
-    DarkMixin,
-    getSizeMixin({
-      xs: 8,
-      sm: 10,
-      md: 14,
-      lg: 20,
-      xl: 24
-    })
-  ],
-
-  model: {
-    event: 'remove'
-  },
-
   props: {
+    ...useDarkProps,
+    ...useSizeProps,
+
     dense: Boolean,
 
     icon: String,
     iconRight: String,
     iconRemove: String,
     iconSelected: String,
-    label: [String, Number],
+    label: [ String, Number ],
 
     color: String,
     textColor: String,
 
-    value: {
+    modelValue: {
       type: Boolean,
       default: true
     },
@@ -55,140 +50,148 @@ export default Vue.extend({
     clickable: Boolean,
     removable: Boolean,
 
-    tabindex: [String, Number],
-    disable: Boolean
-  },
+    tabindex: [ String, Number ],
+    disable: Boolean,
 
-  computed: {
-    classes () {
-      const text = this.outline === true
-        ? this.color || this.textColor
-        : this.textColor
-
-      return {
-        [`bg-${this.color}`]: this.outline === false && this.color !== void 0,
-        [`text-${text} q-chip--colored`]: text,
-        disabled: this.disable,
-        'q-chip--dense': this.dense,
-        'q-chip--outline': this.outline,
-        'q-chip--selected': this.selected,
-        'q-chip--clickable cursor-pointer non-selectable q-hoverable': this.isClickable,
-        'q-chip--square': this.square,
-        'q-chip--dark q-dark': this.isDark
-      }
-    },
-
-    hasLeftIcon () {
-      return this.selected === true || this.icon !== void 0
-    },
-
-    leftIcon () {
-      return this.selected === true
-        ? this.iconSelected || this.$q.iconSet.chip.selected
-        : this.icon
-    },
-
-    removeIcon () {
-      return this.iconRemove || this.$q.iconSet.chip.remove
-    },
-
-    isClickable () {
-      return this.disable === false && (this.clickable === true || this.selected !== null)
-    },
-
-    attrs () {
-      return this.disable === true
-        ? { tabindex: -1, 'aria-disabled': 'true' }
-        : { tabindex: this.tabindex || 0 }
+    ripple: {
+      type: [ Boolean, Object ],
+      default: true
     }
   },
 
-  methods: {
-    __onKeyup (e) {
-      e.keyCode === 13 /* ENTER */ && this.__onClick(e)
-    },
+  emits: [ 'update:modelValue', 'update:selected', 'remove', 'click' ],
 
-    __onClick (e) {
-      if (!this.disable) {
-        this.$emit('update:selected', !this.selected)
-        this.$emit('click', e)
+  setup (props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance()
+
+    const isDark = useDark(props, $q)
+    const sizeStyle = useSize(props, defaultSizes)
+
+    const hasLeftIcon = computed(() => props.selected === true || props.icon !== void 0)
+
+    const leftIcon = computed(() => (
+      props.selected === true
+        ? props.iconSelected || $q.iconSet.chip.selected
+        : props.icon
+    ))
+
+    const removeIcon = computed(() => props.iconRemove || $q.iconSet.chip.remove)
+
+    const isClickable = computed(() =>
+      props.disable === false
+      && (props.clickable === true || props.selected !== null)
+    )
+
+    const classes = computed(() => {
+      const text = props.outline === true
+        ? props.color || props.textColor
+        : props.textColor
+
+      return 'q-chip row inline no-wrap items-center'
+        + (props.outline === false && props.color !== void 0 ? ` bg-${ props.color }` : '')
+        + (text ? ` text-${ text } q-chip--colored` : '')
+        + (props.disable === true ? ' disabled' : '')
+        + (props.dense === true ? ' q-chip--dense' : '')
+        + (props.outline === true ? ' q-chip--outline' : '')
+        + (props.selected === true ? ' q-chip--selected' : '')
+        + (isClickable.value === true ? ' q-chip--clickable cursor-pointer non-selectable q-hoverable' : '')
+        + (props.square === true ? ' q-chip--square' : '')
+        + (isDark.value === true ? ' q-chip--dark q-dark' : '')
+    })
+
+    const attributes = computed(() => (
+      props.disable === true
+        ? { tabindex: -1, 'aria-disabled': 'true' }
+        : { tabindex: props.tabindex || 0 }
+    ))
+
+    function onKeyup (e) {
+      e.keyCode === 13 /* ENTER */ && onClick(e)
+    }
+
+    function onClick (e) {
+      if (!props.disable) {
+        emit('update:selected', !props.selected)
+        emit('click', e)
       }
-    },
+    }
 
-    __onRemove (e) {
+    function onRemove (e) {
       if (e.keyCode === void 0 || e.keyCode === 13) {
         stopAndPrevent(e)
-        !this.disable && this.$emit('remove', false)
+        if (props.disable === false) {
+          emit('update:modelValue', false)
+          emit('remove')
+        }
       }
-    },
+    }
 
-    __getContent (h) {
+    function getContent () {
       const child = []
 
-      this.isClickable === true && child.push(
-        h('div', { staticClass: 'q-focus-helper' })
+      isClickable.value === true && child.push(
+        h('div', { class: 'q-focus-helper' })
       )
 
-      this.hasLeftIcon === true && child.push(
+      hasLeftIcon.value === true && child.push(
         h(QIcon, {
-          staticClass: 'q-chip__icon q-chip__icon--left',
-          props: { name: this.leftIcon }
+          class: 'q-chip__icon q-chip__icon--left',
+          name: leftIcon.value
         })
       )
 
-      const label = this.label !== void 0
-        ? [ h('div', { staticClass: 'ellipsis' }, [ this.label ]) ]
+      const label = props.label !== void 0
+        ? [ h('div', { class: 'ellipsis' }, [ props.label ]) ]
         : void 0
 
       child.push(
         h('div', {
-          staticClass: 'q-chip__content col row no-wrap items-center q-anchor--skip'
-        }, mergeSlotSafely(label, this, 'default'))
+          class: 'q-chip__content col row no-wrap items-center q-anchor--skip'
+        }, hMergeSlotSafely(slots.default, label))
       )
 
-      this.iconRight && child.push(
+      props.iconRight && child.push(
         h(QIcon, {
-          staticClass: 'q-chip__icon q-chip__icon--right',
-          props: { name: this.iconRight }
+          class: 'q-chip__icon q-chip__icon--right',
+          name: props.iconRight
         })
       )
 
-      this.removable === true && child.push(
+      props.removable === true && child.push(
         h(QIcon, {
-          staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
-          props: { name: this.removeIcon },
-          attrs: this.attrs,
-          on: cache(this, 'non', {
-            click: this.__onRemove,
-            keyup: this.__onRemove
-          })
+          class: 'q-chip__icon q-chip__icon--remove cursor-pointer',
+          name: removeIcon.value,
+          ...attributes.value,
+          onClick: onRemove,
+          onKeyup: onRemove
         })
       )
 
       return child
     }
-  },
 
-  render (h) {
-    if (this.value === false) { return }
+    return () => {
+      if (props.modelValue === false) { return }
 
-    const data = {
-      staticClass: 'q-chip row inline no-wrap items-center',
-      class: this.classes,
-      style: this.sizeStyle
+      const data = {
+        class: classes.value,
+        style: sizeStyle.value
+      }
+
+      isClickable.value === true && Object.assign(
+        data,
+        attributes.value,
+        { onClick, onKeyup }
+      )
+
+      return hDir(
+        'div',
+        data,
+        getContent(),
+        'ripple',
+        props.ripple !== false && props.disable !== true,
+        () => [ [ Ripple, props.ripple ] ]
+      )
     }
-
-    this.isClickable === true && Object.assign(data, {
-      attrs: this.attrs,
-      on: cache(this, 'click', {
-        click: this.__onClick,
-        keyup: this.__onKeyup
-      }),
-      directives: cache(this, 'dir#' + this.ripple, [
-        { name: 'ripple', value: this.ripple }
-      ])
-    })
-
-    return h('div', data, this.__getContent(h))
   }
 })

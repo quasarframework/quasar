@@ -135,7 +135,7 @@
         Click on Dessert or Calories cells.
       </p>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -150,74 +150,92 @@
         <template v-slot:body="props">
           <q-tr :props="props">
             <q-td key="desc" :props="props">
-              {{ props.row.name }}
+              <div>
+                {{ props.row.name }}
+              </div>
+
               <q-popup-edit
-                content-class="bg-primary text-white"
+                class="bg-primary text-white"
                 buttons
                 color="white"
                 v-model="props.row.name"
+                v-slot="scope"
               >
                 <q-input
                   type="textarea"
                   dark
                   color="white"
-                  v-model="props.row.name"
+                  v-model="scope.value"
                   autofocus
-                  @keyup.enter.stop
                 />
               </q-popup-edit>
             </q-td>
             <q-td key="calories" :props="props">
-              {{ props.row.calories }}
-              <q-popup-edit v-model="props.row.calories" title="Update calories" buttons>
-                <q-input type="number" v-model="props.row.calories" dense autofocus />
+              <div>
+                {{ props.row.calories }}
+              </div>
+
+              <q-popup-edit v-model="props.row.calories" title="Update calories" buttons v-slot="scope">
+                <q-input type="number" v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
               </q-popup-edit>
             </q-td>
+
             <q-td key="fat" :props="props">
               <div>
                 {{ props.row.fat }}
               </div>
-              <q-popup-edit v-model="props.row.fat">
-                <q-input type="textarea" v-model="props.row.fat" dense autofocus />
+
+              <q-popup-edit v-model="props.row.fat" v-slot="scope">
+                <q-input type="textarea" v-model="scope.value" dense autofocus />
               </q-popup-edit>
             </q-td>
+
             <q-td key="carbs" :props="props">
-              {{ props.row.carbs }}
-              <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent>
-                <q-input type="number" v-model="props.row.carbs" dense autofocus hint="Use buttons to close" />
+              <div>
+                {{ props.row.carbs }}
+              </div>
+
+              <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent v-slot="scope">
+                <q-input type="number" v-model="scope.value" dense autofocus hint="Use buttons to close" @keyup.enter="scope.set" />
               </q-popup-edit>
             </q-td>
+
             <q-td key="protein" :props="props">
-              {{ props.row.protein }}
-              <q-popup-edit v-model="props.row.protein">
-                <q-input v-model="props.row.protein" dense autofocus counter />
+              <div>
+                {{ props.row.protein }}
+              </div>
+
+              <q-popup-edit v-model="props.row.protein" v-slot="scope">
+                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
               </q-popup-edit>
             </q-td>
+
             <q-td key="sodium" :props="props">
-              {{ props.row.sodium }}
-              <q-popup-edit persistent v-model="props.row.sodium" :validate="val => val > 10">
-                <template v-slot="{ initialValue, value, emitValue, validate, set, cancel }">
-                  <q-input
-                    autofocus
-                    dense
-                    :value="value"
-                    hint="Sodium level (>10)"
-                    :rules="[
-                      val => validate(value) || 'Please enter more than 10'
-                    ]"
-                    @input="emitValue"
-                  >
-                    <template v-slot:after>
-                      <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />
-                      <q-btn flat dense color="positive" icon="save" @click.stop="set" :disable="validate(value) === false || initialValue === value" />
-                    </template>
-                  </q-input>
-                </template>
+              <div>
+                {{ props.row.sodium }}
+              </div>
+
+              <q-popup-edit persistent v-model="props.row.sodium" :validate="val => val > 10" v-slot="scope">
+                <q-input
+                  autofocus
+                  dense
+                  v-model="scope.value"
+                  hint="Sodium level (>10)"
+                  :rules="[ val => scope.validate(val) || 'Please enter more than 10' ]"
+                  @keyup.enter="scope.set"
+                >
+                  <template v-slot:after>
+                    <q-btn flat dense color="negative" icon="cancel" @click="scope.cancel" />
+                    <q-btn flat dense color="positive" icon="save" @click="scope.set" :disable="scope.validate(scope.value) === false || scope.initialValue === scope.value" />
+                  </template>
+                </q-input>
               </q-popup-edit>
             </q-td>
+
             <q-td key="calcium" :props="props">
               {{ props.row.calcium }}
             </q-td>
+
             <q-td key="iron" :props="props">
               {{ props.row.iron }}
             </q-td>
@@ -233,11 +251,11 @@
         grid
         :grid-header="gridHeader"
         :loading="gridLoading"
-        :data="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         @selection="onSelection"
         :visible-columns="visibleColumns"
         card-container-class="justify-center"
@@ -245,7 +263,9 @@
       >
         <template v-slot:top-right>
           <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-            <q-icon slot="append" name="search" />
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
           </q-input>
         </template>
 
@@ -277,7 +297,9 @@
       </q-table>
 
       <q-input filled v-model="filter" label="Search" debounce="300">
-        <q-icon slot="append" name="search" />
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
       </q-input>
 
       <div>
@@ -290,22 +312,24 @@
       <h2>Emulate server-side</h2>
       <q-table
         ref="server"
-        :data="serverData"
+        :rows="serverData"
         :columns="columns"
         :title="title"
         :filter="filter"
         :loading="loading"
         selection="multiple"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :visible-columns="visibleColumns"
         row-key="name"
-        :pagination.sync="serverPagination"
+        v-model:pagination="serverPagination"
         :separator="separator"
         @request="request"
       >
         <template v-slot:top-right>
           <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-            <q-icon slot="append" name="search" />
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
           </q-input>
         </template>
       </q-table>
@@ -317,25 +341,25 @@
         color="orange"
         bordered
         :separator="separator"
-        :data="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
         :loading="loading"
         selection="multiple"
-        :selected.sync="selected"
+        v-model:selected="selected"
         row-key="name"
       />
 
       <h2>body-cell-[name] template</h2>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
         :loading="loading"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :visible-columns="visibleColumns"
         row-key="name"
         color="secondary"
@@ -386,7 +410,7 @@
 
       <h2>no-top, no-bottom</h2>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -399,13 +423,13 @@
 
       <h2>top-left template</h2>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
         :loading="loading"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :visible-columns="visibleColumns"
         row-key="name"
         color="amber"
@@ -427,7 +451,7 @@
 
       <h2>top template</h2>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -444,7 +468,7 @@
 
       <h2>header-cell</h2>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -459,7 +483,7 @@
 
       <h2>header-cell-[name] template</h2>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -481,7 +505,7 @@
 
       <h2>header</h2>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -498,7 +522,7 @@
 
       <h2>header 2</h2>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -535,7 +559,7 @@
       </q-table>
       <h2>body template - cell button with loading</h2>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -575,7 +599,7 @@
 
       <h2>body template 2</h2>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -592,7 +616,7 @@
 
       <h2>body-cell template</h2>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -607,7 +631,7 @@
 
       <h2>before/after header/footer template</h2>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -640,13 +664,13 @@
       <h2>selection template</h2>
       <q-toggle v-model="selectionToggle" />
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :color="color"
         row-key="name"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :loading="loading"
         :visible-columns="visibleColumns"
         :title="title"
@@ -706,13 +730,13 @@
         </template>
       </q-table>
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :color="color"
         row-key="name"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :loading="loading"
         :visible-columns="visibleColumns"
         :title="title"
@@ -740,13 +764,13 @@
       </q-table>
 
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :color="color"
         row-key="name"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :loading="loading"
         :visible-columns="visibleColumns"
         :title="title"
@@ -764,13 +788,13 @@
       </q-table>
 
       <q-table
-        :data="data"
+        :rows="data"
         :columns="columns"
         :filter="filter"
         :color="color"
         row-key="name"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :loading="loading"
         :visible-columns="visibleColumns"
         :title="title"
@@ -786,7 +810,7 @@ export default {
       selectionToggle: false,
       loading: false,
       color: 'amber',
-      visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
+      visibleColumns: [ 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ],
       separator: 'horizontal',
       selected: [],
       gridHeader: false,
@@ -809,7 +833,7 @@ export default {
           style: 'background: #26a69a',
           headerStyle: 'background: #26a69a',
           field: row => row.name,
-          format: val => `~${val}`,
+          format: val => `~${ val }`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
@@ -961,11 +985,11 @@ export default {
         let rows = this.data.slice()
 
         if (props.filter) {
-          rows = table.filterMethod(rows, props.filter)
+          rows = table.computedFilterMethod(rows, props.filter)
         }
 
         if (sortBy) {
-          rows = table.sortMethod(rows, sortBy, descending)
+          rows = table.computedSortMethod(rows, sortBy, descending)
         }
 
         this.serverPagination.rowsNumber = rows.length
@@ -992,9 +1016,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .q-table + .q-table
-  margin-top 25px
+  margin-top: 25px
 .text-pre-wrap
-  white-space pre-wrap
+  white-space: pre-wrap
 </style>

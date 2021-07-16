@@ -1,7 +1,7 @@
 ---
 title: Skeleton
 desc: The QSkeleton Vue component is used to display a placeholder preview of your content before you load the actual page data.
-badge: v1.6+
+keys: QSkeleton
 related:
   - /vue-components/circular-progress
   - /vue-components/inner-loading
@@ -13,6 +13,7 @@ related:
 The QSkeleton is a component for displaying a placeholder preview of your content before you load the actual page data. It's a nice way of informing the user of what to expect from the page before it is fully loaded and increases the perceived performance. It can be used to incrementally display information on screen as data is being fetched.
 
 ## QSkeleton API
+
 <doc-api file="QSkeleton" />
 
 ## Usage

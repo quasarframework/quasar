@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-directives/touch-pan"
+    "docsUrl": "https://v2.quasar.dev/vue-directives/touch-pan"
   },
 
   "value": {
@@ -151,8 +151,7 @@
 
     "preserveCursor": {
       "type": "Boolean",
-      "desc": "Prevent the mouse cursor from automatically displaying as grabbing when panning",
-      "addedIn": "v1.13.0"
+      "desc": "Prevent the mouse cursor from automatically displaying as grabbing when panning"
     },
 
     "horizontal": {

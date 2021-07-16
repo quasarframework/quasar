@@ -22,7 +22,18 @@
               Quasar App
             </q-toolbar-title>
 
-            <div>Quasar v{{ $q.version }}</div>
+            <q-btn
+              class="q-mx-md"
+              type="a"
+              href="./index-multiapp.umd.html"
+              outline
+              color="white"
+              icon="launch"
+              label="To Multi-App"
+              no-caps
+            ></q-btn>
+
+            <div>Quasar v{{ $q.version }} | Vue v{{ vueVersion }}</div>
           </q-toolbar>
         </q-header>
 
@@ -30,16 +41,16 @@
           v-model="drawerState"
           bordered
           show-if-above
-          content-class="bg-grey-2"
+          class="bg-grey-2"
         >
           <q-list>
             <q-item-label header>Essential Links</q-item-label>
-            <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
+            <q-item clickable @click="launchUrl">
               <q-item-section avatar>
                 <q-icon name="school"></q-icon>
               </q-item-section>
               <q-item-section>
-                <q-item-label>Docs</q-item-label>
+                <q-item-label>Docs (openURL)</q-item-label>
                 <q-item-label caption>quasar.dev</q-item-label>
               </q-item-section>
             </q-item>
@@ -110,48 +121,46 @@
       </q-layout>
     </div>
 
-    <script src="dist/quasar.ie.polyfills.umd.min.js"></script>
-    <script src="https://unpkg.com/vue@^2.0.0/dist/vue.min.js"></script>
-    <script>
-      // optional
-      window.quasarConfig = {
-        brand: {
-          primary: '#ff0000'
-        }
-      }
-    </script>
+    <script src="https://unpkg.com/vue@^3.0.0/dist/vue.global.prod.js"></script>
     <script src="dist/quasar.umd.js"></script>
-    <script src="dist/lang/es.umd.min.js"></script>
-    <script src="dist/icon-set/fontawesome-v5.umd.min.js"></script>
-    <script src="dist/icon-set/svg-fontawesome-v5.umd.min.js"></script>
+    <script src="dist/lang/es.umd.prod.js"></script>
+    <script src="dist/lang/en-GB.umd.prod.js"></script>
+    <script src="dist/icon-set/fontawesome-v5.umd.prod.js"></script>
+    <script src="dist/icon-set/svg-fontawesome-v5.umd.prod.js"></script>
 
     <script>
-      Quasar.lang.set(Quasar.lang.es)
-      Quasar.iconSet.set(Quasar.iconSet.svgFontawesomeV5)
-
-      console.log('fontawesome-v5 set', Quasar.iconSet.fontawesomeV5)
-      console.log('svg-fontawesome-v5 set', Quasar.iconSet.svgFontawesomeV5)
-
-      Quasar.plugins.Notify.create('Startup notification')
-
-      new Vue({
-        el: '#q-app',
-        data: function () {
+      const app = Vue.createApp({
+        setup () {
           return {
             version: Quasar.version,
-            stars: 5,
-            drawerState: false
-          }
-        },
-        methods: {
-          launch: function (url) {
-            Quasar.utils.openURL(url)
-          },
-          onRefreshClick: function () {
-            window.location.reload()
+            vueVersion: Vue.version,
+            stars: Vue.ref(5),
+            drawerState: Vue.ref(false),
+
+            launchUrl (url) {
+              Quasar.openURL('https://quasar.dev')
+            },
+
+            onRefreshClick () {
+              window.location.reload()
+            }
           }
         }
       })
+
+      app.use(Quasar)
+
+      Quasar.Notify.create('Startup notification')
+
+      Quasar.lang.set(Quasar.lang.es)
+      Quasar.iconSet.set(Quasar.iconSet.svgFontawesomeV5)
+
+      app.mount('#q-app')
+
+      console.log('fontawesome-v5 set', Quasar.iconSet.fontawesomeV5)
+      console.log('svg-fontawesome-v5 set', Quasar.iconSet.svgFontawesomeV5)
+      console.log('es lang', Quasar.lang.es)
+      console.log('en-GB lang', Quasar.lang.enGB)
     </script>
   </body>
 </html>

@@ -32,9 +32,11 @@
 
 <script>
 export default {
-  methods: {
-    onClick () {
-      // console.log('Clicked on a fab action')
+  setup () {
+    return {
+      onClick () {
+        // console.log('Clicked on a fab action')
+      }
     }
   }
 }

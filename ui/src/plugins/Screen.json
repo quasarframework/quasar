@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/options/screen-plugin"
+    "docsUrl": "https://v2.quasar.dev/options/screen-plugin"
   },
 
   "injection": "$q.screen",
@@ -24,8 +24,7 @@
       "type": "String",
       "desc": "Tells current window breakpoint",
       "values": [ "xs", "sm", "md", "lg", "xl" ],
-      "reactive": true,
-      "addedIn": "v1.5.2"
+      "reactive": true
     },
 
     "sizes": {

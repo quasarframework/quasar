@@ -17,10 +17,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      color: '#ff00ff'
+      color: ref('#ff00ff')
     }
   }
 }

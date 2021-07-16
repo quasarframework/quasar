@@ -8,7 +8,7 @@
             flat
             icon="keyboard_arrow_left"
             class="WAL__drawer-open q-mr-sm"
-            @click="leftDrawerOpen = true"
+            @click="toggleLeftDrawer"
           />
 
           <q-btn round flat>
@@ -98,13 +98,13 @@
             flat
             icon="close"
             class="WAL__drawer-close"
-            @click="leftDrawerOpen = false"
+            @click="toggleLeftDrawer"
           />
         </q-toolbar>
 
         <q-toolbar class="bg-grey-2">
           <q-input rounded outlined dense class="WAL__field full-width" bg-color="white" v-model="search" placeholder="Search or start a new conversation">
-            <template slot="prepend">
+            <template v-slot:prepend>
               <q-icon name="search" />
             </template>
           </q-input>
@@ -117,7 +117,7 @@
               :key="conversation.id"
               clickable
               v-ripple
-              @click="currentConversationIndex = index"
+              @click="setCurrentConversation(index)"
             >
               <q-item-section avatar>
                 <q-avatar>
@@ -163,61 +163,83 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { ref, computed } from 'vue'
+
+const conversations = [
+  {
+    id: 1,
+    person: 'Razvan Stoenescu',
+    avatar: 'https://cdn.quasar.dev/team/razvan_stoenescu.jpeg',
+    caption: 'I\'m working on Quasar!',
+    time: '15:00',
+    sent: true
+  },
+  {
+    id: 2,
+    person: 'Dan Popescu',
+    avatar: 'https://cdn.quasar.dev/team/dan_popescu.jpg',
+    caption: 'I\'m working on Quasar!',
+    time: '16:00',
+    sent: true
+  },
+  {
+    id: 3,
+    person: 'Jeff Galbraith',
+    avatar: 'https://cdn.quasar.dev/team/jeff_galbraith.jpg',
+    caption: 'I\'m working on Quasar!',
+    time: '18:00',
+    sent: true
+  },
+  {
+    id: 4,
+    person: 'Allan Gaunt',
+    avatar: 'https://cdn.quasar.dev/team/allan_gaunt.png',
+    caption: 'I\'m working on Quasar!',
+    time: '17:00',
+    sent: true
+  }
+]
+
 export default {
   name: 'WhatsappLayout',
 
-  data () {
-    return {
-      leftDrawerOpen: false,
-      search: '',
-      message: '',
-      currentConversationIndex: 0,
-      conversations: [
-        {
-          id: 1,
-          person: 'Razvan Stoenescu',
-          avatar: 'https://cdn.quasar.dev/team/razvan_stoenescu.jpeg',
-          caption: 'I\'m working on Quasar!',
-          time: '15:00',
-          sent: true
-        },
-        {
-          id: 2,
-          person: 'Dan Popescu',
-          avatar: 'https://cdn.quasar.dev/team/dan_popescu.jpg',
-          caption: 'I\'m working on Quasar!',
-          time: '16:00',
-          sent: true
-        },
-        {
-          id: 3,
-          person: 'Jeff Galbraith',
-          avatar: 'https://cdn.quasar.dev/team/jeff_galbraith.jpg',
-          caption: 'I\'m working on Quasar!',
-          time: '18:00',
-          sent: true
-        },
-        {
-          id: 4,
-          person: 'Allan Gaunt',
-          avatar: 'https://cdn.quasar.dev/team/allan_gaunt.png',
-          caption: 'I\'m working on Quasar!',
-          time: '17:00',
-          sent: true
-        }
-      ]
+  setup () {
+    const $q = useQuasar()
+
+    const leftDrawerOpen = ref(false)
+    const search = ref('')
+    const message = ref('')
+    const currentConversationIndex = ref(0)
+
+    const currentConversation = computed(() => {
+      return conversations[ currentConversationIndex.value ]
+    })
+
+    const style = computed(() => ({
+      height: $q.screen.height + 'px'
+    }))
+
+    function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
     }
-  },
 
-  computed: {
-    currentConversation () {
-      return this.conversations[this.currentConversationIndex]
-    },
+    function setCurrentConversation (index) {
+      currentConversationIndex.value = index
+    }
 
-    style () {
-      return {
-        height: this.$q.screen.height + 'px'
-      }
+    return {
+      leftDrawerOpen,
+      search,
+      message,
+      currentConversationIndex,
+      conversations,
+
+      currentConversation,
+      setCurrentConversation,
+      style,
+
+      toggleLeftDrawer
     }
   }
 }

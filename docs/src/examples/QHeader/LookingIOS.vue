@@ -5,7 +5,7 @@
         <q-toolbar>
           <q-toolbar-title class="text-center">
             <q-avatar>
-              <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+              <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
             </q-avatar>
             Quasar Framework
           </q-toolbar-title>
@@ -32,10 +32,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      tab: 'images'
+      tab: ref('images')
     }
   }
 }

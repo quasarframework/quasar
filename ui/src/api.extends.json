@@ -51,7 +51,7 @@
       "examples": [
         "map",
         "ion-add",
-        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
+        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
         "img:statics/path/to/some_image.png"
       ],
       "category": "content"
@@ -92,19 +92,27 @@
       "type": "String",
       "desc": "One of Quasar's embedded transitions",
       "examples": [ "fade", "slide-down" ],
-      "category": "behavior"
+      "category": "transition"
     },
 
-    "value": {
-      "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+    "model-value": {
+      "desc": "Model of the component; Either use this property (along with a listener for 'update:model-value' event) OR use v-model directive",
+      "required": true,
       "category": "model"
     },
 
-    "sanitize": {
+    "html": {
       "type": "Boolean",
       "default": "false",
       "desc": "Force use of textContent instead of innerHTML to render text; Use it when the text might be unsafe (from user input)",
       "category": "behavior"
+    },
+
+    "tag": {
+      "type": "String",
+      "desc": "HTML tag to use",
+      "examples": [ "div", "span" ],
+      "category": "content"
     },
 
     "scroll-target": {
@@ -116,8 +124,15 @@
         "scroll-target=\"#scroll-target-id\"",
         "scroll-target=\"body\""
       ],
-      "category": "behavior",
-      "addedIn": "v1.8.0"
+      "category": "behavior"
+    },
+
+    "ripple": {
+      "type": [ "Boolean", "Object" ],
+      "desc": "Configure material ripple (disable it by setting it to 'false' or supply a config object)",
+      "default": true,
+      "examples": [ false, "{ early: true, center: true, color: 'teal', keyCodes: [] }" ],
+      "category": "style"
     }
   },
 
@@ -127,14 +142,8 @@
     }
   },
 
-  "scopedSlots": {
-    "default": {
-      "desc": "Default scoped slot in the devland content of the component"
-    }
-  },
-
   "events": {
-    "input": {
+    "update:model-value": {
       "desc": "Emitted when the component needs to change the model; Is also used by v-model",
       "params": {
         "value": {

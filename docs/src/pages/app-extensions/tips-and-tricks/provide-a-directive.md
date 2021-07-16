@@ -10,7 +10,7 @@ To create an App Extension project folder, please first read the [Development Gu
 :::
 
 ::: tip Full Example
-To see an example of what we will build, head over to [MyDirective full example](https://github.com/quasarframework/app-extension-examples/tree/v1/my-directive), which is a GitHub repo with this App Extension.
+To see an example of what we will build, head over to [MyDirective full example](https://github.com/quasarframework/app-extension-examples/tree/v2/my-directive), which is a GitHub repo with this App Extension.
 :::
 
 Create a folder structure to keep your code modularized and organized. For instance, for a directive, create a structure that looks like this:
@@ -37,8 +37,8 @@ module.exports = function (api) {
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
   // package or a minimum version of "@quasar/app" CLI
-  api.compatibleWith('quasar', '^1.0.0')
-  api.compatibleWith('@quasar/app', '^1.0.0')
+  api.compatibleWith('quasar', '^2.0.0')
+  api.compatibleWith('@quasar/app', '^3.0.0')
 
   // Here we extend /quasar.conf.js, so we can add
   // a boot file which registers our new Vue directive;
@@ -70,13 +70,14 @@ Finally, let's see how the boot file would look like. Make sure that you read th
 
 ```js
 // file: /src/boot/my-directive.js
-import Vue from 'vue'
 import MyDirective from '../directive/MyDirective.js'
 
 // We globally register our directive with Vue;
 // Remember that all directives in Vue will start with 'v-'
 // but that should not be part of your directive name
-// https://vuejs.org/v2/guide/custom-directive.html
+// https://v3.vuejs.org/guide/custom-directive.html#custom-directives
 // 'my-directive' will be used as 'v-my-directive'
-Vue.directive('my-directive', MyDirective)
+export default ({ app }) => {
+  app.directive('my-directive', MyDirective)
+}
 ```

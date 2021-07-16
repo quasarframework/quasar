@@ -1,7 +1,7 @@
 {
-  "mixins": [ "mixins/checkbox" ],
+  "mixins": [ "components/checkbox/use-checkbox" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/checkbox"
+    "docsUrl": "https://v2.quasar.dev/vue-components/checkbox"
   }
 }

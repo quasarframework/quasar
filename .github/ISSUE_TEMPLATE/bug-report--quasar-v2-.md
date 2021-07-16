@@ -11,7 +11,7 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 **Codepen/jsFiddle/Codesandbox (required)**
-Fork a Codepen (https://codepen.io/rstoenescu/pen/xxEvBLR?editors=101) or a jsFiddle (https://jsfiddle.net/rstoenescu/a2cuzods/) or a Codesandbox (https://codesandbox.io/s/optimistic-poitras-4t3m3) and hit save then copy-paste link here.
+Fork a Codepen (https://codepen.quasar.dev) or a jsFiddle (https://jsfiddle.quasar.dev) or a Codesandbox (https://codesandbox.quasar.dev) and hit save then copy-paste link here.
 
 **To Reproduce**
 Steps to reproduce the behavior:
@@ -29,6 +29,7 @@ If applicable, add screenshots to help explain your problem.
 **Platform (please complete the following information):**
 Quasar Version:
 @quasar/app Version:
+
 Quasar mode:
   - [ ] SPA
   - [ ] SSR

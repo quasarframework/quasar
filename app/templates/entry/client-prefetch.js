@@ -19,8 +19,14 @@ import { isRunningOnPWA } from './ssr-pwa'
 
 <% if (!ctx.mode.ssr || ctx.mode.pwa) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
-let appOptions = App.options /* Vue.extend() */ || App
-let appPrefetch = typeof appOptions.preFetch === 'function'
+let appPrefetch = typeof App.preFetch === 'function'
+  ? App.preFetch
+  : (
+    // Class components return the component options (and the preFetch hook) inside __c property
+    App.__c !== void 0 && typeof App.__c.preFetch === 'function'
+      ? App.__c.preFetch
+      : false
+    )
 <% } %>
 
 function getMatchedComponents (to, router) {
@@ -35,7 +41,7 @@ function getMatchedComponents (to, router) {
       const comp = m.components[key]
       return {
         path: m.path,
-        c: comp.options /* Vue.extend() */ || comp
+        c: comp
       }
     })
   }))
@@ -61,18 +67,17 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>, publicPat
           m.path.indexOf('/:') > -1 // does it has params?
         ))
       })
-      .filter(m => m.c && typeof m.c.preFetch === 'function')
-      .map(m => m.c.preFetch)
+      .filter(m => m.c !== void 0 && (
+        typeof m.c.preFetch === 'function'
+        // Class components return the component options (and the preFetch hook) inside __c property
+        || (m.c.__c !== void 0 && typeof m.c.__c.preFetch === 'function')
+      ))
+      .map(m => m.c.__c !== void 0 ? m.c.__c.preFetch : m.c.preFetch)
 
-    <% if (!ctx.mode.ssr) { %>
-    if (appPrefetch === true) {
+    <% if (!ctx.mode.ssr || ctx.mode.pwa) { %>
+    if (<%= ctx.mode.ssr && ctx.mode.pwa ? 'isRunningOnPWA === true && ' : '' %>appPrefetch !== false) {
+      preFetchList.unshift(appPrefetch)
       appPrefetch = false
-      preFetchList.unshift(appOptions.preFetch)
-    }
-    <% } else if (ctx.mode.pwa) { %>
-    if (isRunningOnPWA === true && appPrefetch === true) {
-      appPrefetch = false
-      preFetchList.unshift(appOptions.preFetch)
     }
     <% } %>
 

@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import { mdiArrowUpBold, mdiArrowDownBold, mdiKeyboardReturn, mdiKeyboardEsc } from '@quasar/extras/mdi-v5'
 
 import ResultPageContent from 'components/search-results/ResultPageContent'
@@ -54,22 +55,24 @@ export default {
     ResultPageLink
   },
 
-  created () {
-    this.up = mdiArrowUpBold
-    this.down = mdiArrowDownBold
-    this.select = mdiKeyboardReturn
-    this.close = mdiKeyboardEsc
-  },
-
   props: {
     results: Object,
     searchHasFocus: Boolean,
     searchActiveId: String
   },
 
-  computed: {
-    instructionsClass () {
-      return `app-search__instructions--${this.searchHasFocus === true ? 'visible' : 'hidden'}`
+  setup (props) {
+    const instructionsClass = computed(() =>
+      `app-search__instructions--${props.searchHasFocus === true ? 'visible' : 'hidden'}`
+    )
+
+    return {
+      instructionsClass,
+
+      up: mdiArrowUpBold,
+      down: mdiArrowDownBold,
+      select: mdiKeyboardReturn,
+      close: mdiKeyboardEsc
     }
   }
 }

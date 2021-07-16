@@ -1,12 +1,8 @@
 {
-  "mixins": [ "mixins/panel-parent" ],
+  "mixins": [ "composables/private/use-panel" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/tab-panels"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/tab-panels"
   },
 
   "slots": {

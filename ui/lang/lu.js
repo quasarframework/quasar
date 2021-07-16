@@ -29,16 +29,14 @@ export default {
     noData: 'Keng Donnéen do',
     noResults: 'Keng Anträg fonnt',
     loading: 'Luedt...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 ausgewielten Zeil.'
         : (rows === 0 ? 'Keng' : rows) + ' Zeilen ausgewielt.'
-    },
+    ),
     recordsPerPage: 'Zeilen pro Säit:',
     allRows: 'All',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' vun ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' vun ' + total,
     columns: 'Kolonnen'
   },
   editor: {

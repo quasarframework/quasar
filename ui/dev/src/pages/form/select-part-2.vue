@@ -36,16 +36,18 @@
             @focus="onFocus"
             @blur="onBlur"
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
 
-            <q-icon slot="before" color="green" name="event" />
-            <q-icon slot="prepend" name="event" />
-            <q-icon slot="append" name="delete" />
-            <q-icon slot="after" color="green" name="delete" />
+            <template v-slot:before><q-icon color="green" name="event" /></template>
+            <template v-slot:prepend><q-icon name="event" /></template>
+            <template v-slot:append><q-icon name="delete" /></template>
+            <template v-slot:after><q-icon color="green" name="delete" /></template>
           </q-select>
 
           <q-select
@@ -60,16 +62,18 @@
             @blur="onBlur"
             clearable
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
 
-            <q-icon slot="before" color="green" name="event" />
-            <q-icon slot="prepend" name="event" />
-            <q-icon slot="append" name="delete" />
-            <q-icon slot="after" color="green" name="delete" />
+            <template v-slot:before><q-icon color="green" name="event" /></template>
+            <template v-slot:prepend><q-icon name="event" /></template>
+            <template v-slot:append><q-icon name="delete" /></template>
+            <template v-slot:after><q-icon color="green" name="delete" /></template>
           </q-select>
 
           <q-select
@@ -85,11 +89,13 @@
             @blur="onBlur"
             clearable
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
           </q-select>
 
           <div>Multiple</div>
@@ -103,16 +109,18 @@
             @focus="onFocus"
             @blur="onBlur"
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
 
-            <q-icon slot="before" color="green" name="event" />
-            <q-icon slot="prepend" name="event" />
-            <q-icon slot="append" name="delete" />
-            <q-icon slot="after" color="green" name="delete" />
+            <template v-slot:before><q-icon color="green" name="event" /></template>
+            <template v-slot:prepend><q-icon name="event" /></template>
+            <template v-slot:append><q-icon name="delete" /></template>
+            <template v-slot:after><q-icon color="green" name="delete" /></template>
           </q-select>
 
           <q-select
@@ -128,16 +136,18 @@
             @blur="onBlur"
             clearable
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
 
-            <q-icon slot="before" color="green" name="event" />
-            <q-icon slot="prepend" name="event" />
-            <q-icon slot="append" name="delete" />
-            <q-icon slot="after" color="green" name="delete" />
+            <template v-slot:before><q-icon color="green" name="event" /></template>
+            <template v-slot:prepend><q-icon name="event" /></template>
+            <template v-slot:append><q-icon name="delete" /></template>
+            <template v-slot:after><q-icon color="green" name="delete" /></template>
           </q-select>
 
           <q-select
@@ -154,11 +164,13 @@
             @blur="onBlur"
             clearable
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
           </q-select>
 
           <div>Create new value</div>
@@ -300,11 +312,13 @@
             @focus="onFocus"
             @blur="onBlur"
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
           </q-select>
 
           <q-select
@@ -320,11 +334,13 @@
             @focus="onFocus"
             @blur="onBlur"
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
           </q-select>
 
           <q-select
@@ -339,11 +355,13 @@
             @focus="onFocus"
             @blur="onBlur"
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
           </q-select>
 
           <q-select
@@ -359,11 +377,13 @@
             @focus="onFocus"
             @blur="onBlur"
           >
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
           </q-select>
 
           <q-select
@@ -460,10 +480,7 @@
           >
             <template v-slot:option="scope">
               <div :key="scope.index">
-                <q-item
-                  v-bind="scope.itemProps"
-                  v-on="scope.itemEvents"
-                >
+                <q-item v-bind="scope.itemProps">
                   <q-item-section>
                     <q-item-label>
                       Option - {{ scope.opt.label }} - {{ scope.index }}
@@ -505,10 +522,7 @@
           >
             <template v-slot:option="scope">
               <div :key="scope.index">
-                <q-item
-                  v-bind="scope.itemProps"
-                  v-on="scope.itemEvents"
-                >
+                <q-item v-bind="scope.itemProps">
                   <q-item-section>
                     <q-item-label>
                       Option - {{ scope.opt.label }} - {{ scope.index }}
@@ -548,12 +562,8 @@
             @blur="onBlur"
           >
             <template v-slot:option="scope">
-              <div>
-                <q-item
-                  v-bind="scope.itemProps"
-                  v-on="scope.itemEvents"
-                  :key="scope.index"
-                >
+              <div :key="scope.index">
+                <q-item v-bind="scope.itemProps">
                   <q-item-section>
                     <q-item-label>
                       Option - {{ scope.opt.label }} - {{ scope.index }}
@@ -592,12 +602,8 @@
             @blur="onBlur"
           >
             <template v-slot:option="scope">
-              <div>
-                <q-item
-                  v-bind="scope.itemProps"
-                  v-on="scope.itemEvents"
-                  :key="scope.index"
-                >
+              <div :key="scope.index">
+                <q-item v-bind="scope.itemProps">
                   <q-item-section>
                     <q-item-label>
                       Option - {{ scope.opt.label }} - {{ scope.index }}
@@ -735,7 +741,7 @@ export default {
       modelAdd: null,
 
       stringSingle: 'Facebook',
-      stringMultiple: ['Facebook', 'Twitter'],
+      stringMultiple: [ 'Facebook', 'Twitter' ],
       stringOptions,
 
       objectSingle: {
@@ -943,8 +949,8 @@ export default {
     },
 
     prefilter (ref) {
-      this.$refs[ref].updateInputValue('Opt 123')
-      this.$refs[ref].showPopup()
+      this.$refs[ ref ].updateInputValue('Opt 123')
+      this.$refs[ ref ].showPopup()
     },
 
     onSubmit () {
@@ -973,7 +979,7 @@ export default {
   computed: {
     props () {
       return {
-        [this.type]: true,
+        [ this.type ]: true,
         readonly: this.readonly,
         disable: this.disable,
         dense: this.dense,
@@ -1002,9 +1008,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .select-card
-  transition .3s background-color
+  transition: .3s background-color
   &:not(.disabled):hover
-    background $grey-3
+    background: $grey-3
 </style>

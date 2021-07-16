@@ -1,18 +1,19 @@
 ---
 title: Electron Preload Script
-badge: "@quasar/app v1.5+"
 desc: How to handle Electron Node Integration with an Electron Preload script with Quasar CLI.
 ---
 
-As of "@quasar/app" v1.5+, you can benefit from an Electron preload script, which is very useful when you have [Node Integration](/quasar-cli/developing-electron-apps/node-integration) turned off.
+For security reasons, the renderer thread (your UI code from `/src`) does not have access to the Node.js stuff. However, you can run Node.js code and bridge it to the renderer thread through an Electron Preload script located at `/src-electron/electron-preload.[js|ts]`. Use `contextBridge` (from the `electron` package) to expose the stuff that you need for your UI.
 
-This preload script can allow you to inject Nodejs stuff into the "window" global from the rendered thread (UI). This script will run in the browser, before your rendered thread. Regardless of your Node Integration setting, this file will have access to Nodejs. So be careful what you do with it!
+Since the preload script runs from Node.js, be careful what you do with it and what you expose to the renderer thread!
 
-## How to enable it
-In `/src-electron/main-process/` folder, create a file and name it `electron-preload.js`. Fill it with your preload code. Then edit `/src-electron/main-process/electron-main.js`, near the "webPreferences" section:
+## How to use it
+In `/src-electron/` folder, there is a file named `electron-preload.js`. Fill it with your preload code.
+
+Make sure that your `/src-electron/electron-main.[js|ts]` has the following (near the "webPreferences" section):
 
 ```js
-// file: /src-electron/main-process/electron-main.js
+// file: /src-electron/electron-main.[js|ts]
 
 // Add this at the top:
 import path from 'path'
@@ -24,28 +25,56 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     // ...
     webPreferences: {
-      nodeIntegration: process.env.QUASAR_NODE_INTEGRATION,
-      nodeIntegrationInWorker: process.env.QUASAR_NODE_INTEGRATION,
-
       // HERE IS THE MAGIC:
-      preload: path.resolve(__dirname, 'electron-preload.js')
+      preload: path.resolve(__dirname, process.env.QUASAR_ELECTRON_PRELOAD)
     }
   })
 ```
 
-::: warning
-The name `electron-preload.js` cannot be changed, otherwise Quasar will not detect it and your production build will fail.
-:::
-
-Example of `/src-electron/main-process/electron-preload.js` content:
+Example of `/src-electron/main-process/electron-preload.[js|ts]` content:
 
 ```js
-window.electron = require('electron')
+// example which injects window.myAPI.doAThing() into the renderer
+// thread (/src/*)
+
+const { contextBridge } = require('electron')
+
+contextBridge.exposeInMainWorld('myAPI', {
+  doAThing: () => {}
+})
 ```
 
-## Limitations on electron-preload.js
-1. This file is not transpiled by Babel.
-2. This file is not going through any linting.
-3. You cannot import files with a relative path from it, as it is copied as-is into the final app bundle.
-4. You need to have this file already created before starting up the "quasar dev" command, otherwise any changes in it will not trigger a reload.
+::: warning
+1. Be aware that this file runs in a Node.js context.
+2. If you import anything from node_modules, then make sure that the package is specified in /package.json > dependencies and NOT in devDependencies.
+:::
 
+## Security considerations
+Just by using `contextBridge` does not automatically mean that everything you do is safe. For instance the code below is unsafe:
+
+```js
+// BAD code; DON'T!!
+contextBridge.exposeInMainWorld('myAPI', {
+  send: ipcRenderer.send
+})
+```
+
+It directly exposes a powerful API without any kind of argument filtering. This would allow any website to send arbitrary IPC messages which you do not want to be possible. The correct way to expose IPC-based APIs would instead be to provide one method per IPC message.
+
+```js
+// Good code
+contextBridge.exposeInMainWorld('myAPI', {
+  loadPreferences: () => ipcRenderer.invoke('load-prefs')
+})
+```
+
+## Custom path to the preload script
+Should you wish to change the location of the preload script (and/or even the main thread file) then edit `/quasar.conf.js`:
+
+```
+// should you wish to change default files
+sourceFiles: {
+  electronMain: 'src-electron/electron-main.js',
+  electronPreload: 'src-electron/electron-preload.js'
+}
+```

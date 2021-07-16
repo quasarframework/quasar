@@ -1,14 +1,8 @@
 import { QuasarIconSet } from "./extras/icon-set";
-import {
-  HasCapacitor,
-  HasCordova,
-  HasElectron,
-  HasSsr,
-  HasBex,
-} from "./feature-flag";
+import { HasCapacitor, HasCordova, HasSsr, HasBex } from "./feature-flag";
 import { QuasarLanguage } from "./lang";
 
-// We cannot reference directly Capacitor/Cordova/Electron types
+// We cannot reference directly Capacitor/Cordova types
 //  or they would generate TS errors for Vue CLI users
 // We also cannot move feature-flags system into `@quasar/app`
 //  because `QVueGlobals` augmentations won't be transferred to
@@ -68,9 +62,8 @@ export interface QVueGlobals
   extends HasCapacitor<{ capacitor: any }>,
     HasBex<{ bex: GlobalsTypesHolder["bex"] }>,
     HasCordova<{ cordova: GlobalsTypesHolder["cordova"] }>,
-    HasElectron<{ electron: GlobalsTypesHolder["electron"] }>,
     HasSsr<
-      { iconMapFn?: GlobalQuasarIconMapFn },
+      { iconMapFn?: GlobalQuasarIconMapFn; onSSRHydrated?: () => void },
       { iconMapFn: GlobalQuasarIconMapFn }
     >,
     BaseQGlobals {}

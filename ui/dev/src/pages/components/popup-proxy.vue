@@ -10,7 +10,9 @@
 
         <q-popup-proxy>
           <q-banner>
-            <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
+            <template v-slot:avatar>
+              <q-icon name="signal_wifi_off" color="primary" />
+            </template>
 
             <input v-model="text">
             You have lost connection to the internet. This app is offline.
@@ -18,7 +20,9 @@
             <q-btn label="Close" v-close-popup />
             <div>Popup text.</div>
 
-            <q-btn slot="action" flat color="primary" label="close" v-close-popup />
+            <template v-slot:action>
+              <q-btn flat color="primary" label="close" v-close-popup />
+            </template>
           </q-banner>
         </q-popup-proxy>
       </div>
@@ -28,7 +32,9 @@
 
         <q-popup-proxy touch-position>
           <q-banner>
-            <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
+            <template v-slot:avatar>
+              <q-icon name="signal_wifi_off" color="primary" />
+            </template>
 
             <input v-model="text">
             You have lost connection to the internet. This app is offline.
@@ -36,7 +42,9 @@
             <q-btn label="Close" v-close-popup />
             <div>Popup text.</div>
 
-            <q-btn slot="action" flat color="primary" label="close" v-close-popup />
+            <template v-slot:action>
+              <q-btn flat color="primary" label="close" v-close-popup />
+            </template>
           </q-banner>
         </q-popup-proxy>
       </div>
@@ -46,14 +54,18 @@
 
         <q-popup-proxy context-menu>
           <q-banner>
-            <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
+            <template v-slot:avatar>
+              <q-icon name="signal_wifi_off" color="primary" />
+            </template>
 
             <input v-model="text">
             You have lost connection to the internet. This app is offline.
             <q-btn label="Close" v-close-popup />
             <div>Popup text.</div>
 
-            <q-btn slot="action" flat color="primary" label="close" v-close-popup />
+            <template v-slot:action>
+              <q-btn flat color="primary" label="close" v-close-popup />
+            </template>
           </q-banner>
         </q-popup-proxy>
       </div>
@@ -63,14 +75,18 @@
 
         <q-popup-proxy context-menu touch-position>
           <q-banner>
-            <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
+            <template v-slot:avatar>
+              <q-icon name="signal_wifi_off" color="primary" />
+            </template>
 
             <input v-model="text">
             You have lost connection to the internet. This app is offline.
             <q-btn label="Close" v-close-popup />
             <div>Popup text.</div>
 
-            <q-btn slot="action" flat color="primary" label="close" v-close-popup />
+            <template v-slot:action>
+              <q-btn flat color="primary" label="close" v-close-popup />
+            </template>
           </q-banner>
         </q-popup-proxy>
       </div>
@@ -82,12 +98,16 @@
             <q-btn label="Popup proxy" color="primary" class="q-ma-md">
               <q-popup-proxy>
                 <q-banner>
-                  <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
+                 <template v-slot:avatar>
+                    <q-icon name="signal_wifi_off" color="primary" />
+                  </template>
 
                   <input v-model="text">
                   <div>Popup text.</div>
 
-                  <q-btn slot="action" flat color="primary" label="Close popup" v-close-popup />
+                  <template v-slot:action>
+                    <q-btn flat color="primary" label="close" v-close-popup />
+                  </template>
                 </q-banner>
               </q-popup-proxy>
             </q-btn>
@@ -99,12 +119,16 @@
                       Popup proxy
                       <q-popup-proxy>
                         <q-banner>
-                          <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
+                          <template v-slot:avatar>
+                            <q-icon name="signal_wifi_off" color="primary" />
+                          </template>
 
                           <input v-model="text">
                           <div>Popup text.</div>
 
-                          <q-btn slot="action" flat color="primary" label="Close popup" v-close-popup />
+                          <template v-slot:action>
+                            <q-btn flat color="primary" label="close" v-close-popup />
+                          </template>
                         </q-banner>
                       </q-popup-proxy>
                     </q-item-section>
@@ -178,7 +202,7 @@
           </q-popup-proxy>
         </q-btn>
         <q-btn push color="primary" label="Decoupled (small screen)">
-          <q-popup-proxy :value="model" seamless position="bottom">
+          <q-popup-proxy :model-value="model" seamless position="bottom">
             <q-banner>
               <template v-slot:avatar>
                 <q-icon name="signal_wifi_off" color="primary" />
@@ -262,20 +286,20 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .popup-surface-test
-  width 200px
-  height 50px
-  background white
-  border 1px solid #999
-  display flex
-  align-items center
-  justify-content center
-  border-radius 5px
+  width: 200px
+  height: 50px
+  background: white
+  border: 1px solid #999
+  display: flex
+  align-items: center
+  justify-content: center
+  border-radius: 5px
 
   > div
-    user-select none
+    user-select: none
 
   & + &
-    margin-top 16px
+    margin-top: 16px
 </style>

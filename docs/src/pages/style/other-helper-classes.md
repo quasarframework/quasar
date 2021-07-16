@@ -60,4 +60,4 @@ The list below is not complete. Also check the other CSS documentation pages lik
 | `no-box-shadow` | Removes any applied box-shadow |
 | `no-outline` | Removes any outline applied on the border |
 | `rounded-borders` | Applies a generic border radius |
-| `borders-radius-inherit` | Inherit border radius from the parent element (**v1.9+**) |
+| `borders-radius-inherit` | Inherit border radius from the parent element |

@@ -6,7 +6,7 @@
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleLeftDrawer"
           aria-label="Menu"
           icon="menu"
         />
@@ -57,7 +57,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-grey-2"
+      class="bg-grey-2"
       :width="240"
     >
       <q-scroll-area class="fit">
@@ -145,15 +145,28 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import { fabYoutube } from '@quasar/extras/fontawesome-v5'
 
 export default {
   name: 'MyLayout',
 
-  data () {
+  setup () {
+    const leftDrawerOpen = ref(false)
+    const search = ref('')
+
+    function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
+    }
+
     return {
-      leftDrawerOpen: false,
-      search: '',
+      fabYoutube,
+
+      leftDrawerOpen,
+      search,
+
+      toggleLeftDrawer,
+
       links1: [
         { icon: 'home', text: 'Home' },
         { icon: 'whatshot', text: 'Trending' },
@@ -193,10 +206,6 @@ export default {
         { text: 'Test new features' }
       ]
     }
-  },
-
-  created () {
-    this.fabYoutube = fabYoutube
   }
 }
 </script>

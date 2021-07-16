@@ -30,7 +30,7 @@
 
         <br>
 
-        <q-fab :value="toggle" color="secondary" push :icon="mdiMenu" direction="right">
+        <q-fab :model-value="toggle" color="secondary" push :icon="mdiMenu" direction="right">
           <q-fab-action color="primary" @click="notify('mail')" icon="ion-aperture" disable />
           <q-fab-action color="primary" @click="notify('alarm')" icon="mdi-map" />
           <q-fab-action color="primary" @click="notify('alarm')" icon="fas fa-address-book" />
@@ -92,9 +92,12 @@
         :icon="mdiMenu"
         style="right: 18px; bottom: 18px;"
       >
-        <q-tooltip ref="tooltip0" slot="tooltip" anchor="center left" self="center right" :offset="[20, 0]">
-          Tooltip in FAB
-        </q-tooltip>
+        <template v-slot:tooltip>
+          <q-tooltip ref="tooltip0" anchor="center left" self="center right" :offset="[20, 0]">
+            Tooltip in FAB
+          </q-tooltip>
+        </template>
+
         <q-fab-action color="purple" @click="notify('mail')" icon="mail">
           <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">
             Mail

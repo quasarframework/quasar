@@ -10,8 +10,8 @@ import { mdiTextBoxSearchOutline } from '@quasar/extras/mdi-v5'
 
 export default {
   name: 'ResultEmpty',
-  created () {
-    this.mdiTextBoxSearchOutline = mdiTextBoxSearchOutline
+  setup () {
+    return { mdiTextBoxSearchOutline }
   }
 }
 </script>

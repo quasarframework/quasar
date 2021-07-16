@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/bar"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/bar"
   },
 
   "props": {

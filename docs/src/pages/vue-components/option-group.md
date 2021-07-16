@@ -1,6 +1,7 @@
 ---
 title: Option Group
 desc: The QOptionGroup Vue component allows you better control for grouping binary form input components like checkboxes, radios or toggles.
+keys: QOptionGroup
 related:
   - /vue-components/radio
   - /vue-components/checkbox
@@ -11,6 +12,7 @@ related:
 The QOptionGroup component is a helper component that allows you better control for grouping binary (on or off, true or false, 1 or 0) form input components like checkboxes, radios or toggles. A good use for this component is for offering a set of options or settings to turn on and off.
 
 ## QOptionGroup API
+
 <doc-api file="QOptionGroup" />
 
 ## Usage
@@ -57,7 +59,7 @@ The objects within the `options` array can hold any of the props found in QToggl
 
 <doc-example title="On a dark background" file="QOptionGroup/Dark" dark />
 
-### Native form submit <q-badge align="top" color="brand-primary" label="v1.9+" />
+### Native form submit
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QOptionGroup, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 

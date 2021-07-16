@@ -34,28 +34,28 @@ export default {
     props1 () {
       return this.toggle1 === true
         ? {
-          class: 'q-ml-sm q-pa-md bg-orange text-white rounded-borders',
-          style: 'font-size: 24px'
-        }
+            class: 'q-ml-sm q-pa-md bg-orange text-white rounded-borders',
+            style: 'font-size: 24px'
+          }
         : {
-          class: 'q-ml-xl q-px-xl q-py-lg bg-blue text-white',
-          style: 'border-radius: 25% 0/50% 0; font-size: 36px'
-        }
+            class: 'q-ml-xl q-px-xl q-py-lg bg-blue text-white',
+            style: 'border-radius: 25% 0/50% 0; font-size: 36px'
+          }
     },
 
     props2 () {
       return this.toggle2 === true
         ? {
-          fontSize: '52px',
-          color: 'positive',
-          icon: 'check',
-          rounded: true
-        }
+            fontSize: '52px',
+            color: 'positive',
+            icon: 'check',
+            rounded: true
+          }
         : {
-          fontSize: '32px',
-          color: 'negative',
-          icon: 'close'
-        }
+            fontSize: '32px',
+            color: 'negative',
+            icon: 'close'
+          }
     }
   },
 

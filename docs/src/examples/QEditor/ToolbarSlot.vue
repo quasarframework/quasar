@@ -2,7 +2,7 @@
   <div class="q-pa-md q-gutter-sm">
     <q-editor
       v-model="editor"
-      ref="editor"
+      ref="editorRef"
       toolbar-text-color="white"
       toolbar-toggle-color="yellow-8"
       toolbar-bg="primary"
@@ -20,7 +20,7 @@
       <template v-slot:token>
         <q-btn-dropdown
           dense no-caps
-          ref="token"
+          ref="tokenRef"
           no-wrap
           unelevated
           color="white"
@@ -47,20 +47,27 @@
     </q-editor>
   </div>
 </template>
+
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const editorRef = ref(null)
+    const tokenRef = ref(null)
+
     return {
-      editor: 'Customize it.'
-    }
-  },
-  methods: {
-    add (name) {
-      const edit = this.$refs.editor
-      this.$refs.token.hide()
-      edit.caret.restore()
-      edit.runCmd('insertHTML', `&nbsp;<div class="editor_token row inline items-center" contenteditable="false">&nbsp;<span>${name}</span>&nbsp;<i class="q-icon material-icons cursor-pointer" onclick="this.parentNode.parentNode.removeChild(this.parentNode)">close</i></div>&nbsp;`)
-      edit.focus()
+      editorRef,
+      tokenRef,
+      editor: ref('Customize it.'),
+
+      add (name) {
+        const edit = editorRef.value
+        tokenRef.value.hide()
+        edit.caret.restore()
+        edit.runCmd('insertHTML', `&nbsp;<div class="editor_token row inline items-center" contenteditable="false">&nbsp;<span>${name}</span>&nbsp;<i class="q-icon material-icons cursor-pointer" onclick="this.parentNode.parentNode.removeChild(this.parentNode)">close</i></div>&nbsp;`)
+        edit.focus()
+      }
     }
   }
 }

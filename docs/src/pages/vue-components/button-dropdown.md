@@ -1,6 +1,7 @@
 ---
 title: Dropdown Button
 desc: The QBtnDropdown Vue component is used to display dropdown content on a button.
+keys: QBtnDropdown
 related:
   - /vue-components/button
   - /vue-components/button-group
@@ -10,6 +11,7 @@ QBtnDropdown is a very convenient dropdown button. Goes very well with [QList](/
 In case you are looking for a dropdown "input" instead of "button" use [Select](/vue-components/select) instead.
 
 ## QBtnDropdown API
+
 <doc-api file="QBtnDropdown" />
 
 ## Usage

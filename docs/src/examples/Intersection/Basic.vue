@@ -20,22 +20,21 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const visible = ref(false)
+
     return {
-      visible: false
-    }
-  },
+      visible,
+      visibleClass: computed(
+        () => `bg-${visible.value ? 'positive' : 'negative'}`
+      ),
 
-  computed: {
-    visibleClass () {
-      return `bg-${this.visible ? 'positive' : 'negative'}`
-    }
-  },
-
-  methods: {
-    onIntersection (entry) {
-      this.visible = entry.isIntersecting
+      onIntersection (entry) {
+        visible.value = entry.isIntersecting
+      }
     }
   }
 }

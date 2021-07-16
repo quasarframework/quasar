@@ -9,15 +9,19 @@ Helpers are built into Quasar to detect the Platform (and its capabilities) with
 Based on your needs, you might also want to check the [Style & Identity &gt; Visibility](/style/visibility) page to see how you can achieve the same effect using CSS alone. This latter method will render your DOM elements or components regardless of platform though, so choose wisely on how you want to handle the performance of your app.
 :::
 
-## API
-<doc-api file="Platform" />
-
 ## Usage
 Usage inside a Vue component JS:
 
 ```js
-this.$q.platform.is.mobile
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+
+  $q.platform.is.mobile
+}
 ```
+
 Usage inside a Vue component template:
 
 ```js
@@ -71,10 +75,10 @@ The following properties are available to the Platform object. It's not an exhau
 | ---                    | ---     | ---                                                      |
 | `Platform.is.mobile`     | Boolean | Is the code running on a mobile device?                |
 | `Platform.is.cordova`    | Boolean | Is the code running within Cordova?                    |
-| `Platform.is.capacitor`  | Boolean | Is the code running with Capacitor? (requires @quasar/app v1.2+) |
+| `Platform.is.capacitor`  | Boolean | Is the code running with Capacitor? |
 | `Platform.is.electron`   | Boolean | Is the code running within Electron?                   |
 | `Platform.is.desktop`    | Boolean | Is the code running on a desktop browser?              |
-| `Platform.is.bex`        | Boolean | Is the code running in a browser extension? (requires @quasar/app v1.2+) |
+| `Platform.is.bex`        | Boolean | Is the code running in a browser extension? |
 | `Platform.is.android`    | Boolean | Is the app running on an Android device?               |
 | `Platform.is.blackberry` | Boolean | Is the app running on a Blackberry device? |
 | `Platform.is.cros`       | Boolean | Is the app running on device with the Chrome OS operating system? |
@@ -120,3 +124,6 @@ function (ssrContext) {
 The `ssrContext` is available in [boot files](/quasar-cli/boot-files). And also in the [preFetch](/quasar-cli/prefetch-feature) feature, where it is supplied as a parameter.
 
 The reason for all this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Platform needs to be bound to each request separately.
+
+## API
+<doc-api file="Platform" />

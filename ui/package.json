@@ -1,10 +1,12 @@
 {
   "name": "quasar",
-  "version": "1.15.21",
+  "version": "2.0.2",
   "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
-  "module": "src/index.esm.js",
+  "main": "dist/quasar.cjs.prod.js",
+  "module": "dist/quasar.esm.prod.js",
+  "unpkg": "dist/quasar.umd.prod.js",
+  "jsdelivr": "dist/quasar.umd.prod.js",
   "typings": "dist/types/index.d.ts",
-  "main": "dist/quasar.common.js",
   "files": [
     "dist",
     "lang",
@@ -59,29 +61,28 @@
   },
   "homepage": "https://quasar.dev",
   "devDependencies": {
-    "@quasar/app": "^2.0.6",
+    "@babel/eslint-parser": "^7.13.14",
+    "@quasar/app": "^3.0.0-alpha.6",
     "@quasar/extras": "^1.10.0",
-    "@rollup/plugin-buble": "^0.21.1",
-    "@rollup/plugin-json": "^4.0.2",
-    "@rollup/plugin-node-resolve": "^7.1.0",
-    "babel-eslint": "^10.0.2",
+    "@rollup/plugin-node-resolve": "^11.2.1",
+    "@rollup/plugin-replace": "^2.3.3",
     "babel-preset-es2015-rollup": "^3.0.0",
     "eslint": "^7.4.0",
-    "eslint-config-standard": "^12.0.0",
+    "eslint-config-standard": "^16.0.2",
     "eslint-friendly-formatter": "^4.0.1",
-    "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "eslint-plugin-vue": "^5.2.3",
-    "friendly-errors-webpack-plugin": "^1.7.0",
+    "eslint-plugin-vue": "^7.0.0",
+    "eslint-webpack-plugin": "^2.4.1",
     "json-beautify": "^1.1.1",
     "module-alias": "^2.2.2",
     "recast": "^0.18.5",
     "rimraf": "^3.0.1",
-    "rollup": "^1.31.0",
-    "table": "^5.4.6",
+    "rollup": "^2.34.0",
+    "rollup-plugin-typescript2": "^0.29.0",
+    "table": "^6.0.4",
+    "tslib": "^2.0.3",
     "uglify-es": "^3.3.9"
   },
   "vetur": {
@@ -90,11 +91,18 @@
   },
   "web-types": "dist/web-types/web-types.json",
   "browserslist": [
-    "last 1 version, not dead, ie >= 11"
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 10 Edge versions",
+    "last 10 Safari versions",
+    "last 10 Android versions",
+    "last 10 ChromeAndroid versions",
+    "last 10 FirefoxAndroid versions",
+    "last 10 iOS versions"
   ],
   "engines": {
-    "node": ">= 10.0.0",
-    "npm": ">= 5.6.0",
-    "yarn": ">= 1.6.0"
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
   }
 }

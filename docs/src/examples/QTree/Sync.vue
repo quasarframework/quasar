@@ -4,9 +4,9 @@
       :nodes="simple"
       node-key="label"
       tick-strategy="leaf"
-      :selected.sync="selected"
-      :ticked.sync="ticked"
-      :expanded.sync="expanded"
+      v-model:selected="selected"
+      v-model:ticked="ticked"
+      v-model:expanded="expanded"
     />
     <div class="col-12 col-sm-6 q-gutter-sm">
       <div class="text-h6">Selected</div>
@@ -34,9 +34,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
+      selected: ref('Pleasant surroundings'),
+      ticked: ref([ 'Quality ingredients', 'Good table presentation' ]),
+      expanded: ref([ 'Satisfied customers', 'Good service (disabled node)', 'Pleasant surroundings' ]),
+
       simple: [
         {
           label: 'Satisfied customers',
@@ -66,10 +72,7 @@ export default {
             }
           ]
         }
-      ],
-      selected: 'Pleasant surroundings',
-      ticked: [ 'Quality ingredients', 'Good table presentation' ],
-      expanded: [ 'Satisfied customers', 'Good service (disabled node)', 'Pleasant surroundings' ]
+      ]
     }
   }
 }

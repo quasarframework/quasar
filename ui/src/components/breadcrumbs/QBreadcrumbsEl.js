@@ -1,38 +1,57 @@
-import Vue from 'vue'
-
-import { mergeSlot } from '../../utils/slot.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import { h, defineComponent, computed } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
-import { RouterLinkMixin } from '../../mixins/router-link.js'
 
-export default Vue.extend({
+import { hMergeSlot } from '../../utils/private/render.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
+
+export default defineComponent({
   name: 'QBreadcrumbsEl',
 
-  mixins: [ ListenersMixin, RouterLinkMixin ],
-
   props: {
+    ...useRouterLinkProps,
+
     label: String,
-    icon: String
+    icon: String,
+
+    tag: {
+      type: String,
+      default: 'span'
+    }
   },
 
-  render (h) {
-    const child = []
+  setup (props, { slots }) {
+    const { linkTag, linkProps, hasLink, navigateToLink } = useRouterLink()
 
-    this.icon !== void 0 && child.push(
-      h(QIcon, {
-        staticClass: 'q-breadcrumbs__el-icon',
-        class: this.label !== void 0 ? 'q-breadcrumbs__el-icon--with-label' : null,
-        props: { name: this.icon }
-      })
+    const data = computed(() => {
+      const acc = { ...linkProps.value }
+      if (hasLink.value === true) {
+        acc.onClick = navigateToLink
+      }
+      return acc
+    })
+
+    const iconClass = computed(() =>
+      'q-breadcrumbs__el-icon'
+      + (props.label !== void 0 ? ' q-breadcrumbs__el-icon--with-label' : '')
     )
 
-    this.label && child.push(this.label)
+    return () => {
+      const child = []
 
-    return h(this.hasRouterLink === true ? 'router-link' : 'span', {
-      staticClass: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
-      props: this.hasRouterLink === true ? this.routerLinkProps : null,
-      [this.hasRouterLink === true ? 'nativeOn' : 'on']: { ...this.qListeners }
-    }, mergeSlot(child, this, 'default'))
+      props.icon !== void 0 && child.push(
+        h(QIcon, {
+          class: iconClass.value,
+          name: props.icon
+        })
+      )
+
+      props.label !== void 0 && child.push(props.label)
+
+      return h(linkTag.value, {
+        class: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
+        ...data.value
+      }, hMergeSlot(slots.default, child))
+    }
   }
 })

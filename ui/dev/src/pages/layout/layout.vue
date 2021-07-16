@@ -31,19 +31,21 @@
         </q-toolbar>
         <q-toolbar v-if="extraRow" inset>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
           </q-avatar>
           <q-toolbar-title>
             <strong>Quasar</strong> Framework
           </q-toolbar-title>
 
-          <q-input value="" dense standout dark>
-            <q-icon slot="append" name="search" />
+          <q-input model-value="" dense standout dark>
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
           </q-input>
         </q-toolbar>
         <q-tabs indicator-color="yellow">
           <q-route-tab icon="view_quilt" to="/layout-quick/default" replace label="Default Tab" />
-          <q-route-tab icon="view_day" to="/layout-quick/a" replace label="A" />
+          <q-route-tab icon="view_day" to="/layout-quick/a" exact replace label="A" />
           <q-route-tab icon="view_day" to="/layout-quick/b" replace label="B" />
           <q-route-tab icon="input" to="/layout-quick/c" replace label="C" />
         </q-tabs>
@@ -166,14 +168,16 @@
           :mini-to-overlay="leftMiniToOverlay"
         >
           <!--
-        <div slot="mini">
-          <q-btn
-            class="q-mini-drawer-hide"
-            icon="keyboard_arrow_right"
-            @click="goMini"
-          />
-          <div>mini</div>
-        </div>
+            <template v-slot:mini>
+              <div>
+                <q-btn
+                  class="q-mini-drawer-hide"
+                  icon="keyboard_arrow_right"
+                  @click="goMini"
+                />
+                <div>mini</div>
+              </div>
+            </template>
         -->
           <q-input v-model="inp" />
           <input v-model="inp">
@@ -312,9 +316,11 @@
           </q-list>
         </q-drawer>
 
-        <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
-          <router-view />
-        </transition>
+        <router-view v-slot="{ Component }">
+          <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
+            <component :is="Component" />
+          </transition>
+        </router-view>
 
         <div class="fixed-bottom-right bg-grey-5 q-pa-sm" style="bottom: 8px; right: 8px; left: auto;z-index: 6000;">
           <q-toggle dense v-model="showConfig" label="Config" />
@@ -462,15 +468,15 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
   .fit-min
-    min-width 100%
-    min-height 100%
-    height 0px
+    min-width: 100%
+    min-height: 100%
+    height: 0px
 </style>
 
 <script>
-import { colors } from 'quasar'
+import { setCssVar } from 'quasar'
 
 export default {
   data () {
@@ -504,15 +510,15 @@ export default {
 
       scrolling: true,
 
-      topleft: v[0],
-      topcenter: v[1],
-      topright: v[2],
-      middleleft: v[4],
-      middlecenter: v[5],
-      middleright: v[6],
-      bottomleft: v[8],
-      bottomcenter: v[9],
-      bottomright: v[10],
+      topleft: v[ 0 ],
+      topcenter: v[ 1 ],
+      topright: v[ 2 ],
+      middleleft: v[ 4 ],
+      middlecenter: v[ 5 ],
+      middleright: v[ 6 ],
+      bottomleft: v[ 8 ],
+      bottomcenter: v[ 9 ],
+      bottomright: v[ 10 ],
       drawerBehaviorOptions: [
         { label: 'Behave Normal', value: 'default' },
         { label: 'Behave Mobile', value: 'mobile' },
@@ -527,11 +533,11 @@ export default {
   computed: {
     view () {
       const
-        top = `${this.topleft}${this.topcenter}${this.topright}`,
-        middle = `${this.middleleft}${this.middlecenter}${this.middleright}`,
-        bottom = `${this.bottomleft}${this.bottomcenter}${this.bottomright}`
+        top = `${ this.topleft }${ this.topcenter }${ this.topright }`,
+        middle = `${ this.middleleft }${ this.middlecenter }${ this.middleright }`,
+        bottom = `${ this.bottomleft }${ this.bottomcenter }${ this.bottomright }`
 
-      return `${top} ${middle} ${bottom}`
+      return `${ top } ${ middle } ${ bottom }`
     },
     marginalClass () {
       return this.whiteLayout
@@ -541,7 +547,7 @@ export default {
   },
   watch: {
     mainColor (v) {
-      colors.setBrand(`primary`, v)
+      setCssVar('primary', v)
     }
   },
   methods: {
@@ -549,7 +555,7 @@ export default {
       console.log('drawer on layout:', v)
     },
     onScroll (data) {
-      // console.log('scroll', data.position)
+      // console.log('scroll', data)
     },
     goMini () {
       console.log('goMini')

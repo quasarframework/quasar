@@ -1,7 +1,7 @@
 ---
 title: Intersection
-badge: v1.4+
 desc: The QIntersection vue component, a wrapper over Quasar's Intersection directive.
+keys: QIntersection
 related:
   - /vue-directives/intersection
   - /options/transitions
@@ -14,10 +14,11 @@ The main benefit of using QIntersection is, however, that the DOM tree is freed 
 Under the covers, it uses the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
 
 ::: warning
-Not all browsers support the Intersection Observer API. Most [modern browsers](https://caniuse.com/#search=intersection) do, but other browsers, **like IE 11**, do not. If you need to support older browsers, you can install and import (into a boot file) the official W3C [polyfill](https://github.com/w3c/IntersectionObserver).
+Not all browsers support the Intersection Observer API. Most [modern browsers](https://caniuse.com/#search=intersection) do, but other browsers do not. If you need to support older browsers, you can install and import (into a boot file) the official W3C [polyfill](https://github.com/w3c/IntersectionObserver).
 :::
 
 ## QIntersection API
+
 <doc-api file="QIntersection" />
 
 ## Usage

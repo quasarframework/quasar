@@ -5,10 +5,13 @@ related:
   - /options/quasar-language-packs
   - /options/app-internationalization
 ---
+
 RTL is referring to "right to left" UI for languages that need it.
 
 ## Enabling RTL support
+
 To enable it, you need to edit `/quasar.conf.js`:
+
 ```js
 build: {
   rtl: true
@@ -26,29 +29,34 @@ Let's discuss about each of these requirements:
 2. *RTL support needs to be enabled*.
   You need to set "rtl" to "true" under quasar.conf.js > "build". What this does is it compiles CSS for both your website/app code and for Quasar components and add corresponding RTL CSS rules automatically. Your CSS bundle will slightly increase in size due to the addition of these CSS rules.
 
-3. Optional: *Enable fromRTL flag*.
-  By default, Quasar assumes that all styles are written in LTR direction and generates corresponding RTL styles for them. Should you wish to write your own css directly in RTL then you need to set quasar.conf.js > "build" > rtl > "fromRTL" to `true`.
+3. Optional: *Treat devland source CSS as RTL*.
+  By default, Quasar assumes that all styles are written in LTR direction and generates corresponding RTL styles for them. Should you wish to write your own css directly in RTL then you need to set quasar.conf.js > "build" > rtl > "source" to `rtl`.
+
+## Configuration
+
+Quasar CLI makes use of [postcss-rtlcss](https://github.com/elchininet/postcss-rtlcss), so if you want to tweak the RTL settings through quasar.conf.js > build > rtl then it must match [postcss-rtlcss options](https://github.com/elchininet/postcss-rtlcss#options).
 
 ## Things to keep in mind
-* Both RTL and non-RTL Quasar language packs will work together and dynamically switch to/from RTL. So only choosing an RTL Quasar language pack will trigger the RTL UI for you. You don't need separate builds of your app (one for non-RTL and one for RTL-only). The RTL is dynamically changed for you automatically.
-* You can dynamically detect if you are on RTL mode by taking a look at Boolean `this.$q.lang.rtl`. More info on [Vue Prototype Injections](/options/vue-prototype-injections).
-* You need to be careful when writing your own CSS. Like mentioned above, Quasar will automatically add RTL (LTR if quasar.conf.js > build > rtl > fromRTL is set to true) rules based on your CSS code. So writing:
 
-```css
-.my-class {
-  margin-left: 10px;
-  right: 5px;
-}
-```
+* Both RTL and non-RTL Quasar language packs will work together and dynamically switch to/from RTL. So only choosing an RTL Quasar language pack will trigger the RTL UI for you. You don't need separate builds of your app (one for non-RTL and one for RTL-only). The RTL is dynamically changed for you automatically.
+* You can dynamically detect if you are on RTL mode by taking a look at Boolean `$q.lang.rtl`. More info on [The $q object](/options/the-q-object).
+* You need to be careful when writing your own CSS. Like mentioned above, Quasar will automatically add RTL (LTR if quasar.conf.js > build > rtl > source is set to 'ltr') rules based on your CSS code. So writing:
+
+  ```css
+  .my-class {
+    margin-left: 10px;
+    right: 5px;
+  }
+  ```
 
   ...will add this rule for RTL:
 
-```css
-[dir=rtl] .my-class {
-  margin-right: 10px;
-  left: 5px;
-}
-```
+  ```css
+  [dir=rtl] .my-class {
+    margin-right: 10px;
+    left: 5px;
+  }
+  ```
 
   Any CSS rule that refers to "left" or "right" is automatically triggering an equivalent RTL CSS rule to be added.
 
@@ -61,23 +69,16 @@ If you need an exception so your CSS code will not add a corresponding RTL rule,
 }
 ```
 
-...or, if you are using Stylus:
-
-```css
-.my-class
-  margin-left 10px /* rtl:ignore */
-```
-
 ...or SCSS with indented form:
 
-```css
+```sass
 .my-class
   margin-left: 10px #{"/* rtl:ignore */"}
 ```
 
 ...or default SCSS:
 
-```css
+```sass
 .my-class {
   margin-left: 10px #{"/* rtl:ignore */"};
 }
@@ -113,8 +114,8 @@ To enable RTL UIs in UMD you need to include the RTL equivalent CSS tag for your
 <html>
   <head>
     ...
-    <!-- Replace "1.0.0" (below) with your Quasar version. -->
-    <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.rtl.min.css" rel="stylesheet" type="text/css">
+    <!-- Replace "2.0.0" (below) with your Quasar version. -->
+    <link href="https://cdn.jsdelivr.net/npm/quasar@2/dist/quasar.rtl.prod.css" rel="stylesheet" type="text/css">
   </head>
 
   <body>
@@ -123,9 +124,9 @@ To enable RTL UIs in UMD you need to include the RTL equivalent CSS tag for your
     <!--
       We also need an RTL Quasar language pack; let's take Hebrew as an example;
       include this after Quasar JS tag;
-      Replace "1.0.0" (below) with your Quasar version.
+      Replace "2.0.0" (below) with your Quasar version.
     -->
-    <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/lang/he.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@2/dist/lang/he.umd.prod.js"></script>
     <script>
       Quasar.lang.set(Quasar.lang.he)
     </script>

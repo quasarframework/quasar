@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/scroll-observer"
+    "docsUrl": "https://v2.quasar.dev/vue-components/scroll-observer"
   },
 
   "props": {
@@ -11,9 +11,11 @@
       "category": "behavior"
     },
 
-    "horizontal": {
-      "type": "Boolean",
-      "desc": "Register for horizontal scroll instead of vertical (which is default)",
+    "axis": {
+      "type": "String",
+      "desc": "Axis on which to detect changes",
+      "values": [ "both", "vertical", "horizontal" ],
+      "default": "vertical",
       "category": "behavior"
     },
 
@@ -31,23 +33,63 @@
           "desc": "Scroll details",
           "definition": {
             "position": {
-              "type": "Number",
-              "desc": "Scroll offset (from top)",
-              "examples": [ 822 ]
+              "type": "Object",
+              "desc": "Scroll offset (from top and left)",
+              "definition": {
+                "top": {
+                  "type": "Number",
+                  "desc": "Scroll offset from top (vertical)",
+                  "examples": [ 120 ]
+                },
+                "left": {
+                  "type": "Number",
+                  "desc": "Scroll offset from left (horizontal)",
+                  "examples": [ 10 ]
+                }
+              }
             },
+
             "direction": {
               "type": "String",
               "desc": "Direction of scroll",
-              "values": [ "up", "down" ]
+              "values": [ "up", "down", "left", "right" ]
             },
             "directionChanged": {
               "type": "Boolean",
               "desc": "Has scroll direction changed since event was last emitted?"
             },
-            "inflexionPosition": {
-              "type": "Number",
+            "delta": {
+              "type": "Object",
+              "desc": "Delta of distance (in pixels) since event was last emitted",
+              "definition": {
+                "top": {
+                  "type": "Number",
+                  "desc": "Vertical delta distance since event was last emitted",
+                  "examples": [ 120 ]
+                },
+                "left": {
+                  "type": "Number",
+                  "desc": "Horizontal delta distance since event was last emitted",
+                  "examples": [ 10 ]
+                }
+              }
+            },
+
+            "inflectionPoint": {
+              "type": "Object",
               "desc": "Last scroll offset where scroll direction has changed",
-              "examples": [ 822 ]
+              "definition": {
+                "top": {
+                  "type": "Number",
+                  "desc": "Scroll offset from top (vertical)",
+                  "examples": [ 120 ]
+                },
+                "left": {
+                  "type": "Number",
+                  "desc": "Scroll offset from left (horizontal)",
+                  "examples": [ 10 ]
+                }
+              }
             }
           }
         }
@@ -67,7 +109,7 @@
     },
 
     "getPosition": {
-      "desc": "Get current scroll details under the form of an Object: { position, direction, directionChanged, inflexionPosition }"
+      "desc": "Get current scroll details under the form of an Object: { position, direction, directionChanged, inflectionPoint }"
     }
   }
 }

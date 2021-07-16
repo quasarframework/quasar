@@ -1,6 +1,7 @@
 ---
 title: Stepper
 desc: The QStepper Vue component conveys progress through a sequence of numbered steps. It may also be used for navigation. It's usually useful when the user has to follow steps to complete a process, like in a wizard.
+keys: QStepper,QStep,QStepperNavigation
 related:
   - /options/transitions
 ---
@@ -77,7 +78,7 @@ You can also use `prefix` prop (max 2 characters) instead of an icon for each st
 
 <doc-example title="Dark" file="QStepper/Dark" />
 
-Starting with Quasar v1.9.13+, you can use the `header-class` prop to apply any CSS class(es) to the header. In the example below, we are applying bolded text:
+You can use the `header-class` prop to apply any CSS class(es) to the header. In the example below, we are applying bolded text:
 
 <doc-example title="Header Class" file="QStepper/HeaderClass" />
 

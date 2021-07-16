@@ -1,8 +1,8 @@
 {
-  "mixins": [ "components/field/__QField" ],
+  "mixins": [ "composables/private/use-field" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/field"
+    "docsUrl": "https://v2.quasar.dev/vue-components/field"
   },
 
   "props": {
@@ -11,10 +11,16 @@
       "desc": "Specify a max length of model",
       "examples": [ "12" ],
       "category": "model"
+    },
+
+    "max-values": {
+      "type": [ "Number", "String" ],
+      "desc": "Used internally by QSelect",
+      "internal": true
     }
   },
 
-  "scopedSlots": {
+  "slots": {
     "control": {
       "desc": "Slot for controls; Suggestion QSlider, QRange, QKnob, ...",
       "scope": {
@@ -58,12 +64,16 @@
           "returns": null
         }
       }
+    },
+
+    "rawControl": {
+      "internal": true
     }
   },
 
   "events": {
-    "input": {
-      "extends": "input",
+    "update:model-value": {
+      "extends": "update:model-value",
       "desc": "Emitted when the model changes, only when used with 'clearable' or the 'control' scoped slot."
     },
 

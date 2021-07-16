@@ -23,7 +23,7 @@ module.exports = function (chain, cfg) {
   }
   else {
     defaultOptions = {
-      swSrc: appPaths.resolve.app(cfg.sourceFiles.serviceWorker)
+      swSrc: appPaths.resolve.app('.quasar/pwa/service-worker.js')
     }
 
     log('[InjectManifest] Using your custom service-worker written file')
@@ -43,8 +43,8 @@ module.exports = function (chain, cfg) {
   if (cfg.ctx.mode.ssr) {
     // if Object form:
     if (cfg.ssr.pwa && cfg.ssr.pwa !== true) {
-      const merge = require('webpack-merge')
-      opts = merge(opts, cfg.ssr.pwa)
+      const { merge } = require('webpack-merge')
+      opts = merge({}, opts, cfg.ssr.pwa)
     }
 
     opts.exclude = opts.exclude || []
@@ -61,11 +61,8 @@ module.exports = function (chain, cfg) {
         : cfg.build.htmlFilename
 
       opts.navigateFallback = `${cfg.build.publicPath}${htmlFile}`
-
-      if (cfg.__versions.workboxWebpackPlugin >= 5) {
-        opts.navigateFallbackDenylist = opts.navigateFallbackDenylist || []
-        opts.navigateFallbackDenylist.push(/service-worker\.js$/, /workbox-(.)*\.js$/)
-      }
+      opts.navigateFallbackDenylist = opts.navigateFallbackDenylist || []
+      opts.navigateFallbackDenylist.push(/service-worker\.js$/, /workbox-(.)*\.js$/)
     }
   }
 

@@ -66,10 +66,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model: 'one'
+      model: ref('one')
     }
   }
 }

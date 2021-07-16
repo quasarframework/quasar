@@ -1,17 +1,16 @@
-import Vue, { ComponentOptions, VueConstructor } from "vue";
-import VueRouter, { RawLocation } from "vue-router";
+import { App } from "vue";
+import { Router, RouteLocationRaw } from "vue-router";
 import { HasSsrParam } from "./ssr";
 import { HasStoreParam } from "./store";
 
-interface BootFileParams<TStore> extends HasSsrParam, HasStoreParam<TStore> {
-  app: ComponentOptions<Vue>;
-  Vue: VueConstructor;
-  router: VueRouter;
+interface BootFileParams<TState> extends HasSsrParam, HasStoreParam<TState> {
+  app: App;
+  router: Router;
   urlPath: string;
   publicPath: string;
-  redirect: (url: string | RawLocation, httpStatusCode?: number) => void;
+  redirect: (url: string | RouteLocationRaw) => void;
 }
 
-export type BootCallback<TStore> = (
-  params: BootFileParams<TStore>
+export type BootCallback<TState> = (
+  params: BootFileParams<TState>
 ) => void | Promise<void>;

@@ -22,18 +22,21 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      theModel: null,
-      theModel2: 'maybe'
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    reset () {
-      this.theModel = null
-      this.theModel2 = 'maybe'
+export default {
+  setup () {
+    const theModel = ref(null)
+    const theModel2 = ref('maybe')
+
+    return {
+      theModel,
+      theModel2,
+
+      reset () {
+        theModel.value = null
+        theModel2.value = 'maybe'
+      }
     }
   }
 }

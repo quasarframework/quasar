@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
-  <ShortName>Quasar docs</ShortName>
-  <Description>Quasar documentation</Description>
-  <Url type="text/html" method="get" template="https://quasar.dev/start/pick-quasar-flavour?search={searchTerms}"/>
+  <ShortName>Quasar v2 docs</ShortName>
+  <Description>Quasar v2 documentation</Description>
+  <Url type="text/html" method="get" template="https://next.quasar.dev/start/pick-quasar-flavour?search={searchTerms}"/>
 </OpenSearchDescription>

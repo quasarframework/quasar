@@ -1,219 +1,144 @@
 {
-  "mixins": [ "components/uploader/QUploaderBase" ],
+  "mixins": [ "composables/private/use-file", "components/uploader/xhr-uploader-plugin" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/uploader"
+    "docsUrl": "https://v2.quasar.dev/vue-components/uploader"
   },
 
   "props": {
-    "factory": {
-      "type": "Function",
-      "desc": "Function which should return an Object or a Promise resolving with an Object; For best performance, reference it from your scope and do not define it inline",
-      "params": {
-        "files": {
-          "type": "Array",
-          "desc": "Uploaded files",
-          "__exemption": [ "examples" ]
-        }
-      },
-      "returns": {
-        "type": [ "Object", "Promise" ],
-        "desc": "Optional configuration for the upload process; You can override QUploader props in this Object (url, method, headers, formFields, fieldName, withCredentials, sendRaw); Props of these Object can also be Functions with the form of (file[s]) => value",
-        "__exemption": [ "examples" ]
-      },
-      "category": "upload"
+    "label": {
+      "type": "String",
+      "desc": "Label for the uploader",
+      "examples": ["Upload photo here"],
+      "category": "content"
     },
 
-    "url": {
-      "type": [ "String", "Function" ],
-      "desc": "URL or path to the server which handles the upload. Takes String or factory function, which returns String. Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "examples": [ "https://example.com/path", "files => `https://example.com?count=${files.length}`" ],
-      "category": "upload"
+    "color": {
+      "extends": "color"
     },
 
-    "method": {
-      "type": [ "String", "Function" ],
-      "default": "POST",
-      "desc": "HTTP method to use for upload; Takes String or factory function which returns a String; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "values": [ "POST", "PUT" ],
-      "examples": [ "POST", ":method=\"files => files.length > 10 ? 'POST' : 'PUT'\"" ],
-      "category": "upload"
+    "text-color": {
+      "extends": "text-color"
     },
 
-    "field-name": {
-      "type": [ "String", "Function" ],
-      "desc": "Field name for each file upload; This goes into the following header: 'Content-Disposition: form-data; name=\"__HERE__\"; filename=\"somefile.png\"; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "default": "(file) => file.name",
-      "examples": [
-        "backgroundFile",
-        ":field-name=\"(file) => 'background' + file.name\""
-      ],
-      "category": "upload"
+    "dark": {
+      "extends": "dark"
     },
 
-    "headers": {
-      "type": [ "Array", "Function" ],
-      "desc": "Array or a factory function which returns an array; Array consists of objects with header definitions; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "definition": {
-        "name": {
-          "type": "String",
-          "required": true,
-          "desc": "Header name",
-          "examples": [ "Content-Type", "Accept", "Cache-Control" ]
-        },
-        "value": {
-          "type": "String",
-          "required": true,
-          "desc": "Header value",
-          "examples": [ "application/json", "no-cache" ]
-        }
-      },
-      "examples": [
-        "[{name: 'Content-Type', value: 'application/json'}, {name: 'Accept', value: 'application/json'}]",
-        "() => [{name: 'X-Custom-Timestamp', value: Date.now()}]",
-        "files => [{name: 'X-Custom-Count', value: files.length}]"
-      ],
-      "category": "upload"
+    "square": {
+      "extends": "square"
     },
 
-    "form-fields": {
-      "type": [ "Array", "Function" ],
-      "desc": "Array or a factory function which returns an array; Array consists of objects with additional fields definitions (used by Form to be uploaded); Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "definition": {
-        "name": {
-          "type": "String",
-          "required": true,
-          "desc": "Field name",
-          "examples": [ "Some field" ]
-        },
-        "value": {
-          "type": "String",
-          "required": true,
-          "desc": "Field value",
-          "examples": [ "some-value" ]
-        }
-      },
-      "examples": [
-        "[{name: 'my-field', value: 'my-value'}]",
-        "() => [{name: 'my-field', value: 'my-value'}]",
-        "files => [{name: 'my-field', value: 'my-value' + files.length}]"
-      ],
-      "category": "upload"
+    "flat": {
+      "extends": "flat"
     },
 
-    "with-credentials": {
-      "type": [ "Boolean", "Function" ],
-      "desc": "Sets withCredentials to true on the XHR that manages the upload; Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "examples": [ "with-credentials", ":with-credentials=\"files => ...\"" ],
-      "category": "upload"
+    "bordered": {
+      "extends": "bordered"
     },
 
-    "send-raw": {
-      "type": [ "Boolean", "Function" ],
-      "desc": "Send raw files without wrapping into a Form(); Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "examples": [ "send-raw", ":send-raw=\"files => ...\"" ],
-      "category": "upload"
+    "no-thumbnails": {
+      "type": "Boolean",
+      "desc": "Don't display thumbnails for image files",
+      "category": "content"
     },
 
-    "batch": {
-      "type": [ "Boolean", "Function" ],
-      "desc": "Upload files in batch (in one XHR request); Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "examples": [ "files => files.length > 10" ],
-      "category": "upload"
+    "auto-upload": {
+      "type": "Boolean",
+      "desc": "Upload files immediately when added",
+      "category": "behavior"
+    },
+
+    "hide-upload-btn": {
+      "type": "Boolean",
+      "desc": "Don't show the upload button",
+      "category": "behavior"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    }
+  },
+
+  "slots": {
+    "header": {
+      "desc": "Slot for custom header; Scope is the QUploader instance itself",
+      "__exemption": ["scope"]
+    },
+
+    "list": {
+      "desc": "Slot for custom list; Scope is the QUploader instance itself",
+      "__exemption": ["scope"]
     }
   },
 
   "events": {
-    "uploaded": {
-      "desc": "Emitted when file or batch of files is uploaded",
+    "added": {
+      "desc": "Emitted when files are added into the list",
       "params": {
-        "info": {
-          "type": "Object",
-          "desc": "Object containing information about the event",
-          "definition": {
-            "files": {
-              "type": "Array",
-              "desc": "Uploaded files",
-              "__exemption": [ "examples" ]
-            },
-            "xhr": {
-              "type": "Object",
-              "desc": "XMLHttpRequest that has been used to upload this batch of files",
-              "__exemption": [ "examples" ]
-            }
-          }
-        }
-      }
-    },
-
-    "failed": {
-      "desc": "Emitted when file or batch of files has encountered error while uploading",
-      "params": {
-        "info": {
-          "type": "Object",
-          "desc": "Object containing information about the event",
-          "definition": {
-            "files": {
-              "type": "Array",
-              "desc": "Files which encountered error",
-              "__exemption": [ "examples" ]
-            },
-            "xhr": {
-              "type": "Object",
-              "desc": "XMLHttpRequest that has been used to upload this batch of files",
-              "__exemption": [ "examples" ]
-            }
-          }
-        }
-      }
-    },
-
-    "uploading": {
-      "desc": "Emitted when file or batch of files started uploading",
-      "params": {
-        "info": {
-          "type": "Object",
-          "desc": "Object containing information about the event",
-          "definition": {
-            "files": {
-              "type": "Array",
-              "desc": "Files which are now uploading",
-              "__exemption": [ "examples" ]
-            },
-            "xhr": {
-              "type": "Object",
-              "desc": "XMLHttpRequest used for uploading",
-              "__exemption": [ "examples" ]
-            }
-          }
-        }
-      }
-    },
-
-    "factory-failed": {
-      "desc": "Emitted when factory function is supplied with a Promise which is rejected",
-      "params": {
-        "err": {
-          "type": "Object",
-          "desc": "Error Object which is the Promise rejection reason",
-          "__exemption": [ "examples" ]
-        },
         "files": {
           "type": "Array",
-          "desc": "Files which were to get uploaded",
-          "__exemption": [ "examples" ]
+          "desc": "Array of files that were added",
+          "__exemption": ["examples"]
         }
       }
+    },
+
+    "removed": {
+      "desc": "Emitted when files are removed from the list",
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Array of files that were removed",
+          "__exemption": ["examples"]
+        }
+      }
+    },
+
+    "start": {
+      "desc": "Started working"
+    },
+
+    "finish": {
+      "desc": "Finished working (regardless of success or fail)"
     }
   },
 
   "methods": {
+    "upload": {
+      "desc": "Start uploading (same as clicking the upload button)"
+    },
+
     "abort": {
       "desc": "Abort upload of all files (same as clicking the abort button)"
     },
 
-    "upload": {
-      "desc": "Start uploading (same as clicking the upload button)"
+    "reset": {
+      "desc": "Resets uploader to default; Empties queue, aborts current uploads"
+    },
+
+    "removeUploadedFiles": {
+      "desc": "Removes already uploaded files from the list"
+    },
+
+    "removeQueuedFiles": {
+      "desc": "Remove files that are waiting for upload to start (same as clicking the left clear button)"
+    },
+
+    "removeFile": {
+      "desc": "Remove specified file from the queue",
+      "params": {
+        "file": {
+          "type": "Object",
+          "desc": "File to remove (instance of File)",
+          "required": true,
+          "__exemption": ["examples"]
+        }
+      }
     }
   }
 }

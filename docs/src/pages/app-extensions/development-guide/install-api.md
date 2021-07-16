@@ -215,7 +215,7 @@ const message = 'This is content when we don\'t have "Feature X"'
 
 Possibilities are limited only by your imagination.
 
-## api.renderFile <q-badge align="top" color="brand-primary" label="@quasar/app v2+" />
+## api.renderFile
 
 Similar with api.render() with the difference that this method renders a single file.
 

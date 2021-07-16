@@ -1,44 +1,36 @@
-import Vue from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import RatioMixin from '../../mixins/ratio.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QVideo',
 
-  mixins: [ RatioMixin, ListenersMixin ],
-
   props: {
+    ...useRatioProps,
+
     src: {
       type: String,
       required: true
     }
   },
 
-  computed: {
-    iframeData () {
-      return {
-        attrs: {
-          src: this.src,
-          frameborder: '0',
-          allowfullscreen: true
-        }
-      }
-    },
+  setup (props) {
+    const ratioStyle = useRatio(props)
 
-    classes () {
-      return 'q-video' +
-        (this.ratio !== void 0 ? ' q-video--responsive' : '')
-    }
-  },
+    const classes = computed(() =>
+      'q-video'
+      + (props.ratio !== void 0 ? ' q-video--responsive' : '')
+    )
 
-  render (h) {
-    return h('div', {
-      class: this.classes,
-      style: this.ratioStyle,
-      on: { ...this.qListeners }
+    return () => h('div', {
+      class: classes.value,
+      style: ratioStyle.value
     }, [
-      h('iframe', this.iframeData)
+      h('iframe', {
+        src: props.src,
+        frameborder: '0',
+        allowfullscreen: true
+      })
     ])
   }
 })

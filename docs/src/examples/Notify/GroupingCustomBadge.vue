@@ -5,24 +5,30 @@
 </template>
 
 <script>
-export default {
-  methods: {
-    triggerTwice () {
-      this.$q.notify({
-        message: 'Jim pinged you.',
-        color: 'purple',
-        badgeColor: 'yellow',
-        badgeTextColor: 'dark',
-        badgeClass: 'shadow-3 glossy my-badge-class'
-      })
+import { useQuasar } from 'quasar'
 
-      this.$q.notify({
-        message: 'Jim pinged you.',
-        color: 'purple',
-        badgeColor: 'yellow',
-        badgeTextColor: 'dark',
-        badgeClass: 'shadow-3 glossy my-badge-class'
-      })
+export default {
+  setup () {
+    const $q = useQuasar()
+
+    return {
+      triggerTwice () {
+        $q.notify({
+          message: 'Jim pinged you.',
+          color: 'purple',
+          badgeColor: 'yellow',
+          badgeTextColor: 'dark',
+          badgeClass: 'shadow-3 glossy my-badge-class'
+        })
+
+        $q.notify({
+          message: 'Jim pinged you.',
+          color: 'purple',
+          badgeColor: 'yellow',
+          badgeTextColor: 'dark',
+          badgeClass: 'shadow-3 glossy my-badge-class'
+        })
+      }
     }
   }
 }

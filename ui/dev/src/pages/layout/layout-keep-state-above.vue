@@ -8,14 +8,18 @@
           round
           icon="menu"
           aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleLeft"
         />
 
+        <div class="q-ml-sm">
+          {{ leftDrawerOpen }}
+        </div>
         <q-toolbar-title>
           Quasar App
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div class="q-mx-sm">Quasar v{{ $q.version }}</div>
+        <div class="q-mr-sm">{{ rightDrawerOpen }}</div>
 
         <q-btn
           flat
@@ -23,7 +27,7 @@
           round
           icon="settings"
           aria-label="settings"
-          @click="rightDrawerOpen = !rightDrawerOpen"
+          @click="toggleRight"
         />
       </q-toolbar>
     </q-header>
@@ -80,6 +84,16 @@ export default {
     return {
       leftDrawerOpen: false,
       rightDrawerOpen: false
+    }
+  },
+
+  methods: {
+    toggleLeft () {
+      this.leftDrawerOpen = !this.leftDrawerOpen
+    },
+
+    toggleRight () {
+      this.rightDrawerOpen = !this.rightDrawerOpen
     }
   }
 }

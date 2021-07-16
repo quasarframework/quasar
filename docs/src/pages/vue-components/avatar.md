@@ -1,12 +1,14 @@
 ---
 title: Avatar
 desc: The QAvatar Vue component creates an element that can embed a letter, an icon or an image within its shape.
+keys: QAvatar
 ---
 The QAvatar component creates a scalable, color-able element that can have text, icon or image within its shape. By default it is circular, but it can also be square or have a border-radius applied to give rounded corners to the square shape.
 
 It is often used with other components in their slots.
 
 ## QAvatar API
+
 <doc-api file="QAvatar" />
 
 ## Usage

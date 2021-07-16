@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       customize: [
         {

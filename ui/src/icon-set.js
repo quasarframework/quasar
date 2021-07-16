@@ -1,45 +1,60 @@
-import Vue from 'vue'
-
-import { isSSR } from './plugins/Platform.js'
+import defineReactivePlugin from './utils/private/define-reactive-plugin.js'
 import materialIcons from '../icon-set/material-icons.js'
 
-export default {
-  install ($q, queues, iconSet) {
-    const initialSet = iconSet || materialIcons
+const Plugin = defineReactivePlugin({
+  iconMapFn: null,
+  __icons: {}
+}, {
+  set (setObject, ssrContext) {
+    const def = { ...setObject, rtl: setObject.rtl === true }
 
-    this.set = (setObject, ssrContext) => {
-      const def = { ...setObject }
-
-      if (isSSR === true) {
-        if (ssrContext === void 0) {
-          console.error('SSR ERROR: second param required: Quasar.iconSet.set(iconSet, ssrContext)')
-          return
-        }
-
-        def.set = ssrContext.$q.iconSet.set
-        ssrContext.$q.iconSet = def
+    if (__QUASAR_SSR_SERVER__) {
+      if (ssrContext === void 0) {
+        console.error('SSR ERROR: second param required: Quasar.iconSet.set(iconSet, ssrContext)')
+        return
       }
-      else {
-        def.set = this.set
-        $q.iconSet = def
-      }
-    }
 
-    if (isSSR === true) {
-      queues.server.push((q, ctx) => {
-        q.iconSet = {}
-        q.iconSet.set = setObject => {
-          this.set(setObject, ctx.ssr)
-        }
-
-        q.iconSet.set(initialSet)
-      })
+      def.set = ssrContext.$q.iconSet.set
+      Object.assign(ssrContext.$q.iconSet, def)
     }
     else {
-      Vue.util.defineReactive($q, 'iconMapFn', void 0)
-      Vue.util.defineReactive($q, 'iconSet', {})
+      def.set = Plugin.set
+      Object.assign(Plugin.__icons, def)
+    }
+  },
 
-      this.set(initialSet)
+  install ({ $q, iconSet, ssrContext }) {
+    if (__QUASAR_SSR_SERVER__) {
+      const initialSet = iconSet || materialIcons
+
+      $q.iconMapFn = ssrContext.$q.config.iconMapFn || this.iconMapFn || null
+      $q.iconSet = {}
+      $q.iconSet.set = setObject => {
+        this.set(setObject, ssrContext)
+      }
+
+      $q.iconSet.set(initialSet)
+    }
+    else {
+      if ($q.config.iconMapFn !== void 0) {
+        this.iconMapFn = $q.config.iconMapFn
+      }
+
+      $q.iconSet = this.__icons
+
+      Object.defineProperty($q, 'iconMapFn', {
+        get: () => this.iconMapFn,
+        set: val => { this.iconMapFn = val }
+      })
+
+      if (this.__installed === true) {
+        iconSet !== void 0 && this.set(iconSet)
+      }
+      else {
+        this.set(iconSet || materialIcons)
+      }
     }
   }
-}
+})
+
+export default Plugin

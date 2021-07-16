@@ -68,12 +68,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      volume: 6,
-      brightness: 3,
-      mic: 8
+      volume: ref(6),
+      brightness: ref(3),
+      mic: ref(8)
     }
   }
 }

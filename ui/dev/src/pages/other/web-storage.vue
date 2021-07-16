@@ -25,7 +25,7 @@ export default {
         LocalStorage.remove(key)
       }
       else {
-        LocalStorage.set(key, `${key}-value`)
+        LocalStorage.set(key, `${ key }-value`)
       }
       this.update()
     },

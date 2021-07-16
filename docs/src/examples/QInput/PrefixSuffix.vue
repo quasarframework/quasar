@@ -25,12 +25,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      email: '',
-      number: null,
-      text: ''
+      email: ref(''),
+      number: ref(null),
+      text: ref('')
     }
   }
 }

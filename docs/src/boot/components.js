@@ -8,12 +8,12 @@ import DocLink from 'components/DocLink.vue'
 import DocPage from 'components/DocPage.vue'
 
 // leave the export, even if you don't use it
-export default async ({ Vue }) => {
-  Vue.component('DocExample', DocExample)
-  Vue.component('DocCode', DocCode)
-  Vue.component('DocApi', DocApi)
-  Vue.component('DocInstallation', DocInstallation)
+export default async ({ app }) => {
+  app.component('DocExample', DocExample)
+  app.component('DocCode', DocCode)
+  app.component('DocApi', DocApi)
+  app.component('DocInstallation', DocInstallation)
 
-  Vue.component('DocLink', DocLink)
-  Vue.component('DocPage', DocPage)
+  app.component('DocLink', DocLink)
+  app.component('DocPage', DocPage)
 }

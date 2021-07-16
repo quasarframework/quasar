@@ -1,15 +1,9 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/responsive"
+    "docsUrl": "https://v2.quasar.dev/vue-components/responsive"
   },
 
-  "mixins": [ "mixins/ratio" ],
-
-  "behavior": {
-    "$listeners": true
-  },
-
-  "addedIn": "v1.9.0",
+  "mixins": [ "composables/private/use-ratio" ],
 
   "slots": {
     "default": {

@@ -1,13 +1,9 @@
-import Vue from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
+import { hSlot } from '../../utils/private/render.js'
 
-import { slot } from '../../utils/slot.js'
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QCarouselControl',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     position: {
@@ -21,29 +17,20 @@ export default Vue.extend({
     },
     offset: {
       type: Array,
-      default: () => [18, 18],
+      default: () => [ 18, 18 ],
       validator: v => v.length === 2
     }
   },
 
-  computed: {
-    classes () {
-      return `absolute-${this.position}`
-    },
+  setup (props, { slots }) {
+    const classes = computed(() => `q-carousel__control absolute absolute-${ props.position }`)
+    const style = computed(() => ({
+      margin: `${ props.offset[ 1 ] }px ${ props.offset[ 0 ] }px`
+    }))
 
-    style () {
-      return {
-        margin: `${this.offset[1]}px ${this.offset[0]}px`
-      }
-    }
-  },
-
-  render (h) {
-    return h('div', {
-      staticClass: 'q-carousel__control absolute',
-      style: this.style,
-      class: this.classes,
-      on: { ...this.qListeners }
-    }, slot(this, 'default'))
+    return () => h('div', {
+      class: classes.value,
+      style: style.value
+    }, hSlot(slots.default))
   }
 })

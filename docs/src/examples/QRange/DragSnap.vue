@@ -19,13 +19,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      rangeSnap: {
+      rangeSnap: ref({
         min: 35,
         max: 60
-      }
+      })
     }
   }
 }

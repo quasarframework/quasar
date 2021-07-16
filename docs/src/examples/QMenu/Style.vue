@@ -3,7 +3,7 @@
     <div class="q-gutter-md row">
 
       <q-btn color="primary" label="Content Class Menu">
-        <q-menu content-class="bg-purple text-white" auto-close>
+        <q-menu class="bg-purple text-white" auto-close>
           <q-list style="min-width: 100px">
             <q-item clickable>
               <q-item-section>New tab</q-item-section>
@@ -34,7 +34,7 @@
       </q-btn>
 
       <q-btn color="primary" label="Content Style Menu">
-        <q-menu :content-style="{ backgroundColor: '#eee', color: 'blue'}">
+        <q-menu :style="{ backgroundColor: '#eee', color: 'blue'}">
           <q-list style="min-width: 100px">
             <q-item clickable>
               <q-item-section>New tab</q-item-section>

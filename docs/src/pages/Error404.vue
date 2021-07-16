@@ -10,11 +10,13 @@ q-page.err404.flex.flex-center.text-center
 </template>
 
 <script>
+import { useMeta } from 'quasar'
+
 export default {
   name: 'Error404',
 
-  meta: {
-    title: 'Oops..'
+  setup () {
+    useMeta({ title: 'Oops..' })
   }
 }
 </script>

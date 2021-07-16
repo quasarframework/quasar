@@ -1,14 +1,14 @@
 {
-  "mixins": [ "mixins/anchor" ],
+  "mixins": [ "composables/private/use-anchor" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/popup-proxy"
+    "docsUrl": "https://v2.quasar.dev/vue-components/popup-proxy"
   },
 
   "props": {
-    "value": {
+    "model-value": {
       "type": "Boolean",
-      "desc": "Defines the state of the component (shown/hidden); Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "desc": "Defines the state of the component (shown/hidden); Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "category": "model"
     },
 
@@ -28,8 +28,8 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:model-value": {
+      "extends": "update:model-value"
     },
 
     "before-show": {

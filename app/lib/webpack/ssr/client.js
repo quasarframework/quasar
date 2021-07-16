@@ -1,10 +1,15 @@
-const injectClientSpecifics = require('../inject.client-specifics')
-const injectHotUpdate = require('../inject.hot-update')
-const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+const path = require('path')
+
 const injectHtml = require('../inject.html')
+const { QuasarSSRClientPlugin } = require('./plugin.client-side')
 
 module.exports = function (chain, cfg) {
-  if (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa) {
+  if (cfg.ctx.prod) {
+    chain.output
+      .path(path.join(cfg.build.distDir, 'www'))
+  }
+
+  if (cfg.ctx.mode.pwa) {
     // this will generate the offline.html
     // which runs as standalone PWA only
     // so we need to tweak the ctx
@@ -20,11 +25,10 @@ module.exports = function (chain, cfg) {
     injectHtml(chain, cfg, templateParam)
   }
 
-  injectClientSpecifics(chain, cfg)
-  injectHotUpdate(chain, cfg)
-
-  chain.plugin('vue-ssr-client')
-    .use(VueSSRClientPlugin, [{
-      filename: '../quasar.client-manifest.json'
-    }])
+  if (cfg.ctx.prod) {
+    chain.plugin('quasar-ssr-client')
+      .use(QuasarSSRClientPlugin, [{
+        filename: '../quasar.client-manifest.json'
+      }])
+  }
 }

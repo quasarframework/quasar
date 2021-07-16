@@ -1,34 +1,30 @@
-import Vue from 'vue'
+import { h, defineComponent, computed, getCurrentInstance } from 'vue'
 
-import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-import { slot } from '../../utils/slot.js'
+import { hSlot } from '../../utils/private/render.js'
 
-const attrs = { role: 'toolbar' }
-
-export default Vue.extend({
+export default defineComponent({
   name: 'QBar',
 
-  mixins: [ ListenersMixin, DarkMixin ],
-
   props: {
+    ...useDarkProps,
     dense: Boolean
   },
 
-  computed: {
-    classes () {
-      return `q-bar--${this.dense === true ? 'dense' : 'standard'} ` +
-        `q-bar--${this.isDark === true ? 'dark' : 'light'}`
-    }
-  },
+  setup (props, { slots }) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-bar row no-wrap items-center',
-      class: this.classes,
-      attrs,
-      on: { ...this.qListeners }
-    }, slot(this, 'default'))
+    const classes = computed(() =>
+      'q-bar row no-wrap items-center'
+      + ` q-bar--${ props.dense === true ? 'dense' : 'standard' } `
+      + ` q-bar--${ isDark.value === true ? 'dark' : 'light' }`
+    )
+
+    return () => h('div', {
+      class: classes.value,
+      role: 'toolbar'
+    }, hSlot(slots.default))
   }
 })

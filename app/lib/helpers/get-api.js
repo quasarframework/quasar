@@ -68,5 +68,5 @@ module.exports = async function getApi(item) {
     }
   }
 
-  fatal(`No API found for requested "${item}"\n`)
+  fatal(`No API found for requested "${item}"`)
 }

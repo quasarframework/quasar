@@ -160,6 +160,55 @@
           </template>
         </q-uploader>
 
+        <div>List slot</div>
+        <q-uploader
+          url="http://localhost:4444/upload"
+          label="Custom list"
+          multiple
+        >
+          <template v-slot:list="scope">
+            <q-list separator>
+
+              <q-item v-for="file in scope.files" :key="file.name">
+                <q-item-section>
+                  <q-item-label class="full-width ellipsis">
+                    {{ file.name }}
+                  </q-item-label>
+
+                  <q-item-label caption>
+                    Status: {{ file.__status }}
+                  </q-item-label>
+
+                  <q-item-label caption>
+                    {{ file.__sizeLabel }} / {{ file.__progressLabel }}
+                  </q-item-label>
+                </q-item-section>
+
+                <q-item-section
+                  v-if="file.__img"
+                  thumbnail
+                  class="gt-xs"
+                >
+                  <img :src="file.__img.src">
+                </q-item-section>
+
+                <q-item-section top side>
+                  <q-btn
+                    class="gt-xs"
+                    size="12px"
+                    flat
+                    dense
+                    round
+                    icon="delete"
+                    @click="scope.removeFile(file)"
+                  />
+                </q-item-section>
+              </q-item>
+
+            </q-list>
+          </template>
+        </q-uploader>
+
         <q-uploader v-bind="props" color="yellow" text-color="black" multiple url="http://localhost:4444/upload" />
 
         <q-uploader
@@ -222,24 +271,24 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:model-value', JSON.stringify(val))
     },
     onAdded (files) {
-      console.log(`@added ${files.length || 0} files`)
+      console.log(`@added ${ files.length || 0 } files`)
       console.log(files)
     },
     onRemoved (files) {
-      console.log(`@removed ${files.length || 0} files`)
+      console.log(`@removed ${ files.length || 0 } files`)
       console.log(files)
     },
     onFactoryFailed (err) {
-      console.log(`@factory-failed`, err)
+      console.log('@factory-failed', err)
     },
     onStart () {
-      console.log(`@start`)
+      console.log('@start')
     },
     onFinish () {
-      console.log(`@finish`)
+      console.log('@finish')
     },
     onUpload () {
       console.log('@uploaded')
@@ -248,7 +297,7 @@ export default {
       console.log('@failed')
     },
     onRejected (files) {
-      console.log(`@rejected`, files)
+      console.log('@rejected', files)
     },
     promiseFn (files) {
       return new Promise((resolve) => {

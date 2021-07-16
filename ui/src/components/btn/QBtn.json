@@ -1,12 +1,8 @@
 {
-  "mixins": [ "mixins/btn" ],
+  "mixins": [ "components/btn/use-btn" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/button"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/button"
   },
 
   "props": {

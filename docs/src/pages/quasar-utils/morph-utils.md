@@ -1,7 +1,7 @@
 ---
 title: Morph Utils
 desc: Morph one DOM element into another (with animation) or between two states of the same element using Quasar's morph util.
-badge: "v1.13+"
+keys: morph
 related:
   - /vue-directives/morph
 ---

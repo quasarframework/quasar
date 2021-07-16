@@ -57,14 +57,16 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model: {
+      model: ref({
         label: 'Google',
         value: 'goog',
         icon: 'mail'
-      },
+      }),
 
       options: [
         {

@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/chat"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/chat"
   },
 
   "props": {
@@ -74,24 +70,24 @@
       "category": "style"
     },
 
-    "label-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render label; Use it when the label might be unsafe (from user input)"
+    "label-html": {
+      "extends": "html",
+      "desc": "Render the label as HTML; This can lead to XSS attacks so make sure that you sanitize the message first"
     },
 
-    "name-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render name; Use it when the name might be unsafe (from user input)"
+    "name-html": {
+      "extends": "html",
+      "desc": "Render the name as HTML; This can lead to XSS attacks so make sure that you sanitize the message first"
     },
 
-    "text-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render text; Use it when the text might be unsafe (from user input)"
+    "text-html": {
+      "extends": "html",
+      "desc": "Render the text as HTML; This can lead to XSS attacks so make sure that you sanitize the message first"
     },
 
-    "stamp-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render stamp; Use it when the stamp might be unsafe (from user input)"
+    "stamp-html": {
+      "extends": "html",
+      "desc": "Render the stamp as HTML; This can lead to XSS attacks so make sure that you sanitize the message first"
     }
   },
 
@@ -105,18 +101,15 @@
     },
 
     "name": {
-      "desc": "Slot for name; Overrides the 'name' prop",
-      "addedIn": "v1.15.14"
+      "desc": "Slot for name; Overrides the 'name' prop"
     },
 
     "stamp": {
-      "desc": "Slot for stamp; Overrides the 'stamp' prop",
-      "addedIn": "v1.15.14"
+      "desc": "Slot for stamp; Overrides the 'stamp' prop"
     },
 
     "label": {
-      "desc": "Slot for label; Overrides the 'label' prop",
-      "addedIn": "v1.15.15"
+      "desc": "Slot for label; Overrides the 'label' prop"
     }
   }
 }

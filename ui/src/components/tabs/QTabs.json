@@ -1,18 +1,15 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/tabs"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/tabs"
   },
 
   "props": {
-    "value":{
+    "model-value":{
+      "extends": "model-value",
       "type": [ "Number", "String" ],
-      "desc": "Model of the component defining current panel name; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "examples": [ "v-model=\"selectedTab\"" ],
-      "category": "model"
+      "desc": "Model of the component defining current panel name; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "required": false,
+      "examples": [ "v-model=\"selectedTab\"" ]
     },
 
     "vertical": {
@@ -24,15 +21,13 @@
     "outside-arrows": {
       "type": "Boolean",
       "desc": "Reserve space for arrows to place them on each side of the tabs (the arrows fade when inactive)",
-      "category": "content",
-      "addedIn": "v1.12.9"
+      "category": "content"
     },
 
     "mobile-arrows": {
       "type": "Boolean",
       "desc": "Force display of arrows (if needed) on mobile",
-      "category": "content",
-      "addedIn": "v1.12.9"
+      "category": "content"
     },
 
     "align": {
@@ -74,8 +69,7 @@
       "type": "String",
       "desc": "Class definitions to be attributed to the content wrapper",
       "examples": [ "my-special-class" ],
-      "category": "style",
-      "addedIn": "v1.12.0"
+      "category": "style"
     },
 
     "left-icon": {
@@ -140,8 +134,8 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:model-value": {
+      "extends": "update:model-value"
     }
   }
 }

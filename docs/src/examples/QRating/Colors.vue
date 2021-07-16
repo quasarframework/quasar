@@ -12,10 +12,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      ratingModel: 4,
+      ratingModel: ref(4),
       ratingColors: [ 'light-green-3', 'light-green-6', 'green', 'green-9', 'green-10' ]
     }
   }

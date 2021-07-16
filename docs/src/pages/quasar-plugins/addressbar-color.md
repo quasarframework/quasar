@@ -1,6 +1,7 @@
 ---
 title: AddressbarColor Plugin
 desc: A Quasar plugin for changing the addressbar color on newer mobile browsers.
+keys: AddressbarColor
 ---
 Newer mobile browsers have the ability to specify a color for the addressbar, like in the image below.
 
@@ -12,9 +13,11 @@ Newer mobile browsers have the ability to specify a color for the addressbar, li
 ![Mobile Addressbar Coloring](https://cdn.quasar.dev/img/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
 
 ## AddressbarColor API
+
 <doc-api file="AddressbarColor" />
 
 ## Installation
+
 <doc-installation plugins="AddressbarColor" />
 
 ## Usage
@@ -47,13 +50,18 @@ Because the meta tag doesn't get injected until run time you can dynamically cha
 
 ```js
 // a .vue file representing a page
+
+import { useQuasar } from 'quasar'
+
 export default {
-  // ...,
-  created () {
-    this.$q.addressbarColor.set('#a2e3fa')
+  setup () {
+    // equivalent to calling this on creating the component
+    const $q = useQuasar()
+    $q.addressbarColor.set('#a2e3fa')
   }
 }
 ```
+
 ::: tip
 Calling `set()` with no parameters will use the primary color.
 :::

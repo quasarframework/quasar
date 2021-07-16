@@ -1,6 +1,7 @@
 ---
 title: QDate
 desc: The QDate Vue component provides a method to input dates from Gregorian or Persian calendars.
+keys: QDate
 related:
   - /vue-components/time
   - /quasar-utils/date-utils
@@ -14,6 +15,7 @@ For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/
 :::
 
 ## QDate API
+
 <doc-api file="QDate" />
 
 ## Usage
@@ -32,7 +34,7 @@ For landscape mode, you can use it along with `$q.screen` to make QDate responsi
 
 <doc-example title="Landscape" file="QDate/Landscape" overflow />
 
-### Multiple selection <q-badge align="top" color="brand-primary" label="v1.13+" />
+### Multiple selection
 
 Notice below that the model is an Array and we specify the "multiple" prop.
 
@@ -40,7 +42,7 @@ Clicking on an already selected day will deselect it.
 
 <doc-example title="Multiple days" file="QDate/SelectionMultiple" overflow />
 
-### Range selection <q-badge align="top" color="brand-primary" label="v1.13+" />
+### Range selection
 
 Notice in the examples below that the model is an Object (single selection) or an Array of Objects (multiple selection).
 
@@ -145,13 +147,13 @@ The `options` property is only partially compatible with the `range` prop. Range
 
 <doc-example title="Options" file="QDate/Options" overflow />
 
-### Applying navigation boundaries <q-badge align="top" color="brand-primary" label="v1.13+" />
+### Applying navigation boundaries
 
 In the example below the navigation is restricted between 2020/07 and 2020/09.
 
 <doc-example title="Navigation boundaries" file="QDate/NavigationBoundaries" overflow />
 
-### With additional buttons <q-badge align="top" color="brand-primary" label="v1.2.8+" />
+### With additional buttons
 
 You can use the default slot for adding buttons:
 
@@ -173,7 +175,7 @@ Connecting a QDate and QTime with same model on a QInput:
 
 The following are **helpers** for QInput `mask` and `rules` props. You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#mask).
 
-* Property `mask` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/mixins/mask.js#L2).
+* Property `mask` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/input/use-mask.js#L6).
 * Property `rules` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns.js).
 
 Examples: "date", "time", "fulltime".
@@ -191,7 +193,7 @@ When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 
 <q-btn type="a" href="https://codepen.io/rstoenescu/pen/MWKpbNa" target="_blank" label="See example" icon-right="launch" color="brand-primary" />
 
-### Native form submit <q-badge align="top" color="brand-primary" label="v1.9+" />
+### Native form submit
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QDate, otherwise formData will not contain it (if it should):
 

@@ -4,7 +4,7 @@
 
 > Build high-performance VueJS user interfaces in record time: responsive Single Page Apps, SSR Apps, PWAs, Browser extensions, Hybrid Mobile Apps and Electron Apps. If you want, all using the same codebase!
 
-<img src="https://img.shields.io/npm/v/quasar.svg?label=quasar"> <img src="https://img.shields.io/npm/v/%40quasar/app.svg?label=@quasar/app"> <img src="https://img.shields.io/npm/v/%40quasar/cli.svg?label=@quasar/cli"> <img src="https://img.shields.io/npm/v/%40quasar/extras.svg?label=@quasar/extras"> <img src="https://img.shields.io/npm/v/%40quasar/icongenie.svg?label=@quasar/icongenie">
+<img src="https://img.shields.io/npm/v/quasar?label=quasar"> <img src="https://img.shields.io/npm/v/%40quasar/app?label=@quasar/app"> <img src="https://img.shields.io/npm/v/%40quasar/cli?label=@quasar/cli"> <img src="https://img.shields.io/npm/v/%40quasar/extras.svg?label=@quasar/extras"> <img src="https://img.shields.io/npm/v/%40quasar/icongenie.svg?label=@quasar/icongenie">
 
 [![Join the chat at https://chat.quasar.dev](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://chat.quasar.dev)
 <a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
@@ -97,6 +97,15 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
           <img width="222px" height="35px" src="https://cdn.quasar.dev/sponsors/debricked.png">
         </a>
       </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://ib-langenthal.ch/" target="_blank">
+          <img width="222px" height="52px" src="https://cdn.quasar.dev/sponsors/qintil.png">
+        </a>
+      </td>
+      <td align="center" valign="middle"></td>
     </tr>
   </tbody>
 </table>

@@ -134,15 +134,17 @@
       </div>
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="input" :mask="withSeconds ? 'fulltime' : 'time'" :rules="[withSeconds ? 'fulltime' : 'time']">
-          <q-icon slot="append" name="access_time" class="cursor-pointer" @click.prevent>
-            <q-popup-proxy>
-              <q-time
-                v-model="input"
-                v-bind="props"
-                :style="style"
-              />
-            </q-popup-proxy>
-          </q-icon>
+          <template v-slot:append>
+            <q-icon name="access_time" class="cursor-pointer" @click.prevent>
+              <q-popup-proxy>
+                <q-time
+                  v-model="input"
+                  v-bind="props"
+                  :style="style"
+                />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
         </q-input>
       </div>
 
@@ -151,16 +153,18 @@
       </div>
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="input2">
-          <q-icon slot="append" name="access_time" class="cursor-pointer" @click.prevent>
-            <q-popup-proxy>
-              <q-time
-                v-model="input2"
-                mask="hh:mm A"
-                v-bind="props"
-                :style="style"
-              />
-            </q-popup-proxy>
-          </q-icon>
+          <template v-slot:append>
+            <q-icon name="access_time" class="cursor-pointer" @click.prevent>
+              <q-popup-proxy>
+                <q-time
+                  v-model="input2"
+                  mask="hh:mm A"
+                  v-bind="props"
+                  :style="style"
+                />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
         </q-input>
       </div>
     </div>
@@ -185,9 +189,9 @@ export default {
       input2: '12:35 PM',
 
       timeLimit: '10:56',
-      hourOptions: [9, 10, 11, 13, 15],
-      minuteOptions: [0, 15, 30, 45],
-      secondOptions: [0, 10, 20, 30, 40, 50]
+      hourOptions: [ 9, 10, 11, 13, 15 ],
+      minuteOptions: [ 0, 15, 30, 45 ],
+      secondOptions: [ 0, 10, 20, 30, 40, 50 ]
     }
   },
 
@@ -212,7 +216,7 @@ export default {
 
   methods: {
     onInput (val) {
-      console.log('@input', val)
+      console.log('@update:model-value', val)
     },
 
     optionsFn (hr, min, sec) {

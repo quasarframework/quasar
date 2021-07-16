@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-directives/material-ripple"
+    "docsUrl": "https://v2.quasar.dev/vue-directives/material-ripple"
   },
 
   "quasarConfOptions": {
@@ -32,8 +32,7 @@
         "desc": "List of keyCode that should trigger the ripple",
         "examples": [ "[]", "[13, 32]" ]
       }
-    },
-    "addedIn": "v1.9.8"
+    }
   },
 
   "value": {
@@ -42,8 +41,7 @@
     "definition": {
       "early": {
         "type": "Boolean",
-        "desc": "Trigger early/immediately on user interaction",
-        "addedIn": "v1.9.8"
+        "desc": "Trigger early/immediately on user interaction"
       },
 
       "stop": {
@@ -85,8 +83,7 @@
   "modifiers": {
     "early": {
       "type": "Boolean",
-      "desc": "Trigger early/immediately on user interaction",
-      "addedIn": "v1.9.8"
+      "desc": "Trigger early/immediately on user interaction"
     },
 
     "stop": {

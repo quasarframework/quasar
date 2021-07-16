@@ -33,16 +33,14 @@ export default {
     noData: 'ഡാറ്റ ലഭ്യമല്ല',
     noResults: 'പൊരുത്തമുള്ള റെക്കോർഡുകളൊന്നും കണ്ടെത്തിയില്ല',
     loading: 'ലോഡ് ചെയ്യുന്നു...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? 'ഒരു റെക്കോർഡ് തിരഞ്ഞെടുത്തു.'
         : (rows === 0 ? 'റെക്കോര്ഡുകളൊന്നും തിരഞ്ഞെടുത്തിട്ടില്ല' : rows + ' റെക്കോർഡുകൾ തിരഞ്ഞെടുത്തു.')
-    },
+    ),
     recordsPerPage: 'ഓരോ പേജിലും റെക്കോർഡുകൾ:',
     allRows: 'എല്ലാം',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' മൊത്തം ' + total + ' ൽ നിന്നും'
-    },
+    pagination: (start, end, total) => start + '-' + end + ' മൊത്തം ' + total + ' ൽ നിന്നും',
     columns: 'നിരകൾ'
   },
   editor: {

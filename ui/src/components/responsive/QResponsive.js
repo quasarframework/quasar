@@ -1,29 +1,29 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
-import RatioMixin from '../../mixins/ratio.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
-import { slot } from '../../utils/slot.js'
+import { hSlot } from '../../utils/private/render.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QResponsive',
 
-  mixins: [ RatioMixin, ListenersMixin ],
+  props: useRatioProps,
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-responsive',
-      on: { ...this.qListeners }
+  setup (props, { slots }) {
+    const ratioStyle = useRatio(props)
+
+    return () => h('div', {
+      class: 'q-responsive'
     }, [
       h('div', {
-        staticClass: 'q-responsive__filler overflow-hidden'
+        class: 'q-responsive__filler overflow-hidden'
       }, [
-        h('div', { style: this.ratioStyle })
+        h('div', { style: ratioStyle.value })
       ]),
 
       h('div', {
-        staticClass: 'q-responsive__content absolute-full fit'
-      }, slot(this, 'default'))
+        class: 'q-responsive__content absolute-full fit'
+      }, hSlot(slots.default))
     ])
   }
 })

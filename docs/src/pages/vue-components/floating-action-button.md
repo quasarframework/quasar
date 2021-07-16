@@ -1,6 +1,7 @@
 ---
 title: Floating Action Button
 desc: How to use the QFab component. Floating Action Buttons for your Quasar app.
+keys: QFab
 related:
   - /layout/layout
   - /layout/page
@@ -11,9 +12,11 @@ A Floating Action Button (FAB) represents the primary action in a Page. But, it'
 Note that you don’t need a QLayout to use FABs.
 
 ## QFab API
+
 <doc-api file="QFab" />
 
 ## QFabAction API
+
 <doc-api file="QFabAction" />
 
 ## Usage
@@ -32,7 +35,7 @@ If you want a non-expandable FAB, all you need is a round button – wrapped in 
 
 <doc-example title="Expandable" file="QFab/Expandable" />
 
-### Internal labels <q-badge align="top" color="brand-primary" label="v1.9+" />
+### Internal labels
 
 <doc-example title="Internal label" file="QFab/InternalLabel" />
 
@@ -42,7 +45,7 @@ When the labels are internal and your QFab opens up vertically (up or down) then
 
 <doc-example title="Vertical actions alignment" file="QFab/VerticalActionsAlignment" />
 
-### External labels <q-badge align="top" color="brand-primary" label="v1.9+" />
+### External labels
 
 By default, when the label is external on the main QFab (not the sub-actions), it gets shown only when QFab is opened. However, you can override that by setting a Boolean value for `hide-label` prop.
 
@@ -52,19 +55,19 @@ By default, when the label is external on the main QFab (not the sub-actions), i
 
 <doc-example title="Toggling external label" file="QFab/ExternalLabelToggling" />
 
-### Hide icons <q-badge align="top" color="brand-primary" label="v1.9.14+" />
+### Hide icons
 
 If we hide the icon (through specific prop), we should at least use an internal label:
 
 <doc-example title="Hide icon" file="QFab/HideIcon" />
 
-### Padding <q-badge align="top" color="brand-primary" label="v1.11+" />
+### Padding
 
 The default padding for QFab is "md" and for QFabAction is "sm". However, you can use `padding` prop to customize it (accepts CSS units too):
 
 <doc-example title="Playing with padding" file="QFab/Padding" />
 
-### Square style <q-badge align="top" color="brand-primary" label="v1.9+" />
+### Square style
 
 <doc-example title="Square style" file="QFab/SquareStyle" />
 

@@ -5,6 +5,7 @@ const { table } = require('table')
 const { bold, underline, green, blue, magenta } = require('chalk')
 
 const { warn } = require('./logger')
+const { printWebpackWarnings } = require('./print-webpack-issue')
 
 const colorFn = {
   js: green,
@@ -120,23 +121,11 @@ module.exports = (stats, outputFolder, name) => {
     drawHorizontalLine: index => tableIndexDelimiters.includes(index)
   })
 
-  console.log(` ${bold(green(name))} summary for css/js/json (the rest are omitted):`)
+  console.log(` Summary for "${bold(green(name))}" (only css/js/json)`)
   console.log(' ' + output.replace(/\n/g, '\n '))
 
   if (stats.hasWarnings()) {
-    const info = stats.toJson()
-    const warnNumber = info.warnings.length
-    const warnDetails = `${warnNumber} warning${warnNumber > 1 ? 's' : ''}`
-
-    warn()
-    warn(`${warnDetails} encountered:\n`)
-
-    info.warnings.forEach(err => {
-      console.warn(err)
-      warn()
-    })
-
-    warn()
-    warn(`Build succeeded, but with ${warnDetails}. Check log above.\n`)
+    const summary = printWebpackWarnings(name, stats)
+    warn(`Build succeeded, but with ${summary}. Check log above.\n`)
   }
 }

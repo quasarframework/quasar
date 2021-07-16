@@ -35,11 +35,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      mobileData: true,
-      bluetooth: false
+      mobileData: ref(false),
+      bluetooth: ref(false)
     }
   }
 }

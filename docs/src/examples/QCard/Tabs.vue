@@ -29,10 +29,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      tab: 'one'
+      tab: ref('one')
     }
   }
 }

@@ -22,40 +22,36 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import { copyToClipboard } from 'quasar'
 import { mdiContentCopy } from '@quasar/extras/mdi-v5'
 
 export default {
   props: {
-    text: [ Function, String ]
+    text: String
   },
 
-  created () {
-    this.mdiContentCopy = mdiContentCopy
-  },
+  setup (props) {
+    let timer
+    const copied = ref(false)
 
-  data () {
-    return {
-      copied: false
-    }
-  },
-
-  methods: {
-    copy () {
-      const text = typeof this.text === 'function'
-        ? this.text()
-        : this.text
-
-      copyToClipboard(text)
+    function copy () {
+      copyToClipboard(props.text)
         .then(() => {
-          this.copied = true
-          clearTimeout(this.timer)
-          this.timer = setTimeout(() => {
-            this.copied = false
-            this.timer = null
+          copied.value = true
+          clearTimeout(timer)
+          timer = setTimeout(() => {
+            copied.value = false
+            timer = null
           }, 2000)
         })
         .catch(() => {})
+    }
+
+    return {
+      mdiContentCopy,
+      copied,
+      copy
     }
   }
 }

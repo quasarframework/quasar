@@ -10,60 +10,62 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      lazy: [
-        {
-          label: 'Node 1',
-          children: [
-            { label: 'Node 1.1', lazy: true },
-            { label: 'Node 1.2', lazy: true }
-          ]
-        },
-        {
-          label: 'Node 2',
-          lazy: true
-        },
-        {
-          label: 'Lazy load empty',
-          lazy: true
-        },
-        {
-          label: 'Node is not expandable',
-          expandable: false,
-          children: [
-            { label: 'Some node' }
-          ]
-        }
-      ]
-    }
+import { ref } from 'vue'
+
+const nodes = [
+  {
+    label: 'Node 1',
+    children: [
+      { label: 'Node 1.1', lazy: true },
+      { label: 'Node 1.2', lazy: true }
+    ]
   },
+  {
+    label: 'Node 2',
+    lazy: true
+  },
+  {
+    label: 'Lazy load empty',
+    lazy: true
+  },
+  {
+    label: 'Node is not expandable',
+    expandable: false,
+    children: [
+      { label: 'Some node' }
+    ]
+  }
+]
 
-  methods: {
-    onLazyLoad ({ node, key, done, fail }) {
-      // call fail() if any error occurs
+export default {
+  setup () {
+    return {
+      lazy: ref(nodes),
 
-      setTimeout(() => {
-        // simulate loading and setting an empty node
-        if (key.indexOf('Lazy load empty') > -1) {
-          done([])
-          return
-        }
+      onLazyLoad ({ node, key, done, fail }) {
+        // call fail() if any error occurs
 
-        const label = node.label
-        done([
-          { label: `${label}.1` },
-          { label: `${label}.2`, lazy: true },
-          {
-            label: `${label}.3`,
-            children: [
-              { label: `${label}.3.1`, lazy: true },
-              { label: `${label}.3.2`, lazy: true }
-            ]
+        setTimeout(() => {
+          // simulate loading and setting an empty node
+          if (key.indexOf('Lazy load empty') > -1) {
+            done([])
+            return
           }
-        ])
-      }, 1000)
+
+          const label = node.label
+          done([
+            { label: `${label}.1` },
+            { label: `${label}.2`, lazy: true },
+            {
+              label: `${label}.3`,
+              children: [
+                { label: `${label}.3.1`, lazy: true },
+                { label: `${label}.3.2`, lazy: true }
+              ]
+            }
+          ])
+        }, 1000)
+      }
     }
   }
 }

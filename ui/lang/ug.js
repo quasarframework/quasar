@@ -25,9 +25,7 @@ export default {
     daysShort: 'ي_د_س_چ_پ_ج_ش'.split('_'),
     months: monthsShort,
     monthsShort: monthsShort,
-    headerTitle: function(date, model) {
-      return monthsShort[model.month - 1] + 'نىڭ ' + model.day + '-كۈنى، ' + days[date.getDay()]
-    },
+    headerTitle: (date, model) => monthsShort[ model.month - 1 ] + 'نىڭ ' + model.day + '-كۈنى، ' + days[ date.getDay() ],
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     pluralDay: 'كۈن'
@@ -36,14 +34,10 @@ export default {
     noData: 'ئۇچۇر يوق',
     noResults: 'مۇناسىۋەتلىك ئۇچۇر تېپىلمىدى',
     loading: 'يۈكلىنىۋاتىدۇ...',
-    selectedRecords: function(rows) {
-      return rows + ' قۇر تاللاندى'
-    },
+    selectedRecords: rows => rows + ' قۇر تاللاندى',
     recordsPerPage: 'ھەربەتتىكى قۇر سانى:',
     allRows: 'ھەممىسى',
-    pagination: function(start, end, total) {
-      return start + '-' + end + ' / ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
     columns: 'ئىستون'
   },
   editor: {

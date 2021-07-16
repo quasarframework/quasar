@@ -1,15 +1,16 @@
 const path = require('path')
 const webpack = require('webpack')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const WebpackChain = require('webpack-chain')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const { VueLoaderPlugin } = require('vue-loader')
 
-const WebpackProgress = require('./plugin.progress')
+const WebpackProgressPlugin = require('./plugin.progress')
 const BootDefaultExport = require('./plugin.boot-default-export')
 const parseBuildEnv = require('../helpers/parse-build-env')
 
 const appPaths = require('../app-paths')
 const injectStyleRules = require('./inject.style-rules')
+const { webpackNames } = require('./symbols')
 
 function getDependenciesRegex (list) {
   const deps = list.map(dep => {
@@ -25,6 +26,18 @@ function getDependenciesRegex (list) {
   return new RegExp(deps.join('|'))
 }
 
+function getRootDefines (rootDefines, configName) {
+  if (configName === webpackNames.ssr.serverSide) {
+    return { ...rootDefines, __QUASAR_SSR_SERVER__: true }
+  }
+
+  if (configName === webpackNames.ssr.clientSide) {
+    return { ...rootDefines, __QUASAR_SSR_CLIENT__: true }
+  }
+
+  return rootDefines
+}
+
 module.exports = function (cfg, configName) {
   const chain = new WebpackChain()
 
@@ -36,14 +49,6 @@ module.exports = function (cfg, configName) {
     appPaths.resolve.app('node_modules'),
     appPaths.resolve.cli('node_modules')
   ]
-
-  if (configName === 'Capacitor') {
-    // need to also look into /src-capacitor
-    // for deps like @capacitor/core
-    resolveModules.push(
-      appPaths.resolve.capacitor('node_modules')
-    )
-  }
 
   chain.entry('app').add(appPaths.resolve.app('.quasar/client-entry.js'))
   chain.mode(cfg.ctx.dev ? 'development' : 'production')
@@ -86,50 +91,65 @@ module.exports = function (cfg, configName) {
       'src-bex': appPaths.bexDir // needed for app/templates
     })
 
-  if (cfg.framework.importStrategy === 'all') {
-    chain.resolve.alias.set('quasar$', 'quasar/dist/quasar.esm.js')
-  }
-  if (cfg.build.vueCompiler) {
-    chain.resolve.alias.set('vue$', 'vue/dist/vue.esm.js')
-  }
+  const vueFile = configName === webpackNames.ssr.serverSide
+    ? (cfg.ctx.prod ? 'vue.cjs.prod.js' : 'vue.cjs.js')
+    : (
+      cfg.build.vueCompiler
+        ? 'vue.esm-bundler.js'
+        : 'vue.runtime.esm-bundler.js'
+    )
+
+  chain.resolve.alias.set('vue$', 'vue/dist/' + vueFile)
+
+  const vueI18nFile = configName === webpackNames.ssr.serverSide
+    ? (cfg.ctx.prod ? 'vue-i18n.cjs.prod.js' : 'vue-i18n.cjs.js')
+    : 'vue-i18n.esm-bundler.js'
+
+  chain.resolve.alias.set('vue-i18n$', 'vue-i18n/dist/' + vueI18nFile)
 
   chain.resolveLoader.modules
     .merge(resolveModules)
 
   chain.module.noParse(
-    /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras|quasar)$/
+    /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras|quasar[\\/]dist)$/
   )
 
   const vueRule = chain.module.rule('vue')
     .test(/\.vue$/)
 
-  if (cfg.framework.importStrategy === 'auto') {
-    vueRule.use('quasar-auto-import')
-      .loader(path.join(__dirname, `loader.auto-import-${configName === 'Server' ? 'server' : 'client'}.js`))
-      .options(cfg.framework.autoImportComponentCase)
-  }
+  vueRule.use('vue-auto-import-quasar')
+    .loader(path.join(__dirname, 'loader.vue.auto-import-quasar.js'))
+    .options({
+      autoImportComponentCase: cfg.framework.autoImportComponentCase,
+      isServerBuild: configName === webpackNames.ssr.serverSide
+    })
 
   vueRule.use('vue-loader')
     .loader('vue-loader')
-    .options({
-      productionMode: cfg.ctx.prod,
-      compilerOptions: {
-        preserveWhitespace: false
-      },
-      transformAssetUrls: cfg.build.transformAssetUrls
-    })
+    .options(
+      merge(
+        {},
+        cfg.build.vueLoaderOptions,
+        {
+          isServerBuild: configName === webpackNames.ssr.serverSide,
+          compilerOptions: configName === webpackNames.ssr.serverSide
+            ? { directiveTransforms: cfg.ssr.directiveTransforms, ssr: true }
+            : {}
+        }
+      )
+    )
 
-  if (cfg.framework.importStrategy !== 'all' && configName !== 'Server') {
-    chain.module.rule('transform-quasar-imports')
+  if (configName !== webpackNames.ssr.serverSide) {
+    chain.module.rule('js-transform-quasar-imports')
       .test(/\.(t|j)sx?$/)
       .use('transform-quasar-imports')
-        .loader(path.join(__dirname, 'loader.transform-quasar-imports.js'))
+        .loader(path.join(__dirname, 'loader.js.transform-quasar-imports.js'))
   }
 
   if (cfg.build.transpile === true) {
     const nodeModulesRegex = /[\\/]node_modules[\\/]/
     const exceptionsRegex = getDependenciesRegex(
-      [ /\.vue\.js$/, configName === 'Server' ? 'quasar/src' : 'quasar', '@babel/runtime' ]
+      [ /\.vue\.js$/, configName === webpackNames.ssr.serverSide ? 'quasar/src' : 'quasar', '@babel/runtime' ]
         .concat(cfg.build.transpileDependencies)
     )
 
@@ -170,12 +190,24 @@ module.exports = function (cfg, configName) {
       .plugin('ts-checker')
       // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#options
       .use(ForkTsCheckerWebpackPlugin, [
-        { ...(cfg.supportTS.tsCheckerConfig || {}), vue: true }
+        // custom config is merged if present, but vue option is always enabled
+        merge({}, cfg.supportTS.tsCheckerConfig || {}, {
+          typescript: {
+            extensions: {
+              vue: {
+                enabled: true,
+                compiler: '@vue/compiler-sfc'
+              }
+            }
+          }
+        })
       ])
   }
 
+  // TODO: change to Asset Management when webpack-chain is webpack5 compatible
   chain.module.rule('images')
-    .test(/\.(png|jpe?g|gif|svg|webp|avif)(\?.*)?$/)
+    .test(/\.(png|jpe?g|gif|svg|webp|avif|ico)(\?.*)?$/)
+    .type('javascript/auto')
     .use('url-loader')
       .loader('url-loader')
       .options({
@@ -184,8 +216,10 @@ module.exports = function (cfg, configName) {
         name: `img/[name]${fileHash}.[ext]`
       })
 
+  // TODO: change to Asset Management when webpack-chain is webpack5 compatible
   chain.module.rule('fonts')
     .test(/\.(woff2?|eot|ttf|otf)(\?.*)?$/)
+    .type('javascript/auto')
     .use('url-loader')
       .loader('url-loader')
       .options({
@@ -194,8 +228,10 @@ module.exports = function (cfg, configName) {
         name: `fonts/[name]${fileHash}.[ext]`
       })
 
+  // TODO: change to Asset Management when webpack-chain is webpack5 compatible
   chain.module.rule('media')
     .test(/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/)
+    .type('javascript/auto')
     .use('url-loader')
       .loader('url-loader')
       .options({
@@ -205,10 +241,10 @@ module.exports = function (cfg, configName) {
       })
 
   injectStyleRules(chain, {
+    isServerBuild: configName === webpackNames.ssr.serverSide,
     rtl: cfg.build.rtl,
     sourceMap: cfg.build.sourceMap,
     extract: cfg.build.extractCSS,
-    serverExtract: configName === 'Server' && cfg.build.extractCSS,
     minify: cfg.build.minify,
     stylusLoaderOptions: cfg.build.stylusLoaderOptions,
     sassLoaderOptions: cfg.build.sassLoaderOptions,
@@ -219,23 +255,30 @@ module.exports = function (cfg, configName) {
   chain.module // fixes https://github.com/graphql/graphql-js/issues/1272
     .rule('mjs')
     .test(/\.mjs$/)
+    .type('javascript/auto')
     .include
       .add(/[\\/]node_modules[\\/]/)
-      .end()
-    .type('javascript/auto')
 
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin)
 
   chain.plugin('define')
     .use(webpack.DefinePlugin, [
-      parseBuildEnv(cfg.build.env, cfg.__rootDefines)
+      parseBuildEnv(cfg.build.env, getRootDefines(cfg.__rootDefines, configName))
     ])
 
-  if (cfg.build.showProgress) {
-    chain.plugin('progress')
-      .use(WebpackProgress, [{ name: configName }])
+  chain.optimization
+    .nodeEnv(false)
+
+  if (cfg.ctx.dev && configName !== webpackNames.ssr.serverSide && cfg.ctx.mode.pwa && cfg.pwa.workboxPluginMode === 'InjectManifest') {
+    // need to place it here before the status plugin
+    const CustomSwWarningPlugin = require('./pwa/plugin.custom-sw-warning')
+    chain.plugin('custom-sw-warning')
+      .use(CustomSwWarningPlugin)
   }
+
+  chain.plugin('progress')
+    .use(WebpackProgressPlugin, [{ name: configName, cfg }])
 
   chain.plugin('boot-default-export')
     .use(BootDefaultExport)
@@ -244,13 +287,13 @@ module.exports = function (cfg, configName) {
     .hints(false)
     .maxAssetSize(500000)
 
-  if (configName !== 'Server' && cfg.vendor.disable !== true) {
+  if (configName !== webpackNames.ssr.serverSide && cfg.vendor.disable !== true) {
     const { add, remove } = cfg.vendor
     const regex = /[\\/]node_modules[\\/]/
 
     chain.optimization.splitChunks({
       cacheGroups: {
-        vendors: {
+        defaultVendors: {
           name: 'vendor',
           chunks: 'all',
           priority: -10,
@@ -276,34 +319,20 @@ module.exports = function (cfg, configName) {
     })
   }
 
+  // extract css into its own file
+  if (configName !== webpackNames.ssr.serverSide && cfg.build.extractCSS) {
+    const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-  // DEVELOPMENT build
-  if (cfg.ctx.dev) {
-    const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-    const { devCompilationSuccess } = require('../helpers/banner')
-
-    chain.optimization
-      .noEmitOnErrors(true)
-
-    chain.plugin('friendly-errors')
-      .use(FriendlyErrorsPlugin, [{
-        clearConsole: true,
-        compilationSuccessInfo: ['spa', 'pwa', 'ssr'].includes(cfg.ctx.modeName)
-          ? { notes: [ devCompilationSuccess(cfg.ctx, cfg.build.APP_URL, appPaths.appDir, cfg.__transpileBanner) ] }
-          : undefined
+    chain.plugin('mini-css-extract')
+      .use(MiniCssExtractPlugin, [{
+        filename: `css/[name]${fileHash}.css`
       }])
   }
-  // PRODUCTION build
-  else {
-    // keep module.id stable when vendor modules does not change
-    chain.plugin('hashed-module-ids')
-      .use(webpack.HashedModuleIdsPlugin, [{
-        hashDigest: 'hex'
-      }])
 
+  if (cfg.ctx.prod) {
     if (
       cfg.build.ignorePublicFolder !== true &&
-      configName !== 'Server'
+      configName !== webpackNames.ssr.serverSide
     ) {
       // copy /public to dist folder
       const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -334,11 +363,8 @@ module.exports = function (cfg, configName) {
         .use(CopyWebpackPlugin, [{ patterns }])
     }
 
-    // Scope hoisting ala Rollupjs
-    if (cfg.build.scopeHoisting) {
-      chain.optimization
-        .concatenateModules(true)
-    }
+    chain.optimization
+      .concatenateModules(cfg.ctx.mode.ssr !== true)
 
     if (cfg.ctx.debug) {
       // reset default webpack 4 minimizer
@@ -354,54 +380,24 @@ module.exports = function (cfg, configName) {
         .use(TerserPlugin, [{
           terserOptions: cfg.build.uglifyOptions,
           extractComments: false,
-          cache: true,
-          parallel: true,
-          sourceMap: cfg.build.sourceMap
+          parallel: true
         }])
     }
 
-    // configure CSS extraction & optimize
-    if (configName !== 'Server' && cfg.build.extractCSS) {
-      const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
-      // extract css into its own file
-      chain.plugin('mini-css-extract')
-        .use(MiniCssExtractPlugin, [{
-          filename: 'css/[name].[contenthash:8].css'
-        }])
-
+    if (configName !== webpackNames.ssr.serverSide) {
       // dedupe & minify CSS (only if extracted)
-      if (cfg.build.minify) {
-        const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-
-        const cssProcessorOptions = {
-          parser: require('postcss-safe-parser'),
-          autoprefixer: { disable: true }
-        }
-        if (cfg.build.sourceMap) {
-          cssProcessorOptions.map = { inline: false }
-        }
+      if (cfg.build.extractCSS && cfg.build.minify) {
+        const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
         // We are using this plugin so that possible
         // duplicated CSS = require(different components) can be deduped.
-        chain.plugin('optimize-css')
-          .use(OptimizeCSSPlugin, [{
-            canPrint: false,
-            cssProcessor: require('cssnano'),
-            cssProcessorOptions,
-            cssProcessorPluginOptions: {
-              preset: ['default', {
-                mergeLonghand: false,
-                convertValues: false,
-                cssDeclarationSorter: false,
-                reduceTransforms: false
-              }]
-            }
+        chain.optimization
+          .minimizer('css')
+          .use(CssMinimizerPlugin, [{
+            parallel: true
           }])
       }
-    }
 
-    if (configName !== 'Server') {
       // also produce a gzipped version
       if (cfg.build.gzip) {
         const CompressionWebpackPlugin = require('compression-webpack-plugin')

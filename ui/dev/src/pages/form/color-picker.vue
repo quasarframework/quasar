@@ -17,9 +17,9 @@
         <q-chip>{{ rgb }}</q-chip>
         <q-chip>{{ rgba }}</q-chip>
       </div>
-      <p>
+      <div class="text-h6">
         v-model + @change
-      </p>
+      </div>
       <div class="row items-start q-gutter-md">
         <q-color v-bind="props" v-model="hex" @change="onChange" />
         <q-color v-bind="props" v-model="hexa" @change="onChange" />
@@ -33,14 +33,14 @@
         <q-chip>{{ rgb }}</q-chip>
         <q-chip>{{ rgba }}</q-chip>
       </div>
-      <p>
-        :value + @change
-      </p>
+      <div class="text-h6">
+        :model-value + @change
+      </div>
       <div class="row items-start q-gutter-md">
-        <q-color v-bind="props" :value="hex" @change="val => { hex = val; onChange(val) }" />
-        <q-color v-bind="props" :value="hexa" @change="val => { hexa = val; onChange(val) }" />
-        <q-color v-bind="props" :value="rgb" @change="val => { rgb = val; onChange(val) }" />
-        <q-color v-bind="props" :value="rgba" @change="val => { rgba = val; onChange(val) }" />
+        <q-color v-bind="props" :model-value="hex" @change="val => { hex = val; onChange(val) }" />
+        <q-color v-bind="props" :model-value="hexa" @change="val => { hexa = val; onChange(val) }" />
+        <q-color v-bind="props" :model-value="rgb" @change="val => { rgb = val; onChange(val) }" />
+        <q-color v-bind="props" :model-value="rgba" @change="val => { rgba = val; onChange(val) }" />
       </div>
 
       <div>
@@ -61,10 +61,10 @@
         <q-btn outline color="primary" size="sm" label="Reset" @click="setNull" />
       </div>
       <div>
-        <q-chip>{{ nullHex }}</q-chip>
-        <q-chip>{{ nullHexa }}</q-chip>
-        <q-chip>{{ nullRgb }}</q-chip>
-        <q-chip>{{ nullRgba }}</q-chip>
+        <q-chip>{{ nullHex || 'null' }}</q-chip>
+        <q-chip>{{ nullHexa || 'null' }}</q-chip>
+        <q-chip>{{ nullRgb || 'null' }}</q-chip>
+        <q-chip>{{ nullRgba || 'null' }}</q-chip>
       </div>
       <div class="q-gutter-md">
         <q-color v-bind="props" v-model="nullHex" />
@@ -83,10 +83,10 @@
         <q-chip>{{ rgba }}</q-chip>
       </div>
       <div class="q-gutter-md">
-        <q-color v-bind="props" :value="hex" @change="val => hex = val" />
-        <q-color v-bind="props" :value="hexa" @change="val => hexa = val" />
-        <q-color v-bind="props" :value="rgb" @change="val => rgb = val" />
-        <q-color v-bind="props" :value="rgba" @change="val => rgba = val" />
+        <q-color v-bind="props" :model-value="hex" @change="val => hex = val" />
+        <q-color v-bind="props" :model-value="hexa" @change="val => hexa = val" />
+        <q-color v-bind="props" :model-value="rgb" @change="val => rgb = val" />
+        <q-color v-bind="props" :model-value="rgba" @change="val => rgba = val" />
       </div>
 
       <div class="text-h6">
@@ -204,7 +204,7 @@ export default {
       nullRgb: null,
       nullRgba: null,
 
-      customPalette: ['#ff0000', '#ffff00', '#0000f5', 'rgb(255,0,0)', 'rgb(255,255,0)', 'rgb(0,0,245)', 'rgba(255,0,0,0.5)'],
+      customPalette: [ '#ff0000', '#ffff00', '#0000f5', 'rgb(255,0,0)', 'rgb(255,255,0)', 'rgb(0,0,245)', 'rgba(255,0,0,0.5)' ],
 
       inputModelHex: '#FF00FF'
     }

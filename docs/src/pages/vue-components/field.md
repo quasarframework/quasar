@@ -1,9 +1,10 @@
 ---
 title: Field
 desc: The QField Vue component is used to provide common functionality and aspect to form components.
+keys: QField
 ---
 
-The QField component is used to provide common functionality and aspect to form components. It uses `:value` (or `v-model` if you want to use `clearable` property) to have knowledge of the model of the component inside. It has support for labels, hints, errors, validation, and comes in a variety of styles and colors.
+The QField component is used to provide common functionality and aspect to form components. It uses `:model-value` (or `v-model` if you want to use `clearable` property) to have knowledge of the model of the component inside. It has support for labels, hints, errors, validation, and comes in a variety of styles and colors.
 
 QField allows you to display any form control (or almost anything as a matter of fact) inside it. Just place your desired content inside the `control` slot.
 
@@ -12,6 +13,7 @@ Do NOT wrap QInput, QFile or QSelect with QField as these components already inh
 :::
 
 ## QField API
+
 <doc-api file="QField" />
 
 ## Design
@@ -77,7 +79,7 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon.
 
 ::: warning
-If using `clearable` you must use `v-model` or listen on `@input` and update the value.
+If using `clearable` you must use `v-model` or listen on `@update:model-value` and update the value.
 :::
 
 <doc-example title="Clearable" file="QField/Clearable" />
@@ -144,7 +146,7 @@ You can reset the validation by calling `resetValidation()` method on the QField
 
 <doc-example title="Maximum value" file="QField/ValidationMaxValue" />
 
-If you set `lazy-rules`, validation starts after first blur. Starting with v1.11+, if `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
+If you set `lazy-rules`, validation starts after first blur. If `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
 
 <doc-example title="Lazy rules" file="QField/ValidationLazy" />
 

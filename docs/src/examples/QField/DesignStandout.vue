@@ -49,7 +49,7 @@
         </template>
       </q-field>
 
-      <q-field standout :value="text" bottom-slots label="Label" stack-label counter :dense="dense">
+      <q-field standout :model-value="text" bottom-slots label="Label" stack-label counter :dense="dense">
         <template v-slot:prepend>
           <q-icon name="place" />
         </template>
@@ -67,7 +67,7 @@
         </template>
       </q-field>
 
-      <q-field standout :value="text" bottom-slots label="Label" stack-label counter maxlength="12" :dense="dense">
+      <q-field standout :model-value="text" bottom-slots label="Label" stack-label counter maxlength="12" :dense="dense">
         <template v-slot:before>
           <q-icon name="flight_takeoff" />
         </template>
@@ -86,7 +86,7 @@
         </template>
       </q-field>
 
-      <q-field standout :value="text" bottom-slots label="Label" stack-label counter maxlength="12" :dense="dense">
+      <q-field standout :model-value="text" bottom-slots label="Label" stack-label counter maxlength="12" :dense="dense">
         <template v-slot:before>
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/avatar5.jpg">
@@ -111,7 +111,7 @@
         </template>
       </q-field>
 
-      <q-field standout :value="text" bottom-slots label="Label" stack-label counter maxlength="12" :dense="dense">
+      <q-field standout :model-value="text" bottom-slots label="Label" stack-label counter maxlength="12" :dense="dense">
         <template v-slot:before>
           <q-icon name="event" />
         </template>
@@ -151,12 +151,13 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      text: 'Field content',
+import { ref } from 'vue'
 
-      dense: false
+export default {
+  setup () {
+    return {
+      text: ref('Field content'),
+      dense: ref(false)
     }
   }
 }

@@ -10,8 +10,10 @@
 
       <h1>Field wrapper tests</h1>
 
-      <q-field value="We count this" :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots counter tabindex="0">
-        <q-icon slot="before" name="event" />
+      <q-field model-value="We count this" :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots counter tabindex="0">
+        <template v-slot:before>
+          <q-icon name="event" />
+        </template>
 
         <template v-slot:control>
           <div>
@@ -19,15 +21,19 @@
           </div>
         </template>
 
-        <div slot="hint">
+        <template v-slot:hint>
           Field message
-        </div>
+        </template>
 
-        <q-icon slot="after" name="search" />
+        <template v-slot:after>
+          <q-icon name="search" />
+        </template>
       </q-field>
 
       <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
-        <q-icon slot="before" name="event" />
+        <template v-slot:before>
+          <q-icon name="event" />
+        </template>
 
         <template v-slot:control>
           <div>
@@ -35,13 +41,13 @@
           </div>
         </template>
 
-        <div slot="hint">
+        <template v-slot:hint>
           Field message
-        </div>
+        </template>
 
-        <div slot="counter">
+        <template v-slot:counter>
           3/12
-        </div>
+        </template>
 
         <template v-slot:after>
           <q-icon name="search" />
@@ -50,7 +56,9 @@
       </q-field>
 
       <q-field :dark="dark" :dense="dense" label="Field label" stack-label tabindex="0">
-        <q-icon slot="before" name="event" color="orange" />
+        <template v-slot:before>
+          <q-icon name="event" color="orange" />
+        </template>
 
         <template v-slot:control>
           <div>
@@ -65,7 +73,9 @@
       </q-field>
 
       <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
-        <q-icon slot="before" name="event" />
+        <template v-slot:before>
+          <q-icon name="event" />
+        </template>
 
         <template v-slot:control>
           <div>
@@ -73,15 +83,17 @@
           </div>
         </template>
 
-        <div slot="hint">
+        <template v-slot:hint>
           Field message
-        </div>
+        </template>
 
-        <div slot="counter">
+        <template v-slot:counter>
           3/12
-        </div>
+        </template>
 
-        <q-spinner slot="after" />
+        <template v-slot:after>
+          <q-spinner />
+        </template>
       </q-field>
 
       <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
@@ -91,12 +103,12 @@
           </div>
         </template>
 
-        <div slot="hint">
+        <template v-slot:hint>
           Field message
-        </div>
-        <div slot="counter">
+        </template>
+        <template v-slot:counter>
           3/12
-        </div>
+        </template>
       </q-field>
 
       <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
@@ -105,9 +117,10 @@
             Field content
           </div>
         </template>
-        <div slot="counter">
+
+        <template v-slot:counter>
           3/12
-        </div>
+        </template>
       </q-field>
 
       <q-field :dark="dark" :dense="dense" label="Field label" stack-label tabindex="0">
@@ -119,7 +132,9 @@
       </q-field>
 
       <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
-        <q-btn slot="before" flat round dense icon="event" />
+        <template v-slot:before>
+          <q-btn flat round dense icon="event" />
+        </template>
 
         <template v-slot:control>
           <div>
@@ -127,22 +142,25 @@
           </div>
         </template>
 
-        <div slot="hint">
+        <template v-slot:hint>
           Field message
-        </div>
+        </template>
 
-        <div slot="counter">
+        <template v-slot:counter>
           3/12
-        </div>
+        </template>
 
-        <q-btn slot="after" flat round dense icon="delete" />
+        <template v-slot:after>
+          <q-btn flat round dense icon="delete" />
+        </template>
       </q-field>
 
       <p class="caption">
         Item aligned test
       </p>
+
       <q-field :dark="dark" :dense="dense" item-aligned label="Field label" stack-label bottom-slots tabindex="0">
-        <q-icon slot="before" name="event" />
+        <template v-slot:before><q-icon name="event" /></template>
 
         <template v-slot:control>
           <div>
@@ -150,15 +168,17 @@
           </div>
         </template>
 
-        <div slot="hint">
+        <template v-slot:hint>
           Field message
-        </div>
+        </template>
 
-        <div slot="counter">
+        <template v-slot:counter>
           3/12
-        </div>
+        </template>
 
-        <q-icon slot="after" name="search" />
+        <template v-slot:after>
+          <q-icon name="search" />
+        </template>
       </q-field>
       <q-item>
         <q-item-section avatar>
@@ -185,7 +205,8 @@
       <p class="caption">
         Tree select
       </p>
-      <q-field filled :value="selected" label="Tree Select - Single" tabindex="0">
+
+      <q-field filled :model-value="selected" label="Tree Select - Single" tabindex="0">
         <template v-slot:control>
           <div class="no-outline full-width">
             {{ selected }}
@@ -202,14 +223,14 @@
           <q-tree
             :nodes="props"
             default-expand-all
-            :selected.sync="selected"
+            v-model:selected="selected"
             node-key="label"
             class="bg-white"
           />
         </q-popup-proxy>
       </q-field>
 
-      <q-field filled :value="tickedValue" label="Tree Select - Multiple" tabindex="2">
+      <q-field filled :model-value="tickedValue" label="Tree Select - Multiple" tabindex="2">
         <template v-slot:control>
           <div class="no-outline full-width">
             {{ tickedValue }}
@@ -227,7 +248,7 @@
             :nodes="props"
             default-expand-all
             tick-strategy="leaf"
-            :ticked.sync="ticked"
+            v-model:ticked="ticked"
             node-key="label"
             class="bg-white"
           />
@@ -245,6 +266,7 @@ export default {
       border: false,
       dense: false,
       individualBorder: false,
+      color: null,
 
       selected: null,
       ticked: [],
@@ -288,8 +310,7 @@ export default {
         }
       ],
 
-      testValue: 'Initial value',
-      color: ''
+      testValue: 'Initial value'
     }
   },
 
@@ -319,12 +340,12 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .fields-border
   .q-field, .q-item
-    border 1px solid currentColor
+    border: 1px solid currentColor
 
 .fields-individual-border
   .q-field__before, .q-field__after, .q-field__content, .q-field__bottom, .q-item
-    border 1px solid currentColor
+    border: 1px solid currentColor
 </style>

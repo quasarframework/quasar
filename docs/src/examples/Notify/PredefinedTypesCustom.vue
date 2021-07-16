@@ -8,29 +8,12 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+
 export default {
-  methods: {
-    triggerCustomRegisteredType1 () {
-      this.$q.notify({
-        type: 'my-notif',
-        message: `This notification is using a custom type.`
-      })
-    },
+  setup () {
+    const $q = useQuasar()
 
-    triggerCustomRegisteredType2 () {
-      // this one overrides some of the original
-      // options of the "my-notif" registered type
-      this.$q.notify({
-        type: 'my-notif',
-        icon: 'contactless',
-        message: `This notification is using a custom type.`,
-        caption: `It overrides the type's default icon and color.`,
-        color: 'primary'
-      })
-    }
-  },
-
-  created () {
     /**
      * The reason we have this here
      * is that the type needs to be
@@ -42,13 +25,34 @@ export default {
      * gets to be used :)
      */
 
-    this.$q.notify.registerType('my-notif', {
+    $q.notify.registerType('my-notif', {
       icon: 'announcement',
       progress: true,
       color: 'brown',
       textColor: 'white',
       classes: 'glossy'
     })
+
+    return {
+      triggerCustomRegisteredType1 () {
+        $q.notify({
+          type: 'my-notif',
+          message: 'This notification is using a custom type.'
+        })
+      },
+
+      triggerCustomRegisteredType2 () {
+        // this one overrides some of the original
+        // options of the "my-notif" registered type
+        $q.notify({
+          type: 'my-notif',
+          icon: 'contactless',
+          message: 'This notification is using a custom type.',
+          caption: 'It overrides the type\'s default icon and color.',
+          color: 'primary'
+        })
+      }
+    }
   }
 }
 </script>

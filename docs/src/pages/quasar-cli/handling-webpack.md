@@ -150,7 +150,7 @@ $ yarn add --dev json-loader
 
 After installing your new loader, we want to tell Webpack to use it. So we edit `/quasar.conf.js` and change `build.extendWebpack()` to add entries to `module/rules` for this new loader:
 
-``` js
+```js
 // quasar.conf
 build: {
   extendWebpack (cfg) {

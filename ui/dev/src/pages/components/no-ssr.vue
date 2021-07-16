@@ -35,9 +35,12 @@
     </div>
     <q-no-ssr>
       <div>This won't be rendered on server</div>
-      <div slot="placeholder">
-        Rendered on server
-      </div>
+
+      <template v-slot:placeholder>
+        <div>
+          Rendered on server
+        </div>
+      </template>
     </q-no-ssr>
 
     <div class="q-title">
@@ -45,27 +48,32 @@
     </div>
     <q-no-ssr>
       <div>This won't be rendered on server</div>
-      <div slot="placeholder">
-        Rendered on server (1/2)
-      </div>
-      <div slot="placeholder">
-        Rendered on server (2/2)
-      </div>
+
+      <template v-slot:placeholder>
+        <div>
+          Rendered on server (1/2)
+        </div>
+        <div>
+          Rendered on server (2/2)
+        </div>
+      </template>
     </q-no-ssr>
 
     <div class="q-title">
       7. Only placeholder slot
     </div>
     <q-no-ssr>
-      <div slot="placeholder">
-        Rendered on server
-      </div>
+      <template v-slot:placeholder>
+        <div>
+          Rendered on server
+        </div>
+      </template>
     </q-no-ssr>
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .no-ssr-page
   .q-title
-    margin-top 42px
+    margin-top: 42px
 </style>

@@ -54,14 +54,16 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      alert: false,
-      confirm: false,
-      prompt: false,
+import { ref } from 'vue'
 
-      address: ''
+export default {
+  setup () {
+    return {
+      alert: ref(false),
+      confirm: ref(false),
+      prompt: ref(false),
+
+      address: ref('')
     }
   }
 }

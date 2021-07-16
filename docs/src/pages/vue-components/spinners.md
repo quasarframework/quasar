@@ -1,6 +1,7 @@
 ---
 title: Spinners
 desc: The QSpinner and its derived Vue components are used to show the user a timely process is currently taking place. It gives the user the feeling the system is continuing to work for longer term activities.
+keys: QSpinner,QSpinnerAudio,QSpinnerBall,QSpinnerBars,QSpinnerBox,QSpinnerClock,QSpinnerComment,QSpinnerCube,QSpinnerDots,QSpinnerFacebook,QSpinnerGears,QSpinnerGrid,QSpinnerHearts,QSpinnerHourglass,QSpinnerInfinity,QSpinnerIos,QSpinnerOrbit,QSpinnerOval,QSpinnerPie,QSpinnerPuff,QSpinnerRadio,QSpinnerRings,QSpinnerTail
 related:
   - /vue-components/linear-progress
   - /vue-components/circular-progress

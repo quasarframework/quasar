@@ -2,7 +2,7 @@
   <div>
     <div class="q-layout-padding">
       <div>
-        <q-chip size="10px" :selected.sync="selected2">
+        <q-chip size="10px" v-model:selected="selected2">
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
@@ -10,7 +10,7 @@
         </q-chip>
       </div>
       <div>
-        <q-chip size="50px" :selected.sync="selected2">
+        <q-chip size="50px" v-model:selected="selected2">
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
@@ -19,18 +19,18 @@
       </div>
 
       <div>
-        <q-chip icon="bookmark" size="10px" :selected.sync="selected2">
+        <q-chip icon="bookmark" size="10px" v-model:selected="selected2">
           Add to calendar
         </q-chip>
       </div>
       <div>
-        <q-chip icon="bookmark" size="50px" :selected.sync="selected2">
+        <q-chip icon="bookmark" size="50px" v-model:selected="selected2">
           Add to calendar
         </q-chip>
       </div>
 
       <div>
-        <q-chip dense size="10px" :selected.sync="selected2">
+        <q-chip dense size="10px" v-model:selected="selected2">
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
@@ -38,7 +38,7 @@
         </q-chip>
       </div>
       <div>
-        <q-chip dense size="50px" :selected.sync="selected2">
+        <q-chip dense size="50px" v-model:selected="selected2">
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
@@ -46,12 +46,12 @@
         </q-chip>
       </div>
       <div>
-        <q-chip icon="bookmark" dense size="10px" :selected.sync="selected2">
+        <q-chip icon="bookmark" dense size="10px" v-model:selected="selected2">
           Add to calendar
         </q-chip>
       </div>
       <div>
-        <q-chip icon="bookmark" dense size="50px" :selected.sync="selected2">
+        <q-chip icon="bookmark" dense size="50px" v-model:selected="selected2">
           Add to calendar
         </q-chip>
       </div>
@@ -246,40 +246,40 @@
 
       <p>Selected</p>
       <div class="q-ma-md">
-        <q-chip v-bind="chipProps" :selected.sync="selected1" icon="bookmark" removable>
+        <q-chip v-bind="chipProps" v-model:selected="selected1" icon="bookmark" removable>
           Bookmark
         </q-chip>
-        <q-chip v-bind="chipProps" :selected.sync="selected1" removable>
+        <q-chip v-bind="chipProps" v-model:selected="selected1" removable>
           EmptyTest
         </q-chip>
 
-        <q-chip v-bind="chipProps" :selected.sync="selected2">
+        <q-chip v-bind="chipProps" v-model:selected="selected2">
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip v-bind="chipProps" :selected.sync="selected3">
+        <q-chip v-bind="chipProps" v-model:selected="selected3">
           <q-avatar color="primary" text-color="white">
             J
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip v-bind="chipProps" :selected.sync="selected4" color="orange">
+        <q-chip v-bind="chipProps" v-model:selected="selected4" color="orange">
           <q-avatar color="teal" text-color="white">
             J
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip v-bind="chipProps" :selected.sync="selected5" removable>
+        <q-chip v-bind="chipProps" v-model:selected="selected5" removable>
           <q-avatar color="red" text-color="white" icon="directions" />
           Bookmark
         </q-chip>
 
-        <q-chip v-bind="chipProps" dense :selected.sync="selected5" removable>
+        <q-chip v-bind="chipProps" dense v-model:selected="selected5" removable>
           <q-avatar color="red" text-color="white" icon="directions" />
           Bookmark
         </q-chip>
@@ -322,32 +322,32 @@
 
       <p>Disable</p>
       <div class="q-ma-md">
-        <q-chip v-bind="chipProps" disable :selected.sync="selected1" clickable icon="bookmark" removable>
+        <q-chip v-bind="chipProps" disable v-model:selected="selected1" clickable icon="bookmark" removable>
           Bookmark
         </q-chip>
 
-        <q-chip v-bind="chipProps" disable :selected.sync="selected2" clickable>
+        <q-chip v-bind="chipProps" disable v-model:selected="selected2" clickable>
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip v-bind="chipProps" disable :selected.sync="selected3" clickable>
+        <q-chip v-bind="chipProps" disable v-model:selected="selected3" clickable>
           <q-avatar color="primary" text-color="white">
             J
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip v-bind="chipProps" disable :selected.sync="selected4" clickable color="orange">
+        <q-chip v-bind="chipProps" disable v-model:selected="selected4" clickable color="orange">
           <q-avatar color="teal" text-color="white">
             J
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip v-bind="chipProps" disable :selected.sync="selected5" clickable removable>
+        <q-chip v-bind="chipProps" disable v-model:selected="selected5" clickable removable>
           <q-avatar color="red" text-color="white" icon="directions" />
           Bookmark
         </q-chip>
@@ -412,7 +412,7 @@ export default {
   methods: {
     resetRemovable () {
       for (let i = 1; i <= 5; i++) {
-        this['close' + i] = true
+        this[ 'close' + i ] = true
       }
     },
     clickable () {

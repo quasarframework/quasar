@@ -7,7 +7,7 @@
             <q-icon class="q-mr-xs" color="deep-orange" size="24px" name="mail" />
             Email (hover for more info)
 
-            <q-tooltip content-class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">Email address</q-tooltip>
+            <q-tooltip class="bg-grey-8" anchor="top left" self="bottom left" :offset="[0, 8]">Email address</q-tooltip>
           </div>
         </template>
       </q-input>
@@ -20,8 +20,8 @@
         </template>
 
         <template v-slot:label>
-          <strong class="text-deep-orange">You</strong>
-          can customize the <em class="q-px-sm bg-deep-orange text-white rounded-borders">label</em>
+          <span class="text-weight-bold text-deep-orange">You</span>
+          can customize the <span class="q-px-sm bg-deep-orange text-white text-italic rounded-borders">label</span>
         </template>
       </q-input>
     </div>
@@ -29,11 +29,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      email: 'john.doe',
-      number: 123
+      email: ref('john.doe'),
+      number: ref(123)
     }
   }
 }

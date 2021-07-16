@@ -1,20 +1,16 @@
 {
-  "mixins": [ "mixins/size", "mixins/tag" ],
+  "mixins": [ "composables/private/use-size" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/icon"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/icon"
   },
 
   "props": {
     "tag": {
+      "extends": "tag",
       "desc": "HTML tag to render, unless no icon is supplied or it's an svg icon",
       "default": "i",
-      "examples": [ "div", "i" ],
-      "addedIn": "v1.8.4"
+      "examples": [ "div", "i" ]
     },
 
     "name": {

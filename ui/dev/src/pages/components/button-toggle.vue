@@ -107,8 +107,8 @@
     />
 
     <q-btn-toggle
-      :value="modelD"
-      @input="updateD"
+      :model-value="modelD"
+      @update:model-value="updateD"
       toggle-color="primary"
       unelevated
       rounded
@@ -123,7 +123,7 @@ export default {
     return {
       model: '',
       modelD: '',
-      options: [true, false],
+      options: [ true, false ],
       optionsO1: [
         { label: 'One', value: 'one' },
         { label: 'Two - this one has a longer label', value: 'two' },
@@ -153,7 +153,7 @@ export default {
         { label: 'Two', value: 'two', count: 0 },
         { label: 'Three', value: 'three', count: 0 }
       ],
-      sizes: ['sm', 'md', 'lg']
+      sizes: [ 'sm', 'md', 'lg' ]
     }
   },
   methods: {
@@ -169,7 +169,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .button-toggle-group-test .q-btn-toggle
-  margin 15px
+  margin: 15px
 </style>

@@ -1,14 +1,14 @@
-import Vue from 'vue'
+import { h, defineComponent, computed } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
-import CheckboxMixin from '../../mixins/checkbox.js'
+import useCheckbox, { useCheckboxProps, useCheckboxEmits } from '../checkbox/use-checkbox.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QToggle',
 
-  mixins: [ CheckboxMixin ],
-
   props: {
+    ...useCheckboxProps,
+
     icon: String,
     checkedIcon: String,
     uncheckedIcon: String,
@@ -17,45 +17,40 @@ export default Vue.extend({
     iconColor: String
   },
 
-  computed: {
-    computedIcon () {
-      return (
-        this.isTrue === true
-          ? this.checkedIcon
-          : (this.isIndeterminate === true ? this.indeterminateIcon : this.uncheckedIcon)
-      ) || this.icon
-    },
+  emits: useCheckboxEmits,
 
-    computedIconColor () {
-      if (this.isTrue === true) {
-        return this.iconColor
-      }
-    }
-  },
+  setup (props) {
+    function getInner (isTrue, isIndeterminate) {
+      const computedIcon = computed(() =>
+        (isTrue.value === true
+          ? props.checkedIcon
+          : (isIndeterminate.value === true ? props.indeterminateIcon : props.uncheckedIcon)
+        ) || props.icon
+      )
 
-  methods: {
-    __getInner (h) {
-      return [
-        h('div', { staticClass: 'q-toggle__track' }),
+      const computedIconColor = computed(() => {
+        if (isTrue.value === true) {
+          return props.iconColor
+        }
+      })
+
+      return () => [
+        h('div', { class: 'q-toggle__track' }),
 
         h('div', {
-          staticClass: 'q-toggle__thumb absolute flex flex-center no-wrap'
-        }, this.computedIcon !== void 0
+          class: 'q-toggle__thumb absolute flex flex-center no-wrap'
+        }, computedIcon.value !== void 0
           ? [
-            h(QIcon, {
-              props: {
-                name: this.computedIcon,
-                color: this.computedIconColor
-              }
-            })
-          ]
+              h(QIcon, {
+                name: computedIcon.value,
+                color: computedIconColor.value
+              })
+            ]
           : void 0
         )
       ]
     }
-  },
 
-  created () {
-    this.type = 'toggle'
+    return useCheckbox('toggle', getInner)
   }
 })

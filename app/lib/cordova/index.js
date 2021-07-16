@@ -117,7 +117,7 @@ class CordovaRunner {
         code => {
           this.__cleanup()
           if (code) {
-            fatal(`[FAIL] Cordova CLI has failed`)
+            fatal('Cordova CLI has failed', 'FAIL')
           }
           resolve()
         }

@@ -5,25 +5,33 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { onBeforeUnmount } from 'vue'
+
 export default {
-  methods: {
-    showLoading () {
-      this.$q.loading.show({
-        message: 'Some important <b>process</b> is in progress.<br/><span class="text-orange text-weight-bold">Hang on...</span>'
-      })
+  setup () {
+    const $q = useQuasar()
+    let timer
 
-      // hiding in 3s
-      this.timer = setTimeout(() => {
-        this.$q.loading.hide()
-        this.timer = void 0
-      }, 3000)
-    }
-  },
+    onBeforeUnmount(() => {
+      if (timer !== void 0) {
+        clearTimeout(timer)
+        $q.loading.hide()
+      }
+    })
 
-  beforeDestroy () {
-    if (this.timer !== void 0) {
-      clearTimeout(this.timer)
-      this.$q.loading.hide()
+    return {
+      showLoading () {
+        $q.loading.show({
+          message: 'Some important <b>process</b> is in progress.<br/><span class="text-primary">Hang on...</span>'
+        })
+
+        // hiding in 3s
+        timer = setTimeout(() => {
+          $q.loading.hide()
+          timer = void 0
+        }, 3000)
+      }
     }
   }
 }

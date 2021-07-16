@@ -10,7 +10,7 @@
         <q-space />
         <q-field dark borderless>
           <template v-slot:control>
-            <div class="self-center no-outline" tabindex="0">Time is {{value}}</div>
+            <div class="self-center no-outline" tabindex="0">Time is {{ value }}</div>
           </template>
           <template v-slot:append>
             <q-btn color="white" flat round dense :disable="value < 10" icon="replay_10" @click.stop="value -= 10" />
@@ -23,10 +23,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      value: 50
+      value: ref(50)
     }
   }
 }

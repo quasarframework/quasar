@@ -1,13 +1,10 @@
-import install from './install.js'
-import { version } from '../package.json'
+import installQuasar from './install-quasar.js'
 import lang from './lang.js'
 import iconSet from './icon-set.js'
-import ssrUpdate from './ssr-update.js'
 
 export default {
-  version,
-  install,
+  version: __QUASAR_VERSION__,
+  install: installQuasar,
   lang,
-  iconSet,
-  ssrUpdate
+  iconSet
 }

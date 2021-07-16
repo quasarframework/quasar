@@ -32,13 +32,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      first: true,
-      second: true,
-      third: false,
-      fourth: true
+      first: ref(true),
+      second: ref(true),
+      third: ref(false),
+      fourth: ref(true)
     }
   }
 }

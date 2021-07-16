@@ -427,7 +427,7 @@ export default {
       fontSize: 14,
 
       text: '$$TSP',
-      options: ['$$TSP', '$$$$$'],
+      options: [ '$$TSP', '$$$$$' ],
 
       longLabel: 'A long label - 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     }
@@ -448,7 +448,7 @@ export default {
   computed: {
     props () {
       return {
-        [this.type]: true,
+        [ this.type ]: true,
         type: 'text' + (this.autogrow === true ? 'area' : ''),
         autogrow: this.autogrow,
         hideBottomSpace: this.hideBottomSpace,
@@ -461,7 +461,7 @@ export default {
         placeholder: this.placeholder === true ? 'Placeholder text' : null,
         dense: this.dense,
         square: this.square,
-        style: { fontSize: `${this.fontSize}px` },
+        style: { fontSize: `${ this.fontSize }px` },
         color: typeof this.textColor === 'string' && this.textColor.length > 0 ? this.textColor : null,
         bgColor: typeof this.bgColor === 'string' && this.bgColor.length > 0 ? this.bgColor : null
       }

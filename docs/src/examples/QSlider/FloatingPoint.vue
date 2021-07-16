@@ -37,12 +37,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      smallStep: 0.3,
-      xsmallStep: 0.530,
-      zeroStep: 0.5
+      smallStep: ref(0.3),
+      xsmallStep: ref(0.530),
+      zeroStep: ref(0.5)
     }
   }
 }
