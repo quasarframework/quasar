@@ -581,9 +581,9 @@ export default Vue.extend({
       if (panel === void 0) { return }
 
       const
-        width = panel.clientWidth,
-        height = panel.clientHeight,
-        rect = panel.getBoundingClientRect()
+        width = panel?.clientWidth,
+        height = panel?.clientHeight,
+        rect = panel?.getBoundingClientRect()
 
       let x = Math.min(width, Math.max(0, left - rect.left))
 
