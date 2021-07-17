@@ -262,12 +262,12 @@ export default defineComponent({
 
     function changeSpectrum (left, top, change) {
       const panel = spectrumRef.value
-      if (panel === void 0) { return }
+      if (panel === null) { return }
 
       const
-        width = panel?.clientWidth,
-        height = panel?.clientHeight,
-        rect = panel?.getBoundingClientRect()
+        width = panel.clientWidth,
+        height = panel.clientHeight,
+        rect = panel.getBoundingClientRect()
 
       let x = Math.min(width, Math.max(0, left - rect.left))
 
