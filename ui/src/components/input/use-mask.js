@@ -49,10 +49,10 @@ export default function (props, emit, emitValue, inputRef) {
   const hasMask = ref(null)
   const innerValue = ref(getInitialMaskedValue())
 
-  const getIsTypeText = () => (
-    props.autogrow === true
-    || [ 'textarea', 'text', 'search', 'url', 'tel', 'password' ].includes(props.type)
-  )
+  function getIsTypeText () {
+    return props.autogrow === true
+      || [ 'textarea', 'text', 'search', 'url', 'tel', 'password' ].includes(props.type)
+  }
 
   watch(() => props.type + props.autogrow, updateMaskInternals)
 
