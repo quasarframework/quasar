@@ -13,7 +13,7 @@ const props = {
     default: 'POST'
   },
   fieldName: {
-    type: [ Function ],
+    type: [ Function, String ],
     default: () => {
       return file => file.name
     }
@@ -223,8 +223,6 @@ function injectPlugin ({ props, emit, helpers }) {
     files.forEach(file => {
       helpers.updateFileStatus(file, 'uploading', 0)
       if (sendRaw !== true) {
-        console.log(xhrProps.value.fieldName({ name: 'file.png' }))
-        console.log(file.name, factory.fieldName, getProp('fieldName', file))
         form.append(getProp('fieldName', file), file, file.name)
       }
       file.xhr = xhr
