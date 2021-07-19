@@ -181,7 +181,8 @@ export default defineComponent({
         flat: props.flat,
         rounded: props.rounded,
         push: props.push,
-        unelevated: props.glossy,
+        unelevated: props.unelevated,
+        glossy: props.glossy,
         stretch: props.stretch
       }, () => [
         h(QBtn, {
