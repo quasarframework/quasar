@@ -206,7 +206,12 @@ export default defineComponent({
 
     const innerFieldProps = computed(() => {
       const acc = {}
-      fieldPropsList.forEach(key => props[ key ])
+      fieldPropsList.forEach(key => {
+        const val = props[ key ]
+        if (val !== void 0) {
+          acc[ key ] = val
+        }
+      })
       return acc
     })
 
