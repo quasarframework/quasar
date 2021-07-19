@@ -110,7 +110,7 @@ export default function (props, emit, emitValue, inputRef) {
   function updateMaskInternals () {
     hasMask.value = props.mask !== void 0
       && props.mask.length > 0
-      && isTypeText === true
+      && isTypeText.value === true
 
     if (hasMask.value === false) {
       computedUnmask = void 0

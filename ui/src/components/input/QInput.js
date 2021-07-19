@@ -68,7 +68,7 @@ export default defineComponent({
     )
 
     const isTypeText = computed(() =>
-      isTextarea === true || ['text', 'search', 'url', 'tel', 'password'].includes(props.type)
+      isTextarea.value === true || [ 'text', 'search', 'url', 'tel', 'password' ].includes(props.type)
     )
 
     const onEvents = computed(() => {
@@ -211,7 +211,7 @@ export default defineComponent({
       else {
         emitValue(val)
 
-        if (isTypeText === true && e.target === document.activeElement) {
+        if (isTypeText.value === true && e.target === document.activeElement) {
           const { selectionStart, selectionEnd } = e.target
 
           if (selectionStart !== void 0 && selectionEnd !== void 0) {
