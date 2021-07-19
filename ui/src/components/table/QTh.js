@@ -56,12 +56,9 @@ export default defineComponent({
       const data = {
         class: col.__thClass
           + (props.autoWidth === true ? ' q-table--col-auto-width' : ''),
-        style: col.headerStyle
-      }
-
-      if (col.sortable === true) {
-        data.onClick = evt => {
-          props.props.sort(col) // eslint-disable-line
+        style: col.headerStyle,
+        onClick: evt => {
+          col.sortable === true && props.props.sort(col) // eslint-disable-line
           emit('click', evt)
         }
       }
