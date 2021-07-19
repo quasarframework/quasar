@@ -202,7 +202,7 @@ export default defineComponent({
     function updatePosition () {
       const el = innerRef.value
 
-      if (anchorEl.value === void 0 || !el) {
+      if (anchorEl.value === null || !el) {
         return
       }
 
@@ -252,7 +252,7 @@ export default defineComponent({
     }
 
     function configureAnchorEl () {
-      if (props.noParentEvent === true || anchorEl.value === void 0) { return }
+      if (props.noParentEvent === true || anchorEl.value === null) { return }
 
       const evts = $q.platform.is.mobile === true
         ? [
@@ -267,7 +267,7 @@ export default defineComponent({
     }
 
     function configureScrollTarget () {
-      if (anchorEl.value !== void 0 || props.scrollTarget !== void 0) {
+      if (anchorEl.value !== null || props.scrollTarget !== void 0) {
         localScrollTarget.value = getScrollTarget(anchorEl.value, props.scrollTarget)
         const fn = props.noParentEvent === true
           ? updatePosition
