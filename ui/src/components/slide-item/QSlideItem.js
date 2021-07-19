@@ -195,31 +195,36 @@ export default defineComponent({
       })
 
       const node = h('div', {
-        key: 'content',
+        key: `${ dirs.length === 0 ? 'only-' : '' } content`,
         ref: contentRef,
         class: 'q-slide-item__content'
       }, hSlot(slots.default))
 
-      content.push(
-        withDirectives(node, getCacheWithFn('dir#' + dirs.join(''), () => {
-          const modifiers = {
-            prevent: true,
-            stop: true,
-            mouse: true
-          }
+      if (dirs.length === 0) {
+        content.push(node)
+      }
+      else {
+        content.push(
+          withDirectives(node, getCacheWithFn('dir#' + dirs.join(''), () => {
+            const modifiers = {
+              prevent: true,
+              stop: true,
+              mouse: true
+            }
 
-          dirs.forEach(dir => {
-            modifiers[ dir ] = true
-          })
+            dirs.forEach(dir => {
+              modifiers[ dir ] = true
+            })
 
-          return [ [
-            TouchPan,
-            onPan,
-            void 0,
-            modifiers
-          ] ]
-        }))
-      )
+            return [ [
+              TouchPan,
+              onPan,
+              void 0,
+              modifiers
+            ] ]
+          }))
+        )
+      }
 
       return h('div', { class: classes.value }, content)
     }
