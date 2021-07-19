@@ -61,19 +61,25 @@ export default defineComponent({
     const classes = computed(() =>
       'q-fab z-fab row inline justify-center'
       + ` q-fab--align-${ props.verticalActionsAlign } ${ formClass.value }`
-      + (showing.value === true ? ' q-fab--opened' : '')
+      + (showing.value === true ? ' q-fab--opened' : ' q-fab--closed')
     )
 
     const actionClass = computed(() =>
       'q-fab__actions flex no-wrap inline'
       + ` q-fab__actions--${ props.direction }`
+      + ` q-fab__actions--${ showing.value === true ? 'opened' : 'closed' }`
+    )
+
+    const iconHolderClass = computed(() =>
+      'q-fab__icon-holder '
+      + ` q-fab__icon-holder--${ showing.value === true ? 'opened' : 'closed' }`
     )
 
     function getTriggerContent () {
       const child = []
 
       props.hideIcon !== true && child.push(
-        h('div', { class: 'q-fab__icon-holder' }, [
+        h('div', { class: iconHolderClass.value }, [
           h(QIcon, {
             class: 'q-fab__icon absolute-full',
             name: props.icon || $q.iconSet.fab.icon
