@@ -68,7 +68,8 @@ export default defineComponent({
     )
 
     const isTypeText = computed(() =>
-      isTextarea.value === true || [ 'text', 'search', 'url', 'tel', 'password' ].includes(props.type)
+      isTextarea.value === true
+      || [ 'text', 'search', 'url', 'tel', 'password' ].includes(props.type)
     )
 
     const onEvents = computed(() => {

@@ -49,11 +49,12 @@ export default function (props, emit, emitValue, inputRef) {
   const hasMask = ref(null)
   const innerValue = ref(getInitialMaskedValue())
 
-  const isTypeText = computed(() =>
-    props.autogrow === true || ['textarea', 'text', 'search', 'url', 'tel', 'password'].includes(props.type)
+  const getIsTypeText = () => (
+    props.autogrow === true
+    || [ 'textarea', 'text', 'search', 'url', 'tel', 'password' ].includes(props.type)
   )
 
-  watch(() => props.type, updateMaskInternals)
+  watch(() => props.type + props.autogrow, updateMaskInternals)
 
   watch(() => props.mask, v => {
     if (v !== void 0) {
@@ -110,7 +111,7 @@ export default function (props, emit, emitValue, inputRef) {
   function updateMaskInternals () {
     hasMask.value = props.mask !== void 0
       && props.mask.length > 0
-      && isTypeText.value === true
+      && getIsTypeText()
 
     if (hasMask.value === false) {
       computedUnmask = void 0
