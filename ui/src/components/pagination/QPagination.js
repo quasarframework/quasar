@@ -192,19 +192,19 @@ export default defineComponent({
       newPage.value = null
     }
 
-    function getBtn (data, page) {
-      const props = { ...btnProps.value, ...data }
+    function getBtn (cfg, page) {
+      const data = { ...btnProps.value, ...cfg }
 
       if (page !== void 0) {
         if (props.toFn !== void 0) {
-          props.to = props.toFn(page)
+          data.to = props.toFn(page)
         }
         else {
-          props.onClick = () => set(page)
+          data.onClick = () => set(page)
         }
       }
 
-      return h(QBtn, props)
+      return h(QBtn, data)
     }
 
     // expose public methods
