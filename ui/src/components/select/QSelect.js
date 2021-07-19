@@ -889,7 +889,7 @@ export default defineComponent({
       }
 
       if (slots.selected !== void 0) {
-        return slots.selected().slice()
+        return [].concat(slots.selected())
       }
 
       if (props.useChips === true) {

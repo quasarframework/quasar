@@ -2,14 +2,19 @@ import { h, withDirectives } from 'vue'
 
 export function hSlot (slot, otherwise) {
   return slot !== void 0
-    ? slot()
+    ? slot() || otherwise
     : otherwise
 }
 
 export function hUniqueSlot (slot, otherwise) {
-  return slot !== void 0
-    ? slot().slice()
-    : otherwise
+  if (slot !== void 0) {
+    const vnode = slot()
+    if (vnode !== void 0 && vnode !== null) {
+      return vnode.slice()
+    }
+  }
+
+  return otherwise
 }
 
 /**
