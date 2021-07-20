@@ -68,6 +68,10 @@ After the tools are installed, setup Android Studio with the correct SDK and cre
 * Select the desired SDKs. As per December 2019 Cordova requires android-28 (Android 9.0 - Pie) so be sure to include it. Click on "Apply" to install the SDKs.
 
   ![SDK selection](https://cdn.quasar.dev/img/Android-Studio-SDK-selection.png "SDK selection")
+  
+::: warning
+note from 07/20/21: you need "Android API 29"
+:::
 
 ### iOS setup
 
