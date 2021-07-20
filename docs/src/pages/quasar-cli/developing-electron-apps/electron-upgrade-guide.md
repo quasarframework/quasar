@@ -25,7 +25,7 @@ The Electron mode for Quasar v2 is an almost complete overhaul of the previous v
 * You can enable linting for the main thread and the preload script too.
 * We've removed the default electron-main.dev.js support as it seems that it's not needed anymore. However, you can add it back by creating it and referencing it from electron-main (it's no longer detected by Quasar CLI automatically -- because we don't need to; more on this later).
 
-### The /src-electron folder
+### The /src-electron and /public folders
 
 ```bash
 # old structure
@@ -42,13 +42,14 @@ The Electron mode for Quasar v2 is an almost complete overhaul of the previous v
 
 # NEW structure
 .
+├── public/                   # Static Assets 
+|   └── icons-electron/          # Icons of your app for all platforms
+|       ├── icon.icns            # Icon file for Darwin (MacOS) platform
+|       ├── icon.ico             # Icon file for win32 (Windows) platform
+|       └── icon.png             # Icon file for Linux platform
 └── src-electron/
-    ├── icons/                 # Icons of your app for all platforms
-    |   ├── icon.icns             # Icon file for Darwin (MacOS) platform
-    |   ├── icon.ico              # Icon file for win32 (Windows) platform
-    |   └── linux-512x512.png     # Icon file for Linux platform (when using electron-builder)
-    ├── electron-preload.js   # (or .ts) Electron preload script (injects Node.js stuff into renderer thread)
-    └── electron-main.js      # (or .ts) Main thread code
+    ├── electron-preload.js      # (or .ts) Electron preload script (injects Node.js stuff into renderer thread)
+    └── electron-main.js         # (or .ts) Main thread code
 ```
 
 Notice that there's no `electron-main.dev.js` file anymore (not needed anymore) and that the `electron-preload/main.js` files need to be moved directly under `/src-electron`.
@@ -69,6 +70,14 @@ mainWindow = new BrowserWindow({
 
 // NEW way
 mainWindow = new BrowserWindow({
+  icon: path.resolve(
+    __dirname,
+    process.env.QUASAR_PUBLIC_FOLDER,
+    "icons-electron",
+    process.platform === "win32" ? "icon.ico"
+      : process.platform === "darwin" ? "icon.icns"
+      : "icon.png"
+  ),
   // ...
   webPreferences: {
     // we enable contextIsolation (Electron 12+ has it enabled by default anyway)

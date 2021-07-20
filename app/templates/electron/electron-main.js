@@ -14,6 +14,14 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
+    icon: path.resolve(
+      __dirname,
+      process.env.QUASAR_PUBLIC_FOLDER,
+      "icons-electron",
+      process.platform === "win32" ? "icon.ico"
+        : process.platform === "darwin" ? "icon.icns"
+        : "icon.png"
+    ),
     width: 1000,
     height: 600,
     useContentSize: true,

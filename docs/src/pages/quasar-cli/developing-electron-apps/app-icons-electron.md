@@ -22,9 +22,9 @@ $ icongenie generate -m electron -i /path/to/source/icon.png
 ## Manual instructions
 
 ```
-src-electron/
-  icons/
+public/
+  icons-electron/
     icon.ico
     icon.icns
-    linux-512x512.png
+    icon.png
 ```

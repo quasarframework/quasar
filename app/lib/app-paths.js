@@ -19,6 +19,7 @@ function getAppDir () {
 
 const appDir = getAppDir()
 const cliDir = resolve(__dirname, '..')
+const publicDir = resolve(appDir, "public")
 const srcDir = resolve(appDir, 'src')
 const pwaDir = resolve(appDir, 'src-pwa')
 const ssrDir = resolve(appDir, 'src-ssr')
@@ -28,8 +29,9 @@ const electronDir = resolve(appDir, 'src-electron')
 const bexDir = resolve(appDir, 'src-bex')
 
 module.exports = {
-  cliDir,
   appDir,
+  cliDir,
+  publicDir,
   srcDir,
   pwaDir,
   ssrDir,
@@ -39,8 +41,9 @@ module.exports = {
   bexDir,
 
   resolve: {
-    cli: dir => join(cliDir, dir),
     app: dir => join(appDir, dir),
+    cli: dir => join(cliDir, dir),
+    public: dir => join(publicDir, dir),
     src: dir => join(srcDir, dir),
     pwa: dir => join(pwaDir, dir),
     ssr: dir => join(ssrDir, dir),

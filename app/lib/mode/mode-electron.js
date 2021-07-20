@@ -42,6 +42,18 @@ class Mode {
       appPaths.electronDir
     )
 
+    log(`Creating Electron icons folder...`)
+    fse.moveSync(
+      appPaths.resolve.electron("icons-electron"),
+      appPaths.resolve.public("icons-electron")
+    )
+
+    log(`Adding "main" to package.json...`)
+    const data = fse.readFileSync(appPaths.resolve.app("package.json"))
+    let json = JSON.parse(data)
+    json["main"] = ".quasar/electron/electron-main.js"
+    fse.writeFileSync(appPaths.resolve.app("package.json"), JSON.stringify(json, null, 2))
+
     log(`Electron support was added`)
   }
 
@@ -53,6 +65,15 @@ class Mode {
 
     log(`Removing Electron source folder`)
     fse.removeSync(appPaths.electronDir)
+
+    log(`Removing Electron icons folder`)
+    fse.removeSync(appPaths.resolve.public("icons-electron"))
+
+    log(`Removing "main" from package.json...`)
+    const data = fse.readFileSync(appPaths.resolve.app("package.json"))
+    let json = JSON.parse(data)
+    delete json["main"]
+    fse.writeFileSync(appPaths.resolve.app("package.json"), JSON.stringify(json, null, 2))
 
     const cmdParam = nodePackager === 'npm'
       ? ['uninstall', '--save-dev']

@@ -186,7 +186,9 @@ class ElectronRunner {
       getPackage('electron'),
       [
         '--inspect=5858',
-        appPaths.resolve.app('.quasar/electron/electron-main.js')
+        // requires '"main": ".quasar/electron/electron-main.js"' in package.json
+        // which we do during "quasar mode add electron"
+        appPaths.resolve.app('.')
       ].concat(extraParams),
       { cwd: appPaths.appDir },
       code => {
