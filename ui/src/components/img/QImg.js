@@ -64,7 +64,7 @@ export default defineComponent({
 
   emits: [ 'load', 'error' ],
 
-  setup (props, { slots, attrs, emit }) {
+  setup (props, { slots, emit }) {
     const naturalRatio = ref(props.initialRatio)
     const ratioStyle = useRatio(props, naturalRatio)
 
@@ -187,7 +187,6 @@ export default defineComponent({
 
       const data = {
         key: 'img_' + index,
-        ...attrs,
         class: imgClass.value,
         style: imgStyle.value,
         crossorigin: props.crossorigin,

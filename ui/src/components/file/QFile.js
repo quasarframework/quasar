@@ -12,6 +12,8 @@ import { humanStorageSize } from '../../utils/format.js'
 export default defineComponent({
   name: 'QFile',
 
+  inheritAttrs: false,
+
   props: {
     ...useFieldProps,
     ...useFormProps,
