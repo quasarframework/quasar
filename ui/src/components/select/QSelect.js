@@ -399,20 +399,35 @@ export default Vue.extend({
     },
 
     comboboxAttrs () {
-      return {
+      const attrs = {
+        tabindex: this.tabindex,
         role: 'combobox',
-        'aria-multiselectable': this.multiple === true ? 'true' : 'false',
+        'aria-label': this.label,
+        'aria-autocomplete': this.useInput === true ? 'list' : 'none',
         'aria-expanded': this.menu === true ? 'true' : 'false',
         'aria-owns': `${this.targetUid}_lb`,
-        'aria-activedescendant': `${this.targetUid}_${this.optionIndex}`
+        'aria-controls': `${this.targetUid}_lb`
       }
+
+      if (this.optionIndex >= 0) {
+        attrs['aria-activedescendant'] = `${this.targetUid}_${this.optionIndex}`
+      }
+
+      return attrs
     },
 
     listboxAttrs () {
-      return {
+      const attrs = {
+        id: `${this.targetUid}_lb`,
         role: 'listbox',
-        id: `${this.targetUid}_lb`
+        'aria-multiselectable': this.multiple === true ? 'true' : 'false'
       }
+
+      if (this.optionIndex >= 0) {
+        attrs['aria-activedescendant'] = `${this.targetUid}_${this.optionIndex}`
+      }
+
+      return attrs
     }
   },
 
@@ -946,7 +961,6 @@ export default Vue.extend({
             staticClass: 'no-outline',
             attrs: {
               id: this.targetUid,
-              tabindex: this.tabindex,
               ...this.comboboxAttrs
             },
             on: cache(this, 'f-tget', {
@@ -1058,15 +1072,14 @@ export default Vue.extend({
         attrs: {
           // required for Android in order to show ENTER key when in form
           type: 'search',
+          ...this.comboboxAttrs,
           ...this.qAttrs,
           id: this.targetUid,
           maxlength: this.maxlength, // this is converted to prop by QField
-          tabindex: this.tabindex,
           autocomplete: this.autocomplete,
           'data-autofocus': fromDialog === true ? false : this.autofocus,
           disabled: this.disable === true,
-          readonly: this.readonly === true,
-          ...this.comboboxAttrs
+          readonly: this.readonly === true
         },
         on: this.inputControlEvents
       }
