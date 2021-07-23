@@ -1,30 +1,29 @@
 <template lang="pug">
-  q-banner(v-if="!hasEnded" inline-actions).survey-countdown
-    template(v-slot:action)
-      q-btn(
-        type="a"
-        href="https://forms.gle/AGTQqkjCEAuDA8oCA"
-        target="_blank"
-        :color="color"
-        :text-color="textColor"
-        :icon="mdiFileDocumentEditOutline"
-        label="Open survey"
-        no-caps
-      )
+q-banner(v-if="!hasEnded").survey-countdown
+  .q-gutter-sm.row(:class="[paddingClass, alignClass]")
+    | Quasar Scaffolding Survey closes in...
 
-    .q-gutter-xs(:class="paddingClass")
-      .row.items-center(:class="alignClass")
-        | Quasar Community Survey closes in...
-      q-badge.text-bold(v-if="days > 0" :color="color" :text-color="textColor") {{ days }} Days
-      q-badge.text-bold(v-if="hours > 0" :color="color" :text-color="textColor") {{ hours }} Hours
-      q-badge.text-bold(:color="color" :text-color="textColor") {{ minutes }} Minutes
+    q-badge.text-bold(v-if="days > 0" :color="color" :text-color="textColor") {{ days }} Days
+    q-badge.text-bold(v-if="hours > 0" :color="color" :text-color="textColor") {{ hours }} Hours
+    q-badge.text-bold(:color="color" :text-color="textColor") {{ minutes }} Minutes
+
+    q-btn(
+      type="a"
+      href="https://bit.ly/2VtIGK9"
+      target="_blank"
+      :color="color"
+      :text-color="textColor"
+      :icon="mdiFileDocumentEditOutline"
+      label="Open survey"
+      no-caps
+    )
 </template>
 
 <script>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { mdiFileDocumentEditOutline } from '@quasar/extras/mdi-v5'
 
-const confDate = new Date('2020-11-16').getTime()
+const confDate = new Date('2021-07-31').getTime()
 
 const oneDay = 1000 * 60 * 60 * 24
 const oneHour = 1000 * 60 * 60
