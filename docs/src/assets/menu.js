@@ -105,6 +105,11 @@ const options = [
     path: 'quasar-icon-sets'
   },
   {
+    name: 'SVG Icon Explorer',
+    badge: 'new',
+    path: 'svg-explorer'
+  },
+  {
     name: 'Platform Detection',
     path: 'platform-detection'
   },
