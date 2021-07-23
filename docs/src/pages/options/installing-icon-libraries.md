@@ -3,6 +3,7 @@ title: Installing Icon Libraries
 desc: How to use icon libraries in a Quasar app.
 related:
   - /options/quasar-icon-sets
+  - /options/svg-explorer
   - /vue-components/icon
 ---
 
