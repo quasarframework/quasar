@@ -94,7 +94,7 @@ export default {
     async function onClick (path, name) {
       await copyToClipboard(name)
       $q.notify({
-        massage: name,
+        message: name,
         caption: 'copied to clipboard',
         icon: path,
         color: 'primary'
