@@ -185,7 +185,18 @@ $ heroku create
 
 and deploy to Heroku using:
 ```bash
-$ heroku deploy
+$ git init
+$ heroku git:remote -a <heroku app name>
+
+$ git add .
+$ git commit -am "make it better"
+$ git push heroku master
+```
+
+Existing Git repository
+For existing repositories, simply add the heroku remote
+```bash
+$ heroku git:remote -a <heroku app name>
 ```
 
 ## Deploying with Surge
