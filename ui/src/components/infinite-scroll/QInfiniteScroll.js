@@ -190,6 +190,14 @@ export default Vue.extend({
     this.immediatePoll()
   },
 
+  activated () {
+    this.__scrollTarget && setScrollPosition(this.__scrollTarget, this.__scrollPosition)
+  },
+
+  deactivated () {
+    this.__scrollPosition = getScrollPosition(this.__scrollTarget)
+  },
+
   beforeDestroy () {
     if (this.working === true) {
       this.__scrollTarget.removeEventListener('scroll', this.poll, listenOpts.passive)
