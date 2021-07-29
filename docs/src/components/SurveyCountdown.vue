@@ -23,11 +23,7 @@ q-banner(v-if="!hasEnded").survey-countdown
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { mdiFileDocumentEditOutline } from '@quasar/extras/mdi-v5'
 
-<<<<<<< HEAD
 const confDate = new Date('2021-08-08').getTime()
-=======
-const confDate = new Date('2021-07-31').getTime()
->>>>>>> upstream/dev
 
 const oneDay = 1000 * 60 * 60 * 24
 const oneHour = 1000 * 60 * 60
