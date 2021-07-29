@@ -272,8 +272,8 @@ function writeIndexDTS (apis) {
   //  we ignore the "missing package" error because it's the intended behaviour
   writeLine(contents, '// @ts-ignore')
   writeLine(contents, '/// <reference types="@quasar/app" />')
-  writeLine(contents, 'import { App, Component, ComponentPublicInstance, ComponentOptions } from \'vue\'')
-  writeLine(contents, 'import { LooseDictionary } from \'./ts-helpers\'')
+  writeLine(contents, 'import { App, Component, ComponentPublicInstance } from \'vue\'')
+  writeLine(contents, 'import { LooseDictionary, ComponentConstructor } from \'./ts-helpers\'')
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
   // We expose `ts-helpers` because they are needed by `@quasar/app` augmentations
@@ -293,7 +293,7 @@ function writeIndexDTS (apis) {
     const typeName = data.name
 
     const extendsVue = (content.type === 'component' || content.type === 'mixin')
-    const typeValue = `${ extendsVue ? 'ComponentOptions' : typeName }`
+    const typeValue = `${ extendsVue ? `ComponentConstructor<${typeName}>` : typeName }`
     // Add Type to the appropriate section of types
     const propTypeDef = `${ typeName }?: ${ typeValue }`
     if (content.type === 'component') {
@@ -307,7 +307,7 @@ function writeIndexDTS (apis) {
     }
 
     // Declare class
-    writeLine(quasarTypeContents, `export const ${ typeName }: ${ extendsVue ? 'ComponentOptions' : typeName }`)
+    writeLine(quasarTypeContents, `export const ${ typeName }: ${ extendsVue ? `ComponentConstructor<${typeName}>` : typeName }`)
     writeLine(contents, `export interface ${ typeName } ${ extendsVue ? 'extends ComponentPublicInstance ' : '' }{`)
 
     // Write Props

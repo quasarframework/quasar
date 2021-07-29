@@ -36,7 +36,7 @@ We are updating this section constantly in order to keep you up to date with our
 * Vite.js plugin for Quasar v2.
 * ✌️ (DONE) Upgrade the App CLI for Quasar v2 to Webpack v5 ([reference](https://github.com/quasarframework/quasar/issues/8102))
 * ✌️ (DONE) Quasar v2 will become officially the "latest" version of Quasar. The documentation website (https://quasar.dev) will point to v2 and the v1 docs will live under https://v1.quasar.dev. The end of life for Quasar v1 will be March 2022 and we will keep on backporting fixes and new features from v2 to it until then.
-* Migration to Qv2 of most used testing AEs (`@quasar/testing`, `@quasar/testing-unit-jest`, `@quasar/testing-e2e-cypress`)
+* ✌️ (DONE) Migration to Qv2 of most used testing AEs ([`@quasar/testing`](https://github.com/quasarframework/quasar-testing/tree/next/packages/testing), [`@quasar/testing-unit-jest`](https://github.com/quasarframework/quasar-testing/tree/next/packages/unit-jest), [`@quasar/testing-e2e-cypress`](https://github.com/quasarframework/quasar-testing/tree/next/packages/e2e-cypress))
 * New maintainers recruiting and mentoring
 
 
