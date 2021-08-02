@@ -81,9 +81,9 @@ The following is not an exhaustive list of possible types of questions and by no
       short: 'Material Icons' // Short name displayed after user picks this
     },
     {
-      name: 'Fontawesome',
-      value: 'fontawesome', // value of the answer variable
-      short: 'Fontawesome' // Short name displayed after user picks this
+      name: 'Fontawesome v5',
+      value: 'fontawesome-v5', // value of the answer variable
+      short: 'Fontawesome v5' // Short name displayed after user picks this
     }
     // ... all other choices
   ]
