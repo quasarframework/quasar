@@ -85,6 +85,9 @@
     "tslib": "^2.0.3",
     "uglify-es": "^3.3.9"
   },
+  "dependencies": {
+    "core-js": "^3.6.5"
+  },
   "vetur": {
     "tags": "dist/vetur/quasar-tags.json",
     "attributes": "dist/vetur/quasar-attributes.json"
