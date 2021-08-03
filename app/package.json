@@ -119,13 +119,21 @@
   },
   "peerDependencies": {
     "stylus-loader": "^6.1.0",
-    "less-loader": "^10.0.1"
+    "less-loader": "^10.0.1",
+    "vue": "^3.1.5",
+    "vue-router": "^4.0.10"
   },
   "peerDependenciesMeta": {
     "stylus-loader": {
       "optional": true
     },
     "less-loader": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    },
+    "vue-router": {
       "optional": true
     }
   },
