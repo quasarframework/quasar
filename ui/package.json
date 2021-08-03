@@ -88,6 +88,9 @@
   "dependencies": {
     "core-js": "^3.6.5"
   },
+  "peerDependencies": {
+    "vue": "^3.1.5"
+  },
   "vetur": {
     "tags": "dist/vetur/quasar-tags.json",
     "attributes": "dist/vetur/quasar-attributes.json"
