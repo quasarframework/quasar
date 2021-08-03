@@ -39,7 +39,7 @@ build: {
         .add((/[\\/]node_modules[\\/]/))
         .end()
       .use('eslint-loader')
-        .loader('eslint-loader')
+        .loader(require.resolve('eslint-loader'))
   }
 }
 ```
@@ -171,7 +171,7 @@ build: {
     chain.module.rule('json')
       .test(/\.json$/)
       .use('json-loader')
-        .loader('json-loader')
+        .loader(require.resolve('json-loader'))
   }
 }
 ```
@@ -212,7 +212,7 @@ build: {
     chain.module.rule('pug')
       .test(/\.pug$/)
       .use('pug-plain-loader')
-        .loader('pug-plain-loader')
+        .loader(require.resolve('pug-plain-loader'))
   }
 }
 ```

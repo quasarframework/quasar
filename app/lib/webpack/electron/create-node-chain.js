@@ -53,7 +53,7 @@ module.exports = (nodeType, cfg, configName) => {
   chain.module.rule('node')
     .test(/\.node$/)
     .use('node-loader')
-      .loader('node-loader')
+      .loader(require.resolve('node-loader'))
 
   chain.resolve.modules
     .merge(resolveModules)

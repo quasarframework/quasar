@@ -44,13 +44,13 @@ module.exports = function (ctx) {
 
         chain.module.rule('pug')
           .test(/\.pug$/)
-          .use('pug-loader').loader('pug-plain-loader')
+          .use('pug-loader').loader(require.resolve('pug-plain-loader'))
 
         const rule = chain.module.rule('md')
           .test(/\.md$/)
 
         rule.use('v-loader')
-          .loader('vue-loader')
+          .loader(require.resolve('vue-loader'))
           .options({
             ...(
               isServer === true

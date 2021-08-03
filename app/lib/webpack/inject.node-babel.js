@@ -8,7 +8,7 @@ module.exports = function (cfg, chain) {
         .add(/node_modules/)
         .end()
       .use('babel-loader')
-        .loader('babel-loader')
+        .loader(require.resolve('babel-loader'))
           .options({
             extends: appPaths.resolve.app('babel.config.js')
           })

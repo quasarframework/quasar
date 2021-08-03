@@ -52,7 +52,7 @@ const chainWebpack = function (ctx, chain) {
     .pre()
 
   rule.use('v-loader')
-    .loader('vue-loader')
+    .loader(require.resolve('vue-loader'))
     .options({
       productionMode: ctx.prod,
       transformAssetUrls: {
@@ -64,7 +64,7 @@ const chainWebpack = function (ctx, chain) {
     })
 
   rule.use('ware-loader')
-    .loader('ware-loader')
+    .loader(require.resolve('ware-loader'))
     .options({
       raw: true,
       middleware: function (source) {

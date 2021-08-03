@@ -88,7 +88,7 @@ module.exports = function (cfg, configName) {
         ))
         .end()
       .use('babel-loader')
-        .loader('babel-loader')
+        .loader(require.resolve('babel-loader'))
           .options({
             compact: false,
             extends: appPaths.resolve.app('babel.config.js')
@@ -103,7 +103,7 @@ module.exports = function (cfg, configName) {
       .rule('typescript')
       .test(/\.ts$/)
       .use('ts-loader')
-        .loader('ts-loader')
+        .loader(require.resolve('ts-loader'))
         .options({
           onlyCompileBundledFiles: true,
           transpileOnly: false,

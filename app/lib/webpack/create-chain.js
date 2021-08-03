@@ -125,7 +125,7 @@ module.exports = function (cfg, configName) {
     })
 
   vueRule.use('vue-loader')
-    .loader('vue-loader')
+    .loader(require.resolve('vue-loader'))
     .options(
       merge(
         {},
@@ -164,7 +164,7 @@ module.exports = function (cfg, configName) {
         ))
         .end()
       .use('babel-loader')
-        .loader('babel-loader')
+        .loader(require.resolve('babel-loader'))
           .options({
             compact: false,
             extends: appPaths.resolve.app('babel.config.js')
@@ -176,7 +176,7 @@ module.exports = function (cfg, configName) {
       .rule('typescript')
       .test(/\.ts$/)
       .use('ts-loader')
-        .loader('ts-loader')
+        .loader(require.resolve('ts-loader'))
         .options({
           // custom config is merged if present, but vue setup and type checking disable are always applied
           ...(cfg.supportTS.tsLoaderConfig || {}),
@@ -209,7 +209,7 @@ module.exports = function (cfg, configName) {
     .test(/\.(png|jpe?g|gif|svg|webp|avif|ico)(\?.*)?$/)
     .type('javascript/auto')
     .use('url-loader')
-      .loader('url-loader')
+      .loader(require.resolve('url-loader'))
       .options({
         esModule: false,
         limit: 10000,
@@ -221,7 +221,7 @@ module.exports = function (cfg, configName) {
     .test(/\.(woff2?|eot|ttf|otf)(\?.*)?$/)
     .type('javascript/auto')
     .use('url-loader')
-      .loader('url-loader')
+      .loader(require.resolve('url-loader'))
       .options({
         esModule: false,
         limit: 10000,
@@ -233,7 +233,7 @@ module.exports = function (cfg, configName) {
     .test(/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/)
     .type('javascript/auto')
     .use('url-loader')
-      .loader('url-loader')
+      .loader(require.resolve('url-loader'))
       .options({
         esModule: false,
         limit: 10000,

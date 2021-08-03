@@ -50,7 +50,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   function create (rule, modules) {
     if (pref.isServerBuild === true) {
       rule.use('null-loader')
-        .loader('null-loader')
+        .loader(require.resolve('null-loader'))
       return
     }
 
@@ -61,7 +61,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
     }
     else {
       rule.use('vue-style-loader')
-        .loader('vue-style-loader')
+        .loader(require.resolve('vue-style-loader'))
         .options({
           sourceMap: pref.sourceMap
         })
@@ -86,14 +86,14 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
     }
 
     rule.use('css-loader')
-      .loader('css-loader')
+      .loader(require.resolve('css-loader'))
       .options(cssLoaderOptions)
 
     if (!pref.extract && pref.minify) {
       // needs to be applied separately,
       // otherwise it messes up RTL
       rule.use('cssnano')
-        .loader('postcss-loader')
+        .loader(require.resolve('postcss-loader'))
         .options({
           sourceMap: pref.sourceMap,
           postcssOptions: {
@@ -149,12 +149,17 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
     }
 
     rule.use('postcss-loader')
-      .loader('postcss-loader')
+      .loader(require.resolve('postcss-loader'))
       .options({ postcssOptions: postCssOpts })
 
     if (loader) {
+      let resolvedLoader = loader
+      try {
+        resolvedLoader = require.resolve(loader)
+      } catch (err) { }
+
       rule.use(loader)
-        .loader(loader)
+        .loader(resolvedLoader)
         .options({
           sourceMap: pref.sourceMap,
           ...loaderOptions
