@@ -74,7 +74,7 @@ export function getElement (el) {
 
 // internal
 export function childHasFocus (el, focusedEl) {
-  if (el === void 0 || el.contains(focusedEl) === true) {
+  if (el === void 0 || el === null || el.contains(focusedEl) === true) {
     return true
   }
 
