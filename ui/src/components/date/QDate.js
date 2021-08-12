@@ -1,6 +1,8 @@
-import { h, defineComponent, ref, computed, watch, Transition, nextTick, getCurrentInstance } from 'vue'
+import { h, withDirectives, defineComponent, ref, computed, watch, Transition, nextTick, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
+
+import TouchSwipe from '../../directives/TouchSwipe.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useCache from '../../composables/private/use-cache.js'
@@ -836,6 +838,10 @@ export default defineComponent({
       }
     }
 
+    function onSwipe ({ direction }) {
+      goToMonth(direction === 'left' ? 1 : -1)
+    }
+
     function goToMonth (offset) {
       let year = viewModel.value.year
       let month = Number(viewModel.value.month) + offset
@@ -1193,7 +1199,7 @@ export default defineComponent({
             class: 'q-date__calendar-weekdays row items-center no-wrap'
           }, daysOfWeek.value.map(day => h('div', { class: 'q-date__calendar-item' }, [ h('div', day) ]))),
 
-          h('div', {
+          withDirectives(h('div', {
             class: 'q-date__calendar-days-container relative-position overflow-hidden'
           }, [
             h(Transition, {
@@ -1224,7 +1230,14 @@ export default defineComponent({
                   )
                 : h('div', '' + day.i)
             ]))))
-          ])
+          ]), [ [
+            TouchSwipe,
+            onSwipe,
+            void 0,
+            {
+              horizontal: true
+            }
+          ] ])
         ])
       ]),
 
