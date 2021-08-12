@@ -270,13 +270,6 @@ function writeIndexDTS (apis) {
 
   addQuasarLangCodes(quasarTypeContents)
 
-  // This line must be BEFORE ANY TS INSTRUCTION,
-  //  or it won't be interpreted as a TS compiler directive
-  //  but as a normal comment
-  // On Vue CLI projects `@quasar/app` isn't available,
-  //  we ignore the "missing package" error because it's the intended behaviour
-  writeLine(contents, '// @ts-ignore')
-  writeLine(contents, '/// <reference types="@quasar/app" />')
   writeLine(contents, 'import { App, Component, ComponentPublicInstance } from \'vue\'')
   writeLine(contents, 'import { LooseDictionary, ComponentConstructor, GlobalComponentConstructor } from \'./ts-helpers\'')
   writeLine(contents)
