@@ -141,7 +141,7 @@ export default defineComponent({
     // expose public methods
     const vm = getCurrentInstance()
     Object.assign(vm.proxy, {
-      poll: () => poll.apply(null, arguments),
+      poll: (...args) => poll.apply(null, ...args),
       trigger, stop, reset, resume, setIndex
     })
 
