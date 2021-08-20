@@ -824,6 +824,7 @@ class QuasarConfFile {
         },
         builder: {
           appId: 'quasar-app',
+          icon: appPaths.resolve.electron('icons/icon'),
           productName: this.pkg.productName || this.pkg.name || 'Quasar App',
           directories: {
             buildResources: appPaths.resolve.electron('')
