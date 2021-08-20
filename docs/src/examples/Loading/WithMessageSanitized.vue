@@ -24,7 +24,7 @@ export default {
       showLoading () {
         $q.loading.show({
           message: 'Some important <b>process</b> is in progress.<br/><span class="text-primary">Hang on...</span>',
-          sanitize: true
+          html: true
         })
 
         // hiding in 3s
