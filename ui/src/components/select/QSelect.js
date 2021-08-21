@@ -1426,9 +1426,9 @@ export default defineComponent({
       filter, updateMenuPosition, updateInputValue,
       isOptionSelected,
       getEmittingOptionValue,
-      isOptionDisabled: () => isOptionDisabled.value.apply(null, arguments),
-      getOptionValue: () => getOptionValue.value.apply(null, arguments),
-      getOptionLabel: () => getOptionLabel.value.apply(null, arguments)
+      isOptionDisabled: (...args) => isOptionDisabled.value.apply(null, args),
+      getOptionValue: (...args) => getOptionValue.value.apply(null, args),
+      getOptionLabel: (...args) => getOptionLabel.value.apply(null, args)
     })
 
     Object.assign(state, {
