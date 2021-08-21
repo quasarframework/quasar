@@ -134,34 +134,36 @@ module.exports = class DevServer {
         delete require.cache[compiledMiddlewareFile]
         const injectMiddleware = require(compiledMiddlewareFile).default
 
-        startWebpackServer(app => {
-          injectMiddleware({
-            app,
-            resolve: {
-              urlPath: resolveUrlPath,
-              root () { return join(rootFolder, ...arguments) },
-              public: resolvePublicFolder
-            },
-            publicPath,
-            folders: {
-              root: rootFolder,
-              public: publicFolder
-            },
-            render: ssrContext => renderWithVue(ssrContext),
-            serve: {
-              static: serveStatic,
-              error: renderError
-            }
-          }).then(() => {
+        startWebpackServer()
+          .then(app => {
             if (this.destroyed === true) { return }
 
-            this.webpackServer.listen(cfg.devServer.port, cfg.devServer.host, () => {
-              webpackServerListening = true
-              tryToFinalize()
-              doneExternalWork(webpackNames.ssr.webserver)
+            return injectMiddleware({
+              app,
+              resolve: {
+                urlPath: resolveUrlPath,
+                root () { return join(rootFolder, ...arguments) },
+                public: resolvePublicFolder
+              },
+              publicPath,
+              folders: {
+                root: rootFolder,
+                public: publicFolder
+              },
+              render: ssrContext => renderWithVue(ssrContext),
+              serve: {
+                static: serveStatic,
+                error: renderError
+              }
             })
           })
-        })
+          .then(() => {
+            if (this.destroyed === true) { return }
+
+            webpackServerListening = true
+            tryToFinalize()
+            doneExternalWork(webpackNames.ssr.webserver)
+          })
       }
     })
 
@@ -203,8 +205,7 @@ module.exports = class DevServer {
 
     const originalAfter = cfg.devServer.onAfterSetupMiddleware
 
-    // start building & launch server
-    const startWebpackServer = cb => {
+    const startWebpackServer = async () => {
       if (this.destroyed === true) { return }
 
       if (this.webpackServer !== null) {
@@ -212,33 +213,36 @@ module.exports = class DevServer {
         this.webpackServer = null
         webpackServerListening = false
 
-        server.close(() => {
-          this.destroyed !== true && startWebpackServer(cb)
-        })
-        return
+        await server.stop()
       }
 
-      this.webpackServer = new WebpackDevServer(clientCompiler, {
-        ...cfg.devServer,
+      if (this.destroyed === true) { return }
 
-        onAfterSetupMiddleware: opts => {
-          const { app } = opts
+      return new Promise(resolve => {
+        this.webpackServer = new WebpackDevServer({
+          ...cfg.devServer,
 
-          // obsolete hot updates & js maps should be discarded immediately
-          app.get(/(\.hot-update\.json|\.js\.map)$/, (_, res) => {
-            res.status(404).send('404')
-          })
+          onAfterSetupMiddleware: opts => {
+            const { app } = opts
 
-          if (cfg.build.ignorePublicFolder !== true) {
-            app.use(resolveUrlPath('/'), serveStatic('.', { maxAge: 0 }))
+            // obsolete hot updates & js maps should be discarded immediately
+            app.get(/(\.hot-update\.json|\.js\.map)$/, (_, res) => {
+              res.status(404).send('404')
+            })
+
+            if (cfg.build.ignorePublicFolder !== true) {
+              app.use(resolveUrlPath('/'), serveStatic('.', { maxAge: 0 }))
+            }
+
+            originalAfter && originalAfter(opts)
+
+            if (this.destroyed !== true) {
+              resolve(app)
+            }
           }
+        }, clientCompiler)
 
-          originalAfter && originalAfter(opts)
-
-          if (this.destroyed !== true) {
-            cb(app)
-          }
-        }
+        this.webpackServer.start()
       })
     }
   }
@@ -251,11 +255,16 @@ module.exports = class DevServer {
     }
 
     if (this.webpackServer !== null) {
-      this.handlers.push(this.webpackServer)
+      this.handlers.push({
+        // normalize to syntax of the other handlers
+        close: doneFn => {
+          this.webpackServer.stop().finally(() => { doneFn() })
+        }
+      })
     }
 
     return Promise.all(
-      this.handlers.map(handler => new Promise(resolve => handler.close(resolve)))
+      this.handlers.map(handler => new Promise(resolve => { handler.close(resolve) }))
     ).finally(() => {
       this.setInitialState()
     })

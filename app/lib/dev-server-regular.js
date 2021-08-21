@@ -2,7 +2,6 @@ const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 
 const openBrowser = require('./helpers/open-browser')
-const { log } = require('./helpers/logger')
 
 let openedBrowser = false
 
@@ -20,7 +19,7 @@ module.exports = class DevServer {
       const compiler = webpack(webpackConf.renderer)
 
       compiler.hooks.done.tap('done-compiling', stats => {
-        if (this.__started) { return }
+        if (this.__started === true) { return }
 
         // start dev server if there are no errors
         if (stats.hasErrors() === true) {
@@ -29,30 +28,26 @@ module.exports = class DevServer {
 
         this.__started = true
 
-        this.server.listen(cfg.devServer.port, cfg.devServer.host, () => {
-          resolve()
+        resolve()
 
-          if (openedBrowser === false) {
-            openedBrowser = true
+        if (openedBrowser === false) {
+          openedBrowser = true
 
-            if (cfg.__devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
-              openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
-            }
+          if (cfg.__devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
+            openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
           }
-        })
+        }
       })
 
       // start building & launch server
-      this.server = new WebpackDevServer(compiler, cfg.devServer)
+      this.server = new WebpackDevServer(cfg.devServer, compiler)
+      this.server.start()
     })
   }
 
   stop () {
-    if (this.server !== null) {
-      return new Promise(resolve => {
-        this.server.close(resolve)
-        this.server = null
-      })
-    }
+    return this.server !== null
+      ? this.server.stop().finally(() => { this.server = null })
+      : Promise.resolve()
   }
 }
