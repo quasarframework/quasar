@@ -230,7 +230,9 @@ As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server
 | onAfterSetupMiddleware | Function | Replaces "after" |
 | proxy | Object/Array | Same as before with webpack 4 |
 
-More on quasar.conf.js > [devServer](/quasar-cli/quasar-conf-js#property-devserver).
+::: tip
+If you've tampered with quasar.conf.js > [devServer](/quasar-cli/quasar-conf-js#property-devserver) then you might be interested in a list of all the breaking changes proposed by webpack-dev-server v4: [release notes](https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md). Check if any apply to you.
+:::
 
 #### webpack-chain
 
