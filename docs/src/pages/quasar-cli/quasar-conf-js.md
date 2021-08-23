@@ -214,7 +214,7 @@ return {
 More on cssAddon [here](/layout/grid/introduction-to-flexbox#flex-addons).
 
 ### Property: devServer
-**Webpack devServer options**. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options. Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL.
+**Webpack devServer options**. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options. Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE or local tunnel), set the `webSocketURL` setting in the `client` section to your public application URL to allow features like Live Reload and Hot Module Replacement to work as [described here](https://webpack.js.org/configuration/dev-server/#websocketurl).
 
 Most used properties are:
 
@@ -223,7 +223,6 @@ Most used properties are:
 | port | Number | Port of dev server |
 | host | String | Local IP/Host to use for dev server |
 | open | Boolean/String | Unless it's set to `false`, Quasar will open up a browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. If specifying a String then see explanations below. |
-| public | String | Public address of the application (for use with reverse proxies) |
 | proxy | Object/Array | Proxying some URLs can be useful when you have a separate API backend development server and you want to send API requests on the same domain. |
 | devMiddleware | Object | Configuration supplied to webpack-dev-middleware v4 |
 | https | Boolean/Object | Use HTTPS instead of HTTP |
