@@ -100,6 +100,7 @@ export default defineComponent({
     onRowClick: Function,
     onRowDblclick: Function,
     onRowContextmenu: Function,
+    onRowMiddleclick: Function,
 
     ...useDarkProps,
     ...useFullscreenProps,
@@ -444,6 +445,15 @@ export default defineComponent({
         data.class[ 'cursor-pointer' ] = true
         data.onContextmenu = evt => {
           emit('RowContextmenu', evt, row, pageIndex)
+        }
+      }
+
+      if (props.onRowMiddleclick !== void 0) {
+        data.class[ 'cursor-pointer' ] = true;
+        data.onAuxclick = evt => {
+          if (evt.button === 1) {
+            emit('RowMiddleclick', evt, row, pageIndex)
+          }
         }
       }
 

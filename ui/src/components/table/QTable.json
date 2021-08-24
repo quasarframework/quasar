@@ -1861,6 +1861,30 @@
       }
     },
 
+    "row-middleclick": {
+      "desc": "Emitted when user middle-clicks on a row; Is not emitted when using body/row/item scoped slots",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+
+        "row": {
+          "type": "Object",
+          "desc": "The row upon which user has middle-clicked.",
+          "__exemption": [ "examples" ]
+        },
+
+        "index": {
+          "type": "Number",
+          "desc": "Index of the row in the current page",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
     "request": {
       "desc": "Emitted when a server request is triggered",
       "params": {
