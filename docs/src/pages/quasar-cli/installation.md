@@ -42,7 +42,7 @@ Some **advanced** scenarios require to use a custom starter kit (eg. testing or 
 :::tip WSL2
 Microsoft's recommended [Nodejs development environment setup in WSL2](https://docs.microsoft.com/en-us/windows/nodejs/setup-on-wsl2).
 
-When using WSL2 (Windows Subsystem for Linux) [Microsoft recommends](https://docs.microsoft.com/en-us/windows/wsl/compare-versions#performance-across-os-file-systems) keeping files in the linux file sytem to maximize performance.  Projects will build around 3X slower and HMR (Hot Module Reload) will not work ([without a hack](/quasar-cli/quasar-conf-js#Docker-and-WSL-Issues-with-HRM)) if the project files are on the Windows mount instead of the local linux file system.  This is also true in Docker for Windows based development environments.
+When using WSL2 (Windows Subsystem for Linux) [Microsoft recommends](https://docs.microsoft.com/en-us/windows/wsl/compare-versions#performance-across-os-file-systems) keeping files in the linux file system to maximize performance.  Projects will build around 3X slower and HMR (Hot Module Reload) will not work ([without a hack](/quasar-cli/quasar-conf-js#Docker-and-WSL-Issues-with-HRM)) if the project files are on the Windows mount instead of the local linux file system.  This is also true in Docker for Windows based development environments.
 :::
 
 Note that you don't need separate projects if you want to build any of the available platforms. This one project can seamlessly handle all of them.
