@@ -20,7 +20,7 @@
               <q-icon :name="scope.opt.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label v-html="scope.opt.label" />
+              <q-item-label>{{ scope.opt.label }}</q-item-label>
               <q-item-label caption>{{ scope.opt.description }}</q-item-label>
             </q-item-section>
           </q-item>
