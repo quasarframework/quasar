@@ -67,6 +67,21 @@ function isOnGlobalDialog (vm) {
   return false
 }
 
+export function getPortalsContainer (fullscreenElement) {
+  let container = [...fullscreenElement.children].find(el => el.matches && el.matches('.q-portal__container'))
+
+  if (container === void 0) {
+    container = document.createElement('div')
+    container.classList.add('q-portal__container')
+  }
+
+  if (container.parentElement !== fullscreenElement || container.nextElementSibling !== null) {
+    fullscreenElement.appendChild(container)
+  }
+
+  return container
+}
+
 const Portal = {
   inheritAttrs: false,
 
@@ -100,13 +115,20 @@ const Portal = {
             return
           }
 
-          const newParent = getBodyFullscreenElement(this.$q.fullscreen.activeEl)
+          const
+            newParent = getBodyFullscreenElement(this.$q.fullscreen.activeEl),
+            oldContainer = this.__portal.$el.parentElement,
+            newContainer = getPortalsContainer(newParent)
 
           if (
-            this.__portal.$el.parentElement !== newParent &&
-            newParent.contains(this.$el) === (this.__onGlobalDialog === false)
+            oldContainer !== newContainer &&
+            (this.__onGlobalDialog === true || newParent.contains(this.$el) === true)
           ) {
-            newParent.appendChild(this.__portal.$el)
+            newContainer.appendChild(this.__portal.$el)
+
+            if (oldContainer && oldContainer.parentElement !== document.body && oldContainer.children.length === 0) {
+              oldContainer.remove()
+            }
           }
         }
 
@@ -117,7 +139,7 @@ const Portal = {
         }
       }
       else if (this.__portal !== void 0 && this.__onGlobalDialog === false) {
-        document.body.appendChild(this.__portal.$el)
+        getPortalsContainer(document.body).appendChild(this.__portal.$el)
       }
     },
 
@@ -138,6 +160,11 @@ const Portal = {
         if (this.__onGlobalDialog === false) {
           this.__portal.$destroy()
           this.__portal.$el.remove()
+        }
+
+        const container = this.__portal.$el.parentElement
+        if (container && container.parentElement !== document.body && container.children.length === 0) {
+          container.remove()
         }
 
         this.__portal = void 0
