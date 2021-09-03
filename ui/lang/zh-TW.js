@@ -32,10 +32,10 @@ export default {
     noData: '沒有資料',
     noResults: '沒有相符資料',
     loading: '載入中...',
-    selectedRecords: rows => '已選擇 ' + rows + ' 筆',
-    recordsPerPage: '每頁筆數：',
+    selectedRecords: rows => '已選擇 ' + rows + ' 列',
+    recordsPerPage: '每頁列數：',
     allRows: '全部',
-    pagination: (start, end, total) => total + ' 筆中的 ' + start + '~' + end + ' 筆',
+    pagination: (start, end, total) => start + '-' + end + ' 列，共 ' + total + ' 列',
     columns: '欄位'
   },
   editor: {
