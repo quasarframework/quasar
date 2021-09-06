@@ -266,7 +266,7 @@ devServer: {
   vueDevtools: true
 }
 ```
-#### Docker and WSL Issues with HRM
+#### Docker and WSL Issues with HMR
 If you are using a Docker Container, you may find HMR stops working. HMR relies on the operating system to give notifications about changed files which may not work for your Docker Container.
 
 ### Property: build
