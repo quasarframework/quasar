@@ -179,6 +179,14 @@ export default {
 </script>
 ```
 
+### Set language outsite a Vue component
+```js
+import { i18n } from '../boot/i18n'
+//...
+i18n.global.locale = 'en'
+```
+
+
 ## UPPERCASE
 Many languages, such as Greek, German and Dutch have non-intuitive rules for uppercase display, and there is an edge case that you should be aware of:
 
