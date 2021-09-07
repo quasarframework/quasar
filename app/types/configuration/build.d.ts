@@ -1,4 +1,4 @@
-import { TerserPluginOptions } from "terser-webpack-plugin";
+import { MinifyOptions as TerserOptions } from "terser";
 import { Configuration as WebpackConfiguration } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import * as WebpackChain from "webpack-chain";
@@ -140,7 +140,7 @@ interface QuasarStaticBuildConfiguration {
   /**
    * Minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify).
    */
-  uglifyOptions?: TerserPluginOptions["terserOptions"];
+  uglifyOptions?: TerserOptions;
   /** Options to supply to `sass-loader` for `.scss` files. */
   scssLoaderOptions?: object;
   /** Options to supply to `sass-loader` for [`.sass`](https://github.com/webpack-contrib/sass-loader#sassoptions) files. */
