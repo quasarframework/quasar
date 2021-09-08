@@ -108,7 +108,7 @@ div
           q-icon(:name="fabJsfiddle")
         q-item-section jsFiddle
 
-      q-item(clickable, tag="a", href="https://codesandbox.io/s/github/quasarframework/quasar-codesandbox", target="_blank", rel="noopener")
+      q-item(clickable, tag="a", href="https://codesandbox.io/s/github/quasarframework/quasar-codesandbox/tree/legacy-v1", target="_blank", rel="noopener")
         q-item-section.text-black(avatar)
           q-icon(:name="fasCubes")
         q-item-section Codesandbox

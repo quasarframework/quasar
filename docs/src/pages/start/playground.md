@@ -18,4 +18,4 @@ For more intricate Quasar code examples, like when using boot files, Vuex, etc, 
 
 | Supplier | URL |
 | --- | --- |
-| Codesandbox | [https://codesandbox.io/s/github/quasarframework/quasar-codesandbox](https://codesandbox.io/s/github/quasarframework/quasar-codesandbox) |
+| Codesandbox | [https://codesandbox.io/s/github/quasarframework/quasar-codesandbox/tree/legacy-v1](https://codesandbox.io/s/github/quasarframework/quasar-codesandbox/tree/legacy-v1) |
