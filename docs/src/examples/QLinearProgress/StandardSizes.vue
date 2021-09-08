@@ -7,7 +7,6 @@
       :value="progress"
       color="primary"
       @click="randomize"
-      label="Change Model"
     />
   </div>
 </template>
