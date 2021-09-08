@@ -11,7 +11,7 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 **Codepen/jsFiddle/Codesandbox (required)**
-Fork a Codepen (https://codepen.io/rstoenescu/pen/VgQbdx) or a jsFiddle (https://jsfiddle.net/rstoenescu/rmaodk0f) or a Codesandbox (https://codesandbox.io/s/github/quasarframework/quasar-codesandbox) and hit save then copy-paste link here.
+Fork a Codepen (https://codepen.io/rstoenescu/pen/VgQbdx) or a jsFiddle (https://jsfiddle.net/rstoenescu/rmaodk0f) or a Codesandbox (https://codesandbox.io/s/github/quasarframework/quasar-codesandbox/tree/legacy-v1) and hit save then copy-paste link here.
 
 **To Reproduce**
 Steps to reproduce the behavior:
