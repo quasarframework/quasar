@@ -42,9 +42,7 @@ Now let's put this plugin to some good use. In one of your Quasar project's page
 
 <script>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { Plugins } from '@capacitor/core'
-
-const { Geolocation } = Plugins
+import { Geolocation } from '@capacitor/geolocation'
 
 export default {
   setup () {
@@ -103,9 +101,7 @@ Now let's put this API to some good use. In one of your Quasar project's pages/l
 
 <script>
 import { ref } from 'vue'
-import { Plugins, CameraResultType } from '@capacitor/core'
-
-const { Camera } = Plugins
+import { Camera, CameraResultType } from '@capacitor/camera'
 
 export default {
   setup () {
@@ -179,9 +175,7 @@ Now let's put this API to some good use. In one of your Quasar project's pages/l
 
 <script>
 import { ref, onMounted } from 'vue'
-import { Plugins } from '@capacitor/core'
-
-const { Device } = Plugins
+import { Device } from '@capacitor/device'
 
 export default {
   setup () {
