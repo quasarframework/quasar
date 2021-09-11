@@ -80,6 +80,10 @@ export default Vue.extend({
         'aria-haspopup': 'true',
         ...this.qAttrs
       }
+    },
+
+    slotScope () {
+      return { opened: this.showing }
     }
   },
 
@@ -90,6 +94,15 @@ export default Vue.extend({
       if (this.$refs.trigger && this.$refs.trigger.$el) {
         this.$refs.trigger.$el.focus()
       }
+    },
+
+    __getIcon (h, kebab, camel) {
+      const slotFn = this.$scopedSlots[kebab]
+      const staticClass = `q-fab__${kebab} absolute-full`
+
+      return slotFn === void 0
+        ? h(QIcon, { staticClass, props: { name: this[kebab] || this.$q.iconSet.fab[camel] } })
+        : h('div', { staticClass }, slotFn(this.slotScope))
     }
   },
 
@@ -98,20 +111,16 @@ export default Vue.extend({
 
     this.hideIcon !== true && child.push(
       h('div', { staticClass: 'q-fab__icon-holder', class: this.iconHolderClasses }, [
-        h(QIcon, {
-          staticClass: 'q-fab__icon absolute-full',
-          props: { name: this.icon || this.$q.iconSet.fab.icon }
-        }),
-        h(QIcon, {
-          staticClass: 'q-fab__active-icon absolute-full',
-          props: { name: this.activeIcon || this.$q.iconSet.fab.activeIcon }
-        })
+        this.__getIcon(h, 'icon', 'icon'),
+        this.__getIcon(h, 'active-icon', 'activeIcon')
       ])
     )
 
-    this.label !== '' && child[this.labelProps.action](
-      h('div', this.labelProps.data, [ this.label ])
-    )
+    if (this.label !== '' || this.$scopedSlots.label !== void 0) {
+      child[this.labelProps.action](
+        h('div', this.labelProps.data, this.$scopedSlots.label !== void 0 ? this.$scopedSlots.label(this.slotScope) : [ this.label ])
+      )
+    }
 
     return h('div', {
       staticClass: 'q-fab z-fab row inline justify-center',
