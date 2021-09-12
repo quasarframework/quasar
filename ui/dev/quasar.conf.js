@@ -12,7 +12,7 @@ module.exports = function (ctx) {
 
     extras: [
       'ionicons-v4',
-      'mdi-v4',
+      'mdi-v6',
       'fontawesome-v5',
       'eva-icons',
       'themify',
@@ -28,7 +28,7 @@ module.exports = function (ctx) {
     ],
 
     framework: {
-      // iconSet: 'svg-mdi-v4',
+      // iconSet: 'svg-mdi-v6',
       // config: { ripple: { early: true } },
       // config: {
       //   globalNodes: {
