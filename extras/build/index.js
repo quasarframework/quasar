@@ -9,7 +9,7 @@ function runJob (scriptFile) {
 runJob('./webfonts.js')
 runJob('./animate.js')
 
-runJob('./mdi-v5.js')
+runJob('./mdi-v6.js')
 runJob('./fontawesome-v5.js')
 runJob('./ionicons-v5.js')
 runJob('./eva-icons.js')

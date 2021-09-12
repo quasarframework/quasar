@@ -8,7 +8,7 @@ const { copySync } = require('fs-extra')
 const { resolve } = require('path')
 
 const skipped = []
-const distFolder = resolve(__dirname, `../mdi-v5`)
+const distFolder = resolve(__dirname, `../mdi-v6`)
 const { defaultNameMapper, extract, writeExports } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svg/`)
@@ -50,15 +50,15 @@ const webfont = [
 webfont.forEach(file => {
   copySync(
     resolve(__dirname, `../node_modules/@mdi/font/fonts/${file}`),
-    resolve(__dirname, `../mdi-v5/${file}`)
+    resolve(__dirname, `../mdi-v6/${file}`)
   )
 })
 
 copySync(
   resolve(__dirname, `../node_modules/@mdi/font/LICENSE`),
-  resolve(__dirname, `../mdi-v5/license.md`)
+  resolve(__dirname, `../mdi-v6/license.md`)
 )
 copySync(
   resolve(__dirname, `../node_modules/@mdi/svg/LICENSE`),
-  resolve(__dirname, `../mdi-v5/LICENSE`)
+  resolve(__dirname, `../mdi-v6/LICENSE`)
 )
