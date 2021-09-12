@@ -18,7 +18,7 @@ q-page.flex.flex-center(padding)
 import { useMeta } from 'quasar'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { mdiCodeTags } from '@quasar/extras/mdi-v5'
+import { mdiCodeTags } from '@quasar/extras/mdi-v6'
 
 import getMeta from 'assets/get-meta.js'
 

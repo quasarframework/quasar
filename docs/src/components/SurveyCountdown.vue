@@ -21,7 +21,7 @@ q-banner(v-if="!hasEnded").survey-countdown
 
 <script>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { mdiFileDocumentEditOutline } from '@quasar/extras/mdi-v5'
+import { mdiFileDocumentEditOutline } from '@quasar/extras/mdi-v6'
 
 const confDate = new Date('2021-08-08').getTime()
 

@@ -112,7 +112,7 @@ import {
 
 import {
   mdiArrowLeft, mdiMagnify, mdiMenu, mdiMapMarkerRadius
-} from '@quasar/extras/mdi-v5'
+} from '@quasar/extras/mdi-v6'
 
 const { luminosity } = colors
 

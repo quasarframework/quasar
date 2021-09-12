@@ -87,7 +87,7 @@ q-card.doc-api.q-my-lg(flat bordered)
 
 <script>
 import { ref, computed, watch, onMounted } from 'vue'
-import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v5'
+import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v6'
 
 import CardTitle from './CardTitle.vue'
 import DocApiEntry from './DocApiEntry.js'

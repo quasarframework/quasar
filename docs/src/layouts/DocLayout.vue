@@ -131,7 +131,7 @@ import { useRoute } from 'vue-router'
 
 import {
   mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp
-} from '@quasar/extras/mdi-v5'
+} from '@quasar/extras/mdi-v6'
 
 import AppMenu from 'components/AppMenu.js'
 import AppSearchResults from 'components/AppSearchResults.vue'

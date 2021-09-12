@@ -77,7 +77,7 @@ import { ref, reactive, computed, onMounted, onBeforeUpdate } from 'vue'
 import { useRoute } from 'vue-router'
 import { copyToClipboard } from 'quasar'
 import { fabCodepen } from '@quasar/extras/fontawesome-v5'
-import { mdiPlus, mdiShareVariant } from '@quasar/extras/mdi-v5'
+import { mdiPlus, mdiShareVariant } from '@quasar/extras/mdi-v6'
 
 import Child from './FlexChild'
 import DocCodepen from '../../../DocCodepen'

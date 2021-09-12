@@ -96,7 +96,7 @@ q-page.landing
           q-icon(:name="fabGithub")
 
         a(href="https://blog.quasar.dev", target="_blank", rel="noopener")
-          q-icon(:name="mdiBlogger")
+          q-icon(:name="mdiPost")
 
         a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
           q-icon(:name="mdiChat")
@@ -134,9 +134,9 @@ import {
 } from '@quasar/extras/fontawesome-v5'
 
 import {
-  mdiChevronDown, mdiLaunch, mdiBlogger,
+  mdiChevronDown, mdiLaunch, mdiPost,
   mdiChat, mdiForum
-} from '@quasar/extras/mdi-v5'
+} from '@quasar/extras/mdi-v6'
 
 import { useDocStore } from 'assets/doc-store.js'
 import features from 'assets/features.js'
@@ -180,7 +180,7 @@ export default {
 
       mdiChevronDown,
       mdiLaunch,
-      mdiBlogger,
+      mdiPost,
       mdiChat,
       mdiForum
     }

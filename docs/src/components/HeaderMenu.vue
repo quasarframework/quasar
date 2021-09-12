@@ -129,7 +129,7 @@ div
 
       q-item(clickable, tag="a", href="https://blog.quasar.dev", rel="noopener", target="_blank")
         q-item-section.text-brand-primary(avatar)
-          q-icon(:name="mdiBlogger")
+          q-icon(:name="mdiPost")
         q-item-section Blog
 
       q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar/discussions/categories/announcements", target="_blank", rel="noopener")
@@ -164,11 +164,11 @@ import {
 } from '@quasar/extras/fontawesome-v5'
 
 import {
-  mdiBlogger, mdiForum, mdiChat, mdiBullhorn,
+  mdiPost, mdiForum, mdiChat, mdiBullhorn,
   mdiViewDashboard, mdiShoppingMusic, mdiClipboardText,
   mdiBugCheck, mdiFlare, mdiFilePlus, mdiPaletteSwatch,
   mdiInvertColors, mdiCharity, mdiStarCircle
-} from '@quasar/extras/mdi-v5'
+} from '@quasar/extras/mdi-v6'
 
 export default {
   name: 'HeaderMenu',
@@ -187,7 +187,7 @@ export default {
       fabTwitter,
       fabFacebook,
 
-      mdiBlogger,
+      mdiPost,
       mdiChat,
       mdiForum,
       mdiBullhorn,
