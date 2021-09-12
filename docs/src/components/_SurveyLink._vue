@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mdiFileDocumentEditOutline } from '@quasar/extras/mdi-v5'
+import { mdiFileDocumentEditOutline } from '@quasar/extras/mdi-v6'
 
 export default {
   name: 'SurveyLink',

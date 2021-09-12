@@ -54,7 +54,7 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | fontawesome-v5 | fa[s,r,l,d,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
-| mdi-v5/v4/v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters; Use only one of mdi-v5, mdi-v4 or mdi-v3 |
+| mdi-v6/v5/v4/v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters; Use only one of mdi-v6, mdi-v5, mdi-v4 or mdi-v3; **Quasar 1.16+ & @quasar/extras v1.11+** |
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters |
 | themify | ti- | ti-hand-point-up | Notice the use of dash characters |
 | line-awesome | la[s,r,l,d,b] la- | "las la-atom" | QIcon "name" property is same as "class" attribute value in Line Awesome docs examples (where they show `<i>` tags); **Quasar 1.8+ & @quasar/extras v1.5+** |
@@ -126,7 +126,7 @@ Notice in the example below that we want to avoid the Vue observable wrapping, s
 
 <script>
 import { matMenu } from '@quasar/extras/material-icons'
-import { mdiAbTesting } from '@quasar/extras/mdi-v5'
+import { mdiAbTesting } from '@quasar/extras/mdi-v6'
 import { fasFont } from '@quasar/extras/fontawesome-v5'
 
 export default {
@@ -149,7 +149,7 @@ If you are only using svg icons (and have configured a [Quasar Icon Set](/option
 | Material Icons Outlined (Google) | svg-material-icons-outlined | @quasar/extras/material-icons-outlined | @quasar/extras v1.9+; Quasar v1.13+ |
 | Material Icons Sharp (Google) | svg-material-icons-sharp | @quasar/extras/material-icons-sharp | @quasar/extras v1.9+; Quasar v1.13+ |
 | Material Icons Round (Google) | svg-material-icons-round | @quasar/extras/material-icons-round | @quasar/extras v1.9+; Quasar v1.13+ |
-| MDI (Material Design Icons) | svg-mdi-v5 | @quasar/extras/mdi-v5 | |
+| MDI (Material Design Icons) | svg-mdi-v6 | @quasar/extras/mdi-v6 | @quasar/extras v1.11+; Quasar v1.16+ |
 | Font Awesome | svg-fontawesome-v5 | @quasar/extras/fontawesome-v5 | |
 | Ionicons v5 | svg-ionicons-v5 | @quasar/extras/ionicons-v5 | @quasar/extras v1.7+ |
 | Ionicons v4 | svg-ionicons-v4 | @quasar/extras/ionicons-v4 | |
@@ -190,7 +190,7 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 
 * Icon names are in camel-case and always begin with "mdi" prefix.
 * Go to [MDI](https://materialdesignicons.com/), look for your desired icon, click on it. A dialog box will appear. Get the title (eg. "account-key"), prefix it with "mdi" and camel-case the result (eg. "mdiAccountKey").
-* Import statement example: `import { mdiAccountKey } from '@quasar/extras/mdi-v5'`.
+* Import statement example: `import { mdiAccountKey } from '@quasar/extras/mdi-v6'`.
 
 #### SVG Fontawesome
 

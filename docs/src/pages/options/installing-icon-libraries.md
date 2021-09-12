@@ -33,7 +33,7 @@ Adding more than one set:
 ```js
 extras: [
   'material-icons',
-  'mdi-v5',
+  'mdi-v6',
   'ionicons-v4',
   'eva-icons',
   'fontawesome-v5',

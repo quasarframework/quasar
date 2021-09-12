@@ -75,7 +75,7 @@ module.exports = function (ctx) {
 
     framework: {
       importStrategy: 'all',
-      iconSet: 'svg-mdi-v5',
+      iconSet: 'svg-mdi-v6',
 
       config: {
         loadingBar: {

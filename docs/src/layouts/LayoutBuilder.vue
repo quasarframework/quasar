@@ -368,7 +368,7 @@
 <script>
 import {
   mdiMenu, mdiViewDashboard, mdiCog, mdiPlayCircleOutline
-} from '@quasar/extras/mdi-v5'
+} from '@quasar/extras/mdi-v6'
 
 import getMeta from 'assets/get-meta.js'
 

@@ -7,7 +7,7 @@ import {
   QList
 } from 'quasar'
 
-import { mdiArrowDownThinCircleOutline } from '@quasar/extras/mdi-v5'
+import { mdiArrowDownThinCircleOutline } from '@quasar/extras/mdi-v6'
 
 import Menu from 'assets/menu.js'
 import './AppMenu.sass'

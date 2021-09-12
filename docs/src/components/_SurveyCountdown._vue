@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mdiFileDocumentEditOutline } from '@quasar/extras/mdi-v5'
+import { mdiFileDocumentEditOutline } from '@quasar/extras/mdi-v6'
 
 const confDate = new Date('2020-11-16').getTime()
 

@@ -32,14 +32,14 @@ We edit `/quasar.conf.js` again:
 ```js
 framework: {
   // webfont-based example
-  iconSet: 'mdi-v5'
+  iconSet: '6'
 }
 ```
 
 ```js
 framework: {
   // svg-based example
-  iconSet: 'svg-mdi-v5'
+  iconSet: 'svg-mdi-v6'
 }
 ```
 
@@ -49,7 +49,7 @@ Full example of including MDI & Fontawesome and telling Quasar to use Fontawesom
 
 ```js
 extras: [
-  'mdi-v5',
+  'mdi-v6',
   'fontawesome-v5'
 ],
 framework: {
@@ -97,11 +97,11 @@ import { Quasar } from 'quasar'
 import Quasar from 'quasar'
 
 export default async () => {
-  const iconSetName = 'mdi-v5' // ... some logic to determine it (use Cookies Plugin?)
+  const iconSetName = 'mdi-v6' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
     await import(
-      /* webpackInclude: /(mdi-v5|fontawesome-v5)\.js$/ */
+      /* webpackInclude: /(mdi-v6|fontawesome-v5)\.js$/ */
       'quasar/icon-set/' + iconSetName
       )
       .then(setDefinition => {
@@ -138,11 +138,11 @@ import Quasar from 'quasar'
 
 // ! NOTICE ssrContext param:
 export default async ({ ssrContext }) => {
-  const iconSetName = 'mdi-v5' // ... some logic to determine it (use Cookies Plugin?)
+  const iconSetName = 'mdi-v6' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
     await import(
-      /* webpackInclude: /(mdi-v5|fontawesome-v5)\.js$/ */
+      /* webpackInclude: /(mdi-v6|fontawesome-v5)\.js$/ */
       'quasar/icon-set/' + iconSetName
       )
       .then(setDefinition => {
@@ -163,7 +163,7 @@ export default async ({ ssrContext }) => {
 Quasar Icon Set is reactive, so all components will update properly if you change the $q.iconSet object. Here is an example:
 
 ```js
-import mdiIconSet from 'quasar/icon-set/mdi-v5.js'
+import mdiIconSet from 'quasar/icon-set/mdi-v6.js'
 
 methods: {
   changeIconSetToMdiIconSet () {

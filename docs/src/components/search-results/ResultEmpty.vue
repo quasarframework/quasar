@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mdiTextBoxSearchOutline } from '@quasar/extras/mdi-v5'
+import { mdiTextBoxSearchOutline } from '@quasar/extras/mdi-v6'
 
 export default {
   name: 'ResultEmpty',

@@ -18,7 +18,7 @@ a.doc-link(
 <script>
 import {
   mdiLaunch
-} from '@quasar/extras/mdi-v5'
+} from '@quasar/extras/mdi-v6'
 
 export default {
   name: 'DocLink',

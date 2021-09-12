@@ -64,7 +64,7 @@ q-page.doc-page
         q-icon(:name="fabGithub")
 
       a(href="https://blog.quasar.dev", target="_blank", rel="noopener")
-        q-icon(:name="mdiBlogger")
+        q-icon(:name="mdiPost")
 
       a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
         q-icon(:name="mdiChat")
@@ -93,10 +93,10 @@ import {
 } from '@quasar/extras/fontawesome-v5'
 
 import {
-  mdiBlogger, mdiForum, mdiChat, mdiCharity,
+  mdiPost, mdiForum, mdiChat, mdiCharity,
   mdiPencil, mdiLaunch, mdiFlash,
   mdiChevronLeft, mdiChevronRight
-} from '@quasar/extras/mdi-v5'
+} from '@quasar/extras/mdi-v6'
 
 import getMeta from 'assets/get-meta'
 import { copyHeading } from 'assets/page-utils'
@@ -113,7 +113,7 @@ export default {
     this.fabTwitter = fabTwitter
     this.fabFacebook = fabFacebook
 
-    this.mdiBlogger = mdiBlogger
+    this.mdiPost = mdiPost
     this.mdiForum = mdiForum
     this.mdiChat = mdiChat
     this.mdiCharity = mdiCharity

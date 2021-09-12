@@ -1,6 +1,6 @@
 import { register } from 'register-service-worker'
 import { Notify } from 'quasar'
-import { mdiCached } from '@quasar/extras/mdi-v5'
+import { mdiCached } from '@quasar/extras/mdi-v6'
 
 // The ready(), registered(), cached(), updatefound() and updated()
 // events passes a ServiceWorkerRegistration instance in their arguments.

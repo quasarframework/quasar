@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { mdiArrowUpBold, mdiArrowDownBold, mdiKeyboardReturn, mdiKeyboardEsc } from '@quasar/extras/mdi-v5'
+import { mdiArrowUpBold, mdiArrowDownBold, mdiKeyboardReturn, mdiKeyboardEsc } from '@quasar/extras/mdi-v6'
 
 import ResultPageContent from 'components/search-results/ResultPageContent'
 import ResultPageLink from 'components/search-results/ResultPageLink'
