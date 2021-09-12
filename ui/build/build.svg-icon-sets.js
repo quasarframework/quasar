@@ -41,7 +41,7 @@ const iconTypes = [
     convert: str => materialConvert(str, 's_', 'sharp_')
   },
   {
-    name: 'mdi-v5',
+    name: 'mdi-v6',
     regex: /^mdi-/,
     convert
   },

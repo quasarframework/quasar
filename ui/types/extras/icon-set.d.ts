@@ -101,6 +101,8 @@ export type QuasarIconSets =
   | "svg-material-icons-round"
   | "material-icons-sharp"
   | "svg-material-icons-sharp"
+  | "mdi-v6"
+  | "svg-mdi-v6"
   | "mdi-v5"
   | "svg-mdi-v5"
   | "mdi-v4"
