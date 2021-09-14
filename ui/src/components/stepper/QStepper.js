@@ -38,8 +38,10 @@ export default defineComponent({
     doneIcon: String,
     doneColor: String,
     activeIcon: String,
+    hideActiveIcon: Boolean,
     activeColor: String,
     errorIcon: String,
+    hideErrorIcon: Boolean,
     errorColor: String
   },
 
