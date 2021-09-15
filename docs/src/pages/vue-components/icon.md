@@ -204,9 +204,12 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 
 #### SVG Ionicons
 
-* Icon names are in camel-case and always begin with "ionMd" or "ionIos" prefixes.
-* Go to [Ionicons v5](https://ionicons.com/) or [Ionicons v4](https://ionicons.com/v4/), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Camel-case this name and prefix it with either "ionMd" (for material variant) or "ionIos" (for iOS variant).
-* Import statement example: `import { ionMdSquareOutline } from '@quasar/extras/ionicons-v5'` (or `-v4`).
+* Ionicons v4: Icon names are in camel-case and always begin with "ionMd" or "ionIos" prefixes.
+* Ionicons v5: Icon names are in camel-case and always begin with "ion" prefixes.
+* Ionicons v4: Go to [Ionicons v4](https://ionicons.com/v4/), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Camel-case this name and prefix it with either "ionMd" (for material variant) or "ionIos" (for iOS variant).
+* Ionicons v5:Go to [Ionicons v5](https://ionicons.com/), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Camel-case this name and prefix it with either "ionMd" (for material variant) or "ionIos" (for iOS variant).
+* Ionicons v4: Import statement example: `import { ionMdSquareOutline } from '@quasar/extras/ionicons-v4'`.
+* Ionicons v5: Import statement example: `import { ionSquareOutline } from '@quasar/extras/ionicons-v5'`.
 
 #### SVG Eva Icons
 
