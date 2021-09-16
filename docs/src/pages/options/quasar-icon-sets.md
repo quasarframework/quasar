@@ -57,7 +57,7 @@ framework: {
 }
 ```
 
-This will enable you to use both Ionicons & Fontawesome webfonts in your app, and all Quasar components will display Fontawesome icons.
+This will enable you to use both MDI & Fontawesome webfonts in your app, and all Quasar components will display Fontawesome icons.
 
 #### UMD Way
 Include the Quasar Icon Set tag for your Quasar version and also tell Quasar to use it. Example:

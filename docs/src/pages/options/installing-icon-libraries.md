@@ -34,7 +34,7 @@ Adding more than one set:
 extras: [
   'material-icons',
   'mdi-v6',
-  'ionicons-v4',
+  'ionicons-v5',
   'eva-icons',
   'fontawesome-v5',
   'themify',
