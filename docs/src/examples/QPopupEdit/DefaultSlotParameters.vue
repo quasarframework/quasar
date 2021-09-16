@@ -7,12 +7,12 @@
           <q-input
             autofocus
             dense
+            v-model="scope.value"
             :model-value="scope.value"
             hint="Your nickname"
             :rules="[
               val => scope.validate(scope.value) || 'More than 5 chars required'
             ]"
-            @update:model-value="scope.emitValue"
           >
             <template v-slot:after>
               <q-btn
