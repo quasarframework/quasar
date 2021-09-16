@@ -68,6 +68,6 @@ export default [
     author: 'Daniel',
     lang: 'Brazilian-portuguese',
     link: 'https://www.youtube.com/playlist?list=PL_E9qsiOi2ASNxKmPfrXAb1FaQRidVWMu',
-    imgUrl: 'http://img.youtube.com/vi/JGN8m2zC66w/maxresdefault.jpg'
+    imgUrl: 'https://img.youtube.com/vi/JGN8m2zC66w/maxresdefault.jpg'
   }
 ]
