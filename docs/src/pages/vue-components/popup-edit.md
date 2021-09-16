@@ -43,7 +43,7 @@ You can also add two buttons with the `buttons` prop, "Cancel" and "Set" (the de
 The default slot's parameters are:
 
 ```js
-{ initialValue, value, emitValue, validate, set, cancel, updatePosition }
+{ initialValue, value, validate, set, cancel, updatePosition }
 ```
 
 ::: warning
