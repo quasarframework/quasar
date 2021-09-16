@@ -298,7 +298,7 @@ If you are using a Docker Container, you may find HMR stops working. HMR relies 
 | analyze | Boolean/Object | Show analysis of build bundle with webpack-bundle-analyzer. If using as Object, it represents the webpack-bundle-analyzer config Object. |
 | vueCompiler | Boolean | Include vue runtime + compiler version, instead of default Vue runtime-only |
 | uglifyOptions | Object | Minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify). |
-| scssLoaderOptions | Object | Options to supply to `sass-loader` for `.scss` files. Example: scssLoaderOptions: { prependData: '@import "src/css/abstracts/_mixins.scss";'} |
+| scssLoaderOptions | Object | Options to supply to `sass-loader` for `.scss` files. Example: scssLoaderOptions: { additionalData: '@import "src/css/abstracts/_mixins.scss";'} |
 | sassLoaderOptions | Object | Options to supply to `sass-loader` for `.sass` files. |
 | stylusLoaderOptions | Object | Options to supply to `stylus-loader`. |
 | lessLoaderOptions | Object | Options to supply to `less-loader`. |
