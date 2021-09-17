@@ -48,12 +48,12 @@ interface SsrMiddlewareResolve {
    */
   urlPath(url: string): string;
   /**
-   * Resolve folder path to the root (of the project in dev and of the distributables in production). Under the covers, it does a path.join()
+   * Resolve folder path to the root (of the project in dev and of the distributables in production). Under the hood, it does a path.join()
    * @param paths paths to join
    */
   root(...paths: string[]): string;
   /**
-   * Resolve folder path to the "public" folder. Under the covers, it does a path.join()
+   * Resolve folder path to the "public" folder. Under the hood, it does a path.join()
    * @param paths paths to join
    */
   public(...paths: string[]): string;

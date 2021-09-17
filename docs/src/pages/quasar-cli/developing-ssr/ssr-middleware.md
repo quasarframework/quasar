@@ -93,8 +93,8 @@ This is the Expressjs app instance. The "bread and butter" of any middleware sin
 | Prop name | Description |
 | --- | --- |
 | `urlPath(path)` | Whenever you define a route (with app.use(), app.get(), app.post() etc), you should use the `resolve.urlPath()` method so that you'll also keep into account the configured publicPath (quasar.conf.js > build > publicPath). |
-| `root(path1[, path2, ...pathN])` | Resolve folder path to the root (of the project in dev and of the distributables in production). Under the covers, it does a `path.join()`. |
-| `public(path1[, path2, ...pathN])` | Resolve folder path to the "public" folder. Under the covers, it does a `path.join()`. |
+| `root(path1[, path2, ...pathN])` | Resolve folder path to the root (of the project in dev and of the distributables in production). Under the hood, it does a `path.join()`. |
+| `public(path1[, path2, ...pathN])` | Resolve folder path to the "public" folder. Under the hood, it does a `path.join()`. |
 
 #### publicPath
 

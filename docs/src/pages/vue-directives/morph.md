@@ -8,7 +8,7 @@ related:
 
 "Morph" is a Quasar directive that provides the ability to morph DOM elements between two states.
 
-Under the covers, it uses the Quasar [Morph function util](/quasar-utils/morph-utils).
+Under the hood, it uses the Quasar [Morph function util](/quasar-utils/morph-utils).
 
 ## Morph API
 
