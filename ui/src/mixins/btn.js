@@ -1,5 +1,6 @@
 import AlignMixin from './align.js'
 import RippleMixin from './ripple.js'
+import AttrsMixin from './attrs.js'
 import ListenersMixin from './listeners.js'
 import { getSizeMixin } from './size.js'
 
@@ -14,6 +15,7 @@ const padding = {
 
 export default {
   mixins: [
+    AttrsMixin,
     ListenersMixin,
     RippleMixin,
     AlignMixin,
@@ -117,16 +119,15 @@ export default {
     attrs () {
       const attrs = { tabindex: this.computedTabIndex }
 
-      if (this.type !== 'a') {
+      if (this.isLink !== true) {
         attrs.type = this.type || 'button'
       }
 
       if (this.hasRouterLink === true) {
         attrs.href = this.currentLocation.href
-        attrs.role = 'link'
       }
-      else {
-        attrs.role = this.type === 'a' ? 'link' : 'button'
+      else if (this.type === 'a' && typeof this.qAttrs.href !== 'string') {
+        attrs.role = 'button'
       }
 
       if (this.loading === true && this.percentage !== void 0) {
