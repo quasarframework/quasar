@@ -230,6 +230,15 @@ export default __QUASAR_SSR_SERVER__
               return
             }
 
+            if(ctx.lastEvt && ctx.lastEvt.clientX === evt.clientX && ctx.lastEvt.clientY === evt.clientY) {
+              // windows OS's bug for mousemove event
+              // mousemove event occurs even there is no movement after mousedown
+              // https://bugs.chromium.org/p/chromium/issues/detail?id=161464
+              // https://bugs.chromium.org/p/chromium/issues/detail?id=721341
+              // https://github.com/quasarframework/quasar/issues/10721
+              return
+            }
+
             ctx.lastEvt = evt
 
             const isMouseEvt = ctx.event.mouse === true
