@@ -208,7 +208,8 @@ export default defineComponent({
     )
 
     const backdropStyle = computed(() => ({
-      backgroundColor: `rgba(0,0,0,${ flagBackdropBg.value * 0.4 })`
+      backgroundColor: "#000",
+      opacity: flagBackdropBg.value * 0.4
     }))
 
     const headerSlot = computed(() => (
