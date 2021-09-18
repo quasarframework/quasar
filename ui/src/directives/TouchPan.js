@@ -231,7 +231,7 @@ export default __QUASAR_SSR_SERVER__
             }
 
             if(ctx.lastEvt && ctx.lastEvt.clientX === evt.clientX && ctx.lastEvt.clientY === evt.clientY) {
-              // windows OS's bug for mousemove event
+              // windows OS's bug for mousemove event (Blink Engine - Chrome & Edge)
               // mousemove event occurs even there is no movement after mousedown
               // https://bugs.chromium.org/p/chromium/issues/detail?id=161464
               // https://bugs.chromium.org/p/chromium/issues/detail?id=721341
