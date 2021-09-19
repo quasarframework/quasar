@@ -208,7 +208,8 @@ export default defineComponent({
     )
 
     const backdropStyle = computed(() => ({
-      backgroundColor: `rgba(0,0,0,${ flagBackdropBg.value * 0.4 })`
+      backgroundColor: "#000",
+      opacity: flagBackdropBg.value * 0.4
     }))
 
     const headerSlot = computed(() => (
@@ -248,9 +249,19 @@ export default defineComponent({
     })
 
     const style = computed(() => {
+
+      const isDrawerAtRight = ($q.lang.rtl === true ? rightSide.value !== true : rightSide.value);
+
+      //flagContentPosition {right tab, hidden}: 200width => transformx 215px => right: -200px = -215px + 15px
+      //flagContentPosition {right tab, shown}: 200width => transformx 0 => right: 15px = 0px + 15px
+      //flagContentPosition {left tab, shown}: 200width => transformx 0 => left: 0px
+      //flagContentPosition {left tab, hidden}: 200width => transformx -200px => left:-200px
+
       const style = {
         width: `${ size.value }px`,
-        transform: `translateX(${ flagContentPosition.value }px)`
+        left: isDrawerAtRight?"auto" : `${ flagContentPosition.value }px`,
+        right: !isDrawerAtRight?"auto" : `${ - flagContentPosition.value + $layout.scrollbarWidth.value }px`,
+        transform: 'initial' //reset the css rule for transform
       }
 
       return belowBreakpoint.value === true
