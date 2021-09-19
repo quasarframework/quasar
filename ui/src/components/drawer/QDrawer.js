@@ -204,11 +204,12 @@ export default defineComponent({
 
     const backdropClass = computed(() =>
       'fullscreen q-drawer__backdrop'
-      + (showing.value === false && flagPanning.value === false ? ' hidden' : '')
+      + (showing.value === false && flagPanning.value === false ? ' no-pointer-events' : '')
     )
 
     const backdropStyle = computed(() => ({
-      backgroundColor: `rgba(0,0,0,${ flagBackdropBg.value * 0.4 })`
+      backgroundColor: "#000",
+      opacity: flagBackdropBg.value * 0.4
     }))
 
     const headerSlot = computed(() => (
@@ -265,13 +266,13 @@ export default defineComponent({
 
     const classes = computed(() =>
       `q-drawer q-drawer--${ props.side }`
-      + (flagMiniAnimate.value === true ? ' q-drawer--mini-animate' : '')
       + (props.bordered === true ? ' q-drawer--bordered' : '')
       + (isDark.value === true ? ' q-drawer--dark q-dark' : '')
+      + (flagMiniAnimate.value === true ? ' q-drawer--mini-animate' : '')
       + (
         flagPanning.value === true
           ? ' no-transition'
-          : (showing.value === true ? '' : ' q-layout--prevent-focus')
+          : (showing.value === true ? '' : ' no-pointer-events')
       )
       + (
         belowBreakpoint.value === true
