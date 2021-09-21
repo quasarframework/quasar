@@ -125,6 +125,35 @@
     }
   },
 
+  "methods": {
+    "_panningTo": {
+      "desc": "[low-level] set the panning of the QDrawer using custom gesture",
+      "params": {
+        "dx": {
+          "type": "Number",
+          "desc": "Movement X (in pixels) for QDrawer's panning",
+          "examples": [ 40, 200 ]
+        },
+        "flag": {
+          "type": "Number",
+          "desc": "Indicate the movement type - 0 | TOUCH_START | TOUCH_END",
+          "examples": [ 0, 32, 64 ]
+        }
+      }
+    },
+    
+    "_panningFinal": {
+      "desc": "[low-level] set the panning of the QDrawer using custom gesture",
+      "params": {
+        "flag": {
+          "type": "Number",
+          "desc": "Indicate the action and whether it resets to orginal position - QDRAWER_OPEN | QDRAWER_CLOSE | QDRAWER_RESET_POSITION",
+          "examples": [ 262144, 65536, 1310720 ]
+        }
+      }
+    }
+  },
+  
   "events": {
     "on-layout": {
       "desc": "Emitted when drawer toggles between occupying space on page or not",
@@ -157,6 +186,17 @@
         "state": {
           "type": "Boolean",
           "desc": "New state"
+        }
+      }
+    },
+
+    "backdrop-click": {
+      "desc": "Emitted when backdrop is clicked followed by closing the drawer - which can be cancelled using .cancel()",
+      "params": {
+        "options": {
+          "type": "Object",
+          "desc": "Providing the .cancel() method for cancelling the closing action",
+          "__exemption": [ "examples" ]
         }
       }
     }

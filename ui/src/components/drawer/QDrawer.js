@@ -12,6 +12,8 @@ import { between } from '../../utils/format.js'
 import { hSlot, hDir } from '../../utils/private/render.js'
 import { layoutKey } from '../../utils/private/symbols.js'
 
+import { useQuasar } from '../../composables.js'
+
 const duration = 150
 
 export default defineComponent({
@@ -65,7 +67,7 @@ export default defineComponent({
 
   emits: [
     ...useModelToggleEmits,
-    'on-layout', 'mini-state'
+    'on-layout', 'mini-state', 'backdrop-click'
   ],
 
   setup (props, { slots, emit, attrs }) {
@@ -164,9 +166,13 @@ export default defineComponent({
     }
 
     const rightSide = computed(() => props.side === 'right')
+    
+    const isRightSideDirection = (dir) => {
+      return ($q.lang.rtl === true) ^ (dir === true) ? true : false
+    }
 
     const stateDirection = computed(() =>
-      ($q.lang.rtl === true ? -1 : 1) * (rightSide.value === true ? 1 : -1)
+      isRightSideDirection(rightSide.value) ? 1 : -1
     )
 
     const flagBackdropBg = ref(0)
@@ -462,6 +468,128 @@ export default defineComponent({
         flagMiniAnimate.value = false
       }, 150)
     }
+    
+    const QDRAWER_OPEN = 0x00010000
+    const QDRAWER_CLOSE = 0x00020000
+    const QDRAWER_RESET_POSITION = 0x00040000
+    const QDRAWER_CLOSE_OPPOSITE_DIRECTION = 0x00080000
+    const TOUCH_START = 0x00000020
+    const TOUCH_END = 0x00000040
+    
+    const flags = {
+      QDRAWER_OPEN,
+      QDRAWER_CLOSE,
+      QDRAWER_RESET_POSITION,
+      QDRAWER_CLOSE_OPPOSITE_DIRECTION,
+      TOUCH_START,
+      TOUCH_END,
+    }
+    
+    const _panningFinal = (flag) => {
+      // flag: QDRAWER_OPEN | QDRAWER_CLOSE | QDRAWER_RESET_POSITION
+
+      if (flag & QDRAWER_OPEN) {
+
+        if (flag & QDRAWER_RESET_POSITION) {
+          $layout.animate()
+          applyBackdrop(0)
+          applyPosition(stateDirection.value * size.value)
+        }
+        else {
+          show()
+        }
+
+      }else if(flag & QDRAWER_CLOSE) {
+
+        if (flag & QDRAWER_RESET_POSITION) {
+          $layout.animate()
+          applyBackdrop(1)
+          applyPosition(0)
+        }
+        else {
+          hide()
+        }
+
+      }
+
+      flagPanning.value = false
+    }
+
+    const _panningTo = (dx, flag) => {
+      // positive dx: onOpenPan
+      // negative dx: onClosePan
+      // flag: TOUCH_START | TOUCH_END
+
+      const width = size.value
+
+      let positionX = null
+
+      if (showing.value === false) {
+        if (dx < 0) dx = 0
+        const distanceX = between(dx, 0, width)
+        
+        positionX = width - distanceX
+
+        if (flag & TOUCH_END) {
+          const opened = distanceX >= Math.min(75, width)
+          const flagAnimation = opened === true ? 0 : QDRAWER_RESET_POSITION
+          _panningFinal(QDRAWER_OPEN | flagAnimation)
+          return
+        }
+        
+      }
+      else {
+        if (dx > 0) dx = 0
+        const distanceX = between(-dx, 0, width)
+
+        if( flag & QDRAWER_CLOSE_OPPOSITE_DIRECTION ) {
+          positionX = 0
+        }
+        else {
+          positionX = distanceX
+        }
+
+        if (flag & TOUCH_END) {
+          const opened = positionX < Math.min(75, width)
+          const flagAnimation = opened ? QDRAWER_RESET_POSITION : 0
+          _panningFinal(QDRAWER_CLOSE | flagAnimation)
+          return
+        }
+
+      }
+
+      applyPosition(stateDirection.value * positionX)
+      applyBackdrop(between(1 - positionX / width, 0, 1))
+
+      if (flag & TOUCH_START) {
+        flagPanning.value = true
+      }
+      
+    }
+    
+    {
+      const $q = useQuasar()
+      // expose flags
+      $q.consts = $q.consts || {}
+      Object.assign($q.consts, flags)
+
+      const { proxy } = vm
+      // expose public methods
+      const publicMethods = { _panningTo, _panningFinal }
+
+      let publicRefs = {};
+      if ($q.config && $q.config.exposeRefs === true) {
+        publicRefs = {
+          showing, flagContentPosition, size, stateDirection
+        };
+      }
+      
+      Object.assign(proxy, {
+        ...publicRefs,
+        ...publicMethods
+      })
+
+    }
 
     function onOpenPan (evt) {
       if (showing.value !== false) {
@@ -470,38 +598,14 @@ export default defineComponent({
         return
       }
 
-      const
-        width = size.value,
-        position = between(evt.distance.x, 0, width)
-
-      if (evt.isFinal === true) {
-        const opened = position >= Math.min(75, width)
-
-        if (opened === true) {
-          show()
-        }
-        else {
-          $layout.animate()
-          applyBackdrop(0)
-          applyPosition(stateDirection.value * width)
-        }
-
-        flagPanning.value = false
-        return
-      }
-
-      applyPosition(
-        ($q.lang.rtl === true ? rightSide.value !== true : rightSide.value)
-          ? Math.max(width - position, 0)
-          : Math.min(0, position - width)
-      )
-      applyBackdrop(
-        between(position / width, 0, 1)
-      )
-
+      let flag = 0
       if (evt.isFirst === true) {
-        flagPanning.value = true
+        flag |= TOUCH_START
       }
+      if (evt.isFinal === true) {
+        flag |= TOUCH_END
+      }
+      _panningTo(evt.distance.x, flag)
     }
 
     function onClosePan (evt) {
@@ -511,34 +615,28 @@ export default defineComponent({
         return
       }
 
-      const
-        width = size.value,
-        dir = evt.direction === props.side,
-        position = ($q.lang.rtl === true ? dir !== true : dir)
-          ? between(evt.distance.x, 0, width)
-          : 0
-
-      if (evt.isFinal === true) {
-        const opened = Math.abs(position) < Math.min(75, width)
-
-        if (opened === true) {
-          $layout.animate()
-          applyBackdrop(1)
-          applyPosition(0)
-        }
-        else {
-          hide()
-        }
-
-        flagPanning.value = false
-        return
-      }
-
-      applyPosition(stateDirection.value * position)
-      applyBackdrop(between(1 - position / width, 0, 1))
-
+      let flag = 0
       if (evt.isFirst === true) {
-        flagPanning.value = true
+        flag |= TOUCH_START
+      }
+      if (evt.isFinal === true) {
+        flag |= TOUCH_END
+      }
+      
+      if (!isRightSideDirection(evt.direction === props.side)) flag |= QDRAWER_CLOSE_OPPOSITE_DIRECTION
+
+      _panningTo(-evt.distance.x, flag)
+    }
+
+    const backdropClick = () => {
+      let isBackdropClickAllowed = true; 
+      emit('backdrop-click', {
+        cancel: () => {
+          isBackdropClickAllowed = false
+        }
+      })
+      if (isBackdropClickAllowed) {
+        hide();
       }
     }
 
@@ -643,7 +741,7 @@ export default defineComponent({
               class: backdropClass.value,
               style: backdropStyle.value,
               'aria-hidden': 'true',
-              onClick: hide
+              onClick: backdropClick
             },
             void 0,
             'backdrop',
