@@ -1,6 +1,6 @@
 {
   "name": "@quasar/extras",
-  "version": "1.11.0",
+  "version": "1.11.1",
   "description": "Quasar Framework fonts, icons and animations",
   "scripts": {
     "build": "node build/index.js"
@@ -14,7 +14,13 @@
     "framework"
   ],
   "author": "Razvan Stoenescu",
-  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Jeff Galbraith",
+      "email": "jeff@quasar.dev",
+      "url": "https://jeffgalbraith.dev"
+    }
+  ],"license": "MIT",
   "bugs": {
     "url": "https://github.com/quasarframework/quasar/issues"
   },
