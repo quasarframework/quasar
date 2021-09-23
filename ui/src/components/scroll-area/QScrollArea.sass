@@ -1,5 +1,6 @@
 .q-scrollarea
   position: relative
+  display: flex
 
   &__bar,
   &__thumb
@@ -30,8 +31,7 @@
       opacity: .5
 
   &__content
-    min-height: 100%
-    min-width: 100%
+    flex: 1
 
   &--dark .q-scrollarea__thumb
     background: #fff
