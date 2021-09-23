@@ -391,7 +391,7 @@ export default defineComponent({
           tabindex: props.tabindex !== void 0 ? props.tabindex : void 0
         }, [
           h('div', {
-            class: 'q-scrollarea__content absolute',
+            class: 'q-scrollarea__content',
             style: mainStyle.value
           }, hMergeSlot(slots.default, [
             h(QResizeObserver, {
