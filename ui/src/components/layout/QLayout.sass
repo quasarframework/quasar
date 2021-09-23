@@ -1,4 +1,5 @@
 .q-layout
+  display: grid
   width: 100%
 
 .q-layout-container
@@ -121,6 +122,12 @@
 
 .q-layout, .q-header, .q-footer, .q-page
   position: relative
+  
+.q-page-container
+  display: grid
+
+.q-page *
+  box-sizing: border-box
 
 .q-page-sticky--shrink
   pointer-events: none
@@ -149,8 +156,8 @@ body.q-ios-padding
     transition: transform .12s, width .12s, top .12s, bottom .12s !important
   .q-layout__section--marginal
     transition: transform .12s, left .12s, right .12s !important
-  .q-page-container
-    transition: padding-top .12s, padding-right .12s, padding-bottom .12s, padding-left .12s !important
+  .q-page
+    transition: margin-top .12s, margin-right .12s, margin-bottom .12s, margin-left .12s !important
   .q-page-sticky
     transition: transform .12s, left .12s, right .12s, top .12s, bottom .12s !important
 
