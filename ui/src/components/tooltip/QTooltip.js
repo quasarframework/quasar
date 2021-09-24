@@ -42,7 +42,10 @@ export default defineComponent({
     transitionHide: {
       default: 'jump-up'
     },
-
+    wrapperSelector: {
+      type: String,
+      default: undefined
+    },
     anchor: {
       type: String,
       default: 'bottom middle',
@@ -106,7 +109,7 @@ export default defineComponent({
 
     Object.assign(anchorEvents, { delayShow, delayHide })
 
-    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent)
+    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent, undefined, props.wrapperSelector)
 
     // if we're on mobile, let's improve the experience
     // by closing it when user taps outside of it

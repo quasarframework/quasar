@@ -51,6 +51,12 @@
         </q-btn>
 
         <q-btn color="primary" label="Dialog" @click="dialog = true" />
+
+        <q-btn id="tooltip-element-wrapper" color="secondary" label="tooltip element wrapper">
+          <q-tooltip wrapper-selector="#tooltip-element-wrapper"  anchor="top middle" self="bottom middle" :offset="[18, 18]">
+            tooltip append to wrapper instead of body
+          </q-tooltip>
+        </q-btn>
       </div>
 
       <div class="q-gutter-y-md">
