@@ -289,6 +289,7 @@ function writeIndexDTS (apis) {
   writeLine(quasarTypeContents, 'export * from \'./extras\'')
   writeLine(quasarTypeContents, 'export * from \'./lang\'')
   writeLine(quasarTypeContents, 'export * from \'./api\'')
+  writeLine(quasarTypeContents)
 
   const injections = {}
 
@@ -432,10 +433,12 @@ function writeIndexDTS (apis) {
 
   writeLine(contents, '}', 1)
   writeLine(contents, '}')
+  writeLine(contents)
 
   addQuasarPluginOptions(contents, components, directives, plugins)
 
   quasarTypeContents.forEach(line => write(contents, line))
+  writeLine(contents)
 
   writeLine(contents, 'export const Quasar: { install: (app: App, options: Partial<QuasarPluginOptions>) => any } & QSingletonGlobals')
   writeLine(contents, 'export default Quasar')
