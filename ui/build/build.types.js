@@ -107,7 +107,8 @@ function getPropDefinitions (propDefs, required, docs = false, areMethodParams =
   return defs
 }
 
-function getMethodDefinition (key, methodDef, required) {
+// TODO: Refactor and simplify the usage
+function getMethodDefinition (key, methodDef, returnTypeRequired = false, required = true, paramsRequired = false) {
   let def = `/**\n * ${ methodDef.desc }\n`
   if (methodDef.params) {
     def += `${ Object.entries(methodDef.params).map(([ name, paramDef ]) => ` * @param ${ name } ${ paramDef.desc }`).join('\n') }\n`
@@ -125,15 +126,15 @@ function getMethodDefinition (key, methodDef, required) {
     addToExtraInterfaces(methodDef)
   }
   else {
-    def += ' ('
+    def += required ? ': (' : '?: ('
 
     if (methodDef.params) {
       // TODO: Verify if this should be optional even for plugins
-      const params = getPropDefinitions(methodDef.params, false, false, true)
+      const params = getPropDefinitions(methodDef.params, paramsRequired, false, true, true)
       def += params.join(', ')
     }
 
-    def += `): ${ returns ? getTypeVal(returns, required) : 'void' }`
+    def += `) => ${ returns ? getTypeVal(returns, returnTypeRequired) : 'void' }`
     addToExtraInterfaces(returns, true)
   }
 
@@ -313,6 +314,15 @@ function writeIndexDTS (apis) {
     // Declare class
     writeLine(quasarTypeContents, `export const ${ typeName }: ${ typeValue }`)
 
+    if (content.events) {
+      for (const [ name, definition ] of Object.entries(content.events)) {
+        const propName = toCamelCase('on-' + name)
+        const safeName = propName.includes(':') ? `'${ propName }'` : propName
+
+        props.push(getMethodDefinition(safeName, definition, false, false, true))
+      }
+    }
+
     // Create ${name}Props class for components & mixins (can be useful with h(), TSX, etc.)
     if (extendsVue) {
       const propsTypeName = `${ typeName }Props`
@@ -320,7 +330,6 @@ function writeIndexDTS (apis) {
 
       writeLine(contents, `export interface ${ propsTypeName } {`)
 
-      // TODO: Process 'content.events' and list them as props like 'onXYZ: (param: number) => void'
       props.forEach(prop => writeLines(contents, prop, 1))
 
       writeLine(contents, '}')
