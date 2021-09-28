@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const prettier = require('prettier')
 
 const { logError, writeFile } = require('./build.utils')
 const typeRoot = path.resolve(__dirname, '../types')
@@ -450,7 +451,10 @@ function writeIndexDTS (apis) {
   writeLine(contents, 'import \'./shim-icon-set\'')
   writeLine(contents, 'import \'./shim-lang\'')
 
-  writeFile(resolvePath('index.d.ts'), contents.join(''))
+  writeFile(
+    resolvePath('index.d.ts'),
+    prettier.format(contents.join(''), { parser: 'typescript' })
+  )
 }
 
 module.exports.generate = function (data) {
