@@ -92,7 +92,7 @@ function getPropDefinition (key, propDef, required, docs = false, isMethodParam 
   else {
     const propType = getTypeVal(propDef, required)
     addToExtraInterfaces(propDef)
-    return `${ docs ? `/**\n * ${ propDef.desc }\n */\n` : '' }${ propName }${ !propDef.required && !required ? '?' : '' } : ${ propType }`
+    return `${ docs ? `/**\n * ${ propDef.desc }\n */\n` : '' }${ propName }${ !propDef.required && !required ? '?' : '' }: ${ propType }`
   }
 }
 
@@ -262,6 +262,8 @@ function writeIndexDTS (apis) {
   const components = []
   const directives = []
   const plugins = []
+  // Example => QComponent: QComponentProps
+  const componentToPropTypeMap = {}
 
   addQuasarLangCodes(quasarTypeContents)
 
@@ -273,7 +275,7 @@ function writeIndexDTS (apis) {
   writeLine(contents, '// @ts-ignore')
   writeLine(contents, '/// <reference types="@quasar/app" />')
   writeLine(contents, 'import { App, Component, ComponentPublicInstance } from \'vue\'')
-  writeLine(contents, 'import { LooseDictionary, ComponentConstructor } from \'./ts-helpers\'')
+  writeLine(contents, 'import { LooseDictionary, ComponentConstructor, PublicProps } from \'./ts-helpers\'')
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
   // We expose `ts-helpers` because they are needed by `@quasar/app` augmentations
@@ -293,7 +295,7 @@ function writeIndexDTS (apis) {
     const typeName = data.name
 
     const extendsVue = (content.type === 'component' || content.type === 'mixin')
-    const typeValue = `${ extendsVue ? `ComponentConstructor<${typeName}>` : typeName }`
+    const typeValue = `${ extendsVue ? `ComponentConstructor<${ typeName }>` : typeName }`
     // Add Type to the appropriate section of types
     const propTypeDef = `${ typeName }?: ${ typeValue }`
     if (content.type === 'component') {
@@ -306,13 +308,32 @@ function writeIndexDTS (apis) {
       write(plugins, propTypeDef)
     }
 
-    // Declare class
-    writeLine(quasarTypeContents, `export const ${ typeName }: ${ extendsVue ? `ComponentConstructor<${typeName}>` : typeName }`)
-    writeLine(contents, `export interface ${ typeName } ${ extendsVue ? 'extends ComponentPublicInstance ' : '' }{`)
-
-    // Write Props
     const props = getPropDefinitions(content.props, content.type === 'plugin', true)
-    props.forEach(prop => writeLines(contents, prop, 1))
+
+    // Declare class
+    writeLine(quasarTypeContents, `export const ${ typeName }: ${ typeValue }`)
+
+    // Create ${name}Props class for components & mixins (can be useful with h(), TSX, etc.)
+    if (extendsVue) {
+      const propsTypeName = `${ typeName }Props`
+      componentToPropTypeMap[ typeName ] = propsTypeName
+
+      writeLine(contents, `export interface ${ propsTypeName } {`)
+
+      // TODO: Process 'content.events' and list them as props like 'onXYZ: (param: number) => void'
+      props.forEach(prop => writeLines(contents, prop, 1))
+
+      writeLine(contents, '}')
+      writeLine(contents)
+
+      writeLine(contents, `export interface ${ typeName } extends ComponentPublicInstance<${ propsTypeName }> {`)
+    }
+    else {
+      writeLine(contents, `export interface ${ typeName } {`)
+
+      // Write props to the body directly
+      props.forEach(prop => writeLines(contents, prop, 1))
+    }
 
     // Write Methods
     for (const methodKey in content.methods) {
@@ -388,7 +409,26 @@ function writeIndexDTS (apis) {
     }
     writeLine(contents, '}', 1)
     writeLine(contents, '}')
+    writeLine(contents)
   }
+
+  // Provide `GlobalComponents`, expected to be used for Volar
+  // Can't use `DefineComponent` because of the false prop inferring behavior, it doesn't pick up the required types when an interface is passed
+  // This will probably solve the problem as it moves the prop inferring behavior to `defineComponent` function: https://github.com/vuejs/vue-next/pull/4465
+  // GlobalComponentConstructor helper is kind of like the ComponentConstructor type helper, but simpler and keeps the Volar errors simpler,
+  // and also similar to the usage in official Vue packages: https://github.com/vuejs/vue-next/blob/d84d5ecdbdf709570122175d6565bb61fae877f2/packages/runtime-core/src/components/BaseTransition.ts#L258-L264 or https://github.com/vuejs/vue-router-next/blob/5dd5f47515186ce34efb9118dda5aad0bb773439/src/RouterView.ts#L160-L172 etc.
+  // TODO: Replace `GlobalComponentConstructor` with `DefineComponent` once https://github.com/vuejs/vue-next/pull/4465 gets merged
+  writeLine(contents, 'type GlobalComponentConstructor<Props = {}> = { new (): { $props: PublicProps & Props } }')
+  writeLine(contents)
+  writeLine(contents, 'declare module \'@vue/runtime-core\' {')
+  writeLine(contents, 'interface GlobalComponents {', 1)
+
+  for (const [ typeName, propsTypeName ] of Object.entries(componentToPropTypeMap)) {
+    writeLine(contents, `${ typeName }: GlobalComponentConstructor<${ propsTypeName }>`, 2)
+  }
+
+  writeLine(contents, '}', 1)
+  writeLine(contents, '}')
 
   addQuasarPluginOptions(contents, components, directives, plugins)
 
