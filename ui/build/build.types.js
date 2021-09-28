@@ -276,7 +276,7 @@ function writeIndexDTS (apis) {
   writeLine(contents, '// @ts-ignore')
   writeLine(contents, '/// <reference types="@quasar/app" />')
   writeLine(contents, 'import { App, Component, ComponentPublicInstance } from \'vue\'')
-  writeLine(contents, 'import { LooseDictionary, ComponentConstructor, PublicProps } from \'./ts-helpers\'')
+  writeLine(contents, 'import { LooseDictionary, ComponentConstructor, GlobalComponentConstructor } from \'./ts-helpers\'')
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
   // We expose `ts-helpers` because they are needed by `@quasar/app` augmentations
@@ -422,13 +422,6 @@ function writeIndexDTS (apis) {
   }
 
   // Provide `GlobalComponents`, expected to be used for Volar
-  // Can't use `DefineComponent` because of the false prop inferring behavior, it doesn't pick up the required types when an interface is passed
-  // This will probably solve the problem as it moves the prop inferring behavior to `defineComponent` function: https://github.com/vuejs/vue-next/pull/4465
-  // GlobalComponentConstructor helper is kind of like the ComponentConstructor type helper, but simpler and keeps the Volar errors simpler,
-  // and also similar to the usage in official Vue packages: https://github.com/vuejs/vue-next/blob/d84d5ecdbdf709570122175d6565bb61fae877f2/packages/runtime-core/src/components/BaseTransition.ts#L258-L264 or https://github.com/vuejs/vue-router-next/blob/5dd5f47515186ce34efb9118dda5aad0bb773439/src/RouterView.ts#L160-L172 etc.
-  // TODO: Replace `GlobalComponentConstructor` with `DefineComponent` once https://github.com/vuejs/vue-next/pull/4465 gets merged
-  writeLine(contents, 'type GlobalComponentConstructor<Props = {}> = { new (): { $props: PublicProps & Props } }')
-  writeLine(contents)
   writeLine(contents, 'declare module \'@vue/runtime-core\' {')
   writeLine(contents, 'interface GlobalComponents {', 1)
 
