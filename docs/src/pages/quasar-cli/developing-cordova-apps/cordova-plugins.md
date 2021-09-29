@@ -184,7 +184,7 @@ Now let's put this plugin to some good use. If you need the information of your 
 <template>
   <div>
     <q-page class="flex flex-center">
-      <div>IMEI: {{ IMEI }}</div>
+      <div>IMEI: {{ imei }}</div>
     </q-page>
   </div>
 </template>
