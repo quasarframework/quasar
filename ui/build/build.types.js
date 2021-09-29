@@ -1,16 +1,18 @@
 const fs = require('fs')
 const path = require('path')
+const prettier = require('prettier')
 
 const { logError, writeFile } = require('./build.utils')
 const typeRoot = path.resolve(__dirname, '../types')
 const distRoot = path.resolve(__dirname, '../dist/types')
 const resolvePath = file => path.resolve(distRoot, file)
+const INDENT_SPACE_COUNT = 2
 const extraInterfaces = {}
 // eslint-disable-next-line no-useless-escape
 const toCamelCase = str => str.replace(/(-\w)/g, m => m[ 1 ].toUpperCase())
 
 function writeLine (fileContent, line = '', indent = 0) {
-  fileContent.push(`${ line.padStart(line.length + (indent * 4), ' ') }\n`)
+  fileContent.push(`${ line.padStart(line.length + (indent * INDENT_SPACE_COUNT), ' ') }\n`)
 }
 
 function writeLines (fileContent, lines = '', indent = 0) {
@@ -92,7 +94,7 @@ function getPropDefinition (key, propDef, required, docs = false, isMethodParam 
   else {
     const propType = getTypeVal(propDef, required)
     addToExtraInterfaces(propDef)
-    return `${ docs ? `/**\n * ${ propDef.desc }\n */\n` : '' }${ propName }${ !propDef.required && !required ? '?' : '' } : ${ propType }`
+    return `${ docs ? `/**\n * ${ propDef.desc }\n */\n` : '' }${ propName }${ !propDef.required && !required ? '?' : '' }: ${ propType }`
   }
 }
 
@@ -107,7 +109,8 @@ function getPropDefinitions (propDefs, required, docs = false, areMethodParams =
   return defs
 }
 
-function getMethodDefinition (key, methodDef, required) {
+// TODO: Refactor and simplify the usage
+function getMethodDefinition (key, methodDef, returnTypeRequired = false, required = true, paramsRequired = false) {
   let def = `/**\n * ${ methodDef.desc }\n`
   if (methodDef.params) {
     def += `${ Object.entries(methodDef.params).map(([ name, paramDef ]) => ` * @param ${ name } ${ paramDef.desc }`).join('\n') }\n`
@@ -125,15 +128,15 @@ function getMethodDefinition (key, methodDef, required) {
     addToExtraInterfaces(methodDef)
   }
   else {
-    def += ' ('
+    def += required ? ': (' : '?: ('
 
     if (methodDef.params) {
       // TODO: Verify if this should be optional even for plugins
-      const params = getPropDefinitions(methodDef.params, false, false, true)
+      const params = getPropDefinitions(methodDef.params, paramsRequired, false, true, true)
       def += params.join(', ')
     }
 
-    def += `): ${ returns ? getTypeVal(returns, required) : 'void' }`
+    def += `) => ${ returns ? getTypeVal(returns, returnTypeRequired) : 'void' }`
     addToExtraInterfaces(returns, true)
   }
 
@@ -262,6 +265,8 @@ function writeIndexDTS (apis) {
   const components = []
   const directives = []
   const plugins = []
+  // Example => QComponent: QComponentProps
+  const componentToPropTypeMap = {}
 
   addQuasarLangCodes(quasarTypeContents)
 
@@ -273,7 +278,7 @@ function writeIndexDTS (apis) {
   writeLine(contents, '// @ts-ignore')
   writeLine(contents, '/// <reference types="@quasar/app" />')
   writeLine(contents, 'import { App, Component, ComponentPublicInstance } from \'vue\'')
-  writeLine(contents, 'import { LooseDictionary, ComponentConstructor } from \'./ts-helpers\'')
+  writeLine(contents, 'import { LooseDictionary, ComponentConstructor, GlobalComponentConstructor } from \'./ts-helpers\'')
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
   // We expose `ts-helpers` because they are needed by `@quasar/app` augmentations
@@ -285,6 +290,7 @@ function writeIndexDTS (apis) {
   writeLine(quasarTypeContents, 'export * from \'./extras\'')
   writeLine(quasarTypeContents, 'export * from \'./lang\'')
   writeLine(quasarTypeContents, 'export * from \'./api\'')
+  writeLine(quasarTypeContents)
 
   const injections = {}
 
@@ -293,7 +299,7 @@ function writeIndexDTS (apis) {
     const typeName = data.name
 
     const extendsVue = (content.type === 'component' || content.type === 'mixin')
-    const typeValue = `${ extendsVue ? `ComponentConstructor<${typeName}>` : typeName }`
+    const typeValue = `${ extendsVue ? `ComponentConstructor<${ typeName }>` : typeName }`
     // Add Type to the appropriate section of types
     const propTypeDef = `${ typeName }?: ${ typeValue }`
     if (content.type === 'component') {
@@ -306,13 +312,40 @@ function writeIndexDTS (apis) {
       write(plugins, propTypeDef)
     }
 
-    // Declare class
-    writeLine(quasarTypeContents, `export const ${ typeName }: ${ extendsVue ? `ComponentConstructor<${typeName}>` : typeName }`)
-    writeLine(contents, `export interface ${ typeName } ${ extendsVue ? 'extends ComponentPublicInstance ' : '' }{`)
-
-    // Write Props
     const props = getPropDefinitions(content.props, content.type === 'plugin', true)
-    props.forEach(prop => writeLines(contents, prop, 1))
+
+    // Declare class
+    writeLine(quasarTypeContents, `export const ${ typeName }: ${ typeValue }`)
+
+    if (content.events) {
+      for (const [ name, definition ] of Object.entries(content.events)) {
+        const propName = toCamelCase('on-' + name)
+        const safeName = propName.includes(':') ? `'${ propName }'` : propName
+
+        props.push(getMethodDefinition(safeName, definition, false, false, true))
+      }
+    }
+
+    // Create ${name}Props class for components & mixins (can be useful with h(), TSX, etc.)
+    if (extendsVue) {
+      const propsTypeName = `${ typeName }Props`
+      componentToPropTypeMap[ typeName ] = propsTypeName
+
+      writeLine(contents, `export interface ${ propsTypeName } {`)
+
+      props.forEach(prop => writeLines(contents, prop, 1))
+
+      writeLine(contents, '}')
+      writeLine(contents)
+
+      writeLine(contents, `export interface ${ typeName } extends ComponentPublicInstance<${ propsTypeName }> {`)
+    }
+    else {
+      writeLine(contents, `export interface ${ typeName } {`)
+
+      // Write props to the body directly
+      props.forEach(prop => writeLines(contents, prop, 1))
+    }
 
     // Write Methods
     for (const methodKey in content.methods) {
@@ -388,11 +421,25 @@ function writeIndexDTS (apis) {
     }
     writeLine(contents, '}', 1)
     writeLine(contents, '}')
+    writeLine(contents)
   }
+
+  // Provide `GlobalComponents`, expected to be used for Volar
+  writeLine(contents, 'declare module \'@vue/runtime-core\' {')
+  writeLine(contents, 'interface GlobalComponents {', 1)
+
+  for (const [ typeName, propsTypeName ] of Object.entries(componentToPropTypeMap)) {
+    writeLine(contents, `${ typeName }: GlobalComponentConstructor<${ propsTypeName }>`, 2)
+  }
+
+  writeLine(contents, '}', 1)
+  writeLine(contents, '}')
+  writeLine(contents)
 
   addQuasarPluginOptions(contents, components, directives, plugins)
 
   quasarTypeContents.forEach(line => write(contents, line))
+  writeLine(contents)
 
   writeLine(contents, 'export const Quasar: { install: (app: App, options: Partial<QuasarPluginOptions>) => any } & QSingletonGlobals')
   writeLine(contents, 'export default Quasar')
@@ -404,7 +451,10 @@ function writeIndexDTS (apis) {
   writeLine(contents, 'import \'./shim-icon-set\'')
   writeLine(contents, 'import \'./shim-lang\'')
 
-  writeFile(resolvePath('index.d.ts'), contents.join(''))
+  writeFile(
+    resolvePath('index.d.ts'),
+    prettier.format(contents.join(''), { parser: 'typescript' })
+  )
 }
 
 module.exports.generate = function (data) {
