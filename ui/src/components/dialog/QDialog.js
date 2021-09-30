@@ -257,8 +257,6 @@ export default defineComponent({
     }
 
     function shake () {
-      if (props.noShake) return
-
       focus()
       emit('shake')
 
@@ -282,7 +280,7 @@ export default defineComponent({
     function onEscapeKey () {
       if (props.seamless !== true) {
         if (props.persistent === true || props.noEscDismiss === true) {
-          props.maximized !== true && shake()
+          props.maximized !== true && props.noShake !== true && shake()
         }
         else {
           emit('escape-key')
@@ -335,7 +333,7 @@ export default defineComponent({
       if (props.persistent !== true && props.noBackdropDismiss !== true) {
         hide(e)
       }
-      else {
+      else if (props.noShake !== true) {
         shake()
       }
     }
