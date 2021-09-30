@@ -106,7 +106,7 @@
 
   "events": {
     "shake": {
-      "desc": "Shakes up the Dialog in order to catch user's attention"
+      "desc": "Emitted when the Dialog shakes in order to catch user's attention, unless the 'no-shake' property is set"
     },
 
     "escape-key": {
