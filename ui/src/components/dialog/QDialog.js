@@ -52,6 +52,7 @@ export default defineComponent({
     noRouteDismiss: Boolean,
     noRefocus: Boolean,
     noFocus: Boolean,
+    noShake: Boolean,
 
     seamless: Boolean,
 
@@ -256,6 +257,8 @@ export default defineComponent({
     }
 
     function shake () {
+      if (props.noShake) return
+
       focus()
       emit('shake')
 

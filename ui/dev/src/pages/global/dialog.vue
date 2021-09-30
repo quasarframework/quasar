@@ -741,6 +741,7 @@
           <q-toggle v-model="testDialog.seamless" label="Seamless" />
           <q-toggle v-model="testDialog.persistent" label="Persistent" />
           <q-toggle v-model="testDialog.noBackdropDismiss" label="No Backdrop Dismiss" />
+          <q-toggle v-model="testDialog.noShake" label="No Shake" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -850,7 +851,8 @@ export default {
       testDialog: {
         seamless: false,
         persistent: false,
-        noBackdropDismiss: false
+        noBackdropDismiss: false,
+        noShake: false
       },
 
       address: '',
