@@ -1,12 +1,11 @@
-import { Configuration as ElectronBuilderConfiguration } from "electron-builder";
-import "../shims";
+import * as ElectronBuilder from "electron-builder";
 import { QuasarCapacitorTargets } from "./capacitor-conf";
 import {
   QuasarElectronBundlers,
   ElectronBuilderTargets,
   ElectronBuilderArchs,
   ElectronPackagerTargets,
-  ElectronPackagerArchs
+  ElectronPackagerArchs,
 } from "./electron-conf";
 import { QuasarCordovaTargets } from "./cordova-conf";
 
@@ -96,7 +95,7 @@ interface ElectronBuilderQuasarContext extends BaseElectronQuasarContext {
    * Electron-builder configuration for publishing.
    * See https://www.electron.build/configuration/configuration
    */
-  builder: ElectronBuilderConfiguration;
+  builder: ElectronBuilder.Configuration;
 }
 
 interface ElectronPackagerQuasarContext extends BaseElectronQuasarContext {
