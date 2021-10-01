@@ -1,16 +1,14 @@
-import {
-  ElectronBuilderUtilProxy,
-  ElectronBuilderProxy,
-  ElectronPackagerProxy,
-} from "../ts-proxies";
+import * as ElectronBuilderUtil from "builder-util";
+import * as ElectronBuilder from "electron-builder";
+import * as ElectronPackager from "electron-packager";
 import { Configuration as WebpackConfiguration } from "webpack";
 import * as WebpackChain from "webpack-chain";
 import { LiteralUnion } from "../ts-helpers";
 
 export type QuasarElectronBundlersInternal = "builder" | "packager";
 
-type ElectronBuilderConfiguration = ElectronBuilderProxy.Configuration;
-type ElectronPackagerOptions = ElectronPackagerProxy.Options;
+type ElectronBuilderConfiguration = ElectronBuilder.Configuration;
+type ElectronPackagerOptions = ElectronPackager.Options;
 
 interface QuasarBaseElectronConfiguration {
   /**
@@ -81,15 +79,15 @@ interface QuasarElectronBuilderConfiguration
 
 export type QuasarElectronBundlers = QuasarElectronBundlersInternal;
 
-export type ElectronBuilderArchs = ElectronBuilderUtilProxy.ArchType;
+export type ElectronBuilderArchs = ElectronBuilderUtil.Arch;
 // ElectronBuilder doesn't export exact types for the target option
 export type ElectronBuilderTargets = string;
 
 export type ElectronPackagerArchs = LiteralUnion<
-  ElectronPackagerProxy.OfficialArch | "all"
+  ElectronPackager.OfficialArch | "all"
 >;
 export type ElectronPackagerTargets = LiteralUnion<
-  ElectronPackagerProxy.OfficialPlatform | "all"
+  ElectronPackager.OfficialPlatform | "all"
 >;
 
 export type QuasarElectronConfiguration =

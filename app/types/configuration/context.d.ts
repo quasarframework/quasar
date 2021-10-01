@@ -1,4 +1,4 @@
-import { ElectronBuilderProxy } from "../ts-proxies";
+import * as ElectronBuilder from "electron-builder";
 import { QuasarCapacitorTargets } from "./capacitor-conf";
 import {
   QuasarElectronBundlers,
@@ -95,7 +95,7 @@ interface ElectronBuilderQuasarContext extends BaseElectronQuasarContext {
    * Electron-builder configuration for publishing.
    * See https://www.electron.build/configuration/configuration
    */
-  builder: ElectronBuilderProxy.Configuration;
+  builder: ElectronBuilder.Configuration;
 }
 
 interface ElectronPackagerQuasarContext extends BaseElectronQuasarContext {
