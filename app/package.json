@@ -118,6 +118,18 @@
     "quasar": "^2.0.4",
     "vuex": "^4.0.0"
   },
+  "peerDependencies": {
+    "electron-builder": "^22.0.0",
+    "electron-packager": "^15.0.0"
+  },
+  "peerDependenciesMeta": {
+    "electron-builder": {
+      "optional": true
+    },
+    "electron-packager": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": ">= 12.22.1",
     "npm": ">= 6.14.12",
