@@ -15,6 +15,8 @@ return {
   ssr: {
     pwa: true/false, // should a PWA take over (default: false), or just a SPA?
 
+    fastify: true/false, // use fastify server (experimental!)?
+
     manualStoreHydration: true/false,
         // Manually hydrate the store.
         // This is detailed in a subsection below

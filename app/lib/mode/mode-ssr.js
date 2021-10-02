@@ -9,15 +9,28 @@ class Mode {
     return fs.existsSync(appPaths.ssrDir)
   }
 
-  add () {
+  async add () {
     if (this.isInstalled) {
       warn(`SSR support detected already. Aborting.`)
       return
     }
 
+    // experimental fastify server
+    const express = 'express (recommended)'
+    const fastify = 'fastify (experimental)'
+    const inquirer = require('inquirer')
+    const { action } = await inquirer.prompt([{
+      name: 'action',
+      type: 'list',
+      message: `Please choose http framework:`,
+      choices: [express, fastify],
+      default: 'overwrite'
+    }])
+
     log(`Creating SSR source folder...`)
-    fse.copySync(appPaths.resolve.cli('templates/ssr'), appPaths.ssrDir)
+    fse.copySync(appPaths.resolve.cli(action === express ? 'templates/ssr' : 'templates/ssr-fastify'), appPaths.ssrDir)
     log(`SSR support was added`)
+    if (action === fastify) log(`Please update quasar.conf.js with flag "ssr -> fastify = true"`)
   }
 
   remove () {

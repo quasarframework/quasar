@@ -195,6 +195,7 @@ class QuasarConfFile {
       extras: [],
       sourceFiles: {},
       ssr: {
+        fastify: false,
         middlewares: []
       },
       pwa: {

@@ -52,6 +52,14 @@ module.exports = class DevServer {
 
     let serverManifest, clientManifest, renderTemplate, renderWithVue, webpackServerListening = false
 
+    let fastifyApp
+    let fastifyPort
+    // experimental fastify support
+    if (cfg.ssr && cfg.ssr.fastify) {
+      fastifyPort = cfg.ssr.fastify.devPort || '3019'
+      fastifyApp = require('fastify')()
+    }
+
     let tryToFinalize = () => {
       if (serverManifest && clientManifest && webpackServerListening === true) {
         tryToFinalize = () => {}
@@ -84,6 +92,18 @@ module.exports = class DevServer {
         maxAge: opts.maxAge === void 0
           ? cfg.ssr.maxAge
           : opts.maxAge
+      })
+    }
+    // serve static for fastify server
+    const fastifyServeStatic = (path, opts = {}) => {
+      return (req, res) => res.sendFile(path)
+    }
+    if (fastifyApp) {
+      fastifyApp.register(require('fastify-static'), {
+        root: publicFolder,
+        prefix: resolveUrlPath('/'),
+        serve: false,
+        maxAge: cfg.ssr.maxAge
       })
     }
 
@@ -139,7 +159,7 @@ module.exports = class DevServer {
             if (this.destroyed === true) { return }
 
             return injectMiddleware({
-              app,
+              app: fastifyApp || app,
               resolve: {
                 urlPath: resolveUrlPath,
                 root () { return join(rootFolder, ...arguments) },
@@ -152,13 +172,20 @@ module.exports = class DevServer {
               },
               render: ssrContext => renderWithVue(ssrContext),
               serve: {
-                static: serveStatic,
+                static: fastifyApp ? fastifyServeStatic : serveStatic,
                 error: renderError
               }
             })
           })
           .then(() => {
             if (this.destroyed === true) { return }
+            if (fastifyApp) {
+              // can not use fastify as webpack devServer
+              // as a workaround we spin a separate fastify server
+              fastifyApp.listen(fastifyPort, () => {
+                console.log(`${banner} Fastify Server is on ${fastifyPort}`)
+              })
+            }
 
             webpackServerListening = true
             tryToFinalize()
@@ -232,6 +259,13 @@ module.exports = class DevServer {
 
             if (cfg.build.ignorePublicFolder !== true) {
               app.use(resolveUrlPath('/'), serveStatic('.', { maxAge: 0 }))
+            }
+
+            if (fastifyApp) {
+              // can not use fastify as webpack devServer
+              // as a workaround we proxy fastify via devServer
+              const { createProxyMiddleware } = require('http-proxy-middleware');
+              app.use('*', createProxyMiddleware({ target: `http://localhost:${fastifyPort}`, changeOrigin: true }));
             }
 
             originalAfter && originalAfter(opts)
