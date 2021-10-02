@@ -69,8 +69,18 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
           return API
         },
         hide () {
-          if (dialogRef.value !== null) {
-            dialogRef.value.hide()
+          if (dialogRef.value !== null && dialogRef.value.hide !== void 0) {
+            dialogRef.value.hide();
+          } else if (
+            // account for "script setup" way of declaring component
+            vm.$.subTree &&
+            vm.$.subTree.component &&
+            vm.$.subTree.component.proxy &&
+            vm.$.subTree.component.proxy.hide
+          ) {
+            vm.$.subTree.component.proxy.hide();
+          } else {
+            console.error("[Quasar] Incorrectly defined Dialog component");
           }
           return API
         },
