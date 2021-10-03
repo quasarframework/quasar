@@ -75,30 +75,30 @@ fastifyStaticInit(app, resolveUrlPath, publicFolder, serveStatic).then(() => {
 app.use(resolveUrlPath('/'), serveStatic('.'))
 <% } %>
 // inject custom middleware
-  injectMiddlewares({
-    app,
-    resolve: {
-      urlPath: resolveUrlPath,
-      root () { return join(rootFolder, ...arguments) },
-      public: resolvePublicFolder
-    },
-    publicPath,
-    folders: {
-      root: rootFolder,
-      public: publicFolder
-    },
-    render: ssrContext => render(ssrContext, renderTemplate),
-    serve: {
-      static: serveStatic
-    }
-  }).then(() => {
-    // finally start listening to clients
-    const port = process.env.PORT || <%= ssr.prodPort %>
-    app.listen(port, (err) => {
-      if (err) throw err
-      console.log('Server listening at port ' + port)
-    })
+injectMiddlewares({
+  app,
+  resolve: {
+    urlPath: resolveUrlPath,
+    root () { return join(rootFolder, ...arguments) },
+    public: resolvePublicFolder
+  },
+  publicPath,
+  folders: {
+    root: rootFolder,
+    public: publicFolder
+  },
+  render: ssrContext => render(ssrContext, renderTemplate),
+  serve: {
+    static: serveStatic
+  }
+}).then(() => {
+  // finally start listening to clients
+  const port = process.env.PORT || <%= ssr.prodPort %>
+  app.listen(port, (err) => {
+    if (err) throw err
+    console.log('Server listening at port ' + port)
   })
+})
 <% if (ssr.fastify) { %>
 })
 <% } %>
