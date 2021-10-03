@@ -5,18 +5,18 @@
 .fit
   inline-size: 100% !important
   block-size: 100% !important
-.full-block-size
+.full-height
   block-size: 100% !important
-.full-inline-size
+.full-width
   inline-size: 100% !important
   padding-inline-start: 0 !important
   padding-inline-end: 0 !important
 
-.window-block-size
+.window-height
   margin-block-start: 0 !important
   margin-block-end: 0 !important
   block-size: 100vh !important
-.window-inline-size
+.window-width
   padding-inline-start: 0 !important
   padding-inline-end: 0 !important
   inline-size: 100vw !important
@@ -27,7 +27,6 @@
   display: inline-block !important
 
 @each $space, $value in $spaces
-
   .q-pa-#{$space}
     padding-block: map-get($value, "y")
     padding-inline: map-get($value, "x")
