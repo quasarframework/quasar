@@ -7,7 +7,7 @@ import { join } from 'path'
 <% if (ssr.fastify) { %>
 // ssr fastify experimental
 import fastify from 'fastify'
-import { fastifyStaticInit } from './ssr-fastify-helpers.js'
+import { fastifyStaticInit, fastifyStaticRegister } from './ssr-fastify-helpers.js'
 <% } else { %>
 import express from 'express'
 <% } %>
@@ -68,13 +68,9 @@ app.use(resolveUrlPath('/service-worker.js'), serveStatic('service-worker.js', {
 
 // serve "www" folder (includes the "public" folder)
 <% if (ssr.fastify) { %>
-// ssr fastify experimental
-app.register(require('fastify-static'), {
-  root: publicFolder,
-  prefix: resolveUrlPath('/'),
-  serve: false,
-  maxAge: <%= ssr.maxAge %>
-})
+// ssr fastify experimental: registering fastify-static plugin
+fastifyStaticRegister(app, publicFolder, resolveUrlPath('/'), <%= ssr.maxAge %>)
+fastifyStaticInit(app, resolveUrlPath, publicFolder, serveStatic).then(() => {
 <% } else { %>
 app.use(resolveUrlPath('/'), serveStatic('.'))
 <% } %>
@@ -98,16 +94,11 @@ app.use(resolveUrlPath('/'), serveStatic('.'))
   }).then(() => {
     // finally start listening to clients
     const port = process.env.PORT || <%= ssr.prodPort %>
-      <% if (ssr.fastify) { %>
-      // ssr fastify experimental
-      fastifyStaticInit(app, resolveUrlPath, publicFolder, serveStatic).then(() => {
-        <% } %>
-        app.listen(port, (err) => {
-          if (err) throw err
-          console.log('Server listening at port ' + port)
-        })
-      <% if (ssr.fastify) { %>
-      })
-      <% } %>
+    app.listen(port, (err) => {
+      if (err) throw err
+      console.log('Server listening at port ' + port)
+    })
   })
-
+<% if (ssr.fastify) { %>
+})
+<% } %>

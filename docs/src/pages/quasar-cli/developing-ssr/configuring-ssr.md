@@ -15,7 +15,9 @@ return {
   ssr: {
     pwa: true/false, // should a PWA take over (default: false), or just a SPA?
 
-    fastify: true/false, // use fastify server (experimental!)?
+    fastify: true/false, // use fastify server (experimental!)
+        // optionally it's possible to pass an object with devPort:
+        // fastify: { devPort: 3019 }, to specify fastify port during local dev
 
     manualStoreHydration: true/false,
         // Manually hydrate the store.

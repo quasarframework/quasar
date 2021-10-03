@@ -23,3 +23,13 @@ export async function fastifyStaticInit(app, resolveUrlPath, publicFolder, serve
     app.get(resolveUrlPath('/' + path), serveStatic(path))
   }
 }
+
+export function fastifyStaticRegister(app, root, prefix, maxAge) {
+  app.register(require('fastify-static'), {
+    root,
+    prefix,
+    serve: false,
+    maxAge,
+    preCompressed: true,
+  })
+}
