@@ -22,8 +22,13 @@ Then, in your `src-electron/main-process/electron-main.js` file, make some edits
 ```js
 // src-electron/main-process/electron-main.js
 
-import { initialize } from '@electron/remote/main' // <-- add this
+import { app, BrowserWindow, nativeTheme } from 'electron'
+import { initialize, enable } from '@electron/remote/main' // <-- add this
+import path from 'path'
+
 initialize() // <-- add this
+
+// ...
 
 mainWindow = new BrowserWindow({
   width: 1000,
@@ -31,10 +36,15 @@ mainWindow = new BrowserWindow({
   useContentSize: true,
   frame: false // <-- add this
   webPreferences: {
-    enableRemoteModule: true, // <-- and add this
     // ...
   }
 })
+
+enable(mainWindow.webContents) // <-- add this
+
+mainWindow.loadURL(process.env.APP_URL)
+
+// ...
 ```
 
 Notice that we need to explicitly enable the remote module too. We'll be using it in the preload script to provide the renderer thread with the window minimize/maximize/close functionality.
