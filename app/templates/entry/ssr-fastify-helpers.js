@@ -1,3 +1,8 @@
+/**
+ * THIS FILE IS GENERATED AUTOMATICALLY.
+ * DO NOT EDIT.
+ **/
+
 const { resolve } = require('path');
 const { readdir } = require('fs').promises;
 async function* getFiles(dir) {

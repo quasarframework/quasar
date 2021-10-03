@@ -20,7 +20,7 @@ import clientManifest from './quasar.client-manifest.json'
 import injectMiddlewares from './ssr-middlewares.js'
 
 <% if (ssr.fastify) { %>
-// ssr fastify experimental
+// ssr fastify experimental: instantiating server
 const app = fastify()
 <% } else { %>
 const app = express()
@@ -41,7 +41,7 @@ function resolvePublicFolder () {
 
 const serveStatic = (path, opts = {}) => {
   <% if (ssr.fastify) { %>
-  // ssr fastify experimental
+  // ssr fastify experimental: using fastify-static
   return (req, res) => res.sendFile(path)
   <% } else { %>
   return express.static(resolvePublicFolder(path), {
