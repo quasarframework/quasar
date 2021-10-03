@@ -31,12 +31,6 @@ class Generator {
         paths.push(
           'ssr-prod-webserver.js'
         )
-        if (quasarConfFile.quasarConf.ssr.fastify) {
-          // some extra helpers for fastify ssr
-          paths.push(
-            'ssr-fastify-helpers.js'
-          )
-        }
       }
     }
 

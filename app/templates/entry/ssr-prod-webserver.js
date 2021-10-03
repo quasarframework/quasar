@@ -7,7 +7,6 @@ import { join } from 'path'
 <% if (ssr.fastify) { %>
 // ssr fastify experimental
 import fastify from 'fastify'
-import { fastifyStaticInit, fastifyStaticRegister } from './ssr-fastify-helpers.js'
 <% } else { %>
 import express from 'express'
 <% } %>
@@ -69,8 +68,14 @@ app.use(resolveUrlPath('/service-worker.js'), serveStatic('service-worker.js', {
 // serve "www" folder (includes the "public" folder)
 <% if (ssr.fastify) { %>
 // ssr fastify experimental: registering fastify-static plugin
-fastifyStaticRegister(app, publicFolder, resolveUrlPath('/'), <%= ssr.maxAge %>)
-fastifyStaticInit(app, resolveUrlPath, publicFolder, serveStatic).then(() => {
+app.register(require('fastify-static'), {
+  root: publicFolder,
+  prefix: resolveUrlPath('/'),
+  maxAge: <%= ssr.maxAge %>,
+  wildcard: false,
+  serve: true,
+  preCompressed: true,
+})
 <% } else { %>
 app.use(resolveUrlPath('/'), serveStatic('.'))
 <% } %>
@@ -99,6 +104,3 @@ injectMiddlewares({
     console.log('Server listening at port ' + port)
   })
 })
-<% if (ssr.fastify) { %>
-})
-<% } %>
