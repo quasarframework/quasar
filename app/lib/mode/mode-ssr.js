@@ -3,6 +3,8 @@ const fse = require('fs-extra')
 
 const appPaths = require('../app-paths')
 const { log, warn } = require('../helpers/logger')
+const { spawnSync } = require('../helpers/spawn')
+const nodePackager = require('../helpers/node-packager')
 
 class Mode {
   get isInstalled () {
@@ -26,6 +28,27 @@ class Mode {
       choices: [express, fastify],
       default: 'overwrite'
     }])
+
+    if (action === fastify) {
+      const cmdParam = nodePackager === 'npm'
+      ? ['install', '--save']
+      : ['add']
+      const fastifyDeps = {
+        'fastify': '^3.22.0',
+        'fastify-compress': '^3.6.0',
+        'fastify-static': '^4.2.3',
+      }
+
+      log(`Installing Fastify dependencies...`)
+      spawnSync(
+        nodePackager,
+        cmdParam.concat(Object.keys(fastifyDeps).map(dep => {
+          return `${dep}@${fastifyDeps[dep]}`
+        })),
+        { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
+        () => fatal('Failed to install Fastify dependencies', 'FAIL')
+      )
+    }
 
     log(`Creating SSR source folder...`)
     fse.copySync(appPaths.resolve.cli(action === express ? 'templates/ssr' : 'templates/ssr-fastify'), appPaths.ssrDir)

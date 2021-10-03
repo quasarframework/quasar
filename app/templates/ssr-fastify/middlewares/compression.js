@@ -5,12 +5,12 @@ export default ssrMiddleware(({ app }) => {
   app.register(
     require('fastify-compress'),
     // {
-    //   threshold: 1048,
+    //   threshold: 2048,
     //   global: true,
     //   brotliOptions: {
     //     params: {
     //       [zlib.constants.BROTLI_PARAM_MODE]: zlib.constants.BROTLI_MODE_TEXT, // useful for APIs that primarily return text
-    //       [zlib.constants.BROTLI_PARAM_QUALITY]: 11, // default is 11, max is 11, min is 0
+    //       [zlib.constants.BROTLI_PARAM_QUALITY]: 5, // default is 11, max is 11, min is 0
     //     },
     //   },
     //   zlibOptions: {
