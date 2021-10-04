@@ -7,9 +7,10 @@ import * as directives from './directives.js'
 import * as plugins from './plugins.js'
 import * as utils from './utils.js'
 import * as composables from './composables.js'
+import { version } from './version'
 
 export default {
-  version: __QUASAR_VERSION__,
+  version,
   install (app, opts) {
     installQuasar(app, {
       components,

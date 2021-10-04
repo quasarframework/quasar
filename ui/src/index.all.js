@@ -1,6 +1,7 @@
 import installQuasar from './install-quasar.js'
 import lang from './lang.js'
 import iconSet from './icon-set.js'
+import { version } from './version'
 
 import * as components from './components.js'
 import * as directives from './directives.js'
@@ -12,7 +13,7 @@ export * from './composables.js'
 export * from './utils.js'
 
 export const Quasar = {
-  version: __QUASAR_VERSION__,
+  version,
   install (app, opts, ssrContext) {
     installQuasar(
       app,

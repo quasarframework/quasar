@@ -7,6 +7,7 @@ import History from './history.js'
 import Lang from './lang.js'
 import Body from './body.js'
 import IconSet from './icon-set.js'
+import { version } from './version'
 
 import { quasarKey } from './utils/private/symbols.js'
 import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './utils/private/global-config.js'
@@ -75,7 +76,7 @@ function prepareApp (app, uiOpts, pluginOpts) {
 export default __QUASAR_SSR_SERVER__
   ? function (parentApp, opts = {}, ssrContext) {
       const $q = {
-        version: __QUASAR_VERSION__,
+        version,
         config: opts.config || {}
       }
 
@@ -113,7 +114,7 @@ export default __QUASAR_SSR_SERVER__
       })
     }
   : function (parentApp, opts = {}) {
-    const $q = { version: __QUASAR_VERSION__ }
+    const $q = { version }
 
     if (globalConfigIsFrozen === false) {
       if (opts.config !== void 0) {

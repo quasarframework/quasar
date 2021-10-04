@@ -21,6 +21,8 @@ console.log(` 📦 Building Quasar ${ green('v' + require('../package.json').ver
 
 createFolder('dist')
 
+require('./script.version.js')
+
 if (!type || type === 'js') {
   createFolder('dist/vetur')
   createFolder('dist/api')
