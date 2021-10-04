@@ -270,6 +270,20 @@ function writeIndexDTS (apis) {
 
   addQuasarLangCodes(quasarTypeContents)
 
+  // TODO: (Qv3) remove this reference to q/app and
+  // rely on the shim provided by the starter kit with
+  // https://github.com/quasarframework/quasar-starter-kit/pull/162
+  // Existing projects which used `compilerOptions.types` as `["quasar", ... /* other packages types */]`
+  // due to this implementation may be able to remove that option and rely on default behaviour
+  // ----
+  // This line must be BEFORE ANY TS INSTRUCTION,
+  //  or it won't be interpreted as a TS compiler directive
+  //  but as a normal comment
+  // On Vue CLI projects `@quasar/app` isn't available,
+  //  we ignore the "missing package" error because it's the intended behaviour
+  writeLine(contents, '// @ts-ignore')
+  writeLine(contents, '/// <reference types="@quasar/app" />')
+  // ----
   writeLine(contents, 'import { App, Component, ComponentPublicInstance } from \'vue\'')
   writeLine(contents, 'import { LooseDictionary, ComponentConstructor, GlobalComponentConstructor } from \'./ts-helpers\'')
   writeLine(contents)
