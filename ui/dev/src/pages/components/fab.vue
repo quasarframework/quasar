@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import { mdiMenu } from '@quasar/extras/mdi-v4'
+import { mdiMenu } from '@quasar/extras/mdi-v6'
 
 export default {
   created () {

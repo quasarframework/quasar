@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
   "main": "dist/quasar.cjs.prod.js",
   "module": "dist/quasar.esm.prod.js",
@@ -62,8 +62,8 @@
   "homepage": "https://quasar.dev",
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
-    "@quasar/app": "^3.0.0-alpha.6",
-    "@quasar/extras": "^1.10.0",
+    "@quasar/app": "^3.0.0",
+    "@quasar/extras": "^1.11.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-replace": "^2.3.3",
     "babel-preset-es2015-rollup": "^3.0.0",
@@ -77,6 +77,7 @@
     "eslint-webpack-plugin": "^2.4.1",
     "json-beautify": "^1.1.1",
     "module-alias": "^2.2.2",
+    "prettier": "^2.4.1",
     "recast": "^0.18.5",
     "rimraf": "^3.0.1",
     "rollup": "^2.34.0",

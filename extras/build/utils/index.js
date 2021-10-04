@@ -1,4 +1,4 @@
-const xmldom = require('xmldom')
+const xmldom = require('@xmldom/xmldom')
 const Parser = new xmldom.DOMParser()
 
 const { resolve, basename } = require('path')

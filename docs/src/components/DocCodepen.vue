@@ -112,9 +112,11 @@ app.mount('#q-app')
           return p1 + p2.replace(/>/g, '___TEMP_REPLACEMENT___') + p3
         })
         .replace(/<(q-[\w-]+|div)([^>]*?)\s*?([\n\r][\t ]+)?\/>/gs, '<$1$2$3></$1>')
-        .replace(/<(thead|tbody)(.*?)[\n\r]?(\s*)<\/\1>/gs, function (match, p1, p2, p3) {
+        .replace(/(<template[^>]*>)(\s*?(?:[\n\r][\t ]+)?)<(thead|tbody|tfoot)/gs, '$1$2<___PREVENT_TEMPLATE___$3')
+        .replace(/<(thead|tbody|tfoot)(.*?)[\n\r]?(\s*)<\/\1>/gs, function (match, p1, p2, p3) {
           return '<template>\n' + p3 + '  <' + p1 + p2.split(/[\n\r]+/g).join('\n  ') + '\n' + p3 + '  </' + p1 + '>\n' + p3 + '</template>'
         })
+        .replace(/___PREVENT_TEMPLATE___/g, '')
         .replace(/___TEMP_REPLACEMENT___/g, '>')
         .replace(/^\s{2}/gm, '')
         .trim()

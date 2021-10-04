@@ -67,6 +67,11 @@ export default defineComponent({
       props.type === 'textarea' || props.autogrow === true
     )
 
+    const isTypeText = computed(() =>
+      isTextarea.value === true
+      || [ 'text', 'search', 'url', 'tel', 'password' ].includes(props.type)
+    )
+
     const onEvents = computed(() => {
       const evt = {
         ...state.splitAttrs.listeners.value,
@@ -207,7 +212,7 @@ export default defineComponent({
       else {
         emitValue(val)
 
-        if ([ 'text', 'search', 'url', 'tel', 'password' ].includes(props.type) && e.target === document.activeElement) {
+        if (isTypeText.value === true && e.target === document.activeElement) {
           const { selectionStart, selectionEnd } = e.target
 
           if (selectionStart !== void 0 && selectionEnd !== void 0) {

@@ -1,4 +1,4 @@
-/* Fontawesome Free v5.15.3 */
+/* Fontawesome Free v5.15.4 */
 
 export declare const fab500px: string;
 export declare const fabAccessibleIcon: string;
@@ -392,7 +392,6 @@ export declare const fabThinkPeaks: string;
 export declare const fabTiktok: string;
 export declare const fabTradeFederation: string;
 export declare const fabTrello: string;
-export declare const fabTripadvisor: string;
 export declare const fabTumblrSquare: string;
 export declare const fabTumblr: string;
 export declare const fabTwitch: string;

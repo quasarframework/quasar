@@ -1,13 +1,14 @@
-import { Configuration as ElectronBuilderConfiguration } from "electron-builder";
-import {
-  arch,
-  Options as ElectronPackagerOptions,
-  platform,
-} from "electron-packager";
+import * as ElectronBuilderUtil from "builder-util";
+import * as ElectronBuilder from "electron-builder";
+import * as ElectronPackager from "electron-packager";
 import { Configuration as WebpackConfiguration } from "webpack";
 import * as WebpackChain from "webpack-chain";
+import { LiteralUnion } from "../ts-helpers";
 
 export type QuasarElectronBundlersInternal = "builder" | "packager";
+
+type ElectronBuilderConfiguration = ElectronBuilder.Configuration;
+type ElectronPackagerOptions = ElectronPackager.Options;
 
 interface QuasarBaseElectronConfiguration {
   /**
@@ -78,18 +79,16 @@ interface QuasarElectronBuilderConfiguration
 
 export type QuasarElectronBundlers = QuasarElectronBundlersInternal;
 
-export type ElectronBuilderArchs = "ia32" | "x64" | "armv7l" | "arm64" | "all";
+export type ElectronBuilderArchs = ElectronBuilderUtil.Arch;
+// ElectronBuilder doesn't export exact types for the target option
+export type ElectronBuilderTargets = string;
 
-export type ElectronBuilderTargets =
-  | "darwin"
-  | "mac"
-  | "win32"
-  | "win"
-  | "linux"
-  | "all";
-
-export type ElectronPackagerArchs = arch;
-export type ElectronPackagerTargets = platform;
+export type ElectronPackagerArchs = LiteralUnion<
+  ElectronPackager.OfficialArch | "all"
+>;
+export type ElectronPackagerTargets = LiteralUnion<
+  ElectronPackager.OfficialPlatform | "all"
+>;
 
 export type QuasarElectronConfiguration =
   | QuasarElectronPackagerConfiguration

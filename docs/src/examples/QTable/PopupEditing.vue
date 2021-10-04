@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const columns = [
   {
     name: 'name',
@@ -170,7 +172,7 @@ export default {
   setup () {
     return {
       columns,
-      rows
+      rows: ref(rows)
     }
   }
 }

@@ -82,7 +82,7 @@ module.exports = function (ctx) {
     },
 
     framework: {
-      iconSet: 'svg-mdi-v5',
+      iconSet: 'svg-mdi-v6',
 
       config: {
         loadingBar: {

@@ -8,7 +8,7 @@ import {
   Ripple
 } from 'quasar'
 
-import { mdiArrowDownThinCircleOutline } from '@quasar/extras/mdi-v5'
+import { mdiArrowDownThinCircleOutline } from '@quasar/extras/mdi-v6'
 import { h, ref, watch, onBeforeUpdate, withDirectives } from 'vue'
 import { useRoute } from 'vue-router'
 

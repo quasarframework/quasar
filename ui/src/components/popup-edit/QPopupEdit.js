@@ -148,7 +148,7 @@ export default defineComponent({
 
     function getContent () {
       const child = slots.default !== void 0
-        ? slots.default(scope.value).slice()
+        ? [].concat(slots.default(scope.value))
         : []
 
       props.title && child.unshift(

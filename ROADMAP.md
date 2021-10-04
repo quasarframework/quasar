@@ -30,29 +30,36 @@ Quasar v0.x versions are no longer supported.
 
 We are updating this section constantly in order to keep you up to date with our current (and new!) efforts.
 
-*The schedule may change based only on unforeseen and/or out of the ordinary circumstances.*
+*The schedule may change based on unforeseen and/or out of the ordinary circumstances.*
 
 ### Q2 2021
-* Vite.js plugin for Quasar v2.
 * ✌️ (DONE) Upgrade the App CLI for Quasar v2 to Webpack v5 ([reference](https://github.com/quasarframework/quasar/issues/8102))
 * ✌️ (DONE) Quasar v2 will become officially the "latest" version of Quasar. The documentation website (https://quasar.dev) will point to v2 and the v1 docs will live under https://v1.quasar.dev. The end of life for Quasar v1 will be March 2022 and we will keep on backporting fixes and new features from v2 to it until then.
-* Migration to Qv2 of most used testing AEs (`@quasar/testing`, `@quasar/testing-unit-jest`, `@quasar/testing-e2e-cypress`)
-* New maintainers recruiting and mentoring
-
 
 ### Q3 2021
-* Typescript projects created with Quasar CLI (for Quasar v2) will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form). ([reference](https://github.com/quasarframework/quasar/issues/8572))
-* Creation of official Quasar Organizational chart
-* Allow to save starter kit options as JSON profiles ([reference](https://github.com/quasarframework/quasar/issues/5537))
-* Quasar.Conf 2021
+* ✌️ (DONE) Migration to Quasar v2 of official AEs ([reference](https://github.com/quasarframework/quasar/discussions/9560))
+* ✌️ (DONE) Migration to Quasar v2 of most used testing AEs ([`@quasar/testing`](https://github.com/quasarframework/quasar-testing/tree/next/packages/testing), [`@quasar/testing-unit-jest`](https://github.com/quasarframework/quasar-testing/tree/next/packages/unit-jest), [`@quasar/testing-e2e-cypress`](https://github.com/quasarframework/quasar-testing/tree/next/packages/e2e-cypress)) ([reference](https://github.com/quasarframework/quasar/discussions/10341))
+* ✌️ (DONE) Quasar brand rework ([reference](https://dev.to/quasar/quasar-brand-refresh-and-new-partnership-ao1))
+* 🚫 (CANCELLED 😢) ~~Quasar.Conf 2021~~ ([reference](https://twitter.com/quasarframework/status/1435177368352698375))
 
 ### Q4 2021
-* First beta of a new CLI for Quasar based on Vite.js instead of Webpack (will have its own life along with the current Webpack-based CLI).
-* Advanced layouts/pages scaffolding (this will be a paid service)
+* Volar support ([reference](https://github.com/quasarframework/quasar/discussions/10619))
+* Triaging enhancements and automation ([reference](https://github.com/quasarframework/rfcs/issues/10))
+* Premium video tutorials (pre-access will be a paid service, will be later released for free) ([reference](https://quasarcomponents.com/))
+* Quasar v2 TypeScript projects created with Quasar CLI will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form) ([reference](https://github.com/quasarframework/quasar/issues/8572))
+* Creation of official Quasar Organizational chart
+* Quasar website revamp 🔥
 
 ### Q1 2022
-* The stable release of the new CLI based on Vite.js.
-* Work starting on Quasar v3.
+* Allow to save starter kit options as JSON profiles ([reference](https://github.com/quasarframework/quasar/issues/5537))
+* Quasar Scaffolding (official name TBD) (this will be a paid service) ([reference](https://github.com/quasarframework/quasar/discussions/10053))
+* Vite.js plugin for Quasar v2 ([reference](https://github.com/quasarframework/quasar/issues/7815))
+* First beta of a new CLI for Quasar based on Vite.js instead of Webpack (will have its own life along with the current Webpack-based CLI)
 
 ### Q2 2022
 * April 1st 2022 marks the end of life for Quasar v1. It will no longer receive updates.
+* Work starting on Quasar v3
+* Stable release of the new CLI based on Vite.js
+
+### Q3 2022
+* Quasar.Conf 2022

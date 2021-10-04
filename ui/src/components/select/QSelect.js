@@ -206,7 +206,12 @@ export default defineComponent({
 
     const innerFieldProps = computed(() => {
       const acc = {}
-      fieldPropsList.forEach(key => props[ key ])
+      fieldPropsList.forEach(key => {
+        const val = props[ key ]
+        if (val !== void 0) {
+          acc[ key ] = val
+        }
+      })
       return acc
     })
 
@@ -262,6 +267,19 @@ export default defineComponent({
 
     const tabindex = computed(() => (state.focused.value === true ? props.tabindex : -1))
 
+    const comboboxAttrs = computed(() => ({
+      role: 'combobox',
+      'aria-multiselectable': props.multiple === true ? 'true' : 'false',
+      'aria-expanded': menu.value === true ? 'true' : 'false',
+      'aria-owns': `${ state.targetUid.value }_lb`,
+      'aria-activedescendant': `${ state.targetUid.value }_${ optionIndex.value }`
+    }))
+
+    const listboxAttrs = computed(() => ({
+      role: 'listbox',
+      id: `${ state.targetUid.value }_lb`
+    }))
+
     const selectedScope = computed(() => {
       return innerValue.value.map((opt, i) => ({
         index: i,
@@ -296,12 +314,16 @@ export default defineComponent({
           tabindex: -1,
           dense: props.optionsDense,
           dark: isOptionsDark.value,
+          role: 'option',
+          id: `${ state.targetUid.value }_${ index }`,
           onClick: () => { toggleOption(opt) }
         }
 
         if (disable !== true) {
           isOptionSelected(opt) === true && (itemProps.active = true)
           optionIndex.value === index && (itemProps.focused = true)
+
+          itemProps[ 'aria-selected' ] = itemProps.active === true ? 'true' : 'false'
 
           if ($q.platform.is.desktop === true) {
             itemProps.onMousemove = () => { setOptionIndex(index) }
@@ -889,7 +911,7 @@ export default defineComponent({
       }
 
       if (slots.selected !== void 0) {
-        return slots.selected().slice()
+        return [].concat(slots.selected())
       }
 
       if (props.useChips === true) {
@@ -977,7 +999,8 @@ export default defineComponent({
         'data-autofocus': (fromDialog !== true && props.autofocus === true) || void 0,
         disabled: props.disable === true,
         readonly: props.readonly === true,
-        ...inputControlEvents.value
+        ...inputControlEvents.value,
+        ...comboboxAttrs.value
       }
 
       if (fromDialog !== true && hasDialog === true) {
@@ -1140,6 +1163,7 @@ export default defineComponent({
         transitionHide: props.transitionHide,
         transitionDuration: props.transitionDuration,
         separateClosePopup: true,
+        ...listboxAttrs.value,
         onScrollPassive: onVirtualScrollEvt,
         onBeforeShow: onControlPopupShow,
         onBeforeHide: onMenuBeforeHide,
@@ -1198,6 +1222,7 @@ export default defineComponent({
           ref: menuContentRef,
           class: menuContentClass.value + ' scroll',
           style: props.popupContentStyle,
+          ...listboxAttrs.value,
           onClick: prevent,
           onScrollPassive: onVirtualScrollEvt
         }, (
@@ -1401,9 +1426,9 @@ export default defineComponent({
       filter, updateMenuPosition, updateInputValue,
       isOptionSelected,
       getEmittingOptionValue,
-      isOptionDisabled: () => isOptionDisabled.value.apply(null, arguments),
-      getOptionValue: () => getOptionValue.value.apply(null, arguments),
-      getOptionLabel: () => getOptionLabel.value.apply(null, arguments)
+      isOptionDisabled: (...args) => isOptionDisabled.value.apply(null, args),
+      getOptionValue: (...args) => getOptionValue.value.apply(null, args),
+      getOptionLabel: (...args) => getOptionLabel.value.apply(null, args)
     })
 
     Object.assign(state, {
@@ -1478,6 +1503,7 @@ export default defineComponent({
               class: 'no-outline',
               id: state.targetUid.value,
               tabindex: props.tabindex,
+              ...comboboxAttrs.value,
               onKeydown: onTargetKeydown,
               onKeyup: onTargetKeyup,
               onKeypress: onTargetKeypress

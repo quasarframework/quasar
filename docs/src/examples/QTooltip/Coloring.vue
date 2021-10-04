@@ -17,7 +17,7 @@
 
       <q-btn color="primary">
         These
-        <q-tooltip class="bg-purple" style="font-size: 16px" :offset="[10, 10]">
+        <q-tooltip class="bg-purple text-body2" :offset="[10, 10]">
           Here I am!
         </q-tooltip>
       </q-btn>

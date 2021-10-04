@@ -42,6 +42,13 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         )
 
       template(v-else)
+        survey-countdown.layout-countdown(
+          color="primary"
+          align-class="justify-center"
+          padding-class="q-py-md"
+        )
+        q-separator.q-mb-lg
+
         .row.justify-center.q-my-md
           q-btn.doc-layout__main-btn(
             type="a"
@@ -124,11 +131,12 @@ import { useRoute } from 'vue-router'
 
 import {
   mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp
-} from '@quasar/extras/mdi-v5'
+} from '@quasar/extras/mdi-v6'
 
 import AppMenu from 'components/AppMenu.js'
 import AppSearchResults from 'components/AppSearchResults.vue'
 import HeaderMenu from 'components/HeaderMenu.vue'
+import SurveyCountdown from 'components/SurveyCountdown.vue'
 
 import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'
@@ -141,7 +149,8 @@ export default {
   components: {
     AppMenu,
     AppSearchResults,
-    HeaderMenu
+    HeaderMenu,
+    SurveyCountdown
   },
 
   setup () {
@@ -252,4 +261,8 @@ export default {
 
 body.mobile .app-search-input kbd
   display: none
+
+.layout-countdown
+  background: linear-gradient(45deg, #e6f1fc 25%, #c3e0ff 25%, #c3e0ff 50%, #e6f1fc 50%, #e6f1fc 75%, #c3e0ff 75%, #c3e0ff)
+  background-size: 40px 40px
 </style>

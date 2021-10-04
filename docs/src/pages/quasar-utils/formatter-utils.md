@@ -17,7 +17,7 @@ const { capitalize, humanStorageSize } = format
 console.log( capitalize('some text') )
 // Some text
 console.log( humanStorageSize(13087) )
-// 12.78 kB
+// 12.8kB
 ```
 
 You can also import all formatters and use whatever you need like this (but note that your bundle will probably contain unused methods too):
@@ -47,7 +47,7 @@ import { format } from 'quasar'
 const { humanStorageSize } = format
 
 console.log( humanStorageSize(13087) )
-// 12.78 kB
+// 12.8kB
 ```
 
 ## Normalize Number to Interval

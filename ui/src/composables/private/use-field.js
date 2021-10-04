@@ -474,7 +474,7 @@ export default function (state) {
 
     if (hasError.value === true) {
       if (computedErrorMessage.value !== null) {
-        msg = [ h('div', computedErrorMessage.value) ]
+        msg = [ h('div', { role: 'alert' }, computedErrorMessage.value) ]
         key = `q--slot-error-${ computedErrorMessage.value }`
       }
       else {

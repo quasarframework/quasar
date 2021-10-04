@@ -178,7 +178,7 @@ Then it means you need to specify an emulator. Depending on your Cordova CLI ver
 
 ```bash
 $ quasar dev -m cordova -T ios -e iPhone-X,12.2
-# or whith older versions of Cordova CLI installed on your machine:
+# or with older versions of Cordova CLI installed on your machine:
 $ quasar dev -m cordova -T ios -e iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
 ```
 

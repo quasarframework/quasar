@@ -20,7 +20,7 @@
       <template v-slot:token>
         <q-btn-dropdown
           dense no-caps
-          ref="token"
+          ref="tokenRef"
           no-wrap
           unelevated
           color="white"

@@ -57,7 +57,7 @@ import matSet from 'quasar/icon-set/material-icons.js'
 import matOutlinedSet from 'quasar/icon-set/material-icons-outlined.js'
 import matRoundSet from 'quasar/icon-set/material-icons-round.js'
 import matSharpSet from 'quasar/icon-set/material-icons-sharp.js'
-import mdiSet from 'quasar/icon-set/mdi-v5.js'
+import mdiSet from 'quasar/icon-set/mdi-v6.js'
 import fontawesomeSet from 'quasar/icon-set/fontawesome-v5.js'
 import ioniconsV4Set from 'quasar/icon-set/ionicons-v4.js'
 import evaSet from 'quasar/icon-set/eva-icons.js'
@@ -69,7 +69,7 @@ import svgMatSet from 'quasar/icon-set/svg-material-icons.js'
 import svgMatOutlinedSet from 'quasar/icon-set/svg-material-icons-outlined.js'
 import svgMatRoundSet from 'quasar/icon-set/svg-material-icons-round.js'
 import svgMatSharpSet from 'quasar/icon-set/svg-material-icons-sharp.js'
-import svgMdiSet from 'quasar/icon-set/svg-mdi-v5.js'
+import svgMdiSet from 'quasar/icon-set/svg-mdi-v6.js'
 import svgIoniconsV4Set from 'quasar/icon-set/svg-ionicons-v4.js'
 import svgIoniconsSet from 'quasar/icon-set/svg-ionicons-v5.js'
 import svgFontawesomeSet from 'quasar/icon-set/svg-fontawesome-v5.js'
@@ -79,7 +79,7 @@ import svgLineawesomeSet from 'quasar/icon-set/svg-line-awesome.js'
 import svgBootstrapiconsSet from 'quasar/icon-set/svg-bootstrap-icons.js'
 
 import { matAddBox } from '@quasar/extras/material-icons'
-import { mdiAirballoon } from '@quasar/extras/mdi-v5'
+import { mdiAirballoon } from '@quasar/extras/mdi-v6'
 import { ionMdAirplane, ionIosAirplane } from '@quasar/extras/ionicons-v4'
 import { ionAirplane } from '@quasar/extras/ionicons-v5'
 import { fabGithub } from '@quasar/extras/fontawesome-v5'
@@ -156,8 +156,8 @@ export default {
         { value: 'o_add_box', label: 'A Material Outlined icon' },
         { value: 'r_add_box', label: 'A Material Round icon' },
         { value: 's_add_box', label: 'A Material Sharp icon' },
-        { value: 'mdi-airballoon', label: 'A MDI v5 icon' },
-        { value: mdiAirballoon, label: 'A MDI v5 SVG icon' },
+        { value: 'mdi-airballoon', label: 'A MDI v6 icon' },
+        { value: mdiAirballoon, label: 'A MDI v6 SVG icon' },
         { value: 'fab fa-github', label: 'A Fontawesome icon' },
         { value: fabGithub, label: 'A Fontawesome SVG icon' },
         { value: ionAirplane, label: 'A SVG Ionicon v5' },

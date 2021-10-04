@@ -231,7 +231,7 @@ export default defineComponent({
       let child
 
       if (slots.header !== void 0) {
-        child = slots.header().slice()
+        child = [].concat(slots.header())
       }
       else {
         child = [

@@ -51,7 +51,7 @@ In the example below, scroll the page to see the QHeader and QFooter behavior.
 <doc-example title="Reveal" file="QHeader/Reveal" />
 
 ### iOS look and feel
-In the example below, you could use Ionicons icons with `ion-ios-` prefix for QTabs, which would perfectly match the iOS look and feel.
+In the example below, you could use Ionicons icons (v4) with `ion-ios-` prefix for QTabs, which would perfectly match the iOS look and feel.
 
 <doc-example title="iOS-like" file="QHeader/LookingIOS" />
 

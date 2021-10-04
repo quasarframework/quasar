@@ -606,7 +606,7 @@ class QuasarConfFile {
 
       cfg.devServer = merge({
         hot: true,
-        firewall: false,
+        allowedHosts: 'all',
         compress: true,
         open: true,
         client: {

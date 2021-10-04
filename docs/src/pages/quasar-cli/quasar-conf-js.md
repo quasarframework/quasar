@@ -203,7 +203,7 @@ return {
     // You'll see this mentioned for components/directives/plugins which use it
     config: { /* ... */ },
 
-    iconSet: 'fontawesome', // requires icon library to be specified in "extras" section too,
+    iconSet: 'fontawesome-v5', // requires icon library to be specified in "extras" section too,
     lang: 'de', // Tell Quasar which language pack to use for its own components
 
     cssAddon: true // Adds the flex responsive++ CSS classes (noticeable bump in footprint)
@@ -214,7 +214,7 @@ return {
 More on cssAddon [here](/layout/grid/introduction-to-flexbox#flex-addons).
 
 ### Property: devServer
-**Webpack devServer options**. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options (**at the time of writing this, the Webpack team has not yet updated the website for webpack-dev-server v4**). Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL.
+**Webpack devServer options**. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options. Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE or local tunnel), set the `webSocketURL` setting in the `client` section to your public application URL to allow features like Live Reload and Hot Module Replacement to work as [described here](https://webpack.js.org/configuration/dev-server/#websocketurl).
 
 Most used properties are:
 
@@ -223,7 +223,6 @@ Most used properties are:
 | port | Number | Port of dev server |
 | host | String | Local IP/Host to use for dev server |
 | open | Boolean/String | Unless it's set to `false`, Quasar will open up a browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. If specifying a String then see explanations below. |
-| public | String | Public address of the application (for use with reverse proxies) |
 | proxy | Object/Array | Proxying some URLs can be useful when you have a separate API backend development server and you want to send API requests on the same domain. |
 | devMiddleware | Object | Configuration supplied to webpack-dev-middleware v4 |
 | https | Boolean/Object | Use HTTPS instead of HTTP |
@@ -245,15 +244,15 @@ When you set `devServer > https: true` in your quasar.conf.js file, Quasar will 
 ```js
 // quasar.conf.js
 
-const fs = require('fs')
-// ...
-
 devServer: {
   https: {
-    cacert: fs.readFileSync('/path/to/ca.pem'),
-    pfx: fs.readFileSync('/path/to/server.pfx'),
-    key: fs.readFileSync('/path/to/server.key'),
-    cert: fs.readFileSync('/path/to/server.crt')
+    // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
+
+    cacert: '/path/to/ca.pem',
+    pfx: '/path/to/server.pfx',
+    key: '/path/to/server.key',
+    cert: '/path/to/server.crt',
+    passphrase: 'webpack-dev-server' // do you need it?
   }
 }
 ```
@@ -267,7 +266,7 @@ devServer: {
   vueDevtools: true
 }
 ```
-#### Docker and WSL Issues with HRM
+#### Docker and WSL Issues with HMR
 If you are using a Docker Container, you may find HMR stops working. HMR relies on the operating system to give notifications about changed files which may not work for your Docker Container.
 
 ### Property: build
@@ -299,7 +298,7 @@ If you are using a Docker Container, you may find HMR stops working. HMR relies 
 | analyze | Boolean/Object | Show analysis of build bundle with webpack-bundle-analyzer. If using as Object, it represents the webpack-bundle-analyzer config Object. |
 | vueCompiler | Boolean | Include vue runtime + compiler version, instead of default Vue runtime-only |
 | uglifyOptions | Object | Minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify). |
-| scssLoaderOptions | Object | Options to supply to `sass-loader` for `.scss` files. Example: scssLoaderOptions: { prependData: '@import "src/css/abstracts/_mixins.scss";'} |
+| scssLoaderOptions | Object | Options to supply to `sass-loader` for `.scss` files. Example: scssLoaderOptions: { additionalData: '@import "src/css/abstracts/_mixins.scss";'} |
 | sassLoaderOptions | Object | Options to supply to `sass-loader` for `.sass` files. |
 | stylusLoaderOptions | Object | Options to supply to `stylus-loader`. |
 | lessLoaderOptions | Object | Options to supply to `less-loader`. |

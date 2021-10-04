@@ -230,7 +230,9 @@ As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server
 | onAfterSetupMiddleware | Function | Replaces "after" |
 | proxy | Object/Array | Same as before with webpack 4 |
 
-More on quasar.conf.js > [devServer](/quasar-cli/quasar-conf-js#property-devserver).
+::: tip
+If you've tampered with quasar.conf.js > [devServer](/quasar-cli/quasar-conf-js#property-devserver) then you might be interested in a list of all the breaking changes proposed by webpack-dev-server v4: [release notes](https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md). Check if any apply to you.
+:::
 
 #### webpack-chain
 
@@ -415,12 +417,14 @@ Until the problem is solved upstream, we recommended to create your own `useI18n
 ```js
 export function useI18n() {
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { t, te, d, n, ...globalApi } = i18n.global;
+  const { t, te, tm, rt, d, n, ...globalApi } = i18n.global;
 
   return {
     t: t.bind(i18n),
-    d: d.bind(i18n),
     te: te.bind(i18n),
+    tm: tm.bind(i18n),
+    rt: rt.bind(i18n),
+    d: d.bind(i18n),
     n: n.bind(i18n),
     ...globalApi,
   };

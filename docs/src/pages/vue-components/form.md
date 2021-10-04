@@ -130,7 +130,7 @@ methods: {
 
 ## Child communication
 
-By default, all the Quasar form components communicate with the parent QForm instance. If, for some reason, you are creating your own form component (**that doesn't wraps a Quasar form component**), then you can make QForm aware of it by using:
+By default, all the Quasar form components communicate with the parent QForm instance. If, for some reason, you are creating your own form component (**that doesn't wrap a Quasar form component**), then you can make QForm aware of it by using:
 
 ```js
 // Composition API variant

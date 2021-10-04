@@ -62,15 +62,15 @@ When you set `devServer > https: true` in your quasar.conf.js file, Quasar will 
 ```js
 // quasar.conf.js
 
-const fs = require('fs')
-// ...
-
 devServer: {
   https: {
-    cacert: fs.readFileSync('/path/to/ca.pem'),
-    pfx: fs.readFileSync('/path/to/server.pfx'),
-    key: fs.readFileSync('/path/to/server.key'),
-    cert: fs.readFileSync('/path/to/server.crt')
+    // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
+
+    cacert: '/path/to/ca.pem',
+    pfx: '/path/to/server.pfx',
+    key: '/path/to/server.key',
+    cert: '/path/to/server.crt',
+    passphrase: 'webpack-dev-server' // do you need it?
   }
 }
 ```

@@ -268,7 +268,7 @@
 
     "loading": {
       "type": "Boolean",
-      "desc": "Put Table into 'loading' state; Notify the user something is happening behind the covers",
+      "desc": "Put Table into 'loading' state; Notify the user something is happening behind the scenes",
       "category": "behavior|content"
     },
 

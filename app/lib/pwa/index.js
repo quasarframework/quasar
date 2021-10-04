@@ -59,7 +59,6 @@ class PwaRunner {
         if (stats.hasErrors() !== true) {
           resolve()
         }
-
       })
     })
   }
