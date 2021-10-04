@@ -845,7 +845,7 @@ export function formatDate (val, mask, dateLocale, __forcedYear, __forcedTimezon
 
   const locale = dateLocale !== void 0
     ? dateLocale
-    : lang.props.date
+    : lang.getLocale()
 
   return mask.replace(
     token,
