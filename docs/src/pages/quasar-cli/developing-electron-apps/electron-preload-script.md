@@ -31,7 +31,7 @@ function createWindow () {
   })
 ```
 
-Example of `/src-electron/main-process/electron-preload.[js|ts]` content:
+Example of `/src-electron/electron-preload.[js|ts]` content:
 
 ```js
 // example which injects window.myAPI.doAThing() into the renderer
