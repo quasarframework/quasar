@@ -2,7 +2,7 @@
 q-item.app-search__result(
   :id="entry.id"
   :active="active"
-  clickable
+  :to="entry.to"
   @click="entry.onClick"
   @mouseenter="entry.onMouseenter"
 )
