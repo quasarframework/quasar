@@ -122,6 +122,30 @@ export default {
 }
 </script>
 ```
+## TypeScript support
+
+If you choose to use Vuex and TypeScirpt when you create a project folder with Quasar CLI, it will add some typing code in `src/store/index.ts`.
+To get a typed vuex store in your component you will need to modify you vue file like this:
+```html
+<template>
+<!--    Your code-->
+</template>
+
+<script lang="ts">
+import { useStore } from 'vuex'
+import { storeKey } from 'src/store';
+
+export default {
+  setup () {
+    const $store = useStore(storeKey)
+    // more code using $store.state.someStoreModule.someData
+  }
+}
+</script>
+```
+
+
+
 
 ## Store Code Splitting
 You can take advantage of the [PreFetch Feature](/quasar-cli/prefetch-feature#Store-Code-Splitting) to code-split Vuex modules.
