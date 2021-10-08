@@ -351,7 +351,13 @@ function writeIndexDTS (apis) {
 
       if (content.slots) {
         for (const [ rawName, definition ] of Object.entries(content.slots)) {
-          const name = rawName.includes('-') ? `'${ rawName }'` : rawName
+          // Replace "[dynamic]" placeholders
+          // Example: body-cell-[name] -> [key: `body-cell-${string}`] (TS Template Literal String)
+          // eslint-disable-next-line no-template-curly-in-string
+          const replacement = '${string}'
+          let name = rawName.replace(/\[(\w+)\]/, replacement)
+
+          name = name.includes(replacement) ? `[key: \`${ name }\`]` : name.includes('-') ? `'${ name }'` : name
 
           const params = definition.scope ? {
             scope: {
