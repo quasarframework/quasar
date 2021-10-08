@@ -26,6 +26,7 @@ function write (fileContent, text = '') {
 const typeMap = new Map([
   [ 'Any', 'any' ],
   [ 'Component', 'Component' ],
+  [ 'VNode', 'VNode' ], // VNode is exclusive to slot type generation here, it can't and doesn't need to be used in JSON API files
   [ 'String', 'string' ],
   [ 'Boolean', 'boolean' ],
   [ 'Number', 'number' ]
@@ -113,11 +114,11 @@ function getPropDefinitions (propDefs, required, docs = false, areMethodParams =
 function getMethodDefinition (key, methodDef, returnTypeRequired = false, required = true, paramsRequired = false) {
   let def = `/**\n * ${ methodDef.desc }\n`
   if (methodDef.params) {
-    def += `${ Object.entries(methodDef.params).map(([ name, paramDef ]) => ` * @param ${ name } ${ paramDef.desc }`).join('\n') }\n`
+    def += `${ Object.entries(methodDef.params).map(([ name, paramDef ]) => ` * @param ${ name } ${ paramDef.desc !== undefined ? paramDef.desc : '' }`).join('\n') }\n`
   }
 
   const returns = methodDef.returns
-  if (returns) {
+  if (returns && returns.desc) {
     def += ` * @returns ${ returns.desc }\n`
   }
 
@@ -265,8 +266,8 @@ function writeIndexDTS (apis) {
   const components = []
   const directives = []
   const plugins = []
-  // Example => QComponent: QComponentProps
-  const componentToPropTypeMap = {}
+  /** @type { { [componentName: string]: { props: string; slots: string; } } } */
+  const componentToSubTypeMap = {}
 
   addQuasarLangCodes(quasarTypeContents)
 
@@ -284,7 +285,7 @@ function writeIndexDTS (apis) {
   writeLine(contents, '// @ts-ignore')
   writeLine(contents, '/// <reference types="@quasar/app" />')
   // ----
-  writeLine(contents, 'import { App, Component, ComponentPublicInstance } from \'vue\'')
+  writeLine(contents, 'import { App, Component, ComponentPublicInstance, VNode } from \'vue\'')
   writeLine(contents, 'import { LooseDictionary, ComponentConstructor, GlobalComponentConstructor } from \'./ts-helpers\'')
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
@@ -336,7 +337,6 @@ function writeIndexDTS (apis) {
     // Create ${name}Props class for components & mixins (can be useful with h(), TSX, etc.)
     if (extendsVue) {
       const propsTypeName = `${ typeName }Props`
-      componentToPropTypeMap[ typeName ] = propsTypeName
 
       writeLine(contents, `export interface ${ propsTypeName } {`)
 
@@ -344,6 +344,44 @@ function writeIndexDTS (apis) {
 
       writeLine(contents, '}')
       writeLine(contents)
+
+      const slotsTypeName = `${ typeName }Slots`
+
+      writeLine(contents, `export interface ${ slotsTypeName } {`)
+
+      if (content.slots) {
+        for (const [ rawName, definition ] of Object.entries(content.slots)) {
+          // Replace "[dynamic]" placeholders
+          // Example: body-cell-[name] -> [key: `body-cell-${string}`] (TS Template Literal String)
+          // eslint-disable-next-line no-template-curly-in-string
+          const replacement = '${string}'
+          let name = rawName.replace(/\[(\w+)\]/, replacement)
+
+          name = name.includes(replacement) ? `[key: \`${ name }\`]` : name.includes('-') ? `'${ name }'` : name
+
+          const params = definition.scope ? {
+            scope: {
+              type: 'Object',
+              definition: definition.scope
+            }
+          } : undefined
+
+          const slot = getMethodDefinition(name, {
+            desc: definition.desc,
+            params,
+            returns: {
+              type: 'VNode[]'
+            }
+          }, true, true, true)
+
+          writeLines(contents, slot, 1)
+        }
+      }
+
+      writeLine(contents, '}')
+      writeLine(contents)
+
+      componentToSubTypeMap[ typeName ] = { props: propsTypeName, slots: slotsTypeName }
 
       writeLine(contents, `export interface ${ typeName } extends ComponentPublicInstance<${ propsTypeName }> {`)
     }
@@ -435,8 +473,8 @@ function writeIndexDTS (apis) {
   writeLine(contents, 'declare module \'@vue/runtime-core\' {')
   writeLine(contents, 'interface GlobalComponents {', 1)
 
-  for (const [ typeName, propsTypeName ] of Object.entries(componentToPropTypeMap)) {
-    writeLine(contents, `${ typeName }: GlobalComponentConstructor<${ propsTypeName }>`, 2)
+  for (const [ typeName, { props: propsTypeName, slots: slotsTypeName } ] of Object.entries(componentToSubTypeMap)) {
+    writeLine(contents, `${ typeName }: GlobalComponentConstructor<${ propsTypeName }, ${ slotsTypeName }>`, 2)
   }
 
   writeLine(contents, '}', 1)
