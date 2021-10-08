@@ -128,7 +128,7 @@ If you choose to use Vuex and TypeScirpt when you create a project folder with Q
 To get a typed vuex store in your component you will need to modify you vue file like this:
 ```html
 <template>
-<!--    Your code-->
+  <!-- ... -->
 </template>
 
 <script lang="ts">
