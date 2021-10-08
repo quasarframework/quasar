@@ -122,6 +122,7 @@ export default {
 }
 </script>
 ```
+
 ## TypeScript support
 
 If you choose to use Vuex and TypeScirpt when you create a project folder with Quasar CLI, it will add some typing code in `src/store/index.ts`.
