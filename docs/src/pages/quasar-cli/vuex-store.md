@@ -133,15 +133,15 @@ To get a typed Vuex store in your component you will need to modify your Vue fil
 </template>
 
 <script lang="ts">
-import { useStore } from 'vuex'
-import { storeKey } from 'src/store';
+import { defineComponent } from 'vue';
+import { useStore } from 'src/store';
 
-export default {
+export default defineComponent({
   setup () {
-    const $store = useStore(storeKey)
-    // more code using $store.state.someStoreModule.someData
+    const $store = useStore()
+    // You can use the $store, example: $store.state.someStoreModule.someData
   }
-}
+})
 </script>
 ```
 
