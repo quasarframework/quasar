@@ -714,7 +714,6 @@ class QuasarConfFile {
       }
 
       cfg.build.gzip = merge({
-        filename: '[path].gz[query]',
         algorithm: 'gzip',
         test: new RegExp('\\.(' + ext.join('|') + ')$'),
         threshold: 10240,
