@@ -47,6 +47,7 @@
     "@quasar/ssr-helpers": "2.1.1",
     "@types/cordova": "0.0.34",
     "@types/express": "4.17.13",
+    "@types/compression-webpack-plugin": "9.0.0",
     "@types/webpack-bundle-analyzer": "4.4.1",
     "@types/webpack-dev-server": "4.1.0",
     "@vue/compiler-sfc": "3.2.19",
