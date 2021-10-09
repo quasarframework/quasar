@@ -9,13 +9,9 @@ module.exports = function (content, map) {
     (_, match) => match.split(',')
       .map(identifier => {
         const data = identifier.split(' as ')
-
-        if (data[1] !== void 0) {
-          return `import ${data[1].trim()} from '${importTransformation(data[0].trim())}';`
-        }
-
         const name = data[0].trim()
-        return `import ${name} from '${importTransformation(name)}';`
+
+        return `import ${data[1] !== void 0 ? data[1].trim() : name} from '${importTransformation(name)}';`
       })
       .join('')
   )
