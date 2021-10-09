@@ -2,6 +2,7 @@ import { MinifyOptions as TerserOptions } from "terser";
 import { Configuration as WebpackConfiguration } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import * as WebpackChain from "webpack-chain";
+import * as CompressionPlugin from "compression-webpack-plugin";
 import { QuasarHookParams } from "./conf";
 
 interface InvokeParams {
@@ -125,11 +126,21 @@ interface QuasarStaticBuildConfiguration {
   env?: { [index: string]: string };
   /**
    * Gzip the distributables.
-   * Useful when the web server with which you are serving the content does not have gzip.
-   *
+   * Could be either a boolean or compression plugin options object.
+   * In addition, you can specify which file extension you want to 
+   * gzip with extension array field in replacement of compression plugin test option.
+   * By default it's ['js','css'].
+   * @example
+   *    {
+   *      extension: ['js','css','svg'],
+   *      threshold: 0,
+   *      minRatio: 1
+   *    }
    * @default false
    */
-  gzip?: boolean;
+  gzip?:boolean | CompressionPlugin.Options<any> & {
+    extensions: string[]
+  }
   /**
    * Show analysis of build bundle with webpack-bundle-analyzer.
    * When providing an object, it represents webpack-bundle-analyzer config options.
