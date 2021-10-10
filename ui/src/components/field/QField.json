@@ -46,7 +46,7 @@
           "type": "Boolean",
           "desc": "Field's label is floating"
         },
-        "value": {
+        "modelValue": {
           "type": "Any",
           "desc": "Field's value",
           "examples": [ 0.241, "Text" ]
