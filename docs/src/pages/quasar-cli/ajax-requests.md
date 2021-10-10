@@ -41,6 +41,7 @@ Usage in your single file components methods will be like below. Notice that in 
 
 ```js
 import { api } from 'boot/axios'
+import { useQuasar } from 'quasar'
 
 setup () {
   const $q = useQuasar()
