@@ -251,10 +251,10 @@
         <q-route-tab name="tabs" replace to="/components/tabs" exact label="/tabs" no-caps />
         <!-- <q-route-tab name="tabs/a" replace to="/components/tabs/a" exact label="/tabs/a" no-caps /> -->
         <q-route-tab name="tabs/a*" replace to="/components/tabs/a" label="/tabs/a[...]" no-caps />
-        <!-- <q-route-tab name="tabs/a#1" replace to="/components/tabs/a#1" exact label="/tabs/a#1" no-caps />
+        <q-route-tab name="tabs/a#1" replace to="/components/tabs/a#1" exact label="/tabs/a#1" no-caps />
         <q-route-tab name="tabs/a/a" replace to="/components/tabs/a/a" exact label="/tabs/a/a" no-caps />
         <q-route-tab name="tabs/a/a*" replace to="/components/tabs/a/a" label="/tabs/a/a[...]" no-caps />
-        <q-route-tab name="tabs/a/a#1" replace to="/components/tabs/a/a#1" exact label="/tabs/a/a#1" no-caps /> -->
+        <q-route-tab name="tabs/a/a#1" replace to="/components/tabs/a/a#1" exact label="/tabs/a/a#1" no-caps />
         <q-route-tab name="tabs/a/b" replace to="/components/tabs/a/b" exact label="/tabs/a/b" no-caps />
         <q-route-tab name="tabs/b" replace to="/components/tabs/b" exact label="/tabs/b" no-caps />
         <q-route-tab name="tabs/b/a" replace to="/components/tabs/b/a" exact label="/tabs/b/a" no-caps />
