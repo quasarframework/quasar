@@ -79,24 +79,40 @@ export default function (props, slots, emit, routerProps) {
     keyboard !== true && blurTargetRef.value !== null && blurTargetRef.value.focus()
 
     if (props.disable !== true) {
+      let go
+
       if (routerProps !== void 0) {
         if (routerProps.hasLink.value === true) {
-          const go = () => {
+          go = () => {
             e.__qNavigate = true
-            routerProps.navigateToLink(e)
-          }
+            $tabs.avoidRouteWatcher = true
 
-          emit('click', e, go)
-          e.defaultPrevented !== true && go()
+            const res = routerProps.navigateToLink(e)
+
+            if (res === false) {
+              $tabs.avoidRouteWatcher = false
+            }
+            else {
+              res.then(() => {
+                $tabs.avoidRouteWatcher = false
+                $tabs.updateModel({ name: props.name, fromRoute: true })
+              })
+            }
+          }
         }
         else {
           emit('click', e)
+          return
         }
       }
       else {
-        emit('click', e)
-        $tabs.updateModel({ name: props.name, fromRoute: false })
+        go = () => {
+          $tabs.updateModel({ name: props.name, fromRoute: false })
+        }
       }
+
+      emit('click', e, go)
+      e.defaultPrevented !== true && go()
     }
   }
 

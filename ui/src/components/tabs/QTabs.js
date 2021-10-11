@@ -19,6 +19,7 @@ function getIndicatorClass (color, top, vertical) {
 }
 
 const alignValues = [ 'left', 'center', 'right', 'justify' ]
+const emptyFn = () => {}
 
 export default defineComponent({
   name: 'QTabs',
@@ -340,21 +341,67 @@ export default defineComponent({
 
     // do not use directly; use verifyRouteModel() instead
     function updateActiveRoute () {
-      let href = '', name = null, wasActive = localFromRoute
+      let name = null, wasActive = localFromRoute
 
-      getRouteList().forEach(tab => {
+      const
+        best = { matchedLen: 0, hrefLen: 0, exact: false, found: false },
+        { hash } = vm.proxy.$route,
+        model = currentModel.value
+
+      let wasItActive = wasActive === true
+        ? emptyFn
+        : tab => {
+            if (model === tab.name.value) {
+              wasActive = true
+              wasItActive = emptyFn
+            }
+          }
+
+      const tabList = getRouteList()
+
+      for (const tab of tabList) {
+        const exact = tab.routerProps.exact.value === true
+
         if (
-          tab.routerProps !== void 0
-          && tab.routerProps[ tab.routerProps.exact.value === true ? 'linkIsExactActive' : 'linkIsActive' ].value === true
-          && tab.routerProps.linkRoute.value.href.length > href.length
+          tab.routerProps[ exact === true ? 'linkIsExactActive' : 'linkIsActive' ].value !== true
+          || (best.exact === true && exact !== true)
         ) {
-          href = tab.routerProps.linkRoute.value.href
+          wasItActive(tab)
+          continue
+        }
+
+        const
+          linkRoute = tab.routerProps.linkRoute.value,
+          tabHash = linkRoute.hash
+
+        // Vue Router does not match the hash too, even if link is set to "exact"
+        if (exact === true) {
+          if (hash === tabHash) {
+            name = tab.name.value
+            break
+          }
+          else if (hash !== '' && tabHash !== '') {
+            wasItActive(tab)
+            continue
+          }
+        }
+
+        const
+          matchedLen = linkRoute.matched.length,
+          hrefLen = linkRoute.href.length - tabHash.length
+
+        if (
+          matchedLen === best.matchedLen
+            ? hrefLen > best.hrefLen
+            : matchedLen > best.matchedLen
+        ) {
           name = tab.name.value
+          Object.assign(best, { matchedLen, hrefLen, exact })
+          continue
         }
-        else if (currentModel.value === tab.name.value) {
-          wasActive = true
-        }
-      })
+
+        wasItActive(tab)
+      }
 
       if (wasActive === true || name !== null) {
         updateModel({ name, setCurrent: true, fromRoute: true })
@@ -362,7 +409,9 @@ export default defineComponent({
     }
 
     function verifyRouteModel () {
-      registerTimeout(updateActiveRoute)
+      if ($tabs.avoidRouteWatcher !== true) {
+        registerTimeout(updateActiveRoute)
+      }
     }
 
     function registerTab (getTab) {
@@ -401,7 +450,7 @@ export default defineComponent({
       }
     }
 
-    provide(tabsKey, {
+    const $tabs = {
       currentModel,
       tabProps,
 
@@ -410,8 +459,12 @@ export default defineComponent({
 
       verifyRouteModel,
       updateModel,
-      recalculateScroll
-    })
+      recalculateScroll,
+
+      avoidRouteWatcher: false
+    }
+
+    provide(tabsKey, $tabs)
 
     onBeforeUnmount(() => {
       clearTimeout(animateTimer)
