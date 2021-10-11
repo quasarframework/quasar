@@ -26,6 +26,10 @@ Scroll to the bottom to see QInfiniteScroll in action.
 
 <doc-example title="Basic" file="QInfiniteScroll/Basic" scrollable />
 
+::: tip
+If you're using this component inside a dialog, in order to make QInfiniteScroll's container auto detection work you'll need to have a scrolling container with class `scroll`.
+:::
+
 <doc-example title="Custom Scroll Target Container" file="QInfiniteScroll/Container" />
 
 <doc-example title="Reverse (Messenger style)" file="QInfiniteScroll/Reverse" scrollable />
