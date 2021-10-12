@@ -179,8 +179,8 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
 
   &__label
     left: 0
-    right: 0
     top: 18px
+    max-width: 100%
     color: $input-label-color
     font-size: 16px
     line-height: 20px
@@ -189,12 +189,12 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     text-decoration: inherit
     text-transform: inherit
     transform-origin: left top
-    transition: transform $field-transition, right $field-transition-label-right-up
+    transition: transform $field-transition, max-width $field-transition-label-right-up
 
   &--float .q-field__label
+    max-width: 133%
     transform: translateY(-40%) scale(.75)
-    right: calc(-100% / 3)
-    transition: transform $field-transition, right $field-transition-label-right-down
+    transition: transform $field-transition, max-width $field-transition-label-right-down
 
   &--highlighted
     .q-field__label
