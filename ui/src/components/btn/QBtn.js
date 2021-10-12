@@ -110,6 +110,9 @@ export default defineComponent({
     }))
 
     function onClick (e) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
       if (e !== void 0) {
         if (e.defaultPrevented === true) {
           return
@@ -154,6 +157,9 @@ export default defineComponent({
     }
 
     function onKeydown (e) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
       if (isKeyCode(e, [ 13, 32 ]) === true) {
         stopAndPrevent(e)
 
@@ -174,6 +180,9 @@ export default defineComponent({
     }
 
     function onTouchstartPassive (e) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
       if (touchTarget !== rootRef.value) {
         touchTarget !== null && cleanup()
         touchTarget = rootRef.value
@@ -195,6 +204,9 @@ export default defineComponent({
     }
 
     function onMousedown (e) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
       if (mouseTarget !== rootRef.value) {
         mouseTarget !== null && cleanup()
         mouseTarget = rootRef.value
@@ -207,6 +219,9 @@ export default defineComponent({
     }
 
     function onPressEnd (e) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
       // needed for IE (because it emits blur when focusing button from focus helper)
       if (e !== void 0 && e.type === 'blur' && document.activeElement === rootRef.value) {
         return
