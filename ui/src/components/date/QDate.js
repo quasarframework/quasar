@@ -723,8 +723,14 @@ export default defineComponent({
     })
 
     function setToday () {
-      toggleDate(today.value, getMonthHash(today.value))
-      setCalendarTo(today.value.year, today.value.month)
+      const date = today.value
+      const month = daysMap.value[ getMonthHash(date) ]
+
+      if (month === void 0 || month.includes(date.day) === false) {
+        addToModel(date)
+      }
+
+      setCalendarTo(date.year, date.month)
     }
 
     function setView (viewMode) {
