@@ -27,7 +27,7 @@ Scroll to the bottom to see QInfiniteScroll in action.
 <doc-example title="Basic" file="QInfiniteScroll/Basic" scrollable />
 
 ::: tip
-If you're using this component inside a dialog, in order to make QInfiniteScroll's container auto detection work you'll need to have a scrolling container with class `scroll`.
+The scroll target is the first parent that has a `scroll` or `overflow-auto` class (or the body element). More about it can be read [here](https://quasar.dev/vue-components/scroll-observer#determining-scrolling-container).
 :::
 
 <doc-example title="Custom Scroll Target Container" file="QInfiniteScroll/Container" />
