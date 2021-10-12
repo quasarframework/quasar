@@ -30,7 +30,7 @@ export default function (focused, innerLoading) {
   const innerErrorMessage = ref(null)
   const isDirtyModel = ref(null)
 
-  useFormChild({ validate, resetValidation, requiresQForm: true })
+  useFormChild({ validate, resetValidation, requiresQForm: false })
 
   let validateIndex = 0, unwatchRules
 
