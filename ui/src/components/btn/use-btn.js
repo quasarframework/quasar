@@ -122,7 +122,10 @@ export default function (props) {
   const attributes = computed(() => {
     const acc = { tabindex: tabIndex.value }
 
-    if (props.type !== 'a') {
+    // if it's not rendered with "<a>" tag
+    // OR it's "<a>" but type is not "button"
+    // (<a> with type="button" is invalid HTML)
+    if (props.type !== 'a' && (props.type !== 'button' || hasLink.value !== true)) {
       acc.type = props.type
     }
 
