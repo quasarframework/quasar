@@ -131,6 +131,7 @@ export default function (props) {
 
     if (hasLink.value === true) {
       Object.assign(acc, linkProps.value)
+      acc.role = 'link'
     }
     else {
       acc.role = props.type === 'a' ? 'link' : 'button'
