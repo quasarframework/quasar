@@ -40,7 +40,11 @@ export default function ({
   }
 
   function show (evt) {
-    if (props.disable === true || (canShow !== void 0 && canShow(evt) !== true)) {
+    if (
+      props.disable === true
+      || (evt !== void 0 && evt.__qAnchorHandled === true)
+      || (canShow !== void 0 && canShow(evt) !== true)
+    ) {
       return
     }
 
