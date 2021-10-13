@@ -1,5 +1,5 @@
 export default {
-  isoName: 'sr-cyr',
+  isoName: 'sr-CYR',
   nativeName: 'српски језик',
   label: {
     clear: 'Обриши',
