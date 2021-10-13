@@ -38,7 +38,7 @@ function globalHandler (evt) {
       )
       && (
         target === document.body
-        || (state.innerRef.value  !== null && state.innerRef.value.contains(target) === false)
+        || (state.innerRef.value !== null && state.innerRef.value.contains(target) === false)
       )
       && (
         state.getEl !== void 0
