@@ -99,22 +99,27 @@ export default function () {
 
   const hasRouter = vmHasRouter(vm)
 
-  const hasLink = computed(() =>
+  const hasLinkConfigured = computed(() =>
     hasRouter === true
     && props.disable !== true
     && props.to !== void 0 && props.to !== null && props.to !== ''
   )
 
+  const linkRoute = computed(() => {
+    if (hasLinkConfigured.value === true) {
+      try { return proxy.$router.resolve(props.to) }
+      catch (err) {}
+    }
+
+    return null
+  })
+
+  const hasLink = computed(() => linkRoute.value !== null)
+
   const linkTag = computed(() => (
     hasLink.value === true
       ? 'a'
       : (props.tag || 'div')
-  ))
-
-  const linkRoute = computed(() => (
-    hasLink.value === true
-      ? proxy.$router.resolve(props.to)
-      : null
   ))
 
   const linkActiveIndex = computed(() => {
