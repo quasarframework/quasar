@@ -72,6 +72,14 @@
       "category": "style"
     },
 
+    "active-class": {
+      "type": "String",
+      "desc": "The class to be set on the active tab",
+      "examples": [ "my-active-class" ],
+      "category": "style",
+      "addedIn": "2.1.4"
+    },
+
     "left-icon": {
       "type": "String",
       "desc": "The name of an icon to replace the default arrow used to scroll through the tabs to the left, when the tabs extend past the width of the tabs container",

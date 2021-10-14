@@ -41,6 +41,7 @@ export default defineComponent({
     shrink: Boolean,
     stretch: Boolean,
 
+    activeClass: String,
     activeColor: String,
     activeBgColor: String,
     indicatorColor: String,
@@ -91,6 +92,7 @@ export default defineComponent({
       : noop
 
     const tabProps = computed(() => ({
+      activeClass: props.activeClass,
       activeColor: props.activeColor,
       activeBgColor: props.activeBgColor,
       indicatorClass: getIndicatorClass(

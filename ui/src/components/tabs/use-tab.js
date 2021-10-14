@@ -50,14 +50,15 @@ export default function (props, slots, emit, routerProps) {
 
   const classes = computed(() =>
     'q-tab relative-position self-stretch flex flex-center text-center'
-    + ` q-tab--${ isActive.value === true ? '' : 'in' }active`
     + (
       isActive.value === true
         ? (
-            ($tabs.tabProps.value.activeColor ? ` text-${ $tabs.tabProps.value.activeColor }` : '')
+            ' q-tab--active'
+            + ($tabs.tabProps.value.activeClass ? ' ' + $tabs.tabProps.value.activeClass : '')
+            + ($tabs.tabProps.value.activeColor ? ` text-${ $tabs.tabProps.value.activeColor }` : '')
             + ($tabs.tabProps.value.activeBgColor ? ` bg-${ $tabs.tabProps.value.activeBgColor }` : '')
           )
-        : ''
+        : ' q-tab--inactive'
     )
     + (props.icon && props.label && $tabs.tabProps.value.inlineLabel === false ? ' q-tab--full' : '')
     + (props.noCaps === true || $tabs.tabProps.value.noCaps === true ? ' q-tab--no-caps' : '')
