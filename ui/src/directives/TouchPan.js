@@ -197,11 +197,14 @@ export default __QUASAR_SSR_SERVER__
                 evt.defaultPrevented === true && prevent(clone)
                 evt.cancelBubble === true && stop(clone)
 
-                clone.qClonedBy = evt.qClonedBy === void 0
-                  ? [ ctx.uid ]
-                  : evt.qClonedBy.concat(ctx.uid)
-                clone.qKeyEvent = evt.qKeyEvent
-                clone.qClickOutside = evt.qClickOutside
+                Object.assign(clone, {
+                  qClonedBy: evt.qClonedBy === void 0
+                    ? [ ctx.uid ]
+                    : evt.qClonedBy.concat(ctx.uid),
+                  qKeyEvent: evt.qKeyEvent,
+                  qClickOutside: evt.qClickOutside,
+                  qAnchorHandled: evt.qAnchorHandled
+                })
 
                 ctx.initialEvent = {
                   target: evt.target,

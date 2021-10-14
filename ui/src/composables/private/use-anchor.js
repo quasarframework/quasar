@@ -43,7 +43,7 @@ export default function ({
 
       toggle (evt) {
         proxy.toggle(evt)
-        evt.__qAnchorHandled = true
+        evt.qAnchorHandled = true
       },
 
       toggleKey (evt) {
@@ -55,7 +55,7 @@ export default function ({
         prevent(evt)
         nextTick(() => {
           proxy.show(evt)
-          evt.__qAnchorHandled = true
+          evt.qAnchorHandled = true
         })
       },
 
@@ -81,7 +81,7 @@ export default function ({
 
         touchTimer = setTimeout(() => {
           proxy.show(evt)
-          evt.__qAnchorHandled = true
+          evt.qAnchorHandled = true
         }, 300)
       },
 
