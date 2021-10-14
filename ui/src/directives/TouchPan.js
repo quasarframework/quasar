@@ -188,7 +188,7 @@ export default __QUASAR_SSR_SERVER__
               */
               if (
                 ctx.direction.all !== true
-                && (mouseEvent !== true || ctx.direction.mouseAllDir !== true)
+                && (mouseEvent !== true || ctx.modifiers.mouseAllDir !== true)
               ) {
                 const clone = evt.type.indexOf('mouse') > -1
                   ? new MouseEvent(evt.type, evt)
