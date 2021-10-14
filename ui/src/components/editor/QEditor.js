@@ -467,7 +467,7 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      eVm.caret = new Caret(contentRef.value, eVm)
+      eVm.caret = proxy.caret = new Caret(contentRef.value, eVm)
       setContent(props.modelValue)
       refreshToolbar()
     })
