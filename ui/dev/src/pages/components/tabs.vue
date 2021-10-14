@@ -104,7 +104,7 @@
         <q-tab icon="location_on" />
       </q-tabs>
 
-      <q-tabs :dense="dense" inline-label>
+      <q-tabs :dense="dense" inline-label active-class="dev-tabs-active-class">
         <q-tab icon="map">
           <q-badge color="red" floating>
             2
