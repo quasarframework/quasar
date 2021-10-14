@@ -90,7 +90,8 @@
     "no-shake": {
       "type": "Boolean",
       "desc": "Do not shake up the Dialog to catch user's attention",
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v2.1.1"
     }
   },
 

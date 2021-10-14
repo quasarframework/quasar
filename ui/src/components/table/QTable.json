@@ -32,8 +32,7 @@
       "desc": "Minimum number of rows to render in the virtual list",
       "default": "30",
       "examples": [ "virtual-scroll-slice-size=\"60\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-slice-ratio-before": {
@@ -41,8 +40,7 @@
       "desc": "Ratio of number of rows in visible zone to render before it",
       "default": "1",
       "examples": [ "virtual-scroll-slice-ratio-before=\"0.3\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.14.7"
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-slice-ratio-after": {
@@ -50,8 +48,7 @@
       "desc": "Ratio of number of rows in visible zone to render after it",
       "default": "1",
       "examples": [ "virtual-scroll-slice-ratio-after=\"2\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.14.7"
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-item-size": {
@@ -2309,8 +2306,7 @@
         "edge": {
           "type": "String",
           "desc": "Only for virtual scroll - the edge to align to if the row is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise); If the '-force' version is used then it always aligns",
-          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ],
-          "addedIn": "v1.14.7"
+          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ]
         }
       }
     }
