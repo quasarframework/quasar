@@ -115,7 +115,6 @@ export default defineComponent({
     const clickOutsideProps = {
       anchorEl,
       innerRef,
-      getEl: () => proxy.$el,
       onClickOutside (e) {
         if (props.persistent !== true && showing.value === true) {
           hide(e)
