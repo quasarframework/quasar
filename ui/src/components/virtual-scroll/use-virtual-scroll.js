@@ -2,6 +2,7 @@ import { h, ref, computed, watch, onBeforeMount, onBeforeUnmount, nextTick, getC
 
 import debounce from '../../utils/debounce.js'
 import { noop } from '../../utils/event.js'
+import { rtlHasScrollBug } from '../../utils/private/rtl.js'
 
 const aggBucketSize = 1000
 
@@ -15,31 +16,6 @@ const scrollToEdges = [
 ]
 
 const slice = Array.prototype.slice
-
-let buggyRTL = void 0
-
-// mobile Chrome takes the crown for this
-if (!__QUASAR_SSR__) {
-  const scroller = document.createElement('div')
-  const spacer = document.createElement('div')
-
-  scroller.setAttribute('dir', 'rtl')
-  scroller.style.width = '1px'
-  scroller.style.height = '1px'
-  scroller.style.overflow = 'auto'
-
-  spacer.style.width = '1000px'
-  spacer.style.height = '1px'
-
-  document.body.appendChild(scroller)
-  scroller.appendChild(spacer)
-  scroller.scrollLeft = -1000
-
-  buggyRTL = scroller.scrollLeft >= 0
-
-  scroller.remove()
-}
-
 let id = 1
 
 const setOverflowAnchor = __QUASAR_SSR__ || window.getComputedStyle(document.body).overflowAnchor === void 0
@@ -99,7 +75,7 @@ function getScrollDetails (
     details.scrollMaxSize = parentCalc.scrollWidth
 
     if (rtl === true) {
-      details.scrollStart = (buggyRTL === true ? details.scrollMaxSize - details.scrollViewSize : 0) - details.scrollStart
+      details.scrollStart = (rtlHasScrollBug === true ? details.scrollMaxSize - details.scrollViewSize : 0) - details.scrollStart
     }
   }
   else {
@@ -157,7 +133,7 @@ function setScroll (parent, scroll, horizontal, rtl) {
   if (parent === window) {
     if (horizontal === true) {
       if (rtl === true) {
-        scroll = (buggyRTL === true ? document.body.scrollWidth - window.innerWidth : 0) - scroll
+        scroll = (rtlHasScrollBug === true ? document.body.scrollWidth - window.innerWidth : 0) - scroll
       }
       window.scrollTo(scroll, window.pageYOffset || window.scrollY || document.body.scrollTop || 0)
     }
@@ -167,7 +143,7 @@ function setScroll (parent, scroll, horizontal, rtl) {
   }
   else if (horizontal === true) {
     if (rtl === true) {
-      scroll = (buggyRTL === true ? parent.scrollWidth - parent.offsetWidth : 0) - scroll
+      scroll = (rtlHasScrollBug === true ? parent.scrollWidth - parent.offsetWidth : 0) - scroll
     }
     parent.scrollLeft = scroll
   }

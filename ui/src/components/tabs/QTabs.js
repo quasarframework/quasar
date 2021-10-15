@@ -9,6 +9,7 @@ import useTimeout from '../../composables/private/use-timeout.js'
 import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'
 import { tabsKey } from '../../utils/private/symbols.js'
+import { rtlHasScrollBug } from '../../utils/private/rtl.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -135,6 +136,11 @@ export default defineComponent({
         ? { container: 'height', content: 'offsetHeight', scroll: 'scrollHeight' }
         : { container: 'width', content: 'offsetWidth', scroll: 'scrollWidth' }
     ))
+
+    const isRTL = computed(() => props.vertical !== true && $q.lang.rtl === true)
+    const rtlPosCorrection = computed(() => rtlHasScrollBug === false && isRTL.value === true)
+
+    watch(isRTL, localUpdateArrows)
 
     watch(() => props.modelValue, name => {
       updateModel({ name, setCurrent: true, skipEmit: true })
@@ -278,12 +284,18 @@ export default defineComponent({
       if (content !== null) {
         const
           rect = content.getBoundingClientRect(),
-          pos = props.vertical === true ? content.scrollTop : content.scrollLeft
+          pos = props.vertical === true ? content.scrollTop : Math.abs(content.scrollLeft)
 
-        leftArrow.value = pos > 0
-        rightArrow.value = props.vertical === true
-          ? Math.ceil(pos + rect.height) < content.scrollHeight
-          : Math.ceil(pos + rect.width) < content.scrollWidth
+        if (isRTL.value === true) {
+          leftArrow.value = Math.ceil(pos + rect.width) < content.scrollWidth - 1
+          rightArrow.value = pos > 0
+        }
+        else {
+          leftArrow.value = pos > 0
+          rightArrow.value = props.vertical === true
+            ? Math.ceil(pos + rect.height) < content.scrollHeight
+            : Math.ceil(pos + rect.width) < content.scrollWidth
+        }
       }
     }
 
@@ -292,33 +304,50 @@ export default defineComponent({
       scrollTowards(value)
 
       scrollTimer = setInterval(() => {
-        if (scrollTowards(value)) {
+        if (scrollTowards(value) === true) {
           stopAnimScroll()
         }
       }, 5)
     }
 
     function scrollToStart () {
-      animScrollTo(0)
+      animScrollTo(rtlPosCorrection.value === true ? 9999 : 0)
     }
 
     function scrollToEnd () {
-      animScrollTo(9999)
+      animScrollTo(rtlPosCorrection.value === true ? 0 : 9999)
     }
 
     function stopAnimScroll () {
       clearInterval(scrollTimer)
     }
 
+    // let's speed up execution of time-sensitive scrollTowards()
+    // with a computed variable by directly applying the minimal
+    // number of instructions on get/set functions
+    const posFn = computed(() => (
+      rtlPosCorrection.value === true
+        ? { get: content => Math.abs(content.scrollLeft), set: (content, pos) => { content.scrollLeft = -pos } }
+        : (
+            props.vertical === true
+              ? { get: content => content.scrollTop, set: (content, pos) => { content.scrollTop = pos } }
+              : { get: content => content.scrollLeft, set: (content, pos) => { content.scrollLeft = pos } }
+          )
+    ))
+
     function scrollTowards (value) {
-      const content = contentRef.value
+      const
+        content = contentRef.value,
+        { get, set } = posFn.value
+
       let
-        pos = props.vertical === true ? content.scrollTop : content.scrollLeft,
-        done = false
+        done = false,
+        pos = get(content)
 
       const direction = value < pos ? -1 : 1
 
       pos += direction * 5
+
       if (pos < 0) {
         done = true
         pos = 0
@@ -331,7 +360,7 @@ export default defineComponent({
         pos = value
       }
 
-      content[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] = pos
+      set(content, pos)
       localUpdateArrows()
 
       return done
