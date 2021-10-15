@@ -67,13 +67,17 @@ const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 <% } %>
 
 const bootFiles = [<%= bootNames.join(',') %>].filter(boot => typeof boot === 'function')
+const httpRE = /^https?:\/\//
 
-function redirectBrowser (url, router, reject, httpStatusCode) {
-  const normalized = Object(url) === url
-    ? <%= build.publicPath === '/' ? 'router.resolve(url).fullPath' : 'addPublicPath(router.resolve(url).fullPath)' %>
-    : url
+function getRedirectUrl (url, router) {
+  if (typeof url === 'string' && httpRE.test(url) === true) {
+    return url
+  }
 
-  reject({ url: normalized, code: httpStatusCode })
+  try { return <%= build.publicPath === '/' ? 'router.resolve(url).href' : 'addPublicPath(router.resolve(url).href)' %> }
+  catch (err) {}
+
+  return url
 }
 
 const { components, directives, ...qUserOptions } = quasarUserOptions
@@ -90,7 +94,7 @@ export default ssrContext => {
     let hasRedirected = false
     const redirect = (url, httpStatusCode) => {
       hasRedirected = true
-      redirectBrowser(url, router, reject, httpStatusCode)
+      reject({ url: getRedirectUrl(url, router), code: httpStatusCode })
     }
 
     for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
@@ -143,7 +147,7 @@ export default ssrContext => {
       let hasRedirected = false
       const redirect = (url, httpStatusCode) => {
         hasRedirected = true
-        redirectBrowser(url, router, reject, httpStatusCode)
+        reject({ url: getRedirectUrl(url, router), code: httpStatusCode })
       }
 
       // filter and convert all components to their preFetch methods

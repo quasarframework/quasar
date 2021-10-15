@@ -27,7 +27,7 @@ A boot file is a simple JavaScript file which can optionally export a function. 
 | `ssrContext` | Available only on server-side, if building for SSR. [More info](/quasar-cli/developing-ssr/ssr-context) |
 | `urlPath` | The pathname (path + search) part of the URL. It also contains the hash on client-side. |
 | `publicPath` | The configured public path. |
-| `redirect` | Function to call to redirect to another URL. Accepts String (URL path) or a Vue Router location Object. |
+| `redirect` | Function to call to redirect to another URL. Accepts String (full URL) or a Vue Router location String or Object. |
 
 ```js
 export default ({ app, router, store }) => {
@@ -186,6 +186,10 @@ boot: [
 
 ### Redirecting to another page
 
+::: warning
+Please be mindful when redirecting as you might configure the app to go into an infinite redirect loop.
+:::
+
 ```js
 export default ({ urlPath, redirect }) => {
   // ...
@@ -198,6 +202,50 @@ export default ({ urlPath, redirect }) => {
 }
 ```
 
+The `redirect()` method accepts a String (full URL) or a Vue Router location String or Object. On SSR it can receive a second parameter which should be a Number for any of the HTTP STATUS codes that redirect the browser (3xx ones).
+
+```js
+// Examples for redirect() with a Vue Router location:
+redirect('/1') // Vue Router location as String
+redirect({ path: '/1' }) // Vue Router location as Object
+
+// Example for redirect() with a URL:
+redirect('https://quasar.dev')
+```
+
+::: warning IMPORTANT!
+The Vue Router location (in String or Object form) does not refer to URL path (and hash), but to the actual Vue Router routes that you have defined.
+So **don't add the publicPath** to it and if you're using the Vue Router hash mode then don't add the hash to it.
+
+<br>Let's say that we have this Vue Router route defined:<br><br>
+
+```js
+{
+  path: '/one',
+  component: PageOne
+}
+```
+
+<br>Then **regardless of our publicPath** we can call `redirect()` like this:<br><br>
+
+```js
+// publicPath: /wiki; vueRouterMode: history
+redirect('/one') // good way
+redirect({ path: '/one' }) // good way
+redirect('/wiki/one') // WRONG!
+
+// publicPath: /wiki; vueRouterMode: hash
+redirect('/one') // good way
+redirect({ path: '/one' }) // good way
+redirect('/wiki/#/one') // WRONG!
+
+// no publicPath; vueRouterMode: hash
+redirect('/one') // good way
+redirect({ path: '/one' }) // good way
+redirect('/#/one') // WRONG!
+```
+:::
+
 As it was mentioned in the previous sections, the default export of a boot file can return a Promise. If this Promise gets rejected with an Object that contains a "url" property, then Quasar CLI will redirect the user to that URL:
 
 ```js
@@ -206,6 +254,8 @@ export default ({ urlPath }) => {
     // ...
     const isAuthorized = // ...
     if (!isAuthorized && !urlPath.startsWith('/login')) {
+      // the "url" param here is of the same type
+      // as for "redirect" above
       reject({ url: '/login' })
       return
     }
@@ -220,7 +270,7 @@ Or a simpler equivalent:
 export default () => {
   // ...
   const isAuthorized = // ...
-    if (!isAuthorized && !urlPath.startsWith('/login')) {
+  if (!isAuthorized && !urlPath.startsWith('/login')) {
     return Promise.reject({ url: '/login' })
   }
   // ...
