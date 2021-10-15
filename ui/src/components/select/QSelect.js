@@ -128,7 +128,7 @@ export default defineComponent({
     ...useFieldEmits,
     'add', 'remove', 'input-value',
     'keyup', 'keypress', 'keydown',
-    'filter-abort'
+    'filter-abort', 'new-value'
   ],
 
   setup (props, { slots, emit }) {
