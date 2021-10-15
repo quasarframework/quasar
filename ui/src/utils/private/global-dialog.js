@@ -5,7 +5,7 @@ import { createGlobalNode, removeGlobalNode } from './global-nodes.js'
 
 const ssrAPI = {
   onOk: () => ssrAPI,
-  okCancel: () => ssrAPI,
+  onCancel: () => ssrAPI,
   hide: () => ssrAPI,
   update: () => ssrAPI
 }
