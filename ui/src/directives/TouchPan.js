@@ -175,8 +175,6 @@ export default __QUASAR_SSR_SERVER__
             client.is.firefox === true && preventDraggable(el, true)
             ctx.lastEvt = evt
 
-            const pos = position(evt)
-
             /*
             * Stop propagation so possible upper v-touch-pan don't catch this as well;
             * If we're not the target (based on modifiers), we'll re-emit the event later
@@ -198,12 +196,12 @@ export default __QUASAR_SSR_SERVER__
                 evt.cancelBubble === true && stop(clone)
 
                 Object.assign(clone, {
-                  qClonedBy: evt.qClonedBy === void 0
-                    ? [ ctx.uid ]
-                    : evt.qClonedBy.concat(ctx.uid),
                   qKeyEvent: evt.qKeyEvent,
                   qClickOutside: evt.qClickOutside,
-                  qAnchorHandled: evt.qAnchorHandled
+                  qAnchorHandled: evt.qAnchorHandled,
+                  qClonedBy: evt.qClonedBy === void 0
+                    ? [ ctx.uid ]
+                    : evt.qClonedBy.concat(ctx.uid)
                 })
 
                 ctx.initialEvent = {
@@ -215,16 +213,18 @@ export default __QUASAR_SSR_SERVER__
               stop(evt)
             }
 
+            const { left, top } = position(evt)
+
             ctx.event = {
-              x: pos.left,
-              y: pos.top,
+              x: left,
+              y: top,
               time: Date.now(),
               mouse: mouseEvent === true,
               detected: false,
               isFirst: true,
               isFinal: false,
-              lastX: pos.left,
-              lastY: pos.top
+              lastX: left,
+              lastY: top
             }
           },
 
@@ -233,12 +233,17 @@ export default __QUASAR_SSR_SERVER__
               return
             }
 
-            if(ctx.lastEvt && ctx.lastEvt.clientX === evt.clientX && ctx.lastEvt.clientY === evt.clientY) {
-              // windows OS's bug for mousemove event (Blink Engine - Chrome & Edge)
-              // mousemove event occurs even there is no movement after mousedown
-              // https://bugs.chromium.org/p/chromium/issues/detail?id=161464
-              // https://bugs.chromium.org/p/chromium/issues/detail?id=721341
-              // https://github.com/quasarframework/quasar/issues/10721
+            const
+              pos = position(evt),
+              distX = pos.left - ctx.event.x,
+              distY = pos.top - ctx.event.y
+
+            // prevent buggy browser behavior (like Blink-based engine ones on Windows)
+            // where the mousemove event occurs even if there's no movement after mousedown
+            // https://bugs.chromium.org/p/chromium/issues/detail?id=161464
+            // https://bugs.chromium.org/p/chromium/issues/detail?id=721341
+            // https://github.com/quasarframework/quasar/issues/10721
+            if (distX === 0 && distY === 0) {
               return
             }
 
@@ -317,9 +322,6 @@ export default __QUASAR_SSR_SERVER__
             }
 
             const
-              pos = position(evt),
-              distX = pos.left - ctx.event.x,
-              distY = pos.top - ctx.event.y,
               absX = Math.abs(distX),
               absY = Math.abs(distY)
 
