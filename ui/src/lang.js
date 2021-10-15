@@ -1,5 +1,5 @@
 import defineReactivePlugin from './utils/private/define-reactive-plugin.js'
-import langEn from '../lang/en-US.js'
+import defaultLang from '../lang/en-US.js'
 
 function getLocale () {
   if (__QUASAR_SSR_SERVER__) { return }
@@ -26,7 +26,7 @@ const Plugin = defineReactivePlugin({
 }, {
   getLocale,
 
-  set (langObject = langEn, ssrContext) {
+  set (langObject = defaultLang, ssrContext) {
     const lang = {
       ...langObject,
       rtl: langObject.rtl === true,
@@ -68,7 +68,7 @@ const Plugin = defineReactivePlugin({
 
   install ({ $q, lang, ssrContext }) {
     if (__QUASAR_SSR_SERVER__) {
-      const initialLang = lang || langEn
+      const initialLang = lang || defaultLang
 
       $q.lang = {}
       $q.lang.set = langObject => {
@@ -91,10 +91,11 @@ const Plugin = defineReactivePlugin({
         lang !== void 0 && this.set(lang)
       }
       else {
-        this.set(lang || langEn)
+        this.set(lang || defaultLang)
       }
     }
   }
 })
 
 export default Plugin
+export { defaultLang }
