@@ -12,6 +12,8 @@ import { humanStorageSize } from '../../utils/format.js'
 export default defineComponent({
   name: 'QFile',
 
+  inheritAttrs: false,
+
   props: {
     ...useFieldProps,
     ...useFormProps,
@@ -224,7 +226,6 @@ export default defineComponent({
     }
 
     Object.assign(state, {
-      inheritAttrs: true,
       fieldClass: { value: 'q-file q-field--auto-height' },
       emitValue,
       hasValue,
