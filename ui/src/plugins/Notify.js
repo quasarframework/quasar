@@ -64,6 +64,8 @@ function logError (error, config) {
 function getComponent ($q) {
   return defineComponent({
     name: 'QNotifications',
+    
+    // hide App from Vue devtools
     devtools: { hide: true },
 
     setup () {
