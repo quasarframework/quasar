@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 
 const columns = [
   {
@@ -181,13 +181,13 @@ const rows = [
 
 export default {
   setup () {
-    const pagination = {
+    const pagination = ref({
       sortBy: 'desc',
       descending: false,
       page: 2,
       rowsPerPage: 3
       // rowsNumber: xx if getting data from a server
-    }
+    })
 
     return {
       pagination,
@@ -196,7 +196,7 @@ export default {
       rows,
 
       pagesNumber: computed(() => {
-        return Math.ceil(rows.length / pagination.rowsPerPage)
+        return Math.ceil(rows.length / pagination.value.rowsPerPage)
       })
     }
   }
