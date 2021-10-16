@@ -64,6 +64,7 @@ function logError (error, config) {
 function getComponent ($q) {
   return defineComponent({
     name: 'QNotifications',
+    devtools: { hide: true },
 
     setup () {
       const notificationsList = {}
