@@ -39,6 +39,10 @@ export default defineReactivePlugin({
 
     const vm = createChildApp({
       name: 'LoadingBar',
+
+      // hide App from Vue devtools
+      devtools: { hide: true },
+
       setup: () => () => h(QAjaxBar, props.value)
     }, parentApp).mount(el)
 
