@@ -108,6 +108,20 @@
       "category": "behavior"
     },
 
+    "decoding": {
+      "type": "String",
+      "desc": "Same syntax as <img> decoding attribute",
+      "values": [ "sync", "async", "auto" ],
+      "category": "behavior"
+    },
+
+    "referrerpolicy": {
+      "type": "String",
+      "desc": "Same syntax as <img> referrerpolicy attribute",
+      "category": "behavior",
+      "__exemption": [ "examples" ]
+    },
+
     "fit": {
       "type": "String",
       "desc": "How the image will fit into the container; Equivalent of the object-fit prop; Can be coordinated with 'position' prop",

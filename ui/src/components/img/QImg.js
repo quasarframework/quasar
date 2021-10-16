@@ -5,9 +5,6 @@ import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 import { hSlot } from '../../utils/private/render.js'
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
-const crossoriginValues = [ 'anonymous', 'use-credentials' ]
-const loadingValues = [ 'eager', 'lazy' ]
-const fitValues = [ 'cover', 'fill', 'contain', 'none', 'scale-down' ]
 const defaultRatio = 16 / 9
 
 export default defineComponent({
@@ -21,16 +18,15 @@ export default defineComponent({
     sizes: String,
 
     alt: String,
-    crossorigin: {
-      type: String,
-      validator: val => crossoriginValues.includes(val)
-    },
+    crossorigin: String,
+    decoding: String,
+    referrerpolicy: String,
+
     draggable: Boolean,
 
     loading: {
       type: String,
-      default: 'lazy',
-      validator: val => loadingValues.includes(val)
+      default: 'lazy'
     },
     width: String,
     height: String,
@@ -43,8 +39,7 @@ export default defineComponent({
 
     fit: {
       type: String,
-      default: 'cover',
-      validator: val => fitValues.includes(val)
+      default: 'cover'
     },
     position: {
       type: String,
@@ -64,7 +59,7 @@ export default defineComponent({
 
   emits: [ 'load', 'error' ],
 
-  setup (props, { slots, attrs, emit }) {
+  setup (props, { slots, emit }) {
     const naturalRatio = ref(props.initialRatio)
     const ratioStyle = useRatio(props, naturalRatio)
 
@@ -187,10 +182,11 @@ export default defineComponent({
 
       const data = {
         key: 'img_' + index,
-        ...attrs,
         class: imgClass.value,
         style: imgStyle.value,
         crossorigin: props.crossorigin,
+        decoding: props.decoding,
+        referrerpolicy: props.referrerpolicy,
         height: props.height,
         width: props.width,
         loading: props.loading,

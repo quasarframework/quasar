@@ -5,7 +5,7 @@
         v-for="mode in fitModes"
         :key="mode"
         src="https://placeimg.com/500/300/nature"
-        style="max-width: 400px; height: 200px;"
+        style="max-width: 300px; height: 150px;"
         :fit="mode"
       >
         <div class="absolute-bottom text-subtitle1 text-center">
