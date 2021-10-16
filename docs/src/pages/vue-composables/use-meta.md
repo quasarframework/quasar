@@ -40,7 +40,7 @@ setup () {
 
 ```html
 <script>
-import { useQuasar } from 'quasar'
+import { useMeta } from 'quasar'
 
 export default {
   setup () {
