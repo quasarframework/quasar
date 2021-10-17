@@ -177,8 +177,12 @@ Heroku assumes a set of npm scripts to be available, so we have to alter our `pa
 ```js
 "build": "quasar build",
 "start": "node server.js",
-"heroku-postbuild": "yarn && yarn build"
+"heroku-postbuild": "yarn build"
 ```
+
+::: tip
+You may also need to edit the engines to use a more restrictive semver lock. For example, use `12.x` instead of the open-ended `>= 12.22.1`.
+:::
 
 Now it is time to create an app on Heroku by running:
 
