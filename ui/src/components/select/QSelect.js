@@ -972,7 +972,9 @@ export default defineComponent({
           optionEls[ i ] = fn(scope)
         }
 
-        return optionEls[ i ]
+        // rendered vnode always needs a new
+        // "instance" otherwise DOM diff will say nothing changed
+        return { ...optionEls[ i ] }
       }))
 
       if (slots[ 'before-options' ] !== void 0) {
