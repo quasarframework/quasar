@@ -194,12 +194,14 @@ function injectServerMeta (ssrContext) {
   const htmlAttr = Object.keys(data.htmlAttr).filter(htmlFilter)
 
   if (htmlAttr.length > 0) {
-    ctx.htmlAttrs += ' '
-  }
+    if(ctx.htmlAttrs.length > 0) {
+      ctx.htmlAttrs += ' '
+    }
 
-  ctx.htmlAttrs += htmlAttr
-    .map(getAttr(data.htmlAttr))
-    .join(' ')
+    ctx.htmlAttrs += htmlAttr
+      .map(getAttr(data.htmlAttr))
+      .join(' ')
+  }
 
   ctx.headTags += getHead(data)
 
