@@ -186,8 +186,6 @@ Heroku also assumes a set of npm scripts to be available, so we have to alter ou
 
 ::: warning
 You must include the nodejs buildpack for it to automatically install your yarn dependencies.
-
-Otherwise, update the `"heroku-postbuild"` to include yarn install: `"yarn && yarn build"`
 :::
 
 You may also need to edit your engines to use a non-open-ended version lock, for example if your engines look something like `>= 12.22.1`:
