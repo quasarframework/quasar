@@ -190,13 +190,14 @@ function injectServerMeta (ssrContext) {
     : ''
 
   const ctx = ssrContext._meta
-  
-  if(Object.keys(data.htmlAttr).length > 0) {
+
+  const htmlAttr = Object.keys(data.htmlAttr).filter(htmlFilter)
+
+  if (htmlAttr.length > 0) {
     ctx.htmlAttrs += ' '
   }
-  
-  ctx.htmlAttrs += Object.keys(data.htmlAttr)
-    .filter(htmlFilter)
+
+  ctx.htmlAttrs += htmlAttr
     .map(getAttr(data.htmlAttr))
     .join(' ')
 
