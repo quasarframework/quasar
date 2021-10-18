@@ -148,16 +148,20 @@ module.exports = function (ctx) {
 ```
 ## Deploying with Heroku
 
+### Preparing for static hosting
+
 Unfortunately, Heroku does not support static sites out of the box. But don't worry, we just need to add an HTTP server to our project so Heroku can serve our Quasar application.
 
 In this example, we will use [Express](https://expressjs.com/) to create a minimal server which Heroku can use.
 
 First, we need to install the required dependencies to our project:
+
 ```bash
 $ yarn add express serve-static connect-history-api-fallback
 ```
 
 Now that we have installed the required dependencies, we can add our server. Create a file called `server.js` in the root directory of your project.
+
 ```js
 const
   express = require('express'),
@@ -172,7 +176,7 @@ app.use(serveStatic(__dirname + '/dist/spa'))
 app.listen(port)
 ```
 
-Heroku assumes a set of npm scripts to be available, so we have to alter our `package.json` and add the following under the `script` section:
+Heroku also assumes a set of npm scripts to be available, so we have to alter our `package.json` and add the following under the `script` section:
 
 ```js
 "build": "quasar build",
@@ -180,9 +184,35 @@ Heroku assumes a set of npm scripts to be available, so we have to alter our `pa
 "heroku-postbuild": "yarn build"
 ```
 
-::: tip
-You may also need to edit the engines to use a more restrictive semver lock. For example, use `12.x` instead of the open-ended `>= 12.22.1`.
+::: warning
+You must include the nodejs buildpack for it to automatically install your yarn dependencies.
+
+Otherwise, update the `"heroku-postbuild"` to include yarn install: `"yarn && yarn build"`
 :::
+
+You may also need to edit your engines to use a non-open-ended version lock, for example if your engines look something like `>= 12.22.1`:
+
+```js
+"engines": {
+  "node": ">= 12.22.1",
+  "npm": ">= 6.13.4",
+  "yarn": ">= 1.21.1"
+}
+```
+
+Instead use `12.x` or `^12.22.1`:
+
+```js
+"engines": {
+  "node": "12.x",
+  "npm": "6.x",
+  "yarn": "1.x"
+}
+```
+
+Next, you can either deploy manually using Heroku Git, or automatically using Github deployment.
+
+### Manual deployment using Heroku Git
 
 Now it is time to create an app on Heroku by running:
 
@@ -206,6 +236,28 @@ For existing Git repositories, simply add the heroku remote:
 ```bash
 $ heroku git:remote -a <heroku app name>
 ```
+
+### Automatic deployment using Github
+
+From the [Heroku Dashboard](https://dashboard.heroku.com/apps), create a new app.
+
+::: tip
+The app name will be used for Heroku only, and does not need to match what you used in Quasar.
+
+This will be used as the subdomain of herokuapps, if you do not setup a custom domain.
+:::
+
+For "Deployment Method", select Github. You will need to connect Heroku to your Github account, and if you want to deploy from an organization owned repo, you must request access for that organization as well.
+
+Once you've connected to Github, from the dropdown select which user/organization the repo belongs to, then search for the repo name and connect it.
+
+Before making your first deployment, you'll want to go to the Settings tab, and under Buildpacks add the official `heroku/nodejs` option from the menu.
+
+Once you've added the nodejs buildpack, go back to the Deploy tab.
+
+You may choose to enable automatic deployments, and optionally wait for CI (your tests) to pass before deploying a new version.
+
+You can also deploy manually by selecting a branch, and clicking Deploy Branch.
 
 ## Deploying with Surge
 
