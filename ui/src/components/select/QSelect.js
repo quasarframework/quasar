@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUpdate, onUpdated, onBeforeMount, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeUpdate, onUpdated, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import QField from '../field/QField.js'
 import QIcon from '../icon/QIcon.js'
@@ -142,7 +142,7 @@ export default defineComponent({
     const dialogFieldFocused = ref(false)
     const innerLoadingIndicator = ref(false)
 
-    let inputTimer, innerValueCache, optionScopeCache,
+    let inputTimer, innerValueCache,
       hasDialog, userInputValue, filterId, defaultInputValue,
       transitionShowComputed, searchBuffer, searchBufferExp
 
@@ -309,7 +309,6 @@ export default defineComponent({
       }
 
       const { from, to } = virtualScrollSliceRange.value
-      const { options, optionEls } = optionScopeCache
 
       return props.options.slice(from, to).map((opt, i) => {
         const disable = isOptionDisabled.value(opt) === true
@@ -341,7 +340,7 @@ export default defineComponent({
           }
         }
 
-        const option = {
+        return {
           index,
           opt,
           html: needsHtmlFn.value(opt),
@@ -352,22 +351,6 @@ export default defineComponent({
           setOptionIndex,
           itemProps
         }
-
-        const optionWithoutEvents = {
-          ...option,
-          itemProps: {
-            ...itemProps,
-            onClick: void 0,
-            onMousemove: void 0
-          }
-        }
-
-        if (options[ i ] === void 0 || isDeepEqual(optionWithoutEvents, options[ i ]) !== true) {
-          options[ i ] = optionWithoutEvents
-          optionEls[ i ] = void 0
-        }
-
-        return option
       })
     })
 
@@ -949,14 +932,6 @@ export default defineComponent({
     }
 
     function getAllOptions () {
-      if (
-        slots.option !== void 0
-        && optionScopeCache.optionSlot !== slots.option
-      ) {
-        optionScopeCache.optionSlot = slots.option
-        optionScopeCache.optionEls = []
-      }
-
       const fn = slots.option !== void 0
         ? slots.option
         : scope => {
@@ -976,17 +951,7 @@ export default defineComponent({
           })
         }
 
-      const { optionEls } = optionScopeCache
-
-      let options = padVirtualScroll('div', optionScope.value.map((scope, i) => {
-        if (optionEls[ i ] === void 0) {
-          optionEls[ i ] = fn(scope)
-        }
-
-        // rendered vnode always needs a new
-        // "instance" otherwise DOM diff will say nothing changed
-        return { ...optionEls[ i ] }
-      }))
+      let options = padVirtualScroll('div', optionScope.value.map(fn))
 
       if (slots[ 'before-options' ] !== void 0) {
         options = slots[ 'before-options' ]().concat(options)
@@ -1298,10 +1263,6 @@ export default defineComponent({
     }
 
     function closeMenu () {
-      if (optionScopeCache !== void 0) {
-        optionScopeCache.optionEls = []
-      }
-
       if (dialog.value === true) {
         return
       }
@@ -1417,16 +1378,7 @@ export default defineComponent({
 
     updatePreState()
 
-    onBeforeMount(() => {
-      optionScopeCache = {
-        optionSlot: slots.option,
-        options: [],
-        optionEls: []
-      }
-    })
-
     onBeforeUnmount(() => {
-      optionScopeCache = void 0
       clearTimeout(inputTimer)
     })
 
