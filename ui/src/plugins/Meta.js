@@ -194,21 +194,22 @@ function injectServerMeta (ssrContext) {
   const htmlAttr = Object.keys(data.htmlAttr).filter(htmlFilter)
 
   if (htmlAttr.length > 0) {
-    if(ctx.htmlAttrs.length > 0) {
-      ctx.htmlAttrs += ' '
-    }
-
-    ctx.htmlAttrs += htmlAttr
-      .map(getAttr(data.htmlAttr))
-      .join(' ')
+    ctx.htmlAttrs += (
+      (ctx.htmlAttrs.length > 0 ? ' ' : '')
+      + htmlAttr.map(getAttr(data.htmlAttr)).join(' ')
+    )
   }
 
   ctx.headTags += getHead(data)
 
-  ctx.bodyAttrs += Object.keys(data.bodyAttr)
-    .filter(bodyFilter)
-    .map(getAttr(data.bodyAttr))
-    .join(' ')
+  const bodyAttr = Object.keys(data.bodyAttr).filter(bodyFilter)
+
+  if (bodyAttr.length > 0) {
+    ctx.bodyAttrs += (
+      (ctx.bodyAttrs.length > 0 ? ' ' : '')
+      + bodyAttr.map(getAttr(data.bodyAttr)).join(' ')
+    )
+  }
 
   ctx.bodyTags += Object.keys(data.noscript)
     .map(name => `<noscript data-qmeta="${ name }">${ data.noscript[ name ] }</noscript>`)
