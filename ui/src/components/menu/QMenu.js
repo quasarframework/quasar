@@ -350,7 +350,10 @@ export default defineComponent({
                   'q-menu q-position-engine scroll' + menuClass.value,
                   attrs.class
                 ],
-                style: [ attrs.style, transitionStyle.value ],
+                style: [
+                  attrs.style,
+                  transitionStyle.value
+                ],
                 ...onEvents.value
               }, hSlot(slots.default))
             : null

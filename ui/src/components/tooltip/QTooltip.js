@@ -286,7 +286,10 @@ export default defineComponent({
               'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
               attrs.class
             ],
-            style: transitionStyle.value,
+            style: [
+              attrs.style,
+              transitionStyle.value
+            ],
             role: 'complementary'
           }, hSlot(slots.default))
         : null
