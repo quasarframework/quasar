@@ -8,7 +8,7 @@
   "props": {
     "model-value": {
       "extends": "model-value",
-      "type": "String",
+      "type": [ "String", "null" ],
       "examples": [ "v-model=\"myColor\"" ]
     },
 
@@ -85,7 +85,12 @@
 
   "events": {
     "update:model-value": {
-      "extends": "update:model-value"
+      "extends": "update:model-value",
+      "params": {
+        "value": {
+          "type": [ "String", "null" ]
+        }
+      }
     },
 
     "change": {

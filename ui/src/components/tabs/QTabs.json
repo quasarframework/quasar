@@ -6,7 +6,7 @@
   "props": {
     "model-value":{
       "extends": "model-value",
-      "type": [ "Number", "String" ],
+      "type": [ "Number", "String", "null" ],
       "desc": "Model of the component defining current panel name; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "required": false,
       "examples": [ "v-model=\"selectedTab\"" ]

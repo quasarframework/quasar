@@ -45,9 +45,9 @@ const topSections = {
 const objectTypes = {
   Boolean: {
     props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
-    required: ['desc'],
+    required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
-    isArray: ['examples']
+    isArray: [ 'examples' ]
   },
 
   String: {
@@ -67,9 +67,9 @@ const objectTypes = {
   Object: {
     props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
-    recursive: ['definition'],
+    recursive: [ 'definition' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
-    isObject: ['definition'],
+    isObject: [ 'definition' ],
     isArray: [ 'examples', 'values' ]
   },
 
@@ -77,7 +77,7 @@ const objectTypes = {
     props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
-    isObject: ['definition'],
+    isObject: [ 'definition' ],
     isArray: [ 'examples', 'values' ]
   },
 
@@ -85,8 +85,8 @@ const objectTypes = {
     props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
-    isObject: ['definition'],
-    isArray: ['examples']
+    isObject: [ 'definition' ],
+    isArray: [ 'examples' ]
   },
 
   Function: {
@@ -95,7 +95,7 @@ const objectTypes = {
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'params', 'returns' ],
     canBeNull: [ 'params', 'returns' ],
-    isArray: ['examples']
+    isArray: [ 'examples' ]
   },
 
   MultipleTypes: {
@@ -109,63 +109,63 @@ const objectTypes = {
   // special type, not common
   Error: {
     props: [ 'desc', 'category', 'examples', 'addedIn', 'internal' ],
-    required: ['desc'],
-    isBoolean: ['internal']
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ]
   },
 
   // special type, not common
   Component: {
     props: [ 'desc', 'category', 'examples', 'addedIn', 'internal' ],
-    required: ['desc'],
-    isBoolean: ['internal']
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ]
   },
 
   meta: {
-    props: ['docsUrl'],
+    props: [ 'docsUrl' ],
     required: []
   },
 
   // special type, not common
   Element: {
     props: [ 'desc', 'category', 'examples', 'addedIn', 'internal' ],
-    required: ['desc'],
-    isBoolean: ['internal']
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ]
   },
 
   // special type, not common
   File: {
     props: [ 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
-    required: ['desc'],
-    isBoolean: ['internal']
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ]
   },
 
   // special type, not common
   FileList: {
     props: [ 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
-    required: ['desc'],
-    isBoolean: ['internal']
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ]
   },
 
   // component only
   slots: {
     props: [ 'desc', 'link', 'scope', 'addedIn', 'internal' ],
-    required: ['desc'],
-    isObject: ['scope'],
-    isBoolean: ['internal']
+    required: [ 'desc' ],
+    isObject: [ 'scope' ],
+    isBoolean: [ 'internal' ]
   },
 
   // component only
   events: {
     props: [ 'desc', 'link', 'params', 'addedIn', 'internal' ],
-    required: ['desc'],
-    isObject: ['params'],
-    isBoolean: ['internal']
+    required: [ 'desc' ],
+    isObject: [ 'params' ],
+    isBoolean: [ 'internal' ]
   },
 
   methods: {
     props: [ 'tsInjectionPoint', 'tsType', 'desc', 'link', 'params', 'returns', 'addedIn' ],
-    required: ['desc'],
-    isBoolean: ['tsInjectionPoint'],
+    required: [ 'desc' ],
+    isBoolean: [ 'tsInjectionPoint' ],
     isObject: [ 'params', 'returns' ]
   },
 
@@ -518,18 +518,36 @@ function fillAPI (apiType, list) {
             }
             else {
               if (definition.type) {
+                let propApiType
+
+                // null is implicit for Vue, so we normalize the type
+                // so the other validations won't break
+                if (key === 'model-value' && Array.isArray(propApi.type) && propApi.type.includes('null')) {
+                  propApiType = propApi.type.filter(v => v !== 'null')
+                  if (propApiType.length === 1) {
+                    propApiType = propApiType[ 0 ]
+                  }
+                }
+                else {
+                  propApiType = propApi.type
+                }
+
                 if (Array.isArray(definition.type)) {
-                  if (arrayHasError(name, key, 'type', definition.type, propApi)) {
+                  const pApi = key === 'model-value'
+                    ? { ...propApi, type: propApiType }
+                    : propApi
+
+                  if (arrayHasError(name, key, 'type', definition.type, pApi)) {
                     hasError = true
                   }
                 }
-                else if (propApi.type !== definition.type) {
+                else if (propApiType !== definition.type) {
                   logError(`${ name }: wrong definition for prop "${ key }" on "type": expected "${ definition.type }" but found "${ propApi.type }"`)
                   hasError = true // keep looping through to find as many as can be found before exiting
                 }
               }
 
-              if (key !== 'value' && definition.required && Boolean(definition.required) !== propApi.required) {
+              if (key !== 'model-value' && definition.required && Boolean(definition.required) !== propApi.required) {
                 logError(`${ name }: wrong definition for prop "${ key }" on "required": expected "${ definition.required }" but found "${ propApi.required }"`)
                 hasError = true // keep looping through to find as many as can be found before exiting
               }
@@ -577,8 +595,8 @@ function writeTransformAssetUrls (components) {
     includeAbsolute: false,
     tags: {
       video: [ 'src', 'poster' ],
-      source: ['src'],
-      img: ['src'],
+      source: [ 'src' ],
+      img: [ 'src' ],
       image: [ 'xlink:href', 'href' ],
       use: [ 'xlink:href', 'href' ]
     }
