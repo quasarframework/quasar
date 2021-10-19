@@ -1369,7 +1369,7 @@ export default defineComponent({
       if (editRange.value === null) {
         const dayProps = days.value.find(day => day.fill !== true && day.i === dayIndex)
 
-        if (dayProps.range !== void 0) {
+        if (props.noUnset !== true && dayProps.range !== void 0) {
           removeFromModel({ target: day, from: dayProps.range.from, to: dayProps.range.to })
           return
         }
