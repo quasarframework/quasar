@@ -268,17 +268,28 @@ export default defineComponent({
     const tabindex = computed(() => (state.focused.value === true ? props.tabindex : -1))
 
     const comboboxAttrs = computed(() => ({
+      tabindex: tabindex.value,
       role: 'combobox',
-      'aria-multiselectable': props.multiple === true ? 'true' : 'false',
+      'aria-label': props.label,
+      'aria-autocomplete': props.useInput === true ? 'list' : 'none',
       'aria-expanded': menu.value === true ? 'true' : 'false',
       'aria-owns': `${ state.targetUid.value }_lb`,
-      'aria-activedescendant': `${ state.targetUid.value }_${ optionIndex.value }`
+      'aria-controls': `${ state.targetUid.value }_lb`
     }))
 
-    const listboxAttrs = computed(() => ({
-      role: 'listbox',
-      id: `${ state.targetUid.value }_lb`
-    }))
+    const listboxAttrs = computed(() => {
+      const attrs = {
+        id: `${ state.targetUid.value }_lb`,
+        role: 'listbox',
+        'aria-multiselectable': props.multiple === true ? 'true' : 'false'
+      }
+
+      if (optionIndex.value >= 0) {
+        attrs[ 'aria-activedescendant' ] = `${ state.targetUid.value }_${ optionIndex.value }`
+      }
+
+      return attrs
+    })
 
     const selectedScope = computed(() => {
       return innerValue.value.map((opt, i) => ({
@@ -993,16 +1004,15 @@ export default defineComponent({
         value: inputValue.value !== void 0 ? inputValue.value : '',
         // required for Android in order to show ENTER key when in form
         type: 'search',
+        ...comboboxAttrs.value,
         ...state.splitAttrs.attributes.value,
         id: state.targetUid.value,
         maxlength: props.maxlength,
-        tabindex: props.tabindex,
         autocomplete: props.autocomplete,
         'data-autofocus': (fromDialog !== true && props.autofocus === true) || void 0,
         disabled: props.disable === true,
         readonly: props.readonly === true,
-        ...inputControlEvents.value,
-        ...comboboxAttrs.value
+        ...inputControlEvents.value
       }
 
       if (fromDialog !== true && hasDialog === true) {
@@ -1504,7 +1514,6 @@ export default defineComponent({
               key: 'd_t',
               class: 'no-outline',
               id: state.targetUid.value,
-              tabindex: props.tabindex,
               ...comboboxAttrs.value,
               onKeydown: onTargetKeydown,
               onKeyup: onTargetKeyup,
