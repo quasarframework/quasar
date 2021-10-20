@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
 
-    <q-header class="bg-h-dark homepage-header">
+    <q-header class="bg-lp-dark homepage-header">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
@@ -20,7 +20,7 @@
           <q-tab name="tab6" label="About" />
           <q-tab name="tab7" label="Blog" />
         </q-tabs>
-        <q-btn color="h-primary" flat icon="search" round padding="none" />
+        <q-btn color="lp-primary" flat icon="search" round padding="none" />
       </q-toolbar>
     </q-header>
 
@@ -60,7 +60,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .homepage-header {
   padding: 1rem 2rem;
-  border-bottom: 1px solid $homepage-primary;
+  border-bottom: 1px solid $landingpage-primary;
   &__navigation {
     color: #979797;
   }
