@@ -1,0 +1,37 @@
+{
+  "name": "@quasar/vite-plugin",
+  "version": "1.0.0-alpha.0",
+  "description": "Vite plugin for Quasar Framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "files": [
+    "src"
+  ],
+  "keywords": [
+    "quasar",
+    "vite",
+    "vue",
+    "vuejs"
+  ],
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "license": "MIT",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "homepage": "https://quasar.dev",
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
