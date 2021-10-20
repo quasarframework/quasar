@@ -1,16 +1,16 @@
 <template>
-  <q-page class="bg-h-dark text-white relative-position">
+  <q-page class="bg-lp-dark text-white relative-position">
 
     <section class="q-px-lg">
       <div class="row justify-end socials q-pa-md">
-        <q-btn flat :icon="fabGithub" color="h-primary" class="socials-item" />
-        <q-btn flat icon="message" color="h-primary" class="socials-item" />
-        <q-btn flat icon="forum" color="h-primary" class="socials-item" />
-        <q-btn flat :icon="fabTwitter" color="h-primary" class="socials-item" />
+        <q-btn flat :icon="fabGithub" color="lp-primary" class="socials-item" />
+        <q-btn flat icon="message" color="lp-primary" class="socials-item" />
+        <q-btn flat icon="forum" color="lp-primary" class="socials-item" />
+        <q-btn flat :icon="fabTwitter" color="lp-primary" class="socials-item" />
         <q-btn
           flat
           :icon="fabFacebookSquare"
-          color="h-primary"
+          color="lp-primary"
           class="socials-item"
         />
       </div>
@@ -25,16 +25,16 @@
             </div>
           </div>
 
-          <div class="q-py-lg text-h-light about__text">
+          <div class="q-py-lg text-lp-light about__text">
             The open source multi-platform development framework based on Vue.js
             with an enterprise vocation.
           </div>
 
           <div>
             <q-btn
-              color="h-accent"
+              color="lp-accent"
               label="Take a look across the stars"
-              class="shadow-6 h-btn h-btn-primary"
+              class="shadow-6 lp-btn lp-btn-primary"
             />
           </div>
 
@@ -55,7 +55,7 @@
     <section>
       <div class="sponsors row justify-center q-mt-xl q-pt-sm">
         <div class="col-7 column items-center">
-          <div class="text-h-primary text-center sponsors-heading">
+          <div class="text-lp-primary text-center sponsors-heading">
             Our platform sponsors
           </div>
 
@@ -68,9 +68,9 @@
               flat
               padding="none"
               label="Full sponsors' list"
-              text-color="h-light"
+              text-color="lp-light"
               no-caps
-              class="h-btn-underline"
+              class="lp-btn-underline"
             />
           </div>
         </div>
@@ -121,12 +121,12 @@ export default defineComponent({
   }
 }
 
-.h-btn {
+.lp-btn {
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 2.63px;
   color: #fff;
-  box-shadow: 0 6px 6px 0 rgba($homepage-primary, 0.28);
+  box-shadow: 0 6px 6px 0 rgba($landingpage-primary, 0.28);
   padding: 15px 16px 16px;
   border-radius: 4px;
 }
@@ -139,8 +139,8 @@ export default defineComponent({
   text-transform: capitalize;
 }
 
-.h-btn-underline {
-  border-bottom: 1px solid $homepage-light;
+.lp-btn-underline {
+  border-bottom: 1px solid $landingpage-light;
   font-size: 16px;
   letter-spacing: 3px;
   line-height: normal;
