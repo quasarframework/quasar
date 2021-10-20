@@ -522,8 +522,12 @@ function fillAPI (apiType, list) {
 
                 // null is implicit for Vue, so we normalize the type
                 // so the other validations won't break
-                if (key === 'model-value' && Array.isArray(propApi.type) && propApi.type.includes('null')) {
-                  propApiType = propApi.type.filter(v => v !== 'null')
+                if (
+                  key === 'model-value'
+                  && Array.isArray(propApi.type)
+                  && (propApi.type.includes('null') || propApi.type.includes('undefined'))
+                ) {
+                  propApiType = propApi.type.filter(v => v !== 'null' && v !== 'undefined')
                   if (propApiType.length === 1) {
                     propApiType = propApiType[ 0 ]
                   }

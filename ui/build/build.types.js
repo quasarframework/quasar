@@ -68,7 +68,7 @@ function convertTypeVal (type, def, required) {
 
   if (fallbackComplexTypeMap.has(t)) {
     if (def.definition) {
-      const propDefinitions = getPropDefinitions(def.definition, required, true)
+      const propDefinitions = getPropDefinitions({ propDefs: def.definition, required, docs: true })
       const lines = []
       propDefinitions.forEach(p => lines.push(...p.split('\n')))
       return propDefinitions && propDefinitions.length > 0 ? `{\n        ${ lines.join('\n        ') } }${ t === 'Array' ? '[]' : '' }` : fallbackComplexTypeMap.get(t)
@@ -86,24 +86,32 @@ function getTypeVal (def, required) {
     : convertTypeVal(def.type, def, required)
 }
 
-function getPropDefinition (key, propDef, required, docs = false, isMethodParam = false) {
+function getPropDefinition (key, propDef, required, docs = false, isMethodParam = false, isCompProps = false) {
   const propName = toCamelCase(key)
 
   if (propName.startsWith('...')) {
     return isMethodParam ? `${ propName }: any[]` : '[index: string]: any'
   }
   else {
-    const propType = getTypeVal(propDef, required)
+    let propType = getTypeVal(propDef, required)
     addToExtraInterfaces(propDef)
-    return `${ docs ? `/**\n * ${ propDef.desc }\n */\n` : '' }${ propName }${ !propDef.required && !required ? '?' : '' }: ${ propType }`
+    const comment = docs === true
+      ? `/**\n * ${ propDef.desc }${ propDef.default ? `\n * Default value: ${ propDef.default }` : '' }\n */\n`
+      : ''
+
+    if (isCompProps === true && key !== 'model-value' && !propDef.required && propType.indexOf(' undefined') === -1) {
+      propType += ' | undefined;'
+    }
+
+    return `${ comment }${ propName }${ !propDef.required && !required ? '?' : '' }: ${ propType }`
   }
 }
 
-function getPropDefinitions (propDefs, required, docs = false, areMethodParams = false) {
+function getPropDefinitions ({ propDefs, required, docs = false, areMethodParams = false, isCompProps = false }) {
   const defs = []
 
   for (const key in propDefs) {
-    const def = getPropDefinition(key, propDefs[ key ], required, docs, areMethodParams)
+    const def = getPropDefinition(key, propDefs[ key ], required, docs, areMethodParams, isCompProps)
     def && defs.push(def)
   }
 
@@ -133,7 +141,7 @@ function getMethodDefinition (key, methodDef, returnTypeRequired = false, requir
 
     if (methodDef.params) {
       // TODO: Verify if this should be optional even for plugins
-      const params = getPropDefinitions(methodDef.params, paramsRequired, false, true, true)
+      const params = getPropDefinitions({ propDefs: methodDef.params, required: paramsRequired, areMethodParams: true })
       def += params.join(', ')
     }
 
@@ -320,7 +328,12 @@ function writeIndexDTS (apis) {
       write(plugins, propTypeDef)
     }
 
-    const props = getPropDefinitions(content.props, content.type === 'plugin', true)
+    const props = getPropDefinitions({
+      propDefs: content.props,
+      required: content.type === 'plugin',
+      docs: true,
+      isCompProps: content.type === 'component'
+    })
 
     // Declare class
     writeLine(quasarTypeContents, `export const ${ typeName }: ${ typeValue }`)
