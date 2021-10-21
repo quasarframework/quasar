@@ -6,6 +6,8 @@
 
   <div v-ripple style="width: 500px; height: 500px" class="relative-position bg-amber" />
   <q-icon name="local_fire_department" size="52px" class="q-mr-md my-color" />
+
+  <div class="my-div">&nbsp;</div>
 </template>
 
 <script>
@@ -36,4 +38,8 @@ export default {
 <style lang="sass">
 .my-color
   color: $primary
+.my-div
+  background-color: $primary
+  width: 150px
+  height: 100px
 </style>

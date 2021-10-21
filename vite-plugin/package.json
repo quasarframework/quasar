@@ -1,15 +1,18 @@
 {
   "name": "@quasar/vite-plugin",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description": "Vite plugin for Quasar Framework",
   "main": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "files": [
-    "src"
+    "src",
+    "index.d.ts"
   ],
   "keywords": [
+    "vite-plugin",
     "quasar",
     "vite",
     "vue",
@@ -23,6 +26,11 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/quasarframework/quasar"
+  },
+  "peerDependencies": {
+    "vite": "^2.0.0",
+    "quasar": "^2.0.0",
+    "vue": "^3.0.0"
   },
   "license": "MIT",
   "bugs": "https://github.com/quasarframework/quasar/issues",

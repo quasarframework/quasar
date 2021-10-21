@@ -1,6 +1,7 @@
 import { version } from 'quasar/package.json'
+import { normalizePath } from 'vite'
 
-export default ({ runMode, sassVariablesFile }) => {
+export default ({ runMode, sassVariables }) => {
   const viteCfg = {
     define: {
       __QUASAR_VERSION__: `'${ version }'`,
@@ -8,17 +9,6 @@ export default ({ runMode, sassVariablesFile }) => {
       __QUASAR_SSR_SERVER__: false,
       __QUASAR_SSR_CLIENT__: false,
       __QUASAR_SSR_PWA__: false
-    },
-
-    css: {
-      preprocessorOptions: {
-        sass: {
-          additionalData: `@import '${ sassVariablesFile }'\n`
-        },
-        scss: {
-          additionalData: `@import '${ sassVariablesFile }';\n`
-        }
-      }
     }
   }
 
@@ -33,6 +23,20 @@ export default ({ runMode, sassVariablesFile }) => {
       __QUASAR_SSR__: true,
       __QUASAR_SSR_SERVER__: true
     })
+  }
+
+  if (sassVariables) {
+    const sassImportCode = (
+      (typeof sassVariables === 'string' ? `@import '${ normalizePath(sassVariables) }'\n` : '')
+      + `@import 'quasar/src/css/variables.sass'\n`
+    )
+
+    viteCfg.css = {
+      preprocessorOptions: {
+        sass: { additionalData: sassImportCode },
+        scss: { additionalData: sassImportCode }
+      }
+    }
   }
 
   return viteCfg
