@@ -268,7 +268,7 @@ export default defineComponent({
     const tabindex = computed(() => (state.focused.value === true ? props.tabindex : -1))
 
     const comboboxAttrs = computed(() => ({
-      tabindex: tabindex.value,
+      tabindex: props.tabindex,
       role: 'combobox',
       'aria-label': props.label,
       'aria-autocomplete': props.useInput === true ? 'list' : 'none',
