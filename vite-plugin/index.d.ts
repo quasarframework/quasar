@@ -27,7 +27,7 @@ interface QuasarPluginOpts {
    *    "ssr-server" (NOT YET AVAILABLE) SSR on server-side
    *    "ssr-client" (NOT YET AVAILABLE) SSR on client-side
    */
-  runMode?: "web-client" | "ssr-client" | "ssr-server";
+  // runMode?: "web-client" | "ssr-client" | "ssr-server";
 }
 
 export function quasar(

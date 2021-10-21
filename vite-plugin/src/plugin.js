@@ -3,7 +3,7 @@ import { jsTransform, jsTransformRegex } from './js-transform'
 import { vueTransform, vueTransformRegex } from './vue-transform'
 
 const defaultOptions = {
-  runMode: 'spa',
+  runMode: 'web-client',
   autoImportComponentCase: 'kebab',
   sassVariables: true
 }
