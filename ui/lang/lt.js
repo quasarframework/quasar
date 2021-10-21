@@ -1,10 +1,18 @@
 function plurals (n, opts) {
-  return opts[ n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2 ].replace(/{}/g, n)
+  const index = n % 10 === 1 && n % 100 !== 11
+    ? 0
+    : (
+        n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 10 || n % 100 >= 20)
+          ? 1
+          : 2
+      )
+
+  return opts[ index ].replace(/{}/g, n)
 }
 
 export default {
   isoName: 'lt',
-  nativeName: 'Lithuanian (LT)',
+  nativeName: 'Lithuanian',
   label: {
     clear: 'Išvalyti',
     ok: 'Gerai',
