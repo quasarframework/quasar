@@ -1,0 +1,9 @@
+{
+  "fixturesFolder": "test/cypress/fixtures",
+  "component": {
+    "componentFolder": "../src",
+    "testFiles": "**/*.spec.js",
+    "pluginsFile": "test/cypress/plugins/unit.js",
+    "supportFile": "test/cypress/support/unit.js"
+  }
+}

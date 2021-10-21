@@ -27,7 +27,8 @@
     "build": "node build/script.build.js",
     "test": "yarn lint && yarn build",
     "lint": "eslint --ext .js,.vue src dev",
-    "lint-fix": "eslint --ext .js,.vue src dev --fix"
+    "lint-fix": "eslint --ext .js,.vue src dev --fix",
+    "test:unit": "cd ./dev && cypress open-ct && cd .."
   },
   "repository": {
     "type": "git",
@@ -62,6 +63,8 @@
   "homepage": "https://quasar.dev",
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
+    "@cypress/vue": "^3.0.3",
+    "@cypress/webpack-dev-server": "^1.7.0",
     "@quasar/app": "^3.0.0",
     "@quasar/extras": "^1.12.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
@@ -72,6 +75,7 @@
     "eslint": "^7.4.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-friendly-formatter": "^4.0.1",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
@@ -81,6 +85,7 @@
     "json-beautify": "^1.1.1",
     "module-alias": "^2.2.2",
     "prettier": "^2.4.1",
+    "quasar": "^2.1.9",
     "recast": "^0.18.5",
     "rimraf": "^3.0.1",
     "rollup": "^2.34.0",
