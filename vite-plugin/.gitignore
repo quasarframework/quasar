@@ -1,8 +1,9 @@
 .DS_Store
 .Thumbs.db
+dist/
 node_modules/
-dev-app/dist
-dev-app/node_modules
+example/dist
+example/node_modules
 npm-debug.log
 *.sublime*
 .idea/
