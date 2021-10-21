@@ -9,6 +9,10 @@ export default ({ runMode, sassVariables }) => {
       __QUASAR_SSR_SERVER__: false,
       __QUASAR_SSR_CLIENT__: false,
       __QUASAR_SSR_PWA__: false
+    },
+
+    optimizeDeps: {
+      exclude: [ 'quasar' ]
     }
   }
 
