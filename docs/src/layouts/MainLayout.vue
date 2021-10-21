@@ -1,8 +1,8 @@
 <template>
-  <q-layout view="hHh lpR fFf">
+  <q-layout view="hHh lpR fff">
 
     <q-header class="bg-lp-dark homepage-header">
-      <q-toolbar>
+      <q-toolbar class="q-py-sm q-px-md">
         <q-toolbar-title>
           <q-avatar>
             <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
@@ -11,17 +11,54 @@
         </q-toolbar-title>
         <q-space />
 
-        <q-tabs v-model="tab" active-color="white" class="homepage-header__navigation" dense indicator-color="transparent" shrink>
-          <q-tab name="tab1" label="Home" />
-          <q-tab name="tab2" label="Features" />
-          <q-tab name="tab3" label="Services" />
-          <q-tab name="tab4" label="Components" />
-          <q-tab name="tab5" label="Become Sponsor" />
-          <q-tab name="tab6" label="About" />
-          <q-tab name="tab7" label="Blog" />
-        </q-tabs>
-        <q-btn color="lp-primary" flat icon="search" round padding="none" />
+        <div class="row items-center">
+          <q-btn
+            label="Home"
+            color="white"
+            flat
+            class="q-py-sm q-px-md"
+          />
+          <q-btn
+            label="Features"
+            color="lp-light"
+            flat
+            class="q-py-sm q-px-md"
+          />
+          <q-btn
+            color="lp-light"
+            flat
+            label="Services"
+            class="q-py-sm q-px-md"
+          />
+          <q-btn
+            color="lp-light"
+            flat
+            label="Components"
+            class="q-py-sm q-px-md"
+          />
+          <q-btn
+            color="lp-light"
+            flat
+            label="Become sponsor"
+            class="q-py-sm q-px-md"
+          />
+          <q-btn
+            color="lp-light"
+            flat
+            label="About"
+            class="q-py-sm q-px-md"
+          />
+          <q-btn
+            color="lp-light"
+            flat
+            label="Blog"
+            class="q-py-sm q-px-md"
+          />
+          <q-btn flat round color="lp-primary" class="q-ml-sm" icon="search" padding="xs"/>
+        </div>
+
       </q-toolbar>
+      <q-separator color="lp-primary"/>
     </q-header>
 
     <q-page-container>
@@ -56,13 +93,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped lang="scss">
-.homepage-header {
-  padding: 1rem 2rem;
-  border-bottom: 1px solid $landingpage-primary;
-  &__navigation {
-    color: #979797;
-  }
-}
-</style>
