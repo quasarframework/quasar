@@ -1,0 +1,16 @@
+$lp-primary: #00b4ff;
+$lp-secondary: #26A69A;
+$lp-accent: #EA5E13;
+
+$lp-dark: #050a14;
+$lp-light: #979797;
+
+$lp-positive: #21BA45;
+$lp-negative: #C10015;
+$lp-info: #31CCEC;
+$lp-warning: #F2C037;
+
+$lp-font-family: 'Montserrat', sans-serif;
+$lp-font-family-avenir: Avenir, $lp-font-family;
+
+@import "utilities.scss";
