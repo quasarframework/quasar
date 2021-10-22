@@ -28,6 +28,10 @@ export default defineComponent({
       type: String,
       default: 'fade'
     },
+    transitionDuration: {
+      type: [ String, Number ],
+      default: 300
+    },
 
     height: String,
     padding: Boolean,
@@ -118,6 +122,10 @@ export default defineComponent({
       [ props.controlType ]: true,
       dense: true
     }))
+
+    const transitionStyle = computed(
+      () => `--q-transition-duration: ${ props.transitionDuration }ms`
+    )
 
     watch(() => props.modelValue, () => {
       if (props.autoplay) {
