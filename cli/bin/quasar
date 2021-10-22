@@ -91,6 +91,7 @@ else {
 
         console.log()
         cmd = 'help'
+        process.exit(1)
       }
     }
     else {
