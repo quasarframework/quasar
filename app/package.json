@@ -70,7 +70,7 @@
     "express": "4.17.1",
     "fast-glob": "3.2.7",
     "file-loader": "6.2.0",
-    "fork-ts-checker-webpack-plugin": "6.3.3",
+    "fork-ts-checker-webpack-plugin": "6.4.0",
     "fs-extra": "10.0.0",
     "hash-sum": "2.0.0",
     "html-minifier": "4.0.0",
