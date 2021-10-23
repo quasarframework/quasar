@@ -28,10 +28,6 @@ export default defineComponent({
       type: String,
       default: 'fade'
     },
-    transitionDuration: {
-      type: [ String, Number ],
-      default: 300
-    },
 
     height: String,
     padding: Boolean,
@@ -123,10 +119,6 @@ export default defineComponent({
       dense: true
     }))
 
-    const transitionStyle = computed(
-      () => `--q-transition-duration: ${ props.transitionDuration }ms`
-    )
-
     watch(() => props.modelValue, () => {
       if (props.autoplay) {
         clearInterval(timer)
@@ -144,7 +136,14 @@ export default defineComponent({
     })
 
     function startTimer () {
-      timer = setTimeout(nextPanel, isNumber(props.autoplay) ? props.autoplay : 5000)
+      const duration = isNumber(props.autoplay) === true
+        ? props.autoplay
+        : 5000
+
+      timer = setTimeout(
+        duration >= 0 ? nextPanel : previousPanel,
+        Math.abs(duration)
+      )
     }
 
     onMounted(() => {
