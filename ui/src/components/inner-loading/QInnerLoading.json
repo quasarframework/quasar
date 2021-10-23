@@ -22,6 +22,35 @@
       "default": "42px"
     },
 
+    "label": {
+      "type": "String",
+      "desc": "Add a label; Gets overriden when using the default slot",
+      "examples": [ "Please wait..." ],
+      "category": "label",
+      "addedIn": "v2.2"
+    },
+
+    "label-class": {
+      "type": "String",
+      "desc": "Add CSS class(es) to the label; Works along the 'label' prop only",
+      "examples": [
+        "text-red q-mt-xl"
+      ],
+      "category": "label",
+      "addedIn": "v2.2"
+    },
+
+    "label-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Apply custom style to the label; Works along the 'label' prop only",
+      "examples": [
+        "font-size: 28px",
+        ":label-style=\"{ color: '#ff0000' }\""
+      ],
+      "category": "label",
+      "addedIn": "v2.2"
+    },
+
     "dark": {
       "extends": "dark"
     }

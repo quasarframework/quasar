@@ -585,6 +585,10 @@ export default {
 }
 ```
 
+### QInnerLoading
+
+Added "label", "label-class" and "label-style" props.
+
 #### QImg
 
 This component has been redesigned from the ground up. It now makes use of a more modern API. The immediate effects are that it uses less RAM memory and runtime is much faster.
