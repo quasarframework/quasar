@@ -64,6 +64,13 @@
       "category": "content"
     },
 
+    "no-header-tabs": {
+      "type": "Boolean",
+      "desc": "Do not render header tabs (only the input)",
+      "category": "content",
+      "addedIn": "v2.1.10"
+    },
+
     "no-footer": {
       "type": "Boolean",
       "desc": "Do not render footer; Useful when you want a specific view ('default-view' prop) and don't want the user to be able to switch it",

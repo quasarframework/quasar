@@ -60,6 +60,7 @@ export default defineComponent({
     palette: Array,
 
     noHeader: Boolean,
+    noHeaderTabs: Boolean,
     noFooter: Boolean,
 
     square: Boolean,
@@ -145,7 +146,7 @@ export default defineComponent({
         ? true
         : luminosity(model.value) > 0.4
 
-      return 'q-color-picker__header-content absolute-full'
+      return 'q-color-picker__header-content'
         + ` q-color-picker__header-content--${ light ? 'light' : 'dark' }`
     })
 
@@ -496,6 +497,63 @@ export default defineComponent({
     }
 
     function getHeader () {
+      const child = []
+
+      props.noHeaderTabs !== true && child.push(
+        h(QTabs, {
+          class: 'q-color-picker__header-tabs',
+          modelValue: topView.value,
+          dense: true,
+          align: 'justify',
+          ...getCache('topVTab', {
+            'onUpdate:modelValue': val => { topView.value = val }
+          })
+        }, () => [
+          h(QTab, {
+            label: 'HEX' + (hasAlpha.value === true ? 'A' : ''),
+            name: 'hex',
+            ripple: false
+          }),
+
+          h(QTab, {
+            label: 'RGB' + (hasAlpha.value === true ? 'A' : ''),
+            name: 'rgb',
+            ripple: false
+          })
+        ])
+      )
+
+      child.push(
+        h('div', {
+          class: 'q-color-picker__header-banner row flex-center no-wrap'
+        }, [
+          h('input', {
+            class: 'fit',
+            value: model.value[ topView.value ],
+            ...(editable.value !== true
+              ? { readonly: true }
+              : {}
+            ),
+            ...getCache('topIn', {
+              onInput: evt => {
+                updateErrorIcon(onEditorChange(evt) === true)
+              },
+              onChange: stop,
+              onBlur: evt => {
+                onEditorChange(evt, true) === true && proxy.$forceUpdate()
+                updateErrorIcon(false)
+              }
+            })
+          }),
+
+          h(QIcon, {
+            ref: errorIconRef,
+            class: 'q-color-picker__error-icon absolute no-pointer-events',
+            name: $q.iconSet.type.negative
+          })
+        ])
+      )
+
       return h('div', {
         class: 'q-color-picker__header relative-position overflow-hidden'
       }, [
@@ -504,57 +562,7 @@ export default defineComponent({
         h('div', {
           class: headerClass.value,
           style: currentBgColor.value
-        }, [
-          h(QTabs, {
-            modelValue: topView.value,
-            dense: true,
-            align: 'justify',
-            ...getCache('topVTab', {
-              'onUpdate:modelValue': val => { topView.value = val }
-            })
-          }, () => [
-            h(QTab, {
-              label: 'HEX' + (hasAlpha.value === true ? 'A' : ''),
-              name: 'hex',
-              ripple: false
-            }),
-
-            h(QTab, {
-              label: 'RGB' + (hasAlpha.value === true ? 'A' : ''),
-              name: 'rgb',
-              ripple: false
-            })
-          ]),
-
-          h('div', {
-            class: 'q-color-picker__header-banner row flex-center no-wrap'
-          }, [
-            h('input', {
-              class: 'fit',
-              value: model.value[ topView.value ],
-              ...(editable.value !== true
-                ? { readonly: true }
-                : {}
-              ),
-              ...getCache('topIn', {
-                onInput: evt => {
-                  updateErrorIcon(onEditorChange(evt) === true)
-                },
-                onChange: stop,
-                onBlur: evt => {
-                  onEditorChange(evt, true) === true && proxy.$forceUpdate()
-                  updateErrorIcon(false)
-                }
-              })
-            }),
-
-            h(QIcon, {
-              ref: errorIconRef,
-              class: 'q-color-picker__error-icon absolute no-pointer-events',
-              name: $q.iconSet.type.negative
-            })
-          ])
-        ])
+        }, child)
       ])
     }
 

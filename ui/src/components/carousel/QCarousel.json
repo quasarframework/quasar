@@ -100,7 +100,7 @@
 
     "transition-next": {
       "default": "fade"
-    },
+    }
   },
 
   "slots": {

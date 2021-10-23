@@ -8,7 +8,6 @@
         <q-toggle :dark="dark" v-model="square" label="Square" />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
-        <q-toggle :dark="dark" v-model="inline" label="Inline" />
       </div>
 
       <div>
@@ -192,7 +191,6 @@ export default {
       square: false,
       disable: false,
       readonly: false,
-      inline: true,
 
       hex: '#FF00FF',
       hexa: '#FF00FFCC',
@@ -218,8 +216,7 @@ export default {
         flat: this.flat,
         square: this.square,
         disable: this.disable,
-        readonly: this.readonly,
-        inline: this.inline
+        readonly: this.readonly
       }
     }
   },
