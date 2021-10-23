@@ -156,6 +156,7 @@
         "align": {
           "type": "String",
           "desc": "Horizontal alignment of cells in this column",
+          "values": [ "left", "right", "center" ],
           "default": "right",
           "examples": [ "left", "right", "center" ]
         },
