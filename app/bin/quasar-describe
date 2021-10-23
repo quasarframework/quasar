@@ -41,6 +41,11 @@ if (!item || argv.help) {
   Usage
     $ quasar describe <component/directive/Quasar plugin>
 
+    # list all available API entries:
+    $ quasar describe list
+    # list available API entries that contain a String (ex "storage"):
+    $ quasar describe list storage
+
     # display everything:
     $ quasar describe QIcon
 
@@ -465,7 +470,8 @@ async function run () {
         openBrowser({ url: api.meta.docsUrl, wait: false })
       }
       else {
-        console.log(` Opening the docs URL also requires "quasar" v1.5+`)
+        console.log(` Please report this issue to: https://github.com/quasarframework/quasar/issues/`)
+        console.log(` Write down the command that you tried along with a complete log of "quasar info" command output`)
         console.log()
       }
     }
@@ -488,4 +494,44 @@ async function run () {
   }
 }
 
-run()
+function listElements () {
+  const getDevlandFile = require('../lib/helpers/get-devland-file')
+  let api = getDevlandFile('quasar/dist/transforms/api-list.json')
+
+  if (api === void 0) {
+    console.log(e)
+    fatal(` Could not retrieve list...`)
+  }
+
+  const filter = argv._[1]
+
+  if (filter) {
+    const needle = filter.toLowerCase()
+    const filterBanner = chalk.green(filter)
+    api = api.filter(entry => entry.toLowerCase().indexOf(needle) !== -1)
+
+    if (api.length === 0) {
+      console.log(`\n Nothing matches "${ filterBanner }". Please refine the search term.\n`)
+      process.exit(0)
+    }
+
+    console.log(`\n The list of API elements that match "${ filterBanner }":\n`)
+  }
+  else {
+    console.log(`\n The complete list of API elements:\n`)
+  }
+
+  const dot = chalk.green('  • ')
+
+  api.forEach(entry => {
+    console.log(dot + entry)
+  })
+  console.log()
+}
+
+if (item === 'list') {
+  listElements()
+}
+else {
+  run()
+}
