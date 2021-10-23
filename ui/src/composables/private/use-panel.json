@@ -78,7 +78,7 @@
       "default": 300,
       "examples": [ 500, "1200" ],
       "category": "transition",
-      "addedIn": "v2.1.10"
+      "addedIn": "v2.2"
     }
   },
 

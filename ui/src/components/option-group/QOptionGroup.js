@@ -48,7 +48,7 @@ export default defineComponent({
 
   emits: [ 'update:modelValue' ],
 
-  setup (props, { emit }) {
+  setup (props, { emit, slots }) {
     const { proxy: { $q } } = getCurrentInstance()
 
     const arrayModel = Array.isArray(props.modelValue)
@@ -92,23 +92,33 @@ export default defineComponent({
     return () => h('div', {
       class: classes.value,
       ...attrs.value
-    }, props.options.map(opt => h('div', [
-      h(component.value, {
-        modelValue: props.modelValue,
-        val: opt.value,
-        name: opt.name === void 0 ? props.name : opt.name,
-        disable: props.disable || opt.disable,
-        label: opt.label,
-        leftLabel: opt.leftLabel === void 0 ? props.leftLabel : opt.leftLabel,
-        color: opt.color === void 0 ? props.color : opt.color,
-        checkedIcon: opt.checkedIcon,
-        uncheckedIcon: opt.uncheckedIcon,
-        dark: opt.dark || isDark.value,
-        size: opt.size === void 0 ? props.size : opt.size,
-        dense: props.dense,
-        keepColor: opt.keepColor === void 0 ? props.keepColor : opt.keepColor,
-        'onUpdate:modelValue': onUpdateModelValue
-      })
-    ])))
+    }, props.options.map((opt, i) => {
+      const child = slots[ 'label-' + i ] !== void 0
+        ? () => slots[ 'label-' + i ](opt)
+        : (
+            slots.label !== void 0
+              ? () => slots.label(opt)
+              : void 0
+          )
+
+      return h('div', [
+        h(component.value, {
+          modelValue: props.modelValue,
+          val: opt.value,
+          name: opt.name === void 0 ? props.name : opt.name,
+          disable: props.disable || opt.disable,
+          label: child === void 0 ? opt.label : null,
+          leftLabel: opt.leftLabel === void 0 ? props.leftLabel : opt.leftLabel,
+          color: opt.color === void 0 ? props.color : opt.color,
+          checkedIcon: opt.checkedIcon,
+          uncheckedIcon: opt.uncheckedIcon,
+          dark: opt.dark || isDark.value,
+          size: opt.size === void 0 ? props.size : opt.size,
+          dense: props.dense,
+          keepColor: opt.keepColor === void 0 ? props.keepColor : opt.keepColor,
+          'onUpdate:modelValue': onUpdateModelValue
+        }, child)
+      ])
+    }))
   }
 })
