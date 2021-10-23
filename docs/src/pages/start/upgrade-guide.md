@@ -492,6 +492,14 @@ function onClick (e, go) {
 Removed "append" prop because Vue Router v4 [has also dropped it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
 Added "tag" and "ripple" properties.
 
+#### QCarousel
+
+Added "transition-duration" prop.
+
+#### QColor
+
+Added "no-header-tabs" prop.
+
 #### QChatMessage
 
 Now by default, the "label", "name", "text" and "stamp" are protected from XSS attacks. This means that all of the `*-sanitize` props have been dropped, as this behavior has now become the standard in Quasar. Should you wish to display HTML as content for these props, you now need to explicitly specify them through new Boolean props (`*-html`).
@@ -506,6 +514,11 @@ Now by default, the "label", "name", "text" and "stamp" are protected from XSS a
 #### QDate
 
 When `@update:model-value` event (equivalent of the old `@input`) is triggered, the contents of the first parameter no longer contain the (deprecated) `changed` prop.
+
+### QDialog
+
+Added "no-shake", "transition-duration".
+Use "class" and "style" attributes instead of "content-class" / "content-style" props.
 
 #### QExpansionItem
 
@@ -641,6 +654,10 @@ The `@scroll` event parameter now has a slightly different content:
 }
 ```
 
+#### QOptionGroup
+
+Added "label" and "label-N" slots.
+
 #### QRouteTab
 
 Added "ripple" property.
@@ -700,9 +717,17 @@ Due to the new v-model feature of Vue 3, which replaces the ".sync" modifier, th
 | selected.sync="varName" | v-model:selected="varName" |
 | expanded.sync="varName" | v-model:expanded="varName" |
 
-#### QTooltip/QMenu
+#### QTabs
+
+Added "active-class" prop.
+
+#### QTooltip/QMenu/QDialog/QStepper/QTabPanels
 
 Added "transition-duration" property.
+
+#### QSkeleton
+
+Added "animation-speed" prop.
 
 #### QUploader
 

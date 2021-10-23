@@ -798,19 +798,23 @@ export default defineComponent({
     }
 
     function getPaletteTab () {
+      const fn = color => h('div', {
+        class: 'q-color-picker__cube col-auto',
+        style: { backgroundColor: color },
+        ...(
+          editable.value === true
+            ? getCache('palette#' + color, {
+              onClick: () => { onPalettePick(color) }
+            })
+            : {}
+        )
+      })
+
       return [
         h('div', {
           class: 'row items-center q-color-picker__palette-rows'
             + (editable.value === true ? ' q-color-picker__palette-rows--editable' : '')
-        }, computedPalette.value.map(color => h('div', {
-          class: 'q-color-picker__cube col-auto',
-          style: { backgroundColor: color },
-          ...(editable.value === true ? getCache('palette#' + color, {
-            onClick: () => {
-              onPalettePick(color)
-            }
-          }) : {})
-        })))
+        }, computedPalette.value.map(fn))
       ]
     }
 
