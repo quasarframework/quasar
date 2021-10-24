@@ -70,8 +70,11 @@ function convertTypeVal (type, def, required) {
     if (def.definition) {
       const propDefinitions = getPropDefinitions({ propDefs: def.definition, required, docs: true })
       const lines = []
-      propDefinitions.forEach(p => lines.push(...p.split('\n')))
-      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${ lines.join('\n        ') } }${ t === 'Array' ? '[]' : '' }` : fallbackComplexTypeMap.get(t)
+      propDefinitions.forEach(propDef => writeLines(lines, propDef, 2))
+
+      if (lines.length > 0) {
+        return `{ ${ lines.join('') } }${ t === 'Array' ? '[]' : '' }`
+      }
     }
 
     return fallbackComplexTypeMap.get(t)
