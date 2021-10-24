@@ -1,5 +1,7 @@
 {
   "fixturesFolder": "test/cypress/fixtures",
+  "screenshotsFolder": "test/cypress/screenshots",
+  "videosFolder": "test/cypress/videos",
   "component": {
     "componentFolder": "../src",
     "testFiles": "**/*.spec.js",

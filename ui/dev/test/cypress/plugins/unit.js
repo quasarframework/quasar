@@ -13,17 +13,21 @@
 // the project's config changing)
 
 // cypress/plugins/index.js
-const generateWebpackConfig = require("./../helpers/generateWebpackConfig");
-const { startDevServer } = require("@cypress/webpack-dev-server");
+const generateWebpackConfig = require('./../helpers/generateWebpackConfig')
+const { startDevServer } = require('@cypress/webpack-dev-server')
+const {
+  addMatchImageSnapshotPlugin
+} = require('cypress-image-snapshot/plugin')
 
 module.exports = (on, config) => {
-  on("dev-server:start", async (options) => {
-    const webpackConfig = await generateWebpackConfig();
+  addMatchImageSnapshotPlugin(on, config)
+  on('dev-server:start', async (options) => {
+    const webpackConfig = await generateWebpackConfig()
     return startDevServer({
       options,
-      webpackConfig: webpackConfig.renderer,
-    });
-  });
+      webpackConfig: webpackConfig.renderer
+    })
+  })
 
-  return config;
-};
+  return config
+}

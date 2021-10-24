@@ -6,7 +6,8 @@ module.exports = {
   },
   env: {
     browser: true,
-    mocha: true
+    mocha: true,
+    'cypress/globals': true
   },
   extends: [
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention

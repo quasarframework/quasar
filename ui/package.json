@@ -72,6 +72,8 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "cli-highlight": "^2.1.11",
     "diff": "^5.0.0",
+    "cypress": "^8.6.0",
+    "cypress-image-snapshot": "^4.0.1",
     "eslint": "^7.4.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-friendly-formatter": "^4.0.1",
