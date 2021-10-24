@@ -460,6 +460,9 @@ export default defineComponent({
       flagMiniAnimate.value = true
       timerMini = setTimeout(() => {
         flagMiniAnimate.value = false
+        if (vm && vm.proxy && vm.proxy.$el) {
+          vm.proxy.$el.classList.remove('q-drawer--mini-animate')
+        }
       }, 150)
     }
 
