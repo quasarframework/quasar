@@ -6,6 +6,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
+import { isNumber } from '../../utils/private/is.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 export const keyCodes = [ 34, 37, 40, 33, 39, 38 ]
@@ -60,7 +61,7 @@ export const useSliderProps = {
 
   label: Boolean,
   labelAlways: Boolean,
-  markers: Boolean,
+  markers: [ Boolean, Number ],
   snap: Boolean,
 
   vertical: Boolean,
@@ -113,9 +114,13 @@ export default function ({ updateValue, updatePosition, getDragging }) {
   const step = computed(() => (props.step === 0 ? 1 : props.step))
   const minMaxDiff = computed(() => props.max - props.min)
 
+  const markerStep = computed(() => (
+    isNumber(props.markers) === true ? props.markers : step.value)
+  )
+
   const markerStyle = computed(() => {
     if (minMaxDiff.value !== 0) {
-      const size = 100 * step.value / minMaxDiff.value
+      const size = 100 * markerStep.value / minMaxDiff.value
 
       return {
         backgroundSize: props.vertical === true

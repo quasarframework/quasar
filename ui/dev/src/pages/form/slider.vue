@@ -80,6 +80,14 @@
       <q-slider :vertical="vertical" :dark="dark" :dense="dense" color="orange" v-model="marker" :min="0" :max="10" :step="2" label :label-value="labelValue(marker)" snap markers />
 
       <p class="caption">
+        With Markers. Snaps to Steps
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ marker }}</em> &nbsp;&nbsp;(0 to 10, step 1, markers=3)</span>
+        </span>
+      </p>
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" color="orange" v-model="marker" :min="0" :max="10" :step="1" label :label-value="labelValue(marker)" snap :markers="3" />
+
+      <p class="caption">
         Display Label Always
         <span class="label inline bg-secondary text-white">
           Model <span class="right-detail"><em>{{ label }}</em> &nbsp;&nbsp;(-20000 to 20000, step 400)</span>

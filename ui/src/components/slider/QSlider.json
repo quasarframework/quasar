@@ -83,9 +83,13 @@
     },
 
     "markers": {
-      "type": "Boolean",
-      "desc": "Display markers on the track, one for each possible value for the model",
-      "category": "content"
+      "type": [ "Boolean", "Number" ],
+      "desc": "Display markers on the track, one for each possible value for the model or using a custom step (when specifying a Number)",
+      "category": "content",
+      "examples": [
+        "markers",
+        ":markers=\"5\""
+      ]
     },
 
     "snap": {
