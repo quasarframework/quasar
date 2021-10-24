@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, Transition, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, defineComponent, ref, computed, Transition, onBeforeUnmount, withDirectives, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
@@ -7,7 +7,7 @@ import Ripple from '../../directives/Ripple.js'
 
 import useBtn, { useBtnProps } from './use-btn.js'
 
-import { hMergeSlot, hDir } from '../../utils/private/render.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { isKeyCode } from '../../utils/private/key-composition.js'
 
@@ -50,13 +50,15 @@ export default defineComponent({
     )
 
     const ripple = computed(() => (
-      props.ripple === false
+      props.disable === true || props.ripple === false
         ? false
         : {
             keyCodes: isLink.value === true ? [ 13, 32 ] : [ 13 ],
             ...(props.ripple === true ? {} : props.ripple)
           }
     ))
+
+    const rippleProps = computed(() => ({ center: props.round }))
 
     const percentageStyle = computed(() => {
       const val = Math.max(0, Math.min(100, props.percentage))
@@ -89,16 +91,6 @@ export default defineComponent({
         // needed; especially for disabled <a> tags
         onClick: stopAndPrevent
       }
-    })
-
-    const directives = computed(() => {
-      // if props.disable !== true && props.ripple !== false
-      return [ [
-        Ripple,
-        ripple.value,
-        void 0,
-        { center: props.round }
-      ] ]
     })
 
     const nodeProps = computed(() => ({
@@ -364,13 +356,18 @@ export default defineComponent({
         ))
       )
 
-      return hDir(
-        isLink.value === true ? 'a' : 'button',
-        nodeProps.value,
-        child,
-        'ripple',
-        props.disable !== true && props.ripple !== false,
-        () => directives.value
+      return withDirectives(
+        h(
+          isLink.value === true ? 'a' : 'button',
+          nodeProps.value,
+          child
+        ),
+        [ [
+          Ripple,
+          ripple.value,
+          void 0,
+          rippleProps.value
+        ] ]
       )
     }
   }

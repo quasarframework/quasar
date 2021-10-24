@@ -1,10 +1,10 @@
-import { h, ref, computed, inject, onBeforeUnmount, onMounted } from 'vue'
+import { h, ref, computed, inject, onBeforeUnmount, onMounted, withDirectives } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
 import Ripple from '../../directives/Ripple.js'
 
-import { hMergeSlot, hDir } from '../../utils/private/render.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 import { isKeyCode } from '../../utils/private/key-composition.js'
 import { tabsKey } from '../../utils/private/symbols.js'
 
@@ -45,6 +45,12 @@ export default function (props, slots, emit, routerProps) {
   const blurTargetRef = ref(null)
   const rootRef = ref(null)
   const tabIndicatorRef = ref(null)
+
+  const ripple = computed(() => (
+    props.disable === true
+      ? false
+      : props.ripple
+  ))
 
   const isActive = computed(() => $tabs.currentModel.value === props.name)
 
@@ -202,13 +208,9 @@ export default function (props, slots, emit, routerProps) {
       ...customData
     }
 
-    return hDir(
-      tag,
-      data,
-      getContent(),
-      'main',
-      props.ripple !== false && props.disable === false,
-      () => [ [ Ripple, props.ripple ] ]
+    return withDirectives(
+      h(tag, data, getContent()),
+      [ [ Ripple, ripple.value ] ]
     )
   }
 

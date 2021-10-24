@@ -1,9 +1,7 @@
-import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
+import { h, defineComponent, ref, computed, withDirectives, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/Ripple.js'
-
-import { hDir } from '../../utils/private/render.js'
 
 export default defineComponent({
   name: 'StepHeader',
@@ -97,6 +95,12 @@ export default defineComponent({
         + (isDisable.value === true ? ' q-stepper__tab--disabled' : '')
     })
 
+    const ripple = computed(() => (
+      props.stepper.headerNav !== true
+        ? false
+        : headerNav.value
+    ))
+
     function onActivate () {
       blurRef.value !== null && blurRef.value.focus()
       isActive.value === false && props.goToPanel(props.step.name)
@@ -152,13 +156,9 @@ export default defineComponent({
         )
       }
 
-      return hDir(
-        'div',
-        data,
-        child,
-        'head',
-        props.stepper.headerNav === true && headerNav.value !== false,
-        () => [ [ Ripple, headerNav.value ] ]
+      return withDirectives(
+        h('div', data, child),
+        [ [ Ripple, ripple.value ] ]
       )
     }
   }
