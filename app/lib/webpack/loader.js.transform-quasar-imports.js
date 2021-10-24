@@ -8,7 +8,16 @@ module.exports = function (content, map) {
     regex,
     (_, match) => match.split(',')
       .map(identifier => {
-        const data = identifier.split(' as ')
+        const id = identifier.trim()
+
+        // might be an empty entry like below
+        // (notice useQuasar is followed by a comma)
+        // import { QTable, useQuasar, } from 'quasar'
+        if (id === '') {
+          return ''
+        }
+
+        const data = id.split(' as ')
         const name = data[0].trim()
 
         return `import ${data[1] !== void 0 ? data[1].trim() : name} from '${importTransformation(name)}';`
