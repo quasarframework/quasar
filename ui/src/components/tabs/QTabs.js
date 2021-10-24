@@ -9,6 +9,7 @@ import useTimeout from '../../composables/private/use-timeout.js'
 import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'
 import { tabsKey } from '../../utils/private/symbols.js'
+import { rtlHasScrollBug } from '../../utils/private/rtl.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -19,6 +20,7 @@ function getIndicatorClass (color, top, vertical) {
 }
 
 const alignValues = [ 'left', 'center', 'right', 'justify' ]
+const emptyFn = () => {}
 
 export default defineComponent({
   name: 'QTabs',
@@ -40,6 +42,7 @@ export default defineComponent({
     shrink: Boolean,
     stretch: Boolean,
 
+    activeClass: String,
     activeColor: String,
     activeBgColor: String,
     indicatorColor: String,
@@ -90,6 +93,7 @@ export default defineComponent({
       : noop
 
     const tabProps = computed(() => ({
+      activeClass: props.activeClass,
       activeColor: props.activeColor,
       activeBgColor: props.activeBgColor,
       indicatorClass: getIndicatorClass(
@@ -132,6 +136,11 @@ export default defineComponent({
         ? { container: 'height', content: 'offsetHeight', scroll: 'scrollHeight' }
         : { container: 'width', content: 'offsetWidth', scroll: 'scrollWidth' }
     ))
+
+    const isRTL = computed(() => props.vertical !== true && $q.lang.rtl === true)
+    const rtlPosCorrection = computed(() => rtlHasScrollBug === false && isRTL.value === true)
+
+    watch(isRTL, localUpdateArrows)
 
     watch(() => props.modelValue, name => {
       updateModel({ name, setCurrent: true, skipEmit: true })
@@ -275,12 +284,18 @@ export default defineComponent({
       if (content !== null) {
         const
           rect = content.getBoundingClientRect(),
-          pos = props.vertical === true ? content.scrollTop : content.scrollLeft
+          pos = props.vertical === true ? content.scrollTop : Math.abs(content.scrollLeft)
 
-        leftArrow.value = pos > 0
-        rightArrow.value = props.vertical === true
-          ? Math.ceil(pos + rect.height) < content.scrollHeight
-          : Math.ceil(pos + rect.width) < content.scrollWidth
+        if (isRTL.value === true) {
+          leftArrow.value = Math.ceil(pos + rect.width) < content.scrollWidth - 1
+          rightArrow.value = pos > 0
+        }
+        else {
+          leftArrow.value = pos > 0
+          rightArrow.value = props.vertical === true
+            ? Math.ceil(pos + rect.height) < content.scrollHeight
+            : Math.ceil(pos + rect.width) < content.scrollWidth
+        }
       }
     }
 
@@ -289,33 +304,50 @@ export default defineComponent({
       scrollTowards(value)
 
       scrollTimer = setInterval(() => {
-        if (scrollTowards(value)) {
+        if (scrollTowards(value) === true) {
           stopAnimScroll()
         }
       }, 5)
     }
 
     function scrollToStart () {
-      animScrollTo(0)
+      animScrollTo(rtlPosCorrection.value === true ? 9999 : 0)
     }
 
     function scrollToEnd () {
-      animScrollTo(9999)
+      animScrollTo(rtlPosCorrection.value === true ? 0 : 9999)
     }
 
     function stopAnimScroll () {
       clearInterval(scrollTimer)
     }
 
+    // let's speed up execution of time-sensitive scrollTowards()
+    // with a computed variable by directly applying the minimal
+    // number of instructions on get/set functions
+    const posFn = computed(() => (
+      rtlPosCorrection.value === true
+        ? { get: content => Math.abs(content.scrollLeft), set: (content, pos) => { content.scrollLeft = -pos } }
+        : (
+            props.vertical === true
+              ? { get: content => content.scrollTop, set: (content, pos) => { content.scrollTop = pos } }
+              : { get: content => content.scrollLeft, set: (content, pos) => { content.scrollLeft = pos } }
+          )
+    ))
+
     function scrollTowards (value) {
-      const content = contentRef.value
+      const
+        content = contentRef.value,
+        { get, set } = posFn.value
+
       let
-        pos = props.vertical === true ? content.scrollTop : content.scrollLeft,
-        done = false
+        done = false,
+        pos = get(content)
 
       const direction = value < pos ? -1 : 1
 
       pos += direction * 5
+
       if (pos < 0) {
         done = true
         pos = 0
@@ -328,7 +360,7 @@ export default defineComponent({
         pos = value
       }
 
-      content[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] = pos
+      set(content, pos)
       localUpdateArrows()
 
       return done
@@ -340,21 +372,67 @@ export default defineComponent({
 
     // do not use directly; use verifyRouteModel() instead
     function updateActiveRoute () {
-      let href = '', name = null, wasActive = localFromRoute
+      let name = null, wasActive = localFromRoute
 
-      getRouteList().forEach(tab => {
+      const
+        best = { matchedLen: 0, hrefLen: 0, exact: false, found: false },
+        { hash } = vm.proxy.$route,
+        model = currentModel.value
+
+      let wasItActive = wasActive === true
+        ? emptyFn
+        : tab => {
+            if (model === tab.name.value) {
+              wasActive = true
+              wasItActive = emptyFn
+            }
+          }
+
+      const tabList = getRouteList()
+
+      for (const tab of tabList) {
+        const exact = tab.routerProps.exact.value === true
+
         if (
-          tab.routerProps !== void 0
-          && tab.routerProps[ tab.routerProps.exact.value === true ? 'linkIsExactActive' : 'linkIsActive' ].value === true
-          && tab.routerProps.linkRoute.value.href.length > href.length
+          tab.routerProps[ exact === true ? 'linkIsExactActive' : 'linkIsActive' ].value !== true
+          || (best.exact === true && exact !== true)
         ) {
-          href = tab.routerProps.linkRoute.value.href
+          wasItActive(tab)
+          continue
+        }
+
+        const
+          linkRoute = tab.routerProps.linkRoute.value,
+          tabHash = linkRoute.hash
+
+        // Vue Router does not match the hash too, even if link is set to "exact"
+        if (exact === true) {
+          if (hash === tabHash) {
+            name = tab.name.value
+            break
+          }
+          else if (hash !== '' && tabHash !== '') {
+            wasItActive(tab)
+            continue
+          }
+        }
+
+        const
+          matchedLen = linkRoute.matched.length,
+          hrefLen = linkRoute.href.length - tabHash.length
+
+        if (
+          matchedLen === best.matchedLen
+            ? hrefLen > best.hrefLen
+            : matchedLen > best.matchedLen
+        ) {
           name = tab.name.value
+          Object.assign(best, { matchedLen, hrefLen, exact })
+          continue
         }
-        else if (currentModel.value === tab.name.value) {
-          wasActive = true
-        }
-      })
+
+        wasItActive(tab)
+      }
 
       if (wasActive === true || name !== null) {
         updateModel({ name, setCurrent: true, fromRoute: true })
@@ -362,7 +440,9 @@ export default defineComponent({
     }
 
     function verifyRouteModel () {
-      registerTimeout(updateActiveRoute)
+      if ($tabs.avoidRouteWatcher !== true) {
+        registerTimeout(updateActiveRoute)
+      }
     }
 
     function registerTab (getTab) {
@@ -401,7 +481,7 @@ export default defineComponent({
       }
     }
 
-    provide(tabsKey, {
+    const $tabs = {
       currentModel,
       tabProps,
 
@@ -410,8 +490,12 @@ export default defineComponent({
 
       verifyRouteModel,
       updateModel,
-      recalculateScroll
-    })
+      recalculateScroll,
+
+      avoidRouteWatcher: false
+    }
+
+    provide(tabsKey, $tabs)
 
     onBeforeUnmount(() => {
       clearTimeout(animateTimer)

@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const columns = [
   {
     name: 'index',
@@ -156,9 +158,9 @@ export default {
       columns,
       rows,
 
-      pagination: {
+      pagination: ref({
         rowsPerPage: 1000
-      }
+      })
     }
   }
 }

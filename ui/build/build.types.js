@@ -26,6 +26,7 @@ function write (fileContent, text = '') {
 const typeMap = new Map([
   [ 'Any', 'any' ],
   [ 'Component', 'Component' ],
+  [ 'VNode', 'VNode' ], // VNode is exclusive to slot type generation here, it can't and doesn't need to be used in JSON API files
   [ 'String', 'string' ],
   [ 'Boolean', 'boolean' ],
   [ 'Number', 'number' ]
@@ -67,7 +68,7 @@ function convertTypeVal (type, def, required) {
 
   if (fallbackComplexTypeMap.has(t)) {
     if (def.definition) {
-      const propDefinitions = getPropDefinitions(def.definition, required, true)
+      const propDefinitions = getPropDefinitions({ propDefs: def.definition, required, docs: true })
       const lines = []
       propDefinitions.forEach(p => lines.push(...p.split('\n')))
       return propDefinitions && propDefinitions.length > 0 ? `{\n        ${ lines.join('\n        ') } }${ t === 'Array' ? '[]' : '' }` : fallbackComplexTypeMap.get(t)
@@ -85,24 +86,32 @@ function getTypeVal (def, required) {
     : convertTypeVal(def.type, def, required)
 }
 
-function getPropDefinition (key, propDef, required, docs = false, isMethodParam = false) {
+function getPropDefinition (key, propDef, required, docs = false, isMethodParam = false, isCompProps = false) {
   const propName = toCamelCase(key)
 
   if (propName.startsWith('...')) {
     return isMethodParam ? `${ propName }: any[]` : '[index: string]: any'
   }
   else {
-    const propType = getTypeVal(propDef, required)
+    let propType = getTypeVal(propDef, required)
     addToExtraInterfaces(propDef)
-    return `${ docs ? `/**\n * ${ propDef.desc }\n */\n` : '' }${ propName }${ !propDef.required && !required ? '?' : '' }: ${ propType }`
+    const comment = docs === true
+      ? `/**\n * ${ propDef.desc }${ propDef.default ? `\n * Default value: ${ propDef.default }` : '' }\n */\n`
+      : ''
+
+    if (isCompProps === true && key !== 'model-value' && !propDef.required && propType.indexOf(' undefined') === -1) {
+      propType += ' | undefined;'
+    }
+
+    return `${ comment }${ propName }${ !propDef.required && !required ? '?' : '' }: ${ propType }`
   }
 }
 
-function getPropDefinitions (propDefs, required, docs = false, areMethodParams = false) {
+function getPropDefinitions ({ propDefs, required, docs = false, areMethodParams = false, isCompProps = false }) {
   const defs = []
 
   for (const key in propDefs) {
-    const def = getPropDefinition(key, propDefs[ key ], required, docs, areMethodParams)
+    const def = getPropDefinition(key, propDefs[ key ], required, docs, areMethodParams, isCompProps)
     def && defs.push(def)
   }
 
@@ -113,11 +122,11 @@ function getPropDefinitions (propDefs, required, docs = false, areMethodParams =
 function getMethodDefinition (key, methodDef, returnTypeRequired = false, required = true, paramsRequired = false) {
   let def = `/**\n * ${ methodDef.desc }\n`
   if (methodDef.params) {
-    def += `${ Object.entries(methodDef.params).map(([ name, paramDef ]) => ` * @param ${ name } ${ paramDef.desc }`).join('\n') }\n`
+    def += `${ Object.entries(methodDef.params).map(([ name, paramDef ]) => ` * @param ${ name } ${ paramDef.desc !== undefined ? paramDef.desc : '' }`).join('\n') }\n`
   }
 
   const returns = methodDef.returns
-  if (returns) {
+  if (returns && returns.desc) {
     def += ` * @returns ${ returns.desc }\n`
   }
 
@@ -132,7 +141,7 @@ function getMethodDefinition (key, methodDef, returnTypeRequired = false, requir
 
     if (methodDef.params) {
       // TODO: Verify if this should be optional even for plugins
-      const params = getPropDefinitions(methodDef.params, paramsRequired, false, true, true)
+      const params = getPropDefinitions({ propDefs: methodDef.params, required: paramsRequired, areMethodParams: true })
       def += params.join(', ')
     }
 
@@ -265,8 +274,8 @@ function writeIndexDTS (apis) {
   const components = []
   const directives = []
   const plugins = []
-  // Example => QComponent: QComponentProps
-  const componentToPropTypeMap = {}
+  /** @type { { [componentName: string]: { props: string; slots: string; } } } */
+  const componentToSubTypeMap = {}
 
   addQuasarLangCodes(quasarTypeContents)
 
@@ -284,7 +293,7 @@ function writeIndexDTS (apis) {
   writeLine(contents, '// @ts-ignore')
   writeLine(contents, '/// <reference types="@quasar/app" />')
   // ----
-  writeLine(contents, 'import { App, Component, ComponentPublicInstance } from \'vue\'')
+  writeLine(contents, 'import { App, Component, ComponentPublicInstance, VNode } from \'vue\'')
   writeLine(contents, 'import { LooseDictionary, ComponentConstructor, GlobalComponentConstructor } from \'./ts-helpers\'')
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
@@ -319,7 +328,12 @@ function writeIndexDTS (apis) {
       write(plugins, propTypeDef)
     }
 
-    const props = getPropDefinitions(content.props, content.type === 'plugin', true)
+    const props = getPropDefinitions({
+      propDefs: content.props,
+      required: content.type === 'plugin',
+      docs: true,
+      isCompProps: content.type === 'component'
+    })
 
     // Declare class
     writeLine(quasarTypeContents, `export const ${ typeName }: ${ typeValue }`)
@@ -336,7 +350,6 @@ function writeIndexDTS (apis) {
     // Create ${name}Props class for components & mixins (can be useful with h(), TSX, etc.)
     if (extendsVue) {
       const propsTypeName = `${ typeName }Props`
-      componentToPropTypeMap[ typeName ] = propsTypeName
 
       writeLine(contents, `export interface ${ propsTypeName } {`)
 
@@ -344,6 +357,44 @@ function writeIndexDTS (apis) {
 
       writeLine(contents, '}')
       writeLine(contents)
+
+      const slotsTypeName = `${ typeName }Slots`
+
+      writeLine(contents, `export interface ${ slotsTypeName } {`)
+
+      if (content.slots) {
+        for (const [ rawName, definition ] of Object.entries(content.slots)) {
+          // Replace "[dynamic]" placeholders
+          // Example: body-cell-[name] -> [key: `body-cell-${string}`] (TS Template Literal String)
+          // eslint-disable-next-line no-template-curly-in-string
+          const replacement = '${string}'
+          let name = rawName.replace(/\[(\w+)\]/, replacement)
+
+          name = name.includes(replacement) ? `[key: \`${ name }\`]` : name.includes('-') ? `'${ name }'` : name
+
+          const params = definition.scope ? {
+            scope: {
+              type: 'Object',
+              definition: definition.scope
+            }
+          } : undefined
+
+          const slot = getMethodDefinition(name, {
+            desc: definition.desc,
+            params,
+            returns: {
+              type: 'VNode[]'
+            }
+          }, true, true, true)
+
+          writeLines(contents, slot, 1)
+        }
+      }
+
+      writeLine(contents, '}')
+      writeLine(contents)
+
+      componentToSubTypeMap[ typeName ] = { props: propsTypeName, slots: slotsTypeName }
 
       writeLine(contents, `export interface ${ typeName } extends ComponentPublicInstance<${ propsTypeName }> {`)
     }
@@ -435,8 +486,8 @@ function writeIndexDTS (apis) {
   writeLine(contents, 'declare module \'@vue/runtime-core\' {')
   writeLine(contents, 'interface GlobalComponents {', 1)
 
-  for (const [ typeName, propsTypeName ] of Object.entries(componentToPropTypeMap)) {
-    writeLine(contents, `${ typeName }: GlobalComponentConstructor<${ propsTypeName }>`, 2)
+  for (const [ typeName, { props: propsTypeName, slots: slotsTypeName } ] of Object.entries(componentToSubTypeMap)) {
+    writeLine(contents, `${ typeName }: GlobalComponentConstructor<${ propsTypeName }, ${ slotsTypeName }>`, 2)
   }
 
   writeLine(contents, '}', 1)

@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUpdate, onUpdated, onBeforeMount, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
+import { h, defineComponent, ref, computed, watch, onBeforeUpdate, onUpdated, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import QField from '../field/QField.js'
 import QIcon from '../icon/QIcon.js'
@@ -142,7 +142,7 @@ export default defineComponent({
     const dialogFieldFocused = ref(false)
     const innerLoadingIndicator = ref(false)
 
-    let inputTimer, innerValueCache, optionScopeCache,
+    let inputTimer, innerValueCache,
       hasDialog, userInputValue, filterId, defaultInputValue,
       transitionShowComputed, searchBuffer, searchBufferExp
 
@@ -268,17 +268,28 @@ export default defineComponent({
     const tabindex = computed(() => (state.focused.value === true ? props.tabindex : -1))
 
     const comboboxAttrs = computed(() => ({
+      tabindex: props.tabindex,
       role: 'combobox',
-      'aria-multiselectable': props.multiple === true ? 'true' : 'false',
+      'aria-label': props.label,
+      'aria-autocomplete': props.useInput === true ? 'list' : 'none',
       'aria-expanded': menu.value === true ? 'true' : 'false',
       'aria-owns': `${ state.targetUid.value }_lb`,
-      'aria-activedescendant': `${ state.targetUid.value }_${ optionIndex.value }`
+      'aria-controls': `${ state.targetUid.value }_lb`
     }))
 
-    const listboxAttrs = computed(() => ({
-      role: 'listbox',
-      id: `${ state.targetUid.value }_lb`
-    }))
+    const listboxAttrs = computed(() => {
+      const attrs = {
+        id: `${ state.targetUid.value }_lb`,
+        role: 'listbox',
+        'aria-multiselectable': props.multiple === true ? 'true' : 'false'
+      }
+
+      if (optionIndex.value >= 0) {
+        attrs[ 'aria-activedescendant' ] = `${ state.targetUid.value }_${ optionIndex.value }`
+      }
+
+      return attrs
+    })
 
     const selectedScope = computed(() => {
       return innerValue.value.map((opt, i) => ({
@@ -298,7 +309,6 @@ export default defineComponent({
       }
 
       const { from, to } = virtualScrollSliceRange.value
-      const { options, optionEls } = optionScopeCache
 
       return props.options.slice(from, to).map((opt, i) => {
         const disable = isOptionDisabled.value(opt) === true
@@ -330,7 +340,7 @@ export default defineComponent({
           }
         }
 
-        const option = {
+        return {
           index,
           opt,
           html: needsHtmlFn.value(opt),
@@ -341,22 +351,6 @@ export default defineComponent({
           setOptionIndex,
           itemProps
         }
-
-        const optionWithoutEvents = {
-          ...option,
-          itemProps: {
-            ...itemProps,
-            onClick: void 0,
-            onMousemove: void 0
-          }
-        }
-
-        if (options[ i ] === void 0 || isDeepEqual(optionWithoutEvents, options[ i ]) !== true) {
-          options[ i ] = optionWithoutEvents
-          optionEls[ i ] = void 0
-        }
-
-        return option
       })
     })
 
@@ -938,14 +932,6 @@ export default defineComponent({
     }
 
     function getAllOptions () {
-      if (
-        slots.option !== void 0
-        && optionScopeCache.optionSlot !== slots.option
-      ) {
-        optionScopeCache.optionSlot = slots.option
-        optionScopeCache.optionEls = []
-      }
-
       const fn = slots.option !== void 0
         ? slots.option
         : scope => {
@@ -965,15 +951,7 @@ export default defineComponent({
           })
         }
 
-      const { optionEls } = optionScopeCache
-
-      let options = padVirtualScroll('div', optionScope.value.map((scope, i) => {
-        if (optionEls[ i ] === void 0) {
-          optionEls[ i ] = fn(scope)
-        }
-
-        return optionEls[ i ]
-      }))
+      let options = padVirtualScroll('div', optionScope.value.map(fn))
 
       if (slots[ 'before-options' ] !== void 0) {
         options = slots[ 'before-options' ]().concat(options)
@@ -991,16 +969,15 @@ export default defineComponent({
         value: inputValue.value !== void 0 ? inputValue.value : '',
         // required for Android in order to show ENTER key when in form
         type: 'search',
+        ...comboboxAttrs.value,
         ...state.splitAttrs.attributes.value,
         id: state.targetUid.value,
         maxlength: props.maxlength,
-        tabindex: props.tabindex,
         autocomplete: props.autocomplete,
         'data-autofocus': (fromDialog !== true && props.autofocus === true) || void 0,
         disabled: props.disable === true,
         readonly: props.readonly === true,
-        ...inputControlEvents.value,
-        ...comboboxAttrs.value
+        ...inputControlEvents.value
       }
 
       if (fromDialog !== true && hasDialog === true) {
@@ -1286,10 +1263,6 @@ export default defineComponent({
     }
 
     function closeMenu () {
-      if (optionScopeCache !== void 0) {
-        optionScopeCache.optionEls = []
-      }
-
       if (dialog.value === true) {
         return
       }
@@ -1405,16 +1378,7 @@ export default defineComponent({
 
     updatePreState()
 
-    onBeforeMount(() => {
-      optionScopeCache = {
-        optionSlot: slots.option,
-        options: [],
-        optionEls: []
-      }
-    })
-
     onBeforeUnmount(() => {
-      optionScopeCache = void 0
       clearTimeout(inputTimer)
     })
 
@@ -1502,7 +1466,6 @@ export default defineComponent({
               key: 'd_t',
               class: 'no-outline',
               id: state.targetUid.value,
-              tabindex: props.tabindex,
               ...comboboxAttrs.value,
               onKeydown: onTargetKeydown,
               onKeyup: onTargetKeyup,

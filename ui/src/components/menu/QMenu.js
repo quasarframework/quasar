@@ -115,7 +115,6 @@ export default defineComponent({
     const clickOutsideProps = {
       anchorEl,
       innerRef,
-      getEl: () => proxy.$el,
       onClickOutside (e) {
         if (props.persistent !== true && showing.value === true) {
           hide(e)
@@ -351,7 +350,10 @@ export default defineComponent({
                   'q-menu q-position-engine scroll' + menuClass.value,
                   attrs.class
                 ],
-                style: [ attrs.style, transitionStyle.value ],
+                style: [
+                  attrs.style,
+                  transitionStyle.value
+                ],
                 ...onEvents.value
               }, hSlot(slots.default))
             : null

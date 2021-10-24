@@ -8,16 +8,16 @@
   "props": {
     "model-value": {
       "extends": "model-value",
-      "type": "Object",
+      "type": [ "Object", "null", "undefined" ],
       "desc": "Model of the component of type { min, max } (both values must be between global min/max); Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "definition": {
         "min": {
-          "type": "Number",
+          "type": [ "Number", "null" ],
           "desc": "Model value for left thumb",
           "examples": [ 2 ]
         },
         "max": {
-          "type": "Number",
+          "type": [ "Number", "null" ],
           "desc": "Model value for right thumb",
           "examples": [ 12 ]
         }
@@ -144,9 +144,13 @@
     },
 
     "markers": {
-      "type": "Boolean",
-      "desc": "Display markers on the track, one for each possible value for the model",
-      "category": "content"
+      "type": [ "Boolean", "Number" ],
+      "desc": "Display markers on the track, one for each possible value for the model or using a custom step (when specifying a Number)",
+      "category": "content",
+      "examples": [
+        "markers",
+        ":markers=\"5\""
+      ]
     },
 
     "snap": {

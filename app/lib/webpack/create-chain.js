@@ -66,8 +66,6 @@ module.exports = function (cfg, configName) {
       .chunkFilename(`js/[name]${chunkHash}.js`)
   }
 
-  chain.resolve.symlinks(false)
-
   chain.resolve.extensions
     .merge(
       cfg.supportTS !== false

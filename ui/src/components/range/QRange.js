@@ -488,7 +488,7 @@ export default defineComponent({
         })
       ]
 
-      props.markers === true && track.push(
+      props.markers !== false && track.push(
         h('div', {
           class: `q-slider__track-markers q-slider__track-markers${ state.axis.value } absolute-full fit`,
           style: state.markerStyle.value

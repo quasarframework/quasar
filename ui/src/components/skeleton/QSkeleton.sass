@@ -1,4 +1,5 @@
 .q-skeleton
+  --q-skeleton-speed: 1500ms
   background: $separator-color
   border-radius: $generic-border-radius
 
@@ -58,14 +59,14 @@
     border-radius: 0
 
   &--anim-fade
-    animation: q-skeleton--fade 1.5s linear .5s infinite
+    animation: q-skeleton--fade var(--q-skeleton-speed) linear .5s infinite
 
   &--anim-pulse
-    animation: q-skeleton--pulse 1.5s ease-in-out .5s infinite
+    animation: q-skeleton--pulse var(--q-skeleton-speed) ease-in-out .5s infinite
   &--anim-pulse-x
-    animation: q-skeleton--pulse-x 1.5s ease-in-out .5s infinite
+    animation: q-skeleton--pulse-x var(--q-skeleton-speed) ease-in-out .5s infinite
   &--anim-pulse-y
-    animation: q-skeleton--pulse-y 1.5s ease-in-out .5s infinite
+    animation: q-skeleton--pulse-y var(--q-skeleton-speed) ease-in-out .5s infinite
 
   &--anim-wave,
   &--anim-blink,
@@ -84,10 +85,10 @@
 
   &--anim-blink:after
     background: rgba(255,255,255,.7)
-    animation: q-skeleton--fade 1.5s linear .5s infinite
+    animation: q-skeleton--fade var(--q-skeleton-speed) linear .5s infinite
   &--anim-wave:after
     background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.5), rgba(255,255,255,0))
-    animation: q-skeleton--wave 1.5s linear .5s infinite
+    animation: q-skeleton--wave var(--q-skeleton-speed) linear .5s infinite
 
   &--dark
     background: rgba(255, 255, 255, 0.05)

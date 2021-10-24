@@ -48,6 +48,36 @@ function includesParams (outer, inner) {
   return true
 }
 
+function isEquivalentArray (a, b) {
+  return Array.isArray(b) === true
+    ? a.length === b.length && a.every((value, i) => value === b[ i ])
+    : a.length === 1 && a[ 0 ] === b
+}
+
+function isSameRouteLocationParamsValue (a, b) {
+  return Array.isArray(a) === true
+    ? isEquivalentArray(a, b)
+    : (
+        Array.isArray(b) === true
+          ? isEquivalentArray(b, a)
+          : a === b
+      )
+}
+
+function isSameRouteLocationParams (a, b) {
+  if (Object.keys(a).length !== Object.keys(b).length) {
+    return false
+  }
+
+  for (const key in a) {
+    if (isSameRouteLocationParamsValue(a[ key ], b[ key ]) === false) {
+      return false
+    }
+  }
+
+  return true
+}
+
 export const useRouterLinkProps = {
   to: [ String, Object ],
   replace: Boolean,
@@ -69,22 +99,27 @@ export default function () {
 
   const hasRouter = vmHasRouter(vm)
 
-  const hasLink = computed(() =>
+  const hasLinkConfigured = computed(() =>
     hasRouter === true
     && props.disable !== true
     && props.to !== void 0 && props.to !== null && props.to !== ''
   )
 
+  const linkRoute = computed(() => {
+    if (hasLinkConfigured.value === true) {
+      try { return proxy.$router.resolve(props.to) }
+      catch (err) {}
+    }
+
+    return null
+  })
+
+  const hasLink = computed(() => linkRoute.value !== null)
+
   const linkTag = computed(() => (
     hasLink.value === true
       ? 'a'
       : (props.tag || 'div')
-  ))
-
-  const linkRoute = computed(() => (
-    hasLink.value === true
-      ? proxy.$router.resolve(props.to)
-      : null
   ))
 
   const linkActiveIndex = computed(() => {
@@ -143,6 +178,7 @@ export default function () {
   const linkIsExactActive = computed(() =>
     linkIsActive.value === true
       && linkActiveIndex.value === proxy.$route.matched.length - 1
+      && isSameRouteLocationParams(proxy.$route.params, linkRoute.value.params)
   )
 
   const linkClass = computed(() => (
@@ -193,10 +229,8 @@ export default function () {
 
     prevent(e)
 
-    proxy.$router[ props.replace === true ? 'replace' : 'push' ](props.to)
+    return proxy.$router[ props.replace === true ? 'replace' : 'push' ](props.to)
       .catch(() => {})
-
-    return true
   }
 
   return {

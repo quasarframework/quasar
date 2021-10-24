@@ -40,7 +40,7 @@
 
     "autoplay": {
       "type": [ "Number", "Boolean" ],
-      "desc": "Jump to next slide at fixed time intervals (in milliseconds); 'false' disables autoplay, 'true' enables it for 5000ms intervals",
+      "desc": "Jump to next slide (if 'true' or val > 0) or previous slide (if val < 0) at fixed time intervals (in milliseconds); 'false' disables autoplay, 'true' enables it for 5000ms intervals",
       "default": false,
       "examples": [
         ":autoplay=\"2500\"",
@@ -92,6 +92,14 @@
       "type": "Boolean",
       "desc": "Show thumbnails",
       "category": "content"
+    },
+
+    "transition-prev": {
+      "default": "fade"
+    },
+
+    "transition-next": {
+      "default": "fade"
     }
   },
 

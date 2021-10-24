@@ -41,4 +41,10 @@ import iconSet from 'quasar/icon-set/<%= framework.iconSet %>'
 import <%= '{' + importStatement.join(',') + '}' %> from 'quasar'
 <% } %>
 
+<% if (framework.config && framework.config.loading && framework.config.loading.spinner) { %>
+const userOptions = { <%= useStatement.join(',') %> }
+userOptions.config.loading.spinner = <%= framework.config.loading.spinner %>
+export default userOptions
+<% } else { %>
 export default { <%= useStatement.join(',') %> }
+<% } %>

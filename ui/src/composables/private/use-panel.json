@@ -62,14 +62,23 @@
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
       "default": "slide-right/slide-down",
-      "category": "behavior"
+      "category": "transition"
     },
 
     "transition-next": {
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
       "default": "slide-left/slide-up",
-      "category": "behavior"
+      "category": "transition"
+    },
+
+    "transition-duration": {
+      "type": [ "String", "Number" ],
+      "desc": "Transition duration (in milliseconds, without unit)",
+      "default": 300,
+      "examples": [ 500, "1200" ],
+      "category": "transition",
+      "addedIn": "v2.2"
     }
   },
 

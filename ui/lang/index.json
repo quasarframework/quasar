@@ -116,6 +116,10 @@
     "nativeName": "کوردی سۆرانی"
   },
   {
+    "isoName": "lt",
+    "nativeName": "Lithuanian"
+  },
+  {
     "isoName": "lu",
     "nativeName": "Kiluba"
   },
@@ -166,6 +170,10 @@
   {
     "isoName": "sl",
     "nativeName": "Slovenski Jezik"
+  },
+  {
+    "isoName": "sr-CYR",
+    "nativeName": "српски језик"
   },
   {
     "isoName": "sr",

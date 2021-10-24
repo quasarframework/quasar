@@ -31,6 +31,14 @@ The model for checkboxes/toggles must be an array.
 
 <doc-example title="With toggles" file="QOptionGroup/Toggle" />
 
+### Using label slots <q-badge align="top" color="brand-primary" label="v2.2+" />
+
+There are two types of slots. A generic one (`label`) which applies to all options, unless a more specific index-based one is used (`label-N` where N is the 0-based index of the option). Both types of slots receive the respective option as parameter.
+
+Notice how we use the specific label slot for first option (option at index 0) and we also add a QTooltip.
+
+<doc-example title="Label slots" file="QOptionGroup/LabelSlots" />
+
 ### With labels on left side
 
 <doc-example title="With option labels on the left side" file="QOptionGroup/Label" />

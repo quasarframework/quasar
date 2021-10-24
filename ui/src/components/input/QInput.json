@@ -8,7 +8,7 @@
   "props": {
     "model-value": {
       "extends": "model-value",
-      "type": [ "String", "Number" ],
+      "type": [ "String", "Number", "null", "undefined" ],
       "desc": "Model of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "examples": [ "v-model=\"myText\"" ]
     },
@@ -78,7 +78,7 @@
       "extends": "update:model-value",
       "params": {
         "value": {
-          "type": [ "String", "Number" ]
+          "type": [ "String", "Number", "null" ]
         }
       }
     },

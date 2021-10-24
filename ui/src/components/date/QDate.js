@@ -723,8 +723,14 @@ export default defineComponent({
     })
 
     function setToday () {
-      toggleDate(today.value, getMonthHash(today.value))
-      setCalendarTo(today.value.year, today.value.month)
+      const date = today.value
+      const month = daysMap.value[ getMonthHash(date) ]
+
+      if (month === void 0 || month.includes(date.day) === false) {
+        addToModel(date)
+      }
+
+      setCalendarTo(date.year, date.month)
     }
 
     function setView (viewMode) {
@@ -1363,7 +1369,7 @@ export default defineComponent({
       if (editRange.value === null) {
         const dayProps = days.value.find(day => day.fill !== true && day.i === dayIndex)
 
-        if (dayProps.range !== void 0) {
+        if (props.noUnset !== true && dayProps.range !== void 0) {
           removeFromModel({ target: day, from: dayProps.range.from, to: dayProps.range.to })
           return
         }

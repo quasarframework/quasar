@@ -39,11 +39,23 @@ const routes = [
     path: '/components/tabs',
     component: load('components/tabs'),
     children: [
-      { path: 'a', component: placeholderComponent, meta: { skipScroll: true } },
-      { path: 'a/a', component: placeholderComponent, meta: { skipScroll: true } },
-      { path: 'a/b', component: placeholderComponent, meta: { skipScroll: true } },
-      { path: 'b', component: placeholderComponent, meta: { skipScroll: true } },
-      { path: 'b/a', component: placeholderComponent, meta: { skipScroll: true } },
+      // { path: 'a', component: placeholderComponent, meta: { skipScroll: true } },
+      // { path: 'a/a', component: placeholderComponent, meta: { skipScroll: true } },
+      // { path: 'a/b', component: placeholderComponent, meta: { skipScroll: true } },
+      {
+        path: 'a', component: placeholderComponent, meta: { skipScroll: true },
+        children: [
+          { path: 'a', component: placeholderComponent, meta: { skipScroll: true } },
+          { path: 'b', component: placeholderComponent, meta: { skipScroll: true } }
+        ]
+      },
+
+      {
+        path: 'b', component: placeholderComponent, meta: { skipScroll: true },
+        children: [
+          { path: 'a', component: placeholderComponent, meta: { skipScroll: true } }
+        ]
+      },
       { path: 'c', component: placeholderComponent, meta: { skipScroll: true } },
       {
         path: 't',

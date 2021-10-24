@@ -78,7 +78,6 @@ export default defineComponent({
     return () => h('hr', {
       class: classes.value,
       style: style.value,
-      role: 'separator',
       'aria-orientation': orientation.value
     })
   }

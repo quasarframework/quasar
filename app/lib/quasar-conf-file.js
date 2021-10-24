@@ -714,7 +714,6 @@ class QuasarConfFile {
       }
 
       cfg.build.gzip = merge({
-        filename: '[path].gz[query]',
         algorithm: 'gzip',
         test: new RegExp('\\.(' + ext.join('|') + ')$'),
         threshold: 10240,
@@ -824,6 +823,7 @@ class QuasarConfFile {
         },
         builder: {
           appId: 'quasar-app',
+          icon: appPaths.resolve.electron('icons/icon'),
           productName: this.pkg.productName || this.pkg.name || 'Quasar App',
           directories: {
             buildResources: appPaths.resolve.electron('')

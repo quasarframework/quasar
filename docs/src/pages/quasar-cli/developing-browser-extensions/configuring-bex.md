@@ -19,7 +19,7 @@ The most important config file for your BEX is `/src-bex/manifest.json`. It is r
 
 When you create your Quasar BEX, the manifest file is already configured to add the basic properties you will need in order to run your BEX. This includes default background scripts, content scripts and a css file which is injected in the context of the web page the BEX is running on.
 
-:::tip
+::: tip
 Be aware that the manifest.json file is modified on build so as to auto inject required javascript files.
 :::
 
@@ -32,7 +32,7 @@ In summary:
 * **Background Script** - runs in the context of the BEX itself and can listen to all available browser extension events. There will only ever be one instance of each background script *per BEX*.
 * **Content Script** - runs in the context of the web page. There will be a new content script instance per tab running the extension.
 
-:::tip
+::: tip
 Given content scripts run in the web page context, this means that only BEX's that interact with a web page can use content scripts. Popups, Options and Devtools **will not** have a *content script* running behind them. They will all however have a *background script*.
 :::
 
@@ -40,7 +40,7 @@ Given content scripts run in the web page context, this means that only BEX's th
 
 Any styles you want to be made available to your web page (not your Quasar App) should be included in `src-bex/css/content-css.css` as this file ia automatically injected into the `manifest.json` file.
 
-:::warning
+::: warning
 This must be native CSS as it's not preprocessed via Sass.
 :::
 

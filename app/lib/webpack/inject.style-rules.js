@@ -176,10 +176,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 
 module.exports = function (chain, pref) {
   injectRule(chain, pref, 'css', /\.css$/)
-  injectRule(chain, pref, 'stylus', /\.styl(us)?$/, 'stylus-loader', {
-    preferPathResolver: 'webpack',
-    ...pref.stylusLoaderOptions
-  })
+  injectRule(chain, pref, 'stylus', /\.styl(us)?$/, 'stylus-loader', pref.stylusLoaderOptions),
   injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader', merge(
     { sassOptions: { outputStyle: /* required for RTL */ 'expanded' } },
     pref.scssLoaderOptions

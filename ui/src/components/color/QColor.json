@@ -8,7 +8,7 @@
   "props": {
     "model-value": {
       "extends": "model-value",
-      "type": "String",
+      "type": [ "String", "null", "undefined" ],
       "examples": [ "v-model=\"myColor\"" ]
     },
 
@@ -64,6 +64,13 @@
       "category": "content"
     },
 
+    "no-header-tabs": {
+      "type": "Boolean",
+      "desc": "Do not render header tabs (only the input)",
+      "category": "content",
+      "addedIn": "v2.2"
+    },
+
     "no-footer": {
       "type": "Boolean",
       "desc": "Do not render footer; Useful when you want a specific view ('default-view' prop) and don't want the user to be able to switch it",
@@ -85,7 +92,12 @@
 
   "events": {
     "update:model-value": {
-      "extends": "update:model-value"
+      "extends": "update:model-value",
+      "params": {
+        "value": {
+          "type": [ "String", "null" ]
+        }
+      }
     },
 
     "change": {

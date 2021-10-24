@@ -64,6 +64,9 @@ function logError (error, config) {
 function getComponent ($q) {
   return defineComponent({
     name: 'QNotifications',
+    
+    // hide App from Vue devtools
+    devtools: { hide: true },
 
     setup () {
       const notificationsList = {}
@@ -118,7 +121,11 @@ function getComponent ($q) {
         }
 
         notif.meta = {
-          hasMedia: Boolean(notif.spinner !== false || notif.icon || notif.avatar)
+          hasMedia: Boolean(notif.spinner !== false || notif.icon || notif.avatar),
+          hasText: Boolean(
+            (notif.message !== void 0 && notif.message !== null)
+            || (notif.caption !== void 0 && notif.caption !== null)
+          )
         }
 
         if (notif.position) {
@@ -203,6 +210,8 @@ function getComponent ($q) {
 
           contentClass: 'q-notification__content row items-center'
             + (notif.multiLine === true ? '' : ' col'),
+
+          leftClass: notif.meta.hasText === true ? 'additional' : 'single',
 
           attrs: {
             role: 'alert',
@@ -387,38 +396,19 @@ function getComponent ($q) {
           tag: 'div',
           name: `q-notification--${ pos }`
         }, () => notificationsList[ pos ].value.map(notif => {
-          let msgChild
-
           const meta = notif.meta
-          const msgData = { class: 'q-notification__message col' }
-
-          if (notif.html === true) {
-            msgData.innerHTML = notif.caption
-              ? `<div>${ notif.message }</div><div class="q-notification__caption">${ notif.caption }</div>`
-              : notif.message
-          }
-          else {
-            const msgNode = [ notif.message ]
-            msgChild = notif.caption
-              ? [
-                  h('div', msgNode),
-                  h('div', { class: 'q-notification__caption' }, [ notif.caption ])
-                ]
-              : msgNode
-          }
-
           const mainChild = []
 
           if (meta.hasMedia === true) {
             if (notif.spinner !== false) {
               mainChild.push(
-                h(notif.spinner, { class: 'q-notification__spinner' })
+                h(notif.spinner, { class: 'q-notification__spinner q-notification__spinner--' + meta.leftClass })
               )
             }
             else if (notif.icon) {
               mainChild.push(
                 h(QIcon, {
-                  class: 'q-notification__icon',
+                  class: 'q-notification__icon q-notification__icon--' + meta.leftClass,
                   name: notif.icon,
                   role: 'img'
                 })
@@ -427,15 +417,35 @@ function getComponent ($q) {
             else if (notif.avatar) {
               mainChild.push(
                 h(QAvatar, {
-                  class: 'q-notification__avatar'
+                  class: 'q-notification__avatar q-notification__avatar--' + meta.leftClass
                 }, () => h('img', { src: notif.avatar, 'aria-hidden': 'true' }))
               )
             }
           }
 
-          mainChild.push(
-            h('div', msgData, msgChild)
-          )
+          if (meta.hasText === true) {
+            let msgChild
+            const msgData = { class: 'q-notification__message col' }
+
+            if (notif.html === true) {
+              msgData.innerHTML = notif.caption
+                ? `<div>${ notif.message }</div><div class="q-notification__caption">${ notif.caption }</div>`
+                : notif.message
+            }
+            else {
+              const msgNode = [ notif.message ]
+              msgChild = notif.caption
+                ? [
+                    h('div', msgNode),
+                    h('div', { class: 'q-notification__caption' }, [ notif.caption ])
+                  ]
+                : msgNode
+            }
+
+            mainChild.push(
+              h('div', msgData, msgChild)
+            )
+          }
 
           const child = [
             h('div', { class: meta.contentClass }, mainChild)

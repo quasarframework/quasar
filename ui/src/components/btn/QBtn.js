@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, Transition, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, defineComponent, ref, computed, Transition, onBeforeUnmount, withDirectives, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
@@ -7,7 +7,7 @@ import Ripple from '../../directives/Ripple.js'
 
 import useBtn, { useBtnProps } from './use-btn.js'
 
-import { hMergeSlot, hDir } from '../../utils/private/render.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { isKeyCode } from '../../utils/private/key-composition.js'
 
@@ -50,13 +50,15 @@ export default defineComponent({
     )
 
     const ripple = computed(() => (
-      props.ripple === false
+      props.disable === true || props.ripple === false
         ? false
         : {
             keyCodes: isLink.value === true ? [ 13, 32 ] : [ 13 ],
             ...(props.ripple === true ? {} : props.ripple)
           }
     ))
+
+    const rippleProps = computed(() => ({ center: props.round }))
 
     const percentageStyle = computed(() => {
       const val = Math.max(0, Math.min(100, props.percentage))
@@ -91,16 +93,6 @@ export default defineComponent({
       }
     })
 
-    const directives = computed(() => {
-      // if props.disable !== true && props.ripple !== false
-      return [ [
-        Ripple,
-        ripple.value,
-        void 0,
-        { center: props.round }
-      ] ]
-    })
-
     const nodeProps = computed(() => ({
       ref: rootRef,
       class: 'q-btn q-btn-item non-selectable no-outline ' + classes.value,
@@ -110,6 +102,9 @@ export default defineComponent({
     }))
 
     function onClick (e) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
       if (e !== void 0) {
         if (e.defaultPrevented === true) {
           return
@@ -154,6 +149,9 @@ export default defineComponent({
     }
 
     function onKeydown (e) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
       if (isKeyCode(e, [ 13, 32 ]) === true) {
         stopAndPrevent(e)
 
@@ -174,6 +172,9 @@ export default defineComponent({
     }
 
     function onTouchstartPassive (e) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
       if (touchTarget !== rootRef.value) {
         touchTarget !== null && cleanup()
         touchTarget = rootRef.value
@@ -195,6 +196,9 @@ export default defineComponent({
     }
 
     function onMousedown (e) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
       if (mouseTarget !== rootRef.value) {
         mouseTarget !== null && cleanup()
         mouseTarget = rootRef.value
@@ -207,6 +211,9 @@ export default defineComponent({
     }
 
     function onPressEnd (e) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
       // needed for IE (because it emits blur when focusing button from focus helper)
       if (e !== void 0 && e.type === 'blur' && document.activeElement === rootRef.value) {
         return
@@ -349,13 +356,18 @@ export default defineComponent({
         ))
       )
 
-      return hDir(
-        isLink.value === true ? 'a' : 'button',
-        nodeProps.value,
-        child,
-        'ripple',
-        props.disable !== true && props.ripple !== false,
-        () => directives.value
+      return withDirectives(
+        h(
+          isLink.value === true ? 'a' : 'button',
+          nodeProps.value,
+          child
+        ),
+        [ [
+          Ripple,
+          ripple.value,
+          void 0,
+          rippleProps.value
+        ] ]
       )
     }
   }

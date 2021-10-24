@@ -1,20 +1,11 @@
 import { listenOpts } from '../event.js'
+import { portalList } from '../private/portal.js'
 
 let timer
 
 const
   { notPassiveCapture } = listenOpts,
   registeredList = []
-
-function hasModalsAbove (node) {
-  while ((node = node.nextElementSibling) !== null) {
-    if (node.classList.contains('q-dialog--modal')) {
-      return true
-    }
-  }
-
-  return false
-}
 
 function globalHandler (evt) {
   clearTimeout(timer)
@@ -29,8 +20,27 @@ function globalHandler (evt) {
     return
   }
 
+  // check last portal vm if it's
+  // a QDialog and not in seamless mode
+  let portalIndex = portalList.length - 1
+
+  while (portalIndex >= 0) {
+    const proxy = portalList[ portalIndex ].$
+
+    if (proxy.type.name !== 'QDialog') {
+      break
+    }
+
+    if (proxy.props.seamless !== true) {
+      return
+    }
+
+    portalIndex--
+  }
+
   for (let i = registeredList.length - 1; i >= 0; i--) {
     const state = registeredList[ i ]
+
     if (
       (
         state.anchorEl.value === null
@@ -38,12 +48,10 @@ function globalHandler (evt) {
       )
       && (
         target === document.body
-        || (state.innerRef.value  !== null && state.innerRef.value.contains(target) === false)
-      )
-      && (
-        state.getEl !== void 0
-          ? hasModalsAbove(state.getEl()) !== true
-          : true
+        || (
+          state.innerRef.value !== null
+          && state.innerRef.value.contains(target) === false
+        )
       )
     ) {
       // mark the event as being processed by clickOutside

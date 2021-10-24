@@ -33,6 +33,10 @@ export const usePanelProps = {
 
   transitionPrev: String,
   transitionNext: String,
+  transitionDuration: {
+    type: [ String, Number ],
+    default: 300
+  },
 
   keepAlive: Boolean,
   keepAliveInclude: [ String, Array, RegExp ],
@@ -76,6 +80,10 @@ export default function () {
 
   const transitionNext = computed(() =>
     props.transitionNext || `slide-${ props.vertical === true ? 'up' : 'left' }`
+  )
+
+  const transitionStyle = computed(
+    () => `--q-transition-duration: ${ props.transitionDuration }ms`
   )
 
   const contentKey = computed(() => (
@@ -197,7 +205,7 @@ export default function () {
   }
 
   function getPanelContentChild () {
-    const panel = isValidPanelName(props.modelValue)
+    const panel = isValidPanelName(props.modelValue) === true
       && updatePanelIndex()
       && panels[ panelIndex.value ]
 
@@ -208,7 +216,7 @@ export default function () {
               needsUniqueKeepAliveWrapper.value === true
                 ? getCacheWithFn(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
                 : PanelWrapper,
-              { key: contentKey.value },
+              { key: contentKey.value, style: transitionStyle.value },
               () => panel
             )
           ])
@@ -216,6 +224,7 @@ export default function () {
       : [
           h('div', {
             class: 'q-panel scroll',
+            style: transitionStyle.value,
             key: contentKey.value,
             role: 'tabpanel'
           }, [ panel ])
@@ -228,11 +237,7 @@ export default function () {
     }
 
     return props.animated === true
-      ? [
-          h(Transition, {
-            name: panelTransition.value
-          }, getPanelContentChild)
-        ]
+      ? [ h(Transition, { name: panelTransition.value }, getPanelContentChild) ]
       : getPanelContentChild()
   }
 
@@ -242,7 +247,7 @@ export default function () {
     ).filter(
       panel => panel.props !== null
         && panel.props.slot === void 0
-        && isValidPanelName(panel.props.name)
+        && isValidPanelName(panel.props.name) === true
     )
 
     return panels.length

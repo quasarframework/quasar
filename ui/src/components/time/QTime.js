@@ -288,6 +288,8 @@ export default defineComponent({
         defaultDateModel.value
       )
 
+      console.log({ ...model })
+
       if (
         model.dateHash !== innerModel.value.dateHash
         || model.timeHash !== innerModel.value.timeHash
@@ -310,10 +312,14 @@ export default defineComponent({
     })
 
     function setNow () {
-      updateValue({
+      const date = {
         ...getCurrentDate(),
         ...getCurrentTime()
-      })
+      }
+
+      updateValue(date)
+      Object.assign(innerModel.value, date) // reset any pending changes to innerModel
+
       view.value = 'hour'
     }
 

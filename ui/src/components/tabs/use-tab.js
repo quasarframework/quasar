@@ -1,10 +1,10 @@
-import { h, ref, computed, inject, onBeforeUnmount, onMounted } from 'vue'
+import { h, ref, computed, inject, onBeforeUnmount, onMounted, withDirectives } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
 import Ripple from '../../directives/Ripple.js'
 
-import { hMergeSlot, hDir } from '../../utils/private/render.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 import { isKeyCode } from '../../utils/private/key-composition.js'
 import { tabsKey } from '../../utils/private/symbols.js'
 
@@ -46,18 +46,25 @@ export default function (props, slots, emit, routerProps) {
   const rootRef = ref(null)
   const tabIndicatorRef = ref(null)
 
+  const ripple = computed(() => (
+    props.disable === true
+      ? false
+      : props.ripple
+  ))
+
   const isActive = computed(() => $tabs.currentModel.value === props.name)
 
   const classes = computed(() =>
     'q-tab relative-position self-stretch flex flex-center text-center'
-    + ` q-tab--${ isActive.value === true ? '' : 'in' }active`
     + (
       isActive.value === true
         ? (
-            ($tabs.tabProps.value.activeColor ? ` text-${ $tabs.tabProps.value.activeColor }` : '')
+            ' q-tab--active'
+            + ($tabs.tabProps.value.activeClass ? ' ' + $tabs.tabProps.value.activeClass : '')
+            + ($tabs.tabProps.value.activeColor ? ` text-${ $tabs.tabProps.value.activeColor }` : '')
             + ($tabs.tabProps.value.activeBgColor ? ` bg-${ $tabs.tabProps.value.activeBgColor }` : '')
           )
-        : ''
+        : ' q-tab--inactive'
     )
     + (props.icon && props.label && $tabs.tabProps.value.inlineLabel === false ? ' q-tab--full' : '')
     + (props.noCaps === true || $tabs.tabProps.value.noCaps === true ? ' q-tab--no-caps' : '')
@@ -79,24 +86,40 @@ export default function (props, slots, emit, routerProps) {
     keyboard !== true && blurTargetRef.value !== null && blurTargetRef.value.focus()
 
     if (props.disable !== true) {
+      let go
+
       if (routerProps !== void 0) {
         if (routerProps.hasLink.value === true) {
-          const go = () => {
+          go = () => {
             e.__qNavigate = true
-            routerProps.navigateToLink(e)
-          }
+            $tabs.avoidRouteWatcher = true
 
-          emit('click', e, go)
-          e.defaultPrevented !== true && go()
+            const res = routerProps.navigateToLink(e)
+
+            if (res === false) {
+              $tabs.avoidRouteWatcher = false
+            }
+            else {
+              res.then(() => {
+                $tabs.avoidRouteWatcher = false
+                $tabs.updateModel({ name: props.name, fromRoute: true })
+              })
+            }
+          }
         }
         else {
           emit('click', e)
+          return
         }
       }
       else {
-        emit('click', e)
-        $tabs.updateModel({ name: props.name, fromRoute: false })
+        go = () => {
+          $tabs.updateModel({ name: props.name, fromRoute: false })
+        }
       }
+
+      emit('click', e, go)
+      e.defaultPrevented !== true && go()
     }
   }
 
@@ -185,13 +208,9 @@ export default function (props, slots, emit, routerProps) {
       ...customData
     }
 
-    return hDir(
-      tag,
-      data,
-      getContent(),
-      'main',
-      props.ripple !== false && props.disable === false,
-      () => [ [ Ripple, props.ripple ] ]
+    return withDirectives(
+      h(tag, data, getContent()),
+      [ [ Ripple, ripple.value ] ]
     )
   }
 

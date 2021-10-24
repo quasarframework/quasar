@@ -135,6 +135,10 @@ export default defineComponent({
         : transitionShow.value
     ))
 
+    const transitionStyle = computed(
+      () => `--q-transition-duration: ${ props.transitionDuration }ms`
+    )
+
     const useBackdrop = computed(() => showing.value === true && props.seamless !== true)
 
     const onEvents = computed(() => (
@@ -375,6 +379,7 @@ export default defineComponent({
           useBackdrop.value === true
             ? h('div', {
                 class: 'q-dialog__backdrop fixed-full',
+                style: transitionStyle.value,
                 'aria-hidden': 'true',
                 onMousedown: onBackdropClick
               })
@@ -389,6 +394,7 @@ export default defineComponent({
               ? h('div', {
                   ref: innerRef,
                   class: classes.value,
+                  style: transitionStyle.value,
                   tabindex: -1,
                   ...onEvents.value
                 }, hSlot(slots.default))

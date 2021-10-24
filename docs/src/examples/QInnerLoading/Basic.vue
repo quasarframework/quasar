@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-md">
     <q-btn color="primary" @click="showTextLoading">
-      Show Text Loading
+      Show it
     </q-btn>
 
     <q-card class="bg-grey-3 relative-position card-example">

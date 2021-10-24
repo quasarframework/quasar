@@ -19,8 +19,7 @@
       "desc": "Ratio of number of items in visible zone to render before it",
       "default": "1",
       "examples": [ "virtual-scroll-slice-ratio-before=\"0.3\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.14.7"
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-slice-ratio-after": {
@@ -28,8 +27,7 @@
       "desc": "Ratio of number of items in visible zone to render after it",
       "default": "1",
       "examples": [ "virtual-scroll-slice-ratio-after=\"2\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.14.7"
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-item-size": {

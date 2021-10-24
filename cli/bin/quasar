@@ -74,23 +74,23 @@ else {
         process.argv.splice(2, 1)
       }
       else {
-        if (cmd === '-v' || cmd === '--version') {
+        if (cmd === '-v' || cmd === '--version' || cmd === '-V') {
           console.log(require('../package.json').version)
           process.exit(0)
         }
 
         const chalk = require('chalk')
 
+        require(`./quasar-help`)
+
         console.log(`\n ${chalk.red(`Error`)} Unknown command "${ cmd }"`)
 
         if (cmd.indexOf('-') === 0) {
-          console.log(`\n ${chalk.red(`Error`)} Command must come before the options\n`)
-          require(`./quasar-help`)
-          process.exit(1)
+          console.log(`\n ${chalk.red(`Error`)} Command must come before the options`)
         }
 
         console.log()
-        cmd = 'help'
+        process.exit(1)
       }
     }
     else {
