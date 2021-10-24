@@ -6,8 +6,7 @@ module.exports = {
   },
   env: {
     browser: true,
-    mocha: true,
-    'cypress/globals': true
+    mocha: true
   },
   extends: [
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
@@ -22,6 +21,7 @@ module.exports = {
   ],
   globals: {
     cordova: true,
+    cy: true,
     __statics: true,
     __QUASAR_VERSION__: true,
     __QUASAR_SSR__: true,
