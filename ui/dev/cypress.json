@@ -1,11 +1,11 @@
 {
-  "fixturesFolder": "test/cypress/fixtures",
-  "screenshotsFolder": "test/cypress/screenshots",
-  "videosFolder": "test/cypress/videos",
+  "fixturesFolder": "../test/cypress/fixtures",
+  "screenshotsFolder": "../test/cypress/screenshots",
+  "videosFolder": "../test/cypress/videos",
   "component": {
     "componentFolder": "../src",
     "testFiles": "**/*.spec.js",
-    "pluginsFile": "test/cypress/plugins/unit.js",
-    "supportFile": "test/cypress/support/unit.js"
+    "pluginsFile": "../test/cypress/plugins/unit.js",
+    "supportFile": "../test/cypress/support/unit.js"
   }
 }
