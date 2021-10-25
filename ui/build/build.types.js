@@ -82,6 +82,12 @@ function convertTypeVal (type, def, required) {
     return fallbackComplexTypeMap.get(t)
   }
 
+  if (t === 'Function') {
+    // FIXME: paramsRequired should be false for Notify plugin's return type
+    // Function type notations must be parenthesized when used in a union type
+    return '(' + getFunctionDefinition({ definition: def, paramsRequired: true }) + ')'
+  }
+
   return t
 }
 
