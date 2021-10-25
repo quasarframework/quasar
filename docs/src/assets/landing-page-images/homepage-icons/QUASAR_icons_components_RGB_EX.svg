@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 48 48" style="enable-background:new 0 0 48 48;" xml:space="preserve">
+<style type="text/css">
+	.st0{display:none;}
+	.st1{display:inline;fill:none;stroke:#EA5E13;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st2{display:inline;fill:none;stroke:#EA5E13;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st3{display:inline;fill:none;stroke:#EA5E13;stroke-width:2;stroke-miterlimit:10;}
+	.st4{display:inline;fill:none;stroke:#EA5E13;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
+	.st5{display:inline;}
+	.st6{fill:#EA5E13;}
+	.st7{fill:none;stroke:#EA5E13;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
+	.st8{fill:none;stroke:#EA5E13;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st9{display:inline;fill:#EA5E13;}
+	.st10{display:inline;fill:#FFFFFF;}
+	
+		.st11{display:inline;fill:#FFFFFF;stroke:#EA5E13;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+</style>
+<g id="Icons_stroke" class="st0">
+	<line class="st1" x1="43" y1="32" x2="43" y2="38"/>
+	<line class="st1" x1="43" y1="25" x2="43" y2="28"/>
+	<rect x="1" y="1" class="st1" width="25" height="8"/>
+	<rect x="1" y="25" class="st1" width="25" height="22"/>
+	<line class="st1" x1="1" y1="29" x2="26" y2="29"/>
+	<rect x="16" y="37" class="st1" width="6" height="6"/>
+	<line class="st1" x1="5" y1="33" x2="22" y2="33"/>
+	<line class="st1" x1="5" y1="37" x2="12" y2="37"/>
+	<circle class="st1" cx="35" cy="42" r="5"/>
+	<rect x="33" y="2" class="st1" width="14" height="6"/>
+	<circle class="st9" cx="6" cy="5" r="2"/>
+	<line class="st1" x1="11" y1="5" x2="22" y2="5"/>
+	<rect x="23" y="13" class="st1" width="24" height="8"/>
+	<line class="st1" x1="27" y1="17" x2="41" y2="17"/>
+	<path class="st1" d="M14,14H6c-1.7,0-3,1.3-3,3s1.3,3,3,3h8"/>
+	<circle class="st1" cx="14" cy="17" r="3"/>
+	<line class="st1" x1="35" y1="40" x2="35" y2="44"/>
+	<line class="st1" x1="33" y1="42" x2="37" y2="42"/>
+	<rect x="39" y="28" class="st1" width="8" height="4"/>
+	<rect x="30" y="28" class="st1" width="5" height="5"/>
+</g>
+<g id="Icon_outlined">
+	<path class="st6" d="M1,10h25c0.6,0,1-0.4,1-1V1c0-0.6-0.4-1-1-1H1C0.4,0,0,0.4,0,1v8C0,9.6,0.4,10,1,10z M2,2h23v6H2V2z M26,24H1
+		c-0.6,0-1,0.4-1,1v22c0,0.6,0.4,1,1,1h25c0.6,0,1-0.4,1-1V25C27,24.4,26.6,24,26,24z M25,26v2H2v-2H25z M2,46V30h23v16H2z M22,36
+		h-6c-0.6,0-1,0.4-1,1v6c0,0.6,0.4,1,1,1h6c0.6,0,1-0.4,1-1v-6C23,36.4,22.6,36,22,36z M21,42h-4v-4h4V42z M23,33c0,0.6-0.4,1-1,1H5
+		c-0.6,0-1-0.4-1-1s0.4-1,1-1h17C22.6,32,23,32.4,23,33z M13,37c0,0.6-0.4,1-1,1H5c-0.6,0-1-0.4-1-1s0.4-1,1-1h7
+		C12.6,36,13,36.4,13,37z M35,36c-3.3,0-6,2.7-6,6s2.7,6,6,6s6-2.7,6-6S38.3,36,35,36z M35,46c-2.2,0-4-1.8-4-4s1.8-4,4-4s4,1.8,4,4
+		S37.2,46,35,46z M47,1H33c-0.6,0-1,0.4-1,1v6c0,0.6,0.4,1,1,1h14c0.6,0,1-0.4,1-1V2C48,1.4,47.6,1,47,1z M46,7H34V3h12V7z M8,5
+		c0,1.1-0.9,2-2,2S4,6.1,4,5c0-1.1,0.9-2,2-2S8,3.9,8,5z M23,5c0,0.6-0.4,1-1,1H11c-0.6,0-1-0.4-1-1s0.4-1,1-1h11
+		C22.6,4,23,4.4,23,5z M47,12H23c-0.6,0-1,0.4-1,1v8c0,0.6,0.4,1,1,1h24c0.6,0,1-0.4,1-1v-8C48,12.4,47.6,12,47,12z M46,20H24v-6h22
+		V20z M26,17c0-0.6,0.4-1,1-1h14c0.6,0,1,0.4,1,1s-0.4,1-1,1H27C26.4,18,26,17.6,26,17z M6,13c-2.2,0-4,1.8-4,4s1.8,4,4,4h8
+		c2.2,0,4-1.8,4-4s-1.8-4-4-4H6z M4,17c0-1.1,0.9-2,2-2h4.6c-0.3,0.6-0.6,1.3-0.6,2s0.2,1.4,0.6,2H6C4.9,19,4,18.1,4,17z M16,17
+		c0,1.1-0.9,2-2,2s-2-0.9-2-2s0.9-2,2-2S16,15.9,16,17z M38,42c0,0.6-0.4,1-1,1h-1v1c0,0.6-0.4,1-1,1s-1-0.4-1-1v-1h-1
+		c-0.6,0-1-0.4-1-1s0.4-1,1-1h1v-1c0-0.6,0.4-1,1-1s1,0.4,1,1v1h1C37.6,41,38,41.4,38,42z M47,27h-3v-2c0-0.6-0.4-1-1-1s-1,0.4-1,1
+		v2h-3c-0.6,0-1,0.4-1,1v4c0,0.6,0.4,1,1,1h3v5c0,0.6,0.4,1,1,1s1-0.4,1-1v-5h3c0.6,0,1-0.4,1-1v-4C48,27.4,47.6,27,47,27z M46,31
+		h-6v-2h6V31z M35,34c0.6,0,1-0.4,1-1v-5c0-0.6-0.4-1-1-1h-5c-0.6,0-1,0.4-1,1v5c0,0.6,0.4,1,1,1H35z M31,29h3v3h-3V29z"/>
+</g>
+<g id="Guides" class="st0">
+</g>
+</svg>
