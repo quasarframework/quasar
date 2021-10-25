@@ -189,10 +189,10 @@ export default () => {
 }
 ```
 
-If you are using the Quasar UMD version or Vue CLI:
+If you are using the Quasar UMD version or the Quasar Vite plugin or Vue CLI:
 
 ```js
-// UMD or Vue CLI
+// UMD or Quasar Vite plugin or Vue CLI
 app.use(Quasar, {
   brand: {
     primary: '#ff0000',

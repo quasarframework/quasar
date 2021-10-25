@@ -16,6 +16,11 @@ const gettingStarted = [
         path: 'umd'
       },
       {
+        name: 'Vite Plugin',
+        badge: 'new',
+        path: 'vite-plugin'
+      },
+      {
         name: 'Vue CLI Plugin',
         path: 'vue-cli-plugin'
       }
@@ -1259,7 +1264,6 @@ module.exports = [
   {
     name: 'API Explorer',
     icon: 'travel_explore',
-    badge: 'new',
     path: 'api-explorer'
   },
   {

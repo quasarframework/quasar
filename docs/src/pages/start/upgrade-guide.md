@@ -43,6 +43,21 @@ $ quasar upgrade --install
 If you're using a code editor terminal instead of an external one and you run `quasar upgrade` and get the error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%*, then restart your code editor.
 :::
 
+### With Quasar Vite plugin
+
+```bash
+$ yarn upgrade quasar
+```
+
+Optionally, you may also want to make sure that you have the latest `@quasar/vite-plugin` package.
+
+It's highly recommended to keep `@quasar/extras` package up to date too:
+
+```bash
+# optional, but recommended
+$ yarn add @quasar/extras@latest
+```
+
 ### With Vue CLI
 
 ```bash

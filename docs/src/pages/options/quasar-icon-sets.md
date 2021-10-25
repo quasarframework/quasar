@@ -72,6 +72,21 @@ Include the Quasar Icon Set tag for your Quasar version and also tell Quasar to 
 
 Check what tags you need to include in your HTML files on [UMD / Standalone](/start/umd) page.
 
+#### Quasar Vite Plugin Way
+We edit your `main.js`:
+
+```js
+// ...
+import { Quasar } from 'quasar'
+// ...
+import iconSet from 'quasar/icon-set/fontawesome-v5'
+import '@quasar/extras/fontawesome-v5/fontawesome-v5.css'
+// ...
+app.use(Quasar, {
+  // ...,
+  iconSet: iconSet
+})
+```
 
 #### Vue CLI Way
 We edit your `main.js`:
@@ -211,4 +226,3 @@ methods: {
   }
 }
 ```
-
