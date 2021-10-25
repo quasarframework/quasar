@@ -18,25 +18,24 @@
       "definition": {
         "label": {
           "type": "String",
-          "desc": "Label",
+          "desc": "Label to display along the component",
           "required": true,
           "examples": [ "Option 1", "Option 2", "Option 3" ]
         },
         "value": {
           "type": "Any",
-          "desc": "Value",
+          "desc": "Value of the option that will be used by the component model",
           "required": true,
           "examples": [ "op1", "op2", "op3" ]
         },
         "disable": {
           "type": "Boolean",
-          "desc": "Disable",
+          "desc": "If true, the option will be disabled",
           "default": false,
-          "examples": [ true, false ]
         },
         "...props": {
           "type": "Any",
-          "desc": "Any other QOptionGroup props",
+          "desc": "Any other props from QToggle, QCheckbox, or QRadio",
           "__exemption": [ "examples" ]
         }
       },
