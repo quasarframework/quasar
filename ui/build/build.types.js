@@ -70,7 +70,7 @@ function convertTypeVal (type, def, required) {
 
   if (fallbackComplexTypeMap.has(t)) {
     if (def.definition) {
-      const propDefinitions = getPropDefinitions({ propDefs: def.definition, required, docs: true })
+      const propDefinitions = getPropDefinitions({ definitions: def.definition, required })
       const lines = []
       propDefinitions.forEach(propDef => writeLines(lines, propDef, 2))
 
@@ -91,37 +91,32 @@ function getTypeVal (def, required) {
     : convertTypeVal(def.type, def, required)
 }
 
-function getPropDefinition (key, propDef, required, docs = false, isMethodParam = false, isCompProps = false) {
-  const propName = toCamelCase(key)
+function getPropDefinition ({ name, definition, required = true, docs = true, isMethodParam = false, isCompProps = false }) {
+  const propName = toCamelCase(name)
 
   if (propName.startsWith('...')) {
     return isMethodParam ? `${ propName }: any[]` : '[index: string]: any'
   }
   else {
-    let propType = getTypeVal(propDef, required)
-    addToExtraInterfaces(propDef)
+    let propType = getTypeVal(definition, required)
+
+    addToExtraInterfaces(definition)
 
     const jsDoc = docs === true
-      ? `/**\n * ${ propDef.desc }${ propDef.default ? `\n * Default value: ${ propDef.default }` : '' }\n */\n`
+      ? `/**\n * ${ definition.desc }${ definition.default ? `\n * Default value: ${ definition.default }` : '' }\n */\n`
       : ''
 
-    if (isCompProps === true && key !== 'model-value' && !propDef.required && propType.indexOf(' undefined') === -1) {
+    if (isCompProps === true && name !== 'model-value' && !definition.required && propType.indexOf(' undefined') === -1) {
       propType += ' | undefined;'
     }
 
-    return `${ jsDoc }${ propName }${ !propDef.required && !required ? '?' : '' }: ${ propType }`
+    return `${ jsDoc }${ propName }${ !definition.required && !required ? '?' : '' }: ${ propType }`
   }
 }
 
-function getPropDefinitions ({ propDefs, required, docs = false, areMethodParams = false, isCompProps = false }) {
-  const defs = []
-
-  for (const key in propDefs) {
-    const def = getPropDefinition(key, propDefs[ key ], required, docs, areMethodParams, isCompProps)
-    def && defs.push(def)
-  }
-
-  return defs
+function getPropDefinitions ({ definitions, required, docs = true, areMethodParams = false, isCompProps = false }) {
+  return Object.entries(definitions || {})
+    .map(([ name, definition ]) => getPropDefinition({ name, definition, required, docs, isMethodParam: areMethodParams, isCompProps }))
 }
 
 function getMethodPropDefinition ({ name, definition, required = true, paramsRequired = true }) {
@@ -148,7 +143,7 @@ function getFunctionDefinition ({ definition, paramsRequired = true }) {
     return definition.tsType
   }
 
-  const params = definition.params ? getPropDefinitions({ propDefs: definition.params, required: paramsRequired, areMethodParams: true }) : []
+  const params = definition.params ? getPropDefinitions({ definitions: definition.params, required: paramsRequired, areMethodParams: true, docs: false }) : []
 
   const returnType = definition.returns ? getTypeVal(definition.returns, true) : 'void'
   if (definition.returns) {
@@ -158,24 +153,12 @@ function getFunctionDefinition ({ definition, paramsRequired = true }) {
   return `(${ params.join(', ') }) => ${ returnType }`
 }
 
-function getObjectParamDefinition (def, required) {
-  const res = []
-
-  Object.keys(def).forEach(propName => {
-    const propDef = def[ propName ]
-    if (propDef.type && propDef.type === 'Function') {
-      res.push(
-        getMethodPropDefinition({ name: propName, definition: propDef, required })
-      )
-    }
-    else {
-      res.push(
-        getPropDefinition(propName, propDef, required, true)
-      )
-    }
-  })
-
-  return res
+function getObjectParamDefinition ({ definitions, required }) {
+  return Object.entries(definitions).map(([ name, definition ]) =>
+    (definition.type === 'Function'
+      ? getMethodPropDefinition({ name, definition, required })
+      : getPropDefinition({ name, definition, required }))
+  )
 }
 
 function getInjectionDefinition (injectionName, typeDef) {
@@ -183,7 +166,7 @@ function getInjectionDefinition (injectionName, typeDef) {
   for (const propKey in typeDef.props) {
     const propDef = typeDef.props[ propKey ]
     if (propDef.tsInjectionPoint) {
-      return getPropDefinition(injectionName, propDef, true, true)
+      return getPropDefinition({ name: injectionName, definition: propDef })
     }
   }
 
@@ -227,13 +210,8 @@ function addToExtraInterfaces (def, required = false) {
     // In this way it can be overwritten if a definition is found later on.
     // Interfaces without definition at the end of the build script
     //  are considered external custom types and imported as such
-    if (
-      extraInterfaces[ def.tsType ] === void 0
-      && def.definition !== void 0
-    ) {
-      extraInterfaces[ def.tsType ] = getObjectParamDefinition(
-        def.definition, required
-      )
+    if (extraInterfaces[ def.tsType ] === void 0 && def.definition !== void 0) {
+      extraInterfaces[ def.tsType ] = getObjectParamDefinition({ definitions: def.definition, required })
     }
     else if (!extraInterfaces.hasOwnProperty(def.tsType)) {
       extraInterfaces[ def.tsType ] = void 0
@@ -335,9 +313,8 @@ function writeIndexDTS (apis) {
     }
 
     const props = getPropDefinitions({
-      propDefs: content.props,
+      definitions: content.props,
       required: content.type === 'plugin',
-      docs: true,
       isCompProps: content.type === 'component'
     })
 
