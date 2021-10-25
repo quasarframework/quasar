@@ -6,10 +6,12 @@ const { logError, writeFile } = require('./build.utils')
 const typeRoot = path.resolve(__dirname, '../types')
 const distRoot = path.resolve(__dirname, '../dist/types')
 const resolvePath = file => path.resolve(distRoot, file)
-const INDENT_SPACE_COUNT = 2
-const extraInterfaces = {}
-// eslint-disable-next-line no-useless-escape
 const toCamelCase = str => str.replace(/(-\w)/g, m => m[ 1 ].toUpperCase())
+
+const extraInterfaces = {}
+
+// TODO: Consider removing the indenting logic as it's already handled better and gets overridden by prettier
+const INDENT_SPACE_COUNT = 2
 
 function writeLine (fileContent, line = '', indent = 0) {
   fileContent.push(`${ line.padStart(line.length + (indent * INDENT_SPACE_COUNT), ' ') }\n`)
@@ -98,7 +100,8 @@ function getPropDefinition (key, propDef, required, docs = false, isMethodParam 
   else {
     let propType = getTypeVal(propDef, required)
     addToExtraInterfaces(propDef)
-    const comment = docs === true
+
+    const jsDoc = docs === true
       ? `/**\n * ${ propDef.desc }${ propDef.default ? `\n * Default value: ${ propDef.default }` : '' }\n */\n`
       : ''
 
@@ -106,7 +109,7 @@ function getPropDefinition (key, propDef, required, docs = false, isMethodParam 
       propType += ' | undefined;'
     }
 
-    return `${ comment }${ propName }${ !propDef.required && !required ? '?' : '' }: ${ propType }`
+    return `${ jsDoc }${ propName }${ !propDef.required && !required ? '?' : '' }: ${ propType }`
   }
 }
 
@@ -121,38 +124,38 @@ function getPropDefinitions ({ propDefs, required, docs = false, areMethodParams
   return defs
 }
 
-// TODO: Refactor and simplify the usage
-function getMethodDefinition (key, methodDef, returnTypeRequired = false, required = true, paramsRequired = false) {
-  let def = `/**\n * ${ methodDef.desc }\n`
-  if (methodDef.params) {
-    def += `${ Object.entries(methodDef.params).map(([ name, paramDef ]) => ` * @param ${ name } ${ paramDef.desc !== undefined ? paramDef.desc : '' }`).join('\n') }\n`
+function getMethodPropDefinition ({ name, definition, required = true, paramsRequired = true }) {
+  let jsDoc = '/**\n'
+  jsDoc += `* ${ definition.desc }\n`
+
+  for (const [ name, paramDef ] of Object.entries(definition.params || {})) {
+    jsDoc += ` * @param ${ name } ${ paramDef.desc || '' }\n`
   }
 
-  const returns = methodDef.returns
+  const returns = definition.returns
   if (returns && returns.desc) {
-    def += ` * @returns ${ returns.desc }\n`
+    jsDoc += ` * @returns ${ returns.desc }\n`
   }
 
-  def += ` */\n${ key }`
+  jsDoc += ' */\n'
 
-  if (methodDef.tsType !== void 0) {
-    def += `: ${ methodDef.tsType }`
-    addToExtraInterfaces(methodDef)
-  }
-  else {
-    def += required ? ': (' : '?: ('
+  return `${ jsDoc }${ name }${ !required ? '?' : '' }: ${ getFunctionDefinition({ definition, paramsRequired }) }`
+}
 
-    if (methodDef.params) {
-      // TODO: Verify if this should be optional even for plugins
-      const params = getPropDefinitions({ propDefs: methodDef.params, required: paramsRequired, areMethodParams: true })
-      def += params.join(', ')
-    }
-
-    def += `) => ${ returns ? getTypeVal(returns, returnTypeRequired) : 'void' }`
-    addToExtraInterfaces(returns, true)
+function getFunctionDefinition ({ definition, paramsRequired = true }) {
+  if (definition.tsType !== void 0) {
+    addToExtraInterfaces(definition)
+    return definition.tsType
   }
 
-  return def
+  const params = definition.params ? getPropDefinitions({ propDefs: definition.params, required: paramsRequired, areMethodParams: true }) : []
+
+  const returnType = definition.returns ? getTypeVal(definition.returns, true) : 'void'
+  if (definition.returns) {
+    addToExtraInterfaces(definition.returns, true)
+  }
+
+  return `(${ params.join(', ') }) => ${ returnType }`
 }
 
 function getObjectParamDefinition (def, required) {
@@ -162,7 +165,7 @@ function getObjectParamDefinition (def, required) {
     const propDef = def[ propName ]
     if (propDef.type && propDef.type === 'Function') {
       res.push(
-        getMethodDefinition(propName, propDef, required)
+        getMethodPropDefinition({ name: propName, definition: propDef, required })
       )
     }
     else {
@@ -188,7 +191,7 @@ function getInjectionDefinition (injectionName, typeDef) {
   for (const methodKey in typeDef.methods) {
     const methodDef = typeDef.methods[ methodKey ]
     if (methodDef.tsInjectionPoint) {
-      return getMethodDefinition(injectionName, methodDef, true)
+      return getMethodPropDefinition({ name: injectionName, definition: methodDef, paramsRequired: false })
     }
   }
 }
@@ -215,8 +218,8 @@ function copyPredefinedTypes (dir, parentDir) {
     })
 }
 
-function addToExtraInterfaces (def, required) {
-  if (def !== void 0 && def.tsType !== void 0) {
+function addToExtraInterfaces (def, required = false) {
+  if (def !== void 0 && def !== null && def.tsType !== void 0) {
     // When a type name is found and it has a definition,
     //  it's added for later usage if a previous definition isn't already there.
     // When the new interface doesn't have a definition, we initialize its key anyway
@@ -346,7 +349,7 @@ function writeIndexDTS (apis) {
         const propName = toCamelCase('on-' + name)
         const safeName = propName.includes(':') ? `'${ propName }'` : propName
 
-        props.push(getMethodDefinition(safeName, definition, false, false, true))
+        props.push(getMethodPropDefinition({ name: safeName, definition, required: false }))
       }
     }
 
@@ -382,13 +385,16 @@ function writeIndexDTS (apis) {
             }
           } : undefined
 
-          const slot = getMethodDefinition(name, {
-            desc: definition.desc,
-            params,
-            returns: {
-              type: 'VNode[]'
+          const slot = getMethodPropDefinition({
+            name,
+            definition: {
+              desc: definition.desc,
+              params,
+              returns: {
+                type: 'VNode[]'
+              }
             }
-          }, true, true, true)
+          })
 
           writeLines(contents, slot, 1)
         }
@@ -411,7 +417,7 @@ function writeIndexDTS (apis) {
     // Write Methods
     for (const methodKey in content.methods) {
       const method = content.methods[ methodKey ]
-      const methodDefinition = getMethodDefinition(methodKey, method, content.type === 'plugin')
+      const methodDefinition = getMethodPropDefinition({ name: methodKey, definition: method, paramsRequired: false })
       writeLines(contents, methodDefinition, 1)
     }
 
@@ -514,7 +520,8 @@ function writeIndexDTS (apis) {
 
   writeFile(
     resolvePath('index.d.ts'),
-    prettier.format(contents.join(''), { parser: 'typescript' })
+    // contents.join('')
+    prettier.format(contents.join(''), { parser: 'typescript'/*, plugins: [ require('prettier-plugin-jsdoc') ] */ })
   )
 }
 
