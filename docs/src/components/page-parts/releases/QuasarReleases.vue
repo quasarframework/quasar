@@ -7,7 +7,7 @@ q-card(flat bordered)
     q-spinner.q-mr-sm(size="24px" color="brand-primary")
     div Loading release notes from GitHub...
   template(v-else)
-    q-tabs.text-grey-7(v-model="currentPackage" align="left" active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
+    q-tabs.text-grey-7(v-model="currentPackage" no-caps align="left" active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
       q-tab(v-for="(packageReleases, packageName) in packages" :label="packageName" :name="packageName" :key="packageName")
     q-separator
     q-tab-panels.packages-container(v-model="currentPackage" animated)
@@ -36,13 +36,19 @@ export default {
       '@quasar/app': [],
       '@quasar/cli': [],
       '@quasar/extras': [],
-      '@quasar/icongenie': []
+      '@quasar/icongenie': [],
+      '@quasar/vite-plugin': []
     }
+    const packagePrefixes = Object.keys(packagesDefinitions)
     const loading = ref(false)
     const error = ref(false)
     const packages = ref(packagesDefinitions)
     const currentPackage = ref('quasar')
     const versions = ref({})
+
+    function skipRelease (releaseName) {
+      return packagePrefixes.some(prefix => releaseName.startsWith(prefix) === true) === false
+    }
 
     function queryReleases (page = 1) {
       loading.value = true
@@ -62,7 +68,7 @@ export default {
         let stopQuery = false
 
         for (const release of releases) {
-          if (release.name.indexOf('babel-preset-app') > -1) {
+          if (skipRelease(release.name) === true) {
             continue
           }
 

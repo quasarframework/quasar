@@ -66,7 +66,7 @@ There are some configuration options for Quasar & Quasar plugins:
 ```js
 app.use(Quasar, {
   config: {
-    brand: { // this will NOT work on IE 11
+    brand: {
       primary: '#e46262',
       // ... or all other brand colors
     },

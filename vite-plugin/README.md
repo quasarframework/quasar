@@ -2,9 +2,9 @@
 
 # Quasar Framework plugin for Vite
 
-> **We are in alpha stage at the moment. Changes to the API may be done without prior notice until it reaches the beta stage.**
->
-> **This package does not support SSR (yet).**
+> Warning! Current limitations:
+> * SSR builds with Quasar Vite plugin are not yet supported.
+> * Usage with RTL Quasar language packs is not yet supported.
 
 <img src="https://img.shields.io/npm/v/%40quasar/vite-plugin.svg?label=@quasar/vite-plugin">
 
@@ -14,7 +14,7 @@
 
 ## Installation
 
-To be written...
+https://quasar.dev/start/vite-plugin
 
 ## Supporting Quasar
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).

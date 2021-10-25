@@ -34,13 +34,29 @@ framework: {
 }
 ```
 
+#### Quasar Vite Plugin
+Edit your `main.js`:
+
+```js
+// ...
+import { Quasar } from 'quasar'
+// ...
+import langDe from 'quasar/lang/de'
+// ...
+app.use(Quasar, {
+  // ...,
+  lang: langDe
+})
+```
+
 #### Vue CLI
 Edit your `main.js`:
 
 ```js
+// ...
 import { Quasar } from 'quasar'
+// ...
 import langDe from 'quasar/lang/de'
-
 // ...
 app.use(Quasar, {
   // ...,

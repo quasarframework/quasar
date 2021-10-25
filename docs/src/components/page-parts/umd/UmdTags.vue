@@ -1,12 +1,12 @@
 <template lang="pug">
 q-card(flat bordered)
-  q-card-section.q-gutter-xs
+  q-card-section.q-gutter-xs.q-pa-sm
     q-toggle(v-model="css.roboto" label="Roboto font")
     q-toggle(v-model="css.animate" label="Animate.css")
 
   q-separator
 
-  q-card-section.q-gutter-xs
+  q-card-section.q-gutter-xs.q-pa-sm
     q-toggle(v-model="css['material-icons']" label="Material Icons")
     q-toggle(v-model="css['material-icons-outlined']" label="Material Icons (Outlined)")
     q-toggle(v-model="css['material-icons-round']" label="Material Icons (Round)")
@@ -23,14 +23,14 @@ q-card(flat bordered)
 
   q-separator
 
-  q-card-section.q-gutter-xs
+  q-card-section.q-gutter-xs.q-pa-sm
     q-toggle(v-model="cfgObject" label="Quasar Config Object")
     q-toggle(v-model="minified" label="Minified files")
     q-toggle(v-model="rtl" label="RTL CSS support")
 
   q-separator
 
-  q-card-section.q-col-gutter-sm.row
+  q-card-section.q-col-gutter-sm.q-pa-sm.row
     .col-xs-12.col-md-6
       q-select(
         label="Quasar Language Pack"
