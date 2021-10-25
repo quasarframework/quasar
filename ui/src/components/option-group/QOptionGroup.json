@@ -14,7 +14,7 @@
 
     "options": {
       "type": "Array",
-      "desc": "Array of objects with value and label props. The binary components will be created according to this array; Props from QToggle, QCheckbox or QRadio can also be added as key/value pairs to control the components singularly",
+      "desc": "Array of objects with value, label, and disable(optional) props. The binary components will be created according to this array; Props from QToggle, QCheckbox or QRadio can also be added as key/value pairs to control the components singularly",
       "definition": {
         "label": {
           "type": "String",
@@ -36,7 +36,7 @@
         "...props": {
           "type": "Any",
           "desc": "Any other props from QToggle, QCheckbox, or QRadio",
-          "__exemption": [ "examples" ]
+          "examples": [ "val=\"car\"", ":true-value=\"trueValue\"", "checked-icon=\"visibility\"" ]
         }
       },
       "examples": [
