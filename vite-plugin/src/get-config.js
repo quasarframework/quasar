@@ -29,16 +29,16 @@ export default ({ runMode, sassVariables }) => {
     })
   }
 
-  if (sassVariables) {
-    const sassImportCode = (
-      (typeof sassVariables === 'string' ? `@import '${ normalizePath(sassVariables) }'\n` : '')
-      + `@import 'quasar/src/css/variables.sass'\n`
-    )
+  if (sassVariables) {    
+    const sassImportArr = [`@import 'quasar/src/css/variables.sass'`, '']
+    if (typeof sassVariables === 'string') {
+      sassImportArr.unshift(`@import '${ normalizePath(sassVariables) }'`)
+    }
 
     viteCfg.css = {
       preprocessorOptions: {
-        sass: { additionalData: sassImportCode },
-        scss: { additionalData: sassImportCode }
+        sass: { additionalData: sassImportArr.join('\n') },
+        scss: { additionalData: sassImportArr.join(';\n') }
       }
     }
   }
