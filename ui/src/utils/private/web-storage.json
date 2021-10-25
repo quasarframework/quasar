@@ -118,6 +118,14 @@
           "type": [ "Date", "RegExp", "Number", "Boolean", "Function", "Object", "Array", "String", "null" ],
           "desc": "Entry value",
           "required": true,
+          "params": {
+            "...params": {
+              "type": "Any"
+            }
+          },
+          "returns": {
+            "type": "Any"
+          },
           "examples": [ "john12" ]
         }
       }

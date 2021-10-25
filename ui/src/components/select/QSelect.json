@@ -47,6 +47,22 @@
       "type": [ "Function", "String" ],
       "desc": "Property of option which holds the 'value'; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "value",
+      "params": {
+        "option": {
+          "type": [ "String", "Object" ],
+          "desc": "The current option being processed",
+          "examples": [
+            "'BMW'",
+            "'Samsung Phone'",
+            "{ label: 'BMW', value: 'car', cannotSelect: true }"
+          ]
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Value of the current option",
+        "examples": [ "'car'", "34" ]
+      },
       "examples": [
         "option-value=\"modelNumber\"",
         ":option-value=\"(item) => item === null ? null : item.modelNumber\""
@@ -58,6 +74,22 @@
       "type": [ "Function", "String" ],
       "desc": "Property of option which holds the 'label'; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "label",
+      "params": {
+        "option": {
+          "type": [ "String", "Object" ],
+          "desc": "The current option being processed",
+          "examples": [
+            "'BMW'",
+            "'Samsung Phone'",
+            "{ label: 'BMW', value: 'car', cannotSelect: true }"
+          ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "Label of the current option",
+        "examples": [ "'BMW'", "'Samsung Phone'" ]
+      },
       "examples": [
         "option-label=\"itemName\"",
         ":option-label=\"(item) => item === null ? 'Null value' : item.itemName\""
@@ -69,6 +101,21 @@
       "type": [ "Function", "String" ],
       "desc": "Property of option which tells it's disabled; The value of the property must be a Boolean; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "disable",
+      "params": {
+        "option": {
+          "type": [ "String", "Object" ],
+          "desc": "The current option being processed",
+          "examples": [
+            "'BMW'",
+            "'Samsung Phone'",
+            "{ label: 'BMW', value: 'car', cannotSelect: true }"
+          ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "If true, the current option will be disabled"
+      },
       "examples": [
         "option-disable=\"cannotSelect\"",
         ":option-disable=\"(item) => item === null ? true : item.cannotSelect\""

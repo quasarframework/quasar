@@ -120,8 +120,12 @@
         },
         "disable": {
           "type": [ "Boolean", "Function" ],
-          "desc": "Is button disabled? If specifying a function, return a Boolean value.",
-          "examples": [ "() => this.userIsActive()" ]
+          "desc": "Is button disabled?",
+          "returns": {
+            "type": "Boolean",
+            "desc": "If true, the button will be disabled"
+          },
+          "examples": [ "!user.active", "() => !checkIfUserIsActive()" ]
         },
         "type": {
           "type": "String",

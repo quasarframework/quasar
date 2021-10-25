@@ -61,6 +61,17 @@
     "events": {
       "type": [ "Array", "Function" ],
       "desc": "A list of events to highlight on the calendar; If using a function, it receives the date as a String and must return a Boolean (matches or not); If using a function then for best performance, reference it from your scope and do not define it inline",
+      "params": {
+        "date": {
+          "type": "String",
+          "desc": "The current date being processed.",
+          "examples": [ "2018/11/05", "2021/10/25" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "If true, the current date will be highlighted"
+      },
       "examples": [
         ":events=\"['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']\"",
         ":events=\"date => date[9] % 3 === 0\""
@@ -71,6 +82,18 @@
     "event-color": {
       "type": [ "String", "Function" ],
       "desc": "Color name (from the Quasar Color Palette); If using a function, it receives the date as a String and must return a String (color for the received date); If using a function then for best performance, reference it from your scope and do not define it inline",
+      "params": {
+        "date": {
+          "type": "String",
+          "desc": "The current date being processed.",
+          "examples": [ "2018/11/05", "2021/10/25" ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "Color for the current date.",
+        "examples": [ "teal", "orange" ]
+      },
       "examples": [
         "teal-10",
         ":event-color=\"(date) => date[9] % 2 === 0 ? 'teal' : 'orange'\""
@@ -81,6 +104,17 @@
     "options": {
       "type": [ "Array", "Function" ],
       "desc": "Optionally configure the days that are selectable; If using a function, it receives the date as a String and must return a Boolean (is date acceptable or not); If using a function then for best performance, reference it from your scope and do not define it inline; Incompatible with 'range' prop",
+      "params": {
+        "date": {
+          "type": "String",
+          "desc": "The current date being processed.",
+          "examples": [ "2018/11/05", "2021/10/25" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "If true, the current date will be made available for selection"
+      },
       "examples": [
         ":options=\"['2018/11/05', '2018/11/12', '2018/11/19', '2018/11/26' ]\"",
         ":options=\"date => date[9] % 3 === 0\"",

@@ -35,8 +35,16 @@
                 "type": "Function",
                 "desc": "Tell what to do",
                 "required": true,
-                "params": null,
-                "returns": null
+                "params": {
+                  "payload": {
+                    "type": "Any",
+                    "desc": "The payload if called onDialogOK with the parameter or emitted one with the 'ok' event",
+                    "required": false,
+                    "examples": [ "'Quasar Framework'", "[ 1, 2, 6, 3 ]", "{ book: { id: 1, name: 'Lorem Ipsum' }, user: { name: 'Lorem J. Ipsum', role: 'admin' } }" ]
+                  }
+                },
+                "returns": null,
+                "examples": [ "() => console.log('OK!')", "(payload) => Notify.create({ type: 'positive', message: `Successfully saved '${payload.book.name}' book!` })" ]
               }
             },
             "returns": {

@@ -11,7 +11,7 @@
         }
       },
       "returns": {
-        "type": [ "Object", "Promise" ],
+        "type": [ "Object", "Promise<any>" ],
         "desc": "Optional configuration for the upload process; You can override QUploader props in this Object (url, method, headers, formFields, fieldName, withCredentials, sendRaw); Props of these Object can also be Functions with the form of (file[s]) => value",
         "__exemption": [ "examples" ]
       },
@@ -31,6 +31,18 @@
       "desc": "HTTP method to use for upload; Takes String or factory function which returns a String; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
       "values": [ "POST", "PUT" ],
       "examples": [ "POST", ":method=\"files => files.length > 10 ? 'POST' : 'PUT'\"" ],
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Uploaded files",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "HTTP method to use for upload",
+        "__exemption": [ "examples" ]
+      },
       "category": "upload"
     },
 
