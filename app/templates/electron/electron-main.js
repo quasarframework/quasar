@@ -2,7 +2,7 @@ import { app, BrowserWindow, nativeTheme } from 'electron'
 import path from 'path'
 import os from 'os'
 
-// needed in case nodeIntegration is not true
+// needed in case process is undefined under Linux
 const platform = process.platform || os.platform()
 
 try {
