@@ -357,6 +357,14 @@ module.exports = function (cfg, configName) {
         globOptions: { ignore }
       }]
 
+      if ('electron' === cfg.ctx.modeName) {
+        patterns.push({
+          from: appPaths.resolve.electron('icons'),
+          to: path.resolve(cfg.build.distDir, 'icons'),
+          noErrorOnMissing: true
+        })
+      }
+
       chain.plugin('copy-webpack')
         .use(CopyWebpackPlugin, [{ patterns }])
     }
