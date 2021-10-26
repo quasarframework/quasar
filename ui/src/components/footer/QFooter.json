@@ -32,7 +32,7 @@
     },
 
     "height-hint": {
-      "type": [ "Number", "String " ],
+      "type": [ "Number", "String" ],
       "desc": "When using SSR, you can optionally hint of the height (in pixels) of the QFooter",
       "default": 50,
       "examples": [ "150" ],

@@ -51,9 +51,7 @@ function convertTypeVal (type, def, required) {
     return def.tsType
   }
 
-  const t = type.trim()
-
-  if (def.values && t === 'String') {
+  if (def.values && type === 'String') {
     const narrowedValues = def.values.filter(v =>
       !dontNarrowValues.includes(v)
       && typeof v === 'string'
@@ -64,31 +62,31 @@ function convertTypeVal (type, def, required) {
     }
   }
 
-  if (typeMap.has(t)) {
-    return typeMap.get(t)
+  if (typeMap.has(type)) {
+    return typeMap.get(type)
   }
 
-  if (fallbackComplexTypeMap.has(t)) {
+  if (fallbackComplexTypeMap.has(type)) {
     if (def.definition) {
       const propDefinitions = getPropDefinitions({ definitions: def.definition, required })
       const lines = []
       propDefinitions.forEach(propDef => writeLines(lines, propDef, 2))
 
       if (lines.length > 0) {
-        return `{ ${ lines.join('') } }${ t === 'Array' ? '[]' : '' }`
+        return `{ ${ lines.join('') } }${ type === 'Array' ? '[]' : '' }`
       }
     }
 
-    return fallbackComplexTypeMap.get(t)
+    return fallbackComplexTypeMap.get(type)
   }
 
-  if (t === 'Function') {
+  if (type === 'Function') {
     // FIXME: paramsRequired should be false for Notify plugin's return type
     // Function type notations must be parenthesized when used in a union type
     return '(' + getFunctionDefinition({ definition: def, paramsRequired: true }) + ')'
   }
 
-  return t
+  return type
 }
 
 function getTypeVal (def, required) {
