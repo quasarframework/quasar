@@ -1,6 +1,4 @@
 const webpack = require('webpack')
-const fse = require('fs-extra')
-const path = require('path')
 
 const { log, warn, fatal, success } = require('../helpers/logger')
 const { spawn } = require('../helpers/spawn')
@@ -102,13 +100,6 @@ class ElectronRunner {
       )
     }).then(() => {
       return new Promise(async resolve => {
-        log(`Copying Electron icons to ${cfg.build.distDir} (if they are not already there)...`)
-        fse.copySync(
-          appPaths.resolve.electron('icons'),
-          path.resolve(cfg.build.distDir, 'icons'),
-          { overwrite: false }
-        )
-
         if (typeof cfg.electron.beforePackaging === 'function') {
           log('Running beforePackaging()')
           log()
