@@ -30,8 +30,7 @@
         },
         "disable": {
           "type": "Boolean",
-          "desc": "If true, the option will be disabled",
-          "default": false
+          "desc": "If true, the option will be disabled"
         },
         "...props": {
           "type": "Any",
