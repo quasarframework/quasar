@@ -1,9 +1,9 @@
 // @ts-ignore
 /// <reference types="@quasar/vite-plugin" />
 
-import type { Plugin } from 'vite'
+import type { Plugin } from "vite";
 
-interface QuasarPluginOpts {
+export interface QuasarPluginOpts {
   /**
    * Auto import - how to detect components in your vue files
    *   "kebab": q-carousel q-page
@@ -30,6 +30,12 @@ interface QuasarPluginOpts {
   // runMode?: "web-client" | "ssr-client" | "ssr-server";
 }
 
-export function quasar(
-  opts?: QuasarPluginOpts
-): Plugin;
+export function quasar(opts?: QuasarPluginOpts): Plugin;
+
+export interface TransformAssetUrls {
+  base: unknown;
+  includeAbsolute: boolean;
+  tags: Record<string, string | string[]>;
+}
+
+export const transformAssetUrls: TransformAssetUrls;
