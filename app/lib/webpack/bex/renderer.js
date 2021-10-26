@@ -6,8 +6,6 @@ const artifacts = require('../../artifacts')
 const injectHtml = require('../inject.html')
 
 module.exports = function (chain, cfg) {
-  injectHtml(chain, cfg)
-
   const rootPath = cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir
   const outputPath = path.join(rootPath, 'www')
 
@@ -65,6 +63,8 @@ module.exports = function (chain, cfg) {
       }
     })
   }
+
+  injectHtml(chain, cfg)
 
   // Copy any files we've registered during the chain.
   const CopyWebpackPlugin = require('copy-webpack-plugin')
