@@ -408,21 +408,19 @@ Since this package isn't provided by `@quasar/app`, you must update the dependen
 ```js
 // default src/boot/i18n.js content:
 
+import { boot } from 'quasar/wrappers'
 import { createI18n } from 'vue-i18n'
 import messages from 'src/i18n'
-// you'll need to create the src/i18n/index.js file too
 
-const i18n = createI18n({
-  locale: 'en-US',
-  messages
-})
+export default boot(({ app }) => {
+  const i18n = createI18n({
+    locale: 'en-US',
+    messages
+  })
 
-export default ({ app }) => {
   // Set i18n instance on app
   app.use(i18n)
-}
-
-export { i18n }
+})
 ```
 
 If you use TypeScript, remove the existing augmentation of 'vue/types/vue' as it has been integrated into the upstream package.
