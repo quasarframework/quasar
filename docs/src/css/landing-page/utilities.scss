@@ -11,6 +11,7 @@ $additional-colors: (
 'lp-warning' $lp-warning,
 'lp-dark' $lp-dark,
 'lp-light' $lp-light,
+'lp-grey' $lp-grey,
 );
 
 @each $color-name, $color in $additional-colors {
@@ -68,10 +69,49 @@ $text-size-list: 10, 12, 16, 18, 20, 24, 28, 32, 36;
   }
 }
 
-.shadow-bottom-small {
-  box-shadow: 0 6px 6px 0 rgba($lp-primary, 0.28);
+.shadow-bottom {
+  &-small {
+    box-shadow: 0 6px 6px 0 rgba($lp-primary, 0.28);
+  }
+
+  &-large {
+    box-shadow: 0 8px 12px 0 rgba($lp-primary, 0.4);
+  }
 }
 
-.shadow-bottom-large {
-  box-shadow: 0 8px 10px 0 rgba($lp-primary, 0.28);
+.lp-heading {
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+
+  &-large {
+    font-size: 36px;
+    color: $lp-primary;
+    font-weight: 700;
+    margin: 20px 0 20px 0;
+  }
+
+  &-medium {
+    font-size: 24px;
+    color: $lp-primary;
+    font-weight: bold;
+  }
+
+  &-small {
+    font-size: 20px;
+    color: $lp-light;
+    font-weight: 400;
+    text-transform: initial;
+  }
+
+  &-quote {
+    font-size: 16px;
+    color: $lp-primary;
+    font-weight: 400;
+    text-transform: initial;
+  }
+}
+
+.lg-mb-large, .lg-mt-large {
+  margin-bottom: 100px;
 }
