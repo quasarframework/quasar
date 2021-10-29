@@ -288,8 +288,6 @@ export default defineComponent({
         defaultDateModel.value
       )
 
-      console.log({ ...model })
-
       if (
         model.dateHash !== innerModel.value.dateHash
         || model.timeHash !== innerModel.value.timeHash
