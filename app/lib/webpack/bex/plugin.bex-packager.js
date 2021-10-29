@@ -3,6 +3,11 @@ const fse = require('fs')
 const archiver = require('archiver')
 const mkdirp = require('mkdirp')
 
+function findAndReplaceInSection (sectionArray, find, replace) {
+  const index = sectionArray.indexOf(find)
+  sectionArray[index] = replace
+}
+
 class BexPackager {
   constructor (options) {
     this.options = options
@@ -29,11 +34,6 @@ class BexPackager {
     if (fse.existsSync(manifestFilePath)) {
       const manifestFileData = fse.readFileSync(manifestFilePath)
       let manifestData = JSON.parse(manifestFileData.toString())
-
-      const findAndReplaceInSection = (sectionArray, find, replace) => {
-        const index = sectionArray.indexOf(find)
-        sectionArray[index] = replace
-      }
 
       findAndReplaceInSection(manifestData.background.scripts, 'www/bex-background.js', 'www/js/bex-background.js')
       findAndReplaceInSection(manifestData.content_scripts[0].js, 'www/bex-content-script.js', 'www/js/bex-content-script.js')

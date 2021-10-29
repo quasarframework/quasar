@@ -1,7 +1,7 @@
 <template lang="pug">
 q-card(flat bordered)
   q-card-section.q-gutter-xs.q-pa-sm
-    q-toggle(v-model="css.roboto" label="Roboto font")
+    q-toggle(v-model="css['roboto-font']" label="Roboto font")
     q-toggle(v-model="css['roboto-font-latin-ext']" label="Roboto font extended")
     q-toggle(v-model="css.animate" label="Animations from Animate.css")
 
@@ -88,7 +88,7 @@ import { ref, reactive, computed, watch } from 'vue'
 import languages from 'quasar/lang/index.json'
 
 const extrasOptions = [
-  'roboto',
+  'roboto-font',
   'roboto-font-latin-ext',
   'material-icons',
   'material-icons-outlined',
@@ -111,7 +111,7 @@ export default {
     const { version } = useQuasar()
 
     const css = reactive({
-      roboto: false,
+      'roboto-font': false,
       'roboto-font-latin-ext': false,
 
       'material-icons': true,
@@ -131,7 +131,7 @@ export default {
       animate: false
     })
 
-    watch(() => css.roboto, val => {
+    watch(() => css[ 'roboto-font' ], val => {
       if (val === true) {
         css[ 'roboto-font-latin-ext' ] = false
       }
@@ -139,7 +139,7 @@ export default {
 
     watch(() => css[ 'roboto-font-latin-ext' ], val => {
       if (val === true) {
-        css.roboto = false
+        css[ 'roboto-font' ] = false
       }
     })
 

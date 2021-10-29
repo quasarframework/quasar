@@ -12,6 +12,7 @@ const compRegex = {
 }
 
 const dirRegex = new RegExp(`_resolveDirective\\("${autoImportData.regex.directives.replace(/v-/g, '')}"\\)`, 'g')
+const lengthSortFn = (a, b) => b.length - a.length
 
 export function vueTransform (content, autoImportComponentCase) {
   const importList = []
@@ -74,14 +75,14 @@ export function vueTransform (content, autoImportComponentCase) {
   }
 
   if (compList.length > 0) {
-    const list = compList.join('|')
+    const list = compList.sort(lengthSortFn).join('|')
     code = code
       .replace(new RegExp(`const _component_(${list}) = `, 'g'), '')
       .replace(new RegExp(`_component_(${list})`, 'g'), (_, match) => reverseMap[match])
   }
 
   if (dirList.length > 0) {
-    const list = dirList.join('|')
+    const list = dirList.sort(lengthSortFn).join('|')
     code = code
       .replace(new RegExp(`const _directive_(${list}) = `, 'g'), '')
       .replace(new RegExp(`_directive_(${list})`, 'g'), (_, match) => reverseMap[match])
