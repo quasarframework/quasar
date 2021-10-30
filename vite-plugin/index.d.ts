@@ -32,10 +32,24 @@ export interface QuasarPluginOpts {
 
 export function quasar(opts?: QuasarPluginOpts): Plugin;
 
-export interface TransformAssetUrls {
-  base: unknown;
-  includeAbsolute: boolean;
-  tags: Record<string, string | string[]>;
+// `TransformAssetUrls` copy of https://github.com/vuejs/vue-next/blob/2c221fcd497d1541e667892ed908631df7e4a745/packages/compiler-sfc/src/compileTemplate.ts#L67
+export interface AssetURLTagConfig {
+  [name: string]: string[];
 }
 
-export const transformAssetUrls: TransformAssetUrls;
+export interface AssetURLOptions {
+  /**
+   * If base is provided, instead of transforming relative asset urls into
+   * imports, they will be directly rewritten to absolute urls.
+   */
+  base?: string | null;
+  /**
+   * If true, also processes absolute urls.
+   */
+  includeAbsolute?: boolean;
+  tags?: AssetURLTagConfig;
+}
+
+export type TransformAssetUrls = AssetURLOptions | AssetURLTagConfig | boolean;
+
+export const transformAssetUrls: AssetURLOptions;
