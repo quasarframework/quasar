@@ -6,8 +6,9 @@
 // line.
 
 export function useElectronHandler () {
-  // add handlers here for your exposed API from electron-preload.js
-  // 'event' is always the first parameter folowed by any from your API
+  // add handlers here for your exposed API from electron-preload.
+  // 'event' is always the first parameter followed by any passed
+  // params from your API
 
   // Example:
   // ipcMain.handle('myAPI:doAThing', (event, parm1) => {
