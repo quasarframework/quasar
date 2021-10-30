@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs')
+const fse = require('fs-extra')
 const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
 const debounce = require('lodash.debounce')
@@ -815,6 +816,27 @@ class QuasarConfFile {
     else if (this.ctx.mode.electron && this.ctx.prod) {
       const bundler = require('./electron/bundler')
 
+      // This block of code needs to happen before the code below it is executed
+      // The code is run to prevent breaking changes, so we satify the needs of the User
+      // This block can safely be removed on the next App major release
+
+      // check if 'icon.png' exists
+      const iconPath = path.resolve(appPaths.resolve.electron(''), 'icons', 'icon.png')
+      const iconExists = fse.pathExistsSync(iconPath)
+      if (!iconExists) {
+        // check if 'linux-512x512.png' exists
+        const linuxIconPath = path.resolve(appPaths.resolve.electron(''), 'icons', 'linux-512x512.png')
+        const linuxIconExists = fse.pathExistsSync(linuxIconPath)
+        if (linuxIconExists) {
+          // copy 'linux-512x512.png' to 'icon.png'
+          fse.copySync(
+            linuxIconPath,
+            iconPath,
+            { overwrite: false }
+          )
+        }
+      }
+
       cfg.electron = merge({
         packager: {
           asar: true,
@@ -823,7 +845,7 @@ class QuasarConfFile {
         },
         builder: {
           appId: 'quasar-app',
-          icon: appPaths.resolve.electron('icons/icon'),
+          icon: process.platform === 'linux' ? appPaths.resolve.electron('icons/icon.png') : appPaths.resolve.electron('icons/icon'),
           productName: this.pkg.productName || this.pkg.name || 'Quasar App',
           directories: {
             buildResources: appPaths.resolve.electron('')
