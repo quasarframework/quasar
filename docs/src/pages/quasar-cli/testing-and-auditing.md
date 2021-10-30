@@ -21,7 +21,7 @@ Testing has its own documentation website (https://testing.quasar.dev), so head 
 
 ```shell
 $ cd your-quasar-project
-$ quasar ext add @quasar/testing
+$ quasar ext add @quasar/testing@1
 ```
 
 The lightweight extension installer will ask you which testing harnesses you want to install. Then it will install the respective extensions for these harnesses, which you can configure as you like. It is how multiple testing harnesses are ideally managed within a Quasar project.
