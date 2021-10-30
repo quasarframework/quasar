@@ -11,11 +11,13 @@ app.asar
 └─ dist
    └─ electron-*
       ├─ js/...
+      ├─ icons/
       ├─ node_modules/
       ├─ index.html
       ├─ package.json
       ├─ electron-main.js
       ├─ electron-preload.js
+      ├─ electron-handler.js
       └─ ...contents of /public
 ```
 
@@ -25,7 +27,7 @@ One great benefit of using Electron is the ability to access the user's file sys
 We can use the userData directory, which is reserved specifically for our application, so we can have confidence other programs or other user interactions should not tamper with this file space.
 
 ```js
-// electron-main or electron-preload
+// electron-main, electron-preload or electron-handler
 
 import path from 'path'
 import { app } from '@electron/remote'
@@ -33,10 +35,12 @@ import { app } from '@electron/remote'
 const filePath = path.join(app.getPath('userData'), '/some.file')
 ```
 
+## Accessing the Pubic Folder
+
 If for some reason, you have important files that you are storing in the /public folder, you can access those too by following the code below. To understand why you need to access them this way, please read the "Using __dirname & __filename" section above.
 
 ```js
-// electron-main or electron-preload
+// electron-main, electron-preload or electron-handler
 
 import path from 'path'
 

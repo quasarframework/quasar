@@ -26,5 +26,6 @@ src-electron/
   icons/
     icon.ico
     icon.icns
-    linux-512x512.png
+    icon.png
+    linux-512x512.png (deprecated)
 ```
