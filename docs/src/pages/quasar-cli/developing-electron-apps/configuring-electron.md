@@ -64,6 +64,10 @@ electron: {
     // example:
     // chain.plugin('eslint-webpack-plugin')
     //   .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
+
+    // or, if you need node polyfills
+    // const nodePolyfillWebpackPlugin = require('node-polyfill-webpack-plugin')
+    // chain.plugin('node-polyfill').use(nodePolyfillWebpackPlugin)
   },
 
   // optional; webpack config Object for
@@ -91,4 +95,4 @@ The "packager" prop refers to [electron-packager options](https://github.com/ele
 The "builder" prop refers to [electron-builder options](https://www.electron.build/configuration/configuration).
 
 ## Packager vs. Builder
-You have to choose to use either packager or builder. They are both excellent open-source projects, however they serve slightly different needs. With packager you will be able to build unsigned projects for all major platforms from one machine. Although this is great, if you just want something quick and dirty, there is more platform granularity (and general polish) in builder. Cross-compiling your binaries from one computer doesn't really work with builder (or we haven't found the recipe yet...)
+You have to choose to use either packager or builder. They are both excellent open-source projects, however they serve slightly different needs. With packager you will be able to build unsigned projects for all major platforms from one machine (with restrictions). Although this is great, if you just want something quick and dirty, there is more platform granularity (and general polish) in builder. Cross-compiling your binaries from one computer doesn't really work with builder (or we haven't found the recipe yet...)
