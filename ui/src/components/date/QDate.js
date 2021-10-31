@@ -796,13 +796,13 @@ export default defineComponent({
         ? props.modelValue
         : (props.modelValue ? [ props.modelValue ] : [])
 
-      const modelLength = model.length
-      if (modelLength === 0) {
+      if (model.length === 0) {
         return getDefaultViewModel()
       }
 
+      const target = model[ model.length - 1 ]
       const decoded = decodeString(
-        model[ modelLength - 1 ].from !== void 0 ? model[ modelLength - 1 ].from : model[ modelLength - 1 ],
+        target.from !== void 0 ? target.from : target,
         mask,
         locale
       )
