@@ -23,6 +23,10 @@ module.exports = (on, config) => {
   addMatchImageSnapshotPlugin(on, config)
   on('dev-server:start', async (options) => {
     const webpackConfig = await generateWebpackConfig()
+
+    // Added this to be able to define { template: `` } components in cypress tests
+    webpackConfig.renderer.resolve.alias.vue$ = 'vue/dist/vue.esm-bundler.js'
+
     return startDevServer({
       options,
       webpackConfig: webpackConfig.renderer
