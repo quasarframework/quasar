@@ -800,8 +800,9 @@ export default defineComponent({
         return getDefaultViewModel()
       }
 
+      const target = model[ model.length - 1 ]
       const decoded = decodeString(
-        model[ 0 ].from !== void 0 ? model[ 0 ].from : model[ 0 ],
+        target.from !== void 0 ? target.from : target,
         mask,
         locale
       )
