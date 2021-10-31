@@ -8,9 +8,8 @@ components:
 If you want to embed Quasar into your existing [Vite](https://vitejs.dev) project then follow this guide to install and use the `@quasar/vite-plugin`.
 What our Vite plugin offers out of the box is tree-shaking for Quasar and also Quasar Sass variables integration.
 
-::: warning Warning! Current limitations:
-* SSR builds with Quasar Vite plugin are not yet supported.
-* Usage with RTL Quasar language packs is not yet supported.
+::: warning Warning! Current limitation:
+SSR builds with Quasar Vite plugin are not yet supported.
 :::
 
 > Cross-platform support with Vite is handled by community plugins. These are not tightly integrated with Quasar as with Quasar CLI and may have issues. This is why for the best developer experience we recommend to use Quasar CLI instead. Also, there are plans to release a **Quasar CLI with Vite** under the hood instead of Webpack.
@@ -43,11 +42,10 @@ Navigate to your Vite project folder and install the necessary packages.
 :::
 
 ``` bash
-# yarn
 $ yarn add quasar @quasar/extras
 $ yarn add -D @quasar/vite-plugin sass@1.32.0
 
-# npm
+# or
 $ npm install quasar @quasar/extras
 $ npm install -D @quasar/vite-plugin sass@1.32.0
 
@@ -61,6 +59,10 @@ $ pnpm add quasar -D @quasar/vite-plugin sass@1.32.0
 We have built a configurator to help you get started as quick as possible:
 
 <vite-plugin-usage />
+
+## RTL support
+
+For enabling, please check out our [RTL Support](/options/rtl-support) page and follow the instructions.
 
 ## Warning when building for production
 

@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 
 // We link directly to our plugin's source files;
 // In production, it should be import { ... } from '@quasar/vite-plugin'
-import { quasar, transformAssetUrls } from '../index'
+import { quasar, transformAssetUrls } from '../src'
 
 export default defineConfig(({ command, mode }) => {
   return {

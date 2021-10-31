@@ -10,6 +10,7 @@ RTL is referring to "right to left" UI for languages that need it.
 
 ## Enabling RTL support
 
+### Quasar CLI
 To enable it, you need to edit `/quasar.conf.js`:
 
 ```js
@@ -18,8 +19,30 @@ build: {
 }
 ```
 
+### Quasar Vite Plugin / Vue CLI Plugin
+
+You first need to install `postcss-rtlcss` package:
+
+``` bash
+$ yarn add -D postcss-rtlcss
+# or
+$ npm install -D postcss-rtlcss
+# or
+$ pnpm add quasar -D postcss-rtlcss
+```
+
+Then create `/postcss.config.js` file if you don't have it already, and add this to it:
+
+``` js
+module.exports = {
+  plugins: [
+    require('postcss-rtlcss', {}) // <<<< in "plugins"
+  ]
+}
+```
+
 ## How it works
-RTL is tightly coupled to [Quasar Language Packs](/options/quasar-language-packs). **When Quasar is set to use an RTL language** (language pack has "rtl" prop set to "true") and **RTL support is enabled** (check step above for quasar.conf.js), then the UI will dynamically transform Quasar & your website/app code for RTL.
+RTL is tightly coupled to [Quasar Language Packs](/options/quasar-language-packs). **When Quasar is set to use an RTL language** (language pack has "rtl" prop set to "true") and **RTL support is enabled** (check the "Enabling RTL support" section above), then the UI will dynamically transform Quasar & your website/app code for RTL.
 
 Let's discuss about each of these requirements:
 
@@ -27,10 +50,12 @@ Let's discuss about each of these requirements:
   See [Quasar Language Packs](/options/quasar-language-packs) on how you can set a language. You can set a language as default or dynamically set one.
 
 2. *RTL support needs to be enabled*.
-  You need to set "rtl" to "true" under quasar.conf.js > "build". What this does is it compiles CSS for both your website/app code and for Quasar components and add corresponding RTL CSS rules automatically. Your CSS bundle will slightly increase in size due to the addition of these CSS rules.
+  Please double-check the "Enabling RTL support" section above. What this does is it compiles CSS for both your website/app code and for Quasar components and add corresponding RTL CSS rules automatically. Your CSS bundle will slightly increase in size due to the addition of these CSS rules.
 
 3. Optional: *Treat devland source CSS as RTL*.
-  By default, Quasar assumes that all styles are written in LTR direction and generates corresponding RTL styles for them. Should you wish to write your own css directly in RTL then you need to set quasar.conf.js > "build" > rtl > "source" to `rtl`.
+  By default, Quasar assumes that all styles are written in LTR direction and generates corresponding RTL styles for them. Should you wish to write your own css directly in RTL then you need to:
+    * (Quasar CLI) set quasar.conf.js > "build" > rtl > "source" to `rtl`
+    * (Quasar Vite plugin / Vue CLI plugin) set `require('postcss-rtlcss', { source: 'rtl' })` in /postcss.config.js
 
 ## Configuration
 
@@ -40,7 +65,7 @@ Quasar CLI makes use of [postcss-rtlcss](https://github.com/elchininet/postcss-r
 
 * Both RTL and non-RTL Quasar language packs will work together and dynamically switch to/from RTL. So only choosing an RTL Quasar language pack will trigger the RTL UI for you. You don't need separate builds of your app (one for non-RTL and one for RTL-only). The RTL is dynamically changed for you automatically.
 * You can dynamically detect if you are on RTL mode by taking a look at Boolean `$q.lang.rtl`. More info on [The $q object](/options/the-q-object).
-* You need to be careful when writing your own CSS. Like mentioned above, Quasar will automatically add RTL (LTR if quasar.conf.js > build > rtl > source is set to 'ltr') rules based on your CSS code. So writing:
+* You need to be careful when writing your own CSS. Like mentioned above, if RTL support is enabled then RTL (LTR if postcss-rtl config has "source" set to "ltr") rules will be automatically added based on your CSS code. So writing:
 
   ```css
   .my-class {

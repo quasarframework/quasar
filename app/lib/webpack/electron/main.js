@@ -25,6 +25,12 @@ module.exports = function (cfg, configName) {
       noErrorOnMissing: true
     }))
 
+    patterns.push({
+      from: appPaths.resolve.electron('icons'),
+      to: './icons',
+      noErrorOnMissing: true
+    })
+
     const CopyWebpackPlugin = require('copy-webpack-plugin')
     chain.plugin('copy-webpack')
       .use(CopyWebpackPlugin, [{ patterns }])
