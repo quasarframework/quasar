@@ -1,5 +1,6 @@
-import { h, defineComponent } from 'vue'
+import { h } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import useCheckbox, { useCheckboxProps, useCheckboxEmits } from './use-checkbox.js'
 
 const bgNode = h('div', {
@@ -23,7 +24,7 @@ const bgNode = h('div', {
   ])
 ])
 
-export default defineComponent({
+export default createComponent({
   name: 'QCheckbox',
 
   props: useCheckboxProps,

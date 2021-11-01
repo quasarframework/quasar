@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
 import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
@@ -10,6 +10,7 @@ import useSlider, {
   keyCodes
 } from '../slider/use-slider.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 import { hDir } from '../../utils/private/render.js'
@@ -20,7 +21,7 @@ const dragType = {
   MAX: 2
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QRange',
 
   props: {

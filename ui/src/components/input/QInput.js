@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, onMounted, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, onMounted, nextTick, getCurrentInstance } from 'vue'
 
 import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
 import useMask, { useMaskProps } from './use-mask.js'
@@ -6,10 +6,11 @@ import { useFormProps, useFormInputNameAttr } from '../../composables/private/us
 import useFileFormDomProps from '../../composables/private/use-file-dom-props.js'
 import useKeyComposition from '../../composables/private/use-key-composition.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stop } from '../../utils/event.js'
 import { addFocusFn } from '../../utils/private/focus-manager.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QInput',
 
   inheritAttrs: false,

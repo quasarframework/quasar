@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
 
 import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
 import useScrollTarget from '../../composables/private/use-scroll-target.js'
@@ -8,6 +8,7 @@ import useTransition, { useTransitionProps } from '../../composables/private/use
 import useTick from '../../composables/private/use-tick.js'
 import useTimeout from '../../composables/private/use-timeout.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { stopAndPrevent, addEvt, cleanEvt } from '../../utils/event.js'
 import { clearSelection } from '../../utils/private/selection.js'
@@ -17,7 +18,7 @@ import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/private/position-engine.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QTooltip',
 
   inheritAttrs: false,

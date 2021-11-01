@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onMounted, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onMounted, nextTick, getCurrentInstance } from 'vue'
 
 import Caret from './editor-caret.js'
 import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
@@ -7,12 +7,13 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 import useSplitAttrs from '../../composables/private/use-split-attrs.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'
 import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 import { addFocusFn } from '../../utils/private/focus-manager.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QEditor',
 
   props: {

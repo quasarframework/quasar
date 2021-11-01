@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, nextTick, Transition, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, nextTick, Transition, getCurrentInstance } from 'vue'
 
 import useHistory from '../../composables/private/use-history.js'
 import useTimeout from '../../composables/private/use-timeout.js'
@@ -8,6 +8,7 @@ import { useTransitionProps } from '../../composables/private/use-transition.js'
 import usePortal from '../../composables/private/use-portal.js'
 import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { childHasFocus } from '../../utils/dom.js'
 import { hSlot } from '../../utils/private/render.js'
 import { addEscapeKey, removeEscapeKey } from '../../utils/private/escape-key.js'
@@ -32,7 +33,7 @@ const transitions = {
   left: [ 'slide-right', 'slide-left' ]
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QDialog',
 
   inheritAttrs: false,

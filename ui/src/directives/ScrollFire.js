@@ -1,3 +1,4 @@
+import { createDirective } from '../utils/private/create.js'
 import debounce from '../utils/debounce.js'
 import { height, offset } from '../utils/dom.js'
 import { getScrollTarget } from '../utils/scroll.js'
@@ -19,7 +20,7 @@ function update (ctx, { value, oldValue }) {
   }
 }
 
-export default __QUASAR_SSR_SERVER__
+export default createDirective(__QUASAR_SSR_SERVER__
   ? { name: 'scroll-fire', getSSRProps }
   : {
       name: 'scroll-fire',
@@ -63,3 +64,4 @@ export default __QUASAR_SSR_SERVER__
         delete el.__qscrollfire
       }
     }
+)

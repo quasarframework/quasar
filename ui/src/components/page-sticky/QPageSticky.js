@@ -1,8 +1,7 @@
-import { defineComponent } from 'vue'
-
+import { createComponent } from '../../utils/private/create.js'
 import usePageSticky, { usePageStickyProps } from './use-page-sticky'
 
-export default defineComponent({
+export default createComponent({
   name: 'QPageSticky',
 
   props: usePageStickyProps,

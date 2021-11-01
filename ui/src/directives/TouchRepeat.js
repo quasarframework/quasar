@@ -1,4 +1,6 @@
 import { client } from '../plugins/Platform.js'
+
+import { createDirective } from '../utils/private/create.js'
 import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/private/selection.js'
 import { isKeyCode } from '../utils/private/key-composition.js'
@@ -25,7 +27,7 @@ function shouldEnd (evt, origin) {
     || Math.abs(top - origin.top) >= 7
 }
 
-export default __QUASAR_SSR_SERVER__
+export default createDirective(__QUASAR_SSR_SERVER__
   ? { name: 'touch-repeat', getSSRProps }
   : {
       name: 'touch-repeat',
@@ -239,3 +241,4 @@ export default __QUASAR_SSR_SERVER__
         }
       }
     }
+)

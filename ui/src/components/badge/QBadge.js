@@ -1,10 +1,11 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, computed } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 
 const alignValues = [ 'top', 'middle', 'bottom' ]
 
-export default defineComponent({
+export default createComponent({
   name: 'QBadge',
 
   props: {

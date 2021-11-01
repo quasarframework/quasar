@@ -1,3 +1,4 @@
+import { createDirective } from '../utils/private/create.js'
 import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
 
 const defaultCfg = {
@@ -34,7 +35,7 @@ function destroy (el) {
   }
 }
 
-export default __QUASAR_SSR_SERVER__
+export default createDirective(__QUASAR_SSR_SERVER__
   ? { name: 'mutation', getSSRProps }
   : {
       name: 'mutation',
@@ -61,3 +62,4 @@ export default __QUASAR_SSR_SERVER__
 
       beforeUnmount: destroy
     }
+)

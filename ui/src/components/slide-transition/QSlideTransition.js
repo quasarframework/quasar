@@ -1,6 +1,8 @@
-import { h, defineComponent, onBeforeUnmount, Transition } from 'vue'
+import { h, onBeforeUnmount, Transition } from 'vue'
 
-export default defineComponent({
+import { createComponent } from '../../utils/private/create.js'
+
+export default createComponent({
   name: 'QSlideTransition',
 
   props: {

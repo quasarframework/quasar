@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
 import QTh from './QTh.js'
 
@@ -23,12 +23,14 @@ import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEm
 import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
 import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
 
+import { createComponent } from '../../utils/private/create.js'
+
 const bottomClass = 'q-table__bottom row items-center'
 
 const commonVirtPropsObj = {}
 commonVirtPropsList.forEach(p => { commonVirtPropsObj[ p ] = {} })
 
-export default defineComponent({
+export default createComponent({
   name: 'QTable',
 
   props: {

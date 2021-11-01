@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUpdate, onUpdated, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onBeforeUpdate, onUpdated, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import QField from '../field/QField.js'
 import QIcon from '../icon/QIcon.js'
@@ -16,6 +16,7 @@ import { useVirtualScroll, useVirtualScrollProps } from '../virtual-scroll/use-v
 import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
 import useKeyComposition from '../../composables/private/use-key-composition.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { isDeepEqual } from '../../utils/private/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
@@ -26,7 +27,7 @@ const validateNewValueMode = v => [ 'add', 'add-unique', 'toggle' ].includes(v)
 const reEscapeList = '.*+?^${}()|[]\\'
 const fieldPropsList = Object.keys(useFieldProps)
 
-export default defineComponent({
+export default createComponent({
   name: 'QSelect',
 
   inheritAttrs: false,

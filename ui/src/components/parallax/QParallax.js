@@ -1,5 +1,6 @@
-import { h, defineComponent, ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import { h, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
@@ -8,7 +9,7 @@ import { listenOpts } from '../../utils/event.js'
 
 const { passive } = listenOpts
 
-export default defineComponent({
+export default createComponent({
   name: 'QParallax',
 
   props: {

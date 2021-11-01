@@ -1,8 +1,8 @@
-import { defineComponent } from 'vue'
-
 import useField, { useFieldState, useFieldProps, useFieldEmits } from '../../composables/private/use-field.js'
 
-export default defineComponent({
+import { createComponent } from '../../utils/private/create.js'
+
+export default createComponent({
   name: 'QField',
 
   inheritAttrs: false,

@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, nextTick, getCurrentInstance } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
@@ -14,6 +14,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useCache from '../../composables/private/use-cache.js'
 import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
 import { stop } from '../../utils/event.js'
@@ -35,7 +36,7 @@ const palette = [
 
 const thumbPath = 'M5 5 h10 v10 h-10 v-10 z'
 
-export default defineComponent({
+export default createComponent({
   name: 'QColor',
 
   props: {

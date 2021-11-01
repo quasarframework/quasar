@@ -1,12 +1,13 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, computed } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hMergeSlotSafely } from '../../utils/private/render.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QAvatar',
 
   props: {

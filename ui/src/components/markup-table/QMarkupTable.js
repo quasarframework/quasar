@@ -1,12 +1,13 @@
-import { h, defineComponent, computed, getCurrentInstance } from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 
 const separatorValues = [ 'horizontal', 'vertical', 'cell', 'none' ]
 
-export default defineComponent({
+export default createComponent({
   name: 'QMarkupTable',
 
   props: {

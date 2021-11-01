@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, Transition, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, Transition, nextTick, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 
@@ -7,6 +7,7 @@ import useCache from '../../composables/private/use-cache.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from './use-datetime.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate, getDateDiff } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
@@ -22,7 +23,7 @@ function getMonthHash (date) {
   return date.year + '/' + pad(date.month)
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QDate',
 
   props: {

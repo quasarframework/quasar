@@ -1,9 +1,10 @@
-import { h, defineComponent, computed, provide, inject, getCurrentInstance } from 'vue'
+import { h, computed, provide, inject, getCurrentInstance } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 import { pageContainerKey, layoutKey } from '../../utils/private/symbols.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QPageContainer',
 
   setup (_, { slots }) {

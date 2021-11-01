@@ -1,5 +1,5 @@
 import {
-  h, defineComponent, ref, computed, watch,
+  h, ref, computed, watch,
   withDirectives, vShow, nextTick, getCurrentInstance, onBeforeUpdate
 } from 'vue'
 
@@ -10,10 +10,11 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QTree',
 
   props: {

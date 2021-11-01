@@ -1,6 +1,8 @@
-import { h, defineComponent, computed, getCurrentInstance } from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
+
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot, hMergeSlot } from '../../utils/private/render.js'
 
 const sameFn = i => i
@@ -33,7 +35,7 @@ const svgUseRE = /^svguse:/
 const ionRE = /^ion-/
 const faLaRE = /^[l|f]a[s|r|l|b|d]? /
 
-export default defineComponent({
+export default createComponent({
   name: 'QIcon',
 
   props: {

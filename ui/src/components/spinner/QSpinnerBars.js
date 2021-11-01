@@ -1,6 +1,8 @@
-import { h, defineComponent } from 'vue'
+import { h } from 'vue'
 
 import useSpinner, { useSpinnerProps } from './use-spinner.js'
+
+import { createComponent } from '../../utils/private/create.js'
 
 const svg = [
   h('rect', {
@@ -123,7 +125,7 @@ const svg = [
   ])
 ]
 
-export default defineComponent({
+export default createComponent({
   name: 'QSpinnerBars',
 
   props: useSpinnerProps,

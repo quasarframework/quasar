@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, Transition, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, Transition, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
 import useScrollTarget from '../../composables/private/use-scroll-target.js'
@@ -9,6 +9,7 @@ import useTransition, { useTransitionProps } from '../../composables/private/use
 import useTick from '../../composables/private/use-tick.js'
 import useTimeout from '../../composables/private/use-timeout.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { closePortalMenus } from '../../utils/private/portal.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
@@ -17,13 +18,13 @@ import { addEscapeKey, removeEscapeKey } from '../../utils/private/escape-key.js
 import { addFocusout, removeFocusout } from '../../utils/private/focusout.js'
 import { childHasFocus } from '../../utils/dom.js'
 import { addClickOutside, removeClickOutside } from '../../utils/private/click-outside.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
 
 import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/private/position-engine.js'
-import { addFocusFn } from '../../utils/private/focus-manager.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QMenu',
 
   inheritAttrs: false,

@@ -1,12 +1,14 @@
-import { h, defineComponent, ref, computed, watch, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
 import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
 
 import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
+
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QPopupProxy',
 
   props: {

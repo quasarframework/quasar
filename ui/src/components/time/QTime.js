@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, withDirectives, Transition, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, withDirectives, Transition, nextTick, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
@@ -7,6 +7,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from '../date/use-datetime.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
@@ -36,7 +37,7 @@ function getCurrentTime () {
   }
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QTime',
 
   props: {

@@ -1,11 +1,12 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, computed } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QBreadcrumbsEl',
 
   props: {

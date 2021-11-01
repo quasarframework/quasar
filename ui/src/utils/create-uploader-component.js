@@ -1,8 +1,8 @@
-import { defineComponent } from 'vue'
-
 import { coreProps, coreEmits, getRenderer } from '../components/uploader/uploader-core.js'
 
-export default ({ name, props, emits, injectPlugin }) => defineComponent({
+import { createComponent } from './private/create.js'
+
+export default ({ name, props, emits, injectPlugin }) => createComponent({
   name,
 
   props: {
