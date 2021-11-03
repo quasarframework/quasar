@@ -17,6 +17,18 @@
       "type": [ "String", "Function" ],
       "desc": "Property of each row that defines the unique key of each row (the result must be a primitive, not Object, Array, etc); The value of property must be string or a function taking a row and returning the desired (nested) key in the row; If supplying a function then for best performance, reference it from your scope and do not define it inline",
       "default": "id",
+      "params": {
+        "row": {
+          "type": "Object",
+          "desc": "The current row being processed",
+          "examples": [ "{ name: 'Lorem Ipsum', price: 19 }" ]
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Current row's key",
+        "examples": [ "'34f39dda-6206-4071-a9df-4393aabe49ac'", "34" ]
+      },
       "examples": [ "row-key=\"name\"", ":row-key=\"row => row.name\"" ],
       "category": "general"
     },
@@ -146,7 +158,19 @@
           "type": [ "String", "Function" ],
           "desc": "Row Object property to determine value for this column or function which maps to the required property",
           "required": true,
-          "examples": [ "name", "row => row.some.nested.prop" ]
+          "params": {
+            "row": {
+              "type": "Object",
+              "desc": "The current row being processed",
+              "examples": [ "{ name: 'Lorem Ipsum', prices: { active: 19, old: 25, list: 29 } }" ]
+            }
+          },
+          "returns": {
+            "type": "Any",
+            "desc": "Value for this column",
+            "examples": [ "19" ]
+          },
+          "examples": [ "name", "row => row.prices.active" ]
         },
         "required": {
           "type": "Boolean",
@@ -228,17 +252,39 @@
         "style": {
           "type": [ "String", "Function" ],
           "desc": "Style to apply on normal cells of the column",
+          "params": {
+            "row": {
+              "type": "Object",
+              "desc": "The current row being processed",
+              "examples": [ "{ name: 'Frozen Yogurt', calories: 159 }" ]
+            }
+          },
+          "returns": {
+            "type": "String",
+            "__exemption": [ "examples" ]
+          },
           "examples": [
-            "width: 500px",
-            "row => (row.calories % 2 === 0 ? 'width:10px' : 'font-size:2em')"
+            "'width: 500px'",
+            "row => (row.calories % 2 === 0 ? 'width: 10px' : 'font-size: 2em; font-weight: bold')"
           ]
         },
         "classes": {
           "type": [ "String", "Function" ],
           "desc": "Classes to add on normal cells of the column",
+          "params": {
+            "row": {
+              "type": "Object",
+              "desc": "The current row being processed",
+              "examples": [ "{ name: 'Frozen Yogurt', calories: 159 }" ]
+            }
+          },
+          "returns": {
+            "type": "String",
+            "__exemption": [ "examples" ]
+          },
           "examples": [
-            "my-special-class",
-            "row => (row.calories % 2 === 0 ? 'bg-green' : 'bg-yellow')"
+            "'my-special-class bg-primary'",
+            "row => (row.calories % 2 === 0 ? 'bg-green text-white' : 'bg-yellow')"
           ]
         },
         "headerStyle": {
