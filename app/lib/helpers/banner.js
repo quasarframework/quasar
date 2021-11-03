@@ -3,7 +3,7 @@ const { green, grey, underline } = require('chalk')
 const { getBrowsersBanner } = require('./browsers-support')
 const getPackageJson = require('./get-package-json')
 const quasarVersion = getPackageJson('quasar').version
-const cliAppVersion = getPackageJson('@quasar/app').version
+const cliAppVersion = require('../../package.json').version
 
 function getPackager (argv, cmd) {
   if (argv.ide || (argv.mode === 'capacitor' && cmd === 'dev')) {
