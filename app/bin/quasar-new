@@ -152,17 +152,29 @@ function createFile (asset, file) {
   )
 }
 
-const ext = isTypeScript ? '.ts' : '.js'
+const paths = {
+  router: 'src/router/routes',
+  store: 'src/store/index'
+};
+const references = (which) => {
+  try {
+    fs.accessSync(`${paths[which]}.ts`);
+    return `${paths[which]}.ts`;
+  } catch (err) {
+    return `${paths[which]}.js`;
+  }
+};
+
 const mapping = {
   page: {
     folder: 'src/pages',
     ext: '.vue',
-    reference: `src/router/routes${ext}`
+    reference: references('router')
   },
   layout: {
     folder: 'src/layouts',
     ext: '.vue',
-    reference: `src/router/routes${ext}`
+    reference: references('router')
   },
   component: {
     folder: 'src/components',
@@ -171,7 +183,7 @@ const mapping = {
   store: {
     folder: 'src/store',
     install: true,
-    reference: `src/store/index${ext}`
+    reference: references('store')
   },
   boot: {
     folder: 'src/boot',
