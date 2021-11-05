@@ -35,10 +35,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
   setup () {
     return {
-      customize: [
+      customize: ref([
         {
           label: 'Satisfied customers',
           header: 'root',
@@ -82,7 +84,7 @@ export default {
             }
           ]
         }
-      ]
+      ])
     }
   }
 }
