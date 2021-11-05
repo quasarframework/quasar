@@ -23,7 +23,8 @@ If you are using Yarn, make sure that the Yarn [global install location](https:/
 ```bash
 # in ~/.bashrc or equivalent
 export PATH="$(yarn global bin):$PATH"
-# for fish:
+
+# for fish-shell:
 set -U fish_user_paths (yarn global bin) $fish_user_paths
 ```
 
