@@ -90,12 +90,12 @@
     "postcss": "^8.2.10",
     "postcss-loader": "6.2.0",
     "postcss-rtlcss": "3.4.1",
-    "pretty-error": "3.0.4",
+    "pretty-error": "4.0.0",
     "register-service-worker": "1.7.2",
     "sass": "1.32.12",
     "sass-loader": "12.3.0",
     "semver": "7.3.5",
-    "table": "6.7.2",
+    "table": "6.7.3",
     "terser-webpack-plugin": "5.2.4",
     "ts-loader": "9.2.5",
     "typescript": "4.4.2",
@@ -112,7 +112,7 @@
     "webpack-node-externals": "3.0.0"
   },
   "devDependencies": {
-    "electron-builder": "22.4.0",
+    "electron-builder": "22.13.1",
     "electron-packager": "^15.3.0",
     "quasar": "^2.0.4",
     "vuex": "^4.0.0"
