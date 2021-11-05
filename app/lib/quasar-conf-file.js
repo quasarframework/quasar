@@ -26,6 +26,10 @@ function encode (obj) {
   })
 }
 
+function clone (obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
+
 function formatPublicPath (path) {
   if (!path) {
     return ''
@@ -389,17 +393,7 @@ class QuasarConfFile {
     cfg.build = merge({
       vueLoaderOptions: {
         compilerOptions: {},
-        transformAssetUrls: merge({
-          base: null,
-          includeAbsolute: false,
-          tags: {
-            video: ['src', 'poster'],
-            source: ['src'],
-            img: ['src'],
-            image: ['xlink:href', 'href'],
-            use: ['xlink:href', 'href']
-          }
-        }, transformAssetUrls)
+        transformAssetUrls: clone(transformAssetUrls)
       },
 
       showProgress: true,
