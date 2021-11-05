@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onMounted, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onMounted, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QBtn from '../btn/QBtn.js'
@@ -7,10 +7,11 @@ import QMenu from '../menu/QMenu.js'
 
 import { useBtnProps } from '../btn/use-btn.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stop } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QBtnDropdown',
 
   props: {

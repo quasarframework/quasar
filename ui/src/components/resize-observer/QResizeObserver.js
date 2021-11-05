@@ -1,7 +1,8 @@
-import { h, defineComponent, onMounted, onBeforeUnmount, getCurrentInstance, nextTick } from 'vue'
+import { h, onMounted, onBeforeUnmount, getCurrentInstance, nextTick } from 'vue'
 
 import useCanRender from '../../composables/private/use-can-render.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { listenOpts, noop } from '../../utils/event.js'
 
 const hasObserver = typeof ResizeObserver !== 'undefined'
@@ -12,7 +13,7 @@ const resizeProps = hasObserver === true
       url: 'about:blank'
     }
 
-export default defineComponent({
+export default createComponent({
   name: 'QResizeObserver',
 
   props: {

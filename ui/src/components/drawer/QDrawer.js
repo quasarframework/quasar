@@ -1,4 +1,4 @@
-import { h, defineComponent, withDirectives, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, inject, getCurrentInstance } from 'vue'
+import { h, withDirectives, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, inject, getCurrentInstance } from 'vue'
 
 import useHistory from '../../composables/private/use-history.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
@@ -8,13 +8,14 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import TouchPan from '../../directives/TouchPan.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { between } from '../../utils/format.js'
 import { hSlot, hDir } from '../../utils/private/render.js'
 import { layoutKey } from '../../utils/private/symbols.js'
 
 const duration = 150
 
-export default defineComponent({
+export default createComponent({
   name: 'QDrawer',
 
   inheritAttrs: false,

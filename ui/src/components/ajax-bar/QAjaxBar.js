@@ -1,5 +1,6 @@
-import { h, defineComponent, ref, computed, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, ref, computed, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import { between } from '../../utils/format.js'
 
 const
@@ -74,7 +75,7 @@ function restoreAjax (start, stop) {
   }
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QAjaxBar',
 
   props: {

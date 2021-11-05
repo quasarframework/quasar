@@ -1,12 +1,13 @@
-import { h, defineComponent, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import debounce from '../../utils/debounce.js'
 import { height } from '../../utils/dom.js'
 import { getScrollTarget, getScrollHeight, getVerticalScrollPosition, setVerticalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QInfiniteScroll',
 
   props: {

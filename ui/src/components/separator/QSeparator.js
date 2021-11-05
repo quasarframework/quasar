@@ -1,6 +1,8 @@
-import { h, defineComponent, computed, getCurrentInstance } from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+
+import { createComponent } from '../../utils/private/create.js'
 
 const insetMap = {
   true: 'inset',
@@ -16,7 +18,7 @@ export const margins = {
   xl: 24
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QSeparator',
 
   props: {

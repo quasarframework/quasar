@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUpdate, onUpdated, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onBeforeUpdate, onUpdated, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import QField from '../field/QField.js'
 import QIcon from '../icon/QIcon.js'
@@ -16,6 +16,7 @@ import { useVirtualScroll, useVirtualScrollProps } from '../virtual-scroll/use-v
 import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
 import useKeyComposition from '../../composables/private/use-key-composition.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { isDeepEqual } from '../../utils/private/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
@@ -26,7 +27,7 @@ const validateNewValueMode = v => [ 'add', 'add-unique', 'toggle' ].includes(v)
 const reEscapeList = '.*+?^${}()|[]\\'
 const fieldPropsList = Object.keys(useFieldProps)
 
-export default defineComponent({
+export default createComponent({
   name: 'QSelect',
 
   inheritAttrs: false,
@@ -932,6 +933,12 @@ export default defineComponent({
     }
 
     function getAllOptions () {
+      if (noOptions.value === true) {
+        return slots[ 'no-option' ] !== void 0
+          ? slots[ 'no-option' ]({ inputValue: inputValue.value })
+          : void 0
+      }
+
       const fn = slots.option !== void 0
         ? slots.option
         : scope => {
@@ -1113,14 +1120,6 @@ export default defineComponent({
     }
 
     function getMenu () {
-      const child = noOptions.value === true
-        ? (
-            slots[ 'no-option' ] !== void 0
-              ? () => slots[ 'no-option' ]({ inputValue: inputValue.value })
-              : void 0
-          )
-        : getAllOptions
-
       return h(QMenu, {
         ref: menuRef,
         class: menuContentClass.value,
@@ -1145,7 +1144,7 @@ export default defineComponent({
         onBeforeShow: onControlPopupShow,
         onBeforeHide: onMenuBeforeHide,
         onShow: onMenuShow
-      }, child)
+      }, getAllOptions)
     }
 
     function onMenuBeforeHide (e) {
@@ -1202,15 +1201,7 @@ export default defineComponent({
           ...listboxAttrs.value,
           onClick: prevent,
           onScrollPassive: onVirtualScrollEvt
-        }, (
-          noOptions.value === true
-            ? (
-                slots[ 'no-option' ] !== void 0
-                  ? slots[ 'no-option' ]({ inputValue: inputValue.value })
-                  : null
-              )
-            : getAllOptions()
-        ))
+        }, getAllOptions())
       )
 
       return h(QDialog, {

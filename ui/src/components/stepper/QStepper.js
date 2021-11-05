@@ -1,10 +1,11 @@
-import { h, defineComponent, computed, provide, getCurrentInstance } from 'vue'
+import { h, computed, provide, getCurrentInstance } from 'vue'
 
 import StepHeader from './StepHeader.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stepperKey } from '../../utils/private/symbols.js'
 import { hSlot, hMergeSlot, hDir } from '../../utils/private/render.js'
 
@@ -19,7 +20,7 @@ function camelizeProps (props) {
   return acc
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QStepper',
 
   props: {

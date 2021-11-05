@@ -1,8 +1,10 @@
-import { h, defineComponent, computed, getCurrentInstance } from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
 import QRadio from '../radio/QRadio.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QToggle from '../toggle/QToggle.js'
+
+import { createComponent } from '../../utils/private/create.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
@@ -14,7 +16,7 @@ const components = {
 
 const typeValues = Object.keys(components)
 
-export default defineComponent({
+export default createComponent({
   name: 'QOptionGroup',
 
   props: {

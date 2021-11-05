@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
+import { h, ref, computed, watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
 
 import QList from '../item/QList.js'
 import QMarkupTable from '../markup-table/QMarkupTable.js'
@@ -6,6 +6,7 @@ import getTableMiddle from '../table/get-table-middle.js'
 
 import { useVirtualScroll, useVirtualScrollProps } from './use-virtual-scroll.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 import { hMergeSlot } from '../../utils/private/render.js'
@@ -17,7 +18,7 @@ const comps = {
 
 const typeOptions = [ 'list', 'table', '__qtable' ]
 
-export default defineComponent({
+export default createComponent({
   name: 'QVirtualScroll',
 
   props: {

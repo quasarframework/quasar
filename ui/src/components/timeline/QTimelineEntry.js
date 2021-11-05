@@ -1,11 +1,12 @@
-import { h, defineComponent, computed, inject } from 'vue'
+import { h, computed, inject } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
 import { timelineKey } from '../../utils/private/symbols.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QTimelineEntry',
 
   props: {

@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, withDirectives, getCurrentInstance } from 'vue'
+import { h, ref, computed, withDirectives, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
@@ -7,6 +7,7 @@ import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 
 import TouchPan from '../../directives/TouchPan.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { between } from '../../utils/format.js'
 import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import { hMergeSlot } from '../../utils/private/render.js'
@@ -18,7 +19,7 @@ const dirProps = {
   horizontal: { offset: 'offsetX', scroll: 'scrollLeft', dir: 'right', dist: 'x' }
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QScrollArea',
 
   props: {

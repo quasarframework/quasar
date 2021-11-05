@@ -1,8 +1,9 @@
-import { h, defineComponent, computed, getCurrentInstance } from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 
 const defaultSizes = {
@@ -21,7 +22,7 @@ function width (val, reverse, $q) {
   }
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QLinearProgress',
 
   props: {

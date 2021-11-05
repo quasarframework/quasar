@@ -48,7 +48,7 @@ function showHelp () {
                           Option can be:
                              * ts-options - TS options API
                              * ts-composition - TS component API
-                             * ts-class - TS class style syntax
+                             * ts-class - [DEPRECATED] TS class style syntax
                              * ts - use for TS boot file and store modules only
   `)
   process.exit(0)
@@ -152,17 +152,23 @@ function createFile (asset, file) {
   )
 }
 
-const ext = isTypeScript ? '.ts' : '.js'
+const pathList = {
+  router: 'src/router/routes'
+    + (fs.existsSync(appPaths.resolve.src('router/routes.ts')) ? '.ts' : '.js'),
+  store: 'src/store/index'
+    + (fs.existsSync(appPaths.resolve.src('store/index.ts')) ? '.ts' : '.js')
+}
+
 const mapping = {
   page: {
     folder: 'src/pages',
     ext: '.vue',
-    reference: `src/router/routes${ext}`
+    reference: pathList.router
   },
   layout: {
     folder: 'src/layouts',
     ext: '.vue',
-    reference: `src/router/routes${ext}`
+    reference: pathList.router
   },
   component: {
     folder: 'src/components',
@@ -171,11 +177,11 @@ const mapping = {
   store: {
     folder: 'src/store',
     install: true,
-    reference: `src/store/index${ext}`
+    reference: pathList.store
   },
   boot: {
     folder: 'src/boot',
-    ext,
+    ext: isTypeScript ? '.ts' : '.js',
     reference: 'quasar.conf.js > boot'
   },
   ssrmiddleware: {

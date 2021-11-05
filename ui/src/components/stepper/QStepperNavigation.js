@@ -1,8 +1,9 @@
-import { h, defineComponent } from 'vue'
+import { h } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QStepperNavigation',
 
   setup (_, { slots }) {

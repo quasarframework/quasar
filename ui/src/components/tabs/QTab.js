@@ -1,8 +1,8 @@
-import { defineComponent } from 'vue'
-
 import useTab, { useTabProps, useTabEmits } from './use-tab.js'
 
-export default defineComponent({
+import { createComponent } from '../../utils/private/create.js'
+
+export default createComponent({
   name: 'QTab',
 
   props: useTabProps,

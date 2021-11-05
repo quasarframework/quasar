@@ -1,12 +1,13 @@
-import { defineComponent, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import { getScrollTarget, getVerticalScrollPosition, getHorizontalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts, noop } from '../../utils/event.js'
 
 const { passive } = listenOpts
 const axisValues = [ 'both', 'horizontal', 'vertical' ]
 
-export default defineComponent({
+export default createComponent({
   name: 'QScrollObserver',
 
   props: {

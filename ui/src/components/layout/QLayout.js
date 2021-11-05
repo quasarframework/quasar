@@ -1,15 +1,16 @@
-import { h, defineComponent, ref, reactive, computed, provide, getCurrentInstance } from 'vue'
+import { h, ref, reactive, computed, provide, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { getScrollbarWidth } from '../../utils/scroll.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 import { layoutKey } from '../../utils/private/symbols.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QLayout',
 
   props: {

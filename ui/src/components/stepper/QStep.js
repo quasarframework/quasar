@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, nextTick, inject, KeepAlive } from 'vue'
+import { h, ref, computed, watch, nextTick, inject, KeepAlive } from 'vue'
 
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import StepHeader from './StepHeader.js'
@@ -6,6 +6,7 @@ import StepHeader from './StepHeader.js'
 import { usePanelChildProps } from '../../composables/private/use-panel.js'
 import useCache from '../../composables/private/use-cache.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stepperKey } from '../../utils/private/symbols.js'
 import { hSlot } from '../../utils/private/render.js'
 
@@ -25,7 +26,7 @@ const PanelWrapper = {
   }
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QStep',
 
   props: {

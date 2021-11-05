@@ -1,13 +1,16 @@
-import { h, defineComponent, ref, computed, watch, onMounted, onBeforeUnmount, Transition } from 'vue'
+import { h, ref, computed, watch, onMounted, onBeforeUnmount, Transition } from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
+
 import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
+
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 const defaultRatio = 16 / 9
 
-export default defineComponent({
+export default createComponent({
   name: 'QImg',
 
   props: {

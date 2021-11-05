@@ -1,3 +1,4 @@
+import { createDirective } from '../utils/private/create.js'
 import { css } from '../utils/dom.js'
 import { position, stop, addEvt, cleanEvt } from '../utils/event.js'
 import { isKeyCode } from '../utils/private/key-composition.js'
@@ -71,7 +72,7 @@ function updateModifiers (ctx, { modifiers, value, arg, instance }) {
   }
 }
 
-export default __QUASAR_SSR_SERVER__
+export default createDirective(__QUASAR_SSR_SERVER__
   ? { name: 'ripple', getSSRProps }
   : {
       name: 'ripple',
@@ -139,3 +140,4 @@ export default __QUASAR_SSR_SERVER__
         delete el._qripple
       }
     }
+)

@@ -1,4 +1,6 @@
+import { createDirective } from '../utils/private/create.js'
 import morph from '../utils/morph.js'
+
 import getSSRProps from './Morph.ssr.js'
 
 const morphGroups = {}
@@ -161,7 +163,7 @@ function updateValue (ctx, value) {
   }
 }
 
-export default __QUASAR_SSR_SERVER__
+export default createDirective(__QUASAR_SSR_SERVER__
   ? { name: 'morph', getSSRProps }
   : {
       name: 'morph',
@@ -209,3 +211,4 @@ export default __QUASAR_SSR_SERVER__
         delete el.__qmorph
       }
     }
+)

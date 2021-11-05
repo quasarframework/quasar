@@ -1,5 +1,5 @@
 import {
-  h, defineComponent, ref, computed, watch,
+  h, ref, computed, watch,
   withDirectives, vShow, nextTick, getCurrentInstance, onBeforeUpdate
 } from 'vue'
 
@@ -10,10 +10,13 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 
-export default defineComponent({
+const tickStrategyOptions = [ 'none', 'strict', 'leaf', 'leaf-filtered' ]
+
+export default createComponent({
   name: 'QTree',
 
   props: {
@@ -36,6 +39,8 @@ export default defineComponent({
       default: 'children'
     },
 
+    dense: Boolean,
+
     color: String,
     controlColor: String,
     textColor: String,
@@ -46,7 +51,7 @@ export default defineComponent({
     tickStrategy: {
       type: String,
       default: 'none',
-      validator: v => [ 'none', 'strict', 'leaf', 'leaf-filtered' ].includes(v)
+      validator: v => tickStrategyOptions.includes(v)
     },
     ticked: Array, // v-model:ticked
     expanded: Array, // v-model:expanded
@@ -91,7 +96,7 @@ export default defineComponent({
     })
 
     const classes = computed(() =>
-      'q-tree'
+      `q-tree q-tree--${ props.dense === true ? 'dense' : 'standard' }`
       + (props.noConnectors === true ? ' q-tree--no-connectors' : '')
       + (isDark.value === true ? ' q-tree--dark' : '')
       + (props.color !== void 0 ? ` text-${ props.color }` : '')
@@ -533,13 +538,13 @@ export default defineComponent({
 
           m.lazy === 'loading'
             ? h(QSpinner, {
-                class: 'q-tree__spinner q-mr-xs',
+                class: 'q-tree__spinner',
                 color: computedControlColor.value
               })
             : (
                 isParent === true
                   ? h(QIcon, {
-                      class: 'q-tree__arrow q-mr-xs'
+                      class: 'q-tree__arrow'
                     + (m.expanded === true ? ' q-tree__arrow--rotate' : ''),
                       name: computedIcon.value,
                       onClick (e) { onExpandClick(node, m, e) }
@@ -549,7 +554,7 @@ export default defineComponent({
 
           m.hasTicking === true && m.noTick !== true
             ? h(QCheckbox, {
-                class: 'q-mr-xs',
+                class: 'q-tree__tickbox',
                 modelValue: m.indeterminate === true ? null : m.ticked,
                 color: computedControlColor.value,
                 dark: isDark.value,

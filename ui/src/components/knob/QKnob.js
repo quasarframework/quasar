@@ -1,8 +1,9 @@
-import { h, defineComponent, ref, computed, watch, onMounted, withDirectives, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onMounted, withDirectives, getCurrentInstance } from 'vue'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/TouchPan.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 
@@ -13,7 +14,7 @@ import { useCircularCommonProps } from '../circular-progress/use-circular-progre
 const keyCodes = [ 34, 37, 40, 33, 39, 38 ]
 const commonPropsName = Object.keys(useCircularCommonProps)
 
-export default defineComponent({
+export default createComponent({
   name: 'QKnob',
 
   props: {

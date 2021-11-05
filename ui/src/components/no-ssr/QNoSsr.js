@@ -1,10 +1,11 @@
-import { h, defineComponent } from 'vue'
+import { h } from 'vue'
 
 import useCanRender from '../../composables/private/use-can-render.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QNoSsr',
 
   props: {

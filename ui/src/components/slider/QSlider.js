@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
 import { useFormInject, useFormProps, useFormAttrs } from '../../composables/private/use-form.js'
 
@@ -10,11 +10,12 @@ import useSlider, {
   keyCodes
 } from './use-slider.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { hDir } from '../../utils/private/render.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QSlider',
 
   props: {

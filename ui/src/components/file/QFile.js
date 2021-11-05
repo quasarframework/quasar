@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
+import { h, ref, computed, getCurrentInstance } from 'vue'
 
 import QChip from '../chip/QChip.js'
 
@@ -7,9 +7,10 @@ import { useFormProps, useFormInputNameAttr } from '../../composables/private/us
 import useFile, { useFileProps, useFileEmits } from '../../composables/private/use-file.js'
 import useFileFormDomProps from '../../composables/private/use-file-dom-props.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { humanStorageSize } from '../../utils/format.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QFile',
 
   inheritAttrs: false,

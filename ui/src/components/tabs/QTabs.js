@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, nextTick, onBeforeUnmount, onActivated, getCurrentInstance, provide } from 'vue'
+import { h, ref, computed, watch, nextTick, onBeforeUnmount, onActivated, getCurrentInstance, provide } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
@@ -6,6 +6,7 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import useTick from '../../composables/private/use-tick.js'
 import useTimeout from '../../composables/private/use-timeout.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'
 import { tabsKey } from '../../utils/private/symbols.js'
@@ -22,7 +23,7 @@ function getIndicatorClass (color, top, vertical) {
 const alignValues = [ 'left', 'center', 'right', 'justify' ]
 const emptyFn = () => {}
 
-export default defineComponent({
+export default createComponent({
   name: 'QTabs',
 
   props: {
@@ -62,7 +63,7 @@ export default defineComponent({
 
     contentClass: String,
 
-    'onUpdate:modelValue': Function
+    'onUpdate:modelValue': [ Function, Array ]
   },
 
   setup (props, { slots, emit }) {

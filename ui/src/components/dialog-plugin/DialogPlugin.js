@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, toRaw, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, toRaw, getCurrentInstance } from 'vue'
 
 import QDialog from '../dialog/QDialog.js'
 import QBtn from '../btn/QBtn.js'
@@ -13,11 +13,12 @@ import QOptionGroup from '../option-group/QOptionGroup.js'
 
 import QSpinner from '../spinner/QSpinner.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { isKeyCode } from '../../utils/private/key-composition.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'DialogPlugin',
 
   props: {

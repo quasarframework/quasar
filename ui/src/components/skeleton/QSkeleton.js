@@ -1,7 +1,8 @@
-import { h, defineComponent, computed, getCurrentInstance } from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 
 export const skeletonTypes = [
@@ -16,7 +17,7 @@ export const skeletonAnimations = [
   'wave', 'pulse', 'pulse-x', 'pulse-y', 'fade', 'blink', 'none'
 ]
 
-export default defineComponent({
+export default createComponent({
   name: 'QSkeleton',
 
   props: {

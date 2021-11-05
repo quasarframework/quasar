@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, Transition, onBeforeUnmount, withDirectives, getCurrentInstance } from 'vue'
+import { h, ref, computed, Transition, onBeforeUnmount, withDirectives, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
@@ -7,6 +7,7 @@ import Ripple from '../../directives/Ripple.js'
 
 import useBtn, { useBtnProps } from './use-btn.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { isKeyCode } from '../../utils/private/key-composition.js'
@@ -18,7 +19,7 @@ let
   keyboardTarget = null,
   mouseTarget = null
 
-export default defineComponent({
+export default createComponent({
   name: 'QBtn',
 
   props: {

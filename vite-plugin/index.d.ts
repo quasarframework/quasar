@@ -1,9 +1,9 @@
 // @ts-ignore
 /// <reference types="@quasar/vite-plugin" />
 
-import type { Plugin } from 'vite'
+import type { Plugin } from "vite";
 
-interface QuasarPluginOpts {
+export interface QuasarPluginOpts {
   /**
    * Auto import - how to detect components in your vue files
    *   "kebab": q-carousel q-page
@@ -30,6 +30,26 @@ interface QuasarPluginOpts {
   // runMode?: "web-client" | "ssr-client" | "ssr-server";
 }
 
-export function quasar(
-  opts?: QuasarPluginOpts
-): Plugin;
+export function quasar(opts?: QuasarPluginOpts): Plugin;
+
+// `TransformAssetUrls` copy of https://github.com/vuejs/vue-next/blob/2c221fcd497d1541e667892ed908631df7e4a745/packages/compiler-sfc/src/compileTemplate.ts#L67
+export interface AssetURLTagConfig {
+  [name: string]: string[];
+}
+
+export interface AssetURLOptions {
+  /**
+   * If base is provided, instead of transforming relative asset urls into
+   * imports, they will be directly rewritten to absolute urls.
+   */
+  base?: string | null;
+  /**
+   * If true, also processes absolute urls.
+   */
+  includeAbsolute?: boolean;
+  tags?: AssetURLTagConfig;
+}
+
+export type TransformAssetUrls = AssetURLOptions | AssetURLTagConfig | boolean;
+
+export const transformAssetUrls: AssetURLOptions;

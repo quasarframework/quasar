@@ -15,6 +15,7 @@
           <div class="col-xs-12 col-md-4">
             <q-toggle v-model="accordion" label="Accordion mode" />
             <q-toggle v-model="dark" label="On dark background" :false-value="null" />
+            <q-toggle v-model="dense" label="Dense" />
             <q-toggle v-model="selectableNodes" label="Selectable nodes" />
             <q-toggle v-model="noConnectors" label="No connectors" />
           </div>
@@ -48,6 +49,7 @@
           v-model:ticked="ticked"
           v-model:expanded="expanded"
           :dark="dark"
+          :dense="dense"
           :accordion="accordion"
           :color="color"
           :filter="filter"
@@ -83,6 +85,10 @@
           </template>
 
           <template v-slot:body-2-1-2-1="prop">
+            Content for: {{ prop.key }}
+          </template>
+
+          <template v-slot:body-2-1-2-2-1="prop">
             Content for: {{ prop.key }}
           </template>
         </q-tree>
@@ -143,6 +149,7 @@ export default {
       ],
       selectableNodes: true,
       dark: null,
+      dense: false,
       accordion: false,
       filter: '',
       defaultExpandAll: false,
@@ -261,6 +268,7 @@ export default {
                       subnodes: [
                         {
                           key: 'KEY: Node 2.1.2.2.1',
+                          body: '2-1-2-2-1',
                           label: 'Node 2.1.2.2.1'
                         },
                         {

@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, getCurrentInstance } from 'vue'
+import { h, ref, getCurrentInstance } from 'vue'
 
 import QDialog from '../dialog/QDialog.js'
 
@@ -11,9 +11,10 @@ import QCardSection from '../card/QCardSection.js'
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'BottomSheetPlugin',
 
   props: {

@@ -1,12 +1,13 @@
-import { h, defineComponent, ref, computed, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, nextTick, getCurrentInstance } from 'vue'
 
 import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/private/is.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QPopupEdit',
 
   props: {

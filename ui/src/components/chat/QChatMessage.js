@@ -1,8 +1,9 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, computed } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import { getNormalizedVNodes } from '../../utils/private/vm.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QChatMessage',
 
   props: {

@@ -194,12 +194,12 @@ function getColorParser (name, defaultValue) {
 }
 
 function splashscreenIconRatio (value, argv) {
-  if (!value) {
+  if (!value && value !== 0) {
     argv.splashscreenIconRatio = defaultParams.splashscreenIconRatio
     return
   }
 
-  const numeric = parseInt(value, 10)
+  const numeric = parseFloat(value)
 
   if (isNaN(numeric)) {
     die(`Invalid splashscreen icon ratio number specified`)

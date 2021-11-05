@@ -1,4 +1,4 @@
-import { h, shallowReactive, defineComponent, ref, computed, watch, withDirectives, getCurrentInstance, vShow, onBeforeUnmount } from 'vue'
+import { h, shallowReactive, ref, computed, watch, withDirectives, getCurrentInstance, vShow, onBeforeUnmount } from 'vue'
 
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
@@ -11,6 +11,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'
 import uid from '../../utils/uid.js'
@@ -18,7 +19,7 @@ import uid from '../../utils/uid.js'
 const itemGroups = shallowReactive({})
 const LINK_PROPS = Object.keys(useRouterLinkProps)
 
-export default defineComponent({
+export default createComponent({
   name: 'QExpansionItem',
 
   props: {

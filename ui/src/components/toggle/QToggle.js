@@ -1,9 +1,12 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, computed } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
+
 import useCheckbox, { useCheckboxProps, useCheckboxEmits } from '../checkbox/use-checkbox.js'
 
-export default defineComponent({
+import { createComponent } from '../../utils/private/create.js'
+
+export default createComponent({
   name: 'QToggle',
 
   props: {
