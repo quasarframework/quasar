@@ -8,7 +8,7 @@ export const useModelToggleProps = {
     default: null
   },
 
-  'onUpdate:modelValue': Function
+  'onUpdate:modelValue': [ Function, Array ]
 }
 
 export const useModelToggleEmits = [

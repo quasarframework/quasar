@@ -63,7 +63,7 @@ export default createComponent({
 
     contentClass: String,
 
-    'onUpdate:modelValue': Function
+    'onUpdate:modelValue': [ Function, Array ]
   },
 
   setup (props, { slots, emit }) {
