@@ -260,19 +260,14 @@ export function getRenderer (getPlugin) {
   }
 
   function addFilesToQueue (e, fileList) {
-    const processedFiles = processFiles(e, fileList, state.files.value, true)
+    const localFiles = processFiles(e, fileList, state.files.value, true)
 
-    if (processedFiles === void 0) { return }
-
-    const localFiles = processedFiles
-      .filter(file => state.files.value.findIndex(f => file.name === f.name) === -1)
+    if (localFiles === void 0) { return }
 
     const fileInput = getFileInput()
     if (fileInput !== void 0 && fileInput !== null) {
       fileInput.value = ''
     }
-
-    if (localFiles === void 0) { return }
 
     localFiles.forEach(file => {
       state.updateFileStatus(file, 'idle')

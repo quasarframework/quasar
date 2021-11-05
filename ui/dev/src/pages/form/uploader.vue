@@ -31,6 +31,7 @@
           @finish="onFinish"
           @uploaded="onUpload"
           @failed="onFail"
+          @rejected="onRejected"
         />
 
         <q-uploader
@@ -44,6 +45,7 @@
           @finish="onFinish"
           @uploaded="onUpload"
           @failed="onFail"
+          @rejected="onRejected"
         />
 
         <q-uploader
@@ -76,6 +78,7 @@
           @finish="onFinish"
           @uploaded="onUpload"
           @failed="onFail"
+          @rejected="onRejected"
         />
 
         <q-uploader
@@ -91,6 +94,7 @@
           @finish="onFinish"
           @uploaded="onUpload"
           @failed="onFail"
+          @rejected="onRejected"
         />
 
         <q-uploader
@@ -107,6 +111,7 @@
           @finish="onFinish"
           @uploaded="onUpload"
           @failed="onFail"
+          @rejected="onRejected"
         />
 
         <q-uploader
@@ -122,6 +127,7 @@
           @finish="onFinish"
           @uploaded="onUpload"
           @failed="onFail"
+          @rejected="onRejected"
         />
 
         <div>
@@ -137,6 +143,7 @@
           @finish="onFinish"
           @uploaded="onUpload"
           @failed="onFail"
+          @rejected="onRejected"
         >
           <template v-slot:header="scope">
             <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
@@ -222,6 +229,7 @@
           @finish="onFinish"
           @uploaded="onUpload"
           @failed="onFail"
+          @rejected="onRejected"
         />
       </div>
     </div>

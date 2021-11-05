@@ -112,6 +112,14 @@ export default function ({
       files = [ files[ 0 ] ]
     }
 
+    // Avoid duplicate files
+    const filenameMap = currentFileList.map(entry => entry.name)
+    files = filterFiles(files, rejectedFiles, 'duplicate', file => {
+      return filenameMap.includes(file.name) === false
+    })
+
+    if (files.length === 0) { return done() }
+
     if (props.maxTotalSize !== void 0) {
       let size = append === true
         ? currentFileList.reduce((total, file) => total + file.size, 0)
