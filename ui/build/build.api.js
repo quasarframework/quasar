@@ -487,7 +487,7 @@ function fillAPI (apiType, list) {
 
         ast.evaluate(definition, topSections[ apiType ], (prop, key, definition) => {
           if (prop === 'props') {
-            if (!key && definition.type === 'Function') {
+            if (!key && ('' + definition.type) === 'Function,Array') {
               // TODO
               // wrong evaluation; example: QTabs: props > 'onUpdate:modelValue'
               return
