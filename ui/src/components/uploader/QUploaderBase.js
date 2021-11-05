@@ -247,21 +247,16 @@ export default Vue.extend({
     },
 
     __addFiles (e, fileList) {
-      const processedFiles = this.__processFiles(e, fileList, this.files, true)
+      const localFiles = this.__processFiles(e, fileList, this.files, true)
 
-      if (processedFiles === void 0) { return }
-
-      const files = processedFiles
-        .filter(file => this.files.findIndex(f => file.name === f.name) === -1)
-
-      if (files === void 0) { return }
+      if (localFiles === void 0) { return }
 
       const fileInput = this.__getFileInput()
       if (fileInput !== void 0) {
         fileInput.value = ''
       }
 
-      files.forEach(file => {
+      localFiles.forEach(file => {
         this.__updateFile(file, 'idle')
         this.uploadSize += file.size
 
@@ -272,9 +267,9 @@ export default Vue.extend({
         }
       })
 
-      this.files = this.files.concat(files)
-      this.queuedFiles = this.queuedFiles.concat(files)
-      this.$emit('added', files)
+      this.files = this.files.concat(localFiles)
+      this.queuedFiles = this.queuedFiles.concat(localFiles)
+      this.$emit('added', localFiles)
       this.autoUpload === true && this.upload()
     },
 
