@@ -659,21 +659,22 @@ export default createComponent({
     function setHour (hour) {
       if (innerModel.value.hour !== hour) {
         innerModel.value.hour = hour
-        innerModel.value.minute = null
-        innerModel.value.second = null
+        verifyAndUpdate()
       }
     }
 
     function setMinute (minute) {
       if (innerModel.value.minute !== minute) {
         innerModel.value.minute = minute
-        innerModel.value.second = null
-        props.withSeconds !== true && updateValue({ minute })
+        verifyAndUpdate()
       }
     }
 
     function setSecond (second) {
-      innerModel.value.second !== second && updateValue({ second })
+      if (innerModel.value.second !== second) {
+        innerModel.value.second = second
+        verifyAndUpdate()
+      }
     }
 
     const setModel = {
