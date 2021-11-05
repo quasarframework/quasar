@@ -933,6 +933,12 @@ export default createComponent({
     }
 
     function getAllOptions () {
+      if (noOptions.value === true) {
+        return slots[ 'no-option' ] !== void 0
+          ? slots[ 'no-option' ]({ inputValue: inputValue.value })
+          : void 0
+      }
+
       const fn = slots.option !== void 0
         ? slots.option
         : scope => {
@@ -1114,14 +1120,6 @@ export default createComponent({
     }
 
     function getMenu () {
-      const child = noOptions.value === true
-        ? (
-            slots[ 'no-option' ] !== void 0
-              ? () => slots[ 'no-option' ]({ inputValue: inputValue.value })
-              : void 0
-          )
-        : getAllOptions
-
       return h(QMenu, {
         ref: menuRef,
         class: menuContentClass.value,
@@ -1146,7 +1144,7 @@ export default createComponent({
         onBeforeShow: onControlPopupShow,
         onBeforeHide: onMenuBeforeHide,
         onShow: onMenuShow
-      }, child)
+      }, getAllOptions)
     }
 
     function onMenuBeforeHide (e) {
@@ -1203,15 +1201,7 @@ export default createComponent({
           ...listboxAttrs.value,
           onClick: prevent,
           onScrollPassive: onVirtualScrollEvt
-        }, (
-          noOptions.value === true
-            ? (
-                slots[ 'no-option' ] !== void 0
-                  ? slots[ 'no-option' ]({ inputValue: inputValue.value })
-                  : null
-              )
-            : getAllOptions()
-        ))
+        }, getAllOptions())
       )
 
       return h(QDialog, {
