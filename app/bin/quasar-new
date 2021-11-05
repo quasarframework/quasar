@@ -48,7 +48,7 @@ function showHelp () {
                           Option can be:
                              * ts-options - TS options API
                              * ts-composition - TS component API
-                             * ts-class - TS class style syntax
+                             * ts-class - [DEPRECATED] TS class style syntax
                              * ts - use for TS boot file and store modules only
   `)
   process.exit(0)
