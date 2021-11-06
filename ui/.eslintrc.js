@@ -22,6 +22,7 @@ module.exports = {
   globals: {
     cordova: true,
     cy: true,
+    expect: true,
     __statics: true,
     __QUASAR_VERSION__: true,
     __QUASAR_SSR__: true,
