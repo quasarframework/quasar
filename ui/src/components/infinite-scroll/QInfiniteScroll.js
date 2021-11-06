@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onMounted, onActivated, onDeactivated, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import { createComponent } from '../../utils/private/create.js'
 import debounce from '../../utils/debounce.js'
@@ -41,6 +41,7 @@ export default createComponent({
     const rootRef = ref(null)
 
     let index = props.initialIndex || 0
+    let scrollPos = false
     let localScrollTarget, poll
 
     const classes = computed(() =>
@@ -179,6 +180,18 @@ export default createComponent({
 
     watch(() => props.scrollTarget, updateScrollTarget)
     watch(() => props.debounce, setDebounce)
+
+    onActivated(() => {
+      if (localScrollTarget && scrollPos !== false) {
+        setVerticalScrollPosition(localScrollTarget, scrollPos)
+      }
+    })
+
+    onDeactivated(() => {
+      scrollPos = localScrollTarget
+        ? getVerticalScrollPosition(localScrollTarget)
+        : false
+    })
 
     onBeforeUnmount(() => {
       if (isWorking.value === true) {

@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onBeforeMount, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onActivated, onBeforeMount, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import debounce from '../../utils/debounce.js'
 import { noop } from '../../utils/event.js'
@@ -677,6 +677,22 @@ export function useVirtualScroll ({
 
   onBeforeMount(() => {
     setVirtualScrollSize()
+  })
+
+  onActivated(() => {
+    const scrollEl = getVirtualScrollTarget()
+
+    if (prevScrollStart !== void 0 && scrollEl !== void 0 && scrollEl !== null && scrollEl.nodeType !== 8) {
+      setScroll(
+        scrollEl,
+        prevScrollStart,
+        props.virtualScrollHorizontal,
+        $q.lang.rtl
+      )
+    }
+    else {
+      scrollTo(prevToIndex)
+    }
   })
 
   setOverflowAnchor !== noop && onBeforeUnmount(() => {
