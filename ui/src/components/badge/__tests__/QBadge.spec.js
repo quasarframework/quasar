@@ -1,7 +1,7 @@
 import { mount } from '@cypress/vue'
-import QBadge from './QBadge'
+import QBadge from '../QBadge'
 
-const snapshotOptions = { customSnapshotsDir: '../src/components/badge' }
+const snapshotOptions = { customSnapshotsDir: '../src/components/badge/__tests__' }
 
 describe('QBadge', () => {
   const label = 'Test'

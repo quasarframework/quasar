@@ -1,8 +1,8 @@
 import { mount } from '@cypress/vue'
-import { useSizeDefaults } from '../../composables/private/use-size'
-import QAvatar from './QAvatar'
+import { useSizeDefaults } from '../../../composables/private/use-size'
+import QAvatar from '../QAvatar'
 
-const snapshotOptions = { customSnapshotsDir: '../src/components/avatar' }
+const snapshotOptions = { customSnapshotsDir: '../src/components/avatar/__tests__' }
 
 describe('QAvatar', () => {
   it('should set a background color', () => {
