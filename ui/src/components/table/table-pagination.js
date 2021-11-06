@@ -76,7 +76,7 @@ export function useTablePaginationState (vm, getCellValue) {
       ...val
     })
 
-    if (samePagination(computedPagination.value, newPagination)) {
+    if (samePagination(computedPagination.value, newPagination) === true) {
       if (isServerSide.value === true && forceServerRequest === true) {
         sendServerRequest(newPagination)
       }
