@@ -26,7 +26,7 @@ export const useTablePaginationProps = {
     default: () => [ 5, 7, 10, 15, 20, 25, 50, 0 ]
   },
 
-  'onUpdate:pagination': Function
+  'onUpdate:pagination': [ Function, Array ]
 }
 
 export function useTablePaginationState (vm, getCellValue) {
