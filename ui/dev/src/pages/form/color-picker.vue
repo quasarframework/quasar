@@ -139,7 +139,7 @@
         <q-input :dark="dark" filled v-model="inputModelHex" :rules="['anyColor']">
           <template v-slot:append>
             <q-icon name="colorize" class="cursor-pointer">
-              <q-popup-proxy>
+              <q-popup-proxy cover>
                 <q-color v-model="inputModelHex" />
               </q-popup-proxy>
             </q-icon>
@@ -149,28 +149,28 @@
         <q-input :dark="dark" hint="Some hint" filled v-model="inputModelHex" :rules="['anyColor']">
           <template v-slot:before>
             <q-icon name="colorize" class="cursor-pointer">
-              <q-popup-proxy>
+              <q-popup-proxy cover>
                 <q-color v-model="inputModelHex" />
               </q-popup-proxy>
             </q-icon>
           </template>
           <template v-slot:after>
             <q-icon name="colorize" class="cursor-pointer">
-              <q-popup-proxy>
+              <q-popup-proxy cover>
                 <q-color v-model="inputModelHex" />
               </q-popup-proxy>
             </q-icon>
           </template>
           <template v-slot:prepend>
             <q-icon name="colorize" class="cursor-pointer">
-              <q-popup-proxy>
+              <q-popup-proxy cover>
                 <q-color v-model="inputModelHex" />
               </q-popup-proxy>
             </q-icon>
           </template>
           <template v-slot:append>
             <q-icon name="colorize" class="cursor-pointer">
-              <q-popup-proxy>
+              <q-popup-proxy cover>
                 <q-color v-model="inputModelHex" />
               </q-popup-proxy>
             </q-icon>
