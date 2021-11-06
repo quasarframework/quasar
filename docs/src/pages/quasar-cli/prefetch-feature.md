@@ -123,6 +123,21 @@ export default {
 </script>
 ```
 
+If you are using `<script setup>`, then add a `<script>` section besides it which simply returns an Object with the preFetch() method:
+
+```html
+<script>
+export default {
+  preFetch () {
+    console.log('running preFetch')
+  }
+}
+</script>
+
+
+<script setup>....</script>
+```
+
 ::: tip
 If you are developing a SSR app, then you can check out the [ssrContext](/quasar-cli/developing-ssr/ssr-context) Object that gets supplied server-side.
 :::
