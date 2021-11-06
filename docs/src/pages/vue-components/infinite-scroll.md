@@ -34,6 +34,11 @@ Scroll to the bottom to see QInfiniteScroll in action.
 <doc-example title="Reverse (Messenger style)" file="QInfiniteScroll/Reverse" scrollable />
 
 ### Tips
+
+::: tip Scrolling container
+Please read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.
+:::
+
 * Works best when placed as direct child of the Vue component rendering your Page
 * If you change the parent of this component, don't forget to call `updateScrollTarget()` on the QInfiniteScroll Vue reference.
 * If you need to specify the scroll target inner element (because the auto detected one is not the desired one) pass a CSS selector (as string) or the DOM element in the `scroll-target` prop

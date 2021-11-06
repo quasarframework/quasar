@@ -27,6 +27,7 @@ Components like [QScrollArea](/vue-components/scroll-area), for example, respect
 Please note that simply attaching `scroll` CSS class to a DOM element or on a Vue component will have no effect if the respective element is not overflowed (example, with: CSS `overflow: hidden` and a height smaller than its inner content height).
 
 Example of good container:
+
 ```html
 <!--
   Quasar CSS helper 'overflow-hidden' is
@@ -42,6 +43,7 @@ Example of good container:
 ```
 
 One more example with QScrollArea:
+
 ```html
 <q-scroll-area style="width: 400px; height: 500px;" class="bg-yellow">
   ...content expanding over the 500px height from container...

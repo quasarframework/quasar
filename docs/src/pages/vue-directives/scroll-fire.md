@@ -19,11 +19,12 @@ There is also a [Scroll](/vue-directives/scroll) directive which fires whenever 
 
 ## Usage
 
+::: tip Scrolling container
+Please read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.
+:::
+
 <doc-example title="Basic" file="ScrollFire/Basic" scrollable />
 
 ::: warning IMPORTANT
 For performance purposes, the scroll listener function injected is by default debounced by 50ms.
 :::
-
-### Determining Scrolling Container
-Please read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.

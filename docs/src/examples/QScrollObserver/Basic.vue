@@ -24,5 +24,5 @@ export default {
 
 <style lang="sass" scoped>
 .container
-  font-size: 12px
+  font-size: 10px
 </style>
