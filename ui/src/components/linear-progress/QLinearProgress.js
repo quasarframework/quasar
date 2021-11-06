@@ -44,6 +44,11 @@ export default createComponent({
     query: Boolean,
     rounded: Boolean,
 
+    animationSpeed: {
+      type: [ String, Number ],
+      default: 2100
+    },
+
     instantFeedback: Boolean
   },
 
@@ -53,6 +58,10 @@ export default createComponent({
     const sizeStyle = useSize(props, defaultSizes)
 
     const motion = computed(() => props.indeterminate === true || props.query === true)
+    const style = computed(() => ({
+      ...(sizeStyle.value !== null ? sizeStyle.value : {}),
+      '--q-linear-progress-speed': `${ props.animationSpeed }ms`
+    }))
 
     const classes = computed(() =>
       'q-linear-progress'
@@ -103,7 +112,7 @@ export default createComponent({
 
       return h('div', {
         class: classes.value,
-        style: sizeStyle.value,
+        style: style.value,
         role: 'progressbar',
         'aria-valuemin': 0,
         'aria-valuemax': 1,

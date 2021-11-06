@@ -33,11 +33,8 @@
     },
 
     "animation-speed": {
-      "type": [ "String", "Number" ],
-      "desc": "Animation speed (in milliseconds, without unit)",
+      "extends": "animation-speed",
       "default": 300,
-      "examples": [ 500, "1200" ],
-      "category": "style",
       "addedIn": "v2.2"
     },
 

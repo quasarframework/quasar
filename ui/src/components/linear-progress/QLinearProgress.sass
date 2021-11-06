@@ -1,4 +1,5 @@
 .q-linear-progress
+  --q-linear-progress-speed: .3s
   position: relative
   width: 100%
   overflow: hidden
@@ -10,7 +11,7 @@
     transform-origin: 0 0
 
     &--with-transition
-      transition: transform .3s
+      transition: transform var(--q-linear-progress-speed)
 
   &--reverse
     .q-linear-progress
