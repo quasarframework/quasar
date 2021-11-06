@@ -1,13 +1,13 @@
 // used directly by docs too
 export function getParentVm (vm) {
-  if (vm.$parent !== void 0 && vm.$parent !== null) {
+  if (Object(vm.$parent) === vm.$parent) {
     return vm.$parent
   }
 
   vm = vm.$.parent
 
-  while (vm !== void 0 && vm !== null) {
-    if (vm.proxy !== void 0 && vm.proxy !== null) {
+  while (Object(vm) === vm) {
+    if (Object(vm.proxy) === vm.proxy) {
       return vm.proxy
     }
 
