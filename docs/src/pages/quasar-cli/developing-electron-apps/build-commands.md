@@ -14,6 +14,8 @@ $ quasar dev --mode electron
 # passing extra parameters and/or options to
 # underlying "electron" executable:
 $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
+# when on Windows and using Powershell:
+$ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 ```
 
 It opens up an Electron window with dev-tools included. You have HMR for the renderer process and changes to main process are also picked up (but the latter restarts the Electron window on each change).

@@ -36,6 +36,9 @@ $ quasar dev -m electron
 # underlying "cordova" or "electron" executables:
 $ quasar dev -m ios -- some params --and options --here
 $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
+# when on Windows and using Powershell:
+$ quasar dev -m ios '--' some params --and options --here
+$ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 ```
 
 ### Production
@@ -59,6 +62,8 @@ $ quasar build -m [android|ios]
 # passing extra parameters and/or options to
 # underlying "cordova" executable:
 $ quasar build -m ios -- some params --and options --here
+# when on Windows and using Powershell:
+$ quasar build -m ios '--' some params --and options --here
 
 # Electron App
 $ quasar build -m electron

@@ -52,8 +52,9 @@ $ quasar dev -m electron
 # passing extra parameters and/or options to
 # underlying "electron" executable:
 $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
+# when on Windows and using Powershell:
+$ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 ```
 
 This will add Electron mode automatically, if it is missing.
 It will open up an Electron window which will render your app along with Developer Tools opened side by side.
-
