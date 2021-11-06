@@ -29,17 +29,16 @@ $ npm install vue-i18n@next
 import { createI18n } from 'vue-i18n'
 import messages from 'src/i18n'
 
-const i18n = createI18n({
-  locale: 'en-US',
-  messages
-})
-
 export default ({ app }) => {
-  // Set i18n instance on app
+  // Create I18n instance
+  const i18n = createI18n({
+    locale: 'en-US',
+    messages
+  })
+
+  // Tell app to use the I18n instance
   app.use(i18n)
 }
-
-export { i18n }
 ```
 
 3. Create a folder (/src/i18n/) in your app which will hold the definitions for each language that you'll support. Example: [src/i18n](https://github.com/quasarframework/quasar-starter-kit/tree/master/template/src/i18n). Notice the "import messages from 'src/i18n'" from step 2. This is step where you write the content that gets imported.
