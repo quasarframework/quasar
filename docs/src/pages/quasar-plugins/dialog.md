@@ -198,6 +198,18 @@ export default {
 </script>
 ```
 
+If you want to define `emits` in Object form, then (requires Quasar v2.2.5+):
+
+```
+emits: {
+  // REQUIRED; need to specify some events that your
+  // component will emit through useDialogPluginComponent()
+  ...useDialogPluginComponent.emitsObject,
+
+  // ...your own definitions
+]
+```
+
 #### Options API variant
 
 ```html
