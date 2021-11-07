@@ -80,6 +80,9 @@ module.exports = {
     'vue/object-curly-spacing': 'off',
     'vue/script-indent': 'off',
     'vue/no-v-model-argument': 'off',
-    'vue/require-explicit-emits': 'off'
+    'vue/require-explicit-emits': 'off',
+
+    // Testing
+    'cypress/no-unnecessary-waiting': 'off'
   }
 }

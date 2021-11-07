@@ -4,14 +4,127 @@ import MenuWrapperBtn from './MenuWrapperBtn.vue'
 describe('QMenu', () => {
   // Position tests
   describe('Position tests', () => {
-    it('should show a menu at the bottom of the wrapper', () => {
-      mount(MenuWrapperBtn, {})
+    describe('(prop): fit', () => {
+      it('should show a menu that matches the full with of the target when fit is supplied', () => {
+        mount(MenuWrapperBtn, {
+          attrs: {
+            target: '.other-target',
+            fit: true
+          }
+        })
+        let targetWidth = 0
+        cy.dataCy('other-target')
+          .then(($el) => {
+            targetWidth = $el[ 0 ].clientWidth
+          })
+          .click()
+        cy.dataCy('menu')
+          .then(($el) => {
+            expect($el[ 0 ].clientWidth).to.equal(targetWidth)
+          })
+      })
 
-      cy.dataCy('wrapper')
-        .click()
+      it('should show a menu that not matches the full with of the target when fit is false', () => {
+        mount(MenuWrapperBtn, {
+          attrs: {
+            target: '.other-target',
+            fit: false
+          }
+        })
+        let targetWidth = 0
+        cy.dataCy('other-target')
+          .then(($el) => {
+            targetWidth = $el[ 0 ].clientWidth
+          })
+          .click()
+        cy.dataCy('menu')
+          .then(($el) => {
+            expect($el[ 0 ].clientWidth).not.to.equal(targetWidth)
+          })
+      })
+    })
 
-      cy.dataCy('menu')
-        .checkPosition('wrapper', 'bottom')
+    describe('(prop): cover', () => {
+      it('should show a menu that overlays the target when using cover', () => {
+        mount(MenuWrapperBtn, {
+          attrs: {
+            cover: true
+          }
+        })
+        cy.dataCy('wrapper')
+          .click()
+        cy.dataCy('menu')
+          .checkVerticalPosition('wrapper', 'center', 'center')
+          .checkHorizontalPosition('wrapper', 'middle', 'middle')
+      })
+
+      it('should show a menu that overlays the target when using cover', () => {
+        mount(MenuWrapperBtn, {
+          attrs: {
+            cover: true,
+            target: '.other-target'
+          }
+        })
+        cy.dataCy('other-target')
+          .click()
+        cy.dataCy('menu')
+          .checkVerticalPosition('other-target', 'center', 'center')
+          .checkHorizontalPosition('other-target', 'middle', 'middle')
+      })
+
+      it('should ignore self property when using cover', () => {
+        mount(MenuWrapperBtn, {
+          attrs: {
+            cover: true,
+            self: 'center right',
+            target: '.other-target'
+          }
+        })
+        cy.dataCy('other-target')
+          .click()
+        cy.dataCy('menu')
+          .checkVerticalPosition('other-target', 'center', 'center')
+          .checkHorizontalPosition('other-target', 'middle', 'middle')
+      })
+    })
+
+    describe('(prop): anchor & self', () => {
+      it('should show a menu at anchor: bottom left and self: top left  by default', () => {
+        mount(MenuWrapperBtn)
+
+        cy.dataCy('wrapper')
+          .click()
+        cy.dataCy('menu')
+          .checkVerticalPosition('wrapper', 'bottom', 'top')
+          .checkHorizontalPosition('wrapper', 'left', 'left')
+      })
+
+      const verticalAnchor = [ 'top', 'center', 'bottom' ]
+      const horizontalAnchor = [ 'left', 'middle', 'right' ]
+      const verticalSelf = [ 'top', 'center', 'bottom' ]
+      const horizontalSelf = [ 'left', 'middle', 'right' ]
+      verticalAnchor.forEach((vA) => {
+        horizontalAnchor.forEach((hA) => {
+          verticalSelf.forEach((vS) => {
+            horizontalSelf.forEach((hS) => {
+              it(`should position Anchor(${ vA } ${ hA }) & Self(${ vS } ${ hS })  correctly`, () => {
+                mount(MenuWrapperBtn, {
+                  attrs: {
+                    anchor: `${ vA } ${ hA }`,
+                    self: `${ vS } ${ hS }`
+                  }
+                })
+
+                cy.dataCy('wrapper')
+                  .click()
+                cy.dataCy('menu')
+                  .checkVerticalPosition('wrapper', vA, vS)
+                  .checkHorizontalPosition('wrapper', hA, hS)
+              })
+            })
+          })
+        })
+      })
     })
   })
 
@@ -116,17 +229,24 @@ describe('QMenu', () => {
           }
         })
 
-        const mouseX = 100
+        const mouseX = 75
         const mouseY = 25
+        let elementX = 0
+        let elementY = 0
 
         cy.dataCy('wrapper')
+          .then(($el) => {
+            const rect = $el[ 0 ].getBoundingClientRect()
+            elementX = rect.left
+            elementY = rect.top
+          })
           .click(mouseX, mouseY)
         cy.dataCy('menu')
           .should('exist')
           .then(($el) => {
-            expect($el[ 0 ].offsetLeft).to.equal(mouseX)
+            expect($el[ 0 ].offsetLeft).to.equal(mouseX + elementX)
             // TODO: check if the Y position being off by 1 is intentional
-            expect($el[ 0 ].offsetTop).to.equal(mouseY + 1)
+            expect($el[ 0 ].offsetTop).to.equal(mouseY + 1 + elementY)
           })
       })
     })
