@@ -222,6 +222,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
 
   if (obj.internal !== true) {
     for (const prop in obj) {
+      // These props are always valid and doesn't need to be specified in 'props' of 'objectTypes' entries
       if ([ 'type', '__exemption' ].includes(prop)) {
         continue
       }
@@ -238,10 +239,8 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
       if (obj.__exemption !== void 0 && obj.__exemption.includes(prop)) {
         return
       }
-      if (
-        !prop.examples
-        && (obj.definition !== void 0 || obj.values !== void 0)
-      ) {
+      // 'examples' property is not required if 'definition' or 'values' properties are specified
+      if (prop === 'examples' && (obj.definition !== void 0 || obj.values !== void 0)) {
         return
       }
 
@@ -253,6 +252,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
       }
     })
 
+    // Since we processed '__exemption', we can strip it
     if (obj.__exemption !== void 0) {
       const { __exemption, ...p } = obj
       api[ itemName ] = p
