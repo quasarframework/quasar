@@ -97,12 +97,12 @@ export default {
 
     if (this.__installed === true) { return }
 
-    const { $q } = opts
-
     if (isRuntimeSsrPreHydration.value === true) {
       applyClientSsrCorrections()
     }
     else {
+      const { $q } = opts
+
       $q.config.brand !== void 0 && setColors($q.config.brand)
 
       const cls = getBodyClasses(client, $q.config)
