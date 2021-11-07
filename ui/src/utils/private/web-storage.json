@@ -120,11 +120,13 @@
           "required": true,
           "params": {
             "...params": {
-              "type": "Any"
+              "type": "Any",
+              "__exemption": [ "desc", "examples" ]
             }
           },
           "returns": {
-            "type": "Any"
+            "type": "Any",
+            "__exemption": [ "desc", "examples" ]
           },
           "examples": [ "john12" ]
         }

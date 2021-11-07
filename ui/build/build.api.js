@@ -226,69 +226,62 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
         continue
       }
 
-      if (verifyCategory && obj.category === void 0) {
-        logError(`${ banner } missing required API prop "category" for its type (${ type })`)
-        console.error(obj)
-        console.log()
-        process.exit(1)
-      }
-
       if (!def.props.includes(prop)) {
         logError(`${ banner } object has unrecognized API prop "${ prop }" for its type (${ type })`)
         console.error(obj)
         console.log()
         process.exit(1)
       }
+    }
 
-      def.required.forEach(prop => {
-        if (obj.__exemption !== void 0 && obj.__exemption.includes(prop)) {
-          return
-        }
-        if (
-          !prop.examples
-          && (obj.definition !== void 0 || obj.values !== void 0)
-        ) {
-          return
-        }
-
-        if (obj[ prop ] === void 0) {
-          logError(`${ banner } missing required API prop "${ prop }" for its type (${ type })`)
-          console.error(obj)
-          console.log()
-          process.exit(1)
-        }
-      })
-
-      if (obj.__exemption !== void 0) {
-        const { __exemption, ...p } = obj
-        api[ itemName ] = p
+    [ ...def.required, ...(verifyCategory ? [ 'category' ] : []) ].forEach(prop => {
+      if (obj.__exemption !== void 0 && obj.__exemption.includes(prop)) {
+        return
+      }
+      if (
+        !prop.examples
+        && (obj.definition !== void 0 || obj.values !== void 0)
+      ) {
+        return
       }
 
-      def.isBoolean && def.isBoolean.forEach(prop => {
-        if (obj[ prop ] && obj[ prop ] !== true && obj[ prop ] !== false) {
-          logError(`${ banner }/"${ prop }" is not a Boolean`)
-          console.error(obj)
-          console.log()
-          process.exit(1)
-        }
-      })
-      def.isObject && def.isObject.forEach(prop => {
-        if (obj[ prop ] && Object(obj[ prop ]) !== obj[ prop ]) {
-          logError(`${ banner }/"${ prop }" is not an Object`)
-          console.error(obj)
-          console.log()
-          process.exit(1)
-        }
-      })
-      def.isArray && def.isArray.forEach(prop => {
-        if (obj[ prop ] && !Array.isArray(obj[ prop ])) {
-          logError(`${ banner }/"${ prop }" is not an Array`)
-          console.error(obj)
-          console.log()
-          process.exit(1)
-        }
-      })
+      if (obj[ prop ] === void 0) {
+        logError(`${ banner } missing required API prop "${ prop }" for its type (${ type })`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    })
+
+    if (obj.__exemption !== void 0) {
+      const { __exemption, ...p } = obj
+      api[ itemName ] = p
     }
+
+    def.isBoolean && def.isBoolean.forEach(prop => {
+      if (obj[ prop ] && obj[ prop ] !== true && obj[ prop ] !== false) {
+        logError(`${ banner }/"${ prop }" is not a Boolean`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    })
+    def.isObject && def.isObject.forEach(prop => {
+      if (obj[ prop ] && Object(obj[ prop ]) !== obj[ prop ]) {
+        logError(`${ banner }/"${ prop }" is not an Object`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    })
+    def.isArray && def.isArray.forEach(prop => {
+      if (obj[ prop ] && !Array.isArray(obj[ prop ])) {
+        logError(`${ banner }/"${ prop }" is not an Array`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    })
   }
 
   if (obj.returns) {

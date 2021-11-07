@@ -261,7 +261,7 @@
           },
           "returns": {
             "type": "String",
-            "__exemption": [ "examples" ]
+            "__exemption": [ "desc", "examples" ]
           },
           "examples": [
             "'width: 500px'",
@@ -280,7 +280,7 @@
           },
           "returns": {
             "type": "String",
-            "__exemption": [ "examples" ]
+            "__exemption": [ "desc", "examples" ]
           },
           "examples": [
             "'my-special-class bg-primary'",
