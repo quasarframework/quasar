@@ -96,7 +96,7 @@
     "animation-speed": {
       "extends": "animation-speed",
       "default": 600,
-      "addedIn": "v2.2.5"
+      "addedIn": "v2.3"
     }
   },
 
