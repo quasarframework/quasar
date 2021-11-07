@@ -22,7 +22,7 @@ LTS support ends 12 months after the release of a new major version.
 | Version | Status | Released   | Active support ends | LTS support ends |
 | ------- | ------ | ---------- | ------------------- | ---------------- |
 | 2.x     | Active | 21/06/2021 | After 01/04/2022    | After 01/04/2023 |
-| 1.x     | Active | 07/03/2019 | 01/04/2021          | 01/04/2022       |
+| 1.x     | Active | 07/03/2019 | 01/04/2022          | 01/04/2022       |
 
 Quasar v0.x versions are no longer supported.
 
