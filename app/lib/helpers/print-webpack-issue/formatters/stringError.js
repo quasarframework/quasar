@@ -4,7 +4,7 @@ function extract (message) {
   const parts = message.match(errRe)
 
   if (parts === null) {
-    return { message }
+    return { title: '', message }
   }
 
   return {
@@ -16,7 +16,7 @@ function extract (message) {
 module.exports = function format (error, printLog, titleFn) {
   const { title, message } = extract(error.webpackError)
 
-  printLog(titleFn(title || ''))
+  printLog(titleFn(title))
   printLog()
   printLog(message)
 }

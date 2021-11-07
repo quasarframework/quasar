@@ -34,7 +34,7 @@ function injectSsrInterpolation (html) {
   )
   .replace(
     /(<\/head>)/i,
-    (_, tag) => `{{ _meta.resourceStyles }}${tag}`
+    (_, tag) => `{{ _meta.resourceStyles }}{{ _meta.endingHeadTags || '' }}${tag}`
   )
   .replace(
     /(<body[^>]*)(>)/i,
