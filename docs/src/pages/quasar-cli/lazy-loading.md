@@ -4,10 +4,15 @@ desc: How to create Webpack chunks in a Quasar app.
 ---
 When your website/app is small, you can load all layouts/pages/components into the initial bundle and serve everything at startup. But when your code gets complex and has many layouts/pages/components, it won't be optimal to do this as it will massively impact loading time. Fortunately, there is a way to solve this.
 
-We'll cover how you can lazy load / code split parts of your app so that they are automatically requested only on demand. This is done through dynamic imports. Let's start with an example and then convert it so that we use lazy loading -- we'll focus this example on loading a page, but the same principle can be applied to load anything (assets, JSONs, ...):
+We'll cover how you can lazy load / code split parts of your app so that they are automatically requested only on demand. This is done through dynamic imports. Let's start with an example and then convert it so that we use lazy loading -- we'll focus this example on loading a page, but the same principle can be applied to load anything (assets, JSONs, ...).
 
 ## Lazy-load router pages
-It's normal to use the Vue-Router calling static components as below.
+It's normal to use the Vue Router calling static components as below.
+
+::: warning
+Quasar documentation assumes you are already familiar with [Vue Router](https://github.com/vuejs/vue-router-next). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue Router documentation](https://next.router.vuejs.org/).
+:::
+
 ```js
 import SomePage from 'pages/SomePage'
 
@@ -20,6 +25,7 @@ const routes = [
 ```
 
 Now let's change this and make the page be loaded on demand only, using dynamic imports:
+
 ```js
 const routes = [
   {
