@@ -95,18 +95,16 @@ export default {
       return
     }
 
-    const { $q } = opts
-
-    if (__QUASAR_SSR_CLIENT__ !== true) {
-      $q.config.brand !== void 0 && setColors($q.config.brand)
-    }
-
     if (this.__installed === true) { return }
+
+    const { $q } = opts
 
     if (isRuntimeSsrPreHydration.value === true) {
       applyClientSsrCorrections()
     }
     else {
+      $q.config.brand !== void 0 && setColors($q.config.brand)
+
       const cls = getBodyClasses(client, $q.config)
       document.body.classList.add.apply(document.body.classList, cls)
     }
