@@ -30,6 +30,13 @@ function clone (obj) {
   return JSON.parse(JSON.stringify(obj))
 }
 
+function escapeHTMLTagContent (str) {
+  return str ? str.replace(/[<>]/g, '') : ''
+}
+function escapeHTMLAttribute (str) {
+  return str ? str.replace(/\"/g, '') : ''
+}
+
 function formatPublicPath (path) {
   if (!path) {
     return ''
@@ -890,8 +897,8 @@ class QuasarConfFile {
       process: {
         env: cfg.build.env
       },
-      productName: cfg.build.productName,
-      productDescription: cfg.build.productDescription
+      productName: escapeHTMLTagContent(cfg.build.productName),
+      productDescription: escapeHTMLAttribute(cfg.build.productDescription)
     }, cfg.htmlVariables)
 
     cfg.__html = {
