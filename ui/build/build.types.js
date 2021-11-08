@@ -81,7 +81,12 @@ function convertTypeVal (type, def, required) {
   }
 
   if (type === 'Function') {
-    // FIXME: paramsRequired should be false for Notify plugin's return type
+    // FIXME: Find a better way to handle this, figure out if there are other cases as well
+    // Set paramsRequired to false for the function returned from Notify.create(...)
+    if (def.desc === 'Calling this function with no parameters hides the notification; When called with one Object parameter (the original notification must NOT be grouped), it updates the notification (specified properties are shallow merged with previous ones; note that group and position cannot be changed while updating and so they are ignored)') {
+      return '(' + getFunctionDefinition({ definition: def, paramsRequired: false }) + ')'
+    }
+
     // Function type notations must be parenthesized when used in a union type
     return '(' + getFunctionDefinition({ definition: def, paramsRequired: true }) + ')'
   }
