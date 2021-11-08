@@ -15,6 +15,8 @@ Here is a list of things I needed to do to make this work:
 
 ## Components list todo
 I did a quick search in the issues to see which components popup the most, to make a shortlist of what to pickup first.
+
+Shortlist :memo:
 - [ ] QSelect (600+)
 - [ ] QInput (400+)
 - [ ] QDialog (400+)
@@ -26,8 +28,8 @@ I did a quick search in the issues to see which components popup the most, to ma
 - [ ] QTabs (100+)
 - [ ] QUploader (100+)
 
-Components in progress:
+In progress :clap:
 - [X] QMenu (140+)
 
-Other components done:
+Done :white_check_mark:
 - [X] QAvatar
