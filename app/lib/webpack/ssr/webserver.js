@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
+const { existsSync } = require('fs-extra')
 
 const appPaths = require('../../app-paths')
 const WebserverAssetsPlugin = require('./plugin.webserver-assets')
@@ -7,6 +8,11 @@ const injectNodeTypescript = require('../inject.node-typescript')
 const WebpackProgressPlugin = require('../plugin.progress')
 
 const nodeEnvBanner = `if(process.env.NODE_ENV===void 0){process.env.NODE_ENV='production'}`
+const prodExportFile = {
+  js: appPaths.resolve.ssr('production-export.js'),
+  ts: appPaths.resolve.ssr('production-export.ts'),
+  fallback: appPaths.resolve.app('.quasar/ssr-fallback-production-export.js')
+}
 
 const flattenObject = (obj, prefix = 'process.env') => {
   return Object.keys(obj)
@@ -38,6 +44,13 @@ module.exports = function (cfg, configName) {
   chain.target('node')
   chain.mode(cfg.ctx.prod ? 'production' : 'development')
 
+  if (
+    existsSync(prodExportFile.js) === false &&
+    existsSync(prodExportFile.ts) === false
+  ) {
+    chain.resolve.alias.set('src-ssr/production-export', prodExportFile.fallback)
+  }
+
   chain.resolve.alias.set('src-ssr', appPaths.ssrDir)
 
   if (cfg.ctx.dev) {
@@ -59,6 +72,12 @@ module.exports = function (cfg, configName) {
 
   chain.output
     .libraryTarget('commonjs2')
+
+  chain.output
+    .library({
+      type: 'commonjs2',
+      export: 'default'
+    })
 
   chain.externals([
     '@vue/server-renderer',

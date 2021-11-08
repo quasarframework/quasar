@@ -13,7 +13,10 @@ import serverManifest from './quasar.server-manifest.json'
 import clientManifest from './quasar.client-manifest.json'
 import injectMiddlewares from './ssr-middlewares.js'
 
+import productionExport from 'src-ssr/production-export'
+
 const app = express()
+const port = process.env.PORT || <%= ssr.prodPort %>
 
 const doubleSlashRE = /\/\//g
 const publicPath = `<%= build.publicPath %>`
@@ -53,8 +56,7 @@ app.use(resolveUrlPath('/service-worker.js'), serveStatic('service-worker.js', {
 // serve "www" folder (includes the "public" folder)
 app.use(resolveUrlPath('/'), serveStatic('.'))
 
-// inject custom middleware
-injectMiddlewares({
+const middlewareParams = {
   app,
   resolve: {
     urlPath: resolveUrlPath,
@@ -70,11 +72,20 @@ injectMiddlewares({
   serve: {
     static: serveStatic
   }
-}).then(() => {
-  // finally start listening to clients
-  const port = process.env.PORT || <%= ssr.prodPort %>
+}
 
-  app.listen(port, () => {
-    console.log('Server listening at port ' + port)
-  })
+// inject custom middleware
+const appPromise = injectMiddlewares(middlewareParams)
+
+const isReady = () => appPromise
+
+const ssrHandler = (req, res, next) => {
+  return isReady().then(() => app(req, res, next))
+}
+
+export default productionExport({
+  port,
+  isReady,
+  ssrHandler,
+  ...middlewareParams
 })

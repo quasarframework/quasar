@@ -14,6 +14,7 @@ declare module "quasar/wrappers" {
   import { RouteCallback } from "@quasar/app";
   import { StoreCallback } from "@quasar/app";
   import { SsrMiddlewareCallback } from "@quasar/app";
+  import { SsrProductionExportCallback } from "@quasar/app";
 
   /** Some arguments are available only if you enable the related mode: `store` when using the Store, `ssrContext` when using SSR, etc */
   function boot<TState = any>(
@@ -35,4 +36,8 @@ declare module "quasar/wrappers" {
   function ssrMiddleware(
     callback: SsrMiddlewareCallback
   ): SsrMiddlewareCallback;
+
+  function ssrProductionExport(
+    callback: SsrProductionExportCallback
+  ): SsrProductionExportCallback;
 }
