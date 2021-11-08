@@ -12,3 +12,22 @@ Here is a list of things I needed to do to make this work:
 - Had to add to `ui/tsconfig.json` include array to include the `commands.d.ts` which is necessary for autocomplete of custom commands when writing tests
 - I added a visual snapshot testing package and configured that to include the snapshots made inside the folder of the component that is tested. However the screenshots are always place inside a `All Specs` folder in there. There is no option to change the name of that folder :(
 - In `ui/test/cypress/support/unit.js` I have to import global quasar css, as well as the icons css. This file is run before every test suite as a global configuration of your tests.
+
+## Components list todo
+I did a quick search in the issues to see which components popup the most, to make a shortlist of what to pickup first.
+- [ ] QSelect (600+)
+- [ ] QInput (400+)
+- [ ] QDialog (400+)
+- [ ] QTable (300+)
+- [ ] QButton (230+)
+- [ ] QDate (150+)
+- [ ] QEditor (100+)
+- [ ] QChip (100+)
+- [ ] QTabs (100+)
+- [ ] QUploader (100+)
+
+Components in progress:
+- [X] QMenu (140+)
+
+Other components done:
+- [X] QAvatar
