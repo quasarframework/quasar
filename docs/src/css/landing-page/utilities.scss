@@ -84,27 +84,27 @@ $text-size-list: 10, 12, 16, 18, 20, 24, 28, 32, 36;
   text-align: center;
   text-transform: uppercase;
 
-  &-large {
+  &--large {
     font-size: 36px;
     color: $lp-primary;
     font-weight: 700;
     margin: 20px 0 20px 0;
   }
 
-  &-medium {
+  &--medium {
     font-size: 24px;
     color: $lp-primary;
     font-weight: bold;
   }
 
-  &-small {
+  &--small {
     font-size: 20px;
     color: $lp-light;
     font-weight: 400;
     text-transform: initial;
   }
 
-  &-quote {
+  &--quote {
     font-size: 16px;
     color: $lp-primary;
     font-weight: 400;
@@ -112,6 +112,6 @@ $text-size-list: 10, 12, 16, 18, 20, 24, 28, 32, 36;
   }
 }
 
-.lg-mb-large, .lg-mt-large {
+.lp-mb--large {
   margin-bottom: 100px;
 }
