@@ -95,13 +95,14 @@
       "params": {
         "info": {
           "type": "Object",
-          "__exemption": [ "examples" ],
+          "desc": "An object containing scroll information",
           "definition": {
             "ref": {
               "type": "Object",
               "desc": "Vue reference to the QScrollArea which triggered the event",
               "__exemption": [ "examples" ]
             },
+
             "verticalPosition": {
               "type": "Number",
               "desc": "Vertical scroll position (in px)",
@@ -215,6 +216,7 @@
       "desc": "Get current scroll position",
       "returns": {
         "type": "Object",
+        "desc": "An object containing scroll position information",
         "definition": {
           "top": {
             "type": "Number",
@@ -235,6 +237,7 @@
       "desc": "Get current scroll position in percentage (0.0 <= x <= 1.0)",
       "returns": {
         "type": "Object",
+        "desc": "An object containing scroll position information in percentage",
         "definition": {
           "top": {
             "type": "Number",
