@@ -70,6 +70,7 @@ Detailing the Object:
 
   ssrHandler, // Prebuilt app handler if your serverless service
               // doesn't require a specific way to provide it.
+              // Form: ssrHandler (req, res, next)
               // Tip: it uses isReady() under the hood already
 
   // all of the following are the same as
@@ -148,20 +149,8 @@ export default ssrProductionExport(({ ssrHandler }) => {
 })
 ```
 
-#### Example: Firebase function
-
-``` js
-// src-ssr/production-export.[js|ts]
-
-import * as functions from 'firebase-functions'
-import { ssrProductionExport } from 'quasar/wrappers'
-
-export default ssrProductionExport(({ ssrHandler }) => {
-  return {
-    ssr: functions.https.onRequest(ssrHandler)
-  }
-})
-```
+Please note that the provided `ssrHandler` is a Function of form: `(req, res, next) => void`.
+Should you require to export a handler of form `(event, context, callback) => void` then you will most likely want to use the `serverless-http` package (see below).
 
 #### Example: serverless-http
 
@@ -173,5 +162,20 @@ import { ssrProductionExport } from 'quasar/wrappers'
 
 export default ssrProductionExport(({ ssrHandler }) => {
   return { handler: serverless(ssrHandler) }
+})
+```
+
+#### Example: Firebase function
+
+``` js
+// src-ssr/production-export.[js|ts]
+
+import * as functions from 'firebase-functions'
+import { ssrProductionExport } from 'quasar/wrappers'
+
+export default ssrProductionExport(({ ssrHandler }) => {
+  return {
+    handler: functions.https.onRequest(ssrHandler)
+  }
 })
 ```
