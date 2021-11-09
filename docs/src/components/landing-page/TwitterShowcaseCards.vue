@@ -66,7 +66,7 @@ async function getTwitterInstance () {
 export default defineComponent({
   name: 'TwitterShowcaseCards',
   setup () {
-    const slide = ref(0)
+    const slide = ref(INITIAL_TWEET_GROUP_INDEX)
     let twitterInstance = null
     const alreadyDisplayedTweetGroupsIndexes = []
 
