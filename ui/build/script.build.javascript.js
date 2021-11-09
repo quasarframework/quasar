@@ -298,7 +298,20 @@ function buildEntry (config) {
     })
 }
 
-module.exports = function () {
+module.exports = async function (subtype) {
+  if (subtype === 'types') {
+    const data = await require('./build.api').generate()
+
+    require('./build.vetur').generate(data)
+    require('./build.web-types').generate(data)
+
+    // 'types' depends on 'lang-index'
+    await require('./build.lang-index').generate()
+    require('./build.types').generate(data)
+
+    return
+  }
+
   require('./build.lang-index').generate()
     .then(() => require('./build.svg-icon-sets').generate())
     .then(() => require('./build.api').generate())
