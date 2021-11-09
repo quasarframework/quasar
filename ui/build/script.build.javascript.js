@@ -298,8 +298,50 @@ function buildEntry (config) {
     })
 }
 
+const { createPatch } = require('diff')
+const { highlight } = require('cli-highlight')
+
+/**
+ * Call this with the path to file you want to track, before the file gets updated.
+ * It will save the current contents and will print the diff before exiting the process
+ *
+ * @param {string} filePath
+ */
+function withDiff (filePath) {
+  const absolutePath = resolve(filePath)
+
+  // If there is no "old" file, then there is no diff
+  if (!fs.existsSync(absolutePath)) {
+    return
+  }
+
+  // Read the current(old) contents
+  const oldContent = fs.readFileSync(absolutePath, { encoding: 'utf-8' })
+
+  // Before exiting the process, read the new contents and output the diff
+  process.on('exit', code => {
+    if (code !== 0) {
+      return
+    }
+
+    const newContent = fs.readFileSync(absolutePath, { encoding: 'utf-8' })
+
+    if (oldContent === newContent) {
+      console.log(`\n 📜 No changes for ${ filePath }\n`)
+      return
+    }
+
+    const diffPatch = createPatch(filePath, oldContent, newContent)
+
+    console.log(`\n 📜 Changes for ${ filePath }\n`)
+    console.log(highlight(diffPatch, { language: 'diff' }))
+  })
+}
+
 module.exports = async function (subtype) {
   if (subtype === 'types') {
+    withDiff('dist/types/index.d.ts')
+
     const data = await require('./build.api').generate()
 
     require('./build.vetur').generate(data)
