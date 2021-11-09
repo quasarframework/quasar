@@ -46,7 +46,7 @@ contextBridge.exposeInMainWorld('myAPI', {
 
 ::: warning
 1. Be aware that this file runs in a Node.js context.
-2. If you import anything from node_modules, then make sure that the package is specified in /package.json > dependencies and NOT in devDependencies.
+2. If you import anything from node_modules, then make sure that the package is specified in /package.json > "dependencies" and NOT in "devDependencies".
 :::
 
 ## Security considerations

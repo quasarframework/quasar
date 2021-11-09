@@ -1,12 +1,7 @@
 /**
- * Start the SSR server
- * or export your handler for serverless use
- *
- * TODO... link:
- * https://v2.quasar.dev/quasar-cli/developing-ssr/ssr-production-export
- *
- * This file is used ONLY on production
- */
+ * THIS FILE IS GENERATED AUTOMATICALLY.
+ * DO NOT EDIT.
+ **/
 
 export default ({ app, isReady, port }) => {
   return isReady().then(() => {

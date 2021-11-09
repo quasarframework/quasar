@@ -132,7 +132,8 @@ Adding SSR mode to a Quasar project means a new folder will be created: `/src-ss
 .
 └── src-ssr/
     ├── middlewares/  # SSR middleware files
-    └── directives/   # SSR transformations for Vue directives
+    ├── directives/   # SSR transformations for Vue directives
+    └── production-export.js # SSR webserver production export
 ```
 
 You can freely edit these files. Each of the two folders are detailed in their own doc pages (check left-side menu).
@@ -141,7 +142,7 @@ Notice a few things:
 
 1. These files run in a Node context (they are NOT transpiled by Babel), so use only the ES6 features that are supported by your Node version. (https://node.green/)
 
-2. If you import anything from node_modules, then make sure that the package is specified in package.json > dependencies and NOT in devDependencies.
+2. If you import anything from node_modules, then make sure that the package is specified in package.json > "dependencies" and NOT in "devDependencies".
 
 3. The `/src-ssr/middlewares` is built through a separate Webpack config. **You will see this marked as "Webserver" when Quasar App CLI builds your app.** You can chain/extend the Webpack configuration of these files through quasar.conf.js:
 
@@ -169,6 +170,8 @@ return {
   }
 }
 ```
+
+4. The `/src-ssr/production-export.js` file is detailed in [SSR Production Export](/quasar-cli/developing-ssr/ssr-production-export) page. Read it especially if you need to support serverless functions.
 
 ## Helping SEO
 

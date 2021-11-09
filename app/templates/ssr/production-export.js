@@ -1,11 +1,10 @@
 /**
- * Start the SSR server
- * or export your handler for serverless use
+ * Start the SSR server or export your handler for serverless use
+ * or export whatever else fits your needs.
  *
- * TODO... link:
  * https://v2.quasar.dev/quasar-cli/developing-ssr/ssr-production-export
  *
- * This file is used ONLY on production
+ * This file is used ONLY on production.
  */
 
 import { ssrProductionExport } from 'quasar/wrappers'
