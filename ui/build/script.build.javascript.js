@@ -4,6 +4,8 @@ const path = require('path')
 const fs = require('fs')
 const rollup = require('rollup')
 const uglify = require('uglify-es')
+const fastGlob = require('fast-glob')
+
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 // const typescript = require('rollup-plugin-typescript2')
 const replace = require('@rollup/plugin-replace')
@@ -13,8 +15,14 @@ const { version } = require('../package.json')
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
 
+const rootFolder = path.resolve(__dirname, '..')
+
 function resolve (_path) {
-  return path.resolve(__dirname, '..', _path)
+  return path.resolve(rootFolder, _path)
+}
+
+function relative (_path) {
+  return path.relative(rootFolder, _path)
 }
 
 // const tsConfig = {
@@ -302,45 +310,86 @@ const { createPatch } = require('diff')
 const { highlight } = require('cli-highlight')
 
 /**
- * Call this with the path to file you want to track, before the file gets updated.
- * It will save the current contents and will print the diff before exiting the process
+ * Call this with the path to file (or folder) you want to track, before the file gets updated.
+ * It will save the current contents and will print the diff before exiting the process.
  *
- * @param {string} filePath
+ * @param {string} locationPath
  */
-function withDiff (filePath) {
-  const absolutePath = resolve(filePath)
+function prepareDiff (locationPath) {
+  let absolutePath = resolve(locationPath)
 
-  // If there is no "old" file, then there is no diff
+  // If there is no "old" file/folder, then there is no diff (everything will be new)
   if (!fs.existsSync(absolutePath)) {
     return
   }
 
-  // Read the current(old) contents
-  const oldContent = fs.readFileSync(absolutePath, { encoding: 'utf-8' })
+  // If it's a directory, then query all files in it
+  if (fs.lstatSync(absolutePath).isDirectory()) {
+    absolutePath += '/*'
+  }
+
+  const originalsMap = new Map()
+  const originalFiles = fastGlob.sync(absolutePath)
+
+  // If no files, then there is no diff (everything will be new)
+  if (originalFiles.length === 0) {
+    return
+  }
+
+  // Read the current (old) contents
+  originalFiles.forEach(filePath => {
+    originalsMap.set(filePath, fs.readFileSync(filePath, { encoding: 'utf-8' }))
+  })
 
   // Before exiting the process, read the new contents and output the diff
   process.on('exit', code => {
-    if (code !== 0) {
-      return
+    if (code !== 0) { return }
+
+    const currentFiles = fastGlob.sync(absolutePath)
+    const currentMap = new Map()
+
+    let somethingChanged = false
+
+    currentFiles.forEach(filePath => {
+      const relativePath = relative(filePath)
+      currentMap.set(filePath, true)
+
+      if (originalsMap.has(filePath) === false) {
+        console.log(`\n 📜 New file: ${ relativePath }`)
+        somethingChanged = true
+        return
+      }
+
+      const currentContent = fs.readFileSync(filePath, { encoding: 'utf-8' })
+      const originalContent = originalsMap.get(filePath)
+
+      if (originalContent !== currentContent) {
+        const diffPatch = createPatch(filePath, originalContent, currentContent)
+
+        console.log(`\n 📜 Changes for ${ relativePath }\n`)
+        console.log(highlight(diffPatch, { language: 'diff' }))
+        somethingChanged = true
+      }
+    })
+
+    originalsMap.forEach((_, filePath) => {
+      if (currentMap.has(filePath) === false) {
+        console.log(`\n 📜 Removed file: ${ relative(filePath) }\n`)
+        somethingChanged = true
+      }
+    })
+
+    if (somethingChanged === false) {
+      console.log('\n 📜 No changes detected.\n')
     }
-
-    const newContent = fs.readFileSync(absolutePath, { encoding: 'utf-8' })
-
-    if (oldContent === newContent) {
-      console.log(`\n 📜 No changes for ${ filePath }\n`)
-      return
-    }
-
-    const diffPatch = createPatch(filePath, oldContent, newContent)
-
-    console.log(`\n 📜 Changes for ${ filePath }\n`)
-    console.log(highlight(diffPatch, { language: 'diff' }))
   })
 }
 
+const subTypes = [ 'types', 'api' ]
+
 module.exports = async function (subtype) {
   if (subtype === 'types') {
-    withDiff('dist/types/index.d.ts')
+    prepareDiff('dist/types/index.d.ts')
 
     const data = await require('./build.api').generate()
 
@@ -352,6 +401,17 @@ module.exports = async function (subtype) {
     require('./build.types').generate(data)
 
     return
+  }
+
+  if (subtype === 'api') {
+    await prepareDiff('dist/api')
+    await require('./build.api').generate()
+    return
+  }
+
+  if (subtype !== void 0) {
+    console.log(` Unrecognized subtype specified: "${ subtype }". Available: ${ subTypes.join(' | ') }\n`)
+    process.exit(1)
   }
 
   require('./build.lang-index').generate()
