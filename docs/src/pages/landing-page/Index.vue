@@ -35,7 +35,7 @@
         Our platform sponsors
       </div>
       <div class="sponsors__logos row col-6 col-sm-4 justify-center">
-        <template v-for="(src, i) in sponsorLogos" :key="i">
+        <template v-for="(src, index) in sponsorLogos.platinum" :key="index">
           <q-img :src="src" width="200px"/>
         </template>
       </div>
@@ -52,7 +52,7 @@
     </div>
 
     <div class="q-my-xl">
-      <div class="lp-heading lp-heading-large q-mb-xl">
+      <div class="lp-heading lp-heading--large q-mb-xl">
         Why should your team choose quasar?
       </div>
 
@@ -78,11 +78,11 @@
 
       <div class="q-mt-xl column items-center">
         <div
-          class="lp-heading lp-heading-medium">
+          class="lp-heading lp-heading--medium">
           Still Doubtful?
         </div>
 
-        <div class="lp-heading lp-heading-small">
+        <div class="lp-heading lp-heading--small">
           "This framework's got a few surprises left in it, sweetheart!"
         </div>
 
@@ -98,24 +98,24 @@
 
     <div class="window-height row justify-center items-end">
       <div class="col-9 relative-position">
-        <q-img src="~assets\landing-page\homepage-background-images\astronaut-on-moon.jpg" />
+        <q-img src="~assets/landing-page/homepage-background-images/astronaut-on-moon.jpg" />
         <div class="column items-end absolute-bottom-right">
-          <div class="lp-heading lp-heading-large text-right">
+          <div class="lp-heading lp-heading--large text-right">
             Advanced scaffolding
           </div>
 
-          <div class="text-right lp-heading-small q-mb-md">
+          <div class="text-right lp-heading--small q-mb-md">
             Get all you need to setup your project basic
             <span class="block">features and save time</span>
           </div>
 
-          <div class="lp-heading-quote">
+          <div class="lp-heading--quote">
             <q>He who controls Scaffolding, controls the universe</q>
           </div>
 
           <div>
             <q-btn
-              class="shadow-bottom-small lg-mb-large q-mt-md"
+              class="shadow-bottom-small lp-mb--large q-mt-md"
               color="lp-accent"
               label="Consult pricing"
             />
@@ -131,29 +131,29 @@
             size="xl"
             name="img:homepage-icons/astronaut.svg"
           />
-          <div class="lp-heading lp-heading-large">
+          <div class="lp-heading lp-heading--large">
             What our community thinks of quasar
           </div>
-          <div class="text-size-20 text-lp-light text-weight-medium">
+          <div class="lp-heading lp-heading--small">
             "You've never heard of Quasar? It's the framework that made a mobile
-            app, desktop app and browser extension altogether in less than
-            12minutes."
+            app, desktop app and browser extension altogether in less than 12 minutes."
           </div>
         </div>
       </div>
+      <twitter-showcase-cards />
     </div>
 
     <div class="support row justify-center relative-position" >
       <div class="col-8">
-        <div class="lp-heading-large">
+        <div class="lp-heading--large">
           Support quasar: Become sponsor!
         </div>
 
-        <div class="lp-heading-small text-left">
+        <div class="lp-heading--small text-left">
           Working for a company or freelancer? You can contribute, ever a bit and getting something back.
         </div>
 
-        <div class="q-my-md lp-heading-quote">
+        <div class="q-my-md lp-heading--quote">
           <q>So, um, we think we should discuss the bonus situation</q>
         </div>
 
@@ -168,21 +168,89 @@
       <q-img class="absolute-bottom" width="50%" src="~assets/landing-page/homepage-background-images/astronaut-left-hand.png" />
       <q-img width="50%" class="absolute-top-right" src="~assets/landing-page/homepage-background-images/astronaut-right-hand.png" />
     </div>
+
+    <div class="text-center lp-mb--large">
+      <q-icon size="xl" name="img:homepage-icons/medal.svg" />
+      <div class="lp-heading lp-heading--large">Our Sponsors</div>
+      <div class="lp-heading lp-heading--small">Every space odyssey has its patrons</div>
+      <div class="row justify-center">
+        <div class="col-8">
+          <div class="q-my-md">Platinum Sponsors</div>
+          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, i) in sponsorLogos.platinum" :key="i" />
+          <div class="q-my-md">Gold Sponsors</div>
+          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, i) in sponsorLogos.gold" :key="i" />
+          <div class="q-my-md">Silver Sponsors</div>
+          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, i) in sponsorLogos.silver" :key="i" />
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center social-channels-call-to-action">
+      <q-img src="~assets/landing-page/homepage-background-images/planet.png">
+        <div class="absolute-bottom bg-transparent">
+          <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
+          <div class="lp-heading lp-heading--large">Don't miss the news </div>
+          <div class="lp-heading lp-heading--small">Follow our social pages to stay up to date</div>
+          <div class="row justify-center q-mb-xl q-mt-md q-gutter-x-md">
+            <q-btn label="Facebook" color="lp-accent" outline/>
+            <q-btn label="Twitter" color="lp-accent" outline/>
+            <q-btn label="Forum" color="lp-accent" outline/>
+            <q-btn label="Discord" color="lp-accent" outline/>
+          </div>
+        </div>
+      </q-img>
+    </div>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import WhyQuasarCard from 'src/components/landing-page/WhyQuasarCard'
 import { sponsorLogos, whyQuasar } from '../../assets/landing-page/image-links.ts'
+import TwitterShowcaseCards from 'src/components/landing-page/TwitterShowcaseCards'
 
 export default defineComponent({
   name: 'Index',
-  components: { WhyQuasarCard },
+  components: { TwitterShowcaseCards, WhyQuasarCard },
   setup () {
+    const slide = ref(0)
+
     return {
+      showcaseContents: [
+        [
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>'
+        ],
+        [
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>'
+        ],
+        [
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>'
+        ],
+        [
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>'
+        ],
+        [
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>'
+        ],
+        [
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
+          '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>'
+        ]
+      ],
       whyQuasar,
-      sponsorLogos
+      sponsorLogos,
+      slide
     }
   }
 })
@@ -196,4 +264,10 @@ export default defineComponent({
 .support {
   height: 100vh;
 }
+
+.social-channels-call-to-action {
+  // TODO: reduce image height (from top), and remove this negative margin
+  margin-top: -30%;
+}
+
 </style>

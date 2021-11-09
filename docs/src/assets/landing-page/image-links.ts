@@ -1,10 +1,8 @@
-const sponsorLogos = [
-  'sponsor-logos/dreamonkey.png',
-  'sponsor-logos/comcomservices.png',
-  'sponsor-logos/project-finance.png',
-  'sponsor-logos/debricked.png',
-  'sponsor-logos/digitalocean.png'
-]
+const sponsorLogos = {
+  platinum: [ 'dreamonkey.png', 'comcomservices.png', 'project-finance.png' ],
+  gold: [ 'digitalocean.png', 'jugglest.png', 'ibl.png', 'truelogic.png' ],
+  silver: [ 'letsbutterfly.png', 'kalisio.png', 'campus-cloud.png', 'platformpurple.png', 'bga-soft.png' ]
+}
 
 const whyQuasar = [
   {
