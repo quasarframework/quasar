@@ -230,3 +230,19 @@ Note that `vue-loader` uses `lang="coffee"` to identify components which are usi
   ...
 </script>
 ```
+
+## Webpack v5 compatibility issues
+
+Quasar v2.3 is using Webpack v5. If you are moving your existing project to Quasar from Webpack v4 project, you might have some compatibility issues with 3rd party libraries. Webpack v5 removed the Node.js polyfills for the web client builds. If you are using packages for the web client that rely on Node.js API, you will get errors saying that some packages are missing. Examples: `Buffer`, `crypto`, `os`, `path`, `stream`, `assert`.
+
+These need to be addressed by the package owners. But if you prefer not to wait and just want to run your app/website (with a bit of risk), then you can manually install `node-polyfill-webpack-plugin` (`yarn add --dev node-polyfill-webpack-plugin`) and reference it in `quasar.conf.js > build > chainWebpack`. Example:
+
+```js
+// quasar.conf.js
+build: {
+  chainWebpack (chain) {
+    const nodePolyfillWebpackPlugin = require('node-polyfill-webpack-plugin')
+    chain.plugin('node-polyfill').use(nodePolyfillWebpackPlugin)
+  }
+}
+```
