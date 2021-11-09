@@ -4,7 +4,6 @@ const path = require('path')
 const fs = require('fs')
 const rollup = require('rollup')
 const uglify = require('uglify-es')
-const fastGlob = require('fast-glob')
 
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 // const typescript = require('rollup-plugin-typescript2')
@@ -14,15 +13,12 @@ const { version } = require('../package.json')
 
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
+const prepareDiff = require('./prepare-diff')
 
 const rootFolder = path.resolve(__dirname, '..')
 
 function resolve (_path) {
   return path.resolve(rootFolder, _path)
-}
-
-function relative (_path) {
-  return path.relative(rootFolder, _path)
 }
 
 // const tsConfig = {
@@ -306,89 +302,27 @@ function buildEntry (config) {
     })
 }
 
-const { createPatch } = require('diff')
-const { highlight } = require('cli-highlight')
+const runBuild = {
+  full () {
+    require('./build.lang-index').generate()
+      .then(() => require('./build.svg-icon-sets').generate())
+      .then(() => require('./build.api').generate())
+      .then(data => {
+        require('./build.transforms').generate()
+        require('./build.vetur').generate(data)
+        require('./build.types').generate(data)
+        require('./build.web-types').generate(data)
 
-/**
- * Call this with the path to file (or folder) you want to track, before the file gets updated.
- * It will save the current contents and will print the diff before exiting the process.
- *
- * @param {string} locationPath
- */
-function prepareDiff (locationPath) {
-  let absolutePath = resolve(locationPath)
+        addSsrDirectives(builds)
 
-  // If there is no "old" file/folder, then there is no diff (everything will be new)
-  if (!fs.existsSync(absolutePath)) {
-    return
-  }
+        addUmdAssets(builds, 'lang', 'lang')
+        addUmdAssets(builds, 'icon-set', 'iconSet')
 
-  // If it's a directory, then query all files in it
-  if (fs.lstatSync(absolutePath).isDirectory()) {
-    absolutePath += '/*'
-  }
+        build(builds)
+      })
+  },
 
-  const originalsMap = new Map()
-  const originalFiles = fastGlob.sync(absolutePath)
-
-  // If no files, then there is no diff (everything will be new)
-  if (originalFiles.length === 0) {
-    return
-  }
-
-  // Read the current (old) contents
-  originalFiles.forEach(filePath => {
-    originalsMap.set(filePath, fs.readFileSync(filePath, { encoding: 'utf-8' }))
-  })
-
-  // Before exiting the process, read the new contents and output the diff
-  process.on('exit', code => {
-    if (code !== 0) { return }
-
-    const currentFiles = fastGlob.sync(absolutePath)
-    const currentMap = new Map()
-
-    let somethingChanged = false
-
-    currentFiles.forEach(filePath => {
-      const relativePath = relative(filePath)
-      currentMap.set(filePath, true)
-
-      if (originalsMap.has(filePath) === false) {
-        console.log(`\n 📜 New file: ${ relativePath }`)
-        somethingChanged = true
-        return
-      }
-
-      const currentContent = fs.readFileSync(filePath, { encoding: 'utf-8' })
-      const originalContent = originalsMap.get(filePath)
-
-      if (originalContent !== currentContent) {
-        const diffPatch = createPatch(filePath, originalContent, currentContent)
-
-        console.log(`\n 📜 Changes for ${ relativePath }\n`)
-        console.log(highlight(diffPatch, { language: 'diff' }))
-        somethingChanged = true
-      }
-    })
-
-    originalsMap.forEach((_, filePath) => {
-      if (currentMap.has(filePath) === false) {
-        console.log(`\n 📜 Removed file: ${ relative(filePath) }\n`)
-        somethingChanged = true
-      }
-    })
-
-    if (somethingChanged === false) {
-      console.log('\n 📜 No changes detected.\n')
-    }
-  })
-}
-
-const subTypes = [ 'types', 'api' ]
-
-module.exports = async function (subtype) {
-  if (subtype === 'types') {
+  async types () {
     prepareDiff('dist/types/index.d.ts')
 
     const data = await require('./build.api').generate()
@@ -399,35 +333,39 @@ module.exports = async function (subtype) {
     // 'types' depends on 'lang-index'
     await require('./build.lang-index').generate()
     require('./build.types').generate(data)
+  },
 
-    return
-  }
-
-  if (subtype === 'api') {
+  async api () {
     await prepareDiff('dist/api')
     await require('./build.api').generate()
-    return
-  }
+  },
 
-  if (subtype !== void 0) {
-    console.log(` Unrecognized subtype specified: "${ subtype }". Available: ${ subTypes.join(' | ') }\n`)
+  async vetur () {
+    await prepareDiff('dist/vetur')
+
+    const data = await require('./build.api').generate()
+    require('./build.vetur').generate(data)
+  },
+
+  async webtypes () {
+    await prepareDiff('dist/web-types')
+
+    const data = await require('./build.api').generate()
+    require('./build.web-types').generate(data)
+  },
+
+  async transforms () {
+    await prepareDiff('dist/transforms')
+    require('./build.transforms').generate()
+  }
+}
+
+module.exports = function (subtype) {
+  if (runBuild[ subtype ] === void 0) {
+    console.log(` Unrecognized subtype specified: "${ subtype }".`)
+    console.log(` Available: ${ Object.keys(runBuild).join(' | ') }\n`)
     process.exit(1)
   }
 
-  require('./build.lang-index').generate()
-    .then(() => require('./build.svg-icon-sets').generate())
-    .then(() => require('./build.api').generate())
-    .then(data => {
-      require('./build.transforms').generate()
-      require('./build.vetur').generate(data)
-      require('./build.types').generate(data)
-      require('./build.web-types').generate(data)
-
-      addSsrDirectives(builds)
-
-      addUmdAssets(builds, 'lang', 'lang')
-      addUmdAssets(builds, 'icon-set', 'iconSet')
-
-      build(builds)
-    })
+  runBuild[ subtype ]()
 }

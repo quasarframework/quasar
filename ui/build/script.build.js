@@ -31,9 +31,9 @@ if (!type || type === 'js') {
   createFolder('dist/types')
   createFolder('dist/ssr-directives')
 
-  require('./script.build.javascript')(subtype)
+  require('./script.build.javascript')(subtype || 'full')
 }
 
 if (!type || type === 'css') {
-  require('./script.build.css')()
+  require('./script.build.css')(/* with diff */ type === 'css')
 }
