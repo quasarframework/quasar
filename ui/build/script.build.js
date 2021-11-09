@@ -1,6 +1,7 @@
 process.env.NODE_ENV = 'production'
 
 const type = process.argv[ 2 ]
+const subtype = process.argv[ 3 ]
 const { createFolder } = require('./build.utils')
 const { green } = require('chalk')
 
@@ -30,7 +31,7 @@ if (!type || type === 'js') {
   createFolder('dist/types')
   createFolder('dist/ssr-directives')
 
-  require('./script.build.javascript')()
+  require('./script.build.javascript')(subtype)
 }
 
 if (!type || type === 'css') {

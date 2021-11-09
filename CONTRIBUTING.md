@@ -69,6 +69,8 @@ $ yarn dev [theme] # or: npm run dev [theme]
 $ yarn build      # or: npm run build
 # build only js dist files
 $ yarn build js   # or: npm run build js
+# build only type related files
+$ yarn build js types  # or: npm run build js types
 # build only css dist files
 $ yarn build css  # or: npm run build css
 
@@ -99,6 +101,8 @@ $ yarn lint # or: npm run lint
 - **`icon-set`**: Quasar icon sets
 
 - **`dist`**: contains built files for distribution (only after a build). Note this directory is only updated when a release happens; they do not reflect the latest changes in development branches.
+
+- **`types`**: contains Typescript related files. Used by `build/script.types.js` along with JSON API files to produce final Typescript type declarations.
 
 - **`dev`**: app with Quasar sources linked directly used for testing purposes. Each feature/component has its own `*.vue` file. Adding a new file automatically creates a route for it and adds it to the "homepage" list (based on the file name).
 
