@@ -95,6 +95,22 @@ Detailing the Object:
 }
 ```
 
+## Default content
+
+The following is the default content of `/src-ssr/production-export.js` when you add SSR support in a Quasar CLI project:
+
+```js
+import { ssrProductionExport } from 'quasar/wrappers'
+
+export default ssrProductionExport(({ app, port, isReady }) => {
+  return isReady().then(() => {
+    app.listen(port, () => {
+      console.log('Server listening at port ' + port)
+    })
+  })
+})
+```
+
 ## Usage
 
 ::: warning
