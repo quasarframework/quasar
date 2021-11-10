@@ -1339,14 +1339,14 @@ export default createComponent({
     function onControlPopupShow (e) {
       e !== void 0 && stop(e)
       emit('popup-show', e)
-      state.hasPopupOpen.value = true
+      state.hasPopupOpen = true
       state.onControlFocusin(e)
     }
 
     function onControlPopupHide (e) {
       e !== void 0 && stop(e)
       emit('popup-hide', e)
-      state.hasPopupOpen.value = false
+      state.hasPopupOpen = false
       state.onControlFocusout(e)
     }
 
@@ -1417,6 +1417,10 @@ export default createComponent({
           )
         ) {
           return hasDialog === true ? getDialog() : getMenu()
+        }
+        else if (state.hasPopupOpen === true) {
+          // explicitly set it otherwise TAB will not blur component
+          state.hasPopupOpen = false
         }
       },
 
