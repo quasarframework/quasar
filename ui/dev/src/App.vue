@@ -110,6 +110,7 @@ export default {
         { label: 'Material Sharp', value: 'material-icons-sharp' },
         { label: 'MDI v6', value: 'mdi-v6' },
         { label: 'SVG MDI v6', value: 'svg-mdi-v6' },
+        { label: 'SVG Ionicons v6', value: 'svg-ionicons-v6' },
         { label: 'SVG Ionicons v5', value: 'svg-ionicons-v5' },
         { label: 'Ionicons v4', value: 'ionicons-v4' },
         { label: 'SVG Ionicons v4', value: 'svg-ionicons-v4' },
