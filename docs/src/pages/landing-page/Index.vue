@@ -203,10 +203,10 @@
   </q-page>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue'
 import WhyQuasarCard from 'src/components/landing-page/WhyQuasarCard'
-import { sponsorLogos, whyQuasar } from '../../assets/landing-page/image-links.ts'
+import { sponsorLogos, whyQuasar } from 'src/assets/landing-page/image-links'
 import TwitterShowcaseCards from 'src/components/landing-page/TwitterShowcaseCards'
 
 export default defineComponent({

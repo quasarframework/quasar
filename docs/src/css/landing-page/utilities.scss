@@ -71,11 +71,11 @@ $text-size-list: 10, 12, 16, 18, 20, 24, 28, 32, 36;
 
 .shadow-bottom {
   &-small {
-    box-shadow: 0 6px 6px 0 rgba($lp-primary, 0.28);
+    box-shadow: $lp-box-shadow--small;
   }
 
   &-large {
-    box-shadow: 0 8px 12px 0 rgba($lp-primary, 0.4);
+    box-shadow: $lp-box-shadow--large;
   }
 }
 

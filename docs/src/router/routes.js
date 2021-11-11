@@ -97,7 +97,13 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'lpHome',
         component: () => import('pages/landing-page/Index')
+      },
+      {
+        path: 'components',
+        name: 'lpComponents',
+        component: () => import('pages/landing-page/QuasarComponents')
       }
     ]
   },
