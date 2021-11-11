@@ -61,7 +61,7 @@ import { globalShortcut } from 'electron';
 
 function createWindow() {
   // ...
-  if (process.env.DEBUG !== true) {
+  if (process.env.DEBUGGING !== true) {
     const combination = process.platform === 'darwin' ? 'Alt+Command+I' : 'Control+Shift+I';
     globalShortcut.register(combination, () => false);
   }
