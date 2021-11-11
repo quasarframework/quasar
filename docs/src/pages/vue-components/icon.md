@@ -56,7 +56,7 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | material-icons-round | r_ | r_thumb_up | Notice the underline character instead of dash or space |
 | material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
-| ionicons-v5 | ion- | ion-heart, ion-logo-npm, ion-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
+| ionicons-v5/v6 | ion- | ion-heart, ion-logo-npm, ion-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | fontawesome-v5 | fa[s,r,l,d,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
 | mdi-v6/v5/v4/v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters; Use only one of mdi-v6, mdi-v5, mdi-v4 or mdi-v3 |
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters |
@@ -84,7 +84,8 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 #### Ionicons
 
 * Icon names are in hyphen-separated case and always begin with "ion-", "ion-md-", "ion-ios-" or "ion-logo-" prefixes.
-* Go to [Ionicons](https://ionicons.com/v4), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Based on the variant that you want (auto-detect platform, material or iOS), you'd get the result: `ion-square-outline` or `ion-md-square-outline` or `ion-ios-square-outline`.
+* Go to [Ionicons (v6)](https://ionicons.com/) or [Ionicons (v4)](https://ionicons.com/v4), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Based on the variant that you want (auto-detect platform, material or iOS), you'd get the result: `ion-square-outline` or `ion-md-square-outline` or `ion-ios-square-outline`.
+* **Note:** Starting with v5, Ionicons no longer supplies a webfont. Also,they no longer do Material or IOS variants.
 
 #### Eva Icons
 
@@ -156,6 +157,7 @@ If you are only using svg icons (and have configured a [Quasar Icon Set](/option
 | MDI (Material Design Icons) (v3-v5) | svg-mdi-v5 | @quasar/extras/mdi-v5 | |
 | MDI (Material Design Icons) v6 | svg-mdi-v6 | @quasar/extras/mdi-v6 | @quasar/extras v1.11+ |
 | Font Awesome | svg-fontawesome-v5 | @quasar/extras/fontawesome-v5 | |
+| Ionicons v6 | svg-ionicons-v6 | @quasar/extras/ionicons-v6 | @quasar/extras v1.12+ |
 | Ionicons v5 | svg-ionicons-v5 | @quasar/extras/ionicons-v5 | @quasar/extras v1.7+ |
 | Ionicons v4 | svg-ionicons-v4 | @quasar/extras/ionicons-v4 | |
 | Eva Icons | svg-eva-icons | @quasar/extras/eva-icons | |
@@ -207,11 +209,11 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 #### SVG Ionicons
 
 * Ionicons v4: Icon names are in camel-case and always begin with "ionMd" or "ionIos" prefixes.
-* Ionicons v5: Icon names are in camel-case and always begin with "ion" prefix.
+* Ionicons v5/v6: Icon names are in camel-case and always begin with "ion" prefix.
 * Ionicons v4: Go to [Ionicons v4](https://ionicons.com/v4/), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Camel-case this name and prefix it with either "ionMd" (for material variant) or "ionIos" (for iOS variant).
-* Ionicons v5:Go to [Ionicons v5](https://ionicons.com/), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Prefix it with "ion" and camel-case the result (eg. "ionSquareOutline").
+* Ionicons v5/v6: Go to [Ionicons v6](https://ionicons.com/), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Prefix it with "ion" and camel-case the result (eg. "ionSquareOutline").
 * Ionicons v4: Import statement example: `import { ionMdSquareOutline } from '@quasar/extras/ionicons-v4'`.
-* Ionicons v5: Import statement example: `import { ionSquareOutline } from '@quasar/extras/ionicons-v5'`.
+* Ionicons v5/v6: Import statement example: `import { ionSquareOutline } from '@quasar/extras/ionicons-v5'`.
 
 #### SVG Eva Icons
 
