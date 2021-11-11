@@ -49,17 +49,18 @@ function createWindow () {
     mainWindow.webContents.on('devtools-opened', () => {
       mainWindow.webContents.closeDevTools()
     })
+
+    // More info: https://quasar.dev/quasar-cli/developing-electron-apps/electron-security-concerns#disable-developer-tools-in-production
+    const combination = process.platform === 'darwin'
+      ? 'Alt+Command+I'
+      : 'Control+Shift+I'
+
+    globalShortcut.register(combination, () => false)
   }
 
   mainWindow.on('closed', () => {
     mainWindow = null
   })
-  
-  // More info: https://quasar.dev/quasar-cli/developing-electron-apps/electron-security-concerns#disable-developer-tools-in-production
-  if (process.env.DEBUG !== true) {
-    const combination = process.platform === 'darwin' ? 'Alt+Command+I' : 'Control+Shift+I';
-    globalShortcut.register(combination, () => false);
-  }
 }
 
 app.on('ready', createWindow)
