@@ -16,6 +16,7 @@
             label="Home"
             color="white"
             flat
+            :to="{ name: 'lpHome' }"
           />
           <q-btn
             label="Features"
@@ -33,6 +34,7 @@
             flat
             label="Components"
             class="q-py-sm q-px-md"
+            :to="{ name: 'lpComponents' }"
           />
           <q-btn
             color="lp-light"
