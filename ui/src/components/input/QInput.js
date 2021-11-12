@@ -75,7 +75,7 @@ export default createComponent({
 
     const onEvents = computed(() => {
       const evt = {
-        ...state.splitAttrs.listeners.value,
+        ...state.listeners.value,
         onInput,
         onPaste,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when

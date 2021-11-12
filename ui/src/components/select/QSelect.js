@@ -1182,7 +1182,7 @@ export default createComponent({
           itemAligned: false,
           filled: true,
           stackLabel: inputValue.value.length > 0,
-          ...state.splitAttrs.listeners.value,
+          ...state.listeners.value,
           onFocus: onDialogFieldFocus,
           onBlur: onDialogFieldBlur
         }, {
