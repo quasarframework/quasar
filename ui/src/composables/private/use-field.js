@@ -194,7 +194,7 @@ export default function (state) {
 
   const classes = computed(() =>
     `q-field row no-wrap items-start q-field--${ styleType.value }`
-    + (state.fieldClass.value !== void 0 ? ` ${ state.fieldClass.value }` : '')
+    + (state.fieldClass?.value !== void 0 ? ` ${ state.fieldClass.value }` : '')
     + (props.rounded === true ? ' q-field--rounded' : '')
     + (props.square === true ? ' q-field--square' : '')
     + (floatingLabel.value === true ? ' q-field--float' : '')
