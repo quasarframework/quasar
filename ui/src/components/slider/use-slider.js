@@ -210,7 +210,7 @@ export default function ({ updateValue, updatePosition, getDragging }) {
   }
 
   function onPan (event) {
-    if (event.isFinal) {
+    if (event.isFinal === true) {
       if (dragging.value !== void 0) {
         updatePosition(event.evt)
         // only if touch, because we also have mousedown/up:
@@ -220,7 +220,7 @@ export default function ({ updateValue, updatePosition, getDragging }) {
       }
       active.value = false
     }
-    else if (event.isFirst) {
+    else if (event.isFirst === true) {
       dragging.value = getDragging(event.evt)
       updatePosition(event.evt)
       updateValue()
@@ -250,7 +250,7 @@ export default function ({ updateValue, updatePosition, getDragging }) {
   function onDeactivate () {
     preventFocus.value = false
 
-    if (dragging.value === void 0) {
+    if (dragging.value === false) {
       active.value = false
     }
 

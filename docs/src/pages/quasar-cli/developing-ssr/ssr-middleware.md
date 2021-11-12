@@ -29,7 +29,7 @@ export default ({ app, resolve, publicPath, folders, render, serve }) => {
 }
 ```
 
-Boot files can also be async:
+The SSR middleware files can also be async:
 
 ```js
 // import something here

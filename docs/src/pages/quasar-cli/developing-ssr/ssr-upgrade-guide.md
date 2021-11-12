@@ -5,6 +5,7 @@ related:
   - /quasar-cli/developing-ssr/configuring-ssr
   - /quasar-cli/developing-ssr/ssr-context
   - /quasar-cli/developing-ssr/ssr-middleware
+  - /quasar-cli/developing-ssr/ssr-production-export
 ---
 
 This page refers only to upgrading a Quasar UI v1 app (with Vue 2) to a Quasar UI v2 one (with Vue 3).
@@ -34,8 +35,9 @@ Please note that currently the only Nodejs supported server is [Expressjs](https
 # NEW structure
 .
 └── src-ssr/
-    ├── middlewares/  # SSR middleware files
-    └── directives/   # SSR transformations for Vue directives
+    ├── middlewares/  # SSR middleware files
+    ├── directives/   # SSR transformations for Vue directives
+    └── production-export.js # SSR webserver production export
 ```
 
 ### Performing the upgrade
@@ -61,5 +63,6 @@ Always keep the original `render` middleware as last one in the list.
 
 ### Tips
 
-* You might want to check out [the new configuration](/quasar-cli/developing-ssr/configuring-ssr) properties available through quasar.conf.js > ssr.
-* You might want to check out [the ssrContext](/quasar-cli/developing-ssr/ssr-context) page which describes in detail what properties you can use from it.
+* You might want to check out the [new configuration](/quasar-cli/developing-ssr/configuring-ssr) properties available through quasar.conf.js > ssr.
+* You might want to check out the [ssrContext](/quasar-cli/developing-ssr/ssr-context) page which describes in detail what properties you can use from it.
+* You might want to check out the [SSR Production Export](/quasar-cli/developing-ssr/ssr-production-export) page which describes in detail what the production-export.js/ts can do for you.

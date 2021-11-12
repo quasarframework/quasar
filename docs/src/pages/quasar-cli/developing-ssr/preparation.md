@@ -25,6 +25,6 @@ A new folder will appear in your project folder (which is explained in detail on
 .
 └── src-ssr/
     ├── middlewares/  # SSR middleware files
-    └── directives/   # SSR transformations for Vue directives
+    ├── directives/   # SSR transformations for Vue directives
+    └── production-export.js # SSR webserver production export
 ```
-

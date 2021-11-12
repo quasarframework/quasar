@@ -6,7 +6,6 @@ import QMenu from '../menu/QMenu.js'
 import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
 
 import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
 
 export default createComponent({
   name: 'QPopupProxy',
@@ -40,6 +39,10 @@ export default createComponent({
 
     const type = ref(getType())
 
+    const popupProps = computed(() => (
+      type.value === 'menu' ? { maxHeight: '99vh' } : {})
+    )
+
     watch(() => getType(), val => {
       if (showing.value !== true) {
         type.value = val
@@ -65,21 +68,9 @@ export default createComponent({
     }
 
     return () => {
-      const def = hSlot(slots.default)
-
-      const popupProps = (
-        type.value === 'menu'
-        && def !== void 0
-        && def[ 0 ] !== void 0
-        && def[ 0 ].type !== void 0
-        && [ 'QDate', 'QTime', 'QCarousel', 'QColor' ].includes(
-          def[ 0 ].type.name
-        )
-      ) ? { cover: true, maxHeight: '99vh' } : {}
-
       const data = {
         ref: popupRef,
-        ...popupProps,
+        ...popupProps.value,
         ...attrs,
         onShow,
         onHide
@@ -100,7 +91,7 @@ export default createComponent({
         })
       }
 
-      return h(component, data, () => def)
+      return h(component, data, slots.default)
     }
   }
 })

@@ -136,7 +136,7 @@
         <q-input :dark="dark" filled v-model="input" :mask="withSeconds ? 'fulltime' : 'time'" :rules="[withSeconds ? 'fulltime' : 'time']">
           <template v-slot:append>
             <q-icon name="access_time" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy>
+              <q-popup-proxy cover>
                 <q-time
                   v-model="input"
                   v-bind="props"
@@ -155,7 +155,7 @@
         <q-input :dark="dark" filled v-model="input2">
           <template v-slot:append>
             <q-icon name="access_time" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy>
+              <q-popup-proxy cover>
                 <q-time
                   v-model="input2"
                   mask="hh:mm A"

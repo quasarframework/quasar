@@ -4,6 +4,7 @@ const path = require('path')
 const fs = require('fs')
 const rollup = require('rollup')
 const uglify = require('uglify-es')
+
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 // const typescript = require('rollup-plugin-typescript2')
 const replace = require('@rollup/plugin-replace')
@@ -12,9 +13,12 @@ const { version } = require('../package.json')
 
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
+const prepareDiff = require('./prepare-diff')
+
+const rootFolder = path.resolve(__dirname, '..')
 
 function resolve (_path) {
-  return path.resolve(__dirname, '..', _path)
+  return path.resolve(rootFolder, _path)
 }
 
 // const tsConfig = {
@@ -298,21 +302,70 @@ function buildEntry (config) {
     })
 }
 
-module.exports = function () {
-  require('./build.lang-index').generate()
-    .then(() => require('./build.svg-icon-sets').generate())
-    .then(() => require('./build.api').generate())
-    .then(data => {
-      require('./build.transforms').generate()
-      require('./build.vetur').generate(data)
-      require('./build.types').generate(data)
-      require('./build.web-types').generate(data)
+const runBuild = {
+  full () {
+    require('./build.lang-index').generate()
+      .then(() => require('./build.svg-icon-sets').generate())
+      .then(() => require('./build.api').generate())
+      .then(data => {
+        require('./build.transforms').generate()
+        require('./build.vetur').generate(data)
+        require('./build.types').generate(data)
+        require('./build.web-types').generate(data)
 
-      addSsrDirectives(builds)
+        addSsrDirectives(builds)
 
-      addUmdAssets(builds, 'lang', 'lang')
-      addUmdAssets(builds, 'icon-set', 'iconSet')
+        addUmdAssets(builds, 'lang', 'lang')
+        addUmdAssets(builds, 'icon-set', 'iconSet')
 
-      build(builds)
-    })
+        build(builds)
+      })
+  },
+
+  async types () {
+    prepareDiff('dist/types/index.d.ts')
+
+    const data = await require('./build.api').generate()
+
+    require('./build.vetur').generate(data)
+    require('./build.web-types').generate(data)
+
+    // 'types' depends on 'lang-index'
+    await require('./build.lang-index').generate()
+    require('./build.types').generate(data)
+  },
+
+  async api () {
+    await prepareDiff('dist/api')
+    await require('./build.api').generate()
+  },
+
+  async vetur () {
+    await prepareDiff('dist/vetur')
+
+    const data = await require('./build.api').generate()
+    require('./build.vetur').generate(data)
+  },
+
+  async webtypes () {
+    await prepareDiff('dist/web-types')
+
+    const data = await require('./build.api').generate()
+    require('./build.web-types').generate(data)
+  },
+
+  async transforms () {
+    await prepareDiff('dist/transforms')
+    require('./build.transforms').generate()
+  }
+}
+
+module.exports = function (subtype) {
+  if (runBuild[ subtype ] === void 0) {
+    console.log(` Unrecognized subtype specified: "${ subtype }".`)
+    console.log(` Available: ${ Object.keys(runBuild).join(' | ') }\n`)
+    process.exit(1)
+  }
+
+  runBuild[ subtype ]()
 }

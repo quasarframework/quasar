@@ -66,6 +66,12 @@
       "type": "Boolean",
       "desc": "No transition when model changes",
       "category": "behavior"
+    },
+
+    "animation-speed": {
+      "extends": "animation-speed",
+      "default": 300,
+      "addedIn": "v2.3"
     }
   },
 

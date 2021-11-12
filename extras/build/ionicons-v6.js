@@ -8,7 +8,7 @@ const { copySync } = require('fs-extra')
 const { resolve } = require('path')
 
 let skipped = []
-const distFolder = resolve(__dirname, `../ionicons-v5`)
+const distFolder = resolve(__dirname, `../ionicons-v6`)
 const { defaultNameMapper, extract, writeExports } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/dist/svg/`)
@@ -42,5 +42,5 @@ writeExports(iconSetName, packageName, distFolder, svgExports, typeExports, skip
 
 copySync(
   resolve(__dirname, `../node_modules/${packageName}/LICENSE`),
-  resolve(__dirname, `../ionicons-v5/LICENSE`)
+  resolve(__dirname, `../ionicons-v6/LICENSE`)
 )

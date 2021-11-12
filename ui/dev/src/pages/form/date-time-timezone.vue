@@ -3,7 +3,7 @@
     <q-input filled v-model="date1" label="YYYY-MM-DD HH:mm:ssZ">
       <template v-slot:prepend>
         <q-icon name="event" class="cursor-pointer">
-          <q-popup-proxy transition-show="scale" transition-hide="scale">
+          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
             <q-date v-model="date1" mask="YYYY-MM-DD HH:mm:ssZ">
               <div class="row items-center justify-end q-gutter-sm">
                 <q-btn v-close-popup label="Close" color="primary" flat />
@@ -15,7 +15,7 @@
 
       <template v-slot:append>
         <q-icon name="access_time" class="cursor-pointer">
-          <q-popup-proxy transition-show="scale" transition-hide="scale">
+          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
             <q-time v-model="date1" mask="YYYY-MM-DD HH:mm:ssZ" format24h with-seconds>
               <div class="row items-center justify-end q-gutter-sm">
                 <q-btn v-close-popup label="Close" color="primary" flat />
@@ -29,7 +29,7 @@
     <q-input filled v-model="date2" label="YYYY-MM-DD HH:mm ZZ">
       <template v-slot:prepend>
         <q-icon name="event" class="cursor-pointer">
-          <q-popup-proxy transition-show="scale" transition-hide="scale">
+          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
             <q-date v-model="date2" mask="YYYY-MM-DD HH:mm ZZ">
               <div class="row items-center justify-end q-gutter-sm">
                 <q-btn v-close-popup label="Close" color="primary" flat />
@@ -41,7 +41,7 @@
 
       <template v-slot:append>
         <q-icon name="access_time" class="cursor-pointer">
-          <q-popup-proxy transition-show="scale" transition-hide="scale">
+          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
             <q-time v-model="date2" mask="YYYY-MM-DD HH:mm ZZ" format24h>
               <div class="row items-center justify-end q-gutter-sm">
                 <q-btn v-close-popup label="Close" color="primary" flat />
@@ -55,7 +55,7 @@
     <q-input filled v-model="date3" label="YYYY-MM-DD HH:mm">
       <template v-slot:prepend>
         <q-icon name="event" class="cursor-pointer">
-          <q-popup-proxy transition-show="scale" transition-hide="scale">
+          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
             <q-date v-model="date3" mask="YYYY-MM-DD HH:mm">
               <div class="row items-center justify-end">
                 <q-btn v-close-popup label="Close" color="primary" flat />
@@ -67,7 +67,7 @@
 
       <template v-slot:append>
         <q-icon name="access_time" class="cursor-pointer">
-          <q-popup-proxy transition-show="scale" transition-hide="scale">
+          <q-popup-proxy cover transition-show="scale" transition-hide="scale">
             <q-time v-model="date3" mask="YYYY-MM-DD HH:mm" format24h>
               <div class="row items-center justify-end">
                 <q-btn v-close-popup label="Close" color="primary" flat />

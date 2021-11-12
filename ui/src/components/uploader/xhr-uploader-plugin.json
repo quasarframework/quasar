@@ -11,7 +11,7 @@
         }
       },
       "returns": {
-        "type": [ "Object", "Promise" ],
+        "type": [ "Object", "Promise<any>" ],
         "desc": "Optional configuration for the upload process; You can override QUploader props in this Object (url, method, headers, formFields, fieldName, withCredentials, sendRaw); Props of these Object can also be Functions with the form of (file[s]) => value",
         "__exemption": [ "examples" ]
       },
@@ -22,6 +22,18 @@
       "type": [ "String", "Function" ],
       "desc": "URL or path to the server which handles the upload. Takes String or factory function, which returns String. Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
       "examples": [ "https://example.com/path", "files => `https://example.com?count=${files.length}`" ],
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Uploaded files",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "URL or path to the server which handles the upload",
+        "__exemption": [ "examples" ]
+      },
       "category": "upload"
     },
 
@@ -31,6 +43,18 @@
       "desc": "HTTP method to use for upload; Takes String or factory function which returns a String; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
       "values": [ "POST", "PUT" ],
       "examples": [ "POST", ":method=\"files => files.length > 10 ? 'POST' : 'PUT'\"" ],
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Uploaded files",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "HTTP method to use for upload",
+        "__exemption": [ "examples" ]
+      },
       "category": "upload"
     },
 
@@ -42,6 +66,18 @@
         "backgroundFile",
         ":field-name=\"(file) => 'background' + file.name\""
       ],
+      "params": {
+        "files": {
+          "type": "File",
+          "desc": "The current file being processed",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "Field name for the current file upload",
+        "__exemption": [ "examples" ]
+      },
       "category": "upload"
     },
 
@@ -67,6 +103,18 @@
         "() => [{name: 'X-Custom-Timestamp', value: Date.now()}]",
         "files => [{name: 'X-Custom-Count', value: files.length}]"
       ],
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Uploaded files",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "An array consists of objects with header definitions",
+        "__exemption": [ "examples" ]
+      },
       "category": "upload"
     },
 
@@ -92,6 +140,18 @@
         "() => [{name: 'my-field', value: 'my-value'}]",
         "files => [{name: 'my-field', value: 'my-value' + files.length}]"
       ],
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Uploaded files",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "An array consists of objects with additional fields definitions (used by Form to be uploaded)",
+        "__exemption": [ "examples" ]
+      },
       "category": "upload"
     },
 
@@ -99,6 +159,18 @@
       "type": [ "Boolean", "Function" ],
       "desc": "Sets withCredentials to true on the XHR that manages the upload; Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
       "examples": [ "with-credentials", ":with-credentials=\"files => ...\"" ],
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Uploaded files",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "If true, withCredentials will be set to true on the XHR that manages the upload",
+        "__exemption": [ "examples" ]
+      },
       "category": "upload"
     },
 
@@ -106,6 +178,18 @@
       "type": [ "Boolean", "Function" ],
       "desc": "Send raw files without wrapping into a Form(); Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
       "examples": [ "send-raw", ":send-raw=\"files => ...\"" ],
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Uploaded files",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "If true, raw files will get sent without wrapping into a Form()",
+        "__exemption": [ "examples" ]
+      },
       "category": "upload"
     },
 
@@ -113,6 +197,18 @@
       "type": [ "Boolean", "Function" ],
       "desc": "Upload files in batch (in one XHR request); Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
       "examples": [ "files => files.length > 10" ],
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Uploaded files",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "If true, files will be uploaded in a batch (in one XHR request)",
+        "__exemption": [ "examples" ]
+      },
       "category": "upload"
     }
   },

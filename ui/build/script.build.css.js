@@ -7,6 +7,7 @@ const autoprefixer = require('autoprefixer')
 
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
+const prepareDiff = require('./prepare-diff')
 
 const nano = postcss([
   cssnano({
@@ -88,7 +89,11 @@ function generateAddon (source) {
   return renderAsset(cssCode, '.addon')
 }
 
-module.exports = function () {
+module.exports = function (withDiff) {
+  if (withDiff === true) {
+    prepareDiff('dist/quasar.sass')
+  }
+
   Promise
     .all([
       generateBase('src/css/index.sass'),

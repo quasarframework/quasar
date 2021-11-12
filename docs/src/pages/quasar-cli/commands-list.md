@@ -142,6 +142,9 @@ $ quasar dev -h
     # underlying "cordova" or "electron" executables:
     $ quasar dev -m ios -- some params --and options --here
     $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
+    # when on Windows and using Powershell:
+    $ quasar dev -m ios '--' some params --and options --here
+    $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 
   Options
     --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
@@ -199,6 +202,9 @@ $ quasar dev -m electron
 # underlying "cordova" or "electron" executables:
 $ quasar dev -m ios -- some params --and options --here
 $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
+# when on Windows and using Powershell:
+$ quasar dev -m ios '--' some params --and options --here
+$ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 ```
 
 If you wish to change the hostname or port serving your App you have 3 options:
@@ -251,6 +257,8 @@ $ quasar build -h
     # passing extra parameters and/or options to
     # underlying "cordova" executable:
     $ quasar build -m ios -- some params --and options --here
+    # when on Windows and using Powershell:
+    $ quasar build -m ios '--' some params --and options --here
 
   Options
     --mode, -m      App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
@@ -319,6 +327,8 @@ $ quasar build -m electron
 # passing extra parameters and/or options to
 # underlying "cordova" executable:
 $ quasar build -m ios -- some params --and options --here
+# when on Windows and using Powershell:
+$ quasar build -m ios '--' some params --and options --here
 
 # Create a production build with ability to debug it
 # (has source-maps and code is NOT minified)
@@ -376,7 +386,7 @@ $ quasar new -h
                           Option can be:
                              * ts-options - TS options API
                              * ts-composition - TS component API
-                             * ts-class - TS class style syntax
+                             * ts-class - [DEPRECATED] TS class style syntax
                              * ts - use for TS boot file and store modules only
 ```
 

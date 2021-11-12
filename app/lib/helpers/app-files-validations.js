@@ -1,5 +1,4 @@
 const fs = require('fs')
-const { green } = require('chalk')
 
 const { warn } = require('./logger')
 const appPaths = require('../app-paths')

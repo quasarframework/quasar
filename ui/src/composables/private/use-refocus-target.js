@@ -16,12 +16,21 @@ export default function (props, rootRef) {
   })
 
   function refocusTarget (e) {
+    const root = rootRef.value
+
     if (e !== void 0 && e.type.indexOf('key') === 0) {
-      if (document.activeElement !== rootRef.value && rootRef.value.contains(document.activeElement) === true) {
-        rootRef.value.focus()
+      if (
+        root !== null
+        && document.activeElement !== root
+        && root.contains(document.activeElement) === true
+      ) {
+        root.focus()
       }
     }
-    else if ((e === void 0 || rootRef.value.contains(e.target) === true) && refocusRef.value !== null) {
+    else if (
+      refocusRef.value !== null
+      && (e === void 0 || (root !== null && root.contains(e.target) === true))
+    ) {
       refocusRef.value.focus()
     }
   }

@@ -15,7 +15,6 @@ q-card(flat bordered)
 
     q-toggle(v-model="css['mdi-v6']" label="MDI v6")
     q-toggle(v-model="css['fontawesome-v5']" label="Fontawesome v5")
-    q-toggle(v-model="css['ionicons-v5']" label="Ionicons v5")
     q-toggle(v-model="css['ionicons-v4']" label="Ionicons v4")
     q-toggle(v-model="css['eva-icons']" label="Eva Icons")
     q-toggle(v-model="css.themify" label="Themify")
@@ -96,7 +95,6 @@ const extrasOptions = [
   'material-icons-sharp',
   'mdi-v6',
   'fontawesome-v5',
-  'ionicons-v5',
   'ionicons-v4',
   'eva-icons',
   'themify',
@@ -121,7 +119,6 @@ export default {
 
       'mdi-v6': false,
       'fontawesome-v5': false,
-      'ionicons-v5': false,
       'ionicons-v4': false,
       'eva-icons': false,
       themify: false,
@@ -309,7 +306,7 @@ $warning   : #F2C037
         { label: 'Material Sharp (webfont)', value: 'material-icons-sharp' },
         { label: 'MDI v6 (webfont)', value: 'mdi-v6' },
         { label: 'MDI v6 (svg)', value: 'svg-mdi-v6' },
-        { label: 'Ionicons v5 (webfont)', value: 'ionicons-v5' },
+        { label: 'Ionicons v6 (svg)', value: 'svg-ionicons-v6' },
         { label: 'Ionicons v5 (svg)', value: 'svg-ionicons-v5' },
         { label: 'Ionicons v4 (webfont)', value: 'ionicons-v4' },
         { label: 'Ionicons v4 (svg)', value: 'svg-ionicons-v4' },

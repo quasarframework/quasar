@@ -278,6 +278,11 @@ const cli = [
         path: 'ssr-middleware'
       },
       {
+        name: 'SSR Production Export',
+        badge: 'new',
+        path: 'ssr-production-export'
+      },
+      {
         name: 'Vue SSR Directives',
         badge: 'new',
         path: 'vue-ssr-directives'

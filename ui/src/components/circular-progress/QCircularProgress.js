@@ -24,6 +24,11 @@ export default createComponent({
       default: 0
     },
 
+    animationSpeed: {
+      type: [ String, Number ],
+      default: 600
+    },
+
     indeterminate: Boolean
   },
 
@@ -43,7 +48,7 @@ export default createComponent({
 
     const circleStyle = computed(() => (
       props.instantFeedback !== true && props.indeterminate !== true
-        ? { transition: 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease' }
+        ? { transition: `stroke-dashoffset ${ props.animationSpeed }ms ease 0s, stroke ${ props.animationSpeed }ms ease` }
         : ''
     ))
 

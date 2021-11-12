@@ -88,7 +88,7 @@ export function useFieldState () {
 
     innerLoading: ref(false),
     focused: ref(false),
-    hasPopupOpen: ref(false),
+    hasPopupOpen: false,
 
     splitAttrs: useSplitAttrs(attrs),
     targetUid: ref(getTargetUid(props.for)),
@@ -301,7 +301,7 @@ export default function (state) {
     focusoutTimer = setTimeout(() => {
       if (
         document.hasFocus() === true && (
-          state.hasPopupOpen.value === true
+          state.hasPopupOpen === true
           || (
             state.controlRef !== void 0
             && (

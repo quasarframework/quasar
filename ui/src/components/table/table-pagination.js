@@ -26,7 +26,7 @@ export const useTablePaginationProps = {
     default: () => [ 5, 7, 10, 15, 20, 25, 50, 0 ]
   },
 
-  'onUpdate:pagination': Function
+  'onUpdate:pagination': [ Function, Array ]
 }
 
 export function useTablePaginationState (vm, getCellValue) {
@@ -76,7 +76,7 @@ export function useTablePaginationState (vm, getCellValue) {
       ...val
     })
 
-    if (samePagination(computedPagination.value, newPagination)) {
+    if (samePagination(computedPagination.value, newPagination) === true) {
       if (isServerSide.value === true && forceServerRequest === true) {
         sendServerRequest(newPagination)
       }

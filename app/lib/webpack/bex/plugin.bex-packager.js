@@ -31,7 +31,7 @@ class BexPackager {
    */
   fixManifest () {
     const manifestFilePath = path.join(this.options.src, 'manifest.json')
-    if (fse.existsSync(manifestFilePath)) {
+    if (fse.existsSync(manifestFilePath) === true) {
       const manifestFileData = fse.readFileSync(manifestFilePath)
       let manifestData = JSON.parse(manifestFileData.toString())
 

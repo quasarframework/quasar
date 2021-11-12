@@ -84,6 +84,7 @@ export default __QUASAR_SSR_SERVER__
         _meta: {
           htmlAttrs: '',
           headTags: '',
+          endingHeadTags: '',
           bodyClasses: '',
           bodyAttrs: 'data-server-rendered',
           bodyTags: ''

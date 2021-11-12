@@ -32,7 +32,7 @@ const columns = [
     label: 'Dessert (100g serving)',
     align: 'left',
     field: row => row.name,
-    format: val => `${val}`,
+    format: val => val,
     sortable: true
   },
   { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
@@ -173,10 +173,7 @@ export default {
       nextPage,
       loading,
 
-      pagination: {
-        rowsPerPage: 0,
-        rowsNumber: rows.value.length
-      },
+      pagination: { rowsPerPage: 0 },
 
       onScroll ({ to, ref }) {
         const lastIndex = rows.value.length - 1

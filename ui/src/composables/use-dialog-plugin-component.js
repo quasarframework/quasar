@@ -1,5 +1,7 @@
 import { ref, getCurrentInstance } from 'vue'
 
+import getEmitsObject from '../utils/private/get-emits-object'
+
 // To be used for the custom component
 // used on a Dialog plugin
 
@@ -34,6 +36,9 @@ function useDialogPluginComponent () {
   }
 }
 
-useDialogPluginComponent.emits = [ 'ok', 'hide' ]
+const emits = [ 'ok', 'hide' ]
+
+useDialogPluginComponent.emits = emits
+useDialogPluginComponent.emitsObject = getEmitsObject(emits)
 
 export default useDialogPluginComponent

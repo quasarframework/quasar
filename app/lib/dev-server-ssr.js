@@ -132,7 +132,7 @@ module.exports = class DevServer {
     webserverCompiler.hooks.done.tap('done-compiling', stats => {
       if (stats.hasErrors() === false) {
         delete require.cache[compiledMiddlewareFile]
-        const injectMiddleware = require(compiledMiddlewareFile).default
+        const injectMiddleware = require(compiledMiddlewareFile)
 
         startWebpackServer()
           .then(app => {

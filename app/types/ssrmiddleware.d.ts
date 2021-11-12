@@ -1,4 +1,4 @@
-import { Express, Request, RequestHandler, Response } from "express";
+import { Express, Request, RequestHandler, Response, Handler, NextFunction } from "express";
 import { ServeStaticOptions } from "serve-static";
 
 interface RenderParams {
@@ -75,3 +75,29 @@ interface SsrMiddlewareParams {
 export type SsrMiddlewareCallback = (
   params: SsrMiddlewareParams
 ) => void | Promise<void>;
+
+interface SsrHandlerParams {
+  req: Request;
+  res: Response;
+  next: NextFunction;
+}
+
+interface SsrProductionExportParams extends SsrMiddlewareParams {
+  /**
+   * Terminal PORT env var or the default configured port
+   * for the SSR webserver
+   */
+  port: number;
+  /**
+   * Wait for app to be initialized (run all SSR middlewares)
+   * before starting to listen for clients
+   */
+  isReady(): Promise<void>;
+  ssrHandler(
+    params: SsrHandlerParams
+  ): Promise<void>;
+}
+
+export type SsrProductionExportCallback = (
+  params: SsrProductionExportParams
+) => any;

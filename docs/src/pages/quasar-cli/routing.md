@@ -8,7 +8,9 @@ You'll notice that your Quasar project contains a `/src/router` folder. This hol
 * "/src/router/index.js" holds the Vue Router initialization code
 * "/src/router/routes.js" holds the routes of your website/app
 
-Make sure to read [Vue Router documentation](https://router.vuejs.org/) to understand how it works.
+::: warning
+Quasar documentation assumes you are already familiar with [Vue Router](https://github.com/vuejs/vue-router-next). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue Router documentation](https://next.router.vuejs.org/).
+:::
 
 The `/src/router/routes.js` needs to import your website/app's Pages and Layouts. Read more on [Routing with Layouts and Pages](/layout/routing-with-layouts-and-pages) documentation page.
 

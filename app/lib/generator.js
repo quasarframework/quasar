@@ -29,7 +29,8 @@ class Generator {
 
       if (ctx.prod) {
         paths.push(
-          'ssr-prod-webserver.js'
+          'ssr-prod-webserver.js',
+          'ssr-fallback-production-export.js'
         )
       }
     }

@@ -18,6 +18,10 @@ export default createComponent({
 
     once: Boolean,
     transition: String,
+    transitionDuration: {
+      type: [ String, Number ],
+      default: 300
+    },
 
     ssrPrerender: Boolean,
 
@@ -63,6 +67,10 @@ export default createComponent({
       ] ]
     })
 
+    const transitionStyle = computed(
+      () => `--q-transition-duration: ${ props.transitionDuration }ms`
+    )
+
     function trigger (entry) {
       if (showing.value !== entry.isIntersecting) {
         showing.value = entry.isIntersecting
@@ -72,7 +80,7 @@ export default createComponent({
 
     function getContent () {
       return showing.value === true
-        ? [ h('div', { key: 'content' }, hSlot(slots.default)) ]
+        ? [ h('div', { key: 'content', style: transitionStyle.value }, hSlot(slots.default)) ]
         : void 0
     }
 
