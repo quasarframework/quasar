@@ -8,6 +8,7 @@ import QSpinner from '../../components/spinner/QSpinner.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useValidate, { useValidateProps } from './use-validate.js'
 import useSplitAttrs from './use-split-attrs.js'
+import useListeners from './use-listeners.js'
 
 import { hSlot } from '../../utils/private/render.js'
 import uid from '../../utils/uid.js'
@@ -75,7 +76,7 @@ export const useFieldProps = {
 export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popup-show', 'popup-hide' ]
 
 export function useFieldState () {
-  const { props, attrs, proxy } = getCurrentInstance()
+  const { props, attrs, proxy, vnode } = getCurrentInstance()
 
   const isDark = useDark(props, proxy.$q)
 
@@ -91,6 +92,7 @@ export function useFieldState () {
     hasPopupOpen: false,
 
     splitAttrs: useSplitAttrs(attrs),
+    listeners: useListeners(vnode.props),
     targetUid: ref(getTargetUid(props.for)),
 
     rootRef: ref(null),
