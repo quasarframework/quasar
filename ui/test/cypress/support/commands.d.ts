@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
+import { VueWrapper } from "@vue/test-utils";
 
 declare namespace Cypress {
-
   interface Chainer<Subject> {
     /**
      * @example
@@ -9,14 +9,14 @@ declare namespace Cypress {
      *    cy.get('foo').should('have.color', '#fff')
      *    cy.get('foo').should('have.color', 'var(--q-primary)')
      */
-    (chainer: 'have.color', type: string): Chainable<Subject>
+    (chainer: "have.color", type: string): Chainable<Subject>;
     /**
      * @example
      *    cy.get('foo').should('have.backgroundColor', 'black')
      *    cy.get('foo').should('have.backgroundColor', '#000')
      *    cy.get('foo').should('have.backgroundColor', 'var(--q-dark)')
      */
-    (chainer: 'have.backgroundColor', type: string): Chainable<Subject>
+    (chainer: "have.backgroundColor", type: string): Chainable<Subject>;
   }
 
   interface Chainable {
@@ -24,7 +24,17 @@ declare namespace Cypress {
      * Custom command to select DOM element by data-cy attribute.
      * @example cy.dataCy('greeting')
      */
-    dataCy<E extends Node = HTMLElement>(value: string, options?: Partial<Loggable & Timeoutable & Withinable & Shadow>): Chainable<JQuery<E>>;
+    dataCy<E extends Node = HTMLElement>(
+      value: string,
+      options?: Partial<Loggable & Timeoutable & Withinable & Shadow>
+    ): Chainable<JQuery<E>>;
+
+    /**
+     * Custom command to get the vue wrapper from a cypress instance.
+     * @example cy.dataCy('greeting').vue()
+     *
+     */
+    vue<E extends Node = HTMLElement>(): Chainable<VueWrapper>;
 
     /**
      * Custom command to select DOM element by data-cy attribute.

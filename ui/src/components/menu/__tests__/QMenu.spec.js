@@ -1,5 +1,6 @@
 import { mount } from '@cypress/vue'
 import MenuWrapperBtn from './MenuWrapperBtn.vue'
+import { ref } from 'vue'
 
 describe('QMenu', () => {
   // Behavior tests
@@ -295,7 +296,41 @@ describe('QMenu', () => {
 
   // Model tests
   describe('Model tests', () => {
-    //
+    describe('(prop): model-value', () => {
+      it('should open the dialog when modifying the model-value', () => {
+        const modelValue = ref(false)
+        mount(MenuWrapperBtn, {
+          attrs: {
+            modelValue
+          }
+        })
+        cy.dataCy('wrapper')
+        cy.dataCy('menu')
+          .should('not.exist')
+          .then(() => {
+            modelValue.value = true
+            cy.dataCy('menu')
+              .should('exist')
+          })
+      })
+
+      it('should close the dialog when modifying the model-value', () => {
+        const modelValue = ref(true)
+        mount(MenuWrapperBtn, {
+          attrs: {
+            modelValue
+          }
+        })
+        cy.dataCy('wrapper')
+        cy.dataCy('menu')
+          .should('exist')
+          .then(() => {
+            modelValue.value = false
+            cy.dataCy('menu')
+              .should('not.exist')
+          })
+      })
+    })
   })
 
   // Position tests
@@ -589,6 +624,53 @@ describe('QMenu', () => {
           .wait(900)
         cy.dataCy('menu', { timeout: 0 }) // Disable retry
           .should('have.class', 'q-transition--fade-enter-active')
+      })
+    })
+  })
+
+  // Events
+  describe('Events', () => {
+    describe('@update:model-value', () => {
+      it('should emit @update:model-value event when state changes', () => {
+        const fn = cy.stub()
+        mount(MenuWrapperBtn, {
+          attrs: {
+            'onUpdate:modelValue': fn
+          }
+        })
+        // eslint-disable-next-line no-unused-expressions
+        expect(fn).not.to.be.called
+        cy.dataCy('wrapper')
+          .click()
+        cy.dataCy('menu')
+          .should('exist')
+          .then(() => {
+            // eslint-disable-next-line no-unused-expressions
+            expect(fn).to.be.called
+          })
+      })
+
+      describe('@show', () => {
+        it('should emit @show event when component is triggered with the show() method', () => {
+          const fn = cy.stub()
+          mount(MenuWrapperBtn, {
+            attrs: {
+              onShow: fn
+            }
+          })
+          // eslint-disable-next-line no-unused-expressions
+          expect(fn).not.to.be.called
+          cy.dataCy('wrapper')
+          cy.dataCy('method-show')
+            .click()
+          cy.dataCy('menu')
+            .should('exist')
+            .wait(300) // Await menu animation
+            .then(() => {
+            // eslint-disable-next-line no-unused-expressions
+              expect(fn).to.be.called
+            })
+        })
       })
     })
   })

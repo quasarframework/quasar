@@ -22,6 +22,11 @@ Cypress.Commands.add(
   }
 )
 
+// Todo: Check later is this is useful and needed
+Cypress.Commands.add('vue', () => {
+  return cy.wrap(Cypress.vueWrapper)
+})
+
 Cypress.Commands.add(
   'checkVerticalPosition',
   { prevSubject: true },
