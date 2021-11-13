@@ -46,7 +46,7 @@ The Electron mode for Quasar v2 is an almost complete overhaul of the previous v
     ├── icons/                 # Icons of your app for all platforms
     |   ├── icon.icns             # Icon file for Darwin (MacOS) platform
     |   ├── icon.ico              # Icon file for win32 (Windows) platform
-    |   └── icon.png              # Tray icon file for all platform (especially Linux)
+    |   └── icon.png              # Tray icon file for all platforms (especially Linux)
     ├── electron-preload.js   # (or .ts) Electron preload script (injects Node.js stuff into renderer thread)
     └── electron-main.js      # (or .ts) Main thread code
 ```
