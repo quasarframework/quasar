@@ -48,7 +48,6 @@ The Electron mode for Quasar v2 is an almost complete overhaul of the previous v
     |   ├── icon.ico              # Icon file for win32 (Windows) platform
     |   └── icon.png              # Tray icon file for all platform (especially Linux)
     ├── electron-preload.js   # (or .ts) Electron preload script (injects Node.js stuff into renderer thread)
-    ├── electron-handler.js   # (or .ts) Imported into electron-main, for handling all of your ipcMain communication with the electron-preload script
     └── electron-main.js      # (or .ts) Main thread code
 ```
 
@@ -181,30 +180,3 @@ function createWindow () {
 }
 ```
 
-### The electron-handler.js file
-
-The `electron-handler` script is imported into the `electron-main`. It provides a separation-of-concerns area where you can handle all of your necessary `ipcMain` interactions required from the `electron-preload`.
-
-The defaut file looks like this:
-
-```js
-// import { ipcMain } from 'electron'
-
-// This file is where you can handle commands based on your exposed API methods
-// added in electron-preload - it helps to keep separation-of-concerns out of
-// your electron-main. If you use this file, please uncomment the above import
-// line.
-
-export function useElectronHandler () {
-  // add handlers here for your exposed API from electron-preload.
-  // 'event' is always the first parameter followed by any passed
-  // params from your API
-
-  // Example:
-  // ipcMain.handle('myAPI:doAThing', (event, parm1) => {
-  //   // access what you need here: file system, etc
-  // })
-}
-```
-
-This file is completely optional, but provides a best practices ideology for developers and keeps your `electron-main` from being overrun with your `ipcMain` interactions.
