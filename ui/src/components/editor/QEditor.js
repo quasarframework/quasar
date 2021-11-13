@@ -80,12 +80,12 @@ export default createComponent({
   ],
 
   setup (props, { slots, emit, attrs }) {
-    const { proxy } = getCurrentInstance()
+    const { proxy, vnode } = getCurrentInstance()
     const { $q } = proxy
 
     const isDark = useDark(props, $q)
     const { inFullscreen, toggleFullscreen } = useFullscreen()
-    const splitAttrs = useSplitAttrs(attrs)
+    const splitAttrs = useSplitAttrs(attrs, vnode)
 
     const rootRef = ref(null)
     const contentRef = ref(null)

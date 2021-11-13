@@ -2,7 +2,7 @@ import { ref, onBeforeUpdate } from 'vue'
 
 const listenerRE = /^on[A-Z]/
 
-export default function (attrs) {
+export default function (attrs, vnode) {
   const acc = {
     listeners: ref({}),
     attributes: ref({})
@@ -18,6 +18,12 @@ export default function (attrs) {
       }
       else if (key !== 'class' && key !== 'style') {
         attributes[ key ] = attrs[ key ]
+      }
+    })
+
+    Object.keys(vnode.props).forEach(key => {
+      if (listenerRE.test(key) === true) {
+        listeners[ key ] = vnode.props[ key ]
       }
     })
 
