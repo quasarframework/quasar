@@ -173,7 +173,7 @@ export default createComponent({
     )
 
     const mainStyle = computed(() => (
-      scroll.vertical.thumbHidden.value === true || scroll.horizontal.thumbHidden.value === true
+      scroll.vertical.thumbHidden.value === true && scroll.horizontal.thumbHidden.value === true
         ? props.contentStyle
         : props.contentActiveStyle
     ))
