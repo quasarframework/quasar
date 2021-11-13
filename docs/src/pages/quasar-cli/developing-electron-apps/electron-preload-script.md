@@ -68,20 +68,21 @@ contextBridge.exposeInMainWorld('myAPI', {
   loadPreferences: () => ipcRenderer.invoke('load-prefs')
 })
 ```
-Now, `loadPreferences` is available globally in your javascript code (ie: `Window.loadPreferences`).
+
+Now, `loadPreferences` is available globally in your javascript code (ie: `window.myAPI.loadPreferences`).
 
 ::: warning
 Make sure to pick names which do not colide with existing `Window` keys.
 :::
 
-Using the above code with an `invoke` to `load-prefs` inside your `electron-hanlder` you would have code like this:
+Using the above code with an `invoke` to `load-prefs` in the main thread would have code like this:
 
 ```js
-  ipcMain.handle('myAPI:load-prefs', () => {
-    return {
-      // object that contains preferences
-    }
-  })
+ipcMain.handle('myAPI:load-prefs', () => {
+  return {
+    // object that contains preferences
+  }
+})
 ```
 
 ## Custom path to the preload script
