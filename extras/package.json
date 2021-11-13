@@ -1,6 +1,6 @@
 {
   "name": "@quasar/extras",
-  "version": "1.11.5",
+  "version": "1.12.0",
   "description": "Quasar Framework fonts, icons and animations",
   "scripts": {
     "build": "node build/index.js"
@@ -11,7 +11,10 @@
   },
   "keywords": [
     "quasar",
-    "framework"
+    "framework",
+    "fonts",
+    "icons",
+    "animations"
   ],
   "author": "Razvan Stoenescu",
   "contributors": [
@@ -43,7 +46,7 @@
     "eva-icons": "1.1.3",
     "fs-extra": "10.0.0",
     "glob": "7.2.0",
-    "ionicons": "5.5.4",
+    "ionicons": "6.0.0",
     "line-awesome": "1.3.0",
     "themify-icons": "https://github.com/lykmapipo/themify-icons",
     "@xmldom/xmldom": "0.7.5"
