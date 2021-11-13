@@ -14,13 +14,6 @@ module.exports = [
   },
 
   {
-    // linux (not really needed)
-    generator: 'png',
-    name: 'linux-512x512.png',
-    folder: 'src-electron/icons',
-    sizes: [ 512 ]
-  },
-  {
     // tray icon (all platforms)
     generator: 'png',
     name: 'icon.png',
