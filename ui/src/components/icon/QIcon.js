@@ -33,7 +33,7 @@ const mRE = /^M/
 const imgRE = /^img:/
 const svgUseRE = /^svguse:/
 const ionRE = /^ion-/
-const faLaRE = /^[l|f]a[s|r|l|b|d]? /
+const faLaRE = /^[l|f]a[s|r|l|b|d|k]? /
 
 export default createComponent({
   name: 'QIcon',
