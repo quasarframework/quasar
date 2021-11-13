@@ -48,7 +48,7 @@ function createWindow () {
   })
 }
 
-app.on('ready', createWindow)
+app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {
   if (platform !== 'darwin') {
