@@ -61,10 +61,27 @@ contextBridge.exposeInMainWorld('myAPI', {
 
 It directly exposes a powerful API without any kind of argument filtering. This would allow any website to send arbitrary IPC messages which you do not want to be possible. The correct way to expose IPC-based APIs would instead be to provide one method per IPC message.
 
+
 ```js
 // Good code
 contextBridge.exposeInMainWorld('myAPI', {
   loadPreferences: () => ipcRenderer.invoke('load-prefs')
+})
+```
+
+Now, `loadPreferences` is available globally in your javascript code (ie: `window.myAPI.loadPreferences`).
+
+::: warning
+Make sure to pick names which do not colide with existing `Window` keys.
+:::
+
+Using the above code with an `invoke` to `load-prefs` in the main thread would have code like this:
+
+```js
+ipcMain.handle('myAPI:load-prefs', () => {
+  return {
+    // object that contains preferences
+  }
 })
 ```
 
