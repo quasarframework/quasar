@@ -816,6 +816,12 @@ class QuasarConfFile {
     else if (this.ctx.mode.electron && this.ctx.prod) {
       const bundler = require('./electron/bundler')
 
+      const icon = appPaths.resolve.electron('icons/icon.png')
+      const builderIcon = process.platform === 'linux'
+        // backward compatible (linux-512x512.png)
+        ? (fs.existsSync(icon) === true ? icon : appPaths.resolve.electron('icons/linux-512x512.png'))
+        : appPaths.resolve.electron('icons/icon')
+
       cfg.electron = merge({
         packager: {
           asar: true,
@@ -824,7 +830,7 @@ class QuasarConfFile {
         },
         builder: {
           appId: 'quasar-app',
-          icon: appPaths.resolve.electron(`icons/icon${ process.platform === 'linux' ? '.png' : '' }`),
+          icon: builderIcon,
           productName: this.pkg.productName || this.pkg.name || 'Quasar App',
           directories: {
             buildResources: appPaths.resolve.electron('')
