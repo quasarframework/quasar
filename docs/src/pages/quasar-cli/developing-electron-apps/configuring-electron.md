@@ -64,10 +64,6 @@ electron: {
     // example:
     // chain.plugin('eslint-webpack-plugin')
     //   .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
-
-    // or, if you need node polyfills
-    // const nodePolyfillWebpackPlugin = require('node-polyfill-webpack-plugin')
-    // chain.plugin('node-polyfill').use(nodePolyfillWebpackPlugin)
   },
 
   // optional; webpack config Object for
