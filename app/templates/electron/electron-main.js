@@ -2,8 +2,6 @@ import { app, BrowserWindow, nativeTheme } from 'electron'
 import path from 'path'
 import os from 'os'
 
-import { useElectronHandler } from './electron-handler'
-
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform()
 
@@ -13,8 +11,6 @@ try {
   }
 }
 catch (_) { }
-
-useElectronHandler()
 
 let mainWindow
 
