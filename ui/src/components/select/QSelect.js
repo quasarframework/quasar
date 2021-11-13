@@ -1173,7 +1173,7 @@ export default createComponent({
     function getDialog () {
       const content = [
         h(QField, {
-          class: `col-auto ${ state.fieldClass }`,
+          class: `col-auto ${ state.fieldClass.value }`,
           ...innerFieldProps.value,
           for: state.targetUid.value,
           dark: isOptionsDark.value,
