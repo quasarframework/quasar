@@ -36,6 +36,7 @@ function useDialogPluginComponent () {
   }
 }
 
+// Don't forget to update the types in "ui/types/composables.d.ts"
 const emits = [ 'ok', 'hide' ]
 
 useDialogPluginComponent.emits = emits
