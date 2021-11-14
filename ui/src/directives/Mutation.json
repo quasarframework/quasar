@@ -27,9 +27,8 @@
           },
 
           "target": {
-            "type": "Object",
-            "desc": "The DOM element that the mutation affected, depending on the mutation type",
-            "__exemption": [ "examples" ]
+            "type": "Element",
+            "desc": "The DOM element that the mutation affected, depending on the mutation type"
           },
 
           "addedNodes": {

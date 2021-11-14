@@ -30,9 +30,8 @@
           "examples": [ "qf_363270c0-7a83-62b1-8dcf-6dfd64ee38fa" ]
         },
         "field": {
-          "type": "Object",
-          "desc": "DOM element of the field",
-          "__exemption": [ "examples" ]
+          "type": "Element",
+          "desc": "DOM element of the field"
         },
         "editable": {
           "type": "Boolean",
