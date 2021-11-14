@@ -8,27 +8,20 @@ export default function (attrs, vnode) {
     attributes: ref({})
   }
 
+  const attrsList = Object.keys(attrs)
+    .filter(key => key !== 'class' && key !== 'style' && listenerRE.test(key) === false)
+
+  const listenersList = Object.keys(vnode.props)
+    .filter(key => listenerRE.test(key) === true)
+
   function update () {
-    const listeners = {}
     const attributes = {}
-
-    Object.keys(attrs).forEach(key => {
-      if (listenerRE.test(key) === true) {
-        listeners[ key ] = attrs[ key ]
-      }
-      else if (key !== 'class' && key !== 'style') {
-        attributes[ key ] = attrs[ key ]
-      }
-    })
-
-    Object.keys(vnode.props).forEach(key => {
-      if (listenerRE.test(key) === true) {
-        listeners[ key ] = vnode.props[ key ]
-      }
-    })
-
-    acc.listeners.value = listeners
+    attrsList.forEach(key => { attributes[ key ] = attrs[ key ] })
     acc.attributes.value = attributes
+
+    const listeners = {}
+    listenersList.forEach(key => { listeners[ key ] = vnode.props[ key ] })
+    acc.listeners.value = listeners
   }
 
   onBeforeUpdate(update)
