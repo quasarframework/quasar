@@ -57,6 +57,7 @@
           "params": {
             "value": {
               "type": "Any",
+              "required": true,
               "desc": "Value to be emitted",
               "examples": [ 0, "Changed text" ]
             }

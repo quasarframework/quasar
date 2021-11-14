@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const prettier = require('prettier')
 
-const { logError, writeFile } = require('./build.utils')
+const { logError, writeFile, clone } = require('./build.utils')
 const typeRoot = path.resolve(__dirname, '../types')
 const distRoot = path.resolve(__dirname, '../dist/types')
 const resolvePath = file => path.resolve(distRoot, file)
@@ -46,7 +46,7 @@ const dontNarrowValues = [
   '(DOM Element)'
 ]
 
-function convertTypeVal (type, def, required) {
+function convertTypeVal (type, def) {
   if (def.tsType !== void 0) {
     return def.tsType
   }
@@ -68,7 +68,7 @@ function convertTypeVal (type, def, required) {
 
   if (fallbackComplexTypeMap.has(type)) {
     if (def.definition) {
-      const propDefinitions = getPropDefinitions({ definitions: def.definition, required })
+      const propDefinitions = getPropDefinitions({ definitions: def.definition })
       const lines = []
       propDefinitions.forEach(propDef => writeLines(lines, propDef, 2))
 
@@ -81,33 +81,27 @@ function convertTypeVal (type, def, required) {
   }
 
   if (type === 'Function') {
-    // FIXME: Find a better way to handle this, figure out if there are other cases as well
-    // Set paramsRequired to false for the function returned from Notify.create(...)
-    if (def.desc === 'Calling this function with no parameters hides the notification; When called with one Object parameter (the original notification must NOT be grouped), it updates the notification (specified properties are shallow merged with previous ones; note that group and position cannot be changed while updating and so they are ignored)') {
-      return '(' + getFunctionDefinition({ definition: def, paramsRequired: false }) + ')'
-    }
-
     // Function type notations must be parenthesized when used in a union type
-    return '(' + getFunctionDefinition({ definition: def, paramsRequired: true }) + ')'
+    return '(' + getFunctionDefinition({ definition: def }) + ')'
   }
 
   return type
 }
 
-function getTypeVal (def, required) {
+function getTypeVal (def) {
   return Array.isArray(def.type)
-    ? def.type.map(type => convertTypeVal(type, def, required)).join(' | ')
-    : convertTypeVal(def.type, def, required)
+    ? def.type.map(type => convertTypeVal(type, def)).join(' | ')
+    : convertTypeVal(def.type, def)
 }
 
-function getPropDefinition ({ name, definition, required = true, docs = true, isMethodParam = false, isCompProps = false }) {
+function getPropDefinition ({ name, definition, docs = true, isMethodParam = false, isCompProps = false }) {
   const propName = toCamelCase(name)
 
   if (propName.startsWith('...')) {
     return isMethodParam ? `${ propName }: any[]` : '[index: string]: any'
   }
   else {
-    let propType = getTypeVal(definition, required)
+    let propType = getTypeVal(definition)
 
     addToExtraInterfaces(definition)
 
@@ -119,16 +113,16 @@ function getPropDefinition ({ name, definition, required = true, docs = true, is
       propType += ' | undefined;'
     }
 
-    return `${ jsDoc }${ propName }${ !definition.required && !required ? '?' : '' }: ${ propType }`
+    return `${ jsDoc }${ propName }${ !definition.required ? '?' : '' }: ${ propType }`
   }
 }
 
-function getPropDefinitions ({ definitions, required, docs = true, areMethodParams = false, isCompProps = false }) {
+function getPropDefinitions ({ definitions, docs = true, areMethodParams = false, isCompProps = false }) {
   return Object.entries(definitions || {})
-    .map(([ name, definition ]) => getPropDefinition({ name, definition, required, docs, isMethodParam: areMethodParams, isCompProps }))
+    .map(([ name, definition ]) => getPropDefinition({ name, definition, docs, isMethodParam: areMethodParams, isCompProps }))
 }
 
-function getMethodPropDefinition ({ name, definition, required = true, paramsRequired = true }) {
+function getMethodPropDefinition ({ name, definition }) {
   let jsDoc = '/**\n'
   jsDoc += `* ${ definition.desc }\n`
 
@@ -143,30 +137,30 @@ function getMethodPropDefinition ({ name, definition, required = true, paramsReq
 
   jsDoc += ' */\n'
 
-  return `${ jsDoc }${ name }${ !required ? '?' : '' }: ${ getFunctionDefinition({ definition, paramsRequired }) }`
+  return `${ jsDoc }${ name }${ !definition.required ? '?' : '' }: ${ getFunctionDefinition({ definition }) }`
 }
 
-function getFunctionDefinition ({ definition, paramsRequired = true }) {
+function getFunctionDefinition ({ definition }) {
   if (definition.tsType !== void 0) {
     addToExtraInterfaces(definition)
     return definition.tsType
   }
 
-  const params = definition.params ? getPropDefinitions({ definitions: definition.params, required: paramsRequired, areMethodParams: true, docs: false }) : []
+  const params = definition.params ? getPropDefinitions({ definitions: definition.params, areMethodParams: true, docs: false }) : []
 
-  const returnType = definition.returns ? getTypeVal(definition.returns, true) : 'void'
+  const returnType = definition.returns ? getTypeVal(definition.returns) : 'void'
   if (definition.returns) {
-    addToExtraInterfaces(definition.returns, true)
+    addToExtraInterfaces(definition.returns)
   }
 
   return `(${ params.join(', ') }) => ${ returnType }`
 }
 
-function getObjectParamDefinition ({ definitions, required }) {
+function getObjectParamDefinition (definitions) {
   return Object.entries(definitions).map(([ name, definition ]) =>
     (definition.type === 'Function'
-      ? getMethodPropDefinition({ name, definition, required })
-      : getPropDefinition({ name, definition, required }))
+      ? getMethodPropDefinition({ name, definition })
+      : getPropDefinition({ name, definition }))
   )
 }
 
@@ -183,7 +177,7 @@ function getInjectionDefinition (injectionName, typeDef) {
   for (const methodKey in typeDef.methods) {
     const methodDef = typeDef.methods[ methodKey ]
     if (methodDef.tsInjectionPoint) {
-      return getMethodPropDefinition({ name: injectionName, definition: methodDef, paramsRequired: false })
+      return getMethodPropDefinition({ name: injectionName, definition: methodDef })
     }
   }
 }
@@ -210,7 +204,7 @@ function copyPredefinedTypes (dir, parentDir) {
     })
 }
 
-function addToExtraInterfaces (def, required = false) {
+function addToExtraInterfaces (def) {
   if (def !== void 0 && def !== null && def.tsType !== void 0) {
     // When a type name is found and it has a definition,
     //  it's added for later usage if a previous definition isn't already there.
@@ -220,7 +214,7 @@ function addToExtraInterfaces (def, required = false) {
     // Interfaces without definition at the end of the build script
     //  are considered external custom types and imported as such
     if (extraInterfaces[ def.tsType ] === void 0 && def.definition !== void 0) {
-      extraInterfaces[ def.tsType ] = getObjectParamDefinition({ definitions: def.definition, required })
+      extraInterfaces[ def.tsType ] = getObjectParamDefinition(def.definition)
     }
     else if (!extraInterfaces.hasOwnProperty(def.tsType)) {
       extraInterfaces[ def.tsType ] = void 0
@@ -259,6 +253,19 @@ function addQuasarLangCodes (contents) {
   langJson.forEach(({ isoName }) => writeLine(contents, `'${ isoName }': true`, 3))
   writeLine(contents, '}', 2)
   writeLine(contents, '}')
+}
+
+// Makes the definition prop required if it's not already explicitly set
+const makeRequired = prop => { prop.required = prop.required !== void 0 ? prop.required : true }
+
+function transformObject (definition, handler) {
+  const result = clone(definition || {})
+
+  for (const [ key, value ] of Object.entries(result)) {
+    handler(value, key, result)
+  }
+
+  return result
 }
 
 function writeIndexDTS (apis) {
@@ -313,17 +320,35 @@ function writeIndexDTS (apis) {
     const propTypeDef = `${ typeName }?: ${ typeValue }`
     if (content.type === 'component') {
       write(components, propTypeDef)
+
+      // Don't touch 'required' of top-level properties to allow optional/required props
+      // If it's a function, make all params required (1-level deep) since function props are working as callbacks
+      content.props = transformObject(content.props, (prop) => {
+        prop.params = transformObject(prop.params, makeRequired)
+      })
     }
     else if (content.type === 'directive') {
       write(directives, propTypeDef)
     }
     else if (content.type === 'plugin') {
       write(plugins, propTypeDef)
+
+      const makeRequiredRecursive = (definition) => transformObject(definition, (prop) => {
+        makeRequired(prop)
+
+        prop.definition = makeRequiredRecursive(prop.definition)
+      })
+
+      // Make all top-level properties required, then if it's an object, make all of its properties required recursively.
+      // If it's a function, don't touch its parameters or return type
+      content.props = makeRequiredRecursive(content.props)
     }
+
+    // Methods should always be required
+    content.methods = transformObject(content.methods, makeRequired)
 
     const props = getPropDefinitions({
       definitions: content.props,
-      required: content.type === 'plugin',
       isCompProps: content.type === 'component'
     })
 
@@ -335,7 +360,18 @@ function writeIndexDTS (apis) {
         const propName = toCamelCase('on-' + name)
         const safeName = propName.includes(':') ? `'${ propName }'` : propName
 
-        props.push(getMethodPropDefinition({ name: safeName, definition, required: false }))
+        props.push(
+          getMethodPropDefinition({
+            name: safeName,
+            definition: {
+              ...definition,
+              // Event listeners are always optional
+              required: false,
+              // Make all params(payload) required since event listeners are callbacks and will receive all parameters
+              params: transformObject(definition.params, makeRequired)
+            }
+          })
+        )
       }
     }
 
@@ -367,13 +403,17 @@ function writeIndexDTS (apis) {
           const params = definition.scope ? {
             scope: {
               type: 'Object',
-              definition: definition.scope
+              required: true,
+              // Make all properties required
+              definition: transformObject(definition.scope, makeRequired)
             }
           } : undefined
 
           const slot = getMethodPropDefinition({
             name,
             definition: {
+              type: 'Function',
+              required: true,
               desc: definition.desc,
               params,
               returns: {
@@ -403,7 +443,7 @@ function writeIndexDTS (apis) {
     // Write Methods
     for (const methodKey in content.methods) {
       const method = content.methods[ methodKey ]
-      const methodDefinition = getMethodPropDefinition({ name: methodKey, definition: method, paramsRequired: false })
+      const methodDefinition = getMethodPropDefinition({ name: methodKey, definition: method })
       writeLines(contents, methodDefinition, 1)
     }
 

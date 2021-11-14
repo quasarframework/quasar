@@ -164,6 +164,7 @@
       "params": {
         "opts": {
           "type": [ "Object", "String" ],
+          "required": true,
           "desc": "Notification options",
           "definition": {
             "type": {
@@ -339,9 +340,7 @@
               "type": "Boolean",
               "desc": "Ignore the default configuration (set by setDefaults()) for this instance only"
             }
-          },
-          "required": true,
-          "__exemption": [ "examples" ]
+          }
         }
       },
       "returns": {
@@ -350,6 +349,7 @@
         "params": {
           "props": {
             "type": "Object",
+            "required": false,
             "desc": "Notification properties that will be shallow merged to previous ones in order to update the non-grouped notification",
             "definition": {
               "type": {
@@ -483,6 +483,7 @@
       "params": {
         "opts": {
           "type": "Object",
+          "required": true,
           "desc": "Notification options",
           "definition": {
             "type": {
@@ -646,9 +647,7 @@
               "type": "Boolean",
               "desc": "Put notification into multi-line mode; If this prop isn't used and more than one 'action' is specified then notification goes into multi-line mode by default"
             }
-          },
-          "required": true,
-          "__exemption": [ "examples" ]
+          }
         }
       }
     },
@@ -658,13 +657,14 @@
       "params": {
         "typeName": {
           "type": "String",
-          "desc": "Name of the type (to be used as 'type' prop later on)",
           "required": true,
+          "desc": "Name of the type (to be used as 'type' prop later on)",
           "examples": [ "my-type" ]
         },
 
         "typeOpts": {
           "type": "Object",
+          "required": true,
           "desc": "Notification options",
           "definition": {
             "type": {
@@ -828,9 +828,7 @@
               "type": "Boolean",
               "desc": "Put notification into multi-line mode; If this prop isn't used and more than one 'action' is specified then notification goes into multi-line mode by default"
             }
-          },
-          "required": true,
-          "__exemption": [ "examples" ]
+          }
         }
       }
     }

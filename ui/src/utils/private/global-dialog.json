@@ -29,6 +29,7 @@
         "definition": {
           "onOk": {
             "type": "Function",
+            "required": true,
             "desc": "Receives a Function param to tell what to do when OK is pressed / option is selected",
             "params": {
               "callbackFn": {
@@ -57,6 +58,7 @@
 
           "onCancel": {
             "type": "Function",
+            "required": true,
             "desc": "Receives a Function as param to tell what to do when Cancel is pressed / dialog is dismissed",
             "params": {
               "callbackFn": {
@@ -77,6 +79,7 @@
 
           "onDismiss": {
             "type": "Function",
+            "required": true,
             "desc": "Receives a Function param to tell what to do when the dialog is closed",
             "params": {
               "callbackFn": {
@@ -97,6 +100,7 @@
 
           "hide": {
             "type": "Function",
+            "required": true,
             "desc": "Hides the dialog when called",
             "params": null,
             "returns": {
@@ -109,10 +113,12 @@
 
           "update": {
             "type": "Function",
+            "required": true,
             "desc": "Updates the initial properties (given as create() param) except for 'component'",
             "params": {
               "opts": {
                 "type": "Object",
+                "required": true,
                 "desc": "Props (except 'component') which will overwrite the initial create() params; If create() was invoked with a custom dialog component then this param should contain the new componentProps",
                 "__exemption": [ "examples" ]
               }
