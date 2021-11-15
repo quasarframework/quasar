@@ -21,7 +21,7 @@ const originalDefaults = {
   spinnerSize: 80,
   spinnerColor: '',
   iconName: undefined,
-  iconSize: 'lg',
+  iconSize: 80,
   iconColor: '',
   messageColor: '',
   backgroundColor: '',
