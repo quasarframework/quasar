@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-expressions */
 import { mount } from '@cypress/vue'
-import MenuWrapperBtn from './MenuWrapperBtn.vue'
+import WrapperOne from './WrapperOne.vue'
+import WrapperTwo from './WrapperTwo.vue'
 import { ref } from 'vue'
 
 describe('QMenu', () => {
@@ -7,7 +9,7 @@ describe('QMenu', () => {
   describe('Behavior tests', () => {
     describe('(prop): target', () => {
       it('should use another target using a CSS selector', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             target: '.other-target'
           }
@@ -27,7 +29,7 @@ describe('QMenu', () => {
       })
 
       it('should not show when target is false', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             target: false
           }
@@ -42,7 +44,7 @@ describe('QMenu', () => {
 
     describe('(prop): no-parent-event', () => {
       it('should not show when clicking parent with no-parent-event true', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             'no-parent-event': true
           }
@@ -55,7 +57,7 @@ describe('QMenu', () => {
       })
 
       it('should show when clicking parent with no-parent-event false', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             'no-parent-event': false
           }
@@ -70,7 +72,7 @@ describe('QMenu', () => {
 
     describe('(prop): context-menu', () => {
       it('should not show when left clicking parent', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             'context-menu': true
           }
@@ -83,7 +85,7 @@ describe('QMenu', () => {
       })
 
       it('should show when right clicking parent', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             'context-menu': true
           }
@@ -98,7 +100,7 @@ describe('QMenu', () => {
 
     describe('(prop): touch-position', () => {
       it('should show menu at the position of the click', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             'touch-position': true
           }
@@ -128,7 +130,7 @@ describe('QMenu', () => {
 
     describe('(prop): persistent', () => {
       it('should close the menu when clicking outside the menu', () => {
-        mount(MenuWrapperBtn)
+        mount(WrapperOne)
 
         cy.dataCy('wrapper')
           .click()
@@ -141,7 +143,7 @@ describe('QMenu', () => {
       })
 
       it('should close the menu when hitting the escape key', () => {
-        mount(MenuWrapperBtn)
+        mount(WrapperOne)
 
         cy.dataCy('wrapper')
           .click()
@@ -154,7 +156,7 @@ describe('QMenu', () => {
       })
 
       it('should not close the menu when clicking outside the menu when persistent', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             persistent: true
           }
@@ -172,7 +174,7 @@ describe('QMenu', () => {
       })
 
       it('should not close the menu when hitting the escape key when persistent', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             persistent: true
           }
@@ -192,7 +194,7 @@ describe('QMenu', () => {
 
     describe('(prop): auto-close', () => {
       it('should not close the menu when clicking a menu child without v-close-popup', () => {
-        mount(MenuWrapperBtn)
+        mount(WrapperOne)
 
         cy.dataCy('wrapper')
           .click()
@@ -206,7 +208,7 @@ describe('QMenu', () => {
       })
 
       it('should close the menu when clicking a menu child without v-close-popup when auto-close is true', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             'auto-close': true
           }
@@ -227,7 +229,7 @@ describe('QMenu', () => {
     describe('(prop): no-refocus', () => {
       // TODO: it is not clear from the docs that refocussing does not happen when clicking outside or closing by escape/programatticaly. Should this be added?
       it('should switch focus back to parent element when closing', () => {
-        mount(MenuWrapperBtn)
+        mount(WrapperOne)
 
         cy.dataCy('wrapper')
           .focus()
@@ -245,7 +247,7 @@ describe('QMenu', () => {
       })
 
       it('should not switch focus back to parent element when closing if no-refocus is true', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             'no-refocus': true
           }
@@ -269,7 +271,7 @@ describe('QMenu', () => {
 
     describe('(prop): no-focus', () => {
       it('should switch focus to the menu when opening', () => {
-        mount(MenuWrapperBtn)
+        mount(WrapperOne)
 
         cy.dataCy('wrapper')
           .click()
@@ -279,7 +281,7 @@ describe('QMenu', () => {
       })
 
       it('should no switch focus to the menu when opening with no-focus is true', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             'no-focus': true
           }
@@ -299,7 +301,7 @@ describe('QMenu', () => {
     describe('(prop): model-value', () => {
       it('should open the dialog when modifying the model-value', () => {
         const modelValue = ref(false)
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             modelValue
           }
@@ -316,7 +318,7 @@ describe('QMenu', () => {
 
       it('should close the dialog when modifying the model-value', () => {
         const modelValue = ref(true)
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             modelValue
           }
@@ -337,7 +339,7 @@ describe('QMenu', () => {
   describe('Position tests', () => {
     describe('(prop): fit', () => {
       it('should show a menu that matches the full with of the target when fit is supplied', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             target: '.other-target',
             fit: true
@@ -356,7 +358,7 @@ describe('QMenu', () => {
       })
 
       it('should show a menu that not matches the full with of the target when fit is false', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             target: '.other-target',
             fit: false
@@ -377,7 +379,7 @@ describe('QMenu', () => {
 
     describe('(prop): cover', () => {
       it('should show a menu that overlays the target when using cover', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             cover: true
           }
@@ -390,7 +392,7 @@ describe('QMenu', () => {
       })
 
       it('should show a menu that overlays the target when using cover', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             cover: true,
             target: '.other-target'
@@ -404,7 +406,7 @@ describe('QMenu', () => {
       })
 
       it('should ignore self property when using cover', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             cover: true,
             self: 'center right',
@@ -421,7 +423,7 @@ describe('QMenu', () => {
 
     describe('(prop): anchor & self', () => {
       it('should show a menu at anchor: bottom left and self: top left  by default', () => {
-        mount(MenuWrapperBtn)
+        mount(WrapperOne)
 
         cy.dataCy('wrapper')
           .click()
@@ -439,7 +441,7 @@ describe('QMenu', () => {
           verticalSelf.forEach((vS) => {
             horizontalSelf.forEach((hS) => {
               it(`should position Anchor(${ vA } ${ hA }) & Self(${ vS } ${ hS })  correctly`, () => {
-                mount(MenuWrapperBtn, {
+                mount(WrapperOne, {
                   attrs: {
                     anchor: `${ vA } ${ hA }`,
                     self: `${ vS } ${ hS }`
@@ -467,7 +469,7 @@ describe('QMenu', () => {
   describe('Style tests', () => {
     describe('(prop): dark', () => {
       it('should set the --q-dark color as background and white text color', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             dark: true
           }
@@ -482,7 +484,7 @@ describe('QMenu', () => {
 
     describe('(prop): square', () => {
       it('should not have border-radius when using this prop', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             square: true
           }
@@ -497,7 +499,7 @@ describe('QMenu', () => {
     describe('(prop): max-height', () => {
       it('should specify a max-height when setting this prop', () => {
         const maxHeight = '30px'
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             maxHeight
           }
@@ -512,7 +514,7 @@ describe('QMenu', () => {
     describe('(prop): max-width', () => {
       it('should specify a max-width when setting this prop', () => {
         const maxWidth = '30px'
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             maxWidth
           }
@@ -529,7 +531,7 @@ describe('QMenu', () => {
   describe('Transition tests', () => {
     describe('(prop): transition-show', () => {
       it('should use the fade transition by default', () => {
-        mount(MenuWrapperBtn)
+        mount(WrapperOne)
         cy.dataCy('wrapper')
           .click()
         cy.dataCy('menu', { timeout: 0 }) // Disable retry
@@ -538,7 +540,7 @@ describe('QMenu', () => {
 
       it('should use a different show transtion if defined', () => {
         const transition = 'scale'
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             transitionShow: transition
           }
@@ -552,7 +554,7 @@ describe('QMenu', () => {
 
     describe('(prop): transition-hide', () => {
       it('should use the fade transition by default', () => {
-        mount(MenuWrapperBtn)
+        mount(WrapperOne)
         cy.dataCy('wrapper')
           .click()
         cy.dataCy('menu')
@@ -565,7 +567,7 @@ describe('QMenu', () => {
 
       it('should use a different hide transtion if defined', () => {
         const transition = 'scale'
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             transitionHide: transition
           }
@@ -583,7 +585,7 @@ describe('QMenu', () => {
 
     describe('(prop): transition-duration', () => {
       it('should be done with transitioning after 300ms passed', () => {
-        mount(MenuWrapperBtn)
+        mount(WrapperOne)
         cy.dataCy('wrapper')
           .click()
           .wait(300)
@@ -592,7 +594,7 @@ describe('QMenu', () => {
       })
 
       it('should not be done with transitioning before 300ms passed', () => {
-        mount(MenuWrapperBtn)
+        mount(WrapperOne)
         cy.dataCy('wrapper')
           .click()
           .wait(200) // Commands take some time so a high value can fail, just take a decent margin
@@ -601,7 +603,7 @@ describe('QMenu', () => {
       })
 
       it('should be done after a custom 1000ms passed', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             transitionDuration: 1000
           }
@@ -614,7 +616,7 @@ describe('QMenu', () => {
       })
 
       it('should not be done before a custom 1000ms passed', () => {
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             transitionDuration: 1000
           }
@@ -633,44 +635,402 @@ describe('QMenu', () => {
     describe('@update:model-value', () => {
       it('should emit @update:model-value event when state changes', () => {
         const fn = cy.stub()
-        mount(MenuWrapperBtn, {
+        mount(WrapperOne, {
           attrs: {
             'onUpdate:modelValue': fn
           }
         })
-        // eslint-disable-next-line no-unused-expressions
+
         expect(fn).not.to.be.called
         cy.dataCy('wrapper')
           .click()
         cy.dataCy('menu')
           .should('exist')
           .then(() => {
-            // eslint-disable-next-line no-unused-expressions
+            expect(fn).to.be.called
+          })
+      })
+    })
+
+    describe('@show', () => {
+      it('should emit @show event when menu is triggered by parent', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onShow: fn
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.dataCy('wrapper')
+          .click()
+        cy.dataCy('menu')
+          .should('exist')
+          .wait(300) // Await menu animation
+          .then(() => {
             expect(fn).to.be.called
           })
       })
 
-      describe('@show', () => {
-        it('should emit @show event when component is triggered with the show() method', () => {
-          const fn = cy.stub()
-          mount(MenuWrapperBtn, {
-            attrs: {
-              onShow: fn
-            }
-          })
-          // eslint-disable-next-line no-unused-expressions
-          expect(fn).not.to.be.called
-          cy.dataCy('wrapper')
-          cy.dataCy('method-show')
-            .click()
-          cy.dataCy('menu')
-            .should('exist')
-            .wait(300) // Await menu animation
-            .then(() => {
-            // eslint-disable-next-line no-unused-expressions
-              expect(fn).to.be.called
-            })
+      it('should emit @show event when component is triggered with the show() method', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onShow: fn
+          }
         })
+
+        expect(fn).not.to.be.called
+        cy.dataCy('wrapper')
+        cy.dataCy('method-show')
+          .click({ force: true }) // Element is hidden to prevent clogging the window
+        cy.dataCy('menu')
+          .should('exist')
+          .wait(300) // Await menu animation
+          .then(() => {
+            expect(fn).to.be.called
+          })
+      })
+    })
+
+    describe('@before-show', () => {
+      it('should emit @before-show event when menu is triggered by parent', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onBeforeShow: fn
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.dataCy('wrapper')
+          .click()
+        cy.dataCy('menu')
+          .should('exist')
+          .then(() => {
+            expect(fn).to.be.called
+          })
+      })
+
+      it('should emit @before-show event when component is triggered with the show() method', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onBeforeShow: fn
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.dataCy('wrapper')
+        cy.dataCy('method-show')
+          .click({ force: true }) // Element is hidden to prevent clogging the window
+        cy.dataCy('menu')
+          .should('exist')
+          .then(() => {
+            expect(fn).to.be.called
+          })
+      })
+    })
+
+    describe('@hide', () => {
+      it('should emit @hide event when menu is triggered by parent', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onHide: fn
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.dataCy('wrapper')
+          .click()
+        cy.dataCy('menu')
+          .should('exist')
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
+        cy.get('body')
+          .click(499, 0)
+        cy.dataCy('menu')
+          .should('not.exist')
+          .then(() => {
+            expect(fn).to.be.called
+          })
+      })
+
+      it('should emit @hide event when component is triggered with the show() method', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onHide: fn
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.dataCy('wrapper')
+        cy.dataCy('method-show')
+          .click({ force: true }) // Element is hidden to prevent clogging the window
+        cy.dataCy('menu')
+          .should('exist')
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
+        cy.dataCy('method-hide')
+          .click({ force: true })
+        cy.dataCy('menu')
+          .should('not.exist') // Element is hidden to prevent clogging the window
+          .then(() => {
+            expect(fn).to.be.called
+          })
+      })
+    })
+
+    describe('@before-hide', () => {
+      it('should emit @before-hide event when menu is triggered by parent', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onBeforeHide: fn
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.dataCy('wrapper')
+          .click()
+        cy.dataCy('menu')
+          .should('exist')
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
+        cy.get('body')
+          .click(499, 0)
+          .then(() => {
+            expect(fn).to.be.called
+          })
+        cy.dataCy('menu')
+          .should('not.exist')
+      })
+
+      it('should emit @before-hide event when component is triggered with the show() method', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onBeforeHide: fn
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.dataCy('wrapper')
+        cy.dataCy('method-show')
+          .click({ force: true }) // Element is hidden to prevent clogging the window
+        cy.dataCy('menu')
+          .should('exist')
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
+        cy.dataCy('method-hide')
+          .click({ force: true })
+          .then(() => {
+            expect(fn).to.be.called
+          })
+        cy.dataCy('menu')
+          .should('not.exist')
+      })
+    })
+
+    describe('@escape-key', () => {
+      it('should emit @escape-key event when escape key is pressed', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onEscapeKey: fn
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.dataCy('wrapper')
+          .click()
+        cy.dataCy('menu')
+          .should('exist')
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
+        cy.get('body')
+          .type('{esc}')
+          .then(() => {
+            expect(fn).to.be.called
+          })
+      })
+
+      it('should not emit @escape-key event when menu is persistent', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onEscapeKey: fn,
+            persistent: true
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.dataCy('wrapper')
+          .click()
+        cy.dataCy('menu')
+          .should('exist')
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
+        cy.get('body')
+          .type('{esc}')
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
+      })
+    })
+  })
+
+  // Methods
+  describe('Methods', () => {
+    describe('show', () => {
+      it('should tigger the menu to show', () => {
+        mount(WrapperOne)
+
+        cy.dataCy('wrapper')
+        cy.dataCy('method-show')
+          .click({ force: true })
+        cy.dataCy('menu')
+          .should('exist')
+      })
+    })
+
+    describe('hide', () => {
+      it('should tigger the menu to hide', () => {
+        mount(WrapperOne)
+
+        cy.dataCy('wrapper')
+          .click()
+        cy.dataCy('menu')
+          .should('exist')
+        cy.dataCy('method-hide')
+          .click({ force: true })
+        cy.dataCy('menu')
+          .should('not.exist')
+      })
+    })
+
+    describe('toggle', () => {
+      it('should toggle the menu', () => {
+        mount(WrapperTwo)
+
+        cy.dataCy('wrapper')
+          .vue()
+          .then((wrapper) => {
+            // Need to call method from wrapper
+            // Click a button closes the menu
+            wrapper.vm.toggle()
+          })
+        cy.dataCy('menu')
+          .should('exist')
+          .vue()
+          .then((wrapper) => {
+            // Need to call method from wrapper
+            // Click a button closes the menu
+            wrapper.vm.toggle()
+          })
+        cy.dataCy('menu')
+          .should('not.exist')
+      })
+    })
+
+    describe('updatePosition', () => {
+      it('should reposition the menu when it is no longer in correct position', () => {
+        mount(WrapperTwo, {
+          attrs: {
+            anchor: 'bottom left',
+            self: 'bottom left'
+          }
+        })
+
+        let bottom = null
+        let left = null
+
+        cy.dataCy('wrapper')
+          .click()
+          .wait(300)
+        cy.dataCy('menu')
+          .should('exist')
+          .checkVerticalPosition('wrapper', 'bottom', 'bottom')
+          .checkHorizontalPosition('wrapper', 'left', 'left')
+          .then(($el) => {
+            const rect = $el[ 0 ].getBoundingClientRect()
+            bottom = rect.bottom
+            left = rect.left
+          })
+        cy.dataCy('div')
+          .then(($el) => {
+            $el[ 0 ].style.height = '100px'
+            cy.dataCy('menu')
+              .then(($el) => {
+                const rect = $el[ 0 ].getBoundingClientRect()
+                expect(rect.bottom).to.equal(bottom - 100)
+                expect(rect.left).to.equal(left)
+              })
+            cy.dataCy('wrapper')
+              .vue()
+              .then((wrapper) => {
+                wrapper.vm.updatePosition()
+              })
+            cy.dataCy('menu')
+              .checkVerticalPosition('wrapper', 'bottom', 'bottom')
+              .checkHorizontalPosition('wrapper', 'left', 'left')
+          })
+      })
+    })
+
+    describe('focus', () => {
+      it('should focus the menu', () => {
+        mount(WrapperOne, {
+          attrs: {
+            'no-focus': true
+          }
+        })
+
+        cy.dataCy('wrapper')
+          .click()
+        cy.dataCy('menu')
+          .should('exist')
+          .should('not.have.focus')
+        cy.dataCy('wrapper')
+          .vue()
+          .then((wrapper) => {
+            // Need to call method from wrapper
+            // Click a button closes the menu
+            wrapper.vm.focusMethod()
+          })
+        cy.dataCy('menu')
+          .should('have.focus')
+      })
+
+      it('should focus the autofocus element inside the menu', () => {
+        mount(WrapperTwo, {
+          attrs: {
+            'no-focus': true
+          }
+        })
+
+        cy.dataCy('wrapper')
+          .click()
+        cy.dataCy('menu')
+          .should('exist')
+          .should('not.have.focus')
+        cy.dataCy('wrapper')
+          .vue()
+          .then((wrapper) => {
+            // Need to call method from wrapper
+            // Click a button closes the menu
+            wrapper.vm.focusMethod()
+          })
+        cy.dataCy('input-2')
+          .should('have.focus')
       })
     })
   })
