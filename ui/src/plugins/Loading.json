@@ -36,6 +36,20 @@
         "extends": "color",
         "desc": "Color name for spinner from the Quasar Color Palette"
       },
+      "iconName": {
+        "type": "String",
+        "desc": "Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix",
+        "examples": [ "map", "ion-add" ]
+      },
+      "iconSize": {
+        "type": "Number",
+        "desc": "Icon size (in pixels)",
+        "examples": [ 60 ]
+      },
+      "iconColor": {
+        "extends": "color",
+        "desc": "Color name for icon from the Quasar Color Palette"
+      },
       "messageColor": {
         "extends": "color",
         "desc": "Color name for text from the Quasar Color Palette"
@@ -101,6 +115,20 @@
               "extends": "color",
               "desc": "Color name for spinner from the Quasar Color Palette"
             },
+            "iconName": {
+              "type": "Number",
+              "desc": "Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix",
+              "examples": [ "map", "ion-add" ]
+            },
+            "iconSize": {
+              "type": "Number",
+              "desc": "Icon size (in pixels)",
+              "examples": [ 60 ]
+            },
+            "iconColor": {
+              "extends": "color",
+              "desc": "Color name for icon from the Quasar Color Palette"
+            },
             "messageColor": {
               "extends": "color",
               "desc": "Color name for text from the Quasar Color Palette"
@@ -157,6 +185,20 @@
             "spinnerColor": {
               "extends": "color",
               "desc": "Color name for spinner from the Quasar Color Palette"
+            },
+            "iconName": {
+              "type": "Number",
+              "desc": "Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix",
+              "examples": [ "map", "ion-add" ]
+            },
+            "iconSize": {
+              "type": "Number",
+              "desc": "Icon size (in pixels)",
+              "examples": [ 60 ]
+            },
+            "iconColor": {
+              "extends": "color",
+              "desc": "Color name for icon from the Quasar Color Palette"
             },
             "messageColor": {
               "extends": "color",
