@@ -155,22 +155,15 @@ function getFunctionDefinition ({ definition }) {
   return `(${ params.join(', ') }) => ${ returnType }`
 }
 
-function getInjectionDefinition (injectionName, typeDef) {
-  // Get property injection point
-  for (const propKey in typeDef.props) {
-    const propDef = typeDef.props[ propKey ]
-    if (propDef.tsInjectionPoint) {
-      return getPropDefinition({ name: injectionName, definition: propDef })
+function getInjectionDefinition (propertyName, typeDef, typeName) {
+  // Look for a TS injection point in props and methods
+  for (const definition of [ ...Object.values(typeDef.props), ...Object.values(typeDef.methods) ]) {
+    if (definition.tsInjectionPoint) {
+      return getPropDefinition({ name: propertyName, definition })
     }
   }
 
-  // Get method injection point
-  for (const methodKey in typeDef.methods) {
-    const methodDef = typeDef.methods[ methodKey ]
-    if (methodDef.tsInjectionPoint) {
-      return getPropDefinition({ name: injectionName, definition: methodDef })
-    }
-  }
+  return `${ propertyName }: ${ typeName }`
 }
 
 function copyPredefinedTypes (dir, parentDir) {
@@ -449,18 +442,15 @@ function writeIndexDTS (apis) {
     writeLine(contents)
 
     // Copy Injections for type declaration
-    if (content.type === 'plugin') {
-      if (content.injection) {
-        const injectionParts = content.injection.split('.')
-        if (!injections[ injectionParts[ 0 ] ]) {
-          injections[ injectionParts[ 0 ] ] = []
-        }
-        let def = getInjectionDefinition(injectionParts[ 1 ], content)
-        if (!def) {
-          def = `${ injectionParts[ 1 ] }: ${ typeName }`
-        }
-        injections[ injectionParts[ 0 ] ].push(def)
+    if (content.type === 'plugin' && content.injection) {
+      // Example: $q.dialog -> target: $q, property: dialog
+      const [ target, property ] = content.injection.split('.')
+
+      if (!injections[ target ]) {
+        injections[ target ] = []
       }
+
+      injections[ target ].push(getInjectionDefinition(property, content, typeName))
     }
   })
 
@@ -483,36 +473,39 @@ function writeIndexDTS (apis) {
     }
   })
 
+  const getSafeInjectionKey = key => key.toUpperCase().replace('$', '')
+
   // Write injection types
   for (const key in injections) {
+    const injectionKey = getSafeInjectionKey(key)
+    const injectionName = `${ injectionKey }VueGlobals`
+
+    writeLine(contents, `import { ${ injectionName }, ${ injectionKey }SingletonGlobals } from "./globals";`)
+    writeLine(contents, 'declare module "./globals" {')
+    writeLine(contents, `export interface ${ injectionName } {`)
+
     const injectionDefs = injections[ key ]
-    if (injectionDefs) {
-      const injectionName = `${ key.toUpperCase().replace('$', '') }VueGlobals`
-      writeLine(contents, `import { ${ injectionName }, QSingletonGlobals } from "./globals";`)
-      writeLine(contents, 'declare module "./globals" {')
-      writeLine(contents, `export interface ${ injectionName } {`)
-      for (const defKey in injectionDefs) {
-        writeLines(contents, injectionDefs[ defKey ], 1)
-      }
-      writeLine(contents, '}')
-      writeLine(contents, '}')
+    for (const defKey in injectionDefs) {
+      writeLines(contents, injectionDefs[ defKey ], 1)
     }
+
+    writeLine(contents, '}')
+    writeLine(contents, '}')
   }
 
   writeLine(contents)
 
   // Extend Vue instance with injections
-  if (injections) {
-    writeLine(contents, 'declare module \'@vue/runtime-core\' {')
-    writeLine(contents, 'interface ComponentCustomProperties {', 1)
+  writeLine(contents, 'declare module \'@vue/runtime-core\' {')
+  writeLine(contents, 'interface ComponentCustomProperties {', 1)
 
-    for (const key3 in injections) {
-      writeLine(contents, `${ key3 }: ${ key3.toUpperCase().replace('$', '') }VueGlobals`, 2)
-    }
-    writeLine(contents, '}', 1)
-    writeLine(contents, '}')
-    writeLine(contents)
+  for (const key in injections) {
+    writeLine(contents, `${ key }: ${ getSafeInjectionKey(key) }VueGlobals`, 2)
   }
+
+  writeLine(contents, '}', 1)
+  writeLine(contents, '}')
+  writeLine(contents)
 
   // Provide `GlobalComponents`, expected to be used for Volar
   writeLine(contents, 'declare module \'@vue/runtime-core\' {')
@@ -543,8 +536,7 @@ function writeIndexDTS (apis) {
 
   writeFile(
     resolvePath('index.d.ts'),
-    // contents.join('')
-    prettier.format(contents.join(''), { parser: 'typescript'/*, plugins: [ require('prettier-plugin-jsdoc') ] */ })
+    prettier.format(contents.join(''), { parser: 'typescript' })
   )
 }
 
