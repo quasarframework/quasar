@@ -1,1 +1,1 @@
-export type CookiesGetMethodType = <T = string>(name: string) => T | null;
+export type CookiesGetMethodType = <T = string | null>(name: string) => T;
