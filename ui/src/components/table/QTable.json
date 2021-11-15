@@ -2400,8 +2400,9 @@
         },
         "edge": {
           "type": "String",
-          "desc": "Only for virtual scroll - the edge to align to if the row is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise); If the '-force' version is used then it always aligns",
-          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ]
+          "desc": "Only for virtual scroll - the edge to align to if the row is not visible already; If the '-force' version is used then it always aligns",
+          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ],
+          "default": "end (if scrolling towards the end) / start (if scrolling towards the start)"
         }
       }
     }

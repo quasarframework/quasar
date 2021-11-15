@@ -290,9 +290,8 @@
       "desc": "Emitted when factory function is supplied with a Promise which is rejected",
       "params": {
         "err": {
-          "type": "Object",
-          "desc": "Error Object which is the Promise rejection reason",
-          "__exemption": [ "examples" ]
+          "type": "Error",
+          "desc": "Error object which is the Promise rejection reason"
         },
         "files": {
           "type": "Array",

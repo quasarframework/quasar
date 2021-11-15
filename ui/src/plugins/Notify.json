@@ -215,7 +215,7 @@
             "spinner": {
               "type": [ "Boolean", "Component" ],
               "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
-              "__exemption": [ "examples" ]
+              "examples": [ true, "QSpinnerBars" ]
             },
 
             "position": {
@@ -226,8 +226,7 @@
                 "top-left", "top-right",
                 "bottom-left", "bottom-right",
                 "top", "bottom", "left", "right", "center"
-              ],
-              "examples": [ "top-right" ]
+              ]
             },
 
             "group": {
@@ -252,8 +251,7 @@
               "values": [
                 "top-left", "top-right",
                 "bottom-left", "bottom-right"
-              ],
-              "examples": [ "bottom-right" ]
+              ]
             },
             "badgeStyle": {
               "type": [ "Array", "String", "Object" ],
@@ -608,8 +606,7 @@
             "attrs": {
               "type": "Object",
               "desc": "Key-value for attributes to be set on the notification",
-              "examples": [ "{ role: 'alertdialog' }" ],
-              "__exemption": [ "definition" ]
+              "examples": [ "{ role: 'alertdialog' }" ]
             },
 
             "timeout": {
@@ -789,8 +786,7 @@
             "attrs": {
               "type": "Object",
               "desc": "Key-value for attributes to be set on the notification",
-              "examples": [ "{ role: 'alertdialog' }" ],
-              "__exemption": [ "definition" ]
+              "examples": [ "{ role: 'alertdialog' }" ]
             },
 
             "timeout": {
