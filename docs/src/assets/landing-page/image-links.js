@@ -29,11 +29,11 @@ export const whyQuasar = [
 ]
 
 export const components = [
-  { name: 'Ajax-bar', description: 'A loading bar for ajax calls in progress' },
-  { name: 'Avatar', description: 'A space for your portrait, icon or text' },
-  { name: 'Badge', description: 'To highlight small but important info' },
+  { name: 'Ajax-bar', description: 'A loading bar for ajax calls in progress', categories: ['loading'] },
+  { name: 'Avatar', description: 'A space for your portrait, icon or text', categories: ['media'] },
+  { name: 'Badge', description: 'To highlight small but important info', categories: ['input'] },
   { name: 'Banner', description: 'To display important messages and actions' },
-  { name: 'Bar', description: 'A small top bar for side info and actions' },
+  { name: 'Bar', description: 'A small top bar for side info and actions', categories: ['navigation'] },
   { name: 'Breadcrumbs', description: 'To keep track of your position inside app' },
   { name: 'Buttons', description: 'To access the most important actions' },
   { name: 'Buttons Group', description: 'An alternative to classic buttons' },
@@ -56,7 +56,7 @@ export const components = [
   { name: 'Img', description: 'To set some basic image features' },
   { name: 'Infinite Scroll', description: 'To enable new content display while scrolling' },
   { name: 'Inner Loading', description: 'To add content loading inside a component' },
-  { name: 'Input Text Fields', description: 'To collect users\' typed text input' },
+  { name: 'Input Text Fields', description: 'To collect users\' typed text input', categories: [ 'input', 'button' ] },
   { name: 'Intersection', description: 'Set how UI elements enter the screen' },
   { name: 'Knob', description: 'To set a value with a draggable gauge' },
   { name: 'Linear Progress', description: 'A loading bar with various behaviors' },

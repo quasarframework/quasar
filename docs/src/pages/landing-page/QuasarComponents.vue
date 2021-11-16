@@ -14,7 +14,15 @@
       </template>
     </q-input>
     <div class="q-mb-md">
-      <q-chip v-for="(filterChip, i) in filterChips" :key="i" color="lp-primary" clickable text-color="white" :label="filterChip"/>
+      <q-chip
+        v-for="({label, value}, chipIndex) in filterChips"
+        :key="chipIndex"
+        :selected="value === filterCategory"
+        color="lp-primary"
+        clickable text-color="white"
+        :label="label"
+        @click="setFilterCategory(value)"
+      />
     </div>
     <div class="components">
       <q-card v-for="({name, description}, i) in components" :key="name + i" class="raise-on-hover text-size-16 shadow-bottom-small">
@@ -34,7 +42,19 @@
 import { defineComponent, ref, computed } from 'vue'
 import { components } from 'src/assets/landing-page/image-links.js'
 
-const FILTER_CHIPS = [ 'Buttons', 'Inputs', 'Loading', 'Media', 'Navigation', 'Panels & Popups', 'Scroll', 'Tables', 'Others' ]
+const OTHER_CATEGORY = 'other'
+
+const FILTER_CHIPS = [
+  { label: 'Buttons', value: 'button' },
+  { label: 'Inputs', value: 'input' },
+  { label: 'Loading', value: 'loading' },
+  { label: 'Media', value: 'media' },
+  { label: 'Navigation', value: 'navigation' },
+  { label: 'Panels & Popups', value: 'panelAndPopup' },
+  { label: 'Scroll', value: 'scroll' },
+  { label: 'Tables', value: 'table' },
+  { label: 'Others', value: OTHER_CATEGORY }
+]
 
 const componentNameToKebabCase = (componentName) => componentName.replaceAll(' ', '-').toLowerCase()
 
@@ -42,16 +62,32 @@ export default defineComponent({
   name: 'Components',
   setup () {
     const search = ref('')
+    const filterCategory = ref('')
 
-    computed(search, () => {
-      // TODO: implement component filtering
+    function filterByCategory (categories, filterCategory) {
+      // If a category was not explicitly set, then we consider it to be of category 'Others'
+      return typeof categories === 'undefined' ? filterCategory === OTHER_CATEGORY : categories?.includes(filterCategory)
+    }
+
+    const filteredComponents = computed(() => {
+      const searchValue = search.value.toLowerCase()
+      return components.filter(({ name, description, categories }) =>
+        (name.toLowerCase().includes(searchValue) || description.toLowerCase().includes(searchValue)) &&
+        (filterCategory.value === '' || filterByCategory(categories, filterCategory.value))
+      )
     })
+
+    function setFilterCategory (filterChipValue) {
+      filterCategory.value = filterChipValue
+    }
 
     return {
       search,
       filterChips: FILTER_CHIPS,
-      components,
-      componentNameToKebabCase
+      filterCategory,
+      components: filteredComponents,
+      componentNameToKebabCase,
+      setFilterCategory
     }
   }
 })
