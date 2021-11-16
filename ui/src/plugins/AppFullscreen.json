@@ -17,9 +17,9 @@
     },
 
     "activeEl": {
-      "type": "Object",
+      "type": [ "Element", "null" ],
       "desc": "The DOM element used as root for fullscreen, otherwise 'null'",
-      "__exemption": [ "examples" ]
+      "examples": [ "document.fullscreenElement", "null" ]
     }
   },
 
