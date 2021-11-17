@@ -14,10 +14,18 @@
       </template>
     </q-input>
     <div class="q-mb-md">
-      <q-chip v-for="(filterChip, i) in filterChips" :key="i" color="lp-primary" clickable text-color="white" :label="filterChip"/>
+      <q-chip
+        v-for="({label, value}, chipIndex) in filterChips"
+        :key="chipIndex"
+        :selected="value === filterTag"
+        color="lp-primary"
+        clickable text-color="white"
+        :label="label"
+        @click="setFilterTag(value)"
+      />
     </div>
     <div class="components">
-      <q-card v-for="({name, description}, i) in components" :key="name + i" class="raise-on-hover text-size-16 shadow-bottom-small">
+      <q-card v-for="({name, description}, i) in filteredComponents" :key="name + i" class="raise-on-hover text-size-16 shadow-bottom-small">
         <img :src="`components-thumbnails/${componentNameToKebabCase(name)}.jpg`" />
         <q-card-section class="text-lp-primary text-weight-medium">
           {{ name }}
@@ -34,7 +42,17 @@
 import { defineComponent, ref, computed } from 'vue'
 import { components } from 'src/assets/landing-page/image-links.js'
 
-const FILTER_CHIPS = [ 'Buttons', 'Inputs', 'Loading', 'Media', 'Navigation', 'Panels & Popups', 'Scroll', 'Tables', 'Others' ]
+const FILTER_CHIPS = [
+  { label: 'Buttons', value: 'button' },
+  { label: 'Inputs', value: 'input' },
+  { label: 'Loading', value: 'loading' },
+  { label: 'Media', value: 'media' },
+  { label: 'Navigation', value: 'navigation' },
+  { label: 'Panels & Popups', value: 'panel' },
+  { label: 'Scroll', value: 'scroll' },
+  { label: 'Tables', value: 'table' },
+  { label: 'Others', value: 'other' }
+]
 
 const componentNameToKebabCase = (componentName) => componentName.replaceAll(' ', '-').toLowerCase()
 
@@ -42,16 +60,28 @@ export default defineComponent({
   name: 'Components',
   setup () {
     const search = ref('')
+    const filterTag = ref(undefined)
 
-    computed(search, () => {
-      // TODO: implement component filtering
+    const filteredComponents = computed(() => {
+      const needle = search.value.toLowerCase()
+      return components.filter(({ name, description, tag }) =>
+        (name.toLowerCase().includes(needle) || description.toLowerCase().includes(needle)) &&
+        (filterTag.value === undefined || tag === filterTag.value)
+      )
     })
+
+    function setFilterTag (filterChipValue) {
+      // if the filter tag is the same as the one we are trying to set, then we reset the filter tag
+      filterTag.value = filterTag.value === filterChipValue ? undefined : filterChipValue
+    }
 
     return {
       search,
       filterChips: FILTER_CHIPS,
-      components,
-      componentNameToKebabCase
+      filterTag,
+      filteredComponents,
+      componentNameToKebabCase,
+      setFilterTag
     }
   }
 })
