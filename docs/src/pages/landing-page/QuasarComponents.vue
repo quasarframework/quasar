@@ -60,7 +60,7 @@ export default defineComponent({
   name: 'Components',
   setup () {
     const search = ref('')
-    const filterTag = ref(undefined)
+    const filterTag = ref()
 
     const filteredComponents = computed(() => {
       const needle = search.value.toLowerCase()
