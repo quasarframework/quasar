@@ -46,7 +46,7 @@ declare global {
         anchor: string,
         anchorOrigin: "bottom" | "top" | "center",
         selfOrigin: "bottom" | "top" | "center",
-        // offset: [number, number] = [0, 0]
+        offset: number = 0
       ): Chainable<JQuery<E>>;
   
       /**
@@ -57,8 +57,8 @@ declare global {
       checkHorizontalPosition<E extends Node = HTMLElement>(
         anchor: string,
         anchorOrigin: "left" | "middle" | "right",
-        selfOrigin: "left" | "middle" | "right"
-        // offset: [number, number] = [0, 0]
+        selfOrigin: "left" | "middle" | "right",
+        offset: number = 0
       ): Chainable<JQuery<E>>;
     }
   }

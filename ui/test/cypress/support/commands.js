@@ -30,7 +30,7 @@ Cypress.Commands.add('vue', () => {
 Cypress.Commands.add(
   'checkVerticalPosition',
   { prevSubject: true },
-  (self, anchor, anchorOrigin, selfOrigin) => {
+  (self, anchor, anchorOrigin, selfOrigin, offset = 0) => {
     const selfRect = self[ 0 ].getBoundingClientRect()
     let selfCompare = null
     switch (selfOrigin) {
@@ -39,7 +39,7 @@ Cypress.Commands.add(
         break
 
       case 'center':
-        selfCompare = (selfRect.top + selfRect.bottom) / 2
+        selfCompare = ((selfRect.top + selfRect.bottom) / 2)
         break
 
       default:
@@ -47,6 +47,9 @@ Cypress.Commands.add(
         selfCompare = selfRect.top
         break
     }
+
+    if (anchorOrigin === 'top') selfCompare += offset
+    if (anchorOrigin === 'bottom') selfCompare -= offset
 
     let anchorRect = null
 
@@ -83,7 +86,7 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'checkHorizontalPosition',
   { prevSubject: true },
-  (self, anchor, anchorOrigin, selfOrigin) => {
+  (self, anchor, anchorOrigin, selfOrigin, offset = 0) => {
     const selfRect = self[ 0 ].getBoundingClientRect()
     let selfCompare = null
     switch (selfOrigin) {
@@ -100,6 +103,9 @@ Cypress.Commands.add(
         selfCompare = selfRect.left
         break
     }
+
+    if (anchorOrigin === 'left') selfCompare += offset
+    if (anchorOrigin === 'right') selfCompare -= offset
 
     let anchorRect = null
 

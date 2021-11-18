@@ -461,7 +461,47 @@ describe('QMenu', () => {
     })
 
     describe('(prop): offset', () => {
-      // TODO: Write offset tests
+      const verticalAnchor = [ 'top', 'center', 'bottom' ]
+      const verticalSelf = [ 'top', 'center', 'bottom' ]
+      verticalAnchor.forEach((vA) => {
+        verticalSelf.forEach((vS) => {
+          it(`should offset vertical position Anchor(${ vA } left) & Self(${ vS } left) correctly`, () => {
+            mount(WrapperOne, {
+              attrs: {
+                anchor: `${ vA } left`,
+                self: `${ vS } left`,
+                offset: [ 0, 20 ]
+              }
+            })
+
+            cy.dataCy('wrapper')
+              .click()
+            cy.dataCy('menu')
+              .checkVerticalPosition('wrapper', vA, vS, 20)
+          })
+        })
+      })
+
+      const horizontalAnchor = [ 'left', 'middle', 'right' ]
+      const horizontalSelf = [ 'left', 'middle', 'right' ]
+      horizontalAnchor.forEach((hA) => {
+        horizontalSelf.forEach((hS) => {
+          it(`should offset horizontal position Anchor(top ${ hA }) & Self(top ${ hS }) correctly`, () => {
+            mount(WrapperOne, {
+              attrs: {
+                anchor: `top ${ hA }`,
+                self: `top ${ hS }`,
+                offset: [ 20, 0 ]
+              }
+            })
+
+            cy.dataCy('wrapper')
+              .click()
+            cy.dataCy('menu')
+              .checkHorizontalPosition('wrapper', hA, hS, 20)
+          })
+        })
+      })
     })
   })
 
