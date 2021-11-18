@@ -29,7 +29,7 @@ Shortlist :memo:
 - [ ] QUploader (100+)
 
 In progress :clap:
-- [X] QMenu (140+)
 
 Done :white_check_mark:
+- [X] QMenu (140+)
 - [X] QAvatar
