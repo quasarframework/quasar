@@ -17,7 +17,6 @@ Here is a list of things I needed to do to make this work:
 I did a quick search in the issues to see which components popup the most, to make a shortlist of what to pickup first.
 
 Shortlist :memo:
-- [ ] QSelect (600+)
 - [ ] QInput (400+)
 - [ ] QDialog (400+)
 - [ ] QTable (300+)
@@ -29,6 +28,7 @@ Shortlist :memo:
 - [ ] QUploader (100+)
 
 In progress :clap:
+- [X] QSelect (600+)
 
 Done :white_check_mark:
 - [X] QMenu (140+)
