@@ -123,41 +123,49 @@
           "definition": {
             "year": {
               "type": "Number",
+              "required": true,
               "desc": "The year",
               "__exemption": [ "examples" ]
             },
             "month": {
               "type": "Number",
+              "required": true,
               "desc": "The month",
               "__exemption": [ "examples" ]
             },
             "day": {
               "type": "Number",
+              "required": true,
               "desc": "The day of the month",
               "__exemption": [ "examples" ]
             },
             "hour": {
               "type": "Number",
+              "required": true,
               "desc": "The hour",
               "__exemption": [ "examples" ]
             },
             "minute": {
               "type": "Number",
+              "required": true,
               "desc": "The minute",
               "__exemption": [ "examples" ]
             },
             "second": {
               "type": "Number",
+              "required": true,
               "desc": "The second",
               "__exemption": [ "examples" ]
             },
             "millisecond": {
               "type": "Number",
+              "required": true,
               "desc": "The millisecond",
               "__exemption": [ "examples" ]
             },
             "changed": {
               "type": "Boolean",
+              "required": true,
               "desc": "Did the model change?"
             }
           }

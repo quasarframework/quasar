@@ -46,8 +46,8 @@
               "definition": {
                 "model": {
                   "type": "String",
-                  "desc": "The initial value of the input",
                   "required": true,
+                  "desc": "The initial value of the input",
                   "__exemption": [ "examples" ]
                 },
 
@@ -64,6 +64,7 @@
                   "params": {
                     "val": {
                       "type": "String",
+                      "required": true,
                       "desc": "The value of the input",
                       "__exemption": [ "examples" ]
                     }
@@ -151,8 +152,8 @@
               "definition": {
                 "model": {
                   "type": [ "String", "Array" ],
-                  "desc": "The value of the selection (String if it's of type radio or Array otherwise)",
                   "required": true,
+                  "desc": "The value of the selection (String if it's of type radio or Array otherwise)",
                   "examples": [ "[]" ]
                 },
 
@@ -177,6 +178,7 @@
                   "params": {
                     "model": {
                       "type": [ "String", "Array" ],
+                      "required": true,
                       "desc": "The current model (String if it's of type radio or Array otherwise)",
                       "examples": [
                         "opt2",
