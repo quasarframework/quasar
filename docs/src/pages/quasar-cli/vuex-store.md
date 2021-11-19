@@ -147,4 +147,4 @@ export default defineComponent({
 ```
 
 ## Store Code Splitting
-You can take advantage of the [PreFetch Feature](/quasar-cli/prefetch-feature#Store-Code-Splitting) to code-split Vuex modules.
+You can take advantage of the [PreFetch Feature](/quasar-cli/prefetch-feature#store-code-splitting) to code-split Vuex modules.
