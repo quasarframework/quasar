@@ -385,7 +385,7 @@ $ quasar new -h
     --format -f <option>  (optional) Use a supported format for the template
                           Option can be:
                              * ts-options - TS options API
-                             * ts-composition - TS component API
+                             * ts-composition - TS composition API
                              * ts-class - [DEPRECATED] TS class style syntax
                              * ts - use for TS boot file and store modules only
 ```
