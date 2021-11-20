@@ -562,7 +562,7 @@ export default createComponent({
         topSelection = slots[ 'top-selection' ],
         hasSelection = hasSelectionMode.value === true
           && topSelection !== void 0
-          && rowsSelectedNumber.vaue > 0,
+          && rowsSelectedNumber.value > 0,
         topClass = 'q-table__top relative-position row items-center'
 
       if (top !== void 0) {

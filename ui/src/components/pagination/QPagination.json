@@ -22,7 +22,6 @@
     "max": {
       "type": "Number",
       "desc": "Number of last page (must be higher than 'min')",
-      "default": 100,
       "required": true,
       "examples": [ 10 ],
       "category": "model"

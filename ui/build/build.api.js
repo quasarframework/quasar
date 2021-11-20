@@ -115,7 +115,7 @@ const objectTypes = {
 
   // special type, not common
   Component: {
-    props: [ 'desc', 'category', 'examples', 'addedIn', 'internal' ],
+    props: [ 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
     required: [ 'desc' ],
     isBoolean: [ 'internal' ]
   },
@@ -282,6 +282,16 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
         process.exit(1)
       }
     })
+
+    if (obj.default !== void 0 && obj.required === true) {
+      logError(`${ banner } cannot have "required" as true since it is optional because it has "default"`)
+      console.error(obj)
+      console.log()
+      process.exit(1)
+    }
+
+    // If required is specified, use it, if not and it has a default value, then it's optional, otherwise use undefined so it can get overridden later
+    api[ itemName ].required = obj.required !== void 0 ? obj.required : obj.default !== void 0 ? false : undefined
   }
 
   if (obj.returns) {

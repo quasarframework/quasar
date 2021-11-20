@@ -23,11 +23,13 @@
           "definition": {
             "height": {
               "type": "Number",
+              "required": true,
               "desc": "Layout height",
               "examples": [ 822 ]
             },
             "width": {
               "type": "Number",
+              "required": true,
               "desc": "Layout width",
               "examples": [ 822 ]
             }

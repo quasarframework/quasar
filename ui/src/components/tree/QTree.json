@@ -354,21 +354,25 @@
           "definition": {
             "node": {
               "type": "Object",
+              "required": true,
               "desc": "The node to which the new nodes (the children) will be appended",
               "__exemption": [ "examples" ]
             },
             "key": {
               "type": "String",
+              "required": true,
               "desc": "The key of the node getting the newly loaded child nodes",
               "examples": [ "New Node" ]
             },
             "done": {
               "type": "Function",
+              "required": true,
               "desc": "The callback to be carried out when the loading is successful",
               "params": {
                 "children": {
                   "type": "Array",
                   "desc": "Array of nodes",
+                  "default": "[]",
                   "__exemption": [ "examples" ]
                 }
               },
@@ -376,6 +380,7 @@
             },
             "fail": {
               "type": "Function",
+              "required": true,
               "desc": "The callback to be carried out should the loading fails",
               "params": null,
               "returns": null
@@ -422,8 +427,8 @@
       "params": {
         "key": {
           "type": "Any",
-          "desc": "The key of a node",
           "required": true,
+          "desc": "The key of a node",
           "examples": [ "Node 1" ]
         }
       },
@@ -457,8 +462,8 @@
       "params": {
         "key": {
           "type": "Any",
-          "desc": "The key of a node",
           "required": true,
+          "desc": "The key of a node",
           "examples": [ "Node 1" ]
         }
       },
@@ -481,14 +486,14 @@
       "params": {
         "key": {
           "type": "Any",
-          "desc": "The key of a node",
           "required": true,
+          "desc": "The key of a node",
           "examples": [ "Node 1" ]
         },
         "state": {
           "type": "Boolean",
-          "desc": "Set to 'true' to expand the branch of the tree, otherwise 'false' collapses it",
-          "required": true
+          "required": true,
+          "desc": "Set to 'true' to expand the branch of the tree, otherwise 'false' collapses it"
         }
       }
     },
@@ -498,8 +503,8 @@
       "params": {
         "key": {
           "type": "Any",
-          "desc": "The key of a node",
           "required": true,
+          "desc": "The key of a node",
           "examples": [ "Node 1" ]
         }
       },
@@ -514,14 +519,14 @@
       "params": {
         "keys": {
           "type": "Array",
-          "desc": "The keys of nodes to tick/untick",
           "required": true,
+          "desc": "The keys of nodes to tick/untick",
           "examples": [ "[ 'Node 1', 'Node 2' ]" ]
         },
         "state": {
           "type": "Boolean",
-          "desc": "Set to 'true' to tick the checkbox of nodes, otherwise 'false' unticks them",
-          "required": true
+          "required": true,
+          "desc": "Set to 'true' to tick the checkbox of nodes, otherwise 'false' unticks them"
         }
       }
     }
