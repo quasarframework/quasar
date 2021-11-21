@@ -146,7 +146,10 @@ export default defineComponent({
 </script>
 ```
 
+::: warning
 With Vuex currently only the state is strongly typed. If you want to use typed getters/mutations/actions you will need to use either an extra package on top of Vuex or a replacement of Vuex.
+:::
+
 ### Using Vuex Smart Module
 One of the options for a fully typed store is a package called `vuex-smart-module`. You can add this package by running the following command:
 ```bash
