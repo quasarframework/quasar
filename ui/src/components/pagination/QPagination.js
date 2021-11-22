@@ -300,7 +300,8 @@ export default createComponent({
           }
         }
         const style = {
-          minWidth: `${ Math.max(2, String(props.max).length) }em`
+          minWidth: `${ Math.max(2, String(props.max).length) }em`,
+          color: props.activeColor || props.color
         }
         if (boundaryStart) {
           const active = props.min === props.modelValue
