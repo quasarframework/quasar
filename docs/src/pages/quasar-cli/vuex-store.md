@@ -314,24 +314,24 @@ class ModuleActions extends Actions<ModuleState, ModuleGetters, ModuleMutations,
     }
 }
 
-export const split = new Module({
+export const admin = new Module({
   state: ModuleState,
   getters: ModuleGetters,
   mutations: ModuleMutations,
   actions: ModuleActions
 })
 
-export const useSplit = createComposable(split)
+export const useAdmin = createComposable(admin)
 ```
 
 We then want to only load this module, when a certain route component is visited. We can do that in (at least) two different ways.
 
-The first method is using the [PreFetch Feature](/quasar-cli/prefetch-feature#store-code-splitting) that Quasar offers, similar to the example for regular Vuex, found [here](/quasar-cli/prefetch-feature#store-code-splitting). To do this, we have a route defined in our `router/routes.ts` file. For this example, we have a /split route which is a child of our MainLayout: 
+The first method is using the [PreFetch Feature](/quasar-cli/prefetch-feature#store-code-splitting) that Quasar offers, similar to the example for regular Vuex, found [here](/quasar-cli/prefetch-feature#store-code-splitting). To do this, we have a route defined in our `router/routes.ts` file. For this example, we have a /admin route which is a child of our MainLayout: 
 ```
-{ path: 'split', component: () => import('pages/Split.vue') }
+{ path: 'admin', component: () => import('pages/Admin.vue') }
 ```
 
-Our `Split.vue` file then looks like this:
+Our `Admin.vue` file then looks like this:
 
 ```html
 <template>
@@ -344,41 +344,41 @@ Our `Split.vue` file then looks like this:
 <script lang="ts">
 import { defineComponent, onUnmounted } from 'vue';
 import { registerModule, unregisterModule } from 'vuex-smart-module'
-import { split, useSplit } from 'src/store/module';
+import { admin, useAdmin } from 'src/store/module';
 import { useStore } from 'vuex';
 
 export default defineComponent({
     name: 'PageIndex',
     preFetch({ store }) {
-        if (!store.hasModule('split'))
-            registerModule(store, 'split', 'split/', split)
+        if (!store.hasModule('admin'))
+            registerModule(store, 'admin', 'admin/', admin)
     },
     setup() {
         const $store = useStore() 
         // eslint-disable-next-line 
-        if (!process.env.SERVER && !$store.hasModule('split') && (window as any).__INITIAL_STATE__) {
+        if (!process.env.SERVER && !$store.hasModule('admin') && (window as any).__INITIAL_STATE__) {
             // This works both for SSR and SPA
-            registerModule($store, ['split'], 'split/', split, {
+            registerModule($store, ['admin'], 'admin/', admin, {
                 preserveState: true
             })
         }
-        const splitStore = useSplit()
+        const adminStore = useAdmin()
 
-        const greeting = splitStore.getters.greeting
+        const greeting = adminStore.getters.greeting
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         // eslint-disable-next-line
         if (module.hot) module.hot.accept(['src/store/module'], () => {
             // This is necessary to prevent errors when this module is hot reloaded
-            unregisterModule($store, split)
-            registerModule($store, ['split'], 'split/', split, {
+            unregisterModule($store, admin)
+            registerModule($store, ['admin'], 'admin/', admin, {
                 preserveState: true
             })
         })
 
         onUnmounted(() => {
-            unregisterModule($store, split)
+            unregisterModule($store, admin)
         })
 
         return { greeting };
@@ -387,7 +387,7 @@ export default defineComponent({
 </script>
 ```
 
-The second method is by using a `router.beforeEach` hook to register/ungregister our dynamic store modules. This makes sense, if you have a separate store for lets say your admin panel of your website, which is only used by a small percentage of visitors. You can then check if the route starts with `/admin` upon route navigation and load the store module based on that. 
+The second method is by using a `router.beforeEach` hook to register/ungregister our dynamic store modules. This makes sense, if you have a section of you app, which is only used by a small percentage of visitors. For example an `/admin` section of your site under which you have multiple sub routes. You can then check if the route starts with `/admin` upon route navigation and load the store module based on that for every route that starts with `/admin/...`. 
 
 To do this, you can use a [Boot File](/quasar-cli/boot-files) in Quasar that looks like this:
 
@@ -397,16 +397,16 @@ The example below is designed to work with both SSR and SPA. If you only use SPA
 
 ```ts
 import { boot } from 'quasar/wrappers'
-import { split } from 'src/store/module'
+import { admin } from 'src/store/module'
 import { registerModule, unregisterModule } from 'vuex-smart-module'
 
 // If you have never run your app in SSR mode, the ssrContext parameter will be untyped,
 // Either remove the argument or run the project in SSR mode once to generate the SSR store flag
 export default boot(({store, router, ssrContext}) => {
     router.beforeEach((to, from, next) => {
-        if (to.fullPath.startsWith('/split')) {
-            if (!store.hasModule('split')) {
-                registerModule(store, ['split'], 'split/', split, {
+        if (to.fullPath.startsWith('/admin')) {
+            if (!store.hasModule('admin')) {
+                registerModule(store, ['admin'], 'admin/', admin, {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -414,8 +414,8 @@ export default boot(({store, router, ssrContext}) => {
                 })
             }
         } else {
-            if (store.hasModule('split'))
-                unregisterModule(store, split)
+            if (store.hasModule('admin'))
+                unregisterModule(store, admin)
         }
         next()
     })
@@ -434,13 +434,13 @@ In your components, you can then just use the dynamic module, without having to 
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useSplit } from 'src/store/module';
+import { useAdmin } from 'src/store/module';
 
 export default defineComponent({
     name: 'PageIndex',
     setup() {
-        const splitStore = useSplit()
-        const greeting = splitStore.getters.greeting
+        const adminStore = useAdmin()
+        const greeting = adminStore.getters.greeting
 
         return { greeting };
     }
