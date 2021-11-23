@@ -147,7 +147,7 @@ export default defineComponent({
 ```
 
 ::: warning
-With Vuex currently only the state is strongly typed. If you want to use typed getters/mutations/actions you will need to use either an extra package on top of Vuex or a replacement of Vuex.
+With Vuex, currently, only the state is strongly typed. If you want to use typed getters/mutations/actions, you will need to use either an extra package on top of Vuex or a replacement of Vuex.
 :::
 
 ### Using Vuex Smart Module
@@ -156,7 +156,7 @@ One of the options for a fully typed store is a package called `vuex-smart-modul
 yarn add vuex-smart-module
 ```
 
-Once installed you need to edit your `src/store/index.ts` file to use this package to create the store. Edit your store index file to resemble the following:
+Once installed, you need to edit your `src/store/index.ts` file to use this package to create the store. Edit your store index file to resemble the following:
 
 ```js
 import { store } from 'quasar/wrappers';
@@ -215,9 +215,9 @@ export default store(function (/* { ssrContext } */) {
 export const useStore = createComposable(root);
 ```
 
-You can use modules just as with normal Vuex, and in that module you can choose to put everything in one file or use separate files for state, getters, mutations and actions. Or of course a combination of those two.
+You can use modules just as with normal Vuex, and in that module you can choose to put everything in one file or use separate files for state, getters, mutations and actions. Or, of course, a combination of those two.
 
-Just import the module in `src/store/index.ts` and add it to your `rootConfig`. For an example look [here](https://github.com/ktsn/vuex-smart-module#usage)
+Just import the module in `src/store/index.ts` and add it to your `rootConfig`. For an example, look [here](https://github.com/ktsn/vuex-smart-module#usage)
 
 Using the typed store inside Vue files is pretty straightforward, here is an example:
 
@@ -246,7 +246,7 @@ export default defineComponent({
 ```
 
 #### Using a typed store in Boot Files
-When using the store in Boot files it is also possible to use a typed store. Here is an example of a very simple boot file:
+When using the store in Boot files, it is also possible to use a typed store. Here is an example of a very simple boot file:
 
 ```js
 import { boot } from 'quasar/wrappers'
@@ -258,7 +258,7 @@ export default boot(({store}) => {
 ```
 
 #### Using a typed store in Prefetch
-Similarly you can also use a typed store when using the [Prefetch feature](https://quasar.dev/quasar-cli/prefetch-feature). Here is an example: 
+Similarly, you can also use a typed store when using the [Prefetch feature](https://quasar.dev/quasar-cli/prefetch-feature). Here is an example: 
 
 ```html
 <script lang="ts">
@@ -324,9 +324,9 @@ export const split = new Module({
 export const useSplit = createComposable(split)
 ```
 
-We then want to only load this module when a certain route component is visited. We can do that in (atleast) two different ways.
+We then want to only load this module, when a certain route component is visited. We can do that in (at least) two different ways.
 
-The first method is using the [PreFetch Feature](/quasar-cli/prefetch-feature#store-code-splitting) that Quasar offers, similar as with regular Vuex. To do this we have a route defined in our `router/routes.ts` file, for this example we have a /split route which is a child of our MainLayout: 
+The first method is using the [PreFetch Feature](/quasar-cli/prefetch-feature#store-code-splitting) that Quasar offers, similar to the example for regular Vuex, found [here](/quasar-cli/prefetch-feature#store-code-splitting). To do this, we have a route defined in our `router/routes.ts` file. For this example, we have a /split route which is a child of our MainLayout: 
 ```
 { path: 'split', component: () => import('pages/Split.vue') }
 ```
@@ -387,12 +387,12 @@ export default defineComponent({
 </script>
 ```
 
-The second method is by using a `router.beforeEach` hook to register/ungregister our dynamic store modules. This makes sense if you have a separate store for lets say your admin panel of your website which is only used by a small percentage of visitors. You can then check if the route starts with `/admin` upon route navigation and load the store module based on that. 
+The second method is by using a `router.beforeEach` hook to register/ungregister our dynamic store modules. This makes sense, if you have a separate store for lets say your admin panel of your website, which is only used by a small percentage of visitors. You can then check if the route starts with `/admin` upon route navigation and load the store module based on that. 
 
-To do this you can use a [Boot File](/quasar-cli/boot-files) in Quasar that looks like this:
+To do this, you can use a [Boot File](/quasar-cli/boot-files) in Quasar that looks like this:
 
 :::tip
-The example below is designed to work with both SSR and SPA. If you only use SPA this can be simplified by removing the last argument of `registerModule` entirely.
+The example below is designed to work with both SSR and SPA. If you only use SPA, this can be simplified by removing the last argument of `registerModule` entirely.
 :::
 
 ```ts
@@ -422,7 +422,7 @@ export default boot(({store, router, ssrContext}) => {
 })
 ```
 
-In your components you can then just use the dynamic module, without having to worry about registering it. For example:
+In your components, you can then just use the dynamic module, without having to worry about registering it. For example:
 
 ```html
 <template>
