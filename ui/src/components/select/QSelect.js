@@ -12,7 +12,7 @@ import QMenu from '../menu/QMenu.js'
 import QDialog from '../dialog/QDialog.js'
 
 import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
-import { useVirtualScroll, useVirtualScrollProps } from '../virtual-scroll/use-virtual-scroll.js'
+import { useVirtualScroll, useVirtualScrollProps, useVirtualScrollEmits } from '../virtual-scroll/use-virtual-scroll.js'
 import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
 import useKeyComposition from '../../composables/private/use-key-composition.js'
 
@@ -127,6 +127,7 @@ export default createComponent({
 
   emits: [
     ...useFieldEmits,
+    ...useVirtualScrollEmits,
     'add', 'remove', 'input-value',
     'keyup', 'keypress', 'keydown',
     'filter-abort'

@@ -13,7 +13,7 @@ import QBtn from '../btn/QBtn.js'
 import getTableMiddle from './get-table-middle.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import { commonVirtPropsList } from '../virtual-scroll/use-virtual-scroll.js'
+import { commonVirtPropsList, useVirtualScrollEmits } from '../virtual-scroll/use-virtual-scroll.js'
 import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 
 import { useTableSort, useTableSortProps } from './table-sort.js'
@@ -115,7 +115,8 @@ export default createComponent({
   },
 
   emits: [
-    'request', 'virtual-scroll',
+    'request',
+    ...useVirtualScrollEmits,
     ...useFullscreenEmits,
     ...useTableRowExpandEmits,
     ...useTableRowSelectionEmits

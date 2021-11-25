@@ -4,6 +4,8 @@ import debounce from '../../utils/debounce.js'
 import { noop } from '../../utils/event.js'
 import { rtlHasScrollBug } from '../../utils/private/rtl.js'
 
+export const useVirtualScrollEmits = [ 'virtual-scroll' ]
+
 const aggBucketSize = 1000
 
 const scrollToEdges = [
