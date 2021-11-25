@@ -72,26 +72,31 @@
           "definition": {
             "index": {
               "type": "Number",
+              "required": true,
               "desc": "Index of the list item that was scrolled into view (0 based)",
               "examples": [ 30 ]
             },
             "from": {
               "type": "Number",
+              "required": true,
               "desc": "The index of the first list item that is rendered (0 based)",
               "examples": [ 10 ]
             },
             "to": {
               "type": "Number",
+              "required": true,
               "desc": "The index of the last list item that is rendered (0 based)",
               "examples": [ 50 ]
             },
             "direction": {
               "type": "String",
+              "required": true,
               "desc": "Direction of change",
               "values": [ "increase", "decrease" ]
             },
             "ref": {
               "type": "Object",
+              "required": true,
               "desc": "Vue reference to the QVirtualList which triggered the event",
               "__exemption": [
                 "examples"

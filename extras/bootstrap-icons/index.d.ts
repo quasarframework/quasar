@@ -1,4 +1,4 @@
-/* Bootstrap v1.7.0 */
+/* Bootstrap v1.7.1 */
 
 export declare const bi123: string;
 export declare const biActivity: string;
@@ -1376,6 +1376,7 @@ export declare const biTerminalDash: string;
 export declare const biTerminalFill: string;
 export declare const biTerminalPlus: string;
 export declare const biTerminalSplit: string;
+export declare const biTerminalX: string;
 export declare const biTerminal: string;
 export declare const biTextCenter: string;
 export declare const biTextIndentLeft: string;

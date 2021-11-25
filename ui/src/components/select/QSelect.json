@@ -393,6 +393,7 @@
           "params": {
             "index": {
               "type": "Number",
+              "required": true,
               "desc": "Index at which to remove selection",
               "examples": [ 0 ]
             }
@@ -405,6 +406,7 @@
           "params": {
             "opt": {
               "type": "Any",
+              "required": true,
               "desc": "Option to add to model",
               "__exemption": [ "examples" ]
             }
@@ -446,6 +448,7 @@
           "params": {
             "opt": {
               "type": "Any",
+              "required": true,
               "desc": "Option to add to model",
               "__exemption": [ "examples" ]
             }
@@ -458,6 +461,7 @@
           "params": {
             "index": {
               "type": "Number",
+              "required": true,
               "desc": "Index of option from menu",
               "examples": [ 10 ]
             }
@@ -484,7 +488,6 @@
         "value": {
           "type": "String",
           "desc": "New text value",
-          "required": true,
           "__exemption": [ "examples" ]
         }
       }
@@ -499,11 +502,13 @@
           "definition": {
             "index": {
               "type": "Number",
+              "required": true,
               "desc": "Model index at which removal took place",
               "examples": [ 2 ]
             },
             "value": {
               "type": "Any",
+              "required": true,
               "desc": "The actual value that was removed",
               "__exemption": [ "examples" ]
             }
@@ -521,11 +526,13 @@
           "definition": {
             "index": {
               "type": "Number",
+              "required": true,
               "desc": "Model index at which addition took place",
               "examples": [ 2 ]
             },
             "value": {
               "type": "Any",
+              "required": true,
               "desc": "The actual value that was added",
               "__exemption": [ "examples" ]
             }
@@ -548,11 +555,13 @@
           "params": {
             "item": {
               "type": "Any",
+              "required": false,
               "desc": "Item to add",
               "__exemption": [ "examples" ]
             },
             "mode": {
               "type": "String",
+              "required": false,
               "desc": "Override 'new-value-mode' (prop) behavior should you wish to",
               "values": [ "add", "add-unique", "toggle" ],
               "default": "add"
@@ -577,16 +586,19 @@
           "params": {
             "callbackFn": {
               "type": "Function",
+              "required": true,
               "desc": "Callback to call to make the actual updates",
               "params": null,
               "returns": null
             },
             "afterFn": {
               "type": "Function",
+              "required": false,
               "desc": "Callback to call at the end after the update has been fully processed by QSelect",
               "params": {
                 "ref": {
                   "type": "Object",
+                  "required": true,
                   "desc": "Vue reference to the QSelect which triggered the filtering",
                   "__exemption": [ "examples" ]
                 }
@@ -650,8 +662,8 @@
       "params": {
         "index": {
           "type": "Number",
-          "desc": "Index at which to remove selection",
           "required": true,
+          "desc": "Index at which to remove selection",
           "examples": [ 0 ]
         }
       }
@@ -662,8 +674,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option to add to model",
           "required": true,
+          "desc": "Option to add to model",
           "__exemption": [ "examples" ]
         },
         "unique": {
@@ -679,8 +691,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option to add to model",
           "required": true,
+          "desc": "Option to add to model",
           "__exemption": [ "examples" ]
         },
         "keepOpen": {
@@ -695,8 +707,8 @@
       "params": {
         "index": {
           "type": "Number",
-          "desc": "Index of option from menu",
           "required": true,
+          "desc": "Index of option from menu",
           "examples": [ 10 ]
         }
       }
@@ -723,8 +735,8 @@
       "params": {
         "value": {
           "type": "String",
-          "desc": "String to filter with",
           "required": true,
+          "desc": "String to filter with",
           "examples": [ "car" ]
         }
       }
@@ -739,6 +751,7 @@
       "params": {
         "value": {
           "type": "String",
+          "required": true,
           "desc": "String to set the input value to",
           "examples": [ "hotel" ]
         },
@@ -754,8 +767,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option entry",
           "required": true,
+          "desc": "Option entry",
           "__exemption": [ "examples" ]
         }
       },
@@ -770,8 +783,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option entry",
           "required": true,
+          "desc": "Option entry",
           "__exemption": [ "examples" ]
         }
       },
@@ -787,8 +800,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option entry",
           "required": true,
+          "desc": "Option entry",
           "__exemption": [ "examples" ]
         }
       },
@@ -804,8 +817,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option entry",
           "required": true,
+          "desc": "Option entry",
           "__exemption": [ "examples" ]
         }
       },
@@ -821,8 +834,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option entry",
           "required": true,
+          "desc": "Option entry",
           "__exemption": [ "examples" ]
         }
       },

@@ -277,6 +277,7 @@ export default createComponent({
     }
 
     function onLoadingEvt (evt) {
+      stopAndPrevent(evt)
       evt.qSkipRipple = true
     }
 

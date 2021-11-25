@@ -209,35 +209,42 @@
           "definition": {
             "year": {
               "type": "Number",
+              "required": true,
               "desc": "The year of the date that the user has clicked/tapped on",
               "__exemption": [ "examples" ]
             },
             "month": {
               "type": "Number",
+              "required": true,
               "desc": "The month of the date that the user has clicked/tapped on",
               "__exemption": [ "examples" ]
             },
             "day": {
               "type": "Number",
+              "required": true,
               "desc": "The day of the month that the user has clicked/tapped on",
               "__exemption": [ "examples" ]
             },
             "from": {
               "type": "Object",
+              "required": false,
               "desc": "Object of properties of the range starting point (only if range)",
               "definition": {
                 "year": {
                   "type": "Number",
+                  "required": true,
                   "desc": "The year",
                   "__exemption": [ "examples" ]
                 },
                 "month": {
                   "type": "Number",
+                  "required": true,
                   "desc": "The month",
                   "__exemption": [ "examples" ]
                 },
                 "day": {
                   "type": "Number",
+                  "required": true,
                   "desc": "The day of month",
                   "__exemption": [ "examples" ]
                 }
@@ -245,20 +252,24 @@
             },
             "to": {
               "type": "Object",
+              "required": false,
               "desc": "Object of properties of the range ending point (only if range)",
               "definition": {
                 "year": {
                   "type": "Number",
+                  "required": true,
                   "desc": "The year",
                   "__exemption": [ "examples" ]
                 },
                 "month": {
                   "type": "Number",
+                  "required": true,
                   "desc": "The month",
                   "__exemption": [ "examples" ]
                 },
                 "day": {
                   "type": "Number",
+                  "required": true,
                   "desc": "The day of month",
                   "__exemption": [ "examples" ]
                 }
@@ -278,11 +289,13 @@
           "definition": {
             "year": {
               "type": "Number",
+              "required": true,
               "desc": "The year",
               "__exemption": [ "examples" ]
             },
             "month": {
               "type": "Number",
+              "required": true,
               "desc": "The month",
               "__exemption": [ "examples" ]
             }
@@ -300,16 +313,19 @@
           "definition": {
             "year": {
               "type": "Number",
+              "required": true,
               "desc": "The year",
               "__exemption": [ "examples" ]
             },
             "month": {
               "type": "Number",
+              "required": true,
               "desc": "The month",
               "__exemption": [ "examples" ]
             },
             "day": {
               "type": "Number",
+              "required": true,
               "desc": "The day of month",
               "__exemption": [ "examples" ]
             }
@@ -327,20 +343,24 @@
           "definition": {
             "from": {
               "type": "Object",
+              "required": true,
               "desc": "Definition of date from where the range begins",
               "definition": {
                 "year": {
                   "type": "Number",
+                  "required": true,
                   "desc": "The year",
                   "__exemption": [ "examples" ]
                 },
                 "month": {
                   "type": "Number",
+                  "required": true,
                   "desc": "The month",
                   "__exemption": [ "examples" ]
                 },
                 "day": {
                   "type": "Number",
+                  "required": true,
                   "desc": "The day of month",
                   "__exemption": [ "examples" ]
                 }
@@ -348,20 +368,24 @@
             },
             "to": {
               "type": "Object",
+              "required": true,
               "desc": "Definition of date to where the range ends",
               "definition": {
                 "year": {
                   "type": "Number",
+                  "required": true,
                   "desc": "The year",
                   "__exemption": [ "examples" ]
                 },
                 "month": {
                   "type": "Number",
+                  "required": true,
                   "desc": "The month",
                   "__exemption": [ "examples" ]
                 },
                 "day": {
                   "type": "Number",
+                  "required": true,
                   "desc": "The day of month",
                   "__exemption": [ "examples" ]
                 }
@@ -383,8 +407,8 @@
       "params": {
         "view": {
           "type": "String",
-          "desc": "QDate view name",
           "required": true,
+          "desc": "QDate view name",
           "values": [ "Calendar", "Months", "Years" ]
         }
       }

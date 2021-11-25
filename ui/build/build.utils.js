@@ -154,3 +154,11 @@ module.exports.kebabCase = function (str) {
     match => '-' + match.toLowerCase()
   ).substring(1)
 }
+
+module.exports.clone = function clone (data) {
+  const str = JSON.stringify(data)
+
+  if (str) {
+    return JSON.parse(str)
+  }
+}

@@ -42,16 +42,19 @@
           "definition": {
             "totalSize": {
               "type": "String",
+              "required": true,
               "desc": "The total size of files in human readable format",
               "examples": [ "1.42MB" ]
             },
             "filesNumber": {
               "type": "Number",
+              "required": true,
               "desc": "Number of picked files",
               "examples": [ 5 ]
             },
             "maxFiles": {
               "type": [ "Number", "String" ],
+              "required": true,
               "desc": "Maximum number of files (same as 'max-files' prop, if specified); When 'max-files' is not specified, this has 'void 0' as value",
               "examples": [ 5 ]
             }

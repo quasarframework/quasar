@@ -1,3 +1,4 @@
+/* https://icons.getbootstrap.com v1.7.1 */
 @font-face {
   font-family: "bootstrap-icons";
   font-style: normal;
@@ -1558,3 +1559,4 @@ url("./bootstrap-icons.woff?8bd4575acf83c7696dc7a14a966660a3") format("woff");
 .bi-displayport-fill::before { content: "\f6fc"; }
 .bi-mortarboard-fill::before { content: "\f6fd"; }
 .bi-mortarboard::before { content: "\f6fe"; }
+.bi-terminal-x::before { content: "\f6ff"; }

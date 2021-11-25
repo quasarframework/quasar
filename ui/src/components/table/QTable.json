@@ -144,23 +144,24 @@
       "definition": {
         "name": {
           "type": "String",
-          "desc": "Unique id, identifies column, (used by pagination.sortBy, 'body-cell-[name]' slot, ...)",
           "required": true,
+          "desc": "Unique id, identifies column, (used by pagination.sortBy, 'body-cell-[name]' slot, ...)",
           "examples": [ "desc" ]
         },
         "label": {
           "type": "String",
-          "desc": "Label for header",
           "required": true,
+          "desc": "Label for header",
           "examples": [ "Dessert (100g serving)" ]
         },
         "field": {
           "type": [ "String", "Function" ],
-          "desc": "Row Object property to determine value for this column or function which maps to the required property",
           "required": true,
+          "desc": "Row Object property to determine value for this column or function which maps to the required property",
           "params": {
             "row": {
               "type": "Object",
+              "required": true,
               "desc": "The current row being processed",
               "examples": [ "{ name: 'Lorem Ipsum', prices: { active: 19, old: 25, list: 29 } }" ]
             }
@@ -174,15 +175,13 @@
         },
         "required": {
           "type": "Boolean",
-          "desc": "If we use visible-columns, this col will always be visible",
-          "default": false
+          "desc": "If we use visible-columns, this col will always be visible"
         },
         "align": {
           "type": "String",
           "desc": "Horizontal alignment of cells in this column",
           "values": [ "left", "right", "center" ],
-          "default": "right",
-          "examples": [ "left", "right", "center" ]
+          "default": "right"
         },
         "sortable": {
           "type": "Boolean",
@@ -196,21 +195,25 @@
           "params": {
             "a": {
               "type": "Any",
+              "required": true,
               "desc": "Value of the first comparison term",
               "examples": [ 123, "abc" ]
             },
             "b": {
               "type": "Any",
+              "required": true,
               "desc": "Value of the second comparison term",
               "examples": [ 123, "abc" ]
             },
             "rowA": {
               "type": "Object",
+              "required": true,
               "desc": "Full Row object in which is contained the first term",
               "examples": [ "{ name: 'Potassium', value: 'K' }" ]
             },
             "rowB": {
               "type": "Object",
+              "required": true,
               "desc": "Full Row object in which is contained the second term",
               "examples": [ "{ name: 'Fluorine', value: 'F' }" ]
             }
@@ -234,11 +237,13 @@
           "params": {
             "val": {
               "type": "Any",
+              "required": true,
               "desc": "Value of the cell",
               "examples": [ 123, "abc" ]
             },
             "row": {
               "type": "Object",
+              "required": true,
               "desc": "Full Row object in which the cell is contained",
               "examples": [ "{ name: 'Potassium', value: 'K' }" ]
             }
@@ -255,6 +260,7 @@
           "params": {
             "row": {
               "type": "Object",
+              "required": true,
               "desc": "The current row being processed",
               "examples": [ "{ name: 'Frozen Yogurt', calories: 159 }" ]
             }
@@ -274,6 +280,7 @@
           "params": {
             "row": {
               "type": "Object",
+              "required": true,
               "desc": "The current row being processed",
               "examples": [ "{ name: 'Frozen Yogurt', calories: 159 }" ]
             }
@@ -374,7 +381,6 @@
       "desc": "Use a separator/border between rows, columns or all cells",
       "default": "horizontal",
       "values": [ "horizontal", "vertical", "cell", "none" ],
-      "examples": [ "cell" ],
       "category": "content"
     },
 
@@ -580,18 +586,16 @@
         "rows": {
           "type": "Array",
           "desc": "Array of rows",
-          "required": true,
           "__exemption": [ "examples" ]
         },
         "terms": {
           "type": [ "String", "Object" ],
           "desc": "Terms to filter with (is essentially the 'filter' prop value)",
-          "required": true,
           "__exemption": [ "examples" ]
         },
         "cols": {
           "type": "Array",
-          "desc": "Optional column definitions",
+          "desc": "Column definitions",
           "__exemption": [ "examples" ]
         },
         "getCellValue": {
@@ -600,11 +604,13 @@
           "params": {
             "col": {
               "type": "Object",
+              "required": true,
               "desc": "Column name from column definitions",
               "__exemption": [ "examples" ]
             },
             "row": {
               "type": "Object",
+              "required": true,
               "desc": "The row object",
               "__exemption": [ "examples" ]
             }
@@ -779,8 +785,8 @@
           "params": {
             "col": {
               "type": [ "String", "Object" ],
-              "desc": "Column name or column definition object",
               "required": true,
+              "desc": "Column name or column definition object",
               "examples": [ "calories" ]
             }
           },
@@ -797,8 +803,7 @@
           "reactive": true
         },
         "color": {
-          "extends": "color",
-          "default": "grey-8"
+          "extends": "color"
         },
         "dark": {
           "extends": "dark"
@@ -848,8 +853,8 @@
           "params": {
             "col": {
               "type": [ "String", "Object" ],
-              "desc": "Column name or column definition object",
               "required": true,
+              "desc": "Column name or column definition object",
               "examples": [ "calories" ]
             }
           },
@@ -866,8 +871,7 @@
           "reactive": true
         },
         "color": {
-          "extends": "color",
-          "default": "grey-8"
+          "extends": "color"
         },
         "dark": {
           "extends": "dark"
@@ -932,8 +936,8 @@
           "params": {
             "col": {
               "type": [ "String", "Object" ],
-              "desc": "Column name or column definition object",
               "required": true,
+              "desc": "Column name or column definition object",
               "examples": [ "calories" ]
             }
           },
@@ -950,8 +954,7 @@
           "reactive": true
         },
         "color": {
-          "extends": "color",
-          "default": "grey-8"
+          "extends": "color"
         },
         "dark": {
           "extends": "dark"
@@ -1011,8 +1014,8 @@
           "params": {
             "col": {
               "type": [ "String", "Object" ],
-              "desc": "Column name or column definition object",
               "required": true,
+              "desc": "Column name or column definition object",
               "examples": [ "calories" ]
             }
           },
@@ -1029,8 +1032,7 @@
           "reactive": true
         },
         "color": {
-          "extends": "color",
-          "default": "grey-8"
+          "extends": "color"
         },
         "dark": {
           "extends": "dark"
@@ -1060,8 +1062,8 @@
           "params": {
             "col": {
               "type": [ "String", "Object" ],
-              "desc": "Column name or column definition object",
               "required": true,
+              "desc": "Column name or column definition object",
               "examples": [ "calories" ]
             }
           },
@@ -1078,8 +1080,7 @@
           "reactive": true
         },
         "color": {
-          "extends": "color",
-          "default": "grey-8"
+          "extends": "color"
         },
         "dark": {
           "extends": "dark"
@@ -1123,8 +1124,8 @@
           "params": {
             "col": {
               "type": [ "String", "Object" ],
-              "desc": "Column name or column definition object",
               "required": true,
+              "desc": "Column name or column definition object",
               "examples": [ "calories" ]
             }
           },
@@ -1141,8 +1142,7 @@
           "reactive": true
         },
         "color": {
-          "extends": "color",
-          "default": "grey-8"
+          "extends": "color"
         },
         "dark": {
           "extends": "dark"
@@ -1177,8 +1177,8 @@
           "params": {
             "col": {
               "type": [ "String", "Object" ],
-              "desc": "Column name or column definition object",
               "required": true,
+              "desc": "Column name or column definition object",
               "examples": [ "calories" ]
             }
           },
@@ -1195,8 +1195,7 @@
           "reactive": true
         },
         "color": {
-          "extends": "color",
-          "default": "grey-8"
+          "extends": "color"
         },
         "dark": {
           "extends": "dark"
@@ -1246,8 +1245,8 @@
           "params": {
             "col": {
               "type": [ "String", "Object" ],
-              "desc": "Column name or column definition object",
               "required": true,
+              "desc": "Column name or column definition object",
               "examples": [ "calories" ]
             }
           },
@@ -1264,8 +1263,7 @@
           "reactive": true
         },
         "color": {
-          "extends": "color",
-          "default": "grey-8"
+          "extends": "color"
         },
         "dark": {
           "extends": "dark"
@@ -1295,8 +1293,8 @@
           "params": {
             "col": {
               "type": [ "String", "Object" ],
-              "desc": "Column name or column definition object",
               "required": true,
+              "desc": "Column name or column definition object",
               "examples": [ "calories" ]
             }
           },
@@ -1313,8 +1311,7 @@
           "reactive": true
         },
         "color": {
-          "extends": "color",
-          "default": "grey-8"
+          "extends": "color"
         },
         "dark": {
           "extends": "dark"
@@ -1356,20 +1353,24 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
             }
@@ -1434,20 +1435,24 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
             }
@@ -1512,20 +1517,24 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
             }
@@ -1590,20 +1599,24 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
             }
@@ -1668,20 +1681,24 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
             }
@@ -1746,20 +1763,24 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
             }
@@ -1839,7 +1860,6 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object",
-          "required": true,
           "__exemption": [ "examples" ]
         },
 
@@ -1863,7 +1883,6 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object",
-          "required": true,
           "__exemption": [ "examples" ]
         },
 
@@ -1887,7 +1906,6 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object",
-          "required": true,
           "__exemption": [ "examples" ]
         },
 
@@ -1914,24 +1932,29 @@
           "definition": {
             "pagination": {
               "type": "Object",
+              "required": true,
               "desc": "Pagination object",
               "definition": {
                 "sortBy": {
                   "type": "String",
+                  "required": true,
                   "desc": "Column name (from column definition)",
                   "examples": [ "calories" ]
                 },
                 "descending": {
                   "type": "Boolean",
+                  "required": true,
                   "desc": "Is sorting in descending order?"
                 },
                 "page": {
                   "type": "Number",
+                  "required": true,
                   "desc": "Page number (1-based)",
                   "examples": [ 3 ]
                 },
                 "rowsPerPage": {
                   "type": "Number",
+                  "required": true,
                   "desc": "How many rows per page? 0 means Infinite",
                   "examples": [ 10 ]
                 }
@@ -1939,18 +1962,19 @@
             },
             "filter": {
               "type": "Function",
+              "required": true,
               "desc": "Filter method (the 'filter-method' prop)",
               "params": {
                 "rows": {
                   "type": "Array",
-                  "desc": "Array of rows",
                   "required": true,
+                  "desc": "Array of rows",
                   "__exemption": [ "examples" ]
                 },
                 "terms": {
                   "type": [ "String", "Object" ],
-                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
                   "required": true,
+                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
                   "__exemption": [ "examples" ]
                 },
                 "cols": {
@@ -1964,11 +1988,13 @@
                   "params": {
                     "col": {
                       "type": "Object",
+                      "required": true,
                       "desc": "Column name from column definitions",
                       "__exemption": [ "examples" ]
                     },
                     "row": {
                       "type": "Object",
+                      "required": true,
                       "desc": "The row object",
                       "__exemption": [ "examples" ]
                     }
@@ -1988,15 +2014,18 @@
             },
             "getCellValue": {
               "type": "Function",
-              "desc": "Optional function to get a cell value",
+              "required": true,
+              "desc": "Function to get a cell value",
               "params": {
                 "col": {
                   "type": "Object",
+                  "required": true,
                   "desc": "Column name from column definitions",
                   "__exemption": [ "examples" ]
                 },
                 "row": {
                   "type": "Object",
+                  "required": true,
                   "desc": "The row object",
                   "__exemption": [ "examples" ]
                 }
@@ -2021,22 +2050,25 @@
           "definition": {
             "rows": {
               "type": "Array",
+              "required": true,
               "desc": "Array of row objects that were selected/unselected",
               "__exemption": [ "examples" ]
             },
             "keys": {
               "type": "Array",
+              "required": true,
               "desc": "Array of the keys of rows that were selected/unselected",
               "__exemption": [ "examples" ]
             },
             "added": {
               "type": "Boolean",
+              "required": true,
               "desc": "Were the rows added to selection (true) or removed from selection (false)"
             },
             "evt": {
               "type": "Object",
-              "desc": "JS event object",
               "required": true,
+              "desc": "JS event object",
               "__exemption": [ "examples" ]
             }
           }
@@ -2053,22 +2085,32 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
+            },
+            "rowsNumber": {
+              "type": "Number",
+              "required": false,
+              "desc": "For server-side fetching only. How many total database rows are there to be added to the table.",
+              "examples": [ 100, 200 ]
             }
           }
         }
@@ -2110,21 +2152,25 @@
           "definition": {
             "index": {
               "type": "Number",
+              "required": true,
               "desc": "Index of the list item that was scrolled into view (0 based)",
               "examples": [ 30 ]
             },
             "from": {
               "type": "Number",
+              "required": true,
               "desc": "The index of the first list item that is rendered (0 based)",
               "examples": [ 10 ]
             },
             "to": {
               "type": "Number",
+              "required": true,
               "desc": "The index of the last list item that is rendered (0 based)",
               "examples": [ 50 ]
             },
             "direction": {
               "type": "String",
+              "required": true,
               "desc": "Direction of change",
               "values": [ "increase", "decrease" ]
             }
@@ -2140,10 +2186,12 @@
       "params": {
         "props": {
           "type": "Object",
+          "required": false,
           "desc": "Request details",
           "definition": {
             "pagination": {
               "type": "Object",
+              "required": false,
               "desc": "Optional pagination object",
               "definition": {
                 "sortBy": {
@@ -2173,14 +2221,14 @@
               "params": {
                 "rows": {
                   "type": "Array",
-                  "desc": "Array of rows",
                   "required": true,
+                  "desc": "Array of rows",
                   "__exemption": [ "examples" ]
                 },
                 "terms": {
                   "type": [ "String", "Object" ],
-                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
                   "required": true,
+                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
                   "__exemption": [ "examples" ]
                 },
                 "cols": {
@@ -2226,8 +2274,8 @@
       "params": {
         "pagination": {
           "type": "Object",
-          "desc": "Pagination object",
           "required": true,
+          "desc": "Pagination object",
           "definition": {
             "sortBy": {
               "type": "String",
@@ -2278,8 +2326,8 @@
       "params": {
         "key": {
           "type": "Any",
-          "desc": "Row key value",
           "required": true,
+          "desc": "Row key value",
           "examples": [ "calories" ]
         }
       },
@@ -2298,8 +2346,8 @@
       "params": {
         "key": {
           "type": "Any",
-          "desc": "Row key value",
           "required": true,
+          "desc": "Row key value",
           "examples": [ "calories" ]
         }
       },
@@ -2314,8 +2362,8 @@
       "params": {
         "expanded": {
           "type": "Array",
-          "desc": "Array containing keys of the expanded rows",
           "required": true,
+          "desc": "Array containing keys of the expanded rows",
           "examples": [ "[ 'row-a', 'row-b' ]" ]
         }
       }
@@ -2326,8 +2374,8 @@
       "params": {
         "col": {
           "type": [ "String", "Object" ],
-          "desc": "Column name or column definition object",
           "required": true,
+          "desc": "Column name or column definition object",
           "examples": [ "calories" ]
         }
       }
@@ -2346,14 +2394,15 @@
       "params": {
         "index": {
           "type": [ "String", "Number" ],
-          "desc": "The index of the row in page (0 based)",
           "required": true,
+          "desc": "The index of the row in page (0 based)",
           "examples": [ "1", 23 ]
         },
         "edge": {
           "type": "String",
-          "desc": "Only for virtual scroll - the edge to align to if the row is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise); If the '-force' version is used then it always aligns",
-          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ]
+          "desc": "Only for virtual scroll - the edge to align to if the row is not visible already; If the '-force' version is used then it always aligns",
+          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ],
+          "default": "end (if scrolling towards the end) / start (if scrolling towards the start)"
         }
       }
     }

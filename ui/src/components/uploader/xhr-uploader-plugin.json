@@ -223,11 +223,13 @@
           "definition": {
             "files": {
               "type": "Array",
+              "required": true,
               "desc": "Uploaded files",
               "__exemption": [ "examples" ]
             },
             "xhr": {
               "type": "Object",
+              "required": true,
               "desc": "XMLHttpRequest that has been used to upload this batch of files",
               "__exemption": [ "examples" ]
             }
@@ -245,11 +247,13 @@
           "definition": {
             "files": {
               "type": "Array",
+              "required": true,
               "desc": "Files which encountered error",
               "__exemption": [ "examples" ]
             },
             "xhr": {
               "type": "Object",
+              "required": true,
               "desc": "XMLHttpRequest that has been used to upload this batch of files",
               "__exemption": [ "examples" ]
             }
@@ -267,11 +271,13 @@
           "definition": {
             "files": {
               "type": "Array",
+              "required": true,
               "desc": "Files which are now uploading",
               "__exemption": [ "examples" ]
             },
             "xhr": {
               "type": "Object",
+              "required": true,
               "desc": "XMLHttpRequest used for uploading",
               "__exemption": [ "examples" ]
             }
@@ -284,9 +290,8 @@
       "desc": "Emitted when factory function is supplied with a Promise which is rejected",
       "params": {
         "err": {
-          "type": "Object",
-          "desc": "Error Object which is the Promise rejection reason",
-          "__exemption": [ "examples" ]
+          "type": "Error",
+          "desc": "Error object which is the Promise rejection reason"
         },
         "files": {
           "type": "Array",

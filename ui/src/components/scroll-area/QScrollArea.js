@@ -18,6 +18,11 @@ const dirProps = {
   vertical: { offset: 'offsetY', scroll: 'scrollTop', dir: 'down', dist: 'y' },
   horizontal: { offset: 'offsetX', scroll: 'scrollLeft', dir: 'right', dist: 'x' }
 }
+const panOpts = {
+  prevent: true,
+  mouse: true,
+  mouseAllDir: true
+}
 
 export default createComponent({
   name: 'QScrollArea',
@@ -173,7 +178,7 @@ export default createComponent({
     )
 
     const mainStyle = computed(() => (
-      scroll.vertical.thumbHidden.value === true || scroll.horizontal.thumbHidden.value === true
+      scroll.vertical.thumbHidden.value === true && scroll.horizontal.thumbHidden.value === true
         ? props.contentStyle
         : props.contentActiveStyle
     ))
@@ -182,24 +187,14 @@ export default createComponent({
       TouchPan,
       e => { onPanThumb(e, 'vertical') },
       void 0,
-      {
-        vertical: true,
-        prevent: true,
-        mouse: true,
-        mouseAllDir: true
-      }
+      { vertical: true, ...panOpts }
     ] ]
 
     const thumbHorizDir = [ [
       TouchPan,
       e => { onPanThumb(e, 'horizontal') },
       void 0,
-      {
-        horizontal: true,
-        prevent: true,
-        mouse: true,
-        mouseAllDir: true
-      }
+      { horizontal: true, ...panOpts }
     ] ]
 
     function getScroll () {

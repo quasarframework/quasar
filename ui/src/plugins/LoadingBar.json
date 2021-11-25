@@ -23,6 +23,7 @@
         "speed": {
           "type": "Number",
           "desc": "Delay (in milliseconds) between bar progress increments",
+          "default": 300,
           "examples": [ 150 ]
         }
       }
@@ -46,11 +47,11 @@
     "setDefaults": {
       "desc": "Set the inner QAjaxBar's props",
       "params": {
-        "...props": {
+        "props": {
           "type": "Object",
-          "desc": "QAjaxBar component props",
           "required": true,
-          "__exemption": [ "examples" ]
+          "desc": "QAjaxBar component props",
+          "examples": [ "{ position: 'bottom', reverse: true }" ]
         }
       }
     }

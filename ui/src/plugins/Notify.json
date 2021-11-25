@@ -164,6 +164,7 @@
       "params": {
         "opts": {
           "type": [ "Object", "String" ],
+          "required": true,
           "desc": "Notification options",
           "definition": {
             "type": {
@@ -214,7 +215,7 @@
             "spinner": {
               "type": [ "Boolean", "Component" ],
               "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
-              "__exemption": [ "examples" ]
+              "examples": [ true, "QSpinnerBars" ]
             },
 
             "position": {
@@ -225,8 +226,7 @@
                 "top-left", "top-right",
                 "bottom-left", "bottom-right",
                 "top", "bottom", "left", "right", "center"
-              ],
-              "examples": [ "top-right" ]
+              ]
             },
 
             "group": {
@@ -251,8 +251,7 @@
               "values": [
                 "top-left", "top-right",
                 "bottom-left", "bottom-right"
-              ],
-              "examples": [ "bottom-right" ]
+              ]
             },
             "badgeStyle": {
               "type": [ "Array", "String", "Object" ],
@@ -339,9 +338,7 @@
               "type": "Boolean",
               "desc": "Ignore the default configuration (set by setDefaults()) for this instance only"
             }
-          },
-          "required": true,
-          "__exemption": [ "examples" ]
+          }
         }
       },
       "returns": {
@@ -350,6 +347,7 @@
         "params": {
           "props": {
             "type": "Object",
+            "required": false,
             "desc": "Notification properties that will be shallow merged to previous ones in order to update the non-grouped notification",
             "definition": {
               "type": {
@@ -483,6 +481,7 @@
       "params": {
         "opts": {
           "type": "Object",
+          "required": true,
           "desc": "Notification options",
           "definition": {
             "type": {
@@ -607,8 +606,7 @@
             "attrs": {
               "type": "Object",
               "desc": "Key-value for attributes to be set on the notification",
-              "examples": [ "{ role: 'alertdialog' }" ],
-              "__exemption": [ "definition" ]
+              "examples": [ "{ role: 'alertdialog' }" ]
             },
 
             "timeout": {
@@ -646,9 +644,7 @@
               "type": "Boolean",
               "desc": "Put notification into multi-line mode; If this prop isn't used and more than one 'action' is specified then notification goes into multi-line mode by default"
             }
-          },
-          "required": true,
-          "__exemption": [ "examples" ]
+          }
         }
       }
     },
@@ -658,13 +654,14 @@
       "params": {
         "typeName": {
           "type": "String",
-          "desc": "Name of the type (to be used as 'type' prop later on)",
           "required": true,
+          "desc": "Name of the type (to be used as 'type' prop later on)",
           "examples": [ "my-type" ]
         },
 
         "typeOpts": {
           "type": "Object",
+          "required": true,
           "desc": "Notification options",
           "definition": {
             "type": {
@@ -789,8 +786,7 @@
             "attrs": {
               "type": "Object",
               "desc": "Key-value for attributes to be set on the notification",
-              "examples": [ "{ role: 'alertdialog' }" ],
-              "__exemption": [ "definition" ]
+              "examples": [ "{ role: 'alertdialog' }" ]
             },
 
             "timeout": {
@@ -828,9 +824,7 @@
               "type": "Boolean",
               "desc": "Put notification into multi-line mode; If this prop isn't used and more than one 'action' is specified then notification goes into multi-line mode by default"
             }
-          },
-          "required": true,
-          "__exemption": [ "examples" ]
+          }
         }
       }
     }

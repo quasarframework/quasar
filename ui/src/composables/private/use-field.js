@@ -75,7 +75,7 @@ export const useFieldProps = {
 export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popup-show', 'popup-hide' ]
 
 export function useFieldState () {
-  const { props, attrs, proxy } = getCurrentInstance()
+  const { props, attrs, proxy, vnode } = getCurrentInstance()
 
   const isDark = useDark(props, proxy.$q)
 
@@ -90,7 +90,7 @@ export function useFieldState () {
     focused: ref(false),
     hasPopupOpen: false,
 
-    splitAttrs: useSplitAttrs(attrs),
+    splitAttrs: useSplitAttrs(attrs, vnode),
     targetUid: ref(getTargetUid(props.for)),
 
     rootRef: ref(null),
