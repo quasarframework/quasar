@@ -10,7 +10,7 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
-**Codepen/jsFiddle/Codesandbox (required)**
+**Codepen/jsFiddle/Codesandbox (required or your issue may be closed)**
 Fork a Codepen (https://codepen.quasar.dev) or a jsFiddle (https://jsfiddle.quasar.dev) or a Codesandbox (https://codesandbox.quasar.dev) and hit save then copy-paste link here.
 
 **To Reproduce**
@@ -38,7 +38,15 @@ Quasar mode:
   - [ ] Cordova
   - [ ] Capacitor
   - [ ] BEX
+  - [ ] Vite Plugin
 
+Additonal Info:
+- [ ] Typescript
+- [ ] SFC usage with `<script setup>`
+- [ ] Vuex
+- [ ] Prettier (eslint)
+- [ ] Standard (eslint)
+  
 Tested on:
   - [ ] SPA
   - [ ] SSR
