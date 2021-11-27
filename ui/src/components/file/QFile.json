@@ -115,6 +115,7 @@
 
         "ref": {
           "type": "Component",
+          "tsType": "QFile",
           "desc": "Reference to the QFile component"
         }
       }
@@ -131,6 +132,7 @@
 
         "ref": {
           "type": "Component",
+          "tsType": "QFile",
           "desc": "Reference to the QFile component"
         }
       }

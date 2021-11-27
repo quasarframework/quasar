@@ -99,6 +99,7 @@
           "definition": {
             "ref": {
               "type": "Component",
+              "tsType": "QScrollArea",
               "required": true,
               "desc": "Vue reference to the QScrollArea which triggered the event"
             },

@@ -598,6 +598,7 @@
               "params": {
                 "ref": {
                   "type": "Component",
+                  "tsType": "QSelect",
                   "required": true,
                   "desc": "Vue reference to the QSelect which triggered the filtering"
                 }
@@ -638,6 +639,19 @@
           "type": "Object",
           "desc": "JS event object",
           "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "virtual-scroll": {
+      "params": {
+        "details": {
+          "definition": {
+            "ref": {
+              "tsType": "QSelect",
+              "desc": "Vue reference to the QSelect"
+            }
+          }
         }
       }
     }

@@ -187,6 +187,7 @@
         },
         "tree": {
           "type": "Component",
+          "tsType": "QTree",
           "desc": "QTree instance"
         },
         "node": {
@@ -226,6 +227,7 @@
         },
         "tree": {
           "type": "Component",
+          "tsType": "QTree",
           "desc": "QTree instance"
         },
         "node": {
@@ -265,6 +267,7 @@
         },
         "tree": {
           "type": "Component",
+          "tsType": "QTree",
           "desc": "QTree instance"
         },
         "node": {
@@ -304,6 +307,7 @@
         },
         "tree": {
           "type": "Component",
+          "tsType": "QTree",
           "desc": "QTree instance"
         },
         "node": {
