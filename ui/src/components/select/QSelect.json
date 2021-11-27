@@ -597,10 +597,9 @@
               "desc": "Callback to call at the end after the update has been fully processed by QSelect",
               "params": {
                 "ref": {
-                  "type": "Object",
+                  "type": "Component",
                   "required": true,
-                  "desc": "Vue reference to the QSelect which triggered the filtering",
-                  "__exemption": [ "examples" ]
+                  "desc": "Vue reference to the QSelect which triggered the filtering"
                 }
               },
               "returns": null
