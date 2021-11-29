@@ -962,19 +962,17 @@ describe('QMenu', () => {
         mount(WrapperTwo)
 
         cy.dataCy('wrapper')
-          .vue()
-          .then((wrapper) => {
+          .then(() => {
             // Need to call method from wrapper
             // Click a button closes the menu
-            wrapper.vm.toggle()
+            Cypress.vueWrapper.vm.toggle()
           })
         cy.dataCy('menu')
           .should('exist')
-          .vue()
-          .then((wrapper) => {
+          .then(() => {
             // Need to call method from wrapper
             // Click a button closes the menu
-            wrapper.vm.toggle()
+            Cypress.vueWrapper.vm.toggle()
           })
         cy.dataCy('menu')
           .should('not.exist')
@@ -1015,9 +1013,8 @@ describe('QMenu', () => {
                 expect(rect.left).to.equal(left)
               })
             cy.dataCy('wrapper')
-              .vue()
-              .then((wrapper) => {
-                wrapper.vm.updatePosition()
+              .then(() => {
+                Cypress.vueWrapper.vm.updatePosition()
               })
             cy.dataCy('menu')
               .checkVerticalPosition('wrapper', 'bottom', 'bottom')
@@ -1040,11 +1037,10 @@ describe('QMenu', () => {
           .should('exist')
           .should('not.have.focus')
         cy.dataCy('wrapper')
-          .vue()
-          .then((wrapper) => {
+          .then(() => {
             // Need to call method from wrapper
             // Click a button closes the menu
-            wrapper.vm.focusMethod()
+            Cypress.vueWrapper.vm.focusMethod()
           })
         cy.dataCy('menu')
           .should('have.focus')
@@ -1063,11 +1059,10 @@ describe('QMenu', () => {
           .should('exist')
           .should('not.have.focus')
         cy.dataCy('wrapper')
-          .vue()
-          .then((wrapper) => {
-            // Need to call method from wrapper
-            // Click a button closes the menu
-            wrapper.vm.focusMethod()
+          .then(() => {
+          // Need to call method from wrapper
+          // Click a button closes the menu
+            Cypress.vueWrapper.vm.focusMethod()
           })
         cy.dataCy('input-2')
           .should('have.focus')
