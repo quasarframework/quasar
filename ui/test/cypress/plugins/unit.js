@@ -12,26 +12,17 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
-// cypress/plugins/index.js
-const generateWebpackConfig = require('./../helpers/generateWebpackConfig')
-const { startDevServer } = require('@cypress/webpack-dev-server')
+import { injectDevServer } from '@quasar/quasar-app-extension-testing-e2e-cypress/cct-dev-server'
+
 const {
   addMatchImageSnapshotPlugin
 } = require('cypress-image-snapshot/plugin')
 
-module.exports = (on, config) => {
+module.exports = async (on, config) => {
   addMatchImageSnapshotPlugin(on, config)
-  on('dev-server:start', async (options) => {
-    const webpackConfig = await generateWebpackConfig()
-
-    // Added this to be able to define { template: `` } components in cypress tests
-    webpackConfig.renderer.resolve.alias.vue$ = 'vue/dist/vue.esm-bundler.js'
-
-    return startDevServer({
-      options,
-      webpackConfig: webpackConfig.renderer
-    })
-  })
+  if (config.testingType === 'component') {
+    await injectDevServer(on, config)
+  }
 
   return config
 }
