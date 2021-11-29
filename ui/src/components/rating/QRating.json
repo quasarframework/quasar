@@ -9,7 +9,7 @@
     "model-value": {
       "extends": "model-value",
       "type": "Number",
-      "examples": [ ":value=\"2\"" ]
+      "examples": [ "v-model=\"rating\"", ":model-value=\"rating\"", ":model-value=\"2\"" ]
     },
 
     "max": {
