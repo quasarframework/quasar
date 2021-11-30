@@ -114,7 +114,7 @@
               Replace Go to C
             </q-btn>
             <div v-for="n in 30" :key="n">
-              {{ n }} Left drawer
+              {{ n }} Right drawer
             </div>
           </div>
         </q-scroll-area>
