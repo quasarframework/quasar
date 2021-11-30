@@ -168,5 +168,101 @@
       },
       "addedIn": "v1.14.0"
     }
+  },
+
+  "scopedSlots": {
+    "markers": {
+      "desc": "Slot for adding markers to the QSlide selector",
+      "scope": {
+        "value": {
+          "type": "Number",
+          "desc": "The model",
+          "examples": [ 0 ]
+        },
+        "vertical": {
+          "type": "Boolean",
+          "desc": "Component is displayed in vertical direction"
+        },
+        "reverse": {
+          "type": "Boolean",
+          "desc": "Component works in reverse"
+        },
+        "editable": {
+          "type": "Boolean",
+          "desc": "Component is editable"
+        },
+        "min": {
+          "type": "Number",
+          "desc": "Minimum value on the track",
+          "examples": [ 0 ]
+        },
+        "max": {
+          "type": "Number",
+          "desc": "Maximum value on the track",
+          "examples": [ 100 ]
+        },
+        "minValue": {
+          "type": "Number",
+          "desc": "Minimum value of the model",
+          "examples": [ 10 ]
+        },
+        "maxValue": {
+          "type": "Number",
+          "desc": "Maximum value of the model",
+          "examples": [ 90 ]
+        },
+        "styleFn": {
+          "type": "Function",
+          "desc": "Calculates the style (position as %) for a value",
+          "params": {
+            "value": {
+              "type": "Number",
+              "desc": "Value for which to calculate the style",
+              "examples": [ 25 ]
+            }
+          },
+          "returns": {
+            "type": "Object",
+            "desc": "Object with prop (the name of the CSS property), value (the value of the CSS property), and style (the full style as text)",
+            "definition": {
+              "prop": {
+                "type": "String",
+                "desc": "The name of the CSS property",
+                "examples": [ "left", "right", "top", "bottom" ]
+              },
+              "value": {
+                "type": "String",
+                "desc": "The value of the CSS property",
+                "examples": [ "30%" ]
+              },
+              "style": {
+                "type": "String",
+                "desc": "The full style",
+                "examples": [ "left: 30%" ]
+              }
+            },
+            "examples": [ "{ prop: 'left', value: '30%', style: 'left: 30%' }" ]
+          }
+        },
+        "setFn": {
+          "type": "Function",
+          "desc": "Set the internal model (and emits the events if necessary)",
+          "params": {
+            "model": {
+              "type": "Number",
+              "desc": "The new value of the model",
+              "examples": [ 25 ]
+            }
+          },
+          "returns": null
+        },
+        "stopEvents": {
+          "type": "Object",
+          "desc": "Listeners on mousedown and click that can be applied on the markers to stop propagation to the QSlider; Can be used as `v-on=\"scope.stopEvents\"`",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.16.0"
+    }
   }
 }

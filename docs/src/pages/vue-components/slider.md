@@ -56,6 +56,14 @@ The example below is better highlighting how QSlider handles label positioning s
 
 <doc-example title="Markers" file="QSlider/Markers" />
 
+### Custom markers slot <q-badge align="top" color="brand-primary" label="v1.16+" />
+
+<doc-example title="Labels for ticks" file="QSlider/CustomMarkerLabels" />
+
+<doc-example title="Icons for ticks" file="QSlider/CustomMarkerIcons" />
+
+<doc-example title="Icons for value" file="QSlider/CustomMarkerValue" />
+
 ### Lazy input
 
 <doc-example title="Lazy input" file="QSlider/Lazy" />

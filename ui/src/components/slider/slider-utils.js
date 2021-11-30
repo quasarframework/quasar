@@ -1,5 +1,5 @@
 import { between } from '../../utils/format.js'
-import { position } from '../../utils/event.js'
+import { position, stop } from '../../utils/event.js'
 import { isNumber } from '../../utils/is.js'
 
 import FormMixin from '../../mixins/form.js'
@@ -167,6 +167,46 @@ export const SliderMixin = {
       }
     },
 
+    markersScopeBase () {
+      return {
+        vertical: this.vertical,
+        reverse: this.reverse,
+        editable: this.editable,
+
+        min: this.min,
+        max: this.max,
+        minValue: this.minInnerValue,
+        maxValue: this.maxInnerValue,
+
+        styleFn: val => {
+          const value = `${val / this.minMaxDiff * 100}%`
+
+          return {
+            prop: this.positionProp,
+            value,
+            style: `${this.positionProp}: ${value}`
+          }
+        },
+
+        setFn: val => {
+          this.model = val
+          this.__updateValue()
+        },
+
+        stopEvents: {
+          mousedown: stop,
+          click: stop
+        }
+      }
+    },
+
+    markersScope () {
+      return {
+        value: this.model,
+        ...this.markersScopeBase
+      }
+    },
+
     computedTabindex () {
       return this.editable === true ? this.tabindex || 0 : -1
     },
@@ -270,6 +310,10 @@ export const SliderMixin = {
           staticClass: `q-slider__track-markers q-slider__track-markers${this.axis} absolute-full fit`,
           style: this.markerStyle
         })
+      )
+
+      this.$scopedSlots.markers !== void 0 && track.push(
+        ...this.$scopedSlots.markers(this.markersScope)
       )
 
       return track

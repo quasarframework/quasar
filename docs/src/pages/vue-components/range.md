@@ -58,6 +58,10 @@ The example below is better highlighting how QRange handles label positioning so
 
 <doc-example title="Markers" file="QRange/Markers" />
 
+### Custom markers slot <q-badge align="top" color="brand-primary" label="v1.16+" />
+
+<doc-example title="Custom icons for range" file="QRange/CustomMarkers" />
+
 ### Dragging range
 
 Use the `drag-range` or `drag-only-range` props to allow the user to move the selected range or only a predetermined range as a whole.
