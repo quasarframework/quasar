@@ -68,10 +68,10 @@ devServer: {
 
     options: {
       // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
-      cacert: '/path/to/ca.pem',
-      pfx: '/path/to/server.pfx',
-      key: '/path/to/server.key',
-      cert: '/path/to/server.crt',
+      key: "/path/to/server.key",
+      pfx: "/path/to/server.pfx",
+      cert: "/path/to/server.crt",
+      ca: "/path/to/ca.pem",
       passphrase: 'webpack-dev-server' // do you need it?
     }
   }
