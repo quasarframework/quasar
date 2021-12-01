@@ -1,8 +1,9 @@
 <template>
-  <q-page class="text-white">
+  <q-page class="text-white q-mx-lg">
 
     <div class="row flex-center q-my-xl">
-      <div class="col-6 column items-center text-center about">
+
+      <div class="col-md-6 col-xs-12 column items-center text-center">
         <q-img src="~assets/landing-page/quasar-logo/logo-with-payoff.svg" width="250px" />
 
         <div class="q-py-lg text-lp-light text-size-20">
@@ -36,7 +37,7 @@
       </div>
       <div class="sponsors__logos row col-6 col-sm-4 justify-center">
         <template v-for="(src, index) in sponsorLogos.platinum" :key="index">
-          <q-img :src="src" width="200px"/>
+          <q-img :src="`sponsor-logos/${src}`" width="200px"/>
         </template>
       </div>
       <div class="row justify-center text-size-16">
@@ -57,11 +58,11 @@
       </div>
 
       <div class="row justify-center">
-        <div class="col-8 row">
+        <div class="col-10 col row">
           <div class="col">
-            <div class="row q-col-gutter-md">
+            <div class="row q-col-gutter-md justify-center">
               <template v-for="({icon, title, body, btnLabel, btnLink}, i) in whyQuasar" :key="i">
-                <div class="col-4" >
+                <div class="col-4 col-xs-12 col-md-4 col-sm-6" >
                   <why-quasar-card
                     :icon="icon"
                     :title="title"
@@ -96,10 +97,10 @@
       </div>
     </div>
 
-    <div class="window-height row justify-center items-end">
+    <div class="advance-scaffolding row justify-center items-end lp-mb--large">
+      <q-img height="100vh" src="~assets/landing-page/homepage-background-images/astronaut-on-moon.jpg"/>
       <div class="col-9 relative-position">
-        <q-img src="~assets/landing-page/homepage-background-images/astronaut-on-moon.jpg" />
-        <div class="column items-end absolute-bottom-right">
+        <div class="column items-end absolute-bottom-right lp-mb--large">
           <div class="lp-heading lp-heading--large text-right">
             Advanced scaffolding
           </div>
@@ -108,25 +109,19 @@
             Get all you need to setup your project basic
             <span class="block">features and save time</span>
           </div>
-
-          <div class="lp-heading--quote">
-            <q>He who controls Scaffolding, controls the universe</q>
-          </div>
-
-          <div>
-            <q-btn
-              class="shadow-bottom-small lp-mb--large q-mt-md"
-              color="lp-accent"
-              label="Consult pricing"
-            />
-          </div>
+          <q class="lp-heading--quote">He who controls Scaffolding, controls the universe</q>
+          <q-btn
+            class="shadow-bottom-small q-mt-md"
+            color="lp-accent"
+            label="Consult pricing"
+          />
         </div>
       </div>
     </div>
 
-    <div class="community window-height">
+    <div class="window-height lp-mb--large">
       <div class="row justify-center">
-        <div class="col-8 text-center">
+        <div class="col-8 text-center col-xs-10">
           <q-icon
             size="xl"
             name="img:homepage-icons/astronaut.svg"
@@ -143,30 +138,34 @@
       <twitter-showcase-cards />
     </div>
 
-    <div class="support row justify-center relative-position" >
-      <div class="col-8">
-        <div class="lp-heading--large">
-          Support quasar: Become sponsor!
-        </div>
+    <div class="window-height">
+      <div class="row justify-center">
+        <div class="col-6 col-xs-10">
+          <div class="lp-heading--large">
+            Support quasar: Become sponsor!
+          </div>
 
-        <div class="lp-heading--small text-left">
-          Working for a company or freelancer? You can contribute, ever a bit and getting something back.
-        </div>
+          <div class="lp-heading--small text-left support-quasar-caption-text">
+            Working for a company or freelancer? You can contribute, ever a bit and getting something back.
+          </div>
 
-        <div class="q-my-md lp-heading--quote">
-          <q>So, um, we think we should discuss the bonus situation</q>
-        </div>
+          <div class="q-my-md lp-heading--quote">
+            <q>So, um, we think we should discuss the bonus situation</q>
+          </div>
 
-        <q-btn
-          color="lp-accent"
-          label="Consult tiers"
-          padding="sm"
-          class="text-size-14 text-bold shadow-bottom-small"
-        />
+          <q-btn
+            color="lp-accent"
+            label="Consult tiers"
+            padding="sm"
+            class="text-size-14 text-bold shadow-bottom-small"
+          />
+        </div>
       </div>
 
-      <q-img class="absolute-bottom" width="50%" src="~assets/landing-page/homepage-background-images/astronaut-left-hand.png" />
-      <q-img width="50%" class="absolute-top-right" src="~assets/landing-page/homepage-background-images/astronaut-right-hand.png" />
+      <div class="astronaut-hand">
+        <q-img class="astronaut-hand--left" width="50%"  src="~assets/landing-page/homepage-background-images/astronaut-left-hand.png" />
+        <q-img class="astronaut-hand--right" width="50%" src="~assets/landing-page/homepage-background-images/astronaut-right-hand.png" />
+      </div>
     </div>
 
     <div class="text-center lp-mb--large">
@@ -174,24 +173,24 @@
       <div class="lp-heading lp-heading--large">Our Sponsors</div>
       <div class="lp-heading lp-heading--small">Every space odyssey has its patrons</div>
       <div class="row justify-center">
-        <div class="col-8">
+        <div class="col-8 text-size-12">
           <div class="q-my-md">Platinum Sponsors</div>
-          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, i) in sponsorLogos.platinum" :key="i" />
+          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, index) in sponsorLogos.platinum" :key="index"/>
           <div class="q-my-md">Gold Sponsors</div>
-          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, i) in sponsorLogos.gold" :key="i" />
+          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, index) in sponsorLogos.gold" :key="index" />
           <div class="q-my-md">Silver Sponsors</div>
-          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, i) in sponsorLogos.silver" :key="i" />
+          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, index) in sponsorLogos.silver" :key="index" />
         </div>
       </div>
     </div>
 
-    <div class="text-center social-channels-call-to-action">
-      <q-img src="~assets/landing-page/homepage-background-images/planet.png">
-        <div class="absolute-bottom bg-transparent">
+    <div class="text-center social-channels-call-to-action lp-mb--large">
+      <q-img src="~assets/landing-page/homepage-background-images/planet.png" :height="$q.screen.gt.xs? 'auto':'500px'">
+        <div class="bg-transparent absolute-bottom">
           <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
           <div class="lp-heading lp-heading--large">Don't miss the news </div>
           <div class="lp-heading lp-heading--small">Follow our social pages to stay up to date</div>
-          <div class="row justify-center q-mb-xl q-mt-md q-gutter-x-md">
+          <div class="row justify-center q-mb-xl q-mt-md q-gutter-md">
             <q-btn label="Facebook" color="lp-accent" outline/>
             <q-btn label="Twitter" color="lp-accent" outline/>
             <q-btn label="Forum" color="lp-accent" outline/>
@@ -205,9 +204,9 @@
 
 <script>
 import { defineComponent } from 'vue'
-import WhyQuasarCard from 'src/components/landing-page/WhyQuasarCard'
-import { sponsorLogos, whyQuasar } from 'src/assets/landing-page/image-links'
-import TwitterShowcaseCards from 'src/components/landing-page/TwitterShowcaseCards'
+import WhyQuasarCard from 'src/components/landing-page/WhyQuasarCard.vue'
+import { sponsorLogos, whyQuasar } from 'src/assets/landing-page/image-links.js'
+import TwitterShowcaseCards from 'src/components/landing-page/TwitterShowcaseCards.vue'
 
 export default defineComponent({
   name: 'Index',
@@ -222,17 +221,33 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+$undo-margin-from-qpage: 0 -24px 0 -24px;
+
 .lp-btn-underline {
   border-bottom: 1px solid $lp-light;
 }
 
-.support {
+.social-channels-call-to-action {
+  margin: $undo-margin-from-qpage;
+}
+
+.astronaut-hand {
+  margin: 0 -24px 0 -24px;
+
+  &--right {
+    margin-top: -100px;
+
+    @media screen and (min-width: $breakpoint-md-min) {
+      margin-top: -600px
+    }
+  }
+}
+
+.support-quasar-caption-text {
+  width: 65%;
+}
+
+.advance-scaffolding {
   height: 100vh;
 }
-
-.social-channels-call-to-action {
-  // TODO: reduce image height (from top), and remove this negative margin
-  margin-top: -30%;
-}
-
 </style>

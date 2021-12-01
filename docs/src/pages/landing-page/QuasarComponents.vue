@@ -88,10 +88,23 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+$number-of-card-columns-gt-sm: 5;
+$number-of-card-columns-sm-max: 3;
+$number-of-card-columns-xs-max: 1;
+
 .components {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat($number-of-card-columns-gt-sm, 1fr);
+  gap: 24px;
+
+  @media screen and (max-width: $breakpoint-sm-max) {
+    grid-template-columns: repeat($number-of-card-columns-sm-max, 1fr);
+    gap: 20px;
+  }
+  @media screen and (max-width: $breakpoint-xs-max) {
+    grid-template-columns: repeat($number-of-card-columns-xs-max, 1fr);
+    gap: 20px;
+  }
 }
 
 .raise-on-hover {

@@ -21,9 +21,10 @@
     </q-card-section>
   </q-card>
 </template>
-<script lang="ts">
+<script>
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   props: {
     icon: {
       required: true,
@@ -47,5 +48,5 @@ export default {
     }
   },
   name: 'WhyQuasarCard'
-}
+})
 </script>

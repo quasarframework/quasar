@@ -2,22 +2,22 @@ $white: #fff;
 $black: #000;
 
 $additional-colors: (
-'lp-primary' $lp-primary,
-'lp-secondary' $lp-secondary,
-'lp-accent' $lp-accent,
-'lp-positive' $lp-positive,
-'lp-negative' $lp-negative,
-'lp-info' $lp-info,
-'lp-warning' $lp-warning,
-'lp-dark' $lp-dark,
-'lp-light' $lp-light,
-'lp-grey' $lp-grey,
+  'lp-primary' $lp-primary,
+  'lp-secondary' $lp-secondary,
+  'lp-accent' $lp-accent,
+  'lp-positive' $lp-positive,
+  'lp-negative' $lp-negative,
+  'lp-info' $lp-info,
+  'lp-warning' $lp-warning,
+  'lp-dark' $lp-dark,
+  'lp-light' $lp-light,
+  'lp-grey' $lp-grey,
 );
 
 @each $color-name, $color in $additional-colors {
   .bg-#{$color-name} {
     background-color: $color !important;
-}
+  }
 
   .text-#{$color-name} {
     color: $color !important;
@@ -25,29 +25,29 @@ $additional-colors: (
 }
 
 $alpha-map: (
-'87' 0.87,
-'54' 0.54,
-'38' 0.38,
-'28' 0.28,
-'focused-dark' 0.24,
-'focused-light' 0.12,
-'12' 0.12,
-'activated-dark' 0.24,
-'activated-light' 0.12,
-'selected' 0.08,
-'hover' 0.04
+  '87' 0.87,
+  '54' 0.54,
+  '38' 0.38,
+  '28' 0.28,
+  'focused-dark' 0.24,
+  'focused-light' 0.12,
+  '12' 0.12,
+  'activated-dark' 0.24,
+  'activated-light' 0.12,
+  'selected' 0.08,
+  'hover' 0.04
 );
 
 $color-map: (
-'lp-primary' $lp-primary,
-'lp-secondary' $lp-secondary,
-'lp-accent' $lp-accent,
-'black' $black,
-'white' $white,
-'lp-positive' $lp-positive,
-'lp-negative' $lp-negative,
-'lp-info' $lp-info,
-'lp-warning' $lp-warning,
+  'lp-primary' $lp-primary,
+  'lp-secondary' $lp-secondary,
+  'lp-accent' $lp-accent,
+  'black' $black,
+  'white' $white,
+  'lp-positive' $lp-positive,
+  'lp-negative' $lp-negative,
+  'lp-info' $lp-info,
+  'lp-warning' $lp-warning,
 );
 
 @each $alpha-name, $alpha in $alpha-map {
@@ -60,6 +60,9 @@ $color-map: (
     }
   }
 }
+
+// TODO: find out why quasar's breakpoint variables not available here
+$lp-breakpoint-xs-max: 599px;
 
 $text-size-list: 10, 12, 16, 18, 20, 24, 28, 32, 36;
 
@@ -86,6 +89,9 @@ $text-size-list: 10, 12, 16, 18, 20, 24, 28, 32, 36;
 
   &--large {
     font-size: 36px;
+    @media screen and (max-width: $lp-breakpoint-xs-max) {
+      font-size: 24px;
+    }
     color: $lp-primary;
     font-weight: 700;
     margin: 20px 0 20px 0;
@@ -99,6 +105,9 @@ $text-size-list: 10, 12, 16, 18, 20, 24, 28, 32, 36;
 
   &--small {
     font-size: 20px;
+    @media screen and (max-width: $lp-breakpoint-xs-max) {
+      font-size: 16px;
+    }
     color: $lp-light;
     font-weight: 400;
     text-transform: initial;
@@ -106,6 +115,9 @@ $text-size-list: 10, 12, 16, 18, 20, 24, 28, 32, 36;
 
   &--quote {
     font-size: 16px;
+    @media screen and (max-width: $lp-breakpoint-xs-max) {
+      font-size: 14px;
+    }
     color: $lp-primary;
     font-weight: 400;
     text-transform: initial;
@@ -114,4 +126,7 @@ $text-size-list: 10, 12, 16, 18, 20, 24, 28, 32, 36;
 
 .lp-mb--large {
   margin-bottom: 100px;
+  @media screen and (max-width: $lp-breakpoint-xs-max) {
+    margin-bottom: 64px;
+  }
 }
