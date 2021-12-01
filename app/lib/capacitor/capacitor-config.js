@@ -196,7 +196,7 @@ class CapacitorConfig {
       warn()
       warn(`${shortFilename} not found or content is unrecognized.`)
       warn(`Your App will revoke the devserver's SSL certificate.`)
-      warn(`Please disable HTTPS from quasar.conf.js > devServer > https`)
+      warn(`Please disable HTTPS from quasar.conf.js > devServer > server > type: 'https'`)
       warn()
       warn()
       warn()
@@ -254,7 +254,7 @@ class CapacitorConfig {
     }
     else if (mainActivityPath.length === 0) {
       warn()
-      warn('IMPORTANT! Could not find MainActivity.java file and therefore cannot enable devServer: https support.')
+      warn('IMPORTANT! Could not find MainActivity.java file and therefore cannot enable devServer > server > type: \'https\' support.')
       warn()
       return
     }
