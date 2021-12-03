@@ -1,5 +1,7 @@
 import History from '../history.js'
 
+let fullscreenCounter = 0
+
 export default {
   props: {
     fullscreen: Boolean,
@@ -48,7 +50,12 @@ export default {
       this.container = this.$el.parentNode
       this.container.replaceChild(this.fullscreenFillerNode, this.$el)
       document.body.appendChild(this.$el)
-      document.body.classList.add('q-body--fullscreen-mixin')
+
+      fullscreenCounter = Math.max(1, fullscreenCounter + 1)
+
+      if (fullscreenCounter === 1) {
+        document.body.classList.add('q-body--fullscreen-mixin')
+      }
 
       this.__historyFullscreen = {
         handler: this.exitFullscreen
@@ -66,11 +73,16 @@ export default {
         this.__historyFullscreen = void 0
       }
       this.container.replaceChild(this.$el, this.fullscreenFillerNode)
-      document.body.classList.remove('q-body--fullscreen-mixin')
       this.inFullscreen = false
 
-      if (this.$el.scrollIntoView !== void 0) {
-        setTimeout(() => { this.$el.scrollIntoView() })
+      fullscreenCounter = Math.max(0, fullscreenCounter - 1)
+
+      if (fullscreenCounter === 0) {
+        document.body.classList.remove('q-body--fullscreen-mixin')
+
+        if (this.$el.scrollIntoView !== void 0) {
+          setTimeout(() => { this.$el.scrollIntoView() })
+        }
       }
     }
   },
