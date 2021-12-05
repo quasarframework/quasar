@@ -1,10 +1,15 @@
 const packageName = ''
 const iconSetName = 'Google Material Design Icons'
+const prefix = 'mat_'
 
 // ------------
 
-const { resolve } = require('path')
+const { resolve, join } = require('path')
 const fetch = require('cross-fetch')
+const { writeFileSync } = require('fs')
+
+const cpus = require('os').cpus().length
+const maxJobCount = cpus - 1 || 1
 
 const skipped = {}
 const distFolder = {}
@@ -26,7 +31,7 @@ function downloadIcon(icon) {
     Object.keys(themeMap).map(async (theme) => {
       // get future icon name
       const themeName = themeMap[theme]
-      const name = ((themeName === '' ? 'mat_' : theme + '_') + icon.name)
+      const name = ((themeName === '' ? prefix : theme + '_') + icon.name)
         .replace(/(_\w)/g, m => m[1].toUpperCase())
 
       if (iconNames[theme].has(name)) {
@@ -89,7 +94,7 @@ async function run () {
           await downloadIcon(icon)
         })
       },
-      { concurrency: 5 },
+      { concurrency: maxJobCount * 2 },
     )
     queue.push(icons)
     await queue.wait({ empty: true })
@@ -105,8 +110,12 @@ async function run () {
         return ('' + a).localeCompare(b)
       })
 
-      console.log((`Updating SVG for ../material-icons${themeMap[theme]}`).replace(/_/g, '-'))
+      console.log((`Updating SVG for ../material-icons${distFolder[theme]}; icon count: ${iconNames[theme].size}`))
       writeExports(iconSetName, packageName, distFolder[theme], svgExports[theme], typeExports[theme], skipped[theme])
+
+      // write the JSON file
+      const file = resolve(distFolder[theme], 'icons.json')
+      writeFileSync(file, JSON.stringify([...iconNames[theme]], null, 2), 'utf-8')
     })
   } catch (err) {
     console.log('err', err)

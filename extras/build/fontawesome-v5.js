@@ -1,11 +1,14 @@
 const packageName = '@fortawesome/fontawesome-free'
+const distName = 'fontawesome-v5'
 const iconSetName = 'Fontawesome Free'
+const prefix = 'fa'
 
 // ------------
 
 const glob = require('glob')
 const { copySync } = require('fs-extra')
-const { resolve } = require('path')
+const { writeFileSync } = require('fs')
+const { resolve, join } = require('path')
 
 let skipped = []
 const distFolder = resolve(__dirname, `../fontawesome-v5`)
@@ -22,7 +25,7 @@ iconTypes.forEach(type => {
   const svgFiles = glob.sync(svgFolder + `/${type}/*.svg`)
 
   svgFiles.forEach(file => {
-    const name = defaultNameMapper(file, 'fa' + type.charAt(0))
+    const name = defaultNameMapper(file, prefix + type.charAt(0))
   
     if (iconNames.has(name)) {
       return
@@ -66,3 +69,9 @@ copySync(
   resolve(__dirname, `../node_modules/${packageName}/LICENSE.txt`),
   resolve(__dirname, `../fontawesome-v5/LICENSE.txt`)
 )
+
+// write the JSON file
+const file = resolve(__dirname, join('..', distName, 'icons.json'))
+writeFileSync(file, JSON.stringify([...iconNames], null, 2), 'utf-8')
+
+console.log(`${distName} done with ${iconNames.size} icons`)
