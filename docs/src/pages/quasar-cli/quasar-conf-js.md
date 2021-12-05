@@ -225,7 +225,7 @@ Most used properties are:
 | open | Boolean/String | Unless it's set to `false`, Quasar will open up a browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. If specifying a String then see explanations below. |
 | proxy | Object/Array | Proxying some URLs can be useful when you have a separate API backend development server and you want to send API requests on the same domain. |
 | devMiddleware | Object | Configuration supplied to webpack-dev-middleware v4 |
-| https | Boolean/Object | Use HTTPS instead of HTTP |
+| server | Object | Here you can configure HTTPS instead of HTTP (see below) |
 | onBeforeSetupMiddleware | Function | Configure the dev middlewares before webpack-dev-server applies its own config. |
 | onAfterSetupMiddleware | Function | Configure the dev middlewares after webpack-dev-server applies its own config. |
 
@@ -245,14 +245,17 @@ When you set `devServer > https: true` in your quasar.conf.js file, Quasar will 
 // quasar.conf.js
 
 devServer: {
-  https: {
-    // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
+  server: {
+    type: 'https', // NECESSARY (alternative is type 'http')
 
-    cacert: '/path/to/ca.pem',
-    pfx: '/path/to/server.pfx',
-    key: '/path/to/server.key',
-    cert: '/path/to/server.crt',
-    passphrase: 'webpack-dev-server' // do you need it?
+    options: {
+      // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
+      key: "/path/to/server.key",
+      pfx: "/path/to/server.pfx",
+      cert: "/path/to/server.crt",
+      ca: "/path/to/ca.pem",
+      passphrase: 'webpack-dev-server' // do you need it?
+    }
   }
 }
 ```

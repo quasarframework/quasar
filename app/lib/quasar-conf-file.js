@@ -196,7 +196,9 @@ class QuasarConfFile {
           mangle: {}
         }
       },
-      devServer: {},
+      devServer: {
+        server: {}
+      },
       framework: {
         components: [],
         directives: [],
@@ -615,6 +617,9 @@ class QuasarConfFile {
             warnings: false
           }
         },
+        server: {
+          type: 'http'
+        },
         devMiddleware: {
           publicPath: cfg.build.publicPath,
           stats: false
@@ -661,6 +666,26 @@ class QuasarConfFile {
         }
       })
 
+      // (backward compatibility for upstream)
+      // webpack-dev-server 4.5.0 introduced a change in behavior
+      // along with deprecation notices; so we transform it automatically
+      // for a better experience for our developers
+      if (cfg.devServer.https !== void 0) {
+        const { https } = cfg.devServer
+
+        delete cfg.devServer.https
+
+        if (https !== false) {
+          cfg.devServer.server = {
+            type: 'https'
+          }
+
+          if (Object(https) === https) {
+            cfg.devServer.server.options = https
+          }
+        }
+      }
+
       if (this.ctx.vueDevtools === true || cfg.devServer.vueDevtools === true) {
         cfg.__needsAppMountHook = true
         cfg.__vueDevtools = {
@@ -678,7 +703,7 @@ class QuasarConfFile {
         cfg.devServer.open = false
 
         if (this.ctx.mode.electron) {
-          cfg.devServer.https = false
+          cfg.devServer.server.type = 'http'
         }
       }
 
@@ -773,7 +798,7 @@ class QuasarConfFile {
         ? (cfg.build.htmlFilename !== 'index.html' ? (cfg.build.publicPath ? '' : '/') + cfg.build.htmlFilename : '')
         : ''
 
-      cfg.__getUrl = hostname => `http${cfg.devServer.https ? 's' : ''}://${hostname}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
+      cfg.__getUrl = hostname => `http${cfg.devServer.server.type === 'https' ? 's' : ''}://${hostname}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
       cfg.build.APP_URL = cfg.__getUrl(
         cfg.devServer.host === '0.0.0.0'
           ? 'localhost'

@@ -1003,16 +1003,9 @@ Nothing changed in regards to how App Extensions work. Please note that not all 
 
 #### TypeScript
 
-Update `src/shims-vue.d.ts` as such:
+Update `src/shims-vue.d.ts` to match [Vue3 version](https://github.com/quasarframework/quasar-starter-kit/blob/b206de59d87b8adcc25a8f7863cfe705bf6b3741/template/src/shims-vue.d.ts).
 
-```js
-// Mocks all files ending in `.vue` showing them as plain Vue instances
-declare module '*.vue' {
-  import { ComponentOptions } from 'vue';
-  const component: ComponentOptions;
-  export default component;
-}
-```
+Create a `src/quasar.d.ts` file and copy into it the content from [here](https://github.com/quasarframework/quasar-starter-kit/blob/b206de59d87b8adcc25a8f7863cfe705bf6b3741/template/src/quasar.d.ts).
 
 If you use ESLint, update the property into `quasar.conf.js`:
 
