@@ -62,7 +62,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.3 | `svg-eva-icons` | `@quasar/extras/eva-icons` | | [License](eva-icons/LICENSE) |
 | [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `svg-themify` | `@quasar/extras/themify` | | [License](themify/LICENSE) |
 | [Line Awesome](https://icons8.com/line-awesome) | 1.3.0 | `svg-line-awesome` | `@quasar/extras/line-awesome` | Requires: @quasar/extras 1.5+ | [License](line-awesome/LICENSE.md) |
-| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.7.1 | `svg-bootstrap-icons` | `@quasar/extras/bootstrap-icons` | Requires: @quasar/extras 1.10+ | [License](bootstrap-icons/LICENSE.md) |
+| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.7.2 | `svg-bootstrap-icons` | `@quasar/extras/bootstrap-icons` | Requires: @quasar/extras 1.10+ | [License](bootstrap-icons/LICENSE.md) |
 
 Example:
 
