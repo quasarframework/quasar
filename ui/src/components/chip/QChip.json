@@ -55,8 +55,7 @@
       "type": "Boolean",
       "desc": "Model of the component determining if QChip should be rendered or not",
       "required": false,
-      "default": true,
-      "category": "model"
+      "default": true
     },
 
     "selected": {

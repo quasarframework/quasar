@@ -7,8 +7,9 @@
 
   "props": {
     "model-value": {
+      "extends": "model-value",
       "desc": "Model of the component defining 'open' state; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
-      "category": "model"
+      "required": false
     },
 
     "icon": {
