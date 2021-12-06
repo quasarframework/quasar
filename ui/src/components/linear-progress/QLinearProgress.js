@@ -58,6 +58,7 @@ export default createComponent({
     const sizeStyle = useSize(props, defaultSizes)
 
     const motion = computed(() => props.indeterminate === true || props.query === true)
+    const widthReverse = computed(() => props.reverse !== props.query)
     const style = computed(() => ({
       ...(sizeStyle.value !== null ? sizeStyle.value : {}),
       '--q-linear-progress-speed': `${ props.animationSpeed }ms`
@@ -70,7 +71,7 @@ export default createComponent({
       + (props.rounded === true ? ' rounded-borders' : '')
     )
 
-    const trackStyle = computed(() => width(props.buffer !== void 0 ? props.buffer : 1, props.reverse, proxy.$q))
+    const trackStyle = computed(() => width(props.buffer !== void 0 ? props.buffer : 1, widthReverse, proxy.$q))
     const trackClass = computed(() =>
       'q-linear-progress__track absolute-full'
       + ` q-linear-progress__track--with${ props.instantFeedback === true ? 'out' : '' }-transition`
@@ -78,7 +79,7 @@ export default createComponent({
       + (props.trackColor !== void 0 ? ` bg-${ props.trackColor }` : '')
     )
 
-    const modelStyle = computed(() => width(motion.value === true ? 1 : props.value, props.reverse, proxy.$q))
+    const modelStyle = computed(() => width(motion.value === true ? 1 : props.value, widthReverse, proxy.$q))
     const modelClass = computed(() =>
       'q-linear-progress__model absolute-full'
       + ` q-linear-progress__model--with${ props.instantFeedback === true ? 'out' : '' }-transition`
