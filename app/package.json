@@ -100,7 +100,7 @@
     "ts-loader": "9.2.5",
     "typescript": "4.4.2",
     "url-loader": "4.1.1",
-    "vue": "3.2.23",
+    "vue": "^3.2.24",
     "vue-loader": "16.8.3",
     "vue-router": "4.0.12",
     "vue-style-loader": "4.1.3",

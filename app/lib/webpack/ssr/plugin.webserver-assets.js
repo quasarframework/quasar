@@ -28,7 +28,7 @@ module.exports = class WebserverAssetsPlugin {
     }
 
     const appDeps = getFixedDeps(appPkg.dependencies || {})
-    const cliDeps = cliPkg.dependencies
+    const cliDeps = getFixedDeps(cliPkg.dependencies)
 
     let pkg = {
       name: appPkg.name,
@@ -45,8 +45,6 @@ module.exports = class WebserverAssetsPlugin {
           'compression': '^1.0.0',
           'express': '^4.0.0',
           'vue': cliDeps.vue,
-          '@vue/server-renderer': cliDeps['@vue/server-renderer'],
-          '@vue/compiler-sfc': cliDeps['@vue/compiler-sfc'],
           '@quasar/ssr-helpers': cliDeps['@quasar/ssr-helpers'],
           'vue-router': cliDeps['vue-router']
         },
