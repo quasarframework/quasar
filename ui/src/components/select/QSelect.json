@@ -597,10 +597,10 @@
               "desc": "Callback to call at the end after the update has been fully processed by QSelect",
               "params": {
                 "ref": {
-                  "type": "Object",
+                  "type": "Component",
+                  "tsType": "QSelect",
                   "required": true,
-                  "desc": "Vue reference to the QSelect which triggered the filtering",
-                  "__exemption": [ "examples" ]
+                  "desc": "Vue reference to the QSelect which triggered the filtering"
                 }
               },
               "returns": null
@@ -639,6 +639,19 @@
           "type": "Object",
           "desc": "JS event object",
           "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "virtual-scroll": {
+      "params": {
+        "details": {
+          "definition": {
+            "ref": {
+              "tsType": "QSelect",
+              "desc": "Vue reference to the QSelect"
+            }
+          }
         }
       }
     }

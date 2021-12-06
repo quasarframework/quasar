@@ -115,7 +115,7 @@ const objectTypes = {
 
   // special type, not common
   Component: {
-    props: [ 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
+    props: [ 'tsType', 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
     required: [ 'desc' ],
     isBoolean: [ 'internal' ]
   },
