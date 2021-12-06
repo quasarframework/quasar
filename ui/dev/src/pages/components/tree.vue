@@ -155,6 +155,87 @@ export default {
       defaultExpandAll: false,
       nodes: [
         {
+          key: 'KEY: Node 01',
+          label: 'Node 01',
+          avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
+        },
+        {
+          key: 'KEY: Node 02',
+          label: 'Node 02',
+          icon: 'alarm',
+          iconColor: 'red'
+        },
+        {
+          key: 'KEY: Node 03',
+          label: 'Node 03'
+        },
+        {
+          key: 'KEY: Node 04',
+          label: 'Node 04',
+          avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+          subnodes: [
+            {
+              key: 'KEY: Node 04.01',
+              label: 'Node 04.01',
+              avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
+            },
+            {
+              key: 'KEY: Node 04.02',
+              label: 'Node 04.02',
+              icon: 'alarm',
+              iconColor: 'red'
+            },
+            {
+              key: 'KEY: Node 04.03',
+              label: 'Node 04.03'
+            }
+          ]
+        },
+        {
+          key: 'KEY: Node 05',
+          label: 'Node 05',
+          icon: 'alarm',
+          iconColor: 'red',
+          subnodes: [
+            {
+              key: 'KEY: Node 05.01',
+              label: 'Node 05.01',
+              avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
+            },
+            {
+              key: 'KEY: Node 05.02',
+              label: 'Node 05.02',
+              icon: 'alarm',
+              iconColor: 'red'
+            },
+            {
+              key: 'KEY: Node 05.03',
+              label: 'Node 05.03'
+            }
+          ]
+        },
+        {
+          key: 'KEY: Node 06',
+          label: 'Node 06',
+          subnodes: [
+            {
+              key: 'KEY: Node 06.01',
+              label: 'Node 06.01',
+              avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
+            },
+            {
+              key: 'KEY: Node 06.02',
+              label: 'Node 06.02',
+              icon: 'alarm',
+              iconColor: 'red'
+            },
+            {
+              key: 'KEY: Node 06.03',
+              label: 'Node 06.03'
+            }
+          ]
+        },
+        {
           key: 'KEY: Node 1 - filter',
           label: 'Node 1 - filter',
           icon: 'alarm',
