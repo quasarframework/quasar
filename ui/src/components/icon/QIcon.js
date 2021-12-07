@@ -6,7 +6,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 
-const mRE = /^[Mm] ?\d/
+const mRE = /^[Mm][ ?\d|.]/
 const faLaRE = /^[lf]a[srlbdk]? /
 
 export default Vue.extend({
@@ -104,7 +104,7 @@ export default Vue.extend({
 
       let content = ' '
 
-      if (/^[lf]a[srlbdk]? /.test(icon) || icon.startsWith('icon-') === true) {
+      if (faLaRE.test(icon) || icon.startsWith('icon-') === true) {
         cls = icon
       }
       else if (icon.startsWith('bt-') === true) {
