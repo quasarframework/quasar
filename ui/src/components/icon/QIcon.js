@@ -6,7 +6,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 
-const mRE = /^[Mm]/
+const mRE = /^[Mm] ?\d/
 const faLaRE = /^[lf]a[srlbdk]? /
 
 export default Vue.extend({
@@ -63,7 +63,7 @@ export default Vue.extend({
         }
       }
 
-      if (mRE.test(icon) === true && !icon.startsWith('mdi')) {
+      if (mRE.test(icon) === true) {
         const [ def, viewBox ] = icon.split('|')
 
         return {
