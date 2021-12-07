@@ -6,6 +6,9 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 
+const mRE = /^[Mm]/
+const faLaRE = /^[lf]a[srlbdk]? /
+
 export default Vue.extend({
   name: 'QIcon',
 
@@ -60,7 +63,7 @@ export default Vue.extend({
         }
       }
 
-      if (icon.startsWith('M') === true) {
+      if (mRE.test(icon) === true && !icon.startsWith('mdi')) {
         const [ def, viewBox ] = icon.split('|')
 
         return {
@@ -101,7 +104,7 @@ export default Vue.extend({
 
       let content = ' '
 
-      if (/^[l|f]a[s|r|l|b|d]{0,1} /.test(icon) || icon.startsWith('icon-') === true) {
+      if (/^[lf]a[srlbdk]? /.test(icon) || icon.startsWith('icon-') === true) {
         cls = icon
       }
       else if (icon.startsWith('bt-') === true) {

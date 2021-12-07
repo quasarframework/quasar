@@ -17,6 +17,21 @@
       </q-icon>
 
       <q-icon name="android" size="5rem" />
+
+      <div>
+        3 types on SVG
+        <!-- This is the raw SVG -->
+        <q-icon color="secondary" size="5rem">
+          <svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 4)"><path d="m3.5 10.5-1-.0345601c-1.10193561-.0037085-2-.93261826-2-2.03456011v-5.9654399c0-1.1045695.8954305-2 2-2l10-.00245977c1.1045695 0 2 .8954305 2 2v6.00245977c0 1.1045695-.8954305 2.00000001-2 2.00000001-.0014957 0-.3348291.01234-1 .0370199"/><path d="m7.5 12.5-3-3h6z" transform="matrix(1 0 0 -1 0 22)"/></g></svg>
+        </q-icon>
+
+        <!-- This one is broken, because it starts with lower-case 'm' to work. Adding 'M0 0z' to start, causes a dot -->
+        <q-icon :name="suiAirplay" size="5rem" color="primary" />
+
+        <!-- This one has special hand-added handling to make it work -->
+        <q-icon :name="suiAirplay2" size="5rem" color="accent" />
+      </div>
+
     </div>
 
     <q-option-group
@@ -83,6 +98,12 @@ import { tiFullscreen } from '@quasar/extras/themify'
 import { laAtomSolid } from '@quasar/extras/line-awesome'
 import { biBugFill } from '@quasar/extras/bootstrap-icons'
 
+// currently does not work with QIcon because it only look for capital 'M'
+const suiAirplay = 'm3.5 10.5-1-.0345601c-1.10193561-.0037085-2-.93261826-2-2.03456011v-5.9654399c0-1.1045695.8954305-2 2-2l10-.00245977c1.1045695 0 2 .8954305 2 2v6.00245977c0 1.1045695-.8954305 2.00000001-2 2.00000001-.0014957 0-.3348291.01234-1 .0370199@@fill:none;fill-rule:evenodd;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;@@translate(3 4)&&m7.5 12.5-3-3h6z@@fill:none;fill-rule:evenodd;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;@@matrix(1 0 0 -1 3 26)|0 0 21 21'
+
+// This only works if you add the '@@fill:none;stroke:none;&&' at the start, but this breaks other icon sets
+const suiAirplay2 = 'M0 0z@@fill:none;stroke:none;&&m3.5 10.5-1-.0345601c-1.10193561-.0037085-2-.93261826-2-2.03456011v-5.9654399c0-1.1045695.8954305-2 2-2l10-.00245977c1.1045695 0 2 .8954305 2 2v6.00245977c0 1.1045695-.8954305 2.00000001-2 2.00000001-.0014957 0-.3348291.01234-1 .0370199@@fill:none;fill-rule:evenodd;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;@@translate(3 4)&&M0 0zm7.5 12.5-3-3h6z@@fill:none;fill-rule:evenodd;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;@@matrix(1 0 0 -1 3 26)|0 0 21 21'
+
 function parseSet (setName, set) {
   const icons = []
   Object.keys(set).forEach(key => {
@@ -142,7 +163,9 @@ export default {
       evaPaperPlaneOutline,
       tiFullscreen,
       laAtomSolid,
-      biBugFill
+      biBugFill,
+      suiAirplay,
+      suiAirplay2
     }
   },
 
