@@ -64,6 +64,14 @@ function logError (error, config) {
 const Notifications = {
   name: 'QNotifications',
 
+  // hide App from Vue devtools
+  devtools: { hide: true },
+
+  beforeCreate () {
+    // prevent error in Vue devtools
+    this._routerRoot === void 0 && (this._routerRoot = {})
+  },
+
   created () {
     this.notifs = {}
 
