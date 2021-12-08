@@ -1,5 +1,6 @@
 import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
+import { isNumber } from '../../utils/is.js'
 
 import FormMixin from '../../mixins/form.js'
 import DarkMixin from '../../mixins/dark.js'
@@ -63,7 +64,7 @@ export const SliderMixin = {
 
     label: Boolean,
     labelAlways: Boolean,
-    markers: Boolean,
+    markers: [ Boolean, Number ],
     snap: Boolean,
 
     vertical: Boolean,
@@ -120,9 +121,13 @@ export const SliderMixin = {
       return this.max - this.min
     },
 
+    markerStep () {
+      return isNumber(this.markers) === true ? this.markers : this.computedStep
+    },
+
     markerStyle () {
       if (this.minMaxDiff !== 0) {
-        const size = 100 * this.computedStep / this.minMaxDiff
+        const size = 100 * this.markerStep / this.minMaxDiff
 
         return {
           backgroundSize: this.vertical === true

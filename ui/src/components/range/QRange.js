@@ -488,7 +488,7 @@ export default Vue.extend({
       })
     ]
 
-    this.markers === true && track.push(
+    this.markers !== false && track.push(
       h('div', {
         staticClass: `q-slider__track-markers q-slider__track-markers${this.axis} absolute-full fit`,
         style: this.markerStyle
