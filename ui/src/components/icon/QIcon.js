@@ -6,6 +6,36 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 
+const sameFn = i => i
+const ionFn = i => `ionicons ${i}`
+
+const libMap = {
+  'icon-': sameFn, // fontawesome equiv
+  'bt-': i => `bt ${i}`,
+  'eva-': i => `eva ${i}`,
+  'ion-md': ionFn,
+  'ion-ios': ionFn,
+  'ion-logo': ionFn,
+  'mdi-': i => `mdi ${i}`,
+  'iconfont ': sameFn,
+  'ti-': i => `themify-icon ${i}`,
+  'bi-': i => `bootstrap-icons ${i}`
+}
+
+const matMap = {
+  o_: '-outlined',
+  r_: '-round',
+  s_: '-sharp'
+}
+
+const libRE = new RegExp('^(' + Object.keys(libMap).join('|') + ')')
+const matRE = new RegExp('^(' + Object.keys(matMap).join('|') + ')')
+const mRE = /^[Mm]\s?[-+]?\.?\d/
+const imgRE = /^img:/
+const svgUseRE = /^svguse:/
+const ionRE = /^ion-/
+const faLaRE = /^[lf]a[srlbdk]? /
+
 export default Vue.extend({
   name: 'QIcon',
 
@@ -13,6 +43,7 @@ export default Vue.extend({
 
   props: {
     tag: {
+      type: String,
       default: 'i'
     },
 
@@ -24,9 +55,7 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      // "notranslate" class is for Google Translate
-      // to avoid tampering with Material Icons ligature font
-      return 'q-icon notranslate' +
+      return 'q-icon' +
         (this.left === true ? ' on-left' : '') +
         (this.right === true ? ' on-right' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '')
@@ -60,7 +89,7 @@ export default Vue.extend({
         }
       }
 
-      if (icon.startsWith('M') === true) {
+      if (mRE.test(icon) === true) {
         const [ def, viewBox ] = icon.split('|')
 
         return {
@@ -80,7 +109,7 @@ export default Vue.extend({
         }
       }
 
-      if (icon.startsWith('img:') === true) {
+      if (imgRE.test(icon) === true) {
         return {
           img: true,
           cls: this.classes,
@@ -88,7 +117,7 @@ export default Vue.extend({
         }
       }
 
-      if (icon.startsWith('svguse:') === true) {
+      if (svgUseRE.test(icon) === true) {
         const [ def, viewBox ] = icon.split('|')
 
         return {
@@ -100,48 +129,29 @@ export default Vue.extend({
       }
 
       let content = ' '
+      const matches = icon.match(libRE)
 
-      if (/^[l|f]a[s|r|l|b|d]{0,1} /.test(icon) || icon.startsWith('icon-') === true) {
+      if (matches !== null) {
+        cls = libMap[ matches[ 1 ] ](icon)
+      }
+      else if (faLaRE.test(icon) === true) {
         cls = icon
       }
-      else if (icon.startsWith('bt-') === true) {
-        cls = `bt ${icon}`
-      }
-      else if (icon.startsWith('eva-') === true) {
-        cls = `eva ${icon}`
-      }
-      else if (/^ion-(md|ios|logo)/.test(icon) === true) {
-        cls = `ionicons ${icon}`
-      }
-      else if (icon.startsWith('ion-') === true) {
+      else if (ionRE.test(icon) === true) {
         cls = `ionicons ion-${this.$q.platform.is.ios === true ? 'ios' : 'md'}${icon.substr(3)}`
       }
-      else if (icon.startsWith('mdi-') === true) {
-        cls = `mdi ${icon}`
-      }
-      else if (icon.startsWith('iconfont ') === true) {
-        cls = `${icon}`
-      }
-      else if (icon.startsWith('ti-') === true) {
-        cls = `themify-icon ${icon}`
-      }
-      else if (icon.startsWith('bi-') === true) {
-        cls = `bootstrap-icons ${icon}`
-      }
       else {
-        cls = 'material-icons'
+        // "notranslate" class is for Google Translate
+        // to avoid tampering with Material Icons ligature font
+        //
+        // Caution: To be able to add suffix to the class name,
+        // keep the 'material-icons' at the end of the string.
+        cls = 'notranslate material-icons'
 
-        if (icon.startsWith('o_') === true) {
+        const matches = icon.match(matRE)
+        if (matches !== null) {
           icon = icon.substring(2)
-          cls += '-outlined'
-        }
-        else if (icon.startsWith('r_') === true) {
-          icon = icon.substring(2)
-          cls += '-round'
-        }
-        else if (icon.startsWith('s_') === true) {
-          icon = icon.substring(2)
-          cls += '-sharp'
+          cls += matMap[ matches[ 1 ] ]
         }
 
         content = icon
@@ -184,14 +194,9 @@ export default Vue.extend({
       data.attrs.focusable = 'false' /* needed for IE11 */
       data.attrs.viewBox = this.type.viewBox
 
-      return h('svg', data, [
-        h('use', {
-          attrs: {
-            'xlink:href': this.type.src
-          }
-        }),
-        mergeSlot(this.type.nodes, this, 'default')
-      ])
+      return h('svg', data, mergeSlot([
+        h('use', { attrs: { 'xlink:href': this.type.src } })
+      ], this, 'default'))
     }
 
     return h(this.tag, data, mergeSlot([
