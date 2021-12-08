@@ -17,7 +17,7 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 <doc-example title="No connectors" file="QTree/NoConnectors" />
 
-### Dense <q-badge align="top" color="brand-primary" label="v1.16.4+" />
+### Dense <q-badge align="top" color="brand-primary" label="v1.17+" />
 
 <doc-example title="Dense" file="QTree/DenseTree" />
 
