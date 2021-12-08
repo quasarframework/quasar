@@ -10,6 +10,8 @@ import { stopAndPrevent } from '../../utils/event.js'
 import { shouldIgnoreKey } from '../../utils/key-composition.js'
 import cache from '../../utils/cache.js'
 
+const tickStrategyOptions = [ 'none', 'strict', 'leaf', 'leaf-filtered' ]
+
 export default Vue.extend({
   name: 'QTree',
 
@@ -33,6 +35,8 @@ export default Vue.extend({
       default: 'children'
     },
 
+    dense: Boolean,
+
     color: String,
     controlColor: String,
     textColor: String,
@@ -43,7 +47,7 @@ export default Vue.extend({
     tickStrategy: {
       type: String,
       default: 'none',
-      validator: v => ['none', 'strict', 'leaf', 'leaf-filtered'].includes(v)
+      validator: v => tickStrategyOptions.includes(v)
     },
     ticked: Array, // sync
     expanded: Array, // sync
@@ -71,8 +75,8 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-tree` +
-        (this.noConnectors === true ? ` q-tree--no-connectors` : '') +
+      return `q-tree q-tree--${this.dense === true ? 'dense' : 'standard'}` +
+        (this.noConnectors === true ? ' q-tree--no-connectors' : '') +
         (this.isDark === true ? ` q-tree--dark` : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '')
     },
@@ -514,13 +518,13 @@ export default Vue.extend({
 
           meta.lazy === 'loading'
             ? h(QSpinner, {
-              staticClass: 'q-tree__spinner q-mr-xs',
+              staticClass: 'q-tree__spinner',
               props: { color: this.computedControlColor }
             })
             : (
               isParent === true
                 ? h(QIcon, {
-                  staticClass: 'q-tree__arrow q-mr-xs',
+                  staticClass: 'q-tree__arrow',
                   class: { 'q-tree__arrow--rotate': meta.expanded },
                   props: { name: this.computedIcon },
                   on: {
@@ -534,7 +538,7 @@ export default Vue.extend({
 
           meta.hasTicking === true && meta.noTick !== true
             ? h(QCheckbox, {
-              staticClass: 'q-mr-xs',
+              staticClass: 'q-tree__tickbox',
               props: {
                 value: meta.indeterminate === true ? null : meta.ticked,
                 color: this.computedControlColor,

@@ -63,6 +63,11 @@
       "desc": "Color name for selected nodes (from the Quasar Color Palette)"
     },
 
+    "dense": {
+      "extends": "dense",
+      "addedIn": "v1.16.4"
+    },
+
     "dark": {
       "extends": "dark"
     },
