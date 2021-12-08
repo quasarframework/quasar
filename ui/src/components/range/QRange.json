@@ -155,8 +155,7 @@
       "examples": [
         "markers",
         ":markers=\"5\""
-      ],
-      "addedIn": "v1.17"
+      ]
     },
 
     "snap": {
