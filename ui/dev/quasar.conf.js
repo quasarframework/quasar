@@ -26,11 +26,14 @@ module.exports = function (ctx) {
     framework: {
       // iconSet: 'svg-mdi-v4',
       // config: { ripple: { early: true } },
+      config: {
+        dark: 'auto'
+      },
       importStrategy: 'all'
     },
 
     build: {
-      rtl: false,
+      rtl: true,
       vueRouterMode: 'history',
       // showProgress: false,
 
