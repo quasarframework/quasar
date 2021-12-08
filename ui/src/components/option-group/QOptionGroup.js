@@ -95,7 +95,9 @@ export default createComponent({
       class: classes.value,
       ...attrs.value
     }, props.options.map((opt, i) => {
-      // TODO: (Qv3) Make the 'opt' a separate property instead of the whole scope for consistency and flexibility (e.g. { opt } instead of opt)
+      // TODO: (Qv3) Make the 'opt' a separate property instead of
+      // the whole scope for consistency and flexibility
+      // (e.g. { opt } instead of opt)
       const child = slots[ 'label-' + i ] !== void 0
         ? () => slots[ 'label-' + i ](opt)
         : (
