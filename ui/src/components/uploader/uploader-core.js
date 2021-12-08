@@ -446,6 +446,8 @@ export function getRenderer (getPlugin) {
         ? state[ key ].value
         : state[ key ]
     })
+    // TODO: (Qv3) Put the QUploader instance under `ref` property for consistency and flexibility
+    // return { ref: { ...acc, ...publicMethods } }
     return { ...acc, ...publicMethods }
   })
 
