@@ -390,12 +390,15 @@ function writeIndexDTS (apis) {
           name = name.includes(replacement) ? `[key: \`${ name }\`]` : name.includes('-') ? `'${ name }'` : name
 
           const params = definition.scope ? {
-            scope: {
-              type: 'Object',
-              required: true,
-              // Make all properties required
-              definition: transformObject(definition.scope, makeRequired)
-            }
+            // If '...self' is defined, use that as the scope
+            scope: definition.scope[ '...self' ]
+              ? { ...definition.scope[ '...self' ], required: true }
+              : {
+                  type: 'Object',
+                  required: true,
+                  // Make all properties required
+                  definition: transformObject(definition.scope, makeRequired)
+                }
           } : undefined
 
           const slot = getPropDefinition({
