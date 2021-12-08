@@ -22,7 +22,7 @@ export default {
     months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
     monthsShort: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
     headerTitle: function (date) {
-      return new Intl.DateTimeFormat('zh-hans', {
+      return new Intl.DateTimeFormat('zh-CN', {
         weekday: 'short', month: 'short', day: 'numeric'
       }).format(date)
     },

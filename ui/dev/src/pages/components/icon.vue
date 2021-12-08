@@ -1,6 +1,8 @@
 <template>
   <div class="q-layout-padding">
     <div class="q-gutter-x-md">
+      <q-toggle v-model="useMapFn" label="Use iconMapFn" />
+
       <q-icon :name="icon" class="gigi" @click="clicked" size="5rem" />
 
       <span>text</span>
@@ -17,6 +19,36 @@
       </q-icon>
 
       <q-icon name="android" size="5rem" />
+    </div>
+
+    <div class="row items-start">
+      <!-- This is the raw SVG -->
+      <q-icon color="secondary" size="5rem">
+        <svg height="21" viewBox="0 0 21 21" width="21" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 4)"><path d="m3.5 10.5-1-.0345601c-1.10193561-.0037085-2-.93261826-2-2.03456011v-5.9654399c0-1.1045695.8954305-2 2-2l10-.00245977c1.1045695 0 2 .8954305 2 2v6.00245977c0 1.1045695-.8954305 2.00000001-2 2.00000001-.0014957 0-.3348291.01234-1 .0370199"/><path d="m7.5 12.5-3-3h6z" transform="matrix(1 0 0 -1 0 22)"/></g></svg>
+      </q-icon>
+
+      <!-- This one is broken, because it starts with lower-case 'm' to work. Adding 'M0 0z' to start, causes a dot -->
+      <q-icon :name="suiAirplay" size="5rem" color="primary" />
+
+      <!-- This one has special hand-added handling to make it work -->
+      <q-icon :name="suiAirplay2" size="5rem" color="accent" />
+
+      <!-- Testing for 'M.' -->
+      <q-icon :name="oiBatteryEmpty" size="5rem" />
+
+      <q-space />
+
+      <q-expansion-item
+        class="absolute bg-white"
+        style="right: 16px; width: 300px; z-index: 1; border: 2px solid #ccc"
+        label="RE tests for SVG"
+        :caption="`${testSvgReTexts.filter(t => t.status === 'OK').length} / ${testSvgReTexts.length} OK`"
+      >
+        <div v-for="test in testSvgReTexts" :key="test.text" class="q-px-md row no-wrap items-center justify-between">
+          <div>{{test.text}}</div>
+          <div :class="test.class">{{test.status}}</div>
+        </div>
+      </q-expansion-item>
     </div>
 
     <q-option-group
@@ -66,7 +98,8 @@ import svgMatRoundSet from 'quasar/icon-set/svg-material-icons-round.js'
 import svgMatSharpSet from 'quasar/icon-set/svg-material-icons-sharp.js'
 import svgMdiSet from 'quasar/icon-set/svg-mdi-v6.js'
 import svgIoniconsV4Set from 'quasar/icon-set/svg-ionicons-v4.js'
-import svgIoniconsSet from 'quasar/icon-set/svg-ionicons-v5.js'
+import svgIoniconsV5Set from 'quasar/icon-set/svg-ionicons-v5.js'
+import svgIoniconsV6Set from 'quasar/icon-set/svg-ionicons-v6.js'
 import svgFontawesomeSet from 'quasar/icon-set/svg-fontawesome-v5.js'
 import svgEvaSet from 'quasar/icon-set/svg-eva-icons.js'
 import svgThemifySet from 'quasar/icon-set/svg-themify.js'
@@ -76,12 +109,24 @@ import svgBootstrapiconsSet from 'quasar/icon-set/svg-bootstrap-icons.js'
 import { matAddBox } from '@quasar/extras/material-icons'
 import { mdiAirballoon } from '@quasar/extras/mdi-v6'
 import { ionMdAirplane, ionIosAirplane } from '@quasar/extras/ionicons-v4'
+import { ionCarOutline } from '@quasar/extras/ionicons-v6'
 import { ionAirplane } from '@quasar/extras/ionicons-v5'
 import { fabGithub } from '@quasar/extras/fontawesome-v5'
 import { evaPaperPlaneOutline } from '@quasar/extras/eva-icons'
 import { tiFullscreen } from '@quasar/extras/themify'
 import { laAtomSolid } from '@quasar/extras/line-awesome'
 import { biBugFill } from '@quasar/extras/bootstrap-icons'
+
+// currently does not work with QIcon because it only look for capital 'M'
+const suiAirplay = 'm3.5 10.5-1-.0345601c-1.10193561-.0037085-2-.93261826-2-2.03456011v-5.9654399c0-1.1045695.8954305-2 2-2l10-.00245977c1.1045695 0 2 .8954305 2 2v6.00245977c0 1.1045695-.8954305 2.00000001-2 2.00000001-.0014957 0-.3348291.01234-1 .0370199@@fill:none;fill-rule:evenodd;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;@@translate(3 4)&&m7.5 12.5-3-3h6z@@fill:none;fill-rule:evenodd;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;@@matrix(1 0 0 -1 3 26)|0 0 21 21'
+
+// This only works if you add the '@@fill:none;stroke:none;&&' at the start, but this breaks other icon sets
+const suiAirplay2 = 'M0 0z@@fill:none;stroke:none;&&m3.5 10.5-1-.0345601c-1.10193561-.0037085-2-.93261826-2-2.03456011v-5.9654399c0-1.1045695.8954305-2 2-2l10-.00245977c1.1045695 0 2 .8954305 2 2v6.00245977c0 1.1045695-.8954305 2.00000001-2 2.00000001-.0014957 0-.3348291.01234-1 .0370199@@fill:none;fill-rule:evenodd;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;@@translate(3 4)&&M0 0zm7.5 12.5-3-3h6z@@fill:none;fill-rule:evenodd;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;@@matrix(1 0 0 -1 3 26)|0 0 21 21'
+
+// test for 'M.'
+const oiBatteryEmpty = 'M.09 0c-.06 0-.09.04-.09.09v5.81c0 .05.04.09.09.09h6.81c.05 0 .09-.04.09-.09v-1.91h1v-2h-1v-1.91c0-.06-.04-.09-.09-.09h-6.81zm.91 1h5v4h-5v-4z@@@@translate(0 1)|0 0 8 8'
+
+const TOP_ICON = 'add_box'
 
 function parseSet (setName, set) {
   const icons = []
@@ -100,19 +145,56 @@ function parseSet (setName, set) {
   }
 }
 
+function customIconMapFn (iconName) {
+  if (iconName === TOP_ICON) {
+    return {
+      cls: 'material-icons',
+      content: 'map'
+    }
+  }
+}
+
+const testSvgReFill = (groups, texts) => {
+  if (groups.length === 0) {
+    return texts
+  }
+
+  const [curGroup, ...restGroups] = groups
+  const curTexts = []
+  const srcTexts = Array.isArray(texts) !== true || texts.length === 0 ? [''] : texts
+
+  srcTexts.forEach(text => {
+    curGroup.forEach(char => {
+      curTexts.push(`${text}${char}`)
+    })
+  })
+
+  return testSvgReFill(restGroups, curTexts)
+}
+
+const testSvgReGroups = [
+  ['m', 'M'],
+  ['', ' '],
+  ['', '+', '-'],
+  ['', '.'],
+  ['0', '9']
+]
+const testSvgReTexts = testSvgReFill(testSvgReGroups)
+
 export default {
   created () {
     this.iconOptions = [
       { value: '', label: 'Empty name' },
-      { value: 'add_box', label: 'A Material icon' },
+      { value: TOP_ICON, label: 'A Material icon' },
       { value: matAddBox, label: 'A Material SVG icon' },
       { value: 'o_add_box', label: 'A Material Outlined icon' },
       { value: 'r_add_box', label: 'A Material Round icon' },
       { value: 's_add_box', label: 'A Material Sharp icon' },
-      { value: 'mdi-bug', label: 'A MDI v6 icon' },
+      { value: 'mdi-airballoon', label: 'A MDI v6 icon' },
       { value: mdiAirballoon, label: 'A MDI v6 SVG icon' },
       { value: 'fab fa-github', label: 'A Fontawesome icon' },
       { value: fabGithub, label: 'A Fontawesome SVG icon' },
+      { value: ionCarOutline, label: 'A SVG Ionicon v6' },
       { value: ionAirplane, label: 'A SVG Ionicon v5' },
       { value: 'ion-airplane', label: 'A Ionicon v4 (platform dependent)' },
       { value: 'ion-md-airplane', label: 'A Ionicon v4 (md)' },
@@ -128,11 +210,21 @@ export default {
       { value: 'bi-bug', label: 'A Bootstrap Icons icon' },
       { value: biBugFill, label: 'A Bootstrap Icons SVG icon' }
     ]
+
+    this.iconMapFnOrig = this.$q.iconMapFn
+
+    const mRE = /^[Mm]\s?[-+]?\.?\d/
+
+    this.testSvgReTexts = testSvgReTexts.map(text => ({
+      text,
+      ...(mRE.test(text) ? { status: 'OK', class: 'text-positive' } : { status: 'BAD', class: 'text-negative' })
+    }))
   },
 
   data () {
     return {
-      icon: 'add_box',
+      useMapFn: false,
+      icon: TOP_ICON,
       text: 'gigi',
       matAddBox,
       mdiAirballoon,
@@ -142,7 +234,10 @@ export default {
       evaPaperPlaneOutline,
       tiFullscreen,
       laAtomSolid,
-      biBugFill
+      biBugFill,
+      suiAirplay,
+      suiAirplay2,
+      oiBatteryEmpty
     }
   },
 
@@ -153,9 +248,23 @@ export default {
         mdiSet, fontawesomeSet, ioniconsV4Set, evaSet, themifySet,
         lineawesomeSet, bootstrapiconsSet,
         svgMatSet, svgMatOutlinedSet, svgMatRoundSet, svgMatSharpSet,
-        svgMdiSet, svgIoniconsV4Set, svgIoniconsSet, svgFontawesomeSet,
+        svgMdiSet, svgIoniconsV4Set, svgIoniconsV5Set, svgIoniconsV6Set, svgFontawesomeSet,
         svgEvaSet, svgThemifySet, svgLineawesomeSet, svgBootstrapiconsSet
       ].map(({ name, ...set }) => parseSet(name, set))
+    }
+  },
+
+  watch: {
+    useMapFn (val) {
+      if (val === true) {
+        this.icon = TOP_ICON
+        // Quasar.iconSet.iconMapFn = customIconMapFn
+        this.$q.iconMapFn = customIconMapFn
+      }
+      else {
+        // Quasar.iconSet.iconMapFn = null
+        this.$q.iconMapFn = this.iconMapFnOrig
+      }
     }
   },
 
@@ -163,6 +272,10 @@ export default {
     clicked () {
       console.log('clicked')
     }
+  },
+
+  beforeDestroy () {
+    this.$q.iconMapFn = this.iconMapFnOrig
   }
 }
 </script>

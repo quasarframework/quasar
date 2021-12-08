@@ -537,7 +537,7 @@ export default Vue.extend({
           },
           domProps: isSSR
             ? { innerHTML: this.value }
-            : undefined,
+            : void 0,
           on
         }
       )

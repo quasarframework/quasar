@@ -125,7 +125,7 @@ export function setHorizontalScrollPosition (scrollTarget, offset, duration) {
 
 let size
 export function getScrollbarWidth () {
-  if (size !== undefined) {
+  if (size !== void 0) {
     return size
   }
 

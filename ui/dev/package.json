@@ -17,7 +17,8 @@
     "last 3 ChromeAndroid versions",
     "last 3 FirefoxAndroid versions",
     "last 2 iOS versions",
-    "last 2 Opera versions"
+    "last 2 Opera versions",
+    "ie 11"
   ],
   "engines": {
     "node": ">= 10.18.1",

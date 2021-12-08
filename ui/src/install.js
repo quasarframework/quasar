@@ -56,7 +56,7 @@ export default function (Vue, opts = {}) {
 
   opts.directives && Object.keys(opts.directives).forEach(key => {
     const d = opts.directives[key]
-    if (d.name !== undefined && d.unbind !== void 0) {
+    if (d.name !== void 0 && d.unbind !== void 0) {
       Vue.directive(d.name, d)
     }
   })

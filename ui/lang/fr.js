@@ -21,7 +21,7 @@ export default {
     daysShort: 'Dim_Lun_Mar_Mer_Jeu_Ven_Sam'.split('_'),
     months: 'Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre'.split('_'),
     monthsShort: 'Jan_Fev_Mar_Avr_Mai_Juin_Jui_Aou_Sep_Oct_Nov_Dec'.split('_'),
-    headerTitle: function (date, model) {
+    headerTitle: function (date) {
       return new Intl.DateTimeFormat('fr', {
         weekday: 'short', day: 'numeric', month: 'short'
       }).format(date)

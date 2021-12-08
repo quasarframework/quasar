@@ -19,30 +19,32 @@ module.exports = {
     'vue'
   ],
   globals: {
-    'cordova': true,
-    '__THEME__': true,
-    '__statics': true
+    cordova: true,
+    __THEME__: true,
+    __statics: true
   },
   // add your custom rules here
-  'rules': {
-    'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],
+  rules: {
+    'brace-style': [ 2, 'stroustrup', { allowSingleLine: true } ],
     'prefer-const': 2,
+    'no-undefined': 2,
+    'no-void': 0,
 
-    'vue/max-attributes-per-line': 'off',
-    'vue/valid-v-for': 'off',
-    'vue/require-default-prop': 'off',
-    'vue/require-prop-types': 'off',
-    'vue/require-v-for-key': 'off',
-    'vue/return-in-computed-property': 'off',
-    'vue/require-render-return': 'off',
-    'vue/singleline-html-element-content-newline': 'off',
-    'vue/no-side-effects-in-computed-properties': 'off',
-    'vue/array-bracket-spacing': 'off',
-    'vue/object-curly-spacing': 'off',
-    'vue/script-indent': 'off',
+    'vue/max-attributes-per-line': 0,
+    'vue/valid-v-for': 0,
+    'vue/require-default-prop': 0,
+    'vue/require-prop-types': 0,
+    'vue/require-v-for-key': 0,
+    'vue/return-in-computed-property': 0,
+    'vue/require-render-return': 0,
+    'vue/singleline-html-element-content-newline': 0,
+    'vue/no-side-effects-in-computed-properties': 0,
+    'vue/array-bracket-spacing': 0,
+    'vue/object-curly-spacing': 0,
+    'vue/script-indent': 0,
 
     // allow async-await
-    'generator-star-spacing': 'off',
+    'generator-star-spacing': 0,
 
     // allow paren-less arrow functions
     'arrow-parens': 0,
