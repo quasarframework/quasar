@@ -92,8 +92,7 @@
       "examples": [
         "markers",
         ":markers=\"5\""
-      ],
-      "addedIn": "v1.16.4"
+      ]
     },
 
     "snap": {
