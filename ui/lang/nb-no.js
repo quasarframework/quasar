@@ -30,14 +30,16 @@ export default {
     noResults: 'Ingen treff i data funnet',
     loading: 'Laster...',
     row: 'rad',
-    selectedRecords: rows => (
-      rows > 0
+    selectedRecords: function (rows) {
+      return rows > 0
         ? rows + ' row' + (rows === 1 ? '' : 's') + ' valgt.'
         : 'Ingen valgte rader.'
-    ),
+    },
     recordsPerPage: 'Rader pr side:',
     allRows: 'Alle',
-    pagination: (start, end, total) => start + '-' + end + ' av ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' av ' + total
+    },
     columns: 'Kolonner'
   },
   editor: {

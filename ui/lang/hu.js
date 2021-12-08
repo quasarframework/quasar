@@ -29,14 +29,16 @@ export default {
     noData: 'Nincs elérhető adat',
     noResults: 'Nincsenek egyező találatok',
     loading: 'Betöltés...',
-    selectedRecords: rows => (
-      rows === 1
+    selectedRecords: function (rows) {
+      return rows === 1
         ? '1 kiválasztott elem.'
         : (rows === 0 ? 'Nincs' : rows) + ' kiválasztott elem.'
-    ),
+    },
     recordsPerPage: 'Elemek száma oldalanként:',
     allRows: 'Összes',
-    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' / ' + total
+    },
     columns: 'Oszlopok'
   },
   editor: {

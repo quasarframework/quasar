@@ -29,14 +29,16 @@ export default {
     noData: 'Nu sunt date disponibile',
     noResults: 'Nu am găsit înregistrări care să corespundă',
     loading: 'Se încarcă...',
-    selectedRecords: rows => (
-      rows > 1
+    selectedRecords: function (rows) {
+      return rows > 1
         ? rows + ' înregistrări selectate.'
         : (rows === 0 ? 'Nici o' : '1') + ' înregistrare selectată.'
-    ),
+    },
     recordsPerPage: 'Înregistrări pe pagină:',
     allRows: 'Toate',
-    pagination: (start, end, total) => start + '-' + end + ' din ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' din ' + total
+    },
     columns: 'Coloane'
   },
   editor: {

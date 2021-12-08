@@ -29,14 +29,16 @@ export default {
     noData: '데이터가 없습니다.',
     noResults: '결과가 없습니다.',
     loading: '로드 중...',
-    selectedRecords: rows => (
-      rows > 0
+    selectedRecords: function (rows) {
+      return rows > 0
         ? rows + ' 개가 선택 되었습니다.'
         : '선택된 항목이 없습니다.'
-    ),
+    },
     recordsPerPage: '페이지 당 개수:',
     allRows: '전체',
-    pagination: (start, end, total) => total + ' 중 ' + start + '-' + end,
+    pagination: function (start, end, total) {
+      return total + ' 중 ' + start + '-' + end
+    },
     columns: '열'
   },
   editor: {

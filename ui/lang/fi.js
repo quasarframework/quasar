@@ -34,10 +34,16 @@ export default {
     noData: 'Ei tietoja',
     noResults: 'Ei tuloksia',
     loading: 'Ladataan...',
-    selectedRecords: rows => (rows === 1 ? '1 rivi valittu.' : rows + ' riviä valittu.'),
+    selectedRecords: function (rows) {
+      return rows === 1
+        ? '1 rivi valittu.'
+        : rows + ' riviä valittu.'
+    },
     recordsPerPage: 'Rivejä sivulla:',
     allRows: 'Kaikki',
-    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' / ' + total
+    },
     columns: 'Sarakkeet'
   },
   editor: {

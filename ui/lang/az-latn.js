@@ -29,14 +29,16 @@ export default {
     noData: 'Məlumat yoxdur',
     noResults: 'Uyğun məlumat tapılmadı',
     loading: 'Yüklənir...',
-    selectedRecords: rows => (
-      rows === 1
+    selectedRecords: function (rows) {
+      return rows === 1
         ? '1 record selected.'
         : (rows === 0 ? 'No' : rows) + ' seçilmiş məlumat.'
-    ),
+    },
     recordsPerPage: 'Hər səhifədəki məlumat:',
     allRows: 'Bütün',
-    pagination: (start, end, total) => start + '-' + end + ' cəmi ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' cəmi ' + total
+    },
     columns: 'Sütun'
   },
   editor: {

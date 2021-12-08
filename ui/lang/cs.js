@@ -30,7 +30,7 @@ export default {
     noData: 'Žádná data k dispozici',
     noResults: 'Nebyly nalezeny žádné odpovídající záznamy',
     loading: 'Načítá se...',
-    selectedRecords: rows => {
+    selectedRecords: function (rows) {
       switch (rows) {
         case 0:
           return 'Nejsou vybrány žádné řádky.'
@@ -47,7 +47,9 @@ export default {
     },
     recordsPerPage: 'Počet řádků na stránku:',
     allRows: 'Všechny',
-    pagination: (start, end, total) => start + '-' + end + ' z ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' z ' + total
+    },
     columns: 'Sloupce'
   },
   editor: {

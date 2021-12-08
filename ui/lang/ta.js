@@ -29,14 +29,16 @@ export default {
     noData: 'தரவு எதுவும் கிடைக்கவில்லை',
     noResults: 'பொருந்தும் பதிவுகள் எதுவும் கிடைக்கவில்லை',
     loading: 'ஏற்றுகிறது...',
-    selectedRecords: rows => (
-      rows === 1
+    selectedRecords: function (rows) {
+      return rows === 1
         ? '1 பதிவு தேர்ந்தெடுக்கப்பட்டது.'
         : (rows === 0 ? '0' : rows) + ' பதிவு தேர்ந்தெடுக்கப்பட்டது.'
-    ),
+    },
     recordsPerPage: 'ஒரு பக்கத்திற்கு பதிவுகள்:',
     allRows: 'அனைத்தும்',
-    pagination: (start, end, total) => start + '-' + end + ' மொத்தம் ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' மொத்தம் ' + total
+    },
     columns: 'பத்திகள்'
   },
   editor: {

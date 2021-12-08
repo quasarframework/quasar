@@ -29,14 +29,16 @@ export default {
     noData: 'Nav datu',
     noResults: 'Ieraksti nav atrasti',
     loading: 'Atjaunojas...',
-    selectedRecords: rows => (
-      rows === 1
+    selectedRecords: function (rows) {
+      return rows === 1
         ? '1 izvēlēta rinda.'
         : (rows === 0 ? 'Nav' : rows) + ' izvēlētas rindas.'
-    ),
+    },
     recordsPerPage: 'Rindas lapā:',
     allRows: 'Visas',
-    pagination: (start, end, total) => start + '-' + end + ' no ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' no ' + total
+    },
     columns: 'Kolonnas'
   },
   editor: {

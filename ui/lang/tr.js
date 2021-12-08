@@ -29,10 +29,14 @@ export default {
     noData: 'Veri yok',
     noResults: 'Uyuşan kayıt bulunamadı',
     loading: 'Yükleniyor...',
-    selectedRecords: rows => rows + ' seçili kayıt.',
+    selectedRecords: function (rows) {
+      return rows + ' seçili kayıt.'
+    },
     recordsPerPage: 'Sayfa başına kayıt:',
     allRows: 'Tümü',
-    pagination: (start, end, total) => start + '-' + end + ' toplam ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' toplam ' + total
+    },
     columns: 'Sütunlar'
   },
   editor: {

@@ -29,14 +29,16 @@ export default {
     noData: 'Ingen data tillgänglig',
     noResults: 'Inget resultat matchar',
     loading: 'Laddar...',
-    selectedRecords: rows => (
-      rows === 1
+    selectedRecords: function (rows) {
+      return rows === 1
         ? '1 vald rad.'
         : (rows === 0 ? 'Inga' : rows) + ' valda rader.'
-    ),
+    },
     recordsPerPage: 'Rader per sida:',
     allRows: 'Alla',
-    pagination: (start, end, total) => start + '-' + end + ' av ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' av ' + total
+    },
     columns: 'Kolumner'
   },
   editor: {

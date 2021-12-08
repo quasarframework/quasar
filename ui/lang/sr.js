@@ -29,14 +29,16 @@ export default {
     noData: 'Nema podataka',
     noResults: 'Nema odgovarajućih zapisa',
     loading: 'Učitavanje...',
-    selectedRecords: rows => (
-      rows > 1
+    selectedRecords: function (rows) {
+      return rows > 1
         ? rows + ' izabranih redova.'
         : (rows === 0 ? 'Nema' : '1') + ' izabranih redova.'
-    ),
+    },
     recordsPerPage: 'Redova po stranici:',
     allRows: 'Sve',
-    pagination: (start, end, total) => start + '-' + end + ' od ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' od ' + total
+    },
     columns: 'Kolone'
   },
   editor: {
@@ -56,14 +58,14 @@ export default {
     center: 'Centrirati',
     right: 'Poravnati udesno',
     justify: 'Poravnati obostrano',
-    print: 'Štampa',
+    print: 'Ispis',
     outdent: 'Smanjiti uvlačenje',
     indent: 'Povećati uvlačenje',
     removeFormat: 'Ukloniti formatiranje',
     formatting: 'Formatirati',
     fontSize: 'Veličina slova',
     align: 'Poravnati',
-    hr: 'Ubaciti horizontalnu liniju',
+    hr: 'Ubaciti vodoravni lenjir',
     undo: 'Poništiti',
     redo: 'Vratiti',
     heading1: 'Naslov 1',
@@ -72,14 +74,14 @@ export default {
     heading4: 'Naslov 4',
     heading5: 'Naslov 5',
     heading6: 'Naslov 6',
-    paragraph: 'Paragraf',
+    paragraph: 'Odlomak',
     code: 'Kod',
     size1: 'Najmanje',
     size2: 'Manje',
     size3: 'Normalno',
     size4: 'Srednje Veliko',
     size5: 'Veliko',
-    size6: 'Veće',
+    size6: 'Već',
     size7: 'Najveće',
     defaultFont: 'Podrazumevani font',
     viewSource: 'Pogledaj izvor'

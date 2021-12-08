@@ -30,14 +30,16 @@ export default {
     noData: 'לא נמצאו נתונים',
     noResults: 'לא נמצאו תוצאות רלוונטיות',
     loading: 'טוען...',
-    selectedRecords: rows => (
-      rows === 1
+    selectedRecords: function (rows) {
+      return rows === 1
         ? 'נבחרה שורה אחת.'
         : (rows === 0 ? 'לא' : rows) + ' שורות נבחרו'
-    ),
+    },
     recordsPerPage: 'שורות בעמוד:',
     allRows: 'הכל',
-    pagination: (start, end, total) => start + '-' + end + ' מתוך ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' מתוך ' + total
+    },
     columns: 'עמודות'
   },
   editor: {

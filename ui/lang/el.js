@@ -29,14 +29,16 @@ export default {
     noData: 'Χωρίς δεδομένα',
     noResults: 'Δεν βρέθηκαν αποτελέσματα',
     loading: 'Φόρτωση...',
-    selectedRecords: rows => (
-      rows === 1
+    selectedRecords: function (rows) {
+      return rows === 1
         ? '1 επιλεγμένη εγγραφή.'
         : (rows === 0 ? 'Καμμία' : rows) + ' επιλεγμένες εγγραφές.'
-    ),
+    },
     recordsPerPage: 'Εγγραφές ανα σελίδα:',
     allRows: 'Όλες',
-    pagination: (start, end, total) => start + '-' + end + ' από ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' από ' + total
+    },
     columns: 'Στήλες'
   },
   editor: {

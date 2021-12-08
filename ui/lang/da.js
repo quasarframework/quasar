@@ -29,14 +29,16 @@ export default {
     noData: 'Ingen data tilgængelig',
     noResults: 'Ingen matchende resultater fundet',
     loading: 'Indlæser...',
-    selectedRecords: rows => (
-      rows === 1
+    selectedRecords: function (rows) {
+      return rows === 1
         ? '1 række valgt.'
         : (rows === 0 ? 'Ingen' : rows) + ' rækker valgt.'
-    ),
+    },
     recordsPerPage: 'Rækker per side:',
     allRows: 'Alle',
-    pagination: (start, end, total) => start + '-' + end + ' af ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' af ' + total
+    },
     columns: 'Kolonner'
   },
   editor: {

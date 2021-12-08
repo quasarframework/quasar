@@ -29,14 +29,16 @@ export default {
     noData: 'ไม่มีข้อมูล',
     noResults: 'ไม่มีผลลัพธ์',
     loading: 'กำลังโหลด...',
-    selectedRecords: rows => (
-      rows > 0
+    selectedRecords: function (rows) {
+      return rows > 0
         ? 'เลือกทั้งหมด ' + rows + ' แถว'
         : 'ไม่มีแถวที่ถูกเลือก'
-    ),
+    },
     recordsPerPage: 'แถวต่อหน้า:',
     allRows: 'แถวทั้งหมด',
-    pagination: (start, end, total) => start + '-' + end + ' of ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' of ' + total
+    },
     columns: 'คอลัมน์'
   },
   editor: {
