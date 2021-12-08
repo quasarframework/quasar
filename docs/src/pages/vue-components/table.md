@@ -227,7 +227,7 @@ However, if you want to fully customize the content, check the example below, wh
 ## Expanding rows
 
 ::: warning
-Add unique (distinct) `key` on QTr if you generate more than one QTr from a row in data.
+Add unique (distinct) `key` on QTh if you generate more than one QTr from a row in data.
 :::
 
 <doc-example title="Internal expansion model" file="QTable/ExpandedRowInternal" />
