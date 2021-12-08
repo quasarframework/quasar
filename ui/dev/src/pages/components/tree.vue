@@ -106,7 +106,7 @@ export default {
     selectableNodes (v) {
       this.selected = v
         ? this.selected || null
-        : undefined
+        : void 0
     }
   },
   data () {

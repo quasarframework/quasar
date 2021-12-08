@@ -111,7 +111,7 @@ function set (key, val, opts = {}, ssr) {
 
     if (expire !== void 0 && expireValue < 0) {
       const val = get(key, ssr)
-      if (val !== undefined) {
+      if (val !== void 0) {
         all = all
           .replace(`${key}=${val}; `, '')
           .replace(`; ${key}=${val}`, '')

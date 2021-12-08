@@ -59,7 +59,7 @@ typeof window !== 'undefined' && (function (window) {
     Object.defineProperty(Object, 'assign', {
       value: function assign (target, varArgs) { // .length of function is 2
         'use strict'
-        if (target === null || target === undefined) {
+        if (target === null || target === void 0) {
           throw new TypeError('Cannot convert undefined or null to object')
         }
 
@@ -67,7 +67,7 @@ typeof window !== 'undefined' && (function (window) {
 
         for (var index = 1; index < arguments.length; index++) {
           var nextSource = arguments[index]
-          if (nextSource !== null && nextSource !== undefined) {
+          if (nextSource !== null && nextSource !== void 0) {
             for (var nextKey in nextSource) {
               // Avoid bugs when hasOwnProperty is shadowed
               if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
@@ -302,7 +302,7 @@ function setAsap(asapFn) {
   asap = asapFn;
 }
 
-var browserWindow = typeof window !== 'undefined' ? window : undefined;
+var browserWindow = typeof window !== 'undefined' ? window : void 0;
 var browserGlobal = browserWindow || {};
 var BrowserMutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
 var isNode = typeof self === 'undefined' && typeof process !== 'undefined' && {}.toString.call(process) === '[object process]';
@@ -367,8 +367,8 @@ function flush() {
 
     callback(arg);
 
-    queue[i] = undefined;
-    queue[i + 1] = undefined;
+    queue[i] = void 0;
+    queue[i + 1] = void 0;
   }
 
   len = 0;
@@ -392,7 +392,7 @@ if (isNode) {
   scheduleFlush = useMutationObserver();
 } else if (isWorker) {
   scheduleFlush = useMessageChannel();
-} else if (browserWindow === undefined && typeof require === 'function') {
+} else if (browserWindow === void 0 && typeof require === 'function') {
   scheduleFlush = attemptVertx();
 } else {
   scheduleFlush = useSetTimeout();
@@ -403,7 +403,7 @@ function then(onFulfillment, onRejection) {
 
   var child = new this.constructor(noop);
 
-  if (child[PROMISE_ID] === undefined) {
+  if (child[PROMISE_ID] === void 0) {
     makePromise(child);
   }
 
@@ -536,7 +536,7 @@ function handleOwnThenable(promise, thenable) {
   } else if (thenable._state === REJECTED) {
     reject(promise, thenable._result);
   } else {
-    subscribe(thenable, undefined, function (value) {
+    subscribe(thenable, void 0, function (value) {
       return resolve(promise, value);
     }, function (reason) {
       return reject(promise, reason);
@@ -551,7 +551,7 @@ function handleMaybeThenable(promise, maybeThenable, then$$1) {
     if (then$$1 === TRY_CATCH_ERROR) {
       reject(promise, TRY_CATCH_ERROR.error);
       TRY_CATCH_ERROR.error = null;
-    } else if (then$$1 === undefined) {
+    } else if (then$$1 === void 0) {
       fulfill(promise, maybeThenable);
     } else if (isFunction(then$$1)) {
       handleForeignThenable(promise, maybeThenable, then$$1);
@@ -712,8 +712,8 @@ function nextId() {
 
 function makePromise(promise) {
   promise[PROMISE_ID] = id++;
-  promise._state = undefined;
-  promise._result = undefined;
+  promise._state = void 0;
+  promise._result = void 0;
   promise._subscribers = [];
 }
 
@@ -805,7 +805,7 @@ var Enumerator = function () {
   Enumerator.prototype._willSettleAt = function _willSettleAt(promise, i) {
     var enumerator = this;
 
-    subscribe(promise, undefined, function (value) {
+    subscribe(promise, void 0, function (value) {
       return enumerator._settledAt(FULFILLED, i, value);
     }, function (reason) {
       return enumerator._settledAt(REJECTED, i, reason);
@@ -1106,7 +1106,7 @@ function needsNew() {
 var Promise$2 = function () {
   function Promise(resolver) {
     this[PROMISE_ID] = nextId();
-    this._result = this._state = undefined;
+    this._result = this._state = void 0;
     this._subscribers = [];
 
     if (noop !== resolver) {
