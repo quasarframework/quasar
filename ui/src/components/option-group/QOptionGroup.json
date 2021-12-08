@@ -115,7 +115,7 @@
           "__exemption": [ "examples" ]
         }
       },
-      "addedIn": "v1.16.4"
+      "addedIn": "v1.17"
     },
 
     "label-[name]": {
@@ -127,7 +127,7 @@
           "__exemption": [ "examples" ]
         }
       },
-      "addedIn": "v1.16.4"
+      "addedIn": "v1.17"
     }
   },
 
