@@ -29,7 +29,7 @@ const matMap = {
 
 const libRE = new RegExp('^(' + Object.keys(libMap).join('|') + ')')
 const matRE = new RegExp('^(' + Object.keys(matMap).join('|') + ')')
-const mRE = /^[Mm] ?\d/
+const mRE = /^[Mm]\s?[-+]?\.?\d/
 const imgRE = /^img:/
 const svgUseRE = /^svguse:/
 const ionRE = /^ion-/
