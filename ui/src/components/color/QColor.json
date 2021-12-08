@@ -75,7 +75,7 @@
       "type": "Boolean",
       "desc": "Do not render header tabs (only the input)",
       "category": "content",
-      "addedIn": "v1.16.4"
+      "addedIn": "v1.17"
     },
 
     "no-footer": {
