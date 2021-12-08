@@ -51,6 +51,7 @@ export default Vue.extend({
     noRouteDismiss: Boolean,
     noRefocus: Boolean,
     noFocus: Boolean,
+    noShake: Boolean,
 
     seamless: Boolean,
 
@@ -198,7 +199,7 @@ export default Vue.extend({
       EscapeKey.register(this, () => {
         if (this.seamless !== true) {
           if (this.persistent === true || this.noEscDismiss === true) {
-            this.maximized !== true && this.shake()
+            this.maximized !== true && this.noShake !== true && this.shake()
           }
           else {
             this.$emit('escape-key')
@@ -316,7 +317,7 @@ export default Vue.extend({
       if (this.persistent !== true && this.noBackdropDismiss !== true) {
         this.hide(e)
       }
-      else {
+      else if (this.noShake !== true) {
         this.shake()
       }
     },
