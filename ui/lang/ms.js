@@ -29,16 +29,14 @@ export default {
     noData: 'Tiada data tersedia',
     noResults: 'Tiada rekod sepadan yang dijumpai',
     loading: 'Sedang dalam proses..',
-    selectedRecords: function (rows) {
-      return rows > 1
+    selectedRecords: rows => (
+      rows > 1
         ? rows + ' rekod terpilih.'
         : (rows === 0 ? 'tiada' : '1') + ' rekod terpilih.'
-    },
+    ),
     recordsPerPage: 'Rekod per halaman:',
     allRows: 'Semua',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' dari ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' dari ' + total,
     columns: 'Kolum'
   },
   editor: {

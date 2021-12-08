@@ -21,11 +21,9 @@ export default {
     daysShort: '周日_周一_周二_周三_周四_周五_周六'.split('_'),
     months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
     monthsShort: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
-    headerTitle: function (date) {
-      return new Intl.DateTimeFormat('zh-hans', {
-        weekday: 'short', month: 'short', day: 'numeric'
-      }).format(date)
-    },
+    headerTitle: date => new Intl.DateTimeFormat('zh-CN', {
+      weekday: 'short', month: 'short', day: 'numeric'
+    }).format(date),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     pluralDay: '天'
@@ -34,14 +32,10 @@ export default {
     noData: '没有可用数据',
     noResults: '找不到匹配的数据',
     loading: '正在加载...',
-    selectedRecords: function (rows) {
-      return '已选择' + rows + '行'
-    },
+    selectedRecords: rows => '已选择' + rows + '行',
     recordsPerPage: '每页的行数:',
     allRows: '全部',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' / ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
     columns: '列'
   },
   editor: {

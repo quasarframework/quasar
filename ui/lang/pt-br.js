@@ -29,16 +29,14 @@ export default {
     noData: 'Sem dados disponíveis',
     noResults: 'Nenhum dado correspondente encontrado',
     loading: 'Carregando...',
-    selectedRecords: function (rows) {
-      return rows > 0
+    selectedRecords: rows => (
+      rows > 0
         ? rows + ' registro' + (rows === 1 ? ' selecionado' : 's selecionados') + '.'
         : 'Nenhum registro selecionado.'
-    },
+    ),
     recordsPerPage: 'Registros por página:',
     allRows: 'Todos',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' de ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' de ' + total,
     columns: 'Colunas'
   },
   editor: {
