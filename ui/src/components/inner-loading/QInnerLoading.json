@@ -31,7 +31,7 @@
       "desc": "Add a label; Gets overriden when using the default slot",
       "examples": [ "Please wait..." ],
       "category": "label",
-      "addedIn": "v1.16.4"
+      "addedIn": "v1.17"
     },
 
     "label-class": {
@@ -41,7 +41,7 @@
         "text-red q-mt-xl"
       ],
       "category": "label",
-      "addedIn": "v1.16.4"
+      "addedIn": "v1.17"
     },
 
     "label-style": {
@@ -52,7 +52,7 @@
         ":label-style=\"{ color: '#ff0000' }\""
       ],
       "category": "label",
-      "addedIn": "v1.16.4"
+      "addedIn": "v1.17"
     },
 
     "transition-show": {
