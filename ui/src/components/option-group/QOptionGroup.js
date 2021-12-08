@@ -106,27 +106,37 @@ export default Vue.extend({
       class: this.classes,
       attrs: this.attrs,
       on: { ...this.qListeners }
-    }, this.options.map(opt => h('div', [
-      h(this.component, {
-        props: {
-          value: this.value,
-          val: opt.value,
-          name: opt.name === void 0 ? this.name : opt.name,
-          disable: this.disable || opt.disable,
-          label: opt.label,
-          leftLabel: opt.leftLabel === void 0 ? this.leftLabel : opt.leftLabel,
-          color: opt.color === void 0 ? this.color : opt.color,
-          checkedIcon: opt.checkedIcon,
-          uncheckedIcon: opt.uncheckedIcon,
-          dark: opt.dark || this.isDark,
-          size: opt.size === void 0 ? this.size : opt.size,
-          dense: this.dense,
-          keepColor: opt.keepColor === void 0 ? this.keepColor : opt.keepColor
-        },
-        on: cache(this, 'inp', {
-          input: this.__update
-        })
-      })
-    ])))
+    }, this.options.map((opt, i) => {
+      const child = this.$scopedSlots[ 'label-' + i ] !== void 0
+        ? this.$scopedSlots[ 'label-' + i ](opt)
+        : (
+          this.$scopedSlots.label !== void 0
+            ? this.$scopedSlots.label(opt)
+            : void 0
+        )
+
+      return h('div', [
+        h(this.component, {
+          props: {
+            value: this.value,
+            val: opt.value,
+            name: opt.name === void 0 ? this.name : opt.name,
+            disable: this.disable || opt.disable,
+            label: child === void 0 ? opt.label : void 0,
+            leftLabel: opt.leftLabel === void 0 ? this.leftLabel : opt.leftLabel,
+            color: opt.color === void 0 ? this.color : opt.color,
+            checkedIcon: opt.checkedIcon,
+            uncheckedIcon: opt.uncheckedIcon,
+            dark: opt.dark || this.isDark,
+            size: opt.size === void 0 ? this.size : opt.size,
+            dense: this.dense,
+            keepColor: opt.keepColor === void 0 ? this.keepColor : opt.keepColor
+          },
+          on: cache(this, 'inp', {
+            input: this.__update
+          })
+        }, child)
+      ])
+    }))
   }
 })
