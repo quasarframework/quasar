@@ -89,6 +89,14 @@
       <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="marker" :min="-6" :max="10" :step="2" label :left-label-value="labelLeftValue(marker.min)" :right-label-value="labelRightValue(marker.max)" snap markers />
 
       <p class="caption">
+        With Markers + Snap to Step
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ marker.min }} to {{ marker.max }}</em> &nbsp;&nbsp;(-6 to 10, step 1, markers=3)</span>
+        </span>
+      </p>
+      <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="marker" :min="-6" :max="10" :step="1" label :left-label-value="labelLeftValue(marker.min)" :right-label-value="labelRightValue(marker.max)" snap :markers="3" />
+
+      <p class="caption">
         Display Label Always
         <span class="label inline bg-secondary text-white">
           Model <span class="right-detail"><em>{{ label.min }} to {{ label.max }}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
