@@ -39,7 +39,9 @@ export default {
     noResults: 'هیچ موردی یافت نشد',
     loading: 'در حال بارگذاری ...',
     selectedRecords: function (rows) {
-      return rows === 0 ? 'رکوردی انتخاب نشده' : rows + ' رکورد انتخاب شده'
+      return rows === 0
+        ? 'رکوردی انتخاب نشده'
+        : rows + ' رکورد انتخاب شده'
     },
     recordsPerPage: 'رکورد در صفحه:',
     allRows: 'همه',
