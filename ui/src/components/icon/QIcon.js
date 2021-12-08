@@ -6,7 +6,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 
-const mRE = /^[Mm][ ?\d|.]/
+const mRE = /^[Mm]\s*[-+]?\.?\d/
 const faLaRE = /^[lf]a[srlbdk]? /
 
 export default Vue.extend({
