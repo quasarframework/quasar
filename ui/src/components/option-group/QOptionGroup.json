@@ -102,6 +102,29 @@
         "...self": {
           "type": "Object",
           "desc": "The corresponding option entry from the 'options' prop",
+          "definition": {
+            "label": {
+              "type": "String",
+              "desc": "Label to display along the component",
+              "required": true,
+              "examples": [ "Option 1", "Option 2", "Option 3" ]
+            },
+            "value": {
+              "type": "Any",
+              "desc": "Value of the option that will be used by the component model",
+              "required": true,
+              "examples": [ "op1", "op2", "op3" ]
+            },
+            "disable": {
+              "type": "Boolean",
+              "desc": "If true, the option will be disabled"
+            },
+            "...props": {
+              "type": "Any",
+              "desc": "Any other props from QToggle, QCheckbox, or QRadio",
+              "examples": [ "val=\"car\"", ":true-value=\"trueValue\"", "checked-icon=\"visibility\"" ]
+            }
+          },
           "__exemption": [ "examples" ]
         }
       },
@@ -114,6 +137,29 @@
         "...self": {
           "type": "Object",
           "desc": "The corresponding option entry from the 'options' prop",
+          "definition": {
+            "label": {
+              "type": "String",
+              "desc": "Label to display along the component",
+              "required": true,
+              "examples": [ "Option 1", "Option 2", "Option 3" ]
+            },
+            "value": {
+              "type": "Any",
+              "desc": "Value of the option that will be used by the component model",
+              "required": true,
+              "examples": [ "op1", "op2", "op3" ]
+            },
+            "disable": {
+              "type": "Boolean",
+              "desc": "If true, the option will be disabled"
+            },
+            "...props": {
+              "type": "Any",
+              "desc": "Any other props from QToggle, QCheckbox, or QRadio",
+              "examples": [ "val=\"car\"", ":true-value=\"trueValue\"", "checked-icon=\"visibility\"" ]
+            }
+          },
           "__exemption": [ "examples" ]
         }
       },
