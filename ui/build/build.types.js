@@ -48,7 +48,7 @@ const dontNarrowValues = [
 
 function convertTypeVal (type, def) {
   if (def.tsType !== void 0) {
-    return def.tsType
+    return `${ def.tsType }${ def.type === 'Array' ? '[]' : '' }`
   }
 
   if (def.values && type === 'String') {
