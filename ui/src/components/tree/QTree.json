@@ -65,7 +65,7 @@
 
     "dense": {
       "extends": "dense",
-      "addedIn": "v1.16.4"
+      "addedIn": "v1.17"
     },
 
     "dark": {
