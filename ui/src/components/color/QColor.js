@@ -61,6 +61,7 @@ export default Vue.extend({
     palette: Array,
 
     noHeader: Boolean,
+    noHeaderTabs: Boolean,
     noFooter: Boolean,
 
     square: Boolean,
@@ -228,71 +229,78 @@ export default Vue.extend({
 
   methods: {
     __getHeader (h) {
+      const child = []
+
+      this.noHeaderTabs !== true && child.push(
+        h(QTabs, {
+          class: 'q-color-picker__header-tabs',
+          props: {
+            value: this.topView,
+            dense: true,
+            align: 'justify'
+          },
+          on: cache(this, 'topVTab', {
+            input: val => { this.topView = val }
+          })
+        }, [
+          h(QTab, {
+            props: {
+              label: 'HEX' + (this.hasAlpha === true ? 'A' : ''),
+              name: 'hex',
+              ripple: false
+            }
+          }),
+
+          h(QTab, {
+            props: {
+              label: 'RGB' + (this.hasAlpha === true ? 'A' : ''),
+              name: 'rgb',
+              ripple: false
+            }
+          })
+        ])
+      )
+
+      child.push(
+        h('div', {
+          staticClass: 'q-color-picker__header-banner row flex-center no-wrap'
+        }, [
+          h('input', {
+            staticClass: 'fit',
+            domProps: { value: this.model[this.topView] },
+            attrs: this.editable !== true ? {
+              readonly: true
+            } : null,
+            on: cache(this, 'topIn', {
+              input: evt => {
+                this.__updateErrorIcon(this.__onEditorChange(evt) === true)
+              },
+              change: stop,
+              blur: evt => {
+                this.__onEditorChange(evt, true) === true && this.$forceUpdate()
+                this.__updateErrorIcon(false)
+              }
+            })
+          }),
+
+          h(QIcon, {
+            ref: 'errorIcon',
+            staticClass: 'q-color-picker__error-icon absolute no-pointer-events',
+            props: { name: this.$q.iconSet.type.negative }
+          })
+        ])
+      )
+
       return h('div', {
         staticClass: 'q-color-picker__header relative-position overflow-hidden'
       }, [
         h('div', { staticClass: 'q-color-picker__header-bg absolute-full' }),
 
         h('div', {
-          staticClass: 'q-color-picker__header-content absolute-full',
+          staticClass: 'q-color-picker__header-content',
           class: this.headerClass,
           style: this.currentBgColor
-        }, [
-          h(QTabs, {
-            props: {
-              value: this.topView,
-              dense: true,
-              align: 'justify'
-            },
-            on: cache(this, 'topVTab', {
-              input: val => { this.topView = val }
-            })
-          }, [
-            h(QTab, {
-              props: {
-                label: 'HEX' + (this.hasAlpha === true ? 'A' : ''),
-                name: 'hex',
-                ripple: false
-              }
-            }),
-
-            h(QTab, {
-              props: {
-                label: 'RGB' + (this.hasAlpha === true ? 'A' : ''),
-                name: 'rgb',
-                ripple: false
-              }
-            })
-          ]),
-
-          h('div', {
-            staticClass: 'q-color-picker__header-banner row flex-center no-wrap'
-          }, [
-            h('input', {
-              staticClass: 'fit',
-              domProps: { value: this.model[this.topView] },
-              attrs: this.editable !== true ? {
-                readonly: true
-              } : null,
-              on: cache(this, 'topIn', {
-                input: evt => {
-                  this.__updateErrorIcon(this.__onEditorChange(evt) === true)
-                },
-                change: stop,
-                blur: evt => {
-                  this.__onEditorChange(evt, true) === true && this.$forceUpdate()
-                  this.__updateErrorIcon(false)
-                }
-              })
-            }),
-
-            h(QIcon, {
-              ref: 'errorIcon',
-              staticClass: 'q-color-picker__error-icon absolute no-pointer-events',
-              props: { name: this.$q.iconSet.type.negative }
-            })
-          ])
-        ])
+        }, child)
       ])
     },
 
