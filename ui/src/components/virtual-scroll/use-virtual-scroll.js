@@ -673,7 +673,10 @@ export function useVirtualScroll ({
   }
 
   setVirtualScrollSize()
-  const onVirtualScrollEvt = debounce(localOnVirtualScrollEvt, $q.platform.is.ios === true ? 120 : 35)
+  const onVirtualScrollEvt = debounce(
+    localOnVirtualScrollEvt,
+    $q.platform.is.ios === true ? 120 : 35
+  )
 
   onBeforeMount(() => {
     setVirtualScrollSize()
@@ -698,6 +701,7 @@ export function useVirtualScroll ({
   setOverflowAnchor !== noop && onBeforeUnmount(() => {
     const styleSheet = document.getElementById(vsId + '_ss')
     styleSheet !== null && styleSheet.remove()
+    onVirtualScrollEvt.cancel()
   })
 
   // expose public methods

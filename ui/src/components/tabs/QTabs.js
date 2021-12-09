@@ -201,7 +201,7 @@ export default createComponent({
           contentRef.value[ domProps.value.scroll ],
           Array.prototype.reduce.call(
             contentRef.value.children,
-            (acc, el) => acc + el[ domProps.value.content ],
+            (acc, el) => acc + (el[ domProps.value.content ] || 0),
             0
           )
         ),

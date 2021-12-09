@@ -103,6 +103,9 @@ export default createComponent({
         localScrollTarget.removeEventListener('scroll', updatePos, passive)
         window.removeEventListener('resize', resizeHandler, passive)
         localScrollTarget = void 0
+        setPos.cancel()
+        update.cancel()
+        resizeHandler.cancel()
       }
     }
 
