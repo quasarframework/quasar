@@ -168,7 +168,7 @@ export default function (state) {
     isDirtyModel,
     hasRules,
     hasError,
-    computedErrorMessage,
+    errorMessage,
     resetValidation
   } = useValidate(state.focused, state.innerLoading)
 
@@ -348,7 +348,7 @@ export default function (state) {
     nextTick(() => {
       resetValidation()
 
-      if (props.lazyRules !== 'ondemand' && $q.platform.is.mobile !== true) {
+      if ($q.platform.is.mobile !== true) {
         isDirtyModel.value = false
       }
     })
@@ -473,9 +473,9 @@ export default function (state) {
     let msg, key
 
     if (hasError.value === true) {
-      if (computedErrorMessage.value !== null) {
-        msg = [ h('div', { role: 'alert' }, computedErrorMessage.value) ]
-        key = `q--slot-error-${ computedErrorMessage.value }`
+      if (errorMessage.value !== null) {
+        msg = [ h('div', { role: 'alert' }, errorMessage.value) ]
+        key = `q--slot-error-${ errorMessage.value }`
       }
       else {
         msg = hSlot(slots.error)

@@ -2,6 +2,7 @@ import { ref, computed, watch, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import useFormChild from '../use-form-child.js'
 import { testPattern } from '../../utils/patterns.js'
+import { debounce } from '../../utils.js'
 
 const lazyRulesValues = [ true, false, 'ondemand' ]
 
@@ -35,7 +36,8 @@ export default function (focused, innerLoading) {
   let validateIndex = 0, unwatchRules
 
   const hasRules = computed(() =>
-    props.rules !== void 0
+    props.disable !== true
+    && props.rules !== void 0
     && props.rules !== null
     && props.rules.length > 0
   )
@@ -44,7 +46,7 @@ export default function (focused, innerLoading) {
     props.error === true || innerError.value === true
   )
 
-  const computedErrorMessage = computed(() => (
+  const errorMessage = computed(() => (
     typeof props.errorMessage === 'string' && props.errorMessage.length > 0
       ? props.errorMessage
       : innerErrorMessage.value
@@ -69,15 +71,16 @@ export default function (focused, innerLoading) {
   }, { immediate: true })
 
   watch(focused, val => {
-    if (props.lazyRules !== 'ondemand') {
-      if (val === true) {
-        if (isDirtyModel.value === null) {
-          isDirtyModel.value = false
-        }
+    if (val === true) {
+      if (isDirtyModel.value === null) {
+        isDirtyModel.value = false
       }
-      else if (isDirtyModel.value === false && hasRules.value === true) {
-        isDirtyModel.value = true
-        validate()
+    }
+    else if (isDirtyModel.value === false) {
+      isDirtyModel.value = true
+
+      if (hasRules.value === true && props.lazyRules !== 'ondemand') {
+        debouncedValidate()
       }
     }
   })
@@ -88,6 +91,7 @@ export default function (focused, innerLoading) {
     isDirtyModel.value = null
     innerError.value = false
     innerErrorMessage.value = null
+    debouncedValidate.cancel()
   }
 
   /*
@@ -189,12 +193,15 @@ export default function (focused, innerLoading) {
       && props.lazyRules !== 'ondemand'
       && (isDirtyModel.value === true || (props.lazyRules !== true && changedRules !== true))
     ) {
-      validate()
+      debouncedValidate()
     }
   }
 
+  const debouncedValidate = debounce(validate, 0)
+
   onBeforeUnmount(() => {
     unwatchRules !== void 0 && unwatchRules()
+    debouncedValidate.cancel()
   })
 
   // expose public methods & props
@@ -207,7 +214,7 @@ export default function (focused, innerLoading) {
     isDirtyModel,
     hasRules,
     hasError,
-    computedErrorMessage,
+    errorMessage,
 
     validate,
     resetValidation
