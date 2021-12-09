@@ -8,6 +8,8 @@ import { getScrollTarget, getScrollHeight, getScrollPosition, setScrollPosition 
 import { listenOpts } from '../../utils/event.js'
 import { slot, uniqueSlot } from '../../utils/slot.js'
 
+const { passive } = listenOpts
+
 export default Vue.extend({
   name: 'QInfiniteScroll',
 
@@ -44,11 +46,13 @@ export default Vue.extend({
 
   watch: {
     disable (val) {
-      if (val === true) {
-        this.stop()
-      }
-      else {
-        this.resume()
+      if (val === true) { this.stop() }
+      else { this.resume() }
+    },
+
+    reverse () {
+      if (this.fetching === false && this.working === true) {
+        this.immediatePoll()
       }
     },
 
@@ -125,7 +129,7 @@ export default Vue.extend({
     resume () {
       if (this.working === false) {
         this.working = true
-        this.__scrollTarget.addEventListener('scroll', this.poll, listenOpts.passive)
+        this.__scrollTarget.addEventListener('scroll', this.poll, passive)
       }
       this.immediatePoll()
     },
@@ -134,19 +138,19 @@ export default Vue.extend({
       if (this.working === true) {
         this.working = false
         this.fetching = false
-        this.__scrollTarget.removeEventListener('scroll', this.poll, listenOpts.passive)
+        this.__scrollTarget.removeEventListener('scroll', this.poll, passive)
       }
     },
 
     updateScrollTarget () {
       if (this.__scrollTarget && this.working === true) {
-        this.__scrollTarget.removeEventListener('scroll', this.poll, listenOpts.passive)
+        this.__scrollTarget.removeEventListener('scroll', this.poll, passive)
       }
 
       this.__scrollTarget = getScrollTarget(this.$el, this.scrollTarget)
 
       if (this.working === true) {
-        this.__scrollTarget.addEventListener('scroll', this.poll, listenOpts.passive)
+        this.__scrollTarget.addEventListener('scroll', this.poll, passive)
       }
     },
 
@@ -165,10 +169,10 @@ export default Vue.extend({
 
       if (this.__scrollTarget && this.working === true) {
         if (oldPoll !== void 0) {
-          this.__scrollTarget.removeEventListener('scroll', oldPoll, listenOpts.passive)
+          this.__scrollTarget.removeEventListener('scroll', oldPoll, passive)
         }
 
-        this.__scrollTarget.addEventListener('scroll', this.poll, listenOpts.passive)
+        this.__scrollTarget.addEventListener('scroll', this.poll, passive)
       }
     }
   },
@@ -190,10 +194,20 @@ export default Vue.extend({
     this.immediatePoll()
   },
 
-  beforeDestroy () {
-    if (this.working === true) {
-      this.__scrollTarget.removeEventListener('scroll', this.poll, listenOpts.passive)
+  activated () {
+    if (this.__scrollTarget && this.__scrollPosition !== void 0) {
+      setScrollPosition(this.__scrollTarget, this.__scrollPosition)
     }
+  },
+
+  deactivated () {
+    this.__scrollPosition = this.__scrollTarget
+      ? getScrollPosition(this.__scrollTarget)
+      : void 0
+  },
+
+  beforeDestroy () {
+    this.stop()
   },
 
   render (h) {
