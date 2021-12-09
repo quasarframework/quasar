@@ -24,6 +24,14 @@ const badgePositions = [
   'bottom-left', 'bottom-right'
 ]
 
+const emptyRE = /^\s*$/
+
+function hasContent (str) {
+  return str !== void 0
+    && str !== null
+    && emptyRE.test(str) !== true
+}
+
 const notifTypes = {
   positive: {
     icon: $q => $q.iconSet.type.positive,
@@ -123,10 +131,7 @@ function getComponent ($q) {
 
         notif.meta = {
           hasMedia: Boolean(notif.spinner !== false || notif.icon || notif.avatar),
-          hasText: Boolean(
-            (notif.message !== void 0 && notif.message !== null)
-            || (notif.caption !== void 0 && notif.caption !== null)
-          )
+          hasText: hasContent(notif.message) || hasContent(notif.caption)
         }
 
         if (notif.position) {
