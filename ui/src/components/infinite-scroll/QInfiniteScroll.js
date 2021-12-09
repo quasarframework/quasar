@@ -55,17 +55,17 @@ export default createComponent({
       }
 
       const
-        scrollHeight = Math.round(getScrollHeight(localScrollTarget)),
-        scrollPosition = Math.round(getVerticalScrollPosition(localScrollTarget)),
+        scrollHeight = getScrollHeight(localScrollTarget),
+        scrollPosition = getVerticalScrollPosition(localScrollTarget),
         containerHeight = height(localScrollTarget)
 
       if (props.reverse === false) {
-        if (scrollPosition + containerHeight + props.offset >= scrollHeight) {
+        if (Math.round(scrollPosition + containerHeight + props.offset) >= Math.round(scrollHeight)) {
           trigger()
         }
       }
       else {
-        if (scrollPosition < props.offset) {
+        if (Math.round(scrollPosition) < props.offset) {
           trigger()
         }
       }
