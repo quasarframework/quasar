@@ -74,7 +74,7 @@ const objectTypes = {
   },
 
   Array: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'definition' ],
