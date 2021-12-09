@@ -330,6 +330,13 @@ export default createComponent({
       ] ]
     })
 
+    function updateBelowBreakpoint () {
+      updateLocal(belowBreakpoint, (
+        props.behavior === 'mobile'
+        || (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
+      ))
+    }
+
     watch(belowBreakpoint, val => {
       if (val === true) { // from lg to xs
         lastDesktopState = showing.value
@@ -364,14 +371,15 @@ export default createComponent({
       $layout[ newSide ].offset = offset.value
     })
 
-    watch(
-      () => $layout.totalWidth.value + props.behavior + props.breakpoint,
-      () => {
-        updateLocal(belowBreakpoint, (
-          props.behavior === 'mobile'
-          || (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
-        ))
+    watch($layout.totalWidth, () => {
+      if ($layout.isContainer.value === true || document.qScrollPrevented !== true) {
+        updateBelowBreakpoint()
       }
+    })
+
+    watch(
+      () => props.behavior + props.breakpoint,
+      updateBelowBreakpoint
     )
 
     watch($layout.isContainer, val => {
