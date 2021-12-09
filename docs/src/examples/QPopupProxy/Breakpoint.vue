@@ -3,7 +3,7 @@
     <q-input filled v-model="input" mask="date" :rules="['date']">
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
-          <q-popup-proxy :breakpoint="600">
+          <q-popup-proxy cover :breakpoint="600">
             <q-date v-model="input" />
           </q-popup-proxy>
         </q-icon>

@@ -132,7 +132,12 @@ export default {
 
       let el = document.activeElement
 
-      if (!el || el === document.body || el.tagName.toUpperCase() === 'INPUT') {
+      if (!el || el === document.body) {
+        this.focus(this.$refs.filter.$el)
+        return
+      }
+
+      if (el.tagName.toUpperCase() === 'INPUT' && op === 'nextSibling') {
         this.focus(document.querySelector('.q-item'))
         return
       }

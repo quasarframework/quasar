@@ -7,7 +7,7 @@
     </div>
 
     <q-btn icon="access_time" round color="primary">
-      <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+      <q-popup-proxy @before-show="updateProxy" cover transition-show="scale" transition-hide="scale">
         <q-time v-model="proxyTime">
           <div class="row items-center justify-end q-gutter-sm">
             <q-btn label="Cancel" color="primary" flat v-close-popup />

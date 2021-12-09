@@ -106,7 +106,7 @@ export default {
         ...val
       })
 
-      if (samePagination(this.computedPagination, newPagination)) {
+      if (samePagination(this.computedPagination, newPagination) === true) {
         if (this.isServerSide === true && forceServerRequest === true) {
           this.__sendServerRequest(newPagination)
         }

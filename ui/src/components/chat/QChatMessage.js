@@ -85,9 +85,9 @@ export default Vue.extend({
         ]
       }
 
-      const content = withSlots === true
-        ? (contentList.length > 1 ? (text => text) : (text => h('div', [ text ])))
-        : (text => h('div', { domProps: { [domPropText]: text } }))
+      const content = withSlots !== true
+        ? text => h('div', { domProps: { [domPropText]: text } })
+        : (contentList.length > 1 ? text => text : text => h('div', [ text ]))
 
       return contentList.map((msg, index) => h('div', {
         key: index,

@@ -612,19 +612,19 @@
 
         <q-card-section class="q-gutter-md">
           <q-icon size="30px" name="event" class="cursor-pointer">
-            <q-popup-proxy>
+            <q-popup-proxy cover>
               <q-date v-model="date" />
             </q-popup-proxy>
           </q-icon>
 
           <q-icon size="30px" name="colorize" class="cursor-pointer">
-            <q-popup-proxy>
+            <q-popup-proxy cover>
               <q-color v-model="color" />
             </q-popup-proxy>
           </q-icon>
 
           <q-icon size="30px" name="view_carousel" class="cursor-pointer">
-            <q-popup-proxy>
+            <q-popup-proxy cover>
               <q-carousel
                 transition-prev="slide-right"
                 transition-next="slide-left"

@@ -3,13 +3,13 @@
     <q-icon size="100px" :name="girlSvg" />
 
     <q-btn :dense="$q.screen.xs" no-caps label="Face" icon-right="colorize" color="primary">
-      <q-popup-proxy transition-show="scale" transition-hide="scale">
+      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
         <q-color v-model="colorFace" />
       </q-popup-proxy>
     </q-btn>
 
     <q-btn :dense="$q.screen.xs" no-caps label="Hair" icon-right="colorize" color="secondary">
-      <q-popup-proxy transition-show="scale" transition-hide="scale">
+      <q-popup-proxy cover transition-show="scale" transition-hide="scale">
         <q-color v-model="colorHair" />
       </q-popup-proxy>
     </q-btn>

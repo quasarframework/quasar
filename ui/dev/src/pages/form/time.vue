@@ -135,7 +135,7 @@
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="input" :mask="withSeconds ? 'fulltime' : 'time'" :rules="[withSeconds ? 'fulltime' : 'time']">
           <q-icon slot="append" name="access_time" class="cursor-pointer" @click.prevent>
-            <q-popup-proxy>
+            <q-popup-proxy cover>
               <q-time
                 v-model="input"
                 v-bind="props"
@@ -152,7 +152,7 @@
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="input2">
           <q-icon slot="append" name="access_time" class="cursor-pointer" @click.prevent>
-            <q-popup-proxy>
+            <q-popup-proxy cover>
               <q-time
                 v-model="input2"
                 mask="hh:mm A"
