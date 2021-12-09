@@ -184,7 +184,7 @@ Now let's put this plugin to some good use. If you need the information of your 
 export default {
   data () {
     return {
-      IMEI: window.device === void 0
+      imei: window.device === void 0
         ? 'Run this on a mobile/tablet device'
         : window.device
     }
