@@ -122,7 +122,11 @@ const Notifications = {
       }
 
       notif.meta = {
-        hasMedia: Boolean(notif.spinner !== false || notif.icon || notif.avatar)
+        hasMedia: Boolean(notif.spinner !== false || notif.icon || notif.avatar),
+        hasText: Boolean(
+          (notif.message !== void 0 && notif.message !== null) ||
+          (notif.caption !== void 0 && notif.caption !== null)
+        )
       }
 
       if (notif.position) {
@@ -205,6 +209,8 @@ const Notifications = {
 
         contentClass: 'q-notification__content row items-center' +
           (notif.multiLine === true ? '' : ' col'),
+
+        leftClass: notif.meta.hasText === true ? 'additional' : 'single',
 
         attrs: {
           role: 'alert',
@@ -397,42 +403,21 @@ const Notifications = {
           mode: 'out-in'
         }
       }, this.notifs[pos].map(notif => {
-        let msgChild
-
         const meta = notif.meta
-        const msgData = { staticClass: 'q-notification__message col' }
-
-        if (notif.html === true) {
-          msgData.domProps = {
-            innerHTML: notif.caption
-              ? `<div>${notif.message}</div><div class="q-notification__caption">${notif.caption}</div>`
-              : notif.message
-          }
-        }
-        else {
-          const msgNode = [ notif.message ]
-          msgChild = notif.caption
-            ? [
-              h('div', msgNode),
-              h('div', { staticClass: 'q-notification__caption' }, [ notif.caption ])
-            ]
-            : msgNode
-        }
-
         const mainChild = []
 
         if (meta.hasMedia === true) {
           if (notif.spinner !== false) {
             mainChild.push(
               h(notif.spinner, {
-                staticClass: 'q-notification__spinner'
+                staticClass: 'q-notification__spinner q-notification__spinner--' + meta.leftClass
               })
             )
           }
           else if (notif.icon) {
             mainChild.push(
               h(QIcon, {
-                staticClass: 'q-notification__icon',
+                staticClass: 'q-notification__icon q-notification__icon--' + meta.leftClass,
                 attrs: { role: 'img' },
                 props: { name: notif.icon }
               })
@@ -440,16 +425,38 @@ const Notifications = {
           }
           else if (notif.avatar) {
             mainChild.push(
-              h(QAvatar, { staticClass: 'q-notification__avatar' }, [
+              h(QAvatar, { staticClass: 'q-notification__avatar q-notification__avatar--' + meta.leftClass }, [
                 h('img', { attrs: { src: notif.avatar, 'aria-hidden': 'true' } })
               ])
             )
           }
         }
 
-        mainChild.push(
-          h('div', msgData, msgChild)
-        )
+        if (meta.hasText === true) {
+          let msgChild
+          const msgData = { staticClass: 'q-notification__message col' }
+
+          if (notif.html === true) {
+            msgData.domProps = {
+              innerHTML: notif.caption
+                ? `<div>${notif.message}</div><div class="q-notification__caption">${notif.caption}</div>`
+                : notif.message
+            }
+          }
+          else {
+            const msgNode = [ notif.message ]
+            msgChild = notif.caption
+              ? [
+                h('div', msgNode),
+                h('div', { staticClass: 'q-notification__caption' }, [notif.caption])
+              ]
+              : msgNode
+          }
+
+          mainChild.push(
+            h('div', msgData, msgChild)
+          )
+        }
 
         const child = [
           h('div', { staticClass: meta.contentClass }, mainChild)
