@@ -384,6 +384,7 @@ export default createComponent({
 
     watch($layout.isContainer, val => {
       showing.value === true && preventBodyScroll(val !== true)
+      val === true && updateBelowBreakpoint()
     })
 
     watch($layout.scrollbarWidth, () => {
