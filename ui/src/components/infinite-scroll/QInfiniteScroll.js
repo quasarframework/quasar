@@ -55,8 +55,8 @@ export default createComponent({
       }
 
       const
-        scrollHeight = getScrollHeight(localScrollTarget),
-        scrollPosition = getVerticalScrollPosition(localScrollTarget),
+        scrollHeight = Math.round(getScrollHeight(localScrollTarget)),
+        scrollPosition = Math.round(getVerticalScrollPosition(localScrollTarget)),
         containerHeight = height(localScrollTarget)
 
       if (props.reverse === false) {
