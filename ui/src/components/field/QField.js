@@ -250,14 +250,7 @@ export default Vue.extend({
   methods: {
     focus () {
       this.focusFn !== void 0 && removeFocusFn(this.focusFn)
-      this.focusFn = addFocusFn(() => {
-        if (this.showPopup !== void 0) {
-          this.showPopup()
-          return
-        }
-
-        this.__focus()
-      })
+      this.focusFn = addFocusFn(this.__focus)
     },
 
     blur () {
