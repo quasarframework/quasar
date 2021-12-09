@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { isSSR } from './Platform.js'
+import { isSSR, client } from './Platform.js'
 
 const prefixes = {}
 
@@ -18,17 +18,42 @@ function promisify (target, fn) {
   }
 }
 
+function checkActive (plugin) {
+  plugin.activeEl = document.fullscreenElement ||
+    document.mozFullScreenElement ||
+    document.webkitFullscreenElement ||
+    document.msFullscreenElement ||
+    null
+
+  plugin.isActive = plugin.activeEl !== null
+}
+
 export default {
   isCapable: false,
   isActive: false,
   activeEl: null,
 
   request (target) {
-    if (this.isCapable === true && this.isActive === false) {
+    if (this.isCapable === true) {
       const el = target || document.documentElement
-      return promisify(el, prefixes.request).then(() => {
-        this.activeEl = el
-      })
+
+      if (el !== this.activeEl) {
+        const q = client.is.ie === true && this.activeEl !== null && el.contains(this.activeEl)
+          ? this.exit()
+          : Promise.resolve()
+
+        return q
+          .then(() => promisify(el, prefixes.request))
+          .catch(error => (
+            this.activeEl !== null
+              ? this.exit().then(() => promisify(el, prefixes.request))
+              : Promise.reject(error)
+          ))
+          .then(res => {
+            checkActive(this)
+            return res
+          })
+      }
     }
 
     return this.__getErr()
@@ -36,20 +61,25 @@ export default {
 
   exit () {
     return this.isCapable === true && this.isActive === true
-      ? promisify(document, prefixes.exit).then(() => {
-        this.activeEl = null
+      ? promisify(document, prefixes.exit).then(res => {
+        checkActive(this)
+        return this.isActive ? this.exit() : res
       })
       : this.__getErr()
   },
 
   toggle (target) {
-    return this.isActive === true
+    const el = target || document.documentElement
+
+    return this.activeEl === el
       ? this.exit()
-      : this.request(target)
+      : this.request(el)
   },
 
   install ({ $q }) {
     $q.fullscreen = this
+
+    this.__getErr = () => Promise.resolve()
 
     if (isSSR === true) { return }
 
@@ -66,24 +96,19 @@ export default {
       return
     }
 
-    this.__getErr = () => Promise.resolve()
-
     prefixes.exit = [
       'exitFullscreen',
       'msExitFullscreen', 'mozCancelFullScreen', 'webkitExitFullscreen'
     ].find(exit => document[exit])
 
-    this.isActive = !!(document.fullscreenElement ||
-      document.mozFullScreenElement ||
-      document.webkitFullscreenElement ||
-      document.msFullscreenElement)
+    checkActive(this)
 
     ;[
       'onfullscreenchange',
       'onmsfullscreenchange', 'onwebkitfullscreenchange'
     ].forEach(evt => {
       document[evt] = () => {
-        this.isActive = this.isActive === false
+        checkActive(this)
       }
     })
 

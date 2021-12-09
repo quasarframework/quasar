@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-yellow-4 q-pa-md">
+  <div class="bg-yellow-4 q-pa-md column q-gutter-y-md items-center">
     <q-card flat class="bg-grey-2" ref="fullscreen">
       <q-card-section class="text-center q-pt-xl">
         <q-btn
@@ -32,6 +32,17 @@
             <q-tooltip>Tooltip</q-tooltip>
           </h4>
         </div>
+
+        <q-btn dense class="q-mx-md" icon="event" round color="primary">
+          <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+            <q-date v-model="proxyDate">
+              <div class="row items-center justify-end q-gutter-sm">
+                <q-btn label="Cancel" color="primary" flat v-close-popup />
+                <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+              </div>
+            </q-date>
+          </q-popup-proxy>
+        </q-btn>
 
         <q-btn-dropdown no-caps color="primary" class="q-mt-sm" label="Btn dropdown">
           <q-list dense>
@@ -131,11 +142,33 @@
                 color="primary"
                 @click="fullscreenNone"
               />
+
+              <q-btn dense class="q-mx-md" icon="event" round color="primary">
+                <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date v-model="proxyDate">
+                    <div class="row items-center justify-end q-gutter-sm">
+                      <q-btn label="Cancel" color="primary" flat v-close-popup />
+                      <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-btn>
             </q-card-section>
 
             <q-card-section ref="fullscreenInside1" class="bg-orange-2 q-pa-md">
               Fullscreen inside modal dialog
               <span class="text-italic">Hover here for tooltip <q-tooltip>Some tooltip</q-tooltip></span>
+
+              <q-btn dense class="q-mx-md" icon="event" round color="primary">
+                <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date v-model="proxyDate">
+                    <div class="row items-center justify-end q-gutter-sm">
+                      <q-btn label="Cancel" color="primary" flat v-close-popup />
+                      <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-btn>
             </q-card-section>
           </q-card>
         </q-dialog>
@@ -170,6 +203,17 @@
                 color="primary"
                 @click="fullscreenNone"
               />
+
+              <q-btn dense class="q-mx-md" icon="event" round color="primary">
+                <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date v-model="proxyDate">
+                    <div class="row items-center justify-end q-gutter-sm">
+                      <q-btn label="Cancel" color="primary" flat v-close-popup />
+                      <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-btn>
             </q-card-section>
 
             <q-card-section ref="fullscreenInside2" class="bg-blue-2 q-pa-md">
@@ -209,6 +253,17 @@
                       color="primary"
                       @click="fullscreenNone"
                     />
+
+                    <q-btn dense class="q-mx-md" icon="event" round color="primary">
+                      <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+                        <q-date v-model="proxyDate">
+                          <div class="row items-center justify-end q-gutter-sm">
+                            <q-btn label="Cancel" color="primary" flat v-close-popup />
+                            <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+                          </div>
+                        </q-date>
+                      </q-popup-proxy>
+                    </q-btn>
                   </q-card-section>
 
                   <q-card-section ref="fullscreenInside4" class="bg-red-2 q-pa-md">
@@ -223,8 +278,36 @@
       </q-card-section>
     </q-card>
 
+    <div ref="videoParent" class="video-player flex items-center" style="max-width: 300px">
+      <div class="relative-position col flex">
+        <video
+          ref="videoPlayer"
+          class="col"
+          src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          playsinline
+          loop
+          @click="toggleVideoPlay"
+          @dblclick="toggleVideoFullscreen"
+          @play="videoPaused = false"
+          @pause="videoPaused = true"
+        />
+
+        <div class="video-controls absolute-bottom">
+          <q-bar class="q-px-xs">
+            <q-btn flat stretch size="18px" padding="none" color="white" :icon="videoPaused ? 'play_arrow' : 'pause'" @click="toggleVideoPlay" />
+
+            <q-space />
+
+            <q-btn flat stretch size="18px" padding="none" color="white" icon="language" @click="showSimpleDialog" />
+
+            <q-btn flat stretch size="18px" padding="none" color="white" :icon="$q.fullscreen.activeEl === $refs.videoParent ? 'fullscreen_exit' : 'fullscreen'" @click="toggleVideoFullscreen" />
+          </q-bar>
+        </div>
+      </div>
+    </div>
+
     <video
-      style="width: 300px"
+      style="width: 300px;"
       src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
       controls
       playsinline
@@ -261,16 +344,60 @@
             color="primary"
             @click="fullscreenNone"
           />
+
+          <q-btn dense class="q-mx-md" icon="event" round color="primary">
+            <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+              <q-date v-model="proxyDate">
+                <div class="row items-center justify-end q-gutter-sm">
+                  <q-btn label="Cancel" color="primary" flat v-close-popup />
+                  <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-btn>
         </q-card-section>
 
         <q-card-section ref="fullscreenInside3" class="bg-green-2 q-pa-md">
           Fullscreen inside seamless dialog (outside fullscreen el)
           <span class="text-italic">Hover here for tooltip <q-tooltip>Some tooltip</q-tooltip></span>
+
+          <q-btn dense class="q-mx-md" icon="event" round color="primary">
+            <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+              <q-date v-model="proxyDate">
+                <div class="row items-center justify-end q-gutter-sm">
+                  <q-btn label="Cancel" color="primary" flat v-close-popup />
+                  <q-btn label="OK" color="primary" flat @click="save" v-close-popup />
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-btn>
         </q-card-section>
       </q-card>
     </q-dialog>
   </div>
 </template>
+
+<style lang="sass" scoped>
+.video-player
+  .video-controls
+    overflow: hidden
+
+  video
+    max-width: 100%
+    max-height: 100%
+
+  .q-bar
+    transform: translateY(100%)
+    transition: transform .3s ease-in-out 2s
+
+  &:hover
+    .q-bar
+      transform: translateY(0)
+      transition: transform .3s ease-in-out
+
+  &:fullscreen
+    overflow: hidden
+</style>
 
 <script>
 export default {
@@ -279,28 +406,28 @@ export default {
       model: null,
       options: ['Option 1', 'Option 2', 'Option 3'],
 
+      date: '2019/03/01',
+      proxyDate: '2019/03/01',
+
       dialog1: false,
       dialog2: false,
       dialog3: false,
-      dialog4: false
+      dialog4: false,
+
+      videoPaused: true
     }
   },
   methods: {
     fullscreenEl (el = this.$refs.fullscreen.$el) {
       this.$q.fullscreen
-        .exit()
+        .request(el)
         .catch(() => {})
-        .then(() => {
-          setTimeout(() => {
-            this.$q.fullscreen
-              .request(el)
-              .catch(() => {})
-          })
-        })
     },
 
     fullscreenNone () {
-      this.$q.fullscreen.exit()
+      this.$q.fullscreen
+        .exit()
+        .catch(() => {})
     },
 
     showSimpleDialog () {
@@ -350,7 +477,39 @@ export default {
           this.fullscreenNone()
         }
       })
+    },
+
+    updateProxy () {
+      this.proxyDate = this.date
+    },
+
+    save () {
+      this.date = this.proxyDate
+    },
+
+    toggleVideoPlay () {
+      this.$refs.videoPlayer[this.videoPaused ? 'play' : 'pause']()
+    },
+
+    toggleVideoFullscreen () {
+      if (this.$q.fullscreen.activeEl === this.$refs.videoParent) {
+        this.fullscreenNone()
+      }
+      else {
+        this.fullscreenEl(this.$refs.videoParent)
+      }
     }
+  },
+
+  mounted () {
+    this.notifyHide = this.$q.notify({
+      message: 'Test notification',
+      timeout: 0
+    })
+  },
+
+  beforeDestroy () {
+    this.notifyHide !== void 0 && this.notifyHide()
   }
 }
 </script>
