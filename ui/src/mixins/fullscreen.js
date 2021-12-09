@@ -51,7 +51,7 @@ export default {
       this.container.replaceChild(this.fullscreenFillerNode, this.$el)
       document.body.appendChild(this.$el)
 
-      fullscreenCounter = Math.max(1, fullscreenCounter + 1)
+      fullscreenCounter++
 
       if (fullscreenCounter === 1) {
         document.body.classList.add('q-body--fullscreen-mixin')
