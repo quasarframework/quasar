@@ -81,10 +81,8 @@ export default Vue.extend({
           this.trigger()
         }
       }
-      else {
-        if (Math.round(scrollPosition) < this.offset) {
-          this.trigger()
-        }
+      else if (Math.round(scrollPosition) < this.offset) {
+        this.trigger()
       }
     },
 
