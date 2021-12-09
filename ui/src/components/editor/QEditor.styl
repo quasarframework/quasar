@@ -17,14 +17,18 @@
     border-bottom-left-radius: inherit
     border-bottom-right-radius: inherit
     overflow: auto
+    max-width: 100%
+
     pre
       white-space: pre-wrap
+
     hr
       border: 0
       outline: 0
       margin: 1px
       height: 1px
       background: $editor-hr-color
+
     &:empty:not(:focus):before
       content: attr(placeholder)
       opacity: .7
@@ -32,6 +36,9 @@
   &__toolbar
     border-bottom: 1px solid $editor-border-color
     min-height: 32px
+
+  &__toolbars-container
+    max-width: 100%
 
   .q-btn
     margin: $editor-button-gutter
