@@ -43,7 +43,6 @@ export default Vue.extend({
       return `q-stepper q-stepper--${this.vertical === true ? 'vertical' : 'horizontal'}` +
         (this.flat === true || this.isDark === true ? ' q-stepper--flat no-shadow' : '') +
         (this.bordered === true || (this.isDark === true && this.flat === false) ? ' q-stepper--bordered' : '') +
-        (this.contracted === true ? ' q-stepper--contracted' : '') +
         (this.isDark === true ? ' q-stepper--dark q-dark' : '')
     },
 
@@ -51,6 +50,7 @@ export default Vue.extend({
       return 'q-stepper__header row items-stretch justify-between' +
         ` q-stepper__header--${this.alternativeLabels === true ? 'alternative' : 'standard'}-labels` +
         (this.flat === false || this.bordered === true ? ' q-stepper__header--border' : '') +
+        (this.contracted === true ? ' q-stepper__header--contracted' : '') +
         (this.headerClass !== void 0 ? ` ${this.headerClass}` : '')
     }
   },
