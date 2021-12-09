@@ -183,6 +183,12 @@ export default {
       avatar: 'https://cdn.quasar.dev/img/mountains.jpg'
     })
 
+    this.$q.notify({
+      type: 'positive',
+      icon: 'done',
+      timeout: 0
+    })
+
     this.$q.notify.registerType('my-error', {
       icon: 'warning',
       color: 'purple',

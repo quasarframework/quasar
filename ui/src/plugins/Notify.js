@@ -9,6 +9,8 @@ import { noop } from '../utils/event.js'
 import { getBodyFullscreenElement } from '../utils/dom.js'
 import { isSSR } from './Platform.js'
 
+const reEmpty = /^\s*$/
+
 let uid = 0
 const defaults = {}
 
@@ -123,10 +125,8 @@ const Notifications = {
 
       notif.meta = {
         hasMedia: Boolean(notif.spinner !== false || notif.icon || notif.avatar),
-        hasText: Boolean(
-          (notif.message !== void 0 && notif.message !== null) ||
-          (notif.caption !== void 0 && notif.caption !== null)
-        )
+        hasText: (notif.message !== void 0 && notif.message !== null && reEmpty.test(notif.message) !== true) ||
+          (notif.caption !== void 0 && notif.caption !== null && reEmpty.test(notif.caption) !== true)
       }
 
       if (notif.position) {
