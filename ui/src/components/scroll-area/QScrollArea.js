@@ -336,5 +336,9 @@ export default Vue.extend({
         this.$emit('scroll', info)
       }
     }, 0)
+  },
+
+  beforeDestroy () {
+    this.__emitScroll.cancel()
   }
 })
