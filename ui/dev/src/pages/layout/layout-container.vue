@@ -68,7 +68,7 @@
     </q-layout>
 
     <q-layout view="Lhh lpR fff" container style="height: 500px; width: 900px" class="q-mt-xl shadow-2">
-      <q-header class="bg-black">
+      <q-header reveal class="bg-black">
         <q-toolbar>
           <q-btn flat @click="drawer3 = !drawer3" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
@@ -76,7 +76,7 @@
         </q-toolbar>
       </q-header>
 
-      <q-footer>
+      <q-footer reveal>
         <q-toolbar>
           <q-btn flat @click="drawer3 = !drawer3" round dense icon="menu" />
           <q-toolbar-title>Footer</q-toolbar-title>
