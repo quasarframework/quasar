@@ -18,7 +18,7 @@ q-card.doc-api.q-my-lg(flat bordered)
     q-separator
 
     div.bg-grey-2.text-grey-7.flex.no-wrap
-      q-tabs.col(v-model="currentTab", active-color="brand-primary", indicator-color="brand-primary", align="left", :breakpoint="0", dense)
+      q-tabs.col-shrink(v-model="currentTab", active-color="brand-primary", indicator-color="brand-primary", align="left", :breakpoint="0", dense)
         q-tab(
           v-for="tab in tabsList"
           :key="`api-tab-${tab}`"
@@ -28,15 +28,14 @@ q-card.doc-api.q-my-lg(flat bordered)
             span.q-mr-xs.text-capitalize.text-weight-medium {{ tab }}
             q-badge(v-if="filteredApiCount[tab].overall" :label="filteredApiCount[tab].overall")
 
-      q-input.q-mx-sm(
-        v-if="$q.screen.gt.xs"
+      q-input.q-mx-sm.col(
         ref="inputRef",
         v-model="filter",
         dense,
         input-class="text-right",
         borderless,
         placeholder="Filter..."
-        style="min-width: 150px"
+        style="min-width: 6em"
       )
         template(v-slot:append)
           q-icon.cursor-pointer(

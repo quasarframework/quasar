@@ -1,3 +1,5 @@
+import { Notify } from "quasar"
+
 export function copyToClipboard (text) {
   var textArea = document.createElement('textarea')
   textArea.className = 'fixed-top'
@@ -33,7 +35,7 @@ export function copyHeading (id) {
 
   copyToClipboard(text)
 
-  this.$q.notify({
+  Notify.create({
     message: 'Anchor has been copied to clipboard.',
     color: 'white',
     textColor: 'brand-primary',

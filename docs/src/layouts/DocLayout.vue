@@ -261,7 +261,8 @@ export default {
     onScroll ({ position }) {
       if (
         this.preventTocUpdate !== true &&
-        (this.rightDrawerOnLayout === true || this.rightDrawerState !== true)
+        (this.rightDrawerOnLayout === true || this.rightDrawerState !== true) &&
+        document.documentElement.classList.contains('q-body--prevent-scroll') !== true
       ) {
         this.updateActiveToc(position)
       }
