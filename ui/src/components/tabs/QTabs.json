@@ -52,6 +52,14 @@
       "category": "content|behavior"
     },
 
+    "active-class": {
+      "type": "String",
+      "desc": "The class to be set on the active tab",
+      "examples": [ "my-active-class" ],
+      "category": "style",
+      "addedIn": "v1.17"
+    },
+
     "active-color": {
       "extends": "color",
       "desc": "The color to be attributed to the text of the active tab",
