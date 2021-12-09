@@ -99,10 +99,10 @@ export function isDeepEqual (a, b) {
       return a.toString() === b.toString()
     }
 
-    const keys = Object.keys(a)
+    const keys = Object.keys(a).filter(key => a[ key ] !== void 0)
     length = keys.length
 
-    if (length !== Object.keys(b).length) {
+    if (length !== Object.keys(b).filter(key => b[ key ] !== void 0).length) {
       return false
     }
 
