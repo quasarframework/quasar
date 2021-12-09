@@ -707,6 +707,22 @@ export default {
     this.__setVirtualScrollSize()
   },
 
+  activated () {
+    const scrollEl = this.__getVirtualScrollTarget()
+
+    if (this.prevScrollStart !== void 0 && scrollEl !== void 0 && scrollEl !== null && scrollEl.nodeType !== 8) {
+      setScroll(
+        scrollEl,
+        this.prevScrollStart,
+        this.virtualScrollHorizontal,
+        this.$q.lang.rtl
+      )
+    }
+    else {
+      this.scrollTo(this.prevToIndex)
+    }
+  },
+
   beforeMount () {
     buggyRTL === void 0 && detectBuggyRTL()
     this.__onVirtualScrollEvt = debounce(this.__onVirtualScrollEvt, this.$q.platform.is.ios === true ? 120 : 35)
