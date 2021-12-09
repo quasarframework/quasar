@@ -9,8 +9,6 @@ import { noop } from '../utils/event.js'
 import { getBodyFullscreenElement } from '../utils/dom.js'
 import { isSSR } from './Platform.js'
 
-const reEmpty = /^\s*$/
-
 let uid = 0
 const defaults = {}
 
