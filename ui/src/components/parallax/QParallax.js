@@ -103,6 +103,9 @@ export default Vue.extend({
     __stop () {
       if (this.working === true) {
         this.working = false
+        this.__setPos.cancel()
+        this.__update.cancel()
+        this.__resizeHandler.cancel()
         this.__scrollTarget.removeEventListener('scroll', this.__updatePos, passive)
         window.removeEventListener('resize', this.__resizeHandler, passive)
         this.__scrollTarget = void 0
