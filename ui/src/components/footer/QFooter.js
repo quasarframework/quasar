@@ -46,6 +46,7 @@ export default createComponent({
     const fixed = computed(() =>
       props.reveal === true
       || $layout.view.value.indexOf('F') > -1
+      || ($q.platform.is.ios && $layout.isContainer.value === true)
     )
 
     const containerHeight = computed(() => (
