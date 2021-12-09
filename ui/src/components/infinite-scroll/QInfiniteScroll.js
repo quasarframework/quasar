@@ -64,10 +64,8 @@ export default createComponent({
           trigger()
         }
       }
-      else {
-        if (Math.round(scrollPosition) < props.offset) {
-          trigger()
-        }
+      else if (Math.round(scrollPosition) <= props.offset) {
+        trigger()
       }
     }
 
