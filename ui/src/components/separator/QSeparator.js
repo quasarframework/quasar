@@ -77,7 +77,6 @@ export default Vue.extend({
 
     attrs () {
       return {
-        role: 'separator',
         'aria-orientation': this.orientation
       }
     }
