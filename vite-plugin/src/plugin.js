@@ -29,15 +29,15 @@ export default function (userOpts = {}) {
     },
 
     transform (src, id) {
-      if (jsTransformRegex.test(id) === true) {
+      if (vueTransformRegex.test(id) === true) {
         return {
-          code: jsTransform(src),
+          code: vueTransform(src, opts.autoImportComponentCase),
           map: null // provide source map if available
         }
       }
-      else if (vueTransformRegex.test(id) === true) {
+      else if (jsTransformRegex.test(id) === true) {
         return {
-          code: vueTransform(src, opts.autoImportComponentCase),
+          code: jsTransform(src),
           map: null // provide source map if available
         }
       }
