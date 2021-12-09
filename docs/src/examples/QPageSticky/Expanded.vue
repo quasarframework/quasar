@@ -21,11 +21,13 @@
         bordered
         content-class="bg-grey-3"
       >
-        <q-scroll-area class="fit">
-          <div class="q-pa-sm">
-            <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
-          </div>
-        </q-scroll-area>
+        <div class="fit overflow-hidden">
+          <q-scroll-area class="fit">
+            <div class="q-pa-sm">
+              <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+            </div>
+          </q-scroll-area>
+        </div>
       </q-drawer>
 
       <q-drawer
@@ -37,11 +39,13 @@
         behavior="desktop"
         content-class="bg-grey-3"
       >
-        <q-scroll-area class="fit">
-          <div class="q-pa-sm">
-            <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
-          </div>
-        </q-scroll-area>
+        <div class="fit overflow-hidden">
+          <q-scroll-area class="fit">
+            <div class="q-pa-sm">
+              <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+            </div>
+          </q-scroll-area>
+        </div>
       </q-drawer>
 
       <q-page-container>

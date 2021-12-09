@@ -256,11 +256,11 @@
 
           <q-step name="play" title="Play with Layout" :icon="mdiPlayCircleOutline">
             <div class="column">
-              <q-toggle v-model="play.header" label="Visible Header" />
-              <q-toggle v-model="play.footer" label="Visible Footer" />
-              <q-toggle v-model="play.left" label="Visible left-side Drawer" />
-              <q-toggle v-model="play.right" label="Visible right-side Drawer" />
-              <q-toggle v-model="play.scroll" label="Inject Drawer content for scrolling" />
+              <q-toggle v-model="play.header" label="Visible Header" :disable="pick.header !== true" />
+              <q-toggle v-model="play.footer" label="Visible Footer" :disable="pick.footer !== true" />
+              <q-toggle v-model="play.left" label="Visible left-side Drawer" :disable="pick.left !== true" />
+              <q-toggle v-model="play.right" label="Visible right-side Drawer" :disable="pick.right !== true" />
+              <q-toggle v-model="play.scroll" label="Inject Drawer content for scrolling" :disable="pick.left !== true && pick.right !== true" />
             </div>
           </q-step>
 
@@ -280,7 +280,7 @@
         </q-stepper>
 
         <q-dialog v-model="exportDialog">
-          <q-card>
+          <q-card style="width: 700px; max-width: 95vw">
             <div class="bg-code export-code">
               <doc-code lang="html">{{ layoutExport }}</doc-code>
             </div>
@@ -305,14 +305,16 @@
       :bordered="cfg.leftSep === 'bordered'"
       :breakpoint="1023"
     >
-      <q-scroll-area class="fit">
-        <q-item-label header>Left Drawer</q-item-label>
-        <div v-if="play.scroll" class="text-grey" style="padding: 25px 16px 16px;">
-          <p v-for="n in 50" :key="`right-${n}`">
-            <em>Left Drawer has intended scroll</em>
-          </p>
-        </div>
-      </q-scroll-area>
+      <div class="fit overflow-hidden">
+        <q-scroll-area class="fit">
+          <q-item-label header>Left Drawer</q-item-label>
+          <div v-if="play.scroll" class="text-grey" style="padding: 25px 16px 16px;">
+            <p v-for="n in 50" :key="`right-${n}`">
+              <em>Left Drawer has intended scroll</em>
+            </p>
+          </div>
+        </q-scroll-area>
+      </div>
     </q-drawer>
 
     <q-drawer
@@ -326,24 +328,26 @@
       :bordered="cfg.rightSep === 'bordered'"
       :breakpoint="1023"
     >
-      <q-scroll-area style="height: calc(100% - 204px); margin-top: 204px">
-        <q-item-label header>Right Drawer</q-item-label>
-        <div v-if="play.scroll" class="text-grey" style="padding: 25px 16px 16px;">
-          <p v-for="n in 50" :key="`right-${n}`">
-            <em>Right Drawer has intended scroll</em>
-          </p>
-        </div>
-      </q-scroll-area>
+      <div class="fit overflow-hidden column no-wrap">
+        <q-img src="https://cdn.quasar.dev/img/material.png" style="height: 204px">
+          <div class="absolute-bottom bg-transparent">
+            <q-avatar size="56px" class="q-mb-sm">
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            </q-avatar>
+            <div class="text-weight-bold">Razvan Stoenescu</div>
+            <div>@rstoenescu</div>
+          </div>
+        </q-img>
 
-      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 204px">
-        <div class="absolute-bottom bg-transparent">
-          <q-avatar size="56px" class="q-mb-sm">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-          </q-avatar>
-          <div class="text-weight-bold">Razvan Stoenescu</div>
-          <div>@rstoenescu</div>
-        </div>
-      </q-img>
+        <q-scroll-area class="col">
+          <q-item-label header>Right Drawer</q-item-label>
+          <div v-if="play.scroll" class="text-grey" style="padding: 25px 16px 16px;">
+            <p v-for="n in 50" :key="`right-${n}`">
+              <em>Right Drawer has intended scroll</em>
+            </p>
+          </div>
+        </q-scroll-area>
+      </div>
     </q-drawer>
 
     <q-footer

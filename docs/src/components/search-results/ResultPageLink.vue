@@ -2,8 +2,7 @@
 q-item.app-search__result(
   :id="entry.id"
   :active="active"
-  clickable
-  @click="entry.onClick"
+  :to="entry.url"
   @mouseenter="entry.onMouseenter"
 )
   q-item-section
