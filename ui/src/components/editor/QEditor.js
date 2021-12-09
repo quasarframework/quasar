@@ -502,7 +502,7 @@ export default createComponent({
       return h('div', {
         ref: rootRef,
         class: classes.value,
-        style: { height: inFullscreen.value === true ? '100vh' : null },
+        style: { height: inFullscreen.value === true ? '100%' : null },
         ...attributes.value,
         onFocusin,
         onFocusout
