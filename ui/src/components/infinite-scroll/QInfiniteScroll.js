@@ -77,12 +77,12 @@ export default Vue.extend({
         containerHeight = height(this.__scrollTarget)
 
       if (this.reverse === false) {
-        if (scrollPosition + containerHeight + this.offset >= scrollHeight) {
+        if (Math.round(scrollPosition + containerHeight + this.offset) >= Math.round(scrollHeight)) {
           this.trigger()
         }
       }
       else {
-        if (scrollPosition < this.offset) {
+        if (Math.round(scrollPosition) < this.offset) {
           this.trigger()
         }
       }
