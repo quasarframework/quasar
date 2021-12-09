@@ -53,9 +53,16 @@ export default Vue.extend({
 
     classes () {
       return {
-        [`q-tab--${this.isActive ? '' : 'in'}active`]: true,
-        [`text-${this.tabs.activeColor}`]: this.isActive && this.tabs.activeColor,
-        [`bg-${this.tabs.activeBgColor}`]: this.isActive && this.tabs.activeBgColor,
+        ...(
+          this.isActive === true
+            ? {
+              'q-tab--active': true,
+              [this.tabs.activeClass]: this.tabs.activeClass,
+              [`text-${this.tabs.activeColor}`]: this.tabs.activeColor,
+              [`bg-${this.tabs.activeBgColor}`]: this.tabs.activeBgColor
+            }
+            : { 'q-tab--inactive': true }
+        ),
         'q-tab--full': this.icon && this.label && !this.tabs.inlineLabel,
         'q-tab--no-caps': this.noCaps === true || this.tabs.noCaps === true,
         'q-focusable q-hoverable cursor-pointer': !this.disable,
