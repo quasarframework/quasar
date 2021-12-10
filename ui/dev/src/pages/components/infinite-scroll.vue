@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     loadReverse (index, done) {
-      console.log('load reverse called')
+      console.log('load reverse called', index)
       setTimeout(() => {
         this.itemsReverse.splice(0, 0, {}, {}, {}, {}, {}, {}, {})
         done()
@@ -97,7 +97,7 @@ export default {
     },
 
     loadRef (index, done) {
-      console.log('load ref called')
+      console.log('load ref called', index)
       setTimeout(() => {
         this.itemsRef.push({}, {}, {}, {}, {}, {}, {})
         done()
@@ -105,7 +105,7 @@ export default {
     },
 
     loadId (index, done) {
-      console.log('load id called')
+      console.log('load id called', index)
       setTimeout(() => {
         this.itemsId.push({}, {}, {}, {}, {}, {}, {})
         done()
