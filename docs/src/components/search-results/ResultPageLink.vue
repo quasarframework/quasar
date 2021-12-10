@@ -2,7 +2,9 @@
 q-item.app-search__result(
   :id="entry.id"
   :active="active"
-  clickable
+  :class="{'q-item--active': active}"
+  active-class=""
+  :to="entry.to"
   @click="entry.onClick"
   @mouseenter="entry.onMouseenter"
 )
