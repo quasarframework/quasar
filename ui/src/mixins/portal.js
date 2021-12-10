@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { isSSR } from '../plugins/Platform.js'
 import { getBodyFullscreenElement } from '../utils/dom.js'
 import { addFocusWaitFlag, removeFocusWaitFlag } from '../utils/focus-manager.js'
+import debounce from '../utils/debounce.js'
 
 export function closePortalMenus (vm, evt) {
   do {
@@ -88,15 +89,12 @@ const Portal = {
       addFocusWaitFlag(this.focusObj)
 
       if (this.$q.fullscreen !== void 0 && this.$q.fullscreen.isCapable === true) {
-        const append = isFullscreen => {
+        const append = () => {
           if (this.__portal === void 0) {
             return
           }
 
-          const newParent = getBodyFullscreenElement(
-            isFullscreen,
-            this.$q.fullscreen.activeEl
-          )
+          const newParent = getBodyFullscreenElement(this.$q.fullscreen.activeEl)
 
           if (
             this.__portal.$el.parentElement !== newParent &&
@@ -106,12 +104,10 @@ const Portal = {
           }
         }
 
-        this.unwatchFullscreen = this.$watch('$q.fullscreen.isActive', append)
+        this.unwatchFullscreen = this.$watch('$q.fullscreen.activeEl', debounce(append, 50))
 
-        const isActive = this.$q.fullscreen.isActive
-
-        if (this.__onGlobalDialog === false || isActive === true) {
-          append(isActive)
+        if (this.__onGlobalDialog === false || this.$q.fullscreen.isActive === true) {
+          append()
         }
       }
       else if (this.__portal !== void 0 && this.__onGlobalDialog === false) {

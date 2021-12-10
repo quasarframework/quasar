@@ -7,6 +7,7 @@ import QSpinner from '../components/spinner/QSpinner.js'
 
 import { noop } from '../utils/event.js'
 import { getBodyFullscreenElement } from '../utils/dom.js'
+import debounce from '../utils/debounce.js'
 import { isSSR } from './Platform.js'
 
 let uid = 0
@@ -505,21 +506,18 @@ const Notifications = {
 
   mounted () {
     if (this.$q.fullscreen !== void 0 && this.$q.fullscreen.isCapable === true) {
-      const append = isFullscreen => {
-        const newParent = getBodyFullscreenElement(
-          isFullscreen,
-          this.$q.fullscreen.activeEl
-        )
+      const append = () => {
+        const newParent = getBodyFullscreenElement(this.$q.fullscreen.activeEl)
 
         if (this.$el.parentElement !== newParent) {
           newParent.appendChild(this.$el)
         }
       }
 
-      this.unwatchFullscreen = this.$watch('$q.fullscreen.isActive', append)
+      this.unwatchFullscreen = this.$watch('$q.fullscreen.activeEl', debounce(append, 50))
 
       if (this.$q.fullscreen.isActive === true) {
-        append(true)
+        append()
       }
     }
   },
