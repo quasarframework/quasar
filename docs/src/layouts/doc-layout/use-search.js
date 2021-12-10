@@ -76,8 +76,6 @@ export default function useSearch (scope, $q, $route) {
         },
         onClick () {
           $router.push(hit.url).catch(() => {})
-          searchTerms.value = ''
-          searchInputRef.value.blur()
         }
       }
 

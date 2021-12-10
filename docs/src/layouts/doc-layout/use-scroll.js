@@ -65,7 +65,8 @@ export default function useScroll (scope, $route) {
   function onScroll ({ position }) {
     if (
       preventTocUpdate !== true &&
-      (scope.rightDrawerOnLayout.value === true || scope.rightDrawerState.value !== true)
+      (scope.rightDrawerOnLayout.value === true || scope.rightDrawerState.value !== true) &&
+      document.qScrollPrevented !== true
     ) {
       scope.setActiveToc(position.vertical)
     }
