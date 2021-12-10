@@ -3,13 +3,39 @@ import { changeGlobalNodesTarget } from '../utils/private/global-nodes.js'
 
 const prefixes = {}
 
+function assignFn (fn) {
+  Object.assign(Plugin, {
+    request: fn,
+    exit: fn,
+    toggle: fn
+  })
+}
+
 function getFullscreenElement () {
   return (
     document.fullscreenElement
     || document.mozFullScreenElement
     || document.webkitFullscreenElement
     || document.msFullscreenElement
+    || null
   )
+}
+
+function updateEl () {
+  const newEl = Plugin.activeEl = Plugin.isActive === false
+    ? null
+    : getFullscreenElement()
+
+  changeGlobalNodesTarget(
+    newEl === null || newEl === document.documentElement
+      ? document.body
+      : newEl
+  )
+}
+
+function togglePluginState () {
+  Plugin.isActive = Plugin.isActive === false
+  updateEl()
 }
 
 // needed for consistency across browsers
@@ -31,80 +57,71 @@ const Plugin = defineReactivePlugin({
 }, {
   isCapable: false,
 
-  request (target) {
-    if (Plugin.isCapable === true && Plugin.isActive === false) {
-      const el = target || document.documentElement
-      return promisify(el, prefixes.request)
-    }
-
-    return Plugin.__getErr()
-  },
-
-  exit () {
-    return Plugin.isCapable === true && Plugin.isActive === true
-      ? promisify(document, prefixes.exit)
-      : Plugin.__getErr()
-  },
-
-  toggle (target) {
-    return Plugin.isActive === true
-      ? Plugin.exit()
-      : Plugin.request(target)
-  },
-
   install ({ $q }) {
     $q.fullscreen = this
   }
 })
 
-if (__QUASAR_SSR_SERVER__ !== true) {
-  function init () {
-    prefixes.request = [
-      'requestFullscreen',
-      'msRequestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'
-    ].find(request => document.documentElement[ request ] !== void 0)
+if (__QUASAR_SSR_SERVER__ === true) {
+  assignFn(() => Promise.resolve())
+}
+else {
+  prefixes.request = [
+    'requestFullscreen',
+    'msRequestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'
+  ].find(request => document.documentElement[ request ] !== void 0)
 
-    Plugin.isCapable = prefixes.request !== void 0
+  Plugin.isCapable = prefixes.request !== void 0
 
-    if (Plugin.isCapable === false) {
-      // it means the browser does NOT support it
-      Plugin.__getErr = () => Promise.reject('Not capable')
-      return
-    }
+  if (Plugin.isCapable === false) {
+    // it means the browser does NOT support it
+    assignFn(() => Promise.reject('Not capable'))
+  }
+  else {
+    Object.assign(Plugin, {
+      request (target) {
+        const el = target || document.documentElement
+        const { activeEl } = Plugin
 
-    Plugin.__getErr = () => Promise.resolve()
+        if (el === activeEl) {
+          return Promise.resolve()
+        }
+
+        const queue = activeEl !== null && el.contains(activeEl) === true
+          ? Plugin.exit()
+          : Promise.resolve()
+
+        return queue.finally(() => promisify(el, prefixes.request))
+      },
+
+      exit () {
+        return Plugin.isActive === true
+          ? promisify(document, prefixes.exit)
+          : Promise.resolve()
+      },
+
+      toggle (target) {
+        return Plugin.isActive === true
+          ? Plugin.exit()
+          : Plugin.request(target)
+      }
+    })
 
     prefixes.exit = [
       'exitFullscreen',
       'msExitFullscreen', 'mozCancelFullScreen', 'webkitExitFullscreen'
     ].find(exit => document[ exit ])
 
-    Plugin.isActive = !!getFullscreenElement()
+    Plugin.isActive = Boolean(getFullscreenElement())
+    Plugin.isActive === true && updateEl()
 
     ;[
       'onfullscreenchange',
       'onmsfullscreenchange', 'onwebkitfullscreenchange'
     ].forEach(evt => {
-      document[ evt ] = () => {
-        Plugin.isActive = Plugin.isActive === false
-
-        if (Plugin.isActive === false) {
-          Plugin.activeEl = null
-          changeGlobalNodesTarget(document.body)
-        }
-        else {
-          Plugin.activeEl = getFullscreenElement()
-          changeGlobalNodesTarget(
-            Plugin.activeEl === document.documentElement
-              ? document.body
-              : Plugin.activeEl
-          )
-        }
-      }
+      document[ evt ] = togglePluginState
     })
   }
-
-  init()
 }
 
 export default Plugin
