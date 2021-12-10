@@ -115,6 +115,10 @@ export default function useSearch (scope, $q, $route) {
 
   function onSearchFocus () {
     searchHasFocus.value = true
+    if (searchTerms.value) {
+      const el = searchInputRef.value.getNativeElement()
+      el.setSelectionRange(0, searchTerms.value.length)
+    }
   }
 
   function onSearchBlur () {
@@ -143,7 +147,7 @@ export default function useSearch (scope, $q, $route) {
         case 38: // up
         case 40: // down
           evt.preventDefault()
-          if (searchResults.value !== null) {
+          if (searchResults.value !== null && searchResults.value.ids !== void 0) {
             if (searchActiveId.value === null) {
               searchActiveId.value = searchResults.value.ids[ 0 ]
             }
