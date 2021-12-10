@@ -114,8 +114,7 @@
 <script>
 import { QSpinnerGears, QSpinnerCube } from 'quasar'
 
-import DialogComponentWithParent from './dialog-component-with-parent.js'
-import DialogComponentNoParent from './dialog-component-no-parent.js'
+import DialogComponent from './dialog-component.js'
 
 export default {
   provide: {
@@ -517,7 +516,7 @@ export default {
     customComponentWithParent (async) {
       this.dialogHandler = this.$q.dialog({
         parent: this,
-        component: async !== true ? DialogComponentWithParent : () => import('./dialog-component-with-parent.js'),
+        component: async !== true ? DialogComponent : () => import('./dialog-component.js'),
         // props forwarded to component:
         text: 'gigi'
       }).onOk(() => {
@@ -531,7 +530,7 @@ export default {
 
     customComponentNoParent (async) {
       this.dialogHandler = this.$q.dialog({
-        component: async !== true ? DialogComponentNoParent : () => import('./dialog-component-no-parent.js'),
+        component: async !== true ? DialogComponent : () => import('./dialog-component.js'),
         // props forwarded to component:
         text: 'gigi'
       }).onOk(() => {
