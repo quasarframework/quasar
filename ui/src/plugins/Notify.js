@@ -519,7 +519,7 @@ export default {
       })
 
       const el = createGlobalNode('q-notify')
-      createChildApp(getComponent($q), parentApp).mount(el)
+      createChildApp(getComponent(), parentApp).mount(el)
     }
   }
 }
