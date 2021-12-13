@@ -133,14 +133,12 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
 
     let app = createChildApp({
       name: 'QGlobalDialog',
-      setup () {
-        return () => h(DialogComponent, {
-          ref: dialogRef,
-          ...props,
-          onOk,
-          onHide
-        })
-      }
+      setup: () => () => h(DialogComponent, {
+        ...props,
+        ref: dialogRef,
+        onOk,
+        onHide
+      })
     }, parentApp)
 
     vm = app.mount(el)

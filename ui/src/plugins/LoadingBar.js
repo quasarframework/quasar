@@ -7,9 +7,9 @@ import { createChildApp } from '../install-quasar.js'
 
 import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
 
-const reqProps = { ref: 'bar' }
+const barRef = ref(null)
 
-export default defineReactivePlugin({
+const Plugin = defineReactivePlugin({
   isActive: false
 }, {
   start: noop,
@@ -31,41 +31,40 @@ export default defineReactivePlugin({
 
     const props = ref(
       $q.config.loadingBar !== void 0
-        ? { ...$q.config.loadingBar, ...reqProps }
-        : { ...reqProps }
+        ? { ...$q.config.loadingBar }
+        : {}
     )
 
     const el = createGlobalNode('q-loading-bar')
 
-    const vm = createChildApp({
+    createChildApp({
       name: 'LoadingBar',
 
       // hide App from Vue devtools
       devtools: { hide: true },
 
-      setup: () => () => h(QAjaxBar, props.value)
+      setup: () => () => h(QAjaxBar, { ...props.value, ref: barRef })
     }, parentApp).mount(el)
 
     Object.assign(this, {
-      start: speed => {
-        const bar = vm.$refs.bar
-        bar.start(speed)
-        this.isActive = bar.calls > 0
+      start (speed) {
+        barRef.value.start(speed)
+        Plugin.isActive = barRef.value.calls > 0
       },
-      stop: () => {
-        const bar = vm.$refs.bar
-        bar.stop()
-        this.isActive = bar.calls > 0
+      stop () {
+        barRef.value.stop()
+        Plugin.isActive = barRef.value.calls > 0
       },
       increment () {
-        const bar = vm.$refs.bar
-        bar.increment.apply(null, arguments)
+        barRef.value.increment.apply(null, arguments)
       },
-      setDefaults: opts => {
+      setDefaults (opts) {
         if (opts === Object(opts)) {
-          props.value = { ...props.value, ...opts, ...reqProps }
+          Object.assign(props.value, opts)
         }
       }
     })
   }
 })
+
+export default Plugin
