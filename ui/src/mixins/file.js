@@ -120,10 +120,14 @@ export default {
         files = [ files[0] ]
       }
 
+      files.forEach(file => {
+        file.__key = file.webkitRelativePath + file.lastModified + file.name + file.size
+      })
+
       // Avoid duplicate files
-      const filenameMap = currentFileList.map(entry => entry.name)
+      const filenameMap = currentFileList.map(entry => entry.__key)
       files = filterFiles(files, rejectedFiles, 'duplicate', file => {
-        return filenameMap.includes(file.name) === false
+        return filenameMap.includes(file.__key) === false
       })
 
       if (files.length === 0) { return done() }
