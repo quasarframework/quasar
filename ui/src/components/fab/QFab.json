@@ -57,6 +57,41 @@
     }
   },
 
+  "scopedSlots": {
+    "icon": {
+      "desc": "Slot for icon shown when FAB is closed; Suggestion: QIcon",
+      "scope": {
+        "opened": {
+          "type": "Boolean",
+          "desc": "FAB is opened"
+        }
+      },
+      "addedIn": "v1.17"
+    },
+
+    "active-icon": {
+      "desc": "Slot for icon shown when FAB is opened; Suggestion: QIcon",
+      "scope": {
+        "opened": {
+          "type": "Boolean",
+          "desc": "FAB is opened"
+        }
+      },
+      "addedIn": "v1.17"
+    },
+
+    "label": {
+      "desc": "Slot for label",
+      "scope": {
+        "opened": {
+          "type": "Boolean",
+          "desc": "FAB is opened"
+        }
+      },
+      "addedIn": "v1.17"
+    }
+  },
+
   "events": {
     "input": {
       "desc": "Emitted when fab actions are shown/hidden; Captured by v-model directive"
