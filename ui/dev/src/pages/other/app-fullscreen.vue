@@ -8,6 +8,9 @@
       </p>
 
       <div>Is fullscreen: {{ $q.fullscreen.isActive }}</div>
+      <div v-if="$q.fullscreen.isActive">
+        Fullscreen el: {{ $q.fullscreen.activeEl.tagName }} - {{ $q.fullscreen.activeEl.className }}
+      </div>
 
       <p>
         <q-btn
@@ -48,8 +51,8 @@ import { AppFullscreen } from 'quasar'
 
 export default {
   watch: {
-    '$q.fullscreen.activeEl' (val) {
-      console.log(val)
+    '$q.fullscreen.activeEl' (activeEl) {
+      console.log('watch', { isActive: this.$q.fullscreen.isActive, activeEl })
     }
   },
 
@@ -57,9 +60,7 @@ export default {
     toggleFullscreen () {
       AppFullscreen.toggle()
         .then(() => {
-          setTimeout(() => {
-            console.log(AppFullscreen.isActive)
-          }, 1000)
+          console.log('toggle', { isActive: AppFullscreen.isActive, activeEl: AppFullscreen.activeEl })
         })
         .catch(err => {
           console.error(err)

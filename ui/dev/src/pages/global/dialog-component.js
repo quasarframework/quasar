@@ -1,5 +1,5 @@
 export default {
-  name: 'CustomDialogComponentWithParent',
+  name: 'CustomDialogComponent',
 
   props: {
     text: String
