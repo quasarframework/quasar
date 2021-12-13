@@ -272,6 +272,23 @@ devServer: {
 #### Docker and WSL Issues with HMR
 If you are using a Docker Container, you may find HMR stops working. HMR relies on the operating system to give notifications about changed files which may not work for your Docker Container.
 
+A stop-gap solution can be achieved by using the polling mode to check for filesystem changes.
+This can be enabled with:
+
+```js
+// quasar.conf.js
+
+build: {
+  // ...
+  extendWebpack(cfg) {
+    cfg.watchOptions = {
+      aggregateTimeout: 200,
+      poll: 1000,
+    };
+  },
+// ...
+```
+
 ### Property: build
 | Property | Type | Description |
 | --- | --- | --- |
