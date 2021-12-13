@@ -81,6 +81,8 @@
 </template>
 
 <script>
+import { Notify } from 'quasar'
+
 const alerts = [
   { color: 'negative', message: 'Woah! Danger! You are getting good at this!', icon: 'report_problem' },
   { message: 'You need to know about this!', icon: 'warning' },
@@ -178,6 +180,11 @@ export default {
   },
 
   mounted () {
+    Notify.create({
+      message: 'Test from imported Notify',
+      avatar: 'https://cdn.quasar.dev/img/mountains.jpg'
+    })
+
     this.$q.notify({
       message: 'Avatar test',
       avatar: 'https://cdn.quasar.dev/img/mountains.jpg'
