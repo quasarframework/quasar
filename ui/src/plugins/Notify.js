@@ -10,7 +10,7 @@ import { getBodyFullscreenElement } from '../utils/dom.js'
 import debounce from '../utils/debounce.js'
 import { isSSR } from './Platform.js'
 
-let uid = 0
+let uid = 0, vm
 
 const defaults = {}
 const groups = {}
@@ -532,7 +532,7 @@ export default {
   install ({ $q }) {
     $q.notify = this.create = isSSR === true
       ? noop
-      : opts => addNotification(opts, this.__vm)
+      : opts => addNotification(opts, vm)
 
     $q.notify.setDefaults = this.setDefaults
     $q.notify.registerType = this.registerType
@@ -556,8 +556,8 @@ export default {
       const node = document.createElement('div')
       document.body.appendChild(node)
 
-      this.__vm = new Vue(Notifications)
-      this.__vm.$mount(node)
+      vm = new Vue(Notifications)
+      vm.$mount(node)
     }
   }
 }
