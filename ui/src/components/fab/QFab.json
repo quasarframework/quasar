@@ -54,6 +54,39 @@
 
     "tooltip": {
       "desc": "Slot specifically designed for a QTooltip"
+    },
+
+    "icon": {
+      "desc": "Slot for icon shown when FAB is closed; Suggestion: QIcon",
+      "scope": {
+        "opened": {
+          "type": "Boolean",
+          "desc": "FAB is opened"
+        }
+      },
+      "addedIn": "v2.4"
+    },
+
+    "active-icon": {
+      "desc": "Slot for icon shown when FAB is opened; Suggestion: QIcon",
+      "scope": {
+        "opened": {
+          "type": "Boolean",
+          "desc": "FAB is opened"
+        }
+      },
+      "addedIn": "v2.4"
+    },
+
+    "label": {
+      "desc": "Slot for label",
+      "scope": {
+        "opened": {
+          "type": "Boolean",
+          "desc": "FAB is opened"
+        }
+      },
+      "addedIn": "v2.4"
     }
   },
 
