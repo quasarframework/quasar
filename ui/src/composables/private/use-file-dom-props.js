@@ -34,11 +34,11 @@ export default function (props, typeGuard) {
 
   return typeGuard === true
     ? computed(() => {
-        if (props.type !== 'file') {
-          return
-        }
+      if (props.type !== 'file') {
+        return
+      }
 
-        return getFormDomProps()
-      })
+      return getFormDomProps()
+    })
     : computed(getFormDomProps)
 }

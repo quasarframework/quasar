@@ -1,4 +1,4 @@
-import { ref, computed, watch, nextTick } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 
 import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 

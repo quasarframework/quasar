@@ -379,11 +379,11 @@ export default createComponent({
         }, () => (
           useBackdrop.value === true
             ? h('div', {
-                class: 'q-dialog__backdrop fixed-full',
-                style: transitionStyle.value,
-                'aria-hidden': 'true',
-                onMousedown: onBackdropClick
-              })
+              class: 'q-dialog__backdrop fixed-full',
+              style: transitionStyle.value,
+              'aria-hidden': 'true',
+              onMousedown: onBackdropClick
+            })
             : null
         )),
 
@@ -393,12 +393,12 @@ export default createComponent({
           () => (
             showing.value === true
               ? h('div', {
-                  ref: innerRef,
-                  class: classes.value,
-                  style: transitionStyle.value,
-                  tabindex: -1,
-                  ...onEvents.value
-                }, hSlot(slots.default))
+                ref: innerRef,
+                class: classes.value,
+                style: transitionStyle.value,
+                tabindex: -1,
+                ...onEvents.value
+              }, hSlot(slots.default))
               : null
           )
         )

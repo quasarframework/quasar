@@ -201,9 +201,9 @@ export default createComponent({
     function getSection (classes, text) {
       return props.html === true
         ? h(QCardSection, {
-            class: classes,
-            innerHTML: text
-          })
+          class: classes,
+          innerHTML: text
+        })
         : h(QCardSection, { class: classes }, () => text)
     }
 

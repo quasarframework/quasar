@@ -384,10 +384,10 @@ export function getRenderer (getPlugin) {
       }, [
         file.__status === 'failed'
           ? h(QIcon, {
-              class: 'q-uploader__file-status',
-              name: $q.iconSet.type.negative,
-              color: 'negative'
-            })
+            class: 'q-uploader__file-status',
+            name: $q.iconSet.type.negative,
+            color: 'negative'
+          })
           : null,
 
         h('div', { class: 'q-uploader__file-header-content col' }, [
@@ -401,11 +401,11 @@ export function getRenderer (getPlugin) {
 
         file.__status === 'uploading'
           ? h(QCircularProgress, {
-              value: file.__progress,
-              min: 0,
-              max: 1,
-              indeterminate: file.__progress === 0
-            })
+            value: file.__progress,
+            min: 0,
+            max: 1,
+            indeterminate: file.__progress === 0
+          })
           : h(QBtn, {
             round: true,
             dense: true,

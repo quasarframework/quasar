@@ -39,7 +39,7 @@ export default createComponent({
 
     const labelClass = computed(() =>
       'q-inner-loading__label'
-      + (props.labelClass !== void 0 ? ` ${ props.labelClass}` : '')
+      + (props.labelClass !== void 0 ? ` ${ props.labelClass }` : '')
     )
 
     function getInner () {
@@ -65,12 +65,12 @@ export default createComponent({
     function getContent () {
       return props.showing === true
         ? h(
-            'div',
-            { class: classes.value, style: transitionStyle.value },
-            slots.default !== void 0
-              ? slots.default()
-              : getInner()
-          )
+          'div',
+          { class: classes.value, style: transitionStyle.value },
+          slots.default !== void 0
+            ? slots.default()
+            : getInner()
+        )
         : null
     }
 

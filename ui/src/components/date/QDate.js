@@ -1212,24 +1212,24 @@ export default createComponent({
             }, days.value.map(day => h('div', { class: day.classes }, [
               day.in === true
                 ? h(
-                    QBtn, {
-                      class: day.today === true ? 'q-date__today' : '',
-                      dense: true,
-                      flat: day.flat,
-                      unelevated: day.unelevated,
-                      color: day.color,
-                      textColor: day.textColor,
-                      label: day.i,
-                      tabindex: tabindex.value,
-                      ...getCache('day#' + day.i, {
-                        onClick: () => { onDayClick(day.i) },
-                        onMouseover: () => { onDayMouseover(day.i) }
-                      })
-                    },
-                    day.event !== false
-                      ? () => h('div', { class: 'q-date__event bg-' + day.event })
-                      : null
-                  )
+                  QBtn, {
+                    class: day.today === true ? 'q-date__today' : '',
+                    dense: true,
+                    flat: day.flat,
+                    unelevated: day.unelevated,
+                    color: day.color,
+                    textColor: day.textColor,
+                    label: day.i,
+                    tabindex: tabindex.value,
+                    ...getCache('day#' + day.i, {
+                      onClick: () => { onDayClick(day.i) },
+                      onMouseover: () => { onDayMouseover(day.i) }
+                    })
+                  },
+                  day.event !== false
+                    ? () => h('div', { class: 'q-date__event bg-' + day.event })
+                    : null
+                )
                 : h('div', '' + day.i)
             ]))))
           ])

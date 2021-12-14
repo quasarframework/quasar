@@ -74,45 +74,45 @@ function prepareApp (app, uiOpts, pluginOpts) {
 
 export default __QUASAR_SSR_SERVER__
   ? function (parentApp, opts = {}, ssrContext) {
-      const $q = {
-        version: __QUASAR_VERSION__,
-        config: opts.config || {}
-      }
-
-      Object.assign(ssrContext, {
-        $q,
-        _meta: {
-          htmlAttrs: '',
-          headTags: '',
-          endingHeadTags: '',
-          bodyClasses: '',
-          bodyAttrs: 'data-server-rendered',
-          bodyTags: ''
-        }
-      })
-
-      if (ssrContext._modules === void 0) {
-        // not OK. means the SSR build is not using @quasar/ssr-helpers,
-        // but we shouldn't crash the app
-        ssrContext._modules = []
-      }
-
-      if (ssrContext.onRendered === void 0) {
-        // not OK. means the SSR build is not using @quasar/ssr-helpers,
-        // but we shouldn't crash the app
-        ssrContext.onRendered = () => {}
-      }
-
-      parentApp.config.globalProperties.ssrContext = ssrContext
-
-      prepareApp(parentApp, opts, {
-        parentApp,
-        $q,
-        lang: opts.lang,
-        iconSet: opts.iconSet,
-        ssrContext
-      })
+    const $q = {
+      version: __QUASAR_VERSION__,
+      config: opts.config || {}
     }
+
+    Object.assign(ssrContext, {
+      $q,
+      _meta: {
+        htmlAttrs: '',
+        headTags: '',
+        endingHeadTags: '',
+        bodyClasses: '',
+        bodyAttrs: 'data-server-rendered',
+        bodyTags: ''
+      }
+    })
+
+    if (ssrContext._modules === void 0) {
+      // not OK. means the SSR build is not using @quasar/ssr-helpers,
+      // but we shouldn't crash the app
+      ssrContext._modules = []
+    }
+
+    if (ssrContext.onRendered === void 0) {
+      // not OK. means the SSR build is not using @quasar/ssr-helpers,
+      // but we shouldn't crash the app
+      ssrContext.onRendered = () => {}
+    }
+
+    parentApp.config.globalProperties.ssrContext = ssrContext
+
+    prepareApp(parentApp, opts, {
+      parentApp,
+      $q,
+      lang: opts.lang,
+      iconSet: opts.iconSet,
+      ssrContext
+    })
+  }
   : function (parentApp, opts = {}) {
     const $q = { version: __QUASAR_VERSION__ }
 

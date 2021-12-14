@@ -538,34 +538,34 @@ export default createComponent({
 
           m.lazy === 'loading'
             ? h(QSpinner, {
-                class: 'q-tree__spinner',
-                color: computedControlColor.value
-              })
+              class: 'q-tree__spinner',
+              color: computedControlColor.value
+            })
             : (
                 isParent === true
                   ? h(QIcon, {
-                      class: 'q-tree__arrow'
+                    class: 'q-tree__arrow'
                     + (m.expanded === true ? ' q-tree__arrow--rotate' : ''),
-                      name: computedIcon.value,
-                      onClick (e) { onExpandClick(node, m, e) }
-                    })
+                    name: computedIcon.value,
+                    onClick (e) { onExpandClick(node, m, e) }
+                  })
                   : null
               ),
 
           m.hasTicking === true && m.noTick !== true
             ? h(QCheckbox, {
-                class: 'q-tree__tickbox',
-                modelValue: m.indeterminate === true ? null : m.ticked,
-                color: computedControlColor.value,
-                dark: isDark.value,
-                dense: true,
-                keepColor: true,
-                disable: m.tickable !== true,
-                onKeydown: stopAndPrevent,
-                'onUpdate:modelValue': v => {
-                  onTickedClick(m, v)
-                }
-              })
+              class: 'q-tree__tickbox',
+              modelValue: m.indeterminate === true ? null : m.ticked,
+              color: computedControlColor.value,
+              dark: isDark.value,
+              dense: true,
+              keepColor: true,
+              disable: m.tickable !== true,
+              onKeydown: stopAndPrevent,
+              'onUpdate:modelValue': v => {
+                onTickedClick(m, v)
+              }
+            })
             : null,
 
           h('div', {
@@ -583,22 +583,22 @@ export default createComponent({
 
         isParent === true
           ? h(QSlideTransition, {
-              duration: props.duration,
-              onShow,
-              onHide
-            }, () => withDirectives(
+            duration: props.duration,
+            onShow,
+            onHide
+          }, () => withDirectives(
+            h('div', {
+              class: 'q-tree__node-collapsible' + textColorClass.value,
+              key: `${ key }__q`
+            }, [
+              body,
               h('div', {
-                class: 'q-tree__node-collapsible' + textColorClass.value,
-                key: `${ key }__q`
-              }, [
-                body,
-                h('div', {
-                  class: 'q-tree__children'
+                class: 'q-tree__children'
                   + (m.disabled === true ? ' q-tree__node--disabled' : '')
-                }, children)
-              ]),
-              [ [ vShow, m.expanded ] ]
-            ))
+              }, children)
+            ]),
+            [ [ vShow, m.expanded ] ]
+          ))
           : body
       ])
     }

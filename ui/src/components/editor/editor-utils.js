@@ -34,8 +34,8 @@ function getBtn (eVm, btn, clickHandler, active = false) {
   if (btn.tip && eVm.$q.platform.is.desktop) {
     const Key = btn.key
       ? h('div', [
-          h('small', `(CTRL + ${ String.fromCharCode(btn.key) })`)
-        ])
+        h('small', `(CTRL + ${ String.fromCharCode(btn.key) })`)
+      ])
       : null
     child.push(
       h(QTooltip, { delay: 1000 }, () => [

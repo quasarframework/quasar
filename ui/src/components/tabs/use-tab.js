@@ -154,12 +154,12 @@ export default function (props, slots, emit, routerProps) {
     props.alert !== false && content.push(
       props.alertIcon !== void 0
         ? h(QIcon, {
-            class: 'q-tab__alert-icon',
-            color: props.alert !== true
-              ? props.alert
-              : void 0,
-            name: props.alertIcon
-          })
+          class: 'q-tab__alert-icon',
+          color: props.alert !== true
+            ? props.alert
+            : void 0,
+          name: props.alertIcon
+        })
         : h('div', {
           class: 'q-tab__alert'
             + (props.alert !== true ? ` text-${ props.alert }` : '')

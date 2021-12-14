@@ -61,9 +61,9 @@ export default createComponent({
 
         return action.label === void 0
           ? h(QSeparator, {
-              class: 'col-all',
-              dark: isDark.value
-            })
+            class: 'col-all',
+            dark: isDark.value
+          })
           : h('div', {
             class: [
               'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
@@ -80,9 +80,9 @@ export default createComponent({
               : (
                   img
                     ? h('img', {
-                        class: action.avatar ? 'q-bottom-sheet__avatar' : '',
-                        src: img
-                      })
+                      class: action.avatar ? 'q-bottom-sheet__avatar' : '',
+                      src: img
+                    })
                     : h('div', { class: 'q-bottom-sheet__empty-icon' })
                 ),
 
@@ -114,9 +114,9 @@ export default createComponent({
                   : (
                       img
                         ? h('img', {
-                            class: action.avatar ? 'q-bottom-sheet__avatar' : '',
-                            src: img
-                          })
+                          class: action.avatar ? 'q-bottom-sheet__avatar' : '',
+                          src: img
+                        })
                         : null
                     )
               )
@@ -145,8 +145,8 @@ export default createComponent({
       child.push(
         props.grid === true
           ? h('div', {
-              class: 'row items-stretch justify-start'
-            }, getGrid())
+            class: 'row items-stretch justify-start'
+          }, getGrid())
           : h('div', getList())
       )
 

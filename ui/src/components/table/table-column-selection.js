@@ -17,12 +17,12 @@ export function useTableColumnSelection (props, computedPagination, hasSelection
 
     return row !== void 0
       ? Object.keys(row).map(name => ({
-          name,
-          label: name.toUpperCase(),
-          field: name,
-          align: isNumber(row[ name ]) ? 'right' : 'left',
-          sortable: true
-        }))
+        name,
+        label: name.toUpperCase(),
+        field: name,
+        align: isNumber(row[ name ]) ? 'right' : 'left',
+        sortable: true
+      }))
       : []
   })
 

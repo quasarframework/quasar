@@ -45,15 +45,15 @@ export default function ({
   const extensions = computed(() => (
     props.accept !== void 0
       ? props.accept.split(',').map(ext => {
-          ext = ext.trim()
-          if (ext === '*') { // support "*"
-            return '*/'
-          }
-          else if (ext.endsWith('/*')) { // support "image/*" or "*/*"
-            ext = ext.slice(0, ext.length - 1)
-          }
-          return ext.toUpperCase()
-        })
+        ext = ext.trim()
+        if (ext === '*') { // support "*"
+          return '*/'
+        }
+        else if (ext.endsWith('/*')) { // support "image/*" or "*/*"
+          ext = ext.slice(0, ext.length - 1)
+        }
+        return ext.toUpperCase()
+      })
       : null
   ))
 

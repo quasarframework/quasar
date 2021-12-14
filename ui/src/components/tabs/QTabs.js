@@ -383,11 +383,11 @@ export default createComponent({
       let wasItActive = wasActive === true
         ? emptyFn
         : tab => {
-            if (model === tab.name.value) {
-              wasActive = true
-              wasItActive = emptyFn
-            }
+          if (model === tab.name.value) {
+            wasActive = true
+            wasItActive = emptyFn
           }
+        }
 
       const tabList = getRouteList()
 

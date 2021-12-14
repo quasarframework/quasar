@@ -944,24 +944,24 @@ export default function morph (_options) {
         : (
             options.waitFor === 'transitionend'
               ? new Promise(resolve => {
-                  const timer = setTimeout(() => {
-                    endFn()
-                  }, 400)
+                const timer = setTimeout(() => {
+                  endFn()
+                }, 400)
 
-                  const endFn = ev => {
-                    clearTimeout(timer)
+                const endFn = ev => {
+                  clearTimeout(timer)
 
-                    if (elTo) {
-                      elTo.removeEventListener('transitionend', endFn)
-                      elTo.removeEventListener('transitioncancel', endFn)
-                    }
-
-                    resolve()
+                  if (elTo) {
+                    elTo.removeEventListener('transitionend', endFn)
+                    elTo.removeEventListener('transitioncancel', endFn)
                   }
 
-                  elTo.addEventListener('transitionend', endFn)
-                  elTo.addEventListener('transitioncancel', endFn)
-                })
+                  resolve()
+                }
+
+                elTo.addEventListener('transitionend', endFn)
+                elTo.addEventListener('transitioncancel', endFn)
+              })
               : options.waitFor
           )
 
