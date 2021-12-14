@@ -1,4 +1,4 @@
-import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../utils/scroll.js'
+import { getScrollTarget, getVerticalScrollPosition, getHorizontalScrollPosition } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
 
 function update (ctx, { value, oldValue }) {
@@ -34,7 +34,7 @@ export default {
       scrollTarget: getScrollTarget(el),
       scroll () {
         ctx.handler(
-          getScrollPosition(ctx.scrollTarget),
+          getVerticalScrollPosition(ctx.scrollTarget),
           getHorizontalScrollPosition(ctx.scrollTarget)
         )
       }

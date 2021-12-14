@@ -1,6 +1,7 @@
 <template>
   <div class="q-ma-md row no-wrap">
     <q-scroll-area
+      visible
       :thumb-style="thumbStyle"
       :bar-style="barStyle"
       style="height: 200px;"
@@ -8,7 +9,7 @@
       ref="first"
       @scroll="onScrollFirst"
     >
-      <div v-for="n in 100" :key="n" class="q-pa-xs">
+      <div v-for="n in 100" :key="n" class="q-pa-sm">
         Lorem ipsum dolor sit amet, consectetur adipisicing
         elit, sed do eiusmod tempor incididunt ut labore et
         dolore magna aliqua.
@@ -23,7 +24,7 @@
       ref="second"
       @scroll="onScrollSecond"
     >
-      <div v-for="n in 100" :key="n" class="q-pa-xs">
+      <div v-for="n in 100" :key="n" class="q-pa-sm">
         Lorem ipsum dolor sit amet, consectetur adipisicing
         elit, sed do eiusmod tempor incididunt ut labore et
         dolore magna aliqua.
@@ -74,7 +75,7 @@ export default {
       // which will also trigger a @scroll event...
       // and we need to ignore that one
       this.ignoreSource = target
-      this.$refs[target].setScrollPosition(position)
+      this.$refs[target].setScrollPosition('vertical', position)
     },
 
     onScrollFirst ({ verticalPosition }) {
