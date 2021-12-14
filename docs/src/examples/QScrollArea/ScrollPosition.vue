@@ -25,12 +25,12 @@ export default {
 
   methods: {
     scroll () {
-      this.$refs.scrollArea.setScrollPosition(this.position)
+      this.$refs.scrollArea.setScrollPosition('vertical', this.position)
       this.position = Math.floor(Math.random() * 1001) * 20
     },
 
     animateScroll () {
-      this.$refs.scrollArea.setScrollPosition(this.position, 300)
+      this.$refs.scrollArea.setScrollPosition('vertical', this.position, 300)
       this.position = Math.floor(Math.random() * 1001) * 20
     }
   }

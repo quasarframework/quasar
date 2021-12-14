@@ -47,6 +47,30 @@ export function ready (fn) {
 }
 
 // internal
+export function getElement (el) {
+  const type = typeof el
+
+  if (type === 'function') {
+    el = el()
+  }
+
+  if (type === 'string') {
+    try {
+      el = document.querySelector(el)
+    }
+    catch (err) {}
+  }
+
+  if (el !== Object(el)) {
+    return null
+  }
+
+  return el._isVue === true && el.$el !== void 0
+    ? el.$el
+    : el
+}
+
+// internal
 export function childHasFocus (el, focusedEl) {
   if (el === void 0 || el.contains(focusedEl) === true) {
     return true

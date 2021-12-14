@@ -1,5 +1,6 @@
 import { clearSelection } from '../utils/selection.js'
 import { addEvt, cleanEvt, prevent, listenOpts } from '../utils/event.js'
+import { getElement } from '../utils/dom.js'
 import { isKeyCode } from '../utils/key-composition.js'
 
 export default {
@@ -145,23 +146,12 @@ export default {
         this.__setAnchorEl(this.parentEl)
       }
       else {
-        let el = this.target
+        this.anchorEl = getElement(this.target) || void 0
 
-        if (typeof this.target === 'string') {
-          try {
-            el = document.querySelector(this.target)
-          }
-          catch (err) {
-            el = void 0
-          }
-        }
-
-        if (el !== void 0 && el !== null) {
-          this.anchorEl = el._isVue === true && el.$el !== void 0 ? el.$el : el
+        if (this.anchorEl !== void 0) {
           this.__configureAnchorEl()
         }
         else {
-          this.anchorEl = void 0
           console.error(`Anchor: target "${this.target}" not found`, this)
         }
       }

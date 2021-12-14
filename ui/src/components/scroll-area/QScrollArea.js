@@ -1,16 +1,24 @@
 import Vue from 'vue'
 
+import QResizeObserver from '../resize-observer/QResizeObserver.js'
+import QScrollObserver from '../scroll-observer/QScrollObserver.js'
+
+import TouchPan from '../../directives/TouchPan.js'
+
 import { between } from '../../utils/format.js'
-import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
+import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import { mergeSlot } from '../../utils/slot.js'
 import cache from '../../utils/cache.js'
 import debounce from '../../utils/debounce.js'
 
-import QResizeObserver from '../resize-observer/QResizeObserver.js'
-import QScrollObserver from '../scroll-observer/QScrollObserver.js'
-import TouchPan from '../../directives/TouchPan.js'
 import DarkMixin from '../../mixins/dark.js'
 import { ariaHidden } from '../../mixins/attrs'
+
+const axisList = [ 'vertical', 'horizontal' ]
+const dirProps = {
+  vertical: { offset: 'offsetY', scroll: 'scrollTop', dir: 'down', dist: 'y' },
+  horizontal: { offset: 'offsetX', scroll: 'scrollLeft', dir: 'right', dist: 'x' }
+}
 
 export default Vue.extend({
   name: 'QScrollArea',
@@ -22,13 +30,19 @@ export default Vue.extend({
   },
 
   props: {
-    barStyle: [ Array, String, Object ],
     thumbStyle: Object,
+    verticalThumbStyle: Object,
+    horizontalThumbStyle: Object,
+
+    barStyle: [ Array, String, Object ],
+    verticalBarStyle: [ Array, String, Object ],
+    horizontalBarStyle: [ Array, String, Object ],
+
     contentStyle: [ Array, String, Object ],
     contentActiveStyle: [ Array, String, Object ],
 
     delay: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 1000
     },
 
@@ -39,7 +53,7 @@ export default Vue.extend({
 
     horizontal: Boolean,
 
-    tabindex: [String, Number]
+    tabindex: [ String, Number ]
   },
 
   data () {
@@ -50,10 +64,22 @@ export default Vue.extend({
       hover: false,
 
       // other...
-      containerWidth: 0,
-      containerHeight: 0,
-      scrollPosition: 0,
-      scrollSize: 0
+      container: {
+        vertical: 0,
+        horizontal: 0
+      },
+
+      scroll: {
+        vertical: {
+          position: 0,
+          size: 0
+        },
+
+        horizontal: {
+          position: 0,
+          size: 0
+        }
+      }
     }
   },
 
@@ -63,82 +89,148 @@ export default Vue.extend({
         (this.isDark === true ? ' q-scrollarea--dark' : '')
     },
 
-    thumbHidden () {
+    verticalScrollPercentage () {
+      const diff = this.scroll.vertical.size - this.container.vertical
+      if (diff <= 0) { return 0 }
+      const p = between(this.scroll.vertical.position / diff, 0, 1)
+      return Math.round(p * 10000) / 10000
+    },
+
+    horizontalScrollPercentage () {
+      const diff = this.scroll.horizontal.size - this.container.horizontal
+      if (diff <= 0) { return 0 }
+      const p = between(this.scroll.horizontal.position / diff, 0, 1)
+      return Math.round(p * 10000) / 10000
+    },
+
+    verticalThumbHidden () {
       return (
         (this.visible === null ? this.hover : this.visible) !== true &&
         this.tempShowing === false &&
         this.panning === false
-      ) || this.scrollSize <= this.containerSize
+      ) || this.scroll.vertical.size <= this.container.vertical + 1
     },
 
-    thumbSize () {
+    horizontalThumbHidden () {
+      return (
+        (this.visible === null ? this.hover : this.visible) !== true &&
+        this.tempShowing === false &&
+        this.panning === false
+      ) || this.scroll.horizontal.size <= this.container.horizontal + 1
+    },
+
+    verticalThumbSize () {
       return Math.round(
         between(
-          this.containerSize * this.containerSize / this.scrollSize,
+          this.container.vertical * this.container.vertical / this.scroll.vertical.size,
           50,
-          this.containerSize
+          this.container.vertical
         )
       )
     },
 
-    style () {
-      const pos = this.scrollPercentage * (this.containerSize - this.thumbSize)
-      return Object.assign(
-        {},
-        this.thumbStyle,
-        this.horizontal === true
-          ? {
-            left: `${pos}px`,
-            width: `${this.thumbSize}px`
-          }
-          : {
-            top: `${pos}px`,
-            height: `${this.thumbSize}px`
-          }
+    horizontalThumbSize () {
+      return Math.round(
+        between(
+          this.container.horizontal * this.container.horizontal / this.scroll.horizontal.size,
+          50,
+          this.container.horizontal
+        )
       )
     },
 
+    verticalStyle () {
+      const pos = this.verticalScrollPercentage * (this.container.vertical - this.verticalThumbSize)
+      return {
+        ...this.thumbStyle,
+        ...this.verticalThumbStyle,
+        top: `${pos}px`,
+        height: `${this.verticalThumbSize}px`
+      }
+    },
+
+    horizontalStyle () {
+      const pos = this.horizontalScrollPercentage * (this.container.horizontal - this.horizontalThumbSize)
+      return {
+        ...this.thumbStyle,
+        ...this.horizontalThumbStyle,
+        left: `${pos}px`,
+        width: `${this.horizontalThumbSize}px`
+      }
+    },
+
+    verticalThumbClass () {
+      return 'q-scrollarea__thumb q-scrollarea__thumb--v absolute-right' +
+        (this.verticalThumbHidden === true ? ' q-scrollarea__thumb--invisible' : '')
+    },
+
+    horizontalThumbClass () {
+      return 'q-scrollarea__thumb q-scrollarea__thumb--h absolute-bottom' +
+        (this.horizontalThumbHidden === true ? ' q-scrollarea__thumb--invisible' : '')
+    },
+
+    verticalBarClass () {
+      return 'q-scrollarea__bar q-scrollarea__bar--v absolute-right' +
+        (this.verticalThumbHidden === true ? ' q-scrollarea__bar--invisible' : '')
+    },
+
+    horizontalBarClass () {
+      return 'q-scrollarea__bar q-scrollarea__bar--h absolute-bottom' +
+        (this.horizontalThumbHidden === true ? ' q-scrollarea__bar--invisible' : '')
+    },
+
+    scrollComputed () {
+      return {
+        vertical: {
+          ...this.scroll.vertical,
+          percentage: this.verticalScrollPercentage,
+          thumbHidden: this.verticalThumbHidden,
+          thumbSize: this.verticalThumbSize,
+          style: this.verticalStyle,
+          thumbClass: this.verticalThumbClass,
+          barClass: this.verticalBarClass
+        },
+        horizontal: {
+          ...this.scroll.horizontal,
+          percentage: this.horizontalScrollPercentage,
+          thumbHidden: this.horizontalThumbHidden,
+          thumbSize: this.horizontalThumbSize,
+          style: this.horizontalStyle,
+          thumbClass: this.horizontalThumbClass,
+          barClass: this.horizontalBarClass
+        }
+      }
+    },
+
     mainStyle () {
-      return this.thumbHidden === true
+      return this.verticalThumbHidden === true && this.horizontalThumbHidden === true
         ? this.contentStyle
         : this.contentActiveStyle
     },
 
-    scrollPercentage () {
-      const p = between(this.scrollPosition / (this.scrollSize - this.containerSize), 0, 1)
-      return Math.round(p * 10000) / 10000
-    },
-
-    containerSize () {
-      return this[`container${this.dirProps.suffix}`]
-    },
-
-    dirProps () {
-      return this.horizontal === true
-        ? { prefix: 'horizontal', suffix: 'Width', scroll: 'scrollLeft', classSuffix: 'h absolute-bottom', dir: 'right', dist: 'x' }
-        : { prefix: 'vertical', suffix: 'Height', scroll: 'scrollTop', classSuffix: 'v absolute-right', dir: 'down', dist: 'y' }
-    },
-
-    thumbClass () {
-      return `q-scrollarea__thumb--${this.dirProps.classSuffix}` +
-        (this.thumbHidden === true ? ' q-scrollarea__thumb--invisible' : '')
-    },
-
-    barClass () {
-      return `q-scrollarea__bar--${this.dirProps.classSuffix}` +
-        (this.thumbHidden === true ? ' q-scrollarea__bar--invisible' : '')
-    },
-
-    thumbDirectives () {
+    verticalThumbDirectives () {
       return [{
         name: 'touch-pan',
         modifiers: {
-          [ this.horizontal === true ? 'horizontal' : 'vertical' ]: true,
+          vertical: true,
           prevent: true,
           mouse: true,
           mouseAllDir: true
         },
-        value: this.__panThumb
+        value: e => { this.__panThumb(e, 'vertical') }
+      }]
+    },
+
+    horizontalThumbDirectives () {
+      return [{
+        name: 'touch-pan',
+        modifiers: {
+          horizontal: true,
+          prevent: true,
+          mouse: true,
+          mouseAllDir: true
+        },
+        value: e => { this.__panThumb(e, 'horizontal') }
       }]
     },
 
@@ -154,21 +246,81 @@ export default Vue.extend({
       return this.$refs.target
     },
 
-    getScrollPosition () {
-      return this.scrollPosition
+    getScroll () {
+      const info = {}
+
+      axisList.forEach(axis => {
+        const data = this.scrollComputed[ axis ]
+
+        info[ axis + 'Position' ] = data.position
+        info[ axis + 'Percentage' ] = data.percentage
+        info[ axis + 'Size' ] = data.size
+        info[ axis + 'ContainerSize' ] = this.container[ axis ]
+      })
+
+      return info
     },
 
-    setScrollPosition (offset, duration) {
-      const fn = this.horizontal === true
-        ? setHorizontalScrollPosition
-        : setScrollPosition
+    getScrollPosition (axis) {
+      if (axis === 'both') {
+        return {
+          top: this.scroll.vertical.position,
+          left: this.scroll.horizontal.position
+        }
+      }
+
+      if (axisList.includes(axis) !== true) {
+        axis = this.horizontal === true ? 'horizontal' : 'vertical'
+      }
+
+      return this.scroll[axis].position
+    },
+
+    getScrollPercentage (axis) {
+      if (axis === 'both') {
+        return {
+          top: this.verticalScrollPercentage,
+          left: this.horizontalScrollPercentage
+        }
+      }
+
+      if (axisList.includes(axis) !== true) {
+        axis = this.horizontal === true ? 'horizontal' : 'vertical'
+      }
+
+      return this[`${axis}ScrollPercentage`]
+    },
+
+    setScrollPosition (axis, offset, duration) {
+      if (axisList.includes(axis) === false) {
+        if (isNaN(axis) === true) {
+          console.error('[QScrollArea]: wrong first param of setScrollPosition (vertical/horizontal)')
+          return
+        }
+
+        [axis, offset, duration] = [this.horizontal === true ? 'horizontal' : 'vertical', axis, offset]
+      }
+
+      const fn = axis === 'vertical'
+        ? setVerticalScrollPosition
+        : setHorizontalScrollPosition
 
       fn(this.$refs.target, offset, duration)
     },
 
-    setScrollPercentage (percentage, duration) {
+    setScrollPercentage (axis, percentage, duration) {
+      if (axisList.includes(axis) === false) {
+        if (isNaN(axis) === true) {
+          console.error('[QScrollArea]: wrong first param of setScrollPercentage (vertical/horizontal)')
+          return
+        }
+
+        [axis, percentage, duration] = [this.horizontal === true ? 'horizontal' : 'vertical', axis, percentage]
+      }
+
       this.setScrollPosition(
-        percentage * (this.scrollSize - this.containerSize),
+        axis,
+        percentage * (this.scroll[axis].size - this.container[axis]),
         duration
       )
     },
@@ -176,73 +328,102 @@ export default Vue.extend({
     __updateContainer ({ height, width }) {
       let change = false
 
-      if (this.containerWidth !== width) {
-        this.containerWidth = width
+      if (this.container.vertical !== height) {
+        this.container.vertical = height
         change = true
       }
 
-      if (this.containerHeight !== height) {
-        this.containerHeight = height
+      if (this.container.horizontal !== width) {
+        this.container.horizontal = width
         change = true
       }
 
       change === true && this.__startTimer()
     },
 
-    __updateScroll (info) {
-      if (this.scrollPosition !== info.position) {
-        this.scrollPosition = info.position
+    __updateVerticalScroll ({ position }) {
+      if (this.scroll.vertical.position !== position) {
+        this.scroll.vertical.position = position
+        this.__startTimer()
+      }
+    },
+
+    __updateHorizontalScroll ({ position }) {
+      if (this.scroll.horizontal.position !== position) {
+        this.scroll.horizontal.position = position
         this.__startTimer()
       }
     },
 
     __updateScrollSize ({ height, width }) {
-      if (this.horizontal === true) {
-        if (this.scrollSize !== width) {
-          this.scrollSize = width
-          this.__startTimer()
-        }
+      let change = false
+
+      if (this.scroll.horizontal.size !== width) {
+        this.scroll.horizontal.size = width
+        change = true
       }
-      else if (this.scrollSize !== height) {
-        this.scrollSize = height
-        this.__startTimer()
+
+      if (this.scroll.vertical.size !== height) {
+        this.scroll.vertical.size = height
+        change = true
       }
+
+      change === true && this.__startTimer()
     },
 
-    __panThumb (e) {
-      if (e.isFirst === true) {
-        if (this.thumbHidden === true) {
+    __panThumb (e, axis) {
+      const data = this.scrollComputed[ axis ]
+
+      if (e.isFinal === true) {
+        if (this.panning !== true) {
           return
         }
 
-        this.refPos = this.scrollPosition
+        this.panning = false
+      }
+      else if (e.isFirst === true) {
+        if (data.thumbHidden === true) {
+          return
+        }
+
+        this.refPos = data.position
         this.panning = true
       }
       else if (this.panning !== true) {
         return
       }
 
-      if (e.isFinal === true) {
-        this.panning = false
-      }
+      const dProp = dirProps[ axis ]
+      const containerSize = this.container[axis]
 
-      const multiplier = (this.scrollSize - this.containerSize) / (this.containerSize - this.thumbSize)
-      const distance = e.distance[this.dirProps.dist]
-      const pos = this.refPos + (e.direction === this.dirProps.dir ? 1 : -1) * distance * multiplier
+      const multiplier = (data.size - containerSize) / (containerSize - data.thumbSize)
+      const distance = e.distance[dProp.dist]
+      const pos = this.refPos + (e.direction === dProp.dir ? 1 : -1) * distance * multiplier
 
-      this.__setScroll(pos)
+      this.__setScroll(pos, axis)
     },
 
-    __mouseDown (evt) {
-      if (this.thumbHidden !== true) {
-        const pos = evt[`offset${this.horizontal === true ? 'X' : 'Y'}`] - this.thumbSize / 2
-        this.__setScroll(pos / this.containerSize * this.scrollSize)
+    __mouseDown (evt, axis) {
+      const data = this.scrollComputed[ axis ]
 
+      if (data.thumbHidden !== true) {
+        const pos = evt[ dirProps[ axis ].offset ] - data.thumbSize / 2
+        this.__setScroll(pos / this.container[ axis ] * data.size, axis)
+
+        const ref = axis === 'vertical' ? this.$refs.verticalThumb : this.$refs.horizontalThumb
         // activate thumb pan
-        if (this.$refs.thumb !== void 0) {
-          this.$refs.thumb.dispatchEvent(new MouseEvent(evt.type, evt))
+        if (ref !== void 0) {
+          ref.dispatchEvent(new MouseEvent(evt.type, evt))
         }
       }
+    },
+
+    __verticalMouseDown (evt) {
+      this.__mouseDown(evt, 'vertical')
+    },
+
+    __horizontalMouseDown (evt) {
+      this.__mouseDown(evt, 'horizontal')
     },
 
     __startTimer () {
@@ -253,15 +434,20 @@ export default Vue.extend({
         this.tempShowing = true
       }
 
-      this.timer = setTimeout(() => {
-        this.tempShowing = false
-      }, this.delay)
-
-      this.__emitScroll()
+      this.timer = setTimeout(() => { this.tempShowing = false }, this.delay)
+      this.$listeners.scroll !== void 0 && this.__emitScroll()
     },
 
-    __setScroll (offset) {
-      this.$refs.target[this.dirProps.scroll] = offset
+    __setScroll (offset, axis) {
+      this.$refs.target[ dirProps[ axis ].scroll ] = offset
+    },
+
+    __mouseEnter () {
+      this.hover = true
+    },
+
+    __mouseLeave () {
+      this.hover = false
     }
   },
 
@@ -269,19 +455,18 @@ export default Vue.extend({
     return h('div', {
       class: this.classes,
       on: cache(this, 'desk', {
-        mouseenter: () => { this.hover = true },
-        mouseleave: () => { this.hover = false }
+        mouseenter: this.__mouseEnter,
+        mouseleave: this.__mouseLeave
       })
     }, [
       h('div', {
         ref: 'target',
-        staticClass: 'scroll relative-position fit hide-scrollbar',
+        staticClass: 'q-scrollarea__container scroll relative-position fit hide-scrollbar',
         attrs: this.scrollAttrs
       }, [
         h('div', {
-          staticClass: 'absolute',
-          style: this.mainStyle,
-          class: `full-${this.horizontal === true ? 'height' : 'width'}`
+          staticClass: 'q-scrollarea__content absolute',
+          style: this.mainStyle
         }, mergeSlot([
           h(QResizeObserver, {
             on: cache(this, 'resizeIn', { resize: this.__updateScrollSize })
@@ -289,8 +474,12 @@ export default Vue.extend({
         ], this, 'default')),
 
         h(QScrollObserver, {
-          props: { horizontal: this.horizontal },
-          on: cache(this, 'scroll', { scroll: this.__updateScroll })
+          on: cache(this, 'scrollV', { scroll: this.__updateVerticalScroll })
+        }),
+
+        h(QScrollObserver, {
+          props: { horizontal: true },
+          on: cache(this, 'scrollH', { scroll: this.__updateHorizontalScroll })
         })
       ]),
 
@@ -299,22 +488,37 @@ export default Vue.extend({
       }),
 
       h('div', {
-        staticClass: 'q-scrollarea__bar',
-        style: this.barStyle,
-        class: this.barClass,
+        class: this.verticalBarClass,
+        style: [ this.barStyle, this.verticalBarStyle ],
         attrs: ariaHidden,
-        on: cache(this, 'bar', {
-          mousedown: this.__mouseDown
+        on: cache(this, 'barV', {
+          mousedown: this.__verticalMouseDown
         })
       }),
 
       h('div', {
-        ref: 'thumb',
-        staticClass: 'q-scrollarea__thumb',
-        style: this.style,
-        class: this.thumbClass,
+        class: this.horizontalBarClass,
+        style: [ this.barStyle, this.horizontalBarStyle ],
         attrs: ariaHidden,
-        directives: this.thumbDirectives
+        on: cache(this, 'barH', {
+          mousedown: this.__horizontalMouseDown
+        })
+      }),
+
+      h('div', {
+        ref: 'verticalThumb',
+        class: this.verticalThumbClass,
+        style: this.verticalStyle,
+        attrs: ariaHidden,
+        directives: this.verticalThumbDirectives
+      }),
+
+      h('div', {
+        ref: 'horizontalThumb',
+        class: this.horizontalThumbClass,
+        style: this.horizontalStyle,
+        attrs: ariaHidden,
+        directives: this.horizontalThumbDirectives
       })
     ])
   },
@@ -324,21 +528,14 @@ export default Vue.extend({
     // ensure we're not emitting same info
     // multiple times
     this.__emitScroll = debounce(() => {
-      if (this.$listeners.scroll !== void 0) {
-        const info = { ref: this }
-        const prefix = this.dirProps.prefix
-
-        info[prefix + 'Position'] = this.scrollPosition
-        info[prefix + 'Percentage'] = this.scrollPercentage
-        info[prefix + 'Size'] = this.scrollSize
-        info[prefix + 'ContainerSize'] = this.containerSize
-
-        this.$emit('scroll', info)
-      }
+      const info = this.getScroll()
+      info.ref = this
+      this.$emit('scroll', info)
     }, 0)
   },
 
   beforeDestroy () {
     this.__emitScroll.cancel()
+    clearTimeout(this.timer)
   }
 })

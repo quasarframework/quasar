@@ -1,3 +1,5 @@
+import { getElement } from './dom.js'
+
 let id = 0
 let offsetBase = void 0
 
@@ -160,18 +162,6 @@ function normalizeOptions (options) {
     tweenFromOpacity: isNaN(options.tweenFromOpacity) === true ? 0.6 : parseFloat(options.tweenFromOpacity),
     tweenToOpacity: isNaN(options.tweenToOpacity) === true ? 0.5 : parseFloat(options.tweenToOpacity)
   }
-}
-
-function getElement (element) {
-  const type = typeof element
-
-  return type === 'function'
-    ? element()
-    : (
-      type === 'string'
-        ? document.querySelector(element)
-        : element
-    )
 }
 
 function isValidElement (element) {
