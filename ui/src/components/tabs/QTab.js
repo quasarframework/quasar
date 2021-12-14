@@ -179,7 +179,7 @@ export default Vue.extend({
         staticClass: 'q-tab relative-position self-stretch flex flex-center text-center no-outline',
         class: this.classes,
         attrs: this.attrs,
-        directives: this.ripple !== false && this.disable === true ? null : [
+        directives: this.ripple === false || this.disable === true ? null : [
           { name: 'ripple', value: this.ripple }
         ]
       }
@@ -190,19 +190,13 @@ export default Vue.extend({
           nativeOn: this.onEvents,
           props: this.routerTabLinkProps,
           scopedSlots: {
-            default: ({ href, navigate, isActive, isExactActive }) => {
-              const data = {
-                class: {
-                  [this.routerLinkProps.activeClass]: isActive,
-                  [this.routerLinkProps.exactActiveClass]: isExactActive
-                }
-              }
-              if (this.hasRouterLink === true) {
-                data.attrs = { href }
-                data.on = { click: navigate }
-              }
-              return h('a', data, this.__getContent(h))
-            }
+            default: ({ href, isActive, isExactActive }) => h('a', {
+              class: {
+                [this.routerLinkProps.activeClass]: isActive,
+                [this.routerLinkProps.exactActiveClass]: isExactActive
+              },
+              attrs: this.hasRouterLink === true ? { href } : void 0
+            }, this.__getContent(h))
           }
         })
       }
