@@ -11,7 +11,8 @@
     height: 200px
 
   &__track-container
-    background: rgba(0,0,0,.26)
+    background: rgba(0,0,0,.1)
+    border-radius: $generic-border-radius
 
     &--h
       top: 50%
@@ -24,8 +25,20 @@
       height: 100%
       width: 2px
 
+  &__inner-track
+    background: rgba(0,0,0,.1)
+    border-radius: $generic-border-radius
+
+    &--h
+      top: 0
+      bottom: 0
+    &--v
+      left: 0
+      right: 0
+
   &__track
     background: currentColor
+    border-radius: $generic-border-radius
 
     &--h
       will-change: width, left

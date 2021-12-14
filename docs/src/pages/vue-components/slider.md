@@ -24,6 +24,12 @@ Also check its “sibling”, the [QRange](/vue-components/range) component.
 
 <doc-example title="Vertical orientation" file="QSlider/Vertical" />
 
+### With inner min/max <q-badge align="top" color="brand-primary" label="v2.4+" />
+
+Sometimes you need to restrict the model value to an interval inside of the track's length. For this purpose, use `inner-min` and `inner-max` props. First prop needs to be higher or equal to `min` prop while the latter needs to be lower or equal to the `max` prop.
+
+<doc-example title="Inner min/max" file="QSlider/InnerMinMax" />
+
 ### With step
 
 <doc-example title="With step" file="QSlider/Step" />

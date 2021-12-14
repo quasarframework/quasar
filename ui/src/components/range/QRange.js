@@ -5,8 +5,6 @@ import { useFormInject, useFormProps } from '../../composables/private/use-form.
 import useSlider, {
   useSliderProps,
   useSliderEmits,
-  getRatio,
-  getModel,
   keyCodes
 } from '../slider/use-slider.js'
 
@@ -68,33 +66,27 @@ export default createComponent({
 
     const injectFormInput = useFormInject(formAttrs)
 
-    const rootRef = ref(null)
-    const model = ref({
-      min: props.modelValue.min === null ? props.min : props.modelValue.min,
-      max: props.modelValue.max === null ? props.max : props.modelValue.max
-    })
-
-    const nextFocus = ref(null)
-
-    const curMinRatio = ref(0)
-    const curMaxRatio = ref(0)
-
     const { state, methods } = useSlider({
       updateValue, updatePosition, getDragging
     })
 
-    const modelMinRatio = computed(() => (
-      state.minMaxDiff.value === 0 ? 0 : (model.value.min - props.min) / state.minMaxDiff.value
-    ))
+    const rootRef = ref(null)
+    const curMinRatio = ref(0)
+    const curMaxRatio = ref(0)
+
+    const model = ref({
+      min: props.modelValue.min === null ? state.innerMin.value : props.modelValue.min,
+      max: props.modelValue.max === null ? state.innerMax.value : props.modelValue.max
+    })
+
+    const nextFocus = ref(null)
+
+    const modelMinRatio = computed(() => methods.convertModelToRatio(model.value.min))
+    const modelMaxRatio = computed(() => methods.convertModelToRatio(model.value.max))
 
     const ratioMin = computed(() => (
       state.active.value === true ? curMinRatio.value : modelMinRatio.value
     ))
-
-    const modelMaxRatio = computed(() => (
-      state.minMaxDiff.value === 0 ? 0 : (model.value.max - props.min) / state.minMaxDiff.value
-    ))
-
     const ratioMax = computed(() => (
       state.active.value === true ? curMaxRatio.value : modelMaxRatio.value
     ))
@@ -218,35 +210,18 @@ export default createComponent({
       ))
     }
 
-    watch(() => props.modelValue.min, val => {
-      model.value.min = val === null
-        ? props.min
-        : val
-    })
+    watch(
+      () => props.modelValue.min + props.modelValue.max + state.innerMin.value + state.innerMax.value,
+      () => {
+        model.value.min = props.modelValue.min === null
+          ? state.innerMin.value
+          : between(props.modelValue.min, state.innerMin.value, state.innerMax.value)
 
-    watch(() => props.modelValue.max, val => {
-      model.value.max = val === null
-        ? props.max
-        : val
-    })
-
-    watch(() => props.min, value => {
-      if (model.value.min < value) {
-        model.value.min = value
+        model.value.max = props.modelValue.max === null
+          ? state.innerMax.value
+          : between(props.modelValue.max, state.innerMin.value, state.innerMax.value)
       }
-      if (model.value.max < value) {
-        model.value.max = value
-      }
-    })
-
-    watch(() => props.max, value => {
-      if (model.value.min > value) {
-        model.value.min = value
-      }
-      if (model.value.max > value) {
-        model.value.max = value
-      }
-    })
+    )
 
     function updateValue (change) {
       if (model.value.min !== props.modelValue.min || model.value.max !== props.modelValue.max) {
@@ -276,8 +251,8 @@ export default createComponent({
         ratioMax: modelMaxRatio.value
       }
 
-      const ratio = getRatio(event, dragging, state.isReversed.value, props.vertical)
       let type
+      const ratio = methods.getDraggingRatio(event, dragging)
 
       if (props.dragOnlyRange !== true && ratio < dragging.ratioMin + sensitivity) {
         type = dragType.MIN
@@ -287,7 +262,7 @@ export default createComponent({
           type = dragType.RANGE
           Object.assign(dragging, {
             offsetRatio: ratio,
-            offsetModel: getModel(ratio, props.min, props.max, props.step, state.decimals.value),
+            offsetModel: methods.convertRatioToModel(ratio),
             rangeValue: dragging.valueMax - dragging.valueMin,
             rangeRatio: dragging.ratioMax - dragging.ratioMin
           })
@@ -309,10 +284,9 @@ export default createComponent({
     }
 
     function updatePosition (event, dragging = state.dragging.value) {
-      const
-        ratio = getRatio(event, dragging, state.isReversed.value, props.vertical),
-        localModel = getModel(ratio, props.min, props.max, props.step, state.decimals.value)
       let pos
+      const ratio = methods.getDraggingRatio(event, dragging)
+      const localModel = methods.convertRatioToModel(ratio)
 
       switch (dragging.type) {
         case dragType.MIN:
@@ -389,8 +363,8 @@ export default createComponent({
         curMaxRatio.value = pos.maxR
       }
       else {
-        curMinRatio.value = state.minMaxDiff.value === 0 ? 0 : (model.value.min - props.min) / state.minMaxDiff.value
-        curMaxRatio.value = state.minMaxDiff.value === 0 ? 0 : (model.value.max - props.min) / state.minMaxDiff.value
+        curMinRatio.value = state.trackLen.value === 0 ? 0 : (model.value.min - props.min) / state.trackLen.value
+        curMaxRatio.value = state.trackLen.value === 0 ? 0 : (model.value.max - props.min) / state.trackLen.value
       }
     }
 
@@ -416,8 +390,8 @@ export default createComponent({
 
         const min = between(
           parseFloat((model.value.min + offset).toFixed(state.decimals.value)),
-          props.min,
-          props.max - interval
+          state.innerMin.value,
+          state.innerMax.value - interval
         )
 
         model.value = {
@@ -435,8 +409,8 @@ export default createComponent({
           ...model.value,
           [ which ]: between(
             parseFloat((model.value[ which ] + offset).toFixed(state.decimals.value)),
-            which === 'min' ? props.min : model.value.min,
-            which === 'max' ? props.max : model.value.max
+            which === 'min' ? state.innerMin.value : model.value.min,
+            which === 'max' ? state.innerMax.value : model.value.max
           )
         }
       }
@@ -483,6 +457,11 @@ export default createComponent({
 
     return () => {
       const track = [
+        h('div', {
+          class: `q-slider__inner-track q-slider__inner-track${ state.axis.value } absolute`,
+          style: state.innerTrackStyle.value
+        }),
+
         h('div', {
           class: `q-slider__track q-slider__track${ state.axis.value } absolute`,
           style: trackStyle.value

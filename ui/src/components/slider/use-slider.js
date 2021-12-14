@@ -11,31 +11,6 @@ import { isNumber } from '../../utils/private/is.js'
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 export const keyCodes = [ 34, 37, 40, 33, 39, 38 ]
 
-export function getRatio (evt, dragging, reverse, vertical) {
-  const
-    pos = position(evt),
-    val = vertical === true
-      ? between((pos.top - dragging.top) / dragging.height, 0, 1)
-      : between((pos.left - dragging.left) / dragging.width, 0, 1)
-
-  return reverse === true ? 1.0 - val : val
-}
-
-export function getModel (ratio, min, max, step, decimals) {
-  let model = min + ratio * (max - min)
-
-  if (step > 0) {
-    const modulo = (model - min) % step
-    model += (Math.abs(modulo) >= step / 2 ? (modulo < 0 ? -1 : 1) * step : 0) - modulo
-  }
-
-  if (decimals > 0) {
-    model = parseFloat(model.toFixed(decimals))
-  }
-
-  return between(model, min, max)
-}
-
 export const useSliderProps = {
   ...useDarkProps,
 
@@ -43,10 +18,12 @@ export const useSliderProps = {
     type: Number,
     default: 0
   },
+  innerMin: Number,
   max: {
     type: Number,
     default: 100
   },
+  innerMax: Number,
   step: {
     type: Number,
     default: 1,
@@ -96,7 +73,22 @@ export default function ({ updateValue, updatePosition, getDragging }) {
       : props.reverse !== ($q.lang.rtl === true)
   ))
 
-  const editable = computed(() => props.disable !== true && props.readonly !== true && props.min < props.max)
+  const innerMin = computed(() => (
+    isNaN(props.innerMin) === true || props.innerMin < props.min
+      ? props.min
+      : props.innerMin
+  ))
+
+  const innerMax = computed(() => (
+    isNaN(props.innerMax) === true || props.innerMax > props.max
+      ? props.max
+      : props.innerMax
+  ))
+
+  const editable = computed(() => (
+    props.disable !== true && props.readonly !== true
+    && innerMin.value < innerMax.value
+  ))
 
   const classes = computed(() =>
     `q-slider q-slider${ axis.value } q-slider--${ active.value === true ? '' : 'in' }active`
@@ -112,15 +104,54 @@ export default function ({ updateValue, updatePosition, getDragging }) {
 
   const decimals = computed(() => (String(props.step).trim('0').split('.')[ 1 ] || '').length)
   const step = computed(() => (props.step === 0 ? 1 : props.step))
-  const minMaxDiff = computed(() => props.max - props.min)
+  const trackLen = computed(() => props.max - props.min)
+
+  function convertRatioToModel (ratio) {
+    const { min, max, step } = props
+    let model = min + ratio * (max - min)
+
+    if (step > 0) {
+      const modulo = (model - min) % step
+      model += (Math.abs(modulo) >= step / 2 ? (modulo < 0 ? -1 : 1) * step : 0) - modulo
+    }
+
+    if (decimals.value > 0) {
+      model = parseFloat(model.toFixed(decimals.value))
+    }
+
+    return between(model, innerMin.value, innerMax.value)
+  }
+
+  function convertModelToRatio (model) {
+    return trackLen.value === 0
+      ? 0
+      : (model - props.min) / trackLen.value
+  }
+
+  function getDraggingRatio (evt, dragging) {
+    const
+      pos = position(evt),
+      val = props.vertical === true
+        ? between((pos.top - dragging.top) / dragging.height, 0, 1)
+        : between((pos.left - dragging.left) / dragging.width, 0, 1)
+
+    return between(
+      isReversed.value === true ? 1.0 - val : val,
+      innerMinRatio.value,
+      innerMaxRatio.value
+    )
+  }
+
+  const innerMinRatio = computed(() => convertModelToRatio(innerMin.value))
+  const innerMaxRatio = computed(() => convertModelToRatio(innerMax.value))
 
   const markerStep = computed(() => (
     isNumber(props.markers) === true ? props.markers : step.value)
   )
 
   const markerStyle = computed(() => {
-    if (minMaxDiff.value !== 0) {
-      const size = 100 * markerStep.value / minMaxDiff.value
+    if (trackLen.value !== 0) {
+      const size = 100 * markerStep.value / trackLen.value
 
       return {
         backgroundSize: props.vertical === true
@@ -141,8 +172,12 @@ export default function ({ updateValue, updatePosition, getDragging }) {
   ))
 
   const sizeProp = computed(() => (props.vertical === true ? 'height' : 'width'))
-
   const orientation = computed(() => (props.vertical === true ? 'vertical' : 'horizontal'))
+
+  const innerTrackStyle = computed(() => ({
+    [ positionProp.value ]: `${ 100 * innerMinRatio.value }%`,
+    [ sizeProp.value ]: `${ 100 * (innerMaxRatio.value - innerMinRatio.value) }%`
+  }))
 
   const attributes = computed(() => {
     const acc = {
@@ -287,9 +322,14 @@ export default function ({ updateValue, updatePosition, getDragging }) {
       editable,
       classes,
       decimals,
+      innerMin,
+      innerMinRatio,
+      innerMax,
+      innerMaxRatio,
       step,
-      minMaxDiff,
+      trackLen,
       markerStyle,
+      innerTrackStyle,
       tabindex,
       positionProp,
       sizeProp,
@@ -303,7 +343,10 @@ export default function ({ updateValue, updatePosition, getDragging }) {
       onBlur,
       onKeyup,
       getThumbSvg,
-      getPinStyle
+      getPinStyle,
+      convertRatioToModel,
+      convertModelToRatio,
+      getDraggingRatio
     }
   }
 }
