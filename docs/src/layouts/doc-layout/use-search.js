@@ -137,15 +137,17 @@ export default function useSearch (scope, $q, $route) {
     searchInputRef.value.focus()
   }
 
-  const onSearchKeydown = $q.platform.is.desktop === true
-    ? evt => {
-      switch (evt.keyCode) {
-        case 27: // escape
+  function onSearchKeydown (evt) {
+    switch (evt.keyCode) {
+      case 27: // escape
+        if ($q.platform.is.desktop === true) {
           evt.preventDefault()
           resetSearch()
-          break
-        case 38: // up
-        case 40: // down
+        }
+        break
+      case 38: // up
+      case 40: // down
+        if ($q.platform.is.desktop === true) {
           evt.preventDefault()
           if (searchResults.value !== null && searchResults.value.ids !== void 0) {
             if (searchActiveId.value === null) {
@@ -165,17 +167,17 @@ export default function useSearch (scope, $q, $route) {
               target.scrollIntoView({ block: 'center' })
             }
           }
-          break
-        case 13: // enter
-          evt.preventDefault()
-          evt.stopPropagation()
-          if (searchResults.value !== null && searchActiveId.value !== null) {
-            document.getElementById(searchActiveId.value).click(evt)
-          }
-          break
-      }
+        }
+        break
+      case 13: // enter
+        evt.preventDefault()
+        evt.stopPropagation()
+        if (searchResults.value !== null && searchActiveId.value !== null) {
+          document.getElementById(searchActiveId.value).click(evt)
+        }
+        break
     }
-    : () => {}
+  }
 
   function onResultSuccess (response) {
     searchResults.value = parseResults(response.hits)
