@@ -172,6 +172,43 @@ export default Vue.extend({
       narrow === false && node.push(indicator)
 
       return node
+    },
+
+    __renderTab (h, tag) {
+      const data = {
+        staticClass: 'q-tab relative-position self-stretch flex flex-center text-center no-outline',
+        class: this.classes,
+        attrs: this.attrs,
+        directives: this.ripple !== false && this.disable === true ? null : [
+          { name: 'ripple', value: this.ripple }
+        ]
+      }
+
+      if (tag === 'router-link') {
+        return h(tag, {
+          ...data,
+          nativeOn: this.onEvents,
+          props: this.routerTabLinkProps,
+          scopedSlots: {
+            default: ({ href, navigate, isActive, isExactActive }) => {
+              const data = {
+                class: {
+                  [this.routerLinkProps.activeClass]: isActive,
+                  [this.routerLinkProps.exactActiveClass]: isExactActive
+                }
+              }
+              if (this.hasRouterLink === true) {
+                data.attrs = { href }
+                data.on = { click: navigate }
+              }
+              return h('a', data, this.__getContent(h))
+            }
+          }
+        })
+      }
+
+      data.on = this.onEvents
+      return h(tag, data, this.__getContent(h))
     }
   },
 
@@ -184,14 +221,6 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h('div', {
-      staticClass: 'q-tab relative-position self-stretch flex flex-center text-center no-outline',
-      class: this.classes,
-      attrs: this.attrs,
-      directives: this.ripple === false || this.disable === true ? null : [
-        { name: 'ripple', value: this.ripple }
-      ],
-      on: this.onEvents
-    }, this.__getContent(h))
+    return this.__renderTab(h, 'div')
   }
 })

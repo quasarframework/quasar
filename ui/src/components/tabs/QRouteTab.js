@@ -139,24 +139,6 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h('router-link', {
-      staticClass: 'q-tab relative-position self-stretch flex flex-center text-center no-outline',
-      class: this.classes,
-      attrs: this.attrs,
-      props: this.routerTabLinkProps,
-      directives: this.ripple === false || this.disable === true ? null : [
-        { name: 'ripple', value: this.ripple }
-      ],
-      nativeOn: this.onEvents,
-      scopedSlots: {
-        default: ({ href, isActive, isExactActive }) => h('a', {
-          class: {
-            [this.routerLinkProps.activeClass]: isActive,
-            [this.routerLinkProps.exactActiveClass]: isExactActive
-          },
-          attrs: this.hasRouterLink === true ? { href } : void 0
-        }, this.__getContent(h))
-      }
-    })
+    return this.__renderTab(h, 'router-link')
   }
 })
