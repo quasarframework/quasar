@@ -4,6 +4,8 @@ import AlignMixin from '../../mixins/align.js'
 import { slot } from '../../utils/slot.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
+const disabledValues = [ true, '' ]
+
 export default Vue.extend({
   name: 'QBreadcrumbs',
 
@@ -34,13 +36,13 @@ export default Vue.extend({
     },
 
     sepClass () {
-      if (this.separatorColor) {
-        return `text-${this.separatorColor}`
-      }
+      return this.separatorColor
+        ? ` text-${this.separatorColor}`
+        : ''
     },
 
     activeClass () {
-      return `text-${this.activeColor}`
+      return ` text-${this.activeColor}`
     }
   },
 
@@ -60,18 +62,20 @@ export default Vue.extend({
     nodes.forEach(comp => {
       if (comp.tag !== void 0 && comp.tag.endsWith('-QBreadcrumbsEl')) {
         const middle = els < len
+        const disabled = disabledValues.includes(comp.componentOptions.propsData.disable)
+        const cls = middle === true
+          ? (disabled !== true ? this.activeClass : '')
+          : ' q-breadcrumbs--last'
+
         els++
 
         child.push(h('div', {
-          staticClass: 'flex items-center',
-          class: middle ? this.activeClass : 'q-breadcrumbs--last'
+          staticClass: 'flex items-center' + cls
         }, [ comp ]))
 
-        if (middle) {
-          child.push(h('div', {
-            staticClass: 'q-breadcrumbs__separator', class: this.sepClass
-          }, separator()))
-        }
+        middle === true && child.push(h('div', {
+          staticClass: 'q-breadcrumbs__separator' + this.sepClass
+        }, separator()))
       }
       else {
         child.push(comp)

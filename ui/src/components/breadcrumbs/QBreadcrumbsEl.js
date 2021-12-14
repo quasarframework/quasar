@@ -16,23 +16,35 @@ export default Vue.extend({
     icon: String
   },
 
+  computed: {
+    iconClass () {
+      return 'q-breadcrumbs__el-icon' +
+        (this.label !== void 0 ? ' q-breadcrumbs__el-icon--with-label' : '')
+    },
+
+    renderData () {
+      const staticClass = 'q-breadcrumbs__el q-link ' +
+        'flex inline items-center relative-position ' +
+        (this.disable !== true ? 'q-link--focusable' : 'q-breadcrumbs__el--disabled')
+
+      return this.hasRouterLink === true
+        ? [ 'router-link', { staticClass, props: this.routerLinkProps, nativeOn: { ...this.qListeners } } ]
+        : [ 'span', { staticClass, on: { ...this.qListeners } } ]
+    }
+  },
+
   render (h) {
     const child = []
 
     this.icon !== void 0 && child.push(
       h(QIcon, {
-        staticClass: 'q-breadcrumbs__el-icon',
-        class: this.label !== void 0 ? 'q-breadcrumbs__el-icon--with-label' : null,
+        class: this.iconClass,
         props: { name: this.icon }
       })
     )
 
     this.label && child.push(this.label)
 
-    return h(this.hasRouterLink === true ? 'router-link' : 'span', {
-      staticClass: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
-      props: this.hasRouterLink === true ? this.routerLinkProps : null,
-      [this.hasRouterLink === true ? 'nativeOn' : 'on']: { ...this.qListeners }
-    }, mergeSlot(child, this, 'default'))
+    return h(...this.renderData, mergeSlot(child, this, 'default'))
   }
 })
