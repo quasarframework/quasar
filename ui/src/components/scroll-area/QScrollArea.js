@@ -534,6 +534,19 @@ export default Vue.extend({
     }, 0)
   },
 
+  activated () {
+    const scrollTarget = this.getScrollTarget()
+
+    if (scrollTarget !== void 0 && this.__scrollPosition !== void 0) {
+      setHorizontalScrollPosition(scrollTarget, this.__scrollPosition.left)
+      setVerticalScrollPosition(scrollTarget, this.__scrollPosition.top)
+    }
+  },
+
+  deactivated () {
+    this.__scrollPosition = this.getScrollPosition('both')
+  },
+
   beforeDestroy () {
     this.__emitScroll.cancel()
     clearTimeout(this.timer)
