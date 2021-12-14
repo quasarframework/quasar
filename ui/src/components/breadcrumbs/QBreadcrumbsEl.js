@@ -38,7 +38,7 @@ export default Vue.extend({
 
     this.icon !== void 0 && child.push(
       h(QIcon, {
-        staticClass: this.iconClass,
+        class: this.iconClass,
         props: { name: this.icon }
       })
     )
