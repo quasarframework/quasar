@@ -1,4 +1,4 @@
-import { stopAndPrevent } from '../utils/event.js'
+import { stop, stopAndPrevent } from '../utils/event.js'
 import cache from '../utils/cache.js'
 
 function filterFiles (files, rejectedFiles, failedPropValidation, filterFn) {
@@ -58,10 +58,20 @@ export default {
   },
 
   methods: {
-    pickFiles (e) {
-      if (this.editable) {
-        const input = this.__getFileInput()
-        input && input.click(e)
+    pickFiles (ev) {
+      if (this.editable === true) {
+        if (ev !== Object(ev)) {
+          ev = { target: null }
+        }
+
+        if (ev.target !== null && ev.target.matches('input[type="file"]') === true) {
+          // stop propagation if it's not a real pointer event
+          ev.clientX === 0 && ev.clientY === 0 && stop(ev)
+        }
+        else {
+          const input = this.__getFileInput()
+          input && input !== ev.target && input.click(ev)
+        }
       }
     },
 
@@ -109,6 +119,18 @@ export default {
       if (this.multiple !== true) {
         files = [ files[0] ]
       }
+
+      files.forEach(file => {
+        file.__key = file.webkitRelativePath + file.lastModified + file.name + file.size
+      })
+
+      // Avoid duplicate files
+      const filenameMap = currentFileList.map(entry => entry.__key)
+      files = filterFiles(files, rejectedFiles, 'duplicate', file => {
+        return filenameMap.includes(file.__key) === false
+      })
+
+      if (files.length === 0) { return done() }
 
       if (this.maxTotalSize !== void 0) {
         let size = append === true
