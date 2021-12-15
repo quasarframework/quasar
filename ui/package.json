@@ -28,7 +28,8 @@
     "test": "yarn lint && yarn build",
     "lint": "eslint --ext .js,.vue src dev",
     "lint-fix": "eslint --ext .js,.vue src dev --fix",
-    "test:unit": "cd ./dev && cypress open-ct && cd .."
+    "test:unit": "cd ./dev && cypress open-ct && cd ..",
+    "test:create": "node ./test/cypress/helpers/create-spec.js -c"
   },
   "repository": {
     "type": "git",
@@ -94,7 +95,8 @@
     "rollup-plugin-typescript2": "^0.29.0",
     "table": "^6.0.4",
     "tslib": "^2.0.3",
-    "uglify-es": "^3.3.9"
+    "uglify-es": "^3.3.9",
+    "yargs": "^17.3.0"
   },
   "vetur": {
     "tags": "dist/vetur/quasar-tags.json",
