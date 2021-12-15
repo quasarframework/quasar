@@ -24,6 +24,17 @@
       </div>
 
       <p class="caption">
+        Inner min/max
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ innerMinMax }}</em> &nbsp;&nbsp;(0 to 50, inner 10 to 35 or 15 to 40)</span>
+        </span>
+      </p>
+
+      <q-slider v-model="nullInnerMinMax" :min="0" :max="50" :inner-min="10" :inner-max="35" />
+      <q-slider v-model="innerMinMax" :min="0" :max="50" :inner-min="10" :inner-max="35" />
+      <q-slider v-model="innerMinMax" :min="0" :max="50" color="green" :inner-min="15" :inner-max="40" />
+
+      <p class="caption">
         Reverse
         <span class="label inline bg-secondary text-white">
           Model <span class="right-detail"><em>{{ stepZero }}</em> &nbsp;&nbsp;(0 to 100)</span>
@@ -189,6 +200,8 @@ export default {
       nullValue: null,
       nullValueMin: null,
       standalone: 20,
+      nullInnerMinMax: null,
+      innerMinMax: 25,
       stepZero: 30.05,
       precision: 0.4,
       step: 30,

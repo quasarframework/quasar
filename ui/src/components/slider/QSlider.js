@@ -26,9 +26,9 @@ export default Vue.extend({
   },
 
   data () {
-    const minModel = isNaN(this.minValue) === true || this.minValue < this.min
+    const minModel = isNaN(this.innerMin) === true || this.innerMin < this.min
       ? this.min
-      : this.minValue
+      : this.innerMin
     const model = this.value === null ? minModel : this.value
 
     return {
@@ -40,8 +40,8 @@ export default Vue.extend({
   watch: {
     value (val) {
       const model = val === null
-        ? this.minValueVal
-        : between(val, this.minValueVal, this.maxValueVal)
+        ? this.minInnerValue
+        : between(val, this.minInnerValue, this.maxInnerValue)
 
       if (this.model !== model) {
         this.model = model
@@ -50,12 +50,12 @@ export default Vue.extend({
       }
     },
 
-    minValueVal (val) {
-      this.model = between(this.model, val, this.maxValueVal)
+    minInnerValue (val) {
+      this.model = between(this.model, val, this.maxInnerValue)
     },
 
-    maxValueVal (val) {
-      this.model = between(this.model, this.minValueVal, val)
+    maxInnerValue (val) {
+      this.model = between(this.model, this.minInnerValue, val)
     }
   },
 
@@ -139,14 +139,14 @@ export default Vue.extend({
     __updatePosition (event, dragging = this.dragging) {
       const ratio = between(
         getRatio(event, dragging, this.isReversed, this.vertical),
-        this.minValueRatio,
-        this.maxValueRatio
+        this.minInnerRatio,
+        this.maxInnerRatio
       )
 
       this.model = between(
         getModel(ratio, this.min, this.max, this.step, this.decimals),
-        this.minValueVal,
-        this.maxValueVal
+        this.minInnerValue,
+        this.maxInnerValue
       )
 
       this.curRatio = this.snap !== true || this.step === 0
@@ -171,8 +171,8 @@ export default Vue.extend({
 
       this.model = between(
         parseFloat((this.model + offset).toFixed(this.decimals)),
-        this.minValueVal,
-        this.maxValueVal
+        this.minInnerValue,
+        this.maxInnerValue
       )
 
       this.__updateValue()
