@@ -15,7 +15,7 @@
 
     "min": {
       "type": "Number",
-      "desc": "Minimum value of the model",
+      "desc": "Minimum value on the track (and of model if minValue is not set)",
       "default": 0,
       "examples": [ ":min=\"0\"" ],
       "category": "model"
@@ -23,7 +23,7 @@
 
     "max": {
       "type": "Number",
-      "desc": "Maximum value of the model",
+      "desc": "Maximum value on the track (and of model if maxValue is not set)",
       "default": 100,
       "examples": [ ":max=\"100\"" ],
       "category": "model"
@@ -35,6 +35,22 @@
       "default": 1,
       "examples": [ ":step=\"1\"" ],
       "category": "model"
+    },
+
+    "min-value": {
+      "type": "Number",
+      "desc": "Minimum value of the model (defaults to min)",
+      "examples": [ ":minValue=\"0\"" ],
+      "category": "content",
+      "addedIn": "v1.6.0"
+    },
+
+    "max-value": {
+      "type": "Number",
+      "desc": "Maximum value of the model (defaults to max)",
+      "examples": [ ":maxValue=\"100\"" ],
+      "category": "content",
+      "addedIn": "v1.6.0"
     },
 
     "reverse": {

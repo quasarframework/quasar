@@ -24,6 +24,10 @@ Notice we are using an object for the selection, which holds values for both the
 
 <doc-example title="Vertical orientation" file="QRange/Vertical" />
 
+### With value restricted to interval <q-badge align="top" color="brand-primary" label="v1.16+" />
+
+<doc-example title="Value restricted to interval" file="QRange/ValueRestricted" />
+
 ### With step
 
 <doc-example title="With Step" file="QRange/Step" />

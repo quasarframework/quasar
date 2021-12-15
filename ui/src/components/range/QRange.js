@@ -7,8 +7,8 @@ import {
   keyCodes
 } from '../slider/slider-utils.js'
 
-import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 const dragType = {
   MIN: 0,
@@ -33,8 +33,6 @@ export default Vue.extend({
       }
     },
 
-    name: String,
-
     dragRange: Boolean,
     dragOnlyRange: Boolean,
 
@@ -48,11 +46,17 @@ export default Vue.extend({
   },
 
   data () {
+    const minModel = isNaN(this.minValue) === true || this.minValue < this.min
+      ? this.min
+      : this.minValue
+    const maxModel = isNaN(this.maxValue) === true || this.maxValue > this.max
+      ? this.max
+      : this.maxValue
+    const min = this.value.min === null ? minModel : this.value.min
+    const max = this.value.max === null ? maxModel : this.value.max
+
     return {
-      model: {
-        min: this.value.min === null ? this.min : this.value.min,
-        max: this.value.max === null ? this.max : this.value.max
-      },
+      model: { min, max },
       curMinRatio: 0,
       curMaxRatio: 0
     }
@@ -60,70 +64,84 @@ export default Vue.extend({
 
   watch: {
     'value.min' (val) {
-      this.model.min = val === null
+      const model = val === null
         ? this.min
-        : val
+        : between(val, this.minValueVal, this.maxValueVal)
+
+      if (this.model.min !== model) {
+        this.model.min = model
+
+        this.curMinRatio = this.__getModelRatio(model)
+      }
     },
 
     'value.max' (val) {
-      this.model.max = val === null
+      const model = val === null
         ? this.max
-        : val
-    },
+        : between(val, this.minValueVal, this.maxValueVal)
 
-    min (value) {
-      if (this.model.min < value) {
-        this.model.min = value
-      }
-      if (this.model.max < value) {
-        this.model.max = value
+      if (this.model.max !== model) {
+        this.model.max = model
+
+        this.curMaxRatio = this.__getModelRatio(model)
       }
     },
 
-    max (value) {
-      if (this.model.min > value) {
-        this.model.min = value
+    minValueVal (val) {
+      if (this.model.min < val) {
+        this.model.min = val
       }
-      if (this.model.max > value) {
-        this.model.max = value
+      if (this.model.max < val) {
+        this.model.max = val
+      }
+    },
+
+    maxValueVal (val) {
+      if (this.model.min > val) {
+        this.model.min = val
+      }
+      if (this.model.max > val) {
+        this.model.max = val
       }
     }
   },
 
   computed: {
-    ratioMin () {
+    minRatio () {
       return this.active === true ? this.curMinRatio : this.modelMinRatio
     },
 
-    ratioMax () {
+    maxRatio () {
       return this.active === true ? this.curMaxRatio : this.modelMaxRatio
     },
 
     modelMinRatio () {
-      return this.minMaxDiff === 0 ? 0 : (this.model.min - this.min) / this.minMaxDiff
+      return this.__getModelRatio(this.model.min)
     },
 
     modelMaxRatio () {
-      return this.minMaxDiff === 0 ? 0 : (this.model.max - this.min) / this.minMaxDiff
+      return this.__getModelRatio(this.model.max)
     },
 
     trackStyle () {
+      const minRatio = between(this.minRatio, 0, 1)
+
       return {
-        [ this.positionProp ]: `${100 * this.ratioMin}%`,
-        [ this.sizeProp ]: `${100 * (this.ratioMax - this.ratioMin)}%`
+        [ this.positionProp ]: `${100 * minRatio}%`,
+        [ this.sizeProp ]: `${100 * (between(this.maxRatio, 0, 1) - minRatio)}%`
       }
     },
 
     minThumbStyle () {
       return {
-        [ this.positionProp ]: `${100 * this.ratioMin}%`,
+        [ this.positionProp ]: `${100 * this.minRatio}%`,
         'z-index': this.__nextFocus === 'min' ? 2 : void 0
       }
     },
 
     maxThumbStyle () {
       return {
-        [ this.positionProp ]: `${100 * this.ratioMax}%`
+        [ this.positionProp ]: `${100 * this.maxRatio}%`
       }
     },
 
@@ -137,6 +155,56 @@ export default Vue.extend({
       if (this.preventFocus === false && this.focus === 'max') {
         return 'q-slider--focus'
       }
+    },
+
+    minPinClass () {
+      const color = this.leftLabelColor || this.labelColor
+      if (color) {
+        return `text-${color}`
+      }
+    },
+
+    minPinTextClass () {
+      const color = this.leftLabelTextColor || this.labelTextColor
+      if (color) {
+        return `text-${color}`
+      }
+    },
+
+    maxPinClass () {
+      const color = this.rightLabelColor || this.labelColor
+      if (color) {
+        return `text-${color}`
+      }
+    },
+
+    maxPinTextClass () {
+      const color = this.rightLabelTextColor || this.labelTextColor
+      if (color) {
+        return `text-${color}`
+      }
+    },
+
+    minPinStyle () {
+      const percent = (this.reverse === true ? -this.minRatio : this.minRatio - 1)
+      return this.__getPinStyle(percent, this.minRatio)
+    },
+
+    maxPinStyle () {
+      const percent = (this.reverse === true ? -this.maxRatio : this.maxRatio - 1)
+      return this.__getPinStyle(percent, this.maxRatio)
+    },
+
+    minComputedLabel () {
+      return this.leftLabelValue !== void 0
+        ? this.leftLabelValue
+        : this.model.min
+    },
+
+    maxComputedLabel () {
+      return this.rightLabelValue !== void 0
+        ? this.rightLabelValue
+        : this.model.max
     },
 
     events () {
@@ -180,56 +248,6 @@ export default Vue.extend({
       }
     },
 
-    minPinClass () {
-      const color = this.leftLabelColor || this.labelColor
-      if (color) {
-        return `text-${color}`
-      }
-    },
-
-    minPinTextClass () {
-      const color = this.leftLabelTextColor || this.labelTextColor
-      if (color) {
-        return `text-${color}`
-      }
-    },
-
-    maxPinClass () {
-      const color = this.rightLabelColor || this.labelColor
-      if (color) {
-        return `text-${color}`
-      }
-    },
-
-    maxPinTextClass () {
-      const color = this.rightLabelTextColor || this.labelTextColor
-      if (color) {
-        return `text-${color}`
-      }
-    },
-
-    minLabel () {
-      return this.leftLabelValue !== void 0
-        ? this.leftLabelValue
-        : this.model.min
-    },
-
-    maxLabel () {
-      return this.rightLabelValue !== void 0
-        ? this.rightLabelValue
-        : this.model.max
-    },
-
-    minPinStyle () {
-      const percent = (this.reverse === true ? -this.ratioMin : this.ratioMin - 1)
-      return this.__getPinStyle(percent, this.ratioMin)
-    },
-
-    maxPinStyle () {
-      const percent = (this.reverse === true ? -this.ratioMax : this.ratioMax - 1)
-      return this.__getPinStyle(percent, this.ratioMax)
-    },
-
     formAttrs () {
       return {
         type: 'hidden',
@@ -250,42 +268,43 @@ export default Vue.extend({
     __getDragging (event) {
       const
         { left, top, width, height } = this.$el.getBoundingClientRect(),
-        sensitivity = this.dragOnlyRange === true
+        thumb = this.$refs.minThumb || this.$refs.maxThumb,
+        sensitivity = this.dragOnlyRange === true || thumb === void 0
           ? 0
           : (this.vertical === true
-            ? this.$refs.minThumb.offsetHeight / (2 * height)
-            : this.$refs.minThumb.offsetWidth / (2 * width)
-          )
+            ? thumb.offsetHeight / (2 * height)
+            : thumb.offsetWidth / (2 * width)
+          ) + (this.modelMaxRatio - this.modelMinRatio) / 15
 
       const dragging = {
         left,
         top,
         width,
         height,
-        valueMin: this.model.min,
-        valueMax: this.model.max,
-        ratioMin: this.modelMinRatio,
-        ratioMax: this.modelMaxRatio
+        minValue: this.model.min,
+        maxValue: this.model.max,
+        minRatio: this.modelMinRatio,
+        maxRatio: this.modelMaxRatio
       }
 
       const ratio = getRatio(event, dragging, this.isReversed, this.vertical)
       let type
 
-      if (this.dragOnlyRange !== true && ratio < dragging.ratioMin + sensitivity) {
+      if (this.dragOnlyRange !== true && ratio < dragging.minRatio + sensitivity) {
         type = dragType.MIN
       }
-      else if (this.dragOnlyRange === true || ratio < dragging.ratioMax - sensitivity) {
+      else if (this.dragOnlyRange === true || ratio < dragging.maxRatio - sensitivity) {
         if (this.dragRange === true || this.dragOnlyRange === true) {
           type = dragType.RANGE
           Object.assign(dragging, {
             offsetRatio: ratio,
             offsetModel: getModel(ratio, this.min, this.max, this.step, this.decimals),
-            rangeValue: dragging.valueMax - dragging.valueMin,
-            rangeRatio: dragging.ratioMax - dragging.ratioMin
+            rangeValue: dragging.maxValue - dragging.minValue,
+            rangeRatio: dragging.maxRatio - dragging.minRatio
           })
         }
         else {
-          type = dragging.ratioMax - ratio < ratio - dragging.ratioMin
+          type = dragging.maxRatio - ratio < ratio - dragging.minRatio
             ? dragType.MAX
             : dragType.MIN
         }
@@ -308,20 +327,20 @@ export default Vue.extend({
 
       switch (dragging.type) {
         case dragType.MIN:
-          if (ratio <= dragging.ratioMax) {
+          if (ratio <= dragging.maxRatio) {
             pos = {
               minR: ratio,
-              maxR: dragging.ratioMax,
+              maxR: dragging.maxRatio,
               min: model,
-              max: dragging.valueMax
+              max: dragging.maxValue
             }
             this.__nextFocus = 'min'
           }
           else {
             pos = {
-              minR: dragging.ratioMax,
+              minR: dragging.maxRatio,
               maxR: ratio,
-              min: dragging.valueMax,
+              min: dragging.maxValue,
               max: model
             }
             this.__nextFocus = 'max'
@@ -329,11 +348,11 @@ export default Vue.extend({
           break
 
         case dragType.MAX:
-          if (ratio >= dragging.ratioMin) {
+          if (ratio >= dragging.minRatio) {
             pos = {
-              minR: dragging.ratioMin,
+              minR: dragging.minRatio,
               maxR: ratio,
-              min: dragging.valueMin,
+              min: dragging.minValue,
               max: model
             }
             this.__nextFocus = 'max'
@@ -341,9 +360,9 @@ export default Vue.extend({
           else {
             pos = {
               minR: ratio,
-              maxR: dragging.ratioMin,
+              maxR: dragging.minRatio,
               min: model,
-              max: dragging.valueMin
+              max: dragging.minValue
             }
             this.__nextFocus = 'min'
           }
@@ -352,9 +371,9 @@ export default Vue.extend({
         case dragType.RANGE:
           const
             ratioDelta = ratio - dragging.offsetRatio,
-            minR = between(dragging.ratioMin + ratioDelta, 0, 1 - dragging.rangeRatio),
+            minR = between(dragging.minRatio + ratioDelta, this.minValueRatio, this.maxValueRatio - dragging.rangeRatio),
             modelDelta = model - dragging.offsetModel,
-            min = between(dragging.valueMin + modelDelta, this.min, this.max - dragging.rangeValue)
+            min = between(dragging.minValue + modelDelta, this.minValueVal, this.maxValueVal - dragging.rangeValue)
 
           pos = {
             minR,
@@ -366,23 +385,31 @@ export default Vue.extend({
       }
 
       this.model = {
-        min: pos.min,
-        max: pos.max
+        min: this.__nextFocus !== 'max'
+          ? between(pos.min, this.minValueVal, this.maxValueVal)
+          : pos.min,
+        max: this.__nextFocus !== 'min'
+          ? between(pos.max, this.minValueVal, this.maxValueVal)
+          : pos.max
       }
 
       // If either of the values to be emitted are null, set them to the defaults the user has entered.
       if (this.model.min === null || this.model.max === null) {
-        this.model.min = pos.min || this.min
-        this.model.max = pos.max || this.max
+        this.model.min = pos.min || this.minValueVal
+        this.model.max = pos.max || this.maxValueVal
       }
 
       if (this.snap !== true || this.step === 0) {
-        this.curMinRatio = pos.minR
-        this.curMaxRatio = pos.maxR
+        this.curMinRatio = this.__nextFocus !== 'max'
+          ? between(pos.minR, this.minValueRatio, this.maxValueRatio)
+          : pos.minR
+        this.curMaxRatio = this.__nextFocus !== 'min'
+          ? between(pos.maxR, this.minValueRatio, this.maxValueRatio)
+          : pos.maxR
       }
       else {
-        this.curMinRatio = this.minMaxDiff === 0 ? 0 : (this.model.min - this.min) / this.minMaxDiff
-        this.curMaxRatio = this.minMaxDiff === 0 ? 0 : (this.model.max - this.min) / this.minMaxDiff
+        this.curMinRatio = this.__getModelRatio(this.model.min)
+        this.curMaxRatio = this.__getModelRatio(this.model.max)
       }
     },
 
@@ -408,8 +435,8 @@ export default Vue.extend({
 
         const min = between(
           parseFloat((this.model.min + offset).toFixed(this.decimals)),
-          this.min,
-          this.max - interval
+          this.minValueVal,
+          this.maxValueVal - interval
         )
 
         this.model = {
@@ -427,8 +454,8 @@ export default Vue.extend({
           ...this.model,
           [which]: between(
             parseFloat((this.model[which] + offset).toFixed(this.decimals)),
-            which === 'min' ? this.min : this.model.min,
-            which === 'max' ? this.max : this.model.max
+            which === 'min' ? this.minValueVal : this.model.min,
+            which === 'max' ? this.maxValueVal : this.model.max
           )
         }
       }
@@ -437,6 +464,11 @@ export default Vue.extend({
     },
 
     __getThumb (h, which) {
+      const ratio = this[which + 'Ratio']
+      if (ratio < 0 || ratio > 1) {
+        return
+      }
+
       const child = [
         this.__getThumbSvg(h),
         h('div', { staticClass: 'q-slider__focus-ring' })
@@ -457,7 +489,7 @@ export default Vue.extend({
                 staticClass: 'q-slider__pin-text',
                 class: this[which + 'PinTextClass']
               }, [
-                this[which + 'Label']
+                this[which + 'ComputedLabel']
               ])
             ])
           ]),
@@ -481,24 +513,10 @@ export default Vue.extend({
   },
 
   render (h) {
-    const track = [
-      h('div', {
-        staticClass: `q-slider__track q-slider__track${this.axis} absolute`,
-        style: this.trackStyle
-      })
-    ]
-
-    this.markers !== false && track.push(
-      h('div', {
-        staticClass: `q-slider__track-markers q-slider__track-markers${this.axis} absolute-full fit`,
-        style: this.markerStyle
-      })
-    )
-
     const child = [
       h('div', {
         staticClass: `q-slider__track-container q-slider__track-container${this.axis} absolute`
-      }, track),
+      }, this.__getTrack(h)),
 
       this.__getThumb(h, 'min'),
       this.__getThumb(h, 'max')
