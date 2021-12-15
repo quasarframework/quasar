@@ -1,238 +1,476 @@
+/* eslint-disable no-unused-expressions */
 import { mount } from '@cypress/vue'
 import WrapperOne from './WrapperOne.vue'
-import Icons from './../../../../icon-set/material-icons'
 
-const snapshotOptions = { customSnapshotsDir: '../src/components/select/__tests__' }
+// const snapshotOptions = { customSnapshotsDir: '../src/components/select/__tests__' }
 
 // QSelect does not set the `data-cy` attribute on the root element, but on the `.q-field__native` element
 // This means we cannot use data-cy everywhere, but instead use a custom class `select-root` for this purpose
 describe('QSelect API', () => {
-  // Behavior tests
-  describe('Behavior', () => {
-    describe('(prop): name', () => {
-      it('should specify the name attribute of the control', () => {
-        mount(WrapperOne, {
-          attrs: {
-            name: 'shouldWork',
-            modelValue: 'test', // Name attr is not rendered if there is no selected value
-            options: [ 'test' ]
-          }
+  describe('Props', () => {
+    describe('Category: behavior', () => {
+      describe('(prop): fill-input', () => {
+        it.skip(' ', () => {
+          //
         })
-        cy.dataCy('select')
-          .get('select')
-          .should('have.attr', 'name', 'shouldWork')
+      })
+      describe('(prop): new-value-mode', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+      describe('(prop): autocomplete', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+      describe('(prop): transition-show', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+      describe('(prop): transition-hide', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+      describe('(prop): transition-duration', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+      describe('(prop): behavior', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+    })
+
+    describe('Category: content', () => {
+      describe('(prop): dropdown-icon', () => {
+        it('should use the dropdown-icon supplied', () => {
+          const icon = 'map'
+          mount(WrapperOne, {
+            attrs: {
+              dropdownIcon: icon
+            }
+          })
+          cy.get('.select-root')
+            .get(`div:contains(${ icon })`)
+            .should('exist')
+        })
       })
 
-      it('should use the `for` as name when name is not supplied', () => {
-        mount(WrapperOne, {
-          attrs: {
-            for: 'usefor',
-            modelValue: 'test', // Name attr is not rendered if there is no selected value
-            options: [ 'test' ]
-          }
+      describe('(prop): use-input', () => {
+        it('should render an input inside the select', () => {
+          mount(WrapperOne, {
+            attrs: {
+              useInput: true
+            }
+          })
+          cy.get('.select-root')
+            .get('input')
+            .should('exist')
         })
-        cy.get('.select-root')
-          .get('select')
-          .should('have.attr', 'name', 'usefor')
+
+        it('should not render an input by default', () => {
+          mount(WrapperOne)
+          cy.get('.select-root')
+            .get('input')
+            .should('not.exist')
+        })
+      })
+
+      describe('(prop): input-debounce', () => {
+        it('should use an input-debounce of 500ms by default', () => {
+          const fn = cy.stub()
+          const text = 'Hello there'
+          mount(WrapperOne, {
+            attrs: {
+              useInput: true,
+              onFilter: fn
+            }
+          })
+          cy.get('.select-root')
+            .get('input')
+            .type(text)
+            .then(() => {
+              expect(fn).not.to.be.calledWith(text)
+            })
+            .wait(500)
+            .then(() => {
+              expect(fn).to.be.calledWith(text)
+            })
+        })
+
+        it('should use a custom input-debounce', () => {
+          const fn = cy.stub()
+          const text = 'Hello there'
+          mount(WrapperOne, {
+            attrs: {
+              useInput: true,
+              onFilter: fn,
+              inputDebounce: 800
+            }
+          })
+          cy.get('.select-root')
+            .get('input')
+            .type(text)
+            .then(() => {
+              expect(fn).not.to.be.calledWith(text)
+            })
+            .wait(500)
+            .then(() => {
+              expect(fn).not.to.be.calledWith(text)
+            })
+            .wait(300)
+            .then(() => {
+              expect(fn).to.be.calledWith(text)
+            })
+        })
+      })
+    })
+
+    describe('Category: content|behavior', () => {
+      describe('(prop): hide-dropdown-icon', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+    })
+
+    describe('Category: general', () => {
+      describe('(prop): tabindex', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+    })
+
+    describe('Category: model', () => {
+      describe('(prop): model-value', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): emit-value', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+    })
+
+    describe('Category: model|selection', () => {
+      describe('(prop): multiple', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+    })
+
+    describe('Category: options', () => {
+      describe('(prop): options', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): option-value', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): option-label', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+      describe('(prop): option-disable', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): options-dense', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): options-dark', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): options-selected-class', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): options-html', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): options-cover', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): menu-shrink', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): map-options', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+    })
+
+    describe('Category: position', () => {
+      describe('(prop): menu-anchor', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): menu-self', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): menu-offset', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+    })
+
+    describe('Category: selection', () => {
+      describe('(prop): display-value', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): display-value-html', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): hide-selected', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): max-values', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): use-chips', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+    })
+
+    describe('Category: style', () => {
+      describe('(prop): popup-content-class', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): popup-content-style', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): input-class', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
+
+      describe('(prop): input-style', () => {
+        it.skip(' ', () => {
+          //
+        })
       })
     })
   })
 
-  describe('Content', () => {
-    describe.skip('(prop): table-colspan', () => {
-      it('', () => {
+  // Events
+  describe('Events', () => {
+    describe('(event): update:model-value', () => {
+      it.skip(' ', () => {
         //
       })
     })
 
-    describe('(prop): error-message', () => {
-      it('should show an error-message when error is true', () => {
-        const message = 'Please select something'
-        mount(WrapperOne, {
-          attrs: {
-            error: true,
-            errorMessage: message
-          }
-        })
-        cy.get('.select-root')
-          .should('include.text', message)
-      })
-
-      it('should not show an error-message when error is false', () => {
-        const message = 'Please select something'
-        mount(WrapperOne, {
-          attrs: {
-            error: false,
-            errorMessage: message
-          }
-        })
-        cy.get('.select-root')
-          .should('not.include.text', message)
-      })
-    })
-
-    describe('(prop): no-error-icon', () => {
-      it('should not show an error icon when error is true', () => {
-        mount(WrapperOne, {
-          attrs: {
-            error: true,
-            noErrorIcon: true
-          }
-        })
-        cy.get('.select-root')
-          .get(`i:contains(${ Icons.field.error })`)
-          .should('not.exist')
-      })
-
-      it('should show an error icon when error is true an no-error-icon is false', () => {
-        mount(WrapperOne, {
-          attrs: {
-            error: true,
-            noErrorIcon: false
-          }
-        })
-        cy.get('.select-root')
-          .get(`i:contains(${ Icons.field.error })`)
-          .should('exist')
-      })
-    })
-
-    describe('(prop): label', () => {
-      it('should show the label when supplied', () => {
-        const label = 'Select something'
-        mount(WrapperOne, {
-          attrs: {
-            label
-          }
-        })
-        cy.get('.select-root')
-          .should('contain.text', label)
-      })
-
-      it('should show the label centered when not focused', () => {
-        const label = 'Select something'
-        mount(WrapperOne, {
-          attrs: {
-            label
-          }
-        })
-        cy.get('.select-root')
-          .get(`div:contains(${ label })`)
-          .should('exist')
-        cy.get('.select-root').matchImageSnapshot(snapshotOptions)
-      })
-
-      it('should show the label stacked when focused', () => {
-        const label = 'Select something'
-        mount(WrapperOne, {
-          attrs: {
-            label
-          }
-        })
-        cy.get('.select-root [tabindex="0"]')
-          .focus()
-        cy.get(`.select-root:contains(${ label })`)
-          .should('exist')
-        cy.get('.select-root').matchImageSnapshot(snapshotOptions)
-      })
-    })
-
-    describe('(prop): stack-label', () => {
-      it('should show the label stacked', () => {
-        const label = 'Select something'
-        mount(WrapperOne, {
-          attrs: {
-            label,
-            stackLabel: true
-          }
-        })
-        cy.get(`.select-root:contains(${ label })`)
-          .should('exist')
-        cy.get('.select-root').matchImageSnapshot(snapshotOptions)
-      })
-    })
-
-    describe.skip('(prop): hint', () => {
-      it('', () => {
+    describe('(event): input-value', () => {
+      it.skip(' ', () => {
         //
       })
     })
 
-    describe.skip('(prop): hide-hint', () => {
-      it('', () => {
+    describe('(event): remove', () => {
+      it.skip(' ', () => {
         //
       })
     })
 
-    describe.skip('(prop): prefix', () => {
-      it('', () => {
+    describe('(event): add', () => {
+      it.skip(' ', () => {
         //
       })
     })
 
-    describe.skip('(prop): suffix', () => {
-      it('', () => {
+    describe('(event): new-value', () => {
+      it.skip(' ', () => {
+        //
+      })
+    })
+    describe('(event): filter', () => {
+      it.skip(' ', () => {
         //
       })
     })
 
-    describe.skip('(prop): loading', () => {
-      it('', () => {
+    describe('(event): filter-abort', () => {
+      it.skip(' ', () => {
+        //
+      })
+    })
+    describe('(event): popup-show', () => {
+      it.skip(' ', () => {
         //
       })
     })
 
-    describe.skip('(prop): clearable', () => {
-      it('', () => {
+    describe('(event): popup-hide', () => {
+      it.skip(' ', () => {
         //
       })
     })
 
-    describe.skip('(prop): clear-icon', () => {
-      it('', () => {
+    describe('(event): virtual-scroll', () => {
+      it.skip(' ', () => {
         //
       })
     })
+  })
 
-    describe.skip('(prop): label-slot', () => {
-      it('', () => {
-        //
+  // Methods
+  describe('Methods', () => {
+    describe('(method): focus', () => {
+      it.skip(' ', () => {
+      //
       })
     })
 
-    describe.skip('(prop): bottom-slots', () => {
-      it('', () => {
-        //
+    describe('(method): showPopup', () => {
+      it.skip(' ', () => {
+      //
       })
     })
 
-    describe.skip('(prop): counter', () => {
-      it('', () => {
-        //
+    describe('(method): hidePopup', () => {
+      it.skip(' ', () => {
+      //
       })
     })
 
-    describe.skip('(prop): hide-dropdown-icon', () => {
-      it('', () => {
-        //
+    describe('(method): removeAtIndex', () => {
+      it.skip(' ', () => {
+      //
       })
     })
 
-    describe.skip('(prop): dropdown-icon', () => {
-      it('', () => {
-        //
+    describe('(method): add', () => {
+      it.skip(' ', () => {
+      //
       })
     })
 
-    describe.skip('(prop): use-input', () => {
-      it('', () => {
-        //
+    describe('(method): toggleOption', () => {
+      it.skip(' ', () => {
+      //
       })
     })
 
-    describe.skip('(prop): input-debounce', () => {
-      it('', () => {
-        //
+    describe('(method): setOptionIndex', () => {
+      it.skip(' ', () => {
+      //
+      })
+    })
+
+    describe('(method): moveOptionSelection', () => {
+      it.skip(' ', () => {
+      //
+      })
+    })
+
+    describe('(method): filter', () => {
+      it.skip(' ', () => {
+      //
+      })
+    })
+
+    describe('(method): updateMenuPosition', () => {
+      it.skip(' ', () => {
+      //
+      })
+    })
+
+    describe('(method): updateInputValue', () => {
+      it.skip(' ', () => {
+      //
+      })
+    })
+
+    describe('(method): isOptionSelected', () => {
+      it.skip(' ', () => {
+      //
+      })
+    })
+
+    describe('(method): getEmittingOptionValue', () => {
+      it.skip(' ', () => {
+      //
+      })
+    })
+
+    describe('(method): getOptionValue', () => {
+      it.skip(' ', () => {
+      //
+      })
+    })
+
+    describe('(method): getOptionLabel', () => {
+      it.skip(' ', () => {
+      //
+      })
+    })
+
+    describe('(method): isOptionDisabled', () => {
+      it.skip(' ', () => {
+      //
       })
     })
   })
