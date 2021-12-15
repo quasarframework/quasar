@@ -201,9 +201,7 @@ export default function useSearch (scope, $q, $route) {
       scope.leftDrawerState.value = true
     }
 
-    if ($q.platform.is.desktop === true) {
-      window.addEventListener('keypress', focusOnSearch)
-    }
+    window.addEventListener('keypress', focusOnSearch)
 
     if (searchQuery) {
       // Here we put search string from query into the input and open the search popup.
@@ -215,7 +213,7 @@ export default function useSearch (scope, $q, $route) {
     }
   })
 
-  $q.platform.is.desktop === true && onBeforeUnmount(() => {
+  onBeforeUnmount(() => {
     window.removeEventListener('keypress', focusOnSearch)
   })
 
