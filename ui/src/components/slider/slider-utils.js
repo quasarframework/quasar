@@ -31,7 +31,7 @@ export function getModel (ratio, min, max, step, decimals) {
     model = parseFloat(model.toFixed(decimals))
   }
 
-  return between(model, min, max)
+  return model
 }
 
 export const SliderMixin = {
@@ -55,6 +55,9 @@ export const SliderMixin = {
       default: 1,
       validator: v => v >= 0
     },
+
+    minValue: Number,
+    maxValue: Number,
 
     color: String,
 
@@ -106,7 +109,7 @@ export const SliderMixin = {
     },
 
     editable () {
-      return this.disable !== true && this.readonly !== true && this.min < this.max
+      return this.disable !== true && this.readonly !== true && this.minValueVal <= this.maxValueVal
     },
 
     decimals () {
@@ -121,8 +124,35 @@ export const SliderMixin = {
       return this.max - this.min
     },
 
+    minValueVal () {
+      return isNaN(this.minValue) === true || this.minValue < this.min
+        ? this.min
+        : this.minValue
+    },
+
+    maxValueVal () {
+      return isNaN(this.maxValue) === true || this.maxValue > this.max
+        ? this.max
+        : this.maxValue
+    },
+
+    minValueRatio () {
+      return this.__getModelRatio(this.minValueVal)
+    },
+
+    maxValueRatio () {
+      return this.__getModelRatio(this.maxValueVal)
+    },
+
     markerStep () {
       return isNumber(this.markers) === true ? this.markers : this.computedStep
+    },
+
+    trackLineStyle () {
+      return {
+        [ this.positionProp ]: `${100 * this.minValueRatio}%`,
+        [ this.sizeProp ]: `${100 * (this.maxValueRatio - this.minValueRatio)}%`
+      }
     },
 
     markerStyle () {
@@ -165,8 +195,8 @@ export const SliderMixin = {
     attrs () {
       const attrs = {
         role: 'slider',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
+        'aria-valuemin': this.minValueVal,
+        'aria-valuemax': this.maxValueVal,
         'aria-orientation': this.orientation,
         'data-step': this.step
       }
@@ -199,6 +229,10 @@ export const SliderMixin = {
   },
 
   methods: {
+    __getModelRatio (model) {
+      return this.minMaxDiff === 0 ? 0 : (model - this.min) / this.minMaxDiff
+    },
+
     __getThumbSvg (h) {
       return h('svg', {
         staticClass: 'q-slider__thumb absolute',
@@ -216,6 +250,29 @@ export const SliderMixin = {
           }
         })
       ])
+    },
+
+    __getTrack (h) {
+      const track = [
+        h('div', {
+          staticClass: `q-slider__track-line q-slider__track-line${this.axis} absolute`,
+          style: this.trackLineStyle
+        }),
+
+        h('div', {
+          staticClass: `q-slider__track q-slider__track${this.axis} absolute`,
+          style: this.trackStyle
+        })
+      ]
+
+      this.markers !== false && track.push(
+        h('div', {
+          staticClass: `q-slider__track-markers q-slider__track-markers${this.axis} absolute-full fit`,
+          style: this.markerStyle
+        })
+      )
+
+      return track
     },
 
     __getPinStyle (percent, ratio) {

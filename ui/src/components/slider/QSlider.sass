@@ -3,6 +3,7 @@
   color: $primary
   color: var(--q-color-primary)
   outline: 0
+  isolation: isolate
 
   &--h
     width: 100%
@@ -12,7 +13,7 @@
     height: 200px
 
   &__track-container
-    background: rgba(0,0,0,.26)
+    background: rgba(0,0,0,.06)
 
     &--h
       top: 50%
@@ -24,6 +25,17 @@
       margin-left: -1px
       height: 100%
       width: 2px
+
+  &__track-line
+    background: rgba(0,0,0,.2)
+    z-index: -1
+
+    &--h
+      top: 0
+      bottom: 0
+    &--v
+      left: 0
+      right: 0
 
   &__track
     background: currentColor
@@ -208,7 +220,9 @@
 
   &--dark
     .q-slider__track-container
-      background: rgba(#fff, .3)
+      background: rgba(#fff, .1)
+    .q-slider__track-line
+      background: rgba(#fff, .2)
     .q-slider__track-markers
       color: #fff
 

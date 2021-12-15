@@ -22,6 +22,10 @@ Also check its “sibling”, the [QRange](/vue-components/range) component.
 
 <doc-example title="Vertical orientation" file="QSlider/Vertical" />
 
+### With value restricted to interval <q-badge align="top" color="brand-primary" label="v1.16+" />
+
+<doc-example title="Value restricted to interval" file="QSlider/ValueRestricted" />
+
 ### With step
 
 <doc-example title="With step" file="QSlider/Step" />
