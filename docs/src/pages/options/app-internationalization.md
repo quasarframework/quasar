@@ -76,7 +76,7 @@ $ yarn add --dev @intlify/vue-i18n-loader
 $ npm i --save-dev @intlify/vue-i18n-loader
 ```
 
-We then edit `quasar.conf.js` at the root of our project. e have to include the following:
+We then edit `quasar.conf.js` at the root of our project. We have to include the following:
 
 ```js
 // quasar.conf.js
