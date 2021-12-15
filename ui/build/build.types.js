@@ -68,7 +68,7 @@ function convertTypeVal (type, def, required) {
   if (fallbackComplexTypeMap.has(t)) {
     if (def.definition) {
       const propDefinitions = getPropDefinitions(def.definition, required, true)
-      let lines = []
+      const lines = []
       propDefinitions.forEach(p => lines.push(...p.split('\n')))
       return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }${t === 'Array' ? '[]' : ''}` : fallbackComplexTypeMap.get(t)
     }
@@ -143,7 +143,7 @@ function getMethodDefinition (key, methodDef, required) {
 }
 
 function getObjectParamDefinition (def, required) {
-  let res = []
+  const res = []
 
   Object.keys(def).forEach(propName => {
     const propDef = def[propName]
@@ -365,10 +365,10 @@ function writeIndexDTS (apis) {
   for (const key in injections) {
     const injectionDefs = injections[key]
     if (injectionDefs) {
-      const injectionName = `${ key.toUpperCase().replace('$', '') }VueGlobals`
-      writeLine(contents, `import { ${ injectionName }, QSingletonGlobals } from "./globals";`)
+      const injectionName = `${key.toUpperCase().replace('$', '')}VueGlobals`
+      writeLine(contents, `import { ${injectionName}, QSingletonGlobals } from "./globals";`)
       writeLine(contents, `declare module "./globals" {`)
-      writeLine(contents, `export interface ${ injectionName } {`)
+      writeLine(contents, `export interface ${injectionName} {`)
       for (const defKey in injectionDefs) {
         writeLines(contents, injectionDefs[defKey], 1)
       }

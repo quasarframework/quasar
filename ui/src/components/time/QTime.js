@@ -286,10 +286,14 @@ export default Vue.extend({
 
   methods: {
     setNow () {
-      this.__updateValue({
+      const date = {
         ...this.__getCurrentDate(),
         ...this.__getCurrentTime()
-      })
+      }
+
+      this.__updateValue(date)
+      Object.assign(this.innerModel, date) // reset any pending changes to innerModel
+
       this.view = 'Hour'
     },
 

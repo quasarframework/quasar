@@ -80,7 +80,7 @@ export default Vue.extend({
     fixed () {
       return this.reveal === true ||
         this.layout.view.indexOf('H') > -1 ||
-        this.layout.container === true
+        (this.$q.platform.is.ios && this.layout.container === true)
     },
 
     offset () {

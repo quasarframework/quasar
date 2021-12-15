@@ -75,15 +75,22 @@ export default Vue.extend({
   render (h) {
     const child = []
 
-    this.icon !== '' && child.push(
-      h(QIcon, {
-        props: { name: this.icon }
-      })
-    )
+    if (this.$scopedSlots.icon !== void 0) {
+      child.push(this.$scopedSlots.icon())
+    }
+    else if (this.icon !== '') {
+      child.push(
+        h(QIcon, {
+          props: { name: this.icon }
+        })
+      )
+    }
 
-    this.label !== '' && child[this.labelProps.action](
-      h('div', this.labelProps.data, [ this.label ])
-    )
+    if (this.label !== '' || this.$scopedSlots.label !== void 0) {
+      child[this.labelProps.action](
+        h('div', this.labelProps.data, this.$scopedSlots.label !== void 0 ? this.$scopedSlots.label() : [ this.label ])
+      )
+    }
 
     return h(QBtn, {
       class: this.classes,

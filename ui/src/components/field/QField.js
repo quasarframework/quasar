@@ -163,7 +163,7 @@ export default Vue.extend({
         'q-field--error': this.hasError,
 
         'q-field--readonly': this.readonly === true && this.disable !== true,
-        [this.disable === true ? 'q-field--disabled' : 'q-validation-component']: true
+        'q-field--disabled': this.disable === true
       }
     },
 
@@ -220,6 +220,17 @@ export default Vue.extend({
       }
     },
 
+    bottomSlotScope () {
+      return {
+        id: this.targetUid,
+        field: this.$el,
+        editable: this.editable,
+        focused: this.focused,
+        value: this.value,
+        errorMessage: this.computedErrorMessage
+      }
+    },
+
     attrs () {
       const attrs = {
         for: this.targetUid
@@ -239,14 +250,7 @@ export default Vue.extend({
   methods: {
     focus () {
       this.focusFn !== void 0 && removeFocusFn(this.focusFn)
-      this.focusFn = addFocusFn(() => {
-        if (this.showPopup !== void 0) {
-          this.showPopup()
-          return
-        }
-
-        this.__focus()
-      })
+      this.focusFn = addFocusFn(this.__focus)
     },
 
     blur () {
@@ -393,23 +397,25 @@ export default Vue.extend({
       let msg, key
 
       if (this.hasError === true) {
-        if (this.computedErrorMessage !== void 0) {
+        key = 'q--slot-error'
+
+        if (this.$scopedSlots.error !== void 0) {
+          msg = this.$scopedSlots.error(this.bottomSlotScope)
+        }
+        else if (this.computedErrorMessage !== void 0) {
           msg = [ h('div', { attrs: { role: 'alert' } }, [ this.computedErrorMessage ]) ]
           key = this.computedErrorMessage
         }
-        else {
-          msg = slot(this, 'error')
-          key = 'q--slot-error'
-        }
       }
       else if (this.hideHint !== true || this.focused === true) {
-        if (this.hint !== void 0) {
+        key = 'q--slot-hint'
+
+        if (this.$scopedSlots.hint !== void 0) {
+          msg = this.$scopedSlots.hint(this.bottomSlotScope)
+        }
+        else if (this.hint !== void 0) {
           msg = [ h('div', [ this.hint ]) ]
           key = this.hint
-        }
-        else {
-          msg = slot(this, 'hint')
-          key = 'q--slot-hint'
         }
       }
 
@@ -518,7 +524,7 @@ export default Vue.extend({
       this.$nextTick(() => {
         this.resetValidation()
 
-        if (this.lazyRules !== 'ondemand' && this.$q.platform.is.mobile !== true) {
+        if (this.$q.platform.is.mobile !== true) {
           this.isDirty = false
         }
       })
@@ -534,7 +540,7 @@ export default Vue.extend({
     this.__onPostRender !== void 0 && this.$nextTick(this.__onPostRender)
 
     return h('label', {
-      staticClass: 'q-field row no-wrap items-start',
+      staticClass: 'q-field q-validation-component row no-wrap items-start',
       class: this.classes,
       attrs: this.attrs
     }, [

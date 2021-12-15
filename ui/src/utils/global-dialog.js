@@ -24,6 +24,23 @@ export function merge (target, source) {
   }
 }
 
+let appRoot
+
+function getDialogParent (parent, root) {
+  if (parent !== void 0) { return parent }
+  if (root !== void 0) { return root }
+
+  if (appRoot === void 0) {
+    const elRoot = document.getElementById('q-app')
+
+    if (elRoot && elRoot.__vue__) {
+      appRoot = elRoot.__vue__.$root
+    }
+  }
+
+  return appRoot
+}
+
 export default function (DefaultComponent) {
   return ({ className, class: klass, style, component, root, parent, ...props }) => {
     if (isSSR === true) { return ssrAPI }
@@ -113,7 +130,7 @@ export default function (DefaultComponent) {
       name: 'QGlobalDialog',
 
       el: node,
-      parent: parent === void 0 ? root : parent,
+      parent: getDialogParent(parent, root),
 
       render (h) {
         return h(DialogComponent, {

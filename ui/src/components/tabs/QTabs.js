@@ -74,6 +74,7 @@ export default Vue.extend({
     shrink: Boolean,
     stretch: Boolean,
 
+    activeClass: String,
     activeColor: String,
     activeBgColor: String,
     indicatorColor: String,
@@ -98,6 +99,7 @@ export default Vue.extend({
     return {
       tabs: {
         current: this.value,
+        activeClass: this.activeClass,
         activeColor: this.activeColor,
         activeBgColor: this.activeBgColor,
         indicatorClass: getIndicatorClass(
@@ -119,6 +121,10 @@ export default Vue.extend({
   watch: {
     value (name) {
       this.__activateTab(name, true, true)
+    },
+
+    activeClass (v) {
+      this.tabs.activeClass = v
     },
 
     activeColor (v) {

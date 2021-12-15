@@ -516,7 +516,7 @@ export default Vue.extend({
 
     return h('div', {
       style: {
-        height: this.inFullscreen === true ? '100vh' : null
+        height: this.inFullscreen === true ? '100%' : null
       },
       class: this.classes,
       attrs: this.attrs,
@@ -537,7 +537,7 @@ export default Vue.extend({
           },
           domProps: isSSR
             ? { innerHTML: this.value }
-            : undefined,
+            : void 0,
           on
         }
       )

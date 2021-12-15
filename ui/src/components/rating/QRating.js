@@ -9,7 +9,7 @@ import FormMixin from '../../mixins/form.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
 import cache from '../../utils/cache.js'
-import { slot } from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QRating',
@@ -85,6 +85,51 @@ export default Vue.extend({
       }
     },
 
+    stars () {
+      const
+        acc = [],
+        icons = this.iconData,
+        ceil = Math.ceil(this.value)
+
+      const halfIndex = this.iconHalf === void 0 || ceil === this.value
+        ? -1
+        : ceil
+
+      for (let i = 1; i <= this.max; i++) {
+        const
+          active = (this.mouseModel === 0 && this.value >= i) || (this.mouseModel > 0 && this.mouseModel >= i),
+          half = halfIndex === i && this.mouseModel < i,
+          exSelected = this.mouseModel > 0 && (half === true ? ceil : this.value) >= i && this.mouseModel < i,
+          color = half === true
+            ? (i <= icons.halfColorLen ? this.colorHalf[i - 1] : icons.halfColor)
+            : (
+              icons.selColor !== void 0 && active === true
+                ? (i <= icons.selColorLen ? this.colorSelected[i - 1] : icons.selColor)
+                : (i <= icons.colorLen ? this.color[i - 1] : icons.color)
+            )
+
+        acc.push({
+          name: (
+            half === true
+              ? (i <= icons.halfIconLen ? this.iconHalf[i - 1] : icons.halfIcon)
+              : (
+                icons.selIcon !== void 0 && (active === true || exSelected === true)
+                  ? (i <= icons.selIconLen ? this.iconSelected[i - 1] : icons.selIcon)
+                  : (i <= icons.iconLen ? this.icon[i - 1] : icons.icon)
+              )
+          ) || this.$q.iconSet.rating.icon,
+
+          classes: 'q-rating__icon' +
+            (active === true || half === true ? ' q-rating__icon--active' : '') +
+            (exSelected === true ? ' q-rating__icon--exselected' : '') +
+            (this.mouseModel === i ? ' q-rating__icon--hovered' : '') +
+            (color !== void 0 ? ` text-${color}` : '')
+        })
+      }
+
+      return acc
+    },
+
     attrs () {
       if (this.disable === true) {
         return { 'aria-disabled': 'true' }
@@ -138,46 +183,16 @@ export default Vue.extend({
   render (h) {
     const
       child = [],
-      tabindex = this.editable === true ? 0 : null,
-      icons = this.iconData,
-      ceil = Math.ceil(this.value)
+      tabindex = this.editable === true ? 0 : null
 
-    const halfIndex = this.iconHalf === void 0 || ceil === this.value
-      ? -1
-      : ceil
-
-    for (let i = 1; i <= this.max; i++) {
-      const
-        active = (this.mouseModel === 0 && this.value >= i) || (this.mouseModel > 0 && this.mouseModel >= i),
-        half = halfIndex === i && this.mouseModel < i,
-        exSelected = this.mouseModel > 0 && (half === true ? ceil : this.value) >= i && this.mouseModel < i,
-        name = half === true
-          ? (i <= icons.halfIconLen ? this.iconHalf[i - 1] : icons.halfIcon)
-          : (
-            icons.selIcon !== void 0 && (active === true || exSelected === true)
-              ? (i <= icons.selIconLen ? this.iconSelected[i - 1] : icons.selIcon)
-              : (i <= icons.iconLen ? this.icon[i - 1] : icons.icon)
-          ),
-        color = half === true
-          ? (i <= icons.halfColorLen ? this.colorHalf[i - 1] : icons.halfColor)
-          : (
-            icons.selColor !== void 0 && active === true
-              ? (i <= icons.selColorLen ? this.colorSelected[i - 1] : icons.selColor)
-              : (i <= icons.colorLen ? this.color[i - 1] : icons.color)
-          )
+    this.stars.forEach(({ classes, name }, index) => {
+      const i = index + 1
 
       child.push(
-        h(QIcon, {
+        h('div', {
           key: i,
           ref: `rt${i}`,
-          staticClass: 'q-rating__icon',
-          class: {
-            'q-rating__icon--active': active === true || half === true,
-            'q-rating__icon--exselected': exSelected,
-            'q-rating__icon--hovered': this.mouseModel === i,
-            [`text-${color}`]: color !== void 0
-          },
-          props: { name: name || this.$q.iconSet.rating.icon },
+          class: 'q-rating__icon-container flex flex-center',
           attrs: { tabindex },
           on: cache(this, 'i#' + i, {
             click: () => { this.__set(i) },
@@ -187,9 +202,12 @@ export default Vue.extend({
             blur: () => { this.mouseModel = 0 },
             keyup: e => { this.__keyup(e, i) }
           })
-        }, slot(this, `tip-${i}`))
+        }, mergeSlot(
+          [h(QIcon, { class: classes, props: { name } })],
+          this, `tip-${i}`
+        ))
       )
-    }
+    })
 
     if (this.name !== void 0 && this.disable !== true) {
       this.__injectFormInput(child, 'push')

@@ -114,11 +114,10 @@ export default Vue.extend({
       }
     },
 
-    'layout.totalWidth' (val) {
-      this.__updateLocal('belowBreakpoint', (
-        this.behavior === 'mobile' ||
-        (this.behavior !== 'desktop' && val <= this.breakpoint)
-      ))
+    'layout.totalWidth' () {
+      if (this.layout.container === true || document.qScrollPrevented !== true) {
+        this.__updateBelowBreakpoint()
+      }
     },
 
     side (newSide, oldSide) {
@@ -134,22 +133,17 @@ export default Vue.extend({
       this.layout[newSide].offset = this.offset
     },
 
-    behavior (val) {
-      this.__updateLocal('belowBreakpoint', (
-        val === 'mobile' ||
-        (val !== 'desktop' && this.layout.totalWidth <= this.breakpoint)
-      ))
+    behavior () {
+      this.__updateBelowBreakpoint()
     },
 
-    breakpoint (val) {
-      this.__updateLocal('belowBreakpoint', (
-        this.behavior === 'mobile' ||
-        (this.behavior !== 'desktop' && this.layout.totalWidth <= val)
-      ))
+    breakpoint () {
+      this.__updateBelowBreakpoint()
     },
 
     'layout.container' (val) {
       this.showing === true && this.__preventScroll(val !== true)
+      val === true && this.__updateBelowBreakpoint()
     },
 
     'layout.scrollbarWidth' () {
@@ -583,6 +577,13 @@ export default Vue.extend({
 
     __updateSizeOnLayout (miniToOverlay, size) {
       this.__update('size', miniToOverlay === true ? this.miniWidth : size)
+    },
+
+    __updateBelowBreakpoint () {
+      this.__updateLocal('belowBreakpoint', (
+        this.behavior === 'mobile' ||
+        (this.behavior !== 'desktop' && this.layout.totalWidth <= this.breakpoint)
+      ))
     }
   },
 

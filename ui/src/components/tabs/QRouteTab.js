@@ -29,7 +29,7 @@ export default Vue.extend({
     routerTabLinkProps () {
       return {
         ...this.routerLinkProps,
-        event: []
+        custom: true
       }
     }
   },
@@ -139,6 +139,6 @@ export default Vue.extend({
   },
 
   render (h) {
-    return this.__renderTab(h, 'router-link', this.routerTabLinkProps)
+    return this.__renderTab(h, 'router-link')
   }
 })

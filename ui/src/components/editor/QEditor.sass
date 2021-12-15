@@ -6,9 +6,17 @@
   &.disabled
     border-style: dashed
 
-  > div:first-child, &__toolbars-container, &__toolbars-container > div:first-child
+  &.fullscreen
+    max-height: 100%
+
+  > div:first-child,
+  &__toolbars-container,
+  &__toolbars-container > div:first-child
     border-top-left-radius: inherit
     border-top-right-radius: inherit
+
+  &__toolbars-container
+    max-width: 100%
 
   &__content
     outline: 0
@@ -17,14 +25,18 @@
     border-bottom-left-radius: inherit
     border-bottom-right-radius: inherit
     overflow: auto
+    max-width: 100%
+
     pre
       white-space: pre-wrap
+
     hr
       border: 0
       outline: 0
       margin: 1px
       height: 1px
       background: $editor-hr-color
+
     &:empty:not(:focus):before
       content: attr(placeholder)
       opacity: .7

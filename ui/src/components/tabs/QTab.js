@@ -53,9 +53,16 @@ export default Vue.extend({
 
     classes () {
       return {
-        [`q-tab--${this.isActive ? '' : 'in'}active`]: true,
-        [`text-${this.tabs.activeColor}`]: this.isActive && this.tabs.activeColor,
-        [`bg-${this.tabs.activeBgColor}`]: this.isActive && this.tabs.activeBgColor,
+        ...(
+          this.isActive === true
+            ? {
+              'q-tab--active': true,
+              [this.tabs.activeClass]: this.tabs.activeClass,
+              [`text-${this.tabs.activeColor}`]: this.tabs.activeColor,
+              [`bg-${this.tabs.activeBgColor}`]: this.tabs.activeBgColor
+            }
+            : { 'q-tab--inactive': true }
+        ),
         'q-tab--full': this.icon && this.label && !this.tabs.inlineLabel,
         'q-tab--no-caps': this.noCaps === true || this.tabs.noCaps === true,
         'q-focusable q-hoverable cursor-pointer': !this.disable,
@@ -167,21 +174,34 @@ export default Vue.extend({
       return node
     },
 
-    __renderTab (h, tag, props) {
+    __renderTab (h, tag) {
       const data = {
-        staticClass: 'q-tab relative-position self-stretch flex flex-center text-center',
+        staticClass: 'q-tab relative-position self-stretch flex flex-center text-center no-outline',
         class: this.classes,
         attrs: this.attrs,
-        directives: this.ripple !== false && this.disable === true ? null : [
+        directives: this.ripple === false || this.disable === true ? null : [
           { name: 'ripple', value: this.ripple }
-        ],
-        [ tag === 'div' ? 'on' : 'nativeOn' ]: this.onEvents
+        ]
       }
 
-      if (props !== void 0) {
-        data.props = props
+      if (tag === 'router-link') {
+        return h(tag, {
+          ...data,
+          nativeOn: this.onEvents,
+          props: this.routerTabLinkProps,
+          scopedSlots: {
+            default: ({ href, isActive, isExactActive }) => h('a', {
+              class: {
+                [this.routerLinkProps.activeClass]: isActive,
+                [this.routerLinkProps.exactActiveClass]: isExactActive
+              },
+              attrs: this.hasRouterLink === true ? { href } : void 0
+            }, this.__getContent(h))
+          }
+        })
       }
 
+      data.on = this.onEvents
       return h(tag, data, this.__getContent(h))
     }
   },

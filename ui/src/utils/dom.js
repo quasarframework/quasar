@@ -47,6 +47,30 @@ export function ready (fn) {
 }
 
 // internal
+export function getElement (el) {
+  const type = typeof el
+
+  if (type === 'function') {
+    el = el()
+  }
+
+  if (type === 'string') {
+    try {
+      el = document.querySelector(el)
+    }
+    catch (err) {}
+  }
+
+  if (el !== Object(el)) {
+    return null
+  }
+
+  return el._isVue === true && el.$el !== void 0
+    ? el.$el
+    : el
+}
+
+// internal
 export function childHasFocus (el, focusedEl) {
   if (el === void 0 || el.contains(focusedEl) === true) {
     return true
@@ -62,15 +86,10 @@ export function childHasFocus (el, focusedEl) {
 }
 
 // internal
-export function getBodyFullscreenElement (isFullscreen, activeEl) {
-  return isFullscreen === true
-    ? (
-      // when a video tag enters fullscreen activeEl is null
-      activeEl === document.documentElement || activeEl === null
-        ? document.body
-        : activeEl
-    )
-    : document.body
+export function getBodyFullscreenElement (activeEl) {
+  return activeEl === document.documentElement || activeEl === null
+    ? document.body
+    : activeEl
 }
 
 export default {

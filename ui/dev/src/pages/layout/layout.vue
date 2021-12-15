@@ -43,7 +43,7 @@
         </q-toolbar>
         <q-tabs indicator-color="yellow">
           <q-route-tab icon="view_quilt" to="/layout-quick/default" replace label="Default Tab" />
-          <q-route-tab icon="view_day" to="/layout-quick/a" replace label="A" />
+          <q-route-tab disable icon="view_day" to="/layout-quick/a" replace label="A" />
           <q-route-tab icon="view_day" to="/layout-quick/b" replace label="B" />
           <q-route-tab icon="input" to="/layout-quick/c" replace label="C" />
         </q-tabs>
@@ -114,7 +114,7 @@
               Replace Go to C
             </q-btn>
             <div v-for="n in 30" :key="n">
-              {{ n }} Left drawer
+              {{ n }} Right drawer
             </div>
           </div>
         </q-scroll-area>

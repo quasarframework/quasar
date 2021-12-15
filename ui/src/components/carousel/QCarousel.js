@@ -127,9 +127,13 @@ export default Vue.extend({
 
   methods: {
     __startTimer () {
+      const duration = isNumber(this.autoplay) === true
+        ? this.autoplay
+        : 5000
+
       this.timer = setTimeout(
-        this.next,
-        isNumber(this.autoplay) ? this.autoplay : 5000
+        duration >= 0 ? this.next : this.previous,
+        Math.abs(duration)
       )
     },
 

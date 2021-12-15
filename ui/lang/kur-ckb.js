@@ -42,12 +42,12 @@ export default {
     selectedRecords: function (rows) {
       return rows === 1
         ? 'یەک ڕیکۆرد هەڵبژێردراوە'
-        : (rows === 0 ? '0' : rows) + 'ڕیکۆرد هەڵبژێرداوە.';
+        : (rows === 0 ? '0' : rows) + 'ڕیکۆرد هەڵبژێرداوە.'
     },
     recordsPerPage: 'ئەنجام بۆهەر پەڕەیەک:',
     allRows: 'هەمووی',
     pagination: function (start, end, total) {
-      return start + '-' + end + ' لە ' + total;
+      return start + '-' + end + ' لە ' + total
     },
     columns: 'ڕیز'
   },

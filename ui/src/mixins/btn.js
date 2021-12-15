@@ -117,8 +117,11 @@ export default {
     attrs () {
       const attrs = { tabindex: this.computedTabIndex }
 
-      if (this.type !== 'a') {
-        attrs.type = this.type || 'button'
+      // if it's not rendered with "<a>" tag
+      // OR it's "<a>" but type is not "button"
+      // (<a> with type="button" is invalid HTML)
+      if (this.type !== 'a' && (this.type !== 'button' || this.hasRouterLink !== true)) {
+        attrs.type = this.type
       }
 
       if (this.hasRouterLink === true) {

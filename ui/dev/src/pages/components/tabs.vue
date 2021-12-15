@@ -35,7 +35,7 @@
         </q-tabs>
       </div>
 
-      <q-tabs :dense="dense">
+      <q-tabs :dense="dense" aria-label="First test" active-class="test-active-class">
         <q-tab label="Item one - tooltip">
           <q-tooltip>
             <q-icon name="wifi" /> Wifi
@@ -333,7 +333,7 @@
       </div>
       <q-toggle v-model="exact" label="Show exact match tabs" />
       <q-toggle v-model="loose" label="Show loose match tabs" />
-      <q-tabs :dense="dense" class="test q-mt-sm">
+      <q-tabs :dense="dense" class="test q-mt-sm" active-class="test-active-class">
         <q-route-tab v-if="exact" key="01" replace :to="{ name: 'r' }" exact label="r" />
         <q-route-tab v-if="loose" key="02" replace :to="{ name: 'r' }" label="r *" />
         <q-route-tab v-if="exact" key="03" replace :to="{ name: 'r.1', query: { q: '1' } }" exact label="r.1 q=1" />
@@ -632,10 +632,22 @@ export default {
 <style lang="stylus">
 .q-tabs.vertical-tabs
   margin-bottom 0
-.tabs-demo .q-tabs
-  margin-bottom 24px
-.tabs-demo .q-toolbar .q-tabs
-  margin-bottom 0
+.tabs-demo
+  .q-tabs
+    margin-bottom 24px
+
+  .q-toolbar .q-tabs
+    margin-bottom 0
+
+  .q-tab__label
+    transition: 0.3s transform
+
+  .test-active-class
+    color: $deep-orange-8
+    background-color: $grey-3
+
+    .q-tab__label
+      transform: translateY(-3px)
 
 .router-link
   display block

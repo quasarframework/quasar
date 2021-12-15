@@ -419,7 +419,7 @@ export default {
     persian (val) {
       if (val === true) {
         this.date = '1397/08/12'
-        this.nullDate = undefined
+        this.nullDate = void 0
         this.defaultYearMonth = '1364/11'
       }
       else {

@@ -53,6 +53,10 @@ export default Vue.extend({
       return this.indeterminate === true || this.query === true
     },
 
+    widthReverse () {
+      return this.reverse !== this.query
+    },
+
     classes () {
       return 'q-linear-progress' +
         (this.color !== void 0 ? ` text-${this.color}` : '') +
@@ -61,7 +65,7 @@ export default Vue.extend({
     },
 
     trackStyle () {
-      return width(this.buffer !== void 0 ? this.buffer : 1, this.reverse, this.$q)
+      return width(this.buffer !== void 0 ? this.buffer : 1, this.widthReverse, this.$q)
     },
 
     trackClass () {
@@ -71,7 +75,7 @@ export default Vue.extend({
     },
 
     modelStyle () {
-      return width(this.motion === true ? 1 : this.value, this.reverse, this.$q)
+      return width(this.motion === true ? 1 : this.value, this.widthReverse, this.$q)
     },
 
     modelClasses () {

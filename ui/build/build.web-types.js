@@ -37,7 +37,7 @@ module.exports.generate = function (data) {
         html: {
           'types-syntax': 'typescript',
           tags: data.components.map(({ api: { events, props, scopedSlots, slots, meta }, name }) => {
-            let slotTypes = []
+            const slotTypes = []
             if (slots) {
               Object.entries(slots).forEach(([name, slotApi]) => {
                 slotTypes.push({
@@ -71,7 +71,7 @@ module.exports.generate = function (data) {
                 symbol: name
               },
               attributes: props && Object.entries(props).map(([name, propApi]) => {
-                let result = {
+                const result = {
                   name,
                   value: {
                     kind: 'expression',
@@ -122,8 +122,8 @@ module.exports.generate = function (data) {
             return result
           }),
           attributes: data.directives.map(({ name, api: { modifiers, value, meta } }) => {
-            let valueType = value.type
-            let result = {
+            const valueType = value.type
+            const result = {
               name: 'v-' + kebabCase(name),
               source: {
                 module: 'quasar',
@@ -151,7 +151,7 @@ module.exports.generate = function (data) {
         }
       }
     }, null, 2)
-    let webTypesPath = path.resolve(__dirname, '../dist/web-types')
+    const webTypesPath = path.resolve(__dirname, '../dist/web-types')
 
     if (!fs.existsSync(webTypesPath)) {
       fs.mkdirSync(webTypesPath)

@@ -55,6 +55,14 @@ const Loading = {
       vm = new Vue({
         name: 'QLoading',
 
+        // hide App from Vue devtools
+        devtools: { hide: true },
+
+        beforeCreate () {
+          // prevent error in Vue devtools
+          this._routerRoot === void 0 && (this._routerRoot = {})
+        },
+
         el: node,
 
         mounted () {

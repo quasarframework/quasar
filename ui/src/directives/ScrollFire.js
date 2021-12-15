@@ -20,6 +20,7 @@ function destroy (el) {
   const ctx = el.__qscrollfire
   if (ctx !== void 0) {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
+    ctx.scroll.cancel()
     delete el.__qscrollfire
   }
 }

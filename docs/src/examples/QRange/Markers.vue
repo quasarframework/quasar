@@ -24,6 +24,20 @@
       markers
       color="purple"
     />
+
+    <q-badge color="secondary">
+      Model: {{ orangeModel }}<br>(0 to 16, step 2, marker step 4)
+    </q-badge>
+    <q-range
+      v-model="orangeModel"
+      :min="-8"
+      :max="16"
+      :step="2"
+      label
+      snap
+      :markers="4"
+      color="orange"
+    />
   </div>
 </template>
 
@@ -34,6 +48,11 @@ export default {
       marker: {
         min: 6,
         max: 8
+      },
+
+      orangeModel: {
+        min: 6,
+        max: 10
       }
     }
   }

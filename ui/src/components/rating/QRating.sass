@@ -2,6 +2,13 @@
   color: $rating-grade-color
   vertical-align: middle
 
+  &__icon-container
+    height: 1em
+    outline: 0
+
+    & + &
+      margin-left: 2px
+
   &__icon
     color: currentColor
     text-shadow: $rating-shadow
@@ -17,13 +24,8 @@
     &--exselected
       opacity: .7
 
-    & + &
-      margin-left: 2px
-
   &--no-dimming .q-rating__icon
     opacity: 1
 
-  &--editable .q-icon
+  &--editable .q-rating__icon-container
     cursor: pointer
-  &--non-editable span, .q-icon
-    outline: 0
