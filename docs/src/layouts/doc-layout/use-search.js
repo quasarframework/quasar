@@ -140,32 +140,28 @@ export default function useSearch (scope, $q, $route) {
   function onSearchKeydown (evt) {
     switch (evt.keyCode) {
       case 27: // escape
-        if ($q.platform.is.desktop === true) {
-          evt.preventDefault()
-          resetSearch()
-        }
+        evt.preventDefault()
+        resetSearch()
         break
       case 38: // up
       case 40: // down
-        if ($q.platform.is.desktop === true) {
-          evt.preventDefault()
-          if (searchResults.value !== null && searchResults.value.ids !== void 0) {
-            if (searchActiveId.value === null) {
-              searchActiveId.value = searchResults.value.ids[ 0 ]
-            }
-            else {
-              const ids = searchResults.value.ids
-              const index = ids.indexOf(searchActiveId.value)
-              searchActiveId.value = ids[ (ids.length + index + (evt.keyCode === 38 ? -1 : 1)) % ids.length ]
-            }
+        evt.preventDefault()
+        if (searchResults.value !== null && searchResults.value.ids !== void 0) {
+          if (searchActiveId.value === null) {
+            searchActiveId.value = searchResults.value.ids[ 0 ]
+          }
+          else {
+            const ids = searchResults.value.ids
+            const index = ids.indexOf(searchActiveId.value)
+            searchActiveId.value = ids[ (ids.length + index + (evt.keyCode === 38 ? -1 : 1)) % ids.length ]
+          }
 
-            const target = document.getElementById(searchActiveId.value)
-            if (target.scrollIntoViewIfNeeded) {
-              target.scrollIntoViewIfNeeded()
-            }
-            else {
-              target.scrollIntoView({ block: 'center' })
-            }
+          const target = document.getElementById(searchActiveId.value)
+          if (target.scrollIntoViewIfNeeded) {
+            target.scrollIntoViewIfNeeded()
+          }
+          else {
+            target.scrollIntoView({ block: 'center' })
           }
         }
         break
