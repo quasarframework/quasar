@@ -46,12 +46,12 @@ export default Vue.extend({
   },
 
   data () {
-    const minModel = isNaN(this.minValue) === true || this.minValue < this.min
+    const minModel = isNaN(this.innerMin) === true || this.innerMin < this.min
       ? this.min
-      : this.minValue
-    const maxModel = isNaN(this.maxValue) === true || this.maxValue > this.max
+      : this.innerMin
+    const maxModel = isNaN(this.innerMax) === true || this.innerMax > this.max
       ? this.max
-      : this.maxValue
+      : this.innerMax
     const min = this.value.min === null ? minModel : this.value.min
     const max = this.value.max === null ? maxModel : this.value.max
 
@@ -66,7 +66,7 @@ export default Vue.extend({
     'value.min' (val) {
       const model = val === null
         ? this.min
-        : between(val, this.minValueVal, this.maxValueVal)
+        : between(val, this.minInnerValue, this.maxInnerValue)
 
       if (this.model.min !== model) {
         this.model.min = model
@@ -78,7 +78,7 @@ export default Vue.extend({
     'value.max' (val) {
       const model = val === null
         ? this.max
-        : between(val, this.minValueVal, this.maxValueVal)
+        : between(val, this.minInnerValue, this.maxInnerValue)
 
       if (this.model.max !== model) {
         this.model.max = model
@@ -87,7 +87,7 @@ export default Vue.extend({
       }
     },
 
-    minValueVal (val) {
+    minInnerValue (val) {
       if (this.model.min < val) {
         this.model.min = val
       }
@@ -96,7 +96,7 @@ export default Vue.extend({
       }
     },
 
-    maxValueVal (val) {
+    maxInnerValue (val) {
       if (this.model.min > val) {
         this.model.min = val
       }
@@ -371,9 +371,9 @@ export default Vue.extend({
         case dragType.RANGE:
           const
             ratioDelta = ratio - dragging.offsetRatio,
-            minR = between(dragging.minRatio + ratioDelta, this.minValueRatio, this.maxValueRatio - dragging.rangeRatio),
+            minR = between(dragging.minRatio + ratioDelta, this.minInnerRatio, this.maxInnerRatio - dragging.rangeRatio),
             modelDelta = model - dragging.offsetModel,
-            min = between(dragging.minValue + modelDelta, this.minValueVal, this.maxValueVal - dragging.rangeValue)
+            min = between(dragging.minValue + modelDelta, this.minInnerValue, this.maxInnerValue - dragging.rangeValue)
 
           pos = {
             minR,
@@ -386,25 +386,25 @@ export default Vue.extend({
 
       this.model = {
         min: this.__nextFocus !== 'max'
-          ? between(pos.min, this.minValueVal, this.maxValueVal)
+          ? between(pos.min, this.minInnerValue, this.maxInnerValue)
           : pos.min,
         max: this.__nextFocus !== 'min'
-          ? between(pos.max, this.minValueVal, this.maxValueVal)
+          ? between(pos.max, this.minInnerValue, this.maxInnerValue)
           : pos.max
       }
 
       // If either of the values to be emitted are null, set them to the defaults the user has entered.
       if (this.model.min === null || this.model.max === null) {
-        this.model.min = pos.min || this.minValueVal
-        this.model.max = pos.max || this.maxValueVal
+        this.model.min = pos.min || this.minInnerValue
+        this.model.max = pos.max || this.maxInnerValue
       }
 
       if (this.snap !== true || this.step === 0) {
         this.curMinRatio = this.__nextFocus !== 'max'
-          ? between(pos.minR, this.minValueRatio, this.maxValueRatio)
+          ? between(pos.minR, this.minInnerRatio, this.maxInnerRatio)
           : pos.minR
         this.curMaxRatio = this.__nextFocus !== 'min'
-          ? between(pos.maxR, this.minValueRatio, this.maxValueRatio)
+          ? between(pos.maxR, this.minInnerRatio, this.maxInnerRatio)
           : pos.maxR
       }
       else {
@@ -435,8 +435,8 @@ export default Vue.extend({
 
         const min = between(
           parseFloat((this.model.min + offset).toFixed(this.decimals)),
-          this.minValueVal,
-          this.maxValueVal - interval
+          this.minInnerValue,
+          this.maxInnerValue - interval
         )
 
         this.model = {
@@ -454,8 +454,8 @@ export default Vue.extend({
           ...this.model,
           [which]: between(
             parseFloat((this.model[which] + offset).toFixed(this.decimals)),
-            which === 'min' ? this.minValueVal : this.model.min,
-            which === 'max' ? this.maxValueVal : this.model.max
+            which === 'min' ? this.minInnerValue : this.model.min,
+            which === 'max' ? this.maxInnerValue : this.model.max
           )
         }
       }

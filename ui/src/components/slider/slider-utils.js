@@ -56,8 +56,8 @@ export const SliderMixin = {
       validator: v => v >= 0
     },
 
-    minValue: Number,
-    maxValue: Number,
+    innerMin: Number,
+    innerMax: Number,
 
     color: String,
 
@@ -109,7 +109,7 @@ export const SliderMixin = {
     },
 
     editable () {
-      return this.disable !== true && this.readonly !== true && this.minValueVal <= this.maxValueVal
+      return this.disable !== true && this.readonly !== true && this.minInnerValue <= this.maxInnerValue
     },
 
     decimals () {
@@ -124,34 +124,34 @@ export const SliderMixin = {
       return this.max - this.min
     },
 
-    minValueVal () {
-      return isNaN(this.minValue) === true || this.minValue < this.min
+    minInnerValue () {
+      return isNaN(this.innerMin) === true || this.innerMin < this.min
         ? this.min
-        : this.minValue
+        : this.innerMin
     },
 
-    maxValueVal () {
-      return isNaN(this.maxValue) === true || this.maxValue > this.max
+    maxInnerValue () {
+      return isNaN(this.innerMax) === true || this.innerMax > this.max
         ? this.max
-        : this.maxValue
+        : this.innerMax
     },
 
-    minValueRatio () {
-      return this.__getModelRatio(this.minValueVal)
+    minInnerRatio () {
+      return this.__getModelRatio(this.minInnerValue)
     },
 
-    maxValueRatio () {
-      return this.__getModelRatio(this.maxValueVal)
+    maxInnerRatio () {
+      return this.__getModelRatio(this.maxInnerValue)
     },
 
     markerStep () {
       return isNumber(this.markers) === true ? this.markers : this.computedStep
     },
 
-    trackLineStyle () {
+    innerTrackStyle () {
       return {
-        [ this.positionProp ]: `${100 * this.minValueRatio}%`,
-        [ this.sizeProp ]: `${100 * (this.maxValueRatio - this.minValueRatio)}%`
+        [ this.positionProp ]: `${100 * this.minInnerRatio}%`,
+        [ this.sizeProp ]: `${100 * (this.maxInnerRatio - this.minInnerRatio)}%`
       }
     },
 
@@ -195,8 +195,8 @@ export const SliderMixin = {
     attrs () {
       const attrs = {
         role: 'slider',
-        'aria-valuemin': this.minValueVal,
-        'aria-valuemax': this.maxValueVal,
+        'aria-valuemin': this.minInnerValue,
+        'aria-valuemax': this.maxInnerValue,
         'aria-orientation': this.orientation,
         'data-step': this.step
       }
@@ -255,8 +255,8 @@ export const SliderMixin = {
     __getTrack (h) {
       const track = [
         h('div', {
-          staticClass: `q-slider__track-line q-slider__track-line${this.axis} absolute`,
-          style: this.trackLineStyle
+          staticClass: `q-slider__inner-track q-slider__inner-track${this.axis} absolute`,
+          style: this.innerTrackStyle
         }),
 
         h('div', {

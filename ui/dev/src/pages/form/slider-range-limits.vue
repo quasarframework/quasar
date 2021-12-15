@@ -3,30 +3,30 @@
     <div class="q-pa-xl q-ma-xl">
       <div class="row items-center q-gutter-x-lg">
         <q-badge color="secondary">
-          ModelS: {{ modelS }} ({{ minValue }} to {{ maxValue }}) / ({{ minTrack }} to {{ maxTrack }})
+          ModelS: {{ modelS }} ({{ innerMin }} to {{ innerMax }}) / ({{ min }} to {{ max }})
         </q-badge>
 
         <q-badge color="secondary">
-          ModelR: {{ modelR }} ({{ minValue }} to {{ maxValue }}) / ({{ minTrack }} to {{ maxTrack }})
+          ModelR: {{ modelR }} ({{ innerMin }} to {{ innerMax }}) / ({{ min }} to {{ max }})
         </q-badge>
       </div>
 
       <q-slider
         v-model="modelS"
-        :min="minTrack"
-        :max="maxTrack"
-        :min-value="minValue"
-        :max-value="maxValue"
+        :min="min"
+        :max="max"
+        :inner-min="innerMin"
+        :inner-max="innerMax"
         markers
         label
       />
 
       <q-slider
         v-model="modelS"
-        :min="minTrack"
-        :max="maxTrack"
-        :min-value="minValue"
-        :max-value="maxValue"
+        :min="min"
+        :max="max"
+        :inner-min="innerMin"
+        :inner-max="innerMax"
         markers
         label
         reverse
@@ -34,10 +34,10 @@
 
       <q-range
         v-model="modelR"
-        :min="minTrack"
-        :max="maxTrack"
-        :min-value="minValue"
-        :max-value="maxValue"
+        :min="min"
+        :max="max"
+        :inner-min="innerMin"
+        :inner-max="innerMax"
         markers
         label
         drag-range
@@ -45,10 +45,10 @@
 
       <q-range
         v-model="modelR"
-        :min="minTrack"
-        :max="maxTrack"
-        :min-value="minValue"
-        :max-value="maxValue"
+        :min="min"
+        :max="max"
+        :inner-min="innerMin"
+        :inner-max="innerMax"
         markers
         label
         reverse
@@ -59,10 +59,10 @@
         <q-slider
           style="height: 600px; max-height: 80vh"
           v-model="modelS"
-          :min="minTrack"
-          :max="maxTrack"
-          :min-value="minValue"
-          :max-value="maxValue"
+          :min="min"
+          :max="max"
+          :inner-min="innerMin"
+          :inner-max="innerMax"
           markers
           label
           vertical
@@ -71,10 +71,10 @@
         <q-slider
           style="height: 600px; max-height: 80vh"
           v-model="modelS"
-          :min="minTrack"
-          :max="maxTrack"
-          :min-value="minValue"
-          :max-value="maxValue"
+          :min="min"
+          :max="max"
+          :inner-min="innerMin"
+          :inner-max="innerMax"
           markers
           label
           vertical
@@ -84,10 +84,10 @@
         <q-range
           style="height: 600px; max-height: 80vh"
           v-model="modelR"
-          :min="minTrack"
-          :max="maxTrack"
-          :min-value="minValue"
-          :max-value="maxValue"
+          :min="min"
+          :max="max"
+          :inner-min="innerMin"
+          :inner-max="innerMax"
           markers
           label
           vertical
@@ -97,10 +97,10 @@
         <q-range
           style="height: 600px; max-height: 80vh"
           v-model="modelR"
-          :min="minTrack"
-          :max="maxTrack"
-          :min-value="minValue"
-          :max-value="maxValue"
+          :min="min"
+          :max="max"
+          :inner-min="innerMin"
+          :inner-max="innerMax"
           markers
           label
           vertical
@@ -119,10 +119,10 @@ export default {
       modelS: 1,
       modelR: { min: -22, max: 1 },
 
-      minValue: 3,
-      maxValue: 18,
-      minTrack: 0,
-      maxTrack: 20
+      innerMin: 3,
+      innerMax: 18,
+      min: 0,
+      max: 20
     }
   }
 }

@@ -14,6 +14,7 @@
 
   &__track-container
     background: rgba(0,0,0,.06)
+    border-radius: $generic-border-radius
 
     &--h
       top: 50%
@@ -26,8 +27,9 @@
       height: 100%
       width: 2px
 
-  &__track-line
+  &__inner-track
     background: rgba(0,0,0,.2)
+    border-radius: $generic-border-radius
     z-index: -1
 
     &--h
@@ -39,6 +41,7 @@
 
   &__track
     background: currentColor
+    border-radius: $generic-border-radius
 
     &--h
       will-change: width, left
@@ -221,7 +224,7 @@
   &--dark
     .q-slider__track-container
       background: rgba(#fff, .1)
-    .q-slider__track-line
+    .q-slider__inner-track
       background: rgba(#fff, .2)
     .q-slider__track-markers
       color: #fff
