@@ -29,10 +29,11 @@
           Model <span class="right-detail"><em>{{ innerMinMax }}</em> &nbsp;&nbsp;(0 to 50, inner 10 to 35 or 15 to 40)</span>
         </span>
       </p>
-
-      <q-slider v-model="nullInnerMinMax" :min="0" :max="50" :inner-min="10" :inner-max="35" />
-      <q-slider v-model="innerMinMax" :min="0" :max="50" :inner-min="10" :inner-max="35" />
-      <q-slider v-model="innerMinMax" :min="0" :max="50" color="green" :inner-min="15" :inner-max="40" />
+      <div>
+        <q-slider v-model="nullInnerMinMax" :min="0" :max="50" :inner-min="10" :inner-max="35" />
+        <q-slider v-model="innerMinMax" :min="0" :max="50" :inner-min="10" :inner-max="35" />
+        <q-slider v-model="innerMinMax" :min="0" :max="50" color="green" :inner-min="15" :inner-max="40" markers />
+      </div>
 
       <p class="caption">
         Reverse

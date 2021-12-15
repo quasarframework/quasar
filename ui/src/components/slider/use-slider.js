@@ -104,6 +104,7 @@ export default function ({ updateValue, updatePosition, getDragging }) {
 
   const decimals = computed(() => (String(props.step).trim('0').split('.')[ 1 ] || '').length)
   const step = computed(() => (props.step === 0 ? 1 : props.step))
+  const innerTrackLen = computed(() => innerMax.value - innerMin.value)
   const trackLen = computed(() => props.max - props.min)
 
   function convertRatioToModel (ratio) {
@@ -150,10 +151,11 @@ export default function ({ updateValue, updatePosition, getDragging }) {
   )
 
   const markerStyle = computed(() => {
-    if (trackLen.value !== 0) {
-      const size = 100 * markerStep.value / trackLen.value
+    if (innerTrackLen.value !== 0) {
+      const size = 100 * markerStep.value / innerTrackLen.value
 
       return {
+        ...innerTrackStyle.value,
         backgroundSize: props.vertical === true
           ? `2px ${ size }%`
           : `${ size }% 2px`

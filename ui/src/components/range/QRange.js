@@ -470,12 +470,12 @@ export default createComponent({
 
       props.markers !== false && track.push(
         h('div', {
-          class: `q-slider__track-markers q-slider__track-markers${ state.axis.value } absolute-full fit`,
+          class: `q-slider__track-markers q-slider__track-markers${ state.axis.value } absolute-full`,
           style: state.markerStyle.value
         })
       )
 
-      const child = [
+      const content = [
         h('div', {
           class: `q-slider__track-container q-slider__track-container${ state.axis.value } absolute`
         }, track),
@@ -485,7 +485,7 @@ export default createComponent({
       ]
 
       if (props.name !== void 0 && props.disable !== true) {
-        injectFormInput(child, 'push')
+        injectFormInput(content, 'push')
       }
 
       const data = {
@@ -503,7 +503,7 @@ export default createComponent({
         ...events.value
       }
 
-      return hDir('div', data, child, 'slide', state.editable.value, () => state.panDirective.value)
+      return hDir('div', data, content, 'slide', state.editable.value, () => state.panDirective.value)
     }
   }
 })

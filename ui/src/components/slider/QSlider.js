@@ -154,13 +154,32 @@ export default createComponent({
     }
 
     return () => {
-      const child = [
+      const track = [
+        h('div', {
+          class: `q-slider__inner-track q-slider__inner-track${ state.axis.value } absolute`,
+          style: state.innerTrackStyle.value
+        }),
+
+        h('div', {
+          class: `q-slider__track q-slider__track${ state.axis.value } absolute`,
+          style: trackStyle.value
+        })
+      ]
+
+      props.markers !== false && track.push(
+        h('div', {
+          class: `q-slider__track-markers q-slider__track-markers${ state.axis.value } absolute`,
+          style: state.markerStyle.value
+        })
+      )
+
+      const thumb = [
         methods.getThumbSvg(),
         h('div', { class: 'q-slider__focus-ring' })
       ]
 
       if (props.label === true || props.labelAlways === true) {
-        child.push(
+        thumb.push(
           h('div', {
             class: `q-slider__pin q-slider__pin${ state.axis.value } absolute ` + pinClass.value,
             style: pinStyle.value.pin
@@ -184,27 +203,8 @@ export default createComponent({
       }
 
       if (props.name !== void 0 && props.disable !== true) {
-        injectFormInput(child, 'push')
+        injectFormInput(thumb, 'push')
       }
-
-      const track = [
-        h('div', {
-          class: `q-slider__inner-track q-slider__inner-track${ state.axis.value } absolute`,
-          style: state.innerTrackStyle.value
-        }),
-
-        h('div', {
-          class: `q-slider__track q-slider__track${ state.axis.value } absolute`,
-          style: trackStyle.value
-        })
-      ]
-
-      props.markers !== false && track.push(
-        h('div', {
-          class: `q-slider__track-markers q-slider__track-markers${ state.axis.value } absolute-full fit`,
-          style: state.markerStyle.value
-        })
-      )
 
       const content = [
         h('div', {
@@ -214,7 +214,7 @@ export default createComponent({
         h('div', {
           class: `q-slider__thumb-container q-slider__thumb-container${ state.axis.value } absolute non-selectable` + thumbClass.value,
           style: thumbStyle.value
-        }, child)
+        }, thumb)
       ]
 
       const data = {
