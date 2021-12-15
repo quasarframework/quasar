@@ -4,6 +4,7 @@
       <q-toggle v-model="dark" :dark="dark" label="Dark" :false-value="null" />
       <q-toggle v-model="dense" :dark="dark" label="Dense" />
       <q-toggle v-model="vertical" :dark="dark" label="Vertical" />
+      <q-toggle v-model="innerTrack" :dark="dark" label="Inner Track" />
       <q-toggle v-model="defaultLabels" :dark="dark" label="Default labels" />
       <q-input borderless square class="col" v-model="labelLeftTemplate" :dark="dark" label="Left label template - use {model}" />
       <q-input borderless square class="col" v-model="labelRightTemplate" :dark="dark" label="Right label template - use {model}" />
@@ -30,9 +31,11 @@
           Model <span class="right-detail"><em>{{ innerMinMax.min }} to {{ innerMinMax.max }}</em> &nbsp;&nbsp;(0 to 50, inner 10 to 35 or 15 to 40)</span>
         </span>
       </p>
-      <q-range v-model="nullInnerMinMax" :min="0" :max="50" :inner-min="10" :inner-max="35" />
-      <q-range v-model="innerMinMax" :min="0" :max="50" :inner-min="10" :inner-max="35" />
-      <q-range v-model="innerMinMax" :min="0" :max="50" color="green" :inner-min="15" :inner-max="40" />
+      <div>
+        <q-range v-model="nullInnerMinMax" :min="0" :max="50" :inner-min="10" :inner-max="35" :inner-track="innerTrack" />
+        <q-range v-model="innerMinMax" :min="0" :max="50" :inner-min="10" :inner-max="35" :inner-track="innerTrack" />
+        <q-range v-model="innerMinMax" :min="0" :max="50" color="green" :inner-min="15" :inner-max="40" :inner-track="innerTrack" markers />
+      </div>
 
       <p class="caption">
         Reverse
@@ -231,6 +234,7 @@ export default {
       dark: null,
       dense: false,
       vertical: false,
+      innerTrack: false,
 
       defaultLabels: true,
       labelLeftTemplate: 'Current left value: {model}',

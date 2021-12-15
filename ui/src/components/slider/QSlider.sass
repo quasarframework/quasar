@@ -56,8 +56,10 @@
     color: #000
 
     &--h
+      height: 100%
       background-image: repeating-linear-gradient(to right, currentColor, currentColor 2px, rgba(255,255,255,0) 0, rgba(255,255,255,0))
     &--v
+      width: 100%
       background-image: repeating-linear-gradient(to top, currentColor, currentColor 2px, rgba(255,255,255,0) 0, rgba(255,255,255,0))
 
     &:after
@@ -93,6 +95,9 @@
     transition: transform .18s ease-out, fill .18s ease-out, stroke .18s ease-out
     stroke-width: 3.5
     stroke: currentColor
+
+    &--overflowed
+      visibility: hidden
 
     path
       stroke: currentColor

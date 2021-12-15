@@ -53,6 +53,13 @@
       "addedIn": "v1.17"
     },
 
+    "inner-track": {
+      "type": "Boolean",
+      "desc": "Display the selection track only between inner min-max values",
+      "category": "content",
+      "addedIn": "v1.17"
+    },
+
     "reverse": {
       "type": "Boolean",
       "desc": "Work in reverse (changes direction)",

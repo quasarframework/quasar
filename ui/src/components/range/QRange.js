@@ -52,8 +52,8 @@ export default Vue.extend({
     const maxModel = isNaN(this.innerMax) === true || this.innerMax > this.max
       ? this.max
       : this.innerMax
-    const min = this.value.min === null ? minModel : this.value.min
-    const max = this.value.max === null ? maxModel : this.value.max
+    const min = this.value.min === null ? minModel : between(this.value.min, this.min, this.max)
+    const max = this.value.max === null ? maxModel : between(this.value.max, this.min, this.max)
 
     return {
       model: { min, max },
@@ -66,7 +66,7 @@ export default Vue.extend({
     'value.min' (val) {
       const model = val === null
         ? this.min
-        : between(val, this.minInnerValue, this.maxInnerValue)
+        : between(val, this.min, this.max)
 
       if (this.model.min !== model) {
         this.model.min = model
@@ -78,7 +78,7 @@ export default Vue.extend({
     'value.max' (val) {
       const model = val === null
         ? this.max
-        : between(val, this.minInnerValue, this.maxInnerValue)
+        : between(val, this.min, this.max)
 
       if (this.model.max !== model) {
         this.model.max = model
@@ -87,7 +87,7 @@ export default Vue.extend({
       }
     },
 
-    minInnerValue (val) {
+    min (val) {
       if (this.model.min < val) {
         this.model.min = val
       }
@@ -96,7 +96,7 @@ export default Vue.extend({
       }
     },
 
-    maxInnerValue (val) {
+    max (val) {
       if (this.model.min > val) {
         this.model.min = val
       }
@@ -124,11 +124,20 @@ export default Vue.extend({
     },
 
     trackStyle () {
-      const minRatio = between(this.minRatio, 0, 1)
+      if (this.innerTrack !== true) {
+        const minRatio = between(this.minRatio, 0, 1)
+
+        return {
+          [ this.positionProp ]: `${100 * minRatio}%`,
+          [ this.sizeProp ]: `${100 * (between(this.maxRatio, minRatio, 1) - minRatio)}%`
+        }
+      }
+
+      const minRatio = between(Math.max(this.minRatio, this.minInnerRatio), 0, 1)
 
       return {
         [ this.positionProp ]: `${100 * minRatio}%`,
-        [ this.sizeProp ]: `${100 * (between(this.maxRatio, 0, 1) - minRatio)}%`
+        [ this.sizeProp ]: `${100 * (between(this.maxRatio, minRatio, Math.min(1, this.maxInnerRatio)) - minRatio)}%`
       }
     },
 
@@ -198,13 +207,13 @@ export default Vue.extend({
     minComputedLabel () {
       return this.leftLabelValue !== void 0
         ? this.leftLabelValue
-        : this.model.min
+        : (this.value.min === null ? this.model.min : this.value.min)
     },
 
     maxComputedLabel () {
       return this.rightLabelValue !== void 0
         ? this.rightLabelValue
-        : this.model.max
+        : (this.value.max === null ? this.model.max : this.value.max)
     },
 
     events () {
@@ -274,7 +283,7 @@ export default Vue.extend({
           : (this.vertical === true
             ? thumb.offsetHeight / (2 * height)
             : thumb.offsetWidth / (2 * width)
-          ) + (this.modelMaxRatio - this.modelMinRatio) / 15
+          ) + (Math.min(1, Math.max(0, this.modelMaxRatio)) - Math.min(1, Math.max(0, this.modelMinRatio))) / 15
 
       const dragging = {
         left,
@@ -470,7 +479,7 @@ export default Vue.extend({
       }
 
       const child = [
-        this.__getThumbSvg(h),
+        this.__getThumbSvg(h, this.value[which] < this.min || this.value[which] > this.max),
         h('div', { staticClass: 'q-slider__focus-ring' })
       ]
 

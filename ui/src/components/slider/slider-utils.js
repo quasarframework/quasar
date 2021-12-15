@@ -58,6 +58,7 @@ export const SliderMixin = {
 
     innerMin: Number,
     innerMax: Number,
+    innerTrack: Boolean,
 
     color: String,
 
@@ -155,11 +156,16 @@ export const SliderMixin = {
       }
     },
 
+    innerTrackLen () {
+      return this.maxInnerValue - this.minInnerValue
+    },
+
     markerStyle () {
-      if (this.minMaxDiff !== 0) {
-        const size = 100 * this.markerStep / this.minMaxDiff
+      if (this.innerTrackLen !== 0) {
+        const size = 100 * this.markerStep / this.innerTrackLen
 
         return {
+          ...this.innerTrackStyle,
           backgroundSize: this.vertical === true
             ? '2px ' + size + '%'
             : size + '% 2px'
@@ -233,9 +239,9 @@ export const SliderMixin = {
       return this.minMaxDiff === 0 ? 0 : (model - this.min) / this.minMaxDiff
     },
 
-    __getThumbSvg (h) {
+    __getThumbSvg (h, overflowed) {
       return h('svg', {
-        staticClass: 'q-slider__thumb absolute',
+        staticClass: 'q-slider__thumb absolute' + (overflowed === true ? ' q-slider__thumb--overflowed' : ''),
         attrs: {
           focusable: 'false', /* needed for IE11 */
           viewBox: '0 0 20 20',
@@ -267,7 +273,7 @@ export const SliderMixin = {
 
       this.markers !== false && track.push(
         h('div', {
-          staticClass: `q-slider__track-markers q-slider__track-markers${this.axis} absolute-full fit`,
+          staticClass: `q-slider__track-markers q-slider__track-markers${this.axis} absolute`,
           style: this.markerStyle
         })
       )

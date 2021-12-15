@@ -29,7 +29,7 @@ export default Vue.extend({
     const minModel = isNaN(this.innerMin) === true || this.innerMin < this.min
       ? this.min
       : this.innerMin
-    const model = this.value === null ? minModel : this.value
+    const model = this.value === null ? minModel : between(this.value, this.min, this.max)
 
     return {
       model,
@@ -41,7 +41,7 @@ export default Vue.extend({
     value (val) {
       const model = val === null
         ? this.minInnerValue
-        : between(val, this.minInnerValue, this.maxInnerValue)
+        : between(val, this.min, this.max)
 
       if (this.model !== model) {
         this.model = model
@@ -50,12 +50,12 @@ export default Vue.extend({
       }
     },
 
-    minInnerValue (val) {
-      this.model = between(this.model, val, this.maxInnerValue)
+    min (val) {
+      this.model = between(this.model, val, this.max)
     },
 
-    maxInnerValue (val) {
-      this.model = between(this.model, this.minInnerValue, val)
+    max (val) {
+      this.model = between(this.model, this.min, val)
     }
   },
 
@@ -69,9 +69,18 @@ export default Vue.extend({
     },
 
     trackStyle () {
+      if (this.innerTrack !== true) {
+        return {
+          [ this.positionProp ]: 0,
+          [ this.sizeProp ]: `${100 * between(this.ratio, 0, 1)}%`
+        }
+      }
+
+      const minRatio = between(this.minInnerRatio, 0, 1)
+
       return {
-        [ this.positionProp ]: 0,
-        [ this.sizeProp ]: `${100 * between(this.ratio, 0, 1)}%`
+        [ this.positionProp ]: `${100 * minRatio}%`,
+        [ this.sizeProp ]: `${100 * (between(this.ratio, minRatio, Math.min(1, this.maxInnerRatio)) - minRatio)}%`
       }
     },
 
@@ -106,7 +115,7 @@ export default Vue.extend({
     computedLabel () {
       return this.labelValue !== void 0
         ? this.labelValue
-        : this.model
+        : (this.value === null ? this.model : this.value)
     },
 
     events () {
@@ -184,7 +193,7 @@ export default Vue.extend({
       }
 
       const child = [
-        this.__getThumbSvg(h),
+        this.__getThumbSvg(h, this.value < this.min || this.value > this.max),
         h('div', { staticClass: 'q-slider__focus-ring' })
       ]
 

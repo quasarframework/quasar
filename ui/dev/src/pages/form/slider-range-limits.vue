@@ -2,6 +2,8 @@
   <div class="q-layout-padding">
     <div class="q-pa-xl q-ma-xl">
       <div class="row items-center q-gutter-x-lg">
+        <q-toggle v-model="innerTrack" dense label="Inner Track" />
+
         <q-badge color="secondary">
           ModelS: {{ modelS }} ({{ innerMin }} to {{ innerMax }}) / ({{ min }} to {{ max }})
         </q-badge>
@@ -17,6 +19,7 @@
         :max="max"
         :inner-min="innerMin"
         :inner-max="innerMax"
+        :inner-track="innerTrack"
         markers
         label
       />
@@ -27,6 +30,7 @@
         :max="max"
         :inner-min="innerMin"
         :inner-max="innerMax"
+        :inner-track="innerTrack"
         markers
         label
         reverse
@@ -38,6 +42,7 @@
         :max="max"
         :inner-min="innerMin"
         :inner-max="innerMax"
+        :inner-track="innerTrack"
         markers
         label
         drag-range
@@ -49,6 +54,7 @@
         :max="max"
         :inner-min="innerMin"
         :inner-max="innerMax"
+        :inner-track="innerTrack"
         markers
         label
         reverse
@@ -63,6 +69,7 @@
           :max="max"
           :inner-min="innerMin"
           :inner-max="innerMax"
+          :inner-track="innerTrack"
           markers
           label
           vertical
@@ -75,6 +82,7 @@
           :max="max"
           :inner-min="innerMin"
           :inner-max="innerMax"
+          :inner-track="innerTrack"
           markers
           label
           vertical
@@ -88,6 +96,7 @@
           :max="max"
           :inner-min="innerMin"
           :inner-max="innerMax"
+          :inner-track="innerTrack"
           markers
           label
           vertical
@@ -101,6 +110,7 @@
           :max="max"
           :inner-min="innerMin"
           :inner-max="innerMax"
+          :inner-track="innerTrack"
           markers
           label
           vertical
@@ -116,6 +126,8 @@
 export default {
   data () {
     return {
+      innerTrack: false,
+
       modelS: 1,
       modelR: { min: -22, max: 1 },
 
