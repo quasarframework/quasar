@@ -79,7 +79,7 @@ app.use(Quasar, {
 ```
 
 ## Usage
-So, after you figured out the CDN links that you need to embed into your webpages (hopefully you've inspected the project folder created by UMD demo kit), now it's time to use Quasar.
+So, after you figured out the CDN links that you need to embed into your webpages, now it's time to use Quasar.
 
 ::: tip
 You'll notice that all the Quasar Components, Quasar Directives and Quasar Plugins have an installation section at the top of their pages.
@@ -91,11 +91,11 @@ By using the UMD version, you'll have all of the components, directives and Quas
 You will notice that you won't be able to use the self-closing tag form of any of the components. You must close all components tags.
 
 ```html
-<!-- In docs, but for Quasar CLI usage -->
+<!-- Incorrect usage: In docs, but for Quasar CLI usage -->
 <q-btn label="My Button" />
 <!-- ^^^ can't use it like this on UMD -->
 
-<!-- Instead, include a self-closing tag too: -->
+<!-- Correct usage: Instead, include a self-closing tag too: -->
 <q-btn label="My Button"></q-btn>
 ```
 
