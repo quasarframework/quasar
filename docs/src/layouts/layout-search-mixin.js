@@ -39,9 +39,7 @@ export default {
       this.leftDrawerState = true
     }
 
-    if (this.$q.platform.is.desktop === true) {
-      window.addEventListener('keypress', this.focusOnSearch)
-    }
+    window.addEventListener('keypress', this.focusOnSearch)
 
     if (searchQuery) {
       // Here we put search string from query into the input and open the search popup.
@@ -54,9 +52,7 @@ export default {
   },
 
   beforeDestroy () {
-    if (this.$q.platform.is.desktop === true) {
-      window.removeEventListener('keypress', this.focusOnSearch)
-    }
+    window.removeEventListener('keypress', this.focusOnSearch)
   },
 
   data () {
@@ -91,10 +87,6 @@ export default {
 
   methods: {
     onSearchKeydown (evt) {
-      if (this.$q.platform.is.desktop !== true) {
-        return
-      }
-
       switch (evt.keyCode) {
         case 27: // escape
           evt.preventDefault()
