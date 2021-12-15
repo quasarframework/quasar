@@ -83,6 +83,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           @focus="onSearchFocus"
           @blur="onSearchBlur"
           placeholder="Search Quasar v2..."
+          type="search"
         )
           template(v-slot:prepend)
             q-icon(name="search")
