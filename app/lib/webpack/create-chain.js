@@ -211,7 +211,7 @@ module.exports = function (cfg, configName) {
       .options({
         esModule: false,
         limit: 10000,
-        name: `img/[name]${fileHash}.[ext]`
+        name: `img/[path][name]${fileHash}.[ext]`
       })
 
   // TODO: change to Asset Management when webpack-chain is webpack5 compatible
