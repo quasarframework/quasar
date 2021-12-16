@@ -4,7 +4,7 @@
       <q-toggle v-model="vertical" dense label="Vertical" />
       <q-toggle v-model="reverse" dense label="Reverse" />
       <q-toggle v-model="switchLabelPos" dense label="Switch label pos" />
-      <q-toggle v-model="switchMarkerLabelPos" dense label="Switch marker label pos" />
+      <q-toggle v-model="switchMarkerLabelsPos" dense label="Switch marker label pos" />
       <q-badge class="q-py-sm q-px-md text-right" color="deep-orange">{{ model }}</q-badge>
     </div>
 
@@ -115,6 +115,7 @@
       :markers="1"
       snap
       marker-labels
+      switch-marker-labels-position
     >
       <template v-slot:marker-label-group="{ markerMap }">
         <div
@@ -158,7 +159,7 @@ export default {
       vertical: false,
       reverse: false,
       switchLabelPos: false,
-      switchMarkerLabelPos: false,
+      switchMarkerLabelsPos: false,
 
       model: 4
     }
@@ -172,7 +173,7 @@ export default {
         vertical: this.vertical,
         reverse: this.reverse,
         switchLabelPosition: this.switchLabelPos,
-        switchMarkerLabelPosition: this.switchMarkerLabelPos
+        switchMarkerLabelsPosition: this.switchMarkerLabelsPos
       }
     }
   }

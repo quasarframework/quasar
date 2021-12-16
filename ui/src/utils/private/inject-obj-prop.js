@@ -14,3 +14,11 @@ export function injectProp (target, propName, get, set) {
     enumerable: true
   })
 }
+
+export function defineGetterObject (props) {
+  const acc = {}
+  Object.keys(props).forEach(key => {
+    injectGetter(acc, key, props[ key ])
+  })
+  return acc
+}

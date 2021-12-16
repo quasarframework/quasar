@@ -65,6 +65,7 @@
       :min="0"
       :max="5"
       :step="0.5"
+      vertical
       marker-labels
       switch-marker-labels-position
     >
@@ -97,6 +98,27 @@
               name="star_half"
             />
           </template>
+        </div>
+
+        <div
+          class="row items-center no-wrap"
+          :class="markerMap[thirdModel.max].classes"
+          :style="markerMap[thirdModel.max].style"
+        >
+          <q-icon
+            v-for="i in Math.floor(thirdModel.max)"
+            :key="i"
+            size="xs"
+            color="teal"
+            name="star_rate"
+          />
+
+          <q-icon
+            v-if="thirdModel.max > Math.floor(thirdModel.max)"
+            size="xs"
+            color="teal"
+            name="star_half"
+          />
         </div>
       </template>
     </q-range>

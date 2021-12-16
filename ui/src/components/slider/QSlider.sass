@@ -1,6 +1,5 @@
 .q-slider
   position: relative
-  color: var(--q-primary)
   outline: 0
 
   &--h
@@ -11,6 +10,7 @@
     height: 200px
 
   &__track-container
+    color: var(--q-primary)
     background: rgba(0,0,0,.1)
     border-radius: $generic-border-radius
 
@@ -73,19 +73,19 @@
         left: 0
         bottom: 0
 
-  &__marker-label-container
+  &__marker-labels-container
     cursor: default
     > *
       pointer-events: all
 
-  &__marker-label
+  &__marker-labels
     position: absolute
 
     &--h
       &-standard
-        top: 17px
+        top: 14px
       &-switched
-        bottom: 17px
+        bottom: 14px
 
       &-ltr
         transform: translateX(-50%) #{"/* rtl:ignore */"}
@@ -94,9 +94,9 @@
 
     &--v
       &-standard
-        right: 17px
+        right: 14px
       &-switched
-        left: 17px
+        left: 14px
 
       &-ltr
         transform: translateY(-50%) #{"/* rtl:ignore */"}
@@ -107,6 +107,7 @@
     width: 20px
     height: 20px
     outline: 0
+    color: var(--q-primary)
 
     &--h
       top: 50%

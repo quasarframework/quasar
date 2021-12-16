@@ -455,6 +455,7 @@ export default createComponent({
       return h('div', {
         ref: sideProps.domRef,
         class: `q-slider__thumb-container q-slider__thumb-container${ state.axis.value } absolute non-selectable`
+          + state.colorClass.value
           + sideProps.thumbClass.value,
         style: sideProps.thumbStyle.value,
         ...sideProps.events.value,
@@ -482,17 +483,20 @@ export default createComponent({
         })
       )
 
-      props.markerLabels !== false && track.push(methods.getMarkerLabels())
-
       const content = [
         h('div', {
-          class: `q-slider__track-container q-slider__track-container${ state.axis.value } absolute`,
+          class: `q-slider__track-container q-slider__track-container${ state.axis.value } absolute`
+            + state.colorClass.value,
           style: state.trackContainerStyle.value
-        }, track),
+        }, track)
+      ]
 
+      props.markerLabels !== false && content.push(methods.getMarkerLabels())
+
+      content.push(
         getThumb(minProps),
         getThumb(maxProps)
-      ]
+      )
 
       if (props.name !== void 0 && props.disable !== true) {
         injectFormInput(content, 'push')

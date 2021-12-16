@@ -8,9 +8,9 @@ import { useFormProps } from '../../composables/private/use-form.js'
 import { between } from '../../utils/format.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { isNumber } from '../../utils/private/is.js'
-import { injectGetter } from '../../utils/private/inject-obj-prop.js'
+import { defineGetterObject } from '../../utils/private/inject-obj-prop.js'
 
-const markerClass = 'q-slider__marker-label'
+const markerClass = 'q-slider__marker-labels'
 const defaultMarkerConvertFn = v => ({ value: v })
 const defaultMarkerLabelRenderFn = ({ marker }) => h('div', {
   key: marker.value,
@@ -116,8 +116,8 @@ export default function ({ updateValue, updatePosition, getDragging }) {
 
   const classes = computed(() =>
     `q-slider q-slider${ axis.value } q-slider--${ active.value === true ? '' : 'in' }active`
+    + ` ${ props.vertical === true ? 'column' : 'row' } items-center`
     + (isReversed.value === true ? ' q-slider--reversed' : '')
-    + (props.color !== void 0 ? ` text-${ props.color }` : '')
     + (props.disable === true ? ' disabled' : ' q-slider--enabled' + (editable.value === true ? ' q-slider--editable' : ''))
     + (focus.value === 'both' ? ' q-slider--focus' : '')
     + (props.label || props.labelAlways === true ? ' q-slider--label' : '')
@@ -125,6 +125,8 @@ export default function ({ updateValue, updatePosition, getDragging }) {
     + (isDark.value === true ? ' q-slider--dark' : '')
     + (props.dense === true ? ' q-slider--dense q-slider--dense' + axis.value : '')
   )
+
+  const colorClass = computed(() => (props.color !== void 0 ? ` text-${ props.color }` : ''))
 
   const arrowClass = computed(() =>
     `q-slider__arrow absolute q-slider__arrow${ axis.value } q-slider__arrow${ axis.value }${ labelSide.value }`
@@ -272,9 +274,10 @@ export default function ({ updateValue, updatePosition, getDragging }) {
     return acc
   })
 
-  const markerLabelScope = {}
-  injectGetter(markerLabelScope, 'markerList', () => markerLabelsList.value)
-  injectGetter(markerLabelScope, 'markerMap', () => markerLabelsMap.value)
+  const markerLabelScope = defineGetterObject({
+    markerList: () => markerLabelsList.value,
+    markerMap: () => markerLabelsMap.value
+  })
 
   function getMarkerLabelsContent () {
     if (slots[ 'marker-label-group' ] !== void 0) {
@@ -289,7 +292,7 @@ export default function ({ updateValue, updatePosition, getDragging }) {
     return h(
       'div',
       {
-        class: 'q-slider__marker-label-container no-pointer-events',
+        class: 'q-slider__marker-labels-container col no-pointer-events relative-position',
         onMousedownCapture: stopAndPrevent, onClick: stopAndPrevent, onTouchstart: stopAndPrevent
       },
       getMarkerLabelsContent()
@@ -459,6 +462,7 @@ export default function ({ updateValue, updatePosition, getDragging }) {
       isReversed,
       editable,
       classes,
+      colorClass,
       decimals,
       innerMin,
       innerMinRatio,
