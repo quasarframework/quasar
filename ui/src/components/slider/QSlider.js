@@ -58,9 +58,11 @@ export default createComponent({
     }))
 
     const thumbClass = computed(() => (
-      state.preventFocus.value === false && state.focus.value === true
-        ? ' q-slider--focus'
-        : ''
+      (
+        state.preventFocus.value === false && state.focus.value === true
+          ? ' q-slider--focus'
+          : ''
+      ) + (props.thumbColor !== void 0 ? ` text-${ props.thumbColor }` : '')
     ))
 
     const pinClass = computed(() => (
@@ -209,7 +211,8 @@ export default createComponent({
 
       const content = [
         h('div', {
-          class: `q-slider__track-container q-slider__track-container${ state.axis.value } absolute`
+          class: `q-slider__track-container q-slider__track-container${ state.axis.value } absolute`,
+          style: state.trackContainerStyle.value
         }, track),
 
         h('div', {

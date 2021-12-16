@@ -45,7 +45,10 @@ export default createComponent({
     rightLabelTextColor: String,
 
     leftLabelValue: [ String, Number ],
-    rightLabelValue: [ String, Number ]
+    rightLabelValue: [ String, Number ],
+
+    leftThumbColor: String,
+    rightThumbColor: String
   },
 
   emits: useSliderEmits,
@@ -133,11 +136,14 @@ export default createComponent({
         'z-index': nextFocus.value === 'min' ? 2 : void 0
       })),
 
-      thumbClass: computed(() => (
-        state.preventFocus.value === false && state.focus.value === 'min'
-          ? ' q-slider--focus'
-          : ''
-      )),
+      thumbClass: computed(() => {
+        const color = props.leftThumbColor || props.thumbColor
+        return (
+          state.preventFocus.value === false && state.focus.value === 'min'
+            ? ' q-slider--focus'
+            : ''
+        ) + (color !== void 0 ? ` text-${ color }` : '')
+      }),
 
       pinClass: computed(() => {
         const color = props.leftLabelColor || props.labelColor
@@ -179,11 +185,14 @@ export default createComponent({
         [ state.positionProp.value ]: `${ 100 * ratioMax.value }%`
       })),
 
-      thumbClass: computed(() => (
-        state.preventFocus.value === false && state.focus.value === 'max'
-          ? ' q-slider--focus'
-          : ''
-      )),
+      thumbClass: computed(() => {
+        const color = props.leftThumbColor || props.thumbColor
+        return (
+          state.preventFocus.value === false && state.focus.value === 'max'
+            ? ' q-slider--focus'
+            : ''
+        ) + (color !== void 0 ? ` text-${ color }` : '')
+      }),
 
       pinClass: computed(() => {
         const color = props.rightLabelColor || props.labelColor
@@ -477,7 +486,8 @@ export default createComponent({
 
       const content = [
         h('div', {
-          class: `q-slider__track-container q-slider__track-container${ state.axis.value } absolute`
+          class: `q-slider__track-container q-slider__track-container${ state.axis.value } absolute`,
+          style: state.trackContainerStyle.value
         }, track),
 
         getThumb(minProps),

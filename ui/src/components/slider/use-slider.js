@@ -59,12 +59,18 @@ export const useSliderProps = {
   markerLabels: [ Boolean, Array, Object, Function ],
   switchMarkerLabelPosition: Boolean,
 
+  trackSize: {
+    type: String,
+    default: '4px'
+  },
+
   disable: Boolean,
   readonly: Boolean,
   dense: Boolean,
 
   tabindex: [ String, Number ],
 
+  thumbColor: String,
   thumbPath: {
     type: String,
     default: 'M 4, 10 a 6,6 0 1,0 12,0 a 6,6 0 1,0 -12,0'
@@ -299,7 +305,12 @@ export default function ({ updateValue, updatePosition, getDragging }) {
   ))
 
   const sizeProp = computed(() => (props.vertical === true ? 'height' : 'width'))
+  const thicknessProp = computed(() => (props.vertical === true ? 'width' : 'height'))
   const orientation = computed(() => (props.vertical === true ? 'vertical' : 'horizontal'))
+
+  const trackContainerStyle = computed(() => ({
+    [ thicknessProp.value ]: props.trackSize
+  }))
 
   const innerTrackStyle = computed(() => ({
     [ positionProp.value ]: `${ 100 * innerMinRatio.value }%`,
@@ -456,6 +467,7 @@ export default function ({ updateValue, updatePosition, getDragging }) {
       step,
       trackLen,
       markerStyle,
+      trackContainerStyle,
       innerTrackStyle,
       tabindex,
       positionProp,

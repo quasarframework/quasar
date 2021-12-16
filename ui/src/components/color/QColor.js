@@ -658,6 +658,7 @@ export default createComponent({
             modelValue: model.value.h,
             min: 0,
             max: 360,
+            trackSize: '10px',
             readonly: editable.value !== true,
             thumbPath,
             'onUpdate:modelValue': onHueChange,
@@ -674,6 +675,7 @@ export default createComponent({
             modelValue: model.value.a,
             min: 0,
             max: 100,
+            trackSize: '10px',
             readonly: editable.value !== true,
             thumbPath,
             ...getCache('alphaSlide', {

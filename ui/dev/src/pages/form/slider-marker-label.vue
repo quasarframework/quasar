@@ -64,8 +64,10 @@
       class="q-mt-xl"
       v-model="model"
       v-bind="props"
-      color="deep-orange"
+      color="yellow-9"
+      thumb-color="purple"
       label-always
+      label-color="black"
       markers
       :marker-labels="[ 0, 3, 6, 9, 10 ]"
     />
@@ -77,6 +79,7 @@
       v-bind="props"
       color="deep-orange"
       :markers="1"
+      track-size="10px"
       label
       marker-labels
     >

@@ -170,6 +170,19 @@
       "addedIn": "v2.4"
     },
 
+    "track-size": {
+      "type": "String",
+      "desc": "Track size (including CSS unit)",
+      "examples": [ "35px" ],
+      "category": "style",
+      "addedIn": "v2.4"
+    },
+
+    "thumb-color": {
+      "extends": "color",
+      "addedIn": "v2.4"
+    },
+
     "thumb-path": {
       "type": "String",
       "desc": "Set custom thumb svg path",
