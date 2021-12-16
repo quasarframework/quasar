@@ -66,7 +66,7 @@ export default createComponent({
 
     const pinClass = computed(() => (
       props.labelColor !== void 0
-        ? `text-${ props.labelColor }`
+        ? ` text-${ props.labelColor }`
         : ''
     ))
 
@@ -168,10 +168,12 @@ export default createComponent({
 
       props.markers !== false && track.push(
         h('div', {
-          class: `q-slider__track-markers q-slider__track-markers${ state.axis.value } absolute`,
+          class: `q-slider__track-markers q-slider__track-markers${ state.axis.value } absolute inherit-border-radius overflow-hidden`,
           style: state.markerStyle.value
         })
       )
+
+      props.markerLabels !== false && track.push(methods.getMarkerLabels())
 
       const thumb = [
         methods.getThumbSvg(),
@@ -181,11 +183,11 @@ export default createComponent({
       if (props.label === true || props.labelAlways === true) {
         thumb.push(
           h('div', {
-            class: `q-slider__pin q-slider__pin${ state.axis.value } absolute ` + pinClass.value,
+            class: state.pinClass.value + pinClass.value,
             style: pinStyle.value.pin
           }, [
             h('div', {
-              class: `q-slider__pin-text-container q-slider__pin-text-container${ state.axis.value }`,
+              class: state.pinTextClass.value,
               style: pinStyle.value.pinTextContainer
             }, [
               h('span', {
@@ -197,7 +199,7 @@ export default createComponent({
           ]),
 
           h('div', {
-            class: `q-slider__arrow q-slider__arrow${ state.axis.value } ${ pinClass.value }`
+            class: state.arrowClass.value + pinClass.value
           })
         )
       }
@@ -212,7 +214,8 @@ export default createComponent({
         }, track),
 
         h('div', {
-          class: `q-slider__thumb-container q-slider__thumb-container${ state.axis.value } absolute non-selectable` + thumbClass.value,
+          class: `q-slider__thumb-container q-slider__thumb-container${ state.axis.value } absolute non-selectable`
+            + thumbClass.value,
           style: thumbStyle.value
         }, thumb)
       ]

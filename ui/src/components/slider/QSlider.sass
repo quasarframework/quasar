@@ -16,14 +16,14 @@
 
     &--h
       top: 50%
-      margin-top: -1px
+      margin-top: -2px
       width: 100%
-      height: 2px
+      height: 4px
     &--v
       left: 50%
-      margin-left: -1px
+      margin-left: -2px
       height: 100%
-      width: 2px
+      width: 4px
 
   &__inner-track
     background: rgba(0,0,0,.1)
@@ -51,23 +51,59 @@
 
   &__track-markers
     color: #000
-
-    &--h
-      height: 100%
-      background-image: repeating-linear-gradient(to right, currentColor, currentColor 2px, rgba(255,255,255,0) 0, rgba(255,255,255,0))
-    &--v
-      width: 100%
-      background-image: repeating-linear-gradient(to top, currentColor, currentColor 2px, rgba(255,255,255,0) 0, rgba(255,255,255,0))
+    border-radius: inherit
 
     &:after
       content: ''
       position: absolute
-      right: 0
-      top: 0
-      bottom: 0
-      height: 2px
-      width: 2px
       background: currentColor
+
+    &--h
+      height: 100%
+      background-image: repeating-linear-gradient(to right, currentColor, currentColor 2px, rgba(255,255,255,0) 0, rgba(255,255,255,0))
+      &:after
+        height: 100%
+        width: 2px
+        top: 0
+        right: 0
+    &--v
+      width: 100%
+      background-image: repeating-linear-gradient(to bottom, currentColor, currentColor 2px, rgba(255,255,255,0) 0, rgba(255,255,255,0))
+      &:after
+        width: 100%
+        height: 2px
+        left: 0
+        bottom: 0
+
+  &__marker-label-container
+    cursor: default
+    > *
+      pointer-events: all
+
+  &__marker-label
+    position: absolute
+
+    &--h
+      &-standard
+        top: 17px
+      &-switched
+        bottom: 17px
+
+      &-ltr
+        transform: translateX(-50%) #{"/* rtl:ignore */"}
+      &-rtl
+        transform: translateX(50%) #{"/* rtl:ignore */"}
+
+    &--v
+      &-standard
+        right: 17px
+      &-switched
+        left: 17px
+
+      &-ltr
+        transform: translateY(-50%) #{"/* rtl:ignore */"}
+      &-rtl
+        transform: translateY(50%) #{"/* rtl:ignore */"}
 
   &__thumb-container
     width: 20px
@@ -106,26 +142,33 @@
     transition-delay: .14s
 
   &__arrow
-    position: absolute
     width: 0
     height: 0
     transform-origin: 50% 50%
     transition: transform 100ms ease-out
 
     &--h
-      top: 19px
       left: 4px
-      border-top: 6px solid currentColor
       border-left: 6px solid transparent
       border-right: 6px solid transparent
       transform: scale(0) translateY(0)
+      &-standard
+        top: 19px
+        border-top: 6px solid currentColor
+      &-switched
+        bottom: 19px
+        border-bottom: 6px solid currentColor
     &--v
       top: 4px
-      left: 15px
       border-top: 6px solid transparent
       border-bottom: 6px solid transparent
-      border-right: 6px solid currentColor
       transform: scale(0) translateX(-20px)
+      &-standard
+        left: 15px
+        border-right: 6px solid currentColor
+      &-switched
+        right: 15px
+        border-left: 6px solid currentColor
 
   &__pin
     transition: transform 100ms ease-out
@@ -133,17 +176,24 @@
     white-space: nowrap
 
     &--h
-      bottom: 0
       right: 0
       transform: scale(0) translateY(0)
       will-change: left
+      &-standard
+        bottom: 0
+      &-switched
+        top: 0
+
     &--v
       top: 50%
-      left: 20px
       height: 0
       transform: scale(0) translateX(-20px)
       will-change: top
       transform-origin: left center
+      &-standard
+        left: 20px
+      &-switched
+        right: 20px
 
     &-text-container
       min-height: 25px
@@ -207,22 +257,36 @@
     .q-slider__pin,
     .q-slider__arrow
       &--h
-        transform: scale(1) translateY(-25px)
+        &-standard
+          transform: scale(1) translateY(-25px)
+        &-switched
+          transform: scale(1) translateY(25px)
       &--v
-        transform: scale(1) translateX(5px)
+        &-standard
+          transform: scale(1) translateX(5px)
+        &-switched
+          transform: scale(1) translateX(-5px)
 
   &--label
     &.q-slider--active, .q-slider--focus, &.q-slider--label-always
       .q-slider__pin,
       .q-slider__arrow
         &--h
-          transform: scale(1) translateY(-25px)
+          &-standard
+            transform: scale(1) translateY(-25px)
+          &-switched
+            transform: scale(1) translateY(25px)
         &--v
+          &-standard
           transform: scale(1) translateX(5px)
+          &-switched
+            transform: scale(1) translateX(-5px)
 
   &--dark
     .q-slider__track-container
-      background: rgba(#fff, .3)
+      background: rgba(#fff,.3)
+    .q-slider__inner-track
+      background: rgba(#fff,.2)
     .q-slider__track-markers
       color: #fff
 

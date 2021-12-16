@@ -5,8 +5,17 @@ import TouchPan from '../../directives/TouchPan.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { between } from '../../utils/format.js'
-import { position } from '../../utils/event.js'
+import { position, stopAndPrevent } from '../../utils/event.js'
 import { isNumber } from '../../utils/private/is.js'
+import { injectGetter } from '../../utils/private/inject-obj-prop.js'
+
+const markerClass = 'q-slider__marker-label'
+const defaultMarkerConvertFn = v => ({ value: v })
+const defaultMarkerLabelRenderFn = ({ marker }) => h('div', {
+  key: marker.value,
+  style: marker.style,
+  class: marker.classes
+}, marker.label)
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 export const keyCodes = [ 34, 37, 40, 33, 39, 38 ]
@@ -39,6 +48,11 @@ export const useSliderProps = {
   label: Boolean,
   labelAlways: Boolean,
   markers: [ Boolean, Number ],
+  markerLabels: [ Boolean, Array, Object, Function ],
+
+  switchLabelPosition: Boolean,
+  switchMarkerLabelPosition: Boolean,
+
   snap: Boolean,
 
   vertical: Boolean,
@@ -57,7 +71,7 @@ export const useSliderProps = {
 export const useSliderEmits = [ 'pan', 'update:modelValue', 'change' ]
 
 export default function ({ updateValue, updatePosition, getDragging }) {
-  const { props, emit, proxy: { $q } } = getCurrentInstance()
+  const { props, emit, slots, proxy: { $q } } = getCurrentInstance()
   const isDark = useDark(props, $q)
 
   const active = ref(false)
@@ -66,6 +80,7 @@ export default function ({ updateValue, updatePosition, getDragging }) {
   const dragging = ref(false)
 
   const axis = computed(() => (props.vertical === true ? '--v' : '--h'))
+  const labelSide = computed(() => '-' + (props.switchLabelPosition === true ? 'switched' : 'standard'))
 
   const isReversed = computed(() => (
     props.vertical === true
@@ -100,6 +115,16 @@ export default function ({ updateValue, updatePosition, getDragging }) {
     + (props.labelAlways === true ? ' q-slider--label-always' : '')
     + (isDark.value === true ? ' q-slider--dark' : '')
     + (props.dense === true ? ' q-slider--dense q-slider--dense' + axis.value : '')
+  )
+
+  const arrowClass = computed(() =>
+    `q-slider__arrow absolute q-slider__arrow${ axis.value } q-slider__arrow${ axis.value }${ labelSide.value }`
+  )
+  const pinClass = computed(() =>
+    `q-slider__pin absolute q-slider__pin${ axis.value } q-slider__pin${ axis.value }${ labelSide.value }`
+  )
+  const pinTextClass = computed(() =>
+    `q-slider__pin-text-container q-slider__pin-text-container${ axis.value } q-slider__pin-text-container${ axis.value }${ labelSide.value }`
   )
 
   const decimals = computed(() => (String(props.step).trim('0').split('.')[ 1 ] || '').length)
@@ -164,6 +189,103 @@ export default function ({ updateValue, updatePosition, getDragging }) {
 
     return null
   })
+
+  const markerTicks = computed(() => {
+    const acc = []
+    const step = markerStep.value
+    const max = innerMax.value
+
+    let value = innerMin.value
+    do {
+      acc.push(value)
+      value += step
+    } while (value < max)
+
+    acc.push(max)
+    return acc
+  })
+
+  function getMarkerList (def) {
+    if (def === false) { return null }
+
+    if (def === true) {
+      return markerTicks.value.map(defaultMarkerConvertFn)
+    }
+
+    if (typeof def === 'function') {
+      return markerTicks.value.map(value => {
+        const item = def(value)
+        return Object(item) === item ? { ...item, value } : { value, label: item }
+      })
+    }
+
+    if (Array.isArray(def) === true) {
+      return def.map(item => (Object(item) === item ? item : { value: item }))
+    }
+
+    return Object.keys(def).map(key => {
+      const item = def[ key ]
+      const value = Number(key)
+      return Object(item) === item ? { ...item, value } : { value }
+    })
+  }
+
+  const markerLabelClass = computed(() => {
+    const prefix = ` ${ markerClass }${ axis.value }-`
+    return markerClass
+      + `${ prefix }${ props.switchMarkerLabelPosition === true ? 'switched' : 'standard' }`
+      + `${ prefix }${ isReversed.value === true ? 'rtl' : 'ltr' }`
+  })
+
+  const markerLabelsList = computed(() => {
+    if (props.markerLabels === false) { return null }
+
+    const len = trackLen.value
+    return getMarkerList(props.markerLabels).map((entry, index) => ({
+      index,
+      value: entry.value,
+      label: entry.label || entry.value,
+      classes: markerLabelClass.value,
+      style: {
+        [ positionProp.value ]: `${ 100 * (entry.value - props.min) / len }%`,
+        ...(entry.style || {})
+      }
+    }))
+  })
+
+  const markerLabelsMap = computed(() => {
+    if (props.markerLabels === false) { return null }
+
+    const acc = {}
+    markerLabelsList.value.forEach(entry => {
+      acc[ entry.value ] = entry
+    })
+    return acc
+  })
+
+  const markerLabelScope = {}
+  injectGetter(markerLabelScope, 'markerList', () => markerLabelsList.value)
+  injectGetter(markerLabelScope, 'markerMap', () => markerLabelsMap.value)
+
+  function getMarkerLabelsContent () {
+    if (slots[ 'marker-label-group' ] !== void 0) {
+      return slots[ 'marker-label-group' ](markerLabelScope)
+    }
+
+    const fn = slots[ 'marker-label' ] || defaultMarkerLabelRenderFn
+    return markerLabelsList.value.map(marker => fn({ marker, ...markerLabelScope }))
+  }
+
+  function getMarkerLabels () {
+    return h(
+      'div',
+      {
+        class: 'q-slider__marker-label-container no-pointer-events',
+        onMousedownCapture: stopAndPrevent, onClick: stopAndPrevent, onTouchstart: stopAndPrevent
+      },
+      getMarkerLabelsContent()
+    )
+  }
 
   const tabindex = computed(() => (editable.value === true ? props.tabindex || 0 : -1))
 
@@ -286,10 +408,7 @@ export default function ({ updateValue, updatePosition, getDragging }) {
 
   function onDeactivate () {
     preventFocus.value = false
-
-    if (dragging.value === false) {
-      active.value = false
-    }
+    active.value = false
 
     updateValue(true)
     onBlur()
@@ -320,6 +439,9 @@ export default function ({ updateValue, updatePosition, getDragging }) {
       dragging,
 
       axis,
+      arrowClass,
+      pinClass,
+      pinTextClass,
       isReversed,
       editable,
       classes,
@@ -345,6 +467,7 @@ export default function ({ updateValue, updatePosition, getDragging }) {
       onBlur,
       onKeyup,
       getThumbSvg,
+      getMarkerLabels,
       getPinStyle,
       convertRatioToModel,
       convertModelToRatio,

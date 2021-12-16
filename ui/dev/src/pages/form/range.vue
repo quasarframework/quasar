@@ -31,9 +31,9 @@
         </span>
       </p>
       <div>
-        <q-range v-model="nullInnerMinMax" :min="0" :max="50" :inner-min="10" :inner-max="35" />
-        <q-range v-model="innerMinMax" :min="0" :max="50" :inner-min="10" :inner-max="35" />
-        <q-range v-model="innerMinMax" :min="0" :max="50" color="green" :inner-min="15" :inner-max="40" markers />
+        <q-range v-model="nullInnerMinMax" :dark="dark" :min="0" :max="50" :inner-min="10" :inner-max="35" />
+        <q-range v-model="innerMinMax" :dark="dark" :min="0" :max="50" :inner-min="10" :inner-max="35" />
+        <q-range v-model="innerMinMax" :dark="dark" :min="0" :max="50" color="green" :inner-min="15" :inner-max="40" markers />
       </div>
 
       <p class="caption">

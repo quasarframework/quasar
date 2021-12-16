@@ -427,11 +427,11 @@ export default createComponent({
       if (props.label === true || props.labelAlways === true) {
         child.push(
           h('div', {
-            class: `q-slider__pin q-slider__pin${ state.axis.value } absolute` + sideProps.pinClass.value,
+            class: state.pinClass.value + sideProps.pinClass.value,
             style: sideProps.pinStyle.value.pin
           }, [
             h('div', {
-              class: `q-slider__pin-text-container q-slider__pin-text-container${ state.axis.value }`,
+              class: state.pinTextClass.value,
               style: sideProps.pinStyle.value.pinTextContainer
             }, [
               h('span', {
@@ -441,14 +441,15 @@ export default createComponent({
           ]),
 
           h('div', {
-            class: `q-slider__arrow q-slider__arrow${ state.axis.value }` + sideProps.pinClass.value
+            class: state.arrowClass.value + sideProps.pinClass.value
           })
         )
       }
 
       return h('div', {
         ref: sideProps.domRef,
-        class: `q-slider__thumb-container q-slider__thumb-container${ state.axis.value } absolute non-selectable` + sideProps.thumbClass.value,
+        class: `q-slider__thumb-container q-slider__thumb-container${ state.axis.value } absolute non-selectable`
+          + sideProps.thumbClass.value,
         style: sideProps.thumbStyle.value,
         ...sideProps.events.value,
         tabindex: props.dragOnlyRange !== true ? state.tabindex.value : null
@@ -470,10 +471,12 @@ export default createComponent({
 
       props.markers !== false && track.push(
         h('div', {
-          class: `q-slider__track-markers q-slider__track-markers${ state.axis.value } absolute-full`,
+          class: `q-slider__track-markers q-slider__track-markers${ state.axis.value } absolute inherit-border-radius overflow-hidden`,
           style: state.markerStyle.value
         })
       )
+
+      props.markerLabels !== false && track.push(methods.getMarkerLabels())
 
       const content = [
         h('div', {
