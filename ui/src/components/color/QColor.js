@@ -658,7 +658,6 @@ export default createComponent({
             modelValue: model.value.h,
             min: 0,
             max: 360,
-            fillHandleAlways: true,
             readonly: editable.value !== true,
             thumbPath,
             'onUpdate:modelValue': onHueChange,
@@ -675,7 +674,6 @@ export default createComponent({
             modelValue: model.value.a,
             min: 0,
             max: 100,
-            fillHandleAlways: true,
             readonly: editable.value !== true,
             thumbPath,
             ...getCache('alphaSlide', {
