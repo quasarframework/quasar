@@ -3,6 +3,7 @@ import { h, ref, computed, onBeforeUnmount, getCurrentInstance } from 'vue'
 import TouchPan from '../../directives/TouchPan.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import { useFormProps } from '../../composables/private/use-form.js'
 
 import { between } from '../../utils/format.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
@@ -22,44 +23,46 @@ export const keyCodes = [ 34, 37, 40, 33, 39, 38 ]
 
 export const useSliderProps = {
   ...useDarkProps,
+  ...useFormProps,
 
   min: {
     type: Number,
     default: 0
   },
-  innerMin: Number,
   max: {
     type: Number,
     default: 100
   },
+  innerMin: Number,
   innerMax: Number,
+
   step: {
     type: Number,
     default: 1,
     validator: v => v >= 0
   },
 
-  color: String,
-
-  labelColor: String,
-  labelTextColor: String,
-  dense: Boolean,
-
-  label: Boolean,
-  labelAlways: Boolean,
-  markers: [ Boolean, Number ],
-  markerLabels: [ Boolean, Array, Object, Function ],
-
-  switchLabelPosition: Boolean,
-  switchMarkerLabelPosition: Boolean,
-
   snap: Boolean,
 
   vertical: Boolean,
   reverse: Boolean,
 
+  color: String,
+
+  label: Boolean,
+  labelColor: String,
+  labelTextColor: String,
+  labelAlways: Boolean,
+  switchLabelPosition: Boolean,
+
+  markers: [ Boolean, Number ],
+  markerLabels: [ Boolean, Array, Object, Function ],
+  switchMarkerLabelPosition: Boolean,
+
   disable: Boolean,
   readonly: Boolean,
+  dense: Boolean,
+
   tabindex: [ String, Number ],
 
   thumbPath: {

@@ -1,6 +1,6 @@
 import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
-import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
+import { useFormInject } from '../../composables/private/use-form.js'
 
 import useSlider, {
   useSliderProps,
@@ -23,7 +23,6 @@ export default createComponent({
   name: 'QRange',
 
   props: {
-    ...useFormProps,
     ...useSliderProps,
 
     modelValue: {
@@ -36,8 +35,6 @@ export default createComponent({
         return 'min' in val && 'max' in val
       }
     },
-
-    name: String,
 
     dragRange: Boolean,
     dragOnlyRange: Boolean,

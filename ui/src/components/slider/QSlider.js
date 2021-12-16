@@ -1,6 +1,6 @@
 import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
-import { useFormInject, useFormProps, useFormAttrs } from '../../composables/private/use-form.js'
+import { useFormInject, useFormAttrs } from '../../composables/private/use-form.js'
 
 import useSlider, {
   useSliderProps,
@@ -18,7 +18,6 @@ export default createComponent({
 
   props: {
     ...useSliderProps,
-    ...useFormProps,
 
     modelValue: {
       required: true,
