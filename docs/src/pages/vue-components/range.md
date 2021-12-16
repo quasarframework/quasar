@@ -60,6 +60,24 @@ The example below is better highlighting how QRange handles label positioning so
 
 <doc-example title="Markers" file="QRange/Markers" />
 
+### Marker labels <q-badge align="top" color="brand-primary" label="v2.4+" />
+
+<doc-example title="Marker labels" file="QRange/MarkerLabels" />
+
+::: tip TIP on slots
+In order to use the marker label slots (see below), you must enable them by using the `marker-labels` prop.
+:::
+
+<doc-example title="Marker label slots" file="QRange/MarkerLabelSlots" />
+
+### Other color customizations <q-badge align="top" color="brand-primary" label="v2.4+" />
+
+<doc-example title="Color customizations" file="QRange/RangeColoring" />
+
+### Track size <q-badge align="top" color="brand-primary" label="v2.4+" />
+
+<doc-example title="Track size" file="QRange/RangeSizes" />
+
 ### Dragging range
 
 Use the `drag-range` or `drag-only-range` props to allow the user to move the selected range or only a predetermined range as a whole.

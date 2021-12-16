@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md">
-    <q-badge color="secondary" class="q-mb-lg">
+  <div class="q-pa-md q-pb-lg">
+    <q-badge color="secondary" class="q-mb-sm">
       Model: {{ model.min }} to {{ model.max }} (-20 to 20, step 4)
     </q-badge>
 
@@ -12,6 +12,7 @@
       :left-label-value="model.min + 'px'"
       :right-label-value="model.max + 'px'"
       label-always
+      switch-label-position
       color="purple"
     />
   </div>

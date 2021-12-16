@@ -186,7 +186,7 @@ export default createComponent({
       })),
 
       thumbClass: computed(() => {
-        const color = props.leftThumbColor || props.thumbColor
+        const color = props.rightThumbColor || props.thumbColor
         return (
           state.preventFocus.value === false && state.focus.value === 'max'
             ? ' q-slider--focus'

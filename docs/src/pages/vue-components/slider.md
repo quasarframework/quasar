@@ -58,6 +58,24 @@ The example below is better highlighting how QSlider handles label positioning s
 
 <doc-example title="Markers" file="QSlider/Markers" />
 
+### Marker labels <q-badge align="top" color="brand-primary" label="v2.4+" />
+
+<doc-example title="Marker labels" file="QSlider/MarkerLabels" />
+
+::: tip TIP on slots
+In order to use the marker label slots (see below), you must enable them by using the `marker-labels` prop.
+:::
+
+<doc-example title="Marker label slots" file="QSlider/MarkerLabelSlots" />
+
+### Other color customizations <q-badge align="top" color="brand-primary" label="v2.4+" />
+
+<doc-example title="Color customizations" file="QSlider/SliderColoring" />
+
+### Track size <q-badge align="top" color="brand-primary" label="v2.4+" />
+
+<doc-example title="Track size" file="QSlider/SliderSizes" />
+
 ### Lazy input
 
 <doc-example title="Lazy input" file="QSlider/Lazy" />

@@ -163,7 +163,7 @@
       "addedIn": "v2.4"
     },
 
-    "switch-marker-label-position": {
+    "switch-marker-labels-position": {
       "type": "Boolean",
       "desc": "Switch the position of the marker labels (top <-> bottom or left <-> right)",
       "category": "style",

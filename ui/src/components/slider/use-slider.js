@@ -57,7 +57,7 @@ export const useSliderProps = {
 
   markers: [ Boolean, Number ],
   markerLabels: [ Boolean, Array, Object, Function ],
-  switchMarkerLabelPosition: Boolean,
+  switchMarkerLabelsPosition: Boolean,
 
   trackSize: {
     type: String,
@@ -235,14 +235,14 @@ export default function ({ updateValue, updatePosition, getDragging }) {
     return Object.keys(def).map(key => {
       const item = def[ key ]
       const value = Number(key)
-      return Object(item) === item ? { ...item, value } : { value }
+      return Object(item) === item ? { ...item, value } : { value, label: item }
     })
   }
 
   const markerLabelClass = computed(() => {
     const prefix = ` ${ markerClass }${ axis.value }-`
     return markerClass
-      + `${ prefix }${ props.switchMarkerLabelPosition === true ? 'switched' : 'standard' }`
+      + `${ prefix }${ props.switchMarkerLabelsPosition === true ? 'switched' : 'standard' }`
       + `${ prefix }${ isReversed.value === true ? 'rtl' : 'ltr' }`
   })
 

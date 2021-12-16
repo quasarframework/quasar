@@ -11,6 +11,7 @@
         :max="50"
         vertical
         label
+        switch-label-position
       />
 
       <q-slider
