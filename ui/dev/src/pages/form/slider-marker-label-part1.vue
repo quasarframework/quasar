@@ -3,8 +3,8 @@
     <div class="row items-center q-gutter-sm q-mb-lg">
       <q-toggle v-model="vertical" dense label="Vertical" />
       <q-toggle v-model="reverse" dense label="Reverse" />
-      <q-toggle v-model="switchLabelPos" dense label="Switch label pos" />
-      <q-toggle v-model="switchMarkerLabelsPos" dense label="Switch marker label pos" />
+      <q-toggle v-model="switchLabelSide" dense label="Switch label side" />
+      <q-toggle v-model="switchMarkerLabelsPos" dense label="Switch marker label side" />
       <q-badge class="q-py-sm q-px-md text-right" color="deep-orange">{{ model }}</q-badge>
     </div>
 
@@ -115,7 +115,7 @@
       :markers="1"
       snap
       marker-labels
-      switch-marker-labels-position
+      switch-marker-labels-side
     >
       <template v-slot:marker-label-group="{ markerMap }">
         <div
@@ -158,7 +158,7 @@ export default {
     return {
       vertical: false,
       reverse: false,
-      switchLabelPos: false,
+      switchLabelSide: false,
       switchMarkerLabelsPos: false,
 
       model: 4
@@ -172,8 +172,8 @@ export default {
         max: 10,
         vertical: this.vertical,
         reverse: this.reverse,
-        switchLabelPosition: this.switchLabelPos,
-        switchMarkerLabelsPosition: this.switchMarkerLabelsPos
+        switchLabelSide: this.switchLabelSide,
+        switchMarkerLabelsSide: this.switchMarkerLabelsPos
       }
     }
   }

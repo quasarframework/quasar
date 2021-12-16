@@ -37,8 +37,8 @@
       :marker-labels="arrayMarkerLabel"
       label-always
       :label-value="priceLabel"
-      switch-label-position
-      switch-marker-labels-position
+      switch-label-side
+      switch-marker-labels-side
       :min="2"
       :max="7"
     />

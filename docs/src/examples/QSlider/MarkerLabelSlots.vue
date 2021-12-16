@@ -65,7 +65,7 @@
       :max="5"
       :step="0.5"
       marker-labels
-      switch-marker-labels-position
+      switch-marker-labels-side
     >
       <template v-slot:marker-label-group="{ markerMap }">
         <div

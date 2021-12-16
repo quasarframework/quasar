@@ -25,7 +25,7 @@
       :step="4"
       label
       label-always
-      switch-label-position
+      switch-label-side
       color="red"
     />
   </div>

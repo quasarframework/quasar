@@ -78,7 +78,7 @@
       "extends": "color"
     },
 
-    "switch-label-position": {
+    "switch-label-side": {
       "type": "Boolean",
       "desc": "Switch the position of the label (top <-> bottom or left <-> right)",
       "category": "style",
@@ -163,7 +163,7 @@
       "addedIn": "v2.4"
     },
 
-    "switch-marker-labels-position": {
+    "switch-marker-labels-side": {
       "type": "Boolean",
       "desc": "Switch the position of the marker labels (top <-> bottom or left <-> right)",
       "category": "style",

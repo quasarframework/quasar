@@ -67,7 +67,7 @@
       :step="0.5"
       vertical
       marker-labels
-      switch-marker-labels-position
+      switch-marker-labels-side
     >
       <template v-slot:marker-label-group="{ markerMap }">
         <div

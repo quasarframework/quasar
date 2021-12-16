@@ -38,8 +38,8 @@
       label-always
       :left-label-value="minPriceLabel"
       :right-label-value="maxPriceLabel"
-      switch-label-position
-      switch-marker-labels-position
+      switch-label-side
+      switch-marker-labels-side
       :min="2"
       :max="7"
     />

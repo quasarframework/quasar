@@ -53,11 +53,11 @@ export const useSliderProps = {
   labelColor: String,
   labelTextColor: String,
   labelAlways: Boolean,
-  switchLabelPosition: Boolean,
+  switchLabelSide: Boolean,
 
   markers: [ Boolean, Number ],
   markerLabels: [ Boolean, Array, Object, Function ],
-  switchMarkerLabelsPosition: Boolean,
+  switchMarkerLabelsSide: Boolean,
 
   trackSize: {
     type: String,
@@ -89,7 +89,7 @@ export default function ({ updateValue, updatePosition, getDragging }) {
   const dragging = ref(false)
 
   const axis = computed(() => (props.vertical === true ? '--v' : '--h'))
-  const labelSide = computed(() => '-' + (props.switchLabelPosition === true ? 'switched' : 'standard'))
+  const labelSide = computed(() => '-' + (props.switchLabelSide === true ? 'switched' : 'standard'))
 
   const isReversed = computed(() => (
     props.vertical === true
@@ -244,7 +244,7 @@ export default function ({ updateValue, updatePosition, getDragging }) {
   const markerLabelClass = computed(() => {
     const prefix = ` ${ markerClass }${ axis.value }-`
     return markerClass
-      + `${ prefix }${ props.switchMarkerLabelsPosition === true ? 'switched' : 'standard' }`
+      + `${ prefix }${ props.switchMarkerLabelsSide === true ? 'switched' : 'standard' }`
       + `${ prefix }${ isReversed.value === true ? 'rtl' : 'ltr' }`
   })
 

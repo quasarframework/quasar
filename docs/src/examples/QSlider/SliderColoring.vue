@@ -7,9 +7,9 @@
       label-color="black"
       markers
       marker-labels
-      switch-marker-labels-position
+      switch-marker-labels-side
       label-always
-      switch-label-position
+      switch-label-side
       :min="0"
       :max="6"
     />

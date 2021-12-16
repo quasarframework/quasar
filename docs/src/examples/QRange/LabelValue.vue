@@ -12,7 +12,7 @@
       :left-label-value="model.min + 'px'"
       :right-label-value="model.max + 'px'"
       label-always
-      switch-label-position
+      switch-label-side
       color="purple"
     />
   </div>
