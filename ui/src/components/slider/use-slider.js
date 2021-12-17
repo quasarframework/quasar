@@ -8,7 +8,6 @@ import { useFormProps } from '../../composables/private/use-form.js'
 import { between } from '../../utils/format.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { isNumber } from '../../utils/private/is.js'
-import { createObject } from '../../utils/private/inject-obj-prop.js'
 
 const markerClass = 'q-slider__marker-labels'
 const defaultMarkerConvertFn = v => ({ value: v })
@@ -248,17 +247,22 @@ export default function ({ updateValue, updatePosition, getDragging }) {
       + `${ prefix }${ isReversed.value === true ? 'rtl' : 'ltr' }`
   })
 
+  function getMarkerLabelStyle (val) {
+    return { [ positionProp.value ]: `${ 100 * (val - props.min) / trackLen.value }%` }
+  }
+
   const markerLabelsList = computed(() => {
     if (props.markerLabels === false) { return null }
 
-    const len = trackLen.value
     return getMarkerList(props.markerLabels).map((entry, index) => ({
       index,
       value: entry.value,
       label: entry.label || entry.value,
-      classes: markerLabelClass.value,
+      classes: entry.classes !== void 0
+        ? [ entry.classes, markerLabelClass.value ]
+        : markerLabelClass.value,
       style: {
-        [ positionProp.value ]: `${ 100 * (entry.value - props.min) / len }%`,
+        ...getMarkerLabelStyle(entry.value),
         ...(entry.style || {})
       }
     }))
@@ -274,18 +278,23 @@ export default function ({ updateValue, updatePosition, getDragging }) {
     return acc
   })
 
-  const markerLabelScope = createObject({
-    markerList: () => markerLabelsList.value,
-    markerMap: () => markerLabelsMap.value
-  })
+  const markers = computed(() => ({
+    markerList: markerLabelsList.value,
+    markerMap: markerLabelsMap.value,
+    classes: markerLabelClass.value,
+    getStyle: getMarkerLabelStyle
+  }))
 
   function getMarkerLabelsContent () {
     if (slots[ 'marker-label-group' ] !== void 0) {
-      return slots[ 'marker-label-group' ](markerLabelScope)
+      return slots[ 'marker-label-group' ](markers.value)
     }
 
     const fn = slots[ 'marker-label' ] || defaultMarkerLabelRenderFn
-    return markerLabelsList.value.map(marker => fn({ marker, ...markerLabelScope }))
+    return markerLabelsList.value.map(marker => fn({
+      marker,
+      ...markers.value
+    }))
   }
 
   function getMarkerLabels () {
