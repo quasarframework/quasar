@@ -23,7 +23,7 @@ import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEm
 import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
 import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
 
-import { injectProp, injectGetter } from '../../utils/private/inject-obj-prop.js'
+import { injectProp, injectMultipleProps } from '../../utils/private/inject-obj-prop.js'
 import { createComponent } from '../../utils/private/create.js'
 
 const bottomClass = 'q-table__bottom row items-center'
@@ -478,7 +478,7 @@ export default createComponent({
 
       data.cols = data.cols.map(col => {
         const c = { ...col }
-        injectGetter(c, 'value', () => getCellValue(col, data.row))
+        injectProp(c, 'value', () => getCellValue(col, data.row))
         return c
       })
 
@@ -487,7 +487,7 @@ export default createComponent({
 
     function getBodyCellScope (data) {
       injectBodyCommonScope(data)
-      injectGetter(data, 'value', () => () => getCellValue(data.col, data.row))
+      injectProp(data, 'value', () => getCellValue(data.col, data.row))
       return data
     }
 
@@ -520,9 +520,7 @@ export default createComponent({
         data,
         'expand',
         () => isRowExpanded(data.key),
-        adding => {
-          updateExpanded(data.key, adding)
-        }
+        adding => { updateExpanded(data.key, adding) }
       )
     }
 
@@ -1015,9 +1013,11 @@ export default createComponent({
       getCellValue
     })
 
-    injectGetter(vm.proxy, 'filteredSortedRows', () => filteredSortedRows.value)
-    injectGetter(vm.proxy, 'computedRows', () => computedRows.value)
-    injectGetter(vm.proxy, 'computedRowsNumber', () => () => computedRowsNumber.value)
+    injectMultipleProps(vm.proxy, {
+      filteredSortedRows: () => filteredSortedRows.value,
+      computedRows: () => computedRows.value,
+      computedRowsNumber: () => computedRowsNumber.value
+    })
 
     return () => {
       const child = [ getTopDiv() ]

@@ -3,6 +3,7 @@ import { ref, computed, watch, onBeforeUnmount, getCurrentInstance } from 'vue'
 import useFormChild from '../use-form-child.js'
 import { testPattern } from '../../utils/patterns.js'
 import { debounce } from '../../utils.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 const lazyRulesValues = [ true, false, 'ondemand' ]
 
@@ -206,9 +207,7 @@ export default function (focused, innerLoading) {
 
   // expose public methods & props
   Object.assign(proxy, { resetValidation, validate })
-  Object.defineProperty(proxy, 'hasError', {
-    get: () => hasError.value
-  })
+  injectProp(proxy, 'hasError', () => hasError.value)
 
   return {
     isDirtyModel,

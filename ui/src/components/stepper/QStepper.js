@@ -13,10 +13,10 @@ const camelRE = /(-\w)/g
 
 function camelizeProps (props) {
   const acc = {}
-  Object.keys(props).forEach(key => {
+  for (const key in props) {
     const newKey = key.replace(camelRE, m => m[ 1 ].toUpperCase())
     acc[ newKey ] = props[ key ]
-  })
+  }
   return acc
 }
 

@@ -6,6 +6,7 @@ import QBtn from '../btn/QBtn.js'
 import { createComponent } from '../../utils/private/create.js'
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/private/is.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 export default createComponent({
   name: 'QPopupEdit',
@@ -65,11 +66,7 @@ export default createComponent({
         updatePosition
       }
 
-      Object.defineProperty(acc, 'value', {
-        get: () => currentModel.value,
-        set: val => { currentModel.value = val }
-      })
-
+      injectProp(acc, 'value', () => currentModel.value, val => { currentModel.value = val })
       return acc
     })
 

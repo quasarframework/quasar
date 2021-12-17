@@ -27,9 +27,9 @@ export function width (el) {
 export function css (element, css) {
   const style = element.style
 
-  Object.keys(css).forEach(prop => {
+  for (const prop in css) {
     style[ prop ] = css[ prop ]
-  })
+  }
 }
 
 export function cssBatch (elements, style) {

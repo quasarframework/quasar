@@ -13,6 +13,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 const tickStrategyOptions = [ 'none', 'strict', 'leaf', 'leaf-filtered' ]
 
@@ -431,18 +432,19 @@ export default createComponent({
     function getSlotScope (node, meta, key) {
       const scope = { tree: proxy, node, key, color: props.color, dark: isDark.value }
 
-      Object.defineProperty(scope, 'expanded', {
-        get: () => { return meta.expanded },
-        set: val => { val !== meta.expanded && setExpanded(key, val) },
-        configurable: true,
-        enumerable: true
-      })
-      Object.defineProperty(scope, 'ticked', {
-        get: () => { return meta.ticked },
-        set: val => { val !== meta.ticked && setTicked([ key ], val) },
-        configurable: true,
-        enumerable: true
-      })
+      injectProp(
+        scope,
+        'expanded',
+        () => { return meta.expanded },
+        val => { val !== meta.expanded && setExpanded(key, val) }
+      )
+
+      injectProp(
+        scope,
+        'ticked',
+        () => { return meta.ticked },
+        val => { val !== meta.ticked && setTicked([ key ], val) }
+      )
 
       return scope
     }

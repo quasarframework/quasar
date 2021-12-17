@@ -8,7 +8,7 @@ import { useFormProps } from '../../composables/private/use-form.js'
 import { between } from '../../utils/format.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { isNumber } from '../../utils/private/is.js'
-import { defineGetterObject } from '../../utils/private/inject-obj-prop.js'
+import { createObject } from '../../utils/private/inject-obj-prop.js'
 
 const markerClass = 'q-slider__marker-labels'
 const defaultMarkerConvertFn = v => ({ value: v })
@@ -274,7 +274,7 @@ export default function ({ updateValue, updatePosition, getDragging }) {
     return acc
   })
 
-  const markerLabelScope = defineGetterObject({
+  const markerLabelScope = createObject({
     markerList: () => markerLabelsList.value,
     markerMap: () => markerLabelsMap.value
   })

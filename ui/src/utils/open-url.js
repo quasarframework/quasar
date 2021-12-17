@@ -5,11 +5,11 @@ import { noop } from '../utils/event.js'
 function parseFeatures (winFeatures) {
   const cfg = Object.assign({ noopener: true }, winFeatures)
   const feat = []
-  Object.keys(cfg).forEach(key => {
+  for (const key in cfg) {
     if (cfg[ key ] === true) {
       feat.push(key)
     }
-  })
+  }
   return feat.join(',')
 }
 

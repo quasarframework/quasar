@@ -3,6 +3,7 @@
 /* eslint-disable no-mixed-operators */
 
 import { ref, reactive } from 'vue'
+import { injectProp } from '../utils/private/inject-obj-prop'
 
 /**
  * __ QUASAR_SSR __            -> runs on SSR on client or server
@@ -330,23 +331,22 @@ else {
   // devland actually using it as this will get
   // reported under "Cookies" in Google Chrome
   let hasWebStorage
-  Object.defineProperty(client.has, 'webStorage', {
-    get: () => {
-      if (hasWebStorage !== void 0) {
-        return hasWebStorage
-      }
 
-      try {
-        if (window.localStorage) {
-          hasWebStorage = true
-          return true
-        }
-      }
-      catch (e) {}
-
-      hasWebStorage = false
-      return false
+  injectProp(client.has, 'webStorage', () => {
+    if (hasWebStorage !== void 0) {
+      return hasWebStorage
     }
+
+    try {
+      if (window.localStorage) {
+        hasWebStorage = true
+        return true
+      }
+    }
+    catch (e) {}
+
+    hasWebStorage = false
+    return false
   })
 
   iosEmulated = client.is.ios === true

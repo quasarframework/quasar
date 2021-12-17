@@ -444,11 +444,12 @@ export function getRenderer (getPlugin) {
       uploadProgressLabel: uploadProgressLabel.value
     }
 
-    Object.keys(state).forEach(key => {
+    for (const key in state) {
       acc[ key ] = isRef(state[ key ]) === true
         ? state[ key ].value
         : state[ key ]
-    })
+    }
+
     // TODO: (Qv3) Put the QUploader instance under `ref`
     // property for consistency and flexibility
     // return { ref: { ...acc, ...publicMethods } }
