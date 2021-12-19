@@ -5,22 +5,26 @@
       <q-toggle v-model="reverse" dense label="Reverse" />
       <q-toggle v-model="switchLabelSide" dense label="Switch label side" />
       <q-toggle v-model="switchMarkerLabelsPos" dense label="Switch marker label side" />
+      <q-toggle v-model="hideSelection" dense label="Hide selection" />
       <q-badge class="q-py-sm q-px-md text-right" color="deep-orange">{{ model }}</q-badge>
     </div>
 
-    <q-slider
-      class="q-mt-xl"
-      v-model="model"
-      v-bind="props"
-      color="deep-orange"
-      label-always
-      :label-value="(10 * model) + '%'"
-      :markers="1"
-      :marker-labels="v => (10 * v) + '%'"
-      label-color="dark"
-    />
+    <div class="row items-center no-wrap q-gutter-md">
+      <div>Gutter</div>
+      <q-slider
+        v-model="model"
+        v-bind="props"
+        color="deep-orange"
+        label
+        :label-value="'Some long label ' + (10 * model) + '%'"
+        :markers="1"
+        :marker-labels="v => (10 * v) + '%'"
+        label-color="dark"
+      />
+    </div>
 
     <q-slider
+      style="height: 300px"
       class="q-mt-xl"
       v-model="model"
       v-bind="props"
@@ -47,7 +51,6 @@
       v-model="model"
       v-bind="props"
       color="deep-orange"
-      label-always
       :markers="3"
       marker-labels
     >
@@ -66,8 +69,8 @@
       v-bind="props"
       color="yellow-9"
       thumb-color="purple"
-      label-always
       label-color="black"
+      label
       markers
       :marker-labels="[ 0, 3, 6, 9, 10 ]"
     />
@@ -77,10 +80,14 @@
       style="max-width: 350px"
       v-model="model"
       v-bind="props"
-      color="deep-orange"
+      color="green"
       :markers="1"
-      track-size="10px"
+      track-size="50px"
+      thumb-size="30px"
+      thumb-color="black"
+      label-color="purple"
       label
+      label-always
       marker-labels
     >
       <template v-slot:marker-label-group="{ markerList }">
@@ -115,7 +122,6 @@
       :markers="1"
       snap
       marker-labels
-      switch-marker-labels-side
     >
       <template v-slot:marker-label-group="{ markerMap }">
         <div
@@ -160,6 +166,7 @@ export default {
       reverse: false,
       switchLabelSide: false,
       switchMarkerLabelsPos: false,
+      hideSelection: false,
 
       model: 4
     }
@@ -173,7 +180,8 @@ export default {
         vertical: this.vertical,
         reverse: this.reverse,
         switchLabelSide: this.switchLabelSide,
-        switchMarkerLabelsSide: this.switchMarkerLabelsPos
+        switchMarkerLabelsSide: this.switchMarkerLabelsPos,
+        hideSelection: this.hideSelection
       }
     }
   }

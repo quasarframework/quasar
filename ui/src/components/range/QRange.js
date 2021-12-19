@@ -1,7 +1,5 @@
 import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
-import { useFormInject } from '../../composables/private/use-form.js'
-
 import useSlider, {
   useSliderProps,
   useSliderEmits,
@@ -11,7 +9,6 @@ import useSlider, {
 import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
-import { hDir } from '../../utils/private/render.js'
 
 const dragType = {
   MIN: 0,
@@ -56,18 +53,13 @@ export default createComponent({
   setup (props, { emit }) {
     const { proxy: { $q } } = getCurrentInstance()
 
-    const formAttrs = computed(() => {
-      return {
+    const { state, methods } = useSlider({
+      updateValue, updatePosition, getDragging,
+      formAttrs: computed(() => ({
         type: 'hidden',
         name: props.name,
         value: `${ props.modelValue.min }|${ props.modelValue.max }`
-      }
-    })
-
-    const injectFormInput = useFormInject(formAttrs)
-
-    const { state, methods } = useSlider({
-      updateValue, updatePosition, getDragging
+      }))
     })
 
     const rootRef = ref(null)
@@ -91,7 +83,7 @@ export default createComponent({
       state.active.value === true ? curMaxRatio.value : modelMaxRatio.value
     ))
 
-    const trackStyle = computed(() => ({
+    const progressBarStyle = computed(() => ({
       [ state.positionProp.value ]: `${ 100 * ratioMin.value }%`,
       [ state.sizeProp.value ]: `${ 100 * (ratioMax.value - ratioMin.value) }%`
     }))
@@ -117,104 +109,63 @@ export default createComponent({
       return evt
     })
 
-    const minProps = {
-      domRef: ref(null),
-
-      events: computed(() => (
-        state.editable.value === true && $q.platform.is.mobile !== true && props.dragOnlyRange !== true
-          ? {
-              onFocus: () => { onFocus('min') },
-              onBlur: methods.onBlur,
-              onKeydown,
-              onKeyup: methods.onKeyup
-            }
-          : {}
-      )),
-
-      thumbStyle: computed(() => ({
-        [ state.positionProp.value ]: `${ 100 * ratioMin.value }%`,
-        'z-index': nextFocus.value === 'min' ? 2 : void 0
-      })),
-
-      thumbClass: computed(() => {
-        const color = props.leftThumbColor || props.thumbColor
-        return (
-          state.preventFocus.value === false && state.focus.value === 'min'
-            ? ' q-slider--focus'
-            : ''
-        ) + (color !== void 0 ? ` text-${ color }` : '')
+    const minThumbRef = ref(null)
+    const minEvents = computed(() => (
+      state.editable.value === true && $q.platform.is.mobile !== true && props.dragOnlyRange !== true
+        ? {
+            onFocus: () => { onFocus('min') },
+            onBlur: methods.onBlur,
+            onKeydown,
+            onKeyup: methods.onKeyup
+          }
+        : {}
+    ))
+    const getMinThumb = methods.getThumbRenderFn({
+      focusValue: 'min',
+      nextFocus,
+      getNodeData: () => ({
+        ref: minThumbRef,
+        ...minEvents.value,
+        tabindex: props.dragOnlyRange !== true ? state.tabindex.value : null
       }),
-
-      pinClass: computed(() => {
-        const color = props.leftLabelColor || props.labelColor
-        return color ? ` text-${ color }` : ''
-      }),
-
-      pinTextClass: computed(() => {
-        const color = props.leftLabelTextColor || props.labelTextColor
-        return color ? ` text-${ color }` : ''
-      }),
-
-      pinStyle: computed(() => {
-        const percent = (props.reverse === true ? -ratioMin.value : ratioMin.value - 1)
-        return methods.getPinStyle(percent, ratioMin.value)
-      }),
-
+      ratio: ratioMin,
       label: computed(() => (
         props.leftLabelValue !== void 0
           ? props.leftLabelValue
           : model.value.min
-      ))
-    }
-
-    const maxProps = {
-      domRef: ref(null),
-
-      events: computed(() => (
-        state.editable.value === true && $q.platform.is.mobile !== true && props.dragOnlyRange !== true
-          ? {
-              onFocus: () => { onFocus('max') },
-              onBlur: methods.onBlur,
-              onKeydown,
-              onKeyup: methods.onKeyup
-            }
-          : {}
       )),
+      thumbColor: computed(() => props.leftThumbColor || props.color),
+      labelColor: computed(() => props.leftLabelColor || props.labelColor),
+      labelTextColor: computed(() => props.leftLabelTextColor || props.labelTextColor)
+    })
 
-      thumbStyle: computed(() => ({
-        [ state.positionProp.value ]: `${ 100 * ratioMax.value }%`
-      })),
-
-      thumbClass: computed(() => {
-        const color = props.rightThumbColor || props.thumbColor
-        return (
-          state.preventFocus.value === false && state.focus.value === 'max'
-            ? ' q-slider--focus'
-            : ''
-        ) + (color !== void 0 ? ` text-${ color }` : '')
+    const maxEvents = computed(() => (
+      state.editable.value === true && $q.platform.is.mobile !== true && props.dragOnlyRange !== true
+        ? {
+            onFocus: () => { onFocus('max') },
+            onBlur: methods.onBlur,
+            onKeydown,
+            onKeyup: methods.onKeyup
+          }
+        : {}
+    ))
+    const getMaxThumb = methods.getThumbRenderFn({
+      focusValue: 'max',
+      nextFocus,
+      getNodeData: () => ({
+        ...maxEvents.value,
+        tabindex: props.dragOnlyRange !== true ? state.tabindex.value : null
       }),
-
-      pinClass: computed(() => {
-        const color = props.rightLabelColor || props.labelColor
-        return color ? ` text-${ color }` : ''
-      }),
-
-      pinTextClass: computed(() => {
-        const color = props.rightLabelTextColor || props.labelTextColor
-        return color ? ` text-${ color }` : ''
-      }),
-
-      pinStyle: computed(() => {
-        const percent = (props.reverse === true ? -ratioMax.value : ratioMax.value - 1)
-        return methods.getPinStyle(percent, ratioMax.value)
-      }),
-
+      ratio: ratioMax,
       label: computed(() => (
         props.rightLabelValue !== void 0
           ? props.rightLabelValue
           : model.value.max
-      ))
-    }
+      )),
+      thumbColor: computed(() => props.rightThumbColor || props.color),
+      labelColor: computed(() => props.rightLabelColor || props.labelColor),
+      labelTextColor: computed(() => props.rightLabelTextColor || props.labelTextColor)
+    })
 
     watch(
       () => props.modelValue.min + props.modelValue.max + state.innerMin.value + state.innerMax.value,
@@ -242,8 +193,8 @@ export default createComponent({
         sensitivity = props.dragOnlyRange === true
           ? 0
           : (props.vertical === true
-              ? minProps.domRef.value.offsetHeight / (2 * height)
-              : minProps.domRef.value.offsetWidth / (2 * width)
+              ? minThumbRef.value.offsetHeight / (2 * height)
+              : minThumbRef.value.offsetWidth / (2 * width)
             )
 
       const dragging = {
@@ -424,85 +375,19 @@ export default createComponent({
       updateValue()
     }
 
-    function getThumb (sideProps) {
-      const child = [
-        methods.getThumbSvg(),
-        h('div', { class: 'q-slider__focus-ring' })
-      ]
-
-      if (props.label === true || props.labelAlways === true) {
-        child.push(
-          h('div', {
-            class: state.pinClass.value + sideProps.pinClass.value,
-            style: sideProps.pinStyle.value.pin
-          }, [
-            h('div', {
-              class: state.pinTextClass.value,
-              style: sideProps.pinStyle.value.pinTextContainer
-            }, [
-              h('span', {
-                class: 'q-slider__pin-text' + sideProps.pinTextClass.value
-              }, sideProps.label.value)
-            ])
-          ]),
-
-          h('div', {
-            class: state.arrowClass.value + sideProps.pinClass.value
-          })
-        )
-      }
+    return () => {
+      const content = methods.getContent(
+        progressBarStyle,
+        events,
+        node => {
+          node.push(
+            getMinThumb(),
+            getMaxThumb()
+          )
+        }
+      )
 
       return h('div', {
-        ref: sideProps.domRef,
-        class: `q-slider__thumb-container q-slider__thumb-container${ state.axis.value } absolute non-selectable`
-          + state.colorClass.value
-          + sideProps.thumbClass.value,
-        style: sideProps.thumbStyle.value,
-        ...sideProps.events.value,
-        tabindex: props.dragOnlyRange !== true ? state.tabindex.value : null
-      }, child)
-    }
-
-    return () => {
-      const track = [
-        h('div', {
-          class: `q-slider__inner-track q-slider__inner-track${ state.axis.value } absolute`,
-          style: state.innerTrackStyle.value
-        }),
-
-        h('div', {
-          class: `q-slider__track q-slider__track${ state.axis.value } absolute`,
-          style: trackStyle.value
-        })
-      ]
-
-      props.markers !== false && track.push(
-        h('div', {
-          class: `q-slider__track-markers q-slider__track-markers${ state.axis.value } absolute inherit-border-radius overflow-hidden`,
-          style: state.markerStyle.value
-        })
-      )
-
-      const content = [
-        h('div', {
-          class: `q-slider__track-container q-slider__track-container${ state.axis.value } absolute`
-            + state.colorClass.value,
-          style: state.trackContainerStyle.value
-        }, track)
-      ]
-
-      props.markerLabels !== false && content.push(methods.getMarkerLabels())
-
-      content.push(
-        getThumb(minProps),
-        getThumb(maxProps)
-      )
-
-      if (props.name !== void 0 && props.disable !== true) {
-        injectFormInput(content, 'push')
-      }
-
-      const data = {
         ref: rootRef,
         class: 'q-range ' + state.classes.value + (
           props.modelValue.min === null || props.modelValue.max === null
@@ -513,11 +398,8 @@ export default createComponent({
         'aria-valuenow': props.modelValue.min + '|' + props.modelValue.max,
         tabindex: props.dragOnlyRange === true && $q.platform.is.mobile !== true
           ? state.tabindex.value
-          : null,
-        ...events.value
-      }
-
-      return hDir('div', data, content, 'slide', state.editable.value, () => state.panDirective.value)
+          : null
+      }, content)
     }
   }
 })

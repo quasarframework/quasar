@@ -64,6 +64,13 @@
       "extends": "color"
     },
 
+    "hide-selection": {
+      "type": "Boolean",
+      "desc": "Hide the selection colored bar",
+      "category": "content|style",
+      "addedIn": "v2.4"
+    },
+
     "label": {
       "type": "Boolean",
       "desc": "Popup a label when user clicks/taps on the slider thumb and moves it",
@@ -183,7 +190,17 @@
     "track-size": {
       "type": "String",
       "desc": "Track size (including CSS unit)",
+      "default": "4px",
       "examples": [ "35px" ],
+      "category": "style",
+      "addedIn": "v2.4"
+    },
+
+    "thumb-size": {
+      "type": "String",
+      "desc": "Thumb size (including CSS unit)",
+      "default": "20px",
+      "examples": [ "20px" ],
       "category": "style",
       "addedIn": "v2.4"
     },

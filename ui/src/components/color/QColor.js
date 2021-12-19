@@ -653,37 +653,37 @@ export default createComponent({
       ]
 
       const sliders = [
-        h('div', { class: 'q-color-picker__hue non-selectable' }, [
-          h(QSlider, {
-            modelValue: model.value.h,
-            min: 0,
-            max: 360,
-            trackSize: '10px',
-            readonly: editable.value !== true,
-            thumbPath,
-            'onUpdate:modelValue': onHueChange,
-            ...getCache('lazyhue', {
-              onChange: val => onHueChange(val, true)
-            })
+        h(QSlider, {
+          class: 'q-color-picker__hue non-selectable',
+          modelValue: model.value.h,
+          min: 0,
+          max: 360,
+          trackSize: '8px',
+          readonly: editable.value !== true,
+          hideSelection: true,
+          thumbPath,
+          'onUpdate:modelValue': onHueChange,
+          ...getCache('lazyhue', {
+            onChange: val => onHueChange(val, true)
           })
-        ])
+        })
       ]
 
       hasAlpha.value === true && sliders.push(
-        h('div', { class: 'q-color-picker__alpha non-selectable' }, [
-          h(QSlider, {
-            modelValue: model.value.a,
-            min: 0,
-            max: 100,
-            trackSize: '10px',
-            readonly: editable.value !== true,
-            thumbPath,
-            ...getCache('alphaSlide', {
-              'onUpdate:modelValue': value => onNumericChange(value, 'a', 100),
-              onChange: value => onNumericChange(value, 'a', 100, void 0, true)
-            })
+        h(QSlider, {
+          class: 'q-color-picker__alpha non-selectable',
+          modelValue: model.value.a,
+          min: 0,
+          max: 100,
+          trackSize: '8px',
+          readonly: editable.value !== true,
+          hideSelection: true,
+          thumbPath,
+          ...getCache('alphaSlide', {
+            'onUpdate:modelValue': value => onNumericChange(value, 'a', 100),
+            onChange: value => onNumericChange(value, 'a', 100, void 0, true)
           })
-        ])
+        })
       )
 
       return [
