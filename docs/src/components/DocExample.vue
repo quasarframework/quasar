@@ -18,11 +18,12 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
   q-slide-transition
     div(v-show="expanded")
       q-tabs.doc-example__tabs(
-        v-model="currentTab",
-        align="left",
-        :active-color="dark ? 'amber' : void 0",
-        :indicator-color="dark ? 'amber' : 'brand-primary'",
-        dense,
+        v-model="currentTab"
+        align="left"
+        no-caps
+        :active-color="dark ? 'amber' : void 0"
+        :indicator-color="dark ? 'amber' : 'brand-primary'"
+        dense
         :breakpoint="0"
       )
         q-tab(
@@ -90,7 +91,7 @@ export default {
       loading: true,
       component: null,
       tabs: [],
-      currentTab: 'template',
+      currentTab: 'Template',
       expanded: false,
       parts: {}
     }
@@ -143,17 +144,21 @@ export default {
 
   methods: {
     parseComponent (comp) {
-      const
-        template = this.parseTemplate('template', comp),
-        script = this.parseTemplate('script', comp),
-        style = this.parseTemplate('style', comp)
-
       this.parts = {
-        template,
-        script,
-        style
+        Template: this.parseTemplate('template', comp),
+        Script: this.parseTemplate('script', comp),
+        Style: this.parseTemplate('style', comp)
       }
-      this.tabs = [ 'template', 'script', 'style' ].filter(type => this.parts[type])
+
+      const tabs = [ 'Template', 'Script', 'Style' ]
+        .filter(type => this.parts[type])
+
+      if (tabs.length > 1) {
+        this.parts.All = comp
+        tabs.push('All')
+      }
+
+      this.tabs = tabs
     },
 
     parseTemplate (target, template) {
