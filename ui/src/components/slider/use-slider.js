@@ -46,9 +46,11 @@ export const useSliderProps = {
 
   vertical: Boolean,
   reverse: Boolean,
+
   hideSelection: Boolean,
 
   color: String,
+  markerLabelsClass: String,
 
   label: Boolean,
   labelColor: String,
@@ -59,6 +61,13 @@ export const useSliderProps = {
   markers: [ Boolean, Number ],
   markerLabels: [ Boolean, Array, Object, Function ],
   switchMarkerLabelsSide: Boolean,
+
+  trackImg: String,
+  trackColor: String,
+  innerTrackImg: String,
+  innerTrackColor: String,
+  selectionColor: String,
+  selectionImg: String,
 
   thumbSize: {
     type: String,
@@ -179,25 +188,47 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
     return `${ cls } ${ cls }${ axis.value }`
   }
 
-  const selectionBarClass = computed(() => (
-    'q-slider__selection absolute'
-    + (props.color !== void 0 ? ` text-${ props.color }` : '')
-  ))
+  const selectionBarClass = computed(() => {
+    const color = props.selectionColor || props.color
+    return 'q-slider__selection absolute'
+      + (color !== void 0 ? ` text-${ color }` : '')
+  })
   const markerClass = computed(() => getAxisClass('markers') + ' absolute overflow-hidden')
   const trackContainerClass = computed(() => getAxisClass('track-container'))
   const pinClass = computed(() => getPositionClass('pin'))
   const labelClass = computed(() => getPositionClass('label'))
   const textContainerClass = computed(() => getPositionClass('text-container'))
-  const markerLabelsContainerClass = computed(() => getPositionClass('marker-labels-container'))
+  const markerLabelsContainerClass = computed(() =>
+    getPositionClass('marker-labels-container')
+    + (props.markerLabelsClass !== void 0 ? ` ${ props.markerLabelsClass }` : '')
+  )
 
-  const trackStyle = computed(() => ({
-    [ thicknessProp.value ]: props.trackSize
-  }))
+  const trackClass = computed(() =>
+    'q-slider__track relative-position no-outline'
+    + (props.trackColor !== void 0 ? ` bg-${ props.trackColor }` : '')
+  )
+  const trackStyle = computed(() => {
+    const acc = { [ thicknessProp.value ]: props.trackSize }
+    if (props.trackImg !== void 0) {
+      acc.backgroundImage = `url(${ props.trackImg }) !important`
+    }
+    return acc
+  })
 
-  const innerBarStyle = computed(() => ({
-    [ positionProp.value ]: `${ 100 * innerMinRatio.value }%`,
-    [ sizeProp.value ]: `${ 100 * (innerMaxRatio.value - innerMinRatio.value) }%`
-  }))
+  const innerBarClass = computed(() =>
+    'q-slider__inner absolute'
+    + (props.innerTrackColor !== void 0 ? ` bg-${ props.innerTrackColor }` : '')
+  )
+  const innerBarStyle = computed(() => {
+    const acc = {
+      [ positionProp.value ]: `${ 100 * innerMinRatio.value }%`,
+      [ sizeProp.value ]: `${ 100 * (innerMaxRatio.value - innerMinRatio.value) }%`
+    }
+    if (props.innerTrackImg !== void 0) {
+      acc.backgroundImage = `url(${ props.innerTrackImg }) !important`
+    }
+    return acc
+  })
 
   function convertRatioToModel (ratio) {
     const { min, max, step } = props
@@ -515,21 +546,23 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
   }
 
   function getContent (selectionBarStyle, events, injectThumb) {
-    const trackContent = props.hideSelection === true
-      ? []
-      : [
-          h('div', {
-            key: 'inner',
-            class: 'q-slider__inner absolute',
-            style: innerBarStyle.value
-          }),
+    const trackContent = []
 
-          h('div', {
-            key: 'selection',
-            class: selectionBarClass.value,
-            style: selectionBarStyle.value
-          })
-        ]
+    props.innerTrackColor !== 'transparent' && trackContent.push(
+      h('div', {
+        key: 'inner',
+        class: innerBarClass.value,
+        style: innerBarStyle.value
+      })
+    )
+
+    props.selectionColor !== 'transparent' && trackContent.push(
+      h('div', {
+        key: 'selection',
+        class: selectionBarClass.value,
+        style: selectionBarStyle.value
+      })
+    )
 
     props.markers !== false && trackContent.push(
       h('div', {
@@ -552,7 +585,7 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
         },
         [
           h('div', {
-            class: 'q-slider__track relative-position no-outline',
+            class: trackClass.value,
             style: trackStyle.value
           },
           trackContent)

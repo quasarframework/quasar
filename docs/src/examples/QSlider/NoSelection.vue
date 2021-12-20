@@ -5,7 +5,17 @@
       :min="0"
       :max="10"
       markers
-      hide-selection
+      selection-color="transparent"
+    />
+
+    <q-slider
+      v-model="model"
+      :min="0"
+      :max="10"
+      track-color="orange"
+      inner-track-color="transparent"
+      selection-color="transparent"
+      markers
     />
   </div>
 </template>

@@ -64,10 +64,48 @@
       "extends": "color"
     },
 
-    "hide-selection": {
-      "type": "Boolean",
-      "desc": "Hide the selection colored bar",
-      "category": "content|style",
+    "track-color": {
+      "extends": "color",
+      "desc": "Color name for the track (can be 'transparent' too) from the Quasar Color Palette",
+      "addedIn": "v2.4"
+    },
+
+    "track-img": {
+      "type": "String",
+      "desc": "Apply a pattern image on the track",
+      "transformAssetUrls": true,
+      "examples": [ "~assets/my-pattern.png" ],
+      "category": "style",
+      "addedIn": "v2.4"
+    },
+
+    "inner-track-color": {
+      "extends": "color",
+      "desc": "Color name for the inner track (can be 'transparent' too) from the Quasar Color Palette",
+      "addedIn": "v2.4"
+    },
+
+    "inner-track-img": {
+      "type": "String",
+      "desc": "Apply a pattern image on the inner track",
+      "transformAssetUrls": true,
+      "examples": [ "~assets/my-pattern.png" ],
+      "category": "style",
+      "addedIn": "v2.4"
+    },
+
+    "selection-color": {
+      "extends": "color",
+      "desc": "Color name for the selection bar (can be 'transparent' too) from the Quasar Color Palette",
+      "addedIn": "v2.4"
+    },
+
+    "selection-img": {
+      "type": "String",
+      "desc": "Apply a pattern image on the selection bar",
+      "transformAssetUrls": true,
+      "examples": [ "~assets/my-pattern.png" ],
+      "category": "style",
       "addedIn": "v2.4"
     },
 
@@ -177,6 +215,14 @@
         "val => (10 * val) + '%'",
         "val => ({ label: (10 * val) + '%', classes: 'my-class', style: { width: '24px' } })"
       ],
+      "addedIn": "v2.4"
+    },
+
+    "marker-labels-class": {
+      "type": "String",
+      "desc": "CSS class(es) to apply to the marker labels container",
+      "examples": [ "text-orange" ],
+      "category": "style",
       "addedIn": "v2.4"
     },
 

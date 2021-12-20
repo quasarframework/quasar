@@ -104,19 +104,15 @@
   &__alpha
     .q-slider__track-container
       padding-top: 0
-    .q-slider__track
-      color: #fff
-      background-color: #fff !important
-      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==') !important
-      &:before
-        content: ''
-        position: absolute
-        top: 0
-        right: 0
-        bottom: 0
-        left: 0
-        border-radius: inherit
-        background: linear-gradient(90deg, rgba(255,255,255,0), $grey-7)
+    .q-slider__track:before
+      content: ''
+      position: absolute
+      top: 0
+      right: 0
+      bottom: 0
+      left: 0
+      border-radius: inherit
+      background: linear-gradient(90deg, rgba(255,255,255,0), $grey-7)
 
   &__sliders
     padding: 0 16px

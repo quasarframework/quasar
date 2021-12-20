@@ -5,7 +5,6 @@
       <q-toggle v-model="reverse" dense label="Reverse" />
       <q-toggle v-model="switchLabelSide" dense label="Switch label side" />
       <q-toggle v-model="switchMarkerLabelsPos" dense label="Switch marker label side" />
-      <q-toggle v-model="hideSelection" dense label="Hide selection" />
       <q-badge class="q-py-sm q-px-md text-right" color="deep-orange">{{ model }}</q-badge>
     </div>
 
@@ -20,6 +19,7 @@
         :markers="1"
         :marker-labels="v => (10 * v) + '%'"
         label-color="dark"
+        track-pattern-img="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg=="
       />
     </div>
 
@@ -166,7 +166,6 @@ export default {
       reverse: false,
       switchLabelSide: false,
       switchMarkerLabelsPos: false,
-      hideSelection: false,
 
       model: 4
     }
@@ -180,8 +179,7 @@ export default {
         vertical: this.vertical,
         reverse: this.reverse,
         switchLabelSide: this.switchLabelSide,
-        switchMarkerLabelsSide: this.switchMarkerLabelsPos,
-        hideSelection: this.hideSelection
+        switchMarkerLabelsSide: this.switchMarkerLabelsPos
       }
     }
   }

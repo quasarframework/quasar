@@ -76,9 +76,11 @@ In order to use the marker label slots (see below), you must enable them by usin
 
 <doc-example title="Color customizations" file="QSlider/SliderColoring" />
 
-<doc-example title="Track & thumb size" file="QSlider/SliderSizes" />
-
 <doc-example title="Hide selection bar" file="QSlider/NoSelection" />
+
+<doc-example title="Custom track images" file="QSlider/TrackImages" />
+
+<doc-example title="Track & thumb size" file="QSlider/SliderSizes" />
 
 ### Lazy input
 

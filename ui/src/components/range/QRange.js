@@ -83,10 +83,16 @@ export default createComponent({
       state.active.value === true ? curMaxRatio.value : modelMaxRatio.value
     ))
 
-    const progressBarStyle = computed(() => ({
-      [ state.positionProp.value ]: `${ 100 * ratioMin.value }%`,
-      [ state.sizeProp.value ]: `${ 100 * (ratioMax.value - ratioMin.value) }%`
-    }))
+    const selectionBarStyle = computed(() => {
+      const acc = {
+        [ state.positionProp.value ]: `${ 100 * ratioMin.value }%`,
+        [ state.sizeProp.value ]: `${ 100 * (ratioMax.value - ratioMin.value) }%`
+      }
+      if (props.selectionImg !== void 0) {
+        acc.backgroundImage = `url(${ props.selectionImg }) !important`
+      }
+      return acc
+    })
 
     const events = computed(() => {
       if (state.editable.value !== true) {
@@ -377,7 +383,7 @@ export default createComponent({
 
     return () => {
       const content = methods.getContent(
-        progressBarStyle,
+        selectionBarStyle,
         events,
         node => {
           node.push(

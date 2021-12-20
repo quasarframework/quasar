@@ -78,9 +78,11 @@ In order to use the marker label slots (see below), you must enable them by usin
 
 <doc-example title="Color customizations" file="QRange/RangeColoring" />
 
-<doc-example title="Track & thumb size" file="QRange/RangeSizes" />
-
 <doc-example title="Hide selection bar" file="QRange/NoSelection" />
+
+<doc-example title="Custom track images" file="QRange/TrackImages" />
+
+<doc-example title="Track & thumb size" file="QRange/RangeSizes" />
 
 ### Dragging range
 
@@ -115,12 +117,6 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 ### With QItem
 
 <doc-example title="With QItem" file="QRange/List" />
-
-### Getting creative
-
-Using simple CSS you can get nice effects.
-
-<doc-example title="Getting creative" file="QRange/GettingCreative" />
 
 ### Native form submit
 

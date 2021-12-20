@@ -35,6 +35,7 @@ const palette = [
 ]
 
 const thumbPath = 'M5 5 h10 v10 h-10 v-10 z'
+const alphaTrackImg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg=='
 
 export default createComponent({
   name: 'QColor',
@@ -659,8 +660,9 @@ export default createComponent({
           min: 0,
           max: 360,
           trackSize: '8px',
+          innerTrackColor: 'transparent',
+          selectionColor: 'transparent',
           readonly: editable.value !== true,
-          hideSelection: true,
           thumbPath,
           'onUpdate:modelValue': onHueChange,
           ...getCache('lazyhue', {
@@ -676,6 +678,10 @@ export default createComponent({
           min: 0,
           max: 100,
           trackSize: '8px',
+          trackColor: 'white',
+          innerTrackColor: 'transparent',
+          selectionColor: 'transparent',
+          trackImg: alphaTrackImg,
           readonly: editable.value !== true,
           hideSelection: true,
           thumbPath,

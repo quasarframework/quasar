@@ -45,10 +45,16 @@ export default createComponent({
     const modelRatio = computed(() => methods.convertModelToRatio(model.value))
     const ratio = computed(() => (state.active.value === true ? curRatio.value : modelRatio.value))
 
-    const progressBarStyle = computed(() => ({
-      [ state.positionProp.value ]: `${ 100 * state.innerMinRatio.value }%`,
-      [ state.sizeProp.value ]: `${ 100 * (ratio.value - state.innerMinRatio.value) }%`
-    }))
+    const selectionBarStyle = computed(() => {
+      const acc = {
+        [ state.positionProp.value ]: `${ 100 * state.innerMinRatio.value }%`,
+        [ state.sizeProp.value ]: `${ 100 * (ratio.value - state.innerMinRatio.value) }%`
+      }
+      if (props.selectionImg !== void 0) {
+        acc.backgroundImage = `url(${ props.selectionImg }) !important`
+      }
+      return acc
+    })
 
     const getThumb = methods.getThumbRenderFn({
       focusValue: true,
@@ -132,7 +138,7 @@ export default createComponent({
 
     return () => {
       const content = methods.getContent(
-        progressBarStyle,
+        selectionBarStyle,
         events,
         node => { node.push(getThumb()) }
       )
