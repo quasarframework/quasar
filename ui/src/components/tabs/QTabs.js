@@ -515,7 +515,7 @@ export default createComponent({
      * always check the existing list again and infer the changes.
      */
     function unregisterTab (tabData) {
-      tabList.splice(tabList.value.indexOf(tabData), 1)
+      tabList.splice(tabList.indexOf(tabData), 1)
 
       if (unwatchRoute !== void 0) {
         const routeList = getRouteList()
