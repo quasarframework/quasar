@@ -1,16 +1,17 @@
-import { h, ref, computed, inject, onBeforeUnmount, onMounted, withDirectives } from 'vue'
+import { h, ref, computed, inject, onBeforeUnmount, onMounted, withDirectives, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
 import Ripple from '../../directives/Ripple.js'
 
 import { hMergeSlot } from '../../utils/private/render.js'
-import { isKeyCode } from '../../utils/private/key-composition.js'
+import { isKeyCode, shouldIgnoreKey } from '../../utils/private/key-composition.js'
 import { tabsKey } from '../../utils/private/symbols.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 let uid = 0
 
-export const useTabEmits = [ 'click', 'keyup' ]
+export const useTabEmits = [ 'click', 'keydown' ]
 
 export const useTabProps = {
   icon: String,
@@ -42,14 +43,19 @@ export default function (props, slots, emit, routerProps) {
     console.error('QTab/QRouteTab component needs to be child of QTabs')
   })
 
+  const { proxy } = getCurrentInstance()
+
   const blurTargetRef = ref(null)
   const rootRef = ref(null)
   const tabIndicatorRef = ref(null)
 
   const ripple = computed(() => (
-    props.disable === true
+    props.disable === true || props.ripple === false
       ? false
-      : props.ripple
+      : Object.assign(
+        { keyCodes: [ 13, 32 ], early: true },
+        props.ripple === true ? {} : props.ripple
+      )
   ))
 
   const isActive = computed(() => $tabs.currentModel.value === props.name)
@@ -79,7 +85,9 @@ export default function (props, slots, emit, routerProps) {
   )
 
   const tabIndex = computed(() => (
-    props.disable === true || isActive.value === true ? -1 : props.tabindex || 0
+    props.disable === true || $tabs.hasFocus.value === true
+      ? -1
+      : props.tabindex || 0
   ))
 
   function onClick (e, keyboard) {
@@ -123,9 +131,14 @@ export default function (props, slots, emit, routerProps) {
     }
   }
 
-  function onKeyup (e) {
-    isKeyCode(e, 13) === true && onClick(e, true)
-    emit('keyup', e)
+  function onKeydown (e) {
+    if (isKeyCode(e, [ 13, 32 ])) {
+      onClick(e, true)
+    }
+    else if (shouldIgnoreKey(e) !== true && e.keyCode >= 35 && e.keyCode <= 40) {
+      $tabs.onKbdNavigate(e.keyCode, proxy.$el) === true && stopAndPrevent(e)
+    }
+    emit('keydown', e)
   }
 
   function getContent () {
@@ -201,10 +214,10 @@ export default function (props, slots, emit, routerProps) {
       class: classes.value,
       tabindex: tabIndex.value,
       role: 'tab',
-      'aria-selected': isActive.value,
+      'aria-selected': isActive.value === true ? 'true' : 'false',
       'aria-disabled': props.disable === true ? 'true' : void 0,
       onClick,
-      onKeyup,
+      onKeydown,
       ...customData
     }
 
