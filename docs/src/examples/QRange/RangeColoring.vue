@@ -5,6 +5,7 @@
       color="orange"
       thumb-color="purple"
       label-color="black"
+      label-text-color="yellow"
       markers
       marker-labels
       switch-marker-labels-side
@@ -19,8 +20,8 @@
       v-model="model"
       color="orange"
       left-thumb-color="purple-3"
-      right-thumb-color="purple-8"
       left-label-color="green"
+      right-thumb-color="purple-8"
       right-label-color="black"
       markers
       marker-labels

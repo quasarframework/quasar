@@ -1,22 +1,11 @@
 <template>
   <div class="q-px-lg q-py-md">
-    <q-slider
+    <q-range
       v-model="model"
       :min="0"
       :max="10"
-      color="green"
-      track-size="10px"
-      thumb-color="black"
       markers
-    />
-
-    <q-slider
-      v-model="model"
-      :min="0"
-      :max="10"
-      color="green"
-      thumb-size="35px"
-      markers
+      hide-selection
     />
   </div>
 </template>
@@ -27,7 +16,10 @@ import { ref } from 'vue'
 export default {
   setup () {
     return {
-      model: ref(2)
+      model: ref({
+        min: 2,
+        max: 6
+      })
     }
   }
 }

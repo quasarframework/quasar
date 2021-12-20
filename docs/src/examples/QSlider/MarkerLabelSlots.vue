@@ -37,7 +37,7 @@
           v-for="val in 4"
           :key="val"
           class="cursor-pointer"
-          :class="[ 'text-black', markerList[val].classes ]"
+          :class="markerList[val].classes"
           :style="markerList[val].style"
           @click="secondModel = val"
         >{{ val }}</div>
@@ -45,7 +45,7 @@
         <q-icon
           v-for="val in [0, 5]"
           :key="val"
-          :class="[ 'text-black', markerList[val].classes ]"
+          :class="markerList[val].classes"
           :style="markerList[val].style"
           size="sm"
           color="orange"

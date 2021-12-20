@@ -9,6 +9,15 @@
       thumb-color="black"
       markers
     />
+
+    <q-range
+      v-model="model"
+      :min="0"
+      :max="10"
+      color="green"
+      thumb-size="35px"
+      markers
+    />
   </div>
 </template>
 

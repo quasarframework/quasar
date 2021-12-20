@@ -261,6 +261,22 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
       + `${ prefix }${ isReversed.value === true ? 'rtl' : 'ltr' }`
   })
 
+  const markerLabelsList = computed(() => {
+    if (props.markerLabels === false) { return null }
+
+    return getMarkerList(props.markerLabels).map((entry, index) => ({
+      index,
+      value: entry.value,
+      label: entry.label || entry.value,
+      classes: markerLabelClass.value
+        + (entry.classes !== void 0 ? ' ' + entry.classes : ''),
+      style: {
+        ...getMarkerLabelStyle(entry.value),
+        ...(entry.style || {})
+      }
+    }))
+  })
+
   const markerScope = computed(() => ({
     markerList: markerLabelsList.value,
     markerMap: markerLabelsMap.value,
@@ -311,23 +327,6 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
   function getMarkerLabelStyle (val) {
     return { [ positionProp.value ]: `${ 100 * (val - props.min) / trackLen.value }%` }
   }
-
-  const markerLabelsList = computed(() => {
-    if (props.markerLabels === false) { return null }
-
-    return getMarkerList(props.markerLabels).map((entry, index) => ({
-      index,
-      value: entry.value,
-      label: entry.label || entry.value,
-      classes: entry.classes !== void 0
-        ? [ entry.classes, markerLabelClass.value ]
-        : markerLabelClass.value,
-      style: {
-        ...getMarkerLabelStyle(entry.value),
-        ...(entry.style || {})
-      }
-    }))
-  })
 
   const markerLabelsMap = computed(() => {
     if (props.markerLabels === false) { return null }

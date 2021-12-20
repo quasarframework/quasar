@@ -19,7 +19,7 @@ import { ref } from 'vue'
 export default {
   setup () {
     return {
-      value: ref(-10)
+      value: ref(16)
     }
   }
 }

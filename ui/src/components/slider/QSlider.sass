@@ -71,7 +71,6 @@
 
   &__marker-labels-container
     position: relative
-    z-index: -1
     width: 100%
     height: 100%
     min-height: 24px
@@ -103,6 +102,7 @@
         transform: translateY(50%) #{"/* rtl:ignore */"}
 
   &__thumb
+    z-index: 1
     outline: 0
     color: var(--q-primary)
     transition: transform .18s ease-out, fill .18s ease-out, stroke .18s ease-out
@@ -142,7 +142,6 @@
 
   &__pin
     opacity: 0
-    z-index: 1
     white-space: nowrap
     transition: opacity .28s ease-out
     transition-delay: .14s

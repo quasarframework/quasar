@@ -350,7 +350,7 @@
         },
 
         "classes": {
-          "type": [ "String", "Array" ],
+          "type": "String",
           "desc": "Required CSS classes to be applied to the marker element",
           "__exemption": [ "examples" ]
         },
@@ -453,7 +453,7 @@
         },
 
         "classes": {
-          "type": [ "String", "Array" ],
+          "type": "String",
           "desc": "Required CSS classes to be applied to the marker element",
           "__exemption": [ "examples" ]
         },

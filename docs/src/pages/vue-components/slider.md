@@ -16,6 +16,10 @@ Also check its “sibling”, the [QRange](/vue-components/range) component.
 
 ## Usage
 
+::: warning
+You are responsible for accommodating the space around QSlider so that the label and marker labels won't overlap the other content on your page. You can use CSS margin or padding for this purpose.
+:::
+
 ### Standard
 
 <doc-example title="Standard" file="QSlider/Standard" />
@@ -68,13 +72,13 @@ In order to use the marker label slots (see below), you must enable them by usin
 
 <doc-example title="Marker label slots" file="QSlider/MarkerLabelSlots" />
 
-### Other color customizations <q-badge align="top" color="brand-primary" label="v2.4+" />
+### Other customizations <q-badge align="top" color="brand-primary" label="v2.4+" />
 
 <doc-example title="Color customizations" file="QSlider/SliderColoring" />
 
-### Track size <q-badge align="top" color="brand-primary" label="v2.4+" />
+<doc-example title="Track & thumb size" file="QSlider/SliderSizes" />
 
-<doc-example title="Track size" file="QSlider/SliderSizes" />
+<doc-example title="Hide selection bar" file="QSlider/NoSelection" />
 
 ### Lazy input
 

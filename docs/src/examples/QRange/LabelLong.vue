@@ -21,7 +21,7 @@ export default {
     return {
       model: ref({
         min: -16,
-        max: 12
+        max: 16
       })
     }
   }

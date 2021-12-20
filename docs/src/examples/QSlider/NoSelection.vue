@@ -4,19 +4,8 @@
       v-model="model"
       :min="0"
       :max="10"
-      color="green"
-      track-size="10px"
-      thumb-color="black"
       markers
-    />
-
-    <q-slider
-      v-model="model"
-      :min="0"
-      :max="10"
-      color="green"
-      thumb-size="35px"
-      markers
+      hide-selection
     />
   </div>
 </template>

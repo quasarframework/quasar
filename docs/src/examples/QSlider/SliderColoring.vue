@@ -5,6 +5,7 @@
       color="orange"
       thumb-color="purple"
       label-color="black"
+      label-text-color="yellow"
       markers
       marker-labels
       switch-marker-labels-side

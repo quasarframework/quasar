@@ -134,7 +134,7 @@ export default createComponent({
           ? props.leftLabelValue
           : model.value.min
       )),
-      thumbColor: computed(() => props.leftThumbColor || props.color),
+      thumbColor: computed(() => props.leftThumbColor || props.thumbColor || props.color),
       labelColor: computed(() => props.leftLabelColor || props.labelColor),
       labelTextColor: computed(() => props.leftLabelTextColor || props.labelTextColor)
     })
@@ -162,7 +162,7 @@ export default createComponent({
           ? props.rightLabelValue
           : model.value.max
       )),
-      thumbColor: computed(() => props.rightThumbColor || props.color),
+      thumbColor: computed(() => props.rightThumbColor || props.thumbColor || props.color),
       labelColor: computed(() => props.rightLabelColor || props.labelColor),
       labelTextColor: computed(() => props.rightLabelTextColor || props.labelTextColor)
     })
