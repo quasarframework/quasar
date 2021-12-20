@@ -5,9 +5,9 @@ import QIcon from '../icon/QIcon.js'
 import RippleMixin from '../../mixins/ripple.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-import { stop } from '../../utils/event.js'
+import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/slot.js'
-import { isKeyCode } from '../../utils/key-composition.js'
+import { shouldIgnoreKey } from '../../utils/key-composition.js'
 
 let uid = 0
 
@@ -23,7 +23,11 @@ export default Vue.extend({
       }
     },
     __activateTab: {},
-    __recalculateScroll: {}
+    __registerTab: {},
+    __unregisterTab: {},
+    __focusTab: {},
+    __unfocusTab: {},
+    __onKbdNavigate: {}
   },
 
   props: {
@@ -76,15 +80,28 @@ export default Vue.extend({
     },
 
     computedTabIndex () {
-      return this.disable === true || this.isActive === true ? -1 : this.tabindex || 0
+      return this.disable === true || this.tabs.focused === true || (this.isActive !== true && this.tabs.hasCurrent === true)
+        ? -1
+        : this.tabindex || 0
+    },
+
+    computedRipple () {
+      return this.ripple === false
+        ? false
+        : Object.assign(
+          { keyCodes: [13, 32], early: true },
+          this.ripple === true ? {} : this.ripple
+        )
     },
 
     onEvents () {
       return {
         input: stop,
         ...this.qListeners,
+        focusin: this.__onFocusin,
+        focusout: this.__onFocusout,
         click: this.__activate,
-        keyup: this.__onKeyup
+        keydown: this.__onKeydown
       }
     },
 
@@ -92,7 +109,7 @@ export default Vue.extend({
       const attrs = {
         tabindex: this.computedTabIndex,
         role: 'tab',
-        'aria-selected': this.isActive
+        'aria-selected': this.isActive === true ? 'true' : 'false'
       }
 
       if (this.disable === true) {
@@ -103,9 +120,18 @@ export default Vue.extend({
     }
   },
 
+  watch: {
+    name (newName, oldName) {
+      this.__unregisterTab(oldName)
+      this.__registerTab(newName, this.$el)
+    }
+  },
+
   methods: {
     __activate (e, keyboard) {
-      keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+      if (keyboard !== true && this.$refs.blurTarget !== void 0) {
+        this.$refs.blurTarget.focus({ preventScroll: true })
+      }
 
       if (this.disable !== true) {
         this.qListeners.click !== void 0 && this.$emit('click', e)
@@ -113,8 +139,30 @@ export default Vue.extend({
       }
     },
 
-    __onKeyup (e) {
-      isKeyCode(e, 13) === true && this.__activate(e, true)
+    __onFocusin (e) {
+      e.target === this.$el && this.__focusTab(this.$el)
+
+      this.qListeners.focusin !== void 0 && this.$emit('focusin', e)
+    },
+
+    __onFocusout (e) {
+      this.__unfocusTab()
+
+      this.qListeners.focusout !== void 0 && this.$emit('focusout', e)
+    },
+
+    __onKeydown (e) {
+      if (shouldIgnoreKey(e)) {
+        return
+      }
+
+      if ([ 13, 32 ].indexOf(e.keyCode) !== -1) {
+        this.__activate(e, true)
+        prevent(e)
+      }
+      else if (e.keyCode >= 35 && e.keyCode <= 40) {
+        this.__onKbdNavigate(e.keyCode, this.$el) === true && stopAndPrevent(e)
+      }
     },
 
     __getContent (h) {
@@ -180,7 +228,7 @@ export default Vue.extend({
         class: this.classes,
         attrs: this.attrs,
         directives: this.ripple === false || this.disable === true ? null : [
-          { name: 'ripple', value: this.ripple }
+          { name: 'ripple', value: this.computedRipple }
         ]
       }
 
@@ -207,11 +255,11 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.__recalculateScroll()
+    this.__registerTab(this.name, this.$el)
   },
 
   beforeDestroy () {
-    this.__recalculateScroll()
+    this.__unregisterTab(this.name)
   },
 
   render (h) {

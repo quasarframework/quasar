@@ -5,6 +5,40 @@ const scrollTargets = isSSR === true
   ? []
   : [ null, document, document.body, document.scrollingElement, document.documentElement ]
 
+let rtlHasScrollBugStatus
+export function rtlHasScrollBug () {
+  if (isSSR === true) {
+    return false
+  }
+
+  if (rtlHasScrollBugStatus === void 0) {
+    const scroller = document.createElement('div')
+    const spacer = document.createElement('div')
+
+    Object.assign(scroller.style, {
+      direction: 'rtl',
+      width: '1px',
+      height: '1px',
+      overflow: 'auto'
+    })
+
+    Object.assign(spacer.style, {
+      width: '1000px',
+      height: '1px'
+    })
+
+    scroller.appendChild(spacer)
+    document.body.appendChild(scroller)
+    scroller.scrollLeft = -1000
+
+    rtlHasScrollBugStatus = scroller.scrollLeft >= 0
+
+    scroller.remove()
+  }
+
+  return rtlHasScrollBugStatus
+}
+
 export function getScrollTarget (el, targetEl) {
   let target = getElement(targetEl)
 
@@ -194,6 +228,7 @@ export default {
   getScrollPosition,
   getVerticalScrollPosition,
   getHorizontalScrollPosition,
+  rtlHasScrollBug,
 
   animScrollTo,
   animVerticalScrollTo,
