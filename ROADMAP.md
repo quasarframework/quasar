@@ -46,15 +46,16 @@ We are updating this section constantly in order to keep you up to date with our
 * ✌️ (DONE) Volar support ([reference](https://github.com/quasarframework/quasar/discussions/10619))
 * ✌️ (DONE) Vite.js plugin for Quasar v2 ([reference](https://github.com/quasarframework/quasar/issues/7815))
 * 🚧 (WIP) Triaging enhancements and automation ([reference](https://github.com/quasarframework/rfcs/issues/10))
-* 🚧 (WIP) Premium video tutorials (pre-access will be a paid service, will be later released for free) ([reference](https://quasarcomponents.com/))
 * 🚧 (WIP) Quasar website revamp 🔥
-* 🚧 (WIP) Support Cypress Component Testing into Quasar Cypress AE ([reference](https://github.com/quasarframework/quasar-testing/issues/163) [reference](https://github.com/quasarframework/quasar-testing/pull/185))
-* Enhance Quasar types to be more precise, provide guidelines for community contributions ([reference](https://github.com/quasarframework/quasar/issues/8642) [reference](https://github.com/quasarframework/quasar/issues/8493) [reference](https://github.com/quasarframework/quasar/issues/11090) [reference](https://github.com/quasarframework/quasar/issues/11043))
+* ✌️ (DONE) Support Cypress Component Testing into Quasar Cypress AE ([reference](https://github.com/quasarframework/quasar-testing/issues/163) [reference](https://github.com/quasarframework/quasar-testing/pull/185) [reference](https://github.com/quasarframework/quasar/discussions/11496))
+* 🚧 (WIP) Enhance Quasar types to be more precise, provide guidelines for community contributions ([reference](https://github.com/quasarframework/quasar/issues/8642) [reference](https://github.com/quasarframework/quasar/issues/8493) [reference](https://github.com/quasarframework/quasar/issues/11090) [reference](https://github.com/quasarframework/quasar/issues/11043))
+
+### Q1 2022
+* 🚧 (WIP) Video tutorials about all Quasar components (~~pre-access will be a paid service, will be later released for free~~ will be released for free, but register to https://quasarcast.com/course for future paid advanced Quasar courses 🙂) ([reference](https://quasarcomponents.com/))
+* 🚧 (WIP) Add automatic tests to Quasar UI ([reference](https://github.com/Evertvdw/quasar/tree/unit-testing))
 * Fix intellisense problem for packages provided by `@quasar/app` ([reference](https://github.com/quasarframework/quasar/issues/9235))
 * Quasar v2 TypeScript projects created with Quasar CLI will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form) ([reference](https://github.com/quasarframework/quasar/issues/8572))
 * Creation of official Quasar Organizational chart
-
-### Q1 2022
 * Allow to save starter kit options as JSON profiles ([reference](https://github.com/quasarframework/quasar/issues/5537))
 * Quasar Scaffolding (official name TBD) (this will be a paid service) ([reference](https://github.com/quasarframework/quasar/discussions/10053))
 * First beta of a new CLI for Quasar based on Vite.js instead of Webpack (will have its own life along with the current Webpack-based CLI)
