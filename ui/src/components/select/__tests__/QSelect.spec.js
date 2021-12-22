@@ -3,7 +3,7 @@ import { mount } from '@cypress/vue'
 import { ref } from 'vue'
 import WrapperOne from './WrapperOne.vue'
 
-// const snapshotOptions = { customSnapshotsDir: '../src/components/select/__tests__' }
+const snapshotOptions = { customSnapshotsDir: '../src/components/select/__tests__' }
 
 // QSelect does not set the `data-cy` attribute on the root element, but on the `.q-field__native` element
 // This means we cannot use data-cy everywhere, but instead use a custom class `select-root` for this purpose
@@ -359,15 +359,14 @@ describe('QSelect API', () => {
             })
         })
 
-        // Not working yet, see: https://github.com/quasarframework/quasar/issues/11754
-        it.skip('should accept a function as option-value', () => {
+        it('should accept a function as option-value', () => {
           const options = [ { label: 'Option one', test: 1 }, { label: 'Option two', test: 2 } ]
           const model = ref(null)
           mount(WrapperOne, {
             attrs: {
               options,
               emitValue: true,
-              optionValue: (val) => val.test,
+              optionValue: (val) => (!val ? val : val.test),
               modelValue: model,
               'onUpdate:modelValue': (val) => {
                 model.value = val
@@ -386,55 +385,292 @@ describe('QSelect API', () => {
       })
 
       describe('(prop): option-label', () => {
-        it.skip(' ', () => {
-          //
+        it('should use the "label" key by default as option-label', () => {
+          const options = [ { label: 'Option one', value: 1 }, { label: 'Option two', value: 2 } ]
+          mount(WrapperOne, {
+            attrs: {
+              options
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .children()
+            .should('contain', options[ 0 ].label)
+            .and('contain', options[ 1 ].label)
+        })
+
+        it('should use the key supplied by option-label', () => {
+          const options = [ { test: 'Option one', value: 1 }, { test: 'Option two', value: 2 } ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              optionLabel: 'test'
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .children()
+            .should('contain', options[ 0 ].test)
+            .and('contain', options[ 1 ].test)
+        })
+
+        it('should accept a function as option-label', () => {
+          const options = [ { test: 'Option one', value: 1 }, { test: 'Option two', value: 2 } ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              optionLabel: (item) => (item === null ? 'Null' : item.test)
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .children()
+            .should('contain', options[ 0 ].test)
+            .and('contain', options[ 1 ].test)
         })
       })
       describe('(prop): option-disable', () => {
-        it.skip(' ', () => {
-          //
+        it('should use the "disable" key by default as option-disable', () => {
+          const options = [ { label: 'Option one', value: 1, disable: true }, { label: 'Option two', value: 2, disable: true } ]
+          mount(WrapperOne, {
+            attrs: {
+              options
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .get('[role="option"][aria-disabled="true"]')
+            .should('have.length', 2)
+        })
+
+        it('should use the key supplied by option-disable', () => {
+          const options = [ { label: 'Option one', value: 1, test: true }, { label: 'Option two', value: 2, disable: true } ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              optionDisable: 'test'
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .get('[role="option"][aria-disabled="true"]')
+            .should('have.length', 1)
+            .should('have.text', options[ 0 ].label)
+        })
+
+        it('should accept a function as option-disable', () => {
+          const options = [ { label: 'Option one', value: 1, test: true }, { label: 'Option two', value: 2, disable: true } ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              optionDisable: (item) => (item === null ? true : item.test)
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .get('[role="option"][aria-disabled="true"]')
+            .should('have.length', 1)
+            .should('have.text', options[ 0 ].label)
         })
       })
 
       describe('(prop): options-dense', () => {
-        it.skip(' ', () => {
-          //
+        it('should show options list dense', () => {
+          const options = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              optionsDense: true
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .matchImageSnapshot(snapshotOptions)
         })
       })
 
       describe('(prop): options-dark', () => {
-        it.skip(' ', () => {
-          //
+        it('should show options list in dark mode', () => {
+          const options = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              optionsDark: true
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .matchImageSnapshot(snapshotOptions)
         })
       })
 
       describe('(prop): options-selected-class', () => {
-        it.skip(' ', () => {
-          //
+        it('should have text-{color} applied as selected by default', () => {
+          const options = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: 'Option 1',
+              color: 'orange'
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .contains('[role="option"]', options[ 0 ])
+            .should('have.class', 'text-orange')
+        })
+
+        it('should not have default active class when passed option is empty', () => {
+          const options = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: 'Option 1',
+              optionsSelectedClass: '',
+              color: 'orange'
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .contains('[role="option"]', options[ 0 ])
+            .should('not.have.class', 'text-orange')
+        })
+
+        it('should have class name supplied by options-selected-class on active item', () => {
+          const options = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: 'Option 1',
+              optionsSelectedClass: 'test-class',
+              color: 'orange'
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .contains('[role="option"]', options[ 0 ])
+            .should('not.have.class', 'text-orange')
+            .should('have.class', 'test-class')
+          cy.get('.q-menu')
+            .contains('[role="option"]', options[ 1 ])
+            .should('not.have.class', 'text-orange')
+            .should('not.have.class', 'test-class')
         })
       })
 
       describe('(prop): options-html', () => {
-        it.skip(' ', () => {
-          //
+        it('should not render options with html by default', () => {
+          const options = [ '<b style="color: red">Option 1</b>', 'Option 2' ]
+          mount(WrapperOne, {
+            attrs: {
+              options
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .contains('Option 1')
+            .should('have.color', 'black')
+            .should('not.have.css', 'font-weight', '700')
+        })
+
+        it('should render options with html when options-html is true', () => {
+          const options = [ '<b style="color: red">Option 1</b>', 'Option 2' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              optionsHtml: true
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .contains('Option 1')
+            .should('have.color', 'red')
+            .should('have.css', 'font-weight', '700')
         })
       })
 
       describe('(prop): options-cover', () => {
-        it.skip(' ', () => {
-          //
+        it('should make the popup menu cover the select', (done) => {
+          const options = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              optionsCover: true
+            }
+          })
+          cy.get('.select-root')
+            .click()
+            .isNotActionable(done)
+        })
+
+        it('should not make the popup menu cover the select when use-input is used', () => {
+          const options = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              optionsCover: true,
+              useInput: true
+            }
+          })
+          cy.get('.select-root')
+            .click()
+            .click({ timeout: 100 })
         })
       })
 
       describe('(prop): menu-shrink', () => {
-        it.skip(' ', () => {
-          //
+        it('should shrink the menu', () => {
+          const options = [ '1', '2', '3', '4' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              menuShrink: true
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .matchImageSnapshot(snapshotOptions)
         })
       })
 
       describe('(prop): map-options', () => {
-        it.skip(' ', () => {
-          //
+        it('should display the label of the selected value instead of the value itself', () => {
+          const options = [ { label: 'Option one', value: 1 }, { label: 'Option two', value: 2 } ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: 1,
+              mapOptions: true
+            }
+          })
+          cy.get('.select-root')
+            .contains(options[ 0 ].label)
+        })
+
+        it('should display the selected value as string by default', () => {
+          const options = [ { label: 'Option one', value: 1 }, { label: 'Option two', value: 2 } ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: 1
+            }
+          })
+          cy.get('.select-root')
+            .contains(options[ 0 ].value)
         })
       })
     })
