@@ -754,7 +754,50 @@ describe('QSelect API', () => {
     })
   })
 
-  // Events
+  describe('Slots', () => {
+    describe('(slot): selected', () => {
+      it.skip(' ', () => {
+        //
+      })
+    })
+
+    describe('(slot): loading', () => {
+      it.skip(' ', () => {
+        //
+      })
+    })
+
+    describe('(slot): before-options', () => {
+      it.skip(' ', () => {
+        //
+      })
+    })
+
+    describe('(slot): after-options', () => {
+      it.skip(' ', () => {
+        //
+      })
+    })
+
+    describe('(slot): no-option', () => {
+      it.skip(' ', () => {
+        //
+      })
+    })
+
+    describe('(slot): selected-item', () => {
+      it.skip(' ', () => {
+        //
+      })
+    })
+
+    describe('(slot): option', () => {
+      it.skip(' ', () => {
+        //
+      })
+    })
+  })
+
   describe('Events', () => {
     describe('(event): update:model-value', () => {
       it.skip(' ', () => {
@@ -815,7 +858,6 @@ describe('QSelect API', () => {
     })
   })
 
-  // Methods
   describe('Methods', () => {
     describe('(method): focus', () => {
       it.skip(' ', () => {
