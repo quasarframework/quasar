@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import { mount } from '@cypress/vue'
+import { ref } from 'vue'
 import WrapperOne from './WrapperOne.vue'
 
 // const snapshotOptions = { customSnapshotsDir: '../src/components/select/__tests__' }
@@ -116,9 +117,6 @@ describe('QSelect API', () => {
           cy.get('.select-root')
             .get('input')
             .type(text)
-            .then(() => {
-              expect(fn).not.to.be.calledWith(text)
-            })
             .wait(500)
             .then(() => {
               expect(fn).not.to.be.calledWith(text)
@@ -133,52 +131,257 @@ describe('QSelect API', () => {
 
     describe('Category: content|behavior', () => {
       describe('(prop): hide-dropdown-icon', () => {
-        it.skip(' ', () => {
-          //
+        it('should show the dropdown-icon when this property is not supplied', () => {
+          mount(WrapperOne)
+          cy.get('.select-root')
+            .get('.q-icon')
+            .should('exist')
+        })
+
+        it('should hide the dropdown-icon when this property is true', () => {
+          mount(WrapperOne, {
+            attrs: {
+              hideDropdownIcon: true
+            }
+          })
+          cy.get('.select-root')
+            .get('.q-icon')
+            .should('not.exist')
         })
       })
     })
 
     describe('Category: general', () => {
       describe('(prop): tabindex', () => {
-        it.skip(' ', () => {
-          //
+        it('should have a default tabindex of 0', () => {
+          mount(WrapperOne)
+          cy.get('.select-root [tabindex="0"]')
+            .should('exist')
+        })
+
+        it('should set the tabindex to the supplied value', () => {
+          const tabindex = 2
+          mount(WrapperOne, {
+            attrs: {
+              tabindex
+            }
+          })
+          cy.get(`.select-root [tabindex="${ tabindex }"]`)
+            .should('exist')
+          cy.get('.select-root [tabindex="0"]')
+            .should('not.exist')
         })
       })
     })
 
     describe('Category: model', () => {
       describe('(prop): model-value', () => {
-        it.skip(' ', () => {
-          //
+        it('should have the option selected passed in the model-value', () => {
+          const modelValue = 'Option 1'
+          mount(WrapperOne, {
+            attrs: {
+              modelValue,
+              options: [ 'Option 1', 'Option 2', 'Option 3' ]
+            }
+          })
+          cy.get('.select-root')
+            .should('include.text', modelValue)
         })
       })
 
       describe('(prop): emit-value', () => {
-        it.skip(' ', () => {
-          //
+        it('should emit the value under the value key, if options are objects', () => {
+          const fn = cy.stub()
+          mount(WrapperOne, {
+            attrs: {
+              emitValue: true,
+              'onUpdate:modelValue': fn,
+              options: [ { label: 'Option 1', value: 1 }, { label: 'Option 2', value: 2 } ]
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .contains('Option 1')
+            .click()
+            .then(() => {
+              expect(fn).to.have.been.calledWith(1)
+            })
+        })
+
+        it('should emit the whole object by default if options are objects', () => {
+          const fn = cy.stub()
+          const options = [ { label: 'Option 1', value: 1 }, { label: 'Option 2', value: 2 } ]
+          mount(WrapperOne, {
+            attrs: {
+              'onUpdate:modelValue': fn,
+              options
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .contains('Option 1')
+            .click()
+            .then(() => {
+              expect(fn).to.have.been.calledWith(options[ 0 ])
+            })
         })
       })
     })
 
     describe('Category: model|selection', () => {
       describe('(prop): multiple', () => {
-        it.skip(' ', () => {
-          //
+        it('should select only one option by default', () => {
+          const options = [ 'Option 1', 'Option 2' ]
+          const model = ref(null)
+          mount(WrapperOne, {
+            attrs: {
+              modelValue: model,
+              'onUpdate:modelValue': (val) => {
+                model.value = val
+              },
+              options
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .contains('Option 1')
+            .click()
+            .then(() => {
+              expect(model.value).to.equal(options[ 0 ])
+            })
+          cy.get('.q-menu')
+            .contains('Option 2')
+            .click()
+            .then(() => {
+              expect(model.value).to.equal(options[ 1 ])
+            })
+        })
+
+        it('should select multiple options if multiple is true', () => {
+          const options = [ 'Option 1', 'Option 2' ]
+          const model = ref([])
+          mount(WrapperOne, {
+            attrs: {
+              multiple: true,
+              modelValue: model,
+              'onUpdate:modelValue': (val) => {
+                model.value = val
+              },
+              options
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .contains('Option 1')
+            .click()
+            .then(() => {
+              expect(model.value).to.eql([ options[ 0 ] ])
+            })
+          cy.get('.q-menu')
+            .contains('Option 2')
+            .click()
+            .then(() => {
+              expect(model.value).to.eql(options)
+            })
         })
       })
     })
 
     describe('Category: options', () => {
       describe('(prop): options', () => {
-        it.skip(' ', () => {
-          //
+        it('should show each option when opening the dropdown', () => {
+          const options = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4' ]
+          mount(WrapperOne, {
+            attrs: {
+              options
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .children()
+            .should('contain', options[ 0 ])
+            .and('contain', options[ 1 ])
+            .and('contain', options[ 2 ])
+            .and('contain', options[ 3 ])
         })
       })
 
       describe('(prop): option-value', () => {
-        it.skip(' ', () => {
-          //
+        it('should use the value key as option-value by default', () => {
+          const options = [ { label: 'Option one', value: 1 }, { label: 'Option two', value: 2 } ]
+          const model = ref(null)
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              emitValue: true,
+              modelValue: model,
+              'onUpdate:modelValue': (val) => {
+                model.value = val
+              }
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .contains(options[ 0 ].label)
+            .click()
+            .then(() => {
+              expect(model.value).to.equal(options[ 0 ].value)
+            })
+        })
+
+        it('should use a custom key supplied by option-value', () => {
+          const options = [ { label: 'Option one', test: 1 }, { label: 'Option two', test: 2 } ]
+          const model = ref(null)
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              emitValue: true,
+              optionValue: 'test',
+              modelValue: model,
+              'onUpdate:modelValue': (val) => {
+                model.value = val
+              }
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .contains(options[ 0 ].label)
+            .click()
+            .then(() => {
+              expect(model.value).to.equal(options[ 0 ].test)
+            })
+        })
+
+        // Not working yet, see: https://github.com/quasarframework/quasar/issues/11754
+        it.skip('should accept a function as option-value', () => {
+          const options = [ { label: 'Option one', test: 1 }, { label: 'Option two', test: 2 } ]
+          const model = ref(null)
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              emitValue: true,
+              optionValue: (val) => val.test,
+              modelValue: model,
+              'onUpdate:modelValue': (val) => {
+                model.value = val
+              }
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .contains(options[ 0 ].label)
+            .click()
+            .then(() => {
+              expect(model.value).to.equal(options[ 0 ].test)
+            })
         })
       })
 
