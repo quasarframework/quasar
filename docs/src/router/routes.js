@@ -60,7 +60,7 @@ function parseMenuNode (node, __path) {
   else if (node.external !== true) {
     docsPages.push({
       path: prefix,
-      component: mdPageList[ `../pages${ prefix }.md` ]
+      component: mdPageList[ `../pages${prefix}.md` ]
     })
   }
 }
@@ -86,18 +86,18 @@ const routes = [
     redirect: '/start/pick-quasar-flavour'
   },
   {
-    path: '/',
+    path: '/docs',
     component: DocLayout,
     children: docsPages
   },
 
   {
-    path: '/home',
+    path: '/',
     component: () => import('layouts/MainLayout'),
     children: [
       {
         path: '',
-        name: 'lpDocs',
+        name: 'home',
         component: () => import('pages/landing-page/Index')
       },
       {
@@ -116,7 +116,7 @@ const routes = [
 
   ...layoutGallery.map(layout => ({
     path: layout.demoLink,
-    component: mdGalleryPageList[ `../layouts/gallery/${ layout.path }.vue` ],
+    component: mdGalleryPageList[ `../layouts/gallery/${layout.path}.vue` ],
     children: [
       {
         path: '',

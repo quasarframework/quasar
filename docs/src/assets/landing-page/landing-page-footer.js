@@ -3,23 +3,43 @@ export const homepageFooterItems = [
     label: 'Getting Started',
     items: [
       {
-        label: 'Typography',
+        label: 'Pick quasar flavour',
         to: '#'
       },
       {
-        label: 'Color palette',
+        label: 'Quasar CLI',
         to: '#'
       },
       {
-        label: 'Theme Brunhilde',
+        label: 'UMD/Standalone',
         to: '#'
       },
       {
-        label: 'Dark mode',
+        label: 'Vue CLI plugin',
         to: '#'
       },
       {
-        label: 'Spacing',
+        label: 'How to use vue',
+        to: '#'
+      },
+      {
+        label: 'Playground',
+        to: '#'
+      },
+      {
+        label: 'Release notes',
+        to: '#'
+      },
+      {
+        label: 'Roadmap',
+        to: '#'
+      },
+      {
+        label: 'Upgrade guide',
+        to: '#'
+      },
+      {
+        label: 'VS code configuration',
         to: '#'
       }
     ]
@@ -28,48 +48,80 @@ export const homepageFooterItems = [
     label: 'Contribution guide',
     items: [
       {
-        label: 'Introduction to flexbox',
+        label: 'Contribution guide',
         to: '#'
       },
       {
-        label: 'Grid row',
+        label: 'Running projects',
         to: '#'
       },
       {
-        label: 'Grid column',
+        label: 'Start a new project',
         to: '#'
       },
       {
-        label: 'Grid gutter',
+        label: 'Project maintainer role',
         to: '#'
       },
       {
-        label: 'Flexbox patterns',
+        label: 'Commit conventions',
         to: '#'
       }
     ]
   },
   {
-    label: 'Quasar options and helpers',
+    label: 'Quasar options & helpers',
     items: [
       {
-        label: 'Close popup',
+        label: 'Vue prototype injections',
         to: '#'
       },
       {
-        label: 'Go back (Handling back button)',
+        label: 'App icons',
         to: '#'
       },
       {
-        label: 'Intersection',
+        label: 'SEO',
         to: '#'
       },
       {
-        label: 'Material ripples',
+        label: 'Quasar language packs',
         to: '#'
       },
       {
-        label: 'Spacing',
+        label: 'App internationalization',
+        to: '#'
+      },
+      {
+        label: 'RTL support',
+        to: '#'
+      },
+      {
+        label: 'Installing icon libraries',
+        to: '#'
+      },
+      {
+        label: 'Quasar icon sets',
+        to: '#'
+      },
+      {
+        label: 'Platform detection',
+        to: '#'
+      },
+      {
+        label: 'Screen plugins',
+        to: '#'
+      },
+      {
+        label: 'Animations',
+        to: '#'
+      },
+      {
+        label: 'Transitions',
+        to: '#'
+      },
+      {
+        label: 'Global event bus',
         to: '#'
       }
     ]
@@ -78,23 +130,15 @@ export const homepageFooterItems = [
     label: 'Security',
     items: [
       {
-        label: 'Address color',
+        label: 'DO\'S and DON\'Ts',
         to: '#'
       },
       {
-        label: 'App fullscreen',
+        label: 'Report a vulnerability',
         to: '#'
       },
       {
-        label: 'Theme Brunhilde',
-        to: '#'
-      },
-      {
-        label: 'Dark mode',
-        to: '#'
-      },
-      {
-        label: 'Spacing',
+        label: 'Get help',
         to: '#'
       }
     ]
@@ -103,23 +147,83 @@ export const homepageFooterItems = [
     label: 'Quasar CLI',
     items: [
       {
-        label: 'Address color',
+        label: 'Installation',
         to: '#'
       },
       {
-        label: 'App fullscreen',
+        label: 'Upgrade guide',
         to: '#'
       },
       {
-        label: 'Theme Brunhilde',
+        label: 'quasar.conf.js',
         to: '#'
       },
       {
-        label: 'Dark mode',
+        label: 'Browser compatibility',
         to: '#'
       },
       {
-        label: 'Spacing',
+        label: 'Supporting typescript',
+        to: '#'
+      },
+      {
+        label: 'Directory Structure',
+        to: '#'
+      },
+      {
+        label: 'Build Commands',
+        to: '#'
+      },
+      {
+        label: 'Commands List',
+        to: '#'
+      },
+      {
+        label: 'CSS Preprocessors',
+        to: '#'
+      },
+      {
+        label: 'Routing',
+        to: '#'
+      },
+      {
+        label: 'Lazy Loading - Code Splitting',
+        to: '#'
+      },
+      {
+        label: 'Handling Assets',
+        to: '#'
+      },
+      {
+        label: 'Boot Files',
+        to: '#'
+      },
+      {
+        label: 'Prefetch feature',
+        to: '#'
+      },
+      {
+        label: 'API Proxying',
+        to: '#'
+      },
+      {
+        label: 'Handling Webpack',
+        to: '#'
+      },
+      {
+        label: 'Hanlding process.env',
+        to: '#'
+      },
+      {
+        label: 'Vuex Store',
+        to: '#'
+      },
+      {
+        label: 'Linter',
+        to: '#'
+      },
+      {
+        label: 'Testing & auditing',
         to: '#'
       }
     ]
@@ -136,15 +240,15 @@ export const homepageFooterItems = [
         to: '#'
       },
       {
-        label: 'Theme Brunhilde',
+        label: 'Command List',
         to: '#'
       },
       {
-        label: 'Dark mode',
+        label: 'App Icons List',
         to: '#'
       },
       {
-        label: 'Spacing',
+        label: 'Profile files',
         to: '#'
       }
     ]
@@ -153,15 +257,15 @@ export const homepageFooterItems = [
     label: 'Style & identity',
     items: [
       {
-        label: 'Address color',
+        label: 'Typography',
         to: '#'
       },
       {
-        label: 'App fullscreen',
+        label: 'Color Palette',
         to: '#'
       },
       {
-        label: 'Theme Brunhilde',
+        label: 'Theme Builder',
         to: '#'
       },
       {
@@ -170,6 +274,38 @@ export const homepageFooterItems = [
       },
       {
         label: 'Spacing',
+        to: '#'
+      },
+      {
+        label: 'Shadows',
+        to: '#'
+      },
+      {
+        label: 'Breakpoints',
+        to: '#'
+      },
+      {
+        label: 'Body Classes',
+        to: '#'
+      },
+      {
+        label: 'Visibility',
+        to: '#'
+      },
+      {
+        label: 'Positioning',
+        to: '#'
+      },
+      {
+        label: 'Sass/SCSS Variables',
+        to: '#'
+      },
+      {
+        label: 'Stylus Variables',
+        to: '#'
+      },
+      {
+        label: 'Other Helper Classes',
         to: '#'
       }
     ]
@@ -178,23 +314,63 @@ export const homepageFooterItems = [
     label: 'Layouts & grid',
     items: [
       {
-        label: 'Address color',
+        label: 'Introduction to Flexbox',
         to: '#'
       },
       {
-        label: 'App fullscreen',
+        label: 'Grid Row',
         to: '#'
       },
       {
-        label: 'Theme Brunhilde',
+        label: 'Grid Column',
         to: '#'
       },
       {
-        label: 'Dark mode',
+        label: 'Grid Gutter',
         to: '#'
       },
       {
-        label: 'Spacing',
+        label: 'Flexbox Patterns',
+        to: '#'
+      },
+      {
+        label: 'Flex Playground',
+        to: '#'
+      },
+      {
+        label: 'Layout',
+        to: '#'
+      },
+      {
+        label: 'Routing with Layouts and Pages',
+        to: '#'
+      },
+      {
+        label: 'Layout Header and Footer',
+        to: '#'
+      },
+      {
+        label: 'Layout Drawer',
+        to: '#'
+      },
+      {
+        label: 'Layout Page',
+        to: '#'
+      },
+      {
+        label: 'Layout Builder',
+        to: '#'
+      },
+      {
+        label: 'Layout Gallery',
+        to: '#'
+      },
+      {
+        label: 'Page Sticky',
+        to: '#'
+      },
+      {
+        label: 'Page Scroller',
         to: '#'
       }
     ]
@@ -203,23 +379,51 @@ export const homepageFooterItems = [
     label: 'Vue directives',
     items: [
       {
-        label: 'Address color',
+        label: 'Close Popup',
         to: '#'
       },
       {
-        label: 'App fullscreen',
+        label: 'Go Back (Handling Back Button)',
         to: '#'
       },
       {
-        label: 'Theme Brunhilde',
+        label: 'Intersection',
         to: '#'
       },
       {
-        label: 'Dark mode',
+        label: 'Material Ripples',
         to: '#'
       },
       {
-        label: 'Spacing',
+        label: 'Mutation',
+        to: '#'
+      },
+      {
+        label: 'Morph',
+        to: '#'
+      },
+      {
+        label: 'Scroll',
+        to: '#'
+      },
+      {
+        label: 'Scroll Fire',
+        to: '#'
+      },
+      {
+        label: 'Scroll Hold',
+        to: '#'
+      },
+      {
+        label: 'Touch Pan',
+        to: '#'
+      },
+      {
+        label: 'Touch Repeat',
+        to: '#'
+      },
+      {
+        label: 'Touch Swipe',
         to: '#'
       }
     ]
@@ -232,19 +436,43 @@ export const homepageFooterItems = [
         to: '#'
       },
       {
-        label: 'App fullscreen',
+        label: 'App Visibility',
         to: '#'
       },
       {
-        label: 'Theme Brunhilde',
+        label: 'Bottom Sheet',
         to: '#'
       },
       {
-        label: 'Dark mode',
+        label: 'Cookies',
         to: '#'
       },
       {
-        label: 'Spacing',
+        label: 'Dark',
+        to: '#'
+      },
+      {
+        label: 'Dialog',
+        to: '#'
+      },
+      {
+        label: 'Loading',
+        to: '#'
+      },
+      {
+        label: 'Loading Bar',
+        to: '#'
+      },
+      {
+        label: 'Local/Session Storage',
+        to: '#'
+      },
+      {
+        label: 'Meta',
+        to: '#'
+      },
+      {
+        label: 'Notify',
         to: '#'
       }
     ]
@@ -253,23 +481,55 @@ export const homepageFooterItems = [
     label: 'App extensions',
     items: [
       {
-        label: 'Address color',
+        label: 'Discussion',
         to: '#'
       },
       {
-        label: 'App fullscreen',
+        label: 'Discover App Extensions',
         to: '#'
       },
       {
-        label: 'Theme Brunhilde',
+        label: 'Dev Guide Introduction',
         to: '#'
       },
       {
-        label: 'Dark mode',
+        label: 'Prompts API',
         to: '#'
       },
       {
-        label: 'Spacing',
+        label: 'Install API',
+        to: '#'
+      },
+      {
+        label: 'Index API',
+        to: '#'
+      },
+      {
+        label: 'Uninstall API',
+        to: '#'
+      },
+      {
+        label: 'Tips & Tricks Introduction',
+        to: '#'
+      },
+      {
+        label: 'Provide a UI Component',
+        to: '#'
+      },
+      {
+        label: 'Provide a Directive',
+        to: '#'
+      },
+      {
+        label: 'Inject Quasar Plugin',
+        to: '#'
+      },
+      {
+        label: 'Starter Kit Equivalent',
+        to: '#'
+      },
+      {
+        label: 'Chain Webpack',
         to: '#'
       }
     ]
@@ -278,23 +538,31 @@ export const homepageFooterItems = [
     label: 'Quasar Utils',
     items: [
       {
-        label: 'Address color',
+        label: 'Date Utils',
         to: '#'
       },
       {
-        label: 'App fullscreen',
+        label: 'Color Utils',
         to: '#'
       },
       {
-        label: 'Theme Brunhilde',
+        label: 'DOM Utils',
         to: '#'
       },
       {
-        label: 'Dark mode',
+        label: 'Morph Utils',
         to: '#'
       },
       {
-        label: 'Spacing',
+        label: 'Formatter Utils',
+        to: '#'
+      },
+      {
+        label: 'Scrolling Utils',
+        to: '#'
+      },
+      {
+        label: 'Other Utils',
         to: '#'
       }
     ]

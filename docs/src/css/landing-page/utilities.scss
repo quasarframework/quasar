@@ -89,22 +89,25 @@ $text-size-list: 10, 12, 16, 18, 20, 24, 28, 32, 36;
 
   &--large {
     font-size: 36px;
+    letter-spacing: 6.75px;
     @media screen and (max-width: $lp-breakpoint-xs-max) {
       font-size: 24px;
     }
     color: $lp-primary;
     font-weight: 700;
-    margin: 20px 0 20px 0;
+    margin: 36px 0 36px 0;
   }
 
   &--medium {
     font-size: 24px;
+    letter-spacing: 4.5px;
     color: $lp-primary;
     font-weight: bold;
   }
 
   &--small {
     font-size: 20px;
+    letter-spacing: 3.75px;
     @media screen and (max-width: $lp-breakpoint-xs-max) {
       font-size: 16px;
     }
@@ -129,4 +132,25 @@ $text-size-list: 10, 12, 16, 18, 20, 24, 28, 32, 36;
   @media screen and (max-width: $lp-breakpoint-xs-max) {
     margin-bottom: 64px;
   }
+}
+
+.lp-mt--large {
+  margin-top: 100px;
+  @media screen and (max-width: $lp-breakpoint-xs-max) {
+    margin-top: 64px;
+  }
+}
+
+.lp-mt--medium {
+  margin-top: 36px;
+}
+
+.lp-my--medium {
+  margin: 36px 0;
+}
+
+.call-to-action-btn {
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 2.63px;
 }

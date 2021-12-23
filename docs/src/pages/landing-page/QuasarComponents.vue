@@ -1,39 +1,57 @@
 <template>
-  <q-page class="column items-center q-mt-xl lp-mb--large text-white q-mx-xl">
-    <q-input
-      label-color="grey-6"
-      borderless
-      v-model="search"
-      label="Search component"
-      dense
-      dark
-      class="relative-position search-field q-mb-lg"
-    >
-      <template #append>
-        <q-icon name="search" size="sm" color="lp-primary" />
-      </template>
-    </q-input>
-    <div class="q-mb-md">
-      <q-chip
-        v-for="({label, value}, chipIndex) in filterChips"
-        :key="chipIndex"
-        :selected="value === filterTag"
-        color="lp-primary"
-        clickable text-color="white"
-        :label="label"
-        @click="setFilterTag(value)"
-      />
+  <q-page class="column items-center q-mt-xl lp-mb--large text-white q-mx-xl" :class="{'large-screen-margin': $q.screen.gt.md}">
+    <div class="chips-container bg-lp-dark column items-center">
+      <q-input
+        v-model="search"
+        label-color="grey-6"
+        borderless
+        label="Search component"
+        dense
+        dark
+        size="16px"
+        class="relative-position search-field"
+      >
+        <template #append>
+          <q-icon v-if="!search" name="search" size="sm" color="lp-primary" />
+          <q-icon v-else name="cancel" @click.stop="search = ''" class="cursor-pointer"/>
+        </template>
+      </q-input>
+      <div class="row q-my-xl justify-center">
+        <q-chip
+          v-for="({label, value}, chipIndex) in filterChips"
+          :key="chipIndex"
+          :label="label"
+          class="row component-chip"
+          :color="value === filterTag ? 'lp-accent' : 'lp-primary'"
+          clickable
+          text-color="white"
+          @click="setFilterTag(value)"
+        />
+      </div>
     </div>
-    <div class="components">
-      <q-card v-for="({name, description}, i) in filteredComponents" :key="name + i" class="raise-on-hover text-size-16 shadow-bottom-small">
-        <img :src="`components-thumbnails/${componentNameToKebabCase(name)}.jpg`" />
-        <q-card-section class="text-lp-primary text-weight-medium">
-          {{ name }}
-        </q-card-section>
-        <q-card-section class="text-lp-dark">
-          {{ description }}
-        </q-card-section>
-      </q-card>
+    <div class="components text-size-16">
+      <transition-group
+        appear
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
+      >
+        <q-card
+          v-for="({name, description, path}, i) in filteredComponents"
+          :key="name + i"
+          class="raise-on-hover text-size-16 shadow-bottom-small cursor-pointer"
+          @click="$router.push(componentPath({path, name}))"
+        >
+          <div class="thumbnail-container">
+            <q-img :src="`components-thumbnails/${componentNameToKebabCase(name)}.jpg`" />
+          </div>
+          <q-card-section class="text-lp-primary text-weight-bold">
+            {{ name }}
+          </q-card-section>
+          <q-card-section class="text-lp-dark">
+            {{ description }}
+          </q-card-section>
+        </q-card>
+      </transition-group>
     </div>
   </q-page>
 </template>
@@ -55,6 +73,8 @@ const FILTER_CHIPS = [
 ]
 
 const componentNameToKebabCase = (componentName) => componentName.replaceAll(' ', '-').toLowerCase()
+
+const componentPath = ({ path, name }) => `/vue-components/${path || componentNameToKebabCase(name)}`
 
 export default defineComponent({
   name: 'Components',
@@ -81,7 +101,8 @@ export default defineComponent({
       filterTag,
       filteredComponents,
       componentNameToKebabCase,
-      setFilterTag
+      setFilterTag,
+      componentPath
     }
   }
 })
@@ -94,16 +115,34 @@ $number-of-card-columns-xs-max: 1;
 
 .components {
   display: grid;
+  letter-spacing: 3px;
   grid-template-columns: repeat($number-of-card-columns-gt-sm, 1fr);
   gap: 24px;
+  margin: 240px 64px 100px 64px;
 
   @media screen and (max-width: $breakpoint-sm-max) {
+    margin: auto;
     grid-template-columns: repeat($number-of-card-columns-sm-max, 1fr);
     gap: 20px;
   }
   @media screen and (max-width: $breakpoint-xs-max) {
+    margin: auto;
     grid-template-columns: repeat($number-of-card-columns-xs-max, 1fr);
     gap: 20px;
+  }
+}
+
+.thumbnail-container {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom, rgba($white, 0) 50%, rgba($black, 0.28));
   }
 }
 
@@ -123,5 +162,22 @@ $number-of-card-columns-xs-max: 1;
   left: -4%;
   border-bottom: 1px solid $lp-primary;
   top: 40px;
+  z-index: 3;
+}
+
+.component-chip {
+  margin-left: 20px;
+}
+
+.large-screen-margin {
+  margin: 64px;
+}
+
+.chips-container {
+  padding-top: 135px;
+  position: fixed;
+  top: 80px;
+  z-index: 2;
+  width: 100%;
 }
 </style>

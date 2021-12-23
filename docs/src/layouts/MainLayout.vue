@@ -1,76 +1,58 @@
 <template>
   <q-layout view="hHh lpR fff" class="bg-lp-dark">
-
     <q-header class="bg-lp-dark">
-      <q-toolbar>
+      <q-toolbar class="q-pa-md row justify-between">
         <q-btn flat @click="showDrawer = !showDrawer" round dense icon="menu" v-if="$q.screen.xs" color="lp-primary" />
-        <q-toolbar-title :class="$q.screen.xs? 'row justify-center items-center':''" class="add-vertical-bar position-relative">
-          <q-avatar>
-            <q-icon name="img:homepage-icons/quasar-logo-blue.svg" size="lg"/>
-          </q-avatar>
-          QUASAR
-        </q-toolbar-title>
-        <q-space v-if="$q.screen.gt.xs"/>
-
-        <div class="row items-center">
-          <div v-if="$q.screen.gt.xs" class="toolbar-menu-items">
-            <q-btn
-              label="Docs"
-              color="white"
-              flat
-              :to="{ name: 'lpDocs' }"
-            />
-            <q-btn
-              label="Features"
-              color="lp-light"
-              flat
-              class="q-py-sm q-px-md"
-            />
-            <q-btn
-              color="lp-light"
-              flat
-              label="Services"
-            />
-            <q-btn
-              color="lp-light"
-              flat
-              label="Components"
-              class="q-py-sm q-px-md"
-              :to="{ name: 'lpComponents' }"
-            />
-            <q-btn
-              color="lp-light"
-              flat
-              label="Become sponsor"
-              class="q-py-sm q-px-md"
-            />
-            <q-btn
-              color="lp-light"
-              flat
-              label="About"
-              class="q-py-sm q-px-md"
-            />
-            <q-btn
-              color="lp-light"
-              flat
-              label="Blog"
-            />
-          </div>
-          <q-btn flat round color="lp-primary" icon="search"/>
+        <div :class="$q.screen.lt.md? 'row justify-center items-center':''" class="add-vertical-bar position-relative cursor-pointer" @click="$router.push({name: 'home'})">
+          <img v-if="$q.screen.sm" src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg" width="48" height="48" alt="Quasar Logo">
+          <img v-else src="https://cdn.quasar.dev/logo-v2/svg/logo-horizontal-dark.svg" width="236" height="48" alt="Quasar Logo">
         </div>
 
+        <div class="row items-center text-size-16">
+          <div v-if="$q.screen.gt.xs" class="toolbar-menu-items">
+            <q-btn
+              v-for="(navItem, navItemIndex) in navItems" :key="navItemIndex"
+              :label="navItem.label"
+              :to="navItem.path"
+              :color="$route.name === navItem.path? 'white' : 'lp-light'"
+              class="text-weight-bold q-px-lg"
+              flat
+              size="16px"
+            >
+              <q-menu v-if="navItem.subMenu" class="shadow-bottom-small">
+                <q-list class="menu-item">
+                  <q-item v-for="(menu, menuIndex) in navItem.subMenu" clickable v-close-popup :key="`menu-${menuIndex}`" :to="menu.path">
+                    <q-item-section>{{ menu.label }}</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+            <q-btn
+              label="Blog"
+              type="a"
+              href="https://dev.to/quasar"
+              :color="$route.name === 'blog'? 'white' : 'lp-light'"
+              target="__blank"
+              class="text-weight-bold q-px-lg"
+              flat
+              size="16px"
+            />
+          </div>
+          <q-btn flat round color="lp-primary" icon="search" size="16px"/>
+        </div>
       </q-toolbar>
       <q-separator color="lp-primary"/>
-      <div class="row justify-end shadow-bottom-small q-py-xs q-pr-md social-links">
-        <q-btn label="Why Quasar?" flat color="lp-light" no-caps size="sm"/>
-        <q-btn label="Getting Started" flat no-caps color="lp-light" size="sm"/>
-        <q-btn label="Roadmap" flat no-caps color="lp-light" size="sm"/>
-        <q-btn label="Video Tutorials" flat no-caps color="lp-light" size="sm"/>
-        <q-btn label="Quasar Brand resources" flat no-caps color="lp-light" size="sm"/>
+      <div class="row justify-end q-py-xs q-pr-md social-links shadow-bottom-small">
+        <q-btn label="Why Quasar?" flat color="lp-light" no-caps size="12px" to="/introduction-to-quasar"/>
+        <q-btn label="Getting Started" flat no-caps color="lp-light" size="12px" to="/start/pick-quasar-flavour" />
+        <q-btn label="Roadmap" flat no-caps color="lp-light" size="12px" to="/start/roadmap"/>
+        <q-btn label="Video Tutorials" flat no-caps color="lp-light" size="12px" to="/video-tutorials" />
+        <q-btn label="Quasar Brand resources" flat no-caps color="lp-light" size="12px" type="a" href="https://github.com/quasarframework/quasar-art" target="__blank" />
         <template v-for="(socialLink, linkIndex) in socialLinks" :key="linkIndex">
-          <q-btn :icon="socialLink.icon" flat color="lp-primary" round size="sm" type="a" :href="socialLink.href" target="__blank"/>
+          <q-btn :icon="socialLink.icon" flat color="lp-primary" round size="md" type="a" :href="socialLink.href" target="__blank"/>
         </template>
       </div>
+      <q-separator color="lp-primary"/>
     </q-header>
 
     <q-drawer
@@ -85,7 +67,7 @@
         <q-list class="text-white">
           <div class="q-ml-md text-size-24 text-lp-primary">Quasar</div>
           <template v-for="(menuItem, index) in menuList" :key="index">
-            <q-item clickable v-ripple :active="menuItem.name === 'Home'" active-class="text-white bg-grey-8">
+            <q-item clickable v-ripple :active="menuItem.name === $route.name" active-class="text-white bg-grey-8">
               <q-item-section avatar>
                 <q-icon :name="menuItem.icon" color="lp-primary"/>
               </q-item-section>
@@ -123,7 +105,7 @@
           <q-separator spaced color="lp-primary" />
           <template v-for="(item, itemIndex) in footerItem.items" :key="itemIndex">
             <q-item dense class="q-pa-none" clickable :to="item.to">
-              <q-item-section class="text-lp-dark">
+              <q-item-section class="text-lp-dark text-capitalize">
                 {{ item.label }}
               </q-item-section>
             </q-item>
@@ -132,11 +114,13 @@
       </div>
       <q-separator class="full-width" />
       <div class="row text-lp-dark justify-center q-my-md">
-        Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with Dreamonkey Srl
+        Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
+        <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm">Dreamonkey Srl</a>
       </div>
     </q-footer>
-
-    <scrollToTop :scroll-to-top="scrollToTop"/>
+    <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
+      <q-btn round icon="arrow_upward" color="lp-accent" class="shadow-bottom-small" size="md"/>
+    </q-page-scroller>
   </q-layout>
 </template>
 
@@ -144,22 +128,15 @@
 import { defineComponent, ref } from 'vue'
 import { footerToolbar, homepageFooterItems } from 'assets/landing-page/landing-page-footer.js'
 import Menu from 'assets/menu.js'
+import { socialLinks } from 'assets/landing-page/social-links.js'
+import { Screen } from 'quasar'
 
 const year = (new Date()).getFullYear()
-
-import {
-  fabGithub,
-  fabTwitter,
-  fabFacebookSquare
-} from '@quasar/extras/fontawesome-v5'
-import ScrollToTop from 'src/components/landing-page/ScrollToTop.vue'
-import { Screen } from 'quasar'
 
 const HIDDEN_FOOTERTOOLBAR_INDEX_XS = [ 0, 2, 3 ]
 
 export default defineComponent({
   name: 'MainLayout',
-  components: { ScrollToTop },
   setup () {
     const showDrawer = ref(false)
 
@@ -183,27 +160,46 @@ export default defineComponent({
       ...Menu
     ]
 
-    const socialLinks = [
-      { icon: fabGithub, href: 'https://github.com/quasarframework' },
-      { icon: 'message', href: 'https://discord.com/invite/5TDhbDg' },
-      { icon: 'forum', href: 'https://github.com/quasarframework/quasar/discussions/' },
-      { icon: fabTwitter, href: 'https://twitter.com/quasarframework' },
-      { icon: fabFacebookSquare, href: 'https://www.facebook.com/QuasarFramework' }
+    const navItems = [
+      {
+        label: 'Docs',
+        path: 'docs'
+      },
+
+      {
+        label: 'Components',
+        path: 'components'
+      },
+      {
+        label: 'Become sponsor',
+        path: 'sponsors-and-backers'
+      },
+      {
+        label: 'Team',
+        subMenu: [
+          {
+            label: 'Meet the Team',
+            path: 'meet-the-team'
+          },
+          {
+            label: 'Why Quasar?',
+            path: 'introduction-to-quasar'
+          }
+        ]
+      }
     ]
 
     const showFooterToolbar = (footerIndex) => Screen.gt.xs ? true : HIDDEN_FOOTERTOOLBAR_INDEX_XS.includes(footerIndex)
 
     return {
       footerItems: homepageFooterItems,
-      fabGithub,
-      fabTwitter,
-      fabFacebookSquare,
       socialLinks,
       footerToolbar,
       showDrawer,
       menuList,
       showFooterToolbar,
-      year
+      year,
+      navItems
     }
   }
 })
@@ -213,19 +209,23 @@ export default defineComponent({
 $footer-columns-md-min: 6;
 $footer-columns-sm-min: 4;
 $adjust-header-viewport: 860px;
-$hide-social-links-viewport: 687px;
+$hide-social-links-viewport: 862px;
 
 .add-vertical-bar::after {
   display: none;
 
-  @media screen and (min-width: $breakpoint-md-min) {
+  @media screen and (min-width: 810px) {
     content: '';
     position: absolute;
     top: 0;
-    left: 160px;
+    left: 80px;
     display: block;
     border-right: 1px solid $lp-primary;
     height: 100%;
+
+    @media screen and (min-width: $breakpoint-md-min) {
+      left: 300px;
+    }
   }
 }
 
@@ -260,6 +260,10 @@ $hide-social-links-viewport: 687px;
 
 body {
   font-family: $lp-font-family;
+}
+
+.menu-item > *:hover {
+  background-color: rgba($lp-primary, 0.08);
 }
 
 </style>

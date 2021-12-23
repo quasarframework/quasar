@@ -14,7 +14,7 @@ $lp-warning: #F2C037;
 $lp-font-family: 'Montserrat', sans-serif;
 $lp-font-family-avenir: Avenir, $lp-font-family;
 
-$lp-box-shadow--large: 0 8px 12px 0 rgba($lp-primary, 0.4);
+$lp-box-shadow--large: 0 24px 24px 0 rgba(0, 180, 255, 0.24);
 $lp-box-shadow--small: 0 6px 6px 0 rgba($lp-primary, 0.28);
 
 @import "utilities.scss";
