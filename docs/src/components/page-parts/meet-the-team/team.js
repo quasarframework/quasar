@@ -56,6 +56,14 @@ export default [
       },
 
       {
+        name: 'Yusuf Kandemir',
+        role: 'Senior Developer',
+        avatar: 'yusuf_kandemir.jpg',
+        github: 'yusufkandemir',
+        desc: 'Wizard developer on multiple areas of Quasar'
+      },
+
+      {
         name: 'Aldrin Marquez',
         role: 'Community Staff',
         avatar: 'aldrin_marquez.jpg',
