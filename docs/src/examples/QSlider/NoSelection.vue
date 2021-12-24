@@ -4,18 +4,17 @@
       v-model="model"
       :min="0"
       :max="10"
-      color="green"
-      track-size="10px"
-      thumb-color="black"
       markers
+      selection-color="transparent"
     />
 
     <q-slider
       v-model="model"
       :min="0"
       :max="10"
-      color="green"
-      thumb-size="35px"
+      track-color="orange"
+      inner-track-color="transparent"
+      selection-color="transparent"
       markers
     />
   </div>

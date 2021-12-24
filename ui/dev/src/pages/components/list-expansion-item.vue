@@ -221,6 +221,30 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
+
+        <q-expansion-item expand-separator href="/" icon="home" label="Href">
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-expansion-item expand-separator href="/" target="_blank" icon="home" label="Href + _blank">
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-expansion-item expand-separator disable href="/" icon="home" label="Href + disable">
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
       </q-list>
 
       <h6>

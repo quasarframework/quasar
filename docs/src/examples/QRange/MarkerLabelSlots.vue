@@ -31,26 +31,24 @@
       :min="0"
       :max="5"
       marker-labels
+      switch-marker-labels-side
     >
       <template v-slot:marker-label-group="{ markerList }">
         <div
           v-for="val in 4"
           :key="val"
-          class="cursor-pointer"
-          :class="[ 'text-black', markerList[val].classes ]"
+          :class="markerList[val].classes"
           :style="markerList[val].style"
-          @click="secondModel = val"
         >{{ val }}</div>
 
         <q-icon
           v-for="val in [0, 5]"
           :key="val"
-          :class="[ 'text-black', markerList[val].classes ]"
+          :class="markerList[val].classes"
           :style="markerList[val].style"
           size="sm"
           color="orange"
           :name="val === 0 ? 'volume_off' : 'volume_up'"
-          @click="secondModel = val"
         />
       </template>
     </q-range>
@@ -67,7 +65,6 @@
       :step="0.5"
       vertical
       marker-labels
-      switch-marker-labels-side
     >
       <template v-slot:marker-label-group="{ markerMap }">
         <div

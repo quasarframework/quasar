@@ -483,7 +483,15 @@ All slots are now acting in the same manner as the scoped slots in Vue 2. If you
 
 Use "class" and "style" attributes instead of "content-class" / "content-style" props for the above mentioned Quasar components.
 
-### QBtn/QRouteTab
+#### QBtn/QItem/QBreadcrumbs/QRouteTab
+
+New props: href, target.
+
+For QBtn, it is no longer necessary to specify `type="a"` when using `href` prop.
+
+The `href` prop is especially useful for UMD if you don't also inject Vue Router.
+
+#### QBtn/QRouteTab
 
 If you were using the `to` prop and delaying navigation in your `@click` handler:
 
@@ -717,6 +725,15 @@ The `@scroll` event parameter now has a slightly different content:
 * The "itemEvents" prop has been dropped from the "option" slot. That information is now contained within the "itemProps". This change is a logical result Vue 3's flattening of the rendering function's second parameter ("on", "props" etc. merged together into a single Object).
 * New method: "blur()"
 
+### QSlider/QRange
+
+New props: track-size, thumb-size, marker-labels, marker-labels-class, switch-label-side, switch-marker-labels-side, inner-min, inner-max,
+thumb-color, track-color, track-img, inner-track-color, inner-track-img, selection-color, selection-img.
+
+New props specific to QRange: left-thumb-color, right-thumb-color
+
+New slots: marker-label, marker-label-group
+
 #### QTable
 
 Renamed the "data" property to "rows" (to solve TS conflict issue with "data" incorrectly inferred as the "data()" method of a Vue component).
@@ -774,6 +791,10 @@ this.$router.go(-1)
 ```
 
 ### Quasar plugins
+
+#### AppFullscreen plugin
+
+The request() method now accepts another node while in fullscreen already.
 
 #### Loading plugin
 

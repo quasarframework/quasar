@@ -8,7 +8,6 @@ q-banner(v-if="!hasEnded").survey-countdown
     q-badge.text-bold(:color="color" :text-color="textColor") {{ minutes }} Minutes
 
     q-btn(
-      type="a"
       href="https://bit.ly/2VtIGK9"
       target="_blank"
       :color="color"

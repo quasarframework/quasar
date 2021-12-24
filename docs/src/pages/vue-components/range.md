@@ -20,6 +20,10 @@ Notice we are using an object for the selection, which holds values for both the
 
 ### Standard
 
+::: warning
+You are responsible for accommodating the space around QSlider so that the label and marker labels won't overlap the other content on your page. You can use CSS margin or padding for this purpose.
+:::
+
 <doc-example title="Standard" file="QRange/Standard" />
 
 ### Vertical
@@ -70,13 +74,15 @@ In order to use the marker label slots (see below), you must enable them by usin
 
 <doc-example title="Marker label slots" file="QRange/MarkerLabelSlots" />
 
-### Other color customizations <q-badge align="top" color="brand-primary" label="v2.4+" />
+### Other customizations <q-badge align="top" color="brand-primary" label="v2.4+" />
 
 <doc-example title="Color customizations" file="QRange/RangeColoring" />
 
-### Track size <q-badge align="top" color="brand-primary" label="v2.4+" />
+<doc-example title="Hide selection bar" file="QRange/NoSelection" />
 
-<doc-example title="Track size" file="QRange/RangeSizes" />
+<doc-example title="Custom track images" file="QRange/TrackImages" />
+
+<doc-example title="Track & thumb size" file="QRange/RangeSizes" />
 
 ### Dragging range
 
@@ -111,12 +117,6 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 ### With QItem
 
 <doc-example title="With QItem" file="QRange/List" />
-
-### Getting creative
-
-Using simple CSS you can get nice effects.
-
-<doc-example title="Getting creative" file="QRange/GettingCreative" />
 
 ### Native form submit
 

@@ -18,11 +18,12 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
   q-slide-transition
     div(v-show="expanded")
       q-tabs.doc-example__tabs(
-        v-model="currentTab",
-        align="left",
-        :active-color="dark ? 'amber' : void 0",
-        :indicator-color="dark ? 'amber' : 'brand-primary'",
-        dense,
+        v-model="currentTab"
+        align="left"
+        no-caps
+        :active-color="dark ? 'amber' : void 0"
+        :indicator-color="dark ? 'amber' : 'brand-primary'"
+        dense
         :breakpoint="0"
       )
         q-tab(
@@ -96,7 +97,7 @@ export default {
       tabs: [],
       parts: {}
     })
-    const currentTab = ref('template')
+    const currentTab = ref('Template')
     const expanded = ref(false)
 
     const classes = computed(() => {
@@ -125,19 +126,21 @@ export default {
     }
 
     function parseComponent (comp) {
-      const
-        template = parseTemplate('template', comp),
-        script = parseTemplate('script', comp),
-        style = parseTemplate('style', comp)
-
       def.parts = {
-        template,
-        script,
-        style
+        Template: parseTemplate('template', comp),
+        Script: parseTemplate('script', comp),
+        Style: parseTemplate('style', comp)
       }
 
-      def.tabs = [ 'template', 'script', 'style' ]
+      const tabs = [ 'Template', 'Script', 'Style' ]
         .filter(type => def.parts[ type ])
+
+      if (tabs.length > 1) {
+        def.parts.All = comp
+        tabs.push('All')
+      }
+
+      def.tabs = tabs
     }
 
     onMounted(() => {

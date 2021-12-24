@@ -21,6 +21,9 @@ const defaultSizes = {
   xl: 24
 }
 
+const formTypes = [ 'submit', 'reset' ]
+const mediaTypeRE = /[^\s]\/[^\s]/
+
 export const useBtnProps = {
   ...useSizeProps,
   ...useRouterLinkProps,
@@ -76,7 +79,7 @@ export const useBtnProps = {
 export default function (props) {
   const sizeStyle = useSize(props, defaultSizes)
   const alignClass = useAlign(props)
-  const { hasLink, linkProps, navigateToLink } = useRouterLink()
+  const { hasRouterLink, hasLink, linkTag, linkProps, navigateToRouterLink } = useRouterLink('button')
 
   const style = computed(() => {
     const obj = props.fab === false && props.fabMini === false
@@ -107,10 +110,6 @@ export default function (props) {
     isActionable.value === true ? props.tabindex || 0 : -1
   ))
 
-  const isLink = computed(() =>
-    props.type === 'a' || hasLink.value === true
-  )
-
   const design = computed(() => {
     if (props.flat === true) return 'flat'
     if (props.outline === true) return 'outline'
@@ -122,19 +121,24 @@ export default function (props) {
   const attributes = computed(() => {
     const acc = { tabindex: tabIndex.value }
 
-    // if it's not rendered with "<a>" tag
-    // OR it's "<a>" but type is not "button"
-    // (<a> with type="button" is invalid HTML)
-    if (props.type !== 'a' && (props.type !== 'button' || hasLink.value !== true)) {
+    if (hasLink.value === true) {
+      Object.assign(acc, linkProps.value)
+    }
+    else if (formTypes.includes(props.type) === true) {
       acc.type = props.type
     }
 
-    if (hasLink.value === true) {
-      Object.assign(acc, linkProps.value)
-      acc.role = 'link'
+    if (linkTag.value === 'a') {
+      if (acc.href === void 0) {
+        acc.role = 'button'
+      }
+      if (hasRouterLink.value !== true && mediaTypeRE.test(props.type) === true) {
+        acc.type = props.type
+      }
     }
-    else {
-      acc.role = props.type === 'a' ? 'link' : 'button'
+    else if (props.disable === true) {
+      acc.disabled = ''
+      acc[ 'aria-disabled' ] = 'true'
     }
 
     if (props.loading === true && props.percentage !== void 0) {
@@ -144,11 +148,6 @@ export default function (props) {
         'aria-valuemax': 100,
         'aria-valuenow': props.percentage
       })
-    }
-
-    if (props.disable === true) {
-      acc.disabled = ''
-      acc[ 'aria-disabled' ] = 'true'
     }
 
     return acc
@@ -191,9 +190,10 @@ export default function (props) {
     style,
     innerClasses,
     attributes,
+    hasRouterLink,
     hasLink,
-    isLink,
-    navigateToLink,
+    linkTag,
+    navigateToRouterLink,
     isActionable
   }
 }

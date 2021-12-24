@@ -1,5 +1,5 @@
 <template lang="pug">
-q-btn.upgrade-video-link(type="a" href="https://www.youtube.com/playlist?list=PLFZAa7EupbB6atAt_liopEDvk44wRa00B" target="_blank" padding="0")
+q-btn.upgrade-video-link(href="https://www.youtube.com/playlist?list=PLFZAa7EupbB6atAt_liopEDvk44wRa00B" target="_blank" padding="0")
   img(src="http://img.youtube.com/vi/TBBzdFqtehA/maxresdefault.jpg")
   .upgrade-video-link__overlay.absolute-full.no-pointer-events
   q-icon.absolute-center(name="launch" size="150px")
