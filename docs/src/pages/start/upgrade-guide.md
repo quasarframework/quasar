@@ -483,15 +483,15 @@ All slots are now acting in the same manner as the scoped slots in Vue 2. If you
 
 Use "class" and "style" attributes instead of "content-class" / "content-style" props for the above mentioned Quasar components.
 
-### QBtn/QItem/QBreadcrumbs/QRouteTab
+#### QBtn/QItem/QBreadcrumbs/QRouteTab
 
 New props: href, target.
 
 For QBtn, it is no longer necessary to specify `type="a"` when using `href` prop.
 
-The `href` prop is especially useful for UMD.
+The `href` prop is especially useful for UMD if you don't also inject Vue Router.
 
-### QBtn/QRouteTab
+#### QBtn/QRouteTab
 
 If you were using the `to` prop and delaying navigation in your `@click` handler:
 
