@@ -106,7 +106,7 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://ib-langenthal.ch/" target="_blank">
+        <a href="https://synestia.pl" target="_blank">
           <img width="222px" height="74px" src="https://cdn.quasar.dev/sponsors/synestia.svg">
         </a>
       </td>
