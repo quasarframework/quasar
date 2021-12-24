@@ -9,7 +9,7 @@
       "examples": [
         "a", "submit", "button", "reset",
         "image/png",
-        "href=\"http://some-site.net\" target=\"__blank\""
+        "href=\"https://quasar.dev\" target=\"_blank\""
       ],
       "category": "general"
     },
@@ -32,15 +32,15 @@
 
     "href": {
       "type": "String",
-      "desc": "Native <a> link href attribute; Has priority over the 'to'/'exact'/'replace'/'active-class'/'exact-active-class' props",
-      "examples": [ "http://quasar.dev" ],
+      "desc": "Native <a> link href attribute; Has priority over the 'to' and 'replace' props",
+      "examples": [ "http://quasar.dev", "href=\"https://quasar.dev\" target=\"_blank\"" ],
       "category": "navigation",
       "addedIn": "v2.4"
     },
 
     "target": {
       "type": "String",
-      "desc": "Native <a> link target attribute; Use it only along with 'href' prop; Has priority over the 'to'/'replace' props",
+      "desc": "Native <a> link target attribute; Use it only with 'to' or 'href' props",
       "examples": [ "_blank", "_self", "_parent", "_top" ],
       "category": "navigation",
       "addedIn": "v2.4"
