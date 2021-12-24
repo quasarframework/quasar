@@ -166,6 +166,27 @@
           </q-item-section>
           <q-item-section>Customized active link (/components/list-item)</q-item-section>
         </q-item>
+
+        <q-item href="/">
+          <q-item-section avatar>
+            <q-icon name="bluetooth" />
+          </q-item-section>
+          <q-item-section>Href (/)</q-item-section>
+        </q-item>
+
+        <q-item href="/" target="_blank">
+          <q-item-section avatar>
+            <q-icon name="bluetooth" />
+          </q-item-section>
+          <q-item-section>Href + _blank (/)</q-item-section>
+        </q-item>
+
+        <q-item href="/" exact disable>
+          <q-item-section avatar>
+            <q-icon name="bluetooth" />
+          </q-item-section>
+          <q-item-section>Href + Disabled (/)</q-item-section>
+        </q-item>
       </q-list>
 
       <p class="caption">

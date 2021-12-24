@@ -412,7 +412,7 @@ export default createComponent({
     }
 
     function getRouteList () {
-      return tabList.filter(tab => tab.routerProps !== void 0 && tab.routerProps.hasLink.value === true)
+      return tabList.filter(tab => tab.routerProps !== void 0 && tab.routerProps.hasRouterLink.value === true)
     }
 
     // do not use directly; use verifyRouteModel() instead

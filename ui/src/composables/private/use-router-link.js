@@ -79,6 +79,7 @@ function isSameRouteLocationParams (a, b) {
 }
 
 export const useRouterLinkProps = {
+  // router-link
   to: [ String, Object ],
   replace: Boolean,
   exact: Boolean,
@@ -90,23 +91,33 @@ export const useRouterLinkProps = {
     type: String,
     default: 'q-router-link--exact-active'
   },
+
+  // regular <a> link
+  href: String,
+  target: String,
+
+  // state
   disable: Boolean
 }
 
-export default function () {
+// external props: type, tag
+
+export default function (fallbackTag) {
   const vm = getCurrentInstance()
-  const { props, attrs, proxy } = vm
+  const { props, proxy } = vm
 
   const hasRouter = vmHasRouter(vm)
+  const hasHrefLink = computed(() => props.disable !== true && props.href !== void 0)
 
-  const hasLinkConfigured = computed(() =>
+  const hasRouterLinkProps = computed(() =>
     hasRouter === true
     && props.disable !== true
+    && hasHrefLink.value !== true
     && props.to !== void 0 && props.to !== null && props.to !== ''
   )
 
   const linkRoute = computed(() => {
-    if (hasLinkConfigured.value === true) {
+    if (hasRouterLinkProps.value === true) {
       try { return proxy.$router.resolve(props.to) }
       catch (err) {}
     }
@@ -114,16 +125,33 @@ export default function () {
     return null
   })
 
-  const hasLink = computed(() => linkRoute.value !== null)
+  const hasRouterLink = computed(() => linkRoute.value !== null)
+  const hasLink = computed(() => hasHrefLink.value === true || hasRouterLink.value === true)
 
   const linkTag = computed(() => (
-    hasLink.value === true
+    props.type === 'a' || hasLink.value === true
       ? 'a'
-      : (props.tag || 'div')
+      : (props.tag || fallbackTag || 'div')
+  ))
+
+  const linkProps = computed(() => (
+    hasHrefLink.value === true
+      ? {
+          href: props.href,
+          target: props.target
+        }
+      : (
+          hasRouterLink.value === true
+            ? {
+                href: linkRoute.value.href,
+                target: props.target
+              }
+            : {}
+        )
   ))
 
   const linkActiveIndex = computed(() => {
-    if (hasLink.value === false) {
+    if (hasRouterLink.value === false) {
       return null
     }
 
@@ -170,7 +198,7 @@ export default function () {
   })
 
   const linkIsActive = computed(() =>
-    hasLink.value === true
+    hasRouterLink.value === true
     && linkActiveIndex.value > -1
     && includesParams(proxy.$route.params, linkRoute.value.params)
   )
@@ -182,7 +210,7 @@ export default function () {
   )
 
   const linkClass = computed(() => (
-    hasLink.value === true
+    hasRouterLink.value === true
       ? (
           linkIsExactActive.value === true
             ? ` ${ props.exactActiveClass } ${ props.activeClass }`
@@ -195,18 +223,8 @@ export default function () {
       : ''
   ))
 
-  const linkProps = computed(() => (
-    hasLink.value === true
-      ? {
-          href: linkRoute.value.href,
-          target: attrs.target,
-          role: 'link'
-        }
-      : {}
-  ))
-
   // should match RouterLink from Vue Router
-  function navigateToLink (e) {
+  function navigateToRouterLink (e) {
     if (
       // component is not disabled
       props.disable === true
@@ -222,7 +240,7 @@ export default function () {
       || (e.button !== undefined && e.button !== 0)
 
       // don't redirect if it should open in a new window
-      || attrs.target === '_blank'
+      || props.target === '_blank'
     ) {
       return false
     }
@@ -234,7 +252,10 @@ export default function () {
   }
 
   return {
+    hasRouterLink,
+    hasHrefLink,
     hasLink,
+
     linkTag,
     linkRoute,
     linkIsActive,
@@ -242,6 +263,6 @@ export default function () {
     linkClass,
     linkProps,
 
-    navigateToLink
+    navigateToRouterLink
   }
 }

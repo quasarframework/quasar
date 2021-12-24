@@ -97,12 +97,12 @@ export default function (props, slots, emit, routerProps) {
       let go
 
       if (routerProps !== void 0) {
-        if (routerProps.hasLink.value === true) {
+        if (routerProps.hasRouterLink.value === true) {
           go = () => {
             e.__qNavigate = true
             $tabs.avoidRouteWatcher = true
 
-            const res = routerProps.navigateToLink(e)
+            const res = routerProps.navigateToRouterLink(e)
 
             if (res === false) {
               $tabs.avoidRouteWatcher = false

@@ -22,7 +22,7 @@ export default createComponent({
   },
 
   setup (props, { slots }) {
-    const { linkTag, linkProps, hasLink, navigateToLink } = useRouterLink()
+    const { linkTag, linkProps, hasRouterLink, navigateToRouterLink } = useRouterLink()
 
     const data = computed(() => {
       const acc = {
@@ -31,8 +31,8 @@ export default createComponent({
           + (props.disable !== true ? 'q-link--focusable' : 'q-breadcrumbs__el--disable'),
         ...linkProps.value
       }
-      if (hasLink.value === true) {
-        acc.onClick = navigateToLink
+      if (hasRouterLink.value === true) {
+        acc.onClick = navigateToRouterLink
       }
       return acc
     })
