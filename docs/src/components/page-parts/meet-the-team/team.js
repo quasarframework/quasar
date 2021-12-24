@@ -49,7 +49,7 @@ export default [
 
       {
         name: 'Paolo Caleffi',
-        role: 'Senior developer',
+        role: 'Senior Developer',
         avatar: 'paolo_caleffi.jpg',
         github: 'IlCallo',
         desc: 'Typescript support'

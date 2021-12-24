@@ -15,6 +15,7 @@ q-intersection(once)
     sponsor(img="ib-langenthal.svg" name="IB Langenthal AG" url="https://ib-langenthal.ch/")
     sponsor(img="debricked.png" name="Debricked AB" url="https://debricked.com/")
     sponsor(img="qintil.png" name="Qintil Technology Ltd" url="https://qintil.com/")
+    sponsor(img="synestia.svg" name="Synestia" url="https://synestia.pl/")
 </template>
 
 <script>
