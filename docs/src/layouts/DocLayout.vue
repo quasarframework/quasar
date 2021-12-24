@@ -51,7 +51,6 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
         .row.justify-center.q-my-md
           q-btn.doc-layout__main-btn(
-            type="a"
             href="https://donate.quasar.dev"
             target="_blank"
             rel="noopener"
