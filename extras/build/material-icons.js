@@ -24,6 +24,9 @@ const themeMap = {
   outlined: '_outlined',
   round: '_round',
   sharp: '_sharp'
+  // We could do twotone, as they use opacity, but parsing fails
+  // on 'twotoneMedicationLiquid' because of SVG 'use' directive
+  // twotone: '_twotone'
 }
 
 function downloadIcon(icon) {
@@ -77,7 +80,7 @@ async function run () {
     }).version
 
     console.log('\nDownloading Google Material Design SVG icons...')
-    console.log(`${icons.length} icons to download...`)
+    console.log(`${icons.length} * ${Object.keys(themeMap).length} icons to download...(${icons.length * Object.keys(themeMap).length})`)
 
     Object.keys(themeMap).map(async (theme) => {
       if (skipped[theme] === void 0) skipped[theme] = []
@@ -100,7 +103,7 @@ async function run () {
     await queue.wait({ empty: true })
 
     console.log('')
-    console.log(`SVG version is: ${version}`)
+    console.log(`Highest SVG version is: ${version} (each icon is versioned)`)
 
     Object.keys(themeMap).map(async (theme) => {
       svgExports[theme].sort((a, b) => {
