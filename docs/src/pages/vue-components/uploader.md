@@ -290,7 +290,7 @@ if __name__ == '__main__':
 
 ### Julia/Genie
 
-```julia
+```
 # Julia Genie
 
 using Genie, Genie.Requests, Genie.Renderer
