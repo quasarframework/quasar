@@ -5,19 +5,19 @@
 interface SliderMarkerLabelPartialDefinition {
   label?: number | string;
   style?: Partial<CSSStyleDeclaration>;
-};
+}
 
 interface SliderMarkerLabelDefinition extends SliderMarkerLabelPartialDefinition {
   value?: number;
-};
+}
 
 interface SliderMarkerLabelDefinitionRequiredValue extends SliderMarkerLabelPartialDefinition {
   value: number;
-};
+}
 
 interface SliderMarkerLabelObjectDefinition {
   [value: number]: string | SliderMarkerLabelDefinition;
-};
+}
 
 declare function SliderMarkerLabelFunctionDefinition(
   value: number
@@ -41,6 +41,6 @@ export type SliderMarkerLabelConfig = {
 
 export type SliderMarkerLabelArrayConfig = SliderMarkerLabelConfig[];
 
-interface SliderMarkerLabelObjectConfig {
+export interface SliderMarkerLabelObjectConfig {
   [value: number]: SliderMarkerLabelConfig;
-};
+}
