@@ -287,6 +287,43 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
+
+### Julia/Genie
+
+```
+# Julia Genie
+
+using Genie, Genie.Requests, Genie.Renderer
+
+Genie.config.cors_headers["Access-Control-Allow-Origin"]  =  "*"
+Genie.config.cors_headers["Access-Control-Allow-Headers"] = "Content-Type"
+Genie.config.cors_headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,DELETE,OPTIONS"
+Genie.config.cors_allowed_origins = ["*"]
+
+#== server ==#
+
+route("/") do
+  "File Upload"
+end
+
+route("/upload", method = POST) do
+  if infilespayload(:img)                 # :img is file-name 
+    @info filename(filespayload(:img))    # file-name="img"
+    @info filespayload(:img).data
+
+    open("upload/file.jpg", "w") do io
+      write(io, filespayload(:img).data)
+    end
+  else
+    @info "No image uploaded"
+  end
+
+  Genie.Renderer.redirect(:get)
+end
+
+isrunning(:webserver) || up()
+```
+
 ## Supporting other services
 QUploader currently supports uploading through the HTTP(S) protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
