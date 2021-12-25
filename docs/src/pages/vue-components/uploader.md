@@ -288,7 +288,7 @@ if __name__ == '__main__':
 ```
 
 ```julia
-// Julia Genie
+# Julia Genie
 
 using Genie, Genie.Requests, Genie.Renderer
 
