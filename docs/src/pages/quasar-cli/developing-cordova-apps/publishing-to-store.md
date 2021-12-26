@@ -112,7 +112,7 @@ $ quasar build -m ios -- some params --and options --here
 If everything went well you’ll see the `BUILD SUCCEEDED` output in the console.
 
 ### Opening the project in Xcode
-Now, open the `/src-cordova/platforms/ios/<name>.xcodeproj` file in Xcode.
+Now, open the `/src-cordova/platforms/ios/<name>.xcodeproj` file in Xcode. You may need to instead use `<name>.xcworkspace` if the next step doesn't work.
 
 Once the Xcode opens up the project, you should see the details about your app in the general view.
 
@@ -123,7 +123,7 @@ In Xcode, select Product > Scheme > Edit Scheme to open the scheme editor. Next,
 
 To create an archive, choose a Generic iOS Device, or your device if it’s connected to your Mac (you can’t create an archive if simulator is selected), from the Scheme toolbar menu in the project editor.
 
-Next, select Product > Archive, and the Archive organizer appears and displays the new archive.
+Next, select Product > Archive, and the Archive organizer appears and displays the new archive. (If it produces an error instead, go back to the last step and open `<name>.xcworkspace`.)
 
 At this point you can click the `Upload to App Store...` button, and if everything goes fine you’ll have an uploaded app, and the only thing that’s left to do is to complete the iTunes Connect listing and submit it for review!
 
