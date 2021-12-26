@@ -1,5 +1,13 @@
 <template>
-  <div>
+  <div v-bind="fullscreenAttrs">
+    <div class="q-pb-md">
+      <q-btn
+        color="secondary"
+        @click="toggleFullscreen"
+        :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
+        :label="$q.fullscreen.isActive ? 'Exit Fullscreen' : 'Try playground in Fullscreen'"
+      />
+    </div>
     <div class="text-subtitle2 q-pb-md">Parent Properties (container)</div>
     <div class="row wrap justify-start content-stretch">
       <div class="col-lg-2 col-xs-6">
@@ -199,6 +207,19 @@ export default {
         ' ' + this.contentGroup)
         .replace(/,/g, ' ')
         .replace(/' '/g, ' ')
+    },
+
+    fullscreenAttrs () {
+      return this.$q.fullscreen.isActive
+        ? {
+          style: {
+            backgroundColor: '#fff'
+          },
+          class: [
+            'q-pa-md'
+          ]
+        }
+        : {}
     }
   },
 
@@ -279,6 +300,10 @@ export default {
         </div>
       `
       this.$refs.codepen.open({ template })
+    },
+    toggleFullscreen (e) {
+      const target = e.target.parentNode.parentNode.parentNode.parentNode.parentNode
+      this.$q.fullscreen.toggle(target)
     }
   }
 }

@@ -1,4 +1,5 @@
 import debounce from '../utils/debounce.js'
+import { rtlHasScrollBug } from '../utils/scroll.js'
 
 const aggBucketSize = 1000
 
@@ -11,31 +12,7 @@ const scrollToEdges = [
   'end-force'
 ]
 
-const slice = Array.prototype.slice
-
-let buggyRTL = void 0
-
-// mobile Chrome takes the crown for this
-function detectBuggyRTL () {
-  const scroller = document.createElement('div')
-  const spacer = document.createElement('div')
-
-  scroller.setAttribute('dir', 'rtl')
-  scroller.style.width = '1px'
-  scroller.style.height = '1px'
-  scroller.style.overflow = 'auto'
-
-  spacer.style.width = '1000px'
-  spacer.style.height = '1px'
-
-  document.body.appendChild(scroller)
-  scroller.appendChild(spacer)
-  scroller.scrollLeft = -1000
-
-  buggyRTL = scroller.scrollLeft >= 0
-
-  scroller.remove()
-}
+const filterProto = Array.prototype.filter
 
 function sumFn (acc, h) {
   return acc + h
@@ -65,7 +42,7 @@ function getScrollDetails (
   if (horizontal === true) {
     if (parent === window) {
       details.scrollStart = window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
-      details.scrollViewSize += window.innerWidth
+      details.scrollViewSize += document.documentElement.clientWidth
     }
     else {
       details.scrollStart = parentCalc.scrollLeft
@@ -74,13 +51,13 @@ function getScrollDetails (
     details.scrollMaxSize = parentCalc.scrollWidth
 
     if (rtl === true) {
-      details.scrollStart = (buggyRTL === true ? details.scrollMaxSize - details.scrollViewSize : 0) - details.scrollStart
+      details.scrollStart = (rtlHasScrollBug() === true ? details.scrollMaxSize - details.scrollViewSize : 0) - details.scrollStart
     }
   }
   else {
     if (parent === window) {
       details.scrollStart = window.pageYOffset || window.scrollY || document.body.scrollTop || 0
-      details.scrollViewSize += window.innerHeight
+      details.scrollViewSize += document.documentElement.clientHeight
     }
     else {
       details.scrollStart = parentCalc.scrollTop
@@ -128,10 +105,14 @@ function getScrollDetails (
 }
 
 function setScroll (parent, scroll, horizontal, rtl) {
+  if (scroll === 'end') {
+    scroll = (parent === window ? document.body : parent)[horizontal === true ? 'scrollWidth' : 'scrollHeight']
+  }
+
   if (parent === window) {
     if (horizontal === true) {
       if (rtl === true) {
-        scroll = (buggyRTL === true ? document.body.scrollWidth - window.innerWidth : 0) - scroll
+        scroll = (rtlHasScrollBug() === true ? document.body.scrollWidth - document.documentElement.clientWidth : 0) - scroll
       }
       window.scrollTo(scroll, window.pageYOffset || window.scrollY || document.body.scrollTop || 0)
     }
@@ -141,7 +122,7 @@ function setScroll (parent, scroll, horizontal, rtl) {
   }
   else if (horizontal === true) {
     if (rtl === true) {
-      scroll = (buggyRTL === true ? parent.scrollWidth - parent.offsetWidth : 0) - scroll
+      scroll = (rtlHasScrollBug() === true ? parent.scrollWidth - parent.offsetWidth : 0) - scroll
     }
     parent.scrollLeft = scroll
   }
@@ -428,20 +409,17 @@ export default {
       }
 
       const { activeElement } = document
+      const contentEl = this.$refs.content
       if (
         rangeChanged === true &&
-        this.$refs.content !== void 0 &&
-        this.$refs.content !== activeElement &&
-        this.$refs.content.contains(activeElement) === true
+        contentEl !== void 0 &&
+        contentEl !== activeElement &&
+        contentEl.contains(activeElement) === true
       ) {
-        const onBlurFn = () => {
-          this.$refs.content.focus()
-        }
+        contentEl.addEventListener('focusout', this.__onBlurRefocusFn)
 
-        activeElement.addEventListener('blur', onBlurFn, true)
-
-        requestAnimationFrame(() => {
-          activeElement.removeEventListener('blur', onBlurFn, true)
+        setTimeout(() => {
+          contentEl !== void 0 && contentEl.removeEventListener('focusout', this.__onBlurRefocusFn)
         })
       }
 
@@ -518,7 +496,7 @@ export default {
 
       if (contentEl !== void 0) {
         const
-          children = slice.call(contentEl.children).filter(el => el.classList.contains('q-virtual-scroll--skip') === false),
+          children = filterProto.call(contentEl.children || [], el => el.classList && el.classList.contains('q-virtual-scroll--skip') === false), // fallback [] for IE
           childrenLength = children.length,
           sizeFn = this.virtualScrollHorizontal === true
             ? el => el.getBoundingClientRect().width
@@ -700,6 +678,10 @@ export default {
 
         this.prevToIndex = index
       }
+    },
+
+    __onBlurRefocusFn () {
+      this.$refs.content !== void 0 && this.$refs.content.focus()
     }
   },
 
@@ -724,7 +706,6 @@ export default {
   },
 
   beforeMount () {
-    buggyRTL === void 0 && detectBuggyRTL()
     this.__onVirtualScrollEvt = debounce(this.__onVirtualScrollEvt, this.$q.platform.is.ios === true ? 120 : 35)
     this.__setVirtualScrollSize()
   },
