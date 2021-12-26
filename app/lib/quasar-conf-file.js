@@ -597,10 +597,10 @@ class QuasarConfFile {
     }
 
     if (this.ctx.dev) {
-      const originalBefore = cfg.devServer.onBeforeSetupMiddleware
+      const originalSetup = cfg.devServer.setupMiddlewares
       const openInEditor = require('launch-editor-middleware')
 
-      delete cfg.devServer.onBeforeSetupMiddleware
+      delete cfg.devServer.setupMiddlewares
 
       if (this.ctx.mode.bex === true) {
         cfg.devServer.devMiddleware = cfg.devServer.devMiddleware || {}
@@ -642,7 +642,7 @@ class QuasarConfFile {
           },
       cfg.devServer,
       {
-        onBeforeSetupMiddleware: opts => {
+        setupMiddlewares: (middlewares, opts) => {
           const { app } = opts
 
           if (!this.ctx.mode.ssr) {
@@ -662,7 +662,9 @@ class QuasarConfFile {
 
           app.use('/__open-in-editor', openInEditor(void 0, appPaths.appDir))
 
-          originalBefore && originalBefore(opts)
+          return originalSetup
+            ? originalSetup(middlewares, opts)
+            : middlewares
         }
       })
 

@@ -203,7 +203,7 @@ module.exports = class DevServer {
       serverCompiler.watch({}, () => {})
     )
 
-    const originalAfter = cfg.devServer.onAfterSetupMiddleware
+    const originalSetup = cfg.devServer.setupMiddlewares
 
     const startWebpackServer = async () => {
       if (this.destroyed === true) { return }
@@ -222,7 +222,7 @@ module.exports = class DevServer {
         this.webpackServer = new WebpackDevServer({
           ...cfg.devServer,
 
-          onAfterSetupMiddleware: opts => {
+          setupMiddlewares: (middlewares, opts) => {
             const { app } = opts
 
             // obsolete hot updates & js maps should be discarded immediately
@@ -234,11 +234,15 @@ module.exports = class DevServer {
               app.use(resolveUrlPath('/'), serveStatic('.', { maxAge: 0 }))
             }
 
-            originalAfter && originalAfter(opts)
+            const newMiddlewares = originalSetup
+              ? originalSetup(middlewares, opts)
+              : middlewares
 
             if (this.destroyed !== true) {
               resolve(app)
             }
+
+            return newMiddlewares
           }
         }, clientCompiler)
 
