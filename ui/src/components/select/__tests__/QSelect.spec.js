@@ -359,7 +359,7 @@ describe('QSelect API', () => {
             })
         })
 
-        it.only('should accept a function as option-value', () => {
+        it('should accept a function as option-value', () => {
           const options = [ { label: 'Option one', test: 1 }, { label: 'Option two', test: 2 } ]
           const model = ref(null)
           mount(WrapperOne, {
@@ -791,46 +791,141 @@ describe('QSelect API', () => {
       })
 
       describe('(prop): hide-selected', () => {
-        it.skip(' ', () => {
-          //
+        it('should not show the selected value', () => {
+          const options = [ 'Option 1', 'Option 2' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: options[ 0 ],
+              hideSelected: true
+            }
+          })
+          cy.get('.select-root')
+            .should('not.contain', options[ 0 ])
+        })
+
+        it('should set the value on the underlying input when using hide-selected', () => {
+          // Todo: it its not really clear from the docs that you need to use `useInput` and `fillInput` together with this prop to achieve this
+          const options = [ 'Option 1', 'Option 2' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: options[ 0 ],
+              hideSelected: true,
+              fillInput: true,
+              useInput: true
+            }
+          })
+          cy.get('.select-root')
+            .get('input')
+            .should('have.value', options[ 0 ])
         })
       })
 
       describe('(prop): max-values', () => {
-        it.skip(' ', () => {
-          //
+        it('should allow a maximum number of selections', () => {
+          const max = 3
+          const options = [ '1', '2', '3', '4', '5' ]
+          const modelValue = ref([])
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue,
+              maxValues: max,
+              'onUpdate:modelValue': (val) => {
+                modelValue.value = val
+              },
+              multiple: true
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .get('[role="option"]')
+            .click({ multiple: true })
+            .then(() => {
+              expect(modelValue.value.length).to.equal(max)
+            })
         })
       })
 
       describe('(prop): use-chips', () => {
-        it.skip(' ', () => {
-          //
+        it('should use QChips to show the selected value', () => {
+          const options = [ 'Option 1', 'Option 2' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: options[ 0 ],
+              useChips: true
+            }
+          })
+          cy.get('.select-root')
+            .get('.q-chip')
+            .should('contain', options[ 0 ])
         })
       })
     })
 
     describe('Category: style', () => {
       describe('(prop): popup-content-class', () => {
-        it.skip(' ', () => {
-          //
+        it('should apply the class to the popup element', () => {
+          const className = 'test-class'
+          mount(WrapperOne, {
+            attrs: {
+              options: [ '1', '2 ' ],
+              popupContentClass: className
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .should('have.class', className)
         })
       })
 
       describe('(prop): popup-content-style', () => {
-        it.skip(' ', () => {
-          //
+        it('should apply the style definitions to the popup element', () => {
+          const style = 'background: red;'
+          mount(WrapperOne, {
+            attrs: {
+              options: [ '1', '2 ' ],
+              popupContentStyle: style
+            }
+          })
+          cy.get('.select-root')
+            .click()
+          cy.get('.q-menu')
+            .should('have.backgroundColor', 'red')
         })
       })
 
       describe('(prop): input-class', () => {
-        it.skip(' ', () => {
-          //
+        it('should apply a class to the input element when using `useInput`', () => {
+          const className = 'test-class'
+          mount(WrapperOne, {
+            attrs: {
+              useInput: true,
+              inputClass: className
+            }
+          })
+          cy.get('.select-root')
+            .get('input')
+            .should('have.class', className)
         })
       })
 
       describe('(prop): input-style', () => {
-        it.skip(' ', () => {
-          //
+        it('should apply a style to the input element when using `useInput`', () => {
+          const style = 'font-size: 30px'
+          mount(WrapperOne, {
+            attrs: {
+              useInput: true,
+              inputStyle: style
+            }
+          })
+          cy.get('.select-root')
+            .get('input')
+            .should('have.css', 'font-size', '30px')
         })
       })
     })
