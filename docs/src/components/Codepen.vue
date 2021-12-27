@@ -39,14 +39,14 @@ export default {
 
   computed: {
     css () {
-      return (this.parts.style || '')
+      return (this.parts.Style || '')
         .replace(/(<style.*?>|<\/style>)/g, '')
         .trim()
     },
 
     cssPreprocessor () {
       const lang = /<style.*lang=["'](.*)["'].*>/
-        .exec(this.parts.style || '')
+        .exec(this.parts.Style || '')
 
       return lang ? lang[1] : 'none'
     },
@@ -54,12 +54,12 @@ export default {
     js () {
       const importsQ = /import\s+{([^}'\n]+)}\s+from\s+'quasar'/g
       const imports = /import ([^'\n]*) from ([^\n]*)/g
-      let component = /export default {([\s\S]*)}/g.exec(this.parts.script || '')
+      let component = /export default {([\s\S]*)}/g.exec(this.parts.Script || '')
       component = ((component && component[1]) || '').trim()
       if (component.length > 0) {
         component = ',\n  ' + component
       }
-      let script = /<script>([\s\S]*)export default {/g.exec(this.parts.script || '')
+      let script = /<script>([\s\S]*)export default {/g.exec(this.parts.Script || '')
       script = ((script && script[1]) || '')
         .replace(importsQ, function (match, p1) {
           const parts = p1
@@ -95,7 +95,7 @@ export default {
     },
 
     html () {
-      return (this.parts.template || '')
+      return (this.parts.Template || '')
         .replace(/(<template>|<\/template>$)/g, '')
         .replace(/\n/g, '\n  ')
         .replace(/([\w]+=")([^"]*?)(")/g, function (match, p1, p2, p3) {
