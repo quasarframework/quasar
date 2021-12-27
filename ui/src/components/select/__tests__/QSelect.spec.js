@@ -359,14 +359,14 @@ describe('QSelect API', () => {
             })
         })
 
-        it('should accept a function as option-value', () => {
+        it.only('should accept a function as option-value', () => {
           const options = [ { label: 'Option one', test: 1 }, { label: 'Option two', test: 2 } ]
           const model = ref(null)
           mount(WrapperOne, {
             attrs: {
               options,
               emitValue: true,
-              optionValue: (val) => (!val ? val : val.test),
+              optionValue: (val) => val.test,
               modelValue: model,
               'onUpdate:modelValue': (val) => {
                 model.value = val
