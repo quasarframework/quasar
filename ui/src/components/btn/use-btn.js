@@ -28,10 +28,7 @@ export const useBtnProps = {
   ...useSizeProps,
   ...useRouterLinkProps,
 
-  type: {
-    type: String,
-    default: 'button'
-  },
+  type: String,
 
   label: [ Number, String ],
   icon: String,
