@@ -2,7 +2,6 @@
   q-banner(v-if="!hasEnded" inline-actions).survey-countdown
     template(v-slot:action)
       q-btn(
-        type="a"
         href="https://forms.gle/AGTQqkjCEAuDA8oCA"
         target="_blank"
         :color="color"

@@ -1,6 +1,7 @@
 import AlignMixin from './align.js'
 import RippleMixin from './ripple.js'
 import ListenersMixin from './listeners.js'
+import RouterLinkMixin from './router-link.js'
 import { getSizeMixin } from './size.js'
 
 const padding = {
@@ -12,10 +13,14 @@ const padding = {
   xl: 32
 }
 
+const formTypes = [ 'button', 'submit', 'reset' ]
+const mediaTypeRe = /[^\s]\/[^\s]/
+
 export default {
   mixins: [
     ListenersMixin,
     RippleMixin,
+    RouterLinkMixin,
     AlignMixin,
     getSizeMixin({
       xs: 8,
@@ -27,7 +32,10 @@ export default {
   ],
 
   props: {
-    type: String,
+    type: {
+      type: String,
+      default: 'button'
+    },
 
     to: [ Object, String ],
     replace: Boolean,
@@ -87,14 +95,6 @@ export default {
       return this.isActionable === true ? this.tabindex || 0 : -1
     },
 
-    hasRouterLink () {
-      return this.disable !== true && this.to !== void 0 && this.to !== null && this.to !== ''
-    },
-
-    isLink () {
-      return this.type === 'a' || this.hasRouterLink === true
-    },
-
     design () {
       if (this.flat === true) return 'flat'
       if (this.outline === true) return 'outline'
@@ -103,48 +103,37 @@ export default {
       return 'standard'
     },
 
-    currentLocation () {
-      if (this.hasRouterLink === true) {
-        // we protect from accessing this.$route without
-        // actually needing it so that we won't trigger
-        // unnecessary updates
-        return this.append === true
-          ? this.$router.resolve(this.to, this.$route, true)
-          : this.$router.resolve(this.to)
-      }
-    },
-
     attrs () {
-      const attrs = { tabindex: this.computedTabIndex }
+      const acc = { tabindex: this.computedTabIndex }
 
-      // if it's not rendered with "<a>" tag
-      // OR it's "<a>" but type is not "button"
-      // (<a> with type="button" is invalid HTML)
-      if (this.type !== 'a' && (this.type !== 'button' || this.hasRouterLink !== true)) {
-        attrs.type = this.type
+      if (this.hasLink === true) {
+        Object.assign(acc, this.linkProps.attrs)
+      }
+      else if (formTypes.includes(this.type) === true) {
+        acc.type = this.type
       }
 
-      if (this.hasRouterLink === true) {
-        attrs.href = this.currentLocation.href
-        attrs.role = 'link'
+      if (this.hasLink === true || this.type === 'a') {
+        if (acc.href === void 0) {
+          acc.role = 'button'
+        }
+        if (mediaTypeRe.test(this.type) === true) {
+          acc.type = this.type
+        }
       }
-      else {
-        attrs.role = this.type === 'a' ? 'link' : 'button'
+      else if (this.disable === true) {
+        acc.disabled = ''
+        acc['aria-disabled'] = 'true'
       }
 
       if (this.loading === true && this.percentage !== void 0) {
-        attrs.role = 'progressbar'
-        attrs['aria-valuemin'] = 0
-        attrs['aria-valuemax'] = 100
-        attrs['aria-valuenow'] = this.percentage
+        acc.role = 'progressbar'
+        acc['aria-valuemin'] = 0
+        acc['aria-valuemax'] = 100
+        acc['aria-valuenow'] = this.percentage
       }
 
-      if (this.disable === true) {
-        attrs.disabled = ''
-        attrs['aria-disabled'] = 'true'
-      }
-
-      return attrs
+      return acc
     },
 
     classes () {

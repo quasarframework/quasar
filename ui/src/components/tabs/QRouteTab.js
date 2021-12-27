@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import QTab from './QTab.js'
-import { RouterLinkMixin } from '../../mixins/router-link.js'
+import RouterLinkMixin from '../../mixins/router-link.js'
 import { isSameRoute, isIncludedRoute } from '../../utils/router.js'
 import { stopAndPrevent, noop } from '../../utils/event.js'
 
@@ -9,10 +9,6 @@ export default Vue.extend({
   name: 'QRouteTab',
 
   mixins: [ QTab, RouterLinkMixin ],
-
-  props: {
-    to: { required: true }
-  },
 
   inject: {
     __activateRoute: {}
@@ -27,7 +23,7 @@ export default Vue.extend({
   computed: {
     routerTabLinkProps () {
       return {
-        ...this.routerLinkProps,
+        ...this.linkProps.props,
         custom: true
       }
     }
@@ -48,14 +44,14 @@ export default Vue.extend({
           // handle this by its own
           this.__checkActivation(true)
         }
-        else {
+        else if (this.hasRouterLink === true) {
           // we use programatic navigation instead of letting vue-router handle it
           // so we can check for activation when the navigation is complete
           e !== void 0 && stopAndPrevent(e)
 
           const go = (to = this.to, append = this.append, replace = this.replace) => {
             const { route } = this.$router.resolve(to, this.$route, append)
-            const checkFn = to === this.to && append === this.append && replace === this.replace
+            const checkFn = to === this.to && append === this.append
               ? this.__checkActivation
               : noop
 
@@ -89,6 +85,10 @@ export default Vue.extend({
     },
 
     __checkActivation (selected = false) {
+      if (this.hasRouterLink !== true) {
+        return
+      }
+
       const
         current = this.$route,
         { href, location, route } = this.$router.resolve(this.to, current, this.append),
@@ -136,6 +136,6 @@ export default Vue.extend({
   },
 
   render (h) {
-    return this.__renderTab(h, 'router-link')
+    return this.__renderTab(h, this.linkTag)
   }
 })

@@ -7,7 +7,6 @@
       push
       color="white"
       text-color="brand-primary"
-      type="a"
       :href="sourceLink"
       target="_blank"
       rel="noopener"

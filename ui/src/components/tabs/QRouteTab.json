@@ -5,13 +5,6 @@
 
   "mixins": [ "components/tabs/QTab", "mixins/router-link" ],
 
-  "props": {
-    "to": {
-      "required": true,
-      "category": "general"
-    }
-  },
-
   "events": {
     "click": {
       "desc": "Emitted when component is clicked (activated)",

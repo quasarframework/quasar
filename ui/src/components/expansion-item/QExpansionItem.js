@@ -7,7 +7,7 @@ import QIcon from '../icon/QIcon.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
-import { RouterLinkMixin } from '../../mixins/router-link.js'
+import RouterLinkMixin from '../../mixins/router-link.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import DarkMixin from '../../mixins/dark.js'
 
@@ -92,7 +92,7 @@ export default Vue.extend({
     },
 
     isClickable () {
-      return this.hasRouterLink === true || this.expandIconToggle !== true
+      return this.hasLink === true || this.expandIconToggle !== true
     },
 
     expansionIcon () {
@@ -102,13 +102,13 @@ export default Vue.extend({
     },
 
     activeToggleIcon () {
-      return this.disable !== true && (this.hasRouterLink === true || this.expandIconToggle === true)
+      return this.disable !== true && (this.hasLink === true || this.expandIconToggle === true)
     }
   },
 
   methods: {
     __onHeaderClick (e) {
-      this.hasRouterLink !== true && this.toggle(e)
+      this.hasLink !== true && this.toggle(e)
       this.$emit('click', e)
     },
 
@@ -219,18 +219,20 @@ export default Vue.extend({
       }
 
       if (this.isClickable === true) {
-        const evtProp = this.hasRouterLink === true ? 'nativeOn' : 'on'
-
         data.props.clickable = true
-        data[evtProp] = {
+        data[this.hasRouterLink === true ? 'nativeOn' : 'on'] = {
           ...this.qListeners,
           click: this.__onHeaderClick
         }
 
-        this.hasRouterLink === true && Object.assign(
-          data.props,
-          this.routerLinkProps
-        )
+        if (this.hasLink === true) {
+          Object.assign(
+            data.props,
+            this.linkProps.props
+          )
+
+          data.attrs = this.linkProps.attrs
+        }
       }
 
       return h(QItem, data, child)

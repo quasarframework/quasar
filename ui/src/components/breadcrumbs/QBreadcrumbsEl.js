@@ -2,9 +2,9 @@ import Vue from 'vue'
 
 import { mergeSlot } from '../../utils/slot.js'
 import ListenersMixin from '../../mixins/listeners.js'
+import RouterLinkMixin from '../../mixins/router-link.js'
 
 import QIcon from '../icon/QIcon.js'
-import { RouterLinkMixin } from '../../mixins/router-link.js'
 
 export default Vue.extend({
   name: 'QBreadcrumbsEl',
@@ -23,14 +23,18 @@ export default Vue.extend({
     },
 
     renderData () {
-      const staticClass = 'q-breadcrumbs__el q-link ' +
-        'flex inline items-center relative-position ' +
-        (this.disable !== true ? 'q-link--focusable' : 'q-breadcrumbs__el--disabled')
-
-      return this.hasRouterLink === true
-        ? [ 'router-link', { staticClass, props: this.routerLinkProps, nativeOn: { ...this.qListeners } } ]
-        : [ 'span', { staticClass, on: { ...this.qListeners } } ]
+      return {
+        staticClass: 'q-breadcrumbs__el q-link ' +
+          'flex inline items-center relative-position ' +
+          (this.disable !== true ? 'q-link--focusable' : 'q-breadcrumbs__el--disabled'),
+        ...this.linkProps,
+        [this.hasRouterLink === true ? 'nativeOn' : 'on']: { ...this.qListeners }
+      }
     }
+  },
+
+  beforeCreate () {
+    this.fallbackTag = 'span'
   },
 
   render (h) {
@@ -43,8 +47,8 @@ export default Vue.extend({
       })
     )
 
-    this.label && child.push(this.label)
+    this.label !== void 0 && child.push(this.label)
 
-    return h(...this.renderData, mergeSlot(child, this, 'default'))
+    return h(this.linkTag, this.renderData, mergeSlot(child, this, 'default'))
   }
 })

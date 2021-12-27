@@ -2,44 +2,60 @@
   "props": {
     "to": {
       "type": [ "String", "Object" ],
-      "desc": "Equivalent to Vue Router <router-link> 'to' property",
+      "desc": "Equivalent to Vue Router <router-link> 'to' property; Superseeded by 'href' prop if used",
       "examples": [
         "/home/dashboard",
         ":to=\"{ name: 'my-route-name' }\""
       ],
-      "category": "behavior"
+      "category": "navigation"
     },
 
     "exact": {
       "type": "Boolean",
-      "desc": "Equivalent to Vue Router <router-link> 'exact' property",
-      "category": "behavior"
+      "desc": "Equivalent to Vue Router <router-link> 'exact' property; Superseeded by 'href' prop if used",
+      "category": "navigation"
     },
 
     "append": {
       "type": "Boolean",
-      "desc": "Equivalent to Vue Router <router-link> 'append' property",
-      "category": "behavior"
+      "desc": "Equivalent to Vue Router <router-link> 'append' property; Superseeded by 'href' prop if used",
+      "category": "navigation"
     },
 
     "replace": {
       "type": "Boolean",
-      "desc": "Equivalent to Vue Router <router-link> 'replace' property",
-      "category": "behavior"
+      "desc": "Equivalent to Vue Router <router-link> 'replace' property; Superseeded by 'href' prop if used",
+      "category": "navigation"
     },
 
     "active-class": {
       "type": "String",
       "desc": "Equivalent to Vue Router <router-link> 'active-class' property",
       "examples": [ "my-active-class" ],
-      "category": "behavior"
+      "category": "navigation"
     },
 
     "exact-active-class": {
       "type": "String",
       "desc": "Equivalent to Vue Router <router-link> 'active-class' property",
       "examples": [ "my-exact-active-class" ],
-      "category": "behavior"
+      "category": "navigation"
+    },
+
+    "href": {
+      "type": "String",
+      "desc": "Native <a> link href attribute; Has priority over the 'to'/'exact'/'replace' props",
+      "examples": [ "http://quasar.dev" ],
+      "category": "navigation",
+      "addedIn": "v1.17"
+    },
+
+    "target": {
+      "type": "String",
+      "desc": "Native <a> link target attribute; Use it only along with 'href' prop; Has priority over the 'to'/'exact'/'replace' props",
+      "examples": [ "_blank", "_self", "_parent", "_top" ],
+      "category": "navigation",
+      "addedIn": "v1.17"
     },
 
     "disable": {

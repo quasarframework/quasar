@@ -132,7 +132,17 @@ function getProp (h, prop, propName, level, onlyChildren) {
 
   if (prop.default !== void 0) {
     child.push(
-      getDiv(h, 3, 'Default value', JSON.stringify(prop.default))
+      getDiv(
+        h,
+        3,
+        'Default value',
+        void 0,
+        h(
+          'div',
+          { staticClass: 'api-row--indent api-row__value' },
+          h('div', { staticClass: 'api-row__example' }, '' + prop.default)
+        )
+      )
     )
   }
 

@@ -232,7 +232,7 @@ export default Vue.extend({
         ]
       }
 
-      if (tag === 'router-link') {
+      if (this.hasRouterLink === true) {
         return h(tag, {
           ...data,
           nativeOn: this.onEvents,
@@ -240,15 +240,22 @@ export default Vue.extend({
           scopedSlots: {
             default: ({ href, isActive, isExactActive }) => h('a', {
               class: {
-                [this.routerLinkProps.activeClass]: isActive,
-                [this.routerLinkProps.exactActiveClass]: isExactActive
+                [this.activeClass]: isActive,
+                [this.exactActiveClass]: isExactActive
               },
-              attrs: this.hasRouterLink === true ? { href } : void 0
+              attrs: {
+                ...this.linkProps.attrs,
+                href
+              }
             }, this.__getContent(h))
           }
         })
       }
 
+      if (this.hasLink === true) {
+        Object.assign(data.attrs, this.linkProps.attrs)
+        data.props = this.linkProps.props
+      }
       data.on = this.onEvents
       return h(tag, data, this.__getContent(h))
     }
