@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import { mount } from '@cypress/vue'
-import { ref, h } from 'vue'
-import QSelect from '../QSelect'
+import { ref } from 'vue'
 import WrapperOne from './WrapperOne.vue'
 
 const snapshotOptions = { customSnapshotsDir: '../src/components/select/__tests__' }
