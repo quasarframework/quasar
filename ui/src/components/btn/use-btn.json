@@ -5,6 +5,7 @@
     "type":{
       "type": "String",
       "desc": "1) Define the button native type attribute (submit, reset, button) or 2) render component with <a> tag so you can access events even if disable or 3) Use 'href' prop and specify 'type' as a media tag",
+      "default": "button",
       "examples": [
         "a", "submit", "button", "reset",
         "image/png",
