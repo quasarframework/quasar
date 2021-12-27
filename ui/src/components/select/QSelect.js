@@ -496,7 +496,10 @@ export default Vue.extend({
 
         this.$refs.target !== void 0 && this.$refs.target.focus()
 
-        if (isDeepEqual(this.getOptionValue(this.innerValue[0]), optValue) !== true) {
+        if (
+          this.innerValue.length === 0 ||
+          isDeepEqual(this.getOptionValue(this.innerValue[0]), optValue) !== true
+        ) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
         }
         return
