@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { mount } from '@cypress/vue'
-import { ref } from 'vue'
+import { ref, h } from 'vue'
+import QSelect from '../QSelect'
 import WrapperOne from './WrapperOne.vue'
 
 const snapshotOptions = { customSnapshotsDir: '../src/components/select/__tests__' }
@@ -676,35 +677,117 @@ describe('QSelect API', () => {
     })
 
     describe('Category: position', () => {
-      describe('(prop): menu-anchor', () => {
-        it.skip(' ', () => {
-          //
-        })
+      describe.skip('(prop): menu-anchor', () => {
+        // This is a menu property which is tested in QMenu.spec.js
       })
 
-      describe('(prop): menu-self', () => {
-        it.skip(' ', () => {
-          //
-        })
+      describe.skip('(prop): menu-self', () => {
+        // This is a menu property which is tested in QMenu.spec.js
       })
 
-      describe('(prop): menu-offset', () => {
-        it.skip(' ', () => {
-          //
-        })
+      describe.skip('(prop): menu-offset', () => {
+        // This is a menu property which is tested in QMenu.spec.js
       })
     })
 
     describe('Category: selection', () => {
       describe('(prop): display-value', () => {
-        it.skip(' ', () => {
-          //
+        it('should override the default selection string', () => {
+          const options = [ { label: 'Option one', value: 1 }, { label: 'Option two', value: 2 } ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: 1,
+              displayValue: 'Test'
+            }
+          })
+          cy.get('.select-root')
+            .should('not.contain', options[ 0 ].value)
+            .should('contain', 'Test')
+        })
+
+        it('should not override the default selection string when using `use-chips`', () => {
+          const options = [ { label: 'Option one', value: 1 }, { label: 'Option two', value: 2 } ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: 1,
+              displayValue: 'Test',
+              useChips: true
+            }
+          })
+          cy.get('.select-root')
+            .should('contain', options[ 0 ].value)
+            .should('not.contain', 'Test')
+        })
+
+        it('should not override the default selection string when using `selected` slot', () => {
+          const options = [ { label: 'Option one', value: 1 }, { label: 'Option two', value: 2 } ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: 1,
+              displayValue: 'Test'
+            },
+            slots: {
+              selected: () => 'Hello there'
+            }
+          })
+          cy.get('.select-root')
+            .should('not.contain', options[ 0 ].value)
+            .should('not.contain', 'Test')
+            .should('contain', 'Hello there')
         })
       })
 
       describe('(prop): display-value-html', () => {
-        it.skip(' ', () => {
-          //
+        it('should render the selected option as html', () => {
+          const options = [ '<b style="color: red">Option 1</b>', 'Option 2' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: options[ 0 ],
+              displayValueHtml: true
+            }
+          })
+          cy.get('.select-root')
+            .contains('Option 1')
+            .should('have.color', 'red')
+            .should('have.css', 'font-weight', '700')
+        })
+
+        it('should not render the selected option as html when using `selected` slot', () => {
+          const html = '<b style="color: red">Option 1</b>'
+          const options = [ 'Option 1', 'Option 2' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: options[ 0 ],
+              displayValueHtml: true
+            },
+            slots: {
+              selected: () => html
+            }
+          })
+          cy.get('.select-root')
+            .contains(html)
+        })
+
+        it('should not render the selected option as html when using `selected-item` slot', () => {
+          const html = '<b style="color: red">Option 1</b>'
+          const options = [ 'Option 1', 'Option 2' ]
+          mount(WrapperOne, {
+            attrs: {
+              options,
+              modelValue: options[ 0 ],
+              displayValueHtml: true
+            },
+            slots: {
+              'selected-item': () => html
+            }
+          })
+          cy.get('.select-root')
+            .contains(html)
         })
       })
 
