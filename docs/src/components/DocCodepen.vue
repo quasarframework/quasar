@@ -65,14 +65,14 @@ export default {
     })
 
     const css = computed(() => {
-      return (def.parts.style || '')
+      return (def.parts.Style || '')
         .replace(/(<style.*?>|<\/style>)/g, '')
         .trim()
     })
 
     const cssPreprocessor = computed(() => {
       const lang = /<style.*lang=["'](.*)["'].*>/
-        .exec(def.parts.style || '')
+        .exec(def.parts.Style || '')
 
       return lang ? lang[ 1 ] : 'none'
     })
@@ -81,14 +81,14 @@ export default {
       const quasarImports = /import\s+{([^}'\n]+)}\s+from\s+'quasar'/g
       const vueImports = /import\s+{([^}'\n]+)}\s+from\s+'vue'/g
       const otherImports = /import ([^'\n]*) from ([^\n]*)/g
-      let component = /export default {([\s\S]*)}/g.exec(def.parts.script || '')
+      let component = /export default {([\s\S]*)}/g.exec(def.parts.Script || '')
 
       component = ((component && component[ 1 ]) || '').trim()
       if (component.length > 0) {
         component = '\n  ' + component + '\n'
       }
 
-      let script = /<script>([\s\S]*)export default {/g.exec(def.parts.script || '')
+      let script = /<script>([\s\S]*)export default {/g.exec(def.parts.Script || '')
       script = ((script && script[ 1 ]) || '')
         .replace(quasarImports, replaceQuasarImports)
         .replace(vueImports, replaceVueImports)
@@ -105,7 +105,7 @@ app.mount('#q-app')
     })
 
     const html = computed(() => {
-      return (def.parts.template || '')
+      return (def.parts.Template || '')
         .replace(/(<template>|<\/template>$)/g, '')
         .replace(/\n/g, '\n  ')
         .replace(/([\w]+=")([^"]*?)(")/g, function (match, p1, p2, p3) {
@@ -157,7 +157,7 @@ app.mount('#q-app')
       return JSON.stringify(data)
     })
 
-    async function open (whichParts) {
+    function open (whichParts) {
       def.parts = whichParts
 
       if (active.value) {
@@ -167,8 +167,9 @@ app.mount('#q-app')
 
       active.value = true
 
-      await nextTick()
-      form.value.submit()
+      nextTick(() => {
+        form.value.submit()
+      })
     }
 
     return {
