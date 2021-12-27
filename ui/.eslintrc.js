@@ -18,7 +18,8 @@ module.exports = {
   ],
   // required to lint *.vue files
   plugins: [
-    'vue'
+    'vue',
+    'no-only-tests'
   ],
   globals: {
     cordova: true,
@@ -83,6 +84,7 @@ module.exports = {
     'vue/require-explicit-emits': 'off',
 
     // Testing
-    'cypress/no-unnecessary-waiting': 'off'
+    'cypress/no-unnecessary-waiting': 'off',
+    'no-only-tests/no-only-tests': 'error'
   }
 }

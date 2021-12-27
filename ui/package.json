@@ -80,6 +80,7 @@
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-no-only-tests": "^2.6.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-vue": "^7.0.0",
