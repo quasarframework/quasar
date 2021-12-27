@@ -21,7 +21,7 @@ const defaultSizes = {
   xl: 24
 }
 
-const formTypes = [ 'submit', 'reset' ]
+const formTypes = [ 'button', 'submit', 'reset' ]
 const mediaTypeRE = /[^\s]\/[^\s]/
 
 export const useBtnProps = {
