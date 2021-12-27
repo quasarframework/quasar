@@ -55,20 +55,18 @@ $sizes ?= {
   xl: $breakpoint-lg + 1  // Extra large screen
 }
 
-$breakpoint-xs-min ?= 0
-$breakpoint-xs-max ?= $breakpoint-xs
+$breakpoint-xs-max ?= ($sizes.sm - 0.02)
 
 $breakpoint-sm-min ?= $sizes.sm
-$breakpoint-sm-max ?= $breakpoint-sm
+$breakpoint-sm-max ?= ($sizes.md - 0.02)
 
 $breakpoint-md-min ?= $sizes.md
-$breakpoint-md-max ?= $breakpoint-md
+$breakpoint-md-max ?= ($sizes.lg - 0.02)
 
 $breakpoint-lg-min ?= $sizes.lg
-$breakpoint-lg-max ?= $breakpoint-lg
+$breakpoint-lg-max ?= ($sizes.xl - 0.02)
 
 $breakpoint-xl-min ?= $sizes.xl
-$breakpoint-xl-max ?= 9999px
 
 $headings ?= {
   h1: {
