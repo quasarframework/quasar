@@ -6,14 +6,14 @@
           <template v-if="bp === 'xs'">
             N/A
           </template>
-          <strong v-else :class="`lt-${bp}`">
+          <strong v-else :class="`lt-${ bp }`">
             lt-{{ bp }}
           </strong>
         </div>
       </div>
       <div class="col-4">
         <div class="fit q-pa-sm bg-grey-4 text-center">
-          <strong :class="`${bp}`">
+          <strong :class="`${ bp }`">
             {{ bp }}
           </strong>
         </div>
@@ -23,15 +23,15 @@
           <template v-if="bp === 'xl'">
             N/A
           </template>
-          <strong v-else :class="`gt-${bp}`">
+          <strong v-else :class="`gt-${ bp }`">
             gt-{{ bp }}
           </strong>
         </div>
       </div>
     </div>
 
-    <div class="q-pa-sm" :class="`bg-${color}`">
-      breakpoint: <strong>{{ w }}</strong>
+    <div class="q-pa-sm" :class="`bg-${ color }`">
+      Screen breakpoint: <strong>{{ w }}</strong>
       <br/>
       from <strong>{{ $q.screen.sizes[w] || 0 }}</strong> to <strong>{{ $q.screen.sizes[wNext] || 'Infinity' }}</strong>
       <br/>
@@ -56,9 +56,9 @@ export default {
       const { screen } = this.$q
 
       for (let i = 0; i < breakpointsLen; i++) {
-        const bp = breakpoints[i]
+        const bp = breakpoints[ i ]
 
-        if (screen[bp] === true) {
+        if (screen[ bp ] === true) {
           return bp
         }
       }
@@ -70,10 +70,10 @@ export default {
       const { screen } = this.$q
 
       for (let i = 0; i < breakpointsLen; i++) {
-        const bp = breakpoints[i]
+        const bp = breakpoints[ i ]
 
-        if (screen[bp] === true) {
-          return i < breakpointsLen - 1 ? breakpoints[i + 1] : '???'
+        if (screen[ bp ] === true) {
+          return i < breakpointsLen - 1 ? breakpoints[ i + 1 ] : '???'
         }
       }
 
@@ -84,8 +84,8 @@ export default {
       const index = breakpoints.indexOf(this.w)
 
       return index === -1
-        ? `red-6`
-        : `yellow-${1 + 2 * index}`
+        ? 'red-6'
+        : `yellow-${ 1 + 2 * index }`
     }
   }
 }
