@@ -42,10 +42,12 @@ export default Vue.extend({
   },
 
   data () {
+    const innerMin = this.__getInnerMin(this.innerMin)
+    const innerMax = this.__getInnerMax(this.innerMax)
     return {
       model: {
-        min: this.value.min === null ? this.__getInnerMin(this.innerMin) : this.value.min,
-        max: this.value.max === null ? this.__getInnerMax(this.innerMax) : this.value.max
+        min: this.value.min === null ? innerMin : between(this.value.min, innerMin, innerMax),
+        max: this.value.max === null ? innerMax : between(this.value.max, innerMin, innerMax)
       },
       curMinRatio: 0,
       curMaxRatio: 0,
