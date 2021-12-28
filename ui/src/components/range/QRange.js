@@ -1,8 +1,6 @@
 import Vue from 'vue'
 
 import {
-  getRatio,
-  getModel,
   SliderMixin,
   keyCodes
 } from '../slider/slider-utils.js'
@@ -24,16 +22,9 @@ export default Vue.extend({
   props: {
     value: {
       type: Object,
-      default: () => ({
-        min: null,
-        max: null
-      }),
-      validator (val) {
-        return 'min' in val && 'max' in val
-      }
+      default: () => ({ min: null, max: null }),
+      validator: v => 'min' in v && 'max' in v
     },
-
-    name: String,
 
     dragRange: Boolean,
     dragOnlyRange: Boolean,
@@ -44,190 +35,154 @@ export default Vue.extend({
     rightLabelTextColor: String,
 
     leftLabelValue: [ String, Number ],
-    rightLabelValue: [ String, Number ]
+    rightLabelValue: [ String, Number ],
+
+    leftThumbColor: String,
+    rightThumbColor: String
   },
 
   data () {
     return {
       model: {
-        min: this.value.min === null ? this.min : this.value.min,
-        max: this.value.max === null ? this.max : this.value.max
+        min: this.value.min === null ? this.__getInnerMin(this.innerMin) : this.value.min,
+        max: this.value.max === null ? this.__getInnerMax(this.innerMax) : this.value.max
       },
       curMinRatio: 0,
-      curMaxRatio: 0
-    }
-  },
-
-  watch: {
-    'value.min' (val) {
-      this.model.min = val === null
-        ? this.min
-        : val
-    },
-
-    'value.max' (val) {
-      this.model.max = val === null
-        ? this.max
-        : val
-    },
-
-    min (value) {
-      if (this.model.min < value) {
-        this.model.min = value
-      }
-      if (this.model.max < value) {
-        this.model.max = value
-      }
-    },
-
-    max (value) {
-      if (this.model.min > value) {
-        this.model.min = value
-      }
-      if (this.model.max > value) {
-        this.model.max = value
-      }
+      curMaxRatio: 0,
+      nextFocus: null
     }
   },
 
   computed: {
+    modelMinRatio () {
+      return this.__convertModelToRatio(this.model.min)
+    },
+    modelMaxRatio () {
+      return this.__convertModelToRatio(this.model.max)
+    },
+
     ratioMin () {
       return this.active === true ? this.curMinRatio : this.modelMinRatio
     },
-
     ratioMax () {
       return this.active === true ? this.curMaxRatio : this.modelMaxRatio
     },
 
-    modelMinRatio () {
-      return this.minMaxDiff === 0 ? 0 : (this.model.min - this.min) / this.minMaxDiff
-    },
-
-    modelMaxRatio () {
-      return this.minMaxDiff === 0 ? 0 : (this.model.max - this.min) / this.minMaxDiff
-    },
-
-    trackStyle () {
-      return {
+    selectionBarStyle () {
+      const acc = {
         [ this.positionProp ]: `${100 * this.ratioMin}%`,
         [ this.sizeProp ]: `${100 * (this.ratioMax - this.ratioMin)}%`
       }
-    },
-
-    minThumbStyle () {
-      return {
-        [ this.positionProp ]: `${100 * this.ratioMin}%`,
-        'z-index': this.__nextFocus === 'min' ? 2 : void 0
+      if (this.selectionImg !== void 0) {
+        acc.backgroundImage = `url(${this.selectionImg}) !important`
       }
-    },
-
-    maxThumbStyle () {
-      return {
-        [ this.positionProp ]: `${100 * this.ratioMax}%`
-      }
-    },
-
-    minThumbClass () {
-      if (this.preventFocus === false && this.focus === 'min') {
-        return 'q-slider--focus'
-      }
-    },
-
-    maxThumbClass () {
-      if (this.preventFocus === false && this.focus === 'max') {
-        return 'q-slider--focus'
-      }
+      return acc
     },
 
     events () {
-      if (this.editable === true) {
-        if (this.$q.platform.is.mobile === true) {
-          return { click: this.__mobileClick }
-        }
-
-        const evt = { mousedown: this.__activate }
-
-        this.dragOnlyRange === true && Object.assign(evt, {
-          focus: () => { this.__focus('both') },
-          blur: this.__blur,
-          keydown: this.__keydown,
-          keyup: this.__keyup
-        })
-
-        return evt
+      if (this.editable !== true) {
+        return {}
       }
+
+      if (this.$q.platform.is.mobile === true) {
+        return { click: this.__onMobileClick }
+      }
+
+      const evt = { mousedown: this.__onActivate }
+
+      this.dragOnlyRange === true && Object.assign(evt, {
+        focus: () => { this.__onFocus('both') },
+        blur: this.__onBlur,
+        keydown: this.__onKeydown,
+        keyup: this.__onKeyup
+      })
+
+      return evt
     },
 
-    minEvents () {
-      if (this.editable === true && this.$q.platform.is.mobile !== true && this.dragOnlyRange !== true) {
-        return {
-          focus: () => { this.__focus('min') },
-          blur: this.__blur,
-          keydown: this.__keydown,
-          keyup: this.__keyup
-        }
-      }
+    thumbMinEvents () {
+      return this.__getEvents('min')
+    },
+    thumbMaxEvents () {
+      return this.__getEvents('max')
     },
 
-    maxEvents () {
-      if (this.editable === true && this.$q.platform.is.mobile !== true && this.dragOnlyRange !== true) {
-        return {
-          focus: () => { this.__focus('max') },
-          blur: this.__blur,
-          keydown: this.__keydown,
-          keyup: this.__keyup
-        }
-      }
-    },
-
-    minPinClass () {
-      const color = this.leftLabelColor || this.labelColor
-      if (color) {
-        return `text-${color}`
-      }
-    },
-
-    minPinTextClass () {
-      const color = this.leftLabelTextColor || this.labelTextColor
-      if (color) {
-        return `text-${color}`
-      }
-    },
-
-    maxPinClass () {
-      const color = this.rightLabelColor || this.labelColor
-      if (color) {
-        return `text-${color}`
-      }
-    },
-
-    maxPinTextClass () {
-      const color = this.rightLabelTextColor || this.labelTextColor
-      if (color) {
-        return `text-${color}`
-      }
-    },
-
-    minLabel () {
+    thumbMinLabel () {
       return this.leftLabelValue !== void 0
         ? this.leftLabelValue
         : this.model.min
     },
-
-    maxLabel () {
+    thumbMaxLabel () {
       return this.rightLabelValue !== void 0
         ? this.rightLabelValue
         : this.model.max
     },
 
-    minPinStyle () {
-      const percent = (this.reverse === true ? -this.ratioMin : this.ratioMin - 1)
-      return this.__getPinStyle(percent, this.ratioMin)
+    thumbMinClasses () {
+      const color = this.leftThumbColor || this.thumbColor || this.color
+      return `q-slider__thumb q-slider__thumb${this.axis} q-slider__thumb${this.axis}-${this.isReversed === true ? 'rtl' : 'ltr'} absolute non-selectable` +
+        (
+          this.preventFocus === false && this.focus === 'min'
+            ? ' q-slider--focus'
+            : ''
+        ) +
+        (color !== void 0 ? ` text-${color}` : '')
+    },
+    thumbMaxClasses () {
+      const color = this.rightThumbColor || this.thumbColor || this.color
+      return `q-slider__thumb q-slider__thumb${this.axis} q-slider__thumb${this.axis}-${this.isReversed === true ? 'rtl' : 'ltr'} absolute non-selectable` +
+        (
+          this.preventFocus === false && this.focus === 'max'
+            ? ' q-slider--focus'
+            : ''
+        ) +
+        (color !== void 0 ? ` text-${color}` : '')
     },
 
-    maxPinStyle () {
-      const percent = (this.reverse === true ? -this.ratioMax : this.ratioMax - 1)
-      return this.__getPinStyle(percent, this.ratioMax)
+    thumbMinStyle () {
+      return {
+        width: this.thumbSize,
+        height: this.thumbSize,
+        [ this.positionProp ]: `${100 * this.ratioMin}%`
+      }
+    },
+    thumbMaxStyle () {
+      return {
+        width: this.thumbSize,
+        height: this.thumbSize,
+        [ this.positionProp ]: `${100 * this.ratioMax}%`
+      }
+    },
+
+    thumbMinPinColor () {
+      const color = this.leftLabelColor || this.labelColor
+      return color !== void 0
+        ? ` text-${color}`
+        : ''
+    },
+    thumbMaxPinColor () {
+      const color = this.rightLabelColor || this.labelColor
+      return color !== void 0
+        ? ` text-${color}`
+        : ''
+    },
+
+    thumbMinTextContainerStyle () {
+      return this.__getTextContainerStyle(this.ratioMin)
+    },
+    thumbMaxTextContainerStyle () {
+      return this.__getTextContainerStyle(this.ratioMax)
+    },
+
+    thumbMinTextClass () {
+      const color = this.leftLabelTextColor || this.labelTextColor
+      return 'q-slider__text' +
+        (color !== void 0 ? ` text-${color}` : '')
+    },
+    thumbMaxTextClass () {
+      const color = this.rightLabelTextColor || this.labelTextColor
+      return 'q-slider__text' +
+        (color !== void 0 ? ` text-${color}` : '')
     },
 
     formAttrs () {
@@ -236,15 +191,31 @@ export default Vue.extend({
         name: this.name,
         value: `${this.value.min}|${this.value.max}`
       }
+    },
+
+    modelUpdate () {
+      return this.value.min + this.value.max + this.computedInnerMin + this.computedInnerMax
+    }
+  },
+
+  watch: {
+    modelUpdate () {
+      this.model.min = this.value.min === null
+        ? this.computedInnerMin
+        : between(this.value.min, this.computedInnerMin, this.computedInnerMax)
+
+      this.model.max = this.value.max === null
+        ? this.computedInnerMax
+        : between(this.value.max, this.computedInnerMin, this.computedInnerMax)
     }
   },
 
   methods: {
     __updateValue (change) {
       if (this.model.min !== this.value.min || this.model.max !== this.value.max) {
-        this.$emit('input', this.model)
+        this.$emit('update:modelValue', { ...this.model })
       }
-      change === true && this.$emit('change', this.model)
+      change === true && this.$emit('change', { ...this.model })
     },
 
     __getDragging (event) {
@@ -252,9 +223,10 @@ export default Vue.extend({
         { left, top, width, height } = this.$el.getBoundingClientRect(),
         sensitivity = this.dragOnlyRange === true
           ? 0
-          : (this.vertical === true
-            ? this.$refs.minThumb.offsetHeight / (2 * height)
-            : this.$refs.minThumb.offsetWidth / (2 * width)
+          : (
+            this.vertical === true
+              ? this.$refs.minThumb.offsetHeight / (2 * height)
+              : this.$refs.minThumb.offsetWidth / (2 * width)
           )
 
       const dragging = {
@@ -268,8 +240,8 @@ export default Vue.extend({
         ratioMax: this.modelMaxRatio
       }
 
-      const ratio = getRatio(event, dragging, this.isReversed, this.vertical)
       let type
+      const ratio = this.__getDraggingRatio(event, dragging)
 
       if (this.dragOnlyRange !== true && ratio < dragging.ratioMin + sensitivity) {
         type = dragType.MIN
@@ -279,7 +251,7 @@ export default Vue.extend({
           type = dragType.RANGE
           Object.assign(dragging, {
             offsetRatio: ratio,
-            offsetModel: getModel(ratio, this.min, this.max, this.step, this.decimals),
+            offsetModel: this.__convertRatioToModel(ratio),
             rangeValue: dragging.valueMax - dragging.valueMin,
             rangeRatio: dragging.ratioMax - dragging.ratioMin
           })
@@ -295,16 +267,15 @@ export default Vue.extend({
       }
 
       dragging.type = type
-      this.__nextFocus = void 0
+      this.nextFocus = null
 
       return dragging
     },
 
     __updatePosition (event, dragging = this.dragging) {
-      const
-        ratio = getRatio(event, dragging, this.isReversed, this.vertical),
-        model = getModel(ratio, this.min, this.max, this.step, this.decimals)
       let pos
+      const ratio = this.__getDraggingRatio(event, dragging)
+      const localModel = this.__convertRatioToModel(ratio)
 
       switch (dragging.type) {
         case dragType.MIN:
@@ -312,19 +283,19 @@ export default Vue.extend({
             pos = {
               minR: ratio,
               maxR: dragging.ratioMax,
-              min: model,
+              min: localModel,
               max: dragging.valueMax
             }
-            this.__nextFocus = 'min'
+            this.nextFocus = 'min'
           }
           else {
             pos = {
               minR: dragging.ratioMax,
               maxR: ratio,
               min: dragging.valueMax,
-              max: model
+              max: localModel
             }
-            this.__nextFocus = 'max'
+            this.nextFocus = 'max'
           }
           break
 
@@ -334,18 +305,18 @@ export default Vue.extend({
               minR: dragging.ratioMin,
               maxR: ratio,
               min: dragging.valueMin,
-              max: model
+              max: localModel
             }
-            this.__nextFocus = 'max'
+            this.nextFocus = 'max'
           }
           else {
             pos = {
               minR: ratio,
               maxR: dragging.ratioMin,
-              min: model,
+              min: localModel,
               max: dragging.valueMin
             }
-            this.__nextFocus = 'min'
+            this.nextFocus = 'min'
           }
           break
 
@@ -353,14 +324,14 @@ export default Vue.extend({
           const
             ratioDelta = ratio - dragging.offsetRatio,
             minR = between(dragging.ratioMin + ratioDelta, 0, 1 - dragging.rangeRatio),
-            modelDelta = model - dragging.offsetModel,
+            modelDelta = localModel - dragging.offsetModel,
             min = between(dragging.valueMin + modelDelta, this.min, this.max - dragging.rangeValue)
 
           pos = {
             minR,
             maxR: minR + dragging.rangeRatio,
-            min: parseFloat(min.toFixed(this.decimals)),
-            max: parseFloat((min + dragging.rangeValue).toFixed(this.decimals))
+            min: parseFloat(min.toFixed(this.computedDecimals)),
+            max: parseFloat((min + dragging.rangeValue).toFixed(this.computedDecimals))
           }
           break
       }
@@ -381,16 +352,27 @@ export default Vue.extend({
         this.curMaxRatio = pos.maxR
       }
       else {
-        this.curMinRatio = this.minMaxDiff === 0 ? 0 : (this.model.min - this.min) / this.minMaxDiff
-        this.curMaxRatio = this.minMaxDiff === 0 ? 0 : (this.model.max - this.min) / this.minMaxDiff
+        this.curMinRatio = this.trackLen === 0 ? 0 : (this.model.min - this.min) / this.trackLen
+        this.curMaxRatio = this.trackLen === 0 ? 0 : (this.model.max - this.min) / this.trackLen
       }
     },
 
-    __focus (which) {
+    __getEvents (side) {
+      return this.editable === true && this.$q.platform.is.mobile !== true && this.dragOnlyRange !== true
+        ? {
+          focus: () => { this.__onFocus(side) },
+          blur: this.__onBlur,
+          keydown: this.__onKeydown,
+          keyup: this.__onKeyup
+        }
+        : {}
+    },
+
+    __onFocus (which) {
       this.focus = which
     },
 
-    __keydown (evt) {
+    __onKeydown (evt) {
       if (!keyCodes.includes(evt.keyCode)) {
         return
       }
@@ -398,8 +380,8 @@ export default Vue.extend({
       stopAndPrevent(evt)
 
       const
-        step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
-        offset = [34, 37, 40].includes(evt.keyCode) ? -step : step
+        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * this.step,
+        offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -stepVal : stepVal
 
       if (this.dragOnlyRange) {
         const interval = this.dragOnlyRange
@@ -407,14 +389,14 @@ export default Vue.extend({
           : 0
 
         const min = between(
-          parseFloat((this.model.min + offset).toFixed(this.decimals)),
-          this.min,
-          this.max - interval
+          parseFloat((this.model.min + offset).toFixed(this.computedDecimals)),
+          this.computedInnerMin,
+          this.computedInnerMax - interval
         )
 
         this.model = {
           min,
-          max: parseFloat((min + interval).toFixed(this.decimals))
+          max: parseFloat((min + interval).toFixed(this.computedDecimals))
         }
       }
       else if (this.focus === false) {
@@ -425,103 +407,67 @@ export default Vue.extend({
 
         this.model = {
           ...this.model,
-          [which]: between(
-            parseFloat((this.model[which] + offset).toFixed(this.decimals)),
-            which === 'min' ? this.min : this.model.min,
-            which === 'max' ? this.max : this.model.max
+          [ which ]: between(
+            parseFloat((this.model[ which ] + offset).toFixed(this.computedDecimals)),
+            which === 'min' ? this.computedInnerMin : this.model.min,
+            which === 'max' ? this.computedInnerMax : this.model.max
           )
         }
       }
 
       this.__updateValue()
-    },
-
-    __getThumb (h, which) {
-      const child = [
-        this.__getThumbSvg(h),
-        h('div', { staticClass: 'q-slider__focus-ring' })
-      ]
-
-      if (this.label === true || this.labelAlways === true) {
-        child.push(
-          h('div', {
-            staticClass: `q-slider__pin q-slider__pin${this.axis} absolute`,
-            style: this[which + 'PinStyle'].pin,
-            class: this[which + 'PinClass']
-          }, [
-            h('div', {
-              staticClass: `q-slider__pin-text-container q-slider__pin-text-container${this.axis}`,
-              style: this[which + 'PinStyle'].pinTextContainer
-            }, [
-              h('span', {
-                staticClass: 'q-slider__pin-text',
-                class: this[which + 'PinTextClass']
-              }, [
-                this[which + 'Label']
-              ])
-            ])
-          ]),
-
-          h('div', {
-            staticClass: `q-slider__arrow q-slider__arrow${this.axis}`,
-            class: this[which + 'PinClass']
-          })
-        )
-      }
-
-      return h('div', {
-        ref: which + 'Thumb',
-        staticClass: `q-slider__thumb-container q-slider__thumb-container${this.axis} absolute non-selectable`,
-        style: this[which + 'ThumbStyle'],
-        class: this[which + 'ThumbClass'],
-        on: this[which + 'Events'],
-        attrs: { tabindex: this.dragOnlyRange !== true ? this.computedTabindex : null }
-      }, child)
     }
   },
 
   render (h) {
-    const track = [
-      h('div', {
-        staticClass: `q-slider__track q-slider__track${this.axis} absolute`,
-        style: this.trackStyle
-      })
-    ]
+    const content = this.__getContent(h, node => {
+      const attrs = {
+        tabindex: this.dragOnlyRange !== true ? this.computedTabindex : null
+      }
 
-    this.markers !== false && track.push(
-      h('div', {
-        staticClass: `q-slider__track-markers q-slider__track-markers${this.axis} absolute-full fit`,
-        style: this.markerStyle
-      })
-    )
+      node.push(
+        this.__getThumb(h, {
+          pinColor: this.thumbMinPinColor,
+          textContainerStyle: this.thumbMinTextContainerStyle,
+          textClass: this.thumbMinTextClass,
+          label: this.thumbMinLabel,
+          classes: this.thumbMinClasses,
+          style: this.thumbMinStyle,
+          nodeData: {
+            ref: 'minThumb',
+            on: this.thumbMinEvents,
+            attrs
+          }
+        }),
 
-    const child = [
-      h('div', {
-        staticClass: `q-slider__track-container q-slider__track-container${this.axis} absolute`
-      }, track),
-
-      this.__getThumb(h, 'min'),
-      this.__getThumb(h, 'max')
-    ]
-
-    if (this.name !== void 0 && this.disable !== true) {
-      this.__injectFormInput(child, 'push')
-    }
+        this.__getThumb(h, {
+          pinColor: this.thumbMaxPinColor,
+          textContainerStyle: this.thumbMaxTextContainerStyle,
+          textClass: this.thumbMaxTextClass,
+          label: this.thumbMaxLabel,
+          classes: this.thumbMaxClasses,
+          style: this.thumbMaxStyle,
+          nodeData: {
+            on: this.thumbMaxEvents,
+            attrs
+          }
+        })
+      )
+    })
 
     return h('div', {
-      staticClass: this.value.min === null || this.value.max === null
-        ? 'q-slider--no-value'
-        : void 0,
+      class: 'q-range ' + this.classes + (
+        this.value.min === null || this.value.max === null
+          ? ' q-slider--no-value'
+          : ''
+      ),
       attrs: {
-        ...this.attrs,
+        ...this.attributes,
         'aria-valuenow': this.value.min + '|' + this.value.max,
         tabindex: this.dragOnlyRange === true && this.$q.platform.is.mobile !== true
           ? this.computedTabindex
           : null
-      },
-      class: this.classes,
-      on: this.events,
-      directives: this.panDirectives
-    }, child)
+      }
+    }, content)
   }
 })
