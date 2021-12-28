@@ -29,14 +29,14 @@ export default {
 
   computed: {
     hasHrefLink () {
-      return this.disable !== true && typeof this.href === 'string' && this.href.trim().length > 0
+      return this.disable !== true && this.href !== void 0
     },
 
     hasRouterLinkProps () {
-      return this.disable !== true &&
+      return this.$router !== void 0 &&
+        this.disable !== true &&
         this.hasHrefLink !== true &&
-        this.to !== void 0 && this.to !== null && this.to !== '' &&
-        this.$router !== void 0
+        this.to !== void 0 && this.to !== null && this.to !== ''
     },
 
     linkRoute () {
