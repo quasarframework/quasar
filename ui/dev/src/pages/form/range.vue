@@ -25,6 +25,18 @@
       </div>
 
       <p class="caption">
+        Inner min/max
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ innerMinMax.min }} to {{ innerMinMax.max }}</em> &nbsp;&nbsp;(0 to 50, inner 10 to 35 or 15 to 40)</span>
+        </span>
+      </p>
+      <div>
+        <q-range v-model="nullInnerMinMax" :dark="dark" :min="0" :max="50" :inner-min="10" :inner-max="35" />
+        <q-range v-model="innerMinMax" :dark="dark" :min="0" :max="50" :inner-min="10" :inner-max="35" />
+        <q-range v-model="innerMinMax" :dark="dark" :min="0" :max="50" color="green" :inner-min="15" :inner-max="40" markers />
+      </div>
+
+      <p class="caption">
         Reverse
         <span class="label inline bg-secondary text-white">
           Model <span class="right-detail"><em>{{ stepZero.min }} to {{ stepZero.max }}</em> &nbsp;&nbsp;(0 to 100)</span>
@@ -244,6 +256,15 @@ export default {
       standalone: {
         min: 10,
         max: 35
+      },
+
+      nullInnerMinMax: {
+        min: null,
+        max: null
+      },
+      innerMinMax: {
+        min: 20,
+        max: 25
       },
 
       stepZero: {

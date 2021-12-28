@@ -19,7 +19,7 @@ export default {
     return {
       model: {
         min: -16,
-        max: 12
+        max: 16
       }
     }
   }

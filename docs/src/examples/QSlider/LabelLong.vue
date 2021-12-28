@@ -17,7 +17,7 @@
 export default {
   data () {
     return {
-      value: -10
+      value: -16
     }
   }
 }
