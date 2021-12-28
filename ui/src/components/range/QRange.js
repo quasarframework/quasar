@@ -24,13 +24,8 @@ export default createComponent({
 
     modelValue: {
       type: Object,
-      default: () => ({
-        min: null,
-        max: null
-      }),
-      validator (val) {
-        return 'min' in val && 'max' in val
-      }
+      default: () => ({ min: null, max: null }),
+      validator: v => 'min' in v && 'max' in v
     },
 
     dragRange: Boolean,
@@ -115,17 +110,19 @@ export default createComponent({
       return evt
     })
 
-    const minThumbRef = ref(null)
-    const minEvents = computed(() => (
-      state.editable.value === true && $q.platform.is.mobile !== true && props.dragOnlyRange !== true
+    function getEvents (side) {
+      return state.editable.value === true && $q.platform.is.mobile !== true && props.dragOnlyRange !== true
         ? {
-            onFocus: () => { onFocus('min') },
+            onFocus: () => { onFocus(side) },
             onBlur: methods.onBlur,
             onKeydown,
             onKeyup: methods.onKeyup
           }
         : {}
-    ))
+    }
+
+    const minThumbRef = ref(null)
+    const minEvents = computed(() => getEvents('min'))
     const getMinThumb = methods.getThumbRenderFn({
       focusValue: 'min',
       nextFocus,
@@ -145,16 +142,7 @@ export default createComponent({
       labelTextColor: computed(() => props.leftLabelTextColor || props.labelTextColor)
     })
 
-    const maxEvents = computed(() => (
-      state.editable.value === true && $q.platform.is.mobile !== true && props.dragOnlyRange !== true
-        ? {
-            onFocus: () => { onFocus('max') },
-            onBlur: methods.onBlur,
-            onKeydown,
-            onKeyup: methods.onKeyup
-          }
-        : {}
-    ))
+    const maxEvents = computed(() => getEvents('max'))
     const getMaxThumb = methods.getThumbRenderFn({
       focusValue: 'max',
       nextFocus,
@@ -343,7 +331,7 @@ export default createComponent({
       stopAndPrevent(evt)
 
       const
-        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * props.step,
+        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * state.step.value,
         offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -stepVal : stepVal
 
       if (props.dragOnlyRange) {

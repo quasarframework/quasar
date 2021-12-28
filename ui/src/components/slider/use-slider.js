@@ -142,7 +142,7 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
   const positionProp = computed(() => (
     props.vertical === true
       ? (isReversed.value === true ? 'bottom' : 'top')
-      : isReversed.value === true ? 'right' : 'left'
+      : (isReversed.value === true ? 'right' : 'left')
   ))
 
   const sizeProp = computed(() => (props.vertical === true ? 'height' : 'width'))
@@ -587,8 +587,7 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
           h('div', {
             class: trackClass.value,
             style: trackStyle.value
-          },
-          trackContent)
+          }, trackContent)
         ],
         'slide',
         editable.value, () => panDirective.value
