@@ -60,11 +60,24 @@ export default createComponent({
     const rootRef = ref(null)
     const curMinRatio = ref(0)
     const curMaxRatio = ref(0)
+    const model = ref({ min: 0, max: 0 })
 
-    const model = ref({
-      min: props.modelValue.min === null ? state.innerMin.value : props.modelValue.min,
-      max: props.modelValue.max === null ? state.innerMax.value : props.modelValue.max
-    })
+    function normalizeModel () {
+      model.value.min = props.modelValue.min === null
+        ? state.innerMin.value
+        : between(props.modelValue.min, state.innerMin.value, state.innerMax.value)
+
+      model.value.max = props.modelValue.max === null
+        ? state.innerMax.value
+        : between(props.modelValue.max, state.innerMin.value, state.innerMax.value)
+    }
+
+    watch(
+      () => props.modelValue.min + props.modelValue.max + state.innerMin.value + state.innerMax.value,
+      normalizeModel
+    )
+
+    normalizeModel()
 
     const nextFocus = ref(null)
 
@@ -160,19 +173,6 @@ export default createComponent({
       labelColor: computed(() => props.rightLabelColor || props.labelColor),
       labelTextColor: computed(() => props.rightLabelTextColor || props.labelTextColor)
     })
-
-    watch(
-      () => props.modelValue.min + props.modelValue.max + state.innerMin.value + state.innerMax.value,
-      () => {
-        model.value.min = props.modelValue.min === null
-          ? state.innerMin.value
-          : between(props.modelValue.min, state.innerMin.value, state.innerMax.value)
-
-        model.value.max = props.modelValue.max === null
-          ? state.innerMax.value
-          : between(props.modelValue.max, state.innerMin.value, state.innerMax.value)
-      }
-    )
 
     function updateValue (change) {
       if (model.value.min !== props.modelValue.min || model.value.max !== props.modelValue.max) {

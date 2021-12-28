@@ -39,8 +39,20 @@ export default createComponent({
 
     const rootRef = ref(null)
     const curRatio = ref(0)
+    const model = ref(0)
 
-    const model = ref(props.modelValue === null ? state.innerMin.value : props.modelValue)
+    function normalizeModel () {
+      model.value = props.modelValue === null
+        ? state.innerMin.value
+        : between(props.modelValue, state.innerMin.value, state.innerMax.value)
+    }
+
+    watch(
+      () => props.modelValue + state.innerMin.value + state.innerMax.value,
+      normalizeModel
+    )
+
+    normalizeModel()
 
     const modelRatio = computed(() => methods.convertModelToRatio(model.value))
     const ratio = computed(() => (state.active.value === true ? curRatio.value : modelRatio.value))
@@ -83,12 +95,6 @@ export default createComponent({
             onKeydown,
             onKeyup: methods.onKeyup
           }
-    })
-
-    watch(() => props.modelValue + state.innerMin.value + state.innerMax.value, () => {
-      model.value = props.modelValue === null
-        ? state.innerMin.value
-        : between(props.modelValue, state.innerMin.value, state.innerMax.value)
     })
 
     function updateValue (change) {
