@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import TagMixin from '../../mixins/tag.js'
-import { RouterLinkMixin } from '../../mixins/router-link.js'
+import RouterLinkMixin from '../../mixins/router-link.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
 import { uniqueSlot } from '../../utils/slot.js'
@@ -30,8 +30,7 @@ export default Vue.extend({
   computed: {
     isActionable () {
       return this.clickable === true ||
-        this.hasRouterLink === true ||
-        this.tag === 'a' ||
+        this.hasLink === true ||
         this.tag === 'label'
     },
 
@@ -120,28 +119,24 @@ export default Vue.extend({
       staticClass: 'q-item q-item-type row no-wrap',
       class: this.classes,
       style: this.style,
+      attrs: {},
       [ this.hasRouterLink === true ? 'nativeOn' : 'on' ]: this.onEvents
     }
 
     if (this.isClickable === true) {
-      data.attrs = {
-        tabindex: this.tabindex || '0'
-      }
+      data.attrs.tabindex = this.tabindex || '0'
     }
     else if (this.isActionable === true) {
-      data.attrs = {
-        'aria-disabled': 'true'
-      }
+      data.attrs['aria-disabled'] = 'true'
     }
 
-    if (this.hasRouterLink === true) {
-      data.props = this.routerLinkProps
-
-      return h('router-link', data, this.__getContent(h))
+    if (this.hasLink === true) {
+      data.props = this.linkProps.props
+      Object.assign(data.attrs, this.linkProps.attrs)
     }
 
     return h(
-      this.tag,
+      this.linkTag,
       data,
       this.__getContent(h)
     )

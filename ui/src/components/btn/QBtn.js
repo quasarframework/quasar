@@ -37,7 +37,7 @@ export default Vue.extend({
       return this.ripple === false
         ? false
         : {
-          keyCodes: this.isLink === true ? [ 13, 32 ] : [ 13 ],
+          keyCodes: this.hasLink === true ? [ 13, 32 ] : [ 13 ],
           ...(this.ripple === true ? {} : this.ripple)
         }
     },
@@ -147,7 +147,7 @@ export default Vue.extend({
         // vue-router now throwing error if navigating
         // to the same route that the user is currently at
         // https://github.com/vuejs/vue-router/issues/2872
-        this.$router[this.replace === true ? 'replace' : 'push'](this.currentLocation.route, void 0, noop)
+        this.$router[this.replace === true ? 'replace' : 'push'](this.linkRoute.route, void 0, noop)
       }
 
       this.$emit('click', e, go)
@@ -346,7 +346,7 @@ export default Vue.extend({
       ] : void 0)
     )
 
-    return h(this.isLink === true ? 'a' : 'button', {
+    return h(this.hasLink === true || this.type === 'a' ? 'a' : 'button', {
       staticClass: 'q-btn q-btn-item non-selectable no-outline',
       class: this.classes,
       style: this.style,
