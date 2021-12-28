@@ -380,7 +380,7 @@ export default Vue.extend({
       stopAndPrevent(evt)
 
       const
-        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * this.step,
+        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
         offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -stepVal : stepVal
 
       if (this.dragOnlyRange) {
