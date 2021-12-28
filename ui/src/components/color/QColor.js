@@ -33,6 +33,9 @@ const palette = [
   'rgb(255,255,255)', 'rgb(205,205,205)', 'rgb(178,178,178)', 'rgb(153,153,153)', 'rgb(127,127,127)', 'rgb(102,102,102)', 'rgb(76,76,76)', 'rgb(51,51,51)', 'rgb(25,25,25)', 'rgb(0,0,0)'
 ]
 
+const thumbPath = 'M5 5 h10 v10 h-10 v-10 z'
+const alphaTrackImg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg=='
+
 export default Vue.extend({
   name: 'QColor',
 
@@ -371,8 +374,6 @@ export default Vue.extend({
     },
 
     __getSpectrumTab (h) {
-      const thumbPath = 'M5 5 h10 v10 h-10 v-10 z'
-
       return [
         h('div', {
           ref: 'spectrum',
@@ -411,39 +412,45 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-color-picker__sliders'
         }, [
-          h('div', { staticClass: 'q-color-picker__hue non-selectable' }, [
-            h(QSlider, {
+          h(QSlider, {
+            staticClass: 'q-color-picker__hue non-selectable',
+            props: {
+              value: this.model.h,
+              min: 0,
+              max: 360,
+              trackSize: '8px',
+              innerTrackColor: 'transparent',
+              selectionColor: 'transparent',
+              readonly: this.editable !== true,
+              thumbPath
+            },
+            on: cache(this, 'hueSlide', {
+              input: this.__onHueChange,
+              change: val => this.__onHueChange(val, true)
+            })
+          }),
+
+          this.hasAlpha === true
+            ? h(QSlider, {
+              staticClass: 'q-color-picker__alpha non-selectable',
               props: {
-                value: this.model.h,
+                value: this.model.a,
                 min: 0,
-                max: 360,
-                fillHandleAlways: true,
+                max: 100,
+                trackSize: '8px',
+                trackColor: 'white',
+                innerTrackColor: 'transparent',
+                selectionColor: 'transparent',
+                trackImg: alphaTrackImg,
                 readonly: this.editable !== true,
+                hideSelection: true,
                 thumbPath
               },
-              on: cache(this, 'hueSlide', {
-                input: this.__onHueChange,
-                change: val => this.__onHueChange(val, true)
+              on: cache(this, 'alphaSlide', {
+                input: value => this.__onNumericChange(value, 'a', 100),
+                change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
               })
             })
-          ]),
-          this.hasAlpha === true
-            ? h('div', { staticClass: 'q-color-picker__alpha non-selectable' }, [
-              h(QSlider, {
-                props: {
-                  value: this.model.a,
-                  min: 0,
-                  max: 100,
-                  fillHandleAlways: true,
-                  readonly: this.editable !== true,
-                  thumbPath
-                },
-                on: cache(this, 'alphaSlide', {
-                  input: value => this.__onNumericChange(value, 'a', 100),
-                  change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
-                })
-              })
-            ])
             : null
         ])
       ]
