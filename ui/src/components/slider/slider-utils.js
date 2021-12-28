@@ -9,11 +9,6 @@ import { isNumber } from '../../utils/is.js'
 
 const markerPrefixClass = 'q-slider__marker-labels'
 const defaultMarkerConvertFn = v => ({ value: v })
-const defaultMarkerLabelRenderFn = (h, marker) => h('div', {
-  key: marker.value,
-  style: marker.style,
-  class: marker.classes
-}, marker.label)
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 export const keyCodes = [ 34, 37, 40, 33, 39, 38 ]
@@ -36,6 +31,12 @@ export const SliderMixin = {
     },
     innerMin: Number,
     innerMax: Number,
+
+    step: {
+      type: Number,
+      default: 1,
+      validator: v => v >= 0
+    },
 
     snap: Boolean,
 
@@ -445,7 +446,11 @@ export const SliderMixin = {
         }))
       }
 
-      return this.markerLabelsList.map(marker => defaultMarkerLabelRenderFn(h, marker))
+      return this.markerLabelsList.map(marker => h('div', {
+        key: marker.value,
+        style: marker.style,
+        class: marker.classes
+      }, marker.label))
     },
 
     __onPan (event) {
