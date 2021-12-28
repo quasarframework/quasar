@@ -28,7 +28,7 @@ You are responsible for accommodating the space around QSlider so that the label
 
 <doc-example title="Vertical orientation" file="QRange/Vertical" />
 
-### With inner min/max <q-badge align="top" color="brand-primary" label="v2.4+" />
+### With inner min/max <q-badge align="top" color="brand-primary" label="v1.17+" />
 
 Sometimes you need to restrict the model value to an interval inside of the track's length. For this purpose, use `inner-min` and `inner-max` props. First prop needs to be higher or equal to `min` prop while the latter needs to be lower or equal to the `max` prop.
 
@@ -62,7 +62,7 @@ The example below is better highlighting how QRange handles label positioning so
 
 <doc-example title="Markers" file="QRange/Markers" />
 
-### Marker labels <q-badge align="top" color="brand-primary" label="v2.4+" />
+### Marker labels <q-badge align="top" color="brand-primary" label="v1.17+" />
 
 <doc-example title="Marker labels" file="QRange/MarkerLabels" />
 
@@ -72,7 +72,7 @@ In order to use the marker label slots (see below), you must enable them by usin
 
 <doc-example title="Marker label slots" file="QRange/MarkerLabelSlots" />
 
-### Other customizations <q-badge align="top" color="brand-primary" label="v2.4+" />
+### Other customizations <q-badge align="top" color="brand-primary" label="v1.17+" />
 
 <doc-example title="Color customizations" file="QRange/RangeColoring" />
 
