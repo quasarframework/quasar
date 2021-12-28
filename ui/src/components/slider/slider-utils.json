@@ -291,7 +291,7 @@
 
   "scopedSlots": {
     "marker-label": {
-      "desc": "What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>",
+      "desc": "What to be used to display the marker label",
       "addedIn": "v1.17",
       "scope": {
         "marker": {
@@ -424,7 +424,7 @@
     },
 
     "marker-label-group": {
-      "desc": "What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>",
+      "desc": "What to be used to display the marker label group",
       "addedIn": "v1.17",
       "scope": {
         "markerList": {
