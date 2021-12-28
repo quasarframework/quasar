@@ -11,7 +11,9 @@
         :max="50"
         vertical
         label
+        switch-label-side
       />
+
       <q-range
         v-model="standard"
         :min="0"

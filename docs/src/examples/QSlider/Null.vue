@@ -9,14 +9,16 @@
     />
 
     <q-badge color="secondary" class="q-mb-lg">
-      Model: {{ getNullLabel(limitModel) }} (20 to 50, step 1)
+      Model: {{ getNullLabel(limitModel) }} (10 to 70, step 1, inner 20 to 55)
     </q-badge>
 
     <q-slider
       v-model="limitModel"
       color="secondary"
-      :min="20"
-      :max="50"
+      :min="10"
+      :max="70"
+      :inner-min="20"
+      :inner-max="55"
     />
   </div>
 </template>
