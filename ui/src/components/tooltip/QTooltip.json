@@ -12,6 +12,14 @@
       "category": "content"
     },
 
+    "wrapper-selector": {
+      "type": "String",
+      "desc": "By default tooltip is append to document.body but you can override this behavior by specify Wrapper selector. Wrapper selector will be pass to document.querySelector as first parameter.",
+      "default": "undefined",
+      "examples": ["#element-wrapper"],
+      "category": "selector"
+    },
+
     "max-width": {
       "extends": "size",
       "desc": "The maximum width of the Tooltip; Size in CSS units, including unit name",

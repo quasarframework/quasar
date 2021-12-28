@@ -5,7 +5,7 @@ let target = __QUASAR_SSR_SERVER__
   ? void 0
   : document.body
 
-export function createGlobalNode (id) {
+export function createGlobalNode (id, wrapperSelector) {
   const el = document.createElement('div')
 
   if (id !== void 0) {
@@ -19,7 +19,11 @@ export function createGlobalNode (id) {
     }
   }
 
-  target.appendChild(el)
+  if (wrapperSelector !== undefined) {
+    document.querySelector(wrapperSelector).appendChild(el)
+  } else {
+    target.appendChild(el)
+  }
   globalNodes.push(el)
 
   return el

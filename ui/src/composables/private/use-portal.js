@@ -25,7 +25,7 @@ function isOnGlobalDialog (vm) {
 // Warning!
 // You MUST specify "inheritAttrs: false" in your component
 
-export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
+export default function (vm, innerRef, renderPortalContent, checkGlobalDialog, wrapperSelector) {
   const portalIsActive = ref(false)
 
   if (__QUASAR_SSR_SERVER__) {
@@ -49,7 +49,7 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
     }
 
     if (onGlobalDialog === false && portalEl === null) {
-      portalEl = createGlobalNode()
+      portalEl = createGlobalNode(undefined, wrapperSelector)
     }
 
     portalIsActive.value = true
