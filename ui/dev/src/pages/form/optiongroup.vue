@@ -16,7 +16,7 @@
         type="radio"
         color="secondary"
         v-model="radio"
-        @update:model-value="onInput"
+        @input="onInput"
         :dark="dark"
         :dense="dense"
         :keep-color="keepColor"
@@ -53,7 +53,7 @@
         type="checkbox"
         color="secondary"
         v-model="checkbox"
-        @update:model-value="onInput"
+        @input="onInput"
         :dark="dark"
         :dense="dense"
         :keep-color="keepColor"
@@ -90,7 +90,7 @@
         type="toggle"
         color="secondary"
         v-model="toggle"
-        @update:model-value="onInput"
+        @input="onInput"
         :dark="dark"
         :dense="dense"
         :keep-color="keepColor"
@@ -167,7 +167,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@update:model-value', JSON.stringify(val))
+      console.log('@input', JSON.stringify(val))
     },
     onFocus () {
       console.log('focused')

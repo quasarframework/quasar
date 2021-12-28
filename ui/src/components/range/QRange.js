@@ -213,7 +213,7 @@ export default Vue.extend({
   methods: {
     __updateValue (change) {
       if (this.model.min !== this.value.min || this.model.max !== this.value.max) {
-        this.$emit('update:modelValue', { ...this.model })
+        this.$emit('input', { ...this.model })
       }
       change === true && this.$emit('change', { ...this.model })
     },
