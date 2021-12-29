@@ -82,6 +82,9 @@ const Portal = {
         return
       }
 
+      if (this.__portalIsActive === true) { return }
+      this.__portalIsActive = true
+
       if (this.focusObj === void 0) {
         this.focusObj = {}
       }
@@ -116,6 +119,7 @@ const Portal = {
     },
 
     __hidePortal () {
+      this.__portalIsActive = false
       removeFocusWaitFlag(this.focusObj)
 
       if (this.__portal !== void 0) {
