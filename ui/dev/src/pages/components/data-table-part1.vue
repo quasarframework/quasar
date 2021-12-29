@@ -156,12 +156,13 @@
                 buttons
                 color="white"
                 v-model="props.row.name"
+                v-slot="scope"
               >
                 <q-input
                   type="textarea"
                   dark
                   color="white"
-                  v-model="props.row.name"
+                  v-model="scope.value"
                   autofocus
                   @keyup.enter.stop
                 />
@@ -169,50 +170,47 @@
             </q-td>
             <q-td key="calories" :props="props">
               {{ props.row.calories }}
-              <q-popup-edit v-model="props.row.calories" title="Update calories" buttons>
-                <q-input type="number" v-model="props.row.calories" dense autofocus />
+              <q-popup-edit v-model="props.row.calories" title="Update calories" buttons v-slot="scope">
+                <q-input type="number" v-model="scope.value" dense autofocus />
               </q-popup-edit>
             </q-td>
             <q-td key="fat" :props="props">
               <div>
                 {{ props.row.fat }}
               </div>
-              <q-popup-edit v-model="props.row.fat">
-                <q-input type="textarea" v-model="props.row.fat" dense autofocus />
+              <q-popup-edit v-model="props.row.fat" auto-save v-slot="scope">
+                <q-input type="textarea" v-model="scope.value" dense autofocus />
               </q-popup-edit>
             </q-td>
             <q-td key="carbs" :props="props">
               {{ props.row.carbs }}
-              <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent>
-                <q-input type="number" v-model="props.row.carbs" dense autofocus hint="Use buttons to close" />
+              <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent v-slot="scope">
+                <q-input type="number" v-model="scope.value" dense autofocus hint="Use buttons to close" />
               </q-popup-edit>
             </q-td>
             <q-td key="protein" :props="props">
               {{ props.row.protein }}
-              <q-popup-edit v-model="props.row.protein">
-                <q-input v-model="props.row.protein" dense autofocus counter />
+              <q-popup-edit v-model="props.row.protein" v-slot="scope">
+                <q-input v-model="scope.value" dense autofocus counter />
               </q-popup-edit>
             </q-td>
             <q-td key="sodium" :props="props">
               {{ props.row.sodium }}
-              <q-popup-edit persistent v-model="props.row.sodium" :validate="val => val > 10">
-                <template v-slot="{ initialValue, value, emitValue, validate, set, cancel }">
-                  <q-input
-                    autofocus
-                    dense
-                    :value="value"
-                    hint="Sodium level (>10)"
-                    :rules="[
-                      val => validate(value) || 'Please enter more than 10'
-                    ]"
-                    @input="emitValue"
-                  >
-                    <template v-slot:after>
-                      <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />
-                      <q-btn flat dense color="positive" icon="save" @click.stop="set" :disable="validate(value) === false || initialValue === value" />
-                    </template>
-                  </q-input>
-                </template>
+              <q-popup-edit persistent v-model="props.row.sodium" :validate="val => val > 10" v-slot="scope">
+                <q-input
+                  autofocus
+                  dense
+                  v-model="scope.value"
+                  hint="Sodium level (>10)"
+                  :rules="[
+                    val => scope.validate(scope.value) || 'Please enter more than 10'
+                  ]"
+                >
+                  <template v-slot:after>
+                    <q-btn flat dense color="negative" icon="cancel" @click.stop="scope.cancel" />
+                    <q-btn flat dense color="positive" icon="save" @click.stop="scope.set" :disable="scope.validate(scope.value) === false || scope.initialValue === scope.value" />
+                  </template>
+                </q-input>
               </q-popup-edit>
             </q-td>
             <q-td key="calcium" :props="props">
@@ -812,7 +810,7 @@ export default {
           format: val => `~${val}`,
           sortable: true
         },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true, sort: (a, b) => parseFloat(a) - parseFloat(b) },
         { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, headerClasses: 'bg-primary text-white', classes: 'bg-primary text-white', style: 'width: 10px' },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },

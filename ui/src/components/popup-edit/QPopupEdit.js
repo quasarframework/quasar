@@ -49,7 +49,8 @@ export default Vue.extend({
 
   data () {
     return {
-      initialValue: ''
+      modelChanged: false,
+      model: null
     }
   },
 
@@ -59,15 +60,30 @@ export default Vue.extend({
         (this.contentClass !== void 0 ? ` ${this.contentClass}` : '')
     },
 
+    modelValue () {
+      return this.modelChanged === true ? this.model : this.value
+    },
+
+    initialValue () {
+      return this.modelChanged !== true ? this.model : this.value
+    },
+
     defaultSlotScope () {
-      return {
+      const acc = {
         initialValue: this.initialValue,
-        value: this.value,
-        emitValue: this.__emitValue,
+        updatePosition: this.__reposition,
+        emitValue: this.__changeModel,
         validate: this.validate,
         set: this.set,
         cancel: this.cancel
       }
+
+      Object.defineProperty(acc, 'value', {
+        get: () => this.modelValue,
+        set: this.__changeModel
+      })
+
+      return acc
     },
 
     menuProps () {
@@ -81,19 +97,20 @@ export default Vue.extend({
 
   methods: {
     set () {
-      if (this.validate(this.value) !== true) {
+      if (this.validate(this.modelValue) !== true) {
         return
       }
       if (this.__hasChanged() === true) {
-        this.$emit('save', this.value, this.initialValue)
+        this.$emit('save', this.modelValue, this.initialValue)
+        this.modelChanged === true && this.$emit('input', this.modelValue)
       }
       this.__close()
     },
 
     cancel () {
       if (this.__hasChanged() === true) {
-        this.$emit('input', this.initialValue)
-        this.$emit('cancel', this.value, this.initialValue)
+        this.$emit('cancel', this.modelValue, this.initialValue)
+        this.modelChanged !== true && this.$emit('input', this.initialValue)
       }
       this.__close()
     },
@@ -107,12 +124,13 @@ export default Vue.extend({
     },
 
     __hasChanged () {
-      return isDeepEqual(this.value, this.initialValue) === false
+      return isDeepEqual(this.modelValue, this.initialValue) === false
     },
 
-    __emitValue (val) {
+    __changeModel (val) {
       if (this.disable !== true) {
-        this.$emit('input', val)
+        this.model = val
+        this.modelChanged = true
       }
     },
 
@@ -172,32 +190,39 @@ export default Vue.extend({
       on: cache(this, 'menu', {
         'before-show': () => {
           this.validated = false
-          this.initialValue = clone(this.value)
+          this.modelChanged = false
+          this.model = clone(this.value)
           this.watcher = this.$watch('value', this.__reposition)
           this.$emit('before-show')
         },
+
         show: () => {
           this.$emit('show')
         },
+
         'escape-key': this.cancel,
+
         'before-hide': () => {
           this.watcher()
 
           if (this.validated === false && this.__hasChanged() === true) {
-            if (this.autoSave === true && this.validate(this.value) === true) {
-              this.$emit('save', this.value, this.initialValue)
+            if (this.autoSave === true && this.validate(this.model) === true) {
+              this.$emit('save', this.modelValue, this.initialValue)
+              this.modelChanged === true && this.$emit('input', this.modelValue)
             }
             else {
-              this.$emit('cancel', this.value, this.initialValue)
-              this.$emit('input', this.initialValue)
+              this.$emit('cancel', this.modelValue, this.initialValue)
+              this.modelChanged !== true && this.$emit('input', this.initialValue)
             }
           }
 
           this.$emit('before-hide')
         },
+
         hide: () => {
           this.$emit('hide')
         },
+
         keyup: e => {
           isKeyCode(e, 13) === true && this.set()
         }

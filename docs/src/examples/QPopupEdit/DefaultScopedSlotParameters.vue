@@ -3,20 +3,27 @@
     <div class="cursor-pointer">
       {{ nickname }}
       <q-popup-edit v-model="nickname" :validate="val => val.length > 5">
-        <template v-slot="{ initialValue, value, emitValue, validate, set, cancel }">
+        <template v-slot="scope">
           <q-input
             autofocus
             dense
-            :value="nickname"
+            v-model="scope.value"
             hint="Your nickname"
             :rules="[
-              val => validate(value) || 'More than 5 chars required'
+              val => scope.validate(scope.value) || 'More than 5 chars required'
             ]"
-            @input="emitValue"
           >
             <template v-slot:after>
-              <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />
-              <q-btn flat dense color="positive" icon="check_circle" @click.stop="set" :disable="validate(value) === false || initialValue === value" />
+              <q-btn
+                flat dense color="negative" icon="cancel"
+                @click.stop="scope.cancel"
+              />
+
+              <q-btn
+                flat dense color="positive" icon="check_circle"
+                @click.stop="scope.set"
+                :disable="scope.validate(scope.value) === false || scope.initialValue === scope.value"
+              />
             </template>
           </q-input>
         </template>

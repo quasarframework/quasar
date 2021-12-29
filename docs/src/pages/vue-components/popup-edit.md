@@ -20,26 +20,38 @@ This component injects a [QMenu](/vue-components/menu) into its parent DOM eleme
 If used on a QTable, QPopupEdit won't work with cell scoped slots.
 :::
 
-### Basic
-Click on the cells to see the popup editor. The column "Name" demonstrates the `title` prop. The column "carbs" also demonstrates the `disable` prop. If you look at the source code, you'll see the cell for "carbs" is using QPopupEdit, yet when clicking on the cell, the popup doesn't show.
+### Standalone
+
+<doc-example title="Click on text" file="QPopupEdit/Standalone" />
+
+### With QTable
+Click on the cells to see the popup editor. The column "Name" demonstrates the `title` prop. The column "Calories" displays a numeric value usage. The column "Fat" also demonstrates the `disable` prop. If you look at the source code, you'll see the cell for "fat" is using QPopupEdit, yet when clicking on the cell, the popup doesn't show.
 
 ::: tip
-There is also a `title` slot, which you can use to inject your own title, as demonstrated in the "calcium" column.
+There is also a `title` slot, which you can use to inject your own title, as demonstrated in the "Calcium" column.
 :::
 
-<doc-example title="Simple edit, with title prop and slot" file="QPopupEdit/Simple" />
+<doc-example title="Edit first columns" file="QPopupEdit/WithTable" />
 
 ### Customizing
 
-<doc-example title="Custom style" file="QPopupEdit/CustomStyle" />
+<doc-example title="Customizing QPopupEdit" file="QPopupEdit/Customizing" />
 
 ### Persistent and with buttons
 You can also add two buttons with the `buttons` prop, "Cancel" and "Set" (the default labels). These buttons help to control the user's input. Along with the `buttons` prop, you also have the `persistent` prop, which denies the user from closing the popup with the escape key or clicking/ tapping outside of the popup. The `persistent` prop is demonstrated in the "carbs" column. Lastly, you can control the labels of the two buttons with the `label-set` and `label-cancel` props, as seen in the "Protein" column. Notice "Save" is replacing "Set" and "Close" is replacing "Cancel".
 
 <doc-example title="Persistent edit, and with buttons" file="QPopupEdit/WithButtons" />
 
-### Default scoped slot
-You can use also use the default scoped slot with parameters too (as opposed to all other examples on this page which use the default scoped slot without any parameters) should you wish to fully customize your QPopupEdit content:
+### The default scoped slot
+The default slot's parameters are:
+
+```js
+{ initialValue, value, validate, set, cancel, updatePosition, emitValue }
+```
+
+::: warning
+Do not destructure the slot's parameters as it will generate linting errors when using the `value` prop directly with `v-model`.
+:::
 
 <doc-example title="Default scoped slot parameters" file="QPopupEdit/DefaultScopedSlotParameters" />
 
@@ -52,10 +64,10 @@ When using a multi-line control (textarea, QEditor) for input, you'll need to al
 
 <doc-example title="QInput textarea" file="QPopupEdit/TextArea" />
 
-<doc-example title="QEditor" file="QPopupEdit/QEditor" />
+<doc-example title="QEditor" file="QPopupEdit/PopupWithEditor" />
 
 ### Validation
-QPopupEdit also allows for simple validation of the input. To use it, you give it a callback function in the form of an arrow function and it should return a Boolean. `(value) => Boolean`. This is **demonstrated in the "Protein" column** below.
+QPopupEdit also allows for simple validation of the input. To use it, you give it a callback function in the form of an arrow function and it should return a Boolean. `(value) => Boolean`. This is **demonstrated in the "Calories" column** below.
 
 ::: tip Tip 1
 Notice we are using the `hide` event to also revalidate the input. If we don't, QInput's error prop will 'hang' in an invalid state.
@@ -66,7 +78,3 @@ With this example, we are using QInput's external error handling. We could also 
 :::
 
 <doc-example title="Edit with validation" file="QPopupEdit/WithValidation" />
-
-### Example outside of QTable
-
-<doc-example title="Click on text" file="QPopupEdit/Text" />

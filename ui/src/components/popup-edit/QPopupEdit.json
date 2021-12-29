@@ -11,13 +11,6 @@
       "category": "model"
     },
 
-    "auto-save": {
-      "type": "Boolean",
-      "desc": "Automatically save the model (if changed) when user clicks/taps outside of the popup; It does not apply to ESC key",
-      "category": "behavior",
-      "addedIn": "v1.9.0"
-    },
-
     "title": {
       "type": "String",
       "desc": "Optional title (unless 'title' slot is used)",
@@ -43,6 +36,13 @@
       "desc": "Override Cancel button label",
       "examples": [ "Cancel" ],
       "category": "content"
+    },
+
+    "auto-save": {
+      "type": "Boolean",
+      "desc": "Automatically save the model (if changed) when user clicks/taps outside of the popup; It does not apply to ESC key",
+      "category": "behavior",
+      "addedIn": "v1.9.0"
     },
 
     "content-class": {
@@ -182,7 +182,7 @@
 
   "scopedSlots": {
     "default": {
-      "desc": "Used for injecting the form component",
+      "desc": "Used for injecting the form component; Do NOT destructure it",
       "scope": {
         "initialValue": {
           "type": "Any",
@@ -232,6 +232,13 @@
           "desc": "Function that cancels the editing and reverts the value to the initialValue",
           "params": null,
           "returns": null
+        },
+        "updatePosition": {
+          "type": "Function",
+          "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the component without significant performance drawbacks so the optimal solution is for you to call this method when you need it",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.17"
         }
       }
     }
