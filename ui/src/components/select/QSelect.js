@@ -22,6 +22,7 @@ import { FormFieldMixin } from '../../mixins/form.js'
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 import CompositionMixin from '../../mixins/composition.js'
 import ListenersMixin from '../../mixins/listeners.js'
+import { client } from '../../plugins/Platform.js'
 
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 const reEscapeList = '.*+?^${}()|[]\\'
@@ -1381,7 +1382,9 @@ export default Vue.extend({
     },
 
     __onDialogBeforeHide () {
-      this.$refs.dialog.__refocusTarget = this.$el.querySelector('.q-field__native > [tabindex]:last-child')
+      if (client.is.mobile !== true) {
+        this.$refs.dialog.__refocusTarget = this.$el.querySelector('.q-field__native > [tabindex]:last-child')
+      }
       this.focused = false
     },
 

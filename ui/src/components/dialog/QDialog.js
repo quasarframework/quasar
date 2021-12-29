@@ -12,6 +12,7 @@ import { slot } from '../../utils/slot.js'
 import { create, stop } from '../../utils/event.js'
 import cache from '../../utils/cache.js'
 import { addFocusFn } from '../../utils/focus-manager.js'
+import { client } from '../../plugins/Platform.js'
 
 let maximizedModals = 0
 
@@ -189,7 +190,7 @@ export default Vue.extend({
       this.__addHistory()
 
       // IE can have null document.activeElement
-      this.__refocusTarget = this.noRefocus === false && document.activeElement !== null
+      this.__refocusTarget = client.is.mobile !== true && this.noRefocus === false && document.activeElement !== null
         ? document.activeElement
         : void 0
 
@@ -256,7 +257,8 @@ export default Vue.extend({
 
       // check null for IE
       if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
-        this.__refocusTarget.focus()
+        this.__refocusTarget.focus(evt)
+        this.__refocusTarget = void 0
       }
 
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
@@ -373,5 +375,6 @@ export default Vue.extend({
 
   beforeDestroy () {
     this.__cleanup()
+    this.__refocusTarget = void 0
   }
 })

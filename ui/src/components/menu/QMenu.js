@@ -6,6 +6,7 @@ import DarkMixin from '../../mixins/dark.js'
 import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 import AttrsMixin from '../../mixins/attrs.js'
+import { client } from '../../plugins/Platform.js'
 
 import ClickOutside from './ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
@@ -144,7 +145,7 @@ export default Vue.extend({
 
     __show (evt) {
       // IE can have null document.activeElement
-      this.__refocusTarget = this.noRefocus === false && document.activeElement !== null
+      this.__refocusTarget = client.is.mobile !== true && this.noRefocus === false && document.activeElement !== null
         ? document.activeElement
         : void 0
 
@@ -218,6 +219,7 @@ export default Vue.extend({
         )
       ) {
         this.__refocusTarget.focus()
+        this.__refocusTarget = void 0
       }
 
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
@@ -337,6 +339,8 @@ export default Vue.extend({
   },
 
   beforeDestroy () {
+    this.__refocusTarget = void 0
+
     // When the menu is destroyed while open we can only emit the event on anchorEl
     if (this.showing === true && this.anchorEl !== void 0) {
       this.anchorEl.dispatchEvent(

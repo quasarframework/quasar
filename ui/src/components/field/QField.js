@@ -249,12 +249,11 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      this.focusFn !== void 0 && removeFocusFn(this.focusFn)
-      this.focusFn = addFocusFn(this.__focus)
+      addFocusFn(this.__focus)
     },
 
     blur () {
-      this.focusFn !== void 0 && removeFocusFn(this.focusFn)
+      removeFocusFn(this.__focus)
       const el = document.activeElement
       // IE can have null document.activeElement
       if (el !== null && this.$el.contains(el)) {
