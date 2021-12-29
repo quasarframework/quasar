@@ -28,7 +28,7 @@
                 My Custom Title
               </div>
 
-              <q-input v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
+              <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
             </q-popup-edit>
           </q-td>
           <q-td key="carbs" :props="props">
@@ -42,6 +42,17 @@
           </q-td>
           <q-td key="calcium" :props="props">
             {{ props.row.calcium }}
+            <q-popup-edit v-model="props.row.calcium">
+              <template v-slot:title>
+                <div class="text-italic text-primary">
+                  My Custom Title
+                </div>
+              </template>
+
+              <template v-slot="scope">
+                <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
+              </template>
+            </q-popup-edit>
           </q-td>
           <q-td key="iron" :props="props">
             {{ props.row.iron }}
