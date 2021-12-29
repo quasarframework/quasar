@@ -31,7 +31,7 @@ First of all, let's define what the breakpoints are:
 | Small | sm | 600px to 1023px |
 | Medium | md | 1024px to 1439px |
 | Large | lg | 1440px to 1919px |
-| Extra Large | xl | Bigger than 1920px |
+| Extra Large | xl | 1920px and up |
 
 Now on to the window width related CSS classes.
 
