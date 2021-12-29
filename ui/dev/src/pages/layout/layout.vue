@@ -42,6 +42,7 @@
               <q-icon name="search" />
             </template>
           </q-input>
+          <q-select v-model="select" :options="selectOptions" dark outlined dense use-input style="width: 150px" />
         </q-toolbar>
         <q-tabs indicator-color="yellow">
           <q-route-tab icon="view_quilt" to="/layout-quick/default" replace label="Default Tab" />
@@ -479,6 +480,9 @@
 import { setCssVar } from 'quasar'
 
 export default {
+  created () {
+    this.selectOptions = [ 'Google', 'Facebook', 'Tesla' ]
+  },
   data () {
     const v = 'lHh LpR fFf'
     return {
@@ -527,7 +531,8 @@ export default {
 
       showConfig: true,
       inp: '',
-      slider: 1
+      slider: 1,
+      select: null
     }
   },
   computed: {

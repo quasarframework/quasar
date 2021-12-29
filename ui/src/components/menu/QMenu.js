@@ -258,6 +258,7 @@ export default createComponent({
         )
       ) {
         refocusTarget.focus()
+        refocusTarget = null
       }
 
       registerTimeout(() => {
@@ -279,6 +280,10 @@ export default createComponent({
         unconfigureScrollTarget()
         removeClickOutside(clickOutsideProps)
         removeEscapeKey(onEscapeKey)
+      }
+
+      if (hiding !== true) {
+        refocusTarget = null
       }
     }
 

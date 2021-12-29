@@ -26,7 +26,6 @@ export function addFocusFn (fn) {
   }
   else {
     queue.push(fn)
-    return fn
   }
 }
 

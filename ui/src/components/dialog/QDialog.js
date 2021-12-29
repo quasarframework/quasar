@@ -239,6 +239,7 @@ export default createComponent({
 
       if (refocusTarget !== null) {
         refocusTarget.focus()
+        refocusTarget = null
       }
 
       registerTimeout(() => {
@@ -306,6 +307,10 @@ export default createComponent({
           removeEscapeKey(onEscapeKey)
         }
       }
+
+      if (hiding !== true) {
+        refocusTarget = null
+      }
     }
 
     function updateMaximized (active) {
@@ -364,9 +369,7 @@ export default createComponent({
       }
     })
 
-    onBeforeUnmount(() => {
-      cleanup()
-    })
+    onBeforeUnmount(cleanup)
 
     function renderPortalContent () {
       return h('div', {
