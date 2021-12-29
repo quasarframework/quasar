@@ -44,7 +44,6 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
 
   function showPortal (isReady) {
     if (isReady === true) {
-      // console.log('remove 1')
       removeFocusWaitFlag(focusObj)
       return
     }
@@ -59,7 +58,6 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
       // register portal
       portalList.push(vm.proxy)
 
-      // console.log('add 1')
       addFocusWaitFlag(focusObj)
     }
   }

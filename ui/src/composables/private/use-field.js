@@ -263,26 +263,24 @@ export default function (state) {
     state.targetUid.value = getTargetUid(val)
   })
 
-  let focusFn
+  function focusHandler () {
+    const el = document.activeElement
+    let target = state.targetRef !== void 0 && state.targetRef.value
+
+    if (target && (el === null || el.id !== state.targetUid.value)) {
+      target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
+      if (target && target !== el) {
+        target.focus()
+      }
+    }
+  }
 
   function focus () {
-    focusFn !== void 0 && removeFocusFn(focusFn)
-    focusFn = addFocusFn(() => {
-      focusFn = void 0
-      const el = document.activeElement
-      let target = state.targetRef !== void 0 && state.targetRef.value
-
-      if (target && (el === null || el.id !== state.targetUid.value)) {
-        target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
-        if (target && target !== el) {
-          target.focus()
-        }
-      }
-    })
+    addFocusFn(focusHandler)
   }
 
   function blur () {
-    focusFn !== void 0 && removeFocusFn(focusFn)
+    removeFocusFn(focusHandler)
     const el = document.activeElement
     if (el !== null && state.rootRef.value.contains(el)) {
       el.blur()
