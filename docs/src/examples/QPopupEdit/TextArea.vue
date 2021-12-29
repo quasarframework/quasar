@@ -12,20 +12,18 @@
         <q-tr :props="props">
           <q-td key="desc" :props="props">
             {{ props.row.name }}
-            <q-popup-edit v-model="props.row.name">
-              <q-input v-model="props.row.name" dense autofocus counter />
-            </q-popup-edit>
           </q-td>
 
           <q-td key="comment" :props="props">
-            {{ props.row.comment }}
+            <div>{{ props.row.comment }}</div>
             <q-popup-edit
               buttons
               v-model="props.row.comment"
+              v-slot="scope"
             >
               <q-input
                 type="textarea"
-                v-model="props.row.comment"
+                v-model="scope.value"
                 autofocus
                 counter
                 @keyup.enter.stop
@@ -35,16 +33,10 @@
 
           <q-td key="calories" :props="props">
             {{ props.row.calories }}
-            <q-popup-edit v-model.number="props.row.calories">
-              <q-input type="number" v-model.number="props.row.calories" dense autofocus />
-            </q-popup-edit>
           </q-td>
 
           <q-td key="fat" :props="props">
-            <div class="text-pre-wrap">{{ props.row.fat }}</div>
-            <q-popup-edit v-model.number="props.row.fat">
-              <q-input type="number" v-model.number="props.row.fat" dense autofocus />
-            </q-popup-edit>
+            <div>{{ props.row.fat }}</div>
           </q-td>
         </q-tr>
       </template>
@@ -54,8 +46,8 @@
 
 <script>
 const columns = [
-  { name: 'desc', style: 'min-width: 160px; width: 160px', align: 'left', label: 'Dessert (100g serving)', field: 'name' },
-  { name: 'comment', style: 'min-width: 200px; width: 200px', align: 'left', label: 'Comment', field: 'comment' },
+  { name: 'desc', style: 'min-width: 160px; width: 160px', align: 'left', label: 'Dessert', field: 'name' },
+  { name: 'comment', style: 'min-width: 200px; width: 200px', align: 'left', label: 'Comment (editable)', field: 'comment' },
   { name: 'calories', align: 'center', label: 'Calories', field: 'calories' },
   { name: 'fat', label: 'Fat (g)', field: 'fat' }
 ]
