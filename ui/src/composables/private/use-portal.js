@@ -44,20 +44,24 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
 
   function showPortal (isReady) {
     if (isReady === true) {
+      // console.log('remove 1')
       removeFocusWaitFlag(focusObj)
       return
     }
 
-    if (onGlobalDialog === false && portalEl === null) {
-      portalEl = createGlobalNode()
+    if (portalIsActive.value === false) {
+      if (onGlobalDialog === false && portalEl === null) {
+        portalEl = createGlobalNode()
+      }
+
+      portalIsActive.value = true
+
+      // register portal
+      portalList.push(vm.proxy)
+
+      // console.log('add 1')
+      addFocusWaitFlag(focusObj)
     }
-
-    portalIsActive.value = true
-
-    // register portal
-    portalList.push(vm.proxy)
-
-    addFocusWaitFlag(focusObj)
   }
 
   function hidePortal () {
