@@ -73,13 +73,11 @@ export default createComponent({
     }
 
     watch(
-      () => props.modelValue.min + props.modelValue.max + state.innerMin.value + state.innerMax.value,
+      () => `${ props.modelValue.min }|${ props.modelValue.max }|${ state.innerMin.value }|${ state.innerMax.value }`,
       normalizeModel
     )
 
     normalizeModel()
-
-    const nextFocus = ref(null)
 
     const modelMinRatio = computed(() => methods.convertModelToRatio(model.value.min))
     const modelMaxRatio = computed(() => methods.convertModelToRatio(model.value.max))
@@ -102,7 +100,7 @@ export default createComponent({
       return acc
     })
 
-    const events = computed(() => {
+    const trackContainerEvents = computed(() => {
       if (state.editable.value !== true) {
         return {}
       }
@@ -113,18 +111,20 @@ export default createComponent({
 
       const evt = { onMousedown: methods.onActivate }
 
-      props.dragOnlyRange === true && Object.assign(evt, {
-        onFocus: () => { onFocus('both') },
-        onBlur: methods.onBlur,
-        onKeydown,
-        onKeyup: methods.onKeyup
-      })
+      if (props.dragRange === true || props.dragOnlyRange === true) {
+        Object.assign(evt, {
+          onFocus: () => { onFocus('both') },
+          onBlur: methods.onBlur,
+          onKeydown,
+          onKeyup: methods.onKeyup
+        })
+      }
 
       return evt
     })
 
     function getEvents (side) {
-      return state.editable.value === true && $q.platform.is.mobile !== true && props.dragOnlyRange !== true
+      return $q.platform.is.mobile !== true && state.editable.value === true && props.dragOnlyRange !== true
         ? {
             onFocus: () => { onFocus(side) },
             onBlur: methods.onBlur,
@@ -134,15 +134,22 @@ export default createComponent({
         : {}
     }
 
+    const thumbTabindex = computed(() => (props.dragOnlyRange !== true ? state.tabindex.value : null))
+    const trackContainerTabindex = computed(() => (
+      $q.platform.is.mobile !== true && (props.dragRange || props.dragOnlyRange === true)
+        ? state.tabindex.value
+        : null
+    ))
+
     const minThumbRef = ref(null)
     const minEvents = computed(() => getEvents('min'))
     const getMinThumb = methods.getThumbRenderFn({
       focusValue: 'min',
-      nextFocus,
       getNodeData: () => ({
         ref: minThumbRef,
+        key: 'tmin',
         ...minEvents.value,
-        tabindex: props.dragOnlyRange !== true ? state.tabindex.value : null
+        tabindex: thumbTabindex.value
       }),
       ratio: ratioMin,
       label: computed(() => (
@@ -158,10 +165,10 @@ export default createComponent({
     const maxEvents = computed(() => getEvents('max'))
     const getMaxThumb = methods.getThumbRenderFn({
       focusValue: 'max',
-      nextFocus,
       getNodeData: () => ({
         ...maxEvents.value,
-        tabindex: props.dragOnlyRange !== true ? state.tabindex.value : null
+        key: 'tmax',
+        tabindex: thumbTabindex.value
       }),
       ratio: ratioMax,
       label: computed(() => (
@@ -202,15 +209,14 @@ export default createComponent({
         ratioMax: modelMaxRatio.value
       }
 
-      let type
       const ratio = methods.getDraggingRatio(event, dragging)
 
       if (props.dragOnlyRange !== true && ratio < dragging.ratioMin + sensitivity) {
-        type = dragType.MIN
+        dragging.type = dragType.MIN
       }
       else if (props.dragOnlyRange === true || ratio < dragging.ratioMax - sensitivity) {
         if (props.dragRange === true || props.dragOnlyRange === true) {
-          type = dragType.RANGE
+          dragging.type = dragType.RANGE
           Object.assign(dragging, {
             offsetRatio: ratio,
             offsetModel: methods.convertRatioToModel(ratio),
@@ -219,17 +225,14 @@ export default createComponent({
           })
         }
         else {
-          type = dragging.ratioMax - ratio < ratio - dragging.ratioMin
+          dragging.type = dragging.ratioMax - ratio < ratio - dragging.ratioMin
             ? dragType.MAX
             : dragType.MIN
         }
       }
       else {
-        type = dragType.MAX
+        dragging.type = dragType.MAX
       }
-
-      dragging.type = type
-      nextFocus.value = null
 
       return dragging
     }
@@ -248,7 +251,7 @@ export default createComponent({
               min: localModel,
               max: dragging.valueMax
             }
-            nextFocus.value = 'min'
+            state.focus.value = 'min'
           }
           else {
             pos = {
@@ -257,7 +260,7 @@ export default createComponent({
               min: dragging.valueMax,
               max: localModel
             }
-            nextFocus.value = 'max'
+            state.focus.value = 'max'
           }
           break
 
@@ -269,7 +272,7 @@ export default createComponent({
               min: dragging.valueMin,
               max: localModel
             }
-            nextFocus.value = 'max'
+            state.focus.value = 'max'
           }
           else {
             pos = {
@@ -278,7 +281,7 @@ export default createComponent({
               min: localModel,
               max: dragging.valueMin
             }
-            nextFocus.value = 'min'
+            state.focus.value = 'min'
           }
           break
 
@@ -295,27 +298,23 @@ export default createComponent({
             min: parseFloat(min.toFixed(state.decimals.value)),
             max: parseFloat((min + dragging.rangeValue).toFixed(state.decimals.value))
           }
+
+          state.focus.value = 'both'
           break
       }
 
-      model.value = {
-        min: pos.min,
-        max: pos.max
-      }
-
       // If either of the values to be emitted are null, set them to the defaults the user has entered.
-      if (model.value.min === null || model.value.max === null) {
-        model.value.min = pos.min || props.min
-        model.value.max = pos.max || props.max
-      }
+      model.value = model.value.min === null || model.value.max === null
+        ? { min: pos.min || props.min, max: pos.max || props.max }
+        : { min: pos.min, max: pos.max }
 
       if (props.snap !== true || props.step === 0) {
         curMinRatio.value = pos.minR
         curMaxRatio.value = pos.maxR
       }
       else {
-        curMinRatio.value = state.trackLen.value === 0 ? 0 : (model.value.min - props.min) / state.trackLen.value
-        curMaxRatio.value = state.trackLen.value === 0 ? 0 : (model.value.max - props.min) / state.trackLen.value
+        curMinRatio.value = methods.convertModelToRatio(model.value.min)
+        curMaxRatio.value = methods.convertModelToRatio(model.value.max)
       }
     }
 
@@ -332,13 +331,10 @@ export default createComponent({
 
       const
         stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * state.step.value,
-        offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -stepVal : stepVal
+        offset = ([ 34, 37, 40 ].includes(evt.keyCode) ? -1 : 1) * (state.isReversed.value === true ? -1 : 1) * stepVal
 
-      if (props.dragOnlyRange) {
-        const interval = props.dragOnlyRange
-          ? model.value.max - model.value.min
-          : 0
-
+      if (state.focus.value === 'both') {
+        const interval = model.value.max - model.value.min
         const min = between(
           parseFloat((model.value.min + offset).toFixed(state.decimals.value)),
           state.innerMin.value,
@@ -372,7 +368,8 @@ export default createComponent({
     return () => {
       const content = methods.getContent(
         selectionBarStyle,
-        events,
+        trackContainerTabindex,
+        trackContainerEvents,
         node => {
           node.push(
             getMinThumb(),
@@ -389,10 +386,7 @@ export default createComponent({
             : ''
         ),
         ...state.attributes.value,
-        'aria-valuenow': props.modelValue.min + '|' + props.modelValue.max,
-        tabindex: props.dragOnlyRange === true && $q.platform.is.mobile !== true
-          ? state.tabindex.value
-          : null
+        'aria-valuenow': props.modelValue.min + '|' + props.modelValue.max
       }, content)
     }
   }

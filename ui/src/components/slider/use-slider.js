@@ -152,8 +152,8 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
   const attributes = computed(() => {
     const acc = {
       role: 'slider',
-      'aria-valuemin': props.min,
-      'aria-valuemax': props.max,
+      'aria-valuemin': innerMin.value,
+      'aria-valuemax': innerMax.value,
       'aria-orientation': orientation.value,
       'data-step': props.step
     }
@@ -344,15 +344,19 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
       })
     }
 
+    const filterFn = ({ value }) => value >= props.min && value <= props.max
+
     if (Array.isArray(def) === true) {
-      return def.map(item => (Object(item) === item ? item : { value: item }))
+      return def
+        .map(item => (Object(item) === item ? item : { value: item }))
+        .filter(filterFn)
     }
 
     return Object.keys(def).map(key => {
       const item = def[ key ]
       const value = Number(key)
       return Object(item) === item ? { ...item, value } : { value, label: item }
-    })
+    }).filter(filterFn)
   }
 
   function getMarkerLabelStyle (val) {
@@ -407,6 +411,7 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
         emit('pan', 'end')
       }
       active.value = false
+      focus.value = false
     }
     else if (event.isFirst === true) {
       dragging.value = getDragging(event.evt)
@@ -467,7 +472,7 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
 
   function getThumbRenderFn (thumb) {
     const focusClass = computed(() => (
-      preventFocus.value === false && focus.value === thumb.focusValue
+      preventFocus.value === false && (focus.value === thumb.focusValue || focus.value === 'both')
         ? ' q-slider--focus'
         : ''
     ))
@@ -482,9 +487,7 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
       width: props.thumbSize,
       height: props.thumbSize,
       [ positionProp.value ]: `${ 100 * thumb.ratio.value }%`,
-      'z-index': thumb.nextFocus !== void 0
-        ? thumb.nextFocus.value === 'min' ? 2 : void 0
-        : void 0
+      zIndex: focus.value === thumb.focusValue ? 2 : void 0
     }))
 
     const pinColor = computed(() => (
@@ -540,12 +543,12 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
       return h('div', {
         class: classes.value,
         style: style.value,
-        ...(thumb.getNodeData !== void 0 ? thumb.getNodeData() : {})
+        ...thumb.getNodeData()
       }, thumbContent)
     }
   }
 
-  function getContent (selectionBarStyle, events, injectThumb) {
+  function getContent (selectionBarStyle, trackContainerTabindex, trackContainerEvents, injectThumb) {
     const trackContent = []
 
     props.innerTrackColor !== 'transparent' && trackContent.push(
@@ -580,8 +583,8 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
         {
           key: 'trackC',
           class: trackContainerClass.value,
-          tabindex: tabindex.value,
-          ...events.value
+          tabindex: trackContainerTabindex.value,
+          ...trackContainerEvents.value
         },
         [
           h('div', {
@@ -634,7 +637,8 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
       innerMax,
       innerMaxRatio,
       positionProp,
-      sizeProp
+      sizeProp,
+      isReversed
     },
 
     methods: {
