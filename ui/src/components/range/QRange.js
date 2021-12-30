@@ -42,20 +42,21 @@ export default Vue.extend({
   },
 
   data () {
-    const innerMin = this.__getInnerMin(this.innerMin)
-    const innerMax = this.__getInnerMax(this.innerMax)
     return {
       model: {
-        min: this.value.min === null ? innerMin : between(this.value.min, innerMin, innerMax),
-        max: this.value.max === null ? innerMax : between(this.value.max, innerMin, innerMax)
+        min: this.value.min === null ? this.__getInnerMin() : between(this.value.min, this.min, this.max),
+        max: this.value.max === null ? this.__getInnerMax() : between(this.value.max, this.min, this.max)
       },
       curMinRatio: 0,
-      curMaxRatio: 0,
-      nextFocus: null
+      curMaxRatio: 0
     }
   },
 
   computed: {
+    canDragRange () {
+      return this.dragRange === true || this.dragOnlyRange === true
+    },
+
     modelMinRatio () {
       return this.__convertModelToRatio(this.model.min)
     },
@@ -71,9 +72,10 @@ export default Vue.extend({
     },
 
     selectionBarStyle () {
+      const minRatio = Math.max(this.ratioMin, this.innerMinRatio)
       const acc = {
-        [ this.positionProp ]: `${100 * this.ratioMin}%`,
-        [ this.sizeProp ]: `${100 * (this.ratioMax - this.ratioMin)}%`
+        [ this.positionProp ]: `${100 * minRatio}%`,
+        [ this.sizeProp ]: `${100 * (between(this.ratioMax, minRatio, this.innerMaxRatio) - minRatio)}%`
       }
       if (this.selectionImg !== void 0) {
         acc.backgroundImage = `url(${this.selectionImg}) !important`
@@ -81,7 +83,13 @@ export default Vue.extend({
       return acc
     },
 
-    events () {
+    trackContainerAttrs () {
+      return this.$q.platform.is.mobile !== true
+        ? { tabindex: this.canDragRange !== false ? this.computedTabindex : -1 }
+        : void 0
+    },
+
+    trackContainerEvents () {
       if (this.editable !== true) {
         return {}
       }
@@ -90,16 +98,13 @@ export default Vue.extend({
         return { click: this.__onMobileClick }
       }
 
-      const evt = { mousedown: this.__onActivate }
-
-      this.dragOnlyRange === true && Object.assign(evt, {
+      return {
+        mousedown: this.__onActivate,
         focus: () => { this.__onFocus('both') },
         blur: this.__onBlur,
         keydown: this.__onKeydown,
         keyup: this.__onKeyup
-      })
-
-      return evt
+      }
     },
 
     thumbMinEvents () {
@@ -112,19 +117,20 @@ export default Vue.extend({
     thumbMinLabel () {
       return this.leftLabelValue !== void 0
         ? this.leftLabelValue
-        : this.model.min
+        : (this.value.min < this.min || this.value.min > this.max ? this.value.min : this.model.min)
     },
     thumbMaxLabel () {
       return this.rightLabelValue !== void 0
         ? this.rightLabelValue
-        : this.model.max
+        : (this.value.max < this.min || this.value.max > this.max ? this.value.max : this.model.max)
     },
 
     thumbMinClasses () {
       const color = this.leftThumbColor || this.thumbColor || this.color
       return `q-slider__thumb q-slider__thumb${this.axis} q-slider__thumb${this.axis}-${this.isReversed === true ? 'rtl' : 'ltr'} absolute non-selectable` +
+        (this.value.min < this.min || this.value.min > this.max ? ' q-slider__thumb--wrong-value' : '') +
         (
-          this.preventFocus === false && this.focus === 'min'
+          this.preventFocus === false && (this.focus === 'min' || this.focus === 'both')
             ? ' q-slider--focus'
             : ''
         ) +
@@ -133,8 +139,9 @@ export default Vue.extend({
     thumbMaxClasses () {
       const color = this.rightThumbColor || this.thumbColor || this.color
       return `q-slider__thumb q-slider__thumb${this.axis} q-slider__thumb${this.axis}-${this.isReversed === true ? 'rtl' : 'ltr'} absolute non-selectable` +
+        (this.value.max < this.min || this.value.max > this.max ? ' q-slider__thumb--hidden' : '') +
         (
-          this.preventFocus === false && this.focus === 'max'
+          this.preventFocus === false && (this.focus === 'max' || this.focus === 'both')
             ? ' q-slider--focus'
             : ''
         ) +
@@ -145,14 +152,16 @@ export default Vue.extend({
       return {
         width: this.thumbSize,
         height: this.thumbSize,
-        [ this.positionProp ]: `${100 * this.ratioMin}%`
+        [ this.positionProp ]: `${100 * this.ratioMin}%`,
+        zIndex: this.focus === 'min' ? 2 : void 0
       }
     },
     thumbMaxStyle () {
       return {
         width: this.thumbSize,
         height: this.thumbSize,
-        [ this.positionProp ]: `${100 * this.ratioMax}%`
+        [ this.positionProp ]: `${100 * this.ratioMax}%`,
+        zIndex: this.focus === 'max' ? 2 : void 0
       }
     },
 
@@ -196,7 +205,14 @@ export default Vue.extend({
     },
 
     modelUpdate () {
-      return this.value.min + this.value.max + this.computedInnerMin + this.computedInnerMax
+      return [
+        this.value.min,
+        this.value.max,
+        this.min,
+        this.max,
+        this.innerMin,
+        this.innerMax
+      ].join('#')
     }
   },
 
@@ -204,11 +220,23 @@ export default Vue.extend({
     modelUpdate () {
       this.model.min = this.value.min === null
         ? this.computedInnerMin
-        : between(this.value.min, this.computedInnerMin, this.computedInnerMax)
+        : between(this.value.min, this.min, this.max)
 
       this.model.max = this.value.max === null
         ? this.computedInnerMax
-        : between(this.value.max, this.computedInnerMin, this.computedInnerMax)
+        : between(this.value.max, this.min, this.max)
+    },
+
+    focus (focus) {
+      if (focus === 'both' && this.canDragRange !== true) {
+        if (this.$q.platform.is.mobile !== true) {
+          const thumb = this.$refs[`${this.nextFocus}Thumb`]
+          thumb !== void 0 && thumb.focus()
+        }
+      }
+      else if (focus !== false && focus !== this.nextFocus) {
+        this.nextFocus = focus
+      }
     }
   },
 
@@ -229,7 +257,7 @@ export default Vue.extend({
             this.vertical === true
               ? this.$refs.minThumb.offsetHeight / (2 * height)
               : this.$refs.minThumb.offsetWidth / (2 * width)
-          )
+          ) + (this.modelMaxRatio - this.modelMinRatio) / 20
 
       const dragging = {
         left,
@@ -242,15 +270,14 @@ export default Vue.extend({
         ratioMax: this.modelMaxRatio
       }
 
-      let type
       const ratio = this.__getDraggingRatio(event, dragging)
 
       if (this.dragOnlyRange !== true && ratio < dragging.ratioMin + sensitivity) {
-        type = dragType.MIN
+        dragging.type = dragType.MIN
       }
       else if (this.dragOnlyRange === true || ratio < dragging.ratioMax - sensitivity) {
-        if (this.dragRange === true || this.dragOnlyRange === true) {
-          type = dragType.RANGE
+        if (this.canDragRange === true) {
+          dragging.type = dragType.RANGE
           Object.assign(dragging, {
             offsetRatio: ratio,
             offsetModel: this.__convertRatioToModel(ratio),
@@ -259,17 +286,14 @@ export default Vue.extend({
           })
         }
         else {
-          type = dragging.ratioMax - ratio < ratio - dragging.ratioMin
+          dragging.type = dragging.ratioMax - ratio < ratio - dragging.ratioMin
             ? dragType.MAX
             : dragType.MIN
         }
       }
       else {
-        type = dragType.MAX
+        dragging.type = dragType.MAX
       }
-
-      dragging.type = type
-      this.nextFocus = null
 
       return dragging
     },
@@ -288,7 +312,7 @@ export default Vue.extend({
               min: localModel,
               max: dragging.valueMax
             }
-            this.nextFocus = 'min'
+            this.focus = 'min'
           }
           else {
             pos = {
@@ -297,7 +321,7 @@ export default Vue.extend({
               min: dragging.valueMax,
               max: localModel
             }
-            this.nextFocus = 'max'
+            this.focus = 'max'
           }
           break
 
@@ -309,7 +333,7 @@ export default Vue.extend({
               min: dragging.valueMin,
               max: localModel
             }
-            this.nextFocus = 'max'
+            this.focus = 'max'
           }
           else {
             pos = {
@@ -318,16 +342,16 @@ export default Vue.extend({
               min: localModel,
               max: dragging.valueMin
             }
-            this.nextFocus = 'min'
+            this.focus = 'min'
           }
           break
 
         case dragType.RANGE:
           const
             ratioDelta = ratio - dragging.offsetRatio,
-            minR = between(dragging.ratioMin + ratioDelta, 0, 1 - dragging.rangeRatio),
+            minR = between(dragging.ratioMin + ratioDelta, this.innerMinRatio, this.innerMaxRatio - dragging.rangeRatio),
             modelDelta = localModel - dragging.offsetModel,
-            min = between(dragging.valueMin + modelDelta, this.min, this.max - dragging.rangeValue)
+            min = between(dragging.valueMin + modelDelta, this.computedInnerMin, this.computedInnerMax - dragging.rangeValue)
 
           pos = {
             minR,
@@ -335,32 +359,46 @@ export default Vue.extend({
             min: parseFloat(min.toFixed(this.computedDecimals)),
             max: parseFloat((min + dragging.rangeValue).toFixed(this.computedDecimals))
           }
+          this.focus = 'both'
           break
       }
 
+      const changedEnd = (this.focus === 'min' && pos.max >= this.computedInnerMin && pos.max <= this.computedInnerMax) ||
+        (this.focus === 'max' && pos.min >= this.computedInnerMin && pos.min <= this.computedInnerMax)
+        ? this.focus
+        : null
+
       this.model = {
-        min: pos.min,
-        max: pos.max
+        min: changedEnd !== 'max'
+          ? between(pos.min, this.computedInnerMin, this.computedInnerMax)
+          : pos.min,
+        max: changedEnd !== 'min'
+          ? between(pos.max, this.computedInnerMin, this.computedInnerMax)
+          : pos.max
       }
 
       // If either of the values to be emitted are null, set them to the defaults the user has entered.
       if (this.model.min === null || this.model.max === null) {
-        this.model.min = pos.min || this.min
-        this.model.max = pos.max || this.max
+        this.model.min = pos.min || this.computedInnerMin
+        this.model.max = pos.max || this.computedInnerMax
       }
 
       if (this.snap !== true || this.step === 0) {
-        this.curMinRatio = pos.minR
-        this.curMaxRatio = pos.maxR
+        this.curMinRatio = changedEnd !== 'max'
+          ? between(pos.minR, this.innerMinRatio, this.innerMaxRatio)
+          : pos.minR
+        this.curMaxRatio = changedEnd !== 'min'
+          ? between(pos.maxR, this.innerMinRatio, this.innerMaxRatio)
+          : pos.maxR
       }
       else {
-        this.curMinRatio = this.trackLen === 0 ? 0 : (this.model.min - this.min) / this.trackLen
-        this.curMaxRatio = this.trackLen === 0 ? 0 : (this.model.max - this.min) / this.trackLen
+        this.curMinRatio = this.__convertModelToRatio(this.model.min)
+        this.curMaxRatio = this.__convertModelToRatio(this.model.max)
       }
     },
 
     __getEvents (side) {
-      return this.editable === true && this.$q.platform.is.mobile !== true && this.dragOnlyRange !== true
+      return this.$q.platform.is.mobile !== true && this.editable === true && this.dragOnlyRange !== true
         ? {
           focus: () => { this.__onFocus(side) },
           blur: this.__onBlur,
@@ -379,17 +417,19 @@ export default Vue.extend({
         return
       }
 
+      const wrongFocus = this.focus === 'both' && this.canDragRange !== true
+      if (this.focus === false || wrongFocus === true) {
+        this.focus = this.nextFocus
+      }
+
       stopAndPrevent(evt)
 
       const
-        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
-        offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -stepVal : stepVal
+        step = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
+        offset = ([ 34, 37, 40 ].includes(evt.keyCode) ? -step : step) * (this.isReversed === true ? -1 : 1)
 
-      if (this.dragOnlyRange) {
-        const interval = this.dragOnlyRange
-          ? this.model.max - this.model.min
-          : 0
-
+      if (this.dragOnlyRange === true || (this.dragRange === true && this.focus === 'both')) {
+        const interval = this.model.max - this.model.min
         const min = between(
           parseFloat((this.model.min + offset).toFixed(this.computedDecimals)),
           this.computedInnerMin,
@@ -401,7 +441,7 @@ export default Vue.extend({
           max: parseFloat((min + interval).toFixed(this.computedDecimals))
         }
       }
-      else if (this.focus === false) {
+      else if (this.focus !== 'min' && this.focus !== 'max') {
         return
       }
       else {
@@ -421,40 +461,51 @@ export default Vue.extend({
     }
   },
 
+  created () {
+    this.nextFocus = 'min'
+  },
+
   render (h) {
     const content = this.__getContent(h, node => {
       const attrs = {
         tabindex: this.dragOnlyRange !== true ? this.computedTabindex : null
       }
+      const minThumb = this.__getThumb(h, {
+        pinColor: this.thumbMinPinColor,
+        textContainerStyle: this.thumbMinTextContainerStyle,
+        textClass: this.thumbMinTextClass,
+        label: this.thumbMinLabel,
+        classes: this.thumbMinClasses,
+        style: this.thumbMinStyle,
+        nodeData: {
+          ref: 'minThumb',
+          key: 'tmin',
+          on: this.thumbMinEvents,
+          attrs
+        }
+      })
 
-      node.push(
-        this.__getThumb(h, {
-          pinColor: this.thumbMinPinColor,
-          textContainerStyle: this.thumbMinTextContainerStyle,
-          textClass: this.thumbMinTextClass,
-          label: this.thumbMinLabel,
-          classes: this.thumbMinClasses,
-          style: this.thumbMinStyle,
-          nodeData: {
-            ref: 'minThumb',
-            on: this.thumbMinEvents,
-            attrs
-          }
-        }),
+      const maxThumb = this.__getThumb(h, {
+        pinColor: this.thumbMaxPinColor,
+        textContainerStyle: this.thumbMaxTextContainerStyle,
+        textClass: this.thumbMaxTextClass,
+        label: this.thumbMaxLabel,
+        classes: this.thumbMaxClasses,
+        style: this.thumbMaxStyle,
+        nodeData: {
+          ref: 'maxThumb',
+          key: 'tmax',
+          on: this.thumbMaxEvents,
+          attrs
+        }
+      })
 
-        this.__getThumb(h, {
-          pinColor: this.thumbMaxPinColor,
-          textContainerStyle: this.thumbMaxTextContainerStyle,
-          textClass: this.thumbMaxTextClass,
-          label: this.thumbMaxLabel,
-          classes: this.thumbMaxClasses,
-          style: this.thumbMaxStyle,
-          nodeData: {
-            on: this.thumbMaxEvents,
-            attrs
-          }
-        })
-      )
+      if (this.reverse === true) {
+        node.push(maxThumb, minThumb)
+      }
+      else {
+        node.push(minThumb, maxThumb)
+      }
     })
 
     return h('div', {
@@ -465,10 +516,7 @@ export default Vue.extend({
       ),
       attrs: {
         ...this.attributes,
-        'aria-valuenow': this.value.min + '|' + this.value.max,
-        tabindex: this.dragOnlyRange === true && this.$q.platform.is.mobile !== true
-          ? this.computedTabindex
-          : null
+        'aria-valuenow': this.value.min + '|' + this.value.max
       }
     }, content)
   }

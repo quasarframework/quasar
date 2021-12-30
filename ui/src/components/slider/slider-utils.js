@@ -92,7 +92,7 @@ export const SliderMixin = {
       active: false,
       preventFocus: false,
       focus: false,
-      dragging: false
+      dragging: void 0
     }
   },
 
@@ -112,16 +112,16 @@ export const SliderMixin = {
     },
 
     computedInnerMin () {
-      return this.__getInnerMin(this.innerMin)
+      return this.__getInnerMin()
     },
 
     computedInnerMax () {
-      return this.__getInnerMax(this.innerMax)
+      return this.__getInnerMax()
     },
 
     editable () {
       return this.disable !== true && this.readonly !== true &&
-        this.computedInnerMin < this.computedInnerMax
+        this.computedInnerMin <= this.computedInnerMax
     },
 
     computedDecimals () {
@@ -173,8 +173,8 @@ export const SliderMixin = {
     attributes () {
       const acc = {
         role: 'slider',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
+        'aria-valuemin': this.computedInnerMin,
+        'aria-valuemax': this.computedInnerMax,
         'aria-orientation': this.orientation,
         'data-step': this.step
       }
@@ -347,14 +347,14 @@ export const SliderMixin = {
   },
 
   methods: {
-    __getInnerMin (val) {
-      return isNaN(val) === true || this.innerMin < this.min
+    __getInnerMin () {
+      return isNaN(this.innerMin) === true || this.innerMin < this.min
         ? this.min
         : this.innerMin
     },
 
-    __getInnerMax (val) {
-      return isNaN(val) === true || val > this.max
+    __getInnerMax () {
+      return isNaN(this.innerMax) === true || this.innerMax > this.max
         ? this.max
         : this.innerMax
     },
@@ -387,7 +387,7 @@ export const SliderMixin = {
     __convertModelToRatio (model) {
       return this.trackLen === 0
         ? 0
-        : (model - this.min) / this.trackLen
+        : between((model - this.min) / this.trackLen, 0, 1)
     },
 
     __getDraggingRatio (evt, dragging) {
@@ -418,15 +418,21 @@ export const SliderMixin = {
         })
       }
 
+      const filterFn = item => item.value >= this.min && item.value <= this.max
+
       if (Array.isArray(def) === true) {
-        return def.map(item => (Object(item) === item ? item : { value: item }))
+        return def
+          .map(item => (Object(item) === item ? item : { value: item }))
+          .filter(filterFn)
       }
 
-      return Object.keys(def).map(key => {
-        const item = def[ key ]
-        const value = Number(key)
-        return Object(item) === item ? { ...item, value } : { value, label: item }
-      })
+      return Object.keys(def)
+        .map(key => {
+          const item = def[ key ]
+          const value = Number(key)
+          return Object(item) === item ? { ...item, value } : { value, label: item }
+        })
+        .filter(filterFn)
     },
 
     __getMarkerLabelStyle (val) {
@@ -463,6 +469,7 @@ export const SliderMixin = {
           this.$emit('pan', 'end')
         }
         this.active = false
+        this.focus = false
       }
       else if (event.isFirst === true) {
         this.dragging = this.__getDragging(event.evt)
@@ -604,8 +611,8 @@ export const SliderMixin = {
           {
             key: 'trackC',
             class: this.trackContainerClass,
-            attrs: { tabindex: this.computedTabindex },
-            on: this.events,
+            attrs: this.trackContainerAttrs,
+            on: this.trackContainerEvents,
             directives: this.panDirectives
           },
           [

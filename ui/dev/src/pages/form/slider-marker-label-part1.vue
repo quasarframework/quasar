@@ -39,9 +39,9 @@
         <div
           v-for="marker in markerList"
           :key="marker.index"
-          :class="[ `text-deep-orange-${2 + Math.ceil(marker.value / 2) }`, marker.classes ]"
+          :class="[ `cursor-pointer text-deep-orange-${2 + Math.ceil(marker.value / 2) }`, marker.classes ]"
           :style="marker.style"
-          @click="model = marker.value"
+          @click="model = marker.value >= 2 && marker.value <= 8 ? marker.value : model"
         >{{ marker.value }}</div>
       </template>
     </q-slider>
@@ -56,7 +56,7 @@
     >
       <template v-slot:marker-label="{ marker }">
         <div
-          :class="[ `text-deep-orange-${2 + Math.ceil(marker.value / 2) }`, marker.classes ]"
+          :class="[ `cursor-pointer text-deep-orange-${2 + Math.ceil(marker.value / 2) }`, marker.classes ]"
           :style="marker.style"
           @click="model = marker.value"
         >{{ marker.value }}</div>
@@ -72,7 +72,7 @@
       label-color="black"
       label
       markers
-      :marker-labels="[ 0, 3, 6, 9, 10 ]"
+      :marker-labels="[ -6, 0, 3, 6, 9, 10, 20 ]"
     />
 
     <q-slider
@@ -114,7 +114,7 @@
     </q-slider>
 
     <q-slider
-      class="q-mt-xl"
+      class="q-mt-xl q-ml-xl"
       style="max-width: 350px"
       v-model="model"
       v-bind="props"
@@ -125,7 +125,8 @@
     >
       <template v-slot:marker-label-group="{ markerMap }">
         <div
-          class="row items-center no-wrap"
+          class="row justify-center"
+          style="width: 4em"
           :class="markerMap[model].classes"
           :style="markerMap[model].style"
         >

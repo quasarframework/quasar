@@ -109,21 +109,27 @@
     color: var(--q-color-primary)
     transition: transform .18s ease-out, fill .18s ease-out, stroke .18s ease-out
 
+    &.q-slider--focus
+      opacity: 1 !important
+
+    &--wrong-value
+      opacity: 0
+
     &--h
       top: 50%
       will-change: left
       &-ltr
-        transform: scale(1) translate(-50%,-50%) /* rtl:ignore */
+        transform: translate(-50%,-50%) /* rtl:ignore */
       &-rtl
-        transform: scale(1) translate(50%,-50%) /* rtl:ignore */
+        transform: translate(50%,-50%) /* rtl:ignore */
 
     &--v
       left: 50% /* rtl:ignore */
       will-change: top
       &-ltr
-        transform: scale(1) translate(-50%,-50%) /* rtl:ignore */
+        transform: translate(-50%,-50%) /* rtl:ignore */
       &-rtl
-        transform: scale(1) translate(-50%,50%) /* rtl:ignore */
+        transform: translate(-50%,50%) /* rtl:ignore */
 
   &__thumb-shape
     top: 0
@@ -226,11 +232,7 @@
     .q-slider__thumb,
     .q-slider__inner,
     .q-slider__selection
-      visibility: hidden
-
-  &--focus
-    .q-slider__thumb
-      transform: scale(1)
+      opacity: 0
 
   &--focus,
   body.desktop &.q-slider--editable .q-slider__track-container:hover
@@ -238,10 +240,14 @@
       background: currentColor
       transform: scale3d(1.55, 1.55, 1)
       opacity: .25
+
+  &--focus,
+  &--no-value:focus-within,
+  body.desktop &.q-slider--editable .q-slider__track-container:hover
     .q-slider__thumb,
     .q-slider__inner,
     .q-slider__selection
-      visibility: visible
+      opacity: 1
 
   &--inactive
     .q-slider__thumb

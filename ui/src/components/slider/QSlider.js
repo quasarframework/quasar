@@ -24,10 +24,8 @@ export default Vue.extend({
   },
 
   data () {
-    const innerMin = this.__getInnerMin(this.innerMin)
-    const innerMax = this.__getInnerMax(this.innerMax)
     return {
-      model: this.value === null ? innerMin : between(this.value, innerMin, innerMax),
+      model: this.value === null ? this.__getInnerMin() : between(this.value, this.min, this.max),
       curRatio: 0
     }
   },
@@ -42,9 +40,10 @@ export default Vue.extend({
     },
 
     selectionBarStyle () {
+      const minRatio = this.innerMinRatio
       const acc = {
-        [ this.positionProp ]: `${100 * this.innerMinRatio}%`,
-        [ this.sizeProp ]: `${100 * (this.ratio - this.innerMinRatio)}%`
+        [ this.positionProp ]: `${100 * minRatio}%`,
+        [ this.sizeProp ]: `${100 * (between(this.ratio, minRatio, this.innerMaxRatio) - minRatio)}%`
       }
       if (this.selectionImg !== void 0) {
         acc.backgroundImage = `url(${this.selectionImg}) !important`
@@ -55,12 +54,13 @@ export default Vue.extend({
     thumbLabel () {
       return this.labelValue !== void 0
         ? this.labelValue
-        : this.model
+        : (this.value < this.min || this.value > this.max ? this.value : this.model)
     },
 
     thumbClasses () {
       const color = this.thumbColor || this.color
       return `q-slider__thumb q-slider__thumb${this.axis} q-slider__thumb${this.axis}-${this.isReversed === true ? 'rtl' : 'ltr'} absolute non-selectable` +
+        (this.value < this.min || this.value > this.max ? ' q-slider__thumb--wrong-value' : '') +
         (
           this.preventFocus === false && this.focus === true
             ? ' q-slider--focus'
@@ -92,7 +92,13 @@ export default Vue.extend({
         (this.labelTextColor !== void 0 ? ` text-${this.labelTextColor}` : '')
     },
 
-    events () {
+    trackContainerAttrs () {
+      return this.$q.platform.is.mobile !== true
+        ? { tabindex: this.computedTabindex }
+        : void 0
+    },
+
+    trackContainerEvents () {
       if (this.editable !== true) {
         return {}
       }
@@ -109,7 +115,13 @@ export default Vue.extend({
     },
 
     modelUpdate () {
-      return this.value + this.computedInnerMin + this.computedInnerMax
+      return [
+        this.value,
+        this.min,
+        this.max,
+        this.innerMin,
+        this.innerMax
+      ].join('#')
     }
   },
 
@@ -117,7 +129,7 @@ export default Vue.extend({
     modelUpdate () {
       this.model = this.value === null
         ? this.computedInnerMin
-        : between(this.value, this.computedInnerMin, this.computedInnerMax)
+        : between(this.value, this.min, this.max)
     }
   },
 
@@ -138,7 +150,7 @@ export default Vue.extend({
 
       this.model = this.__convertRatioToModel(ratio)
       this.curRatio = this.snap !== true || this.computedStep === 0
-        ? ratio
+        ? between(ratio, this.innerMinRatio, this.innerMaxRatio)
         : this.__convertModelToRatio(this.model)
     },
 
@@ -151,11 +163,13 @@ export default Vue.extend({
         return
       }
 
+      this.focus = true
+
       stopAndPrevent(evt)
 
       const
-        step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
-        offset = [34, 37, 40].includes(evt.keyCode) ? -step : step
+        step = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
+        offset = ([ 34, 37, 40 ].includes(evt.keyCode) ? -step : step) * (this.isReversed === true ? -1 : 1)
 
       this.model = between(
         parseFloat((this.model + offset).toFixed(this.computedDecimals)),
