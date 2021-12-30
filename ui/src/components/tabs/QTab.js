@@ -23,10 +23,7 @@ export default Vue.extend({
       }
     },
     __activateTab: {},
-    __registerTab: {},
-    __unregisterTab: {},
-    __focusTab: {},
-    __unfocusTab: {},
+    __recalculateScroll: {},
     __onKbdNavigate: {}
   },
 
@@ -80,7 +77,7 @@ export default Vue.extend({
     },
 
     computedTabIndex () {
-      return this.disable === true || this.tabs.focused === true || (this.isActive !== true && this.tabs.hasCurrent === true)
+      return this.disable === true || this.tabs.hasFocus === true
         ? -1
         : this.tabindex || 0
     },
@@ -98,8 +95,6 @@ export default Vue.extend({
       return {
         input: stop,
         ...this.qListeners,
-        focusin: this.__onFocusin,
-        focusout: this.__onFocusout,
         click: this.__activate,
         keydown: this.__onKeydown
       }
@@ -120,13 +115,6 @@ export default Vue.extend({
     }
   },
 
-  watch: {
-    name (newName, oldName) {
-      this.__unregisterTab(oldName)
-      this.__registerTab(newName, this.$el)
-    }
-  },
-
   methods: {
     __activate (e, keyboard) {
       if (keyboard !== true && this.$refs.blurTarget !== void 0) {
@@ -137,18 +125,6 @@ export default Vue.extend({
         this.qListeners.click !== void 0 && this.$emit('click', e)
         this.__activateTab(this.name)
       }
-    },
-
-    __onFocusin (e) {
-      e.target === this.$el && this.__focusTab(this.$el)
-
-      this.qListeners.focusin !== void 0 && this.$emit('focusin', e)
-    },
-
-    __onFocusout (e) {
-      this.__unfocusTab()
-
-      this.qListeners.focusout !== void 0 && this.$emit('focusout', e)
     },
 
     __onKeydown (e) {
@@ -262,11 +238,11 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.__registerTab(this.name, this.$el)
+    this.__recalculateScroll()
   },
 
   beforeDestroy () {
-    this.__unregisterTab(this.name)
+    this.__recalculateScroll()
   },
 
   render (h) {

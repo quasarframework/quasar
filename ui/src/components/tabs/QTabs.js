@@ -52,12 +52,9 @@ export default Vue.extend({
   provide () {
     return {
       tabs: this.tabs,
-      __registerTab: this.__registerTab,
-      __unregisterTab: this.__unregisterTab,
+      __recalculateScroll: this.__recalculateScroll,
       __activateTab: this.__activateTab,
       __activateRoute: this.__activateRoute,
-      __focusTab: this.__focusTab,
-      __unfocusTab: this.__unfocusTab,
       __onKbdNavigate: this.__onKbdNavigate
     }
   },
@@ -104,8 +101,7 @@ export default Vue.extend({
     return {
       tabs: {
         current: this.value,
-        focused: false,
-        hasCurrent: false,
+        hasFocus: false,
         activeClass: this.activeClass,
         activeColor: this.activeColor,
         activeBgColor: this.activeBgColor,
@@ -273,19 +269,30 @@ export default Vue.extend({
     onEvents () {
       return {
         input: stop,
-        ...this.qListeners
+        ...this.qListeners,
+        focusin: this.__onFocusin,
+        focusout: this.__onFocusout
       }
     }
   },
 
   methods: {
+    __onFocusin (e) {
+      this.tabs.hasFocus = true
+      this.qListeners.focusin !== void 0 && this.$emit('focusin', e)
+    },
+
+    __onFocusout (e) {
+      this.tabs.hasFocus = false
+      this.qListeners.focusout !== void 0 && this.$emit('focusout', e)
+    },
+
     __activateTab (name, setCurrent, skipEmit) {
       if (this.tabs.current !== name) {
         skipEmit !== true && this.$emit('input', name)
         if (setCurrent === true || this.qListeners.input === void 0) {
           this.__animate(this.tabs.current, name)
           this.tabs.current = name
-          this.tabs.hasCurrent = this.tabNames.indexOf(name) > -1
         }
       }
     },
@@ -527,21 +534,6 @@ export default Vue.extend({
       }
     },
 
-    __focusTab (tab) {
-      if (this.tabs.focused !== true) {
-        this.tabs.focused = true
-
-        this.__scrollToTab(tab, void 0, true)
-        this.__recalculateScroll()
-      }
-    },
-
-    __unfocusTab () {
-      if (this.tabs.focused !== false) {
-        this.tabs.focused = false
-      }
-    },
-
     __onKbdNavigate (keyCode, fromEl) {
       const matchTab = el => el === fromEl || (el.matches && el.matches('.q-tab.q-focusable') === true)
       const tabs = Array.prototype.filter.call(this.$refs.content.children, matchTab)
@@ -595,24 +587,6 @@ export default Vue.extend({
 
         return true
       }
-    },
-
-    __registerTab (name, el) {
-      if (this.tabNames.indexOf(name) === -1) {
-        this.tabNames.push(name)
-        this.tabs.hasCurrent = this.tabNames.indexOf(this.tabs.current) > -1
-      }
-      this.__recalculateScroll()
-      this.value === name && el && this.__scrollToTab(el, void 0, true)
-    },
-
-    __unregisterTab (name) {
-      const index = this.tabNames.indexOf(name)
-      if (index > -1) {
-        this.tabNames.splice(index, 1)
-        this.tabs.hasCurrent = this.tabNames.indexOf(this.tabs.current) > -1
-      }
-      this.__recalculateScroll()
     }
   },
 
@@ -622,7 +596,6 @@ export default Vue.extend({
 
   created () {
     this.buffer = []
-    this.tabNames = []
 
     this.__updateArrows = this.arrowsEnabled === true
       ? this.__updateArrowsFn
