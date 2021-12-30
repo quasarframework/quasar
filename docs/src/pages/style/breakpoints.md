@@ -13,7 +13,7 @@ Quasar uses the following CSS breakpoints:
 | Small | `sm` | 600px to 1023px |
 | Medium | `md` | 1024px to 1439px |
 | Large | `lg` | 1440px to 1919px |
-| Extra Large | `xl` | Bigger than 1920px |
+| Extra Large | `xl` | 1920px and up |
 
 To learn how to use them, please visit the [Visibility](/style/visibility) page.
 
