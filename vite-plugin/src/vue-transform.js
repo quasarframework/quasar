@@ -35,7 +35,7 @@ export function vueTransform (content, autoImportComponentCase) {
             : importName
 
           importMap[importName] = importAs
-          return `import ${importAs} from '${importTransformation(importName)}'\n`
+          return `import ${importAs} from '${importTransformation(importName)}';`
         })
         .join('')
     )
@@ -90,7 +90,7 @@ export function vueTransform (content, autoImportComponentCase) {
 
   const codePrefix = importList
     .map(name => `import ${name} from '${importTransformation(name)}'`)
-    .join(`\n`)
+    .join(`;`)
 
-  return codePrefix + '\n' + code
+  return codePrefix + ';' + code
 }
