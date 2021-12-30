@@ -102,6 +102,7 @@ export default Vue.extend({
       tabs: {
         current: this.value,
         hasFocus: false,
+        hasCurrent: false,
         activeClass: this.activeClass,
         activeColor: this.activeColor,
         activeBgColor: this.activeBgColor,
@@ -278,7 +279,7 @@ export default Vue.extend({
 
   methods: {
     __onFocusin (e) {
-      this.tabs.hasFocus = true
+      this.tabs.hasFocus = e.target && typeof e.target.closest === 'function' && this.$el.contains(e.target.closest('.q-tab'))
       this.qListeners.focusin !== void 0 && this.$emit('focusin', e)
     },
 
@@ -287,12 +288,17 @@ export default Vue.extend({
       this.qListeners.focusout !== void 0 && this.$emit('focusout', e)
     },
 
+    __setCurrent (name) {
+      this.tabs.current !== name && (this.tabs.current = name)
+      this.tabs.hasCurrent = this.$el.querySelector(`.q-tab[data-tab-name="${btoa(name)}"]`) !== null
+    },
+
     __activateTab (name, setCurrent, skipEmit) {
       if (this.tabs.current !== name) {
         skipEmit !== true && this.$emit('input', name)
         if (setCurrent === true || this.qListeners.input === void 0) {
           this.__animate(this.tabs.current, name)
-          this.tabs.current = name
+          this.__setCurrent(name)
         }
       }
     },
@@ -331,6 +337,8 @@ export default Vue.extend({
     },
 
     __recalculateScroll () {
+      this.__setCurrent(this.tabs.current)
+
       this.__nextTick(() => {
         this._isDestroyed !== true && this.__updateContainer({
           width: this.$el.offsetWidth,
