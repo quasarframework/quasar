@@ -35,7 +35,7 @@ export function vueTransform (content, autoImportComponentCase) {
             : importName
 
           importMap[importName] = importAs
-          return `import ${importAs} from '${importTransformation(importName)}'\n`
+          return `import ${importAs} from '${importTransformation(importName)}';`
         })
         .join('')
     )

@@ -23,7 +23,7 @@ export function jsTransform (code) {
           ? data[1].trim()
           : importName
 
-        return `import ${importAs} from '${importTransformation(importName)}'\n`
+        return `import ${importAs} from '${importTransformation(importName)}';`
       })
       .join('')
   )
