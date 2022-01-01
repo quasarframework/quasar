@@ -40,7 +40,7 @@ src/
 ## Defining Routes
 Your Pages (`/src/pages`) and Layouts (`/src/layouts`) are injected into your website/app (and also managed) through Vue Router in `/src/router/routes.js`. Each Page and Layout needs to be referenced there.
 
-Example of `routes.js`:
+Example of `routes.js` using lazy-loading:
 ```js
 // we define our routes in this file
 
@@ -56,7 +56,7 @@ const routes = [
 export default routes
 ```
 
-Example of `routes.js` using lazy-loading / on-demand loading:
+Example of `routes.js` using on-demand loading:
 
 ```js
 // we define our routes in this file
@@ -84,13 +84,13 @@ Real app UIs are usually composed of components that are nested multiple levels 
 
 ```
 /user/profile                   /user/posts
-+------------------+            +-----------------+
+____________________            ___________________
 | User             |            | User            |
-| +--------------+ |            | +-------------+ |
-| | Profile      | |  +------>  | | Posts       | |
+|  --------------  |            |  -------------  |
+| | Profile      | |   ------>  | | Posts       | |
 | |              | |            | |             | |
-| +--------------+ |            | +-------------+ |
-+------------------+            +-----------------+
+|  --------------  |            |  -------------  |
+|__________________|            |_________________|
 ```
 
 With Vue Router, it is very simple to express this relationship using nested route configurations. We notice some things: both pages need to be wrapped by a User component. Hey, User component is then a Layout!
