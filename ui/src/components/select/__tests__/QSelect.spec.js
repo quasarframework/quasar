@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import { mount } from '@cypress/vue'
-import { ref, defineComponent, h } from 'vue'
+import { ref, h } from 'vue'
 import WrapperOne from './WrapperOne.vue'
 
 const snapshotOptions = { customSnapshotsDir: '../src/components/select/__tests__' }
@@ -1204,60 +1204,297 @@ describe('QSelect API', () => {
 
   describe('Events', () => {
     describe('(event): update:model-value', () => {
-      it.skip(' ', () => {
-        //
+      it('should emit event when model value changes', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            options: [ '1', '2', '3' ],
+            modelValue: null,
+            'onUpdate:modelValue': fn
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.get('.select-root')
+          .click()
+        cy.get('.q-menu')
+          .get('[role="option"]')
+          .first()
+          .click()
+          .then(() => {
+            expect(fn).to.be.calledWith('1')
+          })
       })
     })
 
     describe('(event): input-value', () => {
-      it.skip(' ', () => {
-        //
+      it('should emit event when text input changes', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: null,
+            onInputValue: fn,
+            useInput: true
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.get('.select-root')
+          .get('input')
+          .type('h')
+          .then(() => {
+            expect(fn).to.be.calledWith('h')
+          })
       })
     })
 
     describe('(event): remove', () => {
-      it.skip(' ', () => {
-        //
+      it('should emit event when a selected item is removed from selection', () => {
+        const fn = cy.stub()
+        const model = ref([ '2', '3' ])
+        mount(WrapperOne, {
+          attrs: {
+            onRemove: fn,
+            multiple: true,
+            modelValue: model,
+            'onUpdate:modelValue': (val) => {
+              model.value = val
+            },
+            options: [ '1', '2', '3' ]
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.get('.select-root')
+          .click()
+        cy.get('.q-menu')
+          .get('[role="option"]')
+          .first()
+          .click()
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
+        cy.get('.q-menu')
+          .get('[role="option"]')
+          .first()
+          .click()
+          .then(() => {
+            // Item is added in the previous step at the end of the array, so at index 2
+            expect(fn).to.be.calledWith({ index: 2, value: '1' })
+          })
       })
     })
 
     describe('(event): add', () => {
-      it.skip(' ', () => {
-        //
+      it('should emit event when an option is added to the selection', () => {
+        const fn = cy.stub()
+        const model = ref([ '2' ])
+        mount(WrapperOne, {
+          attrs: {
+            onAdd: fn,
+            multiple: true,
+            modelValue: model,
+            'onUpdate:modelValue': (val) => {
+              model.value = val
+            },
+            options: [ '1', '2', '3' ]
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.get('.select-root')
+          .click()
+        cy.get('.q-menu')
+          .get('[role="option"]')
+          .first()
+          .click()
+          .then(() => {
+            // Item is added in the previous step at the end of the array, so at index 2
+            expect(fn).to.be.calledWith({ index: 1, value: '1' })
+          })
       })
     })
 
     describe('(event): new-value', () => {
-      it.skip(' ', () => {
-        //
+      it('should emit event when something is typed into the input field and enter is pressed', () => {
+        const fn = cy.stub()
+        const model = ref([ '2' ])
+        mount(WrapperOne, {
+          attrs: {
+            onNewValue: fn,
+            multiple: true,
+            useInput: true,
+            modelValue: model,
+            'onUpdate:modelValue': (val) => {
+              model.value = val
+            },
+            hideDropdownIcon: true
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.get('.select-root')
+          .get('input')
+          .type('100')
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
+          .type('{enter}')
+          .then(() => {
+            expect(fn).to.be.calledWith('100')
+          })
+      })
+
+      it('should add the value to the model when the doneFn is called', () => {
+        const model = ref([ '2' ])
+        mount(WrapperOne, {
+          attrs: {
+            onNewValue: (val, doneFn) => {
+              doneFn(val)
+            },
+            multiple: true,
+            useInput: true,
+            modelValue: model,
+            'onUpdate:modelValue': (val) => {
+              model.value = val
+            },
+            hideDropdownIcon: true
+          }
+        })
+
+        cy.get('.select-root')
+          .get('input')
+          .type('100')
+          .type('{enter}')
+          .then(() => {
+            expect(model.value).includes('100')
+          })
       })
     })
+
     describe('(event): filter', () => {
-      it.skip(' ', () => {
-        //
+      it('should emit event when something is typed into the input field', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onFilter: fn,
+            useInput: true,
+            inputDebounce: 0
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.get('.select-root')
+          .get('input')
+          .type('h')
+          .then(() => {
+            expect(fn).to.be.calledWith('h')
+          })
       })
     })
 
     describe('(event): filter-abort', () => {
-      it.skip(' ', () => {
-        //
+      it('should emit event when the the filterFn has not called the doneFn yet and a new filter is requested', () => {
+        const fn = cy.stub()
+        const filterFn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onFilter: filterFn,
+            onFilterAbort: fn,
+            useInput: true,
+            inputDebounce: 0
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.get('.select-root')
+          .get('input')
+          .click()
+          .then(() => {
+            expect(filterFn).to.be.calledOnce
+            expect(fn).not.to.be.called
+          })
+          .type('h')
+          .then(() => {
+            expect(fn).to.be.calledOnce
+          })
+      })
+
+      it('should not emit event when the filter has called its doneFn', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onFilter: (val, doneFn) => {
+              doneFn()
+            },
+            onFilterAbort: fn,
+            useInput: true,
+            inputDebounce: 0
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.get('.select-root')
+          .get('input')
+          .click()
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
+          .type('h')
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
       })
     })
+
     describe('(event): popup-show', () => {
-      it.skip(' ', () => {
-        //
+      it('should emit event when the options are shown', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onPopupShow: fn,
+            options: [ '1', '2', '3' ]
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.get('.select-root')
+          .click()
+          .then(() => {
+            expect(fn).to.be.called
+          })
       })
     })
 
     describe('(event): popup-hide', () => {
-      it.skip(' ', () => {
-        //
+      it('should emit event when the options are hidden', () => {
+        const fn = cy.stub()
+        mount(WrapperOne, {
+          attrs: {
+            onPopupHide: fn,
+            options: [ '1', '2', '3' ]
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.get('.select-root')
+          .click()
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
+          .type('{esc}')
+          .then(() => {
+            expect(fn).to.be.called
+          })
       })
     })
 
     describe('(event): virtual-scroll', () => {
-      it.skip(' ', () => {
-        //
+      it.skip('', () => {
+        // The virtual scroll code is tested as a composable
+        // The property is included in the QSelect.json to add typings
+        // for the QSelect ref passed in this event.
+        // I think testing the component ref that is passed is of type QSelect is out of scope for unit tests.
       })
     })
   })
