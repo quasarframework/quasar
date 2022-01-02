@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import { mount } from '@cypress/vue'
-import { ref } from 'vue'
+import { ref, defineComponent, h } from 'vue'
 import WrapperOne from './WrapperOne.vue'
 
 const snapshotOptions = { customSnapshotsDir: '../src/components/select/__tests__' }
@@ -933,44 +933,271 @@ describe('QSelect API', () => {
 
   describe('Slots', () => {
     describe('(slot): selected', () => {
-      it.skip(' ', () => {
-        //
+      it('should display when something is selected', () => {
+        const selectedString = 'Test slot selected'
+        const options = [ 'Option 1', 'Option 2' ]
+        mount(WrapperOne, {
+          attrs: {
+            options,
+            modelValue: options[ 0 ]
+          },
+          slots: {
+            selected: () => selectedString
+          }
+        })
+        cy.get('.select-root')
+          .should('contain', selectedString)
       })
     })
 
     describe('(slot): loading', () => {
-      it.skip(' ', () => {
-        //
+      it('should display when element is loading', () => {
+        const loadingString = 'Test slot loading'
+        mount(WrapperOne, {
+          attrs: {
+            loading: true
+          },
+          slots: {
+            loading: () => loadingString
+          }
+        })
+        cy.get('.select-root')
+          .should('contain', loadingString)
+      })
+
+      it('should not display when element is loading', () => {
+        const loadingString = 'Test slot loading'
+        mount(WrapperOne, {
+          attrs: {
+            loading: false
+          },
+          slots: {
+            loading: () => loadingString
+          }
+        })
+        cy.get('.select-root')
+          .should('not.contain', loadingString)
       })
     })
 
     describe('(slot): before-options', () => {
-      it.skip(' ', () => {
-        //
+      it('should display the slot content before the options', () => {
+        mount(WrapperOne, {
+          attrs: {
+            options: [ '1', '2', '3' ]
+          },
+          slots: {
+            'before-options': () => h('div', { class: 'dummyClass' }, 'Hello')
+          }
+        })
+        cy.get('.select-root')
+          .click()
+        cy.get('.q-menu')
+          .children().first()
+          .should('have.class', 'dummyClass')
       })
     })
 
     describe('(slot): after-options', () => {
-      it.skip(' ', () => {
-        //
+      it('should display the slot content after the options', () => {
+        mount(WrapperOne, {
+          attrs: {
+            options: [ '1', '2', '3' ]
+          },
+          slots: {
+            'after-options': () => h('div', { class: 'dummyClass' }, 'Hello')
+          }
+        })
+        cy.get('.select-root')
+          .click()
+        cy.get('.q-menu')
+          .children().last()
+          .should('have.class', 'dummyClass')
       })
     })
 
     describe('(slot): no-option', () => {
-      it.skip(' ', () => {
-        //
+      it('should display the slot content when there are no options', () => {
+        const compareString = 'No options :('
+        mount(WrapperOne, {
+          attrs: {
+            options: [ ]
+          },
+          slots: {
+            'no-option': () => compareString
+          }
+        })
+        cy.get('.select-root')
+          .click()
+        cy.get('.q-menu')
+          .should('contain', compareString)
+      })
+
+      it('should pass the inputValue to the slot scope', () => {
+        const compareString = 'No options :('
+        mount(WrapperOne, {
+          attrs: {
+            options: [ ],
+            useInput: true
+          },
+          slots: {
+            'no-option': (scope) => compareString + scope.inputValue
+          }
+        })
+        cy.get('.select-root')
+          .click()
+          .type('Hello')
+        cy.get('.q-menu')
+          .should('contain', compareString + 'Hello')
+      })
+
+      it('should not display the slot content when there are options', () => {
+        const compareString = 'No options :('
+        mount(WrapperOne, {
+          attrs: {
+            options: [ '1', '2', '3' ]
+          },
+          slots: {
+            'no-option': () => compareString
+          }
+        })
+        cy.get('.select-root')
+          .click()
+        cy.get('.q-menu')
+          .should('not.contain', compareString)
       })
     })
 
     describe('(slot): selected-item', () => {
-      it.skip(' ', () => {
-        //
+      it('should override the default selection slot', () => {
+        const options = [ { label: 'Option one', value: 1 }, { label: 'Option two', value: 2 } ]
+        mount(WrapperOne, {
+          attrs: {
+            options,
+            modelValue: 1
+          },
+          slots: {
+            'selected-item': () => 'Test'
+          }
+        })
+        cy.get('.select-root')
+          .should('not.contain', options[ 0 ].value)
+          .should('contain', 'Test')
+      })
+
+      it('should pass the selected option index to the slot scope', () => {
+        const options = [ { label: 'Option one', value: 1 }, { label: 'Option two', value: 2 } ]
+        mount(WrapperOne, {
+          attrs: {
+            options,
+            modelValue: 1
+          },
+          slots: {
+            'selected-item': (scope) => 'Test' + scope.index
+          }
+        })
+        cy.get('.select-root')
+          .should('contain', 'Test0')
+      })
+
+      it('should pass the selected option value to the slot scope', () => {
+        const options = [ { label: 'Option one', value: 1 }, { label: 'Option two', value: 2 } ]
+        mount(WrapperOne, {
+          attrs: {
+            options,
+            modelValue: 1
+          },
+          slots: {
+            'selected-item': (scope) => 'Test' + scope.opt
+          }
+        })
+        cy.get('.select-root')
+          .should('contain', 'Test1')
+      })
+
+      it('should pass a removeAtIndex function to the slot scope', () => {
+        const options = [ { label: 'Option one', value: 1 }, { label: 'Option two', value: 2 } ]
+        const model = ref(1)
+        mount(WrapperOne, {
+          attrs: {
+            options,
+            modelValue: model,
+            'onUpdate:modelValue': (val) => {
+              model.value = val
+            }
+          },
+          slots: {
+            'selected-item': (scope) => h('button', { class: 'remove', onClick: () => scope.removeAtIndex(scope.index) }, 'Remove')
+          }
+        })
+        cy.get('.select-root')
+          .get('button.remove')
+          .click()
+        cy.get('.select-root')
+          .get('button.remove')
+          .should('not.exist')
+      })
+
+      it('should pass a toggleOption function to the slot scope', () => {
+        const options = [ { label: 'Option one', value: 1 }, { label: 'Option two', value: 2 } ]
+        const model = ref(1)
+        mount(WrapperOne, {
+          attrs: {
+            options,
+            modelValue: model,
+            'onUpdate:modelValue': (val) => {
+              model.value = val
+            }
+          },
+          slots: {
+            'selected-item': (scope) => h('button', { class: 'toggle', onClick: () => scope.toggleOption(2) }, 'Toggle' + scope.opt)
+          }
+        })
+        cy.get('.select-root')
+          .get('button.toggle')
+          .should('contain', 'Toggle1')
+          .click()
+        cy.get('.select-root')
+          .get('button.toggle')
+          .should('contain', 'Toggle2')
       })
     })
 
     describe('(slot): option', () => {
-      it.skip(' ', () => {
-        //
+      it('should render a list of the provided slot as options', () => {
+        const options = [ '1', '2', '3' ]
+        mount(WrapperOne, {
+          attrs: {
+            options
+          },
+          slots: {
+            option: (scope) => h('div', { class: 'custom-option' }, scope.opt)
+          }
+        })
+        cy.get('.select-root')
+          .click()
+        cy.get('.q-menu')
+          .get('.custom-option')
+          .should('have.length', options.length)
+      })
+
+      it('should have a selected property in the scope', () => {
+        const options = [ '1', '2', '3' ]
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: '1',
+            options
+          },
+          slots: {
+            option: (scope) => h('div', { class: `custom-option-${ scope.selected }` }, scope.opt + scope.selected)
+          }
+        })
+        cy.get('.select-root')
+          .click()
+        cy.get('.q-menu')
+          .get('.custom-option-true')
+          .should('have.length', 1)
+          .should('contain', options[ 0 ])
       })
     })
   })
