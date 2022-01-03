@@ -45,7 +45,7 @@
                   "type": "String",
                   "desc": "Path to an image for this action",
                   "examples": [
-                    "(statics folder) statics/img/something.png",
+                    "(public folder) img/something.png",
                     "(relative path format) :src=\"require('./my_img.jpg')\"",
                     "(URL) https://some-site.net/some-img.gif"
                   ]

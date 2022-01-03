@@ -47,9 +47,9 @@
 
       "avatar": {
         "type": "String",
-        "desc": "URL to an avatar/image; Suggestion: use statics folder",
+        "desc": "URL to an avatar/image; Suggestion: use public folder",
         "examples": [
-          "(statics folder) statics/img/something.png",
+          "(public folder) img/something.png",
           "(relative path format) require('./my_img.jpg')",
           "(URL) https://some-site.net/some-img.gif"
         ]
@@ -217,9 +217,9 @@
 
             "avatar": {
               "type": "String",
-              "desc": "URL to an avatar/image; Suggestion: use statics folder",
+              "desc": "URL to an avatar/image; Suggestion: use public folder",
               "examples": [
-                "(statics folder) statics/img/something.png",
+                "(public folder) img/something.png",
                 "(relative path format) require('./my_img.jpg')",
                 "(URL) https://some-site.net/some-img.gif"
               ]
@@ -415,9 +415,9 @@
 
               "avatar": {
                 "type": "String",
-                "desc": "URL to an avatar/image; Suggestion: use statics folder",
+                "desc": "URL to an avatar/image; Suggestion: use public folder",
                 "examples": [
-                  "(statics folder) statics/img/something.png",
+                  "(public folder) img/something.png",
                   "(relative path format) require('./my_img.jpg')",
                   "(URL) https://some-site.net/some-img.gif"
                 ]
@@ -556,9 +556,9 @@
 
             "avatar": {
               "type": "String",
-              "desc": "URL to an avatar/image; Suggestion: use statics folder",
+              "desc": "URL to an avatar/image; Suggestion: use public folder",
               "examples": [
-                "(statics folder) statics/img/something.png",
+                "(public folder) img/something.png",
                 "(relative path format) require('./my_img.jpg')",
                 "(URL) https://some-site.net/some-img.gif"
               ]
@@ -750,9 +750,9 @@
 
             "avatar": {
               "type": "String",
-              "desc": "URL to an avatar/image; Suggestion: use statics folder",
+              "desc": "URL to an avatar/image; Suggestion: use public folder",
               "examples": [
-                "(statics folder) statics/img/something.png",
+                "(public folder) img/something.png",
                 "(relative path format) require('./my_img.jpg')",
                 "(URL) https://some-site.net/some-img.gif"
               ]
