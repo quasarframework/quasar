@@ -194,9 +194,11 @@ If you are using the Quasar UMD version or the Quasar Vite plugin or Vue CLI:
 ```js
 // UMD or Quasar Vite plugin or Vue CLI
 app.use(Quasar, {
-  brand: {
-    primary: '#ff0000',
-    // ...
+  config: {
+    brand: {
+      primary: '#ff0000',
+      // ...
+    }
   }
 })
 ```
