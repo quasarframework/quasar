@@ -52,7 +52,7 @@
         "map",
         "ion-add",
         "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
-        "img:statics/path/to/some_image.png"
+        "img:path/to/some_image.png"
       ],
       "category": "content"
     },
