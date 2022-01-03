@@ -49,7 +49,7 @@ export default Vue.extend({
       if (immediately === true || this.debounce === 0 || this.debounce === '0') {
         this.__emit()
       }
-      else if (!this.timer) {
+      else if (this.timer === null) {
         this.timer = this.debounce
           ? setTimeout(this.__emit, this.debounce)
           : requestAnimationFrame(this.__emit)
@@ -57,6 +57,12 @@ export default Vue.extend({
     },
 
     __emit () {
+      if (this.timer !== null) {
+        clearTimeout(this.timer)
+        cancelAnimationFrame(this.timer)
+        this.timer = null
+      }
+
       const fn = this.horizontal === true
         ? getHorizontalScrollPosition
         : getScrollPosition
@@ -75,7 +81,6 @@ export default Vue.extend({
         this.dirChangePos = this.pos
       }
 
-      this.timer = null
       this.pos = pos
       this.$emit('scroll', this.getPosition())
     },
@@ -95,6 +100,8 @@ export default Vue.extend({
   },
 
   mounted () {
+    this.timer = null
+
     this.__configureScrollTarget()
   },
 
