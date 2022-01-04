@@ -24,17 +24,20 @@ export default Vue.extend({
   },
 
   methods: {
-    trigger (now) {
-      if (now === true || this.debounce === 0 || this.debounce === '0') {
-        this.__onResize()
+    trigger (immediately) {
+      if (immediately === true || this.debounce === 0 || this.debounce === '0') {
+        this.__emit()
       }
-      else if (!this.timer) {
-        this.timer = setTimeout(this.__onResize, this.debounce)
+      else if (this.timer === null) {
+        this.timer = setTimeout(this.__emit, this.debounce)
       }
     },
 
-    __onResize () {
-      this.timer = null
+    __emit () {
+      if (this.timer !== null) {
+        clearTimeout(this.timer)
+        this.timer = null
+      }
 
       if (!this.$el || !this.$el.parentNode) {
         return
@@ -73,7 +76,7 @@ export default Vue.extend({
         this.curDocView.addEventListener('resize', this.trigger, listenOpts.passive)
       }
 
-      this.__onResize()
+      this.__emit()
     }
   },
 
@@ -108,16 +111,18 @@ export default Vue.extend({
   },
 
   mounted () {
+    this.timer = null
+
     if (this.hasObserver === true) {
       this.observer = new ResizeObserver(this.trigger)
       this.observer.observe(this.$el.parentNode)
-      this.__onResize()
+      this.__emit()
       return
     }
 
     if (this.$q.platform.is.ie === true) {
       this.url = 'about:blank'
-      this.__onResize()
+      this.__emit()
     }
     else {
       this.__onObjLoad()

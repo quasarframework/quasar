@@ -469,6 +469,7 @@ export default Vue.extend({
           style: this.mainStyle
         }, mergeSlot([
           h(QResizeObserver, {
+            props: { debounce: 0 },
             on: cache(this, 'resizeIn', { resize: this.__updateScrollSize })
           })
         ], this, 'default')),
@@ -484,6 +485,7 @@ export default Vue.extend({
       ]),
 
       h(QResizeObserver, {
+        props: { debounce: 0 },
         on: cache(this, 'resizeOut', { resize: this.__updateContainer })
       }),
 
