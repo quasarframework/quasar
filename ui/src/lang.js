@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import langEn from '../lang/en-us.js'
+import defaultLang from '../lang/en-us.js'
 import { isSSR, fromSSR } from './plugins/Platform.js'
 
 function getLocale () {
@@ -18,13 +18,13 @@ function getLocale () {
   }
 }
 
-export default {
+const Plugin = {
   getLocale,
 
   install ($q, queues, lang) {
-    const initialLang = lang || langEn
+    const initialLang = lang || defaultLang
 
-    this.set = (langObject = langEn, ssrContext) => {
+    this.set = (langObject = defaultLang, ssrContext) => {
       const lang = {
         ...langObject,
         rtl: langObject.rtl === true,
@@ -83,3 +83,6 @@ export default {
     }
   }
 }
+
+export default Plugin
+export { defaultLang }
