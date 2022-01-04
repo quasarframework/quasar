@@ -40,7 +40,7 @@ src/
 ## Defining Routes
 Your Pages (`/src/pages`) and Layouts (`/src/layouts`) are injected into your website/app (and also managed) through Vue Router in `/src/router/routes.js`. Each Page and Layout needs to be referenced there.
 
-Example of `routes.js`:
+Example of `routes.js` using lazy-loading:
 ```js
 // we define our routes in this file
 
@@ -56,7 +56,7 @@ const routes = [
 export default routes
 ```
 
-Example of `routes.js` using lazy-loading / on-demand loading:
+Example of `routes.js` using on-demand loading:
 
 ```js
 // we define our routes in this file
