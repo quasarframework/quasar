@@ -98,7 +98,7 @@ export default createComponent({
     )
 
     const isDark = useDark(props, $q)
-    const { registerTick, removeTick, prepareTick } = useTick()
+    const { registerTick, removeTick } = useTick()
     const { registerTimeout, removeTimeout } = useTimeout()
     const { transition, transitionStyle } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
@@ -225,7 +225,6 @@ export default createComponent({
         updatePosition()
         props.noFocus !== true && focus()
       })
-      prepareTick()
 
       registerTimeout(() => {
         // required in order to avoid the "double-tap needed" issue

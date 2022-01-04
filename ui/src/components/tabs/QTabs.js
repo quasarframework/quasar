@@ -70,7 +70,8 @@ export default createComponent({
     const vm = getCurrentInstance()
     const { proxy: { $q } } = vm
 
-    const { registerTick, prepareTick } = useTick()
+    const { registerTick: registerScrollTick } = useTick()
+    const { registerTimeout: registerFocusTimeout, removeTimeout: removeFocusTimeout } = useTimeout()
     const { registerTimeout } = useTimeout()
 
     const rootRef = ref(null)
@@ -178,7 +179,7 @@ export default createComponent({
     }
 
     function recalculateScroll () {
-      registerTick(() => {
+      registerScrollTick(() => {
         if (vm.isDeactivated !== true && vm.isUnmounted !== true) {
           updateContainer({
             width: rootRef.value.offsetWidth,
@@ -186,8 +187,6 @@ export default createComponent({
           })
         }
       })
-
-      prepareTick()
     }
 
     function updateContainer (domSize) {
@@ -346,11 +345,8 @@ export default createComponent({
         return true
       }
 
-      const dirPrev = (props.vertical === true && keyCode === 38 /* ArrowUp */)
-        || (props.vertical !== true && keyCode === 37 /* ArrowLeft */)
-
-      const dirNext = (props.vertical === true && keyCode === 40 /* ArrowDown */)
-        || (props.vertical !== true && keyCode === 39 /* ArrowRight */)
+      const dirPrev = keyCode === (props.vertical === true ? 38 /* ArrowUp */ : 37 /* ArrowLeft */)
+      const dirNext = keyCode === (props.vertical === true ? 40 /* ArrowDown */ : 39 /* ArrowRight */)
 
       const dir = dirPrev === true ? -1 : (dirNext === true ? 1 : void 0)
 
@@ -484,8 +480,28 @@ export default createComponent({
       }
     }
 
-    function onFocusin () { hasFocus.value = true }
-    function onFocusout () { hasFocus.value = false }
+    function onFocusin (e) {
+      removeFocusTimeout()
+
+      if (
+        hasFocus.value !== true
+        && rootRef.value !== null
+        && e.target
+        && typeof e.target.closest === 'function'
+      ) {
+        const tab = e.target.closest('.q-tab')
+
+        // if the target is contained by a QTab/QRouteTab
+        // (it might be other elements focused, like additional QBtn)
+        if (tab && rootRef.value.contains(tab) === true) {
+          hasFocus.value = true
+        }
+      }
+    }
+
+    function onFocusout () {
+      registerFocusTimeout(() => { hasFocus.value = false }, 30)
+    }
 
     function verifyRouteModel () {
       if ($tabs.avoidRouteWatcher !== true) {

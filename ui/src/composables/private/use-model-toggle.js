@@ -15,7 +15,7 @@ export const useModelToggleEmits = [
   'before-show', 'show', 'before-hide', 'hide'
 ]
 
-// handleShow/handleHide -> removeTick(), self (& emit show), prepareTick()
+// handleShow/handleHide -> removeTick(), self (& emit show)
 
 export default function ({
   showing,
