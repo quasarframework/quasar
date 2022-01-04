@@ -40,6 +40,7 @@ Be sure to check out [Prefetch Feature](/quasar-cli/prefetch-feature) if you are
 Usage in your single file components methods will be like below. Notice that in the next example we're using the Quasar's [Notify plugin](/quasar-plugins/notify) (through `$q = useQuasar()` and `$q.notify`) which you'll need to install (follow the link earlier).
 
 ```js
+import { ref } from 'vue'
 import { api } from 'boot/axios'
 import { useQuasar } from 'quasar'
 
