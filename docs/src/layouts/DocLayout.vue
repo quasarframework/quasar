@@ -135,8 +135,8 @@ import {
 
 import AppMenu from 'components/AppMenu.js'
 import AppSearchResults from 'components/AppSearchResults.vue'
-import HeaderMenu from 'components/HeaderMenu.vue'
 // import SurveyCountdown from 'components/SurveyCountdown.vue'
+import HeaderMenu from 'components/HeaderMenu.vue'
 
 import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'
