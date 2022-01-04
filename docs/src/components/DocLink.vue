@@ -1,10 +1,13 @@
 <template lang="pug">
-router-link.doc-link(
+router-link(
   v-if="internal === true"
-  tag="a"
   :to="to"
+  custom
+  v-slot="{ href, navigate }"
 )
-  slot
+  a.doc-link(:href="href" @click="navigate")
+    slot
+
 a.doc-link(
   v-else
   :href="to"
@@ -46,7 +49,6 @@ export default {
   text-decoration: none
   outline: 0
   border-bottom: 1px dotted currentColor
-  vertical-align: center
   transition: opacity .2s
   white-space: nowrap
 
