@@ -84,13 +84,13 @@ Real app UIs are usually composed of components that are nested multiple levels 
 
 ```
 /user/profile                   /user/posts
-____________________            ___________________
++------------------+            +-----------------+
 | User             |            | User            |
-|  --------------  |            |  -------------  |
-| | Profile      | |   ------>  | | Posts       | |
+| +--------------+ |            | +-------------+ |
+| | Profile      | |  +------>  | | Posts       | |
 | |              | |            | |             | |
-|  --------------  |            |  -------------  |
-|__________________|            |_________________|
+| +--------------+ |            | +-------------+ |
++------------------+            +-----------------+
 ```
 
 With Vue Router, it is very simple to express this relationship using nested route configurations. We notice some things: both pages need to be wrapped by a User component. Hey, User component is then a Layout!
