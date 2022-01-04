@@ -93,11 +93,11 @@ const allTabs = [
 export default {
   data () {
     return {
-      tab: 'mails',
+      tab: 'addressbook',
       width: 300,
       mobileArrows: false,
       outsideArrows: false,
-      tabs: allTabs.slice(0, 1)
+      tabs: allTabs.slice()
     }
   },
 

@@ -289,8 +289,17 @@ export default Vue.extend({
     },
 
     __setCurrent (name) {
-      this.tabs.current !== name && (this.tabs.current = name)
-      this.tabs.hasCurrent = this.$el.querySelector(`.q-tab[data-tab-name="${btoa(name)}"]`) !== null
+      const newTabSelected = this.tabs.current !== name
+      newTabSelected === true && (this.tabs.current = name)
+
+      const curTabEl = this.$el.querySelector(`.q-tab[data-tab-name="${btoa(name)}"]`)
+      if (curTabEl === null) {
+        this.tabs.hasCurrent = false
+      }
+      else if (newTabSelected === true || this.tabs.hasCurrent !== true) {
+        this.__scrollToTab(curTabEl, void 0, true)
+        this.tabs.hasCurrent = true
+      }
     },
 
     __activateTab (name, setCurrent, skipEmit) {
