@@ -113,7 +113,7 @@ export default createComponent({
 
       if (props.dragRange === true || props.dragOnlyRange === true) {
         Object.assign(evt, {
-          onFocus: () => { onFocus('both') },
+          onFocus: () => { state.focus.value = 'both' },
           onBlur: methods.onBlur,
           onKeydown,
           onKeyup: methods.onKeyup
@@ -126,7 +126,7 @@ export default createComponent({
     function getEvents (side) {
       return $q.platform.is.mobile !== true && state.editable.value === true && props.dragOnlyRange !== true
         ? {
-            onFocus: () => { onFocus(side) },
+            onFocus: () => { state.focus.value = side },
             onBlur: methods.onBlur,
             onKeydown,
             onKeyup: methods.onKeyup
@@ -316,10 +316,6 @@ export default createComponent({
         curMinRatio.value = methods.convertModelToRatio(model.value.min)
         curMaxRatio.value = methods.convertModelToRatio(model.value.max)
       }
-    }
-
-    function onFocus (which) {
-      state.focus.value = which
     }
 
     function onKeydown (evt) {
