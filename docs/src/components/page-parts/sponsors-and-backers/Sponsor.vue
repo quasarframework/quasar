@@ -1,6 +1,6 @@
 <template lang="pug">
 .quasar-sponsor.flex.flex-center(@click="openWebsite" :style="style")
-  q-img.fit(:alt="name" contain :src="`https://cdn.quasar.dev/sponsors/${img}`")
+  q-img.fit(:alt="name" contain :src="logoUrl")
 </template>
 
 <script>
@@ -20,6 +20,10 @@ export default {
       return {
         cursor: this.url ? 'pointer' : 'default'
       }
+    },
+
+    logoUrl () {
+      return `https://cdn.quasar.dev/sponsors/${this.img}`
     }
   },
 
