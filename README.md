@@ -23,13 +23,39 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://truelogic.com" target="_blank">
-          <img width="300px" src="https://cdn.quasar.dev/sponsors/truelogic.png">
+        <a href="https://mio.se/" target="_blank">
+          <img width="222px" height="150px" src="https://cdn.quasar.dev/sponsors/mio-ab.svg">
         </a>
       </td>
       <td align="center" valign="middle">
+        <a href="https://dreamonkey.com/" target="_blank">
+          <img width="222px" height="150px" src="https://cdn.quasar.dev/sponsors/dreamonkey.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
         <a href="http://campuscloudservices.com" target="_blank">
           <img width="222px" src="https://cdn.quasar.dev/sponsors/campus-cloud-services.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://platformpurple.com" target="_blank">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/platform-purple.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://irewind.com" target="_blank">
+          <img width="300px" src="https://cdn.quasar.dev/sponsors/irewind.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://truelogic.com" target="_blank">
+          <img width="300px" src="https://cdn.quasar.dev/sponsors/truelogic.png">
         </a>
       </td>
     </tr>
@@ -41,47 +67,34 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="http://comcomservices.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar.dev/sponsors/com-com-services.png">
+        <a href="https://digitalocean.com" target="_blank">
+          <img width="222px" height="74px" src="https://cdn.quasar.dev/sponsors/digitalocean.svg">
         </a>
       </td>
     </tr>
     <tr></tr>
     <tr>
+      <td align="center" valign="middle">
+        <a href="http://comcomservices.com" target="_blank">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/com-com-services.png">
+        </a>
+      </td>
       <td align="center" valign="middle">
         <a href="http://www.kalisio.com" target="_blank">
           <img width="222px" src="https://cdn.quasar.dev/sponsors/kalisio.png">
         </a>
       </td>
-      <td align="center" valign="middle">
-        <a href="http://platformpurple.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar.dev/sponsors/platform-purple.png">
-        </a>
-      </td>
     </tr>
     <tr></tr>
     <tr>
-      <td align="center" valign="middle">
-        <a href="http://www.bgasoft.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar.dev/sponsors/bgasoft.png">
-        </a>
-      </td>
       <td align="center" valign="middle">
         <a href="https://www.letsbutterfly.com/" target="_blank">
           <img width="170px" src="https://cdn.quasar.dev/sponsors/letsbutterfly.png">
         </a>
       </td>
-    </tr>
-    <tr></tr>
-    <tr>
       <td align="center" valign="middle">
         <a href="https://www.projectfinance.io/" target="_blank">
           <img width="222px" height="150px" src="https://cdn.quasar.dev/sponsors/project-finance.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="https://dreamonkey.com/" target="_blank">
-          <img width="222px" height="150px" src="https://cdn.quasar.dev/sponsors/dreamonkey.png">
         </a>
       </td>
     </tr>
@@ -101,7 +114,7 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
     <tr></tr>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://ib-langenthal.ch/" target="_blank">
+        <a href="https://qintil.com/" target="_blank">
           <img width="222px" height="52px" src="https://cdn.quasar.dev/sponsors/qintil.png">
         </a>
       </td>
