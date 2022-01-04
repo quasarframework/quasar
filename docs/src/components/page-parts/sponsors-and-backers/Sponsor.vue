@@ -1,5 +1,5 @@
 <template lang="pug">
-.quasar-sponsor(@click.native="openWebsite" :style="style")
+.quasar-sponsor(@click="openWebsite" :style="style")
   q-img(:alt="name" height="100%" fit="contain" :src="`https://cdn.quasar.dev/sponsors/${img}`")
 </template>
 
