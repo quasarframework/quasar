@@ -12,7 +12,9 @@ export default Vue.extend({
     src: {
       type: String,
       required: true
-    }
+    },
+
+    title: String
   },
 
   computed: {
@@ -21,6 +23,7 @@ export default Vue.extend({
         attrs: {
           src: this.src,
           frameborder: '0',
+          title: this.title,
           allowfullscreen: true
         }
       }
