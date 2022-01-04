@@ -173,8 +173,8 @@ export const SliderMixin = {
     attributes () {
       const acc = {
         role: 'slider',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
+        'aria-valuemin': this.computedInnerMin,
+        'aria-valuemax': this.computedInnerMax,
         'aria-orientation': this.orientation,
         'data-step': this.step
       }
@@ -418,15 +418,19 @@ export const SliderMixin = {
         })
       }
 
+      const filterFn = ({ value }) => value >= this.min && value <= this.max
+
       if (Array.isArray(def) === true) {
-        return def.map(item => (Object(item) === item ? item : { value: item }))
+        return def
+          .map(item => (Object(item) === item ? item : { value: item }))
+          .filter(filterFn)
       }
 
       return Object.keys(def).map(key => {
         const item = def[ key ]
         const value = Number(key)
         return Object(item) === item ? { ...item, value } : { value, label: item }
-      })
+      }).filter(filterFn)
     },
 
     __getMarkerLabelStyle (val) {
@@ -463,6 +467,7 @@ export const SliderMixin = {
           this.$emit('pan', 'end')
         }
         this.active = false
+        this.focus = false
       }
       else if (event.isFirst === true) {
         this.dragging = this.__getDragging(event.evt)
@@ -604,8 +609,8 @@ export const SliderMixin = {
           {
             key: 'trackC',
             class: this.trackContainerClass,
-            attrs: { tabindex: this.computedTabindex },
-            on: this.events,
+            attrs: this.trackContainerAttrs,
+            on: this.trackContainerEvents,
             directives: this.panDirectives
           },
           [

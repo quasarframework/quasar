@@ -1,6 +1,6 @@
 <template>
   <div class="column no-wrap" style="height: 100vh" :class="dark ? 'bg-black text-white' : ''">
-    <div class="row q-col-gutter-md q-pl-md q-pr-xl shadow-2" :class="dark ? 'bg-grey-9' : 'bg-grey-3'" style="z-index: 1">
+    <div class="row q-col-gutter-md q-pl-md q-pr-xl shadow-2" :class="dark ? 'bg-grey-9' : 'bg-grey-3'" style="z-index: 10">
       <q-toggle v-model="dark" :dark="dark" label="Dark" :false-value="null" />
       <q-toggle v-model="dense" :dark="dark" label="Dense" />
       <q-toggle v-model="vertical" :dark="dark" label="Vertical" />

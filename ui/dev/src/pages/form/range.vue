@@ -1,6 +1,6 @@
 <template>
   <div class="column no-wrap" style="height: 100vh" :class="dark ? 'bg-black text-white' : ''">
-    <div class="row q-col-gutter-md q-pl-md q-pr-xl shadow-2" :class="dark ? 'bg-grey-8' : 'bg-grey-2'" style="z-index: 1">
+    <div class="row q-col-gutter-md q-pl-md q-pr-xl shadow-2" :class="dark ? 'bg-grey-8' : 'bg-grey-2'" style="z-index: 10">
       <q-toggle v-model="dark" :dark="dark" label="Dark" :false-value="null" />
       <q-toggle v-model="dense" :dark="dark" label="Dense" />
       <q-toggle v-model="vertical" :dark="dark" label="Vertical" />
@@ -154,6 +154,7 @@
       <div class="row justify-around">
         <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="onlyRange" :min="0" :max="100" :step="5" drag-only-range label :left-label-value="labelLeftValue(onlyRange.min)" :right-label-value="labelRightValue(onlyRange.max)" />
         <q-range :vertical="vertical" :dark="dark" :dense="dense" :value="onlyRange" @change="val => { onlyRange = val }" :min="0" :max="100" :step="5" drag-only-range label :left-label-value="labelLeftValue(onlyRange.min)" :right-label-value="labelRightValue(onlyRange.max)" />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="onlyRange" :min="0" :max="100" :step="5" drag-only-range />
       </div>
 
       <p class="caption">

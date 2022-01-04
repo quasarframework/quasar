@@ -109,6 +109,9 @@
     color: var(--q-color-primary)
     transition: transform .18s ease-out, fill .18s ease-out, stroke .18s ease-out
 
+    &.q-slider--focus
+      opacity: 1 !important
+
     &--h
       top: 50%
       will-change: left
@@ -226,11 +229,7 @@
     .q-slider__thumb,
     .q-slider__inner,
     .q-slider__selection
-      visibility: hidden
-
-  &--focus
-    .q-slider__thumb
-      transform: scale(1)
+      opacity: 0
 
   &--focus,
   body.desktop &.q-slider--editable .q-slider__track-container:hover
@@ -241,7 +240,7 @@
     .q-slider__thumb,
     .q-slider__inner,
     .q-slider__selection
-      visibility: visible
+      opacity: 1
 
   &--inactive
     .q-slider__thumb

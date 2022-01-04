@@ -92,7 +92,7 @@ export default Vue.extend({
         (this.labelTextColor !== void 0 ? ` text-${this.labelTextColor}` : '')
     },
 
-    events () {
+    trackContainerEvents () {
       if (this.editable !== true) {
         return {}
       }
@@ -108,8 +108,16 @@ export default Vue.extend({
         }
     },
 
+    trackContainerAttrs () {
+      return {
+        tabindex: this.$q.platform.is.mobile !== true
+          ? this.computedTabindex
+          : null
+      }
+    },
+
     modelUpdate () {
-      return this.value + this.computedInnerMin + this.computedInnerMax
+      return `${this.value}|${this.computedInnerMin}|${this.computedInnerMax}`
     }
   },
 
@@ -155,7 +163,7 @@ export default Vue.extend({
 
       const
         step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
-        offset = [34, 37, 40].includes(evt.keyCode) ? -step : step
+        offset = ([ 34, 37, 40 ].includes(evt.keyCode) ? -1 : 1) * (this.isReversed === true ? -1 : 1) * step
 
       this.model = between(
         parseFloat((this.model + offset).toFixed(this.computedDecimals)),
