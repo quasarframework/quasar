@@ -203,7 +203,7 @@
                   v-model="scope.value"
                   hint="Sodium level (>10)"
                   :rules="[
-                    val => scope.validate(scope.value) || 'Please enter more than 10'
+                    val => scope.validate(val) || 'Please enter more than 10'
                   ]"
                 >
                   <template v-slot:after>
