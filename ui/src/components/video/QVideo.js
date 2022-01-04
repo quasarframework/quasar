@@ -13,7 +13,9 @@ export default createComponent({
     src: {
       type: String,
       required: true
-    }
+    },
+
+    title: String
   },
 
   setup (props) {
@@ -30,6 +32,7 @@ export default createComponent({
     }, [
       h('iframe', {
         src: props.src,
+        title: props.title,
         frameborder: '0',
         allowfullscreen: true
       })
