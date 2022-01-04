@@ -696,7 +696,13 @@ export default Vue.extend({
 
   methods: {
     setToday () {
-      this.__toggleDate(this.today, this.__getMonthHash(this.today))
+      const date = this.today
+      const month = this.daysMap[this.__getMonthHash(date)]
+
+      if (month === void 0 || month.includes(date.day) === false) {
+        this.__addToModel(date)
+      }
+
       this.setCalendarTo(this.today.year, this.today.month)
     },
 
