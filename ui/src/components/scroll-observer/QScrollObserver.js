@@ -55,6 +55,8 @@ export default createComponent({
     })
 
     function emitEvent () {
+      clearTimeout(timer)
+      cancelAnimationFrame(timer)
       timer = null
 
       const top = Math.max(0, getVerticalScrollPosition(localScrollTarget))

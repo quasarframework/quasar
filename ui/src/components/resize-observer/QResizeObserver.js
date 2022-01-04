@@ -28,19 +28,20 @@ export default createComponent({
   setup (props, { emit }) {
     if (__QUASAR_SSR_SERVER__) { return noop }
 
-    let timer, targetEl, size = { width: -1, height: -1 }
+    let timer = null, targetEl, size = { width: -1, height: -1 }
 
-    function trigger (now) {
-      if (now === true || props.debounce === 0 || props.debounce === '0') {
-        onResize()
+    function trigger (immediately) {
+      if (immediately === true || props.debounce === 0 || props.debounce === '0') {
+        emitEvent()
       }
-      else if (!timer) {
-        timer = setTimeout(onResize, props.debounce)
+      else if (timer === null) {
+        timer = setTimeout(emitEvent, props.debounce)
       }
     }
 
-    function onResize () {
-      timer = void 0
+    function emitEvent () {
+      clearTimeout(timer)
+      timer = null
 
       if (targetEl) {
         const { offsetWidth: width, offsetHeight: height } = targetEl
@@ -67,7 +68,7 @@ export default createComponent({
           if (targetEl) {
             observer = new ResizeObserver(trigger)
             observer.observe(targetEl)
-            onResize()
+            emitEvent()
           }
         })
       })
@@ -110,7 +111,7 @@ export default createComponent({
         if (targetEl && targetEl.contentDocument) {
           curDocView = targetEl.contentDocument.defaultView
           curDocView.addEventListener('resize', trigger, listenOpts.passive)
-          onResize()
+          emitEvent()
         }
       }
 

@@ -393,6 +393,7 @@ export default createComponent({
             style: mainStyle.value
           }, hMergeSlot(slots.default, [
             h(QResizeObserver, {
+              debounce: 0,
               onResize: updateScrollSize
             })
           ])),
@@ -403,7 +404,10 @@ export default createComponent({
           })
         ]),
 
-        h(QResizeObserver, { onResize: updateContainer }),
+        h(QResizeObserver, {
+          debounce: 0,
+          onResize: updateContainer
+        }),
 
         h('div', {
           class: scroll.vertical.barClass.value,
