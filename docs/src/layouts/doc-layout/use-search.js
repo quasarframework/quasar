@@ -1,5 +1,4 @@
 import { ref, watch, onMounted, onBeforeUnmount, markRaw } from 'vue'
-import { useRouter } from 'vue-router'
 
 import { apiTypeToComponentMap } from 'components/AppSearchResults'
 import ResultEmpty from 'components/search-results/ResultEmpty'
@@ -39,8 +38,6 @@ export default function useSearch (scope, $q, $route) {
   const searchActiveId = ref(null)
   const searchInputRef = ref(null)
 
-  const $router = useRouter()
-
   function parseResults (hits) {
     if (hits.length === 0) {
       return { masterComponent: markRaw(ResultEmpty) }
@@ -69,13 +66,12 @@ export default function useSearch (scope, $q, $route) {
         component: component.name,
         ...component.extractProps(hit),
 
+        url: hit.url,
+
         onMouseenter () {
           if (searchHasFocus.value === true) {
             searchActiveId.value = entry.id
           }
-        },
-        onClick () {
-          $router.push(hit.url).catch(() => {})
         }
       }
 
