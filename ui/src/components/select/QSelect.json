@@ -228,7 +228,7 @@
       "desc": "Style definitions to be attributed to the popup content",
       "examples": [
         "background-color: #ff0000",
-        ":content-style=\"{ backgroundColor: '#ff0000' }\""
+        ":popup-content-style=\"{ backgroundColor: '#ff0000' }\""
       ],
       "category": "style"
     },
