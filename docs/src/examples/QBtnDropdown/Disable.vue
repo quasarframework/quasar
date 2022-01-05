@@ -28,7 +28,7 @@
         disable-main-btn
         class="glossy"
         color="primary"
-        label="Only main btn"
+        label="Only dropdown"
       >
         <q-list>
           <q-item clickable v-close-popup>
@@ -64,7 +64,7 @@
         disable-dropdown
         class="glossy"
         color="primary"
-        label="Only dropdown"
+        label="Only main btn"
       >
         <q-list>
           <q-item clickable v-close-popup>
