@@ -87,7 +87,10 @@ export default Vue.extend({
             ...this.qListeners,
             click: e => this.__set(opt.value, opt, e)
           },
-          attrs: opt.attrs,
+          attrs: {
+            'aria-pressed': opt.value === this.value ? 'true' : 'false',
+            ...opt.attrs
+          },
           props: {
             ...opt,
             slot: void 0,
