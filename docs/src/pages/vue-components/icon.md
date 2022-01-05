@@ -427,6 +427,10 @@ You can also make an icon point to an image URL instead of relying on any webfon
 Remember that you can place images in your `/public` folder too and point to them. You don't always need a full URL.
 :::
 
+::: warning
+Since `<img>` tags cannot contain children, you will not be able to use the default `<slot>` in a QIcon that uses a custom image URL.  The best option in this case is to place your QIcon in a `<div>` alongside any other content intended for the default QIcon slot.
+:::
+
 This is not restricted to SVG only. You can use whatever image type you want (png, jpg, ...):
 
 ```html
