@@ -129,7 +129,10 @@ export default function (props) {
     }
 
     if (linkTag.value === 'a') {
-      if (acc.href === void 0) {
+      if (props.disable === true) {
+        acc[ 'aria-disabled' ] = 'true'
+      }
+      else if (acc.href === void 0) {
         acc.role = 'button'
       }
       if (hasRouterLink.value !== true && mediaTypeRE.test(props.type) === true) {
