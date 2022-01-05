@@ -377,7 +377,7 @@ The standard HTML way is to include the file and specify the icon with the `svg 
 </svg>
 ```
 
-To use this with Quasar through QIcon (make sure that you are referencing the correct file from your public or statics folder):
+To use this with Quasar through QIcon (make sure that you are referencing the correct file from your public folder):
 
 ```html
 <q-icon name="svguse:icons.svg#icon-1">
