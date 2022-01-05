@@ -189,15 +189,12 @@ export default {
           component: component.name,
           ...component.extractProps(hit),
 
+          url: hit.url,
+
           onMouseenter: () => {
             if (this.searchHasFocus === true) {
               this.searchActiveId = entry.id
             }
-          },
-          onClick: () => {
-            this.$router.push(hit.url).catch(() => {})
-            this.searchTerms = ''
-            this.$refs.searchInputRef.blur()
           }
         }
 
