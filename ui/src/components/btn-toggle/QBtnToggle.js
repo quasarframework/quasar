@@ -89,6 +89,8 @@ export default createComponent({
           key: i,
           onClick (e) { set(value, item, e) },
 
+          'aria-pressed': value === props.modelValue ? 'true' : 'false',
+
           ...attrs,
           ...opt,
 
