@@ -114,7 +114,10 @@ export default {
       }
 
       if (this.hasLink === true || this.type === 'a') {
-        if (acc.href === void 0) {
+        if (this.disable === true) {
+          acc['aria-disabled'] = 'true'
+        }
+        else if (acc.href === void 0) {
           acc.role = 'button'
         }
         if (mediaTypeRe.test(this.type) === true) {
