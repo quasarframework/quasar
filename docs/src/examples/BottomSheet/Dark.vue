@@ -58,7 +58,7 @@ export default {
           }
         ]
       }).onOk(action => {
-        // console.log('Action chosen:', action.label)
+        // console.log('Action chosen:', action.id)
       }).onCancel(() => {
         // console.log('Dismissed')
       }).onDismiss(() => {
