@@ -28,6 +28,8 @@ $ quasar dev -m ios -e iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
 # passing extra parameters and/or options to
 # underlying "cordova" executable:
 $ quasar dev -m ios -- some params --and options --here
+# when on Windows and using Powershell:
+$ quasar dev -m ios '--' some params --and options --here
 ```
 
 However, if you wish to open the IDE (Android Studio / Xcode) and from there to manually select the emulator (or multiple ones simultaneously!) to run the dev app on it/them (or to run the dev app on a real mobile/tablet device):
@@ -86,6 +88,8 @@ $ quasar build -m [ios|android] --skip-pkg
 # passing extra parameters and/or options to
 # underlying "cordova" executable:
 $ quasar build -m ios -- some params --and options --here
+# when on Windows and using Powershell:
+$ quasar build -m ios '--' some params --and options --here
 ```
 
 * These commands parse and build your `/src` folder then overwrite `/src-cordova/www` then defer to Cordova CLI to trigger the actual native app creation.

@@ -8,11 +8,11 @@ q-card.doc-api.q-my-lg(flat bordered)
       .q-ml-xs Docs
 
     q-input.col(
-      ref="inputRef",
-      v-model="filter",
-      dense,
-      input-class="text-right",
-      borderless,
+      ref="inputRef"
+      v-model="filter"
+      dense
+      input-class="text-right"
+      borderless
       placeholder="Filter..."
       style="min-width: 6em"
     )
@@ -48,12 +48,12 @@ q-card.doc-api.q-my-lg(flat bordered)
         .row.no-wrap.api-container(v-if="innerTabsList[tab].length !== 1")
           .col-auto.row.no-wrap.text-grey-7.q-py-sm
             q-tabs(
-              v-model="currentInnerTab",
-              active-color="brand-primary",
-              indicator-color="brand-primary",
-              :breakpoint="0",
-              vertical,
-              dense,
+              v-model="currentInnerTab"
+              active-color="brand-primary"
+              indicator-color="brand-primary"
+              :breakpoint="0"
+              vertical
+              dense
               shrink
             )
               q-tab(

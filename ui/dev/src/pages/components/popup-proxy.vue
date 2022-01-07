@@ -143,7 +143,7 @@
         <q-input filled v-model="input" mask="date" :rules="['date']">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy :breakpoint="600" @before-show="onBeforeShow1" @show="onShow1" @before-hide="onBeforeHide1" @hide="onHide1">
+              <q-popup-proxy cover :breakpoint="600" @before-show="onBeforeShow1" @show="onShow1" @before-hide="onBeforeHide1" @hide="onHide1">
                 <q-date v-model="input" filled />
                 <q-btn label="Close" v-close-popup />
               </q-popup-proxy>
@@ -154,7 +154,7 @@
         <q-input filled v-model="input" mask="date" :rules="['date']">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
-              <q-menu :breakpoint="600" @before-show="onBeforeShow2" @show="onShow2" @before-hide="onBeforeHide2" @hide="onHide2">
+              <q-menu cover :breakpoint="600" @before-show="onBeforeShow2" @show="onShow2" @before-hide="onBeforeHide2" @hide="onHide2">
                 <q-date v-model="input" filled />
                 <q-btn label="Close" v-close-popup />
               </q-menu>

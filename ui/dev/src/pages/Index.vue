@@ -131,22 +131,27 @@ export default {
       evt.preventDefault()
 
       let el = document.activeElement
+      let nextEl = this.$refs.filter.$el
 
-      if (!el || el === document.body || el.tagName.toUpperCase() === 'INPUT') {
-        this.focus(document.querySelector('.q-item'))
-        return
+      if (el && el !== document.body) {
+        if (el.tagName.toUpperCase() === 'INPUT') {
+          const nodes = document.querySelectorAll('.q-item')
+          if (nodes.length > 0) {
+            nextEl = nodes[op === 'nextSibling' ? 0 : nodes.length - 1]
+          }
+        }
+        else if (el[op]) {
+          do { el = el[op] }
+          while (el && (el.nodeType === 3 || el.tagName.toUpperCase() !== 'A'))
+
+          if (el && el.nodeType !== 3 && el.tagName.toUpperCase() === 'A') {
+            nextEl = el
+          }
+        }
       }
 
-      if (el[op]) {
-        do { el = el[op] }
-        while (el && el.tagName.toUpperCase() !== 'A')
-
-        if (!el) {
-          this.focus(this.$refs.filter.$el)
-        }
-        else if (el.tagName.toUpperCase() === 'A') {
-          this.focus(el)
-        }
+      if (nextEl) {
+        this.focus(nextEl)
       }
     },
 
