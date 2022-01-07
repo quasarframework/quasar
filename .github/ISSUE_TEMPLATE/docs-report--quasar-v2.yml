@@ -34,7 +34,7 @@ body:
     id: docs-page-url
     attributes:
       label: Documentation Section URL
-      description: If the problem is related to an existing docs page/section, click to the related section's title and paste the URL here.
+      description: If the problem is related to an existing docs page/section, click the related section's title and paste the URL here.
       placeholder: https://quasar.dev/vue-components/table#virtual-scrolling
   - type: dropdown
     id: flavour
