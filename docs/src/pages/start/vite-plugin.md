@@ -60,6 +60,11 @@ We have built a configurator to help you get started as quick as possible:
 
 <vite-plugin-usage />
 
+::: tip
+If you don't want to use Material Icons as `iconSet`, please see: https://quasar.dev/options/quasar-icon-sets#quasar-vite-plugin-way  
+This will affect e.g. `QTable`.
+:::
+
 ## RTL support
 
 For enabling, please check out our [RTL Support](/options/rtl-support) page and follow the instructions.
