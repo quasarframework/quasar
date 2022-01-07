@@ -5,7 +5,7 @@
       <div class="text-uppercase text-bold text-lp-primary text-size-24 q-py-md">
         {{ title }}
       </div>
-      <div class="text-lp-light text-size-16 text-weight-medium q-pb-md">
+      <div class="text-white-54 text-size-16 text-weight-medium q-pb-md">
         {{ body }}
       </div>
     </q-card-section>

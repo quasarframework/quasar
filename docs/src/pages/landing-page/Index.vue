@@ -6,7 +6,7 @@
       <div class="col-md-6 col-xs-12 column items-center text-center">
         <q-img src="~assets/landing-page/quasar-logo/logo-with-payoff.svg" width="250px" />
 
-        <div class="lp-my--medium text-lp-light text-size-20">
+        <div class="lp-my--medium text-white-54 text-size-20">
           The open source multi-platform development framework based on Vue.js
           with an enterprise vocation.
         </div>
@@ -45,7 +45,7 @@
         <q-btn
           flat
           padding="none"
-          text-color="lp-light"
+          text-color="white-54"
           no-caps
           label="Full sponsor's list"
           class="lp-btn-underline sponsors__list"
@@ -241,7 +241,7 @@ export default defineComponent({
 $undo-margin-from-qpage: 0 -24px 0 -24px;
 
 .lp-btn-underline {
-  border-bottom: 1px solid $lp-light;
+  border-bottom: 1px solid rgba($color: white, $alpha: 0.54);
 }
 
 .social-channels-call-to-action {

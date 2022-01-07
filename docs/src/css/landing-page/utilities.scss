@@ -10,7 +10,6 @@ $additional-colors: (
   'lp-info' $lp-info,
   'lp-warning' $lp-warning,
   'lp-dark' $lp-dark,
-  'lp-light' $lp-light,
   'lp-grey' $lp-grey,
 );
 
@@ -64,12 +63,18 @@ $color-map: (
 // TODO: find out why quasar's breakpoint variables not available here
 $lp-breakpoint-xs-max: 599px;
 
-$text-size-list: 10, 12, 16, 18, 20, 24, 28, 32, 36;
+$text-size-list: 10, 12, 14, 16, 18, 20, 24, 28, 32, 36;
 
 @each $text-size in $text-size-list {
   .text-size-#{$text-size} {
     font-size: $text-size + px;
   }
+}
+
+// Landing/layout custom global CSS
+
+.font-monserrat {
+  font-family: $lp-font-family;
 }
 
 .shadow-bottom {
@@ -111,7 +116,7 @@ $text-size-list: 10, 12, 16, 18, 20, 24, 28, 32, 36;
     @media screen and (max-width: $lp-breakpoint-xs-max) {
       font-size: 16px;
     }
-    color: $lp-light;
+    color: rgba($color: white, $alpha: 0.54);
     font-weight: 400;
     text-transform: initial;
   }

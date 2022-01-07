@@ -1,26 +1,6 @@
 <template lang="pug">
-q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
-  q-header.header.text-dark(bordered)
-    q-toolbar.q-px-none
-      q-btn.q-mx-sm.lt-md(flat, dense, round, @click="toggleLeftDrawer", aria-label="Menu", :icon="mdiMenu")
-
-      q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
-        img.quasar-logo__img(src="https://cdn.quasar.dev/logo-v2/svg/logo.svg")
-        img.quasar-logo__logotype(src="https://cdn.quasar.dev/logo-v2/svg/logotype.svg")
-
-      q-space
-
-      header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
-
-      q-btn.q-mx-xs(
-        v-show="showRightDrawerToggler"
-        flat
-        dense
-        round
-        @click="toggleRightDrawer"
-        aria-label="Menu"
-        :icon="mdiClipboardText"
-      )
+q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
+  main-layout-header(v-model="leftDrawerState")
 
   q-drawer.doc-left-drawer(
     side="left"
@@ -28,70 +8,8 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     show-if-above
     bordered
   )
-    q-scroll-area(style="height: calc(100% - 51px); margin-top: 51px")
-      template(v-if="searchResults !== null")
-        component(
-          v-if="searchResults.masterComponent !== void 0"
-          :is="searchResults.masterComponent"
-        )
-        app-search-results(
-          v-else
-          :results="searchResults"
-          :search-has-focus="searchHasFocus"
-          :search-active-id="searchActiveId"
-        )
-
-      template(v-else)
-        //- survey-countdown.layout-countdown(
-        //-   color="primary"
-        //-   align-class="justify-center"
-        //-   padding-class="q-py-md"
-        //- )
-        //- q-separator.q-mb-lg
-
-        .row.justify-center.q-my-md
-          q-btn.doc-layout__main-btn(
-            href="https://donate.quasar.dev"
-            target="_blank"
-            rel="noopener"
-            color="brand-primary"
-            outline
-            :icon="mdiHeart"
-            label="Donate to Quasar"
-            no-wrap
-            no-caps
-          )
-
-        app-menu.q-mb-lg
-
-    .absolute-top.header
-      form(
-        autocorrect="off"
-        autocapitalize="off"
-        autocomplete="off"
-        spellcheck="false"
-      )
-        q-input.full-width.app-search-input(
-          ref="searchInputRef"
-          v-model="searchTerms"
-          dense
-          square
-          borderless
-          debounce="300"
-          @keydown="onSearchKeydown"
-          @focus="onSearchFocus"
-          @blur="onSearchBlur"
-          placeholder="Search Quasar v2..."
-          type="search"
-        )
-          template(v-slot:prepend)
-            q-icon(name="search")
-          template(v-slot:append)
-            q-icon.cursor-pointer(v-if="searchTerms" name="cancel" @click="onSearchClear")
-            .row.items-center.no-wrap.no-pointer-events(v-else-if="!searchHasFocus")
-              kbd.flex.flex-center /
-
-      q-separator
+    q-scroll-area(style="height: 100%;")
+      app-menu.q-mb-lg
 
   q-drawer(
     v-if="hasRightDrawer"
@@ -137,6 +55,7 @@ import AppMenu from 'components/AppMenu.js'
 import AppSearchResults from 'components/AppSearchResults.vue'
 // import SurveyCountdown from 'components/SurveyCountdown.vue'
 import HeaderMenu from 'components/HeaderMenu.vue'
+import MainLayoutHeader from 'components/landing-page/MainLayoutHeader'
 
 import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'
@@ -149,8 +68,8 @@ export default {
   components: {
     AppMenu,
     AppSearchResults,
-    // SurveyCountdown,
-    HeaderMenu
+    HeaderMenu,
+    MainLayoutHeader
   },
 
   setup () {
@@ -209,22 +128,6 @@ export default {
 
 .doc-left-drawer
   overflow: inherit !important
-
-.quasar-logo
-  &__img
-    transform: rotate(0deg)
-    transition: transform .8s ease-in-out
-    width: 38px
-    height: 38px
-    margin-right: 8px
-    border-radius: 50%
-
-  &:hover &__img
-    transform: rotate(-360deg)
-
-  &__logotype
-    height: 19px
-    vertical-align: middle
 
 .q-page-container :target
   scroll-margin-top: ($toolbar-min-height + 16px)

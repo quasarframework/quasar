@@ -8,12 +8,43 @@ import {
   Ripple
 } from 'quasar'
 
-import { mdiArrowDownThinCircleOutline } from '@quasar/extras/mdi-v6'
-import { h, ref, watch, onBeforeUpdate, withDirectives } from 'vue'
+import { mdiMenuDown } from '@quasar/extras/mdi-v6'
+import { h, ref, watch, onBeforeUpdate, withDirectives, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { Screen } from 'quasar'
+import { navItems } from 'assets/landing-page/nav-items.js'
 
 import Menu from 'assets/menu.json'
 import './AppMenu.sass'
+
+/**
+ * Creates an array with all paths, labels and hrefs from navItems (and immediate subMenus nav items) which can then be filtered easily
+ * @param navItems The header navigation items (both mainNavItems and subNavItems)
+ * @return headerNavPaths string[] the array with paths, labels and hrefs from navItems and subMenus of nav items
+ */
+function getHeaderPathsAndLabels (navItems) {
+  const headerPathsAndLabels = []
+  Object.keys(navItems).forEach(key => {
+    const headerItems = [...navItems[ key ]] // create non referenced copy
+    for (const headerItem of headerItems) {
+      if (headerItem.subMenu) {
+        headerItems.push(...headerItem.subMenu) // consider path/label/href of subMenu too
+      }
+      // add the path or href and label to the array
+      const headerPath = headerItem.path || headerItem.href
+      headerPathsAndLabels.push(headerItem.label)
+      if (headerPath) {
+        headerPathsAndLabels.push(headerPath)
+      }
+    }
+  })
+  return headerPathsAndLabels
+}
+
+const sidebarMenu = computed(() => {
+  const headerPathsAndLabels = getHeaderPathsAndLabels(navItems)
+  return Screen.xs ? Menu : Menu.filter(menuItem => !headerPathsAndLabels.includes(menuItem.name) && !headerPathsAndLabels.includes(menuItem.path))
+})
 
 function getParentVm (vm) {
   if (vm.$parent !== void 0 && vm.$parent !== null) {
@@ -71,7 +102,8 @@ export default {
             label: menu.name,
             dense: true,
             icon: menu.icon,
-            expandIcon: mdiArrowDownThinCircleOutline,
+            expandIcon: mdiMenuDown,
+            headerClass: 'font-size-14',
             defaultOpened: menu.opened || routePath.startsWith(path),
             expandSeparator: true,
             switchToggleSide: level > 0,
@@ -126,7 +158,7 @@ export default {
       )
     }
 
-    return () => h(QList, { ref: rootRef, class: 'app-menu', dense: true }, () => Menu.map(
+    return () => h(QList, { ref: rootRef, class: 'app-menu font-monserrat', dense: true }, () => sidebarMenu.value.map(
       item => getDrawerMenu(item, '/' + item.path, 0)
     ))
   }
