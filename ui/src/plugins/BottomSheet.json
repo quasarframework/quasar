@@ -60,6 +60,12 @@
                   "type": [ "String", "Number" ],
                   "desc": "Action label",
                   "examples": [ "Facebook" ]
+                },
+
+                "...": {
+                  "type": "Any",
+                  "desc": "Any other custom props",
+                  "__exemption": [ "examples" ]
                 }
               }
             },
