@@ -14,8 +14,8 @@ body:
 
         Also, please search your issue on the repo and make sure it does not already exist.
 
-        Please fill out the form correctly according to the instructions, try to be as clear as possible, and provide as much as details you could provide, in order for our team to understand and resolve the issue easier and faster.
-        Unclear or lacking information often results in issues to get resolved with high delays or even get closed.
+        Please fill out the form correctly according to the instructions, try to be as clear as possible, and provide as many details as possible, for our team to better understand the issue and resolve it faster.
+        Issues with an unclear description or lacking information have a lower priority. They may even get closed without taking action.
 
         Thanks for your understanding, we truly appreciate your effort to fill out this form!
   - type: textarea
