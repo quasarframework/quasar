@@ -7,13 +7,13 @@ jobs:
   issue-automation:
     if: >-
       ${{
-        contains(github.event.issue.labels.*.name, 'kind/bug') ||
-        contains(github.event.issue.labels.*.name, 'kind/docs')
+        contains(github.event.issue.labels.*.name, 'kind/bug 🐞') ||
+        contains(github.event.issue.labels.*.name, 'kind/docs 📄')
       }}
     runs-on: ubuntu-latest
     env:
       # Mimic ternary operator, see https://github.com/actions/runner/issues/409#issuecomment-752775072
-      TEMPLATE_TYPE: ${{ contains(github.event.issue.labels.*.name, 'kind/bug') && 'bug' || 'docs' }}
+      TEMPLATE_TYPE: ${{ contains(github.event.issue.labels.*.name, 'kind/bug 🐞') && 'bug' || 'docs' }}
       TEMPLATE_VERSION: ${{ contains(github.event.issue.labels.*.name, 'Qv1') && 'v1' || 'v2' }}
     steps:
       - uses: actions/checkout@v2

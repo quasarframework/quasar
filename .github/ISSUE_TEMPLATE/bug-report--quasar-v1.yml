@@ -1,6 +1,6 @@
 name: Bug report (Quasar v1)
 description: Create a bug report to help us improve
-labels: ['kind/bug', 'Qv1']
+labels: ['kind/bug 🐞', 'Qv1']
 
 # Note: Do NOT use commas(,) in options with 'multiple: true', the issue processing workflow won't be able to label it
 body:

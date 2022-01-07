@@ -1,6 +1,6 @@
 name: Docs report (Quasar v2)
 description: Create a docs report to help us improve
-labels: ['kind/docs', '🔝 Qv2']
+labels: ['kind/docs 📄', '🔝 Qv2']
 
 # Note: Do NOT use commas(,) in options with 'multiple: true', the issue processing workflow won't be able to label it
 body:
