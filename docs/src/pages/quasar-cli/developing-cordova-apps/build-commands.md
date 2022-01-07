@@ -89,6 +89,8 @@ $ quasar build -m [ios|android] --skip-pkg
 # passing extra parameters and/or options to
 # underlying "cordova" executable:
 $ quasar build -m ios -- some params --and options --here
+# when on Windows and using Powershell:
+$ quasar build -m ios '--' some params --and options --here
 ```
 
 * These commands parse and build your `/src` folder then overwrite `/src-cordova/www` then defer to Cordova CLI to trigger the actual native app creation.

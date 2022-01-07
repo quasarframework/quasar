@@ -326,24 +326,26 @@
       :bordered="cfg.rightSep === 'bordered'"
       :breakpoint="1023"
     >
-      <q-scroll-area style="height: calc(100% - 204px); margin-top: 204px">
-        <q-item-label header>Right Drawer</q-item-label>
-        <div v-if="play.scroll" class="text-grey" style="padding: 25px 16px 16px;">
-          <p v-for="n in 50" :key="`right-${n}`">
-            <em>Right Drawer has intended scroll</em>
-          </p>
-        </div>
-      </q-scroll-area>
+      <div class="fit overflow-hidden column no-wrap">
+        <q-img src="https://cdn.quasar.dev/img/material.png" style="height: 204px">
+          <div class="absolute-bottom bg-transparent">
+            <q-avatar size="56px" class="q-mb-sm">
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            </q-avatar>
+            <div class="text-weight-bold">Razvan Stoenescu</div>
+            <div>@rstoenescu</div>
+          </div>
+        </q-img>
 
-      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 204px">
-        <div class="absolute-bottom bg-transparent">
-          <q-avatar size="56px" class="q-mb-sm">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-          </q-avatar>
-          <div class="text-weight-bold">Razvan Stoenescu</div>
-          <div>@rstoenescu</div>
-        </div>
-      </q-img>
+        <q-scroll-area class="col">
+          <q-item-label header>Right Drawer</q-item-label>
+          <div v-if="play.scroll" class="text-grey" style="padding: 25px 16px 16px;">
+            <p v-for="n in 50" :key="`right-${n}`">
+              <em>Right Drawer has intended scroll</em>
+            </p>
+          </div>
+        </q-scroll-area>
+      </div>
     </q-drawer>
 
     <q-footer

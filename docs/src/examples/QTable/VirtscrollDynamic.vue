@@ -32,7 +32,7 @@ const columns = [
     label: 'Dessert (100g serving)',
     align: 'left',
     field: row => row.name,
-    format: val => val,
+    format: val => `${val} g`,
     sortable: true
   },
   { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },

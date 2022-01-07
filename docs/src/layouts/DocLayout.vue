@@ -28,70 +28,71 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     show-if-above
     bordered
   )
-    q-scroll-area(style="height: calc(100% - 51px); margin-top: 51px")
-      template(v-if="searchResults !== null")
-        component(
-          v-if="searchResults.masterComponent !== void 0"
-          :is="searchResults.masterComponent"
+    div.fit.overflow-hidden.column.no-wrap
+      .header
+        form(
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="off"
+          spellcheck="false"
         )
-        app-search-results(
-          v-else
-          :results="searchResults"
-          :search-has-focus="searchHasFocus"
-          :search-active-id="searchActiveId"
-        )
+          q-input.full-width.app-search-input(
+            ref="searchInputRef"
+            v-model="searchTerms"
+            dense
+            square
+            borderless
+            debounce="300"
+            @keydown="onSearchKeydown"
+            @focus="onSearchFocus"
+            @blur="onSearchBlur"
+            placeholder="Search Quasar v2..."
+            type="search"
+          )
+            template(v-slot:prepend)
+              q-icon(name="search")
+            template(v-slot:append)
+              q-icon.cursor-pointer(v-if="searchTerms" name="cancel" @click="onSearchClear")
+              .row.items-center.no-wrap.no-pointer-events(v-else-if="!searchHasFocus")
+                kbd.flex.flex-center /
 
-      template(v-else)
-        //- survey-countdown.layout-countdown(
-        //-   color="primary"
-        //-   align-class="justify-center"
-        //-   padding-class="q-py-md"
-        //- )
-        //- q-separator.q-mb-lg
+        q-separator
 
-        .row.justify-center.q-my-md
-          q-btn.doc-layout__main-btn(
-            href="https://donate.quasar.dev"
-            target="_blank"
-            rel="noopener"
-            color="brand-primary"
-            outline
-            :icon="mdiHeart"
-            label="Donate to Quasar"
-            no-wrap
-            no-caps
+      q-scroll-area.col
+        template(v-if="searchResults !== null")
+          component(
+            v-if="searchResults.masterComponent !== void 0"
+            :is="searchResults.masterComponent"
+          )
+          app-search-results(
+            v-else
+            :results="searchResults"
+            :search-has-focus="searchHasFocus"
+            :search-active-id="searchActiveId"
           )
 
-        app-menu.q-mb-lg
+        template(v-else)
+          //- survey-countdown.layout-countdown(
+          //-   color="primary"
+          //-   align-class="justify-center"
+          //-   padding-class="q-py-md"
+          //- )
+          //- q-separator.q-mb-lg
 
-    .absolute-top.header
-      form(
-        autocorrect="off"
-        autocapitalize="off"
-        autocomplete="off"
-        spellcheck="false"
-      )
-        q-input.full-width.app-search-input(
-          ref="searchInputRef"
-          v-model="searchTerms"
-          dense
-          square
-          borderless
-          debounce="300"
-          @keydown="onSearchKeydown"
-          @focus="onSearchFocus"
-          @blur="onSearchBlur"
-          placeholder="Search Quasar v2..."
-          type="search"
-        )
-          template(v-slot:prepend)
-            q-icon(name="search")
-          template(v-slot:append)
-            q-icon.cursor-pointer(v-if="searchTerms" name="cancel" @click="onSearchClear")
-            .row.items-center.no-wrap.no-pointer-events(v-else-if="!searchHasFocus")
-              kbd.flex.flex-center /
+          .row.justify-center.q-my-md
+            q-btn.doc-layout__main-btn(
+              href="https://donate.quasar.dev"
+              target="_blank"
+              rel="noopener"
+              color="brand-primary"
+              outline
+              :icon="mdiHeart"
+              label="Donate to Quasar"
+              no-wrap
+              no-caps
+            )
 
-      q-separator
+          app-menu.q-mb-lg
 
   q-drawer(
     v-if="hasRightDrawer"
