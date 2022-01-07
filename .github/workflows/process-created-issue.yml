@@ -1,14 +1,19 @@
-name: Process Bug Report
+name: Process Created Issue
 on:
   issues:
     types:
       - opened
 jobs:
   issue-automation:
-    if: ${{ contains(github.event.issue.labels.*.name, 'kind/bug') }}
+    if: >-
+      ${{
+        contains(github.event.issue.labels.*.name, 'kind/bug') ||
+        contains(github.event.issue.labels.*.name, 'kind/docs')
+      }}
     runs-on: ubuntu-latest
     env:
       # Mimic ternary operator, see https://github.com/actions/runner/issues/409#issuecomment-752775072
+      TEMPLATE_TYPE: ${{ contains(github.event.issue.labels.*.name, 'kind/bug') && 'bug' || 'docs' }}
       TEMPLATE_VERSION: ${{ contains(github.event.issue.labels.*.name, 'Qv1') && 'v1' || 'v2' }}
     steps:
       - uses: actions/checkout@v2
@@ -16,7 +21,7 @@ jobs:
       - uses: stefanbuck/github-issue-parser@v2
         id: issue-parser
         with:
-          template-path: .github/ISSUE_TEMPLATE/bug-report--${{ env.TEMPLATE_VERSION }}.yml
+          template-path: .github/ISSUE_TEMPLATE/${{ env.TEMPLATE_TYPE }}-report--${{ env.TEMPLATE_VERSION }}.yml
 
       - uses: actions/github-script@v5
         env:
@@ -34,6 +39,7 @@ jobs:
             Thank you for your collaboration. 👏
         with:
           script: |
+            const templateType = process.env.TEMPLATE_TYPE;
             // Use it to differentiate the behavior between different template versions, if needed
             // const templateVersion = process.env.TEMPLATE_VERSION;
 
@@ -91,38 +97,40 @@ jobs:
               labelsToAdd.push(...areaLabels);
             }
 
-            try {
-              const reproURL = new URL(issueModel['repro-url']);
+            if (templateType === 'bug') {
+              try {
+                const reproURL = new URL(issueModel['repro-url']);
 
-              if (reproURL.protocol !== 'https:') {
-                throw Error();
+                if (reproURL.protocol !== 'https:') {
+                  throw Error();
+                }
+
+                switch(reproURL.hostname) {
+                  case 'codepen.io':
+                    if (/^\/.+\/(pen|project)\/.+$/.test(reproURL.pathname)) {
+                      break;
+                    }
+                  case 'jsfiddle.net':
+                    if (/^\/.+\/.+$/.test(reproURL.pathname)) {
+                      break;
+                    }
+                  case 'codesandbox.io':
+                    if (/^\/s\/.+$/.test(reproURL.pathname)) {
+                      break;
+                    }
+                  case 'github.com':
+                    if (/^\/.+\/.+$/.test(reproURL.pathname)) {
+                      labelsToAdd.push('bug/1-hard-to-reproduce');
+                      break;
+                    }
+                  default:
+                    throw new Error();
+                }
+
+                labelsToAdd.push('bug/1-repro-available');
+              } catch {
+                labelsToAdd.push('bug/0-needs-info');
               }
-
-              switch(reproURL.hostname) {
-                case 'codepen.io':
-                  if (/^\/.+\/(pen|project)\/.+$/.test(reproURL.pathname)) {
-                    break;
-                  }
-                case 'jsfiddle.net':
-                  if (/^\/.+\/.+$/.test(reproURL.pathname)) {
-                    break;
-                  }
-                case 'codesandbox.io':
-                  if (/^\/s\/.+$/.test(reproURL.pathname)) {
-                    break;
-                  }
-                case 'github.com':
-                  if (/^\/.+\/.+$/.test(reproURL.pathname)) {
-                    labelsToAdd.push('bug/1-hard-to-reproduce');
-                    break;
-                  }
-                default:
-                  throw new Error();
-              }
-
-              labelsToAdd.push('bug/1-repro-available');
-            } catch {
-              labelsToAdd.push('bug/0-needs-info');
             }
 
             if (labelsToAdd.length > 0) {
