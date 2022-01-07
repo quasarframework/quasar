@@ -39,7 +39,7 @@ body:
       label: Reproduction URL
       description: |
         Fork a [Codepen](https://codepen.quasar.dev) or a [jsFiddle](https://jsfiddle.quasar.dev) or a [Codesandbox](https://codesandbox.quasar.dev) and hit save then copy-paste the URL here.
-        _You can provide a GitHub repo only as a last resort, keep in mind that it will be prioritized less as it makes the repro process slower._
+        _You can provide a GitHub repo only as a last resort. Keep in mind that it will be prioritized less as it makes the reproduction process slower._
       placeholder: https://codepen.io/rstoenescu/pen/xxEvBLR
     validations:
       required: true
