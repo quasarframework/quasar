@@ -19,41 +19,34 @@ export default {
         actions: [
           {
             label: 'Drive',
-            img: 'https://cdn.quasar.dev/img/logo_drive_128px.png',
-            id: 'drive'
+            img: 'https://cdn.quasar.dev/img/logo_drive_128px.png'
           },
           {
             label: 'Keep',
-            img: 'https://cdn.quasar.dev/img/logo_keep_128px.png',
-            id: 'keep'
+            img: 'https://cdn.quasar.dev/img/logo_keep_128px.png'
           },
           {
             label: 'Google Hangouts',
-            img: 'https://cdn.quasar.dev/img/logo_hangouts_128px.png',
-            id: 'calendar'
+            img: 'https://cdn.quasar.dev/img/logo_hangouts_128px.png'
           },
           {
             label: 'Calendar',
-            img: 'https://cdn.quasar.dev/img/logo_calendar_128px.png',
-            id: 'calendar'
+            img: 'https://cdn.quasar.dev/img/logo_calendar_128px.png'
           },
           {},
           {
             label: 'Share',
-            icon: 'share',
-            id: 'share'
+            icon: 'share'
           },
           {
             label: 'Upload',
             icon: 'cloud_upload',
-            color: 'primary',
-            id: 'upload'
+            color: 'primary'
           },
           {},
           {
             label: 'John',
-            avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-            id: 'john'
+            avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
           }
         ]
       }).onOk(action => {
