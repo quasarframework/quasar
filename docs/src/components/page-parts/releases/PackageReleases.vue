@@ -8,8 +8,8 @@ div
     template(#before)
       q-scroll-area
         q-tabs.text-grey-7(vertical v-model="selectedVersion"  active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
-          q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label")
-            .q-tab__label {{ releaseInfo.version }}
+          q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label" :title="releaseInfo.label")
+            .q-tab__label {{ releaseInfo.version.split(' ')[0] }}
             small.text-grey-7 {{ releaseInfo.date }}
     template(#after)
       q-tab-panels.releases-container(v-model="selectedVersion" animated transition-prev="slide-down" transition-next="slide-up")
