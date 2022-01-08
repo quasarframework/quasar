@@ -5,6 +5,8 @@ import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 import { createComponent } from '../../utils/private/create.js'
 import { hSlot, hMergeSlot } from '../../utils/private/render.js'
 
+const defaultViewBox = '0 0 24 24'
+
 const sameFn = i => i
 const ionFn = i => `ionicons ${ i }`
 
@@ -58,7 +60,7 @@ export default createComponent({
 
     const classes = computed(() =>
       'q-icon'
-      + (props.left === true ? ' on-left' : '')
+      + (props.left === true ? ' on-left' : '') // TODO Qv3: drop this
       + (props.right === true ? ' on-right' : '')
       + (props.color !== void 0 ? ` text-${ props.color }` : '')
     )
@@ -68,10 +70,7 @@ export default createComponent({
       let icon = props.name
 
       if (!icon) {
-        return {
-          none: true,
-          cls: classes.value
-        }
+        return { none: true }
       }
 
       if ($q.iconMapFn !== null) {
@@ -82,7 +81,7 @@ export default createComponent({
           }
           else {
             return {
-              cls: res.cls + ' ' + classes.value,
+              cls: res.cls,
               content: res.content !== void 0
                 ? res.content
                 : ' '
@@ -92,39 +91,32 @@ export default createComponent({
       }
 
       if (mRE.test(icon) === true) {
-        const [ def, viewBox ] = icon.split('|')
+        const [ def, viewBox = defaultViewBox ] = icon.split('|')
 
         return {
           svg: true,
-          cls: classes.value,
+          viewBox,
           nodes: def.split('&&').map(path => {
             const [ d, style, transform ] = path.split('@@')
-            return h('path', {
-              style,
-              d,
-              transform
-            })
-          }),
-          viewBox: viewBox !== void 0 ? viewBox : '0 0 24 24'
+            return h('path', { style, d, transform })
+          })
         }
       }
 
       if (imgRE.test(icon) === true) {
         return {
           img: true,
-          cls: classes.value,
           src: icon.substring(4)
         }
       }
 
       if (svgUseRE.test(icon) === true) {
-        const [ def, viewBox ] = icon.split('|')
+        const [ def, viewBox = defaultViewBox ] = icon.split('|')
 
         return {
           svguse: true,
-          cls: classes.value,
           src: def.substring(7),
-          viewBox: viewBox !== void 0 ? viewBox : '0 0 24 24'
+          viewBox
         }
       }
 
@@ -158,14 +150,14 @@ export default createComponent({
       }
 
       return {
-        cls: cls + ' ' + classes.value,
+        cls,
         content
       }
     })
 
     return () => {
       const data = {
-        class: type.value.cls,
+        class: classes.value,
         style: sizeStyle.value,
         'aria-hidden': 'true',
         role: 'presentation'
@@ -176,24 +168,36 @@ export default createComponent({
       }
 
       if (type.value.img === true) {
-        data.src = type.value.src
-        return h('img', data)
+        return h('div', data, hMergeSlot(slots.default, [
+          h('img', {
+            class: type.value.cls,
+            src: type.value.src
+          })
+        ]))
       }
 
       if (type.value.svg === true) {
-        data.viewBox = type.value.viewBox
-
-        return h('svg', data, hMergeSlot(slots.default, type.value.nodes))
+        return h('div', data, hMergeSlot(slots.default, [
+          h('svg', {
+            class: type.value.cls,
+            viewBox: type.value.viewBox
+          }, type.value.nodes)
+        ]))
       }
 
       if (type.value.svguse === true) {
-        data.viewBox = type.value.viewBox
+        return h('div', data, hMergeSlot(slots.default, [
+          h('svg', {
+            class: type.value.cls,
+            viewBox: type.value.viewBox
+          }, [
+            h('use', { 'xlink:href': type.value.src })
+          ])
+        ]))
+      }
 
-        return h(
-          'svg',
-          data,
-          hMergeSlot(slots.default, [ h('use', { 'xlink:href': type.value.src }) ])
-        )
+      if (type.value.cls !== void 0) {
+        data.class += ' ' + type.value.cls
       }
 
       return h(props.tag, data, hMergeSlot(slots.default, [
