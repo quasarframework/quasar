@@ -129,5 +129,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "ts-essentials": "^9.1.2"
   }
 }
