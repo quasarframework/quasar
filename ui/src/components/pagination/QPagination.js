@@ -300,7 +300,7 @@ export default createComponent({
           }
         }
         const style = {
-          minWidth: `${ Math.max(2, String(props.max).length) }em`,
+          minWidth: `${ Math.max(2, String(props.max).length) }em`
         }
 
         const activeColor = props.activeColor || props.color
