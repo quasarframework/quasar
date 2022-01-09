@@ -1,4 +1,4 @@
-import { h, ref, reactive, computed, provide, getCurrentInstance } from 'vue'
+import { h, ref, reactive, computed, watch, provide, onUnmounted, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
@@ -172,6 +172,46 @@ export default createComponent({
     }
 
     provide(layoutKey, $layout)
+
+    // prevent scrollbar flicker while resizing window height
+    // if no page scrollbar is already present
+    if (__QUASAR_SSR__ !== true) {
+      let timer = null
+      const el = document.body
+
+      function restoreScrollbar () {
+        timer = null
+        el.classList.remove('hide-scrollbar')
+      }
+
+      function hideScrollbar () {
+        if (timer === null) {
+          // if it has no scrollbar then there's nothing to do
+          if (el.scrollHeight > window.innerHeight) { return }
+          el.classList.add('hide-scrollbar')
+        }
+        else {
+          clearTimeout(timer)
+        }
+
+        timer = setTimeout(restoreScrollbar, 300)
+      }
+
+      function updateScrollEvent (action) {
+        window[ `${ action }EventListener` ]('resize', hideScrollbar)
+      }
+
+      watch(
+        () => (props.container !== true && scrollbarWidth.value > 0 ? 'add' : 'remove'),
+        updateScrollEvent,
+        { immediate: true }
+      )
+
+      onUnmounted(() => {
+        clearTimeout(timer)
+        updateScrollEvent('remove')
+      })
+    }
 
     return () => {
       const content = hMergeSlot(slots.default, [
