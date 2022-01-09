@@ -109,11 +109,29 @@ export default Vue.extend({
     classes () {
       return 'q-layout q-layout--' +
         (this.container === true ? 'containerized' : 'standard')
+    },
+
+    scrollbarEvtAction () {
+      return this.container !== true && this.scrollbarWidth > 0
+        ? 'add' : 'remove'
     }
+  },
+
+  watch: {
+    scrollbarEvtAction: '__updateScrollEvent'
   },
 
   created () {
     this.instances = {}
+  },
+
+  mounted () {
+    this.scrollbarEvtAction === true && this.__updateScrollEvent('add')
+  },
+
+  beforeDestroy () {
+    clearTimeout(this.timerScrollbar)
+    this.scrollbarEvtAction === true && this.__updateScrollEvent('remove')
   },
 
   render (h) {
@@ -210,6 +228,30 @@ export default Vue.extend({
           this.scrollbarWidth = width
         }
       }
+    },
+
+    __updateScrollEvent (action) {
+      window[`${action}EventListener`]('resize', this.__hideScrollbar)
+    },
+
+    __hideScrollbar () {
+      if (this.timerScrollbar === void 0) {
+        const el = document.body
+
+        // if it has no scrollbar then there's nothing to do
+        if (el.scrollHeight > window.innerHeight) { return }
+        el.classList.add('hide-scrollbar')
+      }
+      else {
+        clearTimeout(this.timerScrollbar)
+      }
+
+      this.timerScrollbar = setTimeout(this.__restoreScrollbar, 200)
+    },
+
+    __restoreScrollbar () {
+      this.timerScrollbar = void 0
+      document.body.classList.remove('hide-scrollbar')
     }
   }
 })
