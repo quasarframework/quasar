@@ -33,12 +33,8 @@ export default createComponent({
     ...useSizeProps,
     ...useFormProps,
 
-    modelValue: {
-      required: true
-    },
-    val: {
-      required: true
-    },
+    modelValue: { required: true },
+    val: { required: true },
 
     label: String,
     leftLabel: Boolean,
