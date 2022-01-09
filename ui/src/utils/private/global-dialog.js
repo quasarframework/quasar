@@ -147,13 +147,13 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
       applyState('show')
     }
 
-    if (dialogRef.value !== null) {
-      show()
-    }
-    else if (typeof DialogComponent.__asyncLoader === 'function') {
+    if (typeof DialogComponent.__asyncLoader === 'function') {
       DialogComponent.__asyncLoader().then(() => {
         nextTick(show)
       })
+    }
+    else {
+      nextTick(show)
     }
 
     return API
