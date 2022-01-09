@@ -96,7 +96,10 @@ export default createComponent({
     })
 
     const hasLink = computed(() =>
-      props.disable !== true && props.to !== void 0 && props.to !== null && props.to !== ''
+      props.disable !== true && (
+        props.href !== void 0
+        || (props.to !== void 0 && props.to !== null && props.to !== '')
+      )
     )
 
     const linkProps = computed(() => {

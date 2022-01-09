@@ -98,10 +98,10 @@
           "desc": "An object containing scroll information",
           "definition": {
             "ref": {
-              "type": "Object",
+              "type": "Component",
+              "tsType": "QScrollArea",
               "required": true,
-              "desc": "Vue reference to the QScrollArea which triggered the event",
-              "__exemption": [ "examples" ]
+              "desc": "Vue reference to the QScrollArea which triggered the event"
             },
 
             "verticalPosition": {
@@ -163,9 +163,8 @@
     "getScrollTarget": {
       "desc": "Get the scrolling DOM element target",
       "returns": {
-        "type": "Object",
-        "desc": "DOM element upon which scrolling takes place",
-        "__exemption": [ "examples" ]
+        "type": "Element",
+        "desc": "DOM element upon which scrolling takes place"
       }
     },
 

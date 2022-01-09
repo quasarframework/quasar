@@ -1,4 +1,4 @@
-import { h, ref, computed, withDirectives, getCurrentInstance } from 'vue'
+import { h, ref, computed, withDirectives, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
@@ -375,6 +375,8 @@ export default createComponent({
       }
     })
 
+    onBeforeUnmount(emitScroll.cancel)
+
     return () => {
       return h('div', {
         class: classes.value,
@@ -391,6 +393,7 @@ export default createComponent({
             style: mainStyle.value
           }, hMergeSlot(slots.default, [
             h(QResizeObserver, {
+              debounce: 0,
               onResize: updateScrollSize
             })
           ])),
@@ -401,7 +404,10 @@ export default createComponent({
           })
         ]),
 
-        h(QResizeObserver, { onResize: updateContainer }),
+        h(QResizeObserver, {
+          debounce: 0,
+          onResize: updateContainer
+        }),
 
         h('div', {
           class: scroll.vertical.barClass.value,

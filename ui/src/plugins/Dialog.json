@@ -306,9 +306,8 @@
             },
 
             "component": {
-              "type": "Any",
-              "desc": "Use custom dialog component; use along with 'componentProps' prop where possible",
-              "__exemption": [ "examples" ]
+              "type": "Component",
+              "desc": "Use custom dialog component; use along with 'componentProps' prop where possible"
             },
 
             "componentProps": {

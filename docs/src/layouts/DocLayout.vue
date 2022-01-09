@@ -51,7 +51,6 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
         .row.justify-center.q-my-md
           q-btn.doc-layout__main-btn(
-            type="a"
             href="https://donate.quasar.dev"
             target="_blank"
             rel="noopener"
@@ -83,6 +82,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           @focus="onSearchFocus"
           @blur="onSearchBlur"
           placeholder="Search Quasar v2..."
+          type="search"
         )
           template(v-slot:prepend)
             q-icon(name="search")
@@ -135,8 +135,8 @@ import {
 
 import AppMenu from 'components/AppMenu.js'
 import AppSearchResults from 'components/AppSearchResults.vue'
-import HeaderMenu from 'components/HeaderMenu.vue'
 // import SurveyCountdown from 'components/SurveyCountdown.vue'
+import HeaderMenu from 'components/HeaderMenu.vue'
 
 import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'

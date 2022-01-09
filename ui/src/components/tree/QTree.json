@@ -186,9 +186,9 @@
           "reactive": true
         },
         "tree": {
-          "type": "Object",
-          "desc": "QTree instance",
-          "__exemption": [ "examples" ]
+          "type": "Component",
+          "tsType": "QTree",
+          "desc": "QTree instance"
         },
         "node": {
           "type": "Object",
@@ -226,9 +226,9 @@
           "reactive": true
         },
         "tree": {
-          "type": "Object",
-          "desc": "QTree instance",
-          "__exemption": [ "examples" ]
+          "type": "Component",
+          "tsType": "QTree",
+          "desc": "QTree instance"
         },
         "node": {
           "type": "Object",
@@ -266,9 +266,9 @@
           "reactive": true
         },
         "tree": {
-          "type": "Object",
-          "desc": "QTree instance",
-          "__exemption": [ "examples" ]
+          "type": "Component",
+          "tsType": "QTree",
+          "desc": "QTree instance"
         },
         "node": {
           "type": "Object",
@@ -306,9 +306,9 @@
           "reactive": true
         },
         "tree": {
-          "type": "Object",
-          "desc": "QTree instance",
-          "__exemption": [ "examples" ]
+          "type": "Component",
+          "tsType": "QTree",
+          "desc": "QTree instance"
         },
         "node": {
           "type": "Object",

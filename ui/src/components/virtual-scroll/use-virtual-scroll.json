@@ -95,12 +95,9 @@
               "values": [ "increase", "decrease" ]
             },
             "ref": {
-              "type": "Object",
+              "type": "Component",
               "required": true,
-              "desc": "Vue reference to the QVirtualList which triggered the event",
-              "__exemption": [
-                "examples"
-              ]
+              "desc": "Vue reference to the component which triggered the event"
             }
           }
         }

@@ -11,26 +11,26 @@
         <q-tr :props="props">
           <q-td key="name" :props="props">
             {{ props.row.name }}
-            <q-popup-edit v-model="props.row.name">
-              <q-input v-model="props.row.name" dense autofocus counter />
+            <q-popup-edit v-model="props.row.name" v-slot="scope">
+              <q-input v-model="scope.value" dense autofocus counter />
             </q-popup-edit>
           </q-td>
           <q-td key="calories" :props="props">
             {{ props.row.calories }}
-            <q-popup-edit v-model="props.row.calories" title="Update calories" buttons>
-              <q-input type="number" v-model="props.row.calories" dense autofocus />
+            <q-popup-edit v-model="props.row.calories" title="Update calories" buttons v-slot="scope">
+              <q-input type="number" v-model="scope.value" dense autofocus />
             </q-popup-edit>
           </q-td>
           <q-td key="fat" :props="props">
             <div class="text-pre-wrap">{{ props.row.fat }}</div>
-            <q-popup-edit v-model="props.row.fat">
-              <q-input type="textarea" v-model="props.row.fat" dense autofocus />
+            <q-popup-edit v-model="props.row.fat" v-slot="scope">
+              <q-input type="textarea" v-model="scope.value" dense autofocus />
             </q-popup-edit>
           </q-td>
           <q-td key="carbs" :props="props">
             {{ props.row.carbs }}
-            <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent>
-              <q-input type="number" v-model="props.row.carbs" dense autofocus hint="Use buttons to close" />
+            <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent v-slot="scope">
+              <q-input type="number" v-model="scope.value" dense autofocus hint="Use buttons to close" />
             </q-popup-edit>
           </q-td>
           <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
@@ -57,7 +57,7 @@ const columns = [
     sortable: true
   },
   { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
+  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, style: 'width: 10px' },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', label: 'Protein (g)', field: 'protein' },
   { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },

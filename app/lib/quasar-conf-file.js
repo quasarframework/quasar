@@ -196,7 +196,9 @@ class QuasarConfFile {
           mangle: {}
         }
       },
-      devServer: {},
+      devServer: {
+        server: {}
+      },
       framework: {
         components: [],
         directives: [],
@@ -595,10 +597,10 @@ class QuasarConfFile {
     }
 
     if (this.ctx.dev) {
-      const originalBefore = cfg.devServer.onBeforeSetupMiddleware
+      const originalSetup = cfg.devServer.setupMiddlewares
       const openInEditor = require('launch-editor-middleware')
 
-      delete cfg.devServer.onBeforeSetupMiddleware
+      delete cfg.devServer.setupMiddlewares
 
       if (this.ctx.mode.bex === true) {
         cfg.devServer.devMiddleware = cfg.devServer.devMiddleware || {}
@@ -614,6 +616,9 @@ class QuasarConfFile {
           overlay: {
             warnings: false
           }
+        },
+        server: {
+          type: 'http'
         },
         devMiddleware: {
           publicPath: cfg.build.publicPath,
@@ -637,7 +642,7 @@ class QuasarConfFile {
           },
       cfg.devServer,
       {
-        onBeforeSetupMiddleware: opts => {
+        setupMiddlewares: (middlewares, opts) => {
           const { app } = opts
 
           if (!this.ctx.mode.ssr) {
@@ -657,9 +662,31 @@ class QuasarConfFile {
 
           app.use('/__open-in-editor', openInEditor(void 0, appPaths.appDir))
 
-          originalBefore && originalBefore(opts)
+          return originalSetup
+            ? originalSetup(middlewares, opts)
+            : middlewares
         }
       })
+
+      // (backward compatibility for upstream)
+      // webpack-dev-server 4.5.0 introduced a change in behavior
+      // along with deprecation notices; so we transform it automatically
+      // for a better experience for our developers
+      if (cfg.devServer.https !== void 0) {
+        const { https } = cfg.devServer
+
+        delete cfg.devServer.https
+
+        if (https !== false) {
+          cfg.devServer.server = {
+            type: 'https'
+          }
+
+          if (Object(https) === https) {
+            cfg.devServer.server.options = https
+          }
+        }
+      }
 
       if (this.ctx.vueDevtools === true || cfg.devServer.vueDevtools === true) {
         cfg.__needsAppMountHook = true
@@ -678,7 +705,7 @@ class QuasarConfFile {
         cfg.devServer.open = false
 
         if (this.ctx.mode.electron) {
-          cfg.devServer.https = false
+          cfg.devServer.server.type = 'http'
         }
       }
 
@@ -773,7 +800,7 @@ class QuasarConfFile {
         ? (cfg.build.htmlFilename !== 'index.html' ? (cfg.build.publicPath ? '' : '/') + cfg.build.htmlFilename : '')
         : ''
 
-      cfg.__getUrl = hostname => `http${cfg.devServer.https ? 's' : ''}://${hostname}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
+      cfg.__getUrl = hostname => `http${cfg.devServer.server.type === 'https' ? 's' : ''}://${hostname}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
       cfg.build.APP_URL = cfg.__getUrl(
         cfg.devServer.host === '0.0.0.0'
           ? 'localhost'

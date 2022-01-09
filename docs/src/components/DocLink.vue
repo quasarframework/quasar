@@ -42,7 +42,6 @@ export default {
   text-decoration: none
   outline: 0
   border-bottom: 1px dotted currentColor
-  vertical-align: center
   transition: opacity .2s
   white-space: nowrap
 

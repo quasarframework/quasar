@@ -61,6 +61,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
       beforeUnmount (el) {
         const ctx = el.__qscrollfire
         ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, passive)
+        ctx.scroll.cancel()
         delete el.__qscrollfire
       }
     }

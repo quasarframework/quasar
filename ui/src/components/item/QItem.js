@@ -38,7 +38,7 @@ export default createComponent({
     const { proxy: { $q } } = getCurrentInstance()
 
     const isDark = useDark(props, $q)
-    const { hasLink, linkProps, linkClass, linkTag, navigateToLink } = useRouterLink()
+    const { hasRouterLink, hasLink, linkProps, linkClass, linkTag, navigateToRouterLink } = useRouterLink()
 
     const rootRef = ref(null)
     const blurTargetRef = ref(null)
@@ -46,7 +46,6 @@ export default createComponent({
     const isActionable = computed(() =>
       props.clickable === true
         || hasLink.value === true
-        || props.tag === 'a'
         || props.tag === 'label'
     )
 
@@ -99,7 +98,7 @@ export default createComponent({
           }
         }
 
-        hasLink.value === true && navigateToLink(e)
+        hasRouterLink.value === true && navigateToRouterLink(e)
         emit('click', e)
       }
     }

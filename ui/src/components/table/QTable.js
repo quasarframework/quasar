@@ -23,6 +23,7 @@ import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEm
 import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
 import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
 
+import { injectProp, injectMultipleProps } from '../../utils/private/inject-obj-prop.js'
 import { createComponent } from '../../utils/private/create.js'
 
 const bottomClass = 'q-table__bottom row items-center'
@@ -477,11 +478,7 @@ export default createComponent({
 
       data.cols = data.cols.map(col => {
         const c = { ...col }
-        Object.defineProperty(c, 'value', {
-          get: () => getCellValue(col, data.row),
-          configurable: true,
-          enumerable: true
-        })
+        injectProp(c, 'value', () => getCellValue(col, data.row))
         return c
       })
 
@@ -490,13 +487,7 @@ export default createComponent({
 
     function getBodyCellScope (data) {
       injectBodyCommonScope(data)
-
-      Object.defineProperty(data, 'value', {
-        get: () => getCellValue(data.col, data.row),
-        configurable: true,
-        enumerable: true
-      })
-
+      injectProp(data, 'value', () => getCellValue(data.col, data.row))
       return data
     }
 
@@ -516,23 +507,21 @@ export default createComponent({
         dense: props.dense
       })
 
-      hasSelectionMode.value === true && Object.defineProperty(data, 'selected', {
-        get: () => isRowSelected(data.key),
-        set: (adding, evt) => {
+      hasSelectionMode.value === true && injectProp(
+        data,
+        'selected',
+        () => isRowSelected(data.key),
+        (adding, evt) => {
           updateSelection([ data.key ], [ data.row ], adding, evt)
-        },
-        configurable: true,
-        enumerable: true
-      })
+        }
+      )
 
-      Object.defineProperty(data, 'expand', {
-        get: () => isRowExpanded(data.key),
-        set: adding => {
-          updateExpanded(data.key, adding)
-        },
-        configurable: true,
-        enumerable: true
-      })
+      injectProp(
+        data,
+        'expand',
+        () => isRowExpanded(data.key),
+        adding => { updateExpanded(data.key, adding) }
+      )
     }
 
     function getCellValue (col, row) {
@@ -704,12 +693,12 @@ export default createComponent({
       })
 
       if (multipleSelection.value === true) {
-        Object.defineProperty(data, 'selected', {
-          get: () => headerSelectedValue.value,
-          set: onMultipleSelectionSet,
-          configurable: true,
-          enumerable: true
-        })
+        injectProp(
+          data,
+          'selected',
+          () => headerSelectedValue.value,
+          onMultipleSelectionSet
+        )
       }
 
       return data
@@ -1024,19 +1013,10 @@ export default createComponent({
       getCellValue
     })
 
-    Object.defineProperty(vm.proxy, 'filteredSortedRows', {
-      get: () => filteredSortedRows.value,
-      enumerable: true
-    })
-
-    Object.defineProperty(vm.proxy, 'computedRows', {
-      get: () => computedRows.value,
-      enumerable: true
-    })
-
-    Object.defineProperty(vm.proxy, 'computedRowsNumber', {
-      get: () => computedRowsNumber.value,
-      enumerable: true
+    injectMultipleProps(vm.proxy, {
+      filteredSortedRows: () => filteredSortedRows.value,
+      computedRows: () => computedRows.value,
+      computedRowsNumber: () => computedRowsNumber.value
     })
 
     return () => {

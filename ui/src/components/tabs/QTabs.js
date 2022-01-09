@@ -70,7 +70,8 @@ export default createComponent({
     const vm = getCurrentInstance()
     const { proxy: { $q } } = vm
 
-    const { registerTick, prepareTick } = useTick()
+    const { registerTick: registerScrollTick } = useTick()
+    const { registerTimeout: registerFocusTimeout, removeTimeout: removeFocusTimeout } = useTimeout()
     const { registerTimeout } = useTimeout()
 
     const rootRef = ref(null)
@@ -87,6 +88,7 @@ export default createComponent({
     )
 
     const tabList = []
+    const hasFocus = ref(false)
 
     let localFromRoute = false, animateTimer, scrollTimer, unwatchRoute
     let localUpdateArrows = arrowsEnabled.value === true
@@ -126,7 +128,7 @@ export default createComponent({
     )
 
     const innerClass = computed(() =>
-      'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar '
+      'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar relative-position '
       + alignClass.value
       + (props.contentClass !== void 0 ? ` ${ props.contentClass }` : '')
       + ($q.platform.is.mobile === true ? ' scroll' : '')
@@ -177,7 +179,7 @@ export default createComponent({
     }
 
     function recalculateScroll () {
-      registerTick(() => {
+      registerScrollTick(() => {
         if (vm.isDeactivated !== true && vm.isUnmounted !== true) {
           updateContainer({
             width: rootRef.value.offsetWidth,
@@ -185,8 +187,6 @@ export default createComponent({
           })
         }
       })
-
-      prepareTick()
     }
 
     function updateContainer (domSize) {
@@ -201,7 +201,7 @@ export default createComponent({
           contentRef.value[ domProps.value.scroll ],
           Array.prototype.reduce.call(
             contentRef.value.children,
-            (acc, el) => acc + el[ domProps.value.content ],
+            (acc, el) => acc + (el[ domProps.value.content ] || 0),
             0
           )
         ),
@@ -260,23 +260,27 @@ export default createComponent({
       }
 
       if (newTab && scrollable.value === true) {
-        const
-          { left, width, top, height } = contentRef.value.getBoundingClientRect(),
-          newPos = newTab.rootRef.value.getBoundingClientRect()
+        scrollToTabEl(newTab.rootRef.value)
+      }
+    }
 
-        let offset = props.vertical === true ? newPos.top - top : newPos.left - left
+    function scrollToTabEl (el) {
+      const
+        { left, width, top, height } = contentRef.value.getBoundingClientRect(),
+        newPos = el.getBoundingClientRect()
 
-        if (offset < 0) {
-          contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.floor(offset)
-          localUpdateArrows()
-          return
-        }
+      let offset = props.vertical === true ? newPos.top - top : newPos.left - left
 
-        offset += props.vertical === true ? newPos.height - height : newPos.width - width
-        if (offset > 0) {
-          contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.ceil(offset)
-          localUpdateArrows()
-        }
+      if (offset < 0) {
+        contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.floor(offset)
+        localUpdateArrows()
+        return
+      }
+
+      offset += props.vertical === true ? newPos.height - height : newPos.width - width
+      if (offset > 0) {
+        contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.ceil(offset)
+        localUpdateArrows()
       }
     }
 
@@ -312,15 +316,51 @@ export default createComponent({
     }
 
     function scrollToStart () {
-      animScrollTo(rtlPosCorrection.value === true ? 9999 : 0)
+      animScrollTo(rtlPosCorrection.value === true ? Number.MAX_SAFE_INTEGER : 0)
     }
 
     function scrollToEnd () {
-      animScrollTo(rtlPosCorrection.value === true ? 0 : 9999)
+      animScrollTo(rtlPosCorrection.value === true ? 0 : Number.MAX_SAFE_INTEGER)
     }
 
     function stopAnimScroll () {
       clearInterval(scrollTimer)
+    }
+
+    function onKbdNavigate (keyCode, fromEl) {
+      const tabs = Array.prototype.filter.call(
+        contentRef.value.children,
+        el => el === fromEl || (el.matches && el.matches('.q-tab.q-focusable') === true)
+      )
+
+      const len = tabs.length
+      if (len === 0) { return }
+
+      if (keyCode === 36) { // Home
+        scrollToTabEl(tabs[ 0 ])
+        return true
+      }
+      if (keyCode === 35) { // End
+        scrollToTabEl(tabs[ len - 1 ])
+        return true
+      }
+
+      const dirPrev = keyCode === (props.vertical === true ? 38 /* ArrowUp */ : 37 /* ArrowLeft */)
+      const dirNext = keyCode === (props.vertical === true ? 40 /* ArrowDown */ : 39 /* ArrowRight */)
+
+      const dir = dirPrev === true ? -1 : (dirNext === true ? 1 : void 0)
+
+      if (dir !== void 0) {
+        const rtlDir = isRTL.value === true ? -1 : 1
+        const index = tabs.indexOf(fromEl) + dir * rtlDir
+
+        if (index >= 0 && index < len) {
+          scrollToTabEl(tabs[ index ])
+          tabs[ index ].focus({ preventScroll: true })
+        }
+
+        return true
+      }
     }
 
     // let's speed up execution of time-sensitive scrollTowards()
@@ -368,7 +408,7 @@ export default createComponent({
     }
 
     function getRouteList () {
-      return tabList.filter(tab => tab.routerProps !== void 0 && tab.routerProps.hasLink.value === true)
+      return tabList.filter(tab => tab.routerProps !== void 0 && tab.routerProps.hasRouterLink.value === true)
     }
 
     // do not use directly; use verifyRouteModel() instead
@@ -440,6 +480,29 @@ export default createComponent({
       }
     }
 
+    function onFocusin (e) {
+      removeFocusTimeout()
+
+      if (
+        hasFocus.value !== true
+        && rootRef.value !== null
+        && e.target
+        && typeof e.target.closest === 'function'
+      ) {
+        const tab = e.target.closest('.q-tab')
+
+        // if the target is contained by a QTab/QRouteTab
+        // (it might be other elements focused, like additional QBtn)
+        if (tab && rootRef.value.contains(tab) === true) {
+          hasFocus.value = true
+        }
+      }
+    }
+
+    function onFocusout () {
+      registerFocusTimeout(() => { hasFocus.value = false }, 30)
+    }
+
     function verifyRouteModel () {
       if ($tabs.avoidRouteWatcher !== true) {
         registerTimeout(updateActiveRoute)
@@ -485,6 +548,7 @@ export default createComponent({
     const $tabs = {
       currentModel,
       tabProps,
+      hasFocus,
 
       registerTab,
       unregisterTab,
@@ -492,6 +556,7 @@ export default createComponent({
       verifyRouteModel,
       updateModel,
       recalculateScroll,
+      onKbdNavigate,
 
       avoidRouteWatcher: false
     }
@@ -543,7 +608,9 @@ export default createComponent({
       return h('div', {
         ref: rootRef,
         class: classes.value,
-        role: 'tablist'
+        role: 'tablist',
+        onFocusin,
+        onFocusout
       }, child)
     }
   }

@@ -18,7 +18,9 @@ module.exports = function (cfg, configName) {
 
     const patterns = [
       appPaths.resolve.app('.npmrc'),
-      appPaths.resolve.app('.yarnrc')
+      appPaths.resolve.app('package-lock.json'),
+      appPaths.resolve.app('.yarnrc'),
+      appPaths.resolve.app('yarn.lock'),
     ].map(filename => ({
       from: filename,
       to: '.',

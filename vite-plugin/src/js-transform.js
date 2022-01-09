@@ -1,6 +1,6 @@
 import importTransformation from 'quasar/dist/transforms/import-transformation.js'
 
-export const importQuasarRegex = /import\s*\{([\w,\s]+)\}\s*from\s*['"]{1}quasar['"]{1}/
+export const importQuasarRegex = /import\s*\{([\w,\s]+)\}\s*from\s*['"]{1}quasar['"]{1};?/
 export const jsTransformRegex = /\.[j|t]s$/
 
 export function jsTransform (code) {
@@ -23,7 +23,7 @@ export function jsTransform (code) {
           ? data[1].trim()
           : importName
 
-        return `import ${importAs} from '${importTransformation(importName)}'\n`
+        return `import ${importAs} from '${importTransformation(importName)}';`
       })
       .join('')
   )

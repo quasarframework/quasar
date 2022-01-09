@@ -19,6 +19,27 @@
       </q-icon>
 
       <q-icon name="android" size="5rem" />
+
+    </div>
+      <!-- This is the raw SVG -->
+      <q-icon color="secondary" size="5rem">
+        <svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" transform="translate(3 4)">
+            <path d="m3.5 10.5-1-.0345601c-1.10193561-.0037085-2-.93261826-2-2.03456011v-5.9654399c0-1.1045695.8954305-2 2-2l10-.00245977c1.1045695 0 2 .8954305 2 2v6.00245977c0 1.1045695-.8954305 2.00000001-2 2.00000001-.0014957 0-.3348291.01234-1 .0370199"/>
+            <path d="m7.5 12.5-3-3h6z" transform="matrix(1 0 0 -1 0 22)"/>
+          </g>
+        </svg>
+      </q-icon>
+
+      <q-icon :name="suiAirplay" size="5rem" color="secondary" />
+
+      <!-- This one has special hand-added handling to make it work -->
+      <q-icon :name="suiAirplay2" size="5rem" color="secondary" />
+
+      <!-- Testing for 'M.' -->
+      <q-icon :name="oiBatteryEmpty" size="5rem" color="secondary" />
+    <div>
+
     </div>
 
     <q-option-group
@@ -90,6 +111,15 @@ import { tiFullscreen } from '@quasar/extras/themify'
 import { laAtomSolid } from '@quasar/extras/line-awesome'
 import { biBugFill } from '@quasar/extras/bootstrap-icons'
 
+// currently does not work with QIcon because it only look for capital 'M'
+const suiAirplay = 'm3.5 10.5-1-.0345601c-1.10193561-.0037085-2-.93261826-2-2.03456011v-5.9654399c0-1.1045695.8954305-2 2-2l10-.00245977c1.1045695 0 2 .8954305 2 2v6.00245977c0 1.1045695-.8954305 2.00000001-2 2.00000001-.0014957 0-.3348291.01234-1 .0370199@@fill:none;fill-rule:evenodd;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;@@translate(3 4)&&m7.5 12.5-3-3h6z@@fill:none;fill-rule:evenodd;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;@@matrix(1 0 0 -1 3 26)|0 0 21 21'
+
+// This only works if you add the '@@fill:none;stroke:none;&&' at the start, but this breaks other icon sets
+const suiAirplay2 = 'M0 0z@@fill:none;stroke:none;&&m3.5 10.5-1-.0345601c-1.10193561-.0037085-2-.93261826-2-2.03456011v-5.9654399c0-1.1045695.8954305-2 2-2l10-.00245977c1.1045695 0 2 .8954305 2 2v6.00245977c0 1.1045695-.8954305 2.00000001-2 2.00000001-.0014957 0-.3348291.01234-1 .0370199@@fill:none;fill-rule:evenodd;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;@@translate(3 4)&&M0 0zm7.5 12.5-3-3h6z@@fill:none;fill-rule:evenodd;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;@@matrix(1 0 0 -1 3 26)|0 0 21 21'
+
+// test for 'M.'
+const oiBatteryEmpty = 'M.09 0c-.06 0-.09.04-.09.09v5.81c0 .05.04.09.09.09h6.81c.05 0 .09-.04.09-.09v-1.91h1v-2h-1v-1.91c0-.06-.04-.09-.09-.09h-6.81zm.91 1h5v4h-5v-4z@@@@translate(0 1)|0 0 8 8'
+
 const TOP_ICON = 'add_box'
 
 function parseSet (setName, set) {
@@ -150,6 +180,9 @@ export default {
       tiFullscreen,
       laAtomSolid,
       biBugFill,
+      suiAirplay,
+      suiAirplay2,
+      oiBatteryEmpty,
 
       iconOptions: [
         { value: '', label: 'Empty name' },

@@ -39,7 +39,8 @@ export namespace date {
   function endOfDate(date: Date | number | string, option: DateUnitOptions, utc?: boolean): Date;
   function getMaxDate(date: Date | number | string, ...args: (Date | number | string)[]): Date;
   function getMinDate(date: Date | number | string, ...args: (Date | number | string)[]): Date;
-  function getDateDiff(date: Date | number | string, subtract: Date | number | string, unit?: string): number;
+  // TODO: (Qv3) uniform "unit" to `DateUnitOptions` interface
+  function getDateDiff(date: Date | number | string, subtract: Date | number | string, unit?: `${DateUnitOptions}s`): number;
   function getDayOfYear(date: Date | number | string): number;
   function inferDateFormat(date: Date | number | string): "date" | "number" | "string";
   function getDateBetween(date: Date | number | string, min?: Date | number | string, max?: Date | number | string): Date;

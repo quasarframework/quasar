@@ -66,13 +66,20 @@ export default createComponent({
     function getContent () {
       const child = []
 
-      props.icon !== '' && child.push(
-        h(QIcon, { name: props.icon })
-      )
+      if (slots.icon !== void 0) {
+        child.push(slots.icon())
+      }
+      else if (props.icon !== '') {
+        child.push(
+          h(QIcon, { name: props.icon })
+        )
+      }
 
-      props.label !== '' && child[ labelProps.value.action ](
-        h('div', labelProps.value.data, [ props.label ])
-      )
+      if (props.label !== '' || slots.label !== void 0) {
+        child[ labelProps.value.action ](
+          h('div', labelProps.value.data, slots.label !== void 0 ? slots.label() : [ props.label ])
+        )
+      }
 
       return hMergeSlot(slots.default, child)
     }

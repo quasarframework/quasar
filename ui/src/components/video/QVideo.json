@@ -11,9 +11,20 @@
       "desc": "The source url to display in an iframe",
       "required": true,
       "examples": [
-        "src=\"https://www.youtube.com/embed/k3_tw44QsZQ\""
+        "https://www.youtube.com/embed/k3_tw44QsZQ"
       ],
       "category": "model"
+    },
+
+    "title": {
+      "type": "String",
+      "desc": "(Accessibility) Set the native 'title' attribute value of the inner iframe being used",
+      "required": false,
+      "examples": [
+        "My Daily Marathon"
+      ],
+      "category": "accessibility",
+      "addedIn": "v2.4.3"
     }
   }
 }

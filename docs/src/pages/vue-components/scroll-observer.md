@@ -52,10 +52,10 @@ One more example with QScrollArea:
 ```
 
 ## Horizontal
-For capturing horizontal scrolling, use the `horizontal` Boolean prop:
+For capturing horizontal scrolling, use the `axis="horizontal"` prop :
 
 ```html
-<q-scroll-observer horizontal @scroll="scrollHandler" />
+<q-scroll-observer axis="horizontal" @scroll="scrollHandler" />
 ```
 
 ## Layout Scrolling

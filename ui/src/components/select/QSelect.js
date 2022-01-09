@@ -511,7 +511,10 @@ export default createComponent({
 
         targetRef.value !== null && targetRef.value.focus()
 
-        if (isDeepEqual(getOptionValue.value(innerValue.value[ 0 ]), optValue) !== true) {
+        if (
+          innerValue.value.length === 0
+          || isDeepEqual(getOptionValue.value(innerValue.value[ 0 ]), optValue) !== true
+        ) {
           emit('update:modelValue', props.emitValue === true ? optValue : opt)
         }
         return

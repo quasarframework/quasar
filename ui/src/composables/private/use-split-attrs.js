@@ -12,17 +12,17 @@ export default function (attrs, vnode) {
     const attributes = {}
     const listeners = {}
 
-    Object.keys(attrs).forEach(key => {
+    for (const key in attrs) {
       if (key !== 'class' && key !== 'style' && listenerRE.test(key) === false) {
         attributes[ key ] = attrs[ key ]
       }
-    })
+    }
 
-    Object.keys(vnode.props).forEach(key => {
+    for (const key in vnode.props) {
       if (listenerRE.test(key) === true) {
         listeners[ key ] = vnode.props[ key ]
       }
-    })
+    }
 
     acc.attributes.value = attributes
     acc.listeners.value = listeners

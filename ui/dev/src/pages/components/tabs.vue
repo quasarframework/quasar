@@ -370,6 +370,13 @@
         <q-route-tab key="6" :to="{ name: 'r.3' }" label="r.3 - redirect to r.1.1" @click="routeNavChange" />
       </q-tabs>
 
+      <h4>Href</h4>
+      <q-tabs :dense="dense" class="test q-mt-sm">
+        <q-route-tab name="tabs" href="/components/tabs" label="/components/tabs" no-caps />
+        <q-route-tab name="blank+/" href="/" target="_blank" label="/ + _blank" no-caps />
+        <q-route-tab name="/+disable" disable href="/" target="_blank" label="/ + _blank" no-caps />
+      </q-tabs>
+
       <h4>Tabs model (respect model): {{ tabModel }}</h4>
       <q-tabs :dense="dense" :model-value="tabModel" @update:model-value="onChangeTab1" class="bg-grey-1 text-teal">
         <q-tab name="one" label="One" />

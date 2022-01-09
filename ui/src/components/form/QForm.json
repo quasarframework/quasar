@@ -52,9 +52,8 @@
       "desc": "Emitted after a validation was triggered and at least one of the inner Quasar components models are NOT valid",
       "params": {
         "ref": {
-          "type": "Object",
-          "desc": "Vue reference to the first component that triggered the validation error",
-          "__exemption": [ "examples" ]
+          "type": "Component",
+          "desc": "Vue reference to the first component that triggered the validation error"
         }
       }
     }

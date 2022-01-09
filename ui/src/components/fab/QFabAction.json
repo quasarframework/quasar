@@ -35,6 +35,16 @@
   "slots": {
     "default": {
       "desc": "Suggestion for this slot: QTooltip"
+    },
+
+    "icon": {
+      "desc": "Slot for icon; Suggestion: QIcon",
+      "addedIn": "v2.4"
+    },
+
+    "label": {
+      "desc": "Slot for label",
+      "addedIn": "v2.4"
     }
   },
 

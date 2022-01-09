@@ -33,12 +33,8 @@ export default createComponent({
     ...useSizeProps,
     ...useFormProps,
 
-    modelValue: {
-      required: true
-    },
-    val: {
-      required: true
-    },
+    modelValue: { required: true },
+    val: { required: true },
 
     label: String,
     leftLabel: Boolean,
@@ -92,6 +88,7 @@ export default createComponent({
       const prop = { type: 'radio' }
 
       props.name !== void 0 && Object.assign(prop, {
+        '^checked': isTrue.value === true ? 'checked' : void 0,
         name: props.name,
         value: props.val
       })
@@ -99,13 +96,7 @@ export default createComponent({
       return prop
     })
 
-    const formDomProps = computed(() => (
-      props.name !== void 0 && isTrue.value === true
-        ? { checked: true }
-        : {}
-    ))
-
-    const injectFormInput = useFormInject(formAttrs, formDomProps)
+    const injectFormInput = useFormInject(formAttrs)
 
     function onClick (e) {
       if (e !== void 0) {

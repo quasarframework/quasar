@@ -10,7 +10,7 @@
 
     <q-table
       title="Treats"
-      :rows="rows"
+      :rows="records"
       :columns="columns"
       row-key="name"
       selection="multiple"
@@ -118,7 +118,6 @@ export default {
       selected: ref([rows[ 1 ]]),
 
       columns,
-      rows,
 
       records: computed(() => hasData.value === true ? rows : [])
     }

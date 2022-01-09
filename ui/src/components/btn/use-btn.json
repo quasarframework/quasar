@@ -4,37 +4,46 @@
   "props": {
     "type":{
       "type": "String",
-      "desc": "Define the button HTML DOM type",
+      "desc": "1) Define the button native type attribute (submit, reset, button) or 2) render component with <a> tag so you can access events even if disable or 3) Use 'href' prop and specify 'type' as a media tag",
       "default": "button",
-      "values": [
-        "a", "submit", "button", "reset"
-      ],
       "examples": [
-        "type=\"a\" href=\"http://some-site.net\" target=\"__blank\""
+        "a", "submit", "button", "reset",
+        "image/png",
+        "href=\"https://quasar.dev\" target=\"_blank\""
       ],
       "category": "general"
     },
 
     "to": {
       "type": [ "String", "Object" ],
-      "desc": "Equivalent to Vue Router <router-link> 'to' property",
+      "desc": "Equivalent to Vue Router <router-link> 'to' property; Superseeded by 'href' prop if used",
       "examples": [
         "/home/dashboard",
         ":to=\"{ name: 'my-route-name' }\""
       ],
-      "category": "router"
+      "category": "navigation"
     },
 
     "replace": {
       "type": "Boolean",
-      "desc": "Equivalent to Vue Router <router-link> 'replace' property",
-      "category": "router"
+      "desc": "Equivalent to Vue Router <router-link> 'replace' property; Superseeded by 'href' prop if used",
+      "category": "navigation"
     },
 
-    "append": {
-      "type": "Boolean",
-      "desc": "Equivalent to Vue Router <router-link> 'append' property",
-      "category": "router"
+    "href": {
+      "type": "String",
+      "desc": "Native <a> link href attribute; Has priority over the 'to' and 'replace' props",
+      "examples": [ "http://quasar.dev", "href=\"https://quasar.dev\" target=\"_blank\"" ],
+      "category": "navigation",
+      "addedIn": "v2.4"
+    },
+
+    "target": {
+      "type": "String",
+      "desc": "Native <a> link target attribute; Use it only with 'to' or 'href' props",
+      "examples": [ "_blank", "_self", "_parent", "_top" ],
+      "category": "navigation",
+      "addedIn": "v2.4"
     },
 
     "label":{

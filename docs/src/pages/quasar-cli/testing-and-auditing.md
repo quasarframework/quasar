@@ -16,7 +16,7 @@ Testing is not in and of itself hard. The most complicated part is setting up th
 Some Qv2-compatible Testing AEs are currently in alpha or beta phase, existing documentation website (https://testing.quasar.dev) still refer to Qv1 AEs.
 You can find the updated documentation into `next` branch of quasar-testing repo.
 
-<q-btn color="brand-primary" label="Testing repo @next branch" icon-right="launch" no-caps type="a"  href="https://github.com/quasarframework/quasar-testing/tree/next" target="_blank" />
+<q-btn color="brand-primary" label="Testing repo @next branch" icon-right="launch" no-caps href="https://github.com/quasarframework/quasar-testing/tree/next" target="_blank" />
 
 ## Installing
 

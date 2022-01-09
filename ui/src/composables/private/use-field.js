@@ -168,7 +168,7 @@ export default function (state) {
     isDirtyModel,
     hasRules,
     hasError,
-    computedErrorMessage,
+    errorMessage,
     resetValidation
   } = useValidate(state.focused, state.innerLoading)
 
@@ -263,26 +263,24 @@ export default function (state) {
     state.targetUid.value = getTargetUid(val)
   })
 
-  let focusFn
+  function focusHandler () {
+    const el = document.activeElement
+    let target = state.targetRef !== void 0 && state.targetRef.value
+
+    if (target && (el === null || el.id !== state.targetUid.value)) {
+      target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
+      if (target && target !== el) {
+        target.focus()
+      }
+    }
+  }
 
   function focus () {
-    focusFn !== void 0 && removeFocusFn(focusFn)
-    focusFn = addFocusFn(() => {
-      focusFn = void 0
-      const el = document.activeElement
-      let target = state.targetRef !== void 0 && state.targetRef.value
-
-      if (target && (el === null || el.id !== state.targetUid.value)) {
-        target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
-        if (target && target !== el) {
-          target.focus()
-        }
-      }
-    })
+    addFocusFn(focusHandler)
   }
 
   function blur () {
-    focusFn !== void 0 && removeFocusFn(focusFn)
+    removeFocusFn(focusHandler)
     const el = document.activeElement
     if (el !== null && state.rootRef.value.contains(el)) {
       el.blur()
@@ -348,7 +346,7 @@ export default function (state) {
     nextTick(() => {
       resetValidation()
 
-      if (props.lazyRules !== 'ondemand' && $q.platform.is.mobile !== true) {
+      if ($q.platform.is.mobile !== true) {
         isDirtyModel.value = false
       }
     })
@@ -473,9 +471,9 @@ export default function (state) {
     let msg, key
 
     if (hasError.value === true) {
-      if (computedErrorMessage.value !== null) {
-        msg = [ h('div', { role: 'alert' }, computedErrorMessage.value) ]
-        key = `q--slot-error-${ computedErrorMessage.value }`
+      if (errorMessage.value !== null) {
+        msg = [ h('div', { role: 'alert' }, errorMessage.value) ]
+        key = `q--slot-error-${ errorMessage.value }`
       }
       else {
         msg = hSlot(slots.error)

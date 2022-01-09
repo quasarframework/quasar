@@ -13,10 +13,10 @@ const camelRE = /(-\w)/g
 
 function camelizeProps (props) {
   const acc = {}
-  Object.keys(props).forEach(key => {
+  for (const key in props) {
     const newKey = key.replace(camelRE, m => m[ 1 ].toUpperCase())
     acc[ newKey ] = props[ key ]
-  })
+  }
   return acc
 }
 
@@ -68,7 +68,6 @@ export default createComponent({
       `q-stepper q-stepper--${ props.vertical === true ? 'vertical' : 'horizontal' }`
       + (props.flat === true || isDark.value === true ? ' q-stepper--flat no-shadow' : '')
       + (props.bordered === true || (isDark.value === true && props.flat === false) ? ' q-stepper--bordered' : '')
-      + (props.contracted === true ? ' q-stepper--contracted' : '')
       + (isDark.value === true ? ' q-stepper--dark q-dark' : '')
     )
 
@@ -76,6 +75,7 @@ export default createComponent({
       'q-stepper__header row items-stretch justify-between'
       + ` q-stepper__header--${ props.alternativeLabels === true ? 'alternative' : 'standard' }-labels`
       + (props.flat === false || props.bordered === true ? ' q-stepper__header--border' : '')
+      + (props.contracted === true ? ' q-stepper__header--contracted' : '')
       + (props.headerClass !== void 0 ? ` ${ props.headerClass }` : '')
     )
 

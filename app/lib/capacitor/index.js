@@ -45,7 +45,7 @@ class CapacitorRunner {
 
     await this.__runCapacitorCommand(cfg.capacitor.capacitorCliPreparationParams)
 
-    this.capacitorConfig.prepareSSL(cfg.devServer.https, this.target)
+    this.capacitorConfig.prepareSSL(cfg.devServer.server.type === 'https', this.target)
 
     await openIde('capacitor', cfg.bin, this.target, true)
   }

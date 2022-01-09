@@ -3,8 +3,10 @@
 
   "props": {
     "model-value": {
+      "extends": "model-value",
       "desc": "Controls state of fab actions (showing/hidden); Works best with v-model directive, otherwise use along listening to 'update:modelValue' event",
-      "category": "model"
+      "category": "model",
+      "required": false
     },
 
     "icon": {
@@ -52,6 +54,39 @@
 
     "tooltip": {
       "desc": "Slot specifically designed for a QTooltip"
+    },
+
+    "icon": {
+      "desc": "Slot for icon shown when FAB is closed; Suggestion: QIcon",
+      "scope": {
+        "opened": {
+          "type": "Boolean",
+          "desc": "FAB is opened"
+        }
+      },
+      "addedIn": "v2.4"
+    },
+
+    "active-icon": {
+      "desc": "Slot for icon shown when FAB is opened; Suggestion: QIcon",
+      "scope": {
+        "opened": {
+          "type": "Boolean",
+          "desc": "FAB is opened"
+        }
+      },
+      "addedIn": "v2.4"
+    },
+
+    "label": {
+      "desc": "Slot for label",
+      "scope": {
+        "opened": {
+          "type": "Boolean",
+          "desc": "FAB is opened"
+        }
+      },
+      "addedIn": "v2.4"
     }
   },
 

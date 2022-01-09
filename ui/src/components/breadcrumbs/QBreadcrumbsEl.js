@@ -22,12 +22,17 @@ export default createComponent({
   },
 
   setup (props, { slots }) {
-    const { linkTag, linkProps, hasLink, navigateToLink } = useRouterLink()
+    const { linkTag, linkProps, hasRouterLink, navigateToRouterLink } = useRouterLink()
 
     const data = computed(() => {
-      const acc = { ...linkProps.value }
-      if (hasLink.value === true) {
-        acc.onClick = navigateToLink
+      const acc = {
+        class: 'q-breadcrumbs__el q-link '
+          + 'flex inline items-center relative-position '
+          + (props.disable !== true ? 'q-link--focusable' : 'q-breadcrumbs__el--disable'),
+        ...linkProps.value
+      }
+      if (hasRouterLink.value === true) {
+        acc.onClick = navigateToRouterLink
       }
       return acc
     })
@@ -49,10 +54,11 @@ export default createComponent({
 
       props.label !== void 0 && child.push(props.label)
 
-      return h(linkTag.value, {
-        class: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
-        ...data.value
-      }, hMergeSlot(slots.default, child))
+      return h(
+        linkTag.value,
+        { ...data.value },
+        hMergeSlot(slots.default, child)
+      )
     }
   }
 })

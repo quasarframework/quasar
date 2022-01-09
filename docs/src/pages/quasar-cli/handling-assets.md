@@ -20,7 +20,7 @@ Relative URLs, e.g. `./assets/logo.png` will be interpreted as a module dependen
 URLs prefixed with `~` are treated as a module request, similar to `require('some-module/image.png')`. You need to use this prefix if you want to leverage Webpack's module resolving configurations. Quasar provides `assets` Webpack alias out of the box, so it is recommended that you use it like this: `<img src="~assets/logo.png">`. Notice `~` in front of 'assets'.
 
 ## Static Assets - /public
-Root-relative URLs (e.g. `/logo.png` -- where '/' is your publicPath) or `logo.png` are not processed at all. This should be placed in `public/`. These won't be processed by Webpack at all. The statics folder is simply copied over to the distributable folder as-is.
+Root-relative URLs (e.g. `/logo.png` -- where '/' is your publicPath) or `logo.png` are not processed at all. This should be placed in `public/`. These won't be processed by Webpack at all. The content of the public folder is simply copied over to the distributable folder as-is.
 
 Quasar has some smart algorithms behind the curtains which ensure that no matter what you build (SPA, PWA, Cordova, Electron), your statics are correctly referenced *if and only if* they do not use a relative path.
 
@@ -46,7 +46,7 @@ When not building a SPA/PWA/SSR, then `/public/icons/*` and `/public/favicon.ico
 :::
 
 ## Vue Binding Requires Statics Only
-Please note that whenever you bind "src" to a variable in your Vue scope, it must be one from the statics folder. The reason is simple: the URL is dynamic, so Webpack (which packs up assets at compile time) doesn't know which file you'll be referencing at runtime, so it won't process the URL.
+Please note that whenever you bind "src" to a variable in your Vue scope, it must be one from the public folder. The reason is simple: the URL is dynamic, so Webpack (which packs up assets at compile time) doesn't know which file you'll be referencing at runtime, so it won't process the URL.
 
 ```html
 <template>

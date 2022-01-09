@@ -7,7 +7,6 @@ q-page.flex.flex-center(padding)
     push
     color="white"
     text-color="brand-primary"
-    type="a"
     :href="sourceLink"
     target="_blank"
     rel="noopener"

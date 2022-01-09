@@ -114,9 +114,9 @@
         },
 
         "ref": {
-          "type": "Object",
-          "desc": "Reference to the QFile component",
-          "__exemption": [ "examples" ]
+          "type": "Component",
+          "tsType": "QFile",
+          "desc": "Reference to the QFile component"
         }
       }
     },
@@ -131,9 +131,9 @@
         },
 
         "ref": {
-          "type": "Object",
-          "desc": "Reference to the QFile component",
-          "__exemption": [ "examples" ]
+          "type": "Component",
+          "tsType": "QFile",
+          "desc": "Reference to the QFile component"
         }
       }
     }

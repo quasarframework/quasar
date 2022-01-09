@@ -92,7 +92,7 @@ export default createComponent({
     const selfOrigin = computed(() => parsePosition(props.self, $q.lang.rtl))
     const hideOnRouteChange = computed(() => props.persistent !== true)
 
-    const { registerTick, removeTick, prepareTick } = useTick()
+    const { registerTick, removeTick } = useTick()
     const { registerTimeout, removeTimeout } = useTimeout()
     const { transition, transitionStyle } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
@@ -158,7 +158,6 @@ export default createComponent({
         updatePosition()
         configureScrollTarget()
       })
-      prepareTick()
 
       if (unwatchPosition === void 0) {
         unwatchPosition = watch(

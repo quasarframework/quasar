@@ -133,14 +133,12 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
 
     let app = createChildApp({
       name: 'QGlobalDialog',
-      setup () {
-        return () => h(DialogComponent, {
-          ref: dialogRef,
-          ...props,
-          onOk,
-          onHide
-        })
-      }
+      setup: () => () => h(DialogComponent, {
+        ...props,
+        ref: dialogRef,
+        onOk,
+        onHide
+      })
     }, parentApp)
 
     vm = app.mount(el)
@@ -149,13 +147,13 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
       applyState('show')
     }
 
-    if (dialogRef.value !== null) {
-      show()
-    }
-    else if (typeof DialogComponent.__asyncLoader === 'function') {
+    if (typeof DialogComponent.__asyncLoader === 'function') {
       DialogComponent.__asyncLoader().then(() => {
         nextTick(show)
       })
+    }
+    else {
+      nextTick(show)
     }
 
     return API

@@ -60,14 +60,12 @@ export default createComponent({
         containerHeight = height(localScrollTarget)
 
       if (props.reverse === false) {
-        if (scrollPosition + containerHeight + props.offset >= scrollHeight) {
+        if (Math.round(scrollPosition + containerHeight + props.offset) >= Math.round(scrollHeight)) {
           trigger()
         }
       }
-      else {
-        if (scrollPosition < props.offset) {
-          trigger()
-        }
+      else if (Math.round(scrollPosition) <= props.offset) {
+        trigger()
       }
     }
 
@@ -123,6 +121,7 @@ export default createComponent({
         isWorking.value = false
         isFetching.value = false
         localScrollTarget.removeEventListener('scroll', poll, passive)
+        poll !== void 0 && poll.cancel()
       }
     }
 

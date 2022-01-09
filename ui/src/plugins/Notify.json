@@ -45,9 +45,9 @@
 
       "avatar": {
         "type": "String",
-        "desc": "URL to an avatar/image; Suggestion: use statics folder",
+        "desc": "URL to an avatar/image; Suggestion: use public folder",
         "examples": [
-          "(statics folder) statics/img/something.png",
+          "(public folder) img/something.png",
           "(relative path format) require('./my_img.jpg')",
           "(URL) https://some-site.net/some-img.gif"
         ]
@@ -204,9 +204,9 @@
 
             "avatar": {
               "type": "String",
-              "desc": "URL to an avatar/image; Suggestion: use statics folder",
+              "desc": "URL to an avatar/image; Suggestion: public folder",
               "examples": [
-                "(statics folder) statics/img/something.png",
+                "(public folder) img/something.png",
                 "(relative path format) require('./my_img.jpg')",
                 "(URL) https://some-site.net/some-img.gif"
               ]
@@ -258,7 +258,7 @@
               "desc": "Style definitions to be attributed to the badge",
               "examples": [
                 "background-color: #ff0000",
-                ":content-style=\"{ backgroundColor: '#ff0000' }\""
+                "{ backgroundColor: '#ff0000' }"
               ]
             },
             "badgeClass": {
@@ -266,7 +266,7 @@
               "desc": "Class definitions to be attributed to the badge",
               "examples": [
                 "my-special-class",
-                ":content-class=\"{ 'my-special-class': <condition> }\""
+                "{ 'my-special-class': <condition> }"
               ]
             },
 
@@ -279,7 +279,7 @@
               "desc": "Class definitions to be attributed to the progress bar",
               "examples": [
                 "my-special-class",
-                ":content-class=\"{ 'my-special-class': <condition> }\""
+                "{ 'my-special-class': <condition> }"
               ]
             },
 
@@ -387,9 +387,9 @@
 
               "avatar": {
                 "type": "String",
-                "desc": "URL to an avatar/image; Suggestion: use statics folder",
+                "desc": "URL to an avatar/image; Suggestion: use public folder",
                 "examples": [
-                  "(statics folder) statics/img/something.png",
+                  "(public folder) img/something.png",
                   "(relative path format) require('./my_img.jpg')",
                   "(URL) https://some-site.net/some-img.gif"
                 ]
@@ -410,7 +410,7 @@
                 "desc": "Class definitions to be attributed to the progress bar",
                 "examples": [
                   "my-special-class",
-                  ":content-class=\"{ 'my-special-class': <condition> }\""
+                  "{ 'my-special-class': <condition> }"
                 ]
               },
 
@@ -521,13 +521,13 @@
 
             "avatar": {
               "type": "String",
-              "desc": "URL to an avatar/image; Suggestion: use statics folder",
+              "desc": "URL to an avatar/image; Suggestion: use public folder",
               "examples": [
-                "(statics folder) statics/img/something.png",
+                "(public folder) img/something.png",
                 "(relative path format) require('./my_img.jpg')",
                 "(URL) https://some-site.net/some-img.gif"
               ]
-            },
+          },
 
             "spinner": {
               "type": [ "Boolean", "Component" ],
@@ -570,7 +570,7 @@
               "desc": "Style definitions to be attributed to the badge",
               "examples": [
                 "background-color: #ff0000",
-                ":content-style=\"{ backgroundColor: '#ff0000' }\""
+                "{ backgroundColor: '#ff0000' }"
               ]
             },
             "badgeClass": {
@@ -578,7 +578,7 @@
               "desc": "Class definitions to be attributed to the badge",
               "examples": [
                 "my-special-class",
-                ":content-class=\"{ 'my-special-class': <condition> }\""
+                "{ 'my-special-class': <condition> }"
               ]
             },
 
@@ -591,7 +591,7 @@
               "desc": "Class definitions to be attributed to the progress bar",
               "examples": [
                 "my-special-class",
-                ":content-class=\"{ 'my-special-class': <condition> }\""
+                "{ 'my-special-class': <condition> }"
               ]
             },
 
@@ -701,13 +701,13 @@
 
             "avatar": {
               "type": "String",
-              "desc": "URL to an avatar/image; Suggestion: use statics folder",
+              "desc": "URL to an avatar/image; Suggestion: use public folder",
               "examples": [
-                "(statics folder) statics/img/something.png",
+                "(public folder) img/something.png",
                 "(relative path format) require('./my_img.jpg')",
                 "(URL) https://some-site.net/some-img.gif"
               ]
-            },
+          },
 
             "spinner": {
               "type": [ "Boolean", "Component" ],
@@ -750,7 +750,7 @@
               "desc": "Style definitions to be attributed to the badge",
               "examples": [
                 "background-color: #ff0000",
-                ":content-style=\"{ backgroundColor: '#ff0000' }\""
+                "{ backgroundColor: '#ff0000' }"
               ]
             },
             "badgeClass": {
@@ -758,7 +758,7 @@
               "desc": "Class definitions to be attributed to the badge",
               "examples": [
                 "my-special-class",
-                ":content-class=\"{ 'my-special-class': <condition> }\""
+                "{ 'my-special-class': <condition> }"
               ]
             },
 
@@ -771,7 +771,7 @@
               "desc": "Class definitions to be attributed to the progress bar",
               "examples": [
                 "my-special-class",
-                ":content-class=\"{ 'my-special-class': <condition> }\""
+                "{ 'my-special-class': <condition> }"
               ]
             },
 

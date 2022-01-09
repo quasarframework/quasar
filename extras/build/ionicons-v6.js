@@ -1,11 +1,14 @@
 const packageName = 'ionicons'
+const distName = 'ionicons-v6'
 const iconSetName = 'Ionicons'
+const prefix = 'ion'
 
 // ------------
 
 const glob = require('glob')
 const { copySync } = require('fs-extra')
-const { resolve } = require('path')
+const { writeFileSync } = require('fs')
+const { resolve, join } = require('path')
 
 let skipped = []
 const distFolder = resolve(__dirname, `../ionicons-v6`)
@@ -19,7 +22,7 @@ const svgExports = []
 const typeExports = []
 
 svgFiles.forEach(file => {
-  const name = defaultNameMapper(file, 'ion')
+  const name = defaultNameMapper(file, prefix)
 
   if (iconNames.has(name)) {
     return
@@ -44,3 +47,9 @@ copySync(
   resolve(__dirname, `../node_modules/${packageName}/LICENSE`),
   resolve(__dirname, `../ionicons-v6/LICENSE`)
 )
+
+// write the JSON file
+const file = resolve(__dirname, join('..', distName, 'icons.json'))
+writeFileSync(file, JSON.stringify([...iconNames], null, 2), 'utf-8')
+
+console.log(`${distName} done with ${iconNames.size} icons`)

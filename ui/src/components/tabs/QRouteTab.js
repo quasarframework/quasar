@@ -10,8 +10,7 @@ export default createComponent({
 
   props: {
     ...useRouterLinkProps,
-    ...useTabProps,
-    to: { required: true }
+    ...useTabProps
   },
 
   emits: useTabEmits,

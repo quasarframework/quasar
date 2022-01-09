@@ -206,12 +206,12 @@ function getChange (date, mod, sign) {
       ? applyYearMonthDayChange(d, mod, sign)
       : d
 
-  Object.keys(mod).forEach(key => {
+  for (const key in mod) {
     if (key !== 'years' && key !== 'months' && key !== 'days') {
       const op = capitalize(key)
       t[ `set${ op }` ](t[ `get${ op }` ]() + sign * mod[ key ])
     }
-  })
+  }
 
   return t
 }
@@ -241,12 +241,12 @@ export function adjustDate (date, mod, utc) {
       ? applyYearMonthDay(d, mod, middle)
       : d
 
-  Object.keys(mod).forEach(key => {
+  for (const key in mod) {
     if (key !== 'year' && key !== 'month' && key !== 'date') {
       const op = key.charAt(0).toUpperCase() + key.slice(1)
       t[ `set${ middle }${ op }` ](mod[ key ])
     }
-  })
+  }
 
   return t
 }

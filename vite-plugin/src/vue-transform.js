@@ -3,7 +3,7 @@ import importTransformation from 'quasar/dist/transforms/import-transformation.j
 
 import { importQuasarRegex } from './js-transform.js'
 
-export const vueTransformRegex = /\.vue$/
+export const vueTransformRegex = /\.vue(\?vue&type=template&lang.js)?$/
 
 const compRegex = {
   'kebab': new RegExp(`_resolveComponent\\("${autoImportData.regex.kebabComponents}"\\)`, 'g'),
@@ -35,7 +35,7 @@ export function vueTransform (content, autoImportComponentCase) {
             : importName
 
           importMap[importName] = importAs
-          return `import ${importAs} from '${importTransformation(importName)}'\n`
+          return `import ${importAs} from '${importTransformation(importName)}';`
         })
         .join('')
     )
@@ -90,7 +90,7 @@ export function vueTransform (content, autoImportComponentCase) {
 
   const codePrefix = importList
     .map(name => `import ${name} from '${importTransformation(name)}'`)
-    .join(`\n`)
+    .join(`;`)
 
-  return codePrefix + '\n' + code
+  return codePrefix + ';' + code
 }

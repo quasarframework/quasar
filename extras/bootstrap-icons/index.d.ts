@@ -1,4 +1,4 @@
-/* Bootstrap v1.7.1 */
+/* Bootstrap v1.7.2 */
 
 export declare const bi123: string;
 export declare const biActivity: string;
@@ -1400,8 +1400,8 @@ export declare const biThunderbolt: string;
 export declare const biTicketDetailedFill: string;
 export declare const biTicketDetailed: string;
 export declare const biTicketFill: string;
-export declare const biTicketPerferatedFill: string;
-export declare const biTicketPerferated: string;
+export declare const biTicketPerforatedFill: string;
+export declare const biTicketPerforated: string;
 export declare const biTicket: string;
 export declare const biTiktok: string;
 export declare const biToggleOff: string;

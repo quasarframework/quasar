@@ -49,10 +49,18 @@ export default [
 
       {
         name: 'Paolo Caleffi',
-        role: 'Senior developer',
+        role: 'Senior Developer',
         avatar: 'paolo_caleffi.jpg',
         github: 'IlCallo',
         desc: 'Typescript support'
+      },
+
+      {
+        name: 'Yusuf Kandemir',
+        role: 'Senior Developer',
+        avatar: 'yusuf_kandemir.jpg',
+        github: 'yusufkandemir',
+        desc: 'Wizard developer on multiple areas of Quasar'
       },
 
       {

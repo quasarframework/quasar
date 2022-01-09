@@ -8,7 +8,7 @@
     >
       <q-editor
         ref="editorRef"
-        @paste="evt => pasteCapture(evt)"
+        @paste="onPaste"
         v-model="editor"
       />
     </form>
@@ -32,18 +32,14 @@ export default {
 
       /**
        * Capture the <CTL-V> paste event, only allow plain-text, no images.
-       *
-       * see: https://stackoverflow.com/a/28213320
-       *
-       * @param {object} evt - array of files
-       * @author Daniel Thompson-Yvetot
-       * @license MIT
+       * See: https://stackoverflow.com/a/28213320
        */
-      pasteCapture (evt) {
+      onPaste (evt) {
         // Let inputs do their thing, so we don't break pasting of links.
         if (evt.target.nodeName === 'INPUT') return
         let text, onPasteStripFormattingIEPaste
         evt.preventDefault()
+        evt.stopPropagation()
         if (evt.originalEvent && evt.originalEvent.clipboardData.getData) {
           text = evt.originalEvent.clipboardData.getData('text/plain')
           editorRef.value.runCmd('insertText', text)

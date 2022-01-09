@@ -6,6 +6,8 @@ import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 import { getNormalizedVNodes } from '../../utils/private/vm.js'
 
+const disabledValues = [ void 0, true ]
+
 export default createComponent({
   name: 'QBreadcrumbs',
 
@@ -59,12 +61,15 @@ export default createComponent({
       vnodes.forEach(comp => {
         if (comp.type !== void 0 && comp.type.name === 'QBreadcrumbsEl') {
           const middle = els < len
+          const disabled = comp.props !== null && disabledValues.includes(comp.props.disable)
+          const cls = (middle === true ? ' q-breadcrumbs--last' : '')
+            + (disabled !== true && middle === true ? ' ' + activeClass.value : '')
+
           els++
 
           child.push(
             h('div', {
-              class: 'flex items-center '
-                + (middle === true ? activeClass.value : 'q-breadcrumbs--last')
+              class: `flex items-center${ cls }`
             }, [ comp ])
           )
 

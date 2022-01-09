@@ -11,7 +11,7 @@
             :model-value="scope.value"
             hint="Your nickname"
             :rules="[
-              val => scope.validate(scope.value) || 'More than 5 chars required'
+              val => scope.validate(val) || 'More than 5 chars required'
             ]"
           >
             <template v-slot:after>

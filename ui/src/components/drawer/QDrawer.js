@@ -330,6 +330,13 @@ export default createComponent({
       ] ]
     })
 
+    function updateBelowBreakpoint () {
+      updateLocal(belowBreakpoint, (
+        props.behavior === 'mobile'
+        || (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
+      ))
+    }
+
     watch(belowBreakpoint, val => {
       if (val === true) { // from lg to xs
         lastDesktopState = showing.value
@@ -351,13 +358,6 @@ export default createComponent({
       }
     })
 
-    watch($layout.totalWidth, val => {
-      updateLocal(belowBreakpoint, (
-        props.behavior === 'mobile'
-        || (props.behavior !== 'desktop' && val <= props.breakpoint)
-      ))
-    })
-
     watch(() => props.side, (newSide, oldSide) => {
       if ($layout.instances[ oldSide ] === instance) {
         $layout.instances[ oldSide ] = void 0
@@ -371,10 +371,20 @@ export default createComponent({
       $layout[ newSide ].offset = offset.value
     })
 
-    watch(() => props.behavior + props.breakpoint, updateBelowBreakpoint)
+    watch($layout.totalWidth, () => {
+      if ($layout.isContainer.value === true || document.qScrollPrevented !== true) {
+        updateBelowBreakpoint()
+      }
+    })
+
+    watch(
+      () => props.behavior + props.breakpoint,
+      updateBelowBreakpoint
+    )
 
     watch($layout.isContainer, val => {
       showing.value === true && preventBodyScroll(val !== true)
+      val === true && updateBelowBreakpoint()
     })
 
     watch($layout.scrollbarWidth, () => {
@@ -428,13 +438,6 @@ export default createComponent({
 
         flagContentPosition.value = position
       }
-    }
-
-    function updateBelowBreakpoint () {
-      updateLocal(belowBreakpoint, (
-        props.behavior === 'mobile'
-        || (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
-      ))
     }
 
     function applyBackdrop (x) {

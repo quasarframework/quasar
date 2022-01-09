@@ -1,6 +1,6 @@
 <template lang="pug">
-.quasar-sponsor(@click.native="openWebsite" :style="style")
-  q-img(:alt="name" height="100%" fit="contain" :src="`https://cdn.quasar.dev/sponsors/${img}`")
+.quasar-sponsor(@click="openWebsite" :style="style")
+  q-img(:alt="name" height="100%" fit="contain" :src="logoUrl")
 </template>
 
 <script>
@@ -21,6 +21,8 @@ export default {
       style: computed(() => ({
         cursor: props.url ? 'pointer' : 'default'
       })),
+
+      logoUrl: computed(() => `https://cdn.quasar.dev/sponsors/${props.img}`),
 
       openWebsite () {
         props.url && openURL(props.url)

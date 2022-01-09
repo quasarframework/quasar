@@ -15,8 +15,8 @@ const scrollToEdges = [
   'end-force'
 ]
 
-const slice = Array.prototype.slice
 let id = 1
+const filterProto = Array.prototype.filter
 
 const setOverflowAnchor = __QUASAR_SSR__ || window.getComputedStyle(document.body).overflowAnchor === void 0
   ? noop
@@ -66,7 +66,7 @@ function getScrollDetails (
   if (horizontal === true) {
     if (parent === window) {
       details.scrollStart = window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
-      details.scrollViewSize += window.innerWidth
+      details.scrollViewSize += document.documentElement.clientWidth
     }
     else {
       details.scrollStart = parentCalc.scrollLeft
@@ -81,7 +81,7 @@ function getScrollDetails (
   else {
     if (parent === window) {
       details.scrollStart = window.pageYOffset || window.scrollY || document.body.scrollTop || 0
-      details.scrollViewSize += window.innerHeight
+      details.scrollViewSize += document.documentElement.clientHeight
     }
     else {
       details.scrollStart = parentCalc.scrollTop
@@ -130,10 +130,16 @@ function getScrollDetails (
 }
 
 function setScroll (parent, scroll, horizontal, rtl) {
+  if (scroll === 'end') {
+    scroll = (parent === window ? document.body : parent)[
+      horizontal === true ? 'scrollWidth' : 'scrollHeight'
+    ]
+  }
+
   if (parent === window) {
     if (horizontal === true) {
       if (rtl === true) {
-        scroll = (rtlHasScrollBug === true ? document.body.scrollWidth - window.innerWidth : 0) - scroll
+        scroll = (rtlHasScrollBug === true ? document.body.scrollWidth - document.documentElement.clientWidth : 0) - scroll
       }
       window.scrollTo(scroll, window.pageYOffset || window.scrollY || document.body.scrollTop || 0)
     }
@@ -398,20 +404,17 @@ export function useVirtualScroll ({
     }
 
     const { activeElement } = document
+    const contentEl = contentRef.value
     if (
       rangeChanged === true
-      && contentRef.value !== null
-      && contentRef.value !== activeElement
-      && contentRef.value.contains(activeElement) === true
+      && contentEl !== null
+      && contentEl !== activeElement
+      && contentEl.contains(activeElement) === true
     ) {
-      const onBlurFn = () => {
-        contentRef.value.focus()
-      }
+      contentEl.addEventListener('focusout', onBlurRefocusFn)
 
-      activeElement.addEventListener('blur', onBlurFn, true)
-
-      requestAnimationFrame(() => {
-        activeElement.removeEventListener('blur', onBlurFn, true)
+      setTimeout(() => {
+        contentEl !== void 0 && contentEl.removeEventListener('focusout', onBlurRefocusFn)
       })
     }
 
@@ -489,8 +492,10 @@ export function useVirtualScroll ({
 
     if (contentEl) {
       const
-        children = slice.call(contentEl.children)
-          .filter(el => el.classList.contains('q-virtual-scroll--skip') === false),
+        children = filterProto.call(
+          contentEl.children,
+          el => el.classList && el.classList.contains('q-virtual-scroll--skip') === false
+        ),
         childrenLength = children.length,
         sizeFn = props.virtualScrollHorizontal === true
           ? el => el.getBoundingClientRect().width
@@ -519,6 +524,10 @@ export function useVirtualScroll ({
         index++
       }
     }
+  }
+
+  function onBlurRefocusFn () {
+    contentRef.value !== void 0 && contentRef.value.focus()
   }
 
   function localResetVirtualScroll (toIndex, fullReset) {
@@ -673,7 +682,10 @@ export function useVirtualScroll ({
   }
 
   setVirtualScrollSize()
-  const onVirtualScrollEvt = debounce(localOnVirtualScrollEvt, $q.platform.is.ios === true ? 120 : 35)
+  const onVirtualScrollEvt = debounce(
+    localOnVirtualScrollEvt,
+    $q.platform.is.ios === true ? 120 : 35
+  )
 
   onBeforeMount(() => {
     setVirtualScrollSize()
@@ -698,6 +710,7 @@ export function useVirtualScroll ({
   setOverflowAnchor !== noop && onBeforeUnmount(() => {
     const styleSheet = document.getElementById(vsId + '_ss')
     styleSheet !== null && styleSheet.remove()
+    onVirtualScrollEvt.cancel()
   })
 
   // expose public methods

@@ -13,7 +13,7 @@
     },
 
     "val": {
-      "type": [ "Number", "String" ],
+      "type": [ "Number", "String", "null", "undefined" ],
       "required": true,
       "desc": "The actual value of the option with which model value is changed",
       "examples": [ "opt1", 50 ],

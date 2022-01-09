@@ -94,7 +94,7 @@ export default createComponent({
 
     const { preventBodyScroll } = usePreventScroll()
     const { registerTimeout, removeTimeout } = useTimeout()
-    const { registerTick, removeTick, prepareTick } = useTick()
+    const { registerTick, removeTick } = useTick()
 
     const { showPortal, hidePortal, portalIsActive, renderPortal } = usePortal(
       vm, innerRef, renderPortalContent, /* pls do check if on a global dialog */ true
@@ -193,7 +193,6 @@ export default createComponent({
       if (props.noFocus !== true) {
         document.activeElement !== null && document.activeElement.blur()
         registerTick(focus)
-        prepareTick()
       }
 
       registerTimeout(() => {
@@ -239,6 +238,7 @@ export default createComponent({
 
       if (refocusTarget !== null) {
         refocusTarget.focus()
+        refocusTarget = null
       }
 
       registerTimeout(() => {
@@ -306,6 +306,10 @@ export default createComponent({
           removeEscapeKey(onEscapeKey)
         }
       }
+
+      if (hiding !== true) {
+        refocusTarget = null
+      }
     }
 
     function updateMaximized (active) {
@@ -364,9 +368,7 @@ export default createComponent({
       }
     })
 
-    onBeforeUnmount(() => {
-      cleanup()
-    })
+    onBeforeUnmount(cleanup)
 
     function renderPortalContent () {
       return h('div', {

@@ -39,20 +39,18 @@ $flex-gutter: ('none': 0, 'xs': $flex-gutter-xs, 'sm': $flex-gutter-sm, 'md': $f
 // sorry for long line; we need .sass and it doesn't support multi-line list
 $sizes: ('xs': 0, 'sm': ($breakpoint-xs + 1), 'md': ($breakpoint-sm + 1), 'lg': ($breakpoint-md + 1), 'xl': ($breakpoint-lg + 1)) !default
 
-$breakpoint-xs-min: 0 !default
-$breakpoint-xs-max: $breakpoint-xs !default
+$breakpoint-xs-max: (map-get($sizes, "sm") - 0.02) !default
 
 $breakpoint-sm-min: map-get($sizes, "sm") !default
-$breakpoint-sm-max: $breakpoint-sm !default
+$breakpoint-sm-max: (map-get($sizes, "md") - 0.02) !default
 
 $breakpoint-md-min: map-get($sizes, "md") !default
-$breakpoint-md-max: $breakpoint-md !default
+$breakpoint-md-max: (map-get($sizes, "lg") - 0.02) !default
 
 $breakpoint-lg-min: map-get($sizes, "lg") !default
-$breakpoint-lg-max: $breakpoint-lg !default
+$breakpoint-lg-max: (map-get($sizes, "xl") - 0.02) !default
 
 $breakpoint-xl-min: map-get($sizes, "xl") !default
-$breakpoint-xl-max: 9999px !default
 
 $h1:        (size: 6rem,     line-height: 6rem,     letter-spacing: -.01562em, weight: 300) !default
 $h2:        (size: 3.75rem,  line-height: 3.75rem,  letter-spacing: -.00833em, weight: 300) !default

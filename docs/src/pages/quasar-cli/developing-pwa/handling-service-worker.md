@@ -63,14 +63,17 @@ When you set `devServer > https: true` in your quasar.conf.js file, Quasar will 
 // quasar.conf.js
 
 devServer: {
-  https: {
-    // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
+  server: {
+    type: 'https', // NECESSARY
 
-    cacert: '/path/to/ca.pem',
-    pfx: '/path/to/server.pfx',
-    key: '/path/to/server.key',
-    cert: '/path/to/server.crt',
-    passphrase: 'webpack-dev-server' // do you need it?
+    options: {
+      // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
+      key: "/path/to/server.key",
+      pfx: "/path/to/server.pfx",
+      cert: "/path/to/server.crt",
+      ca: "/path/to/ca.pem",
+      passphrase: 'webpack-dev-server' // do you need it?
+    }
   }
 }
 ```

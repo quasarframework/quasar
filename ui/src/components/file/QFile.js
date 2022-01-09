@@ -9,6 +9,7 @@ import useFileFormDomProps from '../../composables/private/use-file-dom-props.js
 
 import { createComponent } from '../../utils/private/create.js'
 import { humanStorageSize } from '../../utils/format.js'
+import { prevent } from '../../utils/event.js'
 
 export default createComponent({
   name: 'QFile',
@@ -122,9 +123,16 @@ export default createComponent({
       emit('update:modelValue', props.multiple === true ? files : files[ 0 ])
     }
 
+    function onKeydown (e) {
+      // prevent form submit if ENTER is pressed
+      e.keyCode === 13 && prevent(e)
+    }
+
     function onKeyup (e) {
-      // only on ENTER
-      e.keyCode === 13 && pickFiles(e)
+      // only on ENTER and SPACE to match native input field
+      if (e.keyCode === 13 || e.keyCode === 32) {
+        pickFiles(e)
+      }
     }
 
     function getFileInput () {
@@ -158,8 +166,7 @@ export default createComponent({
       return [
         h('input', {
           class: [ props.inputClass, 'q-file__filler' ],
-          style: props.inputStyle,
-          tabindex: -1
+          style: props.inputStyle
         })
       ]
     }
@@ -256,7 +263,7 @@ export default createComponent({
         }
 
         if (state.editable.value === true) {
-          Object.assign(data, { onDragover, onKeyup })
+          Object.assign(data, { onDragover, onKeydown, onKeyup })
         }
 
         return h('div', data, [ getInput() ].concat(getSelection()))

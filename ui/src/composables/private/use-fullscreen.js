@@ -3,6 +3,8 @@ import { ref, watch, onBeforeMount, onMounted, onBeforeUnmount, getCurrentInstan
 import History from '../../history.js'
 import { vmHasRouter } from '../../utils/private/vm.js'
 
+let counter = 0
+
 export const useFullscreenProps = {
   fullscreen: Boolean,
   noRouteFullscreenExit: Boolean
@@ -50,7 +52,11 @@ export default function () {
     container = proxy.$el.parentNode
     container.replaceChild(fullscreenFillerNode, proxy.$el)
     document.body.appendChild(proxy.$el)
-    document.body.classList.add('q-body--fullscreen-mixin')
+
+    counter++
+    if (counter === 1) {
+      document.body.classList.add('q-body--fullscreen-mixin')
+    }
 
     historyEntry = {
       handler: exitFullscreen
@@ -69,11 +75,16 @@ export default function () {
     }
 
     container.replaceChild(proxy.$el, fullscreenFillerNode)
-    document.body.classList.remove('q-body--fullscreen-mixin')
     inFullscreen.value = false
 
-    if (proxy.$el.scrollIntoView !== void 0) {
-      setTimeout(() => { proxy.$el.scrollIntoView() })
+    counter = Math.max(0, counter - 1)
+
+    if (counter === 0) {
+      document.body.classList.remove('q-body--fullscreen-mixin')
+
+      if (proxy.$el.scrollIntoView !== void 0) {
+        setTimeout(() => { proxy.$el.scrollIntoView() })
+      }
     }
   }
 

@@ -1,6 +1,6 @@
 import { h, computed, getCurrentInstance } from 'vue'
 
-import { stopAndPrevent } from '../../utils/event.js'
+import { stop, stopAndPrevent } from '../../utils/event.js'
 
 function filterFiles (files, rejectedFiles, failedPropValidation, filterFn) {
   const acceptedFiles = []
@@ -62,8 +62,18 @@ export default function ({
 
   function pickFiles (e) {
     if (editable.value) {
-      const input = getFileInput()
-      input && input.click(e)
+      if (e !== Object(e)) {
+        e = { target: null }
+      }
+
+      if (e.target !== null && e.target.matches('input[type="file"]') === true) {
+        // stop propagation if it's not a real pointer event
+        e.clientX === 0 && e.clientY === 0 && stop(e)
+      }
+      else {
+        const input = getFileInput()
+        input && input !== e.target && input.click(e)
+      }
     }
   }
 
@@ -112,10 +122,15 @@ export default function ({
       files = [ files[ 0 ] ]
     }
 
+    // Compute key to use for each file
+    files.forEach(file => {
+      file.__key = file.webkitRelativePath + file.lastModified + file.name + file.size
+    })
+
     // Avoid duplicate files
-    const filenameMap = currentFileList.map(entry => entry.name)
+    const filenameMap = currentFileList.map(entry => entry.__key)
     files = filterFiles(files, rejectedFiles, 'duplicate', file => {
-      return filenameMap.includes(file.name) === false
+      return filenameMap.includes(file.__key) === false
     })
 
     if (files.length === 0) { return done() }

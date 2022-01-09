@@ -60,8 +60,7 @@ export default createComponent({
 
       if (localScrollTarget === window) {
         containerTop = 0
-        containerHeight = window.innerHeight
-        containerBottom = containerHeight
+        containerBottom = containerHeight = window.innerHeight
       }
       else {
         containerTop = offset(localScrollTarget).top
@@ -103,6 +102,9 @@ export default createComponent({
         localScrollTarget.removeEventListener('scroll', updatePos, passive)
         window.removeEventListener('resize', resizeHandler, passive)
         localScrollTarget = void 0
+        setPos.cancel()
+        update.cancel()
+        resizeHandler.cancel()
       }
     }
 

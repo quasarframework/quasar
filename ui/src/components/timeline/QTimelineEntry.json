@@ -34,7 +34,7 @@
       "desc": "URL to the avatar image; Icon takes precedence if used, so it replaces avatar",
       "transformAssetUrls": true,
       "examples": [
-        "(statics folder) src=\"statics/img/my-bg.png\"",
+        "(public folder) src=\"img/my-bg.png\"",
         "(assets folder) src=\"~assets/my-img.png\"",
         "(relative path format) :src=\"require('./my_img.jpg')\"",
         "(URL) src=\"https://placeimg.com/500/300/nature\""

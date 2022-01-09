@@ -10,6 +10,7 @@
       "extends": "model-value",
       "type": "Boolean",
       "desc": "Controls Menu show/hidden state; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "required": false,
       "examples": [ "v-model=\"menuState\"" ]
     },
 

@@ -87,6 +87,30 @@
         text-align: center
         &:before, &:after
           display: none
+    &--contracted
+      min-height: 72px
+      &.q-stepper__header--alternative-labels
+        .q-stepper__tab
+          min-height: 72px
+          &:first-child
+            align-items: flex-start
+          &:last-child
+            align-items: flex-end
+      .q-stepper__tab
+        padding: 24px 0
+        &:first-child
+          .q-stepper__dot
+            transform: translateX(24px)
+        &:last-child
+          .q-stepper__dot
+            transform: translateX(-24px)
+      .q-stepper__tab:not(:last-child)
+        .q-stepper__dot:after
+          display: block !important
+      .q-stepper__dot
+        margin: 0
+      .q-stepper__label
+        display: none
 
   &__nav
     padding-top: 24px
@@ -182,29 +206,3 @@
           background: $separator-dark-color
         .q-stepper__label
           color: rgba(255,255,255,.54)
-
-  &--contracted
-    .q-stepper__header
-      min-height: 72px
-      &--alternative-labels
-        .q-stepper__tab
-          min-height: 72px
-          &:first-child
-            align-items: flex-start
-          &:last-child
-            align-items: flex-end
-      .q-stepper__tab
-        padding: 24px 0
-        &:first-child
-          .q-stepper__dot
-            transform: translateX(24px)
-        &:last-child
-          .q-stepper__dot
-            transform: translateX(-24px)
-    .q-stepper__tab:not(:last-child)
-      .q-stepper__dot:after
-        display: block !important
-    .q-stepper__dot
-      margin: 0
-    .q-stepper__label
-      display: none

@@ -48,7 +48,7 @@ const dontNarrowValues = [
 
 function convertTypeVal (type, def) {
   if (def.tsType !== void 0) {
-    return def.tsType
+    return `${ def.tsType }${ def.type === 'Array' ? '[]' : '' }`
   }
 
   if (def.values && type === 'String') {
@@ -95,43 +95,52 @@ function getTypeVal (def) {
 }
 
 function getPropDefinition ({ name, definition, docs = true, isMethodParam = false, isCompProps = false, escapeName = true }) {
-  const propName = escapeName ? toCamelCase(name) : name
+  let propName = escapeName ? toCamelCase(name) : name
 
   if (propName.startsWith('...')) {
-    return isMethodParam ? `${ propName }: any[]` : '[index: string]: any'
+    if (isMethodParam) {
+      // A rest parameter must be of an array type. e.g. '...params: any[]'
+      definition.type = 'Array'
+      // A rest parameter cannot be optional
+      definition.required = true
+    }
+    else {
+      propName = `[${ propName.replace('...', '') || 'key' }: string]`
+      // Optionality with index signature types works differently and use of '?:' is invalid and not required, so always mark it as required
+      definition.required = true
+    }
   }
-  else {
-    addToExtraInterfaces(definition)
 
-    let propType = getTypeVal(definition)
+  addToExtraInterfaces(definition)
 
-    if (isCompProps === true && name !== 'model-value' && !definition.required && propType.indexOf(' undefined') === -1) {
-      propType += ' | undefined;'
+  let propType = getTypeVal(definition)
+
+  if (isCompProps === true && name !== 'model-value' && !definition.required && propType.indexOf(' undefined') === -1) {
+    propType += ' | undefined;'
+  }
+
+  let jsDoc = ''
+
+  if (docs) {
+    jsDoc += `/**\n * ${ definition.desc }\n`
+
+    if (definition.default) {
+      jsDoc += ` * Default value: ${ definition.default }\n`
     }
 
-    let jsDoc = ''
-
-    if (docs) {
-      jsDoc += `/**\n * ${ definition.desc }\n`
-
-      if (definition.default) {
-        jsDoc += ` * Default value: ${ definition.default }\n`
-      }
-
-      for (const [ name, paramDef ] of Object.entries(definition.params || {})) {
-        jsDoc += ` * @param ${ name } ${ paramDef.desc || '' }\n`
-      }
-
-      const { returns } = definition
-      if (returns && returns.desc) {
-        jsDoc += ` * @returns ${ returns.desc }\n`
-      }
-
-      jsDoc += ' */\n'
+    for (const [ name, paramDef ] of Object.entries(definition.params || {})) {
+      jsDoc += ` * @param ${ name } ${ paramDef.desc || '' }\n`
     }
 
-    return `${ jsDoc }${ propName }${ !definition.required ? '?' : '' }: ${ propType }`
+    const { returns } = definition
+    if (returns && returns.desc) {
+      jsDoc += ` * @returns ${ returns.desc }\n`
+    }
+
+    jsDoc += ' */\n'
   }
+
+  return `${ jsDoc }${ propName }${ !definition.required ? '?' : '' }: ${ propType }`
 }
 
 function getPropDefinitions ({ definitions, docs = true, areMethodParams = false, isCompProps = false }) {
@@ -390,12 +399,15 @@ function writeIndexDTS (apis) {
           name = name.includes(replacement) ? `[key: \`${ name }\`]` : name.includes('-') ? `'${ name }'` : name
 
           const params = definition.scope ? {
-            scope: {
-              type: 'Object',
-              required: true,
-              // Make all properties required
-              definition: transformObject(definition.scope, makeRequired)
-            }
+            // If '...self' is defined, use that as the scope
+            scope: definition.scope[ '...self' ]
+              ? { ...definition.scope[ '...self' ], required: true }
+              : {
+                  type: 'Object',
+                  required: true,
+                  // Make all properties required
+                  definition: transformObject(definition.scope, makeRequired)
+                }
           } : undefined
 
           const slot = getPropDefinition({

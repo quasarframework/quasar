@@ -1505,8 +1505,8 @@ url("./bootstrap-icons.woff?8bd4575acf83c7696dc7a14a966660a3") format("woff");
 .bi-ticket-detailed-fill::before { content: "\f6c6"; }
 .bi-ticket-detailed::before { content: "\f6c7"; }
 .bi-ticket-fill::before { content: "\f6c8"; }
-.bi-ticket-perferated-fill::before { content: "\f6c9"; }
-.bi-ticket-perferated::before { content: "\f6ca"; }
+.bi-ticket-perforated-fill::before { content: "\f6c9"; }
+.bi-ticket-perforated::before { content: "\f6ca"; }
 .bi-ticket::before { content: "\f6cb"; }
 .bi-tiktok::before { content: "\f6cc"; }
 .bi-window-dash::before { content: "\f6cd"; }

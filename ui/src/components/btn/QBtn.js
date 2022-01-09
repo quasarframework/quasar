@@ -37,7 +37,7 @@ export default createComponent({
     const {
       classes, style, innerClasses,
       attributes,
-      hasLink, isLink, navigateToLink,
+      hasRouterLink, hasLink, linkTag, navigateToRouterLink,
       isActionable
     } = useBtn(props)
 
@@ -54,7 +54,7 @@ export default createComponent({
       props.disable === true || props.ripple === false
         ? false
         : {
-            keyCodes: isLink.value === true ? [ 13, 32 ] : [ 13 ],
+            keyCodes: hasLink.value === true ? [ 13, 32 ] : [ 13 ],
             ...(props.ripple === true ? {} : props.ripple)
           }
     ))
@@ -135,10 +135,10 @@ export default createComponent({
         }
       }
 
-      if (hasLink.value === true) {
+      if (hasRouterLink.value === true) {
         const go = () => {
           e.__qNavigate = true
-          navigateToLink(e)
+          navigateToRouterLink(e)
         }
 
         emit('click', e, go)
@@ -360,7 +360,7 @@ export default createComponent({
 
       return withDirectives(
         h(
-          isLink.value === true ? 'a' : 'button',
+          linkTag.value,
           nodeProps.value,
           child
         ),

@@ -130,47 +130,51 @@
     .q-tree__node-body:after
       display: none !important
 
-  &--dense .q-tree
-    &__arrow,
-    &__spinner
-      margin-right: 1px
+  &--dense
+    > .q-tree__node--child > .q-tree__node-header
+      padding-left: 1px
 
-    &__img
-      height: 32px
+    .q-tree
+      &__arrow,
+      &__spinner
+        margin-right: 1px
 
-    &__tickbox
-      margin-right: 3px
+      &__img
+        height: 32px
 
-    &__node
-      padding: 0
-      &:after
-        top: 0
-        left: -8px
+      &__tickbox
+        margin-right: 3px
 
-    &__node-header
-      margin-top: 0
-      padding: 1px
-      &:before
-        top: 0
-        left: -8px
-        width: 8px
+      &__node
+        padding: 0
+        &:after
+          top: 0
+          left: -8px
 
-    &__node--child
-      padding-left: 17px
-      > .q-tree__node-header:before
-        left: -25px
-        width: 21px
+      &__node-header
+        margin-top: 0
+        padding: 1px
+        &:before
+          top: 0
+          left: -8px
+          width: 8px
 
-    &__node-body
-      padding: 0 0 2px
+      &__node--child
+        padding-left: 17px
+        > .q-tree__node-header:before
+          left: -25px
+          width: 21px
 
-    &__node--parent > .q-tree__node-collapsible > .q-tree__node-body
-      padding: 0 0 2px 20px
-      &:after
-        left: 8px
+      &__node-body
+        padding: 0 0 2px
 
-    &__children
-      padding-left: 16px
+      &__node--parent > .q-tree__node-collapsible > .q-tree__node-body
+        padding: 0 0 2px 20px
+        &:after
+          left: 8px
+
+      &__children
+        padding-left: 16px
 
 [dir=rtl]
   .q-tree__arrow
