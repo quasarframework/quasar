@@ -9,7 +9,7 @@ body:
       value: |
         ### Read Before Proceeding Further
 
-        This form is for submitting a **docs report** for Quasar Framework(**v1**). (https://v1.quasar.dev).
+        This form is for submitting a **docs report** for Quasar Framework(**v1**). (https://v1.quasar.dev)
         If you are using another version, just seeking help, or you would like to submit a feature request, go back and choose a more suitable option from the list. 
 
         Also, search for your issue in the repo to be sure it doesn't exist already.
