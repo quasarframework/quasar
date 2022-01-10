@@ -187,7 +187,11 @@ export default createComponent({
       function hideScrollbar () {
         if (timer === null) {
           // if it has no scrollbar then there's nothing to do
-          if (el.scrollHeight > window.innerHeight) { return }
+
+          if (el.scrollHeight > $q.screen.height) {
+            return
+          }
+
           el.classList.add('hide-scrollbar')
         }
         else {
@@ -198,6 +202,11 @@ export default createComponent({
       }
 
       function updateScrollEvent (action) {
+        if (timer !== null && action === 'remove') {
+          clearTimeout(timer)
+          restoreScrollbar()
+        }
+
         window[ `${ action }EventListener` ]('resize', hideScrollbar)
       }
 
@@ -208,7 +217,6 @@ export default createComponent({
       )
 
       onUnmounted(() => {
-        clearTimeout(timer)
         updateScrollEvent('remove')
       })
     }
