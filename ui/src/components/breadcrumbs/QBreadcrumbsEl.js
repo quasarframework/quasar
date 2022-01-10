@@ -22,13 +22,13 @@ export default createComponent({
   },
 
   setup (props, { slots }) {
-    const { linkTag, linkProps, hasRouterLink, navigateToRouterLink } = useRouterLink()
+    const { linkTag, linkProps, linkClass, hasRouterLink, navigateToRouterLink } = useRouterLink()
 
     const data = computed(() => {
       const acc = {
         class: 'q-breadcrumbs__el q-link '
           + 'flex inline items-center relative-position '
-          + (props.disable !== true ? 'q-link--focusable' : 'q-breadcrumbs__el--disable'),
+          + (props.disable !== true ? 'q-link--focusable' + linkClass.value : 'q-breadcrumbs__el--disable'),
         ...linkProps.value
       }
       if (hasRouterLink.value === true) {

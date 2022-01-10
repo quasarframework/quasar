@@ -40,7 +40,7 @@ export default createComponent({
     )
 
     const sepClass = computed(() => (props.separatorColor ? ` text-${ props.separatorColor }` : ''))
-    const activeClass = computed(() => `text-${ props.activeColor }`)
+    const activeClass = computed(() => ` text-${ props.activeColor }`)
 
     return () => {
       const vnodes = getNormalizedVNodes(
@@ -63,7 +63,7 @@ export default createComponent({
           const middle = els < len
           const disabled = comp.props !== null && disabledValues.includes(comp.props.disable)
           const cls = (middle === true ? ' q-breadcrumbs--last' : '')
-            + (disabled !== true && middle === true ? ' ' + activeClass.value : '')
+            + (disabled !== true && middle === true ? activeClass.value : '')
 
           els++
 

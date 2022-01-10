@@ -30,7 +30,7 @@
         <q-breadcrumbs-el label="Router; Home Disabled" disable to="/" />
         <q-breadcrumbs-el label="Router; Home" to="/" />
         <q-breadcrumbs-el label="Router; Components" to="/components" />
-        <q-breadcrumbs-el label="Router; Breadcrumbs" to="/components/breadcrumbs" />
+        <q-breadcrumbs-el label="Router; Breadcrumbs" to="/components/breadcrumbs" active-class="special-breadcrumbs-class" />
         <q-breadcrumbs-el label="Router; Bogus" to="/components/breadcrumbs/bogus" />
       </q-breadcrumbs>
       <br><br>
@@ -83,3 +83,8 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+.special-breadcrumbs-class
+  color: green !important
+</style>
