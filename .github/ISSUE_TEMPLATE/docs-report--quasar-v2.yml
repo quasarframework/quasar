@@ -8,12 +8,12 @@ body:
     attributes:
       value: |
         ### Read Before Proceeding Further
-        This form is for submitting a **bug report** for Quasar Framework(**v2**).
+        This form is for submitting a **docs report** for Quasar Framework(**v2**). (https://quasar.dev).
         If you are using another version, just seeking help, or you would like to submit a feature request, go back and choose a more suitable option from the list. 
 
         Also, search for your issue in the repo to be sure it doesn't exist already.
 
-        To enter your issue, fill out the form correctly and according to the instructions.  Try to be as clear as possible and provide as many details as possible, to help our team better understand the issue and to resolve it faster.
+        To enter your issue, fill out the form correctly and according to the instructions. Try to be as clear as possible and provide as many details as possible, to help our team better understand the issue and to resolve it faster.
         Issues with an unclear description or lacking information will have a lower priority. They may even get closed without taking action.
 
         Lastly, read the [Reporting an Issue | Contribution Guide](https://quasar.dev/contribution-guide/contribution-guide#reporting-an-issue) section of our docs for a more detailed explanation.
