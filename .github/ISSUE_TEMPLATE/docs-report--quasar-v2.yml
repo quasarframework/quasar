@@ -8,18 +8,17 @@ body:
     attributes:
       value: |
         ### Read Before Proceeding Further
+        This form is for submitting a **bug report** for Quasar Framework(**v2**).
+        If you are using another version, just seeking help, or you would like to submit a feature request, go back and choose a more suitable option from the list. 
 
-        This form is for submitting a **docs report** for Quasar Framework(**v2**). (https://quasar.dev)
-        So, if you are using another version, want to report a bug, just seeking help, or want to submit a feature request, please return back and choose a more suitable option from the list. 
+        Also, search for your issue in the repo to be sure it doesn't exist already.
 
-        Also, please search your issue on the repo and make sure it does not already exist.
+        To enter your issue, fill out the form correctly and according to the instructions.  Try to be as clear as possible and provide as many details as possible, to help our team better understand the issue and to resolve it faster.
+        Issues with an unclear description or lacking information will have a lower priority. They may even get closed without taking action.
 
-        Please fill out the form correctly according to the instructions, try to be as clear as possible, and provide as many details as possible, for our team to better understand the issue and resolve it faster.
-        Issues with an unclear description or lacking information have a lower priority. They may even get closed without taking action.
+        Lastly, read the [Reporting an Issue | Contribution Guide](https://quasar.dev/contribution-guide/contribution-guide#reporting-an-issue) section of our docs for a more detailed explanation.
 
-        Please also give a read to [Contributing to the Quasar Documentation | Contribution Guide](https://quasar.dev/contribution-guide/contribution-guide#contributing-to-the-quasar-documentation) section of our docs.
-
-        Thanks for your understanding, we truly appreciate your effort to fill out this form!
+        Thanks for your understanding. We truly appreciate your effort to fill out this form!
   - type: textarea
     id: description
     attributes:
