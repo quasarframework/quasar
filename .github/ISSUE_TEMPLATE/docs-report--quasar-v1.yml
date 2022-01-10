@@ -1,0 +1,76 @@
+name: Docs report (Quasar v1)
+description: Create a docs report to help us improve
+labels: ['kind/docs 📄', 'Qv1']
+
+# Note: Do NOT use commas(,) in options with 'multiple: true', the issue processing workflow won't be able to label it
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Read Before Proceeding Further
+
+        This form is for submitting a **docs report** for Quasar Framework(**v1**). (https://v1.quasar.dev)
+        So, if you are using another version, want to report a bug, just seeking help, or want to submit a feature request, please return back and choose a more suitable option from the list. 
+
+        Also, please search your issue on the repo and make sure it does not already exist.
+
+        Please fill out the form correctly according to the instructions, try to be as clear as possible, and provide as many details as possible, for our team to better understand the issue and resolve it faster.
+        Issues with an unclear description or lacking information have a lower priority. They may even get closed without taking action.
+
+        Please also give a read to [Contributing to the Quasar Documentation | Contribution Guide](https://v1.quasar.dev/contribution-guide/contribution-guide#contributing-to-the-quasar-documentation) section of our docs.
+
+        Thanks for your understanding, we truly appreciate your effort to fill out this form!
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: |
+        Clearly and concisely explain the problem.
+        You can mention unclear or missing information, typos, grammatical mistakes, etc.
+        Any contributions and suggestions are welcome!
+    validations:
+      required: true
+  - type: input
+    id: docs-page-url
+    attributes:
+      label: Documentation Section URL
+      description: If the problem is related to an existing docs page/section, click the related section's title and paste the URL here.
+      placeholder: https://v1.quasar.dev/vue-components/table#virtual-scrolling
+  - type: dropdown
+    id: flavour
+    attributes:
+      label: Flavour
+      description: Choose the related Quasar flavour if applicable. _The names between parentheses indicate the package names if applicable._
+      options:
+        - Quasar CLI (@quasar/cli | @quasar/app)
+        - UMD
+        - Vite Plugin (@quasar/vite-plugin)
+        - Vue CLI Plugin (vue-cli-plugin-quasar)
+  - type: dropdown
+    id: areas
+    attributes:
+      label: Areas
+      description: Mark the areas in which you see the problem on. _The names between parentheses indicate the package names if applicable._
+      multiple: true
+      options:
+        - Quasar CLI Commands/Configuration (@quasar/cli | @quasar/app)
+
+        - Components (quasar)
+        - Directives (quasar)
+        - Plugins (quasar)
+        - Style & Identity (quasar)
+
+        - Quasar Extras (@quasar/extras)
+        - TypeScript Support
+        - App Extension API
+        - Icon Genie CLI (@quasar/icongenie)
+
+        - SPA Mode
+        - SSR Mode
+        - PWA Mode
+        - Electron Mode
+        - Cordova Mode
+        - Capacitor Mode
+        - BEX Mode
+    validations:
+      required: true
