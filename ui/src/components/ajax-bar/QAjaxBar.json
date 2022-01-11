@@ -22,16 +22,34 @@
       "extends": "color"
     },
 
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Reverse direction of progress",
+      "category": "behavior"
+    },
+
     "skip-hijack": {
       "type": "Boolean",
       "desc": "Skip Ajax hijacking (not a reactive prop)",
       "category": "behavior"
     },
 
-    "reverse": {
-      "type": "Boolean",
-      "desc": "Reverse direction of progress",
-      "category": "behavior"
+    "hijack-filter": {
+      "type": "Function",
+      "desc": "Filter which URL should trigger start() + stop()",
+      "params": {
+        "url": {
+          "type": "String",
+          "desc": "The URL being triggered",
+          "examples": [ "https://some.url/path" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Should the URL received as param trigger start() + stop()?"
+      },
+      "category": "behavior",
+      "addedIn": "v1.17.2"
     }
   },
 

@@ -57,12 +57,44 @@
         </q-card-section>
       </q-card>
     </div>
-    <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" />
+
+    <div class="q-ma-md">
+      <q-btn label="xhr /server (trigger)" color="primary" @click="triggerXhr1" no-caps />
+      <q-btn label="xhr /second-server (NO trigger)" color="primary" @click="triggerXhr2" no-caps class="q-ml-sm" />
+    </div>
+
+    <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" skip-hijack />
   </div>
 </template>
 
 <script>
+import { LoadingBar } from 'quasar'
+function sendXhr (url) {
+  const xhr = new XMLHttpRequest()
+  xhr.open('GET', url, true)
+  xhr.send(null)
+  // setTimeout(() => {
+  //   xhr.open('GET', '/mimi', true)
+  //   xhr.send(null)
+  // }, 500)
+}
+
 export default {
+  created () {
+    LoadingBar.setDefaults({
+      hijackFilter (url) {
+        const res = /\/server/.test(url) === true &&
+          /\/other-server/.test(url) === false
+        console.log(url, res)
+        return res
+      }
+    })
+  },
+
+  beforeUnmount () {
+    LoadingBar.setDefaults({ hijackFilter: void 0 })
+  },
+
   data () {
     return {
       position: 'top',
@@ -98,6 +130,13 @@ export default {
 
     stop () {
       this.$refs.bar.stop()
+    },
+
+    triggerXhr1 () {
+      sendXhr('/server')
+    },
+    triggerXhr2 () {
+      sendXhr('/second-server')
     }
   }
 }
