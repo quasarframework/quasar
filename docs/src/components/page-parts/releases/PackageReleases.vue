@@ -6,7 +6,7 @@ q-splitter.release__splitter(:value="20" :limits="[14, 90]")
         template(#append)
           q-icon(:name="mdiMagnify")
       q-tabs.text-grey-7(vertical v-model="selectedVersion"  active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
-        q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label")
+        q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label" no-caps)
           .q-tab__label {{ releaseInfo.version }}
           small.text-grey-7 {{ releaseInfo.date }}
   template(#after)

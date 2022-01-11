@@ -7,7 +7,7 @@ q-card(flat bordered)
     q-spinner.q-mr-sm(size="24px" color="brand-primary")
     div Loading release notes from GitHub...
   template(v-else)
-    q-tabs.text-grey-7(v-model="currentPackage" align="left" active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
+    q-tabs.text-grey-7(v-model="currentPackage" align="left" active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary" no-caps)
       q-tab(v-for="(packageReleases, packageName) in packages" :label="packageName" :name="packageName" :key="packageName")
     q-separator
     q-tab-panels.packages-container(v-model="currentPackage" animated)
@@ -61,6 +61,7 @@ export default {
       this.error = false
 
       const latestVersions = {}
+      const packageList = Object.keys(this.packages)
 
       const self = this,
         xhrQuasar = new XMLHttpRequest()
@@ -76,11 +77,11 @@ export default {
         let stopQuery = false
 
         for (const release of releases) {
-          if (release.name.indexOf('babel-preset-app') > -1) {
+          const [ packageName, version ] = release.name.split(' ')[0].split('-v')
+
+          if (packageList.includes(packageName) === false) {
             continue
           }
-
-          const [ packageName, version ] = release.name.split(' ')[0].split('-v')
 
           if (!version) {
             stopQuery = true
