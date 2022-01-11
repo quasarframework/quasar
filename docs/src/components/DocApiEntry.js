@@ -74,18 +74,31 @@ function getNameDiv (label, level) {
   ])
 }
 
-function getExtendedNameDiv (label, level, type, required) {
+function getExtendedNameDiv (label, level, type, required, addedIn) {
   const suffix = `${type ? ` : ${type}` : ''}${required ? ' - required!' : ''}`
 
-  return h('div', { class: 'api-row__item col-xs-12 col-sm-12' }, [
-    h('div', { class: 'api-row__value' }, [
+  const child = [
+    h(QBadge, {
+      color: NAME_PROP_COLOR[ level ],
+      label,
+      style: 'font-size: 1em; line-height: 1.2em'
+    }),
+    suffix
+  ]
+
+  if (addedIn !== void 0) {
+    child.push(
       h(QBadge, {
-        color: NAME_PROP_COLOR[ level ],
-        label,
-        style: 'font-size: 1em; line-height: 1.2em'
-      }),
-      suffix
-    ])
+        class: 'q-ml-sm',
+        color: 'black',
+        textColor: 'white',
+        label: addedIn + '+'
+      })
+    )
+  }
+
+  return h('div', { class: 'api-row__item col-xs-12 col-sm-12' }, [
+    h('div', { class: 'api-row__value' }, child)
   ])
 }
 
@@ -95,7 +108,7 @@ function getProp (prop, propName, level, onlyChildren) {
 
   if (propName !== void 0) {
     child.push(
-      getExtendedNameDiv(propName, level, type, type !== 'Function' && prop.required === true)
+      getExtendedNameDiv(propName, level, type, type !== 'Function' && prop.required === true, prop.addedIn)
     )
 
     if (prop.reactive === true) {
@@ -103,12 +116,6 @@ function getProp (prop, propName, level, onlyChildren) {
         getDiv(3, 'Reactive', 'yes')
       )
     }
-  }
-
-  if (prop.addedIn !== void 0) {
-    child.push(
-      getDiv(12, 'Added in', prop.addedIn)
-    )
   }
 
   child.push(
