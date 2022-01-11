@@ -6,7 +6,21 @@ q-card.doc-api.q-my-lg(flat bordered)
 
     .col-auto(v-if="pageLink")
       q-btn(icon="launch" label="Docs" color="brand-primary" no-caps unelevated :to="docPath")
-    .col-auto.text-grey(v-else) {{ typeBanner }}
+
+    q-input.col(
+      ref="inputRef",
+      v-model="filter",
+      dense,
+      input-class="text-right",
+      borderless,
+      placeholder="Filter..."
+      style="min-width: 6em"
+    )
+      template(v-slot:append)
+        q-icon.cursor-pointer(
+          :name="inputIcon"
+          @click="onFilterClick"
+        )
 
   q-linear-progress(v-if="loading", color="brand-primary", indeterminate)
 
@@ -17,32 +31,15 @@ q-card.doc-api.q-my-lg(flat bordered)
   template(v-else)
     q-separator
 
-    div.bg-grey-2.text-grey-7.flex.no-wrap
-      q-tabs.col-shrink(v-model="currentTab", active-color="brand-primary", indicator-color="brand-primary", align="left", :breakpoint="0", dense)
-        q-tab(
-          v-for="tab in tabsList"
-          :key="`api-tab-${tab}`"
-          :name="tab"
-        )
-          .row.no-wrap.items-center
-            span.q-mr-xs.text-capitalize.text-weight-medium {{ tab }}
-            q-badge(v-if="filteredApiCount[tab].overall" :label="filteredApiCount[tab].overall")
-
-      q-input.q-mx-sm.col(
-        v-if="$q.screen.gt.xs"
-        ref="inputRef",
-        v-model="filter",
-        dense,
-        input-class="text-right",
-        borderless,
-        placeholder="Filter..."
-        style="min-width: 6em"
+    q-tabs.bg-grey-2.text-grey-7(v-model="currentTab", active-color="brand-primary", indicator-color="brand-primary", align="left", :breakpoint="0", dense)
+      q-tab(
+        v-for="tab in tabsList"
+        :key="`api-tab-${tab}`"
+        :name="tab"
       )
-        template(v-slot:append)
-          q-icon.cursor-pointer(
-            :name="inputIcon"
-            @click="onFilterClick"
-          )
+        .row.no-wrap.items-center
+          span.q-mr-xs.text-capitalize.text-weight-medium {{ tab }}
+          q-badge(v-if="filteredApiCount[tab].overall" :label="filteredApiCount[tab].overall")
 
     q-separator
 
@@ -256,7 +253,6 @@ export default {
 
     const loading = ref(true)
     const nameBanner = ref('Loading API...')
-    const typeBanner = ref('Please wait...')
     const nothingToShow = ref(false)
 
     const docPath = ref('')
@@ -280,7 +276,6 @@ export default {
 
     function parseApiFile (name, { type, behavior, meta, addedIn, ...api }) {
       nameBanner.value = name
-      typeBanner.value = `${type === 'plugin' ? 'Quasar' : 'Vue'} ${type.charAt(0).toUpperCase()}${type.substring(1)}`
       docPath.value = meta.docsUrl.replace(/^https:\/\/v[\d]+\.quasar\.dev/, '')
 
       const tabs = Object.keys(api)
@@ -320,7 +315,6 @@ export default {
     return {
       loading,
       nameBanner,
-      typeBanner,
       nothingToShow,
       docPath,
 
