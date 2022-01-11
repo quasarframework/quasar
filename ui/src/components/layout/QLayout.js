@@ -188,7 +188,7 @@ export default createComponent({
         if (timer === null) {
           // if it has no scrollbar then there's nothing to do
 
-          if (el.scrollHeight > $q.screen.height) {
+          if (el.scrollHeight > window.innerHeight) {
             return
           }
 
