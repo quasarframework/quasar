@@ -6,22 +6,22 @@ import { ariaHidden } from '../../mixins/attrs'
 
 const
   xhr = isSSR ? null : XMLHttpRequest,
-  send = isSSR ? null : xhr.prototype.send,
-  stackStart = [],
-  stackStop = []
+  open = isSSR ? null : xhr.prototype.open,
+  positionValues = [ 'top', 'right', 'bottom', 'left' ]
 
+let stack = []
 let highjackCount = 0
 
 function translate ({ p, pos, active, horiz, reverse, dir }) {
   let x = 1, y = 1
 
-  if (horiz) {
-    if (reverse) { x = -1 }
+  if (horiz === true) {
+    if (reverse === true) { x = -1 }
     if (pos === 'bottom') { y = -1 }
     return { transform: `translate3d(${x * (p - 100)}%,${active ? 0 : y * -200}%,0)` }
   }
 
-  if (reverse) { y = -1 }
+  if (reverse === true) { y = -1 }
   if (pos === 'right') { x = -1 }
   return { transform: `translate3d(${active ? 0 : dir * x * -200}%,${y * (p - 100)}%,0)` }
 }
@@ -47,32 +47,46 @@ function inc (p, amount) {
   return between(p + amount, 0, 100)
 }
 
-function highjackAjax (start, stop) {
-  stackStart.push(start)
-  stackStop.push(stop)
-
+function highjackAjax (stackEntry) {
   highjackCount++
+
+  stack.push(stackEntry)
 
   if (highjackCount > 1) { return }
 
-  function endHandler () {
-    stackStop.forEach(fn => { fn() })
-  }
+  xhr.prototype.open = function (_, url) {
+    const stopStack = []
 
-  xhr.prototype.send = function (/* ...args */) {
-    stackStart.forEach(fn => { fn() })
-    this.addEventListener('loadend', endHandler, false)
-    send.apply(this, arguments)
+    const loadStart = () => {
+      stack.forEach(entry => {
+        const hijackFilter = entry.getHijackFilter()
+        if (
+          hijackFilter === null ||
+          hijackFilter(url) === true
+        ) {
+          entry.start()
+          stopStack.push(entry.stop)
+        }
+      })
+    }
+
+    const loadEnd = () => {
+      stopStack.forEach(stop => { stop() })
+    }
+
+    this.addEventListener('loadstart', loadStart, { once: true })
+    this.addEventListener('loadend', loadEnd, { once: true })
+
+    open.apply(this, arguments)
   }
 }
 
-function restoreAjax (start, stop) {
-  stackStart.splice(stackStart.indexOf(start), 1)
-  stackStop.splice(stackStop.indexOf(stop), 1)
+function restoreAjax (start) {
+  stack = stack.filter(entry => entry.start !== start)
 
   highjackCount = Math.max(0, highjackCount - 1)
   if (!highjackCount) {
-    xhr.prototype.send = send
+    xhr.prototype.open = open
   }
 }
 
@@ -83,15 +97,19 @@ export default Vue.extend({
     position: {
       type: String,
       default: 'top',
-      validator: val => ['top', 'right', 'bottom', 'left'].includes(val)
+      validator: val => positionValues.includes(val)
     },
+
     size: {
       type: String,
       default: '2px'
     },
+
     color: String,
+    reverse: Boolean,
+
     skipHijack: Boolean,
-    reverse: Boolean
+    hijackFilter: Function
   },
 
   data () {
@@ -119,7 +137,7 @@ export default Vue.extend({
         active,
         horiz: this.horizontal,
         reverse: this.$q.lang.rtl === true && ['top', 'bottom'].includes(this.position)
-          ? !this.reverse
+          ? this.reverse === false
           : this.reverse,
         dir: this.$q.lang.rtl === true ? -1 : 1
       })
@@ -224,13 +242,17 @@ export default Vue.extend({
   mounted () {
     if (this.skipHijack !== true) {
       this.hijacked = true
-      highjackAjax(this.start, this.stop)
+      highjackAjax({
+        start: this.start,
+        stop: this.stop,
+        getHijackFilter: () => this.hijackFilter || null
+      })
     }
   },
 
   beforeDestroy () {
     clearTimeout(this.timer)
-    this.hijacked === true && restoreAjax(this.start, this.stop)
+    this.hijacked === true && restoreAjax(this.start)
   },
 
   render (h) {

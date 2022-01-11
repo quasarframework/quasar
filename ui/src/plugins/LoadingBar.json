@@ -10,7 +10,7 @@
     "definition": {
       "...props": {
         "type": "Object",
-        "desc": "QAjaxBar component props",
+        "desc": "QAjaxBar component props, EXCEPT for 'hijack-filter'",
         "__exemption": [ "examples" ]
       }
     }

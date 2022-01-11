@@ -23,9 +23,32 @@ The QAjaxBar component captures Ajax calls automatically (unless told not to).
 
 The example below triggers events manually for demonstrating purposes only. This one is set to appear at bottom (multiple positions available!) of the page, with a 10px size (default is different) and uses a custom color.
 
+### Basic
+
 <doc-example title="Basic" file="QAjaxBar/Basic" />
 
 Please check out the API section for all properties that you can use.
+
+### Ajax filter <q-badge align="top" color="brand-primary" label="v1.17.2+" />
+
+Should you want QAjaxBar to trigger only for some URLs (and not for all, like in the default behavior), then you can use the `hijackFilter` property:
+
+```html
+<template>
+  <q-ajax-bar :hijack-filter="myFilterFn" />
+</template>
+
+<script>
+export default {
+  methods () {
+    myFilterFn (url) {
+      // example (only https://my-service.com/* should trigger)
+      return /^https:\/\/my-service\.com/.test(url)
+    }
+  }
+}
+</script>
+```
 
 ## Tips
 * If multiple events are captured by Ajax Bar simultaneously, `@start` and `@stop` will still be triggered only once: when bar starts showing up and when it becomes hidden.
