@@ -6,6 +6,8 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 
+const defaultViewBox = '0 0 24 24'
+
 const sameFn = i => i
 const ionFn = i => `ionicons ${i}`
 
@@ -66,10 +68,7 @@ export default Vue.extend({
       let icon = this.name
 
       if (!icon) {
-        return {
-          none: true,
-          cls: this.classes
-        }
+        return { none: true }
       }
 
       if (this.$q.iconMapFn !== void 0) {
@@ -80,7 +79,7 @@ export default Vue.extend({
           }
           else {
             return {
-              cls: res.cls + ' ' + this.classes,
+              cls: res.cls,
               content: res.content !== void 0
                 ? res.content
                 : ' '
@@ -90,41 +89,35 @@ export default Vue.extend({
       }
 
       if (mRE.test(icon) === true) {
-        const [ def, viewBox ] = icon.split('|')
+        const [ def, viewBox = defaultViewBox ] = icon.split('|')
 
         return {
           svg: true,
-          cls: this.classes,
+          viewBox,
           nodes: def.split('&&').map(path => {
             const [ d, style, transform ] = path.split('@@')
             return this.$createElement('path', {
-              attrs: {
-                d,
-                transform
-              },
+              attrs: { d, transform },
               style
             })
-          }),
-          viewBox: viewBox !== void 0 ? viewBox : '0 0 24 24'
+          })
         }
       }
 
       if (imgRE.test(icon) === true) {
         return {
           img: true,
-          cls: this.classes,
           src: icon.substring(4)
         }
       }
 
       if (svgUseRE.test(icon) === true) {
-        const [ def, viewBox ] = icon.split('|')
+        const [ def, viewBox = defaultViewBox ] = icon.split('|')
 
         return {
           svguse: true,
-          cls: this.classes,
           src: def.substring(7),
-          viewBox: viewBox !== void 0 ? viewBox : '0 0 24 24'
+          viewBox
         }
       }
 
@@ -158,7 +151,7 @@ export default Vue.extend({
       }
 
       return {
-        cls: cls + ' ' + this.classes,
+        cls,
         content
       }
     }
@@ -166,7 +159,7 @@ export default Vue.extend({
 
   render (h) {
     const data = {
-      class: this.type.cls,
+      class: this.classes,
       style: this.sizeStyle,
       on: { ...this.qListeners },
       attrs: {
@@ -180,23 +173,42 @@ export default Vue.extend({
     }
 
     if (this.type.img === true) {
-      data.attrs.src = this.type.src
-      return h('img', data)
+      return h('div', data, mergeSlot([
+        h('img', {
+          class: this.type.cls,
+          attrs: { src: this.type.src }
+        })
+      ], this, 'default'))
     }
 
     if (this.type.svg === true) {
-      data.attrs.focusable = 'false' /* needed for IE11 */
-      data.attrs.viewBox = this.type.viewBox
-
-      return h('svg', data, mergeSlot(this.type.nodes, this, 'default'))
-    }
-    if (this.type.svguse === true) {
-      data.attrs.focusable = 'false' /* needed for IE11 */
-      data.attrs.viewBox = this.type.viewBox
-
-      return h('svg', data, mergeSlot([
-        h('use', { attrs: { 'xlink:href': this.type.src } })
+      return h('div', data, mergeSlot([
+        h('svg', {
+          class: this.type.cls,
+          attrs: {
+            viewBox: this.type.viewBox,
+            focusable: 'false' /* needed for IE11 */
+          }
+        }, this.type.nodes)
       ], this, 'default'))
+    }
+
+    if (this.type.svguse === true) {
+      return h('div', data, mergeSlot([
+        h('svg', {
+          class: this.type.cls,
+          attrs: {
+            viewBox: this.type.viewBox,
+            focusable: 'false' /* needed for IE11 */
+          }
+        }, [
+          h('use', { attrs: { 'xlink:href': this.type.src } })
+        ])
+      ], this, 'default'))
+    }
+
+    if (this.type.cls !== void 0) {
+      data.class += ' ' + this.type.cls
     }
 
     return h(this.tag, data, mergeSlot([
