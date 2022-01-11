@@ -1,5 +1,5 @@
 <template lang="pug">
-section.q-my-sm.q-mr-md.cursor-pointer.text-subtitle1(:id="slugifiedTitle", @click="copyHeading(slugifiedTitle)")
+section.q-my-sm.q-mr-sm.cursor-pointer.text-subtitle1(:id="slugifiedTitle", @click="copyHeading(slugifiedTitle)")
   div.doc-card-title {{ title }}
 </template>
 
