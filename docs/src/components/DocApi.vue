@@ -1,9 +1,9 @@
 <template lang="pug">
 q-card.doc-api.q-my-lg(flat bordered)
   q-toolbar.text-grey-8
-    card-title.q-mr-sm(:title="nameBanner" prefix="api--")
+    card-title(:title="nameBanner" prefix="api--")
 
-    q-btn(v-if="pageLink" size="sm" padding="xs sm" color="brand-primary" no-caps unelevated :to="docPath")
+    q-btn.q-mr-sm(v-if="pageLink" size="sm" padding="xs sm" color="brand-primary" no-caps unelevated :to="docPath")
       q-icon(name="launch")
       .q-ml-xs Docs
 
