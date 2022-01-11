@@ -38,6 +38,20 @@
 
       <!-- Testing for 'M.' -->
       <q-icon :name="oiBatteryEmpty" size="5rem" color="secondary" />
+
+      <q-space />
+
+      <q-expansion-item
+        class="bg-white"
+        style="width: 300px; z-index: 1; border: 2px solid #ccc"
+        label="RE tests for SVG"
+        :caption="`${testSvgReTexts.filter(t => t.status === 'OK').length} / ${testSvgReTexts.length} OK`"
+      >
+        <div v-for="test in testSvgReTexts" :key="test.text" class="q-px-md row no-wrap items-center justify-between">
+          <div>{{test.text}}</div>
+          <div :class="test.class">{{test.status}}</div>
+        </div>
+      </q-expansion-item>
     <div>
 
     </div>
@@ -148,6 +162,33 @@ function customIconMapFn (iconName) {
   }
 }
 
+const testSvgReFill = (groups, texts) => {
+  if (groups.length === 0) {
+    return texts
+  }
+
+  const [ curGroup, ...restGroups ] = groups
+  const curTexts = []
+  const srcTexts = Array.isArray(texts) !== true || texts.length === 0 ? [ '' ] : texts
+
+  srcTexts.forEach(text => {
+    curGroup.forEach(char => {
+      curTexts.push(`${ text }${ char }`)
+    })
+  })
+
+  return testSvgReFill(restGroups, curTexts)
+}
+
+const testSvgReGroups = [
+  [ 'm', 'M' ],
+  [ '', ' ' ],
+  [ '', '+', '-' ],
+  [ '', '.' ],
+  [ '0', '9' ]
+]
+const testSvgReTexts = testSvgReFill(testSvgReGroups)
+
 export default {
   setup () {
     const useMapFn = ref(false)
@@ -167,7 +208,13 @@ export default {
       }
     })
 
+    const mRE = /^[Mm]\s?[-+]?\.?\d/
+
     return {
+      testSvgReTexts: testSvgReTexts.map(text => ({
+        text,
+        ...(mRE.test(text) ? { status: 'OK', class: 'text-positive' } : { status: 'BAD', class: 'text-negative' })
+      })),
       useMapFn,
       icon,
       text: ref('gigi'),
