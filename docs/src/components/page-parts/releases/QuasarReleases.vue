@@ -79,6 +79,10 @@ export default {
 
           const [ packageName, version ] = release.name.split(' ')[ 0 ].split('-v')
 
+          if (packagePrefixes.includes(packageName) === false) {
+            continue
+          }
+
           if (!version) {
             stopQuery = true
             continue
