@@ -175,7 +175,7 @@ export default createComponent({
 
     // prevent scrollbar flicker while resizing window height
     // if no page scrollbar is already present
-    if (__QUASAR_SSR__ !== true) {
+    if (__QUASAR_SSR_SERVER__ !== true && getScrollbarWidth() > 0) {
       let timer = null
       const el = document.body
 
@@ -188,7 +188,7 @@ export default createComponent({
         if (timer === null) {
           // if it has no scrollbar then there's nothing to do
 
-          if (el.scrollHeight > window.innerHeight) {
+          if (el.scrollHeight > $q.screen.height) {
             return
           }
 
@@ -211,10 +211,11 @@ export default createComponent({
       }
 
       watch(
-        () => (props.container !== true && scrollbarWidth.value > 0 ? 'add' : 'remove'),
-        updateScrollEvent,
-        { immediate: true }
+        () => (props.container !== true ? 'add' : 'remove'),
+        updateScrollEvent
       )
+
+      props.container !== true && updateScrollEvent('add')
 
       onUnmounted(() => {
         updateScrollEvent('remove')
