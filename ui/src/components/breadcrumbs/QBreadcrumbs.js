@@ -62,7 +62,7 @@ export default createComponent({
         if (comp.type !== void 0 && comp.type.name === 'QBreadcrumbsEl') {
           const middle = els < len
           const disabled = comp.props !== null && disabledValues.includes(comp.props.disable)
-          const cls = (middle === true ? ' q-breadcrumbs--last' : '')
+          const cls = (middle === true ? '' : ' q-breadcrumbs--last')
             + (disabled !== true && middle === true ? activeClass.value : '')
 
           els++
