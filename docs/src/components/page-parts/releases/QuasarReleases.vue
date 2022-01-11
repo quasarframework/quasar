@@ -75,7 +75,7 @@ export default {
             continue
           }
 
-          const [ packageName, version ] = release.name.split('-v')
+          const [ packageName, version ] = release.name.split(' ')[0].split('-v')
 
           if (!version) {
             stopQuery = true
