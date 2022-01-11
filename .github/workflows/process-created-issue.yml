@@ -21,7 +21,7 @@ jobs:
       - uses: stefanbuck/github-issue-parser@v2
         id: issue-parser
         with:
-          template-path: .github/ISSUE_TEMPLATE/${{ env.TEMPLATE_TYPE }}-report--${{ env.TEMPLATE_VERSION }}.yml
+          template-path: .github/ISSUE_TEMPLATE/${{ env.TEMPLATE_TYPE }}-report--quasar-${{ env.TEMPLATE_VERSION }}.yml
 
       - uses: actions/github-script@v5
         env:
