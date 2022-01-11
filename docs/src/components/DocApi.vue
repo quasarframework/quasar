@@ -1,18 +1,18 @@
 <template lang="pug">
 q-card.doc-api.q-my-lg(flat bordered)
   q-toolbar.text-grey-8
-    card-title(:title="nameBanner" prefix="api--")
-    q-space
+    card-title.q-mr-sm(:title="nameBanner" prefix="api--")
 
-    .col-auto(v-if="pageLink")
-      q-btn(icon="launch" label="Docs" color="brand-primary" no-caps unelevated :to="docPath")
+    q-btn(v-if="pageLink" size="sm" padding="xs sm" color="brand-primary" no-caps unelevated :to="docPath")
+      q-icon(name="launch")
+      .q-ml-xs Docs
 
     q-input.col(
-      ref="inputRef",
-      v-model="filter",
-      dense,
-      input-class="text-right",
-      borderless,
+      ref="inputRef"
+      v-model="filter"
+      dense
+      input-class="text-right"
+      borderless
       placeholder="Filter..."
       style="min-width: 6em"
     )
@@ -48,12 +48,12 @@ q-card.doc-api.q-my-lg(flat bordered)
         .row.no-wrap.api-container(v-if="innerTabsList[tab].length !== 1")
           .col-auto.row.no-wrap.text-grey-7.q-py-sm
             q-tabs(
-              v-model="currentInnerTab",
-              active-color="brand-primary",
-              indicator-color="brand-primary",
-              :breakpoint="0",
-              vertical,
-              dense,
+              v-model="currentInnerTab"
+              active-color="brand-primary"
+              indicator-color="brand-primary"
+              :breakpoint="0"
+              vertical
+              dense
               shrink
             )
               q-tab(
