@@ -139,6 +139,22 @@ $text-size-list: 10, 12, 14, 16, 18, 20, 24, 28, 32, 36;
   }
 }
 
+.lp-ma--large {
+  margin: 100px;
+  @media screen and (max-width: $lp-breakpoint-xs-max) {
+    margin: 64px;
+  }
+}
+
+.lp-mx--large {
+  margin-left: 100px;
+  margin-right: 100px;
+  @media screen and (max-width: $lp-breakpoint-xs-max) {
+    margin-left: 64px;
+    margin-right: 64px;
+  }
+}
+
 .lp-mt--large {
   margin-top: 100px;
   @media screen and (max-width: $lp-breakpoint-xs-max) {

@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat">
-    <main-layout-header v-model="showDrawer"/>
+  <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat" @scroll="checkHeaderMetFooter">
+    <main-layout-header v-model="showDrawer" :dark="footerHasMetHeader" ref="mainLayoutHeader"/>
 
     <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
       <q-scroll-area class="full-height">
@@ -13,25 +13,18 @@
       <router-view />
     </q-page-container>
 
-    <q-footer class="bg-lp-grey text-size-12 text-capitalize">
-      <q-toolbar class="row justify-center bg-white">
-        <template v-for="({label, to}, footerIndex) in footerToolbar" :key="footerIndex">
-          <q-btn
-            v-if="showFooterToolbar(footerIndex)"
-            :label="label"
-            :to="to"
-            color="black-54"
-            flat
-            padding="md"
-          />
-        </template>
-      </q-toolbar>
-      <div class="lp-footer q-ma-xl">
+    <q-footer class="bg-lp-grey text-size-12 text-capitalize main-layout-footer" ref="mainLayoutFooter">
+      <div class="lp-footer lp-ma--large">
         <q-list v-for="footerItem in footerItems" :key="footerItem.name">
           <q-item-label class="text-lp-dark text-weight-bold">{{ footerItem.name }}</q-item-label>
           <q-separator spaced color="lp-primary" />
           <template v-for="(item, itemIndex) in footerItem.items" :key="itemIndex">
-            <q-item dense class="q-pa-none" clickable tag="a" :to="`/${footerItem.path}/${item.path}`" :href="item.path" :target="item.external? '_blank':'_self'">
+            <q-item v-if="item.external" dense class="q-pa-none" clickable tag="a" :href="item.path" target="_blank">
+              <q-item-section class="text-lp-dark text-capitalize">
+                {{ item.name }}
+              </q-item-section>
+            </q-item>
+            <q-item v-else dense class="q-pa-none" clickable tag="a" :to="`/${footerItem.path}/${item.path}`">
               <q-item-section class="text-lp-dark text-capitalize">
                 {{ item.name }}
               </q-item-section>
@@ -39,8 +32,13 @@
           </template>
         </q-list>
       </div>
+      <q-separator color="lp-primary" class="lp-mx--large"/>
+      <div class="row justify-center q-my-md">
+        <q-btn type="a" no-caps flat href="https://github.com/quasarframework/quasar/blob/dev/LICENSE" target="_blank" class="text-black-54 text-weight-bold" label="MIT License"/>
+        <q-btn type="a" no-caps flat href="https://www.iubenda.com/privacy-policy/40685560" target="_blank" class="text-black-54 text-weight-bold" label="Privacy Policy"/>
+      </div>
       <q-separator class="full-width" />
-      <div class="row text-lp-dark justify-center q-my-md">
+      <div class="row text-lp-dark justify-center q-my-lg">
         Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
         <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm">Dreamonkey Srl</a>
       </div>
@@ -53,8 +51,6 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import { footerToolbar } from 'assets/landing-page/landing-page-footer.js'
-import { Screen } from 'quasar'
 import MainLayoutHeader from 'components/landing-page/MainLayoutHeader'
 import AppMenu from 'components/AppMenu.js'
 import SurveyCountdown from 'components/SurveyCountdown.vue'
@@ -62,8 +58,6 @@ import menu from 'assets/menu.js'
 import { footerNavs } from 'assets/landing-page/landing-page-footer.js'
 
 const currentYear = (new Date()).getFullYear()
-
-const HIDDEN_FOOTERTOOLBAR_INDEX_XS = [ 0, 2, 3 ]
 
 /**
  * Loop through the menus and extract all menu items therein, including children to a flat array of menu items
@@ -112,15 +106,24 @@ export default defineComponent({
   components: { MainLayoutHeader, AppMenu, SurveyCountdown },
   setup () {
     const showDrawer = ref(false)
+    const footerHasMetHeader = ref(false)
+    const mainLayoutFooter = ref()
+    const mainLayoutHeader = ref()
 
-    const showFooterToolbar = (footerIndex) => Screen.gt.xs ? true : HIDDEN_FOOTERTOOLBAR_INDEX_XS.includes(footerIndex)
+    function checkHeaderMetFooter () {
+      const headerSize = mainLayoutHeader.value.$el.clientHeight
+      const positionFromTop = mainLayoutFooter.value.$el.getBoundingClientRect().top
+      footerHasMetHeader.value = positionFromTop <= headerSize
+    }
 
     return {
       footerItems,
-      footerToolbar,
       showDrawer,
-      showFooterToolbar,
-      currentYear
+      currentYear,
+      footerHasMetHeader,
+      mainLayoutFooter,
+      mainLayoutHeader,
+      checkHeaderMetFooter
     }
   }
 })
@@ -135,7 +138,7 @@ $adjust-header-viewport: 860px;
   display: grid;
   grid-template-columns: 1fr;
   grid-column-gap: 24px;
-  grid-row-gap: 48px;
+  grid-row-gap: 100px;
 
   @media screen and (min-width: $breakpoint-sm-min) {
     grid-template-columns: repeat($footer-columns-sm-min, 1fr);
@@ -152,6 +155,10 @@ $adjust-header-viewport: 860px;
 
 .app-menu .q-item {
   font-size: 14px;
+}
+
+.main-layout-footer {
+  z-index: 5; // ensures it's lower than header but higher than components page filter section
 }
 
 </style>

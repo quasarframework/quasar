@@ -50,11 +50,3 @@ export const footerNavs = [
     name: 'Quasar Utils'
   }
 ]
-
-export const footerToolbar = [
-  { label: 'Why quasar?', to: '#' },
-  { label: 'Team', to: '#' },
-  { label: 'Video tutorials', to: '#' },
-  { label: 'Quasar brand resources', to: '#' },
-  { label: 'Privacy policy', to: '#' }
-]
