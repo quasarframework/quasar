@@ -7,7 +7,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
 import DarkMixin from '../../mixins/dark.js'
-import AttrsMixin from '../../mixins/attrs.js'
+import AttrsMixin, { iconAsButton } from '../../mixins/attrs.js'
 
 import { slot } from '../../utils/slot.js'
 import uid from '../../utils/uid.js'
@@ -319,7 +319,7 @@ export default Vue.extend({
             h(QIcon, {
               staticClass: 'q-field__focusable-action',
               props: { tag: 'button', name: this.clearIcon || this.$q.iconSet.field.clear },
-              attrs: { tabindex: 0, type: 'button' },
+              attrs: iconAsButton,
               on: this.clearableEvents
             })
           ])
