@@ -119,6 +119,14 @@ export default Vue.extend({
       ) || this.scroll.horizontal.size <= this.container.horizontal + 1
     },
 
+    verticalThumbStart () {
+      return this.verticalScrollPercentage * (this.container.vertical - this.verticalThumbSize)
+    },
+
+    horizontalThumbStart () {
+      return this.horizontalScrollPercentage * (this.container.horizontal - this.horizontalThumbSize)
+    },
+
     verticalThumbSize () {
       return Math.round(
         between(
@@ -140,21 +148,19 @@ export default Vue.extend({
     },
 
     verticalStyle () {
-      const pos = this.verticalScrollPercentage * (this.container.vertical - this.verticalThumbSize)
       return {
         ...this.thumbStyle,
         ...this.verticalThumbStyle,
-        top: `${pos}px`,
+        top: `${this.verticalThumbStart}px`,
         height: `${this.verticalThumbSize}px`
       }
     },
 
     horizontalStyle () {
-      const pos = this.horizontalScrollPercentage * (this.container.horizontal - this.horizontalThumbSize)
       return {
         ...this.thumbStyle,
         ...this.horizontalThumbStyle,
-        left: `${pos}px`,
+        left: `${this.horizontalThumbStart}px`,
         width: `${this.horizontalThumbSize}px`
       }
     },
@@ -185,6 +191,7 @@ export default Vue.extend({
           ...this.scroll.vertical,
           percentage: this.verticalScrollPercentage,
           thumbHidden: this.verticalThumbHidden,
+          thumbStart: this.verticalThumbStart,
           thumbSize: this.verticalThumbSize,
           style: this.verticalStyle,
           thumbClass: this.verticalThumbClass,
@@ -194,6 +201,7 @@ export default Vue.extend({
           ...this.scroll.horizontal,
           percentage: this.horizontalScrollPercentage,
           thumbHidden: this.horizontalThumbHidden,
+          thumbStart: this.horizontalThumbStart,
           thumbSize: this.horizontalThumbSize,
           style: this.horizontalStyle,
           thumbClass: this.horizontalThumbClass,
@@ -407,8 +415,11 @@ export default Vue.extend({
       const data = this.scrollComputed[ axis ]
 
       if (data.thumbHidden !== true) {
-        const pos = evt[ dirProps[ axis ].offset ] - data.thumbSize / 2
-        this.__setScroll(pos / this.container[ axis ] * data.size, axis)
+        const offset = evt[ dirProps[ axis ].offset ]
+        if (offset < data.thumbStart || offset > data.thumbStart + data.thumbSize) {
+          const pos = offset - data.thumbSize / 2
+          this.__setScroll(pos / this.container[ axis ] * data.size, axis)
+        }
 
         const ref = axis === 'vertical' ? this.$refs.verticalThumb : this.$refs.horizontalThumb
         // activate thumb pan
