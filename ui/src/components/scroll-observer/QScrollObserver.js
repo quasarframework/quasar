@@ -47,7 +47,7 @@ export default createComponent({
       }
     }
 
-    let timer = null, localScrollTarget, parentEl
+    let clearTimer = null, localScrollTarget, parentEl
 
     watch(() => props.scrollTarget, () => {
       unconfigureScrollTarget()
@@ -55,9 +55,7 @@ export default createComponent({
     })
 
     function emitEvent () {
-      clearTimeout(timer)
-      cancelAnimationFrame(timer)
-      timer = null
+      clearTimer !== null && clearTimer()
 
       const top = Math.max(0, getVerticalScrollPosition(localScrollTarget))
       const left = getHorizontalScrollPosition(localScrollTarget)
@@ -107,10 +105,15 @@ export default createComponent({
       if (immediately === true || props.debounce === 0 || props.debounce === '0') {
         emitEvent()
       }
-      else if (timer === null) {
-        timer = props.debounce
-          ? setTimeout(emitEvent, props.debounce)
-          : requestAnimationFrame(emitEvent)
+      else if (clearTimer === null) {
+        const [ timer, fn ] = props.debounce
+          ? [ setTimeout(emitEvent, props.debounce), clearTimeout ]
+          : [ requestAnimationFrame(emitEvent), cancelAnimationFrame ]
+
+        clearTimer = () => {
+          fn(timer)
+          clearTimer = null
+        }
       }
     }
 
@@ -122,8 +125,7 @@ export default createComponent({
     })
 
     onBeforeUnmount(() => {
-      clearTimeout(timer)
-      cancelAnimationFrame(timer)
+      clearTimer !== null && clearTimer()
       unconfigureScrollTarget()
     })
 
