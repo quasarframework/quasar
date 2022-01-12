@@ -46,6 +46,10 @@ export default createComponent({
     controlColor: String,
     textColor: String,
     selectedColor: String,
+    unSelectable: {
+      type: Boolean,
+      default: true
+    },
 
     icon: String,
 
@@ -615,7 +619,11 @@ export default createComponent({
 
       if (hasSelection.value) {
         if (meta.selectable) {
-          emit('update:selected', meta.key !== props.selected ? meta.key : null)
+          if (props.unSelectable) {
+            emit('update:selected', meta.key !== props.selected ? meta.key : null)
+          } else if (meta.key !== props.selected) {
+            emit('update:selected', meta.key || null)
+          }
         }
       }
       else {
