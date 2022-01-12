@@ -24,7 +24,7 @@
                 {{ item.name }}
               </q-item-section>
             </q-item>
-            <q-item v-else dense class="q-pa-none" clickable tag="a" :to="`/${footerItem.path}/${item.path}`">
+            <q-item v-else dense class="q-pa-none" clickable :to="`/${footerItem.path}/${item.path}`">
               <q-item-section class="text-lp-dark text-capitalize">
                 {{ item.name }}
               </q-item-section>
