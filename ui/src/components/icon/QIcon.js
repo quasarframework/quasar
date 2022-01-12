@@ -170,7 +170,7 @@ export default createComponent({
       if (type.value.img === true) {
         return h('div', data, hMergeSlot(slots.default, [
           h('img', {
-            class: type.value.cls,
+            class: type.value.cls || 'fit',
             src: type.value.src
           })
         ]))
