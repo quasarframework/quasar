@@ -49,19 +49,20 @@ export default Vue.extend({
       if (immediately === true || this.debounce === 0 || this.debounce === '0') {
         this.__emit()
       }
-      else if (this.timer === null) {
-        this.timer = this.debounce
-          ? setTimeout(this.__emit, this.debounce)
-          : requestAnimationFrame(this.__emit)
+      else if (this.clearTimer === void 0) {
+        const [ timer, fn ] = this.debounce
+          ? [ setTimeout(this.__emit, this.debounce), clearTimeout ]
+          : [ requestAnimationFrame(this.__emit), cancelAnimationFrame ]
+
+        this.clearTimer = () => {
+          fn(timer)
+          this.clearTimer = void 0
+        }
       }
     },
 
     __emit () {
-      if (this.timer !== null) {
-        clearTimeout(this.timer)
-        cancelAnimationFrame(this.timer)
-        this.timer = null
-      }
+      this.clearTimer !== void 0 && this.clearTimer()
 
       const fn = this.horizontal === true
         ? getHorizontalScrollPosition
@@ -100,14 +101,11 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.timer = null
-
     this.__configureScrollTarget()
   },
 
   beforeDestroy () {
-    clearTimeout(this.timer)
-    cancelAnimationFrame(this.timer)
+    this.clearTimer !== void 0 && this.clearTimer()
     this.__unconfigureScrollTarget()
   }
 })
