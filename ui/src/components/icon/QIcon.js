@@ -169,17 +169,13 @@ export default createComponent({
 
       if (type.value.img === true) {
         return h('div', data, hMergeSlot(slots.default, [
-          h('img', {
-            class: type.value.cls,
-            src: type.value.src
-          })
+          h('img', { src: type.value.src })
         ]))
       }
 
       if (type.value.svg === true) {
         return h('div', data, hMergeSlot(slots.default, [
           h('svg', {
-            class: type.value.cls,
             viewBox: type.value.viewBox
           }, type.value.nodes)
         ]))
@@ -188,7 +184,6 @@ export default createComponent({
       if (type.value.svguse === true) {
         return h('div', data, hMergeSlot(slots.default, [
           h('svg', {
-            class: type.value.cls,
             viewBox: type.value.viewBox
           }, [
             h('use', { 'xlink:href': type.value.src })
