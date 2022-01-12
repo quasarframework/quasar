@@ -175,7 +175,6 @@ export default Vue.extend({
     if (this.type.img === true) {
       return h('div', data, mergeSlot([
         h('img', {
-          class: this.type.cls,
           attrs: { src: this.type.src }
         })
       ], this, 'default'))
@@ -184,7 +183,6 @@ export default Vue.extend({
     if (this.type.svg === true) {
       return h('div', data, mergeSlot([
         h('svg', {
-          class: this.type.cls,
           attrs: {
             viewBox: this.type.viewBox,
             focusable: 'false' /* needed for IE11 */
@@ -196,7 +194,6 @@ export default Vue.extend({
     if (this.type.svguse === true) {
       return h('div', data, mergeSlot([
         h('svg', {
-          class: this.type.cls,
           attrs: {
             viewBox: this.type.viewBox,
             focusable: 'false' /* needed for IE11 */
