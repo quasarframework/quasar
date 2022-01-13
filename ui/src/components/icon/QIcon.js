@@ -173,7 +173,7 @@ export default Vue.extend({
     }
 
     if (this.type.img === true) {
-      return h('div', data, mergeSlot([
+      return h('span', data, mergeSlot([
         h('img', {
           attrs: { src: this.type.src }
         })
@@ -181,7 +181,7 @@ export default Vue.extend({
     }
 
     if (this.type.svg === true) {
-      return h('div', data, mergeSlot([
+      return h('span', data, mergeSlot([
         h('svg', {
           attrs: {
             viewBox: this.type.viewBox,
@@ -192,7 +192,7 @@ export default Vue.extend({
     }
 
     if (this.type.svguse === true) {
-      return h('div', data, mergeSlot([
+      return h('span', data, mergeSlot([
         h('svg', {
           attrs: {
             viewBox: this.type.viewBox,
